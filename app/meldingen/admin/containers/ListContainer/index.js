@@ -19,7 +19,6 @@ import saga from './saga';
 import messages from './messages';
 import './style.scss';
 
-
 export class ListContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (

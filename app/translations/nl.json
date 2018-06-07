@@ -1,6 +1,6 @@
 {
-  "boilerplate.components.Footer.author.message": "Mit Liebe gemacht von {author}.",
-  "boilerplate.components.Footer.license.message": "Dieses Projekt wird unter der MIT-Lizenz veröffentlicht.",
+  "boilerplate.components.Footer.author.message": "Met liefde gemaakt door {author}.",
+  "boilerplate.components.Footer.license.message": "Dit project valt onder Mozilla Public License 2.0.",
   "boilerplate.components.Header.features": "",
   "boilerplate.components.Header.home": "",
   "boilerplate.containers.FeaturePage.css.header": "",
@@ -25,7 +25,7 @@
   "boilerplate.containers.HomePage.tryme.atPrefix": "",
   "boilerplate.containers.HomePage.tryme.header": "Probiere mich!",
   "boilerplate.containers.HomePage.tryme.message": "Zeige die Github Repositories von",
-  "boilerplate.containers.LocaleToggle.de": "",
+  "boilerplate.containers.LocaleToggle.nl": "",
   "boilerplate.containers.LocaleToggle.en": "",
   "boilerplate.containers.NotFoundPage.header": "Seite nicht gefunden."
 }

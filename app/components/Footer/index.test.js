@@ -3,8 +3,9 @@ import { shallow } from 'enzyme';
 import { FormattedMessage } from 'react-intl';
 
 import A from 'components/A';
-import messages from '../messages';
-import Footer from '../index';
+import messages from './messages';
+import Footer from './index';
+import './style.scss';
 
 describe('<Footer />', () => {
   it('should render the copyright notice', () => {
@@ -25,7 +26,7 @@ describe('<Footer />', () => {
         <FormattedMessage
           {...messages.authorMessage}
           values={{
-            author: <A href="https://twitter.com/mxstbr">Max Stoiber</A>,
+            author: <A href="https://data.amsterdam.nl/">Amsterdam City Data (Datapunt)</A>,
           }}
         />
       </section>

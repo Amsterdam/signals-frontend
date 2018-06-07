@@ -3,12 +3,11 @@ import { FormattedMessage } from 'react-intl';
 
 import A from 'components/A';
 import LocaleToggle from 'containers/LocaleToggle';
-import Wrapper from './Wrapper';
 import messages from './messages';
 
 function Footer() {
   return (
-    <Wrapper>
+    <div className="footer-container">
       <section>
         <FormattedMessage {...messages.licenseMessage} />
       </section>
@@ -19,11 +18,11 @@ function Footer() {
         <FormattedMessage
           {...messages.authorMessage}
           values={{
-            author: <A href="https://twitter.com/mxstbr">Max Stoiber</A>,
+            author: <A href="https://data.amsterdam.nl/">Amsterdam City Data (Datapunt)</A>,
           }}
         />
       </section>
-    </Wrapper>
+    </div>
   );
 }
 
