@@ -1,6 +1,6 @@
 /**
  *
- * OverviewPage
+ * FilterContainer
  *
  */
 
@@ -13,34 +13,29 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectOverviewPage from './selectors';
+import makeSelectFilterContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import './style.scss';
 
-import FilterContainer from '../FilterContainer';
-import ListContainer from '../ListContainer';
 
-
-export class OverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class FilterContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <div className="overview-page">
+      <div className="filter-container">
         <FormattedMessage {...messages.header} />
-        <FilterContainer />
-        <ListContainer />
       </div>
     );
   }
 }
 
-OverviewPage.propTypes = {
+FilterContainer.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  overviewpage: makeSelectOverviewPage(),
+  filtercontainer: makeSelectFilterContainer(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -51,11 +46,11 @@ function mapDispatchToProps(dispatch) {
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-const withReducer = injectReducer({ key: 'overviewPage', reducer });
-const withSaga = injectSaga({ key: 'overviewPage', saga });
+const withReducer = injectReducer({ key: 'filterContainer', reducer });
+const withSaga = injectSaga({ key: 'filterContainer', saga });
 
 export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(OverviewPage);
+)(FilterContainer);
