@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import List from 'components/List';
 import ListItem from 'components/ListItem';
-import LoadingIndicator from 'components/LoadingIndicator';
+import LoadingIndicator from 'shared/components/LoadingIndicator';
 import RepoListItem from 'containers/RepoListItem';
 
 function ReposList({ loading, error, repos }) {

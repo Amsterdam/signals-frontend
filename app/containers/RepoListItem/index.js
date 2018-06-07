@@ -9,13 +9,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { FormattedNumber } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 import { makeSelectCurrentUser } from 'containers/App/selectors';
 import ListItem from 'components/ListItem';
-import IssueIcon from './IssueIcon';
-import IssueLink from './IssueLink';
-import RepoLink from './RepoLink';
-import Wrapper from './Wrapper';
 
 export class RepoListItem extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -30,15 +27,14 @@ export class RepoListItem extends React.PureComponent { // eslint-disable-line r
 
     // Put together the content of the repository
     const content = (
-      <Wrapper>
-        <RepoLink href={item.html_url} target="_blank">
+      <div>
+        <Link href={item.html_url} target="_blank">
           {nameprefix + item.name}
-        </RepoLink>
-        <IssueLink href={`${item.html_url}/issues`} target="_blank">
-          <IssueIcon />
+        </Link>
+        <Link href={`${item.html_url}/issues`} target="_blank">
           <FormattedNumber value={item.open_issues_count} />
-        </IssueLink>
-      </Wrapper>
+        </Link>
+      </div>
     );
 
     // Render the content into a list item

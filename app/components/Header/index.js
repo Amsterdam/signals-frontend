@@ -1,26 +1,24 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
-import NavBar from './NavBar';
-import HeaderLink from './HeaderLink';
 import messages from './messages';
+import './style.scss';
 
 class Header extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <div>
+      <div className="header-component">
         <h1>Signalen</h1>
-        <NavBar>
-          <HeaderLink to="/">
-            <FormattedMessage {...messages.home} />
-          </HeaderLink>
-          <HeaderLink to="/features">
-            <FormattedMessage {...messages.features} />
-          </HeaderLink>
-          <HeaderLink to="/admin">
-            <FormattedMessage {...messages.admin} />
-          </HeaderLink>
-        </NavBar>
+        <Link to="/">
+          <FormattedMessage {...messages.home} />
+        </Link>
+        <Link to="/features">
+          <FormattedMessage {...messages.features} />
+        </Link>
+        <Link to="/admin">
+          <FormattedMessage {...messages.admin} />
+        </Link>
       </div>
     );
   }

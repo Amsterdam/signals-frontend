@@ -1,13 +1,12 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import A from 'components/A';
 import LocaleToggle from 'containers/LocaleToggle';
 import messages from './messages';
 
 function Footer() {
   return (
-    <div className="footer-container">
+    <div className="footer-component">
       <section>
         <FormattedMessage {...messages.licenseMessage} />
       </section>
@@ -18,7 +17,7 @@ function Footer() {
         <FormattedMessage
           {...messages.authorMessage}
           values={{
-            author: <A href="https://data.amsterdam.nl/">Amsterdam City Data (Datapunt)</A>,
+            author: <a href="https://data.amsterdam.nl/">Amsterdam City Data (Datapunt)</a>,
           }}
         />
       </section>

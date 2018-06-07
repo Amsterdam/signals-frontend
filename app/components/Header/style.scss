@@ -1,0 +1,7 @@
+.header-component{
+  & > a {
+    color: red;
+    padding: 5px;
+    border: 1px solid beige;
+  }
+}

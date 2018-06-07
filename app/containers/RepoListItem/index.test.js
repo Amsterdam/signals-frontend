@@ -7,7 +7,7 @@ import { shallow, render } from 'enzyme';
 import { IntlProvider } from 'react-intl';
 
 import ListItem from 'components/ListItem';
-import { RepoListItem } from '../index';
+import { RepoListItem } from './index';
 
 const renderComponent = (props = {}) => render(
   <IntlProvider locale="en">
