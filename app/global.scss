@@ -1,0 +1,32 @@
+@import "node_modules/stijl/dist/scss/_ams-breakpoints.scss";
+@import "node_modules/stijl/dist/scss/_ams-colorpalette.scss";
+@import "node_modules/stijl/dist/scss/_ams-extends.scss";
+@import "node_modules/stijl/dist/scss/_ams-font.scss";
+@import "node_modules/stijl/dist/scss/_ams-mixins.scss";
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+body.fontLoaded {
+  @include avenirmedium;
+}
+
+#app {
+  background-color: $ams-pinkish-grey;
+  min-height: 100%;
+  min-width: 100%;
+}
+
+p,
+label {
+  @include avenirmedium;
+  color: $ams-rood;
+  line-height: 1.5em;
+}
