@@ -17,6 +17,7 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 
 import OverviewPage from '../../meldingen/admin/containers/OverviewPage/Loadable';
+import IncidentContainer from '../../meldingen/incident/containers/IncidentContainer/Loadable';
 
 const AppWrapper = styled.div`
   max-width: calc(768px + 16px * 2);
@@ -35,6 +36,7 @@ export default function App() {
         <Route exact path="/" component={HomePage} />
         <Route path="/features" component={FeaturePage} />
         <Route path="/admin" component={OverviewPage} />
+        <Route path="/incident" component={IncidentContainer} />
         <Route path="" component={NotFoundPage} />
       </Switch>
       <Footer />
