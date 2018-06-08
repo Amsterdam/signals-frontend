@@ -63,8 +63,8 @@
         }
       ],
       "react",
-      "stage-0",
-      "latest"
+      "latest",
+      "stage-0"
     ],
     "env": {
       "production": {
