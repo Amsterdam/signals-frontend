@@ -6,8 +6,12 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  header: {
-    id: 'app.components.IncidentNavigation.header',
-    defaultMessage: 'This is the IncidentNavigation component !',
+  next: {
+    id: 'app.components.IncidentNavigation.next',
+    defaultMessage: 'Volgende',
   },
+  previous: {
+    id: 'app.components.IncidentNavigation.previous',
+    defaultMessage: 'Vorige',
+  }
 });

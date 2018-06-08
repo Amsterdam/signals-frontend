@@ -12,7 +12,7 @@ import { Wizard, Steps, Step } from 'react-albus';
 // import { FormattedMessage } from 'react-intl';
 // import messages from './messages';
 
-// import Navigation from '../IncidentNavigation';
+import IncidentNavigation from '../IncidentNavigation';
 import './style.scss';
 
 function IncidentWizard({ match }) {
@@ -36,6 +36,7 @@ function IncidentWizard({ match }) {
                       <h1 className="text-align-center">Ice King</h1>
                     </Step>
                   </Steps>
+                  <IncidentNavigation />
                 </Wizard>
               )}
             />

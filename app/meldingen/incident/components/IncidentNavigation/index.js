@@ -6,20 +6,24 @@
 
 import React from 'react';
 import { WithWizard } from 'react-albus';
+import { FormattedMessage } from 'react-intl';
+import messages from './messages';
+
+import './style.scss';
 
 const IncidentNavigation = () => (
   <WithWizard
     render={({ next, previous, step, steps }) => (
-      <div className="example-buttons">
-        {steps.indexOf(step) < steps.length - 1 && (
-          <button className="btn-fluid margin-1-b" onClick={next}>
-            Next
+      <div className="incident-navigation">
+        {steps.indexOf(step) > 0 && (
+          <button className="incident-navigation__button" onClick={previous}>
+            <FormattedMessage {...messages.previous} />
           </button>
         )}
 
-        {steps.indexOf(step) > 0 && (
-          <button className="btn-fluid btn-secondary" onClick={previous}>
-            Back
+        {steps.indexOf(step) < steps.length - 1 && (
+          <button className="incident-navigation__button" onClick={next}>
+            <FormattedMessage {...messages.next} />
           </button>
         )}
       </div>
@@ -28,30 +32,3 @@ const IncidentNavigation = () => (
 );
 
 export default IncidentNavigation;
-
-/*
-import React from 'react';
-import { WithWizard } from 'react-albus';
-
-const Navigation = () => (
-  <WithWizard
-    render={({ next, previous, step, steps }) => (
-      <div className="example-buttons">
-        {steps.indexOf(step) < steps.length - 1 && (
-            <button className="btn-fluid margin-1-b" onClick={next}>
-            Next
-          </button>
-        )}
-
-        {steps.indexOf(step) > 0 && (
-          <button className="btn-fluid btn-secondary" onClick={previous}>
-            Back
-          </button>
-        )}
-      </div>
-    )}
-  />
-);
-
-export default Navigation;
-*/
