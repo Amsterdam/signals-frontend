@@ -1,43 +1,65 @@
 export default {
   beschrijf: {
-    form: {
-      location: {},
-      description: {},
-      incident_date: {}
-    },
+    form: [
+      {
+        type: 'location',
+        name: 'location'
+      },
+      {
+        type: 'description',
+        name: 'description'
+      },
+      {
+        type: 'datetime',
+        name: 'incident_date'
+      }
+    ],
     preview: {
 
     }
   },
-  vulaan: {
-    form: {
-    },
-    preview: {
-    }
-  },
+  // vulaan: {
+    // form: {
+    // },
+    // preview: {
+    // }
+  // },
   email: {
-    form: {
-      'reporter.email': {}
-    }
+    form: [{
+      type: 'email',
+      name: 'reporter.email'
+    }]
   },
   telefoon: {
-    form: {
-      'reporter.phone': {}
-    }
+    form: [{
+      type: 'phone',
+      name: 'reporter.phone'
+    }]
   },
   samenvatting: {
     preview: {
-      beschrijf: {
-        location: {},
-        description: {},
-        incident_date: {}
-      },
-      email: {
-        'reporter.email': {}
-      },
-      telefoon: {
-        'reporter.phone': {}
-      }
+      beschrijf: [
+        {
+          type: 'location',
+          name: 'location'
+        },
+        {
+          type: 'description',
+          name: 'description'
+        },
+        {
+          type: 'datetime',
+          name: 'incident_date'
+        }
+      ],
+      email: [{
+        type: 'email',
+        name: 'reporter.email'
+      }],
+      telefoon: [{
+        type: 'phone',
+        name: 'reporter.phone'
+      }]
     }
   },
   bedankt: {
