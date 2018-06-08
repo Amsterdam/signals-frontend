@@ -43,7 +43,9 @@
     "test:clean": "rimraf ./coverage",
     "test": "cross-env NODE_ENV=test jest --coverage",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
-    "coveralls": "cat ./coverage/lcov.info | coveralls"
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "dyson-server": "nodemon --watch test/mock/api --exec babel-node --presets=latest test/mock/api",
+    "dyson-sample": "nodemon --watch test/mock/sample --exec babel-node --presets=latest ./test/mock/sample"
   },
   "lint-staged": {
     "*.js": "lint:eslint"
@@ -61,7 +63,8 @@
         }
       ],
       "react",
-      "stage-0"
+      "stage-0",
+      "latest"
     ],
     "env": {
       "production": {
@@ -257,11 +260,15 @@
     "babel-plugin-transform-react-inline-elements": "6.22.0",
     "babel-plugin-transform-react-remove-prop-types": "0.4.5",
     "babel-preset-env": "1.5.1",
+    "babel-preset-latest": "^6.24.1",
     "babel-preset-react": "6.24.1",
     "babel-preset-stage-0": "6.24.1",
     "circular-dependency-plugin": "3.0.0",
     "coveralls": "2.13.1",
     "css-loader": "0.28.4",
+    "dyson": "^2.0.0",
+    "dyson-generators": "^0.2.0",
+    "dyson-image": "^0.2.0",
     "enzyme": "2.8.2",
     "eslint": "3.19.0",
     "eslint-config-airbnb": "15.0.1",
@@ -284,6 +291,7 @@
     "ngrok": "2.2.9",
     "node-plop": "0.7.0",
     "node-sass": "^4.9.0",
+    "nodemon": "^1.17.5",
     "null-loader": "0.1.1",
     "offline-plugin": "4.8.1",
     "open": "0.0.5",
