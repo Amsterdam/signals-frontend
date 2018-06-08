@@ -26,7 +26,7 @@ import ListContainer from '../ListContainer';
 export class OverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <div className="overview-page">
+      <div className="overview-page col-6">
         <FormattedMessage {...messages.header} />
         <FilterContainer />
         <ListContainer />
