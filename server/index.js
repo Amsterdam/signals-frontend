@@ -2,6 +2,7 @@
 
 const express = require('express');
 const logger = require('./logger');
+const open = require('open');
 
 const argv = require('./argv');
 const port = require('./port');
@@ -43,4 +44,6 @@ app.listen(port, host, (err) => {
   } else {
     logger.appStarted(port, prettyHost);
   }
+
+  open(`http://localhost:${port}`);
 });
