@@ -16,6 +16,9 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
         <Link to="/features">
           <FormattedMessage {...messages.features} />
         </Link>
+        <Link to="/incident">
+          <FormattedMessage {...messages.incident} />
+        </Link>
         <Link to="/admin">
           <FormattedMessage {...messages.admin} />
         </Link>
