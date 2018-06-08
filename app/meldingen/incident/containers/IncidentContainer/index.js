@@ -21,18 +21,17 @@ import './style.scss';
 
 import IncidentWizard from '../../components/IncidentWizard/Loadable';
 
-export class IncidentContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  render() {
-    return (
-      <div className="incident-container">
-        <IncidentWizard />
-      </div>
-    );
-  }
+function IncidentContainer({ match }) {
+  return (
+    <div className="incident-container">
+      <IncidentWizard match={match} />
+    </div>
+  );
 }
 
 IncidentContainer.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  match: PropTypes.object
+  // dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
