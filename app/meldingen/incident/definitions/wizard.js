@@ -2,46 +2,46 @@ export default {
   beschrijf: {
     form: {
       location: {},
-      what: {},
-      datetime: {}
+      description: {},
+      incident_date: {}
     },
-    show: {
+    preview: {
 
     }
   },
   vulaan: {
     form: {
     },
-    show: {
+    preview: {
     }
   },
   email: {
     form: {
-      email: {}
+      'reporter.email': {}
     }
   },
   telefoon: {
     form: {
-      telephone: {}
+      'reporter.phone': {}
     }
   },
   samenvatting: {
-    show: {
+    preview: {
       beschrijf: {
         location: {},
-        what: {},
-        datetime: {}
+        description: {},
+        incident_date: {}
       },
       email: {
-        email: {}
+        'reporter.email': {}
       },
       telefoon: {
-        telephone: {}
+        'reporter.phone': {}
       }
     }
   },
   bedankt: {
-    show: {
+    preview: {
       bedankt: {}
     }
   }
@@ -73,4 +73,27 @@ Stap 5: samenvatting
 Stap 6: bedankt
   tekst
 
+*/
+
+/*
+message:
+{
+  "description": "Er vaart hier een boot veel te hard",
+  "latitude": 52.376,
+  "logitude": 4.901,
+  "incident_date": "2018-05-19T07:22:15Z",
+  "extra_information": "Is een witte boot",
+  "reporter": {
+    "email": "melder@meldingen.amsterdam.nl",
+    "phone": "020-1234567"
+  },
+  "source": "telefoon",
+  "category": "watermelding",
+  "subcategory": "overlast",
+  "extra_properties": [
+    {
+      "rederij": "loveboat"
+    }
+  ]
+}
 */
