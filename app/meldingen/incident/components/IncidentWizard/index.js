@@ -32,16 +32,13 @@ function IncidentWizard() {
               render={({ history }) => (
                 <Wizard history={history}>
                   <Steps>
-                    <Step id="incident/gandalf">
-                      <h1 className="text-align-center">Gandalf</h1>
-                      <IncidentStep />
-                    </Step>
-                    <Step id="incident/dumbledore">
-                      <h1 className="text-align-center">Dumbledore</h1>
-                    </Step>
-                    <Step id="incident/ice-king">
-                      <h1 className="text-align-center">Ice King</h1>
-                    </Step>
+                    {Object.keys(wizard).map((key) => (
+                      <Step key={key} id={`incident/${key}`}>
+                        <h1 className="text-align-center">{key}</h1>
+                        <IncidentStep content={wizard[key]} />
+                      </Step>
+                    )
+                    )}
                   </Steps>
                   <IncidentNavigation />
                 </Wizard>
