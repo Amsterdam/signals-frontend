@@ -5,18 +5,24 @@
 */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Wizard, Steps, Step } from 'react-albus';
 
 // import { FormattedMessage } from 'react-intl';
 // import messages from './messages';
 
+import wizard from '../../definitions/wizard';
+
+import IncidentStep from '../IncidentStep';
 import IncidentNavigation from '../IncidentNavigation';
 import './style.scss';
 
-function IncidentWizard({ match }) {
-  console.log('match', match);
+function IncidentWizard() {
+  Object.keys(wizard).map((key) => {
+    console.log('key', key, wizard[key]);
+    return true;
+  });
   return (
     <BrowserRouter>
       <div className="incident-wizard">
@@ -28,6 +34,7 @@ function IncidentWizard({ match }) {
                   <Steps>
                     <Step id="incident/gandalf">
                       <h1 className="text-align-center">Gandalf</h1>
+                      <IncidentStep />
                     </Step>
                     <Step id="incident/dumbledore">
                       <h1 className="text-align-center">Dumbledore</h1>
@@ -47,8 +54,7 @@ function IncidentWizard({ match }) {
   );
 }
 
-IncidentWizard.propTypes = {
-  match: PropTypes.object
-};
+// IncidentWizard.propTypes = {
+// };
 
 export default IncidentWizard;

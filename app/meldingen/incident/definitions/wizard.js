@@ -13,10 +13,7 @@ export default {
         type: 'datetime',
         name: 'incident_date'
       }
-    ],
-    preview: {
-
-    }
+    ]
   },
   // vulaan: {
     // form: {
@@ -61,11 +58,11 @@ export default {
         name: 'reporter.phone'
       }]
     }
-  },
-  bedankt: {
-    preview: {
-      bedankt: {}
-    }
+  // },
+  // bedankt: {
+    // preview: {
+      // bedankt: {}
+    // }
   }
 };
 
