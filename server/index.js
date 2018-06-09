@@ -3,7 +3,7 @@
 const express = require('express');
 const logger = require('./logger');
 const open = require('open');
-var proxy = require('http-proxy-middleware');
+const proxy = require('http-proxy-middleware');
 
 const argv = require('./argv');
 const port = require('./port');

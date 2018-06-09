@@ -1,8 +1,8 @@
-// Start here dyson on port 8011
+// Start here dyson on port 5101
 import { bootstrap } from 'dyson';
 
 bootstrap({
   configDir: `${__dirname}/`,
-  port: 8011
+  port: 5101
 });
 

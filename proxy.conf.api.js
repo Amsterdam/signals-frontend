@@ -1,7 +1,7 @@
 const PROXY_CONFIG =
   {
     '/api/*': {
-      target: 'http://localhost:5001',
+      target: 'http://acc.data.amsterdam.nl/meldingen',
       pathRewrite: { '^/api/': '' },
       secure: false,
       changeOrigin: true,
