@@ -14,23 +14,41 @@ import saga from './saga';
 import messages from './messages';
 import './style.scss';
 
-import { requestIncidents } from './actions';
+import { requestIncidents, selectIncident } from './actions';
 
 
 export class OverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+    this.selectLastIncident = this.selectLastIncident.bind(this);
+    this.requestIncidents = this.props.requestIncidents.bind(this);
+  }
+
   componentWillMount() {
     this.props.requestIncidents();
   }
 
-  render() {
+  selectLastIncident() {
     const { incidents } = this.props.overviewpage;
+    const incident = incidents[2];
+    this.props.selectIncident(incident);
+  }
+
+  render() {
+    const { incidents, selectedIncident } = this.props.overviewpage;
     const { loading } = this.props;
     return (
       <div className="overview-page">
         <FormattedMessage {...messages.header} /> - loading: {loading.toString()}
         <br />There are {incidents.length} found.
+        <br /><input type="button" onClick={this.requestIncidents} value="Refresh" />
         <br />{JSON.stringify(incidents)}
-
+        <hr />
+        <br /><input type="button" onClick={this.selectLastIncident} value="Select last incident" />
+        <hr />
+        Selected incident:
+        <hr />
+        <br />{JSON.stringify(selectedIncident)}
 
       </div>
     );
@@ -39,12 +57,14 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
 
 OverviewPage.propTypes = {
   overviewpage: PropTypes.object.isRequired,
-  requestIncidents: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   // error: PropTypes.oneOfType([
   //   PropTypes.object,
   //   PropTypes.bool,
   // ]),
+
+  requestIncidents: PropTypes.func.isRequired,
+  selectIncident: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -56,6 +76,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     requestIncidents: (filter) => dispatch(requestIncidents(filter)),
+    selectIncident: (incident) => dispatch(selectIncident(incident)),
   };
 }
 

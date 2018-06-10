@@ -5,9 +5,9 @@
  */
 
 import { fromJS } from 'immutable';
-import { REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR } from './constants';
+import { REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR, SELECT_INCIDENT } from './constants';
 
-const initialState = fromJS({incidents: []});
+const initialState = fromJS({ incidents: [] });
 
 function overviewPageReducer(state = initialState, action) {
   switch (action.type) {
@@ -24,6 +24,9 @@ function overviewPageReducer(state = initialState, action) {
       return state
         .set('error', action.error)
         .set('loading', false);
+    case SELECT_INCIDENT:
+      return state
+        .set('selectedIncident', action.incident);
     default:
       return state;
   }
