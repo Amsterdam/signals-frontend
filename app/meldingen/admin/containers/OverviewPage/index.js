@@ -7,39 +7,55 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import makeSelectOverviewPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import './style.scss';
 
-import FilterContainer from '../FilterContainer';
-import ListContainer from '../ListContainer';
+import { requestIncidents } from './actions';
 
 
 export class OverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  componentWillMount() {
+    this.props.requestIncidents();
+  }
+
   render() {
+    const { incidents } = this.props.overviewpage;
+    const { loading } = this.props;
     return (
-      <div className="overview-page col-6">
-        <FormattedMessage {...messages.header} />
-        <FilterContainer />
-        <ListContainer />
+      <div className="overview-page">
+        <FormattedMessage {...messages.header} /> - loading: {loading.toString()}
+        <br />There are {incidents.length} found.
+        <br />{JSON.stringify(incidents)}
+
+
       </div>
     );
   }
 }
 
 OverviewPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  overviewpage: PropTypes.object.isRequired,
+  requestIncidents: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  // error: PropTypes.oneOfType([
+  //   PropTypes.object,
+  //   PropTypes.bool,
+  // ]),
 };
 
 const mapStateToProps = createStructuredSelector({
+  loading: makeSelectLoading(),
+  error: makeSelectError(),
   overviewpage: makeSelectOverviewPage(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    requestIncidents: (filter) => dispatch(requestIncidents(filter)),
   };
 }
 
