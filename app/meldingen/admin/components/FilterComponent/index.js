@@ -5,6 +5,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, FieldControl, Validators, } from 'react-reactive-form';
 
 import { FormattedMessage } from 'react-intl';
@@ -23,6 +24,7 @@ class FilterComponent extends React.Component { // eslint-disable-line react/pre
   handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form values', this.filterForm.value);
+    this.props.filterIncidents(this.filterForm.value);
   }
   render() {
     return (
@@ -79,7 +81,7 @@ class FilterComponent extends React.Component { // eslint-disable-line react/pre
 }
 
 FilterComponent.propTypes = {
-
+  filterIncidents: PropTypes.func.isRequired
 };
 
 export default FilterComponent;
