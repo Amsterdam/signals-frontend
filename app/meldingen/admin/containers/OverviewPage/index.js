@@ -13,9 +13,8 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import './style.scss';
-import '../../components/FilterComponent';
 
-import { requestIncidents, selectIncident } from './actions';
+import { requestIncidents, selectIncident, filterIncidents } from './actions';
 import FilterComponent from '../../components/FilterComponent';
 
 
@@ -24,6 +23,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
     super(props);
     this.selectLastIncident = this.selectLastIncident.bind(this);
     this.requestIncidents = this.props.requestIncidents.bind(this);
+    this.filterIncidents = this.props.filterIncidents.bind(this);
   }
 
   componentWillMount() {
@@ -42,7 +42,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
     return (
       <div className="overview-page">
         <FormattedMessage {...messages.header} /> - loading: {loading.toString()}
-        <FilterComponent />
+        <FilterComponent filterIncidents={this.filterIncidents} />
         <br />There are {incidents.length} found.
         <br /><input type="button" onClick={this.requestIncidents} value="Refresh" />
         <br />{JSON.stringify(incidents)}
@@ -68,6 +68,7 @@ OverviewPage.propTypes = {
 
   requestIncidents: PropTypes.func.isRequired,
   selectIncident: PropTypes.func.isRequired,
+  filterIncidents: PropTypes.func.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -80,6 +81,7 @@ function mapDispatchToProps(dispatch) {
   return {
     requestIncidents: (filter) => dispatch(requestIncidents(filter)),
     selectIncident: (incident) => dispatch(selectIncident(incident)),
+    filterIncidents: (incident) => dispatch(filterIncidents(incident)),
   };
 }
 
