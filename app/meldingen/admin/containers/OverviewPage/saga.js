@@ -1,14 +1,18 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
 
 import { REQUEST_INCIDENTS } from './constants';
 import { requestIncidentsSuccess, requestIncidentsError } from './actions';
+import makeSelectOverviewPage from './selectors';
 
 export function* fetchIncidents() {
   const requestURL = '/api/users';
 
   try {
-    const incidents = yield call(request, requestURL);
+    const { filter } = yield select(makeSelectOverviewPage());
+    console.log(filter);
+    // yield put(filterIncidentsChanged(filter));
+    const incidents = yield call(request, requestURL, filter);
     yield put(requestIncidentsSuccess(incidents));
   } catch (err) {
     yield put(requestIncidentsError(err));

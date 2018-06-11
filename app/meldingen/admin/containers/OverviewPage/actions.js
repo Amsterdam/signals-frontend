@@ -4,7 +4,7 @@
  *
  */
 
-import { REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR, SELECT_INCIDENT, FILTER_INCIDENTS } from './constants';
+import { REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR, SELECT_INCIDENT, FILTER_INCIDENTS, FILTER_INCIDENTS_CHANGED } from './constants';
 
 export function requestIncidents(filter) {
   return {
@@ -37,6 +37,13 @@ export function selectIncident(incident) {
 export function filterIncidents(filter) {
   return {
     type: FILTER_INCIDENTS,
+    filter
+  };
+}
+
+export function filterIncidentsChanged(filter) {
+  return {
+    type: FILTER_INCIDENTS_CHANGED,
     filter
   };
 }

@@ -22,7 +22,7 @@ import ListComponent from './components/ListComponent';
 export class OverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-    this.selectLastIncident = this.selectLastIncident.bind(this);
+    this.onFilterIncidents = this.onFilterIncidents.bind(this);
     this.requestIncidents = this.props.requestIncidents.bind(this);
     this.filterIncidents = this.props.filterIncidents.bind(this);
     this.selectIncident = this.props.selectIncident.bind(this);
@@ -32,27 +32,29 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
     this.props.requestIncidents();
   }
 
-  selectLastIncident() {
-    const { incidents } = this.props.overviewpage;
-    const incident = incidents[2];
-    this.props.selectIncident(incident);
+  onFilterIncidents(filter) {
+    this.filterIncidents(filter);
+    this.props.requestIncidents();
   }
 
   render() {
-    const { incidents, selectedIncident } = this.props.overviewpage;
+    const { incidents, selectedIncident, filter } = this.props.overviewpage;
     const { loading } = this.props;
     return (
       <div className="overview-page container">
 
         <FormattedMessage {...messages.header} /> - loading: {loading.toString()}
         <div>
-          <FilterComponent filterIncidents={this.filterIncidents} />
+          <FilterComponent filterIncidents={this.onFilterIncidents} />
           <ListComponent selectIncident={this.selectIncident} incidents={incidents} />
         </div>
         <br />Selected incident:
+        <br />{JSON.stringify(selectedIncident)}
         <hr />
         <br /><input type="button" onClick={this.requestIncidents} value="Refresh" />
-        <br />{JSON.stringify(selectedIncident)}
+        <hr />
+        <br />{JSON.stringify(filter)}
+        <hr />
 
       </div>
     );

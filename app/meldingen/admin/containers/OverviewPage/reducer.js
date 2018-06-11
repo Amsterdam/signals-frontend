@@ -29,7 +29,8 @@ function overviewPageReducer(state = initialState, action) {
         .set('selectedIncident', action.incident);
     case FILTER_INCIDENTS:
       return state
-        .set('incidents', [...state.get('incidents'), action.filter]);
+        .set('filter', action.filter);
+
     default:
       return state;
   }
