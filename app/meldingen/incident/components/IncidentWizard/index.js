@@ -19,10 +19,6 @@ import IncidentNavigation from '../IncidentNavigation';
 import './style.scss';
 
 function IncidentWizard() {
-  Object.keys(wizard).map((key) => {
-    console.log('key', key, wizard[key]);
-    return true;
-  });
   return (
     <BrowserRouter>
       <div className="incident-wizard">
