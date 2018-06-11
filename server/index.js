@@ -3,9 +3,11 @@
 const express = require('express');
 const logger = require('./logger');
 const open = require('open');
+const proxy = require('http-proxy-middleware');
 
 const argv = require('./argv');
 const port = require('./port');
+const proxyConfig = require('./proxy-config');
 const setup = require('./middlewares/frontendMiddleware');
 const isDev = process.env.NODE_ENV !== 'production';
 const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngrok') : false;
@@ -14,6 +16,10 @@ const app = express();
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
+Object.keys(proxyConfig).forEach((key) => {
+  app.use(key, proxy(proxyConfig[key]));
+});
+
 
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {

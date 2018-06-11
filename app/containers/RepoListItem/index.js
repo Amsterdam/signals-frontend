@@ -28,10 +28,10 @@ export class RepoListItem extends React.PureComponent { // eslint-disable-line r
     // Put together the content of the repository
     const content = (
       <div>
-        <Link href={item.html_url} target="_blank">
+        <Link to={item.html_url} target="_blank">
           {nameprefix + item.name}
         </Link>
-        <Link href={`${item.html_url}/issues`} target="_blank">
+        <Link to={`${item.html_url}/issues`} target="_blank">
           <FormattedNumber value={item.open_issues_count} />
         </Link>
       </div>
