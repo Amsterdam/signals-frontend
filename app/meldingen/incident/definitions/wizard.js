@@ -1,17 +1,17 @@
 export default {
   beschrijf: {
     form: [
-      {
-        type: 'location',
-        name: 'location'
-      },
+      // {
+        // type: 'location',
+        // name: 'location'
+      // },
       {
         type: 'description',
         name: 'description'
-      },
-      {
-        type: 'datetime',
-        name: 'incident_date'
+      // },
+      // {
+        // type: 'datetime',
+        // name: 'incident_date'
       }
     ]
   },
