@@ -13,8 +13,10 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import './style.scss';
+import '../../components/FilterComponent';
 
 import { requestIncidents, selectIncident } from './actions';
+import FilterComponent from '../../components/FilterComponent';
 
 
 export class OverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -40,6 +42,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
     return (
       <div className="overview-page">
         <FormattedMessage {...messages.header} /> - loading: {loading.toString()}
+        <FilterComponent />
         <br />There are {incidents.length} found.
         <br /><input type="button" onClick={this.requestIncidents} value="Refresh" />
         <br />{JSON.stringify(incidents)}
