@@ -15,7 +15,8 @@ import messages from './messages';
 import './style.scss';
 
 import { requestIncidents, selectIncident, filterIncidents } from './actions';
-import FilterComponent from '../../components/FilterComponent';
+import FilterComponent from './components/FilterComponent';
+import ListComponent from './components/ListComponent';
 
 
 export class OverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -24,6 +25,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
     this.selectLastIncident = this.selectLastIncident.bind(this);
     this.requestIncidents = this.props.requestIncidents.bind(this);
     this.filterIncidents = this.props.filterIncidents.bind(this);
+    this.selectIncident = this.props.selectIncident.bind(this);
   }
 
   componentWillMount() {
@@ -40,17 +42,16 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
     const { incidents, selectedIncident } = this.props.overviewpage;
     const { loading } = this.props;
     return (
-      <div className="overview-page">
+      <div className="overview-page container">
+
         <FormattedMessage {...messages.header} /> - loading: {loading.toString()}
-        <FilterComponent filterIncidents={this.filterIncidents} />
-        <br />There are {incidents.length} found.
+        <div>
+          <FilterComponent filterIncidents={this.filterIncidents} />
+          <ListComponent selectIncident={this.selectIncident} incidents={incidents} />
+        </div>
+        <br />Selected incident:
+        <hr />
         <br /><input type="button" onClick={this.requestIncidents} value="Refresh" />
-        <br />{JSON.stringify(incidents)}
-        <hr />
-        <br /><input type="button" onClick={this.selectLastIncident} value="Select last incident" />
-        <hr />
-        Selected incident:
-        <hr />
         <br />{JSON.stringify(selectedIncident)}
 
       </div>

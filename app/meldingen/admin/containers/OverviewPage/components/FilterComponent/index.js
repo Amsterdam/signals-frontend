@@ -28,12 +28,14 @@ class FilterComponent extends React.Component { // eslint-disable-line react/pre
   }
   render() {
     return (
-      <div className="filter-component">
+      <div className="filter-component col-md-4">
         <FormattedMessage {...messages.header} />
+
         <FieldGroup
           control={this.filterForm}
           render={({ invalid }) => (
             <form onSubmit={this.handleSubmit}>
+
               <FieldControl
                 name="id"
                 render={({ handler, touched, hasError }) => (
@@ -42,7 +44,7 @@ class FilterComponent extends React.Component { // eslint-disable-line react/pre
                     <span>
                       {touched
                         && hasError('required')
-                        && 'Username is required'}
+                        && 'Id is required'}
                     </span>
                   </div>
                 )}
@@ -55,23 +57,17 @@ class FilterComponent extends React.Component { // eslint-disable-line react/pre
                     <span>
                       {touched
                         && hasError('required')
-                        && 'Password is required'}
+                        && 'Name is required'}
                     </span>
                   </div>
                 )}
               />
-              <button
-                type="button"
-                onClick={this.handleReset}
-              >
-                Reset
-                    </button>
-              <button
-                type="submit"
-                disabled={invalid}
-              >
-                Submit
-                    </button>
+              <button className="action primary" onClick={this.handleReset}>
+                <span className="value">Reset</span>
+              </button>
+              <button className="action primary" type="submit" disabled={invalid}>
+                <span className="value">Submit</span>
+              </button>
             </form>
           )}
         />
