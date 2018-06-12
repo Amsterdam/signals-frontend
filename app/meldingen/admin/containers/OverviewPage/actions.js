@@ -27,7 +27,7 @@ export function requestIncidentsError(message) {
   };
 }
 
-export function selectIncident(incident) {
+export function incidentSelected(incident) {
   return {
     type: SELECT_INCIDENT,
     incident
