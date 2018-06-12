@@ -34,12 +34,13 @@ class IncidentForm extends React.Component {
     this.form.reset();
   }
 
-  handleSubmit(e, next) {
+  handleSubmit(e, next, setIncident) {
     e.preventDefault();
     if (this.form.valid) {
+      console.log('Send form values to state', this.form.value);
+      setIncident(this.form.value);
       next();
     }
-    console.log('Send form values to state', this.form.value);
   }
 
   render() {
@@ -47,7 +48,7 @@ class IncidentForm extends React.Component {
       <WithWizard
         render={({ next }) => (
           <div className="incident-form">
-            <form onSubmit={(e) => this.handleSubmit(e, next)}>
+            <form onSubmit={(e) => this.handleSubmit(e, next, this.props.setIncident)}>
               <FormGenerator
                 onMount={this.setForm}
                 fieldConfig={this.props.fieldConfig}
@@ -65,7 +66,8 @@ IncidentForm.defaultProps = {
 };
 
 IncidentForm.propTypes = {
-  fieldConfig: PropTypes.object
+  fieldConfig: PropTypes.object,
+  setIncident: PropTypes.func.isRequired
 };
 
 export default IncidentForm;
