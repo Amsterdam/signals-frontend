@@ -4,6 +4,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 // Remove this line once the following warning goes away (it was meant for webpack loader authors not users):
 // 'DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic,
@@ -31,37 +32,26 @@ module.exports = (options) => ({
         // Preprocess our own .css files
         // This is the place to add your own loaders (e.g. sass/less etc.)
         // for a list of loaders, see https://webpack.js.org/loaders/#styling
-        test: /\.scss$/,
-        exclude: /node_modules/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        test: /\.(scss|css)$/,
+        loader: ExtractTextPlugin.extract({
+          use: ['css-loader', 'sass-loader']
+        })
       },
       {
-        // Preprocess 3rd party .css files located in node_modules
-        test: /\.css$/,
-        include: /node_modules/,
-        use: ['style-loader', 'css-loader'],
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'fonts/[name].[hash:7].[ext]'
+        }
       },
       {
-        test: /\.(eot|svg|otf|ttf|woff|woff2)$/,
-        use: 'file-loader',
-      },
-      {
-        test: /\.(jpg|png|gif)$/,
-        use: [
-          'file-loader',
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              progressive: true,
-              optimizationLevel: 7,
-              interlaced: false,
-              pngquant: {
-                quality: '65-90',
-                speed: 4,
-              },
-            },
-          },
-        ],
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'img/[name].[hash:7].[ext]'
+        }
       },
       {
         test: /\.html$/,
@@ -97,6 +87,10 @@ module.exports = (options) => ({
       },
     }),
     new webpack.NamedModulesPlugin(),
+    new ExtractTextPlugin({
+      filename: 'css/[name].[contenthash].css',
+      allChunks: true,
+    })
   ]),
   resolve: {
     modules: ['app', 'node_modules'],
