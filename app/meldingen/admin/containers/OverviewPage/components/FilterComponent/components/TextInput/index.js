@@ -2,41 +2,47 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FieldControl } from 'react-reactive-form';
-
 import './style.scss';
 
-const TextInput = ({ name }) => (
-  <FieldControl name={name} render={TextInputRender} />
-);
+const TextInput = (p) => {
+  const { name, control } = p;
 
-TextInput.propTypes = {
-  name: PropTypes.string
+  return (
+    <div>
+      <FieldControl
+        name={name}
+        control={control}
+        render={TextInputRender(name)}
+      />
+    </div>
+  );
 };
 
-const TextInputRender = ({ handler, touched, hasError }) => (
-  <div>
+export const TextInputRender = (name) => {
+  const render = ({ handler, touched, hasError }) => (<div>
     <div className="rij mode_input text rij_verplicht">
       <div className="label">
-        <label htmlFor="formInput">Id</label>
+        <label htmlFor={`form${name}`}>{name}</label>
       </div>
 
       <div className="invoer">
-        <input name="" id="formInput" value="" className="input" type="text" {...handler()} />
+        <input name="" id={`form${name}`} value="" className="input" type="text" {...handler()} />
       </div>
       <div>
         {touched
           && hasError('required')
-          && 'Id is required'}
+          && 'Name is required'}
       </div>
 
     </div>
-  </div>
-);
+  </div>);
 
-TextInputRender.propTypes = {
-  handler: PropTypes.func.isRequired,
-  touched: PropTypes.boolean,
-  hasError: PropTypes.func.isRequired,
+  render.propTypes = {
+    handler: PropTypes.func.isRequired,
+    hasError: PropTypes.func.isRequired,
+    touched: PropTypes.boolean,
+  };
+  return render;
 };
 
 export default TextInput;

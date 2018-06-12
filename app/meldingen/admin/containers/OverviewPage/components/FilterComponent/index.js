@@ -12,7 +12,7 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 import './style.scss';
-import { TextInput } from './components/TextInput';
+import { TextInputRender } from './components/TextInput';
 
 class FilterComponent extends React.Component { // eslint-disable-line react/prefer-stateless-function
   filterForm = FormBuilder.group({
@@ -37,31 +37,8 @@ class FilterComponent extends React.Component { // eslint-disable-line react/pre
           render={({ invalid }) => (
             <form onSubmit={this.handleSubmit}>
 
-              <TextInput name="id" />
-              {/* <FieldControl name="id" render={TextInput} /> */}
-              <FieldControl
-                name="name"
-                render={(props) => (
-                  <div>
-                    {/* {console.log(props)} */}
-                    <div className="rij mode_input text rij_verplicht">
-                      <div className="label">
-                        <label htmlFor="formName">Name</label>
-                      </div>
-
-                      <div className="invoer">
-                        <input name="" id="formName" value="" className="input" type="text" {...props.handler()} />
-                      </div>
-                      <div>
-                        {props.touched
-                          && props.hasError('required')
-                          && 'Name is required'}
-                      </div>
-
-                    </div>
-                  </div>
-                )}
-              />
+              <FieldControl name="id" render={TextInputRender('id')} />
+              <FieldControl name="name" render={TextInputRender('name')} />
               <button className="action primary" onClick={this.handleReset}>
                 <span className="value">Reset</span>
               </button>
