@@ -39,6 +39,7 @@ class FilterComponent extends React.Component { // eslint-disable-line react/pre
 
               <FieldControl name="id" render={TextInputRender('id')} />
               <FieldControl name="name" render={TextInputRender('name')} />
+
               <button className="action primary" onClick={this.handleReset}>
                 <span className="value">Reset</span>
               </button>

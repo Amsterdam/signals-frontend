@@ -14,7 +14,7 @@ import saga from './saga';
 import messages from './messages';
 import './style.scss';
 
-import { requestIncidents, selectIncident, filterIncidents } from './actions';
+import { requestIncidents, incidentSelected, filterIncidents } from './actions';
 import FilterComponent from './components/FilterComponent';
 import ListComponent from './components/ListComponent';
 
@@ -25,7 +25,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
     this.onFilterIncidents = this.onFilterIncidents.bind(this);
     this.requestIncidents = this.props.requestIncidents.bind(this);
     this.filterIncidents = this.props.filterIncidents.bind(this);
-    this.selectIncident = this.props.selectIncident.bind(this);
+    this.incidentSelected = this.props.incidentSelected.bind(this);
   }
 
   componentWillMount() {
@@ -34,7 +34,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
 
   onFilterIncidents(filter) {
     this.filterIncidents(filter);
-    this.props.requestIncidents();
+    this.requestIncidents();
   }
 
   render() {
@@ -46,14 +46,17 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
         <FormattedMessage {...messages.header} /> - loading: {loading.toString()}
         <div>
           <FilterComponent filterIncidents={this.onFilterIncidents} />
-          <ListComponent selectIncident={this.selectIncident} incidents={incidents} />
+          <ListComponent incidentSelected={this.incidentSelected} incidents={incidents} />
         </div>
         <br />Selected incident:
-        <br />{JSON.stringify(selectedIncident)}
         <hr />
-        <br /><input type="button" onClick={this.requestIncidents} value="Refresh" />
+        <button className="action primary" onClick={this.requestIncidents}>
+          <span className="value">Refresh</span>
+        </button>
+
         <hr />
-        <br />{JSON.stringify(filter)}
+        <br />Selected incident: {JSON.stringify(selectedIncident)}
+        <br />Selected filter:{JSON.stringify(filter)}
         <hr />
 
       </div>
@@ -70,7 +73,7 @@ OverviewPage.propTypes = {
   // ]),
 
   requestIncidents: PropTypes.func.isRequired,
-  selectIncident: PropTypes.func.isRequired,
+  incidentSelected: PropTypes.func.isRequired,
   filterIncidents: PropTypes.func.isRequired
 };
 
@@ -83,7 +86,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     requestIncidents: (filter) => dispatch(requestIncidents(filter)),
-    selectIncident: (incident) => dispatch(selectIncident(incident)),
+    incidentSelected: (incident) => dispatch(incidentSelected(incident)),
     filterIncidents: (incident) => dispatch(filterIncidents(incident)),
   };
 }
