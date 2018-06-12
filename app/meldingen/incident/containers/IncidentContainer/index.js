@@ -13,6 +13,7 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import { setIncident, sendIncident } from './actions';
 import makeSelectIncidentContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -21,26 +22,38 @@ import './style.scss';
 
 import IncidentWizard from '../../components/IncidentWizard/Loadable';
 
-function IncidentContainer({ match }) {
-  return (
-    <div className="incident-container">
-      <IncidentWizard match={match} />
-    </div>
-  );
+class IncidentContainer extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.setIncident = this.props.setIncident.bind(this);
+    this.sendIncident = this.props.sendIncident.bind(this);
+  }
+
+  render() {
+    return (
+      <div className="incident-container">
+        <IncidentWizard
+          setIncident={this.setIncident}
+        />
+      </div>
+    );
+  }
 }
 
 IncidentContainer.propTypes = {
-  match: PropTypes.object
-  // dispatch: PropTypes.func.isRequired,
+  setIncident: PropTypes.func.isRequired,
+  sendIncident: PropTypes.func.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
-  incidentcontainer: makeSelectIncidentContainer(),
+  incidentcontainer: makeSelectIncidentContainer()
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    setIncident: (incident) => dispatch(setIncident(incident)),
+    sendIncident: (incident) => dispatch(sendIncident(incident))
   };
 }
 

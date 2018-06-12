@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import IncidentForm from '../IncidentForm';
 import './style.scss';
 
-function IncidentStep({ content }) {
+function IncidentStep({ content, setIncident }) {
   const keys = Object.keys(content.preview || {});
   return (
     <div className="incident-step">
@@ -24,7 +24,7 @@ function IncidentStep({ content }) {
       }
 
       {content.form ?
-        <IncidentForm fieldConfig={content.form} />
+        <IncidentForm fieldConfig={content.form} setIncident={setIncident} />
         :
         ''
       }
@@ -33,7 +33,8 @@ function IncidentStep({ content }) {
 }
 
 IncidentStep.propTypes = {
-  content: PropTypes.object
+  setIncident: PropTypes.func.isRequired,
+  content: PropTypes.object.isRequired
 };
 
 export default IncidentStep;

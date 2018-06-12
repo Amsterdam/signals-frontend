@@ -5,7 +5,7 @@
 */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Wizard, Steps, Step } from 'react-albus';
 
@@ -17,7 +17,7 @@ import wizard from '../../definitions/wizard';
 import IncidentStep from '../IncidentStep';
 import './style.scss';
 
-function IncidentWizard() {
+function IncidentWizard({ setIncident }) {
   return (
     <BrowserRouter>
       <div className="incident-wizard">
@@ -28,7 +28,7 @@ function IncidentWizard() {
                 {Object.keys(wizard).map((key) => (
                   <Step key={key} id={`incident/${key}`}>
                     <h1 className="text-align-center">{key}</h1>
-                    <IncidentStep content={wizard[key]} />
+                    <IncidentStep content={wizard[key]} setIncident={setIncident} />
                   </Step>
                 )
                 )}
@@ -41,7 +41,8 @@ function IncidentWizard() {
   );
 }
 
-// IncidentWizard.propTypes = {
-// };
+IncidentWizard.propTypes = {
+  setIncident: PropTypes.func.isRequired
+};
 
 export default IncidentWizard;

@@ -13,6 +13,7 @@ export default {
             label: 'Beschrijving',
             placeholder: 'Beschrijving',
             type: 'text',
+            wizardType: 'form'
           },
           options: {
             validators: Validators.required
