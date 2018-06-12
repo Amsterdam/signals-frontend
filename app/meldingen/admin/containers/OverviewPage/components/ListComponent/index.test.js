@@ -1,9 +1,9 @@
 // import React from 'react';
 // import { shallow } from 'enzyme';
 
-// import FilterComponent from 'index';
+// import ListComponent from 'index';
 
-describe('<FilterComponent />', () => {
+describe('<ListComponent />', () => {
   it('Expect to have unit tests specified', () => {
     expect(true).toEqual(false);
   });
