@@ -1,12 +1,10 @@
-var g = require('dyson-generators');
+import g from 'dyson-generators';
 
-module.exports = {
-	path: '/employee/:id',
-	template: {
-		id: function(params) {
-            return params.id;
-        },
-        name: g.name,
-        status: 'OK'
-    }
+export const path = '/employee/:id';
+export const template = {
+  id(params) {
+    return params.id;
+  },
+  name: g.name,
+  status: 'OK'
 };

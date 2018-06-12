@@ -1,6 +1,4 @@
-var image = require('dyson-image');
+import image from 'dyson-image';
 
-module.exports = {
-    path: '/image/*',
-    callback: image.asMiddleware
-};
+export const path = '/image/*';
+export const callback = image.asMiddleware;

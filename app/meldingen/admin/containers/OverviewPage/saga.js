@@ -10,8 +10,6 @@ export function* fetchIncidents() {
 
   try {
     const { filter } = yield select(makeSelectOverviewPage());
-    console.log(filter);
-    // yield put(filterIncidentsChanged(filter));
     const incidents = yield call(request, requestURL, filter);
     yield put(requestIncidentsSuccess(incidents));
   } catch (err) {

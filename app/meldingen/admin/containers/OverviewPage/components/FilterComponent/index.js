@@ -12,6 +12,7 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 import './style.scss';
+import { TextInput } from './components/TextInput';
 
 class FilterComponent extends React.Component { // eslint-disable-line react/prefer-stateless-function
   filterForm = FormBuilder.group({
@@ -23,7 +24,7 @@ class FilterComponent extends React.Component { // eslint-disable-line react/pre
   }
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form values', this.filterForm.value);
+    // console.log('Form values', this.filterForm.value);
     this.props.filterIncidents(this.filterForm.value);
   }
   render() {
@@ -36,29 +37,28 @@ class FilterComponent extends React.Component { // eslint-disable-line react/pre
           render={({ invalid }) => (
             <form onSubmit={this.handleSubmit}>
 
-              <FieldControl
-                name="id"
-                render={({ handler, touched, hasError }) => (
-                  <div>
-                    <input {...handler()} />
-                    <span>
-                      {touched
-                        && hasError('required')
-                        && 'Id is required'}
-                    </span>
-                  </div>
-                )}
-              />
+              <TextInput name="id" />
+              {/* <FieldControl name="id" render={TextInput} /> */}
               <FieldControl
                 name="name"
-                render={({ handler, touched, hasError }) => (
+                render={(props) => (
                   <div>
-                    <input {...handler()} />
-                    <span>
-                      {touched
-                        && hasError('required')
-                        && 'Name is required'}
-                    </span>
+                    {/* {console.log(props)} */}
+                    <div className="rij mode_input text rij_verplicht">
+                      <div className="label">
+                        <label htmlFor="formName">Name</label>
+                      </div>
+
+                      <div className="invoer">
+                        <input name="" id="formName" value="" className="input" type="text" {...props.handler()} />
+                      </div>
+                      <div>
+                        {props.touched
+                          && props.hasError('required')
+                          && 'Name is required'}
+                      </div>
+
+                    </div>
                   </div>
                 )}
               />
