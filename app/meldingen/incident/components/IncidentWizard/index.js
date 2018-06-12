@@ -15,33 +15,27 @@ import { Wizard, Steps, Step } from 'react-albus';
 import wizard from '../../definitions/wizard';
 
 import IncidentStep from '../IncidentStep';
-import IncidentNavigation from '../IncidentNavigation';
 import './style.scss';
 
 function IncidentWizard() {
   return (
     <BrowserRouter>
       <div className="incident-wizard">
-        <div className="row pad-t">
-          <div className="col-xs-6 col-xs-offset-3">
-            <Route
-              render={({ history }) => (
-                <Wizard history={history}>
-                  <Steps>
-                    {Object.keys(wizard).map((key) => (
-                      <Step key={key} id={`incident/${key}`}>
-                        <h1 className="text-align-center">{key}</h1>
-                        <IncidentStep content={wizard[key]} />
-                      </Step>
-                    )
-                    )}
-                  </Steps>
-                  <IncidentNavigation />
-                </Wizard>
-              )}
-            />
-          </div>
-        </div>
+        <Route
+          render={({ history }) => (
+            <Wizard history={history}>
+              <Steps>
+                {Object.keys(wizard).map((key) => (
+                  <Step key={key} id={`incident/${key}`}>
+                    <h1 className="text-align-center">{key}</h1>
+                    <IncidentStep content={wizard[key]} />
+                  </Step>
+                )
+                )}
+              </Steps>
+            </Wizard>
+          )}
+        />
       </div>
     </BrowserRouter>
   );

@@ -1,19 +1,30 @@
+import { Validators } from 'react-reactive-form';
+
+import IncidentNavigation from '../components/IncidentNavigation';
+
+import TextInput from '../components/IncidentForm/components/TextInput';
+
 export default {
   beschrijf: {
-    form: [
-      // {
-        // type: 'location',
-        // name: 'location'
-      // },
-      {
-        type: 'description',
-        name: 'description'
-      // },
-      // {
-        // type: 'datetime',
-        // name: 'incident_date'
+    form: {
+      controls: {
+        description: {
+          meta: {
+            label: 'Beschrijving',
+            placeholder: 'Beschrijving',
+            type: 'text',
+          },
+          options: {
+            validators: Validators.required
+          },
+          render: TextInput
+        },
+        $field_0: {
+          isStatic: false,
+          render: IncidentNavigation
+        }
       }
-    ]
+    }
   },
   // vulaan: {
     // form: {
@@ -22,18 +33,53 @@ export default {
     // }
   // },
   email: {
-    form: [{
-      type: 'email',
-      name: 'reporter.email'
-    }]
+    form: {
+      controls: {
+        email: {
+          meta: {
+            label: 'E-mail adres',
+            placeholder: 'E-mail adres',
+            type: 'text'
+          },
+          options: {
+            validators: Validators.email
+          },
+          render: TextInput
+        },
+        $field_0: {
+          isStatic: false,
+          render: IncidentNavigation
+        }
+      }
+    }
   },
   telefoon: {
-    form: [{
-      type: 'phone',
-      name: 'reporter.phone'
-    }]
+    form: {
+      controls: {
+        phone: {
+          meta: {
+            label: 'Telefoonnummer',
+            placeholder: 'Telefoonnummer',
+            type: 'text'
+          },
+          render: TextInput
+        },
+        $field_0: {
+          isStatic: false,
+          render: IncidentNavigation
+        }
+      }
+    }
   },
   samenvatting: {
+    form: {
+      controls: {
+        $field_0: {
+          isStatic: false,
+          render: IncidentNavigation
+        }
+      }
+    },
     preview: {
       beschrijf: [
         {
