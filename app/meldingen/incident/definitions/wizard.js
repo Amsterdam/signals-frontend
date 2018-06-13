@@ -3,6 +3,7 @@ import { Validators } from 'react-reactive-form';
 import IncidentNavigation from '../components/IncidentNavigation';
 
 import TextInput from '../components/IncidentForm/components/TextInput/';
+import DescriptionWithClassificationInput from '../components/IncidentForm/components/DescriptionWithClassificationInput/';
 
 export default {
   beschrijf: {
@@ -18,7 +19,7 @@ export default {
           options: {
             validators: Validators.required
           },
-          render: TextInput
+          render: DescriptionWithClassificationInput
         },
         $field_0: {
           isStatic: false,
