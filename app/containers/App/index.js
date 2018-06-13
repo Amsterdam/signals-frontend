@@ -16,7 +16,7 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 import MainMenu from 'components/MainMenu';
 
-import OverviewPage from '../../meldingen/admin/containers/OverviewPage/Loadable';
+import AdminComponent from '../../meldingen/admin/AdminComponent/';
 import IncidentContainer from '../../meldingen/incident/containers/IncidentContainer/Loadable';
 
 export default function App() {

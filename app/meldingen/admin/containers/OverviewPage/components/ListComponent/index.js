@@ -22,7 +22,7 @@ class ListComponent extends React.Component { // eslint-disable-line react/prefe
   selectIncident = (incident) => () => {
     this.incidentSelected(incident);
     console.log(incident);
-    this.props.history.push(`/admin/detail/${incident.id}`);
+    this.props.history.push(`/incident/${incident.id}`);
   }
 
   render() {
@@ -59,4 +59,5 @@ ListComponent.propTypes = {
   history: PropTypes.object.isRequired
 };
 
+// export default withRouter(ListComponent);
 export default withRouter(ListComponent);
