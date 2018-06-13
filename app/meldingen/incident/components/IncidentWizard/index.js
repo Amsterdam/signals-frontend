@@ -17,7 +17,7 @@ import wizard from '../../definitions/wizard';
 import IncidentStep from '../IncidentStep';
 import './style.scss';
 
-function IncidentWizard({ setIncident, incident }) {
+function IncidentWizard({ getClassification, setIncident, incident }) {
   return (
     <BrowserRouter>
       <div className="incident-wizard">
@@ -30,6 +30,7 @@ function IncidentWizard({ setIncident, incident }) {
                     <h1 className="text-align-center">{key}</h1>
                     <IncidentStep
                       content={wizard[key]}
+                      getClassification={getClassification}
                       setIncident={setIncident}
                       incident={incident}
                     />
@@ -47,6 +48,7 @@ function IncidentWizard({ setIncident, incident }) {
 
 IncidentWizard.propTypes = {
   incident: PropTypes.object.isRequired,
+  getClassification: PropTypes.func.isRequired,
   setIncident: PropTypes.func.isRequired
 };
 
