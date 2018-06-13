@@ -21,6 +21,8 @@ import ListComponent from './components/ListComponent';
 
 export class OverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
+    // console.log('OverviewPage');
+    // console.log(props.baseUrl);
     super(props);
     this.onFilterIncidents = this.onFilterIncidents.bind(this);
     this.requestIncidents = this.props.requestIncidents.bind(this);
@@ -46,7 +48,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
         <FormattedMessage {...messages.header} /> - loading: {loading.toString()}
         <div>
           <FilterComponent filterIncidents={this.onFilterIncidents} />
-          <ListComponent incidentSelected={this.incidentSelected} incidents={incidents} />
+          <ListComponent incidentSelected={this.incidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} />
         </div>
         <br />Selected incident:
         <hr />
@@ -67,14 +69,12 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
 OverviewPage.propTypes = {
   overviewpage: PropTypes.object.isRequired,
   loading: PropTypes.bool,
-  // error: PropTypes.oneOfType([
-  //   PropTypes.object,
-  //   PropTypes.bool,
-  // ]),
 
   requestIncidents: PropTypes.func.isRequired,
   incidentSelected: PropTypes.func.isRequired,
-  filterIncidents: PropTypes.func.isRequired
+  filterIncidents: PropTypes.func.isRequired,
+
+  baseUrl: PropTypes.string.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({

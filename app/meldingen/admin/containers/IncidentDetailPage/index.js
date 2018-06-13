@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import { Link } from 'react-router-dom';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -25,13 +26,17 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     return (
       <div className="incident-detail-page">
         <FormattedMessage {...messages.header} />
+        Id={this.props.id}
+        <Link to={`${this.props.baseUrl}/incidents`} >Terug</Link>
       </div>
     );
   }
 }
 
 IncidentDetailPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  // dispatch: PropTypes.func.isRequired,
+  id: PropTypes.string,
+  baseUrl: PropTypes.string
 };
 
 const mapStateToProps = createStructuredSelector({

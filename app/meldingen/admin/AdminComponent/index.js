@@ -5,41 +5,46 @@
 */
 
 import React from 'react';
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Link, Route } from 'react-router-dom';
 
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 import OverviewPage from '../containers/OverviewPage';
 import IncidentDetailPage from '../containers/IncidentDetailPage';
-import NotFoundPage from '../../../containers/NotFoundPage';
+// import NotFoundPage from '../../../containers/NotFoundPage';
 
 import './style.scss';
 
-function AdminComponent() {
+const AdminComponent = ({ match }) => {
+  const baseUrl = match.url;
+  const IncidentDetailPageWrapper = () => (<IncidentDetailPage id={match.params.id} baseUrl={baseUrl} />);
+  const OverviewPageWrapper = () => (<OverviewPage baseUrl={baseUrl} />);
+
   return (
     <div className="admin-component">
       <FormattedMessage {...messages.header} />
-      <BrowserRouter basename="/admin">
-        <div>
-          <Route path="/incidents" component={OverviewPage} />
-          <Route path="/incident/:id" component={IncidentDetailPage} />
-          <Route
-            path="/"
-            render={() => {
-              console.log('dd');
-              return (<Redirect to="/incidents" />);
-            }}
-          />
-          <Route path="" component={IncidentDetailPage} />
-        </div>
-      </BrowserRouter>
+      <Link to={`${baseUrl}/incident/185`}>Test open incident with link</Link>
+      <div>
+        {/* <Route
+          exact
+          path={`${baseUrl}`}
+          render={<Redirect to={`${baseUrl}/incidents`} />}
+        ></Route>*/}
+
+        <Route exact path={`${baseUrl}/incidents`} render={OverviewPageWrapper} />
+        <Route exact path={`${baseUrl}/incident/:id`} render={IncidentDetailPageWrapper} />
+        {/* <Route path="" component={NotFoundPage} /> */}
+      </div>
+      {/* </BrowserRouter> */}
     </div>
   );
-}
+};
 
 AdminComponent.propTypes = {
-
+  match: PropTypes.object
 };
+
 
 export default AdminComponent;
