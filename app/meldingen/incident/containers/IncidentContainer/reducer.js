@@ -12,7 +12,9 @@ import {
   SEND_INCIDENT_ERROR
 } from './constants';
 
-const initialState = fromJS({});
+const initialState = fromJS({
+  incident: {}
+});
 
 function incidentContainerReducer(state = initialState, action) {
   switch (action.type) {
