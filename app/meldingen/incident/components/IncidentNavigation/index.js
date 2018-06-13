@@ -12,10 +12,10 @@ import messages from './messages';
 
 import './style.scss';
 
-const IncidentNavigation = ({ meta: { handleSubmit } }) => (
+const IncidentNavigation = ({ valid, meta: { form, handleSubmit, setIncident } }) => (
   <span>
     <WithWizard
-      render={({ previous, step, steps }) => (
+      render={({ next, previous, step, steps }) => (
         <div className="incident-navigation">
           {steps.indexOf(step) > 0 && (
             <button className="incident-navigation__button" onClick={previous}>
@@ -26,7 +26,13 @@ const IncidentNavigation = ({ meta: { handleSubmit } }) => (
           {steps.indexOf(step) < steps.length - 1 && (
             <button
               className="incident-navigation__button"
-              onClick={handleSubmit}
+              onClick={(e) => {
+                if (valid) {
+                  handleSubmit(e);
+                  setIncident(form.value);
+                  next();
+                }
+              }}
             >
               <FormattedMessage {...messages.next} />
             </button>
@@ -42,6 +48,7 @@ IncidentNavigation.defaultProps = {
 };
 
 IncidentNavigation.propTypes = {
+  valid: PropTypes.bool.isRequired,
   meta: PropTypes.shape({
     handleSubmit: PropTypes.function
   })
