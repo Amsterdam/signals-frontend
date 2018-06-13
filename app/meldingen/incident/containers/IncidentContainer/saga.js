@@ -14,21 +14,29 @@ export function* createIncident() {
   const requestURL = '/api/meldingen';
 
   try {
-    const { filter } = yield select(makeSelectIncidentContainer());
-    const incidents = yield call(request, requestURL, filter);
-    yield put(createIncidentSuccess(incidents));
+    const data = yield select(makeSelectIncidentContainer());
+    console.log('data', data);
+    const incident = yield call(request, requestURL);
+    yield put(createIncidentSuccess(incident));
   } catch (err) {
     yield put(createIncidentError(err));
   }
 }
 
-export function* getClassification() {
-  const requestURL = 'http://meldingen-classification.herokuapp.com';
+export function* getClassification({ text }) {
+  const requestURL = 'http://meldingen-classification.herokuapp.com/calls/';
 
   try {
-    const { filter } = yield select(makeSelectIncidentContainer());
-    const incidents = yield call(request, requestURL, filter);
-    yield put(getClassificationSuccess(incidents));
+    const classification = yield call(request, requestURL, {
+      method: 'post',
+      body: JSON.stringify({
+        text
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    yield put(getClassificationSuccess(classification));
   } catch (err) {
     yield put(getClassificationError(err));
   }

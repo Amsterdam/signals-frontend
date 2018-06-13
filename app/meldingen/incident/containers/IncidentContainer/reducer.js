@@ -53,8 +53,13 @@ function incidentContainerReducer(state = initialState, action) {
 
     case GET_CLASSIFICATION_SUCCESS:
       return state
-        .set('incidents', action.incident)
-        .set('loading', false);
+        .set('incident', {
+          ...state.get('incident'),
+          category: action.hoofdrubriek[0][0],
+          categoryChance: action.hoofdrubriek[1][0],
+          subcategory: action.subrubriek[0][0],
+          subcategoryChance: action.subrubriek[1][0]
+        });
 
     case GET_CLASSIFICATION_ERROR:
       return state
