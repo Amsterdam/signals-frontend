@@ -16,7 +16,7 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 
-import OverviewPage from '../../meldingen/admin/containers/OverviewPage/Loadable';
+import AdminComponent from '../../meldingen/admin/AdminComponent/';
 import IncidentContainer from '../../meldingen/incident/containers/IncidentContainer/Loadable';
 
 const AppWrapper = styled.div`
@@ -35,7 +35,7 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/features" component={FeaturePage} />
-        <Route path="/admin" component={OverviewPage} />
+        <Route path="/admin" component={AdminComponent} />
         <Route path="/incident" component={IncidentContainer} />
         <Route path="" component={NotFoundPage} />
       </Switch>
