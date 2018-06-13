@@ -10,7 +10,6 @@ const TextInput = ({ handler, touched, hasError, meta }) => (
     <ErrorMessage
       touched={touched}
       hasError={hasError}
-      meta={meta}
     />
   </div>
 );
