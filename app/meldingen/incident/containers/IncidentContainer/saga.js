@@ -23,7 +23,6 @@ export function* createIncident() {
 }
 
 export function* getClassification() {
-  console.log('saga getClassification');
   const requestURL = 'http://meldingen-classification.herokuapp.com';
 
   try {
@@ -37,7 +36,6 @@ export function* getClassification() {
 
 // Individual exports for testing
 export default function* watchIncidentContainerSaga() {
-  console.log('watchIncidentContainerSaga');
-  // yield takeLatest(CREATE_INCIDENT, createIncident);
+  yield takeLatest(CREATE_INCIDENT, createIncident);
   yield takeLatest(GET_CLASSIFICATION, getClassification);
 }

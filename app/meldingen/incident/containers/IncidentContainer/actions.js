@@ -43,7 +43,6 @@ export function setIncidentError(message) {
 }
 
 export function getClassification(text) {
-  console.log('getClassification', text);
   return {
     type: GET_CLASSIFICATION,
     text
@@ -51,7 +50,6 @@ export function getClassification(text) {
 }
 
 export function getClassificationSuccess(text) {
-  console.log('getClassificationSuccess');
   return {
     type: GET_CLASSIFICATION_SUCCESS,
     text

@@ -47,7 +47,6 @@ function incidentContainerReducer(state = initialState, action) {
         .set('loading', false);
 
     case GET_CLASSIFICATION:
-    console.log('GET_CLASSIFICATION');
       return state
         .set('loading', false)
         .set('error', false);
