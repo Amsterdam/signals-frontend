@@ -24,9 +24,6 @@ class IncidentForm extends React.Component {
   }
 
   setForm(form, incident) {
-    console.log('setForm', form, incident);
-    // const filterForm = FormBuilder.group(incident);
-    // console.log('formState', form, incident.incident);
     this.form = form;
     this.form.meta = {
       form: this.form,
@@ -34,15 +31,17 @@ class IncidentForm extends React.Component {
       setIncident: this.props.setIncident
     };
 
-    // this.setValues(incident.incident);
-    // this.form.controls.description.setValue('yooooo');
+    this.setValues(incident);
   }
 
   setValues(incident) {
-    console.log('setValues', incident);
     if (this.form && this.form.controls) {
-      console.log('setValues', this.form.controls);
-      // this.form.controls.description.setValue('yooooo');
+      window.setTimeout(() => {
+        Object.keys(this.form.controls).map((key) => {
+          this.form.controls[key].setValue(incident[key]);
+          return true;
+        });
+      });
     }
   }
 
