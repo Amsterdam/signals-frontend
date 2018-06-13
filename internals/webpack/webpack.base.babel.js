@@ -50,7 +50,7 @@ module.exports = (options) => ({
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'img/[name].[hash:7].[ext]'
+          name: 'images/[name].[hash:7].[ext]'
         }
       },
       {
