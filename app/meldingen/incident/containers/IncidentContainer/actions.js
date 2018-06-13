@@ -49,10 +49,10 @@ export function getClassification(text) {
   };
 }
 
-export function getClassificationSuccess(text) {
+export function getClassificationSuccess(classification) {
   return {
     type: GET_CLASSIFICATION_SUCCESS,
-    text
+    ...classification
   };
 }
 
