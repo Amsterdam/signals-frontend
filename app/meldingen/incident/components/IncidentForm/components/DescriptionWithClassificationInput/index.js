@@ -3,9 +3,13 @@ import PropTypes from 'prop-types';
 
 import ErrorMessage from '../ErrorMessage/';
 
-const TextInput = ({ handler, touched, hasError, meta }) => (
+const TextInput = ({ handler, touched, hasError, meta, parent }) => (
   <div>
-    <textarea placeholder={meta.placeholder} {...handler()} />
+    <textarea
+      placeholder={meta.placeholder}
+      onKeyUp={(e) => parent.meta.getClassification(e.target.value)}
+      {...handler()}
+    />
 
     <ErrorMessage
       touched={touched}
@@ -15,10 +19,11 @@ const TextInput = ({ handler, touched, hasError, meta }) => (
 );
 
 TextInput.propTypes = {
-  handler: PropTypes.func,
-  touched: PropTypes.bool,
-  hasError: PropTypes.func,
-  meta: PropTypes.object
+  handler: PropTypes.func.isRequired,
+  touched: PropTypes.bool.isRequired,
+  hasError: PropTypes.func.isRequired,
+  meta: PropTypes.object.isRequired,
+  parent: PropTypes.object.isRequired
 };
 
 export default TextInput;

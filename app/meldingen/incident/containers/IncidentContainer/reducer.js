@@ -9,7 +9,10 @@ import {
   SET_INCIDENT,
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
-  CREATE_INCIDENT_ERROR
+  CREATE_INCIDENT_ERROR,
+  GET_CLASSIFICATION,
+  GET_CLASSIFICATION_SUCCESS,
+  GET_CLASSIFICATION_ERROR
 } from './constants';
 
 const initialState = fromJS({
@@ -39,6 +42,22 @@ function incidentContainerReducer(state = initialState, action) {
         .set('loading', false);
 
     case CREATE_INCIDENT_ERROR:
+      return state
+        .set('error', action.error)
+        .set('loading', false);
+
+    case GET_CLASSIFICATION:
+    console.log('GET_CLASSIFICATION');
+      return state
+        .set('loading', false)
+        .set('error', false);
+
+    case GET_CLASSIFICATION_SUCCESS:
+      return state
+        .set('incidents', action.incident)
+        .set('loading', false);
+
+    case GET_CLASSIFICATION_ERROR:
       return state
         .set('error', action.error)
         .set('loading', false);
