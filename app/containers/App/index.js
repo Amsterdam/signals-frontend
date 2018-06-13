@@ -8,7 +8,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
@@ -30,16 +30,18 @@ const AppWrapper = styled.div`
 
 export default function App() {
   return (
-    <AppWrapper>
-      <Header />
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route path="/features" component={FeaturePage} />
-        <Route path="/admin" component={AdminComponent} />
-        <Route path="/incident" component={IncidentContainer} />
-        <Route path="" component={NotFoundPage} />
-      </Switch>
-      <Footer />
-    </AppWrapper>
+    <BrowserRouter>
+      <AppWrapper>
+        <Header />
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route path="/features" component={FeaturePage} />
+          <Route path="/admin" component={AdminComponent} />
+          <Route path="/incident" component={IncidentContainer} />
+          <Route path="" component={NotFoundPage} />
+        </Switch>
+        <Footer />
+      </AppWrapper>
+    </BrowserRouter>
   );
 }

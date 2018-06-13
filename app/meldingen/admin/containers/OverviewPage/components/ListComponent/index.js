@@ -21,8 +21,8 @@ class ListComponent extends React.Component { // eslint-disable-line react/prefe
 
   selectIncident = (incident) => () => {
     this.incidentSelected(incident);
-    console.log(incident);
-    this.props.history.push(`/incident/${incident.id}`);
+    // console.log(`selectIncident baseUrl: ${this.props.baseUrl}`);
+    this.props.history.push(`${this.props.baseUrl}/incident/${incident.id}`);
   }
 
   render() {
@@ -56,7 +56,8 @@ class ListComponent extends React.Component { // eslint-disable-line react/prefe
 ListComponent.propTypes = {
   incidents: PropTypes.array.isRequired,
   incidentSelected: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  baseUrl: PropTypes.string.isRequired
 };
 
 // export default withRouter(ListComponent);
