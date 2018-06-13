@@ -30,17 +30,16 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
     this.incidentSelected = this.props.incidentSelected.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.requestIncidents();
   }
 
   onFilterIncidents(filter) {
-    this.filterIncidents(filter);
-    this.requestIncidents();
+    this.requestIncidents(filter);
   }
 
   render() {
-    const { incidents, selectedIncident, filter } = this.props.overviewpage;
+    const { incidents, filter } = this.props.overviewpage;
     const { loading } = this.props;
     return (
       <div className="overview-page container">
@@ -57,7 +56,6 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
         </button>
 
         <hr />
-        <br />Selected incident: {JSON.stringify(selectedIncident)}
         <br />Selected filter:{JSON.stringify(filter)}
         <hr />
 

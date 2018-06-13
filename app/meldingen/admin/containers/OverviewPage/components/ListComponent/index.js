@@ -14,15 +14,8 @@ import messages from './messages';
 import './style.scss';
 
 class ListComponent extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-    this.incidentSelected = this.props.incidentSelected.bind(this);
-  }
-
   selectIncident = (incident) => () => {
-    this.incidentSelected(incident);
-    // console.log(`selectIncident baseUrl: ${this.props.baseUrl}`);
-    this.props.history.push(`${this.props.baseUrl}/incident/${incident.id}`);
+    this.props.incidentSelected(incident);
   }
 
   render() {
@@ -56,8 +49,6 @@ class ListComponent extends React.Component { // eslint-disable-line react/prefe
 ListComponent.propTypes = {
   incidents: PropTypes.array.isRequired,
   incidentSelected: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
-  baseUrl: PropTypes.string.isRequired
 };
 
 // export default withRouter(ListComponent);

@@ -10,7 +10,7 @@ const selectIncidentDetailPageDomain = (state) => state.get('incidentDetailPage'
  */
 
 
-/**
+ /**
  * Default selector used by IncidentDetailPage
  */
 
