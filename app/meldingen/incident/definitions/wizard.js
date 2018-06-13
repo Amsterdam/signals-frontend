@@ -2,7 +2,7 @@ import { Validators } from 'react-reactive-form';
 
 import IncidentNavigation from '../components/IncidentNavigation';
 
-import TextInput from '../components/IncidentForm/components/TextInput';
+import TextInput from '../components/IncidentForm/components/TextInput/';
 
 export default {
   beschrijf: {
