@@ -1,26 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ErrorMessage = ({ touched, hasError, meta }) => (
+const ErrorMessage = ({ touched, hasError }) => (
   <div>
     <div>
       {touched
       && hasError('required')
-      && `${meta.label} is verplicht veld`}
+      && 'Dit is verplicht veld'}
     </div>
 
     <div>
       {touched
       && hasError('email')
-      && `${meta.label} moet een geldig e-mailadres bevatten`}
+      && 'Het moet een geldig e-mailadres zijn'}
     </div>
   </div>
 );
 
 ErrorMessage.propTypes = {
-  touched: PropTypes.bool,
-  hasError: PropTypes.func,
-  meta: PropTypes.object
+  touched: PropTypes.bool.isRequired,
+  hasError: PropTypes.func.isRequired
 };
 
 export default ErrorMessage;
