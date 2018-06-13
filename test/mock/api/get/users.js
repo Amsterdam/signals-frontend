@@ -3,7 +3,7 @@ import db from './users.json';
 import listRandomizer from '../../../lib/listRandomizer';
 
 const user = {
-  path: '/user',
+  path: '/user/:id',
   cache: false,
   template: {
     id: g.id,

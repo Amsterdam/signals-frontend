@@ -6,15 +6,27 @@
 
 import { fromJS } from 'immutable';
 import {
-  DEFAULT_ACTION,
-} from './constants';
+  REQUEST_INCIDENT,
+  REQUEST_INCIDENT_SUCCESS,
+  REQUEST_INCIDENT_ERROR
+  } from './constants';
 
-const initialState = fromJS({});
+const initialState = fromJS({ });
 
 function incidentDetailPageReducer(state = initialState, action) {
   switch (action.type) {
-    case DEFAULT_ACTION:
-      return state;
+    case REQUEST_INCIDENT:
+      return state
+        .set('loading', true)
+        .set('error', false);
+    case REQUEST_INCIDENT_SUCCESS:
+      return state
+        .set('incident', action.incident)
+        .set('loading', false);
+    case REQUEST_INCIDENT_ERROR:
+      return state
+        .set('error', action.error)
+        .set('loading', false);
     default:
       return state;
   }

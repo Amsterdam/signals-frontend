@@ -1,15 +1,18 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import { push } from 'react-router-redux';
 import request from 'utils/request';
 
-import { REQUEST_INCIDENTS } from './constants';
-import { requestIncidentsSuccess, requestIncidentsError } from './actions';
-import makeSelectOverviewPage from './selectors';
+import { REQUEST_INCIDENTS, INCIDENT_SELECTED } from './constants';
+import { requestIncidentsSuccess, requestIncidentsError, filterIncidentsChanged } from './actions';
 
-export function* fetchIncidents() {
+export function* fetchIncidents(action) {
   const requestURL = '/api/users';
 
   try {
-    const { filter } = yield select(makeSelectOverviewPage());
+    const { filter } = action;
+    console.log('filter: ');
+    console.log(filter);
+    yield put(filterIncidentsChanged(filter));
     const incidents = yield call(request, requestURL, filter);
     yield put(requestIncidentsSuccess(incidents));
   } catch (err) {
@@ -17,7 +20,17 @@ export function* fetchIncidents() {
   }
 }
 
+export function* openIncident(action) {
+  const { incident } = action;
+  const navigateUrl = `incident/${incident.id}`;
+  console.log(navigateUrl);
+  yield put(push(navigateUrl));
+}
+
 // Individual exports for testing
 export default function* watchRequestIncidentsSaga() {
-  yield takeLatest(REQUEST_INCIDENTS, fetchIncidents);
+  yield [
+    takeLatest(REQUEST_INCIDENTS, fetchIncidents),
+    takeLatest(INCIDENT_SELECTED, openIncident)
+  ];
 }
