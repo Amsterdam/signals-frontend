@@ -35,6 +35,7 @@ class IncidentContainer extends React.Component {
       <div className="incident-container">
         <IncidentWizard
           setIncident={this.setIncident}
+          incident={this.props.incidentcontainer}
         />
       </div>
     );
@@ -42,12 +43,13 @@ class IncidentContainer extends React.Component {
 }
 
 IncidentContainer.propTypes = {
+  incidentcontainer: PropTypes.object.isRequired,
   setIncident: PropTypes.func.isRequired,
   sendIncident: PropTypes.func.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
-  incidentcontainer: makeSelectIncidentContainer()
+  incidentcontainer: makeSelectIncidentContainer(),
 });
 
 function mapDispatchToProps(dispatch) {

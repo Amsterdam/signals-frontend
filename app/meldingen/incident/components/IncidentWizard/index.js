@@ -17,7 +17,7 @@ import wizard from '../../definitions/wizard';
 import IncidentStep from '../IncidentStep';
 import './style.scss';
 
-function IncidentWizard({ setIncident }) {
+function IncidentWizard({ setIncident, incident }) {
   return (
     <BrowserRouter>
       <div className="incident-wizard">
@@ -28,7 +28,11 @@ function IncidentWizard({ setIncident }) {
                 {Object.keys(wizard).map((key) => (
                   <Step key={key} id={`incident/${key}`}>
                     <h1 className="text-align-center">{key}</h1>
-                    <IncidentStep content={wizard[key]} setIncident={setIncident} />
+                    <IncidentStep
+                      content={wizard[key]}
+                      setIncident={setIncident}
+                      incident={incident}
+                    />
                   </Step>
                 )
                 )}
@@ -42,6 +46,7 @@ function IncidentWizard({ setIncident }) {
 }
 
 IncidentWizard.propTypes = {
+  incident: PropTypes.object.isRequired,
   setIncident: PropTypes.func.isRequired
 };
 
