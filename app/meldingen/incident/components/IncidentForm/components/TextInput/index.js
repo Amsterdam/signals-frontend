@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import ErrorMessage from '../ErrorMessage/';
+
 const TextInput = ({ handler, touched, hasError, meta }) => (
   <div>
     <input placeholder={meta.placeholder} {...handler()} />
-    <span>
-      {touched
-      && hasError('required')
-      && `${meta.label} is verplicht veld`}
-      {touched
-      && hasError('email')
-      && `${meta.label} moet een geldig e-mailadres bevatten`}
-    </span>
+
+    <ErrorMessage
+      touched={touched}
+      hasError={hasError}
+      meta={meta}
+    />
   </div>
 );
 
 TextInput.propTypes = {
   handler: PropTypes.func,
-  touched: PropTypes.boolean,
+  touched: PropTypes.bool,
   hasError: PropTypes.func,
   meta: PropTypes.object
 };
