@@ -26,9 +26,9 @@ import { requestIncident } from './actions';
 
 export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
-    console.log('IncidentDetailPage');
-    console.log(props.baseUrl);
-    console.log(props.id);
+    // console.log('IncidentDetailPage');
+    // console.log(props.baseUrl);
+    // console.log(props.id);
     super(props);
     this.requestIncident = this.props.requestIncident.bind(this);
   }
@@ -54,6 +54,8 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 
 IncidentDetailPage.propTypes = {
   requestIncident: PropTypes.func.isRequired,
+  incidentdetailpage: PropTypes.object.isRequired,
+  loading: PropTypes.boolean.isRequired,
 
   id: PropTypes.string,
   baseUrl: PropTypes.string
