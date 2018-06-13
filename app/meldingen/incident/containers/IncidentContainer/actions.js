@@ -6,9 +6,9 @@
 
 import {
   SET_INCIDENT,
-  SEND_INCIDENT,
-  SEND_INCIDENT_SUCCESS,
-  SEND_INCIDENT_ERROR
+  CREATE_INCIDENT,
+  CREATE_INCIDENT_SUCCESS,
+  CREATE_INCIDENT_ERROR
 } from './constants';
 
 export function setIncident(incident) {
@@ -18,23 +18,23 @@ export function setIncident(incident) {
   };
 }
 
-export function sendIncident(incident) {
+export function createIncident(incident) {
   return {
-    type: SEND_INCIDENT,
+    type: CREATE_INCIDENT,
     incident
   };
 }
 
-export function sendIncidentSuccess(incident) {
+export function createIncidentSuccess(incident) {
   return {
-    type: SEND_INCIDENT_SUCCESS,
+    type: CREATE_INCIDENT_SUCCESS,
     incident
   };
 }
 
 export function setIncidentError(message) {
   return {
-    type: SEND_INCIDENT_ERROR,
+    type: CREATE_INCIDENT_ERROR,
     message
   };
 }

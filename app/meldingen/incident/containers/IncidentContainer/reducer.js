@@ -7,9 +7,9 @@
 import { fromJS } from 'immutable';
 import {
   SET_INCIDENT,
-  SEND_INCIDENT,
-  SEND_INCIDENT_SUCCESS,
-  SEND_INCIDENT_ERROR
+  CREATE_INCIDENT,
+  CREATE_INCIDENT_SUCCESS,
+  CREATE_INCIDENT_ERROR
 } from './constants';
 
 const initialState = fromJS({
@@ -27,18 +27,18 @@ function incidentContainerReducer(state = initialState, action) {
           ...action.incident
         });
 
-    case SEND_INCIDENT:
+    case CREATE_INCIDENT:
       return state
         .set('loading', true)
         .set('error', false)
         .set('incident', []);
 
-    case SEND_INCIDENT_SUCCESS:
+    case CREATE_INCIDENT_SUCCESS:
       return state
         .set('incidents', action.incident)
         .set('loading', false);
 
-    case SEND_INCIDENT_ERROR:
+    case CREATE_INCIDENT_ERROR:
       return state
         .set('error', action.error)
         .set('loading', false);

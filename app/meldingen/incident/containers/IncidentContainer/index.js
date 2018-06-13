@@ -13,7 +13,7 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { setIncident, sendIncident } from './actions';
+import { setIncident, createIncident } from './actions';
 import makeSelectIncidentContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -27,7 +27,7 @@ class IncidentContainer extends React.Component {
     super(props);
 
     this.setIncident = this.props.setIncident.bind(this);
-    this.sendIncident = this.props.sendIncident.bind(this);
+    this.createIncident = this.props.createIncident.bind(this);
   }
 
   render() {
@@ -45,7 +45,7 @@ class IncidentContainer extends React.Component {
 IncidentContainer.propTypes = {
   incidentcontainer: PropTypes.object.isRequired,
   setIncident: PropTypes.func.isRequired,
-  sendIncident: PropTypes.func.isRequired
+  createIncident: PropTypes.func.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -55,7 +55,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     setIncident: (incident) => dispatch(setIncident(incident)),
-    sendIncident: (incident) => dispatch(sendIncident(incident))
+    createIncident: (incident) => dispatch(createIncident(incident))
   };
 }
 
