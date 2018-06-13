@@ -19,15 +19,30 @@ class IncidentForm extends React.Component {
     super(props);
 
     this.setForm = this.setForm.bind(this);
+    this.setValues = this.setValues.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  setForm(form) {
+  setForm(form, incident) {
+    console.log('setForm', form);
+    // const filterForm = FormBuilder.group(incident);
+    // console.log('formState', form, incident.incident);
     this.form = form;
     this.form.meta = {
       handleReset: this.handleReset
     };
+
+    this.setValues(incident.incident);
+    // this.form.controls.description.setValue('yooooo');
+  }
+
+  setValues(incident) {
+    console.log('setValues', incident);
+    if (this.form && this.form.controls) {
+      console.log('setValues', this.form.controls);
+      // this.form.controls.description.setValue('yooooo');
+    }
   }
 
   handleReset() {
@@ -44,14 +59,17 @@ class IncidentForm extends React.Component {
   }
 
   render() {
+    const fieldConfig = { ...this.props.fieldConfig };
+    console.log('render');
+    // fieldConfig.beschrijf.form.controls.description.formState = '666';// this.props.incident.incident.description;
     return (
       <WithWizard
         render={({ next }) => (
           <div className="incident-form">
             <form onSubmit={(e) => this.handleSubmit(e, next, this.props.setIncident)}>
               <FormGenerator
-                onMount={this.setForm}
-                fieldConfig={this.props.fieldConfig}
+                onMount={(form) => this.setForm(form, this.props.incident)}
+                fieldConfig={fieldConfig}
               />
             </form>
           </div>
@@ -61,12 +79,13 @@ class IncidentForm extends React.Component {
   }
 }
 
-IncidentForm.defaultProps = {
-  fieldConfig: {}
-};
+// IncidentForm.defaultProps = {
+  // fieldConfig: {}
+// };
 
 IncidentForm.propTypes = {
-  fieldConfig: PropTypes.object,
+  fieldConfig: PropTypes.object.isRequired,
+  incident: PropTypes.object.isRequired,
   setIncident: PropTypes.func.isRequired
 };
 
