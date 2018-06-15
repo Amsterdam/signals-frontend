@@ -12,14 +12,38 @@ export default {
         description: {
           meta: {
             label: 'Beschrijving',
-            placeholder: 'Beschrijving',
-            type: 'text',
-            wizardType: 'form'
+            placeholder: 'Beschrijving'
           },
           options: {
             validators: Validators.required
           },
           render: DescriptionWithClassificationInput
+        },
+        category: {
+          meta: {
+            label: 'Categorie',
+            placeholder: 'Categorie',
+            readOnly: true,
+            type: 'text',
+            watch: true
+          },
+          options: {
+            validators: Validators.required
+          },
+          render: TextInput
+        },
+        subcategory: {
+          meta: {
+            label: 'Subcategorie',
+            placeholder: 'Subcategorie',
+            readOnly: true,
+            type: 'text',
+            watch: true
+          },
+          options: {
+            validators: Validators.required
+          },
+          render: TextInput
         },
         $field_0: {
           isStatic: false,
