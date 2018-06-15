@@ -4,10 +4,10 @@ import { shallow } from 'enzyme';
 import MainMenu from './index';
 
 describe('<MainMenu />', () => {
-  it('should render a div', () => {
+  it('should render correctly', () => {
     const renderedComponent = shallow(
       <MainMenu />
     );
-    expect(renderedComponent.find('div').length).toEqual(1);
+    expect(renderedComponent).toMatchSnapshot();
   });
 });
