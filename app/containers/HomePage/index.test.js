@@ -7,9 +7,9 @@ import { shallow, mount } from 'enzyme';
 import { IntlProvider } from 'react-intl';
 
 import ReposList from 'components/ReposList';
-import { HomePage, mapDispatchToProps } from '../index';
-import { changeUsername } from '../actions';
-import { loadRepos } from '../../App/actions';
+import { HomePage, mapDispatchToProps } from './index';
+import { changeUsername } from './actions';
+import { loadRepos } from '../App/actions';
 
 describe('<HomePage />', () => {
   it('should render the repos list', () => {

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
@@ -11,7 +10,6 @@ import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import makeSelectOverviewPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import messages from './messages';
 import './style.scss';
 
 import { requestIncidents, incidentSelected, filterIncidents } from './actions';
@@ -37,8 +35,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
   }
 
   render() {
-    const { incidents, filter } = this.props.overviewpage;
-    const { loading } = this.props;
+    const { incidents } = this.props.overviewpage;
     return (
       <div className="overview-page container-fluid">
 
@@ -55,7 +52,6 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
 
 OverviewPage.propTypes = {
   overviewpage: PropTypes.object.isRequired,
-  loading: PropTypes.bool,
 
   requestIncidents: PropTypes.func.isRequired,
   incidentSelected: PropTypes.func.isRequired,
