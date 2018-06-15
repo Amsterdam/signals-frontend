@@ -5,6 +5,8 @@ import IncidentNavigation from '../components/IncidentNavigation';
 import TextInput from '../components/IncidentForm/components/TextInput/';
 import DescriptionWithClassificationInput from '../components/IncidentForm/components/DescriptionWithClassificationInput/';
 
+import PlainText from '../components/IncidentPreview/components/PlainText/';
+
 export default {
   beschrijf: {
     form: {
@@ -109,17 +111,20 @@ export default {
     preview: {
       beschrijf: {
         description: {
-          label: 'Hier gaat het om'
+          label: 'Hier gaat het om',
+          render: PlainText
         }
       },
       email: {
         email: {
-          label: 'Uw e-mailadres  '
+          label: 'Uw e-mailadres',
+          render: PlainText
         }
       },
       telefoon: {
         phone: {
-          label: 'Uw (mobiele) telefoon'
+          label: 'Uw (mobiele) telefoon',
+          render: PlainText
         }
       }
     }
