@@ -1,11 +1,39 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 
-import AdminComponent from './';
+import { mount, shallow } from 'enzyme';
 
-describe.only('<AdminComponent />', () => {
-  it('Expect to have unit tests specified', () => {
-    const renderedComponent = shallow(<AdminComponent />);
-    expect(renderedComponent).toMatchSnapshot();
+import configureStore from 'redux-mock-store';
+import { MemoryRouter, withRouter, Route } from 'react-router-dom';
+import { Provider, connect } from 'react-redux';
+
+import AdminComponent from './index';
+import OverviewPage from '../containers/OverviewPage';
+import IncidentDetailPage from '../containers/IncidentDetailPage';
+
+const WrappedAdminComponent = withRouter(connect()(AdminComponent));
+
+describe('<AdminComponent />', () => {
+  const mockStore = configureStore();
+  const initialState = {};
+  let store;
+  let wrapper;
+
+  beforeEach(() => {
+    store = mockStore(initialState);
+    wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/admin/incidents']}>
+          {/* <WrappedAdminComponent /> */}
+          {/* <AdminComponent /> */}
+          <Route path="/admin/incidents" component={WrappedAdminComponent} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    console.log(wrapper);
+  });
+
+  it('should render correctly', () => {
+    // expect(wrapper).toMatchSnapshot();
+    expect(wrapper.find(OverviewPage)).toHaveLength(1);
   });
 });
