@@ -113,12 +113,12 @@ export default {
         }
       },
       email: {
-        description: {
+        email: {
           label: 'Uw e-mailadres  '
         }
       },
       telefoon: {
-        description: {
+        phone: {
           label: 'Uw (mobiele) telefoon'
         }
       }

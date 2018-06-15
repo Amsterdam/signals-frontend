@@ -16,11 +16,13 @@ import './style.scss';
 function IncidentPreview({ incident, preview }) {
   return (
     <div className="incident-preview">
-      {Object.keys(preview).map((header) => (
-        <div key={header}>{header}</div>
+      {Object.keys(preview).map((key) => (
+        <ul key={key}>
+          {Object.keys(preview[key]).map((subkey) => (
+            <li key={subkey}>{preview[key][subkey].label} <span className="preview-item-value">{incident[subkey]}</span></li>
+          ))}
+        </ul>
       ))}
-      {console.log('incident', incident)}
-
     </div>
   );
 }
