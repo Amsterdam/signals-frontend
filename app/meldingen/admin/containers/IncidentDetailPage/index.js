@@ -26,14 +26,11 @@ import { requestIncident } from './actions';
 
 export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
-    // console.log('IncidentDetailPage');
-    // console.log(props.baseUrl);
-    // console.log(props.id);
     super(props);
     this.requestIncident = this.props.requestIncident.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount(){
     this.requestIncident(this.props.id);
   }
 
@@ -41,12 +38,13 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     const { incident } = this.props.incidentdetailpage;
     const { loading } = this.props;
     return (
-      <div className="incident-detail-page">
-        <FormattedMessage {...messages.header} /> = {loading}
-        Id={this.props.id}
-        <Link to={`${this.props.baseUrl}/incidents`} >Terug</Link>
-        <hr />
-        {JSON.stringify(incident)};
+      <div className="incident-detail-page row">
+        <ul className="col-6">
+          <li><FormattedMessage {...messages.header} /> = {loading}</li>
+          <li>Id={this.props.id}</li>
+          <li><Link to={`${this.props.baseUrl}/incidents`} >Terug</Link></li>
+          <li>{JSON.stringify(incident)}</li>
+        </ul>
       </div>
     );
   }
@@ -55,7 +53,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 IncidentDetailPage.propTypes = {
   requestIncident: PropTypes.func.isRequired,
   incidentdetailpage: PropTypes.object.isRequired,
-  loading: PropTypes.boolean.isRequired,
+  loading: PropTypes.boolean,
 
   id: PropTypes.string,
   baseUrl: PropTypes.string

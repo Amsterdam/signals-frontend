@@ -11,7 +11,7 @@ import {
   REQUEST_INCIDENT_ERROR
   } from './constants';
 
-const initialState = fromJS({ });
+const initialState = fromJS({ loading: false});
 
 function incidentDetailPageReducer(state = initialState, action) {
   switch (action.type) {

@@ -20,10 +20,8 @@ class ListComponent extends React.Component { // eslint-disable-line react/prefe
 
   render() {
     return (
-      <div className="list-component col-md-12">
-        <FormattedMessage {...messages.header} />
-        <br />There are {this.props.incidents.length} found.
-        <hr />
+      <div className="list-component col-8">
+        Er zijn {this.props.incidents.length} meldingen gevonden.
         <table className="" cellSpacing="0" cellPadding="0">
           <thead>
             <tr>

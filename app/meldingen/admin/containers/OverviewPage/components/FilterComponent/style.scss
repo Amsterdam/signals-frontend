@@ -1,5 +1,7 @@
+@import '~stijl/dist/scss/ams-colorpalette';
+
 .filter-component {
-  border: 2px solid black;
+  border: 1px dotted lightgray;
   padding: 10px;
-  margin: 10px;
+  // background-color: $ams-lichtgrijs;
 }

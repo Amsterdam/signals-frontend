@@ -21,8 +21,6 @@ import ListComponent from './components/ListComponent';
 
 export class OverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
-    // console.log('OverviewPage');
-    // console.log(props.baseUrl);
     super(props);
     this.onFilterIncidents = this.onFilterIncidents.bind(this);
     this.requestIncidents = this.props.requestIncidents.bind(this);
@@ -42,22 +40,13 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
     const { incidents, filter } = this.props.overviewpage;
     const { loading } = this.props;
     return (
-      <div className="overview-page container">
+      <div className="overview-page container-fluid">
 
-        <FormattedMessage {...messages.header} /> - loading: {loading.toString()}
-        <div>
+        <div className="row">
           <FilterComponent filterIncidents={this.onFilterIncidents} />
           <ListComponent incidentSelected={this.incidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} />
         </div>
-        <br />Selected incident:
-        <hr />
-        <button className="action primary" onClick={this.requestIncidents}>
-          <span className="value">Refresh</span>
-        </button>
 
-        <hr />
-        <br />Selected filter:{JSON.stringify(filter)}
-        <hr />
 
       </div>
     );

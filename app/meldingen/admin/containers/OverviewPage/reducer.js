@@ -7,7 +7,7 @@
 import { fromJS } from 'immutable';
 import { REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR, FILTER_INCIDENTS_CHANGED } from './constants';
 
-const initialState = fromJS({ incidents: [] });
+const initialState = fromJS({ incidents: [], loading: false });
 
 function overviewPageReducer(state = initialState, action) {
   switch (action.type) {
