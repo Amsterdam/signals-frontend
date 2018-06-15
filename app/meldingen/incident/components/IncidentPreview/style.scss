@@ -4,4 +4,17 @@
     list-style: none;
     padding: 0;
   }
+
+  .preview-item-value {
+    display: inline-block;
+    float: right;
+    width: 50%;
+  }
+
+  .link-to-step {
+    background-color: white;
+    font-size: 14px;
+    position: absolute;
+    right: 0;
+  }
 }

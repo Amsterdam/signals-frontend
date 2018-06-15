@@ -11,19 +11,37 @@ import PropTypes from 'prop-types';
 // import messages from './messages';
 //      <FormattedMessage {...messages.header} />
 
+import { WithWizard } from 'react-albus';
+
 import './style.scss';
 
 function IncidentPreview({ incident, preview }) {
   return (
-    <div className="incident-preview">
-      {Object.keys(preview).map((key) => (
-        <ul key={key}>
-          {Object.keys(preview[key]).map((subkey) => (
-            <li key={subkey}>{preview[key][subkey].label} <span className="preview-item-value">{incident[subkey]}</span></li>
+    <WithWizard
+      render={({ push }) => (
+        <div className="incident-preview">
+          {Object.keys(preview).map((key) => (
+            <div>
+              <button
+                className="link-to-step"
+                onClick={() => push(`incident/${key}`)}
+              >
+                bewerk
+              </button>
+
+              <ul key={key}>
+                {Object.keys(preview[key]).map((subkey) => (
+                  <li key={subkey}>{preview[key][subkey].label}
+                    <span className="preview-item-value">
+                      {preview[key][subkey].render({ text: incident[subkey] })}
+                    </span></li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </ul>
-      ))}
-    </div>
+        </div>
+      )}
+    />
   );
 }
 
