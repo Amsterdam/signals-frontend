@@ -107,28 +107,21 @@ export default {
       }
     },
     preview: {
-      beschrijf: [
-        {
-          type: 'location',
-          name: 'location'
-        },
-        {
-          type: 'description',
-          name: 'description'
-        },
-        {
-          type: 'datetime',
-          name: 'incident_date'
+      beschrijf: {
+        description: {
+          label: 'Hier gaat het om'
         }
-      ],
-      email: [{
-        type: 'email',
-        name: 'reporter.email'
-      }],
-      telefoon: [{
-        type: 'phone',
-        name: 'reporter.phone'
-      }]
+      },
+      email: {
+        description: {
+          label: 'Uw e-mailadres  '
+        }
+      },
+      telefoon: {
+        description: {
+          label: 'Uw (mobiele) telefoon'
+        }
+      }
     }
   // },
   // bedankt: {
