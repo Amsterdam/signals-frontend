@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import ErrorMessage from '../ErrorMessage/';
 
-const TextInput = ({ handler, touched, hasError, meta, parent }) => (
+const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, parent }) => (
   <div>
     <textarea
       placeholder={meta.placeholder}
@@ -18,7 +18,7 @@ const TextInput = ({ handler, touched, hasError, meta, parent }) => (
   </div>
 );
 
-TextInput.propTypes = {
+DescriptionWithClassificationInput.propTypes = {
   handler: PropTypes.func.isRequired,
   touched: PropTypes.bool.isRequired,
   hasError: PropTypes.func.isRequired,
@@ -26,4 +26,4 @@ TextInput.propTypes = {
   parent: PropTypes.object.isRequired
 };
 
-export default TextInput;
+export default DescriptionWithClassificationInput;

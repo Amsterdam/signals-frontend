@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import ErrorMessage from '../ErrorMessage/';
 
-const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta }) => (
+const TextInput = ({ handler, touched, hasError, meta }) => (
   <div>
     <input type={meta.type} placeholder={meta.placeholder} readOnly={meta.readOnly} {...handler()} />
 
@@ -14,11 +14,11 @@ const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta }
   </div>
 );
 
-DescriptionWithClassificationInput.propTypes = {
+TextInput.propTypes = {
   handler: PropTypes.func,
   touched: PropTypes.bool,
   hasError: PropTypes.func,
   meta: PropTypes.object
 };
 
-export default DescriptionWithClassificationInput;
+export default TextInput;
