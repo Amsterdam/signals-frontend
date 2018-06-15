@@ -11,28 +11,27 @@ import PropTypes from 'prop-types';
 // import messages from './messages';
 
 import IncidentForm from '../IncidentForm';
+import IncidentPreview from '../IncidentPreview';
 import './style.scss';
 
 function IncidentStep({ content, getClassification, setIncident, incident }) {
-  const keys = Object.keys(content.preview || {});
   return (
     <div className="incident-step">
-      {content.preview && content.preview.lenght >= 0 ?
-        content.preview.map((item) => <div key={`preview-${item.name}`}> - {item.name}</div>)
-        :
-        Object.values(content.preview || {}).map((item, index) => item.map((sub) => <div key={`preview-${sub.name}`}> - {keys[index]} {sub.name}</div>))
-      }
+      {content.preview ?
+        <IncidentPreview
+          incident={incident}
+          preview={content.preview}
+        />
+        : ''}
 
       {content.form ?
         <IncidentForm
           fieldConfig={content.form}
+          incident={incident}
           getClassification={getClassification}
           setIncident={setIncident}
-          incident={incident}
         />
-        :
-        ''
-      }
+        : ''}
     </div>
   );
 }
