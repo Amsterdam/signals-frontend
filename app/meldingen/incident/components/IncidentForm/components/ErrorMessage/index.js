@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const ErrorMessage = ({ touched, hasError }) => (
-  <div>
+  <div className="field-errors">
     <div>
       {touched
       && hasError('required')
