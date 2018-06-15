@@ -13,7 +13,6 @@ import messages from './messages';
 
 import OverviewPage from '../containers/OverviewPage';
 import IncidentDetailPage from '../containers/IncidentDetailPage';
-// import NotFoundPage from '../../../containers/NotFoundPage';
 
 import './style.scss';
 
