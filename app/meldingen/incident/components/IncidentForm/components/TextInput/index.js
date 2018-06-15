@@ -5,7 +5,7 @@ import ErrorMessage from '../ErrorMessage/';
 
 const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta }) => (
   <div>
-    <input placeholder={meta.placeholder} {...handler()} />
+    <input type={meta.type} placeholder={meta.placeholder} readOnly={meta.readOnly} {...handler()} />
 
     <ErrorMessage
       touched={touched}

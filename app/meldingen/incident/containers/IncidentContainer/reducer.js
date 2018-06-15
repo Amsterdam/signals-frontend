@@ -23,8 +23,6 @@ function incidentContainerReducer(state = initialState, action) {
   switch (action.type) {
     case SET_INCIDENT:
       return state
-        .set('loading', false)
-        .set('error', false)
         .set('incident', {
           ...state.get('incident'),
           ...action.incident

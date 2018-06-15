@@ -23,6 +23,10 @@ class IncidentForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentWillReceiveProps(props) {
+    this.setValues(props.incident, true);
+  }
+
   setForm(form, incident) {
     this.form = form;
     this.form.meta = {
@@ -35,11 +39,14 @@ class IncidentForm extends React.Component {
     this.setValues(incident);
   }
 
-  setValues(incident) {
+  setValues(incident, onlyWatchedItems = false) {
     if (this.form && this.form.controls) {
       window.setTimeout(() => {
         Object.keys(this.form.controls).map((key) => {
-          this.form.controls[key].setValue(incident[key]);
+          const control = this.form.controls[key];
+          if (!onlyWatchedItems || (onlyWatchedItems && control.meta.watch)) {
+            control.setValue(incident[key]);
+          }
           return true;
         });
       });
