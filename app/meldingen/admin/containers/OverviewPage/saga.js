@@ -10,8 +10,6 @@ export function* fetchIncidents(action) {
 
   try {
     const { filter } = action;
-    console.log('filter: ');
-    console.log(filter);
     yield put(filterIncidentsChanged(filter));
     const incidents = yield call(request, requestURL, filter);
     yield put(requestIncidentsSuccess(incidents));
@@ -23,7 +21,6 @@ export function* fetchIncidents(action) {
 export function* openIncident(action) {
   const { incident } = action;
   const navigateUrl = `incident/${incident.id}`;
-  console.log(navigateUrl);
   yield put(push(navigateUrl));
 }
 

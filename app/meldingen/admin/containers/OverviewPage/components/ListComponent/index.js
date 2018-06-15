@@ -8,9 +8,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
-
 import './style.scss';
 
 class ListComponent extends React.Component { // eslint-disable-line react/prefer-stateless-function

@@ -30,7 +30,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     this.requestIncident = this.props.requestIncident.bind(this);
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.requestIncident(this.props.id);
   }
 
