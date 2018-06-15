@@ -14,7 +14,8 @@ import { Wizard, Steps, Step } from 'react-albus';
 
 import wizard from '../../definitions/wizard';
 
-import IncidentStep from '../IncidentStep';
+import IncidentForm from '../IncidentForm';
+import IncidentPreview from '../IncidentPreview';
 import './style.scss';
 
 function IncidentWizard({ getClassification, setIncident, incident }) {
@@ -28,12 +29,21 @@ function IncidentWizard({ getClassification, setIncident, incident }) {
                 {Object.keys(wizard).map((key) => (
                   <Step key={key} id={`incident/${key}`}>
                     <h1 className="text-align-center">{key}</h1>
-                    <IncidentStep
-                      content={wizard[key]}
-                      getClassification={getClassification}
-                      setIncident={setIncident}
-                      incident={incident}
-                    />
+                    {wizard[key].preview ?
+                      <IncidentPreview
+                        incident={incident}
+                        preview={wizard[key].preview}
+                      />
+                      : ''}
+
+                    {wizard[key].form ?
+                      <IncidentForm
+                        fieldConfig={wizard[key].form}
+                        incident={incident}
+                        getClassification={getClassification}
+                        setIncident={setIncident}
+                      />
+                      : ''}
                   </Step>
                 )
                 )}
