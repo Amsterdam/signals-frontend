@@ -1,10 +1,11 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-// import AdminComponent from 'index';
+import AdminComponent from 'index';
 
-describe('<AdminComponent />', () => {
+describe.only('<AdminComponent />', () => {
   it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+    const renderedComponent = shallow(<AdminComponent />);
+    expect(renderedComponent).toMatchSnapshot();
   });
 });
