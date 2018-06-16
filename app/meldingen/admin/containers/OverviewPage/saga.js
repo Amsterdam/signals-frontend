@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 import { push } from 'react-router-redux';
 import request from 'utils/request';
 
@@ -12,6 +13,7 @@ export function* fetchIncidents(action) {
     const { filter } = action;
     yield put(filterIncidentsChanged(filter));
     const incidents = yield call(request, requestURL, filter);
+    yield call(delay, 1000);
     yield put(requestIncidentsSuccess(incidents));
   } catch (err) {
     yield put(requestIncidentsError(err));

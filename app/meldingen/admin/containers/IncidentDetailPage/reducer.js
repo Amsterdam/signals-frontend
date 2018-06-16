@@ -11,14 +11,15 @@ import {
   REQUEST_INCIDENT_ERROR
 } from './constants';
 
-const initialState = fromJS({ loading: false });
+const initialState = fromJS({ id: null });
 
 function incidentDetailPageReducer(state = initialState, action) {
   switch (action.type) {
     case REQUEST_INCIDENT:
       return state
         .set('loading', true)
-        .set('error', false);
+        .set('error', false)
+        .set('id', action.id);
     case REQUEST_INCIDENT_SUCCESS:
       return state
         .set('incident', action.incident)

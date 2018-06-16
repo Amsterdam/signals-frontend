@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 
 import configureStore from 'redux-mock-store';
 import { MemoryRouter, withRouter, Route } from 'react-router-dom';
@@ -8,7 +8,6 @@ import { Provider, connect } from 'react-redux';
 
 import AdminComponent from './index';
 import OverviewPage from '../containers/OverviewPage';
-import IncidentDetailPage from '../containers/IncidentDetailPage';
 
 const WrappedAdminComponent = withRouter(connect()(AdminComponent));
 

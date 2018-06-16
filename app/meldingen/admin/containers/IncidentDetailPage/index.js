@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
-import makeSelectIncidentDetailPage from './selectors';
+import makeSelectIncidentDetailPage, { selectRefresh } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -31,16 +31,18 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   componentWillMount() {
-    this.requestIncident(this.props.id);
+    if (this.props.refresh) {
+      this.requestIncident(this.props.id);
+    }
   }
 
   render() {
-    const { incident } = this.props.incidentdetailpage;
-    const { loading } = this.props;
+    const { incident, loading } = this.props.incidentdetailpage;
     return (
-      <div className="incident-detail-page row">
+      <div className="incident-detail-page row container">
         <ul className="col-6">
-          <li><FormattedMessage {...messages.header} /> = {loading}</li>
+          <li><FormattedMessage {...messages.header} /></li>
+          <li>Loading: {JSON.stringify(loading)}</li>
           <li>Id={this.props.id}</li>
           <li><Link to={`${this.props.baseUrl}/incidents`} >Terug</Link></li>
           <li>{JSON.stringify(incident)}</li>
@@ -53,16 +55,18 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 IncidentDetailPage.propTypes = {
   requestIncident: PropTypes.func.isRequired,
   incidentdetailpage: PropTypes.object.isRequired,
-  loading: PropTypes.boolean,
 
   id: PropTypes.string,
-  baseUrl: PropTypes.string
+  baseUrl: PropTypes.string,
+  refresh: PropTypes.bool
 };
 
-const mapStateToProps = createStructuredSelector({
+
+const mapStateToProps = (state, ownProps) => createStructuredSelector({
   loading: makeSelectLoading(),
   error: makeSelectError(),
   incidentdetailpage: makeSelectIncidentDetailPage(),
+  refresh: selectRefresh(ownProps.id)
 });
 
 function mapDispatchToProps(dispatch) {
@@ -72,7 +76,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
-
 const withReducer = injectReducer({ key: 'incidentDetailPage', reducer });
 const withSaga = injectSaga({ key: 'incidentDetailPage', saga });
 

@@ -8,6 +8,11 @@ const selectIncidentDetailPageDomain = (state) => state.get('incidentDetailPage'
 /**
  * Other specific selectors
  */
+const selectRefresh = (id) =>
+  createSelector(
+    selectIncidentDetailPageDomain,
+    (page) => page.get('id') !== id
+  );
 
 
  /**
@@ -22,4 +27,5 @@ const makeSelectIncidentDetailPage = () => createSelector(
 export default makeSelectIncidentDetailPage;
 export {
   selectIncidentDetailPageDomain,
+  selectRefresh
 };

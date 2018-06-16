@@ -35,10 +35,10 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
   }
 
   render() {
-    const { incidents } = this.props.overviewpage;
+    const { incidents, loading } = this.props.overviewpage;
     return (
       <div className="overview-page container-fluid">
-
+        <li>Loading: {JSON.stringify(loading)}</li>
         <div className="row">
           <FilterComponent filterIncidents={this.onFilterIncidents} />
           <ListComponent incidentSelected={this.incidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} />
@@ -61,10 +61,11 @@ OverviewPage.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
+  overviewpage: makeSelectOverviewPage(),
   loading: makeSelectLoading(),
   error: makeSelectError(),
-  overviewpage: makeSelectOverviewPage(),
 });
+
 
 function mapDispatchToProps(dispatch) {
   return {
