@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 import request from 'utils/request';
 
 import { REQUEST_INCIDENT } from './constants';
@@ -8,8 +9,9 @@ export function* fetchIncident(action) {
 
   try {
     const { id } = action;
-    console.log(`requested incident id: ${id}`);
+    // console.log(`requested incident id: ${id}`);
     const incident = yield call(request, `${requestURL}/${id}`);
+    yield call(delay, 1000);
     yield put(requestIncidentSuccess(incident));
   } catch (err) {
     yield put(requestIncidentError(err));
