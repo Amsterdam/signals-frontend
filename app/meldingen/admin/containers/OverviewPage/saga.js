@@ -7,7 +7,7 @@ import { REQUEST_INCIDENTS, INCIDENT_SELECTED } from './constants';
 import { requestIncidentsSuccess, requestIncidentsError, filterIncidentsChanged } from './actions';
 
 export function* fetchIncidents(action) {
-  const requestURL = '/api/users';
+  const requestURL = '/api/signals';
 
   try {
     const { filter } = action;

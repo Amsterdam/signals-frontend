@@ -22,14 +22,26 @@ class ListComponent extends React.Component { // eslint-disable-line react/prefe
         <table className="" cellSpacing="0" cellPadding="0">
           <thead>
             <tr>
-              <th className="">Naam</th>
-              <th className="">User</th>
+              <th className="">Id</th>
+              <th className="">Datum</th>
+              <th className="">Tijd</th>
+              <th className="">Stadsdeel</th>
+              <th className="">Rubriek</th>
+              <th className="">Afdeling</th>
+              <th className="">Status</th>
+              <th className="">Adres</th>
             </tr>
           </thead>
           <tbody>
             {this.props.incidents.map((incident) => (
               <tr key={incident.id} onClick={this.selectIncident(incident)}>
                 <td>{incident.id}</td>
+                <td>{incident.incident_date}</td>
+                <td>{incident.user}</td>
+                <td>{incident.location.stadsdeel}</td>
+                <td>{incident.subcategory}</td>
+                <td>{incident.department}</td>
+                <td>{incident.current_state.state}</td>
                 <td>{incident.user}</td>
               </tr>
             ))

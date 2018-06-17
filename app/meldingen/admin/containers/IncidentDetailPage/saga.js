@@ -5,7 +5,7 @@ import request from 'utils/request';
 import { REQUEST_INCIDENT } from './constants';
 import { requestIncidentSuccess, requestIncidentError } from './actions';
 export function* fetchIncident(action) {
-  const requestURL = '/api/user';
+  const requestURL = '/api/signal';
 
   try {
     const { id } = action;
