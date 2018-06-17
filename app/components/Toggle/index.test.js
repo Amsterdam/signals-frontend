@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { IntlProvider, defineMessages } from 'react-intl';
 
-import Toggle from '../index';
+import Toggle from './index';
 
 describe('<Toggle />', () => {
   it('should contain default text', () => {
@@ -13,17 +13,17 @@ describe('<Toggle />', () => {
         id: 'boilerplate.containers.LocaleToggle.en',
         defaultMessage: defaultEnMessage,
       },
-      de: {
+      nl: {
         id: 'boilerplate.containers.LocaleToggle.en',
         defaultMessage: defaultDeMessage,
       },
     });
     const renderedComponent = shallow(
       <IntlProvider locale="en">
-        <Toggle values={['en', 'de']} messages={messages} />
+        <Toggle values={['en', 'nl']} messages={messages} />
       </IntlProvider>
     );
-    expect(renderedComponent.contains(<Toggle values={['en', 'de']} messages={messages} />)).toBe(true);
+    expect(renderedComponent.contains(<Toggle values={['en', 'nl']} messages={messages} />)).toBe(true);
     expect(renderedComponent.find('option').length).toBe(0);
   });
   it('should not have ToggleOptions if props.values is not defined', () => {

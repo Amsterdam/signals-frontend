@@ -10,16 +10,12 @@ export default defineMessages({
     id: 'boilerplate.components.Header.home',
     defaultMessage: 'Home',
   },
-  features: {
-    id: 'boilerplate.components.Header.features',
-    defaultMessage: 'Features',
+  incident: {
+    id: 'boilerplate.components.Header.incident',
+    defaultMessage: 'Nieuwe melding',
   },
   admin: {
     id: 'boilerplate.components.Header.admin',
     defaultMessage: 'Admin',
-  },
-  incident: {
-    id: 'boilerplate.components.Header.incident',
-    defaultMessage: 'Nieuwe melding',
   }
 });
