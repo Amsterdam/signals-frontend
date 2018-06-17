@@ -1,6 +1,6 @@
 import g from 'dyson-generators';
 import db from './users.json';
-import listRandomizer from '../../../lib/listRandomizer';
+import { pickRandomSublist } from '../../../lib/listRandomizer';
 
 const user = {
   path: '/user/:id',
@@ -24,7 +24,7 @@ const users = {
 const usersList = {
   path: '/users-list',
   cache: false,
-  container: () => listRandomizer.pickRandomSublist(db.users)
+  container: () => pickRandomSublist(db.users)
 };
 
 export default { user, users, usersList };

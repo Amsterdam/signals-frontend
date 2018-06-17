@@ -7,7 +7,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
@@ -18,7 +17,6 @@ import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import makeSelectIncidentDetailPage, { selectRefresh } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import messages from './messages';
 import './style.scss';
 
 import { requestIncident } from './actions';
@@ -40,13 +38,34 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     const { incident, loading } = this.props.incidentdetailpage;
     return (
       <div className="incident-detail-page row container">
-        <ul className="col-6">
-          <li><FormattedMessage {...messages.header} /></li>
-          <li>Loading: {JSON.stringify(loading)}</li>
-          <li>Id={this.props.id}</li>
-          <li><Link to={`${this.props.baseUrl}/incidents`} >Terug</Link></li>
-          <li>{JSON.stringify(incident)}</li>
+        <div className="col-12"><h3>Melding {this.props.id}</h3>
+        </div>
+        <ul className="col-6 incident-detail-page__map">
+          {/* <li><FormattedMessage {...messages.header} /></li> */}
+          {/* <li>Id={this.props.id}</li> */}
+          <li>Kaart wordt hier getoond</li>
+          {/* <li>{JSON.stringify(incident)}</li> */}
         </ul>
+        <div className="col-6">
+          (<Link to={`${this.props.baseUrl}/incidents`} >Terug naar overzicht</Link>)
+          {(incident) ?
+            <dl className="horizontal">
+              <dt>Datum</dt>
+              <dd>{incident.incident_date}</dd>
+              <dt>Tijd</dt><dd>{incident.user}</dd>
+              <dt>Stadsdeel</dt><dd>{incident.location.stadsdeel}</dd>
+              <dt>Rubriek</dt><dd>{incident.subcategory}</dd>
+              <dt>Afdeling</dt><dd>{incident.department}</dd>
+              <dt>Status</dt><dd>{incident.current_state.state}</dd>
+              <dt>Adres</dt><dd>{incident.user}</dd>
+            </dl>
+            : ''
+          }
+        </div>
+        <div className="col-12">
+          {loading ? 'Wordt geladen' : ''}
+        </div>
+
       </div>
     );
   }

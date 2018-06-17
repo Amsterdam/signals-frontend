@@ -38,13 +38,11 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
     const { incidents, loading } = this.props.overviewpage;
     return (
       <div className="overview-page container-fluid">
-        <li>Loading: {JSON.stringify(loading)}</li>
         <div className="row">
           <FilterComponent filterIncidents={this.onFilterIncidents} />
           <ListComponent incidentSelected={this.incidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} />
         </div>
-
-
+        <div className="row">{loading ? 'Wordt geladen' : ''}</div>
       </div>
     );
   }

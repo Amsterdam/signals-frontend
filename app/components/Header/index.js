@@ -1,5 +1,4 @@
 import React from 'react';
-import LocaleToggle from 'containers/LocaleToggle';
 import './style.scss';
 
 import LogoSvg from '../../../node_modules/stijl/dist/images/logos/andreas.svg';
@@ -31,7 +30,6 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
             <nav>
               <ul className="links horizontal right ">
                 <li>
-                  <LocaleToggle />
                 </li>
               </ul>
             </nav>
