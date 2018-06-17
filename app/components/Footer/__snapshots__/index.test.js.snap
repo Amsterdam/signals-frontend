@@ -77,6 +77,9 @@ ShallowWrapper {
                                                                       </span>
                                                             </a>
                                                   </li>
+                                                  <li>
+                                                            <Connect(LocaleToggle) />
+                                                  </li>
                                         </ul>
                               </nav>
                     </div>
@@ -262,6 +265,9 @@ ShallowWrapper {
                                                                         </span>
                                                             </a>
                                                 </li>
+                                                <li>
+                                                            <Connect(LocaleToggle) />
+                                                </li>
                                     </ul>
                         </nav>
             </div>
@@ -303,6 +309,9 @@ ShallowWrapper {
                                                                       </span>
                                                         </a>
                                           </li>
+                                          <li>
+                                                        <Connect(LocaleToggle) />
+                                          </li>
                             </ul>
               </nav>
 </div>,
@@ -340,6 +349,9 @@ ShallowWrapper {
                                                                 </span>
                                                 </a>
                                 </li>
+                                <li>
+                                                <Connect(LocaleToggle) />
+                                </li>
                 </ul>
 </nav>,
               "className": "col-12",
@@ -375,6 +387,9 @@ ShallowWrapper {
                                                       </span>
                                     </a>
                   </li>
+                  <li>
+                                    <Connect(LocaleToggle) />
+                  </li>
 </ul>,
               },
               "ref": null,
@@ -405,6 +420,9 @@ ShallowWrapper {
                                                                   Cookies
                                             </span>
                       </a>
+</li>,
+                    <li>
+                      <Connect(LocaleToggle) />
 </li>,
                   ],
                   "className": "links horizontal left",
@@ -501,6 +519,25 @@ ShallowWrapper {
                     },
                     "type": "li",
                   },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": <Connect(LocaleToggle) />,
+                    },
+                    "ref": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "class",
+                      "props": Object {},
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    "type": "li",
+                  },
                 ],
                 "type": "ul",
               },
@@ -580,6 +617,9 @@ ShallowWrapper {
                                                                                                 Cookies
                                                                                     </span>
                                                                         </a>
+                                                            </li>
+                                                            <li>
+                                                                        <Connect(LocaleToggle) />
                                                             </li>
                                                 </ul>
                                     </nav>
@@ -766,6 +806,9 @@ ShallowWrapper {
                                                                                     </span>
                                                                       </a>
                                                         </li>
+                                                        <li>
+                                                                      <Connect(LocaleToggle) />
+                                                        </li>
                                           </ul>
                             </nav>
               </div>
@@ -807,6 +850,9 @@ ShallowWrapper {
                                                                                 </span>
                                                                 </a>
                                                 </li>
+                                                <li>
+                                                                <Connect(LocaleToggle) />
+                                                </li>
                                 </ul>
                 </nav>
 </div>,
@@ -844,6 +890,9 @@ ShallowWrapper {
                                                                         </span>
                                                       </a>
                                     </li>
+                                    <li>
+                                                      <Connect(LocaleToggle) />
+                                    </li>
                   </ul>
 </nav>,
                 "className": "col-12",
@@ -879,6 +928,9 @@ ShallowWrapper {
                                                             </span>
                                         </a>
                     </li>
+                    <li>
+                                        <Connect(LocaleToggle) />
+                    </li>
 </ul>,
                 },
                 "ref": null,
@@ -909,6 +961,9 @@ ShallowWrapper {
                                                                         Cookies
                                                 </span>
                         </a>
+</li>,
+                      <li>
+                        <Connect(LocaleToggle) />
 </li>,
                     ],
                     "className": "links horizontal left",
@@ -1002,6 +1057,25 @@ ShallowWrapper {
                           "type": "span",
                         },
                         "type": "a",
+                      },
+                      "type": "li",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": <Connect(LocaleToggle) />,
+                      },
+                      "ref": null,
+                      "rendered": Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "class",
+                        "props": Object {},
+                        "ref": null,
+                        "rendered": null,
+                        "type": [Function],
                       },
                       "type": "li",
                     },
