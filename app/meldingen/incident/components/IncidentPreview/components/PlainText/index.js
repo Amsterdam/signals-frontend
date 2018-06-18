@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Text = ({ text }) => (
+const Text = ({ label, value }) => (
   <span>
-    {text}
+    <span className="preview-item-label">{label}</span>
+    <span className="preview-item-value">{value}</span>
   </span>
 );
 
 Text.propTypes = {
-  text: PropTypes.string
+  label: PropTypes.string,
+  value: PropTypes.string
 };
 
 export default Text;
