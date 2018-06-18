@@ -21,7 +21,7 @@ function IncidentPreview({ incident, preview }) {
       render={({ push }) => (
         <div className="incident-preview">
           {Object.keys(preview).map((key) => (
-            <div>
+            <div key={key}>
               <button
                 className="link-to-step"
                 onClick={() => push(`incident/${key}`)}

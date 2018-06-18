@@ -9,11 +9,12 @@ import PlainText from '../components/IncidentPreview/components/PlainText/';
 
 export default {
   beschrijf: {
+    label: 'Beschrijf uw melding',
     form: {
       controls: {
         description: {
           meta: {
-            label: 'Beschrijving',
+            label: 'Waar gaat het om?',
             placeholder: 'Beschrijving'
           },
           options: {
@@ -60,17 +61,15 @@ export default {
     // preview: {
     // }
   // },
-  email: {
+  telefoon: {
+    label: 'Mogen we u bellen voor vragen?',
     form: {
       controls: {
-        email: {
+        phone: {
           meta: {
-            label: 'E-mail adres',
-            placeholder: 'E-mail adres',
+            label: 'Wat is uw telefoonnummer? (niet verplicht)',
+            placeholder: 'Telefoonnummer',
             type: 'text'
-          },
-          options: {
-            validators: Validators.email
           },
           render: TextInput
         },
@@ -81,14 +80,18 @@ export default {
       }
     }
   },
-  telefoon: {
+  email: {
+    label: 'Wilt u op de hoogte blijven?',
     form: {
       controls: {
-        phone: {
+        email: {
           meta: {
-            label: 'Telefoonnummer',
-            placeholder: 'Telefoonnummer',
+            label: 'Wat is uw e-mailadres? (niet verplicht)',
+            placeholder: 'E-mail adres',
             type: 'text'
+          },
+          options: {
+            validators: Validators.email
           },
           render: TextInput
         },
@@ -115,15 +118,15 @@ export default {
           render: PlainText
         }
       },
-      email: {
-        email: {
-          label: 'Uw e-mailadres',
-          render: PlainText
-        }
-      },
       telefoon: {
         phone: {
           label: 'Uw (mobiele) telefoon',
+          render: PlainText
+        }
+      },
+      email: {
+        email: {
+          label: 'Uw e-mailadres',
           render: PlainText
         }
       }
