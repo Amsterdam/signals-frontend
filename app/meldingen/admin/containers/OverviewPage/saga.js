@@ -10,7 +10,7 @@ export function* fetchIncidents(action) {
   const requestURL = '/api/signals';
 
   try {
-    const { filter } = action;
+    const filter = action.payload;
     yield put(filterIncidentsChanged(filter));
     const incidents = yield call(request, requestURL, filter);
     yield call(delay, 1000);
@@ -21,7 +21,7 @@ export function* fetchIncidents(action) {
 }
 
 export function* openIncident(action) {
-  const { incident } = action;
+  const incident = action.payload;
   const navigateUrl = `incident/${incident.id}`;
   yield put(push(navigateUrl));
 }
