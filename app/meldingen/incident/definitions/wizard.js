@@ -68,6 +68,7 @@ export default {
         phone: {
           meta: {
             label: 'Wat is uw telefoonnummer? (niet verplicht)',
+            subtitle: 'Zo kunt u ons helpen het probleem sneller of beter op te lossen.',
             placeholder: 'Telefoonnummer',
             type: 'text'
           },
@@ -87,6 +88,7 @@ export default {
         email: {
           meta: {
             label: 'Wat is uw e-mailadres? (niet verplicht)',
+            subtitle: 'We mailen om u te vertellen wat we met uw melding doen. En wanneer het klaar is.',
             placeholder: 'E-mail adres',
             type: 'text'
           },
