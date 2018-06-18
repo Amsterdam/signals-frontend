@@ -6,7 +6,7 @@
  */
 
 // Needed for redux-saga es6 generator support
-import 'babel-polyfill';
+// import 'babel-polyfill';
 
 // Import all the third party stuff
 import React from 'react';
@@ -14,6 +14,8 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
+import 'leaflet/dist/leaflet';
+import 'static/nlmaps.iife';
 
 // Import root app
 import App from 'containers/App';
@@ -39,14 +41,16 @@ import '!file-loader?name=[name].[ext]!./manifest.json';
 import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line import/extensions
 /* eslint-enable import/no-webpack-loader-syntax */
 
+// Import CSS and Global Styles
+import 'leaflet/dist/leaflet.css';
+import 'static/nlmaps.css';
+import 'stijl/dist/css/ams-stijl.css';
+import './global.scss';
+
 import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
-
-// Import CSS and Global Styles
-import '../node_modules/stijl/dist/css/ams-stijl.css';
-import './global.scss';
 
 
 // Create redux store with history

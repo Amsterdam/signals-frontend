@@ -57,12 +57,6 @@
       "styled-components"
     ],
     "presets": [
-      [
-        "env",
-        {
-          "modules": false
-        }
-      ],
       "react",
       "latest",
       "stage-0"
@@ -224,6 +218,7 @@
     "intl": "1.2.5",
     "invariant": "2.2.2",
     "ip": "1.1.5",
+    "leaflet": "1.0.3",
     "lodash": "4.17.4",
     "minimist": "1.2.0",
     "prop-types": "15.6.0",
@@ -303,7 +298,7 @@
     "rimraf": "2.6.1",
     "sass-loader": "^7.0.2",
     "shelljs": "0.7.7",
-    "stijl": "git+https://git@github.com/Amsterdam/stijl.git",
+    "stijl": "Amsterdam/stijl.git",
     "style-loader": "0.18.1",
     "url-loader": "0.5.8",
     "webpack": "3.5.5",
