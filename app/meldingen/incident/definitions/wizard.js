@@ -2,10 +2,8 @@ import { Validators } from 'react-reactive-form';
 
 import IncidentNavigation from '../components/IncidentNavigation';
 
-import TextInput from '../components/IncidentForm/components/TextInput/';
-import DescriptionWithClassificationInput from '../components/IncidentForm/components/DescriptionWithClassificationInput/';
-
-import PlainText from '../components/IncidentPreview/components/PlainText/';
+import FormComponents from '../components/IncidentForm/components/';
+import PreviewComponents from '../components/IncidentPreview/components/';
 
 export default {
   beschrijf: {
@@ -20,7 +18,7 @@ export default {
           options: {
             validators: Validators.required
           },
-          render: DescriptionWithClassificationInput
+          render: FormComponents.DescriptionWithClassificationInput
         },
         category: {
           meta: {
@@ -33,7 +31,7 @@ export default {
           options: {
             validators: Validators.required
           },
-          render: TextInput
+          render: FormComponents.TextInput
         },
         subcategory: {
           meta: {
@@ -46,7 +44,7 @@ export default {
           options: {
             validators: Validators.required
           },
-          render: TextInput
+          render: FormComponents.TextInput
         },
         $field_0: {
           isStatic: false,
@@ -72,7 +70,7 @@ export default {
             placeholder: 'Telefoonnummer',
             type: 'text'
           },
-          render: TextInput
+          render: FormComponents.TextInput
         },
         $field_0: {
           isStatic: false,
@@ -95,7 +93,7 @@ export default {
           options: {
             validators: Validators.email
           },
-          render: TextInput
+          render: FormComponents.TextInput
         },
         $field_0: {
           isStatic: false,
@@ -117,19 +115,19 @@ export default {
       beschrijf: {
         description: {
           label: 'Hier gaat het om',
-          render: PlainText
+          render: PreviewComponents.PlainText
         }
       },
       telefoon: {
         phone: {
           label: 'Uw (mobiele) telefoon',
-          render: PlainText
+          render: PreviewComponents.PlainText
         }
       },
       email: {
         email: {
           label: 'Uw e-mailadres',
-          render: PlainText
+          render: PreviewComponents.PlainText
         }
       }
     }
