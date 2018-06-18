@@ -1,7 +1,9 @@
-import TextInput from './TextInput/';
 import DescriptionWithClassificationInput from './DescriptionWithClassificationInput/';
+import DateTimeInput from './DateTimeInput/';
+import TextInput from './TextInput/';
 
 export default {
-  TextInput,
-  DescriptionWithClassificationInput
+  DateTimeInput,
+  DescriptionWithClassificationInput,
+  TextInput
 };
