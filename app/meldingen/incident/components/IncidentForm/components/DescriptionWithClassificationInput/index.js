@@ -5,6 +5,7 @@ import ErrorMessage from '../ErrorMessage/';
 
 const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, parent }) => (
   <div>
+    <div>{meta.label}</div>
     <textarea
       placeholder={meta.placeholder}
       onKeyUp={(e) => parent.meta.getClassification(e.target.value)}
