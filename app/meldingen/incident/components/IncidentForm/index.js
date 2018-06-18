@@ -64,7 +64,6 @@ class IncidentForm extends React.Component {
   render() {
     return (
       <div className="incident-form">
-        {console.log('render form', this.props.incident)}
         <form onSubmit={this.handleSubmit}>
           <FormGenerator
             onMount={(form) => this.setForm(form, this.props.incident)}

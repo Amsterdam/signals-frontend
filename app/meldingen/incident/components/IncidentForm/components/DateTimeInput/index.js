@@ -7,12 +7,10 @@ function handleChange(parent, setIncident, value) {
   setIncident({
     incident_date: value
   });
-  console.log('handleChange', value, parent);
 }
 
 const DateTimeInput = ({ meta, parent }) => (
   <div className="antwoorden checkboxen">
-    {console.log('render field')}
     <div>{meta.label}</div>
     <div>{meta.subtitle}</div>
     <div className="antwoord">
