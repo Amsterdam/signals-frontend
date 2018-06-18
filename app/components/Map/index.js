@@ -6,13 +6,19 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
   constructor(props) {
     super(props);
     this.nlmaps = window.nlmaps;
+
+    this.onMapClick = this.onMapClick.bind(this);
+
+    this.state = {
+      locationDisplay: ''
+    };
   }
 
   componentDidMount() {
     this.map = this.nlmaps.createMap({
       style: 'standaard',
       target: 'mapdiv',
-      marker: true,
+      marker: false,
       search: true,
       zoom: 14
     });
@@ -30,9 +36,32 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
     featureQuery.subscribe(this.onMapClick);
   }
 
+  componentDidUpdate() {
+    if (!this.inputField) {
+      this.inputField = document.querySelector('#nlmaps-geocoder-control-input');
+    }
+    this.inputField.value = this.state.locationDisplay;
+  }
+
   onMapClick(t, data) {
     if (t === 1) {
-      console.log(data);
+      if (data.queryResult) {
+        this.setState({
+          locationDisplay: data.queryResult._display, // eslint-disable-line no-underscore-dangle
+          latlng: data.latlng
+        });
+      } else {
+        // fetch nearby object if no address is found
+        // TODO proper saga implementation
+        fetch(`https://acc.api.data.amsterdam.nl/geosearch/atlas/?lat=${data.latlng.lat}&lon=${data.latlng.lng}&radius=0`)
+          .then((res) => res.json())
+          .then((res) => {
+            this.setState({
+              locationDisplay: res.features[0].properties.display,
+              latlng: data.latlng
+            });
+          });
+      }
     }
   }
 
@@ -43,7 +72,6 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
           <div className="col-10 offset-1">
             <div className="map">
               <div id="mapdiv">
-
               </div>
             </div>
           </div>
