@@ -46,6 +46,27 @@ export default {
           },
           render: FormComponents.TextInput
         },
+        datetime: {
+          meta: {
+            name: 'datetime',
+            label: 'Geef het tijdstip aan'
+          },
+          // options: {
+          //   validators: Validators.required
+          // },
+          render: FormComponents.DateTimeInput,
+          strict: false
+        },
+        incident_date: {
+          meta: {
+            label: 'Incident date',
+            watch: true
+          },
+          options: {
+            validators: Validators.required
+          },
+          render: FormComponents.TextInput
+        },
         $field_0: {
           isStatic: false,
           render: IncidentNavigation
