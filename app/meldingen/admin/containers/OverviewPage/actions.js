@@ -9,34 +9,34 @@ import { REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR, 
 export function requestIncidents(filter) {
   return {
     type: REQUEST_INCIDENTS,
-    filter
+    payload: filter
   };
 }
 
 export function requestIncidentsSuccess(incidents) {
   return {
     type: REQUEST_INCIDENTS_SUCCESS,
-    incidents
+    payload: incidents
   };
 }
 
 export function requestIncidentsError(message) {
   return {
     type: REQUEST_INCIDENTS_ERROR,
-    message
+    payload: message
   };
 }
 
 export function incidentSelected(incident) {
   return {
     type: INCIDENT_SELECTED,
-    incident
+    payload: incident
   };
 }
 
 export function filterIncidentsChanged(filter) {
   return {
     type: FILTER_INCIDENTS_CHANGED,
-    filter
+    payload: filter
   };
 }
