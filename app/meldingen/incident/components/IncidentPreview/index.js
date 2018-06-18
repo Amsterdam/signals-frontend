@@ -31,10 +31,11 @@ function IncidentPreview({ incident, preview }) {
 
               <ul key={key}>
                 {Object.keys(preview[key]).map((subkey) => (
-                  <li key={subkey}>{preview[key][subkey].label}
-                    <span className="preview-item-value">
-                      {preview[key][subkey].render({ text: incident[subkey] })}
-                    </span></li>
+                  <li key={subkey}>
+                    {preview[key][subkey].render({
+                      label: preview[key][subkey].label,
+                      value: incident[subkey] })}
+                  </li>
                 ))}
               </ul>
             </div>
