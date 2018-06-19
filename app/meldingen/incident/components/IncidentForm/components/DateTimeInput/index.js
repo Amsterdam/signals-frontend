@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 function handleChange(setIncident, value) {
   setIncident({
-    incident_date: value
+    incident_date: value === 'earlier' ? formatDate(0) : value
   });
 }
 
