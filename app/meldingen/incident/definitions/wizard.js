@@ -157,6 +157,10 @@ export default {
         description: {
           label: 'Hier gaat het om',
           render: PreviewComponents.PlainText
+        },
+        incident_date: {
+          label: 'Tijdstip',
+          render: PreviewComponents.DateTime
         }
       },
       telefoon: {
