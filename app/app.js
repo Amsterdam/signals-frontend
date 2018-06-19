@@ -13,6 +13,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
+import moment from 'moment';
+import 'moment/src/locale/nl';
 import FontFaceObserver from 'fontfaceobserver';
 import createHistory from 'history/createBrowserHistory';
 import 'sanitize.css/sanitize.css';
@@ -50,6 +52,9 @@ import { translationMessages } from './i18n';
 
 // Import CSS reset and Global Styles
 import './global.scss';
+
+// load locale for date formatting
+moment.locale('nl');
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
