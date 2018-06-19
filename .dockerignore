@@ -1,0 +1,9 @@
+.env
+.git
+.sass-cache
+.github
+build
+node_modules/
+coverage/
+test/
+docs/
