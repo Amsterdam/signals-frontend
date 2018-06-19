@@ -2,6 +2,8 @@ import React from 'react';
 import { amaps } from '../../static/amaps.iife';
 import './style.scss';
 
+import MarkerIcon from '../../../node_modules/stijl/dist/images/svg/marker.svg';
+
 class Map extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
@@ -10,11 +12,20 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
     this.onMapClick = this.onMapClick.bind(this);
 
     this.state = {
-      locationDisplay: ''
+      locationDisplay: '',
+      isLoading: false
     };
   }
 
   componentDidMount() {
+    const Marker = new window.L.icon({ // eslint-disable-line new-cap
+      iconUrl: MarkerIcon,
+      iconSize: [40, 40],
+      iconAnchor: [20, 39]
+    });
+    window.L.Marker.prototype.options.icon = Marker;
+    window.L.icon.Default = Marker;
+
     this.map = this.nlmaps.createMap({
       style: 'standaard',
       target: 'mapdiv',
@@ -32,8 +43,13 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
       amaps.bagApiResponseFormatter
     );
     clicks.subscribe(singleMarker);
-
     featureQuery.subscribe(this.onMapClick);
+
+
+    this.map.on('moveend', () => {
+      this.removeMarkerOnSearch();
+      this.setMarkerOnSearch();
+    });
   }
 
   componentDidUpdate() {
@@ -45,23 +61,40 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
 
   onMapClick(t, data) {
     if (t === 1) {
+      this.removeMarkerOnSearch();
+      this.setState({
+        isLoading: true
+      });
       if (data.queryResult) {
         this.setState({
           locationDisplay: data.queryResult._display, // eslint-disable-line no-underscore-dangle
-          latlng: data.latlng
+          latlng: data.latlng,
+          isLoading: false
         });
       } else {
         // fetch nearby object if no address is found
         // TODO proper saga implementation
         fetch(`https://acc.api.data.amsterdam.nl/geosearch/atlas/?lat=${data.latlng.lat}&lon=${data.latlng.lng}&radius=0`)
-          .then((res) => res.json())
-          .then((res) => {
-            this.setState({
-              locationDisplay: res.features[0].properties.display,
-              latlng: data.latlng
-            });
+        .then((res) => res.json())
+        .then((res) => {
+          this.setState({
+            locationDisplay: res.features[0].properties.display,
+            latlng: data.latlng,
+            isLoading: false
           });
+        });
       }
+    }
+  }
+
+  setMarkerOnSearch() {
+    const latlng = window.L.latLng(this.map.getCenter());
+    this.markerOnSearch = window.L.marker(latlng).addTo(this.map);
+  }
+
+  removeMarkerOnSearch() {
+    if (this.markerOnSearch) {
+      this.map.removeLayer(this.markerOnSearch);
     }
   }
 
@@ -76,6 +109,9 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
             </div>
           </div>
         </div>
+        { this.state.isLoading && (
+          <span>Laden...</span>
+        )}
       </div>
     );
   }
