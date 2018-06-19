@@ -1,4 +1,11 @@
-signalsfrontend:
-  build: .
-  ports:
-    - "8139:80"
+version: '3.5'
+services:
+  signals-web: # NGINX
+    build:
+      args:
+        - BUILD_ENV=prod
+      context: .
+    ipc: host
+    ports:
+      - "3002:80"
+  # networks_mode: "host"
