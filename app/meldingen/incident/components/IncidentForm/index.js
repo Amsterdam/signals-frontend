@@ -19,7 +19,6 @@ class IncidentForm extends React.Component {
 
     this.setForm = this.setForm.bind(this);
     this.setValues = this.setValues.bind(this);
-    this.handleReset = this.handleReset.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -51,10 +50,6 @@ class IncidentForm extends React.Component {
         });
       });
     }
-  }
-
-  handleReset() {
-    this.form.reset();
   }
 
   handleSubmit(e) {

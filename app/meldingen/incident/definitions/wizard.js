@@ -67,6 +67,26 @@ export default {
           },
           render: FormComponents.TextInput
         },
+        incident_time_hours: {
+          meta: {
+            label: 'Incident time hours',
+            watch: true
+          },
+          // options: {
+            // validators: Validators.required
+          // },
+          render: FormComponents.TextInput
+        },
+        incident_time_minutes: {
+          meta: {
+            label: 'Incident time minutes',
+            watch: true
+          },
+          // options: {
+            // validators: Validators.required
+          // },
+          render: FormComponents.TextInput
+        },
         $field_0: {
           isStatic: false,
           render: IncidentNavigation
