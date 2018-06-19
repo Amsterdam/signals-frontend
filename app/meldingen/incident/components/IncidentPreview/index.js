@@ -34,7 +34,9 @@ function IncidentPreview({ incident, preview }) {
                   <li key={subkey}>
                     {preview[key][subkey].render({
                       label: preview[key][subkey].label,
-                      value: incident[subkey] })}
+                      value: incident[subkey],
+                      incident
+                    })}
                   </li>
                 ))}
               </ul>
