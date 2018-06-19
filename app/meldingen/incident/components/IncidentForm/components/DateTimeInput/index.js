@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 // import ErrorMessage from '../ErrorMessage/';
 
@@ -11,20 +12,17 @@ function handleChange(setIncident, value) {
   });
 }
 
-function formatDate(offset, format = 'value') {
-  const options = format === 'label' ? { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' } : { year: 'numeric', month: 'numeric', day: 'numeric' };
+function formatDate(offset, type = 'value') {
+  const format = type === 'label' ? 'dddd D MMMM' : 'YYYY-MM-DD';
   if (offset === 0 && format === 'label') {
     return 'vandaag';
   }
-  const date = new Date();
-  const day = date.getDate();
-  date.setDate(day - offset);
-  return date.toLocaleDateString('nl-NL', options);
+  return moment().subtract(offset, 'days').format(format);
 }
 
 const DateTimeInput = ({ meta, parent }) => (
   <div className="antwoorden checkboxen">
-    <div>{meta.label}</div>
+    <div>{meta.label} {moment.locale()}</div>
     <div>{meta.subtitle}</div>
     <div className="antwoord">
       <input
