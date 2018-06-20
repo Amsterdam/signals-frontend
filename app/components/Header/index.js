@@ -9,7 +9,6 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
   render() {
     return (
       <div className="header-component">
-<<<<<<< HEAD
         <div className="row">
           <div className="col-6">
             <h1 className="sitelogo">
@@ -35,21 +34,6 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
             </nav>
           </div>
         </div>
-=======
-        <h1>Signalen</h1>
-        <Link to="/">
-          <FormattedMessage {...messages.home} />
-        </Link>
-        <Link to="/features">
-          <FormattedMessage {...messages.features} />
-        </Link>
-        <Link to="/incident">
-          <FormattedMessage {...messages.incident} />
-        </Link>
-        <Link to="/admin/incidents">
-          <FormattedMessage {...messages.admin} />
-        </Link>
->>>>>>> add: navigation to incident detail
       </div>
     );
   }
