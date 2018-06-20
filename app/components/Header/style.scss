@@ -1,7 +1,10 @@
-.header-component{
-  & > a {
-    color: red;
-    padding: 5px;
-    border: 1px solid beige;
+@import '~stijl/dist/scss/ams-colorpalette';
+
+.header-component {
+  .mainlogo {
+    text-decoration: none;
+  }
+  .sitelogo {
+    display: inline-block;
   }
 }
