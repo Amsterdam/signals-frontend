@@ -1,0 +1,15 @@
+.incident-form {
+  input,
+  textarea {
+    background-color: white;
+    padding: 2px 8px;
+
+    &:read-only {
+      color: grey;
+    }
+  }
+
+  .field-errors {
+    color: red;
+  }
+}
