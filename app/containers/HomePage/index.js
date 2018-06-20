@@ -6,7 +6,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -35,10 +34,6 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
   render() {
     return (
       <article>
-        <Helmet>
-          <title>Home Page</title>
-          <meta name="description" content="A React.js Boilerplate application homepage" />
-        </Helmet>
         <div>
           <h2>
             <FormattedMessage {...messages.startProjectHeader} />

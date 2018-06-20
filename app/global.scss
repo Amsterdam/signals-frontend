@@ -14,9 +14,21 @@ body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+ul li {
+  margin:0;
+  padding: 0;
+  text-indent: 0;
+  list-style-type: none;
+}
+
+dd {
+  margin: 0;
+}
+
 #app {
   min-height: 100%;
   min-width: 100%;
+  background-color: $ams-background-sidebars;
 
   .content.container {
     padding-bottom: 20px;
@@ -25,5 +37,6 @@ body {
 
   .app-container {
     padding: 0;
+    background-color: $ams-wit;
   }
 }

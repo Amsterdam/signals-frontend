@@ -10,13 +10,12 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
-import FeaturePage from 'containers/FeaturePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import MainMenu from 'components/MainMenu';
 
-import OverviewPage from '../../meldingen/admin/containers/OverviewPage/Loadable';
+import AdminComponent from '../../meldingen/admin/AdminComponent/';
 import IncidentContainer from '../../meldingen/incident/containers/IncidentContainer/Loadable';
 
 export default function App() {
@@ -32,8 +31,7 @@ export default function App() {
         <div className="content container">
           <Switch>
             <Route exact path="/" component={HomePage} />
-            <Route path="/features" component={FeaturePage} />
-            <Route path="/admin" component={OverviewPage} />
+            <Route path="/admin" component={AdminComponent} />
             <Route path="/incident" component={IncidentContainer} />
             <Route path="" component={NotFoundPage} />
           </Switch>
