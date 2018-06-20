@@ -13,6 +13,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
+import moment from 'moment';
+import 'moment/src/locale/nl';
 import createHistory from 'history/createBrowserHistory';
 
 // Import root app
@@ -48,6 +50,8 @@ import { translationMessages } from './i18n';
 import '../node_modules/stijl/dist/css/ams-stijl.css';
 import './global.scss';
 
+// load locale for date formatting
+moment.locale('nl');
 
 // Create redux store with history
 const initialState = {};
