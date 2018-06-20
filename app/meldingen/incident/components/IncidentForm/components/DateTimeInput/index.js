@@ -14,8 +14,8 @@ function handleChange(setIncident, value) {
 
 function formatDate(offset, type = 'value') {
   const format = type === 'label' ? 'dddd D MMMM' : 'YYYY-MM-DD';
-  if (offset === 0 && format === 'label') {
-    return 'vandaag';
+  if (offset === 0) {
+    return 'Vandaag';
   }
   return moment().subtract(offset, 'days').format(format);
 }

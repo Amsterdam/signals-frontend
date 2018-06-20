@@ -23,7 +23,6 @@ export default {
         category: {
           meta: {
             label: 'Categorie',
-            placeholder: 'Categorie',
             readOnly: true,
             type: 'text',
             watch: true
@@ -36,7 +35,6 @@ export default {
         subcategory: {
           meta: {
             label: 'Subcategorie',
-            placeholder: 'Subcategorie',
             readOnly: true,
             type: 'text',
             watch: true
@@ -60,6 +58,7 @@ export default {
         incident_date: {
           meta: {
             label: 'Incident date',
+            readOnly: true,
             watch: true
           },
           options: {
@@ -70,6 +69,7 @@ export default {
         incident_time_hours: {
           meta: {
             label: 'Incident time hours',
+            readOnly: true,
             watch: true
           },
           // options: {
@@ -80,6 +80,7 @@ export default {
         incident_time_minutes: {
           meta: {
             label: 'Incident time minutes',
+            readOnly: true,
             watch: true
           },
           // options: {

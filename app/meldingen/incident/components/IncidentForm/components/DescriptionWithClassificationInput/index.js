@@ -4,14 +4,21 @@ import PropTypes from 'prop-types';
 import ErrorMessage from '../ErrorMessage/';
 
 const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, parent }) => (
-  <div>
+  <div className="rij mode_input rij_verplicht">
+    <div className="label">
+      <label htmlFor="textarea">Textarea</label>
+    </div>
+
     <div>{meta.label}</div>
     <div>{meta.subtitle}</div>
-    <textarea
-      placeholder={meta.placeholder}
-      onKeyUp={(e) => parent.meta.getClassification(e.target.value)}
-      {...handler()}
-    />
+    <div className="invoer">
+      <textarea
+        placeholder={meta.placeholder}
+        id={meta.id}
+        onKeyUp={(e) => parent.meta.getClassification(e.target.value)}
+        {...handler()}
+      />
+    </div>
 
     <ErrorMessage
       touched={touched}
