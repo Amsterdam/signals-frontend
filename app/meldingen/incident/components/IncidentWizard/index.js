@@ -28,7 +28,7 @@ function IncidentWizard({ getClassification, setIncident, incident }) {
               <Steps>
                 {Object.keys(wizard).map((key) => (
                   <Step key={key} id={`incident/${key}`}>
-                    <h1 className="text-align-center">{wizard[key].label || key}</h1>
+                    <h2>{wizard[key].label || key}</h2>
                     {wizard[key].preview ?
                       <IncidentPreview
                         incident={incident}

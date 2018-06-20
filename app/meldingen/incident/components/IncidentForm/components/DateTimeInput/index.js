@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
+import Title from '../Title/';
 // import ErrorMessage from '../ErrorMessage/';
 
 // 2011-10-05T14:48:00.000Z
@@ -22,8 +23,8 @@ function formatDate(offset, type = 'value') {
 
 const DateTimeInput = ({ meta, parent }) => (
   <div className="antwoorden checkboxen">
-    <div>{meta.label} {moment.locale()}</div>
-    <div>{meta.subtitle}</div>
+    <Title meta={meta} />
+
     <div className="antwoord">
       <input
         className="kenmerkradio"

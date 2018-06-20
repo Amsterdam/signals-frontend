@@ -1,16 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
 const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, parent }) => (
   <div className="rij mode_input rij_verplicht">
-    <div className="label">
-      <label htmlFor="textarea">Textarea</label>
-    </div>
+    <Title meta={meta} />
 
-    <div>{meta.label}</div>
-    <div>{meta.subtitle}</div>
     <div className="invoer">
       <textarea
         placeholder={meta.placeholder}

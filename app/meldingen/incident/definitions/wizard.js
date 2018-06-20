@@ -30,7 +30,7 @@ export default {
           options: {
             validators: Validators.required
           },
-          render: FormComponents.TextInput
+          render: FormComponents.HiddenInput
         },
         subcategory: {
           meta: {
@@ -42,7 +42,7 @@ export default {
           options: {
             validators: Validators.required
           },
-          render: FormComponents.TextInput
+          render: FormComponents.HiddenInput
         },
         datetime: {
           meta: {
@@ -64,7 +64,7 @@ export default {
           options: {
             validators: Validators.required
           },
-          render: FormComponents.TextInput
+          render: FormComponents.HiddenInput
         },
         incident_time_hours: {
           meta: {
@@ -75,7 +75,7 @@ export default {
           // options: {
             // validators: Validators.required
           // },
-          render: FormComponents.TextInput
+          render: FormComponents.HiddenInput
         },
         incident_time_minutes: {
           meta: {
@@ -86,7 +86,7 @@ export default {
           // options: {
             // validators: Validators.required
           // },
-          render: FormComponents.TextInput
+          render: FormComponents.HiddenInput
         },
         $field_0: {
           isStatic: false,
@@ -145,6 +145,8 @@ export default {
     }
   },
   samenvatting: {
+    label: 'Controleer uw gegevens',
+    subtitle: 'Maak een aanpassing als dat nodig is.',
     form: {
       controls: {
         $field_0: {

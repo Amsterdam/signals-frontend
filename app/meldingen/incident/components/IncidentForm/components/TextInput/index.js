@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
 const TextInput = ({ handler, touched, hasError, meta }) => (
   <div>
-    <div>{meta.label}</div>
-    <div>{meta.subtitle}</div>
+    <Title meta={meta} />
+
     <input type={meta.type} placeholder={meta.placeholder} readOnly={meta.readOnly} {...handler()} />
 
     <ErrorMessage
