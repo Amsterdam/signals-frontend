@@ -1,19 +1,99 @@
+import { Validators } from 'react-reactive-form';
+
+import IncidentNavigation from '../components/IncidentNavigation';
+
+import FormComponents from '../components/IncidentForm/components/';
+import PreviewComponents from '../components/IncidentPreview/components/';
+
 export default {
   beschrijf: {
-    form: [
-      {
-        type: 'location',
-        name: 'location'
-      },
-      {
-        type: 'description',
-        name: 'description'
-      },
-      {
-        type: 'datetime',
-        name: 'incident_date'
+    label: 'Beschrijf uw melding',
+    form: {
+      controls: {
+        description: {
+          meta: {
+            label: 'Waar gaat het om?',
+            placeholder: 'Beschrijving'
+          },
+          options: {
+            validators: Validators.required
+          },
+          render: FormComponents.DescriptionWithClassificationInput
+        },
+        category: {
+          meta: {
+            label: 'Categorie',
+            readOnly: true,
+            type: 'text',
+            watch: true
+          },
+          options: {
+            validators: Validators.required
+          },
+          render: FormComponents.TextInput
+        },
+        subcategory: {
+          meta: {
+            label: 'Subcategorie',
+            readOnly: true,
+            type: 'text',
+            watch: true
+          },
+          options: {
+            validators: Validators.required
+          },
+          render: FormComponents.TextInput
+        },
+        datetime: {
+          meta: {
+            name: 'datetime',
+            label: 'Geef het tijdstip aan'
+          },
+          // options: {
+          //   validators: Validators.required
+          // },
+          render: FormComponents.DateTimeInput,
+          strict: false
+        },
+        incident_date: {
+          meta: {
+            label: 'Incident date',
+            readOnly: true,
+            watch: true
+          },
+          options: {
+            validators: Validators.required
+          },
+          render: FormComponents.TextInput
+        },
+        incident_time_hours: {
+          meta: {
+            label: 'Incident time hours',
+            readOnly: true,
+            watch: true
+          },
+          // options: {
+            // validators: Validators.required
+          // },
+          render: FormComponents.TextInput
+        },
+        incident_time_minutes: {
+          meta: {
+            label: 'Incident time minutes',
+            readOnly: true,
+            watch: true
+          },
+          // options: {
+            // validators: Validators.required
+          // },
+          render: FormComponents.TextInput
+        },
+        $field_0: {
+          isStatic: false,
+          render: IncidentNavigation
+        }
       }
-    ]
+    }
   },
   // vulaan: {
     // form: {
@@ -21,42 +101,81 @@ export default {
     // preview: {
     // }
   // },
-  email: {
-    form: [{
-      type: 'email',
-      name: 'reporter.email'
-    }]
-  },
   telefoon: {
-    form: [{
-      type: 'phone',
-      name: 'reporter.phone'
-    }]
+    label: 'Mogen we u bellen voor vragen?',
+    form: {
+      controls: {
+        phone: {
+          meta: {
+            label: 'Wat is uw telefoonnummer? (niet verplicht)',
+            subtitle: 'Zo kunt u ons helpen het probleem sneller of beter op te lossen.',
+            placeholder: 'Telefoonnummer',
+            type: 'text'
+          },
+          render: FormComponents.TextInput
+        },
+        $field_0: {
+          isStatic: false,
+          render: IncidentNavigation
+        }
+      }
+    }
+  },
+  email: {
+    label: 'Wilt u op de hoogte blijven?',
+    form: {
+      controls: {
+        email: {
+          meta: {
+            label: 'Wat is uw e-mailadres? (niet verplicht)',
+            subtitle: 'We mailen om u te vertellen wat we met uw melding doen. En wanneer het klaar is.',
+            placeholder: 'E-mail adres',
+            type: 'text'
+          },
+          options: {
+            validators: Validators.email
+          },
+          render: FormComponents.TextInput
+        },
+        $field_0: {
+          isStatic: false,
+          render: IncidentNavigation
+        }
+      }
+    }
   },
   samenvatting: {
-    preview: {
-      beschrijf: [
-        {
-          type: 'location',
-          name: 'location'
-        },
-        {
-          type: 'description',
-          name: 'description'
-        },
-        {
-          type: 'datetime',
-          name: 'incident_date'
+    form: {
+      controls: {
+        $field_0: {
+          isStatic: false,
+          render: IncidentNavigation
         }
-      ],
-      email: [{
-        type: 'email',
-        name: 'reporter.email'
-      }],
-      telefoon: [{
-        type: 'phone',
-        name: 'reporter.phone'
-      }]
+      }
+    },
+    preview: {
+      beschrijf: {
+        description: {
+          label: 'Hier gaat het om',
+          render: PreviewComponents.PlainText
+        },
+        incident_date: {
+          label: 'Tijdstip',
+          render: PreviewComponents.DateTime
+        }
+      },
+      telefoon: {
+        phone: {
+          label: 'Uw (mobiele) telefoon',
+          render: PreviewComponents.PlainText
+        }
+      },
+      email: {
+        email: {
+          label: 'Uw e-mailadres',
+          render: PreviewComponents.PlainText
+        }
+      }
     }
   // },
   // bedankt: {

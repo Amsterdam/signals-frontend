@@ -5,7 +5,7 @@
 */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Wizard, Steps, Step } from 'react-albus';
 
@@ -14,44 +14,52 @@ import { Wizard, Steps, Step } from 'react-albus';
 
 import wizard from '../../definitions/wizard';
 
-import IncidentStep from '../IncidentStep';
-import IncidentNavigation from '../IncidentNavigation';
+import IncidentForm from '../IncidentForm';
+import IncidentPreview from '../IncidentPreview';
 import './style.scss';
 
-function IncidentWizard() {
-  Object.keys(wizard).map((key) => {
-    console.log('key', key, wizard[key]);
-    return true;
-  });
+function IncidentWizard({ getClassification, setIncident, incident }) {
   return (
     <BrowserRouter>
       <div className="incident-wizard">
-        <div className="row pad-t">
-          <div className="col-xs-6 col-xs-offset-3">
-            <Route
-              render={({ history }) => (
-                <Wizard history={history}>
-                  <Steps>
-                    {Object.keys(wizard).map((key) => (
-                      <Step key={key} id={`incident/${key}`}>
-                        <h1 className="text-align-center">{key}</h1>
-                        <IncidentStep content={wizard[key]} />
-                      </Step>
-                    )
-                    )}
-                  </Steps>
-                  <IncidentNavigation />
-                </Wizard>
-              )}
-            />
-          </div>
-        </div>
+        <Route
+          render={({ history }) => (
+            <Wizard history={history}>
+              <Steps>
+                {Object.keys(wizard).map((key) => (
+                  <Step key={key} id={`incident/${key}`}>
+                    <h1 className="text-align-center">{wizard[key].label || key}</h1>
+                    {wizard[key].preview ?
+                      <IncidentPreview
+                        incident={incident}
+                        preview={wizard[key].preview}
+                      />
+                      : ''}
+
+                    {wizard[key].form ?
+                      <IncidentForm
+                        fieldConfig={wizard[key].form}
+                        incident={incident}
+                        getClassification={getClassification}
+                        setIncident={setIncident}
+                      />
+                      : ''}
+                  </Step>
+                )
+                )}
+              </Steps>
+            </Wizard>
+          )}
+        />
       </div>
     </BrowserRouter>
   );
 }
 
-// IncidentWizard.propTypes = {
-// };
+IncidentWizard.propTypes = {
+  incident: PropTypes.object.isRequired,
+  getClassification: PropTypes.func.isRequired,
+  setIncident: PropTypes.func.isRequired
+};
 
 export default IncidentWizard;

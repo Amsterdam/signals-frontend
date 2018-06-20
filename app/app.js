@@ -13,6 +13,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
+import moment from 'moment';
+import 'moment/src/locale/nl';
 import createHistory from 'history/createBrowserHistory';
 import 'leaflet/dist/leaflet';
 import 'static/nlmaps.iife';
@@ -52,6 +54,8 @@ import configureStore from './configureStore';
 // Import i18n messages
 import { translationMessages } from './i18n';
 
+// load locale for date formatting
+moment.locale('nl');
 
 // Create redux store with history
 const initialState = {};
