@@ -10,6 +10,15 @@ export default {
     label: 'Beschrijf uw melding',
     form: {
       controls: {
+        map: {
+          meta: {
+            label: 'Selecteer de locatie',
+          },
+          options: {
+            validators: Validators.required
+          },
+          render: FormComponents.MapInput
+        },
         description: {
           meta: {
             label: 'Waar gaat het om?',

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { amaps } from '../../static/amaps.iife';
 import './style.scss';
 
@@ -12,7 +13,6 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
     this.onMapClick = this.onMapClick.bind(this);
 
     this.state = {
-      locationDisplay: '',
       isLoading: false
     };
   }
@@ -56,7 +56,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
     if (!this.inputField) {
       this.inputField = document.querySelector('#nlmaps-geocoder-control-input');
     }
-    this.inputField.value = this.state.locationDisplay;
+    this.inputField.value = this.props.location;
   }
 
   onMapClick(t, data) {
@@ -66,25 +66,32 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
         isLoading: true
       });
       if (data.queryResult) {
+        this.onLocationChange(
+          data.queryResult._display, // eslint-disable-line no-underscore-dangle
+          data.latlng
+        );
         this.setState({
-          locationDisplay: data.queryResult._display, // eslint-disable-line no-underscore-dangle
-          latlng: data.latlng,
           isLoading: false
         });
       } else {
         // fetch nearby object if no address is found
-        // TODO proper saga implementation
         fetch(`https://acc.api.data.amsterdam.nl/geosearch/atlas/?lat=${data.latlng.lat}&lon=${data.latlng.lng}&radius=0`)
         .then((res) => res.json())
         .then((res) => {
+          this.onLocationChange(
+            res.features[0].properties.display,
+            data.latlng
+          );
           this.setState({
-            locationDisplay: res.features[0].properties.display,
-            latlng: data.latlng,
             isLoading: false
           });
         });
       }
     }
+  }
+
+  onLocationChange(location, latlng) {
+    this.props.onLocationChange(location, latlng);
   }
 
   setMarkerOnSearch() {
@@ -103,18 +110,32 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
       <div className="map-component">
         <div className="row">
           <div className="col-10 offset-1">
+            { this.state.isLoading && (
+              <span className="map-component__loading">
+                <div className="progress-wrapper">
+                  <div className="progress-indicator progress-red"></div>
+                  <div className="progress-txt">Laden...</div>
+                </div>
+              </span>
+            )}
             <div className="map">
               <div id="mapdiv">
               </div>
             </div>
           </div>
         </div>
-        { this.state.isLoading && (
-          <span>Laden...</span>
-        )}
       </div>
     );
   }
 }
+
+Map.propTypes = {
+  onLocationChange: PropTypes.func.isRequired,
+  location: PropTypes.string
+};
+
+Map.defaultProps = {
+  location: ''
+};
 
 export default Map;

@@ -24,8 +24,17 @@ import { makeSelectUsername } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+    this.state = {
+      location: '',
+      latlng: {}
+    };
+
+    this.onMapAction = this.onMapAction.bind(this);
+  }
+
   /**
    * when initial state username is not null, submit the form to load repos
    */
@@ -33,6 +42,13 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     if (this.props.username && this.props.username.trim().length > 0) {
       this.props.onSubmitForm();
     }
+  }
+
+  onMapAction(location, latlng) {
+    this.setState({
+      location,
+      latlng
+    });
   }
 
   render() {
@@ -51,7 +67,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
           </p>
         </div>
         <div>
-          <Map />
+          <Map onLocationChange={this.onMapAction} location={this.state.location} latlng={this.state.latlng} />
         </div>
       </article>
     );

@@ -6,10 +6,9 @@ import ErrorMessage from '../ErrorMessage/';
 const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, parent }) => (
   <div className="rij mode_input rij_verplicht">
     <div className="label">
-      <label htmlFor="textarea">Textarea</label>
+      <label htmlFor="textarea">{meta.label}</label>
     </div>
 
-    <div>{meta.label}</div>
     <div>{meta.subtitle}</div>
     <div className="invoer">
       <textarea
