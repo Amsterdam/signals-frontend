@@ -16,17 +16,20 @@ import {
 } from './constants';
 
 const initialState = fromJS({
-  incident: {}
+  incident: {
+    incident_time_hours: 9,
+    incident_time_minutes: 0
+  }
 });
 
 function incidentContainerReducer(state = initialState, action) {
   switch (action.type) {
     case SET_INCIDENT:
       return state
-        .set('incident', {
-          ...state.get('incident'),
+        .set('incident', fromJS({
+          ...state.get('incident').toJS(),
           ...action.incident
-        });
+        }));
 
     case CREATE_INCIDENT:
       return state
@@ -51,13 +54,13 @@ function incidentContainerReducer(state = initialState, action) {
 
     case GET_CLASSIFICATION_SUCCESS:
       return state
-        .set('incident', {
-          ...state.get('incident'),
+        .set('incident', fromJS({
+          ...state.get('incident').toJS(),
           category: action.hoofdrubriek[0][0],
           categoryChance: action.hoofdrubriek[1][0],
           subcategory: action.subrubriek[0][0],
           subcategoryChance: action.subrubriek[1][0]
-        });
+        }));
 
     case GET_CLASSIFICATION_ERROR:
       return state
