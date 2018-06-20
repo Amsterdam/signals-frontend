@@ -109,7 +109,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
     return (
       <div className="map-component">
         <div className="row">
-          <div className="col-10 offset-1">
+          <div className="col-12">
             { this.state.isLoading && (
               <span className="map-component__loading">
                 <div className="progress-wrapper">

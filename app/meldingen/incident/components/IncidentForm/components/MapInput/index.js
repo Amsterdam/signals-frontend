@@ -15,13 +15,17 @@ const MapInput = ({ handler, touched, hasError, meta }) => {
   };
 
   return (
-    <div>
-      <Map onLocationChange={onMapAction} location={location} latlng={latlng} />
+    <div className="row">
+      <div className="col-12">
+        <Map onLocationChange={onMapAction} location={location} latlng={latlng} />
+      </div>
 
-      <ErrorMessage
-        touched={touched}
-        hasError={hasError}
-      />
+      <div className="col-12">
+        <ErrorMessage
+          touched={touched}
+          hasError={hasError}
+        />
+      </div>
     </div>
   );
 };
