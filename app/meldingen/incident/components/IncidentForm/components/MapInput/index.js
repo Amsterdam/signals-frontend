@@ -1,10 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Map from 'components/Map';
 
 import ErrorMessage from '../ErrorMessage/';
 
-/* eslint-disable no-unused-vars */
 const MapInput = ({ handler, touched, hasError, meta }) => {
   let location;
   let latlng;
