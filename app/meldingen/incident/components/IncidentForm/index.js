@@ -54,6 +54,8 @@ class IncidentForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+
+    Object.values(this.form.controls).map((control) => control.onBlur());
   }
 
   render() {
