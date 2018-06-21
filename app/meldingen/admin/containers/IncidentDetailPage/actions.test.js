@@ -1,18 +1,22 @@
-
 import {
-  defaultAction,
-} from './actions';
-import {
-  DEFAULT_ACTION,
+  REQUEST_INCIDENT,
+  REQUEST_INCIDENT_SUCCESS,
+  REQUEST_INCIDENT_ERROR,
 } from './constants';
 
+import {
+  requestIncident,
+  requestIncidentSuccess,
+  requestIncidentError
+} from './actions';
+
+import { testActionCreator } from '../../../../../internals/testing/test-utils';
+
 describe('IncidentDetailPage actions', () => {
-  describe('Default Action', () => {
-    it('has a type of DEFAULT_ACTION', () => {
-      const expected = {
-        type: DEFAULT_ACTION,
-      };
-      expect(defaultAction()).toEqual(expected);
-    });
+  it('should be created', () => {
+    const payload = { prop: {} };
+    testActionCreator(requestIncident, REQUEST_INCIDENT, payload);
+    testActionCreator(requestIncidentSuccess, REQUEST_INCIDENT_SUCCESS, payload);
+    testActionCreator(requestIncidentError, REQUEST_INCIDENT_ERROR, payload);
   });
 });
