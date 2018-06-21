@@ -4,10 +4,10 @@ import { shallow } from 'enzyme';
 import Header from './index';
 
 describe('<Header />', () => {
-  it('should render a div', () => {
+  it('should render correctly', () => {
     const renderedComponent = shallow(
       <Header />
     );
-    expect(renderedComponent.find('div').length).toEqual(1);
+    expect(renderedComponent).toMatchSnapshot();
   });
 });
