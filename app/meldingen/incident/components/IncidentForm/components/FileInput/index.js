@@ -8,73 +8,75 @@ import ErrorMessage from '../ErrorMessage/';
 
 import './style.scss';
 
-function handleChange(event, parent) {
-  if (event.target.files && event.target.files.length) {
-    const file = event.target.files[0];
+const FileInput = ({ handler, touched, hasError, parent, meta }) => {
+  const handleChange = (e) => {
+    if (e.target.files && e.target.files.length) {
+      const file = e.target.files[0];
 
-    // use revokeObjectURL afterward
-    const url = URL.createObjectURL(file);
-    parent.meta.setIncident({
-      image: url
-    });
-
-    const reader = new FileReader();
-    reader.onload = () => {
+      // use revokeObjectURL afterward
+      const url = URL.createObjectURL(file);
       parent.meta.setIncident({
-        image_blob: reader.result
+        image: url
       });
-    };
 
-    reader.onabort = () => console.log('file reading was aborted');
-    reader.onerror = () => console.log('file reading has failed');
+      const reader = new FileReader();
+      reader.onload = () => {
+        parent.meta.setIncident({
+          image_blob: reader.result
+        });
+      };
 
-    reader.readAsBinaryString(file);
-  }
-}
+      reader.onabort = () => console.log('file reading was aborted');
+      reader.onerror = () => console.log('file reading has failed');
 
-function handleClear(url, parent) {
-  URL.revokeObjectURL(url);
-  parent.meta.setIncident({
-    image: '',
-    image_blob: ''
-  });
-}
-
-const FileInput = ({ handler, touched, hasError, parent, meta }) => (
-  <div className="rij mode_upload file">
-    <Title meta={meta} />
-
-    {handler().value ?
-      <div className="file-input__preview">
-        <button
-          className="link-functional delete"
-          onClick={() => handleClear(handler().value, parent)}
-        />
-
-        <img
-          alt="Preview uploaded foto"
-          src={handler().value}
-          className="file-input__preview-image"
-        />
-      </div>
-    :
-      <div className="invoer">
-        <input
-          type="file"
-          id="formUpload"
-          onChange={(e) => handleChange(e, parent)}
-          readOnly={meta.readOnly}
-        />
-        <label htmlFor="formUpload" className="secundary-blue">{meta.submitLabel}</label>
-      </div>
+      reader.readAsBinaryString(file);
     }
+  };
 
-    <ErrorMessage
-      touched={touched}
-      hasError={hasError}
-    />
-  </div>
-);
+  const handleClear = (url) => {
+    URL.revokeObjectURL(url);
+    parent.meta.setIncident({
+      image: '',
+      image_blob: ''
+    });
+  };
+
+  return (
+    <div className="rij mode_upload file">
+      <Title meta={meta} />
+
+      {handler().value ?
+        <div className="file-input__preview">
+          <button
+            className="link-functional delete"
+            onClick={() => handleClear(handler().value)}
+          />
+
+          <img
+            alt="Preview uploaded foto"
+            src={handler().value}
+            className="file-input__preview-image"
+          />
+        </div>
+      :
+        <div className="invoer">
+          <input
+            type="file"
+            id="formUpload"
+            onChange={handleChange}
+            readOnly={meta.readOnly}
+          />
+          <label htmlFor="formUpload" className="secundary-blue">{meta.submitLabel}</label>
+        </div>
+      }
+
+      <ErrorMessage
+        touched={touched}
+        hasError={hasError}
+      />
+    </div>
+  );
+};
 
 FileInput.propTypes = {
   handler: PropTypes.func,

@@ -10,8 +10,7 @@ const MapInput = ({ handler, touched, hasError, meta }) => {
   let latlng;
 
   const onMapAction = (l, ll) => {
-    location = l;
-    latlng = ll;
+    console.log('onMapAction', l, ll);
   };
 
   return (
