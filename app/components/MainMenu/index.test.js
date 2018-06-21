@@ -4,10 +4,19 @@ import { shallow } from 'enzyme';
 import MainMenu from './index';
 
 describe('<MainMenu />', () => {
-  it('should render a div', () => {
-    const renderedComponent = shallow(
+  let renderedComponent;
+
+  beforeEach(() => {
+    renderedComponent = shallow(
       <MainMenu />
     );
-    expect(renderedComponent.find('div').length).toEqual(1);
+  });
+
+  it('should render correctly', () => {
+    expect(renderedComponent).toMatchSnapshot();
+  });
+
+  it('should render render 3 NavLink components', () => {
+    expect(renderedComponent.find('NavLink').length).toEqual(3);
   });
 });

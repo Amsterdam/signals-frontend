@@ -1,20 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
 const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, parent }) => (
-  <div className={`row mode_input verplicht ${touched && hasError('required') ? 'row_ongeldig' : ''}`}>
-    <div className="label col-12">
-      <label htmlFor={meta.id}>{meta.label}<span className="verplicht"> (verplicht)</span></label>
-    </div>
-    <div className="input-help col-12">
-      <ErrorMessage
-        touched={touched}
-        hasError={hasError}
-      />
-    </div>
-    <div className="invoer col-12">
+  <div className="rij mode_input">
+    <Title meta={meta} />
+
+    <div className="invoer">
       <textarea
         name={meta.id}
         className="input"
@@ -25,6 +19,11 @@ const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, 
         {...handler()}
       />
     </div>
+
+    <ErrorMessage
+      touched={touched}
+      hasError={hasError}
+    />
   </div>
 );
 

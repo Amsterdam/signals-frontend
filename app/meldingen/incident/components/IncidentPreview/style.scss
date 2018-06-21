@@ -1,25 +1,33 @@
 .incident-preview {
   ul,
   li {
+    width: 100%;
     list-style: none;
     padding: 0;
   }
 
+  ul {
+    border-top: 1px solid #e5e5e5;
+  }
+
+  li {
+    padding: 12px 0;
+  }
+
+  .link-functional {
+    float: right;
+    margin: 14px 0;
+  }
+
   .preview-item-label {
     display: inline-block;
-    width: 50%;
+    vertical-align: top;
+    width: 30%;
   }
 
   .preview-item-value {
     display: inline-block;
-    float: right;
+    vertical-align: top;
     width: 50%;
-  }
-
-  .link-to-step {
-    background-color: white;
-    font-size: 14px;
-    position: absolute;
-    right: 0;
   }
 }

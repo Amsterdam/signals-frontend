@@ -1,5 +1,4 @@
 import React from 'react';
-import LocaleToggle from 'containers/LocaleToggle';
 import './style.scss';
 
 import LogoSvg from '../../../node_modules/stijl/dist/images/logos/andreas.svg';
@@ -15,7 +14,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
             <h1 className="sitelogo">
               <a className="mainlogo" href="https://www.amsterdam.nl">
                 <span className="logoset">
-                  <img src={LogoSvg} className="screen-logo" alt="Gemeente Amsterdam" />
+                  <LogoSvg className="screen-logo" alt="Gemeente Amsterdam" />
                   <img src={LogoPng} className="alt-logo" alt="Gemeente Amsterdam" />
                   <img src={LogoPrint} className="print-logo" alt="Gemeente Amsterdam" />
                 </span>
@@ -30,7 +29,6 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
             <nav>
               <ul className="links horizontal right ">
                 <li>
-                  <LocaleToggle />
                 </li>
               </ul>
             </nav>

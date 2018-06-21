@@ -27,7 +27,7 @@ class MainMenu extends React.Component { // eslint-disable-line react/prefer-sta
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/admin">
+                <NavLink to="/admin/incidents">
                   <span className="linklabel">
                     <FormattedMessage {...messages.admin} />
                   </span>

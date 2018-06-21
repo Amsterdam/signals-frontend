@@ -6,32 +6,48 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
+import { withRouter } from 'react-router-dom';
 
 import './style.scss';
 
 class ListComponent extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-    this.selectIncident = this.props.selectIncident.bind(this);
+  selectIncident = (incident) => () => {
+    this.props.incidentSelected(incident);
   }
-
-  selectNthIncident = () => { this.props.selectIncident(this.props.incidents[this.props.incidents.length - 1]); }
 
   render() {
     return (
-      <div className="list-component col-md-7">
-        <FormattedMessage {...messages.header} />
-        <br />There are {this.props.incidents.length} found.
-        <br />{JSON.stringify(this.props.incidents)}
-        <hr />
-
-        <button className="action primary " onClick={this.selectNthIncident} >
-          <span className="value">Select last incident</span>
-        </button>
-        <hr />
+      <div className="list-component col-8">
+        Er zijn {this.props.incidents.length} meldingen gevonden.
+        <table className="" cellSpacing="0" cellPadding="0">
+          <thead>
+            <tr>
+              <th className="">Id</th>
+              <th className="">Datum</th>
+              <th className="">Tijd</th>
+              <th className="">Stadsdeel</th>
+              <th className="">Rubriek</th>
+              <th className="">Afdeling</th>
+              <th className="">Status</th>
+              <th className="">Adres</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.props.incidents.map((incident) => (
+              <tr key={incident.id} onClick={this.selectIncident(incident)}>
+                <td>{incident.id}</td>
+                <td>{incident.incident_date}</td>
+                <td>{incident.user}</td>
+                <td>{incident.location.stadsdeel}</td>
+                <td>{incident.subcategory}</td>
+                <td>{incident.department}</td>
+                <td>{incident.current_state.state}</td>
+                <td>{incident.user}</td>
+              </tr>
+            ))
+            }
+          </tbody>
+        </table>
       </div>
     );
   }
@@ -39,7 +55,8 @@ class ListComponent extends React.Component { // eslint-disable-line react/prefe
 
 ListComponent.propTypes = {
   incidents: PropTypes.array.isRequired,
-  selectIncident: PropTypes.func.isRequired
+  incidentSelected: PropTypes.func.isRequired,
 };
 
-export default ListComponent;
+// export default withRouter(ListComponent);
+export default withRouter(ListComponent);

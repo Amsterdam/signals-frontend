@@ -1,6 +1,5 @@
 import React from 'react';
-// import { FormattedMessage } from 'react-intl';
-// import messages from './messages';
+import LocaleToggle from 'containers/LocaleToggle';
 
 import './style.scss';
 
@@ -30,16 +29,19 @@ function Footer() {
                 <li>
                   <a href="#Amsterdam">
                     <span className="linklabel">
-                        Privacy
+                      Privacy
                     </span>
                   </a>
                 </li>
                 <li>
                   <a href="#Amsterdam">
                     <span className="linklabel">
-                        Cookies
+                      Cookies
                     </span>
                   </a>
+                </li>
+                <li>
+                  <LocaleToggle />
                 </li>
               </ul>
             </nav>

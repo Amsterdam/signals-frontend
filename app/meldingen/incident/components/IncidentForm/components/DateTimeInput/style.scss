@@ -1,0 +1,13 @@
+.datetime-input {
+  &__earlier-date {
+    width: 40%;
+  }
+
+  &__earlier-time {
+    width: 200px;
+
+    // &-hours {
+      // float: left;
+    // }
+  }
+}

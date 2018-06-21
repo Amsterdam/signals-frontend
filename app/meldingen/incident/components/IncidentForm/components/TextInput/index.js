@@ -3,17 +3,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 const TextInput = ({ handler, touched, hasError, meta }) => (
-  <div className={`row ${meta.readOnly ? 'mode_readonly' : 'mode_input'} verplicht`}>
-    <div className="label col-12">
-      <label htmlFor={meta.id}>{meta.label}</label>
+  <div className="rij mode_input">
+    <Title meta={meta} />
+
+    <div className="invoer">
+      <input type={meta.type} placeholder={meta.placeholder} readOnly={meta.readOnly} {...handler()} />
     </div>
 
-
-    <div className="invoer col-12">
-      <input className="input" id={meta.id} name={meta.id} type={meta.type} placeholder={meta.placeholder} readOnly={meta.readOnly} {...handler()} />
-    </div>
+    <ErrorMessage
+      touched={touched}
+      hasError={hasError}
+    />
   </div>
 );
 

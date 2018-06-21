@@ -1,0 +1,939 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Header /> should render correctly 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Header />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": <div
+        className="row"
+>
+        <div
+                className="col-6"
+        >
+                <h1
+                        className="sitelogo"
+                >
+                        <a
+                                className="mainlogo"
+                                href="https://www.amsterdam.nl"
+                        >
+                                <span
+                                        className="logoset"
+                                >
+                                        <img
+                                                alt="Gemeente Amsterdam"
+                                                className="screen-logo"
+                                                src="IMAGE_MOCK"
+                                        />
+                                        <img
+                                                alt="Gemeente Amsterdam"
+                                                className="alt-logo"
+                                                src="IMAGE_MOCK"
+                                        />
+                                        <img
+                                                alt="Gemeente Amsterdam"
+                                                className="print-logo"
+                                                src="IMAGE_MOCK"
+                                        />
+                                </span>
+                                <span
+                                        className="logotexts"
+                                >
+                                        <span
+                                                className="logotext red"
+                                        >
+                                                Gemeente
+                                        </span>
+                                        <span
+                                                className="logotext red"
+                                        >
+                                                Amsterdam
+                                        </span>
+                                </span>
+                        </a>
+                </h1>
+        </div>
+        <div
+                className="col-6 type-nav-secundair "
+        >
+                <nav>
+                        <ul
+                                className="links horizontal right "
+                        >
+                                <li />
+                        </ul>
+                </nav>
+        </div>
+</div>,
+      "className": "header-component",
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="col-6"
+>
+            <h1
+                        className="sitelogo"
+            >
+                        <a
+                                    className="mainlogo"
+                                    href="https://www.amsterdam.nl"
+                        >
+                                    <span
+                                                className="logoset"
+                                    >
+                                                <img
+                                                            alt="Gemeente Amsterdam"
+                                                            className="screen-logo"
+                                                            src="IMAGE_MOCK"
+                                                />
+                                                <img
+                                                            alt="Gemeente Amsterdam"
+                                                            className="alt-logo"
+                                                            src="IMAGE_MOCK"
+                                                />
+                                                <img
+                                                            alt="Gemeente Amsterdam"
+                                                            className="print-logo"
+                                                            src="IMAGE_MOCK"
+                                                />
+                                    </span>
+                                    <span
+                                                className="logotexts"
+                                    >
+                                                <span
+                                                            className="logotext red"
+                                                >
+                                                            Gemeente
+                                                </span>
+                                                <span
+                                                            className="logotext red"
+                                                >
+                                                            Amsterdam
+                                                </span>
+                                    </span>
+                        </a>
+            </h1>
+</div>,
+          <div
+            className="col-6 type-nav-secundair "
+>
+            <nav>
+                        <ul
+                                    className="links horizontal right "
+                        >
+                                    <li />
+                        </ul>
+            </nav>
+</div>,
+        ],
+        "className": "row",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <h1
+              className="sitelogo"
+>
+              <a
+                            className="mainlogo"
+                            href="https://www.amsterdam.nl"
+              >
+                            <span
+                                          className="logoset"
+                            >
+                                          <img
+                                                        alt="Gemeente Amsterdam"
+                                                        className="screen-logo"
+                                                        src="IMAGE_MOCK"
+                                          />
+                                          <img
+                                                        alt="Gemeente Amsterdam"
+                                                        className="alt-logo"
+                                                        src="IMAGE_MOCK"
+                                          />
+                                          <img
+                                                        alt="Gemeente Amsterdam"
+                                                        className="print-logo"
+                                                        src="IMAGE_MOCK"
+                                          />
+                            </span>
+                            <span
+                                          className="logotexts"
+                            >
+                                          <span
+                                                        className="logotext red"
+                                          >
+                                                        Gemeente
+                                          </span>
+                                          <span
+                                                        className="logotext red"
+                                          >
+                                                        Amsterdam
+                                          </span>
+                            </span>
+              </a>
+</h1>,
+            "className": "col-6",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <a
+                className="mainlogo"
+                href="https://www.amsterdam.nl"
+>
+                <span
+                                className="logoset"
+                >
+                                <img
+                                                alt="Gemeente Amsterdam"
+                                                className="screen-logo"
+                                                src="IMAGE_MOCK"
+                                />
+                                <img
+                                                alt="Gemeente Amsterdam"
+                                                className="alt-logo"
+                                                src="IMAGE_MOCK"
+                                />
+                                <img
+                                                alt="Gemeente Amsterdam"
+                                                className="print-logo"
+                                                src="IMAGE_MOCK"
+                                />
+                </span>
+                <span
+                                className="logotexts"
+                >
+                                <span
+                                                className="logotext red"
+                                >
+                                                Gemeente
+                                </span>
+                                <span
+                                                className="logotext red"
+                                >
+                                                Amsterdam
+                                </span>
+                </span>
+</a>,
+              "className": "sitelogo",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <span
+                    className="logoset"
+>
+                    <img
+                                        alt="Gemeente Amsterdam"
+                                        className="screen-logo"
+                                        src="IMAGE_MOCK"
+                    />
+                    <img
+                                        alt="Gemeente Amsterdam"
+                                        className="alt-logo"
+                                        src="IMAGE_MOCK"
+                    />
+                    <img
+                                        alt="Gemeente Amsterdam"
+                                        className="print-logo"
+                                        src="IMAGE_MOCK"
+                    />
+</span>,
+                  <span
+                    className="logotexts"
+>
+                    <span
+                                        className="logotext red"
+                    >
+                                        Gemeente
+                    </span>
+                    <span
+                                        className="logotext red"
+                    >
+                                        Amsterdam
+                    </span>
+</span>,
+                ],
+                "className": "mainlogo",
+                "href": "https://www.amsterdam.nl",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      <img
+                        alt="Gemeente Amsterdam"
+                        className="screen-logo"
+                        src="IMAGE_MOCK"
+/>,
+                      <img
+                        alt="Gemeente Amsterdam"
+                        className="alt-logo"
+                        src="IMAGE_MOCK"
+/>,
+                      <img
+                        alt="Gemeente Amsterdam"
+                        className="print-logo"
+                        src="IMAGE_MOCK"
+/>,
+                    ],
+                    "className": "logoset",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "alt": "Gemeente Amsterdam",
+                        "className": "screen-logo",
+                        "src": "IMAGE_MOCK",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": "img",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "alt": "Gemeente Amsterdam",
+                        "className": "alt-logo",
+                        "src": "IMAGE_MOCK",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": "img",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "alt": "Gemeente Amsterdam",
+                        "className": "print-logo",
+                        "src": "IMAGE_MOCK",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": "img",
+                    },
+                  ],
+                  "type": "span",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      <span
+                        className="logotext red"
+>
+                        Gemeente
+</span>,
+                      <span
+                        className="logotext red"
+>
+                        Amsterdam
+</span>,
+                    ],
+                    "className": "logotexts",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "Gemeente",
+                        "className": "logotext red",
+                      },
+                      "ref": null,
+                      "rendered": "Gemeente",
+                      "type": "span",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "Amsterdam",
+                        "className": "logotext red",
+                      },
+                      "ref": null,
+                      "rendered": "Amsterdam",
+                      "type": "span",
+                    },
+                  ],
+                  "type": "span",
+                },
+              ],
+              "type": "a",
+            },
+            "type": "h1",
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <nav>
+              <ul
+                            className="links horizontal right "
+              >
+                            <li />
+              </ul>
+</nav>,
+            "className": "col-6 type-nav-secundair ",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <ul
+                className="links horizontal right "
+>
+                <li />
+</ul>,
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <li />,
+                "className": "links horizontal right ",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "li",
+              },
+              "type": "ul",
+            },
+            "type": "nav",
+          },
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <div
+          className="row"
+>
+          <div
+                    className="col-6"
+          >
+                    <h1
+                              className="sitelogo"
+                    >
+                              <a
+                                        className="mainlogo"
+                                        href="https://www.amsterdam.nl"
+                              >
+                                        <span
+                                                  className="logoset"
+                                        >
+                                                  <img
+                                                            alt="Gemeente Amsterdam"
+                                                            className="screen-logo"
+                                                            src="IMAGE_MOCK"
+                                                  />
+                                                  <img
+                                                            alt="Gemeente Amsterdam"
+                                                            className="alt-logo"
+                                                            src="IMAGE_MOCK"
+                                                  />
+                                                  <img
+                                                            alt="Gemeente Amsterdam"
+                                                            className="print-logo"
+                                                            src="IMAGE_MOCK"
+                                                  />
+                                        </span>
+                                        <span
+                                                  className="logotexts"
+                                        >
+                                                  <span
+                                                            className="logotext red"
+                                                  >
+                                                            Gemeente
+                                                  </span>
+                                                  <span
+                                                            className="logotext red"
+                                                  >
+                                                            Amsterdam
+                                                  </span>
+                                        </span>
+                              </a>
+                    </h1>
+          </div>
+          <div
+                    className="col-6 type-nav-secundair "
+          >
+                    <nav>
+                              <ul
+                                        className="links horizontal right "
+                              >
+                                        <li />
+                              </ul>
+                    </nav>
+          </div>
+</div>,
+        "className": "header-component",
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div
+              className="col-6"
+>
+              <h1
+                            className="sitelogo"
+              >
+                            <a
+                                          className="mainlogo"
+                                          href="https://www.amsterdam.nl"
+                            >
+                                          <span
+                                                        className="logoset"
+                                          >
+                                                        <img
+                                                                      alt="Gemeente Amsterdam"
+                                                                      className="screen-logo"
+                                                                      src="IMAGE_MOCK"
+                                                        />
+                                                        <img
+                                                                      alt="Gemeente Amsterdam"
+                                                                      className="alt-logo"
+                                                                      src="IMAGE_MOCK"
+                                                        />
+                                                        <img
+                                                                      alt="Gemeente Amsterdam"
+                                                                      className="print-logo"
+                                                                      src="IMAGE_MOCK"
+                                                        />
+                                          </span>
+                                          <span
+                                                        className="logotexts"
+                                          >
+                                                        <span
+                                                                      className="logotext red"
+                                                        >
+                                                                      Gemeente
+                                                        </span>
+                                                        <span
+                                                                      className="logotext red"
+                                                        >
+                                                                      Amsterdam
+                                                        </span>
+                                          </span>
+                            </a>
+              </h1>
+</div>,
+            <div
+              className="col-6 type-nav-secundair "
+>
+              <nav>
+                            <ul
+                                          className="links horizontal right "
+                            >
+                                          <li />
+                            </ul>
+              </nav>
+</div>,
+          ],
+          "className": "row",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <h1
+                className="sitelogo"
+>
+                <a
+                                className="mainlogo"
+                                href="https://www.amsterdam.nl"
+                >
+                                <span
+                                                className="logoset"
+                                >
+                                                <img
+                                                                alt="Gemeente Amsterdam"
+                                                                className="screen-logo"
+                                                                src="IMAGE_MOCK"
+                                                />
+                                                <img
+                                                                alt="Gemeente Amsterdam"
+                                                                className="alt-logo"
+                                                                src="IMAGE_MOCK"
+                                                />
+                                                <img
+                                                                alt="Gemeente Amsterdam"
+                                                                className="print-logo"
+                                                                src="IMAGE_MOCK"
+                                                />
+                                </span>
+                                <span
+                                                className="logotexts"
+                                >
+                                                <span
+                                                                className="logotext red"
+                                                >
+                                                                Gemeente
+                                                </span>
+                                                <span
+                                                                className="logotext red"
+                                                >
+                                                                Amsterdam
+                                                </span>
+                                </span>
+                </a>
+</h1>,
+              "className": "col-6",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <a
+                  className="mainlogo"
+                  href="https://www.amsterdam.nl"
+>
+                  <span
+                                    className="logoset"
+                  >
+                                    <img
+                                                      alt="Gemeente Amsterdam"
+                                                      className="screen-logo"
+                                                      src="IMAGE_MOCK"
+                                    />
+                                    <img
+                                                      alt="Gemeente Amsterdam"
+                                                      className="alt-logo"
+                                                      src="IMAGE_MOCK"
+                                    />
+                                    <img
+                                                      alt="Gemeente Amsterdam"
+                                                      className="print-logo"
+                                                      src="IMAGE_MOCK"
+                                    />
+                  </span>
+                  <span
+                                    className="logotexts"
+                  >
+                                    <span
+                                                      className="logotext red"
+                                    >
+                                                      Gemeente
+                                    </span>
+                                    <span
+                                                      className="logotext red"
+                                    >
+                                                      Amsterdam
+                                    </span>
+                  </span>
+</a>,
+                "className": "sitelogo",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <span
+                      className="logoset"
+>
+                      <img
+                                            alt="Gemeente Amsterdam"
+                                            className="screen-logo"
+                                            src="IMAGE_MOCK"
+                      />
+                      <img
+                                            alt="Gemeente Amsterdam"
+                                            className="alt-logo"
+                                            src="IMAGE_MOCK"
+                      />
+                      <img
+                                            alt="Gemeente Amsterdam"
+                                            className="print-logo"
+                                            src="IMAGE_MOCK"
+                      />
+</span>,
+                    <span
+                      className="logotexts"
+>
+                      <span
+                                            className="logotext red"
+                      >
+                                            Gemeente
+                      </span>
+                      <span
+                                            className="logotext red"
+                      >
+                                            Amsterdam
+                      </span>
+</span>,
+                  ],
+                  "className": "mainlogo",
+                  "href": "https://www.amsterdam.nl",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        <img
+                          alt="Gemeente Amsterdam"
+                          className="screen-logo"
+                          src="IMAGE_MOCK"
+/>,
+                        <img
+                          alt="Gemeente Amsterdam"
+                          className="alt-logo"
+                          src="IMAGE_MOCK"
+/>,
+                        <img
+                          alt="Gemeente Amsterdam"
+                          className="print-logo"
+                          src="IMAGE_MOCK"
+/>,
+                      ],
+                      "className": "logoset",
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "alt": "Gemeente Amsterdam",
+                          "className": "screen-logo",
+                          "src": "IMAGE_MOCK",
+                        },
+                        "ref": null,
+                        "rendered": null,
+                        "type": "img",
+                      },
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "alt": "Gemeente Amsterdam",
+                          "className": "alt-logo",
+                          "src": "IMAGE_MOCK",
+                        },
+                        "ref": null,
+                        "rendered": null,
+                        "type": "img",
+                      },
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "alt": "Gemeente Amsterdam",
+                          "className": "print-logo",
+                          "src": "IMAGE_MOCK",
+                        },
+                        "ref": null,
+                        "rendered": null,
+                        "type": "img",
+                      },
+                    ],
+                    "type": "span",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        <span
+                          className="logotext red"
+>
+                          Gemeente
+</span>,
+                        <span
+                          className="logotext red"
+>
+                          Amsterdam
+</span>,
+                      ],
+                      "className": "logotexts",
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": "Gemeente",
+                          "className": "logotext red",
+                        },
+                        "ref": null,
+                        "rendered": "Gemeente",
+                        "type": "span",
+                      },
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": "Amsterdam",
+                          "className": "logotext red",
+                        },
+                        "ref": null,
+                        "rendered": "Amsterdam",
+                        "type": "span",
+                      },
+                    ],
+                    "type": "span",
+                  },
+                ],
+                "type": "a",
+              },
+              "type": "h1",
+            },
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <nav>
+                <ul
+                                className="links horizontal right "
+                >
+                                <li />
+                </ul>
+</nav>,
+              "className": "col-6 type-nav-secundair ",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <ul
+                  className="links horizontal right "
+>
+                  <li />
+</ul>,
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": <li />,
+                  "className": "links horizontal right ",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "li",
+                },
+                "type": "ul",
+              },
+              "type": "nav",
+            },
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;

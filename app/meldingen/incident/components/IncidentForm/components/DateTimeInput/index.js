@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
+import Title from '../Title/';
 // import ErrorMessage from '../ErrorMessage/';
 
-// 2011-10-05T14:48:00.000Z
+import './style.scss';
 
 function handleChange(setIncident, value) {
   setIncident({
@@ -21,10 +22,10 @@ function formatDate(offset, type = 'value') {
 }
 
 const DateTimeInput = ({ meta, parent }) => (
-  <div className="row antwoorden checkboxen">
-    <div className="col-12">
-      <div>{meta.label} {moment.locale()}</div>
-      <div>{meta.subtitle}</div>
+  <div className="rij mode_input datetime-input">
+    <div className="antwoorden">
+      <Title meta={meta} />
+
       <div className="antwoord">
         <input
           className="kenmerkradio"
@@ -48,12 +49,15 @@ const DateTimeInput = ({ meta, parent }) => (
         />
         <label htmlFor="{meta.name}-earlier">Eerder</label>
       </div>
-      {parent.value.incident_date !== undefined && parent.value.incident_date !== 'now' && (
-        <div>
-          <label htmlFor="{meta.name}-select-day">Dag</label>
-          <div className="invoer">
+      {parent.value.incident_date !== undefined && parent.value.incident_date !== 'now' ?
+        <div className="datetime-input__earlier">
+
+          <div className="label">
+            <label htmlFor={`${meta.name}-select-day`}>Dag</label>
+          </div>
+          <div className="invoer datetime-input__earlier-date">
             <select
-              id="{meta.name}-select-day"
+              id={`${meta.name}-select-day`}
               value={parent.value.incident_date}
               onChange={(e) => handleChange(parent.meta.setIncident, e.target.value)}
             >
@@ -62,11 +66,14 @@ const DateTimeInput = ({ meta, parent }) => (
               ))}
             </select>
           </div>
-          <label htmlFor="{meta.name}-select-time">Tijd</label>
-          <div className="in">
+
+          <div className="label">
+            <label htmlFor={`${meta.name}-select-time-hours`}>Tijd</label>
+          </div>
+          <div className="invoer datetime-input__earlier-time">
             <select
               value={parent.value.incident_time_hours}
-              id="{meta.name}-select-time-hours"
+              id={`${meta.name}-select-time-hours`}
               onChange={(e) => parent.meta.setIncident({ incident_time_hours: e.target.value })}
             >
               {[...Array(24).keys()].map((hour) => (
@@ -76,9 +83,8 @@ const DateTimeInput = ({ meta, parent }) => (
                 >{hour}</option>
               ))}
             </select>
-
             <select
-              id="{meta.name}-select-time-minutes"
+              id={`${meta.name}-select-time-minutes`}
               value={parent.value.incident_time_minutes}
               onChange={(e) => parent.meta.setIncident({ incident_time_minutes: e.target.value })}
             >
@@ -91,7 +97,8 @@ const DateTimeInput = ({ meta, parent }) => (
             </select>
           </div>
         </div>
-      )}
+        : ''
+      }
     </div>
   </div>
 );
