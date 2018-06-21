@@ -88,6 +88,15 @@ export default {
           // },
           render: FormComponents.HiddenInput
         },
+        image: {
+          meta: {
+            label: 'Wilt u een foto meesturen?',
+            submitLabel: 'Foto kiezen',
+            name: 'image',
+            watch: true
+          },
+          render: FormComponents.FileInput
+        },
         $field_0: {
           isStatic: false,
           render: IncidentNavigation
@@ -164,6 +173,11 @@ export default {
         incident_date: {
           label: 'Tijdstip',
           render: PreviewComponents.DateTime
+        },
+        image: {
+          label: 'Foto',
+          render: PreviewComponents.Image,
+          optional: true
         }
       },
       telefoon: {

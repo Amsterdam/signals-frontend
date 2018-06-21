@@ -23,11 +23,9 @@ function IncidentPreview({ incident, preview }) {
           {Object.keys(preview).map((key) => (
             <div key={key}>
               <button
-                className="link-to-step"
+                className="link-functional edit"
                 onClick={() => push(`incident/${key}`)}
-              >
-                bewerk
-              </button>
+              />
 
               <ul key={key}>
                 {Object.keys(preview[key]).map((subkey) => (
@@ -35,6 +33,7 @@ function IncidentPreview({ incident, preview }) {
                     {preview[key][subkey].render({
                       label: preview[key][subkey].label,
                       value: incident[subkey],
+                      optional: preview[key][subkey].optional,
                       incident
                     })}
                   </li>

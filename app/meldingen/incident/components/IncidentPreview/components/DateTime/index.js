@@ -16,17 +16,22 @@ function getValue(value, incident) {
   return `${moment(value).format('dddd D MMMM')}, ${time}`;
 }
 
-const DateTime = ({ label, value, incident }) => (
+const DateTime = ({ label, value, optional, incident }) => (
   <span>
-    <span className="preview-item-label">{label}</span>
-    <span className="preview-item-value">{getValue(value, incident)}</span>
+    {!optional || (optional && value) ?
+      <span>
+        <span className="preview-item-label">{label}</span>
+        <span className="preview-item-value">{getValue(value, incident)}</span>
+      </span>
+      : ''}
   </span>
 );
 
 DateTime.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
-  incident: PropTypes.object
+  incident: PropTypes.object,
+  optional: PropTypes.bool
 };
 
 export default DateTime;

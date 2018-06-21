@@ -14,7 +14,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
             <h1 className="sitelogo">
               <a className="mainlogo" href="https://www.amsterdam.nl">
                 <span className="logoset">
-                  <img src={LogoSvg} className="screen-logo" alt="Gemeente Amsterdam" />
+                  <LogoSvg className="screen-logo" alt="Gemeente Amsterdam" />
                   <img src={LogoPng} className="alt-logo" alt="Gemeente Amsterdam" />
                   <img src={LogoPrint} className="print-logo" alt="Gemeente Amsterdam" />
                 </span>
