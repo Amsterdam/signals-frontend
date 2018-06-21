@@ -1,17 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { amaps } from '../../static/amaps.iife';
+import amaps from '../../static/amaps.es';
+import { wgs84ToRd } from './crs-converter';
+
 import './style.scss';
 
 import MarkerIcon from '../../../node_modules/stijl/dist/images/svg/marker.svg';
 
 class Map extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  static requestFormatter(baseUrl, xy) {
+    const xyRd = wgs84ToRd(xy);
+    return `${baseUrl}${xyRd.x},${xyRd.y},50`;
+    // return "" + baseUrl + xyRd.x + "," + xyRd.y + ",50";
+  }
+
+  static responseFormatter(res) {
+    const filtered = res.results.filter((x) =>
+      x.hoofdadres === true
+    );
+    return filtered.length > 0 ? filtered[0] : null;
+  }
+
   constructor(props) {
     super(props);
-    this.nlmaps = window.nlmaps;
-
     this.onMapClick = this.onMapClick.bind(this);
-
     this.state = {
       isLoading: false
     };
@@ -26,7 +38,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
     window.L.Marker.prototype.options.icon = Marker;
     window.L.icon.Default = Marker;
 
-    this.map = this.nlmaps.createMap({
+    this.map = amaps.createMap({
       style: 'standaard',
       target: 'mapdiv',
       marker: false,
@@ -34,13 +46,13 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
       zoom: 14
     });
 
-    const clicks = this.nlmaps.clickProvider(this.map);
-    const singleMarker = this.nlmaps.singleMarker(this.map);
-    const featureQuery = this.nlmaps.queryFeatures(
+    const clicks = amaps.clickProvider(this.map);
+    const singleMarker = amaps.singleMarker(this.map);
+    const featureQuery = amaps.queryFeatures(
       clicks,
       'https://api.data.amsterdam.nl/bag/nummeraanduiding/?format=json&locatie=',
-      amaps.bagApiRequestFormatter,
-      amaps.bagApiResponseFormatter
+      Map.requestFormatter,
+      Map.responseFormatter
     );
     clicks.subscribe(singleMarker);
     featureQuery.subscribe(this.onMapClick);

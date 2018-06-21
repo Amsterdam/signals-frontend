@@ -17,7 +17,6 @@ import moment from 'moment';
 import 'moment/src/locale/nl';
 import createHistory from 'history/createBrowserHistory';
 import 'leaflet/dist/leaflet';
-import 'static/nlmaps.iife';
 
 // Import root app
 import App from 'containers/App';
