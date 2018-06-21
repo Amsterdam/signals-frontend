@@ -5,7 +5,7 @@ import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
 const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, parent }) => (
-  <div className="rij mode_input rij_verplicht">
+  <div className="rij mode_input">
     <Title meta={meta} />
 
     <div className="invoer">

@@ -5,10 +5,12 @@ import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
 const TextInput = ({ handler, touched, hasError, meta }) => (
-  <div>
+  <div className="rij mode_input">
     <Title meta={meta} />
 
-    <input type={meta.type} placeholder={meta.placeholder} readOnly={meta.readOnly} {...handler()} />
+    <div className="invoer">
+      <input type={meta.type} placeholder={meta.placeholder} readOnly={meta.readOnly} {...handler()} />
+    </div>
 
     <ErrorMessage
       touched={touched}

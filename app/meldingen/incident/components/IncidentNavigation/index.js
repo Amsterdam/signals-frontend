@@ -18,14 +18,14 @@ const IncidentNavigation = ({ valid, meta: { form, handleSubmit, setIncident } }
       render={({ next, previous, step, steps }) => (
         <div className="incident-navigation">
           {steps.indexOf(step) > 0 && (
-            <button className="incident-navigation__button" onClick={previous}>
+            <button className="incident-navigation__button--previous action startagain" onClick={previous}>
               <FormattedMessage {...messages.previous} />
             </button>
           )}
 
           {steps.indexOf(step) < steps.length - 1 && (
             <button
-              className="incident-navigation__button"
+              className="incident-navigation__button--next action primary arrow-right"
               onClick={(e) => {
                 if (valid) {
                   handleSubmit(e);
