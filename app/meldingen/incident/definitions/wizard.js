@@ -176,6 +176,10 @@ export default {
     },
     preview: {
       beschrijf: {
+        location: {
+          label: 'Hier is het',
+          render: PreviewComponents.Map
+        },
         description: {
           label: 'Hier gaat het om',
           render: PreviewComponents.PlainText
