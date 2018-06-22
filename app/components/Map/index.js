@@ -22,8 +22,6 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
   }
 
   componentDidMount() {
-    console.log('componentDidMount', this.props.preview);
-
     const Marker = new window.L.icon({ // eslint-disable-line new-cap
       iconUrl: MarkerIcon,
       iconSize: [40, 40],
