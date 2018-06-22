@@ -55,8 +55,13 @@
   "pre-commit": "lint:staged",
   "babel": {
     "plugins": [
+      "styled-components",
+      [
         "inline-react-svg",
-      "styled-components"
+        {
+          "ignorePattern": ".*marker\\.svg"
+        }
+      ]
     ],
     "presets": [
       "react",
