@@ -5,6 +5,9 @@ import './style.scss';
 
 import MarkerIcon from '../../../node_modules/stijl/dist/images/svg/marker.svg';
 
+const DEFAULT_ZOOM_LEVEL = 14;
+const HIGHLIGHTED_ZOOM_LEVEL = 17;
+
 class Map extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
@@ -31,7 +34,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
       target: 'mapdiv',
       marker: false,
       search: true,
-      zoom: 14
+      zoom: DEFAULT_ZOOM_LEVEL
     });
 
     const clicks = this.nlmaps.clickProvider(this.map);
@@ -57,6 +60,10 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
       this.inputField = document.querySelector('#nlmaps-geocoder-control-input');
     }
     this.inputField.value = this.props.location;
+
+    if (this.props.latlng) {
+      this.map.setView(new window.L.LatLng(this.props.latlng.lat, this.props.latlng.lng), HIGHLIGHTED_ZOOM_LEVEL);
+    }
   }
 
   onMapClick(t, data) {
@@ -131,7 +138,8 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
 
 Map.propTypes = {
   onLocationChange: PropTypes.func.isRequired,
-  location: PropTypes.string
+  location: PropTypes.string,
+  latlng: PropTypes.object,
 };
 
 Map.defaultProps = {

@@ -28,6 +28,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent }) => {
         address: l
       }
     });
+    latlng = ll;
   };
 
   return (
