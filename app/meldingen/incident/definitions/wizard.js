@@ -10,9 +10,10 @@ export default {
     label: 'Beschrijf uw melding',
     form: {
       controls: {
-        map: {
+        location: {
           meta: {
             label: 'Selecteer de locatie',
+            watch: true
           },
           options: {
             validators: Validators.required

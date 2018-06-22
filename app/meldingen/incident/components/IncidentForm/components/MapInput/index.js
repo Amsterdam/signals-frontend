@@ -3,20 +3,39 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Map from 'components/Map';
 
+import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
-const MapInput = ({ handler, touched, hasError, meta }) => {
-  let location;
+const MapInput = ({ handler, touched, hasError, meta, parent }) => {
+  const value = handler().value;
+  let address;
   let latlng;
 
+  if (value) {
+    latlng = {
+      lat: value.lat,
+      lng: value.lng
+    };
+
+    address = value.address;
+  }
+
   const onMapAction = (l, ll) => {
-    console.log('onMapAction', l, ll);
+    parent.meta.setIncident({
+      location: {
+        lat: ll.lat,
+        lng: ll.lng,
+        address: l
+      }
+    });
   };
 
   return (
     <div className="row">
+      <Title meta={meta} />
+
       <div className="col-12">
-        <Map onLocationChange={onMapAction} location={location} latlng={latlng} />
+        <Map onLocationChange={onMapAction} location={address} latlng={latlng} />
       </div>
 
       <div className="col-12">
@@ -33,7 +52,8 @@ MapInput.propTypes = {
   handler: PropTypes.func,
   touched: PropTypes.bool,
   hasError: PropTypes.func,
-  meta: PropTypes.object
+  meta: PropTypes.object,
+  parent: PropTypes.object
 };
 
 export default MapInput;

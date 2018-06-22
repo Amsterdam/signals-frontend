@@ -1,4 +1,13 @@
 .incident-navigation {
+  align-items: center;
   background-color: rgba(229, 229, 229, 1);
-  padding: 4px;
+  display: flex;
+  flex-flow: row nowrap;
+  height: 100%;
+  justify-content: space-between;
+  padding: 0 8px;
+
+  &__button {
+    align-self: center;
+  }
 }
