@@ -11,7 +11,6 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
   static requestFormatter(baseUrl, xy) {
     const xyRd = wgs84ToRd(xy);
     return `${baseUrl}${xyRd.x},${xyRd.y},50`;
-    // return "" + baseUrl + xyRd.x + "," + xyRd.y + ",50";
   }
 
   static responseFormatter(res) {
