@@ -5,10 +5,17 @@ import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
 const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, parent }) => (
-  <div className="rij mode_input">
-    <Title meta={meta} />
-
-    <div className="invoer">
+  <div className={`row mode_input verplicht ${touched && hasError('required') ? 'row_ongeldig' : ''}`}>
+    <div className="label col-12">
+      <Title meta={meta} />
+    </div>
+    <div className="input-help col-12">
+      <ErrorMessage
+        touched={touched}
+        hasError={hasError}
+      />
+    </div>
+    <div className="invoer col-12">
       <textarea
         name={meta.id}
         className="input"
@@ -19,11 +26,6 @@ const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, 
         {...handler()}
       />
     </div>
-
-    <ErrorMessage
-      touched={touched}
-      hasError={hasError}
-    />
   </div>
 );
 

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 const TextInput = ({ handler, touched, hasError, meta }) => (
-  <div className="rij mode_input">
+  <div className="row mode_input">
     <Title meta={meta} />
 
     <div className="invoer">

@@ -23,8 +23,8 @@ const DateTimeInput = ({ meta, parent }) => {
   }
 
   return (
-    <div className="rij mode_input datetime-input">
-      <div className="antwoorden">
+    <div className="row mode_input datetime-input">
+      <div className="col-12 antwoorden">
         <Title meta={meta} />
 
         <div className="antwoord">

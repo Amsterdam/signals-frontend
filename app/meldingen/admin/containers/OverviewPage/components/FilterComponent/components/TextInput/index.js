@@ -18,7 +18,7 @@ TextInput.propTypes = {
 export const TextInputRender = (props) => {
   const { name, display } = props;
   const render = ({ handler, touched, hasError }) => (<div>
-    <div className="rij mode_input text rij_verplicht">
+    <div className="row mode_input text rij_verplicht">
       <div className="label">
         <label htmlFor={`form${name}`}>{display}</label>
       </div>
@@ -52,7 +52,7 @@ export class TextInputWrapper extends React.Component {
     // console.log(props);
     const { name, display, control } = props;
     const renderContent = ({ handler, touched, hasError }) => (<div>
-      <div className="rij mode_input text rij_verplicht">
+      <div className="row mode_input text rij_verplicht">
         <div className="label">
           <label htmlFor={`form${name}`}>{display}</label>
         </div>

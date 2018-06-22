@@ -33,7 +33,9 @@ const MapInput = ({ handler, touched, hasError, meta, parent }) => {
 
   return (
     <div className="row">
-      <Title meta={meta} />
+      <div className="col-12">
+        <Title meta={meta} />
+      </div>
 
       <div className="col-12">
         <Map onLocationChange={onMapAction} location={address} latlng={latlng} />

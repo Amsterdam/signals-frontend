@@ -7,7 +7,7 @@
 
 
 // Needed for redux-saga es6 generator support
-// import 'babel-polyfill';
+import 'babel-polyfill';
 
 // Import all the third party stuff
 import React from 'react';
@@ -18,7 +18,6 @@ import moment from 'moment';
 import 'moment/src/locale/nl';
 import createHistory from 'history/createBrowserHistory';
 import 'leaflet/dist/leaflet';
-import 'static/nlmaps.iife';
 
 // Import root app
 import App from 'containers/App';

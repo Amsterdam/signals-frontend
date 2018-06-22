@@ -42,11 +42,13 @@ const FileInput = ({ handler, touched, hasError, parent, meta }) => {
   };
 
   return (
-    <div className="rij mode_upload file">
-      <Title meta={meta} />
+    <div className="row mode_upload file">
+      <div className="col-12">
+        <Title meta={meta} />
+      </div>
 
       {handler().value ?
-        <div className="file-input__preview">
+        <div className="col-12 file-input__preview">
           <button
             className="link-functional delete"
             onClick={() => handleClear(handler().value)}
@@ -59,7 +61,7 @@ const FileInput = ({ handler, touched, hasError, parent, meta }) => {
           />
         </div>
       :
-        <div className="invoer">
+        <div className="col-12 invoer">
           <input
             type="file"
             id="formUpload"
