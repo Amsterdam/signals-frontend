@@ -15,7 +15,6 @@ import './style.scss';
 import { requestIncidents, incidentSelected, filterIncidents } from './actions';
 import FilterComponent from './components/FilterComponent';
 import ListComponent from './components/ListComponent';
-import { login } from '../../../../shared/services/auth/auth';
 
 export class OverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -24,7 +23,6 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
     this.requestIncidents = this.props.requestIncidents.bind(this);
     this.filterIncidents = this.props.filterIncidents.bind(this);
     this.incidentSelected = this.props.incidentSelected.bind(this);
-    this.onLogin = this.onLogin.bind(this);
   }
 
   componentDidMount() {
@@ -35,16 +33,11 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
     this.requestIncidents(filter);
   }
 
-  onLogin() {
-    // TODO: Remove. Just for test.
-    login();
-  }
 
   render() {
     const { incidents, loading } = this.props.overviewpage;
     return (
-      <div className="overview-page container-fluid">
-        <button value="login" onClick={this.onLogin} >Login</button>
+      <div className="overview-page">
         <div className="row">
           <FilterComponent filterIncidents={this.onFilterIncidents} />
           <ListComponent incidentSelected={this.incidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} />

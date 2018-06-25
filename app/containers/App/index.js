@@ -11,11 +11,11 @@ import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import Admin from 'containers/Admin/Loadable';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import MainMenu from 'components/MainMenu';
 
-import AdminComponent from '../../meldingen/admin/AdminComponent/';
 import IncidentContainer from '../../meldingen/incident/containers/IncidentContainer/Loadable';
 
 export default function App() {
@@ -31,7 +31,7 @@ export default function App() {
         <div className="content container">
           <Switch>
             <Route exact path="/" component={HomePage} />
-            <Route path="/admin" component={AdminComponent} />
+            <Route path="/admin" component={Admin} />
             <Route path="/incident" component={IncidentContainer} />
             <Route path="" component={NotFoundPage} />
           </Switch>

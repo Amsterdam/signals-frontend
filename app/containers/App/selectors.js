@@ -13,6 +13,11 @@ const makeSelectCurrentUser = () => createSelector(
   (globalState) => globalState.get('currentUser')
 );
 
+const makeSelectUserName = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.get('userName')
+);
+
 const makeSelectAccessToken = () => createSelector(
   selectGlobal,
   (globalState) => globalState.get('accessToken')
@@ -46,4 +51,5 @@ export {
   makeSelectError,
   makeSelectRepos,
   makeSelectLocation,
+  makeSelectUserName
 };
