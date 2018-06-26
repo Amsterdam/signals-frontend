@@ -6,9 +6,7 @@ import ErrorMessage from '../ErrorMessage/';
 
 const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, parent }) => (
   <div className={`row mode_input verplicht ${touched && hasError('required') ? 'row_ongeldig' : ''}`}>
-    <div className="label col-12">
-      <Title meta={meta} />
-    </div>
+    <Title meta={meta} />
     <div className="input-help col-12">
       <ErrorMessage
         touched={touched}

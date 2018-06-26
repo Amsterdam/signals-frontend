@@ -43,9 +43,7 @@ const FileInput = ({ handler, touched, hasError, parent, meta }) => {
 
   return (
     <div className="row mode_upload file">
-      <div className="col-12">
-        <Title meta={meta} />
-      </div>
+      <Title meta={meta} />
 
       {handler().value ?
         <div className="col-12 file-input__preview">

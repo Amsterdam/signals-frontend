@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Title = ({ meta }) => (
-  <div>
+  <div className="label col-12">
     <h4>{meta.label}</h4>
     <div className="title__subtitle">{meta.subtitle}</div>
   </div>
