@@ -5,6 +5,8 @@ import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/IncidentForm/components/';
 import PreviewComponents from '../components/IncidentPreview/components/';
 
+import vulaan from './wizard-step-vulaan';
+
 export default {
   beschrijf: {
     label: 'Beschrijf uw melding',
@@ -12,7 +14,8 @@ export default {
       controls: {
         location: {
           meta: {
-            label: 'Selecteer de locatie',
+            label: 'Waar is het?',
+            subtitle: 'Typ de locatie of versleep de markering [dingetje] op de kaart',
             watch: true
           },
           options: {
@@ -114,12 +117,7 @@ export default {
       }
     }
   },
-  // vulaan: {
-    // form: {
-    // },
-    // preview: {
-    // }
-  // },
+  vulaan,
   telefoon: {
     label: 'Mogen we u bellen voor vragen?',
     form: {
