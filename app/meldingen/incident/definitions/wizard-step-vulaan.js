@@ -1,3 +1,8 @@
+// MVP
+// Overlast op het water - geluid
+// Overlast op het water - snel varen
+// Overlast op het water - Gezonken boot
+
 // import { Validators } from 'react-reactive-form';
 
 import IncidentNavigation from '../components/IncidentNavigation';
@@ -16,13 +21,13 @@ export default {
         },
         render: FormComponents.PlainText
       },
-      extra_naamboot: {
+      extra_boten_snelheid_naamboot: {
         meta: {
           cols: 6,
           label: 'Wat is de naam van de boot? (niet verplicht)',
           type: 'text',
           if: {
-            subcategory: 'Overlast op het water - geluid'
+            subcategory: 'Overlast op het water - snel varen'
           }
         },
         render: FormComponents.TextInput
@@ -34,8 +39,3 @@ export default {
     }
   }
 };
-
-// MVP
-// Overlast op het water - geluid
-// Overlast op het water - snel varen
-// Overlast op het water - Gezonken boot
