@@ -31,6 +31,7 @@ class IncidentForm extends React.Component {
   setForm(form, incident) {
     this.form = form;
     this.form.meta = {
+      incident,
       form: this.form,
       handleSubmit: this.handleSubmit,
       getClassification: this.props.getClassification,

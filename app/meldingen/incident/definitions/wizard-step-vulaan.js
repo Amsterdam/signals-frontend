@@ -8,6 +8,15 @@ export default {
   label: 'Dit hebben we nog van u nodig',
   form: {
     controls: {
+      custom_text: {
+        meta: {
+          cols: 6,
+          label: 'Dit hebt u net ingevuld:',
+          type: 'citation',
+          field: 'description'
+        },
+        render: FormComponents.PlainText
+      },
       extra_naamboot: {
         meta: {
           cols: 6,
