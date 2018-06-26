@@ -12,9 +12,9 @@ import { Switch, Route } from 'react-router-dom';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Admin from 'containers/Admin/Loadable';
-import Header from 'components/Header';
 import Footer from 'components/Footer';
 import MainMenu from 'components/MainMenu';
+import HeaderContainer from 'containers/HeaderContainer';
 
 import IncidentContainer from '../../meldingen/incident/containers/IncidentContainer/Loadable';
 
@@ -22,7 +22,7 @@ export default function App() {
   return (
     <div className="container app-container">
       <div className="container">
-        <Header />
+        <HeaderContainer />
       </div>
       <div className="container-fluid">
         <MainMenu />

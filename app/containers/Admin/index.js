@@ -12,13 +12,13 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectAccessToken, makeSelectUserName } from 'containers/App/selectors';
 import makeSelectAdmin from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
 import AdminComponent from '../../meldingen/admin/AdminComponent';
+import { isAuthenticated } from '../../shared/services/auth/auth';
 
 export class Admin extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -26,8 +26,7 @@ export class Admin extends React.Component { // eslint-disable-line react/prefer
       <div className="admin">
         <AdminComponent
           match={this.props.match}
-          isAuthenticated={Boolean(this.props.userAccessToken)}
-          userName={this.props.userName}
+          isAuthenticated={isAuthenticated()}
         />
       </div>
     );
@@ -36,15 +35,11 @@ export class Admin extends React.Component { // eslint-disable-line react/prefer
 
 Admin.propTypes = {
   dispatch: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
-  match: PropTypes.object,
-  userAccessToken: PropTypes.string,
-  userName: PropTypes.string
+  match: PropTypes.object
 };
 
 const mapStateToProps = createStructuredSelector({
   admin: makeSelectAdmin(),
-  userAccessToken: makeSelectAccessToken(),
-  userName: makeSelectUserName()
 });
 
 function mapDispatchToProps(dispatch) {

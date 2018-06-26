@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './style.scss';
 
 import LogoSvg from '../../../node_modules/stijl/dist/images/logos/andreas.svg';
@@ -8,9 +9,9 @@ import LogoPrint from '../../../node_modules/stijl/dist/images/logos/andreas-pri
 class Header extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <div className="header-component">
-        <div className="row">
-          <div className="col-6">
+      <div className="header-component has_header_modern">
+        <div className="row header-wrapper">
+          <div className="col-sm-6 grid-header-logo">
             <h1 className="sitelogo">
               <a className="mainlogo" href="https://www.amsterdam.nl">
                 <span className="logoset">
@@ -25,10 +26,18 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
               </a>
             </h1>
           </div>
-          <div className="col-6 type-nav-secundair ">
+          <div className="col-sm-6">
             <nav>
-              <ul className="links horizontal right ">
+              <ul className="links">
                 <li>
+                  <span>
+                    { this.props.isAuthenticated && ('Ingelogd als: ') }<b>{this.props.userName}</b>
+                  </span>
+                </li>
+                <li>
+                  <a href="" onClick={this.props.onLoginLogoutButtonClick}>
+                    {this.props.isAuthenticated ? 'Uitloggen' : 'Inloggen'}
+                  </a>
                 </li>
               </ul>
             </nav>
@@ -38,5 +47,17 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
     );
   }
 }
+
+Header.propTypes = {
+  isAuthenticated: PropTypes.bool,
+  onLoginLogoutButtonClick: PropTypes.func,
+  userName: PropTypes.string
+};
+
+Header.defaultProps = {
+  isAuthenticated: false,
+  onLoginLogoutButtonClick: undefined,
+  userName: ''
+};
 
 export default Header;

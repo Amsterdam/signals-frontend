@@ -13,10 +13,8 @@ import IncidentDetailPage from '../containers/IncidentDetailPage';
 import LoginPage from '../containers/LoginPage';
 
 import './style.scss';
-import { logout } from '../../../shared/services/auth/auth';
 
-
-const AdminComponent = ({ match, isAuthenticated, userName }) => {
+const AdminComponent = ({ match, isAuthenticated }) => {
   const baseUrl = match.url;
   const IncidentDetailPageWrapper = (props) => (<IncidentDetailPage id={props.match.params.id} baseUrl={baseUrl} />);
   const OverviewPageWrapper = () => (<OverviewPage baseUrl={baseUrl} />);
@@ -28,24 +26,10 @@ const AdminComponent = ({ match, isAuthenticated, userName }) => {
         !isAuthenticated ? (
           <Route render={LoginPageWrapper} />
         ) : (
-          <div>
-            <div className="notification notification-grey margin-top-bottom">
-              <div className="row">
-                <div className="col-10">
-                  Welkom, <b>{userName}</b>!
-                </div>
-                <div className="col-2">
-                  <button className="action tertiair" onClick={logout}>
-                    <span className="value">Uitloggen</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-12">
-                <Route exact path={`${baseUrl}/incidents`} render={OverviewPageWrapper} />
-                <Route exact path={`${baseUrl}/incident/:id`} render={IncidentDetailPageWrapper} />
-              </div>
+          <div className="row">
+            <div className="col-12">
+              <Route exact path={`${baseUrl}/incidents`} render={OverviewPageWrapper} />
+              <Route exact path={`${baseUrl}/incident/:id`} render={IncidentDetailPageWrapper} />
             </div>
           </div>
         )
@@ -55,14 +39,12 @@ const AdminComponent = ({ match, isAuthenticated, userName }) => {
 };
 
 AdminComponent.defaultProps = {
-  isAuthenticated: false,
-  userName: ''
+  isAuthenticated: false
 };
 
 AdminComponent.propTypes = {
   match: PropTypes.object,
-  isAuthenticated: PropTypes.bool,
-  userName: PropTypes.string
+  isAuthenticated: PropTypes.bool
 };
 
 export default AdminComponent;

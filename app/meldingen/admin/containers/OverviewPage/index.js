@@ -7,6 +7,7 @@ import { compose } from 'redux';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
+import LoadingIndicator from 'shared/components/LoadingIndicator';
 import makeSelectOverviewPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -38,11 +39,20 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
     const { incidents, loading } = this.props.overviewpage;
     return (
       <div className="overview-page">
-        <div className="row">
-          <FilterComponent filterIncidents={this.onFilterIncidents} />
-          <ListComponent incidentSelected={this.incidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} />
-        </div>
-        <div className="row">{loading ? 'Wordt geladen' : ''}</div>
+        {
+          loading ? (
+            <LoadingIndicator />
+          ) : (
+            <div className="row">
+              <div className="col-4">
+                <FilterComponent filterIncidents={this.onFilterIncidents} />
+              </div>
+              <div className="col-8">
+                <ListComponent incidentSelected={this.incidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} />
+              </div>
+            </div>
+          )
+        }
       </div>
     );
   }
