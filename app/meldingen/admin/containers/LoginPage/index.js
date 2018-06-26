@@ -32,11 +32,9 @@ export class LoginPage extends React.Component { // eslint-disable-line react/pr
           <p>
             Om deze pagina te zien dient u ingelogd te zijn.
           </p>
-          <div className="row col-12">
-            <button className="action primary" onClick={this.onLogin}>
-              <span className="value">Inloggen</span>
-            </button>
-          </div>
+          <button className="action primary" onClick={this.onLogin}>
+            <span className="value">Inloggen</span>
+          </button>
         </div>
       </div>
     );

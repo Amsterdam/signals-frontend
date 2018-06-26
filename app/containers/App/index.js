@@ -20,25 +20,23 @@ import IncidentContainer from '../../meldingen/incident/containers/IncidentConta
 
 export default function App() {
   return (
-    <div>
-      <div className="container app-container">
-        <div className="container">
-          <Header />
-        </div>
-        <div className="container-fluid">
-          <MainMenu />
-        </div>
-        <div className="content container">
-          <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route path="/admin" component={Admin} />
-            <Route path="/incident" component={IncidentContainer} />
-            <Route path="" component={NotFoundPage} />
-          </Switch>
-        </div>
-        <div className="container-fluid">
-          <Footer />
-        </div>
+    <div className="container app-container">
+      <div className="container">
+        <Header />
+      </div>
+      <div className="container-fluid">
+        <MainMenu />
+      </div>
+      <div className="content container">
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route path="/admin" component={Admin} />
+          <Route path="/incident" component={IncidentContainer} />
+          <Route path="" component={NotFoundPage} />
+        </Switch>
+      </div>
+      <div className="container-fluid">
+        <Footer />
       </div>
     </div>
   );
