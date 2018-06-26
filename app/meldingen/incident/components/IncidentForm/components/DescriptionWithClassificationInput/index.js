@@ -13,7 +13,7 @@ const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, 
         hasError={hasError}
       />
     </div>
-    <div className="invoer col-12">
+    <div className={`col-${meta.cols || 12} invoer`}>
       <textarea
         name={meta.id}
         className="input"

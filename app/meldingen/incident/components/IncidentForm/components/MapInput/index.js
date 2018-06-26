@@ -35,7 +35,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent }) => {
     <div className="row">
       <Title meta={meta} />
 
-      <div className="col-12">
+      <div className={`col-${meta.cols || 12} invoer`}>
         <Map onLocationChange={onMapAction} location={address} latlng={latlng} />
       </div>
 

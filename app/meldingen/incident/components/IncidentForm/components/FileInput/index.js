@@ -46,7 +46,7 @@ const FileInput = ({ handler, touched, hasError, parent, meta }) => {
       <Title meta={meta} />
 
       {handler().value ?
-        <div className="col-12 file-input__preview">
+        <div className={`col-${meta.cols || 12} file-input__preview`}>
           <button
             className="link-functional delete"
             onClick={() => handleClear(handler().value)}
@@ -59,7 +59,7 @@ const FileInput = ({ handler, touched, hasError, parent, meta }) => {
           />
         </div>
       :
-        <div className="col-12 invoer">
+        <div className={`col-${meta.cols || 12} invoer`}>
           <input
             type="file"
             id="formUpload"

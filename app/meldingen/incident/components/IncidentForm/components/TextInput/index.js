@@ -9,7 +9,7 @@ const TextInput = ({ handler, touched, hasError, meta }) => (
   <div className="row mode_input">
     <Title meta={meta} />
 
-    <div className="col-12 invoer">
+    <div className={`col-${meta.cols || 12} invoer`}>
       <input type={meta.type} placeholder={meta.placeholder} readOnly={meta.readOnly} {...handler()} />
     </div>
 

@@ -10,6 +10,7 @@ export default {
     controls: {
       extra_naamboot: {
         meta: {
+          cols: 6,
           label: 'Wat is de naam van de boot? (niet verplicht)',
           type: 'text',
           if: {
