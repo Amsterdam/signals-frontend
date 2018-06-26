@@ -7,7 +7,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGenerator } from 'react-reactive-form';
+import { defer } from 'lodash';
 
+import formatConditionalForm from './services/format-conditional-form/';
 // import { FormattedMessage } from 'react-intl';
 // import messages from './messages';
 
@@ -40,7 +42,7 @@ class IncidentForm extends React.Component {
 
   setValues(incident, onlyWatchedItems = false) {
     if (this.form && this.form.controls) {
-      window.setTimeout(() => {
+      defer(() => {
         Object.keys(this.form.controls).map((key) => {
           const control = this.form.controls[key];
           if (!onlyWatchedItems || (onlyWatchedItems && control.meta.watch)) {
@@ -64,7 +66,7 @@ class IncidentForm extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <FormGenerator
             onMount={(form) => this.setForm(form, this.props.incident)}
-            fieldConfig={this.props.fieldConfig}
+            fieldConfig={formatConditionalForm(this.props.fieldConfig, this.props.incident)}
           />
         </form>
       </div>
