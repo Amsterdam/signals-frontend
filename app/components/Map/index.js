@@ -10,7 +10,9 @@ import './style.scss';
 import MarkerIcon from '../../../node_modules/stijl/dist/images/svg/marker.svg';
 
 const DEFAULT_ZOOM_LEVEL = 14;
-const HIGHLIGHTED_ZOOM_LEVEL = 16;
+const BAG_ENDPOINT = 'https://api.data.amsterdam.nl/bag/nummeraanduiding/?format=json&locatie=';
+const GEO_ENDPOINT = 'https://acc.api.data.amsterdam.nl/geosearch/atlas/';
+
 
 class Map extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static requestFormatter(baseUrl, xy) {
@@ -57,7 +59,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
     if (!this.props.preview) {
       const featureQuery = amaps.queryFeatures(
         clicks,
-        'https://api.data.amsterdam.nl/bag/nummeraanduiding/?format=json&locatie=',
+        BAG_ENDPOINT,
         Map.requestFormatter,
         Map.responseFormatter
       );
@@ -94,7 +96,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
         });
       } else {
         // fetch nearby object if no address is found
-        fetch(`https://acc.api.data.amsterdam.nl/geosearch/atlas/?lat=${data.latlng.lat}&lon=${data.latlng.lng}&radius=0`)
+        fetch(`${GEO_ENDPOINT}?lat=${data.latlng.lat}&lon=${data.latlng.lng}&radius=0`)
         .then((res) => res.json())
         .then((res) => {
           this.onLocationChange(
@@ -127,7 +129,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
     }
 
     if (this.props.latlng && this.props.latlng.lat) {
-      this.map.setView(new window.L.LatLng(this.props.latlng.lat, this.props.latlng.lng), HIGHLIGHTED_ZOOM_LEVEL);
+      this.map.setView(new window.L.LatLng(this.props.latlng.lat, this.props.latlng.lng));
     }
   }
 
