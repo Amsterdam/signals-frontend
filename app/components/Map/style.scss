@@ -33,12 +33,6 @@
     }
   }
 
-  .leaflet-marker-icon {
-    &:before {
-      //content: url("../../../node_modules/stijl/dist/images/svg/marker.svg");
-    }
-  }
-
   &__loading {
     background-color: rgba(0, 0, 0, .2);
     display: block;
@@ -46,12 +40,5 @@
     height: 100%;
     position: absolute;
     z-index: 1001;
-
-    .progress-wrapper {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-    }
   }
 }

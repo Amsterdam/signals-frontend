@@ -1,13 +1,16 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import 'leaflet/dist/leaflet';
 
 import Map from './index';
 
-describe('<Map />', () => {
-  it('should render a div', () => {
+describe('The map component', () => {
+  it('should render the component', () => {
+    const componentDidMountSpy = jest.spyOn(Map.prototype, 'componentDidMount').mockImplementation(() => true);
     const renderedComponent = shallow(
       <Map />
     );
-    expect(renderedComponent.find('div').length).toEqual(1);
+    expect(componentDidMountSpy).toHaveBeenCalled();
+    expect(renderedComponent.find('div').length).toBeGreaterThan(1);
   });
 });

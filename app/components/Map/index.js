@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import LoadingIndicator from 'shared/components/LoadingIndicator';
+
 import amaps from '../../static/amaps.es';
-import { wgs84ToRd } from './crs-converter';
+import { wgs84ToRd } from '../../shared/services/crs-converter/crs-converter';
 
 import './style.scss';
 
@@ -142,10 +144,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
           <div className="col-12">
             { this.state.isLoading && (
               <span className="map-component__loading">
-                <div className="progress-wrapper">
-                  <div className="progress-indicator progress-red"></div>
-                  <div className="progress-txt">Laden...</div>
-                </div>
+                <LoadingIndicator />
               </span>
             )}
             <div className="map">
