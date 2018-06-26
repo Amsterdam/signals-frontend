@@ -7,7 +7,7 @@ const TextInput = ({ meta, parent }) => (
   <div className="row mode_input plain-text">
     <div className={`col-${meta.cols || 12}`}>
       <div className={meta.type}>
-        <div>{meta.label}</div>
+        <div className="label">{meta.label}</div>
         {meta.field && parent.meta.incident && parent.meta.incident[meta.field]}
       </div>
     </div>
