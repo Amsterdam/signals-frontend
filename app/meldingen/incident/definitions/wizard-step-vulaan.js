@@ -10,7 +10,6 @@ export default {
     controls: {
       custom_text: {
         meta: {
-          cols: 6,
           label: 'Dit hebt u net ingevuld:',
           type: 'citation',
           field: 'description'
