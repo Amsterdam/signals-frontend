@@ -11,7 +11,7 @@ import MarkerIcon from '../../../node_modules/stijl/dist/images/svg/marker.svg';
 
 const DEFAULT_ZOOM_LEVEL = 14;
 const BAG_ENDPOINT = 'https://api.data.amsterdam.nl/bag/nummeraanduiding/?format=json&locatie=';
-const GEO_ENDPOINT = 'https://acc.api.data.amsterdam.nl/geosearch/atlas/';
+const GEO_ENDPOINT = 'https://api.data.amsterdam.nl/geosearch/atlas/';
 
 
 class Map extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -31,6 +31,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
     super(props);
     this.onMapClick = this.onMapClick.bind(this);
     this.setQueryAndZoom = this.setQueryAndZoom.bind(this);
+    this.setMarkerOnSearch = this.setMarkerOnSearch.bind(this);
 
     this.state = {
       isLoading: false
@@ -67,11 +68,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
       clicks.subscribe(singleMarker);
       featureQuery.subscribe(this.onMapClick);
     }
-
-    this.map.on('moveend', () => {
-      this.removeMarkerOnSearch();
-      this.setMarkerOnSearch();
-    });
+    amaps.on('search-select', (loc) => this.setMarkerOnSearch(loc));
 
     this.setQueryAndZoom();
   }
@@ -115,9 +112,12 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
     this.props.onLocationChange(location, latlng);
   }
 
-  setMarkerOnSearch() {
-    const latlng = window.L.latLng(this.map.getCenter());
-    this.markerOnSearch = window.L.marker(latlng).addTo(this.map);
+  setMarkerOnSearch(fullLocation) {
+    this.removeMarkerOnSearch();
+    const latlng = window.L.latLng(fullLocation.latlng.coordinates[1], fullLocation.latlng.coordinates[0]);
+    const addmarker = amaps.singleMarker(this.map);
+    addmarker(1, { latlng });
+    this.onLocationChange(fullLocation.location, latlng);
   }
 
   setQueryAndZoom() {
