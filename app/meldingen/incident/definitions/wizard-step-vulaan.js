@@ -39,7 +39,8 @@ export default {
       extra_boten_snelheid_rederij: {
         meta: {
           cols: 6,
-          label: 'REDERIJ?',
+          label: 'Wat is de naam van de rederij? (niet verplicht)',
+          subtitle: 'Als u begint met typen verschijnt vanzelf een lijst met rederijen',
           if: {
             subcategory: 'Overlast op het water - snel varen',
             extra_boten_snelheid_rondvaartboot: 'ja'
@@ -58,6 +59,27 @@ export default {
           watch: true
         },
         render: FormComponents.TextInput
+      },
+      extra_boten_geluid_meer: {
+        meta: {
+          label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? (niet verplicht)',
+          if: {
+            subcategory: 'Overlast op het water - geluid'
+          },
+          watch: true
+        },
+        render: FormComponents.TextareaInput
+      },
+      extra_boten_gezonken_meer: {
+        meta: {
+          label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? (niet verplicht)',
+          subtitle: 'Bijvoorbeeld: "er lekt olie", "gevaar voor andere boten", etc.',
+          if: {
+            subcategory: 'Overlast op het water - gezonken'
+          },
+          watch: true
+        },
+        render: FormComponents.TextareaInput
       },
       $field_0: {
         isStatic: false,

@@ -17,11 +17,9 @@ const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, 
         </div>
         <div className={`col-${meta.cols || 12} invoer`}>
           <textarea
-            name={meta.id}
             className="input"
-            rows="6"
+            rows={meta.rows || 6}
             placeholder={meta.placeholder}
-            id={meta.id}
             onKeyUp={(e) => parent.meta.getClassification(e.target.value)}
             {...handler()}
           />
