@@ -42,38 +42,42 @@ const FileInput = ({ handler, touched, hasError, parent, meta }) => {
   };
 
   return (
-    <div className="row mode_upload file">
-      <Title meta={meta} />
+    <div>
+      {meta.ifVisible ?
+        <div className="row mode_upload file">
+          <Title meta={meta} />
 
-      {handler().value ?
-        <div className={`col-${meta.cols || 12} file-input__preview`}>
-          <button
-            className="link-functional delete"
-            onClick={() => handleClear(handler().value)}
-          />
+          {handler().value ?
+            <div className={`col-${meta.cols || 12} file-input__preview`}>
+              <button
+                className="link-functional delete"
+                onClick={() => handleClear(handler().value)}
+              />
 
-          <img
-            alt="Preview uploaded foto"
-            src={handler().value}
-            className="file-input__preview-image"
+              <img
+                alt="Preview uploaded foto"
+                src={handler().value}
+                className="file-input__preview-image"
+              />
+            </div>
+          :
+            <div className={`col-${meta.cols || 12} invoer`}>
+              <input
+                type="file"
+                id="formUpload"
+                onChange={handleChange}
+                readOnly={meta.readOnly}
+              />
+              <label htmlFor="formUpload" className="secundary-blue">{meta.submitLabel}</label>
+            </div>
+          }
+
+          <ErrorMessage
+            touched={touched}
+            hasError={hasError}
           />
         </div>
-      :
-        <div className={`col-${meta.cols || 12} invoer`}>
-          <input
-            type="file"
-            id="formUpload"
-            onChange={handleChange}
-            readOnly={meta.readOnly}
-          />
-          <label htmlFor="formUpload" className="secundary-blue">{meta.submitLabel}</label>
-        </div>
-      }
-
-      <ErrorMessage
-        touched={touched}
-        hasError={hasError}
-      />
+         : ''}
     </div>
   );
 };

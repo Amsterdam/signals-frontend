@@ -32,19 +32,23 @@ const MapInput = ({ handler, touched, hasError, meta, parent }) => {
   };
 
   return (
-    <div className="row">
-      <Title meta={meta} />
+    <div>
+      {meta.ifVisible ?
+        <div className="row">
+          <Title meta={meta} />
 
-      <div className={`col-${meta.cols || 12} invoer`}>
-        <Map onLocationChange={onMapAction} location={address} latlng={latlng} />
-      </div>
+          <div className={`col-${meta.cols || 12} invoer`}>
+            <Map onLocationChange={onMapAction} location={address} latlng={latlng} />
+          </div>
 
-      <div className="col-12">
-        <ErrorMessage
-          touched={touched}
-          hasError={hasError}
-        />
-      </div>
+          <div className="col-12">
+            <ErrorMessage
+              touched={touched}
+              hasError={hasError}
+            />
+          </div>
+        </div>
+         : ''}
     </div>
   );
 };

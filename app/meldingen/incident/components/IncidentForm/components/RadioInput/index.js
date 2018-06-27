@@ -17,12 +17,12 @@ const RadioInput = ({ handler, touched, hasError, meta, parent }) => (
           {meta.values ? map(meta.values, (value, key) => (
             <div className="antwoord" key={key}>
               <input
-                id={key}
+                id={`${meta.name}-${key}`}
                 className="kenmerkradio"
                 {...handler('radio', key)}
                 onClick={(e) => meta.updateIncident && parent.meta.setIncident({ [meta.name]: e.target.value })}
               />
-              <label htmlFor={key}>{value}</label>
+              <label htmlFor={`${meta.name}-${key}`}>{value}</label>
             </div>
           )) : ''}
         </div>
