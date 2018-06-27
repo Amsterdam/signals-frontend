@@ -75,7 +75,7 @@ export default {
           label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? (niet verplicht)',
           subtitle: 'Bijvoorbeeld: "er lekt olie", "gevaar voor andere boten", etc.',
           if: {
-            subcategory: 'Overlast op het water - gezonken'
+            subcategory: 'Overlast op het water - Gezonken boot'
           },
           watch: true
         },
