@@ -21,11 +21,35 @@ export default {
         },
         render: FormComponents.PlainText
       },
+      extra_boten_snelheid_rondvaartboot: {
+        meta: {
+          cols: 6,
+          label: 'Gaat de melding over een rondvaartboot?',
+          values: {
+            ja: 'Ja',
+            nee: 'Nee'
+          },
+          if: {
+            subcategory: 'Overlast op het water - snel varen'
+          }
+        },
+        render: FormComponents.RadioInput
+      },
+      extra_boten_snelheid_rederij: {
+        meta: {
+          cols: 6,
+          label: 'REDERIJ?',
+          if: {
+            subcategory: 'Overlast op het water - snel varen',
+            extra_boten_snelheid_rondvaartboot: 'ja'
+          }
+        },
+        render: FormComponents.TextInput
+      },
       extra_boten_snelheid_naamboot: {
         meta: {
           cols: 6,
           label: 'Wat is de naam van de boot? (niet verplicht)',
-          type: 'text',
           if: {
             subcategory: 'Overlast op het water - snel varen'
           }
