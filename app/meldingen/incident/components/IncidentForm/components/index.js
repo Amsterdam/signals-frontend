@@ -5,6 +5,7 @@ import HiddenInput from './HiddenInput/';
 import PlainText from './PlainText/';
 import RadioInput from './RadioInput/';
 import TextInput from './TextInput/';
+import TextareaInput from './TextareaInput/';
 import MapInput from './MapInput';
 
 export default {
@@ -15,5 +16,6 @@ export default {
   MapInput,
   PlainText,
   RadioInput,
-  TextInput
+  TextInput,
+  TextareaInput
 };
