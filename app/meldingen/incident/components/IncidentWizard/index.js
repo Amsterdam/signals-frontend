@@ -18,13 +18,27 @@ import IncidentForm from '../IncidentForm';
 import IncidentPreview from '../IncidentPreview';
 import './style.scss';
 
+const subcategoriesWithExtraQuestions = [
+  'Overlast op het water - geluid',
+  'Overlast op het water - snel varen',
+  'Overlast op het water - Gezonken boot'
+];
+
+function onNext({ step, push }, incident) {
+  if (step.id === 'incident/beschrijf' && !subcategoriesWithExtraQuestions.includes(incident.subcategory)) {
+    push('incident/telefoon');
+  } else {
+    push();
+  }
+}
+
 function IncidentWizard({ getClassification, setIncident, incident }) {
   return (
     <BrowserRouter>
       <div className="incident-wizard">
         <Route
           render={({ history }) => (
-            <Wizard history={history}>
+            <Wizard history={history} onNext={(wiz) => onNext(wiz, incident)}>
               <Steps>
                 {Object.keys(wizard).map((key) => (
                   <Step key={key} id={`incident/${key}`}>
