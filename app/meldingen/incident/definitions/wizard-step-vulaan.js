@@ -28,7 +28,6 @@ export default {
             subcategory: 'Overlast op het water - snel varen'
           },
           label: 'Gaat de melding over een rondvaartboot?',
-          name: 'extra_boten_snelheid_rondvaartboot',
           values: {
             ja: 'Ja',
             nee: 'Nee'
@@ -45,7 +44,6 @@ export default {
             subcategory: 'Overlast op het water - snel varen',
             extra_boten_snelheid_rondvaartboot: 'ja'
           },
-          name: 'extra_boten_snelheid_rederij',
           watch: true
         },
         render: FormComponents.TextInput
@@ -57,7 +55,6 @@ export default {
           if: {
             subcategory: 'Overlast op het water - snel varen'
           },
-          name: 'extra_boten_snelheid_naamboot',
           watch: true
         },
         render: FormComponents.TextInput
