@@ -59,7 +59,6 @@ export default {
         },
         datetime: {
           meta: {
-            name: 'datetime',
             label: 'Geef het tijdstip aan'
           },
           // options: {
@@ -105,7 +104,6 @@ export default {
           meta: {
             label: 'Wilt u een foto meesturen?',
             submitLabel: 'Foto kiezen',
-            name: 'image',
             watch: true
           },
           render: FormComponents.FileInput
