@@ -5,6 +5,10 @@ const formatConditionalForm = (form, incident) => {
     const removeKeys = [];
 
     forEach(form.controls, (control, key) => {
+      if (control.meta) {
+        form.controls[key].meta.ifVisible = true;  // eslint-disable-line no-param-reassign
+      }
+
       if (control.meta && control.meta.if) {
         if (!every(control.meta.if, (v, k) => v === incident[k])) {
           removeKeys.push(key);
@@ -14,7 +18,7 @@ const formatConditionalForm = (form, incident) => {
 
     if (removeKeys.length) {
       removeKeys.map((key) => {
-        delete form.controls[key]; // eslint-disable-line no-param-reassign
+        form.controls[key].meta.ifVisible = false;  // eslint-disable-line no-param-reassign
         return true;
       });
     }
