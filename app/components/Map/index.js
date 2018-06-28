@@ -7,8 +7,6 @@ import { wgs84ToRd } from '../../shared/services/crs-converter/crs-converter';
 
 import './style.scss';
 
-import MarkerIcon from '../../../node_modules/stijl/dist/images/svg/marker.svg';
-
 const DEFAULT_ZOOM_LEVEL = 14;
 const BAG_ENDPOINT = 'https://api.data.amsterdam.nl/bag/nummeraanduiding/?format=json&locatie=';
 const GEO_ENDPOINT = 'https://api.data.amsterdam.nl/geosearch/atlas/';
@@ -39,14 +37,6 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
   }
 
   componentDidMount() {
-    const Marker = new window.L.icon({ // eslint-disable-line new-cap
-      iconUrl: MarkerIcon,
-      iconSize: [40, 40],
-      iconAnchor: [20, 39]
-    });
-    window.L.Marker.prototype.options.icon = Marker;
-    window.L.icon.Default = Marker;
-
     this.map = amaps.createMap({
       style: 'standaard',
       target: 'mapdiv',

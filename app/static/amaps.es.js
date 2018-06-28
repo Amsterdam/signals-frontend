@@ -1,4 +1,22 @@
 /* eslint-disable */
+/*
+
+    NOTE:
+    this file is altered.
+    The path (config.marker.url) is changed to the MarkerIcon, which is imported down here.
+
+    Babel is removed from this file, as it conflicts with the Signals Babel
+    ------------
+    removed:
+
+      if (commonjsGlobal._babelPolyfill) {
+        throw new Error("only one instance of babel-polyfill is allowed");
+      }
+      commonjsGlobal._babelPolyfill = true;
+    ------------
+
+ */
+
 import MarkerIcon from '../../node_modules/stijl/dist/images/svg/marker.svg';
 
 var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
