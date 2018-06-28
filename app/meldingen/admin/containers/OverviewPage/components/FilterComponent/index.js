@@ -27,7 +27,7 @@ class FilterComponent extends React.Component { // eslint-disable-line react/pre
   }
   render() {
     return (
-      <div className="filter-component col-4">
+      <div className="filter-component">
         <FieldGroup
           control={this.filterForm}
           render={({ invalid }) => (

@@ -108,6 +108,9 @@
         "jsx": true
       }
     },
+    "globals": {
+      "jsdom": true
+    },
     "rules": {
       "arrow-parens": [
         "error",
@@ -292,6 +295,8 @@
     "image-webpack-loader": "2.0.0",
     "imports-loader": "0.7.1",
     "jest-cli": "20.0.4",
+    "jest-environment-jsdom": "^23.1.0",
+    "jest-environment-jsdom-global": "^1.1.0",
     "lint-staged": "3.5.1",
     "ngrok": "2.2.9",
     "node-plop": "0.7.0",

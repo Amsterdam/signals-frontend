@@ -28,7 +28,7 @@ describe('<AdminComponent />', () => {
         </MemoryRouter>
       </Provider>,
     );
-    console.log(wrapper);
+    // console.log(wrapper);
   });
 
   it('should render correctly', () => {

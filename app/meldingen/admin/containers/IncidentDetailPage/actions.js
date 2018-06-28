@@ -9,20 +9,20 @@ import { REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR } fr
 export function requestIncident(id) {
   return {
     type: REQUEST_INCIDENT,
-    id
+    payload: id
   };
 }
 
 export function requestIncidentSuccess(incident) {
   return {
     type: REQUEST_INCIDENT_SUCCESS,
-    incident
+    payload: incident
   };
 }
 
 export function requestIncidentError(message) {
   return {
     type: REQUEST_INCIDENT_ERROR,
-    message
+    payload: message
   };
 }

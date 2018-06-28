@@ -18,8 +18,10 @@ import moment from 'moment';
 import 'moment/src/locale/nl';
 import createHistory from 'history/createBrowserHistory';
 
+
 // Import root app
 import App from 'containers/App';
+import { authenticateUser } from 'containers/App/actions';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
@@ -43,6 +45,7 @@ import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line impor
 /* eslint-enable import/no-webpack-loader-syntax */
 
 import configureStore from './configureStore';
+import * as auth from './shared/services/auth/auth';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
@@ -105,4 +108,26 @@ if (!window.Intl) {
 // we do not want it installed
 if (process.env.NODE_ENV === 'production') {
   require('offline-plugin/runtime').install(); // eslint-disable-line global-require
+}
+
+try {
+  auth.initAuth();
+} catch (error) {
+  window.Raven.captureMessage(error);
+}
+
+const returnPath = auth.getReturnPath();
+if (returnPath) {
+  // Timeout needed because the change is otherwise not being handled in
+  // Firefox browsers. This is possibly due to AngularJS changing the
+  // `location.hash` at the same time.
+  window.setTimeout(() => {
+    location.hash = returnPath;
+  });
+}
+
+const accessToken = auth.getAccessToken();
+if (accessToken) {
+  store.dispatch(authenticateUser(auth.getName(), auth.getScopes(),
+    auth.getAccessToken()));
 }

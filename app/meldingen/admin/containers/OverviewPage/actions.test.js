@@ -14,22 +14,15 @@ import {
   filterIncidentsChanged
 } from './actions';
 
+import { testActionCreator } from '../../../../../internals/testing/test-utils';
 
-const TestActionCreator = (action, actionType, payload) => {
-  const expected = {
-    type: actionType,
-    payload
-  };
-  expect(action(payload)).toEqual(expected);
-};
-
-describe.only('OverviewPage actions', () => {
-  it.only('has a type of DEFAULT_ACTION', () => {
+describe('OverviewPage actions', () => {
+  it('should be created', () => {
     const payload = { prop: {} };
-    TestActionCreator(requestIncidents, REQUEST_INCIDENTS, payload);
-    TestActionCreator(requestIncidentsSuccess, REQUEST_INCIDENTS_SUCCESS, payload);
-    TestActionCreator(requestIncidentsError, REQUEST_INCIDENTS_ERROR, payload);
-    TestActionCreator(incidentSelected, INCIDENT_SELECTED, payload);
-    TestActionCreator(filterIncidentsChanged, FILTER_INCIDENTS_CHANGED, payload);
+    testActionCreator(requestIncidents, REQUEST_INCIDENTS, payload);
+    testActionCreator(requestIncidentsSuccess, REQUEST_INCIDENTS_SUCCESS, payload);
+    testActionCreator(requestIncidentsError, REQUEST_INCIDENTS_ERROR, payload);
+    testActionCreator(incidentSelected, INCIDENT_SELECTED, payload);
+    testActionCreator(filterIncidentsChanged, FILTER_INCIDENTS_CHANGED, payload);
   });
 });
