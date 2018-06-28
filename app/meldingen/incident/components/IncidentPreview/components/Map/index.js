@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Map from 'components/Map';
+import MapContainer from 'containers/MapContainer';
 
 const MapPreview = ({ label, value, optional }) => (
   <span>
@@ -11,7 +11,7 @@ const MapPreview = ({ label, value, optional }) => (
           {value ?
             <div>
               <div>{value.address}</div>
-              <Map
+              <MapContainer
                 preview
                 latlng={{ lat: value.lat, lng: value.lng }}
               />

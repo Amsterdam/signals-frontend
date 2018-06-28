@@ -54,7 +54,7 @@ MapContainer.propTypes = {
       lng: PropTypes.number
     })
   }),
-  onLocationChange: PropTypes.func.isRequired,
+  onLocationChange: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
