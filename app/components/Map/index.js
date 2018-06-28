@@ -8,8 +8,8 @@ import { wgs84ToRd } from '../../shared/services/crs-converter/crs-converter';
 import './style.scss';
 
 const DEFAULT_ZOOM_LEVEL = 14;
+// The BAG_ENDPOINT is being used in the amaps implementation, so we can't move it to a saga
 const BAG_ENDPOINT = 'https://api.data.amsterdam.nl/bag/nummeraanduiding/?format=json&locatie=';
-const GEO_ENDPOINT = 'https://api.data.amsterdam.nl/geosearch/atlas/';
 
 
 class Map extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -30,10 +30,6 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
     this.onMapClick = this.onMapClick.bind(this);
     this.setQueryAndZoom = this.setQueryAndZoom.bind(this);
     this.setMarkerOnSearch = this.setMarkerOnSearch.bind(this);
-
-    this.state = {
-      isLoading: false
-    };
   }
 
   componentDidMount() {
@@ -70,36 +66,15 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
   onMapClick(t, data) {
     if (t === 1) {
       this.removeMarkerOnSearch();
-      this.setState({
-        isLoading: true
-      });
       if (data.queryResult) {
-        this.onLocationChange(
+        this.props.onLocationChange(
           data.queryResult._display, // eslint-disable-line no-underscore-dangle
           data.latlng
         );
-        this.setState({
-          isLoading: false
-        });
       } else {
-        // fetch nearby object if no address is found
-        fetch(`${GEO_ENDPOINT}?lat=${data.latlng.lat}&lon=${data.latlng.lng}&radius=0`)
-        .then((res) => res.json())
-        .then((res) => {
-          this.onLocationChange(
-            res.features[0].properties.display,
-            data.latlng
-          );
-          this.setState({
-            isLoading: false
-          });
-        });
+        this.props.getGeo(data);
       }
     }
-  }
-
-  onLocationChange(location, latlng) {
-    this.props.onLocationChange(location, latlng);
   }
 
   setMarkerOnSearch(fullLocation) {
@@ -107,7 +82,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
     const latlng = window.L.latLng(fullLocation.latlng.coordinates[1], fullLocation.latlng.coordinates[0]);
     const addmarker = amaps.singleMarker(this.map);
     addmarker(1, { latlng });
-    this.onLocationChange(fullLocation.location, latlng);
+    this.props.onLocationChange(fullLocation.location, latlng);
   }
 
   setQueryAndZoom() {
@@ -134,7 +109,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
       <div className="map-component">
         <div className="row">
           <div className="col-12">
-            { this.state.isLoading && (
+            { this.props.isLoading && (
               <span className="map-component__loading">
                 <LoadingIndicator />
               </span>
@@ -154,13 +129,16 @@ Map.propTypes = {
   onLocationChange: PropTypes.func,
   location: PropTypes.string,
   latlng: PropTypes.object,
-  preview: PropTypes.bool
+  preview: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  getGeo: PropTypes.func
 };
 
 Map.defaultProps = {
   onLocationChange: null,
   location: '',
-  preview: false
+  preview: false,
+  isLoading: false
 };
 
 export default Map;
