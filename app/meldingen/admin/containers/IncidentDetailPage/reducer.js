@@ -19,14 +19,14 @@ function incidentDetailPageReducer(state = initialState, action) {
       return state
         .set('loading', true)
         .set('error', false)
-        .set('id', action.id);
+        .set('id', action.payload);
     case REQUEST_INCIDENT_SUCCESS:
       return state
-        .set('incident', action.incident)
+        .set('incident', action.payload)
         .set('loading', false);
     case REQUEST_INCIDENT_ERROR:
       return state
-        .set('error', action.error)
+        .set('error', action.payload)
         .set('loading', false);
     default:
       return state;

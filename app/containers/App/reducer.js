@@ -16,6 +16,7 @@ import {
   LOAD_REPOS_SUCCESS,
   LOAD_REPOS,
   LOAD_REPOS_ERROR,
+  AUTHENTICATE_USER,
 } from './constants';
 
 // The initial state of the App
@@ -44,6 +45,11 @@ function appReducer(state = initialState, action) {
       return state
         .set('error', action.error)
         .set('loading', false);
+    case AUTHENTICATE_USER:
+      return state
+        .set('userName', action.payload.userName)
+        .set('userScopes', fromJS(action.payload.userScopes))
+        .set('accessToken', action.payload.accessToken);
     default:
       return state;
   }

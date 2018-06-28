@@ -7,6 +7,7 @@ import {
   makeSelectError,
   makeSelectRepos,
   makeSelectLocation,
+  makeSelectAccessToken,
 } from './selectors';
 
 describe('selectGlobal', () => {
@@ -29,6 +30,19 @@ describe('makeSelectCurrentUser', () => {
       },
     });
     expect(currentUserSelector(mockedState)).toEqual(username);
+  });
+});
+
+describe('makeSelectAccessToken', () => {
+  const selector = makeSelectAccessToken();
+  it('should select the token', () => {
+    const accessToken = 'thisistheaccesstoken';
+    const mockedState = fromJS({
+      global: {
+        accessToken
+      }
+    });
+    expect(selector(mockedState)).toEqual(accessToken);
   });
 });
 

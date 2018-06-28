@@ -19,6 +19,7 @@ import {
   LOAD_REPOS,
   LOAD_REPOS_SUCCESS,
   LOAD_REPOS_ERROR,
+  AUTHENTICATE_USER,
 } from './constants';
 
 /**
@@ -59,5 +60,16 @@ export function repoLoadingError(error) {
   return {
     type: LOAD_REPOS_ERROR,
     error,
+  };
+}
+
+export function authenticateUser(userName, userScopes, accessToken) {
+  return {
+    type: AUTHENTICATE_USER,
+    payload: {
+      userName,
+      userScopes,
+      accessToken
+    }
   };
 }

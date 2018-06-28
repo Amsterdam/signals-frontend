@@ -1,8 +1,17 @@
-// import { fromJS } from 'immutable';
-// import { selectOverviewPageDomain } from 'selectors';
+import { fromJS } from 'immutable';
+import makeSelectOverviewPage from './selectors';
 
-describe('selectOverviewPageDomain', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+
+describe('makeSelectOverviewPage', () => {
+  const selector = makeSelectOverviewPage();
+  it('should select the overviewPage', () => {
+    const overviewPage = {
+      foo: 'bar'
+    };
+
+    const mockedState = fromJS({
+      overviewPage
+    });
+    expect(selector(mockedState)).toEqual(overviewPage);
   });
 });

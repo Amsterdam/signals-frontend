@@ -17,7 +17,7 @@ class ListComponent extends React.Component { // eslint-disable-line react/prefe
 
   render() {
     return (
-      <div className="list-component col-8">
+      <div className="list-component">
         Er zijn {this.props.incidents.length} meldingen gevonden.
         <table className="" cellSpacing="0" cellPadding="0">
           <thead>
