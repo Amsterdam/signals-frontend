@@ -138,6 +138,7 @@ export default {
         },
         privacy_text: {
           meta: {
+            cols: 6,
             label: 'Uw privacy',
             type: 'privacy',
             value: 'We gebruiken uw telefoonnummer alléén om nog iets te kunnen vragen over uw melding. We wissen uw telefoonnummer binnen 2 weken nadat we uw melding hebben afgehandeld.'
@@ -169,6 +170,7 @@ export default {
         },
         privacy_text: {
           meta: {
+            cols: 6,
             label: 'Uw privacy',
             type: 'privacy',
             value: 'We gebruiken uw e-mailadres alléén om u op de hoogte houden, of wanneer wij een vraag hebben en u niet per telefoon kunnen bereiken. We wissen uw e-mailadres er binnen 2 weken nadat we uw melding hebben afgehandeld.'
