@@ -2,16 +2,16 @@
 
 def tryStep(String message, Closure block, Closure tearDown = null) {
     try {
-        block();
+        block()
     }
     catch (Throwable t) {
         slackSend message: "${env.JOB_NAME}: ${message} failure ${env.BUILD_URL}", channel: '#ci-channel', color: 'danger'
 
-        throw t;
+        throw t
     }
     finally {
         if (tearDown) {
-            tearDown();
+            tearDown()
         }
     }
 }
@@ -24,11 +24,15 @@ node {
 
     stage("Build image") {
         tryStep "build", {
-            def image = docker.build("build.datapunt.amsterdam.nl:5000/atlas/signals_frontend:${env.BUILD_NUMBER}")
+            def image = docker.build("build.app.amsterdam.nl:5000/ois/signalsfrontend:${env.BUILD_NUMBER}",
+                "--shm-size 1G " +
+                "--build-arg BUILD_ENV=acc" +
+                " .")
             image.push()
         }
     }
 }
+
 
 String BRANCH = "${env.BRANCH_NAME}"
 
@@ -37,7 +41,7 @@ if (BRANCH == "master") {
     node {
         stage('Push acceptance image') {
             tryStep "image tagging", {
-                def image = docker.image("build.datapunt.amsterdam.nl:5000/atlas/signals_frontend:${env.BUILD_NUMBER}")
+                def image = docker.image("build.app.amsterdam.nl:5000/ois/signalsfrontend:${env.BUILD_NUMBER}")
                 image.pull()
                 image.push("acceptance")
             }
@@ -51,13 +55,10 @@ if (BRANCH == "master") {
                 parameters: [
                     [$class: 'StringParameterValue', name: 'INVENTORY', value: 'acceptance'],
                     [$class: 'StringParameterValue', name: 'PLAYBOOK', value: 'deploy-signals-frontend.yml'],
-                    [$class: 'StringParameterValue', name: 'BRANCH', value: 'master'],
-
                 ]
             }
         }
     }
-
 
     stage('Waiting for approval') {
         slackSend channel: '#ci-channel', color: 'warning', message: 'Signals-frontend is waiting for Production Release - please confirm'
@@ -67,7 +68,7 @@ if (BRANCH == "master") {
     node {
         stage('Push production image') {
             tryStep "image tagging", {
-                def image = docker.image("build.datapunt.amsterdam.nl:5000/atlas/signals_frontend:${env.BUILD_NUMBER}")
+                def image = docker.image("build.app.amsterdam.nl:5000/ois/signalsfrontend:${env.BUILD_NUMBER}")
                 image.pull()
                 image.push("production")
                 image.push("latest")
@@ -82,7 +83,6 @@ if (BRANCH == "master") {
                 parameters: [
                     [$class: 'StringParameterValue', name: 'INVENTORY', value: 'production'],
                     [$class: 'StringParameterValue', name: 'PLAYBOOK', value: 'deploy-signals-frontend.yml'],
-                    [$class: 'StringParameterValue', name: 'BRANCH', value: 'master'],
                 ]
             }
         }
