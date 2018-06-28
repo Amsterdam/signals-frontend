@@ -20,9 +20,7 @@ import './style.scss';
 
 function onNext({ step, steps, push }, incident) {
   const wizardStep = step.id && step.id.split('/').reverse()[0];
-  const nextStep = wizardStep && wizardDefinition[wizardStep] && wizardDefinition[wizardStep].getNextStep && wizardDefinition[wizardStep].getNextStep(incident);
-  console.log('wizardStep', wizardStep);
-  console.log('nextStep', nextStep);
+  const nextStep = wizardStep && wizardDefinition[wizardStep] && wizardDefinition[wizardStep].getNextStep && wizardDefinition[wizardStep].getNextStep(wizardDefinition, incident);
   if (nextStep) {
     push(nextStep);
   } else if (steps.length > 0) {

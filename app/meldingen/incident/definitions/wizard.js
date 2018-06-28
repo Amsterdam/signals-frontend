@@ -1,4 +1,5 @@
 import { Validators } from 'react-reactive-form';
+import { some } from 'lodash';
 
 import IncidentNavigation from '../components/IncidentNavigation';
 
@@ -10,16 +11,11 @@ import vulaan from './wizard-step-vulaan';
 export default {
   beschrijf: {
     label: 'Beschrijf uw melding',
-    getNextStep: (incident) => { // eslint-disable-line consistent-return
-      const subcategoriesWithExtraQuestions = [
-        'Overlast op het water - geluid',
-        'Overlast op het water - snel varen',
-        'Overlast op het water - Gezonken boot'
-      ];
-
-      if (!subcategoriesWithExtraQuestions.includes(incident.subcategory)) {
+    getNextStep: (wizard, { subcategory }) => {
+      if (!some(wizard.vulaan.form.controls, (control) => control.meta && control.meta.if && control.meta.if.subcategory === subcategory)) {
         return 'incident/telefoon';
       }
+      return false;
     },
     form: {
       controls: {
