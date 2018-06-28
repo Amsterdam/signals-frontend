@@ -1,0 +1,4 @@
+signalsfrontend:
+  build: .
+  ports:
+    - "8139:80"
