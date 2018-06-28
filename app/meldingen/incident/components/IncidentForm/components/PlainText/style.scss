@@ -1,7 +1,7 @@
 .plain-text {
-  margin-bottom: 16px;
+  margin: 16px 0;
 
-  .citation {
+  &__box {
     background-color: #e5e5e5;
     padding: 20px;
   }
