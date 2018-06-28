@@ -12,22 +12,20 @@ import { Wizard, Steps, Step } from 'react-albus';
 // import { FormattedMessage } from 'react-intl';
 // import messages from './messages';
 
-import wizard from '../../definitions/wizard';
+import wizardDefinition from '../../definitions/wizard';
 
 import IncidentForm from '../IncidentForm';
 import IncidentPreview from '../IncidentPreview';
 import './style.scss';
 
-const subcategoriesWithExtraQuestions = [
-  'Overlast op het water - geluid',
-  'Overlast op het water - snel varen',
-  'Overlast op het water - Gezonken boot'
-];
-
-function onNext({ step, push }, incident) {
-  if (step.id === 'incident/beschrijf' && !subcategoriesWithExtraQuestions.includes(incident.subcategory)) {
-    push('incident/telefoon');
-  } else {
+function onNext({ step, steps, push }, incident) {
+  const wizardStep = step.id && step.id.split('/').reverse()[0];
+  const nextStep = wizardStep && wizardDefinition[wizardStep] && wizardDefinition[wizardStep].getNextStep && wizardDefinition[wizardStep].getNextStep(incident);
+  console.log('wizardStep', wizardStep);
+  console.log('nextStep', nextStep);
+  if (nextStep) {
+    push(nextStep);
+  } else if (steps.length > 0) {
     push();
   }
 }
@@ -35,24 +33,24 @@ function onNext({ step, push }, incident) {
 function IncidentWizard({ getClassification, setIncident, incident }) {
   return (
     <BrowserRouter>
-      <div className="incident-wizard">
+      <div className="incident-wizardDefinition">
         <Route
           render={({ history }) => (
             <Wizard history={history} onNext={(wiz) => onNext(wiz, incident)}>
               <Steps>
-                {Object.keys(wizard).map((key) => (
+                {Object.keys(wizardDefinition).map((key) => (
                   <Step key={key} id={`incident/${key}`}>
-                    <h2>{wizard[key].label || key}</h2>
-                    {wizard[key].preview ?
+                    <h2>{wizardDefinition[key].label || key}</h2>
+                    {wizardDefinition[key].preview ?
                       <IncidentPreview
                         incident={incident}
-                        preview={wizard[key].preview}
+                        preview={wizardDefinition[key].preview}
                       />
                       : ''}
 
-                    {wizard[key].form ?
+                    {wizardDefinition[key].form ?
                       <IncidentForm
-                        fieldConfig={wizard[key].form}
+                        fieldConfig={wizardDefinition[key].form}
                         incident={incident}
                         getClassification={getClassification}
                         setIncident={setIncident}

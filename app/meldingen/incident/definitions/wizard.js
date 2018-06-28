@@ -10,6 +10,17 @@ import vulaan from './wizard-step-vulaan';
 export default {
   beschrijf: {
     label: 'Beschrijf uw melding',
+    getNextStep: (incident) => { // eslint-disable-line consistent-return
+      const subcategoriesWithExtraQuestions = [
+        'Overlast op het water - geluid',
+        'Overlast op het water - snel varen',
+        'Overlast op het water - Gezonken boot'
+      ];
+
+      if (!subcategoriesWithExtraQuestions.includes(incident.subcategory)) {
+        return 'incident/telefoon';
+      }
+    },
     form: {
       controls: {
         location: {
@@ -40,9 +51,9 @@ export default {
             type: 'text',
             watch: true
           },
-          options: {
-            validators: Validators.required
-          },
+          // options: {
+            // validators: Validators.required
+          // },
           render: FormComponents.HiddenInput
         },
         subcategory: {
