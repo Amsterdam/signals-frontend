@@ -1,6 +1,23 @@
 /* eslint-disable */
-import MarkerIcon from '../../node_modules/stijl/dist/images/svg/marker.svg';
+/*
 
+    NOTE:
+    this file is altered.
+    The path (config.marker.url) is changed to the MarkerIcon, which is imported down here.
+
+    Babel is removed from this file, as it conflicts with the Signals Babel
+    ------------
+    removed:
+
+      if (commonjsGlobal._babelPolyfill) {
+        throw new Error("only one instance of babel-polyfill is allowed");
+      }
+      commonjsGlobal._babelPolyfill = true;
+    ------------
+
+ */
+
+import MarkerIcon from '../../node_modules/stijl/dist/images/svg/marker.svg';
 var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function createCommonjsModule(fn, module) {
@@ -6994,13 +7011,13 @@ geocoder.createControl = function (zoomFunction, map, nlmaps) {
   input.addEventListener('keydown', function (e) {
     var results = _this.resultList;
     if (_this.resultList.length > 0) {
-      if (e.code === 'ArrowDown') {
+      if (e.code === 'ArrowDown' || e.keyCode === 40) {
         if (_this.selectedResult < _this.resultList.length - 1) {
           _this.selectedResult++;
         }
         _this.showLookupResult(results[_this.selectedResult]);
       }
-      if (e.code === 'ArrowUp') {
+      if (e.code === 'ArrowUp' || e.keyCode === 38) {
         if (_this.selectedResult > 0) {
           _this.selectedResult--;
         }
