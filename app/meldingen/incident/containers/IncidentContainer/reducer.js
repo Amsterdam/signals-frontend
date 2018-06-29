@@ -17,6 +17,9 @@ import {
 
 const initialState = fromJS({
   incident: {
+    extra_boten_snelheid_rondvaartboot: 'Ja',
+    description: 'tering boot',
+    subcategory: 'Overlast op het water - snel varen',
     incident_time_hours: 9,
     incident_time_minutes: 0
   }

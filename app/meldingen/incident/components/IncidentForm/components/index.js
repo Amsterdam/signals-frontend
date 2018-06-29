@@ -4,6 +4,7 @@ import FileInput from './FileInput/';
 import HiddenInput from './HiddenInput/';
 import PlainText from './PlainText/';
 import RadioInput from './RadioInput/';
+import SelectInput from './SelectInput/';
 import TextInput from './TextInput/';
 import TextareaInput from './TextareaInput/';
 import MapInput from './MapInput';
@@ -16,6 +17,7 @@ export default {
   MapInput,
   PlainText,
   RadioInput,
+  SelectInput,
   TextInput,
   TextareaInput
 };

@@ -24,7 +24,7 @@ export function* createIncident() {
 }
 
 export function* getClassification({ text }) {
-  const requestURL = 'http://meldingen-classification.herokuapp.com/calls/';
+  const requestURL = 'https://meldingen-classification.herokuapp.com/calls/';
 
   try {
     const classification = yield call(request, requestURL, {

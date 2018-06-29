@@ -28,10 +28,10 @@ export default {
             subcategory: 'Overlast op het water - snel varen'
           },
           label: 'Gaat de melding over een rondvaartboot?',
-          values: {
-            ja: 'Ja',
-            nee: 'Nee'
-          },
+          values: [
+            'Ja',
+            'Nee'
+          ],
           updateIncident: true
         },
         render: FormComponents.RadioInput
@@ -41,13 +41,19 @@ export default {
           cols: 6,
           label: 'Wat is de naam van de rederij? (niet verplicht)',
           subtitle: 'Als u begint met typen verschijnt vanzelf een lijst met rederijen',
+          options: [
+            'Geen',
+            'Lovers',
+            'Aemstelland',
+            'Staets'
+          ],
           if: {
             subcategory: 'Overlast op het water - snel varen',
-            extra_boten_snelheid_rondvaartboot: 'ja'
+            extra_boten_snelheid_rondvaartboot: 'Ja'
           },
           watch: true
         },
-        render: FormComponents.TextInput
+        render: FormComponents.SelectInput
       },
       extra_boten_snelheid_naamboot: {
         meta: {
