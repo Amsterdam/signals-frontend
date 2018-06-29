@@ -25,7 +25,7 @@ const IncidentNavigation = ({ valid, meta: { form, handleSubmit, setIncident } }
 
           {steps.indexOf(step) < steps.length - 1 && (
             <button
-              className="incident-navigation__button action primary arrow-right"
+              className={`incident-navigation__button action primary ${steps.length - 2 === steps.indexOf(step) ? '' : 'arrow-right'}`}
               onClick={(e) => {
                 if (valid) {
                   handleSubmit(e);
@@ -34,7 +34,11 @@ const IncidentNavigation = ({ valid, meta: { form, handleSubmit, setIncident } }
                 }
               }}
             >
-              <FormattedMessage {...messages.next} />
+              {steps.length - 2 === steps.indexOf(step) ?
+                <FormattedMessage {...messages.send} />
+              :
+                <FormattedMessage {...messages.next} />
+              }
             </button>
           )}
         </div>

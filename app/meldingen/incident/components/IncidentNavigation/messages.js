@@ -10,6 +10,10 @@ export default defineMessages({
     id: 'app.components.IncidentNavigation.next',
     defaultMessage: 'Volgende',
   },
+  send: {
+    id: 'app.components.IncidentNavigation.send',
+    defaultMessage: 'Verstuur',
+  },
   previous: {
     id: 'app.components.IncidentNavigation.previous',
     defaultMessage: 'Vorige',
