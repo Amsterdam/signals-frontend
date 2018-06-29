@@ -37,6 +37,7 @@ class IncidentContainer extends React.Component {
         <IncidentWizard
           getClassification={this.getClassification}
           setIncident={this.setIncident}
+          createIncident={this.createIncident}
           incident={this.props.incidentcontainer.incident}
         />
       </div>

@@ -35,7 +35,8 @@ class IncidentForm extends React.Component {
       form: this.form,
       handleSubmit: this.handleSubmit,
       getClassification: this.props.getClassification,
-      setIncident: this.props.setIncident
+      setIncident: this.props.setIncident,
+      createIncident: this.props.createIncident
     };
 
     this.setValues(incident);
@@ -79,7 +80,8 @@ IncidentForm.propTypes = {
   fieldConfig: PropTypes.object.isRequired,
   incident: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
-  setIncident: PropTypes.func.isRequired
+  setIncident: PropTypes.func.isRequired,
+  createIncident: PropTypes.func.isRequired
 };
 
 export default IncidentForm;

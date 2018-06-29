@@ -28,7 +28,7 @@ function onNext({ step, steps, push }, incident) {
   }
 }
 
-function IncidentWizard({ getClassification, setIncident, incident }) {
+function IncidentWizard({ getClassification, setIncident, createIncident, incident }) {
   return (
     <BrowserRouter>
       <div className="incident-wizardDefinition">
@@ -52,6 +52,7 @@ function IncidentWizard({ getClassification, setIncident, incident }) {
                         incident={incident}
                         getClassification={getClassification}
                         setIncident={setIncident}
+                        createIncident={createIncident}
                       />
                       : ''}
                   </Step>
@@ -69,7 +70,8 @@ function IncidentWizard({ getClassification, setIncident, incident }) {
 IncidentWizard.propTypes = {
   incident: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
-  setIncident: PropTypes.func.isRequired
+  setIncident: PropTypes.func.isRequired,
+  createIncident: PropTypes.func.isRequired
 };
 
 export default IncidentWizard;

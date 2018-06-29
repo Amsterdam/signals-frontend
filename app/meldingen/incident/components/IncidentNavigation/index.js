@@ -12,7 +12,7 @@ import messages from './messages';
 
 import './style.scss';
 
-const IncidentNavigation = ({ valid, meta: { form, handleSubmit, setIncident } }) => (
+const IncidentNavigation = ({ valid, meta: { form, incident, handleSubmit, setIncident, createIncident } }) => (
   <span>
     <WithWizard
       render={({ next, previous, step, steps }) => (
@@ -29,7 +29,11 @@ const IncidentNavigation = ({ valid, meta: { form, handleSubmit, setIncident } }
               onClick={(e) => {
                 if (valid) {
                   handleSubmit(e);
-                  setIncident(form.value);
+                  if (steps.length - 2 === steps.indexOf(step)) {
+                    createIncident(incident);
+                  } else {
+                    setIncident(form.value);
+                  }
                   next();
                 }
               }}
@@ -54,7 +58,11 @@ IncidentNavigation.defaultProps = {
 IncidentNavigation.propTypes = {
   valid: PropTypes.bool.isRequired,
   meta: PropTypes.shape({
-    handleSubmit: PropTypes.function
+    form: PropTypes.object,
+    incident: PropTypes.object,
+    handleSubmit: PropTypes.function,
+    setIncident: PropTypes.function,
+    createIncident: PropTypes.function
   })
 };
 
