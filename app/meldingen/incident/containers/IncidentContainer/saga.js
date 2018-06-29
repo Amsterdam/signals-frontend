@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, /* select, */ takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
 
 import { CREATE_INCIDENT, GET_CLASSIFICATION } from './constants';
@@ -8,16 +8,20 @@ import {
   getClassificationSuccess,
   getClassificationError
 } from './actions';
-import makeSelectIncidentContainer from './selectors';
+// import makeSelectIncidentContainer from './selectors';
 
-export function* createIncident() {
-  const requestURL = '/api/meldingen';
+export function* createIncident(incident) {
+  const requestURL = 'api/signals/signal';
 
   try {
-    const data = yield select(makeSelectIncidentContainer());
-    console.log('data', data);
-    const incident = yield call(request, requestURL);
-    yield put(createIncidentSuccess(incident));
+    const result = yield call(request, requestURL, {
+      method: 'post',
+      body: JSON.stringify(incident),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    yield put(createIncidentSuccess(result));
   } catch (err) {
     yield put(createIncidentError(err));
   }
@@ -27,7 +31,7 @@ export function* getClassification({ text }) {
   const requestURL = 'https://meldingen-classification.herokuapp.com/calls/';
 
   try {
-    const classification = yield call(request, requestURL, {
+    const result = yield call(request, requestURL, {
       method: 'post',
       body: JSON.stringify({
         text
@@ -36,7 +40,7 @@ export function* getClassification({ text }) {
         'Content-Type': 'application/json'
       }
     });
-    yield put(getClassificationSuccess(classification));
+    yield put(getClassificationSuccess(result));
   } catch (err) {
     yield put(getClassificationError(err));
   }
@@ -44,6 +48,8 @@ export function* getClassification({ text }) {
 
 // Individual exports for testing
 export default function* watchIncidentContainerSaga() {
-  yield takeLatest(CREATE_INCIDENT, createIncident);
-  yield takeLatest(GET_CLASSIFICATION, getClassification);
+  yield [
+    yield takeLatest(CREATE_INCIDENT, createIncident),
+    yield takeLatest(GET_CLASSIFICATION, getClassification)
+  ];
 }

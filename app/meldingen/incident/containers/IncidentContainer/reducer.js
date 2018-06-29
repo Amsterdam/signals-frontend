@@ -34,13 +34,12 @@ function incidentContainerReducer(state = initialState, action) {
     case CREATE_INCIDENT:
       return state
         .set('loading', true)
-        .set('error', false)
-        .set('incident', []);
+        .set('error', false);
 
     case CREATE_INCIDENT_SUCCESS:
       return state
-        .set('incidents', action.incident)
-        .set('loading', false);
+      .set('loading', false)
+      .set('incident', {});
 
     case CREATE_INCIDENT_ERROR:
       return state

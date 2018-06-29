@@ -35,7 +35,7 @@ export function createIncidentSuccess(incident) {
   };
 }
 
-export function setIncidentError(message) {
+export function createIncidentError(message) {
   return {
     type: CREATE_INCIDENT_ERROR,
     message
