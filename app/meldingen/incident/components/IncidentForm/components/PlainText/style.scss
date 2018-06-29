@@ -2,7 +2,10 @@
   margin: 16px 0;
 
   &__box {
-    background-color: #e5e5e5;
-    padding: 20px;
+    &.citation,
+    &.disclaimer, {
+      background-color: #e5e5e5;
+      padding: 20px;
+    }
   }
 }
