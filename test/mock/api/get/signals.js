@@ -26,7 +26,7 @@ const signal = {
 };
 
 const signals = {
-  path: '/signals',
+  path: '/auth/signal/?',
   collection: true,
   cache: false,
   size() {
