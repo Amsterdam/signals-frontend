@@ -13,7 +13,7 @@ import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
-import { requestIncidents, incidentSelected, filterIncidents } from './actions';
+import { requestIncidents, incidentSelected } from './actions';
 import FilterComponent from './components/FilterComponent';
 import ListComponent from './components/ListComponent';
 
@@ -22,7 +22,6 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
     super(props);
     this.onFilterIncidents = this.onFilterIncidents.bind(this);
     this.requestIncidents = this.props.requestIncidents.bind(this);
-    this.filterIncidents = this.props.filterIncidents.bind(this);
     this.incidentSelected = this.props.incidentSelected.bind(this);
   }
 
@@ -63,7 +62,6 @@ OverviewPage.propTypes = {
 
   requestIncidents: PropTypes.func.isRequired,
   incidentSelected: PropTypes.func.isRequired,
-  filterIncidents: PropTypes.func.isRequired,
 
   baseUrl: PropTypes.string.isRequired
 };
@@ -78,8 +76,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     requestIncidents: (filter) => dispatch(requestIncidents(filter)),
-    incidentSelected: (incident) => dispatch(incidentSelected(incident)),
-    filterIncidents: (incident) => dispatch(filterIncidents(incident)),
+    incidentSelected: (incident) => dispatch(incidentSelected(incident))
   };
 }
 

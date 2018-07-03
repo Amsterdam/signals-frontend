@@ -36,13 +36,13 @@ class ListComponent extends React.Component { // eslint-disable-line react/prefe
             {this.props.incidents.map((incident) => (
               <tr key={incident.id} onClick={this.selectIncident(incident)}>
                 <td>{incident.id}</td>
-                <td>{incident.incident_date}</td>
-                <td>{incident.user}</td>
+                <td>{incident.incident_date_start}</td>
+                <td>{incident.incident_date_start}</td>
                 <td>{incident.location.stadsdeel}</td>
-                <td>{incident.subcategory}</td>
-                <td>{incident.department}</td>
-                <td>{incident.current_state.state}</td>
-                <td>{incident.user}</td>
+                <td>{incident.category.sub}</td>
+                <td>{incident.category.department}</td>
+                <td>{incident.status.text}</td>
+                <td>{incident.location.address.openbare_ruimte} {incident.location.address.huisnummer}</td>
               </tr>
             ))
             }

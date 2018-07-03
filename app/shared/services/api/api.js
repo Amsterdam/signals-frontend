@@ -11,7 +11,9 @@ const createUrl = (url) => {
   return url;
 };
 
-const generateParams = (data) => Object.entries(data).map((pair) => pair.map(encodeURIComponent).join('=')).join('&');
+const generateParams = (data) => Object.entries(data)
+        .filter((pair) => pair[1] !== undefined)
+        .map((pair) => pair.map(encodeURIComponent).join('=')).join('&');
 
 function* authCallWithToken(url, params, cancel, token) {
   const headers = { };
