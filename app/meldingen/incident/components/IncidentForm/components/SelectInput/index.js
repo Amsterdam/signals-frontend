@@ -12,14 +12,15 @@ const SelectInput = ({ handler, touched, hasError, meta, parent }) => (
     {meta.ifVisible
       ? <div className="row mode_input">
         <Title meta={meta} />
+        {console.log('yo', meta)}
 
         <div className={`col-${meta.cols || 12} invoer`}>
           <select
             {...handler()}
             onChange={(e) => meta.updateIncident && parent.meta.setIncident({ [meta.name]: e.target.value })}
           >
-            {meta.options ?
-                map(meta.options, (value, key) => (<option key={`${meta.name}-${key}`}>{value}</option>))
+            {meta.values ?
+                map(meta.values, (value, key) => (<option key={`${meta.name}-${key}`}>{value}</option>))
                 : ''
             }
           </select>

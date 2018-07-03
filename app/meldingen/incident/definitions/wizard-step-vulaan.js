@@ -41,7 +41,7 @@ export default {
           cols: 6,
           label: 'Wat is de naam van de rederij? (niet verplicht)',
           subtitle: 'Als u begint met typen verschijnt vanzelf een lijst met rederijen',
-          options: [
+          values: [
             'Geen',
             'Lovers',
             'Aemstelland',
