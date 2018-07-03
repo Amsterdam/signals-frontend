@@ -3,9 +3,9 @@ services:
   signals-web: # NGINX
     build:
       args:
-        - BUILD_ENV=prod
+        - BUILD_ENV=acc
       context: .
     ipc: host
     ports:
-      - "3002:80"
+      - "3001:80"
   # networks_mode: "host"
