@@ -77,7 +77,6 @@ export default {
         incident_date: {
           meta: {
             label: 'Incident date',
-            readOnly: true,
             watch: true
           },
           options: {

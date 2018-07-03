@@ -16,7 +16,7 @@ const TextInput = ({ handler, touched, hasError, meta, parent }) => (
             type={meta.type}
             placeholder={meta.placeholder}
             readOnly={meta.readOnly}
-            onChange={(e) => meta.updateIncident && parent.meta.updateIncident({ [meta.name]: e.target.value })}
+            onChange={(e) => meta.updateIncident && parent.meta.setIncident({ [meta.name]: e.target.value })}
             {...handler()}
           />
         </div>

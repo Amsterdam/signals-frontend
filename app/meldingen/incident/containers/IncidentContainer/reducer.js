@@ -17,6 +17,17 @@ import {
 
 const initialState = fromJS({
   incident: {
+    // location: {
+    //   lat: 52,
+    //   lng: 6,
+    //   address: 'yoooo'
+    // },
+    // subcategory: 'Overlast op het water - snel varen',
+    // category: 'Overlast op het water',
+    // description: 'snel boot',
+    // incident_date: 'now',
+    // extra_boten_snelheid_rondvaartboot: 'Ja',
+    // extra_boten_snelheid_rederij: 'Aemstelland',
     incident_time_hours: 9,
     incident_time_minutes: 0
   }
