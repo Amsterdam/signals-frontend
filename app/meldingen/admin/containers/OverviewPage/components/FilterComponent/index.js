@@ -12,19 +12,28 @@ import './style.scss';
 import { TextInput } from './components/TextInput';
 
 class FilterComponent extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  filterForm = FormBuilder.group({
-    id: [''],
-    stadsdeel: [''],
-  });
+
+  constructor(props) {
+    super(props);
+
+    this.filterForm = FormBuilder.group({
+      id: [''],
+      stadsdeel: [''],
+    });
+    if (props.filter) this.filterForm.setValue(this.props.filter);
+  }
+
   handleReset = () => {
     // console.log('Form reset');
     this.filterForm.reset();
   }
+
   handleSubmit = (event) => {
     event.preventDefault();
     // console.log('Form values', this.filterForm.value);
     this.props.filterIncidents(this.filterForm.value);
   }
+
   render() {
     return (
       <div className="filter-component">
@@ -55,6 +64,7 @@ class FilterComponent extends React.Component { // eslint-disable-line react/pre
 }
 
 FilterComponent.propTypes = {
+  filter: PropTypes.object,
   filterIncidents: PropTypes.func.isRequired
 };
 
