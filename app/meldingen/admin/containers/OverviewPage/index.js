@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
+import { compose, bindActionCreators } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -19,21 +19,9 @@ import ListComponent from '../../components/List';
 import Pager from '../../components/Pager';
 
 export class OverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-    this.onFilterIncidents = this.onFilterIncidents.bind(this);
-    this.requestIncidents = this.props.requestIncidents.bind(this);
-    this.incidentSelected = this.props.incidentSelected.bind(this);
-  }
-
   componentDidMount() {
-    this.props.requestIncidents();
+    this.props.onRequestIncidents();
   }
-
-  onFilterIncidents(filter) {
-    this.requestIncidents(filter);
-  }
-
 
   render() {
     const { incidents, loading, filter, incidentsCount, page } = this.props.overviewpage;
@@ -45,10 +33,10 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
           ) : (
             <div className="row">
               <div className="col-4">
-                <Filter filterIncidents={this.onFilterIncidents} filter={filter} />
+                <Filter filterIncidents={this.props.onRequestIncidents} filter={filter} />
               </div>
               <div className="col-8">
-                <ListComponent incidentSelected={this.incidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} incidentsCount={incidentsCount} />
+                <ListComponent incidentSelected={this.props.onIncidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} incidentsCount={incidentsCount} />
                 <Pager incidentsCount={incidentsCount} page={page} />
               </div>
             </div>
@@ -61,11 +49,10 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
 
 OverviewPage.propTypes = {
   overviewpage: PropTypes.object.isRequired,
+  baseUrl: PropTypes.string.isRequired,
 
-  requestIncidents: PropTypes.func.isRequired,
-  incidentSelected: PropTypes.func.isRequired,
-
-  baseUrl: PropTypes.string.isRequired
+  onRequestIncidents: PropTypes.func.isRequired,
+  onIncidentSelected: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -74,13 +61,11 @@ const mapStateToProps = createStructuredSelector({
   error: makeSelectError(),
 });
 
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  onRequestIncidents: requestIncidents,
+  onIncidentSelected: incidentSelected,
+}, dispatch);
 
-function mapDispatchToProps(dispatch) {
-  return {
-    requestIncidents: (filter) => dispatch(requestIncidents(filter)),
-    incidentSelected: (incident) => dispatch(incidentSelected(incident))
-  };
-}
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
