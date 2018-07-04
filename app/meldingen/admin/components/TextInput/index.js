@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { FieldControl } from 'react-reactive-form';
 import './style.scss';
 
-
 export const TextInput = ({ name, control, ...props }) => (
   <div>
     <FieldControl name={name} control={control} render={TextInputRender(props)} />
@@ -49,7 +48,6 @@ export const TextInputRender = (props) => {
 
 export class TextInputWrapper extends React.Component {
   TextInputRender = (props) => {
-    // console.log(props);
     const { name, display, control } = props;
     const renderContent = ({ handler, touched, hasError }) => (<div>
       <div className="row mode_input text rij_verplicht">
@@ -69,15 +67,6 @@ export class TextInputWrapper extends React.Component {
       </div>
     </div>);
 
-    // render.defaultProps = {
-    //   touched: false
-    // };
-
-    // render.propTypes = {
-    //   handler: PropTypes.func.isRequired,
-    //   hasError: PropTypes.func.isRequired,
-    //   touched: PropTypes.boolean,
-    // };
     return renderContent(control);
   };
 

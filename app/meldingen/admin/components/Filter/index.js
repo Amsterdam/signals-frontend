@@ -1,17 +1,11 @@
-/**
-*
-* Filter
-*
-*/
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
 
 import './style.scss';
-import { TextInput } from './components/TextInput';
+import { TextInput } from '../TextInput';
 
-class Filter extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class Filter extends React.Component {
   constructor(props) {
     super(props);
     if (this.props.filter) {
@@ -25,12 +19,11 @@ class Filter extends React.Component { // eslint-disable-line react/prefer-state
 
   filterForm = FormBuilder.group({
     id: [''],
-    date: [''],
-    time: [''],
-    stadsdeel: [''],
-    subcategory: [''],
-    status: [''],
-    adres: [''],
+    incident_date_start: [''],
+    location__stadsdeel: [''],
+    category__sub: [''],
+    status__state: [''],
+    location__address_text: [''],
   });
 
   handleReset = () => {
@@ -52,12 +45,11 @@ class Filter extends React.Component { // eslint-disable-line react/prefer-state
             <form onSubmit={this.handleSubmit}>
               <div>
                 <TextInput name="id" display="Id" control={this.filterForm.get('id')} />
-                <TextInput name="date" display="Datum" control={this.filterForm.get('date')} />
-                <TextInput name="time" display="TIjd" control={this.filterForm.get('time')} />
-                <TextInput name="stadsdeel" display="Staadsdeel" control={this.filterForm.get('stadsdeel')} />
-                <TextInput name="subcategory" display="Rubriek" control={this.filterForm.get('subcategory')} />
-                <TextInput name="status" display="Status" control={this.filterForm.get('status')} />
-                <TextInput name="adres" display="Adres" control={this.filterForm.get('adres')} />
+                <TextInput name="incident_date_start" display="Datum" control={this.filterForm.get('incident_date_start')} />
+                <TextInput name="location__stadsdeel" display="Staadsdeel" control={this.filterForm.get('location__stadsdeel')} />
+                <TextInput name="category__sub" display="Rubriek" control={this.filterForm.get('category__sub')} />
+                <TextInput name="status__state" display="Status" control={this.filterForm.get('status__state')} />
+                <TextInput name="location__address_text" display="Adres" control={this.filterForm.get('location__address_text')} />
 
                 <button className="action" onClick={this.handleReset} type="button">
                   <span className="value">Reset filter</span>

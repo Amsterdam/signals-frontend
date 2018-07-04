@@ -7,9 +7,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
-
 import './style.scss';
 
 // const Anchor = (props) => {
@@ -28,21 +25,21 @@ class Pager extends React.Component { // eslint-disable-line react/prefer-statel
     for (let i = 1; i <= totalPages; ++i) { // eslint-disable-line no-plusplus
       pages.push(
         (currentPage === i) ?
-          <a href="" className="pager_step huidige" onClick={() => this.props.onPageChanged(i)}><strong>{i}</strong></a> :
-          <a href="" className="pager_step pagina" onClick={() => this.props.onPageChanged(i)}>{i}</a>
-      );
+          <span role="presentation" key={i} className="pager_step huidige" onClick={() => this.props.onPageChanged(i)}><strong>{i}</strong></span> :
+          <a role="presentation" key={i} className="pager_step pagina" onClick={() => this.props.onPageChanged(i)}>{i}</a>
+          // eslint-enable no-static-element-interactions
+        );
     }
 
     return (
       <div className="pager-">
-        <FormattedMessage {...messages.header} />
         Er zijn {this.props.incidentsCount} meldingen gevonden.
         Current Page: {this.props.page || 1}
         Total Pages: {Math.floor(this.props.incidentsCount / 100) + 1}
         <div className="pager">
-          {hasPrevious ? <a href="" className="pager_nav vorige" onClick={() => this.props.onPageChanged(currentPage - 1)}>vorige</a> : null}
+          {hasPrevious ? <a role="presentation" className="pager_nav vorige" onClick={() => this.props.onPageChanged(currentPage - 1)}>vorige</a> : null}
           {pages.length > 1 ? pages : ''}
-          {hasNext ? <a href="" className="pager_nav volgende" onClick={() => this.props.onPageChanged(currentPage + 1)}>volgende</a> : ''}
+          {hasNext ? <a role="presentation" className="pager_nav volgende" onClick={() => this.props.onPageChanged(currentPage + 1)}>volgende</a> : ''}
         </div>
 
       </div>
@@ -51,9 +48,14 @@ class Pager extends React.Component { // eslint-disable-line react/prefer-statel
 }
 
 Pager.propTypes = {
-  incidentsCount: PropTypes.number.isRequired,
-  page: PropTypes.number.isRequired,
+  incidentsCount: PropTypes.number,
+  page: PropTypes.number,
   onPageChanged: PropTypes.func.isRequired
+};
+
+Pager.defaultProps = {
+  incidentsCount: 0,
+  page: 1
 };
 
 export default Pager;

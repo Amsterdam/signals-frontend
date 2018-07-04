@@ -19,8 +19,18 @@ import ListComponent from '../../components/List';
 import Pager from '../../components/Pager';
 
 export class OverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+    this.onPageChanged = this.onPageChanged.bind(this);
+  }
+
   componentDidMount() {
     this.props.onRequestIncidents();
+  }
+
+  onPageChanged(page) {
+    // console.log('onPageChanged', page);
+    this.props.onRequestIncidents(null, page);
   }
 
   render() {
@@ -37,10 +47,10 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
               </div>
               <div className="col-8">
                 <ListComponent incidentSelected={this.props.onIncidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} incidentsCount={incidentsCount} />
-                <Pager incidentsCount={incidentsCount} page={page} />
+                <Pager incidentsCount={incidentsCount} page={page} onPageChanged={this.onPageChanged} />
               </div>
             </div>
-          )
+            )
         }
       </div>
     );
