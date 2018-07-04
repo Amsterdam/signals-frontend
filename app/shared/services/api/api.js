@@ -5,15 +5,25 @@ import { makeSelectAccessToken } from '../../../containers/App/selectors';
 import CONFIGURATION from '../configuration/configuration';
 
 const createUrl = (url) => {
-  if (process.env.NODE_ENV === 'production') {
-    return `${CONFIGURATION.API_ROOT}/${url}`;
+  if (process.env.NODE_ENV === 'development') {
+    return url;
   }
-  return url;
+  return `${CONFIGURATION.API_ROOT}/${url}`;
 };
 
 const generateParams = (data) => Object.entries(data)
-        .filter((pair) => pair[1] !== undefined)
+        .filter((pair) => pair[1])
         .map((pair) => pair.map(encodeURIComponent).join('=')).join('&');
+
+// const generateParam = (data) => Object.keys(data)
+//         .filter((key) => data[key])
+//         .reduce((result, key) => (
+//           result + data[key].map((pair) => pair.map(encodeURIComponent).join('=')).join('&')
+//           // {
+//           // ...result,
+//           // [key]: data[key]
+//         ), '');
+
 
 function* authCallWithToken(url, params, cancel, token) {
   const headers = { };
@@ -32,8 +42,6 @@ function* authCallWithToken(url, params, cancel, token) {
   }
 
   const fullUrl = `${createUrl(url)}/${params ? `?${generateParams(params)}` : ''}`;
-  // console.log(fullUrl);
-  // console.log(options);
   return yield call(request, fullUrl, options);
 }
 

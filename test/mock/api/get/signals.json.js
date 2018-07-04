@@ -200,8 +200,13 @@ const signals = [
 
 const stadsdeel = [
   'Centrum',
+  'Noord',
+  'West',
+  'Nieuw-West',
   'Oost',
-  'Noord'
+  'Zuid',
+  'Zuidoost',
+  'Geen stadsdeel',
 ];
 
 const departement = [
