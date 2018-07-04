@@ -23,6 +23,7 @@ export default {
           meta: {
             label: 'Waar is het?',
             subtitle: 'Typ de locatie of versleep de markering [dingetje] op de kaart',
+            param: 'location',
             watch: true
           },
           options: {
@@ -33,6 +34,7 @@ export default {
         description: {
           meta: {
             label: 'Waar gaat het om?',
+            param: 'text',
             placeholder: 'Beschrijving'
           },
           options: {
@@ -43,7 +45,7 @@ export default {
         category: {
           meta: {
             label: 'Categorie',
-            readOnly: true,
+            param: 'category.main',
             type: 'text',
             watch: true
           },
@@ -55,7 +57,7 @@ export default {
         subcategory: {
           meta: {
             label: 'Subcategorie',
-            readOnly: true,
+            param: 'category.sub',
             type: 'text',
             watch: true
           },
@@ -110,6 +112,7 @@ export default {
           meta: {
             label: 'Wilt u een foto meesturen?',
             submitLabel: 'Foto kiezen',
+            param: 'image',
             watch: true
           },
           render: FormComponents.FileInput
@@ -130,6 +133,7 @@ export default {
           meta: {
             label: 'Wat is uw telefoonnummer? (niet verplicht)',
             subtitle: 'Zo kunt u ons helpen het probleem sneller of beter op te lossen.',
+            param: 'reporter.phone',
             placeholder: 'Telefoonnummer',
             type: 'text'
           },
@@ -159,6 +163,7 @@ export default {
           meta: {
             label: 'Wat is uw e-mailadres? (niet verplicht)',
             subtitle: 'We mailen om u te vertellen wat we met uw melding doen. En wanneer het klaar is.',
+            param: 'reporter.email',
             placeholder: 'E-mail adres',
             type: 'text'
           },

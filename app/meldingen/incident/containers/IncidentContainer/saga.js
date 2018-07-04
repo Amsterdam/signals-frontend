@@ -8,6 +8,8 @@ import {
   getClassificationSuccess,
   getClassificationError
 } from './actions';
+import mapControlsToParams from '../../services/map-controls-to-params';
+
 // import makeSelectIncidentContainer from './selectors';
 
 export function* getClassification({ text }) {
@@ -30,38 +32,12 @@ export function* getClassification({ text }) {
 }
 
 export function* createIncident({ incident, wizard }) {
-  console.log('saga createIncident', incident, wizard);
   const requestURL = 'https://acc.api.data.amsterdam.nl/signals/signal/';
-
-  const payload = {
-    text: incident.description,
-    incident_date_start: '2018-07-03T13:49:38.737Z',
-    category: {
-      main: incident.category,
-      sub: incident.subcategory
-    },
-    location: {
-      address: incident.location.address,
-      geometrie: {
-        type: 'Point',
-        coordinates: [
-          incident.location.lat,
-          incident.location.lng
-        ]
-      }
-    },
-    reporter: {
-      email: incident.email,
-      phone: incident.phone
-    }
-  };
-
-  console.log('saga sends', payload);
 
   try {
     const result = yield call(request, requestURL, {
       method: 'POST',
-      body: JSON.stringify(payload),
+      body: JSON.stringify(mapControlsToParams(incident, wizard)),
       headers: {
         'Content-Type': 'application/json'
       }
