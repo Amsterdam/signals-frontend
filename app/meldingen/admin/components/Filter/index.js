@@ -1,6 +1,6 @@
 /**
 *
-* FilterComponent
+* Filter
 *
 */
 
@@ -11,7 +11,7 @@ import { FormBuilder, FieldGroup } from 'react-reactive-form';
 import './style.scss';
 import { TextInput } from './components/TextInput';
 
-class FilterComponent extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class Filter extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     if (this.props.filter) {
@@ -74,9 +74,9 @@ class FilterComponent extends React.Component { // eslint-disable-line react/pre
   }
 }
 
-FilterComponent.propTypes = {
+Filter.propTypes = {
   filter: PropTypes.object,
   filterIncidents: PropTypes.func.isRequired
 };
 
-export default FilterComponent;
+export default Filter;

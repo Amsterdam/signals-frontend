@@ -18,7 +18,7 @@ class Pager extends React.Component { // eslint-disable-line react/prefer-statel
       <div className="pager">
         <FormattedMessage {...messages.header} />
         Er zijn {this.props.incidentsCount} meldingen gevonden.
-        Current Page: {this.props.page}
+        Current Page: {this.props.page || 1}
         Total Pages: {Math.floor(this.props.incidentsCount / 100) + 1 }
       </div>
     );

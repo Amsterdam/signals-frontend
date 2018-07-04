@@ -14,8 +14,8 @@ import saga from './saga';
 import './style.scss';
 
 import { requestIncidents, incidentSelected } from './actions';
-import FilterComponent from './components/FilterComponent';
-import ListComponent from './components/ListComponent';
+import Filter from '../../components/Filter';
+import ListComponent from '../../components/List';
 import Pager from '../../components/Pager';
 
 export class OverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -45,7 +45,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
           ) : (
             <div className="row">
               <div className="col-4">
-                <FilterComponent filterIncidents={this.onFilterIncidents} filter={filter} />
+                <Filter filterIncidents={this.onFilterIncidents} filter={filter} />
               </div>
               <div className="col-8">
                 <ListComponent incidentSelected={this.incidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} incidentsCount={incidentsCount} />

@@ -1,6 +1,6 @@
 /**
 *
-* ListComponent
+* List
 *
 */
 
@@ -10,7 +10,7 @@ import { withRouter } from 'react-router-dom';
 
 import './style.scss';
 
-class ListComponent extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class List extends React.Component { // eslint-disable-line react/prefer-stateless-function
   selectIncident = (incident) => () => {
     this.props.incidentSelected(incident);
   }
@@ -52,10 +52,10 @@ class ListComponent extends React.Component { // eslint-disable-line react/prefe
   }
 }
 
-ListComponent.propTypes = {
+List.propTypes = {
   incidents: PropTypes.array.isRequired,
   incidentSelected: PropTypes.func.isRequired,
 };
 
-// export default withRouter(ListComponent);
-export default withRouter(ListComponent);
+// export default withRouter(List);
+export default withRouter(List);
