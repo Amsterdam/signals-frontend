@@ -33,6 +33,7 @@ class IncidentForm extends React.Component {
     this.form.meta = {
       incident,
       form: this.form,
+      wizard: this.props.wizard,
       handleSubmit: this.handleSubmit,
       getClassification: this.props.getClassification,
       setIncident: this.props.setIncident,
@@ -79,6 +80,7 @@ class IncidentForm extends React.Component {
 IncidentForm.propTypes = {
   fieldConfig: PropTypes.object.isRequired,
   incident: PropTypes.object.isRequired,
+  wizard: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
   setIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired

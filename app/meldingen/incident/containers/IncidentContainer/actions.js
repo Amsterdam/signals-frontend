@@ -21,10 +21,11 @@ export function setIncident(incident) {
   };
 }
 
-export function createIncident(incident) {
+export function createIncident(incident, wizard) {
   return {
     type: CREATE_INCIDENT,
-    incident
+    incident,
+    wizard
   };
 }
 

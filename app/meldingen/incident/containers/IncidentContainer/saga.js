@@ -29,8 +29,8 @@ export function* getClassification({ text }) {
   }
 }
 
-export function* createIncident({ incident }) {
-  console.log('saga createIncident', incident);
+export function* createIncident({ incident, wizard }) {
+  console.log('saga createIncident', incident, wizard);
   const requestURL = 'https://acc.api.data.amsterdam.nl/signals/signal/';
 
   const payload = {
