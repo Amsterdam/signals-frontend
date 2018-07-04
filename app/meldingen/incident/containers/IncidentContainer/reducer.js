@@ -18,14 +18,16 @@ import {
 const initialState = fromJS({
   incident: {
     // location: {
-    //   lat: 52,
-    //   lng: 6,
-    //   address: 'yoooo'
+    //   lat: 52.36227330330391,
+    //   lng: 4.930282384157181,
+    //   address: 'Pieter Nieuwlandstraat 119'
     // },
     // subcategory: 'Overlast op het water - snel varen',
     // category: 'Overlast op het water',
     // description: 'snel boot',
     // incident_date: 'now',
+    // phone: '020654321',
+    // email: 'a@b.nl',
     // extra_boten_snelheid_rondvaartboot: 'Ja',
     // extra_boten_snelheid_rederij: 'Aemstelland',
     incident_time_hours: 9,
