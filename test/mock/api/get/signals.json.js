@@ -1,85 +1,201 @@
 
 const signals = [
   {
-    _display: 'Signal object (1)',
-    signal_id: '4add4b92-5627-4a06-8f11-a5b4985e5170',
-    created_at: '2018-06-12T12:07:49.227979Z',
-    id: 1,
-    melding_id: 124,
+    _links: {
+      self: {
+        href: 'https://acc.api.data.amsterdam.nl/signals/auth/signal/6/'
+      }
+    },
+    _display: '6 - i - ij1 - 2018-06-28 11:50:46.031878+00:00',
+    id: 6,
+    signal_id: '4edb1d0b-c27e-41dd-9227-f96e67ecfe10',
+    source: 'bron',
+    text: 'Tekst voor melding',
+    text_extra: 'Extra text',
+    status: {
+      id: 4,
+      text: 'status2',
+      user: 'user@example.com',
+      target_api: '',
+      state: 'i',
+      extern: true,
+      extra_properties: {
+
+      }
+    },
     location: {
-      latitude: 52.376,
-      logitude: 4.901,
-      stadsdeel: 'Centrum'
+      id: 3,
+      stadsdeel: 'N',
+      buurt_code: 'ij1',
+      address: {
+        postcode: '1012JS',
+        huisletter: 'A',
+        huisnummer: '1',
+        woonplaats: 'Amsterdam',
+        openbare_ruimte: 'Dam',
+        huisnummer_toevoeging: '1'
+      },
+      address_text: 'Dam 1A-1 1012JS Amsterdam',
+      geometrie: {
+        type: 'Point',
+        coordinates: [
+          135.0,
+          45.0
+        ]
+      },
+      extra_properties: {
+
+      }
     },
-    current_state: {
-      state: 'Gemeld',
-      description: 'Verblijfsobject in gebruik'
+    category: {
+      main: 'hoofd',
+      sub: 'sub',
+      department: 'WaterNet',
+      priority: 1
     },
-    department: 'Waternet',
-    category: 'watermelding',
-    subcategory: 'overlast',
-    incident_date: '2018-05-19T07:22:15Z'
+    reporter: {
+      email: 'bart@datapunt.nl',
+      phone: '1324513435134',
+      remove_at: null,
+      created_at: '2018-06-28T11:50:46.024550Z',
+      updated_at: '2018-06-28T11:50:46.024588Z',
+      extra_properties: {
+
+      }
+    },
+    created_at: '2018-06-28T11:50:46.031878Z',
+    updated_at: null,
+    incident_date_start: '2018-06-28T11:50:46.031793Z',
+    incident_date_end: null,
+    operational_date: null,
+    image: null,
+    upload: null
   },
   {
-    _display: 'Signal object (2)',
-    signal_id: 'a5b4985e5170-5627-4a06-8f11-a5b4985e5170',
-    created_at: '2018-06-10T12:02:02Z',
-    id: 2,
-    melding_id: 125,
+    _links: {
+      self: {
+        href: 'https://acc.api.data.amsterdam.nl/signals/auth/signal/5/'
+      }
+    },
+    _display: '5 - m - ABC - 2018-06-27 09:13:15.277401+00:00',
+    id: 5,
+    signal_id: '9b129116-4da0-4fbe-b0cd-de67ab3d4a63',
+    source: 'string',
+    text: 'string',
+    text_extra: 'string',
+    status: {
+      id: 2,
+      text: 'string',
+      user: 'user@example.com',
+      target_api: 'string',
+      state: 'm',
+      extern: true,
+      extra_properties: 'string'
+    },
     location: {
-      latitude: 52.366,
-      logitude: 4.911,
-      stadsdeel: 'Oost'
+      id: 2,
+      stadsdeel: 'A',
+      buurt_code: 'ABC',
+      address: {
+        postcode: '1012JS',
+        huisletter: 'A',
+        huisnummer: '1',
+        woonplaats: 'Amsterdam',
+        openbare_ruimte: 'Dam',
+        huisnummer_toevoeging: '1'
+      },
+      address_text: 'Dam 1A-1 1012JS Amsterdam',
+      geometrie: {
+        type: 'Point',
+        coordinates: [
+          135.0,
+          45.0
+        ]
+      },
+      extra_properties: {
+
+      }
     },
-    current_state: {
-      state: 'Gemeld',
-      description: 'Verblijfsobject in gebruik'
+    category: {
+      main: 'string',
+      sub: 'string',
+      department: 'string',
+      priority: 0
     },
-    department: 'Waternet',
-    category: 'watermelding',
-    subcategory: 'overlast',
-    incident_date: '2018-05-19T07:22:15Z'
+    reporter: {
+      email: 'user@example.com',
+      phone: 'string',
+      remove_at: '2018-06-27T06:47:12.423000Z',
+      created_at: '2018-06-27T09:13:15.268862Z',
+      updated_at: '2018-06-27T09:13:15.268893Z',
+      extra_properties: 'string'
+    },
+    created_at: '2018-06-27T09:13:15.277401Z',
+    updated_at: '2018-06-27T06:47:12.423000Z',
+    incident_date_start: '2018-06-27T09:13:15.277349Z',
+    incident_date_end: '2018-06-27T06:47:12.423000Z',
+    operational_date: '2018-06-27T06:47:12.423000Z',
+    image: null,
+    upload: null
   },
   {
-    _display: 'Signal object (3)',
-    signal_id: 'a5b4985e5170-5627-4a06-8f11-a5b4985e5170',
-    created_at: '2018-06-10T12:02:02Z',
-    id: 2,
-    melding_id: 125,
+    _links: {
+      self: {
+        href: 'https://acc.api.data.amsterdam.nl/signals/auth/signal/3/'
+      }
+    },
+    _display: '3 - m - abc - 2018-06-25 15:25:00.319956+00:00',
+    id: 3,
+    signal_id: 'ebe31c09-a9b6-4872-9570-59e47aa7c69f',
+    source: 'string',
+    text: 'string',
+    text_extra: 'string',
+    status: {
+      id: 1,
+      text: 'string',
+      user: 'user@example.com',
+      target_api: 'string',
+      state: 'm',
+      extern: true,
+      extra_properties: 'string'
+    },
     location: {
-      latitude: 52.356,
-      logitude: 4.921,
-      stadsdeel: 'West'
+      id: 1,
+      stadsdeel: 'A',
+      buurt_code: 'abc',
+      address: '{}',
+      address_text: '',
+      geometrie: {
+        type: 'Point',
+        coordinates: [
+          135.0,
+          45.0
+        ]
+      },
+      extra_properties: 'string'
     },
-    current_state: {
-      state: 'Gemeld',
-      description: 'Verblijfsobject in gebruik'
+    category: {
+      main: 'string',
+      sub: 'string',
+      department: 'string',
+      priority: 0
     },
-    department: 'Waternet',
-    category: 'geluid',
-    subcategory: 'overlast',
-    incident_date: '2018-05-19T07:22:15Z'
-  },
-  {
-    _display: 'Signal object (4)',
-    signal_id: 'a5b4985e5170-5627-4a06-8f11-a5b4985e5170',
-    created_at: '2018-06-10T12:02:02Z',
-    id: 2,
-    melding_id: 125,
-    location: {
-      latitude: 52.356,
-      logitude: 4.921,
-      stadsdeel: 'West'
+    reporter: {
+      email: 'user@example.com',
+      phone: 'string',
+      remove_at: '2018-06-25T15:15:31.936000Z',
+      created_at: '2018-06-25T15:25:00.317996Z',
+      updated_at: '2018-06-25T15:25:00.318010Z',
+      extra_properties: 'string'
     },
-    current_state: {
-      state: 'Gemeld',
-      description: 'Verblijfsobject in gebruik'
-    },
-    department: 'Waternet',
-    category: 'geluid',
-    subcategory: 'overlast',
-    incident_date: '2018-05-19T07:22:15Z'
-  },
+    created_at: '2018-06-25T15:25:00.319956Z',
+    updated_at: '2018-06-25T15:15:31.936000Z',
+    incident_date_start: '2018-06-25T15:25:00.319930Z',
+    incident_date_end: '2018-06-25T15:15:31.936000Z',
+    operational_date: '2018-06-25T15:15:31.936000Z',
+    image: null,
+    upload: null
+  }
 ];
 
 const stadsdeel = [

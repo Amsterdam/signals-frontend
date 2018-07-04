@@ -2,8 +2,18 @@ import { call, select } from 'redux-saga/effects';
 import request from 'utils/request';
 
 import { makeSelectAccessToken } from '../../../containers/App/selectors';
+import CONFIGURATION from '../configuration/configuration';
 
-const generateParams = (data) => Object.entries(data).map((pair) => pair.map(encodeURIComponent).join('=')).join('&');
+const createUrl = (url) => {
+  if (process.env.NODE_ENV === 'production') {
+    return `${CONFIGURATION.API_ROOT}/${url}`;
+  }
+  return url;
+};
+
+const generateParams = (data) => Object.entries(data)
+        .filter((pair) => pair[1] !== undefined)
+        .map((pair) => pair.map(encodeURIComponent).join('=')).join('&');
 
 function* authCallWithToken(url, params, cancel, token) {
   const headers = { };
@@ -21,7 +31,9 @@ function* authCallWithToken(url, params, cancel, token) {
     options.signal = cancel;
   }
 
-  const fullUrl = `${url}${params ? `?${generateParams(params)}` : ''}`;
+  const fullUrl = `${createUrl(url)}/${params ? `?${generateParams(params)}` : ''}`;
+  // console.log(fullUrl);
+  // console.log(options);
   return yield call(request, fullUrl, options);
 }
 
