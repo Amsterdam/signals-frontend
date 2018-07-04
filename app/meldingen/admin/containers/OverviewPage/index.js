@@ -16,6 +16,7 @@ import './style.scss';
 import { requestIncidents, incidentSelected } from './actions';
 import FilterComponent from './components/FilterComponent';
 import ListComponent from './components/ListComponent';
+import Pager from '../../components/Pager';
 
 export class OverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -35,7 +36,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
 
 
   render() {
-    const { incidents, loading, filter, incidentsCount } = this.props.overviewpage;
+    const { incidents, loading, filter, incidentsCount, page } = this.props.overviewpage;
     return (
       <div className="overview-page">
         {
@@ -48,6 +49,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
               </div>
               <div className="col-8">
                 <ListComponent incidentSelected={this.incidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} incidentsCount={incidentsCount} />
+                <Pager incidentsCount={incidentsCount} page={page} />
               </div>
             </div>
           )
