@@ -18,7 +18,7 @@ class ListComponent extends React.Component { // eslint-disable-line react/prefe
   render() {
     return (
       <div className="list-component">
-        Er zijn {this.props.incidents.length} meldingen gevonden.
+        Er zijn {this.props.incidentsCount} meldingen gevonden.
         <table className="" cellSpacing="0" cellPadding="0">
           <thead>
             <tr>
@@ -55,6 +55,7 @@ class ListComponent extends React.Component { // eslint-disable-line react/prefe
 
 ListComponent.propTypes = {
   incidents: PropTypes.array.isRequired,
+  incidentsCount: PropTypes.number.isRequired,
   incidentSelected: PropTypes.func.isRequired,
 };
 

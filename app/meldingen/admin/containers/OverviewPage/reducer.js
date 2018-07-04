@@ -18,7 +18,7 @@ function overviewPageReducer(state = initialState, action) {
     case REQUEST_INCIDENTS_SUCCESS:
       return state
         .set('incidents', action.payload.results)
-        .set('incidents_count', action.payload.count)
+        .set('incidentsCount', action.payload.count)
         .set('loading', false);
     case REQUEST_INCIDENTS_ERROR:
       return state

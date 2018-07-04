@@ -35,7 +35,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
 
 
   render() {
-    const { incidents, loading, filter } = this.props.overviewpage;
+    const { incidents, loading, filter, incidentsCount } = this.props.overviewpage;
     return (
       <div className="overview-page">
         {
@@ -47,7 +47,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
                 <FilterComponent filterIncidents={this.onFilterIncidents} filter={filter} />
               </div>
               <div className="col-8">
-                <ListComponent incidentSelected={this.incidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} />
+                <ListComponent incidentSelected={this.incidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} incidentsCount={incidentsCount} />
               </div>
             </div>
           )
