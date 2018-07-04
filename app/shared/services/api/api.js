@@ -12,7 +12,7 @@ const createUrl = (url) => {
 };
 
 const generateParams = (data) => Object.entries(data)
-        .filter((pair) => pair[1] !== undefined)
+        .filter((pair) => pair[1])
         .map((pair) => pair.map(encodeURIComponent).join('=')).join('&');
 
 function* authCallWithToken(url, params, cancel, token) {

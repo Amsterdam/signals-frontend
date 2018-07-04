@@ -12,19 +12,37 @@ import './style.scss';
 import { TextInput } from './components/TextInput';
 
 class FilterComponent extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+    if (this.props.filter) {
+      this.filterForm.setValue(props.filter);
+    }
+  }
+
+  onFilter = (filter) => {
+    this.props.filterIncidents(filter);
+  }
+
   filterForm = FormBuilder.group({
     id: [''],
+    date: [''],
+    time: [''],
     stadsdeel: [''],
+    subcategory: [''],
+    status: [''],
+    adres: [''],
   });
+
   handleReset = () => {
-    // console.log('Form reset');
     this.filterForm.reset();
+    this.onFilter(this.filterForm.value);
   }
+
   handleSubmit = (event) => {
     event.preventDefault();
-    // console.log('Form values', this.filterForm.value);
-    this.props.filterIncidents(this.filterForm.value);
+    this.onFilter(this.filterForm.value);
   }
+
   render() {
     return (
       <div className="filter-component">
@@ -33,13 +51,15 @@ class FilterComponent extends React.Component { // eslint-disable-line react/pre
           render={({ invalid }) => (
             <form onSubmit={this.handleSubmit}>
               <div>
-                <TextInput name="id" display="Melding Id" control={this.filterForm.get('id')} />
+                <TextInput name="id" display="Id" control={this.filterForm.get('id')} />
+                <TextInput name="date" display="Datum" control={this.filterForm.get('date')} />
+                <TextInput name="time" display="TIjd" control={this.filterForm.get('time')} />
                 <TextInput name="stadsdeel" display="Staadsdeel" control={this.filterForm.get('stadsdeel')} />
-                {/* <TextInputWrapper name="stadsdeel" display="Staadsdeel" control={this.filterForm.get('stadsdeel')} /> */}
-                {/* <FieldControl name="id" render={TextInputRender('id', 'Melding Id')} />
-              <FieldControl name="stadsdeel" render={TextInputRender('stadsdeel', 'Staadsdeel')} /> */}
+                <TextInput name="subcategory" display="Rubriek" control={this.filterForm.get('subcategory')} />
+                <TextInput name="status" display="Status" control={this.filterForm.get('status')} />
+                <TextInput name="adres" display="Adres" control={this.filterForm.get('adres')} />
 
-                <button className="action primary" onClick={this.handleReset} type="button">
+                <button className="action" onClick={this.handleReset} type="button">
                   <span className="value">Reset filter</span>
                 </button>
                 <button className="action primary" type="submit" disabled={invalid}>
@@ -55,6 +75,7 @@ class FilterComponent extends React.Component { // eslint-disable-line react/pre
 }
 
 FilterComponent.propTypes = {
+  filter: PropTypes.object,
   filterIncidents: PropTypes.func.isRequired
 };
 
