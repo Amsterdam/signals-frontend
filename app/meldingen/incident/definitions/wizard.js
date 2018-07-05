@@ -23,7 +23,7 @@ export default {
           meta: {
             label: 'Waar is het?',
             subtitle: 'Typ de locatie of versleep de markering [dingetje] op de kaart',
-            param: 'location',
+            // path: 'location',
             watch: true
           },
           options: {
@@ -34,7 +34,7 @@ export default {
         description: {
           meta: {
             label: 'Waar gaat het om?',
-            param: 'text',
+            path: 'text',
             placeholder: 'Beschrijving'
           },
           options: {
@@ -45,7 +45,7 @@ export default {
         category: {
           meta: {
             label: 'Categorie',
-            param: 'category.main',
+            path: 'category.main',
             type: 'text',
             watch: true
           },
@@ -57,7 +57,7 @@ export default {
         subcategory: {
           meta: {
             label: 'Subcategorie',
-            param: 'category.sub',
+            path: 'category.sub',
             type: 'text',
             watch: true
           },
@@ -112,7 +112,7 @@ export default {
           meta: {
             label: 'Wilt u een foto meesturen?',
             submitLabel: 'Foto kiezen',
-            param: 'image',
+            // path: 'image',
             watch: true
           },
           render: FormComponents.FileInput
@@ -133,7 +133,7 @@ export default {
           meta: {
             label: 'Wat is uw telefoonnummer? (niet verplicht)',
             subtitle: 'Zo kunt u ons helpen het probleem sneller of beter op te lossen.',
-            param: 'reporter.phone',
+            path: 'reporter.phone',
             placeholder: 'Telefoonnummer',
             type: 'text'
           },
@@ -163,7 +163,7 @@ export default {
           meta: {
             label: 'Wat is uw e-mailadres? (niet verplicht)',
             subtitle: 'We mailen om u te vertellen wat we met uw melding doen. En wanneer het klaar is.',
-            param: 'reporter.email',
+            path: 'reporter.email',
             placeholder: 'E-mail adres',
             type: 'text'
           },
