@@ -14,8 +14,8 @@ export default defineMessages({
     id: 'boilerplate.components.Header.incident',
     defaultMessage: 'Nieuwe melding',
   },
-  admin: {
-    id: 'boilerplate.components.Header.admin',
-    defaultMessage: 'Admin',
+  afhandelen: {
+    id: 'boilerplate.components.Header.afhandelen',
+    defaultMessage: 'Afhandelen',
   }
 });
