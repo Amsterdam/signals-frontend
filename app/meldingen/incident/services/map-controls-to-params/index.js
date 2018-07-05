@@ -1,7 +1,8 @@
+import moment from 'moment';
 // import { map, filter, flatMap, concat } from 'lodash';
 
 const mapControlsToParams = (incident /* , wizard */) => {
-  // console.log('mapControlsToParams', incident, wizard);
+  console.log('mapControlsToParams', incident);
   // const yoooo = map(wizard, (step) => {
   //   const controls = step.form && step.form.controls;
   //   const yo = flatMap(controls, (control, name) => {
@@ -14,12 +15,22 @@ const mapControlsToParams = (incident /* , wizard */) => {
   // });
   // console.log('YOOOOO', yoooo);
 
+  // create date
+  let date;
+  switch (incident.incident_date) {
+    case 'now':
+      date = moment();
+      break;
+    default:
+      date = moment(`${incident.incident_date} ${incident.incident_time_hours}:${incident.incident_time_minutes}`);
+  }
+
   const result = {
     text: incident.description,
     text_extra: 'text_extra',
 
-    created_at: '2018-07-03T13:49:38.737Z',
-    incident_date_start: '2018-07-03T13:49:38.737Z',
+    created_at: date.format(),
+    incident_date_start: date.format(),
 
     category: {
       main: incident.category,
