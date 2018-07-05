@@ -33,7 +33,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
   }
 
   render() {
-    const { incidents, loading, filter, incidentsCount, page, statusList } = this.props.overviewpage;
+    const { incidents, loading, filter, incidentsCount, page, statusList, subcategoryList } = this.props.overviewpage;
     return (
       <div className="overview-page">
         {
@@ -42,7 +42,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
           ) : (
             <div className="row">
               <div className="col-4">
-                <Filter filterIncidents={this.props.onRequestIncidents} filter={filter} statusList={statusList} />
+                <Filter filterIncidents={this.props.onRequestIncidents} filter={filter} statusList={statusList} subcategoryList={subcategoryList} />
               </div>
               <div className="col-8">
                 <ListComponent incidentSelected={this.props.onIncidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} incidentsCount={incidentsCount} />
