@@ -5,9 +5,17 @@
  */
 
 import { fromJS } from 'immutable';
-import { REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR, FILTER_INCIDENTS_CHANGED } from './constants';
+import { REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR, FILTER_INCIDENTS_CHANGED, PAGE_INCIDENTS_CHANGED } from './constants';
+import stadsdeelList from '../../definitions/stadsdeelList';
+import subcategoryList from '../../definitions/subcategoryList';
+import statusList from '../../definitions/statusList';
 
-export const initialState = fromJS({ incidents: [] });
+export const initialState = fromJS({
+  incidents: [],
+  stadsdeelList,
+  subcategoryList,
+  statusList
+});
 
 function overviewPageReducer(state = initialState, action) {
   switch (action.type) {
@@ -17,7 +25,8 @@ function overviewPageReducer(state = initialState, action) {
         .set('error', false);
     case REQUEST_INCIDENTS_SUCCESS:
       return state
-        .set('incidents', action.payload)
+        .set('incidents', action.payload.results)
+        .set('incidentsCount', action.payload.count)
         .set('loading', false);
     case REQUEST_INCIDENTS_ERROR:
       return state
@@ -25,7 +34,11 @@ function overviewPageReducer(state = initialState, action) {
         .set('loading', false);
     case FILTER_INCIDENTS_CHANGED:
       return state
-        .set('filter', action.payload);
+        .set('filter', action.payload)
+        .set('page', 1);
+    case PAGE_INCIDENTS_CHANGED:
+      return state
+        .set('page', action.payload);
 
     default:
       return state;

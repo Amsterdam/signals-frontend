@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { NavLink } from 'react-router-dom';
 
@@ -26,13 +27,15 @@ class MainMenu extends React.Component { // eslint-disable-line react/prefer-sta
                   </span>
                 </NavLink>
               </li>
-              <li>
-                <NavLink to="/admin/incidents">
-                  <span className="linklabel">
-                    <FormattedMessage {...messages.admin} />
-                  </span>
-                </NavLink>
-              </li>
+              {this.props.isAuthenticated ?
+                <li>
+                  <NavLink to="/process/incidents">
+                    <span className="linklabel">
+                      <FormattedMessage {...messages.afhandelen} />
+                    </span>
+                  </NavLink>
+                </li> : ''
+              }
             </ul>
           </nav>
         </div>
@@ -40,5 +43,9 @@ class MainMenu extends React.Component { // eslint-disable-line react/prefer-sta
     );
   }
 }
+
+MainMenu.propTypes = {
+  isAuthenticated: PropTypes.bool,
+};
 
 export default MainMenu;

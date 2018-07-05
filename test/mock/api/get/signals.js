@@ -1,6 +1,6 @@
 import g from 'dyson-generators';
 import db from './signals.json';
-import { pickRandomElement, pickRandomDate } from '../../../lib/listRandomizer';
+import { pickRandomElement, pickRandomDate, pickRandomSublist } from '../../../lib/listRandomizer';
 
 
 const signal = {
@@ -25,14 +25,26 @@ const signal = {
   }
 };
 
+// const signalsOld = {
+//   path: '/auth/signal/?',
+//   collection: true,
+//   cache: false,
+//   size() {
+//     return Math.floor(Math.random() * 6) + 5;
+//   },
+//   template: signal.template
+// };
+
 const signals = {
-  path: '/signals',
-  collection: true,
+  path: '/auth/signal/?',
   cache: false,
-  size() {
-    return Math.floor(Math.random() * 6) + 5;
-  },
-  template: signal.template
+  container: () => {
+    const list = pickRandomSublist(db.signals, 5);
+    return {
+      count: list.length,
+      results: list
+    };
+  }
 };
 
 export default { signal, signals };

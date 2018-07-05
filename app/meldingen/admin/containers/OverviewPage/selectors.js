@@ -19,7 +19,17 @@ const makeSelectOverviewPage = () => createSelector(
   (substate) => substate.toJS()
 );
 
+const makeSelectFilterParams = () => createSelector(
+  selectOverviewPageDomain,
+  (substate) => {
+    const state = substate.toJS();
+    // console.log('overview', state);
+    return { ...state.filter, page: state.page };
+  }
+);
+
 export default makeSelectOverviewPage;
 export {
   selectOverviewPageDomain,
+  makeSelectFilterParams
 };

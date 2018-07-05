@@ -4,12 +4,16 @@
  *
  */
 
-import { REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR, INCIDENT_SELECTED, FILTER_INCIDENTS_CHANGED } from './constants';
+import {
+  REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR,
+  INCIDENT_SELECTED, FILTER_INCIDENTS_CHANGED, PAGE_INCIDENTS_CHANGED
+}
+  from './constants';
 
-export function requestIncidents(filter) {
+export function requestIncidents(filter, page) {
   return {
     type: REQUEST_INCIDENTS,
-    payload: filter
+    payload: { filter, page }
   };
 }
 
@@ -38,5 +42,12 @@ export function filterIncidentsChanged(filter) {
   return {
     type: FILTER_INCIDENTS_CHANGED,
     payload: filter
+  };
+}
+
+export function pageIncidentsChanged(page) {
+  return {
+    type: PAGE_INCIDENTS_CHANGED,
+    payload: page
   };
 }
