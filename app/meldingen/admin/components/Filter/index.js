@@ -38,7 +38,7 @@ class Filter extends React.Component {
   }
 
   render() {
-    const { subcategoryList, statusList } = this.props;
+    const { subcategoryList, statusList, stadsdeelList } = this.props;
     return (
       <div className="filter-component">
         <div className="filter-component__title">Filters</div>
@@ -50,7 +50,7 @@ class Filter extends React.Component {
                 <div>
                   <TextInput name="id" display="Id" control={this.filterForm.get('id')} />
                   <TextInput name="incident_date_start" display="Datum" control={this.filterForm.get('incident_date_start')} />
-                  <TextInput name="location__stadsdeel" display="Staadsdeel" control={this.filterForm.get('location__stadsdeel')} />
+                  <SelectInput name="location__stadsdeel" display="Staadsdeel" control={this.filterForm.get('location__stadsdeel')} values={stadsdeelList} />
                   <SelectInput name="category__sub" display="Rubriek" control={this.filterForm.get('category__sub')} values={subcategoryList} />
                   <SelectInput name="status__state" display="Status" control={this.filterForm.get('status__state')} values={statusList} />
                   <TextInput name="location__address_text" display="Adres" control={this.filterForm.get('location__address_text')} />
@@ -72,6 +72,7 @@ class Filter extends React.Component {
 }
 
 Filter.propTypes = {
+  stadsdeelList: PropTypes.array,
   subcategoryList: PropTypes.array,
   statusList: PropTypes.array,
   filter: PropTypes.object,
