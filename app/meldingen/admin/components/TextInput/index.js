@@ -16,7 +16,7 @@ TextInput.propTypes = {
 
 export const TextInputRender = (props) => {
   const { name, display } = props;
-  const render = ({ handler, touched, hasError }) => (<div>
+  const render = ({ handler }) => (<div>
     <div className="row mode_input text rij_verplicht">
       <div className="label">
         <label htmlFor={`form${name}`}>{display}</label>
@@ -24,11 +24,6 @@ export const TextInputRender = (props) => {
 
       <div className="invoer">
         <input name="" id={`form${name}`} value="" className="input" type="text" {...handler()} />
-      </div>
-      <div>
-        {touched
-          && hasError('required')
-          && 'Name is required'}
       </div>
 
     </div>
@@ -40,8 +35,6 @@ export const TextInputRender = (props) => {
 
   render.propTypes = {
     handler: PropTypes.func.isRequired,
-    hasError: PropTypes.func.isRequired,
-    touched: PropTypes.boolean,
   };
   return render;
 };

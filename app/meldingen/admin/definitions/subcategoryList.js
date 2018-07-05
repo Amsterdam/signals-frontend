@@ -1,5 +1,5 @@
-const statusList = [
-    { key: '', value: 'Alle statussen' },
+const subcategoryList = [
+    { key: '', value: 'Alles' },
     { key: 'm', value: 'Gemeld' },
     { key: 'i', value: 'In afwachting van behandeling' },
     { key: 'b', value: 'In behandeling' },
@@ -8,4 +8,4 @@ const statusList = [
     { key: 'a', value: 'Geannuleerd' }
 ];
 
-export default statusList;
+export default subcategoryList;

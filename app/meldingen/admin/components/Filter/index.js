@@ -4,6 +4,7 @@ import { FormBuilder, FieldGroup } from 'react-reactive-form';
 
 import './style.scss';
 import { TextInput } from '../TextInput';
+import { SelectInput } from '../SelectInput';
 
 class Filter extends React.Component {
   constructor(props) {
@@ -37,6 +38,7 @@ class Filter extends React.Component {
   }
 
   render() {
+    const { statusList } = this.props;
     return (
       <div className="filter-component">
         <FieldGroup
@@ -48,7 +50,7 @@ class Filter extends React.Component {
                 <TextInput name="incident_date_start" display="Datum" control={this.filterForm.get('incident_date_start')} />
                 <TextInput name="location__stadsdeel" display="Staadsdeel" control={this.filterForm.get('location__stadsdeel')} />
                 <TextInput name="category__sub" display="Rubriek" control={this.filterForm.get('category__sub')} />
-                <TextInput name="status__state" display="Status" control={this.filterForm.get('status__state')} />
+                <SelectInput name="status__state" display="Status" control={this.filterForm.get('status__state')} values={statusList} />
                 <TextInput name="location__address_text" display="Adres" control={this.filterForm.get('location__address_text')} />
 
                 <button className="action" onClick={this.handleReset} type="button">
@@ -67,7 +69,7 @@ class Filter extends React.Component {
 }
 
 Filter.propTypes = {
-  // statusList: PropTypes.array,
+  statusList: PropTypes.array,
   filter: PropTypes.object,
   filterIncidents: PropTypes.func.isRequired
 };
