@@ -67,6 +67,7 @@ class Filter extends React.Component {
 }
 
 Filter.propTypes = {
+  // statusList: PropTypes.array,
   filter: PropTypes.object,
   filterIncidents: PropTypes.func.isRequired
 };
