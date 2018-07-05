@@ -12,11 +12,16 @@ const createUrl = (url) => {
 };
 
 const generateParams = (data) => Object.entries(data)
-        .filter((pair) => pair[1])
-        .map((pair) => pair.map(encodeURIComponent).join('=')).join('&');
+  .filter((pair) => pair[1])
+  // .map((pair) => pair.map(encodeURIComponent).join('=')).join('&');
+  .map((pair) => (Array.isArray(pair[1]) === true ?
+    pair[1]
+      .filter((val) => val)
+      .map((val) => `${pair[0]}=${val}`).join('&') :
+    pair.map(encodeURIComponent).join('='))).join('&');
 
 function* authCallWithToken(url, params, cancel, token) {
-  const headers = { };
+  const headers = {};
 
   if (token) {
     headers.Authorization = `Bearer ${token}`;
