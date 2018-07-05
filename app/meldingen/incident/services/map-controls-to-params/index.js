@@ -15,15 +15,7 @@ const mapControlsToParams = (incident /* , wizard */) => {
   // });
   // console.log('YOOOOO', yoooo);
 
-  // create date
-  let date;
-  switch (incident.incident_date) {
-    case 'now':
-      date = moment();
-      break;
-    default:
-      date = moment(`${incident.incident_date} ${incident.incident_time_hours}:${incident.incident_time_minutes}`);
-  }
+  const date = incident.incident_date === 'now' ? moment() : moment(`${incident.incident_date} ${incident.incident_time_hours}:${incident.incident_time_minutes}`);
 
   const result = {
     text: incident.description,
