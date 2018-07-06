@@ -53,6 +53,7 @@ function IncidentWizard({ getClassification, setIncident, createIncident, incide
                         getClassification={getClassification}
                         setIncident={setIncident}
                         createIncident={createIncident}
+                        wizard={wizardDefinition}
                       />
                       : ''}
                   </Step>

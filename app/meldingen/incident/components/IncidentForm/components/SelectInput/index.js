@@ -15,11 +15,16 @@ const SelectInput = ({ handler, touched, hasError, meta, parent }) => (
 
         <div className={`col-${meta.cols || 12} invoer`}>
           <select
-            {...handler()}
+            value={handler().value}
             onChange={(e) => meta.updateIncident && parent.meta.setIncident({ [meta.name]: e.target.value })}
           >
             {meta.values ?
-                map(meta.values, (value, key) => (<option key={`${meta.name}-${key}`}>{value}</option>))
+                map(meta.values, (value, key) => (
+                  <option
+                    value={key}
+                    key={`${meta.name}-${key}`}
+                  >{value}</option>
+                ))
                 : ''
             }
           </select>

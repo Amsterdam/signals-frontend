@@ -23,6 +23,7 @@ export default {
           meta: {
             label: 'Waar is het?',
             subtitle: 'Typ de locatie of versleep de markering [dingetje] op de kaart',
+            // path: 'location',
             watch: true
           },
           options: {
@@ -33,6 +34,7 @@ export default {
         description: {
           meta: {
             label: 'Waar gaat het om?',
+            path: 'text',
             placeholder: 'Beschrijving'
           },
           options: {
@@ -43,7 +45,7 @@ export default {
         category: {
           meta: {
             label: 'Categorie',
-            readOnly: true,
+            path: 'category.main',
             type: 'text',
             watch: true
           },
@@ -55,7 +57,7 @@ export default {
         subcategory: {
           meta: {
             label: 'Subcategorie',
-            readOnly: true,
+            path: 'category.sub',
             type: 'text',
             watch: true
           },
@@ -77,7 +79,6 @@ export default {
         incident_date: {
           meta: {
             label: 'Incident date',
-            readOnly: true,
             watch: true
           },
           options: {
@@ -111,6 +112,7 @@ export default {
           meta: {
             label: 'Wilt u een foto meesturen?',
             submitLabel: 'Foto kiezen',
+            // path: 'image',
             watch: true
           },
           render: FormComponents.FileInput
@@ -131,6 +133,7 @@ export default {
           meta: {
             label: 'Wat is uw telefoonnummer? (niet verplicht)',
             subtitle: 'Zo kunt u ons helpen het probleem sneller of beter op te lossen.',
+            path: 'reporter.phone',
             placeholder: 'Telefoonnummer',
             type: 'text'
           },
@@ -160,6 +163,7 @@ export default {
           meta: {
             label: 'Wat is uw e-mailadres? (niet verplicht)',
             subtitle: 'We mailen om u te vertellen wat we met uw melding doen. En wanneer het klaar is.',
+            path: 'reporter.email',
             placeholder: 'E-mail adres',
             type: 'text'
           },
@@ -233,12 +237,144 @@ export default {
     label: 'Bedankt!',
     form: {
       controls: {
-        privacy_text: {
+        text_default: {
           meta: {
             cols: 6,
             label: 'Wat doen we met uw melding?',
             type: 'bedankt',
-            value: 'We geven uw melding door aan onze handhavers. Als dat mogelijk is ondernemen we direct actie. Maar we kunnen niet altijd snel genoeg aanwezig zijn. Blijf overlast aan ons melden. Ook als we niet altijd direct iets voor u kunnen doen. We gebruiken alle meldingen om overlast in de toekomst te kunnen beperken.'
+            if: {
+              subcategory: [
+                // 'Overlast op het water - snel varen',
+                // 'Overlast op het water - Gezonken boot',
+                // 'Scheepvaart nautisch toezicht',
+                // 'Overlast op het water - geluid',
+                'Overlast vanaf het water',
+                'Overlast op het water - Vaargedrag',
+                'Oever / kade / steiger',
+                'Veeg- / zwerfvuil',
+                'Container is vol',
+                'Onderhoud stoep, straat en fietspad',
+                'Graffiti / wildplak',
+                'Grofvuil',
+                'Lozing / dumping / bodemverontreiniging',
+                'Straatverlichting / openbare klok',
+                'Speelplaats',
+                'Huisafval',
+                'Hinderlijk geplaatst object',
+                'Container is kapot',
+                'Onkruid',
+                'Auto- / scooter- / bromfiets(wrak)',
+                'Vuurwerkoverlast',
+                'Prullenbak is vol',
+                'Verkeersbord, verkeersafzetting',
+                'Container voor plastic afval is vol',
+                'Straatmeubilair',
+                'Wildplassen / poepen / overgeven',
+                'Ratten',
+                'Maaien / snoeien',
+                'Put / riolering verstopt',
+                'Stankoverlast',
+                'Verkeersoverlast / Verkeerssituaties',
+                'Parkeeroverlast',
+                'Fietswrak',
+                'Overlast terrassen',
+                'Gladheid',
+                'Verkeerslicht',
+                'Boom',
+                'Prullenbak is kapot',
+                'Wespen',
+                'Daklozen / bedelen',
+                'Fietsrek / nietje',
+                'Overlast door bezoekers (niet op terras)',
+                'Overlast door afsteken vuurwerk',
+                'Drijfvuil',
+                'Stank- / geluidsoverlast',
+                'Puin / sloopafval',
+                'Overige overlast door personen',
+                'Deelfiets',
+                'Bedrijfsafval',
+                'Honden(poep)',
+                'Omleiding / belijning verkeer',
+                'Asbest / accu',
+                'Bouw- / sloopoverlast',
+                'Drank- en drugsoverlast',
+                'Geluidsoverlast installaties',
+                'Dode dieren',
+                'Jongerenoverlast',
+                'Container voor plastic afval is kapot',
+                'Duiven',
+                'Brug',
+                'Geluidsoverlast muziek',
+                'Overlast van taxi\'s, bussen en fietstaxi\'s',
+                'Sportvoorziening',
+                'Meeuwen'
+              ]
+            },
+            value: [
+              '[DEFAULT] We geven uw melding door aan onze handhavers. Als dat mogelijk is ondernemen we direct actie. Maar we kunnen niet altijd snel genoeg aanwezig zijn.',
+              'Blijf overlast aan ons melden. Ook als we niet altijd direct iets voor u kunnen doen. We gebruiken alle meldingen om overlast in de toekomst te kunnen beperken.'
+            ]
+          },
+          render: FormComponents.PlainText
+        },
+        text_boten_snelheid: {
+          meta: {
+            cols: 6,
+            label: 'Wat doen we met uw melding?',
+            type: 'bedankt',
+            if: {
+              subcategory: 'Overlast op het water - snel varen'
+            },
+            value: [
+              'We geven uw melding door aan de handhavers. Als dat mogelijk is ondernemen zij direct actie, maar zij kunnen niet altijd snel genoeg aanwezig zijn.',
+              'Blijf overlast aan ons melden. Ook als we niet altijd direct iets voor u kunnen doen. We gebruiken alle meldingen om overlast in de toekomst te kunnen beperken.'
+            ]
+          },
+          render: FormComponents.PlainText
+        },
+        text_boten_geluid: {
+          meta: {
+            cols: 6,
+            label: 'Wat doen we met uw melding?',
+            type: 'bedankt',
+            if: {
+              subcategory: 'Overlast op het water - geluid'
+            },
+            value: [
+              'We geven uw melding door aan de handhavers. Als dat mogelijk is ondernemen zij direct actie, maar zij kunnen niet altijd snel genoeg aanwezig zijn.',
+              'Blijf overlast aan ons melden. Ook als we niet altijd direct iets voor u kunnen doen. We gebruiken alle meldingen om overlast in de toekomst te kunnen beperken.'
+            ]
+          },
+          render: FormComponents.PlainText
+        },
+        text_boten_gezonken: {
+          meta: {
+            cols: 6,
+            label: 'Wat doen we met uw melding?',
+            type: 'bedankt',
+            if: {
+              subcategory: 'Overlast op het water - Gezonken boot'
+            },
+            value: [
+              'We geven uw melding door aan onze handhavers. Zij beoordelen of het nodig is direct actie te ondernemen. Bijvoorbeeld omdat er olie lekt of omdat de situatie gevaar oplevert voor andere boten.',
+              'Als er geen directe actie nodig is, dan pakken we uw melding op buiten het vaarseizoen (september - maart).',
+              'Bekijk in welke situaties we een wrak weghalen. Boten die vol met water staan, maar nog wél drijven, mogen we bijvoorbeeld niet weghalen.'
+            ]
+          },
+          render: FormComponents.PlainText
+        },
+        text_scheepvaart_nautisch_toezicht: {
+          meta: {
+            cols: 6,
+            label: 'Wat doen we met uw melding?',
+            type: 'bedankt',
+            if: {
+              subcategory: 'Scheepvaart nautisch toezicht'
+            },
+            value: [
+              'We geven uw melding door aan de handhavers. Als dat mogelijk is ondernemen zij direct actie, maar zij kunnen niet altijd snel genoeg aanwezig zijn.',
+              'Blijf overlast aan ons melden. Ook als we niet altijd direct iets voor u kunnen doen. We gebruiken alle meldingen om overlast in de toekomst te kunnen beperken.'
+            ]
           },
           render: FormComponents.PlainText
         }
