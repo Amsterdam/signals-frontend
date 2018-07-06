@@ -32,7 +32,6 @@ export function* openIncident(action) {
   yield put(push(navigateUrl));
 }
 
-// Individual exports for testing
 export default function* watchRequestIncidentsSaga() {
   yield [
     takeLatest(REQUEST_INCIDENTS, fetchIncidents),
