@@ -36,21 +36,19 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
     const { incidents, loading, filter, incidentsCount, page, ...rest } = this.props.overviewpage;
     return (
       <div className="overview-page">
-        {
-          loading ? (
-            <LoadingIndicator />
-          ) : (
-            <div className="row">
-              <div className="col-4">
-                <Filter filterIncidents={this.props.onRequestIncidents} filter={filter} {...rest} />
-              </div>
-              <div className="col-8">
+        <div className="row">
+          <div className="col-4">
+            <Filter filterIncidents={this.props.onRequestIncidents} filter={filter} {...rest} />
+          </div>
+          <div className="col-8">
+            {loading ? (<LoadingIndicator />) : (
+              <div>
                 <ListComponent incidentSelected={this.props.onIncidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} incidentsCount={incidentsCount} />
                 <Pager incidentsCount={incidentsCount} page={page} onPageChanged={this.onPageChanged} />
-              </div>
-            </div>
-            )
-        }
+              </div>)
+            }
+          </div>
+        </div>
       </div>
     );
   }
