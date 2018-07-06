@@ -237,12 +237,73 @@ export default {
     label: 'Bedankt!',
     form: {
       controls: {
-        privacy_text: {
+        text_default: {
           meta: {
             cols: 6,
             label: 'Wat doen we met uw melding?',
             type: 'bedankt',
             value: 'We geven uw melding door aan onze handhavers. Als dat mogelijk is ondernemen we direct actie. Maar we kunnen niet altijd snel genoeg aanwezig zijn. Blijf overlast aan ons melden. Ook als we niet altijd direct iets voor u kunnen doen. We gebruiken alle meldingen om overlast in de toekomst te kunnen beperken.'
+          },
+          render: FormComponents.PlainText
+        },
+        text_boten_snelheid: {
+          meta: {
+            cols: 6,
+            label: 'Wat doen we met uw melding?',
+            type: 'bedankt',
+            if: {
+              subcategory: 'Overlast op het water - snel varen'
+            },
+            value: [
+              'We geven uw melding door aan de handhavers. Als dat mogelijk is ondernemen zij direct actie, maar zij kunnen niet altijd snel genoeg aanwezig zijn.',
+              'Blijf overlast aan ons melden. Ook als we niet altijd direct iets voor u kunnen doen. We gebruiken alle meldingen om overlast in de toekomst te kunnen beperken.'
+            ]
+          },
+          render: FormComponents.PlainText
+        },
+        text_boten_geluid: {
+          meta: {
+            cols: 6,
+            label: 'Wat doen we met uw melding?',
+            type: 'bedankt',
+            if: {
+              subcategory: 'Overlast op het water - geluid'
+            },
+            value: [
+              'We geven uw melding door aan de handhavers. Als dat mogelijk is ondernemen zij direct actie, maar zij kunnen niet altijd snel genoeg aanwezig zijn.',
+              'Blijf overlast aan ons melden. Ook als we niet altijd direct iets voor u kunnen doen. We gebruiken alle meldingen om overlast in de toekomst te kunnen beperken.'
+            ]
+          },
+          render: FormComponents.PlainText
+        },
+        text_boten_gezonken: {
+          meta: {
+            cols: 6,
+            label: 'Wat doen we met uw melding?',
+            type: 'bedankt',
+            if: {
+              subcategory: 'Overlast op het water - geluid'
+            },
+            value: [
+              'We geven uw melding door aan onze handhavers. Zij beoordelen of het nodig is direct actie te ondernemen. Bijvoorbeeld omdat er olie lekt of omdat de situatie gevaar oplevert voor andere boten.',
+              'Als er geen directe actie nodig is, dan pakken we uw melding op buiten het vaarseizoen (september - maart).',
+              'Bekijk in welke situaties we een wrak weghalen. Boten die vol met water staan, maar nog wél drijven, mogen we bijvoorbeeld niet weghalen.'
+            ]
+          },
+          render: FormComponents.PlainText
+        },
+        text_scheepvaart_nautisch_toezicht: {
+          meta: {
+            cols: 6,
+            label: 'Wat doen we met uw melding?',
+            type: 'bedankt',
+            if: {
+              subcategory: 'Scheepvaart nautisch toezicht'
+            },
+            value: [
+              'We geven uw melding door aan de handhavers. Als dat mogelijk is ondernemen zij direct actie, maar zij kunnen niet altijd snel genoeg aanwezig zijn.',
+              'Blijf overlast aan ons melden. Ook als we niet altijd direct iets voor u kunnen doen. We gebruiken alle meldingen om overlast in de toekomst te kunnen beperken.'
+            ]
           },
           render: FormComponents.PlainText
         }
