@@ -14,9 +14,9 @@ import saga from './saga';
 import './style.scss';
 
 import { requestIncidents, incidentSelected } from './actions';
-import Filter from '../../components/Filter';
-import ListComponent from '../../components/List';
-import Pager from '../../components/Pager';
+import Filter from './components/Filter';
+import ListComponent from './components/List';
+import Pager from './components/Pager';
 
 export class OverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
