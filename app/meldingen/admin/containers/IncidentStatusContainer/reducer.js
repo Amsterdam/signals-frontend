@@ -12,14 +12,12 @@ const initialState = fromJS({
 });
 
 function incidentStatusContainerReducer(state = initialState, action) {
-  console.log('action type in reducer', action.type);
   switch (action.type) {
     case REQUEST_STATUS_LIST:
       return state
         .set('loading', true)
         .set('error', false);
     case REQUEST_STATUS_LIST_SUCCESS:
-      console.log('payload', action.payload);
       return state
         .set('incidentStatusList', action.payload.results)
         .set('loading', false);

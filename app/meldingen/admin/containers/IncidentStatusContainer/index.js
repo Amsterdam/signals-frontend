@@ -24,7 +24,6 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
 
   render() {
     const { incidentStatusList } = this.props.incidentstatuscontainer;
-    console.log(incidentStatusList);
     return (
       <div className="incident-status-container">
         <FormattedMessage {...messages.header} />
