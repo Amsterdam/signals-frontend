@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
+import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import './style.scss';
 
 class List extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -38,8 +39,8 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
               {this.props.incidents.map((incident) => (
                 <tr key={incident.id} onClick={this.selectIncident(incident)}>
                   <td>{incident.id}</td>
-                  <td>{incident.incident_date_start}</td>
-                  <td>{incident.incident_date_start}</td>
+                  <td>{string2date(incident.incident_date_start)}</td>
+                  <td>{string2time(incident.incident_date_start)}</td>
                   <td>{incident.location.stadsdeel}</td>
                   <td>{incident.category.sub}</td>
                   <td>{incident.category.department}</td>

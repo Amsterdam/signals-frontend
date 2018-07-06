@@ -21,6 +21,7 @@ import './style.scss';
 
 import { requestIncident } from './actions';
 import MapDetail from '../../components/MapDetail';
+import Incident from './components/Incident';
 
 
 export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -37,6 +38,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 
   render() {
     const { incident, loading } = this.props.incidentdetailpage;
+    console.log('incident', incident);
     return (
       <div className="incident-detail-page row container">
         <div className="col-12"><h3>Melding {this.props.id}</h3>
@@ -46,19 +48,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
         </ul>
         <div className="col-6">
           (<Link to={`${this.props.baseUrl}/incidents`} >Terug naar overzicht</Link>)
-          {(incident) ?
-            <dl className="horizontal">
-              <dt>Datum</dt>
-              <dd>{incident.incident_date}</dd>
-              <dt>Tijd</dt><dd>{incident.user}</dd>
-              <dt>Stadsdeel</dt><dd>{incident.location.stadsdeel}</dd>
-              <dt>Rubriek</dt><dd>{incident.subcategory}</dd>
-              <dt>Afdeling</dt><dd>{incident.department}</dd>
-              <dt>Status</dt><dd>{incident.current_state.state}</dd>
-              <dt>Adres</dt><dd>{incident.user}</dd>
-            </dl>
-            : ''
-          }
+          {(incident) ? <Incident incident={incident} /> : '' }
         </div>
         <div className="col-12">
           {loading ? 'Wordt geladen' : ''}
