@@ -20,6 +20,7 @@ import saga from './saga';
 import './style.scss';
 
 import { requestIncident } from './actions';
+import MapDetail from '../../components/MapDetail';
 
 
 export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -41,10 +42,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
         <div className="col-12"><h3>Melding {this.props.id}</h3>
         </div>
         <ul className="col-6 incident-detail-page__map">
-          {/* <li><FormattedMessage {...messages.header} /></li> */}
-          {/* <li>Id={this.props.id}</li> */}
-          <li>Kaart wordt hier getoond</li>
-          {/* <li>{JSON.stringify(incident)}</li> */}
+          {(incident) ? <MapDetail label="test" value={incident.location} /> : ''}
         </ul>
         <div className="col-6">
           (<Link to={`${this.props.baseUrl}/incidents`} >Terug naar overzicht</Link>)

@@ -5,9 +5,9 @@ export const ENVIRONMENTS = {
 };
 
 export const HOSTS = {
-  DEVELOPMENT: 'localhost',
-  ACCEPTANCE: 'acc.data.amsterdam.nl',
-  PRODUCTION: 'data.amsterdam.nl'
+  DEVELOPMENT: 'localhost:3001',
+  ACCEPTANCE: 'acc.meldingen.amsterdam.nl',
+  PRODUCTION: 'meldingen.amsterdam.nl'
 };
 
 export const getEnvironment = () => {

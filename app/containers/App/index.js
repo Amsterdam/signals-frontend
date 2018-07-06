@@ -17,6 +17,7 @@ import MainMenu from 'components/MainMenu';
 import HeaderContainer from 'containers/HeaderContainer';
 
 import IncidentContainer from '../../meldingen/incident/containers/IncidentContainer/Loadable';
+import { isAuthenticated } from '../../shared/services/auth/auth';
 
 export default function App() {
   return (
@@ -25,12 +26,12 @@ export default function App() {
         <HeaderContainer />
       </div>
       <div className="container-fluid">
-        <MainMenu />
+        <MainMenu isAuthenticated={isAuthenticated()} />
       </div>
       <div className="content container">
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route path="/admin" component={Admin} />
+          <Route path="/process" component={Admin} />
           <Route path="/incident" component={IncidentContainer} />
           <Route path="" component={NotFoundPage} />
         </Switch>
