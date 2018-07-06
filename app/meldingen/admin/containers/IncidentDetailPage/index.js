@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
+import { compose, bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 
 import injectSaga from 'utils/injectSaga';
@@ -26,14 +26,9 @@ import IncidentStatusContainer from '../IncidentStatusContainer';
 
 
 export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-    this.requestIncident = this.props.requestIncident.bind(this);
-  }
-
   componentWillMount() {
     if (this.props.refresh) {
-      this.requestIncident(this.props.id);
+      this.props.onRequestIncident(this.props.id);
     }
   }
 
@@ -42,7 +37,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     return (
       <div className="incident-detail-page row container">
         <div className="col-12"><h3>Melding {this.props.id}</h3>
-          <IncidentStatusContainer />
+          <IncidentStatusContainer id={this.props.id} />
         </div>
         <ul className="col-6 incident-detail-page__map">
           {(incident) ? <MapDetail label="test" value={incident.location} /> : ''}
@@ -61,12 +56,13 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 }
 
 IncidentDetailPage.propTypes = {
-  requestIncident: PropTypes.func.isRequired,
   incidentdetailpage: PropTypes.object.isRequired,
 
   id: PropTypes.string,
   baseUrl: PropTypes.string,
-  refresh: PropTypes.bool
+  refresh: PropTypes.bool,
+
+  onRequestIncident: PropTypes.func.isRequired,
 };
 
 
@@ -77,11 +73,9 @@ const mapStateToProps = (state, ownProps) => createStructuredSelector({
   refresh: selectRefresh(ownProps.id)
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    requestIncident: (id) => dispatch(requestIncident(id)),
-  };
-}
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  onRequestIncident: requestIncident
+}, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'incidentDetailPage', reducer });

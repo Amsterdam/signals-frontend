@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
+import { compose, bindActionCreators } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -14,9 +14,14 @@ import messages from './messages';
 import './style.scss';
 import List from './components/List';
 import Add from './components/Add';
+import { requestsStatusList, requestStatusCreate } from './actions';
 
 
 export class IncidentStatusContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  componentDidMount() {
+    this.props.onRequestStatusList(this.props.id);
+  }
+
   render() {
     return (
       <div className="incident-status-container">
@@ -29,18 +34,20 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
 }
 
 IncidentStatusContainer.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  onRequestStatusList: PropTypes.func.isRequired,
+  // onRequestStatusCreate: PropTypes.func.isRequired,
 };
+
 
 const mapStateToProps = createStructuredSelector({
   incidentstatuscontainer: makeSelectIncidentStatusContainer(),
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  onRequestStatusList: requestsStatusList,
+  onRequestStatusCreate: requestStatusCreate,
+}, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 

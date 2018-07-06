@@ -1,6 +1,6 @@
 import {
   REQUEST_STATUS_LIST, REQUEST_STATUS_LIST_SUCCESS, REQUEST_STATUS_LIST_ERROR,
-  REQUEST_STATUS_ADD, REQUEST_STATUS_ADD_SUCCESS, REQUEST_STATUS_ADD_ERROR
+  REQUEST_STATUS_CREATE, REQUEST_STATUS_CREATE_SUCCESS, REQUEST_STATUS_CREATE_ERROR
 }
   from './constants';
 
@@ -25,23 +25,23 @@ export function requestStatusListError(message) {
   };
 }
 
-export function requestsStatusAdd(status) {
+export function requestStatusCreate(status) {
   return {
-    type: REQUEST_STATUS_ADD,
+    type: REQUEST_STATUS_CREATE,
     payload: status
   };
 }
 
-export function requestsStatusAddSuccess(status) {
+export function requestStatusCreateSuccess(status) {
   return {
-    type: REQUEST_STATUS_ADD_SUCCESS,
+    type: REQUEST_STATUS_CREATE_SUCCESS,
     payload: status
   };
 }
 
-export function requestStatusAddError(message) {
+export function requestStatusCreateError(message) {
   return {
-    type: REQUEST_STATUS_ADD_ERROR,
+    type: REQUEST_STATUS_CREATE_ERROR,
     payload: message
   };
 }
