@@ -20,7 +20,7 @@ import saga from './saga';
 import './style.scss';
 
 import { requestIncident } from './actions';
-import MapDetail from '../../components/MapDetail';
+import MapDetail from './components/MapDetail';
 import Incident from './components/Incident';
 
 
@@ -38,7 +38,6 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 
   render() {
     const { incident, loading } = this.props.incidentdetailpage;
-    console.log('incident', incident);
     return (
       <div className="incident-detail-page row container">
         <div className="col-12"><h3>Melding {this.props.id}</h3>
