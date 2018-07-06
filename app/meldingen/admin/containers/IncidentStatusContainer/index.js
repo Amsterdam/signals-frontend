@@ -12,6 +12,8 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import './style.scss';
+import List from './components/List';
+import Add from './components/Add';
 
 
 export class IncidentStatusContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -19,6 +21,8 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
     return (
       <div className="incident-status-container">
         <FormattedMessage {...messages.header} />
+        <List />
+        <Add />
       </div>
     );
   }

@@ -22,6 +22,7 @@ import './style.scss';
 import { requestIncident } from './actions';
 import MapDetail from './components/MapDetail';
 import Incident from './components/Incident';
+import IncidentStatusContainer from '../IncidentStatusContainer';
 
 
 export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -41,6 +42,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     return (
       <div className="incident-detail-page row container">
         <div className="col-12"><h3>Melding {this.props.id}</h3>
+          <IncidentStatusContainer />
         </div>
         <ul className="col-6 incident-detail-page__map">
           {(incident) ? <MapDetail label="test" value={incident.location} /> : ''}
