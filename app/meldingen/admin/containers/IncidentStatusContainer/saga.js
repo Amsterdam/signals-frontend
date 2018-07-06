@@ -15,6 +15,7 @@ export function* fetchIncidentStatusList(action) {
     const incidentStatusList = yield authCall(requestURL, { _signal__id: signalId });
     yield put(requestStatusListSuccess(incidentStatusList));
   } catch (error) {
+    console.log('error fetch', error);
     yield put(requestStatusListError(error));
   }
 }

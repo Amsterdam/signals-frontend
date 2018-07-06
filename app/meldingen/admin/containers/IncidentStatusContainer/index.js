@@ -14,7 +14,7 @@ import messages from './messages';
 import './style.scss';
 import List from './components/List';
 import Add from './components/Add';
-import { requestsStatusList, requestStatusCreate } from './actions';
+import { requestStatusList, requestStatusCreate } from './actions';
 
 
 export class IncidentStatusContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -23,10 +23,12 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
   }
 
   render() {
+    const { incidentStatusList } = this.props.incidentstatuscontainer;
+    console.log(incidentStatusList);
     return (
       <div className="incident-status-container">
         <FormattedMessage {...messages.header} />
-        <List />
+        <List statusList={incidentStatusList} />
         <Add />
       </div>
     );
@@ -35,6 +37,7 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
 
 IncidentStatusContainer.propTypes = {
   id: PropTypes.string.isRequired,
+  incidentstatuscontainer: PropTypes.object.isRequired,
   onRequestStatusList: PropTypes.func.isRequired,
   // onRequestStatusCreate: PropTypes.func.isRequired,
 };
@@ -45,7 +48,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  onRequestStatusList: requestsStatusList,
+  onRequestStatusList: requestStatusList,
   onRequestStatusCreate: requestStatusCreate,
 }, dispatch);
 

@@ -4,17 +4,17 @@ import {
 }
   from './constants';
 
-export function requestsStatusList(signalId) {
+export function requestStatusList(signalId) {
   return {
     type: REQUEST_STATUS_LIST,
     payload: signalId
   };
 }
 
-export function requestsStatusListSuccess(statusList) {
+export function requestStatusListSuccess(incidentStatusList) {
   return {
     type: REQUEST_STATUS_LIST_SUCCESS,
-    payload: statusList
+    payload: incidentStatusList
   };
 }
 
