@@ -8,31 +8,16 @@ import {
   getClassificationSuccess,
   getClassificationError
 } from './actions';
+import mapControlsToParams from '../../services/map-controls-to-params';
+
 // import makeSelectIncidentContainer from './selectors';
-
-export function* createIncident(incident) {
-  const requestURL = 'api/signals/signal';
-
-  try {
-    const result = yield call(request, requestURL, {
-      method: 'post',
-      body: JSON.stringify(incident),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    yield put(createIncidentSuccess(result));
-  } catch (err) {
-    yield put(createIncidentError(err));
-  }
-}
 
 export function* getClassification({ text }) {
   const requestURL = 'https://meldingen-classification.herokuapp.com/calls/';
 
   try {
     const result = yield call(request, requestURL, {
-      method: 'post',
+      method: 'POST',
       body: JSON.stringify({
         text
       }),
@@ -46,10 +31,27 @@ export function* getClassification({ text }) {
   }
 }
 
+export function* createIncident({ incident, wizard }) {
+  const requestURL = 'https://acc.api.data.amsterdam.nl/signals/signal/';
+
+  try {
+    const result = yield call(request, requestURL, {
+      method: 'POST',
+      body: JSON.stringify(mapControlsToParams(incident, wizard)),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    yield put(createIncidentSuccess(result));
+  } catch (err) {
+    yield put(createIncidentError(err));
+  }
+}
+
 // Individual exports for testing
 export default function* watchIncidentContainerSaga() {
   yield [
-    yield takeLatest(CREATE_INCIDENT, createIncident),
-    yield takeLatest(GET_CLASSIFICATION, getClassification)
+    yield takeLatest(GET_CLASSIFICATION, getClassification),
+    yield takeLatest(CREATE_INCIDENT, createIncident)
   ];
 }

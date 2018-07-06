@@ -16,7 +16,7 @@ const DateTimeInput = ({ meta, parent }) => {
 
   function formatDate(offset, type = 'value') {
     const format = type === 'label' ? 'dddd D MMMM' : 'YYYY-MM-DD';
-    if (offset === 0) {
+    if (offset === 0 && type === 'label') {
       return 'Vandaag';
     }
     return moment().subtract(offset, 'days').format(format);

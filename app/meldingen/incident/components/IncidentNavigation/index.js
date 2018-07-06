@@ -12,7 +12,7 @@ import messages from './messages';
 
 import './style.scss';
 
-const IncidentNavigation = ({ valid, meta: { form, incident, handleSubmit, setIncident, createIncident } }) => (
+const IncidentNavigation = ({ valid, meta: { form, incident, wizard, handleSubmit, setIncident, createIncident } }) => (
   <span>
     <WithWizard
       render={({ next, previous, step, steps }) => (
@@ -30,7 +30,7 @@ const IncidentNavigation = ({ valid, meta: { form, incident, handleSubmit, setIn
                 if (valid) {
                   handleSubmit(e);
                   if (steps.length - 2 === steps.indexOf(step)) {
-                    createIncident(incident);
+                    createIncident(incident, wizard);
                   } else {
                     setIncident(form.value);
                   }

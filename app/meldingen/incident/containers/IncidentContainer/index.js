@@ -60,7 +60,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getClassification: (text) => dispatch(getClassification(text)),
     setIncident: (incident) => dispatch(setIncident(incident)),
-    createIncident: (incident) => dispatch(createIncident(incident))
+    createIncident: (incident, wizard) => dispatch(createIncident(incident, wizard))
   };
 }
 
