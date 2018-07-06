@@ -23,12 +23,12 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
   }
 
   render() {
-    const { incidentStatusList } = this.props.incidentstatuscontainer;
+    const { incidentStatusList, statusList } = this.props.incidentstatuscontainer;
     return (
       <div className="incident-status-container">
         <FormattedMessage {...messages.header} />
         <List statusList={incidentStatusList} />
-        <Add />
+        <Add id={this.props.id} statusList={statusList} onRequestStatusCreate={this.props.onRequestStatusCreate} />
       </div>
     );
   }
@@ -37,8 +37,9 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
 IncidentStatusContainer.propTypes = {
   id: PropTypes.string.isRequired,
   incidentstatuscontainer: PropTypes.object.isRequired,
+
   onRequestStatusList: PropTypes.func.isRequired,
-  // onRequestStatusCreate: PropTypes.func.isRequired,
+  onRequestStatusCreate: PropTypes.func.isRequired,
 };
 
 

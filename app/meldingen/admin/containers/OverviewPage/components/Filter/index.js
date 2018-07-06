@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
 
 import './style.scss';
-import { TextInput } from '../TextInput';
-import { SelectInput } from '../SelectInput';
+import { TextInput } from '../../../../components/TextInput';
+import { SelectInput } from '../../../../components/SelectInput';
 
 class Filter extends React.Component {
   constructor(props) {

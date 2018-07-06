@@ -21,7 +21,7 @@ export function* fetchIncidentStatusList(action) {
 
 export function* createIncidentStatus(action) {
   const status = action.payload;
-  const requestURL = `${baseUrl}`;
+  const requestURL = `${baseUrl}/`;
 
   try {
     const updatedStatus = yield authPostCall(requestURL, status);
