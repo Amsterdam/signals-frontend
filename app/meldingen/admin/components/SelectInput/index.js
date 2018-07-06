@@ -21,7 +21,7 @@ SelectInput.propTypes = {
 };
 
 export const SelectInputRender = (props) => {
-  const { name, display, values } = props;
+  const { name, display, values, multiple } = props;
   const options = values.map(({ key, value }) =>
     <option key={key} value={key}>{value}</option>
   );
@@ -33,7 +33,13 @@ export const SelectInputRender = (props) => {
       </div>
 
       <div className="invoer">
-        <select name="" id={`form${name}`} {...handler()}>
+        <select
+          name=""
+          id={`form${name}`}
+          {...handler()}
+          multiple={multiple}
+          size={multiple ? values.length : ''}
+        >
           {options}
         </select>
       </div>

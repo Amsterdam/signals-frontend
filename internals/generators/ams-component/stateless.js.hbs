@@ -1,10 +1,5 @@
-/**
-*
-* {{ properCase name }}
-*
-*/
-
 import React from 'react';
+import PropTypes from 'prop-types';
 
 {{#if wantMessages}}
 import { FormattedMessage } from 'react-intl';
@@ -13,7 +8,7 @@ import messages from './messages';
 
 import './style.scss';
 
-function {{ properCase name }}() {
+const {{ properCase name }} = () => {
   return (
     <div className="{{ hyphenCase name }}">
     {{#if wantMessages}}
