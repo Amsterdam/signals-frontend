@@ -242,7 +242,10 @@ export default {
             cols: 6,
             label: 'Wat doen we met uw melding?',
             type: 'bedankt',
-            value: 'We geven uw melding door aan onze handhavers. Als dat mogelijk is ondernemen we direct actie. Maar we kunnen niet altijd snel genoeg aanwezig zijn. Blijf overlast aan ons melden. Ook als we niet altijd direct iets voor u kunnen doen. We gebruiken alle meldingen om overlast in de toekomst te kunnen beperken.'
+            if: {
+              subcategory: ['cat1', 'cat2']
+            },
+            value: '[DEFAULT] We geven uw melding door aan onze handhavers. Als dat mogelijk is ondernemen we direct actie. Maar we kunnen niet altijd snel genoeg aanwezig zijn. Blijf overlast aan ons melden. Ook als we niet altijd direct iets voor u kunnen doen. We gebruiken alle meldingen om overlast in de toekomst te kunnen beperken.'
           },
           render: FormComponents.PlainText
         },

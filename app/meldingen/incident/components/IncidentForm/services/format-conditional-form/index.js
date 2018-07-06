@@ -1,4 +1,4 @@
-import { forEach, every } from 'lodash';
+import { forEach, every, some } from 'lodash';
 
 const formatConditionalForm = (form, incident) => {
   if (form && form.controls) {
@@ -10,7 +10,9 @@ const formatConditionalForm = (form, incident) => {
       }
 
       if (control.meta && control.meta.if) {
-        if (!every(control.meta.if, (value, key) => value === incident[key])) {
+        if (!every(control.meta.if, (value, key) =>
+          typeof value === 'string' ? value === incident[key] :
+            some(value, (v) => v === incident[key]))) {
           form.controls[name].meta.ifVisible = false;  // eslint-disable-line no-param-reassign
         }
       }
