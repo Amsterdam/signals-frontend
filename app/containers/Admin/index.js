@@ -17,7 +17,7 @@ import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
-import AdminComponent from '../../meldingen/admin/AdminComponent';
+import AdminComponent from '../../meldingen/incident-management/AdminComponent';
 import { isAuthenticated } from '../../shared/services/auth/auth';
 
 export class Admin extends React.Component { // eslint-disable-line react/prefer-stateless-function
