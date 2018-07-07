@@ -4,7 +4,11 @@ exports[`<Header /> should render correctly 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <Header />,
+  Symbol(enzyme.__unrendered__): <Header
+    isAuthenticated={false}
+    onLoginLogoutButtonClick={undefined}
+    userName=""
+/>,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -18,10 +22,10 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": <div
-        className="row"
+        className="row header-wrapper"
 >
         <div
-                className="col-6"
+                className="col-sm-6 grid-header-logo"
         >
                 <h1
                         className="sitelogo"
@@ -33,10 +37,12 @@ ShallowWrapper {
                                 <span
                                         className="logoset"
                                 >
-                                        <img
+                                        <LogoSvg
                                                 alt="Gemeente Amsterdam"
                                                 className="screen-logo"
-                                                src="IMAGE_MOCK"
+                                                id="Layer_1"
+                                                viewBox="0 0 20 68"
+                                                xmlns="http://www.w3.org/2000/svg"
                                         />
                                         <img
                                                 alt="Gemeente Amsterdam"
@@ -67,18 +73,30 @@ ShallowWrapper {
                 </h1>
         </div>
         <div
-                className="col-6 type-nav-secundair "
+                className="col-sm-6"
         >
                 <nav>
                         <ul
-                                className="links horizontal right "
+                                className="links"
                         >
-                                <li />
+                                <li>
+                                        <span>
+                                                <b />
+                                        </span>
+                                </li>
+                                <li>
+                                        <a
+                                                href=""
+                                                onClick={undefined}
+                                        >
+                                                Inloggen
+                                        </a>
+                                </li>
                         </ul>
                 </nav>
         </div>
 </div>,
-      "className": "header-component",
+      "className": "header-component has_header_modern",
     },
     "ref": null,
     "rendered": Object {
@@ -88,7 +106,7 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <div
-            className="col-6"
+            className="col-sm-6 grid-header-logo"
 >
             <h1
                         className="sitelogo"
@@ -100,10 +118,12 @@ ShallowWrapper {
                                     <span
                                                 className="logoset"
                                     >
-                                                <img
+                                                <LogoSvg
                                                             alt="Gemeente Amsterdam"
                                                             className="screen-logo"
-                                                            src="IMAGE_MOCK"
+                                                            id="Layer_1"
+                                                            viewBox="0 0 20 68"
+                                                            xmlns="http://www.w3.org/2000/svg"
                                                 />
                                                 <img
                                                             alt="Gemeente Amsterdam"
@@ -134,18 +154,30 @@ ShallowWrapper {
             </h1>
 </div>,
           <div
-            className="col-6 type-nav-secundair "
+            className="col-sm-6"
 >
             <nav>
                         <ul
-                                    className="links horizontal right "
+                                    className="links"
                         >
-                                    <li />
+                                    <li>
+                                                <span>
+                                                            <b />
+                                                </span>
+                                    </li>
+                                    <li>
+                                                <a
+                                                            href=""
+                                                            onClick={undefined}
+                                                >
+                                                            Inloggen
+                                                </a>
+                                    </li>
                         </ul>
             </nav>
 </div>,
         ],
-        "className": "row",
+        "className": "row header-wrapper",
       },
       "ref": null,
       "rendered": Array [
@@ -164,10 +196,12 @@ ShallowWrapper {
                             <span
                                           className="logoset"
                             >
-                                          <img
+                                          <LogoSvg
                                                         alt="Gemeente Amsterdam"
                                                         className="screen-logo"
-                                                        src="IMAGE_MOCK"
+                                                        id="Layer_1"
+                                                        viewBox="0 0 20 68"
+                                                        xmlns="http://www.w3.org/2000/svg"
                                           />
                                           <img
                                                         alt="Gemeente Amsterdam"
@@ -196,7 +230,7 @@ ShallowWrapper {
                             </span>
               </a>
 </h1>,
-            "className": "col-6",
+            "className": "col-sm-6 grid-header-logo",
           },
           "ref": null,
           "rendered": Object {
@@ -211,10 +245,12 @@ ShallowWrapper {
                 <span
                                 className="logoset"
                 >
-                                <img
+                                <LogoSvg
                                                 alt="Gemeente Amsterdam"
                                                 className="screen-logo"
-                                                src="IMAGE_MOCK"
+                                                id="Layer_1"
+                                                viewBox="0 0 20 68"
+                                                xmlns="http://www.w3.org/2000/svg"
                                 />
                                 <img
                                                 alt="Gemeente Amsterdam"
@@ -254,10 +290,12 @@ ShallowWrapper {
                   <span
                     className="logoset"
 >
-                    <img
+                    <LogoSvg
                                         alt="Gemeente Amsterdam"
                                         className="screen-logo"
-                                        src="IMAGE_MOCK"
+                                        id="Layer_1"
+                                        viewBox="0 0 20 68"
+                                        xmlns="http://www.w3.org/2000/svg"
                     />
                     <img
                                         alt="Gemeente Amsterdam"
@@ -296,10 +334,12 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": Array [
-                      <img
+                      <LogoSvg
                         alt="Gemeente Amsterdam"
                         className="screen-logo"
-                        src="IMAGE_MOCK"
+                        id="Layer_1"
+                        viewBox="0 0 20 68"
+                        xmlns="http://www.w3.org/2000/svg"
 />,
                       <img
                         alt="Gemeente Amsterdam"
@@ -319,15 +359,17 @@ ShallowWrapper {
                     Object {
                       "instance": null,
                       "key": undefined,
-                      "nodeType": "host",
+                      "nodeType": "function",
                       "props": Object {
                         "alt": "Gemeente Amsterdam",
                         "className": "screen-logo",
-                        "src": "IMAGE_MOCK",
+                        "id": "Layer_1",
+                        "viewBox": "0 0 20 68",
+                        "xmlns": "http://www.w3.org/2000/svg",
                       },
                       "ref": null,
                       "rendered": null,
-                      "type": "img",
+                      "type": [Function],
                     },
                     Object {
                       "instance": null,
@@ -420,12 +462,24 @@ ShallowWrapper {
           "props": Object {
             "children": <nav>
               <ul
-                            className="links horizontal right "
+                            className="links"
               >
-                            <li />
+                            <li>
+                                          <span>
+                                                        <b />
+                                          </span>
+                            </li>
+                            <li>
+                                          <a
+                                                        href=""
+                                                        onClick={undefined}
+                                          >
+                                                        Inloggen
+                                          </a>
+                            </li>
               </ul>
 </nav>,
-            "className": "col-6 type-nav-secundair ",
+            "className": "col-sm-6",
           },
           "ref": null,
           "rendered": Object {
@@ -434,9 +488,21 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": <ul
-                className="links horizontal right "
+                className="links"
 >
-                <li />
+                <li>
+                                <span>
+                                                <b />
+                                </span>
+                </li>
+                <li>
+                                <a
+                                                href=""
+                                                onClick={undefined}
+                                >
+                                                Inloggen
+                                </a>
+                </li>
 </ul>,
             },
             "ref": null,
@@ -445,19 +511,93 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": <li />,
-                "className": "links horizontal right ",
+                "children": Array [
+                  <li>
+                    <span>
+                                        <b />
+                    </span>
+</li>,
+                  <li>
+                    <a
+                                        href=""
+                                        onClick={undefined}
+                    >
+                                        Inloggen
+                    </a>
+</li>,
+                ],
+                "className": "links",
               },
               "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {},
-                "ref": null,
-                "rendered": null,
-                "type": "li",
-              },
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": <span>
+                      <b />
+</span>,
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        false,
+                        <b />,
+                      ],
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      false,
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": "",
+                        },
+                        "ref": null,
+                        "rendered": "",
+                        "type": "b",
+                      },
+                    ],
+                    "type": "span",
+                  },
+                  "type": "li",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": <a
+                      href=""
+                      onClick={undefined}
+>
+                      Inloggen
+</a>,
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Inloggen",
+                      "href": "",
+                      "onClick": undefined,
+                    },
+                    "ref": null,
+                    "rendered": "Inloggen",
+                    "type": "a",
+                  },
+                  "type": "li",
+                },
+              ],
               "type": "ul",
             },
             "type": "nav",
@@ -476,10 +616,10 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": <div
-          className="row"
+          className="row header-wrapper"
 >
           <div
-                    className="col-6"
+                    className="col-sm-6 grid-header-logo"
           >
                     <h1
                               className="sitelogo"
@@ -491,10 +631,12 @@ ShallowWrapper {
                                         <span
                                                   className="logoset"
                                         >
-                                                  <img
+                                                  <LogoSvg
                                                             alt="Gemeente Amsterdam"
                                                             className="screen-logo"
-                                                            src="IMAGE_MOCK"
+                                                            id="Layer_1"
+                                                            viewBox="0 0 20 68"
+                                                            xmlns="http://www.w3.org/2000/svg"
                                                   />
                                                   <img
                                                             alt="Gemeente Amsterdam"
@@ -525,18 +667,30 @@ ShallowWrapper {
                     </h1>
           </div>
           <div
-                    className="col-6 type-nav-secundair "
+                    className="col-sm-6"
           >
                     <nav>
                               <ul
-                                        className="links horizontal right "
+                                        className="links"
                               >
-                                        <li />
+                                        <li>
+                                                  <span>
+                                                            <b />
+                                                  </span>
+                                        </li>
+                                        <li>
+                                                  <a
+                                                            href=""
+                                                            onClick={undefined}
+                                                  >
+                                                            Inloggen
+                                                  </a>
+                                        </li>
                               </ul>
                     </nav>
           </div>
 </div>,
-        "className": "header-component",
+        "className": "header-component has_header_modern",
       },
       "ref": null,
       "rendered": Object {
@@ -546,7 +700,7 @@ ShallowWrapper {
         "props": Object {
           "children": Array [
             <div
-              className="col-6"
+              className="col-sm-6 grid-header-logo"
 >
               <h1
                             className="sitelogo"
@@ -558,10 +712,12 @@ ShallowWrapper {
                                           <span
                                                         className="logoset"
                                           >
-                                                        <img
+                                                        <LogoSvg
                                                                       alt="Gemeente Amsterdam"
                                                                       className="screen-logo"
-                                                                      src="IMAGE_MOCK"
+                                                                      id="Layer_1"
+                                                                      viewBox="0 0 20 68"
+                                                                      xmlns="http://www.w3.org/2000/svg"
                                                         />
                                                         <img
                                                                       alt="Gemeente Amsterdam"
@@ -592,18 +748,30 @@ ShallowWrapper {
               </h1>
 </div>,
             <div
-              className="col-6 type-nav-secundair "
+              className="col-sm-6"
 >
               <nav>
                             <ul
-                                          className="links horizontal right "
+                                          className="links"
                             >
-                                          <li />
+                                          <li>
+                                                        <span>
+                                                                      <b />
+                                                        </span>
+                                          </li>
+                                          <li>
+                                                        <a
+                                                                      href=""
+                                                                      onClick={undefined}
+                                                        >
+                                                                      Inloggen
+                                                        </a>
+                                          </li>
                             </ul>
               </nav>
 </div>,
           ],
-          "className": "row",
+          "className": "row header-wrapper",
         },
         "ref": null,
         "rendered": Array [
@@ -622,10 +790,12 @@ ShallowWrapper {
                                 <span
                                                 className="logoset"
                                 >
-                                                <img
+                                                <LogoSvg
                                                                 alt="Gemeente Amsterdam"
                                                                 className="screen-logo"
-                                                                src="IMAGE_MOCK"
+                                                                id="Layer_1"
+                                                                viewBox="0 0 20 68"
+                                                                xmlns="http://www.w3.org/2000/svg"
                                                 />
                                                 <img
                                                                 alt="Gemeente Amsterdam"
@@ -654,7 +824,7 @@ ShallowWrapper {
                                 </span>
                 </a>
 </h1>,
-              "className": "col-6",
+              "className": "col-sm-6 grid-header-logo",
             },
             "ref": null,
             "rendered": Object {
@@ -669,10 +839,12 @@ ShallowWrapper {
                   <span
                                     className="logoset"
                   >
-                                    <img
+                                    <LogoSvg
                                                       alt="Gemeente Amsterdam"
                                                       className="screen-logo"
-                                                      src="IMAGE_MOCK"
+                                                      id="Layer_1"
+                                                      viewBox="0 0 20 68"
+                                                      xmlns="http://www.w3.org/2000/svg"
                                     />
                                     <img
                                                       alt="Gemeente Amsterdam"
@@ -712,10 +884,12 @@ ShallowWrapper {
                     <span
                       className="logoset"
 >
-                      <img
+                      <LogoSvg
                                             alt="Gemeente Amsterdam"
                                             className="screen-logo"
-                                            src="IMAGE_MOCK"
+                                            id="Layer_1"
+                                            viewBox="0 0 20 68"
+                                            xmlns="http://www.w3.org/2000/svg"
                       />
                       <img
                                             alt="Gemeente Amsterdam"
@@ -754,10 +928,12 @@ ShallowWrapper {
                     "nodeType": "host",
                     "props": Object {
                       "children": Array [
-                        <img
+                        <LogoSvg
                           alt="Gemeente Amsterdam"
                           className="screen-logo"
-                          src="IMAGE_MOCK"
+                          id="Layer_1"
+                          viewBox="0 0 20 68"
+                          xmlns="http://www.w3.org/2000/svg"
 />,
                         <img
                           alt="Gemeente Amsterdam"
@@ -777,15 +953,17 @@ ShallowWrapper {
                       Object {
                         "instance": null,
                         "key": undefined,
-                        "nodeType": "host",
+                        "nodeType": "function",
                         "props": Object {
                           "alt": "Gemeente Amsterdam",
                           "className": "screen-logo",
-                          "src": "IMAGE_MOCK",
+                          "id": "Layer_1",
+                          "viewBox": "0 0 20 68",
+                          "xmlns": "http://www.w3.org/2000/svg",
                         },
                         "ref": null,
                         "rendered": null,
-                        "type": "img",
+                        "type": [Function],
                       },
                       Object {
                         "instance": null,
@@ -878,12 +1056,24 @@ ShallowWrapper {
             "props": Object {
               "children": <nav>
                 <ul
-                                className="links horizontal right "
+                                className="links"
                 >
-                                <li />
+                                <li>
+                                                <span>
+                                                                <b />
+                                                </span>
+                                </li>
+                                <li>
+                                                <a
+                                                                href=""
+                                                                onClick={undefined}
+                                                >
+                                                                Inloggen
+                                                </a>
+                                </li>
                 </ul>
 </nav>,
-              "className": "col-6 type-nav-secundair ",
+              "className": "col-sm-6",
             },
             "ref": null,
             "rendered": Object {
@@ -892,9 +1082,21 @@ ShallowWrapper {
               "nodeType": "host",
               "props": Object {
                 "children": <ul
-                  className="links horizontal right "
+                  className="links"
 >
-                  <li />
+                  <li>
+                                    <span>
+                                                      <b />
+                                    </span>
+                  </li>
+                  <li>
+                                    <a
+                                                      href=""
+                                                      onClick={undefined}
+                                    >
+                                                      Inloggen
+                                    </a>
+                  </li>
 </ul>,
               },
               "ref": null,
@@ -903,19 +1105,93 @@ ShallowWrapper {
                 "key": undefined,
                 "nodeType": "host",
                 "props": Object {
-                  "children": <li />,
-                  "className": "links horizontal right ",
+                  "children": Array [
+                    <li>
+                      <span>
+                                            <b />
+                      </span>
+</li>,
+                    <li>
+                      <a
+                                            href=""
+                                            onClick={undefined}
+                      >
+                                            Inloggen
+                      </a>
+</li>,
+                  ],
+                  "className": "links",
                 },
                 "ref": null,
-                "rendered": Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {},
-                  "ref": null,
-                  "rendered": null,
-                  "type": "li",
-                },
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": <span>
+                        <b />
+</span>,
+                    },
+                    "ref": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": Array [
+                          false,
+                          <b />,
+                        ],
+                      },
+                      "ref": null,
+                      "rendered": Array [
+                        false,
+                        Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "host",
+                          "props": Object {
+                            "children": "",
+                          },
+                          "ref": null,
+                          "rendered": "",
+                          "type": "b",
+                        },
+                      ],
+                      "type": "span",
+                    },
+                    "type": "li",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": <a
+                        href=""
+                        onClick={undefined}
+>
+                        Inloggen
+</a>,
+                    },
+                    "ref": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "Inloggen",
+                        "href": "",
+                        "onClick": undefined,
+                      },
+                      "ref": null,
+                      "rendered": "Inloggen",
+                      "type": "a",
+                    },
+                    "type": "li",
+                  },
+                ],
                 "type": "ul",
               },
               "type": "nav",
