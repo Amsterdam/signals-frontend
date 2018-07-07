@@ -9,7 +9,6 @@ import { makeSelectFilterParams } from './selectors';
 
 export function* fetchIncidents(action) {
   const requestURL = 'https://acc.api.data.amsterdam.nl/signals/auth/signal';
-  // const requestURL = 'https://acc.api.data.amsterdam.nl/dcatd/openapi';
   // const requestURL = '/api/auth/signal/';
 
   try {
@@ -32,7 +31,6 @@ export function* openIncident(action) {
   yield put(push(navigateUrl));
 }
 
-// Individual exports for testing
 export default function* watchRequestIncidentsSaga() {
   yield [
     takeLatest(REQUEST_INCIDENTS, fetchIncidents),

@@ -6,6 +6,7 @@ import { compose, bindActionCreators } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import makeSelectOverviewPage from './selectors';
 import reducer from './reducer';
@@ -13,32 +14,41 @@ import saga from './saga';
 import './style.scss';
 
 import { requestIncidents, incidentSelected } from './actions';
-import FilterComponent from './components/FilterComponent';
-import ListComponent from './components/ListComponent';
+import Filter from './components/Filter';
+import ListComponent from './components/List';
+import Pager from './components/Pager';
 
 export class OverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+    this.onPageChanged = this.onPageChanged.bind(this);
+  }
+
   componentDidMount() {
     this.props.onRequestIncidents();
   }
 
+  onPageChanged(page) {
+    this.props.onRequestIncidents(null, page);
+  }
+
   render() {
-    const { incidents, loading, filter } = this.props.overviewpage;
+    const { incidents, loading, filter, incidentsCount, page, ...rest } = this.props.overviewpage;
     return (
       <div className="overview-page">
-        {
-          loading ? (
-            <LoadingIndicator />
-          ) : (
-            <div className="row">
-              <div className="col-4">
-                <FilterComponent filterIncidents={this.props.onRequestIncidents} filter={filter} />
-              </div>
-              <div className="col-8">
-                <ListComponent incidentSelected={this.props.onIncidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} />
-              </div>
-            </div>
-          )
-        }
+        <div className="row">
+          <div className="col-4">
+            <Filter filterIncidents={this.props.onRequestIncidents} filter={filter} {...rest} />
+          </div>
+          <div className="col-8">
+            {loading ? (<LoadingIndicator />) : (
+              <div>
+                <ListComponent incidentSelected={this.props.onIncidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} incidentsCount={incidentsCount} />
+                <Pager incidentsCount={incidentsCount} page={page} onPageChanged={this.onPageChanged} />
+              </div>)
+            }
+          </div>
+        </div>
       </div>
     );
   }
@@ -46,29 +56,23 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
 
 OverviewPage.propTypes = {
   overviewpage: PropTypes.object.isRequired,
+  baseUrl: PropTypes.string.isRequired,
 
   onRequestIncidents: PropTypes.func.isRequired,
   onIncidentSelected: PropTypes.func.isRequired,
-
-  baseUrl: PropTypes.string.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
   overviewpage: makeSelectOverviewPage(),
+  loading: makeSelectLoading(),
+  error: makeSelectError(),
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestIncidents: requestIncidents,
-  onIncidentSelected: incidentSelected
+  onIncidentSelected: incidentSelected,
 }, dispatch);
 
-
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     requestIncidents: (filter) => dispatch(requestIncidents(filter)),
-//     incidentSelected: (incident) => dispatch(incidentSelected(incident))
-//   };
-// }
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 

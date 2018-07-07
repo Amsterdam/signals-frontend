@@ -67,11 +67,14 @@ if (BRANCH == "master") {
 
     node {
         stage('Push production image') {
-            tryStep "image tagging", {
-                def image = docker.image("build.app.amsterdam.nl:5000/ois/signalsfrontend:${env.BUILD_NUMBER}")
-                image.pull()
-                image.push("production")
-                image.push("latest")
+            stage("Build Production image") {
+                tryStep "build", {
+                    def image = docker.build("build.app.amsterdam.nl:5000/ois/signalsfrontend:${env.BUILD_NUMBER}",
+                        "--shm-size 1G " +
+                        " .")
+                    image.push("production")
+                    image.push("latest")
+                }
             }
         }
     }

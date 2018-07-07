@@ -6,8 +6,16 @@
 
 import { fromJS } from 'immutable';
 import { REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR, FILTER_INCIDENTS_CHANGED, PAGE_INCIDENTS_CHANGED } from './constants';
+import stadsdeelList from '../../definitions/stadsdeelList';
+import subcategoryList from '../../definitions/subcategoryList';
+import statusList from '../../definitions/statusList';
 
-export const initialState = fromJS({ incidents: [] });
+export const initialState = fromJS({
+  incidents: [],
+  stadsdeelList,
+  subcategoryList,
+  statusList
+});
 
 function overviewPageReducer(state = initialState, action) {
   switch (action.type) {
@@ -18,7 +26,7 @@ function overviewPageReducer(state = initialState, action) {
     case REQUEST_INCIDENTS_SUCCESS:
       return state
         .set('incidents', action.payload.results)
-        .set('incidents_count', action.payload.count)
+        .set('incidentsCount', action.payload.count)
         .set('loading', false);
     case REQUEST_INCIDENTS_ERROR:
       return state

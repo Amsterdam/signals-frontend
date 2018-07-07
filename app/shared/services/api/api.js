@@ -5,29 +5,26 @@ import { makeSelectAccessToken } from '../../../containers/App/selectors';
 import CONFIGURATION from '../configuration/configuration';
 
 const createUrl = (url) => {
-  if (process.env.NODE_ENV === 'development') {
-    return url;
+  if (process.env.NODE_ENV === 'production') {
+    return `${CONFIGURATION.API_ROOT}/${url}`;
   }
-  return `${CONFIGURATION.API_ROOT}/${url}`;
+  return url;
 };
 
 const generateParams = (data) => Object.entries(data)
-        .filter((pair) => pair[1])
-        .map((pair) => pair.map(encodeURIComponent).join('=')).join('&');
+  .filter((pair) => pair[1])
+  .map((pair) => (Array.isArray(pair[1]) === true ?
+    pair[1]
+      .filter((val) => val)
+      .map((val) => `${pair[0]}=${val}`).join('&') :
+    pair.map(encodeURIComponent).join('='))).join('&');
 
-// const generateParam = (data) => Object.keys(data)
-//         .filter((key) => data[key])
-//         .reduce((result, key) => (
-//           result + data[key].map((pair) => pair.map(encodeURIComponent).join('=')).join('&')
-//           // {
-//           // ...result,
-//           // [key]: data[key]
-//         ), '');
+export function* authCall(url, params) {
+  const headers = {
+    accept: 'application/json'
+  };
 
-
-function* authCallWithToken(url, params, cancel, token) {
-  const headers = { };
-
+  const token = yield select(makeSelectAccessToken());
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
@@ -37,16 +34,31 @@ function* authCallWithToken(url, params, cancel, token) {
     headers
   };
 
-  if (cancel) {
-    options.signal = cancel;
-  }
-
   const fullUrl = `${createUrl(url)}/${params ? `?${generateParams(params)}` : ''}`;
+  // console.log('fullUrl', fullUrl);
+  // console.log(options);
   return yield call(request, fullUrl, options);
 }
 
-export function* authCall(url, params, cancel) {
+export function* authPostCall(url, params) {
+  const headers = {
+    'Content-Type': 'application/json'
+  };
+
   const token = yield select(makeSelectAccessToken());
-  return yield authCallWithToken(url, params, cancel, token);
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const options = {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(params)
+  };
+
+  const fullUrl = `${createUrl(url)}`;
+  // console.log(fullUrl);
+  // console.log(options);
+  return yield call(request, fullUrl, options);
 }
 
