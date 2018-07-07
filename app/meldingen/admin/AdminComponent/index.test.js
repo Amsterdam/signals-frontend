@@ -1,38 +1,32 @@
 import React from 'react';
 
-import { mount } from 'enzyme';
-
-import configureStore from 'redux-mock-store';
-import { MemoryRouter, withRouter, Route } from 'react-router-dom';
-import { Provider, connect } from 'react-redux';
+import { shallow } from 'enzyme';
+import { Route } from 'react-router-dom';
 
 import AdminComponent from './index';
-import OverviewPage from '../containers/OverviewPage';
-
-const WrappedAdminComponent = withRouter(connect()(AdminComponent));
 
 describe('<AdminComponent />', () => {
-  const mockStore = configureStore();
-  const initialState = {};
-  let store;
-  let wrapper;
+  const match = { url: '' };
+
+  const createComponent = (isAuthenticated = false) => {
+    const component = shallow(
+      <AdminComponent isAuthenticated={isAuthenticated} match={match} />
+    );
+
+    // console.log('rendered component: ', component.debug());
+    return component;
+  };
 
   beforeEach(() => {
-    store = mockStore(initialState);
-    wrapper = mount(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['/admin/incidents']}>
-          {/* <WrappedAdminComponent /> */}
-          {/* <AdminComponent /> */}
-          <Route path="/admin/incidents" component={WrappedAdminComponent} />
-        </MemoryRouter>
-      </Provider>,
-    );
-    // console.log(wrapper);
   });
 
-  it('should render correctly', () => {
-    // expect(wrapper).toMatchSnapshot();
-    expect(wrapper.find(OverviewPage)).toHaveLength(1);
+  it('should render one route when not authenticated', () => {
+    const component = createComponent();
+    expect(component.find(Route)).toHaveLength(1);
+  });
+
+  it('should render two routes when authenticated', () => {
+    const component = createComponent(true);
+    expect(component.find(Route)).toHaveLength(2);
   });
 });
