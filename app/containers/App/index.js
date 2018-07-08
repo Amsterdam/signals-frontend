@@ -11,11 +11,11 @@ import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import Admin from 'containers/Admin/Loadable';
 import Footer from 'components/Footer';
 import MainMenu from 'components/MainMenu';
 import HeaderContainer from 'containers/HeaderContainer';
 
+import IncidentManagementContainer from '../../meldingen/incident-management/containers/IncidentManagementContainer/Loadable';
 import IncidentContainer from '../../meldingen/incident/containers/IncidentContainer/Loadable';
 import { isAuthenticated } from '../../shared/services/auth/auth';
 
@@ -31,7 +31,8 @@ export default function App() {
       <div className="content container">
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route path="/process" component={Admin} />
+          <Route path="/process" component={IncidentManagementContainer} />
+          {/* <Redirect to="/process/incidents" from="/process" /> */}
           <Route path="/incident" component={IncidentContainer} />
           <Route path="" component={NotFoundPage} />
         </Switch>
