@@ -1,18 +1,25 @@
+import { testActionCreator } from '../../../internals/testing/test-utils';
 
 import {
-  defaultAction,
-} from './actions';
-import {
-  DEFAULT_ACTION,
+  GET_GEO,
+  SET_GEO
 } from './constants';
 
-describe('MapContainer actions', () => {
-  describe('Default Action', () => {
-    it('has a type of DEFAULT_ACTION', () => {
-      const expected = {
-        type: DEFAULT_ACTION,
-      };
-      expect(defaultAction()).toEqual(expected);
-    });
+import {
+  getGeoName,
+  setGeoName
+} from './actions';
+
+
+describe('App actions', () => {
+  it('should create geo actions', () => {
+    const location = 'location';
+    const latlng = {};
+    const payload = {
+      location,
+      latlng
+    };
+    testActionCreator(getGeoName, GET_GEO, latlng);
+    testActionCreator(setGeoName, SET_GEO, payload);
   });
 });

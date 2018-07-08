@@ -10,9 +10,10 @@ export function* getGeo(data) {
   const REQUEST_URL = `${GEO_ENDPOINT}?lat=${data.latlng.lat}&lon=${data.latlng.lng}&radius=0`;
   try {
     const apiResponse = yield call(request, REQUEST_URL);
-    yield put(setGeoName(apiResponse.features[0].properties.display, data.latlng));
+    const payload = { location: apiResponse.features[0].properties.display, latlng: data.latlng };
+    yield put(setGeoName(payload));
   } catch (error) {
-    // console.error('Something went wrong', error);
+      // console.error('Something went wrong', error);
     yield put(showGlobalError(error));
   }
 }
