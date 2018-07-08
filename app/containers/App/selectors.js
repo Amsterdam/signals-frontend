@@ -31,9 +31,9 @@ const makeSelectLocation = () => createSelector(
 
 export {
   selectGlobal,
+  makeSelectUserName,
   makeSelectAccessToken,
   makeSelectLoading,
   makeSelectError,
   makeSelectLocation,
-  makeSelectUserName
 };

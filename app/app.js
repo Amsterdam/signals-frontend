@@ -131,6 +131,6 @@ if (returnPath) {
 
 const accessToken = auth.getAccessToken();
 if (accessToken) {
-  store.dispatch(authenticateUser(auth.getName(), auth.getScopes(),
-    auth.getAccessToken()));
+  const credentials = { userName: auth.getName(), userScopes: auth.getScopes(), accessToken: auth.getAccessToken() };
+  store.dispatch(authenticateUser(credentials));
 }
