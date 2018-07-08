@@ -57,11 +57,11 @@ MapContainer.propTypes = {
   onLocationChange: PropTypes.func,
 };
 
-const mapStateToProps = createStructuredSelector({
+export const mapStateToProps = createStructuredSelector({
   mapcontainer: makeSelectMapContainer(),
 });
 
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
   return {
     getGeoName: (latlng) => dispatch(getGeoName(latlng)),
   };
