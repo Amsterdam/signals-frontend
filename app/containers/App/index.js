@@ -15,7 +15,7 @@ import Footer from 'components/Footer';
 import MainMenu from 'components/MainMenu';
 import HeaderContainer from 'containers/HeaderContainer';
 
-import IncidentManagementContainer from '../../meldingen/incident-management/containers/IncidentManagementContainer/Loadable';
+import IncidentManagementContainer from '../../meldingen/incident-management';
 import IncidentContainer from '../../meldingen/incident/containers/IncidentContainer/Loadable';
 import { isAuthenticated } from '../../shared/services/auth/auth';
 
