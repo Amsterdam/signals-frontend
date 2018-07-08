@@ -29,6 +29,12 @@ const makeSelectLocation = () => createSelector(
   (routeState) => routeState.get('location').toJS()
 );
 
+const makeSelectIsAuthenticated = () => createSelector(
+  selectGlobal,
+  (globalState) => !globalState.get('accessToken') === false
+);
+
+
 export {
   selectGlobal,
   makeSelectUserName,
@@ -36,4 +42,5 @@ export {
   makeSelectLoading,
   makeSelectError,
   makeSelectLocation,
+  makeSelectIsAuthenticated
 };
