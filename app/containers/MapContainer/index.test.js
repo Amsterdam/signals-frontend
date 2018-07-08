@@ -1,13 +1,14 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
+import AMaps from 'components/AMaps';
 import { MapContainer, mapDispatchToProps } from '.';
 import { getGeoName } from './actions';
 
 jest.mock('../../static/amaps.es');
 
 describe('<MapContainer />', () => {
-  it('should render the Map', () => {
+  it('should render the AMaps', () => {
     const props = {
       getGeoName: jest.fn(),
       mapcontainer: {
@@ -23,7 +24,7 @@ describe('<MapContainer />', () => {
     );
 
     // console.log('renderedComponent: ', renderedComponent.debug());
-    expect(renderedComponent.find('Map').length).toBe(1);
+    expect(renderedComponent.find(AMaps).length).toBe(1);
   });
 
   describe('mapDispatchToProps', () => {

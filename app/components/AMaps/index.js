@@ -11,7 +11,7 @@ const DEFAULT_ZOOM_LEVEL = 14;
 // The BAG_ENDPOINT is being used in the amaps implementation, so we can't move it to a saga
 const BAG_ENDPOINT = 'https://api.data.amsterdam.nl/bag/nummeraanduiding/?format=json&locatie=';
 
-class Map extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class AMaps extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static requestFormatter(baseUrl, xy) {
     const xyRd = wgs84ToRd(xy);
     return `${baseUrl}${xyRd.x},${xyRd.y},50`;
@@ -129,7 +129,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
   }
 }
 
-Map.propTypes = {
+AMaps.propTypes = {
   onLocationChange: PropTypes.func,
   location: PropTypes.string,
   latlng: PropTypes.object,
@@ -138,11 +138,11 @@ Map.propTypes = {
   getGeo: PropTypes.func
 };
 
-Map.defaultProps = {
+AMaps.defaultProps = {
   onLocationChange: null,
   location: '',
   preview: false,
   isLoading: false
 };
 
-export default Map;
+export default AMaps;
