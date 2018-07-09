@@ -12,7 +12,7 @@ export default {
   beschrijf: {
     label: 'Beschrijf uw melding',
     getNextStep: (wizard, { subcategory }) => {
-      if (!some(wizard.vulaan.form.controls, (control) => control.meta && control.meta.if && control.meta.if.subcategory === subcategory)) {
+      if (!some(wizard.vulaan.form.controls, (control) => control.meta && control.meta.ifAllOf && control.meta.ifAllOf.subcategory === subcategory)) {
         return 'incident/telefoon';
       }
       return false;
@@ -242,7 +242,7 @@ export default {
             cols: 6,
             label: 'Wat doen we met uw melding?',
             type: 'bedankt',
-            if: {
+            ifOneOf: {
               subcategory: [
                 // 'Overlast op het water - snel varen',
                 // 'Overlast op het water - Gezonken boot',
@@ -322,7 +322,7 @@ export default {
             cols: 6,
             label: 'Wat doen we met uw melding?',
             type: 'bedankt',
-            if: {
+            ifAllOf: {
               subcategory: 'Overlast op het water - snel varen'
             },
             value: [
@@ -337,7 +337,7 @@ export default {
             cols: 6,
             label: 'Wat doen we met uw melding?',
             type: 'bedankt',
-            if: {
+            ifAllOf: {
               subcategory: 'Overlast op het water - geluid'
             },
             value: [
@@ -352,7 +352,7 @@ export default {
             cols: 6,
             label: 'Wat doen we met uw melding?',
             type: 'bedankt',
-            if: {
+            ifAllOf: {
               subcategory: 'Overlast op het water - Gezonken boot'
             },
             value: [
@@ -368,7 +368,7 @@ export default {
             cols: 6,
             label: 'Wat doen we met uw melding?',
             type: 'bedankt',
-            if: {
+            ifAllOf: {
               subcategory: 'Scheepvaart nautisch toezicht'
             },
             value: [

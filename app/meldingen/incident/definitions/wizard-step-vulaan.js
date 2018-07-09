@@ -24,7 +24,7 @@ export default {
       extra_boten_snelheid_rondvaartboot: {
         meta: {
           cols: 6,
-          if: {
+          ifAllOf: {
             subcategory: 'Overlast op het water - snel varen'
           },
           label: 'Gaat de melding over een rondvaartboot?',
@@ -109,7 +109,7 @@ export default {
             Wolfsburght: 'Wolfsburght',
             'Zonneboot Amsterdam': 'Zonneboot Amsterdam'
           },
-          if: {
+          ifAllOf: {
             subcategory: 'Overlast op het water - snel varen',
             extra_boten_snelheid_rondvaartboot: 'Ja'
           },
@@ -123,7 +123,7 @@ export default {
           cols: 6,
           label: 'Wat is de naam van de boot? (niet verplicht)',
           path: 'text_extra',
-          if: {
+          ifAllOf: {
             subcategory: 'Overlast op het water - snel varen'
           },
           watch: true
@@ -134,7 +134,7 @@ export default {
         meta: {
           label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? (niet verplicht)',
           path: 'text_extra',
-          if: {
+          ifAllOf: {
             subcategory: 'Overlast op het water - geluid'
           },
           watch: true
@@ -146,7 +146,7 @@ export default {
           label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? (niet verplicht)',
           subtitle: 'Bijvoorbeeld: "er lekt olie", "gevaar voor andere boten", etc.',
           path: 'text_extra',
-          if: {
+          ifAllOf: {
             subcategory: 'Overlast op het water - Gezonken boot'
           },
           watch: true
