@@ -2,11 +2,16 @@ import moment from 'moment';
 import { forEach, set } from 'lodash';
 
 const mapControlsToParams = (incident, wizard) => {
-  const date = incident.incident_date === 'now' ? moment() : moment(`${incident.incident_date} ${incident.incident_time_hours}:${incident.incident_time_minutes}`);
+  const time = `${incident.incident_time_hours}:${incident.incident_time_minutes}`;
+  let date;
+
+  if (incident.incident_date === 'Nu') {
+    date = moment();
+  } else {
+    date = moment(`${incident.incident_date === 'Vandaag' ? moment().format('YYYY-MM-DD') : incident.incident_date} ${time}`);
+  }
 
   const params = {
-    text_extra: 'text_extra',
-
     created_at: date.format(),
     incident_date_start: date.format(),
 
@@ -53,6 +58,14 @@ const mapControlsToParams = (incident, wizard) => {
   forEach(map, (item) => {
     set(params, item.path, item.value);
   });
+
+  const textExtra = [];
+  forEach(incident, (value, key) => {
+    if (key.includes('extra_')) {
+      textExtra.push(`${key}: ${value}`);
+    }
+  });
+  params.text_extra = textExtra.join(', ');
 
   return params;
 };

@@ -89,7 +89,8 @@ export default {
             },
             watch: true
           },
-          render: FormComponents.DateTimeInput
+          render: FormComponents.DateTimeInput,
+          strict: false
         },
         incident_time_hours: {
           meta: {
@@ -97,9 +98,6 @@ export default {
             readOnly: true,
             watch: true
           },
-          // options: {
-            // validators: Validators.required
-          // },
           render: FormComponents.HiddenInput
         },
         incident_time_minutes: {
@@ -108,9 +106,6 @@ export default {
             readOnly: true,
             watch: true
           },
-          // options: {
-            // validators: Validators.required
-          // },
           render: FormComponents.HiddenInput
         },
         image: {
@@ -214,7 +209,7 @@ export default {
           label: 'Hier gaat het om',
           render: PreviewComponents.PlainText
         },
-        incident_date: {
+        datetime: {
           label: 'Tijdstip',
           render: PreviewComponents.DateTime
         },

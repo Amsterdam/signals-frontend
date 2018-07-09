@@ -8,15 +8,9 @@ import Title from '../Title/';
 import './style.scss';
 
 const DateTimeInput = ({ meta, parent }) => {
-  const handleChange = (e) => {
-    parent.meta.setIncident({
-      incident_date: e.target.value === 'earlier' ? formatDate(0) : e.target.value
-    });
-  };
-
   function formatDate(offset, type = 'value') {
     const format = type === 'label' ? 'dddd D MMMM' : 'YYYY-MM-DD';
-    if (offset === 0 && type === 'label') {
+    if (offset === 0) {
       return 'Vandaag';
     }
     return moment().subtract(offset, 'days').format(format);
@@ -38,7 +32,7 @@ const DateTimeInput = ({ meta, parent }) => {
                 <select
                   id={`${meta.name}-select-day`}
                   value={parent.value.incident_date}
-                  onChange={handleChange}
+                  onChange={(e) => parent.meta.setIncident({ incident_date: e.target.value })}
                 >
                   {[...Array(7).keys()].map((offset) => (
                     <option key={`select-day-option-${offset}`} value={formatDate(offset)}>{formatDate(offset, 'label')}</option>
