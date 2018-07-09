@@ -1,17 +1,32 @@
 import { fromJS } from 'immutable';
 import {
-  DEFAULT_ACTION,
-} from './constants';
+  REQUEST_CATEGORY_UPDATE, REQUEST_CATEGORY_UPDATE_SUCCESS, REQUEST_CATEGORY_UPDATE_ERROR
+}
+  from './constants';
+import subcategoryList from '../../definitions/subcategoryList';
 
-const initialState = fromJS({});
+const initialState = fromJS({
+  subcategoryList
+});
 
-function indcidentEditContainerReducer(state = initialState, action) {
+function incidentStatusContainerReducer(state = initialState, action) {
   switch (action.type) {
-    case DEFAULT_ACTION:
-      return state;
+    case REQUEST_CATEGORY_UPDATE:
+      return state
+        .set('loading', true)
+        .set('error', false);
+    case REQUEST_CATEGORY_UPDATE_SUCCESS:
+      return state
+        // .set('incident', fromJS({ ...state.get('incident'), category: action.payload }))
+        .set('loading', false);
+
+    case REQUEST_CATEGORY_UPDATE_ERROR:
+      return state
+        .set('error', action.payload)
+        .set('loading', false);
     default:
       return state;
   }
 }
 
-export default indcidentEditContainerReducer;
+export default incidentStatusContainerReducer;

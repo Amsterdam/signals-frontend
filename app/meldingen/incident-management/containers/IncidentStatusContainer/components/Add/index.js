@@ -24,14 +24,13 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
     const { statusList } = this.props;
     return (
       <div className="incident-status-add">
-        <div className="filter-component__title">Filters</div>
-        <div className="filter-component__body">
+        <div className="incident-status-add__title">Status toevoegen</div>
+        <div className="incident-status-add__body">
           <FieldGroup
             control={this.statusForm}
             render={({ invalid }) => (
               <form onSubmit={this.handleSubmit}>
                 <div>
-                  {/* <HiddenInput name="_signal" control={this.statusForm.get('_signal')} value={this.props.id} /> */}
                   <SelectInput name="state" display="Status" control={this.statusForm.get('state')} values={statusList} multiple={false} />
                   <TextInput name="text" display="Omschrijving" control={this.statusForm.get('text')} />
 

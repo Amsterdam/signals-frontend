@@ -11,6 +11,9 @@ import {
   REQUEST_INCIDENT_ERROR
 } from './constants';
 
+import { REQUEST_CATEGORY_UPDATE_SUCCESS } from '../IncidentCategoryContainer/constants';
+import { REQUEST_STATUS_CREATE_SUCCESS } from '../IncidentStatusContainer/constants';
+
 const initialState = fromJS({ id: null });
 
 function incidentDetailPageReducer(state = initialState, action) {
@@ -28,6 +31,14 @@ function incidentDetailPageReducer(state = initialState, action) {
       return state
         .set('error', action.payload)
         .set('loading', false);
+
+    case REQUEST_CATEGORY_UPDATE_SUCCESS:
+      return state
+        .set('incident', fromJS({ ...state.get('incident'), category: action.payload }));
+    case REQUEST_STATUS_CREATE_SUCCESS:
+      return state
+        .set('incident', fromJS({ ...state.get('incident'), status: action.payload }));
+
     default:
       return state;
   }

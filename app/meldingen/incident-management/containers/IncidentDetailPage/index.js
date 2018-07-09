@@ -22,6 +22,7 @@ import './style.scss';
 import { requestIncident } from './actions';
 import MapDetail from './components/MapDetail';
 import Incident from './components/Incident';
+import IncidentCategoryContainer from '../IncidentCategoryContainer';
 import IncidentStatusContainer from '../IncidentStatusContainer';
 
 
@@ -37,6 +38,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     return (
       <div className="incident-detail-page row container">
         <div className="col-12"><h3>Melding {this.props.id}</h3>
+          <IncidentCategoryContainer id={this.props.id} />
           <IncidentStatusContainer id={this.props.id} />
         </div>
         <ul className="col-6 incident-detail-page__map">

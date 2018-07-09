@@ -1,47 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
+import { compose, bindActionCreators } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import makeSelectIncidentCategoryContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import messages from './messages';
 import './style.scss';
+import Add from './components/Add';
+import { requestCategoryUpdate } from './actions';
 
 
 export class IncidentCategoryContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
+    const { subcategoryList } = this.props.indcidentcategorycontainer;
     return (
       <div className="indcident-edit-container">
-        <FormattedMessage {...messages.header} />
+        <Add id={this.props.id} subcategoryList={subcategoryList} onRequestCategoryUpdate={this.props.onRequestCategoryUpdate} />
       </div>
     );
   }
 }
 
 IncidentCategoryContainer.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  indcidentcategorycontainer: PropTypes.object.isRequired,
+
+  onRequestCategoryUpdate: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   indcidentcategorycontainer: makeSelectIncidentCategoryContainer(),
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  onRequestCategoryUpdate: requestCategoryUpdate,
+}, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-const withReducer = injectReducer({ key: 'indcidentCategoryContainer', reducer });
-const withSaga = injectSaga({ key: 'indcidentCategoryContainer', saga });
+const withReducer = injectReducer({ key: 'incidentCategoryContainer', reducer });
+const withSaga = injectSaga({ key: 'incidentCategoryContainer', saga });
 
 export default compose(
   withReducer,
