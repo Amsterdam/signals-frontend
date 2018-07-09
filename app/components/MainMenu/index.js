@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
+
 import { FormattedMessage } from 'react-intl';
 import { NavLink } from 'react-router-dom';
 
 import messages from './messages';
 import './style.scss';
+import { makeSelectIsAuthenticated } from '../../containers/App/selectors';
 
 class MainMenu extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -29,7 +34,7 @@ class MainMenu extends React.Component { // eslint-disable-line react/prefer-sta
               </li>
               {this.props.isAuthenticated ?
                 <li>
-                  <NavLink to="/process/incidents">
+                  <NavLink to="/admin/incidents">
                     <span className="linklabel">
                       <FormattedMessage {...messages.afhandelen} />
                     </span>
@@ -45,7 +50,16 @@ class MainMenu extends React.Component { // eslint-disable-line react/prefer-sta
 }
 
 MainMenu.propTypes = {
-  isAuthenticated: PropTypes.bool,
+  isAuthenticated: PropTypes.bool
 };
 
-export default MainMenu;
+
+const mapStateToProps = createStructuredSelector({
+  isAuthenticated: makeSelectIsAuthenticated()
+});
+
+const withConnect = connect(mapStateToProps, null);
+
+export default compose(
+  withConnect,
+)(MainMenu);

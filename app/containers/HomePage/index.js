@@ -12,7 +12,7 @@ import { createStructuredSelector } from 'reselect';
 
 import injectReducer from 'utils/injectReducer';
 import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
-import Map from 'components/Map';
+import AMaps from 'components/AMaps';
 
 import messages from './messages';
 import reducer from './reducer';
@@ -47,7 +47,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
           </p>
         </div>
         <div>
-          <Map onLocationChange={this.onMapAction} location={this.state.location} latlng={this.state.latlng} />
+          <AMaps onLocationChange={this.onMapAction} location={this.state.location} latlng={this.state.latlng} />
         </div>
       </article>
     );

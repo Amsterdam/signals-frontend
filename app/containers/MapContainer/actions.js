@@ -1,9 +1,3 @@
-/*
- *
- * MapContainer actions
- *
- */
-
 import {
   GET_GEO,
   SET_GEO
@@ -12,14 +6,16 @@ import {
 export function getGeoName(latlng) {
   return {
     type: GET_GEO,
-    latlng
+    payload: latlng
   };
 }
 
-export function setGeoName(name, latlng) {
+export function setGeoName({ location, latlng }) {
   return {
     type: SET_GEO,
-    location: name,
-    latlng
+    payload: {
+      location,
+      latlng
+    }
   };
 }

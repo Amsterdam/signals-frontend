@@ -1,14 +1,17 @@
 import {
-  AUTHENTICATE_USER,
+  AUTHENTICATE_USER, SHOW_GLOBAL_ERROR
 } from './constants';
 
-export function authenticateUser(userName, userScopes, accessToken) {
+export function authenticateUser(credentials) {
   return {
     type: AUTHENTICATE_USER,
-    payload: {
-      userName,
-      userScopes,
-      accessToken
-    }
+    payload: credentials
+  };
+}
+
+export function showGlobalError(message) {
+  return {
+    type: SHOW_GLOBAL_ERROR,
+    payload: message
   };
 }
