@@ -1,6 +1,11 @@
 .incident-detail-page {
   &__map{
-    border: 1 dotted lightgray;
-    background-color: floralwhite;
+    // border: 1 dotted lightgray;
+    // background-color: floralwhite;
+  }
+
+  &__tab-container {
+    padding-top: 20px;
+    min-height: 300px;
   }
 }

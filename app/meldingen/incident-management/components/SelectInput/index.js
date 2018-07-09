@@ -21,9 +21,9 @@ SelectInput.propTypes = {
 };
 
 export const SelectInputRender = (props) => {
-  const { name, display, values, multiple } = props;
+  const { name, display, values, multiple, emptyOptionText } = props;
   const options = values.map(({ key, value }) =>
-    <option key={key} value={key}>{value}</option>
+    <option key={key} value={key}>{key ? value : emptyOptionText || value}</option>
   );
 
   const render = ({ handler }) => (<div>

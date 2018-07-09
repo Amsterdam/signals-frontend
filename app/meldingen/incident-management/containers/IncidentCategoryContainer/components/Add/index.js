@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormBuilder, FieldGroup } from 'react-reactive-form';
+import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 
 import { SelectInput } from '../../../../components/SelectInput';
 import './style.scss';
@@ -9,7 +9,7 @@ import './style.scss';
 class Add extends React.Component { // eslint-disable-line react/prefer-stateless-function
   categoryForm = FormBuilder.group({
     _signal: [''],
-    sub: ['']
+    sub: ['', Validators.required]
   });
 
   handleSubmit = (event) => {
@@ -29,10 +29,10 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
             render={({ invalid }) => (
               <form onSubmit={this.handleSubmit}>
                 <div>
-                  <SelectInput name="sub" display="Rubriek" control={this.categoryForm.get('sub')} values={subcategoryList} multiple={false} />
+                  <SelectInput name="sub" display="Rubriek" control={this.categoryForm.get('sub')} values={subcategoryList} multiple={false} emptyOptionText="Selecteer..." />
 
                   <button className="action primary" type="submit" disabled={invalid}>
-                    <span className="value">Rubriek bijwerken</span>
+                    <span className="value">Categorie wijzigen</span>
                   </button>
                 </div>
               </form>
