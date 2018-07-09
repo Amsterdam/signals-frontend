@@ -29,79 +29,53 @@ const DateTimeInput = ({ meta, parent }) => {
           <div className={`col-${meta.cols || 12} invoer antwoorden`}>
             <Title meta={meta} />
 
-            <div className="antwoord">
-              <input
-                className="kenmerkradio"
-                type="radio"
-                name="{meta.name}"
-                id="{meta.name}-now"
-                value="now"
-                checked={parent.value.incident_date === 'now'}
-                onChange={handleChange}
-              />
-              <label htmlFor="{meta.name}-now">Nu</label>
-            </div>
-            <div className="antwoord">
-              <input
-                type="radio"
-                name="{meta.name}"
-                id="{meta.name}-earlier"
-                value="earlier"
-                checked={parent.value.incident_date !== undefined && parent.value.incident_date !== 'now'}
-                onChange={handleChange}
-              />
-              <label htmlFor="{meta.name}-earlier">Eerder</label>
-            </div>
-            {parent.value.incident_date !== undefined && parent.value.incident_date !== 'now' ?
-              <div className="datetime-input__earlier">
+            <div className="datetime-input__earlier">
 
-                <div className="label">
-                  <label htmlFor={`${meta.name}-select-day`}>Dag</label>
-                </div>
-                <div className="invoer datetime-input__earlier-date">
-                  <select
-                    id={`${meta.name}-select-day`}
-                    value={parent.value.incident_date}
-                    onChange={handleChange}
-                  >
-                    {[...Array(7).keys()].map((offset) => (
-                      <option key={`select-day-option-${offset}`} value={formatDate(offset)}>{formatDate(offset, 'label')}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="label">
-                  <label htmlFor={`${meta.name}-select-time-hours`}>Tijd</label>
-                </div>
-                <div className="invoer datetime-input__earlier-time">
-                  <select
-                    value={parent.value.incident_time_hours}
-                    id={`${meta.name}-select-time-hours`}
-                    onChange={(e) => parent.meta.setIncident({ incident_time_hours: e.target.value })}
-                  >
-                    {[...Array(24).keys()].map((hour) => (
-                      <option
-                        key={`select-time-hours-option-${hour}`}
-                        value={hour}
-                      >{hour}</option>
-                    ))}
-                  </select>
-                  <select
-                    id={`${meta.name}-select-time-minutes`}
-                    value={parent.value.incident_time_minutes}
-                    onChange={(e) => parent.meta.setIncident({ incident_time_minutes: e.target.value })}
-                  >
-                    {[...Array(12).keys()].map((minute) => (
-                      <option
-                        key={`select-time-minutes-option-${minute * 5}`}
-                        value={minute * 5}
-                      >{minute * 5}</option>
-                    ))}
-                  </select>
-                </div>
+              <div className="label">
+                <label htmlFor={`${meta.name}-select-day`}>Dag</label>
               </div>
-              : ''
-            }
+              <div className="invoer datetime-input__earlier-date">
+                <select
+                  id={`${meta.name}-select-day`}
+                  value={parent.value.incident_date}
+                  onChange={handleChange}
+                >
+                  {[...Array(7).keys()].map((offset) => (
+                    <option key={`select-day-option-${offset}`} value={formatDate(offset)}>{formatDate(offset, 'label')}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="label">
+                <label htmlFor={`${meta.name}-select-time-hours`}>Tijd</label>
+              </div>
+              <div className="invoer datetime-input__earlier-time">
+                <select
+                  value={parent.value.incident_time_hours}
+                  id={`${meta.name}-select-time-hours`}
+                  onChange={(e) => parent.meta.setIncident({ incident_time_hours: e.target.value })}
+                >
+                  {[...Array(24).keys()].map((hour) => (
+                    <option
+                      key={`select-time-hours-option-${hour}`}
+                      value={hour}
+                    >{hour}</option>
+                  ))}
+                </select>
+                <select
+                  id={`${meta.name}-select-time-minutes`}
+                  value={parent.value.incident_time_minutes}
+                  onChange={(e) => parent.meta.setIncident({ incident_time_minutes: e.target.value })}
+                >
+                  {[...Array(12).keys()].map((minute) => (
+                    <option
+                      key={`select-time-minutes-option-${minute * 5}`}
+                      value={minute * 5}
+                    >{minute * 5}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
           </div>
         </div>
          : ''}

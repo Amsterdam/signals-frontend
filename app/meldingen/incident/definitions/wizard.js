@@ -68,23 +68,28 @@ export default {
         },
         datetime: {
           meta: {
-            label: 'Geef het tijdstip aan'
-          },
-          // options: {
-          //   validators: Validators.required
-          // },
-          render: FormComponents.DateTimeInput,
-          strict: false
-        },
-        incident_date: {
-          meta: {
-            label: 'Incident date',
-            watch: true
+            cols: 6,
+            label: 'Geef het tijdstip aan',
+            values: {
+              Nu: 'Nu',
+              Eerder: 'Eerder'
+            },
+            updateIncident: true
           },
           options: {
             validators: Validators.required
           },
-          render: FormComponents.HiddenInput
+          render: FormComponents.RadioInput
+        },
+        incident_date: {
+          meta: {
+            label: 'Incident date',
+            ifAllOf: {
+              datetime: 'Eerder'
+            },
+            watch: true
+          },
+          render: FormComponents.DateTimeInput
         },
         incident_time_hours: {
           meta: {
