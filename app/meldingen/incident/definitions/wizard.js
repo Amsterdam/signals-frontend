@@ -12,7 +12,7 @@ export default {
   beschrijf: {
     label: 'Beschrijf uw melding',
     getNextStep: (wizard, { subcategory }) => {
-      if (!some(wizard.vulaan.form.controls, (control) => control.meta && control.meta.if && control.meta.if.subcategory === subcategory)) {
+      if (!some(wizard.vulaan.form.controls, (control) => control.meta && control.meta.ifAllOf && control.meta.ifAllOf.subcategory === subcategory)) {
         return 'incident/telefoon';
       }
       return false;
@@ -68,23 +68,29 @@ export default {
         },
         datetime: {
           meta: {
-            label: 'Geef het tijdstip aan'
-          },
-          // options: {
-          //   validators: Validators.required
-          // },
-          render: FormComponents.DateTimeInput,
-          strict: false
-        },
-        incident_date: {
-          meta: {
-            label: 'Incident date',
-            watch: true
+            cols: 6,
+            label: 'Geef het tijdstip aan',
+            values: {
+              Nu: 'Nu',
+              Eerder: 'Eerder'
+            },
+            updateIncident: true
           },
           options: {
             validators: Validators.required
           },
-          render: FormComponents.HiddenInput
+          render: FormComponents.RadioInput
+        },
+        incident_date: {
+          meta: {
+            label: 'Incident date',
+            ifAllOf: {
+              datetime: 'Eerder'
+            },
+            watch: true
+          },
+          render: FormComponents.DateTimeInput,
+          strict: false
         },
         incident_time_hours: {
           meta: {
@@ -92,9 +98,6 @@ export default {
             readOnly: true,
             watch: true
           },
-          // options: {
-            // validators: Validators.required
-          // },
           render: FormComponents.HiddenInput
         },
         incident_time_minutes: {
@@ -103,9 +106,6 @@ export default {
             readOnly: true,
             watch: true
           },
-          // options: {
-            // validators: Validators.required
-          // },
           render: FormComponents.HiddenInput
         },
         image: {
@@ -209,7 +209,7 @@ export default {
           label: 'Hier gaat het om',
           render: PreviewComponents.PlainText
         },
-        incident_date: {
+        datetime: {
           label: 'Tijdstip',
           render: PreviewComponents.DateTime
         },
@@ -242,7 +242,7 @@ export default {
             cols: 6,
             label: 'Wat doen we met uw melding?',
             type: 'bedankt',
-            if: {
+            ifOneOf: {
               subcategory: [
                 // 'Overlast op het water - snel varen',
                 // 'Overlast op het water - Gezonken boot',
@@ -322,7 +322,7 @@ export default {
             cols: 6,
             label: 'Wat doen we met uw melding?',
             type: 'bedankt',
-            if: {
+            ifAllOf: {
               subcategory: 'Overlast op het water - snel varen'
             },
             value: [
@@ -337,7 +337,7 @@ export default {
             cols: 6,
             label: 'Wat doen we met uw melding?',
             type: 'bedankt',
-            if: {
+            ifAllOf: {
               subcategory: 'Overlast op het water - geluid'
             },
             value: [
@@ -352,7 +352,7 @@ export default {
             cols: 6,
             label: 'Wat doen we met uw melding?',
             type: 'bedankt',
-            if: {
+            ifAllOf: {
               subcategory: 'Overlast op het water - Gezonken boot'
             },
             value: [
@@ -368,7 +368,7 @@ export default {
             cols: 6,
             label: 'Wat doen we met uw melding?',
             type: 'bedankt',
-            if: {
+            ifAllOf: {
               subcategory: 'Scheepvaart nautisch toezicht'
             },
             value: [

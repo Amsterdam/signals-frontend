@@ -4,7 +4,9 @@ exports[`<MainMenu /> should render correctly 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <MainMenu />,
+  Symbol(enzyme.__unrendered__): <MainMenu
+    isAuthenticated={false}
+/>,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -56,22 +58,7 @@ ShallowWrapper {
                                         </span>
                                 </NavLink>
                         </li>
-                        <li>
-                                <NavLink
-                                        activeClassName="active"
-                                        to="/admin/incidents"
-                                >
-                                        <span
-                                                className="linklabel"
-                                        >
-                                                <FormattedMessage
-                                                        defaultMessage="Admin"
-                                                        id="boilerplate.components.Header.admin"
-                                                        values={Object {}}
-                                                />
-                                        </span>
-                                </NavLink>
-                        </li>
+                        
                 </ul>
         </nav>
 </div>,
@@ -119,22 +106,7 @@ ShallowWrapper {
                                         </span>
                               </NavLink>
                     </li>
-                    <li>
-                              <NavLink
-                                        activeClassName="active"
-                                        to="/admin/incidents"
-                              >
-                                        <span
-                                                  className="linklabel"
-                                        >
-                                                  <FormattedMessage
-                                                            defaultMessage="Admin"
-                                                            id="boilerplate.components.Header.admin"
-                                                            values={Object {}}
-                                                  />
-                                        </span>
-                              </NavLink>
-                    </li>
+                    
           </ul>
 </nav>,
         "className": "container type-nav-primair",
@@ -180,22 +152,7 @@ ShallowWrapper {
                                     </span>
                         </NavLink>
             </li>
-            <li>
-                        <NavLink
-                                    activeClassName="active"
-                                    to="/admin/incidents"
-                        >
-                                    <span
-                                                className="linklabel"
-                                    >
-                                                <FormattedMessage
-                                                            defaultMessage="Admin"
-                                                            id="boilerplate.components.Header.admin"
-                                                            values={Object {}}
-                                                />
-                                    </span>
-                        </NavLink>
-            </li>
+            
 </ul>,
         },
         "ref": null,
@@ -237,22 +194,7 @@ ShallowWrapper {
                                 </span>
                 </NavLink>
 </li>,
-              <li>
-                <NavLink
-                                activeClassName="active"
-                                to="/admin/incidents"
-                >
-                                <span
-                                                className="linklabel"
-                                >
-                                                <FormattedMessage
-                                                                defaultMessage="Admin"
-                                                                id="boilerplate.components.Header.admin"
-                                                                values={Object {}}
-                                                />
-                                </span>
-                </NavLink>
-</li>,
+              "",
             ],
             "className": "links horizontal",
           },
@@ -400,77 +342,7 @@ ShallowWrapper {
               },
               "type": "li",
             },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": <NavLink
-                  activeClassName="active"
-                  to="/admin/incidents"
->
-                  <span
-                                    className="linklabel"
-                  >
-                                    <FormattedMessage
-                                                      defaultMessage="Admin"
-                                                      id="boilerplate.components.Header.admin"
-                                                      values={Object {}}
-                                    />
-                  </span>
-</NavLink>,
-              },
-              "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "function",
-                "props": Object {
-                  "activeClassName": "active",
-                  "children": <span
-                    className="linklabel"
->
-                    <FormattedMessage
-                                        defaultMessage="Admin"
-                                        id="boilerplate.components.Header.admin"
-                                        values={Object {}}
-                    />
-</span>,
-                  "to": "/admin/incidents",
-                },
-                "ref": null,
-                "rendered": Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": <FormattedMessage
-                      defaultMessage="Admin"
-                      id="boilerplate.components.Header.admin"
-                      values={Object {}}
-/>,
-                    "className": "linklabel",
-                  },
-                  "ref": null,
-                  "rendered": Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "class",
-                    "props": Object {
-                      "defaultMessage": "Admin",
-                      "id": "boilerplate.components.Header.admin",
-                      "values": Object {},
-                    },
-                    "ref": null,
-                    "rendered": null,
-                    "type": [Function],
-                  },
-                  "type": "span",
-                },
-                "type": [Function],
-              },
-              "type": "li",
-            },
+            "",
           ],
           "type": "ul",
         },
@@ -525,22 +397,7 @@ ShallowWrapper {
                                                   </span>
                                         </NavLink>
                               </li>
-                              <li>
-                                        <NavLink
-                                                  activeClassName="active"
-                                                  to="/admin/incidents"
-                                        >
-                                                  <span
-                                                            className="linklabel"
-                                                  >
-                                                            <FormattedMessage
-                                                                      defaultMessage="Admin"
-                                                                      id="boilerplate.components.Header.admin"
-                                                                      values={Object {}}
-                                                            />
-                                                  </span>
-                                        </NavLink>
-                              </li>
+                              
                     </ul>
           </nav>
 </div>,
@@ -588,22 +445,7 @@ ShallowWrapper {
                                                 </span>
                                     </NavLink>
                         </li>
-                        <li>
-                                    <NavLink
-                                                activeClassName="active"
-                                                to="/admin/incidents"
-                                    >
-                                                <span
-                                                            className="linklabel"
-                                                >
-                                                            <FormattedMessage
-                                                                        defaultMessage="Admin"
-                                                                        id="boilerplate.components.Header.admin"
-                                                                        values={Object {}}
-                                                            />
-                                                </span>
-                                    </NavLink>
-                        </li>
+                        
             </ul>
 </nav>,
           "className": "container type-nav-primair",
@@ -649,22 +491,7 @@ ShallowWrapper {
                                           </span>
                             </NavLink>
               </li>
-              <li>
-                            <NavLink
-                                          activeClassName="active"
-                                          to="/admin/incidents"
-                            >
-                                          <span
-                                                        className="linklabel"
-                                          >
-                                                        <FormattedMessage
-                                                                      defaultMessage="Admin"
-                                                                      id="boilerplate.components.Header.admin"
-                                                                      values={Object {}}
-                                                        />
-                                          </span>
-                            </NavLink>
-              </li>
+              
 </ul>,
           },
           "ref": null,
@@ -706,22 +533,7 @@ ShallowWrapper {
                                     </span>
                   </NavLink>
 </li>,
-                <li>
-                  <NavLink
-                                    activeClassName="active"
-                                    to="/admin/incidents"
-                  >
-                                    <span
-                                                      className="linklabel"
-                                    >
-                                                      <FormattedMessage
-                                                                        defaultMessage="Admin"
-                                                                        id="boilerplate.components.Header.admin"
-                                                                        values={Object {}}
-                                                      />
-                                    </span>
-                  </NavLink>
-</li>,
+                "",
               ],
               "className": "links horizontal",
             },
@@ -869,77 +681,7 @@ ShallowWrapper {
                 },
                 "type": "li",
               },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": <NavLink
-                    activeClassName="active"
-                    to="/admin/incidents"
->
-                    <span
-                                        className="linklabel"
-                    >
-                                        <FormattedMessage
-                                                            defaultMessage="Admin"
-                                                            id="boilerplate.components.Header.admin"
-                                                            values={Object {}}
-                                        />
-                    </span>
-</NavLink>,
-                },
-                "ref": null,
-                "rendered": Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "function",
-                  "props": Object {
-                    "activeClassName": "active",
-                    "children": <span
-                      className="linklabel"
->
-                      <FormattedMessage
-                                            defaultMessage="Admin"
-                                            id="boilerplate.components.Header.admin"
-                                            values={Object {}}
-                      />
-</span>,
-                    "to": "/admin/incidents",
-                  },
-                  "ref": null,
-                  "rendered": Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "host",
-                    "props": Object {
-                      "children": <FormattedMessage
-                        defaultMessage="Admin"
-                        id="boilerplate.components.Header.admin"
-                        values={Object {}}
-/>,
-                      "className": "linklabel",
-                    },
-                    "ref": null,
-                    "rendered": Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "class",
-                      "props": Object {
-                        "defaultMessage": "Admin",
-                        "id": "boilerplate.components.Header.admin",
-                        "values": Object {},
-                      },
-                      "ref": null,
-                      "rendered": null,
-                      "type": [Function],
-                    },
-                    "type": "span",
-                  },
-                  "type": [Function],
-                },
-                "type": "li",
-              },
+              "",
             ],
             "type": "ul",
           },

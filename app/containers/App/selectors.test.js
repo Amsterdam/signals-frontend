@@ -2,12 +2,11 @@ import { fromJS } from 'immutable';
 
 import {
   selectGlobal,
-  makeSelectCurrentUser,
+  makeSelectUserName,
+  makeSelectAccessToken,
   makeSelectLoading,
   makeSelectError,
-  makeSelectRepos,
   makeSelectLocation,
-  makeSelectAccessToken,
 } from './selectors';
 
 describe('selectGlobal', () => {
@@ -20,16 +19,16 @@ describe('selectGlobal', () => {
   });
 });
 
-describe('makeSelectCurrentUser', () => {
-  const currentUserSelector = makeSelectCurrentUser();
+describe('makeSelectUserName', () => {
+  const userNameSelector = makeSelectUserName();
   it('should select the current user', () => {
-    const username = 'mxstbr';
+    const username = 'loggedInUser';
     const mockedState = fromJS({
       global: {
-        currentUser: username,
+        userName: username,
       },
     });
-    expect(currentUserSelector(mockedState)).toEqual(username);
+    expect(userNameSelector(mockedState)).toEqual(username);
   });
 });
 
@@ -69,21 +68,6 @@ describe('makeSelectError', () => {
       },
     });
     expect(errorSelector(mockedState)).toEqual(error);
-  });
-});
-
-describe('makeSelectRepos', () => {
-  const reposSelector = makeSelectRepos();
-  it('should select the repos', () => {
-    const repositories = fromJS([]);
-    const mockedState = fromJS({
-      global: {
-        userData: {
-          repositories,
-        },
-      },
-    });
-    expect(reposSelector(mockedState)).toEqual(repositories);
   });
 });
 

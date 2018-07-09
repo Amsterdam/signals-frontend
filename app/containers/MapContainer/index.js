@@ -12,7 +12,7 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import Map from 'components/Map';
+import AMaps from 'components/AMaps';
 import { getGeoName } from './actions';
 import makeSelectMapContainer from './selectors';
 import reducer from './reducer';
@@ -39,7 +39,7 @@ export class MapContainer extends React.Component { // eslint-disable-line react
 
   render() {
     return (
-      <Map getGeo={this.getGeo} isLoading={this.props.mapcontainer.isLoading} {...this.props} />
+      <AMaps getGeo={this.getGeo} isLoading={this.props.mapcontainer.isLoading} {...this.props} />
     );
   }
 }
@@ -57,11 +57,11 @@ MapContainer.propTypes = {
   onLocationChange: PropTypes.func,
 };
 
-const mapStateToProps = createStructuredSelector({
+export const mapStateToProps = createStructuredSelector({
   mapcontainer: makeSelectMapContainer(),
 });
 
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
   return {
     getGeoName: (latlng) => dispatch(getGeoName(latlng)),
   };

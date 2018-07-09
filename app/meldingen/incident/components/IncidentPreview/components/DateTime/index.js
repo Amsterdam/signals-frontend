@@ -3,17 +3,16 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 function getValue(value, incident) {
-  if (value === 'now') {
+  if (value === 'Nu') {
     return 'Nu';
   }
 
   const time = moment(`${incident.incident_time_hours}:${incident.incident_time_minutes}`, 'H:m').format('H:mm');
-
-  if (value === 'Vandaag') {
+  if (incident.incident_date === 'Vandaag') {
     return `Vandaag, ${time}`;
   }
 
-  return `${moment(value).format('dddd D MMMM')}, ${time}`;
+  return `${moment(incident.incident_date).format('dddd D MMMM')}, ${time}`;
 }
 
 const DateTime = ({ label, value, optional, incident }) => (
