@@ -5,7 +5,7 @@ import {
   from './constants';
 import subcategoryList from '../../definitions/subcategoryList';
 
-const initialState = fromJS({
+export const initialState = fromJS({
   subcategoryList
 });
 

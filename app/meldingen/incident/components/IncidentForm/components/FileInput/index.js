@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
-// import Icon from '../../../../../../shared/images/icon-plus.svg';
-
 import './style.scss';
 
 const FileInput = ({ handler, touched, hasError, parent, meta }) => {

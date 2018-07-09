@@ -11,7 +11,7 @@ import messages from './messages';
 import './style.scss';
 import { makeSelectIsAuthenticated } from '../../containers/App/selectors';
 
-class MainMenu extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class MainMenu extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
       <div className="row main-menu-component">

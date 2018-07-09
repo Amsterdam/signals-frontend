@@ -18,7 +18,7 @@ import { testActionCreator } from '../../../../../internals/testing/test-utils';
 
 describe('OverviewPage actions', () => {
   it('should be created', () => {
-    const payload = { prop: {} };
+    const payload = { filter: {}, page: {} };
     testActionCreator(requestIncidents, REQUEST_INCIDENTS, payload);
     testActionCreator(requestIncidentsSuccess, REQUEST_INCIDENTS_SUCCESS, payload);
     testActionCreator(requestIncidentsError, REQUEST_INCIDENTS_ERROR, payload);

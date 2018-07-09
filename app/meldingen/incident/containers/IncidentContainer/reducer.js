@@ -15,7 +15,7 @@ import {
   GET_CLASSIFICATION_ERROR
 } from './constants';
 
-const initialState = fromJS({
+export const initialState = fromJS({
   incident: {
     incident_time_hours: 9,
     incident_time_minutes: 0

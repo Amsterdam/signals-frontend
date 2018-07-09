@@ -14,7 +14,7 @@ import {
 import { REQUEST_CATEGORY_UPDATE_SUCCESS } from '../IncidentCategoryContainer/constants';
 import { REQUEST_STATUS_CREATE_SUCCESS } from '../IncidentStatusContainer/constants';
 
-const initialState = fromJS({ id: null });
+export const initialState = fromJS({ id: null });
 
 function incidentDetailPageReducer(state = initialState, action) {
   switch (action.type) {

@@ -29,7 +29,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
   }
 
   onPageChanged(page) {
-    this.props.onRequestIncidents(null, page);
+    this.props.onRequestIncidents({ filter: null, page });
   }
 
   render() {
