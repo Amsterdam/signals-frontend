@@ -66,12 +66,12 @@ module.exports = {
 
     const actions = [{
       type: 'add',
-      path: '../../app/containers/{{properCase name}}/index.js',
+      path: '../../src/containers/{{properCase name}}/index.js',
       templateFile: componentTemplate,
       abortOnFail: true,
     }, {
       type: 'add',
-      path: '../../app/containers/{{properCase name}}/index.test.js',
+      path: '../../src/containers/{{properCase name}}/index.test.js',
       templateFile: './ams-container/test.js.hbs',
       abortOnFail: true,
     }];
@@ -80,7 +80,7 @@ module.exports = {
     if (data.wantMessages) {
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/messages.js',
+        path: '../../src/containers/{{properCase name}}/messages.js',
         templateFile: './ams-container/messages.js.hbs',
         abortOnFail: true,
       });
@@ -92,13 +92,13 @@ module.exports = {
       // Actions
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/actions.js',
+        path: '../../src/containers/{{properCase name}}/actions.js',
         templateFile: './ams-container/actions.js.hbs',
         abortOnFail: true,
       });
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/actions.test.js',
+        path: '../../src/containers/{{properCase name}}/actions.test.js',
         templateFile: './ams-container/actions.test.js.hbs',
         abortOnFail: true,
       });
@@ -106,7 +106,7 @@ module.exports = {
       // Constants
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/constants.js',
+        path: '../../src/containers/{{properCase name}}/constants.js',
         templateFile: './ams-container/constants.js.hbs',
         abortOnFail: true,
       });
@@ -114,13 +114,13 @@ module.exports = {
       // Selectors
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/selectors.js',
+        path: '../../src/containers/{{properCase name}}/selectors.js',
         templateFile: './ams-container/selectors.js.hbs',
         abortOnFail: true,
       });
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/selectors.test.js',
+        path: '../../src/containers/{{properCase name}}/selectors.test.js',
         templateFile: './ams-container/selectors.test.js.hbs',
         abortOnFail: true,
       });
@@ -128,13 +128,13 @@ module.exports = {
       // Reducer
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/reducer.js',
+        path: '../../src/containers/{{properCase name}}/reducer.js',
         templateFile: './ams-container/reducer.js.hbs',
         abortOnFail: true,
       });
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/reducer.test.js',
+        path: '../../src/containers/{{properCase name}}/reducer.test.js',
         templateFile: './ams-container/reducer.test.js.hbs',
         abortOnFail: true,
       });
@@ -144,13 +144,13 @@ module.exports = {
     if (data.wantSaga) {
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/saga.js',
+        path: '../../src/containers/{{properCase name}}/saga.js',
         templateFile: './ams-container/saga.js.hbs',
         abortOnFail: true,
       });
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/saga.test.js',
+        path: '../../src/containers/{{properCase name}}/saga.test.js',
         templateFile: './ams-container/saga.test.js.hbs',
         abortOnFail: true,
       });
@@ -159,7 +159,7 @@ module.exports = {
     if (data.wantLoadable) {
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/Loadable.js',
+        path: '../../src/containers/{{properCase name}}/Loadable.js',
         templateFile: './ams-container/loadable.js.hbs',
         abortOnFail: true,
       });
@@ -168,7 +168,7 @@ module.exports = {
     // Style
     actions.push({
       type: 'add',
-      path: '../../app/containers/{{properCase name}}/style.scss',
+      path: '../../src/containers/{{properCase name}}/style.scss',
       templateFile: './ams-container/style.scss.hbs',
       abortOnFail: true,
     });

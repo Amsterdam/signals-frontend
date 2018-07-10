@@ -14,13 +14,13 @@ const pkg = require('../../package.json');
 const presets = pkg.babel.presets;
 const plugins = pkg.babel.plugins || [];
 
-const i18n = require('../../app/i18n');
-import { DEFAULT_LOCALE } from '../../app/containers/App/constants';
+const i18n = require('../../src/i18n');
+import { DEFAULT_LOCALE } from '../../src/containers/src/constants';
 
 require('shelljs/global');
 
 // Glob to match all js files except test files
-const FILES_TO_PARSE = 'app/**/!(*.test).js';
+const FILES_TO_PARSE = 'src/**/!(*.test).js';
 const locales = i18n.appLocales;
 
 const newLine = () => process.stdout.write('\n');
@@ -61,7 +61,7 @@ for (const locale of locales) {
   oldLocaleMappings[locale] = {};
   localeMappings[locale] = {};
   // File to store translation messages into
-  const translationFileName = `app/translations/${locale}.json`;
+  const translationFileName = `src/translations/${locale}.json`;
   try {
     // Parse the old translation message JSON files
     const messages = JSON.parse(fs.readFileSync(translationFileName));
@@ -126,9 +126,9 @@ const extractFromFile = async (fileName) => {
   extractTaskDone()
 
   // Make the directory if it doesn't exist, especially for first run
-  mkdir('-p', 'app/translations');
+  mkdir('-p', 'src/translations');
   for (const locale of locales) {
-    const translationFileName = `app/translations/${locale}.json`;
+    const translationFileName = `src/translations/${locale}.json`;
 
     try {
       const localeTaskDone = task(
