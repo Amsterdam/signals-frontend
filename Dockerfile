@@ -15,7 +15,7 @@ RUN rm -rf /var/lib/apt/lists/*
 # Copy sources
 # COPY . /app/
 
-COPY app /app/app
+COPY src /app/src
 COPY internals /app/internals
 COPY server /app/server
 # COPY test /app/test
