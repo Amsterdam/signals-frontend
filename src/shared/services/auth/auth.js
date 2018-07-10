@@ -36,25 +36,23 @@ const scopes = [
   'SIG/ALL'
 ];
 
-const domain = [
+const domainList = [
   'datapunt',
   'grip'
 ];
 
-function getDomain() {
+function getDomain(domain) {
   // TODO
   // Add business logic for the GRIP or datapunt indentity provider (for instance by mapping the domain from the url)
   // ex: parse https://waternet.data.amsterdam.nl, if(waternet) return grip
   // default value is datapunt
-  return domain[0];
+  return domain || domainList[0];
 }
-
-const currentDomain = getDomain();
 
 const encodedScopes = encodeURIComponent(scopes.join(' '));
 // The URI we need to redirect to for communication with the OAuth2
 // authorization service
-export const AUTH_PATH = `oauth2/authorize?idp_id=${currentDomain}&response_type=token&client_id=sia&scope=${encodedScopes}`;
+export const AUTH_PATH = (domain) => `oauth2/authorize?idp_id=${getDomain(domain)}&response_type=token&client_id=sia&scope=${encodedScopes}`;
 
 // The keys of values we need to store in the session storage
 //
@@ -177,7 +175,7 @@ function restoreAccessToken() {
 /**
  * Redirects to the OAuth2 authorization service.
  */
-export function login() {
+export function login(domain) {
   // Get the URI the OAuth2 authorization service needs to use as callback
   // const callback = encodeURIComponent(`${location.protocol}//${location.host}${location.pathname}`);
   // Get a random string to prevent CSRF
@@ -192,8 +190,8 @@ export function login() {
   sessionStorage.setItem(RETURN_PATH, location.hash);
   sessionStorage.setItem(STATE_TOKEN, stateToken);
 
-  const redirectUri = encodeURIComponent(`${location.protocol}//${location.host}/admin/incidents`);
-  location.assign(`${API_ROOT}${AUTH_PATH}&state=${encodedStateToken}&redirect_uri=${redirectUri}`);
+  const redirectUri = encodeURIComponent(`${location.protocol}//${location.host}/manage/incidents`);
+  location.assign(`${API_ROOT}${AUTH_PATH(domain)}&state=${encodedStateToken}&redirect_uri=${redirectUri}`);
 }
 
 export function logout() {
