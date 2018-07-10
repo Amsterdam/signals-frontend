@@ -17,7 +17,12 @@ import './style.scss';
 import { login, logout, isAuthenticated } from '../../shared/services/auth/auth';
 
 export class HeaderContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  static onLoginLogoutButtonClick(event) {
+  constructor(props) {
+    super(props);
+    this.onLoginLogoutButtonClick = this.onLoginLogoutButtonClick.bind(this);
+  }
+
+  onLoginLogoutButtonClick(event) {
     event.persist();
     event.preventDefault();
     event.stopPropagation();
@@ -32,7 +37,7 @@ export class HeaderContainer extends React.Component { // eslint-disable-line re
     return (
       <Header
         isAuthenticated={isAuthenticated()}
-        onLoginLogoutButtonClick={HeaderContainer.onLoginLogoutButtonClick}
+        onLoginLogoutButtonClick={this.onLoginLogoutButtonClick}
         userName={this.props.userName}
       />
     );
@@ -40,24 +45,15 @@ export class HeaderContainer extends React.Component { // eslint-disable-line re
 }
 
 HeaderContainer.propTypes = {
-  dispatch: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
   userName: PropTypes.string
 };
-
-
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
 
 const mapStateToProps = createStructuredSelector({
   userName: makeSelectUserName()
 });
 
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(mapStateToProps);
 
 export default compose(
   withConnect,

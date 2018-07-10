@@ -1,10 +1,18 @@
 import React from 'react';
+// import { Provider } from 'react-redux';
+// import { browserHistory } from 'react-router-dom';
 import { shallow } from 'enzyme';
 
 import { MainMenu } from './index';
 
 describe('<MainMenu />', () => {
   const createComponent = (isAuthenticated = false) => {
+    // const store = configureStore({}, browserHistory);
+    // const renderedComponent = shallow(
+    //   <Provider store={store}>
+    //     <MainMenu isAuthenticated={isAuthenticated} />
+    //   </Provider>
+    // ).dive();
     const renderedComponent = shallow(<MainMenu isAuthenticated={isAuthenticated} />);
     return renderedComponent;
   };

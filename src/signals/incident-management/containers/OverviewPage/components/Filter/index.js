@@ -15,7 +15,7 @@ class Filter extends React.Component {
   }
 
   onFilter = (filter) => {
-    this.props.filterIncidents(filter);
+    this.props.filterIncidents({ filter });
   }
 
   filterForm = FormBuilder.group({

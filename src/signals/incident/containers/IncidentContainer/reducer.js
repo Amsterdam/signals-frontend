@@ -15,7 +15,7 @@ import {
   GET_CLASSIFICATION_ERROR
 } from './constants';
 
-const initialState = fromJS({
+export const initialState = fromJS({
   incident: {
     // location: {
     //   lat: 52.36227330330391,

@@ -1,10 +1,9 @@
 
 import { fromJS } from 'immutable';
-import subcategoryList from '../../definitions/subcategoryList';
-import indcidentEditContainerReducer from './reducer';
+import indcidentEditContainerReducer, { initialState } from './reducer';
 
 describe('indcidentEditContainerReducer', () => {
   it('returns the initial state', () => {
-    expect(indcidentEditContainerReducer(undefined, {})).toEqual(fromJS({ subcategoryList }));
+    expect(indcidentEditContainerReducer(undefined, {})).toEqual(fromJS(initialState));
   });
 });
