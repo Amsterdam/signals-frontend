@@ -17,7 +17,6 @@ function incidentStatusContainerReducer(state = initialState, action) {
         .set('error', false);
     case REQUEST_CATEGORY_UPDATE_SUCCESS:
       return state
-        // .set('incident', fromJS({ ...state.get('incident'), category: action.payload }))
         .set('loading', false);
 
     case REQUEST_CATEGORY_UPDATE_ERROR:

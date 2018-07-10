@@ -34,10 +34,10 @@ function incidentDetailPageReducer(state = initialState, action) {
 
     case REQUEST_CATEGORY_UPDATE_SUCCESS:
       return state
-        .set('incident', fromJS({ ...state.get('incident'), category: action.payload }));
+        .set('incident', { ...state.get('incident'), category: action.payload });
     case REQUEST_STATUS_CREATE_SUCCESS:
       return state
-        .set('incident', fromJS({ ...state.get('incident'), status: action.payload }));
+        .set('incident', { ...state.get('incident'), status: action.payload });
 
     default:
       return state;
