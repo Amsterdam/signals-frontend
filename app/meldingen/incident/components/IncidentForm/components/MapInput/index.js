@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
-import MapContainer from 'containers/MapContainer';
+import Map from 'components/Map';
 
 import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
@@ -38,7 +38,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent }) => {
           <Title meta={meta} />
 
           <div className={`col-${meta.cols || 12} invoer`}>
-            <MapContainer onLocationChange={onMapAction} location={address} latlng={latlng} />
+            <Map onLocationChange={onMapAction} location={address} latlng={latlng} />
           </div>
 
           <div className="col-12">
