@@ -5,10 +5,10 @@ const mapControlsToParams = (incident, wizard) => {
   const time = `${incident.incident_time_hours}:${incident.incident_time_minutes}`;
   let date;
 
-  if (incident.incident_date === 'Nu') {
+  if (incident.datetime === 'Nu') {
     date = moment();
   } else {
-    date = moment(`${incident.incident_date === 'Vandaag' ? moment().format('YYYY-MM-DD') : incident.incident_date} ${time}`);
+    date = moment(`${incident.datetime === 'Vandaag' ? moment().format('YYYY-MM-DD') : incident.incident_date} ${time}`);
   }
 
   const params = {
