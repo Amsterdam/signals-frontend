@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
-import MapContainer from 'containers/MapContainer';
+import MapContainer from '../../../../../../containers/MapContainer';
 
 import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
