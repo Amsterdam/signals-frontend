@@ -10,7 +10,7 @@ import {
 }
   from './constants';
 
-export function requestIncidents(filter, page) {
+export function requestIncidents({ filter, page }) {
   return {
     type: REQUEST_INCIDENTS,
     payload: { filter, page }

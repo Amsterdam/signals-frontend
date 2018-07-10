@@ -15,7 +15,7 @@ import { fromJS } from 'immutable';
 import { AUTHENTICATE_USER, SHOW_GLOBAL_ERROR } from './constants';
 
 // The initial state of the App
-const initialState = fromJS({
+export const initialState = fromJS({
   loading: false,
   error: false,
 });

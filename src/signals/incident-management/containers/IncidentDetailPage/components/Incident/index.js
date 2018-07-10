@@ -8,23 +8,27 @@ class Incident extends React.Component { // eslint-disable-line react/prefer-sta
   render() {
     const { incident } = this.props;
     return (
-      <div className="incident">
-        <dl className="horizontal">
-          <dt>Datum</dt><dd>{string2date(incident.created_at)}</dd>
-          <dt>Tijd</dt><dd>{string2time(incident.created_at)}</dd>
-          <dt>Datum overlast</dt><dd>{string2date(incident.incident_date_start)}</dd>
-          <dt>Tijd overlast</dt><dd>{string2time(incident.incident_date_start)}</dd>
-          <dt>Rubriek</dt><dd>{incident.category.sub}&nbsp;</dd>
-          <dt>Onschrijving</dt><dd>{incident.text}&nbsp;</dd>
-          <dt>Aanvullende kenmerken</dt><dd>{incident.text_extra}&nbsp;</dd>
-          <dt>Naam boot (?)</dt><dd>Specifiek!????&nbsp;</dd>
-          <dt>Stadsdeel</dt><dd>{incident.location.stadsdeel}</dd>
-          <dt>Adres</dt><dd>{incident.location.address_text}</dd>
-          <dt>Email</dt><dd>{incident.reporter.email}</dd>
-          <dt>Telefoonnummer</dt><dd>{incident.reporter.phone}</dd>
-          <dt>Bron</dt><dd>{incident.source}</dd>
-          <dt>Verantwoordelijke afdeling</dt><dd>{incident.category.department}&nbsp;</dd>
-        </dl>
+      <div className="incident-detail">
+        <div className="incident-detail__body">
+          <table className="" cellSpacing="0" cellPadding="0">
+            <tbody>
+              <tr><td>Datum</td><td>{string2date(incident.created_at)}</td></tr>
+              <tr><td>Tijd</td><td>{string2time(incident.created_at)}</td></tr>
+              <tr><td>Datum overlast</td><td>{string2date(incident.incident_date_start)}</td></tr>
+              <tr><td>Tijd overlast</td><td>{string2time(incident.incident_date_start)}</td></tr>
+              <tr><td>Rubriek</td><td>{incident.category.sub}&nbsp;</td></tr>
+              <tr><td>Onschrijving</td><td>{incident.text}&nbsp;</td></tr>
+              <tr><td>Aanvullende kenmerken</td><td>{incident.text_extra}&nbsp;</td></tr>
+              <tr><td>Naam boot (?)</td><td>Specifiek!????&nbsp;</td></tr>
+              <tr><td>Stadsdeel</td><td>{incident.location.stadsdeel}</td></tr>
+              <tr><td>Adres</td><td>{incident.location.address_text}</td></tr>
+              <tr><td>Email</td><td>{incident.reporter.email}</td></tr>
+              <tr><td>Telefoonnummer</td><td>{incident.reporter.phone}</td></tr>
+              <tr><td>Bron</td><td>{incident.source}</td></tr>
+              <tr><td>Verantwoordelijke afdeling</td><td>{incident.category.department}&nbsp;</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
