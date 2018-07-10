@@ -1,7 +1,7 @@
 {
-  "name": "react-boilerplate",
-  "version": "3.5.0",
-  "description": "A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices",
+  "name": "sia",
+  "version": "0.0.1",
+  "description": "Signalen Informatievoorziening Amsterdam based on react-boilerplate ",
   "repository": {
     "type": "git",
     "url": "git://github.com/react-boilerplate/react-boilerplate.git"
@@ -73,7 +73,7 @@
     "env": {
       "production": {
         "only": [
-          "app"
+          "src"
         ],
         "plugins": [
           "transform-react-remove-prop-types",
@@ -192,12 +192,12 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "app/**/*.{js,jsx}",
-      "!app/**/*.test.{js,jsx}",
-      "!app/*/RbGenerated*/*.{js,jsx}",
-      "!app/app.js",
-      "!app/global-styles.js",
-      "!app/*/*/Loadable.{js,jsx}"
+      "src/**/*.{js,jsx}",
+      "!src/**/*.test.{js,jsx}",
+      "!src/*/RbGenerated*/*.{js,jsx}",
+      "!src/app.js",
+      "!src/global-styles.js",
+      "!src/*/*/Loadable.{js,jsx}"
     ],
     "coverageThreshold": {
       "global": {
@@ -209,7 +209,7 @@
     },
     "moduleDirectories": [
       "node_modules",
-      "app"
+      "src"
     ],
     "moduleNameMapper": {
       ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/internals/mocks/cssModule.js",

@@ -1,0 +1,15 @@
+.plain-text {
+  margin: 16px 0;
+
+  &__box {
+    &.citation,
+    &.disclaimer, {
+      background-color: #e5e5e5;
+      padding: 20px;
+    }
+
+    &-p {
+      margin-bottom: 16px;
+    }
+  }
+}

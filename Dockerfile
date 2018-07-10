@@ -1,6 +1,6 @@
 
 FROM node:8.9 AS builder
-LABEL maintainer="datapunt.ois@amsterdam.nl"
+LABEL maintainer="datapunt@amsterdam.nl"
 
 ARG BUILD_ENV=prod
 WORKDIR /app
@@ -15,7 +15,7 @@ RUN rm -rf /var/lib/apt/lists/*
 # Copy sources
 # COPY . /app/
 
-COPY app /app/app
+COPY src /app/src
 COPY internals /app/internals
 COPY server /app/server
 # COPY test /app/test
