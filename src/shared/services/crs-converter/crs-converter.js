@@ -37,7 +37,7 @@ const config = {
  */
 export function wgs84ToRd(wgs84Coordinates) {
   const rdCoordinates = proj4(config.rd.projection,
-    [wgs84Coordinates.x, wgs84Coordinates.y]);
+    [wgs84Coordinates.longitude, wgs84Coordinates.latitude]);
   return {
     x: rdCoordinates[0],
     y: rdCoordinates[1]
