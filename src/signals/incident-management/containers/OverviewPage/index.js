@@ -43,7 +43,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
           <div className="col-8">
             {loading ? (<LoadingIndicator />) : (
               <div>
-                <ListComponent incidentSelected={this.props.onIncidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} incidentsCount={incidentsCount} />
+                <ListComponent incidentSelected={this.props.onIncidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} incidentsCount={incidentsCount} {...rest} />
                 <Pager incidentsCount={incidentsCount} page={page} onPageChanged={this.onPageChanged} />
               </div>)
             }

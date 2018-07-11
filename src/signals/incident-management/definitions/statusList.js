@@ -9,3 +9,4 @@ const statusList = [
 ];
 
 export default statusList;
+
