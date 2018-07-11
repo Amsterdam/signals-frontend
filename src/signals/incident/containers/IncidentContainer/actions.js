@@ -71,11 +71,12 @@ export function getClassificationError(message) {
   };
 }
 
-export function uploadRequest(file) {
-  console.log('uploadRequest', file);
+export function uploadRequest(file, id) {
+  console.log('uploadRequest', file, id);
   return {
     type: UPLOAD_REQUEST,
     payload: file,
+    meta: { id }
   };
 }
 

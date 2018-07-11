@@ -12,21 +12,29 @@ function createFileUploadChannel(endpoint, file, id) {
 
     const xhr = new window.XMLHttpRequest();
 
-    xhr.upload.onprogress = (e) => {
-      console.log('progress', e);
-      const progress = e.loaded / e.total;
-      emitter({ progress });
+    const onProgress = (e) => {
+      if (e.lengthComputable) {
+        const progress = e.loaded / e.total;
+        emitter({ progress });
+      }
     };
+
+    const onFailure = () => {
+      emitter({ err: new Error('Upload failed') });
+      emitter(END);
+    };
+
+    xhr.upload.addEventListener('progress', onProgress);
+    xhr.upload.addEventListener('error', onFailure);
+    xhr.upload.addEventListener('abort', onFailure);
 
     xhr.onload = () => {
       // upload success
       if (xhr.readyState === 4 && xhr.status === 202 && xhr.statusText === 'Accepted') {
-        console.log('success!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
         emitter({ success: true });
         emitter(END);
       } else {
-        emitter({ err: new Error('Upload failed') });
-        emitter(END);
+        onFailure();
       }
     };
 
@@ -34,11 +42,11 @@ function createFileUploadChannel(endpoint, file, id) {
     xhr.send(formData);
 
     return () => {
-      // xhr.upload.removeEventListener('progress', onProgress);
-      // xhr.upload.removeEventListener('error', onFailure);
-      // xhr.upload.removeEventListener('abort', onFailure);
-      // xhr.onreadystatechange = null;
-      // xhr.abort();
+      xhr.upload.removeEventListener('progress', onProgress);
+      xhr.upload.removeEventListener('error', onFailure);
+      xhr.upload.removeEventListener('abort', onFailure);
+      xhr.onload = null;
+      xhr.abort();
     };
   }, buffers.sliding(2));
 }

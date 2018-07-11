@@ -1,16 +1,17 @@
-import { call, put, take, /* select, */ takeLatest } from 'redux-saga/effects';
+import { all, call, put, take, /* select, */ takeLatest, takeEvery } from 'redux-saga/effects';
 import request from 'utils/request';
 
 import CONFIGURATION from '../../../../shared/services/configuration/configuration';
-import { CREATE_INCIDENT, GET_CLASSIFICATION } from './constants';
+import { CREATE_INCIDENT, GET_CLASSIFICATION, UPLOAD_REQUEST } from './constants';
 import {
   createIncidentSuccess,
   createIncidentError,
   getClassificationSuccess,
-  getClassificationError
-  // uploadProgress,
-  // uploadSuccess,
-  // uploadFailure
+  getClassificationError,
+  uploadRequest,
+  uploadProgress,
+  uploadSuccess,
+  uploadFailure
 } from './actions';
 import mapControlsToParams from '../../services/map-controls-to-params';
 import createFileUploadChannel from './createFileUploadChannel';
@@ -38,7 +39,6 @@ export function* getClassification({ text }) {
 
 export function* createIncident({ incident, wizard }) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/`;
-  const imageURL = `${CONFIGURATION.API_ROOT}signals/signal/image/`;
 
   try {
     const result = yield call(request, requestURL, {
@@ -50,23 +50,7 @@ export function* createIncident({ incident, wizard }) {
     });
 
     if (incident.image) {
-      console.log('UPLOAD incident.image_file', result.id, incident.image_file);
-
-      const channel = yield call(createFileUploadChannel, imageURL, incident.image_file, result.id);
-      //
-      const { progress = 0, err, success, ...rest } = yield take(channel);
-      // if (err) {
-        // yield put(uploadFailure(incident.image_file, err));
-        // return;
-      // }
-      // if (success) {
-        // yield put(uploadSuccess(incident.image_file));
-          // return;
-      // }
-      // yield put(uploadProgress(incident.image_file, progress));
-      //
-
-      console.log('UPLOAD FINISHED', progress, err, success, rest);
+      yield put(uploadRequest(incident.image_file, result.id));
     }
     yield put(createIncidentSuccess(result));
   } catch (err) {
@@ -74,10 +58,29 @@ export function* createIncident({ incident, wizard }) {
   }
 }
 
+export function* uploadFile(file, id) {
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/image/`;
+
+  const channel = yield call(createFileUploadChannel, requestURL, file, id);
+  const { progress = 0, err, success } = yield take(channel);
+  if (err) {
+    yield put(uploadFailure(file, err));
+    return;
+  }
+  if (success) {
+    yield put(uploadSuccess(file));
+    return;
+  }
+  yield put(uploadProgress(file, progress));
+}
 // Individual exports for testing
 export default function* watchIncidentContainerSaga() {
-  yield [
-    yield takeLatest(GET_CLASSIFICATION, getClassification),
-    yield takeLatest(CREATE_INCIDENT, createIncident)
-  ];
+  yield all([
+    takeLatest(GET_CLASSIFICATION, getClassification),
+    takeLatest(CREATE_INCIDENT, createIncident),
+    takeEvery(UPLOAD_REQUEST, function* upload(action) {
+      const file = action.payload;
+      yield call(uploadFile, file, action.meta.id);
+    })
+  ]);
 }
