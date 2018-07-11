@@ -1,6 +1,10 @@
-import queryStringParser from '../query-string-parser/query-string-parser';
-import stateTokenGenerator from '../state-token-generator/state-token-generator';
-import accessTokenParser from '../access-token-parser/access-token-parser';
+/**
+ * @jest-environment jsdom
+ */
+
+import queryStringParser from './services/query-string-parser/query-string-parser';
+import stateTokenGenerator from './services/state-token-generator/state-token-generator';
+import accessTokenParser from './services/access-token-parser/access-token-parser';
 
 // A map of the error keys, that the OAuth2 authorization service can
 // return, to a full description
