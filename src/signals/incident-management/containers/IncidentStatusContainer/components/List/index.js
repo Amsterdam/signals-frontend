@@ -10,9 +10,9 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
   render() {
     const { incidentStatusList, statusList } = this.props;
     return (
-      <div className="list-component">
-        <div className="list-component__body">
-          <table className="" cellSpacing="0" cellPadding="0">
+      <div className="incident-status-container-list">
+        <div className="incident-status-container-list__body">
+          <table className="incident-status-container-list__body-list" cellSpacing="0" cellPadding="0">
             <thead>
               <tr>
                 <th className="">Datum</th>

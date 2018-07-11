@@ -17,7 +17,7 @@ TextInput.propTypes = {
 export const TextInputRender = (props) => {
   const { name, display } = props;
   const render = ({ handler }) => (<div>
-    <div className="row mode_input text rij_verplicht">
+    <div className="mode_input text rij_verplicht">
       <div className="label">
         <label htmlFor={`form${name}`}>{display}</label>
       </div>

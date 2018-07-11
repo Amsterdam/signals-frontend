@@ -12,10 +12,11 @@ class Tabs extends React.Component { // eslint-disable-line react/prefer-statele
       </li>)
     );
     return (
-      <ul className="tabs">
-        {tabsList}
-      </ul>
-
+      <div className="incident-detail-tabs">
+        <ul className="tabs">
+          {tabsList}
+        </ul>
+      </div>
     );
   }
 }

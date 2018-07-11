@@ -26,10 +26,14 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
     const state = incidentStatusList && incidentStatusList.length && incidentStatusList[incidentStatusList.length - 1].state;
     const canChangeState = !['a', 'o'].some((value) => state === value);
     return (
-      <div className="incident-status-container">
-        <List incidentStatusList={incidentStatusList} statusList={statusList} />
-        {canChangeState ? <Add id={this.props.id} statusList={statusList} onRequestStatusCreate={this.props.onRequestStatusCreate} /> : ''}
-        {error ? <div className="incident-status-container__error" ><FormattedMessage {...messages.errorStateTransition} /></div> : ''}
+      <div className="incident-status-container row">
+        <div className="col-4">
+          {canChangeState ? <Add id={this.props.id} statusList={statusList} onRequestStatusCreate={this.props.onRequestStatusCreate} /> : ''}
+          {error ? <div className="incident-status-container__error" ><FormattedMessage {...messages.errorStateTransition} /></div> : ''}
+        </div>
+        <div className="col-8">
+          <List incidentStatusList={incidentStatusList} statusList={statusList} />
+        </div>
       </div>
     );
   }
