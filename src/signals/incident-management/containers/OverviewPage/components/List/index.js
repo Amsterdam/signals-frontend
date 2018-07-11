@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
@@ -61,4 +60,4 @@ List.propTypes = {
   incidentSelected: PropTypes.func.isRequired,
 };
 
-export default withRouter(List);
+export default List;
