@@ -10,14 +10,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 
-import HomePage from 'containers/HomePage/Loadable';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import HomePage from 'containers/HomePage';
+import NotFoundPage from 'containers/NotFoundPage';
 import Footer from 'components/Footer';
 import MainMenu from 'components/MainMenu';
 import HeaderContainer from 'containers/HeaderContainer';
 
 import IncidentManagementContainer from '../../signals/incident-management';
-import IncidentContainer from '../../signals/incident/containers/IncidentContainer/Loadable';
+import IncidentContainer from '../../signals/incident/containers/IncidentContainer';
 
 export class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
