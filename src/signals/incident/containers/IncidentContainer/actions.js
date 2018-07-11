@@ -6,12 +6,19 @@
 
 import {
   SET_INCIDENT,
+
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
   CREATE_INCIDENT_ERROR,
+
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
-  GET_CLASSIFICATION_ERROR
+  GET_CLASSIFICATION_ERROR,
+
+  UPLOAD_REQUEST,
+  UPLOAD_PROGRESS,
+  UPLOAD_SUCCESS,
+  UPLOAD_FAILURE
 } from './constants';
 
 export function setIncident(incident) {
@@ -61,5 +68,40 @@ export function getClassificationError(message) {
   return {
     type: GET_CLASSIFICATION_ERROR,
     message
+  };
+}
+
+export function uploadRequest(file) {
+  console.log('uploadRequest', file);
+  return {
+    type: UPLOAD_REQUEST,
+    payload: file,
+  };
+}
+
+export function uploadProgress(file, progress) {
+  console.log('uploadProgress', file, progress);
+  return {
+    type: UPLOAD_PROGRESS,
+    payload: progress,
+    meta: { file },
+  };
+}
+
+export function uploadSuccess(file) {
+  console.log('uploadSuccess', file);
+  return {
+    type: UPLOAD_SUCCESS,
+    meta: { file }
+  };
+}
+
+export function uploadFailure(file, err) {
+  console.log('uploadFailure', file, err);
+  return {
+    type: UPLOAD_FAILURE,
+    payload: err,
+    error: true,
+    meta: { file },
   };
 }

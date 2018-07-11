@@ -1,14 +1,19 @@
-import { call, put, /* select, */ takeLatest } from 'redux-saga/effects';
+import { call, put, take, /* select, */ takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
 
+import CONFIGURATION from '../../../../shared/services/configuration/configuration';
 import { CREATE_INCIDENT, GET_CLASSIFICATION } from './constants';
 import {
   createIncidentSuccess,
   createIncidentError,
   getClassificationSuccess,
   getClassificationError
+  // uploadProgress,
+  // uploadSuccess,
+  // uploadFailure
 } from './actions';
 import mapControlsToParams from '../../services/map-controls-to-params';
+import createFileUploadChannel from './createFileUploadChannel';
 
 // import makeSelectIncidentContainer from './selectors';
 
@@ -32,7 +37,8 @@ export function* getClassification({ text }) {
 }
 
 export function* createIncident({ incident, wizard }) {
-  const requestURL = 'https://acc.api.data.amsterdam.nl/signals/signal/';
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/`;
+  const imageURL = `${CONFIGURATION.API_ROOT}signals/signal/image/`;
 
   try {
     const result = yield call(request, requestURL, {
@@ -42,6 +48,26 @@ export function* createIncident({ incident, wizard }) {
         'Content-Type': 'application/json'
       }
     });
+
+    if (incident.image) {
+      console.log('UPLOAD incident.image_file', result.id, incident.image_file);
+
+      const channel = yield call(createFileUploadChannel, imageURL, incident.image_file, result.id);
+      //
+      const { progress = 0, err, success, ...rest } = yield take(channel);
+      // if (err) {
+        // yield put(uploadFailure(incident.image_file, err));
+        // return;
+      // }
+      // if (success) {
+        // yield put(uploadSuccess(incident.image_file));
+          // return;
+      // }
+      // yield put(uploadProgress(incident.image_file, progress));
+      //
+
+      console.log('UPLOAD FINISHED', progress, err, success, rest);
+    }
     yield put(createIncidentSuccess(result));
   } catch (err) {
     yield put(createIncidentError(err));

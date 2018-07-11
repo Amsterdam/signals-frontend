@@ -22,7 +22,7 @@ const FileInput = ({ handler, touched, hasError, parent, meta }) => {
       const reader = new FileReader();
       reader.onload = () => {
         parent.meta.setIncident({
-          image_blob: reader.result
+          image_file: file
         });
       };
 
@@ -37,7 +37,7 @@ const FileInput = ({ handler, touched, hasError, parent, meta }) => {
     URL.revokeObjectURL(url);
     parent.meta.setIncident({
       image: '',
-      image_blob: ''
+      image_file: {}
     });
   };
 

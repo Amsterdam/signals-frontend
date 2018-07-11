@@ -112,7 +112,6 @@ export default {
           meta: {
             label: 'Wilt u een foto meesturen?',
             submitLabel: 'Foto kiezen',
-            // path: 'image',
             watch: true
           },
           render: FormComponents.FileInput
