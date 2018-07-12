@@ -73,14 +73,17 @@ export function* uploadFile(file, id) {
   }
   yield put(uploadProgress(file, progress));
 }
+
+function* uploadFileWrapper(action) {
+  const file = action.payload;
+  yield call(uploadFile, file, action.meta.id);
+}
+
 // Individual exports for testing
 export default function* watchIncidentContainerSaga() {
   yield all([
     takeLatest(GET_CLASSIFICATION, getClassification),
     takeLatest(CREATE_INCIDENT, createIncident),
-    takeEvery(UPLOAD_REQUEST, function* upload(action) {
-      const file = action.payload;
-      yield call(uploadFile, file, action.meta.id);
-    })
+    takeEvery(UPLOAD_REQUEST, uploadFileWrapper)
   ]);
 }
