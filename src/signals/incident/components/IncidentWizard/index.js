@@ -28,7 +28,7 @@ function onNext({ step, steps, push }, incident) {
   }
 }
 
-function IncidentWizard({ getClassification, setIncident, createIncident, incident }) {
+function IncidentWizard({ getClassification, setIncident, createIncident, incident, isAuthenticated }) {
   return (
     <BrowserRouter>
       <div className="incident-wizardDefinition">
@@ -54,6 +54,7 @@ function IncidentWizard({ getClassification, setIncident, createIncident, incide
                         setIncident={setIncident}
                         createIncident={createIncident}
                         wizard={wizardDefinition}
+                        isAuthenticated={isAuthenticated}
                       />
                       : ''}
                   </Step>
@@ -72,7 +73,8 @@ IncidentWizard.propTypes = {
   incident: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
   setIncident: PropTypes.func.isRequired,
-  createIncident: PropTypes.func.isRequired
+  createIncident: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
 };
 
 export default IncidentWizard;
