@@ -21,7 +21,7 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount', this.props);
+    // console.log('componentDidMount', this.props);
     const hasLocation = this.props.latlng.latitude && this.props.latlng.longitude;
     // console.log('hasLocation', hasLocation);
     const options = {
@@ -47,7 +47,7 @@ class Map extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    console.log('componentWillReceiveProps', props.latlng);
+    // console.log('componentWillReceiveProps', props.latlng);
     if (props.latlng.latitude && props.latlng.longitude) {
       const latlng = new window.L.LatLng(props.latlng.latitude, props.latlng.longitude);
       this.map.then((map) => {

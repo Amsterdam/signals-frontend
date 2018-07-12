@@ -72,7 +72,6 @@ export function getClassificationError(message) {
 }
 
 export function uploadRequest(file, id) {
-  console.log('uploadRequest', file, id);
   return {
     type: UPLOAD_REQUEST,
     payload: file,
@@ -81,7 +80,6 @@ export function uploadRequest(file, id) {
 }
 
 export function uploadProgress(file, progress) {
-  console.log('uploadProgress', file, progress);
   return {
     type: UPLOAD_PROGRESS,
     payload: progress,
@@ -90,7 +88,6 @@ export function uploadProgress(file, progress) {
 }
 
 export function uploadSuccess(file) {
-  console.log('uploadSuccess', file);
   return {
     type: UPLOAD_SUCCESS,
     meta: { file }
@@ -98,7 +95,6 @@ export function uploadSuccess(file) {
 }
 
 export function uploadFailure(file, err) {
-  console.log('uploadFailure', file, err);
   return {
     type: UPLOAD_FAILURE,
     payload: err,

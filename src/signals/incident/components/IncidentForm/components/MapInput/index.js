@@ -11,16 +11,13 @@ const MapInput = ({ handler, touched, hasError, meta, parent }) => {
   let latlng;
 
   if (value && value.geometrie && value.geometrie.coordinates) {
-    console.log('value', value);
     latlng = {
       latitude: value.geometrie.coordinates[0],
       longitude: value.geometrie.coordinates[1]
     };
-    console.log('latlng', latlng);
   }
 
   const onQueryResult = (d) => {
-    console.log('onQueryResult', d);
     const location = {};
 
     if (d.dichtstbijzijnd_adres) {
@@ -46,30 +43,6 @@ const MapInput = ({ handler, touched, hasError, meta, parent }) => {
 
     parent.meta.setIncident({ location });
   };
-
-/*
-location: {
-  address: {
-    openbare_ruimte: 'Dam',
-    huisnummer: '1',
-    huisletter: 'A',
-    huisnummer_toevoeging: '1',
-    postcode: '1012JS',
-    woonplaats: 'Amsterdam'
-  },
-  buurt_code: 'abc',
-  geometrie: {
-    type: 'Point',
-    coordinates: [
-      incident.location.lat,
-      incident.location.lng
-    ]
-  },
-  stadsdeel: 'A',
-  extra_properties: {}
-},
-
-*/
 
   return (
     <div>
