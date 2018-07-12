@@ -9,8 +9,13 @@ jest.mock('shared/services/auth/auth');
 
 describe('<LoginPage />', () => {
   let renderedComponent;
+
   beforeEach(() => {
     renderedComponent = shallow(<LoginPage />);
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
   });
 
   it('should render correctly', () => {
@@ -19,11 +24,11 @@ describe('<LoginPage />', () => {
 
   it('should login on datapunt when Inloggen button is clicked', () => {
     renderedComponent.find('button').at(0).simulate('click');
-    expect(login).toHaveBeenLastCalledWith('datapunt');
+    expect(login).toHaveBeenCalledWith('datapunt');
   });
 
   it('should login on datapunt when Inloggen ADW button is clicked', () => {
     renderedComponent.find('button').at(1).simulate('click');
-    expect(login).toHaveBeenLastCalledWith('grip');
+    expect(login).toHaveBeenCalledWith('grip');
   });
 });

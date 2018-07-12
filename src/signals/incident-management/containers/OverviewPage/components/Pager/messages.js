@@ -6,8 +6,12 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  header: {
-    id: 'app.components.Pager.header',
-    defaultMessage: 'This is the Pager component !',
+  previous: {
+    id: 'app.components.Pager.previous',
+    defaultMessage: 'vorige',
+  },
+  next: {
+    id: 'app.components.Pager.next',
+    defaultMessage: 'volgende',
   },
 });
