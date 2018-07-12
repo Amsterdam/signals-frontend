@@ -24,21 +24,35 @@ import {
 
 const initialState = fromJS({
   incident: {
-    location: {
-      lat: 52.36227330330391,
-      lng: 4.930282384157181,
-      address: 'Pieter Nieuwlandstraat 119'
-    },
+    // location: {
+      // address: {
+        // openbare_ruimte: 'Wilhelminastraat',
+        // huisnummer: 42,
+        // huisletter: '',
+        // huisnummer_toevoeging: '1',
+        // postcode: '1054WJ',
+        // woonplaats: 'Amsterdam'
+      // },
+      // buurt_code: 'E20c',
+      // stadsdeel: 'E',
+      // geometrie: {
+        // type: 'Point',
+        // coordinates: [
+          // 52.36223071695314,
+          // 4.865698814392091
+        // ]
+      // }
+    // },
     // subcategory: 'Overlast op het water - snel varen',
     // category: 'Overlast op het water',
     // description: 'snel boot',
-    subcategory: 'Honden(poep)',
-    category: 'Overlast in de openbare ruimte',
-    description: 'poep',
-    phone: '020654321',
-    email: 'a@b.com',
-    extra_boten_snelheid_rondvaartboot: 'Ja',
-    extra_boten_snelheid_rederij: 'Aemstelland',
+    // subcategory: 'Honden(poep)',
+    // category: 'Overlast in de openbare ruimte',
+    // description: 'poep',
+    // phone: '020654321',
+    // email: 'a@b.com',
+    // extra_boten_snelheid_rondvaartboot: 'Ja',
+    // extra_boten_snelheid_rederij: 'Aemstelland',
 
     datetime: 'Nu',
     incident_date: 'Vandaag',
