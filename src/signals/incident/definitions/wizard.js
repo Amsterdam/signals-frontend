@@ -33,6 +33,7 @@ export default {
           },
           render: FormComponents.SelectInput,
           updateIncident: true,
+          authenticated: true
           // strict: false
         },
         location: {

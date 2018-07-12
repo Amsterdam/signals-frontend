@@ -10,8 +10,6 @@ import { FormGenerator } from 'react-reactive-form';
 import { defer } from 'lodash';
 
 import formatConditionalForm from './services/format-conditional-form/';
-// import { FormattedMessage } from 'react-intl';
-// import messages from './messages';
 
 import './style.scss';
 
@@ -69,7 +67,7 @@ class IncidentForm extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <FormGenerator
             onMount={(form) => this.setForm(form, this.props.incident)}
-            fieldConfig={formatConditionalForm(this.props.fieldConfig, this.props.incident)}
+            fieldConfig={formatConditionalForm(this.props.fieldConfig, this.props.incident, this.props.isAuthenticated)}
           />
         </form>
       </div>
@@ -83,7 +81,8 @@ IncidentForm.propTypes = {
   wizard: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
   setIncident: PropTypes.func.isRequired,
-  createIncident: PropTypes.func.isRequired
+  createIncident: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 };
 
 export default IncidentForm;

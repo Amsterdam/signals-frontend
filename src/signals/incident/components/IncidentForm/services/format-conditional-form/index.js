@@ -1,6 +1,6 @@
 import { forEach, every, some } from 'lodash';
 
-const formatConditionalForm = (form, incident) => {
+const formatConditionalForm = (form, incident, isAuthenticated) => {
   if (form && form.controls) {
     forEach(form.controls, (control, name) => {
       if (control.meta) {
@@ -22,6 +22,10 @@ const formatConditionalForm = (form, incident) => {
               some(value, (v) => v === incident[key]))) {
             ifVisible = false;
           }
+        }
+
+        if (control.authenticated) {
+          ifVisible = isAuthenticated;
         }
 
         form.controls[name].meta.ifVisible = ifVisible;  // eslint-disable-line no-param-reassign
