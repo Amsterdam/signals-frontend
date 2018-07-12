@@ -32,7 +32,6 @@ class Map extends React.Component {
       zoom: this.props.preview ? PREVIEW_ZOOM_LEVEL : DEFAULT_ZOOM_LEVEL
     };
 
-
     if (hasLocation) {
       options.center = {
         longitude: this.props.latlng.longitude,

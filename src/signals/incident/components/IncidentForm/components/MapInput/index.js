@@ -25,6 +25,8 @@ const MapInput = ({ handler, touched, hasError, meta, parent }) => {
 
     if (d.dichtstbijzijnd_adres) {
       location.address = { ...d.dichtstbijzijnd_adres };
+      location.address.huisnummer = `${location.address.huisnummer}`;
+      location.address.huisnummer_toevoeging = `${location.address.huisnummer_toevoeging}`;
     }
 
     if (d.omgevingsinfo) {
