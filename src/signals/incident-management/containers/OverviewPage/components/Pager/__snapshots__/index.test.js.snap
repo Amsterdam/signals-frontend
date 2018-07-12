@@ -5,9 +5,9 @@ ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <Pager
-    incidentsCount={3}
+    incidentsCount={200}
     onPageChanged={[Function]}
-    page={1}
+    page={2}
 />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -24,10 +24,53 @@ ShallowWrapper {
       "children": <div
         className="pager"
 >
-        
-        
+        <a
+                className="pager_nav vorige"
+                onClick={[Function]}
+                role="presentation"
+        >
+                <FormattedMessage
+                        defaultMessage="vorige"
+                        id="app.components.Pager.previous"
+                        values={Object {}}
+                />
+        </a>
+        <a
+                className="pager_step pagina"
+                onClick={[Function]}
+                role="presentation"
+        >
+                1
+        </a>
+        <span
+                className="pager_step huidige"
+                onClick={[Function]}
+                role="presentation"
+        >
+                <strong>
+                        2
+                </strong>
+        </span>
+        <a
+                className="pager_step pagina"
+                onClick={[Function]}
+                role="presentation"
+        >
+                3
+        </a>
+        <a
+                className="pager_nav volgende"
+                onClick={[Function]}
+                role="presentation"
+        >
+                <FormattedMessage
+                        defaultMessage="volgende"
+                        id="app.components.Pager.next"
+                        values={Object {}}
+                />
+        </a>
 </div>,
-      "className": "pager-",
+      "className": "incidents-list-pager",
     },
     "ref": null,
     "rendered": Object {
@@ -36,17 +79,172 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": Array [
-          null,
-          "",
-          "",
+          <a
+            className="pager_nav vorige"
+            onClick={[Function]}
+            role="presentation"
+>
+            <FormattedMessage
+                        defaultMessage="vorige"
+                        id="app.components.Pager.previous"
+                        values={Object {}}
+            />
+</a>,
+          Array [
+            <a
+              className="pager_step pagina"
+              onClick={[Function]}
+              role="presentation"
+>
+              1
+</a>,
+            <span
+              className="pager_step huidige"
+              onClick={[Function]}
+              role="presentation"
+>
+              <strong>
+                            2
+              </strong>
+</span>,
+            <a
+              className="pager_step pagina"
+              onClick={[Function]}
+              role="presentation"
+>
+              3
+</a>,
+          ],
+          <a
+            className="pager_nav volgende"
+            onClick={[Function]}
+            role="presentation"
+>
+            <FormattedMessage
+                        defaultMessage="volgende"
+                        id="app.components.Pager.next"
+                        values={Object {}}
+            />
+</a>,
         ],
         "className": "pager",
       },
       "ref": null,
       "rendered": Array [
-        null,
-        "",
-        "",
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <FormattedMessage
+              defaultMessage="vorige"
+              id="app.components.Pager.previous"
+              values={Object {}}
+/>,
+            "className": "pager_nav vorige",
+            "onClick": [Function],
+            "role": "presentation",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "defaultMessage": "vorige",
+              "id": "app.components.Pager.previous",
+              "values": Object {},
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "a",
+        },
+        Object {
+          "instance": null,
+          "key": "1",
+          "nodeType": "host",
+          "props": Object {
+            "children": 1,
+            "className": "pager_step pagina",
+            "onClick": [Function],
+            "role": "presentation",
+          },
+          "ref": null,
+          "rendered": 1,
+          "type": "a",
+        },
+        Object {
+          "instance": null,
+          "key": "2",
+          "nodeType": "host",
+          "props": Object {
+            "children": <strong>
+              2
+</strong>,
+            "className": "pager_step huidige",
+            "onClick": [Function],
+            "role": "presentation",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": 2,
+            },
+            "ref": null,
+            "rendered": 2,
+            "type": "strong",
+          },
+          "type": "span",
+        },
+        Object {
+          "instance": null,
+          "key": "3",
+          "nodeType": "host",
+          "props": Object {
+            "children": 3,
+            "className": "pager_step pagina",
+            "onClick": [Function],
+            "role": "presentation",
+          },
+          "ref": null,
+          "rendered": 3,
+          "type": "a",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <FormattedMessage
+              defaultMessage="volgende"
+              id="app.components.Pager.next"
+              values={Object {}}
+/>,
+            "className": "pager_nav volgende",
+            "onClick": [Function],
+            "role": "presentation",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "defaultMessage": "volgende",
+              "id": "app.components.Pager.next",
+              "values": Object {},
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "a",
+        },
       ],
       "type": "div",
     },
@@ -61,10 +259,53 @@ ShallowWrapper {
         "children": <div
           className="pager"
 >
-          
-          
+          <a
+                    className="pager_nav vorige"
+                    onClick={[Function]}
+                    role="presentation"
+          >
+                    <FormattedMessage
+                              defaultMessage="vorige"
+                              id="app.components.Pager.previous"
+                              values={Object {}}
+                    />
+          </a>
+          <a
+                    className="pager_step pagina"
+                    onClick={[Function]}
+                    role="presentation"
+          >
+                    1
+          </a>
+          <span
+                    className="pager_step huidige"
+                    onClick={[Function]}
+                    role="presentation"
+          >
+                    <strong>
+                              2
+                    </strong>
+          </span>
+          <a
+                    className="pager_step pagina"
+                    onClick={[Function]}
+                    role="presentation"
+          >
+                    3
+          </a>
+          <a
+                    className="pager_nav volgende"
+                    onClick={[Function]}
+                    role="presentation"
+          >
+                    <FormattedMessage
+                              defaultMessage="volgende"
+                              id="app.components.Pager.next"
+                              values={Object {}}
+                    />
+          </a>
 </div>,
-        "className": "pager-",
+        "className": "incidents-list-pager",
       },
       "ref": null,
       "rendered": Object {
@@ -73,17 +314,172 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": Array [
-            null,
-            "",
-            "",
+            <a
+              className="pager_nav vorige"
+              onClick={[Function]}
+              role="presentation"
+>
+              <FormattedMessage
+                            defaultMessage="vorige"
+                            id="app.components.Pager.previous"
+                            values={Object {}}
+              />
+</a>,
+            Array [
+              <a
+                className="pager_step pagina"
+                onClick={[Function]}
+                role="presentation"
+>
+                1
+</a>,
+              <span
+                className="pager_step huidige"
+                onClick={[Function]}
+                role="presentation"
+>
+                <strong>
+                                2
+                </strong>
+</span>,
+              <a
+                className="pager_step pagina"
+                onClick={[Function]}
+                role="presentation"
+>
+                3
+</a>,
+            ],
+            <a
+              className="pager_nav volgende"
+              onClick={[Function]}
+              role="presentation"
+>
+              <FormattedMessage
+                            defaultMessage="volgende"
+                            id="app.components.Pager.next"
+                            values={Object {}}
+              />
+</a>,
           ],
           "className": "pager",
         },
         "ref": null,
         "rendered": Array [
-          null,
-          "",
-          "",
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <FormattedMessage
+                defaultMessage="vorige"
+                id="app.components.Pager.previous"
+                values={Object {}}
+/>,
+              "className": "pager_nav vorige",
+              "onClick": [Function],
+              "role": "presentation",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "defaultMessage": "vorige",
+                "id": "app.components.Pager.previous",
+                "values": Object {},
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": "a",
+          },
+          Object {
+            "instance": null,
+            "key": "1",
+            "nodeType": "host",
+            "props": Object {
+              "children": 1,
+              "className": "pager_step pagina",
+              "onClick": [Function],
+              "role": "presentation",
+            },
+            "ref": null,
+            "rendered": 1,
+            "type": "a",
+          },
+          Object {
+            "instance": null,
+            "key": "2",
+            "nodeType": "host",
+            "props": Object {
+              "children": <strong>
+                2
+</strong>,
+              "className": "pager_step huidige",
+              "onClick": [Function],
+              "role": "presentation",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": 2,
+              },
+              "ref": null,
+              "rendered": 2,
+              "type": "strong",
+            },
+            "type": "span",
+          },
+          Object {
+            "instance": null,
+            "key": "3",
+            "nodeType": "host",
+            "props": Object {
+              "children": 3,
+              "className": "pager_step pagina",
+              "onClick": [Function],
+              "role": "presentation",
+            },
+            "ref": null,
+            "rendered": 3,
+            "type": "a",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <FormattedMessage
+                defaultMessage="volgende"
+                id="app.components.Pager.next"
+                values={Object {}}
+/>,
+              "className": "pager_nav volgende",
+              "onClick": [Function],
+              "role": "presentation",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "defaultMessage": "volgende",
+                "id": "app.components.Pager.next",
+                "values": Object {},
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": "a",
+          },
         ],
         "type": "div",
       },

@@ -30,14 +30,9 @@ describe('<Pager />', () => {
 
   it('should render 4 links (vorige 1 3 volgende)', () => {
     expect(renderedComponent.find('a').length).toEqual(4);
-
-    renderedComponent.find('a').array.forEach(
-      (item) => {
-        console.log(item);
-      });
   });
 
-  it.only('should move to the second page when 2 is clicked', () => {
+  it('should move to the second page when 2 is clicked', () => {
     expect(renderedComponent.find('a').length).toEqual(4);
 
     renderedComponent.find('a').at(1).simulate('click');
