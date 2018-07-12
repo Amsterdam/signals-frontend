@@ -28,6 +28,10 @@ const formatConditionalForm = (form, incident, isAuthenticated) => {
           ifVisible = isAuthenticated;
         }
 
+        if (!ifVisible) {
+          form.controls[name].options = null;  // eslint-disable-line no-param-reassign
+        }
+
         form.controls[name].meta.ifVisible = ifVisible;  // eslint-disable-line no-param-reassign
       }
     });

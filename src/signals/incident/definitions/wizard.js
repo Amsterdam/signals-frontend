@@ -225,6 +225,11 @@ export default {
     },
     preview: {
       beschrijf: {
+        source: {
+          label: 'Bron',
+          render: PreviewComponents.PlainText,
+          optional: true
+        },
         location: {
           label: 'Hier is het',
           render: PreviewComponents.Map
