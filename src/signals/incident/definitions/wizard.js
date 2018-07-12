@@ -23,7 +23,7 @@ export default {
           meta: {
             label: 'Waar is het?',
             subtitle: 'Typ de locatie of versleep de markering [dingetje] op de kaart',
-            // path: 'location',
+            path: 'location',
             watch: true
           },
           options: {

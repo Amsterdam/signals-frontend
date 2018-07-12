@@ -1,35 +1,73 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
-import MapContainer from '../../../../../../containers/MapContainer';
+import Map from '../../../../../../components/Map';
 
 import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
 const MapInput = ({ handler, touched, hasError, meta, parent }) => {
   const value = handler().value;
-  let address;
   let latlng;
 
-  if (value) {
+  if (value && value.geometrie && value.geometrie.coordinates) {
+    console.log('value', value);
     latlng = {
-      lat: value.lat,
-      lng: value.lng
+      latitude: value.geometrie.coordinates[0],
+      longitude: value.geometrie.coordinates[1]
     };
-
-    address = value.address;
+    console.log('latlng', latlng);
   }
 
-  const onMapAction = (l, ll) => {
-    parent.meta.setIncident({
-      location: {
-        lat: ll.lat,
-        lng: ll.lng,
-        address: l
-      }
-    });
-    latlng = ll;
+  const onQueryResult = (d) => {
+    console.log('onQueryResult', d);
+    const location = {};
+
+    if (d.dichtstbijzijnd_adres) {
+      location.address = { ...d.dichtstbijzijnd_adres };
+    }
+
+    if (d.omgevingsinfo) {
+      location.buurt_code = d.omgevingsinfo.buurtcode;
+      location.stadsdeel = d.omgevingsinfo.stadsdeelcode;
+    }
+
+    if (d.query) {
+      location.geometrie = {
+        type: 'Point',
+        coordinates: [
+          d.query.latitude,
+          d.query.longitude
+        ]
+      };
+    }
+
+    parent.meta.setIncident({ location });
   };
+
+/*
+location: {
+  address: {
+    openbare_ruimte: 'Dam',
+    huisnummer: '1',
+    huisletter: 'A',
+    huisnummer_toevoeging: '1',
+    postcode: '1012JS',
+    woonplaats: 'Amsterdam'
+  },
+  buurt_code: 'abc',
+  geometrie: {
+    type: 'Point',
+    coordinates: [
+      incident.location.lat,
+      incident.location.lng
+    ]
+  },
+  stadsdeel: 'A',
+  extra_properties: {}
+},
+
+*/
 
   return (
     <div>
@@ -38,7 +76,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent }) => {
           <Title meta={meta} />
 
           <div className={`col-${meta.cols || 12} invoer`}>
-            <MapContainer onLocationChange={onMapAction} location={address} latlng={latlng} />
+            <Map onQueryResult={onQueryResult} latlng={latlng} />
           </div>
 
           <div className="col-12">
