@@ -7,33 +7,59 @@
 import { fromJS } from 'immutable';
 import {
   SET_INCIDENT,
+
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
   CREATE_INCIDENT_ERROR,
+
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
-  GET_CLASSIFICATION_ERROR
+  GET_CLASSIFICATION_ERROR,
+
+  UPLOAD_REQUEST,
+  UPLOAD_PROGRESS,
+  UPLOAD_SUCCESS,
+  UPLOAD_FAILURE
 } from './constants';
 
 export const initialState = fromJS({
   incident: {
     // location: {
-    //   lat: 52.36227330330391,
-    //   lng: 4.930282384157181,
-    //   address: 'Pieter Nieuwlandstraat 119'
+      // address: {
+        // openbare_ruimte: 'Wilhelminastraat',
+        // huisnummer: 42,
+        // huisletter: '',
+        // huisnummer_toevoeging: '1',
+        // postcode: '1054WJ',
+        // woonplaats: 'Amsterdam'
+      // },
+      // buurt_code: 'E20c',
+      // stadsdeel: 'E',
+      // geometrie: {
+        // type: 'Point',
+        // coordinates: [
+          // 52.36223071695314,
+          // 4.865698814392091
+        // ]
+      // }
     // },
     // subcategory: 'Overlast op het water - snel varen',
     // category: 'Overlast op het water',
     // description: 'snel boot',
-    // incident_date: 'now',
+    // subcategory: 'Honden(poep)',
+    // category: 'Overlast in de openbare ruimte',
+    // description: 'poep',
     // phone: '020654321',
-    // email: 'a@b.nl',
+    // email: 'a@b.com',
     // extra_boten_snelheid_rondvaartboot: 'Ja',
     // extra_boten_snelheid_rederij: 'Aemstelland',
+
+    datetime: 'Nu',
     incident_date: 'Vandaag',
     incident_time_hours: 9,
     incident_time_minutes: 0
-  }
+  },
+  upload: {}
 });
 
 function incidentContainerReducer(state = initialState, action) {
@@ -79,6 +105,18 @@ function incidentContainerReducer(state = initialState, action) {
       return state
         .set('error', action.error)
         .set('loading', false);
+
+    case UPLOAD_REQUEST:
+      return state;
+
+    case UPLOAD_PROGRESS:
+      return state;
+
+    case UPLOAD_SUCCESS:
+      return state;
+
+    case UPLOAD_FAILURE:
+      return state;
 
     default:
       return state;

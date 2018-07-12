@@ -23,7 +23,7 @@ export default {
           meta: {
             label: 'Waar is het?',
             subtitle: 'Typ de locatie of versleep de markering [dingetje] op de kaart',
-            // path: 'location',
+            path: 'location',
             watch: true
           },
           options: {
@@ -112,7 +112,6 @@ export default {
           meta: {
             label: 'Wilt u een foto meesturen?',
             submitLabel: 'Foto kiezen',
-            // path: 'image',
             watch: true
           },
           render: FormComponents.FileInput
