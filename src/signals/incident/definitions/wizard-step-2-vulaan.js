@@ -1,12 +1,4 @@
-// MVP
-// Overlast op het water - geluid
-// Overlast op het water - snel varen
-// Overlast op het water - Gezonken boot
-
-// import { Validators } from 'react-reactive-form';
-
 import IncidentNavigation from '../components/IncidentNavigation';
-
 import FormComponents from '../components/IncidentForm/components/';
 
 export default {
