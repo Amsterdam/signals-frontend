@@ -1,3 +1,5 @@
 .incident-status-container {
-
+  &__error {
+    color: red;
+  }
 }

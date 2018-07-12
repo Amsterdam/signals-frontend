@@ -1,7 +1,7 @@
 
 import { fromJS } from 'immutable';
 
-import overviewPageReducer from './reducer';
+import overviewPageReducer, { initialState } from './reducer';
 
 import {
   requestIncidents,
@@ -11,7 +11,6 @@ import {
   filterIncidentsChanged
 } from './actions';
 
-
 describe('overviewPageReducer', () => {
   let state;
 
@@ -20,8 +19,7 @@ describe('overviewPageReducer', () => {
   });
 
   it('returns the initial state', () => {
-    state = fromJS({ incidents: [] });
-    expect(overviewPageReducer(undefined, {})).toEqual(state);
+    expect(overviewPageReducer(undefined, {})).toEqual(initialState);
   });
 
   it('should handle the REQUEST_INICDENTS', () => {
@@ -34,10 +32,11 @@ describe('overviewPageReducer', () => {
   });
 
   it('should handle the REQUEST_INICDENTS_SUCCESS', () => {
-    const incidents = [1];
-    const action = requestIncidentsSuccess(incidents);
+    const payload = { count: 1, results: [1] };
+    const action = requestIncidentsSuccess(payload);
     const expected = fromJS({})
-      .set('incidents', incidents)
+      .set('incidents', payload.results)
+      .set('incidentsCount', payload.count)
       .set('loading', false);
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
@@ -46,8 +45,8 @@ describe('overviewPageReducer', () => {
     const message = '';
     const action = requestIncidentsError(message);
     const expected = fromJS({})
-        .set('error', message)
-        .set('loading', false);
+      .set('error', message)
+      .set('loading', false);
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 
@@ -62,7 +61,8 @@ describe('overviewPageReducer', () => {
     const filter = {};
     const action = filterIncidentsChanged(filter);
     const expected = fromJS({})
-      .set('filter', filter);
+      .set('filter', filter)
+      .set('page', 1);
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 });

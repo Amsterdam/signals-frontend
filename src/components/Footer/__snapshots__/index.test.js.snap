@@ -20,71 +20,71 @@ ShallowWrapper {
       "children": Array [
         <div
           className="row bg-darkgrey footer"
->
+        >
           <footer
-                    className="container footer-component"
+            className="container footer-component"
           >
-                    <div
-                              className="row"
-                    >
-                              <div
-                                        className="col-12"
-                              >
-                                        <h2>
-                                                  Lukt het niet om een melding te doen?
-                                        </h2>
-                                        <p>
-                                                  Bel het Gemeentelijk informatienummer: 14 020 
-                                                  <br />
-                                                  op werkdagen van 08.00 tot 18.00 uur.
-                                        </p>
-                              </div>
-                    </div>
+            <div
+              className="row"
+            >
+              <div
+                className="col-12"
+              >
+                <h2>
+                  Lukt het niet om een melding te doen?
+                </h2>
+                <p>
+                  Bel het Gemeentelijk informatienummer: 14 020 
+                  <br />
+                  op werkdagen van 08.00 tot 18.00 uur.
+                </p>
+              </div>
+            </div>
           </footer>
-</div>,
+        </div>,
         <div
           className="container grid-below-footer"
->
+        >
           <div
-                    className="row"
+            className="row"
           >
-                    <div
-                              className="col-12"
+            <div
+              className="col-12"
+            >
+              <nav>
+                <ul
+                  className="links horizontal left"
+                >
+                  <li>
+                    <a
+                      href="#Amsterdam"
                     >
-                              <nav>
-                                        <ul
-                                                  className="links horizontal left"
-                                        >
-                                                  <li>
-                                                            <a
-                                                                      href="#Amsterdam"
-                                                            >
-                                                                      <span
-                                                                                className="linklabel"
-                                                                      >
-                                                                                Privacy
-                                                                      </span>
-                                                            </a>
-                                                  </li>
-                                                  <li>
-                                                            <a
-                                                                      href="#Amsterdam"
-                                                            >
-                                                                      <span
-                                                                                className="linklabel"
-                                                                      >
-                                                                                Cookies
-                                                                      </span>
-                                                            </a>
-                                                  </li>
-                                                  <li>
-                                                            <Connect(LocaleToggle) />
-                                                  </li>
-                                        </ul>
-                              </nav>
-                    </div>
+                      <span
+                        className="linklabel"
+                      >
+                        Privacy
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#Amsterdam"
+                    >
+                      <span
+                        className="linklabel"
+                      >
+                        Cookies
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <Connect(LocaleToggle) />
+                  </li>
+                </ul>
+              </nav>
+            </div>
           </div>
-</div>,
+        </div>,
       ],
       "className": "footer-wrapper",
     },
@@ -97,24 +97,24 @@ ShallowWrapper {
         "props": Object {
           "children": <footer
             className="container footer-component"
->
+          >
             <div
-                        className="row"
+              className="row"
             >
-                        <div
-                                    className="col-12"
-                        >
-                                    <h2>
-                                                Lukt het niet om een melding te doen?
-                                    </h2>
-                                    <p>
-                                                Bel het Gemeentelijk informatienummer: 14 020 
-                                                <br />
-                                                op werkdagen van 08.00 tot 18.00 uur.
-                                    </p>
-                        </div>
+              <div
+                className="col-12"
+              >
+                <h2>
+                  Lukt het niet om een melding te doen?
+                </h2>
+                <p>
+                  Bel het Gemeentelijk informatienummer: 14 020 
+                  <br />
+                  op werkdagen van 08.00 tot 18.00 uur.
+                </p>
+              </div>
             </div>
-</footer>,
+          </footer>,
           "className": "row bg-darkgrey footer",
         },
         "ref": null,
@@ -125,20 +125,20 @@ ShallowWrapper {
           "props": Object {
             "children": <div
               className="row"
->
+            >
               <div
-                            className="col-12"
+                className="col-12"
               >
-                            <h2>
-                                          Lukt het niet om een melding te doen?
-                            </h2>
-                            <p>
-                                          Bel het Gemeentelijk informatienummer: 14 020 
-                                          <br />
-                                          op werkdagen van 08.00 tot 18.00 uur.
-                            </p>
+                <h2>
+                  Lukt het niet om een melding te doen?
+                </h2>
+                <p>
+                  Bel het Gemeentelijk informatienummer: 14 020 
+                  <br />
+                  op werkdagen van 08.00 tot 18.00 uur.
+                </p>
               </div>
-</div>,
+            </div>,
             "className": "container footer-component",
           },
           "ref": null,
@@ -149,16 +149,16 @@ ShallowWrapper {
             "props": Object {
               "children": <div
                 className="col-12"
->
+              >
                 <h2>
-                                Lukt het niet om een melding te doen?
+                  Lukt het niet om een melding te doen?
                 </h2>
                 <p>
-                                Bel het Gemeentelijk informatienummer: 14 020 
-                                <br />
-                                op werkdagen van 08.00 tot 18.00 uur.
+                  Bel het Gemeentelijk informatienummer: 14 020 
+                  <br />
+                  op werkdagen van 08.00 tot 18.00 uur.
                 </p>
-</div>,
+              </div>,
               "className": "row",
             },
             "ref": null,
@@ -170,12 +170,12 @@ ShallowWrapper {
                 "children": Array [
                   <h2>
                     Lukt het niet om een melding te doen?
-</h2>,
+                  </h2>,
                   <p>
                     Bel het Gemeentelijk informatienummer: 14 020 
                     <br />
                     op werkdagen van 08.00 tot 18.00 uur.
-</p>,
+                  </p>,
                 ],
                 "className": "col-12",
               },
@@ -235,43 +235,43 @@ ShallowWrapper {
         "props": Object {
           "children": <div
             className="row"
->
+          >
             <div
-                        className="col-12"
+              className="col-12"
             >
-                        <nav>
-                                    <ul
-                                                className="links horizontal left"
-                                    >
-                                                <li>
-                                                            <a
-                                                                        href="#Amsterdam"
-                                                            >
-                                                                        <span
-                                                                                    className="linklabel"
-                                                                        >
-                                                                                    Privacy
-                                                                        </span>
-                                                            </a>
-                                                </li>
-                                                <li>
-                                                            <a
-                                                                        href="#Amsterdam"
-                                                            >
-                                                                        <span
-                                                                                    className="linklabel"
-                                                                        >
-                                                                                    Cookies
-                                                                        </span>
-                                                            </a>
-                                                </li>
-                                                <li>
-                                                            <Connect(LocaleToggle) />
-                                                </li>
-                                    </ul>
-                        </nav>
+              <nav>
+                <ul
+                  className="links horizontal left"
+                >
+                  <li>
+                    <a
+                      href="#Amsterdam"
+                    >
+                      <span
+                        className="linklabel"
+                      >
+                        Privacy
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#Amsterdam"
+                    >
+                      <span
+                        className="linklabel"
+                      >
+                        Cookies
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <Connect(LocaleToggle) />
+                  </li>
+                </ul>
+              </nav>
             </div>
-</div>,
+          </div>,
           "className": "container grid-below-footer",
         },
         "ref": null,
@@ -282,39 +282,39 @@ ShallowWrapper {
           "props": Object {
             "children": <div
               className="col-12"
->
+            >
               <nav>
-                            <ul
-                                          className="links horizontal left"
-                            >
-                                          <li>
-                                                        <a
-                                                                      href="#Amsterdam"
-                                                        >
-                                                                      <span
-                                                                                    className="linklabel"
-                                                                      >
-                                                                                    Privacy
-                                                                      </span>
-                                                        </a>
-                                          </li>
-                                          <li>
-                                                        <a
-                                                                      href="#Amsterdam"
-                                                        >
-                                                                      <span
-                                                                                    className="linklabel"
-                                                                      >
-                                                                                    Cookies
-                                                                      </span>
-                                                        </a>
-                                          </li>
-                                          <li>
-                                                        <Connect(LocaleToggle) />
-                                          </li>
-                            </ul>
+                <ul
+                  className="links horizontal left"
+                >
+                  <li>
+                    <a
+                      href="#Amsterdam"
+                    >
+                      <span
+                        className="linklabel"
+                      >
+                        Privacy
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#Amsterdam"
+                    >
+                      <span
+                        className="linklabel"
+                      >
+                        Cookies
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <Connect(LocaleToggle) />
+                  </li>
+                </ul>
               </nav>
-</div>,
+            </div>,
             "className": "row",
           },
           "ref": null,
@@ -325,35 +325,35 @@ ShallowWrapper {
             "props": Object {
               "children": <nav>
                 <ul
-                                className="links horizontal left"
+                  className="links horizontal left"
                 >
-                                <li>
-                                                <a
-                                                                href="#Amsterdam"
-                                                >
-                                                                <span
-                                                                                className="linklabel"
-                                                                >
-                                                                                Privacy
-                                                                </span>
-                                                </a>
-                                </li>
-                                <li>
-                                                <a
-                                                                href="#Amsterdam"
-                                                >
-                                                                <span
-                                                                                className="linklabel"
-                                                                >
-                                                                                Cookies
-                                                                </span>
-                                                </a>
-                                </li>
-                                <li>
-                                                <Connect(LocaleToggle) />
-                                </li>
+                  <li>
+                    <a
+                      href="#Amsterdam"
+                    >
+                      <span
+                        className="linklabel"
+                      >
+                        Privacy
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#Amsterdam"
+                    >
+                      <span
+                        className="linklabel"
+                      >
+                        Cookies
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <Connect(LocaleToggle) />
+                  </li>
                 </ul>
-</nav>,
+              </nav>,
               "className": "col-12",
             },
             "ref": null,
@@ -364,33 +364,33 @@ ShallowWrapper {
               "props": Object {
                 "children": <ul
                   className="links horizontal left"
->
+                >
                   <li>
-                                    <a
-                                                      href="#Amsterdam"
-                                    >
-                                                      <span
-                                                                        className="linklabel"
-                                                      >
-                                                                        Privacy
-                                                      </span>
-                                    </a>
+                    <a
+                      href="#Amsterdam"
+                    >
+                      <span
+                        className="linklabel"
+                      >
+                        Privacy
+                      </span>
+                    </a>
                   </li>
                   <li>
-                                    <a
-                                                      href="#Amsterdam"
-                                    >
-                                                      <span
-                                                                        className="linklabel"
-                                                      >
-                                                                        Cookies
-                                                      </span>
-                                    </a>
+                    <a
+                      href="#Amsterdam"
+                    >
+                      <span
+                        className="linklabel"
+                      >
+                        Cookies
+                      </span>
+                    </a>
                   </li>
                   <li>
-                                    <Connect(LocaleToggle) />
+                    <Connect(LocaleToggle) />
                   </li>
-</ul>,
+                </ul>,
               },
               "ref": null,
               "rendered": Object {
@@ -401,29 +401,29 @@ ShallowWrapper {
                   "children": Array [
                     <li>
                       <a
-                                            href="#Amsterdam"
+                        href="#Amsterdam"
                       >
-                                            <span
-                                                                  className="linklabel"
-                                            >
-                                                                  Privacy
-                                            </span>
+                        <span
+                          className="linklabel"
+                        >
+                          Privacy
+                        </span>
                       </a>
-</li>,
+                    </li>,
                     <li>
                       <a
-                                            href="#Amsterdam"
+                        href="#Amsterdam"
                       >
-                                            <span
-                                                                  className="linklabel"
-                                            >
-                                                                  Cookies
-                                            </span>
+                        <span
+                          className="linklabel"
+                        >
+                          Cookies
+                        </span>
                       </a>
-</li>,
+                    </li>,
                     <li>
                       <Connect(LocaleToggle) />
-</li>,
+                    </li>,
                   ],
                   "className": "links horizontal left",
                 },
@@ -436,13 +436,13 @@ ShallowWrapper {
                     "props": Object {
                       "children": <a
                         href="#Amsterdam"
->
+                      >
                         <span
-                                                className="linklabel"
+                          className="linklabel"
                         >
-                                                Privacy
+                          Privacy
                         </span>
-</a>,
+                      </a>,
                     },
                     "ref": null,
                     "rendered": Object {
@@ -452,9 +452,9 @@ ShallowWrapper {
                       "props": Object {
                         "children": <span
                           className="linklabel"
->
+                        >
                           Privacy
-</span>,
+                        </span>,
                         "href": "#Amsterdam",
                       },
                       "ref": null,
@@ -481,13 +481,13 @@ ShallowWrapper {
                     "props": Object {
                       "children": <a
                         href="#Amsterdam"
->
+                      >
                         <span
-                                                className="linklabel"
+                          className="linklabel"
                         >
-                                                Cookies
+                          Cookies
                         </span>
-</a>,
+                      </a>,
                     },
                     "ref": null,
                     "rendered": Object {
@@ -497,9 +497,9 @@ ShallowWrapper {
                       "props": Object {
                         "children": <span
                           className="linklabel"
->
+                        >
                           Cookies
-</span>,
+                        </span>,
                         "href": "#Amsterdam",
                       },
                       "ref": null,
@@ -561,71 +561,71 @@ ShallowWrapper {
         "children": Array [
           <div
             className="row bg-darkgrey footer"
->
+          >
             <footer
-                        className="container footer-component"
+              className="container footer-component"
             >
-                        <div
-                                    className="row"
-                        >
-                                    <div
-                                                className="col-12"
-                                    >
-                                                <h2>
-                                                            Lukt het niet om een melding te doen?
-                                                </h2>
-                                                <p>
-                                                            Bel het Gemeentelijk informatienummer: 14 020 
-                                                            <br />
-                                                            op werkdagen van 08.00 tot 18.00 uur.
-                                                </p>
-                                    </div>
-                        </div>
+              <div
+                className="row"
+              >
+                <div
+                  className="col-12"
+                >
+                  <h2>
+                    Lukt het niet om een melding te doen?
+                  </h2>
+                  <p>
+                    Bel het Gemeentelijk informatienummer: 14 020 
+                    <br />
+                    op werkdagen van 08.00 tot 18.00 uur.
+                  </p>
+                </div>
+              </div>
             </footer>
-</div>,
+          </div>,
           <div
             className="container grid-below-footer"
->
+          >
             <div
-                        className="row"
+              className="row"
             >
-                        <div
-                                    className="col-12"
+              <div
+                className="col-12"
+              >
+                <nav>
+                  <ul
+                    className="links horizontal left"
+                  >
+                    <li>
+                      <a
+                        href="#Amsterdam"
+                      >
+                        <span
+                          className="linklabel"
                         >
-                                    <nav>
-                                                <ul
-                                                            className="links horizontal left"
-                                                >
-                                                            <li>
-                                                                        <a
-                                                                                    href="#Amsterdam"
-                                                                        >
-                                                                                    <span
-                                                                                                className="linklabel"
-                                                                                    >
-                                                                                                Privacy
-                                                                                    </span>
-                                                                        </a>
-                                                            </li>
-                                                            <li>
-                                                                        <a
-                                                                                    href="#Amsterdam"
-                                                                        >
-                                                                                    <span
-                                                                                                className="linklabel"
-                                                                                    >
-                                                                                                Cookies
-                                                                                    </span>
-                                                                        </a>
-                                                            </li>
-                                                            <li>
-                                                                        <Connect(LocaleToggle) />
-                                                            </li>
-                                                </ul>
-                                    </nav>
-                        </div>
+                          Privacy
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#Amsterdam"
+                      >
+                        <span
+                          className="linklabel"
+                        >
+                          Cookies
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <Connect(LocaleToggle) />
+                    </li>
+                  </ul>
+                </nav>
+              </div>
             </div>
-</div>,
+          </div>,
         ],
         "className": "footer-wrapper",
       },
@@ -638,24 +638,24 @@ ShallowWrapper {
           "props": Object {
             "children": <footer
               className="container footer-component"
->
+            >
               <div
-                            className="row"
+                className="row"
               >
-                            <div
-                                          className="col-12"
-                            >
-                                          <h2>
-                                                        Lukt het niet om een melding te doen?
-                                          </h2>
-                                          <p>
-                                                        Bel het Gemeentelijk informatienummer: 14 020 
-                                                        <br />
-                                                        op werkdagen van 08.00 tot 18.00 uur.
-                                          </p>
-                            </div>
+                <div
+                  className="col-12"
+                >
+                  <h2>
+                    Lukt het niet om een melding te doen?
+                  </h2>
+                  <p>
+                    Bel het Gemeentelijk informatienummer: 14 020 
+                    <br />
+                    op werkdagen van 08.00 tot 18.00 uur.
+                  </p>
+                </div>
               </div>
-</footer>,
+            </footer>,
             "className": "row bg-darkgrey footer",
           },
           "ref": null,
@@ -666,20 +666,20 @@ ShallowWrapper {
             "props": Object {
               "children": <div
                 className="row"
->
+              >
                 <div
-                                className="col-12"
+                  className="col-12"
                 >
-                                <h2>
-                                                Lukt het niet om een melding te doen?
-                                </h2>
-                                <p>
-                                                Bel het Gemeentelijk informatienummer: 14 020 
-                                                <br />
-                                                op werkdagen van 08.00 tot 18.00 uur.
-                                </p>
+                  <h2>
+                    Lukt het niet om een melding te doen?
+                  </h2>
+                  <p>
+                    Bel het Gemeentelijk informatienummer: 14 020 
+                    <br />
+                    op werkdagen van 08.00 tot 18.00 uur.
+                  </p>
                 </div>
-</div>,
+              </div>,
               "className": "container footer-component",
             },
             "ref": null,
@@ -690,16 +690,16 @@ ShallowWrapper {
               "props": Object {
                 "children": <div
                   className="col-12"
->
+                >
                   <h2>
-                                    Lukt het niet om een melding te doen?
+                    Lukt het niet om een melding te doen?
                   </h2>
                   <p>
-                                    Bel het Gemeentelijk informatienummer: 14 020 
-                                    <br />
-                                    op werkdagen van 08.00 tot 18.00 uur.
+                    Bel het Gemeentelijk informatienummer: 14 020 
+                    <br />
+                    op werkdagen van 08.00 tot 18.00 uur.
                   </p>
-</div>,
+                </div>,
                 "className": "row",
               },
               "ref": null,
@@ -711,12 +711,12 @@ ShallowWrapper {
                   "children": Array [
                     <h2>
                       Lukt het niet om een melding te doen?
-</h2>,
+                    </h2>,
                     <p>
                       Bel het Gemeentelijk informatienummer: 14 020 
                       <br />
                       op werkdagen van 08.00 tot 18.00 uur.
-</p>,
+                    </p>,
                   ],
                   "className": "col-12",
                 },
@@ -776,43 +776,43 @@ ShallowWrapper {
           "props": Object {
             "children": <div
               className="row"
->
+            >
               <div
-                            className="col-12"
+                className="col-12"
               >
-                            <nav>
-                                          <ul
-                                                        className="links horizontal left"
-                                          >
-                                                        <li>
-                                                                      <a
-                                                                                    href="#Amsterdam"
-                                                                      >
-                                                                                    <span
-                                                                                                  className="linklabel"
-                                                                                    >
-                                                                                                  Privacy
-                                                                                    </span>
-                                                                      </a>
-                                                        </li>
-                                                        <li>
-                                                                      <a
-                                                                                    href="#Amsterdam"
-                                                                      >
-                                                                                    <span
-                                                                                                  className="linklabel"
-                                                                                    >
-                                                                                                  Cookies
-                                                                                    </span>
-                                                                      </a>
-                                                        </li>
-                                                        <li>
-                                                                      <Connect(LocaleToggle) />
-                                                        </li>
-                                          </ul>
-                            </nav>
+                <nav>
+                  <ul
+                    className="links horizontal left"
+                  >
+                    <li>
+                      <a
+                        href="#Amsterdam"
+                      >
+                        <span
+                          className="linklabel"
+                        >
+                          Privacy
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#Amsterdam"
+                      >
+                        <span
+                          className="linklabel"
+                        >
+                          Cookies
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <Connect(LocaleToggle) />
+                    </li>
+                  </ul>
+                </nav>
               </div>
-</div>,
+            </div>,
             "className": "container grid-below-footer",
           },
           "ref": null,
@@ -823,39 +823,39 @@ ShallowWrapper {
             "props": Object {
               "children": <div
                 className="col-12"
->
+              >
                 <nav>
-                                <ul
-                                                className="links horizontal left"
-                                >
-                                                <li>
-                                                                <a
-                                                                                href="#Amsterdam"
-                                                                >
-                                                                                <span
-                                                                                                className="linklabel"
-                                                                                >
-                                                                                                Privacy
-                                                                                </span>
-                                                                </a>
-                                                </li>
-                                                <li>
-                                                                <a
-                                                                                href="#Amsterdam"
-                                                                >
-                                                                                <span
-                                                                                                className="linklabel"
-                                                                                >
-                                                                                                Cookies
-                                                                                </span>
-                                                                </a>
-                                                </li>
-                                                <li>
-                                                                <Connect(LocaleToggle) />
-                                                </li>
-                                </ul>
+                  <ul
+                    className="links horizontal left"
+                  >
+                    <li>
+                      <a
+                        href="#Amsterdam"
+                      >
+                        <span
+                          className="linklabel"
+                        >
+                          Privacy
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#Amsterdam"
+                      >
+                        <span
+                          className="linklabel"
+                        >
+                          Cookies
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <Connect(LocaleToggle) />
+                    </li>
+                  </ul>
                 </nav>
-</div>,
+              </div>,
               "className": "row",
             },
             "ref": null,
@@ -866,35 +866,35 @@ ShallowWrapper {
               "props": Object {
                 "children": <nav>
                   <ul
-                                    className="links horizontal left"
+                    className="links horizontal left"
                   >
-                                    <li>
-                                                      <a
-                                                                        href="#Amsterdam"
-                                                      >
-                                                                        <span
-                                                                                          className="linklabel"
-                                                                        >
-                                                                                          Privacy
-                                                                        </span>
-                                                      </a>
-                                    </li>
-                                    <li>
-                                                      <a
-                                                                        href="#Amsterdam"
-                                                      >
-                                                                        <span
-                                                                                          className="linklabel"
-                                                                        >
-                                                                                          Cookies
-                                                                        </span>
-                                                      </a>
-                                    </li>
-                                    <li>
-                                                      <Connect(LocaleToggle) />
-                                    </li>
+                    <li>
+                      <a
+                        href="#Amsterdam"
+                      >
+                        <span
+                          className="linklabel"
+                        >
+                          Privacy
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#Amsterdam"
+                      >
+                        <span
+                          className="linklabel"
+                        >
+                          Cookies
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <Connect(LocaleToggle) />
+                    </li>
                   </ul>
-</nav>,
+                </nav>,
                 "className": "col-12",
               },
               "ref": null,
@@ -905,33 +905,33 @@ ShallowWrapper {
                 "props": Object {
                   "children": <ul
                     className="links horizontal left"
->
+                  >
                     <li>
-                                        <a
-                                                            href="#Amsterdam"
-                                        >
-                                                            <span
-                                                                                className="linklabel"
-                                                            >
-                                                                                Privacy
-                                                            </span>
-                                        </a>
+                      <a
+                        href="#Amsterdam"
+                      >
+                        <span
+                          className="linklabel"
+                        >
+                          Privacy
+                        </span>
+                      </a>
                     </li>
                     <li>
-                                        <a
-                                                            href="#Amsterdam"
-                                        >
-                                                            <span
-                                                                                className="linklabel"
-                                                            >
-                                                                                Cookies
-                                                            </span>
-                                        </a>
+                      <a
+                        href="#Amsterdam"
+                      >
+                        <span
+                          className="linklabel"
+                        >
+                          Cookies
+                        </span>
+                      </a>
                     </li>
                     <li>
-                                        <Connect(LocaleToggle) />
+                      <Connect(LocaleToggle) />
                     </li>
-</ul>,
+                  </ul>,
                 },
                 "ref": null,
                 "rendered": Object {
@@ -942,29 +942,29 @@ ShallowWrapper {
                     "children": Array [
                       <li>
                         <a
-                                                href="#Amsterdam"
+                          href="#Amsterdam"
                         >
-                                                <span
-                                                                        className="linklabel"
-                                                >
-                                                                        Privacy
-                                                </span>
+                          <span
+                            className="linklabel"
+                          >
+                            Privacy
+                          </span>
                         </a>
-</li>,
+                      </li>,
                       <li>
                         <a
-                                                href="#Amsterdam"
+                          href="#Amsterdam"
                         >
-                                                <span
-                                                                        className="linklabel"
-                                                >
-                                                                        Cookies
-                                                </span>
+                          <span
+                            className="linklabel"
+                          >
+                            Cookies
+                          </span>
                         </a>
-</li>,
+                      </li>,
                       <li>
                         <Connect(LocaleToggle) />
-</li>,
+                      </li>,
                     ],
                     "className": "links horizontal left",
                   },
@@ -977,13 +977,13 @@ ShallowWrapper {
                       "props": Object {
                         "children": <a
                           href="#Amsterdam"
->
+                        >
                           <span
-                                                    className="linklabel"
+                            className="linklabel"
                           >
-                                                    Privacy
+                            Privacy
                           </span>
-</a>,
+                        </a>,
                       },
                       "ref": null,
                       "rendered": Object {
@@ -993,9 +993,9 @@ ShallowWrapper {
                         "props": Object {
                           "children": <span
                             className="linklabel"
->
+                          >
                             Privacy
-</span>,
+                          </span>,
                           "href": "#Amsterdam",
                         },
                         "ref": null,
@@ -1022,13 +1022,13 @@ ShallowWrapper {
                       "props": Object {
                         "children": <a
                           href="#Amsterdam"
->
+                        >
                           <span
-                                                    className="linklabel"
+                            className="linklabel"
                           >
-                                                    Cookies
+                            Cookies
                           </span>
-</a>,
+                        </a>,
                       },
                       "ref": null,
                       "rendered": Object {
@@ -1038,9 +1038,9 @@ ShallowWrapper {
                         "props": Object {
                           "children": <span
                             className="linklabel"
->
+                          >
                             Cookies
-</span>,
+                          </span>,
                           "href": "#Amsterdam",
                         },
                         "ref": null,

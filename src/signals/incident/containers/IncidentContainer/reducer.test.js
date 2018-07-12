@@ -1,9 +1,9 @@
 
 import { fromJS } from 'immutable';
-import incidentContainerReducer from './reducer';
+import incidentContainerReducer, { initialState } from './reducer';
 
 describe('incidentContainerReducer', () => {
   it('returns the initial state', () => {
-    expect(incidentContainerReducer(undefined, {})).toEqual(fromJS({}));
+    expect(incidentContainerReducer(undefined, {})).toEqual(fromJS(initialState));
   });
 });

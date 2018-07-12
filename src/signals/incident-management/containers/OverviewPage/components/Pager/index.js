@@ -12,8 +12,7 @@ import './style.scss';
 class Pager extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const currentPage = this.props.page || 1;
-    // const totalPages = Math.floor(this.props.incidentsCount / 100) + 1;
-    const totalPages = 20;
+    const totalPages = Math.floor(this.props.incidentsCount / 100) + 1;
     const hasPrevious = currentPage > 1;
     const hasNext = currentPage < totalPages;
     const pages = [...Array(totalPages).keys()].map((page) => {
@@ -38,7 +37,8 @@ class Pager extends React.Component { // eslint-disable-line react/prefer-statel
 
 Pager.propTypes = {
   page: PropTypes.number,
-  onPageChanged: PropTypes.func.isRequired
+  onPageChanged: PropTypes.func.isRequired,
+  incidentsCount: PropTypes.number
 };
 
 Pager.defaultProps = {

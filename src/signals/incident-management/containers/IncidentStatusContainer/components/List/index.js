@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import './style.scss';
 
 class List extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
+    const { incidentStatusList, statusList } = this.props;
     return (
-      <div className="list-component">
-        <div className="list-component__body">
-          <table className="" cellSpacing="0" cellPadding="0">
+      <div className="incident-status-container-list">
+        <div className="incident-status-container-list__body">
+          <table className="incident-status-container-list__body-list" cellSpacing="0" cellPadding="0">
             <thead>
               <tr>
                 <th className="">Datum</th>
@@ -21,11 +23,11 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
               </tr>
             </thead>
             <tbody>
-              {this.props.statusList.map((item) => (
+              {incidentStatusList.map((item) => (
                 <tr key={item.id}>
                   <td>{string2date(item.created_at)}</td>
                   <td>{string2time(item.created_at)}</td>
-                  <td>{item.state}</td>
+                  <td>{getListValueByKey(statusList, item.state)}</td>
                   <td>{item.text}</td>
                   <td>{item.user}</td>
                 </tr>
@@ -40,10 +42,12 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
 }
 
 List.propTypes = {
+  incidentStatusList: PropTypes.array.isRequired,
   statusList: PropTypes.array.isRequired
 };
 
 List.defaultProps = {
+  incidentStatusList: [],
   statusList: []
 };
 

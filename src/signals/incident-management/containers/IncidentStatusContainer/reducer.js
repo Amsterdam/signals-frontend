@@ -6,7 +6,7 @@ import {
   from './constants';
 import statusList from '../../definitions/statusList';
 
-const initialState = fromJS({
+export const initialState = fromJS({
   incidentStatusList: [],
   statusList
 });

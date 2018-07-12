@@ -4,14 +4,14 @@
   "description": "Signalen Informatievoorziening Amsterdam based on react-boilerplate ",
   "repository": {
     "type": "git",
-    "url": "git://github.com/react-boilerplate/react-boilerplate.git"
+    "url": "https://github.com/Amsterdam/signals-frontend.git"
   },
   "engines": {
     "npm": ">=3",
     "node": ">=5"
   },
-  "author": "Max Stoiber",
-  "license": "MIT",
+  "author": "Datapunt Amsterdam",
+  "license": "MPL-2.0",
   "scripts": {
     "analyze:clean": "rimraf stats.json",
     "preanalyze": "npm run analyze:clean",
@@ -44,7 +44,7 @@
     "lint:staged": "lint-staged",
     "pretest": "npm run test:clean && npm run lint",
     "test:clean": "rimraf ./coverage",
-    "test": "cross-env NODE_ENV=test jest --coverage",
+    "test": "cross-env NODE_ENV=development jest --coverage",
     "test:no-coverage": "cross-env NODE_ENV=test jest ",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
@@ -201,22 +201,26 @@
     ],
     "coverageThreshold": {
       "global": {
-        "statements": 98,
-        "branches": 91,
-        "functions": 98,
-        "lines": 98
+        "statements": 20,
+        "branches": 20,
+        "functions": 20,
+        "lines": 20
       }
     },
     "moduleDirectories": [
       "node_modules",
       "src"
     ],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/internals/"
+    ],
     "moduleNameMapper": {
       ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/internals/mocks/cssModule.js",
       ".*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/image.js"
     },
     "setupTestFrameworkScriptFile": "<rootDir>/internals/testing/test-bundler.js",
-    "testRegex": ".*\\.test\\.js$"
+    "testRegex": ".*\\.test\\.js$",
+    "testEnvironment": "./internals/testing/jest-environment-jsdom-global-fix"
   },
   "dependencies": {
     "babel-plugin-inline-react-svg": "^0.5.2",
@@ -299,7 +303,7 @@
     "http-proxy-middleware": "^0.18.0",
     "image-webpack-loader": "2.0.0",
     "imports-loader": "0.7.1",
-    "jest-cli": "20.0.4",
+    "jest": "^23.4.0",
     "jest-environment-jsdom": "^23.1.0",
     "jest-environment-jsdom-global": "^1.1.0",
     "lint-staged": "3.5.1",

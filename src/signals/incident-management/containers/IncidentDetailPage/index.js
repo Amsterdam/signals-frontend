@@ -51,14 +51,19 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   render() {
     const { incident } = this.props.incidentdetailpage;
     const { selectedTab } = this.state;
+    const tabs = [
+      { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
+      { name: 'Categorie', value: <IncidentCategoryContainer id={this.props.id} /> },
+    ];
+
     return (
       <div className="incident-detail-page row container">
         <div className="col-12"><h3>Melding {this.props.id}</h3>
         </div>
-        <ul className="col-6 incident-detail-page__map">
+        <ul className="col-4 incident-detail-page__map">
           {(incident) ? <MapDetail label="" value={incident.location} /> : ''}
         </ul>
-        <div className="col-6">
+        <div className="col-8">
           (<Link to={`${this.props.baseUrl}/incidents`} >Terug naar overzicht</Link>)
           {(incident) ? <Incident incident={incident} /> : ''}
         </div>
@@ -69,8 +74,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 
         <div className="col-12">
           <div className="incident-detail-page__tab-container">
-            {selectedTab === 0 ? <IncidentStatusContainer id={this.props.id} /> : ''}
-            {selectedTab === 1 ? <IncidentCategoryContainer id={this.props.id} /> : ''}
+            {tabs[selectedTab].value}
           </div>
         </div>
       </div>

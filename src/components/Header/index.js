@@ -31,19 +31,33 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
               <ul className="links">
                 <li>
                   <span>
-                    { this.props.isAuthenticated && ('Ingelogd als: ') }<b>{this.props.userName}</b>
+                    {this.props.isAuthenticated && ('Ingelogd als: ')}<b>{this.props.userName}</b>
                   </span>
                 </li>
-                <li>
-                  <a href="" onClick={this.props.onLoginLogoutButtonClick}>
-                    {this.props.isAuthenticated ? 'Uitloggen' : 'Inloggen'}
-                  </a>
-                </li>
+                {!this.props.isAuthenticated ?
+                  <li>
+                    <a href="" onClick={(event) => this.props.onLoginLogoutButtonClick(event, 'datapunt')}>
+                      {'Inloggen'}
+                    </a>
+                  </li> : ''}
+                {!this.props.isAuthenticated ?
+                  <li>
+                    <a href="" onClick={(event) => this.props.onLoginLogoutButtonClick(event, 'grip')}>
+                      {'Inloggen ADW'}
+                    </a>
+                  </li> : ''
+                }
+                {this.props.isAuthenticated ?
+                  <li>
+                    <a href="" onClick={this.props.onLoginLogoutButtonClick}>
+                      {'Uitloggen'}
+                    </a>
+                  </li> : ''}
               </ul>
             </nav>
           </div>
         </div>
-      </div>
+      </div >
     );
   }
 }

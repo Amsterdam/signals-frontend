@@ -20,7 +20,7 @@ import saga from './saga';
 // import messages from './messages';
 import './style.scss';
 
-import IncidentWizard from '../../components/IncidentWizard/Loadable';
+import IncidentWizard from '../../components/IncidentWizard';
 
 class IncidentContainer extends React.Component {
   constructor(props) {

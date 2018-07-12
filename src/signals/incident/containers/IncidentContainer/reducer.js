@@ -22,7 +22,7 @@ import {
   UPLOAD_FAILURE
 } from './constants';
 
-const initialState = fromJS({
+export const initialState = fromJS({
   incident: {
     // location: {
       // address: {
