@@ -9,19 +9,29 @@ import amaps from '../../static/pointquery.iife';
 import './style.scss';
 
 const DEFAULT_ZOOM_LEVEL = 14;
-const PREVIEW_ZOOM_LEVEL = 17;
+const PREVIEW_ZOOM_LEVEL = 16;
 
 class Map extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      latlng: props.latlng,
+    };
+  }
+
   componentDidMount() {
+    console.log('componentDidMount', this.props);
     const hasLocation = this.props.latlng.latitude && this.props.latlng.longitude;
-    console.log('hasLocation', hasLocation);
+    // console.log('hasLocation', hasLocation);
     const options = {
       layer: 'standaard',
       target: 'mapdiv',
-      marker: hasLocation,
-      search: !this.props.preview,
+      marker: true,
+      search: true,
       zoom: this.props.preview ? PREVIEW_ZOOM_LEVEL : DEFAULT_ZOOM_LEVEL
     };
+
 
     if (hasLocation) {
       options.center = {
@@ -35,6 +45,14 @@ class Map extends React.Component {
     }
 
     this.map = amaps.createMap(options);
+  }
+
+  componentWillReceiveProps(props) {
+    console.log('componentWillReceiveProps', props);
+    const latlng = new window.L.LatLng(props.latlng.latitude, props.latlng.longitude);
+    this.map.then((map) => {
+      map.setView(latlng, PREVIEW_ZOOM_LEVEL);
+    });
   }
 
   render() {

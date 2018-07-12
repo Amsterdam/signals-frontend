@@ -10,7 +10,7 @@ const MapPreview = ({ label, value, optional }) => (
         <span className="preview-item-value">
           {value ?
             <div>
-              <div>adres</div>
+              <div>{value.address ? `${value.address.openbare_ruimte} ${value.address.huisnummer}${value.address.huisletter}` : 'geen adres gevonden'}</div>
               <Map
                 preview
                 latlng={{ latitude: value.geometrie.coordinates[0], longitude: value.geometrie.coordinates[1] }}
