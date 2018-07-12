@@ -47,11 +47,13 @@ class Map extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    console.log('componentWillReceiveProps', props);
-    const latlng = new window.L.LatLng(props.latlng.latitude, props.latlng.longitude);
-    this.map.then((map) => {
-      map.setView(latlng, PREVIEW_ZOOM_LEVEL);
-    });
+    console.log('componentWillReceiveProps', props.latlng);
+    if (props.latlng.latitude && props.latlng.longitude) {
+      const latlng = new window.L.LatLng(props.latlng.latitude, props.latlng.longitude);
+      this.map.then((map) => {
+        map.setView(latlng, PREVIEW_ZOOM_LEVEL);
+      });
+    }
   }
 
   render() {

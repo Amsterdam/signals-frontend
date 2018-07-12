@@ -53,8 +53,8 @@ export const initialState = fromJS({
     // email: 'a@b.com',
     // extra_boten_snelheid_rondvaartboot: 'Ja',
     // extra_boten_snelheid_rederij: 'Aemstelland',
+    // datetime: 'Nu',
 
-    datetime: 'Nu',
     incident_date: 'Vandaag',
     incident_time_hours: 9,
     incident_time_minutes: 0
