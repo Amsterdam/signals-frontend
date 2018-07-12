@@ -5,12 +5,12 @@ ReactWrapper {
   "length": 1,
   Symbol(enzyme.__unrendered__): <Unknown
     value={
-      Object {
-        "id": 1,
-        "name": "name",
-      }
+        Object {
+            "id": 1,
+            "name": "name",
+          }
     }
-  />,
+/>,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -33,52 +33,47 @@ ReactWrapper {
     "rendered": Object {
       "instance": <div
         style="border: 1px solid #ccc; background-color: rgb(0, 0, 0); border-radius: 4px; width: 80%; margin-left: 7%; margin-top: 20px; padding: 10px 20px; text-align: left;"
-      >
+>
         <h3
-          style="color: rgb(56, 153, 38);"
+                style="color: rgb(56, 153, 38);"
         >
-          Values
+                Values
         </h3>
         <pre
-          style="color: rgb(221, 225, 220); font-size: 18px; line-height: 30px;"
+                style="color: rgb(221, 225, 220); font-size: 18px; line-height: 30px;"
         >
-          {
-  "value": {
-    "id": 1,
-    "name": "name"
-  }
-}
+                { "value": { "id": 1, "name": "name" } }
         </pre>
-      </div>,
+</div>,
       "key": undefined,
       "nodeType": "host",
       "props": Object {
         "children": Array [
           <h3
             style={
-              Object {
-                "color": "#389926",
-              }
+                        Object {
+                                    "color": "#389926",
+                                  }
             }
-          >
+>
             Values
-          </h3>,
+</h3>,
           <pre
             style={
-              Object {
-                "color": "#DDE1DC",
-                "fontSize": "18px",
-                "lineHeight": "30px",
+                        Object {
+                                    "color": "#DDE1DC",
+                                    "fontSize": "18px",
+                                    "lineHeight": "30px",
+                                  }
+            }
+>
+            {
+              "value": {
+                "id": 1,
+                "name": "name"
               }
             }
-          >
-            {
-  "value": {
-    "id": 1,
-    "name": "name"
-  }
-}
-          </pre>,
+</pre>,
         ],
         "style": Object {
           "backgroundColor": "#000",
@@ -96,9 +91,9 @@ ReactWrapper {
         Object {
           "instance": <h3
             style="color: rgb(56, 153, 38);"
-          >
+>
             Values
-          </h3>,
+</h3>,
           "key": undefined,
           "nodeType": "host",
           "props": Object {
@@ -116,14 +111,9 @@ ReactWrapper {
         Object {
           "instance": <pre
             style="color: rgb(221, 225, 220); font-size: 18px; line-height: 30px;"
-          >
-            {
-  "value": {
-    "id": 1,
-    "name": "name"
-  }
-}
-          </pre>,
+>
+            { "value": { "id": 1, "name": "name" } }
+</pre>,
           "key": undefined,
           "nodeType": "host",
           "props": Object {
@@ -170,52 +160,47 @@ ReactWrapper {
       "rendered": Object {
         "instance": <div
           style="border: 1px solid #ccc; background-color: rgb(0, 0, 0); border-radius: 4px; width: 80%; margin-left: 7%; margin-top: 20px; padding: 10px 20px; text-align: left;"
-        >
+>
           <h3
-            style="color: rgb(56, 153, 38);"
+                    style="color: rgb(56, 153, 38);"
           >
-            Values
+                    Values
           </h3>
           <pre
-            style="color: rgb(221, 225, 220); font-size: 18px; line-height: 30px;"
+                    style="color: rgb(221, 225, 220); font-size: 18px; line-height: 30px;"
           >
-            {
-  "value": {
-    "id": 1,
-    "name": "name"
-  }
-}
+                    { "value": { "id": 1, "name": "name" } }
           </pre>
-        </div>,
+</div>,
         "key": undefined,
         "nodeType": "host",
         "props": Object {
           "children": Array [
             <h3
               style={
-                Object {
-                  "color": "#389926",
-                }
+                            Object {
+                                          "color": "#389926",
+                                        }
               }
-            >
+>
               Values
-            </h3>,
+</h3>,
             <pre
               style={
-                Object {
-                  "color": "#DDE1DC",
-                  "fontSize": "18px",
-                  "lineHeight": "30px",
+                            Object {
+                                          "color": "#DDE1DC",
+                                          "fontSize": "18px",
+                                          "lineHeight": "30px",
+                                        }
+              }
+>
+              {
+                "value": {
+                  "id": 1,
+                  "name": "name"
                 }
               }
-            >
-              {
-  "value": {
-    "id": 1,
-    "name": "name"
-  }
-}
-            </pre>,
+</pre>,
           ],
           "style": Object {
             "backgroundColor": "#000",
@@ -233,9 +218,9 @@ ReactWrapper {
           Object {
             "instance": <h3
               style="color: rgb(56, 153, 38);"
-            >
+>
               Values
-            </h3>,
+</h3>,
             "key": undefined,
             "nodeType": "host",
             "props": Object {
@@ -253,14 +238,9 @@ ReactWrapper {
           Object {
             "instance": <pre
               style="color: rgb(221, 225, 220); font-size: 18px; line-height: 30px;"
-            >
-              {
-  "value": {
-    "id": 1,
-    "name": "name"
-  }
-}
-            </pre>,
+>
+              { "value": { "id": 1, "name": "name" } }
+</pre>,
             "key": undefined,
             "nodeType": "host",
             "props": Object {

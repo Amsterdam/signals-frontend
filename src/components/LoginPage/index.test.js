@@ -1,10 +1,29 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-// import { LoginPage } from 'index';
+import { login } from 'shared/services/auth/auth';
+import LoginPage from './index';
+import './style.scss';
+
+jest.mock('shared/services/auth/auth');
 
 describe('<LoginPage />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(true);
+  let renderedComponent;
+  beforeEach(() => {
+    renderedComponent = shallow(<LoginPage />);
+  });
+
+  it('should render correctly', () => {
+    expect(renderedComponent).toMatchSnapshot();
+  });
+
+  it('should login on datapunt when Inloggen button is clicked', () => {
+    renderedComponent.find('button').at(0).simulate('click');
+    expect(login).toHaveBeenLastCalledWith('datapunt');
+  });
+
+  it('should login on datapunt when Inloggen ADW button is clicked', () => {
+    renderedComponent.find('button').at(1).simulate('click');
+    expect(login).toHaveBeenLastCalledWith('grip');
   });
 });
