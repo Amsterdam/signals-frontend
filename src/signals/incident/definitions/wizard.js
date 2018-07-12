@@ -7,7 +7,6 @@ import FormComponents from '../components/IncidentForm/components/';
 import PreviewComponents from '../components/IncidentPreview/components/';
 
 import vulaan from './wizard-step-vulaan';
-import inputSourceList from '../definitions/incidentSourceList';
 
 export default {
   beschrijf: {
@@ -22,19 +21,28 @@ export default {
       controls: {
         source: {
           meta: {
+            cols: 6,
             label: 'Hoe komt de melding binnen?',
-            // subtitle: 'Typ de locatie of versleep de markering [dingetje] op de kaart',
             path: 'source',
-            // watch: true,
-            values: inputSourceList.reduce((result, item) => ({ ...result, [item.key]: item.value }), {})
+            watch: true,
+            updateIncident: true,
+            values: {
+              '': 'vul in',
+              'Telefoon 14020': 'Telefoon 14020',
+              'Webcare 14 020': 'Webcare 14 020',
+              'E-mail Stadsdeel': 'E-mail Stadsdeel',
+              'E-mail 14020': 'E-mail 14020',
+              'Eigen organisatie': 'Eigen organisatie',
+              'Telefoon Stadsdeel': 'Telefoon Stadsdeel',
+              'Stadsdeel diversen': 'Stadsdeel diversen',
+              Interswitch: 'Interswitch'
+            }
           },
           options: {
             validators: Validators.required
           },
-          render: FormComponents.SelectInput,
-          updateIncident: true,
-          authenticated: true
-          // strict: false
+          authenticated: true,
+          render: FormComponents.SelectInput
         },
         location: {
           meta: {
@@ -66,9 +74,9 @@ export default {
             type: 'text',
             watch: true
           },
-          // options: {
-          // validators: Validators.required
-          // },
+          options: {
+            validators: Validators.required
+          },
           render: FormComponents.HiddenInput
         },
         subcategory: {
