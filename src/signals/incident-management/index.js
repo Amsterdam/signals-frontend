@@ -1,3 +1,3 @@
-import IncidentManagementContainer from './containers/IncidentManagementContainer/Loadable';
+import IncidentManagementContainer from './containers/IncidentManagementContainer';
 
 export default IncidentManagementContainer;

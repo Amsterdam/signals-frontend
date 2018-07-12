@@ -1,12 +1,12 @@
 import { initAuth, login, logout, getReturnPath, getAuthHeaders } from './auth';
-import queryStringParser from '../query-string-parser/query-string-parser';
-import stateTokenGenerator from '../state-token-generator/state-token-generator';
+import queryStringParser from './services/query-string-parser/query-string-parser';
+import stateTokenGenerator from './services/state-token-generator/state-token-generator';
 
-jest.mock('../query-string-parser/query-string-parser');
-jest.mock('../state-token-generator/state-token-generator');
+jest.mock('./services/query-string-parser/query-string-parser');
+jest.mock('./services/state-token-generator/state-token-generator');
 
 describe('The auth service', () => {
-  const noop = () => {};
+  const noop = () => { };
 
   let origSessionStorage;
   let queryObject;
@@ -71,8 +71,8 @@ describe('The auth service', () => {
         expect(() => {
           initAuth();
         }).toThrow('Authorization service responded with error invalid_request [invalid request] ' +
-            '(The request is missing a required parameter, includes an invalid parameter value, ' +
-            'includes a parameter more than once, or is otherwise malformed.)');
+          '(The request is missing a required parameter, includes an invalid parameter value, ' +
+          'includes a parameter more than once, or is otherwise malformed.)');
         expect(queryStringParser).toHaveBeenCalledWith(queryString);
       });
 
@@ -119,7 +119,7 @@ describe('The auth service', () => {
     describe('receiving a successful callback from the auth service', () => {
       it('throws an error when the state token received does not match the one saved', () => {
         const queryString = '?access_token=123AccessToken&token_type=token&expires_in=36000&state=invalidStateToken';
-        global.location.hash = `#${queryString}`;
+        global.location.hash = `${queryString}`;
         queryObject = {
           access_token: '123AccessToken',
           token_type: 'token',
@@ -131,7 +131,7 @@ describe('The auth service', () => {
         expect(() => {
           initAuth();
         }).toThrow('Authenticator encountered an invalid state token (invalidStateToken)');
-        expect(queryStringParser).toHaveBeenCalledWith(queryString);
+        expect(queryStringParser).toHaveBeenLastCalledWith(`#${queryString}`);
       });
 
       it('Updates the session storage', () => {
@@ -213,9 +213,9 @@ describe('The auth service', () => {
       login();
 
       expect(global.location.assign).toHaveBeenCalledWith('https://acc.api.data.amsterdam.nl/' +
-        'oauth2/authorize?idp_id=datapunt&response_type=token&client_id=citydata' +
-        '&scope=BRK%2FRS%20BRK%2FRSN%20BRK%2FRO%20WKPB%2FRBDU%20MON%2FRBC%20MON%2FRDM%20HR%2FR%20GREX%2FR%20CAT%2FW' +
-        '&state=123StateToken&redirect_uri=https%3A%2F%2Fdata.amsterdam.nl%2Fthe%2Fcurrent%2Fpath');
+        'oauth2/authorize?idp_id=datapunt&response_type=token&client_id=sia' +
+        '&scope=SIG%2FALL' +
+        '&state=123StateToken&redirect_uri=https%3A%2F%2Fdata.amsterdam.nl%2Fmanage%2Fincidents');
     });
   });
 

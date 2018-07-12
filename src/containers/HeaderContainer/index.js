@@ -22,12 +22,12 @@ export class HeaderContainer extends React.Component { // eslint-disable-line re
     this.onLoginLogoutButtonClick = this.onLoginLogoutButtonClick.bind(this);
   }
 
-  onLoginLogoutButtonClick(event) {
+  onLoginLogoutButtonClick(event, domain) {
     event.persist();
     event.preventDefault();
     event.stopPropagation();
     if (!isAuthenticated()) {
-      login();
+      login(domain);
     } else {
       logout();
     }

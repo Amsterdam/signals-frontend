@@ -6,7 +6,7 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <MainMenu
     isAuthenticated={false}
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -21,47 +21,47 @@ ShallowWrapper {
     "props": Object {
       "children": <div
         className="container type-nav-primair"
->
+      >
         <nav>
-                <ul
-                        className="links horizontal"
+          <ul
+            className="links horizontal"
+          >
+            <li>
+              <NavLink
+                activeClassName="active"
+                to="/"
+              >
+                <span
+                  className="linklabel"
                 >
-                        <li>
-                                <NavLink
-                                        activeClassName="active"
-                                        to="/"
-                                >
-                                        <span
-                                                className="linklabel"
-                                        >
-                                                <FormattedMessage
-                                                        defaultMessage="Home"
-                                                        id="boilerplate.components.Header.home"
-                                                        values={Object {}}
-                                                />
-                                        </span>
-                                </NavLink>
-                        </li>
-                        <li>
-                                <NavLink
-                                        activeClassName="active"
-                                        to="/incident"
-                                >
-                                        <span
-                                                className="linklabel"
-                                        >
-                                                <FormattedMessage
-                                                        defaultMessage="Nieuwe melding"
-                                                        id="boilerplate.components.Header.incident"
-                                                        values={Object {}}
-                                                />
-                                        </span>
-                                </NavLink>
-                        </li>
-                        
-                </ul>
+                  <FormattedMessage
+                    defaultMessage="Home"
+                    id="boilerplate.components.Header.home"
+                    values={Object {}}
+                  />
+                </span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                activeClassName="active"
+                to="/incident"
+              >
+                <span
+                  className="linklabel"
+                >
+                  <FormattedMessage
+                    defaultMessage="Nieuwe melding"
+                    id="boilerplate.components.Header.incident"
+                    values={Object {}}
+                  />
+                </span>
+              </NavLink>
+            </li>
+            
+          </ul>
         </nav>
-</div>,
+      </div>,
       "className": "row main-menu-component",
     },
     "ref": null,
@@ -72,43 +72,43 @@ ShallowWrapper {
       "props": Object {
         "children": <nav>
           <ul
-                    className="links horizontal"
+            className="links horizontal"
           >
-                    <li>
-                              <NavLink
-                                        activeClassName="active"
-                                        to="/"
-                              >
-                                        <span
-                                                  className="linklabel"
-                                        >
-                                                  <FormattedMessage
-                                                            defaultMessage="Home"
-                                                            id="boilerplate.components.Header.home"
-                                                            values={Object {}}
-                                                  />
-                                        </span>
-                              </NavLink>
-                    </li>
-                    <li>
-                              <NavLink
-                                        activeClassName="active"
-                                        to="/incident"
-                              >
-                                        <span
-                                                  className="linklabel"
-                                        >
-                                                  <FormattedMessage
-                                                            defaultMessage="Nieuwe melding"
-                                                            id="boilerplate.components.Header.incident"
-                                                            values={Object {}}
-                                                  />
-                                        </span>
-                              </NavLink>
-                    </li>
-                    
+            <li>
+              <NavLink
+                activeClassName="active"
+                to="/"
+              >
+                <span
+                  className="linklabel"
+                >
+                  <FormattedMessage
+                    defaultMessage="Home"
+                    id="boilerplate.components.Header.home"
+                    values={Object {}}
+                  />
+                </span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                activeClassName="active"
+                to="/incident"
+              >
+                <span
+                  className="linklabel"
+                >
+                  <FormattedMessage
+                    defaultMessage="Nieuwe melding"
+                    id="boilerplate.components.Header.incident"
+                    values={Object {}}
+                  />
+                </span>
+              </NavLink>
+            </li>
+            
           </ul>
-</nav>,
+        </nav>,
         "className": "container type-nav-primair",
       },
       "ref": null,
@@ -119,41 +119,41 @@ ShallowWrapper {
         "props": Object {
           "children": <ul
             className="links horizontal"
->
+          >
             <li>
-                        <NavLink
-                                    activeClassName="active"
-                                    to="/"
-                        >
-                                    <span
-                                                className="linklabel"
-                                    >
-                                                <FormattedMessage
-                                                            defaultMessage="Home"
-                                                            id="boilerplate.components.Header.home"
-                                                            values={Object {}}
-                                                />
-                                    </span>
-                        </NavLink>
+              <NavLink
+                activeClassName="active"
+                to="/"
+              >
+                <span
+                  className="linklabel"
+                >
+                  <FormattedMessage
+                    defaultMessage="Home"
+                    id="boilerplate.components.Header.home"
+                    values={Object {}}
+                  />
+                </span>
+              </NavLink>
             </li>
             <li>
-                        <NavLink
-                                    activeClassName="active"
-                                    to="/incident"
-                        >
-                                    <span
-                                                className="linklabel"
-                                    >
-                                                <FormattedMessage
-                                                            defaultMessage="Nieuwe melding"
-                                                            id="boilerplate.components.Header.incident"
-                                                            values={Object {}}
-                                                />
-                                    </span>
-                        </NavLink>
+              <NavLink
+                activeClassName="active"
+                to="/incident"
+              >
+                <span
+                  className="linklabel"
+                >
+                  <FormattedMessage
+                    defaultMessage="Nieuwe melding"
+                    id="boilerplate.components.Header.incident"
+                    values={Object {}}
+                  />
+                </span>
+              </NavLink>
             </li>
             
-</ul>,
+          </ul>,
         },
         "ref": null,
         "rendered": Object {
@@ -164,36 +164,36 @@ ShallowWrapper {
             "children": Array [
               <li>
                 <NavLink
-                                activeClassName="active"
-                                to="/"
+                  activeClassName="active"
+                  to="/"
                 >
-                                <span
-                                                className="linklabel"
-                                >
-                                                <FormattedMessage
-                                                                defaultMessage="Home"
-                                                                id="boilerplate.components.Header.home"
-                                                                values={Object {}}
-                                                />
-                                </span>
+                  <span
+                    className="linklabel"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Home"
+                      id="boilerplate.components.Header.home"
+                      values={Object {}}
+                    />
+                  </span>
                 </NavLink>
-</li>,
+              </li>,
               <li>
                 <NavLink
-                                activeClassName="active"
-                                to="/incident"
+                  activeClassName="active"
+                  to="/incident"
                 >
-                                <span
-                                                className="linklabel"
-                                >
-                                                <FormattedMessage
-                                                                defaultMessage="Nieuwe melding"
-                                                                id="boilerplate.components.Header.incident"
-                                                                values={Object {}}
-                                                />
-                                </span>
+                  <span
+                    className="linklabel"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Nieuwe melding"
+                      id="boilerplate.components.Header.incident"
+                      values={Object {}}
+                    />
+                  </span>
                 </NavLink>
-</li>,
+              </li>,
               "",
             ],
             "className": "links horizontal",
@@ -208,17 +208,17 @@ ShallowWrapper {
                 "children": <NavLink
                   activeClassName="active"
                   to="/"
->
+                >
                   <span
-                                    className="linklabel"
+                    className="linklabel"
                   >
-                                    <FormattedMessage
-                                                      defaultMessage="Home"
-                                                      id="boilerplate.components.Header.home"
-                                                      values={Object {}}
-                                    />
+                    <FormattedMessage
+                      defaultMessage="Home"
+                      id="boilerplate.components.Header.home"
+                      values={Object {}}
+                    />
                   </span>
-</NavLink>,
+                </NavLink>,
               },
               "ref": null,
               "rendered": Object {
@@ -229,13 +229,13 @@ ShallowWrapper {
                   "activeClassName": "active",
                   "children": <span
                     className="linklabel"
->
+                  >
                     <FormattedMessage
-                                        defaultMessage="Home"
-                                        id="boilerplate.components.Header.home"
-                                        values={Object {}}
+                      defaultMessage="Home"
+                      id="boilerplate.components.Header.home"
+                      values={Object {}}
                     />
-</span>,
+                  </span>,
                   "to": "/",
                 },
                 "ref": null,
@@ -248,7 +248,7 @@ ShallowWrapper {
                       defaultMessage="Home"
                       id="boilerplate.components.Header.home"
                       values={Object {}}
-/>,
+                    />,
                     "className": "linklabel",
                   },
                   "ref": null,
@@ -279,17 +279,17 @@ ShallowWrapper {
                 "children": <NavLink
                   activeClassName="active"
                   to="/incident"
->
+                >
                   <span
-                                    className="linklabel"
+                    className="linklabel"
                   >
-                                    <FormattedMessage
-                                                      defaultMessage="Nieuwe melding"
-                                                      id="boilerplate.components.Header.incident"
-                                                      values={Object {}}
-                                    />
+                    <FormattedMessage
+                      defaultMessage="Nieuwe melding"
+                      id="boilerplate.components.Header.incident"
+                      values={Object {}}
+                    />
                   </span>
-</NavLink>,
+                </NavLink>,
               },
               "ref": null,
               "rendered": Object {
@@ -300,13 +300,13 @@ ShallowWrapper {
                   "activeClassName": "active",
                   "children": <span
                     className="linklabel"
->
+                  >
                     <FormattedMessage
-                                        defaultMessage="Nieuwe melding"
-                                        id="boilerplate.components.Header.incident"
-                                        values={Object {}}
+                      defaultMessage="Nieuwe melding"
+                      id="boilerplate.components.Header.incident"
+                      values={Object {}}
                     />
-</span>,
+                  </span>,
                   "to": "/incident",
                 },
                 "ref": null,
@@ -319,7 +319,7 @@ ShallowWrapper {
                       defaultMessage="Nieuwe melding"
                       id="boilerplate.components.Header.incident"
                       values={Object {}}
-/>,
+                    />,
                     "className": "linklabel",
                   },
                   "ref": null,
@@ -360,47 +360,47 @@ ShallowWrapper {
       "props": Object {
         "children": <div
           className="container type-nav-primair"
->
+        >
           <nav>
-                    <ul
-                              className="links horizontal"
-                    >
-                              <li>
-                                        <NavLink
-                                                  activeClassName="active"
-                                                  to="/"
-                                        >
-                                                  <span
-                                                            className="linklabel"
-                                                  >
-                                                            <FormattedMessage
-                                                                      defaultMessage="Home"
-                                                                      id="boilerplate.components.Header.home"
-                                                                      values={Object {}}
-                                                            />
-                                                  </span>
-                                        </NavLink>
-                              </li>
-                              <li>
-                                        <NavLink
-                                                  activeClassName="active"
-                                                  to="/incident"
-                                        >
-                                                  <span
-                                                            className="linklabel"
-                                                  >
-                                                            <FormattedMessage
-                                                                      defaultMessage="Nieuwe melding"
-                                                                      id="boilerplate.components.Header.incident"
-                                                                      values={Object {}}
-                                                            />
-                                                  </span>
-                                        </NavLink>
-                              </li>
-                              
-                    </ul>
+            <ul
+              className="links horizontal"
+            >
+              <li>
+                <NavLink
+                  activeClassName="active"
+                  to="/"
+                >
+                  <span
+                    className="linklabel"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Home"
+                      id="boilerplate.components.Header.home"
+                      values={Object {}}
+                    />
+                  </span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  activeClassName="active"
+                  to="/incident"
+                >
+                  <span
+                    className="linklabel"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Nieuwe melding"
+                      id="boilerplate.components.Header.incident"
+                      values={Object {}}
+                    />
+                  </span>
+                </NavLink>
+              </li>
+              
+            </ul>
           </nav>
-</div>,
+        </div>,
         "className": "row main-menu-component",
       },
       "ref": null,
@@ -411,43 +411,43 @@ ShallowWrapper {
         "props": Object {
           "children": <nav>
             <ul
-                        className="links horizontal"
+              className="links horizontal"
             >
-                        <li>
-                                    <NavLink
-                                                activeClassName="active"
-                                                to="/"
-                                    >
-                                                <span
-                                                            className="linklabel"
-                                                >
-                                                            <FormattedMessage
-                                                                        defaultMessage="Home"
-                                                                        id="boilerplate.components.Header.home"
-                                                                        values={Object {}}
-                                                            />
-                                                </span>
-                                    </NavLink>
-                        </li>
-                        <li>
-                                    <NavLink
-                                                activeClassName="active"
-                                                to="/incident"
-                                    >
-                                                <span
-                                                            className="linklabel"
-                                                >
-                                                            <FormattedMessage
-                                                                        defaultMessage="Nieuwe melding"
-                                                                        id="boilerplate.components.Header.incident"
-                                                                        values={Object {}}
-                                                            />
-                                                </span>
-                                    </NavLink>
-                        </li>
-                        
+              <li>
+                <NavLink
+                  activeClassName="active"
+                  to="/"
+                >
+                  <span
+                    className="linklabel"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Home"
+                      id="boilerplate.components.Header.home"
+                      values={Object {}}
+                    />
+                  </span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  activeClassName="active"
+                  to="/incident"
+                >
+                  <span
+                    className="linklabel"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Nieuwe melding"
+                      id="boilerplate.components.Header.incident"
+                      values={Object {}}
+                    />
+                  </span>
+                </NavLink>
+              </li>
+              
             </ul>
-</nav>,
+          </nav>,
           "className": "container type-nav-primair",
         },
         "ref": null,
@@ -458,41 +458,41 @@ ShallowWrapper {
           "props": Object {
             "children": <ul
               className="links horizontal"
->
+            >
               <li>
-                            <NavLink
-                                          activeClassName="active"
-                                          to="/"
-                            >
-                                          <span
-                                                        className="linklabel"
-                                          >
-                                                        <FormattedMessage
-                                                                      defaultMessage="Home"
-                                                                      id="boilerplate.components.Header.home"
-                                                                      values={Object {}}
-                                                        />
-                                          </span>
-                            </NavLink>
+                <NavLink
+                  activeClassName="active"
+                  to="/"
+                >
+                  <span
+                    className="linklabel"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Home"
+                      id="boilerplate.components.Header.home"
+                      values={Object {}}
+                    />
+                  </span>
+                </NavLink>
               </li>
               <li>
-                            <NavLink
-                                          activeClassName="active"
-                                          to="/incident"
-                            >
-                                          <span
-                                                        className="linklabel"
-                                          >
-                                                        <FormattedMessage
-                                                                      defaultMessage="Nieuwe melding"
-                                                                      id="boilerplate.components.Header.incident"
-                                                                      values={Object {}}
-                                                        />
-                                          </span>
-                            </NavLink>
+                <NavLink
+                  activeClassName="active"
+                  to="/incident"
+                >
+                  <span
+                    className="linklabel"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Nieuwe melding"
+                      id="boilerplate.components.Header.incident"
+                      values={Object {}}
+                    />
+                  </span>
+                </NavLink>
               </li>
               
-</ul>,
+            </ul>,
           },
           "ref": null,
           "rendered": Object {
@@ -503,36 +503,36 @@ ShallowWrapper {
               "children": Array [
                 <li>
                   <NavLink
-                                    activeClassName="active"
-                                    to="/"
+                    activeClassName="active"
+                    to="/"
                   >
-                                    <span
-                                                      className="linklabel"
-                                    >
-                                                      <FormattedMessage
-                                                                        defaultMessage="Home"
-                                                                        id="boilerplate.components.Header.home"
-                                                                        values={Object {}}
-                                                      />
-                                    </span>
+                    <span
+                      className="linklabel"
+                    >
+                      <FormattedMessage
+                        defaultMessage="Home"
+                        id="boilerplate.components.Header.home"
+                        values={Object {}}
+                      />
+                    </span>
                   </NavLink>
-</li>,
+                </li>,
                 <li>
                   <NavLink
-                                    activeClassName="active"
-                                    to="/incident"
+                    activeClassName="active"
+                    to="/incident"
                   >
-                                    <span
-                                                      className="linklabel"
-                                    >
-                                                      <FormattedMessage
-                                                                        defaultMessage="Nieuwe melding"
-                                                                        id="boilerplate.components.Header.incident"
-                                                                        values={Object {}}
-                                                      />
-                                    </span>
+                    <span
+                      className="linklabel"
+                    >
+                      <FormattedMessage
+                        defaultMessage="Nieuwe melding"
+                        id="boilerplate.components.Header.incident"
+                        values={Object {}}
+                      />
+                    </span>
                   </NavLink>
-</li>,
+                </li>,
                 "",
               ],
               "className": "links horizontal",
@@ -547,17 +547,17 @@ ShallowWrapper {
                   "children": <NavLink
                     activeClassName="active"
                     to="/"
->
+                  >
                     <span
-                                        className="linklabel"
+                      className="linklabel"
                     >
-                                        <FormattedMessage
-                                                            defaultMessage="Home"
-                                                            id="boilerplate.components.Header.home"
-                                                            values={Object {}}
-                                        />
+                      <FormattedMessage
+                        defaultMessage="Home"
+                        id="boilerplate.components.Header.home"
+                        values={Object {}}
+                      />
                     </span>
-</NavLink>,
+                  </NavLink>,
                 },
                 "ref": null,
                 "rendered": Object {
@@ -568,13 +568,13 @@ ShallowWrapper {
                     "activeClassName": "active",
                     "children": <span
                       className="linklabel"
->
+                    >
                       <FormattedMessage
-                                            defaultMessage="Home"
-                                            id="boilerplate.components.Header.home"
-                                            values={Object {}}
+                        defaultMessage="Home"
+                        id="boilerplate.components.Header.home"
+                        values={Object {}}
                       />
-</span>,
+                    </span>,
                     "to": "/",
                   },
                   "ref": null,
@@ -587,7 +587,7 @@ ShallowWrapper {
                         defaultMessage="Home"
                         id="boilerplate.components.Header.home"
                         values={Object {}}
-/>,
+                      />,
                       "className": "linklabel",
                     },
                     "ref": null,
@@ -618,17 +618,17 @@ ShallowWrapper {
                   "children": <NavLink
                     activeClassName="active"
                     to="/incident"
->
+                  >
                     <span
-                                        className="linklabel"
+                      className="linklabel"
                     >
-                                        <FormattedMessage
-                                                            defaultMessage="Nieuwe melding"
-                                                            id="boilerplate.components.Header.incident"
-                                                            values={Object {}}
-                                        />
+                      <FormattedMessage
+                        defaultMessage="Nieuwe melding"
+                        id="boilerplate.components.Header.incident"
+                        values={Object {}}
+                      />
                     </span>
-</NavLink>,
+                  </NavLink>,
                 },
                 "ref": null,
                 "rendered": Object {
@@ -639,13 +639,13 @@ ShallowWrapper {
                     "activeClassName": "active",
                     "children": <span
                       className="linklabel"
->
+                    >
                       <FormattedMessage
-                                            defaultMessage="Nieuwe melding"
-                                            id="boilerplate.components.Header.incident"
-                                            values={Object {}}
+                        defaultMessage="Nieuwe melding"
+                        id="boilerplate.components.Header.incident"
+                        values={Object {}}
                       />
-</span>,
+                    </span>,
                     "to": "/incident",
                   },
                   "ref": null,
@@ -658,7 +658,7 @@ ShallowWrapper {
                         defaultMessage="Nieuwe melding"
                         id="boilerplate.components.Header.incident"
                         values={Object {}}
-/>,
+                      />,
                       "className": "linklabel",
                     },
                     "ref": null,

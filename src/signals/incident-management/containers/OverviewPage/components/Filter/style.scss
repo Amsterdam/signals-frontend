@@ -1,6 +1,16 @@
 @import '~stijl/dist/scss/ams-colorpalette';
 
 .filter-component {
-  border: 1px dotted lightgray;
   padding: 10px;
+
+  &__title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  &__body {
+    border-top: 1px solid black;
+    padding-top: 5px;
+  }
 }
