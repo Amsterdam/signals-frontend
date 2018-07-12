@@ -27,7 +27,7 @@ export default {
             watch: true,
             updateIncident: true,
             values: {
-              '': 'vul in',
+              '': 'Vul bron in',
               'Telefoon 14020': 'Telefoon 14020',
               'Webcare 14 020': 'Webcare 14 020',
               'E-mail Stadsdeel': 'E-mail Stadsdeel',
