@@ -13,7 +13,7 @@ const BAG_ENDPOINT = 'https://api.data.amsterdam.nl/bag/nummeraanduiding/?format
 
 class AMaps extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static requestFormatter(baseUrl, xy) {
-    const xyRd = wgs84ToRd(xy);
+    const xyRd = wgs84ToRd({ longitude: xy.x, latitude: xy.y });
     return `${baseUrl}${xyRd.x},${xyRd.y},50`;
   }
 

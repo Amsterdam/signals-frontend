@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import './style.scss';
 
 class List extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -11,9 +11,10 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
   }
 
   render() {
+    const { incidents, incidentsCount, statusList } = this.props;
     return (
       <div className="list-component">
-        <div className="list-component__title">Meldingen ({this.props.incidentsCount})</div>
+        <div className="list-component__title">Meldingen ({incidentsCount})</div>
 
         <div className="list-component__body">
           <table className="" cellSpacing="0" cellPadding="0">
@@ -30,7 +31,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
               </tr>
             </thead>
             <tbody>
-              {this.props.incidents.map((incident) => (
+              {incidents.map((incident) => (
                 <tr key={incident.id} onClick={this.selectIncident(incident)}>
                   <td>{incident.id}</td>
                   <td>{string2date(incident.incident_date_start)}</td>
@@ -38,7 +39,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
                   <td>{incident.location.stadsdeel}</td>
                   <td>{incident.category.sub}</td>
                   <td>{incident.category.department}</td>
-                  <td>{incident.status.text}</td>
+                  <td>{getListValueByKey(statusList, incident.status.state)}</td>
                   <td>{incident.location.address.openbare_ruimte} {incident.location.address.huisnummer}</td>
                 </tr>
               ))
@@ -54,7 +55,9 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
 List.propTypes = {
   incidentsCount: PropTypes.number,
   incidents: PropTypes.array.isRequired,
+  statusList: PropTypes.array.isRequired,
+
   incidentSelected: PropTypes.func.isRequired,
 };
 
-export default withRouter(List);
+export default List;
