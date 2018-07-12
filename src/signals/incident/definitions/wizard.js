@@ -7,6 +7,7 @@ import FormComponents from '../components/IncidentForm/components/';
 import PreviewComponents from '../components/IncidentPreview/components/';
 
 import vulaan from './wizard-step-vulaan';
+import inputSourceList from '../definitions/incidentSourceList';
 
 export default {
   beschrijf: {
@@ -19,6 +20,21 @@ export default {
     },
     form: {
       controls: {
+        source: {
+          meta: {
+            label: 'Hoe komt de melding binnen?',
+            // subtitle: 'Typ de locatie of versleep de markering [dingetje] op de kaart',
+            path: 'source',
+            // watch: true,
+            values: inputSourceList.reduce((result, item) => ({ ...result, [item.key]: item.value }), {})
+          },
+          options: {
+            validators: Validators.required
+          },
+          render: FormComponents.SelectInput,
+          updateIncident: true,
+          // strict: false
+        },
         location: {
           meta: {
             label: 'Waar is het?',
@@ -50,7 +66,7 @@ export default {
             watch: true
           },
           // options: {
-            // validators: Validators.required
+          // validators: Validators.required
           // },
           render: FormComponents.HiddenInput
         },
