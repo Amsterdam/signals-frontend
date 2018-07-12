@@ -200,6 +200,9 @@ export function login(domain) {
 
 export function logout() {
   sessionStorage.removeItem(ACCESS_TOKEN);
+  deleteCookie('GripGS', 'auth.grip-on-it.com');
+  deleteCookie('GripLastLogin', 'auth.grip-on-it.com');
+  deleteCookie('GripTokenHistory', 'auth.grip-on-it.com');
   location.reload();
 }
 
@@ -251,6 +254,16 @@ export function getAuthHeaders() {
   return accessToken ? { Authorization: `Bearer ${getAccessToken()}` } : {};
 }
 
+export function deleteCookie(name, domain) { // eslint-disable-line no-unused-vars
+
+  // browser.cookie.split(';').forEach((c) => {
+  //   const cookie = c.trim().split('=');
+  //   document.cookie = cookie[0] + (cookie[0] === name) ? `=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/;domain=${domain};` : `=${cookie[1]}`;
+  // });
+
+  // document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/;domain=${domain};`;
+}
+
 window.auth = {
   getAccessToken,
   login,
@@ -259,5 +272,6 @@ window.auth = {
   getReturnPath,
   isAuthenticated,
   getScopes,
-  getName
+  getName,
+  deleteCookie
 };
