@@ -12,7 +12,6 @@ import { createStructuredSelector } from 'reselect';
 
 import injectReducer from 'utils/injectReducer';
 import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
-import AMaps from 'components/AMaps';
 
 import messages from './messages';
 import reducer from './reducer';
@@ -45,9 +44,6 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
           <p>
             <FormattedMessage {...messages.startProjectMessage} />
           </p>
-        </div>
-        <div>
-          <AMaps onLocationChange={this.onMapAction} location={this.state.location} latlng={this.state.latlng} />
         </div>
       </article>
     );
