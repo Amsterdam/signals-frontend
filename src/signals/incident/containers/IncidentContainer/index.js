@@ -7,17 +7,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import { makeSelectIsAuthenticated } from 'containers/App/selectors';
 import { getClassification, setIncident, createIncident } from './actions';
 import makeSelectIncidentContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-// import messages from './messages';
 import './style.scss';
 
 import IncidentWizard from '../../components/IncidentWizard';
@@ -39,6 +38,7 @@ class IncidentContainer extends React.Component {
           setIncident={this.setIncident}
           createIncident={this.createIncident}
           incident={this.props.incidentcontainer.incident}
+          isAuthenticated={this.props.isAuthenticated}
         />
       </div>
     );
@@ -49,11 +49,13 @@ IncidentContainer.propTypes = {
   incidentcontainer: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
   setIncident: PropTypes.func.isRequired,
-  createIncident: PropTypes.func.isRequired
+  createIncident: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
 };
 
 const mapStateToProps = createStructuredSelector({
   incidentcontainer: makeSelectIncidentContainer(),
+  isAuthenticated: makeSelectIsAuthenticated()
 });
 
 function mapDispatchToProps(dispatch) {

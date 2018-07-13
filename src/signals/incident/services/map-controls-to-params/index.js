@@ -5,37 +5,15 @@ const mapControlsToParams = (incident, wizard) => {
   const time = `${incident.incident_time_hours}:${incident.incident_time_minutes}`;
   let date;
 
-  if (incident.incident_date === 'Nu') {
+  if (incident.datetime === 'Nu') {
     date = moment();
   } else {
-    date = moment(`${incident.incident_date === 'Vandaag' ? moment().format('YYYY-MM-DD') : incident.incident_date} ${time}`);
+    date = moment(`${incident.datetime === 'Vandaag' ? moment().format('YYYY-MM-DD') : incident.incident_date} ${time}`);
   }
 
   const params = {
     created_at: date.format(),
     incident_date_start: date.format(),
-
-    location: {
-      address: {
-        openbare_ruimte: 'Dam',
-        huisnummer: '1',
-        huisletter: 'A',
-        huisnummer_toevoeging: '1',
-        postcode: '1012JS',
-        woonplaats: 'Amsterdam'
-      },
-      buurt_code: 'abc',
-      geometrie: {
-        type: 'Point',
-        coordinates: [
-          incident.location.lat,
-          incident.location.lng
-        ]
-      },
-      stadsdeel: 'A',
-      extra_properties: {}
-    },
-
     status: {
       state: 'm',
       extra_properties: {}

@@ -1,14 +1,20 @@
-import { call, put, /* select, */ takeLatest } from 'redux-saga/effects';
+import { all, call, put, take, /* select, */ takeLatest, takeEvery } from 'redux-saga/effects';
 import request from 'utils/request';
 
-import { CREATE_INCIDENT, GET_CLASSIFICATION } from './constants';
+import CONFIGURATION from '../../../../shared/services/configuration/configuration';
+import { CREATE_INCIDENT, GET_CLASSIFICATION, UPLOAD_REQUEST } from './constants';
 import {
   createIncidentSuccess,
   createIncidentError,
   getClassificationSuccess,
-  getClassificationError
+  getClassificationError,
+  uploadRequest,
+  uploadProgress,
+  uploadSuccess,
+  uploadFailure
 } from './actions';
 import mapControlsToParams from '../../services/map-controls-to-params';
+import createFileUploadChannel from './createFileUploadChannel';
 
 // import makeSelectIncidentContainer from './selectors';
 
@@ -32,7 +38,7 @@ export function* getClassification({ text }) {
 }
 
 export function* createIncident({ incident, wizard }) {
-  const requestURL = 'https://acc.api.data.amsterdam.nl/signals/signal/';
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/`;
 
   try {
     const result = yield call(request, requestURL, {
@@ -42,16 +48,42 @@ export function* createIncident({ incident, wizard }) {
         'Content-Type': 'application/json'
       }
     });
+
+    if (incident.image) {
+      yield put(uploadRequest(incident.image_file, result.id));
+    }
     yield put(createIncidentSuccess(result));
   } catch (err) {
     yield put(createIncidentError(err));
   }
 }
 
+export function* uploadFile(file, id) {
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/image/`;
+
+  const channel = yield call(createFileUploadChannel, requestURL, file, id);
+  const { progress = 0, err, success } = yield take(channel);
+  if (err) {
+    yield put(uploadFailure(file, err));
+    return;
+  }
+  if (success) {
+    yield put(uploadSuccess(file));
+    return;
+  }
+  yield put(uploadProgress(file, progress));
+}
+
+function* uploadFileWrapper(action) {
+  const file = action.payload;
+  yield call(uploadFile, file, action.meta.id);
+}
+
 // Individual exports for testing
 export default function* watchIncidentContainerSaga() {
-  yield [
-    yield takeLatest(GET_CLASSIFICATION, getClassification),
-    yield takeLatest(CREATE_INCIDENT, createIncident)
-  ];
+  yield all([
+    takeLatest(GET_CLASSIFICATION, getClassification),
+    takeLatest(CREATE_INCIDENT, createIncident),
+    takeEvery(UPLOAD_REQUEST, uploadFileWrapper)
+  ]);
 }

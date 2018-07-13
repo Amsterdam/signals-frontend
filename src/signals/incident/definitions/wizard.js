@@ -19,11 +19,36 @@ export default {
     },
     form: {
       controls: {
+        source: {
+          meta: {
+            cols: 6,
+            label: 'Hoe komt de melding binnen?',
+            path: 'source',
+            watch: true,
+            updateIncident: true,
+            values: {
+              '': 'Vul bron in',
+              'Telefoon 14020': 'Telefoon 14020',
+              'Webcare 14 020': 'Webcare 14 020',
+              'E-mail Stadsdeel': 'E-mail Stadsdeel',
+              'E-mail 14020': 'E-mail 14020',
+              'Eigen organisatie': 'Eigen organisatie',
+              'Telefoon Stadsdeel': 'Telefoon Stadsdeel',
+              'Stadsdeel diversen': 'Stadsdeel diversen',
+              Interswitch: 'Interswitch'
+            }
+          },
+          options: {
+            validators: Validators.required
+          },
+          authenticated: true,
+          render: FormComponents.SelectInput
+        },
         location: {
           meta: {
             label: 'Waar is het?',
             subtitle: 'Typ de locatie of versleep de markering [dingetje] op de kaart',
-            // path: 'location',
+            path: 'location',
             watch: true
           },
           options: {
@@ -49,9 +74,9 @@ export default {
             type: 'text',
             watch: true
           },
-          // options: {
-            // validators: Validators.required
-          // },
+          options: {
+            validators: Validators.required
+          },
           render: FormComponents.HiddenInput
         },
         subcategory: {
@@ -112,7 +137,6 @@ export default {
           meta: {
             label: 'Wilt u een foto meesturen?',
             submitLabel: 'Foto kiezen',
-            // path: 'image',
             watch: true
           },
           render: FormComponents.FileInput
@@ -201,6 +225,11 @@ export default {
     },
     preview: {
       beschrijf: {
+        source: {
+          label: 'Bron',
+          render: PreviewComponents.PlainText,
+          optional: true
+        },
         location: {
           label: 'Hier is het',
           render: PreviewComponents.Map
