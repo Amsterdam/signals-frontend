@@ -21,6 +21,7 @@ const mapControlsToParams = (incident, wizard) => {
   };
 
   const map = [];
+  let mapMerge = {};
   forEach(wizard, (step) => {
     const controls = step.form && step.form.controls;
     forEach(controls, (control, name) => {
@@ -30,6 +31,16 @@ const mapControlsToParams = (incident, wizard) => {
           value: incident[name]
         });
       }
+
+      if (control.meta && control.meta.pathMerge && incident[name]) {
+        mapMerge = {
+          ...mapMerge,
+          [control.meta.pathMerge]: {
+            ...mapMerge[control.meta.pathMerge],
+            [name]: incident[name]
+          }
+        };
+      }
     });
   });
 
@@ -37,13 +48,9 @@ const mapControlsToParams = (incident, wizard) => {
     set(params, item.path, item.value);
   });
 
-  const textExtra = [];
-  forEach(incident, (value, key) => {
-    if (key.includes('extra_')) {
-      textExtra.push(`${key}: ${value}`);
-    }
+  forEach(mapMerge, (item, key) => {
+    set(params, key, item);
   });
-  params.text_extra = textExtra.join(', ');
 
   return params;
 };
