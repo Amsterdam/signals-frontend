@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
-import Map from '../../../../../../components/Map';
+import MapInteractive from '../../../../../../components/MapInteractive';
 
 import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
@@ -51,7 +51,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent }) => {
           <Title meta={meta} />
 
           <div className={`col-${meta.cols || 12} invoer`}>
-            <Map onQueryResult={onQueryResult} latlng={latlng} />
+            <MapInteractive onQueryResult={onQueryResult} latlng={latlng} />
           </div>
 
           <div className="col-12">
