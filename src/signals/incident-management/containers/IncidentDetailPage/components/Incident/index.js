@@ -7,8 +7,8 @@ import './style.scss';
 class Incident extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const { incident } = this.props;
-    const extraProperties = Object.keys(incident.extra_properties).map((key) =>
-      (<tr><td>{key}</td><td>{incident.extra_properties[key]}&nbsp;</td></tr>)
+    const extraProperties = incident.extra_properties && Object.keys(incident.extra_properties).map((key) =>
+      (<tr key={key}><td>{key}</td><td>{incident.extra_properties[key]}&nbsp;</td></tr>)
     );
     return (
       <div className="incident-detail">
