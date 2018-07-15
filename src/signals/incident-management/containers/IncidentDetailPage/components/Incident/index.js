@@ -7,6 +7,9 @@ import './style.scss';
 class Incident extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const { incident } = this.props;
+    const extraProperties = Object.keys(incident.extra_properties).map((key) =>
+      (<tr><td>{key}</td><td>{incident.extra_properties[key]}&nbsp;</td></tr>)
+    );
     return (
       <div className="incident-detail">
         <div className="incident-detail__body">
@@ -19,7 +22,7 @@ class Incident extends React.Component { // eslint-disable-line react/prefer-sta
               <tr><td>Rubriek</td><td>{incident.category.sub}&nbsp;</td></tr>
               <tr><td>Onschrijving</td><td>{incident.text}&nbsp;</td></tr>
               <tr><td>Aanvullende kenmerken</td><td>{incident.text_extra}&nbsp;</td></tr>
-              <tr><td>Naam boot (?)</td><td>Specifiek!????&nbsp;</td></tr>
+              {extraProperties}
               <tr><td>Stadsdeel</td><td>{incident.location.stadsdeel}</td></tr>
               <tr><td>Adres</td><td>{incident.location.address_text}</td></tr>
               <tr><td>Email</td><td>{incident.reporter.email}</td></tr>
