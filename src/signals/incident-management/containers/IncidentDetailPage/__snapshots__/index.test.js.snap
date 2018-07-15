@@ -1,0 +1,522 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentDetailPage /> should render correctly 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <IncidentDetailPage
+    incidentdetailpage={
+      Object {
+        "incident": Object {},
+      }
+    }
+    onRequestIncident={[MockFunction]}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div
+          className="col-12"
+        >
+          <h3>
+            Melding 
+          </h3>
+        </div>,
+        <ul
+          className="col-4 incident-detail-page__map"
+        >
+          <MapDetail
+            label=""
+          />
+        </ul>,
+        <div
+          className="col-8"
+        >
+          (
+          <Link
+            replace={false}
+            to="undefined/incidents"
+          >
+            Terug naar overzicht
+          </Link>
+          )
+          <IncidentDetail
+            incident={Object {}}
+          />
+        </div>,
+        <div
+          className="col-12"
+        >
+          <Tabs
+            onTabChanged={[Function]}
+            selectedTab={0}
+            tabs={
+              Array [
+                "Status",
+                "Categorie",
+              ]
+            }
+          />
+        </div>,
+        <div
+          className="col-12"
+        >
+          <div
+            className="incident-detail-page__tab-container"
+          >
+            <withReducer(withSaga(Connect(IncidentStatusContainer))) />
+          </div>
+        </div>,
+      ],
+      "className": "incident-detail-page row container",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <h3>
+            Melding 
+          </h3>,
+          "className": "col-12",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              "Melding ",
+              undefined,
+            ],
+          },
+          "ref": null,
+          "rendered": Array [
+            "Melding ",
+            undefined,
+          ],
+          "type": "h3",
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <MapDetail
+            label=""
+          />,
+          "className": "col-4 incident-detail-page__map",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "label": "",
+            "value": undefined,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": "ul",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            "(",
+            <Link
+              replace={false}
+              to="undefined/incidents"
+            >
+              Terug naar overzicht
+            </Link>,
+            ")",
+            <IncidentDetail
+              incident={Object {}}
+            />,
+          ],
+          "className": "col-8",
+        },
+        "ref": null,
+        "rendered": Array [
+          "(",
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "children": "Terug naar overzicht",
+              "replace": false,
+              "to": "undefined/incidents",
+            },
+            "ref": null,
+            "rendered": "Terug naar overzicht",
+            "type": [Function],
+          },
+          ")",
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "incident": Object {},
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <Tabs
+            onTabChanged={[Function]}
+            selectedTab={0}
+            tabs={
+              Array [
+                "Status",
+                "Categorie",
+              ]
+            }
+          />,
+          "className": "col-12",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "onTabChanged": [Function],
+            "selectedTab": 0,
+            "tabs": Array [
+              "Status",
+              "Categorie",
+            ],
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <div
+            className="incident-detail-page__tab-container"
+          >
+            <withReducer(withSaga(Connect(IncidentStatusContainer))) />
+          </div>,
+          "className": "col-12",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <withReducer(withSaga(Connect(IncidentStatusContainer))) />,
+            "className": "incident-detail-page__tab-container",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "id": undefined,
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="col-12"
+          >
+            <h3>
+              Melding 
+            </h3>
+          </div>,
+          <ul
+            className="col-4 incident-detail-page__map"
+          >
+            <MapDetail
+              label=""
+            />
+          </ul>,
+          <div
+            className="col-8"
+          >
+            (
+            <Link
+              replace={false}
+              to="undefined/incidents"
+            >
+              Terug naar overzicht
+            </Link>
+            )
+            <IncidentDetail
+              incident={Object {}}
+            />
+          </div>,
+          <div
+            className="col-12"
+          >
+            <Tabs
+              onTabChanged={[Function]}
+              selectedTab={0}
+              tabs={
+                Array [
+                  "Status",
+                  "Categorie",
+                ]
+              }
+            />
+          </div>,
+          <div
+            className="col-12"
+          >
+            <div
+              className="incident-detail-page__tab-container"
+            >
+              <withReducer(withSaga(Connect(IncidentStatusContainer))) />
+            </div>
+          </div>,
+        ],
+        "className": "incident-detail-page row container",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <h3>
+              Melding 
+            </h3>,
+            "className": "col-12",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                "Melding ",
+                undefined,
+              ],
+            },
+            "ref": null,
+            "rendered": Array [
+              "Melding ",
+              undefined,
+            ],
+            "type": "h3",
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <MapDetail
+              label=""
+            />,
+            "className": "col-4 incident-detail-page__map",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "label": "",
+              "value": undefined,
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "ul",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              "(",
+              <Link
+                replace={false}
+                to="undefined/incidents"
+              >
+                Terug naar overzicht
+              </Link>,
+              ")",
+              <IncidentDetail
+                incident={Object {}}
+              />,
+            ],
+            "className": "col-8",
+          },
+          "ref": null,
+          "rendered": Array [
+            "(",
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "children": "Terug naar overzicht",
+                "replace": false,
+                "to": "undefined/incidents",
+              },
+              "ref": null,
+              "rendered": "Terug naar overzicht",
+              "type": [Function],
+            },
+            ")",
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "incident": Object {},
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <Tabs
+              onTabChanged={[Function]}
+              selectedTab={0}
+              tabs={
+                Array [
+                  "Status",
+                  "Categorie",
+                ]
+              }
+            />,
+            "className": "col-12",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "onTabChanged": [Function],
+              "selectedTab": 0,
+              "tabs": Array [
+                "Status",
+                "Categorie",
+              ],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <div
+              className="incident-detail-page__tab-container"
+            >
+              <withReducer(withSaga(Connect(IncidentStatusContainer))) />
+            </div>,
+            "className": "col-12",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <withReducer(withSaga(Connect(IncidentStatusContainer))) />,
+              "className": "incident-detail-page__tab-container",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "id": undefined,
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": "div",
+          },
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;

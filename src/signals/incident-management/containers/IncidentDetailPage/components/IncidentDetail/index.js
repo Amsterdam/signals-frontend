@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import './style.scss';
 
-class Incident extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class IncidentDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const { incident } = this.props;
     const extraProperties = incident.extra_properties && Object.keys(incident.extra_properties).map((key) =>
@@ -37,8 +37,8 @@ class Incident extends React.Component { // eslint-disable-line react/prefer-sta
   }
 }
 
-Incident.propTypes = {
+IncidentDetail.propTypes = {
   incident: PropTypes.object.isRequired
 };
 
-export default Incident;
+export default IncidentDetail;

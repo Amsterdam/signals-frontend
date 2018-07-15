@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Incident from './index';
+import IncidentDetail from './index';
 
-describe('<Incident />', () => {
+describe('<IncidentDetail />', () => {
   let incident;
 
   beforeEach(() => {
@@ -24,7 +24,7 @@ describe('<Incident />', () => {
 
   it('should render correctly', () => {
     const renderedComponent = shallow(
-      <Incident incident={incident} />
+      <IncidentDetail incident={incident} />
     );
     expect(renderedComponent).toMatchSnapshot();
   });
@@ -32,7 +32,7 @@ describe('<Incident />', () => {
   it('should render correctly without extra properties', () => {
     delete incident.extra_properties;
     const renderedComponent = shallow(
-      <Incident incident={incident} />
+      <IncidentDetail incident={incident} />
     );
     expect(renderedComponent.find('tr').length).toEqual(13);
     expect(renderedComponent).toMatchSnapshot();

@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Incident /> should render correctly 1`] = `
+exports[`<IncidentDetail /> should render correctly 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <Incident
+  Symbol(enzyme.__unrendered__): <IncidentDetail
     incident={
       Object {
         "category": Object {
@@ -2715,11 +2715,11 @@ ShallowWrapper {
 }
 `;
 
-exports[`<Incident /> should render correctly without extra properties 1`] = `
+exports[`<IncidentDetail /> should render correctly without extra properties 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <Incident
+  Symbol(enzyme.__unrendered__): <IncidentDetail
     incident={
       Object {
         "category": Object {

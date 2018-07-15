@@ -1,10 +1,32 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-// import { IncidentDetailPage } from 'index';
+import { IncidentDetailPage, mapDispatchToProps } from './index';
+import { REQUEST_INCIDENT } from './constants';
 
 describe('<IncidentDetailPage />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(true);
+  let props;
+
+  beforeEach(() => {
+    props = {
+      incidentdetailpage: { incident: {} },
+      onRequestIncident: jest.fn()
+    };
+  });
+
+  it('should render correctly', () => {
+    const renderedComponent = shallow(
+      <IncidentDetailPage {...props} />
+    );
+    expect(renderedComponent).toMatchSnapshot();
+  });
+
+  it('mapDispatchToProps', () => {
+    const dispatch = jest.fn();
+
+    // For the `mapDispatchToProps`, call it directly but pass in
+    // a mock function and check the arguments passed in are as expected
+    mapDispatchToProps(dispatch).onRequestIncident({});
+    expect(dispatch.mock.calls[0][0]).toEqual({ type: REQUEST_INCIDENT, payload: {} });
   });
 });
