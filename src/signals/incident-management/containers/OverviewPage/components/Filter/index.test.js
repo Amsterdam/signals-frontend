@@ -1,10 +1,32 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-// import FilterComponent from 'index';
+import Filter from './index';
 
-describe('<FilterComponent />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(true);
+describe('<Filter />', () => {
+  let renderedComponent;
+  let props;
+
+  beforeEach(() => {
+    props = {
+      filterIncidents: jest.fn()
+    };
+
+    renderedComponent = shallow(
+      <Filter {...props} />
+    ).dive();
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it('should render correctly', () => {
+    expect(renderedComponent).toMatchSnapshot();
+  });
+
+  it('should render 2 buttons', () => {
+    console.log(renderedComponent.debug());
+    expect(renderedComponent.find('button').length).toEqual(2);
   });
 });

@@ -5,11 +5,11 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Route } from 'react-router-dom';
 
+import LoginPage from 'components/LoginPage';
 import { makeSelectIsAuthenticated } from 'containers/App/selectors';
 
 import OverviewPage from '../OverviewPage';
 import IncidentDetailPage from '../IncidentDetailPage';
-import LoginPage from '../LoginPage';
 
 import './style.scss';
 
@@ -20,13 +20,12 @@ export class IncidentManagementContainer extends React.Component { // eslint-dis
     const baseUrl = this.props.match.url;
     const IncidentDetailPageWrapper = (props) => (<IncidentDetailPage id={props.match.params.id} baseUrl={baseUrl} />);
     const OverviewPageWrapper = () => (<OverviewPage baseUrl={baseUrl} />);
-    const LoginPageWrapper = () => (<LoginPage baseUrl={baseUrl} />);
 
     return (
       <div className="manage-incident">
         {
           !isAuthenticated ? (
-            <Route render={LoginPageWrapper} />
+            <Route component={LoginPage} />
           ) : (
             <div className="row">
               <div className="col-12">

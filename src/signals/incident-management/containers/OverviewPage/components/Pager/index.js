@@ -7,6 +7,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { FormattedMessage } from 'react-intl';
+import messages from './messages';
 import './style.scss';
 
 class Pager extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -24,11 +26,11 @@ class Pager extends React.Component { // eslint-disable-line react/prefer-statel
     });
 
     return (
-      <div className="pager-" >
+      <div className="incidents-list-pager" >
         <div className="pager">
-          {hasPrevious ? <a role="presentation" className="pager_nav vorige" onClick={() => this.props.onPageChanged(currentPage - 1)}>vorige</a> : null}
+          {hasPrevious ? <a role="presentation" className="pager_nav vorige" onClick={() => this.props.onPageChanged(currentPage - 1)}><FormattedMessage {...messages.previous} /></a> : null}
           {pages.length > 1 ? pages : ''}
-          {hasNext ? <a role="presentation" className="pager_nav volgende" onClick={() => this.props.onPageChanged(currentPage + 1)}>volgende</a> : ''}
+          {hasNext ? <a role="presentation" className="pager_nav volgende" onClick={() => this.props.onPageChanged(currentPage + 1)}><FormattedMessage {...messages.next} /></a> : ''}
         </div>
       </div >
     );

@@ -6,8 +6,9 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <Header
     isAuthenticated={false}
+    onLoginLogoutButtonClick={undefined}
     userName=""
-  />,
+/>,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -22,90 +23,88 @@ ShallowWrapper {
     "props": Object {
       "children": <div
         className="row header-wrapper"
-      >
+>
         <div
-          className="col-sm-6 grid-header-logo"
+                className="col-sm-6 grid-header-logo"
         >
-          <h1
-            className="sitelogo"
-          >
-            <a
-              className="mainlogo"
-              href="https://www.amsterdam.nl"
-            >
-              <span
-                className="logoset"
-              >
-                <LogoSvg
-                  alt="Gemeente Amsterdam"
-                  className="screen-logo"
-                  id="Layer_1"
-                  viewBox="0 0 20 68"
-                  xmlns="http://www.w3.org/2000/svg"
-                />
-                <img
-                  alt="Gemeente Amsterdam"
-                  className="alt-logo"
-                  src="IMAGE_MOCK"
-                />
-                <img
-                  alt="Gemeente Amsterdam"
-                  className="print-logo"
-                  src="IMAGE_MOCK"
-                />
-              </span>
-              <span
-                className="logotexts"
-              >
-                <span
-                  className="logotext red"
+                <h1
+                        className="sitelogo"
                 >
-                  Gemeente
-                </span>
-                <span
-                  className="logotext red"
-                >
-                  Amsterdam
-                </span>
-              </span>
-            </a>
-          </h1>
+                        <a
+                                className="mainlogo"
+                                href="https://www.amsterdam.nl"
+                        >
+                                <span
+                                        className="logoset"
+                                >
+                                        <LogoSvg
+                                                alt="Gemeente Amsterdam"
+                                                className="screen-logo"
+                                                id="Layer_1"
+                                                viewBox="0 0 20 68"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                        />
+                                        <img
+                                                alt="Gemeente Amsterdam"
+                                                className="alt-logo"
+                                                src="IMAGE_MOCK"
+                                        />
+                                        <img
+                                                alt="Gemeente Amsterdam"
+                                                className="print-logo"
+                                                src="IMAGE_MOCK"
+                                        />
+                                </span>
+                                <span
+                                        className="logotexts"
+                                >
+                                        <span
+                                                className="logotext red"
+                                        >
+                                                Gemeente
+                                        </span>
+                                        <span
+                                                className="logotext red"
+                                        >
+                                                Amsterdam
+                                        </span>
+                                </span>
+                        </a>
+                </h1>
         </div>
         <div
-          className="col-sm-6"
+                className="col-sm-6"
         >
-          <nav>
-            <ul
-              className="links"
-            >
-              <li>
-                <span>
-                  <b>
-                    
-                  </b>
-                </span>
-              </li>
-              <li>
-                <a
-                  href=""
-                  onClick={[Function]}
-                >
-                  Inloggen
-                </a>
-              </li>
-              <li>
-                <a
-                  href=""
-                  onClick={[Function]}
-                >
-                  Inloggen ADW
-                </a>
-              </li>
-              
-            </ul>
-          </nav>
+                <nav>
+                        <ul
+                                className="links"
+                        >
+                                <li>
+                                        <span>
+                                                <b />
+                                        </span>
+                                </li>
+                                <li>
+                                        <a
+                                                href=""
+                                                onClick={[Function]}
+                                        >
+                                                Inloggen
+                                        </a>
+                                </li>
+                                <li>
+                                        <a
+                                                href=""
+                                                onClick={[Function]}
+                                        >
+                                                Inloggen ADW
+                                        </a>
+                                </li>
+                                
+                        </ul>
+                </nav>
         </div>
-      </div>,
+</div>,
       "className": "header-component has_header_modern",
     },
     "ref": null,
@@ -117,86 +116,84 @@ ShallowWrapper {
         "children": Array [
           <div
             className="col-sm-6 grid-header-logo"
-          >
+>
             <h1
-              className="sitelogo"
+                        className="sitelogo"
             >
-              <a
-                className="mainlogo"
-                href="https://www.amsterdam.nl"
-              >
-                <span
-                  className="logoset"
-                >
-                  <LogoSvg
-                    alt="Gemeente Amsterdam"
-                    className="screen-logo"
-                    id="Layer_1"
-                    viewBox="0 0 20 68"
-                    xmlns="http://www.w3.org/2000/svg"
-                  />
-                  <img
-                    alt="Gemeente Amsterdam"
-                    className="alt-logo"
-                    src="IMAGE_MOCK"
-                  />
-                  <img
-                    alt="Gemeente Amsterdam"
-                    className="print-logo"
-                    src="IMAGE_MOCK"
-                  />
-                </span>
-                <span
-                  className="logotexts"
-                >
-                  <span
-                    className="logotext red"
-                  >
-                    Gemeente
-                  </span>
-                  <span
-                    className="logotext red"
-                  >
-                    Amsterdam
-                  </span>
-                </span>
-              </a>
+                        <a
+                                    className="mainlogo"
+                                    href="https://www.amsterdam.nl"
+                        >
+                                    <span
+                                                className="logoset"
+                                    >
+                                                <LogoSvg
+                                                            alt="Gemeente Amsterdam"
+                                                            className="screen-logo"
+                                                            id="Layer_1"
+                                                            viewBox="0 0 20 68"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                />
+                                                <img
+                                                            alt="Gemeente Amsterdam"
+                                                            className="alt-logo"
+                                                            src="IMAGE_MOCK"
+                                                />
+                                                <img
+                                                            alt="Gemeente Amsterdam"
+                                                            className="print-logo"
+                                                            src="IMAGE_MOCK"
+                                                />
+                                    </span>
+                                    <span
+                                                className="logotexts"
+                                    >
+                                                <span
+                                                            className="logotext red"
+                                                >
+                                                            Gemeente
+                                                </span>
+                                                <span
+                                                            className="logotext red"
+                                                >
+                                                            Amsterdam
+                                                </span>
+                                    </span>
+                        </a>
             </h1>
-          </div>,
+</div>,
           <div
             className="col-sm-6"
-          >
+>
             <nav>
-              <ul
-                className="links"
-              >
-                <li>
-                  <span>
-                    <b>
-                      
-                    </b>
-                  </span>
-                </li>
-                <li>
-                  <a
-                    href=""
-                    onClick={[Function]}
-                  >
-                    Inloggen
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href=""
-                    onClick={[Function]}
-                  >
-                    Inloggen ADW
-                  </a>
-                </li>
-                
-              </ul>
+                        <ul
+                                    className="links"
+                        >
+                                    <li>
+                                                <span>
+                                                            <b />
+                                                </span>
+                                    </li>
+                                    <li>
+                                                <a
+                                                            href=""
+                                                            onClick={[Function]}
+                                                >
+                                                            Inloggen
+                                                </a>
+                                    </li>
+                                    <li>
+                                                <a
+                                                            href=""
+                                                            onClick={[Function]}
+                                                >
+                                                            Inloggen ADW
+                                                </a>
+                                    </li>
+                                    
+                        </ul>
             </nav>
-          </div>,
+</div>,
         ],
         "className": "row header-wrapper",
       },
@@ -209,48 +206,48 @@ ShallowWrapper {
           "props": Object {
             "children": <h1
               className="sitelogo"
-            >
+>
               <a
-                className="mainlogo"
-                href="https://www.amsterdam.nl"
+                            className="mainlogo"
+                            href="https://www.amsterdam.nl"
               >
-                <span
-                  className="logoset"
-                >
-                  <LogoSvg
-                    alt="Gemeente Amsterdam"
-                    className="screen-logo"
-                    id="Layer_1"
-                    viewBox="0 0 20 68"
-                    xmlns="http://www.w3.org/2000/svg"
-                  />
-                  <img
-                    alt="Gemeente Amsterdam"
-                    className="alt-logo"
-                    src="IMAGE_MOCK"
-                  />
-                  <img
-                    alt="Gemeente Amsterdam"
-                    className="print-logo"
-                    src="IMAGE_MOCK"
-                  />
-                </span>
-                <span
-                  className="logotexts"
-                >
-                  <span
-                    className="logotext red"
-                  >
-                    Gemeente
-                  </span>
-                  <span
-                    className="logotext red"
-                  >
-                    Amsterdam
-                  </span>
-                </span>
+                            <span
+                                          className="logoset"
+                            >
+                                          <LogoSvg
+                                                        alt="Gemeente Amsterdam"
+                                                        className="screen-logo"
+                                                        id="Layer_1"
+                                                        viewBox="0 0 20 68"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                          />
+                                          <img
+                                                        alt="Gemeente Amsterdam"
+                                                        className="alt-logo"
+                                                        src="IMAGE_MOCK"
+                                          />
+                                          <img
+                                                        alt="Gemeente Amsterdam"
+                                                        className="print-logo"
+                                                        src="IMAGE_MOCK"
+                                          />
+                            </span>
+                            <span
+                                          className="logotexts"
+                            >
+                                          <span
+                                                        className="logotext red"
+                                          >
+                                                        Gemeente
+                                          </span>
+                                          <span
+                                                        className="logotext red"
+                                          >
+                                                        Amsterdam
+                                          </span>
+                            </span>
               </a>
-            </h1>,
+</h1>,
             "className": "col-sm-6 grid-header-logo",
           },
           "ref": null,
@@ -262,43 +259,43 @@ ShallowWrapper {
               "children": <a
                 className="mainlogo"
                 href="https://www.amsterdam.nl"
-              >
+>
                 <span
-                  className="logoset"
+                                className="logoset"
                 >
-                  <LogoSvg
-                    alt="Gemeente Amsterdam"
-                    className="screen-logo"
-                    id="Layer_1"
-                    viewBox="0 0 20 68"
-                    xmlns="http://www.w3.org/2000/svg"
-                  />
-                  <img
-                    alt="Gemeente Amsterdam"
-                    className="alt-logo"
-                    src="IMAGE_MOCK"
-                  />
-                  <img
-                    alt="Gemeente Amsterdam"
-                    className="print-logo"
-                    src="IMAGE_MOCK"
-                  />
+                                <LogoSvg
+                                                alt="Gemeente Amsterdam"
+                                                className="screen-logo"
+                                                id="Layer_1"
+                                                viewBox="0 0 20 68"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                />
+                                <img
+                                                alt="Gemeente Amsterdam"
+                                                className="alt-logo"
+                                                src="IMAGE_MOCK"
+                                />
+                                <img
+                                                alt="Gemeente Amsterdam"
+                                                className="print-logo"
+                                                src="IMAGE_MOCK"
+                                />
                 </span>
                 <span
-                  className="logotexts"
+                                className="logotexts"
                 >
-                  <span
-                    className="logotext red"
-                  >
-                    Gemeente
-                  </span>
-                  <span
-                    className="logotext red"
-                  >
-                    Amsterdam
-                  </span>
+                                <span
+                                                className="logotext red"
+                                >
+                                                Gemeente
+                                </span>
+                                <span
+                                                className="logotext red"
+                                >
+                                                Amsterdam
+                                </span>
                 </span>
-              </a>,
+</a>,
               "className": "sitelogo",
             },
             "ref": null,
@@ -310,39 +307,39 @@ ShallowWrapper {
                 "children": Array [
                   <span
                     className="logoset"
-                  >
+>
                     <LogoSvg
-                      alt="Gemeente Amsterdam"
-                      className="screen-logo"
-                      id="Layer_1"
-                      viewBox="0 0 20 68"
-                      xmlns="http://www.w3.org/2000/svg"
+                                        alt="Gemeente Amsterdam"
+                                        className="screen-logo"
+                                        id="Layer_1"
+                                        viewBox="0 0 20 68"
+                                        xmlns="http://www.w3.org/2000/svg"
                     />
                     <img
-                      alt="Gemeente Amsterdam"
-                      className="alt-logo"
-                      src="IMAGE_MOCK"
+                                        alt="Gemeente Amsterdam"
+                                        className="alt-logo"
+                                        src="IMAGE_MOCK"
                     />
                     <img
-                      alt="Gemeente Amsterdam"
-                      className="print-logo"
-                      src="IMAGE_MOCK"
+                                        alt="Gemeente Amsterdam"
+                                        className="print-logo"
+                                        src="IMAGE_MOCK"
                     />
-                  </span>,
+</span>,
                   <span
                     className="logotexts"
-                  >
+>
                     <span
-                      className="logotext red"
+                                        className="logotext red"
                     >
-                      Gemeente
+                                        Gemeente
                     </span>
                     <span
-                      className="logotext red"
+                                        className="logotext red"
                     >
-                      Amsterdam
+                                        Amsterdam
                     </span>
-                  </span>,
+</span>,
                 ],
                 "className": "mainlogo",
                 "href": "https://www.amsterdam.nl",
@@ -361,17 +358,17 @@ ShallowWrapper {
                         id="Layer_1"
                         viewBox="0 0 20 68"
                         xmlns="http://www.w3.org/2000/svg"
-                      />,
+/>,
                       <img
                         alt="Gemeente Amsterdam"
                         className="alt-logo"
                         src="IMAGE_MOCK"
-                      />,
+/>,
                       <img
                         alt="Gemeente Amsterdam"
                         className="print-logo"
                         src="IMAGE_MOCK"
-                      />,
+/>,
                     ],
                     "className": "logoset",
                   },
@@ -429,14 +426,14 @@ ShallowWrapper {
                     "children": Array [
                       <span
                         className="logotext red"
-                      >
+>
                         Gemeente
-                      </span>,
+</span>,
                       <span
                         className="logotext red"
-                      >
+>
                         Amsterdam
-                      </span>,
+</span>,
                     ],
                     "className": "logotexts",
                   },
@@ -483,34 +480,32 @@ ShallowWrapper {
           "props": Object {
             "children": <nav>
               <ul
-                className="links"
+                            className="links"
               >
-                <li>
-                  <span>
-                    <b>
-                      
-                    </b>
-                  </span>
-                </li>
-                <li>
-                  <a
-                    href=""
-                    onClick={[Function]}
-                  >
-                    Inloggen
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href=""
-                    onClick={[Function]}
-                  >
-                    Inloggen ADW
-                  </a>
-                </li>
-                
+                            <li>
+                                          <span>
+                                                        <b />
+                                          </span>
+                            </li>
+                            <li>
+                                          <a
+                                                        href=""
+                                                        onClick={[Function]}
+                                          >
+                                                        Inloggen
+                                          </a>
+                            </li>
+                            <li>
+                                          <a
+                                                        href=""
+                                                        onClick={[Function]}
+                                          >
+                                                        Inloggen ADW
+                                          </a>
+                            </li>
+                            
               </ul>
-            </nav>,
+</nav>,
             "className": "col-sm-6",
           },
           "ref": null,
@@ -521,32 +516,30 @@ ShallowWrapper {
             "props": Object {
               "children": <ul
                 className="links"
-              >
+>
                 <li>
-                  <span>
-                    <b>
-                      
-                    </b>
-                  </span>
+                                <span>
+                                                <b />
+                                </span>
                 </li>
                 <li>
-                  <a
-                    href=""
-                    onClick={[Function]}
-                  >
-                    Inloggen
-                  </a>
+                                <a
+                                                href=""
+                                                onClick={[Function]}
+                                >
+                                                Inloggen
+                                </a>
                 </li>
                 <li>
-                  <a
-                    href=""
-                    onClick={[Function]}
-                  >
-                    Inloggen ADW
-                  </a>
+                                <a
+                                                href=""
+                                                onClick={[Function]}
+                                >
+                                                Inloggen ADW
+                                </a>
                 </li>
                 
-              </ul>,
+</ul>,
             },
             "ref": null,
             "rendered": Object {
@@ -557,27 +550,25 @@ ShallowWrapper {
                 "children": Array [
                   <li>
                     <span>
-                      <b>
-                        
-                      </b>
+                                        <b />
                     </span>
-                  </li>,
+</li>,
                   <li>
                     <a
-                      href=""
-                      onClick={[Function]}
+                                        href=""
+                                        onClick={[Function]}
                     >
-                      Inloggen
+                                        Inloggen
                     </a>
-                  </li>,
+</li>,
                   <li>
                     <a
-                      href=""
-                      onClick={[Function]}
+                                        href=""
+                                        onClick={[Function]}
                     >
-                      Inloggen ADW
+                                        Inloggen ADW
                     </a>
-                  </li>,
+</li>,
                   "",
                 ],
                 "className": "links",
@@ -590,10 +581,8 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": <span>
-                      <b>
-                        
-                      </b>
-                    </span>,
+                      <b />
+</span>,
                   },
                   "ref": null,
                   "rendered": Object {
@@ -603,9 +592,7 @@ ShallowWrapper {
                     "props": Object {
                       "children": Array [
                         false,
-                        <b>
-                          
-                        </b>,
+                        <b />,
                       ],
                     },
                     "ref": null,
@@ -635,9 +622,9 @@ ShallowWrapper {
                     "children": <a
                       href=""
                       onClick={[Function]}
-                    >
+>
                       Inloggen
-                    </a>,
+</a>,
                   },
                   "ref": null,
                   "rendered": Object {
@@ -663,9 +650,9 @@ ShallowWrapper {
                     "children": <a
                       href=""
                       onClick={[Function]}
-                    >
+>
                       Inloggen ADW
-                    </a>,
+</a>,
                   },
                   "ref": null,
                   "rendered": Object {
@@ -704,90 +691,88 @@ ShallowWrapper {
       "props": Object {
         "children": <div
           className="row header-wrapper"
-        >
+>
           <div
-            className="col-sm-6 grid-header-logo"
+                    className="col-sm-6 grid-header-logo"
           >
-            <h1
-              className="sitelogo"
-            >
-              <a
-                className="mainlogo"
-                href="https://www.amsterdam.nl"
-              >
-                <span
-                  className="logoset"
-                >
-                  <LogoSvg
-                    alt="Gemeente Amsterdam"
-                    className="screen-logo"
-                    id="Layer_1"
-                    viewBox="0 0 20 68"
-                    xmlns="http://www.w3.org/2000/svg"
-                  />
-                  <img
-                    alt="Gemeente Amsterdam"
-                    className="alt-logo"
-                    src="IMAGE_MOCK"
-                  />
-                  <img
-                    alt="Gemeente Amsterdam"
-                    className="print-logo"
-                    src="IMAGE_MOCK"
-                  />
-                </span>
-                <span
-                  className="logotexts"
-                >
-                  <span
-                    className="logotext red"
-                  >
-                    Gemeente
-                  </span>
-                  <span
-                    className="logotext red"
-                  >
-                    Amsterdam
-                  </span>
-                </span>
-              </a>
-            </h1>
+                    <h1
+                              className="sitelogo"
+                    >
+                              <a
+                                        className="mainlogo"
+                                        href="https://www.amsterdam.nl"
+                              >
+                                        <span
+                                                  className="logoset"
+                                        >
+                                                  <LogoSvg
+                                                            alt="Gemeente Amsterdam"
+                                                            className="screen-logo"
+                                                            id="Layer_1"
+                                                            viewBox="0 0 20 68"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                  />
+                                                  <img
+                                                            alt="Gemeente Amsterdam"
+                                                            className="alt-logo"
+                                                            src="IMAGE_MOCK"
+                                                  />
+                                                  <img
+                                                            alt="Gemeente Amsterdam"
+                                                            className="print-logo"
+                                                            src="IMAGE_MOCK"
+                                                  />
+                                        </span>
+                                        <span
+                                                  className="logotexts"
+                                        >
+                                                  <span
+                                                            className="logotext red"
+                                                  >
+                                                            Gemeente
+                                                  </span>
+                                                  <span
+                                                            className="logotext red"
+                                                  >
+                                                            Amsterdam
+                                                  </span>
+                                        </span>
+                              </a>
+                    </h1>
           </div>
           <div
-            className="col-sm-6"
+                    className="col-sm-6"
           >
-            <nav>
-              <ul
-                className="links"
-              >
-                <li>
-                  <span>
-                    <b>
-                      
-                    </b>
-                  </span>
-                </li>
-                <li>
-                  <a
-                    href=""
-                    onClick={[Function]}
-                  >
-                    Inloggen
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href=""
-                    onClick={[Function]}
-                  >
-                    Inloggen ADW
-                  </a>
-                </li>
-                
-              </ul>
-            </nav>
+                    <nav>
+                              <ul
+                                        className="links"
+                              >
+                                        <li>
+                                                  <span>
+                                                            <b />
+                                                  </span>
+                                        </li>
+                                        <li>
+                                                  <a
+                                                            href=""
+                                                            onClick={[Function]}
+                                                  >
+                                                            Inloggen
+                                                  </a>
+                                        </li>
+                                        <li>
+                                                  <a
+                                                            href=""
+                                                            onClick={[Function]}
+                                                  >
+                                                            Inloggen ADW
+                                                  </a>
+                                        </li>
+                                        
+                              </ul>
+                    </nav>
           </div>
-        </div>,
+</div>,
         "className": "header-component has_header_modern",
       },
       "ref": null,
@@ -799,86 +784,84 @@ ShallowWrapper {
           "children": Array [
             <div
               className="col-sm-6 grid-header-logo"
-            >
+>
               <h1
-                className="sitelogo"
+                            className="sitelogo"
               >
-                <a
-                  className="mainlogo"
-                  href="https://www.amsterdam.nl"
-                >
-                  <span
-                    className="logoset"
-                  >
-                    <LogoSvg
-                      alt="Gemeente Amsterdam"
-                      className="screen-logo"
-                      id="Layer_1"
-                      viewBox="0 0 20 68"
-                      xmlns="http://www.w3.org/2000/svg"
-                    />
-                    <img
-                      alt="Gemeente Amsterdam"
-                      className="alt-logo"
-                      src="IMAGE_MOCK"
-                    />
-                    <img
-                      alt="Gemeente Amsterdam"
-                      className="print-logo"
-                      src="IMAGE_MOCK"
-                    />
-                  </span>
-                  <span
-                    className="logotexts"
-                  >
-                    <span
-                      className="logotext red"
-                    >
-                      Gemeente
-                    </span>
-                    <span
-                      className="logotext red"
-                    >
-                      Amsterdam
-                    </span>
-                  </span>
-                </a>
+                            <a
+                                          className="mainlogo"
+                                          href="https://www.amsterdam.nl"
+                            >
+                                          <span
+                                                        className="logoset"
+                                          >
+                                                        <LogoSvg
+                                                                      alt="Gemeente Amsterdam"
+                                                                      className="screen-logo"
+                                                                      id="Layer_1"
+                                                                      viewBox="0 0 20 68"
+                                                                      xmlns="http://www.w3.org/2000/svg"
+                                                        />
+                                                        <img
+                                                                      alt="Gemeente Amsterdam"
+                                                                      className="alt-logo"
+                                                                      src="IMAGE_MOCK"
+                                                        />
+                                                        <img
+                                                                      alt="Gemeente Amsterdam"
+                                                                      className="print-logo"
+                                                                      src="IMAGE_MOCK"
+                                                        />
+                                          </span>
+                                          <span
+                                                        className="logotexts"
+                                          >
+                                                        <span
+                                                                      className="logotext red"
+                                                        >
+                                                                      Gemeente
+                                                        </span>
+                                                        <span
+                                                                      className="logotext red"
+                                                        >
+                                                                      Amsterdam
+                                                        </span>
+                                          </span>
+                            </a>
               </h1>
-            </div>,
+</div>,
             <div
               className="col-sm-6"
-            >
+>
               <nav>
-                <ul
-                  className="links"
-                >
-                  <li>
-                    <span>
-                      <b>
-                        
-                      </b>
-                    </span>
-                  </li>
-                  <li>
-                    <a
-                      href=""
-                      onClick={[Function]}
-                    >
-                      Inloggen
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href=""
-                      onClick={[Function]}
-                    >
-                      Inloggen ADW
-                    </a>
-                  </li>
-                  
-                </ul>
+                            <ul
+                                          className="links"
+                            >
+                                          <li>
+                                                        <span>
+                                                                      <b />
+                                                        </span>
+                                          </li>
+                                          <li>
+                                                        <a
+                                                                      href=""
+                                                                      onClick={[Function]}
+                                                        >
+                                                                      Inloggen
+                                                        </a>
+                                          </li>
+                                          <li>
+                                                        <a
+                                                                      href=""
+                                                                      onClick={[Function]}
+                                                        >
+                                                                      Inloggen ADW
+                                                        </a>
+                                          </li>
+                                          
+                            </ul>
               </nav>
-            </div>,
+</div>,
           ],
           "className": "row header-wrapper",
         },
@@ -891,48 +874,48 @@ ShallowWrapper {
             "props": Object {
               "children": <h1
                 className="sitelogo"
-              >
+>
                 <a
-                  className="mainlogo"
-                  href="https://www.amsterdam.nl"
+                                className="mainlogo"
+                                href="https://www.amsterdam.nl"
                 >
-                  <span
-                    className="logoset"
-                  >
-                    <LogoSvg
-                      alt="Gemeente Amsterdam"
-                      className="screen-logo"
-                      id="Layer_1"
-                      viewBox="0 0 20 68"
-                      xmlns="http://www.w3.org/2000/svg"
-                    />
-                    <img
-                      alt="Gemeente Amsterdam"
-                      className="alt-logo"
-                      src="IMAGE_MOCK"
-                    />
-                    <img
-                      alt="Gemeente Amsterdam"
-                      className="print-logo"
-                      src="IMAGE_MOCK"
-                    />
-                  </span>
-                  <span
-                    className="logotexts"
-                  >
-                    <span
-                      className="logotext red"
-                    >
-                      Gemeente
-                    </span>
-                    <span
-                      className="logotext red"
-                    >
-                      Amsterdam
-                    </span>
-                  </span>
+                                <span
+                                                className="logoset"
+                                >
+                                                <LogoSvg
+                                                                alt="Gemeente Amsterdam"
+                                                                className="screen-logo"
+                                                                id="Layer_1"
+                                                                viewBox="0 0 20 68"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                />
+                                                <img
+                                                                alt="Gemeente Amsterdam"
+                                                                className="alt-logo"
+                                                                src="IMAGE_MOCK"
+                                                />
+                                                <img
+                                                                alt="Gemeente Amsterdam"
+                                                                className="print-logo"
+                                                                src="IMAGE_MOCK"
+                                                />
+                                </span>
+                                <span
+                                                className="logotexts"
+                                >
+                                                <span
+                                                                className="logotext red"
+                                                >
+                                                                Gemeente
+                                                </span>
+                                                <span
+                                                                className="logotext red"
+                                                >
+                                                                Amsterdam
+                                                </span>
+                                </span>
                 </a>
-              </h1>,
+</h1>,
               "className": "col-sm-6 grid-header-logo",
             },
             "ref": null,
@@ -944,43 +927,43 @@ ShallowWrapper {
                 "children": <a
                   className="mainlogo"
                   href="https://www.amsterdam.nl"
-                >
+>
                   <span
-                    className="logoset"
+                                    className="logoset"
                   >
-                    <LogoSvg
-                      alt="Gemeente Amsterdam"
-                      className="screen-logo"
-                      id="Layer_1"
-                      viewBox="0 0 20 68"
-                      xmlns="http://www.w3.org/2000/svg"
-                    />
-                    <img
-                      alt="Gemeente Amsterdam"
-                      className="alt-logo"
-                      src="IMAGE_MOCK"
-                    />
-                    <img
-                      alt="Gemeente Amsterdam"
-                      className="print-logo"
-                      src="IMAGE_MOCK"
-                    />
+                                    <LogoSvg
+                                                      alt="Gemeente Amsterdam"
+                                                      className="screen-logo"
+                                                      id="Layer_1"
+                                                      viewBox="0 0 20 68"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                    <img
+                                                      alt="Gemeente Amsterdam"
+                                                      className="alt-logo"
+                                                      src="IMAGE_MOCK"
+                                    />
+                                    <img
+                                                      alt="Gemeente Amsterdam"
+                                                      className="print-logo"
+                                                      src="IMAGE_MOCK"
+                                    />
                   </span>
                   <span
-                    className="logotexts"
+                                    className="logotexts"
                   >
-                    <span
-                      className="logotext red"
-                    >
-                      Gemeente
-                    </span>
-                    <span
-                      className="logotext red"
-                    >
-                      Amsterdam
-                    </span>
+                                    <span
+                                                      className="logotext red"
+                                    >
+                                                      Gemeente
+                                    </span>
+                                    <span
+                                                      className="logotext red"
+                                    >
+                                                      Amsterdam
+                                    </span>
                   </span>
-                </a>,
+</a>,
                 "className": "sitelogo",
               },
               "ref": null,
@@ -992,39 +975,39 @@ ShallowWrapper {
                   "children": Array [
                     <span
                       className="logoset"
-                    >
+>
                       <LogoSvg
-                        alt="Gemeente Amsterdam"
-                        className="screen-logo"
-                        id="Layer_1"
-                        viewBox="0 0 20 68"
-                        xmlns="http://www.w3.org/2000/svg"
+                                            alt="Gemeente Amsterdam"
+                                            className="screen-logo"
+                                            id="Layer_1"
+                                            viewBox="0 0 20 68"
+                                            xmlns="http://www.w3.org/2000/svg"
                       />
                       <img
-                        alt="Gemeente Amsterdam"
-                        className="alt-logo"
-                        src="IMAGE_MOCK"
+                                            alt="Gemeente Amsterdam"
+                                            className="alt-logo"
+                                            src="IMAGE_MOCK"
                       />
                       <img
-                        alt="Gemeente Amsterdam"
-                        className="print-logo"
-                        src="IMAGE_MOCK"
+                                            alt="Gemeente Amsterdam"
+                                            className="print-logo"
+                                            src="IMAGE_MOCK"
                       />
-                    </span>,
+</span>,
                     <span
                       className="logotexts"
-                    >
+>
                       <span
-                        className="logotext red"
+                                            className="logotext red"
                       >
-                        Gemeente
+                                            Gemeente
                       </span>
                       <span
-                        className="logotext red"
+                                            className="logotext red"
                       >
-                        Amsterdam
+                                            Amsterdam
                       </span>
-                    </span>,
+</span>,
                   ],
                   "className": "mainlogo",
                   "href": "https://www.amsterdam.nl",
@@ -1043,17 +1026,17 @@ ShallowWrapper {
                           id="Layer_1"
                           viewBox="0 0 20 68"
                           xmlns="http://www.w3.org/2000/svg"
-                        />,
+/>,
                         <img
                           alt="Gemeente Amsterdam"
                           className="alt-logo"
                           src="IMAGE_MOCK"
-                        />,
+/>,
                         <img
                           alt="Gemeente Amsterdam"
                           className="print-logo"
                           src="IMAGE_MOCK"
-                        />,
+/>,
                       ],
                       "className": "logoset",
                     },
@@ -1111,14 +1094,14 @@ ShallowWrapper {
                       "children": Array [
                         <span
                           className="logotext red"
-                        >
+>
                           Gemeente
-                        </span>,
+</span>,
                         <span
                           className="logotext red"
-                        >
+>
                           Amsterdam
-                        </span>,
+</span>,
                       ],
                       "className": "logotexts",
                     },
@@ -1165,34 +1148,32 @@ ShallowWrapper {
             "props": Object {
               "children": <nav>
                 <ul
-                  className="links"
+                                className="links"
                 >
-                  <li>
-                    <span>
-                      <b>
-                        
-                      </b>
-                    </span>
-                  </li>
-                  <li>
-                    <a
-                      href=""
-                      onClick={[Function]}
-                    >
-                      Inloggen
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href=""
-                      onClick={[Function]}
-                    >
-                      Inloggen ADW
-                    </a>
-                  </li>
-                  
+                                <li>
+                                                <span>
+                                                                <b />
+                                                </span>
+                                </li>
+                                <li>
+                                                <a
+                                                                href=""
+                                                                onClick={[Function]}
+                                                >
+                                                                Inloggen
+                                                </a>
+                                </li>
+                                <li>
+                                                <a
+                                                                href=""
+                                                                onClick={[Function]}
+                                                >
+                                                                Inloggen ADW
+                                                </a>
+                                </li>
+                                
                 </ul>
-              </nav>,
+</nav>,
               "className": "col-sm-6",
             },
             "ref": null,
@@ -1203,32 +1184,30 @@ ShallowWrapper {
               "props": Object {
                 "children": <ul
                   className="links"
-                >
+>
                   <li>
-                    <span>
-                      <b>
-                        
-                      </b>
-                    </span>
+                                    <span>
+                                                      <b />
+                                    </span>
                   </li>
                   <li>
-                    <a
-                      href=""
-                      onClick={[Function]}
-                    >
-                      Inloggen
-                    </a>
+                                    <a
+                                                      href=""
+                                                      onClick={[Function]}
+                                    >
+                                                      Inloggen
+                                    </a>
                   </li>
                   <li>
-                    <a
-                      href=""
-                      onClick={[Function]}
-                    >
-                      Inloggen ADW
-                    </a>
+                                    <a
+                                                      href=""
+                                                      onClick={[Function]}
+                                    >
+                                                      Inloggen ADW
+                                    </a>
                   </li>
                   
-                </ul>,
+</ul>,
               },
               "ref": null,
               "rendered": Object {
@@ -1239,27 +1218,25 @@ ShallowWrapper {
                   "children": Array [
                     <li>
                       <span>
-                        <b>
-                          
-                        </b>
+                                            <b />
                       </span>
-                    </li>,
+</li>,
                     <li>
                       <a
-                        href=""
-                        onClick={[Function]}
+                                            href=""
+                                            onClick={[Function]}
                       >
-                        Inloggen
+                                            Inloggen
                       </a>
-                    </li>,
+</li>,
                     <li>
                       <a
-                        href=""
-                        onClick={[Function]}
+                                            href=""
+                                            onClick={[Function]}
                       >
-                        Inloggen ADW
+                                            Inloggen ADW
                       </a>
-                    </li>,
+</li>,
                     "",
                   ],
                   "className": "links",
@@ -1272,10 +1249,8 @@ ShallowWrapper {
                     "nodeType": "host",
                     "props": Object {
                       "children": <span>
-                        <b>
-                          
-                        </b>
-                      </span>,
+                        <b />
+</span>,
                     },
                     "ref": null,
                     "rendered": Object {
@@ -1285,9 +1260,7 @@ ShallowWrapper {
                       "props": Object {
                         "children": Array [
                           false,
-                          <b>
-                            
-                          </b>,
+                          <b />,
                         ],
                       },
                       "ref": null,
@@ -1317,9 +1290,9 @@ ShallowWrapper {
                       "children": <a
                         href=""
                         onClick={[Function]}
-                      >
+>
                         Inloggen
-                      </a>,
+</a>,
                     },
                     "ref": null,
                     "rendered": Object {
@@ -1345,9 +1318,9 @@ ShallowWrapper {
                       "children": <a
                         href=""
                         onClick={[Function]}
-                      >
+>
                         Inloggen ADW
-                      </a>,
+</a>,
                     },
                     "ref": null,
                     "rendered": Object {
