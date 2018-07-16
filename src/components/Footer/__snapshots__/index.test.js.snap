@@ -20,7 +20,7 @@ exports[`<Footer /> should render correctly 1`] = `
             Lukt het niet om een melding te doen?
           </h2>
           <p>
-            Bel het Gemeentelijk informatienummer: 14 020
+            Bel het Gemeentelijk informatienummer: 14 020 
             <br />
             op werkdagen van 08.00 tot 18.00 uur.
           </p>
