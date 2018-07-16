@@ -8,7 +8,7 @@ import { Route } from 'react-router-dom';
 import LoginPage from 'components/LoginPage';
 import { makeSelectIsAuthenticated } from 'containers/App/selectors';
 
-import OverviewPage from '../OverviewPage';
+import IncidentOverviewPage from '../IncidentOverviewPage';
 import IncidentDetailPage from '../IncidentDetailPage';
 
 import './style.scss';
@@ -19,7 +19,7 @@ export class IncidentManagementContainer extends React.Component { // eslint-dis
     const { isAuthenticated } = this.props;
     const baseUrl = this.props.match.url;
     const IncidentDetailPageWrapper = (props) => (<IncidentDetailPage id={props.match.params.id} baseUrl={baseUrl} />);
-    const OverviewPageWrapper = () => (<OverviewPage baseUrl={baseUrl} />);
+    const IncidentOverviewPageWrapper = () => (<IncidentOverviewPage baseUrl={baseUrl} />);
 
     return (
       <div className="manage-incident">
@@ -29,7 +29,7 @@ export class IncidentManagementContainer extends React.Component { // eslint-dis
           ) : (
             <div className="row">
               <div className="col-12">
-                <Route exact path={`${baseUrl}/incidents`} render={OverviewPageWrapper} />
+                <Route exact path={`${baseUrl}/incidents`} render={IncidentOverviewPageWrapper} />
                 <Route exact path={`${baseUrl}/incident/:id`} render={IncidentDetailPageWrapper} />
               </div>
             </div>
