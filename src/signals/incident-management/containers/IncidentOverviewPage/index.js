@@ -18,7 +18,7 @@ import Filter from './components/Filter';
 import ListComponent from './components/List';
 import Pager from './components/Pager';
 
-export class OverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class IncidentOverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.onPageChanged = this.onPageChanged.bind(this);
@@ -54,7 +54,7 @@ export class OverviewPage extends React.Component { // eslint-disable-line react
   }
 }
 
-OverviewPage.propTypes = {
+IncidentOverviewPage.propTypes = {
   overviewpage: PropTypes.object.isRequired,
   baseUrl: PropTypes.string.isRequired,
 
@@ -83,4 +83,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(OverviewPage);
+)(IncidentOverviewPage);

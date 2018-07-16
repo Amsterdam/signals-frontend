@@ -22,7 +22,7 @@ node {
         checkout scm
     }
 
-    stage("Build image") {
+    stage("Build acceptance image") {
         tryStep "build", {
             def image = docker.build("build.app.amsterdam.nl:5000/ois/signalsfrontend:${env.BUILD_NUMBER}",
                 "--shm-size 1G " +

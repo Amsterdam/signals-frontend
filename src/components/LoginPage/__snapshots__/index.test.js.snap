@@ -1,307 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<LoginPage /> should render correctly 1`] = `
-ShallowWrapper {
-  "length": 1,
-  Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <LoginPage />,
-  Symbol(enzyme.__renderer__): Object {
-    "batchedUpdates": [Function],
-    "getNode": [Function],
-    "render": [Function],
-    "simulateEvent": [Function],
-    "unmount": [Function],
-  },
-  Symbol(enzyme.__node__): Object {
-    "instance": null,
-    "key": undefined,
-    "nodeType": "host",
-    "props": Object {
-      "children": <div
-        className="col-12"
+<div
+  className="login-page notification notification-red margin-top-bottom"
 >
-        <p>
-                Om deze pagina te zien dient u ingelogd te zijn.
-        </p>
-        <button
-                className="action primary"
-                onClick={[Function]}
-        >
-                <span
-                        className="value"
-                >
-                        Inloggen
-                </span>
-        </button>
-        <button
-                className="action primary"
-                onClick={[Function]}
-        >
-                <span
-                        className="value"
-                >
-                        Inloggen ADW
-                </span>
-        </button>
-</div>,
-      "className": "login-page notification notification-red margin-top-bottom",
-    },
-    "ref": null,
-    "rendered": Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": Array [
-          <p>
-            Om deze pagina te zien dient u ingelogd te zijn.
-</p>,
-          <button
-            className="action primary"
-            onClick={[Function]}
->
-            <span
-                        className="value"
-            >
-                        Inloggen
-            </span>
-</button>,
-          <button
-            className="action primary"
-            onClick={[Function]}
->
-            <span
-                        className="value"
-            >
-                        Inloggen ADW
-            </span>
-</button>,
-        ],
-        "className": "col-12",
-      },
-      "ref": null,
-      "rendered": Array [
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": "Om deze pagina te zien dient u ingelogd te zijn.",
-          },
-          "ref": null,
-          "rendered": "Om deze pagina te zien dient u ingelogd te zijn.",
-          "type": "p",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": <span
-              className="value"
->
-              Inloggen
-</span>,
-            "className": "action primary",
-            "onClick": [Function],
-          },
-          "ref": null,
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": "Inloggen",
-              "className": "value",
-            },
-            "ref": null,
-            "rendered": "Inloggen",
-            "type": "span",
-          },
-          "type": "button",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": <span
-              className="value"
->
-              Inloggen ADW
-</span>,
-            "className": "action primary",
-            "onClick": [Function],
-          },
-          "ref": null,
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": "Inloggen ADW",
-              "className": "value",
-            },
-            "ref": null,
-            "rendered": "Inloggen ADW",
-            "type": "span",
-          },
-          "type": "button",
-        },
-      ],
-      "type": "div",
-    },
-    "type": "div",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": <div
-          className="col-12"
->
-          <p>
-                    Om deze pagina te zien dient u ingelogd te zijn.
-          </p>
-          <button
-                    className="action primary"
-                    onClick={[Function]}
-          >
-                    <span
-                              className="value"
-                    >
-                              Inloggen
-                    </span>
-          </button>
-          <button
-                    className="action primary"
-                    onClick={[Function]}
-          >
-                    <span
-                              className="value"
-                    >
-                              Inloggen ADW
-                    </span>
-          </button>
-</div>,
-        "className": "login-page notification notification-red margin-top-bottom",
-      },
-      "ref": null,
-      "rendered": Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": Array [
-            <p>
-              Om deze pagina te zien dient u ingelogd te zijn.
-</p>,
-            <button
-              className="action primary"
-              onClick={[Function]}
->
-              <span
-                            className="value"
-              >
-                            Inloggen
-              </span>
-</button>,
-            <button
-              className="action primary"
-              onClick={[Function]}
->
-              <span
-                            className="value"
-              >
-                            Inloggen ADW
-              </span>
-</button>,
-          ],
-          "className": "col-12",
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": "Om deze pagina te zien dient u ingelogd te zijn.",
-            },
-            "ref": null,
-            "rendered": "Om deze pagina te zien dient u ingelogd te zijn.",
-            "type": "p",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": <span
-                className="value"
->
-                Inloggen
-</span>,
-              "className": "action primary",
-              "onClick": [Function],
-            },
-            "ref": null,
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": "Inloggen",
-                "className": "value",
-              },
-              "ref": null,
-              "rendered": "Inloggen",
-              "type": "span",
-            },
-            "type": "button",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": <span
-                className="value"
->
-                Inloggen ADW
-</span>,
-              "className": "action primary",
-              "onClick": [Function],
-            },
-            "ref": null,
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": "Inloggen ADW",
-                "className": "value",
-              },
-              "ref": null,
-              "rendered": "Inloggen ADW",
-              "type": "span",
-            },
-            "type": "button",
-          },
-        ],
-        "type": "div",
-      },
-      "type": "div",
-    },
-  ],
-  Symbol(enzyme.__options__): Object {
-    "adapter": ReactSixteenAdapter {
-      "options": Object {
-        "enableComponentDidUpdateOnSetState": true,
-      },
-    },
-  },
-}
+  <div
+    className="col-12"
+  >
+    <p>
+      Om deze pagina te zien dient u ingelogd te zijn.
+    </p>
+    <button
+      className="action primary"
+      onClick={[Function]}
+    >
+      <span
+        className="value"
+      >
+        Inloggen
+      </span>
+    </button>
+    <button
+      className="action primary"
+      onClick={[Function]}
+    >
+      <span
+        className="value"
+      >
+        Inloggen ADW
+      </span>
+    </button>
+  </div>
+</div>
 `;

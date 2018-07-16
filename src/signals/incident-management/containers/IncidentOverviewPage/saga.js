@@ -1,5 +1,4 @@
 import { put, select, takeLatest } from 'redux-saga/effects';
-// import { delay } from 'redux-saga';
 import { push } from 'react-router-redux';
 import { authCall } from '../../../../shared/services/api/api';
 
@@ -9,7 +8,6 @@ import { makeSelectFilterParams } from './selectors';
 
 export function* fetchIncidents(action) {
   const requestURL = 'https://acc.api.data.amsterdam.nl/signals/auth/signal';
-  // const requestURL = '/api/auth/signal/';
 
   try {
     const filter = action.payload.filter;

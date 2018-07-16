@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Tabs /> should render correctly 1`] = `
+<div
+  className="incident-detail-tabs"
+>
+  <ul
+    className="tabs"
+  >
+    <li
+      className="selected"
+      key="keytab1"
+      onClick={[Function]}
+      role="presentation"
+    >
+      <a>
+        tab1
+      </a>
+    </li>
+    <li
+      className=""
+      key="keytab2"
+      onClick={[Function]}
+      role="presentation"
+    >
+      <a>
+        tab2
+      </a>
+    </li>
+  </ul>
+</div>
+`;
