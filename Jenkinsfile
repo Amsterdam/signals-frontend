@@ -22,7 +22,6 @@ node {
     }
 
     stage("Unit and Integration") {
-<<<<<<< HEAD
       String  PROJECT = "sia-unittests"
 
       tryStep "unittests start", {
@@ -31,21 +30,6 @@ node {
       always {
         tryStep "unittests stop", {
           sh "docker-compose -p ${PROJECT} down -v || true"
-=======
-      environment {
-        PROJECT = "sia-unittests"
-      }
-      steps {
-        tryStep "unittests start", {
-          sh "docker-compose -p ${PROJECT} up --build --exit-code-from test-unit-integration test-unit-integration"
-        }
-      }
-      post {
-        always {
-          tryStep "unittests stop", {
-            sh "docker-compose -p ${PROJECT} down -v || true"
-          }
->>>>>>> master
         }
       }
     }
