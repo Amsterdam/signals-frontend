@@ -2,7 +2,7 @@ import { put, takeLatest } from 'redux-saga/effects';
 
 import { authCall } from 'shared/services/api/api';
 import { REQUEST_INCIDENT } from './constants';
-import { requestIncidentSuccess } from './actions';
+import { requestIncidentSuccess, requestIncidentError } from './actions';
 import watchRequestIncidentSaga, { fetchIncident } from './saga';
 
 jest.mock('shared/services/api/api');
@@ -25,12 +25,13 @@ describe('IncidentDetailPage saga', () => {
     expect(gen.next(incident).value).toEqual(put(requestIncidentSuccess(incident))); // eslint-disable-line redux-saga/yield-effects
   });
 
-  // it('should fetchIncident error', () => {
-  //   const id = 1000;
-  //   const action = { payload: id };
-  //   const thrownError = { status: 500, text: 'Internal ServerError' };
+  it('should fetchIncident error', () => {
+    const id = 1000;
+    const action = { payload: id };
+    const error = new Error('404 Not Found');
 
-  //   const gen = fetchIncident(action);
-  //   expect(gen.throw('thrownError').value).toEqual(put(requestIncidentError('thrownError'))); // eslint-disable-line redux-saga/yield-effects
-  // });
+    const gen = fetchIncident(action);
+    gen.next();
+    expect(gen.throw(error).value).toEqual(put(requestIncidentError(error))); // eslint-disable-line redux-saga/yield-effects
+  });
 });
