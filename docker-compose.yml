@@ -16,4 +16,5 @@ services:
       target: builder
     environment:
       - NODE_ENV=development
-    command: more /etc/paswd
+      - TZ=Europe/Amsterdam
+    command: npm run test
