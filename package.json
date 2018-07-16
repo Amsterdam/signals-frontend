@@ -197,7 +197,8 @@
       "!src/*/RbGenerated*/*.{js,jsx}",
       "!src/app.js",
       "!src/global-styles.js",
-      "!src/*/*/Loadable.{js,jsx}"
+      "!src/*/*/Loadable.{js,jsx}",
+      "!src/static/*"
     ],
     "coverageThreshold": {
       "global": {
@@ -212,7 +213,8 @@
       "src"
     ],
     "modulePathIgnorePatterns": [
-      "<rootDir>/internals/"
+      "<rootDir>/internals/",
+      "<rootDir>/src/static"
     ],
     "moduleNameMapper": {
       ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/internals/mocks/cssModule.js",
