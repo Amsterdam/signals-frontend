@@ -2,7 +2,7 @@ import { put, takeLatest, select } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import { authCall } from 'shared/services/api/api';
 
-import { REQUEST_INCIDENTS } from './constants';
+import { REQUEST_INCIDENTS, INCIDENT_SELECTED } from './constants';
 import { requestIncidentsError, filterIncidentsChanged, pageIncidentsChanged } from './actions';
 import watchRequestIncidentSaga, { fetchIncidents, openIncident } from './saga';
 import { makeSelectFilterParams } from './selectors';
@@ -17,9 +17,12 @@ jest.mock('./selectors', () => {
 
 
 describe('IncidentOverviewPage saga', () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
   it('should watchRequestIncidentsSaga', () => {
     const gen = watchRequestIncidentSaga();
-    expect(gen.next().value).toEqual(takeLatest(REQUEST_INCIDENTS, fetchIncidents)); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual([takeLatest(REQUEST_INCIDENTS, fetchIncidents), takeLatest(INCIDENT_SELECTED, openIncident)]); // eslint-disable-line redux-saga/yield-effects
   });
 
   it('should openIncident success', () => {
