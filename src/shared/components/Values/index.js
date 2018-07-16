@@ -3,7 +3,7 @@ import * as React from 'react';
 export default (value) => (
   <div style={styles.main}>
     <h3 style={{ color: '#389926' }}>Values</h3>
-    <pre style={styles.text}>{JSON.stringify(value, 0, 2)}</pre>
+    <pre style={styles.text}>{JSON.stringify(value)}</pre>
   </div>
 );
 
