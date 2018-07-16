@@ -22,7 +22,7 @@ class Map extends React.Component {
     const options = {
       layer: 'standaard',
       target: 'mapdiv',
-      marker: true,
+      marker: false,
       search: true,
       zoom: DEFAULT_ZOOM_LEVEL,
       onQueryResult: this.props.onQueryResult
