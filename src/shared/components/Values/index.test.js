@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 
 import Values from './';
 
@@ -11,7 +11,7 @@ describe('<Values />', () => {
 
   it('should render the json ', () => {
     const value = { id: 1, name: 'name' };
-    const renderedComponent = mount(<Values value={value} />);
+    const renderedComponent = shallow(<Values value={value} />);
     expect(renderedComponent).toMatchSnapshot();
   });
 });

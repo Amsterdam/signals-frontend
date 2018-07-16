@@ -11,7 +11,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
   }
 
   render() {
-    const { incidents, incidentsCount, statusList } = this.props;
+    const { incidents, incidentsCount, statusList, stadsdeelList } = this.props;
     return (
       <div className="list-component">
         <div className="list-component__title">Meldingen ({incidentsCount})</div>
@@ -36,7 +36,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
                   <td>{incident.id}</td>
                   <td>{string2date(incident.incident_date_start)}</td>
                   <td>{string2time(incident.incident_date_start)}</td>
-                  <td>{incident.location.stadsdeel}</td>
+                  <td>{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</td>
                   <td>{incident.category.sub}</td>
                   <td>{incident.category.department}</td>
                   <td>{getListValueByKey(statusList, incident.status.state)}</td>
@@ -56,6 +56,7 @@ List.propTypes = {
   incidentsCount: PropTypes.number,
   incidents: PropTypes.array.isRequired,
   statusList: PropTypes.array.isRequired,
+  stadsdeelList: PropTypes.array.isRequired,
 
   incidentSelected: PropTypes.func.isRequired,
 };

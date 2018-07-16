@@ -16,29 +16,20 @@ def tryStep(String message, Closure block, Closure tearDown = null) {
     }
 }
 
-
 node {
     stage("Checkout") {
         checkout scm
     }
 
     stage("Unit and Integration") {
-      options {
-        timeout(time: 10, unit: 'MINUTES')
+      String  PROJECT = "sia-unittests"
+
+      tryStep "unittests start", {
+        sh "docker-compose -p ${PROJECT} up --build --exit-code-from test-unit-integration test-unit-integration"
       }
-      environment {
-        PROJECT = "sia-unittests"
-      }
-      steps {
-        tryStep "unittests start", {
-          sh "docker-compose -p ${PROJECT} up --build --exit-code-from test-unit-integration test-unit-integration"
-        }
-      }
-      post {
-        always {
-          tryStep "unittests stop", {
-            sh "docker-compose -p ${PROJECT} down -v || true"
-          }
+      always {
+        tryStep "unittests stop", {
+          sh "docker-compose -p ${PROJECT} down -v || true"
         }
       }
     }

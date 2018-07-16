@@ -1,53 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Values /> should render the json  1`] = `
-<Component
-  value={
+<div
+  style={
     Object {
-      "id": 1,
-      "name": "name",
+      "backgroundColor": "#000",
+      "border": "1px solid #ccc",
+      "borderRadius": "4px",
+      "marginLeft": "7%",
+      "marginTop": "20px",
+      "padding": "10px 20px",
+      "textAlign": "left",
+      "width": "80%",
     }
   }
 >
-  <div
+  <h3
     style={
       Object {
-        "backgroundColor": "#000",
-        "border": "1px solid #ccc",
-        "borderRadius": "4px",
-        "marginLeft": "7%",
-        "marginTop": "20px",
-        "padding": "10px 20px",
-        "textAlign": "left",
-        "width": "80%",
+        "color": "#389926",
       }
     }
   >
-    <h3
-      style={
-        Object {
-          "color": "#389926",
-        }
+    Values
+  </h3>
+  <pre
+    style={
+      Object {
+        "color": "#DDE1DC",
+        "fontSize": "18px",
+        "lineHeight": "30px",
       }
-    >
-      Values
-    </h3>
-    <pre
-      style={
-        Object {
-          "color": "#DDE1DC",
-          "fontSize": "18px",
-          "lineHeight": "30px",
-        }
-      }
-    >
-      {
-        "value": {
-          "id": 1,
-          "name": "name"
-        }
-      }
-    </pre>
-  </div>
-</Component>
+    }
+  >
+    {"value":{"id":1,"name":"name"}}
+  </pre>
+</div>
 `;
