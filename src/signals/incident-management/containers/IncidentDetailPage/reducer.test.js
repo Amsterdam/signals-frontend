@@ -21,9 +21,9 @@ describe('incidentDetailPageReducer', () => {
   it('should handle the REQUEST_INCIDENT', () => {
     const action = requestIncident(1);
     const expected = {
+      id: 1,
       loading: true,
-      error: false,
-      id: 1
+      error: false
     };
     expect(reducer(initialState, action)).toEqual(fromJS(expected));
   });
