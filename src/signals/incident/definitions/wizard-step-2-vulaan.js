@@ -1,12 +1,4 @@
-// MVP
-// Overlast op het water - geluid
-// Overlast op het water - snel varen
-// Overlast op het water - Gezonken boot
-
-// import { Validators } from 'react-reactive-form';
-
 import IncidentNavigation from '../components/IncidentNavigation';
-
 import FormComponents from '../components/IncidentForm/components/';
 
 export default {
@@ -28,7 +20,7 @@ export default {
             subcategory: 'Overlast op het water - snel varen'
           },
           label: 'Gaat de melding over een rondvaartboot?',
-          path: 'text_extra',
+          pathMerge: 'extra_properties',
           values: {
             Ja: 'Ja',
             Nee: 'Nee'
@@ -42,7 +34,7 @@ export default {
           cols: 6,
           label: 'Wat is de naam van de rederij? (niet verplicht)',
           subtitle: 'Als u begint met typen verschijnt vanzelf een lijst met rederijen',
-          path: 'text_extra',
+          pathMerge: 'extra_properties',
           values: {
             Onbekend: 'Onbekend',
             'Admiraal Heijn': 'Admiraal Heijn',
@@ -122,7 +114,7 @@ export default {
         meta: {
           cols: 6,
           label: 'Wat is de naam van de boot? (niet verplicht)',
-          path: 'text_extra',
+          pathMerge: 'extra_properties',
           ifAllOf: {
             subcategory: 'Overlast op het water - snel varen'
           },
@@ -133,7 +125,7 @@ export default {
       extra_boten_geluid_meer: {
         meta: {
           label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? (niet verplicht)',
-          path: 'text_extra',
+          pathMerge: 'extra_properties',
           ifAllOf: {
             subcategory: 'Overlast op het water - geluid'
           },
@@ -145,7 +137,7 @@ export default {
         meta: {
           label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? (niet verplicht)',
           subtitle: 'Bijvoorbeeld: "er lekt olie", "gevaar voor andere boten", etc.',
-          path: 'text_extra',
+          pathMerge: 'extra_properties',
           ifAllOf: {
             subcategory: 'Overlast op het water - Gezonken boot'
           },

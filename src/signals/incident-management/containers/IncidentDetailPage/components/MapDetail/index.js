@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MapContainer from 'containers/MapContainer';
+import Map from 'components/Map';
 
 import './style.scss';
 
@@ -9,7 +9,7 @@ const MapDetail = ({ value }) => {
   const latlng = { lat: location[0], lng: location[1] };
   return (
     <div className="map-detail">
-      <MapContainer
+      <Map
         preview
         latlng={latlng}
       />
