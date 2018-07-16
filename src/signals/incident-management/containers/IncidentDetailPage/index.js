@@ -22,7 +22,7 @@ import './style.scss';
 import { requestIncident } from './actions';
 import Tabs from './components/Tabs';
 import MapDetail from './components/MapDetail';
-import Incident from './components/Incident';
+import IncidentDetail from './components/IncidentDetail';
 import IncidentCategoryContainer from '../IncidentCategoryContainer';
 import IncidentStatusContainer from '../IncidentStatusContainer';
 
@@ -65,7 +65,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
         </ul>
         <div className="col-8">
           (<Link to={`${this.props.baseUrl}/incidents`} >Terug naar overzicht</Link>)
-          {(incident) ? <Incident incident={incident} /> : ''}
+          {(incident) ? <IncidentDetail incident={incident} /> : ''}
         </div>
 
         <div className="col-12">
@@ -97,11 +97,10 @@ const mapStateToProps = (state, ownProps) => createStructuredSelector({
   error: makeSelectError(),
   incidentdetailpage: makeSelectIncidentDetailPage(),
 
-  // selectedTab: ownProps.selectedTab,
   refresh: selectRefresh(ownProps.id)
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
+export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestIncident: requestIncident
 }, dispatch);
 

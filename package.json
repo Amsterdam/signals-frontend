@@ -201,10 +201,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "statements": 20,
-        "branches": 20,
+        "statements": 19,
+        "branches": 10,
         "functions": 20,
-        "lines": 20
+        "lines": 19
       }
     },
     "moduleDirectories": [
@@ -220,7 +220,8 @@
     },
     "setupTestFrameworkScriptFile": "<rootDir>/internals/testing/test-bundler.js",
     "testRegex": ".*\\.test\\.js$",
-    "testEnvironment": "./internals/testing/jest-environment-jsdom-global-fix"
+    "testEnvironment": "./internals/testing/jest-environment-jsdom-global-fix",
+    "snapshotSerializers": ["enzyme-to-json/serializer"]
   },
   "dependencies": {
     "babel-plugin-inline-react-svg": "^0.5.2",

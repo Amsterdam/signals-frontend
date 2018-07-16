@@ -4,9 +4,12 @@ import PropTypes from 'prop-types';
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import './style.scss';
 
-class Incident extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class IncidentDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const { incident } = this.props;
+    const extraProperties = incident.extra_properties && Object.keys(incident.extra_properties).map((key) =>
+      (<tr key={key}><td>{key}</td><td>{incident.extra_properties[key]}&nbsp;</td></tr>)
+    );
     return (
       <div className="incident-detail">
         <div className="incident-detail__body">
@@ -19,7 +22,7 @@ class Incident extends React.Component { // eslint-disable-line react/prefer-sta
               <tr><td>Rubriek</td><td>{incident.category.sub}&nbsp;</td></tr>
               <tr><td>Onschrijving</td><td>{incident.text}&nbsp;</td></tr>
               <tr><td>Aanvullende kenmerken</td><td>{incident.text_extra}&nbsp;</td></tr>
-              <tr><td>Naam boot (?)</td><td>Specifiek!????&nbsp;</td></tr>
+              {extraProperties}
               <tr><td>Stadsdeel</td><td>{incident.location.stadsdeel}</td></tr>
               <tr><td>Adres</td><td>{incident.location.address_text}</td></tr>
               <tr><td>Email</td><td>{incident.reporter.email}</td></tr>
@@ -34,8 +37,8 @@ class Incident extends React.Component { // eslint-disable-line react/prefer-sta
   }
 }
 
-Incident.propTypes = {
+IncidentDetail.propTypes = {
   incident: PropTypes.object.isRequired
 };
 
-export default Incident;
+export default IncidentDetail;

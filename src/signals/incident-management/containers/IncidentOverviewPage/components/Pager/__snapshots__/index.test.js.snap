@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Pager /> should render correctly 1`] = `
+<div
+  className="incidents-list-pager"
+>
+  <div
+    className="pager"
+  >
+    <a
+      className="pager_nav vorige"
+      onClick={[Function]}
+      role="presentation"
+    >
+      <FormattedMessage
+        defaultMessage="vorige"
+        id="app.components.Pager.previous"
+        values={Object {}}
+      />
+    </a>
+    <a
+      className="pager_step pagina"
+      key="1"
+      onClick={[Function]}
+      role="presentation"
+    >
+      1
+    </a>
+    <span
+      className="pager_step huidige"
+      key="2"
+      onClick={[Function]}
+      role="presentation"
+    >
+      <strong>
+        2
+      </strong>
+    </span>
+    <a
+      className="pager_step pagina"
+      key="3"
+      onClick={[Function]}
+      role="presentation"
+    >
+      3
+    </a>
+    <a
+      className="pager_nav volgende"
+      onClick={[Function]}
+      role="presentation"
+    >
+      <FormattedMessage
+        defaultMessage="volgende"
+        id="app.components.Pager.next"
+        values={Object {}}
+      />
+    </a>
+  </div>
+</div>
+`;

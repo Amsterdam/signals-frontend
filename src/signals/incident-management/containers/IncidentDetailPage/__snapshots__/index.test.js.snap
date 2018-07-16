@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentDetailPage /> should render correctly 1`] = `
+<div
+  className="incident-detail-page row container"
+>
+  <div
+    className="col-12"
+  >
+    <h3>
+      Melding 
+    </h3>
+  </div>
+  <ul
+    className="col-4 incident-detail-page__map"
+  >
+    <MapDetail
+      label=""
+    />
+  </ul>
+  <div
+    className="col-8"
+  >
+    (
+    <Link
+      replace={false}
+      to="undefined/incidents"
+    >
+      Terug naar overzicht
+    </Link>
+    )
+    <IncidentDetail
+      incident={Object {}}
+    />
+  </div>
+  <div
+    className="col-12"
+  >
+    <Tabs
+      onTabChanged={[Function]}
+      selectedTab={0}
+      tabs={
+        Array [
+          "Status",
+          "Categorie",
+        ]
+      }
+    />
+  </div>
+  <div
+    className="col-12"
+  >
+    <div
+      className="incident-detail-page__tab-container"
+    >
+      <withReducer(withSaga(Connect(IncidentStatusContainer))) />
+    </div>
+  </div>
+</div>
+`;
