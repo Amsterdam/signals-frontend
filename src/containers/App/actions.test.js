@@ -1,12 +1,14 @@
 import { testActionCreator } from '../../../internals/testing/test-utils';
 
 import {
-  AUTHENTICATE_USER, SHOW_GLOBAL_ERROR
+  AUTHENTICATE_USER, SHOW_GLOBAL_ERROR, LOGIN, LOGOUT
 } from './constants';
 
 import {
   authenticateUser,
-  showGlobalError
+  showGlobalError,
+  doLogin,
+  doLogout
 } from './actions';
 
 
@@ -27,5 +29,15 @@ describe('App actions', () => {
     const error = 'global error';
     const payload = error;
     testActionCreator(showGlobalError, SHOW_GLOBAL_ERROR, payload);
+  });
+
+  it('shoul create the login action', () => {
+    const payload = 'domain';
+    testActionCreator(doLogin, LOGIN, payload);
+  });
+
+  it('shoul create the logout action', () => {
+    const payload = null;
+    testActionCreator(doLogout, LOGOUT, payload);
   });
 });
