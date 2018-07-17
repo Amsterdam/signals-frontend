@@ -1,4 +1,4 @@
-import globalConfig from 'config'; // eslint-disable-line import/no-unresolved import/extensions
+import globalConfig from 'config'; // eslint-disable-line import/extensions
 
 const domainName = 'meldingen.amsterdam.nl';
 const apiDomainName = 'api.data.amsterdam.nl';
@@ -43,6 +43,6 @@ const CONFIGURATION = {
   ...globalConfig
 };
 
-console.log('environment configuration', CONFIGURATION);
+console.log('environment configuration', CONFIGURATION); // eslint-disable-line no-console
 
 export default CONFIGURATION;
