@@ -55,7 +55,7 @@ class Filter extends React.Component {
                   <SelectInput name="status__state" display="Status" control={this.filterForm.get('status__state')} values={statusList} multiple />
                   <TextInput name="location__address_text" display="Adres" control={this.filterForm.get('location__address_text')} />
 
-                  <button className="action" onClick={this.handleReset} type="button">
+                  <button className="action tertiair" onClick={this.handleReset} type="button">
                     <span className="value">Reset filter</span>
                   </button>
                   <button className="action primary" type="submit" disabled={invalid}>
