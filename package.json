@@ -198,14 +198,15 @@
       "!src/app.js",
       "!src/global-styles.js",
       "!src/*/*/Loadable.{js,jsx}",
-      "!src/static/*"
+      "!src/static/*",
+      "!src/**/definitions/*"
     ],
     "coverageThreshold": {
       "global": {
-        "statements": 19,
-        "branches": 10,
-        "functions": 20,
-        "lines": 19
+        "statements": 52,
+        "branches": 32,
+        "functions": 43,
+        "lines": 53
       }
     },
     "moduleDirectories": [

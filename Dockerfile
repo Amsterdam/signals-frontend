@@ -24,6 +24,7 @@ COPY package.json \
      .gitattributes \
       /app/
 
+COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
 
 #  Changing git URL because network is blocking git protocol...
 RUN git config --global url."https://".insteadOf git://

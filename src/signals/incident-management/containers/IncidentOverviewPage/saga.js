@@ -1,13 +1,15 @@
 import { put, select, takeLatest } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
-import { authCall } from '../../../../shared/services/api/api';
+
+import { authCall } from 'shared/services/api/api';
+import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import { REQUEST_INCIDENTS, INCIDENT_SELECTED } from './constants';
 import { requestIncidentsSuccess, requestIncidentsError, filterIncidentsChanged, pageIncidentsChanged } from './actions';
 import { makeSelectFilterParams } from './selectors';
 
 export function* fetchIncidents(action) {
-  const requestURL = 'https://acc.api.data.amsterdam.nl/signals/auth/signal';
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/auth/signal`;
 
   try {
     const filter = action.payload.filter;
