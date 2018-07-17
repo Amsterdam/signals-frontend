@@ -6,6 +6,8 @@ const stadsdeelList = [
     { key: 'M', value: 'Oost' },
     { key: 'N', value: 'Noord' },
     { key: 'T', value: 'Zuidoost' },
+    { key: 'K', value: 'Zuid' },
+    { key: 'F', value: 'Nieuw-West' },
 ];
 
 export default stadsdeelList;

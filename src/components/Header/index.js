@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './style.scss';
+import CONFIGURATION from 'shared/services/configuration/configuration';
 
+import './style.scss';
 import LogoSvg from '../../../node_modules/stijl/dist/images/logos/andreas.svg';
 import LogoPng from '../../../node_modules/stijl/dist/images/logos/andreas.png';
 import LogoPrint from '../../../node_modules/stijl/dist/images/logos/andreas-print.png';
@@ -13,7 +14,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
         <div className="row header-wrapper">
           <div className="col-sm-6 grid-header-logo">
             <h1 className="sitelogo">
-              <a className="mainlogo" href="https://www.amsterdam.nl">
+              <a className="mainlogo" href={CONFIGURATION.ROOT}>
                 <span className="logoset">
                   <LogoSvg className="screen-logo" alt="Gemeente Amsterdam" />
                   <img src={LogoPng} className="alt-logo" alt="Gemeente Amsterdam" />

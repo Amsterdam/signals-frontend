@@ -25,6 +25,7 @@ export const SelectInputRender = (props) => {
   const options = values.map(({ key, value }) =>
     <option key={key} value={key}>{key ? value : emptyOptionText || value}</option>
   );
+  const size = (values.length > 10) ? 10 : values.length;
 
   const render = ({ handler }) => (<div>
     <div className="mode_input text rij_verplicht">
@@ -38,7 +39,7 @@ export const SelectInputRender = (props) => {
           id={`form${name}`}
           {...handler()}
           multiple={multiple}
-          size={multiple ? values.length : ''}
+          size={multiple ? size : ''}
         >
           {options}
         </select>
