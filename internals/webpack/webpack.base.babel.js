@@ -109,6 +109,6 @@ module.exports = (options) => ({
   target: 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},
   externals: {
-    config: JSON.stringify(require(path.resolve(process.cwd(),'environment.conf.json'))), //eslint-disable-line
+    globalConfig: JSON.stringify(require(path.resolve(process.cwd(),'environment.conf.json'))), //eslint-disable-line
   },
 });
