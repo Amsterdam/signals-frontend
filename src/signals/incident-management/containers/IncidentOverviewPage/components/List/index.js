@@ -40,7 +40,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
                   <td>{incident.category.sub}</td>
                   <td>{incident.category.department}</td>
                   <td>{getListValueByKey(statusList, incident.status.state)}</td>
-                  <td>{incident.location.address.openbare_ruimte} {incident.location.address.huisnummer}</td>
+                  <td>{incident.location.address_text}</td>
                 </tr>
               ))
               }

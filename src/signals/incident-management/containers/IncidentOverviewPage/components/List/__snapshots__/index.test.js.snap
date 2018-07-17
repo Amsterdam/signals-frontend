@@ -87,9 +87,7 @@ exports[`<List /> should render correctly 1`] = `
             Niet gevonden
           </td>
           <td>
-            Dam
-             
-            1
+            Dam 1A-1 1012JS Amsterdam
           </td>
         </tr>
       </tbody>

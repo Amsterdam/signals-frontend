@@ -197,14 +197,16 @@
       "!src/*/RbGenerated*/*.{js,jsx}",
       "!src/app.js",
       "!src/global-styles.js",
-      "!src/*/*/Loadable.{js,jsx}"
+      "!src/*/*/Loadable.{js,jsx}",
+      "!src/static/*",
+      "!src/**/definitions/*"
     ],
     "coverageThreshold": {
       "global": {
-        "statements": 19,
-        "branches": 10,
-        "functions": 20,
-        "lines": 19
+        "statements": 52,
+        "branches": 32,
+        "functions": 43,
+        "lines": 53
       }
     },
     "moduleDirectories": [
@@ -212,7 +214,8 @@
       "src"
     ],
     "modulePathIgnorePatterns": [
-      "<rootDir>/internals/"
+      "<rootDir>/internals/",
+      "<rootDir>/src/static"
     ],
     "moduleNameMapper": {
       ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/internals/mocks/cssModule.js",

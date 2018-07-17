@@ -8,8 +8,8 @@ import { Route } from 'react-router-dom';
 import LoginPage from 'components/LoginPage';
 import { makeSelectIsAuthenticated } from 'containers/App/selectors';
 
-import IncidentOverviewPage from '../IncidentOverviewPage';
-import IncidentDetailPage from '../IncidentDetailPage';
+import IncidentOverviewPage from '../../containers/IncidentOverviewPage';
+import IncidentDetailPage from '../../containers/IncidentDetailPage';
 
 import './style.scss';
 
@@ -41,7 +41,6 @@ export class IncidentManagementContainer extends React.Component { // eslint-dis
 }
 
 IncidentManagementContainer.propTypes = {
-  dispatch: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
   match: PropTypes.object,
   isAuthenticated: PropTypes.bool.isRequired
 };
@@ -50,13 +49,7 @@ const mapStateToProps = createStructuredSelector({
   isAuthenticated: makeSelectIsAuthenticated()
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(mapStateToProps);
 
 export default compose(
   withConnect,
