@@ -1,4 +1,2 @@
-// The production environment is determined based on the hostname in configuration.js
-// so it can support https://meldingen.amsterdam.nl and https://opleiding.meldingen.amsterdam.nl with the same docker container
 {
 }
