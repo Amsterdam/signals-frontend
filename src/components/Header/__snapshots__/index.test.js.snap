@@ -15,7 +15,7 @@ exports[`<Header /> should render correctly 1`] = `
       >
         <a
           className="mainlogo"
-          href="https://www.amsterdam.nl"
+          href="http://localhost:3001/"
         >
           <span
             className="logoset"
