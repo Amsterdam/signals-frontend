@@ -37,7 +37,7 @@ const mapControlsToParams = (incident, wizard) => {
           ...mapMerge,
           [control.meta.pathMerge]: {
             ...mapMerge[control.meta.pathMerge],
-            [name]: incident[name]
+            [control.meta.label || name]: incident[name]
           }
         };
       }
