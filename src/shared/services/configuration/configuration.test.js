@@ -6,6 +6,7 @@
 describe('The sharedConfig service', () => {
   it('should have a test', () => {
     expect(true).toEqual(true);
+    expect(true).toEqual(true);
   });
 
   // it('gives you the configuration based on global environment', () => {
