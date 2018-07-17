@@ -8,6 +8,11 @@ import './style.scss';
 
 
 class Add extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+    this.sendToSigmax = this.sendToSigmax.bind(this);
+  }
+
   statusForm = FormBuilder.group({
     _signal: [''],
     state: ['', Validators.required],
@@ -20,11 +25,19 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
     this.props.onRequestStatusCreate(status);
   }
 
+  sendToSigmax = () => {
+    const status = { _signal: this.props.id, state: 'i', text: 'sigmax' };
+    this.props.onRequestStatusCreate(status);
+  }
+
   render() {
-    const { statusList } = this.props;
+    const { incidentStatusList, statusList } = this.props;
+    const currentState = incidentStatusList[incidentStatusList.length - 1].state;
+    const canSendToSigmax = !['i', 'o', 'a'].some((value) => value === currentState);
+    // console.log('canSendToSigmax', canSendToSigmax, currentState);
     return (
       <div className="incident-status-add">
-        <div className="incident-status-add__title">Status toevoegen</div>
+        {/* <div className="incident-status-add__title">Status toevoegen</div> */}
         <div className="incident-status-add__body">
           <FieldGroup
             control={this.statusForm}
@@ -37,6 +50,11 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
                   <button className="action primary" type="submit" disabled={invalid}>
                     <span className="value">Status toevoegen</span>
                   </button>
+                  {canSendToSigmax ?
+                    <button className="action tertiair" type="button" onClick={this.sendToSigmax}>
+                      <span className="value">Naar sigmax sturen</span>
+                    </button> : ''
+                  }
                   <div>
                   </div>
                 </div>
@@ -52,6 +70,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
 Add.propTypes = {
   id: PropTypes.string,
   statusList: PropTypes.array,
+  incidentStatusList: PropTypes.array,
 
   onRequestStatusCreate: PropTypes.func.isRequired
 };

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentStatusContainer /> should render correctly 1`] = `
+<div>
+  <div
+    className="incident-status-container row"
+  >
+    <div
+      className="col-12"
+    >
+      <Add
+        id="1"
+        onRequestStatusCreate={[Function]}
+      />
+    </div>
+    <div
+      className="col-12"
+    >
+      <List
+        incidentStatusList={Array []}
+        statusList={Array []}
+      />
+    </div>
+  </div>
+</div>
+`;

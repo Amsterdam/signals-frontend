@@ -24,16 +24,21 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
   render() {
     const { incidentStatusList, statusList, error } = this.props.incidentstatuscontainer;
     const state = incidentStatusList && incidentStatusList.length && incidentStatusList[incidentStatusList.length - 1].state;
+    const canDisplay = typeof state !== 'number';
     const canChangeState = !['a', 'o'].some((value) => state === value);
+
     return (
-      <div className="incident-status-container row">
-        <div className="col-4">
-          {canChangeState ? <Add id={this.props.id} statusList={statusList} onRequestStatusCreate={this.props.onRequestStatusCreate} /> : ''}
-          {error ? <div className="incident-status-container__error" ><FormattedMessage {...messages.errorStateTransition} /></div> : ''}
-        </div>
-        <div className="col-8">
-          <List incidentStatusList={incidentStatusList} statusList={statusList} />
-        </div>
+      <div>
+        {canDisplay ?
+          <div className="incident-status-container row">
+            <div className="col-12">
+              {canChangeState ? <Add id={this.props.id} statusList={statusList} onRequestStatusCreate={this.props.onRequestStatusCreate} incidentStatusList={incidentStatusList} /> : ''}
+              {error ? <div className="incident-status-container__error" ><FormattedMessage {...messages.errorStateTransition} /></div> : ''}
+            </div>
+            <div className="col-12">
+              <List incidentStatusList={incidentStatusList} statusList={statusList} />
+            </div>
+          </div> : ''}
       </div>
     );
   }
