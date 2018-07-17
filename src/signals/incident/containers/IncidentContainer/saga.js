@@ -1,7 +1,7 @@
 import { all, call, put, take, /* select, */ takeLatest, takeEvery } from 'redux-saga/effects';
 import request from 'utils/request';
 
-import CONFIGURATION from '../../../../shared/services/configuration/configuration';
+import CONFIGURATION from 'shared/services/configuration/configuration';
 import { CREATE_INCIDENT, GET_CLASSIFICATION, UPLOAD_REQUEST } from './constants';
 import {
   createIncidentSuccess,

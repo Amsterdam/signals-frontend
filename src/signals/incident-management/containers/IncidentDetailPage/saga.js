@@ -1,12 +1,13 @@
 import { put, takeLatest } from 'redux-saga/effects';
 
+import CONFIGURATION from 'shared/services/configuration/configuration';
+
 import { REQUEST_INCIDENT } from './constants';
 import { requestIncidentSuccess, requestIncidentError } from './actions';
 import { authCall } from '../../../../shared/services/api/api';
 
 export function* fetchIncident(action) {
-  // const requestURL = '/api/signal';
-  const requestURL = 'https://acc.api.data.amsterdam.nl/signals/auth/signal';
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/auth/signal`;
   try {
     const id = action.payload;
     const incident = yield authCall(`${requestURL}/${id}`);

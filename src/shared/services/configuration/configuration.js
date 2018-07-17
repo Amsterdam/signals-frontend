@@ -1,9 +1,10 @@
 import globalConfig from 'config'; // eslint-disable-line import/no-unresolved import/extensions
 
 const domainName = 'meldingen.amsterdam.nl';
+const apiDomainName = 'api.data.amsterdam.nl';
 
 const defaultConfig = {
-  API_ROOT: `https://api.acc.${domainName}`,
+  API_ROOT: `https://acc.${apiDomainName}/`,
   ROOT: 'http://localhost:3001/'
 };
 
@@ -14,17 +15,17 @@ const environmentConfig = () => {
 
   if (hostname === domainName) {
     environment = {
-      API_ROOT: `https://api.${domainName}/`,
+      API_ROOT: `https://${apiDomainName}/`,
       ROOT: `https://${hostname}/`
     };
   } else if (hostname === `acc.${domainName}`) {
     environment = {
-      API_ROOT: `https://api.acc.${domainName}/`,
+      API_ROOT: `https://acc.${apiDomainName}/`,
       ROOT: `https://${hostname}/`
     };
   } else if (hostname === `opleiding.${domainName}`) {
     environment = {
-      API_ROOT: `https://api.opleiding.${domainName}/`,
+      API_ROOT: `https://opleiding.${apiDomainName}/`,
       ROOT: `https://${hostname}/`
     };
   } else {
