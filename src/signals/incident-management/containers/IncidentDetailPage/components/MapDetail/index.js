@@ -6,7 +6,8 @@ import './style.scss';
 
 const MapDetail = ({ value }) => {
   const location = value.geometrie.coordinates;
-  const latlng = { lat: location[0], lng: location[1] };
+
+  const latlng = { latitude: location[0], longitude: location[1] };
   return (
     <div className="map-detail">
       <Map
