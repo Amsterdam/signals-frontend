@@ -1,4 +1,5 @@
 {
   "API_ROOT": "https://acc.api.data.amsterdam.nl/",
-  "ROOT": "http://localhost:3001/"
+  "ROOT": "http://localhost:3001/",
+  "AUTH_ROOT": "https://acc.api.data.amsterdam.nl/"
 }

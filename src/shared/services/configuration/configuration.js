@@ -5,7 +5,8 @@ const apiDomainName = 'api.data.amsterdam.nl';
 
 const defaultConfig = {
   API_ROOT: `https://acc.${apiDomainName}/`,
-  ROOT: 'http://localhost:3001/'
+  ROOT: 'http://localhost:3001/',
+  AUTH_ROOT: 'https://acc.api.data.amsterdam.nl/',
 };
 
 const environmentConfig = () => {
@@ -16,17 +17,20 @@ const environmentConfig = () => {
   if (hostname === domainName) {
     environment = {
       API_ROOT: `https://${apiDomainName}/`,
-      ROOT: `https://${hostname}/`
+      ROOT: `https://${hostname}/`,
+      AUTH_ROOT: `https://${apiDomainName}//`,
     };
   } else if (hostname === `acc.${domainName}`) {
     environment = {
       API_ROOT: `https://acc.${apiDomainName}/`,
-      ROOT: `https://${hostname}/`
+      ROOT: `https://${hostname}/`,
+      AUTH_ROOT: `https://acc.${apiDomainName}/`,
     };
   } else if (hostname === `opleiding.${domainName}`) {
     environment = {
       API_ROOT: `https://api.opleiding.${apiDomainName}/`,
-      ROOT: `https://${hostname}/`
+      ROOT: `https://${hostname}/`,
+      AUTH_ROOT: `https://acc.${apiDomainName}/`,
     };
   } else {
     environment = defaultConfig;
