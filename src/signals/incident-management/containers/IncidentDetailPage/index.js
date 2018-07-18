@@ -22,7 +22,7 @@ import './style.scss';
 import { requestIncident } from './actions';
 import Tabs from './components/Tabs';
 import MapDetail from './components/MapDetail';
-import Incident from './components/Incident';
+import IncidentDetail from './components/IncidentDetail';
 import IncidentCategoryContainer from '../IncidentCategoryContainer';
 import IncidentStatusContainer from '../IncidentStatusContainer';
 
@@ -60,12 +60,12 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
       <div className="incident-detail-page row container">
         <div className="col-12"><h3>Melding {this.props.id}</h3>
         </div>
-        <ul className="col-6 incident-detail-page__map">
+        <ul className="col-4 incident-detail-page__map">
           {(incident) ? <MapDetail label="" value={incident.location} /> : ''}
         </ul>
-        <div className="col-6">
+        <div className="col-8">
           (<Link to={`${this.props.baseUrl}/incidents`} >Terug naar overzicht</Link>)
-          {(incident) ? <Incident incident={incident} /> : ''}
+          {(incident) ? <IncidentDetail incident={incident} /> : ''}
         </div>
 
         <div className="col-12">
@@ -97,11 +97,10 @@ const mapStateToProps = (state, ownProps) => createStructuredSelector({
   error: makeSelectError(),
   incidentdetailpage: makeSelectIncidentDetailPage(),
 
-  // selectedTab: ownProps.selectedTab,
   refresh: selectRefresh(ownProps.id)
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
+export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestIncident: requestIncident
 }, dispatch);
 

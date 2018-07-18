@@ -1,11 +1,13 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { authCall, authPostCall } from '../../../../shared/services/api/api';
+
+import { authCall, authPostCall } from 'shared/services/api/api';
+import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import { REQUEST_STATUS_LIST, REQUEST_STATUS_CREATE } from './constants';
 import { requestStatusListSuccess, requestStatusListError, requestStatusCreateSuccess, requestStatusCreateError } from './actions';
 
 // const baseURL = '/api/auth/auth/status';
-const baseUrl = 'https://acc.api.data.amsterdam.nl/signals/auth/status';
+const baseUrl = `${CONFIGURATION.API_ROOT}signals/auth/status`;
 
 export function* fetchIncidentStatusList(action) {
   const signalId = action.payload;

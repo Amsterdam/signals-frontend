@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LoginPage /> should render correctly 1`] = `
+<div
+  className="login-page notification notification-red margin-top-bottom"
+>
+  <div
+    className="col-12"
+  >
+    <p>
+      Om deze pagina te zien dient u ingelogd te zijn.
+    </p>
+    <button
+      className="action primary"
+      onClick={[Function]}
+    >
+      <span
+        className="value"
+      >
+        Inloggen
+      </span>
+    </button>
+    <button
+      className="action primary"
+      onClick={[Function]}
+    >
+      <span
+        className="value"
+      >
+        Inloggen ADW
+      </span>
+    </button>
+  </div>
+</div>
+`;

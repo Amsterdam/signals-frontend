@@ -9,3 +9,12 @@ services:
     ports:
       - "3001:80"
   # networks_mode: "host"
+
+  test-unit-integration:
+    build:
+      context: .
+      target: builder
+    environment:
+      - NODE_ENV=development
+      - TZ=Europe/Amsterdam
+    command: npm run test

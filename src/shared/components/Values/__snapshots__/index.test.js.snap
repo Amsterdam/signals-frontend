@@ -1,284 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Values /> should render the json  1`] = `
-ReactWrapper {
-  "length": 1,
-  Symbol(enzyme.__unrendered__): <Unknown
-    value={
-        Object {
-            "id": 1,
-            "name": "name",
-          }
-    }
-/>,
-  Symbol(enzyme.__renderer__): Object {
-    "batchedUpdates": [Function],
-    "getNode": [Function],
-    "render": [Function],
-    "simulateEvent": [Function],
-    "unmount": [Function],
-  },
-  Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__node__): Object {
-    "instance": null,
-    "key": undefined,
-    "nodeType": "function",
-    "props": Object {
-      "value": Object {
-        "id": 1,
-        "name": "name",
-      },
-    },
-    "ref": null,
-    "rendered": Object {
-      "instance": <div
-        style="border: 1px solid #ccc; background-color: rgb(0, 0, 0); border-radius: 4px; width: 80%; margin-left: 7%; margin-top: 20px; padding: 10px 20px; text-align: left;"
->
-        <h3
-                style="color: rgb(56, 153, 38);"
-        >
-                Values
-        </h3>
-        <pre
-                style="color: rgb(221, 225, 220); font-size: 18px; line-height: 30px;"
-        >
-                { "value": { "id": 1, "name": "name" } }
-        </pre>
-</div>,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": Array [
-          <h3
-            style={
-                        Object {
-                                    "color": "#389926",
-                                  }
-            }
->
-            Values
-</h3>,
-          <pre
-            style={
-                        Object {
-                                    "color": "#DDE1DC",
-                                    "fontSize": "18px",
-                                    "lineHeight": "30px",
-                                  }
-            }
->
-            {
-              "value": {
-                "id": 1,
-                "name": "name"
-              }
-            }
-</pre>,
-        ],
-        "style": Object {
-          "backgroundColor": "#000",
-          "border": "1px solid #ccc",
-          "borderRadius": "4px",
-          "marginLeft": "7%",
-          "marginTop": "20px",
-          "padding": "10px 20px",
-          "textAlign": "left",
-          "width": "80%",
-        },
-      },
-      "ref": null,
-      "rendered": Array [
-        Object {
-          "instance": <h3
-            style="color: rgb(56, 153, 38);"
->
-            Values
-</h3>,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": "Values",
-            "style": Object {
-              "color": "#389926",
-            },
-          },
-          "ref": null,
-          "rendered": Array [
-            "Values",
-          ],
-          "type": "h3",
-        },
-        Object {
-          "instance": <pre
-            style="color: rgb(221, 225, 220); font-size: 18px; line-height: 30px;"
->
-            { "value": { "id": 1, "name": "name" } }
-</pre>,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": "{
-  \\"value\\": {
-    \\"id\\": 1,
-    \\"name\\": \\"name\\"
-  }
-}",
-            "style": Object {
-              "color": "#DDE1DC",
-              "fontSize": "18px",
-              "lineHeight": "30px",
-            },
-          },
-          "ref": null,
-          "rendered": Array [
-            "{
-  \\"value\\": {
-    \\"id\\": 1,
-    \\"name\\": \\"name\\"
-  }
-}",
-          ],
-          "type": "pre",
-        },
-      ],
-      "type": "div",
-    },
-    "type": [Function],
-  },
-  Symbol(enzyme.__nodes__): Array [
+<div
+  style={
     Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "function",
-      "props": Object {
-        "value": Object {
-          "id": 1,
-          "name": "name",
-        },
-      },
-      "ref": null,
-      "rendered": Object {
-        "instance": <div
-          style="border: 1px solid #ccc; background-color: rgb(0, 0, 0); border-radius: 4px; width: 80%; margin-left: 7%; margin-top: 20px; padding: 10px 20px; text-align: left;"
->
-          <h3
-                    style="color: rgb(56, 153, 38);"
-          >
-                    Values
-          </h3>
-          <pre
-                    style="color: rgb(221, 225, 220); font-size: 18px; line-height: 30px;"
-          >
-                    { "value": { "id": 1, "name": "name" } }
-          </pre>
-</div>,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": Array [
-            <h3
-              style={
-                            Object {
-                                          "color": "#389926",
-                                        }
-              }
->
-              Values
-</h3>,
-            <pre
-              style={
-                            Object {
-                                          "color": "#DDE1DC",
-                                          "fontSize": "18px",
-                                          "lineHeight": "30px",
-                                        }
-              }
->
-              {
-                "value": {
-                  "id": 1,
-                  "name": "name"
-                }
-              }
-</pre>,
-          ],
-          "style": Object {
-            "backgroundColor": "#000",
-            "border": "1px solid #ccc",
-            "borderRadius": "4px",
-            "marginLeft": "7%",
-            "marginTop": "20px",
-            "padding": "10px 20px",
-            "textAlign": "left",
-            "width": "80%",
-          },
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": <h3
-              style="color: rgb(56, 153, 38);"
->
-              Values
-</h3>,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": "Values",
-              "style": Object {
-                "color": "#389926",
-              },
-            },
-            "ref": null,
-            "rendered": Array [
-              "Values",
-            ],
-            "type": "h3",
-          },
-          Object {
-            "instance": <pre
-              style="color: rgb(221, 225, 220); font-size: 18px; line-height: 30px;"
->
-              { "value": { "id": 1, "name": "name" } }
-</pre>,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": "{
-  \\"value\\": {
-    \\"id\\": 1,
-    \\"name\\": \\"name\\"
+      "backgroundColor": "#000",
+      "border": "1px solid #ccc",
+      "borderRadius": "4px",
+      "marginLeft": "7%",
+      "marginTop": "20px",
+      "padding": "10px 20px",
+      "textAlign": "left",
+      "width": "80%",
+    }
   }
-}",
-              "style": Object {
-                "color": "#DDE1DC",
-                "fontSize": "18px",
-                "lineHeight": "30px",
-              },
-            },
-            "ref": null,
-            "rendered": Array [
-              "{
-  \\"value\\": {
-    \\"id\\": 1,
-    \\"name\\": \\"name\\"
-  }
-}",
-            ],
-            "type": "pre",
-          },
-        ],
-        "type": "div",
-      },
-      "type": [Function],
-    },
-  ],
-  Symbol(enzyme.__options__): Object {
-    "adapter": ReactSixteenAdapter {
-      "options": Object {
-        "enableComponentDidUpdateOnSetState": true,
-      },
-    },
-  },
-}
+>
+  <h3
+    style={
+      Object {
+        "color": "#389926",
+      }
+    }
+  >
+    Values
+  </h3>
+  <pre
+    style={
+      Object {
+        "color": "#DDE1DC",
+        "fontSize": "18px",
+        "lineHeight": "30px",
+      }
+    }
+  >
+    {"value":{"id":1,"name":"name"}}
+  </pre>
+</div>
 `;

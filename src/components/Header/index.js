@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './style.scss';
+import CONFIGURATION from 'shared/services/configuration/configuration';
 
+import './style.scss';
 import LogoSvg from '../../../node_modules/stijl/dist/images/logos/andreas.svg';
 import LogoPng from '../../../node_modules/stijl/dist/images/logos/andreas.png';
 import LogoPrint from '../../../node_modules/stijl/dist/images/logos/andreas-print.png';
@@ -13,7 +14,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
         <div className="row header-wrapper">
           <div className="col-sm-6 grid-header-logo">
             <h1 className="sitelogo">
-              <a className="mainlogo" href="https://www.amsterdam.nl">
+              <a className="mainlogo" href={CONFIGURATION.ROOT}>
                 <span className="logoset">
                   <LogoSvg className="screen-logo" alt="Gemeente Amsterdam" />
                   <img src={LogoPng} className="alt-logo" alt="Gemeente Amsterdam" />
@@ -31,19 +32,33 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
               <ul className="links">
                 <li>
                   <span>
-                    { this.props.isAuthenticated && ('Ingelogd als: ') }<b>{this.props.userName}</b>
+                    {this.props.isAuthenticated && ('Ingelogd als: ')}<b>{this.props.userName}</b>
                   </span>
                 </li>
-                <li>
-                  <a href="" onClick={this.props.onLoginLogoutButtonClick}>
-                    {this.props.isAuthenticated ? 'Uitloggen' : 'Inloggen'}
-                  </a>
-                </li>
+                {!this.props.isAuthenticated ?
+                  <li>
+                    <a href="" onClick={(event) => this.props.onLoginLogoutButtonClick(event, 'datapunt')}>
+                      {'Inloggen'}
+                    </a>
+                  </li> : ''}
+                {!this.props.isAuthenticated ?
+                  <li>
+                    <a href="" onClick={(event) => this.props.onLoginLogoutButtonClick(event, 'grip')}>
+                      {'Inloggen ADW'}
+                    </a>
+                  </li> : ''
+                }
+                {this.props.isAuthenticated ?
+                  <li>
+                    <a href="" onClick={this.props.onLoginLogoutButtonClick}>
+                      {'Uitloggen'}
+                    </a>
+                  </li> : ''}
               </ul>
             </nav>
           </div>
         </div>
-      </div>
+      </div >
     );
   }
 }

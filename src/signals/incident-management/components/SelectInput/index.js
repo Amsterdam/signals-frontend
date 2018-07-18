@@ -20,25 +20,28 @@ SelectInput.propTypes = {
   control: PropTypes.object.isRequired
 };
 
+
 export const SelectInputRender = (props) => {
-  const { name, display, values, multiple, emptyOptionText } = props;
+  const { name, display, values, multiple, emptyOptionText, size } = props;
   const options = values.map(({ key, value }) =>
     <option key={key} value={key}>{key ? value : emptyOptionText || value}</option>
   );
+  const listSize = (values.length > size) ? size : values.length;
 
   const render = ({ handler }) => (<div>
-    <div className="row mode_input text rij_verplicht">
+    <div className="mode_input text rij_verplicht">
       <div className="label">
         <label htmlFor={`form${name}`}>{display}</label>
       </div>
 
-      <div className="invoer">
+      <div className="select-input__control invoer">
         <select
           name=""
           id={`form${name}`}
           {...handler()}
           multiple={multiple}
-          size={multiple ? values.length : ''}
+          size={multiple ? listSize : ''}
+          className="select-input__control--overflow"
         >
           {options}
         </select>
@@ -47,7 +50,8 @@ export const SelectInputRender = (props) => {
   </div>);
 
   render.defaultProps = {
-    touched: false
+    touched: false,
+    size: 10
   };
 
   render.propTypes = {

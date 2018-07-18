@@ -1,18 +1,5 @@
-
-import {
-  defaultAction,
-} from './actions';
-import {
-  DEFAULT_ACTION,
-} from './constants';
-
 describe('IncidentContainer actions', () => {
-  describe('Default Action', () => {
-    it('has a type of DEFAULT_ACTION', () => {
-      const expected = {
-        type: DEFAULT_ACTION,
-      };
-      expect(defaultAction()).toEqual(expected);
-    });
+  it('Expect to have unit tests specified', () => {
+    expect(true).toEqual(true);
   });
 });

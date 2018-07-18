@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentManagementContainer /> should render correctly when authenticated 1`] = `
+<div
+  className="manage-incident"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-12"
+    >
+      <Route
+        exact={true}
+        path="http://test/url/incidents"
+        render={[Function]}
+      />
+      <Route
+        exact={true}
+        path="http://test/url/incident/:id"
+        render={[Function]}
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<IncidentManagementContainer /> should render correctly when not authenticated 1`] = `
+<div
+  className="manage-incident"
+>
+  <Route
+    component={[Function]}
+  />
+</div>
+`;

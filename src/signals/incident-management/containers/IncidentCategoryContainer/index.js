@@ -18,8 +18,10 @@ export class IncidentCategoryContainer extends React.Component { // eslint-disab
   render() {
     const { subcategoryList } = this.props.indcidentcategorycontainer;
     return (
-      <div className="indcident-edit-container">
-        <Add id={this.props.id} subcategoryList={subcategoryList} onRequestCategoryUpdate={this.props.onRequestCategoryUpdate} />
+      <div className="col-6">
+        <div className="incident-edit-container">
+          <Add id={this.props.id} subcategoryList={subcategoryList} onRequestCategoryUpdate={this.props.onRequestCategoryUpdate} />
+        </div>
       </div>
     );
   }

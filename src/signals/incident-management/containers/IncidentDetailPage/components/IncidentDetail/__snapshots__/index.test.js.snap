@@ -1,0 +1,276 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentDetail /> should render correctly 1`] = `
+<div
+  className="incident-detail"
+>
+  <div
+    className="incident-detail__body"
+  >
+    <table
+      cellPadding="0"
+      cellSpacing="0"
+      className=""
+    >
+      <tbody>
+        <tr>
+          <td>
+            Datum
+          </td>
+          <td>
+            15-07-2018
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Tijd
+          </td>
+          <td>
+            09:19
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Datum overlast
+          </td>
+          <td>
+            15-07-2018
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Tijd overlast
+          </td>
+          <td>
+            09:19
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Rubriek
+          </td>
+          <td>
+            Overlast op het water - snel varen
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Onschrijving
+          </td>
+          <td>
+            snel boot
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Aanvullende kenmerken
+          </td>
+          <td>
+             
+          </td>
+        </tr>
+        <tr
+          key="extra_boten_snelheid_rederij"
+        >
+          <td>
+            extra_boten_snelheid_rederij
+          </td>
+          <td>
+            Admiraal Heijn
+             
+          </td>
+        </tr>
+        <tr
+          key="extra_boten_snelheid_naamboot"
+        >
+          <td>
+            extra_boten_snelheid_naamboot
+          </td>
+          <td>
+            Speranta
+             
+          </td>
+        </tr>
+        <tr
+          key="extra_boten_snelheid_rondvaartboot"
+        >
+          <td>
+            extra_boten_snelheid_rondvaartboot
+          </td>
+          <td>
+            Ja
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Stadsdeel
+          </td>
+          <td>
+            A
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Adres
+          </td>
+          <td>
+            Geldersekade 84B- 1012BL Amsterdam
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Email
+          </td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            Telefoonnummer
+          </td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            Bron
+          </td>
+          <td>
+            Telefoon 14020
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Verantwoordelijke afdeling
+          </td>
+          <td>
+             
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`<IncidentDetail /> should render correctly without extra properties 1`] = `
+<div
+  className="incident-detail"
+>
+  <div
+    className="incident-detail__body"
+  >
+    <table
+      cellPadding="0"
+      cellSpacing="0"
+      className=""
+    >
+      <tbody>
+        <tr>
+          <td>
+            Datum
+          </td>
+          <td>
+            15-07-2018
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Tijd
+          </td>
+          <td>
+            09:19
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Datum overlast
+          </td>
+          <td>
+            15-07-2018
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Tijd overlast
+          </td>
+          <td>
+            09:19
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Rubriek
+          </td>
+          <td>
+            Overlast op het water - snel varen
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Onschrijving
+          </td>
+          <td>
+            snel boot
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Aanvullende kenmerken
+          </td>
+          <td>
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Stadsdeel
+          </td>
+          <td>
+            A
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Adres
+          </td>
+          <td>
+            Geldersekade 84B- 1012BL Amsterdam
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Email
+          </td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            Telefoonnummer
+          </td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            Bron
+          </td>
+          <td>
+            Telefoon 14020
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Verantwoordelijke afdeling
+          </td>
+          <td>
+             
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;

@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<List /> should render correctly 1`] = `
+<div
+  className="list-component"
+>
+  <div
+    className="list-component__title"
+  >
+    Meldingen (
+    )
+  </div>
+  <div
+    className="list-component__body"
+  >
+    <table
+      cellPadding="0"
+      cellSpacing="0"
+      className=""
+    >
+      <thead>
+        <tr>
+          <th
+            className=""
+          >
+            Id
+          </th>
+          <th
+            className=""
+          >
+            Datum
+          </th>
+          <th
+            className=""
+          >
+            Tijd
+          </th>
+          <th
+            className=""
+          >
+            Stadsdeel
+          </th>
+          <th
+            className=""
+          >
+            Rubriek
+          </th>
+          <th
+            className=""
+          >
+            Afdeling
+          </th>
+          <th
+            className=""
+          >
+            Status
+          </th>
+          <th
+            className=""
+          >
+            Adres
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          key="158"
+          onClick={[Function]}
+        >
+          <td>
+            158
+          </td>
+          <td>
+            11-07-2018
+          </td>
+          <td>
+            15:46
+          </td>
+          <td>
+            Niet gevonden
+          </td>
+          <td>
+            Gezonken boot
+          </td>
+          <td />
+          <td>
+            Niet gevonden
+          </td>
+          <td>
+            Dam 1A-1 1012JS Amsterdam
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;

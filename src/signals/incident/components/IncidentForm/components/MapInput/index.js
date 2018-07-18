@@ -1,34 +1,39 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
-import MapContainer from 'containers/MapContainer';
+import MapInteractive from '../../../../../../components/MapInteractive';
 
 import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
 const MapInput = ({ handler, touched, hasError, meta, parent }) => {
-  const value = handler().value;
-  let address;
-  let latlng;
+  const value = handler().value || {};
 
-  if (value) {
-    latlng = {
-      lat: value.lat,
-      lng: value.lng
-    };
+  const onQueryResult = (d) => {
+    const location = {};
 
-    address = value.address;
-  }
+    if (d.dichtstbijzijnd_adres) {
+      location.address = { ...d.dichtstbijzijnd_adres };
+      location.address.huisnummer = `${location.address.huisnummer}`;
+      location.address.huisnummer_toevoeging = `${location.address.huisnummer_toevoeging}`;
+    }
 
-  const onMapAction = (l, ll) => {
-    parent.meta.setIncident({
-      location: {
-        lat: ll.lat,
-        lng: ll.lng,
-        address: l
-      }
-    });
-    latlng = ll;
+    if (d.omgevingsinfo) {
+      location.buurt_code = d.omgevingsinfo.buurtcode;
+      location.stadsdeel = d.omgevingsinfo.stadsdeelcode;
+    }
+
+    if (d.query) {
+      location.geometrie = {
+        type: 'Point',
+        coordinates: [
+          d.query.latitude,
+          d.query.longitude
+        ]
+      };
+    }
+
+    parent.meta.setIncident({ location });
   };
 
   return (
@@ -38,7 +43,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent }) => {
           <Title meta={meta} />
 
           <div className={`col-${meta.cols || 12} invoer`}>
-            <MapContainer onLocationChange={onMapAction} location={address} latlng={latlng} />
+            <MapInteractive onQueryResult={onQueryResult} location={value} />
           </div>
 
           <div className="col-12">
