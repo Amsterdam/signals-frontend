@@ -224,7 +224,9 @@
     "setupTestFrameworkScriptFile": "<rootDir>/internals/testing/test-bundler.js",
     "testRegex": ".*\\.test\\.js$",
     "testEnvironment": "./internals/testing/jest-environment-jsdom-global-fix",
-    "snapshotSerializers": ["enzyme-to-json/serializer"]
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "dependencies": {
     "babel-plugin-inline-react-svg": "^0.5.2",

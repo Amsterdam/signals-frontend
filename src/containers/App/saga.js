@@ -1,7 +1,10 @@
-import { takeLatest } from 'redux-saga/effects';
+import { takeLatest, put } from 'redux-saga/effects';
+import { push } from 'react-router-redux';
 
 import { LOGOUT, LOGIN } from './constants';
+import { showGlobalError } from './actions';
 import { login, logout } from '../../shared/services/auth/auth';
+
 
 export function* callLogin(action) {
   try {
@@ -22,8 +25,10 @@ export function* callLogout() {
     // };
     // yield call(request, 'https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t', options);
     logout();
+    yield put(push('/'));
   } catch (error) {
     // console.error('Error during logout', error); // eslint-disable-line no-console
+    yield put(showGlobalError(error));
   }
 }
 

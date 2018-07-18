@@ -4,12 +4,14 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
+import injectReducer from 'utils/injectReducer';
 
 import NotFoundPage from 'containers/NotFoundPage';
 import Footer from 'components/Footer';
 import MainMenu from 'components/MainMenu';
 import HeaderContainer from 'containers/HeaderContainer';
 
+import reducer from './reducer';
 import saga from './saga';
 import IncidentManagementContainer from '../../signals/incident-management';
 import IncidentContainer from '../../signals/incident/containers/IncidentContainer';
@@ -44,8 +46,12 @@ App.propTypes = {
   isAuthenticated: PropTypes.bool
 };
 
+// const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withReducer = injectReducer({ key: 'app', reducer });
 const withSaga = injectSaga({ key: 'app', saga });
 
 export default compose(
-  withSaga
+  withReducer,
+  withSaga,
+  // withConnect,
 )(App);
