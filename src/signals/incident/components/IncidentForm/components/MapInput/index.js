@@ -7,15 +7,7 @@ import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
 const MapInput = ({ handler, touched, hasError, meta, parent }) => {
-  const value = handler().value;
-  let latlng;
-
-  if (value && value.geometrie && value.geometrie.coordinates) {
-    latlng = {
-      latitude: value.geometrie.coordinates[0],
-      longitude: value.geometrie.coordinates[1]
-    };
-  }
+  const value = handler().value || {};
 
   const onQueryResult = (d) => {
     const location = {};
@@ -51,7 +43,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent }) => {
           <Title meta={meta} />
 
           <div className={`col-${meta.cols || 12} invoer`}>
-            <MapInteractive onQueryResult={onQueryResult} latlng={latlng} />
+            <MapInteractive onQueryResult={onQueryResult} location={value} />
           </div>
 
           <div className="col-12">
