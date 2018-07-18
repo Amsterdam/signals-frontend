@@ -2,14 +2,6 @@ import { call, select } from 'redux-saga/effects';
 import request from 'utils/request';
 
 import { makeSelectAccessToken } from '../../../containers/App/selectors';
-import CONFIGURATION from '../configuration/configuration';
-
-const createUrl = (url) => {
-  if (process.env.NODE_ENV === 'production') {
-    return `${CONFIGURATION.API_ROOT}/${url}`;
-  }
-  return url;
-};
 
 const generateParams = (data) => Object.entries(data)
   .filter((pair) => pair[1])
@@ -34,7 +26,7 @@ export function* authCall(url, params) {
     headers
   };
 
-  const fullUrl = `${createUrl(url)}/${params ? `?${generateParams(params)}` : ''}`;
+  const fullUrl = `${url}/${params ? `?${generateParams(params)}` : ''}`;
   // console.log('fullUrl', fullUrl);
   // console.log(options);
   return yield call(request, fullUrl, options);
@@ -56,7 +48,7 @@ export function* authPostCall(url, params) {
     body: JSON.stringify(params)
   };
 
-  const fullUrl = `${createUrl(url)}`;
+  const fullUrl = `${url}`;
   // console.log(fullUrl);
   // console.log(options);
   return yield call(request, fullUrl, options);
