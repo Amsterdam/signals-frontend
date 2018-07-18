@@ -1,13 +1,11 @@
-import { put, takeLatest, call } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { takeLatest } from 'redux-saga/effects';
 
 import { LOGOUT, LOGIN } from './constants';
-import { login } from '../../shared/services/auth/auth';
+import { login, logout } from '../../shared/services/auth/auth';
 
-export function* callLogin() {
+export function* callLogin(action) {
   try {
-    console.log('callLogin');
-    login();
+    login(action.payload);
   } catch (error) {
     // console.error('Error during logout', error); // eslint-disable-line no-console
     // yield put(showGlobalError(error));
@@ -16,17 +14,20 @@ export function* callLogin() {
 
 export function* callLogout() {
   try {
-    // remove the grip cookies
-    console.log(' remove the grip cookies');
-    yield call('https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t');
-    yield put(push('/'));
+    // TODO remove the grip cookies
+    // console.log(' remove the grip cookies');
+    // const options = {
+    //   method: 'GET',
+    //   mode: 'no-cors',
+    // };
+    // yield call(request, 'https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t', options);
+    logout();
   } catch (error) {
     // console.error('Error during logout', error); // eslint-disable-line no-console
   }
 }
 
 export default function* watchAppSaga() {
-  console.log('watchAppSaga');
   yield [
     takeLatest(LOGIN, callLogin),
     takeLatest(LOGOUT, callLogout)

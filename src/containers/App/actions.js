@@ -17,7 +17,6 @@ export function showGlobalError(message) {
 }
 
 export function doLogin(domain) {
-  console.log('doLogin');
   return {
     type: LOGIN,
     payload: domain
