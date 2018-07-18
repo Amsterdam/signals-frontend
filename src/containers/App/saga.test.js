@@ -1,15 +1,29 @@
-/**
- * Test  sagas
- */
+import { put, takeLatest } from 'redux-saga/effects';
+import { push } from 'react-router-redux';
 
-/* eslint-disable redux-saga/yield-effects */
-// import { take, call, put, select } from 'redux-saga/effects';
-// import { defaultSaga } from 'saga';
+import watchAppSaga, { logout } from './saga';
+import { LOGOUT } from './constants';
+import { showGlobalError } from './actions';
 
-// const generator = defaultSaga();
+describe('App saga', () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
 
-describe('defaultSaga Saga', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(true);
+  it('should watchAppSaga', () => {
+    const gen = watchAppSaga();
+    expect(gen.next().value).toEqual(takeLatest(LOGOUT, logout)); // eslint-disable-line redux-saga/yield-effects
+  });
+
+  it('should logout success', () => {
+    const gen = logout();
+    expect(gen.next().value).toEqual(put(push('/'))); // eslint-disable-line redux-saga/yield-effects
+  });
+
+  it('should logout error', () => {
+    const error = new Error('Logout error');
+    const gen = logout();
+    gen.next();
+    expect(gen.throw(error).value).toEqual(put(showGlobalError(error))); // eslint-disable-line redux-saga/yield-effects
   });
 });
