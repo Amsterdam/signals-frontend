@@ -28,7 +28,7 @@ const environmentConfig = () => {
     };
   } else if (hostname === `opleiding.${domainName}`) {
     environment = {
-      API_ROOT: `https://api.opleiding.${apiDomainName}/`,
+      API_ROOT: `https://api.opleiding.${domainName}/`,
       ROOT: `https://${hostname}/`,
       AUTH_ROOT: `https://acc.${apiDomainName}/`,
     };
