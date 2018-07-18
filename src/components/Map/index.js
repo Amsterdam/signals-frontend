@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEqual } from 'lodash';
 
 import amaps from '../../static/amaps.iife';
 
@@ -9,33 +8,18 @@ import './style.scss';
 const PREVIEW_ZOOM_LEVEL = 16;
 
 class Map extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      latlng: props.latlng,
-    };
-  }
-
   componentDidMount() {
-    const options = {
+    amaps.createMap({
+      center: {
+        latitude: this.props.latlng.latitude,
+        longitude: this.props.latlng.longitude
+      },
       layer: 'standaard',
       target: 'mapdiv',
       marker: true,
       search: false,
       zoom: PREVIEW_ZOOM_LEVEL
-    };
-
-    this.map = amaps.createMap(options);
-  }
-
-  componentWillReceiveProps(props) {
-    if (!isEqual(props.latlng, this.props.latlng)) {
-      const latlng = new window.L.LatLng(props.latlng.latitude, props.latlng.longitude);
-      this.map.then((map) => {
-        map.setView(latlng, PREVIEW_ZOOM_LEVEL);
-      });
-    }
+    });
   }
 
   render() {
