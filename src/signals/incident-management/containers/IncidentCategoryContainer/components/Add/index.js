@@ -22,7 +22,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
     const { subcategoryList } = this.props;
     return (
       <div className="incident-category-add">
-        <div className="incident-category-add__title">Rubriek aanpassen</div>
+        {/* <div className="incident-category-add__title">Rubriek aanpassen</div> */}
         <div className="incident-category-add__body">
           <FieldGroup
             control={this.categoryForm}
