@@ -1,13 +1,12 @@
 import { put, takeLatest } from 'redux-saga/effects';
-
-import { authCall, authPostCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
+import { authCall, authPostCall } from 'shared/services/api/api';
 
 import { REQUEST_STATUS_LIST, REQUEST_STATUS_CREATE } from './constants';
 import { requestStatusListSuccess, requestStatusListError, requestStatusCreateSuccess, requestStatusCreateError } from './actions';
 
 // const baseURL = '/api/auth/auth/status';
-const baseUrl = `${CONFIGURATION.API_ROOT}signals/auth/status`;
+export const baseUrl = `${CONFIGURATION.API_ROOT}signals/auth/status`;
 
 export function* fetchIncidentStatusList(action) {
   const signalId = action.payload;
@@ -33,7 +32,7 @@ export function* createIncidentStatus(action) {
   }
 }
 
-export default function* watchRequestIncidentsSaga() {
+export default function* watchIncidentStatusContainerSaga() {
   yield [
     takeLatest(REQUEST_STATUS_LIST, fetchIncidentStatusList),
     takeLatest(REQUEST_STATUS_CREATE, createIncidentStatus)
