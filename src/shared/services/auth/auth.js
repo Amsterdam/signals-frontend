@@ -5,6 +5,7 @@
 import queryStringParser from './services/query-string-parser/query-string-parser';
 import stateTokenGenerator from './services/state-token-generator/state-token-generator';
 import accessTokenParser from './services/access-token-parser/access-token-parser';
+import CONFIGURATION from '../configuration/configuration';
 
 // A map of the error keys, that the OAuth2 authorization service can
 // return, to a full description
@@ -25,13 +26,6 @@ const ERROR_MESSAGES = {
 // The parameters the OAuth2 authorization service will return on
 // success
 const AUTH_PARAMS = ['access_token', 'token_type', 'expires_in', 'state'];
-
-// Resolved at compile time by webpack,
-// e.g.: "export conts API_ROOT = 'production' === 'production' ? ... : ...;
-// see: https://webpack.js.org/plugins/environment-plugin/
-export const API_ROOT = process.env.NODE_ENV === 'production'
-  ? 'https://api.data.amsterdam.nl/'
-  : 'https://acc.api.data.amsterdam.nl/';
 
 // All the scopes this City Daty frontend needs for communication with
 // the backend APIs
@@ -195,7 +189,7 @@ export function login(domain) {
   sessionStorage.setItem(STATE_TOKEN, stateToken);
 
   const redirectUri = encodeURIComponent(`${location.protocol}//${location.host}/manage/incidents`);
-  location.assign(`${API_ROOT}${AUTH_PATH(domain)}&state=${encodedStateToken}&redirect_uri=${redirectUri}`);
+  location.assign(`${CONFIGURATION.AUTH_ROOT}${AUTH_PATH(domain)}&state=${encodedStateToken}&redirect_uri=${redirectUri}`);
 }
 
 export function logout() {
