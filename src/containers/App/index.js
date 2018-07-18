@@ -1,21 +1,16 @@
-/**
- *
- * App
- *
- * This component is the skeleton around the actual pages, and should only
- * contain code that should be seen on all pages. (e.g. navigation bar)
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { compose } from 'redux';
 
-import HomePage from 'containers/HomePage';
+import injectSaga from 'utils/injectSaga';
+
 import NotFoundPage from 'containers/NotFoundPage';
 import Footer from 'components/Footer';
 import MainMenu from 'components/MainMenu';
 import HeaderContainer from 'containers/HeaderContainer';
 
+import saga from './saga';
 import IncidentManagementContainer from '../../signals/incident-management';
 import IncidentContainer from '../../signals/incident/containers/IncidentContainer';
 
@@ -31,9 +26,8 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
         </div>
         <div className="content container">
           <Switch>
-            <Route exact path="/" component={HomePage} />
+            <Redirect exact from="/" to="/incident" />
             <Route path="/manage" component={IncidentManagementContainer} />
-            {/* <Redirect to="/manage/incidents" from="/admin/incidents" /> */}
             <Route path="/incident" component={IncidentContainer} />
             <Route path="" component={NotFoundPage} />
           </Switch>
@@ -50,5 +44,8 @@ App.propTypes = {
   isAuthenticated: PropTypes.bool
 };
 
-export default App;
+const withSaga = injectSaga({ key: 'app', saga });
 
+export default compose(
+  withSaga
+)(App);

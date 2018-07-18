@@ -14,22 +14,6 @@ exports[`<MainMenu /> should render correctly 1`] = `
         <li>
           <NavLink
             activeClassName="active"
-            to="/"
-          >
-            <span
-              className="linklabel"
-            >
-              <FormattedMessage
-                defaultMessage="Home"
-                id="boilerplate.components.Header.home"
-                values={Object {}}
-              />
-            </span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            activeClassName="active"
             to="/incident"
           >
             <span
