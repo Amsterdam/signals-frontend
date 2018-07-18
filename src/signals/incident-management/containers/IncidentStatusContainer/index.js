@@ -57,7 +57,7 @@ const mapStateToProps = createStructuredSelector({
   incidentstatuscontainer: makeSelectIncidentStatusContainer(),
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
+export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestStatusList: requestStatusList,
   onRequestStatusCreate: requestStatusCreate,
 }, dispatch);
