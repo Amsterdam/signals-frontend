@@ -7,12 +7,6 @@ import { MainMenu } from './index';
 
 describe('<MainMenu />', () => {
   const createComponent = (isAuthenticated = false) => {
-    // const store = configureStore({}, browserHistory);
-    // const renderedComponent = shallow(
-    //   <Provider store={store}>
-    //     <MainMenu isAuthenticated={isAuthenticated} />
-    //   </Provider>
-    // ).dive();
     const renderedComponent = shallow(<MainMenu isAuthenticated={isAuthenticated} />);
     return renderedComponent;
   };
@@ -27,12 +21,12 @@ describe('<MainMenu />', () => {
 
   it('should render render 2 NavLink components when not authenticated', () => {
     const renderedComponent = createComponent();
-    expect(renderedComponent.find('NavLink').length).toEqual(2);
+    expect(renderedComponent.find('NavLink').length).toEqual(1);
   });
 
   it('should render render 3 NavLink components when authenticated', () => {
     const isAuthenticated = true;
     const renderedComponent = createComponent(isAuthenticated);
-    expect(renderedComponent.find('NavLink').length).toEqual(3);
+    expect(renderedComponent.find('NavLink').length).toEqual(2);
   });
 });

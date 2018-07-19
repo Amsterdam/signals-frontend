@@ -194,9 +194,6 @@ export function login(domain) {
 
 export function logout() {
   sessionStorage.removeItem(ACCESS_TOKEN);
-  deleteCookie('GripGS', 'auth.grip-on-it.com');
-  deleteCookie('GripLastLogin', 'auth.grip-on-it.com');
-  deleteCookie('GripTokenHistory', 'auth.grip-on-it.com');
   location.reload();
 }
 

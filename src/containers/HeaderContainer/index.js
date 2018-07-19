@@ -7,14 +7,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { makeSelectUserName } from 'containers/App/selectors';
 import Header from 'components/Header';
 
+import { doLogin, doLogout } from '../App/actions';
+
 import './style.scss';
 
-import { login, logout, isAuthenticated } from '../../shared/services/auth/auth';
+import { isAuthenticated } from '../../shared/services/auth/auth';
 
 export class HeaderContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -27,9 +29,9 @@ export class HeaderContainer extends React.Component { // eslint-disable-line re
     event.preventDefault();
     event.stopPropagation();
     if (!isAuthenticated()) {
-      login(domain);
+      this.props.onLogin(domain);
     } else {
-      logout();
+      this.props.onLogout();
     }
   }
 
@@ -45,15 +47,21 @@ export class HeaderContainer extends React.Component { // eslint-disable-line re
 }
 
 HeaderContainer.propTypes = {
-  userName: PropTypes.string
+  userName: PropTypes.string,
+  onLogin: PropTypes.func,
+  onLogout: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
   userName: makeSelectUserName()
 });
 
+export const mapDispatchToProps = (dispatch) => bindActionCreators({
+  onLogin: doLogin,
+  onLogout: doLogout
+}, dispatch);
 
-const withConnect = connect(mapStateToProps);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(
   withConnect,
