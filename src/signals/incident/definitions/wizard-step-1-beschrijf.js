@@ -42,7 +42,7 @@ export default {
       location: {
         meta: {
           label: 'Waar is het?',
-          subtitle: 'Typ de locatie of versleep de markering [dingetje] op de kaart',
+          subtitle: 'Typ de locatie in of of klik op de kaart',
           path: 'location',
           watch: true
         },
