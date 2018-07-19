@@ -19,7 +19,7 @@ import createFileUploadChannel from './createFileUploadChannel';
 // import makeSelectIncidentContainer from './selectors';
 
 export function* getClassification({ text }) {
-  const requestURL = 'https://meldingen-classification.herokuapp.com/calls/';
+  const requestURL = `${CONFIGURATION.API_ROOT}signals_mltool/`;
 
   try {
     const result = yield call(request, requestURL, {
