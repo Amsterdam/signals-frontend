@@ -46,8 +46,6 @@ export const initialState = fromJS({
     // subcategory: 'Overlast op het water - snel varen',
     // category: 'Overlast op het water',
     // description: 'snel boot',
-    subcategory: 'Overig',
-    category: 'Overig',
     // description: 'poep',
     // phone: '020654321',
     // email: 'a@b.com',
