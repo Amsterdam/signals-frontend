@@ -1,3 +1,4 @@
+import { Validators } from 'react-reactive-form';
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/IncidentForm/components/';
 
@@ -13,7 +14,10 @@ export default {
           placeholder: 'Telefoonnummer',
           type: 'text'
         },
-        render: FormComponents.TextInput
+        render: FormComponents.TextInput,
+        options: {
+          validators: [Validators.required, Validators.maxLength(17)]
+        },
       },
       privacy_text: {
         meta: {

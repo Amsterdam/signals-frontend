@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
-const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, parent }) => (
+const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, parent, getError }) => (
   <div>
     {meta.ifVisible ?
       <div className={`row mode_input verplicht ${touched && hasError('required') ? 'row_ongeldig' : ''}`}>
@@ -13,6 +13,7 @@ const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, 
           <ErrorMessage
             touched={touched}
             hasError={hasError}
+            getError={getError}
           />
         </div>
         <div className={`col-${meta.cols || 12} invoer`}>
@@ -34,7 +35,8 @@ DescriptionWithClassificationInput.propTypes = {
   touched: PropTypes.bool.isRequired,
   hasError: PropTypes.func.isRequired,
   meta: PropTypes.object.isRequired,
-  parent: PropTypes.object.isRequired
+  parent: PropTypes.object.isRequired,
+  getError: PropTypes.func.isRequired,
 };
 
 export default DescriptionWithClassificationInput;
