@@ -3,13 +3,15 @@ import { shallow } from 'enzyme';
 
 import { IncidentDetailPage, mapDispatchToProps } from './index';
 import { REQUEST_INCIDENT } from './constants';
+import stadsdeelList from '../../definitions/stadsdeelList';
+
 
 describe('<IncidentDetailPage />', () => {
   let props;
 
   beforeEach(() => {
     props = {
-      incidentdetailpage: { incident: {} },
+      incidentdetailpage: { incident: {}, stadsdeelList },
       onRequestIncident: jest.fn()
     };
   });

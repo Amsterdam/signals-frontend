@@ -20,6 +20,7 @@ import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
+
 import { requestIncident } from './actions';
 import Tabs from './components/Tabs';
 import MapDetail from './components/MapDetail';
@@ -50,7 +51,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   render() {
-    const { incident } = this.props.incidentdetailpage;
+    const { incident, stadsdeelList } = this.props.incidentdetailpage;
     const { selectedTab } = this.state;
     const tabs = [
       { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
@@ -69,7 +70,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
         </ul>
         <div className="col-8">
           (<Link to={`${this.props.baseUrl}/incidents`} >Terug naar overzicht</Link>)
-          {(incident) ? <IncidentDetail incident={incident} /> : ''}
+          {(incident) ? <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} /> : ''}
         </div>
 
         <div className="col-12">
