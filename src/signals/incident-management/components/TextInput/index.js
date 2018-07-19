@@ -15,7 +15,7 @@ TextInput.propTypes = {
 };
 
 export const TextInputRender = (props) => {
-  const { name, display } = props;
+  const { name, display, placeholder } = props;
   const render = ({ handler }) => (<div>
     <div className="mode_input text rij_verplicht">
       <div className="label">
@@ -23,14 +23,15 @@ export const TextInputRender = (props) => {
       </div>
 
       <div className="invoer">
-        <input name="" id={`form${name}`} value="" className="input" type="text" {...handler()} />
+        <input name="" id={`form${name}`} value="" className="input" type="text" {...handler()} placeholder={placeholder} />
       </div>
 
     </div>
   </div>);
 
   render.defaultProps = {
-    touched: false
+    touched: false,
+    placeholder: ''
   };
 
   render.propTypes = {
@@ -41,7 +42,7 @@ export const TextInputRender = (props) => {
 
 export class TextInputWrapper extends React.Component {
   TextInputRender = (props) => {
-    const { name, display, control } = props;
+    const { name, display, control, placeholder } = props;
     const renderContent = ({ handler, touched, hasError }) => (<div>
       <div className="row mode_input text rij_verplicht">
         <div className="label">
@@ -49,7 +50,7 @@ export class TextInputWrapper extends React.Component {
         </div>
 
         <div className="invoer">
-          <input name="" id={`form${name}`} value="" className="input" type="text" {...handler()} />
+          <input name="" id={`form${name}`} value="" className="input" type="text" {...handler()} placeholder={placeholder} />
         </div>
         <div>
           {touched
@@ -65,6 +66,10 @@ export class TextInputWrapper extends React.Component {
 
   render() {
     const { name, control } = this.props;
+    this.TextInputRender.defaultProps = {
+      placeholder: ''
+    };
+
     return (
       <div>
         <FieldControl name={name} control={control} render={TextInputRender} />
@@ -81,5 +86,6 @@ TextInputWrapper.propTypes = {
     hasError: PropTypes.func.isRequired,
     touched: PropTypes.boolean,
     pristine: PropTypes.boolean,
-  })
+  }),
+  placeholder: PropTypes.string
 };

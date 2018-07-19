@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
-const TextareaInput = ({ handler, touched, hasError, meta, parent }) => (
+const TextareaInput = ({ handler, touched, hasError, meta, parent, getError }) => (
   <div>
     {meta.ifVisible ?
       <div className="row mode_input">
@@ -24,6 +24,7 @@ const TextareaInput = ({ handler, touched, hasError, meta, parent }) => (
         <ErrorMessage
           touched={touched}
           hasError={hasError}
+          getError={getError}
         />
       </div>
        : ''}
@@ -35,7 +36,8 @@ TextareaInput.propTypes = {
   touched: PropTypes.bool,
   hasError: PropTypes.func,
   meta: PropTypes.object,
-  parent: PropTypes.object
+  parent: PropTypes.object,
+  getError: PropTypes.func
 };
 
 export default TextareaInput;

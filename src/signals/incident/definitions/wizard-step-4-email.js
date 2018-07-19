@@ -15,10 +15,10 @@ export default {
           placeholder: 'E-mail adres',
           type: 'text'
         },
+        render: FormComponents.TextInput,
         options: {
-          validators: Validators.email
+          validators: [Validators.email, Validators.maxLength(254)]
         },
-        render: FormComponents.TextInput
       },
       privacy_text: {
         meta: {
