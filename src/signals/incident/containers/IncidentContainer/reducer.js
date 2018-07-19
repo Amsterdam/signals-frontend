@@ -55,6 +55,11 @@ export const initialState = fromJS({
     // extra_boten_snelheid_rederij: 'Aemstelland',
     // datetime: 'Nu',
 
+    // TEMP
+    subcategory: 'Honden(poep)',
+    category: 'Overlast in de openbare ruimte',
+    description: 'poep',
+
     incident_date: 'Vandaag',
     incident_time_hours: 9,
     incident_time_minutes: 0
