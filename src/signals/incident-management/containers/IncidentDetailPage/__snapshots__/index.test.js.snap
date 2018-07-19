@@ -31,6 +31,46 @@ exports[`<IncidentDetailPage /> should render correctly 1`] = `
     )
     <IncidentDetail
       incident={Object {}}
+      stadsdeelList={
+        Array [
+          Object {
+            "key": "",
+            "value": "Alle stadsdelen",
+          },
+          Object {
+            "key": "A",
+            "value": "Centrum",
+          },
+          Object {
+            "key": "B",
+            "value": "Westpoort",
+          },
+          Object {
+            "key": "E",
+            "value": "West",
+          },
+          Object {
+            "key": "M",
+            "value": "Oost",
+          },
+          Object {
+            "key": "N",
+            "value": "Noord",
+          },
+          Object {
+            "key": "T",
+            "value": "Zuidoost",
+          },
+          Object {
+            "key": "K",
+            "value": "Zuid",
+          },
+          Object {
+            "key": "F",
+            "value": "Nieuw-West",
+          },
+        ]
+      }
     />
   </div>
   <div
