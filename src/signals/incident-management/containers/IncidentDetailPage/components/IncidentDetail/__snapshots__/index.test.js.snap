@@ -56,7 +56,7 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
         </tr>
         <tr>
           <td>
-            Onschrijving
+            Omschrijving
           </td>
           <td>
             snel boot
@@ -210,7 +210,7 @@ exports[`<IncidentDetail /> should render correctly without extra properties 1`]
         </tr>
         <tr>
           <td>
-            Onschrijving
+            Omschrijving
           </td>
           <td>
             snel boot
