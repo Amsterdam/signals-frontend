@@ -21,8 +21,8 @@ const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, 
             className="input"
             rows={meta.rows || 6}
             placeholder={meta.placeholder}
-            onKeyUp={(e) => parent.meta.getClassification(e.target.value)}
             {...handler()}
+            onKeyUp={(e) => parent.meta.getClassification(e.target.value)}
           />
         </div>
       </div>
