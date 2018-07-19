@@ -14,7 +14,7 @@ exports[`<MainMenu /> should render correctly 1`] = `
         <li>
           <NavLink
             activeClassName="active"
-            to="/incident"
+            to="/"
           >
             <span
               className="linklabel"
