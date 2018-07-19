@@ -18,7 +18,7 @@ const environmentConfig = () => {
     environment = {
       API_ROOT: `https://${apiDomainName}/`,
       ROOT: `https://${hostname}/`,
-      AUTH_ROOT: `https://${apiDomainName}//`,
+      AUTH_ROOT: `https://${apiDomainName}/`,
     };
   } else if (hostname === `acc.${domainName}`) {
     environment = {
