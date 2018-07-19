@@ -50,7 +50,7 @@ class Filter extends React.Component {
                 <div>
                   <TextInput name="id" display="Id" control={this.filterForm.get('id')} />
                   <TextInput name="incident_date_start" display="Datum" control={this.filterForm.get('incident_date_start')} placeholder={'JJJJ-MM-DD'} />
-                  <SelectInput name="location__stadsdeel" display="Staadsdeel" control={this.filterForm.get('location__stadsdeel')} values={stadsdeelList} multiple />
+                  <SelectInput name="location__stadsdeel" display="Stadsdeel" control={this.filterForm.get('location__stadsdeel')} values={stadsdeelList} multiple />
                   <SelectInput name="category__sub" display="Rubriek" control={this.filterForm.get('category__sub')} values={subcategoryList} multiple size={10} />
                   <SelectInput name="status__state" display="Status" control={this.filterForm.get('status__state')} values={statusList} multiple />
                   <TextInput name="location__address_text" display="Adres" control={this.filterForm.get('location__address_text')} />
