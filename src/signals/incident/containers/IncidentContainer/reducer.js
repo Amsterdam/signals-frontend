@@ -43,15 +43,15 @@ export const initialState = fromJS({
     // ]
     // }
     // },
-    // subcategory: 'Overlast op het water - snel varen',
-    // category: 'Overlast op het water',
-    // description: 'snel boot',
+    subcategory: 'Overlast op het water - snel varen',
+    category: 'Overlast op het water',
+    description: 'snel boot',
     // description: 'poep',
     // phone: '020654321',
     // email: 'a@b.com',
-    // extra_boten_snelheid_rondvaartboot: 'Ja',
-    // extra_boten_snelheid_rederij: 'Aemstelland',
-    // datetime: 'Nu',
+    extra_boten_snelheid_rondvaartboot: 'Ja',
+    extra_boten_snelheid_rederij: 'Aemstelland',
+    datetime: 'Nu',
 
     incident_date: 'Vandaag',
     incident_time_hours: 9,
