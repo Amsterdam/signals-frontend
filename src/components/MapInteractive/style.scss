@@ -1,4 +1,6 @@
 .map-component {
+  margin-top: 5px;
+
   #mapdiv {
     position: relative;
     width: 100%;
@@ -7,10 +9,10 @@
 
   .embed-search {
     // pull the search input outside of the map
-    top: -50px;
-    left: 0;
+    // top: -50px;
+    // left: 0;
     max-width: 100%;
-    width: 100%;
+    // width: 100%;
 
     input[type="text"] {
       height: inherit;
