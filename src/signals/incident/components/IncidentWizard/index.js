@@ -6,7 +6,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { Wizard, Steps, Step } from 'react-albus';
 
 // import { FormattedMessage } from 'react-intl';
@@ -30,42 +30,40 @@ function onNext({ step, steps, push }, incident) {
 
 function IncidentWizard({ getClassification, setIncident, createIncident, incident, isAuthenticated }) {
   return (
-    <BrowserRouter>
-      <div className="incident-wizardDefinition">
-        <Route
-          render={({ history }) => (
-            <Wizard history={history} onNext={(wiz) => onNext(wiz, incident)}>
-              <Steps>
-                {Object.keys(wizardDefinition).map((key) => (
-                  <Step key={key} id={`incident/${key}`}>
-                    <h2>{wizardDefinition[key].label || key}</h2>
-                    {wizardDefinition[key].preview ?
-                      <IncidentPreview
-                        incident={incident}
-                        preview={wizardDefinition[key].preview}
-                      />
-                      : ''}
+    <div className="incident-wizardDefinition">
+      <Route
+        render={({ history }) => (
+          <Wizard history={history} onNext={(wiz) => onNext(wiz, incident)}>
+            <Steps>
+              {Object.keys(wizardDefinition).map((key) => (
+                <Step key={key} id={`incident/${key}`}>
+                  <h2>{wizardDefinition[key].label || key}</h2>
+                  {wizardDefinition[key].preview ?
+                    <IncidentPreview
+                      incident={incident}
+                      preview={wizardDefinition[key].preview}
+                    />
+                    : ''}
 
-                    {wizardDefinition[key].form ?
-                      <IncidentForm
-                        fieldConfig={wizardDefinition[key].form}
-                        incident={incident}
-                        getClassification={getClassification}
-                        setIncident={setIncident}
-                        createIncident={createIncident}
-                        wizard={wizardDefinition}
-                        isAuthenticated={isAuthenticated}
-                      />
-                      : ''}
-                  </Step>
-                )
-                )}
-              </Steps>
-            </Wizard>
-          )}
-        />
-      </div>
-    </BrowserRouter>
+                  {wizardDefinition[key].form ?
+                    <IncidentForm
+                      fieldConfig={wizardDefinition[key].form}
+                      incident={incident}
+                      getClassification={getClassification}
+                      setIncident={setIncident}
+                      createIncident={createIncident}
+                      wizard={wizardDefinition}
+                      isAuthenticated={isAuthenticated}
+                    />
+                    : ''}
+                </Step>
+              )
+              )}
+            </Steps>
+          </Wizard>
+        )}
+      />
+    </div>
   );
 }
 

@@ -19,7 +19,7 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
           <nav>
             <ul className="links horizontal">
               <li>
-                <NavLink to="/incident">
+                <NavLink to="/">
                   <span className="linklabel">
                     <FormattedMessage {...messages.incident} />
                   </span>

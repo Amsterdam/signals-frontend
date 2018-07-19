@@ -10,7 +10,9 @@ import PropTypes from 'prop-types';
 
 function Img(props) {
   return (
-    <img className={props.className} src={props.src} alt={props.alt} />
+    props.src ?
+      <img className={props.className} src={props.src} alt={props.alt} /> :
+    'Geen foto'
   );
 }
 
