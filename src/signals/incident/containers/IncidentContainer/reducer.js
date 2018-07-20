@@ -77,7 +77,9 @@ function incidentContainerReducer(state = initialState, action) {
     case CREATE_INCIDENT_SUCCESS:
       return state
         .set('loading', false)
-        .set('incident', fromJS({}));
+        .set('incident', fromJS({
+          subcategory: state.get('incident').toJS().subcategory
+        }));
 
     case CREATE_INCIDENT_ERROR:
       return state
