@@ -3,7 +3,7 @@ import request from 'utils/request';
 
 import { makeSelectAccessToken } from '../../../containers/App/selectors';
 
-const generateParams = (data) => Object.entries(data)
+export const generateParams = (data) => Object.entries(data)
   .filter((pair) => pair[1])
   .map((pair) => (Array.isArray(pair[1]) === true ?
     pair[1]
