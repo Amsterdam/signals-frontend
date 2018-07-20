@@ -6,7 +6,7 @@ import MapInteractive from '../../../../../../components/MapInteractive';
 import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
-const MapInput = ({ handler, touched, hasError, meta, parent }) => {
+const MapInput = ({ handler, touched, hasError, meta, parent, getError }) => {
   const value = handler().value || {};
 
   const onQueryResult = (d) => {
@@ -50,6 +50,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent }) => {
             <ErrorMessage
               touched={touched}
               hasError={hasError}
+              getError={getError}
             />
           </div>
         </div>
@@ -61,7 +62,8 @@ const MapInput = ({ handler, touched, hasError, meta, parent }) => {
 MapInput.propTypes = {
   handler: PropTypes.func,
   touched: PropTypes.bool,
-  hasError: PropTypes.func,
+  getError: PropTypes.func.isRequired,
+  hasError: PropTypes.func.isRequired,
   meta: PropTypes.object,
   parent: PropTypes.object
 };
