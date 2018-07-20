@@ -6,22 +6,20 @@ import CONFIGURATION from 'shared/services/configuration/configuration';
 import { REQUEST_CATEGORY_UPDATE } from './constants';
 import { requestCategoryUpdateSuccess, requestCategoryUpdateError } from './actions';
 
-const baseUrl = `${CONFIGURATION.API_ROOT}signals/auth/category`;
+export const baseUrl = `${CONFIGURATION.API_ROOT}signals/auth/category`;
 
 export function* updateIncidentCategory(action) {
-  const status = action.payload;
+  const category = action.payload;
   const requestURL = `${baseUrl}/`;
 
   try {
-    const updatedCategory = yield authPostCall(requestURL, status);
+    const updatedCategory = yield authPostCall(requestURL, category);
     yield put(requestCategoryUpdateSuccess(updatedCategory));
   } catch (error) {
     yield put(requestCategoryUpdateError(error));
   }
 }
 
-export default function* watchRequestIncidentsSaga() {
-  yield [
-    takeLatest(REQUEST_CATEGORY_UPDATE, updateIncidentCategory)
-  ];
+export default function* watchIncidentCategorySaga() {
+  yield takeLatest(REQUEST_CATEGORY_UPDATE, updateIncidentCategory);
 }
