@@ -29,7 +29,8 @@ function appReducer(state = initialState, action) {
         .set('accessToken', action.payload.accessToken);
     case SHOW_GLOBAL_ERROR:
       return state
-        .set('error', action.payload)
+        .set('error', !!(action.payload))
+        .set('errorMessage', action.payload)
         .set('loading', false);
     default:
       return state;

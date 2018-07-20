@@ -7,12 +7,15 @@ import {
   createIncidentSuccess,
   createIncidentError,
   getClassificationSuccess,
-  getClassificationError,
+  // getClassificationError,
   uploadRequest,
   uploadProgress,
   uploadSuccess,
   uploadFailure
 } from './actions';
+import {
+  showGlobalError
+} from '../../../../containers/App/actions';
 import mapControlsToParams from '../../services/map-controls-to-params';
 import createFileUploadChannel from './createFileUploadChannel';
 
@@ -33,7 +36,7 @@ export function* getClassification({ text }) {
     });
     yield put(getClassificationSuccess(result));
   } catch (err) {
-    yield put(getClassificationError(err));
+    yield put(showGlobalError('CLASSIFICATION_FAILED'));
   }
 }
 
