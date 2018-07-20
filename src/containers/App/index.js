@@ -13,7 +13,7 @@ import HeaderContainer from 'containers/HeaderContainer';
 
 import reducer from './reducer';
 import saga from './saga';
-import IncidentManagementContainer from '../../signals/incident-management';
+import IncidentManagementModule from '../../signals/incident-management';
 import IncidentContainer from '../../signals/incident/containers/IncidentContainer';
 
 export class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -29,7 +29,7 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
         <div className="content container">
           <Switch>
             <Redirect exact from="/" to="/incident" />
-            <Route path="/manage" component={IncidentManagementContainer} />
+            <Route path="/manage" component={IncidentManagementModule} />
             <Route path="/incident" component={IncidentContainer} />
             <Route path="" component={NotFoundPage} />
           </Switch>
