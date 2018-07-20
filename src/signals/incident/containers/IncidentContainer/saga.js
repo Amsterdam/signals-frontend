@@ -5,7 +5,7 @@ import CONFIGURATION from 'shared/services/configuration/configuration';
 import { CREATE_INCIDENT, GET_CLASSIFICATION, UPLOAD_REQUEST } from './constants';
 import {
   createIncidentSuccess,
-  createIncidentError,
+  // createIncidentError,
   getClassificationSuccess,
   // getClassificationError,
   uploadRequest,
@@ -13,9 +13,7 @@ import {
   uploadSuccess,
   uploadFailure
 } from './actions';
-import {
-  showGlobalError
-} from '../../../../containers/App/actions';
+import { showGlobalError } from '../../../../containers/App/actions';
 import mapControlsToParams from '../../services/map-controls-to-params';
 import createFileUploadChannel from './createFileUploadChannel';
 
@@ -36,7 +34,7 @@ export function* getClassification({ text }) {
     });
     yield put(getClassificationSuccess(result));
   } catch (err) {
-    yield put(showGlobalError('CLASSIFICATION_FAILED'));
+    yield put(showGlobalError('GET_CLASSIFICATION_FAILED'));
   }
 }
 
@@ -57,7 +55,7 @@ export function* createIncident({ incident, wizard }) {
     }
     yield put(createIncidentSuccess(result));
   } catch (err) {
-    yield put(createIncidentError(err));
+    yield put(showGlobalError('CREATE_INCIDENT_FAILED'));
   }
 }
 
