@@ -203,10 +203,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "statements": 52,
-        "branches": 32,
-        "functions": 43,
-        "lines": 53
+        "statements": 60,
+        "branches": 36,
+        "functions": 49,
+        "lines": 60
       }
     },
     "moduleDirectories": [
