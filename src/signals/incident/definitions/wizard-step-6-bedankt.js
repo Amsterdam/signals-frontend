@@ -48,7 +48,7 @@ export default {
             subcategory: [
               'Veeg- / zwerfvuil',
               'Prullenbak is vol',
-              'Onderhoud stoep, straat, fietspad',
+              'Onderhoud stoep, straat en fietspad',
               'Verkeersbord, verkeersafzetting'
             ]
           },
