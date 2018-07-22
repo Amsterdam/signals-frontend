@@ -1,5 +1,5 @@
 .global-error {
-  background-color: red;
-  text-align: center;
-  padding: 8px;
+  &__close-button {
+    float: right;
+  }
 }

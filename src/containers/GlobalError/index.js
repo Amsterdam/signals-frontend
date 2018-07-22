@@ -13,9 +13,12 @@ import './style.scss';
 const GlobalError = ({ error, errorMessage, onClose }) => (
   <div>
     {error ?
-      <div className="global-error">
+      <div className="global-error error-summary">
         {errorMessage}
-        <button onClick={onClose}>sluit</button>
+        <button
+          className="global-error__close-button"
+          onClick={onClose}
+        >sluit</button>
       </div>
     : ''}
   </div>
@@ -26,7 +29,7 @@ GlobalError.defaultProps = {
 };
 
 GlobalError.propTypes = {
-  error: PropTypes.boolean,
+  error: PropTypes.bool,
   errorMessage: PropTypes.string,
   onClose: PropTypes.func
 };
