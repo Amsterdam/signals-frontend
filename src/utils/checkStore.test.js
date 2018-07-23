@@ -4,7 +4,7 @@
 
 import checkStore from './checkStore';
 
-describe.only('checkStore', () => {
+describe('checkStore', () => {
   let store;
 
   beforeEach(() => {
