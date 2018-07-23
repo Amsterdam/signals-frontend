@@ -27,7 +27,11 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta }) => {
       reader.onabort = () => console.log('file reading was aborted'); // eslint-disable-line no-console
       reader.onerror = () => console.log('file reading has failed');  // eslint-disable-line no-console
 
-      reader.readAsBinaryString(file);
+      if (reader.readAsArrayBuffer) {
+        reader.readAsArrayBuffer(file);
+      } else {
+        reader.readAsBinaryString(file);
+      }
     }
   };
 
