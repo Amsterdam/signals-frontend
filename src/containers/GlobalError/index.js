@@ -13,7 +13,7 @@ import './style.scss';
 const GlobalError = ({ error, errorMessage, onClose }) => (
   <div>
     {error ?
-      <div className="global-error error-summary">
+      <div className="global-error">
         {errorMessage}
         <button
           className="global-error__close-button"
