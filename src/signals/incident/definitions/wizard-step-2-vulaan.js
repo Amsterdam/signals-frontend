@@ -122,6 +122,18 @@ export default {
         },
         render: FormComponents.TextInput
       },
+      extra_boten_snelheid_meer: {
+        meta: {
+          label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? (niet verplicht)',
+          subtitle: 'Bijvoorbeeld: de kleur(en) van de boot, het aantal passagiers, de vaarrichting, Y of Vignet nummer etc.',
+          pathMerge: 'extra_properties',
+          ifAllOf: {
+            subcategory: 'Overlast op het water - snel varen'
+          },
+          watch: true
+        },
+        render: FormComponents.TextareaInput
+      },
       extra_boten_geluid_meer: {
         meta: {
           label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? (niet verplicht)',
