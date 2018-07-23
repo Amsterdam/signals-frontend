@@ -10,7 +10,7 @@ exports[`<IncidentStatusContainer /> should render correctly 1`] = `
     >
       <Add
         id="1"
-        onRequestStatusCreate={[Function]}
+        onRequestStatusCreate={[MockFunction]}
       />
     </div>
     <div

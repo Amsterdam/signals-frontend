@@ -20,7 +20,7 @@ describe('<IncidentStatusContainer />', () => {
     jest.resetAllMocks();
   });
 
-  it.skip('should render correctly', () => {
+  it('should render correctly', () => {
     const renderedComponent = shallow(
       <IncidentStatusContainer {...props} />
     );
