@@ -7,7 +7,7 @@ import { map } from 'lodash';
 import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
-const SelectInput = ({ handler, touched, hasError, meta, parent }) => (
+const SelectInput = ({ handler, touched, hasError, meta, parent, getError }) => (
   <div>
     {meta.ifVisible
       ? <div className="row mode_input">
@@ -33,6 +33,7 @@ const SelectInput = ({ handler, touched, hasError, meta, parent }) => (
         <ErrorMessage
           touched={touched}
           hasError={hasError}
+          getError={getError}
         />
       </div>
       : ''
@@ -43,7 +44,8 @@ const SelectInput = ({ handler, touched, hasError, meta, parent }) => (
 SelectInput.propTypes = {
   handler: PropTypes.func,
   touched: PropTypes.bool,
-  hasError: PropTypes.func,
+  getError: PropTypes.func.isRequired,
+  hasError: PropTypes.func.isRequired,
   meta: PropTypes.object,
   parent: PropTypes.object
 };

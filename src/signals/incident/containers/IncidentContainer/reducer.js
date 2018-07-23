@@ -53,6 +53,11 @@ export const initialState = fromJS({
     // extra_boten_snelheid_rederij: 'Aemstelland',
     // datetime: 'Nu',
 
+    // TEMP FOR E&Y TEST
+    description: 'man',
+    category: 'Overlast van en door personen of groepen',
+    subcategory: 'Daklozen / bedelen',
+
     incident_date: 'Vandaag',
     incident_time_hours: 9,
     incident_time_minutes: 0
@@ -77,7 +82,9 @@ function incidentContainerReducer(state = initialState, action) {
     case CREATE_INCIDENT_SUCCESS:
       return state
         .set('loading', false)
-        .set('incident', fromJS({}));
+        .set('incident', fromJS({
+          subcategory: state.get('incident').toJS().subcategory
+        }));
 
     case CREATE_INCIDENT_ERROR:
       return state

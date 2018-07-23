@@ -6,7 +6,7 @@ import ErrorMessage from '../ErrorMessage/';
 
 import './style.scss';
 
-const FileInput = ({ handler, touched, hasError, parent, meta }) => {
+const FileInput = ({ handler, touched, hasError, getError, parent, meta }) => {
   const handleChange = (e) => {
     if (e.target.files && e.target.files.length) {
       const file = e.target.files[0];
@@ -73,6 +73,7 @@ const FileInput = ({ handler, touched, hasError, parent, meta }) => {
           <ErrorMessage
             touched={touched}
             hasError={hasError}
+            getError={getError}
           />
         </div>
          : ''}
@@ -85,7 +86,8 @@ FileInput.propTypes = {
   touched: PropTypes.bool,
   hasError: PropTypes.func,
   meta: PropTypes.object,
-  parent: PropTypes.object
+  parent: PropTypes.object,
+  getError: PropTypes.func.isRequired
 };
 
 export default FileInput;

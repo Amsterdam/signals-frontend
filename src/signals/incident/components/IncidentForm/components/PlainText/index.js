@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import './style.scss';
 
-const TextInput = ({ meta, parent }) => (
+const PlainText = ({ meta, parent }) => (
   <div>
     {meta.ifVisible ?
       <div className="row mode_input plain-text">
@@ -34,9 +34,9 @@ const TextInput = ({ meta, parent }) => (
   </div>
 );
 
-TextInput.propTypes = {
+PlainText.propTypes = {
   meta: PropTypes.object,
   parent: PropTypes.object
 };
 
-export default TextInput;
+export default PlainText;

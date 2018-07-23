@@ -14,7 +14,10 @@ import {
 import { REQUEST_CATEGORY_UPDATE_SUCCESS } from '../IncidentCategoryContainer/constants';
 import { REQUEST_STATUS_CREATE_SUCCESS } from '../IncidentStatusContainer/constants';
 
-export const initialState = fromJS({ id: null });
+import stadsdeelList from '../../definitions/stadsdeelList';
+
+
+export const initialState = fromJS({ id: null, stadsdeelList });
 
 function incidentDetailPageReducer(state = initialState, action) {
   switch (action.type) {

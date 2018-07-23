@@ -4,6 +4,10 @@
 .header-component {
   .mainlogo {
     text-decoration: none;
+
+    .logoset .screen-logo {
+      width: 20px;
+    }
   }
 
   .links {

@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import './style.scss';
 
 class IncidentDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { incident } = this.props;
+    const { incident, stadsdeelList } = this.props;
     const extraProperties = incident.extra_properties && Object.keys(incident.extra_properties).map((key) =>
       (<tr key={key}><td>{key}</td><td>{incident.extra_properties[key]}&nbsp;</td></tr>)
     );
@@ -23,7 +24,7 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
               <tr><td>Omschrijving</td><td>{incident.text}&nbsp;</td></tr>
               <tr><td>Aanvullende kenmerken</td><td>{incident.text_extra}&nbsp;</td></tr>
               {extraProperties}
-              <tr><td>Stadsdeel</td><td>{incident.location.stadsdeel}</td></tr>
+              <tr><td>Stadsdeel</td><td>{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</td></tr>
               <tr><td>Adres</td><td>{incident.location.address_text}</td></tr>
               <tr><td>Email</td><td>{incident.reporter.email}</td></tr>
               <tr><td>Telefoonnummer</td><td>{incident.reporter.phone}</td></tr>
@@ -38,7 +39,8 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
 }
 
 IncidentDetail.propTypes = {
-  incident: PropTypes.object.isRequired
+  incident: PropTypes.object.isRequired,
+  stadsdeelList: PropTypes.array.isRequired
 };
 
 export default IncidentDetail;

@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
+function get(e, meta, parent) {
+  parent.meta.getClassification(e.target.value);
+  parent.meta.setIncident({ [meta.name]: e.target.value });
+}
+
+
 const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, parent, getError }) => (
   <div>
     {meta.ifVisible ?
@@ -22,7 +28,7 @@ const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, 
             rows={meta.rows || 6}
             placeholder={meta.placeholder}
             {...handler()}
-            onKeyUp={(e) => parent.meta.getClassification(e.target.value)}
+            onBlur={(e) => get(e, meta, parent)}
           />
         </div>
       </div>

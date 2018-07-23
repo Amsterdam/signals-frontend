@@ -5,6 +5,9 @@ import incidentDetailPageReducer, { initialState } from './reducer';
 import { requestIncident, requestIncidentSuccess, requestIncidentError } from './actions';
 import { requestCategoryUpdateSuccess } from '../IncidentCategoryContainer/actions';
 import { requestStatusCreateSuccess } from '../IncidentStatusContainer/actions';
+import stadsdeelList from '../../definitions/stadsdeelList';
+
+jest.mock('../../definitions/stadsdeelList');
 
 describe('incidentDetailPageReducer', () => {
   const reducer = incidentDetailPageReducer;
@@ -23,7 +26,8 @@ describe('incidentDetailPageReducer', () => {
     const expected = {
       id: 1,
       loading: true,
-      error: false
+      error: false,
+      stadsdeelList
     };
     expect(reducer(initialState, action)).toEqual(fromJS(expected));
   });

@@ -7,7 +7,7 @@ import { map } from 'lodash';
 import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
-const RadioInput = ({ handler, touched, hasError, meta, parent }) => (
+const RadioInput = ({ handler, touched, hasError, meta, parent, getError }) => (
   <div>
     {meta.ifVisible ?
       <div className="row mode_input">
@@ -30,6 +30,7 @@ const RadioInput = ({ handler, touched, hasError, meta, parent }) => (
         <ErrorMessage
           touched={touched}
           hasError={hasError}
+          getError={getError}
         />
       </div>
        : ''}
@@ -39,7 +40,8 @@ const RadioInput = ({ handler, touched, hasError, meta, parent }) => (
 RadioInput.propTypes = {
   handler: PropTypes.func,
   touched: PropTypes.bool,
-  hasError: PropTypes.func,
+  getError: PropTypes.func.isRequired,
+  hasError: PropTypes.func.isRequired,
   meta: PropTypes.object,
   parent: PropTypes.object
 };
