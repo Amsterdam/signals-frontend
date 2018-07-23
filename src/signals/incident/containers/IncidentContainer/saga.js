@@ -16,7 +16,7 @@ import {
 import { showGlobalError } from '../../../../containers/App/actions';
 
 import mapControlsToParams from '../../services/map-controls-to-params';
-import createFileUploadChannel from './createFileUploadChannel';
+import fileUploadChannel from '../../services/file-upload-channel';
 
 // import makeSelectIncidentContainer from './selectors';
 
@@ -65,7 +65,7 @@ export function* createIncident({ incident, wizard }) {
 export function* uploadFile(file, id) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/image/`;
 
-  const channel = yield call(createFileUploadChannel, requestURL, file, id);
+  const channel = yield call(fileUploadChannel, requestURL, file, id);
   const forever = true;
   while (forever) {
     const { progress = 0, err, success } = yield take(channel);
