@@ -5,15 +5,16 @@ import CONFIGURATION from 'shared/services/configuration/configuration';
 import { CREATE_INCIDENT, GET_CLASSIFICATION, UPLOAD_REQUEST } from './constants';
 import {
   createIncidentSuccess,
-  // createIncidentError,
+  createIncidentError,
   getClassificationSuccess,
-  // getClassificationError,
+  getClassificationError,
   uploadRequest,
   uploadProgress,
   uploadSuccess,
   uploadFailure
 } from './actions';
 import { showGlobalError } from '../../../../containers/App/actions';
+
 import mapControlsToParams from '../../services/map-controls-to-params';
 import createFileUploadChannel from './createFileUploadChannel';
 
@@ -34,6 +35,7 @@ export function* getClassification({ text }) {
     });
     yield put(getClassificationSuccess(result));
   } catch (err) {
+    yield put(getClassificationError(err));
     yield put(showGlobalError('GET_CLASSIFICATION_FAILED'));
   }
 }
@@ -55,6 +57,7 @@ export function* createIncident({ incident, wizard }) {
     }
     yield put(createIncidentSuccess(result));
   } catch (err) {
+    yield put(createIncidentError(err));
     yield put(showGlobalError('CREATE_INCIDENT_FAILED'));
   }
 }
@@ -63,16 +66,20 @@ export function* uploadFile(file, id) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/image/`;
 
   const channel = yield call(createFileUploadChannel, requestURL, file, id);
-  const { progress = 0, err, success } = yield take(channel);
-  if (err) {
-    yield put(uploadFailure(file, err));
-    return;
+  const forever = true;
+  while (forever) {
+    const { progress = 0, err, success } = yield take(channel);
+    if (err) {
+      yield put(uploadFailure(file, err));
+      yield put(showGlobalError('UPLOAD_FAILED'));
+      return;
+    }
+    if (success) {
+      yield put(uploadSuccess(file));
+      return;
+    }
+    yield put(uploadProgress(file, progress));
   }
-  if (success) {
-    yield put(uploadSuccess(file));
-    return;
-  }
-  yield put(uploadProgress(file, progress));
 }
 
 function* uploadFileWrapper(action) {
