@@ -38,7 +38,7 @@ const mapStateToProps = createStructuredSelector({
   indcidentcategorycontainer: makeSelectIncidentCategoryContainer(),
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
+export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestCategoryUpdate: requestCategoryUpdate,
 }, dispatch);
 

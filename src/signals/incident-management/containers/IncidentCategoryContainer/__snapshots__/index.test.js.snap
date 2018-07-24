@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentCategoryContainer /> should render correctly 1`] = `
+<div
+  className="col-6"
+>
+  <div
+    className="incident-edit-container"
+  >
+    <Add
+      id="1"
+      onRequestCategoryUpdate={[MockFunction]}
+      subcategoryList={Array []}
+    />
+  </div>
+</div>
+`;

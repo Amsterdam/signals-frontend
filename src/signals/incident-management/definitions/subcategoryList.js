@@ -1,4 +1,5 @@
 const subcategoryList = [
+  { key: '', value: 'Alles' },
   { key: 'Asbest / accu', value: 'Asbest / accu' },
   { key: 'Auto- /scooter- / bromfiets(wrak)', value: 'Auto- /scooter- / bromfiets(wrak)' },
   { key: 'Bedrijfsafval', value: 'Bedrijfsafval' },

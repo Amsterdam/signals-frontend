@@ -14,7 +14,7 @@ import IncidentDetailPage from '../../containers/IncidentDetailPage';
 import './style.scss';
 
 
-export class IncidentManagementContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class IncidentManagementModule extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const { isAuthenticated } = this.props;
     const baseUrl = this.props.match.url;
@@ -40,7 +40,7 @@ export class IncidentManagementContainer extends React.Component { // eslint-dis
   }
 }
 
-IncidentManagementContainer.propTypes = {
+IncidentManagementModule.propTypes = {
   match: PropTypes.object,
   isAuthenticated: PropTypes.bool.isRequired
 };
@@ -53,4 +53,4 @@ const withConnect = connect(mapStateToProps);
 
 export default compose(
   withConnect,
-)(IncidentManagementContainer);
+)(IncidentManagementModule);
