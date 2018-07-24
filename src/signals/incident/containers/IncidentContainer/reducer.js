@@ -95,10 +95,7 @@ function incidentContainerReducer(state = initialState, action) {
       return state
         .set('incident', fromJS({
           ...state.get('incident').toJS(),
-          category: action.hoofdrubriek[0][0],
-          categoryChance: action.hoofdrubriek[1][0],
-          subcategory: action.subrubriek[0][0],
-          subcategoryChance: action.subrubriek[1][0]
+          ...action.payload
         }));
 
     case GET_CLASSIFICATION_ERROR:

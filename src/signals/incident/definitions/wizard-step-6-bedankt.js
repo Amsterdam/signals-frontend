@@ -241,7 +241,26 @@ export default {
           ]
         },
         render: FormComponents.PlainText
+      },
+      text_overig: {
+        meta: {
+          cols: 6,
+          label: 'Wat doen we met uw melding?',
+          type: 'bedankt',
+          ifOneOf: {
+            subcategory: [
+              'Overig'
+            ]
+          },
+          value: [
+            'Indien u uw gegevens hebt achtergelaten laten wij u binnen 3 werkdagen weten wat we hebben gedaan. ',
+            '',
+            'Als u vragen hebt, dan kunt u bellen met 14 020'
+          ]
+        },
+        render: FormComponents.PlainText
       }
     }
   }
 };
+

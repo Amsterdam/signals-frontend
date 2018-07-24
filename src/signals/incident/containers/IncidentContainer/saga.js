@@ -18,6 +18,25 @@ import createFileUploadChannel from './createFileUploadChannel';
 
 // import makeSelectIncidentContainer from './selectors';
 
+const getCategory = (clasificationResult) => {
+  const minimumSubcategoryChance = 0.40;
+  const overig = 'Overig';
+
+  return (minimumSubcategoryChance < clasificationResult.subrubriek && clasificationResult.subrubriek[0][0]) ? {
+    category: clasificationResult.hoofdrubriek[0][0],
+    categoryChance: clasificationResult.hoofdrubriek[1][0],
+    subcategory: clasificationResult.subrubriek[0][0],
+    subcategoryChance: clasificationResult.subrubriek[1][0]
+
+  } : {
+    category: overig,
+    categoryChance: 0,
+    subcategory: overig,
+    subcategoryChance: 0
+
+  };
+};
+
 export function* getClassification({ text }) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals_mltool/predict`;
 
@@ -31,7 +50,8 @@ export function* getClassification({ text }) {
         'Content-Type': 'application/json'
       }
     });
-    yield put(getClassificationSuccess(result));
+
+    yield put(getClassificationSuccess(getCategory(result)));
   } catch (err) {
     yield put(getClassificationError(err));
   }

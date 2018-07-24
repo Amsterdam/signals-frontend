@@ -60,7 +60,7 @@ export function getClassification(text) {
 export function getClassificationSuccess(classification) {
   return {
     type: GET_CLASSIFICATION_SUCCESS,
-    ...classification
+    payload: { ...classification }
   };
 }
 
