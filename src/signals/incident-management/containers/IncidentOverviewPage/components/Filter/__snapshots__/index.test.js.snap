@@ -381,7 +381,7 @@ exports[`<Filter /> should render correctly 1`] = `
 
 exports[`<Filter /> should render the FieldGroup 1`] = `
 <form
-  onSubmsdit={[Function]}
+  onSubmit={[Function]}
 >
   <div>
     <TextInput
@@ -749,7 +749,7 @@ exports[`<Filter /> should render the FieldGroup 1`] = `
       display="Id"
       name="id"
     />
-    <TextInput
+    <DatePickerInput
       control={
         FormControl {
           "_onCollectionChange": [Function],

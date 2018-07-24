@@ -26,7 +26,7 @@ describe('<Filter />', () => {
     expect(renderedComponent).toMatchSnapshot();
   });
 
-  it.only('should render the FieldGroup', () => {
+  it('should render the FieldGroup', () => {
     expect(renderedComponent.find(FieldGroup)).toHaveLength(1);
     const renderedFormGroup = (renderedComponent.find(FieldGroup).shallow().dive());
     expect(renderedFormGroup).toMatchSnapshot();
