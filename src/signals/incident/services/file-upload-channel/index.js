@@ -20,7 +20,7 @@ function fileUploadChannel(endpoint, file, id) {
     };
 
     const onFailure = () => {
-      emitter({ err: new Error('Upload failed') });
+      emitter({ error: new Error('Upload failed') });
       emitter(END);
     };
 

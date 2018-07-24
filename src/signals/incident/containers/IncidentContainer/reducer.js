@@ -12,9 +12,9 @@ import {
   CREATE_INCIDENT_SUCCESS,
   CREATE_INCIDENT_ERROR,
 
-  GET_CLASSIFICATION,
+  // GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
-  GET_CLASSIFICATION_ERROR,
+  // GET_CLASSIFICATION_ERROR,
 
   UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
@@ -86,10 +86,10 @@ function incidentContainerReducer(state = initialState, action) {
         .set('error', action.error)
         .set('loading', false);
 
-    case GET_CLASSIFICATION:
-      return state
-        .set('loading', false)
-        .set('error', false);
+    // case GET_CLASSIFICATION:
+      // return state
+        // .set('loading', false)
+        // .set('error', false);
 
     case GET_CLASSIFICATION_SUCCESS:
       return state
@@ -101,10 +101,10 @@ function incidentContainerReducer(state = initialState, action) {
           subcategoryChance: action.subrubriek[1][0]
         }));
 
-    case GET_CLASSIFICATION_ERROR:
-      return state
-        .set('error', action.error)
-        .set('loading', false);
+    // case GET_CLASSIFICATION_ERROR:
+      // return state
+        // .set('error', action.error)
+        // .set('loading', false);
 
     case UPLOAD_REQUEST:
       return state;

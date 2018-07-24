@@ -34,14 +34,14 @@ export function* getClassification({ text }) {
       }
     });
     yield put(getClassificationSuccess(result));
-  } catch (err) {
-    yield put(getClassificationError(err));
+  } catch (error) {
+    yield put(getClassificationError(error));
     yield put(showGlobalError('GET_CLASSIFICATION_FAILED'));
   }
 }
 
 export function* createIncident({ incident, wizard }) {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/`;
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/aa`;
 
   try {
     const result = yield call(request, requestURL, {
@@ -56,8 +56,8 @@ export function* createIncident({ incident, wizard }) {
       yield put(uploadRequest(incident.image_file, result.id));
     }
     yield put(createIncidentSuccess(result));
-  } catch (err) {
-    yield put(createIncidentError(err));
+  } catch (error) {
+    yield put(createIncidentError(error));
     yield put(showGlobalError('CREATE_INCIDENT_FAILED'));
   }
 }
@@ -68,9 +68,9 @@ export function* uploadFile(file, id) {
   const channel = yield call(fileUploadChannel, requestURL, file, id);
   const forever = true;
   while (forever) {
-    const { progress = 0, err, success } = yield take(channel);
-    if (err) {
-      yield put(uploadFailure(file, err));
+    const { progress = 0, error, success } = yield take(channel);
+    if (error) {
+      yield put(uploadFailure(file, error));
       yield put(showGlobalError('UPLOAD_FAILED'));
       return;
     }

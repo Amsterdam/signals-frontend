@@ -13,7 +13,7 @@ import {
 
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
-  GET_CLASSIFICATION_ERROR,
+  // GET_CLASSIFICATION_ERROR,
 
   UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
@@ -43,10 +43,10 @@ export function createIncidentSuccess(incident) {
   };
 }
 
-export function createIncidentError(message) {
+export function createIncidentError(error) {
   return {
     type: CREATE_INCIDENT_ERROR,
-    message
+    error
   };
 }
 
@@ -64,12 +64,12 @@ export function getClassificationSuccess(classification) {
   };
 }
 
-export function getClassificationError(message) {
-  return {
-    type: GET_CLASSIFICATION_ERROR,
-    message
-  };
-}
+// export function getClassificationError(error) {
+  // return {
+    // type: GET_CLASSIFICATION_ERROR,
+    // error
+  // };
+// }
 
 export function uploadRequest(file, id) {
   return {

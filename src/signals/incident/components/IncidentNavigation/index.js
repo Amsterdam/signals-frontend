@@ -12,7 +12,7 @@ import messages from './messages';
 
 import './style.scss';
 
-const IncidentNavigation = ({ valid, meta: { form, incident, wizard, handleSubmit, setIncident, createIncident } }) => (
+const IncidentNavigation = ({ valid, meta: { form, incidentContainer, wizard, handleSubmit, setIncident, createIncident } }) => (
   <span>
     <WithWizard
       render={({ next, previous, step, steps }) => (
@@ -30,7 +30,7 @@ const IncidentNavigation = ({ valid, meta: { form, incident, wizard, handleSubmi
                 if (valid) {
                   handleSubmit(e);
                   if (steps.length - 2 === steps.indexOf(step)) {
-                    createIncident(incident, wizard);
+                    createIncident(incidentContainer.incident, wizard);
                   } else {
                     setIncident(form.value);
                   }
@@ -59,7 +59,7 @@ IncidentNavigation.propTypes = {
   valid: PropTypes.bool.isRequired,
   meta: PropTypes.shape({
     form: PropTypes.object,
-    incident: PropTypes.object,
+    incidentContainer: PropTypes.object,
     handleSubmit: PropTypes.function,
     setIncident: PropTypes.function,
     createIncident: PropTypes.function

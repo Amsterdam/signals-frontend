@@ -23,13 +23,13 @@ class IncidentForm extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    this.setValues(props.incident, true);
+    this.setValues(props.incidentContainer.incident, true);
   }
 
-  setForm(form, incident) {
+  setForm(form, incidentContainer) {
     this.form = form;
     this.form.meta = {
-      incident,
+      incidentContainer,
       form: this.form,
       wizard: this.props.wizard,
       handleSubmit: this.handleSubmit,
@@ -38,7 +38,7 @@ class IncidentForm extends React.Component {
       createIncident: this.props.createIncident
     };
 
-    this.setValues(incident);
+    this.setValues(incidentContainer.incident);
   }
 
   setValues(incident, onlyWatchedItems = false) {
@@ -66,8 +66,8 @@ class IncidentForm extends React.Component {
       <div className="incident-form">
         <form onSubmit={this.handleSubmit}>
           <FormGenerator
-            onMount={(form) => this.setForm(form, this.props.incident)}
-            fieldConfig={formatConditionalForm(this.props.fieldConfig, this.props.incident, this.props.isAuthenticated)}
+            onMount={(form) => this.setForm(form, this.props.incidentContainer)}
+            fieldConfig={formatConditionalForm(this.props.fieldConfig, this.props.incidentContainer.incident, this.props.isAuthenticated)}
           />
         </form>
       </div>
@@ -77,7 +77,7 @@ class IncidentForm extends React.Component {
 
 IncidentForm.propTypes = {
   fieldConfig: PropTypes.object.isRequired,
-  incident: PropTypes.object.isRequired,
+  incidentContainer: PropTypes.object.isRequired,
   wizard: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
   setIncident: PropTypes.func.isRequired,
