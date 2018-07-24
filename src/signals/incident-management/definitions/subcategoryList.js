@@ -63,6 +63,7 @@ const subcategoryList = [
   { key: 'Vuurwerkoverlast', value: 'Vuurwerkoverlast' },
   { key: 'Wespen', value: 'Wespen' },
   { key: 'Wildplassen / poepen / overgeven', value: 'Wildplassen / poepen / overgeven' },
+  { key: 'Overig', value: 'Overig' },
 ];
 
 export default subcategoryList;
