@@ -42,7 +42,7 @@ export function* getClassification({ text }) {
 }
 
 export function* createIncident({ incident, wizard }) {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/aa`;
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/`;
 
   try {
     const result = yield call(request, requestURL, {
@@ -59,7 +59,7 @@ export function* createIncident({ incident, wizard }) {
     yield put(createIncidentSuccess(result));
   } catch (error) {
     yield put(createIncidentError(error));
-    yield put(showGlobalError('CREATE_INCIDENT_FAILED'));
+    // yield put(showGlobalError('CREATE_INCIDENT_FAILED'));
     yield put(replace('/incident/fout'));
   }
 }
