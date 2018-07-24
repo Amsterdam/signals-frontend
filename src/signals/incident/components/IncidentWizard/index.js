@@ -36,8 +36,7 @@ function IncidentWizard({ getClassification, setIncident, createIncident, incide
         render={({ history }) => (
           <Wizard history={history} onNext={(wiz) => onNext(wiz, incidentContainer)}>
             {incidentContainer.loading ? <LoadingIndicator /> : ''}
-            {incidentContainer.error ? 'ERROR' : ''}
-            {!incidentContainer.loading && !incidentContainer.error ?
+            {!incidentContainer.loading ?
               <Steps>
                 {Object.keys(wizardDefinition).map((key) => (
                   <Step key={key} id={`incident/${key}`}>

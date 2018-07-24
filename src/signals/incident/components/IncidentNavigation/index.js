@@ -25,11 +25,11 @@ const IncidentNavigation = ({ valid, meta: { form, incidentContainer, wizard, ha
 
           {steps.indexOf(step) < steps.length - 1 && (
             <button
-              className={`incident-navigation__button action primary ${steps.length - 2 === steps.indexOf(step) ? '' : 'arrow-right'}`}
+              className={`incident-navigation__button action primary ${step.id === 'incident/samenvatting' ? '' : 'arrow-right'}`}
               onClick={(e) => {
                 if (valid) {
                   handleSubmit(e);
-                  if (steps.length - 2 === steps.indexOf(step)) {
+                  if (step.id === 'incident/samenvatting') {
                     createIncident(incidentContainer.incident, wizard);
                   } else {
                     setIncident(form.value);

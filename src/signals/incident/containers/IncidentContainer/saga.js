@@ -1,4 +1,5 @@
 import { all, call, put, take, /* select, */ takeLatest, takeEvery } from 'redux-saga/effects';
+import { replace } from 'react-router-redux';
 import request from 'utils/request';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
@@ -59,6 +60,7 @@ export function* createIncident({ incident, wizard }) {
   } catch (error) {
     yield put(createIncidentError(error));
     yield put(showGlobalError('CREATE_INCIDENT_FAILED'));
+    yield put(replace('/incident/fout'));
   }
 }
 
