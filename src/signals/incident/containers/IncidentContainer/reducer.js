@@ -24,24 +24,25 @@ import {
 
 export const initialState = fromJS({
   incident: {
+    // id: 666,
     // location: {
-    // address: {
-    // openbare_ruimte: 'Wilhelminastraat',
-    // huisnummer: 42,
-    // huisletter: '',
-    // huisnummer_toevoeging: '1',
-    // postcode: '1054WJ',
-    // woonplaats: 'Amsterdam'
-    // },
-    // buurt_code: 'E20c',
-    // stadsdeel: 'E',
-    // geometrie: {
-    // type: 'Point',
-    // coordinates: [
-    // 52.36223071695314,
-    // 4.865698814392091
-    // ]
-    // }
+      // address: {
+        // openbare_ruimte: 'Overtoom',
+        // huisnummer: '403',
+        // huisletter: '',
+        // huisnummer_toevoeging: '3',
+        // postcode: '1054JP',
+        // woonplaats: 'Amsterdam'
+      // },
+      // buurt_code: 'E21b',
+      // stadsdeel: 'E',
+      // geometrie: {
+        // type: 'Point',
+        // coordinates: [
+          // 52.359256308649634,
+          // 4.8617282917985
+        // ]
+      // }
     // },
     // subcategory: 'Overlast op het water - snel varen',
     // category: 'Overlast op het water',
@@ -78,6 +79,7 @@ function incidentContainerReducer(state = initialState, action) {
       return state
         .set('loading', false)
         .set('incident', fromJS({
+          id: action.incident.id,
           subcategory: state.get('incident').toJS().subcategory
         }));
 
