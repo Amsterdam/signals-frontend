@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MapDetail /> should render correctly 1`] = `
+<div
+  className="map-detail"
+>
+  <Map
+    latlng={
+      Object {
+        "latitude": 0,
+        "longitude": 0,
+      }
+    }
+    preview={true}
+  />
+</div>
+`;

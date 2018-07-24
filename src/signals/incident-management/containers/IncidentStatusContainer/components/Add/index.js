@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 
-import { TextInput } from '../../../../components/TextInput';
+import { TextAreaInput } from '../../../../components/TextAreaInput';
 import { SelectInput } from '../../../../components/SelectInput';
 import './style.scss';
 
@@ -31,10 +31,12 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
   }
 
   render() {
-    const { incidentStatusList, statusList } = this.props;
-    const currentState = incidentStatusList[incidentStatusList.length - 1].state;
-    const canSendToSigmax = !['i', 'o', 'a'].some((value) => value === currentState);
-    // console.log('canSendToSigmax', canSendToSigmax, currentState);
+    // TODO enable this when sigmax link is implemented
+    // const { incidentStatusList, statusList } = this.props;
+    // const currentState = incidentStatusList[incidentStatusList.length - 1].state;
+    // const canSendToSigmax = !['i', 'o', 'a'].some((value) => value === currentState);
+    const { statusList } = this.props;
+    const canSendToSigmax = false; // disabled for the moment
     return (
       <div className="incident-status-add">
         {/* <div className="incident-status-add__title">Status toevoegen</div> */}
@@ -45,7 +47,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
               <form onSubmit={this.handleSubmit}>
                 <div>
                   <SelectInput name="state" display="Status" control={this.statusForm.get('state')} values={statusList} multiple={false} emptyOptionText="Selecteer..." />
-                  <TextInput name="text" display="Omschrijving" control={this.statusForm.get('text')} />
+                  <TextAreaInput name="text" display="Omschrijving" control={this.statusForm.get('text')} rows={5} />
 
                   <button className="action primary" type="submit" disabled={invalid}>
                     <span className="value">Status toevoegen</span>
@@ -70,7 +72,6 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
 Add.propTypes = {
   id: PropTypes.string,
   statusList: PropTypes.array,
-  incidentStatusList: PropTypes.array,
 
   onRequestStatusCreate: PropTypes.func.isRequired
 };
