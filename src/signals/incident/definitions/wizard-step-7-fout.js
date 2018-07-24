@@ -7,10 +7,10 @@ export default {
       text: {
         meta: {
           cols: 6,
-          label: 'Er is iets fout gegaan.',
+          label: 'Momenteel zijn er problemen met deze website en kan uw melding niet verwerkt worden.',
           type: 'bedankt',
           value: [
-            'Kunt u het later nogmaals proberen?'
+            'Probeert u het later nogmaals.'
           ]
         },
         render: FormComponents.PlainText
