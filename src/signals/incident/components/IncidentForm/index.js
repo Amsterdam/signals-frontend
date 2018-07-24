@@ -23,6 +23,7 @@ class IncidentForm extends React.Component {
   }
 
   componentWillReceiveProps(props) {
+    this.form.meta.incident = props.incident;
     this.setValues(props.incident, true);
   }
 

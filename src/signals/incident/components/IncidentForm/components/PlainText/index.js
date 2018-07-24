@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import mapDynamicFields from '../../services/map-dynamic-fields';
 import './style.scss';
 
 const PlainText = ({ meta, parent }) => (
@@ -11,11 +12,9 @@ const PlainText = ({ meta, parent }) => (
           <div className={`${meta.type} plain-text__box`}>
             <div className="label">{meta.label}</div>
 
-            {meta.field && parent.meta.incident && parent.meta.incident[meta.field]}
-
             {meta.value && typeof meta.value === 'string' ?
-              meta.value :
-              ''
+              mapDynamicFields(meta.value, { incident: parent.meta.incident })
+              : ''
             }
 
             {meta.value && typeof meta.value !== 'string' ?
@@ -23,7 +22,7 @@ const PlainText = ({ meta, parent }) => (
                 <div
                   key={`${meta.name}-${key + 1}`}
                   className={`plain-text__box-p plain-text__box-p-${key + 1}`}
-                >{paragraph}</div>
+                >{mapDynamicFields(paragraph, { incident: parent.meta.incident })}</div>
               ))
               : ''
             }
