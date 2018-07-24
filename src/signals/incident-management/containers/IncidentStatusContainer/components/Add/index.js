@@ -16,7 +16,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
   statusForm = FormBuilder.group({
     _signal: [''],
     state: ['', Validators.required],
-    text: ['', Validators.required],
+    text: [''],
   });
 
   handleSubmit = (event) => {
