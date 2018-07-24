@@ -23,6 +23,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
     event.preventDefault();
     const status = { ...this.statusForm.value, _signal: this.props.id };
     this.props.onRequestStatusCreate(status);
+    this.statusForm.reset();
   }
 
   sendToSigmax = () => {

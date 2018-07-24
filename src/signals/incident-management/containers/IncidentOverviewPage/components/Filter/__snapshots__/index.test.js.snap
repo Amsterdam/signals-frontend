@@ -381,7 +381,7 @@ exports[`<Filter /> should render correctly 1`] = `
 
 exports[`<Filter /> should render the FieldGroup 1`] = `
 <form
-  onSubmit={[Function]}
+  onSubmsdit={[Function]}
 >
   <div>
     <TextInput
