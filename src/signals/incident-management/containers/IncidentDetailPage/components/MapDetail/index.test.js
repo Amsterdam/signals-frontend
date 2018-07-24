@@ -1,10 +1,23 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-// import MapDetail from 'index';
+import MapDetail from './index';
 
 describe('<MapDetail />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(true);
+  let renderedComponent;
+  const props = {
+    value: {
+      geometrie: { coordinates: [0, 0] }
+    }
+  };
+  beforeEach(() => {
+    renderedComponent = shallow(<MapDetail {...props} />);
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+  it('should render correctly', () => {
+    expect(renderedComponent).toMatchSnapshot();
   });
 });

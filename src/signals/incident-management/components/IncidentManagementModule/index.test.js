@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { IncidentManagementContainer } from './index';
+import { IncidentManagementModule } from './index';
 
-describe('<IncidentManagementContainer />', () => {
+describe('<IncidentManagementModule />', () => {
   let props;
 
   beforeEach(() => {
@@ -15,7 +15,7 @@ describe('<IncidentManagementContainer />', () => {
 
   it('should render correctly when authenticated', () => {
     const renderedComponent = shallow(
-      <IncidentManagementContainer {...props} />
+      <IncidentManagementModule {...props} />
     );
     expect(renderedComponent).toMatchSnapshot();
   });
@@ -23,7 +23,7 @@ describe('<IncidentManagementContainer />', () => {
   it('should render correctly when not authenticated', () => {
     props.isAuthenticated = false;
     const renderedComponent = shallow(
-      <IncidentManagementContainer {...props} />
+      <IncidentManagementModule {...props} />
     );
     expect(renderedComponent).toMatchSnapshot();
   });
