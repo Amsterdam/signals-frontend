@@ -5,7 +5,7 @@ import { FormBuilder, FieldGroup } from 'react-reactive-form';
 import './style.scss';
 import { TextInput } from '../../../../components/TextInput';
 import { SelectInput } from '../../../../components/SelectInput';
-// import { DatePickerInput } from '../../../../components/DatePickerInput';
+import { DatePickerInput } from '../../../../components/DatePickerInput';
 
 class Filter extends React.Component {
   constructor(props) {
@@ -50,8 +50,8 @@ class Filter extends React.Component {
               <form onSubmit={this.handleSubmit}>
                 <div>
                   <TextInput name="id" display="Id" control={this.filterForm.get('id')} />
-                  <TextInput name="incident_date_start" display="Datum" control={this.filterForm.get('incident_date_start')} placeholder={'JJJJ-MM-DD'} />
-                  {/* <DatePickerInput name="incident_date_start" display="Datum" control={this.filterForm.get('incident_date_start')} placeholder={'JJJJ-MM-DD'} /> */}
+                  {/* <TextInput name="incident_date_start" display="Datum" control={this.filterForm.get('incident_date_start')} placeholder={'JJJJ-MM-DD'} /> */}
+                  <DatePickerInput name="incident_date_start" display="Datum" control={this.filterForm.get('incident_date_start')} placeholder={'JJJJ-MM-DD'} />
                   <SelectInput name="location__stadsdeel" display="Stadsdeel" control={this.filterForm.get('location__stadsdeel')} values={stadsdeelList} multiple />
                   <SelectInput name="category__sub" display="Rubriek" control={this.filterForm.get('category__sub')} values={subcategoryList} multiple size={10} />
                   <SelectInput name="status__state" display="Status" control={this.filterForm.get('status__state')} values={statusList} multiple />

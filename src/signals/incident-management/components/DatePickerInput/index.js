@@ -23,7 +23,7 @@ export const DatePickerInputRender = (props) => {
 
   const render = (theseProps) => {
     const { handler, setValue, value } = theseProps;
-    const v = value ? moment(value) : moment();
+    const selectedValue = value ? moment(value) : null;
     return (<div>
       <div className="mode_input text rij_verplicht">
         <div className="label">
@@ -32,17 +32,14 @@ export const DatePickerInputRender = (props) => {
 
         <div className="date-picker-input__control invoer">
           <DatePicker
-            dateFormat="DD-MM-YYYY"
-            selected={v}
+            dateFormat="dd-MM-yyyy"
+            isClearable
+            selected={selectedValue}
             {...handler()}
             onChange={((momentValue) => {
-              // console.log('moment value', momentValue.toISOString());
-              setValue(moment(momentValue).format('YYYY-MM-DD'));
+              if (momentValue) setValue(moment(momentValue).format('YYYY-MM-DD'));
+              else setValue('');
             })}
-          />
-          <button
-            className="link-functional edit"
-            onClick={() => setValue('')}
           />
         </div>
       </div>
