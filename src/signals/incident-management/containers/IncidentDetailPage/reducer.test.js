@@ -27,7 +27,8 @@ describe('incidentDetailPageReducer', () => {
       id: 1,
       loading: true,
       error: false,
-      stadsdeelList
+      stadsdeelList,
+      incident: null
     };
     expect(reducer(initialState, action)).toEqual(fromJS(expected));
   });
