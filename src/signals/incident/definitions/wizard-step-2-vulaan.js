@@ -13,6 +13,49 @@ export default {
         },
         render: FormComponents.PlainText
       },
+      extra_personen_overig: {
+        meta: {
+          cols: 6,
+          ifAllOf: {
+            subcategory: 'Overige overlast door personen'
+          },
+          label: 'Om hoe veel personen gaat het (ongeveer)?',
+          pathMerge: 'extra_properties',
+          values: {
+            '1-3': '1 - 3',
+            '4-6': '4 - 6',
+            '7+': '7 of meer',
+            '': 'Onbekend'
+          },
+          watch: true
+        },
+        render: FormComponents.RadioInput
+      },
+      extra_personen_overig_vaker: {
+        meta: {
+          cols: 6,
+          ifAllOf: {
+            subcategory: 'Overige overlast door personen'
+          },
+          label: 'Gebeurt het vaker?',
+          pathMerge: 'extra_properties',
+          value: 'Ja, het gebeurt vaker:',
+          updateIncident: true,
+        },
+        render: FormComponents.CheckboxInput
+      },
+      extra_personen_overig_vaker_momenten: {
+        meta: {
+          label: 'Geef aan op welke momenten het gebeurt',
+          pathMerge: 'extra_properties',
+          ifAllOf: {
+            subcategory: 'Overige overlast door personen',
+            extra_personen_overig_vaker: 'false'
+          },
+          watch: true
+        },
+        render: FormComponents.TextareaInput
+      },
       extra_boten_snelheid_rondvaartboot: {
         meta: {
           cols: 6,
