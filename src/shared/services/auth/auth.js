@@ -64,6 +64,8 @@ const STATE_TOKEN = 'stateToken';
 // containing user scopes and name
 const ACCESS_TOKEN = 'accessToken';
 
+const OAUTH_DOMAIN = 'oauthDomain';
+
 let returnPath;
 let tokenData = {};
 
@@ -160,6 +162,10 @@ export function getAccessToken() {
   return sessionStorage.getItem(ACCESS_TOKEN);
 }
 
+export function getOauthDomain() {
+  return sessionStorage.getItem(OAUTH_DOMAIN);
+}
+
 /**
  * Restores the access token from session storage when available.
  */
@@ -187,6 +193,7 @@ export function login(domain) {
   sessionStorage.removeItem(ACCESS_TOKEN);
   sessionStorage.setItem(RETURN_PATH, location.hash);
   sessionStorage.setItem(STATE_TOKEN, stateToken);
+  sessionStorage.setItem(OAUTH_DOMAIN, domain);
 
   const redirectUri = encodeURIComponent(`${location.protocol}//${location.host}/manage/incidents`);
   location.assign(`${CONFIGURATION.AUTH_ROOT}${AUTH_PATH(domain)}&state=${encodedStateToken}&redirect_uri=${redirectUri}`);
@@ -194,6 +201,7 @@ export function login(domain) {
 
 export function logout() {
   sessionStorage.removeItem(ACCESS_TOKEN);
+  sessionStorage.removeItem(OAUTH_DOMAIN);
   location.reload();
 }
 
@@ -272,9 +280,3 @@ export function authenticate() {
   return null;
 }
 
-window.auth = {
-  login,
-  logout,
-  isAuthenticated,
-  authenticate
-};
