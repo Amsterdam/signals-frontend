@@ -40,8 +40,9 @@ node {
         tryStep "build", {
             def image = docker.build("build.app.amsterdam.nl:5000/ois/signalsfrontend:${env.BUILD_NUMBER}",
                 "--shm-size 1G " +
-                "--build-arg BUILD_ENV=acc" +
-                " .")
+                "--build-arg BUILD_ENV=acc " +
+                "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
+                ". ")
             image.push()
         }
     }
@@ -84,7 +85,8 @@ if (BRANCH == "master") {
             tryStep "build", {
                 def image = docker.build("build.app.amsterdam.nl:5000/ois/signalsfrontend:${env.BUILD_NUMBER}",
                     "--shm-size 1G " +
-                    " .")
+                    "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
+                    ".")
                 image.push("production")
                 image.push("latest")
             }

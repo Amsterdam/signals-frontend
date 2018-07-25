@@ -3,6 +3,7 @@ FROM node:8.9 AS builder
 LABEL maintainer="datapunt@amsterdam.nl"
 
 ARG BUILD_ENV=prod
+ARG BUILD_NUMBER=0
 WORKDIR /app
 
 # Run updates and cleanup
@@ -43,7 +44,7 @@ ENV NODE_ENV=production
 RUN echo "run build"
 # RUN npm rebuild node-sass
 RUN npm run build:${BUILD_ENV}
-RUN echo "build= `date`" > /app/build/version.txt
+RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
 
 # Test
 
