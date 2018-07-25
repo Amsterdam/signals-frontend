@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest, all } from 'redux-saga/effects';
 
 import { REQUEST_STATUS_LIST, REQUEST_STATUS_CREATE } from './constants';
 import { requestStatusListError, requestStatusListSuccess, requestStatusCreateSuccess, requestStatusCreateError } from './actions';
@@ -21,7 +21,7 @@ describe('IncidentStatusContainer saga', () => {
 
   it('should watchIncidentStatusContainerSaga', () => {
     const gen = watchRequestIncidentSaga();
-    expect(gen.next().value).toEqual([takeLatest(REQUEST_STATUS_LIST, fetchIncidentStatusList), takeLatest(REQUEST_STATUS_CREATE, createIncidentStatus)]); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(all([takeLatest(REQUEST_STATUS_LIST, fetchIncidentStatusList), takeLatest(REQUEST_STATUS_CREATE, createIncidentStatus)])); // eslint-disable-line redux-saga/yield-effects
   });
 
   it('should createIncidentStatus success', () => {
