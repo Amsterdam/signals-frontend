@@ -1843,7 +1843,7 @@ exports[`<Filter /> should render the FieldGroup 1`] = `
           },
         }
       }
-      display="Rubriek"
+      display="Categorie"
       multiple={true}
       name="category__sub"
       size={10}
