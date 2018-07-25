@@ -6,7 +6,7 @@ import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import { LOGOUT, LOGIN, AUTHENTICATE_USER } from './constants';
 import { showGlobalError, authorizeUser } from './actions';
-import { login, logout } from '../../shared/services/auth/auth';
+import { login, logout, getOauthDomain } from '../../shared/services/auth/auth';
 
 export const baseUrl = `${CONFIGURATION.API_ROOT}signals/auth/me`;
 
@@ -15,19 +15,16 @@ export function* callLogin(action) {
     login(action.payload);
   } catch (error) {
     // console.error('Error during logout', error); // eslint-disable-line no-console
-    // yield put(showGlobalError(error));
+    yield put(showGlobalError(error));
   }
 }
 
 export function* callLogout() {
   try {
-    // TODO remove the grip cookies
-    // console.log(' remove the grip cookies');
-    // const options = {
-    //   method: 'GET',
-    //   mode: 'no-cors',
-    // };
-    // yield call(request, 'https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t', options);
+    // This forces the remove of the grip cookies.
+    if (getOauthDomain() === 'grip') {
+      window.open('https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t', '_blank').close();
+    }
     logout();
     yield put(push('/'));
   } catch (error) {
