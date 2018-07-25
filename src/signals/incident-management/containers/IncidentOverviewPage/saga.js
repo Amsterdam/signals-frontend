@@ -1,4 +1,4 @@
-import { put, select, takeLatest } from 'redux-saga/effects';
+import { all, put, select, takeLatest } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 
 import { authCall } from 'shared/services/api/api';
@@ -32,8 +32,8 @@ export function* openIncident(action) {
 }
 
 export default function* watchRequestIncidentsSaga() {
-  yield [
+  yield all([
     takeLatest(REQUEST_INCIDENTS, fetchIncidents),
     takeLatest(INCIDENT_SELECTED, openIncident)
-  ];
+  ]);
 }

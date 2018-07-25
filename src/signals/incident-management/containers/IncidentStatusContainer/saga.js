@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { all, put, takeLatest } from 'redux-saga/effects';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authCall, authPostCall } from 'shared/services/api/api';
 
@@ -33,8 +33,8 @@ export function* createIncidentStatus(action) {
 }
 
 export default function* watchIncidentStatusContainerSaga() {
-  yield [
+  yield all([
     takeLatest(REQUEST_STATUS_LIST, fetchIncidentStatusList),
     takeLatest(REQUEST_STATUS_CREATE, createIncidentStatus)
-  ];
+  ]);
 }
