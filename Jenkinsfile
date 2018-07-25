@@ -77,7 +77,9 @@ if (BRANCH == "master") {
 
     stage('Waiting for approval') {
         slackSend channel: '#ci-channel', color: 'warning', message: 'Signals-frontend is waiting for Production Release - please confirm'
-        input "Deploy to Production?"
+        timeout(10) {
+          input "Deploy to Production?"
+        }
     }
 
     node {
