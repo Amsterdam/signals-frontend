@@ -23,6 +23,7 @@ import 'leaflet/dist/leaflet';
 // Import root app
 import App from 'containers/App';
 import { authenticateUser } from 'containers/App/actions';
+import { authenticate } from 'shared/services/auth/auth';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
@@ -41,7 +42,6 @@ import 'stijl/dist/css/ams-stijl.css';
 import './global.scss';
 
 import configureStore from './configureStore';
-import * as auth from './shared/services/auth/auth';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
@@ -102,24 +102,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'acceptanc
   require('offline-plugin/runtime').install(); // eslint-disable-line global-require
 }
 
-try {
-  auth.initAuth();
-} catch (error) {
-  window.Raven.captureMessage(error);
-}
+// Authenticate and start the authorization process
+const credentials = authenticate();
+store.dispatch(authenticateUser(credentials));
 
-const returnPath = auth.getReturnPath();
-if (returnPath) {
-  // Timeout needed because the change is otherwise not being handled in
-  // Firefox browsers. This is possibly due to AngularJS changing the
-  // `location.hash` at the same time.
-  window.setTimeout(() => {
-    location.hash = returnPath;
-  });
-}
-
-const accessToken = auth.getAccessToken();
-if (accessToken) {
-  const credentials = { userName: auth.getName(), userScopes: auth.getScopes(), accessToken: auth.getAccessToken() };
-  store.dispatch(authenticateUser(credentials));
-}

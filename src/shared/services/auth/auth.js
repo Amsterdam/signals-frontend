@@ -245,24 +245,36 @@ export function getAuthHeaders() {
   return accessToken ? { Authorization: `Bearer ${getAccessToken()}` } : {};
 }
 
-export function deleteCookie(name, domain) { // eslint-disable-line no-unused-vars
 
-  // browser.cookie.split(';').forEach((c) => {
-  //   const cookie = c.trim().split('=');
-  //   document.cookie = cookie[0] + (cookie[0] === name) ? `=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/;domain=${domain};` : `=${cookie[1]}`;
-  // });
+export function authenticate() {
+  try {
+    initAuth();
+  } catch (error) {
+    window.Raven.captureMessage(error);
+  }
 
-  // document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/;domain=${domain};`;
+  returnPath = getReturnPath();
+  if (returnPath) {
+    // Timeout needed because the change is otherwise not being handled in
+    // Firefox browsers. This is possibly due to AngularJS changing the
+    // `location.hash` at the same time.
+    window.setTimeout(() => {
+      location.hash = returnPath;
+    });
+  }
+
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    const credentials = { userName: getName(), userScopes: getScopes(), accessToken: getAccessToken() };
+    return credentials;
+  }
+
+  return null;
 }
 
 window.auth = {
-  getAccessToken,
   login,
   logout,
-  initAuth,
-  getReturnPath,
   isAuthenticated,
-  getScopes,
-  getName,
-  deleteCookie
+  authenticate
 };
