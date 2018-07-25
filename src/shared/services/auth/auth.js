@@ -64,6 +64,8 @@ const STATE_TOKEN = 'stateToken';
 // containing user scopes and name
 const ACCESS_TOKEN = 'accessToken';
 
+const OAUTH_DOMAIN = 'oauthDomain';
+
 let returnPath;
 let tokenData = {};
 
@@ -160,6 +162,10 @@ export function getAccessToken() {
   return sessionStorage.getItem(ACCESS_TOKEN);
 }
 
+export function getOauthDomain() {
+  return sessionStorage.getItem(OAUTH_DOMAIN);
+}
+
 /**
  * Restores the access token from session storage when available.
  */
@@ -187,6 +193,7 @@ export function login(domain) {
   sessionStorage.removeItem(ACCESS_TOKEN);
   sessionStorage.setItem(RETURN_PATH, location.hash);
   sessionStorage.setItem(STATE_TOKEN, stateToken);
+  sessionStorage.setItem(OAUTH_DOMAIN, domain);
 
   const redirectUri = encodeURIComponent(`${location.protocol}//${location.host}/manage/incidents`);
   location.assign(`${CONFIGURATION.AUTH_ROOT}${AUTH_PATH(domain)}&state=${encodedStateToken}&redirect_uri=${redirectUri}`);
@@ -194,6 +201,7 @@ export function login(domain) {
 
 export function logout() {
   sessionStorage.removeItem(ACCESS_TOKEN);
+  sessionStorage.removeItem(OAUTH_DOMAIN);
   location.reload();
 }
 
@@ -245,24 +253,30 @@ export function getAuthHeaders() {
   return accessToken ? { Authorization: `Bearer ${getAccessToken()}` } : {};
 }
 
-export function deleteCookie(name, domain) { // eslint-disable-line no-unused-vars
 
-  // browser.cookie.split(';').forEach((c) => {
-  //   const cookie = c.trim().split('=');
-  //   document.cookie = cookie[0] + (cookie[0] === name) ? `=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/;domain=${domain};` : `=${cookie[1]}`;
-  // });
+export function authenticate() {
+  try {
+    initAuth();
+  } catch (error) {
+    window.Raven.captureMessage(error);
+  }
 
-  // document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/;domain=${domain};`;
+  returnPath = getReturnPath();
+  if (returnPath) {
+    // Timeout needed because the change is otherwise not being handled in
+    // Firefox browsers. This is possibly due to AngularJS changing the
+    // `location.hash` at the same time.
+    window.setTimeout(() => {
+      location.hash = returnPath;
+    });
+  }
+
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    const credentials = { userName: getName(), userScopes: getScopes(), accessToken: getAccessToken() };
+    return credentials;
+  }
+
+  return null;
 }
 
-window.auth = {
-  getAccessToken,
-  login,
-  logout,
-  initAuth,
-  getReturnPath,
-  isAuthenticated,
-  getScopes,
-  getName,
-  deleteCookie
-};

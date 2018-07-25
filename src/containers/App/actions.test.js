@@ -1,11 +1,12 @@
 import { testActionCreator } from '../../../internals/testing/test-utils';
 
 import {
-  AUTHENTICATE_USER, SHOW_GLOBAL_ERROR, LOGIN, LOGOUT
+  AUTHENTICATE_USER, AUTHORIZE_USER, SHOW_GLOBAL_ERROR, LOGIN, LOGOUT
 } from './constants';
 
 import {
   authenticateUser,
+  authorizeUser,
   showGlobalError,
   doLogin,
   doLogout
@@ -23,6 +24,7 @@ describe('App actions', () => {
       accessToken
     };
     testActionCreator(authenticateUser, AUTHENTICATE_USER, payload);
+    testActionCreator(authorizeUser, AUTHORIZE_USER, payload);
   });
 
   it('should create show global error action', () => {
