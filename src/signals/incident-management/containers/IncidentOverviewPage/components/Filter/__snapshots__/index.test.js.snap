@@ -5,7 +5,7 @@ exports[`<Filter /> FieldFroup should render correctly 1`] = `
   onSubmit={[Function]}
 >
   <div>
-    <TextInput
+    <FieldControlWrapper
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -369,8 +369,9 @@ exports[`<Filter /> FieldFroup should render correctly 1`] = `
       }
       display="Id"
       name="id"
+      render={[Function]}
     />
-    <DatePickerInput
+    <FieldControlWrapper
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -735,8 +736,9 @@ exports[`<Filter /> FieldFroup should render correctly 1`] = `
       display="Datum"
       name="incident_date_start"
       placeholder="JJJJ-MM-DD"
+      render={[Function]}
     />
-    <SelectInput
+    <FieldControlWrapper
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -1101,8 +1103,9 @@ exports[`<Filter /> FieldFroup should render correctly 1`] = `
       display="Stadsdeel"
       multiple={true}
       name="location__stadsdeel"
+      render={[Function]}
     />
-    <SelectInput
+    <FieldControlWrapper
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -1467,9 +1470,10 @@ exports[`<Filter /> FieldFroup should render correctly 1`] = `
       display="Categorie"
       multiple={true}
       name="category__sub"
+      render={[Function]}
       size={10}
     />
-    <SelectInput
+    <FieldControlWrapper
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -1834,8 +1838,9 @@ exports[`<Filter /> FieldFroup should render correctly 1`] = `
       display="Status"
       multiple={true}
       name="status__state"
+      render={[Function]}
     />
-    <TextInput
+    <FieldControlWrapper
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -2199,6 +2204,7 @@ exports[`<Filter /> FieldFroup should render correctly 1`] = `
       }
       display="Adres"
       name="location__address_text"
+      render={[Function]}
     />
     <button
       className="action tertiair"

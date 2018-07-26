@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 
-import { SelectInput } from '../../../../components/SelectInput';
+import FieldControlWrapper from '../../../../components/FieldControlWrapper';
+import SelectInput from '../../../../components/SelectInput';
 import './style.scss';
 
 
@@ -28,7 +29,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
             render={({ invalid }) => (
               <form onSubmit={this.handleSubmit}>
                 <div>
-                  <SelectInput name="sub" display="Categorie" control={this.categoryForm.get('sub')} values={subcategoryList} multiple={false} emptyOptionText="Selecteer..." />
+                  <FieldControlWrapper render={SelectInput} name="sub" display="Categorie" control={this.categoryForm.get('sub')} values={subcategoryList} multiple={false} emptyOptionText="Selecteer..." />
 
                   <button className="action primary" type="submit" disabled={invalid}>
                     <span className="value">Categorie wijzigen</span>
