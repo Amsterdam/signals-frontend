@@ -1,3 +1,4 @@
+import CheckboxInput from './CheckboxInput';
 import DescriptionWithClassificationInput from './DescriptionWithClassificationInput/';
 import DateTimeInput from './DateTimeInput/';
 import FileInput from './FileInput/';
@@ -10,6 +11,7 @@ import TextareaInput from './TextareaInput/';
 import MapInput from './MapInput';
 
 export default {
+  CheckboxInput,
   DateTimeInput,
   DescriptionWithClassificationInput,
   FileInput,
