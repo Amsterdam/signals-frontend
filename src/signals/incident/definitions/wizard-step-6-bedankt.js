@@ -251,7 +251,6 @@ export default {
       text_overig: {
         meta: {
           cols: 6,
-          label: 'Wat doen we met uw melding?',
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
@@ -269,4 +268,3 @@ export default {
     }
   }
 };
-
