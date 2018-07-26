@@ -17,9 +17,8 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError }) =
           <div className="antwoord">
             <input
               id={meta.name}
-              className="kenmerkradio"
               {...handler('checkbox')}
-              onClick={(e) => meta.updateIncident && parent.meta.setIncident({ [meta.name]: e.target.value })}
+              onClick={(e) => meta.updateIncident && parent.meta.setIncident({ [meta.name]: e.target.checked })}
             />
             <label htmlFor={meta.name}>{meta.value}</label>
           </div>

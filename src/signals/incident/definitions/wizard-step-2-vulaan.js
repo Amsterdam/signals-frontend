@@ -40,7 +40,7 @@ export default {
           label: 'Gebeurt het vaker?',
           pathMerge: 'extra_properties',
           value: 'Ja, het gebeurt vaker:',
-          updateIncident: true,
+          updateIncident: true
         },
         render: FormComponents.CheckboxInput
       },
@@ -50,7 +50,7 @@ export default {
           pathMerge: 'extra_properties',
           ifAllOf: {
             subcategory: 'Overige overlast door personen',
-            extra_personen_overig_vaker: 'false'
+            extra_personen_overig_vaker: true
           },
           watch: true
         },
