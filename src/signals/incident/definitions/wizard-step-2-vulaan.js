@@ -13,11 +13,13 @@ export default {
         },
         render: FormComponents.PlainText
       },
+
+
       extra_personen_overig: {
         meta: {
           cols: 6,
           ifAllOf: {
-            subcategory: 'Overige overlast door personen'
+            category: 'Overlast van en door personen of groepen'
           },
           label: 'Om hoe veel personen gaat het (ongeveer)?',
           pathMerge: 'extra_properties',
@@ -35,7 +37,7 @@ export default {
         meta: {
           cols: 6,
           ifAllOf: {
-            subcategory: 'Overige overlast door personen'
+            category: 'Overlast van en door personen of groepen'
           },
           label: 'Gebeurt het vaker?',
           pathMerge: 'extra_properties',
@@ -49,13 +51,104 @@ export default {
           label: 'Geef aan op welke momenten het gebeurt',
           pathMerge: 'extra_properties',
           ifAllOf: {
-            subcategory: 'Overige overlast door personen',
-            extra_personen_overig_vaker: true
+            extra_personen_overig_vaker: true,
+            category: 'Overlast van en door personen of groepen'
           },
           watch: true
         },
         render: FormComponents.TextareaInput
       },
+
+
+      extra_bedrijven_binnenstad_text: {
+        meta: {
+          cols: 6,
+          ifAllOf: {
+            category: 'Overlast Bedrijven en Horeca'
+          },
+          type: 'caution',
+          value: 'Gaat het om overlast in de binnenstad? Bel 14 020 en vul dit formulier niet verder in.  Dan kunnen we sneller voor u aan het werk.'
+        },
+        render: FormComponents.PlainText
+      },
+      extra_bedrijven_overig: {
+        meta: {
+          ifAllOf: {
+            category: 'Overlast Bedrijven en Horeca'
+          },
+          label: 'Uw melding gaat over:',
+          pathMerge: 'extra_properties',
+          values: {
+            Horecabedrijf: 'Horecabedrijf (café, restaurant, snackbar, etc.)',
+            'Ander soort bedrijf': 'Ander soort bedrijf',
+            Evenement: 'Evenement (festival, markt, etc.)',
+            'Iets anders': 'Iets anders'
+          },
+          watch: true
+        },
+        render: FormComponents.RadioInput
+      },
+      extra_bedrijven_naam: {
+        meta: {
+          ifAllOf: {
+            category: 'Overlast Bedrijven en Horeca'
+          },
+          label: 'Bedrijfsnaam / Evenementnaam van vermoedelijke veroorzaker',
+          pathMerge: 'extra_properties',
+          watch: true
+        },
+        render: FormComponents.TextInput
+      },
+      extra_bedrijven_adres: {
+        meta: {
+          ifAllOf: {
+            category: 'Overlast Bedrijven en Horeca'
+          },
+          label: 'Op welke locatie ervaart u de overlast',
+          pathMerge: 'extra_properties',
+          watch: true
+        },
+        render: FormComponents.TextInput
+      },
+      extra_bedrijven_vaker: {
+        meta: {
+          ifAllOf: {
+            category: 'Overlast Bedrijven en Horeca'
+          },
+          label: 'Gebeurt het vaker?',
+          pathMerge: 'extra_properties',
+          value: 'Ja, het gebeurt vaker:',
+          updateIncident: true
+        },
+        render: FormComponents.CheckboxInput
+      },
+      extra_bedrijven_momenten: {
+        meta: {
+          label: 'Geef aan op welke momenten het gebeurt',
+          pathMerge: 'extra_properties',
+          ifAllOf: {
+            extra_bedrijven_vaker: true,
+            category: 'Overlast Bedrijven en Horeca'
+          },
+          watch: true
+        },
+        render: FormComponents.TextareaInput
+      },
+      extra_bedrijven_text: {
+        meta: {
+          cols: 6,
+          ifAllOf: {
+            category: 'Overlast Bedrijven en Horeca'
+          },
+          value: [
+            'Onze handhavers willen graag contact kunnen opnemen over uw melding. Bijvoorbeeld om een afspraak te maken om bij u thuis een geluidsmeting te verrichten. Anonieme meldingen krijgen daarom een lage prioriteit.',
+            'Uw gegevens worden vertrouwelijk behandeld en worden niet aan een (horeca)ondernemer bekend gemaakt.'
+          ]
+        },
+        render: FormComponents.PlainText
+      },
+
+
       extra_boten_snelheid_rondvaartboot: {
         meta: {
           cols: 6,
