@@ -10,7 +10,7 @@ describe('<Filter />', () => {
 
   beforeEach(() => {
     props = {
-      filterIncidents: jest.fn()
+      onRequestIncidents: jest.fn()
     };
 
     renderedComponent = shallow(
@@ -29,6 +29,7 @@ describe('<Filter />', () => {
   it('should contain the FieldGroup', () => {
     expect(renderedComponent.find(FieldGroup)).toHaveLength(1);
   });
+
   describe('FieldFroup', () => {
     let renderedFormGroup;
 
@@ -62,7 +63,7 @@ describe('<Filter />', () => {
 
       renderedFormGroup.find('button').at(0).simulate('click');
       expect(filterForm.reset).toHaveBeenCalled();
-      expect(props.filterIncidents).toHaveBeenCalled();
+      expect(props.onRequestIncidents).toHaveBeenCalled();
       expect(filterForm.value).toEqual(filterEmptyValue);
     });
 
@@ -80,7 +81,7 @@ describe('<Filter />', () => {
       // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
       renderedFormGroup.find('form').simulate('submit', { preventDefault() {} });
       expect(filterForm.value).toEqual(filterValue);
-      expect(props.filterIncidents).toHaveBeenCalledWith({ filter: filterValue });
+      expect(props.onRequestIncidents).toHaveBeenCalledWith({ filter: filterValue });
     });
   });
 });

@@ -16,7 +16,7 @@ class Filter extends React.Component {
   }
 
   onFilter = (filter) => {
-    this.props.filterIncidents({ filter });
+    this.props.onRequestIncidents({ filter });
   }
 
   filterForm = FormBuilder.group({
@@ -78,7 +78,7 @@ Filter.propTypes = {
   subcategoryList: PropTypes.array,
   statusList: PropTypes.array,
   filter: PropTypes.object,
-  filterIncidents: PropTypes.func.isRequired
+  onRequestIncidents: PropTypes.func.isRequired
 };
 
 export default Filter;
