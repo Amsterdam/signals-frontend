@@ -80,6 +80,7 @@ function incidentContainerReducer(state = initialState, action) {
         .set('loading', false)
         .set('incident', fromJS({
           id: action.incident.id,
+          category: state.get('incident').toJS().category,
           subcategory: state.get('incident').toJS().subcategory
         }));
 

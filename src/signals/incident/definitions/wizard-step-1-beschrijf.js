@@ -6,8 +6,8 @@ import FormComponents from '../components/IncidentForm/components/';
 
 export default {
   label: 'Beschrijf uw melding',
-  getNextStep: (wizard, { subcategory }) => {
-    if (!some(wizard.vulaan.form.controls, (control) => control.meta && control.meta.ifAllOf && control.meta.ifAllOf.subcategory === subcategory)) {
+  getNextStep: (wizard, { subcategory, category }) => {
+    if (!some(wizard.vulaan.form.controls, (control) => control.meta && control.meta.ifAllOf && (control.meta.ifAllOf.subcategory === subcategory || control.meta.ifAllOf.category === category))) {
       return 'incident/telefoon';
     }
     return false;
