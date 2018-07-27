@@ -15,7 +15,7 @@ import { WithWizard } from 'react-albus';
 
 import './style.scss';
 
-function IncidentPreview({ incident, preview }) {
+function IncidentPreview({ incidentContainer, preview }) {
   return (
     <WithWizard
       render={({ push }) => (
@@ -32,9 +32,9 @@ function IncidentPreview({ incident, preview }) {
                   <li key={subkey}>
                     {preview[key][subkey].render({
                       label: preview[key][subkey].label,
-                      value: incident[subkey],
+                      value: incidentContainer.incident[subkey],
                       optional: preview[key][subkey].optional,
-                      incident
+                      incident: incidentContainer.incident
                     })}
                   </li>
                 ))}
@@ -48,7 +48,7 @@ function IncidentPreview({ incident, preview }) {
 }
 
 IncidentPreview.propTypes = {
-  incident: PropTypes.object,
+  incidentContainer: PropTypes.object,
   preview: PropTypes.object
 };
 

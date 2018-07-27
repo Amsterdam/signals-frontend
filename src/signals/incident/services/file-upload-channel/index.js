@@ -4,7 +4,7 @@ import {
   END
 } from 'redux-saga';
 
-function createFileUploadChannel(endpoint, file, id) {
+function fileUploadChannel(endpoint, file, id) {
   return eventChannel((emitter) => {
     const formData = new window.FormData();
     formData.append('signal_id', id);
@@ -20,7 +20,7 @@ function createFileUploadChannel(endpoint, file, id) {
     };
 
     const onFailure = () => {
-      emitter({ err: new Error('Upload failed') });
+      emitter({ error: new Error('Upload failed') });
       emitter(END);
     };
 
@@ -51,4 +51,4 @@ function createFileUploadChannel(endpoint, file, id) {
   }, buffers.sliding(2));
 }
 
-export default createFileUploadChannel;
+export default fileUploadChannel;

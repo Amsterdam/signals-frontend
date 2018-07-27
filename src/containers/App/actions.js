@@ -1,5 +1,10 @@
 import {
-  AUTHENTICATE_USER, AUTHORIZE_USER, SHOW_GLOBAL_ERROR, LOGIN, LOGOUT
+  AUTHENTICATE_USER,
+  AUTHORIZE_USER,
+  SHOW_GLOBAL_ERROR,
+  RESET_GLOBAL_ERROR,
+  LOGIN,
+  LOGOUT
 } from './constants';
 
 export function authenticateUser(credentials) {
@@ -23,6 +28,12 @@ export function showGlobalError(message) {
   };
 }
 
+export function resetGlobalError() {
+  return {
+    type: RESET_GLOBAL_ERROR
+  };
+}
+
 export function doLogin(domain) {
   return {
     type: LOGIN,
@@ -36,4 +47,3 @@ export function doLogout() {
     payload: null
   };
 }
-
