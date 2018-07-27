@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { compose } from 'redux';
 
@@ -41,10 +40,6 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
     );
   }
 }
-
-App.propTypes = {
-  isAuthenticated: PropTypes.bool
-};
 
 // const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'app', reducer });
