@@ -1,10 +1,72 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
+import React from 'react';
+import { shallow } from 'enzyme';
+import { FieldGroup } from 'react-reactive-form';
 
-// import Add from 'index';
+import Add from './index';
 
 describe('<Add />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(true);
+  let renderedComponent;
+  let props;
+
+  beforeEach(() => {
+    props = {
+      id: '1',
+      subcategoryList: ['test'],
+      onRequestCategoryUpdate: jest.fn()
+    };
+
+    renderedComponent = shallow(
+      <Add {...props} />
+    );
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it('should render correctly', () => {
+    expect(renderedComponent).toMatchSnapshot();
+  });
+
+  it('should contain the FieldGroup', () => {
+    expect(renderedComponent.find(FieldGroup)).toHaveLength(1);
+  });
+
+  describe('FieldGroup', () => {
+    let renderedFormGroup;
+
+    beforeEach(() => {
+    });
+
+    it('should disable the submit button when no category is selected', () => {
+      renderedFormGroup = (renderedComponent.find(FieldGroup).shallow().dive());
+      expect(renderedFormGroup.find('button').prop('disabled')).toBe(true);
+    });
+
+    it('should enable the submit button when a category is selected', () => {
+      const form = renderedComponent.instance().categoryForm;
+      const formValue = { sub: 'test' };
+      form.patchValue(formValue);
+      expect(form.value.sub).toEqual(formValue.sub);
+      renderedFormGroup = (renderedComponent.find(FieldGroup).shallow().dive());
+      expect(renderedFormGroup.find('button').prop('disabled')).toBe(false);
+    });
+
+    it('should call category update when the form is submitted (search button is clicked)', () => {
+      const form = renderedComponent.instance().categoryForm;
+      const formValue = {
+        ...form.value,
+        sub: 'test'
+      };
+      form.setValue(formValue);
+      expect(form.value.sub).toEqual(formValue.sub);
+
+      renderedFormGroup = (renderedComponent.find(FieldGroup).shallow().dive());
+      // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
+      renderedFormGroup.find('form').simulate('submit', { preventDefault() { } });
+      expect(form.value).toEqual(formValue);
+      const formCallValue = { ...formValue, _signal: props.id };
+      expect(props.onRequestCategoryUpdate).toHaveBeenCalledWith(formCallValue);
+    });
   });
 });

@@ -40,8 +40,9 @@ node {
         tryStep "build", {
             def image = docker.build("build.app.amsterdam.nl:5000/ois/signalsfrontend:${env.BUILD_NUMBER}",
                 "--shm-size 1G " +
-                "--build-arg BUILD_ENV=acc" +
-                " .")
+                "--build-arg BUILD_ENV=acc " +
+                "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
+                ". ")
             image.push()
         }
     }
@@ -76,7 +77,9 @@ if (BRANCH == "master") {
 
     stage('Waiting for approval') {
         slackSend channel: '#ci-channel', color: 'warning', message: 'Signals-frontend is waiting for Production Release - please confirm'
-        input "Deploy to Production?"
+        timeout(10) {
+          input "Deploy to Production?"
+        }
     }
 
     node {
@@ -84,7 +87,8 @@ if (BRANCH == "master") {
             tryStep "build", {
                 def image = docker.build("build.app.amsterdam.nl:5000/ois/signalsfrontend:${env.BUILD_NUMBER}",
                     "--shm-size 1G " +
-                    " .")
+                    "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
+                    ".")
                 image.push("production")
                 image.push("latest")
             }

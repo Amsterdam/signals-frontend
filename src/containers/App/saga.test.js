@@ -1,8 +1,8 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest, all } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 
-import watchAppSaga, { callLogin, callLogout } from './saga';
-import { LOGIN, LOGOUT } from './constants';
+import watchAppSaga, { callLogin, callLogout, callAuthorize } from './saga';
+import { LOGIN, LOGOUT, AUTHENTICATE_USER } from './constants';
 import { showGlobalError } from './actions';
 
 jest.mock('../../shared/services/auth/auth');
@@ -14,7 +14,10 @@ describe('App saga', () => {
 
   it('should watchAppSaga', () => {
     const gen = watchAppSaga();
-    expect(gen.next().value).toEqual([takeLatest(LOGIN, callLogin), takeLatest(LOGOUT, callLogout)]); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(all([ // eslint-disable-line redux-saga/yield-effects
+      takeLatest(LOGIN, callLogin), // eslint-disable-line redux-saga/yield-effects
+      takeLatest(LOGOUT, callLogout), // eslint-disable-line redux-saga/yield-effects
+      takeLatest(AUTHENTICATE_USER, callAuthorize)])); // eslint-disable-line redux-saga/yield-effects
   });
 
   it('should logout success', () => {

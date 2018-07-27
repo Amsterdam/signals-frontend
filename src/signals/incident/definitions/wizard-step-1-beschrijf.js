@@ -6,8 +6,8 @@ import FormComponents from '../components/IncidentForm/components/';
 
 export default {
   label: 'Beschrijf uw melding',
-  getNextStep: (wizard, { subcategory }) => {
-    if (!some(wizard.vulaan.form.controls, (control) => control.meta && control.meta.ifAllOf && control.meta.ifAllOf.subcategory === subcategory)) {
+  getNextStep: (wizard, { subcategory, category }) => {
+    if (!some(wizard.vulaan.form.controls, (control) => control.meta && control.meta.ifAllOf && (control.meta.ifAllOf.subcategory === subcategory || control.meta.ifAllOf.category === category))) {
       return 'incident/telefoon';
     }
     return false;
@@ -58,7 +58,10 @@ export default {
           placeholder: 'Beschrijving'
         },
         options: {
-          validators: [Validators.required, Validators.maxLength(1000)]
+          validators: [
+            Validators.required,
+            Validators.maxLength(3000)
+          ]
         },
         render: FormComponents.DescriptionWithClassificationInput
       },
@@ -103,7 +106,7 @@ export default {
       },
       incident_date: {
         meta: {
-          label: 'Incident date',
+          // label: 'Datum gebeurtenis ',
           ifAllOf: {
             datetime: 'Eerder'
           },

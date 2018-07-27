@@ -10,7 +10,7 @@ const formatConditionalForm = (form, incident, isAuthenticated) => {
 
         if (control.meta.ifAllOf) {
           if (!every(control.meta.ifAllOf, (value, key) =>
-            typeof value === 'string' ? isEqual(value, incident[key]) :
+            !Array.isArray(value) ? isEqual(value, incident[key]) :
               every(value, (v) => isEqual(v, incident[key])))) {
             ifVisible = false;
           }
@@ -18,7 +18,7 @@ const formatConditionalForm = (form, incident, isAuthenticated) => {
 
         if (control.meta.ifOneOf) {
           if (!some(control.meta.ifOneOf, (value, key) =>
-            typeof value === 'string' ? isEqual(value, incident[key]) :
+            !Array.isArray(value) ? isEqual(value, incident[key]) :
               some(value, (v) => isEqual(v, incident[key])))) {
             ifVisible = false;
           }

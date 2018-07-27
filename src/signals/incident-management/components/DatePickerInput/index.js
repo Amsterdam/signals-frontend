@@ -1,24 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FieldControl } from 'react-reactive-form';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import './style.scss';
 
-export const DatePickerInput = ({ name, control, ...rest }) => (
-  <div className="date-picker-input">
-    <FieldControl name={name} control={control} render={DatePickerInputRender(rest)} />
-  </div>);
-
-DatePickerInput.propTypes = {
-  name: PropTypes.string.isRequired,
-  control: PropTypes.object.isRequired
-};
-
-export const DatePickerInputRender = (props) => {
+export const DatePickerInput = (props) => {
   const { name, display } = props;
 
   const render = (theseProps) => {

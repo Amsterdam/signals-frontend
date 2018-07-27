@@ -1,4 +1,4 @@
-import { put, takeLatest, select } from 'redux-saga/effects';
+import { put, takeLatest, select, all } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import { authCall } from 'shared/services/api/api';
 
@@ -22,7 +22,7 @@ describe('IncidentOverviewPage saga', () => {
   });
   it('should watchRequestIncidentsSaga', () => {
     const gen = watchRequestIncidentSaga();
-    expect(gen.next().value).toEqual([takeLatest(REQUEST_INCIDENTS, fetchIncidents), takeLatest(INCIDENT_SELECTED, openIncident)]); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(all([takeLatest(REQUEST_INCIDENTS, fetchIncidents), takeLatest(INCIDENT_SELECTED, openIncident)])); // eslint-disable-line redux-saga/yield-effects
   });
 
   it('should openIncident success', () => {
