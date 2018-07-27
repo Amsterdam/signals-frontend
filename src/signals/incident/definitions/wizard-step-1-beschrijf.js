@@ -58,7 +58,10 @@ export default {
           placeholder: 'Beschrijving'
         },
         options: {
-          validators: [Validators.required, Validators.maxLength(1000)]
+          validators: [
+            Validators.required,
+            Validators.maxLength(3000)
+          ]
         },
         render: FormComponents.DescriptionWithClassificationInput
       },
