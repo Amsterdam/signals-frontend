@@ -17,7 +17,10 @@ export default {
         },
         render: FormComponents.TextInput,
         options: {
-          validators: [Validators.email, Validators.maxLength(254)]
+          validators: [
+            Validators.email,
+            Validators.maxLength(254)
+          ]
         },
       },
       privacy_text: {
