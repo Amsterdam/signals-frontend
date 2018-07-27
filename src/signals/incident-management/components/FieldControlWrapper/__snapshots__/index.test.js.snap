@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FieldControlWrapper should render correctly 1`] = `
+<div>
+  <FieldControl
+    control={
+      FormControl {
+        "_onDisabledChange": Array [],
+        "_pendingChange": true,
+        "_pendingDirty": false,
+        "_pendingTouched": false,
+        "_pendingValue": undefined,
+        "asyncValidator": null,
+        "errors": null,
+        "formState": undefined,
+        "get": [Function],
+        "getError": [Function],
+        "handler": [Function],
+        "hasError": [Function],
+        "meta": Object {},
+        "onBlur": [Function],
+        "onBlurChanges": Observable {
+          "observers": Array [],
+        },
+        "onChange": [Function],
+        "onValueChanges": Observable {
+          "observers": Array [],
+        },
+        "patchValue": [Function],
+        "pristine": true,
+        "reset": [Function],
+        "setValue": [Function],
+        "stateChanges": Observable {
+          "observers": Array [],
+        },
+        "status": "VALID",
+        "statusChanges": Observable {
+          "observers": Array [],
+        },
+        "submitted": false,
+        "touched": false,
+        "validator": null,
+        "validatorsOrOpts": undefined,
+        "value": undefined,
+        "valueChanges": Observable {
+          "observers": Array [],
+        },
+      }
+    }
+    name="name"
+    strict={true}
+  />
+</div>
+`;

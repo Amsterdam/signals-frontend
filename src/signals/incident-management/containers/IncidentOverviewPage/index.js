@@ -38,7 +38,7 @@ export class IncidentOverviewPage extends React.Component { // eslint-disable-li
       <div className="overview-page">
         <div className="row">
           <div className="col-3">
-            <Filter filterIncidents={this.props.onRequestIncidents} filter={filter} {...rest} />
+            <Filter onRequestIncidents={this.props.onRequestIncidents} filter={filter} {...rest} />
           </div>
           <div className="col-9">
             {loading ? (<LoadingIndicator />) : (

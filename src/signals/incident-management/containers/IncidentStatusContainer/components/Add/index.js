@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 
-import { TextAreaInput } from '../../../../components/TextAreaInput';
-import { SelectInput } from '../../../../components/SelectInput';
+import FieldControlWrapper from '../../../../components/FieldControlWrapper';
+import TextAreaInput from '../../../../components/TextAreaInput';
+import SelectInput from '../../../../components/SelectInput';
 import './style.scss';
 
 
@@ -47,8 +48,8 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
             render={({ invalid }) => (
               <form onSubmit={this.handleSubmit}>
                 <div>
-                  <SelectInput name="state" display="Status" control={this.statusForm.get('state')} values={statusList} multiple={false} emptyOptionText="Selecteer..." />
-                  <TextAreaInput name="text" display="Omschrijving" control={this.statusForm.get('text')} rows={5} />
+                  <FieldControlWrapper render={SelectInput} name="state" display="Status" control={this.statusForm.get('state')} values={statusList} multiple={false} emptyOptionText="Selecteer..." />
+                  <FieldControlWrapper render={TextAreaInput} name="text" display="Omschrijving" control={this.statusForm.get('text')} rows={5} />
 
                   <button className="action primary" type="submit" disabled={invalid}>
                     <span className="value">Status toevoegen</span>

@@ -7,21 +7,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FieldControl } from 'react-reactive-form';
 import './style.scss';
 
-export const SelectInput = ({ name, control, ...rest }) => (
-  <div className="select-input">
-    <FieldControl name={name} control={control} render={SelectInputRender(rest)} />
-  </div>);
-
-SelectInput.propTypes = {
-  name: PropTypes.string.isRequired,
-  control: PropTypes.object.isRequired
-};
-
-
-export const SelectInputRender = (props) => {
+export const SelectInput = (props) => {
   const { name, display, values, multiple, emptyOptionText, size } = props;
   const options = values.map(({ key, value }) =>
     <option key={key} value={key}>{key ? value : emptyOptionText || value}</option>

@@ -103,7 +103,7 @@ export default {
       },
       incident_date: {
         meta: {
-          label: 'Incident date',
+          // label: 'Datum gebeurtenis ',
           ifAllOf: {
             datetime: 'Eerder'
           },
