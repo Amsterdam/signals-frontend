@@ -37,7 +37,7 @@ class IncidentContainer extends React.Component {
           getClassification={this.getClassification}
           setIncident={this.setIncident}
           createIncident={this.createIncident}
-          incident={this.props.incidentcontainer.incident}
+          incidentContainer={this.props.incidentContainer}
           isAuthenticated={this.props.isAuthenticated}
         />
       </div>
@@ -46,7 +46,7 @@ class IncidentContainer extends React.Component {
 }
 
 IncidentContainer.propTypes = {
-  incidentcontainer: PropTypes.object.isRequired,
+  incidentContainer: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
   setIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
@@ -54,7 +54,7 @@ IncidentContainer.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  incidentcontainer: makeSelectIncidentContainer(),
+  incidentContainer: makeSelectIncidentContainer(),
   isAuthenticated: makeSelectIsAuthenticated()
 });
 

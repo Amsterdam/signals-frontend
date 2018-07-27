@@ -1,0 +1,9 @@
+.global-error {
+  background-color: #ec0000;
+  padding: 20px 10px 20px 20px;
+  text-align: center;
+
+  &__close-button {
+    margin-left: 10px;
+  }
+}
