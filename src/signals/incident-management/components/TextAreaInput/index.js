@@ -1,22 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FieldControl } from 'react-reactive-form';
 import './style.scss';
 
-export const TextAreaInput = ({ name, control, ...props }) => (
-  <div className="text-area-input">
-    <FieldControl name={name} control={control} render={TextAreaInputRender(props)} />
-  </div>);
-
-TextAreaInput.propTypes = {
-  name: PropTypes.string.isRequired,
-  control: PropTypes.object.isRequired
-};
-
-export const TextAreaInputRender = (props) => {
+const TextAreaInput = (props) => {
   const { name, display, placeholder, rows } = props;
-  const render = ({ handler }) => (<div>
+  const render = ({ handler }) => (<div className="text-area-input">
     <div className="mode_input text rij_verplicht">
       <div className="label">
         <label htmlFor={`form${name}`}>{display}</label>
@@ -47,3 +36,5 @@ export const TextAreaInputRender = (props) => {
   };
   return render;
 };
+
+export default TextAreaInput;

@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SelectInput /> should render correctly 1`] = `
+<div>
+  <div
+    className="mode_input text rij_verplicht"
+  >
+    <div
+      className="label"
+    >
+      <label
+        htmlFor="formname"
+      >
+        display
+      </label>
+    </div>
+    <div
+      className="select-input__control invoer"
+    >
+      <select
+        className="select-input__control--overflow"
+        id="formname"
+        multiple={false}
+        name=""
+        size=""
+      >
+        <option
+          key="1"
+          value="1"
+        >
+          item1
+        </option>
+        <option
+          key="2"
+          value="2"
+        >
+          item2
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
+`;

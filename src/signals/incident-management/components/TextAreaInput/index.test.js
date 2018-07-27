@@ -1,10 +1,34 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-// import TextInput from 'index';
+import TextAreaInput from './index';
 
-describe('<TextInput />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(true);
+describe('<TextAreaInput />', () => {
+  let renderedComponent;
+  let props;
+
+  beforeEach(() => {
+    props = {
+      name: 'name',
+      display: 'display',
+      placeholder: 'placeholder',
+      handler: jest.fn(),
+      rows: 2
+    };
+
+    const TextAreaInputRender = TextAreaInput(props);
+    renderedComponent = shallow(
+      <TextAreaInputRender {...props} />
+    );
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it('should render correctly', () => {
+    expect(renderedComponent).not.toBeNull();
+    expect(renderedComponent).toMatchSnapshot();
   });
 });
+
