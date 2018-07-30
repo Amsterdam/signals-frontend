@@ -66,7 +66,7 @@ function incidentContainerReducer(state = initialState, action) {
       return state
         .set('incident', fromJS({
           ...state.get('incident').toJS(),
-          ...action.incident
+          ...action.payload
         }));
 
     case CREATE_INCIDENT:

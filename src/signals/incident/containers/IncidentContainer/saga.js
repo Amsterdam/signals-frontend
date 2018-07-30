@@ -22,14 +22,14 @@ import setClassification from '../../services/set-classification';
 
 // import makeSelectIncidentContainer from './selectors';
 
-export function* getClassification({ text }) {
+export function* getClassification(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals_mltool/predict`;
 
   try {
     const result = yield call(request, requestURL, {
       method: 'POST',
       body: JSON.stringify({
-        text
+        text: action.payload.text
       }),
       headers: {
         'Content-Type': 'application/json'
