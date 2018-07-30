@@ -42,24 +42,23 @@ export function* getClassification(action) {
   }
 }
 
-export function* createIncident({ incident, wizard }) {
+export function* createIncident(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/`;
-
   try {
     const result = yield call(request, requestURL, {
       method: 'POST',
-      body: JSON.stringify(mapControlsToParams(incident, wizard)),
+      body: JSON.stringify(mapControlsToParams(action.payload.incident, action.payload.wizard)),
       headers: {
         'Content-Type': 'application/json'
       }
     });
 
-    if (incident.image) {
-      yield put(uploadRequest(incident.image_file, result.id));
+    if (action.payload.incident.image) {
+      yield put(uploadRequest(action.payload.incident.image_file, result.id));
     }
     yield put(createIncidentSuccess(result));
   } catch (error) {
-    yield put(createIncidentError(error));
+    yield put(createIncidentError());
     // yield put(showGlobalError('CREATE_INCIDENT_FAILED'));
     yield put(replace('/incident/fout'));
   }

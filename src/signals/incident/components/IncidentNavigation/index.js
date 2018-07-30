@@ -38,7 +38,7 @@ const IncidentNavigation = ({ valid, meta: { form, incidentContainer, wizard, ha
                 }
               }}
             >
-              {steps.length - 2 === steps.indexOf(step) ?
+              {step.id === 'incident/samenvatting' ?
                 <FormattedMessage {...messages.send} />
               :
                 <FormattedMessage {...messages.next} />

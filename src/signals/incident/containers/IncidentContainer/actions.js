@@ -24,29 +24,30 @@ import {
 export function setIncident(incident) {
   return {
     type: SET_INCIDENT,
-    payload: incident
+    payload: { ...incident }
   };
 }
 
 export function createIncident(incident, wizard) {
   return {
     type: CREATE_INCIDENT,
-    incident,
-    wizard
+    payload: {
+      incident: { ...incident },
+      wizard: { ...wizard }
+    }
   };
 }
 
 export function createIncidentSuccess(incident) {
   return {
     type: CREATE_INCIDENT_SUCCESS,
-    incident
+    payload: { ...incident }
   };
 }
 
-export function createIncidentError(error) {
+export function createIncidentError() {
   return {
-    type: CREATE_INCIDENT_ERROR,
-    error
+    type: CREATE_INCIDENT_ERROR
   };
 }
 
