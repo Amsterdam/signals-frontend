@@ -13,7 +13,7 @@ import {
 
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
-  // GET_CLASSIFICATION_ERROR,
+  GET_CLASSIFICATION_ERROR,
 
   UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
@@ -64,12 +64,12 @@ export function getClassificationSuccess(classification) {
   };
 }
 
-// export function getClassificationError(error) {
-  // return {
-    // type: GET_CLASSIFICATION_ERROR,
-    // error
-  // };
-// }
+export function getClassificationError(classification) {
+  return {
+    type: GET_CLASSIFICATION_ERROR,
+    payload: { ...classification }
+  };
+}
 
 export function uploadRequest(file, id) {
   return {

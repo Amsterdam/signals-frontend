@@ -8,7 +8,7 @@ import {
   createIncidentSuccess,
   createIncidentError,
   getClassificationSuccess,
-  // getClassificationError,
+  getClassificationError,
   uploadRequest,
   uploadProgress,
   uploadSuccess,
@@ -38,8 +38,7 @@ export function* getClassification({ text }) {
 
     yield put(getClassificationSuccess(setClassification(result)));
   } catch (error) {
-    // yield put(getClassificationError(error));
-    yield put(showGlobalError('GET_CLASSIFICATION_FAILED'));
+    yield put(getClassificationError(setClassification()));
   }
 }
 
