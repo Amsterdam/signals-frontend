@@ -14,7 +14,7 @@ import {
 
   // GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
-  // GET_CLASSIFICATION_ERROR,
+  GET_CLASSIFICATION_ERROR,
 
   UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
@@ -100,10 +100,12 @@ function incidentContainerReducer(state = initialState, action) {
           ...action.payload
         }));
 
-    // case GET_CLASSIFICATION_ERROR:
-      // return state
-        // .set('error', action.error)
-        // .set('loading', false);
+    case GET_CLASSIFICATION_ERROR:
+      return state
+        .set('incident', fromJS({
+          ...state.get('incident').toJS(),
+          ...action.payload
+        }));
 
     case UPLOAD_REQUEST:
       return state;
