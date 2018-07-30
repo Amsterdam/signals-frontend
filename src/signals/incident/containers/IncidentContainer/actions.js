@@ -13,12 +13,7 @@ import {
 
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
-  GET_CLASSIFICATION_ERROR,
-
-  UPLOAD_REQUEST,
-  UPLOAD_PROGRESS,
-  UPLOAD_SUCCESS,
-  UPLOAD_FAILURE
+  GET_CLASSIFICATION_ERROR
 } from './constants';
 
 export function setIncident(incident) {
@@ -69,33 +64,5 @@ export function getClassificationError(classification) {
   return {
     type: GET_CLASSIFICATION_ERROR,
     payload: { ...classification }
-  };
-}
-
-export function uploadRequest(file, id) {
-  return {
-    type: UPLOAD_REQUEST,
-    payload: { file, id }
-  };
-}
-
-export function uploadProgress(file, progress) {
-  return {
-    type: UPLOAD_PROGRESS,
-    payload: { file, progress }
-  };
-}
-
-export function uploadSuccess(file) {
-  return {
-    type: UPLOAD_SUCCESS,
-    payload: { file }
-  };
-}
-
-export function uploadFailure(file, error) {
-  return {
-    type: UPLOAD_FAILURE,
-    payload: { file, error }
   };
 }
