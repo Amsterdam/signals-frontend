@@ -75,31 +75,27 @@ export function getClassificationError(classification) {
 export function uploadRequest(file, id) {
   return {
     type: UPLOAD_REQUEST,
-    payload: file,
-    meta: { id }
+    payload: { file, id }
   };
 }
 
 export function uploadProgress(file, progress) {
   return {
     type: UPLOAD_PROGRESS,
-    payload: progress,
-    meta: { file },
+    payload: { file, progress }
   };
 }
 
 export function uploadSuccess(file) {
   return {
     type: UPLOAD_SUCCESS,
-    meta: { file }
+    payload: { file }
   };
 }
 
-export function uploadFailure(file, err) {
+export function uploadFailure(file, error) {
   return {
     type: UPLOAD_FAILURE,
-    payload: err,
-    error: true,
-    meta: { file },
+    payload: { file, error }
   };
 }

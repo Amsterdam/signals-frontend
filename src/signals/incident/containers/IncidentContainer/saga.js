@@ -64,29 +64,28 @@ export function* createIncident(action) {
   }
 }
 
-export function* uploadFile(file, id) {
+export function* uploadFile(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/image/`;
 
-  const channel = yield call(fileUploadChannel, requestURL, file, id);
+  const channel = yield call(fileUploadChannel, requestURL, action.payload.file, action.payload.id);
   const forever = true;
   while (forever) {
     const { progress = 0, error, success } = yield take(channel);
     if (error) {
-      yield put(uploadFailure(file, error));
+      yield put(uploadFailure(action.payload.file, error));
       yield put(showGlobalError('UPLOAD_FAILED'));
       return;
     }
     if (success) {
-      yield put(uploadSuccess(file));
+      yield put(uploadSuccess(action.payload.file));
       return;
     }
-    yield put(uploadProgress(file, progress));
+    yield put(uploadProgress(action.payload.file, progress));
   }
 }
 
 function* uploadFileWrapper(action) {
-  const file = action.payload;
-  yield call(uploadFile, file, action.meta.id);
+  yield call(uploadFile, action);
 }
 
 // Individual exports for testing
