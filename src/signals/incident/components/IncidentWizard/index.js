@@ -34,7 +34,7 @@ function IncidentWizard({ getClassification, setIncident, createIncident, incide
     <div className="incident-wizard">
       <Route
         render={({ history }) => (
-          <Wizard history={history} onNext={(wiz) => onNext(wiz, incidentContainer)}>
+          <Wizard history={history} onNext={(wiz) => onNext(wiz, incidentContainer.incident)}>
             {incidentContainer.loading ? <LoadingIndicator /> : ''}
             {!incidentContainer.loading ?
               <Steps>

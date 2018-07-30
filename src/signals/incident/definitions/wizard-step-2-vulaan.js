@@ -9,7 +9,7 @@ export default {
         meta: {
           label: 'Dit hebt u net ingevuld:',
           type: 'citation',
-          field: 'description'
+          value: '{incident.description}'
         },
         render: FormComponents.PlainText
       },
