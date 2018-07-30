@@ -24,7 +24,7 @@ import {
 export function setIncident(incident) {
   return {
     type: SET_INCIDENT,
-    incident
+    payload: incident
   };
 }
 
@@ -53,7 +53,7 @@ export function createIncidentError(error) {
 export function getClassification(text) {
   return {
     type: GET_CLASSIFICATION,
-    text
+    payload: { text }
   };
 }
 
