@@ -24,19 +24,10 @@ import fileUploadChannel from '../../services/file-upload-channel';
 const getCategory = (clasificationResult) => {
   const minimumSubcategoryChance = 0.40;
   const overig = 'Overig';
-
-  return (minimumSubcategoryChance < clasificationResult.subrubriek && clasificationResult.subrubriek[0][0]) ? {
-    category: clasificationResult.hoofdrubriek[0][0],
-    categoryChance: clasificationResult.hoofdrubriek[1][0],
-    subcategory: clasificationResult.subrubriek[0][0],
-    subcategoryChance: clasificationResult.subrubriek[1][0]
-
-  } : {
-    category: overig,
-    categoryChance: 0,
-    subcategory: overig,
-    subcategoryChance: 0
-
+  const useClassification = clasificationResult.subrubriek && minimumSubcategoryChance < clasificationResult.subrubriek[1][0];
+  return {
+    category: useClassification ? clasificationResult.hoofdrubriek[0][0] : overig,
+    subcategory: useClassification ? clasificationResult.subrubriek[0][0] : overig
   };
 };
 
