@@ -1,5 +1,4 @@
 /* eslint-disable */
-// vervangen: ./dist/images/svg/marker.svg => https://map.data.amsterdam.nl/dist/images/svg/marker.svg
 
 var pointquery = (function () {
   'use strict';
@@ -3395,7 +3394,7 @@ var pointquery = (function () {
    * should be added to the other, secondary easting value.
    *
    * @private
-   * @param {char} e The first letter from a two-letter MGRS 100´k zone.
+   * @param {char} e The first letter from a two-letter MGRS 100Â´k zone.
    * @param {number} set The MGRS table set for the zone number.
    * @return {number} The easting value for the given letter and set.
    */
@@ -4357,8 +4356,8 @@ var pointquery = (function () {
   /*
     references:
       Formules et constantes pour le Calcul pour la
-      projection cylindrique conforme à axe oblique et pour la transformation entre
-      des systèmes de référence.
+      projection cylindrique conforme Ã  axe oblique et pour la transformation entre
+      des systÃ¨mes de rÃ©fÃ©rence.
       http://www.swisstopo.admin.ch/internet/swisstopo/fr/home/topics/survey/sys/refsys/switzerland.parsysrelated1.31216.downloadList.77004.DownloadFile.tmp/swissprojectionfr.pdf
     */
 
