@@ -18,18 +18,9 @@ import { showGlobalError } from '../../../../containers/App/actions';
 
 import mapControlsToParams from '../../services/map-controls-to-params';
 import fileUploadChannel from '../../services/file-upload-channel';
+import setClassification from '../../services/set-classification';
 
 // import makeSelectIncidentContainer from './selectors';
-
-const getCategory = (clasificationResult) => {
-  const minimumSubcategoryChance = 0.40;
-  const overig = 'Overig';
-  const useClassification = clasificationResult.subrubriek && minimumSubcategoryChance < clasificationResult.subrubriek[1][0];
-  return {
-    category: useClassification ? clasificationResult.hoofdrubriek[0][0] : overig,
-    subcategory: useClassification ? clasificationResult.subrubriek[0][0] : overig
-  };
-};
 
 export function* getClassification({ text }) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals_mltool/predict`;
@@ -45,7 +36,7 @@ export function* getClassification({ text }) {
       }
     });
 
-    yield put(getClassificationSuccess(getCategory(result)));
+    yield put(getClassificationSuccess(setClassification(result)));
   } catch (error) {
     // yield put(getClassificationError(error));
     yield put(showGlobalError('GET_CLASSIFICATION_FAILED'));
