@@ -13,7 +13,7 @@ const PlainText = ({ meta, parent }) => (
             <div className="label">{meta.label}</div>
 
             {meta.value && typeof meta.value === 'string' ?
-              mapDynamicFields(meta.value, { incident: parent.meta.incident })
+              mapDynamicFields(meta.value, { incident: parent.meta && parent.meta.incidentContainer && parent.meta.incidentContainer.incident })
               : ''
             }
 
@@ -22,7 +22,7 @@ const PlainText = ({ meta, parent }) => (
                 <div
                   key={`${meta.name}-${key + 1}`}
                   className={`plain-text__box-p plain-text__box-p-${key + 1}`}
-                >{mapDynamicFields(paragraph, { incident: parent.meta.incident })}</div>
+                >{mapDynamicFields(paragraph, { incident: parent.meta && parent.meta.incidentContainer && parent.meta.incidentContainer.incident })}</div>
               ))
               : ''
             }
