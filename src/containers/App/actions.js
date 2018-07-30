@@ -4,7 +4,11 @@ import {
   SHOW_GLOBAL_ERROR,
   RESET_GLOBAL_ERROR,
   LOGIN,
-  LOGOUT
+  LOGOUT,
+  UPLOAD_REQUEST,
+  UPLOAD_PROGRESS,
+  UPLOAD_SUCCESS,
+  UPLOAD_FAILURE
 } from './constants';
 
 export function authenticateUser(credentials) {
@@ -45,5 +49,33 @@ export function doLogout() {
   return {
     type: LOGOUT,
     payload: null
+  };
+}
+
+export function uploadRequest(file, id) {
+  return {
+    type: UPLOAD_REQUEST,
+    payload: { file, id }
+  };
+}
+
+export function uploadProgress(file, progress) {
+  return {
+    type: UPLOAD_PROGRESS,
+    payload: { file, progress }
+  };
+}
+
+export function uploadSuccess(file) {
+  return {
+    type: UPLOAD_SUCCESS,
+    payload: { file }
+  };
+}
+
+export function uploadFailure(file, error) {
+  return {
+    type: UPLOAD_FAILURE,
+    payload: { file, error }
   };
 }

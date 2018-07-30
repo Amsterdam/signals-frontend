@@ -12,14 +12,8 @@ import {
   CREATE_INCIDENT_SUCCESS,
   CREATE_INCIDENT_ERROR,
 
-  // GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
-  GET_CLASSIFICATION_ERROR,
-
-  UPLOAD_REQUEST,
-  UPLOAD_PROGRESS,
-  UPLOAD_SUCCESS,
-  UPLOAD_FAILURE
+  GET_CLASSIFICATION_ERROR
 } from './constants';
 
 export const initialState = fromJS({
@@ -88,11 +82,6 @@ function incidentContainerReducer(state = initialState, action) {
         .set('error', true)
         .set('loading', false);
 
-    // case GET_CLASSIFICATION:
-      // return state
-        // .set('loading', false)
-        // .set('error', false);
-
     case GET_CLASSIFICATION_SUCCESS:
       return state
         .set('incident', fromJS({
@@ -106,18 +95,6 @@ function incidentContainerReducer(state = initialState, action) {
           ...state.get('incident').toJS(),
           ...action.payload
         }));
-
-    case UPLOAD_REQUEST:
-      return state;
-
-    case UPLOAD_PROGRESS:
-      return state;
-
-    case UPLOAD_SUCCESS:
-      return state;
-
-    case UPLOAD_FAILURE:
-      return state;
 
     default:
       return state;
