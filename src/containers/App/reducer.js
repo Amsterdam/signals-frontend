@@ -26,6 +26,7 @@ import {
 export const initialState = fromJS({
   loading: false,
   error: false,
+  upload: {}
 });
 
 function appReducer(state = initialState, action) {
@@ -49,16 +50,22 @@ function appReducer(state = initialState, action) {
         .set('loading', false);
 
     case UPLOAD_REQUEST:
-      return state;
+      return state
+        .set('upload', fromJS({
+          file: action.payload.file.name
+        }));
 
     case UPLOAD_PROGRESS:
-      return state;
+      return state
+        .set('upload', fromJS({
+          file: action.payload.file.name,
+          progress: action.payload.progress
+        }));
 
     case UPLOAD_SUCCESS:
-      return state;
-
     case UPLOAD_FAILURE:
-      return state;
+      return state
+        .set('upload', fromJS({}));
 
     default:
       return state;
