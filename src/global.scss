@@ -41,3 +41,29 @@ dd {
     background-color: $ams-wit;
   }
 }
+
+
+@media print {
+  .no-print{
+    display: none!important;
+  }
+
+  #app{
+    max-height: 360px;
+  }
+
+}
+
+@page {
+  size: A4;
+  margin-left: 1cm;
+  margin-right: 1cm;
+}
+
+@page :left {
+  background-color: blue;
+}
+
+@page :right {
+  background-color: green;
+}

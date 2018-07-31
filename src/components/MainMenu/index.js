@@ -14,7 +14,7 @@ import { makeSelectIsAuthenticated } from '../../containers/App/selectors';
 export class MainMenu extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <div className="row main-menu-component">
+      <div className="row main-menu-component no-print">
         <div className="container type-nav-primair">
           <nav>
             <ul className="links horizontal">

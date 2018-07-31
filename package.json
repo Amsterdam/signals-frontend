@@ -209,7 +209,9 @@
         "lines": 60
       }
     },
-    "coverageReporters": ["lcov"],
+    "coverageReporters": [
+      "lcov"
+    ],
     "moduleDirectories": [
       "node_modules",
       "src"
