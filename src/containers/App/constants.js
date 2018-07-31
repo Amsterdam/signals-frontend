@@ -20,7 +20,7 @@ export const RESET_GLOBAL_ERROR = 'sia/App/RESET_GLOBAL_ERROR';
 export const LOGIN = 'sia/App/LOGIN';
 export const LOGOUT = 'sia/App/LOGOUT';
 
-export const UPLOAD_REQUEST = 'src/App/UPLOAD_REQUEST';
-export const UPLOAD_PROGRESS = 'src/App/UPLOAD_PROGRESS';
-export const UPLOAD_SUCCESS = 'src/App/UPLOAD_SUCCESS';
-export const UPLOAD_FAILURE = 'src/App/UPLOAD_FAILURE';
+export const UPLOAD_REQUEST = 'sia/App/UPLOAD_REQUEST';
+export const UPLOAD_PROGRESS = 'sia/App/UPLOAD_PROGRESS';
+export const UPLOAD_SUCCESS = 'sia/App/UPLOAD_SUCCESS';
+export const UPLOAD_FAILURE = 'sia/App/UPLOAD_FAILURE';
