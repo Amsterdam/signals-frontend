@@ -29,6 +29,11 @@ exports[`<IncidentDetailPage /> should render correctly 1`] = `
       Terug naar overzicht
     </Link>
     )
+    <button
+      onClick={[Function]}
+    >
+      Print view
+    </button>
     <IncidentDetail
       incident={Object {}}
       stadsdeelList={
