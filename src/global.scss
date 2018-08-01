@@ -15,7 +15,7 @@ body {
 }
 
 ul li {
-  margin:0;
+  margin: 0;
   padding: 0;
   text-indent: 0;
   list-style-type: none;
@@ -44,26 +44,26 @@ dd {
 
 
 @media print {
-  .no-print{
-    display: none!important;
+  html, body {height: 100%;}
+
+  @page {
+    size: A4;
+    margin-left: 1cm;
+    margin-right: 1cm;
   }
 
-  #app{
-    max-height: 360px;
+  // Reset the flex model to allow printig on more than one page
+  .row {
+    display: block;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .page-break {
+    page-break-after: always;
   }
 
 }
 
-@page {
-  size: A4;
-  margin-left: 1cm;
-  margin-right: 1cm;
-}
-
-@page :left {
-  background-color: blue;
-}
-
-@page :right {
-  background-color: green;
-}

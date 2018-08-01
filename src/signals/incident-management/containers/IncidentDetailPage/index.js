@@ -26,7 +26,7 @@ import MapDetail from './components/MapDetail';
 import IncidentDetail from './components/IncidentDetail';
 import IncidentCategoryContainer from '../IncidentCategoryContainer';
 import IncidentStatusContainer from '../IncidentStatusContainer';
-import IncidentPrintPage from '../IncidentPrintPage';
+import PrintLayout from './components/PrintLayout';
 
 
 export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -66,7 +66,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     ];
     const visibleTabs = ['Status', 'Categorie', 'Foto'].filter((tab) => tab === 'Foto' ? (incident && incident.image) : true);
 
-    const view = this.state.printView ? <IncidentPrintPage id={this.props.id} incident={incident} stadsdeelList={stadsdeelList} onPrintView={this.onPrintView} /> :
+    const view = this.state.printView ? <PrintLayout id={this.props.id} incident={incident} stadsdeelList={stadsdeelList} onPrintView={this.onPrintView} /> :
       (<div className="incident-detail-page row container">
         <div className="col-12"><h3>Melding {this.props.id}</h3>
         </div>
