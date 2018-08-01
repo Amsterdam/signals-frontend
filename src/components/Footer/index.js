@@ -5,7 +5,7 @@ import './style.scss';
 
 function Footer() {
   return (
-    <div className="footer-wrapper">
+    <div className="footer-wrapper no-print">
       <div className="row bg-darkgrey footer">
         <footer className="container footer-component">
           <div className="row">

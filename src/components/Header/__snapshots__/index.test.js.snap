@@ -2,7 +2,7 @@
 
 exports[`<Header /> should render correctly 1`] = `
 <div
-  className="header-component has_header_modern"
+  className="header-component has_header_modern no-print"
 >
   <div
     className="row header-wrapper"
