@@ -2,7 +2,7 @@
 
 exports[`<Footer /> should render correctly 1`] = `
 <div
-  className="footer-wrapper"
+  className="footer-wrapper no-print"
 >
   <div
     className="row bg-darkgrey footer"
