@@ -27,8 +27,7 @@ export function* callLogin(action) {
   try {
     login(action.payload);
   } catch (error) {
-    // console.error('Error during logout', error); // eslint-disable-line no-console
-    yield put(showGlobalError(error));
+    yield put(showGlobalError('LOGIN_FAILED'));
   }
 }
 
@@ -41,8 +40,7 @@ export function* callLogout() {
     logout();
     yield put(push('/'));
   } catch (error) {
-    // console.error('Error during logout', error); // eslint-disable-line no-console
-    yield put(showGlobalError(error));
+    yield put(showGlobalError('LOGOUT_FAILED'));
   }
 }
 
@@ -56,11 +54,16 @@ export function* callAuthorize(action) {
 
       const credentials = { ...action.payload, userScopes: [...user.groups] };
       yield put(authorizeUser(credentials));
+    } else {
+      throw new Error();
     }
   } catch (error) {
-    // console.error('Error during authorization', error); // eslint-disable-line no-console
-    yield put(showGlobalError(error));
+    yield put(showGlobalError('AUTHORIZE_FAILED'));
   }
+}
+
+export function* uploadFileWrapper(action) {
+  yield call(uploadFile, action);
 }
 
 export function* uploadFile(action) {
@@ -71,7 +74,7 @@ export function* uploadFile(action) {
   while (forever) {
     const { progress = 0, error, success } = yield take(channel);
     if (error) {
-      yield put(uploadFailure(action.payload.file, error));
+      yield put(uploadFailure());
       yield put(showGlobalError('UPLOAD_FAILED'));
       return;
     }
@@ -82,11 +85,6 @@ export function* uploadFile(action) {
     yield put(uploadProgress(action.payload.file, progress));
   }
 }
-
-function* uploadFileWrapper(action) {
-  yield call(uploadFile, action);
-}
-
 
 export default function* watchAppSaga() {
   yield all([
