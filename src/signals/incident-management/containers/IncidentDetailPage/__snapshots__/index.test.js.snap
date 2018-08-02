@@ -108,7 +108,7 @@ exports[`<IncidentDetailPage /> should render correctly 1`] = `
 `;
 
 exports[`<IncidentDetailPage /> should render the print view 1`] = `
-<PrintLayout
+<Connect(PrintLayout)
   id="100"
   incident={Object {}}
   onPrintView={[Function]}

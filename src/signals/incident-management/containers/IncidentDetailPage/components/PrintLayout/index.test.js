@@ -1,7 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import configureMockStore from 'redux-mock-store';
+import { fromJS } from 'immutable';
 
-import PrintLayout from './index';
+import ConnectedPrintLayout, { PrintLayout } from './index';
 
 describe('<PrintLayout />', () => {
   let props;
@@ -11,7 +13,8 @@ describe('<PrintLayout />', () => {
       id: '100',
       incident: {},
       stadsdeelList: [],
-      onPrintView: jest.fn()
+      onPrintView: jest.fn(),
+      incidentstatuscontainer: { incidentStatusList: [], statusList: [] }
     };
   });
 
@@ -21,4 +24,12 @@ describe('<PrintLayout />', () => {
     );
     expect(renderedComponent).toMatchSnapshot();
   });
+
+  it('should render the connected component correctly', () => {
+    const mockStore = configureMockStore({});
+    const store = mockStore(fromJS({ incidentStatusContainer: { incidentStatusList: [], statusList: [] } }));
+    const renderedComponent = shallow(<ConnectedPrintLayout store={store} {...props} />);
+    expect(renderedComponent).toMatchSnapshot();
+  });
 });
+
