@@ -110,9 +110,9 @@ describe('App saga', () => {
       }).value).toEqual(put(authorizeUser(mockCredentials))); // eslint-disable-line redux-saga/yield-effects
     });
 
-    it('should fail when accessToken is not available', () => {
+    it('should fail without message when accessToken is not available', () => {
       const gen = callAuthorize({ payload: null });
-      expect(gen.next().value).toEqual(put(showGlobalError('AUTHORIZE_FAILED'))); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.next().value).toBeUndefined();
     });
 
     it('should error', () => {

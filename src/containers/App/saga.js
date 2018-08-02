@@ -54,8 +54,6 @@ export function* callAuthorize(action) {
 
       const credentials = { ...action.payload, userScopes: [...user.groups] };
       yield put(authorizeUser(credentials));
-    } else {
-      throw new Error();
     }
   } catch (error) {
     yield put(showGlobalError('AUTHORIZE_FAILED'));
