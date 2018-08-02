@@ -43,7 +43,7 @@ exports[`<Footer /> should render correctly 1`] = `
           >
             <li>
               <a
-                href="#Amsterdam"
+                href="https://www.amsterdam.nl/privacy/"
               >
                 <span
                   className="linklabel"
@@ -51,20 +51,6 @@ exports[`<Footer /> should render correctly 1`] = `
                   Privacy
                 </span>
               </a>
-            </li>
-            <li>
-              <a
-                href="#Amsterdam"
-              >
-                <span
-                  className="linklabel"
-                >
-                  Cookies
-                </span>
-              </a>
-            </li>
-            <li>
-              <Connect(LocaleToggle) />
             </li>
           </ul>
         </nav>

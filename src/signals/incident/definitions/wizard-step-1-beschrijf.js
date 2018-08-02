@@ -23,14 +23,18 @@ export default {
           updateIncident: true,
           values: {
             '': 'Vul bron in',
-            'Telefoon 14020': 'Telefoon 14020',
-            'Webcare 14 020': 'Webcare 14 020',
-            'E-mail Stadsdeel': 'E-mail Stadsdeel',
-            'E-mail 14020': 'E-mail 14020',
+            'Telefoon – CCA': 'Telefoon – CCA',
+            'Telefoon – ASC': 'Telefoon – ASC',
+            'Telefoon – Interswitch': 'Telefoon – Interswitch',
+            'Telefoon – Stadsdeel': 'Telefoon – Stadsdeel',
+            'E-mail – CCA': 'E-mail – CCA',
+            'E-mail – ASC': 'E-mail – ASC',
+            'E-mail – Stadsdeel': 'E-mail – Stadsdeel',
+            'Webcare – CCA': 'Webcare – CCA',
             'Eigen organisatie': 'Eigen organisatie',
-            'Telefoon Stadsdeel': 'Telefoon Stadsdeel',
-            'Stadsdeel diversen': 'Stadsdeel diversen',
-            Interswitch: 'Interswitch'
+            'Meldkamer burger/ondernemer': 'Meldkamer burger/ondernemer',
+            'Meldkamer Handhaver': 'Meldkamer Handhaver',
+            'Meldkamer Politie': 'Meldkamer Politie'
           }
         },
         options: {
