@@ -99,7 +99,6 @@ IncidentDetailPage.propTypes = {
 
   id: PropTypes.string,
   baseUrl: PropTypes.string,
-  // refresh: PropTypes.bool,
 
   onRequestIncident: PropTypes.func.isRequired
 };
