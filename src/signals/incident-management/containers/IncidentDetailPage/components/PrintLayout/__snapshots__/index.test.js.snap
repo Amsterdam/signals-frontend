@@ -29,7 +29,7 @@ exports[`<PrintLayout /> should render correctly 1`] = `
     </div>
   </div>
   <div
-    className="col-12 incident-print-page__map"
+    className="col-12"
   >
     <MapDetail
       label=""
@@ -46,5 +46,60 @@ exports[`<PrintLayout /> should render correctly 1`] = `
   <div
     className="col-12"
   />
+  <div
+    className="col-12 print-layout__status-list"
+  >
+    <List
+      incidentStatusList={Array []}
+      statusList={Array []}
+    />
+  </div>
 </div>
+`;
+
+exports[`<PrintLayout /> should render the connected component correctly 1`] = `
+<PrintLayout
+  dispatch={[Function]}
+  id="100"
+  incident={Object {}}
+  incidentstatuscontainer={
+    Object {
+      "incidentStatusList": Array [],
+      "statusList": Array [],
+    }
+  }
+  onPrintView={[MockFunction]}
+  stadsdeelList={Array []}
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+  storeSubscription={
+    Subscription {
+      "listeners": Object {
+        "clear": [Function],
+        "get": [Function],
+        "notify": [Function],
+        "subscribe": [Function],
+      },
+      "onStateChange": [Function],
+      "parentSub": undefined,
+      "store": Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      },
+      "unsubscribe": [Function],
+    }
+  }
+/>
 `;

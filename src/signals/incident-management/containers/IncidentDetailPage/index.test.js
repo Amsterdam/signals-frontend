@@ -4,8 +4,7 @@ import { shallow } from 'enzyme';
 import { IncidentDetailPage, mapDispatchToProps } from './index';
 import { REQUEST_INCIDENT } from './constants';
 import stadsdeelList from '../../definitions/stadsdeelList';
-import PrintLayout from './components/PrintLayout';
-
+import ConnectedPrintLayout from './components/PrintLayout';
 
 describe('<IncidentDetailPage />', () => {
   let props;
@@ -14,7 +13,8 @@ describe('<IncidentDetailPage />', () => {
     props = {
       id: '100',
       incidentdetailpage: { incident: {}, stadsdeelList },
-      onRequestIncident: jest.fn()
+      onRequestIncident: jest.fn(),
+
     };
   });
 
@@ -40,7 +40,7 @@ describe('<IncidentDetailPage />', () => {
     );
     renderedComponent.instance().onPrintView();
     renderedComponent.update();
-    expect(renderedComponent.find(PrintLayout).length).toEqual(1);
+    expect(renderedComponent.find(ConnectedPrintLayout).length).toEqual(1);
     expect(renderedComponent).toMatchSnapshot();
   });
 
