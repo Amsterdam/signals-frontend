@@ -9,6 +9,7 @@ exports[`<IncidentDetailPage /> should render correctly 1`] = `
   >
     <h3>
       Melding 
+      100
     </h3>
   </div>
   <ul
@@ -29,6 +30,11 @@ exports[`<IncidentDetailPage /> should render correctly 1`] = `
       Terug naar overzicht
     </Link>
     )
+    <button
+      onClick={[Function]}
+    >
+      Print view
+    </button>
     <IncidentDetail
       incident={Object {}}
       stadsdeelList={
@@ -93,8 +99,58 @@ exports[`<IncidentDetailPage /> should render correctly 1`] = `
     <div
       className="incident-detail-page__tab-container"
     >
-      <withReducer(withSaga(Connect(IncidentStatusContainer))) />
+      <withReducer(withSaga(Connect(IncidentStatusContainer)))
+        id="100"
+      />
     </div>
   </div>
 </div>
+`;
+
+exports[`<IncidentDetailPage /> should render the print view 1`] = `
+<Connect(PrintLayout)
+  id="100"
+  incident={Object {}}
+  onPrintView={[Function]}
+  stadsdeelList={
+    Array [
+      Object {
+        "key": "",
+        "value": "Alle stadsdelen",
+      },
+      Object {
+        "key": "A",
+        "value": "Centrum",
+      },
+      Object {
+        "key": "B",
+        "value": "Westpoort",
+      },
+      Object {
+        "key": "E",
+        "value": "West",
+      },
+      Object {
+        "key": "M",
+        "value": "Oost",
+      },
+      Object {
+        "key": "N",
+        "value": "Noord",
+      },
+      Object {
+        "key": "T",
+        "value": "Zuidoost",
+      },
+      Object {
+        "key": "K",
+        "value": "Zuid",
+      },
+      Object {
+        "key": "F",
+        "value": "Nieuw-West",
+      },
+    ]
+  }
+/>
 `;

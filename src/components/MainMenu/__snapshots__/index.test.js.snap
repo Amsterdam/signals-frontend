@@ -2,7 +2,7 @@
 
 exports[`<MainMenu /> should render correctly 1`] = `
 <div
-  className="row main-menu-component"
+  className="row main-menu-component no-print"
 >
   <div
     className="container type-nav-primair"
