@@ -15,7 +15,7 @@ export function* callLogin(action) {
     login(action.payload);
   } catch (error) {
     // console.error('Error during logout', error); // eslint-disable-line no-console
-    yield put(showGlobalError(error));
+    yield put(showGlobalError('LOGIN_FAILED'));
   }
 }
 
@@ -29,7 +29,7 @@ export function* callLogout() {
     yield put(push('/'));
   } catch (error) {
     // console.error('Error during logout', error); // eslint-disable-line no-console
-    yield put(showGlobalError(error));
+    yield put(showGlobalError('LOGOUT_FAILED'));
   }
 }
 
@@ -46,7 +46,7 @@ export function* callAuthorize(action) {
     }
   } catch (error) {
     // console.error('Error during authorization', error); // eslint-disable-line no-console
-    yield put(showGlobalError(error));
+    yield put(showGlobalError('AUTH_FAILED'));
   }
 }
 
