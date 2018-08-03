@@ -29,6 +29,6 @@ describe('App saga', () => {
     const error = new Error('Logout error');
     const gen = callLogout();
     gen.next();
-    expect(gen.throw(error).value).toEqual(put(showGlobalError(error))); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.throw(error).value).toEqual(put(showGlobalError('LOGOUT_FAILED'))); // eslint-disable-line redux-saga/yield-effects
   });
 });
