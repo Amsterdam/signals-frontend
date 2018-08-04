@@ -80,7 +80,7 @@ export function* uploadFile(action) {
       yield put(uploadSuccess(action.payload.file));
       return;
     }
-    yield put(uploadProgress(progress));
+    yield put(uploadProgress(action.payload.file, progress));
   }
 }
 
