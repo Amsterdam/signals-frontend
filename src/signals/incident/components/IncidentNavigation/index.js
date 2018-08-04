@@ -30,7 +30,7 @@ const IncidentNavigation = ({ valid, meta: { form, incidentContainer, wizard, ha
                 if (valid) {
                   handleSubmit(e);
                   if (step.id === 'incident/samenvatting') {
-                    createIncident(incidentContainer.incident, wizard);
+                    createIncident({ incident: incidentContainer.incident, wizard });
                   } else {
                     setIncident(form.value);
                   }
