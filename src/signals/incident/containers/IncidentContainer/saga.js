@@ -25,7 +25,7 @@ export function* getClassification(action) {
     const result = yield call(request, requestURL, {
       method: 'POST',
       body: JSON.stringify({
-        text: action.payload.text
+        text: action.payload
       }),
       headers: {
         'Content-Type': 'application/json'

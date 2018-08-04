@@ -46,7 +46,7 @@ export function createIncidentError() {
 export function getClassification(text) {
   return {
     type: GET_CLASSIFICATION,
-    payload: { text }
+    payload: text
   };
 }
 
