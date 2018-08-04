@@ -52,13 +52,14 @@ function appReducer(state = initialState, action) {
     case UPLOAD_REQUEST:
       return state
         .set('upload', fromJS({
+          id: action.payload.id,
           file: action.payload.file.name
         }));
 
     case UPLOAD_PROGRESS:
       return state
         .set('upload', fromJS({
-          file: action.payload.file.name,
+          ...state.get('upload').toJS(),
           progress: action.payload.progress
         }));
 
