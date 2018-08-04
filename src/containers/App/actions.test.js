@@ -8,12 +8,12 @@ import {
   RESET_GLOBAL_ERROR,
 
   LOGIN,
-  LOGOUT
+  LOGOUT,
 
-  // UPLOAD_REQUEST,
-  // UPLOAD_PROGRESS,
-  // UPLOAD_SUCCESS,
-  // UPLOAD_FAILURE
+  UPLOAD_REQUEST,
+  UPLOAD_PROGRESS,
+  UPLOAD_SUCCESS,
+  UPLOAD_FAILURE
 } from './constants';
 
 import {
@@ -24,12 +24,12 @@ import {
   resetGlobalError,
 
   doLogin,
-  doLogout
+  doLogout,
 
-  // uploadRequest,
-  // uploadProgress,
-  // uploadSuccess,
-  // uploadFailure
+  uploadRequest,
+  uploadProgress,
+  uploadSuccess,
+  uploadFailure
 } from './actions';
 
 
@@ -75,5 +75,28 @@ describe('App actions', () => {
   it('should dispatch logout action', () => {
     const payload = null;
     testActionCreator(doLogout, LOGOUT, payload);
+  });
+
+  it('should dispatch upload request action', () => {
+    const payload = {
+      id: 666,
+      file: {
+        name: 'image.jpg'
+      }
+    };
+    testActionCreator(uploadRequest, UPLOAD_REQUEST, payload);
+  });
+
+  it('should dispatch upload progess action', () => {
+    const payload = 0.666;
+    testActionCreator(uploadProgress, UPLOAD_PROGRESS, payload);
+  });
+
+  it('should dispatch upload success action', () => {
+    testActionCreator(uploadSuccess, UPLOAD_SUCCESS);
+  });
+
+  it('should dispatch upload failure action', () => {
+    testActionCreator(uploadFailure, UPLOAD_FAILURE);
   });
 });

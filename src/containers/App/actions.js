@@ -65,7 +65,7 @@ export function uploadRequest({ file, id }) {
 export function uploadProgress(progress) {
   return {
     type: UPLOAD_PROGRESS,
-    payload: { progress }
+    payload: progress
   };
 }
 

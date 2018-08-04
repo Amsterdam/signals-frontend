@@ -60,7 +60,7 @@ function appReducer(state = initialState, action) {
       return state
         .set('upload', fromJS({
           ...state.get('upload').toJS(),
-          progress: action.payload.progress
+          progress: action.payload
         }));
 
     case UPLOAD_SUCCESS:
