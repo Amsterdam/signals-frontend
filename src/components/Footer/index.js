@@ -1,5 +1,4 @@
 import React from 'react';
-import LocaleToggle from 'containers/LocaleToggle';
 
 import './style.scss';
 
@@ -27,21 +26,11 @@ function Footer() {
             <nav>
               <ul className="links horizontal left">
                 <li>
-                  <a href="#Amsterdam">
+                  <a href="https://www.amsterdam.nl/privacy/">
                     <span className="linklabel">
                       Privacy
                     </span>
                   </a>
-                </li>
-                <li>
-                  <a href="#Amsterdam">
-                    <span className="linklabel">
-                      Cookies
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <LocaleToggle />
                 </li>
               </ul>
             </nav>
