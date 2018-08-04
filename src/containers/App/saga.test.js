@@ -155,14 +155,14 @@ describe('App saga', () => {
         progress: 0.23,
         error: false,
         success: false
-      }).value).toEqual(put(uploadProgress(0.23))); // eslint-disable-line redux-saga/yield-effects
+      }).value).toEqual(put(uploadProgress({ name: 'image.jpg' }, 0.23))); // eslint-disable-line redux-saga/yield-effects
 
       expect(gen.next(mockChannel).value).toEqual(take(mockChannel)); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next({
         progress: 1,
         error: false,
         success: true
-      }).value).toEqual(put(uploadSuccess())); // eslint-disable-line redux-saga/yield-effects
+      }).value).toEqual(put(uploadSuccess({ name: 'image.jpg' }))); // eslint-disable-line redux-saga/yield-effects
 
       expect(gen.next().value).toBeUndefined();
     });
@@ -174,7 +174,7 @@ describe('App saga', () => {
       expect(gen.next({
         error: false,
         success: false
-      }).value).toEqual(put(uploadProgress(0))); // eslint-disable-line redux-saga/yield-effects
+      }).value).toEqual(put(uploadProgress({ name: 'image.jpg' }, 0))); // eslint-disable-line redux-saga/yield-effects
 
       expect(gen.next(mockChannel).value).toEqual(take(mockChannel)); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next({
