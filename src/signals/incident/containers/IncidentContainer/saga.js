@@ -50,7 +50,10 @@ export function* createIncident(action) {
     });
 
     if (action.payload.incident.image) {
-      yield put(uploadRequest(action.payload.incident.image_file, result.id));
+      yield put(uploadRequest({
+        file: action.payload.incident.image_file,
+        id: result.id
+      }));
     }
     yield put(createIncidentSuccess(result));
   } catch (error) {

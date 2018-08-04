@@ -55,30 +55,31 @@ export function doLogout() {
   };
 }
 
-export function uploadRequest(file, id) {
+export function uploadRequest(payload) {
   return {
     type: UPLOAD_REQUEST,
-    payload: { file, id }
+    payload: {
+      file: payload.file.name,
+      id: payload.id
+    }
   };
 }
 
-export function uploadProgress(file, progress) {
+export function uploadProgress(progress) {
   return {
     type: UPLOAD_PROGRESS,
-    payload: { file, progress }
+    payload: { progress }
   };
 }
 
-export function uploadSuccess(file) {
+export function uploadSuccess() {
   return {
-    type: UPLOAD_SUCCESS,
-    payload: { file }
+    type: UPLOAD_SUCCESS
   };
 }
 
-export function uploadFailure(file, error) {
+export function uploadFailure() {
   return {
-    type: UPLOAD_FAILURE,
-    payload: { file, error }
+    type: UPLOAD_FAILURE
   };
 }
