@@ -23,13 +23,10 @@ export function setIncident(incident) {
   };
 }
 
-export function createIncident(incident, wizard) {
+export function createIncident(payload) {
   return {
     type: CREATE_INCIDENT,
-    payload: {
-      incident: { ...incident },
-      wizard: { ...wizard }
-    }
+    payload
   };
 }
 
@@ -49,7 +46,7 @@ export function createIncidentError() {
 export function getClassification(text) {
   return {
     type: GET_CLASSIFICATION,
-    payload: { text }
+    payload: text
   };
 }
 

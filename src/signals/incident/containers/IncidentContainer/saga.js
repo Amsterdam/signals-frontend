@@ -25,7 +25,7 @@ export function* getClassification(action) {
     const result = yield call(request, requestURL, {
       method: 'POST',
       body: JSON.stringify({
-        text: action.payload.text
+        text: action.payload
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -50,7 +50,10 @@ export function* createIncident(action) {
     });
 
     if (action.payload.incident.image) {
-      yield put(uploadRequest(action.payload.incident.image_file, result.id));
+      yield put(uploadRequest({
+        file: action.payload.incident.image_file,
+        id: result.id
+      }));
     }
     yield put(createIncidentSuccess(result));
   } catch (error) {
