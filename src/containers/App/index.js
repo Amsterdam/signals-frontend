@@ -44,8 +44,9 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
 }
 
 // const withConnect = connect(mapStateToProps, mapDispatchToProps);
-const withReducer = injectReducer({ key: 'app', reducer });
-const withSaga = injectSaga({ key: 'app', saga });
+// changed key to global
+const withReducer = injectReducer({ key: 'global', reducer });
+const withSaga = injectSaga({ key: 'global', saga });
 
 export default compose(
   withReducer,

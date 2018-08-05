@@ -13,47 +13,40 @@ import {
 
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
-  GET_CLASSIFICATION_ERROR,
-
-  UPLOAD_REQUEST,
-  UPLOAD_PROGRESS,
-  UPLOAD_SUCCESS,
-  UPLOAD_FAILURE
+  GET_CLASSIFICATION_ERROR
 } from './constants';
 
 export function setIncident(incident) {
   return {
     type: SET_INCIDENT,
-    incident
+    payload: { ...incident }
   };
 }
 
-export function createIncident(incident, wizard) {
+export function createIncident(payload) {
   return {
     type: CREATE_INCIDENT,
-    incident,
-    wizard
+    payload
   };
 }
 
 export function createIncidentSuccess(incident) {
   return {
     type: CREATE_INCIDENT_SUCCESS,
-    incident
+    payload: { ...incident }
   };
 }
 
-export function createIncidentError(error) {
+export function createIncidentError() {
   return {
-    type: CREATE_INCIDENT_ERROR,
-    error
+    type: CREATE_INCIDENT_ERROR
   };
 }
 
 export function getClassification(text) {
   return {
     type: GET_CLASSIFICATION,
-    text
+    payload: text
   };
 }
 
@@ -68,37 +61,5 @@ export function getClassificationError(classification) {
   return {
     type: GET_CLASSIFICATION_ERROR,
     payload: { ...classification }
-  };
-}
-
-export function uploadRequest(file, id) {
-  return {
-    type: UPLOAD_REQUEST,
-    payload: file,
-    meta: { id }
-  };
-}
-
-export function uploadProgress(file, progress) {
-  return {
-    type: UPLOAD_PROGRESS,
-    payload: progress,
-    meta: { file },
-  };
-}
-
-export function uploadSuccess(file) {
-  return {
-    type: UPLOAD_SUCCESS,
-    meta: { file }
-  };
-}
-
-export function uploadFailure(file, err) {
-  return {
-    type: UPLOAD_FAILURE,
-    payload: err,
-    error: true,
-    meta: { file },
   };
 }

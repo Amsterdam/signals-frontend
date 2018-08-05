@@ -10,7 +10,7 @@ import { resetGlobalError } from '../App/actions';
 // import messages from './messages';
 import './style.scss';
 
-const GlobalError = ({ error, errorMessage, onClose }) => (
+export const GlobalError = ({ error, errorMessage, onClose }) => (
   <div>
     {error ?
       <div className="global-error">
@@ -39,7 +39,7 @@ const mapStateToProps = createStructuredSelector({
   errorMessage: makeSelectErrorMessage()
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
+export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onClose: resetGlobalError
 }, dispatch);
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
