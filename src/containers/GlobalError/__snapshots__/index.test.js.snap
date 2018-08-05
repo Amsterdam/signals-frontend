@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GlobalError /> events should render showing no error by default 1`] = `
+<div>
+  <div
+    className="global-error"
+  >
+    MOCK_ERROR
+    <button
+      className="global-error__close-button"
+      onClick={[MockFunction]}
+    >
+      sluit
+    </button>
+  </div>
+</div>
+`;
+
+exports[`<GlobalError /> events should render showing no error by default 2`] = `
+<div>
+  <div
+    className="global-error"
+  >
+    MOCK_ERROR
+    <button
+      className="global-error__close-button"
+      onClick={
+        [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "isThrow": false,
+              "value": undefined,
+            },
+          ],
+        }
+      }
+    >
+      sluit
+    </button>
+  </div>
+</div>
+`;
+
+exports[`<GlobalError /> rendering should render showing an error when defined 1`] = `
+<div>
+  <div
+    className="global-error"
+  >
+    MOCK_ERROR
+    <button
+      className="global-error__close-button"
+    >
+      sluit
+    </button>
+  </div>
+</div>
+`;
+
+exports[`<GlobalError /> rendering should render showing no error by default 1`] = `<div />`;
