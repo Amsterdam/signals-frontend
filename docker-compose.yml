@@ -5,6 +5,8 @@ services:
       args:
         - BUILD_ENV=acc
       context: .
+    environment:
+      - TZ=Europe/Amsterdam
     ipc: host
     ports:
       - "3001:80"
