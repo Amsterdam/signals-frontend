@@ -260,7 +260,7 @@ export default {
           value: [
             'Indien u uw gegevens hebt achtergelaten laten wij u binnen 3 werkdagen weten wat we hebben gedaan. ',
             '',
-            'Als u vragen hebt, dan kunt u bellen met 14 020'
+            'Als u vragen hebt, dan kunt u bellen met 14020 (op werkdagen tussen 08:00 en 18:00 uur).'
           ]
         },
         render: FormComponents.PlainText
