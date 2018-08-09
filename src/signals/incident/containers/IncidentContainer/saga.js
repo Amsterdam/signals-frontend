@@ -52,7 +52,7 @@ export function* createIncident(action) {
     if (action.payload.incident.image) {
       yield put(uploadRequest({
         file: action.payload.incident.image_file,
-        id: result.id
+        id: result.signal_id
       }));
     }
     yield put(createIncidentSuccess(result));
