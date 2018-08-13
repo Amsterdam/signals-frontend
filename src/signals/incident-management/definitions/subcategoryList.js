@@ -1,7 +1,7 @@
 const subcategoryList = [
   { key: '', value: 'Alles' },
   { key: 'Asbest / accu', value: 'Asbest / accu' },
-  { key: 'Auto- /scooter- / bromfiets(wrak)', value: 'Auto- /scooter- / bromfiets(wrak)' },
+  { key: 'Auto- / scooter- / bromfiets(wrak)', value: 'Auto- / scooter- / bromfiets(wrak)' },
   { key: 'Bedrijfsafval', value: 'Bedrijfsafval' },
   { key: 'Boom', value: 'Boom' },
   { key: 'Bouw- / sloopoverlast', value: 'Bouw- / sloopoverlast' },
@@ -28,7 +28,7 @@ const subcategoryList = [
   { key: 'Huisafval', value: 'Huisafval' },
   { key: 'Jongerenoverlast', value: 'Jongerenoverlast' },
   { key: 'Lozing / dumping / bodemverontreiniging', value: 'Lozing / dumping / bodemverontreiniging' },
-  { key: 'Maaien / Snoeien', value: 'Maaien / Snoeien' },
+  { key: 'Maaien / snoeien', value: 'Maaien / snoeien' },
   { key: 'Meeuwen', value: 'Meeuwen' },
   { key: 'Oever / kade / steiger', value: 'Oever / kade / steiger' },
   { key: 'Omleiding / belijning verkeer', value: 'Omleiding / belijning verkeer' },
@@ -67,4 +67,3 @@ const subcategoryList = [
 ];
 
 export default subcategoryList;
-

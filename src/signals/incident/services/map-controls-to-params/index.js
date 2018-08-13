@@ -8,7 +8,7 @@ const mapControlsToParams = (incident, wizard) => {
   if (incident.datetime === 'Nu') {
     date = moment();
   } else {
-    date = moment(`${incident.incident_date === 'Vandaag' ? moment().format('YYYY-MM-DD') : incident.incident_date} ${time}`);
+    date = moment(`${incident.incident_date === 'Vandaag' ? moment().format('YYYY-MM-DD') : incident.incident_date} ${time}`, 'YYYY-MM-DD HH:mm');
   }
 
   const params = {
