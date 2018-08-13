@@ -46,6 +46,7 @@
     "test:clean": "rimraf ./coverage",
     "test": "cross-env NODE_ENV=development jest --coverage",
     "test:no-coverage": "cross-env NODE_ENV=test jest ",
+    "test:only": "cross-env NODE_ENV=test jest --watch --onlyChanged --coverage",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll --coverage",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "dyson:server": "nodemon --watch test/mock/api --exec babel-node --presets=latest test/mock/api",
