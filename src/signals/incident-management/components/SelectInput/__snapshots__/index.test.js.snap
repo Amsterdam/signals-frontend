@@ -26,12 +26,14 @@ exports[`<SelectInput /> should render correctly 1`] = `
       >
         <option
           key="1"
+          title="item1"
           value="1"
         >
           item1
         </option>
         <option
           key="2"
+          title="item2"
           value="2"
         >
           item2
