@@ -13,7 +13,6 @@ import {
 import { uploadRequest } from '../../../../containers/App/actions';
 
 import mapControlsToParams from '../../services/map-controls-to-params';
-// import fileUploadChannel from '../../services/file-upload-channel';
 import setClassification from '../../services/set-classification';
 
 // import makeSelectIncidentContainer from './selectors';
