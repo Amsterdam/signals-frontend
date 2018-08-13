@@ -12,7 +12,7 @@ import './style.scss';
 export const SelectInput = (props) => {
   const { name, display, values, multiple, emptyOptionText, size } = props;
   const options = values.map(({ key, value }) =>
-    <option key={key} value={key}>{key ? value : emptyOptionText || value}</option>
+    <option key={key} title={key ? value : emptyOptionText || value} value={key}>{key ? value : emptyOptionText || value}</option>
   );
   const listSize = (values.length > size) ? size : values.length;
 
