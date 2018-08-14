@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 
 import Image from './index';
 
-describe('<Image />', () => {
+describe('Preview component <Image />', () => {
   let wrapper;
 
   beforeEach(() => {
