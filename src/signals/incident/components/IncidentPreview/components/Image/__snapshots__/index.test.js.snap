@@ -1,73 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Image /> should not render optional image when value is empty 1`] = `<span />`;
-
-exports[`<Image /> should render correctly 1`] = `
-<span>
-  <span>
-    <span
-      className="preview-item-label"
-    >
-      Image
-    </span>
-    <span
-      className="preview-item-value"
-    >
-      <img
-        alt=""
-        border="1"
-        height="80"
-        src="blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c"
-      />
-    </span>
-  </span>
-</span>
-`;
-
-exports[`<Image /> should render image correctly 1`] = `
-<span>
-  <span>
-    <span
-      className="preview-item-label"
-    >
-      Image
-    </span>
-    <span
-      className="preview-item-value"
-    >
-      <img
-        alt=""
-        border="1"
-        height="80"
-        src="blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c"
-      />
-    </span>
-  </span>
-</span>
-`;
-
-exports[`<Image /> should render optionsal image correctly 1`] = `
-<span>
-  <span>
-    <span
-      className="preview-item-label"
-    >
-      Image
-    </span>
-    <span
-      className="preview-item-value"
-    >
-      <img
-        alt=""
-        border="1"
-        height="80"
-        src="blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c"
-      />
-    </span>
-  </span>
-</span>
-`;
-
 exports[`Preview component <Image /> should not render optional image when value is empty 1`] = `<span />`;
 
 exports[`Preview component <Image /> should render image correctly 1`] = `
@@ -92,7 +24,7 @@ exports[`Preview component <Image /> should render image correctly 1`] = `
 </span>
 `;
 
-exports[`Preview component <Image /> should render optionsal image correctly 1`] = `
+exports[`Preview component <Image /> should render optional image correctly 1`] = `
 <span>
   <span>
     <span

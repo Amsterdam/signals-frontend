@@ -19,7 +19,7 @@ describe('Preview component <Image />', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render optionsal image correctly', () => {
+  it('should render optional image correctly', () => {
     wrapper.setProps({
       label: 'Image',
       optional: true,
