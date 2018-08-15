@@ -9,7 +9,7 @@ import ErrorMessage from '../ErrorMessage/';
 
 const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError }) => (
   <div>
-    {meta.ifVisible ?
+    {meta && meta.ifVisible ?
       <div className="row mode_input">
         <Title meta={meta} />
 
