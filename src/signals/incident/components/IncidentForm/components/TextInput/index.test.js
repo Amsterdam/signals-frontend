@@ -3,6 +3,9 @@ import { shallow } from 'enzyme';
 
 import TextInput from './index';
 
+jest.mock('../Title/', () => 'Title');
+jest.mock('../ErrorMessage/', () => 'ErrorMessage');
+
 describe('Form component <TextInput />', () => {
   const metaFields = {
     name: 'input-field-name',

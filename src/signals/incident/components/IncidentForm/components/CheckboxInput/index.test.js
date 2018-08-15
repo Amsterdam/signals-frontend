@@ -3,6 +3,9 @@ import { shallow } from 'enzyme';
 
 import CheckboxInput from './index';
 
+jest.mock('../Title/', () => 'Title');
+jest.mock('../ErrorMessage/', () => 'ErrorMessage');
+
 describe('Form component <CheckboxInput />', () => {
   let wrapper;
   let handler;
