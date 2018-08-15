@@ -1,9 +1,13 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import CheckboxInput from './index';
+import TextareaInput from './index';
 
-describe('Form component <CheckboxInput />', () => {
+describe('Form component <TextareaInput />', () => {
+  const metaFields = {
+    name: 'input-field-name',
+    placeholder: 'type here'
+  };
   let wrapper;
   let handler;
   let touched;
@@ -22,7 +26,7 @@ describe('Form component <CheckboxInput />', () => {
       }
     };
 
-    wrapper = shallow(<CheckboxInput
+    wrapper = shallow(<TextareaInput
       handler={handler}
       parent={parent}
       touched={touched}
@@ -32,22 +36,22 @@ describe('Form component <CheckboxInput />', () => {
   });
 
   describe('rendering', () => {
-    it('should render checkbox correctly', () => {
+    it('should render text area field correctly', () => {
       wrapper.setProps({
         meta: {
-          name: 'input-field-name',
+          ...metaFields,
           ifVisible: true
         }
       });
 
-      expect(handler).toHaveBeenCalledWith('checkbox');
+      expect(handler).toHaveBeenCalledWith();
       expect(wrapper).toMatchSnapshot();
     });
 
-    it('should render no checkbox when not visible', () => {
+    it('should render no text area field when not visible', () => {
       wrapper.setProps({
         meta: {
-          name: 'input-field-name',
+          ...metaFields,
           ifVisible: false
         }
       });
@@ -58,28 +62,36 @@ describe('Form component <CheckboxInput />', () => {
   });
 
   describe('events', () => {
-    it('can be checked and unchecked', () => {
+    const event = { target: { value: 'diabolo' } };
+
+    it('sets incident when value changes', () => {
       wrapper.setProps({
         meta: {
-          name: 'input-field-name',
+          ...metaFields,
           ifVisible: true,
           updateIncident: true
         }
       });
 
-      const checkEevent = { target: { checked: true } };
-      wrapper.find('input').simulate('click', checkEevent);
+      wrapper.find('textarea').simulate('change', event);
 
       expect(parent.meta.setIncident).toHaveBeenCalledWith({
-        'input-field-name': true
+        'input-field-name': 'diabolo'
+      });
+    });
+
+    it('does nothing when updateIncident is false', () => {
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          ifVisible: true,
+          updateIncident: false
+        }
       });
 
-      const uncheckEevent = { target: { checked: false } };
-      wrapper.find('input').simulate('click', uncheckEevent);
+      wrapper.find('textarea').simulate('change', event);
 
-      expect(parent.meta.setIncident).toHaveBeenCalledWith({
-        'input-field-name': false
-      });
+      expect(parent.meta.setIncident).not.toHaveBeenCalled();
     });
   });
 });

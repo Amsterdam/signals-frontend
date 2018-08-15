@@ -4,6 +4,11 @@ import { shallow } from 'enzyme';
 import TextInput from './index';
 
 describe('Form component <TextInput />', () => {
+  const metaFields = {
+    name: 'input-field-name',
+    type: 'text',
+    placeholder: 'type here'
+  };
   let wrapper;
   let handler;
   let touched;
@@ -32,12 +37,10 @@ describe('Form component <TextInput />', () => {
   });
 
   describe('rendering', () => {
-    it('should render field correctly', () => {
+    it('should render text field correctly', () => {
       wrapper.setProps({
         meta: {
-          name: 'input-field-name',
-          type: 'text',
-          placeholder: 'type here',
+          ...metaFields,
           ifVisible: true
         }
       });
@@ -49,9 +52,7 @@ describe('Form component <TextInput />', () => {
     it('should render no text field when not visible', () => {
       wrapper.setProps({
         meta: {
-          name: 'input-field-name',
-          type: 'text',
-          placeholder: 'type here',
+          ...metaFields,
           ifVisible: false
         }
       });
@@ -62,18 +63,17 @@ describe('Form component <TextInput />', () => {
   });
 
   describe('events', () => {
+    const event = { target: { value: 'diabolo' } };
+
     it('sets incident when value changes', () => {
       wrapper.setProps({
         meta: {
-          name: 'input-field-name',
-          type: 'text',
-          placeholder: 'type here',
+          ...metaFields,
           ifVisible: true,
           updateIncident: true
         }
       });
 
-      const event = { target: { value: 'diabolo' } };
       wrapper.find('input').simulate('change', event);
 
       expect(parent.meta.setIncident).toHaveBeenCalledWith({
@@ -84,15 +84,12 @@ describe('Form component <TextInput />', () => {
     it('does nothing when updateIncident is false', () => {
       wrapper.setProps({
         meta: {
-          name: 'input-field-name',
-          type: 'text',
-          placeholder: 'type here',
+          ...metaFields,
           ifVisible: true,
           updateIncident: false
         }
       });
 
-      const event = { target: { value: 'diabolo' } };
       wrapper.find('input').simulate('change', event);
 
       expect(parent.meta.setIncident).not.toHaveBeenCalled();
