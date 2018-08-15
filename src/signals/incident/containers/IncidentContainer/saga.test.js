@@ -16,7 +16,6 @@ import {
 } from './actions';
 import { uploadRequest } from '../../../../containers/App/actions';
 import mapControlsToParams from '../../services/map-controls-to-params';
-// import setClassification from '../../services/set-classification';
 
 jest.mock('../../services/map-controls-to-params');
 jest.mock('../../services/set-classification');
