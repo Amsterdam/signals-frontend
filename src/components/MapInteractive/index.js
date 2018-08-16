@@ -29,8 +29,8 @@ class Map extends React.Component {
       if (props.location.geometrie) {
         options.marker = true;
         options.center = {
-          longitude: props.location.geometrie.coordinates[1],
-          latitude: props.location.geometrie.coordinates[0]
+          longitude: props.location.geometrie.coordinates[0],
+          latitude: props.location.geometrie.coordinates[1]
         };
       }
 

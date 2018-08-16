@@ -27,8 +27,8 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError }) => {
       location.geometrie = {
         type: 'Point',
         coordinates: [
-          d.query.latitude,
-          d.query.longitude
+          d.query.longitude,
+          d.query.latitude
         ]
       };
     }
