@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form component <TextInput /> rendering should render empty select field when options are not supplied 1`] = `
+<div>
+  <div
+    className="row mode_input"
+  >
+    <Title
+      meta={
+        Object {
+          "ifVisible": true,
+          "name": "input-field-name",
+          "placeholder": "type here",
+          "values": undefined,
+        }
+      }
+    />
+    <div
+      className="col-12 invoer"
+    >
+      <select
+        onChange={[Function]}
+        value="bar"
+      />
+    </div>
+    <ErrorMessage
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
+      touched={false}
+    />
+  </div>
+</div>
+`;
+
+exports[`Form component <TextInput /> rendering should render no select field when not visible 1`] = `<div />`;
+
+exports[`Form component <TextInput /> rendering should render select field correctly 1`] = `
+<div>
+  <div
+    className="row mode_input"
+  >
+    <Title
+      meta={
+        Object {
+          "ifVisible": true,
+          "name": "input-field-name",
+          "placeholder": "type here",
+          "values": Object {
+            "bar": "bar",
+            "baz": "baz",
+            "foo": "foo",
+          },
+        }
+      }
+    />
+    <div
+      className="col-12 invoer"
+    >
+      <select
+        onChange={[Function]}
+        value="bar"
+      >
+        <option
+          key="input-field-name-foo"
+          value="foo"
+        >
+          foo
+        </option>
+        <option
+          key="input-field-name-bar"
+          value="bar"
+        >
+          bar
+        </option>
+        <option
+          key="input-field-name-baz"
+          value="baz"
+        >
+          baz
+        </option>
+      </select>
+    </div>
+    <ErrorMessage
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
+      touched={false}
+    />
+  </div>
+</div>
+`;

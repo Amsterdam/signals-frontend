@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { map } from 'lodash';
@@ -9,7 +7,7 @@ import ErrorMessage from '../ErrorMessage/';
 
 const SelectInput = ({ handler, touched, hasError, meta, parent, getError }) => (
   <div>
-    {meta.ifVisible
+    {meta && meta.ifVisible
       ? <div className="row mode_input">
         <Title meta={meta} />
 
