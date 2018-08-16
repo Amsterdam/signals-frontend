@@ -1,19 +1,18 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import TextInput from './index';
+import RadioInput from './index';
 
 jest.mock('../Title/', () => 'Title');
 jest.mock('../ErrorMessage/', () => 'ErrorMessage');
 
-describe('Form component <TextInput />', () => {
+describe('Form component <RadioInput />', () => {
   const metaFields = {
     name: 'input-field-name',
     placeholder: 'type here',
     values: {
       foo: 'foo',
-      bar: 'bar',
-      baz: 'baz'
+      bar: 'bar'
     }
   };
   let wrapper;
@@ -34,9 +33,7 @@ describe('Form component <TextInput />', () => {
       }
     };
 
-    handler.mockImplementation(() => ({ value: 'bar' }));
-
-    wrapper = shallow(<TextInput
+    wrapper = shallow(<RadioInput
       handler={handler}
       parent={parent}
       touched={touched}
@@ -46,7 +43,7 @@ describe('Form component <TextInput />', () => {
   });
 
   describe('rendering', () => {
-    it('should render select field correctly', () => {
+    it('should render radio fields correctly', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
@@ -54,11 +51,12 @@ describe('Form component <TextInput />', () => {
         }
       });
 
-      expect(handler).toHaveBeenCalledWith();
+      expect(handler).toHaveBeenCalledWith('radio', 'foo');
+      expect(handler).toHaveBeenCalledWith('radio', 'bar');
       expect(wrapper).toMatchSnapshot();
     });
 
-    it('should render empty select field when values are not supplied', () => {
+    it('should render zero radio fields when values are not supplied', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
@@ -67,11 +65,11 @@ describe('Form component <TextInput />', () => {
         }
       });
 
-      expect(handler).toHaveBeenCalledWith();
+      expect(handler).not.toHaveBeenCalled();
       expect(wrapper).toMatchSnapshot();
     });
 
-    it('should render no select field when not visible', () => {
+    it('should render no radio field when not visible', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
@@ -85,7 +83,7 @@ describe('Form component <TextInput />', () => {
   });
 
   describe('events', () => {
-    const event = { target: { value: 'baz' } };
+    const event = { target: { value: 'foo' } };
 
     it('sets incident when value changes', () => {
       wrapper.setProps({
@@ -96,10 +94,10 @@ describe('Form component <TextInput />', () => {
         }
       });
 
-      wrapper.find('select').simulate('change', event);
+      wrapper.find('input').first().simulate('click', event);
 
       expect(parent.meta.setIncident).toHaveBeenCalledWith({
-        'input-field-name': 'baz'
+        'input-field-name': 'foo'
       });
     });
 
@@ -112,7 +110,7 @@ describe('Form component <TextInput />', () => {
         }
       });
 
-      wrapper.find('select').simulate('change', event);
+      wrapper.find('input').first().simulate('click', event);
 
       expect(parent.meta.setIncident).not.toHaveBeenCalled();
     });

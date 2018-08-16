@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Form component <TextInput /> rendering should render empty select field when options are not supplied 1`] = `
+exports[`Form component <TextInput /> rendering should render empty select field when values are not supplied 1`] = `
 <div>
   <div
     className="row mode_input"
