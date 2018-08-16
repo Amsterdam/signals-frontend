@@ -38,7 +38,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError }) => {
 
   return (
     <div>
-      {meta.ifVisible ?
+      {meta && meta.ifVisible ?
         <div className="row">
           <Title meta={meta} />
 
