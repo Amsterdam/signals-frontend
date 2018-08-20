@@ -67,22 +67,6 @@ exports[`<Header /> should render correctly 1`] = `
               <b />
             </span>
           </li>
-          <li>
-            <a
-              href=""
-              onClick={[Function]}
-            >
-              Inloggen
-            </a>
-          </li>
-          <li>
-            <a
-              href=""
-              onClick={[Function]}
-            >
-              Inloggen ADW
-            </a>
-          </li>
         </ul>
       </nav>
     </div>
