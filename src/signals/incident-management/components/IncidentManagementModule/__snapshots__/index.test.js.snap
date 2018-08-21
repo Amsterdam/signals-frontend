@@ -25,17 +25,7 @@ exports[`<IncidentManagementModule /> should render correctly when authenticated
 </div>
 `;
 
-exports[`<IncidentManagementModule /> should render correctly when not authenticated on management page 1`] = `
-<div
-  className="manage-incident"
->
-  <Route
-    component={[Function]}
-  />
-</div>
-`;
-
-exports[`<IncidentManagementModule /> should render correctly when not authenticated on public page 1`] = `
+exports[`<IncidentManagementModule /> should render correctly when not authenticated 1`] = `
 <div
   className="manage-incident"
 >
