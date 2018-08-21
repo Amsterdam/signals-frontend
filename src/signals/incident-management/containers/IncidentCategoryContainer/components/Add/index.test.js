@@ -24,7 +24,7 @@ describe('<Add />', () => {
     jest.resetAllMocks();
   });
 
-  it('should render correctly', () => {
+  it.skip('should render correctly', () => {
     expect(renderedComponent).toMatchSnapshot();
   });
 
