@@ -16,7 +16,7 @@ import { doLogin, doLogout } from '../App/actions';
 
 import './style.scss';
 
-import { isAuthenticated } from '../../shared/services/auth/auth';
+import { isAuthenticated, isPublicPage } from '../../shared/services/auth/auth';
 
 export class HeaderContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -39,6 +39,7 @@ export class HeaderContainer extends React.Component { // eslint-disable-line re
     return (
       <Header
         isAuthenticated={isAuthenticated()}
+        isPublicPage={isPublicPage()}
         onLoginLogoutButtonClick={this.onLoginLogoutButtonClick}
         userName={this.props.userName}
       />

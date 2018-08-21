@@ -30,6 +30,7 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
         <div className="content container">
           <Switch>
             <Redirect exact from="/" to="/incident" />
+            <Redirect exact from="/login" to="/manage" />
             <Route path="/manage" component={IncidentManagementModule} />
             <Route path="/incident" component={IncidentContainer} />
             <Route path="" component={NotFoundPage} />
