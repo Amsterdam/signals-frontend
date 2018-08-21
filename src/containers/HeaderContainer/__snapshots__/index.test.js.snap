@@ -3,7 +3,6 @@
 exports[`<HeaderContainer /> should render correctly when authenticated 1`] = `
 <Header
   isAuthenticated={true}
-  isPublicPage={true}
   onLoginLogoutButtonClick={[Function]}
   userName="user"
 />

@@ -234,10 +234,6 @@ export function isAuthenticated() {
   return Boolean(getAccessToken());
 }
 
-export function isPublicPage() {
-  return window.location.pathname.startsWith('/incident/');
-}
-
 export function getScopes() {
   return tokenData.scopes || [];
 }
