@@ -8,7 +8,7 @@ const MapDetail = ({ value }) => {
   const location = value && value.geometrie && value.geometrie.coordinates;
   // console.log('MapDetail location: ', location);
 
-  const latlng = location ? { latitude: location[0], longitude: location[1] } : null;
+  const latlng = location ? { latitude: location[1], longitude: location[0] } : null;
   return (
     <div className="map-detail">
       {latlng ?
