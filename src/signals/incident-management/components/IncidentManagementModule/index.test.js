@@ -9,7 +9,8 @@ describe('<IncidentManagementModule />', () => {
   beforeEach(() => {
     props = {
       match: { params: { id: 1 }, url: 'http://test/url' },
-      isAuthenticated: true
+      isAuthenticated: true,
+      isPublicPage: false
     };
   });
 
@@ -20,8 +21,18 @@ describe('<IncidentManagementModule />', () => {
     expect(renderedComponent).toMatchSnapshot();
   });
 
-  it('should render correctly when not authenticated', () => {
+  it('should render correctly when not authenticated on public page', () => {
     props.isAuthenticated = false;
+    props.isPublicPage = true;
+    const renderedComponent = shallow(
+      <IncidentManagementModule {...props} />
+    );
+    expect(renderedComponent).toMatchSnapshot();
+  });
+
+  it('should render correctly when not authenticated on management page', () => {
+    props.isAuthenticated = false;
+    props.isPublicPage = false;
     const renderedComponent = shallow(
       <IncidentManagementModule {...props} />
     );
