@@ -110,10 +110,10 @@ export default {
       },
       incident_date: {
         meta: {
-          // label: 'Datum gebeurtenis ',
           ifAllOf: {
             datetime: 'Eerder'
           },
+          updateIncident: true,
           watch: true
         },
         render: FormComponents.DateTimeInput,
