@@ -1,6 +1,6 @@
 version: '3.5'
 services:
-  signals-web: # NGINX
+  web-container: # NGINX
     build:
       args:
         - BUILD_ENV=acc
@@ -12,7 +12,7 @@ services:
       - "3001:80"
   # networks_mode: "host"
 
-  test-unit-integration:
+  unittest-container:
     build:
       context: .
       target: builder
@@ -20,3 +20,4 @@ services:
       - NODE_ENV=development
       - TZ=Europe/Amsterdam
     command: npm run test
+

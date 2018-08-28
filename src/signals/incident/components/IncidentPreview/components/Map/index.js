@@ -14,7 +14,7 @@ const MapPreview = ({ label, value, optional }) => (
               {value.geometrie && value.geometrie.coordinates ?
                 <Map
                   preview
-                  latlng={{ latitude: value.geometrie.coordinates[0], longitude: value.geometrie.coordinates[1] }}
+                  latlng={{ latitude: value.geometrie.coordinates[1], longitude: value.geometrie.coordinates[0] }}
                 />
               : ''}
             </div>

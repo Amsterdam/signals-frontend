@@ -9,7 +9,7 @@ describe('<IncidentManagementModule />', () => {
   beforeEach(() => {
     props = {
       match: { params: { id: 1 }, url: 'http://test/url' },
-      isAuthenticated: true
+      isAuthenticated: true,
     };
   });
 
