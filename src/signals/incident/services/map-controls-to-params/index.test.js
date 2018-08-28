@@ -4,7 +4,6 @@ import mapControlsToParams from './index';
 
 jest.mock('moment');
 
-
 describe('The map controls to params service', () => {
   it('should map status by default', () => {
     expect(mapControlsToParams({}, {})).toEqual({
