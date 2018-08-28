@@ -41,8 +41,8 @@ exports[`Preview component <Map /> should render only latlong correctly 1`] = `
         <Map
           latlng={
             Object {
-              "latitude": 52,
-              "longitude": 4,
+              "latitude": 4,
+              "longitude": 52,
             }
           }
           preview={true}
@@ -71,8 +71,8 @@ exports[`Preview component <Map /> should render optional map correctly 1`] = `
         <Map
           latlng={
             Object {
-              "latitude": 52,
-              "longitude": 4,
+              "latitude": 4,
+              "longitude": 52,
             }
           }
           preview={true}
@@ -101,8 +101,8 @@ exports[`Preview component <Map /> should render valid adrress and map with latl
         <Map
           latlng={
             Object {
-              "latitude": 52,
-              "longitude": 4,
+              "latitude": 4,
+              "longitude": 52,
             }
           }
           preview={true}
