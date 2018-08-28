@@ -8,7 +8,7 @@ exports[`Form component <TextInput /> rendering should render empty select field
     <Title
       meta={
         Object {
-          "ifVisible": true,
+          "isVisible": true,
           "name": "input-field-name",
           "placeholder": "type here",
           "values": undefined,
@@ -42,7 +42,7 @@ exports[`Form component <TextInput /> rendering should render select field corre
     <Title
       meta={
         Object {
-          "ifVisible": true,
+          "isVisible": true,
           "name": "input-field-name",
           "placeholder": "type here",
           "values": Object {

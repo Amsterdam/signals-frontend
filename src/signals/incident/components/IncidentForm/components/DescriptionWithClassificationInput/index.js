@@ -12,7 +12,7 @@ function get(e, meta, parent) {
 
 const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, parent, getError }) => (
   <div>
-    {meta && meta.ifVisible ?
+    {meta && meta.isVisible ?
       <div className={`row mode_input verplicht ${touched && hasError('required') ? 'row_ongeldig' : ''}`}>
         <Title meta={meta} />
         <div className="input-help col-12">

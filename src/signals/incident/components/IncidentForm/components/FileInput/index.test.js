@@ -45,7 +45,7 @@ describe('Form component <FileInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          ifVisible: true
+          isVisible: true
         }
       });
 
@@ -59,7 +59,7 @@ describe('Form component <FileInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          ifVisible: true
+          isVisible: true
         }
       });
 
@@ -71,7 +71,7 @@ describe('Form component <FileInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          ifVisible: false
+          isVisible: false
         }
       });
 
@@ -111,7 +111,7 @@ describe('Form component <FileInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          ifVisible: true
+          isVisible: true
         }
       });
 
@@ -130,7 +130,7 @@ describe('Form component <FileInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          ifVisible: true
+          isVisible: true
         }
       });
 

@@ -10,7 +10,7 @@ exports[`Form component <FileInput /> rendering should render upload field corre
     <Title
       meta={
         Object {
-          "ifVisible": true,
+          "isVisible": true,
           "name": "input-field-name",
           "submitLabel": "upload file",
         }
@@ -48,7 +48,7 @@ exports[`Form component <FileInput /> rendering should render upload field with 
     <Title
       meta={
         Object {
-          "ifVisible": true,
+          "isVisible": true,
           "name": "input-field-name",
           "submitLabel": "upload file",
         }

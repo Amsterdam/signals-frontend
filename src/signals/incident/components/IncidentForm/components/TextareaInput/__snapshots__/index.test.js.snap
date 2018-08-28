@@ -10,7 +10,7 @@ exports[`Form component <TextareaInput /> rendering should render text area fiel
     <Title
       meta={
         Object {
-          "ifVisible": true,
+          "isVisible": true,
           "name": "input-field-name",
           "placeholder": "type here",
         }

@@ -38,7 +38,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta }) => {
 
   return (
     <div>
-      {meta && meta.ifVisible ?
+      {meta && meta.isVisible ?
         <div className="row mode_upload file">
           <Title meta={meta} />
 

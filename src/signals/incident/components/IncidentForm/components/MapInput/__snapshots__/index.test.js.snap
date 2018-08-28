@@ -8,7 +8,7 @@ exports[`Form component <MapInput /> rendering should render map field correctly
     <Title
       meta={
         Object {
-          "ifVisible": true,
+          "isVisible": true,
           "name": "input-field-name",
         }
       }

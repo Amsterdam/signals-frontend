@@ -8,7 +8,7 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
     <Title
       meta={
         Object {
-          "ifVisible": true,
+          "isVisible": true,
           "name": "input-field-name",
           "placeholder": "type here",
         }

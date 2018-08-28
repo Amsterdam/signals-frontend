@@ -11,7 +11,7 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
       <Title
         meta={
           Object {
-            "ifVisible": true,
+            "isVisible": true,
             "name": "input-field-name",
           }
         }

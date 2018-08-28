@@ -8,7 +8,7 @@ exports[`Form component <CheckboxInput /> rendering should render checkbox corre
     <Title
       meta={
         Object {
-          "ifVisible": true,
+          "isVisible": true,
           "name": "input-field-name",
         }
       }

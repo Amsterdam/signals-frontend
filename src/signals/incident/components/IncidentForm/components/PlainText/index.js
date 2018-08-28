@@ -6,7 +6,7 @@ import './style.scss';
 
 const PlainText = ({ meta, parent }) => (
   <div>
-    {meta && meta.ifVisible ?
+    {meta && meta.isVisible ?
       <div className="row mode_input plain-text">
         <div className={`col-${meta.cols || 12}`}>
           <div className={`${meta.type} plain-text__box`}>

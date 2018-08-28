@@ -18,7 +18,7 @@ describe('Form component <PlainText />', () => {
         meta: {
           value: 'Lorem Ipsum',
           type: 'citation',
-          ifVisible: true
+          isVisible: true
         }
       });
 
@@ -34,7 +34,7 @@ describe('Form component <PlainText />', () => {
             'DOG'
           ],
           type: 'citation',
-          ifVisible: true
+          isVisible: true
         }
       });
 
@@ -46,7 +46,7 @@ describe('Form component <PlainText />', () => {
         meta: {
           value: 'Diablo {incident.id}',
           type: 'citation',
-          ifVisible: true
+          isVisible: true
         },
         parent: {
           meta: {
@@ -71,7 +71,7 @@ describe('Form component <PlainText />', () => {
             'DOG'
           ],
           type: 'citation',
-          ifVisible: true
+          isVisible: true
         },
         parent: {
           meta: {
@@ -90,7 +90,7 @@ describe('Form component <PlainText />', () => {
     it('should render no plain text when not visible', () => {
       wrapper.setProps({
         meta: {
-          ifVisible: false
+          isVisible: false
         }
       });
 

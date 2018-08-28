@@ -39,7 +39,7 @@ describe('Form component <CheckboxInput />', () => {
       wrapper.setProps({
         meta: {
           name: 'input-field-name',
-          ifVisible: true
+          isVisible: true
         }
       });
 
@@ -51,7 +51,7 @@ describe('Form component <CheckboxInput />', () => {
       wrapper.setProps({
         meta: {
           name: 'input-field-name',
-          ifVisible: false
+          isVisible: false
         }
       });
 
@@ -65,7 +65,7 @@ describe('Form component <CheckboxInput />', () => {
       wrapper.setProps({
         meta: {
           name: 'input-field-name',
-          ifVisible: true,
+          isVisible: true,
           updateIncident: true
         }
       });

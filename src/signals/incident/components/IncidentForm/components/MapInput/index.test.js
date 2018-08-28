@@ -54,7 +54,7 @@ describe('Form component <MapInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          ifVisible: true
+          isVisible: true
         }
       });
 
@@ -66,7 +66,7 @@ describe('Form component <MapInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          ifVisible: false
+          isVisible: false
         }
       });
 
@@ -82,7 +82,7 @@ describe('Form component <MapInput />', () => {
     //   wrapper.setProps({
     //     meta: {
     //       ...metaFields,
-    //       ifVisible: true,
+    //       isVisible: true,
     //       updateIncident: true
     //     }
     //   });
@@ -98,7 +98,7 @@ describe('Form component <MapInput />', () => {
     //   wrapper.setProps({
     //     meta: {
     //       ...metaFields,
-    //       ifVisible: true,
+    //       isVisible: true,
     //       updateIncident: false
     //     }
     //   });

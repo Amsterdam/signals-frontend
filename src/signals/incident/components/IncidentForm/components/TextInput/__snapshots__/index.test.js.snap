@@ -10,7 +10,7 @@ exports[`Form component <TextInput /> rendering should render text field correct
     <Title
       meta={
         Object {
-          "ifVisible": true,
+          "isVisible": true,
           "name": "input-field-name",
           "placeholder": "type here",
           "type": "text",

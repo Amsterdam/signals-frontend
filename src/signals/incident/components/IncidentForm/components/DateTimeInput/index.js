@@ -18,7 +18,7 @@ const DateTimeInput = ({ meta, parent }) => {
 
   return (
     <div>
-      {meta && meta.ifVisible ?
+      {meta && meta.isVisible ?
         <div className="row mode_input datetime-input">
           <div className={`col-${meta.cols || 12} invoer antwoorden`}>
             <Title meta={meta} />

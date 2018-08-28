@@ -50,7 +50,7 @@ describe('Form component <TextInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          ifVisible: true
+          isVisible: true
         }
       });
 
@@ -62,7 +62,7 @@ describe('Form component <TextInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          ifVisible: true,
+          isVisible: true,
           values: undefined
         }
       });
@@ -75,7 +75,7 @@ describe('Form component <TextInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          ifVisible: false
+          isVisible: false
         }
       });
 
@@ -91,7 +91,7 @@ describe('Form component <TextInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          ifVisible: true,
+          isVisible: true,
           updateIncident: true
         }
       });
@@ -107,7 +107,7 @@ describe('Form component <TextInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          ifVisible: true,
+          isVisible: true,
           updateIncident: false
         }
       });

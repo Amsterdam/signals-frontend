@@ -44,7 +44,7 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          ifVisible: true
+          isVisible: true
         }
       });
 
@@ -56,7 +56,7 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          ifVisible: false
+          isVisible: false
         }
       });
 
@@ -72,7 +72,7 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          ifVisible: true,
+          isVisible: true,
           updateIncident: true
         }
       });
@@ -89,7 +89,7 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          ifVisible: true,
+          isVisible: true,
           updateIncident: false
         }
       });

@@ -10,7 +10,7 @@ exports[`Form component <RadioInput /> rendering should render radio fields corr
     <Title
       meta={
         Object {
-          "ifVisible": true,
+          "isVisible": true,
           "name": "input-field-name",
           "placeholder": "type here",
           "values": Object {
@@ -71,7 +71,7 @@ exports[`Form component <RadioInput /> rendering should render zero radio fields
     <Title
       meta={
         Object {
-          "ifVisible": true,
+          "isVisible": true,
           "name": "input-field-name",
           "placeholder": "type here",
           "values": undefined,
