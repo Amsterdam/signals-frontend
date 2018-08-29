@@ -8,15 +8,16 @@ import './style.scss';
 
 const DEFAULT_ZOOM_LEVEL = 14;
 
-class Map extends React.Component {
+class MapInteractive extends React.Component {
   constructor(props) {
     super(props);
-
-    this.map = null;
+    this.state = {
+      map: props.map
+    };
   }
 
   componentWillReceiveProps(props) {
-    if (!this.map) {
+    if (!this.state.map) {
       const options = {
         layer: 'standaard',
         target: 'mapdiv',
@@ -33,8 +34,9 @@ class Map extends React.Component {
           latitude: props.location.geometrie.coordinates[1]
         };
       }
-
-      this.map = amaps.createMap(options);
+      this.setState({
+        map: amaps.createMap(options)
+      });
     }
     if (!isEqual(props.location, this.props.location)) {
       const input = document.querySelector('#nlmaps-geocoder-control-input');
@@ -62,14 +64,16 @@ class Map extends React.Component {
   }
 }
 
-Map.defaultProps = {
+MapInteractive.defaultProps = {
   location: {},
+  map: false,
   onQueryResult: () => {}
 };
 
-Map.propTypes = {
+MapInteractive.propTypes = {
   location: PropTypes.object,
+  map: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   onQueryResult: PropTypes.func
 };
 
-export default Map;
+export default MapInteractive;

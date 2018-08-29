@@ -16,8 +16,9 @@ exports[`Form component <MapInput /> rendering should render map field correctly
     <div
       className="col-12 invoer"
     >
-      <Map
+      <MapInteractive
         location={Object {}}
+        map={false}
         onQueryResult={[Function]}
       />
     </div>
