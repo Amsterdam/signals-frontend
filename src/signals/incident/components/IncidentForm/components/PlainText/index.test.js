@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 
 import PlainText from './index';
 
+jest.mock('../../services/map-dynamic-fields');
 jest.mock('../Title/', () => 'Title');
 
 describe('Form component <PlainText />', () => {
