@@ -10,10 +10,10 @@ import NotFound from './index';
 
 describe('<NotFound />', () => {
   it('should render the Page Not Found text', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <NotFound />
     );
-    expect(renderedComponent.contains(
+    expect(wrapper.contains(
       <h1>
         <FormattedMessage
           id="boilerplate.containers.NotFoundPage.header"

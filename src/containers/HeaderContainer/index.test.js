@@ -30,32 +30,32 @@ describe('<HeaderContainer />', () => {
   it('should render correctly when authenticated', () => {
     isAuthenticated.mockImplementation((() => true));
 
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <HeaderContainer {...props} />
     );
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   describe('onLoginLogoutButtonClick', () => {
     it('should login when not authenticated', () => {
       isAuthenticated.mockImplementation((() => false));
 
-      const renderedComponent = shallow(
+      const wrapper = shallow(
         <HeaderContainer {...props} />
       );
 
       const domain = 'the-login-domain';
-      expect(renderedComponent.instance().onLoginLogoutButtonClick(event, domain));
+      expect(wrapper.instance().onLoginLogoutButtonClick(event, domain));
       expect(props.onLogin).toHaveBeenCalledWith(domain);
     });
 
     it('should logout when authenticated', () => {
       isAuthenticated.mockImplementation((() => true));
 
-      const renderedComponent = shallow(
+      const wrapper = shallow(
         <HeaderContainer {...props} />
       );
-      expect(renderedComponent.instance().onLoginLogoutButtonClick(event));
+      expect(wrapper.instance().onLoginLogoutButtonClick(event));
       expect(props.onLogout).toHaveBeenCalled();
     });
   });
