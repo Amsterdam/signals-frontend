@@ -46,7 +46,7 @@ export default {
       location: {
         meta: {
           label: 'Waar is het?',
-          subtitle: 'Typ de locatie in of of klik op de kaart',
+          subtitle: 'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart',
           path: 'location',
           watch: true
         },
@@ -59,7 +59,7 @@ export default {
         meta: {
           label: 'Waar gaat het om?',
           path: 'text',
-          placeholder: 'Beschrijving'
+          placeholder: 'Beschrijf uw melding'
         },
         options: {
           validators: [
