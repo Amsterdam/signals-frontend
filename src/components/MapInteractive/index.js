@@ -40,7 +40,7 @@ class MapInteractive extends React.Component {
     }
     if (!isEqual(props.location, this.props.location)) {
       const input = document.querySelector('#nlmaps-geocoder-control-input');
-      if (input && props.location.address) {
+      if (input && props.location && props.location.address) {
         const address = props.location.address;
         const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
         const display = `${address.openbare_ruimte} ${address.huisnummer}${address.huisletter}${toevoeging}, ${address.postcode} ${address.woonplaats}`;
@@ -66,14 +66,13 @@ class MapInteractive extends React.Component {
 
 MapInteractive.defaultProps = {
   location: {},
-  map: false,
-  onQueryResult: () => {}
+  map: false
 };
 
 MapInteractive.propTypes = {
   location: PropTypes.object,
   map: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  onQueryResult: PropTypes.func
+  onQueryResult: PropTypes.func.isRequired
 };
 
 export default MapInteractive;
