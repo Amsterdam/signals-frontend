@@ -3,18 +3,20 @@ import fileUploadChannel from './index';
 describe('The file upload channel service', () => {
   let addEventListener;
   let removeEventListener;
+  let abort;
   let open;
   let send;
 
   beforeEach(() => {
     addEventListener = jest.fn();
     removeEventListener = jest.fn();
+    abort = jest.fn();
     open = jest.fn();
     send = jest.fn();
 
     window.XMLHttpRequest = jest.fn();
     window.XMLHttpRequest.mockImplementation(() => ({
-      abort: jest.fn(),
+      abort,
       open,
       send,
       upload: {
@@ -42,5 +44,7 @@ describe('The file upload channel service', () => {
     expect(removeEventListener).toHaveBeenCalledWith('progress', expect.any(Function));
     expect(removeEventListener).toHaveBeenCalledWith('error', expect.any(Function));
     expect(removeEventListener).toHaveBeenCalledWith('abort', expect.any(Function));
+
+    expect(abort).toHaveBeenCalledWith();
   });
 });
