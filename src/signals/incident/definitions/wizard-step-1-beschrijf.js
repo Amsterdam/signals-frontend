@@ -45,8 +45,8 @@ export default {
       location: {
         meta: {
           label: 'Waar is het?',
-          subtitle: 'Typ de locatie in of of klik op de kaart',
-          path: 'location'
+          subtitle: 'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart',
+          path: 'location',
         },
         options: {
           validators: Validators.required
@@ -57,7 +57,7 @@ export default {
         meta: {
           label: 'Waar gaat het om?',
           path: 'text',
-          placeholder: 'Beschrijving'
+          placeholder: 'Beschrijf uw melding'
         },
         options: {
           validators: [

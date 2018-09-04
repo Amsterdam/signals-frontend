@@ -12,7 +12,7 @@ export default {
           label: 'Wat is uw e-mailadres? (niet verplicht)',
           subtitle: 'We mailen om u te vertellen wat we met uw melding doen en wanneer het klaar is.',
           path: 'reporter.email',
-          placeholder: 'E-mail adres',
+          placeholder: 'E-mailadres',
           type: 'text'
         },
         render: FormComponents.TextInput,
