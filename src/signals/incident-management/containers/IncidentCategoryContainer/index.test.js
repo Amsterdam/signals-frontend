@@ -10,7 +10,7 @@ describe('<IncidentCategoryContainer />', () => {
   beforeEach(() => {
     props = {
       id: '1',
-      indcidentcategorycontainer: { subcategoryList: [] },
+      incidentCategoryContainer: { subcategoryList: [] },
       onRequestCategoryUpdate: jest.fn(),
     };
   });

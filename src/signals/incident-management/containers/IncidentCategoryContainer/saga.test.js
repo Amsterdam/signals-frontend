@@ -1,4 +1,5 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 
 import { REQUEST_CATEGORY_UPDATE } from './constants';
 import { requestCategoryUpdateSuccess, requestCategoryUpdateError } from './actions';
@@ -25,6 +26,7 @@ describe('IncidentCategoryContainer saga', () => {
 
     const gen = updateIncidentCategory(action);
     expect(gen.next().value).toEqual(authPostCall(requestURL, category)); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(call(delay, 1000)); // eslint-disable-line redux-saga/yield-effects
     expect(gen.next(updatedStatus).value).toEqual(put(requestCategoryUpdateSuccess(updatedStatus))); // eslint-disable-line redux-saga/yield-effects
   });
 

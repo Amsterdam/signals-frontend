@@ -20,3 +20,7 @@ const makeSelectIncidentCategoryContainer = () => createSelector(
 );
 
 export default makeSelectIncidentCategoryContainer;
+
+export {
+  selectIncidentCategoryContainerDomain,
+};
