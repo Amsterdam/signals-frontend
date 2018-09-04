@@ -44,39 +44,39 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
             </option>
             <option
               key="select-day-option-1"
-              value="2018-08-30"
+              value="2017-02-13"
             >
-              Thursday 30 August
+              Monday 13 February
             </option>
             <option
               key="select-day-option-2"
-              value="2018-08-29"
+              value="2017-02-12"
             >
-              Wednesday 29 August
+              Sunday 12 February
             </option>
             <option
               key="select-day-option-3"
-              value="2018-08-28"
+              value="2017-02-11"
             >
-              Tuesday 28 August
+              Saturday 11 February
             </option>
             <option
               key="select-day-option-4"
-              value="2018-08-27"
+              value="2017-02-10"
             >
-              Monday 27 August
+              Friday 10 February
             </option>
             <option
               key="select-day-option-5"
-              value="2018-08-26"
+              value="2017-02-09"
             >
-              Sunday 26 August
+              Thursday 9 February
             </option>
             <option
               key="select-day-option-6"
-              value="2018-08-25"
+              value="2017-02-08"
             >
-              Saturday 25 August
+              Wednesday 8 February
             </option>
           </select>
         </div>

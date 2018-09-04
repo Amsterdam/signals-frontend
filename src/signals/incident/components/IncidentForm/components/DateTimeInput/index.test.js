@@ -13,6 +13,9 @@ describe('Form component <DateTimeInput />', () => {
   let parent;
 
   beforeEach(() => {
+    // 14.02.2017
+    Date.now = jest.fn(() => 1487076708000);
+
     parent = {
       meta: {
         setIncident: jest.fn()
