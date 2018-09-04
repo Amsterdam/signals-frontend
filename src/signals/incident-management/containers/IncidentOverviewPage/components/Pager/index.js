@@ -21,8 +21,7 @@ class Pager extends React.Component { // eslint-disable-line react/prefer-statel
     const pages = [...Array(totalPages).keys()].map((page) => {
       const i = page + 1;
 
-      if ((currentPage <= i + PAGE_NUMBER_PADDING && currentPage >= i - PAGE_NUMBER_PADDING) ||
-        (i <= (PAGE_NUMBER_PADDING + 1) || i >= (totalPages - PAGE_NUMBER_PADDING))) {
+      if ((Math.abs(currentPage - i) <= PAGE_NUMBER_PADDING) || (i <= (PAGE_NUMBER_PADDING + 1) || i >= (totalPages - PAGE_NUMBER_PADDING))) {
         showDots = true;
         return ((currentPage === i) ?
           <span role="presentation" key={i} className="pager_step huidige"><strong>{i}</strong></span> :
