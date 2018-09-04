@@ -5,7 +5,7 @@ import { FieldGroup } from 'react-reactive-form';
 import Add from './index';
 
 describe('<Add />', () => {
-  let renderedComponent;
+  let wrapper;
   let props;
 
   beforeEach(() => {
@@ -15,7 +15,7 @@ describe('<Add />', () => {
       onRequestCategoryUpdate: jest.fn()
     };
 
-    renderedComponent = shallow(
+    wrapper = shallow(
       <Add {...props} />
     );
   });
@@ -25,11 +25,11 @@ describe('<Add />', () => {
   });
 
   it.skip('should render correctly', () => {
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should contain the FieldGroup', () => {
-    expect(renderedComponent.find(FieldGroup)).toHaveLength(1);
+    expect(wrapper.find(FieldGroup)).toHaveLength(1);
   });
 
   describe('FieldGroup', () => {
@@ -39,21 +39,21 @@ describe('<Add />', () => {
     });
 
     it('should disable the submit button when no category is selected', () => {
-      renderedFormGroup = (renderedComponent.find(FieldGroup).shallow().dive());
+      renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
       expect(renderedFormGroup.find('button').prop('disabled')).toBe(true);
     });
 
     it('should enable the submit button when a category is selected', () => {
-      const form = renderedComponent.instance().categoryForm;
+      const form = wrapper.instance().categoryForm;
       const formValue = { sub: 'test' };
       form.patchValue(formValue);
       expect(form.value.sub).toEqual(formValue.sub);
-      renderedFormGroup = (renderedComponent.find(FieldGroup).shallow().dive());
+      renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
       expect(renderedFormGroup.find('button').prop('disabled')).toBe(false);
     });
 
     it('should call category update when the form is submitted (search button is clicked)', () => {
-      const form = renderedComponent.instance().categoryForm;
+      const form = wrapper.instance().categoryForm;
       const formValue = {
         ...form.value,
         sub: 'test'
@@ -61,7 +61,7 @@ describe('<Add />', () => {
       form.setValue(formValue);
       expect(form.value.sub).toEqual(formValue.sub);
 
-      renderedFormGroup = (renderedComponent.find(FieldGroup).shallow().dive());
+      renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
       // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
       renderedFormGroup.find('form').simulate('submit', { preventDefault() { } });
       expect(form.value).toEqual(formValue);

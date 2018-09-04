@@ -28,8 +28,7 @@ export default {
             '4-6': '4 - 6',
             '7+': '7 of meer',
             '': 'Onbekend'
-          },
-          watch: true
+          }
         },
         render: FormComponents.RadioInput
       },
@@ -53,8 +52,7 @@ export default {
           ifAllOf: {
             extra_personen_overig_vaker: true,
             category: 'Overlast van en door personen of groepen'
-          },
-          watch: true
+          }
         },
         render: FormComponents.TextareaInput
       },
@@ -83,8 +81,7 @@ export default {
             'Ander soort bedrijf': 'Ander soort bedrijf',
             Evenement: 'Evenement (festival, markt, etc.)',
             'Iets anders': 'Iets anders'
-          },
-          watch: true
+          }
         },
         render: FormComponents.RadioInput
       },
@@ -94,8 +91,7 @@ export default {
             category: 'Overlast Bedrijven en Horeca'
           },
           label: 'Bedrijfsnaam / Evenementnaam van vermoedelijke veroorzaker',
-          pathMerge: 'extra_properties',
-          watch: true
+          pathMerge: 'extra_properties'
         },
         render: FormComponents.TextInput
       },
@@ -105,8 +101,7 @@ export default {
             category: 'Overlast Bedrijven en Horeca'
           },
           label: 'Op welke locatie ervaart u de overlast',
-          pathMerge: 'extra_properties',
-          watch: true
+          pathMerge: 'extra_properties'
         },
         render: FormComponents.TextInput
       },
@@ -129,8 +124,7 @@ export default {
           ifAllOf: {
             extra_bedrijven_vaker: true,
             category: 'Overlast Bedrijven en Horeca'
-          },
-          watch: true
+          }
         },
         render: FormComponents.TextareaInput
       },
@@ -241,8 +235,7 @@ export default {
             subcategory: 'Overlast op het water - snel varen',
             extra_boten_snelheid_rondvaartboot: 'Ja'
           },
-          updateIncident: true,
-          watch: true
+          updateIncident: true
         },
         render: FormComponents.SelectInput
       },
@@ -253,8 +246,7 @@ export default {
           pathMerge: 'extra_properties',
           ifAllOf: {
             subcategory: 'Overlast op het water - snel varen'
-          },
-          watch: true
+          }
         },
         render: FormComponents.TextInput
       },
@@ -265,8 +257,7 @@ export default {
           pathMerge: 'extra_properties',
           ifAllOf: {
             subcategory: 'Overlast op het water - snel varen'
-          },
-          watch: true
+          }
         },
         render: FormComponents.TextareaInput
       },
@@ -276,8 +267,7 @@ export default {
           pathMerge: 'extra_properties',
           ifAllOf: {
             subcategory: 'Overlast op het water - geluid'
-          },
-          watch: true
+          }
         },
         render: FormComponents.TextareaInput
       },
@@ -288,8 +278,7 @@ export default {
           pathMerge: 'extra_properties',
           ifAllOf: {
             subcategory: 'Overlast op het water - Gezonken boot'
-          },
-          watch: true
+          }
         },
         render: FormComponents.TextareaInput
       },

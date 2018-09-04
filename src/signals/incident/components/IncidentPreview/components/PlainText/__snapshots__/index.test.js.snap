@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Preview component <PlainText /> should not render optional image when value is empty 1`] = `<span />`;
+
+exports[`Preview component <PlainText /> should render optional text correctly 1`] = `
+<span>
+  <span>
+    <span
+      className="preview-item-label"
+    >
+      Title
+    </span>
+    <span
+      className="preview-item-value"
+    >
+      Plain text
+    </span>
+  </span>
+</span>
+`;
+
+exports[`Preview component <PlainText /> should render text correctly 1`] = `
+<span>
+  <span>
+    <span
+      className="preview-item-label"
+    >
+      Title
+    </span>
+    <span
+      className="preview-item-value"
+    >
+      Plain text
+    </span>
+  </span>
+</span>
+`;

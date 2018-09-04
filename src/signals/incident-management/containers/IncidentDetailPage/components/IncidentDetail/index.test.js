@@ -24,18 +24,18 @@ describe('<IncidentDetail />', () => {
   });
 
   it('should render correctly', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} />
     );
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should render correctly without extra properties', () => {
     delete incident.extra_properties;
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} />
     );
-    expect(renderedComponent.find('tr').length).toEqual(13);
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper.find('tr').length).toEqual(13);
+    expect(wrapper).toMatchSnapshot();
   });
 });

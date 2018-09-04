@@ -18,7 +18,7 @@ const DateTimeInput = ({ meta, parent }) => {
 
   return (
     <div>
-      {meta.ifVisible ?
+      {meta && meta.isVisible ?
         <div className="row mode_input datetime-input">
           <div className={`col-${meta.cols || 12} invoer antwoorden`}>
             <Title meta={meta} />
@@ -31,8 +31,9 @@ const DateTimeInput = ({ meta, parent }) => {
               <div className="invoer datetime-input__earlier-date">
                 <select
                   id={`${meta.name}-select-day`}
+                  className="datetime-input__earlier-day"
                   value={parent.value.incident_date}
-                  onChange={(e) => parent.meta.setIncident({ incident_date: e.target.value })}
+                  onChange={(e) => meta.updateIncident && parent.meta.setIncident({ incident_date: e.target.value })}
                 >
                   {[...Array(7).keys()].map((offset) => (
                     <option key={`select-day-option-${offset}`} value={formatDate(offset)}>{formatDate(offset, 'label')}</option>
@@ -47,7 +48,8 @@ const DateTimeInput = ({ meta, parent }) => {
                 <select
                   value={parent.value.incident_time_hours}
                   id={`${meta.name}-select-time-hours`}
-                  onChange={(e) => parent.meta.setIncident({ incident_time_hours: e.target.value })}
+                  className="datetime-input__earlier-time-hours"
+                  onChange={(e) => meta.updateIncident && parent.meta.setIncident({ incident_time_hours: e.target.value })}
                 >
                   {[...Array(24).keys()].map((hour) => (
                     <option
@@ -58,8 +60,9 @@ const DateTimeInput = ({ meta, parent }) => {
                 </select>
                 <select
                   id={`${meta.name}-select-time-minutes`}
+                  className="datetime-input__earlier-time-minutes"
                   value={parent.value.incident_time_minutes}
-                  onChange={(e) => parent.meta.setIncident({ incident_time_minutes: e.target.value })}
+                  onChange={(e) => meta.updateIncident && parent.meta.setIncident({ incident_time_minutes: e.target.value })}
                 >
                   {[...Array(12).keys()].map((minute) => (
                     <option

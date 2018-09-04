@@ -20,10 +20,10 @@ describe('<IncidentCategoryContainer />', () => {
   });
 
   it('should render correctly', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <IncidentCategoryContainer {...props} />
     );
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   describe('mapDispatchToProps', () => {

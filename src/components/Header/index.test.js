@@ -5,9 +5,9 @@ import Header from './index';
 
 describe('<Header />', () => {
   it('should render correctly', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <Header />
     );
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });

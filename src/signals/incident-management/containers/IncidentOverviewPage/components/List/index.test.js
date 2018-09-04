@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import List from './index';
 
 describe('<List />', () => {
-  let renderedComponent;
+  let wrapper;
   let props;
 
   beforeEach(() => {
@@ -15,7 +15,7 @@ describe('<List />', () => {
       incidentSelected: jest.fn()
     };
 
-    renderedComponent = shallow(
+    wrapper = shallow(
       <List {...props} />
     );
   });
@@ -25,15 +25,15 @@ describe('<List />', () => {
   });
 
   it('should render correctly', () => {
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should contain one incident', () => {
-    expect(renderedComponent.find('tbody > tr').length).toEqual(1);
+    expect(wrapper.find('tbody > tr').length).toEqual(1);
   });
 
   it('should select the incident when the row is clicked', () => {
-    renderedComponent.find('tbody > tr').simulate('click');
+    wrapper.find('tbody > tr').simulate('click');
     expect(props.incidentSelected).toHaveBeenCalledWith(props.incidents[0]);
   });
 });

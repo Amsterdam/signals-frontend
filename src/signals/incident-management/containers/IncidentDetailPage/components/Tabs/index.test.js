@@ -19,18 +19,18 @@ describe('<Tabs />', () => {
   });
 
   it('should render correctly', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <Tabs {...props} />
     );
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should call onTabChanged when the tab is clicked', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <Tabs {...props} />
     );
 
-    renderedComponent.find('li').first().simulate('click');
+    wrapper.find('li').first().simulate('click');
     expect(props.onTabChanged).toHaveBeenCalledWith(0);
   });
 });
