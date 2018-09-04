@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import Pager from './index';
 
 describe('<Pager />', () => {
-  let renderedComponent;
+  let wrapper;
   let props;
 
   beforeEach(() => {
@@ -15,7 +15,7 @@ describe('<Pager />', () => {
       incidentsCount: 200
     };
 
-    renderedComponent = shallow(
+    wrapper = shallow(
       <Pager {...props} />
     );
   });
@@ -25,17 +25,17 @@ describe('<Pager />', () => {
   });
 
   it('should render correctly', () => {
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should render 4 links (vorige 1 3 volgende)', () => {
-    expect(renderedComponent.find('a').length).toEqual(4);
+    expect(wrapper.find('a').length).toEqual(4);
   });
 
   it('should move to the second page when 2 is clicked', () => {
-    expect(renderedComponent.find('a').length).toEqual(4);
+    expect(wrapper.find('a').length).toEqual(4);
 
-    renderedComponent.find('a').at(1).simulate('click');
+    wrapper.find('a').at(1).simulate('click');
     expect(props.onPageChanged).toHaveBeenCalledWith(1);
   });
 });

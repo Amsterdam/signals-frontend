@@ -11,10 +11,12 @@ const MapPreview = ({ label, value, optional }) => (
           {value ?
             <div>
               <div>{value.address ? `${value.address.openbare_ruimte} ${value.address.huisnummer}${value.address.huisletter}` : 'geen adres gevonden'}</div>
-              <Map
-                preview
-                latlng={{ latitude: value.geometrie.coordinates[1], longitude: value.geometrie.coordinates[0] }}
-              />
+              {value.geometrie && value.geometrie.coordinates ?
+                <Map
+                  preview
+                  latlng={{ latitude: value.geometrie.coordinates[1], longitude: value.geometrie.coordinates[0] }}
+                />
+              : ''}
             </div>
           : ''}
 
@@ -26,7 +28,7 @@ const MapPreview = ({ label, value, optional }) => (
 
 MapPreview.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.object,
   optional: PropTypes.bool
 };
 

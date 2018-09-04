@@ -6,10 +6,10 @@ import { GlobalError } from './index';
 describe('<GlobalError />', () => {
   describe('rendering', () => {
     it('should render showing no error by default', () => {
-      const renderedComponent = shallow(
+      const wrapper = shallow(
         <GlobalError />
       );
-      expect(renderedComponent).toMatchSnapshot();
+      expect(wrapper).toMatchSnapshot();
     });
 
     it('should render showing an error when defined', () => {
@@ -17,10 +17,10 @@ describe('<GlobalError />', () => {
         error: true,
         errorMessage: 'MOCK_ERROR'
       };
-      const renderedComponent = shallow(
+      const wrapper = shallow(
         <GlobalError {...props} />
       );
-      expect(renderedComponent).toMatchSnapshot();
+      expect(wrapper).toMatchSnapshot();
     });
   });
 
@@ -31,14 +31,14 @@ describe('<GlobalError />', () => {
         errorMessage: 'MOCK_ERROR',
         onClose: jest.fn()
       };
-      const renderedComponent = shallow(
+      const wrapper = shallow(
         <GlobalError {...props} />
       );
-      expect(renderedComponent).toMatchSnapshot();
+      expect(wrapper).toMatchSnapshot();
 
-      renderedComponent.find('button').simulate('click');
+      wrapper.find('button').simulate('click');
       expect(props.onClose).toHaveBeenCalled();
-      expect(renderedComponent).toMatchSnapshot();
+      expect(wrapper).toMatchSnapshot();
     });
   });
 });

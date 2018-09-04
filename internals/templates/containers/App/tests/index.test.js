@@ -6,9 +6,9 @@ import App from '../index';
 
 describe('<App />', () => {
   it('should render some routes', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <App />
     );
-    expect(renderedComponent.find(Route).length).not.toBe(0);
+    expect(wrapper.find(Route).length).not.toBe(0);
   });
 });

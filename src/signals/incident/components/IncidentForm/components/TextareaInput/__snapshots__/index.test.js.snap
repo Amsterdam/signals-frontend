@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form component <TextareaInput /> rendering should render no text area field when not visible 1`] = `<div />`;
+
+exports[`Form component <TextareaInput /> rendering should render text area field correctly 1`] = `
+<div>
+  <div
+    className="row mode_input"
+  >
+    <Title
+      meta={
+        Object {
+          "isVisible": true,
+          "name": "input-field-name",
+          "placeholder": "type here",
+        }
+      }
+    />
+    <div
+      className="col-12 invoer"
+    >
+      <textarea
+        onChange={[Function]}
+        placeholder="type here"
+      />
+    </div>
+    <ErrorMessage
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
+      touched={false}
+    />
+  </div>
+</div>
+`;

@@ -4,7 +4,7 @@ const formatConditionalForm = (form, incident, isAuthenticated) => {
   if (form && form.controls) {
     forEach(form.controls, (control, name) => {
       if (control.meta) {
-        let ifVisible = true;
+        let isVisible = true;
 
         form.controls[name].meta.name = form.controls[name].meta.name || name;  // eslint-disable-line no-param-reassign
 
@@ -12,7 +12,7 @@ const formatConditionalForm = (form, incident, isAuthenticated) => {
           if (!every(control.meta.ifAllOf, (value, key) =>
             !Array.isArray(value) ? isEqual(value, incident[key]) :
               every(value, (v) => isEqual(v, incident[key])))) {
-            ifVisible = false;
+            isVisible = false;
           }
         }
 
@@ -20,19 +20,19 @@ const formatConditionalForm = (form, incident, isAuthenticated) => {
           if (!some(control.meta.ifOneOf, (value, key) =>
             !Array.isArray(value) ? isEqual(value, incident[key]) :
               some(value, (v) => isEqual(v, incident[key])))) {
-            ifVisible = false;
+            isVisible = false;
           }
         }
 
         if (control.authenticated) {
-          ifVisible = isAuthenticated;
+          isVisible = isAuthenticated;
         }
 
-        if (!ifVisible) {
+        if (!isVisible) {
           form.controls[name].options = null;  // eslint-disable-line no-param-reassign
         }
 
-        form.controls[name].meta.ifVisible = ifVisible;  // eslint-disable-line no-param-reassign
+        form.controls[name].meta.isVisible = isVisible;  // eslint-disable-line no-param-reassign
       }
     });
   }
