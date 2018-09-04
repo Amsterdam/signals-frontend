@@ -10,7 +10,8 @@ import './style.scss';
 class Add extends React.Component { // eslint-disable-line react/prefer-stateless-function
   categoryForm = FormBuilder.group({
     _signal: [''],
-    sub: ['', Validators.required]
+    sub: ['', Validators.required],
+    forceRender: 0
   });
 
   handleSubmit = (event) => {
@@ -20,7 +21,8 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
   }
 
   render() {
-    const { subcategoryList } = this.props;
+    const { subcategoryList, loading } = this.props;
+    this.categoryForm.controls.forceRender.setValue(Math.random());
     return (
       <div className="incident-category-add">
         <div className="incident-category-add__body">
@@ -29,10 +31,23 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
             render={({ invalid }) => (
               <form onSubmit={this.handleSubmit}>
                 <div>
-                  <FieldControlWrapper render={SelectInput} name="sub" display="Categorie" control={this.categoryForm.get('sub')} values={subcategoryList} multiple={false} emptyOptionText="Selecteer..." />
+                  <FieldControlWrapper
+                    render={SelectInput}
+                    name="sub"
+                    display="Categorie"
+                    control={this.categoryForm.get('sub')}
+                    values={subcategoryList}
+                    multiple={false}
+                    emptyOptionText="Selecteer..."
+                  />
 
                   <button className="action primary" type="submit" disabled={invalid}>
                     <span className="value">Categorie wijzigen</span>
+                    {loading ?
+                      <span className="working">
+                        <div className="progress-indicator progress-white"></div>
+                      </span>
+                    : ''}
                   </button>
                 </div>
               </form>
@@ -47,6 +62,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
 Add.propTypes = {
   id: PropTypes.string,
   subcategoryList: PropTypes.array,
+  loading: PropTypes.bool,
 
   onRequestCategoryUpdate: PropTypes.func.isRequired
 };

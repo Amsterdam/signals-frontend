@@ -18,6 +18,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
     _signal: [''],
     state: ['', Validators.required],
     text: [''],
+    forceRender: 0
   });
 
   handleSubmit = (event) => {
@@ -37,7 +38,8 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
     // const { incidentStatusList, statusList } = this.props;
     // const currentState = incidentStatusList[incidentStatusList.length - 1].state;
     // const canSendToSigmax = !['i', 'o', 'a'].some((value) => value === currentState);
-    const { statusList } = this.props;
+    const { statusList, loading } = this.props;
+    this.statusForm.controls.forceRender.setValue(Math.random());
     const canSendToSigmax = false; // disabled for the moment
     return (
       <div className="incident-status-add">
@@ -53,6 +55,11 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
 
                   <button className="action primary" type="submit" disabled={invalid}>
                     <span className="value">Status toevoegen</span>
+                    {loading ?
+                      <span className="working">
+                        <div className="progress-indicator progress-white"></div>
+                      </span>
+                    : ''}
                   </button>
                   {canSendToSigmax ?
                     <button className="action tertiair" type="button" onClick={this.sendToSigmax}>
@@ -74,6 +81,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
 Add.propTypes = {
   id: PropTypes.string,
   statusList: PropTypes.array,
+  loading: PropTypes.bool,
 
   onRequestStatusCreate: PropTypes.func.isRequired
 };

@@ -8,7 +8,8 @@ import statusList from '../../definitions/statusList';
 
 export const initialState = fromJS({
   incidentStatusList: [],
-  statusList
+  statusList,
+  loading: false
 });
 
 function incidentStatusContainerReducer(state = initialState, action) {
