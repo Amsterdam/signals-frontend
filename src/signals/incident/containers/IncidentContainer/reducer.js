@@ -87,12 +87,6 @@ function incidentContainerReducer(state = initialState, action) {
         .set('loading', false);
 
     case GET_CLASSIFICATION_SUCCESS:
-      return state
-        .set('incident', fromJS({
-          ...state.get('incident').toJS(),
-          ...action.payload
-        }));
-
     case GET_CLASSIFICATION_ERROR:
       return state
         .set('incident', fromJS({

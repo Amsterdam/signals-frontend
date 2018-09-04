@@ -12,31 +12,24 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta }) => {
       const file = e.target.files[0];
 
       // use revokeObjectURL afterward
-      const url = URL.createObjectURL(file);
+      const url = window.URL.createObjectURL(file);
       parent.meta.setIncident({
         image: url
       });
 
-      const reader = new FileReader();
-      reader.onload = () => {
+      const reader = new window.FileReader();
+      reader.addEventListener('load', () => {
         parent.meta.setIncident({
           image_file: file
         });
-      };
+      });
 
-      reader.onabort = () => console.log('file reading was aborted'); // eslint-disable-line no-console
-      reader.onerror = () => console.log('file reading has failed');  // eslint-disable-line no-console
-
-      if (reader.readAsArrayBuffer) {
-        reader.readAsArrayBuffer(file);
-      } else {
-        reader.readAsBinaryString(file);
-      }
+      reader.readAsText(file);
     }
   };
 
   const handleClear = (url) => {
-    URL.revokeObjectURL(url);
+    window.URL.revokeObjectURL(url);
     parent.meta.setIncident({
       image: '',
       image_file: {}
@@ -45,14 +38,14 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta }) => {
 
   return (
     <div>
-      {meta.ifVisible ?
+      {meta && meta.isVisible ?
         <div className="row mode_upload file">
           <Title meta={meta} />
 
           {handler().value ?
             <div className={`col-${meta.cols || 12} file-input__preview`}>
               <button
-                className="link-functional delete"
+                className="file-input__clear-button"
                 onClick={() => handleClear(handler().value)}
               />
 
@@ -68,7 +61,6 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta }) => {
                 type="file"
                 id="formUpload"
                 onChange={handleChange}
-                readOnly={meta.readOnly}
               />
               <label htmlFor="formUpload" className="secundary-blue">{meta.submitLabel}</label>
             </div>

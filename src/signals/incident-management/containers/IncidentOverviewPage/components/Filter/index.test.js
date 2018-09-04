@@ -5,7 +5,7 @@ import { FieldGroup } from 'react-reactive-form';
 import Filter from './index';
 
 describe('<Filter />', () => {
-  let renderedComponent;
+  let wrapper;
   let props;
 
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('<Filter />', () => {
       onRequestIncidents: jest.fn()
     };
 
-    renderedComponent = shallow(
+    wrapper = shallow(
       <Filter {...props} />
     );
   });
@@ -23,18 +23,18 @@ describe('<Filter />', () => {
   });
 
   it.skip('should render correctly', () => {
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should contain the FieldGroup', () => {
-    expect(renderedComponent.find(FieldGroup)).toHaveLength(1);
+    expect(wrapper.find(FieldGroup)).toHaveLength(1);
   });
 
   describe('FieldGroup', () => {
     let renderedFormGroup;
 
     beforeEach(() => {
-      renderedFormGroup = (renderedComponent.find(FieldGroup).shallow().dive());
+      renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
     });
 
     it.skip('should render correctly', () => {
@@ -46,7 +46,7 @@ describe('<Filter />', () => {
     });
 
     it('should reset the form when the reset button is clicked', () => {
-      const filterForm = renderedComponent.instance().filterForm;
+      const filterForm = wrapper.instance().filterForm;
       const filterEmptyValue = {
         id: null,
         incident_date_start: null,
@@ -68,7 +68,7 @@ describe('<Filter />', () => {
     });
 
     it('should filter when form is submitted (search button is clicked)', () => {
-      const filterForm = renderedComponent.instance().filterForm;
+      const filterForm = wrapper.instance().filterForm;
       const filterValue = {
         ...filterForm.value,
         id: 50,

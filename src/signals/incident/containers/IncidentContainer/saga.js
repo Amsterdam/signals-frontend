@@ -13,13 +13,12 @@ import {
 import { uploadRequest } from '../../../../containers/App/actions';
 
 import mapControlsToParams from '../../services/map-controls-to-params';
-// import fileUploadChannel from '../../services/file-upload-channel';
 import setClassification from '../../services/set-classification';
 
 // import makeSelectIncidentContainer from './selectors';
 
 export function* getClassification(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals_mltool/predict`;
+  const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals_mltool/predict`;
 
   try {
     const result = yield call(request, requestURL, {

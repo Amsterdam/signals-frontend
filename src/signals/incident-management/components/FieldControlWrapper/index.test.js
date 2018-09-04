@@ -7,7 +7,7 @@ import FieldControlWrapper from './index';
 describe('FieldControlWrapper', () => {
   it.skip('should render correctly', () => {
     const props = { name: 'name', control: new FormControl(), render: jest.fn() };
-    const renderedComponent = shallow(<FieldControlWrapper {...props} />);
-    expect(renderedComponent).toMatchSnapshot();
+    const wrapper = shallow(<FieldControlWrapper {...props} />);
+    expect(wrapper).toMatchSnapshot();
   });
 });

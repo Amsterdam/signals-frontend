@@ -5,7 +5,7 @@ import moment from 'moment';
 import DatePickerInput from './index';
 
 describe('<DatePickerInput />', () => {
-  let renderedComponent;
+  let wrapper;
   let props;
 
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe('<DatePickerInput />', () => {
     };
 
     const DatePickerInputRender = DatePickerInput(props);
-    renderedComponent = shallow(
+    wrapper = shallow(
       <DatePickerInputRender {...props} />
     );
   });
@@ -28,8 +28,8 @@ describe('<DatePickerInput />', () => {
   });
 
   it('should render correctly', () => {
-    expect(renderedComponent).not.toBeNull();
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).not.toBeNull();
+    expect(wrapper).toMatchSnapshot();
   });
 });
 

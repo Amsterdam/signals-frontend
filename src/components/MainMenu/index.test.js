@@ -7,26 +7,26 @@ import { MainMenu } from './index';
 
 describe('<MainMenu />', () => {
   const createComponent = (isAuthenticated = false) => {
-    const renderedComponent = shallow(<MainMenu isAuthenticated={isAuthenticated} />);
-    return renderedComponent;
+    const wrapper = shallow(<MainMenu isAuthenticated={isAuthenticated} />);
+    return wrapper;
   };
 
   beforeEach(() => {
   });
 
   it('should render correctly', () => {
-    const renderedComponent = createComponent();
-    expect(renderedComponent).toMatchSnapshot();
+    const wrapper = createComponent();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should render render 2 NavLink components when not authenticated', () => {
-    const renderedComponent = createComponent();
-    expect(renderedComponent.find('NavLink').length).toEqual(1);
+    const wrapper = createComponent();
+    expect(wrapper.find('NavLink').length).toEqual(1);
   });
 
   it('should render render 3 NavLink components when authenticated', () => {
     const isAuthenticated = true;
-    const renderedComponent = createComponent(isAuthenticated);
-    expect(renderedComponent.find('NavLink').length).toEqual(2);
+    const wrapper = createComponent(isAuthenticated);
+    expect(wrapper.find('NavLink').length).toEqual(2);
   });
 });

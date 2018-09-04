@@ -8,8 +8,7 @@ export default {
         meta: {
           cols: 6,
           type: 'bedankt',
-          value: 'Uw melding is bij ons bekend onder nummer: {incident.id}.',
-          watch: true
+          value: 'Uw melding is bij ons bekend onder nummer: {incident.id}.'
         },
         render: FormComponents.PlainText
       },

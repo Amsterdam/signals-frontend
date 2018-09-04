@@ -7,10 +7,10 @@ import messages from '../messages';
 
 describe('<HomePage />', () => {
   it('should render the page message', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <HomePage />
     );
-    expect(renderedComponent.contains(
+    expect(wrapper.contains(
       <FormattedMessage {...messages.header} />
     )).toEqual(true);
   });
