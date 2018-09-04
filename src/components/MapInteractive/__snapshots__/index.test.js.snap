@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MapInteractive /> should not render map when there is one already 1`] = `
+<div
+  className="map-component"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-12"
+    >
+      <div
+        className="map"
+      >
+        <div
+          id="mapdiv"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<MapInteractive /> should render an existing location with address correctly 1`] = `
+<div
+  className="map-component"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-12"
+    >
+      <div
+        className="map"
+      >
+        <div
+          id="mapdiv"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<MapInteractive /> should render an existing location with address without huisnummer_toevoeging correctly 1`] = `
+<div
+  className="map-component"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-12"
+    >
+      <div
+        className="map"
+      >
+        <div
+          id="mapdiv"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<MapInteractive /> should render correctly 1`] = `
+<div
+  className="map-component"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-12"
+    >
+      <div
+        className="map"
+      >
+        <div
+          id="mapdiv"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

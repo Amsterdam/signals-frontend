@@ -19,17 +19,17 @@ describe('<PrintLayout />', () => {
   });
 
   it('should render correctly', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <PrintLayout {...props} />
     );
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should render the connected component correctly', () => {
     const mockStore = configureMockStore({});
     const store = mockStore(fromJS({ incidentStatusContainer: { incidentStatusList: [], statusList: [] } }));
-    const renderedComponent = shallow(<ConnectedPrintLayout store={store} {...props} />);
-    expect(renderedComponent).toMatchSnapshot();
+    const wrapper = shallow(<ConnectedPrintLayout store={store} {...props} />);
+    expect(wrapper).toMatchSnapshot();
   });
 });
 

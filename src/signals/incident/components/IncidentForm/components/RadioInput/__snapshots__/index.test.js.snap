@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form component <RadioInput /> rendering should render no radio field when not visible 1`] = `<div />`;
+
+exports[`Form component <RadioInput /> rendering should render radio fields correctly 1`] = `
+<div>
+  <div
+    className="row mode_input"
+  >
+    <Title
+      meta={
+        Object {
+          "isVisible": true,
+          "name": "input-field-name",
+          "placeholder": "type here",
+          "values": Object {
+            "bar": "bar",
+            "foo": "foo",
+          },
+        }
+      }
+    />
+    <div
+      className="col-12 antwoorden"
+    >
+      <div
+        className="antwoord"
+        key="input-field-name-foo"
+      >
+        <input
+          className="kenmerkradio"
+          id="input-field-name-foo"
+          onClick={[Function]}
+        />
+        <label
+          htmlFor="input-field-name-foo"
+        >
+          foo
+        </label>
+      </div>
+      <div
+        className="antwoord"
+        key="input-field-name-bar"
+      >
+        <input
+          className="kenmerkradio"
+          id="input-field-name-bar"
+          onClick={[Function]}
+        />
+        <label
+          htmlFor="input-field-name-bar"
+        >
+          bar
+        </label>
+      </div>
+    </div>
+    <ErrorMessage
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
+      touched={false}
+    />
+  </div>
+</div>
+`;
+
+exports[`Form component <RadioInput /> rendering should render zero radio fields when values are not supplied 1`] = `
+<div>
+  <div
+    className="row mode_input"
+  >
+    <Title
+      meta={
+        Object {
+          "isVisible": true,
+          "name": "input-field-name",
+          "placeholder": "type here",
+          "values": undefined,
+        }
+      }
+    />
+    <div
+      className="col-12 antwoorden"
+    />
+    <ErrorMessage
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
+      touched={false}
+    />
+  </div>
+</div>
+`;

@@ -14,17 +14,17 @@ describe('<IncidentManagementModule />', () => {
   });
 
   it('should render correctly when authenticated', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <IncidentManagementModule {...props} />
     );
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should render correctly when not authenticated', () => {
     props.isAuthenticated = false;
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <IncidentManagementModule {...props} />
     );
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });

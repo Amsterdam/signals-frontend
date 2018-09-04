@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const HiddenInput = ({ handler, meta }) => (
+const HiddenInput = ({ handler }) => (
   <div>
-    <input type="hidden" placeholder={meta.placeholder} readOnly={meta.readOnly} {...handler()} />
+    <input
+      type="hidden"
+      {...handler()}
+    />
   </div>
 );
 
 HiddenInput.propTypes = {
-  handler: PropTypes.func,
-  meta: PropTypes.object
+  handler: PropTypes.func
 };
 
 export default HiddenInput;

@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Preview component <DateTime /> should not render optional date when value is empty 1`] = `<span />`;
+
+exports[`Preview component <DateTime /> should render earlier date correctly 1`] = `
+<span>
+  <span>
+    <span
+      className="preview-item-label"
+    >
+      Datetime
+    </span>
+    <span
+      className="preview-item-value"
+    >
+      Wednesday 21 February, Invalid date
+    </span>
+  </span>
+</span>
+`;
+
+exports[`Preview component <DateTime /> should render earlier today correctly 1`] = `
+<span>
+  <span>
+    <span
+      className="preview-item-label"
+    >
+      Datetime
+    </span>
+    <span
+      className="preview-item-value"
+    >
+      Vandaag, 13:45
+    </span>
+  </span>
+</span>
+`;
+
+exports[`Preview component <DateTime /> should render now correctly 1`] = `
+<span>
+  <span>
+    <span
+      className="preview-item-label"
+    >
+      Datetime
+    </span>
+    <span
+      className="preview-item-value"
+    >
+      Nu
+    </span>
+  </span>
+</span>
+`;
+
+exports[`Preview component <DateTime /> should render optional date correctly 1`] = `
+<span>
+  <span>
+    <span
+      className="preview-item-label"
+    >
+      Datetime
+    </span>
+    <span
+      className="preview-item-value"
+    >
+      Nu
+    </span>
+  </span>
+</span>
+`;

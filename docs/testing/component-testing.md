@@ -119,11 +119,11 @@ Lets start with testing that it renders a `<button>`. To do that we first
 
 ```javascript
 it('renders a <button>', () => {
-  const renderedComponent = shallow(
+  const wrapper = shallow(
     <Button></Button>
   );
   expect(
-    renderedComponent.find('button').node
+    wrapper.find('button').node
   ).toBeDefined();
 });
 ```
@@ -138,11 +138,11 @@ exists:
 ```javascript
 it('renders its children', () => {
   const text = 'Click me!';
-  const renderedComponent = shallow(
+  const wrapper = shallow(
     <Button>{ text }</Button>
   );
   expect(
-    renderedComponent.contains(text)
+    wrapper.contains(text)
   ).toEqual(true);
 });
 ```
@@ -156,8 +156,8 @@ see that our Spy was called:
 ```javascript
 it('handles clicks', () => {
   const onClickSpy = jest.fn();
-  const renderedComponent = shallow(<Button onClick={onClickSpy} />);
-  renderedComponent.find('button').simulate('click');
+  const wrapper = shallow(<Button onClick={onClickSpy} />);
+  wrapper.find('button').simulate('click');
   expect(onClickSpy).toHaveBeenCalled();
 });
 ```
@@ -171,28 +171,28 @@ import Button from '../Button.react';
 
 describe('<Button />', () => {
   it('renders a <button>', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <Button></Button>
     );
     expect(
-      renderedComponent.find('button').node
+      wrapper.find('button').node
     ).toBeDefined();
   });
 
   it('renders its children', () => {
     const text = 'Click me!';
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <Button>{ text }</Button>
     );
     expect(
-      renderedComponent.contains(text)
+      wrapper.contains(text)
     ).toEqual(true);
   });
 
   it('handles clicks', () => {
     const onClickSpy = jest.fn();
-    const renderedComponent = shallow(<Button onClick={onClickSpy} />);
-    renderedComponent.find('button').simulate('click');
+    const wrapper = shallow(<Button onClick={onClickSpy} />);
+    wrapper.find('button').simulate('click');
     expect(onClickSpy).toHaveBeenCalled();
   });
 });

@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Preview component <Map /> should not render optional map when value is empty 1`] = `<span />`;
+
+exports[`Preview component <Map /> should render only address correctly 1`] = `
+<span>
+  <span>
+    <span
+      className="preview-item-label"
+    >
+      Location
+    </span>
+    <span
+      className="preview-item-value"
+    >
+      <div>
+        <div>
+          Hell 666C
+        </div>
+      </div>
+    </span>
+  </span>
+</span>
+`;
+
+exports[`Preview component <Map /> should render only latlong correctly 1`] = `
+<span>
+  <span>
+    <span
+      className="preview-item-label"
+    >
+      Location
+    </span>
+    <span
+      className="preview-item-value"
+    >
+      <div>
+        <div>
+          geen adres gevonden
+        </div>
+        <Map
+          latlng={
+            Object {
+              "latitude": 4,
+              "longitude": 52,
+            }
+          }
+          preview={true}
+        />
+      </div>
+    </span>
+  </span>
+</span>
+`;
+
+exports[`Preview component <Map /> should render optional map correctly 1`] = `
+<span>
+  <span>
+    <span
+      className="preview-item-label"
+    >
+      Location
+    </span>
+    <span
+      className="preview-item-value"
+    >
+      <div>
+        <div>
+          Hell 666C
+        </div>
+        <Map
+          latlng={
+            Object {
+              "latitude": 4,
+              "longitude": 52,
+            }
+          }
+          preview={true}
+        />
+      </div>
+    </span>
+  </span>
+</span>
+`;
+
+exports[`Preview component <Map /> should render valid adrress and map with latlong correctly 1`] = `
+<span>
+  <span>
+    <span
+      className="preview-item-label"
+    >
+      Location
+    </span>
+    <span
+      className="preview-item-value"
+    >
+      <div>
+        <div>
+          Hell 666C
+        </div>
+        <Map
+          latlng={
+            Object {
+              "latitude": 4,
+              "longitude": 52,
+            }
+          }
+          preview={true}
+        />
+      </div>
+    </span>
+  </span>
+</span>
+`;

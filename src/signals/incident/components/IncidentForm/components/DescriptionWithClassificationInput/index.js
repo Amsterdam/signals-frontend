@@ -12,7 +12,7 @@ function get(e, meta, parent) {
 
 const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, parent, getError }) => (
   <div>
-    {meta.ifVisible ?
+    {meta && meta.isVisible ?
       <div className={`row mode_input verplicht ${touched && hasError('required') ? 'row_ongeldig' : ''}`}>
         <Title meta={meta} />
         <div className="input-help col-12">
@@ -37,12 +37,12 @@ const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, 
 );
 
 DescriptionWithClassificationInput.propTypes = {
-  handler: PropTypes.func.isRequired,
-  touched: PropTypes.bool.isRequired,
-  hasError: PropTypes.func.isRequired,
-  meta: PropTypes.object.isRequired,
-  parent: PropTypes.object.isRequired,
-  getError: PropTypes.func.isRequired,
+  handler: PropTypes.func,
+  touched: PropTypes.bool,
+  hasError: PropTypes.func,
+  meta: PropTypes.object,
+  parent: PropTypes.object,
+  getError: PropTypes.func
 };
 
 export default DescriptionWithClassificationInput;

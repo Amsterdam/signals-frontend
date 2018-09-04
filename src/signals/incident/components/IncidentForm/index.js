@@ -23,7 +23,7 @@ class IncidentForm extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    this.setValues(props.incidentContainer.incident, true);
+    this.setValues(props.incidentContainer.incident);
     this.form.meta.incident = props.incidentContainer.incident;
   }
 
@@ -42,14 +42,11 @@ class IncidentForm extends React.Component {
     this.setValues(incidentContainer.incident);
   }
 
-  setValues(incident, onlyWatchedItems = false) {
+  setValues(incident) {
     if (this.form && this.form.controls) {
       defer(() => {
         Object.keys(this.form.controls).map((key) => {
-          const control = this.form.controls[key];
-          if (!onlyWatchedItems || (onlyWatchedItems && control.meta.watch)) {
-            control.setValue(incident[key]);
-          }
+          this.form.controls[key].setValue(incident[key]);
           return true;
         });
       });

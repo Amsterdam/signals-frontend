@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form component <Title /> should render correctly 1`] = `
+<div
+  className=" col-12 title"
+>
+  <div
+    className="title__label label"
+  >
+    Title
+  </div>
+  <div
+    className="title__subtitle"
+  />
+</div>
+`;

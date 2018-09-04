@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import SelectInput from './index';
 
 describe('<SelectInput />', () => {
-  let renderedComponent;
+  let wrapper;
   let props;
 
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('<SelectInput />', () => {
     };
 
     const SelectInputRender = SelectInput(props);
-    renderedComponent = shallow(
+    wrapper = shallow(
       <SelectInputRender {...props} />
     );
   });
@@ -29,8 +29,8 @@ describe('<SelectInput />', () => {
   });
 
   it('should render correctly', () => {
-    expect(renderedComponent).not.toBeNull();
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).not.toBeNull();
+    expect(wrapper).toMatchSnapshot();
   });
 });
 

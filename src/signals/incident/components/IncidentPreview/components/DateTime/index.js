@@ -6,6 +6,9 @@ function getValue(value, incident) {
   if (value === 'Nu') {
     return 'Nu';
   }
+  if (!incident) {
+    return '';
+  }
 
   const time = moment(`${incident.incident_time_hours}:${incident.incident_time_minutes}`, 'H:m').format('H:mm');
   if (incident.incident_date === 'Vandaag') {

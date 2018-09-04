@@ -6,7 +6,9 @@ import {
   makeSelectAccessToken,
   makeSelectLoading,
   makeSelectError,
+  makeSelectErrorMessage,
   makeSelectLocation,
+  makeSelectIsAuthenticated
 } from './selectors';
 
 describe('selectGlobal', () => {
@@ -61,13 +63,26 @@ describe('makeSelectLoading', () => {
 describe('makeSelectError', () => {
   const errorSelector = makeSelectError();
   it('should select the error', () => {
-    const error = 404;
+    const error = true;
     const mockedState = fromJS({
       global: {
-        error,
+        error
       },
     });
     expect(errorSelector(mockedState)).toEqual(error);
+  });
+});
+
+describe('makeSelectErrorMessage', () => {
+  const errorMessageSelector = makeSelectErrorMessage();
+  it('should select the error message', () => {
+    const errorMessage = 'ERROR_MESSAGE';
+    const mockedState = fromJS({
+      global: {
+        errorMessage,
+      },
+    });
+    expect(errorMessageSelector(mockedState)).toEqual(errorMessage);
   });
 });
 
@@ -81,5 +96,18 @@ describe('makeSelectLocation', () => {
       route,
     });
     expect(locationStateSelector(mockedState)).toEqual(route.get('location').toJS());
+  });
+});
+
+describe('makeSelectIsAuthenticated', () => {
+  const isAuthenticatedStateSelector = makeSelectIsAuthenticated();
+  it('should select the login state', () => {
+    const accessToken = 'thisistheaccesstoken';
+    const mockedState = fromJS({
+      global: {
+        accessToken
+      }
+    });
+    expect(isAuthenticatedStateSelector(mockedState)).toEqual(true);
   });
 });
