@@ -33,8 +33,8 @@ describe('IncidentStatusContainer saga', () => {
 
     const gen = createIncidentStatus(action);
     expect(gen.next().value).toEqual(authPostCall(requestURL, status)); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next().value).toEqual(call(delay, 1000)); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next(updatedStatus).value).toEqual(put(requestStatusCreateSuccess(updatedStatus))); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next(updatedStatus).value).toEqual(call(delay, 1000)); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(put(requestStatusCreateSuccess(updatedStatus))); // eslint-disable-line redux-saga/yield-effects
   });
 
   it('should createIncidentStatus error', () => {
