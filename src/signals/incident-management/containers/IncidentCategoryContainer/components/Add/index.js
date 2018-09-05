@@ -59,6 +59,10 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
   }
 }
 
+Add.defaultProps = {
+  loading: false
+};
+
 Add.propTypes = {
   id: PropTypes.string,
   subcategoryList: PropTypes.array,

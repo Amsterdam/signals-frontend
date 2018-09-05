@@ -9,10 +9,10 @@ import './style.scss';
 
 
 class Add extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-    this.sendToSigmax = this.sendToSigmax.bind(this);
-  }
+  // constructor(props) {
+    // super(props);
+    // this.sendToSigmax = this.sendToSigmax.bind(this);
+  // }
 
   statusForm = FormBuilder.group({
     _signal: [''],
@@ -28,10 +28,10 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
     this.statusForm.reset();
   }
 
-  sendToSigmax = () => {
-    const status = { _signal: this.props.id, state: 'i', text: 'sigmax' };
-    this.props.onRequestStatusCreate(status);
-  }
+  // sendToSigmax = () => {
+    // const status = { _signal: this.props.id, state: 'i', text: 'sigmax' };
+    // this.props.onRequestStatusCreate(status);
+  // }
 
   render() {
     // TODO enable this when sigmax link is implemented
@@ -40,7 +40,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
     // const canSendToSigmax = !['i', 'o', 'a'].some((value) => value === currentState);
     const { statusList, loading } = this.props;
     this.statusForm.controls.forceRender.setValue(Math.random());
-    const canSendToSigmax = false; // disabled for the moment
+    // const canSendToSigmax = false; // disabled for the moment
     return (
       <div className="incident-status-add">
         {/* <div className="incident-status-add__title">Status toevoegen</div> */}
@@ -61,11 +61,6 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
                       </span>
                     : ''}
                   </button>
-                  {canSendToSigmax ?
-                    <button className="action tertiair" type="button" onClick={this.sendToSigmax}>
-                      <span className="value">Naar sigmax sturen</span>
-                    </button> : ''
-                  }
                   <div>
                   </div>
                 </div>
@@ -77,6 +72,18 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
     );
   }
 }
+
+/*
+{canSendToSigmax ?
+  <button className="action tertiair" type="button" onClick={this.sendToSigmax}>
+    <span className="value">Naar sigmax sturen</span>
+  </button> : ''
+}
+*/
+
+Add.defaultProps = {
+  loading: false
+};
 
 Add.propTypes = {
   id: PropTypes.string,

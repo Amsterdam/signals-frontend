@@ -2,10 +2,10 @@
 
 exports[`<Add /> should render correctly 1`] = `
 <div
-  className="incident-category-add"
+  className="incident-status-add"
 >
   <div
-    className="incident-category-add__body"
+    className="incident-status-add__body"
   >
     <FieldGroup
       control={
@@ -112,7 +112,7 @@ exports[`<Add /> should render correctly 1`] = `
                 "observers": Array [],
               },
             },
-            "sub": FormControl {
+            "state": FormControl {
               "_onCollectionChange": [Function],
               "_onDisabledChange": Array [],
               "_parent": [Circular],
@@ -162,6 +162,54 @@ exports[`<Add /> should render correctly 1`] = `
                 "observers": Array [],
               },
             },
+            "text": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": "",
+              "asyncValidator": null,
+              "errors": null,
+              "formState": "",
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": null,
+                "updateOn": null,
+                "validators": null,
+              },
+              "value": "",
+              "valueChanges": Observable {
+                "observers": Array [],
+              },
+            },
           },
           "errors": null,
           "get": [Function],
@@ -191,7 +239,8 @@ exports[`<Add /> should render correctly 1`] = `
           "value": Object {
             "_signal": "",
             "forceRender": 0.666,
-            "sub": "",
+            "state": "",
+            "text": "",
           },
           "valueChanges": Observable {
             "observers": Array [],
