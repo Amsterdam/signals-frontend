@@ -1,4 +1,5 @@
-import { put, takeLatest, all } from 'redux-saga/effects';
+import { call, all, put, takeLatest } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 
 import { REQUEST_STATUS_LIST, REQUEST_STATUS_CREATE } from './constants';
 import { requestStatusListError, requestStatusListSuccess, requestStatusCreateSuccess, requestStatusCreateError } from './actions';
@@ -32,7 +33,8 @@ describe('IncidentStatusContainer saga', () => {
 
     const gen = createIncidentStatus(action);
     expect(gen.next().value).toEqual(authPostCall(requestURL, status)); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next(updatedStatus).value).toEqual(put(requestStatusCreateSuccess(updatedStatus))); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next(updatedStatus).value).toEqual(call(delay, 1000)); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(put(requestStatusCreateSuccess(updatedStatus))); // eslint-disable-line redux-saga/yield-effects
   });
 
   it('should createIncidentStatus error', () => {

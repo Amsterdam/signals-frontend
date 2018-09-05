@@ -1,4 +1,5 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 
 import { REQUEST_CATEGORY_UPDATE } from './constants';
 import { requestCategoryUpdateSuccess, requestCategoryUpdateError } from './actions';
@@ -20,12 +21,13 @@ describe('IncidentCategoryContainer saga', () => {
   it('should updateIncidentCategory success', () => {
     const category = { category: 'test' };
     const action = { payload: category };
-    const updatedStatus = { category: 'updated' };
+    const updatedCategory = { category: 'updated' };
     const requestURL = `${baseUrl}/`;
 
     const gen = updateIncidentCategory(action);
     expect(gen.next().value).toEqual(authPostCall(requestURL, category)); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next(updatedStatus).value).toEqual(put(requestCategoryUpdateSuccess(updatedStatus))); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next(updatedCategory).value).toEqual(call(delay, 1000)); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(put(requestCategoryUpdateSuccess(updatedCategory))); // eslint-disable-line redux-saga/yield-effects
   });
 
   it('should createIncidentStatus error', () => {

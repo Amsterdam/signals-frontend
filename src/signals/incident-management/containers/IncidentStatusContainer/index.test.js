@@ -10,7 +10,7 @@ describe('<IncidentStatusContainer />', () => {
   beforeEach(() => {
     props = {
       id: '1',
-      incidentstatuscontainer: { incident: {} },
+      incidentStatusContainer: { incident: {} },
       onRequestStatusList: jest.fn(),
       onRequestStatusCreate: jest.fn()
     };

@@ -6,7 +6,9 @@ import {
 import subcategoryList from '../../definitions/subcategoryList';
 
 export const initialState = fromJS({
-  subcategoryList
+  subcategoryList,
+  loading: false,
+  error: false
 });
 
 function incidentStatusContainerReducer(state = initialState, action) {
