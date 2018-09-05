@@ -41,7 +41,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
                     emptyOptionText="Selecteer..."
                   />
 
-                  <button className="action primary" type="submit" disabled={invalid}>
+                  <button className="action primary" type="submit" disabled={invalid || loading}>
                     <span className="value">Categorie wijzigen</span>
                     {loading ?
                       <span className="working">
