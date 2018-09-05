@@ -8,10 +8,10 @@ import './style.scss';
 
 
 class Add extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  categoryForm = FormBuilder.group({
+  categoryForm = FormBuilder.group({ // eslint-disable-line react/sort-comp
     _signal: [''],
     sub: ['', Validators.required],
-    forceRender: 0
+    loading: false
   });
 
   handleSubmit = (event) => {
@@ -20,9 +20,14 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
     this.props.onRequestCategoryUpdate(status);
   }
 
+  componentWillUpdate(props) {
+    if (props.loading !== this.props.loading) {
+      this.categoryForm.controls.loading.setValue(props.loading);
+    }
+  }
+
   render() {
     const { subcategoryList, loading } = this.props;
-    this.categoryForm.controls.forceRender.setValue(Math.random());
     return (
       <div className="incident-category-add">
         <div className="incident-category-add__body">

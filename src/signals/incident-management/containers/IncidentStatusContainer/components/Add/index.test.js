@@ -1,7 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { FieldGroup } from 'react-reactive-form';
-import { mockRandom } from 'jest-mock-random';
 
 import Add from './index';
 
@@ -10,7 +9,6 @@ describe('<Add />', () => {
   let props;
 
   beforeEach(() => {
-    mockRandom(0.666);
     props = {
       id: '1',
       statusList: ['test'],

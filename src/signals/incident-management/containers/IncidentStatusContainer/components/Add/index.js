@@ -14,12 +14,18 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
     // this.sendToSigmax = this.sendToSigmax.bind(this);
   // }
 
-  statusForm = FormBuilder.group({
+  statusForm = FormBuilder.group({ // eslint-disable-line react/sort-comp
     _signal: [''],
     state: ['', Validators.required],
     text: [''],
-    forceRender: 0
+    loading: false
   });
+
+  componentWillUpdate(props) {
+    if (props.loading !== this.props.loading) {
+      this.statusForm.controls.loading.setValue(props.loading);
+    }
+  }
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -39,7 +45,6 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
     // const currentState = incidentStatusList[incidentStatusList.length - 1].state;
     // const canSendToSigmax = !['i', 'o', 'a'].some((value) => value === currentState);
     const { statusList, loading } = this.props;
-    this.statusForm.controls.forceRender.setValue(Math.random());
     // const canSendToSigmax = false; // disabled for the moment
     return (
       <div className="incident-status-add">

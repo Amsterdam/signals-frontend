@@ -64,17 +64,17 @@ exports[`<Add /> should render correctly 1`] = `
                 "observers": Array [],
               },
             },
-            "forceRender": FormControl {
+            "loading": FormControl {
               "_onCollectionChange": [Function],
               "_onDisabledChange": Array [],
               "_parent": [Circular],
               "_pendingChange": true,
               "_pendingDirty": false,
               "_pendingTouched": false,
-              "_pendingValue": 0.666,
+              "_pendingValue": false,
               "asyncValidator": null,
               "errors": null,
-              "formState": 0,
+              "formState": false,
               "get": [Function],
               "getError": [Function],
               "handler": [Function],
@@ -107,7 +107,7 @@ exports[`<Add /> should render correctly 1`] = `
                 "updateOn": undefined,
                 "validators": undefined,
               },
-              "value": 0.666,
+              "value": false,
               "valueChanges": Observable {
                 "observers": Array [],
               },
@@ -190,7 +190,7 @@ exports[`<Add /> should render correctly 1`] = `
           },
           "value": Object {
             "_signal": "",
-            "forceRender": 0.666,
+            "loading": false,
             "sub": "",
           },
           "valueChanges": Observable {
