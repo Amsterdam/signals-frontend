@@ -8,34 +8,78 @@ describe('<Pager />', () => {
   let props;
 
   beforeEach(() => {
-    // There are 3 pages, it renders (vorige 1 2 3 volgende), 2 is selected and not clickable
     props = {
-      page: 2,
       onPageChanged: jest.fn(),
-      incidentsCount: 200
+      incidentsCount: 2350
     };
-
-    wrapper = shallow(
-      <Pager {...props} />
-    );
   });
 
   afterEach(() => {
     jest.resetAllMocks();
   });
 
-  it('should render correctly', () => {
-    expect(wrapper).toMatchSnapshot();
+  describe('rendering', () => {
+    it('should render default correctly', () => {
+      wrapper = shallow(
+        <Pager {...props} />
+      );
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render page 8 correctly', () => {
+      props.page = 8;
+
+      wrapper = shallow(
+        <Pager {...props} />
+      );
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render last page correctly', () => {
+      props.page = 24;
+
+      wrapper = shallow(
+        <Pager {...props} />
+      );
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render empty correctly', () => {
+      props.incidentsCount = 0;
+
+      wrapper = shallow(
+        <Pager {...props} />
+      );
+
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 
-  it('should render 4 links (vorige 1 3 volgende)', () => {
-    expect(wrapper.find('a').length).toEqual(4);
-  });
+  describe('events', () => {
+    beforeEach(() => {
+      props.page = 8;
 
-  it('should move to the second page when 2 is clicked', () => {
-    expect(wrapper.find('a').length).toEqual(4);
+      wrapper = shallow(
+        <Pager {...props} />
+      );
+    });
 
-    wrapper.find('a').at(1).simulate('click');
-    expect(props.onPageChanged).toHaveBeenCalledWith(1);
+    it('should move to the second page when 2 is clicked', () => {
+      wrapper.find('a').at(2).simulate('click');
+      expect(props.onPageChanged).toHaveBeenCalledWith(2);
+    });
+
+    it('should move to the page 9 when next is clicked', () => {
+      wrapper.find('a').last().simulate('click');
+      expect(props.onPageChanged).toHaveBeenCalledWith(9);
+    });
+
+    it('should move to the page 7 when previous is clicked', () => {
+      wrapper.find('a').first().simulate('click');
+      expect(props.onPageChanged).toHaveBeenCalledWith(7);
+    });
   });
 });

@@ -22,7 +22,7 @@ describe('<Filter />', () => {
     jest.resetAllMocks();
   });
 
-  it.skip('should render correctly', () => {
+  it('should render correctly', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -37,7 +37,7 @@ describe('<Filter />', () => {
       renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
     });
 
-    it.skip('should render correctly', () => {
+    it('should render correctly', () => {
       expect(renderedFormGroup).toMatchSnapshot();
     });
 

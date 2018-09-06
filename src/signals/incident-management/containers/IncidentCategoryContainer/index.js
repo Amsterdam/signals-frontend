@@ -16,11 +16,16 @@ import { requestCategoryUpdate } from './actions';
 
 export class IncidentCategoryContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { subcategoryList } = this.props.indcidentcategorycontainer;
+    const { subcategoryList, loading } = this.props.incidentCategoryContainer;
     return (
       <div className="col-6">
         <div className="incident-edit-container">
-          <Add id={this.props.id} subcategoryList={subcategoryList} onRequestCategoryUpdate={this.props.onRequestCategoryUpdate} />
+          <Add
+            id={this.props.id}
+            subcategoryList={subcategoryList}
+            loading={loading}
+            onRequestCategoryUpdate={this.props.onRequestCategoryUpdate}
+          />
         </div>
       </div>
     );
@@ -29,13 +34,13 @@ export class IncidentCategoryContainer extends React.Component { // eslint-disab
 
 IncidentCategoryContainer.propTypes = {
   id: PropTypes.string.isRequired,
-  indcidentcategorycontainer: PropTypes.object.isRequired,
+  incidentCategoryContainer: PropTypes.object.isRequired,
 
   onRequestCategoryUpdate: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  indcidentcategorycontainer: makeSelectIncidentCategoryContainer(),
+  incidentCategoryContainer: makeSelectIncidentCategoryContainer(),
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({

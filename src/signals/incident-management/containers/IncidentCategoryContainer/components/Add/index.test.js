@@ -24,7 +24,7 @@ describe('<Add />', () => {
     jest.resetAllMocks();
   });
 
-  it.skip('should render correctly', () => {
+  it('should render correctly', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -43,7 +43,7 @@ describe('<Add />', () => {
       expect(renderedFormGroup.find('button').prop('disabled')).toBe(true);
     });
 
-    it('should enable the submit button when a category is selected', () => {
+    it('should enable the submit button when a  category is selected', () => {
       const form = wrapper.instance().categoryForm;
       const formValue = { sub: 'test' };
       form.patchValue(formValue);
@@ -64,7 +64,6 @@ describe('<Add />', () => {
       renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
       // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
       renderedFormGroup.find('form').simulate('submit', { preventDefault() { } });
-      expect(form.value).toEqual(formValue);
       const formCallValue = { ...formValue, _signal: props.id };
       expect(props.onRequestCategoryUpdate).toHaveBeenCalledWith(formCallValue);
     });
