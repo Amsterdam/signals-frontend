@@ -1,7 +1,5 @@
-.select-input {
-
-  .invoer select.select-input__control--overflow[multiple] {
-    overflow: auto;
+.select-input__control.invoer {
+  select[multiple] {
+    overflow-y: auto;
   }
-
 }
