@@ -9,7 +9,7 @@ const TextareaInput = ({ handler, touched, hasError, meta, parent, getError }) =
       <div className="row mode_input">
         <Title meta={meta} />
 
-        <div className={`col-${meta.cols || 12} invoer`}>
+        <div className={`${meta.className || 'col-12'} invoer`}>
           <textarea
             placeholder={meta.placeholder}
             onChange={(e) => meta.updateIncident && parent.meta.setIncident({ [meta.name]: e.target.value })}

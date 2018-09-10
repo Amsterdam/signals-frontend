@@ -6,7 +6,7 @@ export default {
     controls: {
       text_melding: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           type: 'bedankt',
           value: 'Uw melding is bij ons bekend onder nummer: {incident.id}.'
         },
@@ -14,7 +14,7 @@ export default {
       },
       text: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           label: 'Wat doen we met uw melding?',
           type: 'bedankt'
         },
@@ -22,7 +22,7 @@ export default {
       },
       text_A3d_mC: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
@@ -56,7 +56,7 @@ export default {
       },
       text_a3d_eC: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
@@ -74,7 +74,7 @@ export default {
       },
       text_3d_Evo_mC: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
@@ -90,7 +90,7 @@ export default {
       },
       text_A3w_eC: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
@@ -108,7 +108,7 @@ export default {
       },
       text_Zsm_gC: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
@@ -125,7 +125,7 @@ export default {
       },
       text_I5d_mC: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
@@ -163,7 +163,7 @@ export default {
       },
       text_Klok_Licht_zC: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
@@ -178,7 +178,7 @@ export default {
       },
       text_Stop_eC: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
@@ -194,7 +194,7 @@ export default {
       },
       text_A3w_mC: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
@@ -215,7 +215,7 @@ export default {
       },
       text_Ws1_eC: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
@@ -232,7 +232,7 @@ export default {
       },
       text_Ws2_eC: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
@@ -249,7 +249,7 @@ export default {
       },
       text_overig: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           type: 'bedankt',
           ifOneOf: {
             subcategory: [

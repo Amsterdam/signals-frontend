@@ -10,7 +10,7 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError }) =
       <div className="row mode_input">
         <Title meta={meta} />
 
-        <div className={`col-${meta.cols || 12} antwoorden`}>
+        <div className={`${meta.className || 'col-12'} antwoorden`}>
           <div className="antwoord">
             <input
               id={meta.name}

@@ -5,13 +5,19 @@ import { map } from 'lodash';
 import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
-const RadioInput = ({ handler, touched, hasError, meta, parent, getError }) => (
-  <div>
+const RadioInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => (
+  <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
     {meta && meta.isVisible ?
-      <div className="row mode_input">
-        <Title meta={meta} />
+      <div className={`${meta.className || 'col-12'}  mode_input ${touched && hasError('required') ? 'field--invalid' : ''}`}>
+        <Title meta={meta} options={validatorsOrOpts} />
 
-        <div className={`col-${meta.cols || 12} antwoorden`}>
+        <ErrorMessage
+          touched={touched}
+          hasError={hasError}
+          getError={getError}
+        />
+
+        <div className="antwoorden">
           {meta.values ? map(meta.values, (value, key) => (
             <div className="antwoord" key={`${meta.name}-${key}`}>
               <input
@@ -25,11 +31,6 @@ const RadioInput = ({ handler, touched, hasError, meta, parent, getError }) => (
           )) : ''}
         </div>
 
-        <ErrorMessage
-          touched={touched}
-          hasError={hasError}
-          getError={getError}
-        />
       </div>
        : ''}
   </div>
@@ -41,7 +42,8 @@ RadioInput.propTypes = {
   getError: PropTypes.func.isRequired,
   hasError: PropTypes.func.isRequired,
   meta: PropTypes.object,
-  parent: PropTypes.object
+  parent: PropTypes.object,
+  validatorsOrOpts: PropTypes.object
 };
 
 export default RadioInput;

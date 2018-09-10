@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 
 import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
-const TextInput = ({ handler, touched, hasError, meta, parent, getError }) => (
+const TextInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => (
   <div>
     {meta && meta.isVisible ?
       <div className="row mode_input">
-        <Title meta={meta} />
+        <Title meta={meta} options={validatorsOrOpts} />
 
-        <div className={`col-${meta.cols || 12} invoer`}>
+        <div className={`${meta.className || 'col-12'} invoer`}>
           <input
             type={meta.type}
             placeholder={meta.placeholder}
@@ -34,7 +34,8 @@ TextInput.propTypes = {
   hasError: PropTypes.func,
   meta: PropTypes.object,
   parent: PropTypes.object,
-  getError: PropTypes.func
+  getError: PropTypes.func,
+  validatorsOrOpts: PropTypes.object
 };
 
 export default TextInput;

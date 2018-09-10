@@ -6,7 +6,7 @@ import ErrorMessage from '../ErrorMessage/';
 
 import './style.scss';
 
-const FileInput = ({ handler, touched, hasError, getError, parent, meta }) => {
+const FileInput = ({ handler, touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
   const handleChange = (e) => {
     if (e.target.files && e.target.files.length) {
       const file = e.target.files[0];
@@ -37,13 +37,13 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta }) => {
   };
 
   return (
-    <div>
+    <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
       {meta && meta.isVisible ?
-        <div className="row mode_upload file">
-          <Title meta={meta} />
+        <div className={`${meta.className || 'col-12'} mode_input file ${touched && hasError('required') ? 'rij_ongeldig' : ''}`}>
+          <Title meta={meta} options={validatorsOrOpts} />
 
           {handler().value ?
-            <div className={`col-${meta.cols || 12} file-input__preview`}>
+            <div className="file-input__preview">
               <button
                 className="file-input__clear-button"
                 onClick={() => handleClear(handler().value)}
@@ -56,7 +56,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta }) => {
               />
             </div>
           :
-            <div className={`col-${meta.cols || 12} invoer`}>
+            <div className="invoer">
               <input
                 type="file"
                 id="formUpload"
@@ -83,7 +83,8 @@ FileInput.propTypes = {
   hasError: PropTypes.func,
   meta: PropTypes.object,
   parent: PropTypes.object,
-  getError: PropTypes.func.isRequired
+  getError: PropTypes.func.isRequired,
+  validatorsOrOpts: PropTypes.object
 };
 
 export default FileInput;

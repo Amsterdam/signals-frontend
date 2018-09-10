@@ -16,7 +16,7 @@ export default {
     controls: {
       source: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           label: 'Hoe komt de melding binnen?',
           path: 'source',
           updateIncident: true,
@@ -37,7 +37,7 @@ export default {
           }
         },
         options: {
-          validators: Validators.required
+          validators: [Validators.required]
         },
         authenticated: true,
         render: FormComponents.SelectInput
@@ -49,7 +49,7 @@ export default {
           path: 'location',
         },
         options: {
-          validators: Validators.required
+          validators: [Validators.required]
         },
         render: FormComponents.MapInput
       },
@@ -74,7 +74,7 @@ export default {
           type: 'text'
         },
         options: {
-          validators: Validators.required
+          validators: [Validators.required]
         },
         render: FormComponents.HiddenInput
       },
@@ -85,13 +85,13 @@ export default {
           type: 'text'
         },
         options: {
-          validators: Validators.required
+          validators: [Validators.required]
         },
         render: FormComponents.HiddenInput
       },
       datetime: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           label: 'Geef het tijdstip aan',
           values: {
             Nu: 'Nu',
@@ -100,7 +100,7 @@ export default {
           updateIncident: true
         },
         options: {
-          validators: Validators.required
+          validators: [Validators.required]
         },
         render: FormComponents.RadioInput
       },

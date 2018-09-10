@@ -1,8 +1,4 @@
-@import "node_modules/stijl/dist/scss/_ams-breakpoints.scss";
-@import "node_modules/stijl/dist/scss/_ams-colorpalette.scss";
-@import "node_modules/stijl/dist/scss/_ams-extends.scss";
-@import "node_modules/stijl/dist/scss/_ams-font.scss";
-@import "node_modules/stijl/dist/scss/_ams-mixins.scss";
+@import "config.scss";
 
 html,
 body {
@@ -11,7 +7,7 @@ body {
 }
 
 body {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  @include avenirnext();
 }
 
 ul li {
@@ -66,4 +62,3 @@ dd {
   }
 
 }
-

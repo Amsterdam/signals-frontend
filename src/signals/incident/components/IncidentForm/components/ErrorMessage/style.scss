@@ -1,0 +1,9 @@
+@import "config.scss";
+
+.field-errors {
+  &__item {
+    color: $ams-rood;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+}

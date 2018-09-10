@@ -6,7 +6,7 @@ import MapInteractive from '../../../../../../components/MapInteractive';
 import Title from '../Title/';
 import ErrorMessage from '../ErrorMessage/';
 
-const MapInput = ({ handler, touched, hasError, meta, parent, getError }) => {
+const MapInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   const value = handler().value || {};
 
   const onQueryResult = (d) => {
@@ -37,21 +37,19 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError }) => {
   };
 
   return (
-    <div>
+    <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
       {meta && meta.isVisible ?
-        <div className="row">
-          <Title meta={meta} />
+        <div className={`${meta.className || 'col-12'} mode_input ${touched && hasError('required') ? 'field--invalid' : ''}`}>
+          <Title meta={meta} options={validatorsOrOpts} />
+          {console.log('required', hasError())}
+          <ErrorMessage
+            touched={touched}
+            hasError={hasError}
+            getError={getError}
+          />
 
-          <div className={`col-${meta.cols || 12} invoer`}>
+          <div className="invoer">
             <MapInteractive onQueryResult={onQueryResult} location={value} />
-          </div>
-
-          <div className="col-12">
-            <ErrorMessage
-              touched={touched}
-              hasError={hasError}
-              getError={getError}
-            />
           </div>
         </div>
          : ''}
@@ -65,7 +63,8 @@ MapInput.propTypes = {
   getError: PropTypes.func.isRequired,
   hasError: PropTypes.func.isRequired,
   meta: PropTypes.object,
-  parent: PropTypes.object
+  parent: PropTypes.object,
+  validatorsOrOpts: PropTypes.object
 };
 
 export default MapInput;

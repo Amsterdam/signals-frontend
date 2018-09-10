@@ -25,12 +25,8 @@ class Map extends React.Component {
   render() {
     return (
       <div className="map-component">
-        <div className="row">
-          <div className="col-12">
-            <div className="map">
-              <div id="mapdiv" />
-            </div>
-          </div>
+        <div className="map">
+          <div id="mapdiv" />
         </div>
       </div>
     );

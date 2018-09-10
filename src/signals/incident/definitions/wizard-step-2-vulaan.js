@@ -17,7 +17,7 @@ export default {
 
       extra_personen_overig: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           ifAllOf: {
             category: 'Overlast van en door personen of groepen'
           },
@@ -34,7 +34,7 @@ export default {
       },
       extra_personen_overig_vaker: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           ifAllOf: {
             category: 'Overlast van en door personen of groepen'
           },
@@ -60,7 +60,7 @@ export default {
 
       extra_bedrijven_binnenstad_text: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           ifAllOf: {
             category: 'Overlast Bedrijven en Horeca'
           },
@@ -130,7 +130,7 @@ export default {
       },
       extra_bedrijven_text: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           ifAllOf: {
             category: 'Overlast Bedrijven en Horeca'
           },
@@ -145,7 +145,7 @@ export default {
 
       extra_boten_snelheid_rondvaartboot: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           ifAllOf: {
             subcategory: 'Overlast op het water - snel varen'
           },
@@ -161,8 +161,8 @@ export default {
       },
       extra_boten_snelheid_rederij: {
         meta: {
-          cols: 6,
-          label: 'Wat is de naam van de rederij? (niet verplicht)',
+          className: 'col-sm-12 col-md-6',
+          label: 'Wat is de naam van de rederij?',
           subtitle: 'Als u begint met typen verschijnt vanzelf een lijst met rederijen',
           pathMerge: 'extra_properties',
           values: {
@@ -241,8 +241,8 @@ export default {
       },
       extra_boten_snelheid_naamboot: {
         meta: {
-          cols: 6,
-          label: 'Wat is de naam van de boot? (niet verplicht)',
+          className: 'col-sm-12 col-md-6',
+          label: 'Wat is de naam van de boot?',
           pathMerge: 'extra_properties',
           ifAllOf: {
             subcategory: 'Overlast op het water - snel varen'
@@ -252,7 +252,7 @@ export default {
       },
       extra_boten_snelheid_meer: {
         meta: {
-          label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? (niet verplicht)',
+          label: 'Zijn er nog dingen die u ons nog meer kunt vertellen?',
           subtitle: 'Bijvoorbeeld: de kleur(en) van de boot, het aantal passagiers, de vaarrichting, Y of Vignet nummer etc.',
           pathMerge: 'extra_properties',
           ifAllOf: {
@@ -263,7 +263,7 @@ export default {
       },
       extra_boten_geluid_meer: {
         meta: {
-          label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? (niet verplicht)',
+          label: 'Zijn er nog dingen die u ons nog meer kunt vertellen?',
           pathMerge: 'extra_properties',
           ifAllOf: {
             subcategory: 'Overlast op het water - geluid'
@@ -273,7 +273,7 @@ export default {
       },
       extra_boten_gezonken_meer: {
         meta: {
-          label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? (niet verplicht)',
+          label: 'Zijn er nog dingen die u ons nog meer kunt vertellen?',
           subtitle: 'Bijvoorbeeld: "er lekt olie", "gevaar voor andere boten", etc.',
           pathMerge: 'extra_properties',
           ifAllOf: {

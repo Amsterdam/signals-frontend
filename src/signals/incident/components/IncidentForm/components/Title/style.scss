@@ -1,8 +1,19 @@
+@import "config.scss";
+
 .title {
-  &__subtitle {
-    color: #999;
+  &__label {
+    @include avenirnextdemi();
+    margin-bottom: 8px;
   }
 
-  &__label {
+  &__subtitle {
+    color: $ams-donkerantraciet;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  &--not-required {
+    @include avenirnext();
+    margin-left: 8px;
   }
 }

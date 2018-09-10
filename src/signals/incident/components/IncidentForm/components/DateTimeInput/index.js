@@ -17,14 +17,13 @@ const DateTimeInput = ({ meta, parent }) => {
   }
 
   return (
-    <div>
+    <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
       {meta && meta.isVisible ?
-        <div className="row mode_input datetime-input">
-          <div className={`col-${meta.cols || 12} invoer antwoorden`}>
+        <div className={`${meta.className || 'col-12'} mode_input datetime-input`}>
+          <div className="invoer antwoorden">
             <Title meta={meta} />
 
             <div className="datetime-input__earlier">
-
               <div className="label">
                 <label htmlFor={`${meta.name}-select-day`}>Dag</label>
               </div>
