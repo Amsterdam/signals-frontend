@@ -1,28 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Title from '../Title/';
-import ErrorMessage from '../ErrorMessage/';
+import Header from '../Header/';
+
 const TextInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => (
-  <div>
+  <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
     {meta && meta.isVisible ?
-      <div className="row mode_input">
-        <Title meta={meta} options={validatorsOrOpts} />
-
-        <div className={`${meta.className || 'col-12'} invoer`}>
-          <input
-            type={meta.type}
-            placeholder={meta.placeholder}
-            onChange={(e) => meta.updateIncident && parent.meta.setIncident({ [meta.name]: e.target.value })}
-            {...handler()}
-          />
-        </div>
-
-        <ErrorMessage
+      <div className={`${meta.className || 'col-12'} mode_input`}>
+        <Header
+          meta={meta}
+          options={validatorsOrOpts}
           touched={touched}
           hasError={hasError}
           getError={getError}
-        />
+        >
+          <div className="invoer">
+            <input
+              type={meta.type}
+              placeholder={meta.placeholder}
+              onChange={(e) => meta.updateIncident && parent.meta.setIncident({ [meta.name]: e.target.value })}
+              {...handler()}
+            />
+          </div>
+        </Header>
       </div>
        : ''}
   </div>

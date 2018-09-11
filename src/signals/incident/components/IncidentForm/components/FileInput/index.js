@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Title from '../Title/';
-import ErrorMessage from '../ErrorMessage/';
+import Header from '../Header/';
 
 import './style.scss';
 
@@ -39,38 +38,38 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
   return (
     <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
       {meta && meta.isVisible ?
-        <div className={`${meta.className || 'col-12'} mode_input file ${touched && hasError('required') ? 'rij_ongeldig' : ''}`}>
-          <Title meta={meta} options={validatorsOrOpts} />
-
-          {handler().value ?
-            <div className="file-input__preview">
-              <button
-                className="file-input__clear-button"
-                onClick={() => handleClear(handler().value)}
-              />
-
-              <img
-                alt="Preview uploaded foto"
-                src={handler().value}
-                className="file-input__preview-image"
-              />
-            </div>
-          :
-            <div className="invoer">
-              <input
-                type="file"
-                id="formUpload"
-                onChange={handleChange}
-              />
-              <label htmlFor="formUpload" className="secundary-blue">{meta.submitLabel}</label>
-            </div>
-          }
-
-          <ErrorMessage
+        <div className={`${meta.className || 'col-12'} mode_input file`}>
+          <Header
+            meta={meta}
+            options={validatorsOrOpts}
             touched={touched}
             hasError={hasError}
             getError={getError}
-          />
+          >
+            {handler().value ?
+              <div className="file-input__preview">
+                <button
+                  className="file-input__clear-button"
+                  onClick={() => handleClear(handler().value)}
+                />
+
+                <img
+                  alt="Preview uploaded foto"
+                  src={handler().value}
+                  className="file-input__preview-image"
+                />
+              </div>
+            :
+              <div className="invoer">
+                <input
+                  type="file"
+                  id="formUpload"
+                  onChange={handleChange}
+                />
+                <label htmlFor="formUpload" className="secundary-blue">{meta.submitLabel}</label>
+              </div>
+            }
+          </Header>
         </div>
          : ''}
     </div>

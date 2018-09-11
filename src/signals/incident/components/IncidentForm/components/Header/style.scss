@@ -1,0 +1,32 @@
+@import "config.scss";
+
+.header {
+  &__label {
+    @include avenirnextdemi();
+    margin-bottom: 8px;
+  }
+
+  &__subtitle {
+    color: $ams-donkerantraciet;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  &--not-required {
+    @include avenirnext();
+    margin-left: 8px;
+  }
+
+  &__errors {
+    &__item {
+      color: $ams-rood;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+  }
+
+  &--invalid {
+    border-left: $ams-rood 2px solid;
+    padding-left: 12px;
+  }
+}

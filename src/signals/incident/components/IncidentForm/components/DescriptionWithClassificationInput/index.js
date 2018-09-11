@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Title from '../Title/';
-import ErrorMessage from '../ErrorMessage/';
+import Header from '../Header/';
 
 function get(e, meta, parent) {
   parent.meta.getClassification(e.target.value);
@@ -13,24 +12,24 @@ function get(e, meta, parent) {
 const DescriptionWithClassificationInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => (
   <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
     {meta && meta.isVisible ?
-      <div className={`${meta.className || 'col-12'} mode_input ${touched && hasError('required') ? 'field--invalid' : ''}`}>
-        <Title meta={meta} options={validatorsOrOpts} />
-
-        <ErrorMessage
+      <div className={`${meta.className || 'col-12'} mode_input`}>
+        <Header
+          meta={meta}
+          options={validatorsOrOpts}
           touched={touched}
           hasError={hasError}
           getError={getError}
-        />
-
-        <div className="invoer">
-          <textarea
-            className="input"
-            rows={meta.rows || 6}
-            placeholder={meta.placeholder}
-            {...handler()}
-            onBlur={(e) => get(e, meta, parent)}
-          />
-        </div>
+        >
+          <div className="invoer">
+            <textarea
+              className="input"
+              rows={meta.rows || 6}
+              placeholder={meta.placeholder}
+              {...handler()}
+              onBlur={(e) => get(e, meta, parent)}
+            />
+          </div>
+        </Header>
       </div>
        : ''}
   </div>
