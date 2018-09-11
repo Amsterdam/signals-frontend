@@ -28,7 +28,7 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
               getError={getError}
             >
               <div className="datetime-input__earlier">
-                <div className="label">
+                <div className="datetime-input__label">
                   <label htmlFor={`${meta.name}-select-day`}>Dag</label>
                 </div>
                 <div className="invoer datetime-input__earlier-date">
@@ -44,7 +44,7 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
                   </select>
                 </div>
 
-                <div className="label">
+                <div className="datetime-input__label">
                   <label htmlFor={`${meta.name}-select-time-hours`}>Tijd</label>
                 </div>
                 <div className="invoer datetime-input__earlier-time">
@@ -61,6 +61,7 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
                       >{hour}</option>
                     ))}
                   </select>
+                  <span className="datetime-input__earlier-time-label">uur</span>
                   <select
                     id={`${meta.name}-select-time-minutes`}
                     className="datetime-input__earlier-time-minutes"
@@ -74,6 +75,7 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
                       >{minute * 5}</option>
                     ))}
                   </select>
+                  <span className="datetime-input__earlier-time-label">min</span>
                 </div>
               </div>
             </Header>

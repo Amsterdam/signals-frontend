@@ -8,7 +8,7 @@ import './style.scss';
 const Header = ({ meta, options, touched, hasError, getError, children }) => (
   <div className={`header ${touched && (hasError('required') || hasError('email') || hasError('maxLength')) ? 'header--invalid' : ''}`}>
     <div className="header__label">{meta && meta.label}
-      {!options || !options.validators || (options && options.validators && !options.validators.includes(Validators.required)) ?
+      {(meta.label && (!options || !options.validators)) || (options && options.validators && !options.validators.includes(Validators.required)) ?
         <span className="header--not-required">(niet verplicht)</span>
       : ''}
     </div>
