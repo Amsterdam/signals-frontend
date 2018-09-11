@@ -7,7 +7,7 @@ import Header from '../Header/';
 const SelectInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => (
   <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
     {meta && meta.isVisible ?
-      <div className={`${meta.className || 'col-12'}  mode_input`}>
+      <div className={`${meta.className || 'col-12'} mode_input`}>
         <Header
           meta={meta}
           options={validatorsOrOpts}
@@ -15,7 +15,7 @@ const SelectInput = ({ handler, touched, hasError, meta, parent, getError, valid
           hasError={hasError}
           getError={getError}
         >
-          <div className={`${meta.className || 'col-12'} invoer`}>
+          <div className="invoer">
             <select
               value={handler().value}
               onChange={(e) => meta.updateIncident && parent.meta.setIncident({ [meta.name]: e.target.value })}

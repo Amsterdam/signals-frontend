@@ -40,7 +40,7 @@ function IncidentWizard({ getClassification, setIncident, createIncident, incide
               <Steps>
                 {Object.keys(wizardDefinition).map((key) => (
                   <Step key={key} id={`incident/${key}`}>
-                    <h2>{wizardDefinition[key].label || key}</h2>
+                    <h1>{wizardDefinition[key].label || key}</h1>
                     {wizardDefinition[key].preview ?
                       <IncidentPreview
                         incidentContainer={incidentContainer}
