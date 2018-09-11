@@ -49,7 +49,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
             {handler().value ?
               <div className="file-input__preview">
                 <button
-                  className="file-input__clear-button"
+                  className="file-input__button-delete link-functional delete"
                   onClick={() => handleClear(handler().value)}
                 />
 

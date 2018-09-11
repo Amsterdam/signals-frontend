@@ -23,7 +23,7 @@ function IncidentPreview({ incidentContainer, preview }) {
           {Object.keys(preview).map((key) => (
             <div key={key}>
               <button
-                className="link-functional edit"
+                className="incident-preview__button-edit link-functional edit"
                 onClick={() => push(`incident/${key}`)}
               />
 
