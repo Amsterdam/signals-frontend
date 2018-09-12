@@ -1,0 +1,152 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form component <Header /> error messages should render email error 1`] = `
+<div
+  className="header header--invalid"
+>
+  <div
+    className="header__label"
+  />
+  <div
+    className="header__subheader"
+  />
+  <div
+    className="header__errors"
+  >
+    <div
+      className="header__errors__item"
+    />
+    <div
+      className="header__errors__item"
+    >
+      Het moet een geldig e-mailadres zijn
+    </div>
+    <div
+      className="header__errors__item"
+    />
+  </div>
+  <div
+    className="header__children"
+  />
+</div>
+`;
+
+exports[`Form component <Header /> error messages should render maxLength error 1`] = `
+<div
+  className="header header--invalid"
+>
+  <div
+    className="header__label"
+  />
+  <div
+    className="header__subheader"
+  />
+  <div
+    className="header__errors"
+  >
+    <div
+      className="header__errors__item"
+    />
+    <div
+      className="header__errors__item"
+    />
+    <div
+      className="header__errors__item"
+    >
+      Dit veld mag niet langer dan 666 tekens zijn.
+    </div>
+  </div>
+  <div
+    className="header__children"
+  />
+</div>
+`;
+
+exports[`Form component <Header /> error messages should render no error when element is only touched 1`] = `
+<div
+  className="header "
+>
+  <div
+    className="header__label"
+  />
+  <div
+    className="header__subheader"
+  />
+  <div
+    className="header__errors"
+  >
+    <div
+      className="header__errors__item"
+    />
+    <div
+      className="header__errors__item"
+    />
+    <div
+      className="header__errors__item"
+    />
+  </div>
+  <div
+    className="header__children"
+  />
+</div>
+`;
+
+exports[`Form component <Header /> error messages should render required error 1`] = `
+<div
+  className="header header--invalid"
+>
+  <div
+    className="header__label"
+  />
+  <div
+    className="header__subheader"
+  />
+  <div
+    className="header__errors"
+  >
+    <div
+      className="header__errors__item"
+    >
+      Dit is een verplicht veld
+    </div>
+    <div
+      className="header__errors__item"
+    />
+    <div
+      className="header__errors__item"
+    />
+  </div>
+  <div
+    className="header__children"
+  />
+</div>
+`;
+
+exports[`Form component <Header /> should render correctly 1`] = `
+<div
+  className="header "
+>
+  <div
+    className="header__label"
+  />
+  <div
+    className="header__subheader"
+  />
+  <div
+    className="header__errors"
+  >
+    <div
+      className="header__errors__item"
+    />
+    <div
+      className="header__errors__item"
+    />
+    <div
+      className="header__errors__item"
+    />
+  </div>
+  <div
+    className="header__children"
+  />
+</div>
+`;

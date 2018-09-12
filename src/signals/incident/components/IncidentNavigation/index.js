@@ -17,11 +17,11 @@ const IncidentNavigation = ({ valid, meta: { form, incidentContainer, wizard, ha
     <WithWizard
       render={({ next, previous, step, steps }) => (
         <div className="incident-navigation">
-          {steps.indexOf(step) > 0 && (
+          {steps.indexOf(step) > 0 ? (
             <button className="incident-navigation__button action startagain" onClick={previous}>
               Vorige
             </button>
-          )}
+          ) : <span /> }
 
           {steps.indexOf(step) < steps.length - 1 && (
             <button

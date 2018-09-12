@@ -1,13 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Form component <FileInput /> rendering should render no upload field when not visible 1`] = `<div />`;
+exports[`Form component <FileInput /> rendering should render no upload field when not visible 1`] = `
+<div
+  className=""
+/>
+`;
 
 exports[`Form component <FileInput /> rendering should render upload field correctly 1`] = `
-<div>
+<div
+  className="row"
+>
   <div
-    className="row mode_upload file"
+    className="col-12 mode_input file"
   >
-    <Title
+    <Header
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
       meta={
         Object {
           "isVisible": true,
@@ -15,37 +23,38 @@ exports[`Form component <FileInput /> rendering should render upload field corre
           "submitLabel": "upload file",
         }
       }
-    />
-    <div
-      className="col-12 invoer"
-    >
-      <input
-        id="formUpload"
-        onChange={[Function]}
-        type="file"
-      />
-      <label
-        className="secundary-blue"
-        htmlFor="formUpload"
-      >
-        upload file
-      </label>
-    </div>
-    <ErrorMessage
-      getError={[MockFunction]}
-      hasError={[MockFunction]}
       touched={false}
-    />
+    >
+      <div
+        className="invoer"
+      >
+        <input
+          id="formUpload"
+          onChange={[Function]}
+          type="file"
+        />
+        <label
+          className="secundary-blue"
+          htmlFor="formUpload"
+        >
+          upload file
+        </label>
+      </div>
+    </Header>
   </div>
 </div>
 `;
 
 exports[`Form component <FileInput /> rendering should render upload field with selected file correctly 1`] = `
-<div>
+<div
+  className="row"
+>
   <div
-    className="row mode_upload file"
+    className="col-12 mode_input file"
   >
-    <Title
+    <Header
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
       meta={
         Object {
           "isVisible": true,
@@ -53,25 +62,22 @@ exports[`Form component <FileInput /> rendering should render upload field with 
           "submitLabel": "upload file",
         }
       }
-    />
-    <div
-      className="col-12 file-input__preview"
-    >
-      <button
-        className="file-input__clear-button"
-        onClick={[Function]}
-      />
-      <img
-        alt="Preview uploaded foto"
-        className="file-input__preview-image"
-        src="blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c"
-      />
-    </div>
-    <ErrorMessage
-      getError={[MockFunction]}
-      hasError={[MockFunction]}
       touched={false}
-    />
+    >
+      <div
+        className="file-input__preview"
+      >
+        <button
+          className="file-input__button-delete link-functional delete"
+          onClick={[Function]}
+        />
+        <img
+          alt="Preview uploaded foto"
+          className="file-input__preview-image"
+          src="blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c"
+        />
+      </div>
+    </Header>
   </div>
 </div>
 `;

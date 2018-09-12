@@ -3,8 +3,6 @@ import { shallow } from 'enzyme';
 
 import DateTimeInput from './index';
 
-jest.mock('../Title/', () => 'Title');
-
 describe('Form component <DateTimeInput />', () => {
   const metaFields = {
     name: 'input-field-name'

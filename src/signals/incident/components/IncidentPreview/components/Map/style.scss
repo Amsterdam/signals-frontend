@@ -1,0 +1,14 @@
+.preview-map {
+  &__item-label,
+  &__item-value {
+    padding: 20px 0;
+
+    &-map {
+      margin-top: 8px;
+
+      #mapdiv {
+        height: 300px;
+      }
+    }
+  }
+}

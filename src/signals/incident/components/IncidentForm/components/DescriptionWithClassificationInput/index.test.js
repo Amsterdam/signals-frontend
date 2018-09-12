@@ -3,9 +3,6 @@ import { shallow } from 'enzyme';
 
 import DescriptionWithClassificationInput from './index';
 
-jest.mock('../Title/', () => 'Title');
-jest.mock('../ErrorMessage/', () => 'ErrorMessage');
-
 describe('Form component <DescriptionWithClassificationInput />', () => {
   const metaFields = {
     name: 'input-field-name',

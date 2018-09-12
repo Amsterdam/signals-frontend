@@ -5,19 +5,11 @@ exports[`<Map /> should render correctly 1`] = `
   className="map-component"
 >
   <div
-    className="row"
+    className="map"
   >
     <div
-      className="col-12"
-    >
-      <div
-        className="map"
-      >
-        <div
-          id="mapdiv"
-        />
-      </div>
-    </div>
+      id="mapdiv"
+    />
   </div>
 </div>
 `;

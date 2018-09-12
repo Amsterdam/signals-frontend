@@ -1,31 +1,37 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import ErrorMessage from './index';
+import Header from './index';
 
-describe('Form component <ErrorMessage />', () => {
+describe('Form component <Header />', () => {
   let wrapper;
+  let meta;
+  let options;
   let touched;
   let getError;
   let hasError;
 
   beforeEach(() => {
+    meta = {};
+    options = {};
     touched = false;
     getError = jest.fn();
     hasError = jest.fn();
 
-    wrapper = shallow(<ErrorMessage
+    wrapper = shallow(<Header
+      meta={meta}
+      options={options}
       touched={touched}
       hasError={hasError}
       getError={getError}
     />);
   });
 
-  describe('rendering', () => {
-    it('should render no error by default', () => {
-      expect(wrapper).toMatchSnapshot();
-    });
+  it('should render correctly', () => {
+    expect(wrapper).toMatchSnapshot();
+  });
 
+  describe('error messages', () => {
     it('should render no error when element is only touched', () => {
       wrapper.setProps({ touched: true });
 

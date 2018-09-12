@@ -3,9 +3,6 @@ import { shallow } from 'enzyme';
 
 import FileInput from './index';
 
-jest.mock('../Title/', () => 'Title');
-jest.mock('../ErrorMessage/', () => 'ErrorMessage');
-
 describe('Form component <FileInput />', () => {
   const metaFields = {
     name: 'input-field-name',
