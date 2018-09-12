@@ -68,12 +68,13 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 
     const view = this.state.printView ? <PrintLayout id={this.props.id} incident={incident} stadsdeelList={stadsdeelList} onPrintView={this.onPrintView} /> :
       (<div className="incident-detail-page row container">
-        <div className="col-12"><h3>Melding {this.props.id}</h3>
-        </div>
-        <ul className="col-4 incident-detail-page__map">
+        <div className="col-12"><h3>Melding {this.props.id}</h3></div>
+
+        <ul className="col-12 col-md-4 incident-detail-page__map">
           {(incident) ? <MapDetail label="" value={incident.location} /> : ''}
         </ul>
-        <div className="col-8">
+
+        <div className="col-12 col-md-8">
           (<Link to={`${this.props.baseUrl}/incidents`} >Terug naar overzicht</Link>)
           <button onClick={this.onPrintView}>Print view</button>
           {(incident) ? <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} /> : ''}

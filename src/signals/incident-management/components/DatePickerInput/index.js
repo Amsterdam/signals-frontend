@@ -13,26 +13,27 @@ export const DatePickerInput = (props) => {
   const render = (theseProps) => {
     const { handler, setValue, value } = theseProps;
     const selectedValue = value ? moment(value) : null;
-    return (<div>
-      <div className="mode_input text rij_verplicht">
-        <div className="label">
-          <label htmlFor={`form${name}`}>{display}</label>
-        </div>
+    return (
+      <div className="date-picker-input">
+        <div className="mode_input text rij_verplicht">
+          <div className="date-picker-input__label">
+            <label htmlFor={`form${name}`}>{display}</label>
+          </div>
 
-        <div className="date-picker-input__control invoer">
-          <DatePicker
-            dateFormat="dd-MM-yyyy"
-            isClearable
-            selected={selectedValue}
-            {...handler()}
-            onChange={((momentValue) => {
-              if (momentValue) setValue(moment(momentValue).format('YYYY-MM-DD'));
-              else setValue('');
-            })}
-          />
+          <div className="date-picker-input__control invoer">
+            <DatePicker
+              dateFormat="dd-MM-yyyy"
+              isClearable
+              selected={selectedValue}
+              {...handler()}
+              onChange={((momentValue) => {
+                if (momentValue) setValue(moment(momentValue).format('YYYY-MM-DD'));
+                else setValue('');
+              })}
+            />
+          </div>
         </div>
-      </div>
-    </div>)
+      </div>)
       ;
   };
 

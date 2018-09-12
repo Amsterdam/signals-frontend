@@ -13,14 +13,14 @@ exports[`<IncidentDetailPage /> should render correctly 1`] = `
     </h3>
   </div>
   <ul
-    className="col-4 incident-detail-page__map"
+    className="col-12 col-md-4 incident-detail-page__map"
   >
     <MapDetail
       label=""
     />
   </ul>
   <div
-    className="col-8"
+    className="col-12 col-md-8"
   >
     (
     <Link

@@ -1,12 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<DatePickerInput /> should render correctly 1`] = `
-<div>
+<div
+  className="date-picker-input"
+>
   <div
     className="mode_input text rij_verplicht"
   >
     <div
-      className="label"
+      className="date-picker-input__label"
     >
       <label
         htmlFor="formname"

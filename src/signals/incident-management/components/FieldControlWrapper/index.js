@@ -5,7 +5,14 @@ import { FieldControl } from 'react-reactive-form';
 
 const FieldControlWrapper = ({ name, control, render, ...props }) => (
   <div>
-    <FieldControl name={name} control={control} render={render(props)} />
+    <FieldControl
+      name={name}
+      control={control}
+      render={render({
+        ...props,
+        name
+      })}
+    />
   </div>);
 
 FieldControlWrapper.propTypes = {
