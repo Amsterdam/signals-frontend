@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { FormattedMessage } from 'react-intl';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -14,7 +13,6 @@ import './style.scss';
 import List from './components/List';
 import Add from './components/Add';
 import { requestStatusList, requestStatusCreate } from './actions';
-import messages from './messages';
 
 export class IncidentStatusContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
@@ -32,8 +30,7 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
         {canDisplay ?
           <div className="incident-status-container row">
             <div className="col-12">
-              {canChangeState ? <Add id={this.props.id} loading={loading} statusList={statusList} onRequestStatusCreate={this.props.onRequestStatusCreate} incidentStatusList={incidentStatusList} /> : ''}
-              {error ? <div className="incident-status-container__error" ><FormattedMessage {...messages.errorStateTransition} /></div> : ''}
+              {canChangeState ? <Add id={this.props.id} loading={loading} statusList={statusList} error={error} onRequestStatusCreate={this.props.onRequestStatusCreate} incidentStatusList={incidentStatusList} /> : ''}
             </div>
             <div className="col-12">
               <List incidentStatusList={incidentStatusList} statusList={statusList} />
