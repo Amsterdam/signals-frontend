@@ -58,7 +58,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
                   <FieldControlWrapper render={SelectInput} name="state" display="Status" control={this.statusForm.get('state')} values={statusList} multiple={false} emptyOptionText="Selecteer..." />
                   <FieldControlWrapper render={TextAreaInput} name="text" display="Omschrijving" control={this.statusForm.get('text')} rows={5} />
 
-                  {error ? <div className="incident-status-add--error" >De gekozen status is niet mogelijk in deze situatie.</div> : ''}
+                  {error ? <div className="notification notification-red" >De gekozen status is niet mogelijk in deze situatie.</div> : ''}
 
                   <button className="incident-status-add__submit action primary" type="submit" disabled={invalid || loading}>
                     <span className="value">Status toevoegen</span>
@@ -89,14 +89,15 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
 */
 
 Add.defaultProps = {
-  loading: false
+  loading: false,
+  error: false
 };
 
 Add.propTypes = {
   id: PropTypes.string,
   statusList: PropTypes.array,
   loading: PropTypes.bool,
-  error: PropTypes.oneOf([PropTypes.bool, PropTypes.object]),
+  error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
 
   onRequestStatusCreate: PropTypes.func.isRequired
 };
