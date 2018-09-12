@@ -53,7 +53,7 @@ exports[`Form component <Header /> error messages should render maxLength error 
     <div
       className="header__errors__item"
     >
-      Dit veld mag niet langer dan 666 characters zijn.
+      Dit veld mag niet langer dan 666 tekens zijn.
     </div>
   </div>
   <div
