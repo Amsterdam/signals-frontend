@@ -21,24 +21,22 @@ function IncidentPreview({ incidentContainer, preview }) {
       render={({ push }) => (
         <div className="incident-preview">
           {Object.keys(preview).map((key) => (
-            <div key={key}>
+            <div className="incident-preview__section" key={key}>
               <button
                 className="incident-preview__button-edit link-functional edit"
                 onClick={() => push(`incident/${key}`)}
               />
 
-              <ul key={key}>
-                {Object.keys(preview[key]).map((subkey) => (
-                  <li key={subkey}>
-                    {preview[key][subkey].render({
-                      label: preview[key][subkey].label,
-                      value: incidentContainer.incident[subkey],
-                      optional: preview[key][subkey].optional,
-                      incident: incidentContainer.incident
-                    })}
-                  </li>
-                ))}
-              </ul>
+              {Object.keys(preview[key]).map((subkey) => (
+                <div key={subkey}>
+                  {preview[key][subkey].render({
+                    label: preview[key][subkey].label,
+                    value: incidentContainer.incident[subkey],
+                    optional: preview[key][subkey].optional,
+                    incident: incidentContainer.incident
+                  })}
+                </div>
+              ))}
             </div>
           ))}
         </div>
