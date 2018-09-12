@@ -58,7 +58,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
                   <FieldControlWrapper render={SelectInput} name="state" display="Status" control={this.statusForm.get('state')} values={statusList} multiple={false} emptyOptionText="Selecteer..." />
                   <FieldControlWrapper render={TextAreaInput} name="text" display="Omschrijving" control={this.statusForm.get('text')} rows={5} />
 
-                  <button className="action primary" type="submit" disabled={invalid || loading}>
+                  <button className="incident-status-add__submit action primary" type="submit" disabled={invalid || loading}>
                     <span className="value">Status toevoegen</span>
                     {loading ?
                       <span className="working">

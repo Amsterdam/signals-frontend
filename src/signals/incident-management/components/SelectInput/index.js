@@ -16,26 +16,26 @@ export const SelectInput = (props) => {
   );
   const listSize = (values.length > size) ? size : values.length;
 
-  const render = ({ handler }) => (<div>
-    <div className="mode_input text rij_verplicht">
-      <div className="label">
-        <label htmlFor={`form${name}`}>{display}</label>
-      </div>
+  const render = ({ handler }) => (
+    <div className="select-input">
+      <div className="mode_input text rij_verplicht">
+        <div className="select-input__label">
+          <label htmlFor={`form${name}`}>{display}</label>
+        </div>
 
-      <div className="select-input__control invoer">
-        <select
-          name=""
-          id={`form${name}`}
-          {...handler()}
-          multiple={multiple}
-          size={multiple ? listSize : ''}
-          className="select-input__control--overflow"
-        >
-          {options}
-        </select>
+        <div className="select-input__control invoer">
+          <select
+            name=""
+            id={`form${name}`}
+            {...handler()}
+            multiple={multiple}
+            size={multiple ? listSize : ''}
+          >
+            {options}
+          </select>
+        </div>
       </div>
-    </div>
-  </div>);
+    </div>);
 
   render.defaultProps = {
     touched: false,
