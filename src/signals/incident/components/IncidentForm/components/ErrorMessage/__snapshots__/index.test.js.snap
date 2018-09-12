@@ -4,11 +4,17 @@ exports[`Form component <ErrorMessage /> rendering should render email error 1`]
 <div
   className="field-errors"
 >
-  <div />
-  <div>
+  <div
+    className="field-errors__item"
+  />
+  <div
+    className="field-errors__item"
+  >
     Het moet een geldig e-mailadres zijn
   </div>
-  <div />
+  <div
+    className="field-errors__item"
+  />
 </div>
 `;
 
@@ -16,9 +22,15 @@ exports[`Form component <ErrorMessage /> rendering should render maxLength error
 <div
   className="field-errors"
 >
-  <div />
-  <div />
-  <div>
+  <div
+    className="field-errors__item"
+  />
+  <div
+    className="field-errors__item"
+  />
+  <div
+    className="field-errors__item"
+  >
     Dit veld mag niet langer dan 666 characters zijn.
   </div>
 </div>
@@ -28,9 +40,15 @@ exports[`Form component <ErrorMessage /> rendering should render no error by def
 <div
   className="field-errors"
 >
-  <div />
-  <div />
-  <div />
+  <div
+    className="field-errors__item"
+  />
+  <div
+    className="field-errors__item"
+  />
+  <div
+    className="field-errors__item"
+  />
 </div>
 `;
 
@@ -38,9 +56,15 @@ exports[`Form component <ErrorMessage /> rendering should render no error when e
 <div
   className="field-errors"
 >
-  <div />
-  <div />
-  <div />
+  <div
+    className="field-errors__item"
+  />
+  <div
+    className="field-errors__item"
+  />
+  <div
+    className="field-errors__item"
+  />
 </div>
 `;
 
@@ -48,10 +72,16 @@ exports[`Form component <ErrorMessage /> rendering should render required error 
 <div
   className="field-errors"
 >
-  <div>
+  <div
+    className="field-errors__item"
+  >
     Dit is een verplicht veld
   </div>
-  <div />
-  <div />
+  <div
+    className="field-errors__item"
+  />
+  <div
+    className="field-errors__item"
+  />
 </div>
 `;

@@ -1,114 +1,175 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Preview component <Map /> should not render optional map when value is empty 1`] = `<span />`;
+exports[`Preview component <Map /> should not render optional map when value is empty 1`] = `
+<div
+  className="preview-map"
+/>
+`;
 
 exports[`Preview component <Map /> should render only address correctly 1`] = `
-<span>
-  <span>
-    <span
-      className="preview-item-label"
+<div
+  className="preview-map"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-5 col-md-4"
     >
-      Location
-    </span>
-    <span
-      className="preview-item-value"
+      <div
+        className="preview-map__item-label"
+      >
+        Location
+      </div>
+    </div>
+    <div
+      className="col-5 col-md-7"
     >
-      <div>
+      <div
+        className="preview-map__item-value"
+      >
         <div>
-          Hell 666C
+          <div>
+            Hell 666C
+          </div>
         </div>
       </div>
-    </span>
-  </span>
-</span>
+    </div>
+  </div>
+</div>
 `;
 
 exports[`Preview component <Map /> should render only latlong correctly 1`] = `
-<span>
-  <span>
-    <span
-      className="preview-item-label"
+<div
+  className="preview-map"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-5 col-md-4"
     >
-      Location
-    </span>
-    <span
-      className="preview-item-value"
-    >
-      <div>
-        <div>
-          geen adres gevonden
-        </div>
-        <Map
-          latlng={
-            Object {
-              "latitude": 4,
-              "longitude": 52,
-            }
-          }
-          preview={true}
-        />
+      <div
+        className="preview-map__item-label"
+      >
+        Location
       </div>
-    </span>
-  </span>
-</span>
+    </div>
+    <div
+      className="col-5 col-md-7"
+    >
+      <div
+        className="preview-map__item-value"
+      >
+        <div>
+          <div>
+            geen adres gevonden
+          </div>
+          <div
+            className="preview-map__item-value-map"
+          >
+            <Map
+              latlng={
+                Object {
+                  "latitude": 4,
+                  "longitude": 52,
+                }
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;
 
 exports[`Preview component <Map /> should render optional map correctly 1`] = `
-<span>
-  <span>
-    <span
-      className="preview-item-label"
+<div
+  className="preview-map"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-5 col-md-4"
     >
-      Location
-    </span>
-    <span
-      className="preview-item-value"
-    >
-      <div>
-        <div>
-          Hell 666C
-        </div>
-        <Map
-          latlng={
-            Object {
-              "latitude": 4,
-              "longitude": 52,
-            }
-          }
-          preview={true}
-        />
+      <div
+        className="preview-map__item-label"
+      >
+        Location
       </div>
-    </span>
-  </span>
-</span>
+    </div>
+    <div
+      className="col-5 col-md-7"
+    >
+      <div
+        className="preview-map__item-value"
+      >
+        <div>
+          <div>
+            Hell 666C
+          </div>
+          <div
+            className="preview-map__item-value-map"
+          >
+            <Map
+              latlng={
+                Object {
+                  "latitude": 4,
+                  "longitude": 52,
+                }
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;
 
 exports[`Preview component <Map /> should render valid adrress and map with latlong correctly 1`] = `
-<span>
-  <span>
-    <span
-      className="preview-item-label"
+<div
+  className="preview-map"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-5 col-md-4"
     >
-      Location
-    </span>
-    <span
-      className="preview-item-value"
-    >
-      <div>
-        <div>
-          Hell 666C
-        </div>
-        <Map
-          latlng={
-            Object {
-              "latitude": 4,
-              "longitude": 52,
-            }
-          }
-          preview={true}
-        />
+      <div
+        className="preview-map__item-label"
+      >
+        Location
       </div>
-    </span>
-  </span>
-</span>
+    </div>
+    <div
+      className="col-5 col-md-7"
+    >
+      <div
+        className="preview-map__item-value"
+      >
+        <div>
+          <div>
+            Hell 666C
+          </div>
+          <div
+            className="preview-map__item-value-map"
+          >
+            <Map
+              latlng={
+                Object {
+                  "latitude": 4,
+                  "longitude": 52,
+                }
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;
