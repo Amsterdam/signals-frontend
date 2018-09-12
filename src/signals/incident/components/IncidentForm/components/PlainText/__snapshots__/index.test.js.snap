@@ -16,15 +16,21 @@ exports[`Form component <PlainText /> rendering should render multiple parargrap
       <div
         className="plain-text__box-p plain-text__box-p-1"
         key="undefined-1"
-      />
+      >
+        Lorem Ipsum
+      </div>
       <div
         className="plain-text__box-p plain-text__box-p-2"
         key="undefined-2"
-      />
+      >
+        jumps over
+      </div>
       <div
         className="plain-text__box-p plain-text__box-p-3"
         key="undefined-3"
-      />
+      >
+        DOG
+      </div>
     </div>
   </div>
 </div>
@@ -46,15 +52,21 @@ exports[`Form component <PlainText /> rendering should render multiple parargrap
       <div
         className="plain-text__box-p plain-text__box-p-1"
         key="undefined-1"
-      />
+      >
+        Lorem Ipsum
+      </div>
       <div
         className="plain-text__box-p plain-text__box-p-2"
         key="undefined-2"
-      />
+      >
+        hell 666 YES
+      </div>
       <div
         className="plain-text__box-p plain-text__box-p-3"
         key="undefined-3"
-      />
+      >
+        DOG
+      </div>
     </div>
   </div>
 </div>
@@ -79,6 +91,7 @@ exports[`Form component <PlainText /> rendering should render plain text correct
       <div
         className="label"
       />
+      Lorem Ipsum
     </div>
   </div>
 </div>
@@ -97,6 +110,7 @@ exports[`Form component <PlainText /> rendering should render plain text with te
       <div
         className="label"
       />
+      Diablo 666
     </div>
   </div>
 </div>

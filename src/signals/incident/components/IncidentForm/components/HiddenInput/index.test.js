@@ -3,9 +3,6 @@ import { shallow } from 'enzyme';
 
 import HiddenInput from './index';
 
-jest.mock('../Title/', () => 'Title');
-jest.mock('../ErrorMessage/', () => 'ErrorMessage');
-
 describe('Form component <HiddenInput />', () => {
   let wrapper;
   let handler;

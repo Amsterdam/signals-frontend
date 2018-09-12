@@ -3,9 +3,6 @@ import { shallow } from 'enzyme';
 
 import RadioInput from './index';
 
-jest.mock('../Title/', () => 'Title');
-jest.mock('../ErrorMessage/', () => 'ErrorMessage');
-
 describe('Form component <RadioInput />', () => {
   const metaFields = {
     name: 'input-field-name',
