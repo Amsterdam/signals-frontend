@@ -7,12 +7,14 @@
 import { fromJS } from 'immutable';
 import { REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR, FILTER_INCIDENTS_CHANGED, PAGE_INCIDENTS_CHANGED } from './constants';
 import stadsdeelList from '../../definitions/stadsdeelList';
+import mainCategoryList from '../../definitions/categoryList';
 import subcategoryList from '../../definitions/subcategoryList';
 import statusList from '../../definitions/statusList';
 
 export const initialState = fromJS({
   incidents: [],
   stadsdeelList,
+  mainCategoryList,
   subcategoryList,
   statusList
 });
