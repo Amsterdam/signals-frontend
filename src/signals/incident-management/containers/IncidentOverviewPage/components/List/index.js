@@ -24,7 +24,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
                 <th className="">Datum</th>
                 <th className="">Tijd</th>
                 <th className="">Stadsdeel</th>
-                <th className="">Categorie</th>
+                <th className="">Subcategorie</th>
                 <th className="">Afdeling</th>
                 <th className="">Status</th>
                 <th className="">Adres</th>

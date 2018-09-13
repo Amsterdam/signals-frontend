@@ -47,7 +47,16 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
         </tr>
         <tr>
           <td>
-            Categorie
+            Hoofdcategorie
+          </td>
+          <td>
+            Overlast op het water
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Subcategorie
           </td>
           <td>
             Overlast op het water - snel varen
@@ -201,7 +210,16 @@ exports[`<IncidentDetail /> should render correctly without extra properties 1`]
         </tr>
         <tr>
           <td>
-            Categorie
+            Hoofdcategorie
+          </td>
+          <td>
+            Overlast op het water
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Subcategorie
           </td>
           <td>
             Overlast op het water - snel varen

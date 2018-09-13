@@ -35,7 +35,7 @@ describe('<IncidentDetail />', () => {
     const wrapper = shallow(
       <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} />
     );
-    expect(wrapper.find('tr').length).toEqual(13);
+    expect(wrapper.find('tr').length).toEqual(14);
     expect(wrapper).toMatchSnapshot();
   });
 });
