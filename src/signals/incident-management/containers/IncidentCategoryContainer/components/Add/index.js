@@ -39,7 +39,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
                   <FieldControlWrapper
                     render={SelectInput}
                     name="sub"
-                    display="Categorie"
+                    display="Subcategorie"
                     control={this.categoryForm.get('sub')}
                     values={subcategoryList}
                     multiple={false}
@@ -47,7 +47,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
                   />
 
                   <button className="action primary" type="submit" disabled={invalid || loading}>
-                    <span className="value">Categorie wijzigen</span>
+                    <span className="value">Subcategorie wijzigen</span>
                     {loading ?
                       <span className="working">
                         <div className="progress-indicator progress-white"></div>
