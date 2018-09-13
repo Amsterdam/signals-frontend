@@ -1,9 +1,11 @@
+@import "config.scss";
+
 .incident-form {
-  .field-errors {
-    color: red;
+  .row + .row {
+    margin-top: 20px;
   }
 
-  .mode_input, .mode_upload {
-    margin-top: 10px;
+  .row {
+    margin-top: 20px;
   }
 }

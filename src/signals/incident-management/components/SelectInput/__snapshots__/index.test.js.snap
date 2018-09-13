@@ -1,12 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<SelectInput /> should render correctly 1`] = `
-<div>
+<div
+  className="select-input"
+>
   <div
     className="mode_input text rij_verplicht"
   >
     <div
-      className="label"
+      className="select-input__label"
     >
       <label
         htmlFor="formname"
@@ -18,7 +20,6 @@ exports[`<SelectInput /> should render correctly 1`] = `
       className="select-input__control invoer"
     >
       <select
-        className="select-input__control--overflow"
         id="formname"
         multiple={false}
         name=""

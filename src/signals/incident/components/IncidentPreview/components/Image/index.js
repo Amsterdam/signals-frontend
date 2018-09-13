@@ -1,15 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './style.scss';
+
 const Image = ({ label, value, optional }) => (
-  <span>
+  <div className="preview-image">
     {!optional || (optional && value) ?
-      <span>
-        <span className="preview-item-label">{label}</span>
-        <span className="preview-item-value"><img border="1" height="80" src={value} alt="" /></span>
-      </span>
+      <div className="row">
+        <div className="col-5 col-md-4">
+          <div className="preview-image__item-label">{label}</div>
+        </div>
+        <div className="col-5 col-md-7">
+          <div className="preview-image__item-value">
+            <img className="preview-image__item-value-image" src={value} alt="" />
+          </div>
+        </div>
+      </div>
     : ''}
-  </span>
+  </div>
 );
 
 Image.propTypes = {

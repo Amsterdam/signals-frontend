@@ -1,31 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Form component <PlainText /> rendering should render multiple parargraphs of text correctly 1`] = `
-<div>
+<div
+  className="row"
+>
   <div
-    className="row mode_input plain-text"
+    className="col-12 mode_input"
   >
     <div
-      className="col-12"
+      className="citation plain-text__box"
     >
       <div
-        className="citation plain-text__box"
+        className="label"
+      />
+      <div
+        className="plain-text__box-p plain-text__box-p-1"
+        key="undefined-1"
       >
-        <div
-          className="label"
-        />
-        <div
-          className="plain-text__box-p plain-text__box-p-1"
-          key="undefined-1"
-        />
-        <div
-          className="plain-text__box-p plain-text__box-p-2"
-          key="undefined-2"
-        />
-        <div
-          className="plain-text__box-p plain-text__box-p-3"
-          key="undefined-3"
-        />
+        Lorem Ipsum
+      </div>
+      <div
+        className="plain-text__box-p plain-text__box-p-2"
+        key="undefined-2"
+      >
+        jumps over
+      </div>
+      <div
+        className="plain-text__box-p plain-text__box-p-3"
+        key="undefined-3"
+      >
+        DOG
       </div>
     </div>
   </div>
@@ -33,74 +37,80 @@ exports[`Form component <PlainText /> rendering should render multiple parargrap
 `;
 
 exports[`Form component <PlainText /> rendering should render multiple parargraphs of text with substitution correctly 1`] = `
-<div>
+<div
+  className="row"
+>
   <div
-    className="row mode_input plain-text"
+    className="col-12 mode_input"
   >
     <div
-      className="col-12"
+      className="citation plain-text__box"
     >
       <div
-        className="citation plain-text__box"
+        className="label"
+      />
+      <div
+        className="plain-text__box-p plain-text__box-p-1"
+        key="undefined-1"
       >
-        <div
-          className="label"
-        />
-        <div
-          className="plain-text__box-p plain-text__box-p-1"
-          key="undefined-1"
-        />
-        <div
-          className="plain-text__box-p plain-text__box-p-2"
-          key="undefined-2"
-        />
-        <div
-          className="plain-text__box-p plain-text__box-p-3"
-          key="undefined-3"
-        />
+        Lorem Ipsum
+      </div>
+      <div
+        className="plain-text__box-p plain-text__box-p-2"
+        key="undefined-2"
+      >
+        hell 666 YES
+      </div>
+      <div
+        className="plain-text__box-p plain-text__box-p-3"
+        key="undefined-3"
+      >
+        DOG
       </div>
     </div>
   </div>
 </div>
 `;
 
-exports[`Form component <PlainText /> rendering should render no plain text when not visible 1`] = `<div />`;
+exports[`Form component <PlainText /> rendering should render no plain text when not visible 1`] = `
+<div
+  className=""
+/>
+`;
 
 exports[`Form component <PlainText /> rendering should render plain text correctly 1`] = `
-<div>
+<div
+  className="row"
+>
   <div
-    className="row mode_input plain-text"
+    className="col-12 mode_input"
   >
     <div
-      className="col-12"
+      className="citation plain-text__box"
     >
       <div
-        className="citation plain-text__box"
-      >
-        <div
-          className="label"
-        />
-      </div>
+        className="label"
+      />
+      Lorem Ipsum
     </div>
   </div>
 </div>
 `;
 
 exports[`Form component <PlainText /> rendering should render plain text with text substitution correctly 1`] = `
-<div>
+<div
+  className="row"
+>
   <div
-    className="row mode_input plain-text"
+    className="col-12 mode_input"
   >
     <div
-      className="col-12"
+      className="citation plain-text__box"
     >
       <div
-        className="citation plain-text__box"
-      >
-        <div
-          className="label"
-        />
-      </div>
+        className="label"
+      />
+      Diablo 666
     </div>
   </div>
 </div>

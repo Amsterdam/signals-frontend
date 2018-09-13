@@ -1,13 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Form component <RadioInput /> rendering should render no radio field when not visible 1`] = `<div />`;
+exports[`Form component <RadioInput /> rendering should render no radio field when not visible 1`] = `
+<div
+  className=""
+/>
+`;
 
 exports[`Form component <RadioInput /> rendering should render radio fields correctly 1`] = `
-<div>
+<div
+  className="row"
+>
   <div
-    className="row mode_input"
+    className="col-12 mode_input"
   >
-    <Title
+    <Header
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
       meta={
         Object {
           "isVisible": true,
@@ -19,56 +27,57 @@ exports[`Form component <RadioInput /> rendering should render radio fields corr
           },
         }
       }
-    />
-    <div
-      className="col-12 antwoorden"
+      touched={false}
     >
       <div
-        className="antwoord"
-        key="input-field-name-foo"
+        className="antwoorden"
       >
-        <input
-          className="kenmerkradio"
-          id="input-field-name-foo"
-          onClick={[Function]}
-        />
-        <label
-          htmlFor="input-field-name-foo"
+        <div
+          className="antwoord"
+          key="input-field-name-foo"
         >
-          foo
-        </label>
-      </div>
-      <div
-        className="antwoord"
-        key="input-field-name-bar"
-      >
-        <input
-          className="kenmerkradio"
-          id="input-field-name-bar"
-          onClick={[Function]}
-        />
-        <label
-          htmlFor="input-field-name-bar"
+          <input
+            className="kenmerkradio"
+            id="input-field-name-foo"
+            onClick={[Function]}
+          />
+          <label
+            htmlFor="input-field-name-foo"
+          >
+            foo
+          </label>
+        </div>
+        <div
+          className="antwoord"
+          key="input-field-name-bar"
         >
-          bar
-        </label>
+          <input
+            className="kenmerkradio"
+            id="input-field-name-bar"
+            onClick={[Function]}
+          />
+          <label
+            htmlFor="input-field-name-bar"
+          >
+            bar
+          </label>
+        </div>
       </div>
-    </div>
-    <ErrorMessage
-      getError={[MockFunction]}
-      hasError={[MockFunction]}
-      touched={false}
-    />
+    </Header>
   </div>
 </div>
 `;
 
 exports[`Form component <RadioInput /> rendering should render zero radio fields when values are not supplied 1`] = `
-<div>
+<div
+  className="row"
+>
   <div
-    className="row mode_input"
+    className="col-12 mode_input"
   >
-    <Title
+    <Header
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
       meta={
         Object {
           "isVisible": true,
@@ -77,15 +86,12 @@ exports[`Form component <RadioInput /> rendering should render zero radio fields
           "values": undefined,
         }
       }
-    />
-    <div
-      className="col-12 antwoorden"
-    />
-    <ErrorMessage
-      getError={[MockFunction]}
-      hasError={[MockFunction]}
       touched={false}
-    />
+    >
+      <div
+        className="antwoorden"
+      />
+    </Header>
   </div>
 </div>
 `;

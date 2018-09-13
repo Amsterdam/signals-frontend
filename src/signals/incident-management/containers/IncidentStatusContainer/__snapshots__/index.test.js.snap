@@ -9,6 +9,7 @@ exports[`<IncidentStatusContainer /> should render correctly 1`] = `
       className="col-12"
     >
       <Add
+        error={false}
         id="1"
         loading={false}
         onRequestStatusCreate={[MockFunction]}

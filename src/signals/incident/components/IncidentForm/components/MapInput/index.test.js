@@ -3,9 +3,6 @@ import { shallow } from 'enzyme';
 
 import MapInput from './index';
 
-jest.mock('../Title/', () => 'Title');
-jest.mock('../ErrorMessage/', () => 'ErrorMessage');
-
 describe('Form component <MapInput />', () => {
   const metaFields = {
     name: 'input-field-name'

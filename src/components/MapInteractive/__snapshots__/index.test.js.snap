@@ -5,19 +5,11 @@ exports[`<MapInteractive /> should not render map when there is one already 1`] 
   className="map-component"
 >
   <div
-    className="row"
+    className="map"
   >
     <div
-      className="col-12"
-    >
-      <div
-        className="map"
-      >
-        <div
-          id="mapdiv"
-        />
-      </div>
-    </div>
+      id="mapdiv"
+    />
   </div>
 </div>
 `;
@@ -27,19 +19,11 @@ exports[`<MapInteractive /> should render an existing location with address corr
   className="map-component"
 >
   <div
-    className="row"
+    className="map"
   >
     <div
-      className="col-12"
-    >
-      <div
-        className="map"
-      >
-        <div
-          id="mapdiv"
-        />
-      </div>
-    </div>
+      id="mapdiv"
+    />
   </div>
 </div>
 `;
@@ -49,19 +33,11 @@ exports[`<MapInteractive /> should render an existing location with address with
   className="map-component"
 >
   <div
-    className="row"
+    className="map"
   >
     <div
-      className="col-12"
-    >
-      <div
-        className="map"
-      >
-        <div
-          id="mapdiv"
-        />
-      </div>
-    </div>
+      id="mapdiv"
+    />
   </div>
 </div>
 `;
@@ -71,19 +47,11 @@ exports[`<MapInteractive /> should render correctly 1`] = `
   className="map-component"
 >
   <div
-    className="row"
+    className="map"
   >
     <div
-      className="col-12"
-    >
-      <div
-        className="map"
-      >
-        <div
-          id="mapdiv"
-        />
-      </div>
-    </div>
+      id="mapdiv"
+    />
   </div>
 </div>
 `;

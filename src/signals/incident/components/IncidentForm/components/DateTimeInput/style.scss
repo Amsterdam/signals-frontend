@@ -1,13 +1,23 @@
 .datetime-input {
+  position: relative;
+  margin-top: -20px;
+
+  &__label {
+    margin: 8px 0 3px;
+  }
+
   &__earlier-date {
-    width: 40%;
+    width: 240px;
   }
 
   &__earlier-time {
-    width: 200px;
+    &-hours,
+    &-minutes {
+      width: 80px !important;
+    }
 
-    // &-hours {
-      // float: left;
-    // }
+    &-label {
+      margin: 0 16px 0 8px;
+    }
   }
 }
