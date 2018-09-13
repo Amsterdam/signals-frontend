@@ -43,7 +43,7 @@ exports[`<List /> should render correctly 1`] = `
           <th
             className=""
           >
-            Categorie
+            Subcategorie
           </th>
           <th
             className=""

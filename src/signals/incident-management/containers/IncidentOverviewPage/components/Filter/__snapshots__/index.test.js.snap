@@ -1467,7 +1467,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
           },
         }
       }
-      display="Categorie"
+      display="Subcategorie"
       multiple={true}
       name="category__sub"
       render={[Function]}
