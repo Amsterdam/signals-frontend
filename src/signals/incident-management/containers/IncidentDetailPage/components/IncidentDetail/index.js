@@ -20,7 +20,8 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
               <tr><td>Tijd</td><td>{string2time(incident.created_at)}</td></tr>
               <tr><td>Datum overlast</td><td>{string2date(incident.incident_date_start)}</td></tr>
               <tr><td>Tijd overlast</td><td>{string2time(incident.incident_date_start)}</td></tr>
-              <tr><td>Categorie</td><td>{incident.category.sub}&nbsp;</td></tr>
+              <tr><td>Hoofdcategorie</td><td>{incident.category.main}&nbsp;</td></tr>
+              <tr><td>Subcategorie</td><td>{incident.category.sub}&nbsp;</td></tr>
               <tr><td>Omschrijving</td><td>{incident.text}&nbsp;</td></tr>
               <tr><td>Aanvullende kenmerken</td><td>{incident.text_extra}&nbsp;</td></tr>
               {extraProperties}
