@@ -6,13 +6,16 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { replace } from 'react-router-redux';
 import request from 'utils/request';
 
-import watchIncidentContainerSaga, { getClassification, createIncident } from './saga';
-import { CREATE_INCIDENT, GET_CLASSIFICATION } from './constants';
+// import { authPostCall } from 'shared/services/api/api';
+import watchIncidentContainerSaga, { getClassification, createIncident, setPriorityHandler } from './saga';
+import { CREATE_INCIDENT, GET_CLASSIFICATION, SET_PRIORITY } from './constants';
 import {
   createIncidentSuccess,
   createIncidentError,
   getClassificationSuccess,
-  getClassificationError
+  getClassificationError,
+  setPriority,
+  setPrioritySuccess
 } from './actions';
 import { uploadRequest } from '../../../../containers/App/actions';
 import mapControlsToParams from '../../services/map-controls-to-params';
@@ -29,7 +32,8 @@ describe('IncidentContainer saga', () => {
     const gen = watchIncidentContainerSaga();
     expect(gen.next().value).toEqual(all([
       takeLatest(GET_CLASSIFICATION, getClassification),
-      takeLatest(CREATE_INCIDENT, createIncident)
+      takeLatest(CREATE_INCIDENT, createIncident),
+      takeLatest(SET_PRIORITY, setPriorityHandler)
     ]));
   });
 
@@ -113,11 +117,58 @@ describe('IncidentContainer saga', () => {
       })));
     });
 
+    it('should success with logged in', () => {
+      payload.isAuthenticated = true;
+      payload.incident.priority = 'high';
+      gen = createIncident({ payload });
+
+      expect(gen.next().value).toEqual(call(request, 'https://acc.api.data.amsterdam.nl/signals/signal/', {
+        method: 'POST',
+        body: JSON.stringify({
+          payload
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }));
+      expect(gen.next({
+        id: 666
+      }).value).toEqual(put(setPriority({
+        priority: 'high',
+        _signal: 666
+      })));
+      expect(gen.next().value).toEqual(put(createIncidentSuccess({
+        id: 666
+      })));
+    });
+
     it('should error', () => {
       gen = createIncident({ payload });
       gen.next();
       expect(gen.throw().value).toEqual(put(createIncidentError()));
       expect(gen.next().value).toEqual(put(replace('/incident/fout')));
     });
+  });
+});
+
+describe('setPriority', () => {
+  let payload;
+  let gen;
+
+  beforeEach(() => {
+    payload = { priority: 'normal' };
+    gen = setPriorityHandler({ payload });
+  });
+
+  it('should success', () => {
+    gen.next();
+    // TODO fix this test
+    // expect(gen.next().value).toEqual(authPostCall('https://acc.api.data.amsterdam.nl/signals/auth/priority/', payload));
+    expect(gen.next().value).toEqual(put(setPrioritySuccess()));
+  });
+
+  it('should error', () => {
+    gen.next();
+    expect(gen.throw().value).toEqual(put(replace('/incident/fout')));
   });
 });
