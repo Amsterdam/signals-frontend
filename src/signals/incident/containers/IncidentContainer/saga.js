@@ -2,13 +2,16 @@ import { all, call, put, /* select, */ takeLatest } from 'redux-saga/effects';
 import { replace } from 'react-router-redux';
 import request from 'utils/request';
 
+import { authPostCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { CREATE_INCIDENT, GET_CLASSIFICATION } from './constants';
+import { CREATE_INCIDENT, GET_CLASSIFICATION, SET_PRIORITY } from './constants';
 import {
   createIncidentSuccess,
   createIncidentError,
   getClassificationSuccess,
-  getClassificationError
+  getClassificationError,
+  setPriority,
+  setPrioritySuccess
 } from './actions';
 import { uploadRequest } from '../../../../containers/App/actions';
 
@@ -48,6 +51,13 @@ export function* createIncident(action) {
       }
     });
 
+    if (action.payload.isAuthenticated && action.payload.incident.priority) {
+      yield put(setPriority({
+        priority: action.payload.incident.priority,
+        _signal: result.id
+      }));
+    }
+
     if (action.payload.incident.image) {
       yield put(uploadRequest({
         file: action.payload.incident.image_file,
@@ -61,10 +71,22 @@ export function* createIncident(action) {
   }
 }
 
+export function* setPriorityHandler(action) {
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/auth/priority/`;
+  try {
+    const result = yield authPostCall(requestURL, action.payload);
+    yield put(setPrioritySuccess(result));
+  } catch (error) {
+    // yield put(setPriorityError());
+    yield put(replace('/incident/fout'));
+  }
+}
+
 // Individual exports for testing
 export default function* watchIncidentContainerSaga() {
   yield all([
     takeLatest(GET_CLASSIFICATION, getClassification),
-    takeLatest(CREATE_INCIDENT, createIncident)
+    takeLatest(CREATE_INCIDENT, createIncident),
+    takeLatest(SET_PRIORITY, setPriorityHandler)
   ]);
 }

@@ -12,7 +12,7 @@ import { WithWizard } from 'react-albus';
 
 import './style.scss';
 
-const IncidentNavigation = ({ valid, meta: { form, incidentContainer, wizard, handleSubmit, setIncident, createIncident } }) => (
+const IncidentNavigation = ({ valid, meta: { handleSubmit } }) => (
   <span>
     <WithWizard
       render={({ next, previous, step, steps }) => (
@@ -28,12 +28,7 @@ const IncidentNavigation = ({ valid, meta: { form, incidentContainer, wizard, ha
               className={`incident-navigation__button action primary ${step.id === 'incident/samenvatting' ? '' : 'arrow-right'}`}
               onClick={(e) => {
                 if (valid) {
-                  handleSubmit(e);
-                  if (step.id === 'incident/samenvatting') {
-                    createIncident({ incident: incidentContainer.incident, wizard });
-                  } else {
-                    setIncident(form.value);
-                  }
+                  handleSubmit(e, step.id);
                   next();
                 }
               }}
@@ -58,11 +53,7 @@ IncidentNavigation.defaultProps = {
 IncidentNavigation.propTypes = {
   valid: PropTypes.bool.isRequired,
   meta: PropTypes.shape({
-    form: PropTypes.object,
-    incidentContainer: PropTypes.object,
-    handleSubmit: PropTypes.function,
-    setIncident: PropTypes.function,
-    createIncident: PropTypes.function
+    handleSubmit: PropTypes.function
   })
 };
 

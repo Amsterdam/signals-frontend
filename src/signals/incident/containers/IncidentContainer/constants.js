@@ -13,3 +13,6 @@ export const CREATE_INCIDENT_ERROR = 'src/IncidentContainer/CREATE_INCIDENT_ERRO
 export const GET_CLASSIFICATION = 'src/IncidentContainer/GET_CLASSIFICATION';
 export const GET_CLASSIFICATION_SUCCESS = 'src/IncidentContainer/GET_CLASSIFICATION_SUCCESS';
 export const GET_CLASSIFICATION_ERROR = 'src/IncidentContainer/GET_CLASSIFICATION_ERROR';
+
+export const SET_PRIORITY = 'src/IncidentContainer/SET_PRIORITY';
+export const SET_PRIORITYT_SUCCESS = 'src/IncidentContainer/SET_PRIORITYT_SUCCESS';
