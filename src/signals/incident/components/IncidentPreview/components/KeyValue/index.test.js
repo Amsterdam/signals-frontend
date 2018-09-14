@@ -10,7 +10,7 @@ describe('Preview component <KeyValue />', () => {
     wrapper = shallow(<KeyValue />);
   });
 
-  it('should render text correctly', () => {
+  it('should render key value correctly', () => {
     wrapper.setProps({
       label: 'Prioriteit',
       value: 'normal',
@@ -23,7 +23,7 @@ describe('Preview component <KeyValue />', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render optional text correctly', () => {
+  it('should render optional key value correctly', () => {
     wrapper.setProps({
       label: 'Prioriteit',
       optional: true,
@@ -37,7 +37,7 @@ describe('Preview component <KeyValue />', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should not render optional image when value is empty', () => {
+  it('should not render optional key value when value is empty', () => {
     wrapper.setProps({
       label: 'Prioriteit',
       optional: true

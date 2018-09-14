@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Preview component <PlainText /> should not render optional image when value is empty 1`] = `
+exports[`Preview component <KeyValue /> should not render optional key value when value is empty 1`] = `
 <div
   className="preview-text"
 />
 `;
 
-exports[`Preview component <PlainText /> should render optional text correctly 1`] = `
+exports[`Preview component <KeyValue /> should render key value correctly 1`] = `
 <div
   className="preview-text"
 >
@@ -19,7 +19,7 @@ exports[`Preview component <PlainText /> should render optional text correctly 1
       <div
         className="preview-text__item-label"
       >
-        Title
+        Prioriteit
       </div>
     </div>
     <div
@@ -28,14 +28,14 @@ exports[`Preview component <PlainText /> should render optional text correctly 1
       <div
         className="preview-text__item-value"
       >
-        Plain text
+        Normaal
       </div>
     </div>
   </div>
 </div>
 `;
 
-exports[`Preview component <PlainText /> should render text correctly 1`] = `
+exports[`Preview component <KeyValue /> should render optional key value correctly 1`] = `
 <div
   className="preview-text"
 >
@@ -48,7 +48,7 @@ exports[`Preview component <PlainText /> should render text correctly 1`] = `
       <div
         className="preview-text__item-label"
       >
-        Title
+        Prioriteit
       </div>
     </div>
     <div
@@ -57,7 +57,7 @@ exports[`Preview component <PlainText /> should render text correctly 1`] = `
       <div
         className="preview-text__item-value"
       >
-        Plain text
+        Normaal
       </div>
     </div>
   </div>

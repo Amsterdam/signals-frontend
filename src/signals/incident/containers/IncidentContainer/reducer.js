@@ -49,7 +49,8 @@ export const initialState = fromJS({
 
     incident_date: 'Vandaag',
     incident_time_hours: 9,
-    incident_time_minutes: 0
+    incident_time_minutes: 0,
+    priority: 'normal'
   }
 });
 

@@ -7,12 +7,11 @@ const KeyValue = ({ label, value, optional, values }) => (
   <div className="preview-text">
     {!optional || (optional && value) ?
       <div className="row">
-        {console.log(label)}
         <div className="col-5 col-md-4">
           <div className="preview-text__item-label">{label}</div>
         </div>
         <div className="col-5 col-md-7">
-          <div className="preview-text__item-value">{values[value]}</div>
+          <div className="preview-text__item-value">{values && values[value]}</div>
         </div>
       </div>
       : ''}
