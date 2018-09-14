@@ -6,7 +6,7 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { replace } from 'react-router-redux';
 import request from 'utils/request';
 
-// import { authPostCall } from 'shared/services/api/api';
+import { authPostCall } from 'shared/services/api/api';
 import watchIncidentContainerSaga, { getClassification, createIncident, setPriorityHandler } from './saga';
 import { CREATE_INCIDENT, GET_CLASSIFICATION, SET_PRIORITY } from './constants';
 import {
@@ -161,9 +161,8 @@ describe('setPriority', () => {
   });
 
   it('should success', () => {
-    gen.next();
-    // TODO fix this test
-    // expect(gen.next().value).toEqual(authPostCall('https://acc.api.data.amsterdam.nl/signals/auth/priority/', payload));
+    // work around for failing toEqual
+    expect(JSON.stringify(gen.next().value)).toEqual(JSON.stringify(authPostCall('https://acc.api.data.amsterdam.nl/signals/auth/priority/', payload)));
     expect(gen.next().value).toEqual(put(setPrioritySuccess()));
   });
 
