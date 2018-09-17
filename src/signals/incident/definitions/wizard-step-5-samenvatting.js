@@ -20,7 +20,7 @@ export default {
         optional: true
       },
       priority: {
-        label: 'Prioriteit',
+        label: 'Urgentie',
         render: PreviewComponents.KeyValue,
         optional: true,
         values: {

@@ -19,7 +19,7 @@ exports[`Preview component <KeyValue /> should render key value correctly 1`] = 
       <div
         className="preview-text__item-label"
       >
-        Prioriteit
+        Urgentie
       </div>
     </div>
     <div
@@ -48,7 +48,7 @@ exports[`Preview component <KeyValue /> should render optional key value correct
       <div
         className="preview-text__item-label"
       >
-        Prioriteit
+        Urgentie
       </div>
     </div>
     <div

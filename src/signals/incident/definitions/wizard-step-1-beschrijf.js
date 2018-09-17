@@ -46,7 +46,7 @@ export default {
       priority: {
         meta: {
           className: 'col-sm-12 col-md-6',
-          label: 'Wat is de prioriteit?',
+          label: 'Wat is de urgentie?',
           path: 'priority',
           updateIncident: true,
           values: {

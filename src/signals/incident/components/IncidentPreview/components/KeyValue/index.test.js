@@ -12,7 +12,7 @@ describe('Preview component <KeyValue />', () => {
 
   it('should render key value correctly', () => {
     wrapper.setProps({
-      label: 'Prioriteit',
+      label: 'Urgentie',
       value: 'normal',
       values: {
         normal: 'Normaal',
@@ -25,7 +25,7 @@ describe('Preview component <KeyValue />', () => {
 
   it('should render optional key value correctly', () => {
     wrapper.setProps({
-      label: 'Prioriteit',
+      label: 'Urgentie',
       optional: true,
       value: 'normal',
       values: {
@@ -39,7 +39,7 @@ describe('Preview component <KeyValue />', () => {
 
   it('should not render optional key value when value is empty', () => {
     wrapper.setProps({
-      label: 'Prioriteit',
+      label: 'Urgentie',
       optional: true
     });
 
