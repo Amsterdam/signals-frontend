@@ -16,7 +16,8 @@ import {
   GET_CLASSIFICATION_ERROR,
 
   SET_PRIORITY,
-  SET_PRIORITY_SUCCESS
+  SET_PRIORITY_SUCCESS,
+  SET_PRIORITY_ERROR
 } from './constants';
 
 export const initialState = fromJS({
@@ -105,6 +106,7 @@ function incidentContainerReducer(state = initialState, action) {
         }));
 
     case SET_PRIORITY_SUCCESS:
+    case SET_PRIORITY_ERROR:
       return state
         .set('priority', fromJS({}));
 

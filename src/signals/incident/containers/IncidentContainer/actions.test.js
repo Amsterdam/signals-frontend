@@ -12,7 +12,8 @@ import {
   GET_CLASSIFICATION_ERROR,
 
   SET_PRIORITY,
-  SET_PRIORITY_SUCCESS
+  SET_PRIORITY_SUCCESS,
+  SET_PRIORITY_ERROR
 } from './constants';
 
 import {
@@ -27,7 +28,8 @@ import {
   getClassificationError,
 
   setPriority,
-  setPrioritySuccess
+  setPrioritySuccess,
+  setPriorityError
 } from './actions';
 
 describe('Incident container actions', () => {
@@ -83,7 +85,11 @@ describe('Incident container actions', () => {
     });
   });
 
-  it('should dispatch set priority action', () => {
+  it('should dispatch set priority success action', () => {
     testActionCreator(setPrioritySuccess, SET_PRIORITY_SUCCESS);
+  });
+
+  it('should dispatch set priority error action', () => {
+    testActionCreator(setPriorityError, SET_PRIORITY_ERROR);
   });
 });

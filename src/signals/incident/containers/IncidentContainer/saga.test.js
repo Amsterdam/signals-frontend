@@ -12,10 +12,13 @@ import { CREATE_INCIDENT, GET_CLASSIFICATION, SET_PRIORITY } from './constants';
 import {
   createIncidentSuccess,
   createIncidentError,
+
   getClassificationSuccess,
   getClassificationError,
+
   setPriority,
-  setPrioritySuccess
+  setPrioritySuccess,
+  setPriorityError
 } from './actions';
 import { uploadRequest } from '../../../../containers/App/actions';
 import mapControlsToParams from '../../services/map-controls-to-params';
@@ -168,6 +171,7 @@ describe('setPriority', () => {
 
   it('should error', () => {
     gen.next();
-    expect(gen.throw().value).toEqual(put(replace('/incident/fout')));
+    expect(gen.throw().value).toEqual(put(setPriorityError()));
+    expect(gen.next().value).toEqual(put(replace('/incident/fout')));
   });
 });

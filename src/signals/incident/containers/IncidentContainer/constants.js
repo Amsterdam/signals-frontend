@@ -16,3 +16,4 @@ export const GET_CLASSIFICATION_ERROR = 'src/IncidentContainer/GET_CLASSIFICATIO
 
 export const SET_PRIORITY = 'src/IncidentContainer/SET_PRIORITY';
 export const SET_PRIORITY_SUCCESS = 'src/IncidentContainer/SET_PRIORITY_SUCCESS';
+export const SET_PRIORITY_ERROR = 'src/IncidentContainer/SET_PRIORITY_ERROR';

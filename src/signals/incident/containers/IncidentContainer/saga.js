@@ -11,7 +11,8 @@ import {
   getClassificationSuccess,
   getClassificationError,
   setPriority,
-  setPrioritySuccess
+  setPrioritySuccess,
+  setPriorityError
 } from './actions';
 import { uploadRequest } from '../../../../containers/App/actions';
 
@@ -77,7 +78,7 @@ export function* setPriorityHandler(action) {
     const result = yield authPostCall(requestURL, action.payload);
     yield put(setPrioritySuccess(result));
   } catch (error) {
-    // yield put(setPriorityError());
+    yield put(setPriorityError());
     yield put(replace('/incident/fout'));
   }
 }

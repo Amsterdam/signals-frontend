@@ -16,7 +16,8 @@ import {
   GET_CLASSIFICATION_ERROR,
 
   SET_PRIORITY,
-  SET_PRIORITY_SUCCESS
+  SET_PRIORITY_SUCCESS,
+  SET_PRIORITY_ERROR
 } from './constants';
 
 export function setIncident(incident) {
@@ -77,5 +78,11 @@ export function setPriority(payload) {
 export function setPrioritySuccess() {
   return {
     type: SET_PRIORITY_SUCCESS
+  };
+}
+
+export function setPriorityError() {
+  return {
+    type: SET_PRIORITY_ERROR
   };
 }
