@@ -37,6 +37,22 @@ exports[`<IncidentDetailPage /> should render correctly 1`] = `
     </button>
     <IncidentDetail
       incident={Object {}}
+      priorityList={
+        Array [
+          Object {
+            "key": "",
+            "value": "Alle stadsdelen",
+          },
+          Object {
+            "key": "normal",
+            "value": "Normaal",
+          },
+          Object {
+            "key": "high",
+            "value": "Hoog",
+          },
+        ]
+      }
       stadsdeelList={
         Array [
           Object {

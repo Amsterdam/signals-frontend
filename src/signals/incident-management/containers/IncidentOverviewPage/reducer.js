@@ -14,7 +14,7 @@ export const initialState = fromJS({
   incidents: [],
   stadsdeelList,
   subcategoryList,
-  statusList
+  statusList,
 });
 
 function overviewPageReducer(state = initialState, action) {

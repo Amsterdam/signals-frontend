@@ -47,6 +47,15 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
         </tr>
         <tr>
           <td>
+            Prioriteit
+          </td>
+          <td>
+            Normaal
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
             Hoofdcategorie
           </td>
           <td>
@@ -206,6 +215,15 @@ exports[`<IncidentDetail /> should render correctly without extra properties 1`]
           </td>
           <td>
             09:19
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Prioriteit
+          </td>
+          <td>
+            Normaal
+             
           </td>
         </tr>
         <tr>

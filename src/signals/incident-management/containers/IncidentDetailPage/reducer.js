@@ -15,9 +15,13 @@ import { REQUEST_CATEGORY_UPDATE_SUCCESS } from '../IncidentCategoryContainer/co
 import { REQUEST_STATUS_CREATE_SUCCESS } from '../IncidentStatusContainer/constants';
 
 import stadsdeelList from '../../definitions/stadsdeelList';
+import priorityList from '../../definitions/priorityList';
 
-
-export const initialState = fromJS({ id: null, stadsdeelList });
+export const initialState = fromJS({
+  id: null,
+  stadsdeelList,
+  priorityList
+});
 
 function incidentDetailPageReducer(state = initialState, action) {
   switch (action.type) {

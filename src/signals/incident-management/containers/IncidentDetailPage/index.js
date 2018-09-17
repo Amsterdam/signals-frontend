@@ -57,7 +57,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   render() {
-    const { incident, stadsdeelList } = this.props.incidentdetailpage;
+    const { incident, stadsdeelList, priorityList } = this.props.incidentdetailpage;
     const { selectedTab } = this.state;
     const tabs = [
       { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
@@ -77,7 +77,8 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
         <div className="col-12 col-md-8">
           (<Link to={`${this.props.baseUrl}/incidents`} >Terug naar overzicht</Link>)
           <button onClick={this.onPrintView}>Print view</button>
-          {(incident) ? <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} /> : ''}
+          {(incident) ?
+            <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} /> : ''}
         </div>
 
         <div className="col-12">
