@@ -9,7 +9,10 @@ import {
 
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
-  GET_CLASSIFICATION_ERROR
+  GET_CLASSIFICATION_ERROR,
+
+  SET_PRIORITY,
+  SET_PRIORITY_SUCCESS
 } from './constants';
 
 import {
@@ -21,7 +24,10 @@ import {
 
   getClassification,
   getClassificationSuccess,
-  getClassificationError
+  getClassificationError,
+
+  setPriority,
+  setPrioritySuccess
 } from './actions';
 
 describe('Incident container actions', () => {
@@ -68,5 +74,16 @@ describe('Incident container actions', () => {
       }
     };
     testActionCreator(getClassificationError, GET_CLASSIFICATION_ERROR, payload);
+  });
+
+  it('should dispatch set priority action', () => {
+    testActionCreator(setPriority, SET_PRIORITY, {
+      priority: 'normal',
+      _signal: 666
+    });
+  });
+
+  it('should dispatch set priority action', () => {
+    testActionCreator(setPrioritySuccess, SET_PRIORITY_SUCCESS);
   });
 });

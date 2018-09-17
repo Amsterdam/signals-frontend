@@ -74,9 +74,8 @@ export function setPriority(payload) {
   };
 }
 
-export function setPrioritySuccess(priority) {
+export function setPrioritySuccess() {
   return {
-    type: SET_PRIORITY_SUCCESS,
-    payload: { ...priority }
+    type: SET_PRIORITY_SUCCESS
   };
 }
