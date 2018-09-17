@@ -25,6 +25,7 @@ import Tabs from './components/Tabs';
 import MapDetail from './components/MapDetail';
 import IncidentDetail from './components/IncidentDetail';
 import IncidentCategoryContainer from '../IncidentCategoryContainer';
+import IncidentPriorityContainer from '../IncidentPriorityContainer';
 import IncidentStatusContainer from '../IncidentStatusContainer';
 import PrintLayout from './components/PrintLayout';
 
@@ -61,10 +62,11 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     const { selectedTab } = this.state;
     const tabs = [
       { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
+      { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
       { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
       { name: 'Foto', value: <Img src={incident && incident.image ? incident.image : ''} alt={''} className="incident-detail-page__image--max-width" /> },
     ];
-    const visibleTabs = ['Status', 'Subcategorie', 'Foto'].filter((tab) => tab === 'Foto' ? (incident && incident.image) : true);
+    const visibleTabs = ['Status', 'Urgentie', 'Subcategorie', 'Foto'].filter((tab) => tab === 'Foto' ? (incident && incident.image) : true);
 
     const view = this.state.printView ? <PrintLayout id={this.props.id} incident={incident} stadsdeelList={stadsdeelList} onPrintView={this.onPrintView} /> :
       (<div className="incident-detail-page row container">
