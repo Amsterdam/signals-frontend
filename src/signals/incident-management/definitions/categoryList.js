@@ -7,8 +7,8 @@ const categoryList = [
     { key: 'Overlast op het water', value: 'Overlast op het water' },
     { key: 'Overlast van dieren', value: 'Overlast van dieren' },
     { key: 'Overlast van en door personen of groepen', value: 'Overlast van en door personen of groepen' },
-    { key: 'Straatverlichting, Klok, Verkeerslicht', value: 'Straatverlichting, Klok, Verkeerslicht' },
     { key: 'Wegen, verkeer, straatmeubilair', value: 'Wegen, verkeer, straatmeubilair' },
+    { key: 'Overig', value: 'Overig' }
 ];
 
 export default categoryList;
