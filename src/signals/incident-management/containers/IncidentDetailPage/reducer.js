@@ -11,6 +11,7 @@ import {
   REQUEST_INCIDENT_ERROR
 } from './constants';
 
+import { REQUEST_PRIORITY_UPDATE_SUCCESS } from '../IncidentPriorityContainer/constants';
 import { REQUEST_CATEGORY_UPDATE_SUCCESS } from '../IncidentCategoryContainer/constants';
 import { REQUEST_STATUS_CREATE_SUCCESS } from '../IncidentStatusContainer/constants';
 
@@ -43,6 +44,9 @@ function incidentDetailPageReducer(state = initialState, action) {
     case REQUEST_CATEGORY_UPDATE_SUCCESS:
       return state
         .set('incident', { ...state.get('incident'), category: action.payload });
+    case REQUEST_PRIORITY_UPDATE_SUCCESS:
+      return state
+        .set('incident', { ...state.get('incident'), priority: action.payload });
     case REQUEST_STATUS_CREATE_SUCCESS:
       return state
         .set('incident', { ...state.get('incident'), status: action.payload });
