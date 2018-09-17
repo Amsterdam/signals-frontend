@@ -26,6 +26,7 @@ export default {
             'Telefoon – ASC': 'Telefoon – ASC',
             'Telefoon – Interswitch': 'Telefoon – Interswitch',
             'Telefoon – Stadsdeel': 'Telefoon – Stadsdeel',
+            'Telefoon – Adoptant': 'Telefoon – Adoptant',
             'E-mail – CCA': 'E-mail – CCA',
             'E-mail – ASC': 'E-mail – ASC',
             'E-mail – Stadsdeel': 'E-mail – Stadsdeel',
