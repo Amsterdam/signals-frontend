@@ -14,7 +14,7 @@ describe('<PrintLayout />', () => {
       incident: {},
       stadsdeelList: [],
       onPrintView: jest.fn(),
-      incidentstatuscontainer: { incidentStatusList: [], statusList: [] }
+      incidentstatuscontainer: { incidentStatusList: [], statusList: [], priorityList: [] }
     };
   });
 
@@ -27,9 +27,8 @@ describe('<PrintLayout />', () => {
 
   it('should render the connected component correctly', () => {
     const mockStore = configureMockStore({});
-    const store = mockStore(fromJS({ incidentStatusContainer: { incidentStatusList: [], statusList: [] } }));
+    const store = mockStore(fromJS({ incidentStatusContainer: { incidentStatusList: [], statusList: [], priorityList: [] } }));
     const wrapper = shallow(<ConnectedPrintLayout store={store} {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 });
-

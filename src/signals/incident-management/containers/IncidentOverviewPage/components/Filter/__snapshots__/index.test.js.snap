@@ -229,14 +229,10 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingChange": true,
                 "_pendingDirty": false,
                 "_pendingTouched": false,
-                "_pendingValue": Array [
-                  "",
-                ],
+                "_pendingValue": "",
                 "asyncValidator": null,
                 "errors": null,
-                "formState": Array [
-                  "",
-                ],
+                "formState": "",
                 "get": [Function],
                 "getError": [Function],
                 "handler": [Function],
@@ -265,13 +261,11 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "touched": false,
                 "validator": null,
                 "validatorsOrOpts": Object {
-                  "asyncValidators": null,
-                  "updateOn": null,
-                  "validators": null,
+                  "asyncValidators": undefined,
+                  "updateOn": undefined,
+                  "validators": undefined,
                 },
-                "value": Array [
-                  "",
-                ],
+                "value": "",
                 "valueChanges": Observable {
                   "observers": Array [],
                 },
@@ -368,9 +362,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
               "location__stadsdeel": Array [
                 "",
               ],
-              "priority__priority": Array [
-                "",
-              ],
+              "priority__priority": "",
               "status__state": Array [
                 "",
               ],
@@ -652,14 +644,10 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingChange": true,
                 "_pendingDirty": false,
                 "_pendingTouched": false,
-                "_pendingValue": Array [
-                  "",
-                ],
+                "_pendingValue": "",
                 "asyncValidator": null,
                 "errors": null,
-                "formState": Array [
-                  "",
-                ],
+                "formState": "",
                 "get": [Function],
                 "getError": [Function],
                 "handler": [Function],
@@ -688,13 +676,11 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "touched": false,
                 "validator": null,
                 "validatorsOrOpts": Object {
-                  "asyncValidators": null,
-                  "updateOn": null,
-                  "validators": null,
+                  "asyncValidators": undefined,
+                  "updateOn": undefined,
+                  "validators": undefined,
                 },
-                "value": Array [
-                  "",
-                ],
+                "value": "",
                 "valueChanges": Observable {
                   "observers": Array [],
                 },
@@ -791,9 +777,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
               "location__stadsdeel": Array [
                 "",
               ],
-              "priority__priority": Array [
-                "",
-              ],
+              "priority__priority": "",
               "status__state": Array [
                 "",
               ],
@@ -1209,9 +1193,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
               "location__stadsdeel": Array [
                 "",
               ],
-              "priority__priority": Array [
-                "",
-              ],
+              "priority__priority": "",
               "status__state": Array [
                 "",
               ],
@@ -1223,14 +1205,10 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
           "_pendingChange": true,
           "_pendingDirty": false,
           "_pendingTouched": false,
-          "_pendingValue": Array [
-            "",
-          ],
+          "_pendingValue": "",
           "asyncValidator": null,
           "errors": null,
-          "formState": Array [
-            "",
-          ],
+          "formState": "",
           "get": [Function],
           "getError": [Function],
           "handler": [Function],
@@ -1259,13 +1237,11 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
           "touched": false,
           "validator": null,
           "validatorsOrOpts": Object {
-            "asyncValidators": null,
-            "updateOn": null,
-            "validators": null,
+            "asyncValidators": undefined,
+            "updateOn": undefined,
+            "validators": undefined,
           },
-          "value": Array [
-            "",
-          ],
+          "value": "",
           "valueChanges": Observable {
             "observers": Array [],
           },
@@ -1493,14 +1469,10 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingChange": true,
                 "_pendingDirty": false,
                 "_pendingTouched": false,
-                "_pendingValue": Array [
-                  "",
-                ],
+                "_pendingValue": "",
                 "asyncValidator": null,
                 "errors": null,
-                "formState": Array [
-                  "",
-                ],
+                "formState": "",
                 "get": [Function],
                 "getError": [Function],
                 "handler": [Function],
@@ -1529,13 +1501,11 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "touched": false,
                 "validator": null,
                 "validatorsOrOpts": Object {
-                  "asyncValidators": null,
-                  "updateOn": null,
-                  "validators": null,
+                  "asyncValidators": undefined,
+                  "updateOn": undefined,
+                  "validators": undefined,
                 },
-                "value": Array [
-                  "",
-                ],
+                "value": "",
                 "valueChanges": Observable {
                   "observers": Array [],
                 },
@@ -1632,9 +1602,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
               "location__stadsdeel": Array [
                 "",
               ],
-              "priority__priority": Array [
-                "",
-              ],
+              "priority__priority": "",
               "status__state": Array [
                 "",
               ],
@@ -1917,14 +1885,10 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingChange": true,
                 "_pendingDirty": false,
                 "_pendingTouched": false,
-                "_pendingValue": Array [
-                  "",
-                ],
+                "_pendingValue": "",
                 "asyncValidator": null,
                 "errors": null,
-                "formState": Array [
-                  "",
-                ],
+                "formState": "",
                 "get": [Function],
                 "getError": [Function],
                 "handler": [Function],
@@ -1953,13 +1917,11 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "touched": false,
                 "validator": null,
                 "validatorsOrOpts": Object {
-                  "asyncValidators": null,
-                  "updateOn": null,
-                  "validators": null,
+                  "asyncValidators": undefined,
+                  "updateOn": undefined,
+                  "validators": undefined,
                 },
-                "value": Array [
-                  "",
-                ],
+                "value": "",
                 "valueChanges": Observable {
                   "observers": Array [],
                 },
@@ -2056,9 +2018,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
               "location__stadsdeel": Array [
                 "",
               ],
-              "priority__priority": Array [
-                "",
-              ],
+              "priority__priority": "",
               "status__state": Array [
                 "",
               ],
@@ -2395,14 +2355,10 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingChange": true,
                 "_pendingDirty": false,
                 "_pendingTouched": false,
-                "_pendingValue": Array [
-                  "",
-                ],
+                "_pendingValue": "",
                 "asyncValidator": null,
                 "errors": null,
-                "formState": Array [
-                  "",
-                ],
+                "formState": "",
                 "get": [Function],
                 "getError": [Function],
                 "handler": [Function],
@@ -2431,13 +2387,11 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "touched": false,
                 "validator": null,
                 "validatorsOrOpts": Object {
-                  "asyncValidators": null,
-                  "updateOn": null,
-                  "validators": null,
+                  "asyncValidators": undefined,
+                  "updateOn": undefined,
+                  "validators": undefined,
                 },
-                "value": Array [
-                  "",
-                ],
+                "value": "",
                 "valueChanges": Observable {
                   "observers": Array [],
                 },
@@ -2481,9 +2435,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
               "location__stadsdeel": Array [
                 "",
               ],
-              "priority__priority": Array [
-                "",
-              ],
+              "priority__priority": "",
               "status__state": Array [
                 "",
               ],
@@ -2772,14 +2724,10 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingChange": true,
                 "_pendingDirty": false,
                 "_pendingTouched": false,
-                "_pendingValue": Array [
-                  "",
-                ],
+                "_pendingValue": "",
                 "asyncValidator": null,
                 "errors": null,
-                "formState": Array [
-                  "",
-                ],
+                "formState": "",
                 "get": [Function],
                 "getError": [Function],
                 "handler": [Function],
@@ -2808,13 +2756,11 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "touched": false,
                 "validator": null,
                 "validatorsOrOpts": Object {
-                  "asyncValidators": null,
-                  "updateOn": null,
-                  "validators": null,
+                  "asyncValidators": undefined,
+                  "updateOn": undefined,
+                  "validators": undefined,
                 },
-                "value": Array [
-                  "",
-                ],
+                "value": "",
                 "valueChanges": Observable {
                   "observers": Array [],
                 },
@@ -2911,9 +2857,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
               "location__stadsdeel": Array [
                 "",
               ],
-              "priority__priority": Array [
-                "",
-              ],
+              "priority__priority": "",
               "status__state": Array [
                 "",
               ],
@@ -3277,14 +3221,10 @@ exports[`<Filter /> should render correctly 1`] = `
               "_pendingChange": true,
               "_pendingDirty": false,
               "_pendingTouched": false,
-              "_pendingValue": Array [
-                "",
-              ],
+              "_pendingValue": "",
               "asyncValidator": null,
               "errors": null,
-              "formState": Array [
-                "",
-              ],
+              "formState": "",
               "get": [Function],
               "getError": [Function],
               "handler": [Function],
@@ -3313,13 +3253,11 @@ exports[`<Filter /> should render correctly 1`] = `
               "touched": false,
               "validator": null,
               "validatorsOrOpts": Object {
-                "asyncValidators": null,
-                "updateOn": null,
-                "validators": null,
+                "asyncValidators": undefined,
+                "updateOn": undefined,
+                "validators": undefined,
               },
-              "value": Array [
-                "",
-              ],
+              "value": "",
               "valueChanges": Observable {
                 "observers": Array [],
               },
@@ -3414,9 +3352,7 @@ exports[`<Filter /> should render correctly 1`] = `
             "location__stadsdeel": Array [
               "",
             ],
-            "priority__priority": Array [
-              "",
-            ],
+            "priority__priority": "",
             "status__state": Array [
               "",
             ],

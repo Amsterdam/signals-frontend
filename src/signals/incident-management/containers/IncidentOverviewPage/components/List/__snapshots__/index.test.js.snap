@@ -58,6 +58,11 @@ exports[`<List /> should render correctly 1`] = `
           <th
             className=""
           >
+            Urgentie
+          </th>
+          <th
+            className=""
+          >
             Adres
           </th>
         </tr>
@@ -83,6 +88,9 @@ exports[`<List /> should render correctly 1`] = `
             Gezonken boot
           </td>
           <td />
+          <td>
+            Niet gevonden
+          </td>
           <td>
             Niet gevonden
           </td>

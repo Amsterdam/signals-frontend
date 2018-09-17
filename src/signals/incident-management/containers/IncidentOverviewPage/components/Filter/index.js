@@ -24,7 +24,7 @@ class Filter extends React.Component {
     id: [''],
     incident_date_start: [''],
     location__stadsdeel: [['']],
-    priority__priority: [['']],
+    priority__priority: '',
     category__sub: [['']],
     status__state: [['']],
     location__address_text: [''],
