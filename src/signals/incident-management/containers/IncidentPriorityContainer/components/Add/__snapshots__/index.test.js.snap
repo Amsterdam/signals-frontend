@@ -112,7 +112,7 @@ exports[`<Add /> should render correctly 1`] = `
                 "observers": Array [],
               },
             },
-            "sub": FormControl {
+            "priority": FormControl {
               "_onCollectionChange": [Function],
               "_onDisabledChange": Array [],
               "_parent": [Circular],
@@ -191,7 +191,7 @@ exports[`<Add /> should render correctly 1`] = `
           "value": Object {
             "_signal": "",
             "loading": false,
-            "sub": "",
+            "priority": "",
           },
           "valueChanges": Observable {
             "observers": Array [],

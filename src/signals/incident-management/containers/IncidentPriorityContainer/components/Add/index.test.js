@@ -45,9 +45,9 @@ describe('<Add />', () => {
 
     it('should enable the submit button when a  priority is selected', () => {
       const form = wrapper.instance().priorityForm;
-      const formValue = { sub: 'test' };
+      const formValue = { priority: 'test' };
       form.patchValue(formValue);
-      expect(form.value.sub).toEqual(formValue.sub);
+      expect(form.value.priority).toEqual(formValue.priority);
       renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
       expect(renderedFormGroup.find('button').prop('disabled')).toBe(false);
     });
@@ -56,10 +56,10 @@ describe('<Add />', () => {
       const form = wrapper.instance().priorityForm;
       const formValue = {
         ...form.value,
-        sub: 'test'
+        priority: 'high'
       };
       form.setValue(formValue);
-      expect(form.value.sub).toEqual(formValue.sub);
+      expect(form.value.priority).toEqual(formValue.priority);
 
       renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
       // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality

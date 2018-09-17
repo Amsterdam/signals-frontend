@@ -41,7 +41,7 @@ exports[`<IncidentDetailPage /> should render correctly 1`] = `
         Array [
           Object {
             "key": "",
-            "value": "Alle stadsdelen",
+            "value": "Alles",
           },
           Object {
             "key": "normal",
@@ -104,6 +104,7 @@ exports[`<IncidentDetailPage /> should render correctly 1`] = `
       tabs={
         Array [
           "Status",
+          "Urgentie",
           "Subcategorie",
         ]
       }

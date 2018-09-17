@@ -1,5 +1,5 @@
 const priorityList = [
-    { key: '', value: 'Alle stadsdelen' },
+    { key: '', value: 'Alles' },
     { key: 'normal', value: 'Normaal' },
     { key: 'high', value: 'Hoog' }
 ];

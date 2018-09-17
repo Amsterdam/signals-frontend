@@ -6,15 +6,17 @@
 
 import { fromJS } from 'immutable';
 import { REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR, FILTER_INCIDENTS_CHANGED, PAGE_INCIDENTS_CHANGED } from './constants';
+import priorityList from '../../definitions/priorityList';
 import stadsdeelList from '../../definitions/stadsdeelList';
 import subcategoryList from '../../definitions/subcategoryList';
 import statusList from '../../definitions/statusList';
 
 export const initialState = fromJS({
   incidents: [],
+  priorityList,
   stadsdeelList,
   subcategoryList,
-  statusList,
+  statusList
 });
 
 function overviewPageReducer(state = initialState, action) {
