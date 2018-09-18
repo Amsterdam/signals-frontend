@@ -25,7 +25,7 @@ node {
       String  PROJECT = "sia-unittests"
 
       tryStep "unittests start", {
-        sh "docker-compose -p ${PROJECT} up --build --exit-code-from unittest-container unittest-container"
+        sh "docker-compose -p ${PROJECT} up --build --exit-code-from test-unit-integration test-unit-integration"
       }
       always {
         tryStep "unittests stop", {
@@ -51,7 +51,7 @@ node {
 
 String BRANCH = "${env.BRANCH_NAME}"
 
-if (BRANCH == "develop") {
+if (BRANCH == "master") {
 
     node {
         stage('Push acceptance image') {
@@ -74,12 +74,6 @@ if (BRANCH == "develop") {
             }
         }
     }
-}
-
-String BRANCH = "${env.BRANCH_NAME}"
-
-if (BRANCH == "master") {
-
 
     stage('Waiting for approval') {
         slackSend channel: '#ci-channel', color: 'warning', message: 'Signals-frontend is waiting for Production Release - please confirm'
