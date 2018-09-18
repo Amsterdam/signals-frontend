@@ -21,49 +21,34 @@ exports[`<List /> should render correctly 1`] = `
       <thead>
         <tr>
           <th
-            className=""
+            className="list-component__body-col-1"
           >
             Id
-          </th>
-          <th
-            className=""
-          >
-            Datum
-          </th>
-          <th
-            className=""
-          >
-            Tijd
-          </th>
-          <th
-            className=""
-          >
-            Stadsdeel
-          </th>
-          <th
-            className=""
-          >
+            <br />
             Subcategorie
           </th>
           <th
-            className=""
+            className="list-component__body-col-2"
           >
-            Afdeling
+            Datum
+            <br />
+            Tijd
           </th>
           <th
-            className=""
+            className="list-component__body-col-3"
+          >
+            Stadsdeel
+            <br />
+            Adres
+          </th>
+          <th
+            className="list-component__body-col-4"
           >
             Status
-          </th>
-          <th
-            className=""
-          >
+            <br />
             Urgentie
-          </th>
-          <th
-            className=""
-          >
-            Adres
+            <br />
+            Afdeling
           </th>
         </tr>
       </thead>
@@ -74,28 +59,24 @@ exports[`<List /> should render correctly 1`] = `
         >
           <td>
             158
+            <br />
+            Gezonken boot
           </td>
           <td>
             11-07-2018
-          </td>
-          <td>
+            <br />
             15:46
           </td>
           <td>
             Niet gevonden
-          </td>
-          <td>
-            Gezonken boot
-          </td>
-          <td />
-          <td>
-            Niet gevonden
-          </td>
-          <td>
-            Niet gevonden
-          </td>
-          <td>
+            <br />
             Dam 1A-1 1012JS Amsterdam
+          </td>
+          <td>
+            Niet gevonden
+            <br />
+            Niet gevonden
+            <br />
           </td>
         </tr>
       </tbody>
