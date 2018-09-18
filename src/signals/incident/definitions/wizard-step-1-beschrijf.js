@@ -58,7 +58,8 @@ export default {
         meta: {
           label: 'Waar gaat het om?',
           path: 'text',
-          placeholder: 'Beschrijf uw melding'
+          placeholder: 'Beschrijf uw melding',
+          maxLength: 3000
         },
         options: {
           validators: [

@@ -60,6 +60,18 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
       expect(handler).not.toHaveBeenCalled();
       expect(wrapper).toMatchSnapshot();
     });
+
+    it('should render with a character counter when maxLength is supplied', () => {
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          isVisible: true,
+          maxLength: 3000
+        }
+      });
+
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 
   describe('events', () => {
