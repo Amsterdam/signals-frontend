@@ -82,7 +82,6 @@ if (BRANCH == "develop") {
         }
     }
 
-String BRANCH = "${env.BRANCH_NAME}"
 
 if (BRANCH == "master") {
 
