@@ -5,6 +5,9 @@ import { fromJS } from 'immutable';
 
 import ConnectedPrintLayout, { PrintLayout } from './index';
 
+jest.mock('../IncidentDetail', () => 'IncidentDetail');
+jest.mock('../../../IncidentStatusContainer/components/List', () => 'List');
+
 describe('<PrintLayout />', () => {
   let props;
 
