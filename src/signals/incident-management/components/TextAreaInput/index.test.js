@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import TextAreaInput from './index';
 
 describe('<TextAreaInput />', () => {
-  let renderedComponent;
+  let wrapper;
   let props;
 
   beforeEach(() => {
@@ -17,7 +17,7 @@ describe('<TextAreaInput />', () => {
     };
 
     const TextAreaInputRender = TextAreaInput(props);
-    renderedComponent = shallow(
+    wrapper = shallow(
       <TextAreaInputRender {...props} />
     );
   });
@@ -27,8 +27,8 @@ describe('<TextAreaInput />', () => {
   });
 
   it('should render correctly', () => {
-    expect(renderedComponent).not.toBeNull();
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).not.toBeNull();
+    expect(wrapper).toMatchSnapshot();
   });
 });
 

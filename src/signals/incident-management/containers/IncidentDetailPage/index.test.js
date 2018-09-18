@@ -19,29 +19,29 @@ describe('<IncidentDetailPage />', () => {
   });
 
   it('should render correctly', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <IncidentDetailPage {...props} />
     );
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should change the state', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <IncidentDetailPage {...props} />
     );
-    renderedComponent.instance().onPrintView();
-    renderedComponent.instance().onTabChanged(1);
-    expect(renderedComponent.instance().state).toEqual({ selectedTab: 1, printView: true });
+    wrapper.instance().onPrintView();
+    wrapper.instance().onTabChanged(1);
+    expect(wrapper.instance().state).toEqual({ selectedTab: 1, printView: true });
   });
 
   it('should render the print view', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <IncidentDetailPage {...props} />
     );
-    renderedComponent.instance().onPrintView();
-    renderedComponent.update();
-    expect(renderedComponent.find(ConnectedPrintLayout).length).toEqual(1);
-    expect(renderedComponent).toMatchSnapshot();
+    wrapper.instance().onPrintView();
+    wrapper.update();
+    expect(wrapper.find(ConnectedPrintLayout).length).toEqual(1);
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('mapDispatchToProps', () => {

@@ -1,34 +1,30 @@
-/* eslint-disable no-unused-vars */
-
 import React from 'react';
 import PropTypes from 'prop-types';
-import { map } from 'lodash';
 
-import Title from '../Title/';
-import ErrorMessage from '../ErrorMessage/';
+import Header from '../Header/';
 
-const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError }) => (
-  <div>
-    {meta.ifVisible ?
-      <div className="row mode_input">
-        <Title meta={meta} />
-
-        <div className={`col-${meta.cols || 12} antwoorden`}>
-          <div className="antwoord">
-            <input
-              id={meta.name}
-              {...handler('checkbox')}
-              onClick={(e) => meta.updateIncident && parent.meta.setIncident({ [meta.name]: e.target.checked })}
-            />
-            <label htmlFor={meta.name}>{meta.value}</label>
-          </div>
-        </div>
-
-        <ErrorMessage
+const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => (
+  <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
+    {meta && meta.isVisible ?
+      <div className={`${meta.className || 'col-12'} mode_input`}>
+        <Header
+          meta={meta}
+          options={validatorsOrOpts}
           touched={touched}
           hasError={hasError}
           getError={getError}
-        />
+        >
+          <div className="antwoorden">
+            <div className="antwoord">
+              <input
+                id={meta.name}
+                {...handler('checkbox')}
+                onClick={(e) => meta.updateIncident && parent.meta.setIncident({ [meta.name]: e.target.checked })}
+              />
+              <label htmlFor={meta.name}>{meta.value}</label>
+            </div>
+          </div>
+        </Header>
       </div>
        : ''}
   </div>
@@ -37,10 +33,11 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError }) =
 CheckboxInput.propTypes = {
   handler: PropTypes.func,
   touched: PropTypes.bool,
-  getError: PropTypes.func.isRequired,
-  hasError: PropTypes.func.isRequired,
+  getError: PropTypes.func,
+  hasError: PropTypes.func,
   meta: PropTypes.object,
-  parent: PropTypes.object
+  parent: PropTypes.object,
+  validatorsOrOpts: PropTypes.object
 };
 
 export default CheckboxInput;

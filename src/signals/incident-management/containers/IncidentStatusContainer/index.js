@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { FormattedMessage } from 'react-intl';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -14,7 +13,6 @@ import './style.scss';
 import List from './components/List';
 import Add from './components/Add';
 import { requestStatusList, requestStatusCreate } from './actions';
-import messages from './messages';
 
 export class IncidentStatusContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
@@ -22,7 +20,7 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
   }
 
   render() {
-    const { incidentStatusList, statusList, error } = this.props.incidentstatuscontainer;
+    const { incidentStatusList, statusList, error, loading } = this.props.incidentStatusContainer;
     const state = incidentStatusList && incidentStatusList.length && incidentStatusList[incidentStatusList.length - 1].state;
     const canDisplay = typeof state !== 'number';
     const canChangeState = !['a', 'o'].some((value) => state === value);
@@ -32,8 +30,7 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
         {canDisplay ?
           <div className="incident-status-container row">
             <div className="col-12">
-              {canChangeState ? <Add id={this.props.id} statusList={statusList} onRequestStatusCreate={this.props.onRequestStatusCreate} incidentStatusList={incidentStatusList} /> : ''}
-              {error ? <div className="incident-status-container__error" ><FormattedMessage {...messages.errorStateTransition} /></div> : ''}
+              {canChangeState ? <Add id={this.props.id} loading={loading} statusList={statusList} error={error} onRequestStatusCreate={this.props.onRequestStatusCreate} incidentStatusList={incidentStatusList} /> : ''}
             </div>
             <div className="col-12">
               <List incidentStatusList={incidentStatusList} statusList={statusList} />
@@ -46,7 +43,7 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
 
 IncidentStatusContainer.propTypes = {
   id: PropTypes.string.isRequired,
-  incidentstatuscontainer: PropTypes.object.isRequired,
+  incidentStatusContainer: PropTypes.object.isRequired,
 
   onRequestStatusList: PropTypes.func.isRequired,
   onRequestStatusCreate: PropTypes.func.isRequired,
@@ -54,7 +51,7 @@ IncidentStatusContainer.propTypes = {
 
 
 const mapStateToProps = createStructuredSelector({
-  incidentstatuscontainer: makeSelectIncidentStatusContainer(),
+  incidentStatusContainer: makeSelectIncidentStatusContainer(),
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({

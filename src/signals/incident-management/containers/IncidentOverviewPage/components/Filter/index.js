@@ -53,7 +53,7 @@ class Filter extends React.Component {
                   <FieldControlWrapper render={TextInput} name="id" display="Id" control={this.filterForm.get('id')} />
                   <FieldControlWrapper render={DatePickerInput} name="incident_date_start" display="Datum" control={this.filterForm.get('incident_date_start')} placeholder={'JJJJ-MM-DD'} />
                   <FieldControlWrapper render={SelectInput} name="location__stadsdeel" display="Stadsdeel" control={this.filterForm.get('location__stadsdeel')} values={stadsdeelList} multiple />
-                  <FieldControlWrapper render={SelectInput} name="category__sub" display="Categorie" control={this.filterForm.get('category__sub')} values={subcategoryList} multiple size={10} />
+                  <FieldControlWrapper render={SelectInput} name="category__sub" display="Subcategorie" control={this.filterForm.get('category__sub')} values={subcategoryList} multiple size={10} />
                   <FieldControlWrapper render={SelectInput} name="status__state" display="Status" control={this.filterForm.get('status__state')} values={statusList} multiple />
                   <FieldControlWrapper render={TextInput} name="location__address_text" display="Adres" control={this.filterForm.get('location__address_text')} />
 

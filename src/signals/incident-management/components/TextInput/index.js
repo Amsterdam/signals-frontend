@@ -5,18 +5,19 @@ import './style.scss';
 
 export const TextInput = (props) => {
   const { name, display, placeholder } = props;
-  const render = ({ handler }) => (<div>
-    <div className="mode_input text rij_verplicht">
-      <div className="label">
-        <label htmlFor={`form${name}`}>{display}</label>
-      </div>
+  const render = ({ handler }) => (
+    <div className="text-input">
+      <div className="mode_input text rij_verplicht">
+        <div className="text-input__label">
+          <label htmlFor={`form${name}`}>{display}</label>
+        </div>
 
-      <div className="invoer">
-        <input name="" id={`form${name}`} value="" className="input" type="text" {...handler()} placeholder={placeholder} />
-      </div>
+        <div className="text-input__control invoer">
+          <input name="" id={`form${name}`} value="" className="input" type="text" {...handler()} placeholder={placeholder} />
+        </div>
 
-    </div>
-  </div>);
+      </div>
+    </div>);
 
   render.defaultProps = {
     touched: false,

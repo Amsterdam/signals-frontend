@@ -10,32 +10,21 @@ describe('<IncidentManagementModule />', () => {
     props = {
       match: { params: { id: 1 }, url: 'http://test/url' },
       isAuthenticated: true,
-      isPublicPage: false
     };
   });
 
   it('should render correctly when authenticated', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <IncidentManagementModule {...props} />
     );
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render correctly when not authenticated on public page', () => {
+  it('should render correctly when not authenticated', () => {
     props.isAuthenticated = false;
-    props.isPublicPage = true;
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <IncidentManagementModule {...props} />
     );
-    expect(renderedComponent).toMatchSnapshot();
-  });
-
-  it('should render correctly when not authenticated on management page', () => {
-    props.isAuthenticated = false;
-    props.isPublicPage = false;
-    const renderedComponent = shallow(
-      <IncidentManagementModule {...props} />
-    );
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });

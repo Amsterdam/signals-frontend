@@ -16,10 +16,9 @@ export default {
     controls: {
       source: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           label: 'Hoe komt de melding binnen?',
           path: 'source',
-          watch: true,
           updateIncident: true,
           values: {
             '': 'Vul bron in',
@@ -27,6 +26,7 @@ export default {
             'Telefoon – ASC': 'Telefoon – ASC',
             'Telefoon – Interswitch': 'Telefoon – Interswitch',
             'Telefoon – Stadsdeel': 'Telefoon – Stadsdeel',
+            'Telefoon – Adoptant': 'Telefoon – Adoptant',
             'E-mail – CCA': 'E-mail – CCA',
             'E-mail – ASC': 'E-mail – ASC',
             'E-mail – Stadsdeel': 'E-mail – Stadsdeel',
@@ -38,7 +38,7 @@ export default {
           }
         },
         options: {
-          validators: Validators.required
+          validators: [Validators.required]
         },
         authenticated: true,
         render: FormComponents.SelectInput
@@ -46,12 +46,11 @@ export default {
       location: {
         meta: {
           label: 'Waar is het?',
-          subtitle: 'Typ de locatie in of of klik op de kaart',
+          subtitle: 'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart',
           path: 'location',
-          watch: true
         },
         options: {
-          validators: Validators.required
+          validators: [Validators.required]
         },
         render: FormComponents.MapInput
       },
@@ -59,7 +58,7 @@ export default {
         meta: {
           label: 'Waar gaat het om?',
           path: 'text',
-          placeholder: 'Beschrijving'
+          placeholder: 'Beschrijf uw melding'
         },
         options: {
           validators: [
@@ -73,11 +72,10 @@ export default {
         meta: {
           label: 'Categorie',
           path: 'category.main',
-          type: 'text',
-          watch: true
+          type: 'text'
         },
         options: {
-          validators: Validators.required
+          validators: [Validators.required]
         },
         render: FormComponents.HiddenInput
       },
@@ -85,17 +83,16 @@ export default {
         meta: {
           label: 'Subcategorie',
           path: 'category.sub',
-          type: 'text',
-          watch: true
+          type: 'text'
         },
         options: {
-          validators: Validators.required
+          validators: [Validators.required]
         },
         render: FormComponents.HiddenInput
       },
       datetime: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           label: 'Geef het tijdstip aan',
           values: {
             Nu: 'Nu',
@@ -104,17 +101,16 @@ export default {
           updateIncident: true
         },
         options: {
-          validators: Validators.required
+          validators: [Validators.required]
         },
         render: FormComponents.RadioInput
       },
       incident_date: {
         meta: {
-          // label: 'Datum gebeurtenis ',
           ifAllOf: {
             datetime: 'Eerder'
           },
-          watch: true
+          updateIncident: true
         },
         render: FormComponents.DateTimeInput,
         strict: false
@@ -122,24 +118,21 @@ export default {
       incident_time_hours: {
         meta: {
           label: 'Incident time hours',
-          readOnly: true,
-          watch: true
+          readOnly: true
         },
         render: FormComponents.HiddenInput
       },
       incident_time_minutes: {
         meta: {
           label: 'Incident time minutes',
-          readOnly: true,
-          watch: true
+          readOnly: true
         },
         render: FormComponents.HiddenInput
       },
       image: {
         meta: {
           label: 'Wilt u een foto meesturen?',
-          submitLabel: 'Foto kiezen',
-          watch: true
+          submitLabel: 'Foto kiezen'
         },
         render: FormComponents.FileInput
       },

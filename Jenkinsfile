@@ -25,7 +25,7 @@ node {
       String  PROJECT = "sia-unittests"
 
       tryStep "unittests start", {
-        sh "docker-compose -p ${PROJECT} up --build --exit-code-from test-unit-integration test-unit-integration"
+        sh "docker-compose -p ${PROJECT} up --build --exit-code-from unittest-container unittest-container"
       }
       always {
         tryStep "unittests stop", {

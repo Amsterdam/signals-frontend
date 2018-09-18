@@ -64,6 +64,54 @@ exports[`<Add /> should render correctly 1`] = `
                 "observers": Array [],
               },
             },
+            "loading": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": false,
+              "asyncValidator": null,
+              "errors": null,
+              "formState": false,
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": undefined,
+                "updateOn": undefined,
+                "validators": undefined,
+              },
+              "value": false,
+              "valueChanges": Observable {
+                "observers": Array [],
+              },
+            },
             "sub": FormControl {
               "_onCollectionChange": [Function],
               "_onDisabledChange": Array [],
@@ -142,6 +190,7 @@ exports[`<Add /> should render correctly 1`] = `
           },
           "value": Object {
             "_signal": "",
+            "loading": false,
             "sub": "",
           },
           "valueChanges": Observable {

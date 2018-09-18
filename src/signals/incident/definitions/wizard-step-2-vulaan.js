@@ -17,7 +17,7 @@ export default {
 
       extra_personen_overig: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           ifAllOf: {
             category: 'Overlast van en door personen of groepen'
           },
@@ -28,14 +28,13 @@ export default {
             '4-6': '4 - 6',
             '7+': '7 of meer',
             '': 'Onbekend'
-          },
-          watch: true
+          }
         },
         render: FormComponents.RadioInput
       },
       extra_personen_overig_vaker: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           ifAllOf: {
             category: 'Overlast van en door personen of groepen'
           },
@@ -53,8 +52,7 @@ export default {
           ifAllOf: {
             extra_personen_overig_vaker: true,
             category: 'Overlast van en door personen of groepen'
-          },
-          watch: true
+          }
         },
         render: FormComponents.TextareaInput
       },
@@ -62,7 +60,7 @@ export default {
 
       extra_bedrijven_binnenstad_text: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           ifAllOf: {
             category: 'Overlast Bedrijven en Horeca'
           },
@@ -83,8 +81,7 @@ export default {
             'Ander soort bedrijf': 'Ander soort bedrijf',
             Evenement: 'Evenement (festival, markt, etc.)',
             'Iets anders': 'Iets anders'
-          },
-          watch: true
+          }
         },
         render: FormComponents.RadioInput
       },
@@ -94,8 +91,7 @@ export default {
             category: 'Overlast Bedrijven en Horeca'
           },
           label: 'Bedrijfsnaam / Evenementnaam van vermoedelijke veroorzaker',
-          pathMerge: 'extra_properties',
-          watch: true
+          pathMerge: 'extra_properties'
         },
         render: FormComponents.TextInput
       },
@@ -105,8 +101,7 @@ export default {
             category: 'Overlast Bedrijven en Horeca'
           },
           label: 'Op welke locatie ervaart u de overlast',
-          pathMerge: 'extra_properties',
-          watch: true
+          pathMerge: 'extra_properties'
         },
         render: FormComponents.TextInput
       },
@@ -129,14 +124,13 @@ export default {
           ifAllOf: {
             extra_bedrijven_vaker: true,
             category: 'Overlast Bedrijven en Horeca'
-          },
-          watch: true
+          }
         },
         render: FormComponents.TextareaInput
       },
       extra_bedrijven_text: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           ifAllOf: {
             category: 'Overlast Bedrijven en Horeca'
           },
@@ -151,7 +145,7 @@ export default {
 
       extra_boten_snelheid_rondvaartboot: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           ifAllOf: {
             subcategory: 'Overlast op het water - snel varen'
           },
@@ -167,8 +161,8 @@ export default {
       },
       extra_boten_snelheid_rederij: {
         meta: {
-          cols: 6,
-          label: 'Wat is de naam van de rederij? (niet verplicht)',
+          className: 'col-sm-12 col-md-6',
+          label: 'Wat is de naam van de rederij?',
           subtitle: 'Als u begint met typen verschijnt vanzelf een lijst met rederijen',
           pathMerge: 'extra_properties',
           values: {
@@ -241,55 +235,50 @@ export default {
             subcategory: 'Overlast op het water - snel varen',
             extra_boten_snelheid_rondvaartboot: 'Ja'
           },
-          updateIncident: true,
-          watch: true
+          updateIncident: true
         },
         render: FormComponents.SelectInput
       },
       extra_boten_snelheid_naamboot: {
         meta: {
-          cols: 6,
-          label: 'Wat is de naam van de boot? (niet verplicht)',
+          className: 'col-sm-12 col-md-6',
+          label: 'Wat is de naam van de boot?',
           pathMerge: 'extra_properties',
           ifAllOf: {
             subcategory: 'Overlast op het water - snel varen'
-          },
-          watch: true
+          }
         },
         render: FormComponents.TextInput
       },
       extra_boten_snelheid_meer: {
         meta: {
-          label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? (niet verplicht)',
+          label: 'Zijn er nog dingen die u ons nog meer kunt vertellen?',
           subtitle: 'Bijvoorbeeld: de kleur(en) van de boot, het aantal passagiers, de vaarrichting, Y of Vignet nummer etc.',
           pathMerge: 'extra_properties',
           ifAllOf: {
             subcategory: 'Overlast op het water - snel varen'
-          },
-          watch: true
+          }
         },
         render: FormComponents.TextareaInput
       },
       extra_boten_geluid_meer: {
         meta: {
-          label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? (niet verplicht)',
+          label: 'Zijn er nog dingen die u ons nog meer kunt vertellen?',
           pathMerge: 'extra_properties',
           ifAllOf: {
             subcategory: 'Overlast op het water - geluid'
-          },
-          watch: true
+          }
         },
         render: FormComponents.TextareaInput
       },
       extra_boten_gezonken_meer: {
         meta: {
-          label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? (niet verplicht)',
+          label: 'Zijn er nog dingen die u ons nog meer kunt vertellen?',
           subtitle: 'Bijvoorbeeld: "er lekt olie", "gevaar voor andere boten", etc.',
           pathMerge: 'extra_properties',
           ifAllOf: {
             subcategory: 'Overlast op het water - Gezonken boot'
-          },
-          watch: true
+          }
         },
         render: FormComponents.TextareaInput
       },

@@ -35,19 +35,6 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
                     {this.props.isAuthenticated && ('Ingelogd als: ')}<b>{this.props.userName}</b>
                   </span>
                 </li>
-                {!this.props.isPublicPage && !this.props.isAuthenticated ?
-                  <li>
-                    <a href="" onClick={(event) => this.props.onLoginLogoutButtonClick(event, 'datapunt')}>
-                      {'Inloggen'}
-                    </a>
-                  </li> : ''}
-                {!this.props.isPublicPage && !this.props.isAuthenticated ?
-                  <li>
-                    <a href="" onClick={(event) => this.props.onLoginLogoutButtonClick(event, 'grip')}>
-                      {'Inloggen ADW'}
-                    </a>
-                  </li> : ''
-                }
                 {this.props.isAuthenticated ?
                   <li>
                     <a href="" onClick={this.props.onLoginLogoutButtonClick}>
@@ -65,14 +52,12 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
 
 Header.propTypes = {
   isAuthenticated: PropTypes.bool,
-  isPublicPage: PropTypes.bool,
   onLoginLogoutButtonClick: PropTypes.func,
   userName: PropTypes.string
 };
 
 Header.defaultProps = {
   isAuthenticated: false,
-  isPublicPage: true,
   onLoginLogoutButtonClick: undefined,
   userName: ''
 };

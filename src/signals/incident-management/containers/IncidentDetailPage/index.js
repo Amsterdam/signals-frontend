@@ -61,19 +61,20 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     const { selectedTab } = this.state;
     const tabs = [
       { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
-      { name: 'Categorie', value: <IncidentCategoryContainer id={this.props.id} /> },
+      { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
       { name: 'Foto', value: <Img src={incident && incident.image ? incident.image : ''} alt={''} className="incident-detail-page__image--max-width" /> },
     ];
-    const visibleTabs = ['Status', 'Categorie', 'Foto'].filter((tab) => tab === 'Foto' ? (incident && incident.image) : true);
+    const visibleTabs = ['Status', 'Subcategorie', 'Foto'].filter((tab) => tab === 'Foto' ? (incident && incident.image) : true);
 
     const view = this.state.printView ? <PrintLayout id={this.props.id} incident={incident} stadsdeelList={stadsdeelList} onPrintView={this.onPrintView} /> :
       (<div className="incident-detail-page row container">
-        <div className="col-12"><h3>Melding {this.props.id}</h3>
-        </div>
-        <ul className="col-4 incident-detail-page__map">
+        <div className="col-12"><h3>Melding {this.props.id}</h3></div>
+
+        <ul className="col-12 col-md-4 incident-detail-page__map">
           {(incident) ? <MapDetail label="" value={incident.location} /> : ''}
         </ul>
-        <div className="col-8">
+
+        <div className="col-12 col-md-8">
           (<Link to={`${this.props.baseUrl}/incidents`} >Terug naar overzicht</Link>)
           <button onClick={this.onPrintView}>Print view</button>
           {(incident) ? <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} /> : ''}

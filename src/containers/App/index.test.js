@@ -8,23 +8,23 @@ import { App } from './index';
 
 describe('<App />', () => {
   it('should render the header', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <App />
     );
-    expect(renderedComponent.find(HeaderContainer).length).toBe(1);
+    expect(wrapper.find(HeaderContainer).length).toBe(1);
   });
 
   it('should render some routes', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <App />
     );
-    expect(renderedComponent.find(Route).length).not.toBe(0);
+    expect(wrapper.find(Route).length).not.toBe(0);
   });
 
   it('should render the footer', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <App />
     );
-    expect(renderedComponent.find(Footer).length).toBe(1);
+    expect(wrapper.find(Footer).length).toBe(1);
   });
 });
