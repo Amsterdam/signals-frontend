@@ -40,7 +40,7 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
 />
 `;
 
-exports[`Form component <DescriptionWithClassificationInput /> rendering should render with a character counter when maxLength is supplied 1`] = `
+exports[`Form component <DescriptionWithClassificationInput /> rendering should render with a character counter when maxLength is supplied correctly 1`] = `
 <div
   className="row"
 >
@@ -76,6 +76,50 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
             className="text-area-input__counter"
           >
             0/3000 tekens
+          </span>
+        </div>
+      </div>
+    </Header>
+  </div>
+</div>
+`;
+
+exports[`Form component <DescriptionWithClassificationInput /> rendering should render with a character counter with value correctly 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="col-12 mode_input"
+  >
+    <Header
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
+      meta={
+        Object {
+          "isVisible": true,
+          "maxLength": 3000,
+          "name": "input-field-name",
+          "placeholder": "type here",
+        }
+      }
+      touched={false}
+    >
+      <div
+        className="invoer"
+      >
+        <textarea
+          className="input"
+          onBlur={[Function]}
+          placeholder="type here"
+          rows={6}
+        />
+        <div
+          className="input-help"
+        >
+          <span
+            className="text-area-input__counter"
+          >
+            4/3000 tekens
           </span>
         </div>
       </div>
