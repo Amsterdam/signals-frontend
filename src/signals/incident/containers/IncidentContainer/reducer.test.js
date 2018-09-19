@@ -12,7 +12,8 @@ import {
   GET_CLASSIFICATION_ERROR,
 
   SET_PRIORITY,
-  SET_PRIORITY_SUCCESS
+  SET_PRIORITY_SUCCESS,
+  SET_PRIORITY_ERROR
 } from './constants';
 
 describe('incidentContainerReducer', () => {
@@ -162,6 +163,18 @@ describe('incidentContainerReducer', () => {
       expect(
         incidentContainerReducer(fromJS({}), {
           type: SET_PRIORITY_SUCCESS
+        }).toJS()
+      ).toEqual({
+        priority: {}
+      });
+    });
+  });
+
+  describe('SET_PRIORITY_ERROR', () => {
+    it('sets priority', () => {
+      expect(
+        incidentContainerReducer(fromJS({}), {
+          type: SET_PRIORITY_ERROR
         }).toJS()
       ).toEqual({
         priority: {}

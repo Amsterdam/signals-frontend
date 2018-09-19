@@ -74,7 +74,6 @@ class Filter extends React.Component {
     );
   }
 }
-//                   <FieldControlWrapper render={SelectInput} name="incident_priority" display="Urgentie" control={this.filterForm.get('incident_priority')} values={priorityList} />
 
 Filter.propTypes = {
   stadsdeelList: PropTypes.array,
