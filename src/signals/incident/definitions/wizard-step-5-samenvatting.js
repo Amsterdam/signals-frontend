@@ -19,6 +19,15 @@ export default {
         render: PreviewComponents.PlainText,
         optional: true
       },
+      priority: {
+        label: 'Urgentie',
+        render: PreviewComponents.KeyValue,
+        optional: true,
+        values: {
+          normal: 'Normaal',
+          high: 'Hoog'
+        }
+      },
       location: {
         label: 'Hier is het',
         render: PreviewComponents.Map

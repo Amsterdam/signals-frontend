@@ -92,7 +92,7 @@ if (BRANCH == "master") {
     }
 
     node {
-        stage("Deploy") {
+        stage("Deploy to PROD") {
             tryStep "deployment", {
                 build job: 'Subtask_Openstack_Playbook',
                 parameters: [

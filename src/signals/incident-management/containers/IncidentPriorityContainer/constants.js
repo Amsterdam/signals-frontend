@@ -1,0 +1,3 @@
+export const REQUEST_PRIORITY_UPDATE = 'src/IncidentStatusContainer/REQUEST_PRIORITY_UPDATE';
+export const REQUEST_PRIORITY_UPDATE_SUCCESS = 'src/IncidentStatusContainer/REQUEST_PRIORITY_UPDATE_SUCCESS';
+export const REQUEST_PRIORITY_UPDATE_ERROR = 'src/IncidentStatusContainer/REQUEST_PRIORITY_UPDATE_ERROR';
