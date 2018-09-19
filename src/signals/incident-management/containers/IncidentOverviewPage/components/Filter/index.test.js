@@ -50,6 +50,7 @@ describe('<Filter />', () => {
       const filterEmptyValue = {
         id: null,
         incident_date_start: null,
+        priority__priority: null,
         category__sub: null,
         location__address_text: null,
         location__stadsdeel: null,
