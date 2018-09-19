@@ -7,41 +7,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { WithWizard } from 'react-albus';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
+// import { FormattedMessage } from 'react-intl';
+// import messages from './messages';
 
 import './style.scss';
 
-const IncidentNavigation = ({ valid, meta: { form, incident, wizard, handleSubmit, setIncident, createIncident } }) => (
+const IncidentNavigation = ({ valid, meta: { handleSubmit } }) => (
   <span>
     <WithWizard
       render={({ next, previous, step, steps }) => (
         <div className="incident-navigation">
-          {steps.indexOf(step) > 0 && (
+          {steps.indexOf(step) > 0 ? (
             <button className="incident-navigation__button action startagain" onClick={previous}>
-              <FormattedMessage {...messages.previous} />
+              Vorige
             </button>
-          )}
+          ) : <span /> }
 
           {steps.indexOf(step) < steps.length - 1 && (
             <button
-              className={`incident-navigation__button action primary ${steps.length - 2 === steps.indexOf(step) ? '' : 'arrow-right'}`}
+              className={`incident-navigation__button action primary ${step.id === 'incident/samenvatting' ? '' : 'arrow-right'}`}
               onClick={(e) => {
                 if (valid) {
-                  handleSubmit(e);
-                  if (steps.length - 2 === steps.indexOf(step)) {
-                    createIncident(incident, wizard);
-                  } else {
-                    setIncident(form.value);
-                  }
+                  handleSubmit(e, step.id);
                   next();
                 }
               }}
             >
-              {steps.length - 2 === steps.indexOf(step) ?
-                <FormattedMessage {...messages.send} />
+              {step.id === 'incident/samenvatting' ?
+                'Verstuur'
               :
-                <FormattedMessage {...messages.next} />
+                'Volgende'
               }
             </button>
           )}
@@ -58,11 +53,7 @@ IncidentNavigation.defaultProps = {
 IncidentNavigation.propTypes = {
   valid: PropTypes.bool.isRequired,
   meta: PropTypes.shape({
-    form: PropTypes.object,
-    incident: PropTypes.object,
-    handleSubmit: PropTypes.function,
-    setIncident: PropTypes.function,
-    createIncident: PropTypes.function
+    handleSubmit: PropTypes.function
   })
 };
 

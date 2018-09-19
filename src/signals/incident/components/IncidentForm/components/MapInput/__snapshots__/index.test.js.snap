@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form component <MapInput /> rendering should render map field correctly 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="col-12 mode_input"
+  >
+    <Header
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
+      meta={
+        Object {
+          "isVisible": true,
+          "name": "input-field-name",
+        }
+      }
+      touched={false}
+    >
+      <div
+        className="invoer"
+      >
+        <MapInteractive
+          location={Object {}}
+          map={false}
+          onQueryResult={[Function]}
+        />
+      </div>
+    </Header>
+  </div>
+</div>
+`;
+
+exports[`Form component <MapInput /> rendering should render no map field when not visible 1`] = `
+<div
+  className=""
+/>
+`;

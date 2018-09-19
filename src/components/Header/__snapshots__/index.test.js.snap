@@ -2,7 +2,7 @@
 
 exports[`<Header /> should render correctly 1`] = `
 <div
-  className="header-component has_header_modern"
+  className="header-component has_header_modern no-print"
 >
   <div
     className="row header-wrapper"
@@ -66,22 +66,6 @@ exports[`<Header /> should render correctly 1`] = `
             <span>
               <b />
             </span>
-          </li>
-          <li>
-            <a
-              href=""
-              onClick={[Function]}
-            >
-              Inloggen
-            </a>
-          </li>
-          <li>
-            <a
-              href=""
-              onClick={[Function]}
-            >
-              Inloggen ADW
-            </a>
           </li>
         </ul>
       </nav>

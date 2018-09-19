@@ -9,8 +9,10 @@ exports[`<IncidentStatusContainer /> should render correctly 1`] = `
       className="col-12"
     >
       <Add
+        error={false}
         id="1"
-        onRequestStatusCreate={[Function]}
+        loading={false}
+        onRequestStatusCreate={[MockFunction]}
       />
     </div>
     <div

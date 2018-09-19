@@ -15,30 +15,27 @@ import { WithWizard } from 'react-albus';
 
 import './style.scss';
 
-function IncidentPreview({ incident, preview }) {
+function IncidentPreview({ incidentContainer, preview }) {
   return (
     <WithWizard
       render={({ push }) => (
         <div className="incident-preview">
           {Object.keys(preview).map((key) => (
-            <div key={key}>
+            <div className="incident-preview__section" key={key}>
               <button
-                className="link-functional edit"
+                className="incident-preview__button-edit link-functional edit"
                 onClick={() => push(`incident/${key}`)}
               />
 
-              <ul key={key}>
-                {Object.keys(preview[key]).map((subkey) => (
-                  <li key={subkey}>
-                    {preview[key][subkey].render({
-                      label: preview[key][subkey].label,
-                      value: incident[subkey],
-                      optional: preview[key][subkey].optional,
-                      incident
-                    })}
-                  </li>
-                ))}
-              </ul>
+              {Object.keys(preview[key]).map((subkey) => (
+                <div key={subkey}>
+                  {preview[key][subkey].render({
+                    ...preview[key][subkey],
+                    value: incidentContainer.incident[subkey],
+                    incident: incidentContainer.incident
+                  })}
+                </div>
+              ))}
             </div>
           ))}
         </div>
@@ -48,7 +45,7 @@ function IncidentPreview({ incident, preview }) {
 }
 
 IncidentPreview.propTypes = {
-  incident: PropTypes.object,
+  incidentContainer: PropTypes.object,
   preview: PropTypes.object
 };
 

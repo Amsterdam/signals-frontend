@@ -24,6 +24,11 @@ const makeSelectError = () => createSelector(
   (globalState) => globalState.get('error')
 );
 
+const makeSelectErrorMessage = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.get('errorMessage')
+);
+
 const makeSelectLocation = () => createSelector(
   selectRoute,
   (routeState) => routeState.get('location').toJS()
@@ -41,6 +46,7 @@ export {
   makeSelectAccessToken,
   makeSelectLoading,
   makeSelectError,
+  makeSelectErrorMessage,
   makeSelectLocation,
   makeSelectIsAuthenticated
 };

@@ -1,11 +1,10 @@
 import React from 'react';
-import LocaleToggle from 'containers/LocaleToggle';
 
 import './style.scss';
 
 function Footer() {
   return (
-    <div className="footer-wrapper">
+    <div className="footer-wrapper no-print">
       <div className="row bg-darkgrey footer">
         <footer className="container footer-component">
           <div className="row">
@@ -27,21 +26,11 @@ function Footer() {
             <nav>
               <ul className="links horizontal left">
                 <li>
-                  <a href="#Amsterdam">
+                  <a href="https://www.amsterdam.nl/privacy/">
                     <span className="linklabel">
                       Privacy
                     </span>
                   </a>
-                </li>
-                <li>
-                  <a href="#Amsterdam">
-                    <span className="linklabel">
-                      Cookies
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <LocaleToggle />
                 </li>
               </ul>
             </nav>

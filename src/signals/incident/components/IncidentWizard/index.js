@@ -12,6 +12,7 @@ import { Wizard, Steps, Step } from 'react-albus';
 // import { FormattedMessage } from 'react-intl';
 // import messages from './messages';
 
+import LoadingIndicator from 'shared/components/LoadingIndicator';
 import wizardDefinition from '../../definitions/wizard';
 
 import IncidentForm from '../IncidentForm';
@@ -28,38 +29,41 @@ function onNext({ step, steps, push }, incident) {
   }
 }
 
-function IncidentWizard({ getClassification, setIncident, createIncident, incident, isAuthenticated }) {
+function IncidentWizard({ getClassification, setIncident, createIncident, incidentContainer, isAuthenticated }) {
   return (
-    <div className="incident-wizardDefinition">
+    <div className="incident-wizard">
       <Route
         render={({ history }) => (
-          <Wizard history={history} onNext={(wiz) => onNext(wiz, incident)}>
-            <Steps>
-              {Object.keys(wizardDefinition).map((key) => (
-                <Step key={key} id={`incident/${key}`}>
-                  <h2>{wizardDefinition[key].label || key}</h2>
-                  {wizardDefinition[key].preview ?
-                    <IncidentPreview
-                      incident={incident}
-                      preview={wizardDefinition[key].preview}
-                    />
-                    : ''}
+          <Wizard history={history} onNext={(wiz) => onNext(wiz, incidentContainer.incident)}>
+            {incidentContainer.loading ? <LoadingIndicator /> : ''}
+            {!incidentContainer.loading ?
+              <Steps>
+                {Object.keys(wizardDefinition).map((key) => (
+                  <Step key={key} id={`incident/${key}`}>
+                    <h1>{wizardDefinition[key].label || key}</h1>
+                    {wizardDefinition[key].preview ?
+                      <IncidentPreview
+                        incidentContainer={incidentContainer}
+                        preview={wizardDefinition[key].preview}
+                      />
+                      : ''}
 
-                  {wizardDefinition[key].form ?
-                    <IncidentForm
-                      fieldConfig={wizardDefinition[key].form}
-                      incident={incident}
-                      getClassification={getClassification}
-                      setIncident={setIncident}
-                      createIncident={createIncident}
-                      wizard={wizardDefinition}
-                      isAuthenticated={isAuthenticated}
-                    />
-                    : ''}
-                </Step>
-              )
-              )}
-            </Steps>
+                    {wizardDefinition[key].form ?
+                      <IncidentForm
+                        fieldConfig={wizardDefinition[key].form}
+                        incidentContainer={incidentContainer}
+                        getClassification={getClassification}
+                        setIncident={setIncident}
+                        createIncident={createIncident}
+                        wizard={wizardDefinition}
+                        isAuthenticated={isAuthenticated}
+                      />
+                      : ''}
+                  </Step>
+                )
+                )}
+              </Steps>
+            : ''}
           </Wizard>
         )}
       />
@@ -68,7 +72,7 @@ function IncidentWizard({ getClassification, setIncident, createIncident, incide
 }
 
 IncidentWizard.propTypes = {
-  incident: PropTypes.object.isRequired,
+  incidentContainer: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
   setIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,

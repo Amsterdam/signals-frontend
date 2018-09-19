@@ -10,7 +10,7 @@ describe('<IncidentStatusContainer />', () => {
   beforeEach(() => {
     props = {
       id: '1',
-      incidentstatuscontainer: { incident: {} },
+      incidentStatusContainer: { incident: {} },
       onRequestStatusList: jest.fn(),
       onRequestStatusCreate: jest.fn()
     };
@@ -20,11 +20,11 @@ describe('<IncidentStatusContainer />', () => {
     jest.resetAllMocks();
   });
 
-  it.skip('should render correctly', () => {
-    const renderedComponent = shallow(
+  it('should render correctly', () => {
+    const wrapper = shallow(
       <IncidentStatusContainer {...props} />
     );
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   describe('mapDispatchToProps', () => {

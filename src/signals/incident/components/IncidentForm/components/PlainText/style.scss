@@ -3,9 +3,14 @@
 
   &__box {
     &.citation,
-    &.disclaimer, {
+    &.disclaimer {
       background-color: #e5e5e5;
       padding: 20px;
+    }
+
+    &.caution {
+      border-left: 3px solid #ce0000;
+      padding-left: 10px;
     }
 
     &-p {

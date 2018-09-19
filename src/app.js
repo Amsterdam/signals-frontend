@@ -23,6 +23,7 @@ import 'leaflet/dist/leaflet';
 // Import root app
 import App from 'containers/App';
 import { authenticateUser } from 'containers/App/actions';
+import { authenticate } from 'shared/services/auth/auth';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
@@ -30,17 +31,6 @@ import LanguageProvider from 'containers/LanguageProvider';
 // Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-webpack-loader-syntax */
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
-import '!file-loader?name=[name].[ext]!./images/icon-72x72.png';
-import '!file-loader?name=[name].[ext]!./images/icon-96x96.png';
-import '!file-loader?name=[name].[ext]!./images/icon-120x120.png';
-import '!file-loader?name=[name].[ext]!./images/icon-128x128.png';
-import '!file-loader?name=[name].[ext]!./images/icon-144x144.png';
-import '!file-loader?name=[name].[ext]!./images/icon-152x152.png';
-import '!file-loader?name=[name].[ext]!./images/icon-167x167.png';
-import '!file-loader?name=[name].[ext]!./images/icon-180x180.png';
-import '!file-loader?name=[name].[ext]!./images/icon-192x192.png';
-import '!file-loader?name=[name].[ext]!./images/icon-384x384.png';
-import '!file-loader?name=[name].[ext]!./images/icon-512x512.png';
 import '!file-loader?name=[name].[ext]!./manifest.json';
 import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line import/extensions
 /* eslint-enable import/no-webpack-loader-syntax */
@@ -52,7 +42,6 @@ import 'stijl/dist/css/ams-stijl.css';
 import './global.scss';
 
 import configureStore from './configureStore';
-import * as auth from './shared/services/auth/auth';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
@@ -113,24 +102,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'acceptanc
   require('offline-plugin/runtime').install(); // eslint-disable-line global-require
 }
 
-try {
-  auth.initAuth();
-} catch (error) {
-  window.Raven.captureMessage(error);
-}
+// Authenticate and start the authorization process
+const credentials = authenticate();
+store.dispatch(authenticateUser(credentials));
 
-const returnPath = auth.getReturnPath();
-if (returnPath) {
-  // Timeout needed because the change is otherwise not being handled in
-  // Firefox browsers. This is possibly due to AngularJS changing the
-  // `location.hash` at the same time.
-  window.setTimeout(() => {
-    location.hash = returnPath;
-  });
-}
-
-const accessToken = auth.getAccessToken();
-if (accessToken) {
-  const credentials = { userName: auth.getName(), userScopes: auth.getScopes(), accessToken: auth.getAccessToken() };
-  store.dispatch(authenticateUser(credentials));
-}

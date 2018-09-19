@@ -1,7 +1,15 @@
 .select-input {
+  width: 100%;
 
-  .invoer select.select-input__control--overflow[multiple] {
-    overflow: auto;
+  &__label {
+    margin-bottom: 4px;
   }
 
+  &__control {
+    margin-bottom: 16px;
+
+    select[id][multiple] {
+      overflow-y: auto;
+    }
+  }
 }

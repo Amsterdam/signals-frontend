@@ -1,5 +1,4 @@
 /* eslint-disable */
-// vervangen: ./dist/images/svg/marker.svg => https://map.data.amsterdam.nl/dist/images/svg/marker.svg
 
 var pointquery = (function () {
   'use strict';
@@ -695,18 +694,18 @@ var pointquery = (function () {
         return t(e);
       });
     });
-  }function createAndAddMarker(e, o, t) {
-    var r = L.marker([o.latlng.lat, o.latlng.lng], { alt: "marker", icon: new L.icon({ iconUrl: getMarker().url, iconSize: getMarker().iconSize, iconAnchor: getMarker().iconAnchor }) });if (r.addTo(e), t) {
-      var n = t.call(markerStore, o, r),
-          a = L.popup({ offset: [0, -50] }).setContent(n);r.bindPopup(a).openPopup(), markerStore.addMarker(r);
-    } else markerStore.addMarker(r, !0);
-  }function singleMarker(e, o) {
-    return mapPointerStyle(e), function (t, r) {
-      1 === t && (markerStore.markers[0] && markerStore.removeMarker(markerStore.markers[0]), createAndAddMarker(e, r, o));
+  }function createAndAddMarker(e, o, t, r) {
+    var n = L.marker([o.latlng.lat, o.latlng.lng], { alt: "marker", icon: new L.icon({ iconUrl: getMarker().url, iconSize: getMarker().iconSize, iconAnchor: getMarker().iconAnchor }) });if (n.addTo(e), t) {
+      var a = t.call(markerStore, o, n),
+          s = L.popup({ offset: [0, -50] }).setContent(a);n.bindPopup(s).openPopup(), markerStore.addMarker(n);
+    } else r ? markerStore.addMarker(n) : markerStore.addMarker(n, !0);
+  }function singleMarker(e, o, t) {
+    return mapPointerStyle(e), function (t, r, n, a) {
+      1 === t && (markerStore.markers[0] && markerStore.removeMarker(markerStore.markers[0]), createAndAddMarker(e, r, o, a));
     };
-  }function multiMarker(e, o) {
-    return mapPointerStyle(e), function (t, r) {
-      1 === t && createAndAddMarker(e, r, o);
+  }function multiMarker(e, o, t) {
+    return mapPointerStyle(e), function (r, n) {
+      1 === r && createAndAddMarker(e, n, o, t);
     };
   }function testWhichLib() {
     var e = [];return "object" === ("undefined" == typeof L ? "undefined" : _typeof$1(L)) && e.push("leaflet"), "object" === ("undefined" == typeof google ? "undefined" : _typeof$1(google)) && "object" === _typeof$1(google.maps) && e.push("googlemaps"), "object" === ("undefined" == typeof ol ? "undefined" : _typeof$1(ol)) && e.push("openlayers"), e.length > 1 ? "too many libs" : 0 === e.length ? "too few libs" : e[0];
@@ -1528,6 +1527,10 @@ var pointquery = (function () {
         wkt.a = geogcs.DATUM.SPHEROID.a;
         wkt.rf = parseFloat(geogcs.DATUM.SPHEROID.rf, 10);
       }
+
+      if (geogcs.DATUM && geogcs.DATUM.TOWGS84) {
+        wkt.datum_params = geogcs.DATUM.TOWGS84;
+      }
       if (~wkt.datumCode.indexOf('osgb_1936')) {
         wkt.datumCode = 'osgb36';
       }
@@ -1539,6 +1542,9 @@ var pointquery = (function () {
       }
       if (wkt.datumCode === 'ch1903+') {
         wkt.datumCode = 'ch1903';
+      }
+      if (~wkt.datumCode.indexOf('israel')) {
+        wkt.datumCode = 'isr93';
       }
     }
     if (wkt.b && !isFinite(wkt.b)) {
@@ -3388,7 +3394,7 @@ var pointquery = (function () {
    * should be added to the other, secondary easting value.
    *
    * @private
-   * @param {char} e The first letter from a two-letter MGRS 100´k zone.
+   * @param {char} e The first letter from a two-letter MGRS 100Â´k zone.
    * @param {number} set The MGRS table set for the zone number.
    * @return {number} The easting value for the given letter and set.
    */
@@ -4350,8 +4356,8 @@ var pointquery = (function () {
   /*
     references:
       Formules et constantes pour le Calcul pour la
-      projection cylindrique conforme à axe oblique et pour la transformation entre
-      des systèmes de référence.
+      projection cylindrique conforme Ã  axe oblique et pour la transformation entre
+      des systÃ¨mes de rÃ©fÃ©rence.
       http://www.swisstopo.admin.ch/internet/swisstopo/fr/home/topics/survey/sys/refsys/switzerland.parsysrelated1.31216.downloadList.77004.DownloadFile.tmp/swissprojectionfr.pdf
     */
 
@@ -7386,24 +7392,17 @@ var pointquery = (function () {
 
   mora.createMap = function () {
     var _ref = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(config) {
-      var nlmapsconf, map, clicks, singleMarker, markerFromSearch;
+      var map, singleMarker, markerFromSearch;
       return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
               markerFromSearch = function markerFromSearch(click) {
-                singleMarker(1, click);
+                singleMarker(1, click, false, true);
               };
 
               //create map
-              nlmapsconf = {
-                target: config.target,
-                layer: config.layer,
-                marker: config.marker,
-                search: config.search,
-                zoom: config.zoom
-              };
-              map = nlmaps.createMap(nlmapsconf);
+              map = nlmaps.createMap(config);
               //subscribe chain of API calls to the nlmaps click event
 
               nlmaps.on('mapclick', function () {
@@ -7496,18 +7495,16 @@ var pointquery = (function () {
               }
               //this is the only private subscription we do here, since it belongs to the map viewport.
               //setup click and feature handlers
-              clicks = nlmaps.clickProvider(map);
+              //let clicks = nlmaps.clickProvider(map);
               singleMarker = nlmaps.singleMarker(map);
-
-              clicks.subscribe(singleMarker);
+              //clicks.subscribe(singleMarker);
 
               //partially apply singleMarker for search results listener
-
 
               nlmaps.on('mapclick', markerFromSearch);
               return _context3.abrupt('return', map);
 
-            case 13:
+            case 10:
             case 'end':
               return _context3.stop();
           }

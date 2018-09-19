@@ -20,13 +20,14 @@ import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
-
 import { requestIncident } from './actions';
 import Tabs from './components/Tabs';
 import MapDetail from './components/MapDetail';
 import IncidentDetail from './components/IncidentDetail';
 import IncidentCategoryContainer from '../IncidentCategoryContainer';
+import IncidentPriorityContainer from '../IncidentPriorityContainer';
 import IncidentStatusContainer from '../IncidentStatusContainer';
+import PrintLayout from './components/PrintLayout';
 
 
 export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -34,43 +35,52 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   constructor(props) {
     super(props);
     this.onTabChanged = this.onTabChanged.bind(this);
+    this.onPrintView = this.onPrintView.bind(this);
   }
 
   state = {
-    selectedTab: 0
+    selectedTab: 0,
+    printView: false
   };
 
-  componentWillMount() {
-    if (this.props.refresh) {
-      this.props.onRequestIncident(this.props.id);
-    }
+  componentDidMount() {
+    // if (this.props.refresh) {
+    this.props.onRequestIncident(this.props.id);
+    // }
   }
 
   onTabChanged(tabId) {
     this.setState({ selectedTab: tabId });
   }
 
+  onPrintView() {
+    this.setState({ printView: !this.state.printView });
+  }
+
   render() {
-    const { incident, stadsdeelList } = this.props.incidentdetailpage;
+    const { incident, stadsdeelList, priorityList } = this.props.incidentdetailpage;
     const { selectedTab } = this.state;
     const tabs = [
       { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
-      { name: 'Categorie', value: <IncidentCategoryContainer id={this.props.id} /> },
-      { name: 'Foto', value: <Img src={incident && incident.image ? incident.image : ''} alt={''} /> },
+      { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
+      { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
+      { name: 'Foto', value: <Img src={incident && incident.image ? incident.image : ''} alt={''} className="incident-detail-page__image--max-width" /> },
     ];
-    const visibleTabs = ['Status', 'Categorie', 'Foto'].filter((tab) => tab === 'Foto' ? (incident && incident.image) : true);
+    const visibleTabs = ['Status', 'Urgentie', 'Subcategorie', 'Foto'].filter((tab) => tab === 'Foto' ? (incident && incident.image) : true);
 
+    const view = this.state.printView ? <PrintLayout id={this.props.id} incident={incident} stadsdeelList={stadsdeelList} onPrintView={this.onPrintView} /> :
+      (<div className="incident-detail-page row container">
+        <div className="col-12"><h3>Melding {this.props.id}</h3></div>
 
-    return (
-      <div className="incident-detail-page row container">
-        <div className="col-12"><h3>Melding {this.props.id}</h3>
-        </div>
-        <ul className="col-4 incident-detail-page__map">
+        <ul className="col-12 col-md-4 incident-detail-page__map">
           {(incident) ? <MapDetail label="" value={incident.location} /> : ''}
         </ul>
-        <div className="col-8">
+
+        <div className="col-12 col-md-8">
           (<Link to={`${this.props.baseUrl}/incidents`} >Terug naar overzicht</Link>)
-          {(incident) ? <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} /> : ''}
+          <button onClick={this.onPrintView}>Print view</button>
+          {(incident) ?
+            <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} /> : ''}
         </div>
 
         <div className="col-12">
@@ -82,8 +92,9 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
             {tabs[selectedTab].value}
           </div>
         </div>
-      </div>
-    );
+      </div>);
+
+    return view;
   }
 }
 
@@ -92,7 +103,6 @@ IncidentDetailPage.propTypes = {
 
   id: PropTypes.string,
   baseUrl: PropTypes.string,
-  refresh: PropTypes.bool,
 
   onRequestIncident: PropTypes.func.isRequired
 };

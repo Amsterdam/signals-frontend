@@ -8,10 +8,10 @@ import './style.scss';
 jest.mock('shared/services/auth/auth');
 
 describe('<LoginPage />', () => {
-  let renderedComponent;
+  let wrapper;
 
   beforeEach(() => {
-    renderedComponent = shallow(<LoginPage />);
+    wrapper = shallow(<LoginPage />);
   });
 
   afterEach(() => {
@@ -19,16 +19,16 @@ describe('<LoginPage />', () => {
   });
 
   it('should render correctly', () => {
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should login on datapunt when Inloggen button is clicked', () => {
-    renderedComponent.find('button').at(0).simulate('click');
+    wrapper.find('button').at(0).simulate('click');
     expect(login).toHaveBeenCalledWith('datapunt');
   });
 
   it('should login on datapunt when Inloggen ADW button is clicked', () => {
-    renderedComponent.find('button').at(1).simulate('click');
+    wrapper.find('button').at(1).simulate('click');
     expect(login).toHaveBeenCalledWith('grip');
   });
 });

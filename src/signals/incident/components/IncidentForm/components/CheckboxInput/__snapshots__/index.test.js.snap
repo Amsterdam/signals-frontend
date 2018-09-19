@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form component <CheckboxInput /> rendering should render checkbox correctly 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="col-12 mode_input"
+  >
+    <Header
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
+      meta={
+        Object {
+          "isVisible": true,
+          "name": "input-field-name",
+        }
+      }
+      touched={false}
+    >
+      <div
+        className="antwoorden"
+      >
+        <div
+          className="antwoord"
+        >
+          <input
+            id="input-field-name"
+            onClick={[Function]}
+          />
+          <label
+            htmlFor="input-field-name"
+          />
+        </div>
+      </div>
+    </Header>
+  </div>
+</div>
+`;
+
+exports[`Form component <CheckboxInput /> rendering should render no checkbox when not visible 1`] = `
+<div
+  className=""
+/>
+`;

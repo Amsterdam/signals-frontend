@@ -6,9 +6,9 @@ import './style.scss';
 
 describe('<Footer />', () => {
   it('should render correctly', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <Footer />
     );
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });

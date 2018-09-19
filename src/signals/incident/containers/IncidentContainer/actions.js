@@ -15,90 +15,74 @@ import {
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
 
-  UPLOAD_REQUEST,
-  UPLOAD_PROGRESS,
-  UPLOAD_SUCCESS,
-  UPLOAD_FAILURE
+  SET_PRIORITY,
+  SET_PRIORITY_SUCCESS,
+  SET_PRIORITY_ERROR
 } from './constants';
 
 export function setIncident(incident) {
   return {
     type: SET_INCIDENT,
-    incident
+    payload: { ...incident }
   };
 }
 
-export function createIncident(incident, wizard) {
+export function createIncident(payload) {
   return {
     type: CREATE_INCIDENT,
-    incident,
-    wizard
+    payload
   };
 }
 
 export function createIncidentSuccess(incident) {
   return {
     type: CREATE_INCIDENT_SUCCESS,
-    incident
+    payload: { ...incident }
   };
 }
 
-export function createIncidentError(message) {
+export function createIncidentError() {
   return {
-    type: CREATE_INCIDENT_ERROR,
-    message
+    type: CREATE_INCIDENT_ERROR
   };
 }
 
 export function getClassification(text) {
   return {
     type: GET_CLASSIFICATION,
-    text
+    payload: text
   };
 }
 
 export function getClassificationSuccess(classification) {
   return {
     type: GET_CLASSIFICATION_SUCCESS,
-    ...classification
+    payload: { ...classification }
   };
 }
 
-export function getClassificationError(message) {
+export function getClassificationError(classification) {
   return {
     type: GET_CLASSIFICATION_ERROR,
-    message
+    payload: { ...classification }
   };
 }
 
-export function uploadRequest(file, id) {
+export function setPriority(payload) {
   return {
-    type: UPLOAD_REQUEST,
-    payload: file,
-    meta: { id }
+    type: SET_PRIORITY,
+    payload
   };
 }
 
-export function uploadProgress(file, progress) {
+export function setPrioritySuccess() {
   return {
-    type: UPLOAD_PROGRESS,
-    payload: progress,
-    meta: { file },
+    type: SET_PRIORITY_SUCCESS
   };
 }
 
-export function uploadSuccess(file) {
+export function setPriorityError() {
   return {
-    type: UPLOAD_SUCCESS,
-    meta: { file }
-  };
-}
-
-export function uploadFailure(file, err) {
-  return {
-    type: UPLOAD_FAILURE,
-    payload: err,
-    error: true,
-    meta: { file },
+    type: SET_PRIORITY_ERROR
   };
 }

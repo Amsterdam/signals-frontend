@@ -8,7 +8,7 @@ export default {
     controls: {
       phone: {
         meta: {
-          label: 'Wat is uw telefoonnummer? (niet verplicht)',
+          label: 'Wat is uw telefoonnummer?',
           subtitle: 'Zo kunt u ons helpen het probleem sneller of beter op te lossen.',
           path: 'reporter.phone',
           placeholder: 'Telefoonnummer',
@@ -21,7 +21,7 @@ export default {
       },
       privacy_text: {
         meta: {
-          cols: 6,
+          className: 'col-sm-12 col-md-6',
           label: 'Uw privacy',
           type: 'disclaimer',
           value: 'We gebruiken uw telefoonnummer alléén om nog iets te kunnen vragen over uw melding. We wissen uw telefoonnummer binnen 2 weken nadat we uw melding hebben afgehandeld.'

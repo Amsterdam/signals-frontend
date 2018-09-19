@@ -25,7 +25,7 @@ node {
       String  PROJECT = "sia-unittests"
 
       tryStep "unittests start", {
-        sh "docker-compose -p ${PROJECT} up --build --exit-code-from test-unit-integration test-unit-integration"
+        sh "docker-compose -p ${PROJECT} up --build --exit-code-from unittest-container unittest-container"
       }
       always {
         tryStep "unittests stop", {
@@ -40,8 +40,9 @@ node {
         tryStep "build", {
             def image = docker.build("build.app.amsterdam.nl:5000/ois/signalsfrontend:${env.BUILD_NUMBER}",
                 "--shm-size 1G " +
-                "--build-arg BUILD_ENV=acc" +
-                " .")
+                "--build-arg BUILD_ENV=acc " +
+                "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
+                ". ")
             image.push()
         }
     }
@@ -50,7 +51,7 @@ node {
 
 String BRANCH = "${env.BRANCH_NAME}"
 
-if (BRANCH == "master") {
+if (BRANCH == "develop") {
 
     node {
         stage('Push acceptance image') {
@@ -73,18 +74,17 @@ if (BRANCH == "master") {
             }
         }
     }
+}
 
-    stage('Waiting for approval') {
-        slackSend channel: '#ci-channel', color: 'warning', message: 'Signals-frontend is waiting for Production Release - please confirm'
-        input "Deploy to Production?"
-    }
+if (BRANCH == "master") {
 
     node {
         stage("Build and Push Production image") {
             tryStep "build", {
                 def image = docker.build("build.app.amsterdam.nl:5000/ois/signalsfrontend:${env.BUILD_NUMBER}",
                     "--shm-size 1G " +
-                    " .")
+                    "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
+                    ".")
                 image.push("production")
                 image.push("latest")
             }
@@ -92,7 +92,7 @@ if (BRANCH == "master") {
     }
 
     node {
-        stage("Deploy") {
+        stage("Deploy to PROD") {
             tryStep "deployment", {
                 build job: 'Subtask_Openstack_Playbook',
                 parameters: [

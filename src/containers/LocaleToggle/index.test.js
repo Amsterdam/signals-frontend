@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { browserHistory } from 'react-router-dom';
 import { shallow, mount } from 'enzyme';
 
-import LocaleToggle, { mapDispatchToProps } from './index';
+import ConnectedLocaleToggle, { mapDispatchToProps, LocaleToggle } from './index';
 import { changeLocale } from '../LanguageProvider/actions';
 import LanguageProvider from '../LanguageProvider';
 
@@ -17,27 +17,54 @@ describe('<LocaleToggle />', () => {
     store = configureStore({}, browserHistory);
   });
 
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   it('should render the default language messages', () => {
-    const renderedComponent = shallow(
-      <Provider store={store}>
-        <LanguageProvider messages={translationMessages}>
-          <LocaleToggle />
-        </LanguageProvider>
-      </Provider>
+    const props = { locale: 'nl' };
+    const wrapper = shallow(
+      <LocaleToggle {...props} />
     );
-    expect(renderedComponent.contains(<LocaleToggle />)).toBe(true);
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should render the language messages', () => {
+    const props = { locale: 'en' };
+    const wrapper = shallow(
+      <LocaleToggle {...props} />
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should toggle the nl language when clicked', () => {
+    const props = { locale: 'en', onLocaleToggle: jest.fn() };
+    const wrapper = shallow(
+      <LocaleToggle {...props} />
+    );
+    wrapper.find('a').simulate('click');
+    expect(props.onLocaleToggle).toHaveBeenCalledWith('nl');
+  });
+
+  it('should toggle the en language when clicked', () => {
+    const props = { locale: 'nl', onLocaleToggle: jest.fn() };
+    const wrapper = shallow(
+      <LocaleToggle {...props} />
+    );
+    wrapper.find('a').simulate('click');
+    expect(props.onLocaleToggle).toHaveBeenCalledWith('en');
   });
 
   it('should present the default `nl` dutch language option', () => {
-    const renderedComponent = mount(
+    const wrapper = mount(
       <Provider store={store}>
         <LanguageProvider messages={translationMessages}>
-          <LocaleToggle />
+          <ConnectedLocaleToggle />
         </LanguageProvider>
       </Provider>
     );
 
-    expect(renderedComponent.contains(<span className="linklabel">English</span>)).toBe(true);
+    expect(wrapper.contains(<span className="linklabel">English</span>)).toBe(true);
   });
 
   describe('mapDispatchToProps', () => {

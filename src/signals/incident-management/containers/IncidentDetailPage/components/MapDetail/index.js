@@ -5,15 +5,15 @@ import Map from 'components/Map';
 import './style.scss';
 
 const MapDetail = ({ value }) => {
-  const location = value.geometrie.coordinates;
-
-  const latlng = { latitude: location[0], longitude: location[1] };
+  const location = value && value.geometrie && value.geometrie.coordinates;
+  const latlng = location ? { latitude: location[1], longitude: location[0] } : null;
   return (
     <div className="map-detail">
-      <Map
-        preview
-        latlng={latlng}
-      />
+      {latlng ?
+        <Map
+          latlng={latlng}
+        /> : ''
+      }
     </div>
   );
 };

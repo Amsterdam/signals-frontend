@@ -1,19 +1,40 @@
 import { testActionCreator } from '../../../internals/testing/test-utils';
 
 import {
-  AUTHENTICATE_USER, SHOW_GLOBAL_ERROR, LOGIN, LOGOUT
+  AUTHENTICATE_USER,
+  AUTHORIZE_USER,
+
+  SHOW_GLOBAL_ERROR,
+  RESET_GLOBAL_ERROR,
+
+  LOGIN,
+  LOGOUT,
+
+  UPLOAD_REQUEST,
+  UPLOAD_PROGRESS,
+  UPLOAD_SUCCESS,
+  UPLOAD_FAILURE
 } from './constants';
 
 import {
   authenticateUser,
+  authorizeUser,
+
   showGlobalError,
+  resetGlobalError,
+
   doLogin,
-  doLogout
+  doLogout,
+
+  uploadRequest,
+  uploadProgress,
+  uploadSuccess,
+  uploadFailure
 } from './actions';
 
 
 describe('App actions', () => {
-  it('should create authenticate user', () => {
+  it('should dispatch authenticate user action', () => {
     const userName = 'name';
     const userScopes = 'scopes';
     const accessToken = 'token';
@@ -25,19 +46,57 @@ describe('App actions', () => {
     testActionCreator(authenticateUser, AUTHENTICATE_USER, payload);
   });
 
-  it('should create show global error action', () => {
-    const error = 'global error';
-    const payload = error;
+  it('should dispatch authorize user, action', () => {
+    const userName = 'name';
+    const userScopes = 'scopes';
+    const accessToken = 'token';
+    const payload = {
+      userName,
+      userScopes,
+      accessToken
+    };
+    testActionCreator(authorizeUser, AUTHORIZE_USER, payload);
+  });
+
+  it('should dispatch show global error action', () => {
+    const payload = 'global error';
     testActionCreator(showGlobalError, SHOW_GLOBAL_ERROR, payload);
   });
 
-  it('shoul create the login action', () => {
+  it('should dispatch reset global error action', () => {
+    testActionCreator(resetGlobalError, RESET_GLOBAL_ERROR);
+  });
+
+  it('should dispatch login action', () => {
     const payload = 'domain';
     testActionCreator(doLogin, LOGIN, payload);
   });
 
-  it('shoul create the logout action', () => {
+  it('should dispatch logout action', () => {
     const payload = null;
     testActionCreator(doLogout, LOGOUT, payload);
+  });
+
+  it('should dispatch upload request action', () => {
+    const payload = {
+      id: 666,
+      file: {
+        name: 'image.jpg'
+      }
+    };
+    testActionCreator(uploadRequest, UPLOAD_REQUEST, payload);
+  });
+
+  it('should dispatch upload progess action', () => {
+    const payload = 0.666;
+    testActionCreator(uploadProgress, UPLOAD_PROGRESS, payload);
+  });
+
+  it('should dispatch upload success action', () => {
+    testActionCreator(uploadSuccess, UPLOAD_SUCCESS);
+  });
+
+  it('should dispatch upload failure action', () => {
+    testActionCreator(uploadFailure, UPLOAD_FAILURE);
   });
 });

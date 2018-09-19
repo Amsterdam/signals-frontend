@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<IncidentManagementContainer /> should render correctly when authenticated 1`] = `
+exports[`<IncidentManagementModule /> should render correctly when authenticated 1`] = `
 <div
   className="manage-incident"
 >
@@ -25,7 +25,7 @@ exports[`<IncidentManagementContainer /> should render correctly when authentica
 </div>
 `;
 
-exports[`<IncidentManagementContainer /> should render correctly when not authenticated 1`] = `
+exports[`<IncidentManagementModule /> should render correctly when not authenticated 1`] = `
 <div
   className="manage-incident"
 >

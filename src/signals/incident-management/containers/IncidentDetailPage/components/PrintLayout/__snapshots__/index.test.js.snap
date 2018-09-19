@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PrintLayout /> should render correctly 1`] = `
+<div
+  className="print-layout row container"
+>
+  <div
+    className="col-12"
+  >
+    <h3>
+      Melding 
+      100
+    </h3>
+    <div
+      className="no-print"
+    >
+      <button
+        className="no-print"
+        onClick={[Function]}
+      >
+        Print
+      </button>
+      <button
+        className="no-print"
+        onClick={[MockFunction]}
+      >
+        Terug
+      </button>
+    </div>
+  </div>
+  <div
+    className="col-12"
+  >
+    <MapDetail
+      label=""
+    />
+  </div>
+  <div
+    className="col-12"
+  >
+    <IncidentDetail
+      incident={Object {}}
+      stadsdeelList={Array []}
+    />
+  </div>
+  <div
+    className="col-12"
+  />
+  <div
+    className="col-12 print-layout__status-list"
+  >
+    <List
+      incidentStatusList={Array []}
+      statusList={Array []}
+    />
+  </div>
+</div>
+`;
+
+exports[`<PrintLayout /> should render the connected component correctly 1`] = `
+<PrintLayout
+  dispatch={[Function]}
+  id="100"
+  incident={Object {}}
+  incidentstatuscontainer={
+    Object {
+      "incidentStatusList": Array [],
+      "priorityList": Array [],
+      "statusList": Array [],
+    }
+  }
+  onPrintView={[MockFunction]}
+  stadsdeelList={Array []}
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+  storeSubscription={
+    Subscription {
+      "listeners": Object {
+        "clear": [Function],
+        "get": [Function],
+        "notify": [Function],
+        "subscribe": [Function],
+      },
+      "onStateChange": [Function],
+      "parentSub": undefined,
+      "store": Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      },
+      "unsubscribe": [Function],
+    }
+  }
+/>
+`;

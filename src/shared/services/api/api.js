@@ -3,7 +3,7 @@ import request from 'utils/request';
 
 import { makeSelectAccessToken } from '../../../containers/App/selectors';
 
-const generateParams = (data) => Object.entries(data)
+export const generateParams = (data) => Object.entries(data)
   .filter((pair) => pair[1])
   .map((pair) => (Array.isArray(pair[1]) === true ?
     pair[1]
@@ -11,14 +11,18 @@ const generateParams = (data) => Object.entries(data)
       .map((val) => `${pair[0]}=${val}`).join('&') :
     pair.map(encodeURIComponent).join('='))).join('&');
 
-export function* authCall(url, params) {
+export function* authCall(url, params, authorizationToken) {
   const headers = {
     accept: 'application/json'
   };
 
-  const token = yield select(makeSelectAccessToken());
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
+  if (authorizationToken) {
+    headers.Authorization = `Bearer ${authorizationToken}`;
+  } else {
+    const token = yield select(makeSelectAccessToken());
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
   }
 
   const options = {

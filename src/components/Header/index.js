@@ -10,7 +10,7 @@ import LogoPrint from '../../../node_modules/stijl/dist/images/logos/andreas-pri
 class Header extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <div className="header-component has_header_modern">
+      <div className="header-component has_header_modern no-print">
         <div className="row header-wrapper">
           <div className="col-sm-6 grid-header-logo">
             <h1 className="sitelogo">
@@ -35,19 +35,6 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
                     {this.props.isAuthenticated && ('Ingelogd als: ')}<b>{this.props.userName}</b>
                   </span>
                 </li>
-                {!this.props.isAuthenticated ?
-                  <li>
-                    <a href="" onClick={(event) => this.props.onLoginLogoutButtonClick(event, 'datapunt')}>
-                      {'Inloggen'}
-                    </a>
-                  </li> : ''}
-                {!this.props.isAuthenticated ?
-                  <li>
-                    <a href="" onClick={(event) => this.props.onLoginLogoutButtonClick(event, 'grip')}>
-                      {'Inloggen ADW'}
-                    </a>
-                  </li> : ''
-                }
                 {this.props.isAuthenticated ?
                   <li>
                     <a href="" onClick={this.props.onLoginLogoutButtonClick}>

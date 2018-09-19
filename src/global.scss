@@ -1,8 +1,4 @@
-@import "node_modules/stijl/dist/scss/_ams-breakpoints.scss";
-@import "node_modules/stijl/dist/scss/_ams-colorpalette.scss";
-@import "node_modules/stijl/dist/scss/_ams-extends.scss";
-@import "node_modules/stijl/dist/scss/_ams-font.scss";
-@import "node_modules/stijl/dist/scss/_ams-mixins.scss";
+@import "config.scss";
 
 html,
 body {
@@ -11,11 +7,12 @@ body {
 }
 
 body {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  @include avenirnext();
+  font-size: 16px;
 }
 
 ul li {
-  margin:0;
+  margin: 0;
   padding: 0;
   text-indent: 0;
   list-style-type: none;
@@ -40,4 +37,29 @@ dd {
     padding: 0;
     background-color: $ams-wit;
   }
+}
+
+
+@media print {
+  html, body {height: 100%;}
+
+  @page {
+    size: A4;
+    margin-left: 1cm;
+    margin-right: 1cm;
+  }
+
+  // Reset the flex model to allow printig on more than one page
+  .row {
+    display: block;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .page-break {
+    page-break-after: always;
+  }
+
 }

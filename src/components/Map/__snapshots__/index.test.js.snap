@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Map /> should render correctly 1`] = `
+<div
+  className="map-component"
+>
+  <div
+    className="map"
+  >
+    <div
+      id="mapdiv"
+    />
+  </div>
+</div>
+`;

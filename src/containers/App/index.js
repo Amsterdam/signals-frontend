@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { compose } from 'redux';
 
@@ -10,16 +9,18 @@ import NotFoundPage from 'containers/NotFoundPage';
 import Footer from 'components/Footer';
 import MainMenu from 'components/MainMenu';
 import HeaderContainer from 'containers/HeaderContainer';
+import GlobalError from 'containers/GlobalError';
 
 import reducer from './reducer';
 import saga from './saga';
-import IncidentManagementContainer from '../../signals/incident-management';
+import IncidentManagementModule from '../../signals/incident-management';
 import IncidentContainer from '../../signals/incident/containers/IncidentContainer';
 
 export class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
       <div className="container app-container">
+        <GlobalError />
         <div className="container">
           <HeaderContainer />
         </div>
@@ -29,7 +30,8 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
         <div className="content container">
           <Switch>
             <Redirect exact from="/" to="/incident" />
-            <Route path="/manage" component={IncidentManagementContainer} />
+            <Redirect exact from="/login" to="/manage" />
+            <Route path="/manage" component={IncidentManagementModule} />
             <Route path="/incident" component={IncidentContainer} />
             <Route path="" component={NotFoundPage} />
           </Switch>
@@ -42,13 +44,10 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
   }
 }
 
-App.propTypes = {
-  isAuthenticated: PropTypes.bool
-};
-
 // const withConnect = connect(mapStateToProps, mapDispatchToProps);
-const withReducer = injectReducer({ key: 'app', reducer });
-const withSaga = injectSaga({ key: 'app', saga });
+// changed key to global
+const withReducer = injectReducer({ key: 'global', reducer });
+const withSaga = injectSaga({ key: 'global', saga });
 
 export default compose(
   withReducer,

@@ -7,7 +7,7 @@ import './style.scss';
 
 class IncidentDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { incident, stadsdeelList } = this.props;
+    const { incident, stadsdeelList, priorityList } = this.props;
     const extraProperties = incident.extra_properties && Object.keys(incident.extra_properties).map((key) =>
       (<tr key={key}><td>{key}</td><td>{incident.extra_properties[key]}&nbsp;</td></tr>)
     );
@@ -20,7 +20,9 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
               <tr><td>Tijd</td><td>{string2time(incident.created_at)}</td></tr>
               <tr><td>Datum overlast</td><td>{string2date(incident.incident_date_start)}</td></tr>
               <tr><td>Tijd overlast</td><td>{string2time(incident.incident_date_start)}</td></tr>
-              <tr><td>Rubriek</td><td>{incident.category.sub}&nbsp;</td></tr>
+              <tr><td>Urgentie</td><td>{getListValueByKey(priorityList, incident.priority.priority)}&nbsp;</td></tr>
+              <tr><td>Hoofdcategorie</td><td>{incident.category.main}&nbsp;</td></tr>
+              <tr><td>Subcategorie</td><td>{incident.category.sub}&nbsp;</td></tr>
               <tr><td>Omschrijving</td><td>{incident.text}&nbsp;</td></tr>
               <tr><td>Aanvullende kenmerken</td><td>{incident.text_extra}&nbsp;</td></tr>
               {extraProperties}
@@ -40,6 +42,7 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
 
 IncidentDetail.propTypes = {
   incident: PropTypes.object.isRequired,
+  priorityList: PropTypes.array.isRequired,
   stadsdeelList: PropTypes.array.isRequired
 };
 

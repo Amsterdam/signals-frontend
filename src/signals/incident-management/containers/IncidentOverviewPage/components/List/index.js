@@ -11,7 +11,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
   }
 
   render() {
-    const { incidents, incidentsCount, statusList, stadsdeelList } = this.props;
+    const { incidents, incidentsCount, priorityList, statusList, stadsdeelList } = this.props;
     return (
       <div className="list-component">
         <div className="list-component__title">Meldingen ({incidentsCount})</div>
@@ -20,27 +20,19 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
           <table className="" cellSpacing="0" cellPadding="0">
             <thead>
               <tr>
-                <th className="">Id</th>
-                <th className="">Datum</th>
-                <th className="">Tijd</th>
-                <th className="">Stadsdeel</th>
-                <th className="">Rubriek</th>
-                <th className="">Afdeling</th>
-                <th className="">Status</th>
-                <th className="">Adres</th>
+                <th className="list-component__body-col-1">Id<br />Subcategorie</th>
+                <th className="list-component__body-col-2">Datum<br />Tijd</th>
+                <th className="list-component__body-col-3">Stadsdeel<br />Adres</th>
+                <th className="list-component__body-col-4">Status<br />Urgentie<br />Afdeling</th>
               </tr>
             </thead>
             <tbody>
               {incidents.map((incident) => (
                 <tr key={incident.id} onClick={this.selectIncident(incident)}>
-                  <td>{incident.id}</td>
-                  <td>{string2date(incident.incident_date_start)}</td>
-                  <td>{string2time(incident.incident_date_start)}</td>
-                  <td>{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</td>
-                  <td>{incident.category.sub}</td>
-                  <td>{incident.category.department}</td>
-                  <td>{getListValueByKey(statusList, incident.status.state)}</td>
-                  <td>{incident.location.address_text}</td>
+                  <td>{incident.id}<br />{incident.category.sub}</td>
+                  <td>{string2date(incident.incident_date_start)}<br />{string2time(incident.incident_date_start)}</td>
+                  <td>{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}<br />{incident.location.address_text}</td>
+                  <td>{getListValueByKey(statusList, incident.status.state)}<br />{getListValueByKey(priorityList, incident.priority && incident.priority.priority)}<br />{incident.category.department}</td>
                 </tr>
               ))
               }
@@ -55,6 +47,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
 List.propTypes = {
   incidentsCount: PropTypes.number,
   incidents: PropTypes.array.isRequired,
+  priorityList: PropTypes.array.isRequired,
   statusList: PropTypes.array.isRequired,
   stadsdeelList: PropTypes.array.isRequired,
 

@@ -2,23 +2,26 @@ import moment from 'moment';
 import { forEach, set } from 'lodash';
 
 const mapControlsToParams = (incident, wizard) => {
-  const time = `${incident.incident_time_hours}:${incident.incident_time_minutes}`;
   let date;
 
   if (incident.datetime === 'Nu') {
     date = moment();
-  } else {
-    date = moment(`${incident.datetime === 'Vandaag' ? moment().format('YYYY-MM-DD') : incident.incident_date} ${time}`);
+  } else if (incident.incident_date) {
+    const time = `${incident.incident_time_hours}:${incident.incident_time_minutes}`;
+    date = moment(`${incident.incident_date === 'Vandaag' ? moment().format('YYYY-MM-DD') : incident.incident_date} ${time}`, 'YYYY-MM-DD HH:mm');
   }
 
   const params = {
-    created_at: date.format(),
-    incident_date_start: date.format(),
     status: {
       state: 'm',
       extra_properties: {}
     }
   };
+
+  if (date) {
+    params.created_at = date.format();
+    params.incident_date_start = date.format();
+  }
 
   const map = [];
   let mapMerge = {};

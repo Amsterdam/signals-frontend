@@ -1,32 +1,58 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- The first thing in any HTML file should be the charset -->
-    <meta charset="utf-8">
 
-    <!-- Make the page mobile compatible -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <!-- The first thing in any HTML file should be the charset -->
+  <meta charset="utf-8">
 
-    <!-- Allow installing the app to the homescreen -->
-    <link rel="manifest" href="/manifest.json">
-    <meta name="mobile-web-app-capable" content="yes">
+  <!-- Make the page mobile compatible -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- iOS home screen icons -->
-    <meta name="apple-mobile-web-app-title" content="react boilerplate">
-    <link rel="apple-touch-icon" sizes="120x120" href="/icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="/icon-167x167.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/icon-180x180.png">
+  <!-- Allow installing the app to the homescreen -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
 
-    <link rel="icon" href="/favicon.png" />
-    <title>SIA - Signalen Informatievoorziening Amsterdam</title>
-  </head>
-  <body class="with-sidebars">
-    <!-- Display a message if JS has been disabled on the browser. -->
-    <noscript>If you're seeing this message, that means <strong>JavaScript has been disabled on your browser</strong>, please <strong>enable JS</strong> to make this app work.</noscript>
+  <!-- iOS home screen icons -->
+  <meta name="apple-mobile-web-app-title" content="react boilerplate">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="/icon-167x167.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon-180x180.png">
 
-    <!-- The app hooks into this div -->
-    <div id="app"></div>
-    <!-- A lot of magic happens in this file. HtmlWebpackPlugin automatically includes all assets (e.g. bundle.js, main.css) with the correct HTML tags, which is why they are missing in this HTML file. Don't add any assets here! (Check out the webpack config files in internals/webpack for details) -->
-  </body>
+  <link rel="icon" href="/favicon.png" />
+  <title>SIA - Signalen Informatievoorziening Amsterdam</title>
+
+  <!-- Matomo -->
+  <script type="text/javascript">
+    var _paq = _paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function () {
+      var u = "//piwik.datapunt.amsterdam.nl/";
+      _paq.push(['setTrackerUrl', u + 'piwik.php']);
+      var hostname = window && window.location && window.location.hostname;
+      if (hostname === 'meldingen.amsterdam.nl') {
+        _paq.push(['setSiteId', '13']);
+      } else {
+        _paq.push(['setSiteId', '14']);
+      }
+      var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+      g.type = 'text/javascript'; g.async = true; g.defer = true; g.src = u + 'piwik.js'; s.parentNode.insertBefore(g, s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+</head>
+
+<body class="with-sidebars">
+  <!-- Display a message if JS has been disabled on the browser. -->
+  <noscript>If you're seeing this message, that means
+    <strong>JavaScript has been disabled on your browser</strong>, please
+    <strong>enable JS</strong> to make this app work.</noscript>
+
+  <!-- The app hooks into this div -->
+  <div id="app"></div>
+  <!-- A lot of magic happens in this file. HtmlWebpackPlugin automatically includes all assets (e.g. bundle.js, main.css) with the correct HTML tags, which is why they are missing in this HTML file. Don't add any assets here! (Check out the webpack config files in internals/webpack for details) -->
+</body>
+
 </html>

@@ -4,23 +4,48 @@ import { shallow } from 'enzyme';
 import { IncidentDetailPage, mapDispatchToProps } from './index';
 import { REQUEST_INCIDENT } from './constants';
 import stadsdeelList from '../../definitions/stadsdeelList';
-
+import priorityList from '../../definitions/priorityList';
+import ConnectedPrintLayout from './components/PrintLayout';
 
 describe('<IncidentDetailPage />', () => {
   let props;
 
   beforeEach(() => {
     props = {
-      incidentdetailpage: { incident: {}, stadsdeelList },
+      id: '100',
+      incidentdetailpage: {
+        incident: {},
+        stadsdeelList,
+        priorityList
+      },
       onRequestIncident: jest.fn()
     };
   });
 
   it('should render correctly', () => {
-    const renderedComponent = shallow(
+    const wrapper = shallow(
       <IncidentDetailPage {...props} />
     );
-    expect(renderedComponent).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should change the state', () => {
+    const wrapper = shallow(
+      <IncidentDetailPage {...props} />
+    );
+    wrapper.instance().onPrintView();
+    wrapper.instance().onTabChanged(1);
+    expect(wrapper.instance().state).toEqual({ selectedTab: 1, printView: true });
+  });
+
+  it('should render the print view', () => {
+    const wrapper = shallow(
+      <IncidentDetailPage {...props} />
+    );
+    wrapper.instance().onPrintView();
+    wrapper.update();
+    expect(wrapper.find(ConnectedPrintLayout).length).toEqual(1);
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('mapDispatchToProps', () => {
