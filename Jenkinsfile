@@ -51,7 +51,7 @@ node {
 
 String BRANCH = "${env.BRANCH_NAME}"
 
-if (BRANCH == "master") {
+if (BRANCH == "develop") {
 
     node {
         stage('Push acceptance image') {
@@ -74,13 +74,9 @@ if (BRANCH == "master") {
             }
         }
     }
+}
 
-    stage('Waiting for approval') {
-        slackSend channel: '#ci-channel', color: 'warning', message: 'Signals-frontend is waiting for Production Release - please confirm'
-        timeout(10) {
-          input "Deploy to Production?"
-        }
-    }
+if (BRANCH == "master") {
 
     node {
         stage("Build and Push Production image") {
@@ -96,7 +92,7 @@ if (BRANCH == "master") {
     }
 
     node {
-        stage("Deploy") {
+        stage("Deploy to PROD") {
             tryStep "deployment", {
                 build job: 'Subtask_Openstack_Playbook',
                 parameters: [
