@@ -11,4 +11,21 @@
     margin-bottom: 10px;
   }
 
+  &__body-col {
+    &-1 {
+      width: 30%;
+    }
+
+    &-2 {
+      width: 20%;
+    }
+
+    &-3 {
+      width: 30%;
+    }
+
+    &-4 {
+      width: 20%;
+    }
+  }
 }
