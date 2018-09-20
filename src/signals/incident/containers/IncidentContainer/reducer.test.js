@@ -9,7 +9,11 @@ import {
   CREATE_INCIDENT_ERROR,
 
   GET_CLASSIFICATION_SUCCESS,
-  GET_CLASSIFICATION_ERROR
+  GET_CLASSIFICATION_ERROR,
+
+  SET_PRIORITY,
+  SET_PRIORITY_SUCCESS,
+  SET_PRIORITY_ERROR
 } from './constants';
 
 describe('incidentContainerReducer', () => {
@@ -131,6 +135,49 @@ describe('incidentContainerReducer', () => {
           category: 'Overlast in de openbare ruimte',
           subcategory: 'Honden(poep)'
         }
+      });
+    });
+  });
+
+  describe('SET_PRIORITY', () => {
+    it('sets priority', () => {
+      expect(
+        incidentContainerReducer(fromJS({}), {
+          type: SET_PRIORITY,
+          payload: {
+            _signal: 666,
+            priority: 'normal'
+          }
+        }).toJS()
+      ).toEqual({
+        priority: {
+          _signal: 666,
+          priority: 'normal'
+        }
+      });
+    });
+  });
+
+  describe('SET_PRIORITY_SUCCESS', () => {
+    it('sets priority', () => {
+      expect(
+        incidentContainerReducer(fromJS({}), {
+          type: SET_PRIORITY_SUCCESS
+        }).toJS()
+      ).toEqual({
+        priority: {}
+      });
+    });
+  });
+
+  describe('SET_PRIORITY_ERROR', () => {
+    it('sets priority', () => {
+      expect(
+        incidentContainerReducer(fromJS({}), {
+          type: SET_PRIORITY_ERROR
+        }).toJS()
+      ).toEqual({
+        priority: {}
       });
     });
   });

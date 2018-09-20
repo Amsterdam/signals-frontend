@@ -39,27 +39,33 @@ function IncidentWizard({ getClassification, setIncident, createIncident, incide
             {!incidentContainer.loading ?
               <Steps>
                 {Object.keys(wizardDefinition).map((key) => (
-                  <Step key={key} id={`incident/${key}`}>
-                    <h1>{wizardDefinition[key].label || key}</h1>
-                    {wizardDefinition[key].preview ?
-                      <IncidentPreview
-                        incidentContainer={incidentContainer}
-                        preview={wizardDefinition[key].preview}
-                      />
-                      : ''}
+                  <Step
+                    key={key}
+                    id={`incident/${key}`}
+                    render={() => (
+                      <div>
+                        <h1>{wizardDefinition[key].label || key}</h1>
+                        {wizardDefinition[key].preview ?
+                          <IncidentPreview
+                            incidentContainer={incidentContainer}
+                            preview={wizardDefinition[key].preview}
+                          />
+                          : ''}
 
-                    {wizardDefinition[key].form ?
-                      <IncidentForm
-                        fieldConfig={wizardDefinition[key].form}
-                        incidentContainer={incidentContainer}
-                        getClassification={getClassification}
-                        setIncident={setIncident}
-                        createIncident={createIncident}
-                        wizard={wizardDefinition}
-                        isAuthenticated={isAuthenticated}
-                      />
-                      : ''}
-                  </Step>
+                        {wizardDefinition[key].form ?
+                          <IncidentForm
+                            fieldConfig={wizardDefinition[key].form}
+                            incidentContainer={incidentContainer}
+                            getClassification={getClassification}
+                            setIncident={setIncident}
+                            createIncident={createIncident}
+                            wizard={wizardDefinition}
+                            isAuthenticated={isAuthenticated}
+                          />
+                          : ''}
+                      </div>
+                    )}
+                  />
                 )
                 )}
               </Steps>

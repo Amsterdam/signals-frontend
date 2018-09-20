@@ -65,6 +65,7 @@ exports[`<PrintLayout /> should render the connected component correctly 1`] = `
   incidentstatuscontainer={
     Object {
       "incidentStatusList": Array [],
+      "priorityList": Array [],
       "statusList": Array [],
     }
   }

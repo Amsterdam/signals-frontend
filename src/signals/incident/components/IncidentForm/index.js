@@ -46,15 +46,31 @@ class IncidentForm extends React.Component {
     if (this.form && this.form.controls) {
       defer(() => {
         Object.keys(this.form.controls).map((key) => {
-          this.form.controls[key].setValue(incident[key]);
+          const control = this.form.controls[key];
+          if (control.meta.isVisible) {
+            control.enable();
+          } else {
+            control.disable();
+          }
+          control.setValue(incident[key]);
           return true;
         });
       });
     }
   }
 
-  handleSubmit(e) {
+  handleSubmit(e, step) {
     e.preventDefault();
+
+    if (step === 'incident/samenvatting') {
+      this.props.createIncident({
+        incident: this.props.incidentContainer.incident,
+        wizard: this.props.wizard,
+        isAuthenticated: this.props.isAuthenticated
+      });
+    } else {
+      this.props.setIncident(this.form.value);
+    }
 
     Object.values(this.form.controls).map((control) => control.onBlur());
   }
