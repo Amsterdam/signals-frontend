@@ -19,11 +19,11 @@ import {
   SET_PRIORITY_SUCCESS,
   SET_PRIORITY_ERROR
 } from './constants';
-// import debugInitialState from './debug/initialState';
+import debugInitialState from './debug/initialState';
 
 export const initialState = fromJS({
   incident: {
-    // ...debugInitialState,
+    ...debugInitialState,
 
     incident_date: 'Vandaag',
     incident_time_hours: 9,

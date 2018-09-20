@@ -88,8 +88,7 @@ describe('Form component <TextInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true,
-          updateIncident: true
+          isVisible: true
         }
       });
 
@@ -98,20 +97,6 @@ describe('Form component <TextInput />', () => {
       expect(parent.meta.setIncident).toHaveBeenCalledWith({
         'input-field-name': 'baz'
       });
-    });
-
-    it('does nothing when updateIncident is false', () => {
-      wrapper.setProps({
-        meta: {
-          ...metaFields,
-          isVisible: true,
-          updateIncident: false
-        }
-      });
-
-      wrapper.find('select').simulate('change', event);
-
-      expect(parent.meta.setIncident).not.toHaveBeenCalled();
     });
   });
 });

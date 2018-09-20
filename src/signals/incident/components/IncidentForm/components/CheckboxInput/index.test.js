@@ -62,8 +62,7 @@ describe('Form component <CheckboxInput />', () => {
       wrapper.setProps({
         meta: {
           name: 'input-field-name',
-          isVisible: true,
-          updateIncident: true
+          isVisible: true
         }
       });
 

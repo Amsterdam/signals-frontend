@@ -58,8 +58,7 @@ describe('Form component <DateTimeInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true,
-          updateIncident: true
+          isVisible: true
         }
       });
 
@@ -74,8 +73,7 @@ describe('Form component <DateTimeInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true,
-          updateIncident: true
+          isVisible: true
         }
       });
 
@@ -90,8 +88,7 @@ describe('Form component <DateTimeInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true,
-          updateIncident: true
+          isVisible: true
         }
       });
 
@@ -100,22 +97,6 @@ describe('Form component <DateTimeInput />', () => {
       expect(parent.meta.setIncident).toHaveBeenCalledWith({
         incident_time_minutes: '42'
       });
-    });
-
-    it('does nothing when updateIncident is false', () => {
-      wrapper.setProps({
-        meta: {
-          ...metaFields,
-          isVisible: true,
-          updateIncident: false
-        }
-      });
-
-      wrapper.find('.datetime-input__earlier-day').simulate('change', { target: { value: '2018-07-21' } });
-      wrapper.find('.datetime-input__earlier-time-hours').simulate('change', { target: { value: '13' } });
-      wrapper.find('.datetime-input__earlier-time-minutes').simulate('change', { target: { value: '42' } });
-
-      expect(parent.meta.setIncident).not.toHaveBeenCalled();
     });
   });
 });

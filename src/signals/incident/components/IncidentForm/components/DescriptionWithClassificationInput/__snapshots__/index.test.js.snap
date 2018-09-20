@@ -23,7 +23,6 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
         className="invoer"
       >
         <textarea
-          className="input"
           onBlur={[Function]}
           placeholder="type here"
           rows={6}

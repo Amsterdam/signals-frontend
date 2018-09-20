@@ -40,8 +40,7 @@ export default {
           },
           label: 'Gebeurt het vaker?',
           pathMerge: 'extra_properties',
-          value: 'Ja, het gebeurt vaker:',
-          updateIncident: true
+          value: 'Ja, het gebeurt vaker:'
         },
         render: FormComponents.CheckboxInput
       },
@@ -112,8 +111,7 @@ export default {
           },
           label: 'Gebeurt het vaker?',
           pathMerge: 'extra_properties',
-          value: 'Ja, het gebeurt vaker:',
-          updateIncident: true
+          value: 'Ja, het gebeurt vaker:'
         },
         render: FormComponents.CheckboxInput
       },
@@ -154,8 +152,7 @@ export default {
           values: {
             Ja: 'Ja',
             Nee: 'Nee'
-          },
-          updateIncident: true
+          }
         },
         render: FormComponents.RadioInput
       },
@@ -234,8 +231,7 @@ export default {
           ifAllOf: {
             subcategory: 'Overlast op het water - snel varen',
             extra_boten_snelheid_rondvaartboot: 'Ja'
-          },
-          updateIncident: true
+          }
         },
         render: FormComponents.SelectInput
       },

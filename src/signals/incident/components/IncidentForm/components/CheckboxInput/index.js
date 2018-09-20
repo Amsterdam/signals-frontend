@@ -19,7 +19,7 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
               <input
                 id={meta.name}
                 {...handler('checkbox')}
-                onClick={(e) => meta.updateIncident && parent.meta.setIncident({ [meta.name]: e.target.checked })}
+                onClick={(e) => parent.meta.setIncident({ [meta.name]: e.target.checked })}
               />
               <label htmlFor={meta.name}>{meta.value}</label>
             </div>

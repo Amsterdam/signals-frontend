@@ -17,8 +17,8 @@ const TextareaInput = ({ handler, touched, hasError, meta, parent, getError, val
           <div className="invoer">
             <textarea
               placeholder={meta.placeholder}
-              onChange={(e) => meta.updateIncident && parent.meta.setIncident({ [meta.name]: e.target.value })}
               {...handler()}
+              onBlur={(e) => parent.meta.setIncident({ [meta.name]: e.target.value })}
             />
           </div>
         </Header>

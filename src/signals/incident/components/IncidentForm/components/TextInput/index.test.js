@@ -69,30 +69,15 @@ describe('Form component <TextInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true,
-          updateIncident: true
+          isVisible: true
         }
       });
 
-      wrapper.find('input').simulate('change', event);
+      wrapper.find('input').simulate('blur', event);
 
       expect(parent.meta.setIncident).toHaveBeenCalledWith({
         'input-field-name': 'diabolo'
       });
-    });
-
-    it('does nothing when updateIncident is false', () => {
-      wrapper.setProps({
-        meta: {
-          ...metaFields,
-          isVisible: true,
-          updateIncident: false
-        }
-      });
-
-      wrapper.find('input').simulate('change', event);
-
-      expect(parent.meta.setIncident).not.toHaveBeenCalled();
     });
   });
 });
