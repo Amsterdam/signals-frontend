@@ -16,48 +16,31 @@ exports[`<List /> should render correctly 1`] = `
     <table
       cellPadding="0"
       cellSpacing="0"
-      className=""
     >
       <thead>
         <tr>
-          <th
-            className=""
-          >
+          <th>
             Id
           </th>
-          <th
-            className=""
-          >
+          <th>
             Datum
           </th>
-          <th
-            className=""
-          >
+          <th>
             Tijd
           </th>
-          <th
-            className=""
-          >
+          <th>
             Stadsdeel
           </th>
-          <th
-            className=""
-          >
+          <th>
             Subcategorie
           </th>
-          <th
-            className=""
-          >
+          <th>
             Status
           </th>
-          <th
-            className=""
-          >
+          <th>
             Urgentie
           </th>
-          <th
-            className=""
-          >
+          <th>
             Adres
           </th>
         </tr>
