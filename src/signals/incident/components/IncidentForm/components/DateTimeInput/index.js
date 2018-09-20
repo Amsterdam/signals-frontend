@@ -36,7 +36,7 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
                     id={`${meta.name}-select-day`}
                     className="datetime-input__earlier-day"
                     value={parent.value.incident_date}
-                    onChange={(e) => parent.meta.setIncident({ incident_date: e.target.value })}
+                    onChange={(e) => parent.meta.updateIncident({ incident_date: e.target.value })}
                   >
                     {[...Array(7).keys()].map((offset) => (
                       <option key={`select-day-option-${offset}`} value={formatDate(offset)}>{formatDate(offset, 'label')}</option>
@@ -52,7 +52,7 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
                     value={parent.value.incident_time_hours}
                     id={`${meta.name}-select-time-hours`}
                     className="datetime-input__earlier-time-hours"
-                    onChange={(e) => parent.meta.setIncident({ incident_time_hours: e.target.value })}
+                    onChange={(e) => parent.meta.updateIncident({ incident_time_hours: e.target.value })}
                   >
                     {[...Array(24).keys()].map((hour) => (
                       <option
@@ -66,7 +66,7 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
                     id={`${meta.name}-select-time-minutes`}
                     className="datetime-input__earlier-time-minutes"
                     value={parent.value.incident_time_minutes}
-                    onChange={(e) => parent.meta.setIncident({ incident_time_minutes: e.target.value })}
+                    onChange={(e) => parent.meta.updateIncident({ incident_time_minutes: e.target.value })}
                   >
                     {[...Array(12).keys()].map((minute) => (
                       <option

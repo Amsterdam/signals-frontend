@@ -18,7 +18,7 @@ describe('Form component <CheckboxInput />', () => {
     hasError = jest.fn();
     parent = {
       meta: {
-        setIncident: jest.fn()
+        updateIncident: jest.fn()
       }
     };
 
@@ -69,14 +69,14 @@ describe('Form component <CheckboxInput />', () => {
       const checkEevent = { target: { checked: true } };
       wrapper.find('input').simulate('click', checkEevent);
 
-      expect(parent.meta.setIncident).toHaveBeenCalledWith({
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': true
       });
 
       const uncheckEevent = { target: { checked: false } };
       wrapper.find('input').simulate('click', uncheckEevent);
 
-      expect(parent.meta.setIncident).toHaveBeenCalledWith({
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': false
       });
     });

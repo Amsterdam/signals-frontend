@@ -18,6 +18,7 @@ exports[`Form component <CheckboxInput /> rendering should render checkbox corre
       }
       touched={false}
     >
+      ,
       <div
         className="antwoorden"
       >

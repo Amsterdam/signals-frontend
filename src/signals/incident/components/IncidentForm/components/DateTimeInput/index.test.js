@@ -16,7 +16,7 @@ describe('Form component <DateTimeInput />', () => {
 
     parent = {
       meta: {
-        setIncident: jest.fn()
+        updateIncident: jest.fn()
       },
       value: {
         incident_time_hours: 9,
@@ -64,7 +64,7 @@ describe('Form component <DateTimeInput />', () => {
 
       wrapper.find('.datetime-input__earlier-day').simulate('change', { target: { value: '2018-07-21' } });
 
-      expect(parent.meta.setIncident).toHaveBeenCalledWith({
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         incident_date: '2018-07-21'
       });
     });
@@ -79,7 +79,7 @@ describe('Form component <DateTimeInput />', () => {
 
       wrapper.find('.datetime-input__earlier-time-hours').simulate('change', { target: { value: '13' } });
 
-      expect(parent.meta.setIncident).toHaveBeenCalledWith({
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         incident_time_hours: '13'
       });
     });
@@ -94,7 +94,7 @@ describe('Form component <DateTimeInput />', () => {
 
       wrapper.find('.datetime-input__earlier-time-minutes').simulate('change', { target: { value: '42' } });
 
-      expect(parent.meta.setIncident).toHaveBeenCalledWith({
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         incident_time_minutes: '42'
       });
     });

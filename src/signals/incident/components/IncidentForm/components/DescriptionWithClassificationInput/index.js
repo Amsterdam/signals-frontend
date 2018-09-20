@@ -7,7 +7,7 @@ import './style.scss';
 
 function get(e, meta, parent) {
   parent.meta.getClassification(e.target.value);
-  parent.meta.setIncident({ [meta.name]: e.target.value });
+  parent.meta.updateIncident({ [meta.name]: e.target.value });
 }
 
 

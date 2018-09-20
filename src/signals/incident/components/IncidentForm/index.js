@@ -35,7 +35,7 @@ class IncidentForm extends React.Component {
       wizard: this.props.wizard,
       handleSubmit: this.handleSubmit,
       getClassification: this.props.getClassification,
-      setIncident: this.props.setIncident,
+      updateIncident: this.props.updateIncident,
       createIncident: this.props.createIncident
     };
 
@@ -69,7 +69,7 @@ class IncidentForm extends React.Component {
         isAuthenticated: this.props.isAuthenticated
       });
     } else {
-      this.props.setIncident(this.form.value);
+      this.props.updateIncident(this.form.value);
     }
 
     Object.values(this.form.controls).map((control) => control.onBlur());
@@ -94,7 +94,7 @@ IncidentForm.propTypes = {
   incidentContainer: PropTypes.object.isRequired,
   wizard: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
-  setIncident: PropTypes.func.isRequired,
+  updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired
 };

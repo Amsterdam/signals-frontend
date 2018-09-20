@@ -1,7 +1,8 @@
 import { testActionCreator } from '../../../../../internals/testing/test-utils';
 
 import {
-  SET_INCIDENT,
+  UPDATE_INCIDENT,
+  RESET_INCIDENT,
 
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
@@ -17,7 +18,8 @@ import {
 } from './constants';
 
 import {
-  setIncident,
+  updateIncident,
+  resetIncident,
 
   createIncident,
   createIncidentSuccess,
@@ -38,8 +40,12 @@ describe('Incident container actions', () => {
     category: 'bar'
   };
 
-  it('should dispatch set incident action', () => {
-    testActionCreator(setIncident, SET_INCIDENT, incident);
+  it('should dispatch update incident action', () => {
+    testActionCreator(updateIncident, UPDATE_INCIDENT, incident);
+  });
+
+  it('should dispatch reset incident action', () => {
+    testActionCreator(resetIncident, RESET_INCIDENT);
   });
 
   it('should dispatch create incident action', () => {

@@ -13,7 +13,7 @@ import { compose } from 'redux';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectIsAuthenticated } from 'containers/App/selectors';
-import { getClassification, setIncident, createIncident } from './actions';
+import { getClassification, updateIncident, createIncident } from './actions';
 import makeSelectIncidentContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -26,7 +26,7 @@ class IncidentContainer extends React.Component {
     super(props);
 
     this.getClassification = this.props.getClassification.bind(this);
-    this.setIncident = this.props.setIncident.bind(this);
+    this.updateIncident = this.props.updateIncident.bind(this);
     this.createIncident = this.props.createIncident.bind(this);
   }
 
@@ -35,7 +35,7 @@ class IncidentContainer extends React.Component {
       <div className="incident-container">
         <IncidentWizard
           getClassification={this.getClassification}
-          setIncident={this.setIncident}
+          updateIncident={this.updateIncident}
           createIncident={this.createIncident}
           incidentContainer={this.props.incidentContainer}
           isAuthenticated={this.props.isAuthenticated}
@@ -48,7 +48,7 @@ class IncidentContainer extends React.Component {
 IncidentContainer.propTypes = {
   incidentContainer: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
-  setIncident: PropTypes.func.isRequired,
+  updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool
 };
@@ -61,7 +61,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     getClassification: (text) => dispatch(getClassification(text)),
-    setIncident: (incident) => dispatch(setIncident(incident)),
+    updateIncident: (incident) => dispatch(updateIncident(incident)),
     createIncident: (incident, wizard) => dispatch(createIncident(incident, wizard))
   };
 }

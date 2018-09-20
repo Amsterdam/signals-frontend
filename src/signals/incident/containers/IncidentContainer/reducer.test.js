@@ -2,7 +2,8 @@ import { fromJS } from 'immutable';
 import incidentContainerReducer, { initialState } from './reducer';
 
 import {
-  SET_INCIDENT,
+  UPDATE_INCIDENT,
+  RESET_INCIDENT,
 
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
@@ -21,7 +22,7 @@ describe('incidentContainerReducer', () => {
     expect(incidentContainerReducer(undefined, {})).toEqual(fromJS(initialState));
   });
 
-  describe('SET_INCIDENT', () => {
+  describe('UPDATE_INCIDENT', () => {
     it('sets new properties and keeps the old ones', () => {
       expect(
         incidentContainerReducer(fromJS({
@@ -29,7 +30,7 @@ describe('incidentContainerReducer', () => {
             category: 'bar'
           }
         }), {
-          type: SET_INCIDENT,
+          type: UPDATE_INCIDENT,
           payload: {
             subcategory: 'foo'
           }
@@ -39,6 +40,22 @@ describe('incidentContainerReducer', () => {
           category: 'bar',
           subcategory: 'foo'
         }
+      });
+    });
+  });
+
+  describe('RESET_INCIDENT', () => {
+    it('sets new properties and keeps the old ones', () => {
+      expect(
+        incidentContainerReducer(fromJS({
+          incident: {
+            category: 'foo'
+          }
+        }), {
+          type: RESET_INCIDENT
+        }).toJS()
+      ).toEqual({
+        incident: initialState.get('incident').toJS()
       });
     });
   });

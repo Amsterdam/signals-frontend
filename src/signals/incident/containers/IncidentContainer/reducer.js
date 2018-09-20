@@ -6,7 +6,8 @@
 
 import { fromJS } from 'immutable';
 import {
-  SET_INCIDENT,
+  UPDATE_INCIDENT,
+  RESET_INCIDENT,
 
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
@@ -35,11 +36,17 @@ export const initialState = fromJS({
 
 function incidentContainerReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_INCIDENT:
+    case UPDATE_INCIDENT:
       return state
         .set('incident', fromJS({
           ...state.get('incident').toJS(),
           ...action.payload
+        }));
+
+    case RESET_INCIDENT:
+      return state
+        .set('incident', fromJS({
+          ...(initialState.get('incident').toJS())
         }));
 
     case CREATE_INCIDENT:
