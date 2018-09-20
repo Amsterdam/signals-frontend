@@ -17,17 +17,17 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
         <div className="list-component__title">Meldingen ({incidentsCount})</div>
 
         <div className="list-component__body">
-          <table className="" cellSpacing="0" cellPadding="0">
+          <table cellSpacing="0" cellPadding="0">
             <thead>
               <tr>
-                <th className="">Id</th>
-                <th className="">Datum</th>
-                <th className="">Tijd</th>
-                <th className="">Stadsdeel</th>
-                <th className="">Subcategorie</th>
-                <th className="">Status</th>
-                <th className="">Urgentie</th>
-                <th className="">Adres</th>
+                <th>Id</th>
+                <th>Datum</th>
+                <th>Tijd</th>
+                <th>Stadsdeel</th>
+                <th>Subcategorie</th>
+                <th>Status</th>
+                <th>Urgentie</th>
+                <th>Adres</th>
               </tr>
             </thead>
             <tbody>
