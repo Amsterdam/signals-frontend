@@ -20,19 +20,27 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
           <table className="" cellSpacing="0" cellPadding="0">
             <thead>
               <tr>
-                <th className="list-component__body-col-1">Id<br />Subcategorie</th>
-                <th className="list-component__body-col-2">Datum<br />Tijd</th>
-                <th className="list-component__body-col-3">Stadsdeel<br />Adres</th>
-                <th className="list-component__body-col-4">Status<br />Urgentie<br />Afdeling</th>
+                <th className="">Id</th>
+                <th className="">Datum</th>
+                <th className="">Tijd</th>
+                <th className="">Stadsdeel</th>
+                <th className="">Subcategorie</th>
+                <th className="">Status</th>
+                <th className="">Urgentie</th>
+                <th className="">Adres</th>
               </tr>
             </thead>
             <tbody>
               {incidents.map((incident) => (
                 <tr key={incident.id} onClick={this.selectIncident(incident)}>
-                  <td>{incident.id}<br />{incident.category.sub}</td>
-                  <td>{string2date(incident.incident_date_start)}<br />{string2time(incident.incident_date_start)}</td>
-                  <td>{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}<br />{incident.location.address_text}</td>
-                  <td>{getListValueByKey(statusList, incident.status.state)}<br />{getListValueByKey(priorityList, incident.priority && incident.priority.priority)}<br />{incident.category.department}</td>
+                  <td>{incident.id}</td>
+                  <td>{string2date(incident.incident_date_start)}</td>
+                  <td>{string2time(incident.incident_date_start)}</td>
+                  <td>{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</td>
+                  <td>{incident.category.sub}</td>
+                  <td>{getListValueByKey(statusList, incident.status.state)}</td>
+                  <td>{getListValueByKey(priorityList, incident.priority && incident.priority.priority)}</td>
+                  <td>{incident.location.address_text}</td>
                 </tr>
               ))
               }
