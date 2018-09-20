@@ -4,7 +4,7 @@
  *
  */
 
-export const SET_INCIDENT = 'src/IncidentContainer/SET_INCIDENT';
+export const UPDATE_INCIDENT = 'src/IncidentContainer/UPDATE_INCIDENT';
 
 export const CREATE_INCIDENT = 'src/IncidentContainer/CREATE_INCIDENT';
 export const CREATE_INCIDENT_SUCCESS = 'src/IncidentContainer/CREATE_INCIDENT_SUCCESS';

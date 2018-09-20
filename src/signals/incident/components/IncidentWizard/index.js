@@ -29,7 +29,7 @@ function onNext({ step, steps, push }, incident) {
   }
 }
 
-function IncidentWizard({ getClassification, setIncident, createIncident, incidentContainer, isAuthenticated }) {
+function IncidentWizard({ getClassification, updateIncident, createIncident, incidentContainer, isAuthenticated }) {
   return (
     <div className="incident-wizard">
       <Route
@@ -53,7 +53,7 @@ function IncidentWizard({ getClassification, setIncident, createIncident, incide
                         fieldConfig={wizardDefinition[key].form}
                         incidentContainer={incidentContainer}
                         getClassification={getClassification}
-                        setIncident={setIncident}
+                        updateIncident={updateIncident}
                         createIncident={createIncident}
                         wizard={wizardDefinition}
                         isAuthenticated={isAuthenticated}
@@ -74,7 +74,7 @@ function IncidentWizard({ getClassification, setIncident, createIncident, incide
 IncidentWizard.propTypes = {
   incidentContainer: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
-  setIncident: PropTypes.func.isRequired,
+  updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool
 };

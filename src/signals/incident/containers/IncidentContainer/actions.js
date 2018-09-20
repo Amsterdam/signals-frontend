@@ -5,7 +5,7 @@
  */
 
 import {
-  SET_INCIDENT,
+  UPDATE_INCIDENT,
 
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
@@ -20,9 +20,9 @@ import {
   SET_PRIORITY_ERROR
 } from './constants';
 
-export function setIncident(incident) {
+export function updateIncident(incident) {
   return {
-    type: SET_INCIDENT,
+    type: UPDATE_INCIDENT,
     payload: { ...incident }
   };
 }

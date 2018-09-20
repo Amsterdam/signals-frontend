@@ -23,7 +23,7 @@ describe('Form component <TextInput />', () => {
     hasError = jest.fn();
     parent = {
       meta: {
-        setIncident: jest.fn()
+        updateIncident: jest.fn()
       }
     };
 
@@ -76,7 +76,7 @@ describe('Form component <TextInput />', () => {
 
       wrapper.find('input').simulate('change', event);
 
-      expect(parent.meta.setIncident).toHaveBeenCalledWith({
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': 'diabolo'
       });
     });
@@ -92,7 +92,7 @@ describe('Form component <TextInput />', () => {
 
       wrapper.find('input').simulate('change', event);
 
-      expect(parent.meta.setIncident).not.toHaveBeenCalled();
+      expect(parent.meta.updateIncident).not.toHaveBeenCalled();
     });
   });
 });

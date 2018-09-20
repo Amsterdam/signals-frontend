@@ -1,7 +1,7 @@
 import { testActionCreator } from '../../../../../internals/testing/test-utils';
 
 import {
-  SET_INCIDENT,
+  UPDATE_INCIDENT,
 
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
@@ -17,7 +17,7 @@ import {
 } from './constants';
 
 import {
-  setIncident,
+  updateIncident,
 
   createIncident,
   createIncidentSuccess,
@@ -39,7 +39,7 @@ describe('Incident container actions', () => {
   };
 
   it('should dispatch set incident action', () => {
-    testActionCreator(setIncident, SET_INCIDENT, incident);
+    testActionCreator(updateIncident, UPDATE_INCIDENT, incident);
   });
 
   it('should dispatch create incident action', () => {

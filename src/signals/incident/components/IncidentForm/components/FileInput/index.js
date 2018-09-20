@@ -12,13 +12,13 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
 
       // use revokeObjectURL afterward
       const url = window.URL.createObjectURL(file);
-      parent.meta.setIncident({
+      parent.meta.updateIncident({
         image: url
       });
 
       const reader = new window.FileReader();
       reader.addEventListener('load', () => {
-        parent.meta.setIncident({
+        parent.meta.updateIncident({
           image_file: file
         });
       });
@@ -29,7 +29,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
 
   const handleClear = (url) => {
     window.URL.revokeObjectURL(url);
-    parent.meta.setIncident({
+    parent.meta.updateIncident({
       image: '',
       image_file: {}
     });
