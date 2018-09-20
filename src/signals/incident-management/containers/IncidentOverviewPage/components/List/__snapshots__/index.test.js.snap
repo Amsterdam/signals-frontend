@@ -16,39 +16,32 @@ exports[`<List /> should render correctly 1`] = `
     <table
       cellPadding="0"
       cellSpacing="0"
-      className=""
     >
       <thead>
         <tr>
-          <th
-            className="list-component__body-col-1"
-          >
+          <th>
             Id
-            <br />
-            Subcategorie
           </th>
-          <th
-            className="list-component__body-col-2"
-          >
+          <th>
             Datum
-            <br />
+          </th>
+          <th>
             Tijd
           </th>
-          <th
-            className="list-component__body-col-3"
-          >
+          <th>
             Stadsdeel
-            <br />
-            Adres
           </th>
-          <th
-            className="list-component__body-col-4"
-          >
+          <th>
+            Subcategorie
+          </th>
+          <th>
             Status
-            <br />
+          </th>
+          <th>
             Urgentie
-            <br />
-            Afdeling
+          </th>
+          <th>
+            Adres
           </th>
         </tr>
       </thead>
@@ -59,24 +52,27 @@ exports[`<List /> should render correctly 1`] = `
         >
           <td>
             158
-            <br />
-            Gezonken boot
           </td>
           <td>
             11-07-2018
-            <br />
+          </td>
+          <td>
             15:46
           </td>
           <td>
             Niet gevonden
-            <br />
-            Dam 1A-1 1012JS Amsterdam
+          </td>
+          <td>
+            Gezonken boot
           </td>
           <td>
             Niet gevonden
-            <br />
+          </td>
+          <td>
             Niet gevonden
-            <br />
+          </td>
+          <td>
+            Dam 1A-1 1012JS Amsterdam
           </td>
         </tr>
       </tbody>
