@@ -5,30 +5,6 @@
     height: 450px;
   }
 
-  .embed-search {
-    // pull the search input outside of the map
-    // top: -50px;
-    // left: 0;
-    // width: 100%;
-    max-width: 100%;
-
-    input[type="text"] {
-      height: inherit;
-    }
-
-    button {
-      display: none;
-    }
-
-    &__auto-suggest {
-      width: 100%;
-    }
-
-    .invoer {
-      box-shadow: none;
-    }
-  }
-
   &__loading {
     background-color: rgba(0, 0, 0, .2);
     display: block;
