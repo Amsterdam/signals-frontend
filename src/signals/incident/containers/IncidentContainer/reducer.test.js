@@ -3,6 +3,7 @@ import incidentContainerReducer, { initialState } from './reducer';
 
 import {
   UPDATE_INCIDENT,
+  RESET_INCIDENT,
 
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
@@ -39,6 +40,22 @@ describe('incidentContainerReducer', () => {
           category: 'bar',
           subcategory: 'foo'
         }
+      });
+    });
+  });
+
+  describe('RESET_INCIDENT', () => {
+    it('sets new properties and keeps the old ones', () => {
+      expect(
+        incidentContainerReducer(fromJS({
+          incident: {
+            category: 'foo'
+          }
+        }), {
+          type: RESET_INCIDENT
+        }).toJS()
+      ).toEqual({
+        incident: initialState.get('incident').toJS()
       });
     });
   });

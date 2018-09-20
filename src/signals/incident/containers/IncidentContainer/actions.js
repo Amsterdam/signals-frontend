@@ -6,6 +6,7 @@
 
 import {
   UPDATE_INCIDENT,
+  RESET_INCIDENT,
 
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
@@ -24,6 +25,12 @@ export function updateIncident(incident) {
   return {
     type: UPDATE_INCIDENT,
     payload: { ...incident }
+  };
+}
+
+export function resetIncident() {
+  return {
+    type: RESET_INCIDENT
   };
 }
 
