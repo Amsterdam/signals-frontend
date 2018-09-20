@@ -22,7 +22,7 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
     hasError = jest.fn();
     parent = {
       meta: {
-        setIncident: jest.fn(),
+        updateIncident: jest.fn(),
         getClassification: jest.fn()
       }
     };
@@ -102,7 +102,7 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
       wrapper.find('textarea').simulate('blur', event);
 
       expect(parent.meta.getClassification).toHaveBeenCalledWith('diabolo');
-      expect(parent.meta.setIncident).toHaveBeenCalledWith({
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': 'diabolo'
       });
     });
@@ -119,7 +119,7 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
       wrapper.find('textarea').simulate('change', event);
 
       expect(parent.meta.getClassification).not.toHaveBeenCalled();
-      expect(parent.meta.setIncident).not.toHaveBeenCalled();
+      expect(parent.meta.updateIncident).not.toHaveBeenCalled();
     });
   });
 });
