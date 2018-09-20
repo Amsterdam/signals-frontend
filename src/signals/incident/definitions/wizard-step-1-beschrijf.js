@@ -81,7 +81,7 @@ export default {
         options: {
           validators: [
             Validators.required,
-            Validators.maxLength(3000)
+            Validators.maxLength(1000)
           ]
         },
         render: FormComponents.DescriptionWithClassificationInput
