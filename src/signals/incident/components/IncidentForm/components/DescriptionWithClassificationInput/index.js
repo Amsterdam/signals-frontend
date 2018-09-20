@@ -24,7 +24,6 @@ const DescriptionWithClassificationInput = ({ handler, touched, value, hasError,
         >
           <div className="invoer">
             <textarea
-              className="input"
               rows={meta.rows || 6}
               placeholder={meta.placeholder}
               {...handler()}

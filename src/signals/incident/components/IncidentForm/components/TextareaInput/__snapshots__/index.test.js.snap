@@ -24,7 +24,7 @@ exports[`Form component <TextareaInput /> rendering should render character coun
         className="invoer"
       >
         <textarea
-          onChange={[Function]}
+          onBlur={[Function]}
           placeholder="type here"
         />
         <div
@@ -66,7 +66,7 @@ exports[`Form component <TextareaInput /> rendering should render character coun
         className="invoer"
       >
         <textarea
-          onChange={[Function]}
+          onBlur={[Function]}
           placeholder="type here"
         />
         <div
@@ -113,7 +113,7 @@ exports[`Form component <TextareaInput /> rendering should render text area fiel
         className="invoer"
       >
         <textarea
-          onChange={[Function]}
+          onBlur={[Function]}
           placeholder="type here"
         />
       </div>

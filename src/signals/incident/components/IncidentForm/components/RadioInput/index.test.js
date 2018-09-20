@@ -86,8 +86,7 @@ describe('Form component <RadioInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true,
-          updateIncident: true
+          isVisible: true
         }
       });
 
@@ -96,20 +95,6 @@ describe('Form component <RadioInput />', () => {
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': 'foo'
       });
-    });
-
-    it('does nothing when updateIncident is false', () => {
-      wrapper.setProps({
-        meta: {
-          ...metaFields,
-          isVisible: true,
-          updateIncident: false
-        }
-      });
-
-      wrapper.find('input').first().simulate('click', event);
-
-      expect(parent.meta.updateIncident).not.toHaveBeenCalled();
     });
   });
 });

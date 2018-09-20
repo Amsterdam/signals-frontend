@@ -18,9 +18,9 @@ export default {
       ]
     }
   },
-  subcategory: 'Overlast op het water - snel varen',
-  category: 'Overlast op het water',
-  description: 'snel boot',
+  category: 'Overlast Bedrijven en Horeca',
+  subcategory: 'Geluidsoverlast installaties',
+  description: 'geluid',
   phone: '020654321',
   email: 'a@b.com',
   extra_boten_snelheid_rondvaartboot: 'Ja',

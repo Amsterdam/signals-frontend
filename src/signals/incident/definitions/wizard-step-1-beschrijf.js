@@ -19,7 +19,6 @@ export default {
           className: 'col-sm-12 col-md-6',
           label: 'Hoe komt de melding binnen?',
           path: 'source',
-          updateIncident: true,
           values: {
             '': 'Vul bron in',
             'Telefoon – CCA': 'Telefoon – CCA',
@@ -48,7 +47,6 @@ export default {
           className: 'col-sm-12 col-md-6',
           label: 'Wat is de urgentie?',
           path: 'priority',
-          updateIncident: true,
           values: {
             normal: 'Normaal',
             high: 'Hoog'
@@ -115,8 +113,7 @@ export default {
           values: {
             Nu: 'Nu',
             Eerder: 'Eerder'
-          },
-          updateIncident: true
+          }
         },
         options: {
           validators: [Validators.required]
@@ -127,8 +124,7 @@ export default {
         meta: {
           ifAllOf: {
             datetime: 'Eerder'
-          },
-          updateIncident: true
+          }
         },
         render: FormComponents.DateTimeInput,
         strict: false

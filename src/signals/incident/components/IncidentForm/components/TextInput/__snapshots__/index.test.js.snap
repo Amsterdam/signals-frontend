@@ -30,7 +30,7 @@ exports[`Form component <TextInput /> rendering should render text field correct
         className="invoer"
       >
         <input
-          onChange={[Function]}
+          onBlur={[Function]}
           placeholder="type here"
           type="text"
         />
