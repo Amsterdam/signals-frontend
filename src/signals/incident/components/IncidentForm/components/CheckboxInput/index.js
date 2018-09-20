@@ -13,7 +13,7 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
           touched={touched}
           hasError={hasError}
           getError={getError}
-        >,
+        >
           <div className="antwoorden">
             <div className="antwoord">
               <input
