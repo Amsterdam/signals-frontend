@@ -83,8 +83,7 @@ describe('The format conditional form service', () => {
             isVisible: false,
             name: 'var_1'
           },
-          authenticated: true,
-          options: null
+          authenticated: true
         }
       }
     });
@@ -174,8 +173,7 @@ describe('The format conditional form service', () => {
             },
             isVisible: false,
             name: 'var_3'
-          },
-          options: null
+          }
         },
         var_4: {
           meta: {
@@ -185,8 +183,7 @@ describe('The format conditional form service', () => {
             },
             isVisible: false,
             name: 'var_4'
-          },
-          options: null
+          }
         },
         array_1: {
           meta: {
@@ -204,8 +201,7 @@ describe('The format conditional form service', () => {
             },
             isVisible: false,
             name: 'array_2'
-          },
-          options: null
+          }
         }
       }
     });
@@ -262,8 +258,7 @@ describe('The format conditional form service', () => {
                 },
                 isVisible: false,
                 name: 'array_2'
-              },
-              options: null
+              }
             }
           }
         },
@@ -300,8 +295,7 @@ describe('The format conditional form service', () => {
             },
             isVisible: false,
             name: 'var_3'
-          },
-          options: null
+          }
         },
         var_4: {
           meta: {
@@ -329,8 +323,7 @@ describe('The format conditional form service', () => {
             },
             isVisible: false,
             name: 'array_2'
-          },
-          options: null
+          }
         }
       }
     });

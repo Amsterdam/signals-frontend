@@ -59,6 +59,31 @@ describe('Form component <TextareaInput />', () => {
       expect(handler).not.toHaveBeenCalled();
       expect(wrapper).toMatchSnapshot();
     });
+
+    it('should render character counter correctly', () => {
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          isVisible: true,
+          maxLength: 300
+        }
+      });
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render character counter with value correctly', () => {
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          isVisible: true,
+          maxLength: 300
+        },
+        value: 'test'
+      });
+
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 
   describe('events', () => {

@@ -30,5 +30,22 @@ describe('<TextAreaInput />', () => {
     expect(wrapper).not.toBeNull();
     expect(wrapper).toMatchSnapshot();
   });
+
+  it('should render character counter correctly', () => {
+    wrapper.setProps({
+      maxLength: 300
+    });
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should render character counter with value correctly', () => {
+    wrapper.setProps({
+      value: 'test',
+      maxLength: 300
+    });
+
+    expect(wrapper).toMatchSnapshot();
+  });
 });
 

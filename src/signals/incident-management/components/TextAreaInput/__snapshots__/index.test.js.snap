@@ -1,5 +1,67 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<TextAreaInput /> should render character counter correctly 1`] = `
+<div
+  className="text-area-input"
+>
+  <div
+    className="mode_input text rij_verplicht"
+  >
+    <div
+      className="text-area-input__label"
+    >
+      <label
+        htmlFor="formname"
+      >
+        display
+      </label>
+    </div>
+    <div
+      className="text-area-input__control invoer"
+    >
+      <textarea
+        id="formname"
+        name=""
+        placeholder="placeholder"
+        rows={2}
+        value=""
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<TextAreaInput /> should render character counter with value correctly 1`] = `
+<div
+  className="text-area-input"
+>
+  <div
+    className="mode_input text rij_verplicht"
+  >
+    <div
+      className="text-area-input__label"
+    >
+      <label
+        htmlFor="formname"
+      >
+        display
+      </label>
+    </div>
+    <div
+      className="text-area-input__control invoer"
+    >
+      <textarea
+        id="formname"
+        name=""
+        placeholder="placeholder"
+        rows={2}
+        value=""
+      />
+    </div>
+  </div>
+</div>
+`;
+
 exports[`<TextAreaInput /> should render correctly 1`] = `
 <div
   className="text-area-input"
