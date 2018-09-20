@@ -20,11 +20,9 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
   }
 
   resetIncident(e) {
-    // e.preventDefault();
     e.stopPropagation();
 
     this.props.resetIncident();
-    console.log('emptyIncident', e.target);
   }
 
   render() {
@@ -61,7 +59,6 @@ MainMenu.propTypes = {
   isAuthenticated: PropTypes.bool,
   resetIncident: PropTypes.func
 };
-
 
 export const mapStateToProps = createStructuredSelector({
   isAuthenticated: makeSelectIsAuthenticated()
