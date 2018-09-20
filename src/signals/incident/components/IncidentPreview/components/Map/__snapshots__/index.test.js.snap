@@ -6,6 +6,39 @@ exports[`Preview component <Map /> should not render optional map when value is 
 />
 `;
 
+exports[`Preview component <Map /> should render address with toevoeging correctly 1`] = `
+<div
+  className="preview-map"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-5 col-md-4"
+    >
+      <div
+        className="preview-map__item-label"
+      >
+        Location
+      </div>
+    </div>
+    <div
+      className="col-5 col-md-7"
+    >
+      <div
+        className="preview-map__item-value"
+      >
+        <div>
+          <div>
+            Hell 666C-3, 1087JC Amsterdam
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Preview component <Map /> should render only address correctly 1`] = `
 <div
   className="preview-map"
@@ -30,7 +63,7 @@ exports[`Preview component <Map /> should render only address correctly 1`] = `
       >
         <div>
           <div>
-            Hell 666C
+            Hell 666C, 1087JC Amsterdam
           </div>
         </div>
       </div>
@@ -63,7 +96,7 @@ exports[`Preview component <Map /> should render only latlong correctly 1`] = `
       >
         <div>
           <div>
-            geen adres gevonden
+            Geen adres gevonden
           </div>
           <div
             className="preview-map__item-value-map"
@@ -108,7 +141,7 @@ exports[`Preview component <Map /> should render optional map correctly 1`] = `
       >
         <div>
           <div>
-            Hell 666C
+            Hell 666C, 1087JC Amsterdam
           </div>
           <div
             className="preview-map__item-value-map"
@@ -153,7 +186,7 @@ exports[`Preview component <Map /> should render valid adrress and map with latl
       >
         <div>
           <div>
-            Hell 666C
+            Hell 666C, 1087JC Amsterdam
           </div>
           <div
             className="preview-map__item-value-map"

@@ -4,6 +4,12 @@ import Map from '../../../../../../components/Map';
 
 import './style.scss';
 
+const formatAddress = (address) => {
+  const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
+  const display = `${address.openbare_ruimte} ${address.huisnummer}${address.huisletter}${toevoeging}, ${address.postcode} ${address.woonplaats}`;
+  return display;
+};
+
 const MapPreview = ({ label, value, optional }) => (
   <div className="preview-map">
     {!optional || (optional && value) ?
@@ -16,7 +22,8 @@ const MapPreview = ({ label, value, optional }) => (
             {value ?
               <div>
                 <div>
-                  {value.address ? `${value.address.openbare_ruimte} ${value.address.huisnummer}${value.address.huisletter}` : 'geen adres gevonden'}</div>
+                  {value.address ? formatAddress(value.address) : 'Geen adres gevonden'}
+                </div>
                 {value.geometrie && value.geometrie.coordinates ?
                   <div className="preview-map__item-value-map">
                     <Map
