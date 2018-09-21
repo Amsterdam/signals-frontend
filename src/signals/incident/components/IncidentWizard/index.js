@@ -9,32 +9,21 @@ import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { Wizard, Steps, Step } from 'react-albus';
 
-// import { FormattedMessage } from 'react-intl';
-// import messages from './messages';
-
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import wizardDefinition from '../../definitions/wizard';
 
 import IncidentForm from '../IncidentForm';
 import IncidentPreview from '../IncidentPreview';
-import './style.scss';
+import onNext from './services/on-next';
 
-function onNext({ step, steps, push }, incident) {
-  const wizardStep = step.id && step.id.split('/').reverse()[0];
-  const nextStep = wizardStep && wizardDefinition[wizardStep] && wizardDefinition[wizardStep].getNextStep && wizardDefinition[wizardStep].getNextStep(wizardDefinition, incident);
-  if (nextStep) {
-    push(nextStep);
-  } else if (steps.length > 0) {
-    push();
-  }
-}
+import './style.scss';
 
 function IncidentWizard({ getClassification, updateIncident, createIncident, incidentContainer, isAuthenticated }) {
   return (
     <div className="incident-wizard">
       <Route
         render={({ history }) => (
-          <Wizard history={history} onNext={(wiz) => onNext(wiz, incidentContainer.incident)}>
+          <Wizard history={history} onNext={(wiz) => onNext(wizardDefinition, wiz, incidentContainer.incident)}>
             {incidentContainer.loading ? <LoadingIndicator /> : ''}
             {!incidentContainer.loading ?
               <Steps>

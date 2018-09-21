@@ -1,10 +1,29 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-// import IncidentWizard from 'index';
+import IncidentWizard from './index';
+
+// import IncidentForm from '../IncidentForm';
+// import IncidentPreview from '../IncidentPreview';
+
+jest.mock('../IncidentForm', () => 'IncidentForm');
+jest.mock('../IncidentPreview', () => 'IncidentPreview');
 
 describe('<IncidentWizard />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(true);
+  let props;
+
+  beforeEach(() => {
+    props = {
+      getClassification: jest.fn(),
+      updateIncident: jest.fn(),
+      createIncident: jest.fn(),
+      incidentContainer: {},
+      isAuthenticated: false
+    };
+  });
+
+  it('expect to render correctly', () => {
+    const wrapper = shallow(<IncidentWizard {...props} />);
+    expect(wrapper).toMatchSnapshot();
   });
 });
