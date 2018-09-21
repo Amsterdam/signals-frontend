@@ -1,15 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<IncidentWizard /> Expect to have unit tests specified 1`] = `
-<div
-  className="incident-wizard"
->
-  <Route
-    render={[Function]}
-  />
-</div>
-`;
-
 exports[`<IncidentWizard /> expect to render correctly 1`] = `
 <div
   className="incident-wizard"
