@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<List /> should render correctly 1`] = `
+<div
+  className="incident-status-container-list"
+>
+  <div
+    className="incident-status-container-list__body"
+  >
+    <table
+      cellPadding="0"
+      cellSpacing="0"
+      className="incident-status-container-list__body-list"
+    >
+      <thead>
+        <tr>
+          <th
+            className=""
+          >
+            Datum
+          </th>
+          <th
+            className=""
+          >
+            Tijd
+          </th>
+          <th
+            className=""
+          >
+            Status
+          </th>
+          <th
+            className=""
+          >
+            Omschrijving
+          </th>
+          <th
+            className=""
+          >
+            Gebruiker
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          key="3"
+        >
+          <td>
+            13-07-2018
+          </td>
+          <td>
+            11:48
+          </td>
+          <td>
+            Gemeld
+          </td>
+          <td />
+          <td />
+        </tr>
+        <tr
+          key="910"
+        >
+          <td>
+            27-07-2018
+          </td>
+          <td>
+            14:53
+          </td>
+          <td>
+            In afwachting van behandeling
+          </td>
+          <td>
+            een tekst
+          </td>
+          <td>
+            opleiding@amsterdam.nl
+          </td>
+        </tr>
+        <tr
+          key="911"
+        >
+          <td>
+            27-07-2018
+          </td>
+          <td>
+            14:53
+          </td>
+          <td>
+            Afgehandeld
+          </td>
+          <td>
+            is opgeruimd
+          </td>
+          <td />
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`<List /> should render without list correctly 1`] = `
+<div
+  className="incident-status-container-list"
+>
+  <div
+    className="incident-status-container-list__body"
+  >
+    <table
+      cellPadding="0"
+      cellSpacing="0"
+      className="incident-status-container-list__body-list"
+    >
+      <thead>
+        <tr>
+          <th
+            className=""
+          >
+            Datum
+          </th>
+          <th
+            className=""
+          >
+            Tijd
+          </th>
+          <th
+            className=""
+          >
+            Status
+          </th>
+          <th
+            className=""
+          >
+            Omschrijving
+          </th>
+          <th
+            className=""
+          >
+            Gebruiker
+          </th>
+        </tr>
+      </thead>
+      <tbody />
+    </table>
+  </div>
+</div>
+`;

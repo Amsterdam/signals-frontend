@@ -1,32 +1,45 @@
 import React from 'react';
-// import { Provider } from 'react-redux';
-// import { browserHistory } from 'react-router-dom';
 import { shallow } from 'enzyme';
 
 import { MainMenu } from './index';
 
+jest.mock('../../signals/incident/containers/IncidentContainer/actions');
+
 describe('<MainMenu />', () => {
-  const createComponent = (isAuthenticated = false) => {
-    const wrapper = shallow(<MainMenu isAuthenticated={isAuthenticated} />);
-    return wrapper;
-  };
+  let props;
 
   beforeEach(() => {
+    props = {
+      isAuthenticated: false,
+      resetIncident: jest.fn()
+    };
   });
 
-  it('should render correctly', () => {
-    const wrapper = createComponent();
-    expect(wrapper).toMatchSnapshot();
+  describe('rendering', () => {
+    it('should render render 1 NavLink components when not authenticated', () => {
+      const wrapper = shallow(<MainMenu {...props} />);
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render render 2 NavLink components when authenticated', () => {
+      props.isAuthenticated = true;
+      const wrapper = shallow(<MainMenu {...props} />);
+
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 
-  it('should render render 2 NavLink components when not authenticated', () => {
-    const wrapper = createComponent();
-    expect(wrapper.find('NavLink').length).toEqual(1);
-  });
+  describe('events', () => {
+    it('should render render 1 NavLink components when not authenticated', () => {
+      const wrapper = shallow(<MainMenu {...props} />);
+      const event = {
+        stopPropagation: jest.fn()
+      };
 
-  it('should render render 3 NavLink components when authenticated', () => {
-    const isAuthenticated = true;
-    const wrapper = createComponent(isAuthenticated);
-    expect(wrapper.find('NavLink').length).toEqual(2);
+      wrapper.find('NavLink').simulate('click', event);
+      expect(event.stopPropagation).toHaveBeenCalled();
+      expect(props.resetIncident).toHaveBeenCalled();
+    });
   });
 });
