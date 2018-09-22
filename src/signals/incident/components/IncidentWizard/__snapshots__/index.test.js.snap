@@ -1,11 +1,118 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<IncidentWizard /> expect to render correctly 1`] = `
-<div
-  className="incident-wizard"
+<MemoryRouter
+  initialEntries={
+    Array [
+      Object {
+        "key": "wizard",
+        "pathName": "incident/step1",
+      },
+    ]
+  }
 >
-  <Route
-    render={[Function]}
-  />
-</div>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "wizard",
+            "pathName": "incident/step1",
+            "pathname": "/",
+            "search": "",
+          },
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "wizard",
+          "pathName": "incident/step1",
+          "pathname": "/",
+          "search": "",
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <IncidentWizard
+      createIncident={[MockFunction]}
+      getClassification={[MockFunction]}
+      incidentContainer={Object {}}
+      isAuthenticated={false}
+      updateIncident={[MockFunction]}
+      wizardDefinition={
+        Object {
+          "step1": Object {
+            "form": Object {},
+          },
+          "step2": Object {
+            "form": Object {},
+          },
+          "step3": Object {
+            "form": Object {},
+            "preview": Object {},
+          },
+          "step4": Object {},
+        }
+      }
+    >
+      <div
+        className="incident-wizard"
+      >
+        <Route
+          render={[Function]}
+        >
+          <Wizard
+            basename=""
+            history={
+              Object {
+                "action": "POP",
+                "block": [Function],
+                "canGo": [Function],
+                "createHref": [Function],
+                "entries": Array [
+                  Object {
+                    "hash": "",
+                    "key": "wizard",
+                    "pathName": "incident/step1",
+                    "pathname": "/",
+                    "search": "",
+                  },
+                ],
+                "go": [Function],
+                "goBack": [Function],
+                "goForward": [Function],
+                "index": 0,
+                "length": 1,
+                "listen": [Function],
+                "location": Object {
+                  "hash": "",
+                  "key": "wizard",
+                  "pathName": "incident/step1",
+                  "pathname": "/",
+                  "search": "",
+                },
+                "push": [Function],
+                "replace": [Function],
+              }
+            }
+            onNext={[Function]}
+            render={null}
+          />
+        </Route>
+      </div>
+    </IncidentWizard>
+  </Router>
+</MemoryRouter>
 `;

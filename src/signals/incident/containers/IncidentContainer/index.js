@@ -13,6 +13,7 @@ import { compose } from 'redux';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectIsAuthenticated } from 'containers/App/selectors';
+import wizardDefinition from '../../definitions/wizard';
 import { getClassification, updateIncident, createIncident } from './actions';
 import makeSelectIncidentContainer from './selectors';
 import reducer from './reducer';
@@ -34,6 +35,7 @@ class IncidentContainer extends React.Component {
     return (
       <div className="incident-container">
         <IncidentWizard
+          wizardDefinition={wizardDefinition}
           getClassification={this.getClassification}
           updateIncident={this.updateIncident}
           createIncident={this.createIncident}

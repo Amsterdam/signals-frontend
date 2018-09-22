@@ -10,7 +10,6 @@ import { Route } from 'react-router-dom';
 import { Wizard, Steps, Step } from 'react-albus';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
-import wizardDefinition from '../../definitions/wizard';
 
 import IncidentForm from '../IncidentForm';
 import IncidentPreview from '../IncidentPreview';
@@ -18,7 +17,7 @@ import onNext from './services/on-next';
 
 import './style.scss';
 
-function IncidentWizard({ getClassification, updateIncident, createIncident, incidentContainer, isAuthenticated }) {
+function IncidentWizard({ wizardDefinition, getClassification, updateIncident, createIncident, incidentContainer, isAuthenticated }) {
   return (
     <div className="incident-wizard">
       <Route
@@ -68,6 +67,7 @@ function IncidentWizard({ getClassification, updateIncident, createIncident, inc
 
 IncidentWizard.propTypes = {
   incidentContainer: PropTypes.object.isRequired,
+  wizardDefinition: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
   updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
