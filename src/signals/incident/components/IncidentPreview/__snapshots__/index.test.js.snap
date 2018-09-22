@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentPreview /> expect to render correctly 1`] = `
+<div
+  className="incident-preview"
+>
+  <div
+    className="incident-preview__section"
+    key="part1"
+  >
+    <WithWizard
+      render={[Function]}
+    />
+    <div
+      key="phone"
+    >
+      <div
+        className="preview-text"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="col-5 col-md-4"
+          >
+            <div
+              className="preview-text__item-label"
+            >
+              Uw (mobiele) telefoon
+            </div>
+          </div>
+          <div
+            className="col-5 col-md-7"
+          >
+            <div
+              className="preview-text__item-value"
+            >
+              0666 666 666
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="incident-preview__section"
+    key="part2"
+  >
+    <WithWizard
+      render={[Function]}
+    />
+    <div
+      key="email"
+    >
+      <div
+        className="preview-text"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="col-5 col-md-4"
+          >
+            <div
+              className="preview-text__item-label"
+            >
+              Uw e-mailadres
+            </div>
+          </div>
+          <div
+            className="col-5 col-md-7"
+          >
+            <div
+              className="preview-text__item-value"
+            >
+              devil@hell.com
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
