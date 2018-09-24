@@ -168,7 +168,7 @@ const mainToSubMap = {
     'Overlast vanaf het water',
     'Overig boten'
   ],
-  'Overig': ['Overig']
+  'Overig': []
 }
 
 export default mainToSubMap;

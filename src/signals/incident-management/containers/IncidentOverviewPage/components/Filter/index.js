@@ -65,15 +65,7 @@ class Filter extends React.Component {
                   <FieldControlWrapper render={SelectInput} name="priority__priority" display="Urgentie" control={this.filterForm.get('priority__priority')} values={priorityList} />
                   <FieldControlWrapper render={SelectInput} name="location__stadsdeel" display="Stadsdeel" control={this.filterForm.get('location__stadsdeel')} values={stadsdeelList} multiple />
                   <FieldControlWrapper render={SelectInput} name="category__main" display="Hoofdcategorie" control={this.filterForm.get('category__main')} values={mainCategoryList} multiple size={10} />
-                  <FieldControlWrapper
-                    render={SelectInput}
-                    name="category__sub"
-                    display="Subcategorie"
-                    control={this.filterForm.get('category__sub')}
-                    values={subcategoryList.length > 2 ? subcategoryList : [subcategoryList[0]]}
-                    multiple
-                    size={10}
-                  />
+                  <FieldControlWrapper render={SelectInput} name="category__sub" display="Subcategorie" control={this.filterForm.get('category__sub')} values={subcategoryList} multiple size={10} />
                   <FieldControlWrapper render={SelectInput} name="status__state" display="Status" control={this.filterForm.get('status__state')} values={statusList} multiple />
                   <FieldControlWrapper render={TextInput} name="location__address_text" display="Adres" control={this.filterForm.get('location__address_text')} />
 

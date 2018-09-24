@@ -93,7 +93,7 @@ describe('overviewPageReducer', () => {
 
   it('should handle the MAIN_CATEGORY_FILTER_SELECTION_CHANGED for Alles and another main category', () => {
     const mainCategoryFilterSelection = ['', 'Overig'];
-    const expectedSubcategoryList = [{ key: '', value: 'Alles' }].concat([{ key: 'Overig', value: 'Overig' }]);
+    const expectedSubcategoryList = [{ key: '', value: 'Alles' }];
     const action = mainCategoryFilterSelectionChanged(mainCategoryFilterSelection);
     const expected = fromJS({})
       .set('mainCategorySelectionList', mainCategoryFilterSelection)
