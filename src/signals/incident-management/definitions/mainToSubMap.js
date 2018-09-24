@@ -66,7 +66,6 @@ const mainToSubMap = {
     'Geluidsoverlast muziek',
     'Geluidsoverlast installaties',
     'Overlast terrassen',
-    'Stank horeca/bedrijven',
     'Stankoverlast',
     'Overlast door bezoekers (niet op terras)',
     'Overig horeca/bedrijven',
@@ -156,7 +155,6 @@ const mainToSubMap = {
     'Geluidsoverlast muziek',
     'Geluidsoverlast installaties',
     'Overlast terrassen',
-    'Stank horeca/bedrijven',
     'Stankoverlast',
     'Overlast door bezoekers (niet op terras)',
     'Overig horeca/bedrijven'
@@ -170,7 +168,7 @@ const mainToSubMap = {
     'Overlast vanaf het water',
     'Overig boten'
   ],
-  'Overig': ['Overig']
+  'Overig': []
 }
 
 export default mainToSubMap;
