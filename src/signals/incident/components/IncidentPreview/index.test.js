@@ -4,8 +4,6 @@ import { shallow } from 'enzyme';
 import PreviewComponents from '../../components/IncidentPreview/components/';
 import IncidentPreview from './index';
 
-// jest.mock('react-albus');
-
 describe('<IncidentPreview />', () => {
   let props;
 

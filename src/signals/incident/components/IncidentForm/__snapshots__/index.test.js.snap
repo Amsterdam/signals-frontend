@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentForm /> expect to render correctly 1`] = `
+<div
+  className="incident-form"
+>
+  <form
+    onSubmit={[Function]}
+  >
+    <FormGenerator
+      fieldConfig={
+        Object {
+          "controls": Object {},
+        }
+      }
+      onMount={[Function]}
+      onUnmount={[Function]}
+    />
+  </form>
+</div>
+`;
