@@ -4,12 +4,197 @@ import { FieldGroup } from 'react-reactive-form';
 
 import Filter from './index';
 
+jest.mock('../../../../components/FieldControlWrapper', () => 'FieldControlWrapper');
+
 describe('<Filter />', () => {
   let wrapper;
   let props;
 
   beforeEach(() => {
     props = {
+      mainCategoryList: [
+        {
+          key: '',
+          value: 'Alles'
+        },
+        {
+          key: 'Afval',
+          value: 'Afval'
+        },
+        {
+          key: 'Openbaar groen en water',
+          value: 'Openbaar groen en water'
+        },
+        {
+          key: 'Overlast Bedrijven en Horeca',
+          value: 'Overlast Bedrijven en Horeca'
+        },
+        {
+          key: 'Overlast in de openbare ruimte',
+          value: 'Overlast in de openbare ruimte'
+        },
+        {
+          key: 'Overlast op het water',
+          value: 'Overlast op het water'
+        },
+        {
+          key: 'Overlast van dieren',
+          value: 'Overlast van dieren'
+        },
+        {
+          key: 'Overlast van en door personen of groepen',
+          value: 'Overlast van en door personen of groepen'
+        },
+        {
+          key: 'Wegen, verkeer, straatmeubilair',
+          value: 'Wegen, verkeer, straatmeubilair'
+        },
+        {
+          key: 'Overig',
+          value: 'Overig'
+        }
+      ],
+      subcategoryList: [
+        {
+          key: '',
+          value: 'Alles'
+        },
+        {
+          key: 'Asbest / accu',
+          value: 'Asbest / accu'
+        },
+        {
+          key: 'Bedrijfsafval',
+          value: 'Bedrijfsafval'
+        },
+        {
+          key: 'Container is kapot',
+          value: 'Container is kapot'
+        },
+        {
+          key: 'Container is vol',
+          value: 'Container is vol'
+        },
+        {
+          key: 'Container voor plastic afval is kapot',
+          value: 'Container voor plastic afval is kapot'
+        },
+        {
+          key: 'Container voor plastic afval is vol',
+          value: 'Container voor plastic afval is vol'
+        },
+        {
+          key: 'Grofvuil',
+          value: 'Grofvuil'
+        },
+        {
+          key: 'Huisafval',
+          value: 'Huisafval'
+        },
+        {
+          key: 'Overig afval',
+          value: 'Overig afval'
+        },
+        {
+          key: 'Prullenbak is kapot',
+          value: 'Prullenbak is kapot'
+        },
+        {
+          key: 'Prullenbak is vol',
+          value: 'Prullenbak is vol'
+        },
+        {
+          key: 'Puin / sloopafval',
+          value: 'Puin / sloopafval'
+        },
+        {
+          key: 'Veeg- / zwerfvuil',
+          value: 'Veeg- / zwerfvuil'
+        }
+      ],
+      statusList: [
+        {
+          key: '',
+          value: 'Alle statussen'
+        },
+        {
+          key: 'm',
+          value: 'Gemeld'
+        },
+        {
+          key: 'i',
+          value: 'In afwachting van behandeling'
+        },
+        {
+          key: 'b',
+          value: 'In behandeling'
+        },
+        {
+          key: 'o',
+          value: 'Afgehandeld'
+        },
+        {
+          key: 'h',
+          value: 'On hold'
+        },
+        {
+          key: 'a',
+          value: 'Geannuleerd'
+        }
+
+      ],
+      stadsdeelList: [
+        {
+          key: '',
+          value: 'Alle stadsdelen'
+        },
+        {
+          key: 'A',
+          value: 'Centrum'
+        },
+        {
+          key: 'B',
+          value: 'Westpoort'
+        },
+        {
+          key: 'E',
+          value: 'West'
+        },
+        {
+          key: 'M',
+          value: 'Oost'
+        },
+        {
+          key: 'N',
+          value: 'Noord'
+        },
+        {
+          key: 'T',
+          value: 'Zuidoost'
+        },
+        {
+          key: 'K',
+          value: 'Zuid'
+        },
+        {
+          key: 'F',
+          value: 'Nieuw-West'
+        }
+      ],
+      priorityList: [
+        {
+          key: '',
+          value: 'Alles'
+        },
+        {
+          key: 'normal',
+          value: 'Normaal'
+        },
+        {
+          key: 'high',
+          value: 'Hoog'
+        }
+      ],
       onRequestIncidents: jest.fn(),
       onMainCategoryFilterSelectionChanged: jest.fn()
     };
@@ -85,6 +270,14 @@ describe('<Filter />', () => {
       renderedFormGroup.find('form').simulate('submit', { preventDefault() {} });
       expect(filterForm.value).toEqual(filterValue);
       expect(props.onRequestIncidents).toHaveBeenCalledWith({ filter: filterValue });
+    });
+
+    it('should not render subcategoryList when there are less than 2 items', () => {
+      wrapper.setProps({
+        subcategoryList: [1, 2]
+      });
+
+      expect(renderedFormGroup).toMatchSnapshot();
     });
   });
 });
