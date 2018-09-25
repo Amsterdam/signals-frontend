@@ -1,0 +1,321 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentNavigation /> rendering render correctly first step with one button: next 1`] = `
+<Wizard
+  basename=""
+  history={
+    Object {
+      "listen": [MockFunction] {
+        "calls": Array [
+          Array [
+            [Function],
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      },
+      "next": [MockFunction],
+      "previous": [MockFunction],
+    }
+  }
+  onNext={null}
+  render={null}
+>
+  <IncidentNavigation
+    meta={
+      Object {
+        "handleSubmit": [MockFunction],
+      }
+    }
+    valid={false}
+  >
+    <span>
+      <WithWizard
+        render={[Function]}
+      >
+        <div
+          className="incident-navigation"
+        >
+          <span />
+        </div>
+      </WithWizard>
+    </span>
+  </IncidentNavigation>
+</Wizard>
+`;
+
+exports[`<IncidentNavigation /> rendering render correctly first step with one button: next 2`] = `
+<div
+  className="incident-navigation"
+>
+  <span />
+  <button
+    className="incident-navigation__button action primary arrow-right"
+    onClick={[Function]}
+  >
+    Volgende
+  </button>
+</div>
+`;
+
+exports[`<IncidentNavigation /> rendering render correctly first step with two buttons: previous and next 1`] = `
+<Wizard
+  basename=""
+  history={
+    Object {
+      "listen": [MockFunction] {
+        "calls": Array [
+          Array [
+            [Function],
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      },
+      "next": [MockFunction],
+      "previous": [MockFunction],
+    }
+  }
+  onNext={null}
+  render={null}
+>
+  <IncidentNavigation
+    meta={
+      Object {
+        "handleSubmit": [MockFunction],
+      }
+    }
+    valid={false}
+  >
+    <span>
+      <WithWizard
+        render={[Function]}
+      >
+        <div
+          className="incident-navigation"
+        >
+          <span />
+        </div>
+      </WithWizard>
+    </span>
+  </IncidentNavigation>
+</Wizard>
+`;
+
+exports[`<IncidentNavigation /> rendering render correctly first step with two buttons: previous and next 2`] = `
+<div
+  className="incident-navigation"
+>
+  <button
+    className="incident-navigation__button action startagain"
+  >
+    Vorige
+  </button>
+  <button
+    className="incident-navigation__button action primary arrow-right"
+    onClick={[Function]}
+  >
+    Volgende
+  </button>
+</div>
+`;
+
+exports[`<IncidentNavigation /> rendering render correctly last step with one button: previous 1`] = `
+<Wizard
+  basename=""
+  history={
+    Object {
+      "listen": [MockFunction] {
+        "calls": Array [
+          Array [
+            [Function],
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      },
+      "next": [MockFunction],
+      "previous": [MockFunction],
+    }
+  }
+  onNext={null}
+  render={null}
+>
+  <IncidentNavigation
+    meta={
+      Object {
+        "handleSubmit": [MockFunction],
+      }
+    }
+    valid={false}
+  >
+    <span>
+      <WithWizard
+        render={[Function]}
+      >
+        <div
+          className="incident-navigation"
+        >
+          <span />
+        </div>
+      </WithWizard>
+    </span>
+  </IncidentNavigation>
+</Wizard>
+`;
+
+exports[`<IncidentNavigation /> rendering render correctly last step with one button: previous 2`] = `
+<div
+  className="incident-navigation"
+>
+  <button
+    className="incident-navigation__button action startagain"
+  >
+    Vorige
+  </button>
+</div>
+`;
+
+exports[`<IncidentNavigation /> rendering render correctly last step with two buttons: previous and submit 1`] = `
+<Wizard
+  basename=""
+  history={
+    Object {
+      "listen": [MockFunction] {
+        "calls": Array [
+          Array [
+            [Function],
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      },
+      "next": [MockFunction],
+      "previous": [MockFunction],
+    }
+  }
+  onNext={null}
+  render={null}
+>
+  <IncidentNavigation
+    meta={
+      Object {
+        "handleSubmit": [MockFunction],
+      }
+    }
+    valid={false}
+  >
+    <span>
+      <WithWizard
+        render={[Function]}
+      >
+        <div
+          className="incident-navigation"
+        >
+          <span />
+        </div>
+      </WithWizard>
+    </span>
+  </IncidentNavigation>
+</Wizard>
+`;
+
+exports[`<IncidentNavigation /> rendering render correctly last step with two buttons: previous and submit 2`] = `
+<div
+  className="incident-navigation"
+>
+  <button
+    className="incident-navigation__button action startagain"
+  >
+    Vorige
+  </button>
+  <button
+    className="incident-navigation__button action primary "
+    onClick={[Function]}
+  >
+    Verstuur
+  </button>
+</div>
+`;
+
+exports[`<IncidentNavigation /> rendering render correctly second step with two buttons: previous and next 1`] = `
+<Wizard
+  basename=""
+  history={
+    Object {
+      "listen": [MockFunction] {
+        "calls": Array [
+          Array [
+            [Function],
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      },
+      "next": [MockFunction],
+      "previous": [MockFunction],
+    }
+  }
+  onNext={null}
+  render={null}
+>
+  <IncidentNavigation
+    meta={
+      Object {
+        "handleSubmit": [MockFunction],
+      }
+    }
+    valid={false}
+  >
+    <span>
+      <WithWizard
+        render={[Function]}
+      >
+        <div
+          className="incident-navigation"
+        >
+          <span />
+        </div>
+      </WithWizard>
+    </span>
+  </IncidentNavigation>
+</Wizard>
+`;
+
+exports[`<IncidentNavigation /> rendering render correctly second step with two buttons: previous and next 2`] = `
+<div
+  className="incident-navigation"
+>
+  <button
+    className="incident-navigation__button action startagain"
+  >
+    Vorige
+  </button>
+  <button
+    className="incident-navigation__button action primary arrow-right"
+    onClick={[Function]}
+  >
+    Volgende
+  </button>
+</div>
+`;
