@@ -6,7 +6,7 @@ exports[`<IncidentPreview /> expect to render correctly 1`] = `
 >
   <div
     className="incident-preview__section"
-    key="part1"
+    key="step1"
   >
     <WithWizard
       render={[Function]}
@@ -44,7 +44,7 @@ exports[`<IncidentPreview /> expect to render correctly 1`] = `
   </div>
   <div
     className="incident-preview__section"
-    key="part2"
+    key="step2"
   >
     <WithWizard
       render={[Function]}
