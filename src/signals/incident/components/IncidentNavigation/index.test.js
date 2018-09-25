@@ -4,9 +4,6 @@ import { Wizard, WithWizard } from 'react-albus';
 
 import IncidentNavigation from './index';
 
-
-// import PreviewComponents from '../../components/IncidentPreview/components/';
-
 describe('<IncidentNavigation />', () => {
   let props;
   let historySpy;
@@ -14,23 +11,22 @@ describe('<IncidentNavigation />', () => {
   let wrapper;
   let withWizard;
 
-
   beforeEach(() => {
     props = {
-      valid: false,
+      valid: true,
       meta: {
         handleSubmit: jest.fn()
       }
     };
 
     historySpy = {
-      next: jest.fn(),
-      previous: jest.fn(),
       listen: jest.fn()
     };
 
     context = {
       wizard: {
+        next: jest.fn(),
+        previous: jest.fn(),
         steps: [
           { id: 'incident/beschrijf' },
           { id: 'incident/email' },
@@ -46,7 +42,7 @@ describe('<IncidentNavigation />', () => {
       </Wizard>
     );
 
-    withWizard = wrapper.find(WithWizard).last();
+    withWizard = wrapper.find(WithWizard);
   });
 
   afterEach(() => {
@@ -92,6 +88,48 @@ describe('<IncidentNavigation />', () => {
 
       expect(wrapper).toMatchSnapshot();
       expect(withWizardWrapper).toMatchSnapshot();
+    });
+  });
+
+  describe('events', () => {
+    it('should trigger next when clicking next button', () => {
+      context.wizard.step = { id: 'incident/beschrijf' };
+      const withWizardWrapper = shallow(withWizard.get(0), { context });
+
+      withWizardWrapper.find('button').simulate('click');
+
+      expect(context.wizard.next).toHaveBeenCalled();
+      expect(props.meta.handleSubmit).toHaveBeenCalled();
+    });
+
+    it('should trigger previous when clicking next button', () => {
+      context.wizard.step = { id: 'incident/email' };
+      const withWizardWrapper = shallow(withWizard.get(0), { context });
+
+      withWizardWrapper.find('button').first().simulate('click');
+
+      expect(context.wizard.previous).toHaveBeenCalled();
+      expect(props.meta.handleSubmit).not.toHaveBeenCalled();
+    });
+
+    it('should not trigger next when valid is false and clicking next button', () => {
+      props.valid = false;
+
+      wrapper = mount(
+        <Wizard history={historySpy}>
+          <IncidentNavigation {...props} />
+        </Wizard>
+      );
+
+      withWizard = wrapper.find(WithWizard);
+
+      context.wizard.step = { id: 'incident/samenvatting' };
+      const withWizardWrapper = shallow(withWizard.get(0), { context });
+
+      withWizardWrapper.find('button').last().simulate('click');
+
+      expect(context.wizard.next).not.toHaveBeenCalled();
+      expect(props.meta.handleSubmit).not.toHaveBeenCalled();
     });
   });
 });
