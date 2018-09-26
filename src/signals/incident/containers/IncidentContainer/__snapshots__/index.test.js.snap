@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentContainer /> rendering should render correctly 1`] = `
+<withReducer(withSaga(Connect(IncidentContainer)))
+  createIncident={[MockFunction]}
+  getClassification={[MockFunction]}
+  incidentContainer={
+    Object {
+      "incident": Object {},
+    }
+  }
+  isAuthenticated={false}
+  updateIncident={[MockFunction]}
+/>
+`;
