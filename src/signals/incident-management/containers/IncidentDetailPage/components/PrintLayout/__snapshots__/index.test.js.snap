@@ -38,7 +38,7 @@ exports[`<PrintLayout /> should render correctly 1`] = `
   <div
     className="col-12"
   >
-    <IncidentDetail
+    <Component
       incident={Object {}}
       stadsdeelList={Array []}
     />
@@ -49,7 +49,7 @@ exports[`<PrintLayout /> should render correctly 1`] = `
   <div
     className="col-12 print-layout__status-list"
   >
-    <List
+    <Component
       incidentStatusList={Array []}
       statusList={Array []}
     />

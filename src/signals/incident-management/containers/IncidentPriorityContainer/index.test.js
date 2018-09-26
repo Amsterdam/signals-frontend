@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import { IncidentPriorityContainer, mapDispatchToProps } from './index';
 import { REQUEST_PRIORITY_UPDATE } from './constants';
 
-jest.mock('./components/Add', () => 'Add');
+jest.mock('./components/Add', () => () => 'Add');
 
 describe('<IncidentPriorityContainer />', () => {
   let props;

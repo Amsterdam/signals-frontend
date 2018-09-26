@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import { IncidentCategoryContainer, mapDispatchToProps } from './index';
 import { REQUEST_CATEGORY_UPDATE } from './constants';
 
-jest.mock('./components/Add', () => 'Add');
+jest.mock('./components/Add', () => () => 'Add');
 
 describe('<IncidentCategoryContainer />', () => {
   let props;

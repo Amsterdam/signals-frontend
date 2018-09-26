@@ -4,7 +4,7 @@ import { FieldGroup } from 'react-reactive-form';
 
 import Filter from './index';
 
-jest.mock('../../../../components/FieldControlWrapper', () => 'FieldControlWrapper');
+jest.mock('../../../../components/FieldControlWrapper', () => () => 'FieldControlWrapper');
 
 describe('<Filter />', () => {
   let wrapper;
