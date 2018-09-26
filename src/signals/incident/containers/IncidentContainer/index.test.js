@@ -1,11 +1,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
-import configureStore from 'redux-mock-store';
 import { fromJS } from 'immutable';
 
+import { mockStore } from '../../../../../internals/testing/test-utils';
 import IncidentContainer from './index';
-// import IncidentContainer from './index';
 
 jest.mock('../../components/IncidentWizard', () => () => 'IncidentWizard');
 
@@ -27,16 +26,15 @@ describe('<IncidentContainer />', () => {
   });
 
   describe('rendering', () => {
-    // it('should render correctly', () => {
-      // const wrapper = shallow(
-        // <IncidentContainer {...props} />
-      // );
-      // expect(wrapper).toMatchSnapshot();
-    // });
-
     it('should render correctly', () => {
-      const mockStore = configureStore();
-      const store = mockStore(fromJS({ incidentContainer: { incident: {} } }));
+      const state = fromJS({
+        global: {},
+        incidentContainer: {
+          incident: {}
+        }
+      });
+      const store = mockStore(state);
+
       const wrapper = mount(<Provider store={store}><IncidentContainer {...props} /></Provider>);
 
       expect(wrapper).toMatchSnapshot();
