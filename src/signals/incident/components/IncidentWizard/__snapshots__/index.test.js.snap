@@ -1,15 +1,155 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<IncidentWizard /> expect to render correctly 1`] = `
+exports[`<IncidentWizard /> expect to render form correctly 1`] = `
 <MemoryRouter
-  initialEntries={
-    Array [
+  keyLength={0}
+>
+  <Router
+    history={
       Object {
-        "key": "wizard",
-        "pathName": "incident/step1",
-      },
-    ]
-  }
+        "action": "REPLACE",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "pathname": "/incident/beschrijf",
+            "search": "",
+            "state": undefined,
+          },
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/incident/beschrijf",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <IncidentWizard
+      createIncident={[MockFunction]}
+      getClassification={[MockFunction]}
+      incidentContainer={
+        Object {
+          "loading": false,
+        }
+      }
+      isAuthenticated={false}
+      updateIncident={[MockFunction]}
+      wizardDefinition={
+        Object {
+          "beschrijf": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+          },
+        }
+      }
+    >
+      <div
+        className="incident-wizard"
+      >
+        <Route
+          render={[Function]}
+        >
+          <Wizard
+            basename=""
+            history={
+              Object {
+                "action": "REPLACE",
+                "block": [Function],
+                "canGo": [Function],
+                "createHref": [Function],
+                "entries": Array [
+                  Object {
+                    "hash": "",
+                    "pathname": "/incident/beschrijf",
+                    "search": "",
+                    "state": undefined,
+                  },
+                ],
+                "go": [Function],
+                "goBack": [Function],
+                "goForward": [Function],
+                "index": 0,
+                "length": 1,
+                "listen": [Function],
+                "location": Object {
+                  "hash": "",
+                  "pathname": "/incident/beschrijf",
+                  "search": "",
+                  "state": undefined,
+                },
+                "push": [Function],
+                "replace": [Function],
+              }
+            }
+            onNext={[Function]}
+            render={null}
+          >
+            <Steps
+              step={null}
+            >
+              <Step
+                id="incident/beschrijf"
+                key=".$beschrijf"
+                render={[Function]}
+              >
+                <div>
+                  <h1>
+                    beschrijf
+                  </h1>
+                  <Component
+                    createIncident={[MockFunction]}
+                    fieldConfig={
+                      Object {
+                        "controls": Object {},
+                      }
+                    }
+                    getClassification={[MockFunction]}
+                    incidentContainer={
+                      Object {
+                        "loading": false,
+                      }
+                    }
+                    isAuthenticated={false}
+                    updateIncident={[MockFunction]}
+                    wizard={
+                      Object {
+                        "beschrijf": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                        },
+                      }
+                    }
+                  >
+                    IncidentForm
+                  </Component>
+                </div>
+              </Step>
+            </Steps>
+          </Wizard>
+        </Route>
+      </div>
+    </IncidentWizard>
+  </Router>
+</MemoryRouter>
+`;
+
+exports[`<IncidentWizard /> expect to render loading correctly 1`] = `
+<MemoryRouter
+  keyLength={0}
 >
   <Router
     history={
@@ -21,10 +161,9 @@ exports[`<IncidentWizard /> expect to render correctly 1`] = `
         "entries": Array [
           Object {
             "hash": "",
-            "key": "wizard",
-            "pathName": "incident/step1",
             "pathname": "/",
             "search": "",
+            "state": undefined,
           },
         ],
         "go": [Function],
@@ -35,10 +174,9 @@ exports[`<IncidentWizard /> expect to render correctly 1`] = `
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "wizard",
-          "pathName": "incident/step1",
           "pathname": "/",
           "search": "",
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -48,22 +186,18 @@ exports[`<IncidentWizard /> expect to render correctly 1`] = `
     <IncidentWizard
       createIncident={[MockFunction]}
       getClassification={[MockFunction]}
-      incidentContainer={Object {}}
+      incidentContainer={
+        Object {
+          "loading": true,
+        }
+      }
       isAuthenticated={false}
       updateIncident={[MockFunction]}
       wizardDefinition={
         Object {
-          "step1": Object {
-            "form": Object {},
-          },
-          "step2": Object {
-            "form": Object {},
-          },
-          "step3": Object {
-            "form": Object {},
+          "samenvatting": Object {
             "preview": Object {},
           },
-          "step4": Object {},
         }
       }
     >
@@ -84,10 +218,9 @@ exports[`<IncidentWizard /> expect to render correctly 1`] = `
                 "entries": Array [
                   Object {
                     "hash": "",
-                    "key": "wizard",
-                    "pathName": "incident/step1",
                     "pathname": "/",
                     "search": "",
+                    "state": undefined,
                   },
                 ],
                 "go": [Function],
@@ -98,10 +231,9 @@ exports[`<IncidentWizard /> expect to render correctly 1`] = `
                 "listen": [Function],
                 "location": Object {
                   "hash": "",
-                  "key": "wizard",
-                  "pathName": "incident/step1",
                   "pathname": "/",
                   "search": "",
+                  "state": undefined,
                 },
                 "push": [Function],
                 "replace": [Function],
@@ -109,7 +241,139 @@ exports[`<IncidentWizard /> expect to render correctly 1`] = `
             }
             onNext={[Function]}
             render={null}
-          />
+          >
+            <Component>
+              LoadingIndicator
+            </Component>
+          </Wizard>
+        </Route>
+      </div>
+    </IncidentWizard>
+  </Router>
+</MemoryRouter>
+`;
+
+exports[`<IncidentWizard /> expect to render preview correctly 1`] = `
+<MemoryRouter
+  keyLength={0}
+>
+  <Router
+    history={
+      Object {
+        "action": "REPLACE",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "pathname": "/incident/samenvatting",
+            "search": "",
+            "state": undefined,
+          },
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/incident/samenvatting",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <IncidentWizard
+      createIncident={[MockFunction]}
+      getClassification={[MockFunction]}
+      incidentContainer={
+        Object {
+          "loading": false,
+        }
+      }
+      isAuthenticated={false}
+      updateIncident={[MockFunction]}
+      wizardDefinition={
+        Object {
+          "samenvatting": Object {
+            "preview": Object {},
+          },
+        }
+      }
+    >
+      <div
+        className="incident-wizard"
+      >
+        <Route
+          render={[Function]}
+        >
+          <Wizard
+            basename=""
+            history={
+              Object {
+                "action": "REPLACE",
+                "block": [Function],
+                "canGo": [Function],
+                "createHref": [Function],
+                "entries": Array [
+                  Object {
+                    "hash": "",
+                    "pathname": "/incident/samenvatting",
+                    "search": "",
+                    "state": undefined,
+                  },
+                ],
+                "go": [Function],
+                "goBack": [Function],
+                "goForward": [Function],
+                "index": 0,
+                "length": 1,
+                "listen": [Function],
+                "location": Object {
+                  "hash": "",
+                  "pathname": "/incident/samenvatting",
+                  "search": "",
+                  "state": undefined,
+                },
+                "push": [Function],
+                "replace": [Function],
+              }
+            }
+            onNext={[Function]}
+            render={null}
+          >
+            <Steps
+              step={null}
+            >
+              <Step
+                id="incident/samenvatting"
+                key=".$samenvatting"
+                render={[Function]}
+              >
+                <div>
+                  <h1>
+                    samenvatting
+                  </h1>
+                  <Component
+                    incidentContainer={
+                      Object {
+                        "loading": false,
+                      }
+                    }
+                    preview={Object {}}
+                  >
+                    IncidentPreview
+                  </Component>
+                </div>
+              </Step>
+            </Steps>
+          </Wizard>
         </Route>
       </div>
     </IncidentWizard>

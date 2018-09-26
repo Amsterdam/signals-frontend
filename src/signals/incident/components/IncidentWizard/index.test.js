@@ -1,51 +1,82 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
+import { Step } from 'react-albus';
 
 import IncidentWizard from './index';
 
-jest.mock('react-albus');
-jest.mock('../IncidentForm', () => 'IncidentForm');
-jest.mock('../IncidentPreview', () => 'IncidentPreview');
+jest.mock('../IncidentForm', () => () => 'IncidentForm');
+jest.mock('../IncidentPreview', () => () => 'IncidentPreview');
+jest.mock('shared/components/LoadingIndicator', () => () => 'LoadingIndicator');
 
 describe('<IncidentWizard />', () => {
-  let props;
-
-  beforeEach(() => {
-    props = {
-      wizardDefinition: {
-        step1: {
-          form: {}
-        },
-        step2: {
-          form: {}
-        },
-        step3: {
-          form: {},
-          preview: {}
-        },
-        step4: {}
-      },
+  function createComponent(wizardDefinition, loading = false) {
+    const props = {
+      wizardDefinition,
       getClassification: jest.fn(),
       updateIncident: jest.fn(),
       createIncident: jest.fn(),
-      incidentContainer: {},
+      incidentContainer: {
+        loading
+      },
       isAuthenticated: false
     };
-  });
 
-  it('expect to render correctly', () => {
     const wrapper = mount(
-      <MemoryRouter
-        initialEntries={[{
-          pathName: 'incident/step1',
-          key: 'wizard'
-        }]}
-      >
+      <MemoryRouter keyLength={0}>
         <IncidentWizard {...props} />
       </MemoryRouter>);
 
-    // expect(wrapper.find('Route')).toBe();
+    const step = wrapper.find(Step);
+    if (step.length === 0) {
+      return wrapper;
+    }
+
+    shallow(step.get(0), {
+      context: {
+        wizard: {}
+      }
+    });
+
+    return wrapper;
+  }
+
+  beforeEach(() => {
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it('expect to render form correctly', () => {
+    const wrapper = createComponent({
+      beschrijf: {
+        form: {
+          controls: {}
+        }
+      }
+    });
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('expect to render preview correctly', () => {
+    const wrapper = createComponent({
+      samenvatting: {
+        preview: {}
+      }
+    });
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('expect to render loading correctly', () => {
+    const wrapper = createComponent({
+      samenvatting: {
+        preview: {}
+      }
+    }, true);
+
     expect(wrapper).toMatchSnapshot();
   });
 });
