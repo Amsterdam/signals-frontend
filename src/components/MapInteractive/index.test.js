@@ -8,11 +8,12 @@ import MapInteractive from './index';
 jest.mock('../../static/pointquery.iife');
 
 describe('<MapInteractive />', () => {
+  let input;
   let onQueryResult;
 
   beforeEach(() => {
     // add a mock input this is what the amaps.createMap creates
-    const input = global.document.createElement('input');
+    input = global.document.createElement('input');
     input.setAttribute('id', 'nlmaps-geocoder-control-input');
     input.setAttribute('type', 'text');
     global.document.body.appendChild(input);
@@ -21,6 +22,7 @@ describe('<MapInteractive />', () => {
   });
 
   afterEach(() => {
+    global.document.body.removeChild(input);
     jest.resetAllMocks();
   });
 
@@ -28,10 +30,6 @@ describe('<MapInteractive />', () => {
     const wrapper = shallow(
       <MapInteractive onQueryResult={onQueryResult} />
     );
-
-    // wrapper.setState({
-      // map: undefined
-    // });
 
     wrapper.setProps({
       location: {}
@@ -61,8 +59,6 @@ describe('<MapInteractive />', () => {
       location: {}
     });
 
-    expect(wrapper).toMatchSnapshot();
-
     expect(amaps.createMap).not.toHaveBeenCalled();
   });
 
@@ -86,8 +82,6 @@ describe('<MapInteractive />', () => {
         }
       }
     });
-
-    expect(wrapper).toMatchSnapshot();
 
     expect(amaps.createMap).toHaveBeenCalledWith({
       center: {
@@ -126,8 +120,6 @@ describe('<MapInteractive />', () => {
       }
     });
 
-    expect(wrapper).toMatchSnapshot();
-
     expect(amaps.createMap).toHaveBeenCalledWith({
       center: {
         latitude: 52,
@@ -143,5 +135,23 @@ describe('<MapInteractive />', () => {
 
     const value = document.querySelector('#nlmaps-geocoder-control-input').value;
     expect(value).toEqual('Dam 666C, 1000AA Amsterdam');
+  });
+
+  it('should render an existing location with no address correctly', () => {
+    const wrapper = shallow(
+      <MapInteractive onQueryResult={onQueryResult} />
+    );
+
+    wrapper.setProps({
+      location: {
+        geometrie: {
+          coordinates: [4, 52]
+        },
+        address: false
+      }
+    });
+
+    const value = document.querySelector('#nlmaps-geocoder-control-input').value;
+    expect(value).toEqual('');
   });
 });

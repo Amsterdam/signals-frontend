@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Header /> should render correctly 1`] = `
+exports[`<Header /> rendering should render correctly 1`] = `
 <div
   className="header-component has_header_modern no-print"
 >
@@ -66,6 +66,89 @@ exports[`<Header /> should render correctly 1`] = `
             <span>
               <b />
             </span>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<Header /> should render correctly when logged in 1`] = `
+<div
+  className="header-component has_header_modern no-print"
+>
+  <div
+    className="row header-wrapper"
+  >
+    <div
+      className="col-sm-6 grid-header-logo"
+    >
+      <h1
+        className="sitelogo"
+      >
+        <a
+          className="mainlogo"
+          href="http://localhost:3001/"
+        >
+          <span
+            className="logoset"
+          >
+            <LogoSvg
+              alt="Gemeente Amsterdam"
+              className="screen-logo"
+              id="Layer_1"
+              viewBox="0 0 20 68"
+              xmlns="http://www.w3.org/2000/svg"
+            />
+            <img
+              alt="Gemeente Amsterdam"
+              className="alt-logo"
+              src="IMAGE_MOCK"
+            />
+            <img
+              alt="Gemeente Amsterdam"
+              className="print-logo"
+              src="IMAGE_MOCK"
+            />
+          </span>
+          <span
+            className="logotexts"
+          >
+            <span
+              className="logotext red"
+            >
+              Gemeente
+            </span>
+            <span
+              className="logotext red"
+            >
+              Amsterdam
+            </span>
+          </span>
+        </a>
+      </h1>
+    </div>
+    <div
+      className="col-sm-6"
+    >
+      <nav>
+        <ul
+          className="links"
+        >
+          <li>
+            <span>
+              Ingelogd als: 
+              <b />
+            </span>
+          </li>
+          <li>
+            <a
+              className="header-component__logout"
+              href=""
+            >
+              Uitloggen
+            </a>
           </li>
         </ul>
       </nav>
