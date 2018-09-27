@@ -97,9 +97,7 @@ describe('<IncidentForm />', () => {
       incidentContainer: {
         incident: {}
       },
-      wizard: {
-
-      },
+      wizard: {},
       getClassification: jest.fn(),
       updateIncident: jest.fn(),
       createIncident: jest.fn(),
@@ -107,12 +105,36 @@ describe('<IncidentForm />', () => {
     };
 
     formatConditionalForm.mockImplementation(() => mockForm);
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.runAllTimers();
+    jest.resetAllMocks();
   });
 
   it('expect to render correctly', () => {
     const wrapper = mount(
       <IncidentForm {...props} />
     );
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('expect to render correctly when form vars are loaded', () => {
+    const wrapper = mount(
+      <IncidentForm {...props} />
+    );
+
+    wrapper.setProps({
+      incident: {
+        phone: '06987654321',
+        extra_boten_geluid_meer: 'Ja! Wat een teringzooi hier',
+        subcategory: '(Honden)poep',
+        extra_personen_overig_vaker: true,
+        priority: 'high',
+      }
+    });
 
     expect(wrapper).toMatchSnapshot();
   });
