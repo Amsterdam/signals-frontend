@@ -4,9 +4,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
 <Provider
   store={
     Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
+      "dispatch": [MockFunction],
       "getState": [Function],
       "injectedReducers": Object {
         "incidentContainer": [Function],
@@ -18,7 +16,19 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
           "task": undefined,
         },
       },
-      "replaceReducer": [Function],
+      "replaceReducer": [MockFunction] {
+        "calls": Array [
+          Array [
+            [Function],
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      },
       "runSaga": [MockFunction] {
         "calls": Array [
           Array [
@@ -41,7 +51,19 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
           },
         ],
       },
-      "subscribe": [Function],
+      "subscribe": [MockFunction] {
+        "calls": Array [
+          Array [
+            [Function],
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      },
     }
   }
 >
