@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
 import { NavLink } from 'react-router-dom';
@@ -62,11 +62,9 @@ export const mapStateToProps = createStructuredSelector({
   isAuthenticated: makeSelectIsAuthenticated()
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    resetIncident: () => dispatch(resetIncident())
-  };
-}
+export const mapDispatchToProps = (dispatch) => bindActionCreators({
+  resetIncident
+}, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
