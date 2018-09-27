@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<IncidentForm /> expect to render correctly 1`] = `
+exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
 <IncidentForm
   createIncident={[MockFunction]}
   fieldConfig={
@@ -4473,7 +4473,7 @@ exports[`<IncidentForm /> expect to render correctly 1`] = `
 </IncidentForm>
 `;
 
-exports[`<IncidentForm /> expect to render correctly when form vars are loaded 1`] = `
+exports[`<IncidentForm /> rendering expect to render correctly when form vars have changed 1`] = `
 <IncidentForm
   createIncident={[MockFunction]}
   fieldConfig={

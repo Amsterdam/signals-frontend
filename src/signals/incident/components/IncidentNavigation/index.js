@@ -27,7 +27,9 @@ const IncidentNavigation = ({ valid, meta: { handleSubmit } }) => (
               className={`incident-navigation__button action primary ${step.id === 'incident/samenvatting' ? '' : 'arrow-right'}`}
               onClick={(e) => {
                 if (valid) {
-                  handleSubmit(e, step.id);
+                  e.persist();
+                  e.stepId = step.id;
+                  handleSubmit(e);
                   next();
                 }
               }}

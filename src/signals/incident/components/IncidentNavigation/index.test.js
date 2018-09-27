@@ -96,13 +96,13 @@ describe('<IncidentNavigation />', () => {
       context.wizard.step = { id: 'incident/beschrijf' };
       const withWizardWrapper = shallow(withWizard.get(0), { context });
 
-      withWizardWrapper.find('button').simulate('click');
+      withWizardWrapper.find('button').simulate('click', { persist: jest.fn() });
 
       expect(context.wizard.next).toHaveBeenCalled();
       expect(props.meta.handleSubmit).toHaveBeenCalled();
     });
 
-    it('should trigger previous when clicking next button', () => {
+    it('should trigger previous when clicking previous button', () => {
       context.wizard.step = { id: 'incident/email' };
       const withWizardWrapper = shallow(withWizard.get(0), { context });
 

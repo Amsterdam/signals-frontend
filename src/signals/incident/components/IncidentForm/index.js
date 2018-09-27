@@ -57,7 +57,8 @@ class IncidentForm extends React.Component {
     });
   }
 
-  handleSubmit(e, step) {
+  handleSubmit(e) {
+    const step = e.stepId;
     e.preventDefault();
 
     if (step === 'incident/samenvatting') {
