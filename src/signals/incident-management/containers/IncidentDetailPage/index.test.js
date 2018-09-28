@@ -54,6 +54,6 @@ describe('<IncidentDetailPage />', () => {
     // For the `mapDispatchToProps`, call it directly but pass in
     // a mock function and check the arguments passed in are as expected
     mapDispatchToProps(dispatch).onRequestIncident({});
-    expect(dispatch.mock.calls[0][0]).toEqual({ type: REQUEST_INCIDENT, payload: {} });
+    expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_INCIDENT, payload: {} });
   });
 });

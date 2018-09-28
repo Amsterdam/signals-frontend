@@ -1,7 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { GlobalError } from './index';
+import { GlobalError, mapDispatchToProps } from './index';
+import { RESET_GLOBAL_ERROR } from '../App/constants';
 
 describe('<GlobalError />', () => {
   describe('rendering', () => {
@@ -39,6 +40,15 @@ describe('<GlobalError />', () => {
       wrapper.find('button').simulate('click');
       expect(props.onClose).toHaveBeenCalled();
       expect(wrapper).toMatchSnapshot();
+    });
+  });
+
+  describe('mapDispatchToProps', () => {
+    const dispatch = jest.fn();
+
+    it('should close the error', () => {
+      mapDispatchToProps(dispatch).onClose();
+      expect(dispatch).toHaveBeenCalledWith({ type: RESET_GLOBAL_ERROR });
     });
   });
 });

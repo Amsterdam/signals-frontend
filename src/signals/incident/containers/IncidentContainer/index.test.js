@@ -45,17 +45,17 @@ describe('<IncidentContainer />', () => {
 
     it('should get classification', () => {
       mapDispatchToProps(dispatch).getClassification('alweer poep');
-      expect(dispatch.mock.calls[0][0]).toEqual({ type: GET_CLASSIFICATION, payload: 'alweer poep' });
+      expect(dispatch).toHaveBeenCalledWith({ type: GET_CLASSIFICATION, payload: 'alweer poep' });
     });
 
     it('should update the incident', () => {
       mapDispatchToProps(dispatch).updateIncident({ subcategory: 'foo' });
-      expect(dispatch.mock.calls[0][0]).toEqual({ type: UPDATE_INCIDENT, payload: { subcategory: 'foo' } });
+      expect(dispatch).toHaveBeenCalledWith({ type: UPDATE_INCIDENT, payload: { subcategory: 'foo' } });
     });
 
     it('should create the incident', () => {
       mapDispatchToProps(dispatch).createIncident({ description: 'bar' });
-      expect(dispatch.mock.calls[0][0]).toEqual({ type: CREATE_INCIDENT, payload: { description: 'bar' } });
+      expect(dispatch).toHaveBeenCalledWith({ type: CREATE_INCIDENT, payload: { description: 'bar' } });
     });
   });
 });

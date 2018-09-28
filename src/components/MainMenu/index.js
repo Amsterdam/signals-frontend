@@ -58,7 +58,7 @@ MainMenu.propTypes = {
   resetIncident: PropTypes.func
 };
 
-export const mapStateToProps = createStructuredSelector({
+const mapStateToProps = createStructuredSelector({
   isAuthenticated: makeSelectIsAuthenticated()
 });
 

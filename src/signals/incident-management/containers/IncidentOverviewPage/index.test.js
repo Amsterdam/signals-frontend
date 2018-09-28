@@ -70,17 +70,17 @@ describe('<IncidentContainer />', () => {
 
     it('should request incidents', () => {
       mapDispatchToProps(dispatch).onRequestIncidents({ filter: {}, page: 666 });
-      expect(dispatch.mock.calls[0][0]).toEqual({ type: REQUEST_INCIDENTS, payload: { filter: {}, page: 666 } });
+      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_INCIDENTS, payload: { filter: {}, page: 666 } });
     });
 
     it('should select an incident', () => {
       mapDispatchToProps(dispatch).onIncidentSelected({ id: 666 });
-      expect(dispatch.mock.calls[0][0]).toEqual({ type: INCIDENT_SELECTED, payload: { id: 666 } });
+      expect(dispatch).toHaveBeenCalledWith({ type: INCIDENT_SELECTED, payload: { id: 666 } });
     });
 
     it('should change the filter', () => {
       mapDispatchToProps(dispatch).onMainCategoryFilterSelectionChanged({ category__sub: ['Graffiti / wildplak'] });
-      expect(dispatch.mock.calls[0][0]).toEqual({ type: MAIN_CATEGORY_FILTER_SELECTION_CHANGED, payload: { category__sub: ['Graffiti / wildplak'] } });
+      expect(dispatch).toHaveBeenCalledWith({ type: MAIN_CATEGORY_FILTER_SELECTION_CHANGED, payload: { category__sub: ['Graffiti / wildplak'] } });
     });
   });
 });

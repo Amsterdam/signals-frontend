@@ -33,7 +33,7 @@ describe('<IncidentPriorityContainer />', () => {
 
     it('should request the priority update', () => {
       mapDispatchToProps(dispatch).onRequestPriorityUpdate({});
-      expect(dispatch.mock.calls[0][0]).toEqual({ type: REQUEST_PRIORITY_UPDATE, payload: {} });
+      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_PRIORITY_UPDATE, payload: {} });
     });
   });
 });

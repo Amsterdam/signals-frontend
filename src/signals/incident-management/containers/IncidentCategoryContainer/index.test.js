@@ -33,7 +33,7 @@ describe('<IncidentCategoryContainer />', () => {
 
     it('should request the category update', () => {
       mapDispatchToProps(dispatch).onRequestCategoryUpdate({});
-      expect(dispatch.mock.calls[0][0]).toEqual({ type: REQUEST_CATEGORY_UPDATE, payload: {} });
+      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_CATEGORY_UPDATE, payload: {} });
     });
   });
 });

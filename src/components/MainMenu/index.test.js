@@ -1,9 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { MainMenu } from './index';
-
-jest.mock('../../signals/incident/containers/IncidentContainer/actions');
+import { MainMenu, mapDispatchToProps } from './index';
+import { RESET_INCIDENT } from '../../signals/incident/containers/IncidentContainer/constants';
 
 describe('<MainMenu />', () => {
   let props;
@@ -40,6 +39,15 @@ describe('<MainMenu />', () => {
       wrapper.find('NavLink').simulate('click', event);
       expect(event.stopPropagation).toHaveBeenCalled();
       expect(props.resetIncident).toHaveBeenCalled();
+    });
+  });
+
+  describe('mapDispatchToProps', () => {
+    const dispatch = jest.fn();
+
+    it('should get classification', () => {
+      mapDispatchToProps(dispatch).resetIncident();
+      expect(dispatch).toHaveBeenCalledWith({ type: RESET_INCIDENT });
     });
   });
 });
