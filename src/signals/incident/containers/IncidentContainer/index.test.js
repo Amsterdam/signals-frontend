@@ -5,6 +5,7 @@ import { fromJS } from 'immutable';
 import { getContext } from '../../../../../internals/testing/test-utils';
 import { IncidentContainer, mapDispatchToProps } from './index';
 import { GET_CLASSIFICATION, UPDATE_INCIDENT, CREATE_INCIDENT } from './constants';
+
 jest.mock('../../components/IncidentWizard', () => () => 'IncidentWizard');
 
 describe('<IncidentContainer />', () => {

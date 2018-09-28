@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentContainer /> rendering should render correctly 1`] = `
+<div
+  className="overview-page"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-3"
+    >
+      <Component
+        filter={Object {}}
+        onMainCategoryFilterSelectionChanged={[MockFunction]}
+        onRequestIncidents={
+          [MockFunction] {
+            "calls": Array [
+              Array [
+                Object {},
+              ],
+            ],
+            "results": Array [
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+            ],
+          }
+        }
+      />
+    </div>
+    <div
+      className="col-9"
+    >
+      <div>
+        <Component
+          baseUrl=""
+          incidentSelected={[MockFunction]}
+          incidents={Array []}
+          incidentsCount={666}
+        />
+        <Component
+          incidentsCount={666}
+          onPageChanged={[Function]}
+          page={3}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<IncidentContainer /> rendering should render loader correctly 1`] = `
+<div
+  className="overview-page"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-3"
+    >
+      <Component
+        filter={Object {}}
+        onMainCategoryFilterSelectionChanged={[MockFunction]}
+        onRequestIncidents={
+          [MockFunction] {
+            "calls": Array [
+              Array [
+                Object {},
+              ],
+            ],
+            "results": Array [
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+            ],
+          }
+        }
+      />
+    </div>
+    <div
+      className="col-9"
+    >
+      <LoadingIndicator />
+    </div>
+  </div>
+</div>
+`;
