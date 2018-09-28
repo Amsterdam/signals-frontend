@@ -1,11 +1,10 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { fromJS } from 'immutable';
 
-import { mockStore } from '../../../../../internals/testing/test-utils';
-import IncidentContainer from './index';
-
+import { getContext } from '../../../../../internals/testing/test-utils';
+import { IncidentContainer, mapDispatchToProps } from './index';
+import { GET_CLASSIFICATION, UPDATE_INCIDENT, CREATE_INCIDENT } from './constants';
 jest.mock('../../components/IncidentWizard', () => () => 'IncidentWizard');
 
 describe('<IncidentContainer />', () => {
@@ -33,11 +32,29 @@ describe('<IncidentContainer />', () => {
           incident: {}
         }
       });
-      const store = mockStore(state);
-
-      const wrapper = mount(<Provider store={store}><IncidentContainer {...props} /></Provider>);
+      const context = getContext(state);
+      const wrapper = shallow(<IncidentContainer {...props} />, { context });
 
       expect(wrapper).toMatchSnapshot();
+    });
+  });
+
+  describe('mapDispatchToProps', () => {
+    const dispatch = jest.fn();
+
+    it('should get classification', () => {
+      mapDispatchToProps(dispatch).getClassification('alweer poep');
+      expect(dispatch.mock.calls[0][0]).toEqual({ type: GET_CLASSIFICATION, payload: 'alweer poep' });
+    });
+
+    it('should update the incident', () => {
+      mapDispatchToProps(dispatch).updateIncident({ subcategory: 'foo' });
+      expect(dispatch.mock.calls[0][0]).toEqual({ type: UPDATE_INCIDENT, payload: { subcategory: 'foo' } });
+    });
+
+    it('should create the incident', () => {
+      mapDispatchToProps(dispatch).createIncident({ description: 'bar' });
+      expect(dispatch.mock.calls[0][0]).toEqual({ type: CREATE_INCIDENT, payload: { description: 'bar' } });
     });
   });
 });

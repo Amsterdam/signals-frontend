@@ -22,7 +22,7 @@ import './style.scss';
 
 import IncidentWizard from '../../components/IncidentWizard';
 
-class IncidentContainer extends React.Component {
+export class IncidentContainer extends React.Component {
   constructor(props) {
     super(props);
 
