@@ -1,9 +1,22 @@
-import { initAuth, login, logout, getReturnPath, getAuthHeaders } from './auth';
+import {
+  initAuth,
+  login,
+  logout,
+  getReturnPath,
+  getOauthDomain,
+  getAuthHeaders,
+  isAuthenticated,
+  getScopes,
+  getName,
+  authenticate
+} from './auth';
 import queryStringParser from './services/query-string-parser/query-string-parser';
 import stateTokenGenerator from './services/state-token-generator/state-token-generator';
+import parseAccessToken from './services/access-token-parser/access-token-parser';
 
 jest.mock('./services/query-string-parser/query-string-parser');
 jest.mock('./services/state-token-generator/state-token-generator');
+jest.mock('./services/access-token-parser/access-token-parser');
 
 describe('The auth service', () => {
   const noop = () => { };
@@ -13,6 +26,7 @@ describe('The auth service', () => {
   let savedAccessToken;
   let savedReturnPath;
   let savedStateToken;
+  let savedOauthDomain;
   let stateToken;
 
   beforeEach(() => {
@@ -26,6 +40,8 @@ describe('The auth service', () => {
             return savedStateToken;
           case 'returnPath':
             return savedReturnPath;
+          case 'oauthDomain':
+            return savedOauthDomain;
           default:
             return '';
         }
@@ -276,6 +292,103 @@ describe('The auth service', () => {
       expect(authHeaders).toEqual({
         Authorization: 'Bearer 123AccessToken'
       });
+    });
+  });
+
+  describe('Retrieving the auth domain', () => {
+    it('returns the auth domain', () => {
+      savedOauthDomain = 'datapunt';
+      const oauthDomain = getOauthDomain();
+
+      expect(oauthDomain).toEqual('datapunt');
+    });
+  });
+
+  describe('isAuthenticated', () => {
+    it('checks for logged in status', () => {
+      savedAccessToken = '123AccessToken';
+
+      expect(isAuthenticated()).toEqual(true);
+    });
+    it('checks for logged out status', () => {
+      savedAccessToken = '';
+
+      expect(isAuthenticated()).toEqual(false);
+    });
+  });
+
+  describe('getScopes', () => {
+    it('should return a an empty array', () => {
+      parseAccessToken.mockImplementation(() => ({}));
+
+      savedAccessToken = '123AccessToken';
+      initAuth();
+      const scopes = getScopes();
+
+      expect(scopes).toEqual([]);
+    });
+
+    it('should return the scopes', () => {
+      parseAccessToken.mockImplementation(() => ({
+        scopes: ['SIG/ALL']
+      }));
+
+      savedAccessToken = '123AccessToken';
+      initAuth();
+      const scopes = getScopes();
+
+      expect(scopes).toEqual(['SIG/ALL']);
+    });
+  });
+
+  describe('getName', () => {
+    it('should return a an empty string', () => {
+      parseAccessToken.mockImplementation(() => ({}));
+
+      savedAccessToken = '123AccessToken';
+      initAuth();
+      const name = getName();
+
+      expect(name).toEqual('');
+    });
+
+    it('should return the scopes', () => {
+      parseAccessToken.mockImplementation(() => ({
+        name: 'Jezus Christus'
+      }));
+
+      savedAccessToken = '123AccessToken';
+      initAuth();
+      const name = getName();
+
+      expect(name).toEqual('Jezus Christus');
+    });
+  });
+
+  describe('authenticate', () => {
+    it('should authticate with credentials with accessToken', () => {
+      parseAccessToken.mockImplementation(() => ({
+        name: 'Jezus Christus',
+        scopes: ['SIG/ALL']
+      }));
+      savedAccessToken = '123AccessToken';
+
+      expect(authenticate()).toEqual(
+        {
+          userName: 'Jezus Christus',
+          userScopes: ['SIG/ALL'],
+          accessToken: '123AccessToken'
+        }
+      );
+    });
+
+    it('should not authticate without accessToken', () => {
+      parseAccessToken.mockImplementation(() => ({
+        name: 'Jezus Christus',
+        scopes: ['SIG/ALL']
+      }));
+
+      expect(authenticate()).toEqual(null);
     });
   });
 });
