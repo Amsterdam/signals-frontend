@@ -1,11 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Preview component <DateTime /> should not render optional date when value is empty 1`] = `
-<div
-  className="preview-datetime"
-/>
-`;
-
 exports[`Preview component <DateTime /> should render earlier date correctly 1`] = `
 <div
   className="preview-datetime"
@@ -65,35 +59,6 @@ exports[`Preview component <DateTime /> should render earlier today correctly 1`
 `;
 
 exports[`Preview component <DateTime /> should render now correctly 1`] = `
-<div
-  className="preview-datetime"
->
-  <div
-    className="row"
-  >
-    <div
-      className="col-5 col-md-4"
-    >
-      <div
-        className="preview-datetime__item-label"
-      >
-        Datetime
-      </div>
-    </div>
-    <div
-      className="col-5 col-md-7"
-    >
-      <div
-        className="preview-datetime__item-value"
-      >
-        Nu
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Preview component <DateTime /> should render optional date correctly 1`] = `
 <div
   className="preview-datetime"
 >

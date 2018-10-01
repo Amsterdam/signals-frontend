@@ -1,6 +1,4 @@
-// import { get } from 'lodash';
-
-function isVisible(subkey, value, { optional, authenticated }, isAuthenticated) {
+function isVisible(value, { optional, authenticated }, isAuthenticated) {
   if (authenticated && !isAuthenticated) {
     return false;
   }

@@ -26,7 +26,7 @@ function IncidentPreview({ incidentContainer, preview, isAuthenticated }) {
 
               {Object.keys(preview[key]).map((subkey) => (
                 <div key={subkey}>
-                  {isVisible(subkey, incidentContainer.incident[subkey], preview[key][subkey], isAuthenticated) ?
+                  {isVisible(incidentContainer.incident[subkey], preview[key][subkey], isAuthenticated) ?
                     preview[key][subkey].render({
                       ...preview[key][subkey],
                       value: incidentContainer.incident[subkey],

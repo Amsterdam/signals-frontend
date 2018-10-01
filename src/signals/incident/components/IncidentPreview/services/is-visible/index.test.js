@@ -1,17 +1,23 @@
-import mapDynamicFields from './index';
+import isVisible from './index';
 
-describe('The map dynamic fields service', () => {
-  it('should do nothing by default', () => {
-    expect(mapDynamicFields('foo bar', {
-    })).toEqual('foo bar');
+describe('The is visible service', () => {
+  it('by default should be visible', () => {
+    expect(isVisible('foo', {})).toBeTruthy();
   });
 
-  it('should be undefined by default', () => {
-    expect(mapDynamicFields('foo {incident.id} bar {incident.text}', {
-      incident: {
-        id: 666,
-        text: 'Deze tekst dus'
-      }
-    })).toEqual('foo 666 bar Deze tekst dus');
+  it('should be visible when field has authenticated and user is logged in', () => {
+    expect(isVisible('foo', { authenticated: true }, true)).toBeTruthy();
+  });
+
+  it('should not be visible when field has authenticated and user is logged out', () => {
+    expect(isVisible('foo', { authenticated: true }, false)).toBeFalsy();
+  });
+
+  it('should be visible when field is optional and valeu is has authenticated and user is logged out', () => {
+    expect(isVisible('foo', { optional: true })).toBeTruthy();
+  });
+
+  it('should not be visible when field is optional and value is empty', () => {
+    expect(isVisible('', { optional: true })).toBeFalsy();
   });
 });
