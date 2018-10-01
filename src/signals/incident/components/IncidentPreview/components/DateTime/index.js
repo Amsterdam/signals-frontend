@@ -20,26 +20,23 @@ function getValue(value, incident) {
   return `${moment(incident.incident_date).format('dddd D MMMM')}, ${time}`;
 }
 
-const DateTime = ({ label, value, optional, incident }) => (
+const DateTime = ({ label, value, incident }) => (
   <div className="preview-datetime">
-    {!optional || (optional && value) ?
-      <div className="row">
-        <div className="col-5 col-md-4">
-          <div className="preview-datetime__item-label">{label}</div>
-        </div>
-        <div className="col-5 col-md-7">
-          <div className="preview-datetime__item-value">{getValue(value, incident)}</div>
-        </div>
+    <div className="row">
+      <div className="col-5 col-md-4">
+        <div className="preview-datetime__item-label">{label}</div>
       </div>
-      : ''}
+      <div className="col-5 col-md-7">
+        <div className="preview-datetime__item-value">{getValue(value, incident)}</div>
+      </div>
+    </div>
   </div>
 );
 
 DateTime.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
-  incident: PropTypes.object,
-  optional: PropTypes.bool
+  incident: PropTypes.object
 };
 
 export default DateTime;
