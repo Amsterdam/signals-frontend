@@ -30,3 +30,4 @@ See https://github.com/Amsterdam/react-boilerplate.git for more information on t
   asynchronicity helpers, etc.
 * [**Troubleshooting**](docs/general/gotchas.md): Solutions to common problems faced by developers.
 
+test
