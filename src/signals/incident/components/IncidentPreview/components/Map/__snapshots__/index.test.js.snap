@@ -1,11 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Preview component <Map /> should not render optional map when value is empty 1`] = `
-<div
-  className="preview-map"
-/>
-`;
-
 exports[`Preview component <Map /> should render address with toevoeging correctly 1`] = `
 <div
   className="preview-map"
@@ -97,51 +91,6 @@ exports[`Preview component <Map /> should render only latlong correctly 1`] = `
         <div>
           <div>
             Geen adres gevonden
-          </div>
-          <div
-            className="preview-map__item-value-map"
-          >
-            <Map
-              latlng={
-                Object {
-                  "latitude": 4,
-                  "longitude": 52,
-                }
-              }
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Preview component <Map /> should render optional map correctly 1`] = `
-<div
-  className="preview-map"
->
-  <div
-    className="row"
-  >
-    <div
-      className="col-5 col-md-4"
-    >
-      <div
-        className="preview-map__item-label"
-      >
-        Location
-      </div>
-    </div>
-    <div
-      className="col-5 col-md-7"
-    >
-      <div
-        className="preview-map__item-value"
-      >
-        <div>
-          <div>
-            Hell 666C, 1087JC Amsterdam
           </div>
           <div
             className="preview-map__item-value-map"

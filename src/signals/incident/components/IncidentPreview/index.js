@@ -6,16 +6,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// import { FormattedMessage } from 'react-intl';
-// import messages from './messages';
-//      <FormattedMessage {...messages.header} />
-
 import { WithWizard } from 'react-albus';
+
+import isVisible from './services/is-visible';
 
 import './style.scss';
 
-function IncidentPreview({ incidentContainer, preview }) {
+function IncidentPreview({ incidentContainer, preview, isAuthenticated }) {
   return (
     <WithWizard
       render={({ push }) => (
@@ -29,11 +26,13 @@ function IncidentPreview({ incidentContainer, preview }) {
 
               {Object.keys(preview[key]).map((subkey) => (
                 <div key={subkey}>
-                  {preview[key][subkey].render({
-                    ...preview[key][subkey],
-                    value: incidentContainer.incident[subkey],
-                    incident: incidentContainer.incident
-                  })}
+                  {isVisible(incidentContainer.incident[subkey], preview[key][subkey], isAuthenticated) ?
+                    preview[key][subkey].render({
+                      ...preview[key][subkey],
+                      value: incidentContainer.incident[subkey],
+                      incident: incidentContainer.incident
+                    })
+                  : ''}
                 </div>
               ))}
             </div>
@@ -46,7 +45,8 @@ function IncidentPreview({ incidentContainer, preview }) {
 
 IncidentPreview.propTypes = {
   incidentContainer: PropTypes.object,
-  preview: PropTypes.object
+  preview: PropTypes.object,
+  isAuthenticated: PropTypes.bool
 };
 
 export default IncidentPreview;

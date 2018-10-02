@@ -17,12 +17,12 @@ export default {
       source: {
         label: 'Bron',
         render: PreviewComponents.PlainText,
-        optional: true
+        authenticated: true
       },
       priority: {
         label: 'Urgentie',
         render: PreviewComponents.KeyValue,
-        optional: true,
+        authenticated: true,
         values: {
           normal: 'Normaal',
           high: 'Hoog'
