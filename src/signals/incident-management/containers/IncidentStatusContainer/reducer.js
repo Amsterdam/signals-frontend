@@ -14,7 +14,8 @@ import statusList from '../../definitions/statusList';
 export const initialState = fromJS({
   incidentStatusList: [],
   statusList,
-  loading: false
+  loading: false,
+  loadingExternal: false
 });
 
 function incidentStatusContainerReducer(state = initialState, action) {
@@ -29,12 +30,13 @@ function incidentStatusContainerReducer(state = initialState, action) {
         .set('loading', false);
     case REQUEST_STATUS_CREATE:
       return state
-        .set('loading', true)
+        .set(action.payload.target_api ? 'loadingExternal' : 'loading', true)
         .set('error', false);
+
     case REQUEST_STATUS_CREATE_SUCCESS:
       return state
         .set('incidentStatusList', fromJS([...state.get('incidentStatusList'), action.payload]))
-        .set('loading', false);
+        .set(action.payload.target_api ? 'loadingExternal' : 'loading', false);
 
     case REQUEST_STATUS_LIST_ERROR:
     case REQUEST_STATUS_CREATE_ERROR:

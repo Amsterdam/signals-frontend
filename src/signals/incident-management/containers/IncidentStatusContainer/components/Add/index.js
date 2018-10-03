@@ -18,12 +18,16 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
     _signal: [''],
     state: ['', Validators.required],
     text: [''],
-    loading: false
+    loading: false,
+    loadingExternal: false
   });
 
   componentWillUpdate(props) {
     if (props.loading !== this.props.loading) {
       this.statusForm.controls.loading.setValue(props.loading);
+    }
+    if (props.loadingExternal !== this.props.loadingExternal) {
+      this.statusForm.controls.loadingExternal.setValue(props.loadingExternal);
     }
   }
 
@@ -41,13 +45,11 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
       target_api: 'sigmax'
     };
 
-    console.log('sendToSigmax', status);
-    // POST /signals/auth/status/
-//    this.props.onRequestStatusCreate(status);
+    this.props.onRequestStatusCreate(status);
   }
 
   render() {
-    const { incidentStatusList, statusList, error, loading } = this.props;
+    const { incidentStatusList, statusList, error, loading, loadingExternal } = this.props;
     const currentState = incidentStatusList[incidentStatusList.length - 1].state;
     const canSendToSigmax = !['o', 'a'].some((value) => value === currentState);
     // const { statusList, loading, error } = this.props;
@@ -77,6 +79,11 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
                   {canSendToSigmax ?
                     <button className="action tertiair" type="button" onClick={this.sendToSigmax}>
                       <span className="value">Naar sigmax sturen</span>
+                      {loadingExternal ?
+                        <span className="working">
+                          <div className="progress-indicator progress-blue"></div>
+                        </span>
+                      : ''}
                     </button> : ''
                   }
                   <div>
@@ -93,6 +100,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
 
 Add.defaultProps = {
   loading: false,
+  loadingExternal: false,
   error: false
 };
 
@@ -101,6 +109,7 @@ Add.propTypes = {
   statusList: PropTypes.array,
   incidentStatusList: PropTypes.array,
   loading: PropTypes.bool,
+  loadingExternal: PropTypes.bool,
   error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
 
   onRequestStatusCreate: PropTypes.func.isRequired
