@@ -46,23 +46,4 @@ describe('Preview component <DateTime />', () => {
 
     expect(wrapper).toMatchSnapshot();
   });
-
-  it('should render optional date correctly', () => {
-    wrapper.setProps({
-      label: 'Datetime',
-      value: 'Nu',
-      optional: true
-    });
-
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it('should not render optional date when value is empty', () => {
-    wrapper.setProps({
-      label: 'Datetime',
-      optional: true
-    });
-
-    expect(wrapper).toMatchSnapshot();
-  });
 });

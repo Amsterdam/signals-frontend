@@ -528,8 +528,8 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 "render": [Function],
               },
               "priority": Object {
+                "authenticated": true,
                 "label": "Urgentie",
-                "optional": true,
                 "render": [Function],
                 "values": Object {
                   "high": "Hoog",
@@ -537,8 +537,8 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
               },
               "source": Object {
+                "authenticated": true,
                 "label": "Bron",
-                "optional": true,
                 "render": [Function],
               },
             },

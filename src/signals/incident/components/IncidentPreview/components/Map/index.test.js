@@ -69,26 +69,4 @@ describe('Preview component <Map />', () => {
 
     expect(wrapper).toMatchSnapshot();
   });
-
-  it('should render optional map correctly', () => {
-    wrapper.setProps({
-      label: 'Location',
-      value: {
-        address,
-        geometrie
-      },
-      optional: true
-    });
-
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it('should not render optional map when value is empty', () => {
-    wrapper.setProps({
-      label: 'Location',
-      optional: true
-    });
-
-    expect(wrapper).toMatchSnapshot();
-  });
 });

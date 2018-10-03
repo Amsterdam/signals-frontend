@@ -366,6 +366,7 @@ exports[`<IncidentWizard /> expect to render preview correctly 1`] = `
                         "loading": false,
                       }
                     }
+                    isAuthenticated={false}
                     preview={Object {}}
                   >
                     IncidentPreview

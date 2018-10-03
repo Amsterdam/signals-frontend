@@ -37,6 +37,7 @@ function IncidentWizard({ wizardDefinition, getClassification, updateIncident, c
                           <IncidentPreview
                             incidentContainer={incidentContainer}
                             preview={wizardDefinition[key].preview}
+                            isAuthenticated={isAuthenticated}
                           />
                           : ''}
 

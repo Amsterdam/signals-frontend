@@ -16,8 +16,9 @@ describe('<PrintLayout />', () => {
       id: '100',
       incident: {},
       stadsdeelList: [],
+      priorityList: [],
       onPrintView: jest.fn(),
-      incidentstatuscontainer: { incidentStatusList: [], statusList: [], priorityList: [] }
+      incidentstatuscontainer: { incidentStatusList: [], statusList: [] }
     };
   });
 
