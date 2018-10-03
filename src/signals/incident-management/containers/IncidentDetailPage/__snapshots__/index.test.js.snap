@@ -129,6 +129,22 @@ exports[`<IncidentDetailPage /> should render the print view 1`] = `
   id="100"
   incident={Object {}}
   onPrintView={[Function]}
+  priorityList={
+    Array [
+      Object {
+        "key": "",
+        "value": "Alles",
+      },
+      Object {
+        "key": "normal",
+        "value": "Normaal",
+      },
+      Object {
+        "key": "high",
+        "value": "Hoog",
+      },
+    ]
+  }
   stadsdeelList={
     Array [
       Object {

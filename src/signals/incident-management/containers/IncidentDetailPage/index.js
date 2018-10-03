@@ -68,7 +68,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     ];
     const visibleTabs = ['Status', 'Urgentie', 'Subcategorie', 'Foto'].filter((tab) => tab === 'Foto' ? (incident && incident.image) : true);
 
-    const view = this.state.printView ? <PrintLayout id={this.props.id} incident={incident} stadsdeelList={stadsdeelList} onPrintView={this.onPrintView} /> :
+    const view = this.state.printView ? <PrintLayout id={this.props.id} incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} onPrintView={this.onPrintView} /> :
       (<div className="incident-detail-page row container">
         <div className="col-12"><h3>Melding {this.props.id}</h3></div>
 
