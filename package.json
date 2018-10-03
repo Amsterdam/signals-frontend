@@ -216,7 +216,7 @@
         "statements": 87,
         "branches": 81,
         "functions": 82,
-        "lines": 88
+        "lines": 87
       }
     },
     "coverageReporters": [

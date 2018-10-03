@@ -24,10 +24,12 @@ function incidentStatusContainerReducer(state = initialState, action) {
       return state
         .set('loading', true)
         .set('error', false);
+
     case REQUEST_STATUS_LIST_SUCCESS:
       return state
         .set('incidentStatusList', action.payload.results)
         .set('loading', false);
+
     case REQUEST_STATUS_CREATE:
       return state
         .set(action.payload.target_api ? 'loadingExternal' : 'loading', true)
