@@ -24,7 +24,7 @@ export class PrintLayout extends React.Component { // eslint-disable-line react/
   }
 
   render() {
-    const { incident, stadsdeelList, onPrintView } = this.props;
+    const { incident, stadsdeelList, priorityList, onPrintView } = this.props;
     const { incidentStatusList, statusList } = this.props.incidentstatuscontainer;
     return (
       <div className="print-layout row container" >
@@ -39,7 +39,7 @@ export class PrintLayout extends React.Component { // eslint-disable-line react/
           {(incident) ? <MapDetail label="" value={incident.location} /> : ''}
         </div>
         <div className="col-12">
-          {(incident) ? <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} /> : ''}
+          {(incident) ? <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} /> : ''}
         </div>
         <div className="col-12">
           {incident.image ?
@@ -59,6 +59,7 @@ PrintLayout.propTypes = {
   id: PropTypes.string.isRequired,
   incident: PropTypes.object.isRequired,
   stadsdeelList: PropTypes.array.isRequired,
+  priorityList: PropTypes.array.isRequired,
   onPrintView: PropTypes.func.isRequired,
   incidentstatuscontainer: PropTypes.object.isRequired,
 };
