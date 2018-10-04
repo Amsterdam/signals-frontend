@@ -65,7 +65,6 @@ const subToMainMap = {
   'Geluidsoverlast muziek': 'Overlast Bedrijven en Horeca',
   'Geluidsoverlast installaties': 'Overlast Bedrijven en Horeca',
   'Overlast terrassen': 'Overlast Bedrijven en Horeca',
-  'Stank horeca/bedrijven': 'Overlast Bedrijven en Horeca',
   'Stankoverlast': 'Overlast Bedrijven en Horeca',
   'Overlast door bezoekers (niet op terras)': 'Overlast Bedrijven en Horeca',
   'Overig horeca/bedrijven': 'Overlast Bedrijven en Horeca',

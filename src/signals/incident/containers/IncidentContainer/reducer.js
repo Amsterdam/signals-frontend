@@ -6,60 +6,47 @@
 
 import { fromJS } from 'immutable';
 import {
-  SET_INCIDENT,
+  UPDATE_INCIDENT,
+  RESET_INCIDENT,
 
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
   CREATE_INCIDENT_ERROR,
 
   GET_CLASSIFICATION_SUCCESS,
-  GET_CLASSIFICATION_ERROR
+  GET_CLASSIFICATION_ERROR,
+
+  SET_PRIORITY,
+  SET_PRIORITY_SUCCESS,
+  SET_PRIORITY_ERROR
 } from './constants';
+// import debugInitialState from './debug/initialState';
 
 export const initialState = fromJS({
   incident: {
-    // location: {
-    // address: {
-    // openbare_ruimte: 'Wilhelminastraat',
-    // huisnummer: 42,
-    // huisletter: '',
-    // huisnummer_toevoeging: '1',
-    // postcode: '1054WJ',
-    // woonplaats: 'Amsterdam'
-    // },
-    // buurt_code: 'E20c',
-    // stadsdeel: 'E',
-    // geometrie: {
-    // type: 'Point',
-    // coordinates: [
-    // 52.36223071695314,
-    // 4.865698814392091
-    // ]
-    // }
-    // },
-    // subcategory: 'Overlast op het water - snel varen',
-    // category: 'Overlast op het water',
-    // description: 'snel boot',
-    // description: 'poep',
-    // phone: '020654321',
-    // email: 'a@b.com',
-    // extra_boten_snelheid_rondvaartboot: 'Ja',
-    // extra_boten_snelheid_rederij: 'Aemstelland',
-    // datetime: 'Nu',
+    // ...debugInitialState,
 
     incident_date: 'Vandaag',
     incident_time_hours: 9,
-    incident_time_minutes: 0
-  }
+    incident_time_minutes: 0,
+    priority: 'normal'
+  },
+  priority: {}
 });
 
 function incidentContainerReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_INCIDENT:
+    case UPDATE_INCIDENT:
       return state
         .set('incident', fromJS({
           ...state.get('incident').toJS(),
           ...action.payload
+        }));
+
+    case RESET_INCIDENT:
+      return state
+        .set('incident', fromJS({
+          ...(initialState.get('incident').toJS())
         }));
 
     case CREATE_INCIDENT:
@@ -93,6 +80,17 @@ function incidentContainerReducer(state = initialState, action) {
           ...state.get('incident').toJS(),
           ...action.payload
         }));
+
+    case SET_PRIORITY:
+      return state
+        .set('priority', fromJS({
+          ...action.payload
+        }));
+
+    case SET_PRIORITY_SUCCESS:
+    case SET_PRIORITY_ERROR:
+      return state
+        .set('priority', fromJS({}));
 
     default:
       return state;

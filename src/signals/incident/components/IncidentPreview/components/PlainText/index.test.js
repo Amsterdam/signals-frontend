@@ -18,23 +18,4 @@ describe('Preview component <PlainText />', () => {
 
     expect(wrapper).toMatchSnapshot();
   });
-
-  it('should render optional text correctly', () => {
-    wrapper.setProps({
-      label: 'Title',
-      optional: true,
-      value: 'Plain text'
-    });
-
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it('should not render optional image when value is empty', () => {
-    wrapper.setProps({
-      label: 'Title',
-      optional: true
-    });
-
-    expect(wrapper).toMatchSnapshot();
-  });
 });

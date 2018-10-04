@@ -30,7 +30,7 @@ const Header = ({ meta, options, touched, hasError, getError, children }) => (
       <div className="header__errors__item">
         {touched
         && hasError('maxLength')
-        && `Dit veld mag niet langer dan ${getError('maxLength').requiredLength} tekens zijn.`}
+        && `U kunt maximaal ${getError('maxLength').requiredLength} tekens invoeren.`}
       </div>
     </div>
 

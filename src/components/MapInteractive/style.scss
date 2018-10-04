@@ -6,26 +6,18 @@
   }
 
   .embed-search {
-    // pull the search input outside of the map
-    // top: -50px;
-    // left: 0;
     max-width: 100%;
-    // width: 100%;
 
-    input[type="text"] {
-      height: inherit;
-    }
-
-    button {
-      display: none;
-    }
-
-    &__auto-suggest {
-      width: 100%;
-    }
-
-    .invoer {
+    &__form {
       box-shadow: none;
+
+      button {
+        display: none;
+      }
+
+      &__auto-suggest {
+        width: 100%;
+      }
     }
   }
 

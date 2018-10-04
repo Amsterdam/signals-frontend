@@ -35,7 +35,7 @@ class IncidentForm extends React.Component {
       wizard: this.props.wizard,
       handleSubmit: this.handleSubmit,
       getClassification: this.props.getClassification,
-      setIncident: this.props.setIncident,
+      updateIncident: this.props.updateIncident,
       createIncident: this.props.createIncident
     };
 
@@ -46,15 +46,31 @@ class IncidentForm extends React.Component {
     if (this.form && this.form.controls) {
       defer(() => {
         Object.keys(this.form.controls).map((key) => {
-          this.form.controls[key].setValue(incident[key]);
+          const control = this.form.controls[key];
+          if (control.meta.isVisible) {
+            control.enable();
+          } else {
+            control.disable();
+          }
+          control.setValue(incident[key]);
           return true;
         });
       });
     }
   }
 
-  handleSubmit(e) {
+  handleSubmit(e, step) {
     e.preventDefault();
+
+    if (step === 'incident/samenvatting') {
+      this.props.createIncident({
+        incident: this.props.incidentContainer.incident,
+        wizard: this.props.wizard,
+        isAuthenticated: this.props.isAuthenticated
+      });
+    } else {
+      this.props.updateIncident(this.form.value);
+    }
 
     Object.values(this.form.controls).map((control) => control.onBlur());
   }
@@ -78,7 +94,7 @@ IncidentForm.propTypes = {
   incidentContainer: PropTypes.object.isRequired,
   wizard: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
-  setIncident: PropTypes.func.isRequired,
+  updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired
 };

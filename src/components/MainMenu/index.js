@@ -10,8 +10,21 @@ import { NavLink } from 'react-router-dom';
 import messages from './messages';
 import './style.scss';
 import { makeSelectIsAuthenticated } from '../../containers/App/selectors';
+import { resetIncident } from '../../signals/incident/containers/IncidentContainer/actions';
 
 export class MainMenu extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+
+    this.resetIncident = this.resetIncident.bind(this);
+  }
+
+  resetIncident(e) {
+    e.stopPropagation();
+
+    this.props.resetIncident();
+  }
+
   render() {
     return (
       <div className="row main-menu-component no-print">
@@ -19,7 +32,7 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
           <nav>
             <ul className="links horizontal">
               <li>
-                <NavLink to="/">
+                <NavLink to="/" onClick={this.resetIncident}>
                   <span className="linklabel">
                     <FormattedMessage {...messages.incident} />
                   </span>
@@ -43,15 +56,21 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
 }
 
 MainMenu.propTypes = {
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
+  resetIncident: PropTypes.func
 };
-
 
 export const mapStateToProps = createStructuredSelector({
   isAuthenticated: makeSelectIsAuthenticated()
 });
 
-const withConnect = connect(mapStateToProps, null);
+function mapDispatchToProps(dispatch) {
+  return {
+    resetIncident: (incident) => dispatch(resetIncident(incident))
+  };
+}
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(
   withConnect,

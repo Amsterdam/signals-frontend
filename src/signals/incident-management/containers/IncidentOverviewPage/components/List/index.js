@@ -11,23 +11,23 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
   }
 
   render() {
-    const { incidents, incidentsCount, statusList, stadsdeelList } = this.props;
+    const { incidents, incidentsCount, priorityList, statusList, stadsdeelList } = this.props;
     return (
       <div className="list-component">
         <div className="list-component__title">Meldingen ({incidentsCount})</div>
 
         <div className="list-component__body">
-          <table className="" cellSpacing="0" cellPadding="0">
+          <table cellSpacing="0" cellPadding="0">
             <thead>
               <tr>
-                <th className="">Id</th>
-                <th className="">Datum</th>
-                <th className="">Tijd</th>
-                <th className="">Stadsdeel</th>
-                <th className="">Subcategorie</th>
-                <th className="">Afdeling</th>
-                <th className="">Status</th>
-                <th className="">Adres</th>
+                <th>Id</th>
+                <th>Datum</th>
+                <th>Tijd</th>
+                <th>Stadsdeel</th>
+                <th>Subcategorie</th>
+                <th>Status</th>
+                <th>Urgentie</th>
+                <th>Adres</th>
               </tr>
             </thead>
             <tbody>
@@ -38,8 +38,8 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
                   <td>{string2time(incident.incident_date_start)}</td>
                   <td>{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</td>
                   <td>{incident.category.sub}</td>
-                  <td>{incident.category.department}</td>
                   <td>{getListValueByKey(statusList, incident.status.state)}</td>
+                  <td>{getListValueByKey(priorityList, incident.priority && incident.priority.priority)}</td>
                   <td>{incident.location.address_text}</td>
                 </tr>
               ))
@@ -55,6 +55,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
 List.propTypes = {
   incidentsCount: PropTypes.number,
   incidents: PropTypes.array.isRequired,
+  priorityList: PropTypes.array.isRequired,
   statusList: PropTypes.array.isRequired,
   stadsdeelList: PropTypes.array.isRequired,
 

@@ -25,11 +25,7 @@ const formatConditionalForm = (form, incident, isAuthenticated) => {
         }
 
         if (control.authenticated) {
-          isVisible = isAuthenticated;
-        }
-
-        if (!isVisible) {
-          form.controls[name].options = null;  // eslint-disable-line no-param-reassign
+          isVisible = isVisible && isAuthenticated;
         }
 
         form.controls[name].meta.isVisible = isVisible;  // eslint-disable-line no-param-reassign

@@ -13,7 +13,7 @@ import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
-import { requestIncidents, incidentSelected } from './actions';
+import { requestIncidents, incidentSelected, mainCategoryFilterSelectionChanged } from './actions';
 import Filter from './components/Filter';
 import ListComponent from './components/List';
 import Pager from './components/Pager';
@@ -38,7 +38,7 @@ export class IncidentOverviewPage extends React.Component { // eslint-disable-li
       <div className="overview-page">
         <div className="row">
           <div className="col-3">
-            <Filter onRequestIncidents={this.props.onRequestIncidents} filter={filter} {...rest} />
+            <Filter onRequestIncidents={this.props.onRequestIncidents} onMainCategoryFilterSelectionChanged={this.props.onMainCategoryFilterSelectionChanged} filter={filter} {...rest} />
           </div>
           <div className="col-9">
             {loading ? (<LoadingIndicator />) : (
@@ -60,17 +60,19 @@ IncidentOverviewPage.propTypes = {
 
   onRequestIncidents: PropTypes.func.isRequired,
   onIncidentSelected: PropTypes.func.isRequired,
+  onMainCategoryFilterSelectionChanged: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
   overviewpage: makeSelectOverviewPage(),
   loading: makeSelectLoading(),
-  error: makeSelectError(),
+  error: makeSelectError()
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestIncidents: requestIncidents,
   onIncidentSelected: incidentSelected,
+  onMainCategoryFilterSelectionChanged: mainCategoryFilterSelectionChanged
 }, dispatch);
 
 

@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Preview component <KeyValue /> should render key value correctly 1`] = `
+<div
+  className="preview-text"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-5 col-md-4"
+    >
+      <div
+        className="preview-text__item-label"
+      >
+        Urgentie
+      </div>
+    </div>
+    <div
+      className="col-5 col-md-7"
+    >
+      <div
+        className="preview-text__item-value"
+      >
+        Normaal
+      </div>
+    </div>
+  </div>
+</div>
+`;

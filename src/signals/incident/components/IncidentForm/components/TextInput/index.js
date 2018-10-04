@@ -18,8 +18,8 @@ const TextInput = ({ handler, touched, hasError, meta, parent, getError, validat
             <input
               type={meta.type}
               placeholder={meta.placeholder}
-              onChange={(e) => meta.updateIncident && parent.meta.setIncident({ [meta.name]: e.target.value })}
               {...handler()}
+              onBlur={(e) => parent.meta.updateIncident({ [meta.name]: e.target.value })}
             />
           </div>
         </Header>

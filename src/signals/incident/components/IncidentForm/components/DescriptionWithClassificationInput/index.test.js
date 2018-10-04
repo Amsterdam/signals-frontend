@@ -22,7 +22,7 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
     hasError = jest.fn();
     parent = {
       meta: {
-        setIncident: jest.fn(),
+        updateIncident: jest.fn(),
         getClassification: jest.fn()
       }
     };
@@ -60,6 +60,31 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
       expect(handler).not.toHaveBeenCalled();
       expect(wrapper).toMatchSnapshot();
     });
+
+    it('should render with a character counter when maxLength is supplied correctly', () => {
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          isVisible: true,
+          maxLength: 3000
+        }
+      });
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render with a character counter with value correctly', () => {
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          isVisible: true,
+          maxLength: 3000
+        },
+        value: 'test'
+      });
+
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 
   describe('events', () => {
@@ -69,32 +94,16 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true,
-          updateIncident: true
+          isVisible: true
         }
       });
 
       wrapper.find('textarea').simulate('blur', event);
 
       expect(parent.meta.getClassification).toHaveBeenCalledWith('diabolo');
-      expect(parent.meta.setIncident).toHaveBeenCalledWith({
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': 'diabolo'
       });
-    });
-
-    it('does nothing when updateIncident is false', () => {
-      wrapper.setProps({
-        meta: {
-          ...metaFields,
-          isVisible: true,
-          updateIncident: false
-        }
-      });
-
-      wrapper.find('textarea').simulate('change', event);
-
-      expect(parent.meta.getClassification).not.toHaveBeenCalled();
-      expect(parent.meta.setIncident).not.toHaveBeenCalled();
     });
   });
 });

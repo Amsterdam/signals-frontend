@@ -5,6 +5,7 @@ import incidentDetailPageReducer, { initialState } from './reducer';
 import { requestIncident, requestIncidentSuccess, requestIncidentError } from './actions';
 import { requestCategoryUpdateSuccess } from '../IncidentCategoryContainer/actions';
 import { requestStatusCreateSuccess } from '../IncidentStatusContainer/actions';
+import priorityList from '../../definitions/priorityList';
 import stadsdeelList from '../../definitions/stadsdeelList';
 
 jest.mock('../../definitions/stadsdeelList');
@@ -27,6 +28,7 @@ describe('incidentDetailPageReducer', () => {
       id: 1,
       loading: true,
       error: false,
+      priorityList,
       stadsdeelList,
       incident: null
     };

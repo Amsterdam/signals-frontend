@@ -32,7 +32,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
       };
     }
 
-    parent.meta.setIncident({ location });
+    parent.meta.updateIncident({ location });
   };
 
   return (

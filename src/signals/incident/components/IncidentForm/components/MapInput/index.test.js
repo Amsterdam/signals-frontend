@@ -21,7 +21,7 @@ describe('Form component <MapInput />', () => {
     hasError = jest.fn();
     parent = {
       meta: {
-        setIncident: jest.fn()
+        updateIncident: jest.fn()
       }
     };
 
@@ -86,7 +86,7 @@ describe('Form component <MapInput />', () => {
     //
     //   wrapper.find('input').simulate('change', event);
     //
-    //   expect(parent.meta.setIncident).toHaveBeenCalledWith({
+    //   expect(parent.meta.updateIncident).toHaveBeenCalledWith({
     //     'input-field-name': 'diabolo'
     //   });
     // });
@@ -102,7 +102,7 @@ describe('Form component <MapInput />', () => {
     //
     //   wrapper.find('input').simulate('change', event);
     //
-    //   expect(parent.meta.setIncident).not.toHaveBeenCalled();
+    //   expect(parent.meta.updateIncident).not.toHaveBeenCalled();
     // });
   });
 });

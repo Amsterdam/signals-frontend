@@ -4,6 +4,7 @@ import { shallow } from 'enzyme';
 import { IncidentDetailPage, mapDispatchToProps } from './index';
 import { REQUEST_INCIDENT } from './constants';
 import stadsdeelList from '../../definitions/stadsdeelList';
+import priorityList from '../../definitions/priorityList';
 import ConnectedPrintLayout from './components/PrintLayout';
 
 describe('<IncidentDetailPage />', () => {
@@ -12,9 +13,12 @@ describe('<IncidentDetailPage />', () => {
   beforeEach(() => {
     props = {
       id: '100',
-      incidentdetailpage: { incident: {}, stadsdeelList },
-      onRequestIncident: jest.fn(),
-
+      incidentdetailpage: {
+        incident: {},
+        stadsdeelList,
+        priorityList
+      },
+      onRequestIncident: jest.fn()
     };
   });
 

@@ -1,13 +1,17 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Map from './index';
+import MapPreview from './index';
+
+jest.mock('../../../../../../components/Map', () => 'Map');
 
 describe('Preview component <Map />', () => {
   const address = {
     openbare_ruimte: 'Hell',
     huisnummer: '666',
-    huisletter: 'C'
+    huisletter: 'C',
+    postcode: '1087JC',
+    woonplaats: 'Amsterdam'
   };
   const geometrie = {
     coordinates: [52, 4]
@@ -15,7 +19,7 @@ describe('Preview component <Map />', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<Map />);
+    wrapper = shallow(<MapPreview />);
   });
 
   it('should render valid adrress and map with latlong correctly', () => {
@@ -52,23 +56,15 @@ describe('Preview component <Map />', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render optional map correctly', () => {
+  it('should render address with toevoeging correctly', () => {
     wrapper.setProps({
       label: 'Location',
       value: {
-        address,
-        geometrie
-      },
-      optional: true
-    });
-
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it('should not render optional map when value is empty', () => {
-    wrapper.setProps({
-      label: 'Location',
-      optional: true
+        address: {
+          ...address,
+          huisnummer_toevoeging: '3'
+        }
+      }
     });
 
     expect(wrapper).toMatchSnapshot();

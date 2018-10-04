@@ -19,7 +19,6 @@ export default {
           className: 'col-sm-12 col-md-6',
           label: 'Hoe komt de melding binnen?',
           path: 'source',
-          updateIncident: true,
           values: {
             '': 'Vul bron in',
             'Telefoon – CCA': 'Telefoon – CCA',
@@ -43,6 +42,22 @@ export default {
         authenticated: true,
         render: FormComponents.SelectInput
       },
+      priority: {
+        meta: {
+          className: 'col-sm-12 col-md-6',
+          label: 'Wat is de urgentie?',
+          path: 'priority',
+          values: {
+            normal: 'Normaal',
+            high: 'Hoog'
+          }
+        },
+        options: {
+          validators: [Validators.required]
+        },
+        authenticated: true,
+        render: FormComponents.SelectInput
+      },
       location: {
         meta: {
           label: 'Waar is het?',
@@ -58,12 +73,13 @@ export default {
         meta: {
           label: 'Waar gaat het om?',
           path: 'text',
-          placeholder: 'Beschrijf uw melding'
+          placeholder: 'Beschrijf uw melding',
+          maxLength: 1000
         },
         options: {
           validators: [
             Validators.required,
-            Validators.maxLength(3000)
+            Validators.maxLength(1000)
           ]
         },
         render: FormComponents.DescriptionWithClassificationInput
@@ -97,8 +113,7 @@ export default {
           values: {
             Nu: 'Nu',
             Eerder: 'Eerder'
-          },
-          updateIncident: true
+          }
         },
         options: {
           validators: [Validators.required]
@@ -109,8 +124,7 @@ export default {
         meta: {
           ifAllOf: {
             datetime: 'Eerder'
-          },
-          updateIncident: true
+          }
         },
         render: FormComponents.DateTimeInput,
         strict: false

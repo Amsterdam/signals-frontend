@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentPriorityContainer /> should render correctly 1`] = `
+<div
+  className="col-6"
+>
+  <div
+    className="incident-edit-container"
+  >
+    <Add
+      id="1"
+      onRequestPriorityUpdate={[MockFunction]}
+      subpriorityList={Array []}
+    />
+  </div>
+</div>
+`;
+
+exports[`<IncidentPriorityContainer /> should render correctly 1`] = `
+<div
+  className="col-6"
+>
+  <div
+    className="incident-edit-container"
+  >
+    <Add
+      id="1"
+      onRequestPriorityUpdate={[MockFunction]}
+    />
+  </div>
+</div>
+`;

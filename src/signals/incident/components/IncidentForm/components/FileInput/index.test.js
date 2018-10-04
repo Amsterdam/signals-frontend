@@ -22,7 +22,7 @@ describe('Form component <FileInput />', () => {
     hasError = jest.fn();
     parent = {
       meta: {
-        setIncident: jest.fn()
+        updateIncident: jest.fn()
       }
     };
 
@@ -134,7 +134,7 @@ describe('Form component <FileInput />', () => {
       wrapper.find('button').simulate('click');
 
       expect(window.URL.revokeObjectURL).toHaveBeenCalledWith('blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c');
-      expect(parent.meta.setIncident).toHaveBeenCalledWith({
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         image: '',
         image_file: {}
       });

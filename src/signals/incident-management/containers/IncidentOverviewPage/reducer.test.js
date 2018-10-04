@@ -8,8 +8,12 @@ import {
   requestIncidentsSuccess,
   requestIncidentsError,
   incidentSelected,
-  filterIncidentsChanged
+  filterIncidentsChanged,
+  mainCategoryFilterSelectionChanged
 } from './actions';
+
+import subcategoryList from '../../definitions/subcategoryList';
+import mainToSubMap from '../../definitions/mainToSubMap';
 
 describe('overviewPageReducer', () => {
   let state;
@@ -63,6 +67,37 @@ describe('overviewPageReducer', () => {
     const expected = fromJS({})
       .set('filter', filter)
       .set('page', 1);
+    expect(overviewPageReducer(state, action)).toEqual(expected);
+  });
+
+  it('should handle the MAIN_CATEGORY_FILTER_SELECTION_CHANGED for no selection', () => {
+    const mainCategoryFilterSelection = null;
+    const action = mainCategoryFilterSelectionChanged(mainCategoryFilterSelection);
+    const expected = fromJS({})
+      .set('mainCategorySelectionList', mainCategoryFilterSelection)
+      .set('subcategoryList', subcategoryList);
+    expect(overviewPageReducer(state, action)).toEqual(expected);
+  });
+
+  it('should handle the MAIN_CATEGORY_FILTER_SELECTION_CHANGED for Alles', () => {
+    const mainCategoryFilterSelection = [''];
+    const expectedSubcategoryList = [{ key: '', value: 'Alles' }].concat(mainToSubMap['']
+      .sort()
+      .flatMap((s) => [{ key: s, value: s }]));
+    const action = mainCategoryFilterSelectionChanged(mainCategoryFilterSelection);
+    const expected = fromJS({})
+      .set('mainCategorySelectionList', mainCategoryFilterSelection)
+      .set('subcategoryList', expectedSubcategoryList);
+    expect(overviewPageReducer(state, action)).toEqual(expected);
+  });
+
+  it('should handle the MAIN_CATEGORY_FILTER_SELECTION_CHANGED for Alles and another main category', () => {
+    const mainCategoryFilterSelection = ['', 'Overig'];
+    const expectedSubcategoryList = [{ key: '', value: 'Alles' }];
+    const action = mainCategoryFilterSelectionChanged(mainCategoryFilterSelection);
+    const expected = fromJS({})
+      .set('mainCategorySelectionList', mainCategoryFilterSelection)
+      .set('subcategoryList', expectedSubcategoryList);
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 });
