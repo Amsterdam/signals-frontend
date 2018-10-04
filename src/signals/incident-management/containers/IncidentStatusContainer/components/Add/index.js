@@ -78,7 +78,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
                   </button>
                   {canSendToSigmax ?
                     <button className="incident-status-add__send action tertiair" type="button" onClick={this.sendToSigmax}>
-                      <span className="value">Naar sigmax sturen</span>
+                      <span className="value">THOR</span>
                       {loadingExternal ?
                         <span className="working">
                           <div className="progress-indicator progress-blue"></div>
