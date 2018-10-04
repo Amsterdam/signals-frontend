@@ -6,6 +6,7 @@
 
 import {
   REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR,
+  REQUEST_CATEGORIES, REQUEST_CATEGORIES_SUCCESS, REQUEST_CATEGORIES_ERROR,
   INCIDENT_SELECTED, FILTER_INCIDENTS_CHANGED, PAGE_INCIDENTS_CHANGED,
   MAIN_CATEGORY_FILTER_SELECTION_CHANGED
 }
@@ -31,6 +32,27 @@ export function requestIncidentsError(message) {
     payload: message
   };
 }
+
+export function requestCategories() {
+  return {
+    type: REQUEST_CATEGORIES
+  };
+}
+
+export function requestCategoriesSuccess(categories) {
+  return {
+    type: REQUEST_CATEGORIES_SUCCESS,
+    payload: categories
+  };
+}
+
+export function requestCategoriesError(message) {
+  return {
+    type: REQUEST_CATEGORIES_ERROR,
+    payload: message
+  };
+}
+
 
 export function incidentSelected(incident) {
   return {

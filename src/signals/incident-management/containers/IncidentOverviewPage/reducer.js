@@ -5,7 +5,12 @@
  */
 
 import { fromJS } from 'immutable';
-import { REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR, FILTER_INCIDENTS_CHANGED, PAGE_INCIDENTS_CHANGED, MAIN_CATEGORY_FILTER_SELECTION_CHANGED } from './constants';
+import {
+  REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR,
+  REQUEST_CATEGORIES_SUCCESS,
+  FILTER_INCIDENTS_CHANGED, PAGE_INCIDENTS_CHANGED,
+  MAIN_CATEGORY_FILTER_SELECTION_CHANGED
+} from './constants';
 import priorityList from '../../definitions/priorityList';
 import stadsdeelList from '../../definitions/stadsdeelList';
 import mainCategoryList from '../../definitions/categoryList';
@@ -20,6 +25,7 @@ export const initialState = fromJS({
   mainCategoryList,
   mainCategorySelectionList: [],
   subcategoryList,
+  allCategoryList: [],
   statusList
 });
 
@@ -54,6 +60,17 @@ function overviewPageReducer(state = initialState, action) {
       return state
         .set('error', action.payload)
         .set('loading', false);
+    // case REQUEST_CATEGORIES:
+      // return state
+        // .set('loading', true)
+        // .set('error', false);
+    case REQUEST_CATEGORIES_SUCCESS:
+      return state
+        .set('allCategoryList', action.payload);
+    // case REQUEST_CATEGORIES_ERROR:
+      // return state
+        // .set('error', action.payload)
+        // .set('loading', false);
     case FILTER_INCIDENTS_CHANGED:
       return state
         .set('filter', action.payload)
