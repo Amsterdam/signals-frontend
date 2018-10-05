@@ -1,12 +1,14 @@
-import { all, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
+import request from 'utils/request';
 
 import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
-import { REQUEST_INCIDENTS, INCIDENT_SELECTED } from './constants';
-import { requestIncidentsSuccess, requestIncidentsError, filterIncidentsChanged, pageIncidentsChanged } from './actions';
+import { REQUEST_INCIDENTS, REQUEST_CATEGORIES, INCIDENT_SELECTED } from './constants';
+import { requestIncidentsSuccess, requestIncidentsError, requestCategoriesSuccess, requestCategoriesError, filterIncidentsChanged, pageIncidentsChanged } from './actions';
 import { makeSelectFilterParams } from './selectors';
+import mapCategories from './services/map-categories';
 
 export function* fetchIncidents(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/auth/signal`;
@@ -25,6 +27,18 @@ export function* fetchIncidents(action) {
   }
 }
 
+export function* fetchCategories() {
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/public/terms/categories`;
+
+  try {
+    const categories = yield call(request, requestURL);
+
+    yield put(requestCategoriesSuccess(mapCategories(categories)));
+  } catch (err) {
+    yield put(requestCategoriesError(err));
+  }
+}
+
 export function* openIncident(action) {
   const incident = action.payload;
   const navigateUrl = `incident/${incident.id}`;
@@ -34,6 +48,7 @@ export function* openIncident(action) {
 export default function* watchRequestIncidentsSaga() {
   yield all([
     takeLatest(REQUEST_INCIDENTS, fetchIncidents),
+    takeLatest(REQUEST_CATEGORIES, fetchCategories),
     takeLatest(INCIDENT_SELECTED, openIncident)
   ]);
 }
