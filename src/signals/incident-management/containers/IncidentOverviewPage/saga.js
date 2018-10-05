@@ -8,6 +8,7 @@ import CONFIGURATION from 'shared/services/configuration/configuration';
 import { REQUEST_INCIDENTS, REQUEST_CATEGORIES, INCIDENT_SELECTED } from './constants';
 import { requestIncidentsSuccess, requestIncidentsError, requestCategoriesSuccess, requestCategoriesError, filterIncidentsChanged, pageIncidentsChanged } from './actions';
 import { makeSelectFilterParams } from './selectors';
+import mapCategories from './services/map-categories';
 
 export function* fetchIncidents(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/auth/signal`;
@@ -32,7 +33,7 @@ export function* fetchCategories() {
   try {
     const categories = yield call(request, requestURL);
 
-    yield put(requestCategoriesSuccess(categories));
+    yield put(requestCategoriesSuccess(mapCategories(categories)));
   } catch (err) {
     yield put(requestCategoriesError(err));
   }

@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { fromJS } from 'immutable';
 
 import { IncidentOverviewPage, mapDispatchToProps } from './index';
-import { REQUEST_INCIDENTS, INCIDENT_SELECTED, MAIN_CATEGORY_FILTER_SELECTION_CHANGED } from './constants';
+import { REQUEST_INCIDENTS, REQUEST_CATEGORIES, INCIDENT_SELECTED, MAIN_CATEGORY_FILTER_SELECTION_CHANGED } from './constants';
 
 import { getContext } from '../../../../../internals/testing/test-utils';
 
@@ -24,6 +24,7 @@ describe('<IncidentContainer />', () => {
         page: 3
       },
       onRequestIncidents: jest.fn(),
+      onRequestCategories: jest.fn(),
       onIncidentSelected: jest.fn(),
       onMainCategoryFilterSelectionChanged: jest.fn(),
       baseUrl: ''
@@ -71,6 +72,11 @@ describe('<IncidentContainer />', () => {
     it('should request incidents', () => {
       mapDispatchToProps(dispatch).onRequestIncidents({ filter: {}, page: 666 });
       expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_INCIDENTS, payload: { filter: {}, page: 666 } });
+    });
+
+    it('should request categories', () => {
+      mapDispatchToProps(dispatch).onRequestCategories();
+      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_CATEGORIES });
     });
 
     it('should select an incident', () => {
