@@ -154,7 +154,10 @@
       "no-console": 1,
       "no-underscore-dangle": [0,
         {
-          "allow": ["_display"]
+          "allow": [
+            "_display",
+            "_links"
+          ]
         }
       ],
       "no-use-before-define": 0,
@@ -212,8 +215,8 @@
       "global": {
         "statements": 87,
         "branches": 81,
-        "functions": 82,
-        "lines": 88
+        "functions": 81,
+        "lines": 87
       }
     },
     "coverageReporters": [
