@@ -7,8 +7,6 @@ import {
   requestIncidents,
   requestIncidentsSuccess,
   requestIncidentsError,
-  requestCategories,
-  requestCategoriesSuccess,
   incidentSelected,
   filterIncidentsChanged,
   mainCategoryFilterSelectionChanged
@@ -52,24 +50,6 @@ describe('overviewPageReducer', () => {
     const action = requestIncidentsError(message);
     const expected = fromJS({})
       .set('error', message)
-      .set('loading', false);
-    expect(overviewPageReducer(state, action)).toEqual(expected);
-  });
-
-  it('should handle the REQUEST_CATEGORIES', () => {
-    const action = requestCategories({});
-    const expected = {
-      loading: true,
-      error: false
-    };
-    expect(overviewPageReducer(state, action)).toEqual(fromJS(expected));
-  });
-
-  it('should handle the REQUEST_CATEGORIES_SUCCESS', () => {
-    const payload = { results: [1] };
-    const action = requestCategoriesSuccess(payload);
-    const expected = fromJS({})
-      .set('allCategoryList', payload)
       .set('loading', false);
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
