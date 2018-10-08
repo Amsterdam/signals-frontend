@@ -11,6 +11,7 @@ class Thor extends React.Component { // eslint-disable-line react/prefer-statele
     const status = {
       _signal: this.props.id,
       state: 'ready to send',
+      text: 'Te verzenden naar THOR',
       target_api: 'sigmax'
     };
 
