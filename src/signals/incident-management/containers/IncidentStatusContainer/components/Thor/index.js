@@ -19,7 +19,7 @@ class Thor extends React.Component { // eslint-disable-line react/prefer-statele
 
   render() {
     const { currentState, loading } = this.props;
-    const cannotSend = !['m', 'i', 'b', 'h'].some((value) => value === currentState);
+    const cannotSend = !['m', 'i', 'b', 'h', 'send failed'].some((value) => value === currentState);
     return (
       <button className="incident-status-add__send action tertiair" type="button" onClick={this.sendToThor} disabled={cannotSend}>
         <span className="value">THOR</span>
