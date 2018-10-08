@@ -11,7 +11,7 @@ function mapCategories(data) {
 
       c.sub_categories.map((s) => {
         subcacategories.push({
-          key: s.slug,
+          key: s._links.self.href,
           value: s._display,
           parent: c.slug
         });
