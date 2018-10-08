@@ -5,25 +5,25 @@ import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import TextAreaInput from '../../../../components/TextAreaInput';
 import SelectInput from '../../../../components/SelectInput';
+import Thor from '../Thor';
 import './style.scss';
 
 
 class Add extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  // constructor(props) {
-    // super(props);
-    // this.sendToSigmax = this.sendToSigmax.bind(this);
-  // }
-
   statusForm = FormBuilder.group({ // eslint-disable-line react/sort-comp
     _signal: [''],
     state: ['', Validators.required],
     text: [''],
-    loading: false
+    loading: false,
+    loadingExternal: false
   });
 
   componentWillUpdate(props) {
     if (props.loading !== this.props.loading) {
       this.statusForm.controls.loading.setValue(props.loading);
+    }
+    if (props.loadingExternal !== this.props.loadingExternal) {
+      this.statusForm.controls.loadingExternal.setValue(props.loadingExternal);
     }
   }
 
@@ -34,21 +34,10 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
     this.statusForm.reset();
   }
 
-  // sendToSigmax = () => {
-    // const status = { _signal: this.props.id, state: 'i', text: 'sigmax' };
-    // this.props.onRequestStatusCreate(status);
-  // }
-
   render() {
-    // TODO enable this when sigmax link is implemented
-    // const { incidentStatusList, statusList } = this.props;
-    // const currentState = incidentStatusList[incidentStatusList.length - 1].state;
-    // const canSendToSigmax = !['i', 'o', 'a'].some((value) => value === currentState);
-    const { statusList, loading, error } = this.props;
-    // const canSendToSigmax = false; // disabled for the moment
+    const { incidentStatusList, statusList, error, loading, loadingExternal } = this.props;
     return (
       <div className="incident-status-add">
-        {/* <div className="incident-status-add__title">Status toevoegen</div> */}
         <div className="incident-status-add__body">
           <FieldGroup
             control={this.statusForm}
@@ -68,8 +57,12 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
                       </span>
                     : ''}
                   </button>
-                  <div>
-                  </div>
+                  <Thor
+                    id={this.props.id}
+                    currentState={incidentStatusList[incidentStatusList.length - 1].state}
+                    onRequestStatusCreate={this.props.onRequestStatusCreate}
+                    loading={loadingExternal}
+                  />
                 </div>
               </form>
             )}
@@ -80,23 +73,18 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
   }
 }
 
-/*
-{canSendToSigmax ?
-  <button className="action tertiair" type="button" onClick={this.sendToSigmax}>
-    <span className="value">Naar sigmax sturen</span>
-  </button> : ''
-}
-*/
-
 Add.defaultProps = {
   loading: false,
+  loadingExternal: false,
   error: false
 };
 
 Add.propTypes = {
   id: PropTypes.string,
   statusList: PropTypes.array,
+  incidentStatusList: PropTypes.array,
   loading: PropTypes.bool,
+  loadingExternal: PropTypes.bool,
   error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
 
   onRequestStatusCreate: PropTypes.func.isRequired

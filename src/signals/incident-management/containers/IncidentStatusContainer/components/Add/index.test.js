@@ -14,6 +14,9 @@ describe('<Add />', () => {
       statusList: ['test'],
       state: 'gemeld',
       text: 'extra text',
+      incidentStatusList: [{
+        state: 'm'
+      }],
       onRequestStatusCreate: jest.fn()
     };
 
@@ -42,7 +45,7 @@ describe('<Add />', () => {
 
     it('should disable the submit button when no status is selected', () => {
       renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
-      expect(renderedFormGroup.find('button').prop('disabled')).toBe(true);
+      expect(renderedFormGroup.find('.incident-status-add__submit').prop('disabled')).toBe(true);
     });
 
     it('should enable the submit button when a status is selected', () => {
@@ -51,7 +54,7 @@ describe('<Add />', () => {
       form.patchValue(formValue);
       expect(form.value.sub).toEqual(formValue.sub);
       renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
-      expect(renderedFormGroup.find('button').prop('disabled')).toBe(false);
+      expect(renderedFormGroup.find('.incident-status-add__submit').prop('disabled')).toBe(false);
     });
 
     it('should call status update when the form is submitted (search button is clicked)', () => {
