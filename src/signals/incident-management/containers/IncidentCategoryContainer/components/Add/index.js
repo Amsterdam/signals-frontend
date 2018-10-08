@@ -40,7 +40,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
                     render={SelectInput}
                     name="sub_category"
                     display="Subcategorie"
-                    control={this.categoryForm.get('sub')}
+                    control={this.categoryForm.get('sub_category')}
                     values={[{
                       key: '',
                       value: ''

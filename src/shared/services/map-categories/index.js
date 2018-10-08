@@ -3,17 +3,16 @@ function mapCategories(data) {
   const subcacategories = [];
 
   if (data && data.results) {
-    data.results.map((c) => {
+    data.results.map((category) => {
       categories.push({
-        key: c.slug,
-        value: c._display
+        key: category._links.self.href,
+        value: category._display
       });
 
-      c.sub_categories.map((s) => {
+      category.sub_categories.map((subcategory) => {
         subcacategories.push({
-          key: s._links.self.href,
-          value: s._display,
-          parent: c.slug
+          key: subcategory._links.self.href,
+          value: subcategory._display
         });
 
         return true;
