@@ -5,13 +5,13 @@ function mapCategories(data) {
   if (data && data.results) {
     data.results.map((category) => {
       categories.push({
-        key: category._links.self.href,
+        key: category._links && category._links.self && category._links.self.href,
         value: category._display
       });
 
       category.sub_categories.map((subcategory) => {
         subcacategories.push({
-          key: subcategory._links.self.href,
+          key: subcategory._links && subcategory._links.self && subcategory._links.self.href,
           value: subcategory._display
         });
 
