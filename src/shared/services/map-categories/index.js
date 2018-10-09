@@ -1,6 +1,6 @@
 function mapCategories(data) {
   const categories = [];
-  const subcacategories = [];
+  const subcategories = [];
 
   if (data && data.results) {
     data.results.map((category) => {
@@ -10,7 +10,7 @@ function mapCategories(data) {
       });
 
       category.sub_categories.map((subcategory) => {
-        subcacategories.push({
+        subcategories.push({
           key: subcategory._links && subcategory._links.self && subcategory._links.self.href,
           value: subcategory._display
         });
@@ -22,7 +22,7 @@ function mapCategories(data) {
     });
   }
 
-  return { categories, subcacategories };
+  return { categories, subcategories };
 }
 
 export default mapCategories;

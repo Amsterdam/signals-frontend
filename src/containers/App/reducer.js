@@ -27,7 +27,10 @@ export const initialState = fromJS({
   loading: false,
   error: false,
   upload: {},
-  categories: {}
+  categories: {
+    categories: [],
+    subcategories: []
+  }
 });
 
 function appReducer(state = initialState, action) {
@@ -56,7 +59,7 @@ function appReducer(state = initialState, action) {
         // .set('error', false);
     case REQUEST_CATEGORIES_SUCCESS:
       return state
-        .set('categories', action.payload);
+        .set('categories', fromJS(action.payload));
 
     // case REQUEST_CATEGORIES_ERROR:
       // return state

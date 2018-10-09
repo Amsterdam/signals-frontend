@@ -41,7 +41,7 @@ const makeSelectIsAuthenticated = () => createSelector(
 
 const makeSelectCategories = () => createSelector(
   selectGlobal,
-  (globalState) => globalState.get('categories')
+  (globalState) => globalState.get('categories').toJS()
 );
 
 

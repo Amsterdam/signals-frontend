@@ -4,7 +4,7 @@ describe('The mapCategories service', () => {
   it('by default should return empty categories', () => {
     expect(mapCategories()).toEqual({
       categories: [],
-      subcacategories: []
+      subcategories: []
     });
   });
 
@@ -46,7 +46,7 @@ describe('The mapCategories service', () => {
           value: 'Wegen, verkeer, straatmeubilair',
         }
       ],
-      subcacategories: [
+      subcategories: [
         {
           key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/dode-dieren',
           value: 'Dode dieren'
