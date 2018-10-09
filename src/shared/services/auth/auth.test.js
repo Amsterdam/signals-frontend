@@ -354,28 +354,28 @@ describe('The auth service', () => {
 
     it('should return the scopes', () => {
       parseAccessToken.mockImplementation(() => ({
-        name: 'Jezus Christus'
+        name: 'Jan Klaasen'
       }));
 
       savedAccessToken = '123AccessToken';
       initAuth();
       const name = getName();
 
-      expect(name).toEqual('Jezus Christus');
+      expect(name).toEqual('Jan Klaasen');
     });
   });
 
   describe('authenticate', () => {
     it('should authticate with credentials with accessToken', () => {
       parseAccessToken.mockImplementation(() => ({
-        name: 'Jezus Christus',
+        name: 'Jan Klaasen',
         scopes: ['SIG/ALL']
       }));
       savedAccessToken = '123AccessToken';
 
       expect(authenticate()).toEqual(
         {
-          userName: 'Jezus Christus',
+          userName: 'Jan Klaasen',
           userScopes: ['SIG/ALL'],
           accessToken: '123AccessToken'
         }
@@ -384,7 +384,7 @@ describe('The auth service', () => {
 
     it('should not authticate without accessToken', () => {
       parseAccessToken.mockImplementation(() => ({
-        name: 'Jezus Christus',
+        name: 'Jan Klaasen',
         scopes: ['SIG/ALL']
       }));
 
