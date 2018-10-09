@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import { IncidentCategoryContainer, mapDispatchToProps } from './index';
 import { REQUEST_CATEGORY_UPDATE } from './constants';
 
-jest.mock('./components/Add', () => 'Add');
+jest.mock('./components/Add', () => () => 'Add');
 
 describe('<IncidentCategoryContainer />', () => {
   let props;
@@ -34,7 +34,7 @@ describe('<IncidentCategoryContainer />', () => {
 
     it('should request the category update', () => {
       mapDispatchToProps(dispatch).onRequestCategoryUpdate({});
-      expect(dispatch.mock.calls[0][0]).toEqual({ type: REQUEST_CATEGORY_UPDATE, payload: {} });
+      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_CATEGORY_UPDATE, payload: {} });
     });
   });
 });

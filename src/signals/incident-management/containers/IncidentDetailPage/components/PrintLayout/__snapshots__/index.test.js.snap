@@ -38,8 +38,9 @@ exports[`<PrintLayout /> should render correctly 1`] = `
   <div
     className="col-12"
   >
-    <IncidentDetail
+    <Component
       incident={Object {}}
+      priorityList={Array []}
       stadsdeelList={Array []}
     />
   </div>
@@ -49,7 +50,7 @@ exports[`<PrintLayout /> should render correctly 1`] = `
   <div
     className="col-12 print-layout__status-list"
   >
-    <List
+    <Component
       incidentStatusList={Array []}
       statusList={Array []}
     />
@@ -70,6 +71,7 @@ exports[`<PrintLayout /> should render the connected component correctly 1`] = `
     }
   }
   onPrintView={[MockFunction]}
+  priorityList={Array []}
   stadsdeelList={Array []}
   store={
     Object {

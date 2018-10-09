@@ -1,0 +1,877 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentContainer /> rendering should render correctly 1`] = `
+<div
+  className="incident-container"
+>
+  <Component
+    createIncident={[Function]}
+    getClassification={[Function]}
+    incidentContainer={
+      Object {
+        "incident": Object {},
+      }
+    }
+    isAuthenticated={false}
+    updateIncident={[Function]}
+    wizardDefinition={
+      Object {
+        "bedankt": Object {
+          "form": Object {
+            "controls": Object {
+              "text": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "label": "Wat doen we met uw melding?",
+                  "type": "bedankt",
+                },
+                "render": [Function],
+              },
+              "text_3d_Evo_mC": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "Grofvuil",
+                    ],
+                  },
+                  "type": "bedankt",
+                  "value": Array [
+                    "We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.  In Nieuw-West komen we de volgende ophaaldag.",
+                    "We houden u op de hoogte via e-mail.",
+                  ],
+                },
+                "render": [Function],
+              },
+              "text_A3d_mC": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "Huisafval",
+                      "Bedrijfsafval",
+                      "Puin / sloopafval",
+                      "Container is vol",
+                      "Container is kapot",
+                      "Asbest / accu",
+                      "Container plastic afval is vol",
+                      "Container plastic afval is kapot",
+                      "Lozing / dumping / bodemverontreiniging",
+                      "Parkeeroverlast",
+                      "Dode dieren",
+                      "Overlast door afsteken vuurwerk",
+                      "Overlast vanaf het water",
+                      "Overlast van taxi's, bussen en fietstaxi's",
+                      "Overige overlast door personen",
+                      "Jongerenoverlast",
+                      "Daklozen / bedelen",
+                      "Wildplassen / poepen / overgeven",
+                      "Drank- en drugsoverlast",
+                    ],
+                  },
+                  "type": "bedankt",
+                  "value": Array [
+                    "We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.",
+                    "We houden u op de hoogte via e-mail.",
+                  ],
+                },
+                "render": [Function],
+              },
+              "text_A3w_eC": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "Prullenbak is kapot",
+                      "Omleiding / belijning verkeer",
+                      "Brug",
+                    ],
+                  },
+                  "type": "bedankt",
+                  "value": Array [
+                    "Wij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.",
+                    "En anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken.",
+                  ],
+                },
+                "render": [Function],
+              },
+              "text_A3w_mC": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "Fietswrak",
+                      "Stank- / geluidsoverlast",
+                      "Bouw- / sloopoverlast",
+                      "Auto- / scooter- / bromfiets(wrak)",
+                      "Honden(poep)",
+                      "Deelfiets",
+                    ],
+                  },
+                  "type": "bedankt",
+                  "value": Array [
+                    "We laten u binnen 3 weken weten wat we hebben gedaan, of dat we meer tijd nodig hebben.",
+                    "We houden u op de hoogte via e-mail.",
+                  ],
+                },
+                "render": [Function],
+              },
+              "text_I5d_mC": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "Straatmeubilair",
+                      "Fietsrek / nietje",
+                      "Put / riolering verstopt",
+                      "Speelplaats",
+                      "Sportvoorziening",
+                      "Verkeersoverlast / Verkeerssituaties",
+                      "Graffiti / wildplak",
+                      "Hinderlijk geplaatst object",
+                      "Boom",
+                      "Maaien / Snoeien",
+                      "Onkruid",
+                      "Drijfvuil",
+                      "Oever / kade / steiger",
+                      "Ratten",
+                      "Ganzen",
+                      "Duiven",
+                      "Meeuwen",
+                      "Wespen",
+                      "Geluidsoverlast muziek",
+                      "Geluidsoverlast installaties",
+                      "Overlast terrassen",
+                      "Stankoverlast",
+                      "Overlast door bezoekers (niet op terras)",
+                    ],
+                  },
+                  "type": "bedankt",
+                  "value": Array [
+                    "Uw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld.",
+                    "Dat doen we via e-mail.",
+                  ],
+                },
+                "render": [Function],
+              },
+              "text_Klok_Licht_zC": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "Straatverlichting / openbare klok",
+                    ],
+                  },
+                  "type": "bedankt",
+                  "value": Array [
+                    "Gevaarlijke situaties zullen wij zo snel mogelijk verhelpen, andere situaties kunnen wat langer duren. Wij kunnen u hier helaas niet van  op de hoogte houden.",
+                  ],
+                },
+                "render": [Function],
+              },
+              "text_Stop_eC": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "Verkeerslicht",
+                    ],
+                  },
+                  "type": "bedankt",
+                  "value": Array [
+                    "Gevaarlijke situaties zullen wij zo snel mogelijk verhelpen, andere situaties handelen wij meestal binnen 5 werkdagen af. U ontvangt dan geen apart bericht meer.",
+                    "Als we uw melding niet binnen 5 werkdagen kunnen afhandelen, hoort u - via e-mail – hoe wij uw melding oppakken.",
+                  ],
+                },
+                "render": [Function],
+              },
+              "text_Ws1_eC": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "Overlast op het water - snel varen",
+                      "Overlast op het water - geluid",
+                    ],
+                  },
+                  "type": "bedankt",
+                  "value": Array [
+                    "We geven uw melding door aan onze handhavers. Als dat mogelijk is ondernemen we direct actie. Maar we kunnen niet altijd snel genoeg aanwezig zijn.",
+                    "Blijf overlast aan ons melden. Ook als we niet altijd direct iets voor u kunnen doen. We gebruiken alle meldingen om overlast in de toekomst te kunnen beperken.",
+                  ],
+                },
+                "render": [Function],
+              },
+              "text_Ws2_eC": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "Overlast op het water - Gezonken boot",
+                    ],
+                  },
+                  "type": "bedankt",
+                  "value": Array [
+                    "We geven uw melding door aan onze handhavers. Zij beoordelen of het nodig is direct actie te ondernemen. Bijvoorbeeld omdat er olie lekt of omdat de situatie gevaar oplevert voor andere boten.",
+                    "Als er geen directe actie nodig is, dan pakken we uw melding op buiten het vaarseizoen (september - maart).",
+                    "Bekijk in welke situaties we een wrak weghalen. Boten die vol met water staan, maar nog wél drijven, mogen we bijvoorbeeld niet weghalen.",
+                  ],
+                },
+                "render": [Function],
+              },
+              "text_Zsm_gC": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "Gladheid",
+                    ],
+                  },
+                  "type": "bedankt",
+                  "value": Array [
+                    "Gaat het om gladheid door een ongeluk (olie of frituurvet op de weg)? Dan pakken we uw melding zo snel mogelijk op. In ieder geval binnen 3 werkdagen.",
+                    "Bij gladheid door sneeuw of bladeren pakken we hoofdwegen en fietsroutes als eerste aan. Andere meldingen behandelen we als de belangrijkste routes zijn gedaan.",
+                    "U ontvangt geen apart bericht meer over de afhandeling van uw melding.",
+                  ],
+                },
+                "render": [Function],
+              },
+              "text_a3d_eC": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "Veeg- / zwerfvuil",
+                      "Prullenbak is vol",
+                      "Onderhoud stoep, straat en fietspad",
+                      "Verkeersbord, verkeersafzetting",
+                    ],
+                  },
+                  "type": "bedankt",
+                  "value": Array [
+                    "Wij handelen uw melding binnen drie werkdagen af. U ontvangt dan geen apart bericht meer.",
+                  ],
+                },
+                "render": [Function],
+              },
+              "text_melding": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "type": "bedankt",
+                  "value": "Uw melding is bij ons bekend onder nummer: {incident.id}.",
+                },
+                "render": [Function],
+              },
+              "text_overig": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "Overig",
+                    ],
+                  },
+                  "type": "bedankt",
+                  "value": Array [
+                    "Indien u uw gegevens hebt achtergelaten laten wij u binnen 3 werkdagen weten wat we hebben gedaan. ",
+                    "",
+                    "Als u vragen hebt, dan kunt u bellen met 14020 (op werkdagen tussen 08:00 en 18:00 uur).",
+                  ],
+                },
+                "render": [Function],
+              },
+            },
+          },
+          "label": "Bedankt!",
+        },
+        "beschrijf": Object {
+          "form": Object {
+            "controls": Object {
+              "$field_0": Object {
+                "isStatic": false,
+                "render": [Function],
+              },
+              "category": Object {
+                "meta": Object {
+                  "label": "Categorie",
+                  "path": "category.main",
+                  "type": "text",
+                },
+                "options": Object {
+                  "validators": Array [
+                    [Function],
+                  ],
+                },
+                "render": [Function],
+              },
+              "datetime": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "label": "Geef het tijdstip aan",
+                  "values": Object {
+                    "Eerder": "Eerder",
+                    "Nu": "Nu",
+                  },
+                },
+                "options": Object {
+                  "validators": Array [
+                    [Function],
+                  ],
+                },
+                "render": [Function],
+              },
+              "description": Object {
+                "meta": Object {
+                  "label": "Waar gaat het om?",
+                  "maxLength": 1000,
+                  "path": "text",
+                  "placeholder": "Beschrijf uw melding",
+                },
+                "options": Object {
+                  "validators": Array [
+                    [Function],
+                    [Function],
+                  ],
+                },
+                "render": [Function],
+              },
+              "image": Object {
+                "meta": Object {
+                  "label": "Wilt u een foto meesturen?",
+                  "submitLabel": "Foto kiezen",
+                },
+                "render": [Function],
+              },
+              "incident_date": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "datetime": "Eerder",
+                  },
+                },
+                "render": [Function],
+                "strict": false,
+              },
+              "incident_time_hours": Object {
+                "meta": Object {
+                  "label": "Incident time hours",
+                  "readOnly": true,
+                },
+                "render": [Function],
+              },
+              "incident_time_minutes": Object {
+                "meta": Object {
+                  "label": "Incident time minutes",
+                  "readOnly": true,
+                },
+                "render": [Function],
+              },
+              "location": Object {
+                "meta": Object {
+                  "label": "Waar is het?",
+                  "path": "location",
+                  "subtitle": "Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart",
+                },
+                "options": Object {
+                  "validators": Array [
+                    [Function],
+                  ],
+                },
+                "render": [Function],
+              },
+              "priority": Object {
+                "authenticated": true,
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "label": "Wat is de urgentie?",
+                  "path": "priority",
+                  "values": Object {
+                    "high": "Hoog",
+                    "normal": "Normaal",
+                  },
+                },
+                "options": Object {
+                  "validators": Array [
+                    [Function],
+                  ],
+                },
+                "render": [Function],
+              },
+              "source": Object {
+                "authenticated": true,
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "label": "Hoe komt de melding binnen?",
+                  "path": "source",
+                  "values": Object {
+                    "": "Vul bron in",
+                    "E-mail – ASC": "E-mail – ASC",
+                    "E-mail – CCA": "E-mail – CCA",
+                    "E-mail – Stadsdeel": "E-mail – Stadsdeel",
+                    "Eigen organisatie": "Eigen organisatie",
+                    "Meldkamer Handhaver": "Meldkamer Handhaver",
+                    "Meldkamer Politie": "Meldkamer Politie",
+                    "Meldkamer burger/ondernemer": "Meldkamer burger/ondernemer",
+                    "Telefoon – ASC": "Telefoon – ASC",
+                    "Telefoon – Adoptant": "Telefoon – Adoptant",
+                    "Telefoon – CCA": "Telefoon – CCA",
+                    "Telefoon – Interswitch": "Telefoon – Interswitch",
+                    "Telefoon – Stadsdeel": "Telefoon – Stadsdeel",
+                    "Webcare – CCA": "Webcare – CCA",
+                  },
+                },
+                "options": Object {
+                  "validators": Array [
+                    [Function],
+                  ],
+                },
+                "render": [Function],
+              },
+              "subcategory": Object {
+                "meta": Object {
+                  "label": "Subcategorie",
+                  "path": "category.sub",
+                  "type": "text",
+                },
+                "options": Object {
+                  "validators": Array [
+                    [Function],
+                  ],
+                },
+                "render": [Function],
+              },
+            },
+          },
+          "getNextStep": [Function],
+          "label": "Beschrijf uw melding",
+        },
+        "email": Object {
+          "form": Object {
+            "controls": Object {
+              "$field_0": Object {
+                "isStatic": false,
+                "render": [Function],
+              },
+              "email": Object {
+                "meta": Object {
+                  "label": "Wat is uw e-mailadres?",
+                  "path": "reporter.email",
+                  "placeholder": "E-mailadres",
+                  "subtitle": "We mailen om u te vertellen wat we met uw melding doen en wanneer het klaar is.",
+                  "type": "text",
+                },
+                "options": Object {
+                  "validators": Array [
+                    [Function],
+                    [Function],
+                  ],
+                },
+                "render": [Function],
+              },
+              "privacy_text": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "label": "Uw privacy",
+                  "type": "disclaimer",
+                  "value": "We gebruiken uw e-mailadres alléén om u op de hoogte houden, of wanneer wij een vraag hebben en u niet per telefoon kunnen bereiken. We wissen uw e-mailadres er binnen 2 weken nadat we uw melding hebben afgehandeld.",
+                },
+                "render": [Function],
+              },
+            },
+          },
+          "label": "Wilt u op de hoogte blijven?",
+        },
+        "fout": Object {
+          "form": Object {
+            "controls": Object {
+              "text": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "label": "Momenteel zijn er problemen met deze website en kan uw melding niet verwerkt worden.",
+                  "type": "bedankt",
+                  "value": Array [
+                    "Probeert u het later nogmaals.",
+                    "Voor spoedeisende zaken kunt u ook telefonisch contact opnemen met 14 020.",
+                  ],
+                },
+                "render": [Function],
+              },
+            },
+          },
+          "label": "Fout",
+        },
+        "samenvatting": Object {
+          "form": Object {
+            "controls": Object {
+              "$field_0": Object {
+                "isStatic": false,
+                "render": [Function],
+              },
+            },
+          },
+          "label": "Controleer uw gegevens",
+          "preview": Object {
+            "beschrijf": Object {
+              "datetime": Object {
+                "label": "Tijdstip",
+                "render": [Function],
+              },
+              "description": Object {
+                "label": "Hier gaat het om",
+                "render": [Function],
+              },
+              "image": Object {
+                "label": "Foto",
+                "optional": true,
+                "render": [Function],
+              },
+              "location": Object {
+                "label": "Hier is het",
+                "render": [Function],
+              },
+              "priority": Object {
+                "authenticated": true,
+                "label": "Urgentie",
+                "render": [Function],
+                "values": Object {
+                  "high": "Hoog",
+                  "normal": "Normaal",
+                },
+              },
+              "source": Object {
+                "authenticated": true,
+                "label": "Bron",
+                "render": [Function],
+              },
+            },
+            "email": Object {
+              "email": Object {
+                "label": "Uw e-mailadres",
+                "render": [Function],
+              },
+            },
+            "telefoon": Object {
+              "phone": Object {
+                "label": "Uw (mobiele) telefoon",
+                "render": [Function],
+              },
+            },
+          },
+          "subtitle": "Maak een aanpassing als dat nodig is.",
+        },
+        "telefoon": Object {
+          "form": Object {
+            "controls": Object {
+              "$field_0": Object {
+                "isStatic": false,
+                "render": [Function],
+              },
+              "phone": Object {
+                "meta": Object {
+                  "label": "Wat is uw telefoonnummer?",
+                  "path": "reporter.phone",
+                  "placeholder": "Telefoonnummer",
+                  "subtitle": "Zo kunt u ons helpen het probleem sneller of beter op te lossen.",
+                  "type": "text",
+                },
+                "options": Object {
+                  "validators": Array [
+                    [Function],
+                  ],
+                },
+                "render": [Function],
+              },
+              "privacy_text": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "label": "Uw privacy",
+                  "type": "disclaimer",
+                  "value": "We gebruiken uw telefoonnummer alléén om nog iets te kunnen vragen over uw melding. We wissen uw telefoonnummer binnen 2 weken nadat we uw melding hebben afgehandeld.",
+                },
+                "render": [Function],
+              },
+            },
+          },
+          "label": "Mogen we u bellen voor vragen?",
+        },
+        "vulaan": Object {
+          "form": Object {
+            "controls": Object {
+              "$field_0": Object {
+                "isStatic": false,
+                "render": [Function],
+              },
+              "custom_text": Object {
+                "meta": Object {
+                  "label": "Dit hebt u net ingevuld:",
+                  "type": "citation",
+                  "value": "{incident.description}",
+                },
+                "render": [Function],
+              },
+              "extra_bedrijven_adres": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "category": "Overlast Bedrijven en Horeca",
+                  },
+                  "label": "Op welke locatie ervaart u de overlast",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_bedrijven_binnenstad_text": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "category": "Overlast Bedrijven en Horeca",
+                  },
+                  "type": "caution",
+                  "value": "Gaat het om overlast in de binnenstad? Bel 14 020 en vul dit formulier niet verder in.  Dan kunnen we sneller voor u aan het werk.",
+                },
+                "render": [Function],
+              },
+              "extra_bedrijven_momenten": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "category": "Overlast Bedrijven en Horeca",
+                    "extra_bedrijven_vaker": true,
+                  },
+                  "label": "Geef aan op welke momenten het gebeurt",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_bedrijven_naam": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "category": "Overlast Bedrijven en Horeca",
+                  },
+                  "label": "Bedrijfsnaam / Evenementnaam van vermoedelijke veroorzaker",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_bedrijven_overig": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "category": "Overlast Bedrijven en Horeca",
+                  },
+                  "label": "Uw melding gaat over:",
+                  "pathMerge": "extra_properties",
+                  "values": Object {
+                    "Ander soort bedrijf": "Ander soort bedrijf",
+                    "Evenement": "Evenement (festival, markt, etc.)",
+                    "Horecabedrijf": "Horecabedrijf (café, restaurant, snackbar, etc.)",
+                    "Iets anders": "Iets anders",
+                  },
+                },
+                "render": [Function],
+              },
+              "extra_bedrijven_text": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "category": "Overlast Bedrijven en Horeca",
+                  },
+                  "value": Array [
+                    "Onze handhavers willen graag contact kunnen opnemen over uw melding. Bijvoorbeeld om een afspraak te maken om bij u thuis een geluidsmeting te verrichten. Anonieme meldingen krijgen daarom een lage prioriteit.",
+                    "Uw gegevens worden vertrouwelijk behandeld en worden niet aan een (horeca)ondernemer bekend gemaakt.",
+                  ],
+                },
+                "render": [Function],
+              },
+              "extra_bedrijven_vaker": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "category": "Overlast Bedrijven en Horeca",
+                  },
+                  "label": "Gebeurt het vaker?",
+                  "pathMerge": "extra_properties",
+                  "value": "Ja, het gebeurt vaker:",
+                },
+                "render": [Function],
+              },
+              "extra_boten_geluid_meer": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "Overlast op het water - geluid",
+                  },
+                  "label": "Zijn er nog dingen die u ons nog meer kunt vertellen?",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_boten_gezonken_meer": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "Overlast op het water - Gezonken boot",
+                  },
+                  "label": "Zijn er nog dingen die u ons nog meer kunt vertellen?",
+                  "pathMerge": "extra_properties",
+                  "subtitle": "Bijvoorbeeld: \\"er lekt olie\\", \\"gevaar voor andere boten\\", etc.",
+                },
+                "render": [Function],
+              },
+              "extra_boten_snelheid_meer": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "Overlast op het water - snel varen",
+                  },
+                  "label": "Zijn er nog dingen die u ons nog meer kunt vertellen?",
+                  "pathMerge": "extra_properties",
+                  "subtitle": "Bijvoorbeeld: de kleur(en) van de boot, het aantal passagiers, de vaarrichting, Y of Vignet nummer etc.",
+                },
+                "render": [Function],
+              },
+              "extra_boten_snelheid_naamboot": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "subcategory": "Overlast op het water - snel varen",
+                  },
+                  "label": "Wat is de naam van de boot?",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_boten_snelheid_rederij": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "extra_boten_snelheid_rondvaartboot": "Ja",
+                    "subcategory": "Overlast op het water - snel varen",
+                  },
+                  "label": "Wat is de naam van de rederij?",
+                  "pathMerge": "extra_properties",
+                  "subtitle": "Als u begint met typen verschijnt vanzelf een lijst met rederijen",
+                  "values": Object {
+                    "Admiraal Heijn": "Admiraal Heijn",
+                    "Amsterdam Boat Center": "Amsterdam Boat Center",
+                    "Amsterdam Boat Events": "Amsterdam Boat Events",
+                    "Amsterdam Canal Cruises": "Amsterdam Canal Cruises",
+                    "Amsterdamse Salonboot Rederij": "Amsterdamse Salonboot Rederij",
+                    "Amsterdamse Watertaxi Centrale": "Amsterdamse Watertaxi Centrale",
+                    "Arviro": "Arviro",
+                    "Atropa Belladonna": "Atropa Belladonna",
+                    "Avontuur Amsterdam": "Avontuur Amsterdam",
+                    "Blue Boat Company": "Blue Boat Company",
+                    "Bughouse Tours Amsterdam": "Bughouse Tours Amsterdam",
+                    "Canal Bus": "Canal Bus",
+                    "Canal Company": "Canal Company",
+                    "Canal Rondvaart": "Canal Rondvaart",
+                    "Classic Boat Dinners": "Classic Boat Dinners",
+                    "Classic Ship Service": "Classic Ship Service",
+                    "Edutech": "Edutech",
+                    "Hollandsche Vaartochten Mij.": "Hollandsche Vaartochten Mij.",
+                    "Leemstar": "Leemstar",
+                    "Meijers Rondvaarten": "Meijers Rondvaarten",
+                    "Meinema, W.D.": "Meinema, W.D.",
+                    "MokumBoot": "MokumBoot",
+                    "Nationale Vereniging de Zonnebloem": "Nationale Vereniging de Zonnebloem",
+                    "New Orange": "New Orange",
+                    "Onbekend": "Onbekend",
+                    "Paradis Private Boat Tours": "Paradis Private Boat Tours",
+                    "Rederij 't Smidtje": "Rederij 't Smidtje",
+                    "Rederij Aemstelland": "Rederij Aemstelland",
+                    "Rederij Amsterdam": "Rederij Amsterdam",
+                    "Rederij Belle": "Rederij Belle",
+                    "Rederij Cruise With Us": "Rederij Cruise With Us",
+                    "Rederij De Jordaan": "Rederij De Jordaan",
+                    "Rederij Friendship": "Rederij Friendship",
+                    "Rederij Griffioen": "Rederij Griffioen",
+                    "Rederij Gypsy Ballad": "Rederij Gypsy Ballad",
+                    "Rederij Kooij": "Rederij Kooij",
+                    "Rederij Leemstar": "Rederij Leemstar",
+                    "Rederij Lieve": "Rederij Lieve",
+                    "Rederij Lovers": "Rederij Lovers",
+                    "Rederij Nassau": "Rederij Nassau",
+                    "Rederij Plas": "Rederij Plas",
+                    "Rederij Vlaun": "Rederij Vlaun",
+                    "Rederij Welvaren": "Rederij Welvaren",
+                    "Rederij de Nederlanden": "Rederij de Nederlanden",
+                    "SOP": "SOP",
+                    "Salonboot Adeline": "Salonboot Adeline",
+                    "Salonboot Belle van Zuylen": "Salonboot Belle van Zuylen",
+                    "Salonboot Dame van Amstel": "Salonboot Dame van Amstel",
+                    "Salonboot Hilda": "Salonboot Hilda",
+                    "Scheepsbouw Achterbos Theo Kok": "Scheepsbouw Achterbos Theo Kok",
+                    "Shoulders Sloepen": "Shoulders Sloepen",
+                    "Smidtje Beheer": "Smidtje Beheer",
+                    "Smidtje Exploitatie": "Smidtje Exploitatie",
+                    "Smidtje Holding": "Smidtje Holding",
+                    "Stichting Cordaan Groep": "Stichting Cordaan Groep",
+                    "Stichting De Kalefater": "Stichting De Kalefater",
+                    "Stichting Motorschip Jonckvrouw": "Stichting Motorschip Jonckvrouw",
+                    "Stichting behoud Salonboot Avanti": "Stichting behoud Salonboot Avanti",
+                    "Ver. Vrienden van de Boonapanich": "Ver. Vrienden van de Boonapanich",
+                    "Ver.van Vrienden van de Britannia": "Ver.van Vrienden van de Britannia",
+                    "Waterlelie Rondvaart": "Waterlelie Rondvaart",
+                    "Windkracht 18": "Windkracht 18",
+                    "Wolfsburght": "Wolfsburght",
+                    "Zonneboot Amsterdam": "Zonneboot Amsterdam",
+                  },
+                },
+                "render": [Function],
+              },
+              "extra_boten_snelheid_rondvaartboot": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "subcategory": "Overlast op het water - snel varen",
+                  },
+                  "label": "Gaat de melding over een rondvaartboot?",
+                  "pathMerge": "extra_properties",
+                  "values": Object {
+                    "Ja": "Ja",
+                    "Nee": "Nee",
+                  },
+                },
+                "render": [Function],
+              },
+              "extra_personen_overig": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "category": "Overlast van en door personen of groepen",
+                  },
+                  "label": "Om hoe veel personen gaat het (ongeveer)?",
+                  "pathMerge": "extra_properties",
+                  "values": Object {
+                    "": "Onbekend",
+                    "1-3": "1 - 3",
+                    "4-6": "4 - 6",
+                    "7+": "7 of meer",
+                  },
+                },
+                "render": [Function],
+              },
+              "extra_personen_overig_vaker": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "category": "Overlast van en door personen of groepen",
+                  },
+                  "label": "Gebeurt het vaker?",
+                  "pathMerge": "extra_properties",
+                  "value": "Ja, het gebeurt vaker:",
+                },
+                "render": [Function],
+              },
+              "extra_personen_overig_vaker_momenten": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "category": "Overlast van en door personen of groepen",
+                    "extra_personen_overig_vaker": true,
+                  },
+                  "label": "Geef aan op welke momenten het gebeurt",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+            },
+          },
+          "label": "Dit hebben we nog van u nodig",
+        },
+      }
+    }
+  />
+</div>
+`;

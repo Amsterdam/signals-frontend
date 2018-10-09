@@ -46,9 +46,9 @@
     "test:clean": "rimraf ./coverage",
     "test": "cross-env NODE_ENV=development jest --coverage",
     "test:no-coverage": "cross-env NODE_ENV=test jest ",
-    "test:only": "cross-env NODE_ENV=test jest --watch --onlyChanged --coverage",
-    "test:update": "cross-env NODE_ENV=test jest --updateSnapshot --coverage",
-    "test:watch": "cross-env NODE_ENV=test jest --watchAll --coverage",
+    "test:only": "cross-env NODE_ENV=test jest --watch --onlyChanged --coverage --verbose false",
+    "test:update": "cross-env NODE_ENV=test jest --updateSnapshot --coverage --verbose false",
+    "test:watch": "cross-env NODE_ENV=test jest --watchAll --coverage --verbose false",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "dyson:server": "nodemon --watch test/mock/api --exec babel-node --presets=latest test/mock/api",
     "dyson:sample": "nodemon --watch test/mock/sample --exec babel-node --presets=latest ./test/mock/sample"
@@ -213,10 +213,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "statements": 87,
-        "branches": 81,
-        "functions": 81,
-        "lines": 87
+        "statements": 96,
+        "branches": 92,
+        "functions": 94,
+        "lines": 96
       }
     },
     "coverageReporters": [

@@ -43,6 +43,27 @@ describe('<Add />', () => {
     beforeEach(() => {
     });
 
+    describe('rendering', () => {
+      it('should render FormGroup correctly', () => {
+        renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
+        expect(renderedFormGroup).toMatchSnapshot();
+      });
+
+      it('should render error', () => {
+        wrapper.setProps({ error: true });
+
+        renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
+        expect(renderedFormGroup).toMatchSnapshot();
+      });
+
+      it('should render loading', () => {
+        wrapper.setProps({ loading: true });
+
+        renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
+        expect(renderedFormGroup).toMatchSnapshot();
+      });
+    });
+
     it('should disable the submit button when no status is selected', () => {
       renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
       expect(renderedFormGroup.find('.incident-status-add__submit').prop('disabled')).toBe(true);

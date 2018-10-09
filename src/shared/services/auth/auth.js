@@ -2,6 +2,8 @@
  * @jest-environment jsdom
  */
 
+import { defer } from 'lodash';
+
 import queryStringParser from './services/query-string-parser/query-string-parser';
 import stateTokenGenerator from './services/state-token-generator/state-token-generator';
 import accessTokenParser from './services/access-token-parser/access-token-parser';
@@ -255,18 +257,14 @@ export function getAuthHeaders() {
 
 
 export function authenticate() {
-  try {
-    initAuth();
-  } catch (error) {
-    window.Raven.captureMessage(error);
-  }
+  initAuth();
 
   returnPath = getReturnPath();
   if (returnPath) {
     // Timeout needed because the change is otherwise not being handled in
     // Firefox browsers. This is possibly due to AngularJS changing the
     // `location.hash` at the same time.
-    window.setTimeout(() => {
+    defer(() => {
       location.hash = returnPath;
     });
   }
@@ -279,4 +277,3 @@ export function authenticate() {
 
   return null;
 }
-

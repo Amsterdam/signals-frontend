@@ -1,32 +1,53 @@
 import React from 'react';
-// import { Provider } from 'react-redux';
-// import { browserHistory } from 'react-router-dom';
 import { shallow } from 'enzyme';
 
-import { MainMenu } from './index';
+import { MainMenu, mapDispatchToProps } from './index';
+import { RESET_INCIDENT } from '../../signals/incident/containers/IncidentContainer/constants';
 
 describe('<MainMenu />', () => {
-  const createComponent = (isAuthenticated = false) => {
-    const wrapper = shallow(<MainMenu isAuthenticated={isAuthenticated} />);
-    return wrapper;
-  };
+  let props;
 
   beforeEach(() => {
+    props = {
+      isAuthenticated: false,
+      resetIncident: jest.fn()
+    };
   });
 
-  it('should render correctly', () => {
-    const wrapper = createComponent();
-    expect(wrapper).toMatchSnapshot();
+  describe('rendering', () => {
+    it('should render 1 NavLink components when not authenticated', () => {
+      const wrapper = shallow(<MainMenu {...props} />);
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render 2 NavLink components when authenticated', () => {
+      props.isAuthenticated = true;
+      const wrapper = shallow(<MainMenu {...props} />);
+
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 
-  it('should render render 2 NavLink components when not authenticated', () => {
-    const wrapper = createComponent();
-    expect(wrapper.find('NavLink').length).toEqual(1);
+  describe('events', () => {
+    it('should resetIncident when button is clicked', () => {
+      const wrapper = shallow(<MainMenu {...props} />);
+      const event = {
+        stopPropagation: jest.fn()
+      };
+
+      wrapper.find('NavLink').simulate('click', event);
+      expect(event.stopPropagation).toHaveBeenCalled();
+      expect(props.resetIncident).toHaveBeenCalled();
+    });
   });
 
-  it('should render render 3 NavLink components when authenticated', () => {
-    const isAuthenticated = true;
-    const wrapper = createComponent(isAuthenticated);
-    expect(wrapper.find('NavLink').length).toEqual(2);
+  describe('mapDispatchToProps', () => {
+    const dispatch = jest.fn();
+
+    it('should get classification', () => {
+      mapDispatchToProps(dispatch).resetIncident();
+      expect(dispatch).toHaveBeenCalledWith({ type: RESET_INCIDENT });
+    });
   });
 });

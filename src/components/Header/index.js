@@ -37,7 +37,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
                 </li>
                 {this.props.isAuthenticated ?
                   <li>
-                    <a href="" onClick={this.props.onLoginLogoutButtonClick}>
+                    <a href="" className="header-component__logout" onClick={this.props.onLoginLogoutButtonClick}>
                       {'Uitloggen'}
                     </a>
                   </li> : ''}
