@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 
 import MapPreview from './index';
 
-jest.mock('../../../../../../components/Map', () => 'Map');
+jest.mock('../../../../../../components/Map', () => () => 'Map');
 
 describe('Preview component <Map />', () => {
   const address = {

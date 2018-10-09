@@ -69,7 +69,7 @@ const mapStateToProps = createStructuredSelector({
   error: makeSelectError()
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
+export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestIncidents: requestIncidents,
   onIncidentSelected: incidentSelected,
   onMainCategoryFilterSelectionChanged: mainCategoryFilterSelectionChanged

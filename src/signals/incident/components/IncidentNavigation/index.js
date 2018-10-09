@@ -7,8 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { WithWizard } from 'react-albus';
-// import { FormattedMessage } from 'react-intl';
-// import messages from './messages';
+import { findIndex } from 'lodash';
 
 import './style.scss';
 
@@ -17,18 +16,20 @@ const IncidentNavigation = ({ valid, meta: { handleSubmit } }) => (
     <WithWizard
       render={({ next, previous, step, steps }) => (
         <div className="incident-navigation">
-          {steps.indexOf(step) > 0 ? (
+          {findIndex(steps, step) > 0 ? (
             <button className="incident-navigation__button action startagain" onClick={previous}>
               Vorige
             </button>
           ) : <span /> }
 
-          {steps.indexOf(step) < steps.length - 1 && (
+          {findIndex(steps, step) < steps.length - 1 && (
             <button
               className={`incident-navigation__button action primary ${step.id === 'incident/samenvatting' ? '' : 'arrow-right'}`}
               onClick={(e) => {
                 if (valid) {
-                  handleSubmit(e, step.id);
+                  e.persist();
+                  e.stepId = step.id;
+                  handleSubmit(e);
                   next();
                 }
               }}
