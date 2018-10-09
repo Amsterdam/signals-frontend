@@ -14,7 +14,7 @@ describe('<IncidentPreview />', () => {
       incidentContainer: {
         incident: {
           phone: '0666 666 666',
-          email: 'devil@hell.com'
+          email: 'duvel@uiteendoosje.nl'
         }
       },
       preview: {

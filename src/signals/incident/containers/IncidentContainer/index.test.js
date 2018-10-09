@@ -44,8 +44,8 @@ describe('<IncidentContainer />', () => {
     const dispatch = jest.fn();
 
     it('should get classification', () => {
-      mapDispatchToProps(dispatch).getClassification('alweer poep');
-      expect(dispatch).toHaveBeenCalledWith({ type: GET_CLASSIFICATION, payload: 'alweer poep' });
+      mapDispatchToProps(dispatch).getClassification('snelle boot');
+      expect(dispatch).toHaveBeenCalledWith({ type: GET_CLASSIFICATION, payload: 'snelle boot' });
     });
 
     it('should update the incident', () => {

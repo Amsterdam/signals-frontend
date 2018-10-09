@@ -73,7 +73,7 @@ exports[`<IncidentPreview /> expect to render correctly 1`] = `
             <div
               className="preview-text__item-value"
             >
-              devil@hell.com
+              duvel@uiteendoosje.nl
             </div>
           </div>
         </div>
