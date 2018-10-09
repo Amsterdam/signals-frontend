@@ -11,7 +11,15 @@ exports[`<IncidentStatusContainer /> should render correctly 1`] = `
       <Add
         error={false}
         id="1"
+        incidentStatusList={
+          Array [
+            Object {
+              "state": "m",
+            },
+          ]
+        }
         loading={false}
+        loadingExternal={false}
         onRequestStatusCreate={[MockFunction]}
       />
     </div>
@@ -19,7 +27,13 @@ exports[`<IncidentStatusContainer /> should render correctly 1`] = `
       className="col-12"
     >
       <List
-        incidentStatusList={Array []}
+        incidentStatusList={
+          Array [
+            Object {
+              "state": "m",
+            },
+          ]
+        }
         statusList={Array []}
       />
     </div>

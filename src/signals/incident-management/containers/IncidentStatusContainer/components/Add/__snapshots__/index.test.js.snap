@@ -113,6 +113,54 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
                   "observers": Array [],
                 },
               },
+              "loadingExternal": FormControl {
+                "_onCollectionChange": [Function],
+                "_onDisabledChange": Array [],
+                "_parent": [Circular],
+                "_pendingChange": true,
+                "_pendingDirty": false,
+                "_pendingTouched": false,
+                "_pendingValue": false,
+                "asyncValidator": null,
+                "errors": null,
+                "formState": false,
+                "get": [Function],
+                "getError": [Function],
+                "handler": [Function],
+                "hasError": [Function],
+                "meta": Object {},
+                "onBlur": [Function],
+                "onBlurChanges": Observable {
+                  "observers": Array [],
+                },
+                "onChange": [Function],
+                "onValueChanges": Observable {
+                  "observers": Array [],
+                },
+                "patchValue": [Function],
+                "pristine": true,
+                "reset": [Function],
+                "setValue": [Function],
+                "stateChanges": Observable {
+                  "observers": Array [],
+                },
+                "status": "VALID",
+                "statusChanges": Observable {
+                  "observers": Array [],
+                },
+                "submitted": false,
+                "touched": false,
+                "validator": null,
+                "validatorsOrOpts": Object {
+                  "asyncValidators": undefined,
+                  "updateOn": undefined,
+                  "validators": undefined,
+                },
+                "value": false,
+                "valueChanges": Observable {
+                  "observers": Array [],
+                },
+              },
               "state": [Circular],
               "text": FormControl {
                 "_onCollectionChange": [Function],
@@ -193,6 +241,7 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
             "value": Object {
               "_signal": "",
               "loading": false,
+              "loadingExternal": false,
               "state": "",
               "text": "",
             },
@@ -252,11 +301,6 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
       multiple={false}
       name="state"
       render={[Function]}
-      values={
-        Array [
-          "test",
-        ]
-      }
     />
     <FieldControlWrapper
       control={
@@ -319,6 +363,54 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
                 },
               },
               "loading": FormControl {
+                "_onCollectionChange": [Function],
+                "_onDisabledChange": Array [],
+                "_parent": [Circular],
+                "_pendingChange": true,
+                "_pendingDirty": false,
+                "_pendingTouched": false,
+                "_pendingValue": false,
+                "asyncValidator": null,
+                "errors": null,
+                "formState": false,
+                "get": [Function],
+                "getError": [Function],
+                "handler": [Function],
+                "hasError": [Function],
+                "meta": Object {},
+                "onBlur": [Function],
+                "onBlurChanges": Observable {
+                  "observers": Array [],
+                },
+                "onChange": [Function],
+                "onValueChanges": Observable {
+                  "observers": Array [],
+                },
+                "patchValue": [Function],
+                "pristine": true,
+                "reset": [Function],
+                "setValue": [Function],
+                "stateChanges": Observable {
+                  "observers": Array [],
+                },
+                "status": "VALID",
+                "statusChanges": Observable {
+                  "observers": Array [],
+                },
+                "submitted": false,
+                "touched": false,
+                "validator": null,
+                "validatorsOrOpts": Object {
+                  "asyncValidators": undefined,
+                  "updateOn": undefined,
+                  "validators": undefined,
+                },
+                "value": false,
+                "valueChanges": Observable {
+                  "observers": Array [],
+                },
+              },
+              "loadingExternal": FormControl {
                 "_onCollectionChange": [Function],
                 "_onDisabledChange": Array [],
                 "_parent": [Circular],
@@ -448,6 +540,7 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
             "value": Object {
               "_signal": "",
               "loading": false,
+              "loadingExternal": false,
               "state": "",
               "text": "",
             },
@@ -516,7 +609,12 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
         Status toevoegen
       </span>
     </button>
-    <div />
+    <Thor
+      currentState="m"
+      id="1"
+      loading={false}
+      onRequestStatusCreate={[MockFunction]}
+    />
   </div>
 </form>
 `;
@@ -634,6 +732,54 @@ exports[`<Add /> FieldGroup rendering should render error 1`] = `
                   "observers": Array [],
                 },
               },
+              "loadingExternal": FormControl {
+                "_onCollectionChange": [Function],
+                "_onDisabledChange": Array [],
+                "_parent": [Circular],
+                "_pendingChange": true,
+                "_pendingDirty": false,
+                "_pendingTouched": false,
+                "_pendingValue": false,
+                "asyncValidator": null,
+                "errors": null,
+                "formState": false,
+                "get": [Function],
+                "getError": [Function],
+                "handler": [Function],
+                "hasError": [Function],
+                "meta": Object {},
+                "onBlur": [Function],
+                "onBlurChanges": Observable {
+                  "observers": Array [],
+                },
+                "onChange": [Function],
+                "onValueChanges": Observable {
+                  "observers": Array [],
+                },
+                "patchValue": [Function],
+                "pristine": true,
+                "reset": [Function],
+                "setValue": [Function],
+                "stateChanges": Observable {
+                  "observers": Array [],
+                },
+                "status": "VALID",
+                "statusChanges": Observable {
+                  "observers": Array [],
+                },
+                "submitted": false,
+                "touched": false,
+                "validator": null,
+                "validatorsOrOpts": Object {
+                  "asyncValidators": undefined,
+                  "updateOn": undefined,
+                  "validators": undefined,
+                },
+                "value": false,
+                "valueChanges": Observable {
+                  "observers": Array [],
+                },
+              },
               "state": [Circular],
               "text": FormControl {
                 "_onCollectionChange": [Function],
@@ -714,6 +860,7 @@ exports[`<Add /> FieldGroup rendering should render error 1`] = `
             "value": Object {
               "_signal": "",
               "loading": false,
+              "loadingExternal": false,
               "state": "",
               "text": "",
             },
@@ -773,11 +920,6 @@ exports[`<Add /> FieldGroup rendering should render error 1`] = `
       multiple={false}
       name="state"
       render={[Function]}
-      values={
-        Array [
-          "test",
-        ]
-      }
     />
     <FieldControlWrapper
       control={
@@ -840,6 +982,54 @@ exports[`<Add /> FieldGroup rendering should render error 1`] = `
                 },
               },
               "loading": FormControl {
+                "_onCollectionChange": [Function],
+                "_onDisabledChange": Array [],
+                "_parent": [Circular],
+                "_pendingChange": true,
+                "_pendingDirty": false,
+                "_pendingTouched": false,
+                "_pendingValue": false,
+                "asyncValidator": null,
+                "errors": null,
+                "formState": false,
+                "get": [Function],
+                "getError": [Function],
+                "handler": [Function],
+                "hasError": [Function],
+                "meta": Object {},
+                "onBlur": [Function],
+                "onBlurChanges": Observable {
+                  "observers": Array [],
+                },
+                "onChange": [Function],
+                "onValueChanges": Observable {
+                  "observers": Array [],
+                },
+                "patchValue": [Function],
+                "pristine": true,
+                "reset": [Function],
+                "setValue": [Function],
+                "stateChanges": Observable {
+                  "observers": Array [],
+                },
+                "status": "VALID",
+                "statusChanges": Observable {
+                  "observers": Array [],
+                },
+                "submitted": false,
+                "touched": false,
+                "validator": null,
+                "validatorsOrOpts": Object {
+                  "asyncValidators": undefined,
+                  "updateOn": undefined,
+                  "validators": undefined,
+                },
+                "value": false,
+                "valueChanges": Observable {
+                  "observers": Array [],
+                },
+              },
+              "loadingExternal": FormControl {
                 "_onCollectionChange": [Function],
                 "_onDisabledChange": Array [],
                 "_parent": [Circular],
@@ -969,6 +1159,7 @@ exports[`<Add /> FieldGroup rendering should render error 1`] = `
             "value": Object {
               "_signal": "",
               "loading": false,
+              "loadingExternal": false,
               "state": "",
               "text": "",
             },
@@ -1042,7 +1233,12 @@ exports[`<Add /> FieldGroup rendering should render error 1`] = `
         Status toevoegen
       </span>
     </button>
-    <div />
+    <Thor
+      currentState="m"
+      id="1"
+      loading={false}
+      onRequestStatusCreate={[MockFunction]}
+    />
   </div>
 </form>
 `;
@@ -1160,6 +1356,54 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
                   "observers": Array [],
                 },
               },
+              "loadingExternal": FormControl {
+                "_onCollectionChange": [Function],
+                "_onDisabledChange": Array [],
+                "_parent": [Circular],
+                "_pendingChange": true,
+                "_pendingDirty": false,
+                "_pendingTouched": false,
+                "_pendingValue": false,
+                "asyncValidator": null,
+                "errors": null,
+                "formState": false,
+                "get": [Function],
+                "getError": [Function],
+                "handler": [Function],
+                "hasError": [Function],
+                "meta": Object {},
+                "onBlur": [Function],
+                "onBlurChanges": Observable {
+                  "observers": Array [],
+                },
+                "onChange": [Function],
+                "onValueChanges": Observable {
+                  "observers": Array [],
+                },
+                "patchValue": [Function],
+                "pristine": true,
+                "reset": [Function],
+                "setValue": [Function],
+                "stateChanges": Observable {
+                  "observers": Array [],
+                },
+                "status": "VALID",
+                "statusChanges": Observable {
+                  "observers": Array [],
+                },
+                "submitted": false,
+                "touched": false,
+                "validator": null,
+                "validatorsOrOpts": Object {
+                  "asyncValidators": undefined,
+                  "updateOn": undefined,
+                  "validators": undefined,
+                },
+                "value": false,
+                "valueChanges": Observable {
+                  "observers": Array [],
+                },
+              },
               "state": [Circular],
               "text": FormControl {
                 "_onCollectionChange": [Function],
@@ -1240,6 +1484,7 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
             "value": Object {
               "_signal": "",
               "loading": true,
+              "loadingExternal": false,
               "state": "",
               "text": "",
             },
@@ -1299,11 +1544,6 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
       multiple={false}
       name="state"
       render={[Function]}
-      values={
-        Array [
-          "test",
-        ]
-      }
     />
     <FieldControlWrapper
       control={
@@ -1413,6 +1653,54 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
                   "observers": Array [],
                 },
               },
+              "loadingExternal": FormControl {
+                "_onCollectionChange": [Function],
+                "_onDisabledChange": Array [],
+                "_parent": [Circular],
+                "_pendingChange": true,
+                "_pendingDirty": false,
+                "_pendingTouched": false,
+                "_pendingValue": false,
+                "asyncValidator": null,
+                "errors": null,
+                "formState": false,
+                "get": [Function],
+                "getError": [Function],
+                "handler": [Function],
+                "hasError": [Function],
+                "meta": Object {},
+                "onBlur": [Function],
+                "onBlurChanges": Observable {
+                  "observers": Array [],
+                },
+                "onChange": [Function],
+                "onValueChanges": Observable {
+                  "observers": Array [],
+                },
+                "patchValue": [Function],
+                "pristine": true,
+                "reset": [Function],
+                "setValue": [Function],
+                "stateChanges": Observable {
+                  "observers": Array [],
+                },
+                "status": "VALID",
+                "statusChanges": Observable {
+                  "observers": Array [],
+                },
+                "submitted": false,
+                "touched": false,
+                "validator": null,
+                "validatorsOrOpts": Object {
+                  "asyncValidators": undefined,
+                  "updateOn": undefined,
+                  "validators": undefined,
+                },
+                "value": false,
+                "valueChanges": Observable {
+                  "observers": Array [],
+                },
+              },
               "state": FormControl {
                 "_onCollectionChange": [Function],
                 "_onDisabledChange": Array [],
@@ -1495,6 +1783,7 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
             "value": Object {
               "_signal": "",
               "loading": true,
+              "loadingExternal": false,
               "state": "",
               "text": "",
             },
@@ -1570,7 +1859,12 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
         />
       </span>
     </button>
-    <div />
+    <Thor
+      currentState="m"
+      id="1"
+      loading={false}
+      onRequestStatusCreate={[MockFunction]}
+    />
   </div>
 </form>
 `;
@@ -1640,6 +1934,54 @@ exports[`<Add /> should render correctly 1`] = `
               },
             },
             "loading": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": false,
+              "asyncValidator": null,
+              "errors": null,
+              "formState": false,
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": undefined,
+                "updateOn": undefined,
+                "validators": undefined,
+              },
+              "value": false,
+              "valueChanges": Observable {
+                "observers": Array [],
+              },
+            },
+            "loadingExternal": FormControl {
               "_onCollectionChange": [Function],
               "_onDisabledChange": Array [],
               "_parent": [Circular],
@@ -1814,6 +2156,7 @@ exports[`<Add /> should render correctly 1`] = `
           "value": Object {
             "_signal": "",
             "loading": false,
+            "loadingExternal": false,
             "state": "",
             "text": "",
           },

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<MainMenu /> rendering should render render 1 NavLink components when not authenticated 1`] = `
+exports[`<MainMenu /> rendering should render 1 NavLink components when not authenticated 1`] = `
 <div
   className="row main-menu-component no-print"
 >
@@ -31,7 +31,7 @@ exports[`<MainMenu /> rendering should render render 1 NavLink components when n
 </div>
 `;
 
-exports[`<MainMenu /> rendering should render render 2 NavLink components when authenticated 1`] = `
+exports[`<MainMenu /> rendering should render 2 NavLink components when authenticated 1`] = `
 <div
   className="row main-menu-component no-print"
 >
