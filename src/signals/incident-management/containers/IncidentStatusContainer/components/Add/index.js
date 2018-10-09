@@ -35,7 +35,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
   }
 
   render() {
-    const { incidentStatusList, statusList, error, loading, loadingExternal } = this.props;
+    const { incidentStatusList, changeStatusOptionList, error, loading, loadingExternal } = this.props;
     return (
       <div className="incident-status-add">
         <div className="incident-status-add__body">
@@ -44,7 +44,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
             render={({ invalid }) => (
               <form onSubmit={this.handleSubmit}>
                 <div>
-                  <FieldControlWrapper render={SelectInput} name="state" display="Status" control={this.statusForm.get('state')} values={statusList} multiple={false} emptyOptionText="Selecteer..." />
+                  <FieldControlWrapper render={SelectInput} name="state" display="Status" control={this.statusForm.get('state')} values={changeStatusOptionList} multiple={false} emptyOptionText="Selecteer..." />
                   <FieldControlWrapper render={TextAreaInput} name="text" display="Omschrijving" control={this.statusForm.get('text')} rows={5} />
 
                   {error ? <div className="notification notification-red" >De gekozen status is niet mogelijk in deze situatie.</div> : ''}
@@ -81,7 +81,7 @@ Add.defaultProps = {
 
 Add.propTypes = {
   id: PropTypes.string,
-  statusList: PropTypes.array,
+  changeStatusOptionList: PropTypes.array,
   incidentStatusList: PropTypes.array,
   loading: PropTypes.bool,
   loadingExternal: PropTypes.bool,

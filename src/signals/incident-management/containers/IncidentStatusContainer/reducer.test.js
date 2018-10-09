@@ -11,7 +11,7 @@ import {
   REQUEST_STATUS_CREATE_ERROR
 }
   from './constants';
-import statusList from '../../definitions/statusList';
+import { changeStatusOptionList } from '../../definitions/statusList';
 
 describe('incidentStatusContainerReducer', () => {
   it('returns the initial state', () => {
@@ -29,7 +29,7 @@ describe('incidentStatusContainerReducer', () => {
         loading: true,
         loadingExternal: false,
         incidentStatusList: [],
-        statusList
+        changeStatusOptionList
       });
     });
   });
@@ -47,7 +47,7 @@ describe('incidentStatusContainerReducer', () => {
         loading: false,
         loadingExternal: false,
         incidentStatusList: ['status 1', 'status 2'],
-        statusList
+        changeStatusOptionList
       });
     });
   });
@@ -64,7 +64,7 @@ describe('incidentStatusContainerReducer', () => {
         loading: false,
         loadingExternal: false,
         incidentStatusList: [],
-        statusList
+        changeStatusOptionList
       });
     });
   });
@@ -83,7 +83,7 @@ describe('incidentStatusContainerReducer', () => {
         loading: true,
         loadingExternal: false,
         incidentStatusList: [],
-        statusList
+        changeStatusOptionList
       });
     });
 
@@ -100,7 +100,7 @@ describe('incidentStatusContainerReducer', () => {
         loading: false,
         loadingExternal: true,
         incidentStatusList: [],
-        statusList
+        changeStatusOptionList
       });
     });
   });
@@ -147,7 +147,7 @@ describe('incidentStatusContainerReducer', () => {
         loading: false,
         loadingExternal: false,
         incidentStatusList: [],
-        statusList
+        changeStatusOptionList
       });
     });
   });
