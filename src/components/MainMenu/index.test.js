@@ -15,13 +15,13 @@ describe('<MainMenu />', () => {
   });
 
   describe('rendering', () => {
-    it('should render render 1 NavLink components when not authenticated', () => {
+    it('should render 1 NavLink components when not authenticated', () => {
       const wrapper = shallow(<MainMenu {...props} />);
 
       expect(wrapper).toMatchSnapshot();
     });
 
-    it('should render render 2 NavLink components when authenticated', () => {
+    it('should render 2 NavLink components when authenticated', () => {
       props.isAuthenticated = true;
       const wrapper = shallow(<MainMenu {...props} />);
 
@@ -30,7 +30,7 @@ describe('<MainMenu />', () => {
   });
 
   describe('events', () => {
-    it('should render render 1 NavLink components when not authenticated', () => {
+    it('should resetIncident when button is clicked', () => {
       const wrapper = shallow(<MainMenu {...props} />);
       const event = {
         stopPropagation: jest.fn()
