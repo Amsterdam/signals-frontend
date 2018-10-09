@@ -51,9 +51,7 @@ exports[`<List /> should render correctly 1`] = `
           <td>
             11:48
           </td>
-          <td>
-            Gemeld
-          </td>
+          <td />
           <td />
           <td />
         </tr>
@@ -66,9 +64,7 @@ exports[`<List /> should render correctly 1`] = `
           <td>
             14:53
           </td>
-          <td>
-            In afwachting van behandeling
-          </td>
+          <td />
           <td>
             een tekst
           </td>
@@ -85,9 +81,7 @@ exports[`<List /> should render correctly 1`] = `
           <td>
             14:53
           </td>
-          <td>
-            Afgehandeld
-          </td>
+          <td />
           <td>
             is opgeruimd
           </td>

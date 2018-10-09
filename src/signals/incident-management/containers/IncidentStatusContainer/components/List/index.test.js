@@ -43,7 +43,7 @@ describe('<List />', () => {
       statusList,
       incidentStatusList: [
         {
-          id: 3,
+          _links: { self: { href: '3' } },
           text: '',
           user: null,
           extern: false,
@@ -51,7 +51,7 @@ describe('<List />', () => {
           created_at: '2018-07-13T11:48:45.555774+02:00'
         },
         {
-          id: 910,
+          _links: { self: { href: '910' } },
           text: 'een tekst',
           user: 'opleiding@amsterdam.nl',
           extern: false,
@@ -59,7 +59,7 @@ describe('<List />', () => {
           created_at: '2018-07-27T14:53:19.394361+02:00'
         },
         {
-          id: 911,
+          _links: { self: { href: '911' } },
           text: 'is opgeruimd',
           user: '',
           state: 'o',
