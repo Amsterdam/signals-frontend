@@ -84,7 +84,27 @@ export default {
         },
         render: FormComponents.DescriptionWithClassificationInput
       },
+      category: {
+        meta: {
+          label: 'Categorie',
+          type: 'text'
+        },
+        options: {
+          validators: [Validators.required]
+        },
+        render: FormComponents.HiddenInput
+      },
       subcategory: {
+        meta: {
+          label: 'Subcategorie',
+          type: 'text'
+        },
+        options: {
+          validators: [Validators.required]
+        },
+        render: FormComponents.HiddenInput
+      },
+      subcategory_link: {
         meta: {
           label: 'Subcategorie',
           path: 'category.sub_category',
