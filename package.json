@@ -243,6 +243,7 @@
     ]
   },
   "dependencies": {
+    "amsterdam-amaps": "^1.2.10",
     "amsterdam-stijl": "^3.0.2",
     "babel-plugin-inline-react-svg": "^0.5.4",
     "babel-polyfill": "^6.26.0",
@@ -299,6 +300,7 @@
     "babel-preset-react": "6.24.1",
     "babel-preset-stage-0": "6.24.1",
     "circular-dependency-plugin": "3.0.0",
+    "copy-webpack-plugin": "^4.5.3",
     "coveralls": "2.13.1",
     "css-loader": "0.28.4",
     "dyson": "^2.0.1",
