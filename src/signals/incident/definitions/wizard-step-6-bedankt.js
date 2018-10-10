@@ -26,25 +26,25 @@ export default {
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
-              'Huisafval',
-              'Bedrijfsafval',
-              'Puin / sloopafval',
-              'Container is vol',
-              'Container is kapot',
-              'Asbest / accu',
-              'Container plastic afval is vol',
-              'Container plastic afval is kapot',
-              'Lozing / dumping / bodemverontreiniging',
-              'Parkeeroverlast',
-              'Dode dieren',
-              'Overlast door afsteken vuurwerk',
-              'Overlast vanaf het water',
-              'Overlast van taxi\'s, bussen en fietstaxi\'s',
-              'Overige overlast door personen',
-              'Jongerenoverlast',
-              'Daklozen / bedelen',
-              'Wildplassen / poepen / overgeven',
-              'Drank- en drugsoverlast'
+              'huisafval',
+              'bedrijfsafval',
+              'puin-sloopafval',
+              'container-is-vol',
+              'container-is-kapot',
+              'asbest-accu',
+              'container-voor-plastic-afval-is-vol',
+              'container-voor-plastic-afval-is-kapot',
+              'lozing-dumping-bodemverontreiniging',
+              'parkeeroverlast',
+              'dode-dieren',
+              'overlast-door-afsteken-vuurwerk',
+              'overlast-vanaf-het-water',
+              'overlast-van-taxis-bussen-en-fietstaxis',
+              'overige-overlast-door-personen',
+              'jongerenoverlast',
+              'daklozen-bedelen',
+              'wildplassen-poepen-overgeven',
+              'drank-en-drugsoverlast'
             ]
           },
           value: [
@@ -60,10 +60,10 @@ export default {
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
-              'Veeg- / zwerfvuil',
-              'Prullenbak is vol',
-              'Onderhoud stoep, straat en fietspad',
-              'Verkeersbord, verkeersafzetting'
+              'veeg-zwerfvuil',
+              'prullenbak-is-vol',
+              'onderhoud-stoep-straat-en-fietspad',
+              'verkeersbord-verkeersafzetting'
             ]
           },
           value: [
@@ -78,7 +78,7 @@ export default {
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
-              'Grofvuil'
+              'grofvuil'
             ]
           },
           value: [
@@ -94,9 +94,9 @@ export default {
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
-              'Prullenbak is kapot',
-              'Omleiding / belijning verkeer',
-              'Brug'
+              'prullenbak-is-kapot',
+              'omleiding-belijning-verkeer',
+              'brug'
             ]
           },
           value: [
@@ -112,7 +112,7 @@ export default {
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
-              'Gladheid'
+              'gladheid'
             ]
           },
           value: [
@@ -129,29 +129,29 @@ export default {
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
-              'Straatmeubilair',
-              'Fietsrek / nietje',
-              'Put / riolering verstopt',
-              'Speelplaats',
-              'Sportvoorziening',
-              'Verkeersoverlast / Verkeerssituaties',
-              'Graffiti / wildplak',
-              'Hinderlijk geplaatst object',
-              'Boom',
-              'Maaien / Snoeien',
-              'Onkruid',
-              'Drijfvuil',
-              'Oever / kade / steiger',
-              'Ratten',
-              'Ganzen',
-              'Duiven',
-              'Meeuwen',
-              'Wespen',
-              'Geluidsoverlast muziek',
-              'Geluidsoverlast installaties',
-              'Overlast terrassen',
-              'Stankoverlast',
-              'Overlast door bezoekers (niet op terras)'
+              'straatmeubilair',
+              'fietsrek-nietje',
+              'put-riolering-verstopt',
+              'speelplaats',
+              'sportvoorziening',
+              'verkeersoverlast-verkeerssituaties',
+              'graffiti-wildplak',
+              'hinderlijk-geplaatst-object',
+              'boom',
+              'maaien-snoeien',
+              'onkruid',
+              'drijfvuil',
+              'oever-kade-steiger',
+              'ratten',
+              'ganzen',
+              'duiven',
+              'meeuwen',
+              'wespen',
+              'geluidsoverlast-muziek',
+              'geluidsoverlast-installaties',
+              'overlast-terrassen',
+              'stankoverlast',
+              'overlast-door-bezoekers-niet-op-terras'
             ]
           },
           value: [
@@ -167,7 +167,7 @@ export default {
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
-              'Straatverlichting / openbare klok'
+              'straatverlichting-openbare-klok'
             ]
           },
           value: [
@@ -182,7 +182,7 @@ export default {
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
-              'Verkeerslicht'
+              'verkeerslicht'
             ]
           },
           value: [
@@ -198,12 +198,12 @@ export default {
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
-              'Fietswrak',
-              'Stank- / geluidsoverlast',
-              'Bouw- / sloopoverlast',
-              'Auto- / scooter- / bromfiets(wrak)',
-              'Honden(poep)',
-              'Deelfiets'
+              'fietswrak',
+              'stank-geluidsoverlast',
+              'bouw-sloopoverlast',
+              'auto-scooter-bromfietswrak',
+              'hondenpoep',
+              'deelfiets'
             ]
           },
           value: [
@@ -219,8 +219,8 @@ export default {
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
-              'Overlast op het water - snel varen',
-              'Overlast op het water - geluid'
+              'overlast-op-het-water-snel-varen',
+              'overlast-op-het-water-geluid'
             ]
           },
           value: [
@@ -236,7 +236,7 @@ export default {
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
-              'Overlast op het water - Gezonken boot'
+              'overlast-op-het-water-gezonken-boot'
             ]
           },
           value: [
@@ -253,7 +253,7 @@ export default {
           type: 'bedankt',
           ifOneOf: {
             subcategory: [
-              'Overig'
+              'overig'
             ]
           },
           value: [

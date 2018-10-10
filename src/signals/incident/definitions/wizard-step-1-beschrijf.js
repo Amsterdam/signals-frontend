@@ -87,7 +87,6 @@ export default {
       category: {
         meta: {
           label: 'Categorie',
-          path: 'category.main',
           type: 'text'
         },
         options: {
@@ -98,7 +97,17 @@ export default {
       subcategory: {
         meta: {
           label: 'Subcategorie',
-          path: 'category.sub',
+          type: 'text'
+        },
+        options: {
+          validators: [Validators.required]
+        },
+        render: FormComponents.HiddenInput
+      },
+      subcategory_link: {
+        meta: {
+          label: 'Subcategorie',
+          path: 'category.sub_category',
           type: 'text'
         },
         options: {
