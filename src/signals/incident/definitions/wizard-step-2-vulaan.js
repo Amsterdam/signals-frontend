@@ -36,7 +36,7 @@ export default {
         meta: {
           className: 'col-sm-12 col-md-6',
           ifAllOf: {
-            category: 'overlast-van-en-door-personen-of-groepenn'
+            category: 'overlast-van-en-door-personen-of-groepen'
           },
           label: 'Gebeurt het vaker?',
           pathMerge: 'extra_properties',
