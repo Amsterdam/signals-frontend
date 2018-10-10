@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { isEqual } from 'lodash';
 
-import amaps from '../../static/pointquery.iife';
+import amaps from 'amsterdam-amaps/dist/pointquery.es';
 
 import './style.scss';
 

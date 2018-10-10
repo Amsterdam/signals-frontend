@@ -1,11 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import amaps from '../../static/amaps.iife';
+import amaps from 'amsterdam-amaps/dist/amaps.es';
 
 import Map from './index';
 
-jest.mock('../../static/amaps.iife');
+jest.mock('amsterdam-amaps/dist/amaps.es');
 
 describe('<Map />', () => {
   it('should render correctly', () => {
