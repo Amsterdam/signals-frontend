@@ -1,4 +1,4 @@
- import setClassification from './index';
+import setClassification from './index';
 
 describe.only('The set classification service', () => {
   it('should return Overig by default', () => {
