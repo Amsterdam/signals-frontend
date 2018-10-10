@@ -342,7 +342,7 @@
     "rimraf": "^2.6.2",
     "sass-loader": "^7.0.2",
     "shelljs": "^0.8.2",
-    "stijl": "Amsterdam/stijl.git",
+    "stijl": "Amsterdam/stijl.git#020cb088682b515d45c2a6b350b1f94e9b56c450",
     "style-loader": "^0.21.0",
     "url-loader": "0.5.8",
     "webpack": "3.5.5",
