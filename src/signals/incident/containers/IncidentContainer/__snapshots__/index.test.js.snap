@@ -858,7 +858,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 "meta": Object {
                   "className": "col-sm-12 col-md-6",
                   "ifAllOf": Object {
-                    "category": "overlast-van-en-door-personen-of-groepenn",
+                    "category": "overlast-van-en-door-personen-of-groepen",
                   },
                   "label": "Gebeurt het vaker?",
                   "pathMerge": "extra_properties",

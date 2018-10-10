@@ -84,8 +84,8 @@ describe('incidentContainerReducer', () => {
           payload: {
             id: 666,
             category: {
-              main: 'foo',
-              sub: 'bar'
+              main_slug: 'foo',
+              sub_slug: 'bar'
             }
           }
         }).toJS()
