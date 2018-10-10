@@ -38,7 +38,7 @@ import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line impor
 // Import CSS and Global Styles
 import 'leaflet/dist/leaflet.css';
 import 'static/nlmaps.css';
-import 'stijl/dist/css/ams-stijl.css';
+import 'amsterdam-stijl/dist/css/ams-stijl.css';
 import './global.scss';
 
 import configureStore from './configureStore';

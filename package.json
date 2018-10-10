@@ -152,7 +152,8 @@
       "newline-per-chained-call": 0,
       "no-confusing-arrow": 0,
       "no-console": 1,
-      "no-underscore-dangle": [0,
+      "no-underscore-dangle": [
+        0,
         {
           "allow": [
             "_display",
@@ -242,6 +243,7 @@
     ]
   },
   "dependencies": {
+    "amsterdam-stijl": "^3.0.2",
     "babel-plugin-inline-react-svg": "^0.5.4",
     "babel-polyfill": "^6.26.0",
     "chalk": "1.1.3",
@@ -342,7 +344,6 @@
     "rimraf": "^2.6.2",
     "sass-loader": "^7.0.2",
     "shelljs": "^0.8.2",
-    "stijl": "Amsterdam/stijl.git",
     "style-loader": "^0.21.0",
     "url-loader": "0.5.8",
     "webpack": "3.5.5",
