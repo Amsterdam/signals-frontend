@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import './style.scss';
-import LogoSvg from '../../../node_modules/stijl/dist/images/logos/andreas.svg';
-import LogoPng from '../../../node_modules/stijl/dist/images/logos/andreas.png';
-import LogoPrint from '../../../node_modules/stijl/dist/images/logos/andreas-print.png';
+import LogoSvg from '../../../node_modules/amsterdam-stijl/dist/images/logos/andreas.svg';
+import LogoPng from '../../../node_modules/amsterdam-stijl/dist/images/logos/andreas.png';
+import LogoPrint from '../../../node_modules/amsterdam-stijl/dist/images/logos/andreas-print.png';
 
 class Header extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
