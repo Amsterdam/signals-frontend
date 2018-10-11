@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { isEqual } from 'lodash';
 
-import amaps from 'amsterdam-amaps/dist/pointquery.es';
+import pointquery from 'amsterdam-amaps/dist/pointquery';
 
 import './style.scss';
 
@@ -35,7 +35,7 @@ class MapInteractive extends React.Component {
         };
       }
       this.setState({
-        map: amaps.createMap(options)
+        map: pointquery.createMap(options)
       });
     }
     if (!isEqual(props.location, this.props.location)) {

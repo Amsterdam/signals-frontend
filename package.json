@@ -243,7 +243,7 @@
     ]
   },
   "dependencies": {
-    "amsterdam-amaps": "^1.2.11",
+    "amsterdam-amaps": "^2.0.0",
     "amsterdam-stijl": "^3.0.2",
     "babel-plugin-inline-react-svg": "^0.5.4",
     "babel-polyfill": "^6.26.0",
