@@ -1,6 +1,6 @@
 {
   "name": "sia",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Signalen Informatievoorziening Amsterdam based on react-boilerplate ",
   "repository": {
     "type": "git",
@@ -152,7 +152,8 @@
       "newline-per-chained-call": 0,
       "no-confusing-arrow": 0,
       "no-console": 1,
-      "no-underscore-dangle": [0,
+      "no-underscore-dangle": [
+        0,
         {
           "allow": [
             "_display",
@@ -208,7 +209,6 @@
       "!src/app.js",
       "!src/global-styles.js",
       "!src/*/*/Loadable.{js,jsx}",
-      "!src/static/*",
       "!src/**/definitions/*"
     ],
     "coverageThreshold": {
@@ -227,8 +227,7 @@
       "src"
     ],
     "modulePathIgnorePatterns": [
-      "<rootDir>/internals/",
-      "<rootDir>/src/static"
+      "<rootDir>/internals/"
     ],
     "moduleNameMapper": {
       ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/internals/mocks/cssModule.js",
@@ -242,6 +241,8 @@
     ]
   },
   "dependencies": {
+    "amsterdam-amaps": "^2.0.0",
+    "amsterdam-stijl": "^3.0.2",
     "babel-plugin-inline-react-svg": "^0.5.4",
     "babel-polyfill": "^6.26.0",
     "chalk": "1.1.3",
@@ -297,6 +298,7 @@
     "babel-preset-react": "6.24.1",
     "babel-preset-stage-0": "6.24.1",
     "circular-dependency-plugin": "3.0.0",
+    "copy-webpack-plugin": "^4.5.3",
     "coveralls": "2.13.1",
     "css-loader": "0.28.4",
     "dyson": "^2.0.1",
@@ -342,7 +344,6 @@
     "rimraf": "^2.6.2",
     "sass-loader": "^7.0.2",
     "shelljs": "^0.8.2",
-    "stijl": "Amsterdam/stijl.git#020cb088682b515d45c2a6b350b1f94e9b56c450",
     "style-loader": "^0.21.0",
     "url-loader": "0.5.8",
     "webpack": "3.5.5",
