@@ -209,7 +209,6 @@
       "!src/app.js",
       "!src/global-styles.js",
       "!src/*/*/Loadable.{js,jsx}",
-      "!src/static/*",
       "!src/**/definitions/*"
     ],
     "coverageThreshold": {
@@ -228,8 +227,7 @@
       "src"
     ],
     "modulePathIgnorePatterns": [
-      "<rootDir>/internals/",
-      "<rootDir>/src/static"
+      "<rootDir>/internals/"
     ],
     "moduleNameMapper": {
       ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/internals/mocks/cssModule.js",
