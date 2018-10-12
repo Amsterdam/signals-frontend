@@ -18,23 +18,31 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
     this.props.incidentSelected(incident);
   }
 
+  sortClassName(sortName) {
+    let className = '';
+    const currentSort = this.props.sort && this.props.sort.split(',')[0];
+    if (currentSort && currentSort.indexOf(sortName) > -1) {
+      className = currentSort.charAt(0) === '-' ? 'sort sort-down' : 'sort sort-up';
+    }
+    return className;
+  }
+
   render() {
     const { incidents, incidentsCount, priorityList, statusList, stadsdeelList } = this.props;
     return (
       <div className="list-component">
         <div className="list-component__title">Meldingen ({incidentsCount})</div>
-
         <div className="list-component__body">
-          <table cellSpacing="0" cellPadding="0">
+          <table className="list-component__table" cellSpacing="0" cellPadding="0">
             <thead>
               <tr>
-                <th onClick={this.onSort('id')}>Id</th>
-                <th onClick={this.onSort('created_at')}>Datum / Tijd</th>
-                <th onClick={this.onSort('stadsdeel,-created_at')}>Stadsdeel</th>
-                <th onClick={this.onSort('sub_category,-created_at')}>Subcategorie</th>
-                <th onClick={this.onSort('state,-created_at')}>Status</th>
-                <th onClick={this.onSort('priority__priority,-created_at')}>Urgentie</th>
-                <th onClick={this.onSort('address,-created_at')}>Adres</th>
+                <th onClick={this.onSort('id')} className={this.sortClassName('id')} >Id</th>
+                <th onClick={this.onSort('created_at')} className={this.sortClassName('created_at')}>Datum / Tijd</th>
+                <th onClick={this.onSort('stadsdeel,-created_at')} className={this.sortClassName('stadsdeel')}>Stadsdeel</th>
+                <th onClick={this.onSort('sub_category,-created_at')} className={this.sortClassName('sub_category')}>Subcategorie</th>
+                <th onClick={this.onSort('state,-created_at')} className={this.sortClassName('state')}>Status</th>
+                <th onClick={this.onSort('priority__priority,-created_at')} className={this.sortClassName('priority__priority')}>Urgentie</th>
+                <th onClick={this.onSort('address,-created_at')} className={this.sortClassName('address')}>Adres</th>
               </tr>
             </thead>
             <tbody>
