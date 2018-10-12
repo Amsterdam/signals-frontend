@@ -5,6 +5,7 @@ import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { makeSelectError, makeSelectErrorMessage } from 'containers/App/selectors';
 import { resetGlobalError } from '../App/actions';
+import getMessage from './services/get-message';
 
 import './style.scss';
 
@@ -19,7 +20,7 @@ export const GlobalError = ({ error, errorMessage, onClose }) => (
                 className="global-error__close-button"
                 onClick={onClose}
               />
-              {errorMessage}
+              {getMessage(errorMessage)}
             </div>
           </div>
         </div>

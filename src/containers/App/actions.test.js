@@ -7,7 +7,7 @@ import {
 
   LOGIN, LOGOUT,
 
-  REQUEST_CATEGORIES, REQUEST_CATEGORIES_SUCCESS, REQUEST_CATEGORIES_ERROR,
+  REQUEST_CATEGORIES, REQUEST_CATEGORIES_SUCCESS,
 
   UPLOAD_REQUEST, UPLOAD_PROGRESS, UPLOAD_SUCCESS, UPLOAD_FAILURE
 } from './constants';
@@ -24,7 +24,6 @@ import {
 
   requestCategories,
   requestCategoriesSuccess,
-  requestCategoriesError,
 
   uploadRequest,
   uploadProgress,
@@ -80,7 +79,6 @@ describe('App actions', () => {
   it('should dispatch REQUEST_CATEGORIES action', () => {
     testActionCreator(requestCategories, REQUEST_CATEGORIES);
     testActionCreator(requestCategoriesSuccess, REQUEST_CATEGORIES_SUCCESS, { results: {} });
-    testActionCreator(requestCategoriesError, REQUEST_CATEGORIES_ERROR, {});
   });
 
   it('should dispatch upload request action', () => {

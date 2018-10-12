@@ -79,7 +79,7 @@ export function* setPriorityHandler(action) {
     yield put(setPrioritySuccess(result));
   } catch (error) {
     yield put(setPriorityError());
-    yield put(showGlobalError('Het zetten van de urgentie van deze melding is niet gelukt.'));
+    yield put(showGlobalError('PRIORITY_FRAILED'));
   }
 }
 

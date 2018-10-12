@@ -6,7 +6,7 @@ import request from 'utils/request';
 import { authCall } from 'shared/services/api/api';
 import watchAppSaga, { callLogin, callLogout, callAuthorize, fetchCategories, uploadFileWrapper, uploadFile } from './saga';
 import { LOGIN, LOGOUT, AUTHENTICATE_USER, REQUEST_CATEGORIES, UPLOAD_REQUEST } from './constants';
-import { authorizeUser, showGlobalError, requestCategoriesSuccess, requestCategoriesError, uploadProgress, uploadSuccess, uploadFailure } from './actions';
+import { authorizeUser, showGlobalError, requestCategoriesSuccess, uploadProgress, uploadSuccess, uploadFailure } from './actions';
 import { login, logout, getOauthDomain } from '../../shared/services/auth/auth';
 import mapCategories from '../../shared/services/map-categories';
 import fileUploadChannel from '../../shared/services/file-upload-channel';
@@ -72,7 +72,6 @@ describe('App saga', () => {
     });
 
     it('should error', () => {
-      // const error = new Error();
       const gen = callLogout();
       gen.next();
       expect(gen.throw().value).toEqual(put(showGlobalError('LOGOUT_FAILED'))); // eslint-disable-line redux-saga/yield-effects
@@ -150,11 +149,9 @@ describe('App saga', () => {
     });
 
     it('should error', () => {
-      const error = new Error('404 Not Found');
-
       const gen = fetchCategories();
       gen.next();
-      expect(gen.throw(error).value).toEqual(put(requestCategoriesError(error))); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.throw().value).toEqual(put(showGlobalError('FETCH_CATEGORIES_FAILED'))); // eslint-disable-line redux-saga/yield-effects
     });
   });
 
