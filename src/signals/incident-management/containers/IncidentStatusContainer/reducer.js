@@ -43,8 +43,8 @@ function incidentStatusContainerReducer(state = initialState, action) {
     case REQUEST_STATUS_LIST_ERROR:
     case REQUEST_STATUS_CREATE_ERROR:
       return state
-      .set('loading', false)
-      .set('loadingExternal', false)
+        .set('loading', false)
+        .set('loadingExternal', false)
         .set('error', action.payload)
         .set('loading', false);
 
