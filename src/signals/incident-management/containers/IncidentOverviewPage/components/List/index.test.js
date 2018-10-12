@@ -14,7 +14,8 @@ describe('<List />', () => {
       priorityList: [],
       statusList: [],
       stadsdeelList: [],
-      incidentSelected: jest.fn()
+      incidentSelected: jest.fn(),
+      onRequestIncidents: jest.fn()
     };
 
     wrapper = shallow(
@@ -37,5 +38,11 @@ describe('<List />', () => {
   it('should select the incident when the row is clicked', () => {
     wrapper.find('tbody > tr').simulate('click');
     expect(props.incidentSelected).toHaveBeenCalledWith(props.incidents[0]);
+  });
+
+  it('should sort the incidents when the header is clicked', () => {
+    const expectedSort = { sort: 'created_at' };
+    wrapper.find('thead > tr > th').at(1).simulate('click');
+    expect(props.onRequestIncidents).toHaveBeenCalledWith(expectedSort);
   });
 });

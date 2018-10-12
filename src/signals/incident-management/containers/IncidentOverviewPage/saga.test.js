@@ -3,7 +3,7 @@ import { push } from 'react-router-redux';
 import { authCall } from 'shared/services/api/api';
 
 import { REQUEST_INCIDENTS, INCIDENT_SELECTED } from './constants';
-import { requestIncidentsError, filterIncidentsChanged, pageIncidentsChanged } from './actions';
+import { requestIncidentsSuccess, requestIncidentsError, filterIncidentsChanged, pageIncidentsChanged, sortIncidentsChanged } from './actions';
 import watchRequestIncidentSaga, { fetchIncidents, openIncident } from './saga';
 import { makeSelectFilterParams } from './selectors';
 
@@ -38,7 +38,9 @@ describe('IncidentOverviewPage saga', () => {
   it('should fetchIncidents success', () => {
     const filter = { name: 'filter' };
     const page = 2;
-    const action = { payload: { filter, page } };
+    const sort = '-created_at';
+    const action = { payload: { filter, page, sort } };
+    const incidents = {};
 
     const requestURL = 'https://acc.api.data.amsterdam.nl/signals/auth/signal';
     const params = { test: 'test' };
@@ -46,8 +48,10 @@ describe('IncidentOverviewPage saga', () => {
     const gen = fetchIncidents(action);
     expect(gen.next().value).toEqual(put(filterIncidentsChanged(filter))); // eslint-disable-line redux-saga/yield-effects
     expect(gen.next().value).toEqual(put(pageIncidentsChanged(page))); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(put(sortIncidentsChanged(sort))); // eslint-disable-line redux-saga/yield-effects
     expect(gen.next().value).toEqual(select(makeSelectFilterParams())); // eslint-disable-line redux-saga/yield-effects
     expect(gen.next(params).value).toEqual(authCall(requestURL, params)); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next(incidents).value).toEqual(put(requestIncidentsSuccess(incidents))); // eslint-disable-line redux-saga/yield-effects
   });
 
   it('should fetchIncidents error', () => {
