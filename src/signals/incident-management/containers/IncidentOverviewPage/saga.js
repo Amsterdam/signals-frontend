@@ -5,7 +5,7 @@ import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import { REQUEST_INCIDENTS, INCIDENT_SELECTED } from './constants';
-import { requestIncidentsSuccess, requestIncidentsError, filterIncidentsChanged, pageIncidentsChanged } from './actions';
+import { requestIncidentsSuccess, requestIncidentsError, filterIncidentsChanged, pageIncidentsChanged, sortIncidentsChanged } from './actions';
 import { makeSelectFilterParams } from './selectors';
 
 export function* fetchIncidents(action) {
@@ -16,6 +16,8 @@ export function* fetchIncidents(action) {
     if (filter) yield put(filterIncidentsChanged(filter));
     const page = action.payload.page;
     if (page) yield put(pageIncidentsChanged(page));
+    const sort = action.payload.sort;
+    if (sort) yield put(sortIncidentsChanged(sort));
     const params = yield select(makeSelectFilterParams());
     const incidents = yield authCall(requestURL, params);
 

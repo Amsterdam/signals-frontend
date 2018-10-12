@@ -23,7 +23,7 @@ const makeSelectFilterParams = () => createSelector(
   selectOverviewPageDomain,
   (substate) => {
     const state = substate.toJS();
-    return { ...state.filter, page: state.page };
+    return { ...state.filter, page: state.page, ordering: state.sort };
   }
 );
 

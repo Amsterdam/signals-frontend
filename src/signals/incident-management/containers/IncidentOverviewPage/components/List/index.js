@@ -6,6 +6,14 @@ import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import './style.scss';
 
 class List extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  onSort = (sort) => () => {
+    if (this.props.sort && this.props.sort.indexOf(sort) === 0) {
+      this.props.onRequestIncidents({ sort: `-${sort}` });
+    } else {
+      this.props.onRequestIncidents({ sort });
+    }
+  }
+
   selectIncident = (incident) => () => {
     this.props.incidentSelected(incident);
   }
@@ -20,13 +28,13 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
           <table cellSpacing="0" cellPadding="0">
             <thead>
               <tr>
-                <th>Id</th>
-                <th>Datum / Tijd</th>
-                <th>Stadsdeel</th>
-                <th>Subcategorie</th>
-                <th>Status</th>
-                <th>Urgentie</th>
-                <th>Adres</th>
+                <th onClick={this.onSort('id')}>Id</th>
+                <th onClick={this.onSort('created_at')}>Datum / Tijd</th>
+                <th onClick={this.onSort('stadsdeel,-created_at')}>Stadsdeel</th>
+                <th onClick={this.onSort('sub_category,-created_at')}>Subcategorie</th>
+                <th onClick={this.onSort('state,-created_at')}>Status</th>
+                <th onClick={this.onSort('priority__priority,-created_at')}>Urgentie</th>
+                <th onClick={this.onSort('address,-created_at')}>Adres</th>
               </tr>
             </thead>
             <tbody>
@@ -58,6 +66,8 @@ List.propTypes = {
   stadsdeelList: PropTypes.array.isRequired,
 
   incidentSelected: PropTypes.func.isRequired,
+  onRequestIncidents: PropTypes.func.isRequired,
+  sort: PropTypes.string
 };
 
 export default List;
