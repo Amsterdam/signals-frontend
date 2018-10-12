@@ -14,7 +14,7 @@ import {
   setPrioritySuccess,
   setPriorityError
 } from './actions';
-import { uploadRequest } from '../../../../containers/App/actions';
+import { uploadRequest, showGlobalError } from '../../../../containers/App/actions';
 
 import mapControlsToParams from '../../services/map-controls-to-params';
 import setClassification from '../../services/set-classification';
@@ -79,7 +79,7 @@ export function* setPriorityHandler(action) {
     yield put(setPrioritySuccess(result));
   } catch (error) {
     yield put(setPriorityError());
-    yield put(replace('/incident/fout'));
+    yield put(showGlobalError('Het zetten van de urgentie van deze melding is niet gelukt.'));
   }
 }
 

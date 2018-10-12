@@ -17,7 +17,6 @@ import {
   showGlobalError,
   authorizeUser,
   requestCategoriesSuccess,
-  requestCategoriesError,
   uploadProgress,
   uploadSuccess,
   uploadFailure
@@ -32,7 +31,7 @@ export function* callLogin(action) {
   try {
     login(action.payload);
   } catch (error) {
-    yield put(showGlobalError('LOGIN_FAILED'));
+    yield put(showGlobalError('Inloggen is niet gelukt.'));
   }
 }
 
@@ -45,7 +44,7 @@ export function* callLogout() {
     logout();
     yield put(push('/'));
   } catch (error) {
-    yield put(showGlobalError('LOGOUT_FAILED'));
+    yield put(showGlobalError('Uitloggen is niet gelukt.'));
   }
 }
 
@@ -61,7 +60,7 @@ export function* callAuthorize(action) {
       yield put(authorizeUser(credentials));
     }
   } catch (error) {
-    yield put(showGlobalError('AUTHORIZE_FAILED'));
+    yield put(showGlobalError('Authenticeren is niet gelukt.'));
   }
 }
 
@@ -78,7 +77,7 @@ export function* uploadFile(action) {
     const { progress = 0, error, success } = yield take(channel);
     if (error) {
       yield put(uploadFailure());
-      yield put(showGlobalError('UPLOAD_FAILED'));
+      yield put(showGlobalError('Het uploaden van de foto is niet gelukt.'));
       return;
     }
     if (success) {
@@ -97,7 +96,7 @@ export function* fetchCategories() {
 
     yield put(requestCategoriesSuccess(mapCategories(categories)));
   } catch (err) {
-    yield put(requestCategoriesError(err));
+    yield put(showGlobalError('Inladen van categorieën is niet gelukt.'));
   }
 }
 

@@ -53,18 +53,9 @@ function appReducer(state = initialState, action) {
         .set('errorMessage', '')
         .set('loading', false);
 
-    // case REQUEST_CATEGORIES:
-      // return state
-        // .set('loading', true)
-        // .set('error', false);
     case REQUEST_CATEGORIES_SUCCESS:
       return state
         .set('categories', fromJS(action.payload));
-
-    // case REQUEST_CATEGORIES_ERROR:
-      // return state
-        // .set('error', action.payload)
-        // .set('loading', false);
 
     case UPLOAD_REQUEST:
       return state
