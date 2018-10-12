@@ -44,7 +44,7 @@ describe('IncidentOverviewPage saga', () => {
     const page = 2;
     const action = { payload: { filter, page } };
 
-    const requestURL = 'https://acc.a pi.data.amsterdam.nl/signals/auth/signal';
+    const requestURL = 'https://acc.api.data.amsterdam.nl/signals/auth/signal';
     const params = { test: 'test' };
 
     const gen = fetchIncidents(action);
