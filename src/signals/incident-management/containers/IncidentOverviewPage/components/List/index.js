@@ -21,8 +21,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
             <thead>
               <tr>
                 <th>Id</th>
-                <th>Datum</th>
-                <th>Tijd</th>
+                <th>Datum / Tijd</th>
                 <th>Stadsdeel</th>
                 <th>Subcategorie</th>
                 <th>Status</th>
@@ -34,8 +33,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
               {incidents.map((incident) => (
                 <tr key={incident.id} onClick={this.selectIncident(incident)}>
                   <td>{incident.id}</td>
-                  <td>{string2date(incident.incident_date_start)}</td>
-                  <td>{string2time(incident.incident_date_start)}</td>
+                  <td className="no-wrap">{string2date(incident.incident_date_start)} / {string2time(incident.incident_date_start)}</td>
                   <td>{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</td>
                   <td>{incident.category.sub}</td>
                   <td>{getListValueByKey(statusList, incident.status.state)}</td>
