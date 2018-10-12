@@ -20,7 +20,8 @@ export const initialState = fromJS({
   mainCategoryList,
   mainCategorySelectionList: [],
   subcategoryList,
-  statusList
+  statusList,
+  sort: '-created_at'
 });
 
 const filterSubcategories = (mainCategoryFilterSelection) => {
