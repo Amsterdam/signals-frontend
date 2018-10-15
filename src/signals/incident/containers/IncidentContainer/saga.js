@@ -19,8 +19,6 @@ import { uploadRequest, showGlobalError } from '../../../../containers/App/actio
 import mapControlsToParams from '../../services/map-controls-to-params';
 import setClassification from '../../services/set-classification';
 
-// import makeSelectIncidentContainer from './selectors';
-
 export function* getClassification(action) {
   const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals_mltool/predict`;
 
