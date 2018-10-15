@@ -205,10 +205,6 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
       render={[Function]}
       values={
         Array [
-          Object {
-            "key": "",
-            "value": "",
-          },
           "test",
         ]
       }
@@ -433,10 +429,6 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
       render={[Function]}
       values={
         Array [
-          Object {
-            "key": "",
-            "value": "",
-          },
           "test",
         ]
       }

@@ -14,7 +14,7 @@ export class FieldControlWrapper extends React.Component { // eslint-disable-lin
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (isEqual(props.values, state.values)) {
+    if (!isEqual(props.values, state.values)) {
       return {
         values: props.emptyOptionText ? [{ key: '', value: props.emptyOptionText }, ...props.values] : props.values,
       };
