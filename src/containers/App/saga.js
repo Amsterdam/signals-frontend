@@ -1,22 +1,18 @@
 import { all, call, put, take, takeEvery, takeLatest } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
-import request from 'utils/request';
 
 import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import mapCategories from '../../shared/services/map-categories';
 
 import {
   LOGOUT,
   LOGIN,
   AUTHENTICATE_USER,
-  REQUEST_CATEGORIES,
   UPLOAD_REQUEST
 } from './constants';
 import {
   showGlobalError,
   authorizeUser,
-  requestCategoriesSuccess,
   uploadProgress,
   uploadSuccess,
   uploadFailure
@@ -88,24 +84,11 @@ export function* uploadFile(action) {
   }
 }
 
-export function* fetchCategories() {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/public/terms/categories`;
-
-  try {
-    const categories = yield call(request, requestURL);
-
-    yield put(requestCategoriesSuccess(mapCategories(categories)));
-  } catch (err) {
-    yield put(showGlobalError('FETCH_CATEGORIES_FAILED'));
-  }
-}
-
 export default function* watchAppSaga() {
   yield all([
     takeLatest(LOGIN, callLogin),
     takeLatest(LOGOUT, callLogout),
     takeLatest(AUTHENTICATE_USER, callAuthorize),
-    takeLatest(REQUEST_CATEGORIES, fetchCategories),
     takeEvery(UPLOAD_REQUEST, uploadFileWrapper)
   ]);
 }

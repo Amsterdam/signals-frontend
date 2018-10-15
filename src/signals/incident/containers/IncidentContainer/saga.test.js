@@ -20,7 +20,7 @@ import {
   setPrioritySuccess,
   setPriorityError
 } from './actions';
-import { uploadRequest, showGlobalError } from '../../../../containers/App/actions';
+import { uploadRequest } from '../../../../containers/App/actions';
 import mapControlsToParams from '../../services/map-controls-to-params';
 
 jest.mock('../../services/map-controls-to-params');
@@ -172,6 +172,6 @@ describe('setPriority', () => {
   it('should error', () => {
     gen.next();
     expect(gen.throw().value).toEqual(put(setPriorityError()));
-    expect(gen.next().value).toEqual(put(showGlobalError('PRIORITY_FRAILED'))); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(put(replace('/incident/fout')));
   });
 });

@@ -3,25 +3,15 @@
 exports[`<GlobalError /> events should render showing no error by default 1`] = `
 <div>
   <div
-    className="global-error container"
+    className="global-error"
   >
-    <div
-      className="row"
+    MOCK_ERROR
+    <button
+      className="global-error__close-button"
+      onClick={[MockFunction]}
     >
-      <div
-        className="col col-12"
-      >
-        <div
-          className="global-error__message"
-        >
-          <button
-            className="global-error__close-button"
-            onClick={[MockFunction]}
-          />
-          An error message.
-        </div>
-      </div>
-    </div>
+      sluit
+    </button>
   </div>
 </div>
 `;
@@ -29,37 +19,27 @@ exports[`<GlobalError /> events should render showing no error by default 1`] = 
 exports[`<GlobalError /> events should render showing no error by default 2`] = `
 <div>
   <div
-    className="global-error container"
+    className="global-error"
   >
-    <div
-      className="row"
+    MOCK_ERROR
+    <button
+      className="global-error__close-button"
+      onClick={
+        [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "isThrow": false,
+              "value": undefined,
+            },
+          ],
+        }
+      }
     >
-      <div
-        className="col col-12"
-      >
-        <div
-          className="global-error__message"
-        >
-          <button
-            className="global-error__close-button"
-            onClick={
-              [MockFunction] {
-                "calls": Array [
-                  Array [],
-                ],
-                "results": Array [
-                  Object {
-                    "isThrow": false,
-                    "value": undefined,
-                  },
-                ],
-              }
-            }
-          />
-          An error message.
-        </div>
-      </div>
-    </div>
+      sluit
+    </button>
   </div>
 </div>
 `;
@@ -67,24 +47,14 @@ exports[`<GlobalError /> events should render showing no error by default 2`] = 
 exports[`<GlobalError /> rendering should render showing an error when defined 1`] = `
 <div>
   <div
-    className="global-error container"
+    className="global-error"
   >
-    <div
-      className="row"
+    MOCK_ERROR
+    <button
+      className="global-error__close-button"
     >
-      <div
-        className="col col-12"
-      >
-        <div
-          className="global-error__message"
-        >
-          <button
-            className="global-error__close-button"
-          />
-          An error message.
-        </div>
-      </div>
-    </div>
+      sluit
+    </button>
   </div>
 </div>
 `;
