@@ -1,18 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import getMessage from './services/get-message';
 
 import { GlobalError, mapDispatchToProps } from './index';
 import { RESET_GLOBAL_ERROR } from '../App/constants';
 
-jest.mock('./services/get-message');
-
-
 describe('<GlobalError />', () => {
-  beforeEach(() => {
-    getMessage.mockImplementation(() => 'An error message.');
-  });
-
   describe('rendering', () => {
     it('should render showing no error by default', () => {
       const wrapper = shallow(

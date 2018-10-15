@@ -113,7 +113,7 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
                   "observers": Array [],
                 },
               },
-              "sub_category": [Circular],
+              "sub": [Circular],
             },
             "errors": null,
             "get": [Function],
@@ -145,7 +145,7 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
             "value": Object {
               "_signal": "",
               "loading": false,
-              "sub_category": "",
+              "sub": "",
             },
             "valueChanges": Observable {
               "observers": Array [],
@@ -201,7 +201,7 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
       display="Subcategorie"
       emptyOptionText="Selecteer..."
       multiple={false}
-      name="sub_category"
+      name="sub"
       render={[Function]}
       values={
         Array [
@@ -337,7 +337,7 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
                   "observers": Array [],
                 },
               },
-              "sub_category": [Circular],
+              "sub": [Circular],
             },
             "errors": null,
             "get": [Function],
@@ -369,7 +369,7 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
             "value": Object {
               "_signal": "",
               "loading": true,
-              "sub_category": "",
+              "sub": "",
             },
             "valueChanges": Observable {
               "observers": Array [],
@@ -425,7 +425,7 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
       display="Subcategorie"
       emptyOptionText="Selecteer..."
       multiple={false}
-      name="sub_category"
+      name="sub"
       render={[Function]}
       values={
         Array [
@@ -567,7 +567,7 @@ exports[`<Add /> should render correctly 1`] = `
                 "observers": Array [],
               },
             },
-            "sub_category": FormControl {
+            "sub": FormControl {
               "_onCollectionChange": [Function],
               "_onDisabledChange": Array [],
               "_parent": [Circular],
@@ -646,7 +646,7 @@ exports[`<Add /> should render correctly 1`] = `
           "value": Object {
             "_signal": "",
             "loading": false,
-            "sub_category": "",
+            "sub": "",
           },
           "valueChanges": Observable {
             "observers": Array [],

@@ -14,23 +14,19 @@ import { fromJS } from 'immutable';
 
 import {
   AUTHORIZE_USER,
-
-  SHOW_GLOBAL_ERROR, RESET_GLOBAL_ERROR,
-
-  REQUEST_CATEGORIES_SUCCESS,
-
-  UPLOAD_REQUEST, UPLOAD_PROGRESS, UPLOAD_SUCCESS, UPLOAD_FAILURE
+  SHOW_GLOBAL_ERROR,
+  RESET_GLOBAL_ERROR,
+  UPLOAD_REQUEST,
+  UPLOAD_PROGRESS,
+  UPLOAD_SUCCESS,
+  UPLOAD_FAILURE
 } from './constants';
 
 // The initial state of the App
 export const initialState = fromJS({
   loading: false,
   error: false,
-  upload: {},
-  categories: {
-    categories: [],
-    subcategories: []
-  }
+  upload: {}
 });
 
 function appReducer(state = initialState, action) {
@@ -52,10 +48,6 @@ function appReducer(state = initialState, action) {
         .set('error', false)
         .set('errorMessage', '')
         .set('loading', false);
-
-    case REQUEST_CATEGORIES_SUCCESS:
-      return state
-        .set('categories', fromJS(action.payload));
 
     case UPLOAD_REQUEST:
       return state

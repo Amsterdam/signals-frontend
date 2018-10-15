@@ -203,7 +203,6 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
       multiple={false}
       name="priority"
       render={[Function]}
-      values={Array []}
     />
     <button
       className="action primary"
@@ -423,7 +422,6 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
       multiple={false}
       name="priority"
       render={[Function]}
-      values={Array []}
     />
     <button
       className="action primary"

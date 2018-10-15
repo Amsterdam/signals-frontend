@@ -8,8 +8,6 @@ import {
   SHOW_GLOBAL_ERROR,
   RESET_GLOBAL_ERROR,
 
-  REQUEST_CATEGORIES_SUCCESS,
-
   UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
   UPLOAD_SUCCESS,
@@ -68,23 +66,6 @@ describe('appReducer', () => {
         error: false,
         errorMessage: '',
         loading: false
-      });
-    });
-  });
-
-  describe('REQUEST_CATEGORIES_SUCCESS', () => {
-    it('should', () => {
-      expect(
-        appReducer(fromJS({}), {
-          type: REQUEST_CATEGORIES_SUCCESS,
-          payload: {
-            results: [1, 2]
-          }
-        }).toJS()
-      ).toEqual({
-        categories: {
-          results: [1, 2]
-        }
       });
     });
   });

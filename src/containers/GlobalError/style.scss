@@ -1,19 +1,9 @@
 .global-error {
-  color: #fff;
-  line-height: 24px;
   background-color: #ec0000;
-
-  &__message {
-    padding: 10px 0;
-  }
+  padding: 20px 10px 20px 20px;
+  text-align: center;
 
   &__close-button {
-    cursor: pointer;
-    width: 21px;
-    height: 21px;
-    background-color: transparent;
-    border-style: none;
-    float: right;
-    background-image: url("../../shared/images/icon-sluitkruis.svg");
+    margin-left: 10px;
   }
 }

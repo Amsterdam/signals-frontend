@@ -1,4 +1,5 @@
 const categoryList = [
+    { key: '', value: 'Alles' },
     { key: 'Afval', value: 'Afval' },
     { key: 'Openbaar groen en water', value: 'Openbaar groen en water' },
     { key: 'Overlast Bedrijven en Horeca', value: 'Overlast Bedrijven en Horeca' },

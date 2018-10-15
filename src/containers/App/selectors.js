@@ -39,11 +39,6 @@ const makeSelectIsAuthenticated = () => createSelector(
   (globalState) => !globalState.get('accessToken') === false
 );
 
-const makeSelectCategories = () => createSelector(
-  selectGlobal,
-  (globalState) => globalState.get('categories').toJS()
-);
-
 
 export {
   selectGlobal,
@@ -53,6 +48,5 @@ export {
   makeSelectError,
   makeSelectErrorMessage,
   makeSelectLocation,
-  makeSelectIsAuthenticated,
-  makeSelectCategories
+  makeSelectIsAuthenticated
 };

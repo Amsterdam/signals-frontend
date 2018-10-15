@@ -1425,7 +1425,6 @@ exports[`<Filter /> FieldGroup should not render subcategoryList when there are 
         }
       }
       display="Urgentie"
-      emptyOptionText="Alles"
       name="priority__priority"
       render={[Function]}
       values={
@@ -1916,7 +1915,6 @@ exports[`<Filter /> FieldGroup should not render subcategoryList when there are 
         }
       }
       display="Stadsdeel"
-      emptyOptionText="Alle stadsdelen"
       multiple={true}
       name="location__stadsdeel"
       render={[Function]}
@@ -2432,7 +2430,6 @@ exports[`<Filter /> FieldGroup should not render subcategoryList when there are 
         }
       }
       display="Hoofdcategorie"
-      emptyOptionText="Alles"
       multiple={true}
       name="category__main"
       render={[Function]}
@@ -2953,7 +2950,6 @@ exports[`<Filter /> FieldGroup should not render subcategoryList when there are 
         }
       }
       display="Subcategorie"
-      emptyOptionText="Alles"
       multiple={true}
       name="category__sub"
       render={[Function]}
@@ -3490,7 +3486,6 @@ exports[`<Filter /> FieldGroup should not render subcategoryList when there are 
         }
       }
       display="Status"
-      emptyOptionText="Alle statussen"
       multiple={true}
       name="status__state"
       render={[Function]}
@@ -5452,7 +5447,6 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
         }
       }
       display="Urgentie"
-      emptyOptionText="Alles"
       name="priority__priority"
       render={[Function]}
       values={
@@ -5943,7 +5937,6 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
         }
       }
       display="Stadsdeel"
-      emptyOptionText="Alle stadsdelen"
       multiple={true}
       name="location__stadsdeel"
       render={[Function]}
@@ -6459,7 +6452,6 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
         }
       }
       display="Hoofdcategorie"
-      emptyOptionText="Alles"
       multiple={true}
       name="category__main"
       render={[Function]}
@@ -6980,7 +6972,6 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
         }
       }
       display="Subcategorie"
-      emptyOptionText="Alles"
       multiple={true}
       name="category__sub"
       render={[Function]}
@@ -7517,7 +7508,6 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
         }
       }
       display="Status"
-      emptyOptionText="Alle statussen"
       multiple={true}
       name="status__state"
       render={[Function]}
