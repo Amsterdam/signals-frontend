@@ -7,6 +7,9 @@ import FieldControlWrapper from './index';
 describe('FieldControlWrapper', () => {
   let props;
   let wrapper;
+  const values = [
+    { key: 'foo', value: 'Foo' }
+  ];
 
   beforeEach(() => {
     props = {
@@ -14,39 +17,29 @@ describe('FieldControlWrapper', () => {
       control: new FormControl(),
       render: jest.fn()
     };
-
-    wrapper = shallow(<FieldControlWrapper {...props} />);
   });
 
   it('should render correctly', () => {
+    wrapper = shallow(<FieldControlWrapper {...props} />);
+
     expect(wrapper).toMatchSnapshot();
   });
 
   it('should render values correctly', () => {
-    wrapper.setProps({
-      values: [
-        { key: 'foo', value: 'Foo' },
-        { key: 'bar', value: 'Bar' }
-      ]
-    });
+    props.values = values;
+    wrapper = shallow(<FieldControlWrapper {...props} />);
 
+    wrapper.setProps({
+      values
+    });
 
     expect(wrapper).toMatchSnapshot();
-    expect(props.render).toHaveBeenCalledWith({
-      name: 'inputfield',
-      values: []
-    });
   });
 
   it('should render values with empty option correctly', () => {
-    wrapper.setProps({
-      values: [
-        { key: 'foo', value: 'Foo' },
-        { key: 'bar', value: 'Bar' }
-      ],
-      emptyOptionText: 'All'
-    });
-
+    props.values = values;
+    props.emptyOptionText = 'All';
+    wrapper = shallow(<FieldControlWrapper {...props} />);
 
     expect(wrapper).toMatchSnapshot();
   });

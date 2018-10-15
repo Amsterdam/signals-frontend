@@ -595,6 +595,7 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
         }
       }
       display="Omschrijving"
+      emptyOptionText=""
       name="text"
       render={[Function]}
       rows={5}
@@ -1216,6 +1217,7 @@ exports[`<Add /> FieldGroup rendering should render authentication error 1`] = `
         }
       }
       display="Omschrijving"
+      emptyOptionText=""
       name="text"
       render={[Function]}
       rows={5}
@@ -1842,6 +1844,7 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
         }
       }
       display="Omschrijving"
+      emptyOptionText=""
       name="text"
       render={[Function]}
       rows={5}
@@ -2176,6 +2179,7 @@ exports[`<Add /> FieldGroup rendering should render loading Thor 1`] = `
       multiple={false}
       name="state"
       render={[Function]}
+      values={Array []}
     />
     <FieldControlWrapper
       control={
@@ -2469,9 +2473,11 @@ exports[`<Add /> FieldGroup rendering should render loading Thor 1`] = `
         }
       }
       display="Omschrijving"
+      emptyOptionText=""
       name="text"
       render={[Function]}
       rows={5}
+      values={Array []}
     />
     <button
       className="incident-status-add__submit action primary"
@@ -2795,6 +2801,7 @@ exports[`<Add /> FieldGroup rendering should render normal error 1`] = `
       multiple={false}
       name="state"
       render={[Function]}
+      values={Array []}
     />
     <FieldControlWrapper
       control={
@@ -3088,9 +3095,11 @@ exports[`<Add /> FieldGroup rendering should render normal error 1`] = `
         }
       }
       display="Omschrijving"
+      emptyOptionText=""
       name="text"
       render={[Function]}
       rows={5}
+      values={Array []}
     />
     <div
       className="notification notification-red"

@@ -9,14 +9,14 @@ export class FieldControlWrapper extends React.Component { // eslint-disable-lin
     super(props);
 
     this.state = {
-      values: props.values
+      values: props.emptyOptionText ? [{ key: '', value: props.emptyOptionText }, ...props.values] : props.values
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (!isEqual(props.values, state.values)) {
       return {
-        values: props.emptyOptionText ? [{ key: '', value: props.emptyOptionText }, ...props.values] : props.values,
+        values: props.values
       };
     }
 
@@ -41,11 +41,13 @@ export class FieldControlWrapper extends React.Component { // eslint-disable-lin
 }
 
 FieldControlWrapper.defaultProps = {
+  emptyOptionText: '',
   values: []
 };
 
 FieldControlWrapper.propTypes = {
   name: PropTypes.string.isRequired,
+  emptyOptionText: PropTypes.string,
   control: PropTypes.object.isRequired,
   values: PropTypes.array,
   render: PropTypes.func.isRequired
