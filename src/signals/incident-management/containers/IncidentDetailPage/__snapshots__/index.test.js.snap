@@ -106,6 +106,7 @@ exports[`<IncidentDetailPage /> should render correctly 1`] = `
           "Status",
           "Urgentie",
           "Subcategorie",
+          "Notities",
         ]
       }
     />

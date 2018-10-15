@@ -27,6 +27,7 @@ import IncidentDetail from './components/IncidentDetail';
 import IncidentCategoryContainer from '../IncidentCategoryContainer';
 import IncidentPriorityContainer from '../IncidentPriorityContainer';
 import IncidentStatusContainer from '../IncidentStatusContainer';
+import IncidentNotesContainer from '../IncidentNotesContainer';
 import PrintLayout from './components/PrintLayout';
 
 
@@ -64,9 +65,10 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
       { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
       { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
       { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
+      { name: 'Notities', value: <IncidentNotesContainer id={this.props.id} /> },
       { name: 'Foto', value: <Img src={incident && incident.image ? incident.image : ''} alt={''} className="incident-detail-page__image--max-width" /> },
     ];
-    const visibleTabs = ['Status', 'Urgentie', 'Subcategorie', 'Foto'].filter((tab) => tab === 'Foto' ? (incident && incident.image) : true);
+    const visibleTabs = ['Status', 'Urgentie', 'Subcategorie', 'Notities', 'Foto'].filter((tab) => tab === 'Foto' ? (incident && incident.image) : true);
 
     const view = this.state.printView ? <PrintLayout id={this.props.id} incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} onPrintView={this.onPrintView} /> :
       (<div className="incident-detail-page row container">
