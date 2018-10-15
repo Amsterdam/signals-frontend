@@ -65,10 +65,10 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
       { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
       { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
       { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
-      { name: 'Notities', value: <IncidentNotesContainer id={this.props.id} /> },
+      { name: 'Notities', value: <IncidentNotesContainer id={this.props.id} />, count: incident && incident.notes_count },
       { name: 'Foto', value: <Img src={incident && incident.image ? incident.image : ''} alt={''} className="incident-detail-page__image--max-width" /> },
     ];
-    const visibleTabs = ['Status', 'Urgentie', 'Subcategorie', 'Notities', 'Foto'].filter((tab) => tab === 'Foto' ? (incident && incident.image) : true);
+    const visibleTabs = tabs.filter((tab) => tab.name === 'Foto' ? (incident && incident.image) : true);
 
     const view = this.state.printView ? <PrintLayout id={this.props.id} incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} onPrintView={this.onPrintView} /> :
       (<div className="incident-detail-page row container">

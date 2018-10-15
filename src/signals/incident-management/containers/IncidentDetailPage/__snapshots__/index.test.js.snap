@@ -103,10 +103,31 @@ exports[`<IncidentDetailPage /> should render correctly 1`] = `
       selectedTab={0}
       tabs={
         Array [
-          "Status",
-          "Urgentie",
-          "Subcategorie",
-          "Notities",
+          Object {
+            "name": "Status",
+            "value": <withReducer(withSaga(Connect(IncidentStatusContainer)))
+              id="100"
+            />,
+          },
+          Object {
+            "name": "Urgentie",
+            "value": <withReducer(withSaga(Connect(IncidentPriorityContainer)))
+              id="100"
+            />,
+          },
+          Object {
+            "name": "Subcategorie",
+            "value": <withReducer(withSaga(Connect(IncidentCategoryContainer)))
+              id="100"
+            />,
+          },
+          Object {
+            "count": undefined,
+            "name": "Notities",
+            "value": <withReducer(withSaga(Connect(IncidentNotesContainer)))
+              id="100"
+            />,
+          },
         ]
       }
     />
