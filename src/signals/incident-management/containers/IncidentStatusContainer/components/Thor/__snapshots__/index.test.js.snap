@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Thor /> rendering should render correctly 1`] = `
+<button
+  className="incident-status-add__send action tertiair"
+  disabled={false}
+  onClick={[Function]}
+  type="button"
+>
+  <span
+    className="value"
+  >
+    THOR
+  </span>
+</button>
+`;
+
+exports[`<Thor /> rendering should render correctly while loading 1`] = `
+<button
+  className="incident-status-add__send action tertiair"
+  disabled={false}
+  onClick={[Function]}
+  type="button"
+>
+  <span
+    className="value"
+  >
+    THOR
+  </span>
+  <span
+    className="working"
+  >
+    <div
+      className="progress-indicator progress-blue"
+    />
+  </span>
+</button>
+`;

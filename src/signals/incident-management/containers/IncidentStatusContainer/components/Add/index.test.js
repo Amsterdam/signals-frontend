@@ -14,6 +14,7 @@ describe('<Add />', () => {
       statusList: ['test'],
       state: 'gemeld',
       text: 'extra text',
+      error: false,
       incidentStatusList: [{
         state: 'm'
       }],
@@ -29,12 +30,14 @@ describe('<Add />', () => {
     jest.resetAllMocks();
   });
 
-  it('should render correctly', () => {
-    expect(wrapper).toMatchSnapshot();
-  });
+  describe('rendering', () => {
+    it('should render correctly', () => {
+      expect(wrapper).toMatchSnapshot();
+    });
 
-  it('should contain the FieldGroup', () => {
-    expect(wrapper.find(FieldGroup)).toHaveLength(1);
+    it('should contain the FieldGroup', () => {
+      expect(wrapper.find(FieldGroup)).toHaveLength(1);
+    });
   });
 
   describe('FieldGroup', () => {
@@ -49,8 +52,15 @@ describe('<Add />', () => {
         expect(renderedFormGroup).toMatchSnapshot();
       });
 
-      it('should render error', () => {
-        wrapper.setProps({ error: true });
+      it('should render normal error', () => {
+        wrapper.setProps({ error: { response: { status: 400 } } });
+
+        renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
+        expect(renderedFormGroup).toMatchSnapshot();
+      });
+
+      it('should render authentication error', () => {
+        wrapper.setProps({ error: { response: { status: 403 } } });
 
         renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
         expect(renderedFormGroup).toMatchSnapshot();
@@ -58,6 +68,13 @@ describe('<Add />', () => {
 
       it('should render loading', () => {
         wrapper.setProps({ loading: true });
+
+        renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
+        expect(renderedFormGroup).toMatchSnapshot();
+      });
+
+      it('should render loading Thor', () => {
+        wrapper.setProps({ loadingExternal: true });
 
         renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
         expect(renderedFormGroup).toMatchSnapshot();
