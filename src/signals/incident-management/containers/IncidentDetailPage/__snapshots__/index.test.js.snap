@@ -40,10 +40,6 @@ exports[`<IncidentDetailPage /> should render correctly 1`] = `
       priorityList={
         Array [
           Object {
-            "key": "",
-            "value": "Alles",
-          },
-          Object {
             "key": "normal",
             "value": "Normaal",
           },
@@ -55,10 +51,6 @@ exports[`<IncidentDetailPage /> should render correctly 1`] = `
       }
       stadsdeelList={
         Array [
-          Object {
-            "key": "",
-            "value": "Alle stadsdelen",
-          },
           Object {
             "key": "A",
             "value": "Centrum",
@@ -132,10 +124,6 @@ exports[`<IncidentDetailPage /> should render the print view 1`] = `
   priorityList={
     Array [
       Object {
-        "key": "",
-        "value": "Alles",
-      },
-      Object {
         "key": "normal",
         "value": "Normaal",
       },
@@ -147,10 +135,6 @@ exports[`<IncidentDetailPage /> should render the print view 1`] = `
   }
   stadsdeelList={
     Array [
-      Object {
-        "key": "",
-        "value": "Alle stadsdelen",
-      },
       Object {
         "key": "A",
         "value": "Centrum",

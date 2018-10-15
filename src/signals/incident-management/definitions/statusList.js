@@ -1,4 +1,3 @@
-const ALL = { key: '', value: 'Alle statussen' };
 const GEMELD = { key: 'm', value: 'Gemeld' };
 const AFWACHTING = { key: 'i', value: 'In afwachting van behandeling' };
 const BEHANDELING = { key: 'b', value: 'In behandeling' };
@@ -11,7 +10,6 @@ const VERZENDEN_MISLUKT = { key: 'send failed', value: 'Extern: mislukt' };
 const AFGEHANDELD_EXTERN = { key: 'done external', value: 'Extern: afgehandeld' };
 
 const statusList = [
-  ALL,
   GEMELD,
   AFWACHTING,
   BEHANDELING,
@@ -27,7 +25,6 @@ const statusList = [
 export default statusList;
 
 export const changeStatusOptionList = [
-  ALL,
   GEMELD,
   AFWACHTING,
   BEHANDELING,

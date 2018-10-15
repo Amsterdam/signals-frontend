@@ -15,14 +15,18 @@ jest.mock('./selectors', () => {
   });
 });
 
-
 describe('IncidentOverviewPage saga', () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
   it('should watchRequestIncidentsSaga', () => {
     const gen = watchRequestIncidentSaga();
-    expect(gen.next().value).toEqual(all([takeLatest(REQUEST_INCIDENTS, fetchIncidents), takeLatest(INCIDENT_SELECTED, openIncident)])); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(
+      all([
+        takeLatest(REQUEST_INCIDENTS, fetchIncidents),
+        takeLatest(INCIDENT_SELECTED, openIncident)
+      ]
+    )); // eslint-disable-line redux-saga/yield-effects
   });
 
   it('should openIncident success', () => {
