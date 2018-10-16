@@ -35,8 +35,10 @@ export class IncidentContainer extends React.Component {
     return (
       <div className="incident-container">
         <div className="incident-container__alert">
-          <b>Overlast van horeca of een evenement melden?</b><br />
-          Bij spoed: bel 14 020 (dag en nacht), of geef uw melding hier door en vul uw contactgegevens in. Wij kunnen u dan sneller helpen.</div>
+          <b>*** BELANGRIJK ***</b><br />
+            Melding over horeca of evenementen? Vul dan bij de melding altijd uw gegevens achter, dan kunnen wij u beter en sneller helpen. Spoed? Bel dan met 14 020.<br /><br />
+            Heeft u een melding over straatverlichting, verkeerslichten en klokken? <a href="https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx/fMeldingenOVL">Gebruik tijdelijk dit aparte formulier!</a>
+        </div>
         <IncidentWizard
           wizardDefinition={wizardDefinition}
           getClassification={this.getClassification}
