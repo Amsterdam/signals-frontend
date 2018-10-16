@@ -34,6 +34,9 @@ export class IncidentContainer extends React.Component {
   render() {
     return (
       <div className="incident-container">
+        <div className="incident-container__alert">
+          <b>Overlast van horeca of een evenement melden?</b><br />
+          Bij spoed: bel 14 020 (dag en nacht), of geef uw melding hier door en vul uw contactgegevens in. Wij kunnen u dan sneller helpen.</div>
         <IncidentWizard
           wizardDefinition={wizardDefinition}
           getClassification={this.getClassification}

@@ -1,6 +1,5 @@
 .incident-container {
-  &:before {
-    content: "yooooooo";
+  &__alert {
     color: white;
     background-color: #ec0000;
     line-height: 22px;
