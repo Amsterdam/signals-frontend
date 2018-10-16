@@ -1,3 +1,11 @@
 .incident-container {
-
+  &:before {
+    content: "yooooooo";
+    color: white;
+    background-color: #ec0000;
+    line-height: 22px;
+    display: block;
+    padding: 10px;
+    margin-top: -20px;
+  }
 }
