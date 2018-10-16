@@ -14,6 +14,10 @@ describe('<Add />', () => {
       statusList: ['test'],
       state: 'gemeld',
       text: 'extra text',
+      error: false,
+      incidentStatusList: [{
+        state: 'm'
+      }],
       onRequestStatusCreate: jest.fn()
     };
 
@@ -26,12 +30,14 @@ describe('<Add />', () => {
     jest.resetAllMocks();
   });
 
-  it('should render correctly', () => {
-    expect(wrapper).toMatchSnapshot();
-  });
+  describe('rendering', () => {
+    it('should render correctly', () => {
+      expect(wrapper).toMatchSnapshot();
+    });
 
-  it('should contain the FieldGroup', () => {
-    expect(wrapper.find(FieldGroup)).toHaveLength(1);
+    it('should contain the FieldGroup', () => {
+      expect(wrapper.find(FieldGroup)).toHaveLength(1);
+    });
   });
 
   describe('FieldGroup', () => {
@@ -40,9 +46,44 @@ describe('<Add />', () => {
     beforeEach(() => {
     });
 
+    describe('rendering', () => {
+      it('should render FormGroup correctly', () => {
+        renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
+        expect(renderedFormGroup).toMatchSnapshot();
+      });
+
+      it('should render normal error', () => {
+        wrapper.setProps({ error: { response: { status: 400 } } });
+
+        renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
+        expect(renderedFormGroup).toMatchSnapshot();
+      });
+
+      it('should render authentication error', () => {
+        wrapper.setProps({ error: { response: { status: 403 } } });
+
+        renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
+        expect(renderedFormGroup).toMatchSnapshot();
+      });
+
+      it('should render loading', () => {
+        wrapper.setProps({ loading: true });
+
+        renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
+        expect(renderedFormGroup).toMatchSnapshot();
+      });
+
+      it('should render loading Thor', () => {
+        wrapper.setProps({ loadingExternal: true });
+
+        renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
+        expect(renderedFormGroup).toMatchSnapshot();
+      });
+    });
+
     it('should disable the submit button when no status is selected', () => {
       renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
-      expect(renderedFormGroup.find('button').prop('disabled')).toBe(true);
+      expect(renderedFormGroup.find('.incident-status-add__submit').prop('disabled')).toBe(true);
     });
 
     it('should enable the submit button when a status is selected', () => {
@@ -51,7 +92,7 @@ describe('<Add />', () => {
       form.patchValue(formValue);
       expect(form.value.sub).toEqual(formValue.sub);
       renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
-      expect(renderedFormGroup.find('button').prop('disabled')).toBe(false);
+      expect(renderedFormGroup.find('.incident-status-add__submit').prop('disabled')).toBe(false);
     });
 
     it('should call status update when the form is submitted (search button is clicked)', () => {

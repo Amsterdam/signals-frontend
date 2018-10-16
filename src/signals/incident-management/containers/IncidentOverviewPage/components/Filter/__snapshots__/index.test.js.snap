@@ -5,7 +5,7 @@ exports[`<Filter /> FieldGroup should not render subcategoryList when there are 
   onSubmit={[Function]}
 >
   <div>
-    <FieldControlWrapper
+    <Component
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -479,7 +479,7 @@ exports[`<Filter /> FieldGroup should not render subcategoryList when there are 
       name="id"
       render={[Function]}
     />
-    <FieldControlWrapper
+    <Component
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -954,7 +954,7 @@ exports[`<Filter /> FieldGroup should not render subcategoryList when there are 
       placeholder="JJJJ-MM-DD"
       render={[Function]}
     />
-    <FieldControlWrapper
+    <Component
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -1444,7 +1444,7 @@ exports[`<Filter /> FieldGroup should not render subcategoryList when there are 
         ]
       }
     />
-    <FieldControlWrapper
+    <Component
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -1959,7 +1959,7 @@ exports[`<Filter /> FieldGroup should not render subcategoryList when there are 
         ]
       }
     />
-    <FieldControlWrapper
+    <Component
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -2479,7 +2479,7 @@ exports[`<Filter /> FieldGroup should not render subcategoryList when there are 
         ]
       }
     />
-    <FieldControlWrapper
+    <Component
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -3015,7 +3015,7 @@ exports[`<Filter /> FieldGroup should not render subcategoryList when there are 
         ]
       }
     />
-    <FieldControlWrapper
+    <Component
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -3522,7 +3522,7 @@ exports[`<Filter /> FieldGroup should not render subcategoryList when there are 
         ]
       }
     />
-    <FieldControlWrapper
+    <Component
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -4027,7 +4027,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
   onSubmit={[Function]}
 >
   <div>
-    <FieldControlWrapper
+    <Component
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -4501,7 +4501,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
       name="id"
       render={[Function]}
     />
-    <FieldControlWrapper
+    <Component
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -4976,7 +4976,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
       placeholder="JJJJ-MM-DD"
       render={[Function]}
     />
-    <FieldControlWrapper
+    <Component
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -5466,7 +5466,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
         ]
       }
     />
-    <FieldControlWrapper
+    <Component
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -5981,7 +5981,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
         ]
       }
     />
-    <FieldControlWrapper
+    <Component
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -6501,7 +6501,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
         ]
       }
     />
-    <FieldControlWrapper
+    <Component
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -7037,7 +7037,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
         ]
       }
     />
-    <FieldControlWrapper
+    <Component
       control={
         FormControl {
           "_onCollectionChange": [Function],
@@ -7544,7 +7544,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
         ]
       }
     />
-    <FieldControlWrapper
+    <Component
       control={
         FormControl {
           "_onCollectionChange": [Function],

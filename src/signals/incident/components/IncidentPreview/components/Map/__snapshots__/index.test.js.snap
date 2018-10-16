@@ -95,7 +95,7 @@ exports[`Preview component <Map /> should render only latlong correctly 1`] = `
           <div
             className="preview-map__item-value-map"
           >
-            <Map
+            <Component
               latlng={
                 Object {
                   "latitude": 4,
@@ -140,7 +140,7 @@ exports[`Preview component <Map /> should render valid adrress and map with latl
           <div
             className="preview-map__item-value-map"
           >
-            <Map
+            <Component
               latlng={
                 Object {
                   "latitude": 4,

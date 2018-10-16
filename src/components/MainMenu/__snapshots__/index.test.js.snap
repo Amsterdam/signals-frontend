@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<MainMenu /> should render correctly 1`] = `
+exports[`<MainMenu /> rendering should render 1 NavLink components when not authenticated 1`] = `
 <div
   className="row main-menu-component no-print"
 >
@@ -20,11 +20,49 @@ exports[`<MainMenu /> should render correctly 1`] = `
             <span
               className="linklabel"
             >
-              <FormattedMessage
-                defaultMessage="Nieuwe melding"
-                id="boilerplate.components.Header.incident"
-                values={Object {}}
-              />
+              Nieuwe melding
+            </span>
+          </NavLink>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+`;
+
+exports[`<MainMenu /> rendering should render 2 NavLink components when authenticated 1`] = `
+<div
+  className="row main-menu-component no-print"
+>
+  <div
+    className="container type-nav-primair"
+  >
+    <nav>
+      <ul
+        className="links horizontal"
+      >
+        <li>
+          <NavLink
+            activeClassName="active"
+            onClick={[Function]}
+            to="/"
+          >
+            <span
+              className="linklabel"
+            >
+              Nieuwe melding
+            </span>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            activeClassName="active"
+            to="/manage/incidents"
+          >
+            <span
+              className="linklabel"
+            >
+              Afhandelen
             </span>
           </NavLink>
         </li>

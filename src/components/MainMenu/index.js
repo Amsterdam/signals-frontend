@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
-import { FormattedMessage } from 'react-intl';
 import { NavLink } from 'react-router-dom';
 
-import messages from './messages';
 import './style.scss';
 import { makeSelectIsAuthenticated } from '../../containers/App/selectors';
 import { resetIncident } from '../../signals/incident/containers/IncidentContainer/actions';
@@ -34,7 +32,7 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
               <li>
                 <NavLink to="/" onClick={this.resetIncident}>
                   <span className="linklabel">
-                    <FormattedMessage {...messages.incident} />
+                    Nieuwe melding
                   </span>
                 </NavLink>
               </li>
@@ -42,7 +40,7 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
                 <li>
                   <NavLink to="/manage/incidents">
                     <span className="linklabel">
-                      <FormattedMessage {...messages.afhandelen} />
+                      Afhandelen
                     </span>
                   </NavLink>
                 </li> : ''
@@ -60,15 +58,13 @@ MainMenu.propTypes = {
   resetIncident: PropTypes.func
 };
 
-export const mapStateToProps = createStructuredSelector({
+const mapStateToProps = createStructuredSelector({
   isAuthenticated: makeSelectIsAuthenticated()
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    resetIncident: (incident) => dispatch(resetIncident(incident))
-  };
-}
+export const mapDispatchToProps = (dispatch) => bindActionCreators({
+  resetIncident
+}, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 

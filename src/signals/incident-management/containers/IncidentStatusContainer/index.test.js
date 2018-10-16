@@ -10,7 +10,12 @@ describe('<IncidentStatusContainer />', () => {
   beforeEach(() => {
     props = {
       id: '1',
-      incidentStatusContainer: { incident: {} },
+      incidentStatusContainer: {
+        incident: {},
+        incidentStatusList: [{
+          state: 'm'
+        }]
+      },
       onRequestStatusList: jest.fn(),
       onRequestStatusCreate: jest.fn()
     };
@@ -33,12 +38,12 @@ describe('<IncidentStatusContainer />', () => {
 
     it('should request the status list', () => {
       mapDispatchToProps(dispatch).onRequestStatusList({});
-      expect(dispatch.mock.calls[0][0]).toEqual({ type: REQUEST_STATUS_LIST, payload: {} });
+      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_STATUS_LIST, payload: {} });
     });
 
     it('should request the status create', () => {
       mapDispatchToProps(dispatch).onRequestStatusCreate({ status: {} });
-      expect(dispatch.mock.calls[0][0]).toEqual({ type: REQUEST_STATUS_CREATE, payload: { status: {} } });
+      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_STATUS_CREATE, payload: { status: {} } });
     });
   });
 });

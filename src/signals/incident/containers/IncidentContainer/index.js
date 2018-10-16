@@ -8,11 +8,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
+import { compose, bindActionCreators } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectIsAuthenticated } from 'containers/App/selectors';
+import wizardDefinition from '../../definitions/wizard';
 import { getClassification, updateIncident, createIncident } from './actions';
 import makeSelectIncidentContainer from './selectors';
 import reducer from './reducer';
@@ -21,7 +22,7 @@ import './style.scss';
 
 import IncidentWizard from '../../components/IncidentWizard';
 
-class IncidentContainer extends React.Component {
+export class IncidentContainer extends React.Component {
   constructor(props) {
     super(props);
 
@@ -34,6 +35,7 @@ class IncidentContainer extends React.Component {
     return (
       <div className="incident-container">
         <IncidentWizard
+          wizardDefinition={wizardDefinition}
           getClassification={this.getClassification}
           updateIncident={this.updateIncident}
           createIncident={this.createIncident}
@@ -58,13 +60,11 @@ const mapStateToProps = createStructuredSelector({
   isAuthenticated: makeSelectIsAuthenticated()
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    getClassification: (text) => dispatch(getClassification(text)),
-    updateIncident: (incident) => dispatch(updateIncident(incident)),
-    createIncident: (incident, wizard) => dispatch(createIncident(incident, wizard))
-  };
-}
+export const mapDispatchToProps = (dispatch) => bindActionCreators({
+  getClassification,
+  updateIncident,
+  createIncident
+}, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
