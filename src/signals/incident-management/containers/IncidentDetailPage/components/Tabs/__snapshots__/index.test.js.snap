@@ -13,8 +13,11 @@ exports[`<Tabs /> should render correctly 1`] = `
       onClick={[Function]}
       role="presentation"
     >
-      <a>
+      <a
+        className="tab"
+      >
         tab1
+         
       </a>
     </li>
     <li
@@ -23,8 +26,16 @@ exports[`<Tabs /> should render correctly 1`] = `
       onClick={[Function]}
       role="presentation"
     >
-      <a>
+      <a
+        className="tab"
+      >
         tab2
+         
+        <span
+          className="pill"
+        >
+          2
+        </span>
       </a>
     </li>
   </ul>

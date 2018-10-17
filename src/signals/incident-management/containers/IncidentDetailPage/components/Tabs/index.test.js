@@ -9,7 +9,7 @@ describe('<Tabs />', () => {
   beforeEach(() => {
     props = {
       selectedTab: 0,
-      tabs: ['tab1', 'tab2'],
+      tabs: [{ name: 'tab1' }, { name: 'tab2', count: 2 }],
       onTabChanged: jest.fn()
     };
   });

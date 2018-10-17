@@ -1,3 +1,12 @@
 .incident-detail-tabs {
   margin-top: 10px;
+
+  .tab {
+    height: 34px;
+    line-height: 23px;
+
+    .pill {
+      line-height: 24px;
+    }
+  }
 }
