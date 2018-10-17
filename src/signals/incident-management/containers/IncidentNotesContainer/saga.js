@@ -7,7 +7,7 @@ import { REQUEST_NOTES_LIST, REQUEST_NOTE_CREATE } from './constants';
 import { requestNotesListSuccess, requestNotesListError, requestNoteCreateSuccess, requestNoteCreateError } from './actions';
 
 // const baseURL = '/api/auth/auth/status';
-export const baseUrl = `${CONFIGURATION.API_ROOT}signals/auth/notes`;
+export const baseUrl = `${CONFIGURATION.API_ROOT}signals/auth/note`;
 
 export function* fetchIncidentNotesList(action) {
   const signalId = action.payload;
