@@ -37,7 +37,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
             <thead>
               <tr>
                 <th onClick={this.onSort('id')} className={this.sortClassName('id')} >Id</th>
-                <th onClick={this.onSort('created_at')} className={this.sortClassName('created_at')}>Datum / Tijd</th>
+                <th onClick={this.onSort('created_at')} className={this.sortClassName('created_at')}>Datum en tijd</th>
                 <th onClick={this.onSort('stadsdeel,-created_at')} className={this.sortClassName('stadsdeel')}>Stadsdeel</th>
                 <th onClick={this.onSort('sub_category,-created_at')} className={this.sortClassName('sub_category')}>Subcategorie</th>
                 <th onClick={this.onSort('status,-created_at')} className={this.sortClassName('status')}>Status</th>
@@ -49,7 +49,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
               {incidents.map((incident) => (
                 <tr key={incident.id} onClick={this.selectIncident(incident)}>
                   <td>{incident.id}</td>
-                  <td className="no-wrap">{string2date(incident.incident_date_start)} / {string2time(incident.incident_date_start)}</td>
+                  <td className="no-wrap">{string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}</td>
                   <td>{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</td>
                   <td>{incident.category && incident.category.sub}</td>
                   <td>{getListValueByKey(statusList, incident.status.state)}</td>

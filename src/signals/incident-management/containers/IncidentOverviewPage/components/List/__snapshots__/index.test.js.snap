@@ -30,7 +30,7 @@ exports[`<List /> should render correctly 1`] = `
             className=""
             onClick={[Function]}
           >
-            Datum / Tijd
+            Datum en tijd
           </th>
           <th
             className=""
@@ -76,7 +76,7 @@ exports[`<List /> should render correctly 1`] = `
             className="no-wrap"
           >
             11-07-2018
-             / 
+             
             15:46
           </td>
           <td>
