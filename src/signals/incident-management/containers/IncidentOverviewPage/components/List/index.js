@@ -51,7 +51,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
                   <td>{incident.id}</td>
                   <td className="no-wrap">{string2date(incident.incident_date_start)} / {string2time(incident.incident_date_start)}</td>
                   <td>{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</td>
-                  <td>{incident.category.sub}</td>
+                  <td>{incident.category && incident.category.sub}</td>
                   <td>{getListValueByKey(statusList, incident.status.state)}</td>
                   <td>{getListValueByKey(priorityList, incident.priority && incident.priority.priority)}</td>
                   <td>{incident.location.address_text}</td>
