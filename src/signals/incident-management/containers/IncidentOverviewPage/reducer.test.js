@@ -9,6 +9,8 @@ import {
   requestIncidentsError,
   incidentSelected,
   filterIncidentsChanged,
+  pageIncidentsChanged,
+  sortIncidentsChanged,
   mainCategoryFilterSelectionChanged
 } from './actions';
 
@@ -67,6 +69,23 @@ describe('overviewPageReducer', () => {
     const expected = fromJS({})
       .set('filter', filter)
       .set('page', 1);
+    expect(overviewPageReducer(state, action)).toEqual(expected);
+  });
+
+  it('should handle the PAGE_INCIDENTS_CHANGED', () => {
+    const page = 1;
+    const action = pageIncidentsChanged(page);
+    const expected = fromJS({})
+      .set('page', 1);
+    expect(overviewPageReducer(state, action)).toEqual(expected);
+  });
+
+  it('should handle the SORT_INCIDENTS_CHANGED', () => {
+    const sort = '-created_at';
+    const action = sortIncidentsChanged(sort);
+    const expected = fromJS({})
+      .set('page', 1)
+      .set('sort', sort);
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 

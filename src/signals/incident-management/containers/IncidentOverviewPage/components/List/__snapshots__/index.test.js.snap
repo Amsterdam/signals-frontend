@@ -16,31 +16,50 @@ exports[`<List /> should render correctly 1`] = `
     <table
       cellPadding="0"
       cellSpacing="0"
+      className="list-component__table"
     >
       <thead>
         <tr>
-          <th>
+          <th
+            className=""
+            onClick={[Function]}
+          >
             Id
           </th>
-          <th>
-            Datum
+          <th
+            className=""
+            onClick={[Function]}
+          >
+            Datum en tijd
           </th>
-          <th>
-            Tijd
-          </th>
-          <th>
+          <th
+            className=""
+            onClick={[Function]}
+          >
             Stadsdeel
           </th>
-          <th>
+          <th
+            className=""
+            onClick={[Function]}
+          >
             Subcategorie
           </th>
-          <th>
+          <th
+            className=""
+            onClick={[Function]}
+          >
             Status
           </th>
-          <th>
+          <th
+            className=""
+            onClick={[Function]}
+          >
             Urgentie
           </th>
-          <th>
+          <th
+            className=""
+            onClick={[Function]}
+          >
             Adres
           </th>
         </tr>
@@ -53,10 +72,11 @@ exports[`<List /> should render correctly 1`] = `
           <td>
             158
           </td>
-          <td>
+          <td
+            className="no-wrap"
+          >
             11-07-2018
-          </td>
-          <td>
+             
             15:46
           </td>
           <td>
