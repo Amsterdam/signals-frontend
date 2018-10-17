@@ -24,7 +24,6 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
                 <tr key={item._links.self.href}>
                   <td>{string2date(item.created_at)}</td>
                   <td>{string2time(item.created_at)}</td>
-                  <td>{item.state_display}</td>
                   <td>{item.text}</td>
                   <td>{item.user}</td>
                 </tr>
