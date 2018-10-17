@@ -46,7 +46,9 @@ exports[`<List /> should render correctly 1`] = `
           <td>
             11:48
           </td>
-          <td>
+          <td
+            className="pre-wrap"
+          >
             Note 1
           </td>
           <td />
@@ -60,7 +62,9 @@ exports[`<List /> should render correctly 1`] = `
           <td>
             14:53
           </td>
-          <td>
+          <td
+            className="pre-wrap"
+          >
             Note 2
           </td>
           <td>
@@ -76,7 +80,9 @@ exports[`<List /> should render correctly 1`] = `
           <td>
             14:53
           </td>
-          <td>
+          <td
+            className="pre-wrap"
+          >
             Note 3
           </td>
           <td />

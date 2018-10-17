@@ -52,7 +52,9 @@ exports[`<List /> should render correctly 1`] = `
             11:48
           </td>
           <td />
-          <td />
+          <td
+            className="pre-wrap"
+          />
           <td />
         </tr>
         <tr
@@ -65,7 +67,9 @@ exports[`<List /> should render correctly 1`] = `
             14:53
           </td>
           <td />
-          <td>
+          <td
+            className="pre-wrap"
+          >
             een tekst
           </td>
           <td>
@@ -82,7 +86,9 @@ exports[`<List /> should render correctly 1`] = `
             14:53
           </td>
           <td />
-          <td>
+          <td
+            className="pre-wrap"
+          >
             is opgeruimd
           </td>
           <td />

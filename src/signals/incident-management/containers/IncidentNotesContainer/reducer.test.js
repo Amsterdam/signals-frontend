@@ -83,28 +83,28 @@ describe('incidentNotesContainerReducer', () => {
     it('sets notes list and loading', () => {
       expect(
         incidentNotesContainerReducer(fromJS({
-          incidentNotesList: [{ text: 'Note 1' }, { text: 'Note 2' }]
+          incidentNotesList: [{ text: 'Note 2' }, { text: 'Note 1' }]
         }), {
           type: REQUEST_NOTE_CREATE_SUCCESS,
           payload: { text: 'Note 3' }
         }).toJS()
       ).toEqual({
         loading: false,
-        incidentNotesList: [{ text: 'Note 1' }, { text: 'Note 2' }, { text: 'Note 3' }]
+        incidentNotesList: [{ text: 'Note 3' }, { text: 'Note 2' }, { text: 'Note 1' }]
       });
     });
 
     it('sets notes list', () => {
       expect(
         incidentNotesContainerReducer(fromJS({
-          incidentNotesList: [{ text: 'Note 1' }, { text: 'Note 2' }]
+          incidentNotesList: [{ text: 'Note 2' }, { text: 'Note 1' }]
         }), {
           type: REQUEST_NOTE_CREATE_SUCCESS,
           payload: { text: 'Note 3' }
         }).toJS()
       ).toEqual({
         loading: false,
-        incidentNotesList: [{ text: 'Note 1' }, { text: 'Note 2' }, { text: 'Note 3' }]
+        incidentNotesList: [{ text: 'Note 3' }, { text: 'Note 2' }, { text: 'Note 1' }]
       });
     });
   });
