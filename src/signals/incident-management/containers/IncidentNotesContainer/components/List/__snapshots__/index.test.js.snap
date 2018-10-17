@@ -67,9 +67,7 @@ exports[`<List /> should render correctly 1`] = `
           >
             Note 2
           </td>
-          <td>
-            opleiding@amsterdam.nl
-          </td>
+          <td />
         </tr>
         <tr
           key="911"
