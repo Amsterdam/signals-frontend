@@ -34,7 +34,7 @@ function incidentNotesContainerReducer(state = initialState, action) {
 
     case REQUEST_NOTE_CREATE_SUCCESS:
       return state
-        .set('incidentNotesList', fromJS([...state.get('incidentNotesList'), action.payload]))
+        .set('incidentNotesList', fromJS([action.payload, ...state.get('incidentNotesList')]))
         .set('loading', false);
 
     case REQUEST_NOTES_LIST_ERROR:
