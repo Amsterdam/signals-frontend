@@ -12,6 +12,15 @@ import './style.scss';
 const PAGE_NUMBER_PADDING = 2;
 
 class Pager extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+    this.onPageChanged = this.onPageChanged.bind(this);
+  }
+
+  onPageChanged(page) {
+    this.props.onRequestIncidents({ filter: null, page });
+  }
+
   render() {
     const currentPage = this.props.page;
     const totalPages = Math.floor(this.props.incidentsCount / 100) + 1;
@@ -25,7 +34,7 @@ class Pager extends React.Component { // eslint-disable-line react/prefer-statel
         showDots = true;
         return ((currentPage === i) ?
           <span role="presentation" key={i} className="pager_step huidige"><strong>{i}</strong></span> :
-          <a role="presentation" key={i} className="pager_step pagina" onClick={() => this.props.onPageChanged(i)}>{i}</a>
+          <a role="presentation" key={i} className="pager_step pagina" onClick={() => this.onPageChanged(i)}>{i}</a>
         );
       } else if (showDots) {
         showDots = false;
@@ -38,9 +47,9 @@ class Pager extends React.Component { // eslint-disable-line react/prefer-statel
     return (
       <div className="incidents-list-pager" >
         <div className="pager">
-          {hasPrevious ? <a role="presentation" className="pager_nav vorige" onClick={() => this.props.onPageChanged(currentPage - 1)}>vorige</a> : null}
+          {hasPrevious ? <a role="presentation" className="pager_nav vorige" onClick={() => this.onPageChanged(currentPage - 1)}>vorige</a> : null}
           {pages.length > 1 ? pages : ''}
-          {hasNext ? <a role="presentation" className="pager_nav volgende" onClick={() => this.props.onPageChanged(currentPage + 1)}>volgende</a> : ''}
+          {hasNext ? <a role="presentation" className="pager_nav volgende" onClick={() => this.onPageChanged(currentPage + 1)}>volgende</a> : ''}
         </div>
       </div >
     );
@@ -49,7 +58,7 @@ class Pager extends React.Component { // eslint-disable-line react/prefer-statel
 
 Pager.propTypes = {
   page: PropTypes.number,
-  onPageChanged: PropTypes.func.isRequired,
+  onRequestIncidents: PropTypes.func.isRequired,
   incidentsCount: PropTypes.number
 };
 
