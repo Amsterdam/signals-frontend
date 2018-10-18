@@ -15,7 +15,7 @@ exports[`<PrintLayout /> should render correctly 1`] = `
       className="no-print"
     >
       <button
-        className="no-print"
+        className="print-layout__button"
         onClick={[Function]}
       >
         Print
@@ -30,11 +30,7 @@ exports[`<PrintLayout /> should render correctly 1`] = `
   </div>
   <div
     className="col-12"
-  >
-    <MapDetail
-      label=""
-    />
-  </div>
+  />
   <div
     className="col-12"
   >
@@ -58,51 +54,147 @@ exports[`<PrintLayout /> should render correctly 1`] = `
 </div>
 `;
 
-exports[`<PrintLayout /> should render the connected component correctly 1`] = `
-<PrintLayout
-  dispatch={[Function]}
-  id="100"
-  incident={Object {}}
-  incidentstatuscontainer={
-    Object {
-      "incidentStatusList": Array [],
-      "priorityList": Array [],
-      "statusList": Array [],
-    }
-  }
-  onPrintView={[MockFunction]}
-  priorityList={Array []}
-  stadsdeelList={Array []}
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  }
-  storeSubscription={
-    Subscription {
-      "listeners": Object {
-        "clear": [Function],
-        "get": [Function],
-        "notify": [Function],
-        "subscribe": [Function],
-      },
-      "onStateChange": [Function],
-      "parentSub": undefined,
-      "store": Object {
-        "clearActions": [Function],
-        "dispatch": [Function],
-        "getActions": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
-      },
-      "unsubscribe": [Function],
-    }
-  }
-/>
+exports[`<PrintLayout /> should render correctly with image 1`] = `
+<div
+  className="print-layout row container"
+>
+  <div
+    className="col-12"
+  >
+    <h3>
+      Melding 
+      100
+    </h3>
+    <div
+      className="no-print"
+    >
+      <button
+        className="print-layout__button"
+        onClick={[Function]}
+      >
+        Print
+      </button>
+      <button
+        className="no-print"
+        onClick={[MockFunction]}
+      >
+        Terug
+      </button>
+    </div>
+  </div>
+  <div
+    className="col-12"
+  />
+  <div
+    className="col-12"
+  >
+    <Component
+      incident={
+        Object {
+          "image": "https://www.objectstore.eu/signals/CACHE/images/images/2018/10/18/jasper_pepper_/089f0f5cdb1693b970c176763560278c.jpg",
+        }
+      }
+      priorityList={Array []}
+      stadsdeelList={Array []}
+    />
+  </div>
+  <div
+    className="col-12"
+  >
+    <Img
+      alt=""
+      className="incident-detail-page__image--max-width"
+      src="https://www.objectstore.eu/signals/CACHE/images/images/2018/10/18/jasper_pepper_/089f0f5cdb1693b970c176763560278c.jpg"
+    />
+  </div>
+  <div
+    className="col-12 print-layout__status-list"
+  >
+    <Component
+      incidentStatusList={Array []}
+      statusList={Array []}
+    />
+  </div>
+</div>
+`;
+
+exports[`<PrintLayout /> should render correctly with location 1`] = `
+<div
+  className="print-layout row container"
+>
+  <div
+    className="col-12"
+  >
+    <h3>
+      Melding 
+      100
+    </h3>
+    <div
+      className="no-print"
+    >
+      <button
+        className="print-layout__button"
+        onClick={[Function]}
+      >
+        Print
+      </button>
+      <button
+        className="no-print"
+        onClick={[MockFunction]}
+      >
+        Terug
+      </button>
+    </div>
+  </div>
+  <div
+    className="col-12"
+  >
+    <Component
+      label=""
+      value={
+        Object {
+          "geometrie": Object {
+            "coordinates": Array [
+              4.870762825012208,
+              52.37525531255687,
+            ],
+            "type": "Point",
+          },
+        }
+      }
+    />
+  </div>
+  <div
+    className="col-12"
+  >
+    <Component
+      incident={
+        Object {
+          "location": Object {
+            "geometrie": Object {
+              "coordinates": Array [
+                4.870762825012208,
+                52.37525531255687,
+              ],
+              "type": "Point",
+            },
+          },
+        }
+      }
+      priorityList={Array []}
+      stadsdeelList={Array []}
+    />
+  </div>
+  <div
+    className="col-12"
+  />
+  <div
+    className="col-12 print-layout__status-list"
+  >
+    <Component
+      incidentStatusList={Array []}
+      statusList={Array []}
+    />
+  </div>
+</div>
 `;

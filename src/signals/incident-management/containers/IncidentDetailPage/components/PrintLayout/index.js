@@ -20,7 +20,7 @@ export class PrintLayout extends React.Component { // eslint-disable-line react/
   }
 
   onPrint() {
-    window.print();
+    global.window.print();
   }
 
   render() {
@@ -31,15 +31,15 @@ export class PrintLayout extends React.Component { // eslint-disable-line react/
         <div className="col-12">
           <h3>Melding {this.props.id}</h3>
           <div className="no-print">
-            <button className="no-print" onClick={this.onPrint}>Print</button>
+            <button className="print-layout__button" onClick={this.onPrint}>Print</button>
             <button className="no-print" onClick={onPrintView}>Terug</button>
           </div>
         </div>
         <div className="col-12">
-          {(incident) ? <MapDetail label="" value={incident.location} /> : ''}
+          {incident.location ? <MapDetail label="" value={incident.location} /> : ''}
         </div>
         <div className="col-12">
-          {(incident) ? <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} /> : ''}
+          <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
         </div>
         <div className="col-12">
           {incident.image ?
