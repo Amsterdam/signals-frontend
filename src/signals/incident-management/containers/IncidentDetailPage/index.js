@@ -32,7 +32,6 @@ import PrintLayout from './components/PrintLayout';
 
 
 export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
-
   constructor(props) {
     super(props);
     this.onTabChanged = this.onTabChanged.bind(this);
