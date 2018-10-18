@@ -83,7 +83,11 @@ describe('incidentDetailPageReducer', () => {
     const note = 'bla';
     const action = requestNoteCreateSuccess(note);
     const expected = fromJS(initialState)
-      .set('incident', { note });
-    expect(reducer(state, action)).toEqual(expected);
+      .set('incident', { note, notes_count: 667 });
+
+    expect(reducer(fromJS(initialState).set('incident', {
+      note,
+      notes_count: 666
+    }), action)).toEqual(expected);
   });
 });
