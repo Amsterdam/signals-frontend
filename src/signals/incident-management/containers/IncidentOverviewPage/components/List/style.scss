@@ -25,6 +25,7 @@
     text-decoration: underline;
 
     &-up:after {
+      display: -ms-flexbox;
       height: 12px;
       width: 12px;
       margin: 5px;
@@ -35,6 +36,7 @@
     }
 
     &-down:after {
+      display: -ms-flexbox;
       height: 12px;
       width: 12px;
       margin: 5px;
