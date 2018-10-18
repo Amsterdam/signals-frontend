@@ -9,6 +9,7 @@ import {
   requestIncidentsError,
   incidentSelected,
   filterIncidentsChanged,
+  pageIncidentsChanged,
   mainCategoryFilterSelectionChanged
 } from './actions';
 
@@ -67,6 +68,13 @@ describe('overviewPageReducer', () => {
     const expected = fromJS({})
       .set('filter', filter)
       .set('page', 1);
+    expect(overviewPageReducer(state, action)).toEqual(expected);
+  });
+
+  it('should handle the PAGE_INCIDENTS_CHANGED', () => {
+    const action = pageIncidentsChanged(42);
+    const expected = fromJS({})
+      .set('page', 42);
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 
