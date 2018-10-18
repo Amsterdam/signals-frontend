@@ -14,6 +14,7 @@ import {
 import { REQUEST_PRIORITY_UPDATE_SUCCESS } from '../IncidentPriorityContainer/constants';
 import { REQUEST_CATEGORY_UPDATE_SUCCESS } from '../IncidentCategoryContainer/constants';
 import { REQUEST_STATUS_CREATE_SUCCESS } from '../IncidentStatusContainer/constants';
+import { REQUEST_NOTE_CREATE_SUCCESS } from '../IncidentNotesContainer/constants';
 
 import stadsdeelList from '../../definitions/stadsdeelList';
 import priorityList from '../../definitions/priorityList';
@@ -50,6 +51,9 @@ function incidentDetailPageReducer(state = initialState, action) {
     case REQUEST_STATUS_CREATE_SUCCESS:
       return state
         .set('incident', { ...state.get('incident'), status: action.payload });
+    case REQUEST_NOTE_CREATE_SUCCESS:
+      return state
+        .set('incident', { ...state.get('incident'), notes_count: state.get('incident').notes_count + 1 });
 
     default:
       return state;

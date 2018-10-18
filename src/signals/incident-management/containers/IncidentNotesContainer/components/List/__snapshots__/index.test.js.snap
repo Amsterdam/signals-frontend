@@ -2,15 +2,15 @@
 
 exports[`<List /> should render correctly 1`] = `
 <div
-  className="incident-status-container-list"
+  className="incident-notes-container-list"
 >
   <div
-    className="incident-status-container-list__body"
+    className="incident-notes-container-list__body"
   >
     <table
       cellPadding="0"
       cellSpacing="0"
-      className="incident-status-container-list__body-list"
+      className="incident-notes-container-list__body-list"
     >
       <thead>
         <tr>
@@ -27,12 +27,7 @@ exports[`<List /> should render correctly 1`] = `
           <th
             className=""
           >
-            Status
-          </th>
-          <th
-            className=""
-          >
-            Omschrijving
+            Notitie
           </th>
           <th
             className=""
@@ -51,10 +46,11 @@ exports[`<List /> should render correctly 1`] = `
           <td>
             11:48
           </td>
-          <td />
           <td
             className="pre-wrap"
-          />
+          >
+            Note 1
+          </td>
           <td />
         </tr>
         <tr
@@ -66,15 +62,12 @@ exports[`<List /> should render correctly 1`] = `
           <td>
             14:53
           </td>
-          <td />
           <td
             className="pre-wrap"
           >
-            een tekst
+            Note 2
           </td>
-          <td>
-            opleiding@amsterdam.nl
-          </td>
+          <td />
         </tr>
         <tr
           key="911"
@@ -85,11 +78,10 @@ exports[`<List /> should render correctly 1`] = `
           <td>
             14:53
           </td>
-          <td />
           <td
             className="pre-wrap"
           >
-            is opgeruimd
+            Note 3
           </td>
           <td />
         </tr>
@@ -101,15 +93,15 @@ exports[`<List /> should render correctly 1`] = `
 
 exports[`<List /> should render without list correctly 1`] = `
 <div
-  className="incident-status-container-list"
+  className="incident-notes-container-list"
 >
   <div
-    className="incident-status-container-list__body"
+    className="incident-notes-container-list__body"
   >
     <table
       cellPadding="0"
       cellSpacing="0"
-      className="incident-status-container-list__body-list"
+      className="incident-notes-container-list__body-list"
     >
       <thead>
         <tr>
@@ -126,12 +118,7 @@ exports[`<List /> should render without list correctly 1`] = `
           <th
             className=""
           >
-            Status
-          </th>
-          <th
-            className=""
-          >
-            Omschrijving
+            Notitie
           </th>
           <th
             className=""

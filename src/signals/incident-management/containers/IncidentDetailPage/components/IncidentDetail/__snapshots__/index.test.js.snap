@@ -76,7 +76,9 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
           <td>
             Omschrijving
           </td>
-          <td>
+          <td
+            className="pre-wrap"
+          >
             snel boot
              
           </td>
@@ -248,7 +250,9 @@ exports[`<IncidentDetail /> should render correctly without extra properties 1`]
           <td>
             Omschrijving
           </td>
-          <td>
+          <td
+            className="pre-wrap"
+          >
             snel boot
              
           </td>

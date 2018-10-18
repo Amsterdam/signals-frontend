@@ -33,7 +33,7 @@ export class IncidentOverviewPage extends React.Component { // eslint-disable-li
   }
 
   render() {
-    const { incidents, loading, filter, incidentsCount, page, ...rest } = this.props.overviewpage;
+    const { incidents, loading, filter, incidentsCount, page, sort, ...rest } = this.props.overviewpage;
     return (
       <div className="overview-page">
         <div className="row">
@@ -43,7 +43,7 @@ export class IncidentOverviewPage extends React.Component { // eslint-disable-li
           <div className="col-9">
             {loading ? (<LoadingIndicator />) : (
               <div>
-                <ListComponent incidentSelected={this.props.onIncidentSelected} incidents={incidents} baseUrl={this.props.baseUrl} incidentsCount={incidentsCount} {...rest} />
+                <ListComponent incidentSelected={this.props.onIncidentSelected} incidents={incidents} onRequestIncidents={this.props.onRequestIncidents} sort={sort} incidentsCount={incidentsCount} {...rest} />
                 <Pager incidentsCount={incidentsCount} page={page} onPageChanged={this.onPageChanged} />
               </div>)
             }
