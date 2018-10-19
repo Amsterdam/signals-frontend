@@ -1,6 +1,70 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<IncidentDetailPage /> should render correctly 1`] = `
+exports[`<IncidentDetailPage /> events should render the print view 1`] = `
+<Connect(PrintLayout)
+  id="100"
+  incident={Object {}}
+  onPrintView={[Function]}
+  priorityList={
+    Array [
+      Object {
+        "key": "",
+        "value": "Alles",
+      },
+      Object {
+        "key": "normal",
+        "value": "Normaal",
+      },
+      Object {
+        "key": "high",
+        "value": "Hoog",
+      },
+    ]
+  }
+  stadsdeelList={
+    Array [
+      Object {
+        "key": "",
+        "value": "Alle stadsdelen",
+      },
+      Object {
+        "key": "A",
+        "value": "Centrum",
+      },
+      Object {
+        "key": "B",
+        "value": "Westpoort",
+      },
+      Object {
+        "key": "E",
+        "value": "West",
+      },
+      Object {
+        "key": "M",
+        "value": "Oost",
+      },
+      Object {
+        "key": "N",
+        "value": "Noord",
+      },
+      Object {
+        "key": "T",
+        "value": "Zuidoost",
+      },
+      Object {
+        "key": "K",
+        "value": "Zuid",
+      },
+      Object {
+        "key": "F",
+        "value": "Nieuw-West",
+      },
+    ]
+  }
+/>
+`;
+
+exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
 <div
   className="incident-detail-page row container"
 >
@@ -14,11 +78,7 @@ exports[`<IncidentDetailPage /> should render correctly 1`] = `
   </div>
   <ul
     className="col-12 col-md-4 incident-detail-page__map"
-  >
-    <MapDetail
-      label=""
-    />
-  </ul>
+  />
   <div
     className="col-12 col-md-8"
   >
@@ -146,66 +206,307 @@ exports[`<IncidentDetailPage /> should render correctly 1`] = `
 </div>
 `;
 
-exports[`<IncidentDetailPage /> should render the print view 1`] = `
-<Connect(PrintLayout)
-  id="100"
-  incident={Object {}}
-  onPrintView={[Function]}
-  priorityList={
-    Array [
-      Object {
-        "key": "",
-        "value": "Alles",
-      },
-      Object {
-        "key": "normal",
-        "value": "Normaal",
-      },
-      Object {
-        "key": "high",
-        "value": "Hoog",
-      },
-    ]
-  }
-  stadsdeelList={
-    Array [
-      Object {
-        "key": "",
-        "value": "Alle stadsdelen",
-      },
-      Object {
-        "key": "A",
-        "value": "Centrum",
-      },
-      Object {
-        "key": "B",
-        "value": "Westpoort",
-      },
-      Object {
-        "key": "E",
-        "value": "West",
-      },
-      Object {
-        "key": "M",
-        "value": "Oost",
-      },
-      Object {
-        "key": "N",
-        "value": "Noord",
-      },
-      Object {
-        "key": "T",
-        "value": "Zuidoost",
-      },
-      Object {
-        "key": "K",
-        "value": "Zuid",
-      },
-      Object {
-        "key": "F",
-        "value": "Nieuw-West",
-      },
-    ]
-  }
-/>
+exports[`<IncidentDetailPage /> rendering should render correctly with image 1`] = `
+<div
+  className="incident-detail-page row container"
+>
+  <div
+    className="col-12"
+  >
+    <h3>
+      Melding 
+      100
+    </h3>
+  </div>
+  <ul
+    className="col-12 col-md-4 incident-detail-page__map"
+  />
+  <div
+    className="col-12 col-md-8"
+  >
+    (
+    <Link
+      replace={false}
+      to="undefined/incidents"
+    >
+      Terug naar overzicht
+    </Link>
+    )
+    <button
+      onClick={[Function]}
+    >
+      Print view
+    </button>
+    <IncidentDetail
+      incident={
+        Object {
+          "image": "some-image",
+        }
+      }
+      priorityList={
+        Array [
+          Object {
+            "key": "",
+            "value": "Alles",
+          },
+          Object {
+            "key": "normal",
+            "value": "Normaal",
+          },
+          Object {
+            "key": "high",
+            "value": "Hoog",
+          },
+        ]
+      }
+      stadsdeelList={
+        Array [
+          Object {
+            "key": "",
+            "value": "Alle stadsdelen",
+          },
+          Object {
+            "key": "A",
+            "value": "Centrum",
+          },
+          Object {
+            "key": "B",
+            "value": "Westpoort",
+          },
+          Object {
+            "key": "E",
+            "value": "West",
+          },
+          Object {
+            "key": "M",
+            "value": "Oost",
+          },
+          Object {
+            "key": "N",
+            "value": "Noord",
+          },
+          Object {
+            "key": "T",
+            "value": "Zuidoost",
+          },
+          Object {
+            "key": "K",
+            "value": "Zuid",
+          },
+          Object {
+            "key": "F",
+            "value": "Nieuw-West",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="col-12"
+  >
+    <Tabs
+      onTabChanged={[Function]}
+      selectedTab={0}
+      tabs={
+        Array [
+          Object {
+            "name": "Status",
+            "value": <withReducer(withSaga(Connect(IncidentStatusContainer)))
+              id="100"
+            />,
+          },
+          Object {
+            "name": "Urgentie",
+            "value": <withReducer(withSaga(Connect(IncidentPriorityContainer)))
+              id="100"
+            />,
+          },
+          Object {
+            "name": "Subcategorie",
+            "value": <withReducer(withSaga(Connect(IncidentCategoryContainer)))
+              id="100"
+            />,
+          },
+          Object {
+            "count": undefined,
+            "name": "Notities",
+            "value": <withReducer(withSaga(Connect(IncidentNotesContainer)))
+              id="100"
+            />,
+          },
+          Object {
+            "name": "Foto",
+            "value": <Img
+              alt=""
+              className="incident-detail-page__image--max-width"
+              src="some-image"
+            />,
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="col-12"
+  >
+    <div
+      className="incident-detail-page__tab-container"
+    >
+      <withReducer(withSaga(Connect(IncidentStatusContainer)))
+        id="100"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<IncidentDetailPage /> rendering should render correctly with location 1`] = `
+<div
+  className="incident-detail-page row container"
+>
+  <div
+    className="col-12"
+  >
+    <h3>
+      Melding 
+      100
+    </h3>
+  </div>
+  <ul
+    className="col-12 col-md-4 incident-detail-page__map"
+  >
+    <MapDetail
+      label=""
+      value={Object {}}
+    />
+  </ul>
+  <div
+    className="col-12 col-md-8"
+  >
+    (
+    <Link
+      replace={false}
+      to="undefined/incidents"
+    >
+      Terug naar overzicht
+    </Link>
+    )
+    <button
+      onClick={[Function]}
+    >
+      Print view
+    </button>
+    <IncidentDetail
+      incident={
+        Object {
+          "location": Object {},
+        }
+      }
+      priorityList={
+        Array [
+          Object {
+            "key": "",
+            "value": "Alles",
+          },
+          Object {
+            "key": "normal",
+            "value": "Normaal",
+          },
+          Object {
+            "key": "high",
+            "value": "Hoog",
+          },
+        ]
+      }
+      stadsdeelList={
+        Array [
+          Object {
+            "key": "",
+            "value": "Alle stadsdelen",
+          },
+          Object {
+            "key": "A",
+            "value": "Centrum",
+          },
+          Object {
+            "key": "B",
+            "value": "Westpoort",
+          },
+          Object {
+            "key": "E",
+            "value": "West",
+          },
+          Object {
+            "key": "M",
+            "value": "Oost",
+          },
+          Object {
+            "key": "N",
+            "value": "Noord",
+          },
+          Object {
+            "key": "T",
+            "value": "Zuidoost",
+          },
+          Object {
+            "key": "K",
+            "value": "Zuid",
+          },
+          Object {
+            "key": "F",
+            "value": "Nieuw-West",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="col-12"
+  >
+    <Tabs
+      onTabChanged={[Function]}
+      selectedTab={0}
+      tabs={
+        Array [
+          Object {
+            "name": "Status",
+            "value": <withReducer(withSaga(Connect(IncidentStatusContainer)))
+              id="100"
+            />,
+          },
+          Object {
+            "name": "Urgentie",
+            "value": <withReducer(withSaga(Connect(IncidentPriorityContainer)))
+              id="100"
+            />,
+          },
+          Object {
+            "name": "Subcategorie",
+            "value": <withReducer(withSaga(Connect(IncidentCategoryContainer)))
+              id="100"
+            />,
+          },
+          Object {
+            "count": undefined,
+            "name": "Notities",
+            "value": <withReducer(withSaga(Connect(IncidentNotesContainer)))
+              id="100"
+            />,
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="col-12"
+  >
+    <div
+      className="incident-detail-page__tab-container"
+    >
+      <withReducer(withSaga(Connect(IncidentStatusContainer)))
+        id="100"
+      />
+    </div>
+  </div>
+</div>
 `;
