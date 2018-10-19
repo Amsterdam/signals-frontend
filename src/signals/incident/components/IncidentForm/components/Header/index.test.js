@@ -12,7 +12,9 @@ describe('Form component <Header />', () => {
   let hasError;
 
   beforeEach(() => {
-    meta = {};
+    meta = {
+      label: 'naam'
+    };
     options = {};
     touched = false;
     getError = jest.fn();
@@ -28,6 +30,16 @@ describe('Form component <Header />', () => {
   });
 
   it('should render correctly', () => {
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should render when label is not available', () => {
+    wrapper.setProps({
+      meta: {
+        label: null
+      }
+    });
+
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -62,7 +74,7 @@ describe('Form component <Header />', () => {
       expect(wrapper).toMatchSnapshot();
     });
 
-    it('should render optional message', () => {
+    it('should render optional field message', () => {
       wrapper.setProps({ options: { validators: [] } });
 
       expect(wrapper).toMatchSnapshot();
