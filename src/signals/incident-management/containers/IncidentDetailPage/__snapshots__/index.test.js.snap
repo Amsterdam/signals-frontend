@@ -336,7 +336,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
           },
           Object {
             "name": "Foto",
-            "value": <Img
+            "value": <img
               alt=""
               className="incident-detail-page__image--max-width"
               src="some-image"

@@ -11,7 +11,6 @@ import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 
-import Img from 'shared/components/Img';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
@@ -65,7 +64,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
       { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
       { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
       { name: 'Notities', value: <IncidentNotesContainer id={this.props.id} />, count: incident && incident.notes_count },
-      { name: 'Foto', value: <Img src={incident && incident.image ? incident.image : ''} alt={''} className="incident-detail-page__image--max-width" /> },
+      { name: 'Foto', value: <img src={incident && incident.image ? incident.image : ''} alt={''} className="incident-detail-page__image--max-width" /> },
     ];
     const visibleTabs = tabs.filter((tab) => tab.name === 'Foto' ? (incident && incident.image) : true);
 
