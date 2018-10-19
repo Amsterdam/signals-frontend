@@ -61,5 +61,11 @@ describe('Form component <Header />', () => {
 
       expect(wrapper).toMatchSnapshot();
     });
+
+    it('should render optional message', () => {
+      wrapper.setProps({ options: { validators: [] } });
+
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 });

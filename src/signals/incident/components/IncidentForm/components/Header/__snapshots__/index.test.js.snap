@@ -91,6 +91,41 @@ exports[`Form component <Header /> error messages should render no error when el
 </div>
 `;
 
+exports[`Form component <Header /> error messages should render optional message 1`] = `
+<div
+  className="header "
+>
+  <div
+    className="header__label"
+  >
+    <span
+      className="header--not-required"
+    >
+      (niet verplicht)
+    </span>
+  </div>
+  <div
+    className="header__subheader"
+  />
+  <div
+    className="header__errors"
+  >
+    <div
+      className="header__errors__item"
+    />
+    <div
+      className="header__errors__item"
+    />
+    <div
+      className="header__errors__item"
+    />
+  </div>
+  <div
+    className="header__children"
+  />
+</div>
+`;
+
 exports[`Form component <Header /> error messages should render required error 1`] = `
 <div
   className="header header--invalid"
