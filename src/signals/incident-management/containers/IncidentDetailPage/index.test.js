@@ -45,6 +45,14 @@ describe('<IncidentDetailPage />', () => {
       );
       expect(wrapper).toMatchSnapshot();
     });
+
+    it('should render correctly without incident', () => {
+      props.incidentdetailpage.incident = undefined;
+      const wrapper = shallow(
+        <IncidentDetailPage {...props} />
+      );
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 
   describe('events', () => {

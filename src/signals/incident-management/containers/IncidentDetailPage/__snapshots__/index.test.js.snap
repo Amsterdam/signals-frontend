@@ -510,3 +510,86 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
   </div>
 </div>
 `;
+
+exports[`<IncidentDetailPage /> rendering should render correctly without incident 1`] = `
+<div
+  className="incident-detail-page row container"
+>
+  <div
+    className="col-12"
+  >
+    <h3>
+      Melding 
+      100
+    </h3>
+  </div>
+  <ul
+    className="col-12 col-md-4 incident-detail-page__map"
+  />
+  <div
+    className="col-12 col-md-8"
+  >
+    (
+    <Link
+      replace={false}
+      to="undefined/incidents"
+    >
+      Terug naar overzicht
+    </Link>
+    )
+    <button
+      onClick={[Function]}
+    >
+      Print view
+    </button>
+  </div>
+  <div
+    className="col-12"
+  >
+    <Tabs
+      onTabChanged={[Function]}
+      selectedTab={0}
+      tabs={
+        Array [
+          Object {
+            "name": "Status",
+            "value": <withReducer(withSaga(Connect(IncidentStatusContainer)))
+              id="100"
+            />,
+          },
+          Object {
+            "name": "Urgentie",
+            "value": <withReducer(withSaga(Connect(IncidentPriorityContainer)))
+              id="100"
+            />,
+          },
+          Object {
+            "name": "Subcategorie",
+            "value": <withReducer(withSaga(Connect(IncidentCategoryContainer)))
+              id="100"
+            />,
+          },
+          Object {
+            "count": undefined,
+            "name": "Notities",
+            "value": <withReducer(withSaga(Connect(IncidentNotesContainer)))
+              id="100"
+            />,
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="col-12"
+  >
+    <div
+      className="incident-detail-page__tab-container"
+    >
+      <withReducer(withSaga(Connect(IncidentStatusContainer)))
+        id="100"
+      />
+    </div>
+  </div>
+</div>
+`;
