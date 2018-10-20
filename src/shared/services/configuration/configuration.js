@@ -1,56 +1,56 @@
-import globalConfig from 'globalConfig'; // eslint-disable-line import/extensions, import/no-unresolved
+// import globalConfig from 'globalConfig'; // eslint-disable-line import/extensions, import/no-unresolved
 
 const domainName = 'meldingen.amsterdam.nl';
 const apiDomainName = 'api.data.amsterdam.nl';
 
-const defaultConfig = {
-  API_ROOT: `https://acc.${apiDomainName}/`,
-  ROOT: 'http://localhost:3001/',
-  AUTH_ROOT: 'https://acc.api.data.amsterdam.nl/',
-  API_ROOT_MLTOOL: `https://acc.${apiDomainName}/`
-};
+export class Configuration {
+  constructor(host) {
+    this.hostname = host || (window && window.location && window.location.hostname);
 
-const environmentConfig = () => {
-  let environment;
-
-  const hostname = window && window.location && window.location.hostname;
-
-  if (hostname === domainName) {
-    environment = {
-      API_ROOT: `https://${apiDomainName}/`,
-      ROOT: `https://${hostname}/`,
-      AUTH_ROOT: `https://${apiDomainName}/`,
-      API_ROOT_MLTOOL: `https://${apiDomainName}/`,
-    };
-  } else if (hostname === `acc.${domainName}`) {
-    environment = {
-      API_ROOT: `https://acc.${apiDomainName}/`,
-      ROOT: `https://${hostname}/`,
-      AUTH_ROOT: `https://acc.${apiDomainName}/`,
-      API_ROOT_MLTOOL: `https://acc.${apiDomainName}/`,
-    };
-  } else if (hostname === `opleiding.${domainName}`) {
-    environment = {
-      API_ROOT: `https://api.opleiding.${domainName}/`,
-      ROOT: `https://${hostname}/`,
-      AUTH_ROOT: `https://acc.${apiDomainName}/`,
-      API_ROOT_MLTOOL: `https://api.opleiding.${domainName}/`,
-    };
-  } else {
-    environment = defaultConfig;
+    this.setConfig();
   }
 
-  return environment;
-};
+  setConfig() {
+    if (this.hostname === domainName) {
+      this.apiRoot = `https://${apiDomainName}/`;
+      this.root = `https://${this.hostname}/`;
+      this.authRoot = `https://${apiDomainName}/`;
+      this.apiRootMltool = `https://${apiDomainName}/`;
+    } else if (this.hostname === `acc.${domainName}`) {
+      this.apiRoot = `https://acc.${apiDomainName}/`;
+      this.root = `https://${this.hostname}/`;
+      this.authRoot = `https://acc.${apiDomainName}/`;
+      this.apiRootMltool = `https://acc.${apiDomainName}/`;
+    } else if (this.hostname === `opleiding.${domainName}`) {
+      this.apiRoot = `https://api.opleiding.${domainName}/`;
+      this.root = `https://${this.hostname}/`;
+      this.authRoot = `https://acc.${apiDomainName}/`;
+      this.apiRootMltool = `https://api.opleiding.${domainName}/`;
+    } else {
+      this.apiRoot = `https://acc.${apiDomainName}/`;
+      this.root = 'http://localhost:3001/';
+      this.authRoot = 'https://acc.api.data.amsterdam.nl/';
+      this.apiRootMltool = `https://acc.${apiDomainName}/`;
+    }
+  }
 
-const CONFIGURATION = {
-  // the configuration based on the domain
-  ...environmentConfig(),
+  get API_ROOT() {
+    return this.apiRoot;
+  }
 
-  // the external configuration override form environment.conf.json
-  ...globalConfig
-};
+  get ROOT() {
+    return this.root;
+  }
 
-// console.log('environment configuration', CONFIGURATION); // eslint-disable-line no-console
+  get AUTH_ROOT() {
+    return this.authRoot;
+  }
+
+  get API_ROOT_MLTOOL() {
+    return this.apiRootMltool;
+  }
+}
+
+const CONFIGURATION = new Configuration();
 
 export default CONFIGURATION;
