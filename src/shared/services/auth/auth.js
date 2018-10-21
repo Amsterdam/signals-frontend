@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import queryStringParser from './services/query-string-parser/query-string-parser';
 import stateTokenGenerator from './services/state-token-generator/state-token-generator';
 import accessTokenParser from './services/access-token-parser/access-token-parser';
