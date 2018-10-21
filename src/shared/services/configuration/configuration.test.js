@@ -1,8 +1,22 @@
 import CONFIGURATION, { Configuration } from './configuration';
 
 describe('The configuration service', () => {
-  it('should have CONFIGURATION', () => {
+  it('should have CONFIGURATION instance', () => {
     expect(CONFIGURATION).toBeInstanceOf(Configuration);
+
+    expect(CONFIGURATION).toHaveProperty('API_ROOT');
+    expect(CONFIGURATION).toHaveProperty('ROOT');
+    expect(CONFIGURATION).toHaveProperty('AUTH_ROOT');
+    expect(CONFIGURATION).toHaveProperty('API_ROOT_MLTOOL');
+  });
+
+  it('should return DEVELOPMENT config by default ', () => {
+    const config = new Configuration();
+
+    expect(config.API_ROOT).toEqual('https://acc.api.data.amsterdam.nl/');
+    expect(config.ROOT).toEqual('http://localhost:3001/');
+    expect(config.AUTH_ROOT).toEqual('https://acc.api.data.amsterdam.nl/');
+    expect(config.API_ROOT_MLTOOL).toEqual('https://acc.api.data.amsterdam.nl/');
   });
 
   it('should return PRODUCTION config', () => {
@@ -33,14 +47,5 @@ describe('The configuration service', () => {
     expect(config.ROOT).toEqual('https://opleiding.meldingen.amsterdam.nl/');
     expect(config.AUTH_ROOT).toEqual('https://acc.api.data.amsterdam.nl/');
     expect(config.API_ROOT_MLTOOL).toEqual('https://api.opleiding.meldingen.amsterdam.nl/');
-  });
-
-  it('should by default return DEVELOPMENT config', () => {
-    const config = new Configuration();
-
-    expect(config.API_ROOT).toEqual('https://acc.api.data.amsterdam.nl/');
-    expect(config.ROOT).toEqual('http://localhost:3001/');
-    expect(config.AUTH_ROOT).toEqual('https://acc.api.data.amsterdam.nl/');
-    expect(config.API_ROOT_MLTOOL).toEqual('https://acc.api.data.amsterdam.nl/');
   });
 });
