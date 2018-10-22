@@ -6,28 +6,26 @@ import './style.scss';
 
 class List extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { incidentStatusList } = this.props;
+    const { incidentNotesList } = this.props;
     return (
-      <div className="incident-status-container-list">
-        <div className="incident-status-container-list__body">
-          <table className="incident-status-container-list__body-list" cellSpacing="0" cellPadding="0">
+      <div className="incident-notes-container-list">
+        <div className="incident-notes-container-list__body">
+          <table className="incident-notes-container-list__body-list" cellSpacing="0" cellPadding="0">
             <thead>
               <tr>
                 <th className="">Datum</th>
                 <th className="">Tijd</th>
-                <th className="">Status</th>
-                <th className="">Omschrijving</th>
+                <th className="">Notitie</th>
                 <th className="">Gebruiker</th>
               </tr>
             </thead>
             <tbody>
-              {incidentStatusList.map((item) => (
+              {incidentNotesList.map((item) => (
                 <tr key={item._links.self.href}>
                   <td>{string2date(item.created_at)}</td>
                   <td>{string2time(item.created_at)}</td>
-                  <td>{item.state_display}</td>
                   <td className="pre-wrap">{item.text}</td>
-                  <td>{item.user}</td>
+                  <td>{item.created_by}</td>
                 </tr>
               ))
               }
@@ -40,12 +38,11 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
 }
 
 List.propTypes = {
-  incidentStatusList: PropTypes.array.isRequired,
+  incidentNotesList: PropTypes.array.isRequired,
 };
 
 List.defaultProps = {
-  incidentStatusList: [],
-  statusList: []
+  incidentNotesList: []
 };
 
 export default List;
