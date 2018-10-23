@@ -91,7 +91,7 @@ describe('App saga', () => {
         userScopes: ['SIG/ALL']
       };
       const gen = callAuthorize({ payload });
-      expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/auth/me', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/user/auth/me', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next({
         groups: ['SIG/ALL']
       }).value).toEqual(put(authorizeUser(mockCredentials))); // eslint-disable-line redux-saga/yield-effects
@@ -104,7 +104,7 @@ describe('App saga', () => {
         userScopes: ['SIG/ALL']
       };
       const gen = callAuthorize({ payload });
-      expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/auth/me', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/user/auth/me', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next({
         groups: ['SIG/ALL']
       }).value).toEqual(put(authorizeUser(mockCredentials))); // eslint-disable-line redux-saga/yield-effects

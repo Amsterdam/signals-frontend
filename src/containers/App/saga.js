@@ -21,7 +21,7 @@ import { login, logout, getOauthDomain } from '../../shared/services/auth/auth';
 
 import fileUploadChannel from '../../shared/services/file-upload-channel';
 
-export const baseUrl = `${CONFIGURATION.API_ROOT}signals/auth/me`;
+export const baseUrl = `${CONFIGURATION.API_ROOT}signals/user/auth/me`;
 
 export function* callLogin(action) {
   try {
