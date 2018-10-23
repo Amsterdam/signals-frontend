@@ -10,6 +10,9 @@ import {
   LOGIN,
   LOGOUT,
 
+  REQUEST_CATEGORIES,
+  REQUEST_CATEGORIES_SUCCESS,
+
   UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
   UPLOAD_SUCCESS,
@@ -25,6 +28,9 @@ import {
 
   doLogin,
   doLogout,
+
+  requestCategories,
+  requestCategoriesSuccess,
 
   uploadRequest,
   uploadProgress,
@@ -75,6 +81,11 @@ describe('App actions', () => {
   it('should dispatch logout action', () => {
     const payload = null;
     testActionCreator(doLogout, LOGOUT, payload);
+  });
+
+  it('should dispatch REQUEST_CATEGORIES action', () => {
+    testActionCreator(requestCategories, REQUEST_CATEGORIES);
+    testActionCreator(requestCategoriesSuccess, REQUEST_CATEGORIES_SUCCESS, { results: {} });
   });
 
   it('should dispatch upload request action', () => {

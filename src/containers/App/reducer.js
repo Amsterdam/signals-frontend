@@ -16,6 +16,7 @@ import {
   AUTHORIZE_USER,
   SHOW_GLOBAL_ERROR,
   RESET_GLOBAL_ERROR,
+  REQUEST_CATEGORIES_SUCCESS,
   UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
   UPLOAD_SUCCESS,
@@ -26,7 +27,11 @@ import {
 export const initialState = fromJS({
   loading: false,
   error: false,
-  upload: {}
+  upload: {},
+  categories: {
+    main: [],
+    sub: []
+  }
 });
 
 function appReducer(state = initialState, action) {
@@ -48,6 +53,10 @@ function appReducer(state = initialState, action) {
         .set('error', false)
         .set('errorMessage', '')
         .set('loading', false);
+
+    case REQUEST_CATEGORIES_SUCCESS:
+      return state
+        .set('categories', fromJS(action.payload));
 
     case UPLOAD_REQUEST:
       return state
