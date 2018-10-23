@@ -10,7 +10,7 @@ import './style.scss';
 class Add extends React.Component { // eslint-disable-line react/prefer-stateless-function
   categoryForm = FormBuilder.group({ // eslint-disable-line react/sort-comp
     _signal: [''],
-    sub: ['', Validators.required],
+    sub_category: ['', Validators.required],
     loading: false
   });
 
@@ -38,9 +38,9 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
                 <div>
                   <FieldControlWrapper
                     render={SelectInput}
-                    name="sub"
+                    name="sub_category"
                     display="Subcategorie"
-                    control={this.categoryForm.get('sub')}
+                    control={this.categoryForm.get('sub_category')}
                     values={subcategoryList}
                     multiple={false}
                     emptyOptionText="Selecteer..."

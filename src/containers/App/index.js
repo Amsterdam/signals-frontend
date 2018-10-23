@@ -1,6 +1,10 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { compose } from 'redux';
+// import { Switch, Route, Redirect } from 'react-router-dom';
+// import { compose } from 'redux';
+import PropTypes from 'prop-types';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { compose, bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -15,8 +19,13 @@ import reducer from './reducer';
 import saga from './saga';
 import IncidentManagementModule from '../../signals/incident-management';
 import IncidentContainer from '../../signals/incident/containers/IncidentContainer';
+import { requestCategories } from './actions';
 
 export class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  componentDidMount() {
+    this.props.requestCategories();
+  }
+
   render() {
     return (
       <div className="container app-container">
@@ -44,13 +53,22 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
   }
 }
 
-// const withConnect = connect(mapStateToProps, mapDispatchToProps);
-// changed key to global
+App.propTypes = {
+  requestCategories: PropTypes.func.isRequired
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  requestCategories
+}, dispatch);
+
+const withConnect = connect(null, mapDispatchToProps);
+
 const withReducer = injectReducer({ key: 'global', reducer });
 const withSaga = injectSaga({ key: 'global', saga });
 
 export default compose(
   withReducer,
   withSaga,
-  // withConnect,
+  withRouter,
+  withConnect
 )(App);

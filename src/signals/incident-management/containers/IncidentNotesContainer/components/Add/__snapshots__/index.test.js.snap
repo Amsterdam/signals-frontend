@@ -199,9 +199,11 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
         }
       }
       display="Notitie"
+      emptyOptionText=""
       name="text"
       render={[Function]}
       rows={5}
+      values={Array []}
     />
     <button
       className="incident-notes-add__submit action primary"
@@ -417,9 +419,11 @@ exports[`<Add /> FieldGroup rendering should render error 1`] = `
         }
       }
       display="Notitie"
+      emptyOptionText=""
       name="text"
       render={[Function]}
       rows={5}
+      values={Array []}
     />
     <div
       className="notification notification-red"
@@ -640,9 +644,11 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
         }
       }
       display="Notitie"
+      emptyOptionText=""
       name="text"
       render={[Function]}
       rows={5}
+      values={Array []}
     />
     <button
       className="incident-notes-add__submit action primary"
