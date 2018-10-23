@@ -28,7 +28,7 @@ export default {
           className: 'col-sm-12 col-md-6',
           label: 'Uw privacy',
           type: 'disclaimer',
-          value: 'We gebruiken uw e-mailadres alléén om u op de hoogte houden, of wanneer wij een vraag hebben en u niet per telefoon kunnen bereiken. We wissen uw e-mailadres er binnen 2 weken nadat we uw melding hebben afgehandeld.'
+          value: 'We gebruiken uw e-mailadres alléén om u op de hoogte houden, of wanneer wij een vraag hebben en u niet per telefoon kunnen bereiken.'
         },
         render: FormComponents.PlainText
       },
