@@ -1,16 +1,16 @@
 function mapCategories(data) {
-  const categories = [];
-  const subcategories = [];
+  const main = [];
+  const sub = [];
 
   if (data && data.results) {
     data.results.forEach((category) => {
-      categories.push({
+      main.push({
         key: category._links && category._links.self && category._links.self.href,
         value: category._display
       });
 
       category.sub_categories.forEach((subcategory) => {
-        subcategories.push({
+        sub.push({
           key: subcategory._links && subcategory._links.self && subcategory._links.self.href,
           value: subcategory._display
         });
@@ -18,7 +18,7 @@ function mapCategories(data) {
     });
   }
 
-  return { categories, subcategories };
+  return { main, sub };
 }
 
 export default mapCategories;

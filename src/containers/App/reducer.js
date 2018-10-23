@@ -29,8 +29,8 @@ export const initialState = fromJS({
   error: false,
   upload: {},
   categories: {
-    categories: [],
-    subcategories: []
+    main: [],
+    sub: []
   }
 });
 

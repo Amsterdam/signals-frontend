@@ -3,8 +3,8 @@ import mapCategories from './index';
 describe('The mapCategories service', () => {
   it('by default should return empty categories', () => {
     expect(mapCategories()).toEqual({
-      categories: [],
-      subcategories: []
+      main: [],
+      sub: []
     });
   });
 
@@ -37,7 +37,7 @@ describe('The mapCategories service', () => {
         }
       ]
     })).toEqual({
-      categories: [
+      main: [
         {
           key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren',
           value: 'Overlast van dieren',
@@ -46,7 +46,7 @@ describe('The mapCategories service', () => {
           value: 'Wegen, verkeer, straatmeubilair',
         }
       ],
-      subcategories: [
+      sub: [
         {
           key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/dode-dieren',
           value: 'Dode dieren'
