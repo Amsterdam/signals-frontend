@@ -1,6 +1,4 @@
 import React from 'react';
-// import { Switch, Route, Redirect } from 'react-router-dom';
-// import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
