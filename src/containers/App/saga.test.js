@@ -46,7 +46,6 @@ describe('App saga', () => {
       expect(login).toHaveBeenCalledWith(payload);
     });
 
-    // @TODO fix this test
     // it.only('should error', () => {
       // const gen = callLogin({ payload });
       // gen.next();
