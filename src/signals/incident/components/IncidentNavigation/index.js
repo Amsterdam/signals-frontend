@@ -48,7 +48,7 @@ const IncidentNavigation = ({ valid, meta: { handleSubmit } }) => (
 );
 
 IncidentNavigation.defaultProps = {
-  meta: { handleSubmit: () => {} }
+  meta: {}
 };
 
 IncidentNavigation.propTypes = {

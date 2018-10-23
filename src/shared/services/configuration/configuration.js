@@ -7,7 +7,6 @@ export class Configuration {
   constructor(host) {
     this.hostname = host || (window && window.location && window.location.hostname);
     this.config = {};
-
     this.setConfig();
     this.loadGlobalConfig();
   }
@@ -49,6 +48,7 @@ export class Configuration {
   }
 
   loadGlobalConfig() {
+    /* istanbul ignore next */
     if (globalConfig) {
       this.config = {
         ...this.config,

@@ -106,6 +106,7 @@ IncidentDetailPage.propTypes = {
   onRequestIncident: PropTypes.func.isRequired
 };
 
+/* istanbul ignore next */
 const mapStateToProps = (state, ownProps) => createStructuredSelector({
   loading: makeSelectLoading(),
   error: makeSelectError(),
