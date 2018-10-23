@@ -7,6 +7,7 @@ import { compose, bindActionCreators } from 'redux';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import makeSelectIncidentCategoryContainer from './selectors';
+import { makeSelectCategories } from '../../../../containers/App/selectors';
 import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
@@ -16,13 +17,13 @@ import { requestCategoryUpdate } from './actions';
 
 export class IncidentCategoryContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { subcategoryList, loading } = this.props.incidentCategoryContainer;
+    const { categories, incidentCategoryContainer: { loading } } = this.props;
     return (
       <div className="col-6">
         <div className="incident-edit-container">
           <Add
             id={this.props.id}
-            subcategoryList={subcategoryList}
+            subcategoryList={categories.sub}
             loading={loading}
             onRequestCategoryUpdate={this.props.onRequestCategoryUpdate}
           />
@@ -35,12 +36,14 @@ export class IncidentCategoryContainer extends React.Component { // eslint-disab
 IncidentCategoryContainer.propTypes = {
   id: PropTypes.string.isRequired,
   incidentCategoryContainer: PropTypes.object.isRequired,
+  categories: PropTypes.object.isRequired,
 
   onRequestCategoryUpdate: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  incidentCategoryContainer: makeSelectIncidentCategoryContainer(),
+  categories: makeSelectCategories(),
+  incidentCategoryContainer: makeSelectIncidentCategoryContainer()
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({

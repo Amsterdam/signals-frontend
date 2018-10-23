@@ -14,12 +14,10 @@ import {
   setPrioritySuccess,
   setPriorityError
 } from './actions';
-import { uploadRequest } from '../../../../containers/App/actions';
+import { uploadRequest, showGlobalError } from '../../../../containers/App/actions';
 
 import mapControlsToParams from '../../services/map-controls-to-params';
 import setClassification from '../../services/set-classification';
-
-// import makeSelectIncidentContainer from './selectors';
 
 export function* getClassification(action) {
   const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals_mltool/predict`;
@@ -79,7 +77,7 @@ export function* setPriorityHandler(action) {
     yield put(setPrioritySuccess(result));
   } catch (error) {
     yield put(setPriorityError());
-    yield put(replace('/incident/fout'));
+    yield put(showGlobalError('PRIORITY_FRAILED'));
   }
 }
 

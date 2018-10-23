@@ -1,16 +1,19 @@
 import { all, call, put, take, takeLatest, takeEvery } from 'redux-saga/effects';
 import { channel } from 'redux-saga';
 import { push } from 'react-router-redux';
+import request from 'utils/request';
 
 import { authCall } from 'shared/services/api/api';
-import watchAppSaga, { callLogin, callLogout, callAuthorize, uploadFileWrapper, uploadFile } from './saga';
-import { LOGIN, LOGOUT, AUTHENTICATE_USER, UPLOAD_REQUEST } from './constants';
-import { authorizeUser, showGlobalError, uploadProgress, uploadSuccess, uploadFailure } from './actions';
+import watchAppSaga, { callLogin, callLogout, callAuthorize, fetchCategories, uploadFileWrapper, uploadFile } from './saga';
+import { LOGIN, LOGOUT, AUTHENTICATE_USER, REQUEST_CATEGORIES, UPLOAD_REQUEST } from './constants';
+import { authorizeUser, showGlobalError, requestCategoriesSuccess, uploadProgress, uploadSuccess, uploadFailure } from './actions';
 import { login, logout, getOauthDomain } from '../../shared/services/auth/auth';
+import mapCategories from '../../shared/services/map-categories';
 import fileUploadChannel from '../../shared/services/file-upload-channel';
 
 jest.mock('../../shared/services/auth/auth');
 jest.mock('shared/services/api/api');
+jest.mock('../../shared/services/map-categories');
 jest.mock('../../shared/services/file-upload-channel');
 
 describe('App saga', () => {
@@ -28,6 +31,7 @@ describe('App saga', () => {
       takeLatest(LOGIN, callLogin), // eslint-disable-line redux-saga/yield-effects
       takeLatest(LOGOUT, callLogout), // eslint-disable-line redux-saga/yield-effects
       takeLatest(AUTHENTICATE_USER, callAuthorize), // eslint-disable-line redux-saga/yield-effects
+      takeLatest(REQUEST_CATEGORIES, fetchCategories),
       takeEvery(UPLOAD_REQUEST, uploadFileWrapper) // eslint-disable-line redux-saga/yield-effects
     ])
     );
@@ -91,7 +95,7 @@ describe('App saga', () => {
         userScopes: ['SIG/ALL']
       };
       const gen = callAuthorize({ payload });
-      expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/auth/me', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/user/auth/me', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next({
         groups: ['SIG/ALL']
       }).value).toEqual(put(authorizeUser(mockCredentials))); // eslint-disable-line redux-saga/yield-effects
@@ -104,7 +108,7 @@ describe('App saga', () => {
         userScopes: ['SIG/ALL']
       };
       const gen = callAuthorize({ payload });
-      expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/auth/me', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/user/auth/me', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next({
         groups: ['SIG/ALL']
       }).value).toEqual(put(authorizeUser(mockCredentials))); // eslint-disable-line redux-saga/yield-effects
@@ -119,6 +123,25 @@ describe('App saga', () => {
       const gen = callAuthorize({ payload });
       gen.next();
       expect(gen.throw().value).toEqual(put(showGlobalError('AUTHORIZE_FAILED'))); // eslint-disable-line redux-saga/yield-effects
+    });
+  });
+
+  describe('fetchCategories', () => {
+    it('should success', () => {
+      const categories = { categories: [1], subcategorie: [2] };
+
+      mapCategories.mockImplementation(() => categories);
+      const requestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories';
+
+      const gen = fetchCategories();
+      expect(gen.next().value).toEqual(call(request, requestURL)); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.next(categories).value).toEqual(put(requestCategoriesSuccess(categories))); // eslint-disable-line redux-saga/yield-effects
+    });
+
+    it('should error', () => {
+      const gen = fetchCategories();
+      gen.next();
+      expect(gen.throw().value).toEqual(put(showGlobalError('FETCH_CATEGORIES_FAILED'))); // eslint-disable-line redux-saga/yield-effects
     });
   });
 

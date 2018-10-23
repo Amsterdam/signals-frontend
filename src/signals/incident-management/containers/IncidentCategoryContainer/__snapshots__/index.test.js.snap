@@ -9,8 +9,8 @@ exports[`<IncidentCategoryContainer /> should render correctly 1`] = `
   >
     <Component
       id="1"
+      loading={false}
       onRequestCategoryUpdate={[MockFunction]}
-      subcategoryList={Array []}
     />
   </div>
 </div>
