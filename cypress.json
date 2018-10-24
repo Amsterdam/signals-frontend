@@ -1,3 +1,11 @@
 {
-  "baseUrl": "https://acc.meldingen.amsterdam.nl"
+  "baseUrl": "https://acc.meldingen.amsterdam.nl",
+  "fixturesFolder": "test/cypress/fixtures",
+  "integrationFolder": "test/cypress/integration",
+  "pluginsFile": "test/cypress/plugins/index.js",
+  "requestTimeout": 15000,
+  "screenshotsFolder": "test/cypress/screenshots",
+  "supportFile": "test/cypress/support/index.js",
+  "video": false,
+  "videosFolder": "test/cypress/videos"
 }
