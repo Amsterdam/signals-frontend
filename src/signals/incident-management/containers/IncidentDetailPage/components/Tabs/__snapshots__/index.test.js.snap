@@ -22,14 +22,14 @@ exports[`<Tabs /> should render correctly 1`] = `
     </li>
     <li
       className=""
-      key="key-tab2"
+      key="key-tab3"
       onClick={[Function]}
       role="presentation"
     >
       <a
         className="tab"
       >
-        tab2
+        tab3
          
         <span
           className="pill"
