@@ -8,6 +8,7 @@ const TE_VERZENDEN = { key: 'ready to send', value: 'Extern: te verzenden' };
 const VERZONDEN = { key: 'sent', value: 'Extern: verzonden' };
 const VERZENDEN_MISLUKT = { key: 'send failed', value: 'Extern: mislukt' };
 const AFGEHANDELD_EXTERN = { key: 'done external', value: 'Extern: afgehandeld' };
+const HEROPEND = { key: 'reopened', value: 'Heropend' };
 
 const statusList = [
   GEMELD,
@@ -19,7 +20,8 @@ const statusList = [
   TE_VERZENDEN,
   VERZONDEN,
   VERZENDEN_MISLUKT,
-  AFGEHANDELD_EXTERN
+  AFGEHANDELD_EXTERN,
+  HEROPEND
 ];
 
 export default statusList;
@@ -30,5 +32,6 @@ export const changeStatusOptionList = [
   BEHANDELING,
   AFGEHANDELD,
   ON_HOLD,
-  GEANNULEERD
+  GEANNULEERD,
+  HEROPEND
 ];
