@@ -9,7 +9,7 @@ exports[`<Tabs /> should render correctly 1`] = `
   >
     <li
       className="selected"
-      key="keytab1"
+      key="key-tab1"
       onClick={[Function]}
       role="presentation"
     >
@@ -22,7 +22,7 @@ exports[`<Tabs /> should render correctly 1`] = `
     </li>
     <li
       className=""
-      key="keytab2"
+      key="key-tab2"
       onClick={[Function]}
       role="presentation"
     >

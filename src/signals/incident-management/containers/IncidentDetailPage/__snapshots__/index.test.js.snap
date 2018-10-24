@@ -92,35 +92,42 @@ exports[`<IncidentDetailPage /> should render correctly 1`] = `
   >
     <Tabs
       onTabChanged={[Function]}
-      selectedTab={0}
+      selectedTab="status"
       tabs={
-        Array [
-          Object {
-            "name": "Status",
-            "value": <withReducer(withSaga(Connect(IncidentStatusContainer)))
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Urgentie",
-            "value": <withReducer(withSaga(Connect(IncidentPriorityContainer)))
-              id="100"
-            />,
-          },
-          Object {
+        Object {
+          "category": Object {
             "name": "Subcategorie",
             "value": <withReducer(withSaga(Connect(IncidentCategoryContainer)))
               id="100"
             />,
           },
-          Object {
+          "history": Object {
+            "name": "Historie",
+            "value": <withReducer(withSaga(Connect(IncidentHistoryContainer)))
+              id="100"
+            />,
+          },
+          "image": undefined,
+          "notes": Object {
             "count": undefined,
             "name": "Notities",
             "value": <withReducer(withSaga(Connect(IncidentNotesContainer)))
               id="100"
             />,
           },
-        ]
+          "priority": Object {
+            "name": "Urgentie",
+            "value": <withReducer(withSaga(Connect(IncidentPriorityContainer)))
+              id="100"
+            />,
+          },
+          "status": Object {
+            "name": "Status",
+            "value": <withReducer(withSaga(Connect(IncidentStatusContainer)))
+              id="100"
+            />,
+          },
+        }
       }
     />
   </div>

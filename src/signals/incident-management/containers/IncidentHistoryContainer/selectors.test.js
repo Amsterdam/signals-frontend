@@ -1,8 +1,16 @@
-// import { fromJS } from 'immutable';
-// import { selectIncidentHistoryContainerDomain } from 'selectors';
+import { fromJS } from 'immutable';
+import makeSelectIncidentHistoryContainer from './selectors';
 
-describe('selectIncidentHistoryContainerDomain', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(true);
+describe('makeSelectIncidentHistoryContainer', () => {
+  it('should select the category container', () => {
+    const selector = makeSelectIncidentHistoryContainer();
+    const incidentHistoryContainer = {
+      incidentHistoryList: []
+    };
+    const mockedState = fromJS({
+      incidentHistoryContainer
+    });
+
+    expect(selector(mockedState)).toEqual(incidentHistoryContainer);
   });
 });
