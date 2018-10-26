@@ -27,7 +27,8 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
     }
   };
 
-  const handleClear = (url) => {
+  const handleClear = (e, url) => {
+    e.preventDefault();
     window.URL.revokeObjectURL(url);
     parent.meta.updateIncident({
       image: '',
@@ -50,7 +51,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
               <div className="file-input__preview">
                 <button
                   className="file-input__button-delete link-functional delete"
-                  onClick={() => handleClear(handler().value)}
+                  onClick={(e) => handleClear(e, handler().value)}
                 />
 
                 <img
