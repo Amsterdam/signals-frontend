@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<IncidentPreview /> expect to render correctly 1`] = `
+exports[`<IncidentPreview /> rendering expect to render correctly 1`] = `
 <div
   className="incident-preview"
 >
@@ -79,6 +79,35 @@ exports[`<IncidentPreview /> expect to render correctly 1`] = `
         </div>
       </div>
     </div>
+  </div>
+</div>
+`;
+
+exports[`<IncidentPreview /> rendering expect to render correctly with invisible items 1`] = `
+<div
+  className="incident-preview"
+>
+  <div
+    className="incident-preview__section"
+    key="step1"
+  >
+    <WithWizard
+      render={[Function]}
+    />
+    <div
+      key="phone"
+    />
+  </div>
+  <div
+    className="incident-preview__section"
+    key="step2"
+  >
+    <WithWizard
+      render={[Function]}
+    />
+    <div
+      key="email"
+    />
   </div>
 </div>
 `;

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import MapInteractive from '../../../../../../components/MapInteractive';
@@ -9,6 +8,7 @@ import mapLocation from '../../services/map-location';
 const MapInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   const value = handler().value || {};
 
+  /* istanbul ignore next */
   const onQueryResult = (d) => {
     parent.meta.updateIncident({ location: mapLocation(d) });
   };

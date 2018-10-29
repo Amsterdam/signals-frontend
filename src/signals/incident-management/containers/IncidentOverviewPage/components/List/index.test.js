@@ -31,18 +31,28 @@ describe('<List />', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should contain one incident', () => {
-    expect(wrapper.find('tbody > tr').length).toEqual(1);
-  });
+  describe('events', () => {
+    it('should select the incident when the row is clicked', () => {
+      wrapper.find('tbody > tr').simulate('click');
+      expect(props.incidentSelected).toHaveBeenCalledWith(props.incidents[0]);
+    });
 
-  it('should select the incident when the row is clicked', () => {
-    wrapper.find('tbody > tr').simulate('click');
-    expect(props.incidentSelected).toHaveBeenCalledWith(props.incidents[0]);
-  });
+    it('should sort asc the incidents when the header is clicked', () => {
+      wrapper.setProps({
+        sort: '-created_at'
+      });
+      wrapper.find('thead > tr > th').at(1).simulate('click');
 
-  it('should sort the incidents when the header is clicked', () => {
-    const expectedSort = { sort: 'created_at' };
-    wrapper.find('thead > tr > th').at(1).simulate('click');
-    expect(props.onRequestIncidents).toHaveBeenCalledWith(expectedSort);
+      expect(props.onRequestIncidents).toHaveBeenCalledWith({ sort: 'created_at' });
+    });
+
+    it('should sort desc the incidents when the header is clicked', () => {
+      wrapper.setProps({
+        sort: 'created_at'
+      });
+      wrapper.find('thead > tr > th').at(1).simulate('click');
+
+      expect(props.onRequestIncidents).toHaveBeenCalledWith({ sort: '-created_at' });
+    });
   });
 });
