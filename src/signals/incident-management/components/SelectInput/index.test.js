@@ -12,16 +12,15 @@ describe('<SelectInput />', () => {
       name: 'name',
       display: 'display',
       handler: jest.fn(),
-      values: [{ key: '1', value: 'item1' }, { key: '2', value: 'item2' }],
+      values: [
+        { key: '', value: 'none' },
+        { key: '1', value: 'item1' },
+        { key: '2', value: 'item2' }
+      ],
       multiple: false,
       emptyOptionText: 'all items',
       size: 4
     };
-
-    const SelectInputRender = SelectInput(props);
-    wrapper = shallow(
-      <SelectInputRender {...props} />
-    );
   });
 
   afterEach(() => {
@@ -29,8 +28,41 @@ describe('<SelectInput />', () => {
   });
 
   it('should render correctly', () => {
-    expect(wrapper).not.toBeNull();
+    const SelectInputRender = SelectInput(props);
+    wrapper = shallow(
+      <SelectInputRender {...props} />
+    );
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should render correctly with multiple select', () => {
+    props.multiple = true;
+    const SelectInputRender = SelectInput(props);
+    wrapper = shallow(
+      <SelectInputRender {...props} />
+    );
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should render correctly with empty option select', () => {
+    props.emptyOptionText = undefined;
+    const SelectInputRender = SelectInput(props);
+    wrapper = shallow(
+      <SelectInputRender {...props} />
+    );
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should render correctly with list size smaller than number of values', () => {
+    props.size = 2;
+    const SelectInputRender = SelectInput(props);
+    wrapper = shallow(
+      <SelectInputRender {...props} />
+    );
+
     expect(wrapper).toMatchSnapshot();
   });
 });
-

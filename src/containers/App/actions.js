@@ -10,7 +10,6 @@ import {
 
   REQUEST_CATEGORIES,
   REQUEST_CATEGORIES_SUCCESS,
-  REQUEST_CATEGORIES_ERROR,
 
   UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
@@ -69,13 +68,6 @@ export function requestCategoriesSuccess(categories) {
   return {
     type: REQUEST_CATEGORIES_SUCCESS,
     payload: categories
-  };
-}
-
-export function requestCategoriesError(message) {
-  return {
-    type: REQUEST_CATEGORIES_ERROR,
-    payload: message
   };
 }
 

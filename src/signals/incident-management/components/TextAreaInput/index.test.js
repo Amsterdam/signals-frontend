@@ -27,25 +27,32 @@ describe('<TextAreaInput />', () => {
   });
 
   it('should render correctly', () => {
-    expect(wrapper).not.toBeNull();
+    const TextAreaInputRender = TextAreaInput(props);
+    wrapper = shallow(
+      <TextAreaInputRender {...props} />
+    );
+
     expect(wrapper).toMatchSnapshot();
   });
 
   it('should render character counter correctly', () => {
-    wrapper.setProps({
-      maxLength: 300
-    });
+    props.maxLength = 300;
+    const TextAreaInputRender = TextAreaInput(props);
+    wrapper = shallow(
+      <TextAreaInputRender {...props} />
+    );
 
     expect(wrapper).toMatchSnapshot();
   });
 
   it('should render character counter with value correctly', () => {
-    wrapper.setProps({
-      value: 'test',
-      maxLength: 300
-    });
+    props.maxLength = 300;
+    props.value = 'test';
+    const TextAreaInputRender = TextAreaInput(props);
+    wrapper = shallow(
+      <TextAreaInputRender {...props} />
+    );
 
     expect(wrapper).toMatchSnapshot();
   });
 });
-

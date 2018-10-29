@@ -60,6 +60,8 @@ describe('Form component <MapInput />', () => {
     });
 
     it('should render no map field when not visible', () => {
+      handler.mockImplementation(() => ({ value: undefined }));
+
       wrapper.setProps({
         meta: {
           ...metaFields,
@@ -70,39 +72,5 @@ describe('Form component <MapInput />', () => {
       expect(handler).toHaveBeenCalledWith();
       expect(wrapper).toMatchSnapshot();
     });
-  });
-
-  describe('events', () => {
-    // const event = { target: { value: 'diabolo' } };
-
-    // it('sets incident when value changes', () => {
-    //   wrapper.setProps({
-    //     meta: {
-    //       ...metaFields,
-    //       isVisible: true,
-    //       updateIncident: true
-    //     }
-    //   });
-    //
-    //   wrapper.find('input').simulate('change', event);
-    //
-    //   expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-    //     'input-field-name': 'diabolo'
-    //   });
-    // });
-    //
-    // it('does nothing when updateIncident is false', () => {
-    //   wrapper.setProps({
-    //     meta: {
-    //       ...metaFields,
-    //       isVisible: true,
-    //       updateIncident: false
-    //     }
-    //   });
-    //
-    //   wrapper.find('input').simulate('change', event);
-    //
-    //   expect(parent.meta.updateIncident).not.toHaveBeenCalled();
-    // });
   });
 });

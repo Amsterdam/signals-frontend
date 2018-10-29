@@ -45,6 +45,7 @@ describe('<Add />', () => {
       });
 
       it('should render loading', () => {
+        wrapper.setProps({ loading: false });
         wrapper.setProps({ loading: true });
 
         renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());

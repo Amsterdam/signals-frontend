@@ -26,6 +26,15 @@ exports[`<TextAreaInput /> should render character counter correctly 1`] = `
         rows={2}
         value=""
       />
+      <div
+        className="input-help"
+      >
+        <span
+          className="text-area-input__counter"
+        >
+          0/300 tekens
+        </span>
+      </div>
     </div>
   </div>
 </div>
@@ -57,6 +66,15 @@ exports[`<TextAreaInput /> should render character counter with value correctly 
         rows={2}
         value=""
       />
+      <div
+        className="input-help"
+      >
+        <span
+          className="text-area-input__counter"
+        >
+          4/300 tekens
+        </span>
+      </div>
     </div>
   </div>
 </div>

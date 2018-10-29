@@ -56,7 +56,21 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
         />
         <Component
           incidentsCount={666}
-          onPageChanged={[Function]}
+          onRequestIncidents={
+            [MockFunction] {
+              "calls": Array [
+                Array [
+                  Object {},
+                ],
+              ],
+              "results": Array [
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+              ],
+            }
+          }
           page={3}
         />
       </div>

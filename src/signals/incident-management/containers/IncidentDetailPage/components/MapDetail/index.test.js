@@ -11,13 +11,22 @@ describe('<MapDetail />', () => {
     }
   };
   beforeEach(() => {
-    wrapper = shallow(<MapDetail {...props} />);
   });
 
   afterEach(() => {
     jest.resetAllMocks();
   });
+
   it('should render correctly', () => {
+    wrapper = shallow(<MapDetail {...props} />);
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should render correctly without location', () => {
+    props.value = undefined;
+    wrapper = shallow(<MapDetail {...props} />);
+
     expect(wrapper).toMatchSnapshot();
   });
 });

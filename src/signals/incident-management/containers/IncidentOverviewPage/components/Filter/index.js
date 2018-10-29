@@ -11,7 +11,8 @@ import DatePickerInput from '../../../../components/DatePickerInput';
 class Filter extends React.Component {
   constructor(props) {
     super(props);
-    if (this.props.filter) {
+
+    if (props.filter) {
       this.filterForm.setValue(props.filter);
     }
   }
