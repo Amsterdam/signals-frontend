@@ -17,7 +17,8 @@ describe('<PrintLayout />', () => {
       stadsdeelList: [],
       priorityList: [],
       onPrintView: jest.fn(),
-      incidentstatuscontainer: { incidentStatusList: [], statusList: [] }
+      incidentStatusContainer: { incidentStatusList: [], statusList: [] },
+      incidentNotesContainer: { incidentNotesList: [] }
     };
 
     global.window.print = jest.fn();
