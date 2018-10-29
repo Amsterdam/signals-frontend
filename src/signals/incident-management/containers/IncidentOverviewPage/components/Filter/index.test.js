@@ -209,10 +209,31 @@ describe('<Filter />', () => {
   });
 
   it('should render correctly', () => {
+    wrapper = shallow(<Filter {...props} />);
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should render with set filter correctly ', () => {
+    props.filter = {
+      id: '',
+      incident_date_start: null,
+      priority__priority: null,
+      category__main: null,
+      category__sub: null,
+      location__address_text: null,
+      location__stadsdeel: ['B'],
+      status__state: null,
+
+    };
+    wrapper = shallow(<Filter {...props} />);
+
     expect(wrapper).toMatchSnapshot();
   });
 
   it('should contain the FieldGroup', () => {
+    wrapper = shallow(<Filter {...props} />);
+
     expect(wrapper.find(FieldGroup)).toHaveLength(1);
   });
 
@@ -220,6 +241,7 @@ describe('<Filter />', () => {
     let renderedFormGroup;
 
     beforeEach(() => {
+      wrapper = shallow(<Filter {...props} />);
       renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
     });
 

@@ -5,6 +5,9 @@ import { Wizard, WithWizard } from 'react-albus';
 
 import PreviewComponents from '../../components/IncidentPreview/components/';
 import IncidentPreview from './index';
+import isVisible from './services/is-visible';
+
+jest.mock('./services/is-visible');
 
 describe('<IncidentPreview />', () => {
   let props;
@@ -38,12 +41,24 @@ describe('<IncidentPreview />', () => {
     jest.resetAllMocks();
   });
 
-  it('expect to render correctly', () => {
-    const wrapper = shallow(
-      <IncidentPreview {...props} />
-    );
+  describe('rendering', () => {
+    it('expect to render correctly', () => {
+      isVisible.mockImplementation(() => true);
+      const wrapper = shallow(
+        <IncidentPreview {...props} />
+      );
 
-    expect(wrapper).toMatchSnapshot();
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('expect to render correctly with invisible items', () => {
+      isVisible.mockImplementation(() => false);
+      const wrapper = shallow(
+        <IncidentPreview {...props} />
+      );
+
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 
   it('should trigger new page when clicking button', () => {

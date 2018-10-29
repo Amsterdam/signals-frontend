@@ -8,7 +8,8 @@ import {
   makeSelectError,
   makeSelectErrorMessage,
   makeSelectLocation,
-  makeSelectIsAuthenticated
+  makeSelectIsAuthenticated,
+  makeSelectCategories
 } from './selectors';
 
 describe('selectGlobal', () => {
@@ -109,5 +110,21 @@ describe('makeSelectIsAuthenticated', () => {
       }
     });
     expect(isAuthenticatedStateSelector(mockedState)).toEqual(true);
+  });
+});
+
+describe('makeSelectCategories', () => {
+  const selector = makeSelectCategories();
+  it('should select the login state', () => {
+    const categories = {
+      main: [1, 2],
+      sub: [3, 4]
+    };
+    const mockedState = fromJS({
+      global: {
+        categories
+      }
+    });
+    expect(selector(mockedState)).toEqual(categories);
   });
 });

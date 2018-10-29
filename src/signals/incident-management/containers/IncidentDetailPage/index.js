@@ -11,7 +11,6 @@ import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 
-import Img from 'shared/components/Img';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
@@ -32,7 +31,6 @@ import PrintLayout from './components/PrintLayout';
 
 
 export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
-
   constructor(props) {
     super(props);
     this.onTabChanged = this.onTabChanged.bind(this);
@@ -66,7 +64,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
       { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
       { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
       { name: 'Notities', value: <IncidentNotesContainer id={this.props.id} />, count: incident && incident.notes_count },
-      { name: 'Foto', value: <Img src={incident && incident.image ? incident.image : ''} alt={''} className="incident-detail-page__image--max-width" /> },
+      { name: 'Foto', value: <img src={incident && incident.image ? incident.image : ''} alt={''} className="incident-detail-page__image--max-width" /> },
     ];
     const visibleTabs = tabs.filter((tab) => tab.name === 'Foto' ? (incident && incident.image) : true);
 
@@ -75,14 +73,13 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
         <div className="col-12"><h3>Melding {this.props.id}</h3></div>
 
         <ul className="col-12 col-md-4 incident-detail-page__map">
-          {(incident) ? <MapDetail label="" value={incident.location} /> : ''}
+          {incident && incident.location ? <MapDetail label="" value={incident.location} /> : ''}
         </ul>
 
         <div className="col-12 col-md-8">
           (<Link to={`${this.props.baseUrl}/incidents`} >Terug naar overzicht</Link>)
           <button onClick={this.onPrintView}>Print view</button>
-          {(incident) ?
-            <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} /> : ''}
+          {incident ? <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} /> : ''}
         </div>
 
         <div className="col-12">
@@ -109,6 +106,7 @@ IncidentDetailPage.propTypes = {
   onRequestIncident: PropTypes.func.isRequired
 };
 
+/* istanbul ignore next */
 const mapStateToProps = (state, ownProps) => createStructuredSelector({
   loading: makeSelectLoading(),
   error: makeSelectError(),

@@ -25,16 +25,37 @@ describe('<IncidentStatusContainer />', () => {
     jest.resetAllMocks();
   });
 
-  it('should render correctly', () => {
-    const wrapper = shallow(
-      <IncidentStatusContainer {...props} />
-    );
-    expect(wrapper).toMatchSnapshot();
+  describe('rendering', () => {
+    it('should render correctly', () => {
+      const wrapper = shallow(
+        <IncidentStatusContainer {...props} />
+      );
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should not render correctly when canChangeState is false', () => {
+      props.incidentStatusContainer.incidentStatusList = [{
+        state: 'o'
+      }];
+      const wrapper = shallow(
+        <IncidentStatusContainer {...props} />
+      );
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render correctly when canDisplay is false', () => {
+      props.incidentStatusContainer.incidentStatusList = [{
+        state: 666
+      }];
+      const wrapper = shallow(
+        <IncidentStatusContainer {...props} />
+      );
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 
   describe('mapDispatchToProps', () => {
     const dispatch = jest.fn();
-
 
     it('should request the status list', () => {
       mapDispatchToProps(dispatch).onRequestStatusList({});

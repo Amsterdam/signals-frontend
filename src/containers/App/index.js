@@ -55,7 +55,7 @@ App.propTypes = {
   requestCategories: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
+export const mapDispatchToProps = (dispatch) => bindActionCreators({
   requestCategories
 }, dispatch);
 
