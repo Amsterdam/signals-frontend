@@ -7,18 +7,15 @@ import { compose, bindActionCreators } from 'redux';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import makeSelectIncidentNotesContainer from './selectors';
+import { makeSelectIncidentNotesList } from '../IncidentDetailPage/selectors';
 import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 import List from './components/List';
 import Add from './components/Add';
-import { requestNotesList, requestNoteCreate } from './actions';
+import { requestNoteCreate } from './actions';
 
 export class IncidentNotesContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  componentDidMount() {
-    this.props.onRequestNotesList(this.props.id);
-  }
-
   render() {
     const { incidentNotesList, error, loading, loadingExternal } = this.props.incidentNotesContainer;
 
@@ -36,7 +33,7 @@ export class IncidentNotesContainer extends React.Component { // eslint-disable-
             />
           </div>
           <div className="col-12">
-            <List incidentNotesList={incidentNotesList} />
+            <List incidentNotesList={this.props.incidentNotesList} />
           </div>
         </div>
       </div>
@@ -44,21 +41,24 @@ export class IncidentNotesContainer extends React.Component { // eslint-disable-
   }
 }
 
+/*
+*/
+
 IncidentNotesContainer.propTypes = {
   id: PropTypes.string.isRequired,
   incidentNotesContainer: PropTypes.object.isRequired,
+  incidentNotesList: PropTypes.array.isRequired,
 
-  onRequestNotesList: PropTypes.func.isRequired,
-  onRequestNoteCreate: PropTypes.func.isRequired,
+  onRequestNoteCreate: PropTypes.func.isRequired
 };
 
 
 const mapStateToProps = createStructuredSelector({
   incidentNotesContainer: makeSelectIncidentNotesContainer(),
+  incidentNotesList: makeSelectIncidentNotesList()
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  onRequestNotesList: requestNotesList,
   onRequestNoteCreate: requestNoteCreate,
 }, dispatch);
 

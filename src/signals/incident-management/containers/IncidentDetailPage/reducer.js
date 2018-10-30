@@ -8,7 +8,11 @@ import { fromJS } from 'immutable';
 import {
   REQUEST_INCIDENT,
   REQUEST_INCIDENT_SUCCESS,
-  REQUEST_INCIDENT_ERROR
+  REQUEST_INCIDENT_ERROR,
+
+  REQUEST_NOTES_LIST,
+  REQUEST_NOTES_LIST_SUCCESS,
+  REQUEST_NOTES_LIST_ERROR
 } from './constants';
 
 import { REQUEST_PRIORITY_UPDATE_SUCCESS } from '../IncidentPriorityContainer/constants';
@@ -22,7 +26,8 @@ import priorityList from '../../definitions/priorityList';
 export const initialState = fromJS({
   id: null,
   stadsdeelList,
-  priorityList
+  priorityList,
+  incidentNotesList: []
 });
 
 function incidentDetailPageReducer(state = initialState, action) {
@@ -35,25 +40,41 @@ function incidentDetailPageReducer(state = initialState, action) {
         .set('incident', null);
     case REQUEST_INCIDENT_SUCCESS:
       return state
-        .set('incident', action.payload)
+        .set('incident', fromJS(action.payload))
         .set('loading', false);
     case REQUEST_INCIDENT_ERROR:
       return state
         .set('error', action.payload)
         .set('loading', false);
 
+    case REQUEST_NOTES_LIST:
+      return state
+        .set('loading', true)
+        .set('error', false);
+
+    case REQUEST_NOTES_LIST_SUCCESS:
+      return state
+        .set('incidentNotesList', fromJS(action.payload.results))
+        .set('loading', false);
+
+    case REQUEST_NOTES_LIST_ERROR:
+      return state
+        .set('error', action.payload)
+        .set('loading', false);
+
     case REQUEST_CATEGORY_UPDATE_SUCCESS:
       return state
-        .set('incident', { ...state.get('incident'), category: action.payload });
+        .set('incident', fromJS({ ...state.get('incident').toJS(), category: action.payload }));
     case REQUEST_PRIORITY_UPDATE_SUCCESS:
       return state
-        .set('incident', { ...state.get('incident'), priority: action.payload });
+        .set('incident', fromJS({ ...state.get('incident').toJS(), priority: action.payload }));
     case REQUEST_STATUS_CREATE_SUCCESS:
       return state
-        .set('incident', { ...state.get('incident'), status: action.payload });
+        .set('incident', fromJS({ ...state.get('incident').toJS(), status: action.payload }));
     case REQUEST_NOTE_CREATE_SUCCESS:
       return state
-        .set('incident', { ...state.get('incident'), notes_count: state.get('incident').notes_count + 1 });
+        .set('incidentNotesList', fromJS([action.payload, ...state.get('incidentNotesList').toJS()]))
+        .set('incident', fromJS({ ...state.get('incident').toJS(), notes_count: state.get('incident').toJS().notes_count + 1 }));
 
     default:
       return state;

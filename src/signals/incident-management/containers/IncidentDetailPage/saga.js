@@ -1,9 +1,9 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { all, put, takeLatest } from 'redux-saga/effects';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
-import { REQUEST_INCIDENT } from './constants';
-import { requestIncidentSuccess, requestIncidentError } from './actions';
+import { REQUEST_INCIDENT, REQUEST_NOTES_LIST } from './constants';
+import { requestIncidentSuccess, requestIncidentError, requestNotesListSuccess, requestNotesListError } from './actions';
 import { authCall } from '../../../../shared/services/api/api';
 
 export function* fetchIncident(action) {
@@ -17,7 +17,21 @@ export function* fetchIncident(action) {
   }
 }
 
-// Individual exports for testing
+export function* fetchIncidentNotesList(action) {
+  const signalId = action.payload;
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/auth/note`;
+
+  try {
+    const incidentNotesList = yield authCall(requestURL, { _signal__id: signalId });
+    yield put(requestNotesListSuccess(incidentNotesList));
+  } catch (error) {
+    yield put(requestNotesListError(error));
+  }
+}
+
 export default function* watchRequestIncidentSaga() {
-  yield takeLatest(REQUEST_INCIDENT, fetchIncident);
+  yield all([
+    yield takeLatest(REQUEST_INCIDENT, fetchIncident),
+    yield takeLatest(REQUEST_NOTES_LIST, fetchIncidentNotesList)
+  ]);
 }

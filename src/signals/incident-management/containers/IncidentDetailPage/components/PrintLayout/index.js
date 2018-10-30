@@ -11,7 +11,6 @@ import IncidentDetail from '../IncidentDetail';
 import StatusList from '../../../IncidentStatusContainer/components/List';
 import NotesList from '../../../IncidentNotesContainer/components/List';
 import makeSelectIncidentStatusContainer from '../../../IncidentStatusContainer/selectors';
-import makeSelectIncidentNotesContainer from '../../../IncidentNotesContainer/selectors';
 
 export class PrintLayout extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -24,9 +23,8 @@ export class PrintLayout extends React.Component { // eslint-disable-line react/
   }
 
   render() {
-    const { incident, stadsdeelList, priorityList, onPrintView } = this.props;
+    const { incident, incidentNotesList, stadsdeelList, priorityList, onPrintView } = this.props;
     const { incidentStatusList, statusList } = this.props.incidentStatusContainer;
-    const { incidentNotesList } = this.props.incidentNotesContainer;
     return (
       <div className="print-layout row container" >
         <div className="col-12">
@@ -52,7 +50,7 @@ export class PrintLayout extends React.Component { // eslint-disable-line react/
           <StatusList incidentStatusList={incidentStatusList} statusList={statusList} />
         </div>
         <div className="col-12 print-layout__status-list">
-          <NotesList incidentNotesList={incidentNotesList} statusList={statusList} />
+          <NotesList incidentNotesList={incidentNotesList} />
         </div>
       </div>
     );
@@ -62,16 +60,15 @@ export class PrintLayout extends React.Component { // eslint-disable-line react/
 PrintLayout.propTypes = {
   id: PropTypes.string.isRequired,
   incident: PropTypes.object.isRequired,
+  incidentNotesList: PropTypes.array.isRequired,
   stadsdeelList: PropTypes.array.isRequired,
   priorityList: PropTypes.array.isRequired,
   onPrintView: PropTypes.func.isRequired,
-  incidentStatusContainer: PropTypes.object.isRequired,
-  incidentNotesContainer: PropTypes.object.isRequired
+  incidentStatusContainer: PropTypes.object.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
-  incidentStatusContainer: makeSelectIncidentStatusContainer(),
-  incidentNotesContainer: makeSelectIncidentNotesContainer()
+  incidentStatusContainer: makeSelectIncidentStatusContainer()
 });
 
 const withConnect = connect(mapStateToProps);
