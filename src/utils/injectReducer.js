@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import isArray from 'lodash/isArray';
 
 import getInjectors from './reducerInjectors';
 
@@ -12,12 +11,7 @@ import getInjectors from './reducerInjectors';
  * @param {function} reducer A reducer that will be injected
  *
  */
-export default (descriptors) => (WrappedComponent) => {
-  const reducerDescriptorsArray = isArray(descriptors) ? descriptors : [{
-    key: descriptors.key,
-    reducer: descriptors.reducer
-  }];
-
+export default ({ key, reducer }) => (WrappedComponent) => {
   class ReducerInjector extends React.Component {
     static WrappedComponent = WrappedComponent;
     static displayName = `withReducer(${(WrappedComponent.displayName || WrappedComponent.name || 'Component')})`;
@@ -28,9 +22,7 @@ export default (descriptors) => (WrappedComponent) => {
     componentWillMount() {
       const { injectReducer } = this.injectors;
 
-      reducerDescriptorsArray.forEach(({ key, reducer }) => {
-        injectReducer(key, reducer);
-      });
+      injectReducer(key, reducer);
     }
 
     injectors = getInjectors(this.context.store);

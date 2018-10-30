@@ -33,11 +33,11 @@ describe('injectSaga decorator', () => {
       injectSaga: jest.fn(),
       ejectSaga: jest.fn(),
     };
+    ComponentWithSaga = injectSaga({ key: 'test', saga: testSaga, mode: 'testMode' })(Component);
     sagaInjectors.default.mockClear();
   });
 
   it('should inject given saga, mode, and props', () => {
-    ComponentWithSaga = injectSaga({ key: 'test', saga: testSaga, mode: 'testMode' })(Component);
     const props = { test: 'test' };
     shallow(<ComponentWithSaga {...props} />, { context: { store } });
 
@@ -45,18 +45,7 @@ describe('injectSaga decorator', () => {
     expect(injectors.injectSaga).toHaveBeenCalledWith('test', { saga: testSaga, mode: 'testMode' }, props);
   });
 
-  it('should inject multiple saga, mode, and props', () => {
-    ComponentWithSaga = injectSaga([{ key: 'test', saga: testSaga, mode: 'testMode' }, { key: 'test2', saga: testSaga, mode: 'testMode' }])(Component);
-    const props = { test: 'test' };
-    shallow(<ComponentWithSaga {...props} />, { context: { store } });
-
-    expect(injectors.injectSaga).toHaveBeenCalledTimes(2);
-    expect(injectors.injectSaga).toHaveBeenCalledWith('test', { saga: testSaga, mode: 'testMode' }, props);
-    expect(injectors.injectSaga).toHaveBeenCalledWith('test2', { saga: testSaga, mode: 'testMode' }, props);
-  });
-
   it('should eject on unmount with a correct saga key', () => {
-    ComponentWithSaga = injectSaga({ key: 'test', saga: testSaga, mode: 'testMode' })(Component);
     const props = { test: 'test' };
     const wrapper = shallow(<ComponentWithSaga {...props} />, { context: { store } });
     wrapper.unmount();
@@ -66,13 +55,11 @@ describe('injectSaga decorator', () => {
   });
 
   it('should set a correct display name', () => {
-    ComponentWithSaga = injectSaga({ key: 'test', saga: testSaga, mode: 'testMode' })(Component);
     expect(ComponentWithSaga.displayName).toBe('withSaga(Component)');
     expect(injectSaga({ key: 'test', saga: testSaga })(() => null).displayName).toBe('withSaga(Component)');
   });
 
   it('should propagate props', () => {
-    ComponentWithSaga = injectSaga({ key: 'test', saga: testSaga, mode: 'testMode' })(Component);
     const props = { testProp: 'test' };
     const wrapper = shallow(<ComponentWithSaga {...props} />, { context: { store } });
 

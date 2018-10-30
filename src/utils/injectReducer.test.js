@@ -30,34 +30,23 @@ describe('injectReducer decorator', () => {
     injectors = {
       injectReducer: jest.fn(),
     };
+    ComponentWithReducer = injectReducer({ key: 'test', reducer })(Component);
     reducerInjectors.default.mockClear();
   });
 
   it('should inject a given reducer', () => {
-    ComponentWithReducer = injectReducer({ key: 'test', reducer })(Component);
     shallow(<ComponentWithReducer />, { context: { store } });
 
     expect(injectors.injectReducer).toHaveBeenCalledTimes(1);
     expect(injectors.injectReducer).toHaveBeenCalledWith('test', reducer);
   });
 
-  it('should inject multiple reducer', () => {
-    ComponentWithReducer = injectReducer([{ key: 'test', reducer }, { key: 'test2', reducer }])(Component);
-    shallow(<ComponentWithReducer />, { context: { store } });
-
-    expect(injectors.injectReducer).toHaveBeenCalledTimes(2);
-    expect(injectors.injectReducer).toHaveBeenCalledWith('test', reducer);
-    expect(injectors.injectReducer).toHaveBeenCalledWith('test2', reducer);
-  });
-
   it('should set a correct display name', () => {
-    ComponentWithReducer = injectReducer({ key: 'test', reducer })(Component);
     expect(ComponentWithReducer.displayName).toBe('withReducer(Component)');
     expect(injectReducer({ key: 'test', reducer })(() => null).displayName).toBe('withReducer(Component)');
   });
 
   it('should propagate props', () => {
-    ComponentWithReducer = injectReducer({ key: 'test', reducer })(Component);
     const props = { testProp: 'test' };
     const wrapper = shallow(<ComponentWithReducer {...props} />, { context: { store } });
 
