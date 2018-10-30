@@ -56,7 +56,6 @@ exports[`<PrintLayout /> should render correctly 1`] = `
   >
     <List
       incidentNotesList={Array []}
-      statusList={Array []}
     />
   </div>
 </div>
@@ -128,7 +127,6 @@ exports[`<PrintLayout /> should render correctly with image 1`] = `
   >
     <List
       incidentNotesList={Array []}
-      statusList={Array []}
     />
   </div>
 </div>
@@ -217,7 +215,6 @@ exports[`<PrintLayout /> should render correctly with location 1`] = `
   >
     <List
       incidentNotesList={Array []}
-      statusList={Array []}
     />
   </div>
 </div>
