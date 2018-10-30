@@ -16,10 +16,13 @@ import injectReducer from 'utils/injectReducer';
 import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import makeSelectIncidentDetailPage, { selectRefresh } from './selectors';
 import reducer from './reducer';
+import notesSaga from '../IncidentNotesContainer/saga';
+import notesReducer from '../IncidentNotesContainer/reducer';
 import saga from './saga';
 import './style.scss';
 
 import { requestIncident } from './actions';
+import { requestNotesList } from '../IncidentNotesContainer/actions';
 import Tabs from './components/Tabs';
 import MapDetail from './components/MapDetail';
 import IncidentDetail from './components/IncidentDetail';
@@ -43,9 +46,8 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   };
 
   componentDidMount() {
-    // if (this.props.refresh) {
     this.props.onRequestIncident(this.props.id);
-    // }
+    this.props.onRequestNotesList(this.props.id);
   }
 
   onTabChanged(tabId) {
@@ -103,7 +105,8 @@ IncidentDetailPage.propTypes = {
   id: PropTypes.string,
   baseUrl: PropTypes.string,
 
-  onRequestIncident: PropTypes.func.isRequired
+  onRequestIncident: PropTypes.func.isRequired,
+  onRequestNotesList: PropTypes.func.isRequired
 };
 
 /* istanbul ignore next */
@@ -116,12 +119,18 @@ const mapStateToProps = (state, ownProps) => createStructuredSelector({
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  onRequestIncident: requestIncident
+  onRequestIncident: requestIncident,
+  onRequestNotesList: requestNotesList
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
-const withReducer = injectReducer({ key: 'incidentDetailPage', reducer });
-const withSaga = injectSaga({ key: 'incidentDetailPage', saga });
+const withReducer = injectReducer([
+  { key: 'incidentDetailPage', reducer },
+  { key: 'incidentNotesContainer', reducer: notesReducer }]);
+const withSaga = injectSaga([
+  { key: 'incidentDetailPage', saga },
+  { key: 'incidentNotesContainer', saga: notesSaga }
+]);
 
 export default compose(
   withReducer,

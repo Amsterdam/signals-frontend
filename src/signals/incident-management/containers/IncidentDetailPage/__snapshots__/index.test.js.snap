@@ -2,7 +2,7 @@
 
 exports[`<IncidentDetailPage /> events should render the print view 1`] = `
 <Connect(PrintLayout)
-  id="100"
+  id="42"
   incident={Object {}}
   onPrintView={[Function]}
   priorityList={
@@ -65,7 +65,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
   >
     <h3>
       Melding 
-      100
+      42
     </h3>
   </div>
   <ul
@@ -150,26 +150,26 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
           Object {
             "name": "Status",
             "value": <withReducer(withSaga(Connect(IncidentStatusContainer)))
-              id="100"
+              id="42"
             />,
           },
           Object {
             "name": "Urgentie",
             "value": <withReducer(withSaga(Connect(IncidentPriorityContainer)))
-              id="100"
+              id="42"
             />,
           },
           Object {
             "name": "Subcategorie",
             "value": <withReducer(withSaga(Connect(IncidentCategoryContainer)))
-              id="100"
+              id="42"
             />,
           },
           Object {
             "count": undefined,
             "name": "Notities",
             "value": <withReducer(withSaga(Connect(IncidentNotesContainer)))
-              id="100"
+              id="42"
             />,
           },
         ]
@@ -183,7 +183,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
       className="incident-detail-page__tab-container"
     >
       <withReducer(withSaga(Connect(IncidentStatusContainer)))
-        id="100"
+        id="42"
       />
     </div>
   </div>
@@ -199,7 +199,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
   >
     <h3>
       Melding 
-      100
+      42
     </h3>
   </div>
   <ul
@@ -288,26 +288,26 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
           Object {
             "name": "Status",
             "value": <withReducer(withSaga(Connect(IncidentStatusContainer)))
-              id="100"
+              id="42"
             />,
           },
           Object {
             "name": "Urgentie",
             "value": <withReducer(withSaga(Connect(IncidentPriorityContainer)))
-              id="100"
+              id="42"
             />,
           },
           Object {
             "name": "Subcategorie",
             "value": <withReducer(withSaga(Connect(IncidentCategoryContainer)))
-              id="100"
+              id="42"
             />,
           },
           Object {
             "count": undefined,
             "name": "Notities",
             "value": <withReducer(withSaga(Connect(IncidentNotesContainer)))
-              id="100"
+              id="42"
             />,
           },
           Object {
@@ -329,7 +329,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
       className="incident-detail-page__tab-container"
     >
       <withReducer(withSaga(Connect(IncidentStatusContainer)))
-        id="100"
+        id="42"
       />
     </div>
   </div>
@@ -345,7 +345,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
   >
     <h3>
       Melding 
-      100
+      42
     </h3>
   </div>
   <ul
@@ -439,26 +439,26 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
           Object {
             "name": "Status",
             "value": <withReducer(withSaga(Connect(IncidentStatusContainer)))
-              id="100"
+              id="42"
             />,
           },
           Object {
             "name": "Urgentie",
             "value": <withReducer(withSaga(Connect(IncidentPriorityContainer)))
-              id="100"
+              id="42"
             />,
           },
           Object {
             "name": "Subcategorie",
             "value": <withReducer(withSaga(Connect(IncidentCategoryContainer)))
-              id="100"
+              id="42"
             />,
           },
           Object {
             "count": undefined,
             "name": "Notities",
             "value": <withReducer(withSaga(Connect(IncidentNotesContainer)))
-              id="100"
+              id="42"
             />,
           },
         ]
@@ -472,7 +472,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
       className="incident-detail-page__tab-container"
     >
       <withReducer(withSaga(Connect(IncidentStatusContainer)))
-        id="100"
+        id="42"
       />
     </div>
   </div>
@@ -488,7 +488,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
   >
     <h3>
       Melding 
-      100
+      42
     </h3>
   </div>
   <ul
@@ -522,26 +522,26 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
           Object {
             "name": "Status",
             "value": <withReducer(withSaga(Connect(IncidentStatusContainer)))
-              id="100"
+              id="42"
             />,
           },
           Object {
             "name": "Urgentie",
             "value": <withReducer(withSaga(Connect(IncidentPriorityContainer)))
-              id="100"
+              id="42"
             />,
           },
           Object {
             "name": "Subcategorie",
             "value": <withReducer(withSaga(Connect(IncidentCategoryContainer)))
-              id="100"
+              id="42"
             />,
           },
           Object {
             "count": undefined,
             "name": "Notities",
             "value": <withReducer(withSaga(Connect(IncidentNotesContainer)))
-              id="100"
+              id="42"
             />,
           },
         ]
@@ -555,7 +555,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
       className="incident-detail-page__tab-container"
     >
       <withReducer(withSaga(Connect(IncidentStatusContainer)))
-        id="100"
+        id="42"
       />
     </div>
   </div>

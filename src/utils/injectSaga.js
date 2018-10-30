@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import isArray from 'lodash/isArray';
 
 import getInjectors from './sagaInjectors';
 
@@ -15,7 +16,13 @@ import getInjectors from './sagaInjectors';
  *   - constants.ONCE_TILL_UNMOUNT—behaves like 'RESTART_ON_REMOUNT' but never runs it again.
  *
  */
-export default ({ key, saga, mode }) => (WrappedComponent) => {
+export default (sagaDescriptors) => (WrappedComponent) => {
+  const sagaDescriptorsArray = isArray(sagaDescriptors) ? sagaDescriptors : [{
+    key: sagaDescriptors.key,
+    saga: sagaDescriptors.saga,
+    mode: sagaDescriptors.mode
+  }];
+
   class InjectSaga extends React.Component {
     static WrappedComponent = WrappedComponent;
     static displayName = `withSaga(${(WrappedComponent.displayName || WrappedComponent.name || 'Component')})`;
@@ -26,13 +33,17 @@ export default ({ key, saga, mode }) => (WrappedComponent) => {
     componentWillMount() {
       const { injectSaga } = this.injectors;
 
-      injectSaga(key, { saga, mode }, this.props);
+      sagaDescriptorsArray.forEach(({ key, saga, mode }) => {
+        injectSaga(key, { saga, mode }, this.props);
+      });
     }
 
     componentWillUnmount() {
       const { ejectSaga } = this.injectors;
 
-      ejectSaga(key);
+      sagaDescriptorsArray.forEach(({ key }) => {
+        ejectSaga(key);
+      });
     }
 
     injectors = getInjectors(this.context.store);

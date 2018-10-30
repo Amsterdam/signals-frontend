@@ -77,5 +77,5 @@ const mapStateToProps = createStructuredSelector({
 const withConnect = connect(mapStateToProps);
 
 export default compose(
-  withConnect,
+  withConnect
 )(PrintLayout);

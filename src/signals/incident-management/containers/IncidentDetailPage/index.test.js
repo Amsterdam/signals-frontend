@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 
 import { IncidentDetailPage, mapDispatchToProps } from './index';
 import { REQUEST_INCIDENT } from './constants';
+import { REQUEST_NOTES_LIST } from '../IncidentNotesContainer/constants';
 import stadsdeelList from '../../definitions/stadsdeelList';
 import priorityList from '../../definitions/priorityList';
 import ConnectedPrintLayout from './components/PrintLayout';
@@ -12,13 +13,14 @@ describe('<IncidentDetailPage />', () => {
 
   beforeEach(() => {
     props = {
-      id: '100',
+      id: '42',
       incidentdetailpage: {
         incident: {},
         stadsdeelList,
         priorityList
       },
-      onRequestIncident: jest.fn()
+      onRequestIncident: jest.fn(),
+      onRequestNotesList: jest.fn()
     };
   });
 
@@ -56,6 +58,20 @@ describe('<IncidentDetailPage />', () => {
   });
 
   describe('events', () => {
+    it('should load the incident', () => {
+      shallow(
+        <IncidentDetailPage {...props} />
+      );
+      expect(props.onRequestIncident).toHaveBeenCalledWith('42');
+    });
+
+    it('should load the notes', () => {
+      shallow(
+        <IncidentDetailPage {...props} />
+      );
+      expect(props.onRequestNotesList).toHaveBeenCalledWith('42');
+    });
+
     it('should change the state', () => {
       const wrapper = shallow(
         <IncidentDetailPage {...props} />
@@ -79,11 +95,16 @@ describe('<IncidentDetailPage />', () => {
   describe('mapDispatchToProps', () => {
     const dispatch = jest.fn();
 
+    // For the `mapDispatchToProps`, call it directly but pass in
+    // a mock function and check the arguments passed in are as expected
     it('onRequestIncident', () => {
-      // For the `mapDispatchToProps`, call it directly but pass in
-      // a mock function and check the arguments passed in are as expected
       mapDispatchToProps(dispatch).onRequestIncident({});
       expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_INCIDENT, payload: {} });
+    });
+
+    it('onRequestNotesList', () => {
+      mapDispatchToProps(dispatch).onRequestNotesList({});
+      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_NOTES_LIST, payload: {} });
     });
   });
 });
