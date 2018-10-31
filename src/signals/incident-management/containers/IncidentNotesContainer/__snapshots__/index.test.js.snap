@@ -11,13 +11,6 @@ exports[`<IncidentNotesContainer /> should render correctly 1`] = `
       <Add
         error={false}
         id="1"
-        incidentNotesList={
-          Array [
-            Object {
-              "state": "m",
-            },
-          ]
-        }
         loading={false}
         loadingExternal={false}
         onRequestNoteCreate={[MockFunction]}

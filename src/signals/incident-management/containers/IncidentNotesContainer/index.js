@@ -17,7 +17,7 @@ import { requestNoteCreate } from './actions';
 
 export class IncidentNotesContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { incidentNotesList, error, loading, loadingExternal } = this.props.incidentNotesContainer;
+    const { incidentNotesList, incidentNotesContainer: { error, loading, loadingExternal } } = this.props;
 
     return (
       <div>
@@ -29,11 +29,10 @@ export class IncidentNotesContainer extends React.Component { // eslint-disable-
               loadingExternal={loadingExternal}
               error={error}
               onRequestNoteCreate={this.props.onRequestNoteCreate}
-              incidentNotesList={incidentNotesList}
             />
           </div>
           <div className="col-12">
-            <List incidentNotesList={this.props.incidentNotesList} />
+            <List incidentNotesList={incidentNotesList} />
           </div>
         </div>
       </div>
@@ -41,10 +40,14 @@ export class IncidentNotesContainer extends React.Component { // eslint-disable-
   }
 }
 
+IncidentNotesContainer.defaultProps = {
+  incidentNotesList: []
+};
+
 IncidentNotesContainer.propTypes = {
   id: PropTypes.string.isRequired,
   incidentNotesContainer: PropTypes.object.isRequired,
-  incidentNotesList: PropTypes.array.isRequired,
+  incidentNotesList: PropTypes.array,
 
   onRequestNoteCreate: PropTypes.func.isRequired
 };
