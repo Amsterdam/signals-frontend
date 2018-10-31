@@ -31,6 +31,7 @@ export function* callLogin(action) {
   try {
     login(action.payload);
   } catch (error) {
+    /* istanbul ignore next */
     yield put(showGlobalError('LOGIN_FAILED'));
   }
 }

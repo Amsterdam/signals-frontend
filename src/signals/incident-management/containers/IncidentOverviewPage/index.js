@@ -19,17 +19,8 @@ import ListComponent from './components/List';
 import Pager from './components/Pager';
 
 export class IncidentOverviewPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-    this.onPageChanged = this.onPageChanged.bind(this);
-  }
-
   componentDidMount() {
     this.props.onRequestIncidents({});
-  }
-
-  onPageChanged(page) {
-    this.props.onRequestIncidents({ filter: null, page });
   }
 
   render() {
@@ -44,7 +35,7 @@ export class IncidentOverviewPage extends React.Component { // eslint-disable-li
             {loading ? (<LoadingIndicator />) : (
               <div>
                 <ListComponent incidentSelected={this.props.onIncidentSelected} incidents={incidents} onRequestIncidents={this.props.onRequestIncidents} sort={sort} incidentsCount={incidentsCount} {...rest} />
-                <Pager incidentsCount={incidentsCount} page={page} onPageChanged={this.onPageChanged} />
+                <Pager incidentsCount={incidentsCount} page={page} onRequestIncidents={this.props.onRequestIncidents} />
               </div>)
             }
           </div>

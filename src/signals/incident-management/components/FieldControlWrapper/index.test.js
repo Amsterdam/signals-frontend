@@ -29,10 +29,6 @@ describe('FieldControlWrapper', () => {
     props.values = values;
     wrapper = shallow(<FieldControlWrapper {...props} />);
 
-    wrapper.setProps({
-      values
-    });
-
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -40,6 +36,13 @@ describe('FieldControlWrapper', () => {
     props.values = values;
     props.emptyOptionText = 'All';
     wrapper = shallow(<FieldControlWrapper {...props} />);
+
+    wrapper.setProps({
+      values: [
+        ...values,
+        { key: 'bar', value: 'Bar' }
+      ]
+    });
 
     expect(wrapper).toMatchSnapshot();
   });

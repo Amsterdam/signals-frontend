@@ -41,4 +41,10 @@ describe('The query string parser service', () => {
       four: '==44'
     });
   });
+
+  it('returns null when called empty', () => {
+    expect(
+      queryStringParser('')
+    ).toEqual(null);
+  });
 });

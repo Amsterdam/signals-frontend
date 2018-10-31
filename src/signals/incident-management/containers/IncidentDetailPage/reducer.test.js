@@ -4,7 +4,9 @@ import incidentDetailPageReducer, { initialState } from './reducer';
 
 import { requestIncident, requestIncidentSuccess, requestIncidentError } from './actions';
 import { requestCategoryUpdateSuccess } from '../IncidentCategoryContainer/actions';
+import { requestPriorityUpdateSuccess } from '../IncidentPriorityContainer/actions';
 import { requestStatusCreateSuccess } from '../IncidentStatusContainer/actions';
+import { requestNoteCreateSuccess } from '../IncidentNotesContainer/actions';
 import priorityList from '../../definitions/priorityList';
 import stadsdeelList from '../../definitions/stadsdeelList';
 
@@ -61,11 +63,31 @@ describe('incidentDetailPageReducer', () => {
     expect(reducer(state, action)).toEqual(expected);
   });
 
+  it('should handle the REQUEST_PRIORITY_UPDATE_SUCCESS', () => {
+    const priority = 'high';
+    const action = requestPriorityUpdateSuccess(priority);
+    const expected = fromJS(initialState)
+      .set('incident', { priority });
+    expect(reducer(state, action)).toEqual(expected);
+  });
+
   it('should handle the REQUEST_STATUS_CREATE_SUCCESS', () => {
     const status = 'test';
     const action = requestStatusCreateSuccess(status);
     const expected = fromJS(initialState)
       .set('incident', { status });
     expect(reducer(state, action)).toEqual(expected);
+  });
+
+  it('should handle the REQUEST_NOTE_UPDATE_SUCCESS', () => {
+    const note = 'bla';
+    const action = requestNoteCreateSuccess(note);
+    const expected = fromJS(initialState)
+      .set('incident', { note, notes_count: 667 });
+
+    expect(reducer(fromJS(initialState).set('incident', {
+      note,
+      notes_count: 666
+    }), action)).toEqual(expected);
   });
 });
