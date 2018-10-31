@@ -33,6 +33,7 @@ import PrintLayout from './components/PrintLayout';
 export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
+
     this.onTabChanged = this.onTabChanged.bind(this);
     this.onPrintView = this.onPrintView.bind(this);
   }
@@ -67,30 +68,51 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     ];
     const visibleTabs = tabs.filter((tab) => tab.name === 'Foto' ? (incident && incident.image) : true);
 
-    const view = this.state.printView ? <PrintLayout id={this.props.id} incident={incident} incidentNotesList={incidentNotesList} stadsdeelList={stadsdeelList} priorityList={priorityList} onPrintView={this.onPrintView} /> :
-      (<div className="incident-detail-page row container">
-        <div className="col-12"><h3>Melding {this.props.id}</h3></div>
+    const view = this.state.printView ? (
+      <PrintLayout
+        id={this.props.id}
+        incident={incident}
+        incidentNotesList={incidentNotesList}
+        stadsdeelList={stadsdeelList}
+        priorityList={priorityList}
+        onPrintView={this.onPrintView}
+      />
+      ) :
+      (
+        <div className="incident-detail-page row container">
+          <div className="col-12"><h3>Melding {this.props.id}</h3></div>
 
-        <ul className="col-12 col-md-4 incident-detail-page__map">
-          {incident && incident.location ? <MapDetail label="" value={incident.location} /> : ''}
-        </ul>
+          <ul className="col-12 col-md-4 incident-detail-page__map">
+            {incident && incident.location ? <MapDetail label="" value={incident.location} /> : ''}
+          </ul>
 
-        <div className="col-12 col-md-8">
-          (<Link to={`${this.props.baseUrl}/incidents`} >Terug naar overzicht</Link>)
-          <button onClick={this.onPrintView}>Print view</button>
-          {incident ? <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} /> : ''}
-        </div>
+          <div className="col-12 col-md-8">
+            (<Link to={`${this.props.baseUrl}/incidents`} >Terug naar overzicht</Link>)
+            <button onClick={this.onPrintView}>Print view</button>
+            {incident ? (
+              <IncidentDetail
+                incident={incident}
+                stadsdeelList={stadsdeelList}
+                priorityList={priorityList}
+              />
+            ) : ''}
+          </div>
 
-        <div className="col-12">
-          <Tabs onTabChanged={this.onTabChanged} selectedTab={selectedTab} tabs={visibleTabs} />
-        </div>
+          <div className="col-12">
+            <Tabs
+              onTabChanged={this.onTabChanged}
+              selectedTab={selectedTab}
+              tabs={visibleTabs}
+            />
+          </div>
 
-        <div className="col-12">
-          <div className="incident-detail-page__tab-container">
-            {tabs[selectedTab].value}
+          <div className="col-12">
+            <div className="incident-detail-page__tab-container">
+              {tabs[selectedTab].value}
+            </div>
           </div>
         </div>
-      </div>);
+      );
 
     return view;
   }
