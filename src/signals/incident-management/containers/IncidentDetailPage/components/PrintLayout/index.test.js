@@ -14,11 +14,11 @@ describe('<PrintLayout />', () => {
     props = {
       id: '100',
       incident: {},
+      incidentNotesList: [],
       stadsdeelList: [],
       priorityList: [],
       onPrintView: jest.fn(),
-      incidentStatusContainer: { incidentStatusList: [], statusList: [] },
-      incidentNotesContainer: { incidentNotesList: [] }
+      incidentStatusContainer: { incidentStatusList: [], statusList: [] }
     };
 
     global.window.print = jest.fn();

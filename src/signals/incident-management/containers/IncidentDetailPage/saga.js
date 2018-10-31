@@ -29,9 +29,9 @@ export function* fetchIncidentNotesList(action) {
   }
 }
 
-export default function* watchRequestIncidentSaga() {
+export default function* watchIncidentDetailContainerSaga() {
   yield all([
-    yield takeLatest(REQUEST_INCIDENT, fetchIncident),
-    yield takeLatest(REQUEST_NOTES_LIST, fetchIncidentNotesList)
+    takeLatest(REQUEST_INCIDENT, fetchIncident),
+    takeLatest(REQUEST_NOTES_LIST, fetchIncidentNotesList)
   ]);
 }

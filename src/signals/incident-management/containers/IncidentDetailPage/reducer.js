@@ -41,6 +41,7 @@ function incidentDetailPageReducer(state = initialState, action) {
     case REQUEST_INCIDENT_SUCCESS:
       return state
         .set('incident', fromJS(action.payload))
+        .set('error', false)
         .set('loading', false);
     case REQUEST_INCIDENT_ERROR:
       return state
@@ -55,7 +56,8 @@ function incidentDetailPageReducer(state = initialState, action) {
     case REQUEST_NOTES_LIST_SUCCESS:
       return state
         .set('incidentNotesList', fromJS(action.payload.results))
-        .set('loading', false);
+        .set('loading', false)
+        .set('error', false);
 
     case REQUEST_NOTES_LIST_ERROR:
       return state

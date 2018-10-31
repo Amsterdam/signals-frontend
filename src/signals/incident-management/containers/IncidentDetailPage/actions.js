@@ -30,10 +30,10 @@ export function requestIncidentError(message) {
   };
 }
 
-export function requestNotesList(signalId) {
+export function requestNotesList(id) {
   return {
     type: REQUEST_NOTES_LIST,
-    payload: signalId
+    payload: id
   };
 }
 

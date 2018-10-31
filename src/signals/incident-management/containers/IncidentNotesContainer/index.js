@@ -41,9 +41,6 @@ export class IncidentNotesContainer extends React.Component { // eslint-disable-
   }
 }
 
-/*
-*/
-
 IncidentNotesContainer.propTypes = {
   id: PropTypes.string.isRequired,
   incidentNotesContainer: PropTypes.object.isRequired,
