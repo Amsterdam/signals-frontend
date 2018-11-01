@@ -1,9 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<IncidentDetailPage /> events should render the print view 1`] = `
-<Connect(PrintLayout)
+<Component
   id="100"
   incident={Object {}}
+  incidentNotesList={Array []}
   onPrintView={[Function]}
   priorityList={
     Array [
@@ -87,7 +88,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
     >
       Print view
     </button>
-    <IncidentDetail
+    <Component
       incident={Object {}}
       priorityList={
         Array [
@@ -146,6 +147,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
       onTabChanged={[Function]}
       selectedTab="status"
       tabs={
+<<<<<<< HEAD
         Object {
           "category": Object {
             "name": "Subcategorie",
@@ -156,6 +158,24 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
           "history": Object {
             "name": "Historie",
             "value": <withReducer(withSaga(Connect(IncidentHistoryContainer)))
+=======
+        Array [
+          Object {
+            "name": "Status",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+          Object {
+            "name": "Urgentie",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+          Object {
+            "name": "Subcategorie",
+            "value": <Unknown
+>>>>>>> cbe7bac86b90519214d054b6dd9d14bbfbf7a783
               id="100"
             />,
           },
@@ -163,7 +183,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
           "notes": Object {
             "count": undefined,
             "name": "Notities",
-            "value": <withReducer(withSaga(Connect(IncidentNotesContainer)))
+            "value": <Unknown
               id="100"
             />,
           },
@@ -189,7 +209,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
     <div
       className="incident-detail-page__tab-container"
     >
-      <withReducer(withSaga(Connect(IncidentStatusContainer)))
+      <Component
         id="100"
       />
     </div>
@@ -228,7 +248,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
     >
       Print view
     </button>
-    <IncidentDetail
+    <Component
       incident={
         Object {
           "image": "some-image",
@@ -291,6 +311,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
       onTabChanged={[Function]}
       selectedTab="status"
       tabs={
+<<<<<<< HEAD
         Object {
           "category": Object {
             "name": "Subcategorie",
@@ -310,12 +331,31 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
               alt=""
               className="incident-detail-page__image--max-width"
               src="some-image"
+=======
+        Array [
+          Object {
+            "name": "Status",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+          Object {
+            "name": "Urgentie",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+          Object {
+            "name": "Subcategorie",
+            "value": <Unknown
+              id="100"
+>>>>>>> cbe7bac86b90519214d054b6dd9d14bbfbf7a783
             />,
           },
           "notes": Object {
             "count": undefined,
             "name": "Notities",
-            "value": <withReducer(withSaga(Connect(IncidentNotesContainer)))
+            "value": <Unknown
               id="100"
             />,
           },
@@ -341,7 +381,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
     <div
       className="incident-detail-page__tab-container"
     >
-      <withReducer(withSaga(Connect(IncidentStatusContainer)))
+      <Component
         id="100"
       />
     </div>
@@ -364,7 +404,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
   <ul
     className="col-12 col-md-4 incident-detail-page__map"
   >
-    <MapDetail
+    <Component
       label=""
       value={Object {}}
     />
@@ -385,7 +425,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
     >
       Print view
     </button>
-    <IncidentDetail
+    <Component
       incident={
         Object {
           "location": Object {},
@@ -448,6 +488,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
       onTabChanged={[Function]}
       selectedTab="status"
       tabs={
+<<<<<<< HEAD
         Object {
           "category": Object {
             "name": "Subcategorie",
@@ -463,9 +504,31 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
           },
           "image": undefined,
           "notes": Object {
+=======
+        Array [
+          Object {
+            "name": "Status",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+          Object {
+            "name": "Urgentie",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+          Object {
+            "name": "Subcategorie",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+          Object {
+>>>>>>> cbe7bac86b90519214d054b6dd9d14bbfbf7a783
             "count": undefined,
             "name": "Notities",
-            "value": <withReducer(withSaga(Connect(IncidentNotesContainer)))
+            "value": <Unknown
               id="100"
             />,
           },
@@ -491,7 +554,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
     <div
       className="incident-detail-page__tab-container"
     >
-      <withReducer(withSaga(Connect(IncidentStatusContainer)))
+      <Component
         id="100"
       />
     </div>
@@ -538,6 +601,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
       onTabChanged={[Function]}
       selectedTab="status"
       tabs={
+<<<<<<< HEAD
         Object {
           "category": Object {
             "name": "Subcategorie",
@@ -548,6 +612,24 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
           "history": Object {
             "name": "Historie",
             "value": <withReducer(withSaga(Connect(IncidentHistoryContainer)))
+=======
+        Array [
+          Object {
+            "name": "Status",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+          Object {
+            "name": "Urgentie",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+          Object {
+            "name": "Subcategorie",
+            "value": <Unknown
+>>>>>>> cbe7bac86b90519214d054b6dd9d14bbfbf7a783
               id="100"
             />,
           },
@@ -555,7 +637,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
           "notes": Object {
             "count": undefined,
             "name": "Notities",
-            "value": <withReducer(withSaga(Connect(IncidentNotesContainer)))
+            "value": <Unknown
               id="100"
             />,
           },
@@ -581,7 +663,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
     <div
       className="incident-detail-page__tab-container"
     >
-      <withReducer(withSaga(Connect(IncidentStatusContainer)))
+      <Component
         id="100"
       />
     </div>

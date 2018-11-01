@@ -19,7 +19,7 @@ import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
-import { requestIncident } from './actions';
+import { requestIncident, requestNotesList } from './actions';
 import Tabs from './components/Tabs';
 import MapDetail from './components/MapDetail';
 import IncidentDetail from './components/IncidentDetail';
@@ -33,6 +33,7 @@ import PrintLayout from './components/PrintLayout';
 export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
+
     this.onTabChanged = this.onTabChanged.bind(this);
     this.onPrintView = this.onPrintView.bind(this);
   }
@@ -43,9 +44,8 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   };
 
   componentDidMount() {
-    // if (this.props.refresh) {
     this.props.onRequestIncident(this.props.id);
-    // }
+    this.props.onRequestNotesList(this.props.id);
   }
 
   onTabChanged(tabId) {
@@ -57,7 +57,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   render() {
-    const { incident, stadsdeelList, priorityList } = this.props.incidentdetailpage;
+    const { incident, incidentNotesList, stadsdeelList, priorityList } = this.props.incidentdetailpage;
     const { selectedTab } = this.state;
     const tabs = {
       status: { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
@@ -68,30 +68,51 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
       history: { name: 'Historie', value: <IncidentHistoryContainer id={this.props.id} /> }
     };
 
-    const view = this.state.printView ? <PrintLayout id={this.props.id} incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} onPrintView={this.onPrintView} /> :
-      (<div className="incident-detail-page row container">
-        <div className="col-12"><h3>Melding {this.props.id}</h3></div>
+    const view = this.state.printView ? (
+      <PrintLayout
+        id={this.props.id}
+        incident={incident}
+        incidentNotesList={incidentNotesList}
+        stadsdeelList={stadsdeelList}
+        priorityList={priorityList}
+        onPrintView={this.onPrintView}
+      />
+      ) :
+      (
+        <div className="incident-detail-page row container">
+          <div className="col-12"><h3>Melding {this.props.id}</h3></div>
 
-        <ul className="col-12 col-md-4 incident-detail-page__map">
-          {incident && incident.location ? <MapDetail label="" value={incident.location} /> : ''}
-        </ul>
+          <ul className="col-12 col-md-4 incident-detail-page__map">
+            {incident && incident.location ? <MapDetail label="" value={incident.location} /> : ''}
+          </ul>
 
-        <div className="col-12 col-md-8">
-          (<Link to={`${this.props.baseUrl}/incidents`} >Terug naar overzicht</Link>)
-          <button onClick={this.onPrintView}>Print view</button>
-          {incident ? <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} /> : ''}
-        </div>
+          <div className="col-12 col-md-8">
+            (<Link to={`${this.props.baseUrl}/incidents`} >Terug naar overzicht</Link>)
+            <button onClick={this.onPrintView}>Print view</button>
+            {incident ? (
+              <IncidentDetail
+                incident={incident}
+                stadsdeelList={stadsdeelList}
+                priorityList={priorityList}
+              />
+            ) : ''}
+          </div>
 
-        <div className="col-12">
-          <Tabs onTabChanged={this.onTabChanged} selectedTab={selectedTab} tabs={tabs} />
-        </div>
+          <div className="col-12">
+            <Tabs
+              onTabChanged={this.onTabChanged}
+              selectedTab={selectedTab}
+              tabs={tabs}
+            />
+          </div>
 
-        <div className="col-12">
-          <div className="incident-detail-page__tab-container">
-            {tabs[selectedTab].value}
+          <div className="col-12">
+            <div className="incident-detail-page__tab-container">
+              {tabs[selectedTab].value}
+            </div>
           </div>
         </div>
-      </div>);
+      );
 
     return view;
   }
@@ -103,7 +124,8 @@ IncidentDetailPage.propTypes = {
   id: PropTypes.string,
   baseUrl: PropTypes.string,
 
-  onRequestIncident: PropTypes.func.isRequired
+  onRequestIncident: PropTypes.func.isRequired,
+  onRequestNotesList: PropTypes.func.isRequired
 };
 
 /* istanbul ignore next */
@@ -116,7 +138,8 @@ const mapStateToProps = (state, ownProps) => createStructuredSelector({
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  onRequestIncident: requestIncident
+  onRequestIncident: requestIncident,
+  onRequestNotesList: requestNotesList
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
