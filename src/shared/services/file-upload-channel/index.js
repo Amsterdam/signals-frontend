@@ -12,6 +12,7 @@ function fileUploadChannel(endpoint, file, id) {
 
     const xhr = new window.XMLHttpRequest();
 
+    /* istanbul ignore next */
     const onProgress = (e) => {
       if (e.lengthComputable) {
         const progress = e.loaded / e.total;
@@ -19,6 +20,7 @@ function fileUploadChannel(endpoint, file, id) {
       }
     };
 
+    /* istanbul ignore next */
     const onFailure = () => {
       emitter({ error: new Error('Upload failed') });
       emitter(END);
@@ -28,6 +30,7 @@ function fileUploadChannel(endpoint, file, id) {
     xhr.upload.addEventListener('error', onFailure);
     xhr.upload.addEventListener('abort', onFailure);
 
+    /* istanbul ignore next */
     xhr.onload = () => {
       // upload success
       if (xhr.readyState === 4 && xhr.status === 202 && xhr.statusText === 'Accepted') {

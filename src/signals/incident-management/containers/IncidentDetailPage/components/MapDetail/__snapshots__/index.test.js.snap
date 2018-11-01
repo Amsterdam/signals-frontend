@@ -14,3 +14,9 @@ exports[`<MapDetail /> should render correctly 1`] = `
   />
 </div>
 `;
+
+exports[`<MapDetail /> should render correctly without location 1`] = `
+<div
+  className="map-detail"
+/>
+`;

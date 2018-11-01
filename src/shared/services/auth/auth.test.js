@@ -293,6 +293,14 @@ describe('The auth service', () => {
         Authorization: 'Bearer 123AccessToken'
       });
     });
+
+    it('Creates an object defining no headers when no access token', () => {
+      initAuth();
+      const authHeaders = getAuthHeaders();
+
+      expect(authHeaders).toEqual({
+      });
+    });
   });
 
   describe('Retrieving the auth domain', () => {
@@ -366,7 +374,7 @@ describe('The auth service', () => {
   });
 
   describe('authenticate', () => {
-    it('should authticate with credentials with accessToken', () => {
+    it('should authenticate with credentials with accessToken', () => {
       parseAccessToken.mockImplementation(() => ({
         name: 'Jan Klaasen',
         scopes: ['SIG/ALL']
@@ -382,7 +390,7 @@ describe('The auth service', () => {
       );
     });
 
-    it('should not authticate without accessToken', () => {
+    it('should not authenticate without accessToken', () => {
       parseAccessToken.mockImplementation(() => ({
         name: 'Jan Klaasen',
         scopes: ['SIG/ALL']

@@ -1,17 +1,30 @@
 import { fromJS } from 'immutable';
-import makeSelectOverviewPage from './selectors';
-
+import makeSelectOverviewPage, { makeSelectFilterParams } from './selectors';
 
 describe('makeSelectOverviewPage', () => {
-  const selector = makeSelectOverviewPage();
-  it('should select the overviewPage', () => {
-    const overviewPage = {
-      foo: 'bar'
+  it('should select the incidentOverviewPage', () => {
+    const selector = makeSelectOverviewPage();
+    const incidentOverviewPage = {
+      incidents: []
     };
-
     const mockedState = fromJS({
-      overviewPage
+      incidentOverviewPage
     });
-    expect(selector(mockedState)).toEqual(overviewPage);
+
+    expect(selector(mockedState)).toEqual(incidentOverviewPage);
+  });
+});
+
+describe('makeSelectFilterParams', () => {
+  it('should select the incidentOverviewPage', () => {
+    const selector = makeSelectFilterParams();
+    const incidentOverviewPage = {
+      page: 333
+    };
+    const mockedState = fromJS({
+      incidentOverviewPage
+    });
+
+    expect(selector(mockedState)).toEqual(incidentOverviewPage);
   });
 });

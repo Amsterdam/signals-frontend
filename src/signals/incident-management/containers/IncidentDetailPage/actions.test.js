@@ -1,13 +1,11 @@
 import {
-  REQUEST_INCIDENT,
-  REQUEST_INCIDENT_SUCCESS,
-  REQUEST_INCIDENT_ERROR,
+  REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR,
+  REQUEST_NOTES_LIST, REQUEST_NOTES_LIST_SUCCESS, REQUEST_NOTES_LIST_ERROR
 } from './constants';
 
 import {
-  requestIncident,
-  requestIncidentSuccess,
-  requestIncidentError
+  requestIncident, requestIncidentSuccess, requestIncidentError,
+  requestNotesList, requestNotesListSuccess, requestNotesListError
 } from './actions';
 
 import { testActionCreator } from '../../../../../internals/testing/test-utils';
@@ -18,5 +16,8 @@ describe('IncidentDetailPage actions', () => {
     testActionCreator(requestIncident, REQUEST_INCIDENT, payload);
     testActionCreator(requestIncidentSuccess, REQUEST_INCIDENT_SUCCESS, payload);
     testActionCreator(requestIncidentError, REQUEST_INCIDENT_ERROR, payload);
+    testActionCreator(requestNotesList, REQUEST_NOTES_LIST, payload);
+    testActionCreator(requestNotesListSuccess, REQUEST_NOTES_LIST_SUCCESS, payload);
+    testActionCreator(requestNotesListError, REQUEST_NOTES_LIST_ERROR, payload);
   });
 });
