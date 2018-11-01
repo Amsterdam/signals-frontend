@@ -24,7 +24,13 @@ const makeSelectIncidentDetailPage = () => createSelector(
   (substate) => substate.toJS()
 );
 
+export const makeSelectIncidentNotesList = () => createSelector(
+  selectIncidentDetailPageDomain,
+  (substate) => substate.get('incidentNotesList').toJS()
+);
+
 export default makeSelectIncidentDetailPage;
+
 export {
   selectIncidentDetailPageDomain,
   selectRefresh

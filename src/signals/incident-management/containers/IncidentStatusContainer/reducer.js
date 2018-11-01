@@ -27,7 +27,7 @@ function incidentStatusContainerReducer(state = initialState, action) {
 
     case REQUEST_STATUS_LIST_SUCCESS:
       return state
-        .set('incidentStatusList', action.payload.results)
+        .set('incidentStatusList', fromJS(action.payload.results))
         .set('loading', false);
 
     case REQUEST_STATUS_CREATE:

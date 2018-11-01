@@ -69,8 +69,8 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-const withReducer = injectReducer({ key: 'overviewPage', reducer });
-const withSaga = injectSaga({ key: 'overviewPage', saga });
+const withReducer = injectReducer({ key: 'incidentOverviewPage', reducer });
+const withSaga = injectSaga({ key: 'incidentOverviewPage', saga });
 
 export default compose(
   withReducer,

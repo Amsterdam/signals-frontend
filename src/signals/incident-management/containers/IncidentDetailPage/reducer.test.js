@@ -1,12 +1,21 @@
 
 import { fromJS } from 'immutable';
 import incidentDetailPageReducer, { initialState } from './reducer';
+import {
+  REQUEST_INCIDENT,
+  REQUEST_INCIDENT_SUCCESS,
+  REQUEST_INCIDENT_ERROR,
+  REQUEST_NOTES_LIST,
+  REQUEST_NOTES_LIST_SUCCESS,
+  REQUEST_NOTES_LIST_ERROR
+}
+  from './constants';
 
-import { requestIncident, requestIncidentSuccess, requestIncidentError } from './actions';
-import { requestCategoryUpdateSuccess } from '../IncidentCategoryContainer/actions';
-import { requestPriorityUpdateSuccess } from '../IncidentPriorityContainer/actions';
-import { requestStatusCreateSuccess } from '../IncidentStatusContainer/actions';
-import { requestNoteCreateSuccess } from '../IncidentNotesContainer/actions';
+import { REQUEST_CATEGORY_UPDATE_SUCCESS } from '../IncidentCategoryContainer/constants';
+import { REQUEST_PRIORITY_UPDATE_SUCCESS } from '../IncidentPriorityContainer/constants';
+import { REQUEST_STATUS_CREATE_SUCCESS } from '../IncidentStatusContainer/constants';
+import { REQUEST_NOTE_CREATE_SUCCESS } from '../IncidentNotesContainer/constants';
+
 import priorityList from '../../definitions/priorityList';
 import stadsdeelList from '../../definitions/stadsdeelList';
 
@@ -14,10 +23,21 @@ jest.mock('../../definitions/stadsdeelList');
 
 describe('incidentDetailPageReducer', () => {
   const reducer = incidentDetailPageReducer;
+  const expected = {
+    id: null,
+    loading: false,
+    error: false,
+    incidentNotesList: [],
+    priorityList,
+    stadsdeelList
+  };
   let state;
 
   beforeEach(() => {
-    state = fromJS();
+    state = fromJS({
+      incident: {},
+      incidentNotesList: [],
+    });
   });
 
   it('returns the initial state', () => {
@@ -25,69 +45,147 @@ describe('incidentDetailPageReducer', () => {
   });
 
   it('should handle the REQUEST_INCIDENT', () => {
-    const action = requestIncident(1);
-    const expected = {
-      id: 1,
-      loading: true,
-      error: false,
-      priorityList,
-      stadsdeelList,
-      incident: null
-    };
-    expect(reducer(initialState, action)).toEqual(fromJS(expected));
+    expect(
+      incidentDetailPageReducer(undefined, {
+        type: REQUEST_INCIDENT,
+        payload: 42
+      }).toJS()
+    ).toEqual({
+      ...expected,
+      id: 42,
+      incident: null,
+      loading: true
+    });
   });
 
   it('should handle the REQUEST_INCIDENT_SUCCESS', () => {
     const payload = { id: 1 };
-    const action = requestIncidentSuccess(payload);
-    const expected = fromJS(initialState)
-      .set('incident', payload)
-      .set('loading', false);
-    expect(reducer(initialState, action)).toEqual(expected);
+    expect(
+      incidentDetailPageReducer(undefined, {
+        type: REQUEST_INCIDENT_SUCCESS,
+        payload
+      }).toJS()
+    ).toEqual({
+      ...expected,
+      incident: {
+        id: 1
+      }
+    });
   });
 
   it('should handle the REQUEST_INCIDENT_ERROR', () => {
-    const message = '';
-    const action = requestIncidentError(message);
-    const expected = fromJS(initialState)
-      .set('error', message)
-      .set('loading', false);
-    expect(reducer(state, action)).toEqual(expected);
+    expect(
+      incidentDetailPageReducer(undefined, {
+        type: REQUEST_INCIDENT_ERROR,
+        payload: true
+      }).toJS()
+    ).toEqual({
+      ...expected,
+      error: true
+    });
+  });
+
+  describe('REQUEST_NOTES_LIST', () => {
+    it('resets error and loading', () => {
+      expect(
+        incidentDetailPageReducer(undefined, {
+          type: REQUEST_NOTES_LIST
+        }).toJS()
+      ).toEqual({
+        ...expected,
+        loading: true
+      });
+    });
+  });
+
+  describe('REQUEST_NOTES_LIST_SUCCESS', () => {
+    it('sets notes list and loading', () => {
+      expect(
+        incidentDetailPageReducer(undefined, {
+          type: REQUEST_NOTES_LIST_SUCCESS,
+          payload: {
+            results: ['Note 1', 'Note 2']
+          }
+        }).toJS()
+      ).toEqual({
+        ...expected,
+        incidentNotesList: ['Note 1', 'Note 2']
+      });
+    });
+  });
+
+  describe('REQUEST_NOTES_LIST_ERROR', () => {
+    it('sets error and loading', () => {
+      expect(
+        incidentDetailPageReducer(undefined, {
+          type: REQUEST_NOTES_LIST_ERROR,
+          payload: true
+        }).toJS()
+      ).toEqual({
+        ...expected,
+        error: true
+      });
+    });
   });
 
   it('should handle the REQUEST_CATEGORY_UPDATE_SUCCESS', () => {
-    const category = 'test';
-    const action = requestCategoryUpdateSuccess(category);
-    const expected = fromJS(initialState)
-      .set('incident', { category });
-    expect(reducer(state, action)).toEqual(expected);
+    expect(
+      incidentDetailPageReducer(state, {
+        type: REQUEST_CATEGORY_UPDATE_SUCCESS,
+        payload: 'test'
+      }).toJS()
+    ).toEqual({
+      incident: {
+        category: 'test'
+      },
+      incidentNotesList: []
+    });
   });
 
   it('should handle the REQUEST_PRIORITY_UPDATE_SUCCESS', () => {
-    const priority = 'high';
-    const action = requestPriorityUpdateSuccess(priority);
-    const expected = fromJS(initialState)
-      .set('incident', { priority });
-    expect(reducer(state, action)).toEqual(expected);
+    expect(
+      incidentDetailPageReducer(state, {
+        type: REQUEST_PRIORITY_UPDATE_SUCCESS,
+        payload: 'high'
+      }).toJS()
+    ).toEqual({
+      incident: {
+        priority: 'high'
+      },
+      incidentNotesList: []
+    });
   });
 
   it('should handle the REQUEST_STATUS_CREATE_SUCCESS', () => {
-    const status = 'test';
-    const action = requestStatusCreateSuccess(status);
-    const expected = fromJS(initialState)
-      .set('incident', { status });
-    expect(reducer(state, action)).toEqual(expected);
+    expect(
+      incidentDetailPageReducer(state, {
+        type: REQUEST_STATUS_CREATE_SUCCESS,
+        payload: 'gemeld'
+      }).toJS()
+    ).toEqual({
+      incident: {
+        status: 'gemeld'
+      },
+      incidentNotesList: []
+    });
   });
 
-  it('should handle the REQUEST_NOTE_UPDATE_SUCCESS', () => {
-    const note = 'bla';
-    const action = requestNoteCreateSuccess(note);
-    const expected = fromJS(initialState)
-      .set('incident', { note, notes_count: 667 });
-
-    expect(reducer(fromJS(initialState).set('incident', {
-      note,
-      notes_count: 666
-    }), action)).toEqual(expected);
+  it('should handle the REQUEST_NOTE_CREATE_SUCCESS', () => {
+    expect(
+      incidentDetailPageReducer(fromJS({
+        incident: {
+          notes_count: 666
+        },
+        incidentNotesList: [],
+      }), {
+        type: REQUEST_NOTE_CREATE_SUCCESS,
+        payload: 'note'
+      }).toJS()
+    ).toEqual({
+      incident: {
+        notes_count: 667
+      },
+      incidentNotesList: ['note']
+    });
   });
 });
