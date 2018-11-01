@@ -1,24 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { FormattedMessage } from 'react-intl';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { makeSelectError, makeSelectErrorMessage } from 'containers/App/selectors';
 import { resetGlobalError } from '../App/actions';
+import getMessage from './services/get-message';
 
-// import messages from './messages';
 import './style.scss';
 
 export const GlobalError = ({ error, errorMessage, onClose }) => (
   <div>
     {error ?
-      <div className="global-error">
-        {errorMessage}
-        <button
-          className="global-error__close-button"
-          onClick={onClose}
-        >sluit</button>
+      <div className="global-error container">
+        <div className="row">
+          <div className="col col-12">
+            <div className="global-error__message">
+              <button
+                className="global-error__close-button"
+                onClick={onClose}
+              />
+              {getMessage(errorMessage)}
+            </div>
+          </div>
+        </div>
       </div>
     : ''}
   </div>

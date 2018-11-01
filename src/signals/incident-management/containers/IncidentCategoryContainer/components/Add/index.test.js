@@ -45,6 +45,7 @@ describe('<Add />', () => {
       });
 
       it('should render loading', () => {
+        wrapper.setProps({ loading: false });
         wrapper.setProps({ loading: true });
 
         renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
@@ -59,9 +60,9 @@ describe('<Add />', () => {
 
     it('should enable the submit button when a  category is selected', () => {
       const form = wrapper.instance().categoryForm;
-      const formValue = { sub: 'test' };
+      const formValue = { sub_category: 'test' };
       form.patchValue(formValue);
-      expect(form.value.sub).toEqual(formValue.sub);
+      expect(form.value.sub_category).toEqual(formValue.sub_category);
       renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
       expect(renderedFormGroup.find('button').prop('disabled')).toBe(false);
     });
@@ -70,10 +71,10 @@ describe('<Add />', () => {
       const form = wrapper.instance().categoryForm;
       const formValue = {
         ...form.value,
-        sub: 'test'
+        sub_category: 'test'
       };
       form.setValue(formValue);
-      expect(form.value.sub).toEqual(formValue.sub);
+      expect(form.value.sub_category).toEqual(formValue.sub_category);
 
       renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
       // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality

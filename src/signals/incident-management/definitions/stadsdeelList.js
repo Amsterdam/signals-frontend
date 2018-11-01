@@ -1,5 +1,4 @@
 const stadsdeelList = [
-    { key: '', value: 'Alle stadsdelen' },
     { key: 'A', value: 'Centrum' },
     { key: 'B', value: 'Westpoort' },
     { key: 'E', value: 'West' },

@@ -26,6 +26,169 @@ exports[`<SelectInput /> should render correctly 1`] = `
         size=""
       >
         <option
+          key=""
+          title="all items"
+          value=""
+        >
+          all items
+        </option>
+        <option
+          key="1"
+          title="item1"
+          value="1"
+        >
+          item1
+        </option>
+        <option
+          key="2"
+          title="item2"
+          value="2"
+        >
+          item2
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<SelectInput /> should render correctly with empty option select 1`] = `
+<div
+  className="select-input"
+>
+  <div
+    className="mode_input text rij_verplicht"
+  >
+    <div
+      className="select-input__label"
+    >
+      <label
+        htmlFor="formname"
+      >
+        display
+      </label>
+    </div>
+    <div
+      className="select-input__control invoer"
+    >
+      <select
+        id="formname"
+        multiple={false}
+        name=""
+        size=""
+      >
+        <option
+          key=""
+          title="none"
+          value=""
+        >
+          none
+        </option>
+        <option
+          key="1"
+          title="item1"
+          value="1"
+        >
+          item1
+        </option>
+        <option
+          key="2"
+          title="item2"
+          value="2"
+        >
+          item2
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<SelectInput /> should render correctly with list size smaller than number of values 1`] = `
+<div
+  className="select-input"
+>
+  <div
+    className="mode_input text rij_verplicht"
+  >
+    <div
+      className="select-input__label"
+    >
+      <label
+        htmlFor="formname"
+      >
+        display
+      </label>
+    </div>
+    <div
+      className="select-input__control invoer"
+    >
+      <select
+        id="formname"
+        multiple={false}
+        name=""
+        size=""
+      >
+        <option
+          key=""
+          title="all items"
+          value=""
+        >
+          all items
+        </option>
+        <option
+          key="1"
+          title="item1"
+          value="1"
+        >
+          item1
+        </option>
+        <option
+          key="2"
+          title="item2"
+          value="2"
+        >
+          item2
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<SelectInput /> should render correctly with multiple select 1`] = `
+<div
+  className="select-input"
+>
+  <div
+    className="mode_input text rij_verplicht"
+  >
+    <div
+      className="select-input__label"
+    >
+      <label
+        htmlFor="formname"
+      >
+        display
+      </label>
+    </div>
+    <div
+      className="select-input__control invoer"
+    >
+      <select
+        id="formname"
+        multiple={true}
+        name=""
+        size={3}
+      >
+        <option
+          key=""
+          title="all items"
+          value=""
+        >
+          all items
+        </option>
+        <option
           key="1"
           title="item1"
           value="1"
