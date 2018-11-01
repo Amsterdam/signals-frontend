@@ -41,7 +41,7 @@ describe('overviewPageReducer', () => {
     const payload = { count: 1, results: [1] };
     const action = requestIncidentsSuccess(payload);
     const expected = fromJS({})
-      .set('incidents', payload.results)
+      .set('incidents', fromJS(payload.results))
       .set('incidentsCount', payload.count)
       .set('loading', false);
     expect(overviewPageReducer(state, action)).toEqual(expected);

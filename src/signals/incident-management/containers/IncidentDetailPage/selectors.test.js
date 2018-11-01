@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import makeSelectIncidentDetailPage, { selectRefresh } from './selectors';
+import makeSelectIncidentDetailPage, { makeSelectIncidentNotesList, selectRefresh } from './selectors';
 
 
 describe('makeSelectIncidentDetailPage', () => {
@@ -13,6 +13,20 @@ describe('makeSelectIncidentDetailPage', () => {
       incidentDetailPage
     });
     expect(selector(mockedState)).toEqual(incidentDetailPage);
+  });
+});
+
+describe('makeSelectIncidentNotesList', () => {
+  const selector = makeSelectIncidentNotesList();
+  it('should select the incidentDetailPage', () => {
+    const incidentDetailPage = {
+      incidentNotesList: [1, 2]
+    };
+
+    const mockedState = fromJS({
+      incidentDetailPage
+    });
+    expect(selector(mockedState)).toEqual(incidentDetailPage.incidentNotesList);
   });
 });
 
