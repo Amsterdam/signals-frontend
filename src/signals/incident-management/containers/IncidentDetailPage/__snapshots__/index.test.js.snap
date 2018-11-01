@@ -147,35 +147,16 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
       onTabChanged={[Function]}
       selectedTab="status"
       tabs={
-<<<<<<< HEAD
         Object {
           "category": Object {
             "name": "Subcategorie",
-            "value": <withReducer(withSaga(Connect(IncidentCategoryContainer)))
+            "value": <Unknown
               id="100"
             />,
           },
           "history": Object {
             "name": "Historie",
             "value": <withReducer(withSaga(Connect(IncidentHistoryContainer)))
-=======
-        Array [
-          Object {
-            "name": "Status",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Urgentie",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Subcategorie",
-            "value": <Unknown
->>>>>>> cbe7bac86b90519214d054b6dd9d14bbfbf7a783
               id="100"
             />,
           },
@@ -189,13 +170,13 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
           },
           "priority": Object {
             "name": "Urgentie",
-            "value": <withReducer(withSaga(Connect(IncidentPriorityContainer)))
+            "value": <Unknown
               id="100"
             />,
           },
           "status": Object {
             "name": "Status",
-            "value": <withReducer(withSaga(Connect(IncidentStatusContainer)))
+            "value": <Unknown
               id="100"
             />,
           },
@@ -311,11 +292,10 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
       onTabChanged={[Function]}
       selectedTab="status"
       tabs={
-<<<<<<< HEAD
         Object {
           "category": Object {
             "name": "Subcategorie",
-            "value": <withReducer(withSaga(Connect(IncidentCategoryContainer)))
+            "value": <Unknown
               id="100"
             />,
           },
@@ -331,25 +311,6 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
               alt=""
               className="incident-detail-page__image--max-width"
               src="some-image"
-=======
-        Array [
-          Object {
-            "name": "Status",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Urgentie",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Subcategorie",
-            "value": <Unknown
-              id="100"
->>>>>>> cbe7bac86b90519214d054b6dd9d14bbfbf7a783
             />,
           },
           "notes": Object {
@@ -361,13 +322,13 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
           },
           "priority": Object {
             "name": "Urgentie",
-            "value": <withReducer(withSaga(Connect(IncidentPriorityContainer)))
+            "value": <Unknown
               id="100"
             />,
           },
           "status": Object {
             "name": "Status",
-            "value": <withReducer(withSaga(Connect(IncidentStatusContainer)))
+            "value": <Unknown
               id="100"
             />,
           },
@@ -488,11 +449,10 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
       onTabChanged={[Function]}
       selectedTab="status"
       tabs={
-<<<<<<< HEAD
         Object {
           "category": Object {
             "name": "Subcategorie",
-            "value": <withReducer(withSaga(Connect(IncidentCategoryContainer)))
+            "value": <Unknown
               id="100"
             />,
           },
@@ -504,28 +464,6 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
           },
           "image": undefined,
           "notes": Object {
-=======
-        Array [
-          Object {
-            "name": "Status",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Urgentie",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Subcategorie",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
->>>>>>> cbe7bac86b90519214d054b6dd9d14bbfbf7a783
             "count": undefined,
             "name": "Notities",
             "value": <Unknown
@@ -534,13 +472,13 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
           },
           "priority": Object {
             "name": "Urgentie",
-            "value": <withReducer(withSaga(Connect(IncidentPriorityContainer)))
+            "value": <Unknown
               id="100"
             />,
           },
           "status": Object {
             "name": "Status",
-            "value": <withReducer(withSaga(Connect(IncidentStatusContainer)))
+            "value": <Unknown
               id="100"
             />,
           },
@@ -601,35 +539,16 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
       onTabChanged={[Function]}
       selectedTab="status"
       tabs={
-<<<<<<< HEAD
         Object {
           "category": Object {
             "name": "Subcategorie",
-            "value": <withReducer(withSaga(Connect(IncidentCategoryContainer)))
+            "value": <Unknown
               id="100"
             />,
           },
           "history": Object {
             "name": "Historie",
             "value": <withReducer(withSaga(Connect(IncidentHistoryContainer)))
-=======
-        Array [
-          Object {
-            "name": "Status",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Urgentie",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Subcategorie",
-            "value": <Unknown
->>>>>>> cbe7bac86b90519214d054b6dd9d14bbfbf7a783
               id="100"
             />,
           },
@@ -643,13 +562,13 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
           },
           "priority": Object {
             "name": "Urgentie",
-            "value": <withReducer(withSaga(Connect(IncidentPriorityContainer)))
+            "value": <Unknown
               id="100"
             />,
           },
           "status": Object {
             "name": "Status",
-            "value": <withReducer(withSaga(Connect(IncidentStatusContainer)))
+            "value": <Unknown
               id="100"
             />,
           },
