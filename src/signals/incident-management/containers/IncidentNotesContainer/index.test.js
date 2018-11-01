@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import { IncidentNotesContainer, mapDispatchToProps } from './index';
-import { REQUEST_NOTES_LIST, REQUEST_NOTE_CREATE } from './constants';
+import { REQUEST_NOTE_CREATE } from './constants';
 
 describe('<IncidentNotesContainer />', () => {
   let props;
@@ -16,7 +16,6 @@ describe('<IncidentNotesContainer />', () => {
           state: 'm'
         }]
       },
-      onRequestNotesList: jest.fn(),
       onRequestNoteCreate: jest.fn()
     };
   });
@@ -35,13 +34,7 @@ describe('<IncidentNotesContainer />', () => {
   describe('mapDispatchToProps', () => {
     const dispatch = jest.fn();
 
-
-    it('should request the status list', () => {
-      mapDispatchToProps(dispatch).onRequestNotesList({});
-      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_NOTES_LIST, payload: {} });
-    });
-
-    it('should request the status create', () => {
+    it('should request the note create', () => {
       mapDispatchToProps(dispatch).onRequestNoteCreate({ status: {} });
       expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_NOTE_CREATE, payload: { status: {} } });
     });
