@@ -32,9 +32,32 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
     window.URL.revokeObjectURL(url);
     parent.meta.updateIncident({
       image: '',
-      image_file: {}
+      image_file: null
     });
   };
+
+  console.log('render');
+  const control = parent.controls[meta.name];
+  const imageFile = parent && parent.meta && parent.meta.incident && parent.meta.incident.image_file;
+  if (imageFile) {
+    control.markAsTouched();
+    control.setValidators(() => {
+      console.log('VALIDATOR', imageFile);
+      if (imageFile.size > 1000000) {
+        console.log('uploaded imageFile TOO LARGE');
+        return { custom: 'too-large' };
+      }
+      if (imageFile.type !== 'image/jpeg') {
+        console.log('uploaded imageFile WRONG FOTMAT');
+        return { custom: 'wrong-format' };
+      }
+      return null;
+    });
+    console.log('uploaded imageFile');
+    console.log('ERROR', hasError('too-large'), hasError('wrong-format'), hasError());
+  } else {
+    control.clearValidators();
+  }
 
   return (
     <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
