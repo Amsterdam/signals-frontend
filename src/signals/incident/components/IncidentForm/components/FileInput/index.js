@@ -18,9 +18,28 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
 
       const reader = new window.FileReader();
       reader.addEventListener('load', () => {
+        const control = meta && meta.name && parent.controls[meta.name];
+
         parent.meta.updateIncident({
           image_file: file
         });
+
+        control.markAsTouched();
+        control.setValidators([() => {
+          if (meta && meta.allowedFileTypes && Array.isArray(meta.allowedFileTypes)) {
+            if (meta.allowedFileTypes.indexOf(file.type) === -1) {
+              return { custom: 'Dit bestand heeft niet het juiste type.' };
+            }
+          }
+          return null;
+        }, () => {
+          if (meta && meta.maxFileSize) {
+            if (file.size > meta.maxFileSize) {
+              return { custom: 'Dit bestand is te groot.' };
+            }
+          }
+          return null;
+        }]);
       });
 
       reader.readAsText(file);
@@ -29,35 +48,16 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
 
   const handleClear = (e, url) => {
     e.preventDefault();
+
+    const control = meta && meta.name && parent.controls[meta.name];
+    control.clearValidators();
+
     window.URL.revokeObjectURL(url);
     parent.meta.updateIncident({
       image: '',
       image_file: null
     });
   };
-
-  const control = meta && meta.name && parent.controls[meta.name];
-  const imageFile = parent && parent.meta && parent.meta.incident && parent.meta.incident.image_file;
-  if (control) {
-    if (imageFile) {
-      control.markAsTouched();
-      control.setValidators(() => {
-        if (meta && meta.maxFileSize) {
-          if (imageFile.size > meta.maxFileSize) {
-            return { custom: 'Dit bestand is te groot.' };
-          }
-        }
-        if (meta && meta.allowedFileTypes && Array.isArray(meta.allowedFileTypes)) {
-          if (meta.allowedFileTypes.indexOf(imageFile.type) === -1) {
-            return { custom: 'Dit bestand heeft niet het juiste type.' };
-          }
-        }
-        return null;
-      });
-    } else {
-      control.clearValidators();
-    }
-  }
 
   return (
     <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
