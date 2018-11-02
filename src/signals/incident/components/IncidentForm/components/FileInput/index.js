@@ -36,25 +36,23 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
     });
   };
 
-  console.log('render');
   const control = parent.controls[meta.name];
   const imageFile = parent && parent.meta && parent.meta.incident && parent.meta.incident.image_file;
   if (imageFile) {
     control.markAsTouched();
     control.setValidators(() => {
-      console.log('VALIDATOR', imageFile);
-      if (imageFile.size > 1000000) {
-        console.log('uploaded imageFile TOO LARGE');
-        return { custom: 'too-large' };
+      if (meta && meta.maxFileSize) {
+        if (imageFile.size > meta.maxFileSize) {
+          return { custom: 'Dit bestand is te groot.' };
+        }
       }
-      if (imageFile.type !== 'image/jpeg') {
-        console.log('uploaded imageFile WRONG FOTMAT');
-        return { custom: 'wrong-format' };
+      if (meta && meta.allowedFileTypes && Array.isArray(meta.allowedFileTypes)) {
+        if (meta.allowedFileTypes.indexOf(imageFile.type) === -1) {
+          return { custom: 'Dit bestand heeft niet het juiste type.' };
+        }
       }
       return null;
     });
-    console.log('uploaded imageFile');
-    console.log('ERROR', hasError('too-large'), hasError('wrong-format'), hasError());
   } else {
     control.clearValidators();
   }
