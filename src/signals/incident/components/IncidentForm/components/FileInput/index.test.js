@@ -8,6 +8,13 @@ describe('Form component <FileInput />', () => {
     name: 'input-field-name',
     submitLabel: 'upload file'
   };
+  const parentControls = {
+    'input-field-name': {
+      setValidators: jest.fn(),
+      clearValidators: jest.fn(),
+      markAsTouched: jest.fn()
+    }
+  };
   let wrapper;
   let handler;
   let touched;
@@ -23,7 +30,8 @@ describe('Form component <FileInput />', () => {
     parent = {
       meta: {
         updateIncident: jest.fn()
-      }
+      },
+      controls: parentControls
     };
 
     wrapper = shallow(<FileInput
@@ -57,6 +65,20 @@ describe('Form component <FileInput />', () => {
         meta: {
           ...metaFields,
           isVisible: true
+        }
+      });
+
+      wrapper.setProps({
+        parent: {
+          controls: parentControls,
+          meta: {
+            incident: {
+              image_file: {
+                type: 'yooo',
+                size: 666
+              }
+            }
+          }
         }
       });
 
@@ -131,12 +153,12 @@ describe('Form component <FileInput />', () => {
         }
       });
 
-      wrapper.find('button').simulate('click');
+      wrapper.find('button').simulate('click', { preventDefault: jest.fn() });
 
       expect(window.URL.revokeObjectURL).toHaveBeenCalledWith('blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c');
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         image: '',
-        image_file: {}
+        image_file: null
       });
     });
   });

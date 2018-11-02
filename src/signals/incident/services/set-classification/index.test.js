@@ -1,6 +1,6 @@
 import setClassification from './index';
 
-describe.only('The set classification service', () => {
+describe('The set classification service', () => {
   it('should return Overig by default', () => {
     expect(setClassification()).toEqual({
       category: 'overig',

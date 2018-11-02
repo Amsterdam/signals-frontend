@@ -36,25 +36,27 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
     });
   };
 
-  const control = parent.controls[meta.name];
+  const control = meta && meta.name && parent.controls[meta.name];
   const imageFile = parent && parent.meta && parent.meta.incident && parent.meta.incident.image_file;
-  if (imageFile) {
-    control.markAsTouched();
-    control.setValidators(() => {
-      if (meta && meta.maxFileSize) {
-        if (imageFile.size > meta.maxFileSize) {
-          return { custom: 'Dit bestand is te groot.' };
+  if (control) {
+    if (imageFile) {
+      control.markAsTouched();
+      control.setValidators(() => {
+        if (meta && meta.maxFileSize) {
+          if (imageFile.size > meta.maxFileSize) {
+            return { custom: 'Dit bestand is te groot.' };
+          }
         }
-      }
-      if (meta && meta.allowedFileTypes && Array.isArray(meta.allowedFileTypes)) {
-        if (meta.allowedFileTypes.indexOf(imageFile.type) === -1) {
-          return { custom: 'Dit bestand heeft niet het juiste type.' };
+        if (meta && meta.allowedFileTypes && Array.isArray(meta.allowedFileTypes)) {
+          if (meta.allowedFileTypes.indexOf(imageFile.type) === -1) {
+            return { custom: 'Dit bestand heeft niet het juiste type.' };
+          }
         }
-      }
-      return null;
-    });
-  } else {
-    control.clearValidators();
+        return null;
+      });
+    } else {
+      control.clearValidators();
+    }
   }
 
   return (

@@ -352,7 +352,11 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
               "image": Object {
                 "meta": Object {
+                  "allowedFileTypes": Array [
+                    "image/jpeg",
+                  ],
                   "label": "Wilt u een foto meesturen?",
+                  "maxFileSize": 1000000,
                   "submitLabel": "Foto kiezen",
                 },
                 "render": [Function],
