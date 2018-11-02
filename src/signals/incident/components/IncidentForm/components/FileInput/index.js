@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Header from '../Header/';
-
+import { validateFileType, validateMaxFilesize } from '../../services/custom-validators';
 import './style.scss';
 
 const FileInput = ({ handler, touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
@@ -25,21 +25,10 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
         });
 
         control.markAsTouched();
-        control.setValidators([() => {
-          if (meta && meta.allowedFileTypes && Array.isArray(meta.allowedFileTypes)) {
-            if (meta.allowedFileTypes.indexOf(file.type) === -1) {
-              return { custom: 'Dit bestand heeft niet het juiste type.' };
-            }
-          }
-          return null;
-        }, () => {
-          if (meta && meta.maxFileSize) {
-            if (file.size > meta.maxFileSize) {
-              return { custom: 'Dit bestand is te groot.' };
-            }
-          }
-          return null;
-        }]);
+        control.setValidators([
+          (c) => validateFileType(c, file, meta),
+          (c) => validateMaxFilesize(c, file, meta)
+        ]);
       });
 
       reader.readAsText(file);
