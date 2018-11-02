@@ -101,7 +101,7 @@ describe('Form component <FileInput />', () => {
 
   describe('events', () => {
     const fileContents = 'file contents';
-    const file = new Blob([fileContents], { type: 'text/plain' });
+    const file = new Blob([fileContents], { type: 'image/jpeg' });
     let readAsText;
     let addEventListener;
 
@@ -136,11 +136,15 @@ describe('Form component <FileInput />', () => {
 
       wrapper.find('input').simulate('change', { target: { files: [] } });
       expect(FileReader).not.toHaveBeenCalled();
+      expect(parentControls['input-field-name'].setValidators).not.toHaveBeenCalled();
+      expect(parentControls['input-field-name'].markAsTouched).not.toHaveBeenCalled();
 
       wrapper.find('input').simulate('change', { target: { files: [file] } });
       expect(FileReader).toHaveBeenCalled();
       expect(addEventListener).toHaveBeenCalledWith('load', expect.any(Function));
       expect(readAsText).toHaveBeenCalledWith(file);
+      expect(parentControls['input-field-name'].setValidators).toHaveBeenCalled();
+      expect(parentControls['input-field-name'].markAsTouched).toHaveBeenCalled();
     });
 
     it('resets upload when clear button was clicked', () => {
@@ -160,6 +164,7 @@ describe('Form component <FileInput />', () => {
         image: '',
         image_file: null
       });
+      expect(parentControls['input-field-name'].clearValidators).toHaveBeenCalled();
     });
   });
 });
