@@ -25,6 +25,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
         });
 
         control.markAsTouched();
+        /* istanbul ignore next */
         control.setValidators([
           () => validateFileType(file, meta),
           () => validateMaxFilesize(file, meta)
