@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEqual } from 'lodash';
+import { isEqual, sortBy } from 'lodash';
 
 import { FieldControl } from 'react-reactive-form';
 
@@ -10,7 +10,8 @@ export class FieldControlWrapper extends React.Component { // eslint-disable-lin
     if (values.find((value) => value.key === '')) {
       return values;
     }
-    return props.emptyOptionText ? [{ key: '', value: props.emptyOptionText }, ...props.values] : props.values;
+    const sortedValues = props.sort ? sortBy(props.values, (item) => item.value) : props.values;
+    return props.emptyOptionText ? [{ key: '', value: props.emptyOptionText }, ...sortedValues] : sortedValues;
   }
 
   constructor(props) {
