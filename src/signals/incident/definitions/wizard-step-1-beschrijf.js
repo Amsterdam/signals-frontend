@@ -156,7 +156,7 @@ export default {
         meta: {
           label: 'Wilt u een foto meesturen?',
           submitLabel: 'Foto kiezen',
-          maxFileSize: 1000000,
+          maxFileSize: 8388608,
           allowedFileTypes: ['image/jpeg']
         },
         render: FormComponents.FileInput

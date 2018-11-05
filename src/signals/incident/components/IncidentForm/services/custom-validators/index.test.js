@@ -30,12 +30,12 @@ describe('The costom validators service', () => {
 
   describe('should validate max file size', () => {
     const meta = {
-      maxFileSize: 1000
+      maxFileSize: 8388608
     };
 
     it('with correct file type', () => {
       const file = {
-        size: 999
+        size: 8388607
       };
 
       expect(validateMaxFilesize(file, meta)).toEqual(null);
@@ -43,7 +43,7 @@ describe('The costom validators service', () => {
 
     it('with incorrect file type', () => {
       const file = {
-        size: 1000
+        size: 8388608
       };
 
       expect(validateMaxFilesize(file, meta)).toEqual({
