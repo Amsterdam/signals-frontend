@@ -6,7 +6,7 @@ import { FieldControl } from 'react-reactive-form';
 
 export class FieldControlWrapper extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static addEmptyOption(props, state) {
-    const values = (state && state.values) || props.values;
+    const values = (props && props.values) || (state && state.values);
     if (values.find((value) => value.key === '')) {
       return values;
     }
