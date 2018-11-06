@@ -5,10 +5,9 @@ import { isEqual, sortBy } from 'lodash';
 import { FieldControl } from 'react-reactive-form';
 
 export class FieldControlWrapper extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  static addEmptyOption(props, state) {
-    const values = (props && props.values) || (state && state.values);
-    if (values.find((value) => value.key === '')) {
-      return values;
+  static formatValues(props) {
+    if (props.values.find((value) => value.key === '')) {
+      return props.values;
     }
     const sortedValues = props.sort ? sortBy(props.values, (item) => item.value) : props.values;
     return props.emptyOptionText ? [{ key: '', value: props.emptyOptionText }, ...sortedValues] : sortedValues;
@@ -18,14 +17,14 @@ export class FieldControlWrapper extends React.Component { // eslint-disable-lin
     super(props);
 
     this.state = {
-      values: FieldControlWrapper.addEmptyOption(props)
+      values: FieldControlWrapper.formatValues(props)
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (!isEqual(props.values, state.values)) {
       return {
-        values: FieldControlWrapper.addEmptyOption(props, state)
+        values: FieldControlWrapper.formatValues(props)
       };
     }
 
