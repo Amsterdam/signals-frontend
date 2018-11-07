@@ -37,19 +37,19 @@ export class PrintLayout extends React.Component { // eslint-disable-line react/
         <div className="col-12">
           {incident.location ? <MapDetail label="" value={incident.location} /> : ''}
         </div>
-        <div className="col-12">
+        <div className="col-12 print-layout__content">
           <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
         </div>
-        <div className="col-12">
+        <div className="col-12 print-layout__content">
           {incident.image ?
             <img src={incident.image} alt={''} className="incident-detail-page__image--max-width" />
             : ''
           }
         </div>
-        <div className="col-12 print-layout__status-list">
+        <div className="col-12 print-layout__content print-layout__status-list">
           <StatusList incidentStatusList={incidentStatusList} statusList={statusList} />
         </div>
-        <div className="col-12 print-layout__status-list">
+        <div className="col-12 print-layout__content print-layout__status-list">
           <NotesList incidentNotesList={incidentNotesList} />
         </div>
       </div>
