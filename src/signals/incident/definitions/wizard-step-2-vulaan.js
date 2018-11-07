@@ -13,8 +13,16 @@ export default {
         },
         render: FormComponents.PlainText
       },
-
-
+      redirect_to_kim: {
+        meta: {
+          ifAllOf: {
+            subcategory:
+              'straatverlichting-openbare-klok'
+          },
+          value: 'Dit type meldingen graag doorgeven bij KIM.'
+        },
+        render: FormComponents.PlainText
+      },
       extra_personen_overig: {
         meta: {
           className: 'col-sm-12 col-md-6',
