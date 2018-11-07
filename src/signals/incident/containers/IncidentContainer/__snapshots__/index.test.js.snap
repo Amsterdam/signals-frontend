@@ -361,6 +361,12 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
                 "render": [Function],
               },
+              "image_type": Object {
+                "meta": Object {
+                  "label": "image_type",
+                },
+                "render": [Function],
+              },
               "incident_date": Object {
                 "meta": Object {
                   "ifAllOf": Object {

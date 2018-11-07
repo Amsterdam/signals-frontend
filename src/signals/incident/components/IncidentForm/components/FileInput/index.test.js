@@ -74,11 +74,16 @@ describe('Form component <FileInput />', () => {
           meta: {
             incident: {
               image_file: {
-                type: 'yooo',
+                type: 'image/jpeg',
                 size: 666
-              }
+              },
+              image_type: 'image/jpeg'
             }
+          },
+          value: {
+            image_type: 'image/jpeg'
           }
+
         }
       });
 
@@ -162,7 +167,8 @@ describe('Form component <FileInput />', () => {
       expect(window.URL.revokeObjectURL).toHaveBeenCalledWith('blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c');
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         image: '',
-        image_file: null
+        image_file: null,
+        image_type: null
       });
       expect(parentControls['input-field-name'].clearValidators).toHaveBeenCalled();
     });
