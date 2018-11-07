@@ -21,7 +21,8 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
         const control = meta && meta.name && parent.controls[meta.name];
 
         parent.meta.updateIncident({
-          image_file: file
+          image_file: file,
+          image_type: file.type
         });
 
         control.markAsTouched();
@@ -45,9 +46,12 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
     window.URL.revokeObjectURL(url);
     parent.meta.updateIncident({
       image: '',
-      image_file: null
+      image_file: null,
+      image_type: null
     });
   };
+
+  const fileType = parent && parent.value && parent.value.image_type;
 
   return (
     <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
@@ -63,15 +67,17 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
             {handler().value ?
               <div className="file-input__preview">
                 <button
+                  title="Verwijder upload foto"
                   className="file-input__button-delete link-functional delete"
                   onClick={(e) => handleClear(e, handler().value)}
                 />
-
-                <img
-                  alt="Preview uploaded foto"
-                  src={handler().value}
-                  className="file-input__preview-image"
-                />
+                {fileType && fileType.split('/')[0] === 'image' ?
+                  <img
+                    alt="Preview uploaded foto"
+                    src={handler().value}
+                    className="file-input__preview-image"
+                  />
+                : ''}
               </div>
             :
               <div className="invoer">
