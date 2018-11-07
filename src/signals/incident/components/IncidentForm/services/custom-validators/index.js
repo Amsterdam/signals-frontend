@@ -1,7 +1,12 @@
+import fileSize from '../file-size/';
+
 export function validateFileType(file, meta) {
   if (meta && meta.allowedFileTypes && Array.isArray(meta.allowedFileTypes)) {
     if (meta.allowedFileTypes.indexOf(file.type) === -1) {
-      return { custom: 'Dit bestand heeft niet het juiste type.' };
+      const allowedFileTypes = meta.allowedFileTypes.map((type) => type.split('/')[1]);
+      return {
+        custom: `Dit bestand heeft niet het juiste type (${file.type.split('/')[1]}). Toegestaan zijn: ${allowedFileTypes.join(', ')}.`
+      };
     }
   }
   return null;
@@ -10,7 +15,9 @@ export function validateFileType(file, meta) {
 export function validateMaxFilesize(file, meta) {
   if (meta && meta.maxFileSize) {
     if (file.size >= meta.maxFileSize) {
-      return { custom: 'Dit bestand is te groot.' };
+      return {
+        custom: `Dit bestand is te groot (${fileSize(file.size)}). Maximale bestandgrootte is ${fileSize(meta.maxFileSize)}.`
+      };
     }
   }
   return null;

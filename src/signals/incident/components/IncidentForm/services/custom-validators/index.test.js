@@ -15,11 +15,11 @@ describe('The costom validators service', () => {
 
     it('with incorrect file type', () => {
       const file = {
-        type: 'unknown/type'
+        type: 'image/png'
       };
 
       expect(validateFileType(file, meta)).toEqual({
-        custom: 'Dit bestand heeft niet het juiste type.'
+        custom: 'Dit bestand heeft niet het juiste type (png). Toegestaan zijn: jpeg, pdf.'
       });
     });
 
@@ -47,7 +47,7 @@ describe('The costom validators service', () => {
       };
 
       expect(validateMaxFilesize(file, meta)).toEqual({
-        custom: 'Dit bestand is te groot.'
+        custom: 'Dit bestand is te groot (8 MB). Maximale bestandgrootte is 8 MB.'
       });
     });
 
