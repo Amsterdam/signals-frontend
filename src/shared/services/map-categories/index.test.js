@@ -13,25 +13,25 @@ describe('The mapCategories service', () => {
       results: [
         {
           _links: { self: { href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren' } },
-          _display: 'Overlast van dieren',
+          name: 'Overlast van dieren',
           sub_categories: [
             {
               _links: { self: { href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/dode-dieren' } },
-              _display: 'Dode dieren'
+              name: 'Dode dieren'
             },
             {
               _links: { self: { href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven' } },
-              _display: 'Duiven (Overlast van dieren)'
+              name: 'Duiven'
             }
           ]
         },
         {
           _links: { self: { href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair' } },
-          _display: 'Wegen, verkeer, straatmeubilair',
+          name: 'Wegen, verkeer, straatmeubilair',
           sub_categories: [
             {
               _links: { self: { href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/gladheid' } },
-              _display: 'Gladheid (Wegen, verkeer, straatmeubilair)'
+              name: 'Gladheid'
             }
           ]
         }
@@ -53,11 +53,11 @@ describe('The mapCategories service', () => {
         },
         {
           key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven',
-          value: 'Duiven (Overlast van dieren)'
+          value: 'Duiven'
         },
         {
           key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/gladheid',
-          value: 'Gladheid (Wegen, verkeer, straatmeubilair)'
+          value: 'Gladheid'
         }
       ]
     });
