@@ -29,10 +29,10 @@ exports[`<PrintLayout /> should render correctly 1`] = `
     </div>
   </div>
   <div
-    className="col-12"
+    className="print-layout__map"
   />
   <div
-    className="col-12"
+    className="col-12 print-layout__content"
   >
     <Component
       incident={Object {}}
@@ -41,10 +41,10 @@ exports[`<PrintLayout /> should render correctly 1`] = `
     />
   </div>
   <div
-    className="col-12"
+    className="col-12 print-layout__content"
   />
   <div
-    className="col-12 print-layout__status-list"
+    className="col-12 print-layout__content print-layout__status-list"
   >
     <Component
       incidentStatusList={Array []}
@@ -52,7 +52,7 @@ exports[`<PrintLayout /> should render correctly 1`] = `
     />
   </div>
   <div
-    className="col-12 print-layout__status-list"
+    className="col-12 print-layout__content print-layout__status-list"
   >
     <List
       incidentNotesList={Array []}
@@ -90,10 +90,10 @@ exports[`<PrintLayout /> should render correctly with image 1`] = `
     </div>
   </div>
   <div
-    className="col-12"
+    className="print-layout__map"
   />
   <div
-    className="col-12"
+    className="col-12 print-layout__content"
   >
     <Component
       incident={
@@ -106,7 +106,7 @@ exports[`<PrintLayout /> should render correctly with image 1`] = `
     />
   </div>
   <div
-    className="col-12"
+    className="col-12 print-layout__content"
   >
     <img
       alt=""
@@ -115,7 +115,7 @@ exports[`<PrintLayout /> should render correctly with image 1`] = `
     />
   </div>
   <div
-    className="col-12 print-layout__status-list"
+    className="col-12 print-layout__content print-layout__status-list"
   >
     <Component
       incidentStatusList={Array []}
@@ -123,7 +123,7 @@ exports[`<PrintLayout /> should render correctly with image 1`] = `
     />
   </div>
   <div
-    className="col-12 print-layout__status-list"
+    className="col-12 print-layout__content print-layout__status-list"
   >
     <List
       incidentNotesList={Array []}
@@ -161,7 +161,7 @@ exports[`<PrintLayout /> should render correctly with location 1`] = `
     </div>
   </div>
   <div
-    className="col-12"
+    className="print-layout__map"
   >
     <Component
       label=""
@@ -179,7 +179,7 @@ exports[`<PrintLayout /> should render correctly with location 1`] = `
     />
   </div>
   <div
-    className="col-12"
+    className="col-12 print-layout__content"
   >
     <Component
       incident={
@@ -200,10 +200,10 @@ exports[`<PrintLayout /> should render correctly with location 1`] = `
     />
   </div>
   <div
-    className="col-12"
+    className="col-12 print-layout__content"
   />
   <div
-    className="col-12 print-layout__status-list"
+    className="col-12 print-layout__content print-layout__status-list"
   >
     <Component
       incidentStatusList={Array []}
@@ -211,7 +211,7 @@ exports[`<PrintLayout /> should render correctly with location 1`] = `
     />
   </div>
   <div
-    className="col-12 print-layout__status-list"
+    className="col-12 print-layout__content print-layout__status-list"
   >
     <List
       incidentNotesList={Array []}
