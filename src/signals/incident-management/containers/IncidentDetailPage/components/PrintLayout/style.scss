@@ -2,4 +2,19 @@
   &__status-list {
     margin-top: 10px;
   }
+
+  &__content {
+    font-size: 12px;
+  }
+
+  &__map {
+    width: 640px;
+    margin: 0 15px;
+  }
+
+  @media print {
+     .leaflet-control {
+       display: none;
+     }
+  }
 }
