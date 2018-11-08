@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Header from '../Header/';
-
+import { validateFileType, validateMaxFilesize } from '../../services/custom-validators';
 import './style.scss';
 
 const FileInput = ({ handler, touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
@@ -18,22 +18,40 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
 
       const reader = new window.FileReader();
       reader.addEventListener('load', () => {
+        const control = meta && meta.name && parent.controls[meta.name];
+
         parent.meta.updateIncident({
-          image_file: file
+          image_file: file,
+          image_type: file.type
         });
+
+        control.markAsTouched();
+        /* istanbul ignore next */
+        control.setValidators([
+          () => validateFileType(file, meta),
+          () => validateMaxFilesize(file, meta)
+        ]);
       });
 
       reader.readAsText(file);
     }
   };
 
-  const handleClear = (url) => {
+  const handleClear = (e, url) => {
+    e.preventDefault();
+
+    const control = meta && meta.name && parent.controls[meta.name];
+    control.clearValidators();
+
     window.URL.revokeObjectURL(url);
     parent.meta.updateIncident({
       image: '',
-      image_file: {}
+      image_file: null,
+      image_type: null
     });
   };
+
+  const fileType = parent && parent.value && parent.value.image_type;
 
   return (
     <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
@@ -49,15 +67,17 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
             {handler().value ?
               <div className="file-input__preview">
                 <button
+                  title="Verwijder upload foto"
                   className="file-input__button-delete link-functional delete"
-                  onClick={() => handleClear(handler().value)}
+                  onClick={(e) => handleClear(e, handler().value)}
                 />
-
-                <img
-                  alt="Preview uploaded foto"
-                  src={handler().value}
-                  className="file-input__preview-image"
-                />
+                {fileType && fileType.split('/')[0] === 'image' ?
+                  <img
+                    alt="Preview uploaded foto"
+                    src={handler().value}
+                    className="file-input__preview-image"
+                  />
+                : ''}
               </div>
             :
               <div className="invoer">
