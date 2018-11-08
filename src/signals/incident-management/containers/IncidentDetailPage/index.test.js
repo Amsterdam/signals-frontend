@@ -2,12 +2,20 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import { IncidentDetailPage, mapDispatchToProps } from './index';
-import { REQUEST_INCIDENT } from './constants';
+import { REQUEST_INCIDENT, REQUEST_NOTES_LIST } from './constants';
 import stadsdeelList from '../../definitions/stadsdeelList';
 import priorityList from '../../definitions/priorityList';
 import ConnectedPrintLayout from './components/PrintLayout';
 
-describe('<IncidentDetailPage />', () => {
+jest.mock('./components/MapDetail', () => () => 'MapDetail');
+jest.mock('./components/IncidentDetail', () => () => 'IncidentDetail');
+jest.mock('../IncidentCategoryContainer', () => () => 'IncidentCategoryContainer');
+jest.mock('../IncidentPriorityContainer', () => () => 'IncidentPriorityContainer');
+jest.mock('../IncidentNotesContainer', () => () => 'IncidentNotesContainer');
+jest.mock('../IncidentStatusContainer', () => () => 'IncidentStatusContainer');
+jest.mock('./components/PrintLayout', () => () => 'PrintLayout');
+
+describe.only('<IncidentDetailPage />', () => {
   let props;
 
   beforeEach(() => {
@@ -15,10 +23,12 @@ describe('<IncidentDetailPage />', () => {
       id: '100',
       incidentdetailpage: {
         incident: {},
+        incidentNotesList: [],
         stadsdeelList,
         priorityList
       },
-      onRequestIncident: jest.fn()
+      onRequestIncident: jest.fn(),
+      onRequestNotesList: jest.fn()
     };
   });
 
@@ -28,6 +38,8 @@ describe('<IncidentDetailPage />', () => {
         <IncidentDetailPage {...props} />
       );
       expect(wrapper).toMatchSnapshot();
+      expect(props.onRequestIncident).toHaveBeenCalledWith('100');
+      expect(props.onRequestNotesList).toHaveBeenCalledWith('100');
     });
 
     it('should render correctly with location', () => {
@@ -80,10 +92,13 @@ describe('<IncidentDetailPage />', () => {
     const dispatch = jest.fn();
 
     it('onRequestIncident', () => {
-      // For the `mapDispatchToProps`, call it directly but pass in
-      // a mock function and check the arguments passed in are as expected
-      mapDispatchToProps(dispatch).onRequestIncident({});
-      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_INCIDENT, payload: {} });
+      mapDispatchToProps(dispatch).onRequestIncident(42);
+      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_INCIDENT, payload: 42 });
+    });
+
+    it('should request the notes list', () => {
+      mapDispatchToProps(dispatch).onRequestNotesList(42);
+      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_NOTES_LIST, payload: 42 });
     });
   });
 });

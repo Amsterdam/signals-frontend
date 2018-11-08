@@ -1,25 +1,12 @@
-import { call, all, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { authCall, authPostCall } from 'shared/services/api/api';
+import { authPostCall } from 'shared/services/api/api';
 
-import { REQUEST_NOTES_LIST, REQUEST_NOTE_CREATE } from './constants';
-import { requestNotesListSuccess, requestNotesListError, requestNoteCreateSuccess, requestNoteCreateError } from './actions';
+import { REQUEST_NOTE_CREATE } from './constants';
+import { requestNoteCreateSuccess, requestNoteCreateError } from './actions';
 
-// const baseURL = '/api/auth/auth/status';
 export const baseUrl = `${CONFIGURATION.API_ROOT}signals/auth/note`;
-
-export function* fetchIncidentNotesList(action) {
-  const signalId = action.payload;
-  const requestURL = `${baseUrl}`;
-
-  try {
-    const incidentNotesList = yield authCall(requestURL, { _signal__id: signalId });
-    yield put(requestNotesListSuccess(incidentNotesList));
-  } catch (error) {
-    yield put(requestNotesListError(error));
-  }
-}
 
 export function* createIncidentNote(action) {
   const status = action.payload;
@@ -35,8 +22,5 @@ export function* createIncidentNote(action) {
 }
 
 export default function* watchIncidentNotesContainerSaga() {
-  yield all([
-    takeLatest(REQUEST_NOTES_LIST, fetchIncidentNotesList),
-    takeLatest(REQUEST_NOTE_CREATE, createIncidentNote)
-  ]);
+  yield takeLatest(REQUEST_NOTE_CREATE, createIncidentNote);
 }

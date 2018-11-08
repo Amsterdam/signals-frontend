@@ -8,7 +8,8 @@ import { createStructuredSelector } from 'reselect';
 import './style.scss';
 import MapDetail from '../MapDetail';
 import IncidentDetail from '../IncidentDetail';
-import List from '../../../IncidentStatusContainer/components/List';
+import StatusList from '../../../IncidentStatusContainer/components/List';
+import NotesList from '../../../IncidentNotesContainer/components/List';
 import makeSelectIncidentStatusContainer from '../../../IncidentStatusContainer/selectors';
 
 export class PrintLayout extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -22,8 +23,8 @@ export class PrintLayout extends React.Component { // eslint-disable-line react/
   }
 
   render() {
-    const { incident, stadsdeelList, priorityList, onPrintView } = this.props;
-    const { incidentStatusList, statusList } = this.props.incidentstatuscontainer;
+    const { incident, incidentNotesList, stadsdeelList, priorityList, onPrintView } = this.props;
+    const { incidentStatusList, statusList } = this.props.incidentStatusContainer;
     return (
       <div className="print-layout row container" >
         <div className="col-12">
@@ -33,20 +34,23 @@ export class PrintLayout extends React.Component { // eslint-disable-line react/
             <button className="no-print" onClick={onPrintView}>Terug</button>
           </div>
         </div>
-        <div className="col-12">
+        <div className="print-layout__map">
           {incident.location ? <MapDetail label="" value={incident.location} /> : ''}
         </div>
-        <div className="col-12">
+        <div className="col-12 print-layout__content">
           <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
         </div>
-        <div className="col-12">
+        <div className="col-12 print-layout__content">
           {incident.image ?
             <img src={incident.image} alt={''} className="incident-detail-page__image--max-width" />
             : ''
           }
         </div>
-        <div className="col-12 print-layout__status-list">
-          <List incidentStatusList={incidentStatusList} statusList={statusList} />
+        <div className="col-12 print-layout__content print-layout__status-list">
+          <StatusList incidentStatusList={incidentStatusList} statusList={statusList} />
+        </div>
+        <div className="col-12 print-layout__content print-layout__status-list">
+          <NotesList incidentNotesList={incidentNotesList} />
         </div>
       </div>
     );
@@ -56,14 +60,15 @@ export class PrintLayout extends React.Component { // eslint-disable-line react/
 PrintLayout.propTypes = {
   id: PropTypes.string.isRequired,
   incident: PropTypes.object.isRequired,
+  incidentNotesList: PropTypes.array.isRequired,
   stadsdeelList: PropTypes.array.isRequired,
   priorityList: PropTypes.array.isRequired,
   onPrintView: PropTypes.func.isRequired,
-  incidentstatuscontainer: PropTypes.object.isRequired,
+  incidentStatusContainer: PropTypes.object.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
-  incidentstatuscontainer: makeSelectIncidentStatusContainer(),
+  incidentStatusContainer: makeSelectIncidentStatusContainer()
 });
 
 const withConnect = connect(mapStateToProps);

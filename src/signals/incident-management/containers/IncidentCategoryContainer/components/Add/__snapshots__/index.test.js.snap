@@ -203,6 +203,7 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
       multiple={false}
       name="sub_category"
       render={[Function]}
+      sort={true}
       values={
         Array [
           "test",
@@ -427,6 +428,7 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
       multiple={false}
       name="sub_category"
       render={[Function]}
+      sort={true}
       values={
         Array [
           "test",
