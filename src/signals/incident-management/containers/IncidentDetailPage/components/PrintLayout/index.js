@@ -34,7 +34,7 @@ export class PrintLayout extends React.Component { // eslint-disable-line react/
             <button className="no-print" onClick={onPrintView}>Terug</button>
           </div>
         </div>
-        <div className="col-12">
+        <div className="print-layout__map">
           {incident.location ? <MapDetail label="" value={incident.location} /> : ''}
         </div>
         <div className="col-12 print-layout__content">
