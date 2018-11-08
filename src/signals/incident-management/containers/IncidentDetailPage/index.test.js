@@ -15,7 +15,7 @@ jest.mock('../IncidentNotesContainer', () => () => 'IncidentNotesContainer');
 jest.mock('../IncidentStatusContainer', () => () => 'IncidentStatusContainer');
 jest.mock('./components/PrintLayout', () => () => 'PrintLayout');
 
-describe.only('<IncidentDetailPage />', () => {
+describe('<IncidentDetailPage />', () => {
   let props;
 
   beforeEach(() => {

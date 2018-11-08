@@ -1,5 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Form component <Header /> error messages should render custom error 1`] = `
+<div
+  className="header header--invalid"
+>
+  <div
+    className="header__label"
+  >
+    naam
+    <span
+      className="header--not-required"
+    >
+      (niet verplicht)
+    </span>
+  </div>
+  <div
+    className="header__subheader"
+  />
+  <div
+    className="header__errors"
+  >
+    <div
+      className="header__errors__item"
+    />
+    <div
+      className="header__errors__item"
+    />
+    <div
+      className="header__errors__item"
+    />
+    <div
+      className="header__errors__item"
+    >
+      custom error message
+    </div>
+  </div>
+  <div
+    className="header__children"
+  />
+</div>
+`;
+
 exports[`Form component <Header /> error messages should render email error 1`] = `
 <div
   className="header header--invalid"
@@ -28,6 +69,9 @@ exports[`Form component <Header /> error messages should render email error 1`] 
     >
       Het moet een geldig e-mailadres zijn
     </div>
+    <div
+      className="header__errors__item"
+    />
     <div
       className="header__errors__item"
     />
@@ -69,6 +113,9 @@ exports[`Form component <Header /> error messages should render maxLength error 
     >
       U kunt maximaal 666 tekens invoeren.
     </div>
+    <div
+      className="header__errors__item"
+    />
   </div>
   <div
     className="header__children"
@@ -105,6 +152,9 @@ exports[`Form component <Header /> error messages should render no error when el
     <div
       className="header__errors__item"
     />
+    <div
+      className="header__errors__item"
+    />
   </div>
   <div
     className="header__children"
@@ -132,6 +182,9 @@ exports[`Form component <Header /> error messages should render optional field m
   <div
     className="header__errors"
   >
+    <div
+      className="header__errors__item"
+    />
     <div
       className="header__errors__item"
     />
@@ -179,6 +232,9 @@ exports[`Form component <Header /> error messages should render required error 1
     <div
       className="header__errors__item"
     />
+    <div
+      className="header__errors__item"
+    />
   </div>
   <div
     className="header__children"
@@ -215,6 +271,9 @@ exports[`Form component <Header /> should render correctly 1`] = `
     <div
       className="header__errors__item"
     />
+    <div
+      className="header__errors__item"
+    />
   </div>
   <div
     className="header__children"
@@ -235,6 +294,9 @@ exports[`Form component <Header /> should render when label is not available 1`]
   <div
     className="header__errors"
   >
+    <div
+      className="header__errors__item"
+    />
     <div
       className="header__errors__item"
     />

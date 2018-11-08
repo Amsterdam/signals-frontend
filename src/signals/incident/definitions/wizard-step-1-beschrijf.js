@@ -152,10 +152,18 @@ export default {
         },
         render: FormComponents.HiddenInput
       },
+      image_type: {
+        meta: {
+          label: 'image_type'
+        },
+        render: FormComponents.HiddenInput
+      },
       image: {
         meta: {
           label: 'Wilt u een foto meesturen?',
-          submitLabel: 'Foto kiezen'
+          submitLabel: 'Foto kiezen',
+          maxFileSize: 8388608,
+          allowedFileTypes: ['image/jpeg']
         },
         render: FormComponents.FileInput
       },
