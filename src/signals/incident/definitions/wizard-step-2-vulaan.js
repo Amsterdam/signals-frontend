@@ -289,6 +289,13 @@ export default {
         },
         render: FormComponents.TextareaInput
       },
+      navigation_submit_button: {
+        meta: {
+          ifAllOf: {
+            subcategory: 'straatverlichting-openbare-klok'
+          }
+        }
+      },
       $field_0: {
         isStatic: false,
         render: IncidentNavigation
