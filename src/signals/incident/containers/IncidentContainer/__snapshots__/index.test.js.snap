@@ -904,6 +904,26 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
                 "render": [Function],
               },
+              "navigation_submit_button": Object {
+                "meta": Object {
+                  "ifNoneOf": Object {
+                    "subcategory": "straatverlichting-openbare-klok",
+                  },
+                },
+              },
+              "redirect_to_kim": Object {
+                "meta": Object {
+                  "buttonAction": "https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx",
+                  "buttonLabel": "In dit formulier",
+                  "ifAllOf": Object {
+                    "subcategory": "straatverlichting-openbare-klok",
+                  },
+                  "value": Array [
+                    "Dit type meldingen graag doorgeven.",
+                  ],
+                },
+                "render": [Function],
+              },
             },
           },
           "label": "Dit hebben we nog van u nodig",

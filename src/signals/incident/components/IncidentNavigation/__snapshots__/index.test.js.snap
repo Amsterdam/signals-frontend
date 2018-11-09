@@ -24,6 +24,7 @@ exports[`<IncidentNavigation /> rendering render correctly first step with one b
   render={null}
 >
   <IncidentNavigation
+    controls={Object {}}
     meta={
       Object {
         "handleSubmit": [MockFunction],
@@ -84,6 +85,7 @@ exports[`<IncidentNavigation /> rendering render correctly first step with two b
   render={null}
 >
   <IncidentNavigation
+    controls={Object {}}
     meta={
       Object {
         "handleSubmit": [MockFunction],
@@ -149,6 +151,7 @@ exports[`<IncidentNavigation /> rendering render correctly last step with one bu
   render={null}
 >
   <IncidentNavigation
+    controls={Object {}}
     meta={
       Object {
         "handleSubmit": [MockFunction],
@@ -208,6 +211,7 @@ exports[`<IncidentNavigation /> rendering render correctly last step with two bu
   render={null}
 >
   <IncidentNavigation
+    controls={Object {}}
     meta={
       Object {
         "handleSubmit": [MockFunction],
@@ -273,6 +277,7 @@ exports[`<IncidentNavigation /> rendering render correctly second step with two 
   render={null}
 >
   <IncidentNavigation
+    controls={Object {}}
     meta={
       Object {
         "handleSubmit": [MockFunction],

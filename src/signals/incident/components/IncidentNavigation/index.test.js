@@ -14,6 +14,7 @@ describe('<IncidentNavigation />', () => {
   beforeEach(() => {
     props = {
       valid: true,
+      controls: {},
       meta: {
         handleSubmit: jest.fn()
       }

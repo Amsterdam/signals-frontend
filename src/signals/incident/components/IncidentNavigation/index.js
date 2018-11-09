@@ -56,7 +56,7 @@ IncidentNavigation.defaultProps = {
 
 IncidentNavigation.propTypes = {
   valid: PropTypes.bool.isRequired,
-  controls: PropTypes.object,
+  controls: PropTypes.object.isRequired,
   meta: PropTypes.shape({
     handleSubmit: PropTypes.function
   })
