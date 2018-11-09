@@ -21,7 +21,7 @@ export default {
           },
           value: ['Dit type meldingen graag doorgeven.'],
           buttonLabel: 'In dit formulier',
-          buttonAction: 'https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx/fMeldingenOVL',
+          buttonAction: 'https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx',
           // buttonTimeout: 5000
         },
         render: FormComponents.RedirectButton
