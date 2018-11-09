@@ -328,4 +328,129 @@ describe('The format conditional form service', () => {
       }
     });
   });
+
+  it('should show control according to the ifAllOf and isOneOf', () => {
+    expect(
+      formatConditionalForm(
+        {
+          controls: {
+            var_1: {
+              meta: {
+                ifOneOf: {
+                  category: 'bar'
+                },
+                ifAllOf: {
+                  subcategory: 'foo'
+                }
+              }
+            },
+            var_2: {
+              meta: {
+                ifOneOf: {
+                  category: 'wrong'
+                },
+                ifAllOf: {
+                  subcategory: 'foo'
+                }
+              }
+            },
+            var_3: {
+              meta: {
+                ifOneOf: {
+                  category: 'bar'
+                },
+                ifAllOf: {
+                  subcategory: 'wrong'
+                }
+              }
+            },
+            // var_2: {
+              // meta: {
+                // ifOneOf: {
+                  // category: 'bar',
+                  // subcategory: 'foo'
+                // }
+              // }
+            // },
+            // var_3: {
+              // meta: {
+                // ifOneOf: {
+                  // category: 'wrong'
+                // }
+              // }
+            // },
+            // var_4: {
+              // meta: {
+                // ifOneOf: {
+                  // category: 'bar',
+                  // subcategory: 'wrong'
+                // }
+              // }
+            // },
+            // array_1: {
+              // meta: {
+                // ifOneOf: {
+                  // category: ['bar']
+                // },
+                // isVisible: true,
+                // name: 'array_1'
+              // }
+            // },
+            // array_2: {
+              // meta: {
+                // ifOneOf: {
+                  // category: ['incorrect', 'wrong']
+                // },
+                // isVisible: false,
+                // name: 'array_2'
+              // }
+            // }
+          }
+        },
+        {
+          category: 'bar',
+          subcategory: 'foo'
+        }
+      )
+    ).toEqual({
+      controls: {
+        var_1: {
+          meta: {
+            ifOneOf: {
+              category: 'bar'
+            },
+            ifAllOf: {
+              subcategory: 'foo'
+            },
+            isVisible: true,
+            name: 'var_1'
+          }
+        },
+        var_2: {
+          meta: {
+            ifOneOf: {
+              category: 'wrong'
+            },
+            ifAllOf: {
+              subcategory: 'foo'
+            },
+            isVisible: false,
+            name: 'var_2'
+          }
+        },
+        var_3: {
+          meta: {
+            ifOneOf: {
+              category: 'bar'
+            },
+            ifAllOf: {
+              subcategory: 'wrong'
+            },
+            isVisible: false,
+            name: 'var_3'
+          }
+        }
+      }
+    });
+  });
 });
