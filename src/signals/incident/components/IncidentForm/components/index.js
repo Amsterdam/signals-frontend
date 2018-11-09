@@ -5,6 +5,7 @@ import FileInput from './FileInput/';
 import HiddenInput from './HiddenInput/';
 import PlainText from './PlainText/';
 import RadioInput from './RadioInput/';
+import RedirectButton from './RedirectButton/';
 import SelectInput from './SelectInput/';
 import TextInput from './TextInput/';
 import TextareaInput from './TextareaInput/';
@@ -19,6 +20,7 @@ export default {
   MapInput,
   PlainText,
   RadioInput,
+  RedirectButton,
   SelectInput,
   TextInput,
   TextareaInput

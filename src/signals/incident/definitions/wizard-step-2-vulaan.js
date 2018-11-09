@@ -19,9 +19,12 @@ export default {
             subcategory:
               'straatverlichting-openbare-klok'
           },
-          value: 'Dit type meldingen graag doorgeven bij KIM.'
+          value: ['Dit type meldingen graag doorgeven.'],
+          buttonLabel: 'In dit formulier',
+          buttonAction: 'https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx/fMeldingenOVL',
+          // buttonTimeout: 5000
         },
-        render: FormComponents.PlainText
+        render: FormComponents.RedirectButton
       },
       extra_personen_overig: {
         meta: {
