@@ -291,7 +291,7 @@ export default {
       },
       navigation_submit_button: {
         meta: {
-          ifAllOf: {
+          ifNoneOf: {
             subcategory: 'straatverlichting-openbare-klok'
           }
         }
