@@ -1,4 +1,5 @@
 import { Validators } from 'react-reactive-form';
+import { phoneNumberValidator } from '../../incident/components/IncidentForm/services/custom-validators';
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/IncidentForm/components/';
 
@@ -16,7 +17,7 @@ export default {
         },
         render: FormComponents.TextInput,
         options: {
-          validators: [Validators.maxLength(17)]
+          validators: [Validators.maxLength(17), phoneNumberValidator]
         },
       },
       privacy_text: {
