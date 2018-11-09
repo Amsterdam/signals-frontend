@@ -6,34 +6,36 @@ describe('The format conditional form service', () => {
   });
 
   it('should add name and isVisible true when meta is available', () => {
+    const controls = {
+      description: {
+        meta: {
+          foo: 'bar'
+        }
+      },
+      title: {
+        meta: {
+          bar: 'baz'
+        }
+      },
+      var_no_path: {}
+    };
     expect(
       formatConditionalForm({
-        controls: {
-          description: {
-            meta: {
-              foo: 'bar'
-            }
-          },
-          title: {
-            meta: {
-              bar: 'baz'
-            }
-          },
-          var_no_path: {}
-        }
+        controls
       })
     ).toEqual({
       controls: {
         description: {
           meta: {
-            foo: 'bar',
+            ...controls.description.meta,
+            // foo: 'bar',
             isVisible: true,
             name: 'description'
           }
         },
         title: {
           meta: {
-            bar: 'baz',
+            ...controls.title.meta,
             isVisible: true,
             name: 'title'
           }
@@ -90,55 +92,57 @@ describe('The format conditional form service', () => {
   });
 
   it('should show control according to the ifAllOf', () => {
+    const controls = {
+      var_1: {
+        meta: {
+          ifAllOf: {
+            category: 'bar'
+          }
+        }
+      },
+      var_2: {
+        meta: {
+          ifAllOf: {
+            category: 'bar',
+            subcategory: 'foo'
+          }
+        }
+      },
+      var_3: {
+        meta: {
+          ifAllOf: {
+            category: 'wrong'
+          }
+        }
+      },
+      var_4: {
+        meta: {
+          ifAllOf: {
+            category: 'bar',
+            subcategory: 'wrong'
+          }
+        }
+      },
+      array_1: {
+        meta: {
+          ifAllOf: {
+            category: ['bar']
+          }
+        }
+      },
+      array_2: {
+        meta: {
+          ifAllOf: {
+            category: ['bar', 'wrong']
+          }
+        }
+      }
+    };
+
     expect(
       formatConditionalForm(
         {
-          controls: {
-            var_1: {
-              meta: {
-                ifAllOf: {
-                  category: 'bar'
-                }
-              }
-            },
-            var_2: {
-              meta: {
-                ifAllOf: {
-                  category: 'bar',
-                  subcategory: 'foo'
-                }
-              }
-            },
-            var_3: {
-              meta: {
-                ifAllOf: {
-                  category: 'wrong'
-                }
-              }
-            },
-            var_4: {
-              meta: {
-                ifAllOf: {
-                  category: 'bar',
-                  subcategory: 'wrong'
-                }
-              }
-            },
-            array_1: {
-              meta: {
-                ifAllOf: {
-                  category: ['bar']
-                }
-              }
-            },
-            array_2: {
-              meta: {
-                ifAllOf: {
-                  category: ['bar', 'wrong']
-                }
-              }
-            }
-          }
+          controls
         },
         {
           category: 'bar',
@@ -149,56 +153,42 @@ describe('The format conditional form service', () => {
       controls: {
         var_1: {
           meta: {
-            ifAllOf: {
-              category: 'bar'
-            },
+            ...controls.var_1.meta,
             isVisible: true,
             name: 'var_1'
           }
         },
         var_2: {
           meta: {
-            ifAllOf: {
-              category: 'bar',
-              subcategory: 'foo'
-            },
+            ...controls.var_2.meta,
             isVisible: true,
             name: 'var_2'
           }
         },
         var_3: {
           meta: {
-            ifAllOf: {
-              category: 'wrong'
-            },
+            ...controls.var_3.meta,
             isVisible: false,
             name: 'var_3'
           }
         },
         var_4: {
           meta: {
-            ifAllOf: {
-              category: 'bar',
-              subcategory: 'wrong'
-            },
+            ...controls.var_4.meta,
             isVisible: false,
             name: 'var_4'
           }
         },
         array_1: {
           meta: {
-            ifAllOf: {
-              category: ['bar']
-            },
+            ...controls.array_1.meta,
             isVisible: true,
             name: 'array_1'
           }
         },
         array_2: {
           meta: {
-            ifAllOf: {
-              category: ['bar', 'wrong']
-            },
+            ...controls.array_2.meta,
             isVisible: false,
             name: 'array_2'
           }
@@ -208,59 +198,61 @@ describe('The format conditional form service', () => {
   });
 
   it('should show control according to the isOneOf', () => {
+    const controls = {
+      var_1: {
+        meta: {
+          ifOneOf: {
+            category: 'bar'
+          }
+        }
+      },
+      var_2: {
+        meta: {
+          ifOneOf: {
+            category: 'bar',
+            subcategory: 'foo'
+          }
+        }
+      },
+      var_3: {
+        meta: {
+          ifOneOf: {
+            category: 'wrong'
+          }
+        }
+      },
+      var_4: {
+        meta: {
+          ifOneOf: {
+            category: 'bar',
+            subcategory: 'wrong'
+          }
+        }
+      },
+      array_1: {
+        meta: {
+          ifOneOf: {
+            category: ['bar']
+          },
+          isVisible: true,
+          name: 'array_1'
+        }
+      },
+      array_2: {
+        meta: {
+          ifOneOf: {
+            category: ['incorrect', 'wrong']
+          },
+          isVisible: false,
+          name: 'array_2'
+        }
+      }
+    };
+
     expect(
       formatConditionalForm(
         {
-          controls: {
-            var_1: {
-              meta: {
-                ifOneOf: {
-                  category: 'bar'
-                }
-              }
-            },
-            var_2: {
-              meta: {
-                ifOneOf: {
-                  category: 'bar',
-                  subcategory: 'foo'
-                }
-              }
-            },
-            var_3: {
-              meta: {
-                ifOneOf: {
-                  category: 'wrong'
-                }
-              }
-            },
-            var_4: {
-              meta: {
-                ifOneOf: {
-                  category: 'bar',
-                  subcategory: 'wrong'
-                }
-              }
-            },
-            array_1: {
-              meta: {
-                ifOneOf: {
-                  category: ['bar']
-                },
-                isVisible: true,
-                name: 'array_1'
-              }
-            },
-            array_2: {
-              meta: {
-                ifOneOf: {
-                  category: ['incorrect', 'wrong']
-                },
-                isVisible: false,
-                name: 'array_2'
-              }
-            }
-          }
+          controls
         },
         {
           category: 'bar',
@@ -271,56 +263,42 @@ describe('The format conditional form service', () => {
       controls: {
         var_1: {
           meta: {
-            ifOneOf: {
-              category: 'bar'
-            },
+            ...controls.var_1.meta,
             isVisible: true,
             name: 'var_1'
           }
         },
         var_2: {
           meta: {
-            ifOneOf: {
-              category: 'bar',
-              subcategory: 'foo'
-            },
+            ...controls.var_2.meta,
             isVisible: true,
             name: 'var_2'
           }
         },
         var_3: {
           meta: {
-            ifOneOf: {
-              category: 'wrong'
-            },
+            ...controls.var_3.meta,
             isVisible: false,
             name: 'var_3'
           }
         },
         var_4: {
           meta: {
-            ifOneOf: {
-              category: 'bar',
-              subcategory: 'wrong'
-            },
+            ...controls.var_4.meta,
             isVisible: true,
             name: 'var_4'
           }
         },
         array_1: {
           meta: {
-            ifOneOf: {
-              category: ['bar']
-            },
+            ...controls.array_1.meta,
             isVisible: true,
             name: 'array_1'
           }
         },
         array_2: {
           meta: {
-            ifOneOf: {
-              category: ['incorrect', 'wrong']
-            },
+            ...controls.array_2.meta,
             isVisible: false,
             name: 'array_2'
           }
@@ -330,82 +308,43 @@ describe('The format conditional form service', () => {
   });
 
   it('should show control according to the ifAllOf and isOneOf', () => {
+    const controls = {
+      var_1: {
+        meta: {
+          ifOneOf: {
+            category: 'bar'
+          },
+          ifAllOf: {
+            subcategory: 'foo'
+          }
+        }
+      },
+      var_2: {
+        meta: {
+          ifOneOf: {
+            category: 'wrong'
+          },
+          ifAllOf: {
+            subcategory: 'foo'
+          }
+        }
+      },
+      var_3: {
+        meta: {
+          ifOneOf: {
+            category: 'bar'
+          },
+          ifAllOf: {
+            subcategory: 'wrong'
+          }
+        }
+      }
+    };
+
     expect(
       formatConditionalForm(
         {
-          controls: {
-            var_1: {
-              meta: {
-                ifOneOf: {
-                  category: 'bar'
-                },
-                ifAllOf: {
-                  subcategory: 'foo'
-                }
-              }
-            },
-            var_2: {
-              meta: {
-                ifOneOf: {
-                  category: 'wrong'
-                },
-                ifAllOf: {
-                  subcategory: 'foo'
-                }
-              }
-            },
-            var_3: {
-              meta: {
-                ifOneOf: {
-                  category: 'bar'
-                },
-                ifAllOf: {
-                  subcategory: 'wrong'
-                }
-              }
-            },
-            // var_2: {
-              // meta: {
-                // ifOneOf: {
-                  // category: 'bar',
-                  // subcategory: 'foo'
-                // }
-              // }
-            // },
-            // var_3: {
-              // meta: {
-                // ifOneOf: {
-                  // category: 'wrong'
-                // }
-              // }
-            // },
-            // var_4: {
-              // meta: {
-                // ifOneOf: {
-                  // category: 'bar',
-                  // subcategory: 'wrong'
-                // }
-              // }
-            // },
-            // array_1: {
-              // meta: {
-                // ifOneOf: {
-                  // category: ['bar']
-                // },
-                // isVisible: true,
-                // name: 'array_1'
-              // }
-            // },
-            // array_2: {
-              // meta: {
-                // ifOneOf: {
-                  // category: ['incorrect', 'wrong']
-                // },
-                // isVisible: false,
-                // name: 'array_2'
-              // }
-            // }
-          }
+          controls
         },
         {
           category: 'bar',
@@ -416,36 +355,21 @@ describe('The format conditional form service', () => {
       controls: {
         var_1: {
           meta: {
-            ifOneOf: {
-              category: 'bar'
-            },
-            ifAllOf: {
-              subcategory: 'foo'
-            },
+            ...controls.var_1.meta,
             isVisible: true,
             name: 'var_1'
           }
         },
         var_2: {
           meta: {
-            ifOneOf: {
-              category: 'wrong'
-            },
-            ifAllOf: {
-              subcategory: 'foo'
-            },
+            ...controls.var_2.meta,
             isVisible: false,
             name: 'var_2'
           }
         },
         var_3: {
           meta: {
-            ifOneOf: {
-              category: 'bar'
-            },
-            ifAllOf: {
-              subcategory: 'wrong'
-            },
+            ...controls.var_3.meta,
             isVisible: false,
             name: 'var_3'
           }
