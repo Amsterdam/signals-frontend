@@ -48,15 +48,6 @@ node {
     }
 }
 
-node {
-    stage('Deploy on Bakkie') {
-        tryStep "building bakkie", {
-            sh "scripts/bakkie.sh ${env.BRANCH_NAME}"
-        }
-    }
-}
-
-
 String BRANCH = "${env.BRANCH_NAME}"
 
 if (BRANCH == "develop") {
