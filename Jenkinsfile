@@ -21,16 +21,6 @@ node {
         checkout scm
     }
 
-    stage("Deploy Bakkie") {
-      when { not { branch 'master' } }
-      options {
-        timeout(time: 5, unit: 'MINUTES')
-      }
-      steps {
-        sh "scripts/bakkie.sh ${BRANCH_NAME}"
-      }
-    }
-
     stage("Unit and Integration") {
       String  PROJECT = "sia-unittests"
 
@@ -54,6 +44,14 @@ node {
                 "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
                 ". ")
             image.push()
+        }
+    }
+}
+
+node {
+    stage('Deploy on Bakkie') {
+        tryStep "building bakkie", {
+            sh "scripts/bakkie.sh ${env.BRANCH_NAME}"
         }
     }
 }
