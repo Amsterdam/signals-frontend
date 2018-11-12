@@ -27,7 +27,7 @@ describe('Form component <TextInput />', () => {
     hasError = jest.fn();
     parent = {
       meta: {
-        setIncident: jest.fn()
+        updateIncident: jest.fn()
       }
     };
 
@@ -88,30 +88,15 @@ describe('Form component <TextInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true,
-          updateIncident: true
+          isVisible: true
         }
       });
 
       wrapper.find('select').simulate('change', event);
 
-      expect(parent.meta.setIncident).toHaveBeenCalledWith({
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': 'baz'
       });
-    });
-
-    it('does nothing when updateIncident is false', () => {
-      wrapper.setProps({
-        meta: {
-          ...metaFields,
-          isVisible: true,
-          updateIncident: false
-        }
-      });
-
-      wrapper.find('select').simulate('change', event);
-
-      expect(parent.meta.setIncident).not.toHaveBeenCalled();
     });
   });
 });

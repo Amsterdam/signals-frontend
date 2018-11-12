@@ -47,7 +47,7 @@ exports[`FieldControlWrapper should render correctly 1`] = `
         },
       }
     }
-    name="name"
+    name="inputfield"
     strict={true}
   />
 </div>

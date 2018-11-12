@@ -8,8 +8,14 @@ import {
   requestIncidentsSuccess,
   requestIncidentsError,
   incidentSelected,
-  filterIncidentsChanged
+  filterIncidentsChanged,
+  pageIncidentsChanged,
+  sortIncidentsChanged,
+  mainCategoryFilterSelectionChanged
 } from './actions';
+
+import subcategoryList from '../../definitions/subcategoryList';
+import mainToSubMap from '../../definitions/mainToSubMap';
 
 describe('overviewPageReducer', () => {
   let state;
@@ -35,7 +41,7 @@ describe('overviewPageReducer', () => {
     const payload = { count: 1, results: [1] };
     const action = requestIncidentsSuccess(payload);
     const expected = fromJS({})
-      .set('incidents', payload.results)
+      .set('incidents', fromJS(payload.results))
       .set('incidentsCount', payload.count)
       .set('loading', false);
     expect(overviewPageReducer(state, action)).toEqual(expected);
@@ -63,6 +69,54 @@ describe('overviewPageReducer', () => {
     const expected = fromJS({})
       .set('filter', filter)
       .set('page', 1);
+    expect(overviewPageReducer(state, action)).toEqual(expected);
+  });
+
+  it('should handle the PAGE_INCIDENTS_CHANGED', () => {
+    const page = 1;
+    const action = pageIncidentsChanged(page);
+    const expected = fromJS({})
+      .set('page', 1);
+    expect(overviewPageReducer(state, action)).toEqual(expected);
+  });
+
+  it('should handle the SORT_INCIDENTS_CHANGED', () => {
+    const sort = '-created_at';
+    const action = sortIncidentsChanged(sort);
+    const expected = fromJS({})
+      .set('page', 1)
+      .set('sort', sort);
+    expect(overviewPageReducer(state, action)).toEqual(expected);
+  });
+
+  it('should handle the MAIN_CATEGORY_FILTER_SELECTION_CHANGED for no selection', () => {
+    const mainCategoryFilterSelection = null;
+    const action = mainCategoryFilterSelectionChanged(mainCategoryFilterSelection);
+    const expected = fromJS({})
+      .set('mainCategorySelectionList', mainCategoryFilterSelection)
+      .set('subcategoryList', subcategoryList);
+    expect(overviewPageReducer(state, action)).toEqual(expected);
+  });
+
+  it('should handle the MAIN_CATEGORY_FILTER_SELECTION_CHANGED for Alles', () => {
+    const mainCategoryFilterSelection = [''];
+    const expectedSubcategoryList = [{ key: '', value: 'Alles' }].concat(mainToSubMap['']
+      .sort()
+      .flatMap((s) => [{ key: s, value: s }]));
+    const action = mainCategoryFilterSelectionChanged(mainCategoryFilterSelection);
+    const expected = fromJS({})
+      .set('mainCategorySelectionList', mainCategoryFilterSelection)
+      .set('subcategoryList', expectedSubcategoryList);
+    expect(overviewPageReducer(state, action)).toEqual(expected);
+  });
+
+  it('should handle the MAIN_CATEGORY_FILTER_SELECTION_CHANGED for Alles and another main category', () => {
+    const mainCategoryFilterSelection = ['', 'Overig'];
+    const expectedSubcategoryList = [{ key: '', value: 'Alles' }];
+    const action = mainCategoryFilterSelectionChanged(mainCategoryFilterSelection);
+    const expected = fromJS({})
+      .set('mainCategorySelectionList', mainCategoryFilterSelection)
+      .set('subcategoryList', expectedSubcategoryList);
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 });

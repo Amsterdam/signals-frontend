@@ -6,9 +6,9 @@ import './style.scss';
 class Tabs extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const { tabs, selectedTab } = this.props;
-    const tabsList = tabs.map((name, index) => (
-      <li role="presentation" key={`key${name}`} className={selectedTab === index ? 'selected' : ''} onClick={() => this.props.onTabChanged(index)}>
-        <a>{name}</a>
+    const tabsList = tabs.map((tab, index) => (
+      <li role="presentation" key={`key${tab.name}`} className={selectedTab === index ? 'selected' : ''} onClick={() => this.props.onTabChanged(index)}>
+        <a className="tab">{tab.name} {tab.count ? <span className="pill">{tab.count}</span> : ''}</a>
       </li>)
     );
     return (

@@ -20,7 +20,7 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
   }
 
   render() {
-    const { incidentStatusList, statusList, error, loading } = this.props.incidentStatusContainer;
+    const { incidentStatusList, changeStatusOptionList, error, loading, loadingExternal } = this.props.incidentStatusContainer;
     const state = incidentStatusList && incidentStatusList.length && incidentStatusList[incidentStatusList.length - 1].state;
     const canDisplay = typeof state !== 'number';
     const canChangeState = !['a', 'o'].some((value) => state === value);
@@ -30,10 +30,19 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
         {canDisplay ?
           <div className="incident-status-container row">
             <div className="col-12">
-              {canChangeState ? <Add id={this.props.id} loading={loading} statusList={statusList} error={error} onRequestStatusCreate={this.props.onRequestStatusCreate} incidentStatusList={incidentStatusList} /> : ''}
+              {canChangeState ?
+                <Add
+                  id={this.props.id}
+                  loading={loading}
+                  loadingExternal={loadingExternal}
+                  changeStatusOptionList={changeStatusOptionList}
+                  error={error}
+                  onRequestStatusCreate={this.props.onRequestStatusCreate}
+                  incidentStatusList={incidentStatusList}
+                /> : ''}
             </div>
             <div className="col-12">
-              <List incidentStatusList={incidentStatusList} statusList={statusList} />
+              <List incidentStatusList={incidentStatusList} />
             </div>
           </div> : ''}
       </div>

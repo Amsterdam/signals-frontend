@@ -19,7 +19,7 @@ export default {
         meta: {
           className: 'col-sm-12 col-md-6',
           ifAllOf: {
-            category: 'Overlast van en door personen of groepen'
+            category: 'overlast-van-en-door-personen-of-groepen'
           },
           label: 'Om hoe veel personen gaat het (ongeveer)?',
           pathMerge: 'extra_properties',
@@ -36,12 +36,11 @@ export default {
         meta: {
           className: 'col-sm-12 col-md-6',
           ifAllOf: {
-            category: 'Overlast van en door personen of groepen'
+            category: 'overlast-van-en-door-personen-of-groepen'
           },
           label: 'Gebeurt het vaker?',
           pathMerge: 'extra_properties',
-          value: 'Ja, het gebeurt vaker:',
-          updateIncident: true
+          value: 'Ja, het gebeurt vaker:'
         },
         render: FormComponents.CheckboxInput
       },
@@ -51,7 +50,7 @@ export default {
           pathMerge: 'extra_properties',
           ifAllOf: {
             extra_personen_overig_vaker: true,
-            category: 'Overlast van en door personen of groepen'
+            category: 'overlast-van-en-door-personen-of-groepen'
           }
         },
         render: FormComponents.TextareaInput
@@ -62,7 +61,7 @@ export default {
         meta: {
           className: 'col-sm-12 col-md-6',
           ifAllOf: {
-            category: 'Overlast Bedrijven en Horeca'
+            category: 'overlast-bedrijven-en-horeca'
           },
           type: 'caution',
           value: 'Gaat het om overlast in de binnenstad? Bel 14 020 en vul dit formulier niet verder in.  Dan kunnen we sneller voor u aan het werk.'
@@ -72,7 +71,7 @@ export default {
       extra_bedrijven_overig: {
         meta: {
           ifAllOf: {
-            category: 'Overlast Bedrijven en Horeca'
+            category: 'overlast-bedrijven-en-horeca'
           },
           label: 'Uw melding gaat over:',
           pathMerge: 'extra_properties',
@@ -88,7 +87,7 @@ export default {
       extra_bedrijven_naam: {
         meta: {
           ifAllOf: {
-            category: 'Overlast Bedrijven en Horeca'
+            category: 'overlast-bedrijven-en-horeca'
           },
           label: 'Bedrijfsnaam / Evenementnaam van vermoedelijke veroorzaker',
           pathMerge: 'extra_properties'
@@ -98,7 +97,7 @@ export default {
       extra_bedrijven_adres: {
         meta: {
           ifAllOf: {
-            category: 'Overlast Bedrijven en Horeca'
+            category: 'overlast-bedrijven-en-horeca'
           },
           label: 'Op welke locatie ervaart u de overlast',
           pathMerge: 'extra_properties'
@@ -108,12 +107,11 @@ export default {
       extra_bedrijven_vaker: {
         meta: {
           ifAllOf: {
-            category: 'Overlast Bedrijven en Horeca'
+            category: 'overlast-bedrijven-en-horeca'
           },
           label: 'Gebeurt het vaker?',
           pathMerge: 'extra_properties',
-          value: 'Ja, het gebeurt vaker:',
-          updateIncident: true
+          value: 'Ja, het gebeurt vaker:'
         },
         render: FormComponents.CheckboxInput
       },
@@ -123,7 +121,7 @@ export default {
           pathMerge: 'extra_properties',
           ifAllOf: {
             extra_bedrijven_vaker: true,
-            category: 'Overlast Bedrijven en Horeca'
+            category: 'overlast-bedrijven-en-horeca'
           }
         },
         render: FormComponents.TextareaInput
@@ -132,7 +130,7 @@ export default {
         meta: {
           className: 'col-sm-12 col-md-6',
           ifAllOf: {
-            category: 'Overlast Bedrijven en Horeca'
+            category: 'overlast-bedrijven-en-horeca'
           },
           value: [
             'Onze handhavers willen graag contact kunnen opnemen over uw melding. Bijvoorbeeld om een afspraak te maken om bij u thuis een geluidsmeting te verrichten. Anonieme meldingen krijgen daarom een lage prioriteit.',
@@ -147,15 +145,14 @@ export default {
         meta: {
           className: 'col-sm-12 col-md-6',
           ifAllOf: {
-            subcategory: 'Overlast op het water - snel varen'
+            subcategory: 'overlast-op-het-water-snel-varen'
           },
           label: 'Gaat de melding over een rondvaartboot?',
           pathMerge: 'extra_properties',
           values: {
             Ja: 'Ja',
             Nee: 'Nee'
-          },
-          updateIncident: true
+          }
         },
         render: FormComponents.RadioInput
       },
@@ -232,10 +229,9 @@ export default {
             'Zonneboot Amsterdam': 'Zonneboot Amsterdam'
           },
           ifAllOf: {
-            subcategory: 'Overlast op het water - snel varen',
+            subcategory: 'overlast-op-het-water-snel-varen',
             extra_boten_snelheid_rondvaartboot: 'Ja'
-          },
-          updateIncident: true
+          }
         },
         render: FormComponents.SelectInput
       },
@@ -245,7 +241,7 @@ export default {
           label: 'Wat is de naam van de boot?',
           pathMerge: 'extra_properties',
           ifAllOf: {
-            subcategory: 'Overlast op het water - snel varen'
+            subcategory: 'overlast-op-het-water-snel-varen'
           }
         },
         render: FormComponents.TextInput
@@ -256,7 +252,7 @@ export default {
           subtitle: 'Bijvoorbeeld: de kleur(en) van de boot, het aantal passagiers, de vaarrichting, Y of Vignet nummer etc.',
           pathMerge: 'extra_properties',
           ifAllOf: {
-            subcategory: 'Overlast op het water - snel varen'
+            subcategory: 'overlast-op-het-water-snel-varen'
           }
         },
         render: FormComponents.TextareaInput
@@ -266,7 +262,7 @@ export default {
           label: 'Zijn er nog dingen die u ons nog meer kunt vertellen?',
           pathMerge: 'extra_properties',
           ifAllOf: {
-            subcategory: 'Overlast op het water - geluid'
+            subcategory: 'overlast-op-het-water-geluid'
           }
         },
         render: FormComponents.TextareaInput
@@ -277,7 +273,7 @@ export default {
           subtitle: 'Bijvoorbeeld: "er lekt olie", "gevaar voor andere boten", etc.',
           pathMerge: 'extra_properties',
           ifAllOf: {
-            subcategory: 'Overlast op het water - Gezonken boot'
+            subcategory: 'overlast-op-het-water-gezonken-boot'
           }
         },
         render: FormComponents.TextareaInput

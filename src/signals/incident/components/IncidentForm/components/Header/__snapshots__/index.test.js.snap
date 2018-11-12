@@ -6,7 +6,14 @@ exports[`Form component <Header /> error messages should render email error 1`] 
 >
   <div
     className="header__label"
-  />
+  >
+    naam
+    <span
+      className="header--not-required"
+    >
+      (niet verplicht)
+    </span>
+  </div>
   <div
     className="header__subheader"
   />
@@ -37,7 +44,14 @@ exports[`Form component <Header /> error messages should render maxLength error 
 >
   <div
     className="header__label"
-  />
+  >
+    naam
+    <span
+      className="header--not-required"
+    >
+      (niet verplicht)
+    </span>
+  </div>
   <div
     className="header__subheader"
   />
@@ -53,7 +67,7 @@ exports[`Form component <Header /> error messages should render maxLength error 
     <div
       className="header__errors__item"
     >
-      Dit veld mag niet langer dan 666 tekens zijn.
+      U kunt maximaal 666 tekens invoeren.
     </div>
   </div>
   <div
@@ -68,7 +82,50 @@ exports[`Form component <Header /> error messages should render no error when el
 >
   <div
     className="header__label"
+  >
+    naam
+    <span
+      className="header--not-required"
+    >
+      (niet verplicht)
+    </span>
+  </div>
+  <div
+    className="header__subheader"
   />
+  <div
+    className="header__errors"
+  >
+    <div
+      className="header__errors__item"
+    />
+    <div
+      className="header__errors__item"
+    />
+    <div
+      className="header__errors__item"
+    />
+  </div>
+  <div
+    className="header__children"
+  />
+</div>
+`;
+
+exports[`Form component <Header /> error messages should render optional field message 1`] = `
+<div
+  className="header "
+>
+  <div
+    className="header__label"
+  >
+    naam
+    <span
+      className="header--not-required"
+    >
+      (niet verplicht)
+    </span>
+  </div>
   <div
     className="header__subheader"
   />
@@ -97,7 +154,14 @@ exports[`Form component <Header /> error messages should render required error 1
 >
   <div
     className="header__label"
-  />
+  >
+    naam
+    <span
+      className="header--not-required"
+    >
+      (niet verplicht)
+    </span>
+  </div>
   <div
     className="header__subheader"
   />
@@ -123,6 +187,42 @@ exports[`Form component <Header /> error messages should render required error 1
 `;
 
 exports[`Form component <Header /> should render correctly 1`] = `
+<div
+  className="header "
+>
+  <div
+    className="header__label"
+  >
+    naam
+    <span
+      className="header--not-required"
+    >
+      (niet verplicht)
+    </span>
+  </div>
+  <div
+    className="header__subheader"
+  />
+  <div
+    className="header__errors"
+  >
+    <div
+      className="header__errors__item"
+    />
+    <div
+      className="header__errors__item"
+    />
+    <div
+      className="header__errors__item"
+    />
+  </div>
+  <div
+    className="header__children"
+  />
+</div>
+`;
+
+exports[`Form component <Header /> should render when label is not available 1`] = `
 <div
   className="header "
 >

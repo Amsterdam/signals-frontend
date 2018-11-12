@@ -22,7 +22,7 @@ const RadioInput = ({ handler, touched, hasError, meta, parent, getError, valida
                   id={`${meta.name}-${key}`}
                   className="kenmerkradio"
                   {...handler('radio', value)}
-                  onClick={(e) => meta.updateIncident && parent.meta.setIncident({ [meta.name]: e.target.value })}
+                  onClick={(e) => parent.meta.updateIncident({ [meta.name]: e.target.value })}
                 />
                 <label htmlFor={`${meta.name}-${key}`}>{value}</label>
               </div>

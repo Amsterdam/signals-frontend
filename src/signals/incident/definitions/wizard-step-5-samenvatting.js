@@ -17,7 +17,16 @@ export default {
       source: {
         label: 'Bron',
         render: PreviewComponents.PlainText,
-        optional: true
+        authenticated: true
+      },
+      priority: {
+        label: 'Urgentie',
+        render: PreviewComponents.KeyValue,
+        authenticated: true,
+        values: {
+          normal: 'Normaal',
+          high: 'Hoog'
+        }
       },
       location: {
         label: 'Hier is het',

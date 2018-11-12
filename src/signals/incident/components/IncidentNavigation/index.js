@@ -7,33 +7,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { WithWizard } from 'react-albus';
-// import { FormattedMessage } from 'react-intl';
-// import messages from './messages';
+import { findIndex } from 'lodash';
 
 import './style.scss';
 
-const IncidentNavigation = ({ valid, meta: { form, incidentContainer, wizard, handleSubmit, setIncident, createIncident } }) => (
+const IncidentNavigation = ({ valid, meta: { handleSubmit } }) => (
   <span>
     <WithWizard
       render={({ next, previous, step, steps }) => (
         <div className="incident-navigation">
-          {steps.indexOf(step) > 0 ? (
+          {findIndex(steps, step) > 0 ? (
             <button className="incident-navigation__button action startagain" onClick={previous}>
               Vorige
             </button>
           ) : <span /> }
 
-          {steps.indexOf(step) < steps.length - 1 && (
+          {findIndex(steps, step) < steps.length - 1 && (
             <button
               className={`incident-navigation__button action primary ${step.id === 'incident/samenvatting' ? '' : 'arrow-right'}`}
               onClick={(e) => {
                 if (valid) {
+                  e.persist();
+                  e.stepId = step.id;
                   handleSubmit(e);
-                  if (step.id === 'incident/samenvatting') {
-                    createIncident({ incident: incidentContainer.incident, wizard });
-                  } else {
-                    setIncident(form.value);
-                  }
                   next();
                 }
               }}
@@ -52,17 +48,13 @@ const IncidentNavigation = ({ valid, meta: { form, incidentContainer, wizard, ha
 );
 
 IncidentNavigation.defaultProps = {
-  meta: { handleSubmit: () => {} }
+  meta: {}
 };
 
 IncidentNavigation.propTypes = {
   valid: PropTypes.bool.isRequired,
   meta: PropTypes.shape({
-    form: PropTypes.object,
-    incidentContainer: PropTypes.object,
-    handleSubmit: PropTypes.function,
-    setIncident: PropTypes.function,
-    createIncident: PropTypes.function
+    handleSubmit: PropTypes.function
   })
 };
 

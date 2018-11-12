@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentPreview /> rendering expect to render correctly 1`] = `
+<div
+  className="incident-preview"
+>
+  <div
+    className="incident-preview__section"
+    key="step1"
+  >
+    <WithWizard
+      render={[Function]}
+    />
+    <div
+      key="phone"
+    >
+      <div
+        className="preview-text"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="col-5 col-md-4"
+          >
+            <div
+              className="preview-text__item-label"
+            >
+              Uw (mobiele) telefoon
+            </div>
+          </div>
+          <div
+            className="col-5 col-md-7"
+          >
+            <div
+              className="preview-text__item-value"
+            >
+              0666 666 666
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="incident-preview__section"
+    key="step2"
+  >
+    <WithWizard
+      render={[Function]}
+    />
+    <div
+      key="email"
+    >
+      <div
+        className="preview-text"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="col-5 col-md-4"
+          >
+            <div
+              className="preview-text__item-label"
+            >
+              Uw e-mailadres
+            </div>
+          </div>
+          <div
+            className="col-5 col-md-7"
+          >
+            <div
+              className="preview-text__item-value"
+            >
+              duvel@uiteendoosje.nl
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<IncidentPreview /> rendering expect to render correctly with invisible items 1`] = `
+<div
+  className="incident-preview"
+>
+  <div
+    className="incident-preview__section"
+    key="step1"
+  >
+    <WithWizard
+      render={[Function]}
+    />
+    <div
+      key="phone"
+    />
+  </div>
+  <div
+    className="incident-preview__section"
+    key="step2"
+  >
+    <WithWizard
+      render={[Function]}
+    />
+    <div
+      key="email"
+    />
+  </div>
+</div>
+`;

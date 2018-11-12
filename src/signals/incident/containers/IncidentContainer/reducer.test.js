@@ -2,14 +2,19 @@ import { fromJS } from 'immutable';
 import incidentContainerReducer, { initialState } from './reducer';
 
 import {
-  SET_INCIDENT,
+  UPDATE_INCIDENT,
+  RESET_INCIDENT,
 
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
   CREATE_INCIDENT_ERROR,
 
   GET_CLASSIFICATION_SUCCESS,
-  GET_CLASSIFICATION_ERROR
+  GET_CLASSIFICATION_ERROR,
+
+  SET_PRIORITY,
+  SET_PRIORITY_SUCCESS,
+  SET_PRIORITY_ERROR
 } from './constants';
 
 describe('incidentContainerReducer', () => {
@@ -17,7 +22,7 @@ describe('incidentContainerReducer', () => {
     expect(incidentContainerReducer(undefined, {})).toEqual(fromJS(initialState));
   });
 
-  describe('SET_INCIDENT', () => {
+  describe('UPDATE_INCIDENT', () => {
     it('sets new properties and keeps the old ones', () => {
       expect(
         incidentContainerReducer(fromJS({
@@ -25,7 +30,7 @@ describe('incidentContainerReducer', () => {
             category: 'bar'
           }
         }), {
-          type: SET_INCIDENT,
+          type: UPDATE_INCIDENT,
           payload: {
             subcategory: 'foo'
           }
@@ -35,6 +40,22 @@ describe('incidentContainerReducer', () => {
           category: 'bar',
           subcategory: 'foo'
         }
+      });
+    });
+  });
+
+  describe('RESET_INCIDENT', () => {
+    it('sets new properties and keeps the old ones', () => {
+      expect(
+        incidentContainerReducer(fromJS({
+          incident: {
+            category: 'foo'
+          }
+        }), {
+          type: RESET_INCIDENT
+        }).toJS()
+      ).toEqual({
+        incident: initialState.get('incident').toJS()
       });
     });
   });
@@ -63,8 +84,8 @@ describe('incidentContainerReducer', () => {
           payload: {
             id: 666,
             category: {
-              main: 'foo',
-              sub: 'bar'
+              main_slug: 'foo',
+              sub_slug: 'bar'
             }
           }
         }).toJS()
@@ -131,6 +152,49 @@ describe('incidentContainerReducer', () => {
           category: 'Overlast in de openbare ruimte',
           subcategory: 'Honden(poep)'
         }
+      });
+    });
+  });
+
+  describe('SET_PRIORITY', () => {
+    it('sets priority', () => {
+      expect(
+        incidentContainerReducer(fromJS({}), {
+          type: SET_PRIORITY,
+          payload: {
+            _signal: 666,
+            priority: 'normal'
+          }
+        }).toJS()
+      ).toEqual({
+        priority: {
+          _signal: 666,
+          priority: 'normal'
+        }
+      });
+    });
+  });
+
+  describe('SET_PRIORITY_SUCCESS', () => {
+    it('sets priority', () => {
+      expect(
+        incidentContainerReducer(fromJS({}), {
+          type: SET_PRIORITY_SUCCESS
+        }).toJS()
+      ).toEqual({
+        priority: {}
+      });
+    });
+  });
+
+  describe('SET_PRIORITY_ERROR', () => {
+    it('sets priority', () => {
+      expect(
+        incidentContainerReducer(fromJS({}), {
+          type: SET_PRIORITY_ERROR
+        }).toJS()
+      ).toEqual({
+        priority: {}
       });
     });
   });

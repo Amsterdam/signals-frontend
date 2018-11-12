@@ -6,14 +6,15 @@
 
 import {
   REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR,
-  INCIDENT_SELECTED, FILTER_INCIDENTS_CHANGED, PAGE_INCIDENTS_CHANGED
+  INCIDENT_SELECTED, FILTER_INCIDENTS_CHANGED, PAGE_INCIDENTS_CHANGED,
+  SORT_INCIDENTS_CHANGED, MAIN_CATEGORY_FILTER_SELECTION_CHANGED
 }
   from './constants';
 
-export function requestIncidents({ filter, page }) {
+export function requestIncidents({ filter, page, sort }) {
   return {
     type: REQUEST_INCIDENTS,
-    payload: { filter, page }
+    payload: { filter, page, sort }
   };
 }
 
@@ -49,5 +50,19 @@ export function pageIncidentsChanged(page) {
   return {
     type: PAGE_INCIDENTS_CHANGED,
     payload: page
+  };
+}
+
+export function sortIncidentsChanged(sort) {
+  return {
+    type: SORT_INCIDENTS_CHANGED,
+    payload: sort
+  };
+}
+
+export function mainCategoryFilterSelectionChanged(selectedOptions) {
+  return {
+    type: MAIN_CATEGORY_FILTER_SELECTION_CHANGED,
+    payload: selectedOptions
   };
 }

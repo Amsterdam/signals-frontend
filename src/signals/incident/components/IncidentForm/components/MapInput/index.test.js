@@ -21,7 +21,7 @@ describe('Form component <MapInput />', () => {
     hasError = jest.fn();
     parent = {
       meta: {
-        setIncident: jest.fn()
+        updateIncident: jest.fn()
       }
     };
 
@@ -60,6 +60,8 @@ describe('Form component <MapInput />', () => {
     });
 
     it('should render no map field when not visible', () => {
+      handler.mockImplementation(() => ({ value: undefined }));
+
       wrapper.setProps({
         meta: {
           ...metaFields,
@@ -70,39 +72,5 @@ describe('Form component <MapInput />', () => {
       expect(handler).toHaveBeenCalledWith();
       expect(wrapper).toMatchSnapshot();
     });
-  });
-
-  describe('events', () => {
-    // const event = { target: { value: 'diabolo' } };
-
-    // it('sets incident when value changes', () => {
-    //   wrapper.setProps({
-    //     meta: {
-    //       ...metaFields,
-    //       isVisible: true,
-    //       updateIncident: true
-    //     }
-    //   });
-    //
-    //   wrapper.find('input').simulate('change', event);
-    //
-    //   expect(parent.meta.setIncident).toHaveBeenCalledWith({
-    //     'input-field-name': 'diabolo'
-    //   });
-    // });
-    //
-    // it('does nothing when updateIncident is false', () => {
-    //   wrapper.setProps({
-    //     meta: {
-    //       ...metaFields,
-    //       isVisible: true,
-    //       updateIncident: false
-    //     }
-    //   });
-    //
-    //   wrapper.find('input').simulate('change', event);
-    //
-    //   expect(parent.meta.setIncident).not.toHaveBeenCalled();
-    // });
   });
 });

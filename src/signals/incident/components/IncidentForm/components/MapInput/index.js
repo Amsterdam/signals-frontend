@@ -1,38 +1,16 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import MapInteractive from '../../../../../../components/MapInteractive';
 
 import Header from '../Header/';
+import mapLocation from '../../services/map-location';
 
 const MapInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   const value = handler().value || {};
 
+  /* istanbul ignore next */
   const onQueryResult = (d) => {
-    const location = {};
-
-    if (d.dichtstbijzijnd_adres) {
-      location.address = { ...d.dichtstbijzijnd_adres };
-      location.address.huisnummer = `${location.address.huisnummer}`;
-      location.address.huisnummer_toevoeging = `${location.address.huisnummer_toevoeging}`;
-    }
-
-    if (d.omgevingsinfo) {
-      location.buurt_code = d.omgevingsinfo.buurtcode;
-      location.stadsdeel = d.omgevingsinfo.stadsdeelcode;
-    }
-
-    if (d.query) {
-      location.geometrie = {
-        type: 'Point',
-        coordinates: [
-          d.query.longitude,
-          d.query.latitude
-        ]
-      };
-    }
-
-    parent.meta.setIncident({ location });
+    parent.meta.updateIncident({ location: mapLocation(d) });
   };
 
   return (

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Header from '../Header/';
 
-const TextareaInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => (
+const TextareaInput = ({ handler, touched, value, hasError, meta, parent, getError, validatorsOrOpts }) => (
   <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
     {meta && meta.isVisible ?
       <div className={`${meta.className || 'col-12'} mode_input`}>
@@ -17,9 +17,16 @@ const TextareaInput = ({ handler, touched, hasError, meta, parent, getError, val
           <div className="invoer">
             <textarea
               placeholder={meta.placeholder}
-              onChange={(e) => meta.updateIncident && parent.meta.setIncident({ [meta.name]: e.target.value })}
               {...handler()}
+              onBlur={(e) => parent.meta.updateIncident({ [meta.name]: e.target.value })}
             />
+            { meta.maxLength &&
+              <div className="input-help">
+                <span className="text-area-input__counter">
+                  {`${value ? value.length : '0'}/${meta.maxLength} tekens` }
+                </span>
+              </div>
+            }
           </div>
         </Header>
       </div>
@@ -30,6 +37,7 @@ const TextareaInput = ({ handler, touched, hasError, meta, parent, getError, val
 TextareaInput.propTypes = {
   handler: PropTypes.func,
   touched: PropTypes.bool,
+  value: PropTypes.string,
   hasError: PropTypes.func,
   meta: PropTypes.object,
   parent: PropTypes.object,

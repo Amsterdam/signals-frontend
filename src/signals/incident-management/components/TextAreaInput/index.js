@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import './style.scss';
 
 const TextAreaInput = (props) => {
-  const { name, display, placeholder, rows } = props;
-  const render = ({ handler }) => (
+  const { name, display, placeholder, rows, maxLength } = props;
+  const render = ({ handler, value }) => (
     <div className="text-area-input">
       <div className="mode_input text rij_verplicht">
         <div className="text-area-input__label">
@@ -21,6 +21,13 @@ const TextAreaInput = (props) => {
             placeholder={placeholder}
             rows={rows}
           />
+          { maxLength &&
+            <div className="input-help">
+              <span className="text-area-input__counter">
+                {`${value ? value.length : '0'}/${maxLength} tekens` }
+              </span>
+            </div>
+          }
         </div>
       </div>
     </div>);
@@ -33,6 +40,8 @@ const TextAreaInput = (props) => {
 
   render.propTypes = {
     handler: PropTypes.func.isRequired,
+    value: PropTypes.string,
+    maxLength: PropTypes.number
   };
   return render;
 };

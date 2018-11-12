@@ -5,7 +5,8 @@
  */
 
 import {
-  SET_INCIDENT,
+  UPDATE_INCIDENT,
+  RESET_INCIDENT,
 
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
@@ -13,13 +14,23 @@ import {
 
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
-  GET_CLASSIFICATION_ERROR
+  GET_CLASSIFICATION_ERROR,
+
+  SET_PRIORITY,
+  SET_PRIORITY_SUCCESS,
+  SET_PRIORITY_ERROR
 } from './constants';
 
-export function setIncident(incident) {
+export function updateIncident(incident) {
   return {
-    type: SET_INCIDENT,
+    type: UPDATE_INCIDENT,
     payload: { ...incident }
+  };
+}
+
+export function resetIncident() {
+  return {
+    type: RESET_INCIDENT
   };
 }
 
@@ -61,5 +72,24 @@ export function getClassificationError(classification) {
   return {
     type: GET_CLASSIFICATION_ERROR,
     payload: { ...classification }
+  };
+}
+
+export function setPriority(payload) {
+  return {
+    type: SET_PRIORITY,
+    payload
+  };
+}
+
+export function setPrioritySuccess() {
+  return {
+    type: SET_PRIORITY_SUCCESS
+  };
+}
+
+export function setPriorityError() {
+  return {
+    type: SET_PRIORITY_ERROR
   };
 }

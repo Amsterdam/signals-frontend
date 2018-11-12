@@ -11,7 +11,7 @@ import {
   REQUEST_STATUS_CREATE_ERROR
 }
   from './constants';
-import statusList from '../../definitions/statusList';
+import { changeStatusOptionList } from '../../definitions/statusList';
 
 describe('incidentStatusContainerReducer', () => {
   it('returns the initial state', () => {
@@ -27,8 +27,9 @@ describe('incidentStatusContainerReducer', () => {
       ).toEqual({
         error: false,
         loading: true,
+        loadingExternal: false,
         incidentStatusList: [],
-        statusList
+        changeStatusOptionList
       });
     });
   });
@@ -44,8 +45,9 @@ describe('incidentStatusContainerReducer', () => {
         }).toJS()
       ).toEqual({
         loading: false,
+        loadingExternal: false,
         incidentStatusList: ['status 1', 'status 2'],
-        statusList
+        changeStatusOptionList
       });
     });
   });
@@ -60,8 +62,9 @@ describe('incidentStatusContainerReducer', () => {
       ).toEqual({
         error: true,
         loading: false,
+        loadingExternal: false,
         incidentStatusList: [],
-        statusList
+        changeStatusOptionList
       });
     });
   });
@@ -70,13 +73,34 @@ describe('incidentStatusContainerReducer', () => {
     it('resets error and loading', () => {
       expect(
         incidentStatusContainerReducer(undefined, {
-          type: REQUEST_STATUS_CREATE
+          type: REQUEST_STATUS_CREATE,
+          payload: {
+            state: 's'
+          }
         }).toJS()
       ).toEqual({
         error: false,
         loading: true,
+        loadingExternal: false,
         incidentStatusList: [],
-        statusList
+        changeStatusOptionList
+      });
+    });
+
+    it('resets error and loadingExternal', () => {
+      expect(
+        incidentStatusContainerReducer(undefined, {
+          type: REQUEST_STATUS_CREATE,
+          payload: {
+            target_api: 'sigmax'
+          }
+        }).toJS()
+      ).toEqual({
+        error: false,
+        loading: false,
+        loadingExternal: true,
+        incidentStatusList: [],
+        changeStatusOptionList
       });
     });
   });
@@ -85,14 +109,28 @@ describe('incidentStatusContainerReducer', () => {
     it('sets status list and loading', () => {
       expect(
         incidentStatusContainerReducer(fromJS({
-          incidentStatusList: ['status 1', 'status 2']
+          incidentStatusList: [{ text: 'status 1' }, { text: 'status 2' }]
         }), {
           type: REQUEST_STATUS_CREATE_SUCCESS,
-          payload: 'status 3'
+          payload: { text: 'status 3' }
         }).toJS()
       ).toEqual({
         loading: false,
-        incidentStatusList: ['status 1', 'status 2', 'status 3']
+        incidentStatusList: [{ text: 'status 1' }, { text: 'status 2' }, { text: 'status 3' }]
+      });
+    });
+
+    it('sets status list and loadingExternal', () => {
+      expect(
+        incidentStatusContainerReducer(fromJS({
+          incidentStatusList: [{ text: 'status 1' }, { text: 'status 2' }]
+        }), {
+          type: REQUEST_STATUS_CREATE_SUCCESS,
+          payload: { text: 'status 3', target_api: 'sigmax' }
+        }).toJS()
+      ).toEqual({
+        loadingExternal: false,
+        incidentStatusList: [{ text: 'status 1' }, { text: 'status 2' }, { text: 'status 3', target_api: 'sigmax' }]
       });
     });
   });
@@ -107,8 +145,9 @@ describe('incidentStatusContainerReducer', () => {
       ).toEqual({
         error: true,
         loading: false,
+        loadingExternal: false,
         incidentStatusList: [],
-        statusList
+        changeStatusOptionList
       });
     });
   });

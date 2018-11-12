@@ -1,17 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
-import { FormattedMessage } from 'react-intl';
 import { NavLink } from 'react-router-dom';
 
-import messages from './messages';
 import './style.scss';
 import { makeSelectIsAuthenticated } from '../../containers/App/selectors';
+import { resetIncident } from '../../signals/incident/containers/IncidentContainer/actions';
 
 export class MainMenu extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+
+    this.resetIncident = this.resetIncident.bind(this);
+  }
+
+  resetIncident(e) {
+    e.stopPropagation();
+
+    this.props.resetIncident();
+  }
+
   render() {
     return (
       <div className="row main-menu-component no-print">
@@ -19,9 +30,9 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
           <nav>
             <ul className="links horizontal">
               <li>
-                <NavLink to="/">
+                <NavLink to="/" onClick={this.resetIncident}>
                   <span className="linklabel">
-                    <FormattedMessage {...messages.incident} />
+                    Nieuwe melding
                   </span>
                 </NavLink>
               </li>
@@ -29,7 +40,7 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
                 <li>
                   <NavLink to="/manage/incidents">
                     <span className="linklabel">
-                      <FormattedMessage {...messages.afhandelen} />
+                      Afhandelen
                     </span>
                   </NavLink>
                 </li> : ''
@@ -43,15 +54,19 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
 }
 
 MainMenu.propTypes = {
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
+  resetIncident: PropTypes.func
 };
 
-
-export const mapStateToProps = createStructuredSelector({
+const mapStateToProps = createStructuredSelector({
   isAuthenticated: makeSelectIsAuthenticated()
 });
 
-const withConnect = connect(mapStateToProps, null);
+export const mapDispatchToProps = (dispatch) => bindActionCreators({
+  resetIncident
+}, dispatch);
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(
   withConnect,

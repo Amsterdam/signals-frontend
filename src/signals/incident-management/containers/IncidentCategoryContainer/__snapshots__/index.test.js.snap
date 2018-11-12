@@ -7,10 +7,10 @@ exports[`<IncidentCategoryContainer /> should render correctly 1`] = `
   <div
     className="incident-edit-container"
   >
-    <Add
+    <Component
       id="1"
+      loading={false}
       onRequestCategoryUpdate={[MockFunction]}
-      subcategoryList={Array []}
     />
   </div>
 </div>

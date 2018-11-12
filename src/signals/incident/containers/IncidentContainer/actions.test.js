@@ -1,7 +1,8 @@
 import { testActionCreator } from '../../../../../internals/testing/test-utils';
 
 import {
-  SET_INCIDENT,
+  UPDATE_INCIDENT,
+  RESET_INCIDENT,
 
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
@@ -9,11 +10,16 @@ import {
 
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
-  GET_CLASSIFICATION_ERROR
+  GET_CLASSIFICATION_ERROR,
+
+  SET_PRIORITY,
+  SET_PRIORITY_SUCCESS,
+  SET_PRIORITY_ERROR
 } from './constants';
 
 import {
-  setIncident,
+  updateIncident,
+  resetIncident,
 
   createIncident,
   createIncidentSuccess,
@@ -21,7 +27,11 @@ import {
 
   getClassification,
   getClassificationSuccess,
-  getClassificationError
+  getClassificationError,
+
+  setPriority,
+  setPrioritySuccess,
+  setPriorityError
 } from './actions';
 
 describe('Incident container actions', () => {
@@ -30,8 +40,12 @@ describe('Incident container actions', () => {
     category: 'bar'
   };
 
-  it('should dispatch set incident action', () => {
-    testActionCreator(setIncident, SET_INCIDENT, incident);
+  it('should dispatch update incident action', () => {
+    testActionCreator(updateIncident, UPDATE_INCIDENT, incident);
+  });
+
+  it('should dispatch reset incident action', () => {
+    testActionCreator(resetIncident, RESET_INCIDENT);
   });
 
   it('should dispatch create incident action', () => {
@@ -68,5 +82,20 @@ describe('Incident container actions', () => {
       }
     };
     testActionCreator(getClassificationError, GET_CLASSIFICATION_ERROR, payload);
+  });
+
+  it('should dispatch set priority action', () => {
+    testActionCreator(setPriority, SET_PRIORITY, {
+      priority: 'normal',
+      _signal: 666
+    });
+  });
+
+  it('should dispatch set priority success action', () => {
+    testActionCreator(setPrioritySuccess, SET_PRIORITY_SUCCESS);
+  });
+
+  it('should dispatch set priority error action', () => {
+    testActionCreator(setPriorityError, SET_PRIORITY_ERROR);
   });
 });

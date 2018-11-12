@@ -2,8 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
-import { HeaderContainer } from './index';
-// import Event from ;
+import { HeaderContainer, mapDispatchToProps } from './index';
+import { LOGIN, LOGOUT } from '../App/constants';
 
 jest.mock('shared/services/auth/auth');
 
@@ -57,6 +57,20 @@ describe('<HeaderContainer />', () => {
       );
       expect(wrapper.instance().onLoginLogoutButtonClick(event));
       expect(props.onLogout).toHaveBeenCalled();
+    });
+  });
+
+  describe('mapDispatchToProps', () => {
+    const dispatch = jest.fn();
+
+    it('should log in', () => {
+      mapDispatchToProps(dispatch).onLogin('domain');
+      expect(dispatch).toHaveBeenCalledWith({ type: LOGIN, payload: 'domain' });
+    });
+
+    it('should log out', () => {
+      mapDispatchToProps(dispatch).onLogout();
+      expect(dispatch).toHaveBeenCalledWith({ type: LOGOUT, payload: null });
     });
   });
 });

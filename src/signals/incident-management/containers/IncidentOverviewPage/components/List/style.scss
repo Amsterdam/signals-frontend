@@ -11,4 +11,43 @@
     margin-bottom: 10px;
   }
 
+  &__table {
+    border-collapse: separate;
+
+    tr:hover td, td {
+      box-shadow: unset;
+    }
+  }
+
+  .sort {
+    display: flex;
+    align-items: center;
+    text-decoration: underline;
+
+    &-up:after {
+      display: -ms-flexbox;
+      height: 12px;
+      width: 12px;
+      margin: 5px;
+      content: ' ';
+      background-image: url('../../../../../../shared/images/icon-arrow.svg');
+      background-size: 12px 12px;
+      transform: rotate(-90deg);
+    }
+
+    &-down:after {
+      display: -ms-flexbox;
+      height: 12px;
+      width: 12px;
+      margin: 5px;
+      content: ' ';
+      background-image: url('../../../../../../shared/images/icon-arrow.svg');
+      background-size: 12px 12px;
+      transform: rotate(90deg);
+    }
+  }
+
+  .no-wrap {
+    white-space: nowrap;
+  }
 }

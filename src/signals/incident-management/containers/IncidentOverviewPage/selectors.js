@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 /**
  * Direct selector to the overviewPage state domain
  */
-const selectOverviewPageDomain = (state) => state.get('overviewPage');
+const selectOverviewPageDomain = (state) => state.get('incidentOverviewPage');
 
 /**
  * Other specific selectors
@@ -23,7 +23,7 @@ const makeSelectFilterParams = () => createSelector(
   selectOverviewPageDomain,
   (substate) => {
     const state = substate.toJS();
-    return { ...state.filter, page: state.page };
+    return { ...state.filter, page: state.page, ordering: state.sort };
   }
 );
 

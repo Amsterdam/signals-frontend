@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentNotesContainer /> should render correctly 1`] = `
+<div>
+  <div
+    className="incident-notes-container row"
+  >
+    <div
+      className="col-12"
+    >
+      <Add
+        error={false}
+        id="1"
+        loading={false}
+        loadingExternal={false}
+        onRequestNoteCreate={[MockFunction]}
+      />
+    </div>
+    <div
+      className="col-12"
+    >
+      <List
+        incidentNotesList={Array []}
+      />
+    </div>
+  </div>
+</div>
+`;

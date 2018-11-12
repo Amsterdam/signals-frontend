@@ -1,5 +1,89 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Form component <TextareaInput /> rendering should render character counter correctly 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="col-12 mode_input"
+  >
+    <Header
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
+      meta={
+        Object {
+          "isVisible": true,
+          "maxLength": 300,
+          "name": "input-field-name",
+          "placeholder": "type here",
+        }
+      }
+      touched={false}
+    >
+      <div
+        className="invoer"
+      >
+        <textarea
+          onBlur={[Function]}
+          placeholder="type here"
+        />
+        <div
+          className="input-help"
+        >
+          <span
+            className="text-area-input__counter"
+          >
+            0/300 tekens
+          </span>
+        </div>
+      </div>
+    </Header>
+  </div>
+</div>
+`;
+
+exports[`Form component <TextareaInput /> rendering should render character counter with value correctly 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="col-12 mode_input"
+  >
+    <Header
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
+      meta={
+        Object {
+          "isVisible": true,
+          "maxLength": 300,
+          "name": "input-field-name",
+          "placeholder": "type here",
+        }
+      }
+      touched={false}
+    >
+      <div
+        className="invoer"
+      >
+        <textarea
+          onBlur={[Function]}
+          placeholder="type here"
+        />
+        <div
+          className="input-help"
+        >
+          <span
+            className="text-area-input__counter"
+          >
+            4/300 tekens
+          </span>
+        </div>
+      </div>
+    </Header>
+  </div>
+</div>
+`;
+
 exports[`Form component <TextareaInput /> rendering should render no text area field when not visible 1`] = `
 <div
   className=""
@@ -29,7 +113,7 @@ exports[`Form component <TextareaInput /> rendering should render text area fiel
         className="invoer"
       >
         <textarea
-          onChange={[Function]}
+          onBlur={[Function]}
           placeholder="type here"
         />
       </div>
