@@ -12,7 +12,7 @@ export NODE_ENV=test
 rm -rf node_modules
 # No need to install Cypress for it is not being used here
 CYPRESS_SKIP_BINARY_INSTALL=1 npm install
-npm run build
+npm run build:acc
 
 echo Publish distribution in web-dir
 OUTDIR=/var/www/html/signals-frontend/builds/$1
