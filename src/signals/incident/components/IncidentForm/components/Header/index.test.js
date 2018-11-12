@@ -74,6 +74,14 @@ describe('Form component <Header />', () => {
       expect(wrapper).toMatchSnapshot();
     });
 
+    it('should render custom error', () => {
+      hasError.mockImplementation((type) => type === 'custom');
+      getError.mockImplementation(() => 'custom error message');
+      wrapper.setProps({ touched: true });
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
     it('should render optional field message', () => {
       wrapper.setProps({ options: { validators: [] } });
 
