@@ -307,6 +307,116 @@ describe('The format conditional form service', () => {
     });
   });
 
+  it('should show control according to the ifNoneOf', () => {
+    const controls = {
+      var_1: {
+        meta: {
+          ifNoneOf: {
+            category: 'bar'
+          }
+        }
+      },
+      var_2: {
+        meta: {
+          ifNoneOf: {
+            category: 'bar',
+            subcategory: 'foo'
+          }
+        }
+      },
+      var_3: {
+        meta: {
+          ifNoneOf: {
+            category: 'wrong'
+          }
+        }
+      },
+      var_4: {
+        meta: {
+          ifNoneOf: {
+            category: 'bar',
+            subcategory: 'wrong'
+          }
+        }
+      },
+      array_1: {
+        meta: {
+          ifNoneOf: {
+            category: ['bar']
+          },
+          isVisible: true,
+          name: 'array_1'
+        }
+      },
+      array_2: {
+        meta: {
+          ifNoneOf: {
+            category: ['incorrect', 'wrong']
+          },
+          isVisible: false,
+          name: 'array_2'
+        }
+      }
+    };
+
+    expect(
+      formatConditionalForm(
+        {
+          controls
+        },
+        {
+          category: 'bar',
+          subcategory: 'foo'
+        }
+      )
+    ).toEqual({
+      controls: {
+        var_1: {
+          meta: {
+            ...controls.var_1.meta,
+            isVisible: false,
+            name: 'var_1'
+          }
+        },
+        var_2: {
+          meta: {
+            ...controls.var_2.meta,
+            isVisible: false,
+            name: 'var_2'
+          }
+        },
+        var_3: {
+          meta: {
+            ...controls.var_3.meta,
+            isVisible: true,
+            name: 'var_3'
+          }
+        },
+        var_4: {
+          meta: {
+            ...controls.var_4.meta,
+            isVisible: false,
+            name: 'var_4'
+          }
+        },
+        array_1: {
+          meta: {
+            ...controls.array_1.meta,
+            isVisible: false,
+            name: 'array_1'
+          }
+        },
+        array_2: {
+          meta: {
+            ...controls.array_2.meta,
+            isVisible: true,
+            name: 'array_2'
+          }
+        }
+      }
+    });
+  });
+
   it('should show control according to the ifAllOf and isOneOf', () => {
     const controls = {
       var_1: {
