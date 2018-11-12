@@ -10,7 +10,7 @@ describe('My First Test', () => {
     cy.wait(500);
 
     cy.get('#nlmaps-geocoder-control-input')
-      .should('have.value', 'Marcantilaan 367, 1051NJ Amsterdam');
+      .should('have.value', 'Marcantilaan 368, 1051NJ Amsterdam');
 
     cy.get('textarea')
       .type('alweer die tering poep');
