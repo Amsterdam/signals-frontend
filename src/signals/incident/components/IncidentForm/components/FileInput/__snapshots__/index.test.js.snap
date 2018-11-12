@@ -70,6 +70,7 @@ exports[`Form component <FileInput /> rendering should render upload field with 
         <button
           className="file-input__button-delete link-functional delete"
           onClick={[Function]}
+          title="Verwijder upload foto"
         />
         <img
           alt="Preview uploaded foto"

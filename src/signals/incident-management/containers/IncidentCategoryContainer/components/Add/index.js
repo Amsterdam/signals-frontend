@@ -42,6 +42,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
                     display="Subcategorie"
                     control={this.categoryForm.get('sub_category')}
                     values={subcategoryList}
+                    sort
                     multiple={false}
                     emptyOptionText="Selecteer..."
                   />
