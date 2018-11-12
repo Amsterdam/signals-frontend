@@ -13,19 +13,19 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
           <table className="incident-history-container-list__body-list" cellSpacing="0" cellPadding="0">
             <thead>
               <tr>
-                <th className="">Datum</th>
-                <th className="">Tijd</th>
-                <th className="">Notitie</th>
+                <th className="">Wanneer</th>
+                <th className="">Wat</th>
+                <th className="">Omschrijving</th>
                 <th className="">Gebruiker</th>
               </tr>
             </thead>
             <tbody>
               {incidentHistoryList.map((item) => (
-                <tr key={item._links.self.href}>
-                  <td>{string2date(item.created_at)}</td>
-                  <td>{string2time(item.created_at)}</td>
-                  <td className="pre-wrap">{item.text}</td>
-                  <td>{item.created_by}</td>
+                <tr key={item.identifier}>
+                  <td>{string2date(item.when)} om {string2time(item.when)}</td>
+                  <td>{item.action}</td>
+                  <td>{item.description}</td>
+                  <td>{item.who}</td>
                 </tr>
               ))
               }
