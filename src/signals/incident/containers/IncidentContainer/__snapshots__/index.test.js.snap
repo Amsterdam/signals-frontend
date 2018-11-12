@@ -918,9 +918,8 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                   "ifAllOf": Object {
                     "subcategory": "straatverlichting-openbare-klok",
                   },
-                  "value": Array [
-                    "Dit type meldingen graag doorgeven.",
-                  ],
+                  "label": "Redirect naar",
+                  "value": "Dit type meldingen graag doorgeven.",
                 },
                 "render": [Function],
               },

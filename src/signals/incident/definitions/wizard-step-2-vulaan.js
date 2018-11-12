@@ -19,7 +19,8 @@ export default {
             subcategory:
               'straatverlichting-openbare-klok'
           },
-          value: ['Dit type meldingen graag doorgeven.'],
+          label: 'Redirect naar',
+          value: 'Dit type meldingen graag doorgeven.',
           buttonLabel: 'In dit formulier',
           buttonAction: 'https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx',
           // buttonTimeout: 5000
