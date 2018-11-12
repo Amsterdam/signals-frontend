@@ -22,9 +22,9 @@ node {
     }
 
     stage("Deploy Bakkie") {
-      when { not { branch "master" } }
+      when { not { branch 'master' } }
       options {
-        timeout(time: 5, unit: "MINUTES")
+        timeout(time: 5, unit: 'MINUTES')
       }
       steps {
         sh "scripts/bakkie.sh ${BRANCH_NAME}"
