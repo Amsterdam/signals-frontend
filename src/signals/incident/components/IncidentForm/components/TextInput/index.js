@@ -19,8 +19,9 @@ const TextInput = ({ handler, touched, hasError, meta, parent, setValue, getErro
               type={meta.type}
               placeholder={meta.placeholder}
               {...handler()}
-              onBlur={(e) => parent.meta.updateIncident({ [meta.name]: e.target.value })}
-              onKeyUp={(e) => (meta.autoRemove && setValue && setValue(e.target.value.replace(meta.autoRemove, '')))}
+              onBlur={(e) => parent.meta.updateIncident({
+                [meta.name]: meta.autoRemove && setValue ? e.target.value.replace(meta.autoRemove, '') : e.target.value
+              })}
             />
           </div>
         </Header>

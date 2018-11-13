@@ -18,8 +18,9 @@ const TextareaInput = ({ handler, touched, value, hasError, meta, parent, setVal
             <textarea
               placeholder={meta.placeholder}
               {...handler()}
-              onBlur={(e) => parent.meta.updateIncident({ [meta.name]: e.target.value })}
-              onKeyUp={(e) => (meta.autoRemove && setValue && setValue(e.target.value.replace(meta.autoRemove, '')))}
+              onBlur={(e) => parent.meta.updateIncident({
+                [meta.name]: meta.autoRemove && setValue ? e.target.value.replace(meta.autoRemove, '') : e.target.value
+              })}
             />
             { meta.maxLength &&
               <div className="input-help">

@@ -13,7 +13,8 @@ export default {
           subtitle: 'We mailen om u te vertellen wat we met uw melding doen en wanneer het klaar is.',
           path: 'reporter.email',
           placeholder: 'E-mailadres',
-          type: 'text'
+          type: 'text',
+          autoRemove: /[^a-zA-Z0-9@.!#$%&'*+\-/=?^_`{|}~;]/g
         },
         render: FormComponents.TextInput,
         options: {
