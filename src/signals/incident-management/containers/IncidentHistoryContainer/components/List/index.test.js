@@ -12,22 +12,37 @@ describe('<List />', () => {
       id: '1',
       incidentHistoryList: [
         {
-          _links: { self: { href: '3' } },
-          text: 'Note 1',
-          user: null,
-          created_at: '2018-07-13T11:48:45.555774+02:00'
-        },
-        {
-          _links: { self: { href: '910' } },
-          text: 'Note 2',
-          user: 'opleiding@amsterdam.nl',
-          created_at: '2018-07-27T14:53:19.394361+02:00'
-        },
-        {
-          _links: { self: { href: '911' } },
-          text: 'Note 3',
-          user: '',
-          created_at: '2018-07-27T14:53:35.989951+02:00'
+          identifier: 'UPDATE_STATUS_102798',
+          when: '2018-10-09T13:44:06.224531+02:00',
+          what: 'UPDATE_STATUS',
+          action: 'Update status naar: Afgehandeld',
+          description: 'bedankt voor uw melding we komen daar morgen voor grofvuil',
+          who: 'r.poelgeest@amsterdam.nl',
+          _signal: 1
+        }, {
+          identifier: 'UPDATE_PRIORITY_40551',
+          when: '2018-10-09T13:41:37.550617+02:00',
+          what: 'UPDATE_PRIORITY',
+          action: 'Prioriteit update naar: Normal',
+          description: null,
+          who: null,
+          _signal: 1
+        }, {
+          identifier: 'UPDATE_CATEGORY_ASSIGNMENT_67206',
+          when: '2018-10-09T13:41:00.574268+02:00',
+          what: 'UPDATE_CATEGORY_ASSIGNMENT',
+          action: 'Categorie gewijzigd naar: Grofvuil',
+          description: null,
+          who: null,
+          _signal: 1
+        }, {
+          identifier: 'UPDATE_LOCATION_40000',
+          when: '2018-10-09T13:41:00.551141+02:00',
+          what: 'UPDATE_LOCATION',
+          action: 'Locatie gewijzigd',
+          description: null,
+          who: null,
+          _signal: 1
         }
       ]
     };

@@ -17,17 +17,17 @@ exports[`<List /> should render correctly 1`] = `
           <th
             className=""
           >
-            Datum
+            Wanneer
           </th>
           <th
             className=""
           >
-            Tijd
+            Wat
           </th>
           <th
             className=""
           >
-            Notitie
+            Omschrijving
           </th>
           <th
             className=""
@@ -38,51 +38,71 @@ exports[`<List /> should render correctly 1`] = `
       </thead>
       <tbody>
         <tr
-          key="3"
+          key="UPDATE_STATUS_102798"
         >
           <td>
-            13-07-2018
+            09-10-2018
+             om 
+            13:44
           </td>
           <td>
-            11:48
+            Update status naar: Afgehandeld
           </td>
           <td
             className="pre-wrap"
           >
-            Note 1
+            bedankt voor uw melding we komen daar morgen voor grofvuil
           </td>
+          <td>
+            r.poelgeest@amsterdam.nl
+          </td>
+        </tr>
+        <tr
+          key="UPDATE_PRIORITY_40551"
+        >
+          <td>
+            09-10-2018
+             om 
+            13:41
+          </td>
+          <td>
+            Prioriteit update naar: Normal
+          </td>
+          <td
+            className="pre-wrap"
+          />
           <td />
         </tr>
         <tr
-          key="910"
+          key="UPDATE_CATEGORY_ASSIGNMENT_67206"
         >
           <td>
-            27-07-2018
+            09-10-2018
+             om 
+            13:41
           </td>
           <td>
-            14:53
+            Categorie gewijzigd naar: Grofvuil
           </td>
           <td
             className="pre-wrap"
-          >
-            Note 2
-          </td>
+          />
           <td />
         </tr>
         <tr
-          key="911"
+          key="UPDATE_LOCATION_40000"
         >
           <td>
-            27-07-2018
+            09-10-2018
+             om 
+            13:41
           </td>
           <td>
-            14:53
+            Locatie gewijzigd
           </td>
           <td
             className="pre-wrap"
-          >
-            Note 3
-          </td>
+          />
           <td />
         </tr>
       </tbody>
@@ -108,17 +128,17 @@ exports[`<List /> should render without list correctly 1`] = `
           <th
             className=""
           >
-            Datum
+            Wanneer
           </th>
           <th
             className=""
           >
-            Tijd
+            Wat
           </th>
           <th
             className=""
           >
-            Notitie
+            Omschrijving
           </th>
           <th
             className=""
