@@ -23,7 +23,7 @@ export function validateMaxFilesize(file, meta) {
   return null;
 }
 
-export const phoneNumberValidator = (control) => {
+export const validatePhoneNumber = (control) => {
   if (control.value === '' || RegExp('^[+]?[0-9-]+$').test(control.value)) {
     return null;
   }

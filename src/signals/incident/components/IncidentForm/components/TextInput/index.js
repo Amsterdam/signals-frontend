@@ -20,6 +20,7 @@ const TextInput = ({ handler, touched, hasError, meta, parent, getError, validat
               placeholder={meta.placeholder}
               {...handler()}
               onBlur={(e) => parent.meta.updateIncident({ [meta.name]: e.target.value })}
+              onKeyUp={(e) => (meta.autoRemove && parent.controls[meta.name].setValue(e.target.value.replace(meta.autoRemove, '')))}
             />
           </div>
         </Header>
