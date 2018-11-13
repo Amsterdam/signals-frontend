@@ -24,7 +24,6 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
       >
         <textarea
           onBlur={[Function]}
-          onKeyUp={[Function]}
           placeholder="type here"
           rows={6}
         />
@@ -65,7 +64,6 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
       >
         <textarea
           onBlur={[Function]}
-          onKeyUp={[Function]}
           placeholder="type here"
           rows={6}
         />
@@ -109,7 +107,6 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
       >
         <textarea
           onBlur={[Function]}
-          onKeyUp={[Function]}
           placeholder="type here"
           rows={6}
         />

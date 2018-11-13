@@ -98,13 +98,11 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
         }
       });
 
-      wrapper.find('textarea').simulate('keyup', event);
+      wrapper.find('textarea').simulate('blur', event);
+      expect(parent.meta.getClassification).toHaveBeenCalledWith('diabolo');
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': 'diabolo'
       });
-
-      wrapper.find('textarea').simulate('blur', event);
-      expect(parent.meta.getClassification).toHaveBeenCalledWith('diabolo');
     });
   });
 });
