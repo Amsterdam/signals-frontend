@@ -24,7 +24,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
                 <tr key={item.identifier}>
                   <td>{string2date(item.when)} om {string2time(item.when)}</td>
                   <td>{item.action}</td>
-                  <td>{item.description}</td>
+                  <td className="pre-wrap">{item.description}</td>
                   <td>{item.who}</td>
                 </tr>
               ))
