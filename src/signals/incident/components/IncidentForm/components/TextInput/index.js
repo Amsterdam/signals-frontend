@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Header from '../Header/';
 
-const TextInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => (
+const TextInput = ({ handler, touched, hasError, meta, parent, setValue, getError, validatorsOrOpts }) => (
   <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
     {meta && meta.isVisible ?
       <div className={`${meta.className || 'col-12'} mode_input`}>
@@ -20,7 +20,7 @@ const TextInput = ({ handler, touched, hasError, meta, parent, getError, validat
               placeholder={meta.placeholder}
               {...handler()}
               onBlur={(e) => parent.meta.updateIncident({ [meta.name]: e.target.value })}
-              onKeyUp={(e) => (meta.autoRemove && parent.controls[meta.name].setValue(e.target.value.replace(meta.autoRemove, '')))}
+              onKeyUp={(e) => (meta.autoRemove && setValue && setValue(e.target.value.replace(meta.autoRemove, '')))}
             />
           </div>
         </Header>
@@ -35,6 +35,7 @@ TextInput.propTypes = {
   hasError: PropTypes.func,
   meta: PropTypes.object,
   parent: PropTypes.object,
+  setValue: PropTypes.func,
   getError: PropTypes.func,
   validatorsOrOpts: PropTypes.object
 };

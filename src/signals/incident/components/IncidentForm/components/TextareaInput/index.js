@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Header from '../Header/';
 
-const TextareaInput = ({ handler, touched, value, hasError, meta, parent, getError, validatorsOrOpts }) => (
+const TextareaInput = ({ handler, touched, value, hasError, meta, parent, setValue, getError, validatorsOrOpts }) => (
   <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
     {meta && meta.isVisible ?
       <div className={`${meta.className || 'col-12'} mode_input`}>
@@ -19,6 +19,7 @@ const TextareaInput = ({ handler, touched, value, hasError, meta, parent, getErr
               placeholder={meta.placeholder}
               {...handler()}
               onBlur={(e) => parent.meta.updateIncident({ [meta.name]: e.target.value })}
+              onKeyUp={(e) => (meta.autoRemove && setValue && setValue(e.target.value.replace(meta.autoRemove, '')))}
             />
             { meta.maxLength &&
               <div className="input-help">
@@ -41,6 +42,7 @@ TextareaInput.propTypes = {
   hasError: PropTypes.func,
   meta: PropTypes.object,
   parent: PropTypes.object,
+  setValue: PropTypes.func,
   getError: PropTypes.func,
   validatorsOrOpts: PropTypes.object
 };
