@@ -51,7 +51,9 @@ class IncidentForm extends React.Component {
         } else {
           control.disable();
         }
-        control.setValue(incident[key]);
+        if (!control.meta.doNotUpdateValue) {
+          control.setValue(incident[key]);
+        }
         return true;
       });
     });
