@@ -39,10 +39,10 @@ class IncidentForm extends React.Component {
       createIncident: this.props.createIncident
     };
 
-    this.setValues(incidentContainer.incident);
+    this.setValues(incidentContainer.incident, true);
   }
 
-  setValues(incident) {
+  setValues(incident, setAllValues) {
     defer(() => {
       Object.keys(this.form.controls).map((key) => {
         const control = this.form.controls[key];
@@ -51,7 +51,7 @@ class IncidentForm extends React.Component {
         } else {
           control.disable();
         }
-        if (!control.meta.doNotUpdateValue) {
+        if (!control.meta.doNotUpdateValue || setAllValues) {
           control.setValue(incident[key]);
         }
         return true;
