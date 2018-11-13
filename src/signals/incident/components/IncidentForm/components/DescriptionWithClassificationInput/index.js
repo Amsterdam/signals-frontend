@@ -5,11 +5,8 @@ import Header from '../Header/';
 
 import './style.scss';
 
-function getClassification(e, parent) {
+function get(e, meta, parent) {
   parent.meta.getClassification(e.target.value);
-}
-
-function updateIncident(e, meta, parent) {
   parent.meta.updateIncident({ [meta.name]: e.target.value });
 }
 
@@ -30,8 +27,7 @@ const DescriptionWithClassificationInput = ({ handler, touched, value, hasError,
               rows={meta.rows || 6}
               placeholder={meta.placeholder}
               {...handler()}
-              onBlur={(e) => getClassification(e, parent)}
-              onKeyUp={(e) => updateIncident(e, meta, parent)}
+              onBlur={(e) => get(e, meta, parent)}
             />
             { meta.maxLength &&
               <div className="input-help">
