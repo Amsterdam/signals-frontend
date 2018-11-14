@@ -337,6 +337,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
               "description": Object {
                 "meta": Object {
+                  "doNotUpdateValue": true,
                   "label": "Waar gaat het om?",
                   "maxLength": 1000,
                   "path": "text",

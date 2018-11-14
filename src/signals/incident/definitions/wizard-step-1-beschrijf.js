@@ -74,7 +74,8 @@ export default {
           label: 'Waar gaat het om?',
           path: 'text',
           placeholder: 'Beschrijf uw melding',
-          maxLength: 1000
+          maxLength: 1000,
+          doNotUpdateValue: true
         },
         options: {
           validators: [
