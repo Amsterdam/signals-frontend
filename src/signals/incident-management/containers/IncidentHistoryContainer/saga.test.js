@@ -2,7 +2,7 @@ import { all, put, takeLatest } from 'redux-saga/effects';
 
 import { REQUEST_HISTORY_LIST } from './constants';
 import { requestHistoryListError, requestHistoryListSuccess } from './actions';
-import watchRequestIncidentSaga, { baseUrl, fetchIncidentHistoryList } from './saga';
+import watchRequestIncidentSaga, { fetchIncidentHistoryList } from './saga';
 import { authCall } from '../../../../shared/services/api/api';
 
 jest.mock('shared/services/api/api');
@@ -27,19 +27,17 @@ describe('IncidentHistoryContainer saga', () => {
   });
 
   it('should fetchIncidentHistoryList success', () => {
-    const requestURL = `${baseUrl}`;
-    const note = { note: 'Note 1' };
-    const updatedNote = { note: 'Note 1' };
-    const action = { payload: note };
+    const list = { results: [], count: 55 };
+    const action = { payload: 42 };
 
     const gen = fetchIncidentHistoryList(action);
-    expect(gen.next().value).toEqual(authCall(requestURL, note)); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next(note).value).toEqual(put(requestHistoryListSuccess(updatedNote))); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(authCall()); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next(list).value).toEqual(put(requestHistoryListSuccess(list))); // eslint-disable-line redux-saga/yield-effects
+    gen.next();
   });
 
   it('should fetchIncidentHistoryList error', () => {
-    const signalId = 1000;
-    const action = { payload: { _signal__id: signalId } };
+    const action = { payload: 42 };
     const error = new Error('404 Not Found');
 
     const gen = fetchIncidentHistoryList(action);
