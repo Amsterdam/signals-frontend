@@ -28,7 +28,6 @@ describe('The format conditional form service', () => {
         description: {
           meta: {
             ...controls.description.meta,
-            // foo: 'bar',
             isVisible: true,
             name: 'description'
           }
