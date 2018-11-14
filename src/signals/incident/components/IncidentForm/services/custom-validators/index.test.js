@@ -1,4 +1,4 @@
-import { validateFileType, validateMaxFilesize } from './index';
+import { validateFileType, validateMaxFilesize, validatePhoneNumber } from './index';
 
 describe('The costom validators service', () => {
   describe('should validate file type', () => {
@@ -53,6 +53,44 @@ describe('The costom validators service', () => {
 
     it('with empty value', () => {
       expect(validateMaxFilesize()).toEqual(null);
+    });
+  });
+
+  describe('should validate telephone number', () => {
+    const meta = {
+      maxFileSize: 8388608
+    };
+
+    it('with correct telephone number', () => {
+      const control = {
+        value: '+3120-6793793'
+      };
+
+      expect(validatePhoneNumber(control, meta)).toEqual(null);
+    });
+
+    it('with incorrect telephone number with letter', () => {
+      const file = {
+        value: '+3120-6a'
+      };
+
+      expect(validatePhoneNumber(file, meta)).toEqual({
+        custom: 'Ongeldig telefoonnummer, alleen cijfers, + en - zijn toegestaan.'
+      });
+    });
+
+    it('with incorrect telephone number with space', () => {
+      const file = {
+        value: '+3120-6 '
+      };
+
+      expect(validatePhoneNumber(file, meta)).toEqual({
+        custom: 'Ongeldig telefoonnummer, alleen cijfers, + en - zijn toegestaan.'
+      });
+    });
+
+    it('with empty value', () => {
+      expect(validatePhoneNumber()).toEqual(null);
     });
   });
 });

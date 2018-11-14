@@ -20,6 +20,7 @@ export default {
   },
   category: 'Overlast Bedrijven en Horeca',
   subcategory: 'Geluidsoverlast installaties',
+  subcategory_link: 'https://api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/geluidsoverlast-installaties',
   description: 'geluid',
   phone: '020654321',
   email: 'a@b.com',
