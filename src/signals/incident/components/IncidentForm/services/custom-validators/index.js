@@ -22,3 +22,10 @@ export function validateMaxFilesize(file, meta) {
   }
   return null;
 }
+
+export const validatePhoneNumber = (control) => {
+  if (!control || control.value === '' || RegExp('^[+]?[0-9-]+$').test(control.value)) {
+    return null;
+  }
+  return { custom: 'Ongeldig telefoonnummer, alleen cijfers, + en - zijn toegestaan.' };
+};
