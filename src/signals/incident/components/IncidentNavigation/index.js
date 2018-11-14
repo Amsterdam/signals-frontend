@@ -18,7 +18,7 @@ const IncidentNavigation = ({ valid, controls, meta: { handleSubmit } }) => {
       <WithWizard
         render={({ next, previous, step, steps }) => (
           <div className="incident-navigation">
-            {findIndex(steps, step) > 0 ? (
+            {showSubmit && findIndex(steps, step) > 0 ? (
               <button className="incident-navigation__button action startagain" onClick={previous}>
                 Vorige
               </button>

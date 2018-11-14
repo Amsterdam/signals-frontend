@@ -23,7 +23,7 @@ export default {
           value: 'Voor meldingen over openbare verlichting, klokken en verkeerslichten is een apart formulier beschikbaar',
           buttonLabel: 'Meteen doorgaan',
           buttonAction: 'https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx',
-          // buttonTimeout: 5000
+          buttonTimeout: 5000
         },
         render: FormComponents.RedirectButton
       },
