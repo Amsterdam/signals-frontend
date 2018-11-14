@@ -246,12 +246,7 @@ exports[`<IncidentNavigation /> rendering render correctly second step when subm
 <div
   className="incident-navigation"
 >
-  <button
-    className="incident-navigation__button action startagain"
-    onClick={[MockFunction]}
-  >
-    Vorige
-  </button>
+  <span />
 </div>
 `;
 

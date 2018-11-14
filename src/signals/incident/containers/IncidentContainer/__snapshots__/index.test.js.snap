@@ -919,6 +919,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 "meta": Object {
                   "buttonAction": "https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx",
                   "buttonLabel": "Meteen doorgaan",
+                  "buttonTimeout": 5000,
                   "ifAllOf": Object {
                     "subcategory": "straatverlichting-openbare-klok",
                   },
