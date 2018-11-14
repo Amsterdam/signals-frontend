@@ -118,7 +118,7 @@ exports[`Form component <RedirectButton /> rendering should render redirect butt
       <div
         className="redirect-button__box-p"
       >
-        U wordt automatisch doorgestuurd binnen 
+        U wordt automatisch doorgestuurd naar het juiste formulier over 
         0.1
          seconden.
       </div>

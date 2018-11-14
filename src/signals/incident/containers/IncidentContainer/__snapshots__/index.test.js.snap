@@ -918,12 +918,12 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               "redirect_to_kim": Object {
                 "meta": Object {
                   "buttonAction": "https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx",
-                  "buttonLabel": "In dit formulier",
+                  "buttonLabel": "Meteen doorgaan",
                   "ifAllOf": Object {
                     "subcategory": "straatverlichting-openbare-klok",
                   },
                   "label": "Redirect naar",
-                  "value": "Dit type meldingen graag doorgeven.",
+                  "value": "Voor meldingen over openbare verlichting, klokken en verkeerslichten is een apart formulier beschikbaar",
                 },
                 "render": [Function],
               },
