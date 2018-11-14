@@ -15,6 +15,14 @@ const mockForm = {
         isVisible: true
       }
     },
+    email: {
+      meta: {
+        label: 'Wat is uw email?',
+        type: 'text',
+        doNotUpdateValue: true,
+        isVisible: true
+      }
+    },
     extra_boten_geluid_meer: {
       meta: {
         label: 'Zijn er nog dingen die u ons nog meer kunt vertellen?',
@@ -26,6 +34,9 @@ const mockForm = {
 
 describe('<IncidentForm />', () => {
   let props;
+  let wrapper;
+  let instance;
+  let spy;
 
   beforeEach(() => {
     props = {
@@ -44,6 +55,14 @@ describe('<IncidentForm />', () => {
 
     formatConditionalForm.mockImplementation(() => mockForm);
     jest.useFakeTimers();
+
+    wrapper = mount(
+      <IncidentForm {...props} />
+    );
+
+    instance = wrapper.instance();
+
+    spy = jest.spyOn(instance, 'setValues');
   });
 
   afterEach(() => {
@@ -53,19 +72,11 @@ describe('<IncidentForm />', () => {
 
   describe('rendering', () => {
     it('expect to render correctly', () => {
-      const wrapper = mount(
-        <IncidentForm {...props} />
-      );
-
       expect(wrapper).toMatchSnapshot();
     });
 
     it('expect to render correctly when form vars have changed', () => {
-      const wrapper = mount(
-        <IncidentForm {...props} />
-      );
-
-      wrapper.setProps({
+      const incidentContainer = {
         incident: {
           phone: '06987654321',
           extra_boten_geluid_meer: 'Ja! Wat een teringzooi hier',
@@ -73,26 +84,22 @@ describe('<IncidentForm />', () => {
           extra_personen_overig_vaker: true,
           priority: 'high',
         }
-      });
+      };
+      wrapper.setProps({ incidentContainer });
 
       expect(wrapper).toMatchSnapshot();
+      expect(spy).toHaveBeenCalledWith(incidentContainer.incident);
     });
   });
 
   describe('events', () => {
     it('submit of normal step should update incident data', () => {
-      const wrapper = mount(
-        <IncidentForm {...props} />
-      );
       wrapper.find('form').simulate('submit', { preventDefault: jest.fn(), stepId: 'incident/beschrijf' });
 
       expect(props.updateIncident).toHaveBeenCalled();
     });
 
     it('submit of samenvatting step should create an incident', () => {
-      const wrapper = mount(
-        <IncidentForm {...props} />
-      );
       wrapper.find('form').simulate('submit', { preventDefault: jest.fn(), stepId: 'incident/samenvatting' });
 
       expect(props.createIncident).toHaveBeenCalled();

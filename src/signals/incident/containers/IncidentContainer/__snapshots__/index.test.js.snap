@@ -337,6 +337,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
               "description": Object {
                 "meta": Object {
+                  "doNotUpdateValue": true,
                   "label": "Waar gaat het om?",
                   "maxLength": 1000,
                   "path": "text",
@@ -490,6 +491,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
               "email": Object {
                 "meta": Object {
+                  "autoRemove": /\\[\\^a-zA-Z0-9@\\.!#\\$%&'\\*\\+\\\\-\\\\/=\\?\\^_\`\\{\\|\\}~;\\]/g,
                   "label": "Wat is uw e-mailadres?",
                   "path": "reporter.email",
                   "placeholder": "E-mailadres",
@@ -604,6 +606,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
               "phone": Object {
                 "meta": Object {
+                  "autoRemove": /\\[\\^\\\\d\\+-\\]/g,
                   "label": "Wat is uw telefoonnummer?",
                   "path": "reporter.phone",
                   "placeholder": "Telefoonnummer",
@@ -612,6 +615,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
                 "options": Object {
                   "validators": Array [
+                    [Function],
                     [Function],
                   ],
                 },
