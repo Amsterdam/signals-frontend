@@ -13,8 +13,20 @@ export default {
         },
         render: FormComponents.PlainText
       },
-
-
+      redirect_to_kim: {
+        meta: {
+          ifAllOf: {
+            subcategory:
+              'straatverlichting-openbare-klok'
+          },
+          label: 'Redirect naar',
+          value: 'Voor meldingen over openbare verlichting, klokken en verkeerslichten is een apart formulier beschikbaar',
+          buttonLabel: 'Meteen doorgaan',
+          buttonAction: 'https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx',
+          buttonTimeout: 5000
+        },
+        render: FormComponents.RedirectButton
+      },
       extra_personen_overig: {
         meta: {
           className: 'col-sm-12 col-md-6',
@@ -277,6 +289,13 @@ export default {
           }
         },
         render: FormComponents.TextareaInput
+      },
+      navigation_submit_button: {
+        meta: {
+          ifNoneOf: {
+            subcategory: 'straatverlichting-openbare-klok'
+          }
+        }
       },
       $field_0: {
         isStatic: false,

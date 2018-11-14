@@ -24,6 +24,14 @@ const formatConditionalForm = (form, incident, isAuthenticated) => {
           }
         }
 
+        if (control.meta.ifNoneOf) {
+          if (!every(control.meta.ifNoneOf, (value, key) =>
+            !Array.isArray(value) ? !isEqual(value, incident[key]) :
+              every(value, (v) => !isEqual(v, incident[key])))) {
+            isVisible = false;
+          }
+        }
+
         if (control.authenticated) {
           isVisible = isVisible && isAuthenticated;
         }

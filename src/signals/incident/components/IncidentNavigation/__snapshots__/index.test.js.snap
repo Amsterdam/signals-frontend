@@ -24,6 +24,7 @@ exports[`<IncidentNavigation /> rendering render correctly first step with one b
   render={null}
 >
   <IncidentNavigation
+    controls={Object {}}
     meta={
       Object {
         "handleSubmit": [MockFunction],
@@ -60,71 +61,6 @@ exports[`<IncidentNavigation /> rendering render correctly first step with one b
 </div>
 `;
 
-exports[`<IncidentNavigation /> rendering render correctly first step with two buttons: previous and next 1`] = `
-<Wizard
-  basename=""
-  history={
-    Object {
-      "listen": [MockFunction] {
-        "calls": Array [
-          Array [
-            [Function],
-          ],
-        ],
-        "results": Array [
-          Object {
-            "isThrow": false,
-            "value": undefined,
-          },
-        ],
-      },
-    }
-  }
-  onNext={null}
-  render={null}
->
-  <IncidentNavigation
-    meta={
-      Object {
-        "handleSubmit": [MockFunction],
-      }
-    }
-    valid={true}
-  >
-    <span>
-      <WithWizard
-        render={[Function]}
-      >
-        <div
-          className="incident-navigation"
-        >
-          <span />
-        </div>
-      </WithWizard>
-    </span>
-  </IncidentNavigation>
-</Wizard>
-`;
-
-exports[`<IncidentNavigation /> rendering render correctly first step with two buttons: previous and next 2`] = `
-<div
-  className="incident-navigation"
->
-  <button
-    className="incident-navigation__button action startagain"
-    onClick={[MockFunction]}
-  >
-    Vorige
-  </button>
-  <button
-    className="incident-navigation__button action primary arrow-right"
-    onClick={[Function]}
-  >
-    Volgende
-  </button>
-</div>
-`;
-
 exports[`<IncidentNavigation /> rendering render correctly last step with one button: previous 1`] = `
 <Wizard
   basename=""
@@ -149,6 +85,7 @@ exports[`<IncidentNavigation /> rendering render correctly last step with one bu
   render={null}
 >
   <IncidentNavigation
+    controls={Object {}}
     meta={
       Object {
         "handleSubmit": [MockFunction],
@@ -208,6 +145,7 @@ exports[`<IncidentNavigation /> rendering render correctly last step with two bu
   render={null}
 >
   <IncidentNavigation
+    controls={Object {}}
     meta={
       Object {
         "handleSubmit": [MockFunction],
@@ -249,6 +187,69 @@ exports[`<IncidentNavigation /> rendering render correctly last step with two bu
 </div>
 `;
 
+exports[`<IncidentNavigation /> rendering render correctly second step when submit button is suppressed with one button: previous 1`] = `
+<Wizard
+  basename=""
+  history={
+    Object {
+      "listen": [MockFunction] {
+        "calls": Array [
+          Array [
+            [Function],
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      },
+    }
+  }
+  onNext={null}
+  render={null}
+>
+  <IncidentNavigation
+    controls={
+      Object {
+        "navigation_submit_button": Object {
+          "meta": Object {
+            "isVisible": false,
+          },
+        },
+      }
+    }
+    meta={
+      Object {
+        "handleSubmit": [MockFunction],
+      }
+    }
+    valid={true}
+  >
+    <span>
+      <WithWizard
+        render={[Function]}
+      >
+        <div
+          className="incident-navigation"
+        >
+          <span />
+        </div>
+      </WithWizard>
+    </span>
+  </IncidentNavigation>
+</Wizard>
+`;
+
+exports[`<IncidentNavigation /> rendering render correctly second step when submit button is suppressed with one button: previous 2`] = `
+<div
+  className="incident-navigation"
+>
+  <span />
+</div>
+`;
+
 exports[`<IncidentNavigation /> rendering render correctly second step with two buttons: previous and next 1`] = `
 <Wizard
   basename=""
@@ -273,6 +274,7 @@ exports[`<IncidentNavigation /> rendering render correctly second step with two 
   render={null}
 >
   <IncidentNavigation
+    controls={Object {}}
     meta={
       Object {
         "handleSubmit": [MockFunction],
