@@ -22,7 +22,7 @@ const RedirectButton = ({ meta }) => (
           ))}
 
           {meta.buttonTimeout ? redirect(meta.buttonAction, meta.buttonTimeout) : ''}
-          {meta.buttonTimeout ? <div className="redirect-button__box-p">U wordt automatisch doorgestuurd binnen {meta.buttonTimeout / 1000} seconden.</div> : ''}
+          {meta.buttonTimeout ? <div className="redirect-button__box-p">U wordt automatisch doorgestuurd naar het juiste formulier over {meta.buttonTimeout / 1000} seconden.</div> : ''}
 
           <div>
             <a href={meta.buttonAction} className="action primary">{meta.buttonLabel}</a>

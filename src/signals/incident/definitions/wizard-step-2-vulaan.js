@@ -20,8 +20,8 @@ export default {
               'straatverlichting-openbare-klok'
           },
           label: 'Redirect naar',
-          value: 'Dit type meldingen graag doorgeven.',
-          buttonLabel: 'In dit formulier',
+          value: 'Voor meldingen over openbare verlichting, klokken en verkeerslichten is een apart formulier beschikbaar',
+          buttonLabel: 'Meteen doorgaan',
           buttonAction: 'https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx',
           // buttonTimeout: 5000
         },
