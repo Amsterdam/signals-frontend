@@ -79,5 +79,21 @@ describe('Form component <TextInput />', () => {
         'input-field-name': 'diabolo'
       });
     });
+
+    it('sets incident when value changes and removed unwanted characters', () => {
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          autoRemove: /[dbl]*/g,
+          isVisible: true
+        }
+      });
+
+      wrapper.find('input').simulate('blur', event);
+
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name': 'iaoo'
+      });
+    });
   });
 });
