@@ -14,7 +14,7 @@ export default {
           path: 'reporter.phone',
           placeholder: 'Telefoonnummer',
           type: 'text',
-          autoRemove: /[^\d+-]/g
+          autoRemove: /[^ ()\d+-]/g
         },
         render: FormComponents.TextInput,
         options: {

@@ -57,13 +57,14 @@ describe('The costom validators service', () => {
   });
 
   describe('should validate telephone number', () => {
+    const error = 'Ongeldig telefoonnummer, alleen cijfers, spaties, haakjes, + en - zijn toegestaan.';
     const meta = {
       maxFileSize: 8388608
     };
 
     it('with correct telephone number', () => {
       const control = {
-        value: '+3120-6793793'
+        value: '+31 (20) 6793-793'
       };
 
       expect(validatePhoneNumber(control, meta)).toEqual(null);
@@ -83,17 +84,17 @@ describe('The costom validators service', () => {
       };
 
       expect(validatePhoneNumber(file, meta)).toEqual({
-        custom: 'Ongeldig telefoonnummer, alleen cijfers, + en - zijn toegestaan.'
+        custom: error
       });
     });
 
-    it('with incorrect telephone number with space', () => {
+    it('with incorrect telephone number with incorrect chars', () => {
       const file = {
-        value: '+3120-6 '
+        value: '+3120-6 *&'
       };
 
       expect(validatePhoneNumber(file, meta)).toEqual({
-        custom: 'Ongeldig telefoonnummer, alleen cijfers, + en - zijn toegestaan.'
+        custom: error
       });
     });
 
