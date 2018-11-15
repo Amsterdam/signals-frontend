@@ -32,13 +32,11 @@ describe('incidentHistoryContainerReducer', () => {
       expect(
         incidentHistoryContainerReducer(undefined, {
           type: REQUEST_HISTORY_LIST_SUCCESS,
-          payload: {
-            results: ['Note 1', 'Note 2']
-          }
+          payload: ['history 1', 'history 2']
         }).toJS()
       ).toEqual({
         loading: false,
-        incidentHistoryList: ['Note 1', 'Note 2']
+        incidentHistoryList: ['history 1', 'history 2']
       });
     });
   });

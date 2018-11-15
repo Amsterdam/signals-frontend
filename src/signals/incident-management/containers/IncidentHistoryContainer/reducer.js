@@ -20,7 +20,7 @@ function incidentHistoryContainerReducer(state = initialState, action) {
 
     case REQUEST_HISTORY_LIST_SUCCESS:
       return state
-        .set('incidentHistoryList', action.payload.results)
+        .set('incidentHistoryList', fromJS(action.payload))
         .set('loading', false);
 
     case REQUEST_HISTORY_LIST_ERROR:
