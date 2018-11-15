@@ -27,8 +27,8 @@ import IncidentCategoryContainer from '../IncidentCategoryContainer';
 import IncidentPriorityContainer from '../IncidentPriorityContainer';
 import IncidentStatusContainer from '../IncidentStatusContainer';
 import IncidentNotesContainer from '../IncidentNotesContainer';
+import IncidentHistoryContainer from '../IncidentHistoryContainer';
 import PrintLayout from './components/PrintLayout';
-
 
 export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -39,7 +39,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   state = {
-    selectedTab: 0,
+    selectedTab: 'status',
     printView: false
   };
 
@@ -59,14 +59,14 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   render() {
     const { incident, incidentNotesList, stadsdeelList, priorityList } = this.props.incidentdetailpage;
     const { selectedTab } = this.state;
-    const tabs = [
-      { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
-      { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
-      { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
-      { name: 'Notities', value: <IncidentNotesContainer id={this.props.id} />, count: incident && incident.notes_count },
-      { name: 'Foto', value: <img src={incident && incident.image ? incident.image : ''} alt={''} className="incident-detail-page__image--max-width" /> },
-    ];
-    const visibleTabs = tabs.filter((tab) => tab.name === 'Foto' ? (incident && incident.image) : true);
+    const tabs = {
+      status: { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
+      priority: { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
+      category: { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
+      notes: { name: 'Notities', value: <IncidentNotesContainer id={this.props.id} />, count: incident && incident.notes_count },
+      image: incident && incident.image ? { name: 'Foto', value: <img src={incident.image} alt={''} className="incident-detail-page__image--max-width" /> } : undefined,
+      history: { name: 'Historie', value: <IncidentHistoryContainer id={this.props.id} /> }
+    };
 
     const view = this.state.printView ? (
       <PrintLayout
@@ -102,7 +102,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
             <Tabs
               onTabChanged={this.onTabChanged}
               selectedTab={selectedTab}
-              tabs={visibleTabs}
+              tabs={tabs}
             />
           </div>
 

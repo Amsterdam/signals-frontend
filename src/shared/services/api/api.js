@@ -30,9 +30,7 @@ export function* authCall(url, params, authorizationToken) {
     headers
   };
 
-  const fullUrl = `${url}/${params ? `?${generateParams(params)}` : ''}`;
-  // console.log('fullUrl', fullUrl);
-  // console.log(options);
+  const fullUrl = `${url}${params ? `/?${generateParams(params)}` : ''}`;
   return yield call(request, fullUrl, options);
 }
 
@@ -53,8 +51,5 @@ export function* authPostCall(url, params) {
   };
 
   const fullUrl = `${url}`;
-  // console.log(fullUrl);
-  // console.log(options);
   return yield call(request, fullUrl, options);
 }
-

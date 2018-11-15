@@ -145,35 +145,42 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
   >
     <Tabs
       onTabChanged={[Function]}
-      selectedTab={0}
+      selectedTab="status"
       tabs={
-        Array [
-          Object {
-            "name": "Status",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Urgentie",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
+        Object {
+          "category": Object {
             "name": "Subcategorie",
             "value": <Unknown
               id="100"
             />,
           },
-          Object {
+          "history": Object {
+            "name": "Historie",
+            "value": <withReducer(withSaga(Connect(IncidentHistoryContainer)))
+              id="100"
+            />,
+          },
+          "image": undefined,
+          "notes": Object {
             "count": undefined,
             "name": "Notities",
             "value": <Unknown
               id="100"
             />,
           },
-        ]
+          "priority": Object {
+            "name": "Urgentie",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+          "status": Object {
+            "name": "Status",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+        }
       }
     />
   </div>
@@ -283,35 +290,22 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
   >
     <Tabs
       onTabChanged={[Function]}
-      selectedTab={0}
+      selectedTab="status"
       tabs={
-        Array [
-          Object {
-            "name": "Status",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Urgentie",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
+        Object {
+          "category": Object {
             "name": "Subcategorie",
             "value": <Unknown
               id="100"
             />,
           },
-          Object {
-            "count": undefined,
-            "name": "Notities",
-            "value": <Unknown
+          "history": Object {
+            "name": "Historie",
+            "value": <withReducer(withSaga(Connect(IncidentHistoryContainer)))
               id="100"
             />,
           },
-          Object {
+          "image": Object {
             "name": "Foto",
             "value": <img
               alt=""
@@ -319,7 +313,26 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
               src="some-image"
             />,
           },
-        ]
+          "notes": Object {
+            "count": undefined,
+            "name": "Notities",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+          "priority": Object {
+            "name": "Urgentie",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+          "status": Object {
+            "name": "Status",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+        }
       }
     />
   </div>
@@ -434,35 +447,42 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
   >
     <Tabs
       onTabChanged={[Function]}
-      selectedTab={0}
+      selectedTab="status"
       tabs={
-        Array [
-          Object {
-            "name": "Status",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Urgentie",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
+        Object {
+          "category": Object {
             "name": "Subcategorie",
             "value": <Unknown
               id="100"
             />,
           },
-          Object {
+          "history": Object {
+            "name": "Historie",
+            "value": <withReducer(withSaga(Connect(IncidentHistoryContainer)))
+              id="100"
+            />,
+          },
+          "image": undefined,
+          "notes": Object {
             "count": undefined,
             "name": "Notities",
             "value": <Unknown
               id="100"
             />,
           },
-        ]
+          "priority": Object {
+            "name": "Urgentie",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+          "status": Object {
+            "name": "Status",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+        }
       }
     />
   </div>
@@ -517,35 +537,42 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
   >
     <Tabs
       onTabChanged={[Function]}
-      selectedTab={0}
+      selectedTab="status"
       tabs={
-        Array [
-          Object {
-            "name": "Status",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Urgentie",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
+        Object {
+          "category": Object {
             "name": "Subcategorie",
             "value": <Unknown
               id="100"
             />,
           },
-          Object {
+          "history": Object {
+            "name": "Historie",
+            "value": <withReducer(withSaga(Connect(IncidentHistoryContainer)))
+              id="100"
+            />,
+          },
+          "image": undefined,
+          "notes": Object {
             "count": undefined,
             "name": "Notities",
             "value": <Unknown
               id="100"
             />,
           },
-        ]
+          "priority": Object {
+            "name": "Urgentie",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+          "status": Object {
+            "name": "Status",
+            "value": <Unknown
+              id="100"
+            />,
+          },
+        }
       }
     />
   </div>

@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentHistoryContainer /> should render correctly 1`] = `
+<div>
+  <div
+    className="incident-history-container row"
+  >
+    <div
+      className="col-12"
+    >
+      <List
+        incidentHistoryList={
+          Array [
+            Object {
+              "state": "m",
+            },
+          ]
+        }
+      />
+    </div>
+  </div>
+</div>
+`;

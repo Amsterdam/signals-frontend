@@ -12,7 +12,7 @@ jest.mock('containers/App/selectors', () => {
   });
 });
 
-describe('api service', () => {
+describe('api  service', () => {
   let params;
   const queryString = 'name1=value1&name2=value2&value3=foo&value3=bar';
   const url = 'https://url/to/test';
@@ -67,7 +67,7 @@ describe('api service', () => {
     });
 
     it('should generate the right call when params are not defined', () => {
-      const fullUrl = `${url}/`;
+      const fullUrl = `${url}`;
       const options = {
         method: 'GET',
         headers: {
