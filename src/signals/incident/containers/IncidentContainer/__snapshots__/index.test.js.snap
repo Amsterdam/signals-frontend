@@ -606,7 +606,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
               "phone": Object {
                 "meta": Object {
-                  "autoRemove": /\\[\\^\\\\d\\+-\\]/g,
+                  "autoRemove": /\\[\\^ \\(\\)\\\\d\\+-\\]/g,
                   "label": "Wat is uw telefoonnummer?",
                   "path": "reporter.phone",
                   "placeholder": "Telefoonnummer",

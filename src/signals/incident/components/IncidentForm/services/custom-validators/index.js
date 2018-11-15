@@ -24,8 +24,8 @@ export function validateMaxFilesize(file, meta) {
 }
 
 export const validatePhoneNumber = (control) => {
-  if (!control || control.value === '' || control.value === undefined || RegExp('^[+]?[0-9-]+$').test(control.value)) {
+  if (!control || control.value === '' || control.value === undefined || RegExp('^[ ()0-9+-]*$').test(control.value)) {
     return null;
   }
-  return { custom: 'Ongeldig telefoonnummer, alleen cijfers, + en - zijn toegestaan.' };
+  return { custom: 'Ongeldig telefoonnummer, alleen cijfers, spaties, haakjes, + en - zijn toegestaan.' };
 };
