@@ -30,7 +30,7 @@ export function* authCall(url, params, authorizationToken) {
     headers
   };
 
-  const fullUrl = `${url}${params ? `?${generateParams(params)}` : ''}`;
+  const fullUrl = `${url}${params ? `/?${generateParams(params)}` : ''}`;
   return yield call(request, fullUrl, options);
 }
 
