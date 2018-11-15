@@ -69,6 +69,14 @@ describe('The costom validators service', () => {
       expect(validatePhoneNumber(control, meta)).toEqual(null);
     });
 
+    it('with correct telephone number', () => {
+      const control = {
+        value: undefined
+      };
+
+      expect(validatePhoneNumber(control, meta)).toEqual(null);
+    });
+
     it('with incorrect telephone number with letter', () => {
       const file = {
         value: '+3120-6a'
