@@ -7,6 +7,7 @@ export default {
   nextButtonClass: 'action primary arrow-right',
   previousButtonLabel: 'Vorige',
   previousButtonClass: 'action startagain',
+  formAction: 'UPDATE_INCIDENT',
   form: {
     controls: {
       custom_text: {

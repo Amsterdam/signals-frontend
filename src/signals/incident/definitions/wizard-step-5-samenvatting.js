@@ -8,6 +8,7 @@ export default {
   nextButtonClass: 'action primary',
   previousButtonLabel: 'Vorige',
   previousButtonClass: 'action startagain',
+  formAction: 'CREATE_INCIDENT',
   form: {
     controls: {
       $field_0: {

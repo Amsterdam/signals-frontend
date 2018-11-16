@@ -5,6 +5,7 @@ export default {
   label: 'Fout',
   previousButtonLabel: 'Vorige',
   previousButtonClass: 'action startagain',
+  formAction: 'UPDATE_INCIDENT',
   form: {
     controls: {
       text: {

@@ -10,7 +10,7 @@ import { WithWizard } from 'react-albus';
 
 import './style.scss';
 
-const IncidentNavigation = ({ valid, controls, meta: { wizard, handleSubmit } }) => {
+const IncidentNavigation = ({ valid, controls, value, meta: { incidentContainer, wizard, isAuthenticated, updateIncident, createIncident, handleSubmit } }) => {
   const showSubmit = controls.navigation_submit_button && controls.navigation_submit_button.meta && controls.navigation_submit_button.meta ? controls.navigation_submit_button.meta.isVisible : true;
   return (
     <span>
@@ -33,8 +33,19 @@ const IncidentNavigation = ({ valid, controls, meta: { wizard, handleSubmit } })
                   className={`incident-navigation__button  ${wizardStep.nextButtonClass}`}
                   onClick={(e) => {
                     if (valid) {
-                      e.persist();
-                      e.stepId = step.id;
+                      switch (wizardStep.formAction) { // eslint-disable-line default-case
+                        case 'UPDATE_INCIDENT':
+                          updateIncident(value);
+                          break;
+
+                        case 'CREATE_INCIDENT':
+                          createIncident({
+                            incident: incidentContainer.incident,
+                            wizard,
+                            isAuthenticated
+                          });
+                      }
+
                       handleSubmit(e);
                       next();
                     }
@@ -58,6 +69,7 @@ IncidentNavigation.defaultProps = {
 IncidentNavigation.propTypes = {
   valid: PropTypes.bool.isRequired,
   controls: PropTypes.object.isRequired,
+  value: PropTypes.object.isRequired,
   meta: PropTypes.shape({
     wizard: PropTypes.object,
     handleSubmit: PropTypes.function
