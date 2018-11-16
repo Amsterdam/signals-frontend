@@ -1,7 +1,10 @@
+import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/IncidentForm/components/';
 
 export default {
   label: 'Fout',
+  previousButtonLabel: 'Vorige',
+  previousButtonClass: 'action startagain',
   form: {
     controls: {
       text: {
@@ -15,6 +18,10 @@ export default {
           ]
         },
         render: FormComponents.PlainText
+      },
+      $field_0: {
+        isStatic: false,
+        render: IncidentNavigation
       }
     }
   }

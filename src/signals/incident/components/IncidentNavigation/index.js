@@ -7,44 +7,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { WithWizard } from 'react-albus';
-import { findIndex } from 'lodash';
 
 import './style.scss';
 
-const IncidentNavigation = ({ valid, controls, meta: { handleSubmit } }) => {
+const IncidentNavigation = ({ valid, controls, meta: { wizard, handleSubmit } }) => {
   const showSubmit = controls.navigation_submit_button && controls.navigation_submit_button.meta && controls.navigation_submit_button.meta ? controls.navigation_submit_button.meta.isVisible : true;
   return (
     <span>
       <WithWizard
-        render={({ next, previous, step, steps }) => (
-          <div className="incident-navigation">
-            {showSubmit && findIndex(steps, step) > 0 ? (
-              <button className="incident-navigation__button action startagain" onClick={previous}>
-                Vorige
-              </button>
-            ) : <span /> }
+        render={({ next, previous, step }) => {
+          const wizardStep = wizard[step.id.split('/').pop()];
+          return (
+            <div className="incident-navigation">
+              {showSubmit && wizardStep.previousButtonLabel ? (
+                <button
+                  className={`incident-navigation__button  ${wizardStep.previousButtonClass}`}
+                  onClick={previous}
+                >
+                  {wizardStep.previousButtonLabel}
+                </button>
+              ) : <span /> }
 
-            {showSubmit && findIndex(steps, step) < steps.length - 1 && (
-              <button
-                className={`incident-navigation__button action primary ${step.id === 'incident/samenvatting' ? '' : 'arrow-right'}`}
-                onClick={(e) => {
-                  if (valid) {
-                    e.persist();
-                    e.stepId = step.id;
-                    handleSubmit(e);
-                    next();
-                  }
-                }}
-              >
-                {step.id === 'incident/samenvatting' ?
-                  'Verstuur'
-                :
-                  'Volgende'
-                }
-              </button>
-            )}
-          </div>
-        )}
+              {showSubmit && wizardStep.nextButtonLabel && (
+                <button
+                  className={`incident-navigation__button  ${wizardStep.nextButtonClass}`}
+                  onClick={(e) => {
+                    if (valid) {
+                      e.persist();
+                      e.stepId = step.id;
+                      handleSubmit(e);
+                      next();
+                    }
+                  }}
+                >
+                  {wizardStep.nextButtonLabel}
+                </button>
+              )}
+            </div>
+          );
+        }}
       />
     </span>
   );
@@ -58,6 +59,7 @@ IncidentNavigation.propTypes = {
   valid: PropTypes.bool.isRequired,
   controls: PropTypes.object.isRequired,
   meta: PropTypes.shape({
+    wizard: PropTypes.object,
     handleSubmit: PropTypes.function
   })
 };

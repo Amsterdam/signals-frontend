@@ -12,6 +12,8 @@ export default {
     }
     return false;
   },
+  nextButtonLabel: 'Volgende',
+  nextButtonClass: 'action primary arrow-right',
   form: {
     controls: {
       source: {
