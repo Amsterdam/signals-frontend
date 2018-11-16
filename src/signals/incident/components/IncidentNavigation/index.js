@@ -16,44 +16,50 @@ const IncidentNavigation = ({ valid, controls, value, meta: { incidentContainer,
     <span>
       <WithWizard
         render={({ next, previous, step }) => {
-          const wizardStep = wizard[step.id.split('/').pop()];
+          const currentStep = step && step.id;
+          const wizardStep = currentStep && wizard[currentStep.split('/').pop()];
+
           return (
-            <div className="incident-navigation">
-              {showSubmit && wizardStep.previousButtonLabel ? (
-                <button
-                  className={`incident-navigation__button  ${wizardStep.previousButtonClass}`}
-                  onClick={previous}
-                >
-                  {wizardStep.previousButtonLabel}
-                </button>
-              ) : <span /> }
+            <div>
+              {wizardStep ?
+                <div className="incident-navigation">
+                  {showSubmit && wizardStep.previousButtonLabel ? (
+                    <button
+                      className={`incident-navigation__button  ${wizardStep.previousButtonClass}`}
+                      onClick={previous}
+                    >
+                      {wizardStep.previousButtonLabel}
+                    </button>
+                  ) : <span /> }
 
-              {showSubmit && wizardStep.nextButtonLabel && (
-                <button
-                  className={`incident-navigation__button  ${wizardStep.nextButtonClass}`}
-                  onClick={(e) => {
-                    if (valid) {
-                      switch (wizardStep.formAction) { // eslint-disable-line default-case
-                        case 'UPDATE_INCIDENT':
-                          updateIncident(value);
-                          break;
+                  {showSubmit && wizardStep.nextButtonLabel && (
+                    <button
+                      className={`incident-navigation__button  ${wizardStep.nextButtonClass}`}
+                      onClick={(e) => {
+                        if (valid) {
+                          switch (wizardStep.formAction) { // eslint-disable-line default-case
+                            case 'UPDATE_INCIDENT':
+                              updateIncident(value);
+                              break;
 
-                        case 'CREATE_INCIDENT':
-                          createIncident({
-                            incident: incidentContainer.incident,
-                            wizard,
-                            isAuthenticated
-                          });
-                      }
+                            case 'CREATE_INCIDENT':
+                              createIncident({
+                                incident: incidentContainer.incident,
+                                wizard,
+                                isAuthenticated
+                              });
+                          }
 
-                      handleSubmit(e);
-                      next();
-                    }
-                  }}
-                >
-                  {wizardStep.nextButtonLabel}
-                </button>
-              )}
+                          handleSubmit(e);
+                          next();
+                        }
+                      }}
+                    >
+                      {wizardStep.nextButtonLabel}
+                    </button>
+                  )}
+                </div>
+              : ''}
             </div>
           );
         }}
