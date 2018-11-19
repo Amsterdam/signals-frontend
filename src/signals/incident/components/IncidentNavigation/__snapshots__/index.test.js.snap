@@ -27,20 +27,58 @@ exports[`<IncidentNavigation /> rendering render correctly first step with one b
     controls={Object {}}
     meta={
       Object {
+        "createIncident": [MockFunction],
         "handleSubmit": [MockFunction],
+        "incidentContainer": Object {
+          "incident": Object {},
+        },
+        "isAuthenticated": false,
+        "updateIncident": [MockFunction],
+        "wizard": Object {
+          "bedankt": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+          },
+          "beschrijf": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "UPDATE_INCIDENT",
+            "nextButtonClass": "next-class",
+            "nextButtonLabel": "Volgende",
+          },
+          "email": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "UPDATE_INCIDENT",
+            "nextButtonClass": "next-class",
+            "nextButtonLabel": "Volgende",
+            "previousButtonClass": "previous-class",
+            "previousButtonLabel": "Vorige",
+          },
+          "samenvatting": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "CREATE_INCIDENT",
+            "nextButtonClass": "next-class send-button",
+            "nextButtonLabel": "Volgende",
+            "previousButtonClass": "previous-class",
+            "previousButtonLabel": "Vorige",
+          },
+        },
       }
     }
     valid={true}
+    value={Object {}}
   >
     <span>
       <WithWizard
         render={[Function]}
       >
-        <div
-          className="incident-navigation"
-        >
-          <span />
-        </div>
+        <div />
       </WithWizard>
     </span>
   </IncidentNavigation>
@@ -48,20 +86,22 @@ exports[`<IncidentNavigation /> rendering render correctly first step with one b
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly first step with one button: next 2`] = `
-<div
-  className="incident-navigation"
->
-  <span />
-  <button
-    className="incident-navigation__button action primary arrow-right"
-    onClick={[Function]}
+<div>
+  <div
+    className="incident-navigation"
   >
-    Volgende
-  </button>
+    <span />
+    <button
+      className="incident-navigation__button  next-class"
+      onClick={[Function]}
+    >
+      Volgende
+    </button>
+  </div>
 </div>
 `;
 
-exports[`<IncidentNavigation /> rendering render correctly last step with one button: previous 1`] = `
+exports[`<IncidentNavigation /> rendering render correctly last step with no button 1`] = `
 <Wizard
   basename=""
   history={
@@ -88,36 +128,71 @@ exports[`<IncidentNavigation /> rendering render correctly last step with one bu
     controls={Object {}}
     meta={
       Object {
+        "createIncident": [MockFunction],
         "handleSubmit": [MockFunction],
+        "incidentContainer": Object {
+          "incident": Object {},
+        },
+        "isAuthenticated": false,
+        "updateIncident": [MockFunction],
+        "wizard": Object {
+          "bedankt": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+          },
+          "beschrijf": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "UPDATE_INCIDENT",
+            "nextButtonClass": "next-class",
+            "nextButtonLabel": "Volgende",
+          },
+          "email": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "UPDATE_INCIDENT",
+            "nextButtonClass": "next-class",
+            "nextButtonLabel": "Volgende",
+            "previousButtonClass": "previous-class",
+            "previousButtonLabel": "Vorige",
+          },
+          "samenvatting": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "CREATE_INCIDENT",
+            "nextButtonClass": "next-class send-button",
+            "nextButtonLabel": "Volgende",
+            "previousButtonClass": "previous-class",
+            "previousButtonLabel": "Vorige",
+          },
+        },
       }
     }
     valid={true}
+    value={Object {}}
   >
     <span>
       <WithWizard
         render={[Function]}
       >
-        <div
-          className="incident-navigation"
-        >
-          <span />
-        </div>
+        <div />
       </WithWizard>
     </span>
   </IncidentNavigation>
 </Wizard>
 `;
 
-exports[`<IncidentNavigation /> rendering render correctly last step with one button: previous 2`] = `
-<div
-  className="incident-navigation"
->
-  <button
-    className="incident-navigation__button action startagain"
-    onClick={[MockFunction]}
+exports[`<IncidentNavigation /> rendering render correctly last step with no button 2`] = `
+<div>
+  <div
+    className="incident-navigation"
   >
-    Vorige
-  </button>
+    <span />
+  </div>
 </div>
 `;
 
@@ -148,20 +223,58 @@ exports[`<IncidentNavigation /> rendering render correctly last step with two bu
     controls={Object {}}
     meta={
       Object {
+        "createIncident": [MockFunction],
         "handleSubmit": [MockFunction],
+        "incidentContainer": Object {
+          "incident": Object {},
+        },
+        "isAuthenticated": false,
+        "updateIncident": [MockFunction],
+        "wizard": Object {
+          "bedankt": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+          },
+          "beschrijf": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "UPDATE_INCIDENT",
+            "nextButtonClass": "next-class",
+            "nextButtonLabel": "Volgende",
+          },
+          "email": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "UPDATE_INCIDENT",
+            "nextButtonClass": "next-class",
+            "nextButtonLabel": "Volgende",
+            "previousButtonClass": "previous-class",
+            "previousButtonLabel": "Vorige",
+          },
+          "samenvatting": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "CREATE_INCIDENT",
+            "nextButtonClass": "next-class send-button",
+            "nextButtonLabel": "Volgende",
+            "previousButtonClass": "previous-class",
+            "previousButtonLabel": "Vorige",
+          },
+        },
       }
     }
     valid={true}
+    value={Object {}}
   >
     <span>
       <WithWizard
         render={[Function]}
       >
-        <div
-          className="incident-navigation"
-        >
-          <span />
-        </div>
+        <div />
       </WithWizard>
     </span>
   </IncidentNavigation>
@@ -169,25 +282,27 @@ exports[`<IncidentNavigation /> rendering render correctly last step with two bu
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly last step with two buttons: previous and submit 2`] = `
-<div
-  className="incident-navigation"
->
-  <button
-    className="incident-navigation__button action startagain"
-    onClick={[MockFunction]}
+<div>
+  <div
+    className="incident-navigation"
   >
-    Vorige
-  </button>
-  <button
-    className="incident-navigation__button action primary "
-    onClick={[Function]}
-  >
-    Verstuur
-  </button>
+    <button
+      className="incident-navigation__button  previous-class"
+      onClick={[MockFunction]}
+    >
+      Vorige
+    </button>
+    <button
+      className="incident-navigation__button  next-class send-button"
+      onClick={[Function]}
+    >
+      Volgende
+    </button>
+  </div>
 </div>
 `;
 
-exports[`<IncidentNavigation /> rendering render correctly second step when submit button is suppressed with one button: previous 1`] = `
+exports[`<IncidentNavigation /> rendering render correctly second step when submit button is suppressed with no buttons 1`] = `
 <Wizard
   basename=""
   history={
@@ -222,31 +337,71 @@ exports[`<IncidentNavigation /> rendering render correctly second step when subm
     }
     meta={
       Object {
+        "createIncident": [MockFunction],
         "handleSubmit": [MockFunction],
+        "incidentContainer": Object {
+          "incident": Object {},
+        },
+        "isAuthenticated": false,
+        "updateIncident": [MockFunction],
+        "wizard": Object {
+          "bedankt": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+          },
+          "beschrijf": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "UPDATE_INCIDENT",
+            "nextButtonClass": "next-class",
+            "nextButtonLabel": "Volgende",
+          },
+          "email": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "UPDATE_INCIDENT",
+            "nextButtonClass": "next-class",
+            "nextButtonLabel": "Volgende",
+            "previousButtonClass": "previous-class",
+            "previousButtonLabel": "Vorige",
+          },
+          "samenvatting": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "CREATE_INCIDENT",
+            "nextButtonClass": "next-class send-button",
+            "nextButtonLabel": "Volgende",
+            "previousButtonClass": "previous-class",
+            "previousButtonLabel": "Vorige",
+          },
+        },
       }
     }
     valid={true}
+    value={Object {}}
   >
     <span>
       <WithWizard
         render={[Function]}
       >
-        <div
-          className="incident-navigation"
-        >
-          <span />
-        </div>
+        <div />
       </WithWizard>
     </span>
   </IncidentNavigation>
 </Wizard>
 `;
 
-exports[`<IncidentNavigation /> rendering render correctly second step when submit button is suppressed with one button: previous 2`] = `
-<div
-  className="incident-navigation"
->
-  <span />
+exports[`<IncidentNavigation /> rendering render correctly second step when submit button is suppressed with no buttons 2`] = `
+<div>
+  <div
+    className="incident-navigation"
+  >
+    <span />
+  </div>
 </div>
 `;
 
@@ -277,20 +432,58 @@ exports[`<IncidentNavigation /> rendering render correctly second step with two 
     controls={Object {}}
     meta={
       Object {
+        "createIncident": [MockFunction],
         "handleSubmit": [MockFunction],
+        "incidentContainer": Object {
+          "incident": Object {},
+        },
+        "isAuthenticated": false,
+        "updateIncident": [MockFunction],
+        "wizard": Object {
+          "bedankt": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+          },
+          "beschrijf": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "UPDATE_INCIDENT",
+            "nextButtonClass": "next-class",
+            "nextButtonLabel": "Volgende",
+          },
+          "email": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "UPDATE_INCIDENT",
+            "nextButtonClass": "next-class",
+            "nextButtonLabel": "Volgende",
+            "previousButtonClass": "previous-class",
+            "previousButtonLabel": "Vorige",
+          },
+          "samenvatting": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "CREATE_INCIDENT",
+            "nextButtonClass": "next-class send-button",
+            "nextButtonLabel": "Volgende",
+            "previousButtonClass": "previous-class",
+            "previousButtonLabel": "Vorige",
+          },
+        },
       }
     }
     valid={true}
+    value={Object {}}
   >
     <span>
       <WithWizard
         render={[Function]}
       >
-        <div
-          className="incident-navigation"
-        >
-          <span />
-        </div>
+        <div />
       </WithWizard>
     </span>
   </IncidentNavigation>
@@ -298,20 +491,22 @@ exports[`<IncidentNavigation /> rendering render correctly second step with two 
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly second step with two buttons: previous and next 2`] = `
-<div
-  className="incident-navigation"
->
-  <button
-    className="incident-navigation__button action startagain"
-    onClick={[MockFunction]}
+<div>
+  <div
+    className="incident-navigation"
   >
-    Vorige
-  </button>
-  <button
-    className="incident-navigation__button action primary arrow-right"
-    onClick={[Function]}
-  >
-    Volgende
-  </button>
+    <button
+      className="incident-navigation__button  previous-class"
+      onClick={[MockFunction]}
+    >
+      Vorige
+    </button>
+    <button
+      className="incident-navigation__button  next-class"
+      onClick={[Function]}
+    >
+      Volgende
+    </button>
+  </div>
 </div>
 `;

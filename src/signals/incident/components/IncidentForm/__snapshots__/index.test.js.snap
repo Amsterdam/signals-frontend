@@ -228,6 +228,7 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                 "incidentContainer": Object {
                   "incident": Object {},
                 },
+                "isAuthenticated": false,
                 "updateIncident": [MockFunction],
                 "wizard": Object {},
               },
@@ -435,6 +436,7 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                   "incidentContainer": Object {
                     "incident": Object {},
                   },
+                  "isAuthenticated": false,
                   "updateIncident": [MockFunction],
                   "wizard": Object {},
                 },
@@ -607,6 +609,7 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
+                        "isAuthenticated": false,
                         "updateIncident": [MockFunction],
                         "wizard": Object {},
                       },
@@ -826,6 +829,7 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
+                        "isAuthenticated": false,
                         "updateIncident": [MockFunction],
                         "wizard": Object {},
                       },
@@ -1046,6 +1050,7 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
+                        "isAuthenticated": false,
                         "updateIncident": [MockFunction],
                         "wizard": Object {},
                       },
@@ -1374,6 +1379,7 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                 "incidentContainer": Object {
                   "incident": Object {},
                 },
+                "isAuthenticated": false,
                 "updateIncident": [MockFunction],
                 "wizard": Object {},
               },
@@ -1588,6 +1594,7 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                   "incidentContainer": Object {
                     "incident": Object {},
                   },
+                  "isAuthenticated": false,
                   "updateIncident": [MockFunction],
                   "wizard": Object {},
                 },
@@ -1767,6 +1774,7 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
+                        "isAuthenticated": false,
                         "updateIncident": [MockFunction],
                         "wizard": Object {},
                       },
@@ -1993,6 +2001,7 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
+                        "isAuthenticated": false,
                         "updateIncident": [MockFunction],
                         "wizard": Object {},
                       },
@@ -2220,6 +2229,7 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
+                        "isAuthenticated": false,
                         "updateIncident": [MockFunction],
                         "wizard": Object {},
                       },

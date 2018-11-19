@@ -12,6 +12,9 @@ export default {
     }
     return false;
   },
+  nextButtonLabel: 'Volgende',
+  nextButtonClass: 'action primary arrow-right',
+  formAction: 'UPDATE_INCIDENT',
   form: {
     controls: {
       source: {

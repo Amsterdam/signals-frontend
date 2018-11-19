@@ -5,6 +5,11 @@ import FormComponents from '../components/IncidentForm/components/';
 
 export default {
   label: 'Wilt u op de hoogte blijven?',
+  nextButtonLabel: 'Volgende',
+  nextButtonClass: 'action primary arrow-right',
+  previousButtonLabel: 'Vorige',
+  previousButtonClass: 'action startagain',
+  formAction: 'UPDATE_INCIDENT',
   form: {
     controls: {
       email: {

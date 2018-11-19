@@ -3,6 +3,11 @@ import FormComponents from '../components/IncidentForm/components/';
 
 export default {
   label: 'Dit hebben we nog van u nodig',
+  nextButtonLabel: 'Volgende',
+  nextButtonClass: 'action primary arrow-right',
+  previousButtonLabel: 'Vorige',
+  previousButtonClass: 'action startagain',
+  formAction: 'UPDATE_INCIDENT',
   form: {
     controls: {
       custom_text: {

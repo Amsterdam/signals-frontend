@@ -33,6 +33,7 @@ class IncidentForm extends React.Component {
       incidentContainer,
       form: this.form,
       wizard: this.props.wizard,
+      isAuthenticated: this.props.isAuthenticated,
       handleSubmit: this.handleSubmit,
       getClassification: this.props.getClassification,
       updateIncident: this.props.updateIncident,
@@ -60,18 +61,7 @@ class IncidentForm extends React.Component {
   }
 
   handleSubmit(e) {
-    const step = e.stepId;
     e.preventDefault();
-
-    if (step === 'incident/samenvatting') {
-      this.props.createIncident({
-        incident: this.props.incidentContainer.incident,
-        wizard: this.props.wizard,
-        isAuthenticated: this.props.isAuthenticated
-      });
-    } else {
-      this.props.updateIncident(this.form.value);
-    }
 
     Object.values(this.form.controls).map((control) => control.onBlur());
   }
