@@ -25,7 +25,7 @@ import { login, logout, getOauthDomain } from '../../shared/services/auth/auth';
 
 import fileUploadChannel from '../../shared/services/file-upload-channel';
 
-export const baseUrl = `${CONFIGURATION.API_ROOT}signals/user/auth/me`;
+export const baseUrl = `${CONFIGURATION.API_ROOT}signals/user/auth/me/`;
 
 export function* callLogin(action) {
   try {
@@ -66,7 +66,7 @@ export function* callAuthorize(action) {
 }
 
 export function* fetchCategories() {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/public/terms/categories`;
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/public/terms/categories/`;
 
   try {
     const categories = yield call(request, requestURL);
