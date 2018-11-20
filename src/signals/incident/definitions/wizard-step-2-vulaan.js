@@ -2,6 +2,7 @@ import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/IncidentForm/components/';
 
 import overlastBedrijvenEnHoreca from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca';
+import overlastInDeOpenbareRuimte from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte';
 import overlastOpHetWater from './wizard-step-2-vulaan/overlast-op-het-water';
 import overlastPersonenEnGroepen from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen';
 import overlastWegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair';
@@ -25,6 +26,7 @@ export default {
       },
 
       ...overlastBedrijvenEnHoreca,
+      ...overlastInDeOpenbareRuimte,
       ...overlastOpHetWater,
       ...overlastPersonenEnGroepen,
       ...overlastWegenVerkeerStraatmeubilair,
