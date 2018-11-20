@@ -10,7 +10,7 @@ export function* fetchIncident(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/auth/signal`;
   try {
     const id = action.payload;
-    const incident = yield authCall(`${requestURL}/${id}`);
+    const incident = yield authCall(`${requestURL}/${id}/`);
     yield put(requestIncidentSuccess(incident));
   } catch (err) {
     yield put(requestIncidentError(err));
