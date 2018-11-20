@@ -1,13 +1,25 @@
 import FormComponents from '../../components/IncidentForm/components/';
 
 export default {
-  brug: {
+  extra_brug: {
     meta: {
       ifAllOf: {
         subcategory:
           'brug'
       },
       label: 'Hebt u een naam of nummer van de brug?',
+      pathMerge: 'extra_properties'
+    },
+    render: FormComponents.TextInput
+  },
+  extra_onderhoud_stoep_straat_en_fietspad: {
+    meta: {
+      ifAllOf: {
+        subcategory:
+          'onderhoud-stoep-straat-en-fietspad'
+      },
+      label: 'Hebt u verteld om wat voor soort wegdek het gaat?',
+      subheader: 'Bijvoorbeeld: asfalt, klinkers of stoeptegels',
       pathMerge: 'extra_properties'
     },
     render: FormComponents.TextInput
