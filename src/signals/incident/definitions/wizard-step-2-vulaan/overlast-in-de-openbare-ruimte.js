@@ -13,6 +13,18 @@ export default {
     },
     render: FormComponents.TextInput
   },
+  extra_deelfiets: {
+    meta: {
+      ifAllOf: {
+        subcategory:
+          'deelfiets'
+      },
+      label: 'Kunt u nog meer vertellen over deelfiets?',
+      subheader: 'Bijvoorbeeld: bedrijf/verhuurder, kleur en nummer',
+      pathMerge: 'extra_properties'
+    },
+    render: FormComponents.TextInput
+  },
   extra_fietswrak: {
     meta: {
       ifAllOf: {
