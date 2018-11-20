@@ -1,6 +1,17 @@
 import FormComponents from '../../components/IncidentForm/components/';
 
 export default {
+  brug: {
+    meta: {
+      ifAllOf: {
+        subcategory:
+          'brug'
+      },
+      label: 'Hebt u een naam of nummer van de brug?',
+      pathMerge: 'extra_properties'
+    },
+    render: FormComponents.TextInput
+  },
   redirect_to_kim: {
     meta: {
       ifAllOf: {
