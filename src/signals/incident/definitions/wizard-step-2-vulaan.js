@@ -1,6 +1,7 @@
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/IncidentForm/components/';
 
+import afval from './wizard-step-2-vulaan/afval';
 import overlastBedrijvenEnHoreca from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca';
 import overlastInDeOpenbareRuimte from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte';
 import overlastOpHetWater from './wizard-step-2-vulaan/overlast-op-het-water';
@@ -25,6 +26,7 @@ export default {
         render: FormComponents.PlainText
       },
 
+      ...afval,
       ...overlastBedrijvenEnHoreca,
       ...overlastInDeOpenbareRuimte,
       ...overlastOpHetWater,
