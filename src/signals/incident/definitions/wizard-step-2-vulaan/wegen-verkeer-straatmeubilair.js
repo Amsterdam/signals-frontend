@@ -13,13 +13,13 @@ export default {
       buttonAction: 'https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx',
       buttonTimeout: 5000
     },
-    navigation_submit_button: {
-      meta: {
-        ifNoneOf: {
-          subcategory: 'straatverlichting-openbare-klok'
-        }
-      }
-    },
     render: FormComponents.RedirectButton
+  },
+  navigation_submit_button: {
+    meta: {
+      ifNoneOf: {
+        subcategory: 'straatverlichting-openbare-klok'
+      }
+    }
   }
 };
