@@ -1,6 +1,18 @@
 import FormComponents from '../../components/IncidentForm/components/';
 
 export default {
+  extra_auto_scooter_bromfietswrak: {
+    meta: {
+      ifAllOf: {
+        subcategory:
+          'auto-scooter-bromfietswrak'
+      },
+      label: 'Kunt u nog meer vertellen over het wrak?',
+      subheader: 'Bijvoorbeeld: kenteken, merk, kleur, roest, zonder wielen',
+      pathMerge: 'extra_properties'
+    },
+    render: FormComponents.TextInput
+  },
   extra_fietswrak: {
     meta: {
       ifAllOf: {
