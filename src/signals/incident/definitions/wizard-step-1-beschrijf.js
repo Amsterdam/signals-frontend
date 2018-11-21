@@ -3,11 +3,15 @@ import { Validators } from 'react-reactive-form';
 
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/IncidentForm/components/';
+import { checkVisibility } from '../components/IncidentForm/services/format-conditional-form';
 
 export default {
   label: 'Beschrijf uw melding',
   getNextStep: (wizard, { subcategory, category }) => {
-    if (!some(wizard.vulaan.form.controls, (control) => control.meta && control.meta.ifAllOf && (control.meta.ifAllOf.subcategory === subcategory || control.meta.ifAllOf.category === category))) {
+    if (!some(wizard.vulaan.form.controls, (control) => checkVisibility(control, {
+      category,
+      subcategory
+    }))) {
       return 'incident/telefoon';
     }
     return false;
