@@ -50,7 +50,7 @@ export function* createIncident(action) {
       }
     });
 
-    if (action.payload.isAuthenticated && action.payload.incident.priority) {
+    if (action.payload.isAuthenticated && action.payload.incident.priority === 'high') {
       yield put(setPriority({
         priority: action.payload.incident.priority,
         _signal: result.id
