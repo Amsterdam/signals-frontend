@@ -28,5 +28,16 @@ export default {
         ]
       }
     }
+  },
+  extra_wegen_gladheid: {
+    meta: {
+      className: 'col-sm-12 col-md-6',
+      ifAllOf: {
+        subcategory: 'gladheid'
+      },
+      type: 'caution',
+      value: ['Let op:', 'Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB:']
+    },
+    render: FormComponents.PlainText
   }
 };
