@@ -23,7 +23,8 @@ export default {
           ifOneOf: {
             subcategory: [
               'straatverlichting-openbare-klok',
-              'verkeerslicht'
+              'verkeerslicht',
+              'klok'
             ]
           },
           label: 'Redirect naar',
@@ -302,7 +303,8 @@ export default {
           ifNoneOf: {
             subcategory: [
               'straatverlichting-openbare-klok',
-              'verkeerslicht'
+              'verkeerslicht',
+              'klok'
             ]
           }
         }

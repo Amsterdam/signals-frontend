@@ -943,6 +943,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                     "subcategory": Array [
                       "straatverlichting-openbare-klok",
                       "verkeerslicht",
+                      "klok",
                     ],
                   },
                 },
@@ -956,6 +957,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                     "subcategory": Array [
                       "straatverlichting-openbare-klok",
                       "verkeerslicht",
+                      "klok",
                     ],
                   },
                   "label": "Redirect naar",
