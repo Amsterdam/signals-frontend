@@ -36,7 +36,10 @@ export default {
         subcategory: 'gladheid'
       },
       type: 'caution',
-      value: ['Let op:', 'Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB:']
+      value: [
+        'Let op:',
+        'Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB:'
+      ]
     },
     render: FormComponents.PlainText
   }
