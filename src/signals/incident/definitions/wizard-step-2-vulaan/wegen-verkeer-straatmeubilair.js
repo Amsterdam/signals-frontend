@@ -26,9 +26,12 @@ export default {
   },
   redirect_to_kim: {
     meta: {
-      ifAllOf: {
-        subcategory:
-          'straatverlichting-openbare-klok'
+      ifOneOf: {
+        subcategory: [
+          'straatverlichting-openbare-klok',
+          'verkeerslicht',
+          'klok'
+        ]
       },
       label: 'Redirect naar',
       value: 'Voor meldingen over openbare verlichting, klokken en verkeerslichten is een apart formulier beschikbaar',
@@ -41,7 +44,11 @@ export default {
   navigation_submit_button: {
     meta: {
       ifNoneOf: {
-        subcategory: 'straatverlichting-openbare-klok'
+        subcategory: [
+          'straatverlichting-openbare-klok',
+          'verkeerslicht',
+          'klok'
+        ]
       }
     }
   }
