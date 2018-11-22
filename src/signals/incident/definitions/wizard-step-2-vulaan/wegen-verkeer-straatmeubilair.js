@@ -38,8 +38,17 @@ export default {
       type: 'caution',
       value: [
         'Let op:',
-        'Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB:'
-      ]
+        'Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB:',
+        {
+          type: 'more-link',
+          label: 'ns.nl/klantenservice',
+          href: 'http://ns.nl/klantenservice'
+        }, {
+          type: 'more-link',
+          label: 'gvb.nl/klantenservice',
+          href: 'http://gvb.nl/klantenservice'
+        }
+      ],
     },
     render: FormComponents.PlainText
   }
