@@ -678,6 +678,32 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
                 "render": [Function],
               },
+              "extra_afval": Object {
+                "meta": Object {
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "bedrijfsafval",
+                      "grofvuil",
+                      "huisafval",
+                      "puin-sloopafval",
+                    ],
+                  },
+                  "label": "Hebt u verteld waar het afval vandaan komt?",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_auto_scooter_bromfietswrak": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "auto-scooter-bromfietswrak",
+                  },
+                  "label": "Kunt u nog meer vertellen over het wrak?",
+                  "pathMerge": "extra_properties",
+                  "subheader": "Bijvoorbeeld: kenteken, merk, kleur, roest, zonder wielen",
+                },
+                "render": [Function],
+              },
               "extra_bedrijven_adres": Object {
                 "meta": Object {
                   "ifAllOf": Object {
@@ -894,6 +920,102 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                     "Ja": "Ja",
                     "Nee": "Nee",
                   },
+                },
+                "render": [Function],
+              },
+              "extra_brug": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "brug",
+                  },
+                  "label": "Hebt u een naam of nummer van de brug?",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_container_kind": Object {
+                "meta": Object {
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "container-is-kapot",
+                      "container-is-vol",
+                    ],
+                  },
+                  "label": "Hebt u verteld om wat voor soort container het gaat?",
+                  "pathMerge": "extra_properties",
+                  "subheader": "Bijvoorbeeld glas, papier, plastic of restafval",
+                },
+                "render": [Function],
+              },
+              "extra_container_number": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "container-is-kapot",
+                      "container-is-vol",
+                    ],
+                  },
+                  "label": "Hebt u een nummer van de container?",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_container_specific": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "container-voor-plastic-afval-is-kapot",
+                      "container-voor-plastic-afval-is-vol",
+                    ],
+                  },
+                  "label": "Hebt u een nummer van de container?",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_deelfiets": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "deelfiets",
+                  },
+                  "label": "Kunt u nog meer vertellen over deelfiets?",
+                  "pathMerge": "extra_properties",
+                  "subheader": "Bijvoorbeeld: bedrijf/verhuurder, kleur en nummer",
+                },
+                "render": [Function],
+              },
+              "extra_fietswrak": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "fietswrak",
+                  },
+                  "label": "Kunt u nog meer vertellen over het fietswrak?",
+                  "pathMerge": "extra_properties",
+                  "subheader": "Bijvoorbeeld: merk, kleur, roest, zonder wielen",
+                },
+                "render": [Function],
+              },
+              "extra_onderhoud_stoep_straat_en_fietspad": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "onderhoud-stoep-straat-en-fietspad",
+                  },
+                  "label": "Hebt u verteld om wat voor soort wegdek het gaat?",
+                  "pathMerge": "extra_properties",
+                  "subheader": "Bijvoorbeeld: asfalt, klinkers of stoeptegels",
+                },
+                "render": [Function],
+              },
+              "extra_parkeeroverlast": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "parkeeroverlast",
+                  },
+                  "label": "Kunt u nog meer vertellen (over de auto, motor, etc)?",
+                  "pathMerge": "extra_properties",
+                  "subheader": "Bijvoorbeeld: kenteken, merk en kleur",
                 },
                 "render": [Function],
               },
