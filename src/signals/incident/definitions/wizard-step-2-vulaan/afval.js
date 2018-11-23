@@ -34,22 +34,10 @@ export default {
     meta: {
       ifOneOf: {
         subcategory: [
+          'container-voor-plastic-afval-is-kapot',
+          'container-voor-plastic-afval-is-vol',
           'container-is-kapot',
           'container-is-vol'
-        ]
-      },
-      label: 'Hebt u een nummer van de container?',
-      className: 'col-sm-12 col-md-6',
-      pathMerge: 'extra_properties'
-    },
-    render: FormComponents.TextInput
-  },
-  extra_container_specific: {
-    meta: {
-      ifOneOf: {
-        subcategory: [
-          'container-voor-plastic-afval-is-kapot',
-          'container-voor-plastic-afval-is-vol'
         ]
       },
       label: 'Hebt u een nummer van de container?',
