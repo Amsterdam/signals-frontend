@@ -105,6 +105,32 @@ export default {
     },
     render: FormComponents.TextInput
   },
+  extra_fietsrek_aanvragen: {
+    meta: {
+      ifAllOf: {
+        subcategory: 'fietsrek-nietje'
+      },
+      label: 'Wilt u misschien een nieuw fietsenrek of \'nietje\' aanvragen?',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja',
+        nee: 'Nee'
+      }
+    },
+    render: FormComponents.RadioInput
+  },
+  extra_fietsrek_aanvraag: {
+    meta: {
+      ifAllOf: {
+        subcategory: 'fietsrek-nietje',
+        extra_fietsrek_aanvragen: 'Ja'
+      },
+      label: 'Fietsenrek of \'nietje\' aanvragen',
+      pathMerge: 'extra_properties'
+    },
+    render: FormComponents.TextareaInput
+  },
+
   redirect_to_kim: {
     meta: {
       ifOneOf: {

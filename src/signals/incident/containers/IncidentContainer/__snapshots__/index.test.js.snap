@@ -952,22 +952,10 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                   "className": "col-sm-12 col-md-6",
                   "ifOneOf": Object {
                     "subcategory": Array [
-                      "container-is-kapot",
-                      "container-is-vol",
-                    ],
-                  },
-                  "label": "Hebt u een nummer van de container?",
-                  "pathMerge": "extra_properties",
-                },
-                "render": [Function],
-              },
-              "extra_container_specific": Object {
-                "meta": Object {
-                  "className": "col-sm-12 col-md-6",
-                  "ifOneOf": Object {
-                    "subcategory": Array [
                       "container-voor-plastic-afval-is-kapot",
                       "container-voor-plastic-afval-is-vol",
+                      "container-is-kapot",
+                      "container-is-vol",
                     ],
                   },
                   "label": "Hebt u een nummer van de container?",
@@ -986,6 +974,31 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
                 "render": [Function],
               },
+              "extra_fietsrek_aanvraag": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "extra_fietsrek_aanvragen": "Ja",
+                    "subcategory": "fietsrek-nietje",
+                  },
+                  "label": "Fietsenrek of 'nietje' aanvragen",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_fietsrek_aanvragen": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "fietsrek-nietje",
+                  },
+                  "label": "Wilt u misschien een nieuw fietsenrek of 'nietje' aanvragen?",
+                  "pathMerge": "extra_properties",
+                  "values": Object {
+                    "ja": "Ja",
+                    "nee": "Nee",
+                  },
+                },
+                "render": [Function],
+              },
               "extra_fietswrak": Object {
                 "meta": Object {
                   "ifAllOf": Object {
@@ -997,10 +1010,69 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
                 "render": [Function],
               },
-              "extra_onderhoud_stoep_straat_en_fietspad": Object {
+              "extra_klok_aangereden": Object {
                 "meta": Object {
                   "ifAllOf": Object {
-                    "subcategory": "onderhoud-stoep-straat-en-fietspad",
+                    "subcategory": "klok",
+                  },
+                  "value": "Is aangereden",
+                },
+                "render": [Function],
+              },
+              "extra_klok_beschadigd": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "klok",
+                  },
+                  "value": "Is zichtbaar beschadigd",
+                },
+                "render": [Function],
+              },
+              "extra_klok_deurtje_open": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "klok",
+                  },
+                  "value": "Het deurtje van de paal staat open",
+                },
+                "render": [Function],
+              },
+              "extra_klok_niet_op_tijd": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "klok",
+                  },
+                  "label": "Wat is er aan de hand met de klok",
+                  "value": "Loopt niet op tijd",
+                },
+                "render": [Function],
+              },
+              "extra_klok_nummer": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "klok",
+                  },
+                  "label": "Hebt u een nummer de klok?",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_klok_stuk": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "klok",
+                  },
+                  "value": "Lamp is stuk",
+                },
+                "render": [Function],
+              },
+              "extra_onderhoud_stoep_straat_en_fietspad": Object {
+                "meta": Object {
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "onderhoud-stoep-straat-en-fietspad",
+                      "gladheid",
+                    ],
                   },
                   "label": "Hebt u verteld om wat voor soort wegdek het gaat?",
                   "pathMerge": "extra_properties",
@@ -1089,7 +1161,6 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                     "subcategory": Array [
                       "straatverlichting-openbare-klok",
                       "verkeerslicht",
-                      "klok",
                     ],
                   },
                 },
@@ -1103,7 +1174,6 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                     "subcategory": Array [
                       "straatverlichting-openbare-klok",
                       "verkeerslicht",
-                      "klok",
                     ],
                   },
                   "label": "Redirect naar",
