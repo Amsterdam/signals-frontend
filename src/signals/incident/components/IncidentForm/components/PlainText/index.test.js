@@ -2,11 +2,21 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import PlainText from './index';
+import mapDynamicFields from '../../services/map-dynamic-fields';
+
+jest.mock('../../services/map-dynamic-fields');
 
 describe('Form component <PlainText />', () => {
+  const incidentContainer = {
+    incident: {
+      id: 666
+    }
+  };
   let wrapper;
 
   beforeEach(() => {
+    mapDynamicFields.mockImplementation(() => 'Lorem Ipsum');
+
     wrapper = shallow(<PlainText />);
   });
 
@@ -17,10 +27,16 @@ describe('Form component <PlainText />', () => {
           value: 'Lorem Ipsum',
           type: 'citation',
           isVisible: true
+        },
+        parent: {
+          meta: {
+            incidentContainer
+          }
         }
       });
 
       expect(wrapper).toMatchSnapshot();
+      expect(mapDynamicFields).toHaveBeenCalledWith('Lorem Ipsum', incidentContainer);
     });
 
     it('should render multiple parargraphs of text correctly', () => {
@@ -29,60 +45,33 @@ describe('Form component <PlainText />', () => {
           value: [
             'Lorem Ipsum',
             'jumps over',
-            'DOG'
-          ],
-          type: 'citation',
-          isVisible: true
-        }
-      });
-
-      expect(wrapper).toMatchSnapshot();
-    });
-
-    it('should render plain text with text substitution correctly', () => {
-      wrapper.setProps({
-        meta: {
-          value: 'Diablo {incident.id}',
-          type: 'citation',
-          isVisible: true
-        },
-        parent: {
-          meta: {
-            incidentContainer: {
-              incident: {
-                id: 666
-              }
+            'DOG',
+            {
+              type: 'more-link',
+              label: 'link label',
+              href: 'http://gvb.nl'
+            },
+            {
+              type: 'unknown-type',
+              label: 'unknown label',
+              href: 'http://bla.nl'
             }
-          }
-        }
-      });
-
-      expect(wrapper).toMatchSnapshot();
-    });
-
-    it('should render multiple parargraphs of text with substitution correctly', () => {
-      wrapper.setProps({
-        meta: {
-          value: [
-            'Lorem Ipsum',
-            'hell {incident.id} YES',
-            'DOG'
           ],
           type: 'citation',
           isVisible: true
         },
         parent: {
           meta: {
-            incidentContainer: {
-              incident: {
-                id: 666
-              }
-            }
+            incidentContainer
           }
         }
       });
 
       expect(wrapper).toMatchSnapshot();
+      expect(mapDynamicFields).toHaveBeenCalledWith('Lorem Ipsum', incidentContainer);
+      expect(mapDynamicFields).toHaveBeenCalledWith('jumps over', incidentContainer);
+      expect(mapDynamicFields).toHaveBeenCalledWith('DOG', incidentContainer);
+      expect(mapDynamicFields).toHaveBeenCalledWith('link label', incidentContainer);
     });
 
     it('should render no plain text when not visible', () => {

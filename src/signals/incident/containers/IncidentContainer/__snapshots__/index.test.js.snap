@@ -1059,6 +1059,30 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
                 "render": [Function],
               },
+              "extra_wegen_gladheid": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "subcategory": "gladheid",
+                  },
+                  "type": "caution",
+                  "value": Array [
+                    "Let op:",
+                    "Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB:",
+                    Object {
+                      "href": "http://ns.nl/klantenservice",
+                      "label": "ns.nl/klantenservice",
+                      "type": "more-link",
+                    },
+                    Object {
+                      "href": "http://gvb.nl/klantenservice",
+                      "label": "gvb.nl/klantenservice",
+                      "type": "more-link",
+                    },
+                  ],
+                },
+                "render": [Function],
+              },
               "navigation_submit_button": Object {
                 "meta": Object {
                   "ifNoneOf": Object {
