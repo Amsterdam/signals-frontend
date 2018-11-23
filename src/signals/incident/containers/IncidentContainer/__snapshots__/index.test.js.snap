@@ -678,6 +678,32 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
                 "render": [Function],
               },
+              "extra_afval": Object {
+                "meta": Object {
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "bedrijfsafval",
+                      "grofvuil",
+                      "huisafval",
+                      "puin-sloopafval",
+                    ],
+                  },
+                  "label": "Hebt u verteld waar het afval vandaan komt?",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_auto_scooter_bromfietswrak": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "auto-scooter-bromfietswrak",
+                  },
+                  "label": "Kunt u nog meer vertellen over het wrak?",
+                  "pathMerge": "extra_properties",
+                  "subheader": "Bijvoorbeeld: kenteken, merk, kleur, roest, zonder wielen",
+                },
+                "render": [Function],
+              },
               "extra_bedrijven_adres": Object {
                 "meta": Object {
                   "ifAllOf": Object {
@@ -738,10 +764,10 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
               "extra_bedrijven_text": Object {
                 "meta": Object {
-                  "className": "col-sm-12 col-md-6",
                   "ifAllOf": Object {
                     "category": "overlast-bedrijven-en-horeca",
                   },
+                  "type": "disclaimer",
                   "value": Array [
                     "Onze handhavers willen graag contact kunnen opnemen over uw melding. Bijvoorbeeld om een afspraak te maken om bij u thuis een geluidsmeting te verrichten. Anonieme meldingen krijgen daarom een lage prioriteit.",
                     "Uw gegevens worden vertrouwelijk behandeld en worden niet aan een (horeca)ondernemer bekend gemaakt.",
@@ -897,6 +923,241 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
                 "render": [Function],
               },
+              "extra_brug": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "brug",
+                  },
+                  "label": "Hebt u een naam of nummer van de brug?",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_container_kind": Object {
+                "meta": Object {
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "container-is-kapot",
+                      "container-is-vol",
+                    ],
+                  },
+                  "label": "Hebt u verteld om wat voor soort container het gaat?",
+                  "pathMerge": "extra_properties",
+                  "subheader": "Bijvoorbeeld glas, papier, plastic of restafval",
+                },
+                "render": [Function],
+              },
+              "extra_container_number": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "container-voor-plastic-afval-is-kapot",
+                      "container-voor-plastic-afval-is-vol",
+                      "container-is-kapot",
+                      "container-is-vol",
+                    ],
+                  },
+                  "label": "Hebt u een nummer van de container?",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_deelfiets": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "deelfiets",
+                  },
+                  "label": "Kunt u nog meer vertellen over deelfiets?",
+                  "pathMerge": "extra_properties",
+                  "subheader": "Bijvoorbeeld: bedrijf/verhuurder, kleur en nummer",
+                },
+                "render": [Function],
+              },
+              "extra_dieren_text": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "category": "overlast-van-dieren",
+                  },
+                  "type": "caution",
+                  "value": Array [
+                    "Let op!",
+                    "U kunt met dit formulier een melding doen van:",
+                    "• dierplagen (ratten, ganzen, duiven, meeuwen,wespen, etc)",
+                    "• dode dieren op straat, met uitzondering van dode huisdieren en dode vogels",
+                    "• voor dode huisdieren en dode vogels op straat kunt u contact opnemen met Dierenambulance",
+                    Object {
+                      "href": "http://ns.nl/klantenservice",
+                      "label": "Dierenambulance Amsterdam",
+                      "type": "more-link",
+                    },
+                    "• Voor alle andere gevallen: bezoek onze pagina: ",
+                    Object {
+                      "href": "http://ns.nl/klantenservice",
+                      "label": "Melden van zieke, mishandelde en dode dieren, of overlast van dieren",
+                      "type": "more-link",
+                    },
+                  ],
+                },
+                "render": [Function],
+              },
+              "extra_fietsrek_aanvraag": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "extra_fietsrek_aanvragen": "Ja",
+                    "subcategory": "fietsrek-nietje",
+                  },
+                  "label": "Fietsenrek of 'nietje' aanvragen",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_fietsrek_aanvragen": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "fietsrek-nietje",
+                  },
+                  "label": "Wilt u misschien een nieuw fietsenrek of 'nietje' aanvragen?",
+                  "pathMerge": "extra_properties",
+                  "values": Object {
+                    "ja": "Ja",
+                    "nee": "Nee",
+                  },
+                },
+                "render": [Function],
+              },
+              "extra_fietsrek_text": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "extra_fietsrek_aanvragen": "Ja",
+                    "subcategory": "fietsrek-nietje",
+                  },
+                  "type": "caution",
+                  "value": Array [
+                    "Woont u in Nieuw-West of in Oost? Dan doet u uw aanvraag op een andere manier:",
+                    "kijk op de pagina",
+                    Object {
+                      "href": "http://ns.nl/klantenservice",
+                      "label": "Hoe kan ik een fietsenrek aanvragen?",
+                      "type": "more-link",
+                    },
+                  ],
+                },
+                "render": [Function],
+              },
+              "extra_fietswrak": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "fietswrak",
+                  },
+                  "label": "Kunt u nog meer vertellen over het fietswrak?",
+                  "pathMerge": "extra_properties",
+                  "subheader": "Bijvoorbeeld: merk, kleur, roest, zonder wielen",
+                },
+                "render": [Function],
+              },
+              "extra_jongeren_text": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "subcategory": "jongerenoverlast",
+                  },
+                  "type": "caution",
+                  "value": Array [
+                    "Weet u de naam van de jongere(n)? Gebruik dan het formulier:",
+                    Object {
+                      "href": "http://ns.nl/klantenservice",
+                      "label": "Melding zorg en woonoverlast",
+                      "type": "more-link",
+                    },
+                    "Dan komt uw melding direct bij het juiste team terecht.",
+                  ],
+                },
+                "render": [Function],
+              },
+              "extra_klok_aangereden": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "klok",
+                  },
+                  "value": "Is aangereden",
+                },
+                "render": [Function],
+              },
+              "extra_klok_beschadigd": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "klok",
+                  },
+                  "value": "Is zichtbaar beschadigd",
+                },
+                "render": [Function],
+              },
+              "extra_klok_deurtje_open": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "klok",
+                  },
+                  "value": "Het deurtje van de paal staat open",
+                },
+                "render": [Function],
+              },
+              "extra_klok_niet_op_tijd": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "klok",
+                  },
+                  "label": "Wat is er aan de hand met de klok",
+                  "value": "Loopt niet op tijd",
+                },
+                "render": [Function],
+              },
+              "extra_klok_nummer": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "klok",
+                  },
+                  "label": "Hebt u een nummer de klok?",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_klok_stuk": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "klok",
+                  },
+                  "value": "Lamp is stuk",
+                },
+                "render": [Function],
+              },
+              "extra_onderhoud_stoep_straat_en_fietspad": Object {
+                "meta": Object {
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "onderhoud-stoep-straat-en-fietspad",
+                      "gladheid",
+                    ],
+                  },
+                  "label": "Hebt u verteld om wat voor soort wegdek het gaat?",
+                  "pathMerge": "extra_properties",
+                  "subheader": "Bijvoorbeeld: asfalt, klinkers of stoeptegels",
+                },
+                "render": [Function],
+              },
+              "extra_parkeeroverlast": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "parkeeroverlast",
+                  },
+                  "label": "Kunt u nog meer vertellen (over de auto, motor, etc)?",
+                  "pathMerge": "extra_properties",
+                  "subheader": "Bijvoorbeeld: kenteken, merk en kleur",
+                },
+                "render": [Function],
+              },
               "extra_personen_overig": Object {
                 "meta": Object {
                   "className": "col-sm-12 col-md-6",
@@ -937,13 +1198,36 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
                 "render": [Function],
               },
+              "extra_wegen_gladheid": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "subcategory": "gladheid",
+                  },
+                  "type": "caution",
+                  "value": Array [
+                    "Let op:",
+                    "Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB:",
+                    Object {
+                      "href": "http://ns.nl/klantenservice",
+                      "label": "ns.nl/klantenservice",
+                      "type": "more-link",
+                    },
+                    Object {
+                      "href": "http://gvb.nl/klantenservice",
+                      "label": "gvb.nl/klantenservice",
+                      "type": "more-link",
+                    },
+                  ],
+                },
+                "render": [Function],
+              },
               "navigation_submit_button": Object {
                 "meta": Object {
                   "ifNoneOf": Object {
                     "subcategory": Array [
                       "straatverlichting-openbare-klok",
                       "verkeerslicht",
-                      "klok",
                     ],
                   },
                 },
@@ -957,7 +1241,6 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                     "subcategory": Array [
                       "straatverlichting-openbare-klok",
                       "verkeerslicht",
-                      "klok",
                     ],
                   },
                   "label": "Redirect naar",

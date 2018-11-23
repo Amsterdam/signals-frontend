@@ -23,50 +23,29 @@ exports[`Form component <PlainText /> rendering should render multiple parargrap
         className="plain-text__box-p plain-text__box-p-2"
         key="undefined-2"
       >
-        jumps over
+        Lorem Ipsum
       </div>
       <div
         className="plain-text__box-p plain-text__box-p-3"
         key="undefined-3"
-      >
-        DOG
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Form component <PlainText /> rendering should render multiple parargraphs of text with substitution correctly 1`] = `
-<div
-  className="row"
->
-  <div
-    className="col-12 mode_input"
-  >
-    <div
-      className="citation plain-text__box"
-    >
-      <div
-        className="label"
-      />
-      <div
-        className="plain-text__box-p plain-text__box-p-1"
-        key="undefined-1"
       >
         Lorem Ipsum
       </div>
       <div
-        className="plain-text__box-p plain-text__box-p-2"
-        key="undefined-2"
+        className="plain-text__box-p plain-text__box-p-4"
+        key="undefined-4"
       >
-        hell 666 YES
+        <a
+          className="more-link"
+          href="http://gvb.nl"
+        >
+          Lorem Ipsum
+        </a>
       </div>
       <div
-        className="plain-text__box-p plain-text__box-p-3"
-        key="undefined-3"
-      >
-        DOG
-      </div>
+        className="plain-text__box-p plain-text__box-p-5"
+        key="undefined-5"
+      />
     </div>
   </div>
 </div>
@@ -92,25 +71,6 @@ exports[`Form component <PlainText /> rendering should render plain text correct
         className="label"
       />
       Lorem Ipsum
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Form component <PlainText /> rendering should render plain text with text substitution correctly 1`] = `
-<div
-  className="row"
->
-  <div
-    className="col-12 mode_input"
-  >
-    <div
-      className="citation plain-text__box"
-    >
-      <div
-        className="label"
-      />
-      Diablo 666
     </div>
   </div>
 </div>
