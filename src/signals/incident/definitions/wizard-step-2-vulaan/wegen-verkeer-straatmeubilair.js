@@ -119,6 +119,26 @@ export default {
     },
     render: FormComponents.RadioInput
   },
+  extra_fietsrek_text: {
+    meta: {
+      className: 'col-sm-12 col-md-6',
+      ifAllOf: {
+        subcategory: 'fietsrek-nietje',
+        extra_fietsrek_aanvragen: 'Ja'
+      },
+      type: 'caution',
+      value: [
+        'Woont u in Nieuw-West of in Oost? Dan doet u uw aanvraag op een andere manier:',
+        'kijk op de pagina',
+        {
+          type: 'more-link',
+          label: 'Hoe kan ik een fietsenrek aanvragen?',
+          href: 'http://ns.nl/klantenservice'
+        }
+      ],
+    },
+    render: FormComponents.PlainText
+  },
   extra_fietsrek_aanvraag: {
     meta: {
       ifAllOf: {
