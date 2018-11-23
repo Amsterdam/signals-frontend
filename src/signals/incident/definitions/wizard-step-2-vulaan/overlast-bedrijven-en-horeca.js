@@ -72,10 +72,10 @@ export default {
   },
   extra_bedrijven_text: {
     meta: {
-      className: 'col-sm-12 col-md-6',
       ifAllOf: {
         category: 'overlast-bedrijven-en-horeca'
       },
+      type: 'disclaimer',
       value: [
         'Onze handhavers willen graag contact kunnen opnemen over uw melding. Bijvoorbeeld om een afspraak te maken om bij u thuis een geluidsmeting te verrichten. Anonieme meldingen krijgen daarom een lage prioriteit.',
         'Uw gegevens worden vertrouwelijk behandeld en worden niet aan een (horeca)ondernemer bekend gemaakt.'

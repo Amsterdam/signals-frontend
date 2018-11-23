@@ -764,10 +764,10 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
               "extra_bedrijven_text": Object {
                 "meta": Object {
-                  "className": "col-sm-12 col-md-6",
                   "ifAllOf": Object {
                     "category": "overlast-bedrijven-en-horeca",
                   },
+                  "type": "disclaimer",
                   "value": Array [
                     "Onze handhavers willen graag contact kunnen opnemen over uw melding. Bijvoorbeeld om een afspraak te maken om bij u thuis een geluidsmeting te verrichten. Anonieme meldingen krijgen daarom een lage prioriteit.",
                     "Uw gegevens worden vertrouwelijk behandeld en worden niet aan een (horeca)ondernemer bekend gemaakt.",
@@ -974,6 +974,34 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
                 "render": [Function],
               },
+              "extra_dieren_text": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "category": "overlast-van-dieren",
+                  },
+                  "type": "caution",
+                  "value": Array [
+                    "Let op!",
+                    "U kunt met dit formulier een melding doen van:",
+                    "• dierplagen (ratten, ganzen, duiven, meeuwen,wespen, etc)",
+                    "• dode dieren op straat, met uitzondering van dode huisdieren en dode vogels",
+                    "• voor dode huisdieren en dode vogels op straat kunt u contact opnemen met Dierenambulance",
+                    Object {
+                      "href": "http://ns.nl/klantenservice",
+                      "label": "Dierenambulance Amsterdam",
+                      "type": "more-link",
+                    },
+                    "• Voor alle andere gevallen: bezoek onze pagina: ",
+                    Object {
+                      "href": "http://ns.nl/klantenservice",
+                      "label": "Melden van zieke, mishandelde en dode dieren, of overlast van dieren",
+                      "type": "more-link",
+                    },
+                  ],
+                },
+                "render": [Function],
+              },
               "extra_fietsrek_aanvraag": Object {
                 "meta": Object {
                   "ifAllOf": Object {
@@ -999,6 +1027,26 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
                 "render": [Function],
               },
+              "extra_fietsrek_text": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "extra_fietsrek_aanvragen": "Ja",
+                    "subcategory": "fietsrek-nietje",
+                  },
+                  "type": "caution",
+                  "value": Array [
+                    "Woont u in Nieuw-West of in Oost? Dan doet u uw aanvraag op een andere manier:",
+                    "kijk op de pagina",
+                    Object {
+                      "href": "http://ns.nl/klantenservice",
+                      "label": "Hoe kan ik een fietsenrek aanvragen?",
+                      "type": "more-link",
+                    },
+                  ],
+                },
+                "render": [Function],
+              },
               "extra_fietswrak": Object {
                 "meta": Object {
                   "ifAllOf": Object {
@@ -1007,6 +1055,25 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                   "label": "Kunt u nog meer vertellen over het fietswrak?",
                   "pathMerge": "extra_properties",
                   "subheader": "Bijvoorbeeld: merk, kleur, roest, zonder wielen",
+                },
+                "render": [Function],
+              },
+              "extra_jongeren_text": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "subcategory": "jongerenoverlast",
+                  },
+                  "type": "caution",
+                  "value": Array [
+                    "Weet u de naam van de jongere(n)? Gebruik dan het formulier:",
+                    Object {
+                      "href": "http://ns.nl/klantenservice",
+                      "label": "Melding zorg en woonoverlast",
+                      "type": "more-link",
+                    },
+                    "Dan komt uw melding direct bij het juiste team terecht.",
+                  ],
                 },
                 "render": [Function],
               },
