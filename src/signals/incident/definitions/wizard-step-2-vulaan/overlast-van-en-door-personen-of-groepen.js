@@ -1,6 +1,25 @@
 import FormComponents from '../../components/IncidentForm/components/';
 
 export default {
+  extra_jongeren_text: {
+    meta: {
+      className: 'col-sm-12 col-md-6',
+      ifAllOf: {
+        subcategory: 'jongerenoverlast'
+      },
+      type: 'caution',
+      value: [
+        'Weet u de naam van de jongere(n)? Gebruik dan het formulier:',
+        {
+          type: 'more-link',
+          label: 'Melding zorg en woonoverlast',
+          href: 'http://ns.nl/klantenservice'
+        },
+        'Dan komt uw melding direct bij het juiste team terecht.'
+      ],
+    },
+    render: FormComponents.PlainText
+  },
   extra_personen_overig: {
     meta: {
       className: 'col-sm-12 col-md-6',
