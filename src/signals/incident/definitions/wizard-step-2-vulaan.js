@@ -22,7 +22,8 @@ export default {
         meta: {
           label: 'Dit hebt u net ingevuld:',
           type: 'citation',
-          value: '{incident.description}'
+          value: '{incident.description}',
+          ignoreVisibility: true
         },
         render: FormComponents.PlainText
       },

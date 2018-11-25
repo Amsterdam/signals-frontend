@@ -8,10 +8,15 @@ import { checkVisibility } from '../components/IncidentForm/services/format-cond
 export default {
   label: 'Beschrijf uw melding',
   getNextStep: (wizard, { subcategory, category }) => {
-    if (!some(wizard.vulaan.form.controls, (control) => control.meta && control.meta.pathMerge && checkVisibility(control, {
-      category,
-      subcategory
-    }))) {
+    if (!some(wizard.vulaan.form.controls, (control) => {
+      if (control.meta && !control.meta.ignoreVisibility) {
+        return checkVisibility(control, {
+          category,
+          subcategory
+        });
+      }
+      return false;
+    })) {
       return 'incident/telefoon';
     }
     return false;
