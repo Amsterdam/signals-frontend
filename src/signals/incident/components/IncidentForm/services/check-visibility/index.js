@@ -3,7 +3,7 @@ import { every, isEqual, some } from 'lodash';
 const checkVisibility = (control, incident, isAuthenticated) => {
   let isVisible = true;
 
-  if (control.meta.ifAllOf) {
+  if (control.meta && control.meta.ifAllOf) {
     if (!every(control.meta.ifAllOf, (value, key) =>
       !Array.isArray(value) ? isEqual(value, incident[key]) :
         every(value, (v) => isEqual(v, incident[key])))) {
@@ -11,7 +11,7 @@ const checkVisibility = (control, incident, isAuthenticated) => {
     }
   }
 
-  if (control.meta.ifOneOf) {
+  if (control.meta && control.meta.ifOneOf) {
     if (!some(control.meta.ifOneOf, (value, key) =>
       !Array.isArray(value) ? isEqual(value, incident[key]) :
         some(value, (v) => isEqual(v, incident[key])))) {
@@ -19,7 +19,7 @@ const checkVisibility = (control, incident, isAuthenticated) => {
     }
   }
 
-  if (control.meta.ifNoneOf) {
+  if (control.meta && control.meta.ifNoneOf) {
     if (!every(control.meta.ifNoneOf, (value, key) =>
       !Array.isArray(value) ? !isEqual(value, incident[key]) :
         every(value, (v) => !isEqual(v, incident[key])))) {
@@ -30,7 +30,7 @@ const checkVisibility = (control, incident, isAuthenticated) => {
   if (control.authenticated) {
     isVisible = isVisible && isAuthenticated;
   }
-// console.log(isVisible, control, isAuthenticated);
+
   return isVisible;
 };
 

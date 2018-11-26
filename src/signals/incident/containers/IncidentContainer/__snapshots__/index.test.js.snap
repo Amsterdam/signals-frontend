@@ -1231,12 +1231,14 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                       "verkeerslicht",
                     ],
                   },
+                  "ignoreVisibility": true,
                 },
               },
               "redirect_to_kim": Object {
                 "meta": Object {
                   "buttonAction": "https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx",
                   "buttonLabel": "Meteen doorgaan",
+                  "buttonTimeout": 5000,
                   "ifOneOf": Object {
                     "subcategory": Array [
                       "straatverlichting-openbare-klok",
