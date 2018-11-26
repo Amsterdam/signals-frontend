@@ -36,6 +36,10 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
         "bedankt": Object {
           "form": Object {
             "controls": Object {
+              "$field_0": Object {
+                "isStatic": false,
+                "render": [Function],
+              },
               "text": Object {
                 "meta": Object {
                   "className": "col-sm-12 col-md-6",
@@ -337,6 +341,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
               "description": Object {
                 "meta": Object {
+                  "doNotUpdateValue": true,
                   "label": "Waar gaat het om?",
                   "maxLength": 1000,
                   "path": "text",
@@ -352,8 +357,18 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
               "image": Object {
                 "meta": Object {
+                  "allowedFileTypes": Array [
+                    "image/jpeg",
+                  ],
                   "label": "Wilt u een foto meesturen?",
+                  "maxFileSize": 8388608,
                   "submitLabel": "Foto kiezen",
+                },
+                "render": [Function],
+              },
+              "image_type": Object {
+                "meta": Object {
+                  "label": "image_type",
                 },
                 "render": [Function],
               },
@@ -468,8 +483,11 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
             },
           },
+          "formAction": "UPDATE_INCIDENT",
           "getNextStep": [Function],
           "label": "Beschrijf uw melding",
+          "nextButtonClass": "action primary arrow-right",
+          "nextButtonLabel": "Volgende",
         },
         "email": Object {
           "form": Object {
@@ -480,6 +498,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
               "email": Object {
                 "meta": Object {
+                  "autoRemove": /\\[\\^a-zA-Z0-9@\\.!#\\$%&'\\*\\+\\\\-\\\\/=\\?\\^_\`\\{\\|\\}~;\\]/g,
                   "label": "Wat is uw e-mailadres?",
                   "path": "reporter.email",
                   "placeholder": "E-mailadres",
@@ -505,11 +524,20 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
             },
           },
+          "formAction": "UPDATE_INCIDENT",
           "label": "Wilt u op de hoogte blijven?",
+          "nextButtonClass": "action primary arrow-right",
+          "nextButtonLabel": "Volgende",
+          "previousButtonClass": "action startagain",
+          "previousButtonLabel": "Vorige",
         },
         "fout": Object {
           "form": Object {
             "controls": Object {
+              "$field_0": Object {
+                "isStatic": false,
+                "render": [Function],
+              },
               "text": Object {
                 "meta": Object {
                   "className": "col-sm-12 col-md-6",
@@ -524,7 +552,10 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
             },
           },
+          "formAction": "UPDATE_INCIDENT",
           "label": "Fout",
+          "previousButtonClass": "action startagain",
+          "previousButtonLabel": "Vorige",
         },
         "samenvatting": Object {
           "form": Object {
@@ -535,7 +566,10 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
             },
           },
+          "formAction": "CREATE_INCIDENT",
           "label": "Controleer uw gegevens",
+          "nextButtonClass": "action primary",
+          "nextButtonLabel": "Verstuur",
           "preview": Object {
             "beschrijf": Object {
               "datetime": Object {
@@ -583,6 +617,8 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
             },
           },
+          "previousButtonClass": "action startagain",
+          "previousButtonLabel": "Vorige",
           "subtitle": "Maak een aanpassing als dat nodig is.",
         },
         "telefoon": Object {
@@ -594,6 +630,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
               "phone": Object {
                 "meta": Object {
+                  "autoRemove": /\\[\\^ \\(\\)\\\\d\\+-\\]/g,
                   "label": "Wat is uw telefoonnummer?",
                   "path": "reporter.phone",
                   "placeholder": "Telefoonnummer",
@@ -602,6 +639,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
                 "options": Object {
                   "validators": Array [
+                    [Function],
                     [Function],
                   ],
                 },
@@ -618,7 +656,12 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
             },
           },
+          "formAction": "UPDATE_INCIDENT",
           "label": "Mogen we u bellen voor vragen?",
+          "nextButtonClass": "action primary arrow-right",
+          "nextButtonLabel": "Volgende",
+          "previousButtonClass": "action startagain",
+          "previousButtonLabel": "Vorige",
         },
         "vulaan": Object {
           "form": Object {
@@ -894,9 +937,42 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
                 "render": [Function],
               },
+              "navigation_submit_button": Object {
+                "meta": Object {
+                  "ifNoneOf": Object {
+                    "subcategory": Array [
+                      "straatverlichting-openbare-klok",
+                      "verkeerslicht",
+                      "klok",
+                    ],
+                  },
+                },
+              },
+              "redirect_to_kim": Object {
+                "meta": Object {
+                  "buttonAction": "https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx",
+                  "buttonLabel": "Meteen doorgaan",
+                  "buttonTimeout": 5000,
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "straatverlichting-openbare-klok",
+                      "verkeerslicht",
+                      "klok",
+                    ],
+                  },
+                  "label": "Redirect naar",
+                  "value": "Voor meldingen over openbare verlichting, klokken en verkeerslichten is een apart formulier beschikbaar",
+                },
+                "render": [Function],
+              },
             },
           },
+          "formAction": "UPDATE_INCIDENT",
           "label": "Dit hebben we nog van u nodig",
+          "nextButtonClass": "action primary arrow-right",
+          "nextButtonLabel": "Volgende",
+          "previousButtonClass": "action startagain",
+          "previousButtonLabel": "Vorige",
         },
       }
     }

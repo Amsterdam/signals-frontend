@@ -3,15 +3,22 @@ import { Validators } from 'react-reactive-form';
 
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/IncidentForm/components/';
+import { checkVisibility } from '../components/IncidentForm/services/format-conditional-form';
 
 export default {
   label: 'Beschrijf uw melding',
   getNextStep: (wizard, { subcategory, category }) => {
-    if (!some(wizard.vulaan.form.controls, (control) => control.meta && control.meta.ifAllOf && (control.meta.ifAllOf.subcategory === subcategory || control.meta.ifAllOf.category === category))) {
+    if (!some(wizard.vulaan.form.controls, (control) => control.meta && control.meta.pathMerge && checkVisibility(control, {
+      category,
+      subcategory
+    }))) {
       return 'incident/telefoon';
     }
     return false;
   },
+  nextButtonLabel: 'Volgende',
+  nextButtonClass: 'action primary arrow-right',
+  formAction: 'UPDATE_INCIDENT',
   form: {
     controls: {
       source: {
@@ -74,7 +81,8 @@ export default {
           label: 'Waar gaat het om?',
           path: 'text',
           placeholder: 'Beschrijf uw melding',
-          maxLength: 1000
+          maxLength: 1000,
+          doNotUpdateValue: true
         },
         options: {
           validators: [
@@ -152,10 +160,18 @@ export default {
         },
         render: FormComponents.HiddenInput
       },
+      image_type: {
+        meta: {
+          label: 'image_type'
+        },
+        render: FormComponents.HiddenInput
+      },
       image: {
         meta: {
           label: 'Wilt u een foto meesturen?',
-          submitLabel: 'Foto kiezen'
+          submitLabel: 'Foto kiezen',
+          maxFileSize: 8388608,
+          allowedFileTypes: ['image/jpeg']
         },
         render: FormComponents.FileInput
       },

@@ -1,29 +1,28 @@
 export default {
   location: {
     address: {
-      openbare_ruimte: 'Diemerparklaan',
-      huisnummer: '16',
+      openbare_ruimte: 'Plantage Middenlaan',
+      huisnummer: '48',
       huisletter: '',
       huisnummer_toevoeging: '',
-      postcode: '1087GE',
+      postcode: '1018DH',
       woonplaats: 'Amsterdam'
     },
-    buurt_code: 'M35c',
-    stadsdeel: 'M',
+    buurt_code: 'A08d',
+    stadsdeel: 'A',
     geometrie: {
       type: 'Point',
       coordinates: [
-        4.995174407958985,
-        52.35451699670258
+        4.913291931152344,
+        52.36582256756977
       ]
     }
   },
-  category: 'Overlast Bedrijven en Horeca',
-  subcategory: 'Geluidsoverlast installaties',
-  description: 'geluid',
+  category: 'wegen-verkeer-straatmeubilair',
+  subcategory: 'straatverlichting-openbare-klok',
+  subcategory_link: 'https://api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
+  description: 'straatverlichting-openbare-klok',
   phone: '020654321',
   email: 'a@b.com',
-  extra_boten_snelheid_rondvaartboot: 'Ja',
-  extra_boten_snelheid_rederij: 'Aemstelland',
   datetime: 'Nu'
 };

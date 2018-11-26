@@ -33,16 +33,17 @@ class IncidentForm extends React.Component {
       incidentContainer,
       form: this.form,
       wizard: this.props.wizard,
+      isAuthenticated: this.props.isAuthenticated,
       handleSubmit: this.handleSubmit,
       getClassification: this.props.getClassification,
       updateIncident: this.props.updateIncident,
       createIncident: this.props.createIncident
     };
 
-    this.setValues(incidentContainer.incident);
+    this.setValues(incidentContainer.incident, true);
   }
 
-  setValues(incident) {
+  setValues(incident, setAllValues) {
     defer(() => {
       Object.keys(this.form.controls).map((key) => {
         const control = this.form.controls[key];
@@ -51,25 +52,16 @@ class IncidentForm extends React.Component {
         } else {
           control.disable();
         }
-        control.setValue(incident[key]);
+        if (!control.meta.doNotUpdateValue || setAllValues) {
+          control.setValue(incident[key]);
+        }
         return true;
       });
     });
   }
 
   handleSubmit(e) {
-    const step = e.stepId;
     e.preventDefault();
-
-    if (step === 'incident/samenvatting') {
-      this.props.createIncident({
-        incident: this.props.incidentContainer.incident,
-        wizard: this.props.wizard,
-        isAuthenticated: this.props.isAuthenticated
-      });
-    } else {
-      this.props.updateIncident(this.form.value);
-    }
 
     Object.values(this.form.controls).map((control) => control.onBlur());
   }

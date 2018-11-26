@@ -28,6 +28,14 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
         fieldConfig={
           Object {
             "controls": Object {
+              "email": Object {
+                "meta": Object {
+                  "doNotUpdateValue": true,
+                  "isVisible": true,
+                  "label": "Wat is uw email?",
+                  "type": "text",
+                },
+              },
               "extra_boten_geluid_meer": Object {
                 "meta": Object {
                   "isVisible": false,
@@ -56,6 +64,57 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
               "_pendingTouched": false,
               "asyncValidator": null,
               "controls": Object {
+                "email": FormControl {
+                  "_onCollectionChange": [Function],
+                  "_onDisabledChange": Array [],
+                  "_parent": [Circular],
+                  "_pendingChange": true,
+                  "_pendingDirty": false,
+                  "_pendingTouched": false,
+                  "_pendingValue": undefined,
+                  "asyncValidator": null,
+                  "errors": null,
+                  "formState": undefined,
+                  "get": [Function],
+                  "getError": [Function],
+                  "handler": [Function],
+                  "hasError": [Function],
+                  "meta": Object {
+                    "doNotUpdateValue": true,
+                    "isVisible": true,
+                    "label": "Wat is uw email?",
+                    "type": "text",
+                  },
+                  "onBlur": [Function],
+                  "onBlurChanges": Observable {
+                    "observers": Array [],
+                  },
+                  "onChange": [Function],
+                  "onValueChanges": Observable {
+                    "observers": Array [],
+                  },
+                  "patchValue": [Function],
+                  "pristine": true,
+                  "reset": [Function],
+                  "setValue": [Function],
+                  "stateChanges": Observable {
+                    "observers": Array [
+                      [Function],
+                    ],
+                  },
+                  "status": "VALID",
+                  "statusChanges": Observable {
+                    "observers": Array [],
+                  },
+                  "submitted": false,
+                  "touched": false,
+                  "validator": null,
+                  "validatorsOrOpts": undefined,
+                  "value": undefined,
+                  "valueChanges": Observable {
+                    "observers": Array [],
+                  },
+                },
                 "extra_boten_geluid_meer": FormControl {
                   "_onCollectionChange": [Function],
                   "_onDisabledChange": Array [],
@@ -169,6 +228,7 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                 "incidentContainer": Object {
                   "incident": Object {},
                 },
+                "isAuthenticated": false,
                 "updateIncident": [MockFunction],
                 "wizard": Object {},
               },
@@ -190,6 +250,7 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
               "validator": null,
               "validatorOrOpts": undefined,
               "value": Object {
+                "email": undefined,
                 "extra_boten_geluid_meer": undefined,
                 "phone": undefined,
               },
@@ -211,6 +272,57 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                 "_pendingTouched": false,
                 "asyncValidator": null,
                 "controls": Object {
+                  "email": FormControl {
+                    "_onCollectionChange": [Function],
+                    "_onDisabledChange": Array [],
+                    "_parent": [Circular],
+                    "_pendingChange": true,
+                    "_pendingDirty": false,
+                    "_pendingTouched": false,
+                    "_pendingValue": undefined,
+                    "asyncValidator": null,
+                    "errors": null,
+                    "formState": undefined,
+                    "get": [Function],
+                    "getError": [Function],
+                    "handler": [Function],
+                    "hasError": [Function],
+                    "meta": Object {
+                      "doNotUpdateValue": true,
+                      "isVisible": true,
+                      "label": "Wat is uw email?",
+                      "type": "text",
+                    },
+                    "onBlur": [Function],
+                    "onBlurChanges": Observable {
+                      "observers": Array [],
+                    },
+                    "onChange": [Function],
+                    "onValueChanges": Observable {
+                      "observers": Array [],
+                    },
+                    "patchValue": [Function],
+                    "pristine": true,
+                    "reset": [Function],
+                    "setValue": [Function],
+                    "stateChanges": Observable {
+                      "observers": Array [
+                        [Function],
+                      ],
+                    },
+                    "status": "VALID",
+                    "statusChanges": Observable {
+                      "observers": Array [],
+                    },
+                    "submitted": false,
+                    "touched": false,
+                    "validator": null,
+                    "validatorsOrOpts": undefined,
+                    "value": undefined,
+                    "valueChanges": Observable {
+                      "observers": Array [],
+                    },
+                  },
                   "extra_boten_geluid_meer": FormControl {
                     "_onCollectionChange": [Function],
                     "_onDisabledChange": Array [],
@@ -324,6 +436,7 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                   "incidentContainer": Object {
                     "incident": Object {},
                   },
+                  "isAuthenticated": false,
                   "updateIncident": [MockFunction],
                   "wizard": Object {},
                 },
@@ -345,6 +458,7 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                 "validator": null,
                 "validatorOrOpts": undefined,
                 "value": Object {
+                  "email": undefined,
                   "extra_boten_geluid_meer": undefined,
                   "phone": undefined,
                 },
@@ -380,6 +494,57 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                       "_pendingTouched": false,
                       "asyncValidator": null,
                       "controls": Object {
+                        "email": FormControl {
+                          "_onCollectionChange": [Function],
+                          "_onDisabledChange": Array [],
+                          "_parent": [Circular],
+                          "_pendingChange": true,
+                          "_pendingDirty": false,
+                          "_pendingTouched": false,
+                          "_pendingValue": undefined,
+                          "asyncValidator": null,
+                          "errors": null,
+                          "formState": undefined,
+                          "get": [Function],
+                          "getError": [Function],
+                          "handler": [Function],
+                          "hasError": [Function],
+                          "meta": Object {
+                            "doNotUpdateValue": true,
+                            "isVisible": true,
+                            "label": "Wat is uw email?",
+                            "type": "text",
+                          },
+                          "onBlur": [Function],
+                          "onBlurChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "onChange": [Function],
+                          "onValueChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "patchValue": [Function],
+                          "pristine": true,
+                          "reset": [Function],
+                          "setValue": [Function],
+                          "stateChanges": Observable {
+                            "observers": Array [
+                              [Function],
+                            ],
+                          },
+                          "status": "VALID",
+                          "statusChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "submitted": false,
+                          "touched": false,
+                          "validator": null,
+                          "validatorsOrOpts": undefined,
+                          "value": undefined,
+                          "valueChanges": Observable {
+                            "observers": Array [],
+                          },
+                        },
                         "extra_boten_geluid_meer": FormControl {
                           "_onCollectionChange": [Function],
                           "_onDisabledChange": Array [],
@@ -444,6 +609,7 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
+                        "isAuthenticated": false,
                         "updateIncident": [MockFunction],
                         "wizard": Object {},
                       },
@@ -465,6 +631,7 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                       "validator": null,
                       "validatorOrOpts": undefined,
                       "value": Object {
+                        "email": undefined,
                         "extra_boten_geluid_meer": undefined,
                         "phone": undefined,
                       },
@@ -486,6 +653,227 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                     "meta": Object {
                       "isVisible": true,
                       "label": "Wat is uw telefoonnummer?",
+                      "type": "text",
+                    },
+                    "onBlur": [Function],
+                    "onBlurChanges": Observable {
+                      "observers": Array [],
+                    },
+                    "onChange": [Function],
+                    "onValueChanges": Observable {
+                      "observers": Array [],
+                    },
+                    "patchValue": [Function],
+                    "pristine": true,
+                    "reset": [Function],
+                    "setValue": [Function],
+                    "stateChanges": Observable {
+                      "observers": Array [
+                        [Function],
+                      ],
+                    },
+                    "status": "VALID",
+                    "statusChanges": Observable {
+                      "observers": Array [],
+                    },
+                    "submitted": false,
+                    "touched": false,
+                    "validator": null,
+                    "validatorsOrOpts": undefined,
+                    "value": undefined,
+                    "valueChanges": Observable {
+                      "observers": Array [],
+                    },
+                  }
+                }
+                render={null}
+                strict={true}
+              />
+            </FieldControl>
+            <FieldControl
+              key="email"
+              meta={
+                Object {
+                  "doNotUpdateValue": true,
+                  "isVisible": true,
+                  "label": "Wat is uw email?",
+                  "type": "text",
+                }
+              }
+              name="email"
+              strict={true}
+            >
+              <Field
+                control={
+                  FormControl {
+                    "_onCollectionChange": [Function],
+                    "_onDisabledChange": Array [],
+                    "_parent": FormGroup {
+                      "_onDisabledChange": Array [],
+                      "_pendingChange": false,
+                      "_pendingDirty": false,
+                      "_pendingTouched": false,
+                      "asyncValidator": null,
+                      "controls": Object {
+                        "email": [Circular],
+                        "extra_boten_geluid_meer": FormControl {
+                          "_onCollectionChange": [Function],
+                          "_onDisabledChange": Array [],
+                          "_parent": [Circular],
+                          "_pendingChange": true,
+                          "_pendingDirty": false,
+                          "_pendingTouched": false,
+                          "_pendingValue": undefined,
+                          "asyncValidator": null,
+                          "errors": null,
+                          "formState": undefined,
+                          "get": [Function],
+                          "getError": [Function],
+                          "handler": [Function],
+                          "hasError": [Function],
+                          "meta": Object {
+                            "isVisible": false,
+                            "label": "Zijn er nog dingen die u ons nog meer kunt vertellen?",
+                          },
+                          "onBlur": [Function],
+                          "onBlurChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "onChange": [Function],
+                          "onValueChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "patchValue": [Function],
+                          "pristine": true,
+                          "reset": [Function],
+                          "setValue": [Function],
+                          "stateChanges": Observable {
+                            "observers": Array [
+                              [Function],
+                            ],
+                          },
+                          "status": "VALID",
+                          "statusChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "submitted": false,
+                          "touched": false,
+                          "validator": null,
+                          "validatorsOrOpts": undefined,
+                          "value": undefined,
+                          "valueChanges": Observable {
+                            "observers": Array [],
+                          },
+                        },
+                        "phone": FormControl {
+                          "_onCollectionChange": [Function],
+                          "_onDisabledChange": Array [],
+                          "_parent": [Circular],
+                          "_pendingChange": true,
+                          "_pendingDirty": false,
+                          "_pendingTouched": false,
+                          "_pendingValue": undefined,
+                          "asyncValidator": null,
+                          "errors": null,
+                          "formState": undefined,
+                          "get": [Function],
+                          "getError": [Function],
+                          "handler": [Function],
+                          "hasError": [Function],
+                          "meta": Object {
+                            "isVisible": true,
+                            "label": "Wat is uw telefoonnummer?",
+                            "type": "text",
+                          },
+                          "onBlur": [Function],
+                          "onBlurChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "onChange": [Function],
+                          "onValueChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "patchValue": [Function],
+                          "pristine": true,
+                          "reset": [Function],
+                          "setValue": [Function],
+                          "stateChanges": Observable {
+                            "observers": Array [
+                              [Function],
+                            ],
+                          },
+                          "status": "VALID",
+                          "statusChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "submitted": false,
+                          "touched": false,
+                          "validator": null,
+                          "validatorsOrOpts": undefined,
+                          "value": undefined,
+                          "valueChanges": Observable {
+                            "observers": Array [],
+                          },
+                        },
+                      },
+                      "errors": null,
+                      "get": [Function],
+                      "getError": [Function],
+                      "handleSubmit": [Function],
+                      "hasError": [Function],
+                      "meta": Object {
+                        "createIncident": [MockFunction],
+                        "form": [Circular],
+                        "getClassification": [MockFunction],
+                        "handleSubmit": [Function],
+                        "incidentContainer": Object {
+                          "incident": Object {},
+                        },
+                        "isAuthenticated": false,
+                        "updateIncident": [MockFunction],
+                        "wizard": Object {},
+                      },
+                      "patchValue": [Function],
+                      "pristine": true,
+                      "reset": [Function],
+                      "setValue": [Function],
+                      "stateChanges": Observable {
+                        "observers": Array [
+                          [Function],
+                        ],
+                      },
+                      "status": "VALID",
+                      "statusChanges": Observable {
+                        "observers": Array [],
+                      },
+                      "submitted": false,
+                      "touched": false,
+                      "validator": null,
+                      "validatorOrOpts": undefined,
+                      "value": Object {
+                        "email": undefined,
+                        "extra_boten_geluid_meer": undefined,
+                        "phone": undefined,
+                      },
+                      "valueChanges": Observable {
+                        "observers": Array [],
+                      },
+                    },
+                    "_pendingChange": true,
+                    "_pendingDirty": false,
+                    "_pendingTouched": false,
+                    "_pendingValue": undefined,
+                    "asyncValidator": null,
+                    "errors": null,
+                    "formState": undefined,
+                    "get": [Function],
+                    "getError": [Function],
+                    "handler": [Function],
+                    "hasError": [Function],
+                    "meta": Object {
+                      "doNotUpdateValue": true,
+                      "isVisible": true,
+                      "label": "Wat is uw email?",
                       "type": "text",
                     },
                     "onBlur": [Function],
@@ -546,6 +934,57 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                       "_pendingTouched": false,
                       "asyncValidator": null,
                       "controls": Object {
+                        "email": FormControl {
+                          "_onCollectionChange": [Function],
+                          "_onDisabledChange": Array [],
+                          "_parent": [Circular],
+                          "_pendingChange": true,
+                          "_pendingDirty": false,
+                          "_pendingTouched": false,
+                          "_pendingValue": undefined,
+                          "asyncValidator": null,
+                          "errors": null,
+                          "formState": undefined,
+                          "get": [Function],
+                          "getError": [Function],
+                          "handler": [Function],
+                          "hasError": [Function],
+                          "meta": Object {
+                            "doNotUpdateValue": true,
+                            "isVisible": true,
+                            "label": "Wat is uw email?",
+                            "type": "text",
+                          },
+                          "onBlur": [Function],
+                          "onBlurChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "onChange": [Function],
+                          "onValueChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "patchValue": [Function],
+                          "pristine": true,
+                          "reset": [Function],
+                          "setValue": [Function],
+                          "stateChanges": Observable {
+                            "observers": Array [
+                              [Function],
+                            ],
+                          },
+                          "status": "VALID",
+                          "statusChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "submitted": false,
+                          "touched": false,
+                          "validator": null,
+                          "validatorsOrOpts": undefined,
+                          "value": undefined,
+                          "valueChanges": Observable {
+                            "observers": Array [],
+                          },
+                        },
                         "extra_boten_geluid_meer": [Circular],
                         "phone": FormControl {
                           "_onCollectionChange": [Function],
@@ -611,6 +1050,7 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
+                        "isAuthenticated": false,
                         "updateIncident": [MockFunction],
                         "wizard": Object {},
                       },
@@ -632,6 +1072,7 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                       "validator": null,
                       "validatorOrOpts": undefined,
                       "value": Object {
+                        "email": undefined,
                         "extra_boten_geluid_meer": undefined,
                         "phone": undefined,
                       },
@@ -706,18 +1147,15 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
     }
   }
   getClassification={[MockFunction]}
-  incident={
-    Object {
-      "extra_boten_geluid_meer": "Ja! Wat een teringzooi hier",
-      "extra_personen_overig_vaker": true,
-      "phone": "06987654321",
-      "priority": "high",
-      "subcategory": "(Honden)poep",
-    }
-  }
   incidentContainer={
     Object {
-      "incident": Object {},
+      "incident": Object {
+        "extra_boten_geluid_meer": "Ja! Wat een teringzooi hier",
+        "extra_personen_overig_vaker": true,
+        "phone": "06987654321",
+        "priority": "high",
+        "subcategory": "(Honden)poep",
+      },
     }
   }
   isAuthenticated={false}
@@ -734,6 +1172,14 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
         fieldConfig={
           Object {
             "controls": Object {
+              "email": Object {
+                "meta": Object {
+                  "doNotUpdateValue": true,
+                  "isVisible": true,
+                  "label": "Wat is uw email?",
+                  "type": "text",
+                },
+              },
               "extra_boten_geluid_meer": Object {
                 "meta": Object {
                   "isVisible": false,
@@ -762,6 +1208,57 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
               "_pendingTouched": false,
               "asyncValidator": null,
               "controls": Object {
+                "email": FormControl {
+                  "_onCollectionChange": [Function],
+                  "_onDisabledChange": Array [],
+                  "_parent": [Circular],
+                  "_pendingChange": true,
+                  "_pendingDirty": false,
+                  "_pendingTouched": false,
+                  "_pendingValue": undefined,
+                  "asyncValidator": null,
+                  "errors": null,
+                  "formState": undefined,
+                  "get": [Function],
+                  "getError": [Function],
+                  "handler": [Function],
+                  "hasError": [Function],
+                  "meta": Object {
+                    "doNotUpdateValue": true,
+                    "isVisible": true,
+                    "label": "Wat is uw email?",
+                    "type": "text",
+                  },
+                  "onBlur": [Function],
+                  "onBlurChanges": Observable {
+                    "observers": Array [],
+                  },
+                  "onChange": [Function],
+                  "onValueChanges": Observable {
+                    "observers": Array [],
+                  },
+                  "patchValue": [Function],
+                  "pristine": true,
+                  "reset": [Function],
+                  "setValue": [Function],
+                  "stateChanges": Observable {
+                    "observers": Array [
+                      [Function],
+                    ],
+                  },
+                  "status": "VALID",
+                  "statusChanges": Observable {
+                    "observers": Array [],
+                  },
+                  "submitted": false,
+                  "touched": false,
+                  "validator": null,
+                  "validatorsOrOpts": undefined,
+                  "value": undefined,
+                  "valueChanges": Observable {
+                    "observers": Array [],
+                  },
+                },
                 "extra_boten_geluid_meer": FormControl {
                   "_onCollectionChange": [Function],
                   "_onDisabledChange": Array [],
@@ -872,10 +1369,17 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                 "form": [Circular],
                 "getClassification": [MockFunction],
                 "handleSubmit": [Function],
-                "incident": Object {},
+                "incident": Object {
+                  "extra_boten_geluid_meer": "Ja! Wat een teringzooi hier",
+                  "extra_personen_overig_vaker": true,
+                  "phone": "06987654321",
+                  "priority": "high",
+                  "subcategory": "(Honden)poep",
+                },
                 "incidentContainer": Object {
                   "incident": Object {},
                 },
+                "isAuthenticated": false,
                 "updateIncident": [MockFunction],
                 "wizard": Object {},
               },
@@ -897,6 +1401,7 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
               "validator": null,
               "validatorOrOpts": undefined,
               "value": Object {
+                "email": undefined,
                 "extra_boten_geluid_meer": undefined,
                 "phone": undefined,
               },
@@ -918,6 +1423,57 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                 "_pendingTouched": false,
                 "asyncValidator": null,
                 "controls": Object {
+                  "email": FormControl {
+                    "_onCollectionChange": [Function],
+                    "_onDisabledChange": Array [],
+                    "_parent": [Circular],
+                    "_pendingChange": true,
+                    "_pendingDirty": false,
+                    "_pendingTouched": false,
+                    "_pendingValue": undefined,
+                    "asyncValidator": null,
+                    "errors": null,
+                    "formState": undefined,
+                    "get": [Function],
+                    "getError": [Function],
+                    "handler": [Function],
+                    "hasError": [Function],
+                    "meta": Object {
+                      "doNotUpdateValue": true,
+                      "isVisible": true,
+                      "label": "Wat is uw email?",
+                      "type": "text",
+                    },
+                    "onBlur": [Function],
+                    "onBlurChanges": Observable {
+                      "observers": Array [],
+                    },
+                    "onChange": [Function],
+                    "onValueChanges": Observable {
+                      "observers": Array [],
+                    },
+                    "patchValue": [Function],
+                    "pristine": true,
+                    "reset": [Function],
+                    "setValue": [Function],
+                    "stateChanges": Observable {
+                      "observers": Array [
+                        [Function],
+                      ],
+                    },
+                    "status": "VALID",
+                    "statusChanges": Observable {
+                      "observers": Array [],
+                    },
+                    "submitted": false,
+                    "touched": false,
+                    "validator": null,
+                    "validatorsOrOpts": undefined,
+                    "value": undefined,
+                    "valueChanges": Observable {
+                      "observers": Array [],
+                    },
+                  },
                   "extra_boten_geluid_meer": FormControl {
                     "_onCollectionChange": [Function],
                     "_onDisabledChange": Array [],
@@ -1028,10 +1584,17 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                   "form": [Circular],
                   "getClassification": [MockFunction],
                   "handleSubmit": [Function],
-                  "incident": Object {},
+                  "incident": Object {
+                    "extra_boten_geluid_meer": "Ja! Wat een teringzooi hier",
+                    "extra_personen_overig_vaker": true,
+                    "phone": "06987654321",
+                    "priority": "high",
+                    "subcategory": "(Honden)poep",
+                  },
                   "incidentContainer": Object {
                     "incident": Object {},
                   },
+                  "isAuthenticated": false,
                   "updateIncident": [MockFunction],
                   "wizard": Object {},
                 },
@@ -1053,6 +1616,7 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                 "validator": null,
                 "validatorOrOpts": undefined,
                 "value": Object {
+                  "email": undefined,
                   "extra_boten_geluid_meer": undefined,
                   "phone": undefined,
                 },
@@ -1088,6 +1652,57 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                       "_pendingTouched": false,
                       "asyncValidator": null,
                       "controls": Object {
+                        "email": FormControl {
+                          "_onCollectionChange": [Function],
+                          "_onDisabledChange": Array [],
+                          "_parent": [Circular],
+                          "_pendingChange": true,
+                          "_pendingDirty": false,
+                          "_pendingTouched": false,
+                          "_pendingValue": undefined,
+                          "asyncValidator": null,
+                          "errors": null,
+                          "formState": undefined,
+                          "get": [Function],
+                          "getError": [Function],
+                          "handler": [Function],
+                          "hasError": [Function],
+                          "meta": Object {
+                            "doNotUpdateValue": true,
+                            "isVisible": true,
+                            "label": "Wat is uw email?",
+                            "type": "text",
+                          },
+                          "onBlur": [Function],
+                          "onBlurChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "onChange": [Function],
+                          "onValueChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "patchValue": [Function],
+                          "pristine": true,
+                          "reset": [Function],
+                          "setValue": [Function],
+                          "stateChanges": Observable {
+                            "observers": Array [
+                              [Function],
+                            ],
+                          },
+                          "status": "VALID",
+                          "statusChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "submitted": false,
+                          "touched": false,
+                          "validator": null,
+                          "validatorsOrOpts": undefined,
+                          "value": undefined,
+                          "valueChanges": Observable {
+                            "observers": Array [],
+                          },
+                        },
                         "extra_boten_geluid_meer": FormControl {
                           "_onCollectionChange": [Function],
                           "_onDisabledChange": Array [],
@@ -1149,10 +1764,17 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                         "form": [Circular],
                         "getClassification": [MockFunction],
                         "handleSubmit": [Function],
-                        "incident": Object {},
+                        "incident": Object {
+                          "extra_boten_geluid_meer": "Ja! Wat een teringzooi hier",
+                          "extra_personen_overig_vaker": true,
+                          "phone": "06987654321",
+                          "priority": "high",
+                          "subcategory": "(Honden)poep",
+                        },
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
+                        "isAuthenticated": false,
                         "updateIncident": [MockFunction],
                         "wizard": Object {},
                       },
@@ -1174,6 +1796,7 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                       "validator": null,
                       "validatorOrOpts": undefined,
                       "value": Object {
+                        "email": undefined,
                         "extra_boten_geluid_meer": undefined,
                         "phone": undefined,
                       },
@@ -1195,6 +1818,234 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                     "meta": Object {
                       "isVisible": true,
                       "label": "Wat is uw telefoonnummer?",
+                      "type": "text",
+                    },
+                    "onBlur": [Function],
+                    "onBlurChanges": Observable {
+                      "observers": Array [],
+                    },
+                    "onChange": [Function],
+                    "onValueChanges": Observable {
+                      "observers": Array [],
+                    },
+                    "patchValue": [Function],
+                    "pristine": true,
+                    "reset": [Function],
+                    "setValue": [Function],
+                    "stateChanges": Observable {
+                      "observers": Array [
+                        [Function],
+                      ],
+                    },
+                    "status": "VALID",
+                    "statusChanges": Observable {
+                      "observers": Array [],
+                    },
+                    "submitted": false,
+                    "touched": false,
+                    "validator": null,
+                    "validatorsOrOpts": undefined,
+                    "value": undefined,
+                    "valueChanges": Observable {
+                      "observers": Array [],
+                    },
+                  }
+                }
+                render={null}
+                strict={true}
+              />
+            </FieldControl>
+            <FieldControl
+              key="email"
+              meta={
+                Object {
+                  "doNotUpdateValue": true,
+                  "isVisible": true,
+                  "label": "Wat is uw email?",
+                  "type": "text",
+                }
+              }
+              name="email"
+              strict={true}
+            >
+              <Field
+                control={
+                  FormControl {
+                    "_onCollectionChange": [Function],
+                    "_onDisabledChange": Array [],
+                    "_parent": FormGroup {
+                      "_onDisabledChange": Array [],
+                      "_pendingChange": false,
+                      "_pendingDirty": false,
+                      "_pendingTouched": false,
+                      "asyncValidator": null,
+                      "controls": Object {
+                        "email": [Circular],
+                        "extra_boten_geluid_meer": FormControl {
+                          "_onCollectionChange": [Function],
+                          "_onDisabledChange": Array [],
+                          "_parent": [Circular],
+                          "_pendingChange": true,
+                          "_pendingDirty": false,
+                          "_pendingTouched": false,
+                          "_pendingValue": undefined,
+                          "asyncValidator": null,
+                          "errors": null,
+                          "formState": undefined,
+                          "get": [Function],
+                          "getError": [Function],
+                          "handler": [Function],
+                          "hasError": [Function],
+                          "meta": Object {
+                            "isVisible": false,
+                            "label": "Zijn er nog dingen die u ons nog meer kunt vertellen?",
+                          },
+                          "onBlur": [Function],
+                          "onBlurChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "onChange": [Function],
+                          "onValueChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "patchValue": [Function],
+                          "pristine": true,
+                          "reset": [Function],
+                          "setValue": [Function],
+                          "stateChanges": Observable {
+                            "observers": Array [
+                              [Function],
+                            ],
+                          },
+                          "status": "VALID",
+                          "statusChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "submitted": false,
+                          "touched": false,
+                          "validator": null,
+                          "validatorsOrOpts": undefined,
+                          "value": undefined,
+                          "valueChanges": Observable {
+                            "observers": Array [],
+                          },
+                        },
+                        "phone": FormControl {
+                          "_onCollectionChange": [Function],
+                          "_onDisabledChange": Array [],
+                          "_parent": [Circular],
+                          "_pendingChange": true,
+                          "_pendingDirty": false,
+                          "_pendingTouched": false,
+                          "_pendingValue": undefined,
+                          "asyncValidator": null,
+                          "errors": null,
+                          "formState": undefined,
+                          "get": [Function],
+                          "getError": [Function],
+                          "handler": [Function],
+                          "hasError": [Function],
+                          "meta": Object {
+                            "isVisible": true,
+                            "label": "Wat is uw telefoonnummer?",
+                            "type": "text",
+                          },
+                          "onBlur": [Function],
+                          "onBlurChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "onChange": [Function],
+                          "onValueChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "patchValue": [Function],
+                          "pristine": true,
+                          "reset": [Function],
+                          "setValue": [Function],
+                          "stateChanges": Observable {
+                            "observers": Array [
+                              [Function],
+                            ],
+                          },
+                          "status": "VALID",
+                          "statusChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "submitted": false,
+                          "touched": false,
+                          "validator": null,
+                          "validatorsOrOpts": undefined,
+                          "value": undefined,
+                          "valueChanges": Observable {
+                            "observers": Array [],
+                          },
+                        },
+                      },
+                      "errors": null,
+                      "get": [Function],
+                      "getError": [Function],
+                      "handleSubmit": [Function],
+                      "hasError": [Function],
+                      "meta": Object {
+                        "createIncident": [MockFunction],
+                        "form": [Circular],
+                        "getClassification": [MockFunction],
+                        "handleSubmit": [Function],
+                        "incident": Object {
+                          "extra_boten_geluid_meer": "Ja! Wat een teringzooi hier",
+                          "extra_personen_overig_vaker": true,
+                          "phone": "06987654321",
+                          "priority": "high",
+                          "subcategory": "(Honden)poep",
+                        },
+                        "incidentContainer": Object {
+                          "incident": Object {},
+                        },
+                        "isAuthenticated": false,
+                        "updateIncident": [MockFunction],
+                        "wizard": Object {},
+                      },
+                      "patchValue": [Function],
+                      "pristine": true,
+                      "reset": [Function],
+                      "setValue": [Function],
+                      "stateChanges": Observable {
+                        "observers": Array [
+                          [Function],
+                        ],
+                      },
+                      "status": "VALID",
+                      "statusChanges": Observable {
+                        "observers": Array [],
+                      },
+                      "submitted": false,
+                      "touched": false,
+                      "validator": null,
+                      "validatorOrOpts": undefined,
+                      "value": Object {
+                        "email": undefined,
+                        "extra_boten_geluid_meer": undefined,
+                        "phone": undefined,
+                      },
+                      "valueChanges": Observable {
+                        "observers": Array [],
+                      },
+                    },
+                    "_pendingChange": true,
+                    "_pendingDirty": false,
+                    "_pendingTouched": false,
+                    "_pendingValue": undefined,
+                    "asyncValidator": null,
+                    "errors": null,
+                    "formState": undefined,
+                    "get": [Function],
+                    "getError": [Function],
+                    "handler": [Function],
+                    "hasError": [Function],
+                    "meta": Object {
+                      "doNotUpdateValue": true,
+                      "isVisible": true,
+                      "label": "Wat is uw email?",
                       "type": "text",
                     },
                     "onBlur": [Function],
@@ -1255,6 +2106,57 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                       "_pendingTouched": false,
                       "asyncValidator": null,
                       "controls": Object {
+                        "email": FormControl {
+                          "_onCollectionChange": [Function],
+                          "_onDisabledChange": Array [],
+                          "_parent": [Circular],
+                          "_pendingChange": true,
+                          "_pendingDirty": false,
+                          "_pendingTouched": false,
+                          "_pendingValue": undefined,
+                          "asyncValidator": null,
+                          "errors": null,
+                          "formState": undefined,
+                          "get": [Function],
+                          "getError": [Function],
+                          "handler": [Function],
+                          "hasError": [Function],
+                          "meta": Object {
+                            "doNotUpdateValue": true,
+                            "isVisible": true,
+                            "label": "Wat is uw email?",
+                            "type": "text",
+                          },
+                          "onBlur": [Function],
+                          "onBlurChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "onChange": [Function],
+                          "onValueChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "patchValue": [Function],
+                          "pristine": true,
+                          "reset": [Function],
+                          "setValue": [Function],
+                          "stateChanges": Observable {
+                            "observers": Array [
+                              [Function],
+                            ],
+                          },
+                          "status": "VALID",
+                          "statusChanges": Observable {
+                            "observers": Array [],
+                          },
+                          "submitted": false,
+                          "touched": false,
+                          "validator": null,
+                          "validatorsOrOpts": undefined,
+                          "value": undefined,
+                          "valueChanges": Observable {
+                            "observers": Array [],
+                          },
+                        },
                         "extra_boten_geluid_meer": [Circular],
                         "phone": FormControl {
                           "_onCollectionChange": [Function],
@@ -1317,10 +2219,17 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                         "form": [Circular],
                         "getClassification": [MockFunction],
                         "handleSubmit": [Function],
-                        "incident": Object {},
+                        "incident": Object {
+                          "extra_boten_geluid_meer": "Ja! Wat een teringzooi hier",
+                          "extra_personen_overig_vaker": true,
+                          "phone": "06987654321",
+                          "priority": "high",
+                          "subcategory": "(Honden)poep",
+                        },
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
+                        "isAuthenticated": false,
                         "updateIncident": [MockFunction],
                         "wizard": Object {},
                       },
@@ -1342,6 +2251,7 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                       "validator": null,
                       "validatorOrOpts": undefined,
                       "value": Object {
+                        "email": undefined,
                         "extra_boten_geluid_meer": undefined,
                         "phone": undefined,
                       },

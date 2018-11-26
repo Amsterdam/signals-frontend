@@ -94,7 +94,7 @@ describe('App saga', () => {
         userScopes: ['SIG/ALL']
       };
       const gen = callAuthorize({ payload });
-      expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/user/auth/me', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/user/auth/me/', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next({
         groups: ['SIG/ALL']
       }).value).toEqual(put(authorizeUser(mockCredentials))); // eslint-disable-line redux-saga/yield-effects
@@ -107,7 +107,7 @@ describe('App saga', () => {
         userScopes: ['SIG/ALL']
       };
       const gen = callAuthorize({ payload });
-      expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/user/auth/me', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/user/auth/me/', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next({
         groups: ['SIG/ALL']
       }).value).toEqual(put(authorizeUser(mockCredentials))); // eslint-disable-line redux-saga/yield-effects
@@ -130,7 +130,7 @@ describe('App saga', () => {
       const categories = { categories: [1], subcategorie: [2] };
 
       mapCategories.mockImplementation(() => categories);
-      const requestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories';
+      const requestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/';
 
       const gen = fetchCategories();
       expect(gen.next().value).toEqual(call(request, requestURL)); // eslint-disable-line redux-saga/yield-effects

@@ -5,6 +5,11 @@ import FormComponents from '../components/IncidentForm/components/';
 
 export default {
   label: 'Wilt u op de hoogte blijven?',
+  nextButtonLabel: 'Volgende',
+  nextButtonClass: 'action primary arrow-right',
+  previousButtonLabel: 'Vorige',
+  previousButtonClass: 'action startagain',
+  formAction: 'UPDATE_INCIDENT',
   form: {
     controls: {
       email: {
@@ -13,7 +18,8 @@ export default {
           subtitle: 'We mailen om u te vertellen wat we met uw melding doen en wanneer het klaar is.',
           path: 'reporter.email',
           placeholder: 'E-mailadres',
-          type: 'text'
+          type: 'text',
+          autoRemove: /[^a-zA-Z0-9@.!#$%&'*+\-/=?^_`{|}~;]/g
         },
         render: FormComponents.TextInput,
         options: {

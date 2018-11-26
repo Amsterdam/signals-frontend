@@ -8,6 +8,13 @@ describe('Form component <FileInput />', () => {
     name: 'input-field-name',
     submitLabel: 'upload file'
   };
+  const parentControls = {
+    'input-field-name': {
+      setValidators: jest.fn(),
+      clearValidators: jest.fn(),
+      markAsTouched: jest.fn()
+    }
+  };
   let wrapper;
   let handler;
   let touched;
@@ -23,7 +30,8 @@ describe('Form component <FileInput />', () => {
     parent = {
       meta: {
         updateIncident: jest.fn()
-      }
+      },
+      controls: parentControls
     };
 
     wrapper = shallow(<FileInput
@@ -60,6 +68,25 @@ describe('Form component <FileInput />', () => {
         }
       });
 
+      wrapper.setProps({
+        parent: {
+          controls: parentControls,
+          meta: {
+            incident: {
+              image_file: {
+                type: 'image/jpeg',
+                size: 666
+              },
+              image_type: 'image/jpeg'
+            }
+          },
+          value: {
+            image_type: 'image/jpeg'
+          }
+
+        }
+      });
+
       expect(handler).toHaveBeenCalledWith();
       expect(wrapper).toMatchSnapshot();
     });
@@ -79,7 +106,7 @@ describe('Form component <FileInput />', () => {
 
   describe('events', () => {
     const fileContents = 'file contents';
-    const file = new Blob([fileContents], { type: 'text/plain' });
+    const file = new Blob([fileContents], { type: 'image/jpeg' });
     let readAsText;
     let addEventListener;
 
@@ -114,11 +141,15 @@ describe('Form component <FileInput />', () => {
 
       wrapper.find('input').simulate('change', { target: { files: [] } });
       expect(FileReader).not.toHaveBeenCalled();
+      expect(parentControls['input-field-name'].setValidators).not.toHaveBeenCalled();
+      expect(parentControls['input-field-name'].markAsTouched).not.toHaveBeenCalled();
 
       wrapper.find('input').simulate('change', { target: { files: [file] } });
       expect(FileReader).toHaveBeenCalled();
       expect(addEventListener).toHaveBeenCalledWith('load', expect.any(Function));
       expect(readAsText).toHaveBeenCalledWith(file);
+      expect(parentControls['input-field-name'].setValidators).toHaveBeenCalled();
+      expect(parentControls['input-field-name'].markAsTouched).toHaveBeenCalled();
     });
 
     it('resets upload when clear button was clicked', () => {
@@ -131,13 +162,15 @@ describe('Form component <FileInput />', () => {
         }
       });
 
-      wrapper.find('button').simulate('click');
+      wrapper.find('button').simulate('click', { preventDefault: jest.fn() });
 
       expect(window.URL.revokeObjectURL).toHaveBeenCalledWith('blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c');
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         image: '',
-        image_file: {}
+        image_file: null,
+        image_type: null
       });
+      expect(parentControls['input-field-name'].clearValidators).toHaveBeenCalled();
     });
   });
 });

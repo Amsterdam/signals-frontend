@@ -1,9 +1,15 @@
 import { Validators } from 'react-reactive-form';
+import { validatePhoneNumber } from '../../incident/components/IncidentForm/services/custom-validators';
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/IncidentForm/components/';
 
 export default {
   label: 'Mogen we u bellen voor vragen?',
+  nextButtonLabel: 'Volgende',
+  nextButtonClass: 'action primary arrow-right',
+  previousButtonLabel: 'Vorige',
+  previousButtonClass: 'action startagain',
+  formAction: 'UPDATE_INCIDENT',
   form: {
     controls: {
       phone: {
@@ -12,11 +18,15 @@ export default {
           subtitle: 'Zo kunt u ons helpen het probleem sneller of beter op te lossen.',
           path: 'reporter.phone',
           placeholder: 'Telefoonnummer',
-          type: 'text'
+          type: 'text',
+          autoRemove: /[^ ()\d+-]/g
         },
         render: FormComponents.TextInput,
         options: {
-          validators: [Validators.maxLength(17)]
+          validators: [
+            Validators.maxLength(17),
+            validatePhoneNumber
+          ]
         },
       },
       privacy_text: {
