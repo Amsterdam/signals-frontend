@@ -23,10 +23,10 @@ export default {
           ifOneOf: {
             subcategory: [
               'straatverlichting-openbare-klok',
-              'verkeerslicht',
               'klok'
             ]
           },
+          pathMerge: 'extra_properties',
           label: 'Redirect naar',
           value: 'Voor meldingen over openbare verlichting, klokken en verkeerslichten is een apart formulier beschikbaar',
           buttonLabel: 'Meteen doorgaan',
@@ -303,7 +303,6 @@ export default {
           ifNoneOf: {
             subcategory: [
               'straatverlichting-openbare-klok',
-              'verkeerslicht',
               'klok'
             ]
           }
