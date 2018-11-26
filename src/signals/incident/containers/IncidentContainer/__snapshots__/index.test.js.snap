@@ -942,7 +942,6 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                   "ifNoneOf": Object {
                     "subcategory": Array [
                       "straatverlichting-openbare-klok",
-                      "verkeerslicht",
                       "klok",
                     ],
                   },
@@ -956,11 +955,11 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                   "ifOneOf": Object {
                     "subcategory": Array [
                       "straatverlichting-openbare-klok",
-                      "verkeerslicht",
                       "klok",
                     ],
                   },
                   "label": "Redirect naar",
+                  "pathMerge": "extra_properties",
                   "value": "Voor meldingen over openbare verlichting, klokken en verkeerslichten is een apart formulier beschikbaar",
                 },
                 "render": [Function],
