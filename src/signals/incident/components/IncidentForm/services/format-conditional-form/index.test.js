@@ -333,7 +333,7 @@ describe('The format conditional form service', () => {
       var_4: {
         meta: {
           ifNoneOf: {
-            category: 'bar',
+            category: 'wrong',
             subcategory: 'wrong'
           }
         }
@@ -394,7 +394,7 @@ describe('The format conditional form service', () => {
         var_4: {
           meta: {
             ...controls.var_4.meta,
-            isVisible: false,
+            isVisible: true,
             name: 'var_4'
           }
         },
@@ -410,77 +410,6 @@ describe('The format conditional form service', () => {
             ...controls.array_2.meta,
             isVisible: true,
             name: 'array_2'
-          }
-        }
-      }
-    });
-  });
-
-  it('should show control according to the ifAllOf and isOneOf', () => {
-    const controls = {
-      var_1: {
-        meta: {
-          ifOneOf: {
-            category: 'bar'
-          },
-          ifAllOf: {
-            subcategory: 'foo'
-          }
-        }
-      },
-      var_2: {
-        meta: {
-          ifOneOf: {
-            category: 'wrong'
-          },
-          ifAllOf: {
-            subcategory: 'foo'
-          }
-        }
-      },
-      var_3: {
-        meta: {
-          ifOneOf: {
-            category: 'bar'
-          },
-          ifAllOf: {
-            subcategory: 'wrong'
-          }
-        }
-      }
-    };
-
-    expect(
-      formatConditionalForm(
-        {
-          controls
-        },
-        {
-          category: 'bar',
-          subcategory: 'foo'
-        }
-      )
-    ).toEqual({
-      controls: {
-        var_1: {
-          meta: {
-            ...controls.var_1.meta,
-            isVisible: true,
-            name: 'var_1'
-          }
-        },
-        var_2: {
-          meta: {
-            ...controls.var_2.meta,
-            isVisible: false,
-            name: 'var_2'
-          }
-        },
-        var_3: {
-          meta: {
-            ...controls.var_3.meta,
-            isVisible: false,
-            name: 'var_3'
           }
         }
       }
