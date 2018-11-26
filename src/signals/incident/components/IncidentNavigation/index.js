@@ -11,7 +11,7 @@ import { WithWizard } from 'react-albus';
 import './style.scss';
 
 const IncidentNavigation = ({ valid, controls, value, meta: { incidentContainer, wizard, isAuthenticated, updateIncident, createIncident, handleSubmit } }) => {
-  const showSubmit = controls.navigation_submit_button && controls.navigation_submit_button.meta && controls.navigation_submit_button.meta ? controls.navigation_submit_button.meta.isVisible : true;
+  const hideSubmit = controls.hide_navigation_buttons && controls.hide_navigation_buttons.meta && controls.hide_navigation_buttons.meta ? controls.hide_navigation_buttons.meta.isVisible : false;
   return (
     <span>
       <WithWizard
@@ -23,7 +23,7 @@ const IncidentNavigation = ({ valid, controls, value, meta: { incidentContainer,
             <div>
               {wizardStep ?
                 <div className="incident-navigation">
-                  {showSubmit && wizardStep.previousButtonLabel ? (
+                  {!hideSubmit && wizardStep.previousButtonLabel ? (
                     <button
                       className={`incident-navigation__button  ${wizardStep.previousButtonClass}`}
                       onClick={previous}
@@ -32,7 +32,7 @@ const IncidentNavigation = ({ valid, controls, value, meta: { incidentContainer,
                     </button>
                   ) : <span /> }
 
-                  {showSubmit && wizardStep.nextButtonLabel && (
+                  {!hideSubmit && wizardStep.nextButtonLabel && (
                     <button
                       className={`incident-navigation__button  ${wizardStep.nextButtonClass}`}
                       onClick={(e) => {

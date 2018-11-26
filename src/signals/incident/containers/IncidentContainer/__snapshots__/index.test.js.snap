@@ -1223,9 +1223,9 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
                 "render": [Function],
               },
-              "navigation_submit_button": Object {
+              "hide_navigation_buttons": Object {
                 "meta": Object {
-                  "ifNoneOf": Object {
+                  "ifOneOf": Object {
                     "subcategory": Array [
                       "straatverlichting-openbare-klok",
                       "verkeerslicht",

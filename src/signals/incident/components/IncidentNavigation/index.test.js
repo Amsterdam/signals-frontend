@@ -132,9 +132,9 @@ describe('<IncidentNavigation />', () => {
 
     it('render correctly second step when submit button is suppressed with no buttons', () => {
       props.controls = {
-        navigation_submit_button: {
+        hide_navigation_buttons: {
           meta: {
-            isVisible: false
+            isVisible: true
           }
         }
       };

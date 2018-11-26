@@ -167,9 +167,9 @@ export default {
     },
     render: FormComponents.RedirectButton
   },
-  navigation_submit_button: {
+  hide_navigation_buttons: {
     meta: {
-      ifNoneOf: {
+      ifOneOf: {
         subcategory: [
           'straatverlichting-openbare-klok',
           'verkeerslicht'
