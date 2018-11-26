@@ -174,7 +174,8 @@ export default {
           'straatverlichting-openbare-klok',
           'verkeerslicht'
         ]
-      }
+      },
+      ignoreVisibility: true
     }
   }
 };

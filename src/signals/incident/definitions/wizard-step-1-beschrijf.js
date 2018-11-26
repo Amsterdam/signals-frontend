@@ -2,18 +2,18 @@ import { some } from 'lodash';
 import { Validators } from 'react-reactive-form';
 
 import IncidentNavigation from '../components/IncidentNavigation';
-import FormComponents from '../components/IncidentForm/components/';
-import { checkVisibility } from '../components/IncidentForm/services/format-conditional-form';
+import FormComponents from '../components/IncidentForm/components';
+import checkVisibility from '../components/IncidentForm/services/check-visibility';
 
 export default {
   label: 'Beschrijf uw melding',
-  getNextStep: (wizard, { subcategory, category }) => {
+  getNextStep: (wizard, { subcategory, category }, isAuthenticated) => {
     if (!some(wizard.vulaan.form.controls, (control) => {
       if (control.meta && !control.meta.ignoreVisibility) {
         return checkVisibility(control, {
           category,
           subcategory
-        });
+        }, isAuthenticated);
       }
       return false;
     })) {

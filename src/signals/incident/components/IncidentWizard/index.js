@@ -22,7 +22,7 @@ function IncidentWizard({ wizardDefinition, getClassification, updateIncident, c
     <div className="incident-wizard">
       <Route
         render={({ history }) => (
-          <Wizard history={history} onNext={(wiz) => onNext(wizardDefinition, wiz, incidentContainer.incident)}>
+          <Wizard history={history} onNext={(wiz) => onNext(wizardDefinition, wiz, incidentContainer.incident, isAuthenticated)}>
             {incidentContainer.loading ? <LoadingIndicator /> : ''}
             {!incidentContainer.loading ?
               <Steps>
