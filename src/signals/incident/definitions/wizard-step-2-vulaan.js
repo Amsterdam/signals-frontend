@@ -1,13 +1,10 @@
-import IncidentNavigation from '../components/IncidentNavigation';
-import FormComponents from '../components/IncidentForm/components/';
-
 import afval from './wizard-step-2-vulaan/afval';
 import overlastBedrijvenEnHoreca from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca';
 import overlastInDeOpenbareRuimte from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte';
 import overlastOpHetWater from './wizard-step-2-vulaan/overlast-op-het-water';
 import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren';
 import overlastPersonenEnGroepen from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen';
-import overlastWegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair';
+import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair';
 
 export default {
   label: 'Dit hebben we nog van u nodig',
@@ -16,30 +13,31 @@ export default {
   previousButtonLabel: 'Vorige',
   previousButtonClass: 'action startagain',
   formAction: 'UPDATE_INCIDENT',
-  form: {
-    controls: {
-      custom_text: {
-        meta: {
-          label: 'Dit hebt u net ingevuld:',
-          type: 'citation',
-          value: '{incident.description}',
-          ignoreVisibility: true
-        },
-        render: FormComponents.PlainText
-      },
+  formFactory: ({ category }) => {
+    switch (category) {
+      case 'afval':
+        return afval;
 
-      ...afval,
-      ...overlastBedrijvenEnHoreca,
-      ...overlastInDeOpenbareRuimte,
-      ...overlastOpHetWater,
-      ...overlastVanDieren,
-      ...overlastPersonenEnGroepen,
-      ...overlastWegenVerkeerStraatmeubilair,
+      case 'overlast-bedrijven-en-horeca':
+        return overlastBedrijvenEnHoreca;
 
-      $field_0: {
-        isStatic: false,
-        render: IncidentNavigation
-      }
+      case 'overlast-in-de-openbare-ruimte':
+        return overlastInDeOpenbareRuimte;
+
+      case 'overlast-op-het-water':
+        return overlastOpHetWater;
+
+      case 'overlast-van-dieren':
+        return overlastVanDieren;
+
+      case 'overlast-van-en-door-personen-of-groepen':
+        return overlastPersonenEnGroepen;
+
+      case 'wegen-verkeer-straatmeubilair':
+        return wegenVerkeerStraatmeubilair;
+
+      default:
+        return {};
     }
   }
 };

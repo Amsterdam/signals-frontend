@@ -8,7 +8,7 @@ import checkVisibility from '../components/IncidentForm/services/check-visibilit
 export default {
   label: 'Beschrijf uw melding',
   getNextStep: (wizard, { subcategory, category }, isAuthenticated) => {
-    if (!some(wizard.vulaan.form.controls, (control) => {
+    if (!some((wizard.vulaan.form || wizard.vulaan.formFactory({ category })).controls, (control) => {
       if (control.meta && !control.meta.ignoreVisibility) {
         return checkVisibility(control, {
           category,

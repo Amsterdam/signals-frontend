@@ -41,9 +41,9 @@ function IncidentWizard({ wizardDefinition, getClassification, updateIncident, c
                           />
                           : ''}
 
-                        {wizardDefinition[key].form ?
+                        {wizardDefinition[key].form || wizardDefinition[key].formFactory ?
                           <IncidentForm
-                            fieldConfig={wizardDefinition[key].form}
+                            fieldConfig={wizardDefinition[key].form || wizardDefinition[key].formFactory(incidentContainer.incident)}
                             incidentContainer={incidentContainer}
                             getClassification={getClassification}
                             updateIncident={updateIncident}
