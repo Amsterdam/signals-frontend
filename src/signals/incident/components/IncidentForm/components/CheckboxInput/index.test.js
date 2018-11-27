@@ -58,7 +58,7 @@ describe('Form component <CheckboxInput />', () => {
   });
 
   describe('events', () => {
-    it('can be checked and unchecked', () => {
+    it('can be checked and unchecked with default values', () => {
       wrapper.setProps({
         meta: {
           name: 'input-field-name',
@@ -70,14 +70,38 @@ describe('Form component <CheckboxInput />', () => {
       wrapper.find('input').simulate('click', checkEevent);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': true
+        'input-field-name': 'ja'
       });
 
       const uncheckEevent = { target: { checked: false } };
       wrapper.find('input').simulate('click', uncheckEevent);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': false
+        'input-field-name': 'nee'
+      });
+    });
+
+    it('can be checked and unchecked with custom values', () => {
+      wrapper.setProps({
+        meta: {
+          name: 'input-field-name',
+          isVisible: true,
+          values: ['soms', 'nooit']
+        }
+      });
+
+      const checkEevent = { target: { checked: true } };
+      wrapper.find('input').simulate('click', checkEevent);
+
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name': 'soms'
+      });
+
+      const uncheckEevent = { target: { checked: false } };
+      wrapper.find('input').simulate('click', uncheckEevent);
+
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name': 'nooit'
       });
     });
   });
