@@ -3,7 +3,7 @@ import { Validators } from 'react-reactive-form';
 
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/IncidentForm/components';
-import checkVisibility from '../components/IncidentForm/services/check-visibility';
+import checkVisibility from '../services/check-visibility';
 
 export default {
   label: 'Beschrijf uw melding',

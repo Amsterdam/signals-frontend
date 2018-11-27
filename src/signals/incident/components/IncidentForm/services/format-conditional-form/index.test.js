@@ -1,7 +1,7 @@
 import formatConditionalForm from './index';
-import checkVisibility from '../check-visibility';
+import checkVisibility from '../../../../services/check-visibility';
 
-jest.mock('../check-visibility');
+jest.mock('../../../../services/check-visibility');
 
 describe('The format conditional form service', () => {
   beforeEach(() => {
