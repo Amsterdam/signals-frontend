@@ -76,6 +76,7 @@ const mainToSubMap = {
     'Scheepvaart nautisch toezicht',
     'Overlast vanaf het water',
     'Overig boten',
+    'Wegsleep',
     'Overig'
   ],
   'Afval': [
