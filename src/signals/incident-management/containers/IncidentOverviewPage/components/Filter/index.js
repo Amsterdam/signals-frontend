@@ -9,9 +9,13 @@ import TextInput from '../../../../components/TextInput';
 import SelectInput from '../../../../components/SelectInput';
 import DatePickerInput from '../../../../components/DatePickerInput';
 
+import mainToSubMap from '../../../../definitions/mainToSubMap';
+
 class Filter extends React.Component {
   constructor(props) {
     super(props);
+
+    this.filterSubcategories = this.filterSubcategories.bind(this);
 
     if (props.filter) {
       this.filterForm.setValue(props.filter);
@@ -38,6 +42,22 @@ class Filter extends React.Component {
 
   onFilter = (filter) => {
     this.props.onRequestIncidents({ filter });
+  }
+
+  filterSubcategories(mainCategoryFilterSelection) {
+    if (!mainCategoryFilterSelection || mainCategoryFilterSelection === undefined) {
+      return this.props.categories.sub;
+    }
+    if (mainCategoryFilterSelection.length > 1 && mainCategoryFilterSelection.indexOf('') > -1) {
+      // Do not select 'Alles' and other categories to prevent duplicates
+      mainCategoryFilterSelection.splice(mainCategoryFilterSelection.indexOf(''), 1);
+    }
+    let filteredSubcategoryList = mainCategoryFilterSelection
+      .flatMap((mainCategory) => mainToSubMap[mainCategory])
+      .sort()
+      .flatMap((s) => [{ key: s, value: s }]);
+    filteredSubcategoryList = [{ key: '', value: 'Alles' }].concat(filteredSubcategoryList);
+    return filteredSubcategoryList;
   }
 
   filterForm = FormBuilder.group({
