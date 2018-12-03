@@ -121,7 +121,8 @@ const mainToSubMap = {
     'Honden(poep)',
     'Hinderlijk geplaatst object',
     'Deelfiets',
-    'Overig openbare ruimte'
+    'Overig openbare ruimte',
+    'Wegsleep'
   ],
   'Openbaar groen en water': [
     'Boom',
