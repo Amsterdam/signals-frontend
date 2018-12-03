@@ -9,8 +9,6 @@ import TextInput from '../../../../components/TextInput';
 import SelectInput from '../../../../components/SelectInput';
 import DatePickerInput from '../../../../components/DatePickerInput';
 
-import mainToSubMap from '../../../../definitions/mainToSubMap';
-
 class Filter extends React.Component {
   constructor(props) {
     super(props);
@@ -26,6 +24,7 @@ class Filter extends React.Component {
     console.log('filter componentDidMount');
     this.filterForm.get('main_slug').valueChanges.subscribe((value) => {
       console.log('CHANGE', value);
+      this.filterSubcategories(value);
       // this.props.onMainCategoryFilterSelectionChanged(value);
       // this.filterForm.get('sub_slug').reset(['']);
       // this.filterForm.get('sub_slug').updateValueAndValidity();
@@ -53,10 +52,11 @@ class Filter extends React.Component {
       mainCategoryFilterSelection.splice(mainCategoryFilterSelection.indexOf(''), 1);
     }
     let filteredSubcategoryList = mainCategoryFilterSelection
-      .flatMap((mainCategory) => mainToSubMap[mainCategory])
+      .flatMap((mainCategory) => this.props.categories.mainToSub[mainCategory])
       .sort()
       .flatMap((s) => [{ key: s, value: s }]);
     filteredSubcategoryList = [{ key: '', value: 'Alles' }].concat(filteredSubcategoryList);
+    console.log('------------- filterSubcategories', filteredSubcategoryList);
     return filteredSubcategoryList;
   }
 
