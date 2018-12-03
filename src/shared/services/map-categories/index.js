@@ -1,8 +1,11 @@
 function mapCategories(data) {
   const main = [];
   const sub = [];
+  const mainToSub = {};
 
   if (data && data.results) {
+    mainToSub[''] = [];
+
     data.results.forEach((category) => {
       main.push({
         key: category._links && category._links.self && category._links.self.href,
@@ -10,17 +13,22 @@ function mapCategories(data) {
         slug: category.slug
       });
 
+      mainToSub[category.slug] = [];
+
       category.sub_categories.forEach((subcategory) => {
         sub.push({
           key: subcategory._links && subcategory._links.self && subcategory._links.self.href,
           value: subcategory.name,
           slug: subcategory.slug
         });
+
+        mainToSub[category.slug].push(subcategory.slug);
+        mainToSub[''].push(subcategory.slug);
       });
     });
   }
 
-  return { main, sub };
+  return { main, sub, mainToSub };
 }
 
 export default mapCategories;
