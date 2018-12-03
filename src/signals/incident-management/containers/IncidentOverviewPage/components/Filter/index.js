@@ -51,7 +51,7 @@ class Filter extends React.Component {
   }
 
   render() {
-    const { mainCategoryList, subcategoryList, statusList, stadsdeelList, priorityList } = this.props;
+    const { categories, statusList, stadsdeelList, priorityList } = this.props;
     return (
       <div className="filter-component">
         <div className="filter-component__title">Filters</div>
@@ -96,7 +96,7 @@ class Filter extends React.Component {
                     name="category__main"
                     display="Hoofdcategorie"
                     control={this.filterForm.get('category__main')}
-                    values={mainCategoryList}
+                    values={categories.main}
                     emptyOptionText="Alles"
                     multiple
                     size={10}
@@ -106,7 +106,7 @@ class Filter extends React.Component {
                     name="category__sub"
                     display="Subcategorie"
                     control={this.filterForm.get('category__sub')}
-                    values={subcategoryList}
+                    values={categories.sub}
                     emptyOptionText="Alles"
                     multiple
                     size={10}
@@ -143,15 +143,21 @@ class Filter extends React.Component {
   }
 }
 
+Filter.defaulProps = {
+  categories: {
+    main: [],
+    sub: []
+  }
+};
+
 Filter.propTypes = {
   stadsdeelList: PropTypes.array,
-  mainCategoryList: PropTypes.array,
+  categories: PropTypes.object,
   priorityList: PropTypes.array,
-  subcategoryList: PropTypes.array,
   statusList: PropTypes.array,
   filter: PropTypes.object,
   onRequestIncidents: PropTypes.func.isRequired,
-  onMainCategoryFilterSelectionChanged: PropTypes.func.isRequired
+  // onMainCategoryFilterSelectionChanged: PropTypes.func.isRequired
 };
 
 export default Filter;
