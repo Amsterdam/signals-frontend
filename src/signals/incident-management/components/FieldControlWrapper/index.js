@@ -10,7 +10,7 @@ export class FieldControlWrapper extends React.Component { // eslint-disable-lin
       return props.values;
     }
     const sortedValues = props.sort ? sortBy(props.values, (item) => item.value) : props.values;
-    return props.emptyOptionText ? [{ key: '', value: props.emptyOptionText }, ...sortedValues] : sortedValues;
+    return props.emptyOptionText ? [{ key: '', value: props.emptyOptionText, slug: '' }, ...sortedValues] : sortedValues;
   }
 
   constructor(props) {

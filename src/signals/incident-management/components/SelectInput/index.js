@@ -10,9 +10,9 @@ import PropTypes from 'prop-types';
 import './style.scss';
 
 export const SelectInput = (props) => {
-  const { name, display, values, multiple, emptyOptionText, size } = props;
-  const options = values.map(({ key, value }) =>
-    <option key={key} title={key ? value : emptyOptionText || value} value={key}>{key ? value : emptyOptionText || value}</option>
+  const { name, display, values, multiple, useSlug, emptyOptionText, size } = props;
+  const options = values.map(({ key, value, slug }) =>
+    <option key={useSlug ? slug : key} title={key ? value : emptyOptionText || value} value={useSlug ? slug : key}>{key ? value : emptyOptionText || value}</option>
   );
   const listSize = (values.length > size) ? size : values.length;
 

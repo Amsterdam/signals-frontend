@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
+import { isEqual } from 'lodash';
 
 import './style.scss';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
@@ -17,12 +18,22 @@ class Filter extends React.Component {
     }
   }
 
-  componentWillMount() {
-    this.filterForm.get('category__main').valueChanges.subscribe((value) => {
-      this.props.onMainCategoryFilterSelectionChanged(value);
-      this.filterForm.get('category__sub').reset(['']);
-      this.filterForm.get('category__sub').updateValueAndValidity();
+  componentDidMount() {
+    console.log('filter componentDidMount');
+    this.filterForm.get('main_slug').valueChanges.subscribe((value) => {
+      console.log('CHANGE', value);
+      // this.props.onMainCategoryFilterSelectionChanged(value);
+      // this.filterForm.get('sub_slug').reset(['']);
+      // this.filterForm.get('sub_slug').updateValueAndValidity();
     });
+  }
+
+  componentDidUpdate(props) {
+    console.log('filter componentDidUpdate', props);
+    if (!isEqual(props.categories, this.props.categories)) {
+      this.filterForm.get('main_slug').setValue((this.props.filter && this.props.filter.main_slug) || [['']]);
+      this.filterForm.get('sub_slug').setValue((this.props.filter && this.props.filter.sub_slug) || [['']]);
+    }
   }
 
   onFilter = (filter) => {
@@ -34,8 +45,8 @@ class Filter extends React.Component {
     incident_date_start: [''],
     location__stadsdeel: [['']],
     priority__priority: '',
-    category__main: [['']],
-    category__sub: [['']],
+    main_slug: [['']],
+    sub_slug: [['']],
     status__state: [['']],
     location__address_text: [''],
   });
@@ -51,6 +62,7 @@ class Filter extends React.Component {
   }
 
   render() {
+    console.log('filter render');
     const { categories, statusList, stadsdeelList, priorityList } = this.props;
     return (
       <div className="filter-component">
@@ -93,22 +105,24 @@ class Filter extends React.Component {
                   />
                   <FieldControlWrapper
                     render={SelectInput}
-                    name="category__main"
+                    name="main_slug"
                     display="Hoofdcategorie"
-                    control={this.filterForm.get('category__main')}
+                    control={this.filterForm.get('main_slug')}
                     values={categories.main}
                     emptyOptionText="Alles"
                     multiple
+                    useSlug
                     size={10}
                   />
                   <FieldControlWrapper
                     render={SelectInput}
-                    name="category__sub"
+                    name="sub_slug"
                     display="Subcategorie"
-                    control={this.filterForm.get('category__sub')}
+                    control={this.filterForm.get('sub_slug')}
                     values={categories.sub}
                     emptyOptionText="Alles"
                     multiple
+                    useSlug
                     size={10}
                   />
                   <FieldControlWrapper
