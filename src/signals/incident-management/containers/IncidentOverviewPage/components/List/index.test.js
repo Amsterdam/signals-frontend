@@ -41,8 +41,11 @@ describe('<List />', () => {
       wrapper.setProps({
         sort: '-created_at'
       });
-      wrapper.find('thead > tr > th').at(1).simulate('click');
 
+      wrapper.find('thead > tr > th').at(1).simulate('click');
+      expect(props.onRequestIncidents).not.toHaveBeenCalled();
+
+      wrapper.find('thead > tr > th').at(2).simulate('click');
       expect(props.onRequestIncidents).toHaveBeenCalledWith({ sort: 'created_at' });
     });
 
@@ -50,8 +53,11 @@ describe('<List />', () => {
       wrapper.setProps({
         sort: 'created_at'
       });
-      wrapper.find('thead > tr > th').at(1).simulate('click');
 
+      wrapper.find('thead > tr > th').at(1).simulate('click');
+      expect(props.onRequestIncidents).not.toHaveBeenCalled();
+
+      wrapper.find('thead > tr > th').at(2).simulate('click');
       expect(props.onRequestIncidents).toHaveBeenCalledWith({ sort: '-created_at' });
     });
   });
