@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
-import { isEqual } from 'lodash';
+import { isEqual, sortBy } from 'lodash';
 
 import './style.scss';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
@@ -30,14 +30,14 @@ class Filter extends React.Component {
         filterSubs: [...this.filterSubcategories(value)]
       });
 
-      this.filterForm.get('sub_slug').setValue((this.props.filter && this.props.filter.sub_slug) || [['']]);
+      this.filterForm.get('sub_slug').setValue((this.props.filter && this.props.filter.sub_slug) || this.default.sub_slug);
     });
   }
 
   componentDidUpdate(props) {
     if (!isEqual(props.categories, this.props.categories)) {
-      this.filterForm.get('main_slug').setValue((this.props.filter && this.props.filter.main_slug) || [['']]);
-      this.filterForm.get('sub_slug').setValue((this.props.filter && this.props.filter.sub_slug) || [['']]);
+      this.filterForm.get('main_slug').setValue((this.props.filter && this.props.filter.main_slug) || this.default.sub_slug);
+      this.filterForm.get('sub_slug').setValue((this.props.filter && this.props.filter.sub_slug) || this.default.sub_slug);
     }
   }
 
@@ -46,7 +46,7 @@ class Filter extends React.Component {
   }
 
   filterSubcategories(mainCategoryFilterSelection) {
-    if (!mainCategoryFilterSelection || mainCategoryFilterSelection === undefined) {
+    if (!mainCategoryFilterSelection || mainCategoryFilterSelection === undefined || mainCategoryFilterSelection === this.default.sub_slug) {
       return this.props.categories.sub;
     }
     if (mainCategoryFilterSelection.length > 1 && mainCategoryFilterSelection.indexOf('') > -1) {
@@ -57,11 +57,11 @@ class Filter extends React.Component {
     let filteredSubcategoryList = mainCategoryFilterSelection
       .flatMap((mainCategory) =>
         this.props.categories.mainToSub[mainCategory].flatMap((sub) => this.props.categories.sub.find((item) => item.slug === sub)));
-    filteredSubcategoryList = [{ key: '', value: 'Alles', slug: '' }].concat(filteredSubcategoryList);
+    filteredSubcategoryList = [{ key: '', value: 'Alles', slug: '' }].concat(sortBy(filteredSubcategoryList, 'value'));
     return filteredSubcategoryList;
   }
 
-  filterForm = FormBuilder.group({
+  default = {
     id: [''],
     incident_date_start: [''],
     location__stadsdeel: [['']],
@@ -70,7 +70,8 @@ class Filter extends React.Component {
     sub_slug: [['']],
     status__state: [['']],
     location__address_text: [''],
-  });
+  };
+  filterForm = FormBuilder.group(this.default);
 
   handleReset = () => {
     this.filterForm.reset();
