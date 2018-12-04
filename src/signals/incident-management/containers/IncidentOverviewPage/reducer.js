@@ -8,9 +8,6 @@ import { fromJS } from 'immutable';
 import { REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR, FILTER_INCIDENTS_CHANGED, PAGE_INCIDENTS_CHANGED, SORT_INCIDENTS_CHANGED, MAIN_CATEGORY_FILTER_SELECTION_CHANGED } from './constants';
 import priorityList from '../../definitions/priorityList';
 import stadsdeelList from '../../definitions/stadsdeelList';
-// import mainCategoryList from '../../definitions/categoryList';
-// import subcategoryList from '../../definitions/subcategoryList';
-// import mainToSubMap from '../../definitions/mainToSubMap';
 import statusList from '../../definitions/statusList';
 
 export const initialState = fromJS({
@@ -23,22 +20,6 @@ export const initialState = fromJS({
   statusList,
   sort: '-created_at'
 });
-
-// const filterSubcategories = (mainCategoryFilterSelection) => {
-//   if (!mainCategoryFilterSelection || mainCategoryFilterSelection === undefined) {
-//     return subcategoryList;
-//   }
-//   if (mainCategoryFilterSelection.length > 1 && mainCategoryFilterSelection.indexOf('') > -1) {
-//     // Do not select 'Alles' and other categories to prevent duplicates
-//     mainCategoryFilterSelection.splice(mainCategoryFilterSelection.indexOf(''), 1);
-//   }
-//   let filteredSubcategoryList = mainCategoryFilterSelection
-//     .flatMap((mainCategory) => mainToSubMap[mainCategory])
-//     .sort()
-//     .flatMap((s) => [{ key: s, value: s }]);
-//   filteredSubcategoryList = [{ key: '', value: 'Alles' }].concat(filteredSubcategoryList);
-//   return filteredSubcategoryList;
-// };
 
 function overviewPageReducer(state = initialState, action) {
   switch (action.type) {
