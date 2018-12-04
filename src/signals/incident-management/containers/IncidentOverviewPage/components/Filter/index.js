@@ -13,6 +13,10 @@ class Filter extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      filterSubs: props.filterSubs
+    };
+
     this.filterSubcategories = this.filterSubcategories.bind(this);
 
     if (props.filter) {
@@ -21,18 +25,16 @@ class Filter extends React.Component {
   }
 
   componentDidMount() {
-    console.log('filter componentDidMount');
     this.filterForm.get('main_slug').valueChanges.subscribe((value) => {
-      console.log('CHANGE', value);
-      this.filterSubcategories(value);
-      // this.props.onMainCategoryFilterSelectionChanged(value);
-      // this.filterForm.get('sub_slug').reset(['']);
-      // this.filterForm.get('sub_slug').updateValueAndValidity();
+      this.setState({
+        filterSubs: [...this.filterSubcategories(value)]
+      });
+
+      this.filterForm.get('sub_slug').setValue((this.props.filter && this.props.filter.sub_slug) || [['']]);
     });
   }
 
   componentDidUpdate(props) {
-    console.log('filter componentDidUpdate', props);
     if (!isEqual(props.categories, this.props.categories)) {
       this.filterForm.get('main_slug').setValue((this.props.filter && this.props.filter.main_slug) || [['']]);
       this.filterForm.get('sub_slug').setValue((this.props.filter && this.props.filter.sub_slug) || [['']]);
@@ -51,12 +53,11 @@ class Filter extends React.Component {
       // Do not select 'Alles' and other categories to prevent duplicates
       mainCategoryFilterSelection.splice(mainCategoryFilterSelection.indexOf(''), 1);
     }
+
     let filteredSubcategoryList = mainCategoryFilterSelection
-      .flatMap((mainCategory) => this.props.categories.mainToSub[mainCategory])
-      .sort()
-      .flatMap((s) => [{ key: s, value: s }]);
-    filteredSubcategoryList = [{ key: '', value: 'Alles' }].concat(filteredSubcategoryList);
-    console.log('------------- filterSubcategories', filteredSubcategoryList);
+      .flatMap((mainCategory) =>
+        this.props.categories.mainToSub[mainCategory].flatMap((sub) => this.props.categories.sub.find((item) => item.slug === sub)));
+    filteredSubcategoryList = [{ key: '', value: 'Alles', slug: '' }].concat(filteredSubcategoryList);
     return filteredSubcategoryList;
   }
 
@@ -82,7 +83,6 @@ class Filter extends React.Component {
   }
 
   render() {
-    console.log('filter render');
     const { categories, statusList, stadsdeelList, priorityList } = this.props;
     return (
       <div className="filter-component">
@@ -139,7 +139,7 @@ class Filter extends React.Component {
                     name="sub_slug"
                     display="Subcategorie"
                     control={this.filterForm.get('sub_slug')}
-                    values={categories.sub}
+                    values={this.state.filterSubs}
                     emptyOptionText="Alles"
                     multiple
                     useSlug
@@ -181,10 +181,12 @@ Filter.defaulProps = {
   categories: {
     main: [],
     sub: []
-  }
+  },
+  filterSubs: []
 };
 
 Filter.propTypes = {
+  filterSubs: PropTypes.array,
   stadsdeelList: PropTypes.array,
   categories: PropTypes.object,
   priorityList: PropTypes.array,
