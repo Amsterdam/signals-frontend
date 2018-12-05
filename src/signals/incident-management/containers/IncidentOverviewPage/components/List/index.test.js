@@ -10,7 +10,139 @@ describe('<List />', () => {
   beforeEach(() => {
     props = {
       incidents: [
-        { id: 158, signal_id: 'bdd90784-6093-449e-bacb-bec415446b6c', source: 'api', text: 'poep', text_extra: 'extra_boten_snelheid_rondvaartboot: Ja, extra_boten_snelheid_rederij: Aemstelland', status: { id: 187, text: 'test sophie', user: 'S.Raeymaekers@amsterdam.nl', target_api: '', state: 'i', extern: false, extra_properties: { IP: '194.13.133.3' } }, location: { id: 155, stadsdeel: 'A', buurt_code: 'abc', address: { postcode: '1012JS', huisletter: 'A', huisnummer: '1', woonplaats: 'Amsterdam', openbare_ruimte: 'Dam', huisnummer_toevoeging: '1' }, address_text: 'Dam 1A-1 1012JS Amsterdam', geometrie: { type: 'Point', coordinates: [52.36227330330391, 4.930282384157181] }, extra_properties: {} }, category: { main: '', sub: 'Gezonken boot', department: '', priority: null }, reporter: { email: 'a@b.com', phone: '020654321', remove_at: '2018-07-25T13:46:10.035176Z', created_at: '2018-07-11T13:46:10.072042Z', updated_at: '2018-07-11T13:46:10.072057Z', extra_properties: null }, priority: { priority: 'normal' }, created_at: '2018-07-11T13:46:10.073510Z', updated_at: null, incident_date_start: '2018-07-11T13:46:10.073488Z', incident_date_end: null, operational_date: null, image: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/images/2018/07/11/2.7mb_afbeeling_l1b9nqX.jpg?temp_url_sig=126bd0830babcf7717e44b613861c70a25c1e557&temp_url_expires=1531407297', extra_properties: null }],
+        {
+          reporter: {
+            email: 'p.lippmann@amsterdam.nl',
+            phone: '',
+            extra_properties: null
+          },
+          extra_properties: null,
+          _display: '1668 - o - A04h - 2018-12-03 09:41:43.012139+00:00',
+          priority: {
+            priority: 'normal'
+          },
+          created_at: '2018-12-03T10:41:43.012139+01:00',
+          text: 'Grofvuil gedumpt',
+          notes_count: 0,
+          signal_id: '84c8125c-6162-4504-9932-d2eec88d4053',
+          status: {
+            text: ',m,',
+            user: 's.l.kok@amsterdam.nl',
+            state: 'o',
+            state_display: 'Afgehandeld',
+            extra_properties: null,
+            created_at: '2018-12-03T10:44:10.162204+01:00'
+          },
+          location: {
+            id: 1638,
+            stadsdeel: 'A',
+            buurt_code: 'A04h',
+            address: {
+              postcode: '1011JJ',
+              huisletter: 'B',
+              huisnummer: '3',
+              woonplaats: 'Amsterdam',
+              openbare_ruimte: 'Staalstraat',
+              huisnummer_toevoeging: ''
+            },
+            address_text: 'Staalstraat 3B 1011JJ Amsterdam',
+            geometrie: {
+              type: 'Point',
+              coordinates: [
+                4.896941184997559,
+                52.368364148255644
+              ]
+            },
+            extra_properties: null
+          },
+          incident_date_end: null,
+          updated_at: '2018-12-03T12:53:51.589712+01:00',
+          _links: {
+            self: {
+              href: 'https://acc.api.data.amsterdam.nl/signals/auth/signal/1668/'
+            }
+          },
+          source: 'Telefoon – ASC',
+          id: 1668,
+          image: null,
+          operational_date: null,
+          category: {
+            sub: 'Wegsleep',
+            sub_slug: 'wegsleep',
+            main: 'Overlast in de openbare ruimte',
+            main_slug: 'overlast-in-de-openbare-ruimte',
+            department: 'ASC, CCA, THO'
+          },
+          incident_date_start: '2018-12-03T10:41:42+01:00',
+          text_extra: ''
+        },
+        {
+          reporter: {
+            email: '',
+            phone: '',
+            extra_properties: null
+          },
+          extra_properties: null,
+          _display: '1667 - m - A04h - 2018-11-29 22:03:19.398904+00:00',
+          priority: {
+            priority: 'normal'
+          },
+          created_at: '2018-11-29T23:03:19.398904+01:00',
+          text: 'poep',
+          notes_count: 0,
+          signal_id: '323c11d0-a196-432d-96aa-a07895d81ace',
+          status: {
+            text: null,
+            user: null,
+            state: 'm',
+            state_display: 'Gemeld',
+            extra_properties: {},
+            created_at: '2018-11-29T23:03:19.566082+01:00'
+          },
+          location: {
+            id: 1637,
+            stadsdeel: 'A',
+            buurt_code: 'A04h',
+            address: {
+              postcode: '1011KJ',
+              huisletter: '',
+              huisnummer: '45',
+              woonplaats: 'Amsterdam',
+              openbare_ruimte: 'Raamgracht',
+              huisnummer_toevoeging: ''
+            },
+            address_text: 'Raamgracht 45 1011KJ Amsterdam',
+            geometrie: {
+              type: 'Point',
+              coordinates: [
+                4.900460243225099,
+                52.3692814746251
+              ]
+            },
+            extra_properties: null
+          },
+          incident_date_end: null,
+          updated_at: '2018-11-29T23:05:52.590923+01:00',
+          _links: {
+            self: {
+              href: 'https://acc.api.data.amsterdam.nl/signals/auth/signal/1667/'
+            }
+          },
+          source: 'Telefoon – CCA',
+          id: 1667,
+          image: null,
+          operational_date: null,
+          category: {
+            sub: 'Dode dieren',
+            sub_slug: 'dode-dieren',
+            main: 'Overlast van dieren',
+            main_slug: 'overlast-van-dieren',
+            department: 'ASC, CCA, GGD'
+          },
+          incident_date_start: '2018-11-29T23:03:19+01:00',
+          text_extra: ''
+        }
+      ],
       priorityList: [],
       statusList: [],
       stadsdeelList: [],
@@ -33,8 +165,8 @@ describe('<List />', () => {
 
   describe('events', () => {
     it('should select the incident when the row is clicked', () => {
-      wrapper.find('tbody > tr').simulate('click');
-      expect(props.incidentSelected).toHaveBeenCalledWith(props.incidents[0]);
+      wrapper.find('tbody > tr').at(1).simulate('click');
+      expect(props.incidentSelected).toHaveBeenCalledWith(props.incidents[1]);
     });
 
     it('should sort asc the incidents when the header is clicked', () => {

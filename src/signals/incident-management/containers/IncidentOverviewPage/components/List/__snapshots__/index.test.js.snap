@@ -69,27 +69,27 @@ exports[`<List /> should render correctly 1`] = `
       </thead>
       <tbody>
         <tr
-          key="158"
+          key="1668"
           onClick={[Function]}
         >
           <td>
-            158
+            1668
           </td>
           <td>
-            146
+            -
           </td>
           <td
             className="no-wrap"
           >
-            11-07-2018
+            03-12-2018
              
-            15:46
+            10:41
           </td>
           <td>
             Niet gevonden
           </td>
           <td>
-            Gezonken boot
+            Wegsleep
           </td>
           <td>
             Niet gevonden
@@ -98,7 +98,40 @@ exports[`<List /> should render correctly 1`] = `
             Niet gevonden
           </td>
           <td>
-            Dam 1A-1 1012JS Amsterdam
+            Staalstraat 3B 1011JJ Amsterdam
+          </td>
+        </tr>
+        <tr
+          key="1667"
+          onClick={[Function]}
+        >
+          <td>
+            1667
+          </td>
+          <td>
+            5
+          </td>
+          <td
+            className="no-wrap"
+          >
+            29-11-2018
+             
+            23:03
+          </td>
+          <td>
+            Niet gevonden
+          </td>
+          <td>
+            Dode dieren
+          </td>
+          <td>
+            Niet gevonden
+          </td>
+          <td>
+            Niet gevonden
+          </td>
+          <td>
+            Raamgracht 45 1011KJ Amsterdam
           </td>
         </tr>
       </tbody>
