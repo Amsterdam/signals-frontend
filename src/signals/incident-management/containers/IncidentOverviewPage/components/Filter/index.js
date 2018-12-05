@@ -30,7 +30,7 @@ class Filter extends React.Component {
         filterSubs: [...this.filterSubcategories(value)]
       });
 
-      this.filterForm.get('sub_slug').setValue((this.props.filter && this.props.filter.sub_slug) || this.default.sub_slug);
+      this.filterForm.get('sub_slug').setValue(this.default.sub_slug);
     });
   }
 
@@ -42,7 +42,12 @@ class Filter extends React.Component {
   }
 
   onFilter = (filter) => {
-    this.props.onRequestIncidents({ filter });
+    // @todo remove when service accepts empty sub_slugs
+    const newFilter = { ...filter };
+    if (newFilter.sub_slug === this.default.sub_slug) {
+      newFilter.sub_slug = undefined;
+    }
+    this.props.onRequestIncidents({ filter: newFilter });
   }
 
   filterSubcategories(mainCategoryFilterSelection) {
