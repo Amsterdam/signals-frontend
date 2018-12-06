@@ -13,7 +13,7 @@ import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
-import { requestIncidents, incidentSelected, mainCategoryFilterSelectionChanged } from './actions';
+import { requestIncidents, incidentSelected } from './actions';
 import Filter from './components/Filter';
 import ListComponent from './components/List';
 import Pager from './components/Pager';
@@ -32,7 +32,6 @@ export class IncidentOverviewPage extends React.Component { // eslint-disable-li
             <Filter
               onRequestIncidents={this.props.onRequestIncidents}
               categories={this.props.categories}
-              onMainCategoryFilterSelectionChanged={this.props.onMainCategoryFilterSelectionChanged}
               filter={filter}
               {...rest}
             />
@@ -82,8 +81,7 @@ const mapStateToProps = createStructuredSelector({
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestIncidents: requestIncidents,
-  onIncidentSelected: incidentSelected,
-  onMainCategoryFilterSelectionChanged: mainCategoryFilterSelectionChanged
+  onIncidentSelected: incidentSelected
 }, dispatch);
 
 

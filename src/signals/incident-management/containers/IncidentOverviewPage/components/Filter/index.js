@@ -186,7 +186,8 @@ class Filter extends React.Component {
 Filter.defaulProps = {
   categories: {
     main: [],
-    sub: []
+    sub: [],
+    mainToSub: {}
   },
   filterSubs: []
 };
@@ -198,8 +199,7 @@ Filter.propTypes = {
   priorityList: PropTypes.array,
   statusList: PropTypes.array,
   filter: PropTypes.object,
-  onRequestIncidents: PropTypes.func.isRequired,
-  // onMainCategoryFilterSelectionChanged: PropTypes.func.isRequired
+  onRequestIncidents: PropTypes.func.isRequired
 };
 
 export default Filter;

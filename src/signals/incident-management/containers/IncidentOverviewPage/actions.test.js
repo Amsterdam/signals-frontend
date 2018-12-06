@@ -3,8 +3,7 @@ import {
   REQUEST_INCIDENTS_SUCCESS,
   REQUEST_INCIDENTS_ERROR,
   INCIDENT_SELECTED,
-  FILTER_INCIDENTS_CHANGED,
-  MAIN_CATEGORY_FILTER_SELECTION_CHANGED
+  FILTER_INCIDENTS_CHANGED
 } from './constants';
 
 import {
@@ -12,8 +11,7 @@ import {
   requestIncidentsSuccess,
   requestIncidentsError,
   incidentSelected,
-  filterIncidentsChanged,
-  mainCategoryFilterSelectionChanged
+  filterIncidentsChanged
 } from './actions';
 
 import { testActionCreator } from '../../../../../internals/testing/test-utils';
@@ -26,6 +24,5 @@ describe('OverviewPage actions', () => {
     testActionCreator(requestIncidentsError, REQUEST_INCIDENTS_ERROR, payload);
     testActionCreator(incidentSelected, INCIDENT_SELECTED, payload);
     testActionCreator(filterIncidentsChanged, FILTER_INCIDENTS_CHANGED, payload);
-    testActionCreator(mainCategoryFilterSelectionChanged, MAIN_CATEGORY_FILTER_SELECTION_CHANGED, payload);
   });
 });
