@@ -1,31 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<IncidentStatusContainer /> rendering should not render correctly when canChangeState is false 1`] = `
-<div>
-  <div
-    className="incident-status-container row"
-  >
-    <div
-      className="col-12"
-    />
-    <div
-      className="col-12"
-    >
-      <List
-        incidentStatusList={
-          Array [
-            Object {
-              "state": "o",
-            },
-          ]
-        }
-        statusList={Array []}
-      />
-    </div>
-  </div>
-</div>
-`;
-
 exports[`<IncidentStatusContainer /> rendering should render correctly 1`] = `
 <div>
   <div

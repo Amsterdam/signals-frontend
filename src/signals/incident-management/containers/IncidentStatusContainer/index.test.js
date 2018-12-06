@@ -33,16 +33,6 @@ describe('<IncidentStatusContainer />', () => {
       expect(wrapper).toMatchSnapshot();
     });
 
-    it('should not render correctly when canChangeState is false', () => {
-      props.incidentStatusContainer.incidentStatusList = [{
-        state: 'o'
-      }];
-      const wrapper = shallow(
-        <IncidentStatusContainer {...props} />
-      );
-      expect(wrapper).toMatchSnapshot();
-    });
-
     it('should render correctly when canDisplay is false', () => {
       props.incidentStatusContainer.incidentStatusList = [{
         state: 666
