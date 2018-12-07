@@ -664,8 +664,309 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
           "previousButtonLabel": "Vorige",
         },
         "vulaan": Object {
+          "form": Object {
+            "controls": Object {
+              "$field_0": Object {
+                "isStatic": false,
+                "render": [Function],
+              },
+              "custom_text": Object {
+                "meta": Object {
+                  "label": "Dit hebt u net ingevuld:",
+                  "type": "citation",
+                  "value": "{incident.description}",
+                },
+                "render": [Function],
+              },
+              "extra_bedrijven_adres": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "category": "overlast-bedrijven-en-horeca",
+                  },
+                  "label": "Op welke locatie ervaart u de overlast",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_bedrijven_binnenstad_text": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "category": "overlast-bedrijven-en-horeca",
+                  },
+                  "type": "caution",
+                  "value": "Gaat het om overlast in de binnenstad? Bel 14 020 en vul dit formulier niet verder in.  Dan kunnen we sneller voor u aan het werk.",
+                },
+                "render": [Function],
+              },
+              "extra_bedrijven_momenten": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "category": "overlast-bedrijven-en-horeca",
+                    "extra_bedrijven_vaker": true,
+                  },
+                  "label": "Geef aan op welke momenten het gebeurt",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_bedrijven_naam": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "category": "overlast-bedrijven-en-horeca",
+                  },
+                  "label": "Bedrijfsnaam / Evenementnaam van vermoedelijke veroorzaker",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_bedrijven_overig": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "category": "overlast-bedrijven-en-horeca",
+                  },
+                  "label": "Uw melding gaat over:",
+                  "pathMerge": "extra_properties",
+                  "values": Object {
+                    "Ander soort bedrijf": "Ander soort bedrijf",
+                    "Evenement": "Evenement (festival, markt, etc.)",
+                    "Horecabedrijf": "Horecabedrijf (café, restaurant, snackbar, etc.)",
+                    "Iets anders": "Iets anders",
+                  },
+                },
+                "render": [Function],
+              },
+              "extra_bedrijven_text": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "category": "overlast-bedrijven-en-horeca",
+                  },
+                  "value": Array [
+                    "Onze handhavers willen graag contact kunnen opnemen over uw melding. Bijvoorbeeld om een afspraak te maken om bij u thuis een geluidsmeting te verrichten. Anonieme meldingen krijgen daarom een lage prioriteit.",
+                    "Uw gegevens worden vertrouwelijk behandeld en worden niet aan een (horeca)ondernemer bekend gemaakt.",
+                  ],
+                },
+                "render": [Function],
+              },
+              "extra_bedrijven_vaker": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "category": "overlast-bedrijven-en-horeca",
+                  },
+                  "label": "Gebeurt het vaker?",
+                  "pathMerge": "extra_properties",
+                  "value": "Ja, het gebeurt vaker:",
+                },
+                "render": [Function],
+              },
+              "extra_boten_geluid_meer": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "overlast-op-het-water-geluid",
+                  },
+                  "label": "Zijn er nog dingen die u ons nog meer kunt vertellen?",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_boten_gezonken_meer": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "overlast-op-het-water-gezonken-boot",
+                  },
+                  "label": "Zijn er nog dingen die u ons nog meer kunt vertellen?",
+                  "pathMerge": "extra_properties",
+                  "subtitle": "Bijvoorbeeld: \\"er lekt olie\\", \\"gevaar voor andere boten\\", etc.",
+                },
+                "render": [Function],
+              },
+              "extra_boten_snelheid_meer": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "subcategory": "overlast-op-het-water-snel-varen",
+                  },
+                  "label": "Zijn er nog dingen die u ons nog meer kunt vertellen?",
+                  "pathMerge": "extra_properties",
+                  "subtitle": "Bijvoorbeeld: de kleur(en) van de boot, het aantal passagiers, de vaarrichting, Y of Vignet nummer etc.",
+                },
+                "render": [Function],
+              },
+              "extra_boten_snelheid_naamboot": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "subcategory": "overlast-op-het-water-snel-varen",
+                  },
+                  "label": "Wat is de naam van de boot?",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "extra_boten_snelheid_rederij": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "extra_boten_snelheid_rondvaartboot": "Ja",
+                    "subcategory": "overlast-op-het-water-snel-varen",
+                  },
+                  "label": "Wat is de naam van de rederij?",
+                  "pathMerge": "extra_properties",
+                  "subtitle": "Als u begint met typen verschijnt vanzelf een lijst met rederijen",
+                  "values": Object {
+                    "Admiraal Heijn": "Admiraal Heijn",
+                    "Amsterdam Boat Center": "Amsterdam Boat Center",
+                    "Amsterdam Boat Events": "Amsterdam Boat Events",
+                    "Amsterdam Canal Cruises": "Amsterdam Canal Cruises",
+                    "Amsterdamse Salonboot Rederij": "Amsterdamse Salonboot Rederij",
+                    "Amsterdamse Watertaxi Centrale": "Amsterdamse Watertaxi Centrale",
+                    "Arviro": "Arviro",
+                    "Atropa Belladonna": "Atropa Belladonna",
+                    "Avontuur Amsterdam": "Avontuur Amsterdam",
+                    "Blue Boat Company": "Blue Boat Company",
+                    "Bughouse Tours Amsterdam": "Bughouse Tours Amsterdam",
+                    "Canal Bus": "Canal Bus",
+                    "Canal Company": "Canal Company",
+                    "Canal Rondvaart": "Canal Rondvaart",
+                    "Classic Boat Dinners": "Classic Boat Dinners",
+                    "Classic Ship Service": "Classic Ship Service",
+                    "Edutech": "Edutech",
+                    "Hollandsche Vaartochten Mij.": "Hollandsche Vaartochten Mij.",
+                    "Leemstar": "Leemstar",
+                    "Meijers Rondvaarten": "Meijers Rondvaarten",
+                    "Meinema, W.D.": "Meinema, W.D.",
+                    "MokumBoot": "MokumBoot",
+                    "Nationale Vereniging de Zonnebloem": "Nationale Vereniging de Zonnebloem",
+                    "New Orange": "New Orange",
+                    "Onbekend": "Onbekend",
+                    "Paradis Private Boat Tours": "Paradis Private Boat Tours",
+                    "Rederij 't Smidtje": "Rederij 't Smidtje",
+                    "Rederij Aemstelland": "Rederij Aemstelland",
+                    "Rederij Amsterdam": "Rederij Amsterdam",
+                    "Rederij Belle": "Rederij Belle",
+                    "Rederij Cruise With Us": "Rederij Cruise With Us",
+                    "Rederij De Jordaan": "Rederij De Jordaan",
+                    "Rederij Friendship": "Rederij Friendship",
+                    "Rederij Griffioen": "Rederij Griffioen",
+                    "Rederij Gypsy Ballad": "Rederij Gypsy Ballad",
+                    "Rederij Kooij": "Rederij Kooij",
+                    "Rederij Leemstar": "Rederij Leemstar",
+                    "Rederij Lieve": "Rederij Lieve",
+                    "Rederij Lovers": "Rederij Lovers",
+                    "Rederij Nassau": "Rederij Nassau",
+                    "Rederij Plas": "Rederij Plas",
+                    "Rederij Vlaun": "Rederij Vlaun",
+                    "Rederij Welvaren": "Rederij Welvaren",
+                    "Rederij de Nederlanden": "Rederij de Nederlanden",
+                    "SOP": "SOP",
+                    "Salonboot Adeline": "Salonboot Adeline",
+                    "Salonboot Belle van Zuylen": "Salonboot Belle van Zuylen",
+                    "Salonboot Dame van Amstel": "Salonboot Dame van Amstel",
+                    "Salonboot Hilda": "Salonboot Hilda",
+                    "Scheepsbouw Achterbos Theo Kok": "Scheepsbouw Achterbos Theo Kok",
+                    "Shoulders Sloepen": "Shoulders Sloepen",
+                    "Smidtje Beheer": "Smidtje Beheer",
+                    "Smidtje Exploitatie": "Smidtje Exploitatie",
+                    "Smidtje Holding": "Smidtje Holding",
+                    "Stichting Cordaan Groep": "Stichting Cordaan Groep",
+                    "Stichting De Kalefater": "Stichting De Kalefater",
+                    "Stichting Motorschip Jonckvrouw": "Stichting Motorschip Jonckvrouw",
+                    "Stichting behoud Salonboot Avanti": "Stichting behoud Salonboot Avanti",
+                    "Ver. Vrienden van de Boonapanich": "Ver. Vrienden van de Boonapanich",
+                    "Ver.van Vrienden van de Britannia": "Ver.van Vrienden van de Britannia",
+                    "Waterlelie Rondvaart": "Waterlelie Rondvaart",
+                    "Windkracht 18": "Windkracht 18",
+                    "Wolfsburght": "Wolfsburght",
+                    "Zonneboot Amsterdam": "Zonneboot Amsterdam",
+                  },
+                },
+                "render": [Function],
+              },
+              "extra_boten_snelheid_rondvaartboot": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "subcategory": "overlast-op-het-water-snel-varen",
+                  },
+                  "label": "Gaat de melding over een rondvaartboot?",
+                  "pathMerge": "extra_properties",
+                  "values": Object {
+                    "Ja": "Ja",
+                    "Nee": "Nee",
+                  },
+                },
+                "render": [Function],
+              },
+              "extra_personen_overig": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "category": "overlast-van-en-door-personen-of-groepen",
+                  },
+                  "label": "Om hoe veel personen gaat het (ongeveer)?",
+                  "pathMerge": "extra_properties",
+                  "values": Object {
+                    "": "Onbekend",
+                    "1-3": "1 - 3",
+                    "4-6": "4 - 6",
+                    "7+": "7 of meer",
+                  },
+                },
+                "render": [Function],
+              },
+              "extra_personen_overig_vaker": Object {
+                "meta": Object {
+                  "className": "col-sm-12 col-md-6",
+                  "ifAllOf": Object {
+                    "category": "overlast-van-en-door-personen-of-groepen",
+                  },
+                  "label": "Gebeurt het vaker?",
+                  "pathMerge": "extra_properties",
+                  "value": "Ja, het gebeurt vaker:",
+                },
+                "render": [Function],
+              },
+              "extra_personen_overig_vaker_momenten": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "category": "overlast-van-en-door-personen-of-groepen",
+                    "extra_personen_overig_vaker": true,
+                  },
+                  "label": "Geef aan op welke momenten het gebeurt",
+                  "pathMerge": "extra_properties",
+                },
+                "render": [Function],
+              },
+              "navigation_submit_button": Object {
+                "meta": Object {
+                  "ifNoneOf": Object {
+                    "subcategory": Array [
+                      "straatverlichting-openbare-klok",
+                      "klok",
+                    ],
+                  },
+                },
+              },
+              "redirect_to_kim": Object {
+                "meta": Object {
+                  "buttonAction": "https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx",
+                  "buttonLabel": "Meteen doorgaan",
+                  "buttonTimeout": 5000,
+                  "ifOneOf": Object {
+                    "subcategory": Array [
+                      "straatverlichting-openbare-klok",
+                      "klok",
+                    ],
+                  },
+                  "label": "Redirect naar",
+                  "pathMerge": "extra_properties",
+                  "value": "Voor meldingen over openbare verlichting, klokken en verkeerslichten is een apart formulier beschikbaar",
+                },
+                "render": [Function],
+              },
+            },
+          },
           "formAction": "UPDATE_INCIDENT",
-          "formFactory": [Function],
           "label": "Dit hebben we nog van u nodig",
           "nextButtonClass": "action primary arrow-right",
           "nextButtonLabel": "Volgende",

@@ -76,6 +76,7 @@ const mainToSubMap = {
     'Scheepvaart nautisch toezicht',
     'Overlast vanaf het water',
     'Overig boten',
+    'Wegsleep',
     'Overig'
   ],
   'Afval': [
@@ -121,7 +122,8 @@ const mainToSubMap = {
     'Honden(poep)',
     'Hinderlijk geplaatst object',
     'Deelfiets',
-    'Overig openbare ruimte'
+    'Overig openbare ruimte',
+    'Wegsleep'
   ],
   'Openbaar groen en water': [
     'Boom',

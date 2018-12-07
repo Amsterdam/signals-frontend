@@ -67,6 +67,7 @@ const subcategoryList = [
   { key: 'Verkeerslicht', value: 'Verkeerslicht' },
   { key: 'Verkeersoverlast / Verkeerssituaties', value: 'Verkeersoverlast / Verkeerssituaties' },
   { key: 'Vuurwerkoverlast', value: 'Vuurwerkoverlast' },
+  { key: 'Wegsleep', value: 'Wegsleep' },
   { key: 'Wespen', value: 'Wespen' },
   { key: 'Wildplassen / poepen / overgeven', value: 'Wildplassen / poepen / overgeven' },
   { key: 'Overig', value: 'Overig' },
