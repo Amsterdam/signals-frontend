@@ -3,6 +3,16 @@ import IncidentNavigation from '../../components/IncidentNavigation';
 
 export default {
   controls: {
+    custom_text: {
+      meta: {
+        label: 'Dit hebt u net ingevuld:',
+        type: 'citation',
+        value: '{incident.description}',
+        ignoreVisibility: true
+      },
+      render: FormComponents.PlainText
+    },
+
     extra_bedrijven_binnenstad_text: {
       meta: {
         className: 'col-sm-12 col-md-6',

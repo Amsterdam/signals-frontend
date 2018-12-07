@@ -2,6 +2,16 @@ import FormComponents from '../../components/IncidentForm/components/';
 
 export default {
   controls: {
+    custom_text: {
+      meta: {
+        label: 'Dit hebt u net ingevuld:',
+        type: 'citation',
+        value: '{incident.description}',
+        ignoreVisibility: true
+      },
+      render: FormComponents.PlainText
+    },
+
     extra_boten_snelheid_rondvaartboot: {
       meta: {
         className: 'col-sm-12 col-md-6',
