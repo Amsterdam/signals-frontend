@@ -81,21 +81,21 @@ exports[`<List /> should render correctly 1`] = `
           <td
             className="no-wrap"
           >
-            03-12-2018
+            21-07-1970
              
-            10:41
+            11:55
           </td>
           <td>
-            Niet gevonden
+            Centrum
           </td>
           <td>
             Wegsleep
           </td>
           <td>
-            Niet gevonden
+            Afgehandeld
           </td>
           <td>
-            Niet gevonden
+            Normaal
           </td>
           <td>
             Staalstraat 3B 1011JJ Amsterdam
@@ -109,26 +109,26 @@ exports[`<List /> should render correctly 1`] = `
             1667
           </td>
           <td>
-            5
+            42
           </td>
           <td
             className="no-wrap"
           >
-            29-11-2018
+            21-07-1970
              
-            23:03
+            11:55
           </td>
           <td>
-            Niet gevonden
+            Zuid
           </td>
           <td>
             Dode dieren
           </td>
           <td>
-            Niet gevonden
+            Gemeld
           </td>
           <td>
-            Niet gevonden
+            Normaal
           </td>
           <td>
             Raamgracht 45 1011KJ Amsterdam

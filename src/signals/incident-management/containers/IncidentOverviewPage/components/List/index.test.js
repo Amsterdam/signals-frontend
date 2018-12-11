@@ -1,13 +1,29 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+import moment from 'moment';
 
 import List from './index';
+
+jest.mock('moment');
+jest.mock('shared/services/string-parser/string-parser');
 
 describe('<List />', () => {
   let wrapper;
   let props;
 
   beforeEach(() => {
+    moment.mockImplementation(() => ({
+      diff: jest.fn()
+    }));
+
+    moment.duration.mockImplementation(() => ({
+      asDays: () => 42.666
+    }));
+
+    string2date.mockImplementation(() => '21-07-1970');
+    string2time.mockImplementation(() => '11:55');
+
     props = {
       incidents: [
         {
@@ -101,7 +117,7 @@ describe('<List />', () => {
           },
           location: {
             id: 1637,
-            stadsdeel: 'A',
+            stadsdeel: 'K',
             buurt_code: 'A04h',
             address: {
               postcode: '1011KJ',
@@ -143,9 +159,96 @@ describe('<List />', () => {
           text_extra: ''
         }
       ],
-      priorityList: [],
-      statusList: [],
-      stadsdeelList: [],
+      priorityList: [
+        {
+          key: 'normal',
+          value: 'Normaal'
+        },
+        {
+          key: 'high',
+          value: 'Hoog'
+        }
+      ],
+      statusList: [
+        {
+          key: 'm',
+          value: 'Gemeld'
+        },
+        {
+          key: 'i',
+          value: 'In afwachting van behandeling'
+        },
+        {
+          key: 'b',
+          value: 'In behandeling'
+        },
+        {
+          key: 'o',
+          value: 'Afgehandeld'
+        },
+        {
+          key: 'h',
+          value: 'On hold'
+        },
+        {
+          key: 'a',
+          value: 'Geannuleerd'
+        },
+        {
+          key: 'reopened',
+          value: 'Heropend'
+        },
+        {
+          key: 'ready to send',
+          value: 'Extern: te verzenden'
+        },
+        {
+          key: 'sent',
+          value: 'Extern: verzonden'
+        },
+        {
+          key: 'send failed',
+          value: 'Extern: mislukt'
+        },
+        {
+          key: 'done external',
+          value: 'Extern: afgehandeld'
+        }
+      ],
+      stadsdeelList: [
+        {
+          key: 'A',
+          value: 'Centrum'
+        },
+        {
+          key: 'B',
+          value: 'Westpoort'
+        },
+        {
+          key: 'E',
+          value: 'West'
+        },
+        {
+          key: 'M',
+          value: 'Oost'
+        },
+        {
+          key: 'N',
+          value: 'Noord'
+        },
+        {
+          key: 'T',
+          value: 'Zuidoost'
+        },
+        {
+          key: 'K',
+          value: 'Zuid'
+        },
+        {
+          key: 'F',
+          value: 'Nieuw-West'
+        }
+      ],
       incidentSelected: jest.fn(),
       onRequestIncidents: jest.fn()
     };
