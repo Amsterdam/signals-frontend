@@ -1,5 +1,492 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<Filter /> FieldGroup should lazy load categories correctly with existing filter 1`] = `
+<div
+  className="filter-component"
+>
+  <div
+    className="filter-component__title"
+  >
+    Filters
+  </div>
+  <div
+    className="filter-component__body"
+  >
+    <FieldGroup
+      control={
+        FormGroup {
+          "_onDisabledChange": Array [],
+          "_pendingChange": false,
+          "_pendingDirty": false,
+          "_pendingTouched": false,
+          "asyncValidator": null,
+          "controls": Object {
+            "id": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": "",
+              "asyncValidator": null,
+              "errors": null,
+              "formState": "",
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": null,
+                "updateOn": null,
+                "validators": null,
+              },
+              "value": "",
+              "valueChanges": Observable {
+                "observers": Array [],
+              },
+            },
+            "incident_date_start": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": "",
+              "asyncValidator": null,
+              "errors": null,
+              "formState": "",
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": null,
+                "updateOn": null,
+                "validators": null,
+              },
+              "value": "",
+              "valueChanges": Observable {
+                "observers": Array [],
+              },
+            },
+            "location__address_text": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": "",
+              "asyncValidator": null,
+              "errors": null,
+              "formState": "",
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": null,
+                "updateOn": null,
+                "validators": null,
+              },
+              "value": "",
+              "valueChanges": Observable {
+                "observers": Array [],
+              },
+            },
+            "location__stadsdeel": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": Array [
+                "",
+              ],
+              "asyncValidator": null,
+              "errors": null,
+              "formState": Array [
+                "",
+              ],
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": null,
+                "updateOn": null,
+                "validators": null,
+              },
+              "value": Array [
+                "",
+              ],
+              "valueChanges": Observable {
+                "observers": Array [],
+              },
+            },
+            "main_slug": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": Array [
+                "overlast-van-dieren",
+              ],
+              "asyncValidator": null,
+              "errors": null,
+              "formState": Array [
+                "",
+              ],
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": null,
+                "updateOn": null,
+                "validators": null,
+              },
+              "value": Array [
+                "overlast-van-dieren",
+              ],
+              "valueChanges": Observable {
+                "observers": Array [
+                  [Function],
+                ],
+              },
+            },
+            "priority__priority": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": "",
+              "asyncValidator": null,
+              "errors": null,
+              "formState": "",
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": undefined,
+                "updateOn": undefined,
+                "validators": undefined,
+              },
+              "value": "",
+              "valueChanges": Observable {
+                "observers": Array [],
+              },
+            },
+            "status__state": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": Array [
+                "",
+              ],
+              "asyncValidator": null,
+              "errors": null,
+              "formState": Array [
+                "",
+              ],
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": null,
+                "updateOn": null,
+                "validators": null,
+              },
+              "value": Array [
+                "",
+              ],
+              "valueChanges": Observable {
+                "observers": Array [],
+              },
+            },
+            "sub_slug": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": Array [
+                "ganzen",
+              ],
+              "asyncValidator": null,
+              "errors": null,
+              "formState": Array [
+                "",
+              ],
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": null,
+                "updateOn": null,
+                "validators": null,
+              },
+              "value": Array [
+                "ganzen",
+              ],
+              "valueChanges": Observable {
+                "observers": Array [],
+              },
+            },
+          },
+          "errors": null,
+          "get": [Function],
+          "getError": [Function],
+          "handleSubmit": [Function],
+          "hasError": [Function],
+          "meta": Object {},
+          "patchValue": [Function],
+          "pristine": true,
+          "reset": [Function],
+          "setValue": [Function],
+          "stateChanges": Observable {
+            "observers": Array [],
+          },
+          "status": "VALID",
+          "statusChanges": Observable {
+            "observers": Array [],
+          },
+          "submitted": false,
+          "touched": false,
+          "validator": null,
+          "validatorOrOpts": Object {
+            "asyncValidators": null,
+            "updateOn": null,
+            "validators": null,
+          },
+          "value": Object {
+            "id": "",
+            "incident_date_start": "",
+            "location__address_text": "",
+            "location__stadsdeel": Array [
+              "",
+            ],
+            "main_slug": Array [
+              "overlast-van-dieren",
+            ],
+            "priority__priority": "",
+            "status__state": Array [
+              "",
+            ],
+            "sub_slug": Array [
+              "ganzen",
+            ],
+          },
+          "valueChanges": Observable {
+            "observers": Array [],
+          },
+        }
+      }
+      render={[Function]}
+      strict={true}
+    />
+  </div>
+</div>
+`;
+
 exports[`<Filter /> FieldGroup should render correctly 1`] = `
 <form
   onSubmit={[Function]}
@@ -4063,6 +4550,507 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
     </button>
   </div>
 </form>
+`;
+
+exports[`<Filter /> FieldGroup should update main category to All when main all main categories have been deselected 1`] = `
+<div
+  className="filter-component"
+>
+  <div
+    className="filter-component__title"
+  >
+    Filters
+  </div>
+  <div
+    className="filter-component__body"
+  >
+    <FieldGroup
+      control={
+        FormGroup {
+          "_onDisabledChange": Array [],
+          "_pendingChange": false,
+          "_pendingDirty": false,
+          "_pendingTouched": false,
+          "asyncValidator": null,
+          "controls": Object {
+            "id": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": "",
+              "asyncValidator": null,
+              "errors": null,
+              "formState": "",
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": null,
+                "updateOn": null,
+                "validators": null,
+              },
+              "value": "",
+              "valueChanges": Observable {
+                "observers": Array [],
+              },
+            },
+            "incident_date_start": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": "",
+              "asyncValidator": null,
+              "errors": null,
+              "formState": "",
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": null,
+                "updateOn": null,
+                "validators": null,
+              },
+              "value": "",
+              "valueChanges": Observable {
+                "observers": Array [],
+              },
+            },
+            "location__address_text": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": "",
+              "asyncValidator": null,
+              "errors": null,
+              "formState": "",
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": null,
+                "updateOn": null,
+                "validators": null,
+              },
+              "value": "",
+              "valueChanges": Observable {
+                "observers": Array [],
+              },
+            },
+            "location__stadsdeel": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": Array [
+                "",
+              ],
+              "asyncValidator": null,
+              "errors": null,
+              "formState": Array [
+                "",
+              ],
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": null,
+                "updateOn": null,
+                "validators": null,
+              },
+              "value": Array [
+                "",
+              ],
+              "valueChanges": Observable {
+                "observers": Array [],
+              },
+            },
+            "main_slug": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": Array [
+                Array [
+                  "",
+                ],
+              ],
+              "asyncValidator": null,
+              "errors": null,
+              "formState": Array [
+                "",
+              ],
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": null,
+                "updateOn": null,
+                "validators": null,
+              },
+              "value": Array [
+                Array [
+                  "",
+                ],
+              ],
+              "valueChanges": Observable {
+                "observers": Array [
+                  [Function],
+                ],
+              },
+            },
+            "priority__priority": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": "",
+              "asyncValidator": null,
+              "errors": null,
+              "formState": "",
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": undefined,
+                "updateOn": undefined,
+                "validators": undefined,
+              },
+              "value": "",
+              "valueChanges": Observable {
+                "observers": Array [],
+              },
+            },
+            "status__state": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": Array [
+                "",
+              ],
+              "asyncValidator": null,
+              "errors": null,
+              "formState": Array [
+                "",
+              ],
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": null,
+                "updateOn": null,
+                "validators": null,
+              },
+              "value": Array [
+                "",
+              ],
+              "valueChanges": Observable {
+                "observers": Array [],
+              },
+            },
+            "sub_slug": FormControl {
+              "_onCollectionChange": [Function],
+              "_onDisabledChange": Array [],
+              "_parent": [Circular],
+              "_pendingChange": true,
+              "_pendingDirty": false,
+              "_pendingTouched": false,
+              "_pendingValue": Array [
+                Array [
+                  "",
+                ],
+              ],
+              "asyncValidator": null,
+              "errors": null,
+              "formState": Array [
+                "",
+              ],
+              "get": [Function],
+              "getError": [Function],
+              "handler": [Function],
+              "hasError": [Function],
+              "meta": Object {},
+              "onBlur": [Function],
+              "onBlurChanges": Observable {
+                "observers": Array [],
+              },
+              "onChange": [Function],
+              "onValueChanges": Observable {
+                "observers": Array [],
+              },
+              "patchValue": [Function],
+              "pristine": true,
+              "reset": [Function],
+              "setValue": [Function],
+              "stateChanges": Observable {
+                "observers": Array [],
+              },
+              "status": "VALID",
+              "statusChanges": Observable {
+                "observers": Array [],
+              },
+              "submitted": false,
+              "touched": false,
+              "validator": null,
+              "validatorsOrOpts": Object {
+                "asyncValidators": null,
+                "updateOn": null,
+                "validators": null,
+              },
+              "value": Array [
+                Array [
+                  "",
+                ],
+              ],
+              "valueChanges": Observable {
+                "observers": Array [],
+              },
+            },
+          },
+          "errors": null,
+          "get": [Function],
+          "getError": [Function],
+          "handleSubmit": [Function],
+          "hasError": [Function],
+          "meta": Object {},
+          "patchValue": [Function],
+          "pristine": true,
+          "reset": [Function],
+          "setValue": [Function],
+          "stateChanges": Observable {
+            "observers": Array [
+              [Function],
+            ],
+          },
+          "status": "VALID",
+          "statusChanges": Observable {
+            "observers": Array [],
+          },
+          "submitted": false,
+          "touched": false,
+          "validator": null,
+          "validatorOrOpts": Object {
+            "asyncValidators": null,
+            "updateOn": null,
+            "validators": null,
+          },
+          "value": Object {
+            "id": "",
+            "incident_date_start": "",
+            "location__address_text": "",
+            "location__stadsdeel": Array [
+              "",
+            ],
+            "main_slug": Array [
+              Array [
+                "",
+              ],
+            ],
+            "priority__priority": "",
+            "status__state": Array [
+              "",
+            ],
+            "sub_slug": Array [
+              Array [
+                "",
+              ],
+            ],
+          },
+          "valueChanges": Observable {
+            "observers": Array [],
+          },
+        }
+      }
+      render={[Function]}
+      strict={true}
+    />
+  </div>
+</div>
 `;
 
 exports[`<Filter /> FieldGroup should update sub categories when main categories have changed 1`] = `

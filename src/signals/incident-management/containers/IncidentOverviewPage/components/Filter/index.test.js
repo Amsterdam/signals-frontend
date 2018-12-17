@@ -218,14 +218,6 @@ describe('<Filter />', () => {
       wrapper.setProps({
         categories: {
           ...categories,
-          // main: [
-            // '': {
-              // key: '',
-              // value: 'alle',
-              // slug: ''
-            // },
-            // ...categories.main
-          // ],
           sub: [
             '': {
               key: '',
@@ -246,6 +238,24 @@ describe('<Filter />', () => {
 
     it('should render 2 buttons', () => {
       expect(renderedFormGroup.find('button').length).toEqual(2);
+    });
+
+    it('should lazy load categories correctly with existing filter', () => {
+      const filterForm = wrapper.instance().filterForm;
+      const filterValue = {
+        ...filterForm.value,
+        main_slug: ['overlast-van-dieren'],
+        sub_slug: ['ganzen']
+      };
+
+      props.filter = filterValue;
+      wrapper = shallow(<Filter {...props} />);
+
+      wrapper.setProps({
+        categories
+      });
+
+      expect(wrapper).toMatchSnapshot();
     });
 
     it('should reset the form when the reset button is clicked', () => {
@@ -324,18 +334,20 @@ describe('<Filter />', () => {
         ...filterForm.value,
         main_slug: ['', 'overlast-van-dieren'],
       };
-      // console.log('yo', filterValue);
       filterForm.setValue(filterValue);
 
       expect(wrapper).toMatchSnapshot();
     });
 
-    // it('should not render subcategoryList when there are less than 2 items', () => {
-      // wrapper.setProps({
-        // subcategoryList: [1, 2]
-      // });
-//
-      // expect(renderedFormGroup).toMatchSnapshot();
-    // });
+    it('should update main category to All when main all main categories have been deselected', () => {
+      const filterForm = wrapper.instance().filterForm;
+      const filterValue = {
+        ...filterForm.value,
+        main_slug: [],
+      };
+      filterForm.setValue(filterValue);
+
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 });
