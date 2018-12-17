@@ -62,7 +62,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
                 <tr key={incident.id} onClick={this.selectIncident(incident)}>
                   <td>{incident.id}</td>
                   <td>{this.getDaysOpen(incident)}</td>
-                  <td className="no-wrap">{string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}</td>
+                  <td className="no-wrap">{string2date(incident.created_at)} {string2time(incident.created_at)}</td>
                   <td>{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</td>
                   <td>{incident.category && incident.category.sub}</td>
                   <td>{getListValueByKey(statusList, incident.status.state)}</td>
