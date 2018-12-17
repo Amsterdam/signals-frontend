@@ -26,6 +26,10 @@ class Filter extends React.Component {
 
   componentDidMount() {
     this.filterForm.get('main_slug').valueChanges.subscribe((value) => {
+      if (value && value.length === 0) {
+        this.filterForm.get('main_slug').setValue(this.default.main_slug);
+      }
+
       this.setState({
         filterSubs: [...this.filterSubcategories(value)]
       });
@@ -36,22 +40,24 @@ class Filter extends React.Component {
 
   componentDidUpdate(props) {
     if (!isEqual(props.categories, this.props.categories)) {
-      this.filterForm.get('main_slug').setValue((this.props.filter && this.props.filter.main_slug) || this.default.sub_slug);
-      this.filterForm.get('sub_slug').setValue((this.props.filter && this.props.filter.sub_slug) || this.default.sub_slug);
+      this.filterForm.get('main_slug').setValue((props.filter && props.filter.main_slug) || this.default.main_slug);
+      this.filterForm.get('sub_slug').setValue((props.filter && props.filter.sub_slug) || this.default.sub_slug);
     }
   }
 
   onFilter = (filter) => {
-    // @todo remove when service accepts empty sub_slugs
     const newFilter = { ...filter };
-    if (newFilter.sub_slug === this.default.sub_slug) {
-      newFilter.sub_slug = undefined;
+    if (isEqual(newFilter.main_slug, this.default.main_slug)) {
+      newFilter.main_slug = null;
+    }
+    if (isEqual(newFilter.sub_slug, this.default.sub_slug)) {
+      newFilter.sub_slug = null;
     }
     this.props.onRequestIncidents({ filter: newFilter });
   }
 
   filterSubcategories(mainCategoryFilterSelection) {
-    if (!mainCategoryFilterSelection || mainCategoryFilterSelection === undefined || mainCategoryFilterSelection === this.default.sub_slug) {
+    if (!mainCategoryFilterSelection || mainCategoryFilterSelection === undefined || isEqual(mainCategoryFilterSelection, this.default.sub_slug)) {
       return this.props.categories.sub;
     }
     if (mainCategoryFilterSelection.length > 1 && mainCategoryFilterSelection.indexOf('') > -1) {

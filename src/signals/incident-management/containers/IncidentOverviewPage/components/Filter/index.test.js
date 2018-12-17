@@ -212,8 +212,31 @@ describe('<Filter />', () => {
     let renderedFormGroup;
 
     beforeEach(() => {
-      props.categories = categories;
+      // props.categories = categories;
       wrapper = shallow(<Filter {...props} />);
+
+      wrapper.setProps({
+        categories: {
+          ...categories,
+          // main: [
+            // '': {
+              // key: '',
+              // value: 'alle',
+              // slug: ''
+            // },
+            // ...categories.main
+          // ],
+          sub: [
+            '': {
+              key: '',
+              value: 'alle',
+              slug: ''
+            },
+            ...categories.sub
+          ]
+        }
+      });
+
       renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
     });
 
@@ -260,10 +283,51 @@ describe('<Filter />', () => {
       expect(filterForm.value.id).toEqual(filterValue.id);
       expect(filterForm.value.location__address_text).toEqual(filterValue.location__address_text);
 
-      // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
       renderedFormGroup.find('form').simulate('submit', { preventDefault() {} });
       expect(filterForm.value).toEqual(filterValue);
-      expect(props.onRequestIncidents).toHaveBeenCalledWith({ filter: filterValue });
+      expect(props.onRequestIncidents).toHaveBeenCalledWith({
+        filter: {
+          ...filterValue,
+          main_slug: null,
+          sub_slug: null
+        }
+      });
+    });
+
+    it('should filter when form is submitted with default main_slug and sub_slug', () => {
+      const filterForm = wrapper.instance().filterForm;
+      const filterValue = {
+        ...filterForm.value,
+        main_slug: [['']],
+        sub_slug: [['']],
+        id: 50,
+        location__address_text: 'dam'
+      };
+      filterForm.setValue(filterValue);
+      expect(filterForm.value.id).toEqual(filterValue.id);
+      expect(filterForm.value.location__address_text).toEqual(filterValue.location__address_text);
+
+      renderedFormGroup.find('form').simulate('submit', { preventDefault() {} });
+      expect(filterForm.value).toEqual(filterValue);
+      expect(props.onRequestIncidents).toHaveBeenCalledWith({
+        filter: {
+          ...filterValue,
+          main_slug: null,
+          sub_slug: null
+        }
+      });
+    });
+
+    it('should update sub categories when main categories have changed', () => {
+      const filterForm = wrapper.instance().filterForm;
+      const filterValue = {
+        ...filterForm.value,
+        main_slug: ['', 'overlast-van-dieren'],
+      };
+      // console.log('yo', filterValue);
+      filterForm.setValue(filterValue);
+
+      expect(wrapper).toMatchSnapshot();
     });
 
     // it('should not render subcategoryList when there are less than 2 items', () => {
