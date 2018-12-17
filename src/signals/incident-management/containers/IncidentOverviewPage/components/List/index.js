@@ -17,7 +17,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
 
   getDaysOpen(incident) {
     if (incident.status.state !== 'o' && incident.status.state !== 'a') {
-      const start = moment(incident.created_at.split('T')[0]); // another date
+      const start = moment(incident.created_at.split('T')[0]);
       const duration = moment.duration(moment().diff(start));
       return Math.trunc(duration.asDays());
     }
