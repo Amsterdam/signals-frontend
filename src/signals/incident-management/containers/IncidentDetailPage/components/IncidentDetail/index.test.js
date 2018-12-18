@@ -1,9 +1,13 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
+import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+
 import IncidentDetail from './index';
 import priorityList from '../../../../definitions/priorityList';
 import stadsdeelList from '../../../../definitions/stadsdeelList';
+
+jest.mock('shared/services/string-parser/string-parser');
 
 describe('<IncidentDetail />', () => {
   let incident;
@@ -23,6 +27,13 @@ describe('<IncidentDetail />', () => {
       incident_date_start: '2018-07-15T07:19:08.043554Z',
       extra_properties: { extra_boten_snelheid_rederij: 'Admiraal Heijn', extra_boten_snelheid_naamboot: 'Speranta', extra_boten_snelheid_rondvaartboot: 'Ja' }
     };
+
+    string2date.mockImplementation(() => '21-07-1970');
+    string2time.mockImplementation(() => '11:55');
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
   });
 
   it('should render correctly', () => {
