@@ -212,7 +212,6 @@ describe('<Filter />', () => {
     let renderedFormGroup;
 
     beforeEach(() => {
-      // props.categories = categories;
       wrapper = shallow(<Filter {...props} />);
 
       wrapper.setProps({
