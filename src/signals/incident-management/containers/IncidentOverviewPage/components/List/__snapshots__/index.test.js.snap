@@ -27,7 +27,7 @@ exports[`<List /> should render correctly 1`] = `
             Id
           </th>
           <th>
-            Dgn
+            Dag
           </th>
           <th
             className=""
