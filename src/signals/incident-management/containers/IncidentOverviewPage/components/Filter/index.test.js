@@ -170,6 +170,7 @@ describe('<Filter />', () => {
   });
 
   it('should render correctly', () => {
+    props.categories = categories;
     wrapper = shallow(<Filter {...props} />);
 
     expect(wrapper).toMatchSnapshot();

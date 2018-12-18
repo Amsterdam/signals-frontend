@@ -14,7 +14,7 @@ class Filter extends React.Component {
     super(props);
 
     this.state = {
-      filterSubs: props.filterSubs
+      filterSubs: (props.categories && props.categories.sub) || props.filterSubs
     };
 
     this.filterSubcategories = this.filterSubcategories.bind(this);
