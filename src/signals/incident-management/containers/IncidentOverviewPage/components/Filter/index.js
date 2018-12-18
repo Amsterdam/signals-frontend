@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
+import { isEqual, sortBy } from 'lodash';
 
 import './style.scss';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
@@ -12,33 +13,76 @@ class Filter extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      filterSubs: (props.categories && props.categories.sub) || props.filterSubs
+    };
+
+    this.filterSubcategories = this.filterSubcategories.bind(this);
+
     if (props.filter) {
       this.filterForm.setValue(props.filter);
     }
   }
 
-  componentWillMount() {
-    this.filterForm.get('category__main').valueChanges.subscribe((value) => {
-      this.props.onMainCategoryFilterSelectionChanged(value);
-      this.filterForm.get('category__sub').reset(['']);
-      this.filterForm.get('category__sub').updateValueAndValidity();
+  componentDidMount() {
+    this.filterForm.get('main_slug').valueChanges.subscribe((value) => {
+      if (value && value.length === 0) {
+        this.filterForm.get('main_slug').setValue(this.default.main_slug);
+      }
+
+      this.setState({
+        filterSubs: [...this.filterSubcategories(value)]
+      });
+
+      this.filterForm.get('sub_slug').setValue(this.default.sub_slug);
     });
   }
 
-  onFilter = (filter) => {
-    this.props.onRequestIncidents({ filter });
+  componentDidUpdate(props) {
+    if (!isEqual(props.categories, this.props.categories)) {
+      this.filterForm.get('main_slug').setValue((props.filter && props.filter.main_slug) || this.default.main_slug);
+      this.filterForm.get('sub_slug').setValue((props.filter && props.filter.sub_slug) || this.default.sub_slug);
+    }
   }
 
-  filterForm = FormBuilder.group({
+  onFilter = (filter) => {
+    const newFilter = { ...filter };
+    if (isEqual(newFilter.main_slug, this.default.main_slug)) {
+      newFilter.main_slug = null;
+    }
+    if (isEqual(newFilter.sub_slug, this.default.sub_slug)) {
+      newFilter.sub_slug = null;
+    }
+    this.props.onRequestIncidents({ filter: newFilter });
+  }
+
+  filterSubcategories(mainCategoryFilterSelection) {
+    if (!mainCategoryFilterSelection || mainCategoryFilterSelection === undefined || isEqual(mainCategoryFilterSelection, this.default.sub_slug)) {
+      return this.props.categories.sub;
+    }
+    if (mainCategoryFilterSelection.length > 1 && mainCategoryFilterSelection.indexOf('') > -1) {
+      // Do not select 'Alles' and other categories to prevent duplicates
+      mainCategoryFilterSelection.splice(mainCategoryFilterSelection.indexOf(''), 1);
+    }
+
+    let filteredSubcategoryList = mainCategoryFilterSelection
+      .flatMap((mainCategory) =>
+        this.props.categories.mainToSub[mainCategory].flatMap((sub) => this.props.categories.sub.find((item) => item.slug === sub)));
+    filteredSubcategoryList = [{ key: '', value: 'Alles', slug: '' }].concat(sortBy(filteredSubcategoryList, 'value'));
+    return filteredSubcategoryList;
+  }
+
+  default = {
     id: [''],
     incident_date_start: [''],
     location__stadsdeel: [['']],
     priority__priority: '',
-    category__main: [['']],
-    category__sub: [['']],
+    main_slug: [['']],
+    sub_slug: [['']],
     status__state: [['']],
     location__address_text: [''],
-  });
+  };
+  filterForm = FormBuilder.group(this.default);
 
   handleReset = () => {
     this.filterForm.reset();
@@ -51,7 +95,7 @@ class Filter extends React.Component {
   }
 
   render() {
-    const { mainCategoryList, subcategoryList, statusList, stadsdeelList, priorityList } = this.props;
+    const { categories, statusList, stadsdeelList, priorityList } = this.props;
     return (
       <div className="filter-component">
         <div className="filter-component__title">Filters</div>
@@ -93,22 +137,24 @@ class Filter extends React.Component {
                   />
                   <FieldControlWrapper
                     render={SelectInput}
-                    name="category__main"
+                    name="main_slug"
                     display="Hoofdcategorie"
-                    control={this.filterForm.get('category__main')}
-                    values={mainCategoryList}
+                    control={this.filterForm.get('main_slug')}
+                    values={categories.main}
                     emptyOptionText="Alles"
                     multiple
+                    useSlug
                     size={10}
                   />
                   <FieldControlWrapper
                     render={SelectInput}
-                    name="category__sub"
+                    name="sub_slug"
                     display="Subcategorie"
-                    control={this.filterForm.get('category__sub')}
-                    values={subcategoryList}
+                    control={this.filterForm.get('sub_slug')}
+                    values={this.state.filterSubs}
                     emptyOptionText="Alles"
                     multiple
+                    useSlug
                     size={10}
                   />
                   <FieldControlWrapper
@@ -143,15 +189,23 @@ class Filter extends React.Component {
   }
 }
 
+Filter.defaulProps = {
+  categories: {
+    main: [],
+    sub: [],
+    mainToSub: {}
+  },
+  filterSubs: []
+};
+
 Filter.propTypes = {
+  filterSubs: PropTypes.array,
   stadsdeelList: PropTypes.array,
-  mainCategoryList: PropTypes.array,
+  categories: PropTypes.object,
   priorityList: PropTypes.array,
-  subcategoryList: PropTypes.array,
   statusList: PropTypes.array,
   filter: PropTypes.object,
-  onRequestIncidents: PropTypes.func.isRequired,
-  onMainCategoryFilterSelectionChanged: PropTypes.func.isRequired
+  onRequestIncidents: PropTypes.func.isRequired
 };
 
 export default Filter;

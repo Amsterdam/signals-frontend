@@ -50,7 +50,7 @@ describe('FieldControlWrapper', () => {
         emptyOptionText: 'Selecteer...'
       });
 
-      expect(wrapper.state('values')).toEqual([{ key: '', value: 'Selecteer...' }, { key: 'bar', value: 'Bar' }, ...values]);
+      expect(wrapper.state('values')).toEqual([{ key: '', value: 'Selecteer...', slug: '' }, { key: 'bar', value: 'Bar' }, ...values]);
     });
   });
 
