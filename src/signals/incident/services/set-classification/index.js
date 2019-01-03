@@ -31,8 +31,8 @@ function setClassification(result) {
     switch (result.hoofdrubriek[0][0]) {
       case `${categoryServer}signals/v1/public/terms/categories/afval`:
         return {
-          category: 'overig-afval',
-          subcategory: 'overig-horecabedrijven',
+          category: 'afval',
+          subcategory: 'overig-afval',
           subcategory_link: `${categoryServer}signals/v1/public/terms/categories/afval/sub_categories/overig-afval`
         };
 
