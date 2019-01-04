@@ -1,5 +1,5 @@
 import React from 'react';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { PieChart, Pie, Tooltip, Legend } from 'recharts';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -23,15 +23,12 @@ export class Dashboard extends React.PureComponent { // eslint-disable-line reac
     const { dashboard } = this.props.incidentDashboard;
     return (
       <div className="dashboard">
-        <LineChart width={600} height={300} data={(dashboard) || []} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-          <XAxis dataKey="name" />
-          <YAxis />
-          <CartesianGrid strokeDasharray="3 3" />
+        <PieChart width={730} height={450}>
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-        </LineChart>
+          <Pie data={dashboard.pie1 || []} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} fill="#8884d8" />
+          <Pie data={dashboard.pie2 || []} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={120} outerRadius={200} fill="#82ca9d" label />
+        </PieChart>
       </div>
     );
   }
@@ -39,13 +36,13 @@ export class Dashboard extends React.PureComponent { // eslint-disable-line reac
 
 Dashboard.defaultProps = {
   incidentDashboard: {
-    dashboard: []
+    dashboard: {}
   }
 };
 
 Dashboard.propTypes = {
   incidentDashboard: PropTypes.shape({
-    dashboard: PropTypes.array
+    dashboard: PropTypes.object
   }),
   onRequestDashboard: PropTypes.func.isRequired
 };

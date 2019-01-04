@@ -5,7 +5,7 @@ import {
 } from './constants';
 
 const initialState = fromJS({
-  dashboard: [],
+  dashboard: {},
   loading: false,
   error: false
 });
