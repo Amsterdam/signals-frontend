@@ -17,6 +17,7 @@ import reducer from './reducer';
 import saga from './saga';
 import IncidentManagementModule from '../../signals/incident-management';
 import IncidentContainer from '../../signals/incident/containers/IncidentContainer';
+import Dashboard from '../../signals/incident-management/containers/Dashboard';
 import { requestCategories } from './actions';
 
 export class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -40,6 +41,7 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
             <Redirect exact from="/login" to="/manage" />
             <Route path="/manage" component={IncidentManagementModule} />
             <Route path="/incident" component={IncidentContainer} />
+            <Route path="/dashboard" component={Dashboard} />
             <Route path="" component={NotFoundPage} />
           </Switch>
         </div>
