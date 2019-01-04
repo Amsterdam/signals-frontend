@@ -1,9 +1,17 @@
 import {
-  DEFAULT_ACTION,
+  REQUEST_DASHBOARD,
+  REQUEST_DASHBOARD_SUCCESS
 } from './constants';
 
-export function defaultAction() {
+export function requestDashboard() {
   return {
-    type: DEFAULT_ACTION,
+    type: REQUEST_DASHBOARD
+  };
+}
+
+export function requestDashboardSuccess(results) {
+  return {
+    type: REQUEST_DASHBOARD_SUCCESS,
+    payload: results
   };
 }

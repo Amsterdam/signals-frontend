@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 /**
  * Direct selector to the dashboard state domain
  */
-const selectDashboardDomain = (state) => state.get('dashboard');
+const selectDashboardDomain = (state) => state.get('incidentDashboard');
 
 /**
  * Other specific selectors

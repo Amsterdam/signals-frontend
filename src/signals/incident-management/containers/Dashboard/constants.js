@@ -1,1 +1,2 @@
-export const DEFAULT_ACTION = 'src/Dashboard/DEFAULT_ACTION';
+export const REQUEST_DASHBOARD = 'src/Dashboard/REQUEST_DASHBOARD';
+export const REQUEST_DASHBOARD_SUCCESS = 'src/Dashboard/REQUEST_DASHBOARD_SUCCESS';
