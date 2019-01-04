@@ -1,6 +1,6 @@
 # Redirects all sub pages to root index.html since routing is handled by JS.
-/*    /incident/beschrijf   200
-# [[redirects]]
-#   from = "/*"
-#   to = "/incident/beschrijf"
-#   status = 200
+[[redirects]]
+  from = "/*"
+  to = "/incident/beschrijf"
+  status = 200
+  force = false
