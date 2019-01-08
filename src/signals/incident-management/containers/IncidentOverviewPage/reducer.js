@@ -5,16 +5,18 @@
  */
 
 import { fromJS } from 'immutable';
-import { REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR, FILTER_INCIDENTS_CHANGED, PAGE_INCIDENTS_CHANGED, SORT_INCIDENTS_CHANGED } from './constants';
+import { REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR, FILTER_INCIDENTS_CHANGED, PAGE_INCIDENTS_CHANGED, SORT_INCIDENTS_CHANGED, MAIN_CATEGORY_FILTER_SELECTION_CHANGED } from './constants';
 import priorityList from '../../definitions/priorityList';
 import stadsdeelList from '../../definitions/stadsdeelList';
 import statusList from '../../definitions/statusList';
+import filterSubcategories from './services/filter-subcategories';
 
 export const initialState = fromJS({
   incidents: [],
   priorityList,
   stadsdeelList,
-  mainCategorySelectionList: [],
+  filterMainCategoryList: [],
+  filterSubCategoryList: [],
   statusList,
   sort: '-created_at'
 });
@@ -45,7 +47,10 @@ function overviewPageReducer(state = initialState, action) {
       return state
         .set('page', 1)
         .set('sort', action.payload);
-
+    case MAIN_CATEGORY_FILTER_SELECTION_CHANGED:
+      return state
+        .set('filterMainCategoryList', fromJS(action.payload.selectedOptions))
+        .set('filterSubCategoryList', fromJS(filterSubcategories(action.payload.selectedOptions, action.payload.categories)));
     default:
       return state;
   }
