@@ -21,7 +21,10 @@ class Filter extends React.Component {
   componentDidMount() {
     this.filterForm.get('main_slug').valueChanges.subscribe((value) => {
       this.filterForm.get('sub_slug').setValue(value || this.default.sub_slug);
-      this.props.onMainCategoryFilterSelectionChanged(value, this.props.categories);
+      this.props.onMainCategoryFilterSelectionChanged({
+        selectedOptions: value,
+        categories: this.props.categories
+      });
     });
   }
 
@@ -29,7 +32,10 @@ class Filter extends React.Component {
     if (!isEqual(props.categories, this.props.categories)) {
       this.filterForm.get('main_slug').setValue((props.filter && props.filter.main_slug) || this.default.main_slug);
       this.filterForm.get('sub_slug').setValue((props.filter && props.filter.sub_slug) || this.default.sub_slug);
-      this.props.onMainCategoryFilterSelectionChanged((props.filter && props.filter.main_slug) || this.default.main_slug, this.props.categories);
+      this.props.onMainCategoryFilterSelectionChanged({
+        selectedOptions: (props.filter && props.filter.main_slug) || this.default.main_slug,
+        categories: this.props.categories
+      });
     }
   }
 
