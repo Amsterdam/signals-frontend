@@ -4,11 +4,6 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, LabelList } from 'recharts';
 
 import './style.scss';
 
-// const CustomLabel = (props) => {
-  // console.log('props', props);
-  // return (<text width={200}></text>);
-// };
-
 const CategoryGraph = ({ data }) => (
   <div className="category-graph">
     <BarChart
@@ -17,8 +12,19 @@ const CategoryGraph = ({ data }) => (
       height={460}
       data={data}
     >
-      <XAxis type="number" />
-      <YAxis type="category" dataKey="name" />
+      <XAxis
+        type="number"
+        dataKey="value"
+        axisLine={false}
+        tick={false}
+      />
+      <YAxis
+        type="category"
+        dataKey="name"
+        axisLine={false}
+        tickLine={false}
+      />
+
       <Tooltip />
       <Bar dataKey="value" fill="#23B0C3"><LabelList dataKey="value" position="right" /></Bar>
     </BarChart>

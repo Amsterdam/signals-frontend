@@ -31,9 +31,10 @@ const StatusGraph = ({ data }) => (
         nameKey="name"
         cx="50%"
         cy="50%"
+        startAngle={90}
+        endAngle={-270}
         innerRadius={35}
         outerRadius={170}
-        fill="#82ca9d"
         label={renderCustomizedLabel}
       >{data.map((entry, index) => <Cell key={index} fill={entry.color} />)}</Pie>
     </PieChart>
