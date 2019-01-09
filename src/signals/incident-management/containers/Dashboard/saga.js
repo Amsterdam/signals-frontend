@@ -20,24 +20,24 @@ export function* fetchDashboard() {
     // const categories = yield call(request, requestURL);
 
     yield put(requestDashboardSuccess({
-      pie1: [
-        { name: 'Group A', value: 400 },
-        { name: 'Group B', value: 300 },
-        { name: 'Group C', value: 300 },
-        { name: 'Group D', value: 200 }
+      status: [
+        { name: 'Gemeld', value: 59, color: '#23B0C3' },
+        { name: 'In afhandeling van behandeling', value: 7, color: '#E8663F' },
+        { name: 'In behandeling', value: 20, color: '#FE952F' },
+        { name: 'Geannuleerd', value: 2, color: '#96C14F' },
+        { name: 'Afgehandeld', value: 13, color: '#9B4474' },
+        { name: 'On hold', value: 1, color: '#E8663F' }
       ],
-      pie2: [
-        { name: 'A1', value: 100 },
-        { name: 'A2', value: 300 },
-        { name: 'B1', value: 100 },
-        { name: 'B2', value: 80 },
-        { name: 'B3', value: 40 },
-        { name: 'B4', value: 30 },
-        { name: 'B5', value: 50 },
-        { name: 'C1', value: 100 },
-        { name: 'C2', value: 200 },
-        { name: 'D1', value: 150 },
-        { name: 'D2', value: 50 }
+      category: [
+        { name: 'Overlast op het water', value: 2 },
+        { name: 'Overlast van dieren', value: 9 },
+        { name: 'Overlast van en door personen en groepen', value: 9 },
+        { name: 'Overlast bedrijven en horeca', value: 12 },
+        { name: 'Openbaar groen en water', value: 28 },
+        { name: 'Overlast in de openbare ruimte', value: 82 },
+        { name: 'Overig', value: 88 },
+        { name: 'Wegen verkeer straatmeubileir ', value: 126 },
+        { name: 'Afval', value: 213 }
       ]
     }));
   } catch (err) {
