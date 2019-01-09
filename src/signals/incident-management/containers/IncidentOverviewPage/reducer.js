@@ -15,7 +15,6 @@ export const initialState = fromJS({
   incidents: [],
   priorityList,
   stadsdeelList,
-  filterMainCategoryList: [],
   filterSubCategoryList: [],
   statusList,
   sort: '-created_at'
@@ -49,7 +48,6 @@ function overviewPageReducer(state = initialState, action) {
         .set('sort', action.payload);
     case MAIN_CATEGORY_FILTER_SELECTION_CHANGED:
       return state
-        .set('filterMainCategoryList', fromJS(action.payload.selectedOptions))
         .set('filterSubCategoryList', fromJS(filterSubcategories(action.payload.selectedOptions, action.payload.categories)));
     default:
       return state;

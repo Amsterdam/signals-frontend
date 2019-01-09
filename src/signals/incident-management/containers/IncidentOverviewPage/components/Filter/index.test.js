@@ -12,6 +12,17 @@ jest.mock('../../../../components/DatePickerInput', () => () => 'DatePickerInput
 describe('<Filter />', () => {
   let wrapper;
   let props;
+  const filterSubCategoryList = [{
+    key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven',
+    value: 'Duiven',
+    slug: 'duiven'
+  },
+  {
+    key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ganzen',
+    value: 'Ganzen',
+    slug: 'ganzen'
+  }];
+
   const categories = {
     main: [
       {
@@ -24,52 +35,7 @@ describe('<Filter />', () => {
         value: 'Overlast van dieren',
         slug: 'overlast-van-dieren'
       }
-    ],
-    sub: [
-      {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot',
-        value: 'Container is kapot',
-        slug: 'container-is-kapot'
-      },
-      {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-vol',
-        value: 'Container is vol',
-        slug: 'container-is-vol'
-      },
-      {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/grofvuil',
-        value: 'Grofvuil',
-        slug: 'grofvuil'
-      },
-      {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven',
-        value: 'Duiven',
-        slug: 'duiven'
-      },
-      {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ganzen',
-        value: 'Ganzen',
-        slug: 'ganzen'
-      }
-    ],
-    mainToSub: {
-      '': [
-        'container-is-kapot',
-        'container-is-vol',
-        'grofvuil',
-        'duiven',
-        'ganzen'
-      ],
-      'overlast-van-dieren': [
-        'duiven',
-        'ganzen'
-      ],
-      afval: [
-        'container-is-kapot',
-        'container-is-vol',
-        'grofvuil'
-      ]
-    }
+    ]
   };
 
   beforeEach(() => {
@@ -157,7 +123,8 @@ describe('<Filter />', () => {
           value: 'Hoog'
         }
       ],
-      onRequestIncidents: jest.fn()
+      onRequestIncidents: jest.fn(),
+      onMainCategoryFilterSelectionChanged: jest.fn()
     };
 
     wrapper = shallow(
@@ -171,6 +138,7 @@ describe('<Filter />', () => {
 
   it('should render correctly', () => {
     props.categories = categories;
+    props.filterSubCategoryList = filterSubCategoryList;
     wrapper = shallow(<Filter {...props} />);
 
     expect(wrapper).toMatchSnapshot();
@@ -178,6 +146,10 @@ describe('<Filter />', () => {
 
   it('should lazy load categories correctly', () => {
     wrapper = shallow(<Filter {...props} />);
+
+    wrapper.setProps({
+      filterSubCategoryList
+    });
 
     wrapper.setProps({
       categories
@@ -216,17 +188,8 @@ describe('<Filter />', () => {
       wrapper = shallow(<Filter {...props} />);
 
       wrapper.setProps({
-        categories: {
-          ...categories,
-          sub: [
-            '': {
-              key: '',
-              value: 'alle',
-              slug: ''
-            },
-            ...categories.sub
-          ]
-        }
+        filterSubCategoryList,
+        categories
       });
 
       renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
