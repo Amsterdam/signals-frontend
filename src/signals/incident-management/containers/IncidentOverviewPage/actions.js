@@ -7,7 +7,7 @@
 import {
   REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR,
   INCIDENT_SELECTED, FILTER_INCIDENTS_CHANGED, PAGE_INCIDENTS_CHANGED,
-  SORT_INCIDENTS_CHANGED
+  SORT_INCIDENTS_CHANGED, MAIN_CATEGORY_FILTER_SELECTION_CHANGED
 }
   from './constants';
 
@@ -57,5 +57,12 @@ export function sortIncidentsChanged(sort) {
   return {
     type: SORT_INCIDENTS_CHANGED,
     payload: sort
+  };
+}
+
+export function mainCategoryFilterSelectionChanged({ selectedOptions, categories }) {
+  return {
+    type: MAIN_CATEGORY_FILTER_SELECTION_CHANGED,
+    payload: { selectedOptions, categories }
   };
 }

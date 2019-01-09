@@ -31,6 +31,12 @@ export class FieldControlWrapper extends React.Component { // eslint-disable-lin
     return null;
   }
 
+  componentDidUpdate(prevProps) {
+    if (!isEqual(this.props.values, prevProps.values)) {
+      this.props.control.updateValueAndValidity();
+    }
+  }
+
   render() {
     const { name, control, render, ...props } = this.props;
     return (
@@ -56,6 +62,7 @@ FieldControlWrapper.defaultProps = {
 FieldControlWrapper.propTypes = {
   name: PropTypes.string.isRequired,
   control: PropTypes.object.isRequired,
+  values: PropTypes.array,
   render: PropTypes.func.isRequired,
 };
 
