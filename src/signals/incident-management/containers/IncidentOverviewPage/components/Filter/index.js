@@ -20,7 +20,7 @@ class Filter extends React.Component {
 
   componentDidMount() {
     this.filterForm.get('main_slug').valueChanges.subscribe((value) => {
-      this.filterForm.get('sub_slug').setValue((this.props.filter && this.props.filter.sub_slug) || this.default.sub_slug);
+      this.filterForm.get('sub_slug').setValue(this.default.sub_slug);
 
       this.props.onMainCategoryFilterSelectionChanged({
         selectedOptions: value,
