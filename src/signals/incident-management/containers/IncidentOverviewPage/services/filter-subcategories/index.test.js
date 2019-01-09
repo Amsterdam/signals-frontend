@@ -21,11 +21,6 @@ describe('The filterSubcategories service', () => {
         slug: 'container-is-kapot'
       },
       {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven',
-        value: 'Duiven',
-        slug: 'duiven'
-      },
-      {
         key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/grofvuil',
         value: 'Grofvuil',
         slug: 'grofvuil'
@@ -39,6 +34,11 @@ describe('The filterSubcategories service', () => {
         key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-vol',
         value: 'Container is vol',
         slug: 'container-is-vol'
+      },
+      {
+        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven',
+        value: 'Duiven',
+        slug: 'duiven'
       }
     ],
     mainToSub: {
@@ -63,6 +63,26 @@ describe('The filterSubcategories service', () => {
 
   it('should by default return empty subcategories', () => {
     expect(filterSubcategories()).toEqual([]);
+  });
+
+  it('should ignore empty "" and return other subcategories', () => {
+    expect(filterSubcategories(['', 'overlast-van-dieren'], categories)).toEqual([
+      {
+        key: '',
+        value: 'Alles',
+        slug: ''
+      },
+      {
+        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven',
+        value: 'Duiven',
+        slug: 'duiven'
+      },
+      {
+        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ganzen',
+        value: 'Ganzen',
+        slug: 'ganzen'
+      },
+    ]);
   });
 
   it('should return all subcategories when no main slug is present', () => {
