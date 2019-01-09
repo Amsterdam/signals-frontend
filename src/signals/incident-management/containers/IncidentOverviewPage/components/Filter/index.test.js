@@ -261,8 +261,8 @@ describe('<Filter />', () => {
       expect(props.onRequestIncidents).toHaveBeenCalledWith({
         filter: {
           ...filterValue,
-          main_slug: null,
-          sub_slug: null
+          main_slug: [''],
+          sub_slug: ['']
         }
       });
     });

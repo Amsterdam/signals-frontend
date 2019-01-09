@@ -135,7 +135,6 @@ describe('overviewPageReducer', () => {
     const payload = { selectedOptions: ['overlast-van-dieren'], categories: {} };
     const action = mainCategoryFilterSelectionChanged(payload);
     const expected = fromJS({})
-      .set('filterMainCategoryList', fromJS(action.payload.selectedOptions))
       .set('filterSubCategoryList', fromJS(filterSubcategories(action.payload.selectedOptions, action.payload.categories)));
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
