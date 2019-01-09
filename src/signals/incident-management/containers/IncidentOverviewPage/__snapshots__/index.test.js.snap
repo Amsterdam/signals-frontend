@@ -13,6 +13,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
       <Component
         categories={Object {}}
         filter={Object {}}
+        onMainCategoryFilterSelectionChanged={[MockFunction]}
         onRequestIncidents={
           [MockFunction] {
             "calls": Array [
@@ -92,6 +93,7 @@ exports[`<IncidentContainer /> rendering should render loader correctly 1`] = `
       <Component
         categories={Object {}}
         filter={Object {}}
+        onMainCategoryFilterSelectionChanged={[MockFunction]}
         onRequestIncidents={
           [MockFunction] {
             "calls": Array [
