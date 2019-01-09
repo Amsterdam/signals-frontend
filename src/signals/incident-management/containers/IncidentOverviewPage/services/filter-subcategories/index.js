@@ -7,6 +7,11 @@ const filterSubcategories = (mainCategoryFilterSelection, categories) => {
       return sortBy(categories.sub, 'value');
     }
 
+    if (mainCategoryFilterSelection.length > 1 && mainCategoryFilterSelection.indexOf('') > -1) {
+      // Do not select 'Alles' and other categories to prevent duplicates
+      mainCategoryFilterSelection.splice(mainCategoryFilterSelection.indexOf(''), 1);
+    }
+
     filteredSubcategoryList = mainCategoryFilterSelection
       .flatMap((mainCategory) =>
         categories.mainToSub[mainCategory].flatMap((sub) => categories.sub.find((item) => item.slug === sub)));
