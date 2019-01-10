@@ -10,7 +10,7 @@ export class FieldControlWrapper extends React.Component { // eslint-disable-lin
       return props.values;
     }
     const sortedValues = props.sort ? sortBy(props.values, (item) => item.value) : props.values;
-    return props.emptyOptionText ? [{ key: '', value: props.emptyOptionText }, ...sortedValues] : sortedValues;
+    return props.emptyOptionText ? [{ key: '', value: props.emptyOptionText, slug: '' }, ...sortedValues] : sortedValues;
   }
 
   constructor(props) {
@@ -29,6 +29,12 @@ export class FieldControlWrapper extends React.Component { // eslint-disable-lin
     }
 
     return null;
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!isEqual(this.props.values, prevProps.values)) {
+      this.props.control.updateValueAndValidity();
+    }
   }
 
   render() {
@@ -56,6 +62,7 @@ FieldControlWrapper.defaultProps = {
 FieldControlWrapper.propTypes = {
   name: PropTypes.string.isRequired,
   control: PropTypes.object.isRequired,
+  values: PropTypes.array,
   render: PropTypes.func.isRequired,
 };
 

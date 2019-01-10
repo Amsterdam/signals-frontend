@@ -3,10 +3,8 @@ import {
   REQUEST_CATEGORY_UPDATE, REQUEST_CATEGORY_UPDATE_SUCCESS, REQUEST_CATEGORY_UPDATE_ERROR
 }
   from './constants';
-import subcategoryList from '../../definitions/subcategoryList';
 
 export const initialState = fromJS({
-  subcategoryList,
   loading: false,
   error: false
 });

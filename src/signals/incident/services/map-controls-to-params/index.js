@@ -19,7 +19,6 @@ const mapControlsToParams = (incident, wizard) => {
   };
 
   if (date) {
-    params.created_at = date.format();
     params.incident_date_start = date.format();
   }
 

@@ -24,7 +24,6 @@ describe('The map controls to params service', () => {
       incident_time_minutes: 34,
       datetime: 'Nu'
     }, {})).toMatchObject({
-      created_at: '2018-07-21T12:34:00+02:00',
       incident_date_start: '2018-07-21T12:34:00+02:00'
     });
   });
@@ -39,7 +38,6 @@ describe('The map controls to params service', () => {
       incident_time_minutes: 21,
       incident_date: 'Vandaag'
     }, {})).toMatchObject({
-      created_at: '2018-07-21T10:21:00+02:00',
       incident_date_start: '2018-07-21T10:21:00+02:00'
     });
   });
@@ -54,7 +52,6 @@ describe('The map controls to params service', () => {
       incident_time_minutes: 5,
       incident_date: '2018-04-02'
     }, {})).toMatchObject({
-      created_at: '2018-07-02T09:05:00+02:00',
       incident_date_start: '2018-07-02T09:05:00+02:00'
     });
   });
