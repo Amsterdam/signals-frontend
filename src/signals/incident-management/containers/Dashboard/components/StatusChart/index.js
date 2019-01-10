@@ -20,7 +20,7 @@ function renderCustomizedLabel({ cx, cy, midAngle, innerRadius, outerRadius, per
   );
 }
 
-const StatusGraph = ({ data }) => (
+const StatusChart = ({ data }) => (
   <div className="status-graph">
     <PieChart width={460} height={460}>
       <Tooltip />
@@ -41,12 +41,12 @@ const StatusGraph = ({ data }) => (
   </div>
   );
 
-StatusGraph.defaultProps = {
+StatusChart.defaultProps = {
   data: []
 };
 
-StatusGraph.propTypes = {
+StatusChart.propTypes = {
   data: PropTypes.array
 };
 
-export default StatusGraph;
+export default StatusChart;

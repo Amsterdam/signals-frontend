@@ -11,8 +11,9 @@ import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
-import StatusGraph from './components/StatusGraph';
-import CategoryGraph from './components/CategoryGraph';
+import StatusChart from './components/StatusChart';
+import CategoryChart from './components/CategoryChart';
+import HourChart from './components/HourChart';
 
 import { requestDashboard } from './actions';
 
@@ -26,8 +27,9 @@ export class Dashboard extends React.PureComponent { // eslint-disable-line reac
 
     return (
       <div className="dashboard">
-        <StatusGraph data={dashboard.status} />
-        <CategoryGraph data={dashboard.category} />
+        <StatusChart data={dashboard.status} />
+        <CategoryChart data={dashboard.category} />
+        <HourChart data={dashboard.hour} />
       </div>
     );
   }

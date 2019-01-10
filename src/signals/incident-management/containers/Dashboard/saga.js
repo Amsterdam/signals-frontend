@@ -38,6 +38,21 @@ export function* fetchDashboard() {
         { name: 'Overig', value: 88 },
         { name: 'Wegen verkeer straatmeubileir ', value: 126 },
         { name: 'Afval', value: 213 }
+      ],
+      hour: [
+        { hour: 0, value: 4 },
+        { hour: 1, value: 3 },
+        { hour: 2, value: 1 },
+        { hour: 3, value: 4 },
+        { hour: 4, value: 8 },
+        { hour: 5, value: 42 },
+        { hour: 6, value: 70 },
+        { hour: 7, value: 60 },
+        { hour: 8, value: 93 },
+        { hour: 9, value: 137 },
+        { hour: 10, value: 64 },
+        { hour: 11, value: 71 },
+        { hour: 12, value: 12 }
       ]
     }));
   } catch (err) {
