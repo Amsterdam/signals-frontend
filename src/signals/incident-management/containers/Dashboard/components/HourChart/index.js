@@ -6,9 +6,11 @@ import './style.scss';
 
 const HourChart = ({ data }) => (
   <div className="hour-chart">
+    <h3>Meldingen per uur</h3>
+
     <LineChart
-      width={693}
-      height={460}
+      width={643}
+      height={400}
       data={data}
       margin={{ top: 20, right: 20, left: 20 }}
     >

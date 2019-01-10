@@ -6,6 +6,8 @@ import './style.scss';
 
 const CategoryChart = ({ data }) => (
   <div className="category-chart">
+    <h3>Per rubriek</h3>
+
     <BarChart
       layout="vertical"
       width={582}

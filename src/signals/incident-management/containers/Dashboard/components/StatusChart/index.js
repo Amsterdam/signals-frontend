@@ -14,7 +14,7 @@ function renderCustomizedLabel({ cx, cy, midAngle, innerRadius, outerRadius, per
   const y = cy  + radius * Math.sin(-midAngle * RADIAN);
 
   return (
-    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} 	dominantBaseline="central">
+    <text x={x} y={y} fill="white" textAnchor="middle" 	dominantBaseline="central">
     	{`${(percent * 100).toFixed(0)}%`}
     </text>
   );
@@ -22,6 +22,8 @@ function renderCustomizedLabel({ cx, cy, midAngle, innerRadius, outerRadius, per
 
 const StatusChart = ({ data }) => (
   <div className="status-chart">
+    <h3>Per status</h3>
+
     <PieChart width={400} height={460}>
       <Tooltip />
       <Legend />
@@ -35,7 +37,9 @@ const StatusChart = ({ data }) => (
         endAngle={-270}
         innerRadius={35}
         outerRadius={170}
+        legendType="circle"
         label={renderCustomizedLabel}
+        labelLine={false}
       >{data.map((entry, index) => <Cell key={index} fill={entry.color} />)}</Pie>
     </PieChart>
   </div>
