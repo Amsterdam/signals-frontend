@@ -5,12 +5,12 @@ import { LineChart, Line, XAxis, YAxis, LabelList } from 'recharts';
 import './style.scss';
 
 const HourChart = ({ data }) => (
-  <div className="category-chart">
+  <div className="hour-chart">
     <LineChart
-      width={1000}
+      width={993}
       height={460}
       data={data}
-      margin={{ top: 20 }}
+      margin={{ top: 20, right: 20, left: -40 }}
     >
       <XAxis
         type="number"
@@ -18,6 +18,7 @@ const HourChart = ({ data }) => (
         axisLine={false}
         tickLine={false}
         tickCount={13}
+        tick={false}
       />
       <YAxis
         type="number"
