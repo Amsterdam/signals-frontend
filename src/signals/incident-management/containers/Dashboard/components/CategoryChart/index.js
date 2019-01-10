@@ -5,12 +5,13 @@ import { BarChart, Bar, XAxis, YAxis, LabelList } from 'recharts';
 import './style.scss';
 
 const CategoryChart = ({ data }) => (
-  <div className="category-graph">
+  <div className="category-chart">
     <BarChart
       layout="vertical"
-      width={800}
+      width={582}
       height={460}
       data={data}
+      margin={{ right: 20 }}
     >
       <XAxis
         type="number"

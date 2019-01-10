@@ -5,7 +5,7 @@ import { LineChart, Line, XAxis, YAxis, LabelList } from 'recharts';
 import './style.scss';
 
 const HourChart = ({ data }) => (
-  <div className="category-graph">
+  <div className="category-chart">
     <LineChart
       width={1000}
       height={460}

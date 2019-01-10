@@ -1,3 +1,17 @@
 .dashboard {
+  display: flex;
+  flex-wrap: wrap;
+  flex-basis: 100%;
 
+  .status-chart {
+    width: 400px;
+  }
+
+  .category-chart {
+    width: 582px;
+  }
+
+  .hour-chart {
+    width: 1000px;
+  }
 }

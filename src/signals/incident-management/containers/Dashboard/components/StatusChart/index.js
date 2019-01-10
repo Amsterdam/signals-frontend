@@ -21,8 +21,8 @@ function renderCustomizedLabel({ cx, cy, midAngle, innerRadius, outerRadius, per
 }
 
 const StatusChart = ({ data }) => (
-  <div className="status-graph">
-    <PieChart width={460} height={460}>
+  <div className="status-chart">
+    <PieChart width={400} height={460}>
       <Tooltip />
       <Legend />
       <Pie
