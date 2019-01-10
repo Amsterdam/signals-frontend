@@ -17,7 +17,7 @@ const CategoryChart = ({ data }) => (
     >
       <XAxis
         type="number"
-        dataKey="value"
+        dataKey="count"
         axisLine={false}
         tick={false}
       />
@@ -29,7 +29,7 @@ const CategoryChart = ({ data }) => (
         tickLine={false}
       />
 
-      <Bar dataKey="value" fill="#23B0C3"><LabelList dataKey="value" position="right" /></Bar>
+      <Bar dataKey="count" fill="#23B0C3"><LabelList dataKey="count" position="right" /></Bar>
     </BarChart>
   </div>
   );

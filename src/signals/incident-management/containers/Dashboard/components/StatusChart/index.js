@@ -29,7 +29,7 @@ const StatusChart = ({ data }) => (
       <Legend />
       <Pie
         data={data}
-        dataKey="value"
+        dataKey="count"
         nameKey="name"
         cx="50%"
         cy="50%"

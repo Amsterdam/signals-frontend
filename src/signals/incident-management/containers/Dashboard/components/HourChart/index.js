@@ -24,12 +24,12 @@ const HourChart = ({ data }) => (
       <YAxis
         hide
         type="number"
-        dataKey="value"
+        dataKey="count"
         axisLine={false}
         tick={false}
       />
 
-      <Line type="linear" dataKey="value" stroke="#23B0C3" strokeWidth={3} dot={{ strokeWidth: 5 }}><LabelList dataKey="value" position="top" offset={12} /></Line>
+      <Line type="linear" dataKey="count" stroke="#23B0C3" strokeWidth={3} dot={{ strokeWidth: 5 }}><LabelList dataKey="count" position="top" offset={12} /></Line>
     </LineChart>
   </div>
   );
