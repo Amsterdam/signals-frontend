@@ -22,6 +22,7 @@ const CategoryChart = ({ data }) => (
       <YAxis
         type="category"
         dataKey="name"
+        width={200}
         axisLine={false}
         tickLine={false}
       />

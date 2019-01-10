@@ -10,7 +10,7 @@ const HourChart = ({ data }) => (
       width={693}
       height={460}
       data={data}
-      margin={{ top: 20, right: 20, left: -40 }}
+      margin={{ top: 20, right: 20, left: 20 }}
     >
       <XAxis
         type="number"
@@ -20,6 +20,7 @@ const HourChart = ({ data }) => (
         tickCount={13}
       />
       <YAxis
+        hide
         type="number"
         dataKey="value"
         axisLine={false}
