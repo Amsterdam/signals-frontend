@@ -53,7 +53,8 @@ export function* fetchDashboard() {
         { hour: 10, value: 64 },
         { hour: 11, value: 71 },
         { hour: 12, value: 12 }
-      ]
+      ],
+      today: { count: 569 }
     }));
   } catch (err) {
     // yield put(showGlobalError('FETCH_CATEGORIES_FAILED'));

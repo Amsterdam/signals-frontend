@@ -13,6 +13,7 @@ import './style.scss';
 
 import StatusChart from './components/StatusChart';
 import CategoryChart from './components/CategoryChart';
+import TodayChart from './components/TodayChart';
 import HourChart from './components/HourChart';
 
 import { requestDashboard } from './actions';
@@ -29,6 +30,7 @@ export class Dashboard extends React.PureComponent { // eslint-disable-line reac
       <div className="dashboard">
         <StatusChart data={dashboard.status} />
         <CategoryChart data={dashboard.category} />
+        <TodayChart data={dashboard.today} />
         <HourChart data={dashboard.hour} />
       </div>
     );

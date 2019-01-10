@@ -7,7 +7,7 @@ import './style.scss';
 const HourChart = ({ data }) => (
   <div className="hour-chart">
     <LineChart
-      width={993}
+      width={693}
       height={460}
       data={data}
       margin={{ top: 20, right: 20, left: -40 }}
@@ -18,7 +18,6 @@ const HourChart = ({ data }) => (
         axisLine={false}
         tickLine={false}
         tickCount={13}
-        tick={false}
       />
       <YAxis
         type="number"
