@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<StatusChart /> should render correctly 1`] = `
+<div
+  className="status-chart"
+>
+  <h3>
+    Per status
+  </h3>
+  <PieChart
+    barCategoryGap="10%"
+    barGap={4}
+    cx="50%"
+    cy="50%"
+    endAngle={360}
+    height={460}
+    innerRadius={0}
+    layout="centric"
+    margin={
+      Object {
+        "bottom": 5,
+        "left": 5,
+        "right": 5,
+        "top": 5,
+      }
+    }
+    outerRadius="80%"
+    reverseStackOrder={false}
+    stackOffset="none"
+    startAngle={0}
+    width={400}
+  >
+    <Tooltip
+      active={false}
+      animationDuration={400}
+      animationEasing="ease"
+      contentStyle={Object {}}
+      coordinate={
+        Object {
+          "x": 0,
+          "y": 0,
+        }
+      }
+      cursor={true}
+      cursorStyle={Object {}}
+      filterNull={true}
+      isAnimationActive={true}
+      itemSorter={[Function]}
+      itemStyle={Object {}}
+      labelStyle={Object {}}
+      offset={10}
+      separator=" : "
+      useTranslate3d={false}
+      viewBox={
+        Object {
+          "x1": 0,
+          "x2": 0,
+          "y1": 0,
+          "y2": 0,
+        }
+      }
+      wrapperStyle={Object {}}
+    />
+    <Legend
+      align="center"
+      iconSize={14}
+      layout="horizontal"
+      verticalAlign="bottom"
+    />
+    <Pie
+      animationBegin={400}
+      animationDuration={300}
+      animationEasing="ease"
+      blendStroke={false}
+      cx="50%"
+      cy="50%"
+      data={
+        Array [
+          Object {
+            "color": "#23B0C3",
+            "count": 57,
+            "name": "Gemeld",
+          },
+          Object {
+            "color": "#E8663F",
+            "count": 7,
+            "name": "In afhandeling van behandeling",
+          },
+          Object {
+            "color": "#FE952F",
+            "count": 20,
+            "name": "In behandeling",
+          },
+          Object {
+            "color": "#96C14F",
+            "count": 2,
+            "name": "Geannuleerd",
+          },
+          Object {
+            "color": "#9B4474",
+            "count": 13,
+            "name": "Afgehandeld",
+          },
+          Object {
+            "color": "#E8663F",
+            "count": 1,
+            "name": "On hold",
+          },
+        ]
+      }
+      dataKey="count"
+      endAngle={-270}
+      fill="#808080"
+      hide={false}
+      innerRadius={35}
+      isAnimationActive={true}
+      label={[Function]}
+      labelLine={false}
+      legendType="circle"
+      minAngle={0}
+      nameKey="name"
+      outerRadius={170}
+      paddingAngle={0}
+      startAngle={90}
+      stroke="#fff"
+    >
+      <Cell
+        fill="#23B0C3"
+        key="0"
+      />
+      <Cell
+        fill="#E8663F"
+        key="1"
+      />
+      <Cell
+        fill="#FE952F"
+        key="2"
+      />
+      <Cell
+        fill="#96C14F"
+        key="3"
+      />
+      <Cell
+        fill="#9B4474"
+        key="4"
+      />
+      <Cell
+        fill="#E8663F"
+        key="5"
+      />
+    </Pie>
+  </PieChart>
+</div>
+`;

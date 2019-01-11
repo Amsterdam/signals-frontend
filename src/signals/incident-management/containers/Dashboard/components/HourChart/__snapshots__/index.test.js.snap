@@ -1,0 +1,177 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<HourChart /> should render correctly 1`] = `
+<div
+  className="hour-chart"
+>
+  <h3>
+    Meldingen per uur
+  </h3>
+  <LineChart
+    barCategoryGap="10%"
+    barGap={4}
+    data={
+      Array [
+        Object {
+          "count": 4,
+          "hour": 0,
+        },
+        Object {
+          "count": 8,
+          "hour": 1,
+        },
+        Object {
+          "count": 9,
+          "hour": 2,
+        },
+        Object {
+          "count": 13,
+          "hour": 3,
+        },
+        Object {
+          "count": 8,
+          "hour": 4,
+        },
+        Object {
+          "count": 42,
+          "hour": 5,
+        },
+        Object {
+          "count": 70,
+          "hour": 6,
+        },
+        Object {
+          "count": 60,
+          "hour": 7,
+        },
+        Object {
+          "count": 93,
+          "hour": 8,
+        },
+        Object {
+          "count": 137,
+          "hour": 9,
+        },
+        Object {
+          "count": 64,
+          "hour": 10,
+        },
+        Object {
+          "count": 71,
+          "hour": 11,
+        },
+        Object {
+          "count": 12,
+          "hour": 12,
+        },
+      ]
+    }
+    height={400}
+    layout="horizontal"
+    margin={
+      Object {
+        "left": 20,
+        "right": 20,
+        "top": 20,
+      }
+    }
+    reverseStackOrder={false}
+    stackOffset="none"
+    width={643}
+  >
+    <XAxis
+      allowDataOverflow={false}
+      allowDecimals={true}
+      allowDuplicatedCategory={true}
+      axisLine={false}
+      dataKey="hour"
+      domain={
+        Array [
+          0,
+          "auto",
+        ]
+      }
+      height={30}
+      hide={false}
+      mirror={false}
+      orientation="bottom"
+      padding={
+        Object {
+          "left": 0,
+          "right": 0,
+        }
+      }
+      reversed={false}
+      scale="auto"
+      tickCount={13}
+      tickLine={false}
+      type="number"
+      width={0}
+      xAxisId={0}
+    />
+    <YAxis
+      allowDataOverflow={false}
+      allowDecimals={true}
+      allowDuplicatedCategory={true}
+      axisLine={false}
+      dataKey="count"
+      domain={
+        Array [
+          0,
+          "auto",
+        ]
+      }
+      height={0}
+      hide={true}
+      mirror={false}
+      orientation="left"
+      padding={
+        Object {
+          "bottom": 0,
+          "top": 0,
+        }
+      }
+      reversed={false}
+      scale="auto"
+      tick={false}
+      tickCount={5}
+      type="number"
+      width={60}
+      yAxisId={0}
+    />
+    <Line
+      activeDot={true}
+      animateNewValues={true}
+      animationBegin={0}
+      animationDuration={300}
+      animationEasing="ease"
+      connectNulls={false}
+      dataKey="count"
+      dot={
+        Object {
+          "strokeWidth": 5,
+        }
+      }
+      fill="#fff"
+      hide={false}
+      isAnimationActive={true}
+      legendType="line"
+      onAnimationEnd={[Function]}
+      onAnimationStart={[Function]}
+      points={Array []}
+      stroke="#23B0C3"
+      strokeWidth={3}
+      type="linear"
+      xAxisId={0}
+      yAxisId={0}
+    >
+      <LabelList
+        dataKey="count"
+        offset={12}
+        position="top"
+        valueAccessor={[Function]}
+      />
+    </Line>
+  </LineChart>
+</div>
+`;
