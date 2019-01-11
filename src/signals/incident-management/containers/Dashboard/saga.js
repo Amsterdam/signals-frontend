@@ -18,10 +18,9 @@ export function* fetchDashboard() {
 
   try {
     // const categories = yield call(request, requestURL);
-
     yield put(requestDashboardSuccess({
       status: [
-        { name: 'Gemeld', count: 59, color: '#23B0C3' },
+        { name: 'Gemeld', count: Math.trunc(Math.random() * 57), color: '#23B0C3' },
         { name: 'In afhandeling van behandeling', count: 7, color: '#E8663F' },
         { name: 'In behandeling', count: 20, color: '#FE952F' },
         { name: 'Geannuleerd', count: 2, color: '#96C14F' },
@@ -37,13 +36,13 @@ export function* fetchDashboard() {
         { name: 'Overlast in de openbare ruimte', count: 82 },
         { name: 'Overig', count: 88 },
         { name: 'Wegen verkeer straatmeubileir ', count: 126 },
-        { name: 'Afval', count: 213 }
+        { name: 'Afval', count: Math.trunc(Math.random() * 250) }
       ],
       hour: [
         { hour: 0, count: Math.trunc(Math.random() * 70) },
-        { hour: 1, count: 3 },
-        { hour: 2, count: 1 },
-        { hour: 3, count: 4 },
+        { hour: 1, count: Math.trunc(Math.random() * 70) },
+        { hour: 2, count: Math.trunc(Math.random() * 70) },
+        { hour: 3, count: Math.trunc(Math.random() * 70) },
         { hour: 4, count: 8 },
         { hour: 5, count: 42 },
         { hour: 6, count: 70 },
