@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TodayChart /> should render correctly 1`] = `
+<div
+  className="today-chart"
+>
+  <div
+    className="today-chart_date"
+  >
+    Friday 11 January 2019
+  </div>
+  <div
+    className="today-chart_count"
+  >
+    639
+  </div>
+</div>
+`;
