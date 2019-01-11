@@ -1,22 +1,37 @@
 .dashboard {
-  display: flex;
-  flex-wrap: wrap;
-  flex-basis: 100%;
+  position: relative;
 
-  .status-chart {
-    width: 400px;
+  .select-input {
+    position: absolute;
+    top: 17px;
+    right: 0;
+    width: auto;
+
+    select {
+      width: 200px !important;
+    }
   }
 
-  .category-chart {
-    width: 582px;
-  }
+  .dashboard-charts {
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: 100%;
 
-  .today-chart {
-    width: 300px;
-  }
+    .status-chart {
+      width: 400px;
+    }
 
-  .hour-chart {
-    margin-left: 50px;
-    width: 643px;
+    .category-chart {
+      width: 582px;
+    }
+
+    .today-chart {
+      width: 300px;
+    }
+
+    .hour-chart {
+      margin-left: 50px;
+      width: 643px;
+    }
   }
 }

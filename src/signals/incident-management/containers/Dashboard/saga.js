@@ -40,7 +40,7 @@ export function* fetchDashboard() {
         { name: 'Afval', count: 213 }
       ],
       hour: [
-        { hour: 0, count: 4 },
+        { hour: 0, count: Math.trunc(Math.random() * 70) },
         { hour: 1, count: 3 },
         { hour: 2, count: 1 },
         { hour: 3, count: 4 },
@@ -54,7 +54,7 @@ export function* fetchDashboard() {
         { hour: 11, count: 71 },
         { hour: 12, count: 12 }
       ],
-      today: { count: 569 }
+      today: { count: Math.trunc(Math.random() * 700) }
     }));
   } catch (err) {
     // yield put(showGlobalError('FETCH_CATEGORIES_FAILED'));
