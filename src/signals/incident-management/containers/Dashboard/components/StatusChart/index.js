@@ -40,6 +40,7 @@ const StatusChart = ({ data }) => (
         legendType="circle"
         label={renderCustomizedLabel}
         labelLine={false}
+        animationDuration={300}
       >{data.map((entry, index) => <Cell key={index} fill={entry.color} />)}</Pie>
     </PieChart>
   </div>

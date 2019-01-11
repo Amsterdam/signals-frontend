@@ -29,7 +29,14 @@ const HourChart = ({ data }) => (
         tick={false}
       />
 
-      <Line type="linear" dataKey="count" stroke="#23B0C3" strokeWidth={3} dot={{ strokeWidth: 5 }}><LabelList dataKey="count" position="top" offset={12} /></Line>
+      <Line
+        type="linear"
+        dataKey="count"
+        animationDuration={300}
+        stroke="#23B0C3"
+        strokeWidth={3}
+        dot={{ strokeWidth: 5 }}
+      ><LabelList dataKey="count" position="top" offset={12} /></Line>
     </LineChart>
   </div>
   );

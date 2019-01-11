@@ -29,7 +29,11 @@ const CategoryChart = ({ data }) => (
         tickLine={false}
       />
 
-      <Bar dataKey="count" fill="#23B0C3"><LabelList dataKey="count" position="right" /></Bar>
+      <Bar
+        dataKey="count"
+        animationDuration={300}
+        fill="#23B0C3"
+      ><LabelList dataKey="count" position="right" /></Bar>
     </BarChart>
   </div>
   );
