@@ -69,6 +69,7 @@ export class Dashboard extends React.PureComponent {
     const { dashboard } = this.props.incidentDashboard;
     return (
       <div className="dashboard">
+        <div className="dashboard-beta">BETA</div>
         <FieldControlWrapper
           render={SelectInput}
           name="intervalTime"
