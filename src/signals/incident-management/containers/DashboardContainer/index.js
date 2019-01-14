@@ -7,7 +7,7 @@ import { FormBuilder } from 'react-reactive-form';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectDashboard from './selectors';
+import makeSelectDashboardContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
@@ -66,7 +66,7 @@ export class DashboardContainer extends React.PureComponent {
   }
 
   render() {
-    const { dashboard } = this.props.incidentDashboard;
+    const { dashboard } = this.props.incidentDashboardContainer;
     return (
       <div className="dashboard">
         <div className="dashboard-beta">BETA</div>
@@ -87,21 +87,13 @@ export class DashboardContainer extends React.PureComponent {
   }
 }
 
-DashboardContainer.defaultProps = {
-  incidentDashboard: {
-    dashboard: {}
-  }
-};
-
 DashboardContainer.propTypes = {
-  incidentDashboard: PropTypes.shape({
-    dashboard: PropTypes.object
-  }),
+  incidentDashboardContainer: PropTypes.object.isRequired,
   onRequestDashboard: PropTypes.func.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
-  incidentDashboard: makeSelectDashboard()
+  incidentDashboardContainer: makeSelectDashboardContainer()
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -110,8 +102,8 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-const withReducer = injectReducer({ key: 'incidentDashboard', reducer });
-const withSaga = injectSaga({ key: 'incidentDashboard', saga });
+const withReducer = injectReducer({ key: 'incidentDashboardContainer', reducer });
+const withSaga = injectSaga({ key: 'incidentDashboardContainer', saga });
 
 export default compose(
   withReducer,

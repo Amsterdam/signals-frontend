@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 /**
  * Direct selector to the dashboard state domain
  */
-const selectDashboardDomain = (state) => state.get('incidentDashboard');
+const selectDashboardContainerDomain = (state) => state.get('incidentDashboardContainer');
 
 /**
  * Other specific selectors
@@ -14,12 +14,12 @@ const selectDashboardDomain = (state) => state.get('incidentDashboard');
  * Default selector used by Dashboard
  */
 
-const makeSelectDashboard = () => createSelector(
-  selectDashboardDomain,
+const makeSelectDashboardContainer = () => createSelector(
+  selectDashboardContainerDomain,
   (substate) => substate.toJS()
 );
 
-export default makeSelectDashboard;
+export default makeSelectDashboardContainer;
 export {
-  selectDashboardDomain,
+  selectDashboardContainerDomain,
 };

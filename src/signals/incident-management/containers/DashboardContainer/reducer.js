@@ -4,7 +4,7 @@ import {
   REQUEST_DASHBOARD_SUCCESS
 } from './constants';
 
-const initialState = fromJS({
+export const initialState = fromJS({
   dashboard: {},
   loading: false,
   error: false

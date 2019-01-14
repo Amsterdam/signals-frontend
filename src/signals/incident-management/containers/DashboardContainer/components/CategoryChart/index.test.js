@@ -32,8 +32,6 @@ describe('<CategoryChart />', () => {
   });
 
   it('should render correctly', () => {
-    wrapper = shallow(<CategoryChart {...props} />);
-
     expect(wrapper).toMatchSnapshot();
   });
 });

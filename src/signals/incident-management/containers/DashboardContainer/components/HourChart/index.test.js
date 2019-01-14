@@ -36,8 +36,6 @@ describe('<HourChart />', () => {
   });
 
   it('should render correctly', () => {
-    wrapper = shallow(<HourChart {...props} />);
-
     expect(wrapper).toMatchSnapshot();
   });
 });

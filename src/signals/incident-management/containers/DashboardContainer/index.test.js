@@ -16,7 +16,7 @@ describe('<DashboardContainer />', () => {
 
   beforeEach(() => {
     props = {
-      incidentDashboard: {
+      incidentDashboardContainer: {
         dashboard: {
           status: [
             { name: 'Gemeld', count: 57, color: '#23B0C3' },

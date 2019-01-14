@@ -29,8 +29,6 @@ describe('<StatusChart />', () => {
   });
 
   it('should render correctly', () => {
-    wrapper = shallow(<StatusChart {...props} />);
-
     expect(wrapper).toMatchSnapshot();
   });
 });

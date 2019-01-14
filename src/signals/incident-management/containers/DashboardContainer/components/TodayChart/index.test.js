@@ -29,8 +29,6 @@ describe('<TodayChart />', () => {
   });
 
   it('should render correctly', () => {
-    wrapper = shallow(<TodayChart {...props} />);
-
     expect(wrapper).toMatchSnapshot();
   });
 });

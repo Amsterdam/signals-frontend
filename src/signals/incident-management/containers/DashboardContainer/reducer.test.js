@@ -1,8 +1,47 @@
-// import { fromJS } from 'immutable';
-// import dashboardReducer from './reducer';
 
-// describe('dashboardReducer', () => {
-  // it('returns the initial state', () => {
-    // expect(dashboardReducer(undefined, {})).toEqual(fromJS({}));
-  // });
-// });
+import { fromJS } from 'immutable';
+import dashboardReducer, { initialState } from './reducer';
+
+import {
+  REQUEST_DASHBOARD,
+  REQUEST_DASHBOARD_SUCCESS
+}
+  from './constants';
+
+describe('dashboardReducer', () => {
+  it('returns the initial state', () => {
+    expect(dashboardReducer(undefined, {})).toEqual(fromJS(initialState));
+  });
+
+  describe('REQUEST_CATEGORY_UPDATE', () => {
+    it('sets loading and error', () => {
+      expect(
+        dashboardReducer(fromJS({}), {
+          type: REQUEST_DASHBOARD
+        }).toJS()
+      ).toEqual({
+        loading: true
+      });
+    });
+  });
+
+  describe('REQUEST_CATEGORY_UPDATE_SUCCESS', () => {
+    it('sets loading and error', () => {
+      const payload = {
+        status: [],
+        categorie: [],
+        hour: [],
+        today: {}
+      };
+      expect(
+        dashboardReducer(fromJS({}), {
+          type: REQUEST_DASHBOARD_SUCCESS,
+          payload
+        }).toJS()
+      ).toEqual({
+        loading: false,
+        dashboard: payload
+      });
+    });
+  });
+});
