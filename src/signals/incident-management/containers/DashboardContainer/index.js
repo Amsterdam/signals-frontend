@@ -38,23 +38,23 @@ const values = [{
   value: 'ververs 10 minuten'
 }];
 
-export class Dashboard extends React.PureComponent {
+export class DashboardContainer extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      intervalInstance: window.setInterval(() => this.props.onRequestDashboard(), 5000),
+      intervalInstance: global.window.setInterval(() => this.props.onRequestDashboard(), 5000),
       dashboardForm: FormBuilder.group({ intervalTime: 5000 })
     };
   }
 
   componentDidMount() {
     this.state.dashboardForm.get('intervalTime').valueChanges.subscribe((value) => {
-      window.clearInterval(this.state.intervalInstance);
+      global.window.clearInterval(this.state.intervalInstance);
 
       this.setState({
         intervalTime: value,
-        intervalInstance: window.setInterval(() => this.props.onRequestDashboard(), value)
+        intervalInstance: global.window.setInterval(() => this.props.onRequestDashboard(), value)
       });
     });
 
@@ -62,7 +62,7 @@ export class Dashboard extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    window.clearInterval(this.state.intervalInstance);
+    global.window.clearInterval(this.state.intervalInstance);
   }
 
   render() {
@@ -87,13 +87,13 @@ export class Dashboard extends React.PureComponent {
   }
 }
 
-Dashboard.defaultProps = {
+DashboardContainer.defaultProps = {
   incidentDashboard: {
     dashboard: {}
   }
 };
 
-Dashboard.propTypes = {
+DashboardContainer.propTypes = {
   incidentDashboard: PropTypes.shape({
     dashboard: PropTypes.object
   }),
@@ -117,4 +117,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(Dashboard);
+)(DashboardContainer);

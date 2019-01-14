@@ -1,0 +1,276 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DashboardContainer /> rendering should render correctly: mount and unmount 1`] = `
+<div
+  className="dashboard"
+>
+  <div
+    className="dashboard-beta"
+  >
+    BETA
+  </div>
+  <Component
+    control={
+      FormControl {
+        "_onCollectionChange": [Function],
+        "_onDisabledChange": Array [],
+        "_parent": FormGroup {
+          "_onDisabledChange": Array [],
+          "_pendingChange": false,
+          "_pendingDirty": false,
+          "_pendingTouched": false,
+          "asyncValidator": null,
+          "controls": Object {
+            "intervalTime": [Circular],
+          },
+          "errors": null,
+          "get": [Function],
+          "getError": [Function],
+          "handleSubmit": [Function],
+          "hasError": [Function],
+          "meta": Object {},
+          "patchValue": [Function],
+          "pristine": true,
+          "reset": [Function],
+          "setValue": [Function],
+          "stateChanges": Observable {
+            "observers": Array [],
+          },
+          "status": "VALID",
+          "statusChanges": Observable {
+            "observers": Array [],
+          },
+          "submitted": false,
+          "touched": false,
+          "validator": null,
+          "validatorOrOpts": Object {
+            "asyncValidators": null,
+            "updateOn": null,
+            "validators": null,
+          },
+          "value": Object {
+            "intervalTime": 5000,
+          },
+          "valueChanges": Observable {
+            "observers": Array [],
+          },
+        },
+        "_pendingChange": true,
+        "_pendingDirty": false,
+        "_pendingTouched": false,
+        "_pendingValue": 5000,
+        "asyncValidator": null,
+        "errors": null,
+        "formState": 5000,
+        "get": [Function],
+        "getError": [Function],
+        "handler": [Function],
+        "hasError": [Function],
+        "meta": Object {},
+        "onBlur": [Function],
+        "onBlurChanges": Observable {
+          "observers": Array [],
+        },
+        "onChange": [Function],
+        "onValueChanges": Observable {
+          "observers": Array [],
+        },
+        "patchValue": [Function],
+        "pristine": true,
+        "reset": [Function],
+        "setValue": [Function],
+        "stateChanges": Observable {
+          "observers": Array [],
+        },
+        "status": "VALID",
+        "statusChanges": Observable {
+          "observers": Array [],
+        },
+        "submitted": false,
+        "touched": false,
+        "validator": null,
+        "validatorsOrOpts": Object {
+          "asyncValidators": undefined,
+          "updateOn": undefined,
+          "validators": undefined,
+        },
+        "value": 5000,
+        "valueChanges": Observable {
+          "observers": Array [
+            [Function],
+          ],
+        },
+      }
+    }
+    name="intervalTime"
+    render={[Function]}
+    values={
+      Array [
+        Object {
+          "key": 3000,
+          "value": "ververs elke 3 seconden",
+        },
+        Object {
+          "key": 5000,
+          "value": "ververs elke 5 seconden",
+        },
+        Object {
+          "key": 60000,
+          "value": "ververs elke minuut",
+        },
+        Object {
+          "key": 600000,
+          "value": "ververs 10 minuten",
+        },
+      ]
+    }
+  />
+  <div
+    className="dashboard-charts"
+  >
+    <Component
+      data={
+        Array [
+          Object {
+            "color": "#23B0C3",
+            "count": 57,
+            "name": "Gemeld",
+          },
+          Object {
+            "color": "#E8663F",
+            "count": 7,
+            "name": "In afhandeling van behandeling",
+          },
+          Object {
+            "color": "#FE952F",
+            "count": 20,
+            "name": "In behandeling",
+          },
+          Object {
+            "color": "#96C14F",
+            "count": 2,
+            "name": "Geannuleerd",
+          },
+          Object {
+            "color": "#9B4474",
+            "count": 13,
+            "name": "Afgehandeld",
+          },
+          Object {
+            "color": "#E8663F",
+            "count": 1,
+            "name": "On hold",
+          },
+        ]
+      }
+    />
+    <Component
+      data={
+        Array [
+          Object {
+            "count": 2,
+            "name": "Overlast op het water",
+          },
+          Object {
+            "count": 9,
+            "name": "Overlast van dieren",
+          },
+          Object {
+            "count": 9,
+            "name": "Overlast van en door personen en groepen",
+          },
+          Object {
+            "count": 12,
+            "name": "Overlast bedrijven en horeca",
+          },
+          Object {
+            "count": 28,
+            "name": "Openbaar groen en water",
+          },
+          Object {
+            "count": 82,
+            "name": "Overlast in de openbare ruimte",
+          },
+          Object {
+            "count": 88,
+            "name": "Overig",
+          },
+          Object {
+            "count": 126,
+            "name": "Wegen verkeer straatmeubileir ",
+          },
+          Object {
+            "count": 250,
+            "name": "Afval",
+          },
+        ]
+      }
+    />
+    <Component
+      data={
+        Object {
+          "count": 638,
+        }
+      }
+    />
+    <Component
+      data={
+        Array [
+          Object {
+            "count": 8,
+            "hour": 0,
+          },
+          Object {
+            "count": 7,
+            "hour": 1,
+          },
+          Object {
+            "count": 12,
+            "hour": 2,
+          },
+          Object {
+            "count": 1,
+            "hour": 3,
+          },
+          Object {
+            "count": 8,
+            "hour": 4,
+          },
+          Object {
+            "count": 42,
+            "hour": 5,
+          },
+          Object {
+            "count": 70,
+            "hour": 6,
+          },
+          Object {
+            "count": 60,
+            "hour": 7,
+          },
+          Object {
+            "count": 93,
+            "hour": 8,
+          },
+          Object {
+            "count": 137,
+            "hour": 9,
+          },
+          Object {
+            "count": 64,
+            "hour": 10,
+          },
+          Object {
+            "count": 71,
+            "hour": 11,
+          },
+          Object {
+            "count": 12,
+            "hour": 12,
+          },
+        ]
+      }
+    />
+  </div>
+</div>
+`;
