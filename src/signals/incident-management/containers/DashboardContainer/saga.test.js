@@ -1,9 +1,8 @@
 import { put, takeLatest } from 'redux-saga/effects';
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
 import { REQUEST_DASHBOARD } from './constants';
 import { requestDashboardSuccess, requestDashboardError } from './actions';
-import watchDashboardSaga, { fetchDashboard } from './saga';
+import watchDashboardSaga, { requestURL, fetchDashboard } from './saga';
 import { authCall } from '../../../../shared/services/api/api';
 
 jest.mock('shared/services/api/api');
@@ -25,7 +24,6 @@ describe('DashboardContainer saga', () => {
       hour: [],
       today: {}
     };
-    const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/experimental/dashboards/1/`;
 
     const gen = fetchDashboard();
     expect(gen.next().value).toEqual(authCall(requestURL)); // eslint-disable-line redux-saga/yield-effects

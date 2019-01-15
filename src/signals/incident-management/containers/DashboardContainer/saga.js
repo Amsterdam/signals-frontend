@@ -13,9 +13,9 @@ import {
   requestDashboardError
 } from './actions';
 
-export function* fetchDashboard() {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/experimental/dashboards/1/`;
+export const requestURL = `${CONFIGURATION.API_ROOT}signals/experimental/dashboards/1`;
 
+export function* fetchDashboard() {
   try {
     const dashboard = yield authCall(requestURL);
     // const dashboard = {
