@@ -1,12 +1,12 @@
 import { testActionCreator } from '../../../../../internals/testing/test-utils';
 
 import {
-  REQUEST_DASHBOARD, REQUEST_DASHBOARD_SUCCESS
+  REQUEST_DASHBOARD, REQUEST_DASHBOARD_SUCCESS, REQUEST_DASHBOARD_ERROR
 }
   from './constants';
 
 import {
-  requestDashboard, requestDashboardSuccess
+  requestDashboard, requestDashboardSuccess, requestDashboardError
 } from './actions';
 
 
@@ -20,5 +20,6 @@ describe('Incident edit actions', () => {
     } };
     testActionCreator(requestDashboard, REQUEST_DASHBOARD);
     testActionCreator(requestDashboardSuccess, REQUEST_DASHBOARD_SUCCESS, payload);
+    testActionCreator(requestDashboardError, REQUEST_DASHBOARD_ERROR, payload);
   });
 });

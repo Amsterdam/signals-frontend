@@ -1,7 +1,8 @@
 import { fromJS } from 'immutable';
 import {
   REQUEST_DASHBOARD,
-  REQUEST_DASHBOARD_SUCCESS
+  REQUEST_DASHBOARD_SUCCESS,
+  REQUEST_DASHBOARD_ERROR
 } from './constants';
 
 export const initialState = fromJS({
@@ -20,6 +21,11 @@ function dashboardReducer(state = initialState, action) {
       return state
         .set('dashboard', fromJS(action.payload))
         .set('loading', false);
+
+    case REQUEST_DASHBOARD_ERROR:
+      return state
+        .set('loading', false)
+        .set('error', true);
 
     default:
       return state;
