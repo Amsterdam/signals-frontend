@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { LineChart, Line, XAxis, YAxis, LabelList } from 'recharts';
+import moment from 'moment';
 
 import './style.scss';
 
@@ -15,18 +16,17 @@ const HourChart = ({ data }) => (
       margin={{ top: 20, right: 20, left: 20 }}
     >
       <XAxis
+        tickFormatter={(tick) => moment(tick).format('HH')}
+        domain={['dataMin', 'dataMax']}
         type="number"
-        dataKey="hour"
-        axisLine={false}
-        tickLine={false}
-        tickCount={13}
+        scale="time"
+        dataKey="timestamp"
+        tickCount={data.length}
       />
       <YAxis
         hide
         type="number"
         dataKey="count"
-        axisLine={false}
-        tick={false}
       />
 
       <Line

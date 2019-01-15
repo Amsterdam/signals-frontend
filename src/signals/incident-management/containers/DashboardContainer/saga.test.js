@@ -18,16 +18,34 @@ describe('DashboardContainer saga', () => {
   });
 
   it('should fetchDashboard success', () => {
-    const result = {
+    const resultIn = {
       status: [],
       category: [],
-      hour: [],
+      hour: [
+        {
+          dateTime: '2019-01-15T07:00:00+01:00',
+          count: 45
+        }
+      ],
+      today: {}
+    };
+
+    const resultOut = {
+      status: [],
+      category: [],
+      hour: [
+        {
+          dateTime: '2019-01-15T07:00:00+01:00',
+          count: 45,
+          timestamp: 1547532000000
+        }
+      ],
       today: {}
     };
 
     const gen = fetchDashboard();
     expect(gen.next().value).toEqual(authCall(requestURL)); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next(result).value).toEqual(put(requestDashboardSuccess(result))); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next(resultIn).value).toEqual(put(requestDashboardSuccess(resultOut))); // eslint-disable-line redux-saga/yield-effects
   });
 
   it('should fetchDashboard error', () => {
