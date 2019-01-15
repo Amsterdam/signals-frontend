@@ -1,4 +1,4 @@
-import { all, put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest } from 'redux-saga/effects';
 // import { push } from 'react-router-redux';
 // import request from 'utils/request';
 
@@ -12,7 +12,6 @@ import {
   requestDashboardSuccess,
   requestDashboardError
 } from './actions';
-
 
 export function* fetchDashboard() {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/experimental/dashboards/1/`;
