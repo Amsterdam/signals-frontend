@@ -1,2394 +1,412 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<StatusChart /> should render correctly 1`] = `
-<StatusChart
-  data={
-    Array [
-      Object {
-        "color": "#23B0C3",
-        "count": 57,
-        "name": "Gemeld",
-      },
-      Object {
-        "color": "#E8663F",
-        "count": 7,
-        "name": "In afhandeling van behandeling",
-      },
-      Object {
-        "color": "#FE952F",
-        "count": 20,
-        "name": "In behandeling",
-      },
-      Object {
-        "color": "#96C14F",
-        "count": 2,
-        "name": "Geannuleerd",
-      },
-      Object {
-        "color": "#9B4474",
-        "count": 13,
-        "name": "Afgehandeld",
-      },
-      Object {
-        "color": "#E8663F",
-        "count": 1,
-        "name": "On hold",
-      },
-    ]
-  }
+<div
+  class="status-chart"
 >
+  <h3>
+    Per status
+  </h3>
   <div
-    className="status-chart"
+    class="recharts-wrapper"
+    style="position:relative;cursor:default;width:400px;height:460px"
   >
-    <h3>
-      Per status
-    </h3>
-    <PieChart
-      barCategoryGap="10%"
-      barGap={4}
-      cx="50%"
-      cy="50%"
-      endAngle={360}
-      height={460}
-      innerRadius={0}
-      layout="centric"
-      margin={
-        Object {
-          "bottom": 5,
-          "left": 5,
-          "right": 5,
-          "top": 5,
-        }
-      }
-      outerRadius="80%"
-      reverseStackOrder={false}
-      stackOffset="none"
-      startAngle={0}
-      width={400}
+    <svg
+      class="recharts-surface"
+      height="460"
+      version="1.1"
+      viewBox="0 0 400 460"
+      width="400"
     >
-      <div
-        className="recharts-wrapper"
-        style={
-          Object {
-            "cursor": "default",
-            "height": 460,
-            "position": "relative",
-            "width": 400,
-          }
-        }
+      <clipPath
+        id="recharts1-clip"
       >
-        <Surface
-          height={460}
-          width={400}
+        <rect
+          height="450"
+          width="390"
+          x="5"
+          y="5"
+        />
+      </clipPath>
+      <g
+        class="recharts-layer recharts-pie"
+      >
+        <g
+          clip-path="url(#recharts-pie-2)"
+        >
+          <g
+            class="recharts-layer recharts-pie-sector"
+          >
+            <path
+              class="recharts-sector"
+              color="#23B0C3"
+              d="M 200,60
+    A 170,170,0,
+    1,1,
+    127.6175204339377,383.82059891922336
+  L 185.09772479522246,261.6689468363107
+            A 35,35,0,
+            1,0,
+            200,195 Z"
+              fill="#23B0C3"
+              stroke="#fff"
+            />
+          </g>
+          <g
+            class="recharts-layer recharts-pie-sector"
+          >
+            <path
+              class="recharts-sector"
+              color="#E8663F"
+              d="M 127.6175204339377,383.82059891922336
+    A 170,170,0,
+    0,1,
+    69.0127487281159,338.36207825727735
+  L 173.0320365028474,252.30983964120415
+            A 35,35,0,
+            0,0,
+            185.09772479522246,261.6689468363107 Z"
+              fill="#E8663F"
+              stroke="#fff"
+            />
+          </g>
+          <g
+            class="recharts-layer recharts-pie-sector"
+          >
+            <path
+              class="recharts-sector"
+              color="#FE952F"
+              d="M 69.0127487281159,338.36207825727735
+    A 170,170,0,
+    0,1,
+    56.46425266465738,138.90944485357068
+  L 170.44852260742945,211.24606217573515
+            A 35,35,0,
+            0,0,
+            173.0320365028474,252.30983964120415 Z"
+              fill="#FE952F"
+              stroke="#fff"
+            />
+          </g>
+          <g
+            class="recharts-layer recharts-pie-sector"
+          >
+            <path
+              class="recharts-sector"
+              color="#96C14F"
+              d="M 56.46425266465738,138.90944485357068
+    A 170,170,0,
+    0,1,
+    69.01274872811578,121.63792174272282
+  L 173.03203650284738,207.69016035879588
+            A 35,35,0,
+            0,0,
+            170.44852260742945,211.24606217573515 Z"
+              fill="#96C14F"
+              stroke="#fff"
+            />
+          </g>
+          <g
+            class="recharts-layer recharts-pie-sector"
+          >
+            <path
+              class="recharts-sector"
+              color="#9B4474"
+              d="M 69.01274872811578,121.63792174272282
+    A 170,170,0,
+    0,1,
+    189.3256116800166,60.335456167193826
+  L 197.802331816474,195.0690645050105
+            A 35,35,0,
+            0,0,
+            173.03203650284738,207.69016035879588 Z"
+              fill="#9B4474"
+              stroke="#fff"
+            />
+          </g>
+          <g
+            class="recharts-layer recharts-pie-sector"
+          >
+            <path
+              class="recharts-sector"
+              color="#E8663F"
+              d="M 189.3256116800166,60.335456167193826
+    A 170,170,0,
+    0,1,
+    199.99999999999997,60
+  L 200,195
+            A 35,35,0,
+            0,0,
+            197.802331816474,195.0690645050105 Z"
+              fill="#E8663F"
+              stroke="#fff"
+            />
+          </g>
+        </g>
+        <g
+          class="recharts-layer recharts-pie-labels"
+        >
+          <g
+            class="recharts-layer"
+          >
+            <text
+              class="status-label"
+              dominant-baseline="central"
+              fill="white"
+              text-anchor="middle"
+              x="300.03146809872163"
+              y="252.3596822431456"
+            >
+              57%
+            </text>
+          </g>
+          <g
+            class="recharts-layer"
+          >
+            <text
+              class="status-label"
+              dominant-baseline="central"
+              fill="white"
+              text-anchor="middle"
+              x="137.17702700056992"
+              y="310.9908887685083"
+            >
+              7%
+            </text>
+          </g>
+          <g
+            class="recharts-layer"
+          >
+            <text
+              class="status-label"
+              dominant-baseline="central"
+              fill="white"
+              text-anchor="middle"
+              x="97.70226033610217"
+              y="236.4360282517547"
+            >
+              20%
+            </text>
+          </g>
+          <g
+            class="recharts-layer"
+          >
+            <text
+              class="status-label"
+              dominant-baseline="central"
+              fill="white"
+              text-anchor="middle"
+              x="117.07575807656785"
+              y="169.75201164002155"
+            >
+              2%
+            </text>
+          </g>
+          <g
+            class="recharts-layer"
+          >
+            <text
+              class="status-label"
+              dominant-baseline="central"
+              fill="white"
+              text-anchor="middle"
+              x="153.46597377669644"
+              y="138.6718312706923"
+            >
+              13%
+            </text>
+          </g>
+          <g
+            class="recharts-layer"
+          >
+            <text
+              class="status-label"
+              dominant-baseline="central"
+              fill="white"
+              text-anchor="middle"
+              x="196.78039719449185"
+              y="127.55057756251252"
+            >
+              1%
+            </text>
+          </g>
+        </g>
+      </g>
+    </svg>
+    <div
+      class="recharts-legend-wrapper"
+      style="position:absolute;width:390px;height:auto;left:5px;bottom:5px"
+    >
+      <ul
+        class="recharts-default-legend"
+        style="padding:0;margin:0;text-align:center"
+      >
+        <li
+          class="recharts-legend-item legend-item-0"
+          style="display:inline-block;margin-right:10px"
         >
           <svg
-            className="recharts-surface"
-            height={460}
+            class="recharts-surface"
+            height="14"
+            style="display:inline-block;vertical-align:middle;margin-right:4px"
             version="1.1"
-            viewBox="0 0 400 460"
-            width={400}
+            viewBox="0 0 32 32"
+            width="14"
           >
-            <clipPath
-              id="recharts1-clip"
-            >
-              <rect
-                height={450}
-                width={390}
-                x={5}
-                y={5}
-              />
-            </clipPath>
-            <Pie
-              angleAxis={
-                Object {
-                  "allowDuplicatedCategory": true,
-                  "angleAxisId": 0,
-                  "axisLine": true,
-                  "axisType": "angleAxis",
-                  "cx": 200,
-                  "cy": 230,
-                  "domain": Array [
-                    0,
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                  ],
-                  "endAngle": 360,
-                  "hide": true,
-                  "innerRadius": 0,
-                  "isCategorial": true,
-                  "layout": "centric",
-                  "orientation": undefined,
-                  "originalDomain": Array [
-                    0,
-                    "auto",
-                  ],
-                  "outerRadius": 156,
-                  "radius": 156,
-                  "range": Array [
-                    0,
-                    360,
-                  ],
-                  "realScaleType": "band",
-                  "scale": [Function],
-                  "startAngle": 0,
-                  "tick": true,
-                  "tickLine": true,
-                  "type": "category",
-                }
-              }
-              animationBegin={400}
-              animationDuration={300}
-              animationEasing="ease"
-              animationId={0}
-              blendStroke={false}
-              cx={200}
-              cy={230}
-              data={
-                Array [
-                  Object {
-                    "color": "#23B0C3",
-                    "count": 57,
-                    "fill": "#23B0C3",
-                    "name": "Gemeld",
-                    "payload": Object {
-                      "color": "#23B0C3",
-                      "count": 57,
-                      "name": "Gemeld",
-                    },
-                    "stroke": "#fff",
-                  },
-                  Object {
-                    "color": "#E8663F",
-                    "count": 7,
-                    "fill": "#E8663F",
-                    "name": "In afhandeling van behandeling",
-                    "payload": Object {
-                      "color": "#E8663F",
-                      "count": 7,
-                      "name": "In afhandeling van behandeling",
-                    },
-                    "stroke": "#fff",
-                  },
-                  Object {
-                    "color": "#FE952F",
-                    "count": 20,
-                    "fill": "#FE952F",
-                    "name": "In behandeling",
-                    "payload": Object {
-                      "color": "#FE952F",
-                      "count": 20,
-                      "name": "In behandeling",
-                    },
-                    "stroke": "#fff",
-                  },
-                  Object {
-                    "color": "#96C14F",
-                    "count": 2,
-                    "fill": "#96C14F",
-                    "name": "Geannuleerd",
-                    "payload": Object {
-                      "color": "#96C14F",
-                      "count": 2,
-                      "name": "Geannuleerd",
-                    },
-                    "stroke": "#fff",
-                  },
-                  Object {
-                    "color": "#9B4474",
-                    "count": 13,
-                    "fill": "#9B4474",
-                    "name": "Afgehandeld",
-                    "payload": Object {
-                      "color": "#9B4474",
-                      "count": 13,
-                      "name": "Afgehandeld",
-                    },
-                    "stroke": "#fff",
-                  },
-                  Object {
-                    "color": "#E8663F",
-                    "count": 1,
-                    "fill": "#E8663F",
-                    "name": "On hold",
-                    "payload": Object {
-                      "color": "#E8663F",
-                      "count": 1,
-                      "name": "On hold",
-                    },
-                    "stroke": "#fff",
-                  },
-                ]
-              }
-              dataKey="count"
-              endAngle={-270}
-              fill="#808080"
-              hide={false}
-              innerRadius={35}
-              isAnimationActive={true}
-              key="item-0"
-              label={[Function]}
-              labelLine={false}
-              legendType="circle"
-              maxRadius={297.7414986191881}
-              minAngle={0}
-              nameKey="name"
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
-              outerRadius={170}
-              paddingAngle={0}
-              radiusAxis={
-                Object {
-                  "allowDataOverflow": false,
-                  "allowDuplicatedCategory": true,
-                  "angle": 0,
-                  "axisLine": true,
-                  "axisType": "radiusAxis",
-                  "cx": 200,
-                  "cy": 230,
-                  "domain": Array [
-                    0,
-                    57,
-                  ],
-                  "endAngle": 360,
-                  "hide": true,
-                  "innerRadius": 0,
-                  "isCategorial": false,
-                  "layout": "centric",
-                  "niceTicks": Array [
-                    0,
-                    15,
-                    30,
-                    45,
-                    60,
-                  ],
-                  "orientation": undefined,
-                  "originalDomain": Array [
-                    0,
-                    "auto",
-                  ],
-                  "outerRadius": 156,
-                  "radius": 156,
-                  "radiusAxisId": 0,
-                  "range": Array [
-                    0,
-                    156,
-                  ],
-                  "realScaleType": "linear",
-                  "scale": [Function],
-                  "startAngle": 0,
-                  "stroke": "#ccc",
-                  "tick": true,
-                  "tickCount": 5,
-                  "type": "number",
-                }
-              }
-              sectors={
-                Array [
-                  Object {
-                    "color": "#23B0C3",
-                    "cornerRadius": undefined,
-                    "count": 57,
-                    "cx": 200,
-                    "cy": 230,
-                    "endAngle": -115.19999999999999,
-                    "fill": "#23B0C3",
-                    "innerRadius": 35,
-                    "maxRadius": 297.7414986191881,
-                    "midAngle": -12.599999999999994,
-                    "middleRadius": 102.5,
-                    "name": "Gemeld",
-                    "outerRadius": 170,
-                    "paddingAngle": -0,
-                    "payload": Object {
-                      "color": "#23B0C3",
-                      "count": 57,
-                      "fill": "#23B0C3",
-                      "name": "Gemeld",
-                      "payload": Object {
-                        "color": "#23B0C3",
-                        "count": 57,
-                        "name": "Gemeld",
-                      },
-                      "stroke": "#fff",
-                    },
-                    "percent": 0.57,
-                    "startAngle": 90,
-                    "stroke": "#fff",
-                    "tooltipPayload": Array [
-                      Object {
-                        "name": "Gemeld",
-                        "payload": Object {
-                          "color": "#23B0C3",
-                          "count": 57,
-                          "fill": "#23B0C3",
-                          "name": "Gemeld",
-                          "payload": Object {
-                            "color": "#23B0C3",
-                            "count": 57,
-                            "name": "Gemeld",
-                          },
-                          "stroke": "#fff",
-                        },
-                        "value": 57,
-                      },
-                    ],
-                    "tooltipPosition": Object {
-                      "x": 300.03146809872163,
-                      "y": 252.3596822431456,
-                    },
-                    "value": 57,
-                  },
-                  Object {
-                    "color": "#E8663F",
-                    "cornerRadius": undefined,
-                    "count": 7,
-                    "cx": 200,
-                    "cy": 230,
-                    "endAngle": -140.39999999999998,
-                    "fill": "#E8663F",
-                    "innerRadius": 35,
-                    "maxRadius": 297.7414986191881,
-                    "midAngle": -127.79999999999998,
-                    "middleRadius": 102.5,
-                    "name": "In afhandeling van behandeling",
-                    "outerRadius": 170,
-                    "paddingAngle": -0,
-                    "payload": Object {
-                      "color": "#E8663F",
-                      "count": 7,
-                      "fill": "#E8663F",
-                      "name": "In afhandeling van behandeling",
-                      "payload": Object {
-                        "color": "#E8663F",
-                        "count": 7,
-                        "name": "In afhandeling van behandeling",
-                      },
-                      "stroke": "#fff",
-                    },
-                    "percent": 0.07,
-                    "startAngle": -115.19999999999999,
-                    "stroke": "#fff",
-                    "tooltipPayload": Array [
-                      Object {
-                        "name": "In afhandeling van behandeling",
-                        "payload": Object {
-                          "color": "#E8663F",
-                          "count": 7,
-                          "fill": "#E8663F",
-                          "name": "In afhandeling van behandeling",
-                          "payload": Object {
-                            "color": "#E8663F",
-                            "count": 7,
-                            "name": "In afhandeling van behandeling",
-                          },
-                          "stroke": "#fff",
-                        },
-                        "value": 7,
-                      },
-                    ],
-                    "tooltipPosition": Object {
-                      "x": 137.17702700056992,
-                      "y": 310.9908887685083,
-                    },
-                    "value": 7,
-                  },
-                  Object {
-                    "color": "#FE952F",
-                    "cornerRadius": undefined,
-                    "count": 20,
-                    "cx": 200,
-                    "cy": 230,
-                    "endAngle": -212.39999999999998,
-                    "fill": "#FE952F",
-                    "innerRadius": 35,
-                    "maxRadius": 297.7414986191881,
-                    "midAngle": -176.39999999999998,
-                    "middleRadius": 102.5,
-                    "name": "In behandeling",
-                    "outerRadius": 170,
-                    "paddingAngle": -0,
-                    "payload": Object {
-                      "color": "#FE952F",
-                      "count": 20,
-                      "fill": "#FE952F",
-                      "name": "In behandeling",
-                      "payload": Object {
-                        "color": "#FE952F",
-                        "count": 20,
-                        "name": "In behandeling",
-                      },
-                      "stroke": "#fff",
-                    },
-                    "percent": 0.2,
-                    "startAngle": -140.39999999999998,
-                    "stroke": "#fff",
-                    "tooltipPayload": Array [
-                      Object {
-                        "name": "In behandeling",
-                        "payload": Object {
-                          "color": "#FE952F",
-                          "count": 20,
-                          "fill": "#FE952F",
-                          "name": "In behandeling",
-                          "payload": Object {
-                            "color": "#FE952F",
-                            "count": 20,
-                            "name": "In behandeling",
-                          },
-                          "stroke": "#fff",
-                        },
-                        "value": 20,
-                      },
-                    ],
-                    "tooltipPosition": Object {
-                      "x": 97.70226033610217,
-                      "y": 236.4360282517547,
-                    },
-                    "value": 20,
-                  },
-                  Object {
-                    "color": "#96C14F",
-                    "cornerRadius": undefined,
-                    "count": 2,
-                    "cx": 200,
-                    "cy": 230,
-                    "endAngle": -219.59999999999997,
-                    "fill": "#96C14F",
-                    "innerRadius": 35,
-                    "maxRadius": 297.7414986191881,
-                    "midAngle": -215.99999999999997,
-                    "middleRadius": 102.5,
-                    "name": "Geannuleerd",
-                    "outerRadius": 170,
-                    "paddingAngle": -0,
-                    "payload": Object {
-                      "color": "#96C14F",
-                      "count": 2,
-                      "fill": "#96C14F",
-                      "name": "Geannuleerd",
-                      "payload": Object {
-                        "color": "#96C14F",
-                        "count": 2,
-                        "name": "Geannuleerd",
-                      },
-                      "stroke": "#fff",
-                    },
-                    "percent": 0.02,
-                    "startAngle": -212.39999999999998,
-                    "stroke": "#fff",
-                    "tooltipPayload": Array [
-                      Object {
-                        "name": "Geannuleerd",
-                        "payload": Object {
-                          "color": "#96C14F",
-                          "count": 2,
-                          "fill": "#96C14F",
-                          "name": "Geannuleerd",
-                          "payload": Object {
-                            "color": "#96C14F",
-                            "count": 2,
-                            "name": "Geannuleerd",
-                          },
-                          "stroke": "#fff",
-                        },
-                        "value": 2,
-                      },
-                    ],
-                    "tooltipPosition": Object {
-                      "x": 117.07575807656785,
-                      "y": 169.75201164002155,
-                    },
-                    "value": 2,
-                  },
-                  Object {
-                    "color": "#9B4474",
-                    "cornerRadius": undefined,
-                    "count": 13,
-                    "cx": 200,
-                    "cy": 230,
-                    "endAngle": -266.4,
-                    "fill": "#9B4474",
-                    "innerRadius": 35,
-                    "maxRadius": 297.7414986191881,
-                    "midAngle": -242.99999999999997,
-                    "middleRadius": 102.5,
-                    "name": "Afgehandeld",
-                    "outerRadius": 170,
-                    "paddingAngle": -0,
-                    "payload": Object {
-                      "color": "#9B4474",
-                      "count": 13,
-                      "fill": "#9B4474",
-                      "name": "Afgehandeld",
-                      "payload": Object {
-                        "color": "#9B4474",
-                        "count": 13,
-                        "name": "Afgehandeld",
-                      },
-                      "stroke": "#fff",
-                    },
-                    "percent": 0.13,
-                    "startAngle": -219.59999999999997,
-                    "stroke": "#fff",
-                    "tooltipPayload": Array [
-                      Object {
-                        "name": "Afgehandeld",
-                        "payload": Object {
-                          "color": "#9B4474",
-                          "count": 13,
-                          "fill": "#9B4474",
-                          "name": "Afgehandeld",
-                          "payload": Object {
-                            "color": "#9B4474",
-                            "count": 13,
-                            "name": "Afgehandeld",
-                          },
-                          "stroke": "#fff",
-                        },
-                        "value": 13,
-                      },
-                    ],
-                    "tooltipPosition": Object {
-                      "x": 153.46597377669644,
-                      "y": 138.6718312706923,
-                    },
-                    "value": 13,
-                  },
-                  Object {
-                    "color": "#E8663F",
-                    "cornerRadius": undefined,
-                    "count": 1,
-                    "cx": 200,
-                    "cy": 230,
-                    "endAngle": -270,
-                    "fill": "#E8663F",
-                    "innerRadius": 35,
-                    "maxRadius": 297.7414986191881,
-                    "midAngle": -268.2,
-                    "middleRadius": 102.5,
-                    "name": "On hold",
-                    "outerRadius": 170,
-                    "paddingAngle": -0,
-                    "payload": Object {
-                      "color": "#E8663F",
-                      "count": 1,
-                      "fill": "#E8663F",
-                      "name": "On hold",
-                      "payload": Object {
-                        "color": "#E8663F",
-                        "count": 1,
-                        "name": "On hold",
-                      },
-                      "stroke": "#fff",
-                    },
-                    "percent": 0.01,
-                    "startAngle": -266.4,
-                    "stroke": "#fff",
-                    "tooltipPayload": Array [
-                      Object {
-                        "name": "On hold",
-                        "payload": Object {
-                          "color": "#E8663F",
-                          "count": 1,
-                          "fill": "#E8663F",
-                          "name": "On hold",
-                          "payload": Object {
-                            "color": "#E8663F",
-                            "count": 1,
-                            "name": "On hold",
-                          },
-                          "stroke": "#fff",
-                        },
-                        "value": 1,
-                      },
-                    ],
-                    "tooltipPosition": Object {
-                      "x": 196.78039719449185,
-                      "y": 127.55057756251252,
-                    },
-                    "value": 1,
-                  },
-                ]
-              }
-              startAngle={90}
-              stroke="#fff"
-            >
-              <Layer
-                className="recharts-pie"
-              >
-                <g
-                  className="recharts-layer recharts-pie"
-                >
-                  <g
-                    clipPath="url(#recharts-pie-2)"
-                  >
-                    <Animate
-                      attributeName=""
-                      begin={400}
-                      canBegin={true}
-                      duration={300}
-                      easing="ease"
-                      from={
-                        Object {
-                          "t": 0,
-                        }
-                      }
-                      isActive={true}
-                      key="pie-0"
-                      onAnimationEnd={[Function]}
-                      onAnimationStart={[Function]}
-                      steps={Array []}
-                      to={
-                        Object {
-                          "t": 1,
-                        }
-                      }
-                    >
-                      <Layer>
-                        <g
-                          className="recharts-layer"
-                        >
-                          <Layer
-                            className="recharts-pie-sector"
-                            key="sector-0"
-                            onMouseEnter={[Function]}
-                            onMouseLeave={[Function]}
-                          >
-                            <g
-                              className="recharts-layer recharts-pie-sector"
-                              onMouseEnter={[Function]}
-                              onMouseLeave={[Function]}
-                            >
-                              <Sector
-                                color="#23B0C3"
-                                cornerRadius={0}
-                                count={57}
-                                cx={200}
-                                cy={230}
-                                endAngle={90}
-                                fill="#23B0C3"
-                                innerRadius={35}
-                                maxRadius={297.7414986191881}
-                                midAngle={-12.599999999999994}
-                                middleRadius={102.5}
-                                name="Gemeld"
-                                outerRadius={170}
-                                paddingAngle={-0}
-                                payload={
-                                  Object {
-                                    "color": "#23B0C3",
-                                    "count": 57,
-                                    "fill": "#23B0C3",
-                                    "name": "Gemeld",
-                                    "payload": Object {
-                                      "color": "#23B0C3",
-                                      "count": 57,
-                                      "name": "Gemeld",
-                                    },
-                                    "stroke": "#fff",
-                                  }
-                                }
-                                percent={0.57}
-                                startAngle={90}
-                                stroke="#fff"
-                                tooltipPayload={
-                                  Array [
-                                    Object {
-                                      "name": "Gemeld",
-                                      "payload": Object {
-                                        "color": "#23B0C3",
-                                        "count": 57,
-                                        "fill": "#23B0C3",
-                                        "name": "Gemeld",
-                                        "payload": Object {
-                                          "color": "#23B0C3",
-                                          "count": 57,
-                                          "name": "Gemeld",
-                                        },
-                                        "stroke": "#fff",
-                                      },
-                                      "value": 57,
-                                    },
-                                  ]
-                                }
-                                tooltipPosition={
-                                  Object {
-                                    "x": 300.03146809872163,
-                                    "y": 252.3596822431456,
-                                  }
-                                }
-                                value={57}
-                              />
-                            </g>
-                          </Layer>
-                          <Layer
-                            className="recharts-pie-sector"
-                            key="sector-1"
-                            onMouseEnter={[Function]}
-                            onMouseLeave={[Function]}
-                          >
-                            <g
-                              className="recharts-layer recharts-pie-sector"
-                              onMouseEnter={[Function]}
-                              onMouseLeave={[Function]}
-                            >
-                              <Sector
-                                color="#E8663F"
-                                cornerRadius={0}
-                                count={7}
-                                cx={200}
-                                cy={230}
-                                endAngle={90}
-                                fill="#E8663F"
-                                innerRadius={35}
-                                maxRadius={297.7414986191881}
-                                midAngle={-127.79999999999998}
-                                middleRadius={102.5}
-                                name="In afhandeling van behandeling"
-                                outerRadius={170}
-                                paddingAngle={-0}
-                                payload={
-                                  Object {
-                                    "color": "#E8663F",
-                                    "count": 7,
-                                    "fill": "#E8663F",
-                                    "name": "In afhandeling van behandeling",
-                                    "payload": Object {
-                                      "color": "#E8663F",
-                                      "count": 7,
-                                      "name": "In afhandeling van behandeling",
-                                    },
-                                    "stroke": "#fff",
-                                  }
-                                }
-                                percent={0.07}
-                                startAngle={90}
-                                stroke="#fff"
-                                tooltipPayload={
-                                  Array [
-                                    Object {
-                                      "name": "In afhandeling van behandeling",
-                                      "payload": Object {
-                                        "color": "#E8663F",
-                                        "count": 7,
-                                        "fill": "#E8663F",
-                                        "name": "In afhandeling van behandeling",
-                                        "payload": Object {
-                                          "color": "#E8663F",
-                                          "count": 7,
-                                          "name": "In afhandeling van behandeling",
-                                        },
-                                        "stroke": "#fff",
-                                      },
-                                      "value": 7,
-                                    },
-                                  ]
-                                }
-                                tooltipPosition={
-                                  Object {
-                                    "x": 137.17702700056992,
-                                    "y": 310.9908887685083,
-                                  }
-                                }
-                                value={7}
-                              />
-                            </g>
-                          </Layer>
-                          <Layer
-                            className="recharts-pie-sector"
-                            key="sector-2"
-                            onMouseEnter={[Function]}
-                            onMouseLeave={[Function]}
-                          >
-                            <g
-                              className="recharts-layer recharts-pie-sector"
-                              onMouseEnter={[Function]}
-                              onMouseLeave={[Function]}
-                            >
-                              <Sector
-                                color="#FE952F"
-                                cornerRadius={0}
-                                count={20}
-                                cx={200}
-                                cy={230}
-                                endAngle={90}
-                                fill="#FE952F"
-                                innerRadius={35}
-                                maxRadius={297.7414986191881}
-                                midAngle={-176.39999999999998}
-                                middleRadius={102.5}
-                                name="In behandeling"
-                                outerRadius={170}
-                                paddingAngle={-0}
-                                payload={
-                                  Object {
-                                    "color": "#FE952F",
-                                    "count": 20,
-                                    "fill": "#FE952F",
-                                    "name": "In behandeling",
-                                    "payload": Object {
-                                      "color": "#FE952F",
-                                      "count": 20,
-                                      "name": "In behandeling",
-                                    },
-                                    "stroke": "#fff",
-                                  }
-                                }
-                                percent={0.2}
-                                startAngle={90}
-                                stroke="#fff"
-                                tooltipPayload={
-                                  Array [
-                                    Object {
-                                      "name": "In behandeling",
-                                      "payload": Object {
-                                        "color": "#FE952F",
-                                        "count": 20,
-                                        "fill": "#FE952F",
-                                        "name": "In behandeling",
-                                        "payload": Object {
-                                          "color": "#FE952F",
-                                          "count": 20,
-                                          "name": "In behandeling",
-                                        },
-                                        "stroke": "#fff",
-                                      },
-                                      "value": 20,
-                                    },
-                                  ]
-                                }
-                                tooltipPosition={
-                                  Object {
-                                    "x": 97.70226033610217,
-                                    "y": 236.4360282517547,
-                                  }
-                                }
-                                value={20}
-                              />
-                            </g>
-                          </Layer>
-                          <Layer
-                            className="recharts-pie-sector"
-                            key="sector-3"
-                            onMouseEnter={[Function]}
-                            onMouseLeave={[Function]}
-                          >
-                            <g
-                              className="recharts-layer recharts-pie-sector"
-                              onMouseEnter={[Function]}
-                              onMouseLeave={[Function]}
-                            >
-                              <Sector
-                                color="#96C14F"
-                                cornerRadius={0}
-                                count={2}
-                                cx={200}
-                                cy={230}
-                                endAngle={90}
-                                fill="#96C14F"
-                                innerRadius={35}
-                                maxRadius={297.7414986191881}
-                                midAngle={-215.99999999999997}
-                                middleRadius={102.5}
-                                name="Geannuleerd"
-                                outerRadius={170}
-                                paddingAngle={-0}
-                                payload={
-                                  Object {
-                                    "color": "#96C14F",
-                                    "count": 2,
-                                    "fill": "#96C14F",
-                                    "name": "Geannuleerd",
-                                    "payload": Object {
-                                      "color": "#96C14F",
-                                      "count": 2,
-                                      "name": "Geannuleerd",
-                                    },
-                                    "stroke": "#fff",
-                                  }
-                                }
-                                percent={0.02}
-                                startAngle={90}
-                                stroke="#fff"
-                                tooltipPayload={
-                                  Array [
-                                    Object {
-                                      "name": "Geannuleerd",
-                                      "payload": Object {
-                                        "color": "#96C14F",
-                                        "count": 2,
-                                        "fill": "#96C14F",
-                                        "name": "Geannuleerd",
-                                        "payload": Object {
-                                          "color": "#96C14F",
-                                          "count": 2,
-                                          "name": "Geannuleerd",
-                                        },
-                                        "stroke": "#fff",
-                                      },
-                                      "value": 2,
-                                    },
-                                  ]
-                                }
-                                tooltipPosition={
-                                  Object {
-                                    "x": 117.07575807656785,
-                                    "y": 169.75201164002155,
-                                  }
-                                }
-                                value={2}
-                              />
-                            </g>
-                          </Layer>
-                          <Layer
-                            className="recharts-pie-sector"
-                            key="sector-4"
-                            onMouseEnter={[Function]}
-                            onMouseLeave={[Function]}
-                          >
-                            <g
-                              className="recharts-layer recharts-pie-sector"
-                              onMouseEnter={[Function]}
-                              onMouseLeave={[Function]}
-                            >
-                              <Sector
-                                color="#9B4474"
-                                cornerRadius={0}
-                                count={13}
-                                cx={200}
-                                cy={230}
-                                endAngle={90}
-                                fill="#9B4474"
-                                innerRadius={35}
-                                maxRadius={297.7414986191881}
-                                midAngle={-242.99999999999997}
-                                middleRadius={102.5}
-                                name="Afgehandeld"
-                                outerRadius={170}
-                                paddingAngle={-0}
-                                payload={
-                                  Object {
-                                    "color": "#9B4474",
-                                    "count": 13,
-                                    "fill": "#9B4474",
-                                    "name": "Afgehandeld",
-                                    "payload": Object {
-                                      "color": "#9B4474",
-                                      "count": 13,
-                                      "name": "Afgehandeld",
-                                    },
-                                    "stroke": "#fff",
-                                  }
-                                }
-                                percent={0.13}
-                                startAngle={90}
-                                stroke="#fff"
-                                tooltipPayload={
-                                  Array [
-                                    Object {
-                                      "name": "Afgehandeld",
-                                      "payload": Object {
-                                        "color": "#9B4474",
-                                        "count": 13,
-                                        "fill": "#9B4474",
-                                        "name": "Afgehandeld",
-                                        "payload": Object {
-                                          "color": "#9B4474",
-                                          "count": 13,
-                                          "name": "Afgehandeld",
-                                        },
-                                        "stroke": "#fff",
-                                      },
-                                      "value": 13,
-                                    },
-                                  ]
-                                }
-                                tooltipPosition={
-                                  Object {
-                                    "x": 153.46597377669644,
-                                    "y": 138.6718312706923,
-                                  }
-                                }
-                                value={13}
-                              />
-                            </g>
-                          </Layer>
-                          <Layer
-                            className="recharts-pie-sector"
-                            key="sector-5"
-                            onMouseEnter={[Function]}
-                            onMouseLeave={[Function]}
-                          >
-                            <g
-                              className="recharts-layer recharts-pie-sector"
-                              onMouseEnter={[Function]}
-                              onMouseLeave={[Function]}
-                            >
-                              <Sector
-                                color="#E8663F"
-                                cornerRadius={0}
-                                count={1}
-                                cx={200}
-                                cy={230}
-                                endAngle={90}
-                                fill="#E8663F"
-                                innerRadius={35}
-                                maxRadius={297.7414986191881}
-                                midAngle={-268.2}
-                                middleRadius={102.5}
-                                name="On hold"
-                                outerRadius={170}
-                                paddingAngle={-0}
-                                payload={
-                                  Object {
-                                    "color": "#E8663F",
-                                    "count": 1,
-                                    "fill": "#E8663F",
-                                    "name": "On hold",
-                                    "payload": Object {
-                                      "color": "#E8663F",
-                                      "count": 1,
-                                      "name": "On hold",
-                                    },
-                                    "stroke": "#fff",
-                                  }
-                                }
-                                percent={0.01}
-                                startAngle={90}
-                                stroke="#fff"
-                                tooltipPayload={
-                                  Array [
-                                    Object {
-                                      "name": "On hold",
-                                      "payload": Object {
-                                        "color": "#E8663F",
-                                        "count": 1,
-                                        "fill": "#E8663F",
-                                        "name": "On hold",
-                                        "payload": Object {
-                                          "color": "#E8663F",
-                                          "count": 1,
-                                          "name": "On hold",
-                                        },
-                                        "stroke": "#fff",
-                                      },
-                                      "value": 1,
-                                    },
-                                  ]
-                                }
-                                tooltipPosition={
-                                  Object {
-                                    "x": 196.78039719449185,
-                                    "y": 127.55057756251252,
-                                  }
-                                }
-                                value={1}
-                              />
-                            </g>
-                          </Layer>
-                        </g>
-                      </Layer>
-                    </Animate>
-                  </g>
-                </g>
-              </Layer>
-            </Pie>
+            <path
+              class="recharts-symbols"
+              d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
+              fill="#23B0C3"
+              transform="translate(16, 16)"
+            />
           </svg>
-        </Surface>
-        <Legend
-          align="center"
-          chartHeight={460}
-          chartWidth={400}
-          iconSize={14}
-          layout="horizontal"
-          margin={
-            Object {
-              "bottom": 5,
-              "left": 5,
-              "right": 5,
-              "top": 5,
-            }
-          }
-          onBBoxUpdate={[Function]}
-          payload={
-            Array [
-              Object {
-                "color": "#23B0C3",
-                "payload": Object {
-                  "color": "#23B0C3",
-                  "cornerRadius": undefined,
-                  "count": 57,
-                  "cx": 200,
-                  "cy": 230,
-                  "endAngle": -115.19999999999999,
-                  "fill": "#23B0C3",
-                  "innerRadius": 35,
-                  "maxRadius": 297.7414986191881,
-                  "midAngle": -12.599999999999994,
-                  "middleRadius": 102.5,
-                  "name": "Gemeld",
-                  "outerRadius": 170,
-                  "paddingAngle": -0,
-                  "payload": Object {
-                    "color": "#23B0C3",
-                    "count": 57,
-                    "fill": "#23B0C3",
-                    "name": "Gemeld",
-                    "payload": Object {
-                      "color": "#23B0C3",
-                      "count": 57,
-                      "name": "Gemeld",
-                    },
-                    "stroke": "#fff",
-                  },
-                  "percent": 0.57,
-                  "startAngle": 90,
-                  "stroke": "#fff",
-                  "tooltipPayload": Array [
-                    Object {
-                      "name": "Gemeld",
-                      "payload": Object {
-                        "color": "#23B0C3",
-                        "count": 57,
-                        "fill": "#23B0C3",
-                        "name": "Gemeld",
-                        "payload": Object {
-                          "color": "#23B0C3",
-                          "count": 57,
-                          "name": "Gemeld",
-                        },
-                        "stroke": "#fff",
-                      },
-                      "value": 57,
-                    },
-                  ],
-                  "tooltipPosition": Object {
-                    "x": 300.03146809872163,
-                    "y": 252.3596822431456,
-                  },
-                  "value": 57,
-                },
-                "type": "circle",
-                "value": "Gemeld",
-              },
-              Object {
-                "color": "#E8663F",
-                "payload": Object {
-                  "color": "#E8663F",
-                  "cornerRadius": undefined,
-                  "count": 7,
-                  "cx": 200,
-                  "cy": 230,
-                  "endAngle": -140.39999999999998,
-                  "fill": "#E8663F",
-                  "innerRadius": 35,
-                  "maxRadius": 297.7414986191881,
-                  "midAngle": -127.79999999999998,
-                  "middleRadius": 102.5,
-                  "name": "In afhandeling van behandeling",
-                  "outerRadius": 170,
-                  "paddingAngle": -0,
-                  "payload": Object {
-                    "color": "#E8663F",
-                    "count": 7,
-                    "fill": "#E8663F",
-                    "name": "In afhandeling van behandeling",
-                    "payload": Object {
-                      "color": "#E8663F",
-                      "count": 7,
-                      "name": "In afhandeling van behandeling",
-                    },
-                    "stroke": "#fff",
-                  },
-                  "percent": 0.07,
-                  "startAngle": -115.19999999999999,
-                  "stroke": "#fff",
-                  "tooltipPayload": Array [
-                    Object {
-                      "name": "In afhandeling van behandeling",
-                      "payload": Object {
-                        "color": "#E8663F",
-                        "count": 7,
-                        "fill": "#E8663F",
-                        "name": "In afhandeling van behandeling",
-                        "payload": Object {
-                          "color": "#E8663F",
-                          "count": 7,
-                          "name": "In afhandeling van behandeling",
-                        },
-                        "stroke": "#fff",
-                      },
-                      "value": 7,
-                    },
-                  ],
-                  "tooltipPosition": Object {
-                    "x": 137.17702700056992,
-                    "y": 310.9908887685083,
-                  },
-                  "value": 7,
-                },
-                "type": "circle",
-                "value": "In afhandeling van behandeling",
-              },
-              Object {
-                "color": "#FE952F",
-                "payload": Object {
-                  "color": "#FE952F",
-                  "cornerRadius": undefined,
-                  "count": 20,
-                  "cx": 200,
-                  "cy": 230,
-                  "endAngle": -212.39999999999998,
-                  "fill": "#FE952F",
-                  "innerRadius": 35,
-                  "maxRadius": 297.7414986191881,
-                  "midAngle": -176.39999999999998,
-                  "middleRadius": 102.5,
-                  "name": "In behandeling",
-                  "outerRadius": 170,
-                  "paddingAngle": -0,
-                  "payload": Object {
-                    "color": "#FE952F",
-                    "count": 20,
-                    "fill": "#FE952F",
-                    "name": "In behandeling",
-                    "payload": Object {
-                      "color": "#FE952F",
-                      "count": 20,
-                      "name": "In behandeling",
-                    },
-                    "stroke": "#fff",
-                  },
-                  "percent": 0.2,
-                  "startAngle": -140.39999999999998,
-                  "stroke": "#fff",
-                  "tooltipPayload": Array [
-                    Object {
-                      "name": "In behandeling",
-                      "payload": Object {
-                        "color": "#FE952F",
-                        "count": 20,
-                        "fill": "#FE952F",
-                        "name": "In behandeling",
-                        "payload": Object {
-                          "color": "#FE952F",
-                          "count": 20,
-                          "name": "In behandeling",
-                        },
-                        "stroke": "#fff",
-                      },
-                      "value": 20,
-                    },
-                  ],
-                  "tooltipPosition": Object {
-                    "x": 97.70226033610217,
-                    "y": 236.4360282517547,
-                  },
-                  "value": 20,
-                },
-                "type": "circle",
-                "value": "In behandeling",
-              },
-              Object {
-                "color": "#96C14F",
-                "payload": Object {
-                  "color": "#96C14F",
-                  "cornerRadius": undefined,
-                  "count": 2,
-                  "cx": 200,
-                  "cy": 230,
-                  "endAngle": -219.59999999999997,
-                  "fill": "#96C14F",
-                  "innerRadius": 35,
-                  "maxRadius": 297.7414986191881,
-                  "midAngle": -215.99999999999997,
-                  "middleRadius": 102.5,
-                  "name": "Geannuleerd",
-                  "outerRadius": 170,
-                  "paddingAngle": -0,
-                  "payload": Object {
-                    "color": "#96C14F",
-                    "count": 2,
-                    "fill": "#96C14F",
-                    "name": "Geannuleerd",
-                    "payload": Object {
-                      "color": "#96C14F",
-                      "count": 2,
-                      "name": "Geannuleerd",
-                    },
-                    "stroke": "#fff",
-                  },
-                  "percent": 0.02,
-                  "startAngle": -212.39999999999998,
-                  "stroke": "#fff",
-                  "tooltipPayload": Array [
-                    Object {
-                      "name": "Geannuleerd",
-                      "payload": Object {
-                        "color": "#96C14F",
-                        "count": 2,
-                        "fill": "#96C14F",
-                        "name": "Geannuleerd",
-                        "payload": Object {
-                          "color": "#96C14F",
-                          "count": 2,
-                          "name": "Geannuleerd",
-                        },
-                        "stroke": "#fff",
-                      },
-                      "value": 2,
-                    },
-                  ],
-                  "tooltipPosition": Object {
-                    "x": 117.07575807656785,
-                    "y": 169.75201164002155,
-                  },
-                  "value": 2,
-                },
-                "type": "circle",
-                "value": "Geannuleerd",
-              },
-              Object {
-                "color": "#9B4474",
-                "payload": Object {
-                  "color": "#9B4474",
-                  "cornerRadius": undefined,
-                  "count": 13,
-                  "cx": 200,
-                  "cy": 230,
-                  "endAngle": -266.4,
-                  "fill": "#9B4474",
-                  "innerRadius": 35,
-                  "maxRadius": 297.7414986191881,
-                  "midAngle": -242.99999999999997,
-                  "middleRadius": 102.5,
-                  "name": "Afgehandeld",
-                  "outerRadius": 170,
-                  "paddingAngle": -0,
-                  "payload": Object {
-                    "color": "#9B4474",
-                    "count": 13,
-                    "fill": "#9B4474",
-                    "name": "Afgehandeld",
-                    "payload": Object {
-                      "color": "#9B4474",
-                      "count": 13,
-                      "name": "Afgehandeld",
-                    },
-                    "stroke": "#fff",
-                  },
-                  "percent": 0.13,
-                  "startAngle": -219.59999999999997,
-                  "stroke": "#fff",
-                  "tooltipPayload": Array [
-                    Object {
-                      "name": "Afgehandeld",
-                      "payload": Object {
-                        "color": "#9B4474",
-                        "count": 13,
-                        "fill": "#9B4474",
-                        "name": "Afgehandeld",
-                        "payload": Object {
-                          "color": "#9B4474",
-                          "count": 13,
-                          "name": "Afgehandeld",
-                        },
-                        "stroke": "#fff",
-                      },
-                      "value": 13,
-                    },
-                  ],
-                  "tooltipPosition": Object {
-                    "x": 153.46597377669644,
-                    "y": 138.6718312706923,
-                  },
-                  "value": 13,
-                },
-                "type": "circle",
-                "value": "Afgehandeld",
-              },
-              Object {
-                "color": "#E8663F",
-                "payload": Object {
-                  "color": "#E8663F",
-                  "cornerRadius": undefined,
-                  "count": 1,
-                  "cx": 200,
-                  "cy": 230,
-                  "endAngle": -270,
-                  "fill": "#E8663F",
-                  "innerRadius": 35,
-                  "maxRadius": 297.7414986191881,
-                  "midAngle": -268.2,
-                  "middleRadius": 102.5,
-                  "name": "On hold",
-                  "outerRadius": 170,
-                  "paddingAngle": -0,
-                  "payload": Object {
-                    "color": "#E8663F",
-                    "count": 1,
-                    "fill": "#E8663F",
-                    "name": "On hold",
-                    "payload": Object {
-                      "color": "#E8663F",
-                      "count": 1,
-                      "name": "On hold",
-                    },
-                    "stroke": "#fff",
-                  },
-                  "percent": 0.01,
-                  "startAngle": -266.4,
-                  "stroke": "#fff",
-                  "tooltipPayload": Array [
-                    Object {
-                      "name": "On hold",
-                      "payload": Object {
-                        "color": "#E8663F",
-                        "count": 1,
-                        "fill": "#E8663F",
-                        "name": "On hold",
-                        "payload": Object {
-                          "color": "#E8663F",
-                          "count": 1,
-                          "name": "On hold",
-                        },
-                        "stroke": "#fff",
-                      },
-                      "value": 1,
-                    },
-                  ],
-                  "tooltipPosition": Object {
-                    "x": 196.78039719449185,
-                    "y": 127.55057756251252,
-                  },
-                  "value": 1,
-                },
-                "type": "circle",
-                "value": "On hold",
-              },
-            ]
-          }
-          verticalAlign="bottom"
-          width={390}
-        >
-          <div
-            className="recharts-legend-wrapper"
-            style={
-              Object {
-                "bottom": 5,
-                "height": "auto",
-                "left": 5,
-                "position": "absolute",
-                "width": 390,
-              }
-            }
+          <span
+            class="recharts-legend-item-text"
           >
-            <Legend
-              align="center"
-              chartHeight={460}
-              chartWidth={400}
-              iconSize={14}
-              inactiveColor="#ccc"
-              layout="horizontal"
-              margin={
-                Object {
-                  "bottom": 5,
-                  "left": 5,
-                  "right": 5,
-                  "top": 5,
-                }
-              }
-              onBBoxUpdate={[Function]}
-              payload={
-                Array [
-                  Object {
-                    "color": "#23B0C3",
-                    "payload": Object {
-                      "color": "#23B0C3",
-                      "cornerRadius": undefined,
-                      "count": 57,
-                      "cx": 200,
-                      "cy": 230,
-                      "endAngle": -115.19999999999999,
-                      "fill": "#23B0C3",
-                      "innerRadius": 35,
-                      "maxRadius": 297.7414986191881,
-                      "midAngle": -12.599999999999994,
-                      "middleRadius": 102.5,
-                      "name": "Gemeld",
-                      "outerRadius": 170,
-                      "paddingAngle": -0,
-                      "payload": Object {
-                        "color": "#23B0C3",
-                        "count": 57,
-                        "fill": "#23B0C3",
-                        "name": "Gemeld",
-                        "payload": Object {
-                          "color": "#23B0C3",
-                          "count": 57,
-                          "name": "Gemeld",
-                        },
-                        "stroke": "#fff",
-                      },
-                      "percent": 0.57,
-                      "startAngle": 90,
-                      "stroke": "#fff",
-                      "tooltipPayload": Array [
-                        Object {
-                          "name": "Gemeld",
-                          "payload": Object {
-                            "color": "#23B0C3",
-                            "count": 57,
-                            "fill": "#23B0C3",
-                            "name": "Gemeld",
-                            "payload": Object {
-                              "color": "#23B0C3",
-                              "count": 57,
-                              "name": "Gemeld",
-                            },
-                            "stroke": "#fff",
-                          },
-                          "value": 57,
-                        },
-                      ],
-                      "tooltipPosition": Object {
-                        "x": 300.03146809872163,
-                        "y": 252.3596822431456,
-                      },
-                      "value": 57,
-                    },
-                    "type": "circle",
-                    "value": "Gemeld",
-                  },
-                  Object {
-                    "color": "#E8663F",
-                    "payload": Object {
-                      "color": "#E8663F",
-                      "cornerRadius": undefined,
-                      "count": 7,
-                      "cx": 200,
-                      "cy": 230,
-                      "endAngle": -140.39999999999998,
-                      "fill": "#E8663F",
-                      "innerRadius": 35,
-                      "maxRadius": 297.7414986191881,
-                      "midAngle": -127.79999999999998,
-                      "middleRadius": 102.5,
-                      "name": "In afhandeling van behandeling",
-                      "outerRadius": 170,
-                      "paddingAngle": -0,
-                      "payload": Object {
-                        "color": "#E8663F",
-                        "count": 7,
-                        "fill": "#E8663F",
-                        "name": "In afhandeling van behandeling",
-                        "payload": Object {
-                          "color": "#E8663F",
-                          "count": 7,
-                          "name": "In afhandeling van behandeling",
-                        },
-                        "stroke": "#fff",
-                      },
-                      "percent": 0.07,
-                      "startAngle": -115.19999999999999,
-                      "stroke": "#fff",
-                      "tooltipPayload": Array [
-                        Object {
-                          "name": "In afhandeling van behandeling",
-                          "payload": Object {
-                            "color": "#E8663F",
-                            "count": 7,
-                            "fill": "#E8663F",
-                            "name": "In afhandeling van behandeling",
-                            "payload": Object {
-                              "color": "#E8663F",
-                              "count": 7,
-                              "name": "In afhandeling van behandeling",
-                            },
-                            "stroke": "#fff",
-                          },
-                          "value": 7,
-                        },
-                      ],
-                      "tooltipPosition": Object {
-                        "x": 137.17702700056992,
-                        "y": 310.9908887685083,
-                      },
-                      "value": 7,
-                    },
-                    "type": "circle",
-                    "value": "In afhandeling van behandeling",
-                  },
-                  Object {
-                    "color": "#FE952F",
-                    "payload": Object {
-                      "color": "#FE952F",
-                      "cornerRadius": undefined,
-                      "count": 20,
-                      "cx": 200,
-                      "cy": 230,
-                      "endAngle": -212.39999999999998,
-                      "fill": "#FE952F",
-                      "innerRadius": 35,
-                      "maxRadius": 297.7414986191881,
-                      "midAngle": -176.39999999999998,
-                      "middleRadius": 102.5,
-                      "name": "In behandeling",
-                      "outerRadius": 170,
-                      "paddingAngle": -0,
-                      "payload": Object {
-                        "color": "#FE952F",
-                        "count": 20,
-                        "fill": "#FE952F",
-                        "name": "In behandeling",
-                        "payload": Object {
-                          "color": "#FE952F",
-                          "count": 20,
-                          "name": "In behandeling",
-                        },
-                        "stroke": "#fff",
-                      },
-                      "percent": 0.2,
-                      "startAngle": -140.39999999999998,
-                      "stroke": "#fff",
-                      "tooltipPayload": Array [
-                        Object {
-                          "name": "In behandeling",
-                          "payload": Object {
-                            "color": "#FE952F",
-                            "count": 20,
-                            "fill": "#FE952F",
-                            "name": "In behandeling",
-                            "payload": Object {
-                              "color": "#FE952F",
-                              "count": 20,
-                              "name": "In behandeling",
-                            },
-                            "stroke": "#fff",
-                          },
-                          "value": 20,
-                        },
-                      ],
-                      "tooltipPosition": Object {
-                        "x": 97.70226033610217,
-                        "y": 236.4360282517547,
-                      },
-                      "value": 20,
-                    },
-                    "type": "circle",
-                    "value": "In behandeling",
-                  },
-                  Object {
-                    "color": "#96C14F",
-                    "payload": Object {
-                      "color": "#96C14F",
-                      "cornerRadius": undefined,
-                      "count": 2,
-                      "cx": 200,
-                      "cy": 230,
-                      "endAngle": -219.59999999999997,
-                      "fill": "#96C14F",
-                      "innerRadius": 35,
-                      "maxRadius": 297.7414986191881,
-                      "midAngle": -215.99999999999997,
-                      "middleRadius": 102.5,
-                      "name": "Geannuleerd",
-                      "outerRadius": 170,
-                      "paddingAngle": -0,
-                      "payload": Object {
-                        "color": "#96C14F",
-                        "count": 2,
-                        "fill": "#96C14F",
-                        "name": "Geannuleerd",
-                        "payload": Object {
-                          "color": "#96C14F",
-                          "count": 2,
-                          "name": "Geannuleerd",
-                        },
-                        "stroke": "#fff",
-                      },
-                      "percent": 0.02,
-                      "startAngle": -212.39999999999998,
-                      "stroke": "#fff",
-                      "tooltipPayload": Array [
-                        Object {
-                          "name": "Geannuleerd",
-                          "payload": Object {
-                            "color": "#96C14F",
-                            "count": 2,
-                            "fill": "#96C14F",
-                            "name": "Geannuleerd",
-                            "payload": Object {
-                              "color": "#96C14F",
-                              "count": 2,
-                              "name": "Geannuleerd",
-                            },
-                            "stroke": "#fff",
-                          },
-                          "value": 2,
-                        },
-                      ],
-                      "tooltipPosition": Object {
-                        "x": 117.07575807656785,
-                        "y": 169.75201164002155,
-                      },
-                      "value": 2,
-                    },
-                    "type": "circle",
-                    "value": "Geannuleerd",
-                  },
-                  Object {
-                    "color": "#9B4474",
-                    "payload": Object {
-                      "color": "#9B4474",
-                      "cornerRadius": undefined,
-                      "count": 13,
-                      "cx": 200,
-                      "cy": 230,
-                      "endAngle": -266.4,
-                      "fill": "#9B4474",
-                      "innerRadius": 35,
-                      "maxRadius": 297.7414986191881,
-                      "midAngle": -242.99999999999997,
-                      "middleRadius": 102.5,
-                      "name": "Afgehandeld",
-                      "outerRadius": 170,
-                      "paddingAngle": -0,
-                      "payload": Object {
-                        "color": "#9B4474",
-                        "count": 13,
-                        "fill": "#9B4474",
-                        "name": "Afgehandeld",
-                        "payload": Object {
-                          "color": "#9B4474",
-                          "count": 13,
-                          "name": "Afgehandeld",
-                        },
-                        "stroke": "#fff",
-                      },
-                      "percent": 0.13,
-                      "startAngle": -219.59999999999997,
-                      "stroke": "#fff",
-                      "tooltipPayload": Array [
-                        Object {
-                          "name": "Afgehandeld",
-                          "payload": Object {
-                            "color": "#9B4474",
-                            "count": 13,
-                            "fill": "#9B4474",
-                            "name": "Afgehandeld",
-                            "payload": Object {
-                              "color": "#9B4474",
-                              "count": 13,
-                              "name": "Afgehandeld",
-                            },
-                            "stroke": "#fff",
-                          },
-                          "value": 13,
-                        },
-                      ],
-                      "tooltipPosition": Object {
-                        "x": 153.46597377669644,
-                        "y": 138.6718312706923,
-                      },
-                      "value": 13,
-                    },
-                    "type": "circle",
-                    "value": "Afgehandeld",
-                  },
-                  Object {
-                    "color": "#E8663F",
-                    "payload": Object {
-                      "color": "#E8663F",
-                      "cornerRadius": undefined,
-                      "count": 1,
-                      "cx": 200,
-                      "cy": 230,
-                      "endAngle": -270,
-                      "fill": "#E8663F",
-                      "innerRadius": 35,
-                      "maxRadius": 297.7414986191881,
-                      "midAngle": -268.2,
-                      "middleRadius": 102.5,
-                      "name": "On hold",
-                      "outerRadius": 170,
-                      "paddingAngle": -0,
-                      "payload": Object {
-                        "color": "#E8663F",
-                        "count": 1,
-                        "fill": "#E8663F",
-                        "name": "On hold",
-                        "payload": Object {
-                          "color": "#E8663F",
-                          "count": 1,
-                          "name": "On hold",
-                        },
-                        "stroke": "#fff",
-                      },
-                      "percent": 0.01,
-                      "startAngle": -266.4,
-                      "stroke": "#fff",
-                      "tooltipPayload": Array [
-                        Object {
-                          "name": "On hold",
-                          "payload": Object {
-                            "color": "#E8663F",
-                            "count": 1,
-                            "fill": "#E8663F",
-                            "name": "On hold",
-                            "payload": Object {
-                              "color": "#E8663F",
-                              "count": 1,
-                              "name": "On hold",
-                            },
-                            "stroke": "#fff",
-                          },
-                          "value": 1,
-                        },
-                      ],
-                      "tooltipPosition": Object {
-                        "x": 196.78039719449185,
-                        "y": 127.55057756251252,
-                      },
-                      "value": 1,
-                    },
-                    "type": "circle",
-                    "value": "On hold",
-                  },
-                ]
-              }
-              verticalAlign="bottom"
-              width={390}
-            >
-              <ul
-                className="recharts-default-legend"
-                style={
-                  Object {
-                    "margin": 0,
-                    "padding": 0,
-                    "textAlign": "center",
-                  }
-                }
-              >
-                <li
-                  className="recharts-legend-item legend-item-0"
-                  key="legend-item-0"
-                  style={
-                    Object {
-                      "display": "inline-block",
-                      "marginRight": 10,
-                    }
-                  }
-                >
-                  <Surface
-                    height={14}
-                    style={
-                      Object {
-                        "display": "inline-block",
-                        "marginRight": 4,
-                        "verticalAlign": "middle",
-                      }
-                    }
-                    viewBox={
-                      Object {
-                        "height": 32,
-                        "width": 32,
-                        "x": 0,
-                        "y": 0,
-                      }
-                    }
-                    width={14}
-                  >
-                    <svg
-                      className="recharts-surface"
-                      height={14}
-                      style={
-                        Object {
-                          "display": "inline-block",
-                          "marginRight": 4,
-                          "verticalAlign": "middle",
-                        }
-                      }
-                      version="1.1"
-                      viewBox="0 0 32 32"
-                      width={14}
-                    >
-                      <Symbols
-                        cx={16}
-                        cy={16}
-                        fill="#23B0C3"
-                        size={32}
-                        sizeType="diameter"
-                        type="circle"
-                      >
-                        <path
-                          className="recharts-symbols"
-                          d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
-                          fill="#23B0C3"
-                          transform="translate(16, 16)"
-                        />
-                      </Symbols>
-                    </svg>
-                  </Surface>
-                  <span
-                    className="recharts-legend-item-text"
-                  >
-                    Gemeld
-                  </span>
-                </li>
-                <li
-                  className="recharts-legend-item legend-item-1"
-                  key="legend-item-1"
-                  style={
-                    Object {
-                      "display": "inline-block",
-                      "marginRight": 10,
-                    }
-                  }
-                >
-                  <Surface
-                    height={14}
-                    style={
-                      Object {
-                        "display": "inline-block",
-                        "marginRight": 4,
-                        "verticalAlign": "middle",
-                      }
-                    }
-                    viewBox={
-                      Object {
-                        "height": 32,
-                        "width": 32,
-                        "x": 0,
-                        "y": 0,
-                      }
-                    }
-                    width={14}
-                  >
-                    <svg
-                      className="recharts-surface"
-                      height={14}
-                      style={
-                        Object {
-                          "display": "inline-block",
-                          "marginRight": 4,
-                          "verticalAlign": "middle",
-                        }
-                      }
-                      version="1.1"
-                      viewBox="0 0 32 32"
-                      width={14}
-                    >
-                      <Symbols
-                        cx={16}
-                        cy={16}
-                        fill="#E8663F"
-                        size={32}
-                        sizeType="diameter"
-                        type="circle"
-                      >
-                        <path
-                          className="recharts-symbols"
-                          d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
-                          fill="#E8663F"
-                          transform="translate(16, 16)"
-                        />
-                      </Symbols>
-                    </svg>
-                  </Surface>
-                  <span
-                    className="recharts-legend-item-text"
-                  >
-                    In afhandeling van behandeling
-                  </span>
-                </li>
-                <li
-                  className="recharts-legend-item legend-item-2"
-                  key="legend-item-2"
-                  style={
-                    Object {
-                      "display": "inline-block",
-                      "marginRight": 10,
-                    }
-                  }
-                >
-                  <Surface
-                    height={14}
-                    style={
-                      Object {
-                        "display": "inline-block",
-                        "marginRight": 4,
-                        "verticalAlign": "middle",
-                      }
-                    }
-                    viewBox={
-                      Object {
-                        "height": 32,
-                        "width": 32,
-                        "x": 0,
-                        "y": 0,
-                      }
-                    }
-                    width={14}
-                  >
-                    <svg
-                      className="recharts-surface"
-                      height={14}
-                      style={
-                        Object {
-                          "display": "inline-block",
-                          "marginRight": 4,
-                          "verticalAlign": "middle",
-                        }
-                      }
-                      version="1.1"
-                      viewBox="0 0 32 32"
-                      width={14}
-                    >
-                      <Symbols
-                        cx={16}
-                        cy={16}
-                        fill="#FE952F"
-                        size={32}
-                        sizeType="diameter"
-                        type="circle"
-                      >
-                        <path
-                          className="recharts-symbols"
-                          d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
-                          fill="#FE952F"
-                          transform="translate(16, 16)"
-                        />
-                      </Symbols>
-                    </svg>
-                  </Surface>
-                  <span
-                    className="recharts-legend-item-text"
-                  >
-                    In behandeling
-                  </span>
-                </li>
-                <li
-                  className="recharts-legend-item legend-item-3"
-                  key="legend-item-3"
-                  style={
-                    Object {
-                      "display": "inline-block",
-                      "marginRight": 10,
-                    }
-                  }
-                >
-                  <Surface
-                    height={14}
-                    style={
-                      Object {
-                        "display": "inline-block",
-                        "marginRight": 4,
-                        "verticalAlign": "middle",
-                      }
-                    }
-                    viewBox={
-                      Object {
-                        "height": 32,
-                        "width": 32,
-                        "x": 0,
-                        "y": 0,
-                      }
-                    }
-                    width={14}
-                  >
-                    <svg
-                      className="recharts-surface"
-                      height={14}
-                      style={
-                        Object {
-                          "display": "inline-block",
-                          "marginRight": 4,
-                          "verticalAlign": "middle",
-                        }
-                      }
-                      version="1.1"
-                      viewBox="0 0 32 32"
-                      width={14}
-                    >
-                      <Symbols
-                        cx={16}
-                        cy={16}
-                        fill="#96C14F"
-                        size={32}
-                        sizeType="diameter"
-                        type="circle"
-                      >
-                        <path
-                          className="recharts-symbols"
-                          d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
-                          fill="#96C14F"
-                          transform="translate(16, 16)"
-                        />
-                      </Symbols>
-                    </svg>
-                  </Surface>
-                  <span
-                    className="recharts-legend-item-text"
-                  >
-                    Geannuleerd
-                  </span>
-                </li>
-                <li
-                  className="recharts-legend-item legend-item-4"
-                  key="legend-item-4"
-                  style={
-                    Object {
-                      "display": "inline-block",
-                      "marginRight": 10,
-                    }
-                  }
-                >
-                  <Surface
-                    height={14}
-                    style={
-                      Object {
-                        "display": "inline-block",
-                        "marginRight": 4,
-                        "verticalAlign": "middle",
-                      }
-                    }
-                    viewBox={
-                      Object {
-                        "height": 32,
-                        "width": 32,
-                        "x": 0,
-                        "y": 0,
-                      }
-                    }
-                    width={14}
-                  >
-                    <svg
-                      className="recharts-surface"
-                      height={14}
-                      style={
-                        Object {
-                          "display": "inline-block",
-                          "marginRight": 4,
-                          "verticalAlign": "middle",
-                        }
-                      }
-                      version="1.1"
-                      viewBox="0 0 32 32"
-                      width={14}
-                    >
-                      <Symbols
-                        cx={16}
-                        cy={16}
-                        fill="#9B4474"
-                        size={32}
-                        sizeType="diameter"
-                        type="circle"
-                      >
-                        <path
-                          className="recharts-symbols"
-                          d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
-                          fill="#9B4474"
-                          transform="translate(16, 16)"
-                        />
-                      </Symbols>
-                    </svg>
-                  </Surface>
-                  <span
-                    className="recharts-legend-item-text"
-                  >
-                    Afgehandeld
-                  </span>
-                </li>
-                <li
-                  className="recharts-legend-item legend-item-5"
-                  key="legend-item-5"
-                  style={
-                    Object {
-                      "display": "inline-block",
-                      "marginRight": 10,
-                    }
-                  }
-                >
-                  <Surface
-                    height={14}
-                    style={
-                      Object {
-                        "display": "inline-block",
-                        "marginRight": 4,
-                        "verticalAlign": "middle",
-                      }
-                    }
-                    viewBox={
-                      Object {
-                        "height": 32,
-                        "width": 32,
-                        "x": 0,
-                        "y": 0,
-                      }
-                    }
-                    width={14}
-                  >
-                    <svg
-                      className="recharts-surface"
-                      height={14}
-                      style={
-                        Object {
-                          "display": "inline-block",
-                          "marginRight": 4,
-                          "verticalAlign": "middle",
-                        }
-                      }
-                      version="1.1"
-                      viewBox="0 0 32 32"
-                      width={14}
-                    >
-                      <Symbols
-                        cx={16}
-                        cy={16}
-                        fill="#E8663F"
-                        size={32}
-                        sizeType="diameter"
-                        type="circle"
-                      >
-                        <path
-                          className="recharts-symbols"
-                          d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
-                          fill="#E8663F"
-                          transform="translate(16, 16)"
-                        />
-                      </Symbols>
-                    </svg>
-                  </Surface>
-                  <span
-                    className="recharts-legend-item-text"
-                  >
-                    On hold
-                  </span>
-                </li>
-              </ul>
-            </Legend>
-          </div>
-        </Legend>
-        <Tooltip
-          active={false}
-          animationDuration={400}
-          animationEasing="ease"
-          contentStyle={Object {}}
-          coordinate={
-            Object {
-              "x": 0,
-              "y": 0,
-            }
-          }
-          cursor={true}
-          cursorStyle={Object {}}
-          filterNull={true}
-          isAnimationActive={true}
-          itemSorter={[Function]}
-          itemStyle={Object {}}
-          labelStyle={Object {}}
-          offset={10}
-          payload={Array []}
-          separator=" : "
-          useTranslate3d={false}
-          viewBox={
-            Object {
-              "bottom": 5,
-              "brushBottom": 5,
-              "height": 450,
-              "left": 5,
-              "right": 5,
-              "top": 5,
-              "width": 390,
-              "x": 5,
-              "y": 5,
-            }
-          }
-          wrapperStyle={Object {}}
+            Gemeld
+          </span>
+        </li>
+        <li
+          class="recharts-legend-item legend-item-1"
+          style="display:inline-block;margin-right:10px"
         >
-          <div
-            className="recharts-tooltip-wrapper"
-            style={
-              Object {
-                "MozTransform": "translate(undefinedpx, undefinedpx)",
-                "OTransform": "translate(undefinedpx, undefinedpx)",
-                "WebkitTransform": "translate(undefinedpx, undefinedpx)",
-                "msTransform": "translate(undefinedpx, undefinedpx)",
-                "pointerEvents": "none",
-                "position": "absolute",
-                "top": 0,
-                "transform": "translate(undefinedpx, undefinedpx)",
-                "visibility": "hidden",
-              }
-            }
+          <svg
+            class="recharts-surface"
+            height="14"
+            style="display:inline-block;vertical-align:middle;margin-right:4px"
+            version="1.1"
+            viewBox="0 0 32 32"
+            width="14"
           >
-            <DefaultTooltipContent
-              active={false}
-              animationDuration={400}
-              animationEasing="ease"
-              contentStyle={Object {}}
-              coordinate={
-                Object {
-                  "x": 0,
-                  "y": 0,
-                }
-              }
-              cursor={true}
-              cursorStyle={Object {}}
-              filterNull={true}
-              isAnimationActive={true}
-              itemSorter={[Function]}
-              itemStyle={Object {}}
-              labelStyle={Object {}}
-              offset={10}
-              payload={Array []}
-              separator=" : "
-              useTranslate3d={false}
-              viewBox={
-                Object {
-                  "bottom": 5,
-                  "brushBottom": 5,
-                  "height": 450,
-                  "left": 5,
-                  "right": 5,
-                  "top": 5,
-                  "width": 390,
-                  "x": 5,
-                  "y": 5,
-                }
-              }
-              wrapperStyle={Object {}}
-            >
-              <div
-                className="recharts-default-tooltip"
-                style={
-                  Object {
-                    "backgroundColor": "#fff",
-                    "border": "1px solid #ccc",
-                    "margin": 0,
-                    "padding": 10,
-                    "whiteSpace": "nowrap",
-                  }
-                }
-              >
-                <p
-                  className="recharts-tooltip-label"
-                  style={
-                    Object {
-                      "margin": 0,
-                    }
-                  }
-                />
-              </div>
-            </DefaultTooltipContent>
-          </div>
-        </Tooltip>
+            <path
+              class="recharts-symbols"
+              d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
+              fill="#E8663F"
+              transform="translate(16, 16)"
+            />
+          </svg>
+          <span
+            class="recharts-legend-item-text"
+          >
+            In afhandeling van behandeling
+          </span>
+        </li>
+        <li
+          class="recharts-legend-item legend-item-2"
+          style="display:inline-block;margin-right:10px"
+        >
+          <svg
+            class="recharts-surface"
+            height="14"
+            style="display:inline-block;vertical-align:middle;margin-right:4px"
+            version="1.1"
+            viewBox="0 0 32 32"
+            width="14"
+          >
+            <path
+              class="recharts-symbols"
+              d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
+              fill="#FE952F"
+              transform="translate(16, 16)"
+            />
+          </svg>
+          <span
+            class="recharts-legend-item-text"
+          >
+            In behandeling
+          </span>
+        </li>
+        <li
+          class="recharts-legend-item legend-item-3"
+          style="display:inline-block;margin-right:10px"
+        >
+          <svg
+            class="recharts-surface"
+            height="14"
+            style="display:inline-block;vertical-align:middle;margin-right:4px"
+            version="1.1"
+            viewBox="0 0 32 32"
+            width="14"
+          >
+            <path
+              class="recharts-symbols"
+              d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
+              fill="#96C14F"
+              transform="translate(16, 16)"
+            />
+          </svg>
+          <span
+            class="recharts-legend-item-text"
+          >
+            Geannuleerd
+          </span>
+        </li>
+        <li
+          class="recharts-legend-item legend-item-4"
+          style="display:inline-block;margin-right:10px"
+        >
+          <svg
+            class="recharts-surface"
+            height="14"
+            style="display:inline-block;vertical-align:middle;margin-right:4px"
+            version="1.1"
+            viewBox="0 0 32 32"
+            width="14"
+          >
+            <path
+              class="recharts-symbols"
+              d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
+              fill="#9B4474"
+              transform="translate(16, 16)"
+            />
+          </svg>
+          <span
+            class="recharts-legend-item-text"
+          >
+            Afgehandeld
+          </span>
+        </li>
+        <li
+          class="recharts-legend-item legend-item-5"
+          style="display:inline-block;margin-right:10px"
+        >
+          <svg
+            class="recharts-surface"
+            height="14"
+            style="display:inline-block;vertical-align:middle;margin-right:4px"
+            version="1.1"
+            viewBox="0 0 32 32"
+            width="14"
+          >
+            <path
+              class="recharts-symbols"
+              d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
+              fill="#E8663F"
+              transform="translate(16, 16)"
+            />
+          </svg>
+          <span
+            class="recharts-legend-item-text"
+          >
+            On hold
+          </span>
+        </li>
+      </ul>
+    </div>
+    <div
+      class="recharts-tooltip-wrapper"
+      style="pointer-events:none;visibility:hidden;position:absolute;top:0;transform:translate(undefinedpx, undefinedpx);-webkit-transform:translate(undefinedpx, undefinedpx);-moz-transform:translate(undefinedpx, undefinedpx);-o-transform:translate(undefinedpx, undefinedpx);-ms-transform:translate(undefinedpx, undefinedpx)"
+    >
+      <div
+        class="recharts-default-tooltip"
+        style="margin:0;padding:10px;background-color:#fff;border:1px solid #ccc;white-space:nowrap"
+      >
+        <p
+          class="recharts-tooltip-label"
+          style="margin:0"
+        />
       </div>
-    </PieChart>
+    </div>
   </div>
-</StatusChart>
+</div>
 `;

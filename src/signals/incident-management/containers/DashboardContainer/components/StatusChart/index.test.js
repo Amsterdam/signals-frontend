@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from 'enzyme';
 
 import StatusChart from './index';
 
@@ -9,6 +9,8 @@ describe('<StatusChart />', () => {
 
   beforeEach(() => {
     props = {
+      animationDuration: 0, // needed for correct rendering in test
+      isAnimationActive: false, // needed for correct rendering in test
       data: [
         { name: 'Gemeld', count: 57, color: '#23B0C3' },
         { name: 'In afhandeling van behandeling', count: 7, color: '#E8663F' },
@@ -19,7 +21,7 @@ describe('<StatusChart />', () => {
       ]
     };
 
-    wrapper = shallow(
+    wrapper = render(
       <StatusChart {...props} />
     );
   });
@@ -30,5 +32,6 @@ describe('<StatusChart />', () => {
 
   it('should render correctly', () => {
     expect(wrapper).toMatchSnapshot();
+    expect(wrapper.find('.status-label').length).toEqual(6);
   });
 });
