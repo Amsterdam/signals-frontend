@@ -30,9 +30,9 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
 
   sortClassName(sortName) {
     let className = '';
-    const currentSort = this.props.sort && this.props.sort.split(',')[0];
-    if (currentSort && currentSort.indexOf(sortName) > -1) {
-      className = currentSort.charAt(0) === '-' ? 'sort sort-down' : 'sort sort-up';
+    const currentSort = this.props.sort && this.props.sort.replace(/^-/, '');
+    if (currentSort === sortName) {
+      className = this.props.sort.charAt(0) === '-' ? 'sort sort-down' : 'sort sort-up';
     }
     return className;
   }
@@ -48,13 +48,13 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
             <thead>
               <tr>
                 <th onClick={this.onSort('id')} className={this.sortClassName('id')} >Id</th>
-                <th>Dag</th>
+                <th onClick={this.onSort('created_at,days_open')} className={this.sortClassName('created_at,days_open')}>Dag</th>
                 <th onClick={this.onSort('created_at')} className={this.sortClassName('created_at')}>Datum en tijd</th>
-                <th onClick={this.onSort('stadsdeel,-created_at')} className={this.sortClassName('stadsdeel')}>Stadsdeel</th>
-                <th onClick={this.onSort('sub_category,-created_at')} className={this.sortClassName('sub_category')}>Subcategorie</th>
-                <th onClick={this.onSort('status,-created_at')} className={this.sortClassName('status')}>Status</th>
-                <th onClick={this.onSort('priority,-created_at')} className={this.sortClassName('priority')}>Urgentie</th>
-                <th onClick={this.onSort('address,-created_at')} className={this.sortClassName('address')}>Adres</th>
+                <th onClick={this.onSort('stadsdeel,-created_at')} className={this.sortClassName('stadsdeel,-created_at')}>Stadsdeel</th>
+                <th onClick={this.onSort('sub_category,-created_at')} className={this.sortClassName('sub_category,-created_at')}>Subcategorie</th>
+                <th onClick={this.onSort('status,-created_at')} className={this.sortClassName('status,-created_at')}>Status</th>
+                <th onClick={this.onSort('priority,-created_at')} className={this.sortClassName('priority,-created_at')}>Urgentie</th>
+                <th onClick={this.onSort('address,-created_at')} className={this.sortClassName('address,-created_at')}>Adres</th>
               </tr>
             </thead>
             <tbody>
