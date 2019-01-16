@@ -274,26 +274,20 @@ describe('<List />', () => {
 
     it('should sort asc the incidents when the header is clicked', () => {
       wrapper.setProps({
-        sort: '-created_at'
+        sort: '-created_at,days_open'
       });
 
       wrapper.find('thead > tr > th').at(1).simulate('click');
-      expect(props.onRequestIncidents).not.toHaveBeenCalled();
-
-      wrapper.find('thead > tr > th').at(2).simulate('click');
-      expect(props.onRequestIncidents).toHaveBeenCalledWith({ sort: 'created_at' });
+      expect(props.onRequestIncidents).toHaveBeenCalledWith({ sort: 'created_at,days_open' });
     });
 
     it('should sort desc the incidents when the header is clicked', () => {
       wrapper.setProps({
-        sort: 'created_at'
+        sort: 'created_at,days_open'
       });
 
       wrapper.find('thead > tr > th').at(1).simulate('click');
-      expect(props.onRequestIncidents).not.toHaveBeenCalled();
-
-      wrapper.find('thead > tr > th').at(2).simulate('click');
-      expect(props.onRequestIncidents).toHaveBeenCalledWith({ sort: '-created_at' });
+      expect(props.onRequestIncidents).toHaveBeenCalledWith({ sort: '-created_at,days_open' });
     });
   });
 });
