@@ -663,9 +663,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingDirty": false,
                 "_pendingTouched": false,
                 "_pendingValue": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "asyncValidator": null,
                 "errors": null,
@@ -705,9 +703,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                   "validators": null,
                 },
                 "value": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "valueChanges": Observable {
                   "observers": Array [
@@ -825,9 +821,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingDirty": false,
                 "_pendingTouched": false,
                 "_pendingValue": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "asyncValidator": null,
                 "errors": null,
@@ -867,9 +861,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                   "validators": null,
                 },
                 "value": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "valueChanges": Observable {
                   "observers": Array [],
@@ -911,18 +903,14 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "",
               ],
               "main_slug": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
               "priority__priority": "",
               "status__state": Array [
                 "",
               ],
               "sub_slug": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
             },
             "valueChanges": Observable {
@@ -1149,9 +1137,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingDirty": false,
                 "_pendingTouched": false,
                 "_pendingValue": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "asyncValidator": null,
                 "errors": null,
@@ -1191,9 +1177,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                   "validators": null,
                 },
                 "value": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "valueChanges": Observable {
                   "observers": Array [
@@ -1311,9 +1295,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingDirty": false,
                 "_pendingTouched": false,
                 "_pendingValue": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "asyncValidator": null,
                 "errors": null,
@@ -1353,9 +1335,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                   "validators": null,
                 },
                 "value": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "valueChanges": Observable {
                   "observers": Array [],
@@ -1397,18 +1377,14 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "",
               ],
               "main_slug": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
               "priority__priority": "",
               "status__state": Array [
                 "",
               ],
               "sub_slug": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
             },
             "valueChanges": Observable {
@@ -1683,9 +1659,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingDirty": false,
                 "_pendingTouched": false,
                 "_pendingValue": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "asyncValidator": null,
                 "errors": null,
@@ -1725,9 +1699,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                   "validators": null,
                 },
                 "value": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "valueChanges": Observable {
                   "observers": Array [
@@ -1798,9 +1770,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingDirty": false,
                 "_pendingTouched": false,
                 "_pendingValue": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "asyncValidator": null,
                 "errors": null,
@@ -1840,9 +1810,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                   "validators": null,
                 },
                 "value": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "valueChanges": Observable {
                   "observers": Array [],
@@ -1884,18 +1852,14 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "",
               ],
               "main_slug": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
               "priority__priority": "",
               "status__state": Array [
                 "",
               ],
               "sub_slug": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
             },
             "valueChanges": Observable {
@@ -2133,9 +2097,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingDirty": false,
                 "_pendingTouched": false,
                 "_pendingValue": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "asyncValidator": null,
                 "errors": null,
@@ -2175,9 +2137,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                   "validators": null,
                 },
                 "value": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "valueChanges": Observable {
                   "observers": Array [
@@ -2295,9 +2255,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingDirty": false,
                 "_pendingTouched": false,
                 "_pendingValue": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "asyncValidator": null,
                 "errors": null,
@@ -2337,9 +2295,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                   "validators": null,
                 },
                 "value": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "valueChanges": Observable {
                   "observers": Array [],
@@ -2381,18 +2337,14 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "",
               ],
               "main_slug": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
               "priority__priority": "",
               "status__state": Array [
                 "",
               ],
               "sub_slug": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
             },
             "valueChanges": Observable {
@@ -2817,9 +2769,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingDirty": false,
                 "_pendingTouched": false,
                 "_pendingValue": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "asyncValidator": null,
                 "errors": null,
@@ -2859,9 +2809,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                   "validators": null,
                 },
                 "value": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "valueChanges": Observable {
                   "observers": Array [],
@@ -2903,18 +2851,14 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "",
               ],
               "main_slug": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
               "priority__priority": "",
               "status__state": Array [
                 "",
               ],
               "sub_slug": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
             },
             "valueChanges": Observable {
@@ -2925,9 +2869,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
           "_pendingDirty": false,
           "_pendingTouched": false,
           "_pendingValue": Array [
-            Array [
-              "",
-            ],
+            "",
           ],
           "asyncValidator": null,
           "errors": null,
@@ -2967,9 +2909,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
             "validators": null,
           },
           "value": Array [
-            Array [
-              "",
-            ],
+            "",
           ],
           "valueChanges": Observable {
             "observers": Array [
@@ -3218,9 +3158,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingDirty": false,
                 "_pendingTouched": false,
                 "_pendingValue": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "asyncValidator": null,
                 "errors": null,
@@ -3260,9 +3198,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                   "validators": null,
                 },
                 "value": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "valueChanges": Observable {
                   "observers": Array [
@@ -3409,18 +3345,14 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "",
               ],
               "main_slug": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
               "priority__priority": "",
               "status__state": Array [
                 "",
               ],
               "sub_slug": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
             },
             "valueChanges": Observable {
@@ -3431,9 +3363,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
           "_pendingDirty": false,
           "_pendingTouched": false,
           "_pendingValue": Array [
-            Array [
-              "",
-            ],
+            "",
           ],
           "asyncValidator": null,
           "errors": null,
@@ -3473,9 +3403,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
             "validators": null,
           },
           "value": Array [
-            Array [
-              "",
-            ],
+            "",
           ],
           "valueChanges": Observable {
             "observers": Array [],
@@ -3491,22 +3419,6 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
       useSlug={true}
       values={
         Array [
-          "",
-          Object {
-            "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot",
-            "slug": "container-is-kapot",
-            "value": "Container is kapot",
-          },
-          Object {
-            "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-vol",
-            "slug": "container-is-vol",
-            "value": "Container is vol",
-          },
-          Object {
-            "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/grofvuil",
-            "slug": "grofvuil",
-            "value": "Grofvuil",
-          },
           Object {
             "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven",
             "slug": "duiven",
@@ -3738,9 +3650,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingDirty": false,
                 "_pendingTouched": false,
                 "_pendingValue": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "asyncValidator": null,
                 "errors": null,
@@ -3780,9 +3690,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                   "validators": null,
                 },
                 "value": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "valueChanges": Observable {
                   "observers": Array [
@@ -3847,9 +3755,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingDirty": false,
                 "_pendingTouched": false,
                 "_pendingValue": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "asyncValidator": null,
                 "errors": null,
@@ -3889,9 +3795,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                   "validators": null,
                 },
                 "value": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "valueChanges": Observable {
                   "observers": Array [],
@@ -3933,18 +3837,14 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "",
               ],
               "main_slug": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
               "priority__priority": "",
               "status__state": Array [
                 "",
               ],
               "sub_slug": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
             },
             "valueChanges": Observable {
@@ -4211,9 +4111,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingDirty": false,
                 "_pendingTouched": false,
                 "_pendingValue": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "asyncValidator": null,
                 "errors": null,
@@ -4253,9 +4151,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                   "validators": null,
                 },
                 "value": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "valueChanges": Observable {
                   "observers": Array [
@@ -4373,9 +4269,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "_pendingDirty": false,
                 "_pendingTouched": false,
                 "_pendingValue": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "asyncValidator": null,
                 "errors": null,
@@ -4415,9 +4309,7 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                   "validators": null,
                 },
                 "value": Array [
-                  Array [
-                    "",
-                  ],
+                  "",
                 ],
                 "valueChanges": Observable {
                   "observers": Array [],
@@ -4459,18 +4351,14 @@ exports[`<Filter /> FieldGroup should render correctly 1`] = `
                 "",
               ],
               "main_slug": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
               "priority__priority": "",
               "status__state": Array [
                 "",
               ],
               "sub_slug": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
             },
             "valueChanges": Observable {
@@ -4778,11 +4666,7 @@ exports[`<Filter /> FieldGroup should update main category to All when main all 
               "_pendingChange": true,
               "_pendingDirty": false,
               "_pendingTouched": false,
-              "_pendingValue": Array [
-                Array [
-                  "",
-                ],
-              ],
+              "_pendingValue": Array [],
               "asyncValidator": null,
               "errors": null,
               "formState": Array [
@@ -4820,11 +4704,7 @@ exports[`<Filter /> FieldGroup should update main category to All when main all 
                 "updateOn": null,
                 "validators": null,
               },
-              "value": Array [
-                Array [
-                  "",
-                ],
-              ],
+              "value": Array [],
               "valueChanges": Observable {
                 "observers": Array [
                   [Function],
@@ -4941,9 +4821,7 @@ exports[`<Filter /> FieldGroup should update main category to All when main all 
               "_pendingDirty": false,
               "_pendingTouched": false,
               "_pendingValue": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
               "asyncValidator": null,
               "errors": null,
@@ -4983,9 +4861,7 @@ exports[`<Filter /> FieldGroup should update main category to All when main all 
                 "validators": null,
               },
               "value": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
               "valueChanges": Observable {
                 "observers": Array [],
@@ -5026,19 +4902,13 @@ exports[`<Filter /> FieldGroup should update main category to All when main all 
             "location__stadsdeel": Array [
               "",
             ],
-            "main_slug": Array [
-              Array [
-                "",
-              ],
-            ],
+            "main_slug": Array [],
             "priority__priority": "",
             "status__state": Array [
               "",
             ],
             "sub_slug": Array [
-              Array [
-                "",
-              ],
+              "",
             ],
           },
           "valueChanges": Observable {
@@ -5280,6 +5150,7 @@ exports[`<Filter /> FieldGroup should update sub categories when main categories
               "_pendingDirty": false,
               "_pendingTouched": false,
               "_pendingValue": Array [
+                "",
                 "overlast-van-dieren",
               ],
               "asyncValidator": null,
@@ -5320,6 +5191,7 @@ exports[`<Filter /> FieldGroup should update sub categories when main categories
                 "validators": null,
               },
               "value": Array [
+                "",
                 "overlast-van-dieren",
               ],
               "valueChanges": Observable {
@@ -5438,9 +5310,7 @@ exports[`<Filter /> FieldGroup should update sub categories when main categories
               "_pendingDirty": false,
               "_pendingTouched": false,
               "_pendingValue": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
               "asyncValidator": null,
               "errors": null,
@@ -5480,9 +5350,7 @@ exports[`<Filter /> FieldGroup should update sub categories when main categories
                 "validators": null,
               },
               "value": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
               "valueChanges": Observable {
                 "observers": Array [],
@@ -5524,6 +5392,7 @@ exports[`<Filter /> FieldGroup should update sub categories when main categories
               "",
             ],
             "main_slug": Array [
+              "",
               "overlast-van-dieren",
             ],
             "priority__priority": "",
@@ -5531,9 +5400,7 @@ exports[`<Filter /> FieldGroup should update sub categories when main categories
               "",
             ],
             "sub_slug": Array [
-              Array [
-                "",
-              ],
+              "",
             ],
           },
           "valueChanges": Observable {
@@ -5775,9 +5642,7 @@ exports[`<Filter /> should lazy load categories correctly 1`] = `
               "_pendingDirty": false,
               "_pendingTouched": false,
               "_pendingValue": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
               "asyncValidator": null,
               "errors": null,
@@ -5817,9 +5682,7 @@ exports[`<Filter /> should lazy load categories correctly 1`] = `
                 "validators": null,
               },
               "value": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
               "valueChanges": Observable {
                 "observers": Array [
@@ -5937,9 +5800,7 @@ exports[`<Filter /> should lazy load categories correctly 1`] = `
               "_pendingDirty": false,
               "_pendingTouched": false,
               "_pendingValue": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
               "asyncValidator": null,
               "errors": null,
@@ -5979,9 +5840,7 @@ exports[`<Filter /> should lazy load categories correctly 1`] = `
                 "validators": null,
               },
               "value": Array [
-                Array [
-                  "",
-                ],
+                "",
               ],
               "valueChanges": Observable {
                 "observers": Array [],
@@ -6021,18 +5880,14 @@ exports[`<Filter /> should lazy load categories correctly 1`] = `
               "",
             ],
             "main_slug": Array [
-              Array [
-                "",
-              ],
+              "",
             ],
             "priority__priority": "",
             "status__state": Array [
               "",
             ],
             "sub_slug": Array [
-              Array [
-                "",
-              ],
+              "",
             ],
           },
           "valueChanges": Observable {
