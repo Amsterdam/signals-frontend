@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { isArray, isObject, isString } from 'lodash';
@@ -10,6 +12,9 @@ function renderText(value, incident) {
     switch (value.type) {
       case 'more-link':
         return <a href={value.href} className="more-link">{mapDynamicFields(value.label, { incident })}</a>;
+
+      case 'list':
+        return <span>{value.title}<ul>{value.items && value.items.map((item, key) => <li key={key}>{item}</li>)}</ul></span>;
 
       default:
         return '';

@@ -16,5 +16,14 @@
     &-p {
       margin-bottom: 16px;
     }
+
+    ul {
+      padding: 0 0 0 26px;
+      margin: 0;
+
+      li {
+        list-style-type: square;
+      }
+    }
   }
 }
