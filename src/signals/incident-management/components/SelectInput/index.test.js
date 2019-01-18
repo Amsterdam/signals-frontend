@@ -13,9 +13,9 @@ describe('<SelectInput />', () => {
       display: 'display',
       handler: jest.fn(),
       values: [
-        { key: '', value: 'none' },
-        { key: '1', value: 'item1' },
-        { key: '2', value: 'item2' }
+        { key: '', value: 'none', slug: '' },
+        { key: '1', value: 'item1', slug: 'item-1' },
+        { key: '2', value: 'item2', slug: 'item-2' }
       ],
       multiple: false,
       emptyOptionText: 'all items',
@@ -48,6 +48,16 @@ describe('<SelectInput />', () => {
 
   it('should render correctly with empty option select', () => {
     props.emptyOptionText = undefined;
+    const SelectInputRender = SelectInput(props);
+    wrapper = shallow(
+      <SelectInputRender {...props} />
+    );
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should render correctly with using slugs', () => {
+    props.useSlug = true;
     const SelectInputRender = SelectInput(props);
     wrapper = shallow(
       <SelectInputRender {...props} />

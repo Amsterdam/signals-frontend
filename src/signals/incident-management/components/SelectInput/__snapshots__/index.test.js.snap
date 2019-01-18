@@ -207,3 +207,55 @@ exports[`<SelectInput /> should render correctly with multiple select 1`] = `
   </div>
 </div>
 `;
+
+exports[`<SelectInput /> should render correctly with using slugs 1`] = `
+<div
+  className="select-input"
+>
+  <div
+    className="mode_input text rij_verplicht"
+  >
+    <div
+      className="select-input__label"
+    >
+      <label
+        htmlFor="formname"
+      >
+        display
+      </label>
+    </div>
+    <div
+      className="select-input__control invoer"
+    >
+      <select
+        id="formname"
+        multiple={false}
+        name=""
+        size=""
+      >
+        <option
+          key=""
+          title="all items"
+          value=""
+        >
+          all items
+        </option>
+        <option
+          key="item-1"
+          title="item1"
+          value="item-1"
+        >
+          item1
+        </option>
+        <option
+          key="item-2"
+          title="item2"
+          value="item-2"
+        >
+          item2
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
+`;

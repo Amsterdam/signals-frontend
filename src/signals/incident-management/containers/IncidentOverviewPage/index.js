@@ -6,7 +6,7 @@ import { compose, bindActionCreators } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
+import { makeSelectLoading, makeSelectError, makeSelectCategories } from 'containers/App/selectors';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import makeSelectOverviewPage from './selectors';
 import reducer from './reducer';
@@ -29,13 +29,31 @@ export class IncidentOverviewPage extends React.Component { // eslint-disable-li
       <div className="overview-page">
         <div className="row">
           <div className="col-3">
-            <Filter onRequestIncidents={this.props.onRequestIncidents} onMainCategoryFilterSelectionChanged={this.props.onMainCategoryFilterSelectionChanged} filter={filter} {...rest} />
+            <Filter
+              onRequestIncidents={this.props.onRequestIncidents}
+              onMainCategoryFilterSelectionChanged={this.props.onMainCategoryFilterSelectionChanged}
+              categories={this.props.categories}
+              filter={filter}
+              {...rest}
+            />
           </div>
           <div className="col-9">
             {loading ? (<LoadingIndicator />) : (
               <div>
-                <ListComponent incidentSelected={this.props.onIncidentSelected} incidents={incidents} onRequestIncidents={this.props.onRequestIncidents} sort={sort} incidentsCount={incidentsCount} {...rest} />
-                <Pager incidentsCount={incidentsCount} page={page} onRequestIncidents={this.props.onRequestIncidents} />
+                <ListComponent
+                  incidentSelected={this.props.onIncidentSelected}
+                  incidents={incidents}
+                  onRequestIncidents={this.props.onRequestIncidents}
+                  sort={sort}
+                  incidentsCount={incidentsCount}
+                  {...rest}
+                />
+
+                <Pager
+                  incidentsCount={incidentsCount}
+                  page={page}
+                  onRequestIncidents={this.props.onRequestIncidents}
+                />
               </div>)
             }
           </div>
@@ -48,6 +66,7 @@ export class IncidentOverviewPage extends React.Component { // eslint-disable-li
 IncidentOverviewPage.propTypes = {
   overviewpage: PropTypes.object.isRequired,
   baseUrl: PropTypes.string.isRequired,
+  categories: PropTypes.object.isRequired,
 
   onRequestIncidents: PropTypes.func.isRequired,
   onIncidentSelected: PropTypes.func.isRequired,
@@ -56,14 +75,15 @@ IncidentOverviewPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   overviewpage: makeSelectOverviewPage(),
+  categories: makeSelectCategories(),
   loading: makeSelectLoading(),
   error: makeSelectError()
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestIncidents: requestIncidents,
-  onIncidentSelected: incidentSelected,
-  onMainCategoryFilterSelectionChanged: mainCategoryFilterSelectionChanged
+  onMainCategoryFilterSelectionChanged: mainCategoryFilterSelectionChanged,
+  onIncidentSelected: incidentSelected
 }, dispatch);
 
 

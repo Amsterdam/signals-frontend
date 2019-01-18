@@ -5,113 +5,41 @@ import { FieldGroup } from 'react-reactive-form';
 import Filter from './index';
 
 jest.mock('../../../../components/FieldControlWrapper', () => () => 'FieldControlWrapper');
+jest.mock('../../../../components/TextInput', () => () => 'TextInput');
+jest.mock('../../../../components/SelectInput', () => () => 'SelectInput');
+jest.mock('../../../../components/DatePickerInput', () => () => 'DatePickerInput');
 
 describe('<Filter />', () => {
   let wrapper;
   let props;
+  const filterSubCategoryList = [{
+    key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven',
+    value: 'Duiven',
+    slug: 'duiven'
+  },
+  {
+    key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ganzen',
+    value: 'Ganzen',
+    slug: 'ganzen'
+  }];
+
+  const categories = {
+    main: [
+      {
+        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
+        value: 'Afval',
+        slug: 'afval'
+      },
+      {
+        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren',
+        value: 'Overlast van dieren',
+        slug: 'overlast-van-dieren'
+      }
+    ]
+  };
 
   beforeEach(() => {
     props = {
-      mainCategoryList: [
-        {
-          key: '',
-          value: 'Alles'
-        },
-        {
-          key: 'Afval',
-          value: 'Afval'
-        },
-        {
-          key: 'Openbaar groen en water',
-          value: 'Openbaar groen en water'
-        },
-        {
-          key: 'Overlast Bedrijven en Horeca',
-          value: 'Overlast Bedrijven en Horeca'
-        },
-        {
-          key: 'Overlast in de openbare ruimte',
-          value: 'Overlast in de openbare ruimte'
-        },
-        {
-          key: 'Overlast op het water',
-          value: 'Overlast op het water'
-        },
-        {
-          key: 'Overlast van dieren',
-          value: 'Overlast van dieren'
-        },
-        {
-          key: 'Overlast van en door personen of groepen',
-          value: 'Overlast van en door personen of groepen'
-        },
-        {
-          key: 'Wegen, verkeer, straatmeubilair',
-          value: 'Wegen, verkeer, straatmeubilair'
-        },
-        {
-          key: 'Overig',
-          value: 'Overig'
-        }
-      ],
-      subcategoryList: [
-        {
-          key: '',
-          value: 'Alles'
-        },
-        {
-          key: 'Asbest / accu',
-          value: 'Asbest / accu'
-        },
-        {
-          key: 'Bedrijfsafval',
-          value: 'Bedrijfsafval'
-        },
-        {
-          key: 'Container is kapot',
-          value: 'Container is kapot'
-        },
-        {
-          key: 'Container is vol',
-          value: 'Container is vol'
-        },
-        {
-          key: 'Container voor plastic afval is kapot',
-          value: 'Container voor plastic afval is kapot'
-        },
-        {
-          key: 'Container voor plastic afval is vol',
-          value: 'Container voor plastic afval is vol'
-        },
-        {
-          key: 'Grofvuil',
-          value: 'Grofvuil'
-        },
-        {
-          key: 'Huisafval',
-          value: 'Huisafval'
-        },
-        {
-          key: 'Overig afval',
-          value: 'Overig afval'
-        },
-        {
-          key: 'Prullenbak is kapot',
-          value: 'Prullenbak is kapot'
-        },
-        {
-          key: 'Prullenbak is vol',
-          value: 'Prullenbak is vol'
-        },
-        {
-          key: 'Puin / sloopafval',
-          value: 'Puin / sloopafval'
-        },
-        {
-          key: 'Veeg- / zwerfvuil',
-          value: 'Veeg- / zwerfvuil'
-        }
-      ],
       statusList: [
         {
           key: '',
@@ -209,7 +137,23 @@ describe('<Filter />', () => {
   });
 
   it('should render correctly', () => {
+    props.categories = categories;
+    props.filterSubCategoryList = filterSubCategoryList;
     wrapper = shallow(<Filter {...props} />);
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should lazy load categories correctly', () => {
+    wrapper = shallow(<Filter {...props} />);
+
+    wrapper.setProps({
+      filterSubCategoryList
+    });
+
+    wrapper.setProps({
+      categories
+    });
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -219,8 +163,8 @@ describe('<Filter />', () => {
       id: '',
       incident_date_start: null,
       priority__priority: null,
-      category__main: null,
-      category__sub: null,
+      main_slug: null,
+      sub_slug: null,
       location__address_text: null,
       location__stadsdeel: ['B'],
       status__state: null,
@@ -242,6 +186,12 @@ describe('<Filter />', () => {
 
     beforeEach(() => {
       wrapper = shallow(<Filter {...props} />);
+
+      wrapper.setProps({
+        filterSubCategoryList,
+        categories
+      });
+
       renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
     });
 
@@ -253,14 +203,32 @@ describe('<Filter />', () => {
       expect(renderedFormGroup.find('button').length).toEqual(2);
     });
 
+    it('should lazy load categories correctly with existing filter', () => {
+      const filterForm = wrapper.instance().filterForm;
+      const filterValue = {
+        ...filterForm.value,
+        main_slug: ['overlast-van-dieren'],
+        sub_slug: ['ganzen']
+      };
+
+      props.filter = filterValue;
+      wrapper = shallow(<Filter {...props} />);
+
+      wrapper.setProps({
+        categories
+      });
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
     it('should reset the form when the reset button is clicked', () => {
       const filterForm = wrapper.instance().filterForm;
       const filterEmptyValue = {
         id: null,
         incident_date_start: null,
         priority__priority: null,
-        category__main: null,
-        category__sub: null,
+        main_slug: null,
+        sub_slug: null,
         location__address_text: null,
         location__stadsdeel: null,
         status__state: null,
@@ -288,18 +256,61 @@ describe('<Filter />', () => {
       expect(filterForm.value.id).toEqual(filterValue.id);
       expect(filterForm.value.location__address_text).toEqual(filterValue.location__address_text);
 
-      // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
       renderedFormGroup.find('form').simulate('submit', { preventDefault() {} });
       expect(filterForm.value).toEqual(filterValue);
-      expect(props.onRequestIncidents).toHaveBeenCalledWith({ filter: filterValue });
+      expect(props.onRequestIncidents).toHaveBeenCalledWith({
+        filter: {
+          ...filterValue,
+          main_slug: [''],
+          sub_slug: ['']
+        }
+      });
     });
 
-    it('should not render subcategoryList when there are less than 2 items', () => {
-      wrapper.setProps({
-        subcategoryList: [1, 2]
-      });
+    it('should filter when form is submitted with default main_slug and sub_slug', () => {
+      const filterForm = wrapper.instance().filterForm;
+      const filterValue = {
+        ...filterForm.value,
+        main_slug: [['']],
+        sub_slug: [['']],
+        id: 50,
+        location__address_text: 'dam'
+      };
+      filterForm.setValue(filterValue);
+      expect(filterForm.value.id).toEqual(filterValue.id);
+      expect(filterForm.value.location__address_text).toEqual(filterValue.location__address_text);
 
-      expect(renderedFormGroup).toMatchSnapshot();
+      renderedFormGroup.find('form').simulate('submit', { preventDefault() {} });
+      expect(filterForm.value).toEqual(filterValue);
+      expect(props.onRequestIncidents).toHaveBeenCalledWith({
+        filter: {
+          ...filterValue,
+          main_slug: null,
+          sub_slug: null
+        }
+      });
+    });
+
+    it('should update sub categories when main categories have changed', () => {
+      const filterForm = wrapper.instance().filterForm;
+      const filterValue = {
+        ...filterForm.value,
+        main_slug: ['', 'overlast-van-dieren'],
+      };
+      filterForm.setValue(filterValue);
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should update main category to All when main all main categories have been deselected', () => {
+      const filterForm = wrapper.instance().filterForm;
+      const filterValue = {
+        ...filterForm.value,
+        main_slug: [],
+      };
+      filterForm.setValue(filterValue);
+
+      expect(wrapper).toMatchSnapshot();
     });
   });
 });

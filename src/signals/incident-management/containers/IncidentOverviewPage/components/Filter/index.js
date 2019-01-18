@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
+import { isEqual } from 'lodash';
 
 import './style.scss';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
@@ -17,28 +18,48 @@ class Filter extends React.Component {
     }
   }
 
-  componentWillMount() {
-    this.filterForm.get('category__main').valueChanges.subscribe((value) => {
-      this.props.onMainCategoryFilterSelectionChanged(value);
-      this.filterForm.get('category__sub').reset(['']);
-      this.filterForm.get('category__sub').updateValueAndValidity();
+  componentDidMount() {
+    this.filterForm.get('main_slug').valueChanges.subscribe((value) => {
+      this.filterForm.get('sub_slug').setValue(this.default.sub_slug);
+
+      this.props.onMainCategoryFilterSelectionChanged({
+        selectedOptions: value,
+        categories: this.props.categories
+      });
+    });
+
+    this.props.onMainCategoryFilterSelectionChanged({
+      selectedOptions: (this.props.filter && this.props.filter.main_slug) || this.default.main_slug,
+      categories: this.props.categories
     });
   }
 
-  onFilter = (filter) => {
-    this.props.onRequestIncidents({ filter });
+  componentDidUpdate() {
+    this.filterForm.updateValueAndValidity();
   }
 
-  filterForm = FormBuilder.group({
+  onFilter = (filter) => {
+    const newFilter = { ...filter };
+    if (isEqual(newFilter.main_slug, this.default.main_slug)) {
+      newFilter.main_slug = null;
+    }
+    if (isEqual(newFilter.sub_slug, this.default.sub_slug)) {
+      newFilter.sub_slug = null;
+    }
+    this.props.onRequestIncidents({ filter: newFilter });
+  }
+
+  default = {
     id: [''],
     incident_date_start: [''],
     location__stadsdeel: [['']],
     priority__priority: '',
-    category__main: [['']],
-    category__sub: [['']],
+    main_slug: [['']],
+    sub_slug: [['']],
     status__state: [['']],
     location__address_text: [''],
-  });
+  };
+  filterForm = FormBuilder.group(this.default);
 
   handleReset = () => {
     this.filterForm.reset();
@@ -51,7 +72,7 @@ class Filter extends React.Component {
   }
 
   render() {
-    const { mainCategoryList, subcategoryList, statusList, stadsdeelList, priorityList } = this.props;
+    const { categories, filterSubCategoryList, statusList, stadsdeelList, priorityList } = this.props;
     return (
       <div className="filter-component">
         <div className="filter-component__title">Filters</div>
@@ -93,22 +114,24 @@ class Filter extends React.Component {
                   />
                   <FieldControlWrapper
                     render={SelectInput}
-                    name="category__main"
+                    name="main_slug"
                     display="Hoofdcategorie"
-                    control={this.filterForm.get('category__main')}
-                    values={mainCategoryList}
+                    control={this.filterForm.get('main_slug')}
+                    values={categories.main}
                     emptyOptionText="Alles"
                     multiple
+                    useSlug
                     size={10}
                   />
                   <FieldControlWrapper
                     render={SelectInput}
-                    name="category__sub"
+                    name="sub_slug"
                     display="Subcategorie"
-                    control={this.filterForm.get('category__sub')}
-                    values={subcategoryList}
+                    control={this.filterForm.get('sub_slug')}
+                    values={filterSubCategoryList}
                     emptyOptionText="Alles"
                     multiple
+                    useSlug
                     size={10}
                   />
                   <FieldControlWrapper
@@ -143,11 +166,21 @@ class Filter extends React.Component {
   }
 }
 
+Filter.defaulProps = {
+  filterSubCategoryList: [],
+  categories: {
+    main: [],
+    sub: [],
+    mainToSub: {}
+  },
+  filterSubs: []
+};
+
 Filter.propTypes = {
+  filterSubCategoryList: PropTypes.array,
   stadsdeelList: PropTypes.array,
-  mainCategoryList: PropTypes.array,
+  categories: PropTypes.object,
   priorityList: PropTypes.array,
-  subcategoryList: PropTypes.array,
   statusList: PropTypes.array,
   filter: PropTypes.object,
   onRequestIncidents: PropTypes.func.isRequired,
