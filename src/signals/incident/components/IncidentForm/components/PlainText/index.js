@@ -7,19 +7,9 @@ import './style.scss';
 
 function renderText(value, incident) {
   if (isObject(value)) {
-    switch (value.type) {
-      case 'more-link':
-        return <a href={value.href} className="more-link">{mapDynamicFields(value.label, { incident })}</a>;
-
-      case 'list':
-        return <span>{value.title}<ul>{value.items && value.items.map((text) => <li key={text}>{text}</li>)}</ul></span>;
-
-      default:
-        return '';
-    }
-  } else {
-    return mapDynamicFields(value, { incident });
+    return value;
   }
+  return mapDynamicFields(value, { incident });
 }
 
 const PlainText = ({ meta, parent }) => (
@@ -28,7 +18,6 @@ const PlainText = ({ meta, parent }) => (
       <div className={`${meta.className || 'col-12'} mode_input`}>
         <div className={`${meta.type} plain-text__box`}>
           <div className="label">{meta.label}</div>
-
           {meta.value && isString(meta.value) ?
             renderText(meta.value, parent && parent.meta && parent.meta.incidentContainer && parent.meta.incidentContainer.incident)
             : ''
