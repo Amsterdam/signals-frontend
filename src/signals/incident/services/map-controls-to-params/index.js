@@ -1,5 +1,21 @@
 import moment from 'moment';
-import { forEach, set } from 'lodash';
+import { forEach, set, isFunction } from 'lodash';
+
+const setValue = (value) => {
+  switch (value) {
+    case true:
+      return 'ja';
+
+    case false:
+      return 'nee';
+
+    case undefined:
+      return '-';
+
+    default:
+      return value;
+  }
+};
 
 const mapControlsToParams = (incident, wizard) => {
   let date;
@@ -25,7 +41,13 @@ const mapControlsToParams = (incident, wizard) => {
   const map = [];
   let mapMerge = {};
   forEach(wizard, (step) => {
-    const controls = step.form && step.form.controls;
+    let controls = {};
+    if (step.formFactory && isFunction(step.formFactory)) {
+      const form = step.formFactory(incident);
+      controls = form && form.controls;
+    } else {
+      controls = step.form && step.form.controls;
+    }
     forEach(controls, (control, name) => {
       if (control.meta && control.meta.path) {
         map.push({
@@ -34,12 +56,12 @@ const mapControlsToParams = (incident, wizard) => {
         });
       }
 
-      if (control.meta && control.meta.pathMerge && incident[name]) {
+      if (control.meta && control.meta.pathMerge) {
         mapMerge = {
           ...mapMerge,
           [control.meta.pathMerge]: {
             ...mapMerge[control.meta.pathMerge],
-            [control.meta.label || name]: incident[name]
+            [control.meta.label || name]: setValue(incident[name])
           }
         };
       }
@@ -47,11 +69,11 @@ const mapControlsToParams = (incident, wizard) => {
   });
 
   forEach(map, (item) => {
-    set(params, item.path, item.value);
+    set(params, item.path, setValue(item.value));
   });
 
-  forEach(mapMerge, (item, key) => {
-    set(params, key, item);
+  forEach(mapMerge, (value, key) => {
+    set(params, key, value);
   });
 
   return params;

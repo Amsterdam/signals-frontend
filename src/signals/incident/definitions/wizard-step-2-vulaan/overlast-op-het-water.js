@@ -1,4 +1,5 @@
 import FormComponents from '../../components/IncidentForm/components/';
+import IncidentNavigation from '../../components/IncidentNavigation';
 
 export default {
   controls: {
@@ -148,6 +149,10 @@ export default {
         }
       },
       render: FormComponents.TextareaInput
+    },
+    $field_0: {
+      isStatic: false,
+      render: IncidentNavigation
     }
   }
 };
