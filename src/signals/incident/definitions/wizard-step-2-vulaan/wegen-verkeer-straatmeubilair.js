@@ -1,3 +1,6 @@
+import React from 'react';
+
+import DefinitionComponents from '../components/';
 import FormComponents from '../../components/IncidentForm/components/';
 import IncidentNavigation from '../../components/IncidentNavigation';
 
@@ -24,6 +27,20 @@ export default {
       },
       render: FormComponents.TextInput
     },
+    extra_onderhoud_stoep_straat_en_fietspad: {
+      meta: {
+        ifOneOf: {
+          subcategory: [
+            'onderhoud-stoep-straat-en-fietspad',
+            'gladheid'
+          ]
+        },
+        label: 'Hebt u verteld om wat voor soort wegdek het gaat?',
+        subheader: 'Bijvoorbeeld: asfalt, klinkers of stoeptegels',
+        pathMerge: 'extra_properties'
+      },
+      render: FormComponents.TextInput
+    },
     extra_wegen_gladheid: {
       meta: {
         className: 'col-sm-12 col-md-6',
@@ -34,15 +51,8 @@ export default {
         value: [
           'Let op:',
           'Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB:',
-          {
-            type: 'more-link',
-            label: 'ns.nl/klantenservice',
-            href: 'http://ns.nl/klantenservice'
-          }, {
-            type: 'more-link',
-            label: 'gvb.nl/klantenservice',
-            href: 'http://gvb.nl/klantenservice'
-          }
+          <DefinitionComponents.A href="http://ns.nl/klantenservice" target="_blank" className="more-link">ns.nl/klantenservice</DefinitionComponents.A>,
+          <DefinitionComponents.A href="http://gvb.nl/klantenservice" target="_blank" className="more-link">gvb.nl/klantenservice</DefinitionComponents.A>
         ],
       },
       render: FormComponents.PlainText
@@ -99,20 +109,6 @@ export default {
           subcategory: 'klok'
         },
         label: 'Hebt u een nummer de klok?',
-        pathMerge: 'extra_properties'
-      },
-      render: FormComponents.TextInput
-    },
-    extra_onderhoud_stoep_straat_en_fietspad: {
-      meta: {
-        ifOneOf: {
-          subcategory: [
-            'onderhoud-stoep-straat-en-fietspad',
-            'gladheid'
-          ]
-        },
-        label: 'Hebt u verteld om wat voor soort wegdek het gaat?',
-        subheader: 'Bijvoorbeeld: asfalt, klinkers of stoeptegels',
         pathMerge: 'extra_properties'
       },
       render: FormComponents.TextInput
