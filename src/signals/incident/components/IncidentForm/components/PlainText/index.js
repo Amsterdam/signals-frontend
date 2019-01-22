@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isArray, isObject, isString } from 'lodash';
+import { isArray, isString } from 'lodash';
 
 import mapDynamicFields from '../../services/map-dynamic-fields';
 import './style.scss';
 
 function renderText(value, incident) {
-  if (isObject(value)) {
+  if (React.isValidElement(value)) {
     return value;
   }
   return mapDynamicFields(value, { incident });
