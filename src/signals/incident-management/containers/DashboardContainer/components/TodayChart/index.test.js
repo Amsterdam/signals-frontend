@@ -16,7 +16,7 @@ describe('<TodayChart />', () => {
     }));
 
     props = {
-      data: { count: 639 }
+      data: 639
     };
 
     wrapper = shallow(

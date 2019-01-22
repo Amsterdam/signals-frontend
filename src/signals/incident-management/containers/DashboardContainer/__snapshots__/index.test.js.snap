@@ -207,66 +207,28 @@ exports[`<DashboardContainer /> rendering should render correctly: mount and unm
       }
     />
     <Component
-      data={
-        Object {
-          "count": 638,
-        }
-      }
+      data={638}
     />
     <Component
       data={
         Array [
           Object {
-            "count": 8,
-            "hour": 0,
-          },
-          Object {
-            "count": 7,
-            "hour": 1,
-          },
-          Object {
-            "count": 12,
-            "hour": 2,
-          },
-          Object {
-            "count": 1,
-            "hour": 3,
-          },
-          Object {
-            "count": 8,
-            "hour": 4,
-          },
-          Object {
             "count": 42,
-            "hour": 5,
+            "hour": 14,
+            "interval_start": "2019-01-21T14:00:00",
+            "timestamp": 1548075600000,
           },
           Object {
-            "count": 70,
-            "hour": 6,
+            "count": 666,
+            "hour": 15,
+            "interval_start": "2019-01-21T15:00:00",
+            "timestamp": 1548079200000,
           },
           Object {
-            "count": 60,
-            "hour": 7,
-          },
-          Object {
-            "count": 93,
-            "hour": 8,
-          },
-          Object {
-            "count": 137,
-            "hour": 9,
-          },
-          Object {
-            "count": 64,
-            "hour": 10,
-          },
-          Object {
-            "count": 71,
-            "hour": 11,
-          },
-          Object {
-            "count": 12,
-            "hour": 12,
+            "count": 3333,
+            "hour": 16,
+            "interval_start": "2019-01-21T16:00:00",
+            "timestamp": 1548082800000,
           },
         ]
       }

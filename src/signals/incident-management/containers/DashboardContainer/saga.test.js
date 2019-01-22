@@ -23,9 +23,10 @@ describe('DashboardContainer saga', () => {
       category: [],
       hour: [
         {
-          dateTime: '2019-01-15T07:00:00+01:00',
-          count: 45
-        }
+          interval_start: '2019-01-21T17:00:00',
+          hour: 17,
+          count: 384
+        },
       ],
       today: {}
     };
@@ -35,9 +36,10 @@ describe('DashboardContainer saga', () => {
       category: [],
       hour: [
         {
-          dateTime: '2019-01-15T07:00:00+01:00',
-          count: 45,
-          timestamp: 1547532000000
+          interval_start: '2019-01-21T17:00:00',
+          hour: 17,
+          count: 384,
+          timestamp: 1548086400000
         }
       ],
       today: {}

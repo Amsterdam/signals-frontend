@@ -38,21 +38,26 @@ describe('<DashboardContainer />', () => {
             { name: 'Afval', count: 250 }
           ],
           hour: [
-            { hour: 0, count: 8 },
-            { hour: 1, count: 7 },
-            { hour: 2, count: 12 },
-            { hour: 3, count: 1 },
-            { hour: 4, count: 8 },
-            { hour: 5, count: 42 },
-            { hour: 6, count: 70 },
-            { hour: 7, count: 60 },
-            { hour: 8, count: 93 },
-            { hour: 9, count: 137 },
-            { hour: 10, count: 64 },
-            { hour: 11, count: 71 },
-            { hour: 12, count: 12 }
+            {
+              interval_start: '2019-01-21T14:00:00',
+              hour: 14,
+              count: 42,
+              timestamp: 1548075600000
+            },
+            {
+              interval_start: '2019-01-21T15:00:00',
+              hour: 15,
+              count: 666,
+              timestamp: 1548079200000
+            },
+            {
+              interval_start: '2019-01-21T16:00:00',
+              hour: 16,
+              count: 3333,
+              timestamp: 1548082800000
+            }
           ],
-          today: { count: 638 }
+          total: 638
         }
       },
       onRequestDashboard: jest.fn(),
