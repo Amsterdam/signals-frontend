@@ -1,3 +1,6 @@
+import React from 'react';
+
+import DefinitionComponents from '../components/';
 import FormComponents from '../../components/IncidentForm/components/';
 import IncidentNavigation from '../../components/IncidentNavigation';
 
@@ -17,17 +20,18 @@ export default {
       meta: {
         className: 'col-sm-12 col-md-6',
         ifAllOf: {
+          category: 'overlast-van-en-door-personen-of-groepen',
           subcategory: 'jongerenoverlast'
         },
         type: 'caution',
         value: [
-          'Weet u de naam van de jongere(n)? Gebruik dan het formulier:',
-          {
-            type: 'more-link',
-            label: 'Melding zorg en woonoverlast',
-            href: 'http://ns.nl/klantenservice'
-          },
-          'Dan komt uw melding direct bij het juiste team terecht.'
+          <DefinitionComponents.Concat
+            items={[
+              'Weet u de naam van de jongere(n)? Gebruik dan het formulier ',
+              <DefinitionComponents.A href="">Melding zorg en woonoverlast</DefinitionComponents.A>,
+              '. Dan komt uw melding direct bij het juiste team terecht.',
+            ]}
+          />
         ],
       },
       render: FormComponents.PlainText
