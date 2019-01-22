@@ -54,16 +54,26 @@ export default {
           <DefinitionComponents.A href="http://ns.nl/klantenservice" target="_blank" className="more-link">ns.nl/klantenservice</DefinitionComponents.A>,
           <DefinitionComponents.A href="http://gvb.nl/klantenservice" target="_blank" className="more-link">gvb.nl/klantenservice</DefinitionComponents.A>
         ],
+        pathMerge: 'extra_properties'
+      },
+      render: FormComponents.PlainText
+    },
+    extra_klok: {
+      meta: {
+        label: 'Wat is er aan de hand met de klok',
+        ifAllOf: {
+          subcategory: 'klok'
+        }
       },
       render: FormComponents.PlainText
     },
     extra_klok_niet_op_tijd: {
       meta: {
-        label: 'Wat is er aan de hand met de klok',
         ifAllOf: {
           subcategory: 'klok'
         },
-        value: 'Loopt niet op tijd'
+        value: 'Loopt niet op tijd',
+        pathMerge: 'extra_properties'
       },
       render: FormComponents.CheckboxInput
     },
@@ -72,7 +82,8 @@ export default {
         ifAllOf: {
           subcategory: 'klok'
         },
-        value: 'Lamp is stuk'
+        value: 'Lamp is stuk',
+        pathMerge: 'extra_properties'
       },
       render: FormComponents.CheckboxInput
     },
@@ -81,7 +92,8 @@ export default {
         ifAllOf: {
           subcategory: 'klok'
         },
-        value: 'Is aangereden'
+        value: 'Is aangereden',
+        pathMerge: 'extra_properties'
       },
       render: FormComponents.CheckboxInput
     },
@@ -90,7 +102,8 @@ export default {
         ifAllOf: {
           subcategory: 'klok'
         },
-        value: 'Het deurtje van de paal staat open'
+        value: 'Het deurtje van de paal staat open',
+        pathMerge: 'extra_properties'
       },
       render: FormComponents.CheckboxInput
     },
@@ -99,7 +112,8 @@ export default {
         ifAllOf: {
           subcategory: 'klok'
         },
-        value: 'Is zichtbaar beschadigd'
+        value: 'Is zichtbaar beschadigd',
+        pathMerge: 'extra_properties'
       },
       render: FormComponents.CheckboxInput
     },
@@ -144,6 +158,7 @@ export default {
             href: 'http://ns.nl/klantenservice'
           }
         ],
+        pathMerge: 'extra_properties'
       },
       render: FormComponents.PlainText
     },

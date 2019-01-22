@@ -2,19 +2,16 @@ import moment from 'moment';
 import { forEach, set, isFunction } from 'lodash';
 
 const setValue = (value) => {
-  switch (value) {
-    case true:
-      return 'ja';
-
-    case false:
-      return 'nee';
-
-    case undefined:
-      return '-';
-
-    default:
-      return value;
+  if (value === true) {
+    return 'ja';
   }
+  if (value === false) {
+    return 'nee';
+  }
+  if (value === undefined) {
+    return '-';
+  }
+  return value;
 };
 
 const mapControlsToParams = (incident, wizard) => {
@@ -49,19 +46,22 @@ const mapControlsToParams = (incident, wizard) => {
       controls = step.form && step.form.controls;
     }
     forEach(controls, (control, name) => {
-      if (control.meta && control.meta.path) {
+      const value = incident[name];
+      const meta = control.meta;
+
+      if (meta && meta.path) {
         map.push({
-          path: control.meta.path,
-          value: incident[name]
+          path: meta.path,
+          value
         });
       }
 
-      if (control.meta && control.meta.pathMerge) {
+      if (meta && meta.isVisible && meta.pathMerge && (value || value === false || value === 0)) {
         mapMerge = {
           ...mapMerge,
-          [control.meta.pathMerge]: {
-            ...mapMerge[control.meta.pathMerge],
-            [control.meta.label || name]: setValue(incident[name])
+          [meta.pathMerge]: {
+            ...mapMerge[meta.pathMerge],
+            [meta.label || meta.value || name]: setValue(value)
           }
         };
       }
