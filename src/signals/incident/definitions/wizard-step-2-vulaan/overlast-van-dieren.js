@@ -24,15 +24,23 @@ export default {
         },
         type: 'caution',
         value: [
+          'Let op: u kunt met dit formulier een melding doen van:',
           <DefinitionComponents.Ul
             items={[
               'dierplagen (ratten, ganzen, duiven, meeuwen,wespen, etc)',
               'dode dieren op straat, met uitzondering van dode huisdieren en dode vogels',
-              'voor dode huisdieren en dode vogels op straat kunt u contact opnemen met Dierenambulance',
+              <DefinitionComponents.Concat
+                items={[
+                  'Voor dode huisdieren en dode vogels op straat kunt u contact opnemen met ',
+                  <DefinitionComponents.A href="">Dierenambulance Amsterdam</DefinitionComponents.A>,
+                  '.'
+                ]}
+              />,
               <DefinitionComponents.Concat
                 items={[
                   'Voor alle andere gevallen: bezoek onze pagina: ',
-                  <DefinitionComponents.A target="_blank" href="http://xs4al.nl">Melden van zieke, mishandelde en dode dieren, of overlast van dieren</DefinitionComponents.A>
+                  <DefinitionComponents.A href="">Melden van zieke, mishandelde en dode dieren, of overlast van dieren</DefinitionComponents.A>,
+                  '.'
                 ]}
               />
             ]}
