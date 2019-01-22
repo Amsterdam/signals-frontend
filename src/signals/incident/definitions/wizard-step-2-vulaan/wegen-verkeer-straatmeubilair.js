@@ -135,8 +135,8 @@ export default {
         label: 'Wilt u misschien een nieuw fietsenrek of \'nietje\' aanvragen?',
         pathMerge: 'extra_properties',
         values: {
-          ja: 'Ja',
-          nee: 'Nee'
+          ja: 'Ja, dat ik wil ik',
+          nee: 'Nee, ik wil direct verder gaan'
         }
       },
       render: FormComponents.RadioInput
@@ -146,17 +146,17 @@ export default {
         className: 'col-sm-12 col-md-6',
         ifAllOf: {
           subcategory: 'fietsrek-nietje',
-          extra_fietsrek_aanvragen: 'Ja'
+          extra_fietsrek_aanvragen: 'Ja, dat ik wil ik'
         },
         type: 'caution',
         value: [
-          'Woont u in Nieuw-West of in Oost? Dan doet u uw aanvraag op een andere manier:',
-          'kijk op de pagina',
-          {
-            type: 'more-link',
-            label: 'Hoe kan ik een fietsenrek aanvragen?',
-            href: 'http://ns.nl/klantenservice'
-          }
+          <DefinitionComponents.Concat
+            items={[
+              'Woont u in Nieuw-West of in Oost? Dan doet u uw aanvraag op een andere manier: kijk op de pagina ',
+              <DefinitionComponents.A href="">Hoe kan ik een fietsenrek aanvragen?</DefinitionComponents.A>,
+              '.'
+            ]}
+          />
         ],
         pathMerge: 'extra_properties'
       },
@@ -166,7 +166,7 @@ export default {
       meta: {
         ifAllOf: {
           subcategory: 'fietsrek-nietje',
-          extra_fietsrek_aanvragen: 'Ja'
+          extra_fietsrek_aanvragen: 'Ja, dat ik wil ik'
         },
         label: 'Fietsenrek of \'nietje\' aanvragen',
         pathMerge: 'extra_properties'
