@@ -8,17 +8,17 @@ import './style.scss';
 const TodayChart = ({ data }) => (
   <div className="today-chart">
     <div className="today-chart_date">{moment().format('dddd D MMMM YYYY')}</div>
-    <div className="today-chart_count">{data.count}</div>
+    <div className="today-chart_count">{data}</div>
   </div>
 );
 
 
 TodayChart.defaultProps = {
-  data: {}
+  data: 0
 };
 
 TodayChart.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.number
 };
 
 export default TodayChart;

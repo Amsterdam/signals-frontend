@@ -79,7 +79,7 @@ export class DashboardContainer extends React.PureComponent {
         <div className="dashboard-charts">
           <StatusChart data={dashboard.status} />
           <CategoryChart data={dashboard.category} />
-          <TodayChart data={dashboard.today} />
+          <TodayChart data={dashboard.total} />
           <HourChart data={dashboard.hour} />
         </div>
       </div>
