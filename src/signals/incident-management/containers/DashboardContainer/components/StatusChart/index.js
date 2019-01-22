@@ -20,6 +20,14 @@ function renderStatusLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent
   );
 }
 
+const colors = {
+  'Gemeld': 'red',
+  'Afgehandeld': 'green',
+  'Heropend': 'orange',
+  'In afwachting van behandeling': 'purple',
+  'In behandeling': 'blue'
+}
+
 const StatusChart = ({ data, ...rest }) => (
   <div className="status-chart">
     <h3>Per status</h3>
@@ -42,7 +50,7 @@ const StatusChart = ({ data, ...rest }) => (
         labelLine={false}
         animationDuration={300}
         {...rest}
-      >{data.map((entry, index) => <Cell key={index} fill={entry.color} />)}</Pie>
+      >{data.map((entry, index) => <Cell key={index} fill={colors[entry.name]} />)}</Pie>
     </PieChart>
   </div>
   );
