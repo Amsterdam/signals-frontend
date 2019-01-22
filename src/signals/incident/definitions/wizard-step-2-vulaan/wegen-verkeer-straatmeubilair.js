@@ -153,7 +153,7 @@ export default {
           <DefinitionComponents.Concat
             items={[
               'Woont u in Nieuw-West of in Oost? Dan doet u uw aanvraag op een andere manier: kijk op de pagina ',
-              <DefinitionComponents.A href="">Hoe kan ik een fietsenrek aanvragen?</DefinitionComponents.A>,
+              <DefinitionComponents.A href="https://www.amsterdam.nl/veelgevraagd/?caseid=%7B9E33EFCF-E0C7-4565-B121-1ADCF803679B%7D">Hoe kan ik een fietsenrek aanvragen?</DefinitionComponents.A>,
               '.'
             ]}
           />
