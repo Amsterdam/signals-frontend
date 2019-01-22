@@ -32,7 +32,7 @@ export default {
       meta: {
         className: 'col-sm-12 col-md-6',
         label: 'Wat is de naam van de rederij?',
-        subtitle: 'Als u begint met typen verschijnt vanzelf een lijst met rederijen',
+        subheader: 'Als u begint met typen verschijnt vanzelf een lijst met rederijen',
         pathMerge: 'extra_properties',
         values: {
           Onbekend: 'Onbekend',
@@ -120,8 +120,8 @@ export default {
     },
     extra_boten_snelheid_meer: {
       meta: {
-        label: 'Zijn er nog dingen die u ons nog meer kunt vertellen?',
-        subtitle: 'Bijvoorbeeld: de kleur(en) van de boot, het aantal passagiers, de vaarrichting, Y of Vignet nummer etc.',
+        label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? 1',
+        subheader: 'Bijvoorbeeld: de kleur(en) van de boot, het aantal passagiers, de vaarrichting, Y of Vignet nummer etc.',
         pathMerge: 'extra_properties',
         ifAllOf: {
           subcategory: 'overlast-op-het-water-snel-varen'
@@ -131,7 +131,8 @@ export default {
     },
     extra_boten_geluid_meer: {
       meta: {
-        label: 'Zijn er nog dingen die u ons nog meer kunt vertellen?',
+        label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? 2',
+        subheader: 'Bijvoorbeeld: waar de boot naar toe vaart, kleur van de boot, aantal passagiers, kenteken, vignet, etc.',
         pathMerge: 'extra_properties',
         ifAllOf: {
           subcategory: 'overlast-op-het-water-geluid'
@@ -141,8 +142,8 @@ export default {
     },
     extra_boten_gezonken_meer: {
       meta: {
-        label: 'Zijn er nog dingen die u ons nog meer kunt vertellen?',
-        subtitle: 'Bijvoorbeeld: "er lekt olie", "gevaar voor andere boten", etc.',
+        label: 'Zijn er nog dingen die u ons nog meer kunt vertellen? 3',
+        subheader: 'Bijvoorbeeld: "er lekt olie", "gevaar voor andere boten", etc.',
         pathMerge: 'extra_properties',
         ifAllOf: {
           subcategory: 'overlast-op-het-water-gezonken-boot'

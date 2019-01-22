@@ -3,7 +3,7 @@ import PreviewComponents from '../components/IncidentPreview/components/';
 
 export default {
   label: 'Controleer uw gegevens',
-  subtitle: 'Maak een aanpassing als dat nodig is.',
+  subheader: 'Maak een aanpassing als dat nodig is.',
   nextButtonLabel: 'Verstuur',
   nextButtonClass: 'action primary',
   previousButtonLabel: 'Vorige',
