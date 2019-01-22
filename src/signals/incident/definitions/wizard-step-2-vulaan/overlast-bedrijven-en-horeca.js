@@ -45,7 +45,7 @@ export default {
         ifAllOf: {
           category: 'overlast-bedrijven-en-horeca'
         },
-        label: 'Bedrijfsnaam / Evenementnaam van vermoedelijke veroorzaker',
+        label: 'Welk bedrijf of evenement zorgt voor de overlast?',
         pathMerge: 'extra_properties'
       },
       render: FormComponents.TextInput
@@ -55,7 +55,7 @@ export default {
         ifAllOf: {
           category: 'overlast-bedrijven-en-horeca'
         },
-        label: 'Op welke locatie ervaart u de overlast',
+        label: 'Waar ervaart u de overlast? Hebt u op de vorige pagina een andere locatie aangegeven? Vul dan hier een adres in.',
         pathMerge: 'extra_properties'
       },
       render: FormComponents.TextInput
@@ -84,6 +84,7 @@ export default {
     },
     extra_bedrijven_text: {
       meta: {
+        className: 'col-sm-12 col-md-6',
         ifAllOf: {
           category: 'overlast-bedrijven-en-horeca'
         },
