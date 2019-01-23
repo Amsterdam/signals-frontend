@@ -1,5 +1,5 @@
 import { put, takeLatest } from 'redux-saga/effects';
-
+import { pullAllBy } from 'lodash';
 import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
@@ -21,6 +21,14 @@ export function* fetchDashboard() {
       ...item,
       timestamp: new Date(item.interval_start).getTime()
     }));
+
+    // for the time remove these items
+    pullAllBy(dashboard.status, [
+      { name: 'Melding is afgehandeld in extern systeem' },
+      { name: 'Te verzenden naar extern systeem' },
+      { name: 'Verzending naar extern systeem mislukt' },
+      { name: 'Verzonden naar extern systeem' }
+    ], 'name');
 
     yield put(requestDashboardSuccess(dashboard));
   } catch (error) {

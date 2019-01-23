@@ -7,6 +7,7 @@ import { FormBuilder } from 'react-reactive-form';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import LoadingIndicator from 'shared/components/LoadingIndicator';
 import makeSelectDashboardContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -22,21 +23,18 @@ import HourChart from './components/HourChart';
 import { requestDashboard } from './actions';
 
 const values = [{
-  key: 3000,
-  value: 'ververs elke 3 seconden'
+  key: 600000,
+  value: 'ververs 10 minuten'
+},
+{
+  key: 0,
+  value: 'niet verversen'
 },
 {
   key: 5000,
-  value: 'ververs elke 5 seconden'
-},
-{
-  key: 60000,
-  value: 'ververs elke minuut'
-},
-{
-  key: 600000,
-  value: 'ververs 10 minuten'
-}];
+  value: 'ververs elke 5 seconden [DEBUG]'
+}
+];
 
 export class DashboardContainer extends React.PureComponent {
   constructor(props) {
@@ -48,13 +46,18 @@ export class DashboardContainer extends React.PureComponent {
     };
   }
 
+  // static getDerivedStateFromProps(props, state) {
+    // console.log('getDerivedStateFromProps', props.intervalTime, state.intervalTime);
+    // return null;
+  // }
+
   componentDidMount() {
     this.state.dashboardForm.get('intervalTime').valueChanges.subscribe((value) => {
+      // console.log('change', value);
       global.window.clearInterval(this.state.intervalInstance);
-
       this.setState({
         intervalTime: value,
-        intervalInstance: global.window.setInterval(() => this.props.onRequestDashboard(), value)
+        intervalInstance: value > 0 ? global.window.setInterval(() => this.props.onRequestDashboard(), value) : {}
       });
     });
 
@@ -66,22 +69,27 @@ export class DashboardContainer extends React.PureComponent {
   }
 
   render() {
-    const { dashboard } = this.props.incidentDashboardContainer;
+    const { dashboard, firstTime } = this.props.incidentDashboardContainer;
     return (
       <div className="dashboard">
         <div className="dashboard-beta">BETA</div>
-        <FieldControlWrapper
-          render={SelectInput}
-          name="intervalTime"
-          control={this.state.dashboardForm.get('intervalTime')}
-          values={values}
-        />
-        <div className="dashboard-charts">
-          <StatusChart data={dashboard.status} />
-          <CategoryChart data={dashboard.category} />
-          <TodayChart data={dashboard.total} />
-          <HourChart data={dashboard.hour} />
-        </div>
+        {firstTime ? <LoadingIndicator /> :
+        (
+          <div>
+            <FieldControlWrapper
+              render={SelectInput}
+              name="intervalTime"
+              control={this.state.dashboardForm.get('intervalTime')}
+              values={values}
+            />
+            <div className="dashboard-charts">
+              <StatusChart data={dashboard.status} />
+              <CategoryChart data={dashboard.category} />
+              <TodayChart data={dashboard.total} />
+              <HourChart data={dashboard.hour} />
+            </div>
+          </div>
+        )}
       </div>
     );
   }

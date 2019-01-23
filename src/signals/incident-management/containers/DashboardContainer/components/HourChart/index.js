@@ -21,7 +21,6 @@ const HourChart = ({ data }) => (
         type="number"
         scale="time"
         dataKey="timestamp"
-        reversed
         tickCount={data.length}
       />
       <YAxis

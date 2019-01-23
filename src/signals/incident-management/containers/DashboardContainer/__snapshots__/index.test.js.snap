@@ -9,26 +9,73 @@ exports[`<DashboardContainer /> rendering should render correctly: mount and unm
   >
     BETA
   </div>
-  <Component
-    control={
-      FormControl {
-        "_onCollectionChange": [Function],
-        "_onDisabledChange": Array [],
-        "_parent": FormGroup {
+  <div>
+    <Component
+      control={
+        FormControl {
+          "_onCollectionChange": [Function],
           "_onDisabledChange": Array [],
-          "_pendingChange": false,
+          "_parent": FormGroup {
+            "_onDisabledChange": Array [],
+            "_pendingChange": false,
+            "_pendingDirty": false,
+            "_pendingTouched": false,
+            "asyncValidator": null,
+            "controls": Object {
+              "intervalTime": [Circular],
+            },
+            "errors": null,
+            "get": [Function],
+            "getError": [Function],
+            "handleSubmit": [Function],
+            "hasError": [Function],
+            "meta": Object {},
+            "patchValue": [Function],
+            "pristine": true,
+            "reset": [Function],
+            "setValue": [Function],
+            "stateChanges": Observable {
+              "observers": Array [],
+            },
+            "status": "VALID",
+            "statusChanges": Observable {
+              "observers": Array [],
+            },
+            "submitted": false,
+            "touched": false,
+            "validator": null,
+            "validatorOrOpts": Object {
+              "asyncValidators": null,
+              "updateOn": null,
+              "validators": null,
+            },
+            "value": Object {
+              "intervalTime": 5000,
+            },
+            "valueChanges": Observable {
+              "observers": Array [],
+            },
+          },
+          "_pendingChange": true,
           "_pendingDirty": false,
           "_pendingTouched": false,
+          "_pendingValue": 5000,
           "asyncValidator": null,
-          "controls": Object {
-            "intervalTime": [Circular],
-          },
           "errors": null,
+          "formState": 5000,
           "get": [Function],
           "getError": [Function],
-          "handleSubmit": [Function],
+          "handler": [Function],
           "hasError": [Function],
           "meta": Object {},
+          "onBlur": [Function],
+          "onBlurChanges": Observable {
+            "observers": Array [],
+          },
+          "onChange": [Function],
+          "onValueChanges": Observable {
+            "observers": Array [],
+          },
           "patchValue": [Function],
           "pristine": true,
           "reset": [Function],
@@ -43,196 +90,151 @@ exports[`<DashboardContainer /> rendering should render correctly: mount and unm
           "submitted": false,
           "touched": false,
           "validator": null,
-          "validatorOrOpts": Object {
-            "asyncValidators": null,
-            "updateOn": null,
-            "validators": null,
+          "validatorsOrOpts": Object {
+            "asyncValidators": undefined,
+            "updateOn": undefined,
+            "validators": undefined,
           },
-          "value": Object {
-            "intervalTime": 5000,
-          },
+          "value": 5000,
           "valueChanges": Observable {
-            "observers": Array [],
+            "observers": Array [
+              [Function],
+            ],
           },
-        },
-        "_pendingChange": true,
-        "_pendingDirty": false,
-        "_pendingTouched": false,
-        "_pendingValue": 5000,
-        "asyncValidator": null,
-        "errors": null,
-        "formState": 5000,
-        "get": [Function],
-        "getError": [Function],
-        "handler": [Function],
-        "hasError": [Function],
-        "meta": Object {},
-        "onBlur": [Function],
-        "onBlurChanges": Observable {
-          "observers": Array [],
-        },
-        "onChange": [Function],
-        "onValueChanges": Observable {
-          "observers": Array [],
-        },
-        "patchValue": [Function],
-        "pristine": true,
-        "reset": [Function],
-        "setValue": [Function],
-        "stateChanges": Observable {
-          "observers": Array [],
-        },
-        "status": "VALID",
-        "statusChanges": Observable {
-          "observers": Array [],
-        },
-        "submitted": false,
-        "touched": false,
-        "validator": null,
-        "validatorsOrOpts": Object {
-          "asyncValidators": undefined,
-          "updateOn": undefined,
-          "validators": undefined,
-        },
-        "value": 5000,
-        "valueChanges": Observable {
-          "observers": Array [
-            [Function],
-          ],
-        },
+        }
       }
-    }
-    name="intervalTime"
-    render={[Function]}
-    values={
-      Array [
-        Object {
-          "key": 3000,
-          "value": "ververs elke 3 seconden",
-        },
-        Object {
-          "key": 5000,
-          "value": "ververs elke 5 seconden",
-        },
-        Object {
-          "key": 60000,
-          "value": "ververs elke minuut",
-        },
-        Object {
-          "key": 600000,
-          "value": "ververs 10 minuten",
-        },
-      ]
-    }
-  />
-  <div
-    className="dashboard-charts"
-  >
-    <Component
-      data={
+      name="intervalTime"
+      render={[Function]}
+      values={
         Array [
           Object {
-            "color": "#23B0C3",
-            "count": 57,
-            "name": "Gemeld",
+            "key": 3000,
+            "value": "ververs elke 3 seconden",
           },
           Object {
-            "color": "#E8663F",
-            "count": 7,
-            "name": "In afhandeling van behandeling",
+            "key": 5000,
+            "value": "ververs elke 5 seconden",
           },
           Object {
-            "color": "#FE952F",
-            "count": 20,
-            "name": "In behandeling",
+            "key": 60000,
+            "value": "ververs elke minuut",
           },
           Object {
-            "color": "#96C14F",
-            "count": 2,
-            "name": "Geannuleerd",
-          },
-          Object {
-            "color": "#9B4474",
-            "count": 13,
-            "name": "Afgehandeld",
-          },
-          Object {
-            "color": "#E8663F",
-            "count": 1,
-            "name": "On hold",
+            "key": 600000,
+            "value": "ververs 10 minuten",
           },
         ]
       }
     />
-    <Component
-      data={
-        Array [
-          Object {
-            "count": 2,
-            "name": "Overlast op het water",
-          },
-          Object {
-            "count": 9,
-            "name": "Overlast van dieren",
-          },
-          Object {
-            "count": 9,
-            "name": "Overlast van en door personen en groepen",
-          },
-          Object {
-            "count": 12,
-            "name": "Overlast bedrijven en horeca",
-          },
-          Object {
-            "count": 28,
-            "name": "Openbaar groen en water",
-          },
-          Object {
-            "count": 82,
-            "name": "Overlast in de openbare ruimte",
-          },
-          Object {
-            "count": 88,
-            "name": "Overig",
-          },
-          Object {
-            "count": 126,
-            "name": "Wegen verkeer straatmeubileir ",
-          },
-          Object {
-            "count": 250,
-            "name": "Afval",
-          },
-        ]
-      }
-    />
-    <Component
-      data={638}
-    />
-    <Component
-      data={
-        Array [
-          Object {
-            "count": 42,
-            "hour": 14,
-            "interval_start": "2019-01-21T14:00:00",
-            "timestamp": 1548075600000,
-          },
-          Object {
-            "count": 666,
-            "hour": 15,
-            "interval_start": "2019-01-21T15:00:00",
-            "timestamp": 1548079200000,
-          },
-          Object {
-            "count": 3333,
-            "hour": 16,
-            "interval_start": "2019-01-21T16:00:00",
-            "timestamp": 1548082800000,
-          },
-        ]
-      }
-    />
+    <div
+      className="dashboard-charts"
+    >
+      <Component
+        data={
+          Array [
+            Object {
+              "color": "#23B0C3",
+              "count": 57,
+              "name": "Gemeld",
+            },
+            Object {
+              "color": "#E8663F",
+              "count": 7,
+              "name": "In afhandeling van behandeling",
+            },
+            Object {
+              "color": "#FE952F",
+              "count": 20,
+              "name": "In behandeling",
+            },
+            Object {
+              "color": "#96C14F",
+              "count": 2,
+              "name": "Geannuleerd",
+            },
+            Object {
+              "color": "#9B4474",
+              "count": 13,
+              "name": "Afgehandeld",
+            },
+            Object {
+              "color": "#E8663F",
+              "count": 1,
+              "name": "On hold",
+            },
+          ]
+        }
+      />
+      <Component
+        data={
+          Array [
+            Object {
+              "count": 2,
+              "name": "Overlast op het water",
+            },
+            Object {
+              "count": 9,
+              "name": "Overlast van dieren",
+            },
+            Object {
+              "count": 9,
+              "name": "Overlast van en door personen en groepen",
+            },
+            Object {
+              "count": 12,
+              "name": "Overlast bedrijven en horeca",
+            },
+            Object {
+              "count": 28,
+              "name": "Openbaar groen en water",
+            },
+            Object {
+              "count": 82,
+              "name": "Overlast in de openbare ruimte",
+            },
+            Object {
+              "count": 88,
+              "name": "Overig",
+            },
+            Object {
+              "count": 126,
+              "name": "Wegen verkeer straatmeubileir ",
+            },
+            Object {
+              "count": 250,
+              "name": "Afval",
+            },
+          ]
+        }
+      />
+      <Component
+        data={638}
+      />
+      <Component
+        data={
+          Array [
+            Object {
+              "count": 42,
+              "hour": 14,
+              "interval_start": "2019-01-21T14:00:00",
+              "timestamp": 1548075600000,
+            },
+            Object {
+              "count": 666,
+              "hour": 15,
+              "interval_start": "2019-01-21T15:00:00",
+              "timestamp": 1548079200000,
+            },
+            Object {
+              "count": 3333,
+              "hour": 16,
+              "interval_start": "2019-01-21T16:00:00",
+              "timestamp": 1548082800000,
+            },
+          ]
+        }
+      />
+    </div>
   </div>
 </div>
 `;

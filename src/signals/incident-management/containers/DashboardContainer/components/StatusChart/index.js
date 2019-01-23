@@ -9,23 +9,28 @@ import './style.scss';
 const RADIAN = Math.PI / 180;
 
 function renderStatusLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) {
+  const percentage = (percent * 100).toFixed(0);
+  if (percentage === '0') {
+    return;
+  }
  	const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x  = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy  + radius * Math.sin(-midAngle * RADIAN);
-
   return (
     <text className="status-label" x={x} y={y} fill="white" textAnchor="middle"	dominantBaseline="central">
-    	{`${(percent * 100).toFixed(0)}%`}
+    	{`${percentage}%`}
     </text>
   );
 }
 
 const colors = {
   'Gemeld': 'red',
-  'Afgehandeld': 'green',
+  'Afgehandeld': 'lightgreen',
   'Heropend': 'orange',
   'In afwachting van behandeling': 'purple',
-  'In behandeling': 'blue'
+  'In behandeling': 'blue',
+  'On hold' : 'grey',
+  'Geannuleerd' : 'darkgrey'
 }
 
 const StatusChart = ({ data, ...rest }) => (
