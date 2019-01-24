@@ -22,6 +22,7 @@ import HourChart from './components/HourChart';
 
 import { requestDashboard } from './actions';
 
+const defaultIntervalTime = 5000;
 const values = [{
   key: 600000,
   value: 'ververs 10 minuten'
@@ -37,27 +38,16 @@ const values = [{
 ];
 
 export class DashboardContainer extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      intervalInstance: global.window.setInterval(() => this.props.onRequestDashboard(), 5000),
-      dashboardForm: FormBuilder.group({ intervalTime: 5000 })
-    };
-  }
-
-  // static getDerivedStateFromProps(props, state) {
-    // console.log('getDerivedStateFromProps', props.intervalTime, state.intervalTime);
-    // return null;
-  // }
+  state = {
+    intervalInstance: this.setInterval(defaultIntervalTime),
+    dashboardForm: FormBuilder.group({ intervalTime: defaultIntervalTime })
+  };
 
   componentDidMount() {
     this.state.dashboardForm.get('intervalTime').valueChanges.subscribe((value) => {
-      // console.log('change', value);
       global.window.clearInterval(this.state.intervalInstance);
       this.setState({
-        intervalTime: value,
-        intervalInstance: value > 0 ? global.window.setInterval(() => this.props.onRequestDashboard(), value) : {}
+        intervalInstance: this.setInterval(value)
       });
     });
 
@@ -66,6 +56,10 @@ export class DashboardContainer extends React.PureComponent {
 
   componentWillUnmount() {
     global.window.clearInterval(this.state.intervalInstance);
+  }
+
+  setInterval(intervalTime) {
+    return intervalTime > 0 ? global.window.setInterval(() => this.props.onRequestDashboard(), intervalTime) : {};
   }
 
   render() {
