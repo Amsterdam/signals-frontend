@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { FormBuilder } from 'react-reactive-form';
+import { isEqual, isEmpty } from 'lodash';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -24,7 +25,7 @@ import { requestDashboard } from './actions';
 
 const defaultIntervalTime = 5000;
 const values = [{
-  key: 600000,
+  key: 60000,
   value: 'ververs 10 minuten'
 },
 {
@@ -40,12 +41,34 @@ const values = [{
 export class DashboardContainer extends React.PureComponent {
   state = {
     intervalInstance: this.setInterval(defaultIntervalTime),
-    dashboardForm: FormBuilder.group({ intervalTime: defaultIntervalTime })
+    dashboardForm: FormBuilder.group({ intervalTime: defaultIntervalTime }),
+    dashboard: {},
+    firstTime: true
   };
+
+  static getDerivedStateFromProps(props, state) {
+    let response = {};
+    if (!isEqual(props.incidentDashboardContainer.firstTime, state.firstTime)) {
+      response = {
+        ...response,
+        firstTime: props.incidentDashboardContainer.firstTime
+      };
+    }
+
+    if (!isEqual(props.incidentDashboardContainer.dashboard, state.dashboard)) {
+      response = {
+        ...response,
+        dashboard: props.incidentDashboardContainer.dashboard
+      };
+    }
+
+    return isEmpty(response) ? null : response;
+  }
 
   componentDidMount() {
     this.state.dashboardForm.get('intervalTime').valueChanges.subscribe((value) => {
-      global.window.clearInterval(this.state.intervalInstance);
+      this.clearInterval(this.state.intervalInstance);
+
       this.setState({
         intervalInstance: this.setInterval(value)
       });
@@ -55,15 +78,21 @@ export class DashboardContainer extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    global.window.clearInterval(this.state.intervalInstance);
+    this.clearInterval(this.state.intervalInstance);
   }
 
   setInterval(intervalTime) {
     return intervalTime > 0 ? global.window.setInterval(() => this.props.onRequestDashboard(), intervalTime) : {};
   }
 
+  clearInterval(intervalInstance) {
+    if (intervalInstance) {
+      global.window.clearInterval(intervalInstance);
+    }
+  }
+
   render() {
-    const { dashboard, firstTime } = this.props.incidentDashboardContainer;
+    const { dashboard, firstTime } = this.state;
     return (
       <div className="dashboard">
         <div className="dashboard-beta">BETA</div>
@@ -90,7 +119,6 @@ export class DashboardContainer extends React.PureComponent {
 }
 
 DashboardContainer.propTypes = {
-  incidentDashboardContainer: PropTypes.object.isRequired,
   onRequestDashboard: PropTypes.func.isRequired
 };
 
