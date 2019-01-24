@@ -23,35 +23,50 @@ import HourChart from './components/HourChart';
 
 import { requestDashboard } from './actions';
 
-const defaultIntervalTime = 5000;
+const defaultIntervalTime = 0;
 const values = [{
-  key: 60000,
-  value: 'ververs 10 minuten'
-},
-{
-  key: 0,
+  key: defaultIntervalTime,
   value: 'niet verversen'
 },
 {
-  key: 5000,
-  value: 'ververs elke 5 seconden [DEBUG]'
-}
-];
+  key: 2000,
+  value: 'DEBUG ververs elke 2 seconden'
+},
+{
+  key: 30000,
+  value: 'ververs elke 3 minuten'
+},
+{
+  key: 100000,
+  value: 'ververs elke 10 minuten'
+}];
 
 export class DashboardContainer extends React.PureComponent {
-  state = {
-    intervalInstance: this.setInterval(defaultIntervalTime),
-    dashboardForm: FormBuilder.group({ intervalTime: defaultIntervalTime }),
-    dashboard: {},
-    firstTime: true
-  };
+  static clearInterval(intervalInstance) {
+    if (intervalInstance) {
+      global.window.clearInterval(intervalInstance);
+    }
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      intervalInstance: props.intervalInstance,
+      intervalTime: props.intervalTime,
+      dashboard: props.dashboard,
+      firstTime: props.firstTime,
+      dashboardForm: props.dashboardForm
+    };
+  }
 
   static getDerivedStateFromProps(props, state) {
     let response = {};
     if (!isEqual(props.incidentDashboardContainer.firstTime, state.firstTime)) {
       response = {
         ...response,
-        firstTime: props.incidentDashboardContainer.firstTime
+        firstTime: props.incidentDashboardContainer.firstTime,
+        intervalInstance: DashboardContainer.setInterval(state.intervalTime, props)
       };
     }
 
@@ -66,29 +81,24 @@ export class DashboardContainer extends React.PureComponent {
   }
 
   componentDidMount() {
+    this.props.onRequestDashboard();
+
     this.state.dashboardForm.get('intervalTime').valueChanges.subscribe((value) => {
-      this.clearInterval(this.state.intervalInstance);
+      DashboardContainer.clearInterval(this.state.intervalInstance);
 
       this.setState({
-        intervalInstance: this.setInterval(value)
+        intervalTime: value,
+        intervalInstance: DashboardContainer.setInterval(value, this.props)
       });
     });
-
-    this.props.onRequestDashboard();
   }
 
   componentWillUnmount() {
-    this.clearInterval(this.state.intervalInstance);
+    DashboardContainer.clearInterval(this.state.intervalInstance);
   }
 
-  setInterval(intervalTime) {
-    return intervalTime > 0 ? global.window.setInterval(() => this.props.onRequestDashboard(), intervalTime) : {};
-  }
-
-  clearInterval(intervalInstance) {
-    if (intervalInstance) {
-      global.window.clearInterval(intervalInstance);
-    }
+  static setInterval(intervalTime, props) {
+    return intervalTime > 0 ? global.window.setInterval(() => props.onRequestDashboard(), intervalTime) : {};
   }
 
   render() {
@@ -118,7 +128,21 @@ export class DashboardContainer extends React.PureComponent {
   }
 }
 
+DashboardContainer.defaultProps = {
+  intervalInstance: {},
+  intervalTime: defaultIntervalTime,
+  dashboard: {},
+  firstTime: true,
+  dashboardForm: FormBuilder.group({ intervalTime: defaultIntervalTime })
+};
+
 DashboardContainer.propTypes = {
+  intervalInstance: PropTypes.object,
+  intervalTime: PropTypes.number,
+  dashboard: PropTypes.object,
+  firstTime: PropTypes.bool,
+  dashboardForm: PropTypes.object,
+
   onRequestDashboard: PropTypes.func.isRequired
 };
 
