@@ -50,7 +50,7 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
                 <li>
                   <NavLink to="/manage/dashboard">
                     <span className="linklabel">
-                      Dashboard
+                      Dashboard [beta]
                     </span>
                   </NavLink>
                 </li> : ''

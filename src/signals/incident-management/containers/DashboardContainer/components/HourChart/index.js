@@ -10,10 +10,10 @@ const HourChart = ({ data }) => (
     <h3>Meldingen per uur</h3>
 
     <LineChart
-      width={643}
+      width={582}
       height={400}
       data={data}
-      margin={{ top: 20, right: 20, left: 20 }}
+      margin={{ top: 30, right: 20, left: 20 }}
     >
       <XAxis
         tickFormatter={(tick) => moment(tick).format('HH')}
