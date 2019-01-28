@@ -1,14 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<DashboardContainer /> rendering should render correctly: mount and unmount 1`] = `
+exports[`<DashboardContainer /> rendering should render correctly 1`] = `
 <div
   className="dashboard"
 >
-  <div
-    className="dashboard-beta"
-  >
-    BETA
-  </div>
   <div>
     <Component
       control={
@@ -50,7 +45,7 @@ exports[`<DashboardContainer /> rendering should render correctly: mount and unm
               "validators": null,
             },
             "value": Object {
-              "intervalTime": 5000,
+              "intervalTime": 0,
             },
             "valueChanges": Observable {
               "observers": Array [],
@@ -59,10 +54,10 @@ exports[`<DashboardContainer /> rendering should render correctly: mount and unm
           "_pendingChange": true,
           "_pendingDirty": false,
           "_pendingTouched": false,
-          "_pendingValue": 5000,
+          "_pendingValue": 0,
           "asyncValidator": null,
           "errors": null,
-          "formState": 5000,
+          "formState": 0,
           "get": [Function],
           "getError": [Function],
           "handler": [Function],
@@ -95,7 +90,7 @@ exports[`<DashboardContainer /> rendering should render correctly: mount and unm
             "updateOn": undefined,
             "validators": undefined,
           },
-          "value": 5000,
+          "value": 0,
           "valueChanges": Observable {
             "observers": Array [
               [Function],
@@ -108,20 +103,20 @@ exports[`<DashboardContainer /> rendering should render correctly: mount and unm
       values={
         Array [
           Object {
-            "key": 3000,
-            "value": "ververs elke 3 seconden",
+            "key": 0,
+            "value": "niet verversen",
           },
           Object {
-            "key": 5000,
-            "value": "ververs elke 5 seconden",
+            "key": 2000,
+            "value": "DEBUG ververs elke 2 seconden",
           },
           Object {
-            "key": 60000,
-            "value": "ververs elke minuut",
+            "key": 30000,
+            "value": "ververs elke 3 minuten",
           },
           Object {
-            "key": 600000,
-            "value": "ververs 10 minuten",
+            "key": 100000,
+            "value": "ververs elke 10 minuten",
           },
         ]
       }
@@ -130,40 +125,7 @@ exports[`<DashboardContainer /> rendering should render correctly: mount and unm
       className="dashboard-charts"
     >
       <Component
-        data={
-          Array [
-            Object {
-              "color": "#23B0C3",
-              "count": 57,
-              "name": "Gemeld",
-            },
-            Object {
-              "color": "#E8663F",
-              "count": 7,
-              "name": "In afhandeling van behandeling",
-            },
-            Object {
-              "color": "#FE952F",
-              "count": 20,
-              "name": "In behandeling",
-            },
-            Object {
-              "color": "#96C14F",
-              "count": 2,
-              "name": "Geannuleerd",
-            },
-            Object {
-              "color": "#9B4474",
-              "count": 13,
-              "name": "Afgehandeld",
-            },
-            Object {
-              "color": "#E8663F",
-              "count": 1,
-              "name": "On hold",
-            },
-          ]
-        }
+        data={638}
       />
       <Component
         data={
@@ -208,7 +170,40 @@ exports[`<DashboardContainer /> rendering should render correctly: mount and unm
         }
       />
       <Component
-        data={638}
+        data={
+          Array [
+            Object {
+              "color": "#23B0C3",
+              "count": 57,
+              "name": "Gemeld",
+            },
+            Object {
+              "color": "#E8663F",
+              "count": 7,
+              "name": "In afhandeling van behandeling",
+            },
+            Object {
+              "color": "#FE952F",
+              "count": 20,
+              "name": "In behandeling",
+            },
+            Object {
+              "color": "#96C14F",
+              "count": 2,
+              "name": "Geannuleerd",
+            },
+            Object {
+              "color": "#9B4474",
+              "count": 13,
+              "name": "Afgehandeld",
+            },
+            Object {
+              "color": "#E8663F",
+              "count": 1,
+              "name": "On hold",
+            },
+          ]
+        }
       />
       <Component
         data={

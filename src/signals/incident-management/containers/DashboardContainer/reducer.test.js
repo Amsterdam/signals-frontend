@@ -41,6 +41,7 @@ describe('dashboardReducer', () => {
         }).toJS()
       ).toEqual({
         loading: false,
+        firstTime: false,
         dashboard: payload
       });
     });

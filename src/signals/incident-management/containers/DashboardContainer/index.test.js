@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { DashboardContainer, mapDispatchToProps } from './index';
+import { DashboardContainer, mapDispatchToProps, defaultIntervalTime } from './index';
 import { REQUEST_DASHBOARD } from './constants';
 
 jest.mock('../../components/FieldControlWrapper', () => () => 'FieldControlWrapper');
@@ -12,7 +12,10 @@ jest.mock('./components/TodayChart', () => () => 'TodayChart');
 jest.mock('./components/HourChart', () => () => 'HourChart');
 
 describe('<DashboardContainer />', () => {
+  let wrapper;
   let props;
+  let originalSetInterval;
+  let originalClearInterval;
 
   beforeEach(() => {
     props = {
@@ -62,6 +65,10 @@ describe('<DashboardContainer />', () => {
       },
       onRequestDashboard: jest.fn(),
     };
+
+    wrapper = shallow(
+      <DashboardContainer {...props} />
+    );
   });
 
   afterEach(() => {
@@ -69,61 +76,52 @@ describe('<DashboardContainer />', () => {
   });
 
   describe('rendering', () => {
-    it('should render correctly: mount and unmount', () => {
-      global.window.setInterval = jest.fn();
-      global.window.clearInterval = jest.fn();
-
-      const wrapper = shallow(
-        <DashboardContainer {...props} />
-      );
+    it('should render correctly', () => {
       expect(wrapper).toMatchSnapshot();
-      expect(global.window.setInterval).toHaveBeenCalledTimes(1);
-      expect(global.window.clearInterval).not.toHaveBeenCalled();
-
-      jest.resetAllMocks();
-
-      wrapper.unmount();
-      expect(global.window.setInterval).not.toHaveBeenCalled();
-      expect(global.window.clearInterval).toHaveBeenCalledTimes(1);
-
-      jest.resetAllMocks();
     });
   });
 
-  describe('events', () => {
+  describe('refresh events', () => {
     beforeEach(() => {
       jest.useFakeTimers();
     });
 
-    it('should set timer interval to 5 seconds by default', () => {
-      const wrapper = shallow(
-        <DashboardContainer {...props} />
-      );
-
-      jest.runOnlyPendingTimers();
-
-      expect(wrapper.state('intervalInstance')).toEqual(1);
-      expect(wrapper.state('dashboardForm').value.intervalTime).toEqual(5000);
+    it('should set interval time to 0 seconds by default', () => {
+      expect(wrapper.state('intervalTime')).toEqual(defaultIntervalTime);
+      expect(wrapper.state('dashboardForm').value.intervalTime).toEqual(defaultIntervalTime);
     });
 
-    it('should set interval to 3 seconds when time value has changed', () => {
-      const wrapper = shallow(
-        <DashboardContainer {...props} />
-      );
+    it('can set interval time to 3 seconds', () => {
+      originalSetInterval = global.window.setInterval;
+      global.window.setInterval = jest.fn();
 
       const dashboardForm = wrapper.state('dashboardForm');
-      const dashboardValue = {
-        ...dashboardForm.value,
-        intervalTime: 3000
-      };
-      dashboardForm.setValue(dashboardValue);
+      dashboardForm.setValue({ intervalTime: 3000 });
+
+      expect(wrapper.state('intervalTime')).toEqual(3000);
       expect(wrapper.state('dashboardForm').value.intervalTime).toEqual(3000);
+      expect(global.window.setInterval).toHaveBeenCalledWith(expect.anything(), 3000);
 
-      jest.runTimersToTime(2999);
+      global.window.setInterval = originalSetInterval;
+    });
+  });
+
+  describe('mounting', () => {
+    it('should mount correctly', () => {
       expect(props.onRequestDashboard).toHaveBeenCalledTimes(1);
+    });
 
-      jest.runTimersToTime(1);
-      expect(props.onRequestDashboard).toHaveBeenCalledTimes(2);
+    it('should unmount correctly', () => {
+      originalClearInterval = global.window.clearInterval;
+      global.window.clearInterval = jest.fn();
+
+      const intervalInstance = { interval: 'instance' };
+      wrapper.setState({ intervalInstance });
+      wrapper.unmount();
+
+      expect(global.window.clearInterval).toHaveBeenCalledWith(intervalInstance);
+
+      global.window.clearInterval = originalClearInterval;
     });
   });
 

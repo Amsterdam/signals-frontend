@@ -69,29 +69,39 @@ exports[`<IncidentManagementModule /> routing can navigate to incident detail 1`
         <div
           className="manage-incident"
         >
-          <div
-            className="row"
-          >
+          <div>
             <div
-              className="col-12"
+              className="container"
             >
-              <Route
-                exact={true}
-                path="/manage/incidents"
-                render={[Function]}
-              />
-              <Route
-                exact={true}
-                path="/manage/incident/:id"
-                render={[Function]}
+              <div
+                className="row"
               >
-                <Component
-                  baseUrl="/manage"
-                  id="666"
+                <div
+                  className="col-12"
                 >
-                  IncidentDetailPage
-                </Component>
-              </Route>
+                  <Route
+                    exact={true}
+                    path="/manage/incidents"
+                    render={[Function]}
+                  />
+                  <Route
+                    exact={true}
+                    path="/manage/incident/:id"
+                    render={[Function]}
+                  >
+                    <Component
+                      baseUrl="/manage"
+                      id="666"
+                    >
+                      IncidentDetailPage
+                    </Component>
+                  </Route>
+                  <Route
+                    component={[Function]}
+                    path="/manage/dashboard"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -170,28 +180,38 @@ exports[`<IncidentManagementModule /> routing can navigate to incident list 1`] 
         <div
           className="manage-incident"
         >
-          <div
-            className="row"
-          >
+          <div>
             <div
-              className="col-12"
+              className="container"
             >
-              <Route
-                exact={true}
-                path="/manage/incidents"
-                render={[Function]}
+              <div
+                className="row"
               >
-                <Component
-                  baseUrl="/manage"
+                <div
+                  className="col-12"
                 >
-                  IncidentOverviewPage
-                </Component>
-              </Route>
-              <Route
-                exact={true}
-                path="/manage/incident/:id"
-                render={[Function]}
-              />
+                  <Route
+                    exact={true}
+                    path="/manage/incidents"
+                    render={[Function]}
+                  >
+                    <Component
+                      baseUrl="/manage"
+                    >
+                      IncidentOverviewPage
+                    </Component>
+                  </Route>
+                  <Route
+                    exact={true}
+                    path="/manage/incident/:id"
+                    render={[Function]}
+                  />
+                  <Route
+                    component={[Function]}
+                    path="/manage/dashboard"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -205,22 +225,32 @@ exports[`<IncidentManagementModule /> should render correctly when authenticated
 <div
   className="manage-incident"
 >
-  <div
-    className="row"
-  >
+  <div>
     <div
-      className="col-12"
+      className="container"
     >
-      <Route
-        exact={true}
-        path="/manage/incidents"
-        render={[Function]}
-      />
-      <Route
-        exact={true}
-        path="/manage/incident/:id"
-        render={[Function]}
-      />
+      <div
+        className="row"
+      >
+        <div
+          className="col-12"
+        >
+          <Route
+            exact={true}
+            path="/manage/incidents"
+            render={[Function]}
+          />
+          <Route
+            exact={true}
+            path="/manage/incident/:id"
+            render={[Function]}
+          />
+          <Route
+            component={[Function]}
+            path="/manage/dashboard"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </div>

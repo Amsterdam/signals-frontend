@@ -9,23 +9,23 @@ exports[`<HourChart /> should render correctly 1`] = `
   </h3>
   <div
     class="recharts-wrapper"
-    style="position:relative;cursor:default;width:643px;height:400px"
+    style="position:relative;cursor:default;width:582px;height:400px"
   >
     <svg
       class="recharts-surface"
       height="400"
       version="1.1"
-      viewBox="0 0 643 400"
-      width="643"
+      viewBox="0 0 582 400"
+      width="582"
     >
       <clipPath
         id="recharts2-clip"
       >
         <rect
-          height="350"
-          width="603"
+          height="340"
+          width="542"
           x="20"
-          y="20"
+          y="30"
         />
       </clipPath>
       <g
@@ -36,10 +36,10 @@ exports[`<HourChart /> should render correctly 1`] = `
           fill="none"
           height="30"
           stroke="#666"
-          width="603"
+          width="542"
           x="20"
           x1="20"
-          x2="623"
+          x2="562"
           y="370"
           y1="370"
           y2="370"
@@ -55,7 +55,7 @@ exports[`<HourChart /> should render correctly 1`] = `
               fill="none"
               height="30"
               stroke="#666"
-              width="603"
+              width="542"
               x="20"
               x1="20"
               x2="20"
@@ -69,7 +69,7 @@ exports[`<HourChart /> should render correctly 1`] = `
               height="30"
               stroke="none"
               text-anchor="middle"
-              width="603"
+              width="542"
               x="20"
               y="378"
             >
@@ -89,10 +89,10 @@ exports[`<HourChart /> should render correctly 1`] = `
               fill="none"
               height="30"
               stroke="#666"
-              width="603"
+              width="542"
               x="20"
-              x1="70.25"
-              x2="70.25"
+              x1="65.16666666666666"
+              x2="65.16666666666666"
               y="370"
               y1="376"
               y2="370"
@@ -103,13 +103,13 @@ exports[`<HourChart /> should render correctly 1`] = `
               height="30"
               stroke="none"
               text-anchor="middle"
-              width="603"
-              x="70.25"
+              width="542"
+              x="65.16666666666666"
               y="378"
             >
               <tspan
                 dy="0.71em"
-                x="70.25"
+                x="65.16666666666666"
               >
                 06
               </tspan>
@@ -123,10 +123,10 @@ exports[`<HourChart /> should render correctly 1`] = `
               fill="none"
               height="30"
               stroke="#666"
-              width="603"
+              width="542"
               x="20"
-              x1="120.5"
-              x2="120.5"
+              x1="110.33333333333333"
+              x2="110.33333333333333"
               y="370"
               y1="376"
               y2="370"
@@ -137,13 +137,13 @@ exports[`<HourChart /> should render correctly 1`] = `
               height="30"
               stroke="none"
               text-anchor="middle"
-              width="603"
-              x="120.5"
+              width="542"
+              x="110.33333333333333"
               y="378"
             >
               <tspan
                 dy="0.71em"
-                x="120.5"
+                x="110.33333333333333"
               >
                 07
               </tspan>
@@ -157,10 +157,10 @@ exports[`<HourChart /> should render correctly 1`] = `
               fill="none"
               height="30"
               stroke="#666"
-              width="603"
+              width="542"
               x="20"
-              x1="170.75"
-              x2="170.75"
+              x1="155.5"
+              x2="155.5"
               y="370"
               y1="376"
               y2="370"
@@ -171,13 +171,13 @@ exports[`<HourChart /> should render correctly 1`] = `
               height="30"
               stroke="none"
               text-anchor="middle"
-              width="603"
-              x="170.75"
+              width="542"
+              x="155.5"
               y="378"
             >
               <tspan
                 dy="0.71em"
-                x="170.75"
+                x="155.5"
               >
                 08
               </tspan>
@@ -191,10 +191,10 @@ exports[`<HourChart /> should render correctly 1`] = `
               fill="none"
               height="30"
               stroke="#666"
-              width="603"
+              width="542"
               x="20"
-              x1="221"
-              x2="221"
+              x1="200.66666666666666"
+              x2="200.66666666666666"
               y="370"
               y1="376"
               y2="370"
@@ -205,13 +205,13 @@ exports[`<HourChart /> should render correctly 1`] = `
               height="30"
               stroke="none"
               text-anchor="middle"
-              width="603"
-              x="221"
+              width="542"
+              x="200.66666666666666"
               y="378"
             >
               <tspan
                 dy="0.71em"
-                x="221"
+                x="200.66666666666666"
               >
                 09
               </tspan>
@@ -225,10 +225,10 @@ exports[`<HourChart /> should render correctly 1`] = `
               fill="none"
               height="30"
               stroke="#666"
-              width="603"
+              width="542"
               x="20"
-              x1="271.25"
-              x2="271.25"
+              x1="245.83333333333334"
+              x2="245.83333333333334"
               y="370"
               y1="376"
               y2="370"
@@ -239,13 +239,13 @@ exports[`<HourChart /> should render correctly 1`] = `
               height="30"
               stroke="none"
               text-anchor="middle"
-              width="603"
-              x="271.25"
+              width="542"
+              x="245.83333333333334"
               y="378"
             >
               <tspan
                 dy="0.71em"
-                x="271.25"
+                x="245.83333333333334"
               >
                 10
               </tspan>
@@ -259,10 +259,10 @@ exports[`<HourChart /> should render correctly 1`] = `
               fill="none"
               height="30"
               stroke="#666"
-              width="603"
+              width="542"
               x="20"
-              x1="321.5"
-              x2="321.5"
+              x1="291"
+              x2="291"
               y="370"
               y1="376"
               y2="370"
@@ -273,13 +273,13 @@ exports[`<HourChart /> should render correctly 1`] = `
               height="30"
               stroke="none"
               text-anchor="middle"
-              width="603"
-              x="321.5"
+              width="542"
+              x="291"
               y="378"
             >
               <tspan
                 dy="0.71em"
-                x="321.5"
+                x="291"
               >
                 11
               </tspan>
@@ -293,10 +293,10 @@ exports[`<HourChart /> should render correctly 1`] = `
               fill="none"
               height="30"
               stroke="#666"
-              width="603"
+              width="542"
               x="20"
-              x1="371.75"
-              x2="371.75"
+              x1="336.1666666666667"
+              x2="336.1666666666667"
               y="370"
               y1="376"
               y2="370"
@@ -307,13 +307,13 @@ exports[`<HourChart /> should render correctly 1`] = `
               height="30"
               stroke="none"
               text-anchor="middle"
-              width="603"
-              x="371.75"
+              width="542"
+              x="336.1666666666667"
               y="378"
             >
               <tspan
                 dy="0.71em"
-                x="371.75"
+                x="336.1666666666667"
               >
                 12
               </tspan>
@@ -327,10 +327,10 @@ exports[`<HourChart /> should render correctly 1`] = `
               fill="none"
               height="30"
               stroke="#666"
-              width="603"
+              width="542"
               x="20"
-              x1="422"
-              x2="422"
+              x1="381.3333333333333"
+              x2="381.3333333333333"
               y="370"
               y1="376"
               y2="370"
@@ -341,13 +341,13 @@ exports[`<HourChart /> should render correctly 1`] = `
               height="30"
               stroke="none"
               text-anchor="middle"
-              width="603"
-              x="422"
+              width="542"
+              x="381.3333333333333"
               y="378"
             >
               <tspan
                 dy="0.71em"
-                x="422"
+                x="381.3333333333333"
               >
                 13
               </tspan>
@@ -361,10 +361,10 @@ exports[`<HourChart /> should render correctly 1`] = `
               fill="none"
               height="30"
               stroke="#666"
-              width="603"
+              width="542"
               x="20"
-              x1="472.25"
-              x2="472.25"
+              x1="426.5"
+              x2="426.5"
               y="370"
               y1="376"
               y2="370"
@@ -375,13 +375,13 @@ exports[`<HourChart /> should render correctly 1`] = `
               height="30"
               stroke="none"
               text-anchor="middle"
-              width="603"
-              x="472.25"
+              width="542"
+              x="426.5"
               y="378"
             >
               <tspan
                 dy="0.71em"
-                x="472.25"
+                x="426.5"
               >
                 14
               </tspan>
@@ -395,10 +395,10 @@ exports[`<HourChart /> should render correctly 1`] = `
               fill="none"
               height="30"
               stroke="#666"
-              width="603"
+              width="542"
               x="20"
-              x1="522.5"
-              x2="522.5"
+              x1="471.6666666666667"
+              x2="471.6666666666667"
               y="370"
               y1="376"
               y2="370"
@@ -409,13 +409,13 @@ exports[`<HourChart /> should render correctly 1`] = `
               height="30"
               stroke="none"
               text-anchor="middle"
-              width="603"
-              x="522.5"
+              width="542"
+              x="471.6666666666667"
               y="378"
             >
               <tspan
                 dy="0.71em"
-                x="522.5"
+                x="471.6666666666667"
               >
                 15
               </tspan>
@@ -429,10 +429,10 @@ exports[`<HourChart /> should render correctly 1`] = `
               fill="none"
               height="30"
               stroke="#666"
-              width="603"
+              width="542"
               x="20"
-              x1="572.75"
-              x2="572.75"
+              x1="516.8333333333333"
+              x2="516.8333333333333"
               y="370"
               y1="376"
               y2="370"
@@ -443,13 +443,13 @@ exports[`<HourChart /> should render correctly 1`] = `
               height="30"
               stroke="none"
               text-anchor="middle"
-              width="603"
-              x="572.75"
+              width="542"
+              x="516.8333333333333"
               y="378"
             >
               <tspan
                 dy="0.71em"
-                x="572.75"
+                x="516.8333333333333"
               >
                 16
               </tspan>
@@ -463,10 +463,10 @@ exports[`<HourChart /> should render correctly 1`] = `
               fill="none"
               height="30"
               stroke="#666"
-              width="603"
+              width="542"
               x="20"
-              x1="623"
-              x2="623"
+              x1="562"
+              x2="562"
               y="370"
               y1="376"
               y2="370"
@@ -477,13 +477,13 @@ exports[`<HourChart /> should render correctly 1`] = `
               height="30"
               stroke="none"
               text-anchor="middle"
-              width="603"
-              x="623"
+              width="542"
+              x="562"
               y="378"
             >
               <tspan
                 dy="0.71em"
-                x="623"
+                x="562"
               >
                 17
               </tspan>
@@ -496,13 +496,13 @@ exports[`<HourChart /> should render correctly 1`] = `
       >
         <path
           class="recharts-curve recharts-line-curve"
-          d="M20,312.5L70.25,222.5L120.5,257.5L170.75,285L221,350L271.25,265L321.5,195L371.75,220L422,137.5L472.25,27.5L522.5,210L572.75,192.5L623,340"
+          d="M20,314.14285714285717L65.16666666666666,226.71428571428572L110.33333333333333,260.7142857142857L155.5,287.42857142857144L200.66666666666666,350.57142857142856L245.83333333333334,268L291,200L336.1666666666667,224.2857142857143L381.3333333333333,144.14285714285714L426.5,37.28571428571428L471.6666666666667,214.57142857142858L516.8333333333333,197.57142857142858L562,340.85714285714283"
           fill="none"
-          height="350"
+          height="340"
           stroke="#23B0C3"
           stroke-dasharray="0px 0px"
           stroke-width="3"
-          width="603"
+          width="542"
         />
         <g
           class="recharts-layer recharts-line-dots"
@@ -510,145 +510,145 @@ exports[`<HourChart /> should render correctly 1`] = `
           <circle
             class="recharts-dot recharts-line-dot"
             cx="20"
-            cy="312.5"
+            cy="314.14285714285717"
             fill="#fff"
-            height="350"
+            height="340"
             r="3"
             stroke="#23B0C3"
             stroke-width="5"
-            width="603"
+            width="542"
           />
           <circle
             class="recharts-dot recharts-line-dot"
-            cx="70.25"
-            cy="222.5"
+            cx="65.16666666666666"
+            cy="226.71428571428572"
             fill="#fff"
-            height="350"
+            height="340"
             r="3"
             stroke="#23B0C3"
             stroke-width="5"
-            width="603"
+            width="542"
           />
           <circle
             class="recharts-dot recharts-line-dot"
-            cx="120.5"
-            cy="257.5"
+            cx="110.33333333333333"
+            cy="260.7142857142857"
             fill="#fff"
-            height="350"
+            height="340"
             r="3"
             stroke="#23B0C3"
             stroke-width="5"
-            width="603"
+            width="542"
           />
           <circle
             class="recharts-dot recharts-line-dot"
-            cx="170.75"
-            cy="285"
+            cx="155.5"
+            cy="287.42857142857144"
             fill="#fff"
-            height="350"
+            height="340"
             r="3"
             stroke="#23B0C3"
             stroke-width="5"
-            width="603"
+            width="542"
           />
           <circle
             class="recharts-dot recharts-line-dot"
-            cx="221"
-            cy="350"
+            cx="200.66666666666666"
+            cy="350.57142857142856"
             fill="#fff"
-            height="350"
+            height="340"
             r="3"
             stroke="#23B0C3"
             stroke-width="5"
-            width="603"
+            width="542"
           />
           <circle
             class="recharts-dot recharts-line-dot"
-            cx="271.25"
-            cy="265"
+            cx="245.83333333333334"
+            cy="268"
             fill="#fff"
-            height="350"
+            height="340"
             r="3"
             stroke="#23B0C3"
             stroke-width="5"
-            width="603"
+            width="542"
           />
           <circle
             class="recharts-dot recharts-line-dot"
-            cx="321.5"
-            cy="195"
+            cx="291"
+            cy="200"
             fill="#fff"
-            height="350"
+            height="340"
             r="3"
             stroke="#23B0C3"
             stroke-width="5"
-            width="603"
+            width="542"
           />
           <circle
             class="recharts-dot recharts-line-dot"
-            cx="371.75"
-            cy="220"
+            cx="336.1666666666667"
+            cy="224.2857142857143"
             fill="#fff"
-            height="350"
+            height="340"
             r="3"
             stroke="#23B0C3"
             stroke-width="5"
-            width="603"
+            width="542"
           />
           <circle
             class="recharts-dot recharts-line-dot"
-            cx="422"
-            cy="137.5"
+            cx="381.3333333333333"
+            cy="144.14285714285714"
             fill="#fff"
-            height="350"
+            height="340"
             r="3"
             stroke="#23B0C3"
             stroke-width="5"
-            width="603"
+            width="542"
           />
           <circle
             class="recharts-dot recharts-line-dot"
-            cx="472.25"
-            cy="27.5"
+            cx="426.5"
+            cy="37.28571428571428"
             fill="#fff"
-            height="350"
+            height="340"
             r="3"
             stroke="#23B0C3"
             stroke-width="5"
-            width="603"
+            width="542"
           />
           <circle
             class="recharts-dot recharts-line-dot"
-            cx="522.5"
-            cy="210"
+            cx="471.6666666666667"
+            cy="214.57142857142858"
             fill="#fff"
-            height="350"
+            height="340"
             r="3"
             stroke="#23B0C3"
             stroke-width="5"
-            width="603"
+            width="542"
           />
           <circle
             class="recharts-dot recharts-line-dot"
-            cx="572.75"
-            cy="192.5"
+            cx="516.8333333333333"
+            cy="197.57142857142858"
             fill="#fff"
-            height="350"
+            height="340"
             r="3"
             stroke="#23B0C3"
             stroke-width="5"
-            width="603"
+            width="542"
           />
           <circle
             class="recharts-dot recharts-line-dot"
-            cx="623"
-            cy="340"
+            cx="562"
+            cy="340.85714285714283"
             fill="#fff"
-            height="350"
+            height="340"
             r="3"
             stroke="#23B0C3"
             stroke-width="5"
-            width="603"
+            width="542"
           />
         </g>
         <g
@@ -658,7 +658,7 @@ exports[`<HourChart /> should render correctly 1`] = `
             class="recharts-text recharts-label"
             text-anchor="middle"
             x="20"
-            y="300.5"
+            y="302.14285714285717"
           >
             <tspan
               dy="0em"
@@ -670,12 +670,12 @@ exports[`<HourChart /> should render correctly 1`] = `
           <text
             class="recharts-text recharts-label"
             text-anchor="middle"
-            x="70.25"
-            y="210.5"
+            x="65.16666666666666"
+            y="214.71428571428572"
           >
             <tspan
               dy="0em"
-              x="70.25"
+              x="65.16666666666666"
             >
               59
             </tspan>
@@ -683,12 +683,12 @@ exports[`<HourChart /> should render correctly 1`] = `
           <text
             class="recharts-text recharts-label"
             text-anchor="middle"
-            x="120.5"
-            y="245.5"
+            x="110.33333333333333"
+            y="248.71428571428572"
           >
             <tspan
               dy="0em"
-              x="120.5"
+              x="110.33333333333333"
             >
               45
             </tspan>
@@ -696,12 +696,12 @@ exports[`<HourChart /> should render correctly 1`] = `
           <text
             class="recharts-text recharts-label"
             text-anchor="middle"
-            x="170.75"
-            y="273"
+            x="155.5"
+            y="275.42857142857144"
           >
             <tspan
               dy="0em"
-              x="170.75"
+              x="155.5"
             >
               34
             </tspan>
@@ -709,12 +709,12 @@ exports[`<HourChart /> should render correctly 1`] = `
           <text
             class="recharts-text recharts-label"
             text-anchor="middle"
-            x="221"
-            y="338"
+            x="200.66666666666666"
+            y="338.57142857142856"
           >
             <tspan
               dy="0em"
-              x="221"
+              x="200.66666666666666"
             >
               8
             </tspan>
@@ -722,12 +722,12 @@ exports[`<HourChart /> should render correctly 1`] = `
           <text
             class="recharts-text recharts-label"
             text-anchor="middle"
-            x="271.25"
-            y="253"
+            x="245.83333333333334"
+            y="256"
           >
             <tspan
               dy="0em"
-              x="271.25"
+              x="245.83333333333334"
             >
               42
             </tspan>
@@ -735,12 +735,12 @@ exports[`<HourChart /> should render correctly 1`] = `
           <text
             class="recharts-text recharts-label"
             text-anchor="middle"
-            x="321.5"
-            y="183"
+            x="291"
+            y="188"
           >
             <tspan
               dy="0em"
-              x="321.5"
+              x="291"
             >
               70
             </tspan>
@@ -748,12 +748,12 @@ exports[`<HourChart /> should render correctly 1`] = `
           <text
             class="recharts-text recharts-label"
             text-anchor="middle"
-            x="371.75"
-            y="208"
+            x="336.1666666666667"
+            y="212.2857142857143"
           >
             <tspan
               dy="0em"
-              x="371.75"
+              x="336.1666666666667"
             >
               60
             </tspan>
@@ -761,12 +761,12 @@ exports[`<HourChart /> should render correctly 1`] = `
           <text
             class="recharts-text recharts-label"
             text-anchor="middle"
-            x="422"
-            y="125.5"
+            x="381.3333333333333"
+            y="132.14285714285714"
           >
             <tspan
               dy="0em"
-              x="422"
+              x="381.3333333333333"
             >
               93
             </tspan>
@@ -774,12 +774,12 @@ exports[`<HourChart /> should render correctly 1`] = `
           <text
             class="recharts-text recharts-label"
             text-anchor="middle"
-            x="472.25"
-            y="15.5"
+            x="426.5"
+            y="25.285714285714278"
           >
             <tspan
               dy="0em"
-              x="472.25"
+              x="426.5"
             >
               137
             </tspan>
@@ -787,12 +787,12 @@ exports[`<HourChart /> should render correctly 1`] = `
           <text
             class="recharts-text recharts-label"
             text-anchor="middle"
-            x="522.5"
-            y="198"
+            x="471.6666666666667"
+            y="202.57142857142858"
           >
             <tspan
               dy="0em"
-              x="522.5"
+              x="471.6666666666667"
             >
               64
             </tspan>
@@ -800,12 +800,12 @@ exports[`<HourChart /> should render correctly 1`] = `
           <text
             class="recharts-text recharts-label"
             text-anchor="middle"
-            x="572.75"
-            y="180.5"
+            x="516.8333333333333"
+            y="185.57142857142858"
           >
             <tspan
               dy="0em"
-              x="572.75"
+              x="516.8333333333333"
             >
               71
             </tspan>
@@ -813,12 +813,12 @@ exports[`<HourChart /> should render correctly 1`] = `
           <text
             class="recharts-text recharts-label"
             text-anchor="middle"
-            x="623"
-            y="328"
+            x="562"
+            y="328.85714285714283"
           >
             <tspan
               dy="0em"
-              x="623"
+              x="562"
             >
               12
             </tspan>

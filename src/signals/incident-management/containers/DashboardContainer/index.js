@@ -23,7 +23,7 @@ import HourChart from './components/HourChart';
 
 import { requestDashboard } from './actions';
 
-const defaultIntervalTime = 0;
+export const defaultIntervalTime = 0;
 const values = [{
   key: defaultIntervalTime,
   value: 'niet verversen'
@@ -58,6 +58,8 @@ export class DashboardContainer extends React.PureComponent {
       firstTime: props.firstTime,
       dashboardForm: props.dashboardForm
     };
+
+    this.handleIntervalChange = this.handleIntervalChange.bind(this);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -66,7 +68,7 @@ export class DashboardContainer extends React.PureComponent {
       response = {
         ...response,
         firstTime: props.incidentDashboardContainer.firstTime,
-        intervalInstance: DashboardContainer.setInterval(state.intervalTime, props)
+        intervalInstance: DashboardContainer.setInterval(state.intervalTime, props && props.onRequestDashboard)
       };
     }
 
@@ -82,23 +84,23 @@ export class DashboardContainer extends React.PureComponent {
 
   componentDidMount() {
     this.props.onRequestDashboard();
-
-    this.state.dashboardForm.get('intervalTime').valueChanges.subscribe((value) => {
-      DashboardContainer.clearInterval(this.state.intervalInstance);
-
-      this.setState({
-        intervalTime: value,
-        intervalInstance: DashboardContainer.setInterval(value, this.props)
-      });
-    });
+    this.state.dashboardForm.get('intervalTime').valueChanges.subscribe(this.handleIntervalChange);
   }
 
   componentWillUnmount() {
     DashboardContainer.clearInterval(this.state.intervalInstance);
   }
 
-  static setInterval(intervalTime, props) {
-    return intervalTime > 0 ? global.window.setInterval(() => props.onRequestDashboard(), intervalTime) : {};
+  static setInterval(intervalTime, onRequestDashboard) {
+    return intervalTime > 0 ? global.window.setInterval(onRequestDashboard, intervalTime) : {};
+  }
+
+  handleIntervalChange(value) {
+    DashboardContainer.clearInterval(this.state.intervalInstance);
+    this.setState({
+      intervalTime: value,
+      intervalInstance: DashboardContainer.setInterval(value, this.props && this.props.onRequestDashboard)
+    });
   }
 
   render() {

@@ -48,7 +48,7 @@ exports[`<StatusChart /> should render correctly 1`] = `
             A 35,35,0,
             1,0,
             200,195 Z"
-              fill="#23B0C3"
+              fill="red"
               stroke="#fff"
             />
           </g>
@@ -66,7 +66,6 @@ exports[`<StatusChart /> should render correctly 1`] = `
             A 35,35,0,
             0,0,
             185.09772479522246,261.6689468363107 Z"
-              fill="#E8663F"
               stroke="#fff"
             />
           </g>
@@ -84,7 +83,7 @@ exports[`<StatusChart /> should render correctly 1`] = `
             A 35,35,0,
             0,0,
             173.0320365028474,252.30983964120415 Z"
-              fill="#FE952F"
+              fill="blue"
               stroke="#fff"
             />
           </g>
@@ -102,7 +101,7 @@ exports[`<StatusChart /> should render correctly 1`] = `
             A 35,35,0,
             0,0,
             170.44852260742945,211.24606217573515 Z"
-              fill="#96C14F"
+              fill="darkgrey"
               stroke="#fff"
             />
           </g>
@@ -120,7 +119,7 @@ exports[`<StatusChart /> should render correctly 1`] = `
             A 35,35,0,
             0,0,
             173.03203650284738,207.69016035879588 Z"
-              fill="#9B4474"
+              fill="lightgreen"
               stroke="#fff"
             />
           </g>
@@ -138,7 +137,7 @@ exports[`<StatusChart /> should render correctly 1`] = `
             A 35,35,0,
             0,0,
             197.802331816474,195.0690645050105 Z"
-              fill="#E8663F"
+              fill="grey"
               stroke="#fff"
             />
           </g>
@@ -256,7 +255,7 @@ exports[`<StatusChart /> should render correctly 1`] = `
             <path
               class="recharts-symbols"
               d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
-              fill="#23B0C3"
+              fill="red"
               transform="translate(16, 16)"
             />
           </svg>
@@ -281,7 +280,6 @@ exports[`<StatusChart /> should render correctly 1`] = `
             <path
               class="recharts-symbols"
               d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
-              fill="#E8663F"
               transform="translate(16, 16)"
             />
           </svg>
@@ -306,7 +304,7 @@ exports[`<StatusChart /> should render correctly 1`] = `
             <path
               class="recharts-symbols"
               d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
-              fill="#FE952F"
+              fill="blue"
               transform="translate(16, 16)"
             />
           </svg>
@@ -331,7 +329,7 @@ exports[`<StatusChart /> should render correctly 1`] = `
             <path
               class="recharts-symbols"
               d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
-              fill="#96C14F"
+              fill="darkgrey"
               transform="translate(16, 16)"
             />
           </svg>
@@ -356,7 +354,7 @@ exports[`<StatusChart /> should render correctly 1`] = `
             <path
               class="recharts-symbols"
               d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
-              fill="#9B4474"
+              fill="lightgreen"
               transform="translate(16, 16)"
             />
           </svg>
@@ -381,7 +379,7 @@ exports[`<StatusChart /> should render correctly 1`] = `
             <path
               class="recharts-symbols"
               d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
-              fill="#E8663F"
+              fill="grey"
               transform="translate(16, 16)"
             />
           </svg>

@@ -26,6 +26,7 @@ function dashboardReducer(state = initialState, action) {
 
     case REQUEST_DASHBOARD_ERROR:
       return state
+        .set('loading', false)
         .set('error', true);
 
     default:
