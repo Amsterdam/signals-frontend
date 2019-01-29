@@ -29,10 +29,6 @@ const values = [{
   value: 'niet verversen'
 },
 {
-  key: 2000,
-  value: 'DEBUG ververs elke 2 seconden'
-},
-{
   key: 30000,
   value: 'ververs elke 3 minuten'
 },

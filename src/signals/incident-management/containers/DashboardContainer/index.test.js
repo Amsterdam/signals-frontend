@@ -83,7 +83,10 @@ describe('<DashboardContainer />', () => {
       expect(wrapper).toMatchSnapshot();
 
       wrapper.setProps({
-        dashboard: originalDashboard
+        incidentDashboardContainer: {
+          dashboard: originalDashboard,
+          loading: false
+        }
       });
 
       expect(wrapper).toMatchSnapshot();
