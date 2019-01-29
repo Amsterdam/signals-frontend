@@ -66,18 +66,6 @@ exports[`<MainMenu /> rendering should render 2 NavLink components when authenti
             </span>
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            activeClassName="active"
-            to="/manage/dashboard"
-          >
-            <span
-              className="linklabel"
-            >
-              Dashboard [beta]
-            </span>
-          </NavLink>
-        </li>
       </ul>
     </nav>
   </div>
