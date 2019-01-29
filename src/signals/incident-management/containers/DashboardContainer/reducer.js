@@ -7,7 +7,6 @@ import {
 
 export const initialState = fromJS({
   dashboard: {},
-  firstTime: true,
   loading: false,
   error: false
 });
@@ -21,8 +20,7 @@ function dashboardReducer(state = initialState, action) {
     case REQUEST_DASHBOARD_SUCCESS:
       return state
         .set('dashboard', fromJS(action.payload))
-        .set('loading', false)
-        .set('firstTime', false);
+        .set('loading', false);
 
     case REQUEST_DASHBOARD_ERROR:
       return state

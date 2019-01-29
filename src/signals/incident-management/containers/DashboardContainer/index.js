@@ -21,7 +21,7 @@ import CategoryChart from './components/CategoryChart';
 import TodayChart from './components/TodayChart';
 import HourChart from './components/HourChart';
 
-import { requestDashboard } from './actions';
+import { requestDashboard, updateDashboard } from './actions';
 
 export const defaultIntervalTime = 0;
 const values = [{
@@ -55,8 +55,7 @@ export class DashboardContainer extends React.PureComponent {
       intervalInstance: props.intervalInstance,
       intervalTime: props.intervalTime,
       dashboard: props.dashboard,
-      firstTime: props.firstTime,
-      dashboardForm: props.dashboardForm
+      dashboardForm: FormBuilder.group({ intervalTime: defaultIntervalTime })
     };
 
     this.handleIntervalChange = this.handleIntervalChange.bind(this);
@@ -64,14 +63,6 @@ export class DashboardContainer extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     let response = {};
-    if (!isEqual(props.incidentDashboardContainer.firstTime, state.firstTime)) {
-      response = {
-        ...response,
-        firstTime: props.incidentDashboardContainer.firstTime,
-        intervalInstance: DashboardContainer.setInterval(state.intervalTime, props && props.onRequestDashboard)
-      };
-    }
-
     if (!isEqual(props.incidentDashboardContainer.dashboard, state.dashboard)) {
       response = {
         ...response,
@@ -91,23 +82,24 @@ export class DashboardContainer extends React.PureComponent {
     DashboardContainer.clearInterval(this.state.intervalInstance);
   }
 
-  static setInterval(intervalTime, onRequestDashboard) {
-    return intervalTime > 0 ? global.window.setInterval(onRequestDashboard, intervalTime) : {};
+  static setInterval(intervalTime, callback) {
+    return intervalTime > 0 ? global.window.setInterval(callback, intervalTime) : {};
   }
 
   handleIntervalChange(value) {
     DashboardContainer.clearInterval(this.state.intervalInstance);
     this.setState({
       intervalTime: value,
-      intervalInstance: DashboardContainer.setInterval(value, this.props && this.props.onRequestDashboard)
+      intervalInstance: DashboardContainer.setInterval(value, this.props && this.props.onUpdateDashboard)
     });
   }
 
   render() {
-    const { dashboard, firstTime } = this.state;
+    const { loading } = this.props.incidentDashboardContainer;
+    const { dashboard } = this.state;
     return (
       <div className="dashboard">
-        {firstTime ? <LoadingIndicator /> :
+        {loading ? <LoadingIndicator /> :
         (
           <div>
             <FieldControlWrapper
@@ -133,18 +125,18 @@ DashboardContainer.defaultProps = {
   intervalInstance: {},
   intervalTime: defaultIntervalTime,
   dashboard: {},
-  firstTime: true,
-  dashboardForm: FormBuilder.group({ intervalTime: defaultIntervalTime })
+  loading: true,
+  dashboardForm: {}
 };
 
 DashboardContainer.propTypes = {
   intervalInstance: PropTypes.object,
   intervalTime: PropTypes.number,
   dashboard: PropTypes.object,
-  firstTime: PropTypes.bool,
-  dashboardForm: PropTypes.object,
-
-  onRequestDashboard: PropTypes.func.isRequired
+  incidentDashboardContainer: PropTypes.object,
+  loading: PropTypes.bool,
+  onRequestDashboard: PropTypes.func.isRequired,
+  onUpdateDashboard: PropTypes.func.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -152,7 +144,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  onRequestDashboard: requestDashboard
+  onRequestDashboard: requestDashboard,
+  onUpdateDashboard: updateDashboard
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

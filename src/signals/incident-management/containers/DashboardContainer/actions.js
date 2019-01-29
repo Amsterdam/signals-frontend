@@ -1,7 +1,8 @@
 import {
   REQUEST_DASHBOARD,
   REQUEST_DASHBOARD_SUCCESS,
-  REQUEST_DASHBOARD_ERROR
+  REQUEST_DASHBOARD_ERROR,
+  UPDATE_DASHBOARD
 } from './constants';
 
 export function requestDashboard() {
@@ -21,5 +22,11 @@ export function requestDashboardError(error) {
   return {
     type: REQUEST_DASHBOARD_ERROR,
     payload: error
+  };
+}
+
+export function updateDashboard() {
+  return {
+    type: UPDATE_DASHBOARD
   };
 }

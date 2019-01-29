@@ -1,10 +1,11 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { all, put, takeLatest } from 'redux-saga/effects';
 import { pullAllBy } from 'lodash';
 import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import {
-  REQUEST_DASHBOARD
+  REQUEST_DASHBOARD,
+  UPDATE_DASHBOARD
 } from './constants';
 import {
   requestDashboardSuccess,
@@ -22,7 +23,7 @@ export function* fetchDashboard() {
       timestamp: new Date(item.interval_start).getTime()
     }));
 
-    // for the time remove these items
+    // TEMP: remove these items
     pullAllBy(dashboard.status, [
       { name: 'Melding is afgehandeld in extern systeem' },
       { name: 'Te verzenden naar extern systeem' },
@@ -37,5 +38,8 @@ export function* fetchDashboard() {
 }
 
 export default function* watchDashboardSaga() {
-  yield takeLatest(REQUEST_DASHBOARD, fetchDashboard);
+  yield all([
+    takeLatest(REQUEST_DASHBOARD, fetchDashboard),
+    takeLatest(UPDATE_DASHBOARD, fetchDashboard)
+  ]);
 }
