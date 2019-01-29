@@ -17,7 +17,7 @@ describe('<StatusChart />', () => {
         { name: 'In behandeling', count: 20, color: '#FE952F' },
         { name: 'Geannuleerd', count: 2, color: '#96C14F' },
         { name: 'Afgehandeld', count: 13, color: '#9B4474' },
-        { name: 'On hold', count: 1, color: '#E8663F' }
+        { name: 'On hold', count: 0, color: '#E8663F' }
       ]
     };
 
@@ -32,6 +32,6 @@ describe('<StatusChart />', () => {
 
   it('should render correctly', () => {
     expect(wrapper).toMatchSnapshot();
-    expect(wrapper.find('.status-label').length).toEqual(6);
+    expect(wrapper.find('.status-label').length).toEqual(5);
   });
 });

@@ -43,8 +43,8 @@ exports[`<StatusChart /> should render correctly 1`] = `
               d="M 200,60
     A 170,170,0,
     1,1,
-    127.6175204339377,383.82059891922336
-  L 185.09772479522246,261.6689468363107
+    122.10149130634024,381.10202627133697
+  L 183.96207173954065,261.1092407029223
             A 35,35,0,
             1,0,
             200,195 Z"
@@ -58,14 +58,14 @@ exports[`<StatusChart /> should render correctly 1`] = `
             <path
               class="recharts-sector"
               color="#E8663F"
-              d="M 127.6175204339377,383.82059891922336
+              d="M 122.10149130634024,381.10202627133697
     A 170,170,0,
     0,1,
-    69.0127487281159,338.36207825727735
-  L 173.0320365028474,252.30983964120415
+    64.7204871097585,332.9536468134033
+  L 172.14833558142087,251.19633904981833
             A 35,35,0,
             0,0,
-            185.09772479522246,261.6689468363107 Z"
+            183.96207173954065,261.1092407029223 Z"
               stroke="#fff"
             />
           </g>
@@ -75,14 +75,14 @@ exports[`<StatusChart /> should render correctly 1`] = `
             <path
               class="recharts-sector"
               color="#FE952F"
-              d="M 69.0127487281159,338.36207825727735
+              d="M 64.7204871097585,332.9536468134033
     A 170,170,0,
     0,1,
-    56.46425266465738,138.90944485357068
-  L 170.44852260742945,211.24606217573515
+    61.52208815144297,131.39032537289626
+  L 171.48984167823826,209.69800816500805
             A 35,35,0,
             0,0,
-            173.0320365028474,252.30983964120415 Z"
+            172.14833558142087,251.19633904981833 Z"
               fill="blue"
               stroke="#fff"
             />
@@ -93,14 +93,14 @@ exports[`<StatusChart /> should render correctly 1`] = `
             <path
               class="recharts-sector"
               color="#96C14F"
-              d="M 56.46425266465738,138.90944485357068
+              d="M 61.52208815144297,131.39032537289626
     A 170,170,0,
     0,1,
-    69.01274872811578,121.63792174272282
-  L 173.03203650284738,207.69016035879588
+    75.11940952821938,114.65340003528749
+  L 174.28929019698634,206.25217059550036
             A 35,35,0,
             0,0,
-            170.44852260742945,211.24606217573515 Z"
+            171.48984167823826,209.69800816500805 Z"
               fill="darkgrey"
               stroke="#fff"
             />
@@ -111,36 +111,21 @@ exports[`<StatusChart /> should render correctly 1`] = `
             <path
               class="recharts-sector"
               color="#9B4474"
-              d="M 69.01274872811578,121.63792174272282
-    A 170,170,0,
-    0,1,
-    189.3256116800166,60.335456167193826
-  L 197.802331816474,195.0690645050105
-            A 35,35,0,
-            0,0,
-            173.03203650284738,207.69016035879588 Z"
-              fill="lightgreen"
-              stroke="#fff"
-            />
-          </g>
-          <g
-            class="recharts-layer recharts-pie-sector"
-          >
-            <path
-              class="recharts-sector"
-              color="#E8663F"
-              d="M 189.3256116800166,60.335456167193826
+              d="M 75.11940952821938,114.65340003528749
     A 170,170,0,
     0,1,
     199.99999999999997,60
   L 200,195
             A 35,35,0,
             0,0,
-            197.802331816474,195.0690645050105 Z"
-              fill="grey"
+            174.28929019698634,206.25217059550036 Z"
+              fill="lightgreen"
               stroke="#fff"
             />
           </g>
+          <g
+            class="recharts-layer recharts-pie-sector"
+          />
         </g>
         <g
           class="recharts-layer recharts-pie-labels"
@@ -153,10 +138,10 @@ exports[`<StatusChart /> should render correctly 1`] = `
               dominant-baseline="central"
               fill="white"
               text-anchor="middle"
-              x="300.03146809872163"
-              y="252.3596822431456"
+              x="299.610685753163"
+              y="254.1652908897163"
             >
-              57%
+              58%
             </text>
           </g>
           <g
@@ -167,8 +152,8 @@ exports[`<StatusChart /> should render correctly 1`] = `
               dominant-baseline="central"
               fill="white"
               text-anchor="middle"
-              x="137.17702700056992"
-              y="310.9908887685083"
+              x="134.11427000712973"
+              y="308.5195554196953"
             >
               7%
             </text>
@@ -181,8 +166,8 @@ exports[`<StatusChart /> should render correctly 1`] = `
               dominant-baseline="central"
               fill="white"
               text-anchor="middle"
-              x="97.70226033610217"
-              y="236.4360282517547"
+              x="97.51290191342781"
+              y="231.62626129306778"
             >
               20%
             </text>
@@ -195,8 +180,8 @@ exports[`<StatusChart /> should render correctly 1`] = `
               dominant-baseline="central"
               fill="white"
               text-anchor="middle"
-              x="117.07575807656785"
-              y="169.75201164002155"
+              x="120.44498741009495"
+              y="165.36835162383642"
             >
               2%
             </text>
@@ -209,8 +194,8 @@ exports[`<StatusChart /> should render correctly 1`] = `
               dominant-baseline="central"
               fill="white"
               text-anchor="middle"
-              x="153.46597377669644"
-              y="138.6718312706923"
+              x="158.90462012082213"
+              y="136.09888311321285"
             >
               13%
             </text>
@@ -219,14 +204,19 @@ exports[`<StatusChart /> should render correctly 1`] = `
             class="recharts-layer"
           >
             <text
-              class="status-label"
-              dominant-baseline="central"
-              fill="white"
-              text-anchor="middle"
-              x="196.78039719449185"
-              y="127.55057756251252"
+              alignment-baseline="middle"
+              class="recharts-text recharts-pie-label-text"
+              color="#E8663F"
+              fill="grey"
+              stroke="none"
+              text-anchor="end"
+              x="199.99999999999997"
+              y="40"
             >
-              1%
+              <tspan
+                dy="0em"
+                x="199.99999999999997"
+              />
             </text>
           </g>
         </g>

@@ -19,6 +19,8 @@ describe('<DashboardContainer />', () => {
   beforeEach(() => {
     props = {
       incidentDashboardContainer: {
+        loading: false,
+        error: false,
         dashboard: {
           status: [
             { name: 'Gemeld', count: 57, color: '#23B0C3' },
@@ -65,10 +67,6 @@ describe('<DashboardContainer />', () => {
       onRequestDashboard: jest.fn(),
       onUpdateDashboard: jest.fn()
     };
-
-    wrapper = shallow(
-      <DashboardContainer {...props} />
-    );
   });
 
   afterEach(() => {
@@ -76,17 +74,32 @@ describe('<DashboardContainer />', () => {
   });
 
   describe('rendering', () => {
-    it('should render correctly', () => {
+    it('should lazy load correctly', () => {
+      const originalDashboard = { ...props.incidentDashboardContainer.dashboard };
+      props.incidentDashboardContainer.dashboard = {};
+      props.incidentDashboardContainer.loading = true;
+      wrapper = shallow(<DashboardContainer {...props} />);
+
+      expect(wrapper).toMatchSnapshot();
+
+      wrapper.setProps({
+        dashboard: originalDashboard
+      });
+
       expect(wrapper).toMatchSnapshot();
     });
   });
 
   describe('mounting', () => {
     it('should mount correctly', () => {
+      wrapper = shallow(<DashboardContainer {...props} />);
+
       expect(props.onRequestDashboard).toHaveBeenCalledTimes(1);
     });
 
     it('should unmount correctly', () => {
+      wrapper = shallow(<DashboardContainer {...props} />);
+
       originalClearInterval = global.window.clearInterval;
       global.window.clearInterval = jest.fn();
 
@@ -102,11 +115,15 @@ describe('<DashboardContainer />', () => {
 
   describe('refresh events', () => {
     it('should set interval time to 0 seconds by default', () => {
+      wrapper = shallow(<DashboardContainer {...props} />);
+
       expect(wrapper.state('intervalTime')).toEqual(defaultIntervalTime);
       expect(wrapper.state('dashboardForm').value.intervalTime).toEqual(defaultIntervalTime);
     });
 
     it('can set interval time to 3 seconds', () => {
+      wrapper = shallow(<DashboardContainer {...props} />);
+
       jest.useFakeTimers();
 
       const dashboardForm = wrapper.state('dashboardForm');
@@ -122,6 +139,10 @@ describe('<DashboardContainer />', () => {
 
       jest.runTimersToTime(1);
       expect(props.onUpdateDashboard).toHaveBeenCalled();
+    });
+
+    it('setInterval should return empty object when intervalTime is 0', () => {
+      expect(DashboardContainer.setInterval(jest.fn(), 0)).toEqual({});
     });
   });
 

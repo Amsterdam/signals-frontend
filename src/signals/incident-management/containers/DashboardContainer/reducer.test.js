@@ -5,7 +5,8 @@ import dashboardReducer, { initialState } from './reducer';
 import {
   REQUEST_DASHBOARD,
   REQUEST_DASHBOARD_SUCCESS,
-  REQUEST_DASHBOARD_ERROR
+  REQUEST_DASHBOARD_ERROR,
+  UPDATE_DASHBOARD
 }
   from './constants';
 
@@ -41,7 +42,6 @@ describe('dashboardReducer', () => {
         }).toJS()
       ).toEqual({
         loading: false,
-        firstTime: false,
         dashboard: payload
       });
     });
@@ -57,6 +57,16 @@ describe('dashboardReducer', () => {
         loading: false,
         error: true
       });
+    });
+  });
+
+  describe('UPDATE_DASHBOARD', () => {
+    it('sets loading and error', () => {
+      expect(
+        dashboardReducer(fromJS({}), {
+          type: UPDATE_DASHBOARD
+        }).toJS()
+      ).toEqual({});
     });
   });
 });
