@@ -326,6 +326,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                   },
                   "render": [Function],
                 },
+<<<<<<< HEAD
                 "datetime": Object {
                   "meta": Object {
                     "className": "col-sm-12 col-md-6",
@@ -334,6 +335,54 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                       "Eerder": "Eerder",
                       "Nu": "Nu",
                     },
+=======
+                "options": Object {
+                  "validators": Array [
+                    [Function],
+                  ],
+                },
+                "render": [Function],
+              },
+              "description": Object {
+                "meta": Object {
+                  "doNotUpdateValue": true,
+                  "label": "Waar gaat het om?",
+                  "maxLength": 1000,
+                  "path": "text",
+                  "placeholder": "Beschrijf uw melding",
+                },
+                "options": Object {
+                  "validators": Array [
+                    [Function],
+                    [Function],
+                  ],
+                },
+                "render": [Function],
+              },
+              "image": Object {
+                "meta": Object {
+                  "allowedFileTypes": Array [
+                    "image/jpeg",
+                    "image/png",
+                    "image/gif",
+                  ],
+                  "label": "Wilt u een foto meesturen?",
+                  "maxFileSize": 8388608,
+                  "submitLabel": "Foto kiezen",
+                },
+                "render": [Function],
+              },
+              "image_type": Object {
+                "meta": Object {
+                  "label": "image_type",
+                },
+                "render": [Function],
+              },
+              "incident_date": Object {
+                "meta": Object {
+                  "ifAllOf": Object {
+                    "datetime": "Eerder",
+>>>>>>> 6ca44fb80bbd3e3bb61580ac9261a7f6a221b43e
                   },
                   "options": Object {
                     "validators": Array [
