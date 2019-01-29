@@ -14,7 +14,6 @@ jest.mock('./components/HourChart', () => () => 'HourChart');
 describe('<DashboardContainer />', () => {
   let wrapper;
   let props;
-  let originalSetInterval;
   let originalClearInterval;
 
   beforeEach(() => {
@@ -64,6 +63,7 @@ describe('<DashboardContainer />', () => {
         }
       },
       onRequestDashboard: jest.fn(),
+      onUpdateDashboard: jest.fn()
     };
 
     wrapper = shallow(
@@ -78,31 +78,6 @@ describe('<DashboardContainer />', () => {
   describe('rendering', () => {
     it('should render correctly', () => {
       expect(wrapper).toMatchSnapshot();
-    });
-  });
-
-  describe('refresh events', () => {
-    beforeEach(() => {
-      jest.useFakeTimers();
-    });
-
-    it('should set interval time to 0 seconds by default', () => {
-      expect(wrapper.state('intervalTime')).toEqual(defaultIntervalTime);
-      expect(wrapper.state('dashboardForm').value.intervalTime).toEqual(defaultIntervalTime);
-    });
-
-    it('can set interval time to 3 seconds', () => {
-      originalSetInterval = global.window.setInterval;
-      global.window.setInterval = jest.fn();
-
-      const dashboardForm = wrapper.state('dashboardForm');
-      dashboardForm.setValue({ intervalTime: 3000 });
-
-      expect(wrapper.state('intervalTime')).toEqual(3000);
-      expect(wrapper.state('dashboardForm').value.intervalTime).toEqual(3000);
-      expect(global.window.setInterval).toHaveBeenCalledWith(expect.anything(), 3000);
-
-      global.window.setInterval = originalSetInterval;
     });
   });
 
@@ -122,6 +97,31 @@ describe('<DashboardContainer />', () => {
       expect(global.window.clearInterval).toHaveBeenCalledWith(intervalInstance);
 
       global.window.clearInterval = originalClearInterval;
+    });
+  });
+
+  describe('refresh events', () => {
+    it('should set interval time to 0 seconds by default', () => {
+      expect(wrapper.state('intervalTime')).toEqual(defaultIntervalTime);
+      expect(wrapper.state('dashboardForm').value.intervalTime).toEqual(defaultIntervalTime);
+    });
+
+    it('can set interval time to 3 seconds', () => {
+      jest.useFakeTimers();
+
+      const dashboardForm = wrapper.state('dashboardForm');
+      dashboardForm.setValue({ intervalTime: 3000 });
+
+      expect(wrapper.state('intervalTime')).toEqual(3000);
+      expect(wrapper.state('dashboardForm').value.intervalTime).toEqual(3000);
+      expect(global.window.setInterval).toHaveBeenCalledWith(expect.anything(), 3000);
+
+      jest.runTimersToTime(2999);
+
+      expect(props.onUpdateDashboard).not.toHaveBeenCalled();
+
+      jest.runTimersToTime(1);
+      expect(props.onUpdateDashboard).toHaveBeenCalled();
     });
   });
 

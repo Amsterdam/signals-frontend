@@ -1,6 +1,9 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { all, put, takeLatest } from 'redux-saga/effects';
 
-import { REQUEST_DASHBOARD } from './constants';
+import {
+  REQUEST_DASHBOARD,
+  UPDATE_DASHBOARD
+} from './constants';
 import { requestDashboardSuccess, requestDashboardError } from './actions';
 import watchDashboardSaga, { requestURL, fetchDashboard } from './saga';
 import { authCall } from '../../../../shared/services/api/api';
@@ -14,7 +17,12 @@ describe('DashboardContainer saga', () => {
 
   it('should watchDashboardSaga', () => {
     const gen = watchDashboardSaga();
-    expect(gen.next().value).toEqual(takeLatest(REQUEST_DASHBOARD, fetchDashboard)); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(
+      all([
+        takeLatest(REQUEST_DASHBOARD, fetchDashboard),
+        takeLatest(UPDATE_DASHBOARD, fetchDashboard)
+      ])
+    );
   });
 
   it('should fetchDashboard success', () => {

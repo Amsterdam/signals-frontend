@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { FormBuilder } from 'react-reactive-form';
-import { isEqual, isEmpty } from 'lodash';
+import { isEqual } from 'lodash';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -43,9 +43,7 @@ const values = [{
 
 export class DashboardContainer extends React.PureComponent {
   static clearInterval(intervalInstance) {
-    if (intervalInstance) {
-      global.window.clearInterval(intervalInstance);
-    }
+    global.window.clearInterval(intervalInstance);
   }
 
   constructor(props) {
@@ -62,15 +60,13 @@ export class DashboardContainer extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
-    let response = {};
     if (!isEqual(props.incidentDashboardContainer.dashboard, state.dashboard)) {
-      response = {
-        ...response,
+      return {
         dashboard: props.incidentDashboardContainer.dashboard
       };
     }
 
-    return isEmpty(response) ? null : response;
+    return null;
   }
 
   componentDidMount() {
@@ -90,7 +86,7 @@ export class DashboardContainer extends React.PureComponent {
     DashboardContainer.clearInterval(this.state.intervalInstance);
     this.setState({
       intervalTime: value,
-      intervalInstance: DashboardContainer.setInterval(value, this.props && this.props.onUpdateDashboard)
+      intervalInstance: DashboardContainer.setInterval(value, this.props.onUpdateDashboard)
     });
   }
 
