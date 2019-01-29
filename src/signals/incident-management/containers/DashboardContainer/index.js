@@ -78,7 +78,7 @@ export class DashboardContainer extends React.PureComponent {
     DashboardContainer.clearInterval(this.state.intervalInstance);
   }
 
-  static setInterval(intervalTime, callback) {
+  static setInterval(callback, intervalTime) {
     return intervalTime > 0 ? global.window.setInterval(callback, intervalTime) : {};
   }
 
@@ -86,7 +86,7 @@ export class DashboardContainer extends React.PureComponent {
     DashboardContainer.clearInterval(this.state.intervalInstance);
     this.setState({
       intervalTime: value,
-      intervalInstance: DashboardContainer.setInterval(value, this.props.onUpdateDashboard)
+      intervalInstance: DashboardContainer.setInterval(this.props.onUpdateDashboard, value)
     });
   }
 
