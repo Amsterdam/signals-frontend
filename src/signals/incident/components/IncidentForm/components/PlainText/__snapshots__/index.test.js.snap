@@ -35,19 +35,18 @@ exports[`Form component <PlainText /> rendering should render multiple parargrap
         className="plain-text__box-p plain-text__box-p-4"
         key="undefined-4"
       >
-        <a
-          className="more-link"
-          href="http://gvb.nl"
-        >
-          Lorem Ipsum
-        </a>
+        <MockComponent>
+          Foo bar
+        </MockComponent>
       </div>
-      <div
-        className="plain-text__box-p plain-text__box-p-5"
-        key="undefined-5"
-      />
     </div>
   </div>
+</div>
+`;
+
+exports[`Form component <PlainText /> rendering should render multiple parargraphs of text correctly 2`] = `
+<div>
+  Foo bar
 </div>
 `;
 

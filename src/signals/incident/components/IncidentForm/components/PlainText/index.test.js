@@ -1,3 +1,4 @@
+/* eslint-disable  react/prop-types */
 import React from 'react';
 import { shallow } from 'enzyme';
 
@@ -5,6 +6,8 @@ import PlainText from './index';
 import mapDynamicFields from '../../services/map-dynamic-fields';
 
 jest.mock('../../services/map-dynamic-fields');
+
+const MockComponent = ({ children }) => <div>{children}</div>;
 
 describe('Form component <PlainText />', () => {
   const incidentContainer = {
@@ -46,16 +49,7 @@ describe('Form component <PlainText />', () => {
             'Lorem Ipsum',
             'jumps over',
             'DOG',
-            {
-              type: 'more-link',
-              label: 'link label',
-              href: 'http://gvb.nl'
-            },
-            {
-              type: 'unknown-type',
-              label: 'unknown label',
-              href: 'http://bla.nl'
-            }
+            <MockComponent>Foo bar</MockComponent>
           ],
           type: 'citation',
           isVisible: true
@@ -68,10 +62,9 @@ describe('Form component <PlainText />', () => {
       });
 
       expect(wrapper).toMatchSnapshot();
-      expect(mapDynamicFields).toHaveBeenCalledWith('Lorem Ipsum', incidentContainer);
-      expect(mapDynamicFields).toHaveBeenCalledWith('jumps over', incidentContainer);
-      expect(mapDynamicFields).toHaveBeenCalledWith('DOG', incidentContainer);
-      expect(mapDynamicFields).toHaveBeenCalledWith('link label', incidentContainer);
+
+      const wrap = wrapper.find(MockComponent).shallow();
+      expect(wrap).toMatchSnapshot();
     });
 
     it('should render no plain text when not visible', () => {
