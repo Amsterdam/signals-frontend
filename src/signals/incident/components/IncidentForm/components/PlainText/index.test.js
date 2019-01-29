@@ -7,9 +7,8 @@ import mapDynamicFields from '../../services/map-dynamic-fields';
 
 jest.mock('../../services/map-dynamic-fields');
 
-const MockComponent = ({ children }) => <div>{children}</div>;
-
 describe('Form component <PlainText />', () => {
+  const MockComponent = ({ children }) => <div>{children}</div>;
   const incidentContainer = {
     incident: {
       id: 666
