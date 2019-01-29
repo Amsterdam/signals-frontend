@@ -59,7 +59,11 @@ describe('The map controls to params service', () => {
   it('should map variables when they are present in the wizard definition', () => {
     expect(mapControlsToParams({
       description: 'bar',
-      title: 666
+      title: 42,
+      undefined_value: undefined,
+      value_0: 0,
+      value_false: false,
+      value_true: true
     }, {
       step: {
         form: {
@@ -71,7 +75,27 @@ describe('The map controls to params service', () => {
             },
             title: {
               meta: {
-                path: 'diabolo'
+                path: 'meaningOfLife'
+              }
+            },
+            value_0: {
+              meta: {
+                path: 'value_0'
+              }
+            },
+            value_false: {
+              meta: {
+                path: 'value_false'
+              }
+            },
+            value_true: {
+              meta: {
+                path: 'value_true'
+              }
+            },
+            undefined_value: {
+              meta: {
+                path: 'undefined_value'
               }
             },
             var_no_path: {}
@@ -80,14 +104,48 @@ describe('The map controls to params service', () => {
       }
     })).toMatchObject({
       text: 'bar',
-      diabolo: 666
+      meaningOfLife: 42,
+      value_0: 0,
+      value_false: 'nee',
+      value_true: 'ja',
+      undefined_value: '-'
     });
   });
 
-  it('should merge multiple variables into 1 object', () => {
+  it('should map variables when they are present in the wizard definition - via form factory', () => {
     expect(mapControlsToParams({
       description: 'bar',
-      title: 666
+      title: 42
+    }, {
+      step: {
+        formFactory: () => ({
+          controls: {
+            description: {
+              meta: {
+                path: 'text'
+              }
+            },
+            title: {
+              meta: {
+                path: 'meaningOfLife'
+              }
+            }
+          }
+        })
+      }
+    })).toMatchObject({
+      text: 'bar',
+      meaningOfLife: 42
+    });
+  });
+
+  it('should merge all visible variables into 1 object', () => {
+    expect(mapControlsToParams({
+      description: 'bar',
+      title: 42,
+      value_0: 0,
+      value_false: false,
+      value_true: true
     }, {
       step: {
         form: {
@@ -95,11 +153,31 @@ describe('The map controls to params service', () => {
             description: {
               meta: {
                 pathMerge: 'extra_properties',
+                isVisible: true
               }
             },
             title: {
               meta: {
                 pathMerge: 'extra_properties',
+                isVisible: false
+              }
+            },
+            value_0: {
+              meta: {
+                pathMerge: 'extra_properties',
+                isVisible: true
+              }
+            },
+            value_false: {
+              meta: {
+                pathMerge: 'extra_properties',
+                isVisible: true
+              }
+            },
+            value_true: {
+              meta: {
+                pathMerge: 'extra_properties',
+                isVisible: true
               }
             },
             var_no_path: {}
@@ -109,7 +187,13 @@ describe('The map controls to params service', () => {
     })).toMatchObject({
       extra_properties: {
         description: 'bar',
-        title: 666
+        value_0: 0,
+        value_false: 'nee',
+        value_true: 'ja'
+      },
+      status: {
+        state: 'm',
+        extra_properties: {}
       }
     });
   });
