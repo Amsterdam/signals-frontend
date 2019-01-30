@@ -8,9 +8,6 @@ const setValue = (value) => {
   if (value === false) {
     return 'nee';
   }
-  if (value === undefined) {
-    return '-';
-  }
   return value;
 };
 

@@ -93,11 +93,6 @@ describe('The map controls to params service', () => {
                 path: 'value_true'
               }
             },
-            undefined_value: {
-              meta: {
-                path: 'undefined_value'
-              }
-            },
             var_no_path: {}
           }
         }
@@ -107,8 +102,7 @@ describe('The map controls to params service', () => {
       meaningOfLife: 42,
       value_0: 0,
       value_false: 'nee',
-      value_true: 'ja',
-      undefined_value: '-'
+      value_true: 'ja'
     });
   });
 
