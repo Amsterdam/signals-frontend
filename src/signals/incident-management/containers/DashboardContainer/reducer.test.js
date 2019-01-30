@@ -15,8 +15,8 @@ describe('dashboardReducer', () => {
     expect(dashboardReducer(undefined, {})).toEqual(fromJS(initialState));
   });
 
-  describe('REQUEST_CATEGORY_UPDATE', () => {
-    it('sets loading and error', () => {
+  describe('REQUEST_DASHBOARD', () => {
+    it('sets loading', () => {
       expect(
         dashboardReducer(fromJS({}), {
           type: REQUEST_DASHBOARD
@@ -27,8 +27,8 @@ describe('dashboardReducer', () => {
     });
   });
 
-  describe('REQUEST_CATEGORY_UPDATE_SUCCESS', () => {
-    it('sets loading and error', () => {
+  describe('REQUEST_DASHBOARD_SUCCESS', () => {
+    it('sets loading and dashboard', () => {
       const payload = {
         status: [],
         categorie: [],
@@ -47,7 +47,7 @@ describe('dashboardReducer', () => {
     });
   });
 
-  describe('REQUEST_CATEGORY_UPDATE_SUCCESS', () => {
+  describe('REQUEST_DASHBOARD_ERROR', () => {
     it('sets loading and error', () => {
       expect(
         dashboardReducer(fromJS({}), {
@@ -61,7 +61,7 @@ describe('dashboardReducer', () => {
   });
 
   describe('UPDATE_DASHBOARD', () => {
-    it('sets loading and error', () => {
+    it('not sets loading and error', () => {
       expect(
         dashboardReducer(fromJS({}), {
           type: UPDATE_DASHBOARD

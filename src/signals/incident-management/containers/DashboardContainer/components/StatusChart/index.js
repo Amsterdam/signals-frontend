@@ -4,6 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
+import statusList from '../../../../definitions/statusList';
+
 import './style.scss';
 
 const RADIAN = Math.PI / 180;
@@ -15,22 +17,12 @@ function renderStatusLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent
   }
  	const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x  = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy  + radius * Math.sin(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
   return (
     <text className="status-label" x={x} y={y} fill="white" textAnchor="middle"	dominantBaseline="central">
     	{`${percentage}%`}
     </text>
   );
-}
-
-const colors = {
-  'Gemeld': 'red',
-  'Afgehandeld': 'lightgreen',
-  'Heropend': 'orange',
-  'In afwachting van behandeling': 'purple',
-  'In behandeling': 'blue',
-  'On hold' : 'grey',
-  'Geannuleerd' : 'darkgrey'
 }
 
 const StatusChart = ({ data, ...rest }) => (
@@ -55,7 +47,14 @@ const StatusChart = ({ data, ...rest }) => (
         labelLine={false}
         animationDuration={300}
         {...rest}
-      >{data.map((entry, index) => <Cell key={index} fill={colors[entry.name]} />)}</Pie>
+      >{data.map((entry, index) => (
+        <Cell
+          key={index}
+          fill={statusList.find((status) => status.value === entry.name).color || 'lightgrey'}
+        />
+      )
+      )}
+      </Pie>
     </PieChart>
   </div>
   );
