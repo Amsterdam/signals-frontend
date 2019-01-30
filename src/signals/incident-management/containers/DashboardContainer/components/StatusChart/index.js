@@ -4,8 +4,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
-import statusList from '../../../../definitions/statusList';
-
 import './style.scss';
 
 const RADIAN = Math.PI / 180;
@@ -25,7 +23,7 @@ function renderStatusLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent
   );
 }
 
-const StatusChart = ({ data, ...rest }) => (
+const StatusChart = ({ data, statusList, ...rest }) => (
   <div className="status-chart">
     <h3>Per status</h3>
 

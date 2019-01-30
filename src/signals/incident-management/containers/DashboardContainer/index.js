@@ -87,7 +87,7 @@ export class DashboardContainer extends React.PureComponent {
   }
 
   render() {
-    const { loading } = this.props.incidentDashboardContainer;
+    const { loading, statusList } = this.props.incidentDashboardContainer;
     const { dashboard } = this.state;
     return (
       <div className="dashboard">
@@ -103,7 +103,7 @@ export class DashboardContainer extends React.PureComponent {
             <div className="dashboard-charts">
               <TodayChart data={dashboard.total} />
               <CategoryChart data={dashboard.category} />
-              <StatusChart data={dashboard.status} />
+              <StatusChart data={dashboard.status} statusList={statusList} />
               <HourChart data={dashboard.hour} />
             </div>
           </div>

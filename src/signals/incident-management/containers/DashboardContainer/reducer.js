@@ -4,9 +4,11 @@ import {
   REQUEST_DASHBOARD_SUCCESS,
   REQUEST_DASHBOARD_ERROR
 } from './constants';
+import statusList from '../../definitions/statusList';
 
 export const initialState = fromJS({
   dashboard: {},
+  statusList,
   loading: false,
   error: false
 });
