@@ -48,7 +48,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
             <thead>
               <tr>
                 <th onClick={this.onSort('id')} className={this.sortClassName('id')} >Id</th>
-                <th>Dag</th>
+                <th onClick={this.onSort('days_open')} className={this.sortClassName('days_open')}>Dag</th>
                 <th onClick={this.onSort('created_at')} className={this.sortClassName('created_at')}>Datum en tijd</th>
                 <th onClick={this.onSort('stadsdeel,-created_at')} className={this.sortClassName('stadsdeel')}>Stadsdeel</th>
                 <th onClick={this.onSort('sub_category,-created_at')} className={this.sortClassName('sub_category')}>Subcategorie</th>

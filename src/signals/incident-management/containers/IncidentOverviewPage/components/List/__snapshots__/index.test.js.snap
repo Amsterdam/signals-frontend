@@ -26,7 +26,10 @@ exports[`<List /> should render correctly 1`] = `
           >
             Id
           </th>
-          <th>
+          <th
+            className=""
+            onClick={[Function]}
+          >
             Dag
           </th>
           <th
