@@ -22,8 +22,7 @@ export function* fetchIncidents(action) {
     // TEMP remove when server can order days_open
     if (params.ordering === 'days_open') {
       params.ordering = '-created_at';
-    }
-    if (params.ordering === '-days_open') {
+    } else if (params.ordering === '-days_open') {
       params.ordering = 'created_at';
     }
     const incidents = yield authCall(requestURL, params);
