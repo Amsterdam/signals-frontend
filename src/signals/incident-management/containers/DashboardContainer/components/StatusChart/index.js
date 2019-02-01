@@ -23,6 +23,15 @@ function renderStatusLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent
   );
 }
 
+const getColor = (name, statusList) => {
+  const item = statusList.find((status) => status.value === name);
+  if (item) {
+    return item.color;
+  }
+
+  return 'lightgrey';
+}
+
 const StatusChart = ({ data, statusList, ...rest }) => (
   <div className="status-chart">
     <h3>Per status</h3>
@@ -48,7 +57,7 @@ const StatusChart = ({ data, statusList, ...rest }) => (
       >{data.map((entry, index) => (
         <Cell
           key={index}
-          fill={statusList.find((status) => status.value === entry.name).color || 'lightgrey'}
+          fill={getColor(entry.name, statusList)}
         />
       )
       )}

@@ -66,6 +66,7 @@ exports[`<StatusChart /> should render correctly 1`] = `
             A 35,35,0,
             0,0,
             183.96207173954065,261.1092407029223 Z"
+              fill="lightgrey"
               stroke="#fff"
             />
           </g>
@@ -270,6 +271,7 @@ exports[`<StatusChart /> should render correctly 1`] = `
             <path
               class="recharts-symbols"
               d="M16,0A16,16,0,1,1,-16,0A16,16,0,1,1,16,0"
+              fill="lightgrey"
               transform="translate(16, 16)"
             />
           </svg>
