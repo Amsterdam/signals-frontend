@@ -10,6 +10,7 @@ import { makeSelectIsAuthenticated } from 'containers/App/selectors';
 
 import IncidentOverviewPage from '../../containers/IncidentOverviewPage';
 import IncidentDetailPage from '../../containers/IncidentDetailPage';
+import DashboardContainer from '../../containers/DashboardContainer';
 
 import './style.scss';
 
@@ -27,10 +28,15 @@ export class IncidentManagementModule extends React.Component { // eslint-disabl
           !isAuthenticated ? (
             <Route component={LoginPage} />
           ) : (
-            <div className="row">
-              <div className="col-12">
-                <Route exact path={`${baseUrl}/incidents`} render={IncidentOverviewPageWrapper} />
-                <Route exact path={`${baseUrl}/incident/:id`} render={IncidentDetailPageWrapper} />
+            <div>
+              <div className="container">
+                <div className="row">
+                  <div className="col-12">
+                    <Route exact path={`${baseUrl}/incidents`} render={IncidentOverviewPageWrapper} />
+                    <Route exact path={`${baseUrl}/incident/:id`} render={IncidentDetailPageWrapper} />
+                    <Route path={`${baseUrl}/dashboard`} component={DashboardContainer} />
+                  </div>
+                </div>
               </div>
             </div>
           )
