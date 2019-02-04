@@ -80,15 +80,21 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
       ) :
       (
         <div className="incident-detail-page row container">
-          <div className="col-12"><h3>Melding {this.props.id}</h3></div>
+          <div className="col-12">
+            <Link to={`${this.props.baseUrl}/incidents`} className="startagain action" >Terug naar overzicht</Link>
+          </div>
+
+          <div className="col-9"><h3>Melding {this.props.id}</h3></div>
+          <div className="col-3 d-flex">
+            <Link to={`${this.props.baseUrl}/incident/${this.props.id}/split`} className="align-self-center action-quad" >Splitsen</Link>
+            <button className="align-self-center action-quad" onClick={this.onPrintView}>Print view</button>
+          </div>
 
           <ul className="col-12 col-md-4 incident-detail-page__map">
             {incident && incident.location ? <MapDetail label="" value={incident.location} /> : ''}
           </ul>
 
           <div className="col-12 col-md-8">
-            (<Link to={`${this.props.baseUrl}/incidents`} >Terug naar overzicht</Link>)
-            <button onClick={this.onPrintView}>Print view</button>
             {incident ? (
               <IncidentDetail
                 incident={incident}

@@ -1,7 +1,28 @@
 .incident-detail-page {
-  &__map{
-    // border: 1 dotted lightgray;
-    // background-color: floralwhite;
+  .action-quad {
+    background-color: #fff;
+    color: #666;
+    border-width: 1px;
+    padding: 7px 12px;
+    border-color: #ccc;
+    border-style: solid;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 16px;
+    font-family: "Avenir Next LT W01 Demi", arial, sans-serif;
+    line-height: 16px;
+    margin: 6px 0 6px 8px;
+    text-decoration: none;
+
+    &:hover {
+      background-color: #d2d2d2;
+      border-color: #000;
+      color: #000;
+    }
+  }
+
+  .action.startagain {
+    padding-left: 0;
   }
 
   &__tab-container {
