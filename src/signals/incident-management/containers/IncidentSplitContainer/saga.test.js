@@ -1,4 +1,4 @@
-import { all, put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest } from 'redux-saga/effects';
 
 import { authCall } from 'shared/services/api/api';
 import { REQUEST_INCIDENT } from './constants';
