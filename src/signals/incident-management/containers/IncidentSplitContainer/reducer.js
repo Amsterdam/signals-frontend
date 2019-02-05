@@ -3,8 +3,13 @@ import {
   REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR
 } from './constants';
 
-const initialState = fromJS({
-  incident: {},
+import stadsdeelList from '../../definitions/stadsdeelList';
+import priorityList from '../../definitions/priorityList';
+
+export const initialState = fromJS({
+  id: null,
+  stadsdeelList,
+  priorityList,
   loading: false,
   error: false
 });

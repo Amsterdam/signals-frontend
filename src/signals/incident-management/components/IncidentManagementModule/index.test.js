@@ -9,6 +9,7 @@ import configureStore from '../../../../configureStore';
 
 jest.mock('../../containers/IncidentOverviewPage', () => () => 'IncidentOverviewPage');
 jest.mock('../../containers/IncidentDetailPage', () => () => 'IncidentDetailPage');
+jest.mock('../../containers/IncidentSplitContainer', () => () => 'IncidentSplitContainer');
 
 describe('<IncidentManagementModule />', () => {
   let props;
@@ -68,5 +69,18 @@ describe('<IncidentManagementModule />', () => {
 
       expect(wrapper).toMatchSnapshot();
     });
+  });
+
+  it('can navigate to incident split', () => {
+    const store = configureStore({}, memoryHistory);
+    const wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter keyLength={0} initialEntries={['/manage/incident/42/split']}>
+          <IncidentManagementModule {...props} />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    expect(wrapper).toMatchSnapshot();
   });
 });

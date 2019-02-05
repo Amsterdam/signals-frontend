@@ -64,10 +64,38 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
   <div
     className="col-12"
   >
+    <Link
+      className="startagain action"
+      replace={false}
+      to="undefined/incidents"
+    >
+      Terug naar overzicht
+    </Link>
+  </div>
+  <div
+    className="col-9"
+  >
     <h3>
       Melding 
       100
     </h3>
+  </div>
+  <div
+    className="col-3 d-flex"
+  >
+    <Link
+      className="align-self-center action-quad"
+      replace={false}
+      to="undefined/incident/100/split"
+    >
+      Splitsen
+    </Link>
+    <button
+      className="align-self-center action-quad"
+      onClick={[Function]}
+    >
+      Print view
+    </button>
   </div>
   <ul
     className="col-12 col-md-4 incident-detail-page__map"
@@ -75,19 +103,6 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
   <div
     className="col-12 col-md-8"
   >
-    (
-    <Link
-      replace={false}
-      to="undefined/incidents"
-    >
-      Terug naar overzicht
-    </Link>
-    )
-    <button
-      onClick={[Function]}
-    >
-      Print view
-    </button>
     <Component
       incident={Object {}}
       priorityList={
@@ -205,10 +220,38 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
   <div
     className="col-12"
   >
+    <Link
+      className="startagain action"
+      replace={false}
+      to="undefined/incidents"
+    >
+      Terug naar overzicht
+    </Link>
+  </div>
+  <div
+    className="col-9"
+  >
     <h3>
       Melding 
       100
     </h3>
+  </div>
+  <div
+    className="col-3 d-flex"
+  >
+    <Link
+      className="align-self-center action-quad"
+      replace={false}
+      to="undefined/incident/100/split"
+    >
+      Splitsen
+    </Link>
+    <button
+      className="align-self-center action-quad"
+      onClick={[Function]}
+    >
+      Print view
+    </button>
   </div>
   <ul
     className="col-12 col-md-4 incident-detail-page__map"
@@ -216,19 +259,6 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
   <div
     className="col-12 col-md-8"
   >
-    (
-    <Link
-      replace={false}
-      to="undefined/incidents"
-    >
-      Terug naar overzicht
-    </Link>
-    )
-    <button
-      onClick={[Function]}
-    >
-      Print view
-    </button>
     <Component
       incident={
         Object {
@@ -357,10 +387,38 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
   <div
     className="col-12"
   >
+    <Link
+      className="startagain action"
+      replace={false}
+      to="undefined/incidents"
+    >
+      Terug naar overzicht
+    </Link>
+  </div>
+  <div
+    className="col-9"
+  >
     <h3>
       Melding 
       100
     </h3>
+  </div>
+  <div
+    className="col-3 d-flex"
+  >
+    <Link
+      className="align-self-center action-quad"
+      replace={false}
+      to="undefined/incident/100/split"
+    >
+      Splitsen
+    </Link>
+    <button
+      className="align-self-center action-quad"
+      onClick={[Function]}
+    >
+      Print view
+    </button>
   </div>
   <ul
     className="col-12 col-md-4 incident-detail-page__map"
@@ -373,19 +431,6 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
   <div
     className="col-12 col-md-8"
   >
-    (
-    <Link
-      replace={false}
-      to="undefined/incidents"
-    >
-      Terug naar overzicht
-    </Link>
-    )
-    <button
-      onClick={[Function]}
-    >
-      Print view
-    </button>
     <Component
       incident={
         Object {
@@ -507,31 +552,45 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
   <div
     className="col-12"
   >
+    <Link
+      className="startagain action"
+      replace={false}
+      to="undefined/incidents"
+    >
+      Terug naar overzicht
+    </Link>
+  </div>
+  <div
+    className="col-9"
+  >
     <h3>
       Melding 
       100
     </h3>
+  </div>
+  <div
+    className="col-3 d-flex"
+  >
+    <Link
+      className="align-self-center action-quad"
+      replace={false}
+      to="undefined/incident/100/split"
+    >
+      Splitsen
+    </Link>
+    <button
+      className="align-self-center action-quad"
+      onClick={[Function]}
+    >
+      Print view
+    </button>
   </div>
   <ul
     className="col-12 col-md-4 incident-detail-page__map"
   />
   <div
     className="col-12 col-md-8"
-  >
-    (
-    <Link
-      replace={false}
-      to="undefined/incidents"
-    >
-      Terug naar overzicht
-    </Link>
-    )
-    <button
-      onClick={[Function]}
-    >
-      Print view
-    </button>
-  </div>
+  />
   <div
     className="col-12"
   >
