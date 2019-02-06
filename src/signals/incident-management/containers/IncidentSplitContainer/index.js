@@ -10,6 +10,8 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { requestIncident } from 'models/incident/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 
+import { splitIncident } from './actions';
+
 import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
@@ -17,8 +19,18 @@ import './style.scss';
 import SplitDetail from './components/SplitDetail';
 
 export class IncidentSplitContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
   componentDidMount() {
     this.props.onRequestIncident(this.props.id);
+  }
+
+  handleClick() {
+    this.props.onSplitIncident(this.props.id);
   }
 
   render() {
@@ -30,6 +42,7 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
           <div className="row">
             <div className="col-8">
               IncidentSplitContainer
+              <button onClick={this.handleClick}>yoooo</button>
             </div>
             <div className="col-4">
               <SplitDetail incident={incident} stadsdeelList={stadsdeelList} />
@@ -45,6 +58,7 @@ IncidentSplitContainer.propTypes = {
   id: PropTypes.string.isRequired,
   incidentModel: PropTypes.object,
   onRequestIncident: PropTypes.func.isRequired,
+  onSplitIncident: PropTypes.func.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -52,7 +66,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  onRequestIncident: requestIncident
+  onRequestIncident: requestIncident,
+  onSplitIncident: splitIncident
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

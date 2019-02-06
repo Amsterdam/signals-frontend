@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 import {
-  // REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR
+  SPLIT_INCIDENT
 } from './constants';
 
 export const initialState = fromJS({
@@ -11,12 +11,11 @@ export const initialState = fromJS({
 
 function incidentSplitContainerReducer(state = initialState, action) {
   switch (action.type) {
-    // case REQUEST_INCIDENT:
-    //   return state
-    //     .set('loading', true)
-    //     .set('error', false)
-    //     .set('id', action.payload)
-    //     .set('incident', null);
+    case SPLIT_INCIDENT:
+      return state
+        .set('loading', true)
+        .set('error', false)
+        .set('id', action.payload);
 
     // case REQUEST_INCIDENT_SUCCESS:
     //   return state

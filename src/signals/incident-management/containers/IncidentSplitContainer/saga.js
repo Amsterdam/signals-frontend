@@ -1,12 +1,14 @@
-// import { put, takeLatest } from 'redux-saga/effects';
+// import { splitIncident } from "./actions";
+
+import { takeLatest } from 'redux-saga/effects';
 
 // import CONFIGURATION from 'shared/services/configuration/configuration';
 
-// import { REQUEST_INCIDENT } from './constants';
+import { SPLIT_INCIDENT } from './constants';
 // import { requestIncidentSuccess, requestIncidentError } from './actions';
 // import { authCall } from '../../../../shared/services/api/api';
 
-// export function* fetchIncident(action) {
+export function* splitIncident() {
 //   const requestURL = `${CONFIGURATION.API_ROOT}signals/auth/signal`;
 //   try {
 //     const id = action.payload;
@@ -15,8 +17,8 @@
 //   } catch (err) {
 //     yield put(requestIncidentError(err));
 //   }
-// }
+}
 
 export default function* watchIncidentDetailContainerSaga() {
-  // yield takeLatest(REQUEST_INCIDENT, fetchIncident);
+  yield takeLatest(SPLIT_INCIDENT, splitIncident);
 }
