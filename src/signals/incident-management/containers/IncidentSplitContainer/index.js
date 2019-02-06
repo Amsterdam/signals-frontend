@@ -9,8 +9,7 @@ import injectReducer from 'utils/injectReducer';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { requestIncident } from 'models/incident/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
-// import { requestIncident } from './actions';
-// import makeSelectIncidentSplitContainer from './selectors';
+
 import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
