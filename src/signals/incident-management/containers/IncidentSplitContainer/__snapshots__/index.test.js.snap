@@ -4,6 +4,57 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
 <div
   className="incident-split-container"
 >
-  IncidentSplitContainer
+  <div
+    className="row"
+  >
+    <div
+      className="col-8"
+    >
+      IncidentSplitContainer
+    </div>
+    <div
+      className="col-4"
+    >
+      <SplitDetail
+        incident={Object {}}
+        stadsdeelList={
+          Array [
+            Object {
+              "key": "A",
+              "value": "Centrum",
+            },
+            Object {
+              "key": "B",
+              "value": "Westpoort",
+            },
+            Object {
+              "key": "E",
+              "value": "West",
+            },
+            Object {
+              "key": "M",
+              "value": "Oost",
+            },
+            Object {
+              "key": "N",
+              "value": "Noord",
+            },
+            Object {
+              "key": "T",
+              "value": "Zuidoost",
+            },
+            Object {
+              "key": "K",
+              "value": "Zuid",
+            },
+            Object {
+              "key": "F",
+              "value": "Nieuw-West",
+            },
+          ]
+        }
+      />
+    </div>
+  </div>
 </div>
 `;
