@@ -23,7 +23,7 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
   }
 
   render() {
-    const { incident, loading, stadsdeelList } = this.props.incident;
+    const { incident, loading, stadsdeelList } = this.props.incidentModel;
     return (
       <div className="incident-split-container">
         {loading ? <LoadingIndicator /> :
@@ -44,12 +44,12 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
 
 IncidentSplitContainer.propTypes = {
   id: PropTypes.string.isRequired,
-  incident: PropTypes.object,
+  incidentModel: PropTypes.object,
   onRequestIncident: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  incident: makeSelectIncidentModel()
+  incidentModel: makeSelectIncidentModel()
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({

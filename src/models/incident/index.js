@@ -5,8 +5,8 @@ import reducer from './reducer';
 import saga from './saga';
 
 const loadModel = (store) => {
-  getInjectorsReducer(store).injectReducer('incident', reducer);
-  getInjectorsSagas(store).injectSaga('incident', { mode: undefined, saga });
+  getInjectorsReducer(store).injectReducer('incidentModel', reducer);
+  getInjectorsSagas(store).injectSaga('incidentModel', { mode: undefined, saga });
 };
 
 export default loadModel;
