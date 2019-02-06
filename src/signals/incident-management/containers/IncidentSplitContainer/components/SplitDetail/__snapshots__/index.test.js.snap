@@ -17,7 +17,7 @@ exports[`<SplitDetail /> should render correctly 1`] = `
     <dd
       className="split-detail__value"
     >
-      11-01-2019
+      21-07-1970
     </dd>
     <dt
       className="split-detail__definition"
@@ -27,7 +27,7 @@ exports[`<SplitDetail /> should render correctly 1`] = `
     <dd
       className="split-detail__value"
     >
-      20:06
+      11:56
     </dd>
     <dt
       className="split-detail__definition"
@@ -37,7 +37,7 @@ exports[`<SplitDetail /> should render correctly 1`] = `
     <dd
       className="split-detail__value"
     >
-      11-01-2019
+      21-07-1970
     </dd>
     <dt
       className="split-detail__definition"
@@ -47,7 +47,7 @@ exports[`<SplitDetail /> should render correctly 1`] = `
     <dd
       className="split-detail__value"
     >
-      20:06
+      11:56
     </dd>
     <dt
       className="split-detail__definition"
@@ -56,7 +56,9 @@ exports[`<SplitDetail /> should render correctly 1`] = `
     </dt>
     <dd
       className="split-detail__value"
-    />
+    >
+      11:56
+    </dd>
     <dt
       className="split-detail__definition"
     >
@@ -64,7 +66,9 @@ exports[`<SplitDetail /> should render correctly 1`] = `
     </dt>
     <dd
       className="split-detail__value"
-    />
+    >
+      Amstel 1 1011PN Amsterdam
+    </dd>
     <dt
       className="split-detail__definition"
     >
@@ -106,7 +110,7 @@ exports[`<SplitDetail /> should render correctly with phone and email 1`] = `
     <dd
       className="split-detail__value"
     >
-      11-01-2019
+      21-07-1970
     </dd>
     <dt
       className="split-detail__definition"
@@ -116,7 +120,7 @@ exports[`<SplitDetail /> should render correctly with phone and email 1`] = `
     <dd
       className="split-detail__value"
     >
-      20:06
+      11:56
     </dd>
     <dt
       className="split-detail__definition"
@@ -126,7 +130,7 @@ exports[`<SplitDetail /> should render correctly with phone and email 1`] = `
     <dd
       className="split-detail__value"
     >
-      11-01-2019
+      21-07-1970
     </dd>
     <dt
       className="split-detail__definition"
@@ -136,7 +140,7 @@ exports[`<SplitDetail /> should render correctly with phone and email 1`] = `
     <dd
       className="split-detail__value"
     >
-      20:06
+      11:56
     </dd>
     <dt
       className="split-detail__definition"
@@ -145,7 +149,9 @@ exports[`<SplitDetail /> should render correctly with phone and email 1`] = `
     </dt>
     <dd
       className="split-detail__value"
-    />
+    >
+      11:56
+    </dd>
     <dt
       className="split-detail__definition"
     >
@@ -153,7 +159,9 @@ exports[`<SplitDetail /> should render correctly with phone and email 1`] = `
     </dt>
     <dd
       className="split-detail__value"
-    />
+    >
+      Amstel 1 1011PN Amsterdam
+    </dd>
     <dt
       className="split-detail__definition"
     >

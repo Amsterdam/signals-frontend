@@ -1,16 +1,22 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
+import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+import { getListValueByKey } from 'shared/services/list-helper/list-helper';
+
 import SplitDetail from './index';
+
+jest.mock('shared/services/string-parser/string-parser');
+jest.mock('shared/services/list-helper/list-helper');
 
 describe('<SplitDetail />', () => {
   let wrapper;
   let props;
 
   beforeEach(() => {
-    // moment.mockImplementation(() => ({
-    //   format: () => 'vrijdag 11 januari 2019'
-    // }));
+    string2date.mockImplementation(() => '21-07-1970');
+    string2time.mockImplementation(() => '11:56');
+    getListValueByKey.mockImplementation(() => '11:56');
 
     props = {
       incident: {
@@ -21,19 +27,8 @@ describe('<SplitDetail />', () => {
         created_at: '2019-01-11T20:06:34.382725+01:00',
         text: 'patrick sonneveldt werd aan gevalen door een reuzen octopus',
         location: {
-          id: 1682,
-          stadsdeel: null,
-          buurt_code: null,
-          address: null,
-          address_text: '',
-          geometrie: {
-            type: 'Point',
-            coordinates: [
-              5.102806091308594,
-              52.413437741869494
-            ]
-          },
-          extra_properties: null
+          stadsdeel: 'A',
+          address_text: 'Amstel 1 1011PN Amsterdam'
         },
         incident_date_end: null,
         updated_at: '2019-01-11T20:06:35.441604+01:00',
