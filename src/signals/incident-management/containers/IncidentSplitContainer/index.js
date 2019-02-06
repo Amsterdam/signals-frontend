@@ -7,8 +7,10 @@ import { compose, bindActionCreators } from 'redux';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
-import { requestIncident } from './actions';
-import makeSelectIncidentSplitContainer from './selectors';
+import { requestIncident } from 'models/incident/actions';
+import makeSelectIncidentModel from 'models/incident/selectors';
+// import { requestIncident } from './actions';
+// import makeSelectIncidentSplitContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
@@ -21,7 +23,7 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
   }
 
   render() {
-    const { incident, loading, stadsdeelList } = this.props.incidentSplitContainer;
+    const { incident, loading, stadsdeelList } = this.props.incident;
     return (
       <div className="incident-split-container">
         {loading ? <LoadingIndicator /> :
@@ -42,12 +44,12 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
 
 IncidentSplitContainer.propTypes = {
   id: PropTypes.string.isRequired,
-  incidentSplitContainer: PropTypes.object,
+  incident: PropTypes.object,
   onRequestIncident: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  incidentSplitContainer: makeSelectIncidentSplitContainer()
+  incident: makeSelectIncidentModel()
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
