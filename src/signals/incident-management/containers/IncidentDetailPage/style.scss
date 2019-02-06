@@ -1,23 +1,25 @@
+@import "config.scss";
+
 .incident-detail-page {
   .action-quad {
-    background-color: #fff;
-    color: #666;
+    background-color: $ams-wit;
+    color: $ams-donkerantraciet;
     border-width: 1px;
     padding: 7px 12px;
-    border-color: #ccc;
+    border-color: $ams-pinkish-grey;
     border-style: solid;
     cursor: pointer;
     display: inline-block;
     font-size: 16px;
-    font-family: "Avenir Next LT W01 Demi", arial, sans-serif;
+    @include avenirnextdemi();
     line-height: 16px;
     margin: 6px 0 6px 8px;
     text-decoration: none;
 
     &:hover {
-      background-color: #d2d2d2;
-      border-color: #000;
-      color: #000;
+      background-color: $ams-lichtgrijs;
+      border-color: $ams-zwart;
+      color: $ams-zwart;
     }
   }
 
@@ -28,7 +30,7 @@
   &__tab-container {
     padding-top: 20px;
     min-height: 300px;
-    border-top: 1px solid grey;
+    border-top: 1px solid $ams-middendonkergrijs;
   }
 
   &__image--max-width {

@@ -6,12 +6,14 @@ import { compose, bindActionCreators } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { requestIncident } from './actions';
 import makeSelectIncidentSplitContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
+import SplitDetail from './components/SplitDetail';
 
 export class IncidentSplitContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
@@ -19,9 +21,20 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
   }
 
   render() {
+    const { incident, loading, stadsdeelList } = this.props.incidentSplitContainer;
     return (
       <div className="incident-split-container">
-        IncidentSplitContainer
+        {loading ? <LoadingIndicator /> :
+        (
+          <div className="row">
+            <div className="col-8">
+              IncidentSplitContainer
+            </div>
+            <div className="col-4">
+              <SplitDetail incident={incident} stadsdeelList={stadsdeelList} />
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -29,6 +42,7 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
 
 IncidentSplitContainer.propTypes = {
   id: PropTypes.string.isRequired,
+  incidentSplitContainer: PropTypes.object,
   onRequestIncident: PropTypes.func.isRequired,
 };
 

@@ -1,0 +1,314 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SplitDetail /> should render correctly 1`] = `
+<aside
+  className="split-detail"
+>
+  <div>
+    <h4>
+      Melding 
+      1712
+    </h4>
+    <dt
+      className="split-detail__definition"
+    >
+      Datum
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      11-01-2019
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Tijd
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      20:06
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Datum overlast
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      11-01-2019
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Tijd overlast
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      20:06
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Stadsdeel
+    </dt>
+    <dd
+      className="split-detail__value"
+    />
+    <dt
+      className="split-detail__definition"
+    >
+      Adres
+    </dt>
+    <dd
+      className="split-detail__value"
+    />
+    <dt
+      className="split-detail__definition"
+    >
+      Bron
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      Meldkamer Politie
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Verantwoordelijke afdeling
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      ASC, CCA
+    </dd>
+  </div>
+</aside>
+`;
+
+exports[`<SplitDetail /> should render correctly 2`] = `
+<aside
+  className="split-detail"
+>
+  <div>
+    <h4>
+      Melding 
+      1712
+    </h4>
+    <dt
+      className="split-detail__definition"
+    >
+      Datum
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      11-01-2019
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Tijd
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      20:06
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Datum overlast
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      11-01-2019
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Tijd overlast
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      20:06
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Stadsdeel
+    </dt>
+    <dd
+      className="split-detail__value"
+    />
+    <dt
+      className="split-detail__definition"
+    >
+      Adres
+    </dt>
+    <dd
+      className="split-detail__value"
+    />
+    <dt
+      className="split-detail__definition"
+    >
+      E-mailadres
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      sinter@klaas.es
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Telefonnummer
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      0206793793
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Bron
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      Meldkamer Politie
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Verantwoordelijke afdeling
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      ASC, CCA
+    </dd>
+  </div>
+</aside>
+`;
+
+exports[`<SplitDetail /> should render correctly with phone and email 1`] = `
+<aside
+  className="split-detail"
+>
+  <div>
+    <h4>
+      Melding 
+      1712
+    </h4>
+    <dt
+      className="split-detail__definition"
+    >
+      Datum
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      11-01-2019
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Tijd
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      20:06
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Datum overlast
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      11-01-2019
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Tijd overlast
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      20:06
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Stadsdeel
+    </dt>
+    <dd
+      className="split-detail__value"
+    />
+    <dt
+      className="split-detail__definition"
+    >
+      Adres
+    </dt>
+    <dd
+      className="split-detail__value"
+    />
+    <dt
+      className="split-detail__definition"
+    >
+      E-mailadres
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      sinter@klaas.es
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Telefonnummer
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      0206793793
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Bron
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      Meldkamer Politie
+    </dd>
+    <dt
+      className="split-detail__definition"
+    >
+      Verantwoordelijke afdeling
+    </dt>
+    <dd
+      className="split-detail__value"
+    >
+      ASC, CCA
+    </dd>
+  </div>
+</aside>
+`;
+
+exports[`<SplitDetail /> should render empty when incident is undefined 1`] = `
+<aside
+  className="split-detail"
+/>
+`;
