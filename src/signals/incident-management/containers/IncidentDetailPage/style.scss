@@ -1,6 +1,8 @@
 @import "config.scss";
 
 .incident-detail-page {
+  min-height: 800px;
+
   .action-quad {
     background-color: $ams-wit;
     color: $ams-donkerantraciet;
