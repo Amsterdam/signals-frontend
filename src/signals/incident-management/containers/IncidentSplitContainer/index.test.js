@@ -1,23 +1,25 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { IncidentSplitContainer, mapDispatchToProps } from './index';
-import { REQUEST_INCIDENT } from './constants';
+import { IncidentSplitContainer } from './index';
+// import { REQUEST_INCIDENT } from './constants';
 import stadsdeelList from '../../definitions/stadsdeelList';
 import priorityList from '../../definitions/priorityList';
 
-describe('<IncidentDetailPage />', () => {
+describe('<IncidentSplitContainer />', () => {
   let props;
 
   beforeEach(() => {
     props = {
       id: '42',
-      incidentSplitContainer: {
+      incidentModel: {
         incident: {},
         stadsdeelList,
-        priorityList
+        priorityList,
+        loading: false
       },
-      onRequestIncident: jest.fn()
+      onRequestIncident: jest.fn(),
+      onSplitIncident: jest.fn()
     };
   });
 
@@ -31,12 +33,12 @@ describe('<IncidentDetailPage />', () => {
     });
   });
 
-  describe('mapDispatchToProps', () => {
-    const dispatch = jest.fn();
+//   describe('mapDispatchToProps', () => {
+//     const dispatch = jest.fn();
 
-    it('onRequestIncident', () => {
-      mapDispatchToProps(dispatch).onRequestIncident(42);
-      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_INCIDENT, payload: 42 });
-    });
-  });
+//     it('onRequestIncident', () => {
+//       mapDispatchToProps(dispatch).onRequestIncident(42);
+//       expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_INCIDENT, payload: 42 });
+//     });
+//   });
 });

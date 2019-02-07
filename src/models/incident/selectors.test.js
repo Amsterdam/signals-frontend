@@ -1,17 +1,17 @@
 import { fromJS } from 'immutable';
-import makeSelectIncidentSplitContainer from './selectors';
+import makeSelectIncidentModel from './selectors';
 
 
-describe('makeSelectIncidentDetailPage', () => {
-  const selector = makeSelectIncidentSplitContainer();
-  it('should select the incidentSplitContainer', () => {
-    const incidentSplitContainer = {
+describe('makeSelectIncidentModel', () => {
+  const selector = makeSelectIncidentModel();
+  it('should select the incidentModel', () => {
+    const incidentModel = {
       foo: 'bar'
     };
 
     const mockedState = fromJS({
-      incidentSplitContainer
+      incidentModel
     });
-    expect(selector(mockedState)).toEqual(incidentSplitContainer);
+    expect(selector(mockedState)).toEqual(incidentModel);
   });
 });

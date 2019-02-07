@@ -8,7 +8,7 @@ import {
 
 import { testActionCreator } from '../../../internals/testing/test-utils';
 
-describe('IncidentDetailPage actions', () => {
+describe('IncidentModel actions', () => {
   it('should be created', () => {
     const payload = { prop: {} };
     testActionCreator(requestIncident, REQUEST_INCIDENT, payload);
