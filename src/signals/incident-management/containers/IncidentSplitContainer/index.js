@@ -17,20 +17,27 @@ import saga from './saga';
 import './style.scss';
 
 import SplitDetail from './components/SplitDetail';
+import SplitForm from './components/SplitForm';
 
 export class IncidentSplitContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
 
-    this.handleClick = this.handleClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   componentDidMount() {
     this.props.onRequestIncident(this.props.id);
   }
 
-  handleClick() {
+  handleSubmit() {
+    console.log('handleSubmit');
     this.props.onSplitIncident(this.props.id);
+  }
+
+  handleCancel() {
+    console.log('handleCancel');
   }
 
   render() {
@@ -41,11 +48,17 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
         (
           <div className="row">
             <div className="col-8">
-              IncidentSplitContainer
-              <button onClick={this.handleClick}>yoooo</button>
+              <SplitForm
+                incident={incident}
+                handleSubmit={this.handleSubmit}
+                handleCancel={this.handleCancel}
+              />
             </div>
             <div className="col-4">
-              <SplitDetail incident={incident} stadsdeelList={stadsdeelList} />
+              <SplitDetail
+                incident={incident}
+                stadsdeelList={stadsdeelList}
+              />
             </div>
           </div>
         )}
