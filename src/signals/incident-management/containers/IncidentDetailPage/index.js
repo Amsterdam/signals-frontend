@@ -16,13 +16,15 @@ import injectReducer from 'utils/injectReducer';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import { requestIncident } from 'models/incident/actions';
+import { requestNotesList } from 'models/notes/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
-import makeSelectIncidentDetailPage, { selectRefresh } from './selectors';
+import makeSelectNotesModel from 'models/notes/selectors';
+// import makeSelectIncidentDetailPage, { selectRefresh } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
-import { requestNotesList } from './actions';
+// import { requestNotesList } from './actions';
 import Tabs from './components/Tabs';
 import MapDetail from './components/MapDetail';
 import IncidentDetail from './components/IncidentDetail';
@@ -60,7 +62,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   render() {
-    const { incidentNotesList } = this.props.incidentdetailpage;
+    const { incidentNotesList } = this.props.notesModel;
     const { incident, loading, stadsdeelList, priorityList } = this.props.incidentModel;
     const { selectedTab } = this.state;
     const tabs = {
@@ -133,8 +135,9 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 }
 
 IncidentDetailPage.propTypes = {
-  incidentdetailpage: PropTypes.object.isRequired,
+  // incidentdetailpage: PropTypes.object.isRequired,
   incidentModel: PropTypes.object.isRequired,
+  notesModel: PropTypes.object.isRequired,
 
   id: PropTypes.string,
   baseUrl: PropTypes.string,
@@ -144,13 +147,14 @@ IncidentDetailPage.propTypes = {
 };
 
 /* istanbul ignore next */
-const mapStateToProps = (state, ownProps) => createStructuredSelector({
+const mapStateToProps = (/* state, ownProps */) => createStructuredSelector({
   loading: makeSelectLoading(),
   error: makeSelectError(),
-  incidentdetailpage: makeSelectIncidentDetailPage(),
+  // incidentdetailpage: makeSelectIncidentDetailPage(),
   incidentModel: makeSelectIncidentModel(),
+  notesModel: makeSelectNotesModel(),
 
-  refresh: selectRefresh(ownProps.id)
+  // refresh: selectRefresh(ownProps.id)
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
