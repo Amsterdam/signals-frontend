@@ -8,7 +8,8 @@ import { fromJS } from 'immutable';
 import {
   REQUEST_NOTES_LIST,
   REQUEST_NOTES_LIST_SUCCESS,
-  REQUEST_NOTES_LIST_ERROR
+  REQUEST_NOTES_LIST_ERROR,
+  REQUEST_ADD_NOTE
 } from './constants';
 
 export const initialState = fromJS({
@@ -33,6 +34,10 @@ function notesModelReducer(state = initialState, action) {
       return state
         .set('error', action.payload)
         .set('loading', false);
+
+    case REQUEST_ADD_NOTE:
+      return state
+        .set('incidentNotesList', fromJS([action.payload, ...state.get('incidentNotesList')]));
 
     default:
       return state;

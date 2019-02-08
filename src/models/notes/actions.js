@@ -5,7 +5,7 @@
  */
 
 import {
-  REQUEST_NOTES_LIST, REQUEST_NOTES_LIST_SUCCESS, REQUEST_NOTES_LIST_ERROR
+  REQUEST_NOTES_LIST, REQUEST_NOTES_LIST_SUCCESS, REQUEST_NOTES_LIST_ERROR, REQUEST_ADD_NOTE
 } from './constants';
 
 export function requestNotesList(id) {
@@ -26,5 +26,12 @@ export function requestNotesListError(message) {
   return {
     type: REQUEST_NOTES_LIST_ERROR,
     payload: message
+  };
+}
+
+export function requestAddNote(newNote) {
+  return {
+    type: REQUEST_ADD_NOTE,
+    payload: newNote
   };
 }
