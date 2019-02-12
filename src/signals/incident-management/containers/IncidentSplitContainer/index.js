@@ -1,9 +1,11 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 
+import { makeSelectCategories } from '../../../../containers/App/selectors';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
@@ -31,8 +33,8 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
     this.props.onRequestIncident(this.props.id);
   }
 
-  handleSubmit() {
-    console.log('handleSubmit');
+  handleSubmit(splitForm) {
+    console.log('handleSubmit', splitForm.value);
     this.props.onSplitIncident(this.props.id);
   }
 
@@ -41,6 +43,7 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
   }
 
   render() {
+    const { categories } = this.props;
     const { incident, loading, stadsdeelList } = this.props.incidentModel;
     return (
       <div className="incident-split-container">
@@ -50,6 +53,7 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
             <div className="col-8">
               <SplitForm
                 incident={incident}
+                subcategories={categories.sub}
                 handleSubmit={this.handleSubmit}
                 handleCancel={this.handleCancel}
               />
@@ -69,13 +73,15 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
 
 IncidentSplitContainer.propTypes = {
   id: PropTypes.string.isRequired,
+  categories: PropTypes.object,
   incidentModel: PropTypes.object,
   onRequestIncident: PropTypes.func.isRequired,
   onSplitIncident: PropTypes.func.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
-  incidentModel: makeSelectIncidentModel()
+  incidentModel: makeSelectIncidentModel(),
+  categories: makeSelectCategories()
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
