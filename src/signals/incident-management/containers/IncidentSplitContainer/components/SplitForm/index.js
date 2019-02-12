@@ -16,10 +16,13 @@ class SplitForm extends React.Component {
 
     this.state = {
       splitForm: FormBuilder.group({
-        id: '',
-        part1subcategory: '',
-        part1text: '',
-        part2text: ''
+        id: props.incident.id,
+        part1subcategory: props.incident.category.sub_slug,
+        part1text: props.incident.text,
+        part1note: '',
+        part2subcategory: props.incident.category.sub_slug,
+        part2text: props.incident.text,
+        part2note: ''
       })
     };
 
@@ -43,32 +46,51 @@ class SplitForm extends React.Component {
               render={({ invalid }) => (
                 <form onSubmit={this.handleSubmit}>
                   <h2>Deelmelding 1</h2>
-
-                  {/* <FieldControlWrapper
+                  <FieldControlWrapper
                     render={SelectInput}
                     name="part1subcategory"
                     display="Subcategorie"
                     control={this.state.splitForm.get('part1subcategory')}
                     values={subcategories}
                     useSlug
-                    defaultValue={incident.category.sub_slug}
-                  /> */}
+                  />
                   <FieldControlWrapper
                     render={TextAreaInput}
                     name="part1text"
-                    display="Tekst"
+                    display="Omschrijving"
                     control={this.state.splitForm.get('part1text')}
-                    value={incident.text}
+                    rows={5}
+                  />
+                  <FieldControlWrapper
+                    render={TextAreaInput}
+                    name="part1note"
+                    display="Notitie"
+                    control={this.state.splitForm.get('part1note')}
+                    rows={5}
                   />
 
                   <h2>Deelmelding 2</h2>
-
+                  <FieldControlWrapper
+                    render={SelectInput}
+                    name="part2subcategory"
+                    display="Subcategorie"
+                    control={this.state.splitForm.get('part2subcategory')}
+                    values={subcategories}
+                    useSlug
+                  />
                   <FieldControlWrapper
                     render={TextAreaInput}
                     name="part2text"
-                    display="Tekst"
+                    display="Omschrijving"
                     control={this.state.splitForm.get('part2text')}
-                    value={incident.text}
+                    rows={5}
+                  />
+                  <FieldControlWrapper
+                    render={TextAreaInput}
+                    name="part2note"
+                    display="Notitie"
+                    control={this.state.splitForm.get('part2note')}
+                    rows={5}
                   />
 
                 </form>
@@ -84,9 +106,16 @@ class SplitForm extends React.Component {
   }
 };
 
+SplitForm.defaultProps = {
+  incident: {
+    category: {}
+  },
+  subcategories: []
+};
+
 SplitForm.propTypes = {
-  incident: PropTypes.object,
-  subcategories: PropTypes.array,
+  incident: PropTypes.object.isRequired,
+  subcategories: PropTypes.array.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleCancel: PropTypes.func.isRequired
 };
