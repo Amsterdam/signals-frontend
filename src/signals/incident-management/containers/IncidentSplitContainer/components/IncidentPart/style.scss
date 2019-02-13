@@ -1,3 +1,7 @@
-.incident-part {
+@import "config.scss";
 
+.incident-part {
+  border-bottom: 1px solid $ams-middengrijs;
+  padding-bottom: 15px;
+  margin-bottom: 37px;
 }

@@ -71,7 +71,7 @@ class SplitForm extends React.Component {
 
             {this.state.isVisible ?
               <div>
-                <button onClick={() => this.setVisibility(false)} className="action reset">Verwijder</button>
+                <button onClick={() => this.setVisibility(false)} className="action reset split-form__button-remove">Verwijder</button>
 
                 <IncidentPart
                   index="3"
@@ -83,7 +83,7 @@ class SplitForm extends React.Component {
 
               </div>
               :
-              <button onClick={() => this.setVisibility(true)} className="action tertiair">Deelmelding 3 toevoegen</button>
+              <button onClick={() => this.setVisibility(true)} className="action tertiair split-form__button-add">Deelmelding 3 toevoegen</button>
             }
 
             <div>

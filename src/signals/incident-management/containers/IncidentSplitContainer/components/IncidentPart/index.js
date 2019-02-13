@@ -11,7 +11,7 @@ import SelectInput from '../../../../components/SelectInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 
 const IncidentPart = ({ index, incident, subcategories, priorityList, splitForm }) => (
-  <div className="incident-part">
+  <section className="incident-part">
   {incident ? (
     <div>
       <h2>Deelmelding {index}</h2>
@@ -55,7 +55,7 @@ const IncidentPart = ({ index, incident, subcategories, priorityList, splitForm 
     </div>
   )
 : ''}
-</div>
+</section>
 )
 
 IncidentPart.defaultProps = {

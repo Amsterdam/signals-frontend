@@ -1,3 +1,7 @@
 .split-form {
-
+  &__button-remove {
+    position: absolute !important;
+    right: 0;
+    margin-top: 0 !important;
+  }
 }
