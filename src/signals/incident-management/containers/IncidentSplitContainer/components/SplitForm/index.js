@@ -6,6 +6,7 @@ import { FormBuilder, FieldGroup } from 'react-reactive-form';
 import './style.scss';
 
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
+import CopyFileInput from '../../../../components/CopyFileInput';
 import RadioInput from '../../../../components/RadioInput';
 import SelectInput from '../../../../components/SelectInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
@@ -19,10 +20,12 @@ class SplitForm extends React.Component {
         id: props.incident.id,
         part1subcategory: props.incident.category.sub_slug,
         part1text: props.incident.text,
+        part1file: true,
         part1note: '',
         part1priority: props.incident.priority.priority,
         part2subcategory: props.incident.category.sub_slug,
         part2text: props.incident.text,
+        part2file: true,
         part2note: '',
         part2priority: props.incident.priority.priority
       })
@@ -64,6 +67,12 @@ class SplitForm extends React.Component {
                     rows={5}
                   />
                   <FieldControlWrapper
+                    render={CopyFileInput}
+                    name="part1file"
+                    control={this.state.splitForm.get('part1file')}
+                    values={[{ key: '1', alt: `Foto bij melding ${incident.id}`, value: incident.image }]}
+                  />
+                  <FieldControlWrapper
                     render={TextAreaInput}
                     name="part1note"
                     display="Notitie"
@@ -93,6 +102,12 @@ class SplitForm extends React.Component {
                     display="Omschrijving"
                     control={this.state.splitForm.get('part2text')}
                     rows={5}
+                  />
+                  <FieldControlWrapper
+                    render={CopyFileInput}
+                    name="part2file"
+                    control={this.state.splitForm.get('part2file')}
+                    values={[{ key: '1', alt: `Foto bij melding ${incident.id}`, value: incident.image }]}
                   />
                   <FieldControlWrapper
                     render={TextAreaInput}
