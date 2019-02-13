@@ -6,7 +6,7 @@ import { FormBuilder, FieldGroup } from 'react-reactive-form';
 import './style.scss';
 
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
-import TextInput from '../../../../components/TextInput';
+import RadioInput from '../../../../components/RadioInput';
 import SelectInput from '../../../../components/SelectInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 
@@ -20,9 +20,11 @@ class SplitForm extends React.Component {
         part1subcategory: props.incident.category.sub_slug,
         part1text: props.incident.text,
         part1note: '',
+        part1priority: props.incident.priority.priority,
         part2subcategory: props.incident.category.sub_slug,
         part2text: props.incident.text,
-        part2note: ''
+        part2note: '',
+        part2priority: props.incident.priority.priority
       })
     };
 
@@ -34,7 +36,7 @@ class SplitForm extends React.Component {
   }
 
   render() {
-    const { incident, subcategories, handleSubmit, handleCancel } = this.props;
+    const { incident, subcategories, priorityList, handleSubmit, handleCancel } = this.props;
     return (
       <div className="split-form">
         {incident ? (
@@ -68,6 +70,13 @@ class SplitForm extends React.Component {
                     control={this.state.splitForm.get('part1note')}
                     rows={5}
                   />
+                  <FieldControlWrapper
+                    render={RadioInput}
+                    name="part1priority"
+                    display="Urgentie"
+                    control={this.state.splitForm.get('part1priority')}
+                    values={priorityList}
+                  />
 
                   <h2>Deelmelding 2</h2>
                   <FieldControlWrapper
@@ -92,6 +101,13 @@ class SplitForm extends React.Component {
                     control={this.state.splitForm.get('part2note')}
                     rows={5}
                   />
+                  <FieldControlWrapper
+                    render={RadioInput}
+                    name="part2priority"
+                    display="Urgentie"
+                    control={this.state.splitForm.get('part2priority')}
+                    values={priorityList}
+                  />
 
                 </form>
               )}
@@ -108,14 +124,18 @@ class SplitForm extends React.Component {
 
 SplitForm.defaultProps = {
   incident: {
-    category: {}
+    category: {},
+    priority: {
+      priority:  ''
+    }
   },
   subcategories: []
 };
 
 SplitForm.propTypes = {
-  incident: PropTypes.object.isRequired,
-  subcategories: PropTypes.array.isRequired,
+  incident: PropTypes.object,
+  subcategories: PropTypes.array,
+  priorityList: PropTypes.array,
   handleSubmit: PropTypes.func.isRequired,
   handleCancel: PropTypes.func.isRequired
 };

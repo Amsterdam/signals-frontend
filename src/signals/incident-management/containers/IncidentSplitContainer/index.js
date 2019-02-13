@@ -44,7 +44,7 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
 
   render() {
     const { categories } = this.props;
-    const { incident, loading, stadsdeelList } = this.props.incidentModel;
+    const { incident, loading, stadsdeelList, priorityList } = this.props.incidentModel;
     return (
       <div className="incident-split-container">
         {loading ? <LoadingIndicator /> :
@@ -54,6 +54,7 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
               <SplitForm
                 incident={incident}
                 subcategories={categories.sub}
+                priorityList={priorityList}
                 handleSubmit={this.handleSubmit}
                 handleCancel={this.handleCancel}
               />
