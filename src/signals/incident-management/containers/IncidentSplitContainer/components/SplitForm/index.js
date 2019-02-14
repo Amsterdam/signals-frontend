@@ -15,22 +15,27 @@ class SplitForm extends React.Component {
     this.state = {
       isVisible: props.isVisible,
       splitForm: FormBuilder.group({
-        id: props.incident.id,
-        part1subcategory: props.incident.category.sub_slug,
-        part1text: props.incident.text,
-        part1file: true,
-        part1note: '',
-        part1priority: props.incident.priority.priority,
-        part2subcategory: props.incident.category.sub_slug,
-        part2text: props.incident.text,
-        part2file: true,
-        part2note: '',
-        part2priority: props.incident.priority.priority,
-        part3subcategory: props.incident.category.sub_slug,
-        part3text: props.incident.text,
-        part3file: true,
-        part3note: '',
-        part3priority: props.incident.priority.priority
+        part1: FormBuilder.group({
+          subcategory: props.incident.category.sub_slug,
+          text: props.incident.text,
+          file: true,
+          note: '',
+          priority: props.incident.priority.priority,
+        }),
+        part2: FormBuilder.group({
+          subcategory: props.incident.category.sub_slug,
+          text: props.incident.text,
+          file: true,
+          note: '',
+          priority: props.incident.priority.priority,
+        }),
+        part3: FormBuilder.group({
+          subcategory: props.incident.category.sub_slug,
+          text: props.incident.text,
+          file: true,
+          note: '',
+          priority: props.incident.priority.priority,
+        }),
       })
     };
 
@@ -39,10 +44,18 @@ class SplitForm extends React.Component {
   }
 
   handleSubmit() {
-    const values = omitBy(this.state.splitForm.value, (value, key) => {
-      return !this.state.isVisible && key.match(/^part3/);
-    });
-    this.props.handleSubmit(values);
+    const create = [];
+    const update = [];
+
+    update.push(this.state.splitForm.value.part1);
+    create.push({ text: this.state.splitForm.value.part1.text });
+    update.push(this.state.splitForm.value.part2);
+    create.push({ text: this.state.splitForm.value.part2.text });
+    if (this.state.isVisible) {
+      update.push(this.state.splitForm.value.part3);
+      create.push({ text: this.state.splitForm.value.part3.text });
+    }
+    this.props.handleSubmit({ id: this.props.incident.id, create, update });
   }
 
   setVisibility(isVisible) {

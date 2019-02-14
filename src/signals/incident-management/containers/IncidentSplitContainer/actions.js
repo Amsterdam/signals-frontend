@@ -4,17 +4,17 @@ import {
   SPLIT_INCIDENT_ERROR
 } from './constants';
 
-export function splitIncident(id) {
+export function splitIncident(payload) {
   return {
     type: SPLIT_INCIDENT,
-    payload: id
+    payload
   };
 }
 
-export function splitIncidentSuccess(incident) {
+export function splitIncidentSuccess(result) {
   return {
     type: SPLIT_INCIDENT_SUCCESS,
-    payload: incident
+    payload: result
   };
 }
 
