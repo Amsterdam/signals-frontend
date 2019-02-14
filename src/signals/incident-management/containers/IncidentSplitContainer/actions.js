@@ -1,5 +1,7 @@
 import {
-  SPLIT_INCIDENT
+  SPLIT_INCIDENT,
+  SPLIT_INCIDENT_SUCCESS,
+  SPLIT_INCIDENT_ERROR
 } from './constants';
 
 export function splitIncident(id) {
@@ -9,16 +11,16 @@ export function splitIncident(id) {
   };
 }
 
-// export function requestIncidentSuccess(incident) {
-//   return {
-//     type: REQUEST_INCIDENT_SUCCESS,
-//     payload: incident
-//   };
-// }
+export function splitIncidentSuccess(incident) {
+  return {
+    type: SPLIT_INCIDENT_SUCCESS,
+    payload: incident
+  };
+}
 
-// export function requestIncidentError(error) {
-//   return {
-//     type: REQUEST_INCIDENT_ERROR,
-//     payload: error
-//   };
-// }
+export function splitIncidentError(error) {
+  return {
+    type: SPLIT_INCIDENT_ERROR,
+    payload: error
+  };
+}

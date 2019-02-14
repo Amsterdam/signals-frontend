@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { omitBy } from 'lodash';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
 
 import './style.scss';
@@ -38,7 +39,10 @@ class SplitForm extends React.Component {
   }
 
   handleSubmit() {
-    this.props.handleSubmit(this.state.splitForm);
+    const values = omitBy(this.state.splitForm.value, (value, key) => {
+      return !this.state.isVisible && key.match(/^part3/);
+    });
+    this.props.handleSubmit(values);
   }
 
   setVisibility(isVisible) {
