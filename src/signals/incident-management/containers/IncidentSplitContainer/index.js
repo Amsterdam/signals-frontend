@@ -34,7 +34,6 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
   }
 
   handleSubmit(splitForm) {
-    console.log('handleSubmit', splitForm);
     this.props.onSplitIncident(splitForm);
   }
 

@@ -6,9 +6,10 @@ import priorityList from 'signals/incident-management/definitions/priorityList';
 import { REQUEST_PRIORITY_UPDATE_SUCCESS } from 'signals/incident-management/containers/IncidentPriorityContainer/constants';
 import { REQUEST_CATEGORY_UPDATE_SUCCESS } from 'signals/incident-management/containers/IncidentCategoryContainer/constants';
 import { REQUEST_STATUS_CREATE_SUCCESS } from 'signals/incident-management/containers/IncidentStatusContainer/constants';
+import { SPLIT_INCIDENT_SUCCESS } from 'signals/incident-management/containers/IncidentSplitContainer/constants';
 
 import {
-  REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR
+  REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR, RESET_SPLIT
 } from './constants';
 
 export const initialState = fromJS({
@@ -16,7 +17,8 @@ export const initialState = fromJS({
   stadsdeelList,
   priorityList,
   loading: false,
-  error: false
+  error: false,
+  split: false
 });
 
 function incidentModelReducer(state = initialState, action) {
@@ -39,6 +41,10 @@ function incidentModelReducer(state = initialState, action) {
         .set('error', action.payload)
         .set('loading', false);
 
+    case RESET_SPLIT:
+      return state
+        .set('split', false);
+
     case REQUEST_CATEGORY_UPDATE_SUCCESS:
       return state
         .set('incident', fromJS({ ...state.get('incident').toJS(), category: action.payload }));
@@ -50,6 +56,10 @@ function incidentModelReducer(state = initialState, action) {
     case REQUEST_STATUS_CREATE_SUCCESS:
       return state
         .set('incident', fromJS({ ...state.get('incident').toJS(), status: action.payload }));
+
+    case SPLIT_INCIDENT_SUCCESS:
+      return state
+        .set('split', action.payload);
 
     default:
       return state;

@@ -6,7 +6,7 @@ import {
 } from './constants';
 
 export const initialState = fromJS({
-  id: null,
+  split: false,
   loading: false,
   error: false
 });
@@ -15,14 +15,11 @@ function incidentSplitContainerReducer(state = initialState, action) {
   switch (action.type) {
     case SPLIT_INCIDENT:
       return state
-        .set('loading', true)
-        .set('error', false)
-        .set('id', action.payload);
+        .set('loading', true);
 
     case SPLIT_INCIDENT_SUCCESS:
       return state
-        .set('incident', fromJS(action.payload))
-        .set('error', false)
+        .set('split', fromJS(action.payload))
         .set('loading', false);
 
     case SPLIT_INCIDENT_ERROR:

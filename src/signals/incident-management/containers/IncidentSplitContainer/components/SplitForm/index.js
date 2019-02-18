@@ -12,25 +12,27 @@ class SplitForm extends React.Component {
   constructor(props) {
     super(props);
 
+    // TEMP work around because the endpoint does not supply category as uri
+    const subcategory = `https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/${props.incident.category.main_slug}/sub_categories/${props.incident.category.sub_slug}`;
     this.state = {
       isVisible: props.isVisible,
       splitForm: FormBuilder.group({
         part1: FormBuilder.group({
-          subcategory: props.incident.category.sub_slug,
+          subcategory,
           text: props.incident.text,
           file: true,
           note: '',
           priority: props.incident.priority.priority,
         }),
         part2: FormBuilder.group({
-          subcategory: props.incident.category.sub_slug,
+          subcategory,
           text: props.incident.text,
           file: true,
           note: '',
           priority: props.incident.priority.priority,
         }),
         part3: FormBuilder.group({
-          subcategory: props.incident.category.sub_slug,
+          subcategory,
           text: props.incident.text,
           file: true,
           note: '',
@@ -55,7 +57,11 @@ class SplitForm extends React.Component {
       update.push(this.state.splitForm.value.part3);
       create.push({ text: this.state.splitForm.value.part3.text });
     }
-    this.props.handleSubmit({ id: this.props.incident.id, create, update });
+    this.props.handleSubmit({
+      incident: this.props.incident,
+      create,
+      update
+    });
   }
 
   setVisibility(isVisible) {

@@ -15,16 +15,14 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
-import { requestIncident } from 'models/incident/actions';
+import { requestIncident, resetSplit } from 'models/incident/actions';
 import { requestNotesList } from 'models/notes/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 import makeSelectNotesModel from 'models/notes/selectors';
-// import makeSelectIncidentDetailPage, { selectRefresh } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
-// import { requestNotesList } from './actions';
 import Tabs from './components/Tabs';
 import MapDetail from './components/MapDetail';
 import IncidentDetail from './components/IncidentDetail';
@@ -34,6 +32,7 @@ import IncidentStatusContainer from '../IncidentStatusContainer';
 import IncidentNotesContainer from '../IncidentNotesContainer';
 import IncidentHistoryContainer from '../IncidentHistoryContainer';
 import PrintLayout from './components/PrintLayout';
+import SplitNotificationBar from './components/SplitNotificationBar';
 
 export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -41,6 +40,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 
     this.onTabChanged = this.onTabChanged.bind(this);
     this.onPrintView = this.onPrintView.bind(this);
+    this.onResetSplit = this.onResetSplit.bind(this);
   }
 
   state = {
@@ -61,9 +61,13 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     this.setState({ printView: !this.state.printView });
   }
 
+  onResetSplit() {
+    this.props.onResetSplit();
+  }
+
   render() {
     const { incidentNotesList } = this.props.notesModel;
-    const { incident, loading, stadsdeelList, priorityList } = this.props.incidentModel;
+    const { incident, loading, split, stadsdeelList, priorityList } = this.props.incidentModel;
     const { selectedTab } = this.state;
     const tabs = {
       status: { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
@@ -86,6 +90,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
       ) :
       (
         <div className="incident-detail-page container">
+          <SplitNotificationBar payload={split} onClose={this.onResetSplit} />
           {loading ? <LoadingIndicator /> : (
             <div className="row">
               <div className="col-12">
@@ -143,7 +148,8 @@ IncidentDetailPage.propTypes = {
   baseUrl: PropTypes.string,
 
   onRequestIncident: PropTypes.func.isRequired,
-  onRequestNotesList: PropTypes.func.isRequired
+  onRequestNotesList: PropTypes.func.isRequired,
+  onResetSplit: PropTypes.func.isRequired
 };
 
 /* istanbul ignore next */
@@ -159,7 +165,8 @@ const mapStateToProps = (/* state, ownProps */) => createStructuredSelector({
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestIncident: requestIncident,
-  onRequestNotesList: requestNotesList
+  onRequestNotesList: requestNotesList,
+  onResetSplit: resetSplit
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

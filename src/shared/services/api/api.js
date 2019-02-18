@@ -53,3 +53,23 @@ export function* authPostCall(url, params) {
   const fullUrl = `${url}`;
   return yield call(request, fullUrl, options);
 }
+
+export function* authPatchCall(url, params) {
+  const headers = {
+    'Content-Type': 'application/json'
+  };
+
+  const token = yield select(makeSelectAccessToken());
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const options = {
+    method: 'PATCH',
+    headers,
+    body: JSON.stringify(params)
+  };
+
+  const fullUrl = `${url}`;
+  return yield call(request, fullUrl, options);
+}
