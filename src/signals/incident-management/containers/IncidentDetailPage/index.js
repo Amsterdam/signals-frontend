@@ -8,19 +8,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { compose, bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import { requestIncident, resetSplit } from 'models/incident/actions';
 import { requestNotesList } from 'models/notes/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 import makeSelectNotesModel from 'models/notes/selectors';
-import reducer from './reducer';
-import saga from './saga';
 import './style.scss';
 
 import Tabs from './components/Tabs';
@@ -140,7 +136,6 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 }
 
 IncidentDetailPage.propTypes = {
-  // incidentdetailpage: PropTypes.object.isRequired,
   incidentModel: PropTypes.object.isRequired,
   notesModel: PropTypes.object.isRequired,
 
@@ -153,14 +148,11 @@ IncidentDetailPage.propTypes = {
 };
 
 /* istanbul ignore next */
-const mapStateToProps = (/* state, ownProps */) => createStructuredSelector({
+const mapStateToProps = () => createStructuredSelector({
   loading: makeSelectLoading(),
   error: makeSelectError(),
-  // incidentdetailpage: makeSelectIncidentDetailPage(),
   incidentModel: makeSelectIncidentModel(),
-  notesModel: makeSelectNotesModel(),
-
-  // refresh: selectRefresh(ownProps.id)
+  notesModel: makeSelectNotesModel()
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -169,12 +161,4 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onResetSplit: resetSplit
 }, dispatch);
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
-const withReducer = injectReducer({ key: 'incidentDetailPage', reducer });
-const withSaga = injectSaga({ key: 'incidentDetailPage', saga });
-
-export default compose(
-  withReducer,
-  withSaga,
-  withConnect,
-)(IncidentDetailPage);
+export default connect(mapStateToProps, mapDispatchToProps)(IncidentDetailPage);
