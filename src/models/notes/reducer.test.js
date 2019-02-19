@@ -4,7 +4,8 @@ import notesModelReducer, { initialState } from './reducer';
 import {
   REQUEST_NOTES_LIST,
   REQUEST_NOTES_LIST_SUCCESS,
-  REQUEST_NOTES_LIST_ERROR
+  REQUEST_NOTES_LIST_ERROR,
+  REQUEST_ADD_NOTE
 }
   from './constants';
 
@@ -60,6 +61,21 @@ describe('notesModelReducer', () => {
       ).toEqual({
         ...expected,
         error: true
+      });
+    });
+  });
+
+  describe('REQUEST_ADD_NOTE', () => {
+    it('sets error and loading', () => {
+      expect(
+        notesModelReducer(fromJS({
+          incidentNotesList: ['note 1', 'note 2']
+        }), {
+          type: REQUEST_ADD_NOTE,
+          payload: 'note 3'
+        }).toJS()
+      ).toEqual({
+        incidentNotesList: ['note 3', 'note 1', 'note 2']
       });
     });
   });

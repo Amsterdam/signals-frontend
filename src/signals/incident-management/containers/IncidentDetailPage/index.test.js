@@ -24,7 +24,7 @@ describe('<IncidentDetailPage />', () => {
   beforeEach(() => {
     props = {
       id: '100',
-      incidentdetailpage: {
+      notesModel: {
         incidentNotesList: []
       },
       incidentModel: {

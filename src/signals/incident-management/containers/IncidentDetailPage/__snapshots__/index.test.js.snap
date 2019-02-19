@@ -61,6 +61,9 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
 <div
   className="incident-detail-page container"
 >
+  <SplitNotificationBar
+    onClose={[Function]}
+  />
   <div
     className="row"
   >
@@ -84,15 +87,8 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
       </h3>
     </div>
     <div
-      className="col-3 d-flex"
+      className="col-3 d-flex justify-content-end"
     >
-      <Link
-        className="align-self-center action-quad"
-        replace={false}
-        to="undefined/incident/100/split"
-      >
-        Splitsen
-      </Link>
       <button
         className="align-self-center action-quad"
         onClick={[Function]}
@@ -180,7 +176,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
             },
             "image": undefined,
             "notes": Object {
-              "count": undefined,
+              "count": 0,
               "name": "Notities",
               "value": <Unknown
                 id="100"
@@ -221,6 +217,9 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
 <div
   className="incident-detail-page container"
 >
+  <SplitNotificationBar
+    onClose={[Function]}
+  />
   <div
     className="row"
   >
@@ -244,15 +243,8 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
       </h3>
     </div>
     <div
-      className="col-3 d-flex"
+      className="col-3 d-flex justify-content-end"
     >
-      <Link
-        className="align-self-center action-quad"
-        replace={false}
-        to="undefined/incident/100/split"
-      >
-        Splitsen
-      </Link>
       <button
         className="align-self-center action-quad"
         onClick={[Function]}
@@ -351,7 +343,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
               />,
             },
             "notes": Object {
-              "count": undefined,
+              "count": 0,
               "name": "Notities",
               "value": <Unknown
                 id="100"
@@ -392,6 +384,9 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
 <div
   className="incident-detail-page container"
 >
+  <SplitNotificationBar
+    onClose={[Function]}
+  />
   <div
     className="row"
   >
@@ -415,15 +410,8 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
       </h3>
     </div>
     <div
-      className="col-3 d-flex"
+      className="col-3 d-flex justify-content-end"
     >
-      <Link
-        className="align-self-center action-quad"
-        replace={false}
-        to="undefined/incident/100/split"
-      >
-        Splitsen
-      </Link>
       <button
         className="align-self-center action-quad"
         onClick={[Function]}
@@ -520,7 +508,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
             },
             "image": undefined,
             "notes": Object {
-              "count": undefined,
+              "count": 0,
               "name": "Notities",
               "value": <Unknown
                 id="100"
@@ -561,6 +549,9 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
 <div
   className="incident-detail-page container"
 >
+  <SplitNotificationBar
+    onClose={[Function]}
+  />
   <div
     className="row"
   >
@@ -584,15 +575,8 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
       </h3>
     </div>
     <div
-      className="col-3 d-flex"
+      className="col-3 d-flex justify-content-end"
     >
-      <Link
-        className="align-self-center action-quad"
-        replace={false}
-        to="undefined/incident/100/split"
-      >
-        Splitsen
-      </Link>
       <button
         className="align-self-center action-quad"
         onClick={[Function]}
@@ -628,7 +612,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
             },
             "image": undefined,
             "notes": Object {
-              "count": undefined,
+              "count": 0,
               "name": "Notities",
               "value": <Unknown
                 id="100"
