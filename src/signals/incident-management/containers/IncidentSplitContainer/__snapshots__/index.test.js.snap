@@ -10,12 +10,25 @@ exports[`<IncidentSplitContainer /> rendering should render correctly 1`] = `
     <div
       className="col-8"
     >
-      IncidentSplitContainer
-      <button
-        onClick={[Function]}
-      >
-        yoooo
-      </button>
+      <SplitForm
+        handleCancel={[Function]}
+        handleSubmit={[Function]}
+        incident={Object {}}
+        isVisible={false}
+        priorityList={
+          Array [
+            Object {
+              "key": "normal",
+              "value": "Normaal",
+            },
+            Object {
+              "key": "high",
+              "value": "Hoog",
+            },
+          ]
+        }
+        subcategories={Array []}
+      />
     </div>
     <div
       className="col-4"

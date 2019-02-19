@@ -34,7 +34,8 @@ describe('<IncidentDetailPage />', () => {
         loading: false
       },
       onRequestIncident: jest.fn(),
-      onRequestNotesList: jest.fn()
+      onRequestNotesList: jest.fn(),
+      onResetSplit: jest.fn()
     };
   });
 
