@@ -5,7 +5,6 @@
  * code.
  */
 
-
 // Needed for redux-saga es6 generator support
 import 'babel-polyfill';
 
