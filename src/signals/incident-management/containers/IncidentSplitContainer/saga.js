@@ -7,9 +7,13 @@ import { SPLIT_INCIDENT } from './constants';
 import { splitIncidentSuccess, splitIncidentError } from './actions';
 import { authPatchCall, authPostCall } from '../../../../shared/services/api/api';
 
-function formatUpdateIncident(values) {
+function formatUpdateIncident(values, incident) {
   const update = {
     text: values.text,
+    status: {
+      state: 'm'
+    },
+    location: incident.location,
     category: {
       sub_category: values.subcategory
     },
@@ -23,7 +27,6 @@ function formatUpdateIncident(values) {
       text: values.note
     }];
   }
-
   return update;
 }
 
@@ -32,10 +35,10 @@ export function* splitIncident(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals`;
   try {
     const created = yield authPostCall(`${requestURL}/${payload.incident.id}/split`, payload.create);
-    yield authPatchCall(`${requestURL}/${created[0].id}`, formatUpdateIncident(payload.update[0]));
-    yield authPatchCall(`${requestURL}/${created[1].id}`, formatUpdateIncident(payload.update[1]));
+    yield authPatchCall(`${requestURL}/${created[0].id}`, formatUpdateIncident(payload.update[0], payload.incident));
+    yield authPatchCall(`${requestURL}/${created[1].id}`, formatUpdateIncident(payload.update[1], payload.incident));
     if (created[2] && created[2].id && payload.update[2]) {
-      yield authPatchCall(`${requestURL}/${created[2].id}`, formatUpdateIncident(payload.update[2]));
+      yield authPatchCall(`${requestURL}/${created[2].id}`, formatUpdateIncident(payload.update[2], payload.incident));
     }
     yield put(splitIncidentSuccess({ id: payload.incident.id, created }));
     yield put(push(`/manage/incident/${payload.incident.id}`));
