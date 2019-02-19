@@ -25,6 +25,7 @@ function incidentNotesContainerReducer(state = initialState, action) {
       return state
         .set('error', action.payload)
         .set('loading', false);
+
     default:
       return state;
   }

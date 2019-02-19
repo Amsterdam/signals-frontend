@@ -67,7 +67,7 @@ IncidentPart.defaultProps = {
 };
 
 IncidentPart.propTypes = {
-  index: PropTypes.number.isRequired,
+  index: PropTypes.string.isRequired,
   incident: PropTypes.object,
   subcategories: PropTypes.array,
   priorityList: PropTypes.array,

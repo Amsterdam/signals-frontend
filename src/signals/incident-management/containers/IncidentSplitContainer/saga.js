@@ -3,32 +3,10 @@ import { push } from 'react-router-redux';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
+import formatUpdateIncident from './services/formatUpdateIncident';
 import { SPLIT_INCIDENT } from './constants';
 import { splitIncidentSuccess, splitIncidentError } from './actions';
 import { authPatchCall, authPostCall } from '../../../../shared/services/api/api';
-
-function formatUpdateIncident(values, incident) {
-  const update = {
-    text: values.text,
-    status: {
-      state: 'm'
-    },
-    location: incident.location,
-    category: {
-      sub_category: values.subcategory
-    },
-    priority: {
-      priority: values.priority
-    }
-  };
-
-  if (values.note) {
-    update.notes = [{
-      text: values.note
-    }];
-  }
-  return update;
-}
 
 export function* splitIncident(action) {
   const payload = action.payload;
