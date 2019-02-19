@@ -1,8 +1,6 @@
-/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { omitBy } from 'lodash';
-import { FormBuilder, FieldGroup } from 'react-reactive-form';
+import { FormBuilder } from 'react-reactive-form';
 
 import './style.scss';
 
@@ -45,6 +43,10 @@ class SplitForm extends React.Component {
     this.setVisibility = this.setVisibility.bind(this);
   }
 
+  setVisibility(isVisible) {
+    this.setState({ isVisible });
+  }
+
   handleSubmit() {
     const create = [];
     const update = [];
@@ -64,12 +66,8 @@ class SplitForm extends React.Component {
     });
   }
 
-  setVisibility(isVisible) {
-    this.setState({ isVisible });
-  }
-
   render() {
-    const { incident, subcategories, priorityList, handleSubmit, handleCancel } = this.props;
+    const { incident, subcategories, priorityList, handleCancel } = this.props;
     return (
       <div className="split-form">
         {incident ? (
@@ -128,13 +126,13 @@ class SplitForm extends React.Component {
       </div>
     );
   }
-};
+}
 
 SplitForm.defaultProps = {
   incident: {
     category: {},
     priority: {
-      priority:  ''
+      priority: ''
     }
   },
   isVisible: false,
