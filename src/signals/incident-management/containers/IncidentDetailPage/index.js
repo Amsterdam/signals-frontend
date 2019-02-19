@@ -94,8 +94,8 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
               </div>
 
               <div className="col-9"><h3>Melding {this.props.id}</h3></div>
-              <div className="col-3 d-flex">
-                <Link to={`${this.props.baseUrl}/incident/${this.props.id}/split`} className="align-self-center action-quad" >Splitsen</Link>
+              <div className="col-3 d-flex justify-content-end">
+                {incident && incident.status && incident.status.state === 'm' ? <Link to={`${this.props.baseUrl}/incident/${this.props.id}/split`} className="align-self-center action-quad" >Splitsen</Link> : ''}
                 <button className="align-self-center action-quad" onClick={this.onPrintView}>Print view</button>
               </div>
 
