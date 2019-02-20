@@ -1,17 +1,5 @@
-const formatUpdateIncident = (values, originalIncident) => {
-  const update = {
-    status: {
-      state: 'm'
-    }
-  };
-
-  if (values && values.text) {
-    update.text = values.text;
-  }
-
-  if (originalIncident && originalIncident.location) {
-    update.location = { ...originalIncident.location };
-  }
+const formatUpdateIncident = (values) => {
+  const update = {};
 
   if (values && values.subcategory) {
     update.category = {
