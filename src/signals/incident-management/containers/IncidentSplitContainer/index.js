@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
+import { goBack } from 'react-router-redux';
 
 import { makeSelectCategories } from 'containers/App/selectors';
 import injectSaga from 'utils/injectSaga';
@@ -37,7 +38,7 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
   }
 
   handleCancel() {
-    console.log('handleCancel');
+    this.props.onGoBack();
   }
 
   render() {
@@ -75,7 +76,8 @@ IncidentSplitContainer.propTypes = {
   categories: PropTypes.object,
   incidentModel: PropTypes.object,
   onRequestIncident: PropTypes.func.isRequired,
-  onSplitIncident: PropTypes.func.isRequired
+  onSplitIncident: PropTypes.func.isRequired,
+  onGoBack: PropTypes.func.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -85,7 +87,8 @@ const mapStateToProps = createStructuredSelector({
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestIncident: requestIncident,
-  onSplitIncident: splitIncident
+  onSplitIncident: splitIncident,
+  onGoBack: goBack
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
