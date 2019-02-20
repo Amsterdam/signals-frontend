@@ -3,13 +3,13 @@ import { put, takeLatest } from 'redux-saga/effects';
 import { authCall } from 'shared/services/api/api';
 import { REQUEST_INCIDENT } from './constants';
 import { requestIncidentSuccess, requestIncidentError } from './actions';
-import watchIncidentDetailContainerSaga, { fetchIncident } from './saga';
+import watchIncidentModelSaga, { fetchIncident } from './saga';
 
 jest.mock('shared/services/api/api');
 
-describe('IncidentSplitContainer saga', () => {
+describe('incidentModel saga', () => {
   it('should watchIncidentDetailContainerSaga', () => {
-    const gen = watchIncidentDetailContainerSaga();
+    const gen = watchIncidentModelSaga();
     expect(gen.next().value).toEqual(
       takeLatest(REQUEST_INCIDENT, fetchIncident)
     );

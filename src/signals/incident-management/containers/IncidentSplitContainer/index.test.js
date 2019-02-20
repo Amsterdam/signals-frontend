@@ -23,7 +23,8 @@ describe('<IncidentSplitContainer />', () => {
         loading: false
       },
       onRequestIncident: jest.fn(),
-      onSplitIncident: jest.fn()
+      onSplitIncident: jest.fn(),
+      onGoBack: jest.fn()
     };
   });
 

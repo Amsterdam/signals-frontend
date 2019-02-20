@@ -17,6 +17,6 @@ export function* fetchIncident(action) {
   }
 }
 
-export default function* watchIncidentDetailContainerSaga() {
+export default function* watchIncidentModelSaga() {
   yield takeLatest(REQUEST_INCIDENT, fetchIncident);
 }
