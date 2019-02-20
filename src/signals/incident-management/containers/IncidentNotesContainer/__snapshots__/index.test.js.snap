@@ -20,7 +20,13 @@ exports[`<IncidentNotesContainer /> should render correctly 1`] = `
       className="col-12"
     >
       <List
-        incidentNotesList={Array []}
+        incidentNotesList={
+          Array [
+            Object {
+              "state": "m",
+            },
+          ]
+        }
       />
     </div>
   </div>

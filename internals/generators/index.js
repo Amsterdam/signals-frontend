@@ -11,6 +11,7 @@ const path = require('path');
 // const languageGenerator = require('./language/index.js');
 const dpComponentGenerator = require('./ams-component/index.js');
 const dpContainerGenerator = require('./ams-container/index.js');
+const dpModelGenerator = require('./ams-model/index.js');
 
 module.exports = (plop) => {
   // plop.setGenerator('component', componentGenerator);
@@ -18,6 +19,7 @@ module.exports = (plop) => {
   // plop.setGenerator('language', languageGenerator);
   plop.setGenerator('ams-component', dpComponentGenerator);
   plop.setGenerator('ams-container', dpContainerGenerator);
+  plop.setGenerator('ams-model', dpModelGenerator);
   plop.addHelper('directory', (comp) => {
     try {
       fs.accessSync(path.join(__dirname, `../../src/containers/${comp}`), fs.F_OK);

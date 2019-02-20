@@ -24,38 +24,20 @@ describe('incidentNotesContainerReducer', () => {
         }).toJS()
       ).toEqual({
         error: false,
-        loading: true,
-        incidentNotesList: []
+        loading: true
       });
     });
   });
 
   describe('REQUEST_NOTE_CREATE_SUCCESS', () => {
-    it('sets notes list and loading', () => {
+    it('sets loading', () => {
       expect(
         incidentNotesContainerReducer(fromJS({
-          incidentNotesList: [{ text: 'Note 2' }, { text: 'Note 1' }]
         }), {
-          type: REQUEST_NOTE_CREATE_SUCCESS,
-          payload: { text: 'Note 3' }
+          type: REQUEST_NOTE_CREATE_SUCCESS
         }).toJS()
       ).toEqual({
-        loading: false,
-        incidentNotesList: [{ text: 'Note 3' }, { text: 'Note 2' }, { text: 'Note 1' }]
-      });
-    });
-
-    it('sets notes list', () => {
-      expect(
-        incidentNotesContainerReducer(fromJS({
-          incidentNotesList: [{ text: 'Note 2' }, { text: 'Note 1' }]
-        }), {
-          type: REQUEST_NOTE_CREATE_SUCCESS,
-          payload: { text: 'Note 3' }
-        }).toJS()
-      ).toEqual({
-        loading: false,
-        incidentNotesList: [{ text: 'Note 3' }, { text: 'Note 2' }, { text: 'Note 1' }]
+        loading: false
       });
     });
   });
@@ -69,8 +51,7 @@ describe('incidentNotesContainerReducer', () => {
         }).toJS()
       ).toEqual({
         error: true,
-        loading: false,
-        incidentNotesList: []
+        loading: false
       });
     });
   });

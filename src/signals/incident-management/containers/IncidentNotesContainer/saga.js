@@ -3,6 +3,7 @@ import { delay } from 'redux-saga';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authPostCall } from 'shared/services/api/api';
 
+import { requestAddNote } from 'models/notes/actions';
 import { REQUEST_NOTE_CREATE } from './constants';
 import { requestNoteCreateSuccess, requestNoteCreateError } from './actions';
 
@@ -16,6 +17,7 @@ export function* createIncidentNote(action) {
     const updatedNotes = yield authPostCall(requestURL, status);
     yield call(delay, 1000);
     yield put(requestNoteCreateSuccess(updatedNotes));
+    yield put(requestAddNote(updatedNotes));
   } catch (error) {
     yield put(requestNoteCreateError(error));
   }

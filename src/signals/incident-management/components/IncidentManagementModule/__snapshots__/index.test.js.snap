@@ -1,5 +1,121 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<IncidentManagementModule /> can navigate to incident split 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "injectedReducers": Object {},
+      "injectedSagas": Object {},
+      "replaceReducer": [Function],
+      "runSaga": [Function],
+      "subscribe": [Function],
+      Symbol(Symbol.observable): [Function],
+    }
+  }
+>
+  <MemoryRouter
+    initialEntries={
+      Array [
+        "/manage/incident/42/split",
+      ]
+    }
+    keyLength={0}
+  >
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "canGo": [Function],
+          "createHref": [Function],
+          "entries": Array [
+            Object {
+              "hash": "",
+              "pathname": "/manage/incident/42/split",
+              "search": "",
+              "state": undefined,
+            },
+          ],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "index": 0,
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/manage/incident/42/split",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <IncidentManagementModule
+        isAuthenticated={true}
+        match={
+          Object {
+            "isExact": false,
+            "params": Object {},
+            "path": "/manage",
+            "url": "/manage",
+          }
+        }
+      >
+        <div
+          className="manage-incident"
+        >
+          <div>
+            <div
+              className="container"
+            >
+              <div
+                className="row"
+              >
+                <div
+                  className="col-12"
+                >
+                  <Route
+                    exact={true}
+                    path="/manage/incidents"
+                    render={[Function]}
+                  />
+                  <Route
+                    exact={true}
+                    path="/manage/incident/:id"
+                    render={[Function]}
+                  />
+                  <Route
+                    exact={true}
+                    path="/manage/incident/:id/split"
+                    render={[Function]}
+                  >
+                    <Component
+                      baseUrl="/manage"
+                      id="42"
+                    >
+                      IncidentSplitContainer
+                    </Component>
+                  </Route>
+                  <Route
+                    component={[Function]}
+                    path="/manage/dashboard"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </IncidentManagementModule>
+    </Router>
+  </MemoryRouter>
+</Provider>
+`;
+
 exports[`<IncidentManagementModule /> routing can navigate to incident detail 1`] = `
 <Provider
   store={
@@ -96,6 +212,11 @@ exports[`<IncidentManagementModule /> routing can navigate to incident detail 1`
                       IncidentDetailPage
                     </Component>
                   </Route>
+                  <Route
+                    exact={true}
+                    path="/manage/incident/:id/split"
+                    render={[Function]}
+                  />
                   <Route
                     component={[Function]}
                     path="/manage/dashboard"
@@ -207,6 +328,11 @@ exports[`<IncidentManagementModule /> routing can navigate to incident list 1`] 
                     render={[Function]}
                   />
                   <Route
+                    exact={true}
+                    path="/manage/incident/:id/split"
+                    render={[Function]}
+                  />
+                  <Route
                     component={[Function]}
                     path="/manage/dashboard"
                   />
@@ -243,6 +369,11 @@ exports[`<IncidentManagementModule /> should render correctly when authenticated
           <Route
             exact={true}
             path="/manage/incident/:id"
+            render={[Function]}
+          />
+          <Route
+            exact={true}
+            path="/manage/incident/:id/split"
             render={[Function]}
           />
           <Route

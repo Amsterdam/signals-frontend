@@ -1,8 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
+import { REQUEST_INCIDENT } from 'models/incident/constants';
+import { REQUEST_NOTES_LIST } from 'models/notes/constants';
 import { IncidentDetailPage, mapDispatchToProps } from './index';
-import { REQUEST_INCIDENT, REQUEST_NOTES_LIST } from './constants';
+
 import stadsdeelList from '../../definitions/stadsdeelList';
 import priorityList from '../../definitions/priorityList';
 import ConnectedPrintLayout from './components/PrintLayout';
@@ -14,6 +16,7 @@ jest.mock('../IncidentPriorityContainer', () => () => 'IncidentPriorityContainer
 jest.mock('../IncidentNotesContainer', () => () => 'IncidentNotesContainer');
 jest.mock('../IncidentStatusContainer', () => () => 'IncidentStatusContainer');
 jest.mock('./components/PrintLayout', () => () => 'PrintLayout');
+jest.mock('shared/components/LoadingIndicator', () => () => 'LoadingIndicator');
 
 describe('<IncidentDetailPage />', () => {
   let props;
@@ -21,14 +24,18 @@ describe('<IncidentDetailPage />', () => {
   beforeEach(() => {
     props = {
       id: '100',
-      incidentdetailpage: {
+      notesModel: {
+        incidentNotesList: []
+      },
+      incidentModel: {
         incident: {},
-        incidentNotesList: [],
         stadsdeelList,
-        priorityList
+        priorityList,
+        loading: false
       },
       onRequestIncident: jest.fn(),
-      onRequestNotesList: jest.fn()
+      onRequestNotesList: jest.fn(),
+      onResetSplit: jest.fn()
     };
   });
 
@@ -43,7 +50,7 @@ describe('<IncidentDetailPage />', () => {
     });
 
     it('should render correctly with location', () => {
-      props.incidentdetailpage.incident.location = {};
+      props.incidentModel.incident.location = {};
       const wrapper = shallow(
         <IncidentDetailPage {...props} />
       );
@@ -51,7 +58,7 @@ describe('<IncidentDetailPage />', () => {
     });
 
     it('should render correctly with image', () => {
-      props.incidentdetailpage.incident.image = 'some-image';
+      props.incidentModel.incident.image = 'some-image';
       const wrapper = shallow(
         <IncidentDetailPage {...props} />
       );
@@ -59,7 +66,7 @@ describe('<IncidentDetailPage />', () => {
     });
 
     it('should render correctly without incident', () => {
-      props.incidentdetailpage.incident = undefined;
+      props.incidentModel.incident = undefined;
       const wrapper = shallow(
         <IncidentDetailPage {...props} />
       );
