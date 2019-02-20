@@ -34,7 +34,7 @@ export function* authCall(url, params, authorizationToken) {
   return yield call(request, fullUrl, options);
 }
 
-export function* authPostCall(url, params) {
+function* authCallWithPayload(url, params, method = 'POST') {
   const headers = {
     'Content-Type': 'application/json'
   };
@@ -45,31 +45,20 @@ export function* authPostCall(url, params) {
   }
 
   const options = {
-    method: 'POST',
+    method,
     headers,
     body: JSON.stringify(params)
   };
 
   const fullUrl = `${url}`;
   return yield call(request, fullUrl, options);
+}
+
+export function* authPostCall(url, params) {
+  return yield authCallWithPayload(url, params);
 }
 
 export function* authPatchCall(url, params) {
-  const headers = {
-    'Content-Type': 'application/json'
-  };
-
-  const token = yield select(makeSelectAccessToken());
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
-  const options = {
-    method: 'PATCH',
-    headers,
-    body: JSON.stringify(params)
-  };
-
-  const fullUrl = `${url}`;
-  return yield call(request, fullUrl, options);
+  return yield authCallWithPayload(url, params, 'PATCH');
 }
+

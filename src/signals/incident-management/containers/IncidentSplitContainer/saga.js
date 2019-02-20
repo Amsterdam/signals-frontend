@@ -13,10 +13,12 @@ export function* splitIncident(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals`;
   try {
     const created = yield authPostCall(`${requestURL}/${payload.incident.id}/split`, payload.create);
-    yield authPatchCall(`${requestURL}/${created[0].id}`, formatUpdateIncident(payload.update[0]));
-    yield authPatchCall(`${requestURL}/${created[1].id}`, formatUpdateIncident(payload.update[1]));
-    if (created[2] && created[2].id && payload.update[2]) {
-      yield authPatchCall(`${requestURL}/${created[2].id}`, formatUpdateIncident(payload.update[2]));
+    if (created && created.children && Array.isArray(created.children)) {
+      yield authPatchCall(`${requestURL}/${created.children[0].id}`, formatUpdateIncident(payload.update[0]));
+      yield authPatchCall(`${requestURL}/${created.children[1].id}`, formatUpdateIncident(payload.update[1]));
+      if (created.children[2] && created.children[2].id && payload.update[2]) {
+        yield authPatchCall(`${requestURL}/${created.children[2].id}`, formatUpdateIncident(payload.update[2]));
+      }
     }
     yield put(splitIncidentSuccess({ id: payload.incident.id, created }));
     yield put(push(`/manage/incident/${payload.incident.id}`));

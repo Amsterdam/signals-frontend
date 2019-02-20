@@ -6,13 +6,13 @@ import './style.scss';
 
 const SplitNotificationBar = ({ payload, onClose }) => (
   <div>
-    {payload && payload.id && payload.created && Array.isArray(payload.created) ?
+    {payload && payload.id && payload.created && payload.created.children && Array.isArray(payload.created.children) ?
       <div className="split-notification-bar">
         <div className="split-notification-bar__body">
           <button className="split-notification-bar__close-button" onClick={onClose} />
 
           Melding {payload.id} is gesplitst in
-          {payload.created.map((item) =>
+          {payload.created.children.map((item) =>
             (<span key={item.id} className="split-notification-bar__link">
               &nbsp;<NavLink to={`/manage/incident/${item.id}`}>{item.id}</NavLink>
             </span>)
