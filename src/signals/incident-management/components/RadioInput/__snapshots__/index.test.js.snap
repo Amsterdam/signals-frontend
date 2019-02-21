@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<RadioInput /> should render correctly 1`] = `
+<div
+  className="radio-input"
+>
+  <div
+    className="mode_input text rij_verplicht"
+  >
+    <div
+      className="radio-input__label"
+    >
+      <label
+        htmlFor="formname"
+      >
+        display
+      </label>
+    </div>
+    <div
+      className="radio-input__control invoer"
+    >
+      <div
+        className="antwoord"
+        key="name-"
+      >
+        <input
+          className="kenmerkradio"
+          id="name-"
+        />
+        <label
+          htmlFor="name-"
+        >
+          none
+        </label>
+      </div>
+      <div
+        className="antwoord"
+        key="name-1"
+      >
+        <input
+          className="kenmerkradio"
+          id="name-1"
+        />
+        <label
+          htmlFor="name-1"
+        >
+          item1
+        </label>
+      </div>
+      <div
+        className="antwoord"
+        key="name-2"
+      >
+        <input
+          className="kenmerkradio"
+          id="name-2"
+        />
+        <label
+          htmlFor="name-2"
+        >
+          item2
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+`;

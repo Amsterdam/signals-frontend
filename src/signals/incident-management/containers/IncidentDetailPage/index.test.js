@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { REQUEST_INCIDENT } from 'models/incident/constants';
+import { REQUEST_INCIDENT, RESET_SPLIT } from 'models/incident/constants';
 import { REQUEST_NOTES_LIST } from 'models/notes/constants';
 import { IncidentDetailPage, mapDispatchToProps } from './index';
 
@@ -28,7 +28,11 @@ describe('<IncidentDetailPage />', () => {
         incidentNotesList: []
       },
       incidentModel: {
-        incident: {},
+        incident: {
+          status: {
+            state: 'm'
+          }
+        },
         stadsdeelList,
         priorityList,
         loading: false
@@ -72,6 +76,14 @@ describe('<IncidentDetailPage />', () => {
       );
       expect(wrapper).toMatchSnapshot();
     });
+
+    it('should render loading indicator correctly', () => {
+      props.incidentModel.loading = true;
+      const wrapper = shallow(
+        <IncidentDetailPage {...props} />
+      );
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 
   describe('events', () => {
@@ -93,6 +105,14 @@ describe('<IncidentDetailPage />', () => {
       expect(wrapper.find(ConnectedPrintLayout).length).toEqual(1);
       expect(wrapper).toMatchSnapshot();
     });
+
+    it('should reset split state', () => {
+      const wrapper = shallow(
+        <IncidentDetailPage {...props} />
+      );
+      wrapper.instance().onResetSplit();
+      expect(props.onResetSplit).toHaveBeenCalled();
+    });
   });
 
   describe('mapDispatchToProps', () => {
@@ -106,6 +126,11 @@ describe('<IncidentDetailPage />', () => {
     it('should request the notes list', () => {
       mapDispatchToProps(dispatch).onRequestNotesList(42);
       expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_NOTES_LIST, payload: 42 });
+    });
+
+    it('should reset split', () => {
+      mapDispatchToProps(dispatch).onResetSplit();
+      expect(dispatch).toHaveBeenCalledWith({ type: RESET_SPLIT });
     });
   });
 });

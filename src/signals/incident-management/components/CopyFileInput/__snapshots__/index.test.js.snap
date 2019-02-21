@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CopyFileInput /> should render correctly 1`] = `
+<div
+  className="copy-file-input"
+>
+  <div
+    className="mode_input text rij_verplicht"
+  >
+    <div
+      className="copy-file-input__label"
+    >
+      <label
+        htmlFor="formname"
+      >
+        display
+      </label>
+    </div>
+    <img
+      className="copy-file-input__file"
+      src="none"
+    />
+    <div
+      className="copy-file-input__control invoer antwoord"
+    >
+      <input
+        id="formname"
+        name=""
+        type="checkbox"
+      />
+      <label
+        htmlFor="formname"
+      >
+        Foto toevoegen
+      </label>
+    </div>
+  </div>
+</div>
+`;

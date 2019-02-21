@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import './style.scss';
 
-export const TextInput = (props) => {
+export const CopyFileInput = (props) => {
   const { name, display, values } = props;
   const render = ({ handler }) => (
     <div className="copy-file-input">
@@ -33,4 +33,4 @@ export const TextInput = (props) => {
   return render;
 };
 
-export default TextInput;
+export default CopyFileInput;

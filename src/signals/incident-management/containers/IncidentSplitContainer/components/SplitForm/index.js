@@ -70,59 +70,54 @@ class SplitForm extends React.Component {
     const { incident, subcategories, priorityList, handleCancel } = this.props;
     return (
       <div className="split-form">
-        {incident ? (
+        <h1>Splitsen</h1>
+
+        <IncidentPart
+          index="1"
+          incident={incident}
+          subcategories={subcategories}
+          priorityList={priorityList}
+          splitForm={this.state.splitForm}
+        />
+
+        <IncidentPart
+          index="2"
+          incident={incident}
+          subcategories={subcategories}
+          priorityList={priorityList}
+          splitForm={this.state.splitForm}
+        />
+
+        {this.state.isVisible ?
           <div>
-            <h1>Splitsen</h1>
+            <button onClick={() => this.setVisibility(false)} className="action reset split-form__button-hide">Verwijder</button>
 
             <IncidentPart
-              index="1"
+              index="3"
               incident={incident}
               subcategories={subcategories}
               priorityList={priorityList}
               splitForm={this.state.splitForm}
             />
 
-            <IncidentPart
-              index="2"
-              incident={incident}
-              subcategories={subcategories}
-              priorityList={priorityList}
-              splitForm={this.state.splitForm}
-            />
-
-            {this.state.isVisible ?
-              <div>
-                <button onClick={() => this.setVisibility(false)} className="action reset split-form__button-remove">Verwijder</button>
-
-                <IncidentPart
-                  index="3"
-                  incident={incident}
-                  subcategories={subcategories}
-                  priorityList={priorityList}
-                  splitForm={this.state.splitForm}
-                />
-
-              </div>
-              :
-              <button onClick={() => this.setVisibility(true)} className="action tertiair split-form__button-add">Deelmelding 3 toevoegen</button>
-            }
-
-            <div className="split-form__disclainer">
-              <h4>Let op</h4>
-              <ul>
-                <li>De persoon die de oorspronkelijke melding heeft gedaan, ontvangt een email per deelmelding.</li>
-                <li>De oorspronkelijke melding wordt afgesloten als deze gesplitst wordt.</li>
-                <li>Een melding kan maar 1 keer gesplitst worden.</li>
-              </ul>
-            </div>
-
-            <div>
-              <button onClick={this.handleSubmit} className="action primary">Splitsen</button>
-              <button onClick={handleCancel} className="action tertiair">Annuleer</button>
-            </div>
           </div>
-        )
-      : ''}
+          :
+          <button onClick={() => this.setVisibility(true)} className="action tertiair split-form__button-show">Deelmelding 3 toevoegen</button>
+        }
+
+        <div className="split-form__disclainer">
+          <h4>Let op</h4>
+          <ul>
+            <li>De persoon die de oorspronkelijke melding heeft gedaan, ontvangt een email per deelmelding.</li>
+            <li>De oorspronkelijke melding wordt afgesloten als deze gesplitst wordt.</li>
+            <li>Een melding kan maar 1 keer gesplitst worden.</li>
+          </ul>
+        </div>
+
+        <div>
+          <button onClick={this.handleSubmit} className="action primary">Splitsen</button>
+          <button onClick={handleCancel} className="action tertiair">Annuleer</button>
+        </div>
       </div>
     );
   }
