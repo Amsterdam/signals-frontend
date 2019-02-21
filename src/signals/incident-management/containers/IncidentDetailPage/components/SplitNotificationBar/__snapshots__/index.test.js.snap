@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SplitNotificationBar /> should render 2 items correctly 1`] = `
+<div>
+  <div
+    className="split-notification-bar"
+  >
+    <div
+      className="split-notification-bar__body"
+    >
+      <button
+        className="split-notification-bar__close-button"
+        onClick={[MockFunction]}
+      />
+      Melding 
+      42
+       is gesplitst in
+      <span
+        className="split-notification-bar__link"
+        key="43"
+      >
+         
+        <NavLink
+          activeClassName="active"
+          to="/manage/incident/43"
+        >
+          43
+        </NavLink>
+      </span>
+      <span
+        className="split-notification-bar__link"
+        key="44"
+      >
+         
+        <NavLink
+          activeClassName="active"
+          to="/manage/incident/44"
+        >
+          44
+        </NavLink>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<SplitNotificationBar /> should render 3 items correctly 1`] = `
+<div>
+  <div
+    className="split-notification-bar"
+  >
+    <div
+      className="split-notification-bar__body"
+    >
+      <button
+        className="split-notification-bar__close-button"
+        onClick={[MockFunction]}
+      />
+      Melding 
+      42
+       is gesplitst in
+      <span
+        className="split-notification-bar__link"
+        key="43"
+      >
+         
+        <NavLink
+          activeClassName="active"
+          to="/manage/incident/43"
+        >
+          43
+        </NavLink>
+      </span>
+      <span
+        className="split-notification-bar__link"
+        key="44"
+      >
+         
+        <NavLink
+          activeClassName="active"
+          to="/manage/incident/44"
+        >
+          44
+        </NavLink>
+      </span>
+      <span
+        className="split-notification-bar__link"
+        key="45"
+      >
+         
+        <NavLink
+          activeClassName="active"
+          to="/manage/incident/45"
+        >
+          45
+        </NavLink>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<SplitNotificationBar /> should render no items correctly 1`] = `<div />`;
