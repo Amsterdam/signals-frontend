@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { REQUEST_INCIDENT, RESET_SPLIT_STATE } from 'models/incident/constants';
+import { REQUEST_INCIDENT, DISMISS_SPLIT_NOTIFICATION } from 'models/incident/constants';
 import { REQUEST_NOTES_LIST } from 'models/notes/constants';
 import { IncidentDetailPage, mapDispatchToProps } from './index';
 
@@ -39,7 +39,7 @@ describe('<IncidentDetailPage />', () => {
       },
       onRequestIncident: jest.fn(),
       onRequestNotesList: jest.fn(),
-      onResetSplitState: jest.fn()
+      onDismissSplitNotification: jest.fn()
     };
   });
 
@@ -110,8 +110,8 @@ describe('<IncidentDetailPage />', () => {
       const wrapper = shallow(
         <IncidentDetailPage {...props} />
       );
-      wrapper.instance().onResetSplitState();
-      expect(props.onResetSplitState).toHaveBeenCalled();
+      wrapper.instance().onDismissSplitNotification();
+      expect(props.onDismissSplitNotification).toHaveBeenCalled();
     });
   });
 
@@ -129,8 +129,8 @@ describe('<IncidentDetailPage />', () => {
     });
 
     it('should reset split state', () => {
-      mapDispatchToProps(dispatch).onResetSplitState();
-      expect(dispatch).toHaveBeenCalledWith({ type: RESET_SPLIT_STATE });
+      mapDispatchToProps(dispatch).onDismissSplitNotification();
+      expect(dispatch).toHaveBeenCalledWith({ type: DISMISS_SPLIT_NOTIFICATION });
     });
   });
 });
