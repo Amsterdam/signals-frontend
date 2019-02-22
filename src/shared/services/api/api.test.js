@@ -2,7 +2,7 @@ import { call, select } from 'redux-saga/effects';
 import request from 'utils/request';
 import { makeSelectAccessToken } from 'containers/App/selectors';
 
-import { generateParams, authCall, authCallWithPayload } from './api';
+import { generateParams, authCall, authCallWithPayload, authPostCall, authPatchCall } from './api';
 
 jest.mock('containers/App/selectors', () => {
   function mockedMakeSelectAccessToken() { }
@@ -12,7 +12,7 @@ jest.mock('containers/App/selectors', () => {
   });
 });
 
-describe('api  service', () => {
+describe('api service', () => {
   let params;
   const queryString = 'name1=value1&name2=value2&value3=foo&value3=bar';
   const url = 'https://url/to/test';
@@ -96,7 +96,6 @@ describe('api  service', () => {
 
   describe('authCallWithPayload', () => {
     it('should generate the right call', () => {
-      const fullUrl = `${url}`;
       const options = {
         method: 'METHOD',
         headers: {
@@ -107,52 +106,34 @@ describe('api  service', () => {
       };
       const gen = authCallWithPayload(url, params, 'METHOD');
       expect(gen.next().value).toEqual(select(makeSelectAccessToken())); // eslint-disable-line redux-saga/yield-effects
-      expect(gen.next(token).value).toEqual(call(request, fullUrl, options)); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.next(token).value).toEqual(call(request, url, options)); // eslint-disable-line redux-saga/yield-effects
     });
 
-    // it('should generate a call without token if it is not present', () => {
-    //   const fullUrl = `${url}`;
-    //   const options = {
-    //     method: 'METHOD',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(params)
-    //   };
-    //   const gen = authCallWithPayload(url, params, 'METHOD');
-    //   expect(gen.next().value).toEqual(select(authCallWithPayload())); // eslint-disable-line redux-saga/yield-effects
-    //   expect(gen.next().value).toEqual(call(request, fullUrl, options)); // eslint-disable-line redux-saga/yield-effects
-    // });
+    it('should generate a call without token if it is not present', () => {
+      const options = {
+        method: 'METHOD',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params)
+      };
+      const gen = authCallWithPayload(url, params, 'METHOD');
+      expect(gen.next().value).toEqual(select(makeSelectAccessToken())); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.next().value).toEqual(call(request, url, options)); // eslint-disable-line redux-saga/yield-effects
+    });
   });
 
-  // describe('authPostCall', () => {
-  //   it('should generate the right call', () => {
-  //     const fullUrl = `${url}`;
-  //     const options = {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `Bearer ${token}`
-  //       },
-  //       body: JSON.stringify(params)
-  //     };
-  //     const gen = authPostCall(url, params);
-  //     expect(gen.next().value).toEqual(select(makeSelectAccessToken())); // eslint-disable-line redux-saga/yield-effects
-  //     expect(gen.next(token).value).toEqual(call(request, fullUrl, options)); // eslint-disable-line redux-saga/yield-effects
-  //   });
+  describe('authPostCall', () => {
+    it('should generate the right call', () => {
+      const gen = authPostCall(url, params);
+      expect(gen.next(token).value).toEqual(call(authCallWithPayload, url, params, 'POST')); // eslint-disable-line redux-saga/yield-effects
+    });
+  });
 
-  //   // it('should generate a call without token if it is not present', () => {
-  //   //   const fullUrl = `${url}`;
-  //   //   const options = {
-  //   //     method: 'POST',
-  //   //     headers: {
-  //   //       'Content-Type': 'application/json'
-  //   //     },
-  //   //     body: JSON.stringify(params)
-  //   //   };
-  //   //   const gen = authPostCall(url, params);
-  //   //   expect(gen.next().value).toEqual(select(makeSelectAccessToken())); // eslint-disable-line redux-saga/yield-effects
-  //   //   expect(gen.next().value).toEqual(call(request, fullUrl, options)); // eslint-disable-line redux-saga/yield-effects
-  //   // });
-  // });
+  describe('authPatchCall', () => {
+    it('should generate the right call', () => {
+      const gen = authPatchCall(url, params);
+      expect(gen.next(token).value).toEqual(call(authCallWithPayload, url, params, 'PATCH')); // eslint-disable-line redux-saga/yield-effects
+    });
+  });
 });

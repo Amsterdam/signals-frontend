@@ -1,13 +1,27 @@
-import { takeLatest } from 'redux-saga/effects';
+import { all, put, takeLatest } from 'redux-saga/effects';
+import { push } from 'react-router-redux';
 
-// import { authCall } from 'shared/services/api/api';
+import CONFIGURATION from 'shared/services/configuration/configuration';
+import { authPatchCall, authPostCall } from 'shared/services/api/api';
+
+import formatUpdateIncident from './services/formatUpdateIncident';
 import { SPLIT_INCIDENT } from './constants';
-// import { requestIncidentSuccess, requestIncidentError } from './actions';
+import { splitIncidentSuccess, splitIncidentError } from './actions';
 import watchIncidentDetailContainerSaga, { splitIncident } from './saga';
 
 jest.mock('shared/services/api/api');
 
 describe('IncidentSplitContainer saga', () => {
+  const id = 42;
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals`;
+  const action = {
+    payload: {
+      id,
+      create: [{ test: 'text 1' }, { text: 'text 2' }, { text: 'text 3' }],
+      update: [{ category: 'fo' }, { category: 'ba' }, { category: 'ba' }]
+    }
+  };
+
   it('should watchIncidentDetailContainerSaga', () => {
     const gen = watchIncidentDetailContainerSaga();
     expect(gen.next().value).toEqual(
@@ -15,24 +29,22 @@ describe('IncidentSplitContainer saga', () => {
     );
   });
 
-  // it('should fetchIncident success', () => {
-  //   const requestURL = 'https://acc.api.data.amsterdam.nl/signals/auth/signal';
-  //   const id = 1000;
-  //   const action = { payload: id };
-  //   const incident = { id, name: 'incident' };
+  it('should splitIncident success', () => {
+    const created = {
+      children: [{ id: 43 }, { id: 44 }, { id: 45 }]
+    };
+    const gen = splitIncident(action);
+    expect(gen.next().value).toEqual(authPostCall(`${requestURL}/${id}/split`, action.payload.create));
+    expect(gen.next(created).value).toEqual(all(created.children.map((child, key) => authPatchCall(`${requestURL}/${child.id}`, formatUpdateIncident(action.payload.update[key])))));
+    expect(gen.next().value).toEqual(put(splitIncidentSuccess({ id, created })));
+    expect(gen.next().value).toEqual(put(push(`/manage/incident/${id}`)));
+  });
 
-  //   const gen = fetchIncident(action);
-  //   expect(gen.next().value).toEqual(authCall(`${requestURL}/${id}`));
-  //   expect(gen.next(incident).value).toEqual(put(requestIncidentSuccess(incident))); // eslint-disable-line redux-saga/yield-effects
-  // });
+  it('should fetchIncident error', () => {
+    const error = new Error('404 Not Found');
 
-  // it('should fetchIncident error', () => {
-  //   const id = 1000;
-  //   const action = { payload: id };
-  //   const error = new Error('404 Not Found');
-
-  //   const gen = fetchIncident(action);
-  //   gen.next();
-  //   expect(gen.throw(error).value).toEqual(put(requestIncidentError(error))); // eslint-disable-line redux-saga/yield-effects
-  // });
+    const gen = splitIncident(action);
+    gen.next();
+    expect(gen.throw(error).value).toEqual(put(splitIncidentError(error))); // eslint-disable-line redux-saga/yield-effects
+  });
 });

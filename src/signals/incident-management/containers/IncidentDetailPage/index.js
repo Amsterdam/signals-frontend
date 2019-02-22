@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
-import { requestIncident, resetSplit } from 'models/incident/actions';
+import { requestIncident, dismissSplitNotification } from 'models/incident/actions';
 import { requestNotesList } from 'models/notes/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 import makeSelectNotesModel from 'models/notes/selectors';
@@ -36,7 +36,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 
     this.onTabChanged = this.onTabChanged.bind(this);
     this.onPrintView = this.onPrintView.bind(this);
-    this.onResetSplit = this.onResetSplit.bind(this);
+    this.onDismissSplitNotification = this.onDismissSplitNotification.bind(this);
   }
 
   state = {
@@ -57,8 +57,8 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     this.setState({ printView: !this.state.printView });
   }
 
-  onResetSplit() {
-    this.props.onResetSplit();
+  onDismissSplitNotification() {
+    this.props.onDismissSplitNotification();
   }
 
   render() {
@@ -86,7 +86,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
       ) :
       (
         <div className="incident-detail-page container">
-          <SplitNotificationBar payload={split} onClose={this.onResetSplit} />
+          <SplitNotificationBar payload={split} onClose={this.onDismissSplitNotification} />
           {loading ? <LoadingIndicator /> : (
             <div className="row">
               <div className="col-12">
@@ -144,7 +144,7 @@ IncidentDetailPage.propTypes = {
 
   onRequestIncident: PropTypes.func.isRequired,
   onRequestNotesList: PropTypes.func.isRequired,
-  onResetSplit: PropTypes.func.isRequired
+  onDismissSplitNotification: PropTypes.func.isRequired
 };
 
 /* istanbul ignore next */
@@ -158,7 +158,7 @@ const mapStateToProps = () => createStructuredSelector({
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestIncident: requestIncident,
   onRequestNotesList: requestNotesList,
-  onResetSplit: resetSplit
+  onDismissSplitNotification: dismissSplitNotification
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(IncidentDetailPage);

@@ -76,3 +76,11 @@ exports[`<IncidentSplitContainer /> rendering should render correctly 1`] = `
   </div>
 </div>
 `;
+
+exports[`<IncidentSplitContainer /> rendering should render loading indicator correctly 1`] = `
+<div
+  className="incident-split-container"
+>
+  <LoadingIndicator />
+</div>
+`;

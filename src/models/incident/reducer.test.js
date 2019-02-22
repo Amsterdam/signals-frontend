@@ -13,7 +13,7 @@ import {
   REQUEST_INCIDENT,
   REQUEST_INCIDENT_SUCCESS,
   REQUEST_INCIDENT_ERROR,
-  RESET_SPLIT
+  DISMISS_SPLIT_NOTIFICATION
 }
   from './constants';
 
@@ -69,11 +69,11 @@ describe('incidentModelReducer', () => {
     });
   });
 
-  it('should handle the RESET_SPLIT', () => {
+  it('should handle the DISMISS_SPLIT_NOTIFICATION', () => {
     const split = { id: 42, created: [{ id: 3 }] };
     expect(
       incidentModelReducer(fromJS({ split }), {
-        type: RESET_SPLIT
+        type: DISMISS_SPLIT_NOTIFICATION
       }).toJS()
     ).toEqual({
       split: false

@@ -55,9 +55,9 @@ export function* authCallWithPayload(url, params, method) {
 }
 
 export function* authPostCall(url, params) {
-  return yield authCallWithPayload(url, params, 'POST');
+  return yield call(authCallWithPayload, url, params, 'POST');
 }
 
 export function* authPatchCall(url, params) {
-  return yield authCallWithPayload(url, params, 'PATCH');
+  return yield call(authCallWithPayload, url, params, 'PATCH');
 }
