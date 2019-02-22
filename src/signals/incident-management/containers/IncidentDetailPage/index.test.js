@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { REQUEST_INCIDENT, RESET_SPLIT } from 'models/incident/constants';
+import { REQUEST_INCIDENT, RESET_SPLIT_STATE } from 'models/incident/constants';
 import { REQUEST_NOTES_LIST } from 'models/notes/constants';
 import { IncidentDetailPage, mapDispatchToProps } from './index';
 
@@ -39,7 +39,7 @@ describe('<IncidentDetailPage />', () => {
       },
       onRequestIncident: jest.fn(),
       onRequestNotesList: jest.fn(),
-      onResetSplit: jest.fn()
+      onResetSplitState: jest.fn()
     };
   });
 
@@ -110,8 +110,8 @@ describe('<IncidentDetailPage />', () => {
       const wrapper = shallow(
         <IncidentDetailPage {...props} />
       );
-      wrapper.instance().onResetSplit();
-      expect(props.onResetSplit).toHaveBeenCalled();
+      wrapper.instance().onResetSplitState();
+      expect(props.onResetSplitState).toHaveBeenCalled();
     });
   });
 
@@ -128,9 +128,9 @@ describe('<IncidentDetailPage />', () => {
       expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_NOTES_LIST, payload: 42 });
     });
 
-    it('should reset split', () => {
-      mapDispatchToProps(dispatch).onResetSplit();
-      expect(dispatch).toHaveBeenCalledWith({ type: RESET_SPLIT });
+    it('should reset split state', () => {
+      mapDispatchToProps(dispatch).onResetSplitState();
+      expect(dispatch).toHaveBeenCalledWith({ type: RESET_SPLIT_STATE });
     });
   });
 });

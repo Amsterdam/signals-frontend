@@ -76,7 +76,7 @@ describe('<SplitForm />', () => {
     wrapper.instance().handleSubmit();
     expect(props.handleSubmit).toHaveBeenCalledWith({
       create: [mockCreate, mockCreate],
-      incident: props.incident,
+      id: props.incident.id,
       update: [mockUpdate, mockUpdate]
     });
   });
@@ -88,7 +88,7 @@ describe('<SplitForm />', () => {
     wrapper.instance().handleSubmit();
     expect(props.handleSubmit).toHaveBeenCalledWith({
       create: [mockCreate, mockCreate, mockCreate],
-      incident: props.incident,
+      id: props.incident.id,
       update: [mockUpdate, mockUpdate, mockUpdate]
     });
   });
