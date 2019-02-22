@@ -1,63 +1,49 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
-// import { FormBuilder } from 'react-reactive-form';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-// import { IncidentPart } from './index';
-// import priorityList from '../../../../definitions/priorityList';
+import IncidentPart from './index';
+import priorityList from '../../../../definitions/priorityList';
 
-// describe('<IncidentPart />', () => {
-//   let props;
+describe('<IncidentPart />', () => {
+  let props;
 
-//   beforeEach(() => {
-//     const form = {
-//       get: jest.fn().mockImplementation((item) => {
-//         console.log('iterm', item);
-//         switch (item) {
-//           default:
-//             return '';
-//         }
-//       })
-//     };
+  beforeEach(() => {
+    const splitForm = {
+      get: jest.fn().mockImplementation((item) => ({ item }))
+    };
 
-//     props = {
-//       index: '2',
-//       incident: {
-//         category: {},
-//         priority: {
-//           priority: ''
-//         }
-//       },
-//       subcategories: [{
-//         key: 'key',
-//         value: 'value',
-//         slug: 'slug'
-//       }],
-//       priorityList,
-//       splitForm: form
-//     };
-//   });
+    props = {
+      index: '2',
+      incident: {
+        category: {},
+        priority: {
+          priority: ''
+        }
+      },
+      subcategories: [{
+        key: 'key',
+        value: 'value',
+        slug: 'slug'
+      }],
+      priorityList,
+      splitForm
+    };
+  });
 
-//   // splitForm: FormBuilder.group({
-//   //   part1: FormBuilder.group({
-//   //     subcategory: 'slug',
-//   //     text: 'er ligt hier alweer poep',
-//   //     file: true,
-//   //     note: 'opmerking',
-//   //     priority: 'high',
-//   //   })
-//   // })
+  describe('rendering', () => {
+    it('should render correctly without image', () => {
+      const wrapper = shallow(
+        <IncidentPart {...props} />
+      );
+      expect(wrapper).toMatchSnapshot();
+    });
 
-//   describe('rendering', () => {
-//     it('should render correctly', () => {
-//       const wrapper = shallow(
-//         <IncidentPart {...props} />
-//       );
-//       expect(wrapper).toMatchSnapshot();
-//       // expect(props.onRequestIncident).toHaveBeenCalledWith('42');
-//     });
-//   });
-// });
-
-it('should', () => {
-  expect(1).toBe(1);
+    it('should render correctly with image', () => {
+      props.incident.image = 'mock-image';
+      const wrapper = shallow(
+        <IncidentPart {...props} />
+      );
+      expect(wrapper).toMatchSnapshot();
+    });
+  });
 });
