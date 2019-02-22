@@ -60,7 +60,7 @@ class SplitForm extends React.Component {
       create.push({ text: this.state.splitForm.value.part3.text });
     }
     this.props.handleSubmit({
-      incident: this.props.incident,
+      id: this.props.incident.id,
       create,
       update
     });
