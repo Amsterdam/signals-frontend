@@ -1,5 +1,5 @@
 import {
-  REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR, RESET_SPLIT_STATE
+  REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR, DISMISS_SPLIT_NOTIFICATION
 } from './constants';
 
 export function requestIncident(id) {
@@ -23,8 +23,8 @@ export function requestIncidentError(error) {
   };
 }
 
-export function resetSplitState() {
+export function dismissSplitNotification() {
   return {
-    type: RESET_SPLIT_STATE
+    type: DISMISS_SPLIT_NOTIFICATION
   };
 }

@@ -9,7 +9,7 @@ import { REQUEST_STATUS_CREATE_SUCCESS } from 'signals/incident-management/conta
 import { SPLIT_INCIDENT_SUCCESS } from 'signals/incident-management/containers/IncidentSplitContainer/constants';
 
 import {
-  REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR, RESET_SPLIT_STATE
+  REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR, DISMISS_SPLIT_NOTIFICATION
 } from './constants';
 
 export const initialState = fromJS({
@@ -41,7 +41,7 @@ function incidentModelReducer(state = initialState, action) {
         .set('error', action.payload)
         .set('loading', false);
 
-    case RESET_SPLIT_STATE:
+    case DISMISS_SPLIT_NOTIFICATION:
       return state
         .set('split', false);
 
