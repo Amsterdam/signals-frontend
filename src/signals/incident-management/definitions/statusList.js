@@ -18,6 +18,11 @@ const AFGEHANDELD = {
   value: 'Afgehandeld',
   color: 'lightgreen'
 };
+const GESPLITST = {
+  key: 's',
+  value: 'Gesplitst',
+  color: 'lightgreen'
+};
 const ON_HOLD = {
   key: 'h',
   value: 'On hold',
@@ -57,6 +62,7 @@ const statusList = [
   AFGEHANDELD,
   ON_HOLD,
   GEANNULEERD,
+  GESPLITST,
   HEROPEND,
   TE_VERZENDEN,
   VERZONDEN,
