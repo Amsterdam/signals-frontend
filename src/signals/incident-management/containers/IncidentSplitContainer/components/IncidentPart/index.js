@@ -18,6 +18,7 @@ const IncidentPart = ({ index, incident, subcategories, priorityList, splitForm 
       display="Subcategorie"
       control={splitForm.get(`part${index}.subcategory`)}
       values={subcategories}
+      sort
     />
     <FieldControlWrapper
       render={TextAreaInput}
