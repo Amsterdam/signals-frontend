@@ -33,12 +33,12 @@ module.exports = {
     // Generate index.js and index.test.js
     const actions = [{
       type: 'add',
-      path: '../../src/containers/{{properCase name}}/index.js',
+      path: '../../src/models/{{properCase name}}/index.js',
       templateFile: './ams-model/model.js.hbs',
       abortOnFail: true,
     }, {
       type: 'add',
-      path: '../../src/containers/{{properCase name}}/index.test.js',
+      path: '../../src/models/{{properCase name}}/index.test.js',
       templateFile: './ams-model/test.js.hbs',
       abortOnFail: true,
     }];
@@ -49,13 +49,13 @@ module.exports = {
       // Actions
       actions.push({
         type: 'add',
-        path: '../../src/containers/{{properCase name}}/actions.js',
+        path: '../../src/models/{{properCase name}}/actions.js',
         templateFile: './ams-model/actions.js.hbs',
         abortOnFail: true,
       });
       actions.push({
         type: 'add',
-        path: '../../src/containers/{{properCase name}}/actions.test.js',
+        path: '../../src/models/{{properCase name}}/actions.test.js',
         templateFile: './ams-model/actions.test.js.hbs',
         abortOnFail: true,
       });
@@ -63,7 +63,7 @@ module.exports = {
       // Constants
       actions.push({
         type: 'add',
-        path: '../../src/containers/{{properCase name}}/constants.js',
+        path: '../../src/models/{{properCase name}}/constants.js',
         templateFile: './ams-model/constants.js.hbs',
         abortOnFail: true,
       });
@@ -71,13 +71,13 @@ module.exports = {
       // Selectors
       actions.push({
         type: 'add',
-        path: '../../src/containers/{{properCase name}}/selectors.js',
+        path: '../../src/models/{{properCase name}}/selectors.js',
         templateFile: './ams-model/selectors.js.hbs',
         abortOnFail: true,
       });
       actions.push({
         type: 'add',
-        path: '../../src/containers/{{properCase name}}/selectors.test.js',
+        path: '../../src/models/{{properCase name}}/selectors.test.js',
         templateFile: './ams-model/selectors.test.js.hbs',
         abortOnFail: true,
       });
@@ -85,13 +85,13 @@ module.exports = {
       // Reducer
       actions.push({
         type: 'add',
-        path: '../../src/containers/{{properCase name}}/reducer.js',
+        path: '../../src/models/{{properCase name}}/reducer.js',
         templateFile: './ams-model/reducer.js.hbs',
         abortOnFail: true,
       });
       actions.push({
         type: 'add',
-        path: '../../src/containers/{{properCase name}}/reducer.test.js',
+        path: '../../src/models/{{properCase name}}/reducer.test.js',
         templateFile: './ams-model/reducer.test.js.hbs',
         abortOnFail: true,
       });
@@ -101,13 +101,13 @@ module.exports = {
     if (data.wantSaga) {
       actions.push({
         type: 'add',
-        path: '../../src/containers/{{properCase name}}/saga.js',
+        path: '../../src/models/{{properCase name}}/saga.js',
         templateFile: './ams-model/saga.js.hbs',
         abortOnFail: true,
       });
       actions.push({
         type: 'add',
-        path: '../../src/containers/{{properCase name}}/saga.test.js',
+        path: '../../src/models/{{properCase name}}/saga.test.js',
         templateFile: './ams-model/saga.test.js.hbs',
         abortOnFail: true,
       });
