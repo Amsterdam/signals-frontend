@@ -2,10 +2,10 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { fromJS } from 'immutable';
 
+import { getContext } from 'test/utils';
+
 import { IncidentOverviewPage, mapDispatchToProps } from './index';
 import { REQUEST_INCIDENTS, INCIDENT_SELECTED } from './constants';
-
-import { getContext } from '../../../../../internals/testing/test-utils';
 
 jest.mock('./components/Filter', () => () => 'Filter');
 jest.mock('./components/List', () => () => 'List');

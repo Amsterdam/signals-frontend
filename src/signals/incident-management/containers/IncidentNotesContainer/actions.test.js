@@ -1,4 +1,4 @@
-import { testActionCreator } from '../../../../../internals/testing/test-utils';
+import { testActionCreator } from 'test/utils';
 
 import {
   REQUEST_NOTE_CREATE, REQUEST_NOTE_CREATE_SUCCESS, REQUEST_NOTE_CREATE_ERROR

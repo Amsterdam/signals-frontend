@@ -1,3 +1,5 @@
+import { testActionCreator } from 'test/utils';
+
 import {
   REQUEST_NOTES_LIST, REQUEST_NOTES_LIST_SUCCESS, REQUEST_NOTES_LIST_ERROR, REQUEST_ADD_NOTE
 } from './constants';
@@ -5,8 +7,6 @@ import {
 import {
   requestNotesList, requestNotesListSuccess, requestNotesListError, requestAddNote
 } from './actions';
-
-import { testActionCreator } from '../../../internals/testing/test-utils';
 
 describe('notesModel actions', () => {
   it('should be created', () => {

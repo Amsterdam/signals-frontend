@@ -1,4 +1,4 @@
-import { testActionCreator } from '../../../../../internals/testing/test-utils';
+import { testActionCreator } from 'test/utils';
 
 import {
   REQUEST_DASHBOARD, REQUEST_DASHBOARD_SUCCESS, REQUEST_DASHBOARD_ERROR, UPDATE_DASHBOARD

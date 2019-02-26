@@ -1,4 +1,4 @@
-import { testActionCreator } from '../../../../../internals/testing/test-utils';
+import { testActionCreator } from 'test/utils';
 
 import {
   REQUEST_CATEGORY_UPDATE, REQUEST_CATEGORY_UPDATE_SUCCESS, REQUEST_CATEGORY_UPDATE_ERROR

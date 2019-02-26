@@ -1,3 +1,5 @@
+import { testActionCreator } from 'test/utils';
+
 import {
   REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR, DISMISS_SPLIT_NOTIFICATION
 } from './constants';
@@ -5,8 +7,6 @@ import {
 import {
   requestIncident, requestIncidentSuccess, requestIncidentError, dismissSplitNotification
 } from './actions';
-
-import { testActionCreator } from '../../../internals/testing/test-utils';
 
 describe('incidentModel actions', () => {
   it('should be created', () => {

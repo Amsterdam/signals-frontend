@@ -1,3 +1,5 @@
+import { testActionCreator } from 'test/utils';
+
 import {
   SPLIT_INCIDENT, SPLIT_INCIDENT_SUCCESS, SPLIT_INCIDENT_ERROR
 } from './constants';
@@ -5,8 +7,6 @@ import {
 import {
   splitIncident, splitIncidentSuccess, splitIncidentError
 } from './actions';
-
-import { testActionCreator } from '../../../../../internals/testing/test-utils';
 
 describe('IncidentSplitontainer actions', () => {
   it('should be created', () => {
