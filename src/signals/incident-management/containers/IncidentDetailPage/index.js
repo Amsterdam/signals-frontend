@@ -86,7 +86,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
       ) :
       (
         <div className="incident-detail-page container">
-          <SplitNotificationBar payload={split} onClose={this.onDismissSplitNotification} />
+          <SplitNotificationBar data={split} onClose={this.onDismissSplitNotification} />
           {loading ? <LoadingIndicator /> : (
             <div className="row">
               <div className="col-12">

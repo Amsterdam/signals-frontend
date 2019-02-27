@@ -2,8 +2,15 @@
 
 .split-notification-bar {
   padding: 6px 10px;
-  background-color: $ams-donkergroen;
   color: $ams-wit;
+
+  &.success {
+    background-color: $ams-donkergroen;
+  }
+
+  &.error {
+    background-color: $ams-rood;
+  }
 
   &__link {
     &:after {

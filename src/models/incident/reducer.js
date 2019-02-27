@@ -6,7 +6,7 @@ import priorityList from 'signals/incident-management/definitions/priorityList';
 import { REQUEST_PRIORITY_UPDATE_SUCCESS } from 'signals/incident-management/containers/IncidentPriorityContainer/constants';
 import { REQUEST_CATEGORY_UPDATE_SUCCESS } from 'signals/incident-management/containers/IncidentCategoryContainer/constants';
 import { REQUEST_STATUS_CREATE_SUCCESS } from 'signals/incident-management/containers/IncidentStatusContainer/constants';
-import { SPLIT_INCIDENT_SUCCESS } from 'signals/incident-management/containers/IncidentSplitContainer/constants';
+import { SPLIT_INCIDENT_SUCCESS, SPLIT_INCIDENT_ERROR } from 'signals/incident-management/containers/IncidentSplitContainer/constants';
 
 import {
   REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR, DISMISS_SPLIT_NOTIFICATION
@@ -58,6 +58,7 @@ function incidentModelReducer(state = initialState, action) {
         .set('incident', fromJS({ ...state.get('incident').toJS(), status: action.payload }));
 
     case SPLIT_INCIDENT_SUCCESS:
+    case SPLIT_INCIDENT_ERROR:
       return state
         .set('split', action.payload);
 
