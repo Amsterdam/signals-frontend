@@ -49,6 +49,14 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     this.props.onRequestNotesList(this.props.id);
   }
 
+  shouldComponentUpdate(props) {
+    if (props.id !== this.props.id) {
+      props.onRequestIncident(props.id);
+    }
+
+    return true;
+  }
+
   onTabChanged(tabId) {
     this.setState({ selectedTab: tabId });
   }
