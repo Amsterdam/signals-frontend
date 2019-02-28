@@ -286,21 +286,24 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
           <td>
             <NavLink
               activeClassName="active"
-              key="https://meldingen.amsterdam.nl/incident/manage/incident/43"
+              className="incident-detail__link"
+              key="43"
               to="/manage/incident/43"
             >
               43
             </NavLink>
             <NavLink
               activeClassName="active"
-              key="https://meldingen.amsterdam.nl/incident/manage/incident/44"
+              className="incident-detail__link"
+              key="44"
               to="/manage/incident/44"
             >
               44
             </NavLink>
             <NavLink
               activeClassName="active"
-              key="https://meldingen.amsterdam.nl/incident/manage/incident/45"
+              className="incident-detail__link"
+              key="45"
               to="/manage/incident/45"
             >
               45
@@ -631,6 +634,7 @@ exports[`<IncidentDetail /> should render correctly with parent 1`] = `
           <td>
             <NavLink
               activeClassName="active"
+              className="incident-detail__link"
               to="/manage/incident/42"
             >
               42

@@ -54,9 +54,7 @@ describe('<IncidentDetailPage />', () => {
     });
 
     it('should render correctly with parent', () => {
-      props.incidentModel.incident._links = {
-        'sia:parent': { href: 'https://meldingen.amsterdam.nl/incident/manage/incident/42' }
-      };
+      props.incidentModel.incident.parent_id = 42;
       const wrapper = shallow(
         <IncidentDetailPage {...props} />
       );

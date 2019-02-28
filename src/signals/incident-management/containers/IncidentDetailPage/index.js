@@ -73,7 +73,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     const { incidentNotesList } = this.props.notesModel;
     const { incident, loading, split, stadsdeelList, priorityList } = this.props.incidentModel;
     const { selectedTab } = this.state;
-    const canSplit = (incident && incident.status && incident.status.state === 'm') && !(incident && incident._links && incident._links['sia:parent']);
+    const canSplit = (incident && incident.status && incident.status.state === 'm') && !(incident && incident.parent_id);
     const tabs = {
       status: { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
       priority: { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },

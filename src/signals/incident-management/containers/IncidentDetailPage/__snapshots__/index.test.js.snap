@@ -632,11 +632,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with parent 1`
       <Component
         incident={
           Object {
-            "_links": Object {
-              "sia:parent": Object {
-                "href": "https://meldingen.amsterdam.nl/incident/manage/incident/42",
-              },
-            },
+            "parent_id": 42,
             "status": Object {
               "state": "m",
             },

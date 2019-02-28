@@ -51,11 +51,7 @@ describe('<IncidentDetail />', () => {
   });
 
   it('should render correctly with parent', () => {
-    incident._links = {
-      'sia:parent': {
-        href: 'https://meldingen.amsterdam.nl/incident/manage/incident/42'
-      }
-    };
+    incident.parent_id = '42';
     const wrapper = shallow(
       <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
     );
@@ -63,15 +59,7 @@ describe('<IncidentDetail />', () => {
   });
 
   it('should render correctly with children', () => {
-    incident._links = {
-      'sia:children': [{
-        href: 'https://meldingen.amsterdam.nl/incident/manage/incident/43'
-      }, {
-        href: 'https://meldingen.amsterdam.nl/incident/manage/incident/44'
-      }, {
-        href: 'https://meldingen.amsterdam.nl/incident/manage/incident/45'
-      }]
-    };
+    incident.child_ids = ['43', '44', '45'];
     const wrapper = shallow(
       <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
     );
