@@ -24,8 +24,7 @@ describe('<IncidentDetail />', () => {
       priority: { priority: 'normal' },
       reporter: { email: '', phone: '', remove_at: '2018-07-29T07:19:07.863608Z', created_at: '2018-07-15T07:19:08.034968Z', updated_at: '2018-07-15T07:19:08.034982Z', extra_properties: null },
       created_at: '2018-07-15T07:19:08.043593Z',
-      incident_date_start: '2018-07-15T07:19:08.043554Z',
-      extra_properties: { extra_boten_snelheid_rederij: 'Admiraal Heijn', extra_boten_snelheid_naamboot: 'Speranta', extra_boten_snelheid_rondvaartboot: 'Ja' }
+      incident_date_start: '2018-07-15T07:19:08.043554Z'
     };
 
     string2date.mockImplementation(() => '21-07-1970');
@@ -43,8 +42,36 @@ describe('<IncidentDetail />', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render correctly without extra properties', () => {
-    delete incident.extra_properties;
+  it('should render correctly with extra properties', () => {
+    incident.extra_properties = { extra_boten_snelheid_rederij: 'Admiraal Heijn', extra_boten_snelheid_naamboot: 'Speranta', extra_boten_snelheid_rondvaartboot: 'Ja' };
+    const wrapper = shallow(
+      <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should render correctly with parent', () => {
+    incident._links = {
+      'sia:parent': {
+        href: 'https://meldingen.amsterdam.nl/incident/manage/incident/42'
+      }
+    };
+    const wrapper = shallow(
+      <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should render correctly with children', () => {
+    incident._links = {
+      'sia:children': [{
+        href: 'https://meldingen.amsterdam.nl/incident/manage/incident/43'
+      }, {
+        href: 'https://meldingen.amsterdam.nl/incident/manage/incident/44'
+      }, {
+        href: 'https://meldingen.amsterdam.nl/incident/manage/incident/45'
+      }]
+    };
     const wrapper = shallow(
       <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
     );

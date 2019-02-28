@@ -91,39 +91,6 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
              
           </td>
         </tr>
-        <tr
-          key="extra_boten_snelheid_rederij"
-        >
-          <td>
-            extra_boten_snelheid_rederij
-          </td>
-          <td>
-            Admiraal Heijn
-             
-          </td>
-        </tr>
-        <tr
-          key="extra_boten_snelheid_naamboot"
-        >
-          <td>
-            extra_boten_snelheid_naamboot
-          </td>
-          <td>
-            Speranta
-             
-          </td>
-        </tr>
-        <tr
-          key="extra_boten_snelheid_rondvaartboot"
-        >
-          <td>
-            extra_boten_snelheid_rondvaartboot
-          </td>
-          <td>
-            Ja
-             
-          </td>
-        </tr>
         <tr>
           <td>
             Stadsdeel
@@ -168,13 +135,15 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
              
           </td>
         </tr>
+        <tr />
+        <tr />
       </tbody>
     </table>
   </div>
 </div>
 `;
 
-exports[`<IncidentDetail /> should render correctly without extra properties 1`] = `
+exports[`<IncidentDetail /> should render correctly with children 1`] = `
 <div
   className="incident-detail"
 >
@@ -309,6 +278,366 @@ exports[`<IncidentDetail /> should render correctly without extra properties 1`]
              
           </td>
         </tr>
+        <tr />
+        <tr>
+          <td>
+            Gesplitst in
+          </td>
+          <td>
+            <NavLink
+              activeClassName="active"
+              key="https://meldingen.amsterdam.nl/incident/manage/incident/43"
+              to="/manage/incident/43"
+            >
+              43
+            </NavLink>
+            <NavLink
+              activeClassName="active"
+              key="https://meldingen.amsterdam.nl/incident/manage/incident/44"
+              to="/manage/incident/44"
+            >
+              44
+            </NavLink>
+            <NavLink
+              activeClassName="active"
+              key="https://meldingen.amsterdam.nl/incident/manage/incident/45"
+              to="/manage/incident/45"
+            >
+              45
+            </NavLink>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`<IncidentDetail /> should render correctly with extra properties 1`] = `
+<div
+  className="incident-detail"
+>
+  <div
+    className="incident-detail__body"
+  >
+    <table
+      cellPadding="0"
+      cellSpacing="0"
+      className=""
+    >
+      <tbody>
+        <tr>
+          <td>
+            Datum
+          </td>
+          <td>
+            21-07-1970
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Tijd
+          </td>
+          <td>
+            11:55
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Datum overlast
+          </td>
+          <td>
+            21-07-1970
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Tijd overlast
+          </td>
+          <td>
+            11:55
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Urgentie
+          </td>
+          <td>
+            Normaal
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Hoofdcategorie
+          </td>
+          <td>
+            Overlast op het water
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Subcategorie
+          </td>
+          <td>
+            Overlast op het water - snel varen
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Omschrijving
+          </td>
+          <td
+            className="pre-wrap"
+          >
+            snel boot
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Aanvullende kenmerken
+          </td>
+          <td>
+             
+          </td>
+        </tr>
+        <tr
+          key="extra_boten_snelheid_rederij"
+        >
+          <td>
+            extra_boten_snelheid_rederij
+          </td>
+          <td>
+            Admiraal Heijn
+             
+          </td>
+        </tr>
+        <tr
+          key="extra_boten_snelheid_naamboot"
+        >
+          <td>
+            extra_boten_snelheid_naamboot
+          </td>
+          <td>
+            Speranta
+             
+          </td>
+        </tr>
+        <tr
+          key="extra_boten_snelheid_rondvaartboot"
+        >
+          <td>
+            extra_boten_snelheid_rondvaartboot
+          </td>
+          <td>
+            Ja
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Stadsdeel
+          </td>
+          <td>
+            Centrum
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Adres
+          </td>
+          <td>
+            Geldersekade 84B- 1012BL Amsterdam
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Email
+          </td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            Telefoonnummer
+          </td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            Bron
+          </td>
+          <td>
+            Telefoon 14020
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Verantwoordelijke afdeling
+          </td>
+          <td>
+             
+          </td>
+        </tr>
+        <tr />
+        <tr />
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`<IncidentDetail /> should render correctly with parent 1`] = `
+<div
+  className="incident-detail"
+>
+  <div
+    className="incident-detail__body"
+  >
+    <table
+      cellPadding="0"
+      cellSpacing="0"
+      className=""
+    >
+      <tbody>
+        <tr>
+          <td>
+            Datum
+          </td>
+          <td>
+            21-07-1970
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Tijd
+          </td>
+          <td>
+            11:55
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Datum overlast
+          </td>
+          <td>
+            21-07-1970
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Tijd overlast
+          </td>
+          <td>
+            11:55
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Urgentie
+          </td>
+          <td>
+            Normaal
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Hoofdcategorie
+          </td>
+          <td>
+            Overlast op het water
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Subcategorie
+          </td>
+          <td>
+            Overlast op het water - snel varen
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Omschrijving
+          </td>
+          <td
+            className="pre-wrap"
+          >
+            snel boot
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Aanvullende kenmerken
+          </td>
+          <td>
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Stadsdeel
+          </td>
+          <td>
+            Centrum
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Adres
+          </td>
+          <td>
+            Geldersekade 84B- 1012BL Amsterdam
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Email
+          </td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            Telefoonnummer
+          </td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            Bron
+          </td>
+          <td>
+            Telefoon 14020
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Verantwoordelijke afdeling
+          </td>
+          <td>
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Oorspronkelijke melding
+          </td>
+          <td>
+            <NavLink
+              activeClassName="active"
+              to="/manage/incident/42"
+            >
+              42
+            </NavLink>
+          </td>
+        </tr>
+        <tr />
       </tbody>
     </table>
   </div>

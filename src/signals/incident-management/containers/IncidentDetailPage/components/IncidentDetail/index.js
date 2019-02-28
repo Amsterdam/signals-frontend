@@ -10,7 +10,7 @@ import './style.scss';
 class IncidentDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const { incident, stadsdeelList, priorityList } = this.props;
-    const getId = (href) => href.href.match(/\/(\d+)^/)[0];
+    const getId = (href) => href.match(/\/(\d+)$/)[1];
     const extraProperties = incident.extra_properties && Object.keys(incident.extra_properties).map((key) =>
       (<tr key={key}><td>{key}</td><td>{incident.extra_properties[key]}&nbsp;</td></tr>)
     );
@@ -36,11 +36,17 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
               <tr><td>Bron</td><td>{incident.source}</td></tr>
               <tr><td>Verantwoordelijke afdeling</td><td>{incident.category.department}&nbsp;</td></tr>
               {incident._links && incident._links['sia:parent'] ?
-               (<tr><td>Oorspronkelijke melding</td><td><NavLink to="/manage/incident/{getId(incident._links['sia:parent'].href)}">{getId(incident._links['sia:parent'].href)}</NavLink></td></tr>)
+               (<tr>
+                 <td>Oorspronkelijke melding</td>
+                 <td><NavLink to={`/manage/incident/${getId(incident._links['sia:parent'].href)}`}>{getId(incident._links['sia:parent'].href)}</NavLink></td>
+               </tr>)
                : <tr></tr>}
               {incident._links && incident._links['sia:children'] ?
-                (<tr><td>Gesplitst in</td><td>{incident._links['sia:children'].map((child) =>
-                  (<NavLink key={child.href} to="/manage/incident/{getId(child.href)}">{getId(child.href)}</NavLink>))}</td></tr>)
+                (<tr>
+                  <td>Gesplitst in</td>
+                  <td>{incident._links['sia:children'].map((child) =>
+                    (<NavLink key={child.href} to={`/manage/incident/${getId(child.href)}`}>{getId(child.href)}</NavLink>))}</td>
+                </tr>)
                : <tr></tr>}
             </tbody>
           </table>

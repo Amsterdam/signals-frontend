@@ -73,6 +73,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     const { incidentNotesList } = this.props.notesModel;
     const { incident, loading, split, stadsdeelList, priorityList } = this.props.incidentModel;
     const { selectedTab } = this.state;
+    const canSplit = (incident && incident.status && incident.status.state === 'm') && !(incident && incident._links && incident._links['sia:parent']);
     const tabs = {
       status: { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
       priority: { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
@@ -103,7 +104,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 
               <div className="col-9"><h3>Melding {this.props.id}</h3></div>
               <div className="col-3 d-flex justify-content-end">
-                {incident && incident.status && incident.status.state === 'm' ? <Link to={`${this.props.baseUrl}/incident/${this.props.id}/split`} className="align-self-center action-quad" >Splitsen</Link> : ''}
+                {canSplit ? <Link to={`${this.props.baseUrl}/incident/${this.props.id}/split`} className="align-self-center action-quad" >Splitsen</Link> : ''}
                 <button className="align-self-center action-quad" onClick={this.onPrintView}>Print view</button>
               </div>
 

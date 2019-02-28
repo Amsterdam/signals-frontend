@@ -53,6 +53,16 @@ describe('<IncidentDetailPage />', () => {
       expect(props.onRequestNotesList).toHaveBeenCalledWith('100');
     });
 
+    it('should render correctly with parent', () => {
+      props.incidentModel.incident._links = {
+        'sia:parent': { href: 'https://meldingen.amsterdam.nl/incident/manage/incident/42' }
+      };
+      const wrapper = shallow(
+        <IncidentDetailPage {...props} />
+      );
+      expect(wrapper).toMatchSnapshot();
+    });
+
     it('should render correctly with location', () => {
       props.incidentModel.incident.location = {};
       const wrapper = shallow(
@@ -112,6 +122,14 @@ describe('<IncidentDetailPage />', () => {
       );
       wrapper.instance().onDismissSplitNotification();
       expect(props.onDismissSplitNotification).toHaveBeenCalled();
+    });
+
+    it('should fetch new incident when the id chages', () => {
+      const wrapper = shallow(
+        <IncidentDetailPage {...props} />
+      );
+      wrapper.setProps({ id: '42' });
+      expect(props.onRequestIncident).toHaveBeenCalledWith('42');
     });
   });
 
