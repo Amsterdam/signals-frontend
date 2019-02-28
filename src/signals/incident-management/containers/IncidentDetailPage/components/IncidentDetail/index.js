@@ -10,7 +10,6 @@ import './style.scss';
 class IncidentDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const { incident, stadsdeelList, priorityList } = this.props;
-    const getId = (href) => href.match(/\/(\d+)$/)[1];
     const extraProperties = incident.extra_properties && Object.keys(incident.extra_properties).map((key) =>
       (<tr key={key}><td>{key}</td><td>{incident.extra_properties[key]}&nbsp;</td></tr>)
     );
@@ -35,17 +34,17 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
               <tr><td>Telefoonnummer</td><td>{incident.reporter.phone}</td></tr>
               <tr><td>Bron</td><td>{incident.source}</td></tr>
               <tr><td>Verantwoordelijke afdeling</td><td>{incident.category.department}&nbsp;</td></tr>
-              {incident._links && incident._links['sia:parent'] ?
+              {incident.parent_id ?
                (<tr>
                  <td>Oorspronkelijke melding</td>
-                 <td><NavLink to={`/manage/incident/${getId(incident._links['sia:parent'].href)}`}>{getId(incident._links['sia:parent'].href)}</NavLink></td>
+                 <td><NavLink className="incident-detail__link" to={`/manage/incident/${incident.parent_id}`}>{incident.parent_id}</NavLink></td>
                </tr>)
                : <tr></tr>}
-              {incident._links && incident._links['sia:children'] ?
+              {incident.child_ids && incident.child_ids.length > 0 ?
                 (<tr>
                   <td>Gesplitst in</td>
-                  <td>{incident._links['sia:children'].map((child) =>
-                    (<NavLink key={child.href} to={`/manage/incident/${getId(child.href)}`}>{getId(child.href)}</NavLink>))}</td>
+                  <td>{incident.child_ids.map((child_id) =>
+                    (<NavLink className="incident-detail__link" key={child_id} to={`/manage/incident/${child_id}`}>{child_id}</NavLink>))}</td>
                 </tr>)
                : <tr></tr>}
             </tbody>
