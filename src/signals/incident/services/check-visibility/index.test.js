@@ -10,7 +10,8 @@ describe('The check visibility service', () => {
     };
     incident = {
       category: 'bar',
-      subcategory: 'foo'
+      subcategory: 'foo',
+      color: ['red', 'blue', 'green']
     };
   });
 
@@ -32,7 +33,7 @@ describe('The check visibility service', () => {
       expect(checkVisibility(control, incident)).toBeTruthy();
     });
 
-    it('string: should be visible when category and subcategory are not valid', () => {
+    it('string: should not be visible when category and subcategory are not valid', () => {
       control.meta.ifAllOf = {
         subcategory: 'wrong'
       };
@@ -46,7 +47,7 @@ describe('The check visibility service', () => {
       expect(checkVisibility(control, incident)).toBeTruthy();
     });
 
-    it('array: should be visible when category is not valid', () => {
+    it('array: should not be visible when category is not valid', () => {
       control.meta.ifAllOf = {
         category: ['bar', 'wrong']
       };
@@ -62,9 +63,23 @@ describe('The check visibility service', () => {
       expect(checkVisibility(control, incident)).toBeTruthy();
     });
 
-    it('string: should be visible when subcategory is not valid', () => {
+    it('string: should not be visible when subcategory is not valid', () => {
       control.meta.ifOneOf = {
         subcategory: 'wrong'
+      };
+      expect(checkVisibility(control, incident)).toBeFalsy();
+    });
+
+    it('string: should be visible when color is one of array defined', () => {
+      control.meta.ifOneOf = {
+        color: 'blue'
+      };
+      expect(checkVisibility(control, incident)).toBeTruthy();
+    });
+
+    it('string: should not be visible when color is not one of array defined', () => {
+      control.meta.ifOneOf = {
+        color: 'wrongcolor'
       };
       expect(checkVisibility(control, incident)).toBeFalsy();
     });
@@ -83,7 +98,7 @@ describe('The check visibility service', () => {
       expect(checkVisibility(control, incident)).toBeTruthy();
     });
 
-    it('array: should be visible when subcategory is not valid', () => {
+    it('array: should not be visible when subcategory is not valid', () => {
       control.meta.ifOneOf = {
         subcategory: ['wrong', 'wrong']
       };

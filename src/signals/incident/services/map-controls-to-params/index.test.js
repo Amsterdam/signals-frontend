@@ -61,6 +61,7 @@ describe('The map controls to params service', () => {
     expect(mapControlsToParams({
       description: 'bar',
       title: 42,
+      list: ['red', 'blue'],
       undefined_value: undefined,
       value_0: 0,
       value_false: false,
@@ -77,6 +78,16 @@ describe('The map controls to params service', () => {
             title: {
               meta: {
                 path: 'meaningOfLife'
+              }
+            },
+            list: {
+              meta: {
+                path: 'colors'
+              }
+            },
+            undefined_value: {
+              meta: {
+                path: 'undefined_value'
               }
             },
             value_0: {
@@ -104,6 +115,7 @@ describe('The map controls to params service', () => {
         state: 'm',
         extra_properties: {}
       },
+      colors: 'red, blue',
       text: 'bar',
       meaningOfLife: 42,
       value_0: 0,
@@ -143,6 +155,7 @@ describe('The map controls to params service', () => {
     expect(mapControlsToParams({
       description: 'bar',
       title: 42,
+      undefined_value: undefined,
       value_0: 0,
       value_false: false,
       value_true: true
@@ -163,6 +176,12 @@ describe('The map controls to params service', () => {
               }
             },
             value_0: {
+              meta: {
+                pathMerge: 'extra_properties',
+                isVisible: true
+              }
+            },
+            undefined_value: {
               meta: {
                 pathMerge: 'extra_properties',
                 isVisible: true

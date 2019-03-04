@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Header from '../Header/';
 
 function updateIncidentCheckboxMulti(checked, value, oldValue, meta, parent) {
-  let output = oldValue ? [...oldValue] : [];
+  let output = [...oldValue];
   if (checked) {
     output.push(value);
   } else {

@@ -38,6 +38,188 @@ exports[`Form component <CheckboxInput /> rendering should render checkbox corre
 </div>
 `;
 
+exports[`Form component <CheckboxInput /> rendering should render multi checkbox correctly 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="col-12 mode_input"
+  >
+    <Header
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
+      meta={
+        Object {
+          "isVisible": true,
+          "name": "input-field-name",
+          "values": Array [
+            "red",
+            "blue",
+            "green",
+          ],
+        }
+      }
+      touched={false}
+    >
+      <div
+        className="antwoorden"
+      >
+        <div>
+          <input
+            type="hidden"
+            value={
+              Array [
+                "blue",
+              ]
+            }
+          />
+          <div
+            className="antwoord"
+            key="red"
+          >
+            <input
+              id="input-field-name-1"
+              name="input-field-name-1"
+              onClick={[Function]}
+              type="checkbox"
+              value="red"
+            />
+            <label
+              htmlFor="input-field-name-1"
+            >
+              red
+            </label>
+          </div>
+          <div
+            className="antwoord"
+            key="blue"
+          >
+            <input
+              defaultChecked="blue"
+              id="input-field-name-2"
+              name="input-field-name-2"
+              onClick={[Function]}
+              type="checkbox"
+              value="blue"
+            />
+            <label
+              htmlFor="input-field-name-2"
+            >
+              blue
+            </label>
+          </div>
+          <div
+            className="antwoord"
+            key="green"
+          >
+            <input
+              id="input-field-name-3"
+              name="input-field-name-3"
+              onClick={[Function]}
+              type="checkbox"
+              value="green"
+            />
+            <label
+              htmlFor="input-field-name-3"
+            >
+              green
+            </label>
+          </div>
+        </div>
+      </div>
+    </Header>
+  </div>
+</div>
+`;
+
+exports[`Form component <CheckboxInput /> rendering should render multi checkbox without value correctly 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="col-12 mode_input"
+  >
+    <Header
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
+      meta={
+        Object {
+          "isVisible": true,
+          "name": "input-field-name",
+          "values": Array [
+            "red",
+            "blue",
+            "green",
+          ],
+        }
+      }
+      touched={false}
+    >
+      <div
+        className="antwoorden"
+      >
+        <div>
+          <input
+            type="hidden"
+          />
+          <div
+            className="antwoord"
+            key="red"
+          >
+            <input
+              id="input-field-name-1"
+              name="input-field-name-1"
+              onClick={[Function]}
+              type="checkbox"
+              value="red"
+            />
+            <label
+              htmlFor="input-field-name-1"
+            >
+              red
+            </label>
+          </div>
+          <div
+            className="antwoord"
+            key="blue"
+          >
+            <input
+              id="input-field-name-2"
+              name="input-field-name-2"
+              onClick={[Function]}
+              type="checkbox"
+              value="blue"
+            />
+            <label
+              htmlFor="input-field-name-2"
+            >
+              blue
+            </label>
+          </div>
+          <div
+            className="antwoord"
+            key="green"
+          >
+            <input
+              id="input-field-name-3"
+              name="input-field-name-3"
+              onClick={[Function]}
+              type="checkbox"
+              value="green"
+            />
+            <label
+              htmlFor="input-field-name-3"
+            >
+              green
+            </label>
+          </div>
+        </div>
+      </div>
+    </Header>
+  </div>
+</div>
+`;
+
 exports[`Form component <CheckboxInput /> rendering should render no checkbox when not visible 1`] = `
 <div
   className=""

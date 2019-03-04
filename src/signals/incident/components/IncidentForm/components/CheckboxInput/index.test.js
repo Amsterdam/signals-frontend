@@ -44,6 +44,35 @@ describe('Form component <CheckboxInput />', () => {
       expect(wrapper).toMatchSnapshot();
     });
 
+    it('should render multi checkbox correctly', () => {
+      handler = handler.mockImplementation(() => ({ value: ['blue'] }));
+
+      wrapper.setProps({
+        meta: {
+          name: 'input-field-name',
+          values: ['red', 'blue', 'green'],
+          isVisible: true
+        }
+      });
+
+      expect(handler).toHaveBeenCalledTimes(4);
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render multi checkbox without value correctly', () => {
+      handler = handler.mockImplementation(() => ({ value: undefined }));
+
+      wrapper.setProps({
+        meta: {
+          name: 'input-field-name',
+          values: ['red', 'blue', 'green'],
+          isVisible: true
+        }
+      });
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
     it('should render no checkbox when not visible', () => {
       wrapper.setProps({
         meta: {
@@ -78,6 +107,32 @@ describe('Form component <CheckboxInput />', () => {
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': false
+      });
+    });
+
+    it('can be checked and unchecked with multiple values', () => {
+      handler = handler.mockImplementation(() => ({ value: ['blue'] }));
+
+      wrapper.setProps({
+        meta: {
+          name: 'input-field-name',
+          values: ['red', 'blue', 'green'],
+          isVisible: true
+        }
+      });
+
+      const checkEevent = { target: { checked: true } };
+      wrapper.find('input[type="checkbox"]').at(2).simulate('click', checkEevent);
+
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name': ['blue', 'green']
+      });
+
+      const uncheckEevent = { target: { checked: false } };
+      wrapper.find('input[type="checkbox"]').at(2).simulate('click', uncheckEevent);
+
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name': ['blue']
       });
     });
   });
