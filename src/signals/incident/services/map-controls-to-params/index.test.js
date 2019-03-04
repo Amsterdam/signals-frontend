@@ -7,6 +7,7 @@ jest.mock('moment');
 describe('The map controls to params service', () => {
   it('should map status by default', () => {
     expect(mapControlsToParams({}, {})).toEqual({
+      reporter: {},
       status: {
         state: 'm',
         extra_properties: {}
@@ -98,6 +99,11 @@ describe('The map controls to params service', () => {
         }
       }
     })).toMatchObject({
+      reporter: {},
+      status: {
+        state: 'm',
+        extra_properties: {}
+      },
       text: 'bar',
       meaningOfLife: 42,
       value_0: 0,
@@ -185,6 +191,7 @@ describe('The map controls to params service', () => {
         value_false: 'nee',
         value_true: 'ja'
       },
+      reporter: {},
       status: {
         state: 'm',
         extra_properties: {}

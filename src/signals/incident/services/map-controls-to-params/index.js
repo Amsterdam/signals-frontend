@@ -2,6 +2,9 @@ import moment from 'moment';
 import { forEach, set, isFunction } from 'lodash';
 
 const setValue = (value) => {
+  if (value === 0) {
+    return 0;
+  }
   if (value === true) {
     return 'ja';
   }
@@ -59,7 +62,7 @@ const mapControlsToParams = (incident, wizard) => {
 
       if (meta && meta.isVisible && meta.pathMerge) {
         const itemValue = setValue(value);
-        if (itemValue) {
+        if (itemValue || itemValue === 0) {
           mapMerge = {
             ...mapMerge,
             [meta.pathMerge]: {
@@ -74,7 +77,7 @@ const mapControlsToParams = (incident, wizard) => {
 
   forEach(map, (item) => {
     const itemValue = setValue(item.value);
-    if (itemValue) {
+    if (itemValue || itemValue === 0) {
       set(params, item.path, itemValue);
     }
   });
