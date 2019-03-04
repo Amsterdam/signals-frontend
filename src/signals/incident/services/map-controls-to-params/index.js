@@ -8,6 +8,9 @@ const setValue = (value) => {
   if (value === false) {
     return 'nee';
   }
+  if (Array.isArray(value)) {
+    return value.join(', ');
+  }
   return value;
 };
 
@@ -22,6 +25,7 @@ const mapControlsToParams = (incident, wizard) => {
   }
 
   const params = {
+    reporter: {},
     status: {
       state: 'm',
       extra_properties: {}
@@ -53,20 +57,26 @@ const mapControlsToParams = (incident, wizard) => {
         });
       }
 
-      if (meta && meta.isVisible && meta.pathMerge && (value || value === false || value === 0)) {
-        mapMerge = {
-          ...mapMerge,
-          [meta.pathMerge]: {
-            ...mapMerge[meta.pathMerge],
-            [meta.label || meta.value || name]: setValue(value)
-          }
-        };
+      if (meta && meta.isVisible && meta.pathMerge) {
+        const itemValue = setValue(value);
+        if (itemValue) {
+          mapMerge = {
+            ...mapMerge,
+            [meta.pathMerge]: {
+              ...mapMerge[meta.pathMerge],
+              [meta.label || meta.value || name]: itemValue
+            }
+          };
+        }
       }
     });
   });
 
   forEach(map, (item) => {
-    set(params, item.path, setValue(item.value));
+    const itemValue = setValue(item.value);
+    if (itemValue) {
+      set(params, item.path, itemValue);
+    }
   });
 
   forEach(mapMerge, (value, key) => {
