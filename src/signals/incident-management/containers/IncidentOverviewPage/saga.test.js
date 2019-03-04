@@ -54,6 +54,46 @@ describe('IncidentOverviewPage saga', () => {
     expect(gen.next(incidents).value).toEqual(put(requestIncidentsSuccess(incidents))); // eslint-disable-line redux-saga/yield-effects
   });
 
+  it('should fetchIncidents success with sort days_open', () => {
+    const filter = { name: 'filter' };
+    const page = 2;
+    const sort = 'days_open';
+    const action = { payload: { filter, page, sort } };
+
+    const requestURL = 'https://acc.api.data.amsterdam.nl/signals/auth/signal';
+    const params = { ordering: 'days_open' };
+
+    const gen = fetchIncidents(action);
+    expect(gen.next().value).toEqual(put(filterIncidentsChanged(filter))); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(put(pageIncidentsChanged(page))); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(put(sortIncidentsChanged(sort))); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(select(makeSelectFilterParams())); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next(params).value).toEqual(authCall(requestURL, params)); // eslint-disable-line redux-saga/yield-effects
+    expect(params).toEqual({
+      ordering: '-created_at'
+    });
+  });
+
+  it('should fetchIncidents success with sort -days_open', () => {
+    const filter = { name: 'filter' };
+    const page = 2;
+    const sort = '-days_open';
+    const action = { payload: { filter, page, sort } };
+
+    const requestURL = 'https://acc.api.data.amsterdam.nl/signals/auth/signal';
+    const params = { ordering: '-days_open' };
+
+    const gen = fetchIncidents(action);
+    expect(gen.next().value).toEqual(put(filterIncidentsChanged(filter))); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(put(pageIncidentsChanged(page))); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(put(sortIncidentsChanged(sort))); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(select(makeSelectFilterParams())); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next(params).value).toEqual(authCall(requestURL, params)); // eslint-disable-line redux-saga/yield-effects
+    expect(params).toEqual({
+      ordering: 'created_at'
+    });
+  });
+
   it('should fetchIncidents error', () => {
     const id = 1000;
     const action = { payload: id };

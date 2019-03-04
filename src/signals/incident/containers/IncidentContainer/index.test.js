@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { fromJS } from 'immutable';
 
-import { getContext } from '../../../../../internals/testing/test-utils';
+import { getContext } from 'test/utils';
 import { IncidentContainer, mapDispatchToProps } from './index';
 import { GET_CLASSIFICATION, UPDATE_INCIDENT, CREATE_INCIDENT } from './constants';
 

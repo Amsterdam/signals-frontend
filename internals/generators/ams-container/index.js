@@ -42,12 +42,12 @@ module.exports = {
   }, {
     type: 'confirm',
     name: 'wantMessages',
-    default: true,
+    default: false,
     message: 'Do you want i18n messages (i.e. will this component use text)?',
   }, {
     type: 'confirm',
     name: 'wantLoadable',
-    default: true,
+    default: false,
     message: 'Do you want to load resources asynchronously?',
   }],
   actions: (data) => {

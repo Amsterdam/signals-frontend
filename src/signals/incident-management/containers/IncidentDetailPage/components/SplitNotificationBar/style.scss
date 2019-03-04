@@ -1,0 +1,35 @@
+@import "config.scss";
+
+.split-notification-bar {
+  padding: 6px 10px;
+  background-color: $ams-donkergroen;
+  color: $ams-wit;
+
+  &__link {
+    &:after {
+      content: ",";
+    }
+
+    &:last-child:after {
+      content: " ";
+    }
+
+    &:nth-last-child(2):after {
+      content: " en";
+    }
+
+    a {
+      color: $ams-wit;
+    }
+  }
+
+  &__close-button {
+    cursor: pointer;
+    width: 21px;
+    height: 21px;
+    background-color: transparent;
+    border-style: none;
+    float: right;
+    background-image: url("../../../../../../shared/images/icon-sluitkruis.svg");
+  }
+}

@@ -154,4 +154,34 @@ describe('<MapInteractive />', () => {
     const value = document.querySelector('#nlmaps-geocoder-control-input').value;
     expect(value).toEqual('');
   });
+
+  it('should render placeholder correctly', () => {
+    const wrapper = shallow(
+      <MapInteractive onQueryResult={onQueryResult} />
+    );
+
+    wrapper.setProps({
+      location: {
+        geometrie: {
+          coordinates: [4, 52]
+        },
+        address: false
+      }
+    });
+
+    expect(document.querySelector('#nlmaps-geocoder-control-input').placeholder).toEqual('Zoek adres');
+
+    input.setAttribute('id', 'invalid');
+
+    wrapper.setProps({
+      location: {
+        geometrie: {
+          coordinates: [4, 53]
+        },
+        address: false
+      }
+    });
+
+    expect(document.querySelector('#nlmaps-geocoder-control-input')).toEqual(null);
+  });
 });
