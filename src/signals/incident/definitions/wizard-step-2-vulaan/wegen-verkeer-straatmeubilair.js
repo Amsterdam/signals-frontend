@@ -87,10 +87,10 @@ export default {
         ifAllOf: {
           subcategory: 'straatverlichting-openbare-klok'
         },
-        values: {
-          een_lamp: 'Eén lamp',
-          meer_lampen: 'Meer lampen'
-        },
+        values: [
+          'Eén lamp',
+          'Meer lampen'
+        ],
         pathMerge: 'extra_properties'
       },
       render: FormComponents.RadioInput
@@ -256,10 +256,10 @@ export default {
         },
         label: 'Wilt u misschien een nieuw fietsenrek of \'nietje\' aanvragen?',
         pathMerge: 'extra_properties',
-        values: {
-          ja: 'Ja, dat ik wil ik',
-          nee: 'Nee, ik wil direct verder gaan'
-        }
+        values: [
+          'Ja, dat ik wil ik',
+          'Nee, ik wil direct verder gaan'
+        ]
       },
       render: FormComponents.RadioInput
     },

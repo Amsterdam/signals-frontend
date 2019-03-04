@@ -7,10 +7,10 @@ describe('Form component <RadioInput />', () => {
   const metaFields = {
     name: 'input-field-name',
     placeholder: 'type here',
-    values: {
-      foo: 'foo',
-      bar: 'bar'
-    }
+    values: [
+      'foo',
+      'bar'
+    ]
   };
   let wrapper;
   let handler;

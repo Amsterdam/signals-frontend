@@ -132,10 +132,10 @@ export default {
         meta: {
           className: 'col-sm-12 col-md-6',
           label: 'Geef het tijdstip aan',
-          values: {
-            Nu: 'Nu',
-            Eerder: 'Eerder'
-          }
+          values: [
+            'Nu',
+            'Eerder'
+          ]
         },
         options: {
           validators: [Validators.required]

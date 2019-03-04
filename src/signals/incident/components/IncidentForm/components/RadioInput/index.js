@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { map } from 'lodash';
 
 import Header from '../Header/';
 
@@ -16,15 +15,15 @@ const RadioInput = ({ handler, touched, hasError, meta, parent, getError, valida
           getError={getError}
         >
           <div className="antwoorden">
-            {meta.values ? map(meta.values, (value, key) => (
-              <div className="antwoord" key={`${meta.name}-${key}`}>
+            {meta.values ? meta.values.map((value, key) => (
+              <div className="antwoord" key={value}>
                 <input
-                  id={`${meta.name}-${key}`}
+                  id={`${meta.name}-${key + 1}`}
                   className="kenmerkradio"
                   {...handler('radio', value)}
                   onClick={(e) => parent.meta.updateIncident({ [meta.name]: e.target.value })}
                 />
-                <label htmlFor={`${meta.name}-${key}`}>{value}</label>
+                <label htmlFor={`${meta.name}-${key + 1}`}>{value}</label>
               </div>
             )) : ''}
           </div>
