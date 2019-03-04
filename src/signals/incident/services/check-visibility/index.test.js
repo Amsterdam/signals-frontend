@@ -90,41 +90,4 @@ describe('The check visibility service', () => {
       expect(checkVisibility(control, incident)).toBeFalsy();
     });
   });
-
-  describe('ifNoneOf', () => {
-    it('string: should be visible when category is valid', () => {
-      control.meta.ifNoneOf = {
-        category: 'bar'
-      };
-      expect(checkVisibility(control, incident)).toBeFalsy();
-    });
-
-    it('string: should be visible when subcategory is not valid', () => {
-      control.meta.ifNoneOf = {
-        subcategory: 'wrong'
-      };
-      expect(checkVisibility(control, incident)).toBeTruthy();
-    });
-
-    it('array: should be visible when category is valid', () => {
-      control.meta.ifNoneOf = {
-        category: ['bar']
-      };
-      expect(checkVisibility(control, incident)).toBeFalsy();
-    });
-
-    it('array: should be visible when subcategory is valid', () => {
-      control.meta.ifNoneOf = {
-        subcategory: ['foo', 'wrong']
-      };
-      expect(checkVisibility(control, incident)).toBeFalsy();
-    });
-
-    it('array: should be visible when subcategory is not valid', () => {
-      control.meta.ifNoneOf = {
-        subcategory: ['wrong', 'wrong']
-      };
-      expect(checkVisibility(control, incident)).toBeTruthy();
-    });
-  });
 });

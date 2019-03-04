@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -26,15 +25,15 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
           getError={getError}
         >
           <div className="antwoorden">
-            {Array.isArray(meta.value) ?
+            {Array.isArray(meta.values) ?
               <div>
                 <input
                   type="hidden"
                   {...handler()}
                 />
 
-                {meta.value.map((value, key) =>
-                  (<div key={key} className="antwoord">
+                {meta.values.map((value, key) =>
+                  (<div key={value} className="antwoord">
                     <input
                       id={`${meta.name}-${key + 1}`}
                       name={`${meta.name}-${key + 1}`}

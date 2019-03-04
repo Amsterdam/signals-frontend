@@ -58,13 +58,95 @@ export default {
       },
       render: FormComponents.PlainText
     },
+    extra_straatverlichting_text: {
+      meta: {
+        className: 'col-sm-12 col-md-6',
+        ifAllOf: {
+          subcategory: 'straatverlichting-openbare-klok'
+        },
+        type: 'caution',
+        value: [
+          'Direct gevaar? Bel 14 020 en vul dit formulier niet verder in.',
+          'Direct gevaar is bijvoorbeeld:',
+          <DefinitionComponents.Ul
+            items={[
+              'Paal, stoplicht of lamp ligt op de grond of is verbogen',
+              'Deurtje in de paal staat open',
+              'Er zijn losse elektriciteitsdraden te zien of er hangt een lamp los'
+            ]}
+          />,
+          'Let op: met het nummer van het stoplicht (3 witte cijfers bij de lichten) kunnen wij de melding sneller oplossen.'
+        ],
+        pathMerge: 'extra_properties'
+      },
+      render: FormComponents.PlainText
+    },
+    extra_straatverlichting: {
+      meta: {
+        label: 'Gaat uw melding over één of over meer lampen?',
+        ifAllOf: {
+          subcategory: 'straatverlichting-openbare-klok'
+        },
+        values: {
+          een_lamp: 'Eén lamp',
+          meer_lampen: 'Meer lampen'
+        },
+        pathMerge: 'extra_properties'
+      },
+      render: FormComponents.RadioInput
+    },
+    extra_straatverlichting_wat: {
+      meta: {
+        label: 'Wat is er aan de hand met de lamp(en)?',
+        ifAllOf: {
+          subcategory: 'straatverlichting-openbare-klok'
+        },
+        values: [
+          'Brandt niet',
+          'Brandt overdag',
+          'Geeft lichthinder (schijnt bijvoorbeeld in de slaapkamer)',
+          'Paal staat scheef',
+          'Paal ligt over de weg',
+          'Het deurtje van de paal staat open (schokgevaar)'
+        ],
+        pathMerge: 'extra_properties'
+      },
+      render: FormComponents.CheckboxInput
+    },
+    extra_straatverlichting_waar: {
+      meta: {
+        label: 'Waar staat/staan de lamp(en)?',
+        ifAllOf: {
+          subcategory: 'straatverlichting-openbare-klok'
+        },
+        values: [
+          'Op de stoep',
+          'Op een brug',
+          'In een tunnel',
+          'Bij een gebouw: om het gebouw te verlichten',
+          'De lampen hangen'
+        ],
+        pathMerge: 'extra_properties'
+      },
+      render: FormComponents.CheckboxInput
+    },
+    extra_straatverlichting_nummer: {
+      meta: {
+        ifAllOf: {
+          subcategory: 'straatverlichting-openbare-klok'
+        },
+        label: 'Hebt u een nummer van (één van) de lamp(en)?',
+        pathMerge: 'extra_properties'
+      },
+      render: FormComponents.TextInput
+    },
     extra_klok: {
       meta: {
         label: 'Wat is er aan de hand met de klok',
         ifAllOf: {
           subcategory: 'klok'
         },
-        value: [
+        values: [
           'Loopt niet op tijd',
           'Lamp is stuk',
           'Is aangereden',
@@ -114,7 +196,7 @@ export default {
         ifAllOf: {
           subcategory: 'verkeerslicht'
         },
-        value: [
+        values: [
           'Voetganger',
           'Fiets',
           'Blindentikker',
@@ -130,7 +212,7 @@ export default {
         ifAllOf: {
           subcategory: 'verkeerslicht'
         },
-        value: [
+        values: [
           'Rode licht is stuk',
           'Oranje licht is stuk',
           'Groene licht is stuk',

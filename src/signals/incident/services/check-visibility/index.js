@@ -12,17 +12,11 @@ const checkVisibility = (control, incident, isAuthenticated) => {
   }
 
   if (control.meta && control.meta.ifOneOf) {
-    if (!some(control.meta.ifOneOf, (value, key) =>
-      !Array.isArray(value) ? isEqual(value, incident[key]) :
-        some(value, (v) => isEqual(v, incident[key])))) {
-      isVisible = false;
-    }
-  }
-
-  if (control.meta && control.meta.ifNoneOf) {
-    if (!every(control.meta.ifNoneOf, (value, key) =>
-      !Array.isArray(value) ? !isEqual(value, incident[key]) :
-        every(value, (v) => !isEqual(v, incident[key])))) {
+    if (!some(control.meta.ifOneOf, (value, key) => {
+      const hasValue = Array.isArray(incident[key]) ? incident[key].includes(value) : isEqual(value, incident[key]);
+      return !Array.isArray(value) ? hasValue :
+        some(value, (v) => isEqual(v, incident[key]));
+    })) {
       isVisible = false;
     }
   }
