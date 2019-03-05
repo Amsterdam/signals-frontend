@@ -58,8 +58,11 @@ class SplitForm extends React.Component {
     parts.forEach((part) => {
       update.push(this.state.splitForm.value[part]);
       create.push({
-        text: this.state.splitForm.value[part].text,
-        reuse_parent_image: this.state.splitForm.value[part].image
+        category: {
+          sub_category: this.state.splitForm.value[part].subcategory
+        },
+        reuse_parent_image: this.state.splitForm.value[part].image,
+        text: this.state.splitForm.value[part].text
       });
     });
 

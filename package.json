@@ -332,7 +332,6 @@
     "jest-environment-jsdom-global": "^1.1.0",
     "jsdom": "11.11.0",
     "lint-staged": "3.5.1",
-    "ngrok": "2.2.9",
     "node-plop": "^0.15.0",
     "node-sass": "^4.9.2",
     "nodemon": "^1.18.3",
