@@ -46,14 +46,17 @@ describe('incidentSplitContainerReducer', () => {
   });
 
   it('should handle the SPLIT_INCIDENT_ERROR', () => {
+    const payload = { incident: { id: 42 } };
+
     expect(
       incidentSplitContainerReducer(undefined, {
         type: SPLIT_INCIDENT_ERROR,
-        payload: true
+        payload
       }).toJS()
     ).toEqual({
       ...expected,
-      error: true
+      error: payload,
+      split: payload
     });
   });
 });

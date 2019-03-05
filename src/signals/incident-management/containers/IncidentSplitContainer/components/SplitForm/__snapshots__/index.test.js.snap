@@ -49,7 +49,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
             "_pendingTouched": false,
             "asyncValidator": null,
             "controls": Object {
-              "file": FormControl {
+              "image": FormControl {
                 "_onCollectionChange": [Function],
                 "_onDisabledChange": Array [],
                 "_parent": [Circular],
@@ -316,7 +316,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
               "validators": null,
             },
             "value": Object {
-              "file": true,
+              "image": true,
               "note": "",
               "priority": "high",
               "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -335,7 +335,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
             "_pendingTouched": false,
             "asyncValidator": null,
             "controls": Object {
-              "file": FormControl {
+              "image": FormControl {
                 "_onCollectionChange": [Function],
                 "_onDisabledChange": Array [],
                 "_parent": [Circular],
@@ -602,7 +602,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
               "validators": null,
             },
             "value": Object {
-              "file": true,
+              "image": true,
               "note": "",
               "priority": "high",
               "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -621,7 +621,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
             "_pendingTouched": false,
             "asyncValidator": null,
             "controls": Object {
-              "file": FormControl {
+              "image": FormControl {
                 "_onCollectionChange": [Function],
                 "_onDisabledChange": Array [],
                 "_parent": [Circular],
@@ -888,7 +888,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
               "validators": null,
             },
             "value": Object {
-              "file": true,
+              "image": true,
               "note": "",
               "priority": "high",
               "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -926,21 +926,21 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
         },
         "value": Object {
           "part1": Object {
-            "file": true,
+            "image": true,
             "note": "",
             "priority": "high",
             "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
             "text": undefined,
           },
           "part2": Object {
-            "file": true,
+            "image": true,
             "note": "",
             "priority": "high",
             "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
             "text": undefined,
           },
           "part3": Object {
-            "file": true,
+            "image": true,
             "note": "",
             "priority": "high",
             "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -1004,7 +1004,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
             "_pendingTouched": false,
             "asyncValidator": null,
             "controls": Object {
-              "file": FormControl {
+              "image": FormControl {
                 "_onCollectionChange": [Function],
                 "_onDisabledChange": Array [],
                 "_parent": [Circular],
@@ -1271,7 +1271,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
               "validators": null,
             },
             "value": Object {
-              "file": true,
+              "image": true,
               "note": "",
               "priority": "high",
               "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -1290,7 +1290,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
             "_pendingTouched": false,
             "asyncValidator": null,
             "controls": Object {
-              "file": FormControl {
+              "image": FormControl {
                 "_onCollectionChange": [Function],
                 "_onDisabledChange": Array [],
                 "_parent": [Circular],
@@ -1557,7 +1557,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
               "validators": null,
             },
             "value": Object {
-              "file": true,
+              "image": true,
               "note": "",
               "priority": "high",
               "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -1576,7 +1576,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
             "_pendingTouched": false,
             "asyncValidator": null,
             "controls": Object {
-              "file": FormControl {
+              "image": FormControl {
                 "_onCollectionChange": [Function],
                 "_onDisabledChange": Array [],
                 "_parent": [Circular],
@@ -1843,7 +1843,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
               "validators": null,
             },
             "value": Object {
-              "file": true,
+              "image": true,
               "note": "",
               "priority": "high",
               "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -1881,21 +1881,21 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
         },
         "value": Object {
           "part1": Object {
-            "file": true,
+            "image": true,
             "note": "",
             "priority": "high",
             "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
             "text": undefined,
           },
           "part2": Object {
-            "file": true,
+            "image": true,
             "note": "",
             "priority": "high",
             "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
             "text": undefined,
           },
           "part3": Object {
-            "file": true,
+            "image": true,
             "note": "",
             "priority": "high",
             "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -1966,7 +1966,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
               "_pendingTouched": false,
               "asyncValidator": null,
               "controls": Object {
-                "file": FormControl {
+                "image": FormControl {
                   "_onCollectionChange": [Function],
                   "_onDisabledChange": Array [],
                   "_parent": [Circular],
@@ -2233,7 +2233,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
                 "validators": null,
               },
               "value": Object {
-                "file": true,
+                "image": true,
                 "note": "",
                 "priority": "high",
                 "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -2252,7 +2252,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
               "_pendingTouched": false,
               "asyncValidator": null,
               "controls": Object {
-                "file": FormControl {
+                "image": FormControl {
                   "_onCollectionChange": [Function],
                   "_onDisabledChange": Array [],
                   "_parent": [Circular],
@@ -2519,7 +2519,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
                 "validators": null,
               },
               "value": Object {
-                "file": true,
+                "image": true,
                 "note": "",
                 "priority": "high",
                 "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -2538,7 +2538,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
               "_pendingTouched": false,
               "asyncValidator": null,
               "controls": Object {
-                "file": FormControl {
+                "image": FormControl {
                   "_onCollectionChange": [Function],
                   "_onDisabledChange": Array [],
                   "_parent": [Circular],
@@ -2805,7 +2805,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
                 "validators": null,
               },
               "value": Object {
-                "file": true,
+                "image": true,
                 "note": "",
                 "priority": "high",
                 "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -2843,21 +2843,21 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
           },
           "value": Object {
             "part1": Object {
-              "file": true,
+              "image": true,
               "note": "",
               "priority": "high",
               "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
               "text": undefined,
             },
             "part2": Object {
-              "file": true,
+              "image": true,
               "note": "",
               "priority": "high",
               "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
               "text": undefined,
             },
             "part3": Object {
-              "file": true,
+              "image": true,
               "note": "",
               "priority": "high",
               "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -2964,7 +2964,7 @@ exports[`<SplitForm /> rendering should render correctly 1`] = `
             "_pendingTouched": false,
             "asyncValidator": null,
             "controls": Object {
-              "file": FormControl {
+              "image": FormControl {
                 "_onCollectionChange": [Function],
                 "_onDisabledChange": Array [],
                 "_parent": [Circular],
@@ -3231,7 +3231,7 @@ exports[`<SplitForm /> rendering should render correctly 1`] = `
               "validators": null,
             },
             "value": Object {
-              "file": true,
+              "image": true,
               "note": "",
               "priority": "high",
               "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -3250,7 +3250,7 @@ exports[`<SplitForm /> rendering should render correctly 1`] = `
             "_pendingTouched": false,
             "asyncValidator": null,
             "controls": Object {
-              "file": FormControl {
+              "image": FormControl {
                 "_onCollectionChange": [Function],
                 "_onDisabledChange": Array [],
                 "_parent": [Circular],
@@ -3517,7 +3517,7 @@ exports[`<SplitForm /> rendering should render correctly 1`] = `
               "validators": null,
             },
             "value": Object {
-              "file": true,
+              "image": true,
               "note": "",
               "priority": "high",
               "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -3536,7 +3536,7 @@ exports[`<SplitForm /> rendering should render correctly 1`] = `
             "_pendingTouched": false,
             "asyncValidator": null,
             "controls": Object {
-              "file": FormControl {
+              "image": FormControl {
                 "_onCollectionChange": [Function],
                 "_onDisabledChange": Array [],
                 "_parent": [Circular],
@@ -3803,7 +3803,7 @@ exports[`<SplitForm /> rendering should render correctly 1`] = `
               "validators": null,
             },
             "value": Object {
-              "file": true,
+              "image": true,
               "note": "",
               "priority": "high",
               "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -3841,21 +3841,21 @@ exports[`<SplitForm /> rendering should render correctly 1`] = `
         },
         "value": Object {
           "part1": Object {
-            "file": true,
+            "image": true,
             "note": "",
             "priority": "high",
             "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
             "text": undefined,
           },
           "part2": Object {
-            "file": true,
+            "image": true,
             "note": "",
             "priority": "high",
             "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
             "text": undefined,
           },
           "part3": Object {
-            "file": true,
+            "image": true,
             "note": "",
             "priority": "high",
             "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -3919,7 +3919,7 @@ exports[`<SplitForm /> rendering should render correctly 1`] = `
             "_pendingTouched": false,
             "asyncValidator": null,
             "controls": Object {
-              "file": FormControl {
+              "image": FormControl {
                 "_onCollectionChange": [Function],
                 "_onDisabledChange": Array [],
                 "_parent": [Circular],
@@ -4186,7 +4186,7 @@ exports[`<SplitForm /> rendering should render correctly 1`] = `
               "validators": null,
             },
             "value": Object {
-              "file": true,
+              "image": true,
               "note": "",
               "priority": "high",
               "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -4205,7 +4205,7 @@ exports[`<SplitForm /> rendering should render correctly 1`] = `
             "_pendingTouched": false,
             "asyncValidator": null,
             "controls": Object {
-              "file": FormControl {
+              "image": FormControl {
                 "_onCollectionChange": [Function],
                 "_onDisabledChange": Array [],
                 "_parent": [Circular],
@@ -4472,7 +4472,7 @@ exports[`<SplitForm /> rendering should render correctly 1`] = `
               "validators": null,
             },
             "value": Object {
-              "file": true,
+              "image": true,
               "note": "",
               "priority": "high",
               "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -4491,7 +4491,7 @@ exports[`<SplitForm /> rendering should render correctly 1`] = `
             "_pendingTouched": false,
             "asyncValidator": null,
             "controls": Object {
-              "file": FormControl {
+              "image": FormControl {
                 "_onCollectionChange": [Function],
                 "_onDisabledChange": Array [],
                 "_parent": [Circular],
@@ -4758,7 +4758,7 @@ exports[`<SplitForm /> rendering should render correctly 1`] = `
               "validators": null,
             },
             "value": Object {
-              "file": true,
+              "image": true,
               "note": "",
               "priority": "high",
               "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
@@ -4796,21 +4796,21 @@ exports[`<SplitForm /> rendering should render correctly 1`] = `
         },
         "value": Object {
           "part1": Object {
-            "file": true,
+            "image": true,
             "note": "",
             "priority": "high",
             "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
             "text": undefined,
           },
           "part2": Object {
-            "file": true,
+            "image": true,
             "note": "",
             "priority": "high",
             "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",
             "text": undefined,
           },
           "part3": Object {
-            "file": true,
+            "image": true,
             "note": "",
             "priority": "high",
             "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep",

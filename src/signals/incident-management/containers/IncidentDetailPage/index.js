@@ -49,6 +49,14 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     this.props.onRequestNotesList(this.props.id);
   }
 
+  shouldComponentUpdate(props) {
+    if (props.id !== this.props.id) {
+      props.onRequestIncident(props.id);
+    }
+
+    return true;
+  }
+
   onTabChanged(tabId) {
     this.setState({ selectedTab: tabId });
   }
@@ -65,6 +73,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     const { incidentNotesList } = this.props.notesModel;
     const { incident, loading, split, stadsdeelList, priorityList } = this.props.incidentModel;
     const { selectedTab } = this.state;
+    const canSplit = (incident && incident.status && incident.status.state === 'm') && !(incident && incident.parent_id);
     const tabs = {
       status: { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
       priority: { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
@@ -86,7 +95,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
       ) :
       (
         <div className="incident-detail-page container">
-          <SplitNotificationBar payload={split} onClose={this.onDismissSplitNotification} />
+          <SplitNotificationBar data={split} onClose={this.onDismissSplitNotification} />
           {loading ? <LoadingIndicator /> : (
             <div className="row">
               <div className="col-12">
@@ -95,7 +104,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 
               <div className="col-9"><h3>Melding {this.props.id}</h3></div>
               <div className="col-3 d-flex justify-content-end">
-                {incident && incident.status && incident.status.state === 'm' ? <Link to={`${this.props.baseUrl}/incident/${this.props.id}/split`} className="align-self-center action-quad" >Splitsen</Link> : ''}
+                {canSplit ? <Link to={`${this.props.baseUrl}/incident/${this.props.id}/split`} className="align-self-center action-quad" >Splitsen</Link> : ''}
                 <button className="align-self-center action-quad" onClick={this.onPrintView}>Print view</button>
               </div>
 

@@ -5,17 +5,6 @@ describe('formatUpdateIncident service', () => {
     expect(formatUpdateIncident()).toEqual({});
   });
 
-  it('should return optial subcategory from new incident', () => {
-    const subcategory = 'subcategory';
-    expect(formatUpdateIncident({
-      subcategory
-    })).toEqual({
-      category: {
-        sub_category: subcategory
-      }
-    });
-  });
-
   it('should return optial priority from new incident', () => {
     const priority = 'normal';
     expect(formatUpdateIncident({
