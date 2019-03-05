@@ -9,7 +9,9 @@ import { REQUEST_STATUS_CREATE_SUCCESS } from 'signals/incident-management/conta
 import { SPLIT_INCIDENT_SUCCESS, SPLIT_INCIDENT_ERROR } from 'signals/incident-management/containers/IncidentSplitContainer/constants';
 
 import {
-  REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR, DISMISS_SPLIT_NOTIFICATION
+  REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR,
+  DISMISS_SPLIT_NOTIFICATION,
+  PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR
 } from './constants';
 
 export const initialState = fromJS({
@@ -38,12 +40,28 @@ function incidentModelReducer(state = initialState, action) {
 
     case REQUEST_INCIDENT_ERROR:
       return state
-        .set('error', action.payload)
+        .set('error', fromJS(action.payload))
         .set('loading', false);
 
     case DISMISS_SPLIT_NOTIFICATION:
       return state
         .set('split', false);
+
+    case PATCH_INCIDENT:
+      return state
+        .set('loading', true)
+        .set('error', false);
+
+    case PATCH_INCIDENT_SUCCESS:
+      return state
+        .set('incident', fromJS(action.payload))
+        .set('error', false)
+        .set('loading', false);
+
+    case PATCH_INCIDENT_ERROR:
+      return state
+        .set('error', fromJS(action.payload))
+        .set('loading', false);
 
     case REQUEST_CATEGORY_UPDATE_SUCCESS:
       return state
