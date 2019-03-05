@@ -46,5 +46,6 @@ describe('IncidentSplitContainer saga', () => {
     const gen = splitIncident(action);
     gen.next();
     expect(gen.throw(error).value).toEqual(put(splitIncidentError(error))); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(put(push(`/manage/incident/${id}`)));
   });
 });

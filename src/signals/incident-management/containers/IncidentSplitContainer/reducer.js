@@ -24,7 +24,8 @@ function incidentSplitContainerReducer(state = initialState, action) {
 
     case SPLIT_INCIDENT_ERROR:
       return state
-        .set('error', action.payload)
+        .set('error', fromJS(action.payload))
+        .set('split', fromJS(action.payload))
         .set('loading', false);
 
     default:

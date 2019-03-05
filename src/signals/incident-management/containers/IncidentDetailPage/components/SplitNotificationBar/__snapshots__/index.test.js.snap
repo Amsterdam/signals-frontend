@@ -1,9 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<SplitNotificationBar /> should render 2 items correctly 1`] = `
+exports[`<SplitNotificationBar /> error should render general 412 correctly 1`] = `
 <div>
   <div
-    className="split-notification-bar"
+    className="split-notification-bar error"
+  >
+    <div
+      className="split-notification-bar__body"
+    >
+      <button
+        className="split-notification-bar__close-button"
+        onClick={[MockFunction]}
+      />
+      De melding is helaas niet gesplitst. 
+      U kunt geen meldingen splitsen die al gesplitst zijn.
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<SplitNotificationBar /> error should render general error correctly 1`] = `
+<div>
+  <div
+    className="split-notification-bar error"
+  >
+    <div
+      className="split-notification-bar__body"
+    >
+      <button
+        className="split-notification-bar__close-button"
+        onClick={[MockFunction]}
+      />
+      De melding is helaas niet gesplitst. 
+      Er is een onbekende fout ontstaan.
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<SplitNotificationBar /> success should render 2  items correctly 1`] = `
+<div>
+  <div
+    className="split-notification-bar success"
   >
     <div
       className="split-notification-bar__body"
@@ -44,10 +82,10 @@ exports[`<SplitNotificationBar /> should render 2 items correctly 1`] = `
 </div>
 `;
 
-exports[`<SplitNotificationBar /> should render 3 items correctly 1`] = `
+exports[`<SplitNotificationBar /> success should render 3 items correctly 1`] = `
 <div>
   <div
-    className="split-notification-bar"
+    className="split-notification-bar success"
   >
     <div
       className="split-notification-bar__body"
@@ -100,4 +138,4 @@ exports[`<SplitNotificationBar /> should render 3 items correctly 1`] = `
 </div>
 `;
 
-exports[`<SplitNotificationBar /> should render no items correctly 1`] = `<div />`;
+exports[`<SplitNotificationBar /> success should render no items correctly 1`] = `<div />`;

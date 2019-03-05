@@ -18,21 +18,21 @@ class SplitForm extends React.Component {
         part1: FormBuilder.group({
           subcategory,
           text: props.incident.text,
-          file: true,
+          image: true,
           note: '',
           priority: props.incident.priority.priority,
         }),
         part2: FormBuilder.group({
           subcategory,
           text: props.incident.text,
-          file: true,
+          image: true,
           note: '',
           priority: props.incident.priority.priority,
         }),
         part3: FormBuilder.group({
           subcategory,
           text: props.incident.text,
-          file: true,
+          image: true,
           note: '',
           priority: props.incident.priority.priority,
         }),
@@ -50,15 +50,19 @@ class SplitForm extends React.Component {
   handleSubmit() {
     const create = [];
     const update = [];
-
-    update.push(this.state.splitForm.value.part1);
-    create.push({ text: this.state.splitForm.value.part1.text });
-    update.push(this.state.splitForm.value.part2);
-    create.push({ text: this.state.splitForm.value.part2.text });
+    const parts = ['part1', 'part2'];
     if (this.state.isVisible) {
-      update.push(this.state.splitForm.value.part3);
-      create.push({ text: this.state.splitForm.value.part3.text });
+      parts.push('part3');
     }
+
+    parts.forEach((part) => {
+      update.push(this.state.splitForm.value[part]);
+      create.push({
+        text: this.state.splitForm.value[part].text,
+        reuse_parent_image: this.state.splitForm.value[part].image
+      });
+    });
+
     this.props.handleSubmit({
       id: this.props.incident.id,
       create,

@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import './style.scss';
+
 
 class IncidentDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -32,6 +34,19 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
               <tr><td>Telefoonnummer</td><td>{incident.reporter.phone}</td></tr>
               <tr><td>Bron</td><td>{incident.source}</td></tr>
               <tr><td>Verantwoordelijke afdeling</td><td>{incident.category.department}&nbsp;</td></tr>
+              {incident.parent_id ?
+               (<tr>
+                 <td>Oorspronkelijke melding</td>
+                 <td><NavLink className="incident-detail__link" to={`/manage/incident/${incident.parent_id}`}>{incident.parent_id}</NavLink></td>
+               </tr>)
+               : <tr></tr>}
+              {incident.child_ids && incident.child_ids.length > 0 ?
+                (<tr>
+                  <td>Gesplitst in</td>
+                  <td>{incident.child_ids.map((child_id) =>
+                    (<NavLink className="incident-detail__link" key={child_id} to={`/manage/incident/${child_id}`}>{child_id}</NavLink>))}</td>
+                </tr>)
+               : <tr></tr>}
             </tbody>
           </table>
         </div>

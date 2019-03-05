@@ -30,8 +30,8 @@ const IncidentPart = ({ index, incident, subcategories, priorityList, splitForm 
     {incident.image &&
       <FieldControlWrapper
         render={CopyFileInput}
-        name={`part${index}.file`}
-        control={splitForm.get(`part${index}.file`)}
+        name={`part${index}.image`}
+        control={splitForm.get(`part${index}.image`)}
         values={[{ key: '', alt: `Foto bij melding ${incident.id}`, value: incident.image }]}
       />
     }

@@ -19,6 +19,7 @@ export function* splitIncident(action) {
     yield put(push(`/manage/incident/${payload.id}`));
   } catch (error) {
     yield put(splitIncidentError(error));
+    yield put(push(`/manage/incident/${payload.id}`));
   }
 }
 

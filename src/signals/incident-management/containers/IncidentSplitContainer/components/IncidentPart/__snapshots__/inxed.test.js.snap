@@ -45,11 +45,11 @@ exports[`<IncidentPart /> rendering should render correctly with image 1`] = `
   <FieldControlWrapper
     control={
       Object {
-        "item": "part2.file",
+        "item": "part2.image",
       }
     }
     emptyOptionText=""
-    name="part2.file"
+    name="part2.image"
     render={[Function]}
     values={
       Array [
