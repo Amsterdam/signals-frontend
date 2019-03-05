@@ -9,8 +9,11 @@ jest.mock('../IncidentPart', () => () => 'IncidentPart');
 
 describe('<SplitForm />', () => {
   const mockCreate = {
-    text: undefined,
-    reuse_parent_image: true
+    category: {
+      sub_category: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep'
+    },
+    reuse_parent_image: true,
+    text: undefined
   };
   const mockUpdate = {
     image: true,
