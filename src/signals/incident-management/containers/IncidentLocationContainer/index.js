@@ -7,23 +7,21 @@ import { bindActionCreators } from 'redux';
 import { patchIncident } from 'models/incident/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 
-import MapInteractive from 'components/MapInteractive';
+import Form from './components/Form';
+
 import './style.scss';
 
-function onQueryResult(a, b) {
-  console.log('onQueryResult', a, b);
-}
-
-const IncidentLocationContainer = ({ incidentModel }) => (
+const IncidentLocationContainer = ({ incidentModel, onPatchIncident }) => (
   <div className="incident-location-container">
-    {console.log('-----------------------------------------', incidentModel.incident)}
     IncidentLocationContainer {incidentModel.incident.id}
-    <MapInteractive location={incidentModel.incident.location} onQueryResult={onQueryResult} />
+
+    <Form incident={incidentModel.incident} onPatchIncident={onPatchIncident} />
   </div>
 );
 
 IncidentLocationContainer.propTypes = {
   incidentModel: PropTypes.object.isRequired,
+  onPatchIncident: PropTypes.func.isRequired
 };
 
 const mapStateToProps = () => createStructuredSelector({
