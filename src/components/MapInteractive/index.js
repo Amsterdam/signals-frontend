@@ -20,7 +20,7 @@ class MapInteractive extends React.Component {
     if (!this.state.map) {
       const options = {
         layer: 'standaard',
-        target: 'mapdiv',
+        target: 'mapdiv-interactive',
         marker: false,
         search: true,
         zoom: DEFAULT_ZOOM_LEVEL,
@@ -56,7 +56,7 @@ class MapInteractive extends React.Component {
     return (
       <div className="map-component">
         <div className="map">
-          <div id="mapdiv" />
+          <div id="mapdiv-interactive" />
         </div>
       </div>
     );
