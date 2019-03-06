@@ -75,6 +75,15 @@ describe('<SplitNotificationBar />', () => {
       expect(wrapper).toMatchSnapshot();
     });
 
+    it('should render general 403 correctly', () => {
+      props.data.response.status = 403;
+      wrapper = shallow(
+        <SplitNotificationBar {...props} />
+      );
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
     it('should render general 412 correctly', () => {
       props.data.response.status = 412;
       wrapper = shallow(
