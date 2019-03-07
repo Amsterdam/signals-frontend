@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import { isEqual } from 'lodash';
 
-// import MapInteractive from 'components/MapInteractive';
+import mapLocation from 'shared/services/map-location';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import MapInput from '../../../../components/MapInput';
 
@@ -14,7 +14,7 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
     super(props);
 
     this.state = {
-      location: props.location,
+      newLocation: props.newLocation,
       locationForm: FormBuilder.group({
         location: props.incident.location,
         loading: false
@@ -32,7 +32,10 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
 
   static getDerivedStateFromProps(props, state) {
     if (!isEqual(props.incident.location, state.location)) {
-      return { location: props.incident.location };
+      return {
+        location: props.incident.location,
+        newLocation: props.incident.location
+      };
     }
 
     return null;
@@ -40,16 +43,11 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const patch = {
-      location: {
-        ...this.props.incident.location,
-        address: {
-          ...this.props.incident.location.address,
-          huisletter: 'E'
-        }
-      }
-    };
-    this.props.onPatchIncident({ id: this.props.incident.id, patch });
+
+    this.props.onPatchIncident({
+      id: this.props.incident.id,
+      patch: { location: { ...this.state.newLocation } }
+    });
   }
 
   // componentWillUpdate(props) {
@@ -57,25 +55,22 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
       // this.locationForm.controls.loading.setValue(props.loading);
     // }
   // }
-  componentDidMount(props) {
-    console.log('mount', props);
-  }
 
   onQueryResult(location) {
-    console.log('onQueryResult', location);
+    this.setState({
+      newLocation: mapLocation(location)
+    });
   }
 
   render() {
     const { loading, incident } = this.props;
-    const { location, locationForm } = this.state;
-    console.log('render', location);
-    console.log('locationForm', locationForm);
+    const { locationForm } = this.state;
     return (
       <div className="incident-location-form">
         <div className="incident-location-form__body">
           <FieldGroup
             control={this.locationForm}
-            render={({ invalid }) => (
+            render={() => (
               <form onSubmit={this.handleSubmit}>
                 <div>
                   form for {incident.id}
@@ -88,7 +83,7 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
                     onQueryResult={this.onQueryResult}
                   />
 
-                  <button className="action primary" type="submit" disabled={invalid || loading}>
+                  <button className="action primary" type="submit" disabled={loading}>
                     <span className="value">Locatie wijzigen</span>
                     {loading ?
                       <span className="working">
@@ -109,6 +104,7 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
 Form.defaultProps = {
   loading: false,
   location: {},
+  newLocation: {},
   incident: {}
 };
 
@@ -117,6 +113,7 @@ Form.propTypes = {
   loading: PropTypes.bool,
   incident: PropTypes.object,
   location: PropTypes.object,
+  newLocation: PropTypes.object,
 
   onPatchIncident: PropTypes.func.isRequired
 };

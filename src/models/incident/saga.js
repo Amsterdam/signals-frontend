@@ -19,7 +19,6 @@ export function* fetchIncident(action) {
 
 export function* patchIncident(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals`;
-  console.log('s', action);
   try {
     const payload = action.payload;
     const updatedIncident = yield authPatchCall(`${requestURL}/${payload.id}`, payload.patch);
