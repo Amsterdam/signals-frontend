@@ -5,7 +5,6 @@
  * code.
  */
 
-
 // Needed for redux-saga es6 generator support
 import 'babel-polyfill';
 
@@ -24,6 +23,7 @@ import 'leaflet/dist/leaflet';
 import App from 'containers/App';
 import { authenticateUser } from 'containers/App/actions';
 import { authenticate } from 'shared/services/auth/auth';
+import loadModels from 'models';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
@@ -54,6 +54,8 @@ const initialState = {};
 const history = createHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
+
+loadModels(store);
 
 const render = (messages) => {
   ReactDOM.render(

@@ -38,9 +38,12 @@ class MapInteractive extends React.Component {
         map: pointquery.createMap(options)
       });
     }
-    if (!isEqual(props.location, this.props.location)) {
-      const input = document.querySelector('#nlmaps-geocoder-control-input');
-      if (input && props.location && props.location.address) {
+    const input = document.querySelector('#nlmaps-geocoder-control-input');
+    if (input) {
+      input.setAttribute('placeholder', 'Zoek adres');
+    }
+    if (input && !isEqual(props.location, this.props.location)) {
+      if (props.location && props.location.address) {
         const address = props.location.address;
         const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
         const display = `${address.openbare_ruimte} ${address.huisnummer}${address.huisletter}${toevoeging}, ${address.postcode} ${address.woonplaats}`;

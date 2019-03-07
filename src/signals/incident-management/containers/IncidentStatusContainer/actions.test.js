@@ -1,4 +1,4 @@
-import { testActionCreator } from '../../../../../internals/testing/test-utils';
+import { testActionCreator } from 'test/utils';
 
 import {
   REQUEST_STATUS_LIST, REQUEST_STATUS_LIST_SUCCESS, REQUEST_STATUS_LIST_ERROR,

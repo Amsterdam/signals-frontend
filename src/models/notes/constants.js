@@ -1,0 +1,4 @@
+export const REQUEST_NOTES_LIST = 'sia/NotesModel/REQUEST_NOTES_LIST';
+export const REQUEST_NOTES_LIST_SUCCESS = 'sia/NotesModel/REQUEST_NOTES_LIST_SUCCESS';
+export const REQUEST_NOTES_LIST_ERROR = 'sia/NotesModel/REQUEST_NOTES_LIST_ERROR';
+export const REQUEST_ADD_NOTE = 'sia/NotesModel/REQUEST_ADD_NOTE';

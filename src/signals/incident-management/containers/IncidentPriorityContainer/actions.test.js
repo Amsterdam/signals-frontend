@@ -1,4 +1,4 @@
-import { testActionCreator } from '../../../../../internals/testing/test-utils';
+import { testActionCreator } from 'test/utils';
 
 import {
   REQUEST_PRIORITY_UPDATE, REQUEST_PRIORITY_UPDATE_SUCCESS, REQUEST_PRIORITY_UPDATE_ERROR

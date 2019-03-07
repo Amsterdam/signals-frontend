@@ -45,6 +45,17 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
                   </NavLink>
                 </li> : ''
               }
+
+              {/* TEMP removed to test in PROD
+                this.props.isAuthenticated ?
+                <li>
+                  <NavLink to="/manage/dashboard">
+                    <span className="linklabel">
+                      Dashboard [beta]
+                    </span>
+                  </NavLink>
+                </li> : ''
+              */}
             </ul>
           </nav>
         </div>

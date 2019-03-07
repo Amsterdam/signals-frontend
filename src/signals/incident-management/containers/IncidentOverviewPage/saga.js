@@ -19,6 +19,12 @@ export function* fetchIncidents(action) {
     const sort = action.payload.sort;
     if (sort) yield put(sortIncidentsChanged(sort));
     const params = yield select(makeSelectFilterParams());
+    // TEMP remove when server can order days_open
+    if (params.ordering === 'days_open') {
+      params.ordering = '-created_at';
+    } else if (params.ordering === '-days_open') {
+      params.ordering = 'created_at';
+    }
     const incidents = yield authCall(requestURL, params);
 
     yield put(requestIncidentsSuccess(incidents));

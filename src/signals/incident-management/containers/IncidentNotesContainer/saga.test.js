@@ -1,6 +1,8 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 
+import { requestAddNote } from 'models/notes/actions';
+
 import { REQUEST_NOTE_CREATE } from './constants';
 import { requestNoteCreateSuccess, requestNoteCreateError } from './actions';
 import watchRequestIncidentSaga, { baseUrl, createIncidentNote } from './saga';
@@ -37,6 +39,7 @@ describe('IncidentNotesContainer saga', () => {
     expect(gen.next().value).toEqual(authPostCall(requestURL, note)); // eslint-disable-line redux-saga/yield-effects
     expect(gen.next(note).value).toEqual(call(delay, 1000)); // eslint-disable-line redux-saga/yield-effects
     expect(gen.next().value).toEqual(put(requestNoteCreateSuccess(updatedNote))); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(put(requestAddNote(updatedNote))); // eslint-disable-line redux-saga/yield-effects
   });
 
   it('should createIncidentNote error', () => {

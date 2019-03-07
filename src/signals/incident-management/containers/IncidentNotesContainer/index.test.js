@@ -11,7 +11,9 @@ describe('<IncidentNotesContainer />', () => {
     props = {
       id: '1',
       incidentNotesContainer: {
-        incident: {},
+        incident: {}
+      },
+      notesModel: {
         incidentNotesList: [{
           state: 'm'
         }]

@@ -8,15 +8,13 @@ import messages from './messages';
 
 import './style.scss';
 
-const {{ properCase name }} = () => {
-  return (
-    <div className="{{ hyphenCase name }}">
-    {{#if wantMessages}}
-      <FormattedMessage {...messages.header} />
-    {{/if}}
-    </div>
-  );
-}
+const {{ properCase name }} = () => (
+  <div className="{{ hyphenCase name }}">
+  {{#if wantMessages}}
+    <FormattedMessage {...messages.header} />
+  {{/if}}
+  </div>
+);
 
 {{ properCase name }}.propTypes = {
 

@@ -1,0 +1,13 @@
+@import "config.scss";
+
+.split-detail {
+  &__definition {
+    color: $ams-donkergrijs;
+    margin-bottom: 5px;
+  }
+
+  &__value {
+    @include avenirnextdemi();
+    margin-bottom: 16px;
+  }
+}
