@@ -7,6 +7,11 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
   <h1>
     Splitsen
   </h1>
+  <div
+    className="split-form__disclainer-top"
+  >
+    Splitsen mag alleen als de oorspronkelijke melding over twee verschillende onderwerpen gaat, die zonder samenwerking met een andere afdeling kan worden afgehandeld.
+  </div>
   <Component
     incident={
       Object {
@@ -2922,6 +2927,11 @@ exports[`<SplitForm /> rendering should render correctly 1`] = `
   <h1>
     Splitsen
   </h1>
+  <div
+    className="split-form__disclainer-top"
+  >
+    Splitsen mag alleen als de oorspronkelijke melding over twee verschillende onderwerpen gaat, die zonder samenwerking met een andere afdeling kan worden afgehandeld.
+  </div>
   <Component
     incident={
       Object {
