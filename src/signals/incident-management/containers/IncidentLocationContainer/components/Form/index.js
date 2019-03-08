@@ -6,6 +6,7 @@ import { isEqual } from 'lodash';
 import mapLocation from 'shared/services/map-location';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import MapInput from '../../../../components/MapInput';
+import HiddenInput from '../../../../components/HiddenInput';
 
 import './style.scss';
 
@@ -16,6 +17,7 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
     this.state = {
       newLocation: props.newLocation,
       locationForm: FormBuilder.group({
+        coordinates: ['', Validators.required],
         location: props.incident.location,
         loading: false
       })
@@ -24,11 +26,6 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onQueryResult = this.onQueryResult.bind(this);
   }
-
-  locationForm = FormBuilder.group({ // eslint-disable-line react/sort-comp
-    address_text: ['', Validators.required],
-    loading: false
-  });
 
   static getDerivedStateFromProps(props, state) {
     if (!isEqual(props.incident.location, state.location)) {
@@ -41,6 +38,22 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
     return null;
   }
 
+  // componentWillUpdate(props) {
+    // if (props.loading !== this.props.loading) {
+      // this.state.locationForm.controls.loading.setValue(props.loading);
+    // }
+  // }
+
+  onQueryResult(location) {
+    const newLocation = mapLocation(location);
+    this.setState({
+      newLocation
+    });
+
+    this.state.locationForm.controls.location.setValue(newLocation);
+    this.state.locationForm.controls.coordinates.setValue(newLocation.geometrie.coordinates.join(','));
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
 
@@ -50,30 +63,23 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
     });
   }
 
-  // componentWillUpdate(props) {
-    // if (props.loading !== this.props.loading) {
-      // this.locationForm.controls.loading.setValue(props.loading);
-    // }
-  // }
-
-  onQueryResult(location) {
-    this.setState({
-      newLocation: mapLocation(location)
-    });
-  }
-
   render() {
-    const { loading, incident } = this.props;
+    const { loading } = this.props;
     const { locationForm } = this.state;
     return (
       <div className="incident-location-form">
         <div className="incident-location-form__body">
           <FieldGroup
-            control={this.locationForm}
-            render={() => (
+            control={locationForm}
+            render={({ invalid }) => (
               <form onSubmit={this.handleSubmit}>
                 <div>
-                  form for {incident.id}
+                  <FieldControlWrapper
+                    render={HiddenInput}
+                    name="coordinates"
+                    display="Coordinates"
+                    control={locationForm.get('coordinates')}
+                  />
 
                   <FieldControlWrapper
                     render={MapInput}
@@ -83,7 +89,7 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
                     onQueryResult={this.onQueryResult}
                   />
 
-                  <button className="action primary" type="submit" disabled={loading}>
+                  <button className="action primary" type="submit" disabled={invalid || loading}>
                     <span className="value">Locatie wijzigen</span>
                     {loading ?
                       <span className="working">
