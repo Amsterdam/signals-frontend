@@ -3,7 +3,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { isEqual } from 'lodash';
 
 import pointquery from 'amsterdam-amaps/dist/pointquery';
 
@@ -11,6 +10,11 @@ import './style.scss';
 
 const DEFAULT_ZOOM_LEVEL = 14;
 const PREVIEW_ZOOM_LEVEL = 16;
+const customIcon = L.icon({
+  iconUrl: 'https://map.data.amsterdam.nl/dist/images/svg/marker.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 39]
+});
 
 class MapInteractive extends React.Component {
   static initMap(props) {
@@ -45,32 +49,33 @@ class MapInteractive extends React.Component {
     this.updateInput = this.updateInput.bind(this);
   }
 
-  static getDerivedStateFromProps(props, prevState) {
-    if (!prevState.map && document.getElementById('mapdiv-interactive')) {
-      return {
-        map: MapInteractive.initMap(props)
-      };
-    }
-
-    return null;
-  }
-
   componentDidMount() {
     if (!this.state.map) {
-      this.setState({
-        map: MapInteractive.initMap(this.props)
+      MapInteractive.initMap(this.props).then((map) => {
+        this.setState({ map });
       });
     }
     this.updateInput(this.props);
   }
 
   componentDidUpdate() {
-    if (!this.state.map) {
-      this.setState({
-        map: MapInteractive.initMap(this.props)
-      });
-    }
     this.updateInput(this.props);
+
+    if (this.props.location.geometrie) {
+      let markerFound = false;
+      this.state.map.eachLayer((layer) => {
+        if (layer instanceof L.Marker) {
+          markerFound = true;
+        }
+      });
+
+      if (!markerFound) {
+        L.marker(
+          [this.props.location.geometrie.coordinates[1], this.props.location.geometrie.coordinates[0]],
+          { icon: customIcon }
+        ).addTo(this.state.map);
+      }
+    }
   }
 
   updateInput(props) {
@@ -104,7 +109,7 @@ MapInteractive.defaultProps = {
 };
 
 MapInteractive.propTypes = {
-  // location: PropTypes.object,
+  location: PropTypes.object,
   map: PropTypes.oneOfType([PropTypes.bool, PropTypes.object])
 };
 

@@ -113,7 +113,8 @@
       }
     },
     "globals": {
-      "jsdom": true
+      "jsdom": true,
+      "L": true
     },
     "rules": {
       "arrow-parens": [
