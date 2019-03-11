@@ -1,4 +1,9 @@
 .incident-detail {
+  &__body {
+    &--highlight {
+      background-color: yellow;
+    }
+  }
   &__link {
     margin-right: 10px;
   }
