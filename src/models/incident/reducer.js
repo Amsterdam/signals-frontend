@@ -20,6 +20,9 @@ export const initialState = fromJS({
   priorityList,
   loading: false,
   error: false,
+  patching: {
+    location: false
+  },
   split: false
 });
 
@@ -50,11 +53,19 @@ function incidentModelReducer(state = initialState, action) {
     case PATCH_INCIDENT:
       return state
         .set('loading', true)
+        .set('patching', fromJS({
+          ...state.get('patching').toJS(),
+          [action.payload.type]: true
+        }))
         .set('error', false);
 
     case PATCH_INCIDENT_SUCCESS:
       return state
-        .set('incident', fromJS(action.payload))
+        .set('incident', fromJS(action.payload.incident))
+        .set('patching', fromJS({
+          ...state.get('patching').toJS(),
+          [action.payload.type]: false
+        }))
         .set('error', false)
         .set('loading', false);
 

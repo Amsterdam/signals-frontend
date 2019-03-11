@@ -59,6 +59,7 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
 
     this.props.onPatchIncident({
       id: this.props.incident.id,
+      type: 'location',
       patch: { location: { ...this.state.newLocation } }
     });
   }
