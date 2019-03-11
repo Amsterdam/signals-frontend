@@ -52,7 +52,6 @@ function incidentModelReducer(state = initialState, action) {
 
     case PATCH_INCIDENT:
       return state
-        .set('loading', true)
         .set('patching', fromJS({
           ...state.get('patching').toJS(),
           [action.payload.type]: true
@@ -66,8 +65,7 @@ function incidentModelReducer(state = initialState, action) {
           ...state.get('patching').toJS(),
           [action.payload.type]: false
         }))
-        .set('error', false)
-        .set('loading', false);
+        .set('error', false);
 
     case PATCH_INCIDENT_ERROR:
       return state

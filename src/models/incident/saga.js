@@ -1,4 +1,5 @@
-import { all, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authCall, authPatchCall } from 'shared/services/api/api';
@@ -22,6 +23,7 @@ export function* patchIncident(action) {
   try {
     const payload = action.payload;
     const incident = yield authPatchCall(`${requestURL}/${payload.id}`, payload.patch);
+    yield call(delay, 1000);
     yield put(patchIncidentSuccess({ type: payload.type, incident }));
   } catch (error) {
     yield put(patchIncidentError(error));

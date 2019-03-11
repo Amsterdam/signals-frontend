@@ -13,7 +13,7 @@ import './style.scss';
 
 const IncidentLocationContainer = ({ incidentModel, onPatchIncident }) => (
   <div className="incident-location-container">
-    <Form incident={incidentModel.incident} onPatchIncident={onPatchIncident} />
+    <Form incidentModel={incidentModel} onPatchIncident={onPatchIncident} />
   </div>
 );
 

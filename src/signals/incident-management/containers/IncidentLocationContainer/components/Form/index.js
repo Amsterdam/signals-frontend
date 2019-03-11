@@ -18,8 +18,7 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
       newLocation: props.newLocation,
       locationForm: FormBuilder.group({
         coordinates: ['', Validators.required],
-        location: props.incident.location,
-        loading: false
+        location: props.incidentModel.incident.location
       })
     };
 
@@ -28,21 +27,21 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (!isEqual(props.incident.location, state.location)) {
+    if (!isEqual(props.incidentModel.incident.location, state.location)) {
       return {
-        location: props.incident.location,
-        newLocation: props.incident.location
+        location: props.incidentModel.incident.location,
+        newLocation: props.incidentModel.incident.location
       };
     }
 
     return null;
   }
 
-  // componentWillUpdate(props) {
-    // if (props.loading !== this.props.loading) {
-      // this.state.locationForm.controls.loading.setValue(props.loading);
-    // }
-  // }
+  componentDidUpdate(props) {
+    if (props.incidentModel.patching.location !== this.props.incidentModel.patching.location) {
+      this.state.locationForm.updateValueAndValidity();
+    }
+  }
 
   onQueryResult(location) {
     const newLocation = mapLocation(location);
@@ -58,14 +57,14 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
     event.preventDefault();
 
     this.props.onPatchIncident({
-      id: this.props.incident.id,
+      id: this.props.incidentModel.incident.id,
       type: 'location',
       patch: { location: { ...this.state.newLocation } }
     });
   }
 
   render() {
-    const { loading } = this.props;
+    const { incidentModel } = this.props;
     const { locationForm } = this.state;
     return (
       <div className="incident-location-form">
@@ -90,9 +89,9 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
                     onQueryResult={this.onQueryResult}
                   />
 
-                  <button className="action primary" type="submit" disabled={invalid || loading}>
+                  <button className="action primary" type="submit" disabled={invalid || incidentModel.patching.location}>
                     <span className="value">Locatie wijzigen</span>
-                    {loading ?
+                    {incidentModel.patching.location ?
                       <span className="working">
                         <div className="progress-indicator progress-white"></div>
                       </span>
@@ -109,16 +108,19 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
 }
 
 Form.defaultProps = {
-  loading: false,
   location: {},
   newLocation: {},
-  incident: {}
+  incidentModel: {
+    incident: {},
+    patching: {
+      location: false
+    }
+  }
 };
 
 Form.propTypes = {
   id: PropTypes.string,
-  loading: PropTypes.bool,
-  incident: PropTypes.object,
+  incidentModel: PropTypes.object,
   location: PropTypes.object,
   newLocation: PropTypes.object,
 
