@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
@@ -7,6 +9,7 @@ import { string2date, string2time } from 'shared/services/string-parser/string-p
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import './style.scss';
 
+const HIGHLIGHT_TIMEOUT_INTERVAL = 3000;
 
 class IncidentDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -17,13 +20,47 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
       locationUpdated: props.locationUpdated,
       stadsdeelUpdated: props.stadsdeelUpdated
     };
+
+    this.clearHighlight = this.clearHighlight.bind(this);
+    this.locationTimer = null;
+    this.stadsdeelTimer = null;
   }
 
   static getDerivedStateFromProps(props, state) {
+    const locationChanged = isEqual(props.incident.location, state.location);
     return {
-      locationUpdated: !isEqual(props.incident.location, state.location),
+      location: !locationChanged ? props.incident.location : state.location,
+      locationUpdated: !locationChanged,
       stadsdeelUpdated: !isEqual(props.incident.location.stadsdeel, state.location.stadsdeel)
     };
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (this.state.locationUpdated) {
+      this.locationTimer = global.window.setTimeout(() => {
+        this.clearHighlight('locationUpdated');
+      }, HIGHLIGHT_TIMEOUT_INTERVAL);
+    }
+    if (this.state.stadsdeelUpdated) {
+      this.stadsdeelTimer = global.window.setTimeout(() => {
+        this.clearHighlight('stadsdeelUpdated');
+      }, HIGHLIGHT_TIMEOUT_INTERVAL);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.locationTimer) {
+      global.window.clearTimeout(this.locationTimer);
+    }
+    if (this.stadsdeelTimer) {
+      global.window.clearTimeout(this.stadsdeelTimer);
+    }
+  }
+
+  clearHighlight(highlight) {
+    this.setState({
+      [highlight]: false
+     });
   }
 
   render() {
@@ -78,7 +115,9 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
 IncidentDetail.defaultProps = {
   location: {},
   locationUpdated: false,
-  stadsdeelUpdated: false
+  stadsdeelUpdated: false,
+  locationTimer: null,
+  stadsdeelTimer: null
 };
 
 IncidentDetail.propTypes = {
