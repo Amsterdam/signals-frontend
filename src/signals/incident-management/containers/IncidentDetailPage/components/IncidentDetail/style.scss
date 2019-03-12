@@ -1,10 +1,30 @@
+@import "config.scss";
+
 .incident-detail {
   &__body {
+    td {
+      box-shadow: none;
+    }
+
     &--highlight {
-      background-color: yellow;
+      animation-name: highlight-fade-out;
+      animation-duration: 2300ms;
+    }
+
+    &__link {
+      margin-right: 10px;
     }
   }
-  &__link {
-    margin-right: 10px;
+
+  @keyframes highlight-fade-out {
+    from {
+      background-color: $ams-geel;
+    }
+    70% {
+      background-color: $ams-geel;
+    }
+    to {
+      background-color: transparent;
+    }
   }
 }

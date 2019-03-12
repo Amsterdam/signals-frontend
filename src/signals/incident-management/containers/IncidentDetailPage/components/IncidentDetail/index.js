@@ -9,7 +9,7 @@ import { string2date, string2time } from 'shared/services/string-parser/string-p
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import './style.scss';
 
-const HIGHLIGHT_TIMEOUT_INTERVAL = 3000;
+const HIGHLIGHT_TIMEOUT_INTERVAL = 2200;
 
 class IncidentDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -85,8 +85,8 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
               <tr><td>Omschrijving</td><td className="pre-wrap">{incident.text}&nbsp;</td></tr>
               <tr><td>Aanvullende kenmerken</td><td>{incident.text_extra}&nbsp;</td></tr>
               {extraProperties}
-              <tr><td>Stadsdeel</td><td className={stadsdeelUpdated ? 'incident-detail__body--highlight' : ''}>{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</td></tr>
-              <tr><td>Adres</td><td className={locationUpdated ? 'incident-detail__body--highlight' : ''}>{incident.location.address_text}</td></tr>
+              <tr className={stadsdeelUpdated ? 'incident-detail__body--highlight' : ''}><td>Stadsdeel</td><td>{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</td></tr>
+              <tr className={locationUpdated ? 'incident-detail__body--highlight' : ''}><td>Locatie</td><td>{incident.location.address_text || 'Locatie is gepind op de kaart'}</td></tr>
               <tr><td>Email</td><td>{incident.reporter.email}</td></tr>
               <tr><td>Telefoonnummer</td><td>{incident.reporter.phone}</td></tr>
               <tr><td>Bron</td><td>{incident.source}</td></tr>
@@ -94,14 +94,14 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
               {incident.parent_id ?
                (<tr>
                  <td>Oorspronkelijke melding</td>
-                 <td><NavLink className="incident-detail__link" to={`/manage/incident/${incident.parent_id}`}>{incident.parent_id}</NavLink></td>
+                 <td><NavLink className="incident-detail__body__link" to={`/manage/incident/${incident.parent_id}`}>{incident.parent_id}</NavLink></td>
                </tr>)
                : <tr></tr>}
               {incident.child_ids && incident.child_ids.length > 0 ?
                 (<tr>
                   <td>Gesplitst in</td>
                   <td>{incident.child_ids.map((child_id) =>
-                    (<NavLink className="incident-detail__link" key={child_id} to={`/manage/incident/${child_id}`}>{child_id}</NavLink>))}</td>
+                    (<NavLink className="incident-detail__body__link" key={child_id} to={`/manage/incident/${child_id}`}>{child_id}</NavLink>))}</td>
                 </tr>)
                : <tr></tr>}
             </tbody>
