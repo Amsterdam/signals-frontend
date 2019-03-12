@@ -11,13 +11,13 @@ import Form from './components/Form';
 
 import './style.scss';
 
-const IncidentLocationContainer = ({ incidentModel, onPatchIncident }) => (
+const LocationForm = ({ incidentModel, onPatchIncident }) => (
   <div className="incident-location-container">
     <Form incidentModel={incidentModel} onPatchIncident={onPatchIncident} />
   </div>
 );
 
-IncidentLocationContainer.propTypes = {
+LocationForm.propTypes = {
   incidentModel: PropTypes.object.isRequired,
   onPatchIncident: PropTypes.func.isRequired
 };
@@ -30,4 +30,4 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onPatchIncident: patchIncident
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(IncidentLocationContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(LocationForm);
