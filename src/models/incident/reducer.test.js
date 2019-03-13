@@ -23,6 +23,9 @@ describe('incidentModelReducer', () => {
     id: null,
     loading: false,
     error: false,
+    patching: {
+      location: false
+    },
     split: false,
     priorityList,
     stadsdeelList

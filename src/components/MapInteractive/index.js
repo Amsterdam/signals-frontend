@@ -10,7 +10,7 @@ import './style.scss';
 
 const DEFAULT_ZOOM_LEVEL = 14;
 const PREVIEW_ZOOM_LEVEL = 16;
-const customIcon = L.icon({
+const customIcon = global.window.L.icon({
   iconUrl: 'https://map.data.amsterdam.nl/dist/images/svg/marker.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 39]
@@ -35,7 +35,6 @@ class MapInteractive extends React.Component {
         latitude: props.location.geometrie.coordinates[1]
       };
     }
-
     return pointquery.createMap(options);
   }
 
@@ -50,27 +49,28 @@ class MapInteractive extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.state.map) {
-      MapInteractive.initMap(this.props).then((map) => {
-        this.setState({ map });
-      });
-    }
+    MapInteractive.initMap(this.props).then((map) => {
+      this.setState({ map });
+    });
+
     this.updateInput(this.props);
   }
 
   componentDidUpdate() {
     this.updateInput(this.props);
 
-    if (this.props.location.geometrie) {
+    if (this.state.map && this.props.location.geometrie) {
       let markerFound = false;
+
+      /* istanbul ignore next */
       this.state.map.eachLayer((layer) => {
-        if (layer instanceof L.Marker) {
+        if (layer instanceof global.window.L.Marker) {
           markerFound = true;
         }
       });
 
       if (!markerFound) {
-        L.marker(
+        global.window.L.marker(
           [this.props.location.geometrie.coordinates[1], this.props.location.geometrie.coordinates[0]],
           { icon: customIcon }
         ).addTo(this.state.map);

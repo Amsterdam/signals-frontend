@@ -91,7 +91,9 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
              
           </td>
         </tr>
-        <tr>
+        <tr
+          className=""
+        >
           <td>
             Stadsdeel
           </td>
@@ -99,9 +101,11 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
             Centrum
           </td>
         </tr>
-        <tr>
+        <tr
+          className=""
+        >
           <td>
-            Adres
+            Locatie
           </td>
           <td>
             Geldersekade 84B- 1012BL Amsterdam
@@ -234,7 +238,9 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
              
           </td>
         </tr>
-        <tr>
+        <tr
+          className=""
+        >
           <td>
             Stadsdeel
           </td>
@@ -242,9 +248,11 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
             Centrum
           </td>
         </tr>
-        <tr>
+        <tr
+          className=""
+        >
           <td>
-            Adres
+            Locatie
           </td>
           <td>
             Geldersekade 84B- 1012BL Amsterdam
@@ -286,7 +294,7 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
           <td>
             <NavLink
               activeClassName="active"
-              className="incident-detail__link"
+              className="incident-detail__body__link"
               key="43"
               to="/manage/incident/43"
             >
@@ -294,7 +302,7 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
             </NavLink>
             <NavLink
               activeClassName="active"
-              className="incident-detail__link"
+              className="incident-detail__body__link"
               key="44"
               to="/manage/incident/44"
             >
@@ -302,7 +310,7 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
             </NavLink>
             <NavLink
               activeClassName="active"
-              className="incident-detail__link"
+              className="incident-detail__body__link"
               key="45"
               to="/manage/incident/45"
             >
@@ -440,7 +448,9 @@ exports[`<IncidentDetail /> should render correctly with extra properties 1`] = 
              
           </td>
         </tr>
-        <tr>
+        <tr
+          className=""
+        >
           <td>
             Stadsdeel
           </td>
@@ -448,9 +458,11 @@ exports[`<IncidentDetail /> should render correctly with extra properties 1`] = 
             Centrum
           </td>
         </tr>
-        <tr>
+        <tr
+          className=""
+        >
           <td>
-            Adres
+            Locatie
           </td>
           <td>
             Geldersekade 84B- 1012BL Amsterdam
@@ -583,7 +595,9 @@ exports[`<IncidentDetail /> should render correctly with parent 1`] = `
              
           </td>
         </tr>
-        <tr>
+        <tr
+          className=""
+        >
           <td>
             Stadsdeel
           </td>
@@ -591,9 +605,11 @@ exports[`<IncidentDetail /> should render correctly with parent 1`] = `
             Centrum
           </td>
         </tr>
-        <tr>
+        <tr
+          className=""
+        >
           <td>
-            Adres
+            Locatie
           </td>
           <td>
             Geldersekade 84B- 1012BL Amsterdam
@@ -634,7 +650,7 @@ exports[`<IncidentDetail /> should render correctly with parent 1`] = `
           <td>
             <NavLink
               activeClassName="active"
-              className="incident-detail__link"
+              className="incident-detail__body__link"
               to="/manage/incident/42"
             >
               42
