@@ -69,6 +69,7 @@ class MapInteractive extends React.Component {
         }
       });
 
+      /* istanbul ignore next */
       if (!markerFound) {
         global.window.L.marker(
           [this.props.location.geometrie.coordinates[1], this.props.location.geometrie.coordinates[0]],

@@ -73,11 +73,19 @@ describe('incidentModel saga', () => {
 
   it('should patchIncident error', () => {
     const id = 1000;
-    const action = { payload: id };
+    const action = {
+      payload: {
+        id,
+        type: 'location',
+        patch: {
+          location: { stadsdeel: 'A' }
+        }
+      }
+    };
     const error = new Error('404 Not Found');
 
     const gen = patchIncident(action);
     gen.next();
-    expect(gen.throw(error).value).toEqual(put(patchIncidentError(error))); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.throw(error).value).toEqual(put(patchIncidentError({ type: action.payload.type, error }))); // eslint-disable-line redux-saga/yield-effects
   });
 });

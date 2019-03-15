@@ -50,6 +50,25 @@ describe('<IncidentDetail />', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
+  it('should render correctly when address is missing', () => {
+    incident.location.address_text = undefined;
+    const wrapper = shallow(
+      <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should render correctly with highlighted properties', () => {
+    const wrapper = shallow(
+      <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
+    );
+    wrapper.setState({
+      locationUpdated: true,
+      stadsdeelUpdated: true
+    });
+    expect(wrapper).toMatchSnapshot();
+  });
+
   it('should render correctly with parent', () => {
     incident.parent_id = '42';
     const wrapper = shallow(

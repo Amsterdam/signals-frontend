@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LocationForm /> should render correctly 1`] = `
+<div
+  className="incident-location-container"
+>
+  <Component
+    incidentModel={
+      Object {
+        "incident": Object {
+          "id": 42,
+          "location": Object {
+            "foo": "bar",
+          },
+        },
+        "patching": Object {
+          "location": false,
+        },
+      }
+    }
+    onPatchIncident={[MockFunction]}
+  />
+</div>
+`;

@@ -15,6 +15,7 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
     super(props);
 
     this.state = {
+      location: props.location,
       newLocation: props.newLocation,
       locationForm: FormBuilder.group({
         coordinates: ['', Validators.required],
@@ -88,6 +89,12 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
                     control={locationForm.get('location')}
                     onQueryResult={this.onQueryResult}
                   />
+
+                  {incidentModel.error ? <div className="notification notification-red" >
+                    {incidentModel.error && incidentModel.error.response && incidentModel.error.response.status === 403 ?
+                      'U bent niet geautoriseerd om dit te doen.' :
+                      'De nieuwe locatie kon niet worden gewijzigd.'}
+                  </div> : ''}
 
                   <button className="action primary" type="submit" disabled={invalid || incidentModel.patching.location}>
                     <span className="value">Locatie wijzigen</span>

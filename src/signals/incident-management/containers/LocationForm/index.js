@@ -11,7 +11,7 @@ import Form from './components/Form';
 
 import './style.scss';
 
-const LocationForm = ({ incidentModel, onPatchIncident }) => (
+export const LocationForm = ({ incidentModel, onPatchIncident }) => (
   <div className="incident-location-container">
     <Form incidentModel={incidentModel} onPatchIncident={onPatchIncident} />
   </div>
@@ -22,6 +22,7 @@ LocationForm.propTypes = {
   onPatchIncident: PropTypes.func.isRequired
 };
 
+/* istanbul ignore next */
 const mapStateToProps = () => createStructuredSelector({
   incidentModel: makeSelectIncidentModel()
 });

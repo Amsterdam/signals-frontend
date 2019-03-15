@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
@@ -35,7 +33,7 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
     };
   }
 
-  componentDidUpdate = (prevProps, prevState) => {
+  componentDidUpdate = () => {
     if (this.state.locationUpdated) {
       this.locationTimer = global.window.setTimeout(() => {
         this.clearHighlight('locationUpdated');
@@ -60,7 +58,7 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
   clearHighlight(highlight) {
     this.setState({
       [highlight]: false
-     });
+    });
   }
 
   render() {

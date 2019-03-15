@@ -20,13 +20,13 @@ export function* fetchIncident(action) {
 
 export function* patchIncident(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals`;
+  const payload = action.payload;
   try {
-    const payload = action.payload;
     const incident = yield authPatchCall(`${requestURL}/${payload.id}`, payload.patch);
     yield call(delay, 1000);
     yield put(patchIncidentSuccess({ type: payload.type, incident }));
   } catch (error) {
-    yield put(patchIncidentError(error));
+    yield put(patchIncidentError({ type: payload.type, error }));
   }
 }
 

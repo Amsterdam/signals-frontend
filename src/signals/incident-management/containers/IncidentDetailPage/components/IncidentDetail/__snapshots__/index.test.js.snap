@@ -147,6 +147,153 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
 </div>
 `;
 
+exports[`<IncidentDetail /> should render correctly when address is missing 1`] = `
+<div
+  className="incident-detail"
+>
+  <div
+    className="incident-detail__body"
+  >
+    <table
+      cellPadding="0"
+      cellSpacing="0"
+      className=""
+    >
+      <tbody>
+        <tr>
+          <td>
+            Datum
+          </td>
+          <td>
+            21-07-1970
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Tijd
+          </td>
+          <td>
+            11:55
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Datum overlast
+          </td>
+          <td>
+            21-07-1970
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Tijd overlast
+          </td>
+          <td>
+            11:55
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Urgentie
+          </td>
+          <td>
+            Normaal
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Hoofdcategorie
+          </td>
+          <td>
+            Overlast op het water
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Subcategorie
+          </td>
+          <td>
+            Overlast op het water - snel varen
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Omschrijving
+          </td>
+          <td
+            className="pre-wrap"
+          >
+            snel boot
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Aanvullende kenmerken
+          </td>
+          <td>
+             
+          </td>
+        </tr>
+        <tr
+          className=""
+        >
+          <td>
+            Stadsdeel
+          </td>
+          <td>
+            Centrum
+          </td>
+        </tr>
+        <tr
+          className=""
+        >
+          <td>
+            Locatie
+          </td>
+          <td>
+            Locatie is gepind op de kaart
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Email
+          </td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            Telefoonnummer
+          </td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            Bron
+          </td>
+          <td>
+            Telefoon 14020
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Verantwoordelijke afdeling
+          </td>
+          <td>
+             
+          </td>
+        </tr>
+        <tr />
+        <tr />
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
 exports[`<IncidentDetail /> should render correctly with children 1`] = `
 <div
   className="incident-detail"
@@ -460,6 +607,153 @@ exports[`<IncidentDetail /> should render correctly with extra properties 1`] = 
         </tr>
         <tr
           className=""
+        >
+          <td>
+            Locatie
+          </td>
+          <td>
+            Geldersekade 84B- 1012BL Amsterdam
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Email
+          </td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            Telefoonnummer
+          </td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            Bron
+          </td>
+          <td>
+            Telefoon 14020
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Verantwoordelijke afdeling
+          </td>
+          <td>
+             
+          </td>
+        </tr>
+        <tr />
+        <tr />
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`<IncidentDetail /> should render correctly with highlighted properties 1`] = `
+<div
+  className="incident-detail"
+>
+  <div
+    className="incident-detail__body"
+  >
+    <table
+      cellPadding="0"
+      cellSpacing="0"
+      className=""
+    >
+      <tbody>
+        <tr>
+          <td>
+            Datum
+          </td>
+          <td>
+            21-07-1970
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Tijd
+          </td>
+          <td>
+            11:55
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Datum overlast
+          </td>
+          <td>
+            21-07-1970
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Tijd overlast
+          </td>
+          <td>
+            11:55
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Urgentie
+          </td>
+          <td>
+            Normaal
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Hoofdcategorie
+          </td>
+          <td>
+            Overlast op het water
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Subcategorie
+          </td>
+          <td>
+            Overlast op het water - snel varen
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Omschrijving
+          </td>
+          <td
+            className="pre-wrap"
+          >
+            snel boot
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Aanvullende kenmerken
+          </td>
+          <td>
+             
+          </td>
+        </tr>
+        <tr
+          className="incident-detail__body--highlight"
+        >
+          <td>
+            Stadsdeel
+          </td>
+          <td>
+            Centrum
+          </td>
+        </tr>
+        <tr
+          className="incident-detail__body--highlight"
         >
           <td>
             Locatie

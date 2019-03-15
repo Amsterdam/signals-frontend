@@ -7,7 +7,7 @@ import MapInteractive from './index';
 
 jest.mock('amsterdam-amaps/dist/pointquery');
 
-describe.only('<MapInteractive />', () => {
+describe('<MapInteractive />', () => {
   let input;
   let onQueryResult;
 
@@ -117,5 +117,41 @@ describe.only('<MapInteractive />', () => {
 
     const value = document.querySelector('#nlmaps-geocoder-control-input').value;
     expect(value).toEqual('Dam 666C, 1000AA Amsterdam');
+  });
+
+  it('should render an existing location with no address correctly', () => {
+    const wrapper = shallow(
+      <MapInteractive onQueryResult={onQueryResult} />
+    );
+
+    wrapper.setProps({
+      location: {
+        geometrie: {
+          coordinates: [4, 52]
+        },
+        address: false
+      }
+    });
+
+    const value = document.querySelector('#nlmaps-geocoder-control-input').value;
+    expect(value).toEqual('');
+  });
+
+  it('should render placeholder correctly', () => {
+    shallow(
+      <MapInteractive onQueryResult={onQueryResult} />
+    );
+
+    expect(document.querySelector('#nlmaps-geocoder-control-input').placeholder).toEqual('Zoek adres');
+  });
+
+  it('should render without input correctly', () => {
+    input.setAttribute('id', 'invalid');
+
+    shallow(
+      <MapInteractive onQueryResult={onQueryResult} />
+    );
+
+    expect(document.querySelector('#nlmaps-geocoder-control-input')).toEqual(null);
   });
 });
