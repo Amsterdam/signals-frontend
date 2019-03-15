@@ -7,7 +7,7 @@ import { string2date, string2time } from 'shared/services/string-parser/string-p
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import './style.scss';
 
-const HIGHLIGHT_TIMEOUT_INTERVAL = 2200;
+export const HIGHLIGHT_TIMEOUT_INTERVAL = 2200;
 
 class IncidentDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {

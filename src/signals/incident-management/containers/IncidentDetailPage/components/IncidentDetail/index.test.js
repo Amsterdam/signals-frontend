@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 
-import IncidentDetail from './index';
+import IncidentDetail, { HIGHLIGHT_TIMEOUT_INTERVAL } from './index';
 import priorityList from '../../../../definitions/priorityList';
 import stadsdeelList from '../../../../definitions/stadsdeelList';
 
@@ -58,17 +58,6 @@ describe('<IncidentDetail />', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render correctly with highlighted properties', () => {
-    const wrapper = shallow(
-      <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
-    );
-    wrapper.setState({
-      locationUpdated: true,
-      stadsdeelUpdated: true
-    });
-    expect(wrapper).toMatchSnapshot();
-  });
-
   it('should render correctly with parent', () => {
     incident.parent_id = '42';
     const wrapper = shallow(
@@ -83,5 +72,117 @@ describe('<IncidentDetail />', () => {
       <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
     );
     expect(wrapper).toMatchSnapshot();
+  });
+  describe('highlighting', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    it('should render correctly with highlight location', () => {
+      const wrapper = shallow(
+        <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
+      );
+      wrapper.setProps({
+        incident: {
+          ...incident,
+          location: {
+            has: 'changed'
+          }
+        }
+      });
+
+      expect(wrapper).toMatchSnapshot();
+      expect(wrapper.state('locationUpdated')).toEqual(true);
+
+      jest.runTimersToTime(HIGHLIGHT_TIMEOUT_INTERVAL - 1);
+      expect(wrapper.state('locationUpdated')).toEqual(true);
+
+      jest.runTimersToTime(1);
+      expect(wrapper.state('locationUpdated')).toEqual(false);
+    });
+
+    it('should render correctly with highlight stadsdeel', () => {
+      const wrapper = shallow(
+        <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
+      );
+      wrapper.setProps({
+        incident: {
+          ...incident,
+          location: {
+            stadsdeel: 'M'
+          }
+        }
+      });
+
+      expect(wrapper).toMatchSnapshot();
+      expect(wrapper.state('stadsdeelUpdated')).toEqual(true);
+
+      jest.runTimersToTime(HIGHLIGHT_TIMEOUT_INTERVAL - 1);
+      expect(wrapper.state('stadsdeelUpdated')).toEqual(true);
+
+      jest.runTimersToTime(1);
+      expect(wrapper.state('stadsdeelUpdated')).toEqual(false);
+    });
+  });
+
+  describe('unmounting', () => {
+    let originalClearTimeout;
+
+    beforeEach(() => {
+      originalClearTimeout = global.window.clearTimeout;
+      global.window.clearTimeout = jest.fn();
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      global.window.clearTimeout = originalClearTimeout;
+    });
+
+    it('should unmount  with no open timers', () => {
+      const wrapper = shallow(
+        <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
+      );
+
+      wrapper.unmount();
+      expect(global.window.clearTimeout).toHaveBeenCalledTimes(0);
+    });
+
+    it('should reset timer when unmounting with open location timer', () => {
+      const wrapper = shallow(
+        <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
+      );
+      wrapper.setProps({
+        incident: {
+          ...incident,
+          location: {
+            has: 'changed',
+            stadsdeel: 'A'
+          }
+        }
+      });
+      expect(wrapper.state('locationUpdated')).toEqual(true);
+
+      wrapper.unmount();
+      expect(global.window.clearTimeout).toHaveBeenCalledTimes(1);
+    });
+
+    it('should reset timer when unmounting with open stadsdeel timer', () => {
+      const wrapper = shallow(
+        <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
+      );
+      wrapper.setProps({
+        incident: {
+          ...incident,
+          location: {
+            ...incident.location,
+            stadsdeel: 'M'
+          }
+        }
+      });
+      expect(wrapper.state('stadsdeelUpdated')).toEqual(true);
+
+      wrapper.unmount();
+      expect(global.window.clearTimeout).toHaveBeenCalledTimes(2);
+    });
   });
 });
