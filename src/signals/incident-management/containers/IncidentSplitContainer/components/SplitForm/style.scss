@@ -8,7 +8,7 @@
   }
 
   &__disclainer {
-    background-color: #eee;
+    background-color: $ams-lichtgrijs;
     padding: 15px;
     margin: 20px 0;
 
@@ -25,5 +25,13 @@
         margin-top: 10px;
       }
     }
+  }
+
+  &__disclainer-top {
+    background-color: $ams-lichtgrijs;
+    padding: 15px;
+    margin: 20px 0;
+    font-size: 18px;
+    line-height: 25px;
   }
 }
