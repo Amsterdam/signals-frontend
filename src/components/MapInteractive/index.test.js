@@ -20,7 +20,8 @@ describe('<MapInteractive />', () => {
     onQueryResult = jest.fn();
     global.document.body.appendChild(input);
     const mockMap = new Promise((resolve) => resolve({
-      returns: 'valid map',
+      returns: 'valid map ',
+      addLayer: jest.fn(),
       eachLayer: jest.fn()
     }));
     pointquery.createMap.mockImplementation(() => mockMap);
