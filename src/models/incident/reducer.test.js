@@ -16,7 +16,7 @@ import {
 }
   from './constants';
 
-describe.only('incidentModelReducer', () => {
+describe('incidentModelReducer', () => {
   const reducer = incidentModelReducer;
   const expected = {
     id: null,

@@ -8,7 +8,7 @@ import Form from './index';
 
 jest.mock('shared/services/map-location');
 
-describe.only('<Form />', () => {
+describe('<Form />', () => {
   let wrapper;
   let props;
 
