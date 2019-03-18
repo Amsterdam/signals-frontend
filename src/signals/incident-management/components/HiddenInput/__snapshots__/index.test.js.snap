@@ -7,6 +7,7 @@ exports[`<HiddenInput /> should render correctly 1`] = `
   <input
     id="formname"
     type="hidden"
+    value="test waarde"
   />
 </div>
 `;

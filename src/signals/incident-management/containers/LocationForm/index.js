@@ -9,8 +9,6 @@ import makeSelectIncidentModel from 'models/incident/selectors';
 
 import Form from './components/Form';
 
-import './style.scss';
-
 export const LocationForm = ({ incidentModel, onPatchIncident }) => (
   <div className="incident-location-container">
     <Form incidentModel={incidentModel} onPatchIncident={onPatchIncident} />

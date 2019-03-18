@@ -10,7 +10,9 @@ describe('<HiddenInput />', () => {
   beforeEach(() => {
     props = {
       name: 'name',
-      handler: jest.fn()
+      handler: jest.fn().mockImplementation(() => ({
+        value: 'test waarde'
+      }))
     };
 
     const HiddenInputRender = HiddenInput(props);
