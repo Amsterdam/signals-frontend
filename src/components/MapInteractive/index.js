@@ -1,4 +1,3 @@
-/* eslint-disable react/no-did-update-set-state */
 /* eslint-disable react/no-did-mount-set-state */
 
 import React from 'react';
