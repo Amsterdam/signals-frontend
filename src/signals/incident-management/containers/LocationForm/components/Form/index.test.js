@@ -111,7 +111,7 @@ describe('<Form />', () => {
     });
 
     it('should enable the submit button when a  location is selected', () => {
-      const form = wrapper.state('locationForm');
+      const form = wrapper.instance().locationForm;
       const formValue = {
         coordinates: '52,4',
         location: { foo: 'bar' }
@@ -140,7 +140,7 @@ describe('<Form />', () => {
     });
 
     it('should call location update when the form is submitted (search button is clicked)', () => {
-      const form = wrapper.state('locationForm');
+      const form = wrapper.instance().locationForm;
       wrapper.setState({
         newLocation: { foo: 'baz' }
       });

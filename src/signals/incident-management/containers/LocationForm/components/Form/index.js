@@ -16,11 +16,7 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
 
     this.state = {
       location: props.location,
-      newLocation: props.newLocation,
-      locationForm: FormBuilder.group({
-        coordinates: ['', Validators.required],
-        location: props.incidentModel.incident.location
-      })
+      newLocation: props.newLocation
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,7 +36,7 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
 
   componentDidUpdate(props) {
     if (props.incidentModel.patching.location !== this.props.incidentModel.patching.location) {
-      this.state.locationForm.updateValueAndValidity();
+      this.locationForm.updateValueAndValidity();
     }
   }
 
@@ -50,9 +46,13 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
       newLocation
     });
 
-    this.state.locationForm.controls.location.setValue(newLocation);
-    this.state.locationForm.controls.coordinates.setValue(newLocation.geometrie.coordinates.join(','));
+    this.locationForm.controls.location.setValue(newLocation);
+    this.locationForm.controls.coordinates.setValue(newLocation.geometrie.coordinates.join(','));
   }
+  locationForm = FormBuilder.group({
+    coordinates: ['', Validators.required],
+    location: this.props.incidentModel.incident.location
+  });
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -66,12 +66,11 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
 
   render() {
     const { incidentModel } = this.props;
-    const { locationForm } = this.state;
     return (
       <div className="incident-location-form">
         <div className="incident-location-form__body">
           <FieldGroup
-            control={locationForm}
+            control={this.locationForm}
             render={({ invalid }) => (
               <form onSubmit={this.handleSubmit}>
                 <div>
@@ -79,14 +78,14 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
                     render={HiddenInput}
                     name="coordinates"
                     display="Coordinates"
-                    control={locationForm.get('coordinates')}
+                    control={this.locationForm.get('coordinates')}
                   />
 
                   <FieldControlWrapper
                     render={MapInput}
                     name="location"
                     display="Locatie"
-                    control={locationForm.get('location')}
+                    control={this.locationForm.get('location')}
                     onQueryResult={this.onQueryResult}
                   />
 
