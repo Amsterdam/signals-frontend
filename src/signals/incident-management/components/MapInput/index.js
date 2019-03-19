@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import MapInteractive from 'components/MapInteractive';
 
-// import './style.scss';
-
 export const MapInput = (props) => {
   const { name, display, onQueryResult } = props;
   const render = ({ handler }) => (
@@ -20,11 +18,6 @@ export const MapInput = (props) => {
 
       </div>
     </div>);
-
-  render.defaultProps = {
-    touched: false,
-    location: {}
-  };
 
   render.propTypes = {
     handler: PropTypes.func.isRequired

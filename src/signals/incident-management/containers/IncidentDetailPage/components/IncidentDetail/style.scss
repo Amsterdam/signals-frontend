@@ -2,29 +2,54 @@
 
 .incident-detail {
   &__body {
-    td {
-      box-shadow: none;
+    &__definition, &__value {
+      display: inline-block;
+      line-height: 36px;
+    }
+
+    &__definition {
+      width: 40%;
+      color: $ams-donkergrijs;
+      position: relative;
+      z-index: 10;
+    }
+
+    &__value {
+      width: 60%;
+      @include avenirnextdemi();
+      position: relative;
+      z-index: 10;
     }
 
     &--highlight {
-      animation-name: highlight-fade-out;
-      animation-duration: 2300ms;
+      position: relative;
+
+      &:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        background-color: $ams-geel;
+        animation: highlight-fade-out 2.5s;
+      }
     }
 
     &__link {
       margin-right: 10px;
     }
-  }
+}
 
   @keyframes highlight-fade-out {
     from {
-      background-color: $ams-geel;
+      opacity: 1;
     }
     70% {
-      background-color: $ams-geel;
+      opacity: 1;
     }
     to {
-      background-color: transparent;
+      opacity: 0;
     }
   }
 }
