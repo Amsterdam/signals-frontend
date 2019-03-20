@@ -1,5 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<SplitNotificationBar /> error should render general 403 correctly 1`] = `
+<div>
+  <div
+    className="split-notification-bar error"
+  >
+    <div
+      className="split-notification-bar__body"
+    >
+      <button
+        className="split-notification-bar__close-button"
+        onClick={[MockFunction]}
+      />
+      De melding is helaas niet gesplitst. 
+      U bent niet bevoegd om deze melding te splitsen.
+    </div>
+  </div>
+</div>
+`;
+
 exports[`<SplitNotificationBar /> error should render general 412 correctly 1`] = `
 <div>
   <div

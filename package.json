@@ -113,7 +113,8 @@
       }
     },
     "globals": {
-      "jsdom": true
+      "jsdom": true,
+      "L": true
     },
     "rules": {
       "arrow-parens": [
@@ -258,6 +259,7 @@
     "invariant": "^2.2.4",
     "ip": "1.1.5",
     "leaflet": "1.0.3",
+    "leaflet-headless": "^0.2.6",
     "lodash": "^4.17.10",
     "minimist": "1.2.0",
     "moment": "^2.22.2",

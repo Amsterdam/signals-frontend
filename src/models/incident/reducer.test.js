@@ -10,10 +10,9 @@ import { SPLIT_INCIDENT_SUCCESS } from 'signals/incident-management/containers/I
 
 import incidentModelReducer, { initialState } from './reducer';
 import {
-  REQUEST_INCIDENT,
-  REQUEST_INCIDENT_SUCCESS,
-  REQUEST_INCIDENT_ERROR,
-  DISMISS_SPLIT_NOTIFICATION
+  REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR,
+  DISMISS_SPLIT_NOTIFICATION,
+  PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR
 }
   from './constants';
 
@@ -23,6 +22,9 @@ describe('incidentModelReducer', () => {
     id: null,
     loading: false,
     error: false,
+    patching: {
+      location: false
+    },
     split: false,
     priorityList,
     stadsdeelList
@@ -92,6 +94,57 @@ describe('incidentModelReducer', () => {
     });
   });
 
+  it('should handle the PATCH_INCIDENT', () => {
+    const payload = {
+      id: 42,
+      type: 'location',
+      patch: {
+        location: { foo: 'bar' }
+      }
+    };
+    expect(
+      incidentModelReducer(undefined, {
+        type: PATCH_INCIDENT,
+        payload
+      }).toJS()
+    ).toEqual({
+      ...expected,
+      patching: { location: true }
+    });
+  });
+
+  it('should handle the PATCH_INCIDENT_SUCCESS', () => {
+    const payload = {
+      id: 1,
+      type: 'location',
+    };
+    expect(
+      incidentModelReducer(undefined, {
+        type: PATCH_INCIDENT_SUCCESS,
+        payload
+      }).toJS()
+    ).toEqual({
+      ...expected,
+      patching: { location: false }
+    });
+  });
+
+  it('should handle the PATCH_INCIDENT_ERROR', () => {
+    const payload = {
+      error: { response: {} },
+      type: 'location'
+    };
+    expect(
+     incidentModelReducer(undefined, {
+       type: PATCH_INCIDENT_ERROR,
+       payload
+     }).toJS()
+    ).toEqual({
+      ...expected,
+      patching: { location: false },
+      error: payload.error
+    });
+  });
 
   it('should handle the REQUEST_CATEGORY_UPDATE_SUCCESS', () => {
     expect(
@@ -135,7 +188,7 @@ describe('incidentModelReducer', () => {
     });
   });
 
-  it('should handle the SPLIT_INCIDENT_SUCCESS', () => {
+  it('should handle the SPLIT_INCIDENT_SUCCESS ', () => {
     const payload = { id: 42, created: [{ id: 3 }] };
     expect(
       incidentModelReducer(fromJS({}), {

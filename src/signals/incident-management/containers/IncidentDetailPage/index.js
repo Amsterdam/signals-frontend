@@ -26,6 +26,7 @@ import IncidentCategoryContainer from '../IncidentCategoryContainer';
 import IncidentPriorityContainer from '../IncidentPriorityContainer';
 import IncidentStatusContainer from '../IncidentStatusContainer';
 import IncidentNotesContainer from '../IncidentNotesContainer';
+import LocationForm from '../LocationForm';
 import IncidentHistoryContainer from '../IncidentHistoryContainer';
 import PrintLayout from './components/PrintLayout';
 import SplitNotificationBar from './components/SplitNotificationBar';
@@ -80,6 +81,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
       category: { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
       notes: { name: 'Notities', value: <IncidentNotesContainer id={this.props.id} />, count: incidentNotesList && incidentNotesList.length },
       image: incident && incident.image ? { name: 'Foto', value: <img src={incident.image} alt={''} className="incident-detail-page__image--max-width" /> } : undefined,
+      location: { name: 'Locatie', value: <LocationForm id={this.props.id} /> },
       history: { name: 'Historie', value: <IncidentHistoryContainer id={this.props.id} /> }
     };
 

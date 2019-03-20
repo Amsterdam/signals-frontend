@@ -4,6 +4,19 @@ import { NavLink } from 'react-router-dom';
 
 import './style.scss';
 
+const getErrorMessage = (status) => {
+  switch (status) {
+    case 403:
+      return 'U bent niet bevoegd om deze melding te splitsen.';
+
+    case 412:
+      return 'U kunt geen meldingen splitsen die al gesplitst zijn.';
+
+    default:
+      return 'Er is een onbekende fout ontstaan.';
+  }
+};
+
 const SplitNotificationBar = ({ data, onClose }) => (
   <div>
     {data && data.id && data.created && data.created.children && Array.isArray(data.created.children) ?
@@ -26,7 +39,7 @@ const SplitNotificationBar = ({ data, onClose }) => (
           <button className="split-notification-bar__close-button" onClick={onClose} />
 
           De melding is helaas niet gesplitst.&nbsp;
-          {data.response.status === 412 ? 'U kunt geen meldingen splitsen die al gesplitst zijn.' : 'Er is een onbekende fout ontstaan.'}
+          {getErrorMessage(data.response.status)}
         </div>
       </div>
         : ''}

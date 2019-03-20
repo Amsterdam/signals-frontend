@@ -79,6 +79,10 @@ class SplitForm extends React.Component {
       <div className="split-form">
         <h1>Splitsen</h1>
 
+        <div className="split-form__disclainer-top">
+          Splitsen mag alleen als de oorspronkelijke melding over twee verschillende onderwerpen gaat, die zonder samenwerking met een andere afdeling kan worden afgehandeld.
+        </div>
+
         <IncidentPart
           index="1"
           incident={incident}

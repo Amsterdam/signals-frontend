@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MapInteractive from '../../../../../../components/MapInteractive';
+
+import mapLocation from 'shared/services/map-location';
+import MapInteractive from 'components/MapInteractive';
 
 import Header from '../Header/';
-import mapLocation from '../../services/map-location';
 
 const MapInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   const value = handler().value || {};
