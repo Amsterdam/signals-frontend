@@ -6,8 +6,8 @@ import { compose, bindActionCreators } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import makeSelectNotesModel from 'models/notes/selectors';
 import makeSelectIncidentNotesContainer from './selectors';
-import { makeSelectIncidentNotesList } from '../IncidentDetailPage/selectors';
 import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
@@ -17,7 +17,8 @@ import { requestNoteCreate } from './actions';
 
 export class IncidentNotesContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { incidentNotesList, incidentNotesContainer: { error, loading, loadingExternal } } = this.props;
+    const { incidentNotesContainer: { error, loading, loadingExternal } } = this.props;
+    const { incidentNotesList } = this.props.notesModel;
 
     return (
       <div>
@@ -47,7 +48,7 @@ IncidentNotesContainer.defaultProps = {
 IncidentNotesContainer.propTypes = {
   id: PropTypes.string.isRequired,
   incidentNotesContainer: PropTypes.object.isRequired,
-  incidentNotesList: PropTypes.array,
+  notesModel: PropTypes.object,
 
   onRequestNoteCreate: PropTypes.func.isRequired
 };
@@ -55,7 +56,7 @@ IncidentNotesContainer.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   incidentNotesContainer: makeSelectIncidentNotesContainer(),
-  incidentNotesList: makeSelectIncidentNotesList()
+  notesModel: makeSelectNotesModel()
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({

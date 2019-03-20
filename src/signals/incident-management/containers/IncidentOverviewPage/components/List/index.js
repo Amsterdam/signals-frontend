@@ -16,7 +16,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
   }
 
   getDaysOpen(incident) {
-    if (incident.status.state !== 'o' && incident.status.state !== 'a') {
+    if (incident.status && incident.status.state !== 'o' && incident.status.state !== 'a') {
       const start = moment(incident.created_at.split('T')[0]);
       const duration = moment.duration(moment().diff(start));
       return Math.trunc(duration.asDays());
@@ -48,7 +48,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
             <thead>
               <tr>
                 <th onClick={this.onSort('id')} className={this.sortClassName('id')} >Id</th>
-                <th>Dag</th>
+                <th onClick={this.onSort('days_open')} className={this.sortClassName('days_open')}>Dag</th>
                 <th onClick={this.onSort('created_at')} className={this.sortClassName('created_at')}>Datum en tijd</th>
                 <th onClick={this.onSort('stadsdeel,-created_at')} className={this.sortClassName('stadsdeel')}>Stadsdeel</th>
                 <th onClick={this.onSort('sub_category,-created_at')} className={this.sortClassName('sub_category')}>Subcategorie</th>
@@ -63,11 +63,11 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
                   <td>{incident.id}</td>
                   <td>{this.getDaysOpen(incident)}</td>
                   <td className="no-wrap">{string2date(incident.created_at)} {string2time(incident.created_at)}</td>
-                  <td>{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</td>
+                  <td>{getListValueByKey(stadsdeelList, incident.location && incident.location.stadsdeel)}</td>
                   <td>{incident.category && incident.category.sub}</td>
-                  <td>{getListValueByKey(statusList, incident.status.state)}</td>
+                  <td>{getListValueByKey(statusList, incident.status && incident.status.state)}</td>
                   <td>{getListValueByKey(priorityList, incident.priority && incident.priority.priority)}</td>
-                  <td>{incident.location.address_text}</td>
+                  <td>{incident.location && incident.location.address_text}</td>
                 </tr>
               ))
               }

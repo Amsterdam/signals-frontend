@@ -34,7 +34,7 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
         <div className="container-fluid">
           <MainMenu />
         </div>
-        <div className="content container">
+        <div className="content">
           <Switch>
             <Redirect exact from="/" to="/incident" />
             <Redirect exact from="/login" to="/manage" />

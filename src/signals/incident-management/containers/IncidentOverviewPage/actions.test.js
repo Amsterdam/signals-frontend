@@ -1,3 +1,5 @@
+import { testActionCreator } from 'test/utils';
+
 import {
   REQUEST_INCIDENTS,
   REQUEST_INCIDENTS_SUCCESS,
@@ -15,8 +17,6 @@ import {
   filterIncidentsChanged,
   mainCategoryFilterSelectionChanged
 } from './actions';
-
-import { testActionCreator } from '../../../../../internals/testing/test-utils';
 
 describe('OverviewPage actions', () => {
   it('should be created', () => {

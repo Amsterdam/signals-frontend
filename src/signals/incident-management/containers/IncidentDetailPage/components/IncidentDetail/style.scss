@@ -1,3 +1,55 @@
-.incident-detail {
+@import "config.scss";
 
+.incident-detail {
+  &__body {
+    &__definition, &__value {
+      display: inline-block;
+      line-height: 36px;
+    }
+
+    &__definition {
+      width: 40%;
+      color: $ams-donkergrijs;
+      position: relative;
+      z-index: 10;
+    }
+
+    &__value {
+      width: 60%;
+      @include avenirnextdemi();
+      position: relative;
+      z-index: 10;
+    }
+
+    &--highlight {
+      position: relative;
+
+      &:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        background-color: $ams-geel;
+        animation: highlight-fade-out 2.5s;
+      }
+    }
+
+    &__link {
+      margin-right: 10px;
+    }
+}
+
+  @keyframes highlight-fade-out {
+    from {
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
 }
