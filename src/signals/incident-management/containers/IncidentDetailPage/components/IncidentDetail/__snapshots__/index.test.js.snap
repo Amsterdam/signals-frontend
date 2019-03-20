@@ -7,173 +7,175 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
   <div
     className="incident-detail__body"
   >
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Datum
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      21-07-1970
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Tijd
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      11:55
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Datum overlast
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      21-07-1970
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Tijd overlast
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      11:55
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Urgentie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Normaal
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Hoofdcategorie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Overlast op het water
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Subcategorie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Overlast op het water - snel varen
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Omschrijving
-    </dt>
-    <dd
-      className="incident-detail__body__value pre-wrap"
-    >
-      snel boot
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Aanvullende kenmerken
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-       
-    </dd>
-    <div
-      className="incident-detail__body--highlight"
-    >
+    <dl>
       <dt
         className="incident-detail__body__definition"
       >
-        Stadsdeel
+        Datum
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        21-07-1970
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Tijd
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        11:55
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Datum overlast
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        21-07-1970
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Tijd overlast
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        11:55
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Urgentie
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Normaal
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Hoofdcategorie
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Overlast op het water
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Subcategorie
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Overlast op het water - snel varen
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Omschrijving
+      </dt>
+      <dd
+        className="incident-detail__body__value pre-wrap"
+      >
+        snel boot
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Aanvullende kenmerken
       </dt>
       <dd
         className="incident-detail__body__value"
       >
          
       </dd>
-    </div>
-    <div
-      className="incident-detail__body--highlight"
-    >
+      <div
+        className="incident-detail__body--highlight"
+      >
+        <dt
+          className="incident-detail__body__definition"
+        >
+          Stadsdeel
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+           
+        </dd>
+      </div>
+      <div
+        className="incident-detail__body--highlight"
+      >
+        <dt
+          className="incident-detail__body__definition"
+        >
+          Locatie
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          Locatie is gepind op de kaart
+           
+        </dd>
+      </div>
       <dt
         className="incident-detail__body__definition"
       >
-        Locatie
+        Email
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Telefoonnummer
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Bron
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        Locatie is gepind op de kaart
+        Telefoon 14020
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Verantwoordelijke afdeling
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
          
       </dd>
-    </div>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Email
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Telefoonnummer
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Bron
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Telefoon 14020
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Verantwoordelijke afdeling
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Telefoonnummer
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Telefoonnummer
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+    </dl>
   </div>
 </div>
 `;
@@ -185,174 +187,176 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
   <div
     className="incident-detail__body"
   >
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Datum
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      21-07-1970
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Tijd
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      11:55
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Datum overlast
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      21-07-1970
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Tijd overlast
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      11:55
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Urgentie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Normaal
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Hoofdcategorie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Overlast op het water
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Subcategorie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Overlast op het water - snel varen
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Omschrijving
-    </dt>
-    <dd
-      className="incident-detail__body__value pre-wrap"
-    >
-      snel boot
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Aanvullende kenmerken
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-       
-    </dd>
-    <div
-      className="incident-detail__body--highlight"
-    >
+    <dl>
       <dt
         className="incident-detail__body__definition"
       >
-        Stadsdeel
+        Datum
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        Oost
-         
+        21-07-1970
       </dd>
-    </div>
-    <div
-      className="incident-detail__body--highlight"
-    >
       <dt
         className="incident-detail__body__definition"
       >
-        Locatie
+        Tijd
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        Locatie is gepind op de kaart
+        11:55
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Datum overlast
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        21-07-1970
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Tijd overlast
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        11:55
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Urgentie
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Normaal
          
       </dd>
-    </div>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Email
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Telefoonnummer
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Bron
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Telefoon 14020
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Verantwoordelijke afdeling
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Telefoonnummer
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Hoofdcategorie
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Overlast op het water
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Subcategorie
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Overlast op het water - snel varen
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Omschrijving
+      </dt>
+      <dd
+        className="incident-detail__body__value pre-wrap"
+      >
+        snel boot
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Aanvullende kenmerken
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+         
+      </dd>
+      <div
+        className="incident-detail__body--highlight"
+      >
+        <dt
+          className="incident-detail__body__definition"
+        >
+          Stadsdeel
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          Oost
+           
+        </dd>
+      </div>
+      <div
+        className="incident-detail__body--highlight"
+      >
+        <dt
+          className="incident-detail__body__definition"
+        >
+          Locatie
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          Locatie is gepind op de kaart
+           
+        </dd>
+      </div>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Email
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Telefoonnummer
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Bron
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Telefoon 14020
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Verantwoordelijke afdeling
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Telefoonnummer
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+    </dl>
   </div>
 </div>
 `;
@@ -364,174 +368,176 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
   <div
     className="incident-detail__body"
   >
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Datum
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      21-07-1970
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Tijd
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      11:55
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Datum overlast
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      21-07-1970
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Tijd overlast
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      11:55
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Urgentie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Normaal
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Hoofdcategorie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Overlast op het water
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Subcategorie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Overlast op het water - snel varen
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Omschrijving
-    </dt>
-    <dd
-      className="incident-detail__body__value pre-wrap"
-    >
-      snel boot
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Aanvullende kenmerken
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-       
-    </dd>
-    <div
-      className=""
-    >
+    <dl>
       <dt
         className="incident-detail__body__definition"
       >
-        Stadsdeel
+        Datum
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        Centrum
-         
+        21-07-1970
       </dd>
-    </div>
-    <div
-      className=""
-    >
       <dt
         className="incident-detail__body__definition"
       >
-        Locatie
+        Tijd
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        Geldersekade 84B- 1012BL Amsterdam
+        11:55
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Datum overlast
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        21-07-1970
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Tijd overlast
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        11:55
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Urgentie
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Normaal
          
       </dd>
-    </div>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Email
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Telefoonnummer
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Bron
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Telefoon 14020
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Verantwoordelijke afdeling
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Telefoonnummer
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Hoofdcategorie
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Overlast op het water
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Subcategorie
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Overlast op het water - snel varen
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Omschrijving
+      </dt>
+      <dd
+        className="incident-detail__body__value pre-wrap"
+      >
+        snel boot
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Aanvullende kenmerken
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+         
+      </dd>
+      <div
+        className=""
+      >
+        <dt
+          className="incident-detail__body__definition"
+        >
+          Stadsdeel
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          Centrum
+           
+        </dd>
+      </div>
+      <div
+        className=""
+      >
+        <dt
+          className="incident-detail__body__definition"
+        >
+          Locatie
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          Geldersekade 84B- 1012BL Amsterdam
+           
+        </dd>
+      </div>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Email
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Telefoonnummer
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Bron
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Telefoon 14020
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Verantwoordelijke afdeling
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Telefoonnummer
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+    </dl>
   </div>
 </div>
 `;
@@ -543,174 +549,176 @@ exports[`<IncidentDetail /> should render correctly when address is missing 1`] 
   <div
     className="incident-detail__body"
   >
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Datum
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      21-07-1970
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Tijd
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      11:55
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Datum overlast
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      21-07-1970
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Tijd overlast
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      11:55
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Urgentie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Normaal
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Hoofdcategorie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Overlast op het water
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Subcategorie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Overlast op het water - snel varen
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Omschrijving
-    </dt>
-    <dd
-      className="incident-detail__body__value pre-wrap"
-    >
-      snel boot
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Aanvullende kenmerken
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-       
-    </dd>
-    <div
-      className=""
-    >
+    <dl>
       <dt
         className="incident-detail__body__definition"
       >
-        Stadsdeel
+        Datum
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        Centrum
-         
+        21-07-1970
       </dd>
-    </div>
-    <div
-      className=""
-    >
       <dt
         className="incident-detail__body__definition"
       >
-        Locatie
+        Tijd
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        Locatie is gepind op de kaart
+        11:55
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Datum overlast
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        21-07-1970
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Tijd overlast
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        11:55
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Urgentie
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Normaal
          
       </dd>
-    </div>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Email
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Telefoonnummer
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Bron
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Telefoon 14020
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Verantwoordelijke afdeling
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Telefoonnummer
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Hoofdcategorie
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Overlast op het water
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Subcategorie
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Overlast op het water - snel varen
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Omschrijving
+      </dt>
+      <dd
+        className="incident-detail__body__value pre-wrap"
+      >
+        snel boot
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Aanvullende kenmerken
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+         
+      </dd>
+      <div
+        className=""
+      >
+        <dt
+          className="incident-detail__body__definition"
+        >
+          Stadsdeel
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          Centrum
+           
+        </dd>
+      </div>
+      <div
+        className=""
+      >
+        <dt
+          className="incident-detail__body__definition"
+        >
+          Locatie
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          Locatie is gepind op de kaart
+           
+        </dd>
+      </div>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Email
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Telefoonnummer
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Bron
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Telefoon 14020
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Verantwoordelijke afdeling
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Telefoonnummer
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+    </dl>
   </div>
 </div>
 `;
@@ -722,209 +730,211 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
   <div
     className="incident-detail__body"
   >
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Datum
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      21-07-1970
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Tijd
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      11:55
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Datum overlast
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      21-07-1970
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Tijd overlast
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      11:55
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Urgentie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Normaal
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Hoofdcategorie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Overlast op het water
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Subcategorie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Overlast op het water - snel varen
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Omschrijving
-    </dt>
-    <dd
-      className="incident-detail__body__value pre-wrap"
-    >
-      snel boot
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Aanvullende kenmerken
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-       
-    </dd>
-    <div
-      className=""
-    >
+    <dl>
       <dt
         className="incident-detail__body__definition"
       >
-        Stadsdeel
+        Datum
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        Centrum
+        21-07-1970
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Tijd
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        11:55
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Datum overlast
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        21-07-1970
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Tijd overlast
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        11:55
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Urgentie
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Normaal
          
       </dd>
-    </div>
-    <div
-      className=""
-    >
       <dt
         className="incident-detail__body__definition"
       >
-        Locatie
+        Hoofdcategorie
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        Geldersekade 84B- 1012BL Amsterdam
+        Overlast op het water
          
       </dd>
-    </div>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Email
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Telefoonnummer
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Bron
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Telefoon 14020
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Verantwoordelijke afdeling
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Telefoonnummer
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
-    <span>
       <dt
         className="incident-detail__body__definition"
       >
-        Gesplitst in
+        Subcategorie
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        <NavLink
-          activeClassName="active"
-          className="incident-detail__body__link"
-          key="43"
-          to="/manage/incident/43"
-        >
-          43
-        </NavLink>
-        <NavLink
-          activeClassName="active"
-          className="incident-detail__body__link"
-          key="44"
-          to="/manage/incident/44"
-        >
-          44
-        </NavLink>
-        <NavLink
-          activeClassName="active"
-          className="incident-detail__body__link"
-          key="45"
-          to="/manage/incident/45"
-        >
-          45
-        </NavLink>
+        Overlast op het water - snel varen
+         
       </dd>
-    </span>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Omschrijving
+      </dt>
+      <dd
+        className="incident-detail__body__value pre-wrap"
+      >
+        snel boot
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Aanvullende kenmerken
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+         
+      </dd>
+      <div
+        className=""
+      >
+        <dt
+          className="incident-detail__body__definition"
+        >
+          Stadsdeel
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          Centrum
+           
+        </dd>
+      </div>
+      <div
+        className=""
+      >
+        <dt
+          className="incident-detail__body__definition"
+        >
+          Locatie
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          Geldersekade 84B- 1012BL Amsterdam
+           
+        </dd>
+      </div>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Email
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Telefoonnummer
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Bron
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Telefoon 14020
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Verantwoordelijke afdeling
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Telefoonnummer
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+      <span>
+        <dt
+          className="incident-detail__body__definition"
+        >
+          Gesplitst in
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          <NavLink
+            activeClassName="active"
+            className="incident-detail__body__link"
+            key="43"
+            to="/manage/incident/43"
+          >
+            43
+          </NavLink>
+          <NavLink
+            activeClassName="active"
+            className="incident-detail__body__link"
+            key="44"
+            to="/manage/incident/44"
+          >
+            44
+          </NavLink>
+          <NavLink
+            activeClassName="active"
+            className="incident-detail__body__link"
+            key="45"
+            to="/manage/incident/45"
+          >
+            45
+          </NavLink>
+        </dd>
+      </span>
+    </dl>
   </div>
 </div>
 `;
@@ -936,219 +946,221 @@ exports[`<IncidentDetail /> should render correctly with extra properties 1`] = 
   <div
     className="incident-detail__body"
   >
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Datum
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      21-07-1970
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Tijd
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      11:55
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Datum overlast
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      21-07-1970
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Tijd overlast
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      11:55
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Urgentie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Normaal
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Hoofdcategorie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Overlast op het water
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Subcategorie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Overlast op het water - snel varen
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Omschrijving
-    </dt>
-    <dd
-      className="incident-detail__body__value pre-wrap"
-    >
-      snel boot
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Aanvullende kenmerken
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-       
-    </dd>
-    <span
-      key="extra_boten_snelheid_rederij"
-    >
+    <dl>
       <dt
         className="incident-detail__body__definition"
       >
-        extra_boten_snelheid_rederij
+        Datum
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        Admiraal Heijn
-         
+        21-07-1970
       </dd>
-    </span>
-    <span
-      key="extra_boten_snelheid_naamboot"
-    >
       <dt
         className="incident-detail__body__definition"
       >
-        extra_boten_snelheid_naamboot
+        Tijd
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        Speranta
-         
+        11:55
       </dd>
-    </span>
-    <span
-      key="extra_boten_snelheid_rondvaartboot"
-    >
       <dt
         className="incident-detail__body__definition"
       >
-        extra_boten_snelheid_rondvaartboot
+        Datum overlast
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        Ja
-         
+        21-07-1970
       </dd>
-    </span>
-    <div
-      className=""
-    >
       <dt
         className="incident-detail__body__definition"
       >
-        Stadsdeel
+        Tijd overlast
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        Centrum
-         
+        11:55
       </dd>
-    </div>
-    <div
-      className=""
-    >
       <dt
         className="incident-detail__body__definition"
       >
-        Locatie
+        Urgentie
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        Geldersekade 84B- 1012BL Amsterdam
+        Normaal
          
       </dd>
-    </div>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Email
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Telefoonnummer
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Bron
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Telefoon 14020
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Verantwoordelijke afdeling
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Telefoonnummer
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Hoofdcategorie
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Overlast op het water
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Subcategorie
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Overlast op het water - snel varen
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Omschrijving
+      </dt>
+      <dd
+        className="incident-detail__body__value pre-wrap"
+      >
+        snel boot
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Aanvullende kenmerken
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+         
+      </dd>
+      <dl
+        key="extra_boten_snelheid_rederij"
+      >
+        <dt
+          className="incident-detail__body__definition"
+        >
+          extra_boten_snelheid_rederij
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          Admiraal Heijn
+           
+        </dd>
+      </dl>
+      <dl
+        key="extra_boten_snelheid_naamboot"
+      >
+        <dt
+          className="incident-detail__body__definition"
+        >
+          extra_boten_snelheid_naamboot
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          Speranta
+           
+        </dd>
+      </dl>
+      <dl
+        key="extra_boten_snelheid_rondvaartboot"
+      >
+        <dt
+          className="incident-detail__body__definition"
+        >
+          extra_boten_snelheid_rondvaartboot
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          Ja
+           
+        </dd>
+      </dl>
+      <div
+        className=""
+      >
+        <dt
+          className="incident-detail__body__definition"
+        >
+          Stadsdeel
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          Centrum
+           
+        </dd>
+      </div>
+      <div
+        className=""
+      >
+        <dt
+          className="incident-detail__body__definition"
+        >
+          Locatie
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          Geldersekade 84B- 1012BL Amsterdam
+           
+        </dd>
+      </div>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Email
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Telefoonnummer
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Bron
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Telefoon 14020
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Verantwoordelijke afdeling
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Telefoonnummer
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+    </dl>
   </div>
 </div>
 `;
@@ -1160,192 +1172,194 @@ exports[`<IncidentDetail /> should render correctly with parent 1`] = `
   <div
     className="incident-detail__body"
   >
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Datum
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      21-07-1970
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Tijd
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      11:55
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Datum overlast
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      21-07-1970
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Tijd overlast
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      11:55
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Urgentie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Normaal
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Hoofdcategorie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Overlast op het water
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Subcategorie
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Overlast op het water - snel varen
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Omschrijving
-    </dt>
-    <dd
-      className="incident-detail__body__value pre-wrap"
-    >
-      snel boot
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Aanvullende kenmerken
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-       
-    </dd>
-    <div
-      className=""
-    >
+    <dl>
       <dt
         className="incident-detail__body__definition"
       >
-        Stadsdeel
+        Datum
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        Centrum
+        21-07-1970
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Tijd
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        11:55
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Datum overlast
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        21-07-1970
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Tijd overlast
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        11:55
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Urgentie
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Normaal
          
       </dd>
-    </div>
-    <div
-      className=""
-    >
       <dt
         className="incident-detail__body__definition"
       >
-        Locatie
+        Hoofdcategorie
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        Geldersekade 84B- 1012BL Amsterdam
+        Overlast op het water
          
       </dd>
-    </div>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Email
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Telefoonnummer
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Bron
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-      Telefoon 14020
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Verantwoordelijke afdeling
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    >
-       
-    </dd>
-    <dt
-      className="incident-detail__body__definition"
-    >
-      Telefoonnummer
-    </dt>
-    <dd
-      className="incident-detail__body__value"
-    />
-    <span>
       <dt
         className="incident-detail__body__definition"
       >
-        Oorspronkelijke melding
+        Subcategorie
       </dt>
       <dd
         className="incident-detail__body__value"
       >
-        <NavLink
-          activeClassName="active"
-          className="incident-detail__body__link"
-          to="/manage/incident/42"
+        Overlast op het water - snel varen
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Omschrijving
+      </dt>
+      <dd
+        className="incident-detail__body__value pre-wrap"
+      >
+        snel boot
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Aanvullende kenmerken
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+         
+      </dd>
+      <div
+        className=""
+      >
+        <dt
+          className="incident-detail__body__definition"
         >
-          42
-        </NavLink>
+          Stadsdeel
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          Centrum
+           
+        </dd>
+      </div>
+      <div
+        className=""
+      >
+        <dt
+          className="incident-detail__body__definition"
+        >
+          Locatie
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          Geldersekade 84B- 1012BL Amsterdam
+           
+        </dd>
+      </div>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Email
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Telefoonnummer
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Bron
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+        Telefoon 14020
       </dd>
-    </span>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Verantwoordelijke afdeling
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      >
+         
+      </dd>
+      <dt
+        className="incident-detail__body__definition"
+      >
+        Telefoonnummer
+      </dt>
+      <dd
+        className="incident-detail__body__value"
+      />
+      <span>
+        <dt
+          className="incident-detail__body__definition"
+        >
+          Oorspronkelijke melding
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
+          <NavLink
+            activeClassName="active"
+            className="incident-detail__body__link"
+            to="/manage/incident/42"
+          >
+            42
+          </NavLink>
+        </dd>
+      </span>
+    </dl>
   </div>
 </div>
 `;
