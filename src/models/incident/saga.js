@@ -1,10 +1,11 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { authCall } from 'shared/services/api/api';
+import { authCall, authPatchCall } from 'shared/services/api/api';
 
-import { REQUEST_INCIDENT } from './constants';
-import { requestIncidentSuccess, requestIncidentError } from './actions';
+import { REQUEST_INCIDENT, PATCH_INCIDENT } from './constants';
+import { requestIncidentSuccess, requestIncidentError, patchIncidentSuccess, patchIncidentError } from './actions';
 
 export function* fetchIncident(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/auth/signal`;
@@ -12,11 +13,26 @@ export function* fetchIncident(action) {
     const id = action.payload;
     const incident = yield authCall(`${requestURL}/${id}/`);
     yield put(requestIncidentSuccess(incident));
-  } catch (err) {
-    yield put(requestIncidentError(err));
+  } catch (error) {
+    yield put(requestIncidentError(error));
+  }
+}
+
+export function* patchIncident(action) {
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals`;
+  const payload = action.payload;
+  try {
+    const incident = yield authPatchCall(`${requestURL}/${payload.id}`, payload.patch);
+    yield call(delay, 1000);
+    yield put(patchIncidentSuccess({ type: payload.type, incident }));
+  } catch (error) {
+    yield put(patchIncidentError({ type: payload.type, error }));
   }
 }
 
 export default function* watchIncidentModelSaga() {
-  yield takeLatest(REQUEST_INCIDENT, fetchIncident);
+  yield all([
+    takeLatest(REQUEST_INCIDENT, fetchIncident),
+    takeLatest(PATCH_INCIDENT, patchIncident)
+  ]);
 }
