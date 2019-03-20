@@ -4,7 +4,11 @@ import {
 } from './constants';
 
 const initialState = fromJS({
-  kto: {}
+  kto: {},
+  answers: {
+    'Mijn melding is snel opgepakt': 'Mijn melding is snel opgepakt',
+    'Het probleem is verholpen': 'Het probleem is verholpen'
+  }
 });
 
 function ktoContainerReducer(state = initialState, action) {

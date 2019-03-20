@@ -6,6 +6,7 @@ import { compose, bindActionCreators } from 'redux';
 import { FormGenerator } from 'react-reactive-form';
 import { defer } from 'lodash';
 
+import ktoForm from 'signals/incident/definitions/ktoForm';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import makeSelectKtoContainer from './selectors';
@@ -14,7 +15,6 @@ import saga from './saga';
 import './style.scss';
 
 import { updateKto } from './actions';
-import kto from '../../definitions/kto';
 import formatConditionalForm from '../../components/IncidentForm/services/format-conditional-form';
 
 export class KtoContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -25,6 +25,8 @@ export class KtoContainer extends React.Component { // eslint-disable-line react
     this.setValues = this.setValues.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateKto = this.updateKto.bind(this);
+
+    this.ktoForm = ktoForm;
   }
 
   componentWillMount() {
@@ -58,6 +60,14 @@ export class KtoContainer extends React.Component { // eslint-disable-line react
     this.form.meta = {
       updateIncident: this.updateKto
     };
+
+    if (this.ktoForm && this.ktoForm.controls && this.ktoForm.controls.tevreden && this.props.ktoContainer && this.props.ktoContainer.answers) {
+      console.log('set answers', this.props.ktoContainer.answers);
+      this.ktoForm.controls.tevreden.meta.values = {
+        ...this.props.ktoContainer.answers,
+        'Anders, namelijk...': 'Anders, namelijk...'
+      };
+    }
   }
 
   updateKto(value) {
@@ -83,7 +93,7 @@ export class KtoContainer extends React.Component { // eslint-disable-line react
               <form onSubmit={this.handleSubmit}>
                 <FormGenerator
                   onMount={this.setForm}
-                  fieldConfig={formatConditionalForm(kto, ktoContainer.kto)}
+                  fieldConfig={formatConditionalForm(this.ktoForm, ktoContainer.kto)}
                 />
               </form>
             </div>
@@ -96,7 +106,8 @@ export class KtoContainer extends React.Component { // eslint-disable-line react
 
 KtoContainer.defaultProps = {
   ktoContainer: {
-    kto: {}
+    kto: {},
+    answers: {}
   }
 };
 

@@ -11,11 +11,7 @@ export default {
       meta: {
         label: 'Waarom bent u tevreden?',
         subtitle: 'Eén antwoord mogelijk, kies de belangrijkste reden.',
-        values: {
-          'Mijn melding is snel opgepakt': 'Mijn melding is snel opgepakt',
-          'Het probleem is verholpen': 'Het probleem is verholpen',
-          'Anders, namelijk...': 'Anders, namelijk...'
-        },
+        values: {}
       },
       render: FormComponents.RadioInput,
       options: {
