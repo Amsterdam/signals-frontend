@@ -27,6 +27,10 @@ export class KtoContainer extends React.Component { // eslint-disable-line react
     this.updateKto = this.updateKto.bind(this);
   }
 
+  componentWillMount() {
+    console.log('mount', this.props.yesNo, this.props.uuid);
+  }
+
   componentWillReceiveProps(props) {
     this.setValues(props.ktoContainer.kto);
   }
@@ -49,6 +53,7 @@ export class KtoContainer extends React.Component { // eslint-disable-line react
   }
 
   setForm = (form) => {
+    console.log('setForm');
     this.form = form;
     this.form.meta = {
       updateIncident: this.updateKto
@@ -56,6 +61,7 @@ export class KtoContainer extends React.Component { // eslint-disable-line react
   }
 
   updateKto(value) {
+    console.log('updateKto');
     this.props.updateKto(value);
   }
 
@@ -95,7 +101,10 @@ KtoContainer.defaultProps = {
 };
 
 KtoContainer.propTypes = {
+  uuid: PropTypes.string.isRequired,
+  yesNo: PropTypes.string.isRequired,
   ktoContainer: PropTypes.object,
+
   updateKto: PropTypes.func.isRequired
 };
 
