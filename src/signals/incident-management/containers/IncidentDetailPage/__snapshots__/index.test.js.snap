@@ -194,6 +194,12 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
               />,
             },
             "image": undefined,
+            "location": Object {
+              "name": "Locatie",
+              "value": <Connect(LocationForm)
+                id="100"
+              />,
+            },
             "notes": Object {
               "count": 0,
               "name": "Notities",
@@ -371,6 +377,12 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
                 src="some-image"
               />,
             },
+            "location": Object {
+              "name": "Locatie",
+              "value": <Connect(LocationForm)
+                id="100"
+              />,
+            },
             "notes": Object {
               "count": 0,
               "name": "Notities",
@@ -546,6 +558,12 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
               />,
             },
             "image": undefined,
+            "location": Object {
+              "name": "Locatie",
+              "value": <Connect(LocationForm)
+                id="100"
+              />,
+            },
             "notes": Object {
               "count": 0,
               "name": "Notities",
@@ -709,6 +727,12 @@ exports[`<IncidentDetailPage /> rendering should render correctly with parent 1`
               />,
             },
             "image": undefined,
+            "location": Object {
+              "name": "Locatie",
+              "value": <Connect(LocationForm)
+                id="100"
+              />,
+            },
             "notes": Object {
               "count": 0,
               "name": "Notities",
@@ -813,6 +837,12 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
               />,
             },
             "image": undefined,
+            "location": Object {
+              "name": "Locatie",
+              "value": <Connect(LocationForm)
+                id="100"
+              />,
+            },
             "notes": Object {
               "count": 0,
               "name": "Notities",

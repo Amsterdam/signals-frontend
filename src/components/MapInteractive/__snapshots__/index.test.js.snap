@@ -8,7 +8,7 @@ exports[`<MapInteractive /> should render correctly 1`] = `
     className="map"
   >
     <div
-      id="mapdiv"
+      id="mapdiv-interactive"
     />
   </div>
 </div>
