@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { FormGenerator } from 'react-reactive-form';
-import { defer } from 'lodash';
+import { defer, isEqual } from 'lodash';
 
 import ktoForm from 'signals/incident/definitions/ktoForm';
 import injectSaga from 'utils/injectSaga';
@@ -14,10 +14,10 @@ import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
-import { updateKto } from './actions';
+import { updateKto, requestKtaAnswers } from './actions';
 import formatConditionalForm from '../../components/IncidentForm/services/format-conditional-form';
 
-export class KtoContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class KtoContainer extends React.Component {
   constructor(props) {
     super(props);
 
@@ -30,10 +30,17 @@ export class KtoContainer extends React.Component { // eslint-disable-line react
   }
 
   componentWillMount() {
-    console.log('mount', this.props.yesNo, this.props.uuid);
+    this.props.requestKtaAnswers(this.props.yesNo === 'ja');
   }
 
   componentWillReceiveProps(props) {
+    if (!isEqual(props.ktoContainer.answers, this.props.ktoContainer.answers) && this.ktoForm && this.ktoForm.controls && this.ktoForm.controls.tevreden) {
+      this.ktoForm.controls.tevreden.meta.values = {
+        ...props.ktoContainer.answers,
+        'Anders, namelijk...': 'Anders, namelijk...'
+      };
+    }
+
     this.setValues(props.ktoContainer.kto);
   }
 
@@ -55,23 +62,13 @@ export class KtoContainer extends React.Component { // eslint-disable-line react
   }
 
   setForm = (form) => {
-    console.log('setForm');
     this.form = form;
     this.form.meta = {
       updateIncident: this.updateKto
     };
-
-    if (this.ktoForm && this.ktoForm.controls && this.ktoForm.controls.tevreden && this.props.ktoContainer && this.props.ktoContainer.answers) {
-      console.log('set answers', this.props.ktoContainer.answers);
-      this.ktoForm.controls.tevreden.meta.values = {
-        ...this.props.ktoContainer.answers,
-        'Anders, namelijk...': 'Anders, namelijk...'
-      };
-    }
   }
 
   updateKto(value) {
-    console.log('updateKto');
     this.props.updateKto(value);
   }
 
@@ -112,11 +109,12 @@ KtoContainer.defaultProps = {
 };
 
 KtoContainer.propTypes = {
-  uuid: PropTypes.string.isRequired,
+  // uuid: PropTypes.string.isRequired,
   yesNo: PropTypes.string.isRequired,
   ktoContainer: PropTypes.object,
 
-  updateKto: PropTypes.func.isRequired
+  updateKto: PropTypes.func.isRequired,
+  requestKtaAnswers: PropTypes.func.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -124,7 +122,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  updateKto
+  updateKto,
+  requestKtaAnswers
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
