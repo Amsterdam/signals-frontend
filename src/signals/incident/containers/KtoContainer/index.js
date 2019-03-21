@@ -11,12 +11,13 @@ import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
-import { updateKto, requestKtaAnswers } from './actions';
+import { updateKto, requestKtaAnswers, checkKto } from './actions';
 import KtoForm from './components/KtoForm';
 
 export class KtoContainer extends React.Component {
   componentWillMount() {
     this.props.requestKtaAnswers(this.props.yesNo);
+    this.props.checkKto(this.props.uuid);
   }
 
   render() {
@@ -48,12 +49,13 @@ KtoContainer.defaultProps = {
 };
 
 KtoContainer.propTypes = {
-  // uuid: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
   yesNo: PropTypes.string.isRequired,
   ktoContainer: PropTypes.object,
 
   onUpdateKto: PropTypes.func.isRequired,
-  requestKtaAnswers: PropTypes.func.isRequired
+  requestKtaAnswers: PropTypes.func.isRequired,
+  checkKto: PropTypes.func.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -62,7 +64,8 @@ const mapStateToProps = createStructuredSelector({
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onUpdateKto: updateKto,
-  requestKtaAnswers
+  requestKtaAnswers,
+  checkKto
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

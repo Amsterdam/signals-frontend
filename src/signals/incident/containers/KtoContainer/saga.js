@@ -1,10 +1,11 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { all, put, takeLatest } from 'redux-saga/effects';
 // import request from 'utils/request';
 
 // import CONFIGURATION from 'shared/services/configuration/configuration';
-import { REQUEST_KTA_ANSWERS } from './constants';
+import { REQUEST_KTA_ANSWERS, CHECK_KTO } from './constants';
 import {
-  requestKtaAnswersSuccess, requestKtaAnswersError
+  requestKtaAnswersSuccess, requestKtaAnswersError,
+  checkKtoSuccess, checkKtoError
 } from './actions';
 
 export function* requestKtaAnswers(action) {
@@ -42,6 +43,21 @@ export function* requestKtaAnswers(action) {
   }
 }
 
+export function* checkKto() {
+  // const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/form`;
+  try {
+    // const uuid = action.payload;
+    // const result = yield call(`${requestURL}/${uuid}`, requestURL);
+    const result = true;
+    yield put(checkKtoSuccess(result));
+  } catch (error) {
+    yield put(checkKtoError(error));
+  }
+}
+
 export default function* watchKtoContainerSaga() {
-  yield takeLatest(REQUEST_KTA_ANSWERS, requestKtaAnswers);
+  yield all([
+    takeLatest(REQUEST_KTA_ANSWERS, requestKtaAnswers),
+    takeLatest(CHECK_KTO, checkKto)
+  ]);
 }
