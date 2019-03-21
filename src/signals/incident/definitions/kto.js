@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Validators } from 'react-reactive-form';
 
-import FormComponents from '../components/IncidentForm/components/';
+import FormComponents from '../components/IncidentForm/components';
 
 export default {
   controls: {

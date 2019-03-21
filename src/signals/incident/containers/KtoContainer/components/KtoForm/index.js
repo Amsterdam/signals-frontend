@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { FormGenerator } from 'react-reactive-form';
 import { defer, isEqual } from 'lodash';
 
-import ktoForm from 'signals/incident/definitions/ktoForm';
+import ktoDefinition from 'signals/incident/definitions/kto';
 import formatConditionalForm from '../../../../components/IncidentForm/services/format-conditional-form';
 
 import './style.scss';
@@ -20,7 +20,7 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateKto = this.updateKto.bind(this);
 
-    this.ktoForm = ktoForm;
+    this.ktoForm = ktoDefinition;
   }
 
   componentWillReceiveProps(props) {
