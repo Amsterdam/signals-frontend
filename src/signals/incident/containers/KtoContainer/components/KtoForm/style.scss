@@ -1,0 +1,11 @@
+@import "config.scss";
+
+.kto-form {
+  .row + .row {
+    margin-top: 20px !important;
+  }
+
+  .row {
+    margin-top: 20px !important;
+  }
+}
