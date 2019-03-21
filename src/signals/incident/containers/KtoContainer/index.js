@@ -17,6 +17,8 @@ import './style.scss';
 import { updateKto, requestKtaAnswers } from './actions';
 import formatConditionalForm from '../../components/IncidentForm/services/format-conditional-form';
 
+const andersOption = { 'Anders, namelijk...': 'Anders, namelijk...' };
+
 export class KtoContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -30,15 +32,24 @@ export class KtoContainer extends React.Component {
   }
 
   componentWillMount() {
-    this.props.requestKtaAnswers(this.props.yesNo === 'ja');
+    this.props.requestKtaAnswers(this.props.yesNo);
   }
 
   componentWillReceiveProps(props) {
-    if (!isEqual(props.ktoContainer.answers, this.props.ktoContainer.answers) && this.ktoForm && this.ktoForm.controls && this.ktoForm.controls.tevreden) {
-      this.ktoForm.controls.tevreden.meta.values = {
-        ...props.ktoContainer.answers,
-        'Anders, namelijk...': 'Anders, namelijk...'
-      };
+    if (!isEqual(props.ktoContainer.answers, this.props.ktoContainer.answers) && this.ktoForm && this.ktoForm.controls) {
+      if (this.props.yesNo === 'ja' && this.ktoForm.controls.tevreden && this.ktoForm.controls.tevreden.meta) {
+        this.ktoForm.controls.tevreden.meta.values = {
+          ...props.ktoContainer.answers,
+          ...andersOption
+        };
+      }
+
+      if (this.props.yesNo === 'nee' && this.ktoForm.controls.niet_tevreden && this.ktoForm.controls.niet_tevreden.meta) {
+        this.ktoForm.controls.niet_tevreden.meta.values = {
+          ...props.ktoContainer.answers,
+          ...andersOption
+        };
+      }
     }
 
     this.setValues(props.ktoContainer.kto);
@@ -86,7 +97,7 @@ export class KtoContainer extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <h1>Ja ik ben tevreden</h1>
+              <h1>Ja ik ben vraag</h1>
               <form onSubmit={this.handleSubmit}>
                 <FormGenerator
                   onMount={this.setForm}

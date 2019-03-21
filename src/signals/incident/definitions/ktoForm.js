@@ -11,6 +11,9 @@ export default {
       meta: {
         label: 'Waarom bent u tevreden?',
         subtitle: 'Eén antwoord mogelijk, kies de belangrijkste reden.',
+        ifAllOf: {
+          yesNo: 'ja'
+        },
         values: {}
       },
       render: FormComponents.RadioInput,
@@ -23,18 +26,44 @@ export default {
     tevreden_anders: {
       meta: {
         ifAllOf: {
+          yesNo: 'ja',
           tevreden: 'Anders, namelijk...'
         }
       },
       render: FormComponents.TextareaInput
     },
-    tevreden_toelichten: {
+    niet_tevreden: {
+      meta: {
+        label: 'Waarom bent u ontevreden?',
+        subtitle: 'Eén antwoord mogelijk, kies de belangrijkste reden.',
+        ifAllOf: {
+          yesNo: 'nee'
+        },
+        values: {}
+      },
+      render: FormComponents.RadioInput,
+      options: {
+        validators: [
+          Validators.required
+        ]
+      },
+    },
+    niet_tevreden_anders: {
+      meta: {
+        ifAllOf: {
+          yesNo: 'nee',
+          niet_tevreden: 'Anders, namelijk...'
+        }
+      },
+      render: FormComponents.TextareaInput
+    },
+    toelichten: {
       meta: {
         label: 'Wilt u verder nog iets vermelden of toelichten?'
       },
       render: FormComponents.TextareaInput
     },
-    tevreden_toestemming: {
+    toestemming_contact: {
       meta: {
         label: 'Mogen wij conact met u opnemen naar aanleiding vanuw feedback?'
       },
@@ -45,7 +74,7 @@ export default {
       render: ({ invalid }) => (
         <div>
           <button
-            className="action primary"
+            className={`action primary ${invalid && 'disabled'}`}
             type="submit"
             disabled={invalid}
           >

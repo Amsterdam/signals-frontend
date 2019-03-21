@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 import {
   UPDATE_KTA,
-  REQUEST_KTA_ANSWERS_SUCCESS, REQUEST_KTA_ANSWERS_ERROR
+  REQUEST_KTA_ANSWERS, REQUEST_KTA_ANSWERS_SUCCESS, REQUEST_KTA_ANSWERS_ERROR
 } from './constants';
 
 const initialState = fromJS({
@@ -18,6 +18,13 @@ function ktoContainerReducer(state = initialState, action) {
         .set('kto', fromJS({
           ...state.get('kto').toJS(),
           ...action.payload
+        }));
+
+    case REQUEST_KTA_ANSWERS:
+      return state
+        .set('kto', fromJS({
+          ...state.get('kto').toJS(),
+          yesNo: action.payload
         }));
 
     case REQUEST_KTA_ANSWERS_SUCCESS:

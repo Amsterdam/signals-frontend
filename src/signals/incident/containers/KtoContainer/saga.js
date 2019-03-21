@@ -10,7 +10,7 @@ import {
 export function* requestKtaAnswers(action) {
   // const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/standard_answers/`;
   try {
-    const isSatisfied = action.payload;
+    const yesNo = action.payload;
     // const result = yield call(request, requestURL);
 
     const result = [{
@@ -31,7 +31,7 @@ export function* requestKtaAnswers(action) {
 
     const newResult = {};
     result.forEach((answer) => {
-      if (isSatisfied === answer.is_satisfied) {
+      if ((yesNo === 'ja') === answer.is_satisfied) {
         newResult[answer.text] = answer.text;
       }
     });
