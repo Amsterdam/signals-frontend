@@ -8,8 +8,12 @@ describe('<Tabs />', () => {
 
   beforeEach(() => {
     props = {
-      selectedTab: 0,
-      tabs: [{ name: 'tab1' }, { name: 'tab2', count: 2 }],
+      selectedTab: 'tab1',
+      tabs: {
+        tab1: { name: 'tab1' },
+        tab2: undefined,
+        tab3: { name: 'tab3', count: 2 }
+      },
       onTabChanged: jest.fn()
     };
   });
@@ -31,6 +35,6 @@ describe('<Tabs />', () => {
     );
 
     wrapper.find('li').first().simulate('click');
-    expect(props.onTabChanged).toHaveBeenCalledWith(0);
+    expect(props.onTabChanged).toHaveBeenCalledWith('tab1');
   });
 });

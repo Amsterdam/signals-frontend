@@ -30,13 +30,11 @@ export function* authCall(url, params, authorizationToken) {
     headers
   };
 
-  const fullUrl = `${url}/${params ? `?${generateParams(params)}` : ''}`;
-  // console.log('fullUrl', fullUrl);
-  // console.log(options);
+  const fullUrl = `${url}${params ? `/?${generateParams(params)}` : ''}`;
   return yield call(request, fullUrl, options);
 }
 
-export function* authPostCall(url, params) {
+export function* authCallWithPayload(url, params, method) {
   const headers = {
     'Content-Type': 'application/json'
   };
@@ -47,14 +45,19 @@ export function* authPostCall(url, params) {
   }
 
   const options = {
-    method: 'POST',
+    method,
     headers,
     body: JSON.stringify(params)
   };
 
   const fullUrl = `${url}`;
-  // console.log(fullUrl);
-  // console.log(options);
   return yield call(request, fullUrl, options);
 }
 
+export function* authPostCall(url, params) {
+  return yield call(authCallWithPayload, url, params, 'POST');
+}
+
+export function* authPatchCall(url, params) {
+  return yield call(authCallWithPayload, url, params, 'PATCH');
+}

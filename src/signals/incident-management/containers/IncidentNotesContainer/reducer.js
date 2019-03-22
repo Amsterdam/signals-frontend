@@ -7,7 +7,6 @@ import {
   from './constants';
 
 export const initialState = fromJS({
-  incidentNotesList: [],
   loading: false
 });
 
@@ -20,13 +19,13 @@ function incidentNotesContainerReducer(state = initialState, action) {
 
     case REQUEST_NOTE_CREATE_SUCCESS:
       return state
-        .set('incidentNotesList', fromJS([action.payload, ...state.get('incidentNotesList')]))
         .set('loading', false);
 
     case REQUEST_NOTE_CREATE_ERROR:
       return state
         .set('error', action.payload)
         .set('loading', false);
+
     default:
       return state;
   }

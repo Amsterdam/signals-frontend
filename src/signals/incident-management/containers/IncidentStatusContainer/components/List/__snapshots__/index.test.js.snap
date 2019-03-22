@@ -46,10 +46,10 @@ exports[`<List /> should render correctly 1`] = `
           key="3"
         >
           <td>
-            13-07-2018
+            21-07-1970
           </td>
           <td>
-            11:48
+            11:55
           </td>
           <td />
           <td
@@ -61,10 +61,10 @@ exports[`<List /> should render correctly 1`] = `
           key="910"
         >
           <td>
-            27-07-2018
+            21-07-1970
           </td>
           <td>
-            14:53
+            11:55
           </td>
           <td />
           <td
@@ -80,10 +80,10 @@ exports[`<List /> should render correctly 1`] = `
           key="911"
         >
           <td>
-            27-07-2018
+            21-07-1970
           </td>
           <td>
-            14:53
+            11:55
           </td>
           <td />
           <td

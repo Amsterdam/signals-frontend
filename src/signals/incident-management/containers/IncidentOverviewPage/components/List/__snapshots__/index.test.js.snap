@@ -30,6 +30,12 @@ exports[`<List /> should render correctly 1`] = `
             className=""
             onClick={[Function]}
           >
+            Dag
+          </th>
+          <th
+            className=""
+            onClick={[Function]}
+          >
             Datum en tijd
           </th>
           <th
@@ -66,33 +72,69 @@ exports[`<List /> should render correctly 1`] = `
       </thead>
       <tbody>
         <tr
-          key="158"
+          key="1668"
           onClick={[Function]}
         >
           <td>
-            158
+            1668
+          </td>
+          <td>
+            -
           </td>
           <td
             className="no-wrap"
           >
-            11-07-2018
+            21-07-1970
              
-            15:46
+            11:55
           </td>
           <td>
-            Niet gevonden
+            Centrum
           </td>
           <td>
-            Gezonken boot
+            Wegsleep
           </td>
           <td>
-            Niet gevonden
+            Afgehandeld
           </td>
           <td>
-            Niet gevonden
+            Normaal
           </td>
           <td>
-            Dam 1A-1 1012JS Amsterdam
+            Staalstraat 3B 1011JJ Amsterdam
+          </td>
+        </tr>
+        <tr
+          key="1667"
+          onClick={[Function]}
+        >
+          <td>
+            1667
+          </td>
+          <td>
+            42
+          </td>
+          <td
+            className="no-wrap"
+          >
+            21-07-1970
+             
+            11:55
+          </td>
+          <td>
+            Zuid
+          </td>
+          <td>
+            Dode dieren
+          </td>
+          <td>
+            Gemeld
+          </td>
+          <td>
+            Normaal
+          </td>
+          <td>
+            Raamgracht 45 1011KJ Amsterdam
           </td>
         </tr>
       </tbody>

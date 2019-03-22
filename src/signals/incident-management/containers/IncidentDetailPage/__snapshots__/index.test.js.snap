@@ -3,7 +3,13 @@
 exports[`<IncidentDetailPage /> events should render the print view 1`] = `
 <Component
   id="100"
-  incident={Object {}}
+  incident={
+    Object {
+      "status": Object {
+        "state": "m",
+      },
+    }
+  }
   incidentNotesList={Array []}
   onPrintView={[Function]}
   priorityList={
@@ -59,133 +65,174 @@ exports[`<IncidentDetailPage /> events should render the print view 1`] = `
 
 exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
 <div
-  className="incident-detail-page row container"
+  className="incident-detail-page container"
 >
-  <div
-    className="col-12"
-  >
-    <h3>
-      Melding 
-      100
-    </h3>
-  </div>
-  <ul
-    className="col-12 col-md-4 incident-detail-page__map"
+  <SplitNotificationBar
+    onClose={[Function]}
   />
   <div
-    className="col-12 col-md-8"
-  >
-    (
-    <Link
-      replace={false}
-      to="undefined/incidents"
-    >
-      Terug naar overzicht
-    </Link>
-    )
-    <button
-      onClick={[Function]}
-    >
-      Print view
-    </button>
-    <Component
-      incident={Object {}}
-      priorityList={
-        Array [
-          Object {
-            "key": "normal",
-            "value": "Normaal",
-          },
-          Object {
-            "key": "high",
-            "value": "Hoog",
-          },
-        ]
-      }
-      stadsdeelList={
-        Array [
-          Object {
-            "key": "A",
-            "value": "Centrum",
-          },
-          Object {
-            "key": "B",
-            "value": "Westpoort",
-          },
-          Object {
-            "key": "E",
-            "value": "West",
-          },
-          Object {
-            "key": "M",
-            "value": "Oost",
-          },
-          Object {
-            "key": "N",
-            "value": "Noord",
-          },
-          Object {
-            "key": "T",
-            "value": "Zuidoost",
-          },
-          Object {
-            "key": "K",
-            "value": "Zuid",
-          },
-          Object {
-            "key": "F",
-            "value": "Nieuw-West",
-          },
-        ]
-      }
-    />
-  </div>
-  <div
-    className="col-12"
-  >
-    <Tabs
-      onTabChanged={[Function]}
-      selectedTab={0}
-      tabs={
-        Array [
-          Object {
-            "name": "Status",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Urgentie",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Subcategorie",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "count": undefined,
-            "name": "Notities",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-        ]
-      }
-    />
-  </div>
-  <div
-    className="col-12"
+    className="row"
   >
     <div
-      className="incident-detail-page__tab-container"
+      className="col-12"
+    >
+      <Link
+        className="startagain action"
+        replace={false}
+        to="undefined/incidents"
+      >
+        Terug naar overzicht
+      </Link>
+    </div>
+    <div
+      className="col-9"
+    >
+      <h3>
+        Melding 
+        100
+      </h3>
+    </div>
+    <div
+      className="col-3 d-flex justify-content-end"
+    >
+      <Link
+        className="align-self-center action-quad"
+        replace={false}
+        to="undefined/incident/100/split"
+      >
+        Splitsen
+      </Link>
+      <button
+        className="align-self-center action-quad"
+        onClick={[Function]}
+      >
+        Print view
+      </button>
+    </div>
+    <ul
+      className="col-12 col-md-4 incident-detail-page__map"
+    />
+    <div
+      className="col-12 col-md-8"
     >
       <Component
-        id="100"
+        incident={
+          Object {
+            "status": Object {
+              "state": "m",
+            },
+          }
+        }
+        priorityList={
+          Array [
+            Object {
+              "key": "normal",
+              "value": "Normaal",
+            },
+            Object {
+              "key": "high",
+              "value": "Hoog",
+            },
+          ]
+        }
+        stadsdeelList={
+          Array [
+            Object {
+              "key": "A",
+              "value": "Centrum",
+            },
+            Object {
+              "key": "B",
+              "value": "Westpoort",
+            },
+            Object {
+              "key": "E",
+              "value": "West",
+            },
+            Object {
+              "key": "M",
+              "value": "Oost",
+            },
+            Object {
+              "key": "N",
+              "value": "Noord",
+            },
+            Object {
+              "key": "T",
+              "value": "Zuidoost",
+            },
+            Object {
+              "key": "K",
+              "value": "Zuid",
+            },
+            Object {
+              "key": "F",
+              "value": "Nieuw-West",
+            },
+          ]
+        }
       />
+    </div>
+    <div
+      className="col-12"
+    >
+      <Tabs
+        onTabChanged={[Function]}
+        selectedTab="status"
+        tabs={
+          Object {
+            "category": Object {
+              "name": "Subcategorie",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+            "history": Object {
+              "name": "Historie",
+              "value": <withReducer(withSaga(Connect(IncidentHistoryContainer)))
+                id="100"
+              />,
+            },
+            "image": undefined,
+            "location": Object {
+              "name": "Locatie",
+              "value": <Connect(LocationForm)
+                id="100"
+              />,
+            },
+            "notes": Object {
+              "count": 0,
+              "name": "Notities",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+            "priority": Object {
+              "name": "Urgentie",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+            "status": Object {
+              "name": "Status",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+          }
+        }
+      />
+    </div>
+    <div
+      className="col-12"
+    >
+      <div
+        className="incident-detail-page__tab-container"
+      >
+        <Component
+          id="100"
+        />
+      </div>
     </div>
   </div>
 </div>
@@ -193,145 +240,182 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
 
 exports[`<IncidentDetailPage /> rendering should render correctly with image 1`] = `
 <div
-  className="incident-detail-page row container"
+  className="incident-detail-page container"
 >
-  <div
-    className="col-12"
-  >
-    <h3>
-      Melding 
-      100
-    </h3>
-  </div>
-  <ul
-    className="col-12 col-md-4 incident-detail-page__map"
+  <SplitNotificationBar
+    onClose={[Function]}
   />
   <div
-    className="col-12 col-md-8"
-  >
-    (
-    <Link
-      replace={false}
-      to="undefined/incidents"
-    >
-      Terug naar overzicht
-    </Link>
-    )
-    <button
-      onClick={[Function]}
-    >
-      Print view
-    </button>
-    <Component
-      incident={
-        Object {
-          "image": "some-image",
-        }
-      }
-      priorityList={
-        Array [
-          Object {
-            "key": "normal",
-            "value": "Normaal",
-          },
-          Object {
-            "key": "high",
-            "value": "Hoog",
-          },
-        ]
-      }
-      stadsdeelList={
-        Array [
-          Object {
-            "key": "A",
-            "value": "Centrum",
-          },
-          Object {
-            "key": "B",
-            "value": "Westpoort",
-          },
-          Object {
-            "key": "E",
-            "value": "West",
-          },
-          Object {
-            "key": "M",
-            "value": "Oost",
-          },
-          Object {
-            "key": "N",
-            "value": "Noord",
-          },
-          Object {
-            "key": "T",
-            "value": "Zuidoost",
-          },
-          Object {
-            "key": "K",
-            "value": "Zuid",
-          },
-          Object {
-            "key": "F",
-            "value": "Nieuw-West",
-          },
-        ]
-      }
-    />
-  </div>
-  <div
-    className="col-12"
-  >
-    <Tabs
-      onTabChanged={[Function]}
-      selectedTab={0}
-      tabs={
-        Array [
-          Object {
-            "name": "Status",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Urgentie",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Subcategorie",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "count": undefined,
-            "name": "Notities",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Foto",
-            "value": <img
-              alt=""
-              className="incident-detail-page__image--max-width"
-              src="some-image"
-            />,
-          },
-        ]
-      }
-    />
-  </div>
-  <div
-    className="col-12"
+    className="row"
   >
     <div
-      className="incident-detail-page__tab-container"
+      className="col-12"
+    >
+      <Link
+        className="startagain action"
+        replace={false}
+        to="undefined/incidents"
+      >
+        Terug naar overzicht
+      </Link>
+    </div>
+    <div
+      className="col-9"
+    >
+      <h3>
+        Melding 
+        100
+      </h3>
+    </div>
+    <div
+      className="col-3 d-flex justify-content-end"
+    >
+      <Link
+        className="align-self-center action-quad"
+        replace={false}
+        to="undefined/incident/100/split"
+      >
+        Splitsen
+      </Link>
+      <button
+        className="align-self-center action-quad"
+        onClick={[Function]}
+      >
+        Print view
+      </button>
+    </div>
+    <ul
+      className="col-12 col-md-4 incident-detail-page__map"
+    />
+    <div
+      className="col-12 col-md-8"
     >
       <Component
-        id="100"
+        incident={
+          Object {
+            "image": "some-image",
+            "status": Object {
+              "state": "m",
+            },
+          }
+        }
+        priorityList={
+          Array [
+            Object {
+              "key": "normal",
+              "value": "Normaal",
+            },
+            Object {
+              "key": "high",
+              "value": "Hoog",
+            },
+          ]
+        }
+        stadsdeelList={
+          Array [
+            Object {
+              "key": "A",
+              "value": "Centrum",
+            },
+            Object {
+              "key": "B",
+              "value": "Westpoort",
+            },
+            Object {
+              "key": "E",
+              "value": "West",
+            },
+            Object {
+              "key": "M",
+              "value": "Oost",
+            },
+            Object {
+              "key": "N",
+              "value": "Noord",
+            },
+            Object {
+              "key": "T",
+              "value": "Zuidoost",
+            },
+            Object {
+              "key": "K",
+              "value": "Zuid",
+            },
+            Object {
+              "key": "F",
+              "value": "Nieuw-West",
+            },
+          ]
+        }
       />
+    </div>
+    <div
+      className="col-12"
+    >
+      <Tabs
+        onTabChanged={[Function]}
+        selectedTab="status"
+        tabs={
+          Object {
+            "category": Object {
+              "name": "Subcategorie",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+            "history": Object {
+              "name": "Historie",
+              "value": <withReducer(withSaga(Connect(IncidentHistoryContainer)))
+                id="100"
+              />,
+            },
+            "image": Object {
+              "name": "Foto",
+              "value": <img
+                alt=""
+                className="incident-detail-page__image--max-width"
+                src="some-image"
+              />,
+            },
+            "location": Object {
+              "name": "Locatie",
+              "value": <Connect(LocationForm)
+                id="100"
+              />,
+            },
+            "notes": Object {
+              "count": 0,
+              "name": "Notities",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+            "priority": Object {
+              "name": "Urgentie",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+            "status": Object {
+              "name": "Status",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+          }
+        }
+      />
+    </div>
+    <div
+      className="col-12"
+    >
+      <div
+        className="incident-detail-page__tab-container"
+      >
+        <Component
+          id="100"
+        />
+      </div>
     </div>
   </div>
 </div>
@@ -339,142 +423,349 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
 
 exports[`<IncidentDetailPage /> rendering should render correctly with location 1`] = `
 <div
-  className="incident-detail-page row container"
+  className="incident-detail-page container"
 >
+  <SplitNotificationBar
+    onClose={[Function]}
+  />
   <div
-    className="col-12"
-  >
-    <h3>
-      Melding 
-      100
-    </h3>
-  </div>
-  <ul
-    className="col-12 col-md-4 incident-detail-page__map"
-  >
-    <Component
-      label=""
-      value={Object {}}
-    />
-  </ul>
-  <div
-    className="col-12 col-md-8"
-  >
-    (
-    <Link
-      replace={false}
-      to="undefined/incidents"
-    >
-      Terug naar overzicht
-    </Link>
-    )
-    <button
-      onClick={[Function]}
-    >
-      Print view
-    </button>
-    <Component
-      incident={
-        Object {
-          "location": Object {},
-        }
-      }
-      priorityList={
-        Array [
-          Object {
-            "key": "normal",
-            "value": "Normaal",
-          },
-          Object {
-            "key": "high",
-            "value": "Hoog",
-          },
-        ]
-      }
-      stadsdeelList={
-        Array [
-          Object {
-            "key": "A",
-            "value": "Centrum",
-          },
-          Object {
-            "key": "B",
-            "value": "Westpoort",
-          },
-          Object {
-            "key": "E",
-            "value": "West",
-          },
-          Object {
-            "key": "M",
-            "value": "Oost",
-          },
-          Object {
-            "key": "N",
-            "value": "Noord",
-          },
-          Object {
-            "key": "T",
-            "value": "Zuidoost",
-          },
-          Object {
-            "key": "K",
-            "value": "Zuid",
-          },
-          Object {
-            "key": "F",
-            "value": "Nieuw-West",
-          },
-        ]
-      }
-    />
-  </div>
-  <div
-    className="col-12"
-  >
-    <Tabs
-      onTabChanged={[Function]}
-      selectedTab={0}
-      tabs={
-        Array [
-          Object {
-            "name": "Status",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Urgentie",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Subcategorie",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "count": undefined,
-            "name": "Notities",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-        ]
-      }
-    />
-  </div>
-  <div
-    className="col-12"
+    className="row"
   >
     <div
-      className="incident-detail-page__tab-container"
+      className="col-12"
+    >
+      <Link
+        className="startagain action"
+        replace={false}
+        to="undefined/incidents"
+      >
+        Terug naar overzicht
+      </Link>
+    </div>
+    <div
+      className="col-9"
+    >
+      <h3>
+        Melding 
+        100
+      </h3>
+    </div>
+    <div
+      className="col-3 d-flex justify-content-end"
+    >
+      <Link
+        className="align-self-center action-quad"
+        replace={false}
+        to="undefined/incident/100/split"
+      >
+        Splitsen
+      </Link>
+      <button
+        className="align-self-center action-quad"
+        onClick={[Function]}
+      >
+        Print view
+      </button>
+    </div>
+    <ul
+      className="col-12 col-md-4 incident-detail-page__map"
     >
       <Component
-        id="100"
+        label=""
+        value={Object {}}
       />
+    </ul>
+    <div
+      className="col-12 col-md-8"
+    >
+      <Component
+        incident={
+          Object {
+            "location": Object {},
+            "status": Object {
+              "state": "m",
+            },
+          }
+        }
+        priorityList={
+          Array [
+            Object {
+              "key": "normal",
+              "value": "Normaal",
+            },
+            Object {
+              "key": "high",
+              "value": "Hoog",
+            },
+          ]
+        }
+        stadsdeelList={
+          Array [
+            Object {
+              "key": "A",
+              "value": "Centrum",
+            },
+            Object {
+              "key": "B",
+              "value": "Westpoort",
+            },
+            Object {
+              "key": "E",
+              "value": "West",
+            },
+            Object {
+              "key": "M",
+              "value": "Oost",
+            },
+            Object {
+              "key": "N",
+              "value": "Noord",
+            },
+            Object {
+              "key": "T",
+              "value": "Zuidoost",
+            },
+            Object {
+              "key": "K",
+              "value": "Zuid",
+            },
+            Object {
+              "key": "F",
+              "value": "Nieuw-West",
+            },
+          ]
+        }
+      />
+    </div>
+    <div
+      className="col-12"
+    >
+      <Tabs
+        onTabChanged={[Function]}
+        selectedTab="status"
+        tabs={
+          Object {
+            "category": Object {
+              "name": "Subcategorie",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+            "history": Object {
+              "name": "Historie",
+              "value": <withReducer(withSaga(Connect(IncidentHistoryContainer)))
+                id="100"
+              />,
+            },
+            "image": undefined,
+            "location": Object {
+              "name": "Locatie",
+              "value": <Connect(LocationForm)
+                id="100"
+              />,
+            },
+            "notes": Object {
+              "count": 0,
+              "name": "Notities",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+            "priority": Object {
+              "name": "Urgentie",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+            "status": Object {
+              "name": "Status",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+          }
+        }
+      />
+    </div>
+    <div
+      className="col-12"
+    >
+      <div
+        className="incident-detail-page__tab-container"
+      >
+        <Component
+          id="100"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<IncidentDetailPage /> rendering should render correctly with parent 1`] = `
+<div
+  className="incident-detail-page container"
+>
+  <SplitNotificationBar
+    onClose={[Function]}
+  />
+  <div
+    className="row"
+  >
+    <div
+      className="col-12"
+    >
+      <Link
+        className="startagain action"
+        replace={false}
+        to="undefined/incidents"
+      >
+        Terug naar overzicht
+      </Link>
+    </div>
+    <div
+      className="col-9"
+    >
+      <h3>
+        Melding 
+        100
+      </h3>
+    </div>
+    <div
+      className="col-3 d-flex justify-content-end"
+    >
+      <button
+        className="align-self-center action-quad"
+        onClick={[Function]}
+      >
+        Print view
+      </button>
+    </div>
+    <ul
+      className="col-12 col-md-4 incident-detail-page__map"
+    />
+    <div
+      className="col-12 col-md-8"
+    >
+      <Component
+        incident={
+          Object {
+            "parent_id": 42,
+            "status": Object {
+              "state": "m",
+            },
+          }
+        }
+        priorityList={
+          Array [
+            Object {
+              "key": "normal",
+              "value": "Normaal",
+            },
+            Object {
+              "key": "high",
+              "value": "Hoog",
+            },
+          ]
+        }
+        stadsdeelList={
+          Array [
+            Object {
+              "key": "A",
+              "value": "Centrum",
+            },
+            Object {
+              "key": "B",
+              "value": "Westpoort",
+            },
+            Object {
+              "key": "E",
+              "value": "West",
+            },
+            Object {
+              "key": "M",
+              "value": "Oost",
+            },
+            Object {
+              "key": "N",
+              "value": "Noord",
+            },
+            Object {
+              "key": "T",
+              "value": "Zuidoost",
+            },
+            Object {
+              "key": "K",
+              "value": "Zuid",
+            },
+            Object {
+              "key": "F",
+              "value": "Nieuw-West",
+            },
+          ]
+        }
+      />
+    </div>
+    <div
+      className="col-12"
+    >
+      <Tabs
+        onTabChanged={[Function]}
+        selectedTab="status"
+        tabs={
+          Object {
+            "category": Object {
+              "name": "Subcategorie",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+            "history": Object {
+              "name": "Historie",
+              "value": <withReducer(withSaga(Connect(IncidentHistoryContainer)))
+                id="100"
+              />,
+            },
+            "image": undefined,
+            "location": Object {
+              "name": "Locatie",
+              "value": <Connect(LocationForm)
+                id="100"
+              />,
+            },
+            "notes": Object {
+              "count": 0,
+              "name": "Notities",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+            "priority": Object {
+              "name": "Urgentie",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+            "status": Object {
+              "name": "Status",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+          }
+        }
+      />
+    </div>
+    <div
+      className="col-12"
+    >
+      <div
+        className="incident-detail-page__tab-container"
+      >
+        <Component
+          id="100"
+        />
+      </div>
     </div>
   </div>
 </div>
@@ -482,83 +773,121 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
 
 exports[`<IncidentDetailPage /> rendering should render correctly without incident 1`] = `
 <div
-  className="incident-detail-page row container"
+  className="incident-detail-page container"
 >
-  <div
-    className="col-12"
-  >
-    <h3>
-      Melding 
-      100
-    </h3>
-  </div>
-  <ul
-    className="col-12 col-md-4 incident-detail-page__map"
+  <SplitNotificationBar
+    onClose={[Function]}
   />
   <div
-    className="col-12 col-md-8"
-  >
-    (
-    <Link
-      replace={false}
-      to="undefined/incidents"
-    >
-      Terug naar overzicht
-    </Link>
-    )
-    <button
-      onClick={[Function]}
-    >
-      Print view
-    </button>
-  </div>
-  <div
-    className="col-12"
-  >
-    <Tabs
-      onTabChanged={[Function]}
-      selectedTab={0}
-      tabs={
-        Array [
-          Object {
-            "name": "Status",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Urgentie",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "name": "Subcategorie",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-          Object {
-            "count": undefined,
-            "name": "Notities",
-            "value": <Unknown
-              id="100"
-            />,
-          },
-        ]
-      }
-    />
-  </div>
-  <div
-    className="col-12"
+    className="row"
   >
     <div
-      className="incident-detail-page__tab-container"
+      className="col-12"
     >
-      <Component
-        id="100"
+      <Link
+        className="startagain action"
+        replace={false}
+        to="undefined/incidents"
+      >
+        Terug naar overzicht
+      </Link>
+    </div>
+    <div
+      className="col-9"
+    >
+      <h3>
+        Melding 
+        100
+      </h3>
+    </div>
+    <div
+      className="col-3 d-flex justify-content-end"
+    >
+      <button
+        className="align-self-center action-quad"
+        onClick={[Function]}
+      >
+        Print view
+      </button>
+    </div>
+    <ul
+      className="col-12 col-md-4 incident-detail-page__map"
+    />
+    <div
+      className="col-12 col-md-8"
+    />
+    <div
+      className="col-12"
+    >
+      <Tabs
+        onTabChanged={[Function]}
+        selectedTab="status"
+        tabs={
+          Object {
+            "category": Object {
+              "name": "Subcategorie",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+            "history": Object {
+              "name": "Historie",
+              "value": <withReducer(withSaga(Connect(IncidentHistoryContainer)))
+                id="100"
+              />,
+            },
+            "image": undefined,
+            "location": Object {
+              "name": "Locatie",
+              "value": <Connect(LocationForm)
+                id="100"
+              />,
+            },
+            "notes": Object {
+              "count": 0,
+              "name": "Notities",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+            "priority": Object {
+              "name": "Urgentie",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+            "status": Object {
+              "name": "Status",
+              "value": <Unknown
+                id="100"
+              />,
+            },
+          }
+        }
       />
     </div>
+    <div
+      className="col-12"
+    >
+      <div
+        className="incident-detail-page__tab-container"
+      >
+        <Component
+          id="100"
+        />
+      </div>
+    </div>
   </div>
+</div>
+`;
+
+exports[`<IncidentDetailPage /> rendering should render loading indicator correctly 1`] = `
+<div
+  className="incident-detail-page container"
+>
+  <SplitNotificationBar
+    onClose={[Function]}
+  />
+  <Component />
 </div>
 `;

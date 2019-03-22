@@ -1,7 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
+import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+
 import List from './index';
+
+jest.mock('shared/services/string-parser/string-parser');
 
 describe('<List />', () => {
   const statusList = [
@@ -67,6 +71,9 @@ describe('<List />', () => {
         }
       ]
     };
+
+    string2date.mockImplementation(() => '21-07-1970');
+    string2time.mockImplementation(() => '11:55');
   });
 
   afterEach(() => {

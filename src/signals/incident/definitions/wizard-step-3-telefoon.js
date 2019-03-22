@@ -5,6 +5,11 @@ import FormComponents from '../components/IncidentForm/components/';
 
 export default {
   label: 'Mogen we u bellen voor vragen?',
+  nextButtonLabel: 'Volgende',
+  nextButtonClass: 'action primary arrow-right',
+  previousButtonLabel: 'Vorige',
+  previousButtonClass: 'action startagain',
+  formAction: 'UPDATE_INCIDENT',
   form: {
     controls: {
       phone: {
@@ -14,7 +19,7 @@ export default {
           path: 'reporter.phone',
           placeholder: 'Telefoonnummer',
           type: 'text',
-          autoRemove: /[^\d+-]/g
+          autoRemove: /[^ ()\d+-]/g
         },
         render: FormComponents.TextInput,
         options: {

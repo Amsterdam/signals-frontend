@@ -60,9 +60,9 @@ export function sortIncidentsChanged(sort) {
   };
 }
 
-export function mainCategoryFilterSelectionChanged(selectedOptions) {
+export function mainCategoryFilterSelectionChanged({ selectedOptions, categories }) {
   return {
     type: MAIN_CATEGORY_FILTER_SELECTION_CHANGED,
-    payload: selectedOptions
+    payload: { selectedOptions, categories }
   };
 }

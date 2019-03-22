@@ -16,9 +16,15 @@ describe('<MapInteractive />', () => {
     input = global.document.createElement('input');
     input.setAttribute('id', 'nlmaps-geocoder-control-input');
     input.setAttribute('type', 'text');
-    global.document.body.appendChild(input);
 
     onQueryResult = jest.fn();
+    global.document.body.appendChild(input);
+    const mockMap = new Promise((resolve) => resolve({
+      returns: 'valid map ',
+      addLayer: jest.fn(),
+      eachLayer: jest.fn()
+    }));
+    pointquery.createMap.mockImplementation(() => mockMap);
   });
 
   afterEach(() => {
@@ -31,15 +37,11 @@ describe('<MapInteractive />', () => {
       <MapInteractive onQueryResult={onQueryResult} />
     );
 
-    wrapper.setProps({
-      location: {}
-    });
-
     expect(wrapper).toMatchSnapshot();
 
     expect(pointquery.createMap).toHaveBeenCalledWith({
       layer: 'standaard',
-      target: 'mapdiv',
+      target: 'mapdiv-interactive',
       marker: false,
       search: true,
       zoom: 14,
@@ -47,41 +49,24 @@ describe('<MapInteractive />', () => {
     });
   });
 
-  it('should not render map when there is one already', () => {
-    const wrapper = shallow(
-      <MapInteractive onQueryResult={onQueryResult} />
-    );
-
-    wrapper.setState({
-      map: {}
-    });
-    wrapper.setProps({
-      location: {}
-    });
-
-    expect(pointquery.createMap).not.toHaveBeenCalled();
-  });
-
   it('should render an existing location with address correctly', () => {
-    const wrapper = shallow(
-      <MapInteractive onQueryResult={onQueryResult} />
-    );
-
-    wrapper.setProps({
-      location: {
-        geometrie: {
-          coordinates: [4, 52]
-        },
-        address: {
-          openbare_ruimte: 'Dam',
-          huisnummer_toevoeging: '2',
-          huisletter: 'C',
-          huisnummer: 666,
-          postcode: '1000AA',
-          woonplaats: 'Amsterdam'
-        }
+    const location = {
+      geometrie: {
+        coordinates: [4, 52]
+      },
+      address: {
+        openbare_ruimte: 'Dam',
+        huisnummer_toevoeging: '2',
+        huisletter: 'C',
+        huisnummer: 666,
+        postcode: '1000AA',
+        woonplaats: 'Amsterdam'
       }
-    });
+    };
+
+    shallow(
+      <MapInteractive onQueryResult={onQueryResult} location={location} />
+    );
 
     expect(pointquery.createMap).toHaveBeenCalledWith({
       center: {
@@ -89,10 +74,10 @@ describe('<MapInteractive />', () => {
         longitude: 4
       },
       layer: 'standaard',
-      target: 'mapdiv',
+      target: 'mapdiv-interactive',
       marker: true,
       search: true,
-      zoom: 14,
+      zoom: 16,
       onQueryResult: expect.any(Function)
     });
 
@@ -101,24 +86,22 @@ describe('<MapInteractive />', () => {
   });
 
   it('should render an existing location with address without huisnummer_toevoeging correctly', () => {
-    const wrapper = shallow(
-      <MapInteractive onQueryResult={onQueryResult} />
-    );
-
-    wrapper.setProps({
-      location: {
-        geometrie: {
-          coordinates: [4, 52]
-        },
-        address: {
-          openbare_ruimte: 'Dam',
-          huisletter: 'C',
-          huisnummer: 666,
-          postcode: '1000AA',
-          woonplaats: 'Amsterdam'
-        }
+    const location = {
+      geometrie: {
+        coordinates: [4, 52]
+      },
+      address: {
+        openbare_ruimte: 'Dam',
+        huisletter: 'C',
+        huisnummer: 666,
+        postcode: '1000AA',
+        woonplaats: 'Amsterdam'
       }
-    });
+    };
+
+    shallow(
+      <MapInteractive onQueryResult={onQueryResult} location={location} />
+    );
 
     expect(pointquery.createMap).toHaveBeenCalledWith({
       center: {
@@ -126,10 +109,10 @@ describe('<MapInteractive />', () => {
         longitude: 4
       },
       layer: 'standaard',
-      target: 'mapdiv',
+      target: 'mapdiv-interactive',
       marker: true,
       search: true,
-      zoom: 14,
+      zoom: 16,
       onQueryResult: expect.any(Function)
     });
 
@@ -153,5 +136,23 @@ describe('<MapInteractive />', () => {
 
     const value = document.querySelector('#nlmaps-geocoder-control-input').value;
     expect(value).toEqual('');
+  });
+
+  it('should render placeholder correctly', () => {
+    shallow(
+      <MapInteractive onQueryResult={onQueryResult} />
+    );
+
+    expect(document.querySelector('#nlmaps-geocoder-control-input').placeholder).toEqual('Zoek adres');
+  });
+
+  it('should render without input correctly', () => {
+    input.setAttribute('id', 'invalid');
+
+    shallow(
+      <MapInteractive onQueryResult={onQueryResult} />
+    );
+
+    expect(document.querySelector('#nlmaps-geocoder-control-input')).toEqual(null);
   });
 });

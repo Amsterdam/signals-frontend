@@ -14,6 +14,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
+import loadModels from 'models';
 
 // Import root app
 import App from 'containers/App';
@@ -49,6 +50,8 @@ const initialState = {};
 const history = createHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
+
+loadModels(store);
 
 const render = (messages) => {
   ReactDOM.render(

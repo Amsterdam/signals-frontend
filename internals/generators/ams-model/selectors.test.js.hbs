@@ -1,0 +1,17 @@
+import { fromJS } from 'immutable';
+import makeSelect{{ properCase name }} from './selectors';
+
+
+describe('makeSelect{{ properCase name }}', () => {
+  const selector = makeSelect{{ properCase name }}();
+  it('should select the {{ camelCase name }}', () => {
+    const {{ camelCase name }} = {
+      foo: 'bar'
+    };
+
+    const mockedState = fromJS({
+      {{ camelCase name }}
+    });
+    expect(selector(mockedState)).toEqual({{ camelCase name }});
+  });
+});

@@ -2,34 +2,38 @@
 
 exports[`<LoginPage /> should render correctly 1`] = `
 <div
-  className="login-page notification notification-red margin-top-bottom"
+  className="container"
 >
   <div
-    className="col-12"
+    className="login-page notification notification-red margin-top-bottom"
   >
-    <p>
-      Om deze pagina te zien dient u ingelogd te zijn.
-    </p>
-    <button
-      className="action primary"
-      onClick={[Function]}
+    <div
+      className="col-12"
     >
-      <span
-        className="value"
+      <p>
+        Om deze pagina te zien dient u ingelogd te zijn.
+      </p>
+      <button
+        className="action primary"
+        onClick={[Function]}
       >
-        Inloggen
-      </span>
-    </button>
-    <button
-      className="action primary"
-      onClick={[Function]}
-    >
-      <span
-        className="value"
+        <span
+          className="value"
+        >
+          Inloggen
+        </span>
+      </button>
+      <button
+        className="action primary"
+        onClick={[Function]}
       >
-        Inloggen ADW
-      </span>
-    </button>
+        <span
+          className="value"
+        >
+          Inloggen ADW
+        </span>
+      </button>
+    </div>
   </div>
 </div>
 `;

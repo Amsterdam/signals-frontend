@@ -1,0 +1,182 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentPart /> rendering should render correctly with image 1`] = `
+<section
+  className="incident-part"
+>
+  <h2>
+    Deelmelding 
+    2
+  </h2>
+  <FieldControlWrapper
+    control={
+      Object {
+        "item": "part2.subcategory",
+      }
+    }
+    display="Subcategorie"
+    emptyOptionText=""
+    name="part2.subcategory"
+    render={[Function]}
+    sort={true}
+    values={
+      Array [
+        Object {
+          "key": "key",
+          "slug": "slug",
+          "value": "value",
+        },
+      ]
+    }
+  />
+  <FieldControlWrapper
+    control={
+      Object {
+        "item": "part2.text",
+      }
+    }
+    display="Omschrijving"
+    emptyOptionText=""
+    name="part2.text"
+    render={[Function]}
+    rows={5}
+    values={Array []}
+  />
+  <FieldControlWrapper
+    control={
+      Object {
+        "item": "part2.image",
+      }
+    }
+    emptyOptionText=""
+    name="part2.image"
+    render={[Function]}
+    values={
+      Array [
+        Object {
+          "alt": "Foto bij melding undefined",
+          "key": "",
+          "value": "mock-image",
+        },
+      ]
+    }
+  />
+  <FieldControlWrapper
+    control={
+      Object {
+        "item": "part2.note",
+      }
+    }
+    display="Notitie"
+    emptyOptionText=""
+    name="part2.note"
+    render={[Function]}
+    rows={5}
+    values={Array []}
+  />
+  <FieldControlWrapper
+    control={
+      Object {
+        "item": "part2.priority",
+      }
+    }
+    display="Urgentie"
+    emptyOptionText=""
+    name="part2.priority"
+    render={[Function]}
+    values={
+      Array [
+        Object {
+          "key": "normal",
+          "value": "Normaal",
+        },
+        Object {
+          "key": "high",
+          "value": "Hoog",
+        },
+      ]
+    }
+  />
+</section>
+`;
+
+exports[`<IncidentPart /> rendering should render correctly without image 1`] = `
+<section
+  className="incident-part"
+>
+  <h2>
+    Deelmelding 
+    2
+  </h2>
+  <FieldControlWrapper
+    control={
+      Object {
+        "item": "part2.subcategory",
+      }
+    }
+    display="Subcategorie"
+    emptyOptionText=""
+    name="part2.subcategory"
+    render={[Function]}
+    sort={true}
+    values={
+      Array [
+        Object {
+          "key": "key",
+          "slug": "slug",
+          "value": "value",
+        },
+      ]
+    }
+  />
+  <FieldControlWrapper
+    control={
+      Object {
+        "item": "part2.text",
+      }
+    }
+    display="Omschrijving"
+    emptyOptionText=""
+    name="part2.text"
+    render={[Function]}
+    rows={5}
+    values={Array []}
+  />
+  <FieldControlWrapper
+    control={
+      Object {
+        "item": "part2.note",
+      }
+    }
+    display="Notitie"
+    emptyOptionText=""
+    name="part2.note"
+    render={[Function]}
+    rows={5}
+    values={Array []}
+  />
+  <FieldControlWrapper
+    control={
+      Object {
+        "item": "part2.priority",
+      }
+    }
+    display="Urgentie"
+    emptyOptionText=""
+    name="part2.priority"
+    render={[Function]}
+    values={
+      Array [
+        Object {
+          "key": "normal",
+          "value": "Normaal",
+        },
+        Object {
+          "key": "high",
+          "value": "Hoog",
+        },
+      ]
+    }
+  />
+</section>
+`;

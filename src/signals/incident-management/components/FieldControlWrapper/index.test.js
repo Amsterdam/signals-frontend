@@ -28,10 +28,22 @@ describe('FieldControlWrapper', () => {
       expect(wrapper.state('values')).toEqual([]);
     });
 
-    it('should set new values', () => {
+    it('should only render when there are new values', () => {
+      props.control.updateValueAndValidity = jest.fn();
       wrapper.setProps({ values });
 
       expect(wrapper.state('values')).toEqual(values);
+      expect(props.control.updateValueAndValidity).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not render when values are equal', () => {
+      props.control.updateValueAndValidity = jest.fn();
+      wrapper.setProps({ values });
+
+      expect(wrapper.state('values')).toEqual(values);
+
+      wrapper.setProps({ values });
+      expect(props.control.updateValueAndValidity).toHaveBeenCalledTimes(1);
     });
 
     it('should sort the values alphabettically', () => {
@@ -50,7 +62,7 @@ describe('FieldControlWrapper', () => {
         emptyOptionText: 'Selecteer...'
       });
 
-      expect(wrapper.state('values')).toEqual([{ key: '', value: 'Selecteer...' }, { key: 'bar', value: 'Bar' }, ...values]);
+      expect(wrapper.state('values')).toEqual([{ key: '', value: 'Selecteer...', slug: '' }, { key: 'bar', value: 'Bar' }, ...values]);
     });
   });
 

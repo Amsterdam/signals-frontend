@@ -1,8 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
+import { REQUEST_INCIDENT, DISMISS_SPLIT_NOTIFICATION } from 'models/incident/constants';
+import { REQUEST_NOTES_LIST } from 'models/notes/constants';
 import { IncidentDetailPage, mapDispatchToProps } from './index';
-import { REQUEST_INCIDENT, REQUEST_NOTES_LIST } from './constants';
+
 import stadsdeelList from '../../definitions/stadsdeelList';
 import priorityList from '../../definitions/priorityList';
 import ConnectedPrintLayout from './components/PrintLayout';
@@ -14,6 +16,7 @@ jest.mock('../IncidentPriorityContainer', () => () => 'IncidentPriorityContainer
 jest.mock('../IncidentNotesContainer', () => () => 'IncidentNotesContainer');
 jest.mock('../IncidentStatusContainer', () => () => 'IncidentStatusContainer');
 jest.mock('./components/PrintLayout', () => () => 'PrintLayout');
+jest.mock('shared/components/LoadingIndicator', () => () => 'LoadingIndicator');
 
 describe('<IncidentDetailPage />', () => {
   let props;
@@ -21,14 +24,22 @@ describe('<IncidentDetailPage />', () => {
   beforeEach(() => {
     props = {
       id: '100',
-      incidentdetailpage: {
-        incident: {},
-        incidentNotesList: [],
+      notesModel: {
+        incidentNotesList: []
+      },
+      incidentModel: {
+        incident: {
+          status: {
+            state: 'm'
+          }
+        },
         stadsdeelList,
-        priorityList
+        priorityList,
+        loading: false
       },
       onRequestIncident: jest.fn(),
-      onRequestNotesList: jest.fn()
+      onRequestNotesList: jest.fn(),
+      onDismissSplitNotification: jest.fn()
     };
   });
 
@@ -42,8 +53,16 @@ describe('<IncidentDetailPage />', () => {
       expect(props.onRequestNotesList).toHaveBeenCalledWith('100');
     });
 
+    it('should render correctly with parent', () => {
+      props.incidentModel.incident.parent_id = 42;
+      const wrapper = shallow(
+        <IncidentDetailPage {...props} />
+      );
+      expect(wrapper).toMatchSnapshot();
+    });
+
     it('should render correctly with location', () => {
-      props.incidentdetailpage.incident.location = {};
+      props.incidentModel.incident.location = {};
       const wrapper = shallow(
         <IncidentDetailPage {...props} />
       );
@@ -51,7 +70,7 @@ describe('<IncidentDetailPage />', () => {
     });
 
     it('should render correctly with image', () => {
-      props.incidentdetailpage.incident.image = 'some-image';
+      props.incidentModel.incident.image = 'some-image';
       const wrapper = shallow(
         <IncidentDetailPage {...props} />
       );
@@ -59,7 +78,15 @@ describe('<IncidentDetailPage />', () => {
     });
 
     it('should render correctly without incident', () => {
-      props.incidentdetailpage.incident = undefined;
+      props.incidentModel.incident = undefined;
+      const wrapper = shallow(
+        <IncidentDetailPage {...props} />
+      );
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render loading indicator correctly', () => {
+      props.incidentModel.loading = true;
       const wrapper = shallow(
         <IncidentDetailPage {...props} />
       );
@@ -86,6 +113,22 @@ describe('<IncidentDetailPage />', () => {
       expect(wrapper.find(ConnectedPrintLayout).length).toEqual(1);
       expect(wrapper).toMatchSnapshot();
     });
+
+    it('should reset split state', () => {
+      const wrapper = shallow(
+        <IncidentDetailPage {...props} />
+      );
+      wrapper.instance().onDismissSplitNotification();
+      expect(props.onDismissSplitNotification).toHaveBeenCalled();
+    });
+
+    it('should fetch new incident when the id chages', () => {
+      const wrapper = shallow(
+        <IncidentDetailPage {...props} />
+      );
+      wrapper.setProps({ id: '42' });
+      expect(props.onRequestIncident).toHaveBeenCalledWith('42');
+    });
   });
 
   describe('mapDispatchToProps', () => {
@@ -99,6 +142,11 @@ describe('<IncidentDetailPage />', () => {
     it('should request the notes list', () => {
       mapDispatchToProps(dispatch).onRequestNotesList(42);
       expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_NOTES_LIST, payload: 42 });
+    });
+
+    it('should reset split state', () => {
+      mapDispatchToProps(dispatch).onDismissSplitNotification();
+      expect(dispatch).toHaveBeenCalledWith({ type: DISMISS_SPLIT_NOTIFICATION });
     });
   });
 });

@@ -93,16 +93,11 @@ describe('<IncidentForm />', () => {
   });
 
   describe('events', () => {
-    it('submit of normal step should update incident data', () => {
-      wrapper.find('form').simulate('submit', { preventDefault: jest.fn(), stepId: 'incident/beschrijf' });
+    it('submit should trigger blur', () => {
+      const event = { preventDefault: jest.fn() };
+      wrapper.find('form').simulate('submit', event);
 
-      expect(props.updateIncident).toHaveBeenCalled();
-    });
-
-    it('submit of samenvatting step should create an incident', () => {
-      wrapper.find('form').simulate('submit', { preventDefault: jest.fn(), stepId: 'incident/samenvatting' });
-
-      expect(props.createIncident).toHaveBeenCalled();
+      expect(event.preventDefault).toHaveBeenCalled();
     });
   });
 });
