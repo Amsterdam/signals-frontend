@@ -1,11 +1,11 @@
-import { all, put, takeLatest } from 'redux-saga/effects';
+import { all, /* call, */ put, takeLatest } from 'redux-saga/effects';
 // import request from 'utils/request';
 
 // import CONFIGURATION from 'shared/services/configuration/configuration';
 import { REQUEST_KTA_ANSWERS, CHECK_KTO } from './constants';
 import {
   requestKtaAnswersSuccess, requestKtaAnswersError,
-  checkKtoSuccess, checkKtoError
+  checkKtoSuccess  // , checkKtoError
 } from './actions';
 
 export function* requestKtaAnswers(action) {
@@ -42,17 +42,35 @@ export function* requestKtaAnswers(action) {
     yield put(requestKtaAnswersError());
   }
 }
+/*
+/signals/v1/public/feedback/form/<UUID>
 
-export function* checkKto() {
+If requested but wrong UUID:
+GET -> HTTP 404
+
+If requested feedback is not received on time:
+GET, PUT -> HTTP 410 Gone {'reason': 'too late'}
+
+If not yet filled out (but on time):
+GET -> HTTP 200 {} empty object
+PUT -> HTTP 200 BODY TBD
+
+If filled out already (but on time):
+GET -> HTTP 410 Gone {'reason': 'filled out'}
+*/
+
+export function* checkKto(/* action */) {
   // const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/form`;
-  try {
+  // try {
     // const uuid = action.payload;
-    // const result = yield call(`${requestURL}/${uuid}`, requestURL);
-    const result = true;
-    yield put(checkKtoSuccess(result));
-  } catch (error) {
-    yield put(checkKtoError(error));
-  }
+    // const result = yield call(request, `${requestURL}/${uuid}`);
+  const result = true;
+  yield put(checkKtoSuccess(result));
+  // } catch (error) {
+    // console.log('checkKto failed');
+
+    // yield put(checkKtoError(error));
+  // }
 }
 
 export default function* watchKtoContainerSaga() {

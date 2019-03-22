@@ -9,7 +9,9 @@ const initialState = fromJS({
   kto: {},
   loading: false,
   error: false,
+  uuid: '',
   formOk: false,
+  formError: false,
   answers: {}
 });
 
@@ -39,15 +41,19 @@ function ktoContainerReducer(state = initialState, action) {
 
     case CHECK_KTO:
       return state
-        .set('formOk', false);
+        .set('uuid', fromJS(action.payload))
+        .set('formOk', false)
+        .set('formError', false);
 
     case CHECK_KTO_SUCCESS:
       return state
-        .set('formOk', true);
+        .set('formOk', true)
+        .set('formError', false);
 
     case CHECK_KTO_ERROR:
       return state
-        .set('formOk', false);
+        .set('formOk', false)
+        .set('formError', fromJS(action.payload));
 
 
     default:

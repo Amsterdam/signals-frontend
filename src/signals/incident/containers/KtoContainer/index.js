@@ -27,7 +27,7 @@ export class KtoContainer extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <h1>{yesNo === 'ja' ? 'Ja ik ben tevreden met de behandeling van mijn melding' : 'Nee ik ben niet tevreden met de behandeling van mijn melding'}</h1>
+              <h1>{yesNo === 'ja' ? 'Ja, ik ben tevreden met de behandeling van mijn melding' : 'Nee, ik ben niet tevreden met de behandeling van mijn melding'}</h1>
 
               <KtoForm
                 ktoContainer={ktoContainer}
