@@ -1,11 +1,15 @@
-import { all, /* call, */ put, takeLatest } from 'redux-saga/effects';
-// import request from 'utils/request';
+// TEMP
+/* eslint-disable */
 
-// import CONFIGURATION from 'shared/services/configuration/configuration';
-import { REQUEST_KTA_ANSWERS, CHECK_KTO } from './constants';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
+import request from 'utils/request';
+
+import CONFIGURATION from 'shared/services/configuration/configuration';
+import { REQUEST_KTA_ANSWERS, CHECK_KTO, STORE_KTO } from './constants';
 import {
   requestKtaAnswersSuccess, requestKtaAnswersError,
-  checkKtoSuccess  // , checkKtoError
+  checkKtoSuccess, checkKtoError,
+  storeKtoSuccess, storeKtoError
 } from './actions';
 
 export function* requestKtaAnswers(action) {
@@ -73,9 +77,32 @@ export function* checkKto(/* action */) {
   // }
 }
 
+export function* stroreKto(action) {
+  const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/form`;
+  try {
+    const uuid = action.payload;
+    const result = yield call(request, `${requestURL}/${uuid}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        text: action.payload
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    yield put(storeKtoSuccess(result));
+  } catch (error) {
+    console.log('storeKto failed');
+
+    // yield put(storeKtoError(error));
+  }
+}
+
 export default function* watchKtoContainerSaga() {
   yield all([
     takeLatest(REQUEST_KTA_ANSWERS, requestKtaAnswers),
-    takeLatest(CHECK_KTO, checkKto)
+    takeLatest(CHECK_KTO, checkKto),
+    takeLatest(STORE_KTO, stroreKto)
   ]);
 }

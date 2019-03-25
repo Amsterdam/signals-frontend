@@ -72,8 +72,9 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
   }
 
   handleSubmit(e) {
-    console.log('handleSubmit');
+    console.log('handleSubmit', this.props.ktoContainer.kto);
     e.preventDefault();
+    this.props.onStoreKto();
 
     Object.values(this.form.controls).map((control) => control.onBlur());
   }
@@ -96,7 +97,8 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
 KtoForm.propTypes = {
   ktoContainer: PropTypes.object.isRequired,
 
-  onUpdateKto: PropTypes.func.isRequired
+  onUpdateKto: PropTypes.func.isRequired,
+  onStoreKto: PropTypes.func.isRequired
 };
 
 export default KtoForm;

@@ -11,7 +11,7 @@ import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
-import { updateKto, requestKtaAnswers, checkKto } from './actions';
+import { updateKto, requestKtaAnswers, checkKto, storeKto } from './actions';
 import KtoForm from './components/KtoForm';
 
 export class KtoContainer extends React.Component {
@@ -21,7 +21,7 @@ export class KtoContainer extends React.Component {
   }
 
   render() {
-    const { ktoContainer, onUpdateKto, yesNo } = this.props;
+    const { ktoContainer, onUpdateKto, onStoreKto, yesNo } = this.props;
     return (
       <div className="kto-container">
         <div className="container">
@@ -32,6 +32,7 @@ export class KtoContainer extends React.Component {
               <KtoForm
                 ktoContainer={ktoContainer}
                 onUpdateKto={onUpdateKto}
+                onStoreKto={onStoreKto}
               />
             </div>
           </div>
@@ -54,6 +55,7 @@ KtoContainer.propTypes = {
   ktoContainer: PropTypes.object,
 
   onUpdateKto: PropTypes.func.isRequired,
+  onStoreKto: PropTypes.func.isRequired,
   requestKtaAnswers: PropTypes.func.isRequired,
   checkKto: PropTypes.func.isRequired
 };
@@ -64,6 +66,7 @@ const mapStateToProps = createStructuredSelector({
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onUpdateKto: updateKto,
+  onStoreKto: storeKto,
   requestKtaAnswers,
   checkKto
 }, dispatch);
