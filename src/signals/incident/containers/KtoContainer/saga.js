@@ -63,18 +63,20 @@ If filled out already (but on time):
 GET -> HTTP 410 Gone {'reason': 'filled out'}
 */
 
-export function* checkKto(/* action */) {
-  // const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/form`;
-  // try {
-    // const uuid = action.payload;
-    // const result = yield call(request, `${requestURL}/${uuid}`);
-  const result = true;
-  yield put(checkKtoSuccess(result));
-  // } catch (error) {
-    // console.log('checkKto failed');
+export function* checkKto(action) {
+  const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/form`;
 
-    // yield put(checkKtoError(error));
-  // }
+  console.log('s');
+  try {
+    const uuid = action.payload;
+    const result = yield call(request, `${requestURL}/${uuid}`);
+    // const result = true;
+    yield put(checkKtoSuccess(result));
+  } catch (error) {
+    console.log('checkKto failed', error);
+
+    yield put(checkKtoError(error));
+  }
 }
 
 export function* stroreKto(action) {
