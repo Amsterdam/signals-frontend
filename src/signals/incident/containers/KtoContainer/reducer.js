@@ -6,7 +6,7 @@ import {
 } from './constants';
 
 const initialState = fromJS({
-  kto: {},
+  form: {},
   loading: false,
   error: false,
   uuid: '',
@@ -19,15 +19,15 @@ function ktoContainerReducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_KTA:
       return state
-        .set('kto', fromJS({
-          ...state.get('kto').toJS(),
+        .set('form', fromJS({
+          ...state.get('form').toJS(),
           ...action.payload
         }));
 
     case REQUEST_KTA_ANSWERS:
       return state
-        .set('kto', fromJS({
-          ...state.get('kto').toJS(),
+        .set('form', fromJS({
+          ...state.get('form').toJS(),
           yesNo: action.payload
         }));
 

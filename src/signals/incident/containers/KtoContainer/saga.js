@@ -67,16 +67,16 @@ export function* checkKto(action) {
   const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/form`;
 
   console.log('s');
-  try {
-    const uuid = action.payload;
-    const result = yield call(request, `${requestURL}/${uuid}`);
-    // const result = true;
-    yield put(checkKtoSuccess(result));
-  } catch (error) {
-    console.log('checkKto failed', error);
-
-    yield put(checkKtoError(error));
-  }
+  // try {
+    // const uuid = action.payload;
+    // const result = yield call(request, `${requestURL}/${uuid}`);
+    // const result = 'yooooo';
+    yield put(checkKtoSuccess());
+  // } catch (error) {
+    // console.log('checkKto failed', error);
+//
+    // yield put(checkKtoError(error));
+  // }
 }
 
 export function* stroreKto(action) {

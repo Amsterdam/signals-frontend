@@ -25,14 +25,14 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
 
   componentWillReceiveProps(props) {
     if (!isEqual(props.ktoContainer.answers, this.props.ktoContainer.answers) && this.ktoForm && this.ktoForm.controls) {
-      if (props.ktoContainer.kto.yesNo === 'ja' && this.ktoForm.controls.tevreden && this.ktoForm.controls.tevreden.meta) {
+      if (props.ktoContainer.form.yesNo === 'ja' && this.ktoForm.controls.tevreden && this.ktoForm.controls.tevreden.meta) {
         this.ktoForm.controls.tevreden.meta.values = {
           ...props.ktoContainer.answers,
           ...andersOption
         };
       }
 
-      if (props.ktoContainer.kto.yesNo === 'nee' && this.ktoForm.controls.niet_tevreden && this.ktoForm.controls.niet_tevreden.meta) {
+      if (props.ktoContainer.form.yesNo === 'nee' && this.ktoForm.controls.niet_tevreden && this.ktoForm.controls.niet_tevreden.meta) {
         this.ktoForm.controls.niet_tevreden.meta.values = {
           ...props.ktoContainer.answers,
           ...andersOption
@@ -40,7 +40,7 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
       }
     }
 
-    this.setValues(props.ktoContainer.kto);
+    this.setValues(props.ktoContainer.form);
   }
 
   setValues(incident, setAllValues) {
@@ -72,9 +72,12 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
   }
 
   handleSubmit(e) {
-    console.log('handleSubmit', this.props.ktoContainer.kto);
+    console.log('handleSubmit', this.props.ktoContainer.form);
     e.preventDefault();
-    this.props.onStoreKto();
+    this.props.onStoreKto({
+      uuid: this.props.ktoContainer.uuid,
+
+    });
 
     Object.values(this.form.controls).map((control) => control.onBlur());
   }
@@ -86,7 +89,7 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
         <form onSubmit={this.handleSubmit}>
           <FormGenerator
             onMount={this.setForm}
-            fieldConfig={formatConditionalForm(this.ktoForm, ktoContainer.kto)}
+            fieldConfig={formatConditionalForm(this.ktoForm, ktoContainer.form)}
           />
         </form>
       </div>

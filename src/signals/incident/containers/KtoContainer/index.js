@@ -44,7 +44,7 @@ export class KtoContainer extends React.Component {
 
 KtoContainer.defaultProps = {
   ktoContainer: {
-    kto: {},
+    form: {},
     answers: {}
   }
 };
