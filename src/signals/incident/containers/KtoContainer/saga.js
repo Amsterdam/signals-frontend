@@ -46,6 +46,7 @@ export function* requestKtaAnswers(action) {
     yield put(requestKtaAnswersError());
   }
 }
+
 /*
 /signals/v1/public/feedback/form/<UUID>
 
@@ -53,38 +54,36 @@ If requested but wrong UUID:
 GET -> HTTP 404
 
 If requested feedback is not received on time:
-GET, PUT -> HTTP 410 Gone {'reason': 'too late'}
+GET, PUT -> HTTP 410 Gone {'detail': 'too late'}
 
 If not yet filled out (but on time):
 GET -> HTTP 200 {} empty object
 PUT -> HTTP 200 BODY TBD
 
 If filled out already (but on time):
-GET -> HTTP 410 Gone {'reason': 'filled out'}
+GET -> HTTP 410 Gone {'detail': 'filled out'}
 */
 
 export function* checkKto(action) {
   const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/form`;
 
-  console.log('s');
-  // try {
-    // const uuid = action.payload;
-    // const result = yield call(request, `${requestURL}/${uuid}`);
-    // const result = 'yooooo';
+  try {
+    const uuid = action.payload;
+    const result = yield call(request, `${requestURL}/${uuid}`);
     yield put(checkKtoSuccess());
-  // } catch (error) {
-    // console.log('checkKto failed', error);
-//
-    // yield put(checkKtoError(error));
-  // }
+  } catch (error) {
+    error.response.jsonBody = { detail: 'too late' }; // filled out
+
+    yield put(checkKtoError(error));
+  }
 }
 
-export function* stroreKto(action) {
+export function* storeKto(action) {
   const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/form`;
   try {
     const uuid = action.payload;
     const result = yield call(request, `${requestURL}/${uuid}`, {
-      method: 'POST',
+      method: 'PUT',
       body: JSON.stringify({
         text: action.payload
       }),
@@ -105,6 +104,6 @@ export default function* watchKtoContainerSaga() {
   yield all([
     takeLatest(REQUEST_KTA_ANSWERS, requestKtaAnswers),
     takeLatest(CHECK_KTO, checkKto),
-    takeLatest(STORE_KTO, stroreKto)
+    takeLatest(STORE_KTO, storeKto)
   ]);
 }

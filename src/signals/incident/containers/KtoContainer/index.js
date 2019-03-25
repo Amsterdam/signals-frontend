@@ -27,13 +27,31 @@ export class KtoContainer extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <h1>{yesNo === 'ja' ? 'Ja, ik ben tevreden met de behandeling van mijn melding' : 'Nee, ik ben niet tevreden met de behandeling van mijn melding'}</h1>
+              {ktoContainer.formError ?
+                <div>
+                  {ktoContainer.formError === 'too late' ?
+                    <div>
+                      <h1>Helaas, de mogelijkheid om feedback te geven is verlopen</h1>
+                    </div>
+                : ''}
+                  {ktoContainer.formError === 'filled out' ?
+                    <div>
+                      <h1>Er is al feedback gegeven</h1>
+                    </div>
+                : ''}
+                </div>
+              :
+                <div>
+                  <h1>{yesNo === 'ja' ? 'Ja, ik ben tevreden met de behandeling van mijn melding' : 'Nee, ik ben niet tevreden met de behandeling van mijn melding'}</h1>
 
-              <KtoForm
-                ktoContainer={ktoContainer}
-                onUpdateKto={onUpdateKto}
-                onStoreKto={onStoreKto}
-              />
+                  <KtoForm
+                    ktoContainer={ktoContainer}
+                    onUpdateKto={onUpdateKto}
+                    onStoreKto={onStoreKto}
+                  />
+                </div>
+              }
+
             </div>
           </div>
         </div>
@@ -44,6 +62,7 @@ export class KtoContainer extends React.Component {
 
 KtoContainer.defaultProps = {
   ktoContainer: {
+    formError: false,
     form: {},
     answers: {}
   }
