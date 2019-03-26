@@ -20,8 +20,22 @@ export class KtoContainer extends React.Component {
     this.props.checkKto(this.props.uuid);
   }
 
-  static getErrorMessage(error) {
-    switch (error) {
+  static getHeader(type) {
+    switch (type) {
+      case 'ja':
+        return <h1>Ja, ik ben tevreden met de behandeling van mijn melding</h1>;
+
+      case 'nee':
+        return <h1>Nee, ik ben niet tevreden met de behandeling van mijn melding</h1>;
+
+      case 'finnished':
+        return (
+          <div>
+            <h1>Bedankt voor uw feedback!</h1>
+            <p>We zijn voortdurend bezig onze dienstverlening te verbeteren.</p>
+          </div>
+        );
+
       case 'not found':
         return (
           <div>
@@ -63,17 +77,25 @@ export class KtoContainer extends React.Component {
             <div className="col-12">
               {!ktoContainer.formError ?
                 <div>
-                  <h1>{yesNo === 'ja' ? 'Ja, ik ben tevreden met de behandeling van mijn melding' : 'Nee, ik ben niet tevreden met de behandeling van mijn melding'}</h1>
+                  {ktoContainer.ktoFinished ?
+                    <div>
+                      {KtoContainer.getHeader('finnished')}
+                    </div> :
+                    <div>
+                      {KtoContainer.getHeader(yesNo)}
 
-                  <KtoForm
-                    ktoContainer={ktoContainer}
-                    onUpdateKto={onUpdateKto}
-                    onStoreKto={onStoreKto}
-                  />
+                      <KtoForm
+                        ktoContainer={ktoContainer}
+                        onUpdateKto={onUpdateKto}
+                        onStoreKto={onStoreKto}
+                      />
+
+                    </div>
+                }
                 </div>
             :
                 <div>
-                  {KtoContainer.getErrorMessage(ktoContainer.formError)}
+                  {KtoContainer.getHeader(ktoContainer.formError)}
                 </div>
               }
 

@@ -2,7 +2,8 @@ import { fromJS } from 'immutable';
 import {
   UPDATE_KTA,
   REQUEST_KTA_ANSWERS, REQUEST_KTA_ANSWERS_SUCCESS, REQUEST_KTA_ANSWERS_ERROR,
-  CHECK_KTO, CHECK_KTO_SUCCESS, CHECK_KTO_ERROR
+  CHECK_KTO, CHECK_KTO_SUCCESS, CHECK_KTO_ERROR,
+  STORE_KTO, STORE_KTO_SUCCESS, STORE_KTO_ERROR
 } from './constants';
 
 const initialState = fromJS({
@@ -11,6 +12,8 @@ const initialState = fromJS({
   error: false,
   uuid: '',
   formError: false,
+  ktoFinished: false,
+  ktoError: false,
   answers: {}
 });
 
@@ -50,6 +53,21 @@ function ktoContainerReducer(state = initialState, action) {
     case CHECK_KTO_ERROR:
       return state
         .set('formError', fromJS(action.payload));
+
+    case STORE_KTO:
+      return state
+        .set('ktoError', false)
+        .set('ktoFinished', false);
+
+    case STORE_KTO_SUCCESS:
+      return state
+      .set('ktoError', false)
+      .set('ktoFinished', true);
+
+    case STORE_KTO_ERROR:
+      return state
+      .set('ktoError', true)
+      .set('ktoFinished', false);
 
     default:
       return state;

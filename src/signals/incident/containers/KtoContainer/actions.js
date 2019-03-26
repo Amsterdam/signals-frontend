@@ -61,10 +61,9 @@ export function storeKto(payload) {
   };
 }
 
-export function storeKtoSuccess(payload) {
+export function storeKtoSuccess() {
   return {
-    type: STORE_KTO_SUCCESS,
-    payload
+    type: STORE_KTO_SUCCESS
   };
 }
 

@@ -48,41 +48,39 @@ export function* requestKtaAnswers(action) {
 }
 
 export function* checkKto(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/form`;
+  // const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/form`;
 
-  try {
-    const uuid = action.payload;
-    const result = yield call(request, `${requestURL}/${uuid}`);
+  // try {
+    // const uuid = action.payload;
+    // const result = yield call(request, `${requestURL}/${uuid}`);
     yield put(checkKtoSuccess());
-  } catch (error) {
+  // } catch (error) {
     // TEMP
     // error.response.jsonBody = { detail: 'filled out' }; // filled out
-    const jsonError = (error.response && error.response.jsonBody && error.response.jsonBody.detail) || true;
-    const errorMessage = error.response.status === 404 ? 'not found' : jsonError;
-    yield put(checkKtoError(errorMessage));
-  }
+    // const jsonError = (error.response && error.response.jsonBody && error.response.jsonBody.detail) || true;
+    // const errorMessage = error.response.status === 404 ? 'not found' : jsonError;
+    // yield put(checkKtoError(errorMessage));
+  // }
 }
 
 export function* storeKto(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/form`;
-  try {
-    const uuid = action.payload;
-    const result = yield call(request, `${requestURL}/${uuid}`, {
-      method: 'PUT',
-      body: JSON.stringify({
-        text: action.payload
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+  // const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/form`;
+  // try {
+    // const payload = action.payload;
+    // const result = yield call(request, `${requestURL}/${payload.uuid}`, {
+      // method: 'PUT',
+      // body: JSON.stringify(action.payload.form),
+      // headers: {
+        // 'Content-Type': 'application/json'
+      // }
+    // });
 
-    yield put(storeKtoSuccess(result));
-  } catch (error) {
-    console.log('storeKto failed');
-
+    yield put(storeKtoSuccess());
+  // } catch (error) {
+    // console.log('storeKto failed');
+//
     // yield put(storeKtoError(error));
-  }
+  // }
 }
 
 export default function* watchKtoContainerSaga() {

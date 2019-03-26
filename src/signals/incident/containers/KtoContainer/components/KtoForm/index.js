@@ -76,7 +76,8 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
     e.preventDefault();
     this.props.onStoreKto({
       uuid: this.props.ktoContainer.uuid,
-
+      yesNo: this.props.ktoContainer.yesNo,
+      form: this.props.ktoContainer.form
     });
 
     Object.values(this.form.controls).map((control) => control.onBlur());
