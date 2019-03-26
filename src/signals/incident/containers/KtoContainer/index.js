@@ -75,7 +75,7 @@ export class KtoContainer extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              {!ktoContainer.formError ?
+              {!ktoContainer.statusError ?
                 <div>
                   {ktoContainer.ktoFinished ?
                     <div>
@@ -95,7 +95,7 @@ export class KtoContainer extends React.Component {
                 </div>
             :
                 <div>
-                  {KtoContainer.getHeader(ktoContainer.formError)}
+                  {KtoContainer.getHeader(ktoContainer.statusError)}
                 </div>
               }
 
@@ -109,7 +109,7 @@ export class KtoContainer extends React.Component {
 
 KtoContainer.defaultProps = {
   ktoContainer: {
-    formError: false,
+    statusError: false,
     form: {},
     answers: {}
   }
