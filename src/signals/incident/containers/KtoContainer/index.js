@@ -20,7 +20,7 @@ export class KtoContainer extends React.Component {
     this.props.checkKto(this.props.uuid);
   }
 
-  static getHeader(type) {
+  static renderHeader(type) {
     switch (type) {
       case 'ja':
         return <h1>Ja, ik ben tevreden met de behandeling van mijn melding</h1>;
@@ -28,42 +28,40 @@ export class KtoContainer extends React.Component {
       case 'nee':
         return <h1>Nee, ik ben niet tevreden met de behandeling van mijn melding</h1>;
 
-      case 'finnished':
+      case 'finished':
         return (
-          <div>
+          <header>
             <h1>Bedankt voor uw feedback!</h1>
             <p>We zijn voortdurend bezig onze dienstverlening te verbeteren.</p>
-          </div>
+          </header>
         );
 
       case 'not found':
         return (
-          <div>
+          <header>
             <h1>Niet gevonden</h1>
             <p>Het uuid kan niet worden gevonden. Misschien heeft u een type fout gemaakt?</p>
-          </div>
+          </header>
         );
 
       case 'too late':
         return (
-          <div>
+          <header>
             <h1>Helaas, de mogelijkheid om feedback te geven is verlopen</h1>
             <p>Na het afhandelend van uw melding heeftb u 2 weken de gelegenheid om feedback te geven.</p>
-          </div>
+          </header>
         );
 
       case 'filled out':
         return (
-          <div>
+          <header>
             <h1>Er is al feedback gegeven voor deze melding</h1>
             <p>Nogmaals bedankt voor uw feedback. We zijn voortdurend bezig onze dienstverlening te verbeteren.</p>
-          </div>
+          </header>
         );
       default:
         return (
-          <div>
-            <h1>Een onbekende fout heeft zich voor gedaan.</h1>
-          </div>
+          <header />
         );
     }
   }
@@ -79,10 +77,10 @@ export class KtoContainer extends React.Component {
                 <div>
                   {ktoContainer.ktoFinished ?
                     <div>
-                      {KtoContainer.getHeader('finnished')}
+                      {KtoContainer.renderHeader('finished')}
                     </div> :
                     <div>
-                      {KtoContainer.getHeader(yesNo)}
+                      {KtoContainer.renderHeader(yesNo)}
 
                       <KtoForm
                         ktoContainer={ktoContainer}
@@ -95,7 +93,7 @@ export class KtoContainer extends React.Component {
                 </div>
             :
                 <div>
-                  {KtoContainer.getHeader(ktoContainer.statusError)}
+                  {KtoContainer.renderHeader(ktoContainer.statusError)}
                 </div>
               }
 
