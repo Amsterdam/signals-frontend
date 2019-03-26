@@ -20,6 +20,40 @@ export class KtoContainer extends React.Component {
     this.props.checkKto(this.props.uuid);
   }
 
+  static getErrorMessage(error) {
+    switch (error) {
+      case 'not found':
+        return (
+          <div>
+            <h1>Niet gevonden</h1>
+            <p>Het uuid kan niet worden gevonden. Misschien heeft u een type fout gemaakt?</p>
+          </div>
+        );
+
+      case 'too late':
+        return (
+          <div>
+            <h1>Helaas, de mogelijkheid om feedback te geven is verlopen</h1>
+            <p>Na het afhandelend van uw melding heeftb u 2 weken de gelegenheid om feedback te geven.</p>
+          </div>
+        );
+
+      case 'filled out':
+        return (
+          <div>
+            <h1>Er is al feedback gegeven voor deze melding</h1>
+            <p>Nogmaals bedankt voor uw feedback. We zijn voortdurend bezig onze dienstverlening te verbeteren.</p>
+          </div>
+        );
+      default:
+        return (
+          <div>
+            <h1>Een onbekende fout heeft zich voor gedaan.</h1>
+          </div>
+        );
+    }
+  }
+
   render() {
     const { ktoContainer, onUpdateKto, onStoreKto, yesNo } = this.props;
     return (
@@ -27,20 +61,7 @@ export class KtoContainer extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              {ktoContainer.formError ?
-                <div>
-                  {ktoContainer.formError === 'too late' ?
-                    <div>
-                      <h1>Helaas, de mogelijkheid om feedback te geven is verlopen</h1>
-                    </div>
-                : ''}
-                  {ktoContainer.formError === 'filled out' ?
-                    <div>
-                      <h1>Er is al feedback gegeven</h1>
-                    </div>
-                : ''}
-                </div>
-              :
+              {!ktoContainer.formError ?
                 <div>
                   <h1>{yesNo === 'ja' ? 'Ja, ik ben tevreden met de behandeling van mijn melding' : 'Nee, ik ben niet tevreden met de behandeling van mijn melding'}</h1>
 
@@ -49,6 +70,10 @@ export class KtoContainer extends React.Component {
                     onUpdateKto={onUpdateKto}
                     onStoreKto={onStoreKto}
                   />
+                </div>
+            :
+                <div>
+                  {KtoContainer.getErrorMessage(ktoContainer.formError)}
                 </div>
               }
 

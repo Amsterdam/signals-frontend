@@ -47,23 +47,6 @@ export function* requestKtaAnswers(action) {
   }
 }
 
-/*
-/signals/v1/public/feedback/form/<UUID>
-
-If requested but wrong UUID:
-GET -> HTTP 404
-
-If requested feedback is not received on time:
-GET, PUT -> HTTP 410 Gone {'detail': 'too late'}
-
-If not yet filled out (but on time):
-GET -> HTTP 200 {} empty object
-PUT -> HTTP 200 BODY TBD
-
-If filled out already (but on time):
-GET -> HTTP 410 Gone {'detail': 'filled out'}
-*/
-
 export function* checkKto(action) {
   const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/form`;
 
@@ -72,9 +55,11 @@ export function* checkKto(action) {
     const result = yield call(request, `${requestURL}/${uuid}`);
     yield put(checkKtoSuccess());
   } catch (error) {
-    error.response.jsonBody = { detail: 'too late' }; // filled out
-
-    yield put(checkKtoError(error));
+    // TEMP
+    // error.response.jsonBody = { detail: 'filled out' }; // filled out
+    const jsonError = (error.response && error.response.jsonBody && error.response.jsonBody.detail) || true;
+    const errorMessage = error.response.status === 404 ? 'not found' : jsonError;
+    yield put(checkKtoError(errorMessage));
   }
 }
 

@@ -49,7 +49,7 @@ function ktoContainerReducer(state = initialState, action) {
 
     case CHECK_KTO_ERROR:
       return state
-        .set('formError', (action.payload.response && action.payload.response.jsonBody && action.payload.response.jsonBody.detail) || true);
+        .set('formError', fromJS(action.payload));
 
     default:
       return state;
