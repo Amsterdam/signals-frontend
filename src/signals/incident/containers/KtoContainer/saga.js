@@ -48,7 +48,7 @@ export function* requestKtaAnswers(action) {
 }
 
 export function* checkKto(action) {
-  // const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/form`;
+  // const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/forms`;
 
   // try {
     // const uuid = action.payload;
@@ -64,7 +64,7 @@ export function* checkKto(action) {
 }
 
 export function* storeKto(action) {
-  // const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/form`;
+  // const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/forms`;
   // try {
     // const payload = action.payload;
     // const result = yield call(request, `${requestURL}/${payload.uuid}`, {
