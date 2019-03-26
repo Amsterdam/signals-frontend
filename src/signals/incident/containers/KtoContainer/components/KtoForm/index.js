@@ -9,7 +9,8 @@ import formatConditionalForm from '../../../../components/IncidentForm/services/
 
 import './style.scss';
 
-const andersOption = { 'Anders, namelijk...': 'Anders, namelijk...' };
+const andersOptionText = 'Anders, namelijk...';
+const andersOption = { andersOptionText };
 
 class KtoForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -72,12 +73,19 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
   }
 
   handleSubmit(e) {
-    console.log('handleSubmit', this.props.ktoContainer.form);
     e.preventDefault();
+    const form = this.props.ktoContainer.form;
+    const text = form[`${form.yesNo === 'nee' && 'niet_'}tevreden`] || '';
+    const textAnders = form[`${form.yesNo === 'nee' && 'niet_'}tevreden_anders`] || '';
+
     this.props.onStoreKto({
       uuid: this.props.ktoContainer.uuid,
-      yesNo: this.props.ktoContainer.yesNo,
-      form: this.props.ktoContainer.form
+      form: {
+        is_satisfied: form.yesNo === 'ja',
+        text: text === andersOptionText ? textAnders : text,
+        text_extra: form.text_extra || '',
+        allows_contact: !!(form.allows_contact)
+      }
     });
 
     Object.values(this.form.controls).map((control) => control.onBlur());

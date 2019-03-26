@@ -57,13 +57,13 @@ export default {
       },
       render: FormComponents.TextareaInput
     },
-    toelichten: {
+    text_extra: {
       meta: {
         label: 'Wilt u verder nog iets vermelden of toelichten?'
       },
       render: FormComponents.TextareaInput
     },
-    toestemming_contact: {
+    allows_contact: {
       meta: {
         label: 'Mogen wij conact met u opnemen naar aanleiding vanuw feedback?'
       },
