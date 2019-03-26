@@ -1,5 +1,5 @@
 
-FROM node:10.10 AS builder
+FROM node:8.15-stretch AS builder
 LABEL maintainer="datapunt@amsterdam.nl"
 
 ARG BUILD_ENV=prod
