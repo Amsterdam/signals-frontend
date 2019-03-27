@@ -40,7 +40,7 @@ export class KtoContainer extends React.Component {
         return (
           <header>
             <h1>Helaas, de mogelijkheid om feedback te geven is verlopen</h1>
-            <p>Na het afhandelend van uw melding heeftb u 2 weken de gelegenheid om feedback te geven.</p>
+            <p>Na het afhandelend van uw melding heeft u 2 weken de gelegenheid om feedback te geven.</p>
           </header>
         );
 

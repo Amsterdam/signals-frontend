@@ -26,10 +26,9 @@ export function requestKtaAnswersSuccess(payload) {
   };
 }
 
-export function requestKtaAnswersError(error) {
+export function requestKtaAnswersError() {
   return {
-    type: REQUEST_KTA_ANSWERS_ERROR,
-    payload: error
+    type: REQUEST_KTA_ANSWERS_ERROR
   };
 }
 
