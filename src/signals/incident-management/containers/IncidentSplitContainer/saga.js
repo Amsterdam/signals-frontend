@@ -19,7 +19,6 @@ export function* splitIncident(action) {
     yield put(push(`/manage/incident/${payload.id}`));
   } catch (error) {
     yield put(splitIncidentError(error));
-    console.log('split saga error', error.response);
     yield put(push(`/manage/incident/${payload.id}`));
   }
 }

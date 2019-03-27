@@ -5,7 +5,7 @@ import { FormGenerator } from 'react-reactive-form';
 import { defer, isEqual } from 'lodash';
 
 import ktoDefinition from 'signals/incident/definitions/kto';
-import formatConditionalForm from '../../../../components/IncidentForm/services/format-conditional-form';
+import formatConditionalForm from '../../../../services/format-conditional-form';
 
 import './style.scss';
 

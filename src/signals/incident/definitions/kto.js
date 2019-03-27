@@ -74,7 +74,7 @@ export default {
       render: ({ invalid }) => (
         <div>
           <button
-            className={`action primary ${invalid && 'disabled'}`}
+            className={`kto-form__submit action primary ${invalid && 'disabled'}`}
             type="submit"
             disabled={invalid}
           >
