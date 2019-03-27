@@ -36,14 +36,6 @@ export class KtoContainer extends React.Component {
           </header>
         );
 
-      case 'not found':
-        return (
-          <header>
-            <h1>Niet gevonden</h1>
-            <p>Het uuid kan niet worden gevonden. Misschien heeft u een type fout gemaakt?</p>
-          </header>
-        );
-
       case 'too late':
         return (
           <header>
@@ -87,7 +79,6 @@ export class KtoContainer extends React.Component {
                         onUpdateKto={onUpdateKto}
                         onStoreKto={onStoreKto}
                       />
-
                     </div>
                 }
                 </div>

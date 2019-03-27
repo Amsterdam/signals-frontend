@@ -2,6 +2,7 @@
 /* eslint-disable */
 
 import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { push } from 'react-router-redux';
 import request from 'utils/request';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
@@ -48,7 +49,7 @@ export function* requestKtaAnswers(action) {
 }
 
 export function* checkKto(action) {
-  // const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/forms`;
+  const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/forms`;
 
   // try {
     // const uuid = action.payload;
@@ -56,10 +57,12 @@ export function* checkKto(action) {
     yield put(checkKtoSuccess());
   // } catch (error) {
     // TEMP
-    // error.response.jsonBody = { detail: 'filled out' }; // filled out
-    // const jsonError = (error.response && error.response.jsonBody && error.response.jsonBody.detail) || true;
-    // const errorMessage = error.response.status === 404 ? 'not found' : jsonError;
-    // yield put(checkKtoError(errorMessage));
+    // error.response.jsonBody = { detail: 'too late' }; // too late | filled out
+    // if (error.response.status === 404) {
+      // yield put(push('/niet-gevonden'));
+    // }
+    // const message = error.response && error.response.jsonBody && error.response.jsonBody.detail;
+    // yield put(checkKtoError(message || true));
   // }
 }
 
