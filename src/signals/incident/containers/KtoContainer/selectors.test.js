@@ -1,8 +1,18 @@
-// import { fromJS } from 'immutable';
-// import { selectKtoContainerDomain } from 'selectors';
+import { fromJS } from 'immutable';
+import makeSelectKtoContainer from './selectors';
 
-describe('selectKtoContainerDomain', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(true);
+describe('makeSelectKtoContainer', () => {
+  it('should select the ktoContainer', () => {
+    const selector = makeSelectKtoContainer();
+    const ktoContainer = {
+      form: {
+        yesNo: 'ja'
+      }
+    };
+    const mockedState = fromJS({
+      ktoContainer
+    });
+
+    expect(selector(mockedState)).toEqual(ktoContainer);
   });
 });

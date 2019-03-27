@@ -6,7 +6,7 @@ import {
   STORE_KTO, STORE_KTO_SUCCESS, STORE_KTO_ERROR
 } from './constants';
 
-const initialState = fromJS({
+export const initialState = fromJS({
   form: {},
   loading: false,
   error: false,
@@ -30,7 +30,7 @@ function ktoContainerReducer(state = initialState, action) {
       return state
         .set('form', fromJS({
           ...state.get('form').toJS(),
-          yesNo: action.payload
+          yesNo: fromJS(action.payload)
         }));
 
     case REQUEST_KTA_ANSWERS_SUCCESS:
@@ -39,7 +39,7 @@ function ktoContainerReducer(state = initialState, action) {
 
     case REQUEST_KTA_ANSWERS_ERROR:
       return state
-        .set('error', fromJS(action.payload));
+        .set('error', true);
 
     case CHECK_KTO:
       return state
