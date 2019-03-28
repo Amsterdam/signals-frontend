@@ -8,7 +8,7 @@ import { REQUEST_KTA_ANSWERS, CHECK_KTO, STORE_KTO, UPDATE_KTA } from './constan
 
 // jest.mock('../../components/IncidentWizard', () => () => 'IncidentWizard');
 
-describe.only('<KtoContainer />', () => {
+describe('<KtoContainer />', () => {
   let props;
   let state;
   let context;

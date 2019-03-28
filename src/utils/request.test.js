@@ -4,7 +4,7 @@
 
 import request from './request';
 
-describe.only('request', () => {
+describe('request', () => {
   // Before each test, stub the fetch function
   beforeEach(() => {
     window.fetch = jest.fn();
