@@ -14,35 +14,19 @@ import {
 } from './actions';
 
 export function* requestKtaAnswers(action) {
-  // const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/standard_answers/`;
+  const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/standard_answers/`;
   try {
     const yesNo = action.payload;
-    // const result = yield call(request, requestURL);
+    const result = yield call(request, requestURL);
 
-    const result = [{
-      is_satisfied: true,
-      text: 'Mijn melding is snel opgepakt'
-    },
-    {
-      is_satisfied: true,
-      text: 'Het probleem is verholpen'
-    }, {
-      is_satisfied: false,
-      text: 'Mijn melding is traag opgepakt'
-    },
-    {
-      is_satisfied: false,
-      text: 'Het probleem is niet verholpen'
-    }];
-
-    const newResult = {};
-    result.forEach((answer) => {
+    const answers = {};
+    result.results.forEach((answer) => {
       if ((yesNo === 'ja') === answer.is_satisfied) {
-        newResult[answer.text] = answer.text;
+        answers[answer.text] = answer.text;
       }
     });
 
-    yield put(requestKtaAnswersSuccess(newResult));
+    yield put(requestKtaAnswersSuccess(answers));
   } catch (error) {
     yield put(requestKtaAnswersError());
   }
