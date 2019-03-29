@@ -30,7 +30,7 @@ function ktoContainerReducer(state = initialState, action) {
       return state
         .set('form', fromJS({
           ...state.get('form').toJS(),
-          yesNo: fromJS(action.payload)
+          is_satisfied: fromJS(action.payload)
         }));
 
     case REQUEST_KTA_ANSWERS_SUCCESS:

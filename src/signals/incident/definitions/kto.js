@@ -12,7 +12,7 @@ export default {
         label: 'Waarom bent u tevreden?',
         subtitle: 'Eén antwoord mogelijk, kies de belangrijkste reden.',
         ifAllOf: {
-          yesNo: 'ja'
+          is_satisfied: true
         },
         values: {}
       },
@@ -26,7 +26,7 @@ export default {
     tevreden_anders: {
       meta: {
         ifAllOf: {
-          yesNo: 'ja',
+          is_satisfied: true,
           tevreden: 'Anders, namelijk...'
         }
       },
@@ -37,7 +37,7 @@ export default {
         label: 'Waarom bent u ontevreden?',
         subtitle: 'Eén antwoord mogelijk, kies de belangrijkste reden.',
         ifAllOf: {
-          yesNo: 'nee'
+          is_satisfied: false
         },
         values: {}
       },
@@ -51,7 +51,7 @@ export default {
     niet_tevreden_anders: {
       meta: {
         ifAllOf: {
-          yesNo: 'nee',
+          is_satisfied: false,
           niet_tevreden: 'Anders, namelijk...'
         }
       },
@@ -62,6 +62,12 @@ export default {
         label: 'Wilt u verder nog iets vermelden of toelichten?'
       },
       render: FormComponents.TextareaInput
+    },
+    is_satisfied: {
+      meta: {
+        label: 'Is tevreden?'
+      },
+      render: FormComponents.HiddenInput
     },
     allows_contact: {
       meta: {

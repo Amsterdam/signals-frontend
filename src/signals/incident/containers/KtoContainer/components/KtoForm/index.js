@@ -9,7 +9,7 @@ import formatConditionalForm from '../../../../services/format-conditional-form'
 
 import './style.scss';
 
-const andersOptionText = 'Anders, namelijk...';
+export const andersOptionText = 'Anders, namelijk...';
 const andersOption = { andersOptionText };
 
 class KtoForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -26,14 +26,14 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
 
   componentWillReceiveProps(props) {
     if (!isEqual(props.ktoContainer.answers, this.props.ktoContainer.answers) && this.ktoForm && this.ktoForm.controls) {
-      if (props.ktoContainer.form.yesNo === 'ja' && this.ktoForm.controls.tevreden && this.ktoForm.controls.tevreden.meta) {
+      if (props.ktoContainer.form.is_satisfied && this.ktoForm.controls.tevreden && this.ktoForm.controls.tevreden.meta) {
         this.ktoForm.controls.tevreden.meta.values = {
           ...props.ktoContainer.answers,
           ...andersOption
         };
       }
 
-      if (props.ktoContainer.form.yesNo === 'nee' && this.ktoForm.controls.niet_tevreden && this.ktoForm.controls.niet_tevreden.meta) {
+      if (!props.ktoContainer.form.is_satisfied && this.ktoForm.controls.niet_tevreden && this.ktoForm.controls.niet_tevreden.meta) {
         this.ktoForm.controls.niet_tevreden.meta.values = {
           ...props.ktoContainer.answers,
           ...andersOption
@@ -44,7 +44,7 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
     this.setValues(props.ktoContainer.form);
   }
 
-  setValues(incident, setAllValues) {
+  setValues(incident) {
     defer(() => {
       Object.keys(this.form.controls).map((key) => {
         const control = this.form.controls[key];
@@ -53,7 +53,7 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
         } else {
           control.disable();
         }
-        if (!control.meta.doNotUpdateValue || setAllValues) {
+        if (!control.meta.doNotUpdateValue) {
           control.setValue(incident[key]);
         }
         return true;
@@ -74,17 +74,17 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
 
   handleSubmit(e) {
     e.preventDefault();
-    const form = this.props.ktoContainer.form;
-    const text = form[`${form.yesNo === 'nee' && 'niet_'}tevreden`] || '';
-    const textAnders = form[`${form.yesNo === 'nee' && 'niet_'}tevreden_anders`] || '';
+    const values = this.form.value;
+    const text = values[`${values.is_satisfied ? '' : 'niet_'}tevreden`] || '';
+    const textAnders = values[`${values.is_satisfied ? '' : 'niet_'}tevreden_anders`] || '';
 
     this.props.onStoreKto({
       uuid: this.props.ktoContainer.uuid,
       form: {
-        is_satisfied: form.yesNo === 'ja',
+        is_satisfied: values.is_satisfied,
         text: text === andersOptionText ? textAnders : text,
-        text_extra: form.text_extra || '',
-        allows_contact: !!(form.allows_contact)
+        text_extra: values.text_extra || '',
+        allows_contact: !!(values.allows_contact)
       }
     });
 

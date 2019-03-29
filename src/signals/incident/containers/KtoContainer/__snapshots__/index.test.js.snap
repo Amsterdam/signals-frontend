@@ -16,7 +16,7 @@ exports[`<KtoContainer /> rendering should render empty header correctly 1`] = `
         <div>
           <div>
             <header />
-            <KtoForm
+            <Component
               ktoContainer={
                 Object {
                   "form": Object {},
@@ -111,7 +111,7 @@ exports[`<KtoContainer /> rendering should render no header correctly 1`] = `
             <h1>
               Nee, ik ben niet tevreden met de behandeling van mijn melding
             </h1>
-            <KtoForm
+            <Component
               ktoContainer={
                 Object {
                   "form": Object {},
@@ -175,7 +175,7 @@ exports[`<KtoContainer /> rendering should render yes header correctly 1`] = `
             <h1>
               Ja, ik ben tevreden met de behandeling van mijn melding
             </h1>
-            <KtoForm
+            <Component
               ktoContainer={
                 Object {
                   "form": Object {},

@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
-import KtoForm from './index';
+import KtoForm, { andersOptionText } from './index';
 import formatConditionalForm from '../../../../services/format-conditional-form/';
 
 jest.mock('../../../../services/format-conditional-form/');
@@ -10,30 +10,50 @@ const mockForm = {
   controls: {
     tevreden: {
       meta: {
+        isVisible: true,
         label: 'Waarom bent u tevreden?',
-        subtitle: 'Eén antwoord mogelijk, kies de belangrijkste reden.',
-        ifAllOf: {
-          yesNo: 'ja'
-        },
         values: {}
       }
     },
     tevreden_anders: {
       meta: {
-        ifAllOf: {
-          yesNo: 'ja',
-          tevreden: 'Anders, namelijk...'
-        }
+        isVisible: false
+      }
+    },
+    niet_tevreden: {
+      meta: {
+        isVisible: true,
+        label: 'Waarom bent u ontevreden?',
+        values: {}
+      }
+    },
+    niet_tevreden_anders: {
+      meta: {
+        isVisible: false
       }
     },
     text_extra: {
       meta: {
+        isVisible: true,
         label: 'Wilt u verder nog iets vermelden of toelichten?'
       }
     },
     allows_contact: {
       meta: {
+        isVisible: true,
         label: 'Mogen wij conact met u opnemen naar aanleiding vanuw feedback?'
+      }
+    },
+    is_satisfied: {
+      meta: {
+        isVisible: true,
+        label: 'Is tevreden?'
+      }
+    },
+    not_update: {
+      meta: {
+        isVisible: true,
+        doNotUpdateValue: true
       }
     }
   }
@@ -51,9 +71,9 @@ describe('<KtoForm />', () => {
         controls: {}
       },
       ktoContainer: {
-        form: {}
+        form: {},
+        answers: {}
       },
-      wizard: {},
       onUpdateKto: jest.fn(),
       onStoreKto: jest.fn()
     };
@@ -76,47 +96,108 @@ describe('<KtoForm />', () => {
   });
 
   describe('rendering', () => {
-    it('expect to render yes form correctly', () => {
+    it('expect to render YES form correctly', () => {
       wrapper.setProps({
         ktoContainer: {
           form: {
             yesNo: 'ja'
+          },
+          answers: {
+            'Antwoord JA': 'Antwoord JA'
           }
         }
       });
       expect(wrapper).toMatchSnapshot();
     });
 
-    it('expect to render no form correctly', () => {
+    it('expect to render NO form correctly', () => {
       wrapper.setProps({
         ktoContainer: {
           form: {
             yesNo: 'nee'
+          },
+          answers: {
+            'Antwoord NEE': 'Antwoord NEE'
           }
         }
       });
       expect(wrapper).toMatchSnapshot();
     });
-
-    it('expect to render correctly when form vars have changed', () => {
-      const ktoContainer = {
-        form: {
-          text_extra: 'weer andere tekst'
-        }
-      };
-      wrapper.setProps({ ktoContainer });
-
-      expect(wrapper).toMatchSnapshot();
-      expect(spy).toHaveBeenCalledWith(ktoContainer.form);
-    });
   });
 
   describe('events', () => {
-    it('submit should trigger blur', () => {
-      const event = { preventDefault: jest.fn() };
-      wrapper.find('form').simulate('submit', event);
+    let form;
 
-      expect(event.preventDefault).toHaveBeenCalled();
+    it('expect to update kto', () => {
+      const values = { text_extra: 'weer andere tekst' };
+      instance.updateKto(values);
+
+      expect(props.onUpdateKto).toHaveBeenCalledWith(values);
+    });
+
+    it('expect to set values when form vars have changed', () => {
+      form = { text_extra: 'weer andere tekst', is_satisfied: true };
+      instance.form.patchValue(form);
+      const ktoContainer = { form };
+      wrapper.setProps({ ktoContainer });
+
+      expect(spy).toHaveBeenCalledWith(form);
+    });
+
+    it('submit JA should trigger store kto', () => {
+      form = {
+        tevreden: '',
+        tevreden_anders: '',
+        text_extra: 'Zoveel te vertellen',
+        allows_contact: true,
+        is_satisfied: true
+      };
+      instance.form.patchValue(form);
+      const ktoContainer = {
+        form,
+        uuid: 'abc-42'
+      };
+      wrapper.setProps({ ktoContainer });
+
+      wrapper.find('form').simulate('submit', { preventDefault: jest.fn() });
+
+      expect(props.onStoreKto).toHaveBeenCalledWith({
+        uuid: 'abc-42',
+        form: {
+          text: '',
+          text_extra: 'Zoveel te vertellen',
+          allows_contact: true,
+          is_satisfied: true
+        }
+      });
+    });
+
+    it('submit NEE with Anders-option should trigger store kto', () => {
+      form = {
+        niet_tevreden: andersOptionText,
+        niet_tevreden_anders: 'Meer over die melding',
+        text_extra: '',
+        allows_contact: false,
+        is_satisfied: false
+      };
+      instance.form.patchValue(form);
+      const ktoContainer = {
+        form,
+        uuid: 'abc-42'
+      };
+      wrapper.setProps({ ktoContainer });
+
+      wrapper.find('form').simulate('submit', { preventDefault: jest.fn() });
+
+      expect(props.onStoreKto).toHaveBeenCalledWith({
+        uuid: 'abc-42',
+        form: {
+          text: 'Meer over die melding',
+          text_extra: '',
+          allows_contact: false,
+          is_satisfied: false
+        }
+      });
     });
   });
 });

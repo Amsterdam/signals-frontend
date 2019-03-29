@@ -16,7 +16,7 @@ import KtoForm from './components/KtoForm';
 
 export class KtoContainer extends React.Component {
   componentWillMount() {
-    this.props.requestKtaAnswers(this.props.yesNo);
+    this.props.requestKtaAnswers(this.props.yesNo === 'ja');
     this.props.checkKto(this.props.uuid);
   }
 

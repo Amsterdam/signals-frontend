@@ -1,6 +1,3 @@
-// TEMP
-/* eslint-disable */
-
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import request from 'utils/request';
@@ -16,11 +13,11 @@ import {
 export function* requestKtaAnswers(action) {
   const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/standard_answers/`;
   try {
-    const yesNo = action.payload;
+    const is_satisfied = action.payload;
     const result = yield call(request, requestURL);
     const answers = {};
     result.results.forEach((answer) => {
-      if ((yesNo === 'ja') === answer.is_satisfied) {
+      if (is_satisfied === answer.is_satisfied) {
         answers[answer.text] = answer.text;
       }
     });
@@ -31,39 +28,37 @@ export function* requestKtaAnswers(action) {
 }
 
 export function* checkKto(action) {
-  // const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/forms`;
+  const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/forms`;
 
-  // try {
-  //   const uuid = action.payload;
-  //   const result = yield call(request, `${requestURL}/${uuid}`);
+  try {
+    const uuid = action.payload;
+    yield call(request, `${requestURL}/${uuid}`);
     yield put(checkKtoSuccess());
-  // } catch (error) {
-  //   if (error.response.status === 404) {
-  //     yield put(push('/niet-gevonden'));
-  //   }
-  //   const message = error.response && error.response.jsonBody && error.response.jsonBody.detail;
-  //   yield put(checkKtoError(message || true));
-  // }
+  } catch (error) {
+    if (error && error.response && error.response.status === 404) {
+      yield put(push('/niet-gevonden'));
+    }
+    const message = error && error.response && error.response.jsonBody && error.response.jsonBody.detail;
+    yield put(checkKtoError(message || true));
+  }
 }
 
 export function* storeKto(action) {
-  // const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/forms`;
-  // try {
-    // const payload = action.payload;
-    // const result = yield call(request, `${requestURL}/${payload.uuid}`, {
-      // method: 'PUT',
-      // body: JSON.stringify(action.payload.form),
-      // headers: {
-        // 'Content-Type': 'application/json'
-      // }
-    // });
+  const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/forms`;
+  try {
+    const payload = action.payload;
+    yield call(request, `${requestURL}/${payload.uuid}`, {
+      method: 'PUT',
+      body: JSON.stringify(action.payload.form),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
 
     yield put(storeKtoSuccess());
-  // } catch (error) {
-    // console.log('storeKto failed');
-//
-    // yield put(storeKtoError(error));
-  // }
+  } catch (error) {
+    yield put(storeKtoError(error));
+  }
 }
 
 export default function* watchKtoContainerSaga() {

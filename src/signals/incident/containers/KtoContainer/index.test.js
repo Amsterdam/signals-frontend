@@ -6,7 +6,7 @@ import { getContext } from 'test/utils';
 import { KtoContainer, mapDispatchToProps } from './index';
 import { REQUEST_KTA_ANSWERS, CHECK_KTO, STORE_KTO, UPDATE_KTA } from './constants';
 
-// jest.mock('../../components/IncidentWizard', () => () => 'IncidentWizard');
+jest.mock('./components/KtoForm', () => () => 'KtoForm');
 
 describe('<KtoContainer />', () => {
   let props;

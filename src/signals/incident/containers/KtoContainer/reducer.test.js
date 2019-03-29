@@ -34,7 +34,7 @@ describe('ktoContainerReducer', () => {
   });
 
   it('should REQUEST_KTA_ANSWERS', () => {
-    const payload = 'ja';
+    const payload = true;
     expect(
       ktoContainerReducer(undefined, {
         type: REQUEST_KTA_ANSWERS,
@@ -43,7 +43,7 @@ describe('ktoContainerReducer', () => {
     ).toEqual({
       ...initialState.toJS(),
       form: {
-        yesNo: payload
+        is_satisfied: payload
       }
     });
   });
