@@ -31,19 +31,19 @@ export function* requestKtaAnswers(action) {
 }
 
 export function* checkKto(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/forms`;
+  // const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/forms`;
 
-  try {
-    const uuid = action.payload;
-    const result = yield call(request, `${requestURL}/${uuid}`);
+  // try {
+  //   const uuid = action.payload;
+  //   const result = yield call(request, `${requestURL}/${uuid}`);
     yield put(checkKtoSuccess());
-  } catch (error) {
-    if (error.response.status === 404) {
-      yield put(push('/niet-gevonden'));
-    }
-    const message = error.response && error.response.jsonBody && error.response.jsonBody.detail;
-    yield put(checkKtoError(message || true));
-  }
+  // } catch (error) {
+  //   if (error.response.status === 404) {
+  //     yield put(push('/niet-gevonden'));
+  //   }
+  //   const message = error.response && error.response.jsonBody && error.response.jsonBody.detail;
+  //   yield put(checkKtoError(message || true));
+  // }
 }
 
 export function* storeKto(action) {
