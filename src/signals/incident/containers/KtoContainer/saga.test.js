@@ -43,7 +43,7 @@ describe('KtoContainer saga', () => {
     });
   });
 
-  describe.skip('checkKto', () => {
+  describe('checkKto', () => {
     let payload;
     let gen;
 
