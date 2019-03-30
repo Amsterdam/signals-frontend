@@ -1,8 +1,8 @@
-export const UPDATE_KTA = 'src/KtoContainer/UPDATE_KTA';
+export const UPDATE_KTO = 'src/KtoContainer/UPDATE_KTO';
 
-export const REQUEST_KTA_ANSWERS = 'src/KtoContainer/REQUEST_KTA_ANSWERS';
-export const REQUEST_KTA_ANSWERS_SUCCESS = 'src/KtoContainer/REQUEST_KTA_ANSWERS_SUCCESS';
-export const REQUEST_KTA_ANSWERS_ERROR = 'src/KtoContainer/REQUEST_KTA_ANSWERS_ERROR';
+export const REQUEST_KTO_ANSWERS = 'src/KtoContainer/REQUEST_KTO_ANSWERS';
+export const REQUEST_KTO_ANSWERS_SUCCESS = 'src/KtoContainer/REQUEST_KTO_ANSWERS_SUCCESS';
+export const REQUEST_KTO_ANSWERS_ERROR = 'src/KtoContainer/REQUEST_KTO_ANSWERS_ERROR';
 
 export const CHECK_KTO = 'src/KtoContainer/CHECK_KTO';
 export const CHECK_KTO_SUCCESS = 'src/KtoContainer/CHECK_KTO_SUCCESS';

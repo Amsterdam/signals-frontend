@@ -3,14 +3,14 @@ import { push } from 'react-router-redux';
 import request from 'utils/request';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { REQUEST_KTA_ANSWERS, CHECK_KTO, STORE_KTO } from './constants';
+import { REQUEST_KTO_ANSWERS, CHECK_KTO, STORE_KTO } from './constants';
 import {
-  requestKtaAnswersSuccess, requestKtaAnswersError,
+  requestKtoAnswersSuccess, requestKtoAnswersError,
   checkKtoSuccess, checkKtoError,
   storeKtoSuccess, storeKtoError
 } from './actions';
 
-export function* requestKtaAnswers(action) {
+export function* requestKtoAnswers(action) {
   const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/standard_answers/`;
   try {
     const is_satisfied = action.payload;
@@ -21,9 +21,9 @@ export function* requestKtaAnswers(action) {
         answers[answer.text] = answer.text;
       }
     });
-    yield put(requestKtaAnswersSuccess(answers));
+    yield put(requestKtoAnswersSuccess(answers));
   } catch (error) {
-    yield put(requestKtaAnswersError());
+    yield put(requestKtoAnswersError());
   }
 }
 
@@ -63,7 +63,7 @@ export function* storeKto(action) {
 
 export default function* watchKtoContainerSaga() {
   yield all([
-    takeLatest(REQUEST_KTA_ANSWERS, requestKtaAnswers),
+    takeLatest(REQUEST_KTO_ANSWERS, requestKtoAnswers),
     takeLatest(CHECK_KTO, checkKto),
     takeLatest(STORE_KTO, storeKto)
   ]);

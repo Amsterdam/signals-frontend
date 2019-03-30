@@ -4,7 +4,7 @@ import { fromJS } from 'immutable';
 
 import { getContext } from 'test/utils';
 import { KtoContainer, mapDispatchToProps } from './index';
-import { REQUEST_KTA_ANSWERS, CHECK_KTO, STORE_KTO, UPDATE_KTA } from './constants';
+import { REQUEST_KTO_ANSWERS, CHECK_KTO, STORE_KTO, UPDATE_KTO } from './constants';
 
 jest.mock('./components/KtoForm', () => () => 'KtoForm');
 
@@ -19,7 +19,7 @@ describe('<KtoContainer />', () => {
       yesNo: '',
       ktoContainer: { form: {} },
 
-      requestKtaAnswers: jest.fn(),
+      requestKtoAnswers: jest.fn(),
       checkKto: jest.fn(),
       onUpdateKto: jest.fn(),
       onStoreKto: jest.fn()
@@ -86,13 +86,13 @@ describe('<KtoContainer />', () => {
     const dispatch = jest.fn();
 
     it('should get answers', () => {
-      mapDispatchToProps(dispatch).requestKtaAnswers('nee');
-      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_KTA_ANSWERS, payload: 'nee' });
+      mapDispatchToProps(dispatch).requestKtoAnswers('nee');
+      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_KTO_ANSWERS, payload: 'nee' });
     });
 
     it('should update kto', () => {
       mapDispatchToProps(dispatch).onUpdateKto({ text: 'foo' });
-      expect(dispatch).toHaveBeenCalledWith({ type: UPDATE_KTA, payload: { text: 'foo' } });
+      expect(dispatch).toHaveBeenCalledWith({ type: UPDATE_KTO, payload: { text: 'foo' } });
     });
 
     it('should check kto', () => {

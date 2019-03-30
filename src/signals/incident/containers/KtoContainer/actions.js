@@ -1,34 +1,34 @@
 import {
-  UPDATE_KTA,
-  REQUEST_KTA_ANSWERS, REQUEST_KTA_ANSWERS_SUCCESS, REQUEST_KTA_ANSWERS_ERROR,
+  UPDATE_KTO,
+  REQUEST_KTO_ANSWERS, REQUEST_KTO_ANSWERS_SUCCESS, REQUEST_KTO_ANSWERS_ERROR,
   CHECK_KTO, CHECK_KTO_SUCCESS, CHECK_KTO_ERROR,
   STORE_KTO, STORE_KTO_SUCCESS, STORE_KTO_ERROR
 } from './constants';
 
 export function updateKto(payload) {
   return {
-    type: UPDATE_KTA,
+    type: UPDATE_KTO,
     payload
   };
 }
 
-export function requestKtaAnswers(payload) {
+export function requestKtoAnswers(payload) {
   return {
-    type: REQUEST_KTA_ANSWERS,
+    type: REQUEST_KTO_ANSWERS,
     payload
   };
 }
 
-export function requestKtaAnswersSuccess(payload) {
+export function requestKtoAnswersSuccess(payload) {
   return {
-    type: REQUEST_KTA_ANSWERS_SUCCESS,
+    type: REQUEST_KTO_ANSWERS_SUCCESS,
     payload
   };
 }
 
-export function requestKtaAnswersError() {
+export function requestKtoAnswersError() {
   return {
-    type: REQUEST_KTA_ANSWERS_ERROR
+    type: REQUEST_KTO_ANSWERS_ERROR
   };
 }
 

@@ -2,8 +2,8 @@ import { fromJS } from 'immutable';
 import ktoContainerReducer, { initialState } from './reducer';
 
 import {
-  UPDATE_KTA,
-  REQUEST_KTA_ANSWERS, REQUEST_KTA_ANSWERS_SUCCESS, REQUEST_KTA_ANSWERS_ERROR,
+  UPDATE_KTO,
+  REQUEST_KTO_ANSWERS, REQUEST_KTO_ANSWERS_SUCCESS, REQUEST_KTO_ANSWERS_ERROR,
   CHECK_KTO, CHECK_KTO_SUCCESS, CHECK_KTO_ERROR,
   STORE_KTO, STORE_KTO_SUCCESS, STORE_KTO_ERROR
 } from './constants';
@@ -13,14 +13,14 @@ describe('ktoContainerReducer', () => {
     expect(ktoContainerReducer(undefined, {})).toEqual(fromJS(initialState));
   });
 
-  it('should UPDATE_KTA', () => {
+  it('should UPDATE_KTO', () => {
     expect(
       ktoContainerReducer(fromJS({
         form: {
           so: 'long'
         }
       }), {
-        type: UPDATE_KTA,
+        type: UPDATE_KTO,
         payload: {
           thanks: 'for all the fish'
         }
@@ -33,11 +33,11 @@ describe('ktoContainerReducer', () => {
     });
   });
 
-  it('should REQUEST_KTA_ANSWERS', () => {
+  it('should REQUEST_KTO_ANSWERS', () => {
     const payload = true;
     expect(
       ktoContainerReducer(undefined, {
-        type: REQUEST_KTA_ANSWERS,
+        type: REQUEST_KTO_ANSWERS,
         payload
       }).toJS()
     ).toEqual({
@@ -48,14 +48,14 @@ describe('ktoContainerReducer', () => {
     });
   });
 
-  it('should REQUEST_KTA_ANSWERS_SUCCESS', () => {
+  it('should REQUEST_KTO_ANSWERS_SUCCESS', () => {
     const payload = {
       'answer 1': 'answer 1',
       'answer 2': 'answer 2'
     };
     expect(
       ktoContainerReducer(undefined, {
-        type: REQUEST_KTA_ANSWERS_SUCCESS,
+        type: REQUEST_KTO_ANSWERS_SUCCESS,
         payload
       }).toJS()
     ).toEqual({
@@ -64,10 +64,10 @@ describe('ktoContainerReducer', () => {
     });
   });
 
-  it('should REQUEST_KTA_ANSWERS_ERROR', () => {
+  it('should REQUEST_KTO_ANSWERS_ERROR', () => {
     expect(
       ktoContainerReducer(undefined, {
-        type: REQUEST_KTA_ANSWERS_ERROR
+        type: REQUEST_KTO_ANSWERS_ERROR
       }).toJS()
     ).toEqual({
       ...initialState.toJS(),

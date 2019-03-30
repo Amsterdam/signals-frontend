@@ -11,12 +11,12 @@ import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
-import { updateKto, requestKtaAnswers, checkKto, storeKto } from './actions';
+import { updateKto, requestKtoAnswers, checkKto, storeKto } from './actions';
 import KtoForm from './components/KtoForm';
 
 export class KtoContainer extends React.Component {
   componentWillMount() {
-    this.props.requestKtaAnswers(this.props.yesNo === 'ja');
+    this.props.requestKtoAnswers(this.props.yesNo === 'ja');
     this.props.checkKto(this.props.uuid);
   }
 
@@ -111,7 +111,7 @@ KtoContainer.propTypes = {
 
   onUpdateKto: PropTypes.func.isRequired,
   onStoreKto: PropTypes.func.isRequired,
-  requestKtaAnswers: PropTypes.func.isRequired,
+  requestKtoAnswers: PropTypes.func.isRequired,
   checkKto: PropTypes.func.isRequired
 };
 
@@ -122,7 +122,7 @@ const mapStateToProps = createStructuredSelector({
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onUpdateKto: updateKto,
   onStoreKto: storeKto,
-  requestKtaAnswers,
+  requestKtoAnswers,
   checkKto
 }, dispatch);
 
