@@ -9,12 +9,13 @@ export default {
   controls: {
     tevreden: {
       meta: {
+        className: 'col-sm-12 col-md-8',
         label: 'Waarom bent u tevreden?',
         subtitle: 'Eén antwoord mogelijk, kies de belangrijkste reden.',
         ifAllOf: {
           is_satisfied: true
         },
-        values: {}
+        values: {} // will be populated from endpoint
       },
       render: FormComponents.RadioInput,
       options: {
@@ -25,21 +26,23 @@ export default {
     },
     tevreden_anders: {
       meta: {
+        className: 'col-sm-12 col-md-8 kto-form--collapse-to-previous-question',
         ifAllOf: {
           is_satisfied: true,
           tevreden: 'Anders, namelijk...'
         }
       },
-      render: FormComponents.TextareaInput
+      render: FormComponents.TextInput
     },
     niet_tevreden: {
       meta: {
+        className: 'col-sm-12 col-md-8',
         label: 'Waarom bent u ontevreden?',
         subtitle: 'Eén antwoord mogelijk, kies de belangrijkste reden.',
         ifAllOf: {
           is_satisfied: false
         },
-        values: {}
+        values: {} // will be populated from endpoint
       },
       render: FormComponents.RadioInput,
       options: {
@@ -50,30 +53,40 @@ export default {
     },
     niet_tevreden_anders: {
       meta: {
+        className: 'col-sm-12 col-md-8 kto-form--collapse-to-previous-question',
         ifAllOf: {
           is_satisfied: false,
           niet_tevreden: 'Anders, namelijk...'
         }
       },
-      render: FormComponents.TextareaInput
+      render: FormComponents.TextInput
     },
     text_extra: {
       meta: {
-        label: 'Wilt u verder nog iets vermelden of toelichten?'
+        className: 'col-sm-12 col-md-8',
+        label: 'Wilt u verder nog iets vermelden of toelichten?',
+        maxLength: 1000
+      },
+      options: {
+        validators: [
+          Validators.maxLength(1000)
+        ]
       },
       render: FormComponents.TextareaInput
+    },
+    allows_contact: {
+      meta: {
+        className: 'col-sm-12 col-md-8',
+        label: 'Mogen wij contact met u opnemen naar aanleiding van uw feedback?',
+        value: 'Ja'
+      },
+      render: FormComponents.CheckboxInput
     },
     is_satisfied: {
       meta: {
         label: 'Is tevreden?'
       },
       render: FormComponents.HiddenInput
-    },
-    allows_contact: {
-      meta: {
-        label: 'Mogen wij conact met u opnemen naar aanleiding vanuw feedback?'
-      },
-      render: FormComponents.CheckboxInput
     },
     $field_0: {
       isStatic: false,

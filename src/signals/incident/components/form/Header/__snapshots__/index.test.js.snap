@@ -11,7 +11,7 @@ exports[`Form component <Header /> error messages should render custom error 1`]
     <span
       className="header--not-required"
     >
-      (niet verplicht)
+      (optioneel)
     </span>
   </div>
   <div
@@ -52,7 +52,7 @@ exports[`Form component <Header /> error messages should render email error 1`] 
     <span
       className="header--not-required"
     >
-      (niet verplicht)
+      (optioneel)
     </span>
   </div>
   <div
@@ -93,7 +93,7 @@ exports[`Form component <Header /> error messages should render maxLength error 
     <span
       className="header--not-required"
     >
-      (niet verplicht)
+      (optioneel)
     </span>
   </div>
   <div
@@ -134,7 +134,7 @@ exports[`Form component <Header /> error messages should render no error when el
     <span
       className="header--not-required"
     >
-      (niet verplicht)
+      (optioneel)
     </span>
   </div>
   <div
@@ -173,7 +173,7 @@ exports[`Form component <Header /> error messages should render optional field m
     <span
       className="header--not-required"
     >
-      (niet verplicht)
+      (optioneel)
     </span>
   </div>
   <div
@@ -212,7 +212,7 @@ exports[`Form component <Header /> error messages should render required error 1
     <span
       className="header--not-required"
     >
-      (niet verplicht)
+      (optioneel)
     </span>
   </div>
   <div
@@ -253,7 +253,7 @@ exports[`Form component <Header /> should render correctly 1`] = `
     <span
       className="header--not-required"
     >
-      (niet verplicht)
+      (optioneel)
     </span>
   </div>
   <div
