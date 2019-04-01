@@ -13,7 +13,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
       // use revokeObjectURL afterward
       const url = window.URL.createObjectURL(file);
       parent.meta.updateIncident({
-        image: url
+        [meta.name]: url
       });
 
       const reader = new window.FileReader();
@@ -21,8 +21,8 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
         const control = meta && meta.name && parent.controls[meta.name];
 
         parent.meta.updateIncident({
-          image_file: file,
-          image_type: file.type
+          [`${meta.name}_file`]: file,
+          [`${meta.name}_type`]: file.type
         });
 
         control.markAsTouched();
@@ -45,13 +45,13 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
 
     window.URL.revokeObjectURL(url);
     parent.meta.updateIncident({
-      image: '',
-      image_file: null,
-      image_type: null
+      [meta.name]: '',
+      [`${meta.name}_file`]: null,
+      [`${meta.name}_type`]: null
     });
   };
 
-  const fileType = parent && parent.value && parent.value.image_type;
+  const fileType = parent && parent.value && parent.value[`${meta.name}_type`];
 
   return (
     <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
