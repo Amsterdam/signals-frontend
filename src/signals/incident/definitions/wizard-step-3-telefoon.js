@@ -1,7 +1,7 @@
 import { Validators } from 'react-reactive-form';
-import { validatePhoneNumber } from '../../incident/components/IncidentForm/services/custom-validators';
+import { validatePhoneNumber } from '../../incident/services/custom-validators';
 import IncidentNavigation from '../components/IncidentNavigation';
-import FormComponents from '../components/IncidentForm/components/';
+import FormComponents from '../components/form';
 
 export default {
   label: 'Mogen we u bellen voor vragen?',

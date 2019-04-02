@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Header from '../Header/';
-import { validateFileType, validateMaxFilesize } from '../../services/custom-validators';
+import { validateFileType, validateMaxFilesize } from '../../../services/custom-validators';
 import './style.scss';
 
 const FileInput = ({ handler, touched, hasError, getError, parent, meta, validatorsOrOpts }) => {

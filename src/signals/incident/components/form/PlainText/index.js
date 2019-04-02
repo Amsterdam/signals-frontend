@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import mapDynamicFields from '../../services/map-dynamic-fields';
+import mapDynamicFields from '../../../services/map-dynamic-fields';
 import './style.scss';
 
 const PlainText = ({ meta, parent }) => (
