@@ -11,11 +11,11 @@ exports[`Form component <Header /> error messages should render custom error 1`]
     <span
       className="header--not-required"
     >
-      (niet verplicht)
+      (optioneel)
     </span>
   </div>
   <div
-    className="header__subheader"
+    className="header__subtitle"
   />
   <div
     className="header__errors"
@@ -52,11 +52,11 @@ exports[`Form component <Header /> error messages should render email error 1`] 
     <span
       className="header--not-required"
     >
-      (niet verplicht)
+      (optioneel)
     </span>
   </div>
   <div
-    className="header__subheader"
+    className="header__subtitle"
   />
   <div
     className="header__errors"
@@ -93,11 +93,11 @@ exports[`Form component <Header /> error messages should render maxLength error 
     <span
       className="header--not-required"
     >
-      (niet verplicht)
+      (optioneel)
     </span>
   </div>
   <div
-    className="header__subheader"
+    className="header__subtitle"
   />
   <div
     className="header__errors"
@@ -134,11 +134,11 @@ exports[`Form component <Header /> error messages should render no error when el
     <span
       className="header--not-required"
     >
-      (niet verplicht)
+      (optioneel)
     </span>
   </div>
   <div
-    className="header__subheader"
+    className="header__subtitle"
   />
   <div
     className="header__errors"
@@ -173,11 +173,11 @@ exports[`Form component <Header /> error messages should render optional field m
     <span
       className="header--not-required"
     >
-      (niet verplicht)
+      (optioneel)
     </span>
   </div>
   <div
-    className="header__subheader"
+    className="header__subtitle"
   />
   <div
     className="header__errors"
@@ -212,11 +212,11 @@ exports[`Form component <Header /> error messages should render required error 1
     <span
       className="header--not-required"
     >
-      (niet verplicht)
+      (optioneel)
     </span>
   </div>
   <div
-    className="header__subheader"
+    className="header__subtitle"
   />
   <div
     className="header__errors"
@@ -253,11 +253,11 @@ exports[`Form component <Header /> should render correctly 1`] = `
     <span
       className="header--not-required"
     >
-      (niet verplicht)
+      (optioneel)
     </span>
   </div>
   <div
-    className="header__subheader"
+    className="header__subtitle"
   />
   <div
     className="header__errors"
@@ -289,7 +289,7 @@ exports[`Form component <Header /> should render when label is not available 1`]
     className="header__label"
   />
   <div
-    className="header__subheader"
+    className="header__subtitle"
   />
   <div
     className="header__errors"

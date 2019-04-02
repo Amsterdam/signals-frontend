@@ -46,7 +46,7 @@ describe('App saga', () => {
       expect(login).toHaveBeenCalledWith(payload);
     });
 
-    // it.only('should error', () => {
+    // it('should error', () => {
       // const gen = callLogin({ payload });
       // gen.next();
       // expect(gen.throw().value).toEqual(put(showGlobalError('LOGIN_FAILED'))); // eslint-disable-line redux-saga/yield-effects

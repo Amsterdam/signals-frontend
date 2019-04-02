@@ -9,10 +9,10 @@ const Header = ({ meta, options, touched, hasError, getError, children }) => (
   <div className={`header ${touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom')) ? 'header--invalid' : ''}`}>
     <div className="header__label">{meta && meta.label}
       {(meta.label && (!options || !options.validators)) || (options && options.validators && !options.validators.includes(Validators.required)) ?
-        <span className="header--not-required">(niet verplicht)</span>
+        <span className="header--not-required">(optioneel)</span>
       : ''}
     </div>
-    <div className="header__subheader">{meta && meta.subheader}</div>
+    <div className="header__subtitle">{meta && meta.subtitle}</div>
 
     <div className="header__errors">
       <div className="header__errors__item">

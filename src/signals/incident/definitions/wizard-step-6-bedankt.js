@@ -1,5 +1,5 @@
 import IncidentNavigation from '../components/IncidentNavigation';
-import FormComponents from '../components/IncidentForm/components/';
+import FormComponents from '../components/form';
 
 export default {
   label: 'Bedankt!',

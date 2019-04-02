@@ -2,8 +2,8 @@ import { some } from 'lodash';
 import { Validators } from 'react-reactive-form';
 
 import IncidentNavigation from '../components/IncidentNavigation';
-import FormComponents from '../components/IncidentForm/components/';
-import { checkVisibility } from '../components/IncidentForm/services/format-conditional-form';
+import FormComponents from '../components/form';
+import { checkVisibility } from '../services/format-conditional-form';
 
 export default {
   label: 'Beschrijf uw melding',
