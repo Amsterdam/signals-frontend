@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { forEach } from 'lodash';
 
 import Header from '../Header/';
 // import { validateFileType, validateMaxFilesize } from '../../../services/custom-validators';
@@ -14,14 +13,18 @@ const FileInput = ({ /* handler, */touched, hasError, getError, parent, meta, va
       const allowedFileTypesFilter = meta.allowedFileTypes ? (file) => meta.allowedFileTypes.includes(file.type) : () => true;
       const maxNumberOfFilesFilter = meta.maxNumberOfFiles ? (file, index) => index < meta.maxNumberOfFiles : () => true;
 
-      const files = [...e.target.files].filter(maxFileSizeFilter).filter(allowedFileTypesFilter).filter(maxNumberOfFilesFilter);
+      const files = [...e.target.files]
+        .filter(maxFileSizeFilter)
+        .filter(allowedFileTypesFilter)
+        .filter(maxNumberOfFilesFilter);
       const previews = files.map((file) => window.URL.createObjectURL(file));
 
       parent.meta.updateIncident({
         [meta.name]: files,
         [`${meta.name}_previews`]: previews
       });
-      forEach(e.target.files, (file, i) => {
+
+      files.forEach((file, i) => {
         console.log('start', i, file);
         const reader = new window.FileReader();
 
