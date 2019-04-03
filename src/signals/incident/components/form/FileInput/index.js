@@ -1,72 +1,57 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { map, forEach } from 'lodash';
+import { forEach } from 'lodash';
 
 import Header from '../Header/';
 // import { validateFileType, validateMaxFilesize } from '../../../services/custom-validators';
 import './style.scss';
 
-const FileInput = ({ handler, touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
+const FileInput = ({ /* handler, */touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
   const handleChange = (e) => {
-    console.log('handleChange', e.target.files);
+    // console.log('handleChange', e.target.files);
     if (e.target.files && e.target.files.length) {
-      const preview = map(e.target.files, (file) => window.URL.createObjectURL(file));
+      const maxFileSizeFilter = meta.maxFileSize ? (file) => file.size <= meta.maxFileSize : () => true;
+      const allowedFileTypesFilter = meta.allowedFileTypes ? (file) => meta.allowedFileTypes.includes(file.type) : () => true;
+      const maxNumberOfFilesFilter = meta.maxNumberOfFiles ? (file, index) => index < meta.maxNumberOfFiles : () => true;
+
+      const files = [...e.target.files].filter(maxFileSizeFilter).filter(allowedFileTypesFilter).filter(maxNumberOfFilesFilter);
+      const previews = files.map((file) => window.URL.createObjectURL(file));
+
       parent.meta.updateIncident({
-        [meta.name]: e.target.files,
-        [`${meta.name}_preview`]: preview
+        [meta.name]: files,
+        [`${meta.name}_previews`]: previews
       });
       forEach(e.target.files, (file, i) => {
-        // const file = e.target.files[i];
         console.log('start', i, file);
-        // use revokeObjectURL afterward
-        // const url = window.URL.createObjectURL(file);
-        // parent.meta.updateIncident({
-          // [meta.name]: url
-        // });
-
         const reader = new window.FileReader();
-        // reader.yo = i;
 
-        // reader.onprogress = (event) => {
-          // console.log('progress', i, event);
-        // };
+        reader.onprogress = (event) => {
+          console.log('progress', i, event);
+        };
+
         reader.addEventListener('load', () => {
-          console.log('end', i, file);
+          console.log('end', i);
           const control = meta && meta.name && parent.controls[meta.name];
           control.updateValueAndValidity();
-          // console.log('end files', files);
-          // parent.meta.updateIncident({
-            // [`${meta.name}_type`]: file.type
-          // });
-
-          // control.markAsTouched();
-          /* istanbul ignore next */
-          // control.setValidators([
-            // () => validateFileType(file, meta),
-            // () => validateMaxFilesize(file, meta)
-          // ]);
         });
         reader.readAsText(file);
       });
     }
   };
 
-  const handleClear = (e, url) => {
+  const handleClear = (e, previews) => {
     e.preventDefault();
-
-    window.URL.revokeObjectURL(url);
+    previews.map((url) => window.URL.revokeObjectURL(url));
     parent.meta.updateIncident({
       [meta.name]: null,
-      // [`${meta.name}_type`]: null,
-      [`${meta.name}_preview`]: null
+      [`${meta.name}_previews`]: null
     });
 
     const control = meta && meta.name && parent.controls[meta.name];
     control.updateValueAndValidity();
-    // control.clearValidators();
   };
 
-  const previews = parent && parent.value && parent.value[`${meta.name}_preview`];
+  const previews = parent && parent.value && parent.value[`${meta.name}_previews`];
 
   return (
     <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
@@ -79,8 +64,8 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
             hasError={hasError}
             getError={getError}
           >
-            <div>
-              {previews && map(previews, (preview) =>
+            <div className="file-input__preview">
+              {previews && previews.map((preview) =>
                 (<img
                   key={preview}
                   alt="Preview uploaded foto"
@@ -88,10 +73,10 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
                   className="file-input__preview-image"
                 />)
               )}
-              {handler().value ?
-                <button title="Verwijder upload foto" className="file-input__button-delete link-functional delete" onClick={(e) => handleClear(e, handler().value)} />
+              {previews && previews.length ?
+                <button title="Verwijder alle uploaded foto's" className="file-input__button-delete link-functional delete" onClick={(e) => handleClear(e, previews)} />
             :
-                <div className=" ">
+                <div className="invoer">
                   <input
                     type="file"
                     id="formUpload"
@@ -111,7 +96,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
 };
 
 FileInput.propTypes = {
-  handler: PropTypes.func,
+  // handler: PropTypes.func,
   touched: PropTypes.bool,
   hasError: PropTypes.func,
   meta: PropTypes.object,

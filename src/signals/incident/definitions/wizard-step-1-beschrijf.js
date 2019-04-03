@@ -160,18 +160,19 @@ export default {
         },
         render: FormComponents.HiddenInput
       },
-      image_preview: {
+      images_previews: {
         meta: {
           label: 'image_type'
         },
         render: FormComponents.HiddenInput
       },
-      image: {
+      images: {
         meta: {
           label: 'Wilt u een foto meesturen?',
-          submitLabel: 'Foto kiezen',
+          submitLabel: 'Kies foto\'s',
           maxFileSize: 8388608,
-          allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif']
+          allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif'],
+          maxNumberOfFiles: 3
         },
         render: FormComponents.FileInput
       },
