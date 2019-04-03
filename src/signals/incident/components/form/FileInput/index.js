@@ -1,57 +1,72 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { map, forEach } from 'lodash';
 
 import Header from '../Header/';
-import { validateFileType, validateMaxFilesize } from '../../../services/custom-validators';
+// import { validateFileType, validateMaxFilesize } from '../../../services/custom-validators';
 import './style.scss';
 
 const FileInput = ({ handler, touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
   const handleChange = (e) => {
+    console.log('handleChange', e.target.files);
     if (e.target.files && e.target.files.length) {
-      const file = e.target.files[0];
-
-      // use revokeObjectURL afterward
-      const url = window.URL.createObjectURL(file);
+      const preview = map(e.target.files, (file) => window.URL.createObjectURL(file));
       parent.meta.updateIncident({
-        [meta.name]: url
+        [meta.name]: e.target.files,
+        [`${meta.name}_preview`]: preview
       });
+      forEach(e.target.files, (file, i) => {
+        // const file = e.target.files[i];
+        console.log('start', i, file);
+        // use revokeObjectURL afterward
+        // const url = window.URL.createObjectURL(file);
+        // parent.meta.updateIncident({
+          // [meta.name]: url
+        // });
 
-      const reader = new window.FileReader();
-      reader.addEventListener('load', () => {
-        const control = meta && meta.name && parent.controls[meta.name];
+        const reader = new window.FileReader();
+        // reader.yo = i;
 
-        parent.meta.updateIncident({
-          [`${meta.name}_file`]: file,
-          [`${meta.name}_type`]: file.type
+        // reader.onprogress = (event) => {
+          // console.log('progress', i, event);
+        // };
+        reader.addEventListener('load', () => {
+          console.log('end', i, file);
+          const control = meta && meta.name && parent.controls[meta.name];
+          control.updateValueAndValidity();
+          // console.log('end files', files);
+          // parent.meta.updateIncident({
+            // [`${meta.name}_type`]: file.type
+          // });
+
+          // control.markAsTouched();
+          /* istanbul ignore next */
+          // control.setValidators([
+            // () => validateFileType(file, meta),
+            // () => validateMaxFilesize(file, meta)
+          // ]);
         });
-
-        control.markAsTouched();
-        /* istanbul ignore next */
-        control.setValidators([
-          () => validateFileType(file, meta),
-          () => validateMaxFilesize(file, meta)
-        ]);
+        reader.readAsText(file);
       });
-
-      reader.readAsText(file);
     }
   };
 
   const handleClear = (e, url) => {
     e.preventDefault();
 
-    const control = meta && meta.name && parent.controls[meta.name];
-    control.clearValidators();
-
     window.URL.revokeObjectURL(url);
     parent.meta.updateIncident({
-      [meta.name]: '',
-      [`${meta.name}_file`]: null,
-      [`${meta.name}_type`]: null
+      [meta.name]: null,
+      // [`${meta.name}_type`]: null,
+      [`${meta.name}_preview`]: null
     });
+
+    const control = meta && meta.name && parent.controls[meta.name];
+    control.updateValueAndValidity();
+    // control.clearValidators();
   };
 
-  const fileType = parent && parent.value && parent.value[`${meta.name}_type`];
+  const previews = parent && parent.value && parent.value[`${meta.name}_preview`];
 
   return (
     <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
@@ -64,31 +79,30 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
             hasError={hasError}
             getError={getError}
           >
-            {handler().value ?
-              <div className="file-input__preview">
-                <button
-                  title="Verwijder upload foto"
-                  className="file-input__button-delete link-functional delete"
-                  onClick={(e) => handleClear(e, handler().value)}
-                />
-                {fileType && fileType.split('/')[0] === 'image' ?
-                  <img
-                    alt="Preview uploaded foto"
-                    src={handler().value}
-                    className="file-input__preview-image"
-                  />
-                : ''}
-              </div>
+            <div>
+              {previews && map(previews, (preview) =>
+                (<img
+                  key={preview}
+                  alt="Preview uploaded foto"
+                  src={preview}
+                  className="file-input__preview-image"
+                />)
+              )}
+              {handler().value ?
+                <button title="Verwijder upload foto" className="file-input__button-delete link-functional delete" onClick={(e) => handleClear(e, handler().value)} />
             :
-              <div className="invoer">
-                <input
-                  type="file"
-                  id="formUpload"
-                  onChange={handleChange}
-                />
-                <label htmlFor="formUpload" className="secundary-blue">{meta.submitLabel}</label>
-              </div>
+                <div className=" ">
+                  <input
+                    type="file"
+                    id="formUpload"
+                    onChange={handleChange}
+                    multiple
+                  />
+                  <label htmlFor="formUpload" className="secundary-blue">{meta.submitLabel}</label>
+                </div>
             }
+
+            </div>
           </Header>
         </div>
          : ''}

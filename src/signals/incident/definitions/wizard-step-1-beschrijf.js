@@ -160,7 +160,7 @@ export default {
         },
         render: FormComponents.HiddenInput
       },
-      image_type: {
+      image_preview: {
         meta: {
           label: 'image_type'
         },
