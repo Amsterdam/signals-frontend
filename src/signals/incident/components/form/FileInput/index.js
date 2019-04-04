@@ -7,7 +7,6 @@ import './style.scss';
 
 const FileInput = ({ /* handler, */touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
   const handleChange = (e) => {
-    // console.log('handleChange', e.target.files);
     if (e.target.files && e.target.files.length) {
       const maxFileSizeFilter = meta.maxFileSize ? (file) => file.size <= meta.maxFileSize : () => true;
       const allowedFileTypesFilter = meta.allowedFileTypes ? (file) => meta.allowedFileTypes.includes(file.type) : () => true;
@@ -25,19 +24,20 @@ const FileInput = ({ /* handler, */touched, hasError, getError, parent, meta, va
         [`${meta.name}_previews`]: previews
       });
 
-      files.forEach((file, i) => {
-        console.log('start', i, file);
+      files.forEach((file) => {
+        // console.log('start', i, file);
         const reader = new window.FileReader();
 
-        reader.onprogress = (event) => {
-          console.log('progress', i, event);
-        };
+        // reader.onprogress = (event) => {
+          // console.log('progress', i, event);
+        // };
 
         reader.addEventListener('load', () => {
-          console.log('end', i);
+          // console.log('end', i);
           const control = meta && meta.name && parent.controls[meta.name];
           control.updateValueAndValidity();
         });
+
         reader.readAsText(file);
       });
     }
@@ -63,8 +63,10 @@ const FileInput = ({ /* handler, */touched, hasError, getError, parent, meta, va
     control.updateValueAndValidity();
   };
 
-  const previews = parent && parent.value && parent.value[`${meta.name}_previews`];
-  const files = parent && parent.value && parent.value[meta.name];
+  const previews = (parent && parent.value && parent.value[`${meta.name}_previews`]) || [];
+  const files = (parent && parent.value && parent.value[meta.name]) || [];
+  const numberOfEmtpy = 3 - previews.length - 1;
+  const empty = numberOfEmtpy < 0 ? [] : Array.from(Array(numberOfEmtpy).keys());
 
   return (
     <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
@@ -78,7 +80,7 @@ const FileInput = ({ /* handler, */touched, hasError, getError, parent, meta, va
             getError={getError}
           >
             <div className="file-input">
-              {previews && previews.map((preview) =>
+              {previews.length ? previews.map((preview) =>
                 (<div key={preview} className="file-input__preview">
                   <button title="Verwijder deze foto" className="file-input__preview-button-delete link-functional delete" onClick={(e) => removeFile(e, preview, previews, files)} />
                   <img
@@ -87,9 +89,9 @@ const FileInput = ({ /* handler, */touched, hasError, getError, parent, meta, va
                     className="file-input__preview-image"
                   />
                 </div>)
-              )}
+              ) : '' }
 
-              {!previews || (previews && previews.length) < 3 ?
+              {previews.length < 3 ?
               (<div className="file-input__button">
                 <input
                   type="file"
@@ -100,6 +102,10 @@ const FileInput = ({ /* handler, */touched, hasError, getError, parent, meta, va
                 <label htmlFor="formUpload" className="file-input__button-submit">+</label>
               </div>)
             : ''}
+
+              {empty.map((item) =>
+                (<div key={item} className="file-input__empty">&nbsp;</div>)
+              )}
             </div>
           </Header>
         </div>

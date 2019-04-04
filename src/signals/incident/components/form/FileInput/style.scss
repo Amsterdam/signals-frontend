@@ -23,6 +23,7 @@
     border: 1px dashed $ams-middengrijs;
     height: 100px;
     width: 100px;
+    margin-right: 10px;
 
     input[type=file] {
       opacity: 0;
@@ -36,5 +37,12 @@
       height: 100%;
       width: 100%;
     }
+  }
+
+  &__empty {
+    height: 100px;
+    width: 100px;
+    border: 1px dashed $ams-middengrijs;
+    margin-right: 10px;
   }
 }
