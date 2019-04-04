@@ -12,8 +12,9 @@ const FileInput = ({ /* handler, */touched, hasError, getError, parent, meta, va
       const maxFileSizeFilter = meta.maxFileSize ? (file) => file.size <= meta.maxFileSize : () => true;
       const allowedFileTypesFilter = meta.allowedFileTypes ? (file) => meta.allowedFileTypes.includes(file.type) : () => true;
       const maxNumberOfFilesFilter = meta.maxNumberOfFiles ? (file, index) => index < meta.maxNumberOfFiles : () => true;
+      const existingFiles = (parent && parent.value && parent.value[meta.name]) || [];
 
-      const files = [...e.target.files]
+      const files = [...existingFiles, ...e.target.files]
         .filter(maxFileSizeFilter)
         .filter(allowedFileTypesFilter)
         .filter(maxNumberOfFilesFilter);
@@ -42,19 +43,28 @@ const FileInput = ({ /* handler, */touched, hasError, getError, parent, meta, va
     }
   };
 
-  const handleClear = (e, previews) => {
+  const removeFile = (e, preview, previews, files) => {
     e.preventDefault();
-    previews.map((url) => window.URL.revokeObjectURL(url));
-    parent.meta.updateIncident({
-      [meta.name]: null,
-      [`${meta.name}_previews`]: null
-    });
+
+    const key = previews.indexOf(preview);
+    if (key !== -1) {
+      window.URL.revokeObjectURL(preview);
+
+      files.splice(key, 1);
+      previews.splice(key, 1);
+
+      parent.meta.updateIncident({
+        [meta.name]: files,
+        [`${meta.name}_previews`]: previews
+      });
+    }
 
     const control = meta && meta.name && parent.controls[meta.name];
     control.updateValueAndValidity();
   };
 
   const previews = parent && parent.value && parent.value[`${meta.name}_previews`];
+  const files = parent && parent.value && parent.value[meta.name];
 
   return (
     <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
@@ -67,29 +77,29 @@ const FileInput = ({ /* handler, */touched, hasError, getError, parent, meta, va
             hasError={hasError}
             getError={getError}
           >
-            <div className="file-input__preview">
+            <div className="file-input">
               {previews && previews.map((preview) =>
-                (<img
-                  key={preview}
-                  alt="Preview uploaded foto"
-                  src={preview}
-                  className="file-input__preview-image"
-                />)
-              )}
-              {previews && previews.length ?
-                <button title="Verwijder alle uploaded foto's" className="file-input__button-delete link-functional delete" onClick={(e) => handleClear(e, previews)} />
-            :
-                <div className="invoer">
-                  <input
-                    type="file"
-                    id="formUpload"
-                    onChange={handleChange}
-                    multiple
+                (<div key={preview} className="file-input__preview">
+                  <button title="Verwijder deze foto" className="file-input__preview-button-delete link-functional delete" onClick={(e) => removeFile(e, preview, previews, files)} />
+                  <img
+                    alt="Preview uploaded foto"
+                    src={preview}
+                    className="file-input__preview-image"
                   />
-                  <label htmlFor="formUpload" className="secundary-blue">{meta.submitLabel}</label>
-                </div>
-            }
+                </div>)
+              )}
 
+              {!previews || (previews && previews.length) < 3 ?
+              (<div className="file-input__button">
+                <input
+                  type="file"
+                  id="formUpload"
+                  onChange={handleChange}
+                  multiple
+                />
+                <label htmlFor="formUpload" className="file-input__button-submit">+</label>
+              </div>)
+            : ''}
             </div>
           </Header>
         </div>

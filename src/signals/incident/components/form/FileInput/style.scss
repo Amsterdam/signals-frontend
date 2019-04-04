@@ -1,10 +1,40 @@
+@import "config.scss";
+
 .file-input {
+  display: flex;
+  height: 100px;
+
   &__preview {
+    height: 100px;
+    width: 100px;
+    margin-right: 10px;
+
+    &-button-delete {
+      position: absolute;
+    }
+
     &-image {
-      border: 1px solid black;
       height: 100px;
       width: 100px;
-      margin-right: 10px;
+    }
+  }
+
+  &__button {
+    border: 1px dashed $ams-middengrijs;
+    height: 100px;
+    width: 100px;
+
+    input[type=file] {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    &-submit {
+      display: inline-block;
+      cursor: pointer;
+      height: 100%;
+      width: 100%;
     }
   }
 }
