@@ -7,19 +7,33 @@ import './style.scss';
 const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
   const handleChange = (e) => {
     if (e.target.files && e.target.files.length) {
-      const maxFileSizeFilter = meta.maxFileSize ? (file) => file.size <= meta.maxFileSize : () => true;
-      const allowedFileTypesFilter = meta.allowedFileTypes ? (file) => meta.allowedFileTypes.includes(file.type) : () => true;
-      const maxNumberOfFilesFilter = meta.maxNumberOfFiles ? (file, index) => index < meta.maxNumberOfFiles : () => true;
+      const maxFileSizeFilter = meta.maxFileSize ? checkFileSize : () => true;
+      const allowedFileTypesFilter = meta.allowedFileTypes ? checkFileType : () => true;
+      const maxNumberOfFilesFilter = meta.maxNumberOfFiles ? checkNumberOfFiles : () => true;
       const existingFiles = (parent && parent.value && parent.value[meta.name]) || [];
 
       const files = [...existingFiles, ...e.target.files]
         .filter(maxFileSizeFilter)
         .filter(allowedFileTypesFilter)
         .filter(maxNumberOfFilesFilter);
+
       const previews = files.map(() => `loading-${Math.trunc(Math.random() * 100000)}`);
+
+      const errors = [];
+      const allFiles = [...existingFiles, ...e.target.files];
+      if (meta.maxFileSize && !allFiles.every(checkFileSize)) {
+        errors.push('Dit bestand is te groot. De maximale bestandgrootte is 8Mb.');
+      }
+      if (meta.allowedFileTypes && !allFiles.every(checkFileType)) {
+        errors.push('Dit bestandstype wordt niet ondersteund. Toegestaan zijn: jpeg, png,gif.');
+      }
+      if (meta.maxNumberOfFiles && !allFiles.every(checkNumberOfFiles)) {
+        errors.push('U kunt maximaal 3 bestanden uploaden.');
+      }
       parent.meta.updateIncident({
         [meta.name]: files,
-        [`${meta.name}_previews`]: previews
+        [`${meta.name}_previews`]: previews,
+        [`${meta.name}_errors`]: errors
       });
 
       files.forEach((file, uploadBatchIndex) => {
@@ -40,6 +54,12 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
     }
   };
 
+  const checkFileSize = (file) => file.size <= meta.maxFileSize;
+
+  const checkFileType = (file) => meta.allowedFileTypes.includes(file.type);
+
+  const checkNumberOfFiles = (file, index) => index < meta.maxNumberOfFiles;
+
   const removeFile = (e, preview, previews, files) => {
     e.preventDefault();
 
@@ -52,7 +72,8 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
 
       parent.meta.updateIncident({
         [meta.name]: files,
-        [`${meta.name}_previews`]: previews
+        [`${meta.name}_previews`]: previews,
+        [`${meta.name}_errors`]: null
       });
     }
 
@@ -62,6 +83,7 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
 
   const previews = (parent && parent.value && parent.value[`${meta.name}_previews`]) || [];
   const files = (parent && parent.value && parent.value[meta.name]) || [];
+  const errors = (parent && parent.value && parent.value[`${meta.name}_errors`]) || null;
   const numberOfEmtpy = meta.maxNumberOfFiles - previews.length - 1;
   const empty = numberOfEmtpy < 0 ? [] : Array.from(Array(numberOfEmtpy).keys());
 
@@ -106,6 +128,10 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
               )}
             </div>
           </Header>
+          {errors && errors.length ?
+            errors.map((error) =>
+              <div key={error} className="file-input__error">{error}</div>)
+            : ''}
         </div>
          : ''}
     </div>

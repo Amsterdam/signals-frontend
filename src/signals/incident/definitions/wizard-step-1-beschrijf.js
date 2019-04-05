@@ -162,7 +162,13 @@ export default {
       },
       images_previews: {
         meta: {
-          label: 'image_type'
+          label: 'images_previews'
+        },
+        render: FormComponents.HiddenInput
+      },
+      images_errors: {
+        meta: {
+          label: 'images_errors'
         },
         render: FormComponents.HiddenInput
       },

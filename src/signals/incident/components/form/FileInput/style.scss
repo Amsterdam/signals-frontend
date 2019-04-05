@@ -46,4 +46,9 @@
     border: 1px dashed $ams-middengrijs;
     margin-right: 10px;
   }
+
+  &__error {
+    color: red;
+    margin: 15px 0 0;
+  }
 }
