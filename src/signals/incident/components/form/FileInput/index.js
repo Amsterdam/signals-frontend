@@ -82,13 +82,8 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
                   {preview.includes('loading') ?
                     <div>Loading...</div>
                   :
-                    <div>
+                    <div style={{ backgroundImage: `URL(${preview})` }} className="file-input__preview-image">
                       <button title="Verwijder deze foto" className="file-input__preview-button-delete link-functional delete" onClick={(e) => removeFile(e, preview, previews, files)} />
-                      <img
-                        alt="Preview uploaded foto"
-                        src={preview}
-                        className="file-input__preview-image"
-                      />
                     </div>
                  }
                 </div>)
