@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Header from '../Header/';
-// import { validateFileType, validateMaxFilesize } from '../../../services/custom-validators';
 import './style.scss';
 
-const FileInput = ({ /* handler, */touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
+const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
   const handleChange = (e) => {
     if (e.target.files && e.target.files.length) {
       const maxFileSizeFilter = meta.maxFileSize ? (file) => file.size <= meta.maxFileSize : () => true;
@@ -17,23 +16,21 @@ const FileInput = ({ /* handler, */touched, hasError, getError, parent, meta, va
         .filter(maxFileSizeFilter)
         .filter(allowedFileTypesFilter)
         .filter(maxNumberOfFilesFilter);
-      const previews = files.map((file) => window.URL.createObjectURL(file));
-
+      const previews = files.map(() => `loading-${Math.trunc(Math.random() * 100000)}`);
       parent.meta.updateIncident({
         [meta.name]: files,
         [`${meta.name}_previews`]: previews
       });
 
-      files.forEach((file) => {
-        // console.log('start', i, file);
+      files.forEach((file, uploadBatchIndex) => {
         const reader = new window.FileReader();
 
-        // reader.onprogress = (event) => {
-          // console.log('progress', i, event);
-        // };
-
         reader.addEventListener('load', () => {
-          // console.log('end', i);
+          previews[uploadBatchIndex] = window.URL.createObjectURL(files[uploadBatchIndex]);
+          parent.meta.updateIncident({
+            [`${meta.name}_previews`]: previews
+          });
+
           const control = meta && meta.name && parent.controls[meta.name];
           control.updateValueAndValidity();
         });
@@ -65,7 +62,7 @@ const FileInput = ({ /* handler, */touched, hasError, getError, parent, meta, va
 
   const previews = (parent && parent.value && parent.value[`${meta.name}_previews`]) || [];
   const files = (parent && parent.value && parent.value[meta.name]) || [];
-  const numberOfEmtpy = 3 - previews.length - 1;
+  const numberOfEmtpy = meta.maxNumberOfFiles - previews.length - 1;
   const empty = numberOfEmtpy < 0 ? [] : Array.from(Array(numberOfEmtpy).keys());
 
   return (
@@ -82,16 +79,22 @@ const FileInput = ({ /* handler, */touched, hasError, getError, parent, meta, va
             <div className="file-input">
               {previews.length ? previews.map((preview) =>
                 (<div key={preview} className="file-input__preview">
-                  <button title="Verwijder deze foto" className="file-input__preview-button-delete link-functional delete" onClick={(e) => removeFile(e, preview, previews, files)} />
-                  <img
-                    alt="Preview uploaded foto"
-                    src={preview}
-                    className="file-input__preview-image"
-                  />
+                  {preview.includes('loading') ?
+                    <div>Loading...</div>
+                  :
+                    <div>
+                      <button title="Verwijder deze foto" className="file-input__preview-button-delete link-functional delete" onClick={(e) => removeFile(e, preview, previews, files)} />
+                      <img
+                        alt="Preview uploaded foto"
+                        src={preview}
+                        className="file-input__preview-image"
+                      />
+                    </div>
+                 }
                 </div>)
               ) : '' }
 
-              {previews.length < 3 ?
+              {previews.length < meta.maxNumberOfFiles ?
               (<div className="file-input__button">
                 <input
                   type="file"
