@@ -11,7 +11,7 @@ const Image = ({ label, value }) => (
       </div>
       <div className="col-5 col-md-7">
         <div className="preview-image__item-value">
-          <img className="preview-image__item-value-image" src={value} alt="" />
+          {value && value.map((image) => <div key={image} className="preview-image__item-value-image" style={{ backgroundImage: `URL(${image})` }} />)}
         </div>
       </div>
     </div>
