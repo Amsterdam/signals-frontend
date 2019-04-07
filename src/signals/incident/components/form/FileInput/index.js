@@ -100,9 +100,9 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
           >
             <div className="file-input">
               {previews.length ? previews.map((preview) =>
-                (<div key={preview} className="file-input__preview">
+                (<div key={preview} className={`file-input__preview ${preview.includes('loading') ? 'file-input__preview--loading' : ''}`}>
                   {preview.includes('loading') ?
-                    <div>Loading...</div>
+                    <div className="progress-indicator progress-red"></div>
                   :
                     <div style={{ backgroundImage: `URL(${preview})` }} className="file-input__preview-image">
                       <button title="Verwijder deze foto" className="file-input__preview-button-delete link-functional delete" onClick={(e) => removeFile(e, preview, previews, files)} />
@@ -113,13 +113,14 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
 
               {previews.length < meta.maxNumberOfFiles ?
               (<div className="file-input__button">
+                <label htmlFor="formUpload" className="file-input__button-label">&nbsp;</label>
                 <input
                   type="file"
                   id="formUpload"
                   onChange={handleChange}
                   multiple
                 />
-                <label htmlFor="formUpload" className="file-input__button-submit">+</label>
+                <label htmlFor="formUpload" className="file-input__button-icon">&nbsp;</label>
               </div>)
             : ''}
 

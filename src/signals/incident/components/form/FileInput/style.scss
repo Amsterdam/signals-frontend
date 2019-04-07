@@ -1,29 +1,48 @@
 @import "config.scss";
 
+$boxSize: 100px;
+$borderWidth: 1px;
+$iconSize: 43px;
+$iconLoadingSize: 40px;
+
+
 .file-input {
   display: flex;
-  height: 100px;
+  height: calc(#{$boxSize} + (2 * #{$borderWidth}));
 
   &__preview {
-    height: 100px;
-    width: 100px;
+    width: calc(#{$boxSize} + (2 * #{$borderWidth}));
     margin-right: 10px;
+
+    &--loading {
+      border: 1px solid $ams-middengrijs;
+
+      .progress-indicator {
+        font-size: 4px !important;
+        top: calc((#{$boxSize} - #{$iconLoadingSize}) / 2);
+        left: calc((#{$boxSize} - #{$iconLoadingSize}) / 2);
+        }
+    }
 
     &-button-delete {
       position: absolute;
+      margin: 0 !important;
+      bottom: 0;
+      right: 0;
     }
 
     &-image {
+      position: relative;
       background-size: cover;
-      height: 100px;
-      width: 100px;
+      height: 100%;
+      width: 100%;
     }
   }
 
   &__button {
+    position: relative;
     border: 1px dashed $ams-middengrijs;
-    height: 100px;
-    width: 100px;
+    width: calc(#{$boxSize} + (2 * #{$borderWidth}));
     margin-right: 10px;
 
     input[type=file] {
@@ -32,7 +51,20 @@
       height: 0;
     }
 
-    &-submit {
+    &-icon {
+      position: absolute;
+      top: calc((#{$boxSize} - #{$iconSize}) / 2);
+      left: calc((#{$boxSize} - #{$iconSize}) / 2);
+      width: $iconSize;
+      height: $iconSize;
+      border-radius: 50%;
+      border: 1px solid black;
+      cursor: pointer;
+      background-image: url("../../../../../shared/images/icon-plus.svg");
+      border-color: #004699;
+    }
+
+    &-label {
       display: inline-block;
       cursor: pointer;
       height: 100%;
@@ -41,8 +73,7 @@
   }
 
   &__empty {
-    height: 100px;
-    width: 100px;
+    width: calc(#{$boxSize} + (2 * #{$borderWidth}));
     border: 1px dashed $ams-middengrijs;
     margin-right: 10px;
   }
