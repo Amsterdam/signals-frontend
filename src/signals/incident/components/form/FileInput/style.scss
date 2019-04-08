@@ -60,8 +60,8 @@ $iconLoadingSize: 40px;
       border-radius: 50%;
       border: 1px solid black;
       cursor: pointer;
-      background-image: url("../../../../../shared/images/icon-plus.svg");
-      border-color: #004699;
+      background-image: url("../../../../../shared/images/icon-plus-donkerblauw.svg");
+      border-color: $ams-donkerblauw;
     }
 
     &-label {
