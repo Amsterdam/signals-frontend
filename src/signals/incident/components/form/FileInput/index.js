@@ -11,16 +11,21 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
       const allowedFileTypesFilter = meta.allowedFileTypes ? checkFileType : () => true;
       const maxNumberOfFilesFilter = meta.maxNumberOfFiles ? checkNumberOfFiles : () => true;
       const existingFiles = (parent && parent.value && parent.value[meta.name]) || [];
+      const existingPreviews = (parent && parent.value && parent.value[`${meta.name}_previews`]) || [];
+      const batchFiles = [...e.target.files];
 
-      const files = [...existingFiles, ...e.target.files]
+      existingFiles.map((file) => ({ ...file, existing: true }));
+
+      const files = [...existingFiles, ...batchFiles]
         .filter(maxFileSizeFilter)
         .filter(allowedFileTypesFilter)
         .filter(maxNumberOfFilesFilter);
 
-      const previews = files.map(() => `loading-${Math.trunc(Math.random() * 100000)}`);
+      const previews = [...existingPreviews, ...batchFiles.map(() => `loading-${Math.trunc(Math.random() * 100000)}`)]
+        .slice(0, files.length);
 
       const errors = [];
-      const allFiles = [...existingFiles, ...e.target.files];
+      const allFiles = [...existingFiles, ...batchFiles];
       if (meta.maxFileSize && !allFiles.every(checkFileSize)) {
         errors.push('Dit bestand is te groot. De maximale bestandgrootte is 8Mb.');
       }
@@ -37,6 +42,9 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
       });
 
       files.forEach((file, uploadBatchIndex) => {
+        if (files[uploadBatchIndex].existing) {
+          return;
+        }
         const reader = new window.FileReader();
 
         reader.addEventListener('load', () => {
