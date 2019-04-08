@@ -6,7 +6,10 @@ import fileSize from '../../../services/file-size';
 
 import './style.scss';
 
+const ERROR_TIMEOUT_INTERVAL = 3000;
+
 const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
+  let timeoutInstance = null;
   const handleChange = (e) => {
     if (e.target.files && e.target.files.length) {
       const maxFileSizeFilter = meta.maxFileSize ? checkFileSize : () => true;
@@ -25,12 +28,23 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
 
       const previews = [...existingPreviews, ...batchFiles.map(() => `loading-${Math.trunc(Math.random() * 100000)}`)]
         .slice(0, files.length);
-
+      const errors = getErrorMessages([...existingFiles, ...batchFiles]);
       parent.meta.updateIncident({
         [meta.name]: files,
         [`${meta.name}_previews`]: previews,
-        [`${meta.name}_errors`]: getErrorMessages([...existingFiles, ...batchFiles])
+        [`${meta.name}_errors`]: errors
       });
+
+      if (errors.length) {
+        if (timeoutInstance) {
+          global.window.clearTimeout(timeoutInstance);
+        }
+        timeoutInstance = global.window.setTimeout(() => {
+          parent.meta.updateIncident({
+            [`${meta.name}_errors`]: null
+          });
+        }, ERROR_TIMEOUT_INTERVAL);
+      }
 
       files.forEach((file, uploadBatchIndex) => {
         if (files[uploadBatchIndex].existing) {
