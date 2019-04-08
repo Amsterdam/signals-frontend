@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Header from '../Header/';
+import fileSize from '../../../services/file-size';
+
 import './style.scss';
 
 const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
@@ -27,13 +29,13 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
       const errors = [];
       const allFiles = [...existingFiles, ...batchFiles];
       if (meta.maxFileSize && !allFiles.every(checkFileSize)) {
-        errors.push('Dit bestand is te groot. De maximale bestandgrootte is 8Mb.');
+        errors.push(`Dit bestand is te groot. De maximale bestandgrootte is ${fileSize(meta.maxFileSize)}.`);
       }
       if (meta.allowedFileTypes && !allFiles.every(checkFileType)) {
-        errors.push('Dit bestandstype wordt niet ondersteund. Toegestaan zijn: jpeg, png,gif.');
+        errors.push(`Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${meta.allowedFileTypes.map(((type) => type.replace(/.*\//, ''))).join(', ')}.`);
       }
       if (meta.maxNumberOfFiles && !allFiles.every(checkNumberOfFiles)) {
-        errors.push('U kunt maximaal 3 bestanden uploaden.');
+        errors.push(`U kunt maximaal ${meta.maxNumberOfFiles} bestanden uploaden.`);
       }
       parent.meta.updateIncident({
         [meta.name]: files,
@@ -125,6 +127,7 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
                 <input
                   type="file"
                   id="formUpload"
+                  accept={meta.allowedFileTypes}
                   onChange={handleChange}
                   multiple
                 />
