@@ -26,21 +26,10 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
       const previews = [...existingPreviews, ...batchFiles.map(() => `loading-${Math.trunc(Math.random() * 100000)}`)]
         .slice(0, files.length);
 
-      const errors = [];
-      const allFiles = [...existingFiles, ...batchFiles];
-      if (meta.maxFileSize && !allFiles.every(checkFileSize)) {
-        errors.push(`Dit bestand is te groot. De maximale bestandgrootte is ${fileSize(meta.maxFileSize)}.`);
-      }
-      if (meta.allowedFileTypes && !allFiles.every(checkFileType)) {
-        errors.push(`Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${meta.allowedFileTypes.map(((type) => type.replace(/.*\//, ''))).join(', ')}.`);
-      }
-      if (meta.maxNumberOfFiles && !allFiles.every(checkNumberOfFiles)) {
-        errors.push(`U kunt maximaal ${meta.maxNumberOfFiles} bestanden uploaden.`);
-      }
       parent.meta.updateIncident({
         [meta.name]: files,
         [`${meta.name}_previews`]: previews,
-        [`${meta.name}_errors`]: errors
+        [`${meta.name}_errors`]: getErrorMessages([...existingFiles, ...batchFiles])
       });
 
       files.forEach((file, uploadBatchIndex) => {
@@ -69,6 +58,22 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
   const checkFileType = (file) => meta.allowedFileTypes.includes(file.type);
 
   const checkNumberOfFiles = (file, index) => index < meta.maxNumberOfFiles;
+
+  const getErrorMessages = (files) => {
+    const errors = [];
+
+    if (meta.maxFileSize && !files.every(checkFileSize)) {
+      errors.push(`Dit bestand is te groot. De maximale bestandgrootte is ${fileSize(meta.maxFileSize)}.`);
+    }
+    if (meta.allowedFileTypes && !files.every(checkFileType)) {
+      errors.push(`Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${meta.allowedFileTypes.map(((type) => type.replace(/.*\//, ''))).join(', ')}.`);
+    }
+    if (meta.maxNumberOfFiles && !files.every(checkNumberOfFiles)) {
+      errors.push(`U kunt maximaal ${meta.maxNumberOfFiles} bestanden uploaden.`);
+    }
+
+    return errors;
+  };
 
   const removeFile = (e, preview, previews, files) => {
     e.preventDefault();
