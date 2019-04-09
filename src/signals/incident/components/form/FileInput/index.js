@@ -8,14 +8,14 @@ import './style.scss';
 
 const ERROR_TIMEOUT_INTERVAL = 8000;
 
-const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
+const FileInput = ({ handler, touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
   let timeoutInstance = null;
   const handleChange = (e) => {
     if (e.target.files && e.target.files.length) {
       const maxFileSizeFilter = meta.maxFileSize ? checkFileSize : () => true;
       const allowedFileTypesFilter = meta.allowedFileTypes ? checkFileType : () => true;
       const maxNumberOfFilesFilter = meta.maxNumberOfFiles ? checkNumberOfFiles : () => true;
-      const existingFiles = (parent && parent.value && parent.value[meta.name]) || [];
+      const existingFiles = handler().value || [];
       const existingPreviews = (parent && parent.value && parent.value[`${meta.name}_previews`]) || [];
       const batchFiles = [...e.target.files];
 
@@ -110,10 +110,9 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
     control.updateValueAndValidity();
   };
 
-  const previews = (parent && parent.value && parent.value[`${meta.name}_previews`]) || [];
-  const files = (parent && parent.value && parent.value[meta.name]) || [];
-  const errors = (parent && parent.value && parent.value[`${meta.name}_errors`]) || null;
-  const numberOfEmtpy = meta.maxNumberOfFiles - previews.length - 1;
+  const previews = (parent && parent.value && parent.value[`${meta && meta.name}_previews`]) || [];
+  const errors = (parent && parent.value && parent.value[`${meta && meta.name}_errors`]) || null;
+  const numberOfEmtpy = (meta && meta.maxNumberOfFiles - previews.length - 1);
   const empty = numberOfEmtpy < 0 ? [] : Array.from(Array(numberOfEmtpy).keys());
 
   return (
@@ -134,7 +133,7 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
                     <div className="progress-indicator progress-red"></div>
                   :
                     <div style={{ backgroundImage: `URL(${preview})` }} className="file-input__preview-image">
-                      <button title="Verwijder deze foto" className="file-input__preview-button-delete" onClick={(e) => removeFile(e, preview, previews, files)} />
+                      <button title="Verwijder deze foto" className="file-input__preview-button-delete" onClick={(e) => removeFile(e, preview, previews, handler().value)} />
                     </div>
                  }
                 </div>)
@@ -171,7 +170,7 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
 };
 
 FileInput.propTypes = {
-  // handler: PropTypes.func,
+  handler: PropTypes.func,
   touched: PropTypes.bool,
   hasError: PropTypes.func,
   meta: PropTypes.object,
