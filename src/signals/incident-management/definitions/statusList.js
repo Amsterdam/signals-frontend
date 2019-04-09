@@ -50,6 +50,10 @@ const VERZENDEN_MISLUKT = {
   key: 'send failed',
   value: 'Extern: mislukt'
 };
+const VERZOEK_TOT_AFHANDELING = {
+  key: 'closure requested',
+  value: 'Extern: verzoek tot afhandeling'
+};
 const AFGEHANDELD_EXTERN = {
   key: 'done external',
   value: 'Extern: afgehandeld'
@@ -67,6 +71,7 @@ const statusList = [
   TE_VERZENDEN,
   VERZONDEN,
   VERZENDEN_MISLUKT,
+  VERZOEK_TOT_AFHANDELING,
   AFGEHANDELD_EXTERN
 ];
 
