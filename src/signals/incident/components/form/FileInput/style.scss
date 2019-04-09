@@ -47,7 +47,6 @@ $iconLoadingSize: 40px;
   }
 
   &__button {
-    position: relative;
     border: 1px dashed $ams-middengrijs;
     width: calc(#{$boxSize} + (2 * #{$borderWidth}));
     margin-right: 10px;
@@ -58,24 +57,31 @@ $iconLoadingSize: 40px;
       height: 0;
     }
 
-    &-icon {
-      position: absolute;
-      top: calc((#{$boxSize} - #{$iconSize}) / 2);
-      left: calc((#{$boxSize} - #{$iconSize}) / 2);
-      width: $iconSize;
-      height: $iconSize;
-      border-radius: 50%;
-      border: 1px solid black;
-      cursor: pointer;
-      background-image: url("../../../../../shared/images/icon-plus-donkerblauw.svg");
-      border-color: $ams-donkerblauw;
-    }
-
     &-label {
+      position: relative;
       display: inline-block;
       cursor: pointer;
       height: 100%;
       width: 100%;
+
+      &:hover  {
+        .file-input__button-label-icon {
+          border-width: 2px;
+        }
+      }
+
+      &-icon {
+        position: absolute;
+        top: calc((#{$boxSize} - #{$iconSize}) / 2);
+        left: calc((#{$boxSize} - #{$iconSize}) / 2);
+        width: $iconSize;
+        height: $iconSize;
+        border-radius: 50%;
+        border: 1px solid black;
+        cursor: pointer;
+        background-image: url("../../../../../shared/images/icon-plus-donkerblauw.svg");
+        border-color: $ams-donkerblauw;
+      }
     }
   }
 

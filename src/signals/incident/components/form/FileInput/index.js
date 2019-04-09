@@ -142,7 +142,9 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
 
               {previews.length < meta.maxNumberOfFiles ?
               (<div className="file-input__button">
-                <label htmlFor="formUpload" className="file-input__button-label">&nbsp;</label>
+                <label htmlFor="formUpload" className="file-input__button-label">
+                  <div htmlFor="formUpload" className="file-input__button-label-icon">&nbsp;</div>
+                </label>
                 <input
                   type="file"
                   id="formUpload"
@@ -150,7 +152,6 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
                   onChange={handleChange}
                   multiple
                 />
-                <label htmlFor="formUpload" className="file-input__button-icon">&nbsp;</label>
               </div>)
             : ''}
 
