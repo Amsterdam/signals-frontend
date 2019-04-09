@@ -56,18 +56,14 @@ export function* createIncident(action) {
         _signal: result.id
       }));
     }
-    console.log('saga', action.payload.incident.images);
-    if (action.payload.incident.images) {
-      // map(tion.payload.incident.image, (image) => )
-      yield put(uploadRequest({
-        file: action.payload.incident.images[0],
-        id: result.signal_id
-      }));
 
-      yield put(uploadRequest({
-        file: action.payload.incident.images[1],
-        id: result.signal_id
-      }));
+    if (action.payload.incident.images) {
+      yield all(action.payload.incident.images.map((image) =>
+        put(uploadRequest({
+          file: image,
+          id: result.signal_id
+        }))
+      ));
     }
     yield put(createIncidentSuccess(result));
   } catch (error) {

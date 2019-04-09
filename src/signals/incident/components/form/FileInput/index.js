@@ -6,7 +6,7 @@ import fileSize from '../../../services/file-size';
 
 import './style.scss';
 
-const ERROR_TIMEOUT_INTERVAL = 3000;
+const ERROR_TIMEOUT_INTERVAL = 8000;
 
 const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
   let timeoutInstance = null;
@@ -134,7 +134,7 @@ const FileInput = ({ touched, hasError, getError, parent, meta, validatorsOrOpts
                     <div className="progress-indicator progress-red"></div>
                   :
                     <div style={{ backgroundImage: `URL(${preview})` }} className="file-input__preview-image">
-                      <button title="Verwijder deze foto" className="file-input__preview-button-delete link-functional delete" onClick={(e) => removeFile(e, preview, previews, files)} />
+                      <button title="Verwijder deze foto" className="file-input__preview-button-delete" onClick={(e) => removeFile(e, preview, previews, files)} />
                     </div>
                  }
                 </div>)

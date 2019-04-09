@@ -174,8 +174,8 @@ export default {
       },
       images: {
         meta: {
-          label: 'Wilt u een foto meesturen?',
-          submitLabel: 'Kies foto\'s',
+          label: 'Foto\'s toevoegen',
+          subtitle: 'Voeg een foto toe om de situatie te verduidelijken.',
           maxFileSize: 8388608,
           allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif'],
           maxNumberOfFiles: 3
