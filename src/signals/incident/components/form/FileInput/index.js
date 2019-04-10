@@ -10,11 +10,12 @@ const ERROR_TIMEOUT_INTERVAL = 8000;
 
 const FileInput = ({ handler, touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
   let timeoutInstance = null;
+  const maxNumberOfFiles = (meta && meta.maxNumberOfFiles) || 3;
   const handleChange = (e) => {
     if (e.target.files && e.target.files.length) {
       const maxFileSizeFilter = meta.maxFileSize ? checkFileSize : () => true;
       const allowedFileTypesFilter = meta.allowedFileTypes ? checkFileType : () => true;
-      const maxNumberOfFilesFilter = meta.maxNumberOfFiles ? checkNumberOfFiles : () => true;
+      const maxNumberOfFilesFilter = checkNumberOfFiles;
       const existingFiles = handler().value || [];
       const existingPreviews = (parent && parent.value && parent.value[`${meta.name}_previews`]) || [];
       const batchFiles = [...e.target.files];
@@ -73,7 +74,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
 
   const checkFileType = (file) => meta.allowedFileTypes.includes(file.type);
 
-  const checkNumberOfFiles = (file, index) => index < meta.maxNumberOfFiles;
+  const checkNumberOfFiles = (file, index) => index < maxNumberOfFiles;
 
   const getErrorMessages = (files) => {
     const errors = [];
@@ -84,8 +85,8 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
     if (meta.allowedFileTypes && !files.every(checkFileType)) {
       errors.push(`Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${meta.allowedFileTypes.map(((type) => type.replace(/.*\//, ''))).join(', ')}.`);
     }
-    if (meta.maxNumberOfFiles && !files.every(checkNumberOfFiles)) {
-      errors.push(`U kunt maximaal ${meta.maxNumberOfFiles} bestanden uploaden.`);
+    if (!files.every(checkNumberOfFiles)) {
+      errors.push(`U kunt maximaal ${maxNumberOfFiles} bestanden uploaden.`);
     }
 
     return errors;
@@ -114,7 +115,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
 
   const previews = (parent && parent.value && parent.value[`${meta && meta.name}_previews`]) || [];
   const errors = (parent && parent.value && parent.value[`${meta && meta.name}_errors`]) || null;
-  const numberOfEmtpy = (meta && meta.maxNumberOfFiles - previews.length - 1);
+  const numberOfEmtpy = (maxNumberOfFiles - previews.length - 1);
   const empty = numberOfEmtpy < 0 ? [] : Array.from(Array(numberOfEmtpy).keys());
 
   return (
@@ -141,7 +142,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
                 </div>)
               ) : '' }
 
-              {previews.length < meta.maxNumberOfFiles ?
+              {previews.length < maxNumberOfFiles ?
               (<div className="file-input__button">
                 <label htmlFor="formUpload" className="file-input__button-label">
                   <div htmlFor="formUpload" className="file-input__button-label-icon">&nbsp;</div>
