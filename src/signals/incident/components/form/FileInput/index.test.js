@@ -59,7 +59,10 @@ describe.only('Form component <FileInput />', () => {
       expect(wrapper).toMatchSnapshot();
     });
 
-    it('should render upload field with selected 2 files correctly', () => {
+    it('should render upload field with one uploaded file and one loading correctly', () => {
+      parent.value = {
+        'input-field-name_previews': ['blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c', 'loading-42']
+      };
       wrapper.setProps({
         meta: {
           ...metaFields,
@@ -69,13 +72,7 @@ describe.only('Form component <FileInput />', () => {
 
       wrapper.setProps({
         parent: {
-          controls: parentControls,
-          meta: {
-            incident: {
-              'input-field-name_previews': ['blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c', 'blob:http://host/unique-id'],
-              'input-field-name_errors': null
-            }
-          }
+          controls: parentControls
         }
       });
 
@@ -95,8 +92,29 @@ describe.only('Form component <FileInput />', () => {
   });
 
   describe('events', () => {
-    const fileContents = 'file contents';
-    const file = new Blob([fileContents], { type: 'image/jpeg' });
+    // const fileContents = 'file contents';
+    // const file = new Blob([fileContents], { type: 'image/jpeg' });
+    const file1 = {
+      name: 'bloem.jpeg',
+      size: 89691,
+      type: 'image/jpeg'
+    };
+    const file2 = {
+      name: 'already uploaded.gif',
+      size: 24567,
+      type: 'image/gif'
+    };
+    const file3 = {
+      name: 'way too large file.jpeg',
+      size: 10000000000000,
+      type: 'image/jpeg'
+    };
+    const file4 = {
+      name: 'poeeee.jpeg',
+      size: 24567,
+      type: 'image/jpeg'
+    };
+
     let readAsText;
     let addEventListener;
 
@@ -105,8 +123,10 @@ describe.only('Form component <FileInput />', () => {
       addEventListener = jest.fn((_, evtHandler) => { evtHandler(); });
       window.FileReader = jest.fn(() => ({
         addEventListener,
-        readAsText,
-        result: fileContents
+        readAsText
+        // result: {
+          // incomming: true
+        // }
       }));
 
       window.URL = {
@@ -117,27 +137,55 @@ describe.only('Form component <FileInput />', () => {
 
     afterEach(() => {
       delete window.URL;
+      jest.resetAllMocks();
     });
 
-    it('uploads a file when and sets incident when file changes', () => {
-      handler.mockImplementation(() => ({ value: undefined }));
+    it('uploads a file when and updates incident when file changes', () => {
+      handler.mockImplementation(() => ({ value: [] }));
 
       wrapper.setProps({
         meta: {
           ...metaFields,
+          maxFileSize: 1000000,
+          allowedFileTypes: ['image/jpeg'],
           isVisible: true
         }
       });
 
-      wrapper.find('input').simulate('change', { target: { files: [] } });
-      expect(FileReader).not.toHaveBeenCalled();
-      expect(parentControls['input-field-name'].updateValueAndValidity).not.toHaveBeenCalled();
-
-      wrapper.find('input').simulate('change', { target: { files: [file, file] } });
+      wrapper.find('input').simulate('change', { target: { files: [file1] } });
       expect(FileReader).toHaveBeenCalled();
       expect(addEventListener).toHaveBeenCalledWith('load', expect.any(Function));
-      expect(readAsText).toHaveBeenCalledWith(file);
-      expect(parentControls['input-field-name'].updateValueAndValidity).toHaveBeenCalled();
+      expect(readAsText).toHaveBeenCalled();
+      expect(parentControls['input-field-name'].updateValueAndValidity).toHaveBeenCalledTimes(1);
+      expect(parent.meta.updateIncident).toHaveBeenCalled();
+    });
+
+    it('uploads a file and with already uploaded file and triggers multiple errors', () => {
+      handler.mockImplementation(() => ({ value: [file2, file3, file4] }));
+
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          maxFileSize: 1000000,
+          allowedFileTypes: ['image/jpeg'],
+          isVisible: true
+        }
+      });
+
+      wrapper.find('input').simulate('change', { target: { files: [file1] } });
+      expect(FileReader).toHaveBeenCalled();
+      expect(addEventListener).toHaveBeenCalledWith('load', expect.any(Function));
+      expect(readAsText).toHaveBeenCalled();
+      expect(parentControls['input-field-name'].updateValueAndValidity).toHaveBeenCalledTimes(1);
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name_previews': expect.any(Array),
+        'input-field-name': [file4, file1],
+        'input-field-name_errors': [
+          'Dit bestand is te groot. De maximale bestandgrootte is 976,6 kB.',
+          'Dit bestandstype wordt niet ondersteund. Toegestaan zijn: jpeg.',
+          'U kunt maximaal 3 bestanden uploaden.',
+        ],
+      });
     });
 
 //     it('resets upload when clear button was clicked', () => {

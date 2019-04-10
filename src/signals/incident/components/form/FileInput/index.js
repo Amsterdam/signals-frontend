@@ -19,8 +19,11 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
       const existingPreviews = (parent && parent.value && parent.value[`${meta.name}_previews`]) || [];
       const batchFiles = [...e.target.files];
 
-      existingFiles.map((file) => ({ ...file, existing: true }));
-
+      existingFiles.map((file) => {
+        // eslint-disable-next-line no-param-reassign
+        file.existing = true;
+        return file;
+      });
       const files = [...existingFiles, ...batchFiles]
         .filter(maxFileSizeFilter)
         .filter(allowedFileTypesFilter)
@@ -51,7 +54,6 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
           return;
         }
         const reader = new window.FileReader();
-
         reader.addEventListener('load', () => {
           previews[uploadBatchIndex] = window.URL.createObjectURL(files[uploadBatchIndex]);
           parent.meta.updateIncident({

@@ -67,7 +67,7 @@ exports[`Form component <FileInput /> rendering should render upload field corre
 </div>
 `;
 
-exports[`Form component <FileInput /> rendering should render upload field with selected 2 files correctly 1`] = `
+exports[`Form component <FileInput /> rendering should render upload field with one uploaded file and one loading correctly 1`] = `
 <div
   className="row"
 >
