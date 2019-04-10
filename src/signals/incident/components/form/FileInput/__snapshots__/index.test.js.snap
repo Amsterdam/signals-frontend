@@ -159,7 +159,7 @@ exports[`Form component <FileInput /> rendering should render upload field with 
       meta={
         Object {
           "isVisible": true,
-          "maxNumberOfFiles": 3,
+          "maxNumberOfFiles": 2,
           "name": "input-field-name",
         }
       }
@@ -193,27 +193,6 @@ exports[`Form component <FileInput /> rendering should render upload field with 
         >
           <div
             className="progress-indicator progress-red"
-          />
-        </div>
-        <div
-          className="file-input__button"
-        >
-          <label
-            className="file-input__button-label"
-            htmlFor="formUpload"
-          >
-            <div
-              className="file-input__button-label-icon"
-              htmlFor="formUpload"
-            >
-               
-            </div>
-          </label>
-          <input
-            id="formUpload"
-            multiple={true}
-            onChange={[Function]}
-            type="file"
           />
         </div>
       </div>
