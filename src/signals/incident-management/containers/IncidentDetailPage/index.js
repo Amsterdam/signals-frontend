@@ -81,15 +81,15 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
       priority: { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
       category: { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
       notes: { name: 'Notities', value: <IncidentNotesContainer id={this.props.id} />, count: incidentNotesList && incidentNotesList.length },
-      image: incident && incident.image ? { name: 'Foto',
+      image: attachments && attachments.length ? { name: 'Foto',
         value:
         (<div>
-          {attachments && attachments.length ? attachments.map((attachment) => <img key={attachment.location} src={attachment.location} alt={''} className="incident-detail-page__image--max-width" />) : ''}
+          {attachments.map((attachment) => <img key={attachment.location} src={attachment.location} alt={''} className="incident-detail-page__image--max-width" />)}
         </div>) } : undefined,
       location: { name: 'Locatie', value: <LocationForm id={this.props.id} /> },
       history: { name: 'Historie', value: <IncidentHistoryContainer id={this.props.id} /> }
     };
-    console.log('-', attachments);
+
     const view = this.state.printView ? (
       <PrintLayout
         id={this.props.id}

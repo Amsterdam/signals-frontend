@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { REQUEST_INCIDENT, DISMISS_SPLIT_NOTIFICATION } from 'models/incident/constants';
+import { REQUEST_INCIDENT, DISMISS_SPLIT_NOTIFICATION, REQUEST_ATTACHMENTS } from 'models/incident/constants';
 import { REQUEST_NOTES_LIST } from 'models/notes/constants';
 import { IncidentDetailPage, mapDispatchToProps } from './index';
 
@@ -33,13 +33,15 @@ describe('<IncidentDetailPage />', () => {
             state: 'm'
           }
         },
+        attachments: [],
         stadsdeelList,
         priorityList,
         loading: false
       },
       onRequestIncident: jest.fn(),
       onRequestNotesList: jest.fn(),
-      onDismissSplitNotification: jest.fn()
+      onDismissSplitNotification: jest.fn(),
+      onRequestAttachments: jest.fn()
     };
   });
 
@@ -51,6 +53,7 @@ describe('<IncidentDetailPage />', () => {
       expect(wrapper).toMatchSnapshot();
       expect(props.onRequestIncident).toHaveBeenCalledWith('100');
       expect(props.onRequestNotesList).toHaveBeenCalledWith('100');
+      expect(props.onRequestAttachments).toHaveBeenCalledWith('100');
     });
 
     it('should render correctly with parent', () => {
@@ -70,7 +73,7 @@ describe('<IncidentDetailPage />', () => {
     });
 
     it('should render correctly with image', () => {
-      props.incidentModel.incident.image = 'some-image';
+      props.incidentModel.attachments = [{ location: 1 }, { location: 2 }];
       const wrapper = shallow(
         <IncidentDetailPage {...props} />
       );
@@ -147,6 +150,11 @@ describe('<IncidentDetailPage />', () => {
     it('should reset split state', () => {
       mapDispatchToProps(dispatch).onDismissSplitNotification();
       expect(dispatch).toHaveBeenCalledWith({ type: DISMISS_SPLIT_NOTIFICATION });
+    });
+
+    it('onRequestAttachments', () => {
+      mapDispatchToProps(dispatch).onRequestAttachments(42);
+      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_ATTACHMENTS, payload: 42 });
     });
   });
 });
