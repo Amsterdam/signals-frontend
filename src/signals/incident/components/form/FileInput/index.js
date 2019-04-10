@@ -12,6 +12,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
   let timeoutInstance = null;
   const maxNumberOfFiles = (meta && meta.maxNumberOfFiles) || 3;
   const handleChange = (e) => {
+    /* istanbul ignore next */
     if (e.target.files && e.target.files.length) {
       const maxFileSizeFilter = meta.maxFileSize ? checkFileSize : () => true;
       const allowedFileTypesFilter = meta.allowedFileTypes ? checkFileType : () => true;
@@ -96,6 +97,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
     e.preventDefault();
 
     const key = previews.indexOf(preview);
+    /* istanbul ignore next */
     if (key !== -1) {
       window.URL.revokeObjectURL(preview);
 
