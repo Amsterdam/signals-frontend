@@ -30,12 +30,17 @@ $iconLoadingSize: 40px;
       height: 40px;
       bottom: 0;
       right: 0;
+      cursor: pointer;
       border-style: none;
       background-image: url("../../../../../shared/images/icon-trash.svg");
-      background-size: 27px;
+      background-size: 20px;
       background-repeat: no-repeat;
-      background-position: 6px 6px;
-      background-color: rgba(0,0,0,0.5) !important;
+      background-position: 10px;
+      background-color: rgba(0,0,0,0.5);
+
+      &:hover {
+        background-color: black;
+      }
     }
 
     &-image {

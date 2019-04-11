@@ -1,17 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 22.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="mail_dit_artikel" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-	 y="0px" viewBox="0 0 30 30" style="enable-background:new 0 0 30 30;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:#FFFFFF;}
-</style>
-<g id="GASD_icoon_Vuilnis-en-afval">
-	<g transform="translate(15.000000, 11.000000)">
-		<path id="Shape" class="st0" d="M3.7-4.1v-3h-7.5v3h-4v2H7.7v-2H3.7z M-1.8-5.1l3.5,0v1h-3.5V-5.1z"/>
-		<path id="Shape_1_" class="st0" d="M-7.8-1v2h0.5v14H7.3V1h0.5v-2H-7.8z M5.2,13H-5.3V1H5.2V13z"/>
-		<rect id="Rectangle-path" x="2.2" y="1.9" class="st0" width="1.5" height="8.5"/>
-		<rect id="Rectangle-path_1_" x="-0.8" y="1.9" class="st0" width="1.5" height="8.5"/>
-		<rect id="Rectangle-path_2_" x="-3.8" y="1.9" class="st0" width="1.5" height="8.5"/>
-	</g>
-</g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Icon/32/Trash-Bin  </title>
+    <desc>Created with Sketch.</desc>
+    <g id="Icon/32/Trash-Bin--" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M28.2857143,4 L28.2857143,8 L26.2857143,8 L26.2857143,32 L4.28571429,32 L4.28571429,8 L2.28571429,8 L2.28571429,4 L10.2857143,4 L10.2857143,0 L20.2857143,0 L20.2857143,4 L28.2857143,4 Z M12.2857143,2 L12.2857143,4 L18.2857143,4 L18.2857143,2 L12.2857143,2 Z M22.2857143,28 L22.2857143,8 L8.28571429,8 L8.28571429,28 L22.2857143,28 Z M10.3057143,12 L12.2857143,12 L12.2857143,24 L10.3057143,24 L10.3057143,12 Z M14.2857143,12 L16.2857143,12 L16.2857143,24 L14.2857143,24 L14.2857143,12 Z M18.3057143,12 L20.2857143,12 L20.2857143,24 L18.3057143,24 L18.3057143,12 Z" id="Combined-Shape" fill="#ffffff"></path>
+    </g>
 </svg>
