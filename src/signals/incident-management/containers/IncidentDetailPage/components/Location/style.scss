@@ -1,10 +1,6 @@
 @import "config.scss";
 
-.incident-detail {
-  &__text {
-    @include avenirnextdemi();
-  }
-
+.location {
   dl {
     margin: 0;
   }
@@ -19,9 +15,29 @@
     width: 75%;
     display: inline-block;
 
+    &-button-show {
+      float: left;
+      margin-right: 10px;
+      padding: 0;
+      border-style: none;
+      cursor: pointer;
+    }
+
     #mapdiv {
       height: 100px !important;
       width: 100px;
+    }
+
+    &-button-edit {
+      float: right;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+
+    &-address {
+      width: 75%;
     }
   }
 
@@ -43,18 +59,6 @@
       right: 0;
       background-color: $ams-geel;
       animation: highlight-fade-out 2.5s;
-    }
-  }
-
-  @keyframes highlight-fade-out {
-    from {
-      opacity: 1;
-    }
-    70% {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
     }
   }
 }

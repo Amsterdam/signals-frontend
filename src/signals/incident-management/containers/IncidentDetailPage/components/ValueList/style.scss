@@ -1,0 +1,18 @@
+@import "config.scss";
+
+.value-list {
+  &__definition {
+    color: $ams-donkergrijs;
+    margin-bottom: 5px;
+  }
+
+  &__value {
+    @include avenirnextdemi();
+    margin-bottom: 16px;
+  }
+
+  &__link {
+    color: $ams-donkerblauw;
+    margin-right: 10px;
+  }
+}

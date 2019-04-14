@@ -1,0 +1,14 @@
+@import "config.scss";
+
+.header {
+  border-bottom: 1px solid #e6e6e6;
+
+
+  &__title {
+    @include avenirnextdemi();
+  }
+
+  &__buttons {
+    text-align: right;
+  }
+}

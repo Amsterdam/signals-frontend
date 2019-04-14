@@ -19,16 +19,18 @@ import makeSelectIncidentModel from 'models/incident/selectors';
 import makeSelectNotesModel from 'models/notes/selectors';
 import './style.scss';
 
+import Header from './components/Header';
+import ValueList from './components/ValueList';
 import Tabs from './components/Tabs';
-import MapDetail from './components/MapDetail';
+
+// import MapDetail from './components/MapDetail';
 import IncidentDetail from './components/IncidentDetail';
-import IncidentCategoryContainer from '../IncidentCategoryContainer';
-import IncidentPriorityContainer from '../IncidentPriorityContainer';
-import IncidentStatusContainer from '../IncidentStatusContainer';
+// import IncidentCategoryContainer from '../IncidentCategoryContainer';
+// import IncidentPriorityContainer from '../IncidentPriorityContainer';
+// import IncidentStatusContainer from '../IncidentStatusContainer';
 import IncidentNotesContainer from '../IncidentNotesContainer';
-import LocationForm from '../LocationForm';
+// import LocationForm from '../LocationForm';
 import IncidentHistoryContainer from '../IncidentHistoryContainer';
-import PrintLayout from './components/PrintLayout';
 import SplitNotificationBar from './components/SplitNotificationBar';
 
 export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -36,13 +38,25 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     super(props);
 
     this.onTabChanged = this.onTabChanged.bind(this);
-    this.onPrintView = this.onPrintView.bind(this);
     this.onDismissSplitNotification = this.onDismissSplitNotification.bind(this);
+    this.onShowLocation = this.onShowLocation.bind(this);
+    this.onEditLocation = this.onEditLocation.bind(this);
+    this.onShowAttachment = this.onShowAttachment.bind(this);
+
+    this.default = {
+      showLocation: false,
+      editLocation: false,
+      showImage: false,
+      image: ''
+    };
   }
 
   state = {
-    selectedTab: 'status',
-    printView: false
+    selectedTab: 'notes',
+    showLocation: false,
+    editLocation: false,
+    showImage: false,
+    image: ''
   };
 
   componentDidMount() {
@@ -62,87 +76,115 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     this.setState({ selectedTab: tabId });
   }
 
-  onPrintView() {
-    this.setState({ printView: !this.state.printView });
+  onDownloadPdf() {
+    console.log('onDownloadPdf');
+  }
+
+  onThor() {
+    console.log('onThor');
   }
 
   onDismissSplitNotification() {
     this.props.onDismissSplitNotification();
   }
 
+  onShowLocation() {
+    console.log('onShowLocation');
+    this.setState({
+      ...this.default,
+      showLocation: true
+    });
+  }
+
+  onEditLocation() {
+    console.log('onEditLocation');
+    this.setState({
+      ...this.default,
+      editLocation: true
+    });
+  }
+
+  onShowAttachment(image) {
+    console.log('onShowImage', image);
+    this.setState({
+      ...this.default,
+      showImage: true,
+      image
+    });
+  }
+
   render() {
     const { incidentNotesList } = this.props.notesModel;
     const { incident, loading, split, stadsdeelList, priorityList } = this.props.incidentModel;
     const { selectedTab } = this.state;
-    const canSplit = (incident && incident.status && incident.status.state === 'm') && !(incident && incident.parent_id);
     const tabs = {
-      status: { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
-      priority: { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
-      category: { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
+      // status: { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
+      // priority: { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
+      // category: { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
       notes: { name: 'Notities', value: <IncidentNotesContainer id={this.props.id} />, count: incidentNotesList && incidentNotesList.length },
-      image: incident && incident.image ? { name: 'Foto', value: <img src={incident.image} alt={''} className="incident-detail-page__image--max-width" /> } : undefined,
-      location: { name: 'Locatie', value: <LocationForm id={this.props.id} /> },
+      // image: incident && incident.image ? { name: 'Foto', value: <img src={incident.image} alt={''} className="incident-detail-page__image--max-width" /> } : undefined,
+      // location: { name: 'Locatie', value: <LocationForm id={this.props.id} /> },
       history: { name: 'Historie', value: <IncidentHistoryContainer id={this.props.id} /> }
     };
 
-    const view = this.state.printView ? (
-      <PrintLayout
-        id={this.props.id}
-        incident={incident}
-        incidentNotesList={incidentNotesList}
-        stadsdeelList={stadsdeelList}
-        priorityList={priorityList}
-        onPrintView={this.onPrintView}
-      />
-      ) :
-      (
-        <div className="incident-detail-page container">
-          <SplitNotificationBar data={split} onClose={this.onDismissSplitNotification} />
-          {loading ? <LoadingIndicator /> : (
-            <div className="row">
-              <div className="col-12">
-                <Link to={`${this.props.baseUrl}/incidents`} className="startagain action" >Terug naar overzicht</Link>
-              </div>
+    return (
+      <div className="incident-detail-page container">
+        <SplitNotificationBar data={split} onClose={this.onDismissSplitNotification} />
+        {loading ? <LoadingIndicator /> : (
+          <div className="row">
+            <div className="col-12">
+              <Link to={`${this.props.baseUrl}/incidents`} className="startagain action" >Terug naar overzicht</Link>
+            </div>
 
-              <div className="col-9"><h3>Melding {this.props.id}</h3></div>
-              <div className="col-3 d-flex justify-content-end">
-                {canSplit ? <Link to={`${this.props.baseUrl}/incident/${this.props.id}/split`} className="align-self-center action-quad" >Splitsen</Link> : ''}
-                <button className="align-self-center action-quad" onClick={this.onPrintView}>Print view</button>
-              </div>
+            {incident ?
+              <Header
+                incident={incident}
+                baseUrl={this.props.baseUrl}
+                onThor={this.onThor}
+                onDownloadPdf={this.onDownloadPdf}
+              /> : ''}
 
-              <ul className="col-12 col-md-4 incident-detail-page__map">
-                {incident && incident.location ? <MapDetail label="" value={incident.location} /> : ''}
-              </ul>
 
-              <div className="col-12 col-md-8">
-                {incident ? (
-                  <IncidentDetail
-                    incident={incident}
-                    stadsdeelList={stadsdeelList}
-                    priorityList={priorityList}
-                  />
-                ) : ''}
-              </div>
-
-              <div className="col-12">
-                <Tabs
-                  onTabChanged={this.onTabChanged}
-                  selectedTab={selectedTab}
-                  tabs={tabs}
+            <div className="col-8">
+              {incident ? (
+                <IncidentDetail
+                  incident={incident}
+                  stadsdeelList={stadsdeelList}
+                  priorityList={priorityList}
+                  onShowLocation={this.onShowLocation}
+                  onEditLocation={this.onEditLocation}
+                  onShowAttachment={this.onShowAttachment}
                 />
-              </div>
+                ) : ''}
+            </div>
 
-              <div className="col-12">
-                <div className="incident-detail-page__tab-container">
-                  {tabs[selectedTab].value}
-                </div>
+            <div className="col-4">
+              {incident ? (
+                <ValueList
+                  incident={incident}
+                  priorityList={priorityList}
+                />
+                ) : ''}
+            </div>
+
+
+            <div className="col-8">
+              <Tabs
+                onTabChanged={this.onTabChanged}
+                selectedTab={selectedTab}
+                tabs={tabs}
+              />
+            </div>
+
+            <div className="col-8">
+              <div className="incident-detail-page__tab-container">
+                {tabs[selectedTab].value}
               </div>
             </div>
+          </div>
           )}
-        </div>
-      );
-
-    return view;
+      </div>
+    );
   }
 }
 
@@ -173,3 +215,9 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(IncidentDetailPage);
+
+/*
+              <ul className="col-12 col-md-4 incident-detail-page__map">
+                {incident && incident.location ? <MapDetail label="" value={incident.location} /> : ''}
+              </ul>
+*/
