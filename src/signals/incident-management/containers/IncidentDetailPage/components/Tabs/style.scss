@@ -1,12 +1,28 @@
-.incident-detail-tabs {
+@import "config.scss";
+
+.detail-tabs {
   margin-top: 10px;
 
-  .tab {
-    height: 34px;
-    line-height: 23px;
+  &__list {
+    margin: 0;
+    padding: 0;
+  }
 
-    .pill {
-      line-height: 24px;
+  &__item {
+    display: inline-block;
+    margin: 0 20px 0 0;
+  }
+
+  &__tab {
+    @include avenirnextdemi();
+    display: inline-block;
+    color: $ams-zwart;
+    font-size: 18px;
+    padding: 10px 0 10px 0;
+
+    &--selected {
+      color: red;
+      border-bottom: 3px solid $ams-rood;
     }
   }
 }
