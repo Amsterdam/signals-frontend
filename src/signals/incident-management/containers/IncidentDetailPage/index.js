@@ -15,12 +15,15 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import { requestIncident, dismissSplitNotification } from 'models/incident/actions';
 import { requestNotesList } from 'models/notes/actions';
+import { requestHistoryList } from 'models/history/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 import makeSelectNotesModel from 'models/notes/selectors';
+import makeSelectHistoryModel from 'models/history/selectors';
 import './style.scss';
 
 import Header from './components/Header';
 import ValueList from './components/ValueList';
+import History from './components/History';
 import Tabs from './components/Tabs';
 
 // import MapDetail from './components/MapDetail';
@@ -30,7 +33,7 @@ import IncidentDetail from './components/IncidentDetail';
 // import IncidentStatusContainer from '../IncidentStatusContainer';
 import IncidentNotesContainer from '../IncidentNotesContainer';
 // import LocationForm from '../LocationForm';
-import IncidentHistoryContainer from '../IncidentHistoryContainer';
+// import IncidentHistoryContainer from '../IncidentHistoryContainer';
 import SplitNotificationBar from './components/SplitNotificationBar';
 
 export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -62,6 +65,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   componentDidMount() {
     this.props.onRequestIncident(this.props.id);
     this.props.onRequestNotesList(this.props.id);
+    this.props.onRequestHistoryList(this.props.id);
   }
 
   shouldComponentUpdate(props) {
@@ -115,6 +119,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 
   render() {
     const { incidentNotesList } = this.props.notesModel;
+    const { list } = this.props.historyModel;
     const { incident, loading, split, stadsdeelList, priorityList } = this.props.incidentModel;
     const { selectedTab } = this.state;
     const tabs = {
@@ -124,7 +129,9 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
       notes: { name: 'Notities', value: <IncidentNotesContainer id={this.props.id} />, count: incidentNotesList && incidentNotesList.length },
       // image: incident && incident.image ? { name: 'Foto', value: <img src={incident.image} alt={''} className="incident-detail-page__image--max-width" /> } : undefined,
       // location: { name: 'Locatie', value: <LocationForm id={this.props.id} /> },
-      history: { name: 'Historie', value: <IncidentHistoryContainer id={this.props.id} /> }
+
+
+      history: { name: 'Historie', value: <History list={list} /> }
     };
 
     return (
@@ -191,12 +198,14 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 IncidentDetailPage.propTypes = {
   incidentModel: PropTypes.object.isRequired,
   notesModel: PropTypes.object.isRequired,
+  historyModel: PropTypes.object.isRequired,
 
   id: PropTypes.string,
   baseUrl: PropTypes.string,
 
   onRequestIncident: PropTypes.func.isRequired,
   onRequestNotesList: PropTypes.func.isRequired,
+  onRequestHistoryList: PropTypes.func.isRequired,
   onDismissSplitNotification: PropTypes.func.isRequired
 };
 
@@ -205,12 +214,14 @@ const mapStateToProps = () => createStructuredSelector({
   loading: makeSelectLoading(),
   error: makeSelectError(),
   incidentModel: makeSelectIncidentModel(),
+  historyModel: makeSelectHistoryModel(),
   notesModel: makeSelectNotesModel()
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestIncident: requestIncident,
   onRequestNotesList: requestNotesList,
+  onRequestHistoryList: requestHistoryList,
   onDismissSplitNotification: dismissSplitNotification
 }, dispatch);
 
