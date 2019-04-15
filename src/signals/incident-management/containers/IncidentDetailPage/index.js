@@ -226,9 +226,3 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(IncidentDetailPage);
-
-/*
-              <ul className="col-12 col-md-4 incident-detail-page__map">
-                {incident && incident.location ? <MapDetail label="" value={incident.location} /> : ''}
-              </ul>
-*/

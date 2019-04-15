@@ -10,15 +10,15 @@
 
   &__item {
     display: inline-block;
-    margin: 0 20px 0 0;
+    margin: 0 18px 0 0;
   }
 
   &__tab {
     @include avenirnextdemi();
     display: inline-block;
     color: $ams-zwart;
-    font-size: 18px;
-    padding: 10px 0 10px 0;
+    font-size: 17px;
+    padding: 10px 0 12px 0;
 
     &--selected {
       color: red;
