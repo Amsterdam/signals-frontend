@@ -1,6 +1,18 @@
 @import "config.scss";
 
 .notes {
+  &__form {
+    &-submit {
+      // display: inline-block;
+      width: 30%;
+      float: right;
+    }
+    &-input {
+      display: inline-block;
+      width: 70%;
+    }
+  }
+
   &__item {
     &-header, &-body {
       display: inline-block;

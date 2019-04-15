@@ -6,6 +6,8 @@ import { authCall, authPatchCall } from 'shared/services/api/api';
 
 import { REQUEST_INCIDENT, PATCH_INCIDENT } from './constants';
 import { requestIncidentSuccess, requestIncidentError, patchIncidentSuccess, patchIncidentError } from './actions';
+import { requestNotesList } from '../notes/actions';
+import { requestHistoryList } from '../history/actions';
 
 export function* fetchIncident(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/auth/signal`;
@@ -25,6 +27,8 @@ export function* patchIncident(action) {
     const incident = yield authPatchCall(`${requestURL}/${payload.id}`, payload.patch);
     yield call(delay, 1000);
     yield put(patchIncidentSuccess({ type: payload.type, incident }));
+    yield put(requestNotesList(payload.id));
+    yield put(requestHistoryList(payload.id));
   } catch (error) {
     yield put(patchIncidentError({ type: payload.type, error }));
   }

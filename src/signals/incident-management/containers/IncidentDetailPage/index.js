@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
-import { requestIncident, dismissSplitNotification } from 'models/incident/actions';
+import { requestIncident, patchIncident, dismissSplitNotification } from 'models/incident/actions';
 import { requestNotesList } from 'models/notes/actions';
 import { requestHistoryList } from 'models/history/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
@@ -119,15 +119,17 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   render() {
+    const { id, onPatchIncident } = this.props;
     const { incidentNotesList } = this.props.notesModel;
     const { list } = this.props.historyModel;
     const { incident, loading, split, stadsdeelList, priorityList } = this.props.incidentModel;
     const { selectedTab } = this.state;
+    console.log('-', incident);
     const tabs = {
       // status: { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
       // priority: { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
       // category: { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
-      notes: { name: 'Notities', value: <Notes list={incidentNotesList} /> },
+      notes: { name: 'Notities', value: <Notes list={incidentNotesList} id={id} onPatchIncident={onPatchIncident} /> },
       // image: incident && incident.image ? { name: 'Foto', value: <img src={incident.image} alt={''} className="incident-detail-page__image--max-width" /> } : undefined,
       // location: { name: 'Locatie', value: <LocationForm id={this.props.id} /> },
       history: { name: 'Historie', value: <History list={list} /> }
@@ -203,6 +205,7 @@ IncidentDetailPage.propTypes = {
   baseUrl: PropTypes.string,
 
   onRequestIncident: PropTypes.func.isRequired,
+  onPatchIncident: PropTypes.func.isRequired,
   onRequestNotesList: PropTypes.func.isRequired,
   onRequestHistoryList: PropTypes.func.isRequired,
   onDismissSplitNotification: PropTypes.func.isRequired
@@ -219,6 +222,7 @@ const mapStateToProps = () => createStructuredSelector({
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestIncident: requestIncident,
+  onPatchIncident: patchIncident,
   onRequestNotesList: requestNotesList,
   onRequestHistoryList: requestHistoryList,
   onDismissSplitNotification: dismissSplitNotification
