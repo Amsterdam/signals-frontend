@@ -3,6 +3,17 @@
 .incident-detail-page {
   min-height: 800px;
 
+  &__preview {
+    position: relative;
+
+    &-close {
+      position: absolute;
+      top: 10px;
+      right: 25px;
+      z-index: 10000;
+    }
+  }
+
   .action-quad {
     background-color: $ams-wit;
     color: $ams-donkerantraciet;
@@ -52,7 +63,7 @@
     border-width: 1px solid $ams-pinkish-grey;
     cursor: pointer;
     display: inline-block;
-    background-image: url('../../../../shared/images/icon-edit.svg');
+    // background-image: url('../../../../shared/images/icon-edit.svg');
     background-position: 5px 5px;
     background-repeat: no-repeat;
 

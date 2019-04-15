@@ -28,8 +28,9 @@ import History from './components/History';
 import Tabs from './components/Tabs';
 import ImageViewer from './components/ImageViewer';
 
-// import MapDetail from './components/MapDetail';
+import MapDetail from './components/MapDetail';
 import IncidentDetail from './components/IncidentDetail';
+import LocationForm from '../LocationForm';
 // import IncidentCategoryContainer from '../IncidentCategoryContainer';
 // import IncidentPriorityContainer from '../IncidentPriorityContainer';
 // import IncidentStatusContainer from '../IncidentStatusContainer';
@@ -104,7 +105,6 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   onEditLocation() {
-    console.log('onEditLocation');
     this.setState({
       ...this.default,
       editLocation: true
@@ -120,7 +120,6 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   onCloseAll() {
-    console.log('onCloseAll');
     this.setState({
       ...this.default
     });
@@ -161,10 +160,23 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
               /> : ''}
 
             {showImage || showLocation || editLocation ? (
-              <div className="col-12">
+              <div className="col-12 incident-detail-page__preview">
+                <button className="incident-detail-page__preview-close action-button-close" onClick={this.onCloseAll}>X</button>
+
                 {showImage ? (
-                  <ImageViewer image={image} onClose={this.onCloseAll} />
-              ) : ''}
+                  <ImageViewer image={image} />
+                ) : ''}
+
+                {showLocation ? (
+                  <MapDetail
+                    value={incident.location}
+                    zoom="16"
+                  />
+                ) : ''}
+
+                {editLocation ? (
+                  <LocationForm />
+                ) : ''}
               </div>
             ) :
               (
@@ -179,7 +191,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
                         onEditLocation={this.onEditLocation}
                         onShowAttachment={this.onShowAttachment}
                       />
-                      ) : ''}
+                    ) : ''}
                   </div>
 
                   <div className="col-4">
@@ -188,7 +200,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
                         incident={incident}
                         priorityList={priorityList}
                       />
-                      ) : ''}
+                    ) : ''}
                   </div>
 
 
