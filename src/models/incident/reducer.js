@@ -3,9 +3,6 @@ import { fromJS } from 'immutable';
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 import priorityList from 'signals/incident-management/definitions/priorityList';
 
-import { REQUEST_PRIORITY_UPDATE_SUCCESS } from 'signals/incident-management/containers/IncidentPriorityContainer/constants';
-import { REQUEST_CATEGORY_UPDATE_SUCCESS } from 'signals/incident-management/containers/IncidentCategoryContainer/constants';
-import { REQUEST_STATUS_CREATE_SUCCESS } from 'signals/incident-management/containers/IncidentStatusContainer/constants';
 import { SPLIT_INCIDENT_SUCCESS, SPLIT_INCIDENT_ERROR } from 'signals/incident-management/containers/IncidentSplitContainer/constants';
 
 import {
@@ -74,18 +71,6 @@ function incidentModelReducer(state = initialState, action) {
           [action.payload.type]: false
         }))
         .set('error', fromJS(action.payload.error));
-
-    case REQUEST_CATEGORY_UPDATE_SUCCESS:
-      return state
-        .set('incident', fromJS({ ...state.get('incident').toJS(), category: action.payload }));
-
-    case REQUEST_PRIORITY_UPDATE_SUCCESS:
-      return state
-        .set('incident', fromJS({ ...state.get('incident').toJS(), priority: action.payload }));
-
-    case REQUEST_STATUS_CREATE_SUCCESS:
-      return state
-        .set('incident', fromJS({ ...state.get('incident').toJS(), status: action.payload }));
 
     case SPLIT_INCIDENT_SUCCESS:
     case SPLIT_INCIDENT_ERROR:
