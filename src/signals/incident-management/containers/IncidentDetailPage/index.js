@@ -22,7 +22,8 @@ import makeSelectHistoryModel from 'models/history/selectors';
 import './style.scss';
 
 import Header from './components/Header';
-import ValueList from './components/ValueList';
+import MetaList from './components/MetaList';
+import Notes from './components/Notes';
 import History from './components/History';
 import Tabs from './components/Tabs';
 
@@ -31,7 +32,7 @@ import IncidentDetail from './components/IncidentDetail';
 // import IncidentCategoryContainer from '../IncidentCategoryContainer';
 // import IncidentPriorityContainer from '../IncidentPriorityContainer';
 // import IncidentStatusContainer from '../IncidentStatusContainer';
-import IncidentNotesContainer from '../IncidentNotesContainer';
+// import IncidentNotesContainer from '../IncidentNotesContainer';
 // import LocationForm from '../LocationForm';
 // import IncidentHistoryContainer from '../IncidentHistoryContainer';
 import SplitNotificationBar from './components/SplitNotificationBar';
@@ -126,11 +127,9 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
       // status: { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
       // priority: { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
       // category: { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
-      notes: { name: 'Notities', value: <IncidentNotesContainer id={this.props.id} />, count: incidentNotesList && incidentNotesList.length },
+      notes: { name: 'Notities', value: <Notes list={incidentNotesList} /> },
       // image: incident && incident.image ? { name: 'Foto', value: <img src={incident.image} alt={''} className="incident-detail-page__image--max-width" /> } : undefined,
       // location: { name: 'Locatie', value: <LocationForm id={this.props.id} /> },
-
-
       history: { name: 'Historie', value: <History list={list} /> }
     };
 
@@ -167,7 +166,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 
             <div className="col-4">
               {incident ? (
-                <ValueList
+                <MetaList
                   incident={incident}
                   priorityList={priorityList}
                 />

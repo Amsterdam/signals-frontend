@@ -1,0 +1,21 @@
+@import "config.scss";
+
+.notes {
+  &__item {
+    &-header, &-body {
+      display: inline-block;
+      vertical-align: top;
+      margin-bottom: 32px;
+    }
+
+    &-header {
+      width: 100%;
+      color: $ams-donkergrijs;
+      margin-bottom: 6px;
+
+      &-when {
+        margin-right: 12px;
+      }
+    }
+  }
+}
