@@ -31,16 +31,10 @@ export class IncidentManagementModule extends React.Component { // eslint-disabl
             <Route component={LoginPage} />
           ) : (
             <div>
-              <div className="container">
-                <div className="row">
-                  <div className="col-12">
-                    <Route exact path={`${baseUrl}/incidents`} render={IncidentOverviewPageWrapper} />
-                    <Route exact path={`${baseUrl}/incident/:id`} render={IncidentDetailPageWrapper} />
-                    <Route exact path={`${baseUrl}/incident/:id/split`} render={IncidentSplitContainerWrapper} />
-                    <Route path={`${baseUrl}/dashboard`} component={DashboardContainer} />
-                  </div>
-                </div>
-              </div>
+              <Route exact path={`${baseUrl}/incidents`} render={IncidentOverviewPageWrapper} />
+              <Route exact path={`${baseUrl}/incident/:id`} render={IncidentDetailPageWrapper} />
+              <Route exact path={`${baseUrl}/incident/:id/split`} render={IncidentSplitContainerWrapper} />
+              <Route path={`${baseUrl}/dashboard`} component={DashboardContainer} />
             </div>
           )
         }

@@ -34,7 +34,7 @@ export class IncidentContainer extends React.Component {
   render() {
     return (
       <div className="incident-container">
-        <div className="container">
+        <div className="">
           <div className="incident-container__alert">
             <b>*** BELANGRIJK ***</b><br />
               Melding over horeca of evenementen? Vul dan bij de melding altijd uw contactgegevens in, dan kunnen wij u beter en sneller helpen.<br /><br />

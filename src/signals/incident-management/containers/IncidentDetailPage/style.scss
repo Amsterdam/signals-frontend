@@ -5,6 +5,7 @@
 
   &__preview {
     position: relative;
+    margin-top: 10px;
 
     &-close {
       position: absolute;
@@ -63,8 +64,9 @@
     border-width: 1px solid $ams-pinkish-grey;
     cursor: pointer;
     display: inline-block;
-    // background-image: url('../../../../shared/images/icon-edit.svg');
+    background-image: url('../../../../shared/images/icon-close.svg');
     background-position: 5px 5px;
+    background-size: 20px 20px;
     background-repeat: no-repeat;
 
     &:hover {

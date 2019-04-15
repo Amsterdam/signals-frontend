@@ -84,7 +84,6 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
                   <FieldControlWrapper
                     render={MapInput}
                     name="location"
-                    display="Locatie"
                     control={this.locationForm.get('location')}
                     onQueryResult={this.onQueryResult}
                   />

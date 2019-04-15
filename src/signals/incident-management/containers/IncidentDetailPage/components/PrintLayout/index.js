@@ -26,7 +26,7 @@ export class PrintLayout extends React.Component { // eslint-disable-line react/
     const { incident, incidentNotesList, stadsdeelList, priorityList, onPrintView } = this.props;
     const { incidentStatusList, statusList } = this.props.incidentStatusContainer;
     return (
-      <div className="print-layout row container" >
+      <div className="print-layout row" >
         <div className="col-12">
           <h3>Melding {this.props.id}</h3>
           <div className="no-print">

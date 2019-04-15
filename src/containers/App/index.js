@@ -27,7 +27,7 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
 
   render() {
     return (
-      <div className="container app-container">
+      <div className="app-container">
         <GlobalError />
         <div className="container">
           <HeaderContainer />
@@ -35,7 +35,7 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
         <div className="container-fluid">
           <MainMenu />
         </div>
-        <div className="content">
+        <div className="container content">
           <Switch>
             <Redirect exact from="/" to="/incident" />
             <Redirect exact from="/login" to="/manage" />

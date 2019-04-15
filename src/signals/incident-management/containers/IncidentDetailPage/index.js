@@ -126,7 +126,6 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   render() {
-    // const {  } = this.state;
     const { id, onPatchIncident } = this.props;
     const { incidentNotesList } = this.props.notesModel;
     const { list } = this.props.historyModel;
@@ -143,7 +142,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     };
 
     return (
-      <div className="incident-detail-page container">
+      <div className="incident-detail-page">
         <SplitNotificationBar data={split} onClose={this.onDismissSplitNotification} />
         {loading ? <LoadingIndicator /> : (
           <div className="row">
@@ -161,7 +160,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 
             {showImage || showLocation || editLocation ? (
               <div className="col-12 incident-detail-page__preview">
-                <button className="incident-detail-page__preview-close action-button-close" onClick={this.onCloseAll}>X</button>
+                <button className="incident-detail-page__preview-close action-button-close" onClick={this.onCloseAll} />
 
                 {showImage ? (
                   <ImageViewer image={image} />
@@ -202,7 +201,6 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
                       />
                     ) : ''}
                   </div>
-
 
                   <div className="col-8">
                     <Tabs

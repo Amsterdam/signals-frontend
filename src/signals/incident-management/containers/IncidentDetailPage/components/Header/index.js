@@ -10,7 +10,7 @@ const Header = ({ incident, baseUrl, onThor, onDownloadPdf }) => {
   const canThor = true; // ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some((value) => value === currentState);
 
   return (
-    <header className="header container">
+    <header className="header">
       <div className="">
         <div className="row">
           <div className="col-6 header__title align-self-center">Melding {incident.id}</div>
