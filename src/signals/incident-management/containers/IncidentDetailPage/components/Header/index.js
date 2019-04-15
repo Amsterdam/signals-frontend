@@ -11,14 +11,12 @@ const Header = ({ incident, baseUrl, onThor, onDownloadPdf }) => {
 
   return (
     <header className="header">
-      <div className="">
-        <div className="row">
-          <div className="col-6 header__title align-self-center">Melding {incident.id}</div>
-          <div className="col-6 header__buttons">
-            {canSplit ? <Link to={`${baseUrl}/incident/${incident.id}/split`} className="align-self-center action-quad">Splitsen</Link> : ''}
-            {canThor ? <button className="align-self-center action-quad" onClick={onThor}>THOR</button> : ''}
-            <button className="align-self-center action-quad" onClick={onDownloadPdf}>Download PDF</button>
-          </div>
+      <div className="row">
+        <div className="col-6 header__title align-self-center">Melding {incident.id}</div>
+        <div className="col-6 header__buttons">
+          {canSplit ? <Link to={`${baseUrl}/incident/${incident.id}/split`} className="align-self-center action-quad">Splitsen</Link> : ''}
+          {canThor ? <button className="align-self-center action-quad" onClick={onThor}>THOR</button> : ''}
+          <button className="align-self-center action-quad" onClick={onDownloadPdf}>Download PDF</button>
         </div>
       </div>
     </header>
