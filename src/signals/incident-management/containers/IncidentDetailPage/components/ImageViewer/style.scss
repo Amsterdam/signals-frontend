@@ -1,0 +1,17 @@
+@import "config.scss";
+
+.image-viewer {
+  position: relative;
+  padding-top: 10px;
+  text-align: center;
+
+  &__image {
+    max-height: 722px;
+  }
+
+  &__button {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+  }
+}

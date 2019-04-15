@@ -44,6 +44,25 @@
     }
   }
 
+  .action-button-close {
+    width: 32px;
+    height: 32px;
+    color: $ams-donkerantraciet;
+    background-color: $ams-wit;
+    border-width: 1px solid $ams-pinkish-grey;
+    cursor: pointer;
+    display: inline-block;
+    background-image: url('../../../../shared/images/icon-edit.svg');
+    background-position: 5px 5px;
+    background-repeat: no-repeat;
+
+    &:hover {
+      background-color: $ams-lichtgrijs;
+      border-color: $ams-zwart;
+      color: $ams-zwart;
+    }
+  }
+
   .action.startagain {
     padding-left: 0;
   }
