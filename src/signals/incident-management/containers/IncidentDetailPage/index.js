@@ -160,7 +160,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
                   <LocationForm
                     incidentModel={this.props.incidentModel}
                     onPatchIncident={onPatchIncident}
-                    onCancel={this.onCloseAll}
+                    onClose={this.onCloseAll}
                   />
                 ) : ''}
               </div>

@@ -1,9 +1,12 @@
-.incident-location-form {
+@import "config.scss";
+
+.location-form {
   #nlmaps-geocoder-control-input {
     width: 33%;
   }
 
-  .action {
-    height: 52px;
+  &__cancel {
+    color: $ams-wit !important;
+    background-color: $ams-antraciet !important;
   }
 }

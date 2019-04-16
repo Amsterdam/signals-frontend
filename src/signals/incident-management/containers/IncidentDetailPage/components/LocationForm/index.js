@@ -62,53 +62,48 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
       type: 'location',
       patch: { location: { ...this.state.newLocation } }
     });
+
+    this.props.onClose();
   }
 
   render() {
-    const { incidentModel } = this.props;
+    const { incidentModel, onClose } = this.props;
     return (
-      <div className="incident-location-form">
-        <div className="incident-location-form__body">
-          <FieldGroup
-            control={this.locationForm}
-            render={({ invalid }) => (
-              <form onSubmit={this.handleSubmit}>
-                <div>
-                  <FieldControlWrapper
-                    render={HiddenInput}
-                    name="coordinates"
-                    display="Coordinates"
-                    control={this.locationForm.get('coordinates')}
-                  />
+      <div className="location-form">
+        <FieldGroup
+          control={this.locationForm}
+          render={({ invalid }) => (
+            <form onSubmit={this.handleSubmit}>
+              <div>
+                <FieldControlWrapper
+                  render={HiddenInput}
+                  name="coordinates"
+                  display="Coordinates"
+                  control={this.locationForm.get('coordinates')}
+                />
 
-                  <FieldControlWrapper
-                    render={MapInput}
-                    name="location"
-                    control={this.locationForm.get('location')}
-                    onQueryResult={this.onQueryResult}
-                  />
+                <FieldControlWrapper
+                  render={MapInput}
+                  name="location"
+                  control={this.locationForm.get('location')}
+                  onQueryResult={this.onQueryResult}
+                />
 
-                  {incidentModel.error ? <div className="notification notification-red" >
-                    {incidentModel.error && incidentModel.error.response && incidentModel.error.response.status === 403 ?
+                {incidentModel.error ? <div className="notification notification-red" >
+                  {incidentModel.error && incidentModel.error.response && incidentModel.error.response.status === 403 ?
                       'U bent niet geautoriseerd om dit te doen.' :
                       'De nieuwe locatie kon niet worden gewijzigd.'}
-                  </div> : ''}
+                </div> : ''}
 
-                  <button className="action primary" type="submit" disabled={invalid || incidentModel.patching.location}>
-                    <span className="value">Locatie wijzigen</span>
-                    {incidentModel.patching.location ?
-                      <span className="working">
-                        <div className="progress-indicator progress-white"></div>
-                      </span>
-                    : ''}
-                  </button>
+                <button className="action primary" type="submit" disabled={invalid || incidentModel.patching.location}>
+                  <span className="value">Locatie wijzigen</span>
+                </button>
 
-                  <button className="action primary" onClick={this.props.onCancel}>Cancel</button>
-                </div>
-              </form>
+                <button className="location-form__cancel action secundary-grey" onClick={onClose}>Cancel</button>
+              </div>
+            </form>
             )}
-          />
-        </div>
+        />
       </div>
     );
   }
@@ -132,7 +127,7 @@ LocationForm.propTypes = {
   newLocation: PropTypes.object,
 
   onPatchIncident: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired
 };
 
 export default LocationForm;
