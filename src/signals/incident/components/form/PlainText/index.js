@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { isArray, isString } from 'lodash';
 
-import mapDynamicFields from '../../services/map-dynamic-fields';
+import mapDynamicFields from '../../../services/map-dynamic-fields';
 import './style.scss';
 
 function renderText(value, incident) {

@@ -2,9 +2,9 @@ import React from 'react';
 import { mount } from 'enzyme';
 
 import IncidentForm from './index';
-import formatConditionalForm from './services/format-conditional-form/';
+import formatConditionalForm from '../../services/format-conditional-form/';
 
-jest.mock('./services/format-conditional-form/');
+jest.mock('../../services/format-conditional-form/');
 
 const mockForm = {
   controls: {

@@ -1,4 +1,4 @@
-import FormComponents from '../../components/IncidentForm/components/';
+import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
 
 export default {
