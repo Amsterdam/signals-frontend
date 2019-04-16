@@ -196,6 +196,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
                       <MetaList
                         incident={incident}
                         priorityList={priorityList}
+                        onPatchIncident={onPatchIncident}
                       />
                     ) : ''}
                   </div>

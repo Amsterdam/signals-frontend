@@ -1,5 +1,29 @@
 @import "config.scss";
 
 .change-value {
+  position: relative;
 
+  &__form {
+    button {
+      margin-top: -5px !important;
+    }
+
+    &-submit {
+      &:disabled {
+        color: #B4B4B4 !important;
+        background-color: #E6E6E6 !important;
+      }
+    }
+
+    &-cancel {
+      color: $ams-wit !important;
+      background-color: $ams-antraciet !important;
+    }
+  }
+
+  &__edit {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 }

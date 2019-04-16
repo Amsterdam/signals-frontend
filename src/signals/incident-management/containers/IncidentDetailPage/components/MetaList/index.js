@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
-import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
+import ChangeValue from '../ChangeValue';
 
 import './style.scss';
 
-const MetaList = ({ incident, priorityList }) => (
+const MetaList = ({ incident, priorityList, onPatchIncident }) => (
   <div className="meta-list">
     <dl>
       <dt className="meta-list__definition">Gemeld op</dt>
@@ -17,8 +17,15 @@ const MetaList = ({ incident, priorityList }) => (
       <dt className="meta-list__definition">Status</dt>
       <dd className="meta-list__value">{incident.status.state_display}&nbsp;</dd>
 
-      <dt className="meta-list__definition">Urgentie</dt>
-      <dd className="meta-list__value">{getListValueByKey(priorityList, incident.priority && incident.priority.priority)}&nbsp;</dd>
+      <ChangeValue
+        display="Urgentie"
+        definitionClass="meta-list__definition"
+        valueClass="meta-list__value"
+        list={priorityList}
+        incident={incident}
+        path="priority.priority"
+        onPatchIncident={onPatchIncident}
+      />
 
       <dt className="meta-list__definition">Subcategorie</dt>
       <dd className="meta-list__value">{incident.category.sub}&nbsp;</dd>
@@ -52,8 +59,9 @@ const MetaList = ({ incident, priorityList }) => (
 
 MetaList.propTypes = {
   incident: PropTypes.object.isRequired,
-  priorityList: PropTypes.array.isRequired
+  priorityList: PropTypes.array.isRequired,
+
+  onPatchIncident: PropTypes.func.isRequired
 };
 
 export default MetaList;
-// {getListValueByKey(stadsdeelList, incident.location.stadsdeel)}&nbsp
