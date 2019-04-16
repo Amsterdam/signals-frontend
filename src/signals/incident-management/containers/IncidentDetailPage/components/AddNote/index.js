@@ -2,14 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 
-import { string2date, string2time } from 'shared/services/string-parser/string-parser';
-
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import TextInput from '../../../../components/TextInput';
 
 import './style.scss';
 
-class Notes extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class AddNote extends React.Component { // eslint-disable-line react/prefer-stateless-function
   noteForm = FormBuilder.group({ // eslint-disable-line react/sort-comp
     _signal: [''],
     text: [null, Validators.required],
@@ -34,7 +32,6 @@ class Notes extends React.Component { // eslint-disable-line react/prefer-statel
   }
 
   render() {
-    const { list } = this.props;
     const loading = false;
     const error = false;
     return (
@@ -62,27 +59,15 @@ class Notes extends React.Component { // eslint-disable-line react/prefer-statel
               )}
           />
         </div>
-
-        {list.map((item) => (
-          <div key={item._links.self.href} className="notes__item">
-            <div className="notes__item-header">
-              <span className="notes__item-header-when">{string2date(item.created_at)}</span>
-              <span className="notes__item-header-when">{string2time(item.created_at)}</span>
-              {item.created_by}
-            </div>
-            <div className="notes__item-body pre-wrap">{item.text}</div>
-          </div>
-      ))}
       </section>
     );
   }
 }
 
-Notes.propTypes = {
-  list: PropTypes.array.isRequired,
+AddNote.propTypes = {
   id: PropTypes.string.isRequired,
 
   onPatchIncident: PropTypes.func.isRequired
 };
 
-export default Notes;
+export default AddNote;

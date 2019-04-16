@@ -24,6 +24,7 @@ import './style.scss';
 import Header from './components/Header';
 import MetaList from './components/MetaList';
 import History from './components/History';
+import AddNote from './components/AddNote';
 import LocationForm from './components/LocationForm';
 import ImageViewer from './components/ImageViewer';
 
@@ -178,7 +179,14 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
                           onShowAttachment={this.onShowAttachment}
                         />
 
-                        <History list={list} />
+                        <AddNote
+                          id={this.props.id}
+                          onPatchIncident={onPatchIncident}
+                        />
+
+                        <History
+                          list={list}
+                        />
                       </div>
                     ) : ''}
                   </div>
