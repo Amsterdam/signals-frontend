@@ -1,33 +1,30 @@
 @import "config.scss";
 
-.notes {
+.add-note {
   &__form {
-    &-submit {
-      // display: inline-block;
-      width: 30%;
-      float: right;
-    }
     &-input {
       display: inline-block;
       width: 70%;
     }
-  }
 
-  &__item {
-    &-header, &-body {
-      display: inline-block;
-      vertical-align: top;
-      margin-bottom: 32px;
+    button {
+      margin-top: -5px !important;
     }
 
-    &-header {
-      width: 100%;
-      color: $ams-donkergrijs;
-      margin-bottom: 6px;
-
-      &-when {
-        margin-right: 12px;
+    &-submit {
+      &:disabled {
+        color: #B4B4B4 !important;
+        background-color: #E6E6E6 !important;
       }
     }
+
+    &-cancel {
+      color: $ams-wit !important;
+      background-color: $ams-antraciet !important;
+    }
+  }
+
+  &__show-form {
+    margin-left: 0 !important;
   }
 }

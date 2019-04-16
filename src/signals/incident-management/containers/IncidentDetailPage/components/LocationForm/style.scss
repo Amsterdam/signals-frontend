@@ -5,6 +5,12 @@
     width: 33%;
   }
 
+  &__submit {
+    &:disabled {
+      color: #B4B4B4 !important;
+      background-color: #E6E6E6 !important;
+  }
+  }
   &__cancel {
     color: $ams-wit !important;
     background-color: $ams-antraciet !important;

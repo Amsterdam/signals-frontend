@@ -95,11 +95,8 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
                       'De nieuwe locatie kon niet worden gewijzigd.'}
                 </div> : ''}
 
-                <button className="action primary" type="submit" disabled={invalid || incidentModel.patching.location}>
-                  <span className="value">Locatie wijzigen</span>
-                </button>
-
-                <button className="location-form__cancel action secundary-grey" onClick={onClose}>Cancel</button>
+                <button className="location-form__submit action primary" type="submit" disabled={invalid || incidentModel.patching.location}>Locatie opslaan</button>
+                <button className="location-form__cancel action secundary-grey" onClick={onClose}>Annuleren</button>
               </div>
             </form>
             )}

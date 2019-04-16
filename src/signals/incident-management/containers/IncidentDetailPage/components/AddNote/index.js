@@ -8,56 +8,63 @@ import TextInput from '../../../../components/TextInput';
 import './style.scss';
 
 class AddNote extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  noteForm = FormBuilder.group({ // eslint-disable-line react/sort-comp
-    _signal: [''],
-    text: [null, Validators.required],
-    loading: false
+  form = FormBuilder.group({ // eslint-disable-line react/sort-comp
+    text: [null, Validators.required]
   });
 
-  // componentWillUpdate(props) {
-    // if (props.loading !== this.props.loading) {
-      // this.noteForm.controls.loading.setValue(props.loading);
-    // }
-  // }
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      formVisible: false
+    };
+
+    this.showForm = this.showForm.bind(this);
+    this.hideForm = this.hideForm.bind(this);
+  }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const notes = [{ text: this.noteForm.value.text }];
+    const notes = [{ text: this.form.value.text }];
     this.props.onPatchIncident({
       id: this.props.id,
       patch: { notes }
     });
 
-    this.noteForm.reset();
+    this.form.reset();
+    this.hideForm();
+  }
+
+  showForm() {
+    this.setState({ formVisible: true });
+  }
+
+  hideForm() {
+    this.setState({ formVisible: false });
   }
 
   render() {
-    const loading = false;
-    const error = false;
+    const { formVisible } = this.state;
     return (
-      <section className="notes">
+      <section className="add-note">
         <div>
-          <FieldGroup
-            control={this.noteForm}
-            render={({ invalid }) => (
-              <form onSubmit={this.handleSubmit} className="notes__form">
-                <div>
-                  <button className="notes__form-submit action-quad" type="submit" disabled={invalid || loading}>
-                    <span className="value">Notitie toevoegen</span>
-                    {loading ?
-                      <span className="working">
-                        <div className="progress-indicator progress-white"></div>
-                      </span>
-                      : ''}
-                  </button>
-                  <FieldControlWrapper render={TextInput} name="text" className="notes__form-input" control={this.noteForm.get('text')} />
+          {formVisible ?
+            <FieldGroup
+              control={this.form}
+              render={({ invalid }) => (
+                <form onSubmit={this.handleSubmit} className="add-note__form">
+                  <div>
+                    <FieldControlWrapper render={TextInput} name="text" className="add-note__form-input" control={this.form.get('text')} />
 
-                  {error ? <div className="notification notification-red" >De gekozen notitie is niet mogelijk in deze situatie.</div> : ''}
-
-                </div>
-              </form>
-              )}
-          />
+                    <button className="add-note__form-submit action primary" type="submit" disabled={invalid}>Opslaan</button>
+                    <button className="add-note__form-cancel action secundary-grey" onClick={this.hideForm}>Annuleren</button>
+                  </div>
+                </form>
+            )}
+            />
+          :
+            <button className="add-note__show-form action-quad" onClick={this.showForm}>Notitie toevoegen</button>
+          }
         </div>
       </section>
     );

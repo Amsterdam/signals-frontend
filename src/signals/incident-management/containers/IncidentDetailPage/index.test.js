@@ -7,7 +7,7 @@ import { IncidentDetailPage, mapDispatchToProps } from './index';
 
 import stadsdeelList from '../../definitions/stadsdeelList';
 import priorityList from '../../definitions/priorityList';
-import ConnectedPrintLayout from './components/PrintLayout';
+// import ConnectedPrintLayout from './components/PrintLayout';
 
 jest.mock('./components/MapDetail', () => () => 'MapDetail');
 jest.mock('./components/IncidentDetail', () => () => 'IncidentDetail');
@@ -102,16 +102,6 @@ describe('<IncidentDetailPage />', () => {
       wrapper.instance().onPrintView();
       wrapper.instance().onTabChanged(1);
       expect(wrapper.instance().state).toEqual({ selectedTab: 1, printView: true });
-    });
-
-    it('should render the print view', () => {
-      const wrapper = shallow(
-        <IncidentDetailPage {...props} />
-      );
-      wrapper.instance().onPrintView();
-      wrapper.update();
-      expect(wrapper.find(ConnectedPrintLayout).length).toEqual(1);
-      expect(wrapper).toMatchSnapshot();
     });
 
     it('should reset split state', () => {
