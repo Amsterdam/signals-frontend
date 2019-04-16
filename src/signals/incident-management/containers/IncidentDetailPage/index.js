@@ -23,7 +23,6 @@ import './style.scss';
 
 import Header from './components/Header';
 import MetaList from './components/MetaList';
-import Notes from './components/Notes';
 import History from './components/History';
 import LocationForm from './components/LocationForm';
 import ImageViewer from './components/ImageViewer';
@@ -206,7 +205,6 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 
 IncidentDetailPage.propTypes = {
   incidentModel: PropTypes.object.isRequired,
-  notesModel: PropTypes.object.isRequired,
   historyModel: PropTypes.object.isRequired,
 
   id: PropTypes.string,
