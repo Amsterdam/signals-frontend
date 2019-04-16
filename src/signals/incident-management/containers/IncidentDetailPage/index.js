@@ -25,18 +25,11 @@ import Header from './components/Header';
 import MetaList from './components/MetaList';
 import Notes from './components/Notes';
 import History from './components/History';
-import Tabs from './components/Tabs';
+import LocationForm from './components/LocationForm';
 import ImageViewer from './components/ImageViewer';
 
 import MapDetail from './components/MapDetail';
 import IncidentDetail from './components/IncidentDetail';
-import LocationForm from '../LocationForm';
-// import IncidentCategoryContainer from '../IncidentCategoryContainer';
-// import IncidentPriorityContainer from '../IncidentPriorityContainer';
-// import IncidentStatusContainer from '../IncidentStatusContainer';
-// import IncidentNotesContainer from '../IncidentNotesContainer';
-// import LocationForm from '../LocationForm';
-// import IncidentHistoryContainer from '../IncidentHistoryContainer';
 import SplitNotificationBar from './components/SplitNotificationBar';
 
 export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -59,7 +52,6 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   state = {
-    selectedTab: 'notes',
     showLocation: false,
     editLocation: false,
     showImage: false,
@@ -97,7 +89,6 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   onShowLocation() {
-    console.log('onShowLocation');
     this.setState({
       ...this.default,
       showLocation: true
@@ -126,20 +117,10 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   render() {
-    const { id, onPatchIncident } = this.props;
-    const { incidentNotesList } = this.props.notesModel;
+    const { onPatchIncident } = this.props;
     const { list } = this.props.historyModel;
     const { incident, loading, split, stadsdeelList, priorityList } = this.props.incidentModel;
-    const { selectedTab, showImage, showLocation, editLocation, image } = this.state;
-    const tabs = {
-      // status: { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
-      // priority: { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
-      // category: { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
-      notes: { name: 'Notities', value: <Notes list={incidentNotesList} id={id} onPatchIncident={onPatchIncident} /> },
-      // image: incident && incident.image ? { name: 'Foto', value: <img src={incident.image} alt={''} className="incident-detail-page__image--max-width" /> } : undefined,
-      // location: { name: 'Locatie', value: <LocationForm id={this.props.id} /> },
-      history: { name: 'Historie', value: <History list={list} /> }
-    };
+    const { showImage, showLocation, editLocation, image } = this.state;
 
     return (
       <div className="incident-detail-page">
@@ -176,46 +157,40 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
                 ) : ''}
 
                 {editLocation ? (
-                  <LocationForm />
+                  <LocationForm
+                    incidentModel={this.props.incidentModel}
+                    onPatchIncident={onPatchIncident}
+                    onCancel={this.onCloseAll}
+                  />
                 ) : ''}
               </div>
             ) :
               (
                 <div className="row">
-                  <div className="col-8">
+                  <div className="col-7">
                     {incident ? (
-                      <IncidentDetail
-                        incident={incident}
-                        stadsdeelList={stadsdeelList}
-                        priorityList={priorityList}
-                        onShowLocation={this.onShowLocation}
-                        onEditLocation={this.onEditLocation}
-                        onShowAttachment={this.onShowAttachment}
-                      />
+                      <div>
+                        <IncidentDetail
+                          incident={incident}
+                          stadsdeelList={stadsdeelList}
+                          priorityList={priorityList}
+                          onShowLocation={this.onShowLocation}
+                          onEditLocation={this.onEditLocation}
+                          onShowAttachment={this.onShowAttachment}
+                        />
+
+                        <History list={list} />
+                      </div>
                     ) : ''}
                   </div>
 
-                  <div className="col-4">
+                  <div className="col-4 offset-1">
                     {incident ? (
                       <MetaList
                         incident={incident}
                         priorityList={priorityList}
                       />
                     ) : ''}
-                  </div>
-
-                  <div className="col-8">
-                    <Tabs
-                      onTabChanged={this.onTabChanged}
-                      selectedTab={selectedTab}
-                      tabs={tabs}
-                    />
-                  </div>
-
-                  <div className="col-8">
-                    <div className="incident-detail-page__tab-container">
-                      {tabs[selectedTab].value}
-                    </div>
                   </div>
                 </div>
               )

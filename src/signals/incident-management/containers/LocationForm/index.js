@@ -20,13 +20,8 @@ LocationForm.propTypes = {
   onPatchIncident: PropTypes.func.isRequired
 };
 
-/* istanbul ignore next */
-const mapStateToProps = () => createStructuredSelector({
-  incidentModel: makeSelectIncidentModel()
-});
-
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onPatchIncident: patchIncident
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(LocationForm);
+export default connect(null, mapDispatchToProps)(LocationForm);

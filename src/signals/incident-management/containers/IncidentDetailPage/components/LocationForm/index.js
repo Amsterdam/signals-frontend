@@ -10,7 +10,7 @@ import HiddenInput from '../../../../components/HiddenInput';
 
 import './style.scss';
 
-class Form extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class LocationForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
 
@@ -102,6 +102,8 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
                       </span>
                     : ''}
                   </button>
+
+                  <button className="action primary" onClick={this.props.onCancel}>Cancel</button>
                 </div>
               </form>
             )}
@@ -112,7 +114,7 @@ class Form extends React.Component { // eslint-disable-line react/prefer-statele
   }
 }
 
-Form.defaultProps = {
+LocationForm.defaultProps = {
   location: {},
   newLocation: {},
   incidentModel: {
@@ -123,13 +125,14 @@ Form.defaultProps = {
   }
 };
 
-Form.propTypes = {
+LocationForm.propTypes = {
   id: PropTypes.string,
   incidentModel: PropTypes.object,
   location: PropTypes.object,
   newLocation: PropTypes.object,
 
-  onPatchIncident: PropTypes.func.isRequired
+  onPatchIncident: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired
 };
 
-export default Form;
+export default LocationForm;

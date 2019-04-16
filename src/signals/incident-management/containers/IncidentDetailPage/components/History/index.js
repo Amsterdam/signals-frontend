@@ -7,6 +7,7 @@ import './style.scss';
 
 const History = ({ list }) => (
   <section className="history">
+    <h4>Historie</h4>
     {list.map((item) => (
       <div key={item.identifier} className="history__item">
         <div className="history__item-header">
