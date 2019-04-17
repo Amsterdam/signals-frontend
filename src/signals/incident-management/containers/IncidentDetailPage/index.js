@@ -27,6 +27,7 @@ import History from './components/History';
 import AddNote from './components/AddNote';
 import LocationForm from './components/LocationForm';
 import ImageViewer from './components/ImageViewer';
+import StatusForm from './components/StatusForm';
 
 import MapDetail from './components/MapDetail';
 import IncidentDetail from './components/IncidentDetail';
@@ -36,17 +37,19 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   constructor(props) {
     super(props);
 
-    this.onTabChanged = this.onTabChanged.bind(this);
+    this.onDownloadPdf = this.onDownloadPdf.bind(this);
+    this.onThor = this.onThor.bind(this);
     this.onDismissSplitNotification = this.onDismissSplitNotification.bind(this);
     this.onShowLocation = this.onShowLocation.bind(this);
     this.onEditLocation = this.onEditLocation.bind(this);
+    this.onEditStatus = this.onEditStatus.bind(this);
     this.onShowAttachment = this.onShowAttachment.bind(this);
     this.onCloseAll = this.onCloseAll.bind(this);
-    this.onThor = this.onThor.bind(this);
 
     this.default = {
       showLocation: false,
       editLocation: false,
+      editStatus: false,
       showImage: false,
       image: ''
     };
@@ -55,6 +58,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   state = {
     showLocation: false,
     editLocation: false,
+    editStatus: false,
     showImage: false,
     image: ''
   };
@@ -71,10 +75,6 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     }
 
     return true;
-  }
-
-  onTabChanged(tabId) {
-    this.setState({ selectedTab: tabId });
   }
 
   onDownloadPdf() {
@@ -114,6 +114,14 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     });
   }
 
+  onEditStatus() {
+    console.log('onEditStatus');
+    this.setState({
+      ...this.default,
+      editStatus: true
+    });
+  }
+
   onShowAttachment(image) {
     this.setState({
       ...this.default,
@@ -132,7 +140,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     const { onPatchIncident, categories } = this.props;
     const { list } = this.props.historyModel;
     const { incident, loading, split, stadsdeelList, priorityList } = this.props.incidentModel;
-    const { showImage, showLocation, editLocation, image } = this.state;
+    const { showImage, showLocation, editLocation, editStatus, image } = this.state;
 
     return (
       <div className="incident-detail-page">
@@ -153,7 +161,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
                 onDownloadPdf={this.onDownloadPdf}
               /> : ''}
 
-            {showImage || showLocation || editLocation ? (
+            {showImage || showLocation || editLocation || editStatus ? (
               <div className="col-12 incident-detail-page__preview">
                 <button className="incident-detail-page__preview-close action-button-close" onClick={this.onCloseAll} />
 
@@ -175,6 +183,10 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
                     onClose={this.onCloseAll}
                   />
                 ) : ''}
+
+                {editStatus ?
+                  <StatusForm />
+                : ''}
               </div>
             ) :
               (
@@ -210,6 +222,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
                         priorityList={priorityList}
                         subcategories={categories.sub}
                         onPatchIncident={onPatchIncident}
+                        onEditStatus={this.onEditStatus}
                       />
                     ) : ''}
                   </div>

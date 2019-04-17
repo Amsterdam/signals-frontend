@@ -8,13 +8,16 @@ import ChangeValue from '../ChangeValue';
 
 import './style.scss';
 
-const MetaList = ({ incident, subcategories, priorityList, onPatchIncident }) => (
+const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEditStatus }) => (
   <div className="meta-list">
     <dl>
       <dt className="meta-list__definition">Gemeld op</dt>
       <dd className="meta-list__value">{string2date(incident.created_at)} {string2time(incident.created_at)}</dd>
 
-      <dt className="meta-list__definition">Status</dt>
+      <dt className="meta-list__definition">
+        <button className="meta-list__edit action-button-edit" onClick={onEditStatus} />
+        Status
+      </dt>
       <dd className="meta-list__value">{incident.status.state_display}&nbsp;</dd>
 
       <ChangeValue
@@ -69,7 +72,8 @@ MetaList.propTypes = {
   priorityList: PropTypes.array.isRequired,
   subcategories: PropTypes.array.isRequired,
 
-  onPatchIncident: PropTypes.func.isRequired
+  onPatchIncident: PropTypes.func.isRequired,
+  onEditStatus: PropTypes.func.isRequired
 };
 
 export default MetaList;
