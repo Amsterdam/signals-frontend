@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { makeSelectLoading, makeSelectError, makeSelectCategories } from 'containers/App/selectors';
-import { requestIncident, patchIncident, dismissSplitNotification } from 'models/incident/actions';
+import { requestIncident, patchIncident, dismissSplitNotification, downloadPdf } from 'models/incident/actions';
 import { requestNotesList } from 'models/notes/actions';
 import { requestHistoryList } from 'models/history/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
@@ -78,8 +78,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   onDownloadPdf() {
-    // /signals/v1/private/signals/{signal_id}/pdf
-    console.log('onDownloadPdf');
+    this.props.onDownloadPdf(this.props.id);
   }
 
   onThor() {
@@ -255,7 +254,8 @@ IncidentDetailPage.propTypes = {
   onPatchIncident: PropTypes.func.isRequired,
   onRequestNotesList: PropTypes.func.isRequired,
   onRequestHistoryList: PropTypes.func.isRequired,
-  onDismissSplitNotification: PropTypes.func.isRequired
+  onDismissSplitNotification: PropTypes.func.isRequired,
+  onDownloadPdf: PropTypes.func.isRequired
 };
 
 /* istanbul ignore next */
@@ -273,7 +273,8 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onPatchIncident: patchIncident,
   onRequestNotesList: requestNotesList,
   onRequestHistoryList: requestHistoryList,
-  onDismissSplitNotification: dismissSplitNotification
+  onDismissSplitNotification: dismissSplitNotification,
+  onDownloadPdf: downloadPdf
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(IncidentDetailPage);

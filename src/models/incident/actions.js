@@ -1,6 +1,6 @@
 import {
   REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR,
-  DISMISS_SPLIT_NOTIFICATION,
+  DISMISS_SPLIT_NOTIFICATION, DOWNLOAD_PDF,
   PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR
 } from './constants';
 
@@ -28,6 +28,13 @@ export function requestIncidentError(error) {
 export function dismissSplitNotification() {
   return {
     type: DISMISS_SPLIT_NOTIFICATION
+  };
+}
+
+export function downloadPdf(id) {
+  return {
+    type: DOWNLOAD_PDF,
+    payload: id
   };
 }
 
