@@ -8,7 +8,7 @@ import ChangeValue from '../ChangeValue';
 
 import './style.scss';
 
-const MetaList = ({ incident, priorityList, onPatchIncident }) => (
+const MetaList = ({ incident, subcategories, priorityList, onPatchIncident }) => (
   <div className="meta-list">
     <dl>
       <dt className="meta-list__definition">Gemeld op</dt>
@@ -27,8 +27,15 @@ const MetaList = ({ incident, priorityList, onPatchIncident }) => (
         onPatchIncident={onPatchIncident}
       />
 
-      <dt className="meta-list__definition">Subcategorie</dt>
-      <dd className="meta-list__value">{incident.category.sub}&nbsp;</dd>
+      <ChangeValue
+        display="Subcategorie"
+        definitionClass="meta-list__definition"
+        valueClass="meta-list__value"
+        list={subcategories}
+        incident={incident}
+        path="category.category_url"
+        onPatchIncident={onPatchIncident}
+      />
 
       <dt className="meta-list__definition">Hoofdcategorie</dt>
       <dd className="meta-list__value">{incident.category.main}&nbsp;</dd>
@@ -60,6 +67,7 @@ const MetaList = ({ incident, priorityList, onPatchIncident }) => (
 MetaList.propTypes = {
   incident: PropTypes.object.isRequired,
   priorityList: PropTypes.array.isRequired,
+  subcategories: PropTypes.array.isRequired,
 
   onPatchIncident: PropTypes.func.isRequired
 };

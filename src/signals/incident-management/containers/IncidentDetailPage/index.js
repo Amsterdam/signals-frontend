@@ -12,7 +12,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
-import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
+import { makeSelectLoading, makeSelectError, makeSelectCategories } from 'containers/App/selectors';
 import { requestIncident, patchIncident, dismissSplitNotification } from 'models/incident/actions';
 import { requestNotesList } from 'models/notes/actions';
 import { requestHistoryList } from 'models/history/actions';
@@ -117,7 +117,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   render() {
-    const { onPatchIncident } = this.props;
+    const { onPatchIncident, categories } = this.props;
     const { list } = this.props.historyModel;
     const { incident, loading, split, stadsdeelList, priorityList } = this.props.incidentModel;
     const { showImage, showLocation, editLocation, image } = this.state;
@@ -196,6 +196,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
                       <MetaList
                         incident={incident}
                         priorityList={priorityList}
+                        subcategories={categories.sub}
                         onPatchIncident={onPatchIncident}
                       />
                     ) : ''}
@@ -215,6 +216,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 IncidentDetailPage.propTypes = {
   incidentModel: PropTypes.object.isRequired,
   historyModel: PropTypes.object.isRequired,
+  categories: PropTypes.object.isRequired,
 
   id: PropTypes.string,
   baseUrl: PropTypes.string,
@@ -231,6 +233,7 @@ const mapStateToProps = () => createStructuredSelector({
   loading: makeSelectLoading(),
   error: makeSelectError(),
   incidentModel: makeSelectIncidentModel(),
+  categories: makeSelectCategories(),
   historyModel: makeSelectHistoryModel(),
   notesModel: makeSelectNotesModel()
 });

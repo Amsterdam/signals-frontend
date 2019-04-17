@@ -21,9 +21,9 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
     this.state = {
       formVisible: false
     };
-
     this.showForm = this.showForm.bind(this);
     this.hideForm = this.hideForm.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   handleSubmit = (event) => {
@@ -35,6 +35,11 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
       patch: { ...payload }
     });
 
+    this.form.reset();
+    this.hideForm();
+  }
+
+  handleCancel() {
     this.form.reset();
     this.hideForm();
   }
@@ -71,7 +76,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
                   />
 
                   <button className="change-value__form-submit action primary" type="submit" disabled={invalid}>Opslaan</button>
-                  <button className="change-value__form-cancel action secundary-grey" onClick={this.hideForm}>Annuleren</button>
+                  <button className="change-value__form-cancel action secundary-grey" onClick={this.handleCancel}>Annuleren</button>
                 </div>
               </form>
               )}
