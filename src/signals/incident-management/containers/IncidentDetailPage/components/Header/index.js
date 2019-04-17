@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 import './style.scss';
 
 const Header = ({ incident, baseUrl, onThor, onDownloadPdf }) => {
-  // const status = incident && incident.status && incident.status.state;
-  const canSplit = true; // (status === 'm') && !(incident && incident.parent_id);
-  const canThor = true; // ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some((value) => value === currentState);
+  const status = incident && incident.status && incident.status.state;
+  console.log('state', status);
+  const canSplit = (status === 'm') && !(incident && incident.parent_id);
+  const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some((value) => value === status);
 
   return (
     <header className="header">

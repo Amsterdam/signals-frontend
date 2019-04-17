@@ -42,6 +42,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     this.onEditLocation = this.onEditLocation.bind(this);
     this.onShowAttachment = this.onShowAttachment.bind(this);
     this.onCloseAll = this.onCloseAll.bind(this);
+    this.onThor = this.onThor.bind(this);
 
     this.default = {
       showLocation: false,
@@ -81,7 +82,18 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   onThor() {
-    console.log('onThor');
+    const patch = {
+      id: this.props.id,
+      patch: {
+        status: {
+          state: 'ready to send',
+          text: 'Te verzenden naar THOR',
+          target_api: 'sigmax'
+        }
+      }
+    };
+
+    this.props.onPatchIncident(patch);
   }
 
   onDismissSplitNotification() {
