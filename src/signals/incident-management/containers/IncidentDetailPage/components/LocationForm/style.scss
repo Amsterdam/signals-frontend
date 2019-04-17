@@ -8,11 +8,11 @@
   &__submit {
     &:disabled {
       color: #B4B4B4 !important;
-      background-color: #E6E6E6 !important;
-  }
+      background-color: $ams-lichtgrijs !important;
+    }
   }
   &__cancel {
-    color: $ams-wit !important;
-    background-color: $ams-antraciet !important;
+    color: $ams-zwart !important;
+    background-color: #B4B4B4 !important;
   }
 }

@@ -45,6 +45,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
   }
 
   showForm() {
+    this.form.reset();
     this.setState({ formVisible: true });
   }
 

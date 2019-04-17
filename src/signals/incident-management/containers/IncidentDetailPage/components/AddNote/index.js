@@ -36,6 +36,7 @@ class AddNote extends React.Component { // eslint-disable-line react/prefer-stat
   }
 
   showForm() {
+    this.form.reset();
     this.setState({ formVisible: true });
   }
 

@@ -18,7 +18,7 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
         <button className="meta-list__edit action-button-edit" onClick={onEditStatus} />
         Status
       </dt>
-      <dd className="meta-list__value">{incident.status.state_display}&nbsp;</dd>
+      <dd className="meta-list__value">{incident.status.state_display}</dd>
 
       <ChangeValue
         display="Urgentie"
@@ -41,7 +41,7 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
       />
 
       <dt className="meta-list__definition">Hoofdcategorie</dt>
-      <dd className="meta-list__value">{incident.category.main}&nbsp;</dd>
+      <dd className="meta-list__value">{incident.category.main}</dd>
 
       <dt className="meta-list__definition">Verantwoordelijke afdeling</dt>
       <dd className="meta-list__value">{incident.category.department}</dd>
