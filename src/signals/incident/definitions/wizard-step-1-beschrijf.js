@@ -10,10 +10,11 @@ export default {
   getNextStep: (wizard, { subcategory, category }, isAuthenticated) => {
     if (!some((wizard.vulaan.form || wizard.vulaan.formFactory({ category })).controls, (control) => {
       if (control.meta && !control.meta.ignoreVisibility) {
-        return checkVisibility(control, {
-          category,
-          subcategory
-        }, isAuthenticated);
+        return true;
+        // return checkVisibility(control, {
+        //   category,
+        //   subcategory
+        // }, isAuthenticated);
       }
       return false;
     })) {

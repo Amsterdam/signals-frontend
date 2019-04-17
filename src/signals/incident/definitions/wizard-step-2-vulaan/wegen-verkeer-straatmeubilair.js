@@ -133,12 +133,22 @@ export default {
     extra_straatverlichting_nummer: {
       meta: {
         ifAllOf: {
-          subcategory: 'straatverlichting-openbare-klok'
+          subcategory: 'straatverlichting-openbare-klok',
         },
-        label: 'Hebt u een nummer van (één van) de lamp(en)?',
-        pathMerge: 'extra_properties'
+        label: 'Selecteer het lichtpunt waar het om gaat?',
+        pathMerge: 'extra_properties',
+        endpoint: 'maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Verlichting&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326',
+        zoomMin: 18,
+        legend_items: [
+          'lichtmast',
+          'grachtmast',
+          'overspanning',
+          'gevelArmatuur',
+          'schijnwerper',
+          'overig_lichtpunt',
+        ]
       },
-      render: FormComponents.TextInput
+      render: FormComponents.MapSelect
     },
     extra_klok: {
       meta: {
@@ -162,10 +172,15 @@ export default {
         ifAllOf: {
           subcategory: 'klok'
         },
-        label: 'Hebt u een nummer de klok?',
-        pathMerge: 'extra_properties'
+        label: 'Selecteer de klok waar het om gaat?',
+        pathMerge: 'extra_properties',
+        endpoint: 'maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Klokken&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326',
+        legend_items: [
+          'klok'
+        ],
+        zoomMin: 14
       },
-      render: FormComponents.TextInput
+      render: FormComponents.MapSelect
     },
     extra_verkeerslicht_text: {
       meta: {
