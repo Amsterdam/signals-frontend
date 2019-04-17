@@ -1,5 +1,17 @@
 @import "config.scss";
 
 .status-form {
+  &__form {
+    &-submit {
+      &:disabled {
+        color: #B4B4B4 !important;
+        background-color: $ams-lichtgrijs !important;
+      }
+    }
 
+    &-cancel {
+      color: $ams-zwart !important;
+      background-color: #B4B4B4 !important;
+    }
+  }
 }

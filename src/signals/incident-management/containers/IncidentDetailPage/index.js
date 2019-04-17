@@ -78,6 +78,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   onDownloadPdf() {
+    // /signals/v1/private/signals/{signal_id}/pdf
     console.log('onDownloadPdf');
   }
 
@@ -115,7 +116,6 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   onEditStatus() {
-    console.log('onEditStatus');
     this.setState({
       ...this.default,
       editStatus: true
@@ -137,9 +137,9 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 
   render() {
-    const { onPatchIncident, categories } = this.props;
+    const { id, onPatchIncident, categories } = this.props;
     const { list } = this.props.historyModel;
-    const { incident, loading, split, stadsdeelList, priorityList } = this.props.incidentModel;
+    const { incident, loading, split, stadsdeelList, priorityList, changeStatusOptionList } = this.props.incidentModel;
     const { showImage, showLocation, editLocation, editStatus, image } = this.state;
 
     return (
@@ -185,7 +185,12 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
                 ) : ''}
 
                 {editStatus ?
-                  <StatusForm />
+                  <StatusForm
+                    incident={incident}
+                    changeStatusOptionList={changeStatusOptionList}
+                    onPatchIncident={onPatchIncident}
+                    onClose={this.onCloseAll}
+                  />
                 : ''}
               </div>
             ) :
@@ -204,7 +209,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
                         />
 
                         <AddNote
-                          id={this.props.id}
+                          id={id}
                           onPatchIncident={onPatchIncident}
                         />
 
