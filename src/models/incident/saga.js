@@ -4,7 +4,7 @@ import { delay } from 'redux-saga';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authCall, authPatchCall } from 'shared/services/api/api';
 
-import { REQUEST_INCIDENT, PATCH_INCIDENT, DOWNLOAD_PDF } from './constants';
+import { REQUEST_INCIDENT, PATCH_INCIDENT } from './constants';
 import { requestIncidentSuccess, requestIncidentError, patchIncidentSuccess, patchIncidentError } from './actions';
 import { requestHistoryList } from '../history/actions';
 
@@ -16,17 +16,6 @@ export function* fetchIncident(action) {
     yield put(requestIncidentSuccess(incident));
   } catch (error) {
     yield put(requestIncidentError(error));
-  }
-}
-
-export function* downloadPdf(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals`;
-  try {
-    const id = action.payload;
-    yield authCall(`${requestURL}/${id}/pdf`);
-    // yield put(requestIncidentSuccess(incident));
-  } catch (error) {
-    // yield put(requestIncidentError(error));
   }
 }
 
@@ -46,7 +35,6 @@ export function* patchIncident(action) {
 export default function* watchIncidentModelSaga() {
   yield all([
     takeLatest(REQUEST_INCIDENT, fetchIncident),
-    takeLatest(PATCH_INCIDENT, patchIncident),
-    takeLatest(DOWNLOAD_PDF, downloadPdf)
+    takeLatest(PATCH_INCIDENT, patchIncident)
   ]);
 }

@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 
 import './style.scss';
 
-const Header = ({ incident, baseUrl, onThor, onDownloadPdf }) => {
+const Header = ({ incident, baseUrl, onThor }) => {
   const status = incident && incident.status && incident.status.state;
   const canSplit = (status === 'm') && !(incident && incident.parent_id);
   const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some((value) => value === status);
+  const downloadLink = incident._links && incident._links['sia:pdf'];
 
+  console.log('downloadLink', downloadLink);
   return (
     <header className="header">
       <div className="row">
@@ -16,7 +18,7 @@ const Header = ({ incident, baseUrl, onThor, onDownloadPdf }) => {
         <div className="col-6 header__buttons">
           {canSplit ? <Link to={`${baseUrl}/incident/${incident.id}/split`} className="align-self-center action-quad">Splitsen</Link> : ''}
           {canThor ? <button className="align-self-center action-quad" onClick={onThor}>THOR</button> : ''}
-          <button className="align-self-center action-quad" onClick={onDownloadPdf}>Download PDF</button>
+          <a href={downloadLink} className="align-self-center action-quad">Download PDF</a>
         </div>
       </div>
     </header>
@@ -27,8 +29,7 @@ Header.propTypes = {
   incident: PropTypes.object.isRequired,
   baseUrl: PropTypes.string.isRequired,
 
-  onThor: PropTypes.func.isRequired,
-  onDownloadPdf: PropTypes.func.isRequired
+  onThor: PropTypes.func.isRequired
 };
 
 export default Header;

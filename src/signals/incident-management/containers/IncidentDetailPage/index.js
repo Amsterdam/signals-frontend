@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { makeSelectLoading, makeSelectError, makeSelectCategories } from 'containers/App/selectors';
-import { requestIncident, patchIncident, dismissSplitNotification, downloadPdf } from 'models/incident/actions';
+import { requestIncident, patchIncident, dismissSplitNotification } from 'models/incident/actions';
 import { requestNotesList } from 'models/notes/actions';
 import { requestHistoryList } from 'models/history/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
@@ -37,7 +37,6 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   constructor(props) {
     super(props);
 
-    this.onDownloadPdf = this.onDownloadPdf.bind(this);
     this.onThor = this.onThor.bind(this);
     this.onDismissSplitNotification = this.onDismissSplitNotification.bind(this);
     this.onShowLocation = this.onShowLocation.bind(this);
@@ -75,10 +74,6 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     }
 
     return true;
-  }
-
-  onDownloadPdf() {
-    this.props.onDownloadPdf(this.props.id);
   }
 
   onThor() {
@@ -158,7 +153,6 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
                 incident={incident}
                 baseUrl={this.props.baseUrl}
                 onThor={this.onThor}
-                onDownloadPdf={this.onDownloadPdf}
               /> : ''}
 
             {showImage || showLocation || editLocation || editStatus ? (
@@ -255,8 +249,7 @@ IncidentDetailPage.propTypes = {
   onPatchIncident: PropTypes.func.isRequired,
   onRequestNotesList: PropTypes.func.isRequired,
   onRequestHistoryList: PropTypes.func.isRequired,
-  onDismissSplitNotification: PropTypes.func.isRequired,
-  onDownloadPdf: PropTypes.func.isRequired
+  onDismissSplitNotification: PropTypes.func.isRequired
 };
 
 /* istanbul ignore next */
@@ -274,8 +267,7 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onPatchIncident: patchIncident,
   onRequestNotesList: requestNotesList,
   onRequestHistoryList: requestHistoryList,
-  onDismissSplitNotification: dismissSplitNotification,
-  onDownloadPdf: downloadPdf
+  onDismissSplitNotification: dismissSplitNotification
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(IncidentDetailPage);
