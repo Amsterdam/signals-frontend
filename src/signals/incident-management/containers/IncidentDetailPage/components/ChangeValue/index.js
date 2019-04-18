@@ -12,7 +12,7 @@ import './style.scss';
 
 class ChangeValue extends React.Component { // eslint-disable-line react/prefer-stateless-function
   form = FormBuilder.group({ // eslint-disable-line react/sort-comp
-    input: [get(this.props.incident, this.props.path), Validators.required]
+    input: ['', Validators.required]
   });
 
   constructor(props) {
@@ -46,7 +46,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
   }
 
   showForm() {
-    this.form.reset();
+    this.form.controls.input.setValue(get(this.props.incident, this.props.path));
     this.setState({ formVisible: true });
   }
 
