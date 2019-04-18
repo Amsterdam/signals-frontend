@@ -6,7 +6,7 @@ import fileSize from '../../../services/file-size';
 
 import './style.scss';
 
-const ERROR_TIMEOUT_INTERVAL = 8000;
+export const ERROR_TIMEOUT_INTERVAL = 8000;
 
 const FileInput = ({ handler, touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
   let timeoutInstance = null;
@@ -21,11 +21,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
       const existingPreviews = (parent && parent.value && parent.value[`${meta.name}_previews`]) || [];
       const batchFiles = [...e.target.files];
 
-      existingFiles.map((file) => {
-        // eslint-disable-next-line no-param-reassign
-        file.existing = true;
-        return file;
-      });
+      existingFiles.map((file) => ({ ...file, existing: true }));
       const files = [...existingFiles, ...batchFiles]
         .filter(maxFileSizeFilter)
         .filter(allowedFileTypesFilter)
@@ -138,7 +134,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
                     <div className="progress-indicator progress-red"></div>
                   :
                     <div style={{ backgroundImage: `URL(${preview})` }} className="file-input__preview-image">
-                      <button title="Verwijder deze foto" className="file-input__preview-button-delete" onClick={(e) => removeFile(e, preview, previews, handler().value)} />
+                      <button type="button" title="Verwijder deze foto" className="file-input__preview-button-delete" onClick={(e) => removeFile(e, preview, previews, handler().value)} />
                     </div>
                  }
                 </div>)
@@ -147,7 +143,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
               {previews.length < maxNumberOfFiles ?
               (<div className="file-input__button">
                 <label htmlFor="formUpload" className="file-input__button-label">
-                  <div htmlFor="formUpload" className="file-input__button-label-icon">&nbsp;</div>
+                  <div htmlFor="formUpload" className="file-input__button-label-icon" />
                 </label>
                 <input
                   type="file"

@@ -20,7 +20,7 @@ const Image = ({ label, value }) => (
 
 Image.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.array
+  value: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default Image;

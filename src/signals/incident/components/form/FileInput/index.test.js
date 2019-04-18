@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import FileInput from './index';
+import FileInput, { ERROR_TIMEOUT_INTERVAL } from './index';
 
 describe('Form component <FileInput />', () => {
   const metaFields = {
@@ -12,6 +12,7 @@ describe('Form component <FileInput />', () => {
       updateValueAndValidity: jest.fn()
     }
   };
+  const maxFileSize = 1024 * 1024;
   let wrapper;
   let handler;
   let touched;
@@ -20,8 +21,6 @@ describe('Form component <FileInput />', () => {
   let parent;
 
   beforeEach(() => {
-    // jest.useFakeTimers();
-
     handler = jest.fn();
     touched = false;
     getError = jest.fn();
@@ -154,11 +153,12 @@ describe('Form component <FileInput />', () => {
         meta: {
           ...metaFields,
           maxNumberOfFiles: 3,
-          maxFileSize: 1000000,
+          maxFileSize,
           allowedFileTypes: ['image/jpeg'],
           isVisible: true
         }
       });
+
 
       wrapper.find('input').simulate('change', { target: { files: [file1] } });
       expect(FileReader).toHaveBeenCalled();
@@ -171,30 +171,43 @@ describe('Form component <FileInput />', () => {
     it('uploads a file and with already uploaded file and triggers multiple errors', () => {
       handler.mockImplementation(() => ({ value: [file2, file3, file4] }));
 
+      jest.useFakeTimers();
+
       wrapper.setProps({
         meta: {
           ...metaFields,
           maxNumberOfFiles: 3,
-          maxFileSize: 1000000,
+          maxFileSize,
           allowedFileTypes: ['image/jpeg'],
           isVisible: true
         }
       });
 
       wrapper.find('input').simulate('change', { target: { files: [file1] } });
+
+      jest.runTimersToTime(ERROR_TIMEOUT_INTERVAL - 1);
+
       expect(FileReader).toHaveBeenCalled();
       expect(addEventListener).toHaveBeenCalledWith('load', expect.any(Function));
       expect(readAsText).toHaveBeenCalled();
-      expect(parentControls['input-field-name'].updateValueAndValidity).toHaveBeenCalledTimes(1);
+      expect(parentControls['input-field-name'].updateValueAndValidity).toHaveBeenCalledTimes(2);
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name_previews': expect.any(Array),
         'input-field-name': [file4, file1],
         'input-field-name_errors': [
-          'Dit bestand is te groot. De maximale bestandgrootte is 976,6 kB.',
+          'Dit bestand is te groot. De maximale bestandgrootte is 1 MB.',
           'Dit bestandstype wordt niet ondersteund. Toegestaan zijn: jpeg.',
           'U kunt maximaal 3 bestanden uploaden.',
         ]
       });
+
+      jest.runTimersToTime(1);
+
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name_errors': null
+      });
+
+      jest.runAllTimers();
     });
 
     it('uploads a file with no extra validations', () => {
