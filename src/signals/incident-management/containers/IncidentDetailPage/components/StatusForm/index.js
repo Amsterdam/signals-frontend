@@ -38,6 +38,7 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
     event.preventDefault();
     this.props.onPatchIncident({
       id: this.props.incident.id,
+      type: 'status',
       patch: { status: { state: this.form.value.status } }
     });
 

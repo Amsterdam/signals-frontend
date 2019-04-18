@@ -27,6 +27,7 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
         list={priorityList}
         incident={incident}
         path="priority.priority"
+        type="priority"
         onPatchIncident={onPatchIncident}
       />
 
@@ -37,6 +38,7 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
         list={subcategories}
         incident={incident}
         path="category.category_url"
+        type="subcategory"
         onPatchIncident={onPatchIncident}
       />
 

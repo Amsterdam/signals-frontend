@@ -45,10 +45,10 @@ export function patchIncident(patch) {
   };
 }
 
-export function patchIncidentSuccess(incident) {
+export function patchIncidentSuccess(patching) {
   return {
     type: PATCH_INCIDENT_SUCCESS,
-    payload: incident
+    payload: patching
   };
 }
 

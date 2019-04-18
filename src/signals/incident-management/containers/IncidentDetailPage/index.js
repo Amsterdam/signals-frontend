@@ -84,6 +84,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   onThor() {
     const patch = {
       id: this.props.id,
+      type: 'thor',
       patch: {
         status: {
           state: 'ready to send',

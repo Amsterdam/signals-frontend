@@ -28,6 +28,7 @@ class AddNote extends React.Component { // eslint-disable-line react/prefer-stat
     const notes = [{ text: this.form.value.text }];
     this.props.onPatchIncident({
       id: this.props.id,
+      type: 'notes',
       patch: { notes }
     });
 

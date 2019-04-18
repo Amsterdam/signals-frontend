@@ -32,6 +32,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
     set(payload, this.props.path, this.form.value.input);
     this.props.onPatchIncident({
       id: this.props.incident.id,
+      type: this.props.type,
       patch: { ...payload }
     });
 
@@ -100,6 +101,7 @@ ChangeValue.propTypes = {
   list: PropTypes.array.isRequired,
   display: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
 
   onPatchIncident: PropTypes.func.isRequired
 };
