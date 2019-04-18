@@ -49,22 +49,6 @@ export default {
         authenticated: true,
         render: FormComponents.SelectInput
       },
-      priority: {
-        meta: {
-          className: 'col-sm-12 col-md-6',
-          label: 'Wat is de urgentie?',
-          path: 'priority',
-          values: {
-            normal: 'Normaal',
-            high: 'Hoog'
-          }
-        },
-        options: {
-          validators: [Validators.required]
-        },
-        authenticated: true,
-        render: FormComponents.SelectInput
-      },
       location: {
         meta: {
           label: 'Waar is het?',
@@ -159,6 +143,22 @@ export default {
           readOnly: true
         },
         render: FormComponents.HiddenInput
+      },
+      priority: {
+        meta: {
+          className: 'col-sm-12 col-md-6',
+          label: 'Wat is de urgentie?',
+          path: 'priority',
+          values: {
+            normal: 'Normaal',
+            high: 'Hoog'
+          }
+        },
+        options: {
+          validators: [Validators.required]
+        },
+        authenticated: true,
+        render: FormComponents.SelectInput
       },
       image_type: {
         meta: {
