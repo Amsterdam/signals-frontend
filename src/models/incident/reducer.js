@@ -11,7 +11,8 @@ import { SPLIT_INCIDENT_SUCCESS, SPLIT_INCIDENT_ERROR } from 'signals/incident-m
 import {
   REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR,
   DISMISS_SPLIT_NOTIFICATION,
-  PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR
+  PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
+  REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR
 } from './constants';
 
 export const initialState = fromJS({
@@ -20,6 +21,7 @@ export const initialState = fromJS({
   priorityList,
   loading: false,
   error: false,
+  attachments: [],
   patching: {
     location: false
   },
@@ -74,6 +76,18 @@ function incidentModelReducer(state = initialState, action) {
           [action.payload.type]: false
         }))
         .set('error', fromJS(action.payload.error));
+
+    case REQUEST_ATTACHMENTS:
+      return state
+        .set('attachments', fromJS([]));
+
+    case REQUEST_ATTACHMENTS_SUCCESS:
+      return state
+      .set('attachments', fromJS(action.payload));
+
+    case REQUEST_ATTACHMENTS_ERROR:
+      return state
+        .set('attachments', fromJS([]));
 
     case REQUEST_CATEGORY_UPDATE_SUCCESS:
       return state

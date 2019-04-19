@@ -2,9 +2,9 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 
 import { authCall, authPatchCall } from 'shared/services/api/api';
-import { REQUEST_INCIDENT, PATCH_INCIDENT } from './constants';
-import { requestIncidentSuccess, requestIncidentError, patchIncidentSuccess, patchIncidentError } from './actions';
-import watchIncidentModelSaga, { fetchIncident, patchIncident } from './saga';
+import { REQUEST_INCIDENT, PATCH_INCIDENT, REQUEST_ATTACHMENTS } from './constants';
+import { requestIncidentSuccess, requestIncidentError, patchIncidentSuccess, patchIncidentError, requestAttachmentsSuccess, requestAttachmentsError } from './actions';
+import watchIncidentModelSaga, { fetchIncident, patchIncident, requestAttachments } from './saga';
 
 jest.mock('shared/services/api/api');
 
@@ -13,7 +13,8 @@ describe('incidentModel saga', () => {
     const gen = watchIncidentModelSaga();
     expect(gen.next().value).toEqual(all([
       takeLatest(REQUEST_INCIDENT, fetchIncident),
-      takeLatest(PATCH_INCIDENT, patchIncident)
+      takeLatest(PATCH_INCIDENT, patchIncident),
+      takeLatest(REQUEST_ATTACHMENTS, requestAttachments)
     ]));
   });
 
@@ -87,5 +88,27 @@ describe('incidentModel saga', () => {
     const gen = patchIncident(action);
     gen.next();
     expect(gen.throw(error).value).toEqual(put(patchIncidentError({ type: action.payload.type, error }))); // eslint-disable-line redux-saga/yield-effects
+  });
+
+  it('should requestAttachment success', () => {
+    const requestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals';
+    const id = 1000;
+    const action = { payload: id };
+    const attachments = { results: [{ file: 1 }, { file: 2 }, { file: 3 }, { file: 4 }] };
+    const firstThree = [{ file: 1 }, { file: 2 }, { file: 3 }];
+
+    const gen = requestAttachments(action);
+    expect(gen.next().value).toEqual(authCall(`${requestURL}/${id}/attachments`));
+    expect(gen.next(attachments).value).toEqual(put(requestAttachmentsSuccess(firstThree))); // eslint-disable-line redux-saga/yield-effects
+  });
+
+  it('should fetchIncident error', () => {
+    const id = 1000;
+    const action = { payload: id };
+    const error = new Error('404 Not Found');
+
+    const gen = requestAttachments(action);
+    gen.next();
+    expect(gen.throw(error).value).toEqual(put(requestAttachmentsError())); // eslint-disable-line redux-saga/yield-effects
   });
 });

@@ -4,7 +4,11 @@
     padding: 20px 0;
 
     &-image {
-      width: 100%;
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      margin-right: 10px;
+      background-size: cover;
     }
   }
 }

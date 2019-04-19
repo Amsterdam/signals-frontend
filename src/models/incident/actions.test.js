@@ -3,13 +3,15 @@ import { testActionCreator } from 'test/utils';
 import {
   REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR,
   DISMISS_SPLIT_NOTIFICATION,
-  PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR
+  PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
+  REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR
 } from './constants';
 
 import {
   requestIncident, requestIncidentSuccess, requestIncidentError,
   dismissSplitNotification,
-  patchIncident, patchIncidentSuccess, patchIncidentError
+  patchIncident, patchIncidentSuccess, patchIncidentError,
+  requestAttachments, requestAttachmentsSuccess, requestAttachmentsError
 } from './actions';
 
 describe('incidentModel actions', () => {
@@ -24,5 +26,9 @@ describe('incidentModel actions', () => {
     testActionCreator(patchIncident, PATCH_INCIDENT, payload);
     testActionCreator(patchIncidentSuccess, PATCH_INCIDENT_SUCCESS, payload);
     testActionCreator(patchIncidentError, PATCH_INCIDENT_ERROR, payload);
+
+    testActionCreator(requestAttachments, REQUEST_ATTACHMENTS, payload);
+    testActionCreator(requestAttachmentsSuccess, REQUEST_ATTACHMENTS_SUCCESS, payload);
+    testActionCreator(requestAttachmentsError, REQUEST_ATTACHMENTS_ERROR, payload);
   });
 });

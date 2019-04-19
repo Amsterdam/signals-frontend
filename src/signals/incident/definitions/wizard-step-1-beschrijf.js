@@ -160,18 +160,25 @@ export default {
         authenticated: true,
         render: FormComponents.SelectInput
       },
-      image_type: {
+      images_previews: {
         meta: {
-          label: 'image_type'
+          label: 'images_previews'
         },
         render: FormComponents.HiddenInput
       },
-      image: {
+      images_errors: {
         meta: {
-          label: 'Wilt u een foto meesturen?',
-          submitLabel: 'Foto kiezen',
+          label: 'images_errors'
+        },
+        render: FormComponents.HiddenInput
+      },
+      images: {
+        meta: {
+          label: 'Foto\'s toevoegen',
+          subtitle: 'Voeg een foto toe om de situatie te verduidelijken.',
           maxFileSize: 8388608,
-          allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif']
+          allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif'],
+          maxNumberOfFiles: 3
         },
         render: FormComponents.FileInput
       },
