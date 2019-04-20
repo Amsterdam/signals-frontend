@@ -22,10 +22,23 @@ exports[`Preview component <Image /> should render image correctly 1`] = `
       <div
         className="preview-image__item-value"
       >
-        <img
-          alt=""
+        <div
           className="preview-image__item-value-image"
-          src="blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c"
+          key="blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c"
+          style={
+            Object {
+              "backgroundImage": "URL(blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c)",
+            }
+          }
+        />
+        <div
+          className="preview-image__item-value-image"
+          key="blob:http://host/another-unique-key"
+          style={
+            Object {
+              "backgroundImage": "URL(blob:http://host/another-unique-key)",
+            }
+          }
         />
       </div>
     </div>

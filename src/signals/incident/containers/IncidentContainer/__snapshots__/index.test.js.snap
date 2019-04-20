@@ -358,22 +358,29 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                   },
                   "render": [Function],
                 },
-                "image": Object {
+                "images": Object {
                   "meta": Object {
                     "allowedFileTypes": Array [
                       "image/jpeg",
                       "image/png",
                       "image/gif",
                     ],
-                    "label": "Wilt u een foto meesturen?",
+                    "label": "Foto's toevoegen",
                     "maxFileSize": 8388608,
-                    "submitLabel": "Foto kiezen",
+                    "maxNumberOfFiles": 3,
+                    "subtitle": "Voeg een foto toe om de situatie te verduidelijken.",
                   },
                   "render": [Function],
                 },
-                "image_type": Object {
+                "images_errors": Object {
                   "meta": Object {
-                    "label": "image_type",
+                    "label": "images_errors",
+                  },
+                  "render": [Function],
+                },
+                "images_previews": Object {
+                  "meta": Object {
+                    "label": "images_previews",
                   },
                   "render": [Function],
                 },
@@ -585,7 +592,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                   "label": "Hier gaat het om",
                   "render": [Function],
                 },
-                "image": Object {
+                "images_previews": Object {
                   "label": "Foto",
                   "optional": true,
                   "render": [Function],

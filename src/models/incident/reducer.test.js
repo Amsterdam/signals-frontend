@@ -3,16 +3,14 @@ import { fromJS } from 'immutable';
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 import priorityList from 'signals/incident-management/definitions/priorityList';
 
-// import { REQUEST_PRIORITY_UPDATE_SUCCESS } from 'signals/incident-management/containers/IncidentPriorityContainer/constants';
-// import { REQUEST_CATEGORY_UPDATE_SUCCESS } from 'signals/incident-management/containers/IncidentCategoryContainer/constants';
-// import { REQUEST_STATUS_CREATE_SUCCESS } from 'signals/incident-management/containers/IncidentStatusContainer/constants';
 import { SPLIT_INCIDENT_SUCCESS } from 'signals/incident-management/containers/IncidentSplitContainer/constants';
 
 import incidentModelReducer, { initialState } from './reducer';
 import {
   REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR,
   DISMISS_SPLIT_NOTIFICATION,
-  PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR
+  PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
+  REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR
 }
   from './constants';
 
@@ -22,6 +20,7 @@ describe('incidentModelReducer', () => {
     id: null,
     loading: false,
     error: false,
+    attachments: [],
     patching: {
       location: false
     },
@@ -146,47 +145,42 @@ describe('incidentModelReducer', () => {
     });
   });
 
-  // it('should handle the REQUEST_CATEGORY_UPDATE_SUCCESS', () => {
-    // expect(
-      // incidentModelReducer(state, {
-        // type: REQUEST_CATEGORY_UPDATE_SUCCESS,
-        // payload: 'test'
-      // }).toJS()
-    // ).toEqual({
-      // incident: {
-        // category: 'test'
-      // },
-      // incidentNotesList: []
-    // });
-  // });
-//
-  // it('should handle the REQUEST_PRIORITY_UPDATE_SUCCESS', () => {
-    // expect(
-      // incidentModelReducer(state, {
-        // type: REQUEST_PRIORITY_UPDATE_SUCCESS,
-        // payload: 'high'
-      // }).toJS()
-    // ).toEqual({
-      // incident: {
-        // priority: 'high'
-      // },
-      // incidentNotesList: []
-    // });
-  // });
-//
-  // it('should handle the REQUEST_STATUS_CREATE_SUCCESS', () => {
-    // expect(
-      // incidentModelReducer(state, {
-        // type: REQUEST_STATUS_CREATE_SUCCESS,
-        // payload: 'gemeld'
-      // }).toJS()
-    // ).toEqual({
-      // incident: {
-        // status: 'gemeld'
-      // },
-      // incidentNotesList: []
-    // });
-  // });
+  it('should handle the REQUEST_ATTACHMENTS', () => {
+    expect(
+      incidentModelReducer(undefined, {
+        type: REQUEST_ATTACHMENTS,
+        payload: 42
+      }).toJS()
+    ).toEqual({
+      ...expected,
+      attachments: []
+    });
+  });
+
+  it('should handle the REQUEST_ATTACHMENTS_SUCCESS', () => {
+    const payload = [{ file: 1 }, { image: 2 }];
+    expect(
+      incidentModelReducer(undefined, {
+        type: REQUEST_ATTACHMENTS_SUCCESS,
+        payload
+      }).toJS()
+    ).toEqual({
+      ...expected,
+      attachments: payload
+    });
+  });
+
+  it('should handle the REQUEST_ATTACHMENTS_ERROR', () => {
+    expect(
+      incidentModelReducer(undefined, {
+        type: REQUEST_ATTACHMENTS_ERROR
+      }).toJS()
+    ).toEqual({
+      ...expected,
+      attachments: []
+    });
+  });
+
 
   it('should handle the SPLIT_INCIDENT_SUCCESS ', () => {
     const payload = { id: 42, created: [{ id: 3 }] };

@@ -57,11 +57,13 @@ export function* createIncident(action) {
       }));
     }
 
-    if (action.payload.incident.image) {
-      yield put(uploadRequest({
-        file: action.payload.incident.image_file,
-        id: result.signal_id
-      }));
+    if (action.payload.incident.images) {
+      yield all(action.payload.incident.images.map((image) =>
+        put(uploadRequest({
+          file: image,
+          id: result.signal_id
+        }))
+      ));
     }
     yield put(createIncidentSuccess(result));
   } catch (error) {

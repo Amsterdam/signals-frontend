@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { makeSelectLoading, makeSelectError, makeSelectCategories } from 'containers/App/selectors';
-import { requestIncident, patchIncident, dismissSplitNotification } from 'models/incident/actions';
+import { requestIncident, patchIncident, dismissSplitNotification, requestAttachments } from 'models/incident/actions';
 import { requestNotesList } from 'models/notes/actions';
 import { requestHistoryList } from 'models/history/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
@@ -64,8 +64,9 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 
   componentDidMount() {
     this.props.onRequestIncident(this.props.id);
-    this.props.onRequestNotesList(this.props.id);
+    // this.props.onRequestNotesList(this.props.id);
     this.props.onRequestHistoryList(this.props.id);
+    this.props.onRequestAttachments(this.props.id);
   }
 
   shouldComponentUpdate(props) {
@@ -134,9 +135,9 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   render() {
     const { id, onPatchIncident, categories } = this.props;
     const { list } = this.props.historyModel;
-    const { incident, loading, split, stadsdeelList, priorityList, changeStatusOptionList } = this.props.incidentModel;
+    const { incident, attachments, loading, split, stadsdeelList, priorityList, changeStatusOptionList } = this.props.incidentModel;
     const { showImage, showLocation, editLocation, editStatus, image } = this.state;
-
+    console.log('attachments', attachments);
     return (
       <div className="incident-detail-page">
         <SplitNotificationBar data={split} onClose={this.onDismissSplitNotification} />
@@ -247,8 +248,9 @@ IncidentDetailPage.propTypes = {
 
   onRequestIncident: PropTypes.func.isRequired,
   onPatchIncident: PropTypes.func.isRequired,
-  onRequestNotesList: PropTypes.func.isRequired,
+  // onRequestNotesList: PropTypes.func.isRequired,
   onRequestHistoryList: PropTypes.func.isRequired,
+  onRequestAttachments: PropTypes.func.isRequired,
   onDismissSplitNotification: PropTypes.func.isRequired
 };
 
@@ -267,6 +269,7 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onPatchIncident: patchIncident,
   onRequestNotesList: requestNotesList,
   onRequestHistoryList: requestHistoryList,
+  onRequestAttachments: requestAttachments,
   onDismissSplitNotification: dismissSplitNotification
 }, dispatch);
 
