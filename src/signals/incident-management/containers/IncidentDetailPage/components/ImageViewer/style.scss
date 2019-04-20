@@ -1,10 +1,23 @@
 @import "config.scss";
 
 .image-viewer {
+  position: relative;
   padding-top: 10px;
   text-align: center;
 
   &__image {
     max-height: 722px;
+  }
+
+  &__button-previous {
+    position: absolute;
+    left: 0;
+    top: 200px;
+  }
+
+  &__button-next {
+    position: absolute;
+    right: 0;
+    top: 200px;
   }
 }

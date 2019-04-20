@@ -137,7 +137,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     const { list } = this.props.historyModel;
     const { incident, attachments, loading, split, stadsdeelList, priorityList, changeStatusOptionList } = this.props.incidentModel;
     const { showImage, showLocation, editLocation, editStatus, image } = this.state;
-    console.log('attachments', attachments);
+
     return (
       <div className="incident-detail-page">
         <SplitNotificationBar data={split} onClose={this.onDismissSplitNotification} />
@@ -161,7 +161,11 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
                 <button className="incident-detail-page__preview-close action-button-close" onClick={this.onCloseAll} />
 
                 {showImage ? (
-                  <ImageViewer image={image} />
+                  <ImageViewer
+                    attachments={attachments}
+                    image={image}
+                    onShowAttachment={this.onShowAttachment}
+                  />
                 ) : ''}
 
                 {showLocation ? (
