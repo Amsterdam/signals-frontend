@@ -196,6 +196,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
                       <div>
                         <IncidentDetail
                           incident={incident}
+                          attachments={attachments}
                           stadsdeelList={stadsdeelList}
                           priorityList={priorityList}
                           onShowLocation={this.onShowLocation}

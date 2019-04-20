@@ -53,7 +53,7 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
   }
 
   render() {
-    const { incident, stadsdeelList, onShowLocation, onEditLocation, onShowAttachment } = this.props;
+    const { incident, attachments, stadsdeelList, onShowLocation, onEditLocation, onShowAttachment } = this.props;
     const { locationUpdated } = this.state;
 
     return (
@@ -75,7 +75,7 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
           />
 
           <Attachments
-            incident={incident}
+            attachments={attachments}
             onShowAttachment={onShowAttachment}
           />
 
@@ -102,6 +102,7 @@ IncidentDetail.defaultProps = {
 
 IncidentDetail.propTypes = {
   incident: PropTypes.object.isRequired,
+  attachments: PropTypes.array.isRequired,
   location: PropTypes.object,
   locationUpdated: PropTypes.bool,
   stadsdeelList: PropTypes.array.isRequired,

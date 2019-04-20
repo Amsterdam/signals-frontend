@@ -4,13 +4,21 @@ import PropTypes from 'prop-types';
 
 import './style.scss';
 
-const Attachments = ({ incident, onShowAttachment }) => (
+const Attachments = ({ attachments, onShowAttachment }) => (
   <dl className="attachments">
-    {incident.image ?
+    {attachments.length ?
       <dl>
         <dt className="attachments__definition">Foto</dt>
         <dd className="attachments__value">
-          <button className="attachments__image-button" onClick={() => onShowAttachment(incident.image)} style={{ backgroundImage: `url(${incident.image})` }} />
+          {attachments.map((attachment) =>
+            (<button
+              key={attachment.location}
+              className="attachments__image-button"
+              onClick={() => onShowAttachment(attachment.location)}
+              style={{ backgroundImage: `url(${attachment.location})` }}
+            />)
+          )}
+
         </dd>
       </dl>
     : ''}
@@ -19,7 +27,7 @@ const Attachments = ({ incident, onShowAttachment }) => (
 );
 
 Attachments.propTypes = {
-  incident: PropTypes.object.isRequired,
+  attachments: PropTypes.array.isRequired,
   onShowAttachment: PropTypes.func.isRequired
 };
 
