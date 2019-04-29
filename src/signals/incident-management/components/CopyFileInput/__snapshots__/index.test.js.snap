@@ -16,9 +16,32 @@ exports[`<CopyFileInput /> should render correctly 1`] = `
         display
       </label>
     </div>
-    <img
-      className="copy-file-input__file"
-      src="none"
+    <div
+      className="copy-file-input__attachment"
+      key="item0"
+      style={
+        Object {
+          "backgroundImage": "url(item0)",
+        }
+      }
+    />
+    <div
+      className="copy-file-input__attachment"
+      key="item1"
+      style={
+        Object {
+          "backgroundImage": "url(item1)",
+        }
+      }
+    />
+    <div
+      className="copy-file-input__attachment"
+      key="item2"
+      style={
+        Object {
+          "backgroundImage": "url(item2)",
+        }
+      }
     />
     <div
       className="copy-file-input__control invoer antwoord"
@@ -31,7 +54,7 @@ exports[`<CopyFileInput /> should render correctly 1`] = `
       <label
         htmlFor="formname"
       >
-        Foto toevoegen
+        Foto&squo;s toevoegen
       </label>
     </div>
   </div>

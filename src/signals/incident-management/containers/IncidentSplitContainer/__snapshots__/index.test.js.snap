@@ -11,6 +11,7 @@ exports[`<IncidentSplitContainer /> rendering should render correctly 1`] = `
       className="col-8"
     >
       <SplitForm
+        attachments={Array []}
         handleCancel={[Function]}
         handleSubmit={[Function]}
         incident={Object {}}
