@@ -12,11 +12,17 @@ export const CopyFileInput = (props) => {
           <label htmlFor={`form${name}`}>{display}</label>
         </div>
 
-        <img src={values[0].value} className="copy-file-input__file" alt={values[0].alt} title={values[0].alt} />
+        {values.map((attachment) => (
+          <div
+            key={attachment.location}
+            className="copy-file-input__attachment"
+            style={{ backgroundImage: `url(${attachment.location})` }}
+          />
+        ))}
 
         <div className="copy-file-input__control invoer antwoord">
           <input name="" id={`form${name}`} type="checkbox" {...handler('checkbox')} />
-          <label htmlFor={`form${name}`}>Foto toevoegen</label>
+          <label htmlFor={`form${name}`}>Foto&squo;s toevoegen</label>
         </div>
       </div>
     </div>);

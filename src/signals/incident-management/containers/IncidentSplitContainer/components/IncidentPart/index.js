@@ -9,7 +9,7 @@ import RadioInput from '../../../../components/RadioInput';
 import SelectInput from '../../../../components/SelectInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 
-const IncidentPart = ({ index, incident, subcategories, priorityList, splitForm }) => (
+const IncidentPart = ({ index, attachments, subcategories, priorityList, splitForm }) => (
   <section className="incident-part">
     <h2>Deelmelding {index}</h2>
     <FieldControlWrapper
@@ -27,12 +27,13 @@ const IncidentPart = ({ index, incident, subcategories, priorityList, splitForm 
       control={splitForm.get(`part${index}.text`)}
       rows={5}
     />
-    {incident.image &&
+
+    {attachments && attachments.length &&
       <FieldControlWrapper
         render={CopyFileInput}
         name={`part${index}.image`}
         control={splitForm.get(`part${index}.image`)}
-        values={[{ key: '', alt: `Foto bij melding ${incident.id}`, value: incident.image }]}
+        values={attachments}
       />
     }
     <FieldControlWrapper
@@ -64,7 +65,7 @@ IncidentPart.defaultProps = {
 
 IncidentPart.propTypes = {
   index: PropTypes.string.isRequired,
-  incident: PropTypes.object,
+  attachments: PropTypes.array,
   subcategories: PropTypes.array,
   priorityList: PropTypes.array,
   splitForm: PropTypes.object.isRequired
