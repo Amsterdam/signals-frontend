@@ -74,7 +74,7 @@ class SplitForm extends React.Component {
   }
 
   render() {
-    const { incident, subcategories, priorityList, handleCancel } = this.props;
+    const { incident, attachments, subcategories, priorityList, handleCancel } = this.props;
     return (
       <div className="split-form">
         <h1>Splitsen</h1>
@@ -85,7 +85,7 @@ class SplitForm extends React.Component {
 
         <IncidentPart
           index="1"
-          incident={incident}
+          attachments={attachments}
           subcategories={subcategories}
           priorityList={priorityList}
           splitForm={this.state.splitForm}
@@ -94,6 +94,7 @@ class SplitForm extends React.Component {
         <IncidentPart
           index="2"
           incident={incident}
+          attachments={attachments}
           subcategories={subcategories}
           priorityList={priorityList}
           splitForm={this.state.splitForm}
@@ -106,6 +107,7 @@ class SplitForm extends React.Component {
             <IncidentPart
               index="3"
               incident={incident}
+              attachments={attachments}
               subcategories={subcategories}
               priorityList={priorityList}
               splitForm={this.state.splitForm}
@@ -147,6 +149,7 @@ SplitForm.defaultProps = {
 
 SplitForm.propTypes = {
   incident: PropTypes.object,
+  attachments: PropTypes.array,
   isVisible: PropTypes.bool,
   subcategories: PropTypes.array,
   priorityList: PropTypes.array,

@@ -10,7 +10,11 @@
     margin-top: 7px;
   }
 
-  &__file {
-    width: 200px;
+  &__attachment {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+    background-size: cover;
   }
 }
