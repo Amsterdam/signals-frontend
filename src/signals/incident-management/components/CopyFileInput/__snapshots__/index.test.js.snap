@@ -54,7 +54,7 @@ exports[`<CopyFileInput /> should render correctly 1`] = `
       <label
         htmlFor="formname"
       >
-        Foto&squo;s toevoegen
+        Foto's toevoegen
       </label>
     </div>
   </div>

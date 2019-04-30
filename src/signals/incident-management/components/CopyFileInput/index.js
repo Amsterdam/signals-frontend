@@ -22,7 +22,7 @@ export const CopyFileInput = (props) => {
 
         <div className="copy-file-input__control invoer antwoord">
           <input name="" id={`form${name}`} type="checkbox" {...handler('checkbox')} />
-          <label htmlFor={`form${name}`}>Foto&squo;s toevoegen</label>
+          <label htmlFor={`form${name}`}>Foto&apos;s toevoegen</label>
         </div>
       </div>
     </div>);
