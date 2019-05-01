@@ -1,6 +1,6 @@
 /**
  *
- * IncidentDetailPage
+ * IncidentDetail
  *
  */
 
@@ -28,10 +28,10 @@ import ImageViewer from './components/ImageViewer';
 import StatusForm from './components/StatusForm';
 
 import MapDetail from './components/MapDetail';
-import IncidentDetail from './components/IncidentDetail';
+import Detail from './components/Detail';
 import SplitNotificationBar from './components/SplitNotificationBar';
 
-export class IncidentDetailPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class IncidentDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
 
@@ -50,6 +50,8 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
       showImage: false,
       image: ''
     };
+
+    console.log('-----------');
   }
 
   state = {
@@ -136,7 +138,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     const { showImage, showLocation, editLocation, editStatus, image } = this.state;
 
     return (
-      <div className="incident-detail-page">
+      <div className="incident-detail">
         <SplitNotificationBar data={split} onClose={this.onDismissSplitNotification} />
         {loading ? <LoadingIndicator /> : (
           <div>
@@ -154,8 +156,8 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
               /> : ''}
 
             {showImage || showLocation || editLocation || editStatus ? (
-              <div className="col-12 incident-detail-page__preview">
-                <button className="incident-detail-page__preview-close action-button-close" onClick={this.onCloseAll} />
+              <div className="col-12 incident-detail__preview">
+                <button className="incident-detail__preview-close action-button-close" onClick={this.onCloseAll} />
 
                 {showImage ? (
                   <ImageViewer
@@ -195,7 +197,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
                   <div className="col-7">
                     {incident ? (
                       <div>
-                        <IncidentDetail
+                        <Detail
                           incident={incident}
                           attachments={attachments}
                           stadsdeelList={stadsdeelList}
@@ -240,7 +242,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   }
 }
 
-IncidentDetailPage.propTypes = {
+IncidentDetail.propTypes = {
   incidentModel: PropTypes.object.isRequired,
   historyModel: PropTypes.object.isRequired,
   categories: PropTypes.object.isRequired,
@@ -272,4 +274,4 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onDismissSplitNotification: dismissSplitNotification
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(IncidentDetailPage);
+export default connect(mapStateToProps, mapDispatchToProps)(IncidentDetail);

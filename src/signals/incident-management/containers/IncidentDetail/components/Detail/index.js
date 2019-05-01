@@ -11,7 +11,7 @@ import Location from './components/Location';
 
 export const HIGHLIGHT_TIMEOUT_INTERVAL = 2200;
 
-class IncidentDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class Detail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
 
@@ -57,14 +57,14 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
     const { locationUpdated } = this.state;
 
     return (
-      <article className="incident-detail">
-        <div className="incident-detail__text">
+      <article className="detail">
+        <div className="detail__text">
           {incident.text}
         </div>
 
         <dl>
-          <dt className="incident-detail__definition">Overlast</dt>
-          <dd className="incident-detail__value">{string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}&nbsp;</dd>
+          <dt className="detail__definition">Overlast</dt>
+          <dd className="detail__value">{string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}&nbsp;</dd>
 
           <Location
             incident={incident}
@@ -80,27 +80,27 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
           />
 
           {incident.extra_properties && Object.keys(incident.extra_properties).map((key) =>
-           (<dl key={key}><dt className="incident-detail__definition">{key}</dt><dd className="incident-detail__value">{incident.extra_properties[key]}&nbsp;</dd></dl>)
+           (<dl key={key}><dt className="detail__definition">{key}</dt><dd className="detail__value">{incident.extra_properties[key]}&nbsp;</dd></dl>)
           )}
 
-          <dt className="incident-detail__definition">Email</dt>
-          <dd className="incident-detail__value">{incident.reporter.email}</dd>
+          <dt className="detail__definition">Email</dt>
+          <dd className="detail__value">{incident.reporter.email}</dd>
 
-          <dt className="incident-detail__definition">Telefoonnummer</dt>
-          <dd className="incident-detail__value">{incident.reporter.phone}</dd>
+          <dt className="detail__definition">Telefoonnummer</dt>
+          <dd className="detail__value">{incident.reporter.phone}</dd>
         </dl>
       </article>
     );
   }
 }
 
-IncidentDetail.defaultProps = {
+Detail.defaultProps = {
   location: {},
   locationUpdated: false,
   locationTimer: null
 };
 
-IncidentDetail.propTypes = {
+Detail.propTypes = {
   incident: PropTypes.object.isRequired,
   attachments: PropTypes.array.isRequired,
   location: PropTypes.object,
@@ -112,4 +112,4 @@ IncidentDetail.propTypes = {
   onEditLocation: PropTypes.func.isRequired
 };
 
-export default IncidentDetail;
+export default Detail;

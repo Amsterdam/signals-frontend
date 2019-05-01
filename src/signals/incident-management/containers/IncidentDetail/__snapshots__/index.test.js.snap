@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<IncidentDetailPage /> events should render the print view 1`] = `
+exports[`<IncidentDetail /> events should render the print view 1`] = `
 <Component
   id="100"
   incident={
@@ -63,9 +63,9 @@ exports[`<IncidentDetailPage /> events should render the print view 1`] = `
 />
 `;
 
-exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
+exports[`<IncidentDetail /> rendering should render correctly 1`] = `
 <div
-  className="incident-detail-page container"
+  className="incident-detail container"
 >
   <SplitNotificationBar
     onClose={[Function]}
@@ -88,7 +88,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
       className="col-9"
     >
       <h3>
-        Melding 
+        Melding
         100
       </h3>
     </div>
@@ -110,7 +110,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
       </button>
     </div>
     <ul
-      className="col-12 col-md-4 incident-detail-page__map"
+      className="col-12 col-md-4 incident-detail__map"
     />
     <div
       className="col-12 col-md-8"
@@ -227,7 +227,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
       className="col-12"
     >
       <div
-        className="incident-detail-page__tab-container"
+        className="incident-detail__tab-container"
       >
         <Component
           id="100"
@@ -238,9 +238,9 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
 </div>
 `;
 
-exports[`<IncidentDetailPage /> rendering should render correctly with image 1`] = `
+exports[`<IncidentDetail /> rendering should render correctly with image 1`] = `
 <div
-  className="incident-detail-page container"
+  className="incident-detail container"
 >
   <SplitNotificationBar
     onClose={[Function]}
@@ -263,7 +263,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
       className="col-9"
     >
       <h3>
-        Melding 
+        Melding
         100
       </h3>
     </div>
@@ -285,7 +285,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
       </button>
     </div>
     <ul
-      className="col-12 col-md-4 incident-detail-page__map"
+      className="col-12 col-md-4 incident-detail__map"
     />
     <div
       className="col-12 col-md-8"
@@ -373,12 +373,12 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
               "value": <div>
                 <img
                   alt=""
-                  className="incident-detail-page__image--max-width"
+                  className="incident-detail__image--max-width"
                   src={1}
                 />
                 <img
                   alt=""
-                  className="incident-detail-page__image--max-width"
+                  className="incident-detail__image--max-width"
                   src={2}
                 />
               </div>,
@@ -416,7 +416,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
       className="col-12"
     >
       <div
-        className="incident-detail-page__tab-container"
+        className="incident-detail__tab-container"
       >
         <Component
           id="100"
@@ -427,9 +427,9 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
 </div>
 `;
 
-exports[`<IncidentDetailPage /> rendering should render correctly with location 1`] = `
+exports[`<IncidentDetail /> rendering should render correctly with location 1`] = `
 <div
-  className="incident-detail-page container"
+  className="incident-detail container"
 >
   <SplitNotificationBar
     onClose={[Function]}
@@ -452,7 +452,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
       className="col-9"
     >
       <h3>
-        Melding 
+        Melding
         100
       </h3>
     </div>
@@ -474,7 +474,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
       </button>
     </div>
     <ul
-      className="col-12 col-md-4 incident-detail-page__map"
+      className="col-12 col-md-4 incident-detail__map"
     >
       <Component
         label=""
@@ -597,7 +597,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
       className="col-12"
     >
       <div
-        className="incident-detail-page__tab-container"
+        className="incident-detail__tab-container"
       >
         <Component
           id="100"
@@ -608,9 +608,9 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
 </div>
 `;
 
-exports[`<IncidentDetailPage /> rendering should render correctly with parent 1`] = `
+exports[`<IncidentDetail /> rendering should render correctly with parent 1`] = `
 <div
-  className="incident-detail-page container"
+  className="incident-detail container"
 >
   <SplitNotificationBar
     onClose={[Function]}
@@ -633,7 +633,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with parent 1`
       className="col-9"
     >
       <h3>
-        Melding 
+        Melding
         100
       </h3>
     </div>
@@ -648,7 +648,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with parent 1`
       </button>
     </div>
     <ul
-      className="col-12 col-md-4 incident-detail-page__map"
+      className="col-12 col-md-4 incident-detail__map"
     />
     <div
       className="col-12 col-md-8"
@@ -766,7 +766,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly with parent 1`
       className="col-12"
     >
       <div
-        className="incident-detail-page__tab-container"
+        className="incident-detail__tab-container"
       >
         <Component
           id="100"
@@ -777,9 +777,9 @@ exports[`<IncidentDetailPage /> rendering should render correctly with parent 1`
 </div>
 `;
 
-exports[`<IncidentDetailPage /> rendering should render correctly without incident 1`] = `
+exports[`<IncidentDetail /> rendering should render correctly without incident 1`] = `
 <div
-  className="incident-detail-page container"
+  className="incident-detail container"
 >
   <SplitNotificationBar
     onClose={[Function]}
@@ -802,7 +802,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
       className="col-9"
     >
       <h3>
-        Melding 
+        Melding
         100
       </h3>
     </div>
@@ -817,7 +817,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
       </button>
     </div>
     <ul
-      className="col-12 col-md-4 incident-detail-page__map"
+      className="col-12 col-md-4 incident-detail__map"
     />
     <div
       className="col-12 col-md-8"
@@ -876,7 +876,7 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
       className="col-12"
     >
       <div
-        className="incident-detail-page__tab-container"
+        className="incident-detail__tab-container"
       >
         <Component
           id="100"
@@ -887,9 +887,9 @@ exports[`<IncidentDetailPage /> rendering should render correctly without incide
 </div>
 `;
 
-exports[`<IncidentDetailPage /> rendering should render loading indicator correctly 1`] = `
+exports[`<IncidentDetail /> rendering should render loading indicator correctly 1`] = `
 <div
-  className="incident-detail-page container"
+  className="incident-detail container"
 >
   <SplitNotificationBar
     onClose={[Function]}

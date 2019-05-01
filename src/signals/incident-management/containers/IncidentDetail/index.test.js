@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import { REQUEST_INCIDENT, DISMISS_SPLIT_NOTIFICATION, REQUEST_ATTACHMENTS } from 'models/incident/constants';
-import { IncidentDetailPage, mapDispatchToProps } from './index';
+import { IncidentDetail, mapDispatchToProps } from './index';
 
 import stadsdeelList from '../../definitions/stadsdeelList';
 import priorityList from '../../definitions/priorityList';
@@ -12,7 +12,7 @@ jest.mock('./components/MapDetail', () => () => 'MapDetail');
 jest.mock('./components/IncidentDetail', () => () => 'IncidentDetail');
 jest.mock('shared/components/LoadingIndicator', () => () => 'LoadingIndicator');
 
-describe('<IncidentDetailPage />', () => {
+describe('<IncidentDetail />', () => {
   let props;
 
   beforeEach(() => {
@@ -42,7 +42,7 @@ describe('<IncidentDetailPage />', () => {
   describe('rendering', () => {
     it('should render correctly', () => {
       const wrapper = shallow(
-        <IncidentDetailPage {...props} />
+        <IncidentDetail {...props} />
       );
       expect(wrapper).toMatchSnapshot();
       expect(props.onRequestIncident).toHaveBeenCalledWith('100');
@@ -53,7 +53,7 @@ describe('<IncidentDetailPage />', () => {
     it('should render correctly with parent', () => {
       props.incidentModel.incident.parent_id = 42;
       const wrapper = shallow(
-        <IncidentDetailPage {...props} />
+        <IncidentDetail {...props} />
       );
       expect(wrapper).toMatchSnapshot();
     });
@@ -61,7 +61,7 @@ describe('<IncidentDetailPage />', () => {
     it('should render correctly with location', () => {
       props.incidentModel.incident.location = {};
       const wrapper = shallow(
-        <IncidentDetailPage {...props} />
+        <IncidentDetail {...props} />
       );
       expect(wrapper).toMatchSnapshot();
     });
@@ -69,7 +69,7 @@ describe('<IncidentDetailPage />', () => {
     it('should render correctly with image', () => {
       props.incidentModel.attachments = [{ location: 1 }, { location: 2 }];
       const wrapper = shallow(
-        <IncidentDetailPage {...props} />
+        <IncidentDetail {...props} />
       );
       expect(wrapper).toMatchSnapshot();
     });
@@ -77,7 +77,7 @@ describe('<IncidentDetailPage />', () => {
     it('should render correctly without incident', () => {
       props.incidentModel.incident = undefined;
       const wrapper = shallow(
-        <IncidentDetailPage {...props} />
+        <IncidentDetail {...props} />
       );
       expect(wrapper).toMatchSnapshot();
     });
@@ -85,7 +85,7 @@ describe('<IncidentDetailPage />', () => {
     it('should render loading indicator correctly', () => {
       props.incidentModel.loading = true;
       const wrapper = shallow(
-        <IncidentDetailPage {...props} />
+        <IncidentDetail {...props} />
       );
       expect(wrapper).toMatchSnapshot();
     });
@@ -94,7 +94,7 @@ describe('<IncidentDetailPage />', () => {
   describe('events', () => {
     it('should change the state', () => {
       const wrapper = shallow(
-        <IncidentDetailPage {...props} />
+        <IncidentDetail {...props} />
       );
       wrapper.instance().onPrintView();
       wrapper.instance().onTabChanged(1);
@@ -103,7 +103,7 @@ describe('<IncidentDetailPage />', () => {
 
     it('should reset split state', () => {
       const wrapper = shallow(
-        <IncidentDetailPage {...props} />
+        <IncidentDetail {...props} />
       );
       wrapper.instance().onDismissSplitNotification();
       expect(props.onDismissSplitNotification).toHaveBeenCalled();
@@ -111,7 +111,7 @@ describe('<IncidentDetailPage />', () => {
 
     it('should fetch new incident when the id chages', () => {
       const wrapper = shallow(
-        <IncidentDetailPage {...props} />
+        <IncidentDetail {...props} />
       );
       wrapper.setProps({ id: '42' });
       expect(props.onRequestIncident).toHaveBeenCalledWith('42');

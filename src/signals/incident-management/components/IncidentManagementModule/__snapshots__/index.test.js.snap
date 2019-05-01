@@ -209,7 +209,7 @@ exports[`<IncidentManagementModule /> routing can navigate to incident detail 1`
                       baseUrl="/manage"
                       id="666"
                     >
-                      IncidentDetailPage
+                      IncidentDetail
                     </Component>
                   </Route>
                   <Route
