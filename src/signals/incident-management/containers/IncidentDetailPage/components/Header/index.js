@@ -10,7 +10,6 @@ const Header = ({ incident, baseUrl, onThor }) => {
   const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some((value) => value === status);
   const downloadLink = incident._links && incident._links['sia:pdf'];
 
-  console.log('downloadLink', downloadLink);
   return (
     <header className="header">
       <div className="row">

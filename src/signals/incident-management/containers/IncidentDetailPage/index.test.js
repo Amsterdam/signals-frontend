@@ -2,7 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import { REQUEST_INCIDENT, DISMISS_SPLIT_NOTIFICATION, REQUEST_ATTACHMENTS } from 'models/incident/constants';
-import { REQUEST_NOTES_LIST } from 'models/notes/constants';
 import { IncidentDetailPage, mapDispatchToProps } from './index';
 
 import stadsdeelList from '../../definitions/stadsdeelList';
@@ -130,11 +129,6 @@ describe('<IncidentDetailPage />', () => {
     it('onRequestIncident', () => {
       mapDispatchToProps(dispatch).onRequestIncident(42);
       expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_INCIDENT, payload: 42 });
-    });
-
-    it('should request the notes list', () => {
-      mapDispatchToProps(dispatch).onRequestNotesList(42);
-      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_NOTES_LIST, payload: 42 });
     });
 
     it('should reset split state', () => {

@@ -14,10 +14,8 @@ import { Link } from 'react-router-dom';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { makeSelectLoading, makeSelectError, makeSelectCategories } from 'containers/App/selectors';
 import { requestIncident, patchIncident, dismissSplitNotification, requestAttachments } from 'models/incident/actions';
-import { requestNotesList } from 'models/notes/actions';
 import { requestHistoryList } from 'models/history/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
-import makeSelectNotesModel from 'models/notes/selectors';
 import makeSelectHistoryModel from 'models/history/selectors';
 import './style.scss';
 
@@ -253,7 +251,6 @@ IncidentDetailPage.propTypes = {
 
   onRequestIncident: PropTypes.func.isRequired,
   onPatchIncident: PropTypes.func.isRequired,
-  // onRequestNotesList: PropTypes.func.isRequired,
   onRequestHistoryList: PropTypes.func.isRequired,
   onRequestAttachments: PropTypes.func.isRequired,
   onDismissSplitNotification: PropTypes.func.isRequired
@@ -265,14 +262,12 @@ const mapStateToProps = () => createStructuredSelector({
   error: makeSelectError(),
   incidentModel: makeSelectIncidentModel(),
   categories: makeSelectCategories(),
-  historyModel: makeSelectHistoryModel(),
-  notesModel: makeSelectNotesModel()
+  historyModel: makeSelectHistoryModel()
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestIncident: requestIncident,
   onPatchIncident: patchIncident,
-  onRequestNotesList: requestNotesList,
   onRequestHistoryList: requestHistoryList,
   onRequestAttachments: requestAttachments,
   onDismissSplitNotification: dismissSplitNotification
