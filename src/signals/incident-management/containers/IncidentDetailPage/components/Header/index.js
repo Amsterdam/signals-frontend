@@ -8,7 +8,7 @@ const Header = ({ incident, baseUrl, onThor }) => {
   const status = incident && incident.status && incident.status.state;
   const canSplit = (status === 'm') && !(incident && incident.parent_id);
   const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some((value) => value === status);
-  const downloadLink = incident._links && incident._links['sia:pdf'];
+  const downloadLink = incident._links && incident._links['sia:pdf'] && incident._links['sia:pdf'].href;
 
   return (
     <header className="header">

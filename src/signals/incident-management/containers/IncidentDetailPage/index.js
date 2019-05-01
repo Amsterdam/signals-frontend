@@ -62,7 +62,6 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 
   componentDidMount() {
     this.props.onRequestIncident(this.props.id);
-    // this.props.onRequestNotesList(this.props.id);
     this.props.onRequestHistoryList(this.props.id);
     this.props.onRequestAttachments(this.props.id);
   }

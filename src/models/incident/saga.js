@@ -9,10 +9,10 @@ import { requestIncidentSuccess, requestIncidentError, patchIncidentSuccess, pat
 import { requestHistoryList } from '../history/actions';
 
 export function* fetchIncident(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/auth/signal`;
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals`;
   try {
     const id = action.payload;
-    const incident = yield authCall(`${requestURL}/${id}/`);
+    const incident = yield authCall(`${requestURL}/${id}`);
     yield put(requestIncidentSuccess(incident));
   } catch (error) {
     yield put(requestIncidentError(error));
