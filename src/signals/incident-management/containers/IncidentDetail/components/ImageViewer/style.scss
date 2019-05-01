@@ -2,11 +2,11 @@
 
 .image-viewer {
   position: relative;
-  padding-top: 10px;
   text-align: center;
 
   &__image {
     max-height: 722px;
+    max-width: 100%;
   }
 
   &__button-previous {

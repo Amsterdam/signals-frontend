@@ -3,6 +3,9 @@
 .detail {
   &__text {
     @include avenirnextdemi();
+    font-size: 20px;
+    line-height: 25px;
+    margin: 13px 0;
   }
 
   dl {

@@ -50,8 +50,6 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
       showImage: false,
       image: ''
     };
-
-    console.log('-----------');
   }
 
   state = {
@@ -156,40 +154,42 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
               /> : ''}
 
             {showImage || showLocation || editLocation || editStatus ? (
-              <div className="col-12 incident-detail__preview">
-                <button className="incident-detail__preview-close incident-detail__button--close" onClick={this.onCloseAll} />
+              <div className="row">
+                <div className="col-12 incident-detail__preview">
+                  <button className="incident-detail__preview-close incident-detail__button--close" onClick={this.onCloseAll} />
 
-                {showImage ? (
-                  <ImageViewer
-                    attachments={attachments}
-                    image={image}
-                    onShowAttachment={this.onShowAttachment}
-                  />
+                  {showImage ? (
+                    <ImageViewer
+                      attachments={attachments}
+                      image={image}
+                      onShowAttachment={this.onShowAttachment}
+                    />
                 ) : ''}
 
-                {showLocation ? (
-                  <MapDetail
-                    value={incident.location}
-                    zoom="16"
-                  />
+                  {showLocation ? (
+                    <MapDetail
+                      value={incident.location}
+                      zoom="16"
+                    />
                 ) : ''}
 
-                {editLocation ? (
-                  <LocationForm
-                    incidentModel={this.props.incidentModel}
-                    onPatchIncident={onPatchIncident}
-                    onClose={this.onCloseAll}
-                  />
+                  {editLocation ? (
+                    <LocationForm
+                      incidentModel={this.props.incidentModel}
+                      onPatchIncident={onPatchIncident}
+                      onClose={this.onCloseAll}
+                    />
                 ) : ''}
 
-                {editStatus ?
-                  <StatusForm
-                    incident={incident}
-                    changeStatusOptionList={changeStatusOptionList}
-                    onPatchIncident={onPatchIncident}
-                    onClose={this.onCloseAll}
-                  />
+                  {editStatus ?
+                    <StatusForm
+                      incident={incident}
+                      changeStatusOptionList={changeStatusOptionList}
+                      onPatchIncident={onPatchIncident}
+                      onClose={this.onCloseAll}
+                    />
                 : ''}
+                </div>
               </div>
             ) :
               (
