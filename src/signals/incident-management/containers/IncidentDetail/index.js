@@ -1,9 +1,3 @@
-/**
- *
- * IncidentDetail
- *
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -26,7 +20,6 @@ import AddNote from './components/AddNote';
 import LocationForm from './components/LocationForm';
 import ImageViewer from './components/ImageViewer';
 import StatusForm from './components/StatusForm';
-
 import MapDetail from './components/MapDetail';
 import Detail from './components/Detail';
 import SplitNotificationBar from './components/SplitNotificationBar';
