@@ -1,20 +1,18 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import FileInput from './index';
+import FileInput, { ERROR_TIMEOUT_INTERVAL } from './index';
 
 describe('Form component <FileInput />', () => {
   const metaFields = {
-    name: 'input-field-name',
-    submitLabel: 'upload file'
+    name: 'input-field-name'
   };
   const parentControls = {
     'input-field-name': {
-      setValidators: jest.fn(),
-      clearValidators: jest.fn(),
-      markAsTouched: jest.fn()
+      updateValueAndValidity: jest.fn()
     }
   };
+  const maxFileSize = 1024 * 1024;
   let wrapper;
   let handler;
   let touched;
@@ -31,6 +29,7 @@ describe('Form component <FileInput />', () => {
       meta: {
         updateIncident: jest.fn()
       },
+      value: jest.fn(),
       controls: parentControls
     };
 
@@ -45,49 +44,48 @@ describe('Form component <FileInput />', () => {
 
   describe('rendering', () => {
     it('should render upload field correctly', () => {
-      handler.mockImplementation(() => ({ value: undefined }));
-
       wrapper.setProps({
         meta: {
           ...metaFields,
+          maxNumberOfFiles: 3,
           isVisible: true
         }
       });
 
-      expect(handler).toHaveBeenCalledWith();
       expect(wrapper).toMatchSnapshot();
     });
 
-    it('should render upload field with selected file correctly', () => {
-      handler.mockImplementation(() => ({ value: 'blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c' }));
-
+    it('should render upload field with one uploaded file and one loading correctly', () => {
+      parent.value = {
+        'input-field-name_previews': ['blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c', 'loading-42']
+      };
       wrapper.setProps({
         meta: {
           ...metaFields,
+          maxNumberOfFiles: 2,
           isVisible: true
         }
       });
 
-      wrapper.setProps({
-        parent: {
-          controls: parentControls,
-          meta: {
-            incident: {
-              image_file: {
-                type: 'image/jpeg',
-                size: 666
-              },
-              image_type: 'image/jpeg'
-            }
-          },
-          value: {
-            image_type: 'image/jpeg'
-          }
+      expect(wrapper).toMatchSnapshot();
+    });
 
+    it('should render upload field with multiple errors correctly', () => {
+      parent.value = {
+        'input-field-name_errors': [
+          'Dit bestand is te groot. De maximale bestandgrootte is 976,6 kB.',
+          'Dit bestandstype wordt niet ondersteund. Toegestaan zijn: jpeg.',
+          'U kunt maximaal 3 bestanden uploaden.',
+        ]
+      };
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          maxNumberOfFiles: 3,
+          isVisible: true
         }
       });
 
-      expect(handler).toHaveBeenCalledWith();
       expect(wrapper).toMatchSnapshot();
     });
 
@@ -95,18 +93,37 @@ describe('Form component <FileInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
+          maxNumberOfFiles: 3,
           isVisible: false
         }
       });
 
-      expect(handler).not.toHaveBeenCalled();
       expect(wrapper).toMatchSnapshot();
     });
   });
 
   describe('events', () => {
-    const fileContents = 'file contents';
-    const file = new Blob([fileContents], { type: 'image/jpeg' });
+    const file1 = {
+      name: 'bloem.jpeg',
+      size: 89691,
+      type: 'image/jpeg'
+    };
+    const file2 = {
+      name: 'already uploaded.gif',
+      size: 24567,
+      type: 'image/gif'
+    };
+    const file3 = {
+      name: 'way too large file.jpeg',
+      size: 10000000000000,
+      type: 'image/jpeg'
+    };
+    const file4 = {
+      name: 'poeeee.jpeg',
+      size: 24567,
+      type: 'image/jpeg'
+    };
+
     let readAsText;
     let addEventListener;
 
@@ -115,8 +132,7 @@ describe('Form component <FileInput />', () => {
       addEventListener = jest.fn((_, evtHandler) => { evtHandler(); });
       window.FileReader = jest.fn(() => ({
         addEventListener,
-        readAsText,
-        result: fileContents
+        readAsText
       }));
 
       window.URL = {
@@ -127,9 +143,74 @@ describe('Form component <FileInput />', () => {
 
     afterEach(() => {
       delete window.URL;
+      jest.resetAllMocks();
     });
 
-    it('uploads a file when and sets incident when file changes', () => {
+    it('uploads a file when and updates incident when file changes', () => {
+      handler.mockImplementation(() => ({ value: [] }));
+
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          maxNumberOfFiles: 3,
+          maxFileSize,
+          allowedFileTypes: ['image/jpeg'],
+          isVisible: true
+        }
+      });
+
+
+      wrapper.find('input').simulate('change', { target: { files: [file1] } });
+      expect(FileReader).toHaveBeenCalled();
+      expect(addEventListener).toHaveBeenCalledWith('load', expect.any(Function));
+      expect(readAsText).toHaveBeenCalled();
+      expect(parentControls['input-field-name'].updateValueAndValidity).toHaveBeenCalledTimes(1);
+      expect(parent.meta.updateIncident).toHaveBeenCalled();
+    });
+
+    it('uploads a file and with already uploaded file and triggers multiple errors', () => {
+      handler.mockImplementation(() => ({ value: [file2, file3, file4] }));
+
+      jest.useFakeTimers();
+
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          maxNumberOfFiles: 3,
+          maxFileSize,
+          allowedFileTypes: ['image/jpeg'],
+          isVisible: true
+        }
+      });
+
+      wrapper.find('input').simulate('change', { target: { files: [file1] } });
+
+      jest.runTimersToTime(ERROR_TIMEOUT_INTERVAL - 1);
+
+      expect(FileReader).toHaveBeenCalled();
+      expect(addEventListener).toHaveBeenCalledWith('load', expect.any(Function));
+      expect(readAsText).toHaveBeenCalled();
+      expect(parentControls['input-field-name'].updateValueAndValidity).toHaveBeenCalledTimes(2);
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name_previews': expect.any(Array),
+        'input-field-name': [file4, file1],
+        'input-field-name_errors': [
+          'Dit bestand is te groot. De maximale bestandgrootte is 1 MB.',
+          'Dit bestandstype wordt niet ondersteund. Toegestaan zijn: jpeg.',
+          'U kunt maximaal 3 bestanden uploaden.',
+        ]
+      });
+
+      jest.runTimersToTime(1);
+
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name_errors': null
+      });
+
+      jest.runAllTimers();
+    });
+
+    it('uploads a file with no extra validations', () => {
       handler.mockImplementation(() => ({ value: undefined }));
 
       wrapper.setProps({
@@ -139,21 +220,24 @@ describe('Form component <FileInput />', () => {
         }
       });
 
-      wrapper.find('input').simulate('change', { target: { files: [] } });
-      expect(FileReader).not.toHaveBeenCalled();
-      expect(parentControls['input-field-name'].setValidators).not.toHaveBeenCalled();
-      expect(parentControls['input-field-name'].markAsTouched).not.toHaveBeenCalled();
-
-      wrapper.find('input').simulate('change', { target: { files: [file] } });
+      wrapper.find('input').simulate('change', { target: { files: [file1] } });
       expect(FileReader).toHaveBeenCalled();
       expect(addEventListener).toHaveBeenCalledWith('load', expect.any(Function));
-      expect(readAsText).toHaveBeenCalledWith(file);
-      expect(parentControls['input-field-name'].setValidators).toHaveBeenCalled();
-      expect(parentControls['input-field-name'].markAsTouched).toHaveBeenCalled();
+      expect(readAsText).toHaveBeenCalled();
+      expect(parentControls['input-field-name'].updateValueAndValidity).toHaveBeenCalledTimes(1);
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name_previews': expect.any(Array),
+        'input-field-name': [file1],
+        'input-field-name_errors': [],
+      });
     });
 
-    it('resets upload when clear button was clicked', () => {
-      handler.mockImplementation(() => ({ value: 'blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c' }));
+    it('it removes 1 file when remove button was clicked', () => {
+      parent.value = {
+        'input-field-name_previews': ['blob:http://host/1', 'blob:http://host/2']
+      };
+
+      handler.mockImplementation(() => ({ value: [file1, file2] }));
 
       wrapper.setProps({
         meta: {
@@ -162,15 +246,13 @@ describe('Form component <FileInput />', () => {
         }
       });
 
-      wrapper.find('button').simulate('click', { preventDefault: jest.fn() });
+      wrapper.find('button').first().simulate('click', { preventDefault: jest.fn(), foo: 'booo' });
 
-      expect(window.URL.revokeObjectURL).toHaveBeenCalledWith('blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c');
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        image: '',
-        image_file: null,
-        image_type: null
+        'input-field-name': [file2],
+        'input-field-name_previews': ['blob:http://host/2'],
+        'input-field-name_errors': null
       });
-      expect(parentControls['input-field-name'].clearValidators).toHaveBeenCalled();
     });
   });
 });

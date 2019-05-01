@@ -54,9 +54,7 @@ exports[`<IncidentPart /> rendering should render correctly with image 1`] = `
     values={
       Array [
         Object {
-          "alt": "Foto bij melding undefined",
-          "key": "",
-          "value": "mock-image",
+          "location": "mock-image",
         },
       ]
     }
@@ -142,6 +140,7 @@ exports[`<IncidentPart /> rendering should render correctly without image 1`] = 
     rows={5}
     values={Array []}
   />
+  0
   <FieldControlWrapper
     control={
       Object {

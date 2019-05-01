@@ -293,7 +293,6 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
       <Component
         incident={
           Object {
-            "image": "some-image",
             "status": Object {
               "state": "m",
             },
@@ -371,11 +370,18 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
             },
             "image": Object {
               "name": "Foto",
-              "value": <img
-                alt=""
-                className="incident-detail-page__image--max-width"
-                src="some-image"
-              />,
+              "value": <div>
+                <img
+                  alt=""
+                  className="incident-detail-page__image--max-width"
+                  src={1}
+                />
+                <img
+                  alt=""
+                  className="incident-detail-page__image--max-width"
+                  src={2}
+                />
+              </div>,
             },
             "location": Object {
               "name": "Locatie",

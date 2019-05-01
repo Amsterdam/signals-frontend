@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
-import { requestIncident, dismissSplitNotification } from 'models/incident/actions';
+import { requestIncident, dismissSplitNotification, requestAttachments } from 'models/incident/actions';
 import { requestNotesList } from 'models/notes/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 import makeSelectNotesModel from 'models/notes/selectors';
@@ -48,6 +48,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
   componentDidMount() {
     this.props.onRequestIncident(this.props.id);
     this.props.onRequestNotesList(this.props.id);
+    this.props.onRequestAttachments(this.props.id);
   }
 
   shouldComponentUpdate(props) {
@@ -72,7 +73,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
 
   render() {
     const { incidentNotesList } = this.props.notesModel;
-    const { incident, loading, split, stadsdeelList, priorityList } = this.props.incidentModel;
+    const { incident, attachments, loading, split, stadsdeelList, priorityList } = this.props.incidentModel;
     const { selectedTab } = this.state;
     const canSplit = (incident && incident.status && incident.status.state === 'm') && !(incident && incident.parent_id);
     const tabs = {
@@ -80,7 +81,11 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
       priority: { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
       category: { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
       notes: { name: 'Notities', value: <IncidentNotesContainer id={this.props.id} />, count: incidentNotesList && incidentNotesList.length },
-      image: incident && incident.image ? { name: 'Foto', value: <img src={incident.image} alt={''} className="incident-detail-page__image--max-width" /> } : undefined,
+      image: attachments && attachments.length ? { name: 'Foto',
+        value:
+        (<div>
+          {attachments.map((attachment) => <img key={attachment.location} src={attachment.location} alt={''} className="incident-detail-page__image--max-width" />)}
+        </div>) } : undefined,
       location: { name: 'Locatie', value: <LocationForm id={this.props.id} /> },
       history: { name: 'Historie', value: <IncidentHistoryContainer id={this.props.id} /> }
     };
@@ -155,6 +160,7 @@ IncidentDetailPage.propTypes = {
 
   onRequestIncident: PropTypes.func.isRequired,
   onRequestNotesList: PropTypes.func.isRequired,
+  onRequestAttachments: PropTypes.func.isRequired,
   onDismissSplitNotification: PropTypes.func.isRequired
 };
 
@@ -169,6 +175,7 @@ const mapStateToProps = () => createStructuredSelector({
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestIncident: requestIncident,
   onRequestNotesList: requestNotesList,
+  onRequestAttachments: requestAttachments,
   onDismissSplitNotification: dismissSplitNotification
 }, dispatch);
 

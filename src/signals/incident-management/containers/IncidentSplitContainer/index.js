@@ -9,7 +9,7 @@ import { makeSelectCategories } from 'containers/App/selectors';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
-import { requestIncident } from 'models/incident/actions';
+import { requestIncident, requestAttachments } from 'models/incident/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 
 import { splitIncident } from './actions';
@@ -31,6 +31,7 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
 
   componentDidMount() {
     this.props.onRequestIncident(this.props.id);
+    this.props.onRequestAttachments(this.props.id);
   }
 
   handleSubmit(splitForm) {
@@ -43,7 +44,7 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
 
   render() {
     const { categories } = this.props;
-    const { incident, loading, stadsdeelList, priorityList } = this.props.incidentModel;
+    const { incident, attachments, loading, stadsdeelList, priorityList } = this.props.incidentModel;
     return (
       <div className="incident-split-container">
         {loading ? <LoadingIndicator /> :
@@ -52,6 +53,7 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
             <div className="col-8">
               <SplitForm
                 incident={incident}
+                attachments={attachments}
                 subcategories={categories.sub}
                 priorityList={priorityList}
                 handleSubmit={this.handleSubmit}
@@ -76,6 +78,7 @@ IncidentSplitContainer.propTypes = {
   categories: PropTypes.object,
   incidentModel: PropTypes.object,
   onRequestIncident: PropTypes.func.isRequired,
+  onRequestAttachments: PropTypes.func.isRequired,
   onSplitIncident: PropTypes.func.isRequired,
   onGoBack: PropTypes.func.isRequired
 };
@@ -87,6 +90,7 @@ const mapStateToProps = createStructuredSelector({
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestIncident: requestIncident,
+  onRequestAttachments: requestAttachments,
   onSplitIncident: splitIncident,
   onGoBack: goBack
 }, dispatch);

@@ -96,8 +96,7 @@ describe('IncidentContainer saga', () => {
     });
 
     it('should success with file upload', () => {
-      payload.incident.image = true;
-      payload.incident.image_file = { name: 'some-file' };
+      payload.incident.images = [{ name: 'some-file' }];
       gen = createIncident({ payload });
 
       expect(gen.next().value).toEqual(call(request, 'https://acc.api.data.amsterdam.nl/signals/signal/', {
@@ -109,15 +108,8 @@ describe('IncidentContainer saga', () => {
           'Content-Type': 'application/json'
         }
       }));
-      expect(gen.next({
-        signal_id: 666
-      }).value).toEqual(put(uploadRequest({
-        file: { name: 'some-file' },
-        id: 666
-      })));
-      expect(gen.next().value).toEqual(put(createIncidentSuccess({
-        signal_id: 666
-      })));
+      expect(gen.next({ signal_id: 42 }).value).toEqual(all(payload.incident.images.map((image) => put(uploadRequest({ file: image, id: 42 })))));
+      expect(gen.next().value).toEqual(put(createIncidentSuccess({ signal_id: 42 })));
     });
 
     it('should success with logged in', () => {
