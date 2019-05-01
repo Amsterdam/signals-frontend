@@ -13,9 +13,9 @@ describe('<CopyFileInput />', () => {
       display: 'display',
       handler: jest.fn(),
       values: [
-        { key: '', value: 'none' },
-        { key: '1', value: 'item1' },
-        { key: '2', value: 'item2' }
+        { location: 'item0' },
+        { location: 'item1' },
+        { location: 'item2' }
       ]
     };
   });

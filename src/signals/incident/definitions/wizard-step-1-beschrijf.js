@@ -57,22 +57,6 @@ export default {
         authenticated: true,
         render: FormComponents.SelectInput
       },
-      priority: {
-        meta: {
-          className: 'col-sm-12 col-md-6',
-          label: 'Wat is de urgentie?',
-          path: 'priority',
-          values: {
-            normal: 'Normaal',
-            high: 'Hoog'
-          }
-        },
-        options: {
-          validators: [Validators.required]
-        },
-        authenticated: true,
-        render: FormComponents.SelectInput
-      },
       location: {
         meta: {
           label: 'Waar is het?',
@@ -168,18 +152,41 @@ export default {
         },
         render: FormComponents.HiddenInput
       },
-      image_type: {
+      priority: {
         meta: {
-          label: 'image_type'
+          className: 'col-sm-12 col-md-6',
+          label: 'Wat is de urgentie?',
+          path: 'priority',
+          values: {
+            normal: 'Normaal',
+            high: 'Hoog'
+          }
+        },
+        options: {
+          validators: [Validators.required]
+        },
+        authenticated: true,
+        render: FormComponents.SelectInput
+      },
+      images_previews: {
+        meta: {
+          label: 'images_previews'
         },
         render: FormComponents.HiddenInput
       },
-      image: {
+      images_errors: {
         meta: {
-          label: 'Wilt u een foto meesturen?',
-          submitLabel: 'Foto kiezen',
+          label: 'images_errors'
+        },
+        render: FormComponents.HiddenInput
+      },
+      images: {
+        meta: {
+          label: 'Foto\'s toevoegen',
+          subtitle: 'Voeg een foto toe om de situatie te verduidelijken.',
           maxFileSize: 8388608,
-          allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif']
+          allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif'],
+          maxNumberOfFiles: 3
         },
         render: FormComponents.FileInput
       },

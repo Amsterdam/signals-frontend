@@ -35,6 +35,7 @@ describe('<SplitForm />', () => {
           priority: 'high'
         }
       },
+      attachments: [],
       subcategories: [{
         key: 'poep',
         value: 'Poep',

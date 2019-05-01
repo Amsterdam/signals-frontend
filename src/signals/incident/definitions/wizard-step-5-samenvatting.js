@@ -45,7 +45,7 @@ export default {
         label: 'Tijdstip',
         render: PreviewComponents.DateTime
       },
-      image: {
+      images_previews: {
         label: 'Foto',
         render: PreviewComponents.Image,
         optional: true
