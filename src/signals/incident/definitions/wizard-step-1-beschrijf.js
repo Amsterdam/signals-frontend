@@ -3,17 +3,20 @@ import { Validators } from 'react-reactive-form';
 
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
-import { checkVisibility } from '../services/format-conditional-form';
+import checkVisibility from '../services/format-conditional-form';
 
 export default {
   label: 'Beschrijf uw melding',
   getNextStep: (wizard, { subcategory, category }, isAuthenticated) => {
-    if (!some((wizard.vulaan.form || wizard.vulaan.formFactory({ category })).controls, (control) => {
+    const form = wizard.vulaan.form || wizard.vulaan.formFactory({ category });
+    if (!some(form.controls, (control) => {
       if (control.meta && !control.meta.ignoreVisibility) {
-        return checkVisibility(control, {
+        const result = checkVisibility(control, {
           category,
           subcategory
         }, isAuthenticated);
+
+        return result.meta.isVisible;
       }
       return false;
     })) {
