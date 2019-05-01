@@ -11,13 +11,13 @@
 
   &__button-previous {
     position: absolute;
-    left: 0;
-    top: 200px;
+    left: 10px;
+    top: calc(50% - 16px);
   }
 
   &__button-next {
     position: absolute;
-    right: 0;
-    top: 200px;
+    right: 10px;
+    top: calc(50% - 16px);
   }
 }

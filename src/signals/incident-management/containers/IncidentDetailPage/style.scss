@@ -46,7 +46,7 @@
     cursor: pointer;
     display: inline-block;
     background-image: url('../../../../shared/images/icon-edit.svg');
-    background-position: 5px 5px;
+    background-position: 5px;
     background-repeat: no-repeat;
 
     &:hover {
@@ -65,9 +65,50 @@
     cursor: pointer;
     display: inline-block;
     background-image: url('../../../../shared/images/icon-close.svg');
-    background-position: 5px 5px;
-    background-size: 20px 20px;
+    background-position: 9px;
+    background-size: 12px;
     background-repeat: no-repeat;
+
+    &:hover {
+      background-color: $ams-lichtgrijs;
+      border-color: $ams-zwart;
+      color: $ams-zwart;
+    }
+  }
+
+  .action-button-next {
+    width: 32px;
+    height: 32px;
+    color: $ams-donkerantraciet;
+    background-color: $ams-wit;
+    border-width: 1px solid $ams-pinkish-grey;
+    cursor: pointer;
+    display: inline-block;
+    background-image: url('../../../../shared/images/icon-arrow.svg');
+    background-position: 11px;
+    background-size: 8px;
+    background-repeat: no-repeat;
+
+    &:hover {
+      background-color: $ams-lichtgrijs;
+      border-color: $ams-zwart;
+      color: $ams-zwart;
+    }
+  }
+
+  .action-button-previous {
+    width: 32px;
+    height: 32px;
+    color: $ams-donkerantraciet;
+    background-color: $ams-wit;
+    border-width: 1px solid $ams-pinkish-grey;
+    cursor: pointer;
+    display: inline-block;
+    background-image: url('../../../../shared/images/icon-arrow.svg');
+    background-position: 11px;
+    background-size: 8px;
+    background-repeat: no-repeat;
+    transform: rotate(180deg);
 
     &:hover {
       background-color: $ams-lichtgrijs;

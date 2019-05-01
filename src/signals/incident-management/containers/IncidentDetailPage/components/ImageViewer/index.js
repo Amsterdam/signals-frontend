@@ -13,14 +13,16 @@ const ImageViewer = ({ image, attachments, onShowAttachment }) => {
     <div className="image-viewer">
       {previous ?
         <button
-          className="image-viewer__button-previous"
+          className="image-viewer__button-previous action-button-previous"
           onClick={() => onShowAttachment(previous)}
-        >prev</button> : ''}
+        /> : ''}
+
       {next ?
         <button
-          className="image-viewer__button-next"
+          className="image-viewer__button-next action-button-next"
           onClick={() => onShowAttachment(next)}
-        >next</button> : ''}
+        /> : ''}
+
       <img src={image} className="image-viewer__image" alt="uploaded afbeelding" />
     </div>
   );
