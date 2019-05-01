@@ -19,11 +19,13 @@ describe('<IncidentSplitContainer />', () => {
       },
       incidentModel: {
         incident: {},
+        attachments: [],
         stadsdeelList,
         priorityList,
         loading: false
       },
       onRequestIncident: jest.fn(),
+      onRequestAttachments: jest.fn(),
       onSplitIncident: jest.fn(),
       onGoBack: jest.fn()
     };
