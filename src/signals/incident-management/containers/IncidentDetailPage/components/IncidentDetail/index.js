@@ -6,8 +6,8 @@ import { string2date, string2time } from 'shared/services/string-parser/string-p
 
 import './style.scss';
 
-import Attachments from '../Attachments';
-import Location from '../Location';
+import Attachments from './components/Attachments';
+import Location from './components/Location';
 
 export const HIGHLIGHT_TIMEOUT_INTERVAL = 2200;
 

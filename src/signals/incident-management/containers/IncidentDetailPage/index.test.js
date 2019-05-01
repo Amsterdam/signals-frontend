@@ -10,11 +10,6 @@ import priorityList from '../../definitions/priorityList';
 
 jest.mock('./components/MapDetail', () => () => 'MapDetail');
 jest.mock('./components/IncidentDetail', () => () => 'IncidentDetail');
-jest.mock('../IncidentCategoryContainer', () => () => 'IncidentCategoryContainer');
-jest.mock('../IncidentPriorityContainer', () => () => 'IncidentPriorityContainer');
-jest.mock('../IncidentNotesContainer', () => () => 'IncidentNotesContainer');
-jest.mock('../IncidentStatusContainer', () => () => 'IncidentStatusContainer');
-jest.mock('./components/PrintLayout', () => () => 'PrintLayout');
 jest.mock('shared/components/LoadingIndicator', () => () => 'LoadingIndicator');
 
 describe('<IncidentDetailPage />', () => {

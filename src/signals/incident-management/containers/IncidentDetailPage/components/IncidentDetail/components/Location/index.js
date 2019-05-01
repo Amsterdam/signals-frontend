@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
-import MapDetail from '../MapDetail';
+import MapDetail from '../../../MapDetail';
 
 import './style.scss';
 
