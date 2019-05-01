@@ -85,7 +85,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
           />
         :
           <dd className={valueClass}>
-            <button className="change-value__edit action-button-edit" onClick={this.showForm} />
+            <button className="change-value__edit incident-detail__button--edit" onClick={this.showForm} />
             {getListValueByKey(list, get(incident, path))}
           </dd>
         }

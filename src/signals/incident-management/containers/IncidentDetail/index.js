@@ -157,7 +157,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
 
             {showImage || showLocation || editLocation || editStatus ? (
               <div className="col-12 incident-detail__preview">
-                <button className="incident-detail__preview-close action-button-close" onClick={this.onCloseAll} />
+                <button className="incident-detail__preview-close incident-detail__button--close" onClick={this.onCloseAll} />
 
                 {showImage ? (
                   <ImageViewer

@@ -15,7 +15,7 @@
     }
   }
 
-  .action-quad {
+  &__button {
     background-color: $ams-wit;
     color: $ams-donkerantraciet;
     border-width: 1px;
@@ -27,7 +27,7 @@
     font-size: 16px;
     @include avenirnextdemi();
     line-height: 16px;
-    margin: 6px 0 6px 8px;
+    margin: 6px 8px 6px 0;
     text-decoration: none;
 
     &:hover {
@@ -35,85 +35,56 @@
       border-color: $ams-zwart;
       color: $ams-zwart;
     }
-  }
 
-  .action-button-edit {
-    width: 32px;
-    height: 32px;
-    color: $ams-donkerantraciet;
-    background-color: $ams-wit;
-    border-width: 1px solid $ams-pinkish-grey;
-    cursor: pointer;
-    display: inline-block;
-    background-image: url('../../../../shared/images/icon-edit.svg');
-    background-position: 5px;
-    background-repeat: no-repeat;
+    &--download,
+    &--edit,
+    &--close,
+    &--next,
+    &--previous {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      text-decoration: none;
+      border-color: $ams-pinkish-grey;
+      border-width: 1px;
+      border-style: solid;
+      cursor: pointer;
+      background-repeat: no-repeat;
 
-    &:hover {
-      background-color: $ams-lichtgrijs;
-      border-color: $ams-zwart;
-      color: $ams-zwart;
+      &:hover {
+        background-color: $ams-lichtgrijs;
+        border-color: $ams-zwart;
+        color: $ams-zwart;
+      }
     }
-  }
 
-  .action-button-close {
-    width: 32px;
-    height: 32px;
-    color: $ams-donkerantraciet;
-    background-color: $ams-wit;
-    border-width: 1px solid $ams-pinkish-grey;
-    cursor: pointer;
-    display: inline-block;
-    background-image: url('../../../../shared/images/icon-close.svg');
-    background-position: 9px;
-    background-size: 12px;
-    background-repeat: no-repeat;
-
-    &:hover {
-      background-color: $ams-lichtgrijs;
-      border-color: $ams-zwart;
-      color: $ams-zwart;
+    &--download {
+      background-image: url('../../../../shared/images/icon-download.svg');
+      background-position: 8px;
+      background-size: 15px;
     }
-  }
 
-  .action-button-next {
-    width: 32px;
-    height: 32px;
-    color: $ams-donkerantraciet;
-    background-color: $ams-wit;
-    border-width: 1px solid $ams-pinkish-grey;
-    cursor: pointer;
-    display: inline-block;
-    background-image: url('../../../../shared/images/icon-arrow.svg');
-    background-position: 11px;
-    background-size: 8px;
-    background-repeat: no-repeat;
-
-    &:hover {
-      background-color: $ams-lichtgrijs;
-      border-color: $ams-zwart;
-      color: $ams-zwart;
+    &--edit {
+      background-image: url('../../../../shared/images/icon-edit.svg');
+      background-position: 5px;
     }
-  }
 
-  .action-button-previous {
-    width: 32px;
-    height: 32px;
-    color: $ams-donkerantraciet;
-    background-color: $ams-wit;
-    border-width: 1px solid $ams-pinkish-grey;
-    cursor: pointer;
-    display: inline-block;
-    background-image: url('../../../../shared/images/icon-arrow.svg');
-    background-position: 11px;
-    background-size: 8px;
-    background-repeat: no-repeat;
-    transform: rotate(180deg);
+    &--close {
+      background-image: url('../../../../shared/images/icon-close.svg');
+      background-position: 9px;
+      background-size: 12px;
+    }
 
-    &:hover {
-      background-color: $ams-lichtgrijs;
-      border-color: $ams-zwart;
-      color: $ams-zwart;
+    &--next {
+      background-image: url('../../../../shared/images/icon-chevron-right.svg');
+      background-position: 9px;
+      background-size: 14px;
+    }
+
+    &--previous {
+      background-image: url('../../../../shared/images/icon-chevron-left.svg');
+      background-position: 9px;
+      background-size: 14px;
     }
   }
 

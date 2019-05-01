@@ -14,10 +14,24 @@ const Header = ({ incident, baseUrl, onThor }) => {
     <header className="header">
       <div className="row">
         <div className="col-6 header__title align-self-center">Melding {incident.id}</div>
-        <div className="col-6 header__buttons">
-          {canSplit ? <Link to={`${baseUrl}/incident/${incident.id}/split`} className="align-self-center action-quad">Splitsen</Link> : ''}
-          {canThor ? <button className="align-self-center action-quad" onClick={onThor}>THOR</button> : ''}
-          <a href={downloadLink} className="align-self-center action-quad">Download PDF</a>
+        <div className="col-6 header__buttons d-flex justify-content-end">
+          {canSplit ?
+            <Link
+              to={`${baseUrl}/incident/${incident.id}/split`}
+              className="incident-detail__button align-self-center"
+            >Splitsen</Link> : ''}
+
+          {canThor ?
+            <button
+              className="incident-detail__button align-self-center"
+              onClick={onThor}
+            >THOR</button> : ''}
+
+          <a
+            href={downloadLink}
+            className="incident-detail__button--download align-self-center"
+            title="Download melding"
+          >&nbsp;</a>
         </div>
       </div>
     </header>
