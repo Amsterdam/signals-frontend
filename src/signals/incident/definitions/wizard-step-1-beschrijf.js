@@ -40,7 +40,8 @@ export default {
             'Eigen organisatie': 'Eigen organisatie',
             'Meldkamer burger/ondernemer': 'Meldkamer burger/ondernemer',
             'Meldkamer Handhaver': 'Meldkamer Handhaver',
-            'Meldkamer Politie': 'Meldkamer Politie'
+            'Meldkamer Politie': 'Meldkamer Politie',
+            VerbeterDeBuurt: 'VerbeterDeBuurt'
           }
         },
         options: {
