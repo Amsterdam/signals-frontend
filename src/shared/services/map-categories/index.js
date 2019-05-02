@@ -16,14 +16,16 @@ function mapCategories(data) {
       mainToSub[category.slug] = [];
 
       category.sub_categories.forEach((subcategory) => {
-        sub.push({
-          key: subcategory._links && subcategory._links.self && subcategory._links.self.href,
-          value: subcategory.name,
-          slug: subcategory.slug
-        });
+        if (subcategory && subcategory.is_active) {
+          sub.push({
+            key: subcategory._links && subcategory._links.self && subcategory._links.self.href,
+            value: subcategory.name,
+            slug: subcategory.slug
+          });
 
-        mainToSub[category.slug].push(subcategory.slug);
-        mainToSub[''].push(subcategory.slug);
+          mainToSub[category.slug].push(subcategory.slug);
+          mainToSub[''].push(subcategory.slug);
+        }
       });
     });
   }

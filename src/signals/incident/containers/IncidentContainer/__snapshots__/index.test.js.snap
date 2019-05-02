@@ -458,6 +458,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                       "Telefoon – CCA": "Telefoon – CCA",
                       "Telefoon – Interswitch": "Telefoon – Interswitch",
                       "Telefoon – Stadsdeel": "Telefoon – Stadsdeel",
+                      "VerbeterDeBuurt": "VerbeterDeBuurt",
                       "Webcare – CCA": "Webcare – CCA",
                     },
                   },
