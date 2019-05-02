@@ -13,17 +13,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
     Splitsen mag alleen als de oorspronkelijke melding over twee verschillende onderwerpen gaat, die zonder samenwerking met een andere afdeling kan worden afgehandeld.
   </div>
   <Component
-    incident={
-      Object {
-        "category": Object {
-          "main_slug": "afval",
-          "sub_slug": "poep",
-        },
-        "priority": Object {
-          "priority": "high",
-        },
-      }
-    }
+    attachments={Array []}
     index="1"
     priorityList={
       Array [
@@ -968,6 +958,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
     }
   />
   <Component
+    attachments={Array []}
     incident={
       Object {
         "category": Object {
@@ -1930,6 +1921,7 @@ exports[`<SplitForm /> rendering should render 3 parts correctly 1`] = `
       Verwijder
     </button>
     <Component
+      attachments={Array []}
       incident={
         Object {
           "category": Object {
@@ -2933,17 +2925,7 @@ exports[`<SplitForm /> rendering should render correctly 1`] = `
     Splitsen mag alleen als de oorspronkelijke melding over twee verschillende onderwerpen gaat, die zonder samenwerking met een andere afdeling kan worden afgehandeld.
   </div>
   <Component
-    incident={
-      Object {
-        "category": Object {
-          "main_slug": "afval",
-          "sub_slug": "poep",
-        },
-        "priority": Object {
-          "priority": "high",
-        },
-      }
-    }
+    attachments={Array []}
     index="1"
     priorityList={
       Array [
@@ -3888,6 +3870,7 @@ exports[`<SplitForm /> rendering should render correctly 1`] = `
     }
   />
   <Component
+    attachments={Array []}
     incident={
       Object {
         "category": Object {

@@ -12,7 +12,8 @@ import incidentModelReducer, { initialState } from './reducer';
 import {
   REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR,
   DISMISS_SPLIT_NOTIFICATION,
-  PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR
+  PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
+  REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR
 }
   from './constants';
 
@@ -22,6 +23,7 @@ describe('incidentModelReducer', () => {
     id: null,
     loading: false,
     error: false,
+    attachments: [],
     patching: {
       location: false
     },
@@ -143,6 +145,42 @@ describe('incidentModelReducer', () => {
       ...expected,
       patching: { location: false },
       error: payload.error
+    });
+  });
+
+  it('should handle the REQUEST_ATTACHMENTS', () => {
+    expect(
+      incidentModelReducer(undefined, {
+        type: REQUEST_ATTACHMENTS,
+        payload: 42
+      }).toJS()
+    ).toEqual({
+      ...expected,
+      attachments: []
+    });
+  });
+
+  it('should handle the REQUEST_ATTACHMENTS_SUCCESS', () => {
+    const payload = [{ file: 1 }, { image: 2 }];
+    expect(
+      incidentModelReducer(undefined, {
+        type: REQUEST_ATTACHMENTS_SUCCESS,
+        payload
+      }).toJS()
+    ).toEqual({
+      ...expected,
+      attachments: payload
+    });
+  });
+
+  it('should handle the REQUEST_ATTACHMENTS_ERROR', () => {
+    expect(
+      incidentModelReducer(undefined, {
+        type: REQUEST_ATTACHMENTS_ERROR
+      }).toJS()
+    ).toEqual({
+      ...expected,
+      attachments: []
     });
   });
 

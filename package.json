@@ -353,5 +353,6 @@
     "webpack": "3.5.5",
     "webpack-dev-middleware": "1.11.0",
     "webpack-hot-middleware": "^2.22.3"
-  }
+  },
+  "private": true
 }

@@ -4,8 +4,8 @@ import { delay } from 'redux-saga';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authCall, authPatchCall } from 'shared/services/api/api';
 
-import { REQUEST_INCIDENT, PATCH_INCIDENT } from './constants';
-import { requestIncidentSuccess, requestIncidentError, patchIncidentSuccess, patchIncidentError } from './actions';
+import { REQUEST_INCIDENT, PATCH_INCIDENT, REQUEST_ATTACHMENTS } from './constants';
+import { requestIncidentSuccess, requestIncidentError, patchIncidentSuccess, patchIncidentError, requestAttachmentsSuccess, requestAttachmentsError } from './actions';
 
 export function* fetchIncident(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/auth/signal`;
@@ -30,9 +30,21 @@ export function* patchIncident(action) {
   }
 }
 
+export function* requestAttachments(action) {
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals`;
+  try {
+    const id = action.payload;
+    const attachments = yield authCall(`${requestURL}/${id}/attachments`);
+    yield put(requestAttachmentsSuccess(attachments.results.slice(0, 3)));
+  } catch (error) {
+    yield put(requestAttachmentsError());
+  }
+}
+
 export default function* watchIncidentModelSaga() {
   yield all([
     takeLatest(REQUEST_INCIDENT, fetchIncident),
-    takeLatest(PATCH_INCIDENT, patchIncident)
+    takeLatest(PATCH_INCIDENT, patchIncident),
+    takeLatest(REQUEST_ATTACHMENTS, requestAttachments)
   ]);
 }

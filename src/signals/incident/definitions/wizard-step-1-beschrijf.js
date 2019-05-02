@@ -2,8 +2,8 @@ import { some } from 'lodash';
 import { Validators } from 'react-reactive-form';
 
 import IncidentNavigation from '../components/IncidentNavigation';
-import FormComponents from '../components/IncidentForm/components/';
-import { checkVisibility } from '../components/IncidentForm/services/format-conditional-form';
+import FormComponents from '../components/form';
+import { checkVisibility } from '../services/format-conditional-form';
 
 export default {
   label: 'Beschrijf uw melding',
@@ -41,22 +41,6 @@ export default {
             'Meldkamer burger/ondernemer': 'Meldkamer burger/ondernemer',
             'Meldkamer Handhaver': 'Meldkamer Handhaver',
             'Meldkamer Politie': 'Meldkamer Politie'
-          }
-        },
-        options: {
-          validators: [Validators.required]
-        },
-        authenticated: true,
-        render: FormComponents.SelectInput
-      },
-      priority: {
-        meta: {
-          className: 'col-sm-12 col-md-6',
-          label: 'Wat is de urgentie?',
-          path: 'priority',
-          values: {
-            normal: 'Normaal',
-            high: 'Hoog'
           }
         },
         options: {
@@ -160,18 +144,41 @@ export default {
         },
         render: FormComponents.HiddenInput
       },
-      image_type: {
+      priority: {
         meta: {
-          label: 'image_type'
+          className: 'col-sm-12 col-md-6',
+          label: 'Wat is de urgentie?',
+          path: 'priority',
+          values: {
+            normal: 'Normaal',
+            high: 'Hoog'
+          }
+        },
+        options: {
+          validators: [Validators.required]
+        },
+        authenticated: true,
+        render: FormComponents.SelectInput
+      },
+      images_previews: {
+        meta: {
+          label: 'images_previews'
         },
         render: FormComponents.HiddenInput
       },
-      image: {
+      images_errors: {
         meta: {
-          label: 'Wilt u een foto meesturen?',
-          submitLabel: 'Foto kiezen',
+          label: 'images_errors'
+        },
+        render: FormComponents.HiddenInput
+      },
+      images: {
+        meta: {
+          label: 'Foto\'s toevoegen',
+          subtitle: 'Voeg een foto toe om de situatie te verduidelijken.',
           maxFileSize: 8388608,
-          allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif']
+          allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif'],
+          maxNumberOfFiles: 3
         },
         render: FormComponents.FileInput
       },

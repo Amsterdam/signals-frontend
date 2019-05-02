@@ -20,6 +20,7 @@ describe('<IncidentPart />', () => {
           priority: ''
         }
       },
+      attachments: [],
       subcategories: [{
         key: 'key',
         value: 'value',
@@ -39,7 +40,7 @@ describe('<IncidentPart />', () => {
     });
 
     it('should render correctly with image', () => {
-      props.incident.image = 'mock-image';
+      props.attachments.push({ location: 'mock-image' });
       const wrapper = shallow(
         <IncidentPart {...props} />
       );

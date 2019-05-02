@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { FormGenerator } from 'react-reactive-form';
 import { defer } from 'lodash';
 
-import formatConditionalForm from './services/format-conditional-form/';
+import formatConditionalForm from '../../services/format-conditional-form/';
 
 import './style.scss';
 
