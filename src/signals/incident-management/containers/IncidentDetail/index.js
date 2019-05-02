@@ -37,6 +37,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
     this.onCloseAll = this.onCloseAll.bind(this);
 
     this.default = {
+
       showLocation: false,
       editLocation: false,
       editStatus: false,
@@ -129,7 +130,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
     const { showImage, showLocation, editLocation, editStatus, image } = this.state;
 
     return (
-      <div className="incident-detail">
+      <div className="detail">
         <SplitNotificationBar data={split} onClose={this.onDismissSplitNotification} />
         {loading ? <LoadingIndicator /> : (
           <div>
@@ -148,8 +149,8 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
 
             {showImage || showLocation || editLocation || editStatus ? (
               <div className="row">
-                <div className="col-12 incident-detail__preview">
-                  <button className="incident-detail__preview-close incident-detail__button--close" onClick={this.onCloseAll} />
+                <div className="col-12 detail__preview">
+                  <button className="detail__preview-close detail__button--close" onClick={this.onCloseAll} />
 
                   {showImage ? (
                     <ImageViewer
