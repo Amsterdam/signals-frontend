@@ -21,10 +21,10 @@ export default {
         },
         label: 'Gaat de melding over een rondvaartboot?',
         pathMerge: 'extra_properties',
-        values: [
-          'Ja',
-          'Nee'
-        ]
+        values: {
+          Ja: 'Ja',
+          Nee: 'Nee'
+        }
       },
       render: FormComponents.RadioInput
     },

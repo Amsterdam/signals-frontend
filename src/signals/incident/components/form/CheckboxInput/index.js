@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { map } from 'lodash';
 
 import Header from '../Header/';
 
@@ -32,7 +33,7 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
                   {...handler()}
                 />
 
-                {meta.values.map((value, key) =>
+                {map(meta.values, (value, key) =>
                   (<div key={value} className="antwoord">
                     <input
                       id={`${meta.name}-${key + 1}`}
