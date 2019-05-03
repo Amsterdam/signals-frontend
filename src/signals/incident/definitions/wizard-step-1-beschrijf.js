@@ -116,8 +116,8 @@ export default {
           className: 'col-sm-12 col-md-6',
           label: 'Geef het tijdstip aan',
           values: {
-            now: 'Nu',
-            earlier: 'Eerder'
+            Nu: 'Nu',
+            Eerder: 'Eerder'
           }
         },
         options: {
@@ -128,7 +128,7 @@ export default {
       incident_date: {
         meta: {
           ifAllOf: {
-            datetime: 'earlier'
+            datetime: 'Eerder'
           }
         },
         render: FormComponents.DateTimeInput,
