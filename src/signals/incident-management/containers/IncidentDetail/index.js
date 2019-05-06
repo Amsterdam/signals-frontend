@@ -18,7 +18,7 @@ import MetaList from './components/MetaList';
 import History from './components/History';
 import AddNote from './components/AddNote';
 import LocationForm from './components/LocationForm';
-import ImageViewer from './components/ImageViewer';
+import AttachmentViewer from './components/AttachmentViewer';
 import StatusForm from './components/StatusForm';
 import MapDetail from './components/MapDetail';
 import Detail from './components/Detail';
@@ -28,6 +28,11 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
   constructor(props) {
     super(props);
 
+    this.state = {
+      previewState: props.previewState, // showLocation, editLocation, editStatus, showImage
+      attachment: props.attachment
+    };
+
     this.onThor = this.onThor.bind(this);
     this.onDismissSplitNotification = this.onDismissSplitNotification.bind(this);
     this.onShowLocation = this.onShowLocation.bind(this);
@@ -35,24 +40,8 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
     this.onEditStatus = this.onEditStatus.bind(this);
     this.onShowAttachment = this.onShowAttachment.bind(this);
     this.onCloseAll = this.onCloseAll.bind(this);
-
-    this.default = {
-
-      showLocation: false,
-      editLocation: false,
-      editStatus: false,
-      showImage: false,
-      image: ''
-    };
   }
 
-  state = {
-    showLocation: false,
-    editLocation: false,
-    editStatus: false,
-    showImage: false,
-    image: ''
-  };
 
   componentDidMount() {
     this.props.onRequestIncident(this.props.id);
@@ -90,36 +79,36 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
 
   onShowLocation() {
     this.setState({
-      ...this.default,
-      showLocation: true
+      previewState: 'showLocation',
+      attachment: '',
     });
   }
 
   onEditLocation() {
     this.setState({
-      ...this.default,
-      editLocation: true
+      previewState: 'editLocation',
+      attachment: ''
     });
   }
 
   onEditStatus() {
     this.setState({
-      ...this.default,
-      editStatus: true
+      previewState: 'editStatus',
+      attachment: ''
     });
   }
 
-  onShowAttachment(image) {
+  onShowAttachment(attachment) {
     this.setState({
-      ...this.default,
-      showImage: true,
-      image
+      previewState: 'showImage',
+      attachment
     });
   }
 
   onCloseAll() {
     this.setState({
-      ...this.default
+      previewState: '',
+      attachment: ''
     });
   }
 
@@ -127,7 +116,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
     const { id, onPatchIncident, categories } = this.props;
     const { list } = this.props.historyModel;
     const { incident, attachments, loading, split, stadsdeelList, priorityList, changeStatusOptionList } = this.props.incidentModel;
-    const { showImage, showLocation, editLocation, editStatus, image } = this.state;
+    const { previewState, attachment } = this.state;
 
     return (
       <div className="detail">
@@ -147,27 +136,27 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
                 onThor={this.onThor}
               /> : ''}
 
-            {showImage || showLocation || editLocation || editStatus ? (
+            {previewState ? (
               <div className="row">
                 <div className="col-12 detail__preview">
                   <button className="detail__preview-close detail__button--close" onClick={this.onCloseAll} />
 
-                  {showImage ? (
-                    <ImageViewer
+                  {previewState === 'showImage' ? (
+                    <AttachmentViewer
                       attachments={attachments}
-                      image={image}
+                      attachment={attachment}
                       onShowAttachment={this.onShowAttachment}
                     />
                 ) : ''}
 
-                  {showLocation ? (
+                  {previewState === 'showLocation' ? (
                     <MapDetail
                       value={incident.location}
                       zoom="16"
                     />
                 ) : ''}
 
-                  {editLocation ? (
+                  {previewState === 'editLocation' ? (
                     <LocationForm
                       incidentModel={this.props.incidentModel}
                       onPatchIncident={onPatchIncident}
@@ -175,7 +164,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
                     />
                 ) : ''}
 
-                  {editStatus ?
+                  {previewState === 'editStatus' ?
                     <StatusForm
                       incident={incident}
                       changeStatusOptionList={changeStatusOptionList}
@@ -236,7 +225,15 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
   }
 }
 
+IncidentDetail.defaultProps = {
+  previewState: '',
+  attachment: ''
+};
+
 IncidentDetail.propTypes = {
+  previewState: PropTypes.string,
+  attachment: PropTypes.string,
+
   incidentModel: PropTypes.object.isRequired,
   historyModel: PropTypes.object.isRequired,
   categories: PropTypes.object.isRequired,

@@ -4,32 +4,32 @@ import PropTypes from 'prop-types';
 
 import './style.scss';
 
-const ImageViewer = ({ image, attachments, onShowAttachment }) => {
-  const index = attachments.findIndex((attachment) => attachment.location === image);
+const ImageViewer = ({ attachment, attachments, onShowAttachment }) => {
+  const index = attachments.findIndex((item) => item.location === attachment);
   const previous = index > 0 ? attachments[index - 1].location : false;
   const next = index < (attachments.length - 1) ? attachments[index + 1].location : false;
 
   return (
-    <div className="image-viewer">
+    <div className="attachment-viewer">
       {previous ?
         <button
-          className="image-viewer__button-previous detail__button--previous"
+          className="attachment-viewer__button-previous detail__button--previous"
           onClick={() => onShowAttachment(previous)}
         /> : ''}
 
       {next ?
         <button
-          className="image-viewer__button-next detail__button--next"
+          className="attachment-viewer__button-next detail__button--next"
           onClick={() => onShowAttachment(next)}
         /> : ''}
 
-      <img src={image} className="image-viewer__image" alt="uploaded afbeelding" />
+      <img src={attachment} className="attachment-viewer__attachment" alt="uploaded afbeelding" />
     </div>
   );
 };
 
 ImageViewer.propTypes = {
-  image: PropTypes.string.isRequired,
+  attachment: PropTypes.string.isRequired,
   attachments: PropTypes.array.isRequired,
 
   onShowAttachment: PropTypes.func.isRequired

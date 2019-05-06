@@ -1,10 +1,10 @@
 @import "config.scss";
 
-.image-viewer {
+.attachment-viewer {
   position: relative;
   text-align: center;
 
-  &__image {
+  &__attachment {
     max-height: 722px;
     max-width: 100%;
   }
