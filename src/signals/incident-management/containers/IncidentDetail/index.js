@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { makeSelectLoading, makeSelectError, makeSelectCategories } from 'containers/App/selectors';
-import { requestIncident, patchIncident, dismissSplitNotification, requestAttachments } from 'models/incident/actions';
+import { requestIncident, patchIncident, dismissSplitNotification, requestAttachments, downloadPdf } from 'models/incident/actions';
 import { requestHistoryList } from 'models/history/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 import makeSelectHistoryModel from 'models/history/selectors';
@@ -34,6 +34,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
     };
 
     this.onThor = this.onThor.bind(this);
+    this.onDownloadPdf = this.onDownloadPdf.bind(this);
     this.onDismissSplitNotification = this.onDismissSplitNotification.bind(this);
     this.onShowLocation = this.onShowLocation.bind(this);
     this.onEditLocation = this.onEditLocation.bind(this);
@@ -71,6 +72,10 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
     };
 
     this.props.onPatchIncident(patch);
+  }
+
+  onDownloadPdf(url) {
+    this.props.onDownloadPdf(url);
   }
 
   onDismissSplitNotification() {
@@ -134,6 +139,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
                 incident={incident}
                 baseUrl={this.props.baseUrl}
                 onThor={this.onThor}
+                onDownloadPdf={this.onDownloadPdf}
               /> : ''}
 
             {previewState ? (
@@ -245,7 +251,8 @@ IncidentDetail.propTypes = {
   onPatchIncident: PropTypes.func.isRequired,
   onRequestHistoryList: PropTypes.func.isRequired,
   onRequestAttachments: PropTypes.func.isRequired,
-  onDismissSplitNotification: PropTypes.func.isRequired
+  onDismissSplitNotification: PropTypes.func.isRequired,
+  onDownloadPdf: PropTypes.func.isRequired
 };
 
 /* istanbul ignore next */
@@ -262,7 +269,8 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onPatchIncident: patchIncident,
   onRequestHistoryList: requestHistoryList,
   onRequestAttachments: requestAttachments,
-  onDismissSplitNotification: dismissSplitNotification
+  onDismissSplitNotification: dismissSplitNotification,
+  onDownloadPdf: downloadPdf
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(IncidentDetail);

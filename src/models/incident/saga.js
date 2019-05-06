@@ -4,8 +4,8 @@ import { delay } from 'redux-saga';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authCall, authPatchCall } from 'shared/services/api/api';
 
-import { REQUEST_INCIDENT, PATCH_INCIDENT, REQUEST_ATTACHMENTS } from './constants';
-import { requestIncidentSuccess, requestIncidentError, patchIncidentSuccess, patchIncidentError, requestAttachmentsSuccess, requestAttachmentsError } from './actions';
+import { REQUEST_INCIDENT, PATCH_INCIDENT, REQUEST_ATTACHMENTS, DOWNLOAD_PDF } from './constants';
+import { requestIncidentSuccess, requestIncidentError, patchIncidentSuccess, patchIncidentError, requestAttachmentsSuccess, requestAttachmentsError, downloadPdfSuccess, downloadPdfError } from './actions';
 import { requestHistoryList } from '../history/actions';
 
 export function* fetchIncident(action) {
@@ -43,10 +43,21 @@ export function* requestAttachments(action) {
   }
 }
 
+export function* downloadPdf(action) {
+  try {
+    const url = action.payload;
+    yield authCall(url);
+    yield put(downloadPdfSuccess());
+  } catch (error) {
+    yield put(downloadPdfError());
+  }
+}
+
 export default function* watchIncidentModelSaga() {
   yield all([
     takeLatest(REQUEST_INCIDENT, fetchIncident),
     takeLatest(PATCH_INCIDENT, patchIncident),
-    takeLatest(REQUEST_ATTACHMENTS, requestAttachments)
+    takeLatest(REQUEST_ATTACHMENTS, requestAttachments),
+    takeLatest(DOWNLOAD_PDF, downloadPdf)
   ]);
 }

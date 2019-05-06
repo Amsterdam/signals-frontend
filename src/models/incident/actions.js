@@ -2,7 +2,8 @@ import {
   REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR,
   DISMISS_SPLIT_NOTIFICATION,
   PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
-  REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR
+  REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR,
+  DOWNLOAD_PDF, DOWNLOAD_PDF_SUCCESS, DOWNLOAD_PDF_ERROR
 } from './constants';
 
 export function requestIncident(id) {
@@ -70,6 +71,27 @@ export function requestAttachmentsSuccess(files) {
 export function requestAttachmentsError(error) {
   return {
     type: REQUEST_ATTACHMENTS_ERROR,
+    payload: error
+  };
+}
+
+export function downloadPdf(id) {
+  return {
+    type: DOWNLOAD_PDF,
+    payload: id
+  };
+}
+
+export function downloadPdfSuccess(files) {
+  return {
+    type: DOWNLOAD_PDF_SUCCESS,
+    payload: files
+  };
+}
+
+export function downloadPdfError(error) {
+  return {
+    type: DOWNLOAD_PDF_ERROR,
     payload: error
   };
 }

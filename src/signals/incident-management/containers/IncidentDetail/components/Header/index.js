@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import './style.scss';
 
-const Header = ({ incident, baseUrl, onThor }) => {
+const Header = ({ incident, baseUrl, onThor, onDownloadPdf }) => {
   const status = incident && incident.status && incident.status.state;
   const canSplit = (status === 'm') && !(incident && incident.parent_id);
   const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some((value) => value === status);
@@ -27,11 +27,10 @@ const Header = ({ incident, baseUrl, onThor }) => {
               onClick={onThor}
             >THOR</button> : ''}
 
-          <a
-            href={downloadLink}
+          <button
             className="detail__button--download align-self-center"
-            title="Download melding"
-          >&nbsp;</a>
+            onClick={() => onDownloadPdf(downloadLink)}
+          />
         </div>
       </div>
     </header>
@@ -42,7 +41,8 @@ Header.propTypes = {
   incident: PropTypes.object.isRequired,
   baseUrl: PropTypes.string.isRequired,
 
-  onThor: PropTypes.func.isRequired
+  onThor: PropTypes.func.isRequired,
+  onDownloadPdf: PropTypes.func.isRequired
 };
 
 export default Header;
