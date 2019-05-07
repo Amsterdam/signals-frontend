@@ -10,7 +10,7 @@ import SelectInput from './SelectInput/';
 import TextInput from './TextInput/';
 import TextareaInput from './TextareaInput/';
 import MapInput from './MapInput';
-import MapSelect from "./MapSelect";
+import MapSelect from './MapSelect';
 
 export default {
   CheckboxInput,

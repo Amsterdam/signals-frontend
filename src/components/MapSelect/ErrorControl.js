@@ -3,29 +3,26 @@ const ErrorControl = L.Control.extend({
     message: 'Oops, something went wrong'
   },
 
-  initialize: function(options) {
+  initialize(options) {
     L.setOptions(this, options);
   },
 
-  onAdd: function(map) {
+  onAdd() {
     const div = L.DomUtil.create('div', 'error-control');
     div.innerText = this.options.message;
     L.DomUtil.addClass(div, 'hide');
     return div;
   },
 
-  show: function() {
+  show() {
     L.DomUtil.removeClass(this._container, 'hide');
   },
 
-  hide: function() {
+  hide() {
     L.DomUtil.addClass(this._container, 'hide');
   }
 });
 
-const constructor = function(opts) {
-  return new ErrorControl(opts);
-};
-
+const constructor = (opts) => new ErrorControl(opts);
 export default constructor;
 

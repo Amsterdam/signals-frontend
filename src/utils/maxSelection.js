@@ -13,13 +13,10 @@ export default class MaxSelection {
     }
   }
 
-  has(value) { return this.set.has(value) }
-  delete(value) { return this.set.delete(value) }
+  has(value) { return this.set.has(value); }
+  delete(value) { return this.set.delete(value); }
 
   toggle(value) {
-    if (this.has(value))
-      this.delete(value);
-    else
-      this.add(value);
+    if (this.has(value)) { this.delete(value); } else { this.add(value); }
   }
 }

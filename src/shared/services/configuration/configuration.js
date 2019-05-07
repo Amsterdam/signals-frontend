@@ -45,7 +45,8 @@ export class Configuration {
         ROOT: 'http://localhost:3001/',
         AUTH_ROOT: 'https://acc.api.data.amsterdam.nl/',
         API_ROOT_MLTOOL: `https://acc.${apiDomainName}/`,
-        API_ROOT_MAPSERVER: `https://acc.${mapserverDomainName}/`,
+        API_ROOT_MAPSERVER: 'http://localhost:8070/',
+        // API_ROOT_MAPSERVER: `https://acc.${mapserverDomainName}/`,
       };
     }
 

@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash.get';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import Header from '../Header/';
-import MapSelect from "components/MapSelect";
+import MapSelect from 'components/MapSelect';
 
 import KlokIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Klok-marker.svg';
 import KlokSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Klok_select-marker.svg';
@@ -17,7 +16,10 @@ import LichtmastSelectIcon from '!!file-loader!../../../../../shared/images/open
 import GrachtmastIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Grachtmast-marker.svg';
 import GrachtmastSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Grachtmast_select-marker.svg';
 import SchijnwerperIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Schijnwerper-marker.svg';
+import OverigSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Overig_select-marker.svg';
 import OverigIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Overig-marker.svg';
+
+import Header from '../Header/';
 
 const defaultOptions = {
   className: 'object-marker',
@@ -26,24 +28,28 @@ const defaultOptions = {
 
 const typeIcon = {
   Klok: {
-    default: L.icon({...defaultOptions, iconUrl: KlokIcon }),
-    selected: L.icon({...defaultOptions, iconUrl: KlokSelectIcon }),
+    default: L.icon({ ...defaultOptions, iconUrl: KlokIcon }),
+    selected: L.icon({ ...defaultOptions, iconUrl: KlokSelectIcon }),
   },
   Overspanning: {
-    default: L.icon({...defaultOptions, iconUrl: OverspanningIcon }),
-    selected: L.icon({...defaultOptions, iconUrl: OverspanningSelectIcon }),
+    default: L.icon({ ...defaultOptions, iconUrl: OverspanningIcon }),
+    selected: L.icon({ ...defaultOptions, iconUrl: OverspanningSelectIcon }),
   },
   Gevel_Armatuur: {
-    default: L.icon({...defaultOptions, iconUrl: GevelArmatuurIcon }),
-    selected: L.icon({...defaultOptions, iconUrl: GevelArmatuurSelectIcon }),
+    default: L.icon({ ...defaultOptions, iconUrl: GevelArmatuurIcon }),
+    selected: L.icon({ ...defaultOptions, iconUrl: GevelArmatuurSelectIcon }),
   },
   Lichtmast: {
-    default: L.icon({...defaultOptions, iconUrl: LichtmastIcon }),
-    selected: L.icon({...defaultOptions, iconUrl: LichtmastSelectIcon }),
+    default: L.icon({ ...defaultOptions, iconUrl: LichtmastIcon }),
+    selected: L.icon({ ...defaultOptions, iconUrl: LichtmastSelectIcon }),
   },
   Grachtmast: {
-    default: L.icon({...defaultOptions, iconUrl: GrachtmastIcon }),
-    selected: L.icon({...defaultOptions, iconUrl: GrachtmastSelectIcon }),
+    default: L.icon({ ...defaultOptions, iconUrl: GrachtmastIcon }),
+    selected: L.icon({ ...defaultOptions, iconUrl: GrachtmastSelectIcon }),
+  },
+  Overig_lichtpunt: {
+    default: L.icon({ ...defaultOptions, iconUrl: OverigIcon }),
+    selected: L.icon({ ...defaultOptions, iconUrl: OverigSelectIcon }),
   },
 };
 
@@ -67,15 +73,13 @@ const getLatlng = (meta) => {
   return {
     latitude: coords[1],
     longitude: coords[0]
-  }
+  };
 };
 
-const filter_legend = (items, types) => {
-  return items.filter(element => types.includes(element.key));
-};
+const filter_legend = (items, types) => items.filter((element) => types.includes(element.key));
 
-const MapSelectFormComponent = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
-  const onSelectionChange  = (selection) => {
+const MapSelectFormComponent = ({ touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
+  const onSelectionChange = (selection) => {
     const value = Array.from(selection.set.values());
     parent.meta.updateIncident({ [meta.name]: value });
   };
@@ -102,8 +106,8 @@ const MapSelectFormComponent = ({ handler, touched, hasError, meta, parent, getE
                 iconMapping={typeIcon}
                 legend={filtered_legend}
                 geojsonUrl={url}
-                iconField='type_name'
-                idField='objectnummer'
+                iconField="type_name"
+                idField="objectnummer"
                 zoomMin={meta.zoomMin}
               /> }
             </div>
@@ -111,11 +115,10 @@ const MapSelectFormComponent = ({ handler, touched, hasError, meta, parent, getE
         </div>
         : ''}
     </div>
-  )
+  );
 };
 
 MapSelectFormComponent.propTypes = {
-  handler: PropTypes.func,
   touched: PropTypes.bool,
   hasError: PropTypes.func,
   meta: PropTypes.shape({

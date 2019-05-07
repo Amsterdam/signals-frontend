@@ -7,7 +7,7 @@ const BboxGeojsonLayer = L.GeoJSON.extend({
   //
   // Leaflet layer methods
   //
-  initialize: function (extraOptions, options) {
+  initialize(extraOptions, options) {
     L.GeoJSON.prototype.initialize.call(this, undefined, options);
     L.Util.setOptions(this, extraOptions);
 
@@ -16,7 +16,7 @@ const BboxGeojsonLayer = L.GeoJSON.extend({
     }
   },
 
-  onAdd: function (map) {
+  onAdd(map) {
     this._map = map;
 
     map.on('moveend', this.onMoveEnd, this);
@@ -31,7 +31,7 @@ const BboxGeojsonLayer = L.GeoJSON.extend({
     }
   },
 
-  onRemove: function (map) {
+  onRemove(map) {
     map.off('moveend', this.onMoveEnd, this);
     map.off('zoomend', this.onZoomEnd, this);
     map.off('refresh', this.onRefresh, this);
@@ -45,14 +45,14 @@ const BboxGeojsonLayer = L.GeoJSON.extend({
   //
   // Custom methods
   //
-  zoomInRange: function () {
+  zoomInRange() {
     const zoom = this._map.getZoom();
     return zoom >= this.options.zoomMin && zoom <= this.options.zoomMax;
   },
 
-  fetchNewData: function(){
+  fetchNewData() {
     if (!this.zoomInRange()) {
-      console.log('Outside zoom range, not fetching new data');
+      // Outside zoom range, not fetching new data
       return;
     }
 
@@ -61,7 +61,7 @@ const BboxGeojsonLayer = L.GeoJSON.extend({
 
     const bounds = this._map.getBounds();
     this.options.fetchRequest(bounds.toBBoxString())
-      .then(geoData => {
+      .then((geoData) => {
         this.clearLayers(); // Remove previous geometry
         this.addData(geoData);  // Adds geojson object to this layer
 
@@ -71,25 +71,25 @@ const BboxGeojsonLayer = L.GeoJSON.extend({
       .catch(() => {
         this.isLoading = false;
         this.fire('error');
-      })
+      });
   },
 
-  onMoveEnd: function () {
+  onMoveEnd() {
     // Fired after dragging AND zooming!
     this.fetchNewData();
   },
 
-  onZoomEnd: function () {
+  onZoomEnd() {
     if (!this.zoomInRange()) {
       this.clearLayers(); // Remove previous geometry, new data is fetched by onMoveEnd
     }
   },
 
-  onRefresh: function () {
+  onRefresh() {
     this.fetchNewData();
   },
 });
 
 export default function (extraOptions, options) {
   return new BboxGeojsonLayer(extraOptions, options);
-};
+}

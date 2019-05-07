@@ -4,25 +4,30 @@ import PropTypes from 'prop-types';
 import amaps from 'amsterdam-amaps/dist/amaps';
 import BboxGeojsonLayer from './BboxGeojsonLayer';
 import './style.scss';
-import request from "../../utils/request";
+import request from '../../utils/request';
+
+import MaxSelection from '../../utils/maxSelection';
+import ZoomMessageControl from './ZoomMessageControl';
+import LegendControl from './LegendControl';
+import LoadingControl from './LoadingControl';
+import ErrorControl from './ErrorControl';
 
 const SELECTION_MAX_COUNT = 30;
 
 const ZOOM_MIN = 17;
 const ZOOM_INIT = 18;
 
-import MaxSelection from "../../utils/maxSelection";
-import ZoomMessageControl from "./ZoomMessageControl";
-import LegendControl from "./LegendControl";
-import LoadingControl from "./LoadingControl";
-import ErrorControl from "./ErrorControl";
-
 const getIcon = (mapping, typeName, isSelected) => {
-  if (isSelected) {
-    return mapping[typeName].selected
-  } else {
-    return mapping[typeName].default
+  let iconSet = mapping[typeName];
+  if (!iconSet) {
+    console.error(`icon missing for type, using default. Type is: ${typeName}`); // eslint-disable-line no-console
+    iconSet = mapping[Object.keys(mapping)[0]];
   }
+
+  if (isSelected) {
+    return iconSet.selected;
+  }
+  return iconSet.default;
 };
 
 class MapSelect extends React.Component {
@@ -32,7 +37,7 @@ class MapSelect extends React.Component {
    */
   componentDidMount() {
     const {
-      latlng,
+      latlng: centerLatLng,
       geojsonUrl,
       onSelectionChange,
       iconMapping,
@@ -43,9 +48,10 @@ class MapSelect extends React.Component {
 
     this.map = amaps.createMap({
       center: {
-        latitude: latlng.latitude,
-        longitude: latlng.longitude
-      }, layer: 'standaard',
+        latitude: centerLatLng.latitude,
+        longitude: centerLatLng.longitude
+      },
+      layer: 'standaard',
       target: 'mapdiv',
       marker: false,
       search: false,
@@ -54,46 +60,44 @@ class MapSelect extends React.Component {
 
     const errorControl = ErrorControl({
       position: 'topleft',
-      message: "Oops, de objecten kunnen niet worden getoond. Probeer het later nog",
+      message: 'Oops, de objecten kunnen niet worden getoond. Probeer het later nog',
     });
 
     const selection = new MaxSelection(SELECTION_MAX_COUNT);
     onSelectionChange(selection);
 
-    const fetchRequest = (bbox_str) => {
-      return request(`${geojsonUrl}&bbox=${bbox_str}`)
+    const fetchRequest = (bbox_str) => request(`${geojsonUrl}&bbox=${bbox_str}`)
         .catch(() => {
-          console.error('Error loading feature geojson');
+          console.error('Error loading feature geojson'); // eslint-disable-line no-console
           errorControl.show();
-        })
-    };
+        });
 
-    const layer = BboxGeojsonLayer({
-      fetchRequest: fetchRequest,
+    const featuresLayer = BboxGeojsonLayer({
+      fetchRequest,
     }, {
       zoomMin,
 
-      pointToLayer: function(feature, latlng) {
+      pointToLayer(feature, latlng) {
         return L.marker(latlng, {
           icon: getIcon(iconMapping, feature.properties[iconField], selection.has(feature.properties[idField]))
         });
       },
 
-      onEachFeature: function(feature, layer) {
+      onEachFeature(feature, layer) {
         layer.on({
           click: (e) => {
-            const layer = e.target;
-            const id = layer.feature.properties[idField];
+            const _layer = e.target;
+            const id = _layer.feature.properties[idField];
             selection.toggle(id);
             onSelectionChange(selection);
 
             const icon = getIcon(iconMapping, feature.properties[iconField], selection.has(id));
-            layer.setIcon(icon);
+            _layer.setIcon(icon);
           }
         });
       }
     });
-    layer.addTo(this.map);
+    featuresLayer.addTo(this.map);
 
     const zoomMessageControl = ZoomMessageControl({
       position: 'topleft',
@@ -109,7 +113,7 @@ class MapSelect extends React.Component {
     legendControl.addTo(this.map);
 
     const div = L.DomUtil.create('div', 'loading-control');
-    div.innerText = "Bezig met laden...";
+    div.innerText = 'Bezig met laden...';
 
     const loadingControl = LoadingControl({
       position: 'topleft',
@@ -154,8 +158,8 @@ MapSelect.propTypes = {
   geojsonUrl: PropTypes.string.isRequired,
   onSelectionChange: PropTypes.func.isRequired,
   iconMapping: PropTypes.objectOf(PropTypes.exact({
-      default: PropTypes.instanceOf(L.Icon).isRequired,
-      selected: PropTypes.instanceOf(L.Icon).isRequired,
+    default: PropTypes.instanceOf(L.Icon).isRequired,
+    selected: PropTypes.instanceOf(L.Icon).isRequired,
   })).isRequired,
   legend: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,

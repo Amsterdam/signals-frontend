@@ -6,11 +6,11 @@ const LoadingControl = L.Control.extend({
   options: {
   },
 
-  initialize: function(options) {
+  initialize(options) {
     L.setOptions(this, options);
   },
 
-  onAdd: function(map) {
+  onAdd(map) {
     this.addLayerListeners(map);
 
     const div = this.options.element;
@@ -18,7 +18,7 @@ const LoadingControl = L.Control.extend({
     return div;
   },
 
-  onRemove: function(map) {
+  onRemove(map) {
     this.removeLayerListeners(map);
   },
 
@@ -27,18 +27,18 @@ const LoadingControl = L.Control.extend({
   //
   inFlight: [],
 
-  onDataLoading: function (event) {
+  onDataLoading(event) {
     const id = event.target._leaflet_id;
     this.inFlight.push(id);
     this.checkVisiblity(this._container);
   },
-  onDataLoad: function (event) {
+  onDataLoad(event) {
     const id = event.target._leaflet_id;
-    this.inFlight = this.inFlight.filter(item => item !== id);
+    this.inFlight = this.inFlight.filter((item) => item !== id);
     this.checkVisiblity(this._container);
   },
 
-  checkVisiblity: function(element) {
+  checkVisiblity(element) {
     const isVisible = this.inFlight.length > 0;
     if (isVisible) {
       L.DomUtil.removeClass(element, 'hide');
@@ -47,7 +47,7 @@ const LoadingControl = L.Control.extend({
     }
   },
 
-  addLayerLoadListener: function(layer) {
+  addLayerLoadListener(layer) {
     if (!layer || !layer.on) return;
     layer.on({
       loading: this.onDataLoading,
@@ -56,7 +56,7 @@ const LoadingControl = L.Control.extend({
     }, this);
   },
 
-  removeLayerLoadListener: function(layer) {
+  removeLayerLoadListener(layer) {
     if (!layer || !layer.on) return;
     layer.off({
       loading: this.onDataLoading,
@@ -65,16 +65,16 @@ const LoadingControl = L.Control.extend({
     }, this);
   },
 
-  onLayerAdd: function(event) {
+  onLayerAdd(event) {
     this.addLayerLoadListener(event.layer);
   },
 
-  onLayerRemove: function(event) {
+  onLayerRemove(event) {
     this.removeLayerLoadListener(event.layer);
   },
 
-  addLayerListeners: function(map) {
-    map.eachLayer(layer => this.addLayerLoadListener(layer));
+  addLayerListeners(map) {
+    map.eachLayer((layer) => this.addLayerLoadListener(layer));
 
     map.on({
       layeradd: this.onLayerAdd,
@@ -82,8 +82,8 @@ const LoadingControl = L.Control.extend({
     }, this);
   },
 
-  removeLayerListeners: function(map) {
-    map.eachLayer(layer => this.removeLayerLoadListener(layer));
+  removeLayerListeners(map) {
+    map.eachLayer((layer) => this.removeLayerLoadListener(layer));
 
     map.off({
       layeradd: this.onLayerAdd,
@@ -93,9 +93,6 @@ const LoadingControl = L.Control.extend({
 
 });
 
-const constructor = function(opts) {
-  return new LoadingControl(opts);
-};
-
+const constructor = (opts) => new LoadingControl(opts);
 export default constructor;
 
