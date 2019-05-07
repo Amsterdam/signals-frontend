@@ -88,8 +88,8 @@ export default {
           subcategory: 'straatverlichting-openbare-klok'
         },
         values: {
-          'Eén lamp': 'Eén lamp',
-          'Meer lampen': 'Meer lampen'
+          een_lamp: 'Eén lamp',
+          meer_lampen: 'Meer lampen'
         },
         pathMerge: 'extra_properties'
       },
@@ -102,12 +102,12 @@ export default {
           subcategory: 'straatverlichting-openbare-klok'
         },
         values: {
-          'Brandt niet': 'Brandt niet',
-          'Brandt overdag': 'Brandt overdag',
-          'Geeft lichthinder (schijnt bijvoorbeeld in de slaapkamer)': 'Geeft lichthinder (schijnt bijvoorbeeld in de slaapkamer)',
-          'Paal staat scheef': 'Paal staat scheef',
-          'Paal ligt over de weg': 'Paal ligt over de weg',
-          'Het deurtje van de paal staat open (schokgevaar)': 'Het deurtje van de paal staat open (schokgevaar)'
+          brandt_niet: 'Brandt niet',
+          brandt_overdag: 'Brandt overdag',
+          geeft_lichthinder: 'Geeft lichthinder (schijnt bijvoorbeeld in de slaapkamer)',
+          paal_staat_scheef: 'Paal staat scheef',
+          paal_ligt_over_weg: 'Paal ligt over de weg',
+          deurtje_van_paal_staat_open: 'Het deurtje van de paal staat open (schokgevaar)'
         },
         pathMerge: 'extra_properties'
       },
@@ -120,11 +120,11 @@ export default {
           subcategory: 'straatverlichting-openbare-klok'
         },
         values: {
-          'Op de stoep': 'Op de stoep',
-          'Op een brug': 'Op een brug',
-          'In een tunnel': 'In een tunnel',
-          'Bij een gebouw: om het gebouw te verlichten': 'Bij een gebouw: om het gebouw te verlichten',
-          'De lampen hangen': 'De lampen hangen'
+          op_stoep: 'Op de stoep',
+          op_brug: 'Op een brug',
+          in_tunnel: 'In een tunnel',
+          bij_gebouw_om_gebouw_verlichten: 'Bij een gebouw: om het gebouw te verlichten',
+          de_lampen_hangen: 'De lampen hangen'
         },
         pathMerge: 'extra_properties'
       },
@@ -147,11 +147,11 @@ export default {
           subcategory: 'klok'
         },
         values: {
-          'Loopt niet op tijd': 'Loopt niet op tijd',
-          'Lamp is stuk': 'Lamp is stuk',
-          'Is aangereden': 'Is aangereden',
-          'Het deurtje van de paal staat open': 'Het deurtje van de paal staat open',
-          'Is zichtbaar beschadigd': 'Is zichtbaar beschadigd'
+          loopt_niet_op_tijd: 'Loopt niet op tijd',
+          lamp_is_stuk: 'Lamp is stuk',
+          is_aangereden: 'Is aangereden',
+          deurtje_van_paal_staat_open: 'Het deurtje van de paal staat open',
+          is_zichtbaar_beschadigd: 'Is zichtbaar beschadigd'
         },
         pathMerge: 'extra_properties'
       },
@@ -197,10 +197,10 @@ export default {
           subcategory: 'verkeerslicht'
         },
         values: {
-          Voetganger: 'Voetganger',
-          Fiets: 'Fiets',
-          Blindentikker: 'Blindentikker',
-          'Auto (algemeen) stoplicht': 'Auto (algemeen) stoplicht'
+          voetganger: 'Voetganger',
+          fiets: 'Fiets',
+          blindentikker: 'Blindentikker',
+          auto_stoplicht: 'Auto (algemeen) stoplicht'
         },
         pathMerge: 'extra_properties'
       },
@@ -213,15 +213,15 @@ export default {
           subcategory: 'verkeerslicht'
         },
         values: {
-          'Rode licht is stuk': 'Rode licht is stuk',
-          'Oranje licht is stuk': 'Oranje licht is stuk',
-          'Groene licht is stuk': 'Groene licht is stuk',
-          'Blijft (te lang) op rood staan': 'Blijft (te lang) op rood staan',
-          'Is aangereden': 'Is aangereden',
-          'Het deurtje van de paal staat open': 'Het deurtje van de paal staat open',
-          'Drukknop is stuk': 'Drukknop is stuk',
-          'Blindentikker is stuk': 'Blindentikker is stuk',
-          'Anders:': 'Anders:'
+          rode_licht_is_stuk: 'Rode licht is stuk',
+          oranje_licht_is_stuk: 'Oranje licht is stuk',
+          groene_licht_is_stuk: 'Groene licht is stuk',
+          blijft_op_rood_staan: 'Blijft (te lang) op rood staan',
+          is_aangereden: 'Is aangereden',
+          deurtje_van_paal_staat_open: 'Het deurtje van de paal staat open',
+          drukknop_is_stuk: 'Drukknop is stuk',
+          blindentikker_is_stuk: 'Blindentikker is stuk',
+          anders: 'Anders:'
         },
         pathMerge: 'extra_properties'
       },
@@ -257,8 +257,8 @@ export default {
         label: 'Wilt u misschien een nieuw fietsenrek of \'nietje\' aanvragen?',
         pathMerge: 'extra_properties',
         values: {
-          'Ja, dat ik wil ik': 'Ja, dat ik wil ik',
-          'Nee, ik wil direct verder gaan': 'Nee, ik wil direct verder gaan'
+          ja: 'Ja, dat ik wil ik',
+          nee: 'Nee, ik wil direct verder gaan'
         }
       },
       render: FormComponents.RadioInput

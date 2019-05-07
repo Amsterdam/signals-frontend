@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { map } from 'lodash';
+import { map, isObject } from 'lodash';
 
 import Header from '../Header/';
 
@@ -20,7 +20,7 @@ const SelectInput = ({ handler, touched, hasError, meta, parent, getError, valid
               value={handler().value}
               onChange={(e) => parent.meta.updateIncident({ [meta.name]: e.target.value })}
             >
-              {meta.values ?
+              {meta.values && isObject(meta.values) ?
                   map(meta.values, (value, key) => (
                     <option
                       value={key}

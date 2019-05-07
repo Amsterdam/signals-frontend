@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { map } from 'lodash';
+import { map, isObject } from 'lodash';
 
 import Header from '../Header/';
 
-function updateIncidentCheckboxMulti(checked, value, oldValue, meta, parent) {
+function updateIncidentCheckboxMulti(checked, value, key, oldValue, meta, parent) {
   let output = [...oldValue];
   if (checked) {
-    output.push(value);
+    output.push({
+      id: key,
+      label: value
+    });
   } else {
-    output = output.filter((item) => item !== value);
+    output = output.filter((item) => item.id !== key);
   }
   parent.meta.updateIncident({ [meta.name]: output });
 }
@@ -26,7 +29,7 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
           getError={getError}
         >
           <div className="antwoorden">
-            {Array.isArray(meta.values) ?
+            {isObject(meta.values) ?
               <div>
                 <input
                   type="hidden"
@@ -39,9 +42,9 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
                       id={`${meta.name}-${key + 1}`}
                       name={`${meta.name}-${key + 1}`}
                       type="checkbox"
-                      value={value}
-                      defaultChecked={(handler().value || []).find((item) => item === value)}
-                      onClick={(e) => updateIncidentCheckboxMulti(e.target.checked, value, handler().value, meta, parent)}
+                      value={key}
+                      defaultChecked={(handler().value || []).find((item) => item.id === key)}
+                      onClick={(e) => updateIncidentCheckboxMulti(e.target.checked, value, key, handler().value, meta, parent)}
                     />
                     <label htmlFor={`${meta.name}-${key + 1}`}>{value}</label>
                   </div>)

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { map } from 'lodash';
+import { map, isObject } from 'lodash';
 
 import Header from '../Header/';
 
@@ -16,7 +16,7 @@ const RadioInput = ({ handler, touched, hasError, meta, parent, getError, valida
           getError={getError}
         >
           <div className="antwoorden">
-            {meta.values ? map(meta.values, (value, key) => (
+            {meta.values && isObject(meta.values) ? map(meta.values, (value, key) => (
               <div className="antwoord" key={value}>
                 <input
                   id={`${meta.name}-${key + 1}`}
