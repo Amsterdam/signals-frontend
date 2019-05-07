@@ -123,7 +123,8 @@ MapSelectFormComponent.propTypes = {
   hasError: PropTypes.func,
   meta: PropTypes.shape({
     endpoint: PropTypes.string.isRequired,
-    zoomMin: PropTypes.number
+    zoomMin: PropTypes.number,
+    legend_items: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
   }),
   parent: PropTypes.object,
   getError: PropTypes.func,

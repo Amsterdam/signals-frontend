@@ -60,7 +60,7 @@ class MapSelect extends React.Component {
 
     const errorControl = ErrorControl({
       position: 'topleft',
-      message: 'Oops, de objecten kunnen niet worden getoond. Probeer het later nog',
+      message: 'Oops, de objecten kunnen niet worden getoond. Probeer het later nog eens.',
     });
 
     const selection = new MaxSelection(SELECTION_MAX_COUNT);
