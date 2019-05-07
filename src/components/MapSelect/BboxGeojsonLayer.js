@@ -67,7 +67,11 @@ const BboxGeojsonLayer = L.GeoJSON.extend({
 
         this.isLoading = false;
         this.fire('load');
-      });
+      })
+      .catch(() => {
+        this.isLoading = false;
+        this.fire('error');
+      })
   },
 
   onMoveEnd: function () {

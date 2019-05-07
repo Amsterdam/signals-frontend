@@ -15,6 +15,7 @@ import MaxSelection from "../../utils/maxSelection";
 import ZoomMessageControl from "./ZoomMessageControl";
 import LegendControl from "./LegendControl";
 import LoadingControl from "./LoadingControl";
+import ErrorControl from "./ErrorControl";
 
 const getIcon = (mapping, typeName, isSelected) => {
   if (isSelected) {
@@ -51,11 +52,20 @@ class MapSelect extends React.Component {
       zoom: ZOOM_INIT
     });
 
+    const errorControl = ErrorControl({
+      position: 'topleft',
+      message: "Oops, de objecten kunnen niet worden getoond. Probeer het later nog",
+    });
+
     const selection = new MaxSelection(SELECTION_MAX_COUNT);
     onSelectionChange(selection);
 
     const fetchRequest = (bbox_str) => {
       return request(`${geojsonUrl}&bbox=${bbox_str}`)
+        .catch(() => {
+          console.error('Error loading feature geojson');
+          errorControl.show();
+        })
     };
 
     const layer = BboxGeojsonLayer({
@@ -106,6 +116,8 @@ class MapSelect extends React.Component {
       element: div
     });
     loadingControl.addTo(this.map);
+
+    errorControl.addTo(this.map);
   }
 
   componentDidUpdate(prevProps) {

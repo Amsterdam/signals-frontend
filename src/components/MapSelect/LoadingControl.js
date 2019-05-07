@@ -51,7 +51,8 @@ const LoadingControl = L.Control.extend({
     if (!layer || !layer.on) return;
     layer.on({
       loading: this.onDataLoading,
-      load: this.onDataLoad
+      load: this.onDataLoad,
+      error: this.onDataLoad
     }, this);
   },
 
@@ -59,7 +60,8 @@ const LoadingControl = L.Control.extend({
     if (!layer || !layer.on) return;
     layer.off({
       loading: this.onDataLoading,
-      load: this.onDataLoad
+      load: this.onDataLoad,
+      error: this.onDataLoad
     }, this);
   },
 
