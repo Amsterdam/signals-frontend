@@ -11,9 +11,6 @@ const setValue = (value) => {
   if (value === false) {
     return 'nee';
   }
-  if (Array.isArray(value)) {
-    return value.join(', ');
-  }
   return value;
 };
 
@@ -61,14 +58,18 @@ const mapControlsToParams = (incident, wizard) => {
       }
 
       if (meta && meta.isVisible && meta.pathMerge) {
-        const itemValue = setValue(value);
-        if (itemValue || itemValue === 0) {
+        const answer = setValue(value);
+        if (answer || answer === 0) {
           mapMerge = {
             ...mapMerge,
-            [meta.pathMerge]: {
-              ...mapMerge[meta.pathMerge],
-              [meta.label || meta.value || name]: itemValue
-            }
+            [meta.pathMerge]: [
+              ...(mapMerge[meta.pathMerge] || []),
+              {
+                id: name,
+                label: meta.label,
+                answer
+              }
+            ]
           };
         }
       }

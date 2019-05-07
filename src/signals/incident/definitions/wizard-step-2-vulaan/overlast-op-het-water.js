@@ -22,8 +22,8 @@ export default {
         label: 'Gaat de melding over een rondvaartboot?',
         pathMerge: 'extra_properties',
         values: {
-          Ja: 'Ja',
-          Nee: 'Nee'
+          ja: 'Ja',
+          nee: 'Nee'
         }
       },
       render: FormComponents.RadioInput
@@ -102,7 +102,7 @@ export default {
         },
         ifAllOf: {
           subcategory: 'overlast-op-het-water-snel-varen',
-          extra_boten_snelheid_rondvaartboot: 'Ja'
+          extra_boten_snelheid_rondvaartboot: 'ja'
         }
       },
       render: FormComponents.SelectInput

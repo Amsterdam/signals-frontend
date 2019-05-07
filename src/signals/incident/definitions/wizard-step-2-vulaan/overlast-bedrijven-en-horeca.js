@@ -32,10 +32,10 @@ export default {
         label: 'Uw melding gaat over:',
         pathMerge: 'extra_properties',
         values: {
-          'Horecabedrijf (café, restaurant, snackbar, etc.)': 'Horecabedrijf (café, restaurant, snackbar, etc.)',
-          'Ander soort bedrijf': 'Ander soort bedrijf',
-          'Evenement (festival, markt, etc.)': 'Evenement (festival, markt, etc.)',
-          'Iets anders': 'Iets anders'
+          horecabedrijf: 'Horecabedrijf (café, restaurant, snackbar, etc.)',
+          ander_soort_bedrijf: 'Ander soort bedrijf',
+          evenement_festival_markt: 'Evenement (festival, markt, etc.)',
+          iets_anders: 'Iets anders'
         }
       },
       render: FormComponents.RadioInput

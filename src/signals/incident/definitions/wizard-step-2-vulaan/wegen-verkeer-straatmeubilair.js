@@ -268,7 +268,7 @@ export default {
         className: 'col-sm-12 col-md-6',
         ifAllOf: {
           subcategory: 'fietsrek-nietje',
-          extra_fietsrek_aanvragen: 'Ja, dat ik wil ik'
+          extra_fietsrek_aanvragen: 'ja'
         },
         type: 'caution',
         value: [
@@ -288,7 +288,7 @@ export default {
       meta: {
         ifAllOf: {
           subcategory: 'fietsrek-nietje',
-          extra_fietsrek_aanvragen: 'Ja, dat ik wil ik'
+          extra_fietsrek_aanvragen: 'ja'
         },
         label: 'Fietsenrek of \'nietje\' aanvragen',
         pathMerge: 'extra_properties'

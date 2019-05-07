@@ -64,9 +64,11 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
   render() {
     const { incident, stadsdeelList, priorityList } = this.props;
     const { locationUpdated, stadsdeelUpdated } = this.state;
-    const extraProperties = incident.extra_properties && Object.keys(incident.extra_properties).map((key) =>
-      (<dl key={key}><dt className="incident-detail__body__definition">{key}</dt><dd className="incident-detail__body__value">{incident.extra_properties[key]}&nbsp;</dd></dl>)
-    );
+    // const extraProperties = /incident.extra_properties && Object.keys(incident.extra_properties).map((key) =>
+      // (<dl key={key}><dt className="incident-detail__body__definition">{key}</dt><dd className="incident-detail__body__value">{incident.extra_properties[key]}&nbsp;</dd></dl>)
+    // );
+
+    console.log('incident.extra_properties', incident.extra_properties);
 
     return (
       <div className="incident-detail">
@@ -90,7 +92,7 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
             <dd className="incident-detail__body__value pre-wrap">{incident.text}&nbsp;</dd>
             <dt className="incident-detail__body__definition">Aanvullende kenmerken</dt>
             <dd className="incident-detail__body__value">{incident.text_extra}&nbsp;</dd>
-            {extraProperties}
+
             <div className={stadsdeelUpdated ? 'incident-detail__body--highlight' : ''}>
               <dt className="incident-detail__body__definition">Stadsdeel</dt>
               <dd className="incident-detail__body__value">{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}&nbsp;</dd>
