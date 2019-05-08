@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import MapSelectFormComponent from "./index";
+import MaxSelection from "../../../../../utils/maxSelection";
 
 describe('Form component <MapSelectFormComponent />', () => {
   const metaFields = {
@@ -25,6 +26,8 @@ describe('Form component <MapSelectFormComponent />', () => {
       }
     };
     const meta = {
+      name: 'my_question',
+      isVisible: true,
       endpoint: 'foo/bar?',
       legend_items: [
         'klok'
@@ -47,5 +50,15 @@ describe('Form component <MapSelectFormComponent />', () => {
 
       expect(wrapper).toMatchSnapshot();
     });
+
+    it('should update selection', () => {
+      const wrapper = createComponent();
+
+      const selection = new MaxSelection(3);
+      selection.add('obj002');
+      wrapper.find('MapSelect').props().onSelectionChange(selection);
+
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({'my_question': ['obj002']});
+    })
   });
 });

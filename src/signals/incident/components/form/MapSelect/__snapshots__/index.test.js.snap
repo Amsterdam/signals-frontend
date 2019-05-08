@@ -2,6 +2,201 @@
 
 exports[`Form component <MapSelectFormComponent /> rendering should render the MapSelect component 1`] = `
 <div
-  className=""
-/>
+  className="row"
+>
+  <div
+    className="col-12 mode_input"
+  >
+    <Header
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
+      meta={
+        Object {
+          "endpoint": "foo/bar?",
+          "isVisible": true,
+          "legend_items": Array [
+            "klok",
+          ],
+          "name": "my_question",
+        }
+      }
+      touched={false}
+    >
+      <div
+        className="invoer"
+      >
+        <MapSelect
+          geojsonUrl="http://localhost:8070/foo/bar?"
+          iconField="type_name"
+          iconMapping={
+            Object {
+              "Gevel_Armatuur": Object {
+                "default": NewClass {
+                  "_initHooksCalled": true,
+                  "options": Object {
+                    "className": "object-marker",
+                    "iconSize": Array [
+                      32,
+                      32,
+                    ],
+                    "iconUrl": "IMAGE_MOCK",
+                  },
+                },
+                "selected": NewClass {
+                  "_initHooksCalled": true,
+                  "options": Object {
+                    "className": "object-marker",
+                    "iconSize": Array [
+                      32,
+                      32,
+                    ],
+                    "iconUrl": "IMAGE_MOCK",
+                  },
+                },
+              },
+              "Grachtmast": Object {
+                "default": NewClass {
+                  "_initHooksCalled": true,
+                  "options": Object {
+                    "className": "object-marker",
+                    "iconSize": Array [
+                      32,
+                      32,
+                    ],
+                    "iconUrl": "IMAGE_MOCK",
+                  },
+                },
+                "selected": NewClass {
+                  "_initHooksCalled": true,
+                  "options": Object {
+                    "className": "object-marker",
+                    "iconSize": Array [
+                      32,
+                      32,
+                    ],
+                    "iconUrl": "IMAGE_MOCK",
+                  },
+                },
+              },
+              "Klok": Object {
+                "default": NewClass {
+                  "_initHooksCalled": true,
+                  "options": Object {
+                    "className": "object-marker",
+                    "iconSize": Array [
+                      32,
+                      32,
+                    ],
+                    "iconUrl": "IMAGE_MOCK",
+                  },
+                },
+                "selected": NewClass {
+                  "_initHooksCalled": true,
+                  "options": Object {
+                    "className": "object-marker",
+                    "iconSize": Array [
+                      32,
+                      32,
+                    ],
+                    "iconUrl": "IMAGE_MOCK",
+                  },
+                },
+              },
+              "Lichtmast": Object {
+                "default": NewClass {
+                  "_initHooksCalled": true,
+                  "options": Object {
+                    "className": "object-marker",
+                    "iconSize": Array [
+                      32,
+                      32,
+                    ],
+                    "iconUrl": "IMAGE_MOCK",
+                  },
+                },
+                "selected": NewClass {
+                  "_initHooksCalled": true,
+                  "options": Object {
+                    "className": "object-marker",
+                    "iconSize": Array [
+                      32,
+                      32,
+                    ],
+                    "iconUrl": "IMAGE_MOCK",
+                  },
+                },
+              },
+              "Overig_lichtpunt": Object {
+                "default": NewClass {
+                  "_initHooksCalled": true,
+                  "options": Object {
+                    "className": "object-marker",
+                    "iconSize": Array [
+                      32,
+                      32,
+                    ],
+                    "iconUrl": "IMAGE_MOCK",
+                  },
+                },
+                "selected": NewClass {
+                  "_initHooksCalled": true,
+                  "options": Object {
+                    "className": "object-marker",
+                    "iconSize": Array [
+                      32,
+                      32,
+                    ],
+                    "iconUrl": "IMAGE_MOCK",
+                  },
+                },
+              },
+              "Overspanning": Object {
+                "default": NewClass {
+                  "_initHooksCalled": true,
+                  "options": Object {
+                    "className": "object-marker",
+                    "iconSize": Array [
+                      32,
+                      32,
+                    ],
+                    "iconUrl": "IMAGE_MOCK",
+                  },
+                },
+                "selected": NewClass {
+                  "_initHooksCalled": true,
+                  "options": Object {
+                    "className": "object-marker",
+                    "iconSize": Array [
+                      32,
+                      32,
+                    ],
+                    "iconUrl": "IMAGE_MOCK",
+                  },
+                },
+              },
+            }
+          }
+          idField="objectnummer"
+          latlng={
+            Object {
+              "latitude": 52.37248465266875,
+              "longitude": 4.900312721729279,
+            }
+          }
+          legend={
+            Array [
+              Object {
+                "iconUrl": "IMAGE_MOCK",
+                "key": "klok",
+                "label": "Klok",
+              },
+            ]
+          }
+          onSelectionChange={[Function]}
+          zoomMin={17}
+        />
+      </div>
+    </Header>
+  </div>
+</div>
 `;
