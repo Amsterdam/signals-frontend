@@ -17,12 +17,16 @@ const RadioInput = ({ handler, touched, hasError, meta, parent, getError, valida
         >
           <div className="antwoorden">
             {meta.values && isObject(meta.values) ? map(meta.values, (value, key) => (
-              <div className="antwoord" key={value}>
+              <div className="antwoord" key={key}>
                 <input
                   id={`${meta.name}-${key + 1}`}
                   className="kenmerkradio"
-                  {...handler('radio', key)}
-                  onClick={() => parent.meta.updateIncident({ [meta.name]: key })}
+                  type="radio"
+                  checked={handler().value.id === key}
+                  onClick={() => parent.meta.updateIncident({ [meta.name]: {
+                    id: key,
+                    label: value
+                  } })}
                 />
                 <label htmlFor={`${meta.name}-${key + 1}`}>{value}</label>
               </div>

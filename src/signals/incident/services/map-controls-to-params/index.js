@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { forEach, set, isFunction } from 'lodash';
+import { forEach, set, isFunction, isObject } from 'lodash';
 
 const setValue = (value) => {
   if (value === 0) {
@@ -10,6 +10,9 @@ const setValue = (value) => {
   }
   if (value === false) {
     return 'nee';
+  }
+  if (isObject(value) && value.id) {
+    return value.id;
   }
   return value;
 };
@@ -86,6 +89,7 @@ const mapControlsToParams = (incident, wizard) => {
   forEach(mapMerge, (value, key) => {
     set(params, key, value);
   });
+  console.log('params', params);
 
   return params;
 };

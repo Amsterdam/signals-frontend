@@ -17,8 +17,12 @@ const SelectInput = ({ handler, touched, hasError, meta, parent, getError, valid
         >
           <div className="invoer">
             <select
-              value={handler().value}
-              onChange={(e) => parent.meta.updateIncident({ [meta.name]: e.target.value })}
+              type="select"
+              value={handler().value.id}
+              onChange={(e) => parent.meta.updateIncident({ [meta.name]: {
+                id: e.target.value,
+                label: e.target[e.target.selectedIndex].text
+              } })}
             >
               {meta.values && isObject(meta.values) ?
                   map(meta.values, (value, key) => (
