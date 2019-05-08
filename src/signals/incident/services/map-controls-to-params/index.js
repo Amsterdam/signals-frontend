@@ -11,9 +11,6 @@ const setValue = (value) => {
   if (value === false) {
     return 'nee';
   }
-  if (isObject(value) && value.id) {
-    return value.id;
-  }
   return value;
 };
 
@@ -80,8 +77,12 @@ const mapControlsToParams = (incident, wizard) => {
   });
 
   forEach(map, (item) => {
-    const itemValue = setValue(item.value);
+    let itemValue = setValue(item.value);
     if (itemValue || itemValue === 0) {
+      if (isObject(itemValue) && itemValue.id) {
+        itemValue = itemValue.id;
+      }
+
       set(params, item.path, itemValue);
     }
   });
@@ -89,7 +90,6 @@ const mapControlsToParams = (incident, wizard) => {
   forEach(mapMerge, (value, key) => {
     set(params, key, value);
   });
-  console.log('params', params);
 
   return params;
 };

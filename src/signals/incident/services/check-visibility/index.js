@@ -1,6 +1,8 @@
 import { every, isEqual, some } from 'lodash';
 
-const isValueEqual = (incident, value, key) => isEqual(value, incident[key]) || (incident[key] && incident[key].id && isEqual(value, incident[key].id));
+const isValueEqual = (incident, value, key) => isEqual(value, incident[key])
+  || (incident[key] && incident[key].value && isEqual(value, incident[key].value))
+  || (incident[key] && incident[key].id && isEqual(value, incident[key].id));
 
 const checkVisibility = (control, incident, isAuthenticated) => {
   let isVisible = true;
