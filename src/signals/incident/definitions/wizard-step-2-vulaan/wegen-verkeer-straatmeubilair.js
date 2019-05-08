@@ -87,10 +87,10 @@ export default {
         ifAllOf: {
           subcategory: 'straatverlichting-openbare-klok'
         },
-        values: [
-          'Eén lamp',
-          'Meer lampen'
-        ],
+        values: {
+          'Eén lamp': 'Eén lamp',
+          'Meer lampen': 'Meer lampen'
+        },
         pathMerge: 'extra_properties'
       },
       render: FormComponents.RadioInput
@@ -101,14 +101,14 @@ export default {
         ifAllOf: {
           subcategory: 'straatverlichting-openbare-klok'
         },
-        values: [
-          'Brandt niet',
-          'Brandt overdag',
-          'Geeft lichthinder (schijnt bijvoorbeeld in de slaapkamer)',
-          'Paal staat scheef',
-          'Paal ligt over de weg',
-          'Het deurtje van de paal staat open (schokgevaar)'
-        ],
+        values: {
+          'Brandt niet': 'Brandt niet',
+          'Brandt overdag': 'Brandt overdag',
+          'Geeft lichthinder (schijnt bijvoorbeeld in de slaapkamer)': 'Geeft lichthinder (schijnt bijvoorbeeld in de slaapkamer)',
+          'Paal staat scheef': 'Paal staat scheef',
+          'Paal ligt over de weg': 'Paal ligt over de weg',
+          'Het deurtje van de paal staat open (schokgevaar)': 'Het deurtje van de paal staat open (schokgevaar)'
+        },
         pathMerge: 'extra_properties'
       },
       render: FormComponents.CheckboxInput
@@ -119,13 +119,13 @@ export default {
         ifAllOf: {
           subcategory: 'straatverlichting-openbare-klok'
         },
-        values: [
-          'Op de stoep',
-          'Op een brug',
-          'In een tunnel',
-          'Bij een gebouw: om het gebouw te verlichten',
-          'De lampen hangen'
-        ],
+        values: {
+          'Op de stoep': 'Op de stoep',
+          'Op een brug': 'Op een brug',
+          'In een tunnel': 'In een tunnel',
+          'Bij een gebouw: om het gebouw te verlichten': 'Bij een gebouw: om het gebouw te verlichten',
+          'De lampen hangen': 'De lampen hangen'
+        },
         pathMerge: 'extra_properties'
       },
       render: FormComponents.CheckboxInput
@@ -156,13 +156,13 @@ export default {
         ifAllOf: {
           subcategory: 'klok'
         },
-        values: [
-          'Loopt niet op tijd',
-          'Lamp is stuk',
-          'Is aangereden',
-          'Het deurtje van de paal staat open',
-          'Is zichtbaar beschadigd'
-        ],
+        values: {
+          'Loopt niet op tijd': 'Loopt niet op tijd',
+          'Lamp is stuk': 'Lamp is stuk',
+          'Is aangereden': 'Is aangereden',
+          'Het deurtje van de paal staat open': 'Het deurtje van de paal staat open',
+          'Is zichtbaar beschadigd': 'Is zichtbaar beschadigd'
+        },
         pathMerge: 'extra_properties'
       },
       render: FormComponents.CheckboxInput
@@ -211,12 +211,12 @@ export default {
         ifAllOf: {
           subcategory: 'verkeerslicht'
         },
-        values: [
-          'Voetganger',
-          'Fiets',
-          'Blindentikker',
-          'Auto (algemeen) stoplicht'
-        ],
+        values: {
+          Voetganger: 'Voetganger',
+          Fiets: 'Fiets',
+          Blindentikker: 'Blindentikker',
+          'Auto (algemeen) stoplicht': 'Auto (algemeen) stoplicht'
+        },
         pathMerge: 'extra_properties'
       },
       render: FormComponents.CheckboxInput
@@ -227,17 +227,17 @@ export default {
         ifAllOf: {
           subcategory: 'verkeerslicht'
         },
-        values: [
-          'Rode licht is stuk',
-          'Oranje licht is stuk',
-          'Groene licht is stuk',
-          'Blijft (te lang) op rood staan',
-          'Is aangereden',
-          'Het deurtje van de paal staat open',
-          'Drukknop is stuk',
-          'Blindentikker is stuk',
-          'Anders:'
-        ],
+        values: {
+          'Rode licht is stuk': 'Rode licht is stuk',
+          'Oranje licht is stuk': 'Oranje licht is stuk',
+          'Groene licht is stuk': 'Groene licht is stuk',
+          'Blijft (te lang) op rood staan': 'Blijft (te lang) op rood staan',
+          'Is aangereden': 'Is aangereden',
+          'Het deurtje van de paal staat open': 'Het deurtje van de paal staat open',
+          'Drukknop is stuk': 'Drukknop is stuk',
+          'Blindentikker is stuk': 'Blindentikker is stuk',
+          'Anders:': 'Anders:'
+        },
         pathMerge: 'extra_properties'
       },
       render: FormComponents.CheckboxInput
@@ -271,10 +271,10 @@ export default {
         },
         label: 'Wilt u misschien een nieuw fietsenrek of \'nietje\' aanvragen?',
         pathMerge: 'extra_properties',
-        values: [
-          'Ja, dat ik wil ik',
-          'Nee, ik wil direct verder gaan'
-        ]
+        values: {
+          'Ja, dat ik wil ik': 'Ja, dat ik wil ik',
+          'Nee, ik wil direct verder gaan': 'Nee, ik wil direct verder gaan'
+        }
       },
       render: FormComponents.RadioInput
     },
