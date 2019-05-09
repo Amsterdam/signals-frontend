@@ -36,6 +36,7 @@ const mapControlsToParams = (incident, wizard) => {
     params.incident_date_start = date.format();
   }
 
+  const subcategoryLink = new URL(incident.subcategory_link);
   const map = [];
   let mapMerge = {};
   forEach(wizard, (step) => {
@@ -60,10 +61,11 @@ const mapControlsToParams = (incident, wizard) => {
       if (meta && meta.isVisible && meta.pathMerge) {
         const answer = setValue(value);
         if (answer || answer === 0) {
+          const key = `${meta.pathMerge}.${subcategoryLink.pathname}`;
           mapMerge = {
             ...mapMerge,
-            [meta.pathMerge]: [
-              ...(mapMerge[meta.pathMerge] || []),
+            [key]: [
+              ...(mapMerge[key] || []),
               {
                 id: name,
                 label: meta.label,
