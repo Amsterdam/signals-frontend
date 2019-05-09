@@ -67,7 +67,7 @@ export default {
         },
         label: 'Gebeurt het vaker?',
         pathMerge: 'extra_properties',
-        value: 'Ja, het gebeurt vaker:'
+        value: 'Ja, het gebeurt vaker'
       },
       render: FormComponents.CheckboxInput
     },

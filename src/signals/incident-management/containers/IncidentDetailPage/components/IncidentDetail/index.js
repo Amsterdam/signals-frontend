@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { isEqual } from 'lodash';
+import { isEqual, isString, isObject, isArray, isBoolean } from 'lodash';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
@@ -23,6 +23,7 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
     this.locationTimer = null;
     this.stadsdeelTimer = null;
   }
+
 
   static getDerivedStateFromProps(props, state) {
     const locationChanged = isEqual(props.incident.location, state.location);
@@ -55,6 +56,23 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
     }
   }
 
+  static getExtraPropertyValue(answer) {
+    if (isString(answer)) {
+      return answer;
+    }
+    if (isArray(answer)) {
+      return answer.map((item) => <span key={item.id}>{item.label}, </span>);
+    }
+    if (isObject(answer)) {
+      if (isBoolean(answer.value)) {
+        return answer.value ? answer.label : 'Nee';
+      }
+      return answer.label;
+    }
+
+    return '';
+  }
+
   clearHighlight(highlight) {
     this.setState({
       [highlight]: false
@@ -64,11 +82,6 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
   render() {
     const { incident, stadsdeelList, priorityList } = this.props;
     const { locationUpdated, stadsdeelUpdated } = this.state;
-    // const extraProperties = /incident.extra_properties && Object.keys(incident.extra_properties).map((key) =>
-      // (<dl key={key}><dt className="incident-detail__body__definition">{key}</dt><dd className="incident-detail__body__value">{incident.extra_properties[key]}&nbsp;</dd></dl>)
-    // );
-
-    console.log('incident.extra_properties', incident.extra_properties);
 
     return (
       <div className="incident-detail">
@@ -92,6 +105,13 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
             <dd className="incident-detail__body__value pre-wrap">{incident.text}&nbsp;</dd>
             <dt className="incident-detail__body__definition">Aanvullende kenmerken</dt>
             <dd className="incident-detail__body__value">{incident.text_extra}&nbsp;</dd>
+
+            {incident.extra_properties && incident.extra_properties.map((item) =>
+              (<dl key={item.id}>
+                <dt className="incident-detail__body__definition">{item.label}</dt>
+                <dd className="incident-detail__body__value">{IncidentDetail.getExtraPropertyValue(item.answer)}&nbsp;</dd>
+              </dl>)
+            )}
 
             <div className={stadsdeelUpdated ? 'incident-detail__body--highlight' : ''}>
               <dt className="incident-detail__body__definition">Stadsdeel</dt>
