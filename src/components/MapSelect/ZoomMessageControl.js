@@ -8,9 +8,8 @@ const ZoomMessageControl = L.Control.extend({
   },
 
   onAdd(map) {
-    const div = L.DomUtil.create('div');
+    const div = L.DomUtil.create('div', 'zoom-control');
     div.innerText = 'Zoom in om de objecten te zien';
-    L.DomUtil.setClass(div, 'zoom-message');
 
     this.setVisibility(div, map.getZoom());
 

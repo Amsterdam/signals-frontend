@@ -23,7 +23,7 @@ describe('Leaflet error control', () => {
     expect(containerEl.classList.contains('hide')).toBe(true);
   });
 
-  it('is can be shown', () => {
+  it('can be shown', () => {
     const [containerEl, control] = createControl();
 
     control.show();
