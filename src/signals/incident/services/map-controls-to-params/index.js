@@ -61,14 +61,14 @@ const mapControlsToParams = (incident, wizard) => {
       if (meta && meta.isVisible && meta.pathMerge) {
         const answer = setValue(value);
         if (answer || answer === 0) {
-          const key = `${meta.pathMerge}.${subcategoryLink.pathname}`;
           mapMerge = {
             ...mapMerge,
-            [key]: [
-              ...(mapMerge[key] || []),
+            [meta.pathMerge]: [
+              ...(mapMerge[meta.pathMerge] || []),
               {
                 id: name,
                 label: meta.label,
+                category_url: subcategoryLink.pathname,
                 answer
               }
             ]
