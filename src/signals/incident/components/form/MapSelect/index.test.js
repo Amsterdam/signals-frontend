@@ -15,11 +15,15 @@ describe('Form component <MapSelectFormComponent />', () => {
   let hasError;
   let parent;
 
-  const createComponent = () => {
+  beforeEach(() => {
     handler = jest.fn();
-    touched = false;
+    handler.mockReturnValue({ value: '' });
     getError = jest.fn();
     hasError = jest.fn();
+  });
+
+  const createComponent = () => {
+    touched = false;
     parent = {
       meta: {
         updateIncident: jest.fn()
@@ -49,6 +53,13 @@ describe('Form component <MapSelectFormComponent />', () => {
       const wrapper = createComponent();
 
       expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should use the handler value', () => {
+      handler.mockReturnValue({ value: ['obj1'] });
+      const wrapper = createComponent();
+
+      expect(wrapper.find('MapSelect').props().value).toEqual(['obj1']);
     });
 
     it('should update selection', () => {

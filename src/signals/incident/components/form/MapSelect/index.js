@@ -78,7 +78,7 @@ const getLatlng = (meta) => {
 
 const filter_legend = (items, types) => items.filter((element) => types.includes(element.key));
 
-const MapSelectFormComponent = ({ touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
+const MapSelectFormComponent = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   const onSelectionChange = (selection) => {
     const value = Array.from(selection.set.values());
     parent.meta.updateIncident({ [meta.name]: value });
@@ -88,6 +88,12 @@ const MapSelectFormComponent = ({ touched, hasError, meta, parent, getError, val
   const apiRoot = CONFIGURATION.API_ROOT_MAPSERVER;
   const url = apiRoot + meta.endpoint;
   const filtered_legend = filter_legend(LEGEND_ITEMS, meta.legend_items);
+
+  // Get selection array from "handler".
+  // the value is not always an array (it's a string on load).
+  // So make sure selection is array:
+  const value = handler().value;
+  const selection = Array.isArray(value) ? value : [];
   return (
     <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
       {meta && meta.isVisible ?
@@ -109,6 +115,7 @@ const MapSelectFormComponent = ({ touched, hasError, meta, parent, getError, val
                 iconField="type_name"
                 idField="objectnummer"
                 zoomMin={meta.zoomMin}
+                value={selection}
               /> }
             </div>
           </Header>

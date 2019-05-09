@@ -11,6 +11,11 @@ describe('maxSelection', () => {
     expect(selection.set).toEqual(new Set());
   });
 
+  it('should allow initial array', () => {
+    selection = new MaxSelection(3, [42]);
+    expect(selection.set).toEqual(new Set([42]));
+  });
+
   it('should add elements', () => {
     selection.add(42);
     selection.add(9);

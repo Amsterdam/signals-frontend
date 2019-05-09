@@ -43,7 +43,8 @@ class MapSelect extends React.Component {
       iconMapping,
       iconField,
       idField,
-      zoomMin
+      zoomMin,
+      value
     } = this.props;
 
     this.map = amaps.createMap({
@@ -63,16 +64,16 @@ class MapSelect extends React.Component {
       message: 'Oops, de objecten kunnen niet worden getoond. Probeer het later nog eens.',
     });
 
-    const selection = new MaxSelection(SELECTION_MAX_COUNT);
-    onSelectionChange(selection);
+    const selection = new MaxSelection(SELECTION_MAX_COUNT, value);
+    this.selection = selection;
 
     const fetchRequest = (bbox_str) => request(`${geojsonUrl}&bbox=${bbox_str}`)
-        .catch(() => {
-          console.error('Error loading feature geojson'); // eslint-disable-line no-console
-          errorControl.show();
-        });
+      .catch((e) => {
+        console.error('Error loading feature geojson', e); // eslint-disable-line no-console
+        errorControl.show();
+      });
 
-    const featuresLayer = BboxGeojsonLayer({
+    this.featuresLayer = BboxGeojsonLayer({
       fetchRequest,
     }, {
       zoomMin,
@@ -90,14 +91,11 @@ class MapSelect extends React.Component {
             const id = _layer.feature.properties[idField];
             selection.toggle(id);
             onSelectionChange(selection);
-
-            const icon = getIcon(iconMapping, feature.properties[iconField], selection.has(id));
-            _layer.setIcon(icon);
           }
         });
       }
     });
-    featuresLayer.addTo(this.map);
+    this.featuresLayer.addTo(this.map);
 
     const zoomMessageControl = ZoomMessageControl({
       position: 'topleft',
@@ -133,6 +131,24 @@ class MapSelect extends React.Component {
         lng
       });
     }
+
+    const value = this.props.value;
+    if (value !== prevProps.value) {
+      // Selection changed, update internal selection
+      this.selection.set.clear();
+      for (const id of value) {
+        this.selection.add(id);
+      }
+
+      // Let icons reflect new selection
+      for (const layer of this.featuresLayer.getLayers()) {
+        const properties = layer.feature.properties;
+        const id = properties[this.props.idField];
+        const iconType = properties[this.props.iconField];
+        const icon = getIcon(this.props.iconMapping, iconType, this.selection.has(id));
+        layer.setIcon(icon);
+      }
+    }
   }
 
   render() {
@@ -147,7 +163,8 @@ class MapSelect extends React.Component {
 }
 
 MapSelect.defaultProps = {
-  zoomMin: ZOOM_MIN
+  zoomMin: ZOOM_MIN,
+  value: []
 };
 
 MapSelect.propTypes = {
@@ -167,7 +184,8 @@ MapSelect.propTypes = {
   })),
   iconField: PropTypes.string.isRequired,
   idField: PropTypes.string.isRequired,
-  zoomMin: PropTypes.number
+  zoomMin: PropTypes.number,
+  value: PropTypes.array,
 };
 
 export default MapSelect;
