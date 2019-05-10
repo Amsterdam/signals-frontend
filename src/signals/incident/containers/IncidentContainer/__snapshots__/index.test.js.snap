@@ -605,16 +605,12 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 "priority": Object {
                   "authenticated": true,
                   "label": "Urgentie",
-                  "render": [Function],
-                  "values": Object {
-                    "high": "Hoog",
-                    "normal": "Normaal",
-                  },
+                  "render": undefined,
                 },
                 "source": Object {
                   "authenticated": true,
                   "label": "Bron",
-                  "render": [Function],
+                  "render": undefined,
                 },
               },
               "email": Object {

@@ -4398,14 +4398,10 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                                     className="antwoord"
                                                                   >
                                                                     <input
-                                                                      checked={false}
-                                                                      disabled={false}
                                                                       id="allows_contact"
-                                                                      onBlur={[Function]}
-                                                                      onChange={[Function]}
+                                                                      name="allows_contact"
                                                                       onClick={[Function]}
                                                                       type="checkbox"
-                                                                      value=""
                                                                     />
                                                                     <label
                                                                       htmlFor="allows_contact"

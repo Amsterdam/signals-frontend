@@ -23,7 +23,10 @@ describe('The map controls to params service', () => {
     expect(mapControlsToParams({
       incident_time_hours: 12,
       incident_time_minutes: 34,
-      datetime: 'Nu'
+      datetime: {
+        id: 'Nu',
+        label: 'Nu'
+      }
     }, {})).toMatchObject({
       incident_date_start: '2018-07-21T12:34:00+02:00'
     });
@@ -37,7 +40,10 @@ describe('The map controls to params service', () => {
     expect(mapControlsToParams({
       incident_time_hours: 10,
       incident_time_minutes: 21,
-      incident_date: 'Vandaag'
+      incident_date: {
+        id: 'Vandaag',
+        label: 'Vandaag'
+      }
     }, {})).toMatchObject({
       incident_date_start: '2018-07-21T10:21:00+02:00'
     });

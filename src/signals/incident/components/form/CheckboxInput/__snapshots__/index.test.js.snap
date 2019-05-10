@@ -14,6 +14,7 @@ exports[`Form component <CheckboxInput /> rendering should render checkbox corre
         Object {
           "isVisible": true,
           "name": "input-field-name",
+          "value": "Ja, dat is goed",
         }
       }
       touched={false}
@@ -25,12 +26,17 @@ exports[`Form component <CheckboxInput /> rendering should render checkbox corre
           className="antwoord"
         >
           <input
+            defaultChecked={true}
             id="input-field-name"
+            name="input-field-name"
             onClick={[Function]}
+            type="checkbox"
           />
           <label
             htmlFor="input-field-name"
-          />
+          >
+            Ja, dat is goed
+          </label>
         </div>
       </div>
     </Header>
@@ -52,11 +58,11 @@ exports[`Form component <CheckboxInput /> rendering should render multi checkbox
         Object {
           "isVisible": true,
           "name": "input-field-name",
-          "values": Array [
-            "red",
-            "blue",
-            "green",
-          ],
+          "values": Object {
+            "blue": "Blauw",
+            "green": "Groen",
+            "red": "Rood",
+          },
         }
       }
       touched={false}
@@ -75,54 +81,53 @@ exports[`Form component <CheckboxInput /> rendering should render multi checkbox
           />
           <div
             className="antwoord"
-            key="red"
+            key="Rood"
           >
             <input
-              id="input-field-name-1"
-              name="input-field-name-1"
+              id="input-field-name-red1"
+              name="input-field-name-red1"
               onClick={[Function]}
               type="checkbox"
               value="red"
             />
             <label
-              htmlFor="input-field-name-1"
+              htmlFor="input-field-name-red1"
             >
-              red
+              Rood
             </label>
           </div>
           <div
             className="antwoord"
-            key="blue"
+            key="Blauw"
           >
             <input
-              defaultChecked="blue"
-              id="input-field-name-2"
-              name="input-field-name-2"
+              id="input-field-name-blue1"
+              name="input-field-name-blue1"
               onClick={[Function]}
               type="checkbox"
               value="blue"
             />
             <label
-              htmlFor="input-field-name-2"
+              htmlFor="input-field-name-blue1"
             >
-              blue
+              Blauw
             </label>
           </div>
           <div
             className="antwoord"
-            key="green"
+            key="Groen"
           >
             <input
-              id="input-field-name-3"
-              name="input-field-name-3"
+              id="input-field-name-green1"
+              name="input-field-name-green1"
               onClick={[Function]}
               type="checkbox"
               value="green"
             />
             <label
-              htmlFor="input-field-name-3"
+              htmlFor="input-field-name-green1"
             >
-              green
+              Groen
             </label>
           </div>
         </div>
@@ -146,11 +151,11 @@ exports[`Form component <CheckboxInput /> rendering should render multi checkbox
         Object {
           "isVisible": true,
           "name": "input-field-name",
-          "values": Array [
-            "red",
-            "blue",
-            "green",
-          ],
+          "values": Object {
+            "blue": "Blauw",
+            "green": "Groen",
+            "red": "Rood",
+          },
         }
       }
       touched={false}
@@ -164,53 +169,53 @@ exports[`Form component <CheckboxInput /> rendering should render multi checkbox
           />
           <div
             className="antwoord"
-            key="red"
+            key="Rood"
           >
             <input
-              id="input-field-name-1"
-              name="input-field-name-1"
+              id="input-field-name-red1"
+              name="input-field-name-red1"
               onClick={[Function]}
               type="checkbox"
               value="red"
             />
             <label
-              htmlFor="input-field-name-1"
+              htmlFor="input-field-name-red1"
             >
-              red
+              Rood
             </label>
           </div>
           <div
             className="antwoord"
-            key="blue"
+            key="Blauw"
           >
             <input
-              id="input-field-name-2"
-              name="input-field-name-2"
+              id="input-field-name-blue1"
+              name="input-field-name-blue1"
               onClick={[Function]}
               type="checkbox"
               value="blue"
             />
             <label
-              htmlFor="input-field-name-2"
+              htmlFor="input-field-name-blue1"
             >
-              blue
+              Blauw
             </label>
           </div>
           <div
             className="antwoord"
-            key="green"
+            key="Groen"
           >
             <input
-              id="input-field-name-3"
-              name="input-field-name-3"
+              id="input-field-name-green1"
+              name="input-field-name-green1"
               onClick={[Function]}
               type="checkbox"
               value="green"
             />
             <label
-              htmlFor="input-field-name-3"
+              htmlFor="input-field-name-green1"
             >
-              green
+              Groen
             </label>
           </div>
         </div>
