@@ -230,10 +230,8 @@ export default {
     extra_verkeerslicht_anders: {
       meta: {
         ifAllOf: {
-          subcategory: 'verkeerslicht'
-        },
-        ifOneOf: {
-          extra_verkeerslicht_wat: 'Anders:'
+          subcategory: 'verkeerslicht',
+          extra_verkeerslicht_wat: 'anders'
         },
         pathMerge: 'extra_properties'
       },

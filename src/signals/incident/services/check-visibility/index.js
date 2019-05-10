@@ -1,8 +1,9 @@
-import { every, isEqual, some } from 'lodash';
+import { every, isEqual, some, isObject, isArray } from 'lodash';
 
 const isValueEqual = (incident, value, key) => isEqual(value, incident[key])
-  || (incident[key] && incident[key].value && isEqual(value, incident[key].value))
-  || (incident[key] && incident[key].id && isEqual(value, incident[key].id));
+  || (isArray(incident[key]) && some(incident[key], (item) => item.id === value))
+  || (isObject(incident[key]) && incident[key].value && isEqual(value, incident[key].value))
+  || (isObject(incident[key]) && incident[key].id && isEqual(value, incident[key].id));
 
 const checkVisibility = (control, incident, isAuthenticated) => {
   let isVisible = true;
