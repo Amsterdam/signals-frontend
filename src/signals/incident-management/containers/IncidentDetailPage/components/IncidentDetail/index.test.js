@@ -43,7 +43,35 @@ describe('<IncidentDetail />', () => {
   });
 
   it('should render correctly with extra properties', () => {
-    incident.extra_properties = { extra_boten_snelheid_rederij: 'Admiraal Heijn', extra_boten_snelheid_naamboot: 'Speranta', extra_boten_snelheid_rondvaartboot: 'Ja' };
+    incident.extra_properties = [
+      {
+        id: 'extra_straatverlichting',
+        label: 'Gaat uw melding over één of over meer lampen?',
+        category_url: '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
+        answer: {
+          id: 'meer_lampen',
+          label: 'Meer lampen'
+        }
+      },
+      {
+        id: 'extra_straatverlichting_wat',
+        label: 'Wat is er aan de hand met de lamp(en)?',
+        category_url: '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
+        answer: [{ id: 'brandt_niet', label: 'Brandt niet' }, { id: 'brandt_overdag', label: 'Brandt overdag' }]
+      },
+      {
+        id: 'extra_straatverlichting_nummer',
+        label: 'Hebt u een nummer van (één van) de lamp(en)?',
+        category_url: '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
+        answer: '42'
+      },
+      {
+        id: 'extra_bedrijven_vaker',
+        label: 'Gebeurt het vaker?',
+        category_url: '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
+        answer: { label: 'Ja, het gebeurt vaker', value: true }
+      }
+    ];
     const wrapper = shallow(
       <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
     );

@@ -17,7 +17,7 @@ const setValue = (value) => {
 const mapControlsToParams = (incident, wizard) => {
   let date;
 
-  if (incident.datetime === 'Nu') {
+  if (incident.datetime && incident.datetime.id === 'Nu') {
     date = moment();
   } else if (incident.incident_date) {
     const time = `${incident.incident_time_hours}:${incident.incident_time_minutes}`;
@@ -36,7 +36,7 @@ const mapControlsToParams = (incident, wizard) => {
     params.incident_date_start = date.format();
   }
 
-  const subcategoryLink = new URL(incident.subcategory_link);
+  const category_url = incident && incident.subcategory_link ? new URL(incident.subcategory_link).pathname : '';
   const map = [];
   let mapMerge = {};
   forEach(wizard, (step) => {
@@ -68,7 +68,7 @@ const mapControlsToParams = (incident, wizard) => {
               {
                 id: name,
                 label: meta.label,
-                category_url: subcategoryLink.pathname,
+                category_url,
                 answer
               }
             ]
