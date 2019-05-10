@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { isEqual, isString, isObject, isArray, isBoolean } from 'lodash';
+import { isEqual, isObject, isArray, isBoolean } from 'lodash';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
@@ -57,9 +57,6 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
   }
 
   static getExtraPropertyValue(answer) {
-    if (isString(answer)) {
-      return answer;
-    }
     if (isArray(answer)) {
       return answer.map((item) => <span key={item.id}>{item.label}, </span>);
     }
@@ -70,7 +67,7 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
       return answer.label;
     }
 
-    return '';
+    return answer;
   }
 
   clearHighlight(highlight) {

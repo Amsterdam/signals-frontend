@@ -1048,6 +1048,20 @@ exports[`<IncidentDetail /> should render correctly with extra properties 1`] = 
         <dd
           className="incident-detail__body__value"
         >
+          Nee
+        </dd>
+      </dl>
+      <dl
+        key="extra_bedrijven_gezien"
+      >
+        <dt
+          className="incident-detail__body__definition"
+        >
+          Heeft u het gezien?
+        </dt>
+        <dd
+          className="incident-detail__body__value"
+        >
           Ja, het gebeurt vaker
         </dd>
       </dl>

@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 
 import RadioInput from './index';
 
-describe.only('Form component <RadioInput />', () => {
+describe('Form component <RadioInput />', () => {
   const metaFields = {
     name: 'input-field-name',
     placeholder: 'type here',

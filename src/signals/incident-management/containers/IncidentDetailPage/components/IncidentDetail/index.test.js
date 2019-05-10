@@ -69,6 +69,12 @@ describe('<IncidentDetail />', () => {
         id: 'extra_bedrijven_vaker',
         label: 'Gebeurt het vaker?',
         category_url: '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
+        answer: { label: 'Ja, het gebeurt vaker', value: false }
+      },
+      {
+        id: 'extra_bedrijven_gezien',
+        label: 'Heeft u het gezien?',
+        category_url: '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
         answer: { label: 'Ja, het gebeurt vaker', value: true }
       }
     ];

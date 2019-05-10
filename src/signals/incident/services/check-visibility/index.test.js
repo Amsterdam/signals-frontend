@@ -11,7 +11,13 @@ describe('The check visibility service', () => {
     incident = {
       category: 'bar',
       subcategory: 'foo',
-      color: ['red', 'blue', 'green']
+      color: ['red', 'blue', 'green'],
+      object_with_id: {
+        id: 'id'
+      },
+      object_with_value: {
+        value: 'value'
+      }
     };
   });
 
@@ -50,6 +56,34 @@ describe('The check visibility service', () => {
     it('array: should not be visible when category is not valid', () => {
       control.meta.ifAllOf = {
         category: ['bar', 'wrong']
+      };
+      expect(checkVisibility(control, incident)).toBeFalsy();
+    });
+
+    it('object with id: should be visible when object_with_id is valid', () => {
+      control.meta.ifAllOf = {
+        object_with_id: 'id'
+      };
+      expect(checkVisibility(control, incident)).toBeTruthy();
+    });
+
+    it('object with id: should not be visible when object_with_id is not valid', () => {
+      control.meta.ifAllOf = {
+        object_with_id: 'wrong'
+      };
+      expect(checkVisibility(control, incident)).toBeFalsy();
+    });
+
+    it('object with value: should be visible when object_with_value is valid', () => {
+      control.meta.ifAllOf = {
+        object_with_value: 'value'
+      };
+      expect(checkVisibility(control, incident)).toBeTruthy();
+    });
+
+    it('object with value: should not be visible when object_with_value is not valid', () => {
+      control.meta.ifAllOf = {
+        object_with_value: 'wrong'
       };
       expect(checkVisibility(control, incident)).toBeFalsy();
     });
@@ -101,6 +135,34 @@ describe('The check visibility service', () => {
     it('array: should not be visible when subcategory is not valid', () => {
       control.meta.ifOneOf = {
         subcategory: ['wrong', 'wrong']
+      };
+      expect(checkVisibility(control, incident)).toBeFalsy();
+    });
+
+    it('object with id: should be visible when object_with_id is valid', () => {
+      control.meta.ifOneOf = {
+        object_with_id: 'id'
+      };
+      expect(checkVisibility(control, incident)).toBeTruthy();
+    });
+
+    it('object with id: should not be visible when object_with_id is not valid', () => {
+      control.meta.ifOneOf = {
+        object_with_id: 'wrong'
+      };
+      expect(checkVisibility(control, incident)).toBeFalsy();
+    });
+
+    it('object with value: should be visible when object_with_value is valid', () => {
+      control.meta.ifOneOf = {
+        object_with_value: 'value'
+      };
+      expect(checkVisibility(control, incident)).toBeTruthy();
+    });
+
+    it('object with value: should not be visible when object_with_value is not valid', () => {
+      control.meta.ifOneOf = {
+        object_with_value: 'wrong'
       };
       expect(checkVisibility(control, incident)).toBeFalsy();
     });
