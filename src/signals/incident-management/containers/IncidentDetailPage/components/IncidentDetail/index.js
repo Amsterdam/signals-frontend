@@ -96,31 +96,31 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
             <dt className="incident-detail__body__definition">Tijd overlast</dt>
             <dd className="incident-detail__body__value">{string2time(incident.incident_date_start)}</dd>
             <dt className="incident-detail__body__definition">Urgentie</dt>
-            <dd className="incident-detail__body__value">{getListValueByKey(priorityList, incident.priority && incident.priority.priority)}&nbsp;</dd>
+            <dd className="incident-detail__body__value">{getListValueByKey(priorityList, incident.priority && incident.priority.priority)}</dd>
             <dt className="incident-detail__body__definition">Hoofdcategorie</dt>
-            <dd className="incident-detail__body__value">{incident.category.main}&nbsp;</dd>
+            <dd className="incident-detail__body__value">{incident.category.main}</dd>
             <dt className="incident-detail__body__definition">Subcategorie</dt>
-            <dd className="incident-detail__body__value">{incident.category.sub}&nbsp;</dd>
+            <dd className="incident-detail__body__value">{incident.category.sub}</dd>
             <dt className="incident-detail__body__definition">Omschrijving</dt>
-            <dd className="incident-detail__body__value pre-wrap">{incident.text}&nbsp;</dd>
+            <dd className="incident-detail__body__value pre-wrap">{incident.text}</dd>
             <dt className="incident-detail__body__definition">Aanvullende kenmerken</dt>
-            <dd className="incident-detail__body__value">{incident.text_extra}&nbsp;</dd>
+            <dd className="incident-detail__body__value">{incident.text_extra}</dd>
 
             {incident.extra_properties && incident.extra_properties.map((item) =>
               (<dl key={item.id}>
                 <dt className="incident-detail__body__definition">{item.label}</dt>
-                <dd className="incident-detail__body__value">{IncidentDetail.getExtraPropertyValue(item.answer)}&nbsp;</dd>
+                <dd className="incident-detail__body__value">{IncidentDetail.getExtraPropertyValue(item.answer)}</dd>
               </dl>)
             )}
 
-            <div className={stadsdeelUpdated ? 'incident-detail__body--highlight' : ''}>
+            <dl className={stadsdeelUpdated ? 'incident-detail__body--highlight' : ''}>
               <dt className="incident-detail__body__definition">Stadsdeel</dt>
-              <dd className="incident-detail__body__value">{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}&nbsp;</dd>
-            </div>
-            <div className={locationUpdated ? 'incident-detail__body--highlight' : ''}>
+              <dd className="incident-detail__body__value">{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</dd>
+            </dl>
+            <dl className={locationUpdated ? 'incident-detail__body--highlight' : ''}>
               <dt className="incident-detail__body__definition">Locatie</dt>
-              <dd className="incident-detail__body__value">{incident.location.address_text || 'Locatie is gepind op de kaart'}&nbsp;</dd>
-            </div>
+              <dd className="incident-detail__body__value">{incident.location.address_text || 'Locatie is gepind op de kaart'}</dd>
+            </dl>
             <dt className="incident-detail__body__definition">Email</dt>
             <dd className="incident-detail__body__value">{incident.reporter.email}</dd>
             <dt className="incident-detail__body__definition">Telefoonnummer</dt>
@@ -128,7 +128,7 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
             <dt className="incident-detail__body__definition">Bron</dt>
             <dd className="incident-detail__body__value">{incident.source}</dd>
             <dt className="incident-detail__body__definition">Verantwoordelijke afdeling</dt>
-            <dd className="incident-detail__body__value">{incident.category.department}&nbsp;</dd>
+            <dd className="incident-detail__body__value">{incident.category.department}</dd>
             <dt className="incident-detail__body__definition">Telefoonnummer</dt>
             <dd className="incident-detail__body__value">{incident.reporter.phone}</dd>
             {incident.parent_id ?
