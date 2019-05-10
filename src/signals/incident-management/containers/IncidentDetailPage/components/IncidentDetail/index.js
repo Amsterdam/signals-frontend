@@ -58,7 +58,7 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
 
   static getExtraPropertyValue(answer) {
     if (isArray(answer)) {
-      return answer.map((item) => <span key={item.id}>{item.label}, </span>);
+      return answer.map((item) => item.label).join(', ');
     }
     if (isObject(answer)) {
       if (isBoolean(answer.value)) {

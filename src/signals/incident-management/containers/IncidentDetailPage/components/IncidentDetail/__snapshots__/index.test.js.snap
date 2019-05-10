@@ -1009,18 +1009,7 @@ exports[`<IncidentDetail /> should render correctly with extra properties 1`] = 
         <dd
           className="incident-detail__body__value"
         >
-          <span
-            key="brandt_niet"
-          >
-            Brandt niet
-            , 
-          </span>
-          <span
-            key="brandt_overdag"
-          >
-            Brandt overdag
-            , 
-          </span>
+          Brandt niet, Brandt overdag
         </dd>
       </dl>
       <dl
