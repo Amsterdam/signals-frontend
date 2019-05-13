@@ -17,7 +17,6 @@ export default {
       meta: {
         ifOneOf: {
           subcategory: [
-            'bedrijfsafval',
             'grofvuil',
             'huisafval',
             'puin-sloopafval'

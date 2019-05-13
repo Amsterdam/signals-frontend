@@ -134,7 +134,7 @@ export default {
               'put-riolering-verstopt',
               'speelplaats',
               'sportvoorziening',
-              'verkeersoverlast-verkeerssituaties',
+              'verkeersoverlast',
               'graffiti-wildplak',
               'hinderlijk-geplaatst-object',
               'boom',

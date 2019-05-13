@@ -41,25 +41,3 @@ export default {
     }
   }
 };
-
-
-// veranderen sub:
-
-// stank-horecabedrijven -> stankoverlast
-
-// overlast-op-het-water-vaargedrag -> scheepvaart-nautisch-toezicht
-
-// vuurwerkoverlast -> overlast-door-afsteken-vuurwerk
-
-// straatverlichting-openbare-klok -> lantaarnpaal-straatverlichting
-
-// verkeersoverlast-verkeerssituaties -> verkeersoverlast
-
-
-// weghalen sub:
-
-// bedrijfsafval -> overige afval DONE
-
-// deelfiets -> overige openbare ruimte DONE
-
-// personen-op-het-water -> overige overlast boten DONE
