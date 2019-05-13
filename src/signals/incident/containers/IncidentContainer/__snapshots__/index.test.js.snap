@@ -17,7 +17,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
       Melding over horeca of evenementen? Vul dan bij de melding altijd uw contactgegevens in, dan kunnen wij u beter en sneller helpen.
       <br />
       <br />
-      Heeft u een melding over straatverlichting, verkeerslichten en klokken? 
+      Heeft u een melding over verkeerslichten? 
       <a
         href="https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx"
       >
