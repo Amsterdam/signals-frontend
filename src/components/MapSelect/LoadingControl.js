@@ -1,6 +1,5 @@
 /**
  * Loading message component using Leaflet Control API.
- * NOTE, known limitation: not properly handling parallel loading events. First success will hide element.
  */
 const LoadingControl = L.Control.extend({
   options: {
@@ -8,37 +7,36 @@ const LoadingControl = L.Control.extend({
 
   initialize(options) {
     L.setOptions(this, options);
+    this.inFlight = [];
   },
 
   onAdd(map) {
-    this.addLayerListeners(map);
+    this._addLayerListeners(map);
 
     const div = this.options.element;
-    this.checkVisiblity(div);
+    this._checkVisiblity(div);
     return div;
   },
 
   onRemove(map) {
-    this.removeLayerListeners(map);
+    this._removeLayerListeners(map);
   },
 
   //
   // Custom methods
   //
-  inFlight: [],
-
-  onDataLoading(event) {
+  _onDataLoading(event) {
     const id = event.target._leaflet_id;
     this.inFlight.push(id);
-    this.checkVisiblity(this._container);
+    this._checkVisiblity(this._container);
   },
-  onDataLoad(event) {
+  _onDataLoad(event) {
     const id = event.target._leaflet_id;
     this.inFlight = this.inFlight.filter((item) => item !== id);
-    this.checkVisiblity(this._container);
+    this._checkVisiblity(this._container);
   },
 
-  checkVisiblity(element) {
+  _checkVisiblity(element) {
     const isVisible = this.inFlight.length > 0;
     if (isVisible) {
       L.DomUtil.removeClass(element, 'hide');
@@ -47,52 +45,31 @@ const LoadingControl = L.Control.extend({
     }
   },
 
-  addLayerLoadListener(layer) {
-    if (!layer || !layer.on) return;
+  _addLayerLoadListener(layer) {
     layer.on({
-      loading: this.onDataLoading,
-      load: this.onDataLoad,
-      error: this.onDataLoad
+      loading: this._onDataLoading,
+      load: this._onDataLoad,
+      error: this._onDataLoad
     }, this);
   },
 
-  removeLayerLoadListener(layer) {
-    if (!layer || !layer.on) return;
+  _removeLayerLoadListener(layer) {
     layer.off({
-      loading: this.onDataLoading,
-      load: this.onDataLoad,
-      error: this.onDataLoad
+      loading: this._onDataLoading,
+      load: this._onDataLoad,
+      error: this._onDataLoad
     }, this);
   },
 
-  onLayerAdd(event) {
-    this.addLayerLoadListener(event.layer);
+  _addLayerListeners(map) {
+    map.eachLayer((layer) => this._addLayerLoadListener(layer));
   },
 
-  onLayerRemove(event) {
-    this.removeLayerLoadListener(event.layer);
-  },
-
-  addLayerListeners(map) {
-    map.eachLayer((layer) => this.addLayerLoadListener(layer));
-
-    map.on({
-      layeradd: this.onLayerAdd,
-      layerremove: this.onLayerRemove
-    }, this);
-  },
-
-  removeLayerListeners(map) {
-    map.eachLayer((layer) => this.removeLayerLoadListener(layer));
-
-    map.off({
-      layeradd: this.onLayerAdd,
-      layerremove: this.onLayerRemove
-    }, this);
+  _removeLayerListeners(map) {
+    map.eachLayer((layer) => this._removeLayerLoadListener(layer));
   },
 
 });
 
-const constructor = (opts) => new LoadingControl(opts);
-export default constructor;
+export default LoadingControl;
 

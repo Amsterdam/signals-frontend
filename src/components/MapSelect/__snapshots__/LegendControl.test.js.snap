@@ -9,6 +9,18 @@ exports[`Leaflet legend control is rendered 1`] = `
   />
   <div
     class="legend-content"
-  />
+  >
+    <div
+      class="legend-content-item"
+    >
+      <img
+        class="legend-content-icon"
+        src="foo/bar.svg"
+      />
+      <span
+        class="legend-content-text"
+      />
+    </div>
+  </div>
 </div>
 `;

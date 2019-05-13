@@ -17,7 +17,7 @@ describe('Leaflet legend control', () => {
 
   it('is rendered', () => {
     const [containerEl, ] = createControl({
-      items: [
+      elements: [
         {
           iconUrl: 'foo/bar.svg',
           label: 'bar label',

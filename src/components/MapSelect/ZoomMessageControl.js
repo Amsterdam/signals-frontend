@@ -38,6 +38,5 @@ const ZoomMessageControl = L.Control.extend({
   }
 });
 
-const constructor = (opts) => new ZoomMessageControl(opts);
-export default constructor;
+export default ZoomMessageControl;
 

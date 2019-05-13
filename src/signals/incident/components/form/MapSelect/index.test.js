@@ -14,6 +14,7 @@ describe('Form component <MapSelectFormComponent />', () => {
   let getError;
   let hasError;
   let parent;
+  let meta;
 
   beforeEach(() => {
     handler = jest.fn();
@@ -29,7 +30,7 @@ describe('Form component <MapSelectFormComponent />', () => {
         updateIncident: jest.fn()
       }
     };
-    const meta = {
+    meta = {
       name: 'my_question',
       isVisible: true,
       endpoint: 'foo/bar?',
@@ -70,6 +71,20 @@ describe('Form component <MapSelectFormComponent />', () => {
       wrapper.find('MapSelect').props().onSelectionChange(selection);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({'my_question': ['obj002']});
-    })
+    });
+
+    it('should render no map field when not visible', () => {
+      const wrapper = createComponent();
+
+      wrapper.setProps({
+        meta: {
+          ...meta,
+          isVisible: false
+        }
+      });
+
+      expect(handler).toHaveBeenCalledWith();
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 });

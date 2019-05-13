@@ -31,5 +31,15 @@ describe('Leaflet zoom control', () => {
     map.fire('zoomend');
 
     expect(containerEl.classList.contains('hide')).toBe(false);
-  })
+  });
+
+  it('removes listener on destroy', () => {
+    const [_, control] = createControl(4, { zoomMin: 3 });
+
+    map.off = jest.fn();
+
+    control.remove();
+
+    expect(map.off).toHaveBeenCalled();
+  });
 });

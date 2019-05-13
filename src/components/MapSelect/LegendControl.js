@@ -26,5 +26,4 @@ const LegendControl = L.Control.extend({
   }
 });
 
-const constructor = (opts) => new LegendControl(opts);
-export default constructor;
+export default LegendControl;

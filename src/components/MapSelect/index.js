@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import amaps from 'amsterdam-amaps/dist/amaps';
 import BboxGeojsonLayer from './BboxGeojsonLayer';
-import './style.scss';
 import request from '../../utils/request';
 
+import './style.scss';
 import MaxSelection from '../../utils/maxSelection';
 import ZoomMessageControl from './ZoomMessageControl';
 import LegendControl from './LegendControl';
@@ -17,7 +17,7 @@ const SELECTION_MAX_COUNT = 30;
 const ZOOM_MIN = 17;
 const ZOOM_INIT = 18;
 
-const getIcon = (mapping, typeName, isSelected) => {
+export const getIcon = (mapping, typeName, isSelected) => {
   let iconSet = mapping[typeName];
   if (!iconSet) {
     console.error(`icon missing for type, using default. Type is: ${typeName}`); // eslint-disable-line no-console
@@ -59,7 +59,7 @@ class MapSelect extends React.Component {
       zoom: ZOOM_INIT
     });
 
-    const errorControl = ErrorControl({
+    const errorControl = new ErrorControl({
       position: 'topleft',
       message: 'Oops, de objecten kunnen niet worden getoond. Probeer het later nog eens.',
     });
@@ -67,6 +67,7 @@ class MapSelect extends React.Component {
     const selection = new MaxSelection(SELECTION_MAX_COUNT, value);
     this.selection = selection;
 
+    // istanbul ignore next
     const fetchRequest = (bbox_str) => request(`${geojsonUrl}&bbox=${bbox_str}`)
       .catch((e) => {
         console.error('Error loading feature geojson', e); // eslint-disable-line no-console
@@ -79,12 +80,14 @@ class MapSelect extends React.Component {
       zoomMin,
 
       pointToLayer(feature, latlng) {
+        // istanbul ignore next
         return L.marker(latlng, {
           icon: getIcon(iconMapping, feature.properties[iconField], selection.has(feature.properties[idField]))
         });
       },
 
       onEachFeature(feature, layer) {
+        // istanbul ignore next
         layer.on({
           click: (e) => {
             const _layer = e.target;
@@ -97,13 +100,13 @@ class MapSelect extends React.Component {
     });
     this.featuresLayer.addTo(this.map);
 
-    const zoomMessageControl = ZoomMessageControl({
+    const zoomMessageControl = new ZoomMessageControl({
       position: 'topleft',
       zoomMin
     });
     zoomMessageControl.addTo(this.map);
 
-    const legendControl = LegendControl({
+    const legendControl = new LegendControl({
       position: 'topright',
       zoomMin,
       elements: this.props.legend
@@ -113,7 +116,7 @@ class MapSelect extends React.Component {
     const div = L.DomUtil.create('div', 'loading-control');
     div.innerText = 'Bezig met laden...';
 
-    const loadingControl = LoadingControl({
+    const loadingControl = new LoadingControl({
       position: 'topleft',
       element: div
     });
@@ -141,6 +144,7 @@ class MapSelect extends React.Component {
       }
 
       // Let icons reflect new selection
+      // istanbul ignore next
       for (const layer of this.featuresLayer.getLayers()) {
         const properties = layer.feature.properties;
         const id = properties[this.props.idField];

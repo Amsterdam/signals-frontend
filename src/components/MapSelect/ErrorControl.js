@@ -23,6 +23,5 @@ const ErrorControl = L.Control.extend({
   }
 });
 
-const constructor = (opts) => new ErrorControl(opts);
-export default constructor;
+export default ErrorControl;
 

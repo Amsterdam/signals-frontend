@@ -11,6 +11,7 @@ const BboxGeojsonLayer = L.GeoJSON.extend({
     L.GeoJSON.prototype.initialize.call(this, undefined, options);
     L.Util.setOptions(this, extraOptions);
 
+    // istanbul ignore next
     if (!this.options.fetchRequest) {
       throw new Error('missing fetchRequest option');
     }
@@ -24,11 +25,6 @@ const BboxGeojsonLayer = L.GeoJSON.extend({
     map.on('refresh', this.onRefresh, this);
 
     this.fetchNewData();
-
-    if (this.isLoading) {
-      // Load in progress before being added to map, let outside know of event
-      this.fire('loading');
-    }
   },
 
   onRemove(map) {
