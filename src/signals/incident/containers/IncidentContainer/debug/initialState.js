@@ -18,10 +18,10 @@ export default {
       ]
     }
   },
-  category: 'wegen-verkeer-straatmeubilair',
-  subcategory: 'straatverlichting-openbare-klok',
-  subcategory_link: 'https://api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
-  description: 'straatverlichting-openbare-klok',
+  category: 'lantaarnpaal-straatverlichting',
+  subcategory: 'klok',
+  subcategory_link: 'https://api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/lantaarnpaal-straatverlichting',
+  description: 'lantaarnpaal-straatverlichting',
   phone: '020654321',
   email: 'a@b.com',
   datetime: 'Nu'

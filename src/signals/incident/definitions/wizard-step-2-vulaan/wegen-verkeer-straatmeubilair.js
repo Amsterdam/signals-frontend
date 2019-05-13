@@ -4,6 +4,8 @@ import DefinitionComponents from '../components/';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
 
+// straatverlichting-openbare-klok -> lantaarnpaal-straatverlichting
+
 export default {
   controls: {
     custom_text: {
@@ -58,6 +60,8 @@ export default {
       },
       render: FormComponents.PlainText
     },
+
+    // lantaarnpaal-straatverlichting
 
     // extra_straatverlichting_text: {
     //   meta: {
@@ -159,6 +163,27 @@ export default {
       },
       render: FormComponents.RadioInput
     },
+    extra_klok_text: {
+      meta: {
+        className: 'col-sm-12 col-md-6',
+        ifAllOf: {
+          subcategory: 'klok',
+        },
+        ifOneOf: {
+          extra_klok: [
+            'is_gevolg_van_aanrijding',
+            'klok_op_grond_of_scheef',
+            'deurtje_weg_of_open',
+            'losse_kabels_zichtbaar_of_lamp_los'
+          ]
+        },
+        type: 'caution',
+        value: [
+          'Direct gevaar? Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.'
+        ],
+      },
+      render: FormComponents.PlainText
+    },
     extra_klok_probleem: {
       meta: {
         label: 'Wat is het probleem?',
@@ -177,17 +202,6 @@ export default {
       render: FormComponents.RadioInput
     },
 
-
-    // extra_klok_nummer: {
-    //   meta: {
-    //     ifAllOf: {
-    //       subcategory: 'klok'
-    //     },
-    //     label: 'Hebt u een nummer de klok?',
-    //     pathMerge: 'extra_properties'
-    //   },
-    //   render: FormComponents.TextInput
-    // },
 
     // extra_verkeerslicht_text: {
     //   meta: {
