@@ -294,33 +294,6 @@ export default {
       render: FormComponents.TextareaInput
     },
 
-    // redirect_to_kim: {
-    //   meta: {
-    //     ifOneOf: {
-    //       subcategory: [
-    //         'straatverlichting-openbare-klok',
-    //         'verkeerslicht'
-    //       ]
-    //     },
-    //     label: 'Redirect naar',
-    //     value: 'Voor meldingen over openbare verlichting, klokken en verkeerslichten is een apart formulier beschikbaar',
-    //     buttonLabel: 'Meteen doorgaan',
-    //     buttonAction: 'https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx',
-    //     buttonTimeout: 5000
-    //   },
-    //   render: FormComponents.RedirectButton
-    // },
-    // hide_navigation_buttons: {
-    //   meta: {
-    //     ifOneOf: {
-    //       subcategory: [
-    //         'straatverlichting-openbare-klok',
-    //         'verkeerslicht'
-    //       ]
-    //     },
-    //     ignoreVisibility: true
-    //   }
-    // },
     $field_0: {
       isStatic: false,
       render: IncidentNavigation
