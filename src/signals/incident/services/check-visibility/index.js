@@ -1,7 +1,9 @@
 import { every, isEqual, some, isObject, isArray } from 'lodash';
 
-const isValueEqual = (incident, value, key) => isEqual(value, incident[key])
-  || (isArray(incident[key]) && some(incident[key], (item) => item.id === value))
+const isValueEqual = (incident, value, key, callback) =>
+  isEqual(value, incident[key])
+  || (isArray(incident[key]) && incident[key].includes(value))
+  || (isArray(incident[key]) && callback(incident[key], (item) => item.id === value))
   || (isObject(incident[key]) && incident[key].value && isEqual(value, incident[key].value))
   || (isObject(incident[key]) && incident[key].id && isEqual(value, incident[key].id));
 
@@ -10,18 +12,16 @@ const checkVisibility = (control, incident, isAuthenticated) => {
 
   if (control.meta && control.meta.ifAllOf && incident) {
     if (!every(control.meta.ifAllOf, (value, key) =>
-      !Array.isArray(value) ? isValueEqual(incident, value, key) :
-        every(value, (v) => isValueEqual(incident, v, key)))) {
+      !Array.isArray(value) ? isValueEqual(incident, value, key, every) :
+        every(value, (v) => isValueEqual(incident, v, key, every)))) {
       isVisible = false;
     }
   }
 
   if (control.meta && control.meta.ifOneOf && incident) {
-    if (!some(control.meta.ifOneOf, (value, key) => {
-      const hasValue = Array.isArray(incident[key]) ? incident[key].includes(value) : isValueEqual(incident, value, key);
-      return !Array.isArray(value) ? hasValue :
-        some(value, (v) => isValueEqual(incident, v, key));
-    })) {
+    if (!some(control.meta.ifOneOf, (value, key) =>
+       !Array.isArray(value) ? isValueEqual(incident, value, key, some) :
+        some(value, (v) => isValueEqual(incident, v, key, some)))) {
       isVisible = false;
     }
   }
