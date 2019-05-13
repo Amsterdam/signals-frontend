@@ -136,13 +136,33 @@ export default {
           lamp_doet_het_niet: 'Lamp doet het niet',
           lamp_brandt_overdag: 'Lamp brandt overdag',
           geeft_lichthinder: 'Geeft lichthinder (schijnt bijvoorbeeld in de slaapkamer)',
-          paal_staat_scheef: 'Lichtpunt is vervuild of heeft aanslag',
-          paal_ligt_over_weg: 'Lichtpunt is zichtbaar beschadigd en/of inpompleet',
+          lamp_is_vervuild: 'Lichtpunt is vervuild of heeft aanslag',
+          lamp_is_zichtbaar_beschadigd: 'Lichtpunt is zichtbaar beschadigd en/of inpompleet',
           overig: 'Overig'
         },
         pathMerge: 'extra_properties'
       },
       render: FormComponents.RadioInput
+    },
+    extra_straatverlichting_nummer: {
+      meta: {
+        label: 'Selecteer het lichtpunt waar het om gaat?',
+        ifAllOf: {
+          subcategory: 'lantaarnpaal-straatverlichting',
+        },
+        ifOneOf: {
+          extra_straatverlichting_probleem: [
+            'lamp_doet_het_niet',
+            'lamp_brandt_overdag',
+            'geeft_lichthinder',
+            'lamp_is_vervuild',
+            'lamp_is_zichtbaar_beschadigd',
+            'overig'
+          ]
+        },
+        pathMerge: 'extra_properties'
+      },
+      render: FormComponents.TextInput
     },
 
     extra_klok: {
@@ -199,14 +219,32 @@ export default {
           ]
         },
         values: {
-          klok_staat_niet_op_tijd: 'Klok staat niet op tijd',
+          klok_staat_niet_op_tijd_of_stil: 'Klok staat niet op tijd of staat stil',
           klok_is_zichtbaar_beschadigd: 'Klok is zichtbaar beschadigd',
           klok_is_vervuild: 'Klok is vervuild of heeft aanslag',
-          overuig: 'Overig'
+          overig: 'Overig'
         },
         pathMerge: 'extra_properties'
       },
       render: FormComponents.RadioInput
+    },
+    extra_klok_nummer: {
+      meta: {
+        label: 'Selecteer de klok waar het om gaat?',
+        ifAllOf: {
+          subcategory: 'klok'
+        },
+        ifOneOf: {
+          extra_klok_probleem: [
+            'klok_staat_niet_op_tijd_of_stil',
+            'klok_is_zichtbaar_beschadigd',
+            'klok_is_vervuild',
+            'overig'
+          ]
+        },
+        pathMerge: 'extra_properties'
+      },
+      render: FormComponents.TextInput
     },
 
     extra_fietsrek_aanvragen: {
