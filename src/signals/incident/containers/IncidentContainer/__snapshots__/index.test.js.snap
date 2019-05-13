@@ -73,7 +73,6 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                     "ifOneOf": Object {
                       "subcategory": Array [
                         "huisafval",
-                        "bedrijfsafval",
                         "puin-sloopafval",
                         "container-is-vol",
                         "container-is-kapot",
@@ -129,7 +128,6 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                         "bouw-sloopoverlast",
                         "auto-scooter-bromfietswrak",
                         "hondenpoep",
-                        "deelfiets",
                       ],
                     },
                     "type": "bedankt",
@@ -150,7 +148,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                         "put-riolering-verstopt",
                         "speelplaats",
                         "sportvoorziening",
-                        "verkeersoverlast-verkeerssituaties",
+                        "verkeersoverlast",
                         "graffiti-wildplak",
                         "hinderlijk-geplaatst-object",
                         "boom",
