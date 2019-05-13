@@ -58,8 +58,8 @@ export default {
 
 // weghalen sub:
 
-// bedrijfsafval -> overige afval
+// bedrijfsafval -> overige afval DONE
 
-// deelfiets -> overige openbare ruimte
+// deelfiets -> overige openbare ruimte DONE
 
-// personen-op-het-water -> overige overlast boten
+// personen-op-het-water -> overige overlast boten DONE
