@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Validators } from 'react-reactive-form';
+
 import DefinitionComponents from '../components/';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
@@ -74,6 +76,11 @@ export default {
         },
         pathMerge: 'extra_properties'
       },
+      options: {
+        validators: [
+          Validators.required
+        ]
+      },
       render: FormComponents.RadioInput
     },
     extra_straatverlichting_text: {
@@ -92,7 +99,7 @@ export default {
         },
         type: 'caution',
         value: [
-          'Direct gevaar? Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.'
+          'Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.'
         ],
       },
       render: FormComponents.PlainText
@@ -118,6 +125,11 @@ export default {
         },
         pathMerge: 'extra_properties'
       },
+      options: {
+        validators: [
+          Validators.required
+        ]
+      },
       render: FormComponents.RadioInput
     },
     extra_straatverlichting_probleem: {
@@ -137,10 +149,15 @@ export default {
           lamp_brandt_overdag: 'Lamp brandt overdag',
           geeft_lichthinder: 'Geeft lichthinder (schijnt bijvoorbeeld in de slaapkamer)',
           lamp_is_vervuild: 'Lichtpunt is vervuild of heeft aanslag',
-          lamp_is_zichtbaar_beschadigd: 'Lichtpunt is zichtbaar beschadigd en/of inpompleet',
+          lamp_is_zichtbaar_beschadigd: 'Lichtpunt is zichtbaar beschadigd en/of incompleet',
           overig: 'Overig'
         },
         pathMerge: 'extra_properties'
+      },
+      options: {
+        validators: [
+          Validators.required
+        ]
       },
       render: FormComponents.RadioInput
     },
@@ -180,6 +197,11 @@ export default {
         },
         pathMerge: 'extra_properties'
       },
+      options: {
+        validators: [
+          Validators.required
+        ]
+      },
       render: FormComponents.RadioInput
     },
     extra_klok_text: {
@@ -198,7 +220,7 @@ export default {
         },
         type: 'caution',
         value: [
-          'Direct gevaar? Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.'
+          'Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.'
         ],
       },
       render: FormComponents.PlainText
@@ -225,6 +247,11 @@ export default {
           overig: 'Overig'
         },
         pathMerge: 'extra_properties'
+      },
+      options: {
+        validators: [
+          Validators.required
+        ]
       },
       render: FormComponents.RadioInput
     },
