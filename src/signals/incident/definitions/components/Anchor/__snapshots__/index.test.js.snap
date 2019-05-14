@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Definition component <A /> rendering should render with text and text and target correctly 1`] = `
+exports[`Definition component <Anchor /> rendering should render with text and text and target correctly 1`] = `
 <a
   className=""
   href="http://amsterdam.nl"
@@ -10,7 +10,7 @@ exports[`Definition component <A /> rendering should render with text and text a
 </a>
 `;
 
-exports[`Definition component <A /> rendering should render with text and text correctly 1`] = `
+exports[`Definition component <Anchor /> rendering should render with text and text correctly 1`] = `
 <a
   className=""
   href="http://amsterdam.nl"

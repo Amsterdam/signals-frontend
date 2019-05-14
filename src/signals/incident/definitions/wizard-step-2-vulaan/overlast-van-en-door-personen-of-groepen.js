@@ -28,7 +28,7 @@ export default {
           <DefinitionComponents.Concat
             items={[
               'Weet u de naam van de jongere(n)? Gebruik dan het formulier ',
-              <DefinitionComponents.A href="https://www.amsterdam.nl/zorg-ondersteuning/contact/meldpunt-zorg/">Melding zorg en woonoverlast</DefinitionComponents.A>,
+              <DefinitionComponents.Anchor href="https://www.amsterdam.nl/zorg-ondersteuning/contact/meldpunt-zorg/">Melding zorg en woonoverlast</DefinitionComponents.Anchor>,
               '. Dan komt uw melding direct bij het juiste team terecht.',
             ]}
           />
@@ -45,10 +45,10 @@ export default {
         label: 'Om hoe veel personen gaat het (ongeveer)?',
         pathMerge: 'extra_properties',
         values: {
-          '1 - 3': '1 - 3',
-          '4 - 6': '4 - 6',
-          '7 of meer': '7 of meer',
-          Onbekend: 'Onbekend'
+          '1-3': '1 - 3',
+          '4-6': '4 - 6',
+          '7_of_meer': '7 of meer',
+          onbekend: 'Onbekend'
         }
       },
       render: FormComponents.RadioInput

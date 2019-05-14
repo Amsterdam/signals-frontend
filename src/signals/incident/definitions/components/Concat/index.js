@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isArray } from 'lodash';
+import isArray from 'lodash.isarray';
 
 const Concat = ({ items }) => (
   <span>{items && items.map && items.map((item) => {
@@ -19,7 +19,7 @@ const Concat = ({ items }) => (
 );
 
 Concat.propTypes = {
-  items: PropTypes.array.isRequired
+  items: PropTypes.arrayOf(PropTypes.shape).isRequired
 };
 
 export default Concat;

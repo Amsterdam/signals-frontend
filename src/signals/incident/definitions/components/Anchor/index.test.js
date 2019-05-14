@@ -1,20 +1,20 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import A from './index';
+import Anchor from './index';
 
-describe('Definition component <A />', () => {
+describe('Definition component <Anchor />', () => {
   let wrapper;
 
   describe('rendering', () => {
     it('should render with text and text correctly', () => {
-      wrapper = shallow(<A href="http://amsterdam.nl">Dit is een link naar amsterdam</A>);
+      wrapper = shallow(<Anchor href="http://amsterdam.nl">Dit is een link naar amsterdam</Anchor>);
 
       expect(wrapper).toMatchSnapshot();
     });
 
     it('should render with text and text and target correctly', () => {
-      wrapper = shallow(<A href="http://amsterdam.nl" target="_blank">Dit is een link naar amsterdam</A>);
+      wrapper = shallow(<Anchor href="http://amsterdam.nl" target="_blank">Dit is een link naar amsterdam</Anchor>);
 
       expect(wrapper).toMatchSnapshot();
     });

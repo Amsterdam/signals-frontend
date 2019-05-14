@@ -7,10 +7,10 @@ describe('Form component <RadioInput />', () => {
   const metaFields = {
     name: 'input-field-name',
     placeholder: 'type here',
-    values: [
-      'foo',
-      'bar'
-    ]
+    values: {
+      foo: 'Foo',
+      bar: 'Bar'
+    }
   };
   let wrapper;
   let handler;
@@ -37,6 +37,13 @@ describe('Form component <RadioInput />', () => {
       hasError={hasError}
       getError={getError}
     />);
+
+    handler.mockImplementation(() => ({
+      value: {
+        id: 'foo',
+        label: 'Foo'
+      }
+    }));
   });
 
   describe('rendering', () => {
@@ -48,8 +55,6 @@ describe('Form component <RadioInput />', () => {
         }
       });
 
-      expect(handler).toHaveBeenCalledWith('radio', 'foo');
-      expect(handler).toHaveBeenCalledWith('radio', 'bar');
       expect(wrapper).toMatchSnapshot();
     });
 
@@ -62,7 +67,6 @@ describe('Form component <RadioInput />', () => {
         }
       });
 
-      expect(handler).not.toHaveBeenCalled();
       expect(wrapper).toMatchSnapshot();
     });
 
@@ -74,7 +78,6 @@ describe('Form component <RadioInput />', () => {
         }
       });
 
-      expect(handler).not.toHaveBeenCalled();
       expect(wrapper).toMatchSnapshot();
     });
   });
@@ -93,7 +96,10 @@ describe('Form component <RadioInput />', () => {
       wrapper.find('input').first().simulate('click', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': 'foo'
+        'input-field-name': {
+          id: 'foo',
+          label: 'Foo'
+        }
       });
     });
   });

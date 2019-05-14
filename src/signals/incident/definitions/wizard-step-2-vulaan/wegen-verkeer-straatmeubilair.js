@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Validators } from 'react-reactive-form';
+
 import DefinitionComponents from '../components/';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
@@ -51,219 +53,227 @@ export default {
         value: [
           'Let op:',
           'Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB:',
-          <DefinitionComponents.A href="http://ns.nl/klantenservice" target="_blank" className="more-link">ns.nl/klantenservice</DefinitionComponents.A>,
-          <DefinitionComponents.A href="http://gvb.nl/klantenservice" target="_blank" className="more-link">gvb.nl/klantenservice</DefinitionComponents.A>
+          <DefinitionComponents.Anchor href="http://ns.nl/klantenservice" target="_blank" className="more-link">ns.nl/klantenservice</DefinitionComponents.Anchor>,
+          <DefinitionComponents.Anchor href="http://gvb.nl/klantenservice" target="_blank" className="more-link">gvb.nl/klantenservice</DefinitionComponents.Anchor>
         ],
         pathMerge: 'extra_properties'
       },
       render: FormComponents.PlainText
+    },
+
+    extra_straatverlichting: {
+      meta: {
+        label: 'Is de situatie gevaarlijk?',
+        ifAllOf: {
+          subcategory: 'lantaarnpaal-straatverlichting'
+        },
+        values: {
+          is_gevolg_van_aanrijding: 'Het is het gevolg van een aanrijding',
+          lamp_op_grond_of_scheef: 'Lamp ligt op de grond of staat gevaarlijk scheef',
+          deurtje_weg_of_open: 'Deurtje in de mast is niet aanwezig of staat open',
+          losse_kabels_zichtbaar_of_lamp_los: 'Er zijn losse electriciteitskabels zichtbaar of er hangt een lamp los',
+          niet_gevaarlijk: 'Niet gevaarlijk'
+        },
+        pathMerge: 'extra_properties'
+      },
+      options: {
+        validators: [
+          Validators.required
+        ]
+      },
+      render: FormComponents.RadioInput
     },
     extra_straatverlichting_text: {
       meta: {
         className: 'col-sm-12 col-md-6',
         ifAllOf: {
-          subcategory: 'straatverlichting-openbare-klok'
+          subcategory: 'lantaarnpaal-straatverlichting',
+        },
+        ifOneOf: {
+          extra_straatverlichting: [
+            'is_gevolg_van_aanrijding',
+            'lamp_op_grond_of_scheef',
+            'deurtje_weg_of_open',
+            'losse_kabels_zichtbaar_of_lamp_los'
+          ]
         },
         type: 'caution',
         value: [
-          'Direct gevaar? Bel 14 020 en vul dit formulier niet verder in.',
-          'Direct gevaar is bijvoorbeeld:',
-          <DefinitionComponents.Ul
-            items={[
-              'Paal, stoplicht of lamp ligt op de grond of is verbogen',
-              'Deurtje in de paal staat open',
-              'Er zijn losse elektriciteitsdraden te zien of er hangt een lamp los'
-            ]}
-          />,
-          'Let op: met het nummer van het stoplicht (3 witte cijfers bij de lichten) kunnen wij de melding sneller oplossen.'
+          'Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.'
         ],
-        pathMerge: 'extra_properties'
       },
       render: FormComponents.PlainText
     },
-    extra_straatverlichting: {
+    extra_straatverlichting_hoeveel: {
       meta: {
-        label: 'Gaat uw melding over één of over meer lampen?',
+        label: 'Om hoeveel lichtpunten gaat het?',
         ifAllOf: {
-          subcategory: 'straatverlichting-openbare-klok'
+          subcategory: 'lantaarnpaal-straatverlichting',
+        },
+        ifOneOf: {
+          extra_straatverlichting: [
+            'is_gevolg_van_aanrijding',
+            'lamp_op_grond_of_scheef',
+            'deurtje_weg_of_open',
+            'losse_kabels_zichtbaar_of_lamp_los',
+            'niet_gevaarlijk'
+          ]
         },
         values: {
-          'Eén lamp': 'Eén lamp',
-          'Meer lampen': 'Meer lampen'
+          '1_lichtpunt': '1 lichtpunt',
+          meerdere_lichtpunten: 'Een aantal lichtpunten die bij elkaar staan/hangen'
         },
         pathMerge: 'extra_properties'
+      },
+      options: {
+        validators: [
+          Validators.required
+        ]
       },
       render: FormComponents.RadioInput
     },
-    extra_straatverlichting_wat: {
+    extra_straatverlichting_probleem: {
       meta: {
-        label: 'Wat is er aan de hand met de lamp(en)?',
+        label: 'Wat is het probleem?',
         ifAllOf: {
-          subcategory: 'straatverlichting-openbare-klok'
+          subcategory: 'lantaarnpaal-straatverlichting'
+        },
+        ifOneOf: {
+          extra_straatverlichting_hoeveel: [
+            '1_lichtpunt',
+            'meerdere_lichtpunten'
+          ]
         },
         values: {
-          'Brandt niet': 'Brandt niet',
-          'Brandt overdag': 'Brandt overdag',
-          'Geeft lichthinder (schijnt bijvoorbeeld in de slaapkamer)': 'Geeft lichthinder (schijnt bijvoorbeeld in de slaapkamer)',
-          'Paal staat scheef': 'Paal staat scheef',
-          'Paal ligt over de weg': 'Paal ligt over de weg',
-          'Het deurtje van de paal staat open (schokgevaar)': 'Het deurtje van de paal staat open (schokgevaar)'
+          lamp_doet_het_niet: 'Lamp doet het niet',
+          lamp_brandt_overdag: 'Lamp brandt overdag',
+          geeft_lichthinder: 'Geeft lichthinder (schijnt bijvoorbeeld in de slaapkamer)',
+          lamp_is_vervuild: 'Lichtpunt is vervuild of heeft aanslag',
+          lamp_is_zichtbaar_beschadigd: 'Lichtpunt is zichtbaar beschadigd en/of incompleet',
+          overig: 'Overig'
         },
         pathMerge: 'extra_properties'
       },
-      render: FormComponents.CheckboxInput
-    },
-    extra_straatverlichting_waar: {
-      meta: {
-        label: 'Waar staat/staan de lamp(en)?',
-        ifAllOf: {
-          subcategory: 'straatverlichting-openbare-klok'
-        },
-        values: {
-          'Op de stoep': 'Op de stoep',
-          'Op een brug': 'Op een brug',
-          'In een tunnel': 'In een tunnel',
-          'Bij een gebouw: om het gebouw te verlichten': 'Bij een gebouw: om het gebouw te verlichten',
-          'De lampen hangen': 'De lampen hangen'
-        },
-        pathMerge: 'extra_properties'
+      options: {
+        validators: [
+          Validators.required
+        ]
       },
-      render: FormComponents.CheckboxInput
+      render: FormComponents.RadioInput
     },
     extra_straatverlichting_nummer: {
       meta: {
-        ifAllOf: {
-          subcategory: 'straatverlichting-openbare-klok',
-        },
         label: 'Selecteer het lichtpunt waar het om gaat?',
-        pathMerge: 'extra_properties',
-        endpoint: 'maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Verlichting&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326',
-        zoomMin: 18,
-        legend_items: [
-          'lichtmast',
-          'grachtmast',
-          'overspanning',
-          'gevelArmatuur',
-          'schijnwerper',
-          'overig_lichtpunt',
-        ]
-      },
-      render: FormComponents.MapSelect
-    },
-    extra_klok: {
-      meta: {
-        label: 'Wat is er aan de hand met de klok',
         ifAllOf: {
-          subcategory: 'klok'
-        },
-        values: {
-          'Loopt niet op tijd': 'Loopt niet op tijd',
-          'Lamp is stuk': 'Lamp is stuk',
-          'Is aangereden': 'Is aangereden',
-          'Het deurtje van de paal staat open': 'Het deurtje van de paal staat open',
-          'Is zichtbaar beschadigd': 'Is zichtbaar beschadigd'
-        },
-        pathMerge: 'extra_properties'
-      },
-      render: FormComponents.CheckboxInput
-    },
-    extra_klok_nummer: {
-      meta: {
-        ifAllOf: {
-          subcategory: 'klok'
-        },
-        label: 'Selecteer de klok waar het om gaat?',
-        pathMerge: 'extra_properties',
-        endpoint: 'maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Klokken&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326',
-        legend_items: [
-          'klok'
-        ],
-        zoomMin: 14
-      },
-      render: FormComponents.MapSelect
-    },
-    extra_verkeerslicht_text: {
-      meta: {
-        className: 'col-sm-12 col-md-6',
-        ifAllOf: {
-          subcategory: 'verkeerslicht'
-        },
-        type: 'caution',
-        value: [
-          'Direct gevaar? Bel 14 020 en vul dit formulier niet verder in.',
-          'Direct gevaar is bijvoorbeeld:',
-          <DefinitionComponents.Ul
-            items={[
-              'Paal, stoplicht of lamp ligt op de grond of is verbogen',
-              'Deurtje in de paal staat open',
-              'Er zijn losse elektriciteitsdraden te zien of er hangt een lamp los'
-            ]}
-          />,
-          'Let op: met het nummer van het stoplicht (3 witte cijfers bij de lichten) kunnen wij de melding sneller oplossen.'
-        ],
-        pathMerge: 'extra_properties'
-      },
-      render: FormComponents.PlainText
-    },
-    extra_verkeerslicht: {
-      meta: {
-        label: 'Om wat voor soort stoplicht(en) het gaat?',
-        ifAllOf: {
-          subcategory: 'verkeerslicht'
-        },
-        values: {
-          Voetganger: 'Voetganger',
-          Fiets: 'Fiets',
-          Blindentikker: 'Blindentikker',
-          'Auto (algemeen) stoplicht': 'Auto (algemeen) stoplicht'
-        },
-        pathMerge: 'extra_properties'
-      },
-      render: FormComponents.CheckboxInput
-    },
-    extra_verkeerslicht_wat: {
-      meta: {
-        label: 'Wat is er aan de hand met het/de stoplichten(en)?',
-        ifAllOf: {
-          subcategory: 'verkeerslicht'
-        },
-        values: {
-          'Rode licht is stuk': 'Rode licht is stuk',
-          'Oranje licht is stuk': 'Oranje licht is stuk',
-          'Groene licht is stuk': 'Groene licht is stuk',
-          'Blijft (te lang) op rood staan': 'Blijft (te lang) op rood staan',
-          'Is aangereden': 'Is aangereden',
-          'Het deurtje van de paal staat open': 'Het deurtje van de paal staat open',
-          'Drukknop is stuk': 'Drukknop is stuk',
-          'Blindentikker is stuk': 'Blindentikker is stuk',
-          'Anders:': 'Anders:'
-        },
-        pathMerge: 'extra_properties'
-      },
-      render: FormComponents.CheckboxInput
-    },
-    extra_verkeerslicht_anders: {
-      meta: {
-        ifAllOf: {
-          subcategory: 'verkeerslicht'
+          subcategory: 'lantaarnpaal-straatverlichting',
         },
         ifOneOf: {
-          extra_verkeerslicht_wat: 'Anders:'
+          extra_straatverlichting_probleem: [
+            'lamp_doet_het_niet',
+            'lamp_brandt_overdag',
+            'geeft_lichthinder',
+            'lamp_is_vervuild',
+            'lamp_is_zichtbaar_beschadigd',
+            'overig'
+          ]
         },
-        pathMerge: 'extra_properties'
-      },
-      render: FormComponents.TextareaInput
-    },
-    extra_verkeerslicht_nummer: {
-      meta: {
-        ifAllOf: {
-          subcategory: 'verkeerslicht'
-        },
-        label: 'Hebt u een nummer van het stoplicht?',
         pathMerge: 'extra_properties'
       },
       render: FormComponents.TextInput
     },
+
+    extra_klok: {
+      meta: {
+        label: 'Is de situatie gevaarlijk?',
+        ifAllOf: {
+          subcategory: 'klok'
+        },
+        values: {
+          is_gevolg_van_aanrijding: 'Het is het gevolg van een aanrijding',
+          klok_op_grond_of_scheef: 'Klok ligt op de grond of staat gevaarlijk scheef',
+          deurtje_weg_of_open: 'Deurtje in de mast is niet aanwezig of staat open',
+          losse_kabels_zichtbaar_of_lamp_los: 'Er zijn losse electriciteitskabels zichtbaar of er hangt een lamp los',
+          niet_gevaarlijk: 'Niet gevaarlijk'
+        },
+        pathMerge: 'extra_properties'
+      },
+      options: {
+        validators: [
+          Validators.required
+        ]
+      },
+      render: FormComponents.RadioInput
+    },
+    extra_klok_text: {
+      meta: {
+        className: 'col-sm-12 col-md-6',
+        ifAllOf: {
+          subcategory: 'klok',
+        },
+        ifOneOf: {
+          extra_klok: [
+            'is_gevolg_van_aanrijding',
+            'klok_op_grond_of_scheef',
+            'deurtje_weg_of_open',
+            'losse_kabels_zichtbaar_of_lamp_los'
+          ]
+        },
+        type: 'caution',
+        value: [
+          'Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.'
+        ],
+      },
+      render: FormComponents.PlainText
+    },
+    extra_klok_probleem: {
+      meta: {
+        label: 'Wat is het probleem?',
+        ifAllOf: {
+          subcategory: 'klok'
+        },
+        ifOneOf: {
+          extra_klok: [
+            'is_gevolg_van_aanrijding',
+            'klok_op_grond_of_scheef',
+            'deurtje_weg_of_open',
+            'losse_kabels_zichtbaar_of_lamp_los',
+            'niet_gevaarlijk'
+          ]
+        },
+        values: {
+          klok_staat_niet_op_tijd_of_stil: 'Klok staat niet op tijd of staat stil',
+          klok_is_zichtbaar_beschadigd: 'Klok is zichtbaar beschadigd',
+          klok_is_vervuild: 'Klok is vervuild of heeft aanslag',
+          overig: 'Overig'
+        },
+        pathMerge: 'extra_properties'
+      },
+      options: {
+        validators: [
+          Validators.required
+        ]
+      },
+      render: FormComponents.RadioInput
+    },
+    extra_klok_nummer: {
+      meta: {
+        label: 'Selecteer de klok waar het om gaat?',
+        ifAllOf: {
+          subcategory: 'klok'
+        },
+        ifOneOf: {
+          extra_klok_probleem: [
+            'klok_staat_niet_op_tijd_of_stil',
+            'klok_is_zichtbaar_beschadigd',
+            'klok_is_vervuild',
+            'overig'
+          ]
+        },
+        pathMerge: 'extra_properties'
+      },
+      render: FormComponents.TextInput
+    },
+
     extra_fietsrek_aanvragen: {
       meta: {
         ifAllOf: {
@@ -272,8 +282,8 @@ export default {
         label: 'Wilt u misschien een nieuw fietsenrek of \'nietje\' aanvragen?',
         pathMerge: 'extra_properties',
         values: {
-          'Ja, dat ik wil ik': 'Ja, dat ik wil ik',
-          'Nee, ik wil direct verder gaan': 'Nee, ik wil direct verder gaan'
+          ja: 'Ja, dat ik wil ik',
+          nee: 'Nee, ik wil direct verder gaan'
         }
       },
       render: FormComponents.RadioInput
@@ -283,14 +293,14 @@ export default {
         className: 'col-sm-12 col-md-6',
         ifAllOf: {
           subcategory: 'fietsrek-nietje',
-          extra_fietsrek_aanvragen: 'Ja, dat ik wil ik'
+          extra_fietsrek_aanvragen: 'ja'
         },
         type: 'caution',
         value: [
           <DefinitionComponents.Concat
             items={[
               'Woont u in Nieuw-West of in Oost? Dan doet u uw aanvraag op een andere manier: kijk op de pagina ',
-              <DefinitionComponents.A href="https://www.amsterdam.nl/veelgevraagd/?caseid=%7B9E33EFCF-E0C7-4565-B121-1ADCF803679B%7D">Hoe kan ik een fietsenrek aanvragen?</DefinitionComponents.A>,
+              <DefinitionComponents.Anchor href="https://www.amsterdam.nl/veelgevraagd/?caseid=%7B9E33EFCF-E0C7-4565-B121-1ADCF803679B%7D">Hoe kan ik een fietsenrek aanvragen?</DefinitionComponents.Anchor>,
               '.'
             ]}
           />
@@ -303,7 +313,7 @@ export default {
       meta: {
         ifAllOf: {
           subcategory: 'fietsrek-nietje',
-          extra_fietsrek_aanvragen: 'Ja, dat ik wil ik'
+          extra_fietsrek_aanvragen: 'ja'
         },
         label: 'Fietsenrek of \'nietje\' aanvragen',
         pathMerge: 'extra_properties'
@@ -311,33 +321,32 @@ export default {
       render: FormComponents.TextareaInput
     },
 
-    // redirect_to_kim: {
-    //   meta: {
-    //     ifOneOf: {
-    //       subcategory: [
-    //         'straatverlichting-openbare-klok',
-    //         'verkeerslicht'
-    //       ]
-    //     },
-    //     label: 'Redirect naar',
-    //     value: 'Voor meldingen over openbare verlichting, klokken en verkeerslichten is een apart formulier beschikbaar',
-    //     buttonLabel: 'Meteen doorgaan',
-    //     buttonAction: 'https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx',
-    //     buttonTimeout: 5000
-    //   },
-    //   render: FormComponents.RedirectButton
-    // },
-    // hide_navigation_buttons: {
-    //   meta: {
-    //     ifOneOf: {
-    //       subcategory: [
-    //         'straatverlichting-openbare-klok',
-    //         'verkeerslicht'
-    //       ]
-    //     },
-    //     ignoreVisibility: true
-    //   }
-    // },
+    redirect_to_kim: {
+      meta: {
+        ifOneOf: {
+          subcategory: [
+            'verkeerslicht'
+          ]
+        },
+        label: 'Redirect naar',
+        value: 'Voor meldingen over openbare verlichting, klokken en verkeerslichten is een apart formulier beschikbaar',
+        buttonLabel: 'Meteen doorgaan',
+        buttonAction: 'https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx',
+        buttonTimeout: 5000
+      },
+      render: FormComponents.RedirectButton
+    },
+    hide_navigation_buttons: {
+      meta: {
+        ifOneOf: {
+          subcategory: [
+            'verkeerslicht'
+          ]
+        },
+        ignoreVisibility: true
+      }
+    },
+
     $field_0: {
       isStatic: false,
       render: IncidentNavigation

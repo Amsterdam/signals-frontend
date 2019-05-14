@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Preview component <KeyValue /> should render key value correctly 1`] = `
+exports[`Preview component <ObjectValue /> should render object value correctly 1`] = `
 <div
-  className="preview-text"
+  className="object-value"
 >
   <div
     className="row"
@@ -11,7 +11,7 @@ exports[`Preview component <KeyValue /> should render key value correctly 1`] = 
       className="col-5 col-md-4"
     >
       <div
-        className="preview-text__item-label"
+        className="object-value__item-label"
       >
         Urgentie
       </div>
@@ -20,7 +20,7 @@ exports[`Preview component <KeyValue /> should render key value correctly 1`] = 
       className="col-5 col-md-7"
     >
       <div
-        className="preview-text__item-value"
+        className="object-value__item-value"
       >
         Normaal
       </div>

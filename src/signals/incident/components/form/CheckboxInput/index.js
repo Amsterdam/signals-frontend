@@ -1,15 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { map } from 'lodash';
+import map from 'lodash.map';
+import isObject from 'lodash.isobject';
 
 import Header from '../Header/';
 
-function updateIncidentCheckboxMulti(checked, value, oldValue, meta, parent) {
+function updateIncidentCheckboxMulti(checked, value, key, oldValue, meta, parent) {
   let output = [...oldValue];
   if (checked) {
-    output.push(value);
+    output.push({
+      id: key,
+      label: value
+    });
   } else {
-    output = output.filter((item) => item !== value);
+    output = output.filter((item) => item.id !== key);
   }
   parent.meta.updateIncident({ [meta.name]: output });
 }
@@ -26,7 +30,7 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
           getError={getError}
         >
           <div className="antwoorden">
-            {Array.isArray(meta.values) ?
+            {isObject(meta.values) ?
               <div>
                 <input
                   type="hidden"
@@ -39,9 +43,9 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
                       id={`${meta.name}-${key + 1}`}
                       name={`${meta.name}-${key + 1}`}
                       type="checkbox"
-                      value={value}
-                      defaultChecked={(handler().value || []).find((item) => item === value)}
-                      onClick={(e) => updateIncidentCheckboxMulti(e.target.checked, value, handler().value, meta, parent)}
+                      value={key}
+                      defaultChecked={(handler().value || []).find((item) => item.id === key)}
+                      onClick={(e) => updateIncidentCheckboxMulti(e.target.checked, value, key, handler().value, meta, parent)}
                     />
                     <label htmlFor={`${meta.name}-${key + 1}`}>{value}</label>
                   </div>)
@@ -51,8 +55,13 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
               <div className="antwoord">
                 <input
                   id={meta.name}
-                  {...handler('checkbox')}
-                  onClick={(e) => parent.meta.updateIncident({ [meta.name]: e.target.checked })}
+                  name={meta.name}
+                  type="checkbox"
+                  defaultChecked={handler().value.value}
+                  onClick={(e) => parent.meta.updateIncident({ [meta.name]: {
+                    label: meta.value,
+                    value: e.target.checked
+                  } })}
                 />
                 <label htmlFor={meta.name}>{meta.value}</label>
               </div>

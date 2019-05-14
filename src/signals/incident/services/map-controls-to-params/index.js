@@ -1,7 +1,10 @@
 import moment from 'moment';
-import { forEach, set, isFunction } from 'lodash';
+import forEach from 'lodash.foreach';
+import set from 'lodash.set';
+import isFunction from 'lodash.isfunction';
+import isObject from 'lodash.isobject';
 
-const setValue = (value) => {
+const convertValue = (value) => {
   if (value === 0) {
     return 0;
   }
@@ -11,20 +14,17 @@ const setValue = (value) => {
   if (value === false) {
     return 'nee';
   }
-  if (Array.isArray(value)) {
-    return value.join(', ');
-  }
   return value;
 };
 
 const mapControlsToParams = (incident, wizard) => {
   let date;
 
-  if (incident.datetime === 'Nu') {
+  if (incident.datetime && incident.datetime.id === 'Nu') {
     date = moment();
   } else if (incident.incident_date) {
     const time = `${incident.incident_time_hours}:${incident.incident_time_minutes}`;
-    date = moment(`${incident.incident_date === 'Vandaag' ? moment().format('YYYY-MM-DD') : incident.incident_date} ${time}`, 'YYYY-MM-DD HH:mm');
+    date = moment(`${incident.incident_date && incident.incident_date.id === 'Vandaag' ? moment().format('YYYY-MM-DD') : incident.incident_date} ${time}`, 'YYYY-MM-DD HH:mm');
   }
 
   const params = {
@@ -39,6 +39,7 @@ const mapControlsToParams = (incident, wizard) => {
     params.incident_date_start = date.format();
   }
 
+  const category_url = incident && incident.subcategory_link ? new URL(incident.subcategory_link).pathname : '';
   const map = [];
   let mapMerge = {};
   forEach(wizard, (step) => {
@@ -61,14 +62,19 @@ const mapControlsToParams = (incident, wizard) => {
       }
 
       if (meta && meta.isVisible && meta.pathMerge) {
-        const itemValue = setValue(value);
-        if (itemValue || itemValue === 0) {
+        const answer = convertValue(value);
+        if (answer || answer === 0) {
           mapMerge = {
             ...mapMerge,
-            [meta.pathMerge]: {
-              ...mapMerge[meta.pathMerge],
-              [meta.label || meta.value || name]: itemValue
-            }
+            [meta.pathMerge]: [
+              ...(mapMerge[meta.pathMerge] || []),
+              {
+                id: name,
+                label: meta.label,
+                category_url,
+                answer
+              }
+            ]
           };
         }
       }
@@ -76,8 +82,12 @@ const mapControlsToParams = (incident, wizard) => {
   });
 
   forEach(map, (item) => {
-    const itemValue = setValue(item.value);
+    let itemValue = convertValue(item.value);
     if (itemValue || itemValue === 0) {
+      if (isObject(itemValue) && itemValue.id) {
+        itemValue = itemValue.id;
+      }
+
       set(params, item.path, itemValue);
     }
   });

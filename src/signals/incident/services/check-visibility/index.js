@@ -1,22 +1,31 @@
-import { every, isEqual, some } from 'lodash';
+import every from 'lodash.every';
+import isEqual from 'lodash.isequal';
+import some from 'lodash.some';
+import isObject from 'lodash.isobject';
+import isArray from 'lodash.isarray';
+
+const isValueEqual = (incident, value, key, callback) =>
+  isEqual(value, incident[key])
+  || (isArray(incident[key]) && incident[key].includes(value))
+  || (isArray(incident[key]) && callback(incident[key], (item) => item.id === value))
+  || (isObject(incident[key]) && incident[key].value && isEqual(value, incident[key].value))
+  || (isObject(incident[key]) && incident[key].id && isEqual(value, incident[key].id));
 
 const checkVisibility = (control, incident, isAuthenticated) => {
   let isVisible = true;
 
-  if (control.meta && control.meta.ifAllOf) {
+  if (control.meta && control.meta.ifAllOf && incident) {
     if (!every(control.meta.ifAllOf, (value, key) =>
-      !Array.isArray(value) ? isEqual(value, incident[key]) :
-        every(value, (v) => isEqual(v, incident[key])))) {
+      !Array.isArray(value) ? isValueEqual(incident, value, key, every) :
+        every(value, (v) => isValueEqual(incident, v, key, every)))) {
       isVisible = false;
     }
   }
 
-  if (control.meta && control.meta.ifOneOf) {
-    if (!some(control.meta.ifOneOf, (value, key) => {
-      const hasValue = Array.isArray(incident[key]) ? incident[key].includes(value) : isEqual(value, incident[key]);
-      return !Array.isArray(value) ? hasValue :
-        some(value, (v) => isEqual(v, incident[key]));
-    })) {
+  if (control.meta && control.meta.ifOneOf && incident) {
+    if (!some(control.meta.ifOneOf, (value, key) =>
+       !Array.isArray(value) ? isValueEqual(incident, value, key, some) :
+        some(value, (v) => isValueEqual(incident, v, key, some)))) {
       isVisible = false;
     }
   }
