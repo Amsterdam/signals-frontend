@@ -64,6 +64,7 @@ class MapSelect extends React.Component {
     });
 
     const selection = new MaxSelection(SELECTION_MAX_COUNT, value);
+    onSelectionChange(selection);
     this.selection = selection;
 
     // istanbul ignore next
