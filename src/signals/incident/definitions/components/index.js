@@ -1,9 +1,9 @@
-import A from './A';
+import Anchor from './Anchor';
 import Concat from './Concat/';
 import Ul from './Ul/';
 
 export default {
-  A,
+  Anchor,
   Concat,
   Ul
 };

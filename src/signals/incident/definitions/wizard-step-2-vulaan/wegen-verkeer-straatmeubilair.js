@@ -53,8 +53,8 @@ export default {
         value: [
           'Let op:',
           'Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB:',
-          <DefinitionComponents.A href="http://ns.nl/klantenservice" target="_blank" className="more-link">ns.nl/klantenservice</DefinitionComponents.A>,
-          <DefinitionComponents.A href="http://gvb.nl/klantenservice" target="_blank" className="more-link">gvb.nl/klantenservice</DefinitionComponents.A>
+          <DefinitionComponents.Anchor href="http://ns.nl/klantenservice" target="_blank" className="more-link">ns.nl/klantenservice</DefinitionComponents.Anchor>,
+          <DefinitionComponents.Anchor href="http://gvb.nl/klantenservice" target="_blank" className="more-link">gvb.nl/klantenservice</DefinitionComponents.Anchor>
         ],
         pathMerge: 'extra_properties'
       },
@@ -300,7 +300,7 @@ export default {
           <DefinitionComponents.Concat
             items={[
               'Woont u in Nieuw-West of in Oost? Dan doet u uw aanvraag op een andere manier: kijk op de pagina ',
-              <DefinitionComponents.A href="https://www.amsterdam.nl/veelgevraagd/?caseid=%7B9E33EFCF-E0C7-4565-B121-1ADCF803679B%7D">Hoe kan ik een fietsenrek aanvragen?</DefinitionComponents.A>,
+              <DefinitionComponents.Anchor href="https://www.amsterdam.nl/veelgevraagd/?caseid=%7B9E33EFCF-E0C7-4565-B121-1ADCF803679B%7D">Hoe kan ik een fietsenrek aanvragen?</DefinitionComponents.Anchor>,
               '.'
             ]}
           />
