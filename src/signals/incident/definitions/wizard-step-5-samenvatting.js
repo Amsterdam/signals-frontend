@@ -3,7 +3,7 @@ import PreviewComponents from '../components/IncidentPreview/components/';
 
 export default {
   label: 'Controleer uw gegevens',
-  subtitle: 'Maak een aanpassing als dat nodig is.',
+  subheader: 'Maak een aanpassing als dat nodig is.',
   nextButtonLabel: 'Verstuur',
   nextButtonClass: 'action primary',
   previousButtonLabel: 'Vorige',
@@ -21,17 +21,13 @@ export default {
     beschrijf: {
       source: {
         label: 'Bron',
-        render: PreviewComponents.PlainText,
+        render: PreviewComponents.KeyValue,
         authenticated: true
       },
       priority: {
         label: 'Urgentie',
         render: PreviewComponents.KeyValue,
-        authenticated: true,
-        values: {
-          normal: 'Normaal',
-          high: 'Hoog'
-        }
+        authenticated: true
       },
       location: {
         label: 'Hier is het',

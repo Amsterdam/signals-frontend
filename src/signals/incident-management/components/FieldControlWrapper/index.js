@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEqual, sortBy } from 'lodash';
+import isEqual from 'lodash.isequal';
+import sortBy from 'lodash.sortby';
 
 import { FieldControl } from 'react-reactive-form';
 

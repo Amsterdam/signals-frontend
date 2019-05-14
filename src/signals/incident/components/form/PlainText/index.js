@@ -1,8 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import isArray from 'lodash.isarray';
+import isString from 'lodash.isstring';
+import get from 'lodash.get';
 
 import mapDynamicFields from '../../../services/map-dynamic-fields';
 import './style.scss';
+
+function renderText(value, parent) {
+  if (React.isValidElement(value)) {
+    return value;
+  }
+  return mapDynamicFields(value, { incident: get(parent, 'meta.incidentContainer.incident') });
+}
 
 const PlainText = ({ meta, parent }) => (
   <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
@@ -10,18 +20,17 @@ const PlainText = ({ meta, parent }) => (
       <div className={`${meta.className || 'col-12'} mode_input`}>
         <div className={`${meta.type} plain-text__box`}>
           <div className="label">{meta.label}</div>
-
-          {meta.value && typeof meta.value === 'string' ?
-            mapDynamicFields(meta.value, { incident: parent && parent.meta && parent.meta.incidentContainer && parent.meta.incidentContainer.incident })
+          {meta.value && isString(meta.value) ?
+            renderText(meta.value, parent)
             : ''
           }
 
-          {meta.value && typeof meta.value !== 'string' ?
+          {meta.value && isArray(meta.value) ?
             meta.value.map((paragraph, key) => (
               <div
                 key={`${meta.name}-${key + 1}`}
                 className={`plain-text__box-p plain-text__box-p-${key + 1}`}
-              >{mapDynamicFields(paragraph, { incident: parent && parent.meta && parent.meta.incidentContainer && parent.meta.incidentContainer.incident })}</div>
+              >{renderText(paragraph, parent)}</div>
             ))
             : ''
           }

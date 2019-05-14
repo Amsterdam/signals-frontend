@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash.isequal';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import './style.scss';
+
+import ExtraProperties from '../ExtraProperties';
 
 export const HIGHLIGHT_TIMEOUT_INTERVAL = 2200;
 
@@ -23,6 +25,7 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
     this.locationTimer = null;
     this.stadsdeelTimer = null;
   }
+
 
   static getDerivedStateFromProps(props, state) {
     const locationChanged = isEqual(props.incident.location, state.location);
@@ -64,9 +67,6 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
   render() {
     const { incident, stadsdeelList, priorityList } = this.props;
     const { locationUpdated, stadsdeelUpdated } = this.state;
-    const extraProperties = incident.extra_properties && Object.keys(incident.extra_properties).map((key) =>
-      (<dl key={key}><dt className="incident-detail__body__definition">{key}</dt><dd className="incident-detail__body__value">{incident.extra_properties[key]}&nbsp;</dd></dl>)
-    );
 
     return (
       <div className="incident-detail">
@@ -81,24 +81,26 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
             <dt className="incident-detail__body__definition">Tijd overlast</dt>
             <dd className="incident-detail__body__value">{string2time(incident.incident_date_start)}</dd>
             <dt className="incident-detail__body__definition">Urgentie</dt>
-            <dd className="incident-detail__body__value">{getListValueByKey(priorityList, incident.priority && incident.priority.priority)}&nbsp;</dd>
+            <dd className="incident-detail__body__value">{getListValueByKey(priorityList, incident.priority && incident.priority.priority)}</dd>
             <dt className="incident-detail__body__definition">Hoofdcategorie</dt>
-            <dd className="incident-detail__body__value">{incident.category.main}&nbsp;</dd>
+            <dd className="incident-detail__body__value">{incident.category.main}</dd>
             <dt className="incident-detail__body__definition">Subcategorie</dt>
-            <dd className="incident-detail__body__value">{incident.category.sub}&nbsp;</dd>
+            <dd className="incident-detail__body__value">{incident.category.sub}</dd>
             <dt className="incident-detail__body__definition">Omschrijving</dt>
-            <dd className="incident-detail__body__value pre-wrap">{incident.text}&nbsp;</dd>
+            <dd className="incident-detail__body__value pre-wrap">{incident.text}</dd>
             <dt className="incident-detail__body__definition">Aanvullende kenmerken</dt>
-            <dd className="incident-detail__body__value">{incident.text_extra}&nbsp;</dd>
-            {extraProperties}
-            <div className={stadsdeelUpdated ? 'incident-detail__body--highlight' : ''}>
+            <dd className="incident-detail__body__value">{incident.text_extra}</dd>
+
+            <ExtraProperties items={incident.extra_properties} />
+
+            <dl className={stadsdeelUpdated ? 'incident-detail__body--highlight' : ''}>
               <dt className="incident-detail__body__definition">Stadsdeel</dt>
-              <dd className="incident-detail__body__value">{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}&nbsp;</dd>
-            </div>
-            <div className={locationUpdated ? 'incident-detail__body--highlight' : ''}>
+              <dd className="incident-detail__body__value">{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</dd>
+            </dl>
+            <dl className={locationUpdated ? 'incident-detail__body--highlight' : ''}>
               <dt className="incident-detail__body__definition">Locatie</dt>
-              <dd className="incident-detail__body__value">{incident.location.address_text || 'Locatie is gepind op de kaart'}&nbsp;</dd>
-            </div>
+              <dd className="incident-detail__body__value">{incident.location.address_text || 'Locatie is gepind op de kaart'}</dd>
+            </dl>
             <dt className="incident-detail__body__definition">Email</dt>
             <dd className="incident-detail__body__value">{incident.reporter.email}</dd>
             <dt className="incident-detail__body__definition">Telefoonnummer</dt>
@@ -106,7 +108,7 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
             <dt className="incident-detail__body__definition">Bron</dt>
             <dd className="incident-detail__body__value">{incident.source}</dd>
             <dt className="incident-detail__body__definition">Verantwoordelijke afdeling</dt>
-            <dd className="incident-detail__body__value">{incident.category.department}&nbsp;</dd>
+            <dd className="incident-detail__body__value">{incident.category.department}</dd>
             <dt className="incident-detail__body__definition">Telefoonnummer</dt>
             <dd className="incident-detail__body__value">{incident.reporter.phone}</dd>
             {incident.parent_id ?

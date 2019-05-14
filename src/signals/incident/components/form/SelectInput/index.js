@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { map } from 'lodash';
+import map from 'lodash.map';
+import isObject from 'lodash.isobject';
 
 import Header from '../Header/';
 
@@ -17,10 +18,14 @@ const SelectInput = ({ handler, touched, hasError, meta, parent, getError, valid
         >
           <div className="invoer">
             <select
-              value={handler().value}
-              onChange={(e) => parent.meta.updateIncident({ [meta.name]: e.target.value })}
+              type="select"
+              value={handler().value.id}
+              onChange={(e) => parent.meta.updateIncident({ [meta.name]: {
+                id: e.target.value,
+                label: e.target[e.target.selectedIndex].text
+              } })}
             >
-              {meta.values ?
+              {meta.values && isObject(meta.values) ?
                   map(meta.values, (value, key) => (
                     <option
                       value={key}

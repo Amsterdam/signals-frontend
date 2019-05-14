@@ -1,4 +1,5 @@
-import { isEqual, sortBy } from 'lodash';
+import isEqual from 'lodash.isequal';
+import sortBy from 'lodash.sortby';
 const filterSubcategories = (mainCategoryFilterSelection, categories) => {
   let filteredSubcategoryList = [];
 
