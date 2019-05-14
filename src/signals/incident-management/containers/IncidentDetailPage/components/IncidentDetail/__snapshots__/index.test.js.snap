@@ -96,6 +96,7 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
       <dd
         className="incident-detail__body__value"
       />
+      <Component />
       <dl
         className="incident-detail__body--highlight"
       >
@@ -265,6 +266,7 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
       <dd
         className="incident-detail__body__value"
       />
+      <Component />
       <dl
         className="incident-detail__body--highlight"
       >
@@ -436,6 +438,7 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
       <dd
         className="incident-detail__body__value"
       />
+      <Component />
       <dl
         className=""
       >
@@ -607,6 +610,7 @@ exports[`<IncidentDetail /> should render correctly when address is missing 1`] 
       <dd
         className="incident-detail__body__value"
       />
+      <Component />
       <dl
         className=""
       >
@@ -778,6 +782,7 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
       <dd
         className="incident-detail__body__value"
       />
+      <Component />
       <dl
         className=""
       >
@@ -888,247 +893,6 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
 </div>
 `;
 
-exports[`<IncidentDetail /> should render correctly with extra properties 1`] = `
-<div
-  className="incident-detail"
->
-  <div
-    className="incident-detail__body"
-  >
-    <dl>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Datum
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-        21-07-1970
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Tijd
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-        11:55
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Datum overlast
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-        21-07-1970
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Tijd overlast
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-        11:55
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Urgentie
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-        Normaal
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Hoofdcategorie
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-        Overlast op het water
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Subcategorie
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-        Overlast op het water - snel varen
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Omschrijving
-      </dt>
-      <dd
-        className="incident-detail__body__value pre-wrap"
-      >
-        snel boot
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Aanvullende kenmerken
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      />
-      <dl
-        key="extra_straatverlichting"
-      >
-        <dt
-          className="incident-detail__body__definition"
-        >
-          Gaat uw melding over één of over meer lampen?
-        </dt>
-        <dd
-          className="incident-detail__body__value"
-        >
-          Meer lampen
-        </dd>
-      </dl>
-      <dl
-        key="extra_straatverlichting_wat"
-      >
-        <dt
-          className="incident-detail__body__definition"
-        >
-          Wat is er aan de hand met de lamp(en)?
-        </dt>
-        <dd
-          className="incident-detail__body__value"
-        >
-          Brandt niet, Brandt overdag
-        </dd>
-      </dl>
-      <dl
-        key="extra_straatverlichting_nummer"
-      >
-        <dt
-          className="incident-detail__body__definition"
-        >
-          Hebt u een nummer van (één van) de lamp(en)?
-        </dt>
-        <dd
-          className="incident-detail__body__value"
-        >
-          42
-        </dd>
-      </dl>
-      <dl
-        key="extra_bedrijven_vaker"
-      >
-        <dt
-          className="incident-detail__body__definition"
-        >
-          Gebeurt het vaker?
-        </dt>
-        <dd
-          className="incident-detail__body__value"
-        >
-          Nee
-        </dd>
-      </dl>
-      <dl
-        key="extra_bedrijven_gezien"
-      >
-        <dt
-          className="incident-detail__body__definition"
-        >
-          Heeft u het gezien?
-        </dt>
-        <dd
-          className="incident-detail__body__value"
-        >
-          Ja, het gebeurt vaker
-        </dd>
-      </dl>
-      <dl
-        className=""
-      >
-        <dt
-          className="incident-detail__body__definition"
-        >
-          Stadsdeel
-        </dt>
-        <dd
-          className="incident-detail__body__value"
-        >
-          Centrum
-        </dd>
-      </dl>
-      <dl
-        className=""
-      >
-        <dt
-          className="incident-detail__body__definition"
-        >
-          Locatie
-        </dt>
-        <dd
-          className="incident-detail__body__value"
-        >
-          Geldersekade 84B- 1012BL Amsterdam
-        </dd>
-      </dl>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Email
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      />
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Telefoonnummer
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      />
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Bron
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-        Telefoon 14020
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Verantwoordelijke afdeling
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      />
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Telefoonnummer
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      />
-    </dl>
-  </div>
-</div>
-`;
-
 exports[`<IncidentDetail /> should render correctly with parent 1`] = `
 <div
   className="incident-detail"
@@ -1225,6 +989,7 @@ exports[`<IncidentDetail /> should render correctly with parent 1`] = `
       <dd
         className="incident-detail__body__value"
       />
+      <Component />
       <dl
         className=""
       >

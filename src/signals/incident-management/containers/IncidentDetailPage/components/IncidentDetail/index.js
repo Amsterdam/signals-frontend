@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import isEqual from 'lodash.isequal';
-import isObject from 'lodash.isobject';
-import isArray from 'lodash.isarray';
-import isBoolean from 'lodash.isboolean';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import './style.scss';
+
+import ExtraProperties from '../ExtraProperties';
 
 export const HIGHLIGHT_TIMEOUT_INTERVAL = 2200;
 
@@ -59,20 +58,6 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
     }
   }
 
-  static getExtraPropertyValue(answer) {
-    if (isArray(answer)) {
-      return answer.map((item) => item.label).join(', ');
-    }
-    if (isObject(answer)) {
-      if (isBoolean(answer.value)) {
-        return answer.value ? answer.label : 'Nee';
-      }
-      return answer.label;
-    }
-
-    return answer;
-  }
-
   clearHighlight(highlight) {
     this.setState({
       [highlight]: false
@@ -106,12 +91,7 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
             <dt className="incident-detail__body__definition">Aanvullende kenmerken</dt>
             <dd className="incident-detail__body__value">{incident.text_extra}</dd>
 
-            {incident.extra_properties && incident.extra_properties.map((item) =>
-              (<dl key={item.id}>
-                <dt className="incident-detail__body__definition">{item.label}</dt>
-                <dd className="incident-detail__body__value">{IncidentDetail.getExtraPropertyValue(item.answer)}</dd>
-              </dl>)
-            )}
+            <ExtraProperties items={incident.extra_properties} />
 
             <dl className={stadsdeelUpdated ? 'incident-detail__body--highlight' : ''}>
               <dt className="incident-detail__body__definition">Stadsdeel</dt>
