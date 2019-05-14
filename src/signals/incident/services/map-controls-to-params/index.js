@@ -4,7 +4,7 @@ import set from 'lodash.set';
 import isFunction from 'lodash.isfunction';
 import isObject from 'lodash.isobject';
 
-const setValue = (value) => {
+const convertValue = (value) => {
   if (value === 0) {
     return 0;
   }
@@ -62,7 +62,7 @@ const mapControlsToParams = (incident, wizard) => {
       }
 
       if (meta && meta.isVisible && meta.pathMerge) {
-        const answer = setValue(value);
+        const answer = convertValue(value);
         if (answer || answer === 0) {
           mapMerge = {
             ...mapMerge,
@@ -82,7 +82,7 @@ const mapControlsToParams = (incident, wizard) => {
   });
 
   forEach(map, (item) => {
-    let itemValue = setValue(item.value);
+    let itemValue = convertValue(item.value);
     if (itemValue || itemValue === 0) {
       if (isObject(itemValue) && itemValue.id) {
         itemValue = itemValue.id;

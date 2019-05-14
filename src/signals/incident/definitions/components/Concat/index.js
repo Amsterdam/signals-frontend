@@ -19,7 +19,7 @@ const Concat = ({ items }) => (
 );
 
 Concat.propTypes = {
-  items: PropTypes.array.isRequired
+  items: PropTypes.arrayOf(PropTypes.shape).isRequired
 };
 
 export default Concat;
