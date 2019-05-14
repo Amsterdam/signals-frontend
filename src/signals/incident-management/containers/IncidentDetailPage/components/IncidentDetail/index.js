@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { isEqual, isObject, isArray, isBoolean } from 'lodash';
+import isEqual from 'lodash.isequal';
+import isObject from 'lodash.isobject';
+import isArray from 'lodash.isarray';
+import isBoolean from 'lodash.isboolean';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';

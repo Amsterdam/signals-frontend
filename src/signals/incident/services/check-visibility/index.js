@@ -1,4 +1,8 @@
-import { every, isEqual, some, isObject, isArray } from 'lodash';
+import every from 'lodash.every';
+import isEqual from 'lodash.isequal';
+import some from 'lodash.some';
+import isObject from 'lodash.isobject';
+import isArray from 'lodash.isarray';
 
 const isValueEqual = (incident, value, key, callback) =>
   isEqual(value, incident[key])

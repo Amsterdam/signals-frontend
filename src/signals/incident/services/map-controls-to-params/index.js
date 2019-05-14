@@ -1,5 +1,8 @@
 import moment from 'moment';
-import { forEach, set, isFunction, isObject } from 'lodash';
+import forEach from 'lodash.foreach';
+import set from 'lodash.set';
+import isFunction from 'lodash.isfunction';
+import isObject from 'lodash.isobject';
 
 const setValue = (value) => {
   if (value === 0) {

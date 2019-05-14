@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isArray } from 'lodash';
+import isArray from 'lodash.isarray';
 
 const Concat = ({ items }) => (
   <span>{items && items.map && items.map((item) => {

@@ -18,8 +18,8 @@ export default {
       ]
     }
   },
-  category: 'lantaarnpaal-straatverlichting',
-  subcategory: 'klok',
+  category: 'wegen-verkeer-straatmeubilair',
+  subcategory: 'lantaarnpaal-straatverlichting',
   subcategory_link: 'https://api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/lantaarnpaal-straatverlichting',
   description: 'lantaarnpaal-straatverlichting',
   phone: '020654321',

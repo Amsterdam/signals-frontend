@@ -1,4 +1,4 @@
-import { some } from 'lodash';
+import some from 'lodash.some';
 import { Validators } from 'react-reactive-form';
 
 import IncidentNavigation from '../components/IncidentNavigation';
