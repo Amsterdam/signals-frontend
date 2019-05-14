@@ -2,15 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isArray from 'lodash.isarray';
 import isString from 'lodash.isstring';
+import get from 'lodash.get';
 
 import mapDynamicFields from '../../../services/map-dynamic-fields';
 import './style.scss';
 
-function renderText(value, incident) {
+function renderText(value, parent) {
   if (React.isValidElement(value)) {
     return value;
   }
-  return mapDynamicFields(value, { incident });
+  return mapDynamicFields(value, { incident: get(parent, 'meta.incidentContainer.incident') });
 }
 
 const PlainText = ({ meta, parent }) => (
@@ -20,7 +21,7 @@ const PlainText = ({ meta, parent }) => (
         <div className={`${meta.type} plain-text__box`}>
           <div className="label">{meta.label}</div>
           {meta.value && isString(meta.value) ?
-            renderText(meta.value, parent && parent.meta && parent.meta.incidentContainer && parent.meta.incidentContainer.incident)
+            renderText(meta.value, parent)
             : ''
           }
 
@@ -29,7 +30,7 @@ const PlainText = ({ meta, parent }) => (
               <div
                 key={`${meta.name}-${key + 1}`}
                 className={`plain-text__box-p plain-text__box-p-${key + 1}`}
-              >{renderText(paragraph, parent && parent.meta && parent.meta.incidentContainer && parent.meta.incidentContainer.incident)}</div>
+              >{renderText(paragraph, parent)}</div>
             ))
             : ''
           }
