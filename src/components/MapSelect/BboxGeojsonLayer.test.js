@@ -8,7 +8,7 @@ describe('Leaflet bbox geojson layer', () => {
   beforeEach(() => {
     listeners = {};
     map = {
-      on: jest.fn((event, callback, scope) => {
+      on: jest.fn((event, callback) => {
         listeners[event] = callback;
       }),
       off: jest.fn(),
@@ -21,12 +21,12 @@ describe('Leaflet bbox geojson layer', () => {
     fetchRequest = jest.fn(() => Promise.resolve());
   });
 
-  it('should fetch data on add to map', done => {
+  it('should fetch data on add to map', (done) => {
     const layer = new BboxGeojsonLayer({ fetchRequest });
     layer.addData = jest.fn();
     layer.clearLayers = jest.fn();
     const geoData = { foo: 'bar' };
-    const prom = Promise.resolve(geoData)
+    const prom = Promise.resolve(geoData);
     fetchRequest.mockReturnValue(prom);
 
     layer.onAdd(map);
@@ -37,7 +37,7 @@ describe('Leaflet bbox geojson layer', () => {
       expect(layer.clearLayers).toHaveBeenCalled();
       expect(layer.addData).toHaveBeenCalledWith(geoData);
       done();
-    })
+    });
   });
 
   it('should remove listeners on removal', () => {
@@ -54,7 +54,7 @@ describe('Leaflet bbox geojson layer', () => {
     layer.onAdd(map);
     fetchRequest.mockClear();
 
-    listeners['moveend'].bind(layer)();
+    listeners.moveend.bind(layer)();
 
     expect(fetchRequest).toHaveBeenCalledWith('1,2,3,4');
   });
@@ -64,7 +64,7 @@ describe('Leaflet bbox geojson layer', () => {
     layer.onAdd(map);
     fetchRequest.mockClear();
 
-    listeners['refresh'].bind(layer)();
+    listeners.refresh.bind(layer)();
 
     expect(fetchRequest).toHaveBeenCalledWith('1,2,3,4');
   });
@@ -74,7 +74,7 @@ describe('Leaflet bbox geojson layer', () => {
     layer.onAdd(map);
     layer.clearLayers = jest.fn();
 
-    listeners['zoomend'].bind(layer)();
+    listeners.zoomend.bind(layer)();
 
     expect(layer.clearLayers).not.toHaveBeenCalled();
   });
@@ -85,7 +85,7 @@ describe('Leaflet bbox geojson layer', () => {
     layer.clearLayers = jest.fn();
     map.getZoom.mockReturnValue(100);
 
-    listeners['zoomend'].bind(layer)();
+    listeners.zoomend.bind(layer)();
 
     expect(layer.clearLayers).toHaveBeenCalled();
   });
@@ -105,5 +105,4 @@ describe('Leaflet bbox geojson layer', () => {
     layerMax.onAdd(map);
     expect(layerMax.zoomInRange()).toBe(false);
   });
-
 });

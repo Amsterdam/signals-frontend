@@ -1,4 +1,4 @@
-import MaxSelection from "./maxSelection";
+import MaxSelection from './maxSelection';
 
 describe('maxSelection', () => {
   let selection;

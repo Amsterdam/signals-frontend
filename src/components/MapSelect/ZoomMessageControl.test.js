@@ -1,5 +1,5 @@
 import L from 'leaflet';
-import ZoomMessageControl from "./ZoomMessageControl";
+import ZoomMessageControl from './ZoomMessageControl';
 
 describe('Leaflet zoom control', () => {
   let map;
@@ -17,7 +17,7 @@ describe('Leaflet zoom control', () => {
   };
 
   it('is checks visibility on load', () => {
-    const [containerEl, ] = createControl(4, { zoomMin: 3 });
+    const [containerEl, ] = createControl(4, { zoomMin: 3 }); // eslint-disable-line array-bracket-spacing
 
     expect(containerEl.innerText).toBe('Zoom in om de objecten te zien');
     expect(containerEl.classList.contains('zoom-control')).toBe(true);
@@ -25,7 +25,7 @@ describe('Leaflet zoom control', () => {
   });
 
   it('updates visibility on zoomend', () => {
-    const [containerEl, ] = createControl(4, { zoomMin: 3 });
+    const [containerEl, ] = createControl(4, { zoomMin: 3 }); // eslint-disable-line array-bracket-spacing
 
     map.getZoom.mockReturnValue(2);
     map.fire('zoomend');
@@ -34,7 +34,7 @@ describe('Leaflet zoom control', () => {
   });
 
   it('removes listener on destroy', () => {
-    const [_, control] = createControl(4, { zoomMin: 3 });
+    const [, control] = createControl(4, { zoomMin: 3 });
 
     map.off = jest.fn();
 

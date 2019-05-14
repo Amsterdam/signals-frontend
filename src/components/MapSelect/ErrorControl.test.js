@@ -1,5 +1,5 @@
 import L from 'leaflet';
-import ErrorControl from "./ErrorControl";
+import ErrorControl from './ErrorControl';
 
 describe('Leaflet error control', () => {
   let mapDiv;
@@ -16,7 +16,7 @@ describe('Leaflet error control', () => {
   };
 
   it('is accepts message option', () => {
-    const [containerEl, ] = createControl({ message: 'foo' });
+    const [containerEl, ] = createControl({ message: 'foo' }); // eslint-disable-line array-bracket-spacing
 
     expect(containerEl.innerText).toBe('foo');
     expect(containerEl.classList.contains('error-control')).toBe(true);

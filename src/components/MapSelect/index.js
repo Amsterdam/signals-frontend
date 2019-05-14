@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import amaps from 'amsterdam-amaps/dist/amaps';
-import BboxGeojsonLayer from './BboxGeojsonLayer';
-import request from '../../utils/request';
 
 import './style.scss';
+import BboxGeojsonLayer from './BboxGeojsonLayer';
+import request from '../../utils/request';
 import MaxSelection from '../../utils/maxSelection';
 import ZoomMessageControl from './ZoomMessageControl';
 import LegendControl from './LegendControl';

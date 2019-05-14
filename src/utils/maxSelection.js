@@ -2,7 +2,7 @@ export default class MaxSelection {
   // Extension of built-in Set
   // Note: Set not extended using: `class MaxSelction extend Set`
   //        extend does not work when babel is changing these built-in types
-  constructor(max, initial=[]) {
+  constructor(max, initial = []) {
     this.set = new Set(initial);
     this.max = max;
   }

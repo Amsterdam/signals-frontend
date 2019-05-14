@@ -1,14 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import MapSelectFormComponent from "./index";
-import MaxSelection from "../../../../../utils/maxSelection";
+import MapSelectFormComponent from './index';
+import MaxSelection from '../../../../../utils/maxSelection';
 
 describe('Form component <MapSelectFormComponent />', () => {
-  const metaFields = {
-    name: 'input-field-name',
-    type: 'text',
-  };
-
   let handler;
   let touched;
   let getError;
@@ -70,7 +65,7 @@ describe('Form component <MapSelectFormComponent />', () => {
       selection.add('obj002');
       wrapper.find('MapSelect').props().onSelectionChange(selection);
 
-      expect(parent.meta.updateIncident).toHaveBeenCalledWith({'my_question': ['obj002']});
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({ my_question: ['obj002'] });
     });
 
     it('should render no map field when not visible', () => {

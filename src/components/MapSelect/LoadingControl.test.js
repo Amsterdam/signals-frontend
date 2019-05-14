@@ -1,5 +1,5 @@
 import L from 'leaflet';
-import LoadingControl from "./LoadingControl";
+import LoadingControl from './LoadingControl';
 
 describe('Leaflet loading control', () => {
   let map;
@@ -9,7 +9,7 @@ describe('Leaflet loading control', () => {
     const element = document.createElement('div');
     element.innerText = 'loading.';
     element.className = 'loading-control';
-    options.element= element;
+    options.element = element; // eslint-disable-line no-param-reassign
 
     const mapDiv = document.createElement('div');
     map = L.map(mapDiv);
@@ -24,14 +24,14 @@ describe('Leaflet loading control', () => {
   };
 
   it('is hidden if no requests in flight', () => {
-    const [element, ] = createControl();
+    const [element, ] = createControl();  // eslint-disable-line array-bracket-spacing
 
     expect(element.innerText).toBe('loading.');
     expect(element.classList.contains('hide')).toBe(true);
   });
 
   it('is shown when loading', () => {
-    const [element, ] = createControl({ foo: 'bar1' });
+    const [element, ] = createControl({ foo: 'bar1' });  // eslint-disable-line array-bracket-spacing
 
     layer.fireEvent('loading');
 
@@ -39,7 +39,7 @@ describe('Leaflet loading control', () => {
   });
 
   it('is hidden on load success', () => {
-    const [element, ] = createControl({ foo: 'bar2' });
+    const [element, ] = createControl({ foo: 'bar2' });  // eslint-disable-line array-bracket-spacing
 
     layer.fireEvent('loading');
     expect(element.classList.contains('hide')).toBe(false);
@@ -49,7 +49,7 @@ describe('Leaflet loading control', () => {
   });
 
   it('is hidden on load error', () => {
-    const [element, ] = createControl();
+    const [element, ] = createControl();  // eslint-disable-line array-bracket-spacing
 
     layer.fireEvent('loading');
     expect(element.classList.contains('hide')).toBe(false);
@@ -59,26 +59,11 @@ describe('Leaflet loading control', () => {
   });
 
   it('is properly destroyed', () => {
-    const [_, control] = createControl();
+    const [, control] = createControl();
     layer.off = jest.fn();
 
     control.remove();
 
     expect(layer.off).toHaveBeenCalled();
-  })
-  //
-  //
-  // it('is listens to layer adds', () => {
-  //   const [element, ] = createControl();
-  //
-  //   // const layer2 = L.layerGroup();
-  //   const layer2 = L.marker([51.5, -0.09]);
-  //   layer2.addTo(map);
-  //
-  //   layer2.fireEvent('loading');
-  //   expect(element.classList.contains('hide')).toBe(false);
-  //   layer2.fireEvent('error');
-  //
-  //   expect(element.classList.contains('hide')).toBe(true);
-  // });
+  });
 });

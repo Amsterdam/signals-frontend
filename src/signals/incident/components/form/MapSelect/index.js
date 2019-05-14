@@ -126,6 +126,7 @@ const MapSelectFormComponent = ({ handler, touched, hasError, meta, parent, getE
 };
 
 MapSelectFormComponent.propTypes = {
+  handler: PropTypes.func.isRequired,
   touched: PropTypes.bool,
   hasError: PropTypes.func,
   meta: PropTypes.shape({

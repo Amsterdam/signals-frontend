@@ -1,15 +1,15 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import amaps from 'amsterdam-amaps/dist/amaps';
 
 import request from '../../utils/request';
-import amaps from 'amsterdam-amaps/dist/amaps';
 import BboxGeojsonLayer from './BboxGeojsonLayer';
 import ZoomMessageControl from './ZoomMessageControl';
 import LegendControl from './LegendControl';
 import LoadingControl from './LoadingControl';
 import ErrorControl from './ErrorControl';
 
-import MapSelect, {getIcon} from './index';
+import MapSelect, { getIcon } from './index';
 
 jest.mock('../../utils/request');
 jest.mock('amsterdam-amaps/dist/amaps');
@@ -50,7 +50,7 @@ describe('getIcon', () => {
 describe('<MapSelect />', () => {
   let mockLayer;
   let legend;
-  let map = {};
+  const map = {};
 
   function createComponent() {
     amaps.createMap.mockReturnValue(map);
@@ -63,16 +63,16 @@ describe('<MapSelect />', () => {
 
     const iconMapping = {
       Klok: {
-        default: L.divIcon({className: 'my-div-icon'}),
-        selected: L.divIcon({className: 'my-div-icon-select'}),
+        default: L.divIcon({ className: 'my-div-icon' }),
+        selected: L.divIcon({ className: 'my-div-icon-select' }),
       },
     };
     legend = [
-      {key: 'klok', label: 'Klok', iconUrl: 'foo/bar/icon.svg'},
+      { key: 'klok', label: 'Klok', iconUrl: 'foo/bar/icon.svg' },
     ];
     const url = 'foo/geo.json?';
 
-    mockLayer = {addTo: jest.fn()};
+    mockLayer = { addTo: jest.fn() };
     BboxGeojsonLayer.mockReturnValue(mockLayer);
 
     const wrapper = shallow(
@@ -151,6 +151,6 @@ describe('<MapSelect />', () => {
       value: ['foo']
     });
 
-    expect(wrapper.instance().selection.set).toEqual(new Set(['foo']))
+    expect(wrapper.instance().selection.set).toEqual(new Set(['foo']));
   });
 });

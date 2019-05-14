@@ -1,5 +1,5 @@
 import L from 'leaflet';
-import LegendControl from "./LegendControl";
+import LegendControl from './LegendControl';
 
 describe('Leaflet legend control', () => {
   let mapDiv;
@@ -16,7 +16,7 @@ describe('Leaflet legend control', () => {
   };
 
   it('is rendered', () => {
-    const [containerEl, ] = createControl({
+    const [containerEl, ] = createControl({ // eslint-disable-line array-bracket-spacing
       elements: [
         {
           iconUrl: 'foo/bar.svg',
