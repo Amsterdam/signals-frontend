@@ -2,7 +2,7 @@ import forEach from 'lodash.foreach';
 import set from 'lodash.set';
 import isObject from 'lodash.isobject';
 
-import getControls from '../get-controls';
+import getStepControls from '../get-step-controls';
 
 const convertValue = (value) => {
   if (value === 0) {
@@ -23,7 +23,7 @@ const convertValue = (value) => {
 
 const mapValues = (params, incident, wizard) => {
   forEach(wizard, (step) => {
-    const controls = getControls(step, incident);
+    const controls = getStepControls(step, incident);
 
     forEach(controls, (control, name) => {
       const value = incident[name];

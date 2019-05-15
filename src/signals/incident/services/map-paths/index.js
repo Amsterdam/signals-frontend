@@ -1,7 +1,7 @@
 import forEach from 'lodash.foreach';
 import set from 'lodash.set';
 
-import getControls from '../get-controls';
+import getStepControls from '../get-step-controls';
 
 const convertValue = (value) => {
   if (value === 0) {
@@ -20,7 +20,7 @@ const convertValue = (value) => {
 const mapPaths = (params, incident, wizard) => {
   forEach(wizard, (step) => {
     const category_url = incident && incident.subcategory_link ? new URL(incident.subcategory_link).pathname : '';
-    const controls = getControls(step, incident);
+    const controls = getStepControls(step, incident);
     let mapMerge = {};
 
     forEach(controls, (control, name) => {

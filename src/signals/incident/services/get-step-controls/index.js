@@ -1,6 +1,6 @@
 import isFunction from 'lodash.isfunction';
 
-const getControls = (step, incident) => {
+const getStepControls = (step, incident) => {
   if (step.formFactory && isFunction(step.formFactory)) {
     const form = step.formFactory(incident);
     return form && form.controls;
@@ -9,4 +9,4 @@ const getControls = (step, incident) => {
   return (step.form && step.form.controls) || {};
 };
 
-export default getControls;
+export default getStepControls;
