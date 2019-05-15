@@ -22,6 +22,18 @@ describe('incidentContainerReducer', () => {
     expect(incidentContainerReducer(undefined, {})).toEqual(fromJS(initialState));
   });
 
+  it('initial wizard state is filled with date and priority', () => {
+    expect(initialState.get('incident')).toEqual(fromJS({
+      incident_date: 'Vandaag',
+      incident_time_hours: 9,
+      incident_time_minutes: 0,
+      priority: {
+        id: 'normal',
+        label: 'Normaal'
+      }
+    }));
+  });
+
   describe('UPDATE_INCIDENT', () => {
     it('sets new properties and keeps the old ones', () => {
       expect(
