@@ -603,12 +603,12 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 "priority": Object {
                   "authenticated": true,
                   "label": "Urgentie",
-                  "render": undefined,
+                  "render": [Function],
                 },
                 "source": Object {
                   "authenticated": true,
                   "label": "Bron",
-                  "render": undefined,
+                  "render": [Function],
                 },
               },
               "email": Object {

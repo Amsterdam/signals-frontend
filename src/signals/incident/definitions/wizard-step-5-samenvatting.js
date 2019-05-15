@@ -21,12 +21,12 @@ export default {
     beschrijf: {
       source: {
         label: 'Bron',
-        render: PreviewComponents.KeyValue,
+        render: PreviewComponents.ObjectValue,
         authenticated: true
       },
       priority: {
         label: 'Urgentie',
-        render: PreviewComponents.KeyValue,
+        render: PreviewComponents.ObjectValue,
         authenticated: true
       },
       location: {
