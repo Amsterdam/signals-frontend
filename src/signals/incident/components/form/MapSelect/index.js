@@ -5,66 +5,12 @@ import get from 'lodash.get';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import MapSelect from 'components/MapSelect';
 
-import KlokIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Klok-marker.svg';
-import KlokSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Klok_select-marker.svg';
-import OverspanningIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Overspanning-marker.svg';
-import OverspanningSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Overspanning_select-marker.svg';
-import GevelArmatuurIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_GevelArmatuur-marker.svg';
-import GevelArmatuurSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_GevelArmatuur_select-marker.svg';
-import LichtmastIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Lichtmast-marker.svg';
-import LichtmastSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Lichtmast_select-marker.svg';
-import GrachtmastIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Grachtmast-marker.svg';
-import GrachtmastSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Grachtmast_select-marker.svg';
-import SchijnwerperIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Schijnwerper-marker.svg';
-import OverigSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Overig_select-marker.svg';
-import OverigIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Overig-marker.svg';
-
 import Header from '../Header/';
+import { getOVLIcon, LEGEND_ITEMS } from './iconMapping';
 
-const defaultOptions = {
-  className: 'object-marker',
-  iconSize: [32, 32]
-};
+const filter_legend = (items, types) => items.filter((element) => types.includes(element.key));
 
-const typeIcon = {
-  Klok: {
-    default: L.icon({ ...defaultOptions, iconUrl: KlokIcon }),
-    selected: L.icon({ ...defaultOptions, iconUrl: KlokSelectIcon }),
-  },
-  Overspanning: {
-    default: L.icon({ ...defaultOptions, iconUrl: OverspanningIcon }),
-    selected: L.icon({ ...defaultOptions, iconUrl: OverspanningSelectIcon }),
-  },
-  Gevel_Armatuur: {
-    default: L.icon({ ...defaultOptions, iconUrl: GevelArmatuurIcon }),
-    selected: L.icon({ ...defaultOptions, iconUrl: GevelArmatuurSelectIcon }),
-  },
-  Lichtmast: {
-    default: L.icon({ ...defaultOptions, iconUrl: LichtmastIcon }),
-    selected: L.icon({ ...defaultOptions, iconUrl: LichtmastSelectIcon }),
-  },
-  Grachtmast: {
-    default: L.icon({ ...defaultOptions, iconUrl: GrachtmastIcon }),
-    selected: L.icon({ ...defaultOptions, iconUrl: GrachtmastSelectIcon }),
-  },
-  Overig_lichtpunt: {
-    default: L.icon({ ...defaultOptions, iconUrl: OverigIcon }),
-    selected: L.icon({ ...defaultOptions, iconUrl: OverigSelectIcon }),
-  },
-};
-
-const LEGEND_ITEMS = [
-  { key: 'klok', label: 'Klok', iconUrl: KlokIcon },
-  { key: 'lichtmast', label: 'Lantaarnpaal', iconUrl: LichtmastIcon },
-  { key: 'grachtmast', label: 'Grachtmast', iconUrl: GrachtmastIcon },
-  { key: 'overspanning', label: 'Lamp aan kabel', iconUrl: OverspanningIcon },
-  { key: 'gevelarmatuur', label: 'Lamp aan gevel', iconUrl: GevelArmatuurIcon },
-  { key: 'schijnwerper', label: 'Schijnwerper', iconUrl: SchijnwerperIcon },
-  { key: 'overig_lichtpunt', label: 'Overig lichtpunt', iconUrl: OverigIcon },
-];
-
-const DEFAULT_COORDS = [
-  4.900312721729279,
+const DEFAULT_COORDS = [4.900312721729279,
   52.37248465266875
 ];
 
@@ -75,8 +21,6 @@ const getLatlng = (meta) => {
     longitude: coords[0]
   };
 };
-
-const filter_legend = (items, types) => items.filter((element) => types.includes(element.key));
 
 const MapSelectFormComponent = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   const onSelectionChange = (selection) => {
@@ -109,7 +53,7 @@ const MapSelectFormComponent = ({ handler, touched, hasError, meta, parent, getE
               { latlng && <MapSelect
                 latlng={latlng}
                 onSelectionChange={onSelectionChange}
-                iconMapping={typeIcon}
+                getIcon={getOVLIcon}
                 legend={filtered_legend}
                 geojsonUrl={url}
                 iconField="type_name"

@@ -9,7 +9,7 @@ import LegendControl from './control/LegendControl';
 import LoadingControl from './control/LoadingControl';
 import ErrorControl from './control/ErrorControl';
 
-import MapSelect, { getIcon } from './index';
+import MapSelect from './index';
 
 jest.mock('amsterdam-amaps/dist/amaps');
 jest.mock('../../utils/request');
@@ -18,29 +18,6 @@ jest.mock('./control/ZoomMessageControl');
 jest.mock('./control/LegendControl');
 jest.mock('./control/LoadingControl');
 jest.mock('./control/ErrorControl');
-
-describe('getIcon', () => {
-  const mapping = {
-    foo: {
-      default: 'bar',
-      selected: 'abc',
-    }
-  };
-
-  it('should get default icon', () => {
-    expect(getIcon(mapping, 'foo', false)).toBe('bar');
-  });
-
-  it('should get select icon', () => {
-    expect(getIcon(mapping, 'foo', true)).toBe('abc');
-  });
-
-  it('should default to first icon if missing', () => {
-    jest.spyOn(global.console, 'error').mockImplementation(() => {});
-    expect(getIcon(mapping, 'missing', false)).toBe('bar');
-    expect(global.console.error).toHaveBeenCalledWith('icon missing for type, using default. Type is: missing');
-  });
-});
 
 describe('<MapSelect />', () => {
   let mockLayer;
@@ -56,12 +33,13 @@ describe('<MapSelect />', () => {
     };
     const onSelectionChange = jest.fn();
 
-    const iconMapping = {
-      Klok: {
-        default: L.divIcon({ className: 'my-div-icon' }),
-        selected: L.divIcon({ className: 'my-div-icon-select' }),
-      },
+    const getIcon = (type, isSelected) => {
+      if (isSelected) {
+        return L.divIcon({ className: 'my-div-icon-select' });
+      }
+      return L.divIcon({ className: 'my-div-icon' });
     };
+
     legend = [
       { key: 'klok', label: 'Klok', iconUrl: 'foo/bar/icon.svg' },
     ];
@@ -74,7 +52,7 @@ describe('<MapSelect />', () => {
       <MapSelect
         latlng={latlng}
         onSelectionChange={onSelectionChange}
-        iconMapping={iconMapping}
+        getIcon={getIcon}
         legend={legend}
         geojsonUrl={url}
         iconField="type_name"

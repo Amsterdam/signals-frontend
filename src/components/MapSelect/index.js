@@ -17,19 +17,6 @@ const SELECTION_MAX_COUNT = 30;
 const ZOOM_MIN = 17;
 const ZOOM_INIT = 18;
 
-export const getIcon = (mapping, typeName, isSelected) => {
-  let iconSet = mapping[typeName];
-  if (!iconSet) {
-    console.error(`icon missing for type, using default. Type is: ${typeName}`); // eslint-disable-line no-console
-    iconSet = mapping[Object.keys(mapping)[0]];
-  }
-
-  if (isSelected) {
-    return iconSet.selected;
-  }
-  return iconSet.default;
-};
-
 class MapSelect extends React.Component {
   /**
    * Multiple features select map
@@ -40,7 +27,7 @@ class MapSelect extends React.Component {
       latlng: centerLatLng,
       geojsonUrl,
       onSelectionChange,
-      iconMapping,
+      getIcon,
       iconField,
       idField,
       zoomMin,
@@ -82,7 +69,7 @@ class MapSelect extends React.Component {
       pointToLayer(feature, latlng) {
         // istanbul ignore next
         return L.marker(latlng, {
-          icon: getIcon(iconMapping, feature.properties[iconField], selection.has(feature.properties[idField]))
+          icon: getIcon(feature.properties[iconField], selection.has(feature.properties[idField]))
         });
       },
 
@@ -149,7 +136,7 @@ class MapSelect extends React.Component {
         const properties = layer.feature.properties;
         const id = properties[this.props.idField];
         const iconType = properties[this.props.iconField];
-        const icon = getIcon(this.props.iconMapping, iconType, this.selection.has(id));
+        const icon = this.props.getIcon(iconType, this.selection.has(id));
         layer.setIcon(icon);
       }
     }
@@ -178,10 +165,7 @@ MapSelect.propTypes = {
   }).isRequired,
   geojsonUrl: PropTypes.string.isRequired,
   onSelectionChange: PropTypes.func.isRequired,
-  iconMapping: PropTypes.objectOf(PropTypes.exact({
-    default: PropTypes.instanceOf(L.Icon).isRequired,
-    selected: PropTypes.instanceOf(L.Icon).isRequired,
-  })).isRequired,
+  getIcon: PropTypes.func.isRequired,
   legend: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
     iconUrl: PropTypes.string.isRequired,
