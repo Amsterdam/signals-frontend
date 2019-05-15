@@ -3,34 +3,22 @@ import set from 'lodash.set';
 import isObject from 'lodash.isobject';
 
 import getStepControls from '../get-step-controls';
-
-const convertValue = (value) => {
-  if (value === 0) {
-    return 0;
-  }
-  if (value === true) {
-    return 'ja';
-  }
-  if (value === false) {
-    return 'nee';
-  }
-  if (isObject(value) && value.id) {
-    return value.id;
-  }
-
-  return value;
-};
+import convertValue from '../convert-value';
 
 const mapValues = (params, incident, wizard) => {
   forEach(wizard, (step) => {
     const controls = getStepControls(step, incident);
 
-    forEach(controls, (control, name) => {
+    forEach(controls, (control, name) => { // eslint-disable-line consistent-return
       const value = incident[name];
       const meta = control.meta;
 
       if (meta && meta.path) {
         const itemValue = convertValue(value);
+        if (isObject(itemValue) && itemValue.id) {
+          return itemValue.id;
+        }
+
         if (itemValue || itemValue === 0) {
           set(params, meta.path, itemValue);
         }

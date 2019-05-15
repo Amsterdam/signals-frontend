@@ -2,20 +2,7 @@ import forEach from 'lodash.foreach';
 import set from 'lodash.set';
 
 import getStepControls from '../get-step-controls';
-
-const convertValue = (value) => {
-  if (value === 0) {
-    return 0;
-  }
-  if (value === true) {
-    return 'ja';
-  }
-  if (value === false) {
-    return 'nee';
-  }
-
-  return value;
-};
+import convertValue from '../convert-value';
 
 const mapPaths = (params, incident, wizard) => {
   forEach(wizard, (step) => {
