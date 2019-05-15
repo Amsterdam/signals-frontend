@@ -1,3 +1,5 @@
+@import "config.scss";
+
 .map-component {
   #mapdiv {
     position: relative;
@@ -6,7 +8,7 @@
   }
 
   &__loading {
-    background-color: rgba(0, 0, 0, .2);
+    background-color: $ams-lichtgrijs;
     display: block;
     width: calc(100% - 30px); // padding left and right of grid
     height: 100%;
@@ -16,14 +18,14 @@
 
   .object-marker {
     &:hover {
-      filter: drop-shadow(0 0 2px #000);
+      filter: drop-shadow(0 0 2px $ams-zwart);
     }
   }
 
   .zoom-control {
-    border: 2px solid rgba(0,0,0,0.04);
-    background-color: #FEC813;
-    color: #000000;
+    border: 2px solid $ams-lichtgrijs;
+    background-color: $ams-geel;
+    color: $ams-zwart;
     font-family: Avenir;
     font-size: 16px;
     line-height: 22px;
@@ -31,9 +33,9 @@
   }
 
   .legend-control {
-    border: 2px solid rgba(0,0,0,0.04);
-    background-color: #F5F5F5;
-    color: #000000;
+    border: 2px solid $ams-lichtgrijs;
+    background-color: $ams-lichtgrijs;
+    color: $ams-zwart;
     font-family: Avenir;
     font-size: 16px;
     line-height: 16px;
@@ -45,7 +47,7 @@
   }
 
   .legend-content {
-    background-color: #ffffff;
+    background-color: $ams-wit;
     padding: 5px 14px;
   }
 
@@ -62,16 +64,16 @@
   }
 
   .loading-control {
-    border: 2px solid rgba(0,0,0,0.04);
-    background-color: white;
+    border: 2px solid $ams-lichtgrijs;
+    background-color: $ams-wit;
     font-size: 16px;
     line-height: 22px;
     padding: 13px 17px;
   }
 
   .error-control {
-    border: 2px solid rgba(0,0,0,0.04);
-    background-color: white;
+    border: 2px solid $ams-lichtgrijs;
+    background-color: $ams-wit;
     font-size: 16px;
     line-height: 22px;
     padding: 13px 17px;

@@ -31,7 +31,7 @@ describe('Leaflet error control', () => {
     expect(containerEl.classList.contains('hide')).toBe(false);
   });
 
-  it('is can be hidden', () => {
+  it('can be hidden', () => {
     const [containerEl, control] = createControl();
 
     control.show();

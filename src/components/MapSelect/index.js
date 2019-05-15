@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import amaps from 'amsterdam-amaps/dist/amaps';
+import isEqual from 'lodash.isequal';
 
 import './style.scss';
-import BboxGeojsonLayer from './BboxGeojsonLayer';
 import request from '../../utils/request';
 import MaxSelection from '../../utils/maxSelection';
-import ZoomMessageControl from './ZoomMessageControl';
-import LegendControl from './LegendControl';
-import LoadingControl from './LoadingControl';
-import ErrorControl from './ErrorControl';
+import BboxGeojsonLayer from './layer/BboxGeojsonLayer';
+import ZoomMessageControl from './control/ZoomMessageControl';
+import LegendControl from './control/LegendControl';
+import LoadingControl from './control/LoadingControl';
+import ErrorControl from './control/ErrorControl';
 
 const SELECTION_MAX_COUNT = 30;
 
@@ -64,7 +65,6 @@ class MapSelect extends React.Component {
     });
 
     const selection = new MaxSelection(SELECTION_MAX_COUNT, value);
-    onSelectionChange(selection);
     this.selection = selection;
 
     // istanbul ignore next
@@ -136,7 +136,7 @@ class MapSelect extends React.Component {
     }
 
     const value = this.props.value;
-    if (value !== prevProps.value) {
+    if (isEqual(value, prevProps.value) === false) {
       // Selection changed, update internal selection
       this.selection.set.clear();
       for (const id of value) {

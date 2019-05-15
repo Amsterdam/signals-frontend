@@ -46,7 +46,7 @@ describe('Leaflet bbox geojson layer', () => {
 
     layer.onRemove(map);
 
-    expect(map.off).toHaveBeenCalled();
+    expect(map.off).toHaveBeenCalledTimes(3);
   });
 
   it('should fetch data on move end', () => {

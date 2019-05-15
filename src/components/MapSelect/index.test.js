@@ -3,26 +3,21 @@ import { shallow } from 'enzyme';
 import amaps from 'amsterdam-amaps/dist/amaps';
 
 import request from '../../utils/request';
-import BboxGeojsonLayer from './BboxGeojsonLayer';
-import ZoomMessageControl from './ZoomMessageControl';
-import LegendControl from './LegendControl';
-import LoadingControl from './LoadingControl';
-import ErrorControl from './ErrorControl';
+import BboxGeojsonLayer from './layer/BboxGeojsonLayer';
+import ZoomMessageControl from './control/ZoomMessageControl';
+import LegendControl from './control/LegendControl';
+import LoadingControl from './control/LoadingControl';
+import ErrorControl from './control/ErrorControl';
 
 import MapSelect, { getIcon } from './index';
 
-jest.mock('../../utils/request');
 jest.mock('amsterdam-amaps/dist/amaps');
-jest.mock('./BboxGeojsonLayer');
-jest.mock('./ZoomMessageControl');
-jest.mock('./LegendControl');
-jest.mock('./LoadingControl');
-jest.mock('./ErrorControl');
-// jest.mock('./BboxGeojsonLayer', () => ({ // https://remarkablemark.org/blog/2018/06/28/jest-mock-default-named-export/
-//   __esModule: true, // this property makes it work
-//   default: jest.fn(),
-//   namedExport: jest.fn(),
-// }));
+jest.mock('../../utils/request');
+jest.mock('./layer/BboxGeojsonLayer');
+jest.mock('./control/ZoomMessageControl');
+jest.mock('./control/LegendControl');
+jest.mock('./control/LoadingControl');
+jest.mock('./control/ErrorControl');
 
 describe('getIcon', () => {
   const mapping = {
