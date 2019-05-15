@@ -6,7 +6,7 @@ import convertValue from '../convert-value';
 jest.mock('../get-step-controls');
 jest.mock('../convert-value');
 
-describe('The map controls to params service', () => {
+describe('The map values service', () => {
   const wizard = {
     step: {
       form: {
@@ -68,11 +68,11 @@ describe('The map controls to params service', () => {
   it('should map status by default', () => {
     getStepControls.mockImplementation(() => wizard.step.form.controls);
     convertValue
-      .mockImplementationOnce(() => 'bar')
-      .mockImplementationOnce(() => 42)
-      .mockImplementationOnce(() => ({ id: '42', label: 'yooooo' }))
-      .mockImplementationOnce(() => undefined)
-      .mockImplementationOnce(() => 0)
+      .mockImplementationOnce(() => incident.description)
+      .mockImplementationOnce(() => incident.title)
+      .mockImplementationOnce(() => incident.object)
+      .mockImplementationOnce(() => incident.undefined_value)
+      .mockImplementationOnce(() => incident.value_0)
       .mockImplementationOnce(() => 'nee')
       .mockImplementationOnce(() => 'ja');
 

@@ -5,8 +5,9 @@ import getStepControls from '../get-step-controls';
 import convertValue from '../convert-value';
 
 const mapPaths = (params, incident, wizard) => {
+  const category_url = incident && incident.subcategory_link ? new URL(incident.subcategory_link).pathname : '';
+
   forEach(wizard, (step) => {
-    const category_url = incident && incident.subcategory_link ? new URL(incident.subcategory_link).pathname : '';
     const controls = getStepControls(step, incident);
     let mapMerge = {};
 
@@ -38,7 +39,7 @@ const mapPaths = (params, incident, wizard) => {
     });
   });
 
-  return params;
+  return params || {};
 };
 
 export default mapPaths;
