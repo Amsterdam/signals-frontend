@@ -14,9 +14,9 @@ const mapValues = (params, incident, wizard) => {
       const meta = control.meta;
 
       if (meta && meta.path) {
-        const itemValue = convertValue(value);
+        let itemValue = convertValue(value);
         if (isObject(itemValue) && itemValue.id) {
-          return itemValue.id;
+          itemValue = itemValue.id;
         }
 
         if (itemValue || itemValue === 0) {
@@ -25,8 +25,7 @@ const mapValues = (params, incident, wizard) => {
       }
     });
   });
-
-  return params;
+  return params || {};
 };
 
 export default mapValues;
