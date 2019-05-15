@@ -13,7 +13,7 @@ const mapControlsToParams = (incident, wizard) => {
     date = moment(`${incident.incident_date && incident.incident_date.id === 'Vandaag' ? moment().format('YYYY-MM-DD') : incident.incident_date} ${time}`, 'YYYY-MM-DD HH:mm');
   }
 
-  const params = {
+  let params = {
     reporter: {},
     status: {
       state: 'm',
@@ -25,8 +25,8 @@ const mapControlsToParams = (incident, wizard) => {
     params.incident_date_start = date.format();
   }
 
-  mapValues(params, incident, wizard);
-  mapPaths(params, incident, wizard);
+  params = mapValues(params, incident, wizard);
+  params = mapPaths(params, incident, wizard);
 
   return params;
 };

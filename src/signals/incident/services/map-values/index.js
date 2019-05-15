@@ -25,6 +25,8 @@ const mapValues = (params, incident, wizard) => {
       }
     });
   });
+
+  return params;
 };
 
 export default mapValues;

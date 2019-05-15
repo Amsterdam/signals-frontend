@@ -37,6 +37,8 @@ const mapPaths = (params, incident, wizard) => {
       set(params, key, value);
     });
   });
+
+  return params;
 };
 
 export default mapPaths;
