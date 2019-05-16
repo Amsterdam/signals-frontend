@@ -35,7 +35,7 @@ const DateTime = ({ label, value, incident }) => (
 
 DateTime.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.object,
   incident: PropTypes.object
 };
 
