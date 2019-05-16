@@ -74,6 +74,20 @@ exports[`<ExtraProperties /> should render correctly 1`] = `
       Ja, het gebeurt vaker
     </dd>
   </dl>
+  <dl
+    key="lampen"
+  >
+    <dt
+      className="incident-detail__body__definition"
+    >
+      Welke lampen?
+    </dt>
+    <dd
+      className="incident-detail__body__value"
+    >
+      126543, 87654
+    </dd>
+  </dl>
 </div>
 `;
 

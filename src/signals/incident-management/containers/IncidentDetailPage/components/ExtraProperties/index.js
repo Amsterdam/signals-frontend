@@ -6,7 +6,7 @@ import isBoolean from 'lodash.isboolean';
 
 const getValue = (answer) => {
   if (isArray(answer)) {
-    return answer.map((item) => item.label).join(', ');
+    return answer.map((item) => isObject(item) ? item.label : item).join(', ');
   }
   if (isObject(answer)) {
     if (isBoolean(answer.value)) {
