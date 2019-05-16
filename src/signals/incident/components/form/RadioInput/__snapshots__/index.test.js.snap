@@ -22,8 +22,8 @@ exports[`Form component <RadioInput /> rendering should render radio fields corr
           "name": "input-field-name",
           "placeholder": "type here",
           "values": Object {
-            "bar": "bar",
-            "foo": "foo",
+            "bar": "Bar",
+            "foo": "Foo",
           },
         }
       }
@@ -34,32 +34,36 @@ exports[`Form component <RadioInput /> rendering should render radio fields corr
       >
         <div
           className="antwoord"
-          key="input-field-name-foo"
+          key="foo"
         >
           <input
+            checked={true}
             className="kenmerkradio"
-            id="input-field-name-foo"
+            id="input-field-name-foo1"
             onClick={[Function]}
+            type="radio"
           />
           <label
-            htmlFor="input-field-name-foo"
+            htmlFor="input-field-name-foo1"
           >
-            foo
+            Foo
           </label>
         </div>
         <div
           className="antwoord"
-          key="input-field-name-bar"
+          key="bar"
         >
           <input
+            checked={false}
             className="kenmerkradio"
-            id="input-field-name-bar"
+            id="input-field-name-bar1"
             onClick={[Function]}
+            type="radio"
           />
           <label
-            htmlFor="input-field-name-bar"
+            htmlFor="input-field-name-bar1"
           >
-            bar
+            Bar
           </label>
         </div>
       </div>

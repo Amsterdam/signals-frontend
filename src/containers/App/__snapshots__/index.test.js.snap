@@ -501,7 +501,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                         "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                         "ifAllOf": Object {
                                                           "is_satisfied": false,
-                                                          "niet_tevreden": "Anders, namelijk...",
+                                                          "niet_tevreden": "anders",
                                                         },
                                                         "isVisible": false,
                                                         "name": "niet_tevreden_anders",
@@ -532,7 +532,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                         "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                         "ifAllOf": Object {
                                                           "is_satisfied": true,
-                                                          "tevreden": "Anders, namelijk...",
+                                                          "tevreden": "anders",
                                                         },
                                                         "isVisible": false,
                                                         "name": "tevreden_anders",
@@ -752,7 +752,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                           "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                           "ifAllOf": Object {
                                                             "is_satisfied": false,
-                                                            "niet_tevreden": "Anders, namelijk...",
+                                                            "niet_tevreden": "anders",
                                                           },
                                                           "isVisible": false,
                                                           "name": "niet_tevreden_anders",
@@ -868,7 +868,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                           "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                           "ifAllOf": Object {
                                                             "is_satisfied": true,
-                                                            "tevreden": "Anders, namelijk...",
+                                                            "tevreden": "anders",
                                                           },
                                                           "isVisible": false,
                                                           "name": "tevreden_anders",
@@ -1196,7 +1196,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                             "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                             "ifAllOf": Object {
                                                               "is_satisfied": false,
-                                                              "niet_tevreden": "Anders, namelijk...",
+                                                              "niet_tevreden": "anders",
                                                             },
                                                             "isVisible": false,
                                                             "name": "niet_tevreden_anders",
@@ -1312,7 +1312,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                             "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                             "ifAllOf": Object {
                                                               "is_satisfied": true,
-                                                              "tevreden": "Anders, namelijk...",
+                                                              "tevreden": "anders",
                                                             },
                                                             "isVisible": false,
                                                             "name": "tevreden_anders",
@@ -1668,7 +1668,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                                   "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                                   "ifAllOf": Object {
                                                                     "is_satisfied": false,
-                                                                    "niet_tevreden": "Anders, namelijk...",
+                                                                    "niet_tevreden": "anders",
                                                                   },
                                                                   "isVisible": false,
                                                                   "name": "niet_tevreden_anders",
@@ -1723,7 +1723,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                                   "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                                   "ifAllOf": Object {
                                                                     "is_satisfied": true,
-                                                                    "tevreden": "Anders, namelijk...",
+                                                                    "tevreden": "anders",
                                                                   },
                                                                   "isVisible": false,
                                                                   "name": "tevreden_anders",
@@ -1928,7 +1928,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                         "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                         "ifAllOf": Object {
                                                           "is_satisfied": true,
-                                                          "tevreden": "Anders, namelijk...",
+                                                          "tevreden": "anders",
                                                         },
                                                         "isVisible": false,
                                                         "name": "tevreden_anders",
@@ -2133,7 +2133,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                                   "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                                   "ifAllOf": Object {
                                                                     "is_satisfied": false,
-                                                                    "niet_tevreden": "Anders, namelijk...",
+                                                                    "niet_tevreden": "anders",
                                                                   },
                                                                   "isVisible": false,
                                                                   "name": "niet_tevreden_anders",
@@ -2342,7 +2342,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                             "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                             "ifAllOf": Object {
                                                               "is_satisfied": true,
-                                                              "tevreden": "Anders, namelijk...",
+                                                              "tevreden": "anders",
                                                             },
                                                             "isVisible": false,
                                                             "name": "tevreden_anders",
@@ -2546,7 +2546,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                                   "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                                   "ifAllOf": Object {
                                                                     "is_satisfied": false,
-                                                                    "niet_tevreden": "Anders, namelijk...",
+                                                                    "niet_tevreden": "anders",
                                                                   },
                                                                   "isVisible": false,
                                                                   "name": "niet_tevreden_anders",
@@ -2662,7 +2662,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                                   "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                                   "ifAllOf": Object {
                                                                     "is_satisfied": true,
-                                                                    "tevreden": "Anders, namelijk...",
+                                                                    "tevreden": "anders",
                                                                   },
                                                                   "isVisible": false,
                                                                   "name": "tevreden_anders",
@@ -2867,7 +2867,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                         "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                         "ifAllOf": Object {
                                                           "is_satisfied": false,
-                                                          "niet_tevreden": "Anders, namelijk...",
+                                                          "niet_tevreden": "anders",
                                                         },
                                                         "isVisible": false,
                                                         "name": "niet_tevreden_anders",
@@ -3135,7 +3135,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                                   "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                                   "ifAllOf": Object {
                                                                     "is_satisfied": true,
-                                                                    "tevreden": "Anders, namelijk...",
+                                                                    "tevreden": "anders",
                                                                   },
                                                                   "isVisible": false,
                                                                   "name": "tevreden_anders",
@@ -3281,7 +3281,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                             "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                             "ifAllOf": Object {
                                                               "is_satisfied": false,
-                                                              "niet_tevreden": "Anders, namelijk...",
+                                                              "niet_tevreden": "anders",
                                                             },
                                                             "isVisible": false,
                                                             "name": "niet_tevreden_anders",
@@ -3542,7 +3542,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                                   "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                                   "ifAllOf": Object {
                                                                     "is_satisfied": false,
-                                                                    "niet_tevreden": "Anders, namelijk...",
+                                                                    "niet_tevreden": "anders",
                                                                   },
                                                                   "isVisible": false,
                                                                   "name": "niet_tevreden_anders",
@@ -3658,7 +3658,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                                   "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                                   "ifAllOf": Object {
                                                                     "is_satisfied": true,
-                                                                    "tevreden": "Anders, namelijk...",
+                                                                    "tevreden": "anders",
                                                                   },
                                                                   "isVisible": false,
                                                                   "name": "tevreden_anders",
@@ -4037,7 +4037,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                                   "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                                   "ifAllOf": Object {
                                                                     "is_satisfied": false,
-                                                                    "niet_tevreden": "Anders, namelijk...",
+                                                                    "niet_tevreden": "anders",
                                                                   },
                                                                   "isVisible": false,
                                                                   "name": "niet_tevreden_anders",
@@ -4153,7 +4153,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                                   "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                                   "ifAllOf": Object {
                                                                     "is_satisfied": true,
-                                                                    "tevreden": "Anders, namelijk...",
+                                                                    "tevreden": "anders",
                                                                   },
                                                                   "isVisible": false,
                                                                   "name": "tevreden_anders",
@@ -4398,14 +4398,10 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                                     className="antwoord"
                                                                   >
                                                                     <input
-                                                                      checked={false}
-                                                                      disabled={false}
                                                                       id="allows_contact"
-                                                                      onBlur={[Function]}
-                                                                      onChange={[Function]}
+                                                                      name="allows_contact"
                                                                       onClick={[Function]}
                                                                       type="checkbox"
-                                                                      value=""
                                                                     />
                                                                     <label
                                                                       htmlFor="allows_contact"
@@ -4580,7 +4576,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                                   "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                                   "ifAllOf": Object {
                                                                     "is_satisfied": false,
-                                                                    "niet_tevreden": "Anders, namelijk...",
+                                                                    "niet_tevreden": "anders",
                                                                   },
                                                                   "isVisible": false,
                                                                   "name": "niet_tevreden_anders",
@@ -4696,7 +4692,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                                   "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                                   "ifAllOf": Object {
                                                                     "is_satisfied": true,
-                                                                    "tevreden": "Anders, namelijk...",
+                                                                    "tevreden": "anders",
                                                                   },
                                                                   "isVisible": false,
                                                                   "name": "tevreden_anders",
@@ -5080,7 +5076,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                               "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                               "ifAllOf": Object {
                                                                 "is_satisfied": false,
-                                                                "niet_tevreden": "Anders, namelijk...",
+                                                                "niet_tevreden": "anders",
                                                               },
                                                               "isVisible": false,
                                                               "name": "niet_tevreden_anders",
@@ -5196,7 +5192,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                                               "className": "col-sm-12 col-md-8 kto-form--collapse-to-previous-question",
                                                               "ifAllOf": Object {
                                                                 "is_satisfied": true,
-                                                                "tevreden": "Anders, namelijk...",
+                                                                "tevreden": "anders",
                                                               },
                                                               "isVisible": false,
                                                               "name": "tevreden_anders",

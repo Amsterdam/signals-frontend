@@ -29,7 +29,7 @@ export default {
         className: 'col-sm-12 col-md-8 kto-form--collapse-to-previous-question',
         ifAllOf: {
           is_satisfied: true,
-          tevreden: 'Anders, namelijk...'
+          tevreden: 'anders'
         }
       },
       render: FormComponents.TextInput
@@ -56,7 +56,7 @@ export default {
         className: 'col-sm-12 col-md-8 kto-form--collapse-to-previous-question',
         ifAllOf: {
           is_satisfied: false,
-          niet_tevreden: 'Anders, namelijk...'
+          niet_tevreden: 'anders'
         }
       },
       render: FormComponents.TextInput

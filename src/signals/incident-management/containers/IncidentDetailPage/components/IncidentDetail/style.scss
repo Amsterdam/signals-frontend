@@ -4,7 +4,9 @@
   &__body {
     &__definition, &__value {
       display: inline-block;
+      margin: 10px 0 0 0;
       line-height: 36px;
+      vertical-align: top;
     }
 
     &__definition {

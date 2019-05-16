@@ -57,7 +57,6 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
         className="incident-detail__body__value"
       >
         Normaal
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -68,7 +67,6 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
         className="incident-detail__body__value"
       >
         Overlast op het water
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -79,7 +77,6 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
         className="incident-detail__body__value"
       >
         Overlast op het water - snel varen
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -90,7 +87,6 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
         className="incident-detail__body__value pre-wrap"
       >
         snel boot
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -99,10 +95,9 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
       </dt>
       <dd
         className="incident-detail__body__value"
-      >
-         
-      </dd>
-      <div
+      />
+      <Component />
+      <dl
         className="incident-detail__body--highlight"
       >
         <dt
@@ -112,11 +107,9 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
         </dt>
         <dd
           className="incident-detail__body__value"
-        >
-           
-        </dd>
-      </div>
-      <div
+        />
+      </dl>
+      <dl
         className="incident-detail__body--highlight"
       >
         <dt
@@ -128,9 +121,8 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
           className="incident-detail__body__value"
         >
           Locatie is gepind op de kaart
-           
         </dd>
-      </div>
+      </dl>
       <dt
         className="incident-detail__body__definition"
       >
@@ -164,9 +156,7 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
       </dt>
       <dd
         className="incident-detail__body__value"
-      >
-         
-      </dd>
+      />
       <dt
         className="incident-detail__body__definition"
       >
@@ -237,7 +227,6 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
         className="incident-detail__body__value"
       >
         Normaal
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -248,7 +237,6 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
         className="incident-detail__body__value"
       >
         Overlast op het water
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -259,7 +247,6 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
         className="incident-detail__body__value"
       >
         Overlast op het water - snel varen
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -270,7 +257,6 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
         className="incident-detail__body__value pre-wrap"
       >
         snel boot
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -279,10 +265,9 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
       </dt>
       <dd
         className="incident-detail__body__value"
-      >
-         
-      </dd>
-      <div
+      />
+      <Component />
+      <dl
         className="incident-detail__body--highlight"
       >
         <dt
@@ -294,10 +279,9 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
           className="incident-detail__body__value"
         >
           Oost
-           
         </dd>
-      </div>
-      <div
+      </dl>
+      <dl
         className="incident-detail__body--highlight"
       >
         <dt
@@ -309,9 +293,8 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
           className="incident-detail__body__value"
         >
           Locatie is gepind op de kaart
-           
         </dd>
-      </div>
+      </dl>
       <dt
         className="incident-detail__body__definition"
       >
@@ -345,9 +328,7 @@ exports[`<IncidentDetail /> highlighting should render correctly with highlight 
       </dt>
       <dd
         className="incident-detail__body__value"
-      >
-         
-      </dd>
+      />
       <dt
         className="incident-detail__body__definition"
       >
@@ -418,7 +399,6 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
         className="incident-detail__body__value"
       >
         Normaal
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -429,7 +409,6 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
         className="incident-detail__body__value"
       >
         Overlast op het water
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -440,7 +419,6 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
         className="incident-detail__body__value"
       >
         Overlast op het water - snel varen
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -451,7 +429,6 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
         className="incident-detail__body__value pre-wrap"
       >
         snel boot
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -460,10 +437,9 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
       </dt>
       <dd
         className="incident-detail__body__value"
-      >
-         
-      </dd>
-      <div
+      />
+      <Component />
+      <dl
         className=""
       >
         <dt
@@ -475,10 +451,9 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
           className="incident-detail__body__value"
         >
           Centrum
-           
         </dd>
-      </div>
-      <div
+      </dl>
+      <dl
         className=""
       >
         <dt
@@ -490,9 +465,8 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
           className="incident-detail__body__value"
         >
           Geldersekade 84B- 1012BL Amsterdam
-           
         </dd>
-      </div>
+      </dl>
       <dt
         className="incident-detail__body__definition"
       >
@@ -526,9 +500,7 @@ exports[`<IncidentDetail /> should render correctly 1`] = `
       </dt>
       <dd
         className="incident-detail__body__value"
-      >
-         
-      </dd>
+      />
       <dt
         className="incident-detail__body__definition"
       >
@@ -599,7 +571,6 @@ exports[`<IncidentDetail /> should render correctly when address is missing 1`] 
         className="incident-detail__body__value"
       >
         Normaal
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -610,7 +581,6 @@ exports[`<IncidentDetail /> should render correctly when address is missing 1`] 
         className="incident-detail__body__value"
       >
         Overlast op het water
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -621,7 +591,6 @@ exports[`<IncidentDetail /> should render correctly when address is missing 1`] 
         className="incident-detail__body__value"
       >
         Overlast op het water - snel varen
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -632,7 +601,6 @@ exports[`<IncidentDetail /> should render correctly when address is missing 1`] 
         className="incident-detail__body__value pre-wrap"
       >
         snel boot
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -641,10 +609,9 @@ exports[`<IncidentDetail /> should render correctly when address is missing 1`] 
       </dt>
       <dd
         className="incident-detail__body__value"
-      >
-         
-      </dd>
-      <div
+      />
+      <Component />
+      <dl
         className=""
       >
         <dt
@@ -656,10 +623,9 @@ exports[`<IncidentDetail /> should render correctly when address is missing 1`] 
           className="incident-detail__body__value"
         >
           Centrum
-           
         </dd>
-      </div>
-      <div
+      </dl>
+      <dl
         className=""
       >
         <dt
@@ -671,9 +637,8 @@ exports[`<IncidentDetail /> should render correctly when address is missing 1`] 
           className="incident-detail__body__value"
         >
           Locatie is gepind op de kaart
-           
         </dd>
-      </div>
+      </dl>
       <dt
         className="incident-detail__body__definition"
       >
@@ -707,9 +672,7 @@ exports[`<IncidentDetail /> should render correctly when address is missing 1`] 
       </dt>
       <dd
         className="incident-detail__body__value"
-      >
-         
-      </dd>
+      />
       <dt
         className="incident-detail__body__definition"
       >
@@ -780,7 +743,6 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
         className="incident-detail__body__value"
       >
         Normaal
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -791,7 +753,6 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
         className="incident-detail__body__value"
       >
         Overlast op het water
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -802,7 +763,6 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
         className="incident-detail__body__value"
       >
         Overlast op het water - snel varen
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -813,7 +773,6 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
         className="incident-detail__body__value pre-wrap"
       >
         snel boot
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -822,10 +781,9 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
       </dt>
       <dd
         className="incident-detail__body__value"
-      >
-         
-      </dd>
-      <div
+      />
+      <Component />
+      <dl
         className=""
       >
         <dt
@@ -837,10 +795,9 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
           className="incident-detail__body__value"
         >
           Centrum
-           
         </dd>
-      </div>
-      <div
+      </dl>
+      <dl
         className=""
       >
         <dt
@@ -852,9 +809,8 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
           className="incident-detail__body__value"
         >
           Geldersekade 84B- 1012BL Amsterdam
-           
         </dd>
-      </div>
+      </dl>
       <dt
         className="incident-detail__body__definition"
       >
@@ -888,9 +844,7 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
       </dt>
       <dd
         className="incident-detail__body__value"
-      >
-         
-      </dd>
+      />
       <dt
         className="incident-detail__body__definition"
       >
@@ -934,232 +888,6 @@ exports[`<IncidentDetail /> should render correctly with children 1`] = `
           </NavLink>
         </dd>
       </span>
-    </dl>
-  </div>
-</div>
-`;
-
-exports[`<IncidentDetail /> should render correctly with extra properties 1`] = `
-<div
-  className="incident-detail"
->
-  <div
-    className="incident-detail__body"
-  >
-    <dl>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Datum
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-        21-07-1970
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Tijd
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-        11:55
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Datum overlast
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-        21-07-1970
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Tijd overlast
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-        11:55
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Urgentie
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-        Normaal
-         
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Hoofdcategorie
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-        Overlast op het water
-         
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Subcategorie
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-        Overlast op het water - snel varen
-         
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Omschrijving
-      </dt>
-      <dd
-        className="incident-detail__body__value pre-wrap"
-      >
-        snel boot
-         
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Aanvullende kenmerken
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-         
-      </dd>
-      <dl
-        key="extra_boten_snelheid_rederij"
-      >
-        <dt
-          className="incident-detail__body__definition"
-        >
-          extra_boten_snelheid_rederij
-        </dt>
-        <dd
-          className="incident-detail__body__value"
-        >
-          Admiraal Heijn
-           
-        </dd>
-      </dl>
-      <dl
-        key="extra_boten_snelheid_naamboot"
-      >
-        <dt
-          className="incident-detail__body__definition"
-        >
-          extra_boten_snelheid_naamboot
-        </dt>
-        <dd
-          className="incident-detail__body__value"
-        >
-          Speranta
-           
-        </dd>
-      </dl>
-      <dl
-        key="extra_boten_snelheid_rondvaartboot"
-      >
-        <dt
-          className="incident-detail__body__definition"
-        >
-          extra_boten_snelheid_rondvaartboot
-        </dt>
-        <dd
-          className="incident-detail__body__value"
-        >
-          Ja
-           
-        </dd>
-      </dl>
-      <div
-        className=""
-      >
-        <dt
-          className="incident-detail__body__definition"
-        >
-          Stadsdeel
-        </dt>
-        <dd
-          className="incident-detail__body__value"
-        >
-          Centrum
-           
-        </dd>
-      </div>
-      <div
-        className=""
-      >
-        <dt
-          className="incident-detail__body__definition"
-        >
-          Locatie
-        </dt>
-        <dd
-          className="incident-detail__body__value"
-        >
-          Geldersekade 84B- 1012BL Amsterdam
-           
-        </dd>
-      </div>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Email
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      />
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Telefoonnummer
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      />
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Bron
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-        Telefoon 14020
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Verantwoordelijke afdeling
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      >
-         
-      </dd>
-      <dt
-        className="incident-detail__body__definition"
-      >
-        Telefoonnummer
-      </dt>
-      <dd
-        className="incident-detail__body__value"
-      />
     </dl>
   </div>
 </div>
@@ -1222,7 +950,6 @@ exports[`<IncidentDetail /> should render correctly with parent 1`] = `
         className="incident-detail__body__value"
       >
         Normaal
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -1233,7 +960,6 @@ exports[`<IncidentDetail /> should render correctly with parent 1`] = `
         className="incident-detail__body__value"
       >
         Overlast op het water
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -1244,7 +970,6 @@ exports[`<IncidentDetail /> should render correctly with parent 1`] = `
         className="incident-detail__body__value"
       >
         Overlast op het water - snel varen
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -1255,7 +980,6 @@ exports[`<IncidentDetail /> should render correctly with parent 1`] = `
         className="incident-detail__body__value pre-wrap"
       >
         snel boot
-         
       </dd>
       <dt
         className="incident-detail__body__definition"
@@ -1264,10 +988,9 @@ exports[`<IncidentDetail /> should render correctly with parent 1`] = `
       </dt>
       <dd
         className="incident-detail__body__value"
-      >
-         
-      </dd>
-      <div
+      />
+      <Component />
+      <dl
         className=""
       >
         <dt
@@ -1279,10 +1002,9 @@ exports[`<IncidentDetail /> should render correctly with parent 1`] = `
           className="incident-detail__body__value"
         >
           Centrum
-           
         </dd>
-      </div>
-      <div
+      </dl>
+      <dl
         className=""
       >
         <dt
@@ -1294,9 +1016,8 @@ exports[`<IncidentDetail /> should render correctly with parent 1`] = `
           className="incident-detail__body__value"
         >
           Geldersekade 84B- 1012BL Amsterdam
-           
         </dd>
-      </div>
+      </dl>
       <dt
         className="incident-detail__body__definition"
       >
@@ -1330,9 +1051,7 @@ exports[`<IncidentDetail /> should render correctly with parent 1`] = `
       </dt>
       <dd
         className="incident-detail__body__value"
-      >
-         
-      </dd>
+      />
       <dt
         className="incident-detail__body__definition"
       >

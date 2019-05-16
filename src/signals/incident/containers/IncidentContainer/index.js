@@ -38,7 +38,7 @@ export class IncidentContainer extends React.Component {
           <div className="incident-container__alert">
             <b>*** BELANGRIJK ***</b><br />
               Melding over horeca of evenementen? Vul dan bij de melding altijd uw contactgegevens in, dan kunnen wij u beter en sneller helpen.<br /><br />
-              Heeft u een melding over straatverlichting, verkeerslichten en klokken? <a href="https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx">Gebruik tijdelijk dit aparte formulier!</a>
+              Heeft u een melding over verkeerslichten? <a href="https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx">Gebruik tijdelijk dit aparte formulier!</a>
           </div>
           <IncidentWizard
             wizardDefinition={wizardDefinition}

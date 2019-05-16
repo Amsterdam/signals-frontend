@@ -52,8 +52,24 @@ describe('<IncidentWizard />', () => {
     const wrapper = createComponent({
       beschrijf: {
         form: {
-          controls: {}
+          controls: {
+            with_definition: {}
+          }
         }
+      }
+    });
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('expect to render form factory correctly', () => {
+    const wrapper = createComponent({
+      beschrijf: {
+        formFactory: () => ({
+          controls: {
+            with_factory: {}
+          }
+        })
       }
     });
 

@@ -7,6 +7,8 @@ import IncidentDetail, { HIGHLIGHT_TIMEOUT_INTERVAL } from './index';
 import priorityList from '../../../../definitions/priorityList';
 import stadsdeelList from '../../../../definitions/stadsdeelList';
 
+
+jest.mock('../ExtraProperties', () => () => 'ExtraProperties');
 jest.mock('shared/services/string-parser/string-parser');
 
 describe('<IncidentDetail />', () => {
@@ -36,14 +38,6 @@ describe('<IncidentDetail />', () => {
   });
 
   it('should render correctly', () => {
-    const wrapper = shallow(
-      <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
-    );
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it('should render correctly with extra properties', () => {
-    incident.extra_properties = { extra_boten_snelheid_rederij: 'Admiraal Heijn', extra_boten_snelheid_naamboot: 'Speranta', extra_boten_snelheid_rondvaartboot: 'Ja' };
     const wrapper = shallow(
       <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
     );

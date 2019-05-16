@@ -328,9 +328,9 @@ exports[`<IncidentNavigation /> rendering render correctly second step when subm
   <IncidentNavigation
     controls={
       Object {
-        "navigation_submit_button": Object {
+        "hide_navigation_buttons": Object {
           "meta": Object {
-            "isVisible": false,
+            "isVisible": true,
           },
         },
       }

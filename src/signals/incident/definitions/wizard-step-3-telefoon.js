@@ -15,7 +15,7 @@ export default {
       phone: {
         meta: {
           label: 'Wat is uw telefoonnummer?',
-          subtitle: 'Zo kunt u ons helpen het probleem sneller of beter op te lossen.',
+          subheader: 'Zo kunt u ons helpen het probleem sneller of beter op te lossen.',
           path: 'reporter.phone',
           placeholder: 'Telefoonnummer',
           type: 'text',

@@ -66,13 +66,13 @@ describe('<SplitForm />', () => {
     it('should toggle visiblity of part 3 on and off and on again', () => {
       const wrapper = shallow(<SplitForm {...props} />);
 
-      expect(wrapper.state('isVisible')).toBeFalsy();
+      expect(wrapper.state('isVisible')).toBe(false);
       wrapper.find('.split-form__button-show').simulate('click');
 
-      expect(wrapper.state('isVisible')).toBeTruthy();
+      expect(wrapper.state('isVisible')).toBe(true);
       wrapper.find('.split-form__button-hide').simulate('click');
 
-      expect(wrapper.state('isVisible')).toBeFalsy();
+      expect(wrapper.state('isVisible')).toBe(false);
     });
   });
 
