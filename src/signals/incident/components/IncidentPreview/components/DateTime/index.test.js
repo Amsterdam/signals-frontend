@@ -13,7 +13,10 @@ describe('Preview component <DateTime />', () => {
   it('should render now correctly', () => {
     wrapper.setProps({
       label: 'Datetime',
-      value: 'Nu'
+      value: {
+        id: 'Nu',
+        label: 'Nu'
+      }
     });
 
     expect(wrapper).toMatchSnapshot();
@@ -22,7 +25,10 @@ describe('Preview component <DateTime />', () => {
   it('should render earlier today correctly', () => {
     wrapper.setProps({
       label: 'Datetime',
-      value: 'Eerder',
+      value: {
+        id: 'Eerder',
+        label: 'Eerder'
+      },
       incident: {
         incident_date: 'Vandaag',
         incident_time_hours: 13,
@@ -36,7 +42,10 @@ describe('Preview component <DateTime />', () => {
   it('should render earlier date correctly', () => {
     wrapper.setProps({
       label: 'Datetime',
-      value: 'Eerder',
+      value: {
+        id: 'Eerder',
+        label: 'Eerder'
+      },
       incident: {
         incident_date: '2018-02-21',
         incident_time_hours: 6,
