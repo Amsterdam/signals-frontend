@@ -5,7 +5,7 @@ import moment from 'moment';
 import './style.scss';
 
 function getValue(value, incident) {
-  if (value === 'Nu') {
+  if (value && value.id === 'Nu') {
     return 'Nu';
   }
   if (!incident) {
