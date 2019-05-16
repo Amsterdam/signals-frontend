@@ -10,6 +10,7 @@ import SelectInput from './SelectInput/';
 import TextInput from './TextInput/';
 import TextareaInput from './TextareaInput/';
 import MapInput from './MapInput';
+import MapSelect from './MapSelect';
 
 import components from './index';
 
@@ -22,6 +23,7 @@ describe('Form components', () => {
       FileInput,
       HiddenInput,
       MapInput,
+      MapSelect,
       PlainText,
       RadioInput,
       RedirectButton,

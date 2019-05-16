@@ -10,6 +10,7 @@ import SelectInput from './SelectInput/';
 import TextInput from './TextInput/';
 import TextareaInput from './TextareaInput/';
 import MapInput from './MapInput';
+import MapSelect from './MapSelect';
 
 export default {
   CheckboxInput,
@@ -18,6 +19,7 @@ export default {
   FileInput,
   HiddenInput,
   MapInput,
+  MapSelect,
   PlainText,
   RadioInput,
   RedirectButton,
