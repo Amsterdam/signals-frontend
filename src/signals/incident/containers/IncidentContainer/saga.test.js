@@ -26,6 +26,12 @@ import { makeSelectCategories } from '../../../../containers/App/selectors';
 
 jest.mock('../../services/map-controls-to-params');
 jest.mock('../../services/set-classification');
+jest.mock('../../../../containers/App/selectors', () => {
+  function mockedAakeSelectCategories() { }
+  return ({
+    makeSelectCategories: () => mockedAakeSelectCategories
+  });
+});
 
 describe('IncidentContainer saga', () => {
   afterEach(() => {
@@ -61,8 +67,7 @@ describe('IncidentContainer saga', () => {
           'Content-Type': 'application/json'
         }
       }));
-      expect(gen.next().value).toBe(select(makeSelectCategories()));
-      // gen.next();
+      expect(gen.next().value).toEqual(select(makeSelectCategories()));
       expect(gen.next(categories).value).toEqual(put(getClassificationSuccess()));
     });
 

@@ -17,7 +17,7 @@ describe('Form component <HandlingMessage />', () => {
   });
 
   describe('rendering', () => {
-    it('should render plain text correctly', () => {
+    it('should render handling message correctly', () => {
       wrapper.setProps({
         meta: {
           key: 'incident.handling_message',
@@ -33,7 +33,22 @@ describe('Form component <HandlingMessage />', () => {
       expect(wrapper).toMatchSnapshot();
     });
 
-    it('should render no plain text when not visible', () => {
+    it('should render empty correctly with no handling message', () => {
+      wrapper.setProps({
+        meta: {
+          isVisible: true
+        },
+        parent: {
+          meta: {
+            incidentContainer
+          }
+        }
+      });
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render no handling message when not visible', () => {
       wrapper.setProps({
         meta: {
           isVisible: false

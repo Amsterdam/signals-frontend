@@ -1,12 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Form component <HandlingMessage /> rendering should render no plain text when not visible 1`] = `
+exports[`Form component <HandlingMessage /> rendering should render empty correctly with no handling message 1`] = `
 <div
-  className="handling-message "
-/>
+  className="handling-message row"
+>
+  <div
+    className="col-12 mode_input"
+  >
+    <div
+      className="handling-message__box"
+    >
+      <div
+        className="label"
+      />
+    </div>
+  </div>
+</div>
 `;
 
-exports[`Form component <HandlingMessage /> rendering should render plain text correctly 1`] = `
+exports[`Form component <HandlingMessage /> rendering should render handling message correctly 1`] = `
 <div
   className="handling-message row"
 >
@@ -34,4 +46,10 @@ exports[`Form component <HandlingMessage /> rendering should render plain text c
     </div>
   </div>
 </div>
+`;
+
+exports[`Form component <HandlingMessage /> rendering should render no handling message when not visible 1`] = `
+<div
+  className="handling-message "
+/>
 `;
