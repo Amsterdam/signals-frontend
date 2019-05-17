@@ -52,6 +52,14 @@ describe('<IncidentDetail />', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
+  it('should render correctly with extra properties', () => {
+    incident.extra_properties = [1, 2, 3];
+    const wrapper = shallow(
+      <IncidentDetail incident={incident} stadsdeelList={stadsdeelList} priorityList={priorityList} />
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
+
   it('should render correctly with parent', () => {
     incident.parent_id = '42';
     const wrapper = shallow(
