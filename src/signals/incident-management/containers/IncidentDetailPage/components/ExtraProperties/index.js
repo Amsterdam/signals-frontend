@@ -6,7 +6,7 @@ import isBoolean from 'lodash.isboolean';
 
 const getValue = (answer) => {
   if (isArray(answer)) {
-    return answer.map((item) => item.label).join(', ');
+    return answer.map((item) => isObject(item) ? item.label : item).join(', ');
   }
   if (isObject(answer)) {
     if (isBoolean(answer.value)) {
@@ -20,7 +20,7 @@ const getValue = (answer) => {
 
 const ExtraProperties = ({ items }) => (
   <div className="extra-properties">
-    {items.map((item) =>
+    {items && items.map((item) =>
       (<dl key={item.id}>
         <dt className="incident-detail__body__definition">{item.label}</dt>
         <dd className="incident-detail__body__value">{getValue(item.answer)}</dd>

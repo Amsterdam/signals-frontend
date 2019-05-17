@@ -177,9 +177,19 @@ export default {
             'overig'
           ]
         },
+        endpoint: 'maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Verlichting&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326',
+        zoomMin: 18,
+        legend_items: [
+          'lichtmast',
+          'grachtmast',
+          'overspanning',
+          'gevelArmatuur',
+          'schijnwerper',
+          'overig_lichtpunt',
+        ],
         pathMerge: 'extra_properties'
       },
-      render: FormComponents.TextInput
+      render: FormComponents.MapSelect
     },
 
     extra_klok: {
@@ -269,9 +279,14 @@ export default {
             'overig'
           ]
         },
+        endpoint: 'maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Klokken&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326',
+        legend_items: [
+          'klok'
+        ],
+        zoomMin: 14,
         pathMerge: 'extra_properties'
       },
-      render: FormComponents.TextInput
+      render: FormComponents.MapSelect
     },
 
     extra_fietsrek_aanvragen: {

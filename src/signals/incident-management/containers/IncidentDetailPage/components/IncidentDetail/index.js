@@ -88,10 +88,12 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
             <dd className="incident-detail__body__value">{incident.category.sub}</dd>
             <dt className="incident-detail__body__definition">Omschrijving</dt>
             <dd className="incident-detail__body__value pre-wrap">{incident.text}</dd>
-            <dt className="incident-detail__body__definition">Aanvullende kenmerken</dt>
-            <dd className="incident-detail__body__value">{incident.text_extra}</dd>
 
-            <ExtraProperties items={incident.extra_properties} />
+            {incident.extra_properties ? (<dl>
+              <dt className="incident-detail__body__definition">Aanvullende kenmerken</dt>
+              <dd className="incident-detail__body__value">{incident.text_extra}</dd>
+              <ExtraProperties items={incident.extra_properties} />
+            </dl>) : ''}
 
             <dl className={stadsdeelUpdated ? 'incident-detail__body--highlight' : ''}>
               <dt className="incident-detail__body__definition">Stadsdeel</dt>
@@ -112,17 +114,17 @@ class IncidentDetail extends React.Component { // eslint-disable-line react/pref
             <dt className="incident-detail__body__definition">Telefoonnummer</dt>
             <dd className="incident-detail__body__value">{incident.reporter.phone}</dd>
             {incident.parent_id ?
-            (<span>
+            (<dl>
               <dt className="incident-detail__body__definition">Oorspronkelijke melding</dt>
               <dd className="incident-detail__body__value"><NavLink className="incident-detail__body__link" to={`/manage/incident/${incident.parent_id}`}>{incident.parent_id}</NavLink></dd>
-            </span>)
+            </dl>)
             : ''}
             {incident.child_ids && incident.child_ids.length > 0 ?
-                (<span>
+                (<dl>
                   <dt className="incident-detail__body__definition">Gesplitst in</dt>
                   <dd className="incident-detail__body__value">{incident.child_ids.map((child_id) =>
                     (<NavLink className="incident-detail__body__link" key={child_id} to={`/manage/incident/${child_id}`}>{child_id}</NavLink>))}</dd>
-                </span>)
+                </dl>)
                : ''}
           </dl>
         </div>
