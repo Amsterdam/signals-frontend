@@ -6,12 +6,19 @@ describe('The map dynamic fields service', () => {
     })).toEqual('foo bar');
   });
 
-  it('should be undefined by default', () => {
+  it('should map fields correctly', () => {
     expect(mapDynamicFields('foo {incident.id} bar {incident.text}', {
       incident: {
         id: 666,
         text: 'Deze tekst dus'
       }
     })).toEqual('foo 666 bar Deze tekst dus');
+  });
+
+  it('should map fields give an error when not found', () => {
+    expect(mapDynamicFields('foo {incident.id} bar', {
+      incident: {
+      }
+    })).toEqual('foo [incident.id] bar');
   });
 });
