@@ -62,8 +62,8 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 "text_melding_extra": Object {
                   "meta": Object {
                     "className": "col-sm-12 col-md-6",
+                    "key": "incident.handling_message",
                     "type": "bedankt",
-                    "value": "{incident.handling_message}",
                   },
                   "render": [Function],
                 },

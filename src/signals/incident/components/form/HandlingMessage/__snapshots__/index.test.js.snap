@@ -1,94 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Form component <PlainText /> rendering should render multiple parargraphs of text correctly 1`] = `
+exports[`Form component <HandlingMessage /> rendering should render no plain text when not visible 1`] = `
 <div
-  className="row"
->
-  <div
-    className="col-12 mode_input"
-  >
-    <div
-      className="citation plain-text__box"
-    >
-      <div
-        className="label"
-      />
-      <div
-        className="plain-text__box-p plain-text__box-p-1"
-        key="undefined-1"
-      >
-        <div
-          className="plain-text__box-p"
-          key="undefined-splitted-1"
-        >
-          Lorem Ipsum
-        </div>
-      </div>
-      <div
-        className="plain-text__box-p plain-text__box-p-2"
-        key="undefined-2"
-      >
-        <div
-          className="plain-text__box-p"
-          key="undefined-splitted-1"
-        >
-          Lorem Ipsum
-        </div>
-      </div>
-      <div
-        className="plain-text__box-p plain-text__box-p-3"
-        key="undefined-3"
-      >
-        <div
-          className="plain-text__box-p"
-          key="undefined-splitted-1"
-        >
-          Lorem Ipsum
-        </div>
-      </div>
-      <div
-        className="plain-text__box-p plain-text__box-p-4"
-        key="undefined-4"
-      >
-        <MockComponent>
-          Foo bar
-        </MockComponent>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Form component <PlainText /> rendering should render multiple parargraphs of text correctly 2`] = `
-<div>
-  Foo bar
-</div>
-`;
-
-exports[`Form component <PlainText /> rendering should render no plain text when not visible 1`] = `
-<div
-  className=""
+  className="handling-message "
 />
 `;
 
-exports[`Form component <PlainText /> rendering should render plain text correctly 1`] = `
+exports[`Form component <HandlingMessage /> rendering should render plain text correctly 1`] = `
 <div
-  className="row"
+  className="handling-message row"
 >
   <div
     className="col-12 mode_input"
   >
     <div
-      className="citation plain-text__box"
+      className="handling-message__box"
     >
       <div
         className="label"
       />
       <div
         className="plain-text__box-p"
-        key="undefined-splitted-1"
+        key="undefined-1"
       >
-        Lorem Ipsum
+        Jaaaaa!
+      </div>
+      <div
+        className="plain-text__box-p"
+        key="undefined-2"
+      >
+        Neee!
       </div>
     </div>
   </div>

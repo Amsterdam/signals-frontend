@@ -3,22 +3,16 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import HandlingMessage from './index';
-import mapDynamicFields from '../../../services/map-dynamic-fields';
-
-jest.mock('../../../services/map-dynamic-fields');
 
 describe('Form component <HandlingMessage />', () => {
-  const MockComponent = ({ children }) => <div>{children}</div>;
   const incidentContainer = {
     incident: {
-      id: 666
+      handling_message: 'Jaaaaa!\n\nNeee!'
     }
   };
   let wrapper;
 
   beforeEach(() => {
-    mapDynamicFields.mockImplementation(() => 'Lorem Ipsum');
-
     wrapper = shallow(<HandlingMessage />);
   });
 
@@ -26,8 +20,7 @@ describe('Form component <HandlingMessage />', () => {
     it('should render plain text correctly', () => {
       wrapper.setProps({
         meta: {
-          value: 'Lorem Ipsum',
-          type: 'citation',
+          key: 'incident.handling_message',
           isVisible: true
         },
         parent: {
@@ -38,32 +31,6 @@ describe('Form component <HandlingMessage />', () => {
       });
 
       expect(wrapper).toMatchSnapshot();
-      expect(mapDynamicFields).toHaveBeenCalledWith('Lorem Ipsum', incidentContainer);
-    });
-
-    it('should render multiple parargraphs of text correctly', () => {
-      wrapper.setProps({
-        meta: {
-          value: [
-            'Lorem Ipsum',
-            'jumps over',
-            'DOG',
-            <MockComponent>Foo bar</MockComponent>
-          ],
-          type: 'citation',
-          isVisible: true
-        },
-        parent: {
-          meta: {
-            incidentContainer
-          }
-        }
-      });
-
-      expect(wrapper).toMatchSnapshot();
-
-      const wrap = wrapper.find(MockComponent).shallow();
-      expect(wrap).toMatchSnapshot();
     });
 
     it('should render no plain text when not visible', () => {
