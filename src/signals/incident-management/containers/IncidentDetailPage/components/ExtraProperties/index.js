@@ -20,7 +20,7 @@ const getValue = (answer) => {
 
 const ExtraProperties = ({ items }) => (
   <div className="extra-properties">
-    {items.map((item) =>
+    {items && items.map((item) =>
       (<dl key={item.id}>
         <dt className="incident-detail__body__definition">{item.label}</dt>
         <dd className="incident-detail__body__value">{getValue(item.answer)}</dd>
