@@ -2,94 +2,84 @@ const MINIMUM_CERTAINTY = 0.40;
 const DEFAULT_CATEGORY = 'overig';
 const categoryServerUri = 'https://api.data.amsterdam.nl/signals/v1/public/terms/categories/';
 const DEFAULT_CATEGORY_LINK = `${categoryServerUri}${DEFAULT_CATEGORY}/sub_categories/${DEFAULT_CATEGORY}`;
-const defaultCategory = {
-  category: DEFAULT_CATEGORY,
-  subcategory: DEFAULT_CATEGORY,
-  subcategory_link: DEFAULT_CATEGORY_LINK
-};
 
-function setClassification(result) {
-  if (!result) {
-    return defaultCategory;
+const setClassification = ({ hoofdrubriek, subrubriek }, subcategories) => {
+  let category = DEFAULT_CATEGORY;
+  let subcategory = DEFAULT_CATEGORY;
+  let subcategory_link = DEFAULT_CATEGORY_LINK;
+
+  if (!hoofdrubriek || !subrubriek) {
+    const found = subcategories && subcategories.find((sub) => sub.key.includes(`${DEFAULT_CATEGORY}/sub_categories/${DEFAULT_CATEGORY}`));
+    return {
+      category: DEFAULT_CATEGORY,
+      subcategory: DEFAULT_CATEGORY,
+      subcategory_link: DEFAULT_CATEGORY_LINK,
+      handling_message: (found && found.handling_message) || 'Niet gevonden.'
+    };
   }
 
-  const useSubClassification = result && result.subrubriek && MINIMUM_CERTAINTY <= result.subrubriek[1][0];
-  const useMainClassification = result && result.hoofdrubriek && MINIMUM_CERTAINTY <= result.hoofdrubriek[1][0];
+  const useSubClassification = subrubriek && MINIMUM_CERTAINTY <= subrubriek[1][0];
+  const useMainClassification = hoofdrubriek && MINIMUM_CERTAINTY <= hoofdrubriek[1][0];
 
   if (useSubClassification) {
-    const subcategoryLink = result.subrubriek[0][0];
-    const subcategory = subcategoryLink.match(/\/sub_categories\/(.*?)$/)[1];
-    const category = subcategoryLink.match(/\/categories\/(.*?)\/sub_categories\//)[1];
-
-    return {
-      category,
-      subcategory,
-      subcategory_link: subcategoryLink
-    };
+    subcategory_link = subrubriek[0][0];
+    category = subcategory_link.match(/\/categories\/(.*?)\/sub_categories\//)[1];
+    subcategory = subcategory_link.match(/\/sub_categories\/(.*?)$/)[1];
   } else if (useMainClassification) {
-    switch (result.hoofdrubriek[0][0]) {
+    // eslint-disable-next-line default-case
+    switch (hoofdrubriek[0][0]) {
       case `${categoryServerUri}afval`:
-        return {
-          category: 'afval',
-          subcategory: 'overig-afval',
-          subcategory_link: `${categoryServerUri}afval/sub_categories/overig-afval`
-        };
+        category = 'afval';
+        subcategory = 'overig-afval';
+        break;
 
       case `${categoryServerUri}openbaar-groen-en-water`:
-        return {
-          category: 'openbaar-groen-en-water',
-          subcategory: 'overig-groen-en-water',
-          subcategory_link: `${categoryServerUri}openbaar-groen-en-water/sub_categories/overig-groen-en-water`
-        };
+        category = 'openbaar-groen-en-water';
+        subcategory = 'overig-groen-en-water';
+        break;
 
       case `${categoryServerUri}overlast-bedrijven-en-horeca`:
-        return {
-          category: 'overlast-bedrijven-en-horeca',
-          subcategory: 'overig-horecabedrijven',
-          subcategory_link: `${categoryServerUri}overlast-bedrijven-en-horeca/sub_categories/overig-horecabedrijven`
-        };
+        category = 'overlast-bedrijven-en-horeca';
+        subcategory = 'overig-horecabedrijven';
+        break;
 
       case `${categoryServerUri}overlast-in-de-openbare-ruimte`:
-        return {
-          category: 'overlast-in-de-openbare-ruimte',
-          subcategory: 'overig-openbare-ruimte',
-          subcategory_link: `${categoryServerUri}overlast-in-de-openbare-ruimte/sub_categories/overig-openbare-ruimte`
-        };
+        category = 'overlast-in-de-openbare-ruimte';
+        subcategory = 'overig-openbare-ruimte';
+        break;
 
       case `${categoryServerUri}overlast-op-het-water`:
-        return {
-          category: 'overlast-op-het-water',
-          subcategory: 'overig-boten',
-          subcategory_link: `${categoryServerUri}overlast-op-het-water/sub_categories/overig-boten`
-        };
+        category = 'overlast-op-het-water';
+        subcategory = 'overig-boten';
+        break;
 
       case `${categoryServerUri}overlast-van-dieren`:
-        return {
-          category: 'overlast-van-dieren',
-          subcategory: 'overig-dieren',
-          subcategory_link: `${categoryServerUri}overlast-van-dieren/sub_categories/overig-dieren`
-        };
+        category = 'overlast-van-dieren';
+        subcategory = 'overig-dieren';
+        break;
 
       case `${categoryServerUri}overlast-van-en-door-personen-of-groepen`:
-        return {
-          category: 'overlast-van-en-door-personen-of-groepen',
-          subcategory: 'overige-overlast-door-personen',
-          subcategory_link: `${categoryServerUri}overlast-van-en-door-personen-of-groepen/sub_categories/overige-overlast-door-personen`
-        };
+        category = 'overlast-van-en-door-personen-of-groepen';
+        subcategory = 'overige-overlast-door-personen';
+        break;
 
       case `${categoryServerUri}wegen-verkeer-straatmeubilair`:
-        return {
-          category: 'wegen-verkeer-straatmeubilair',
-          subcategory: 'overig-wegen-verkeer-straatmeubilair',
-          subcategory_link: `${categoryServerUri}wegen-verkeer-straatmeubilair/sub_categories/overig-wegen-verkeer-straatmeubilair`
-        };
-
-      default:
-        return defaultCategory;
+        category = 'wegen-verkeer-straatmeubilair';
+        subcategory = 'overig-wegen-verkeer-straatmeubilair';
+        break;
     }
+
+    subcategory_link = `${categoryServerUri}${category}/sub_categories/${subcategory}`;
   }
 
-  return defaultCategory;
-}
+  const found = subcategories && subcategories.find((sub) => sub.key.includes(`${category}/sub_categories/${subcategory}`));
+
+  return {
+    category,
+    subcategory,
+    subcategory_link,
+    handling_message: (found && found.handling_message) || 'Niet gevonden.'
+  };
+};
 
 export default setClassification;

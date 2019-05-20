@@ -67,7 +67,8 @@ function incidentContainerReducer(state = initialState, action) {
           ...(initialState.get('incident').toJS()),
           id: action.payload.id,
           category: action.payload.category.main_slug,
-          subcategory: action.payload.category.sub_slug
+          subcategory: action.payload.category.sub_slug,
+          handling_message: state.get('incident').toJS().handling_message
         }));
 
     case CREATE_INCIDENT_ERROR:

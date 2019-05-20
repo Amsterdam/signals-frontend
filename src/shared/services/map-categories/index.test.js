@@ -21,12 +21,14 @@ describe('The mapCategories service', () => {
               _links: { self: { href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/dode-dieren' } },
               name: 'Dode dieren',
               slug: 'dode-dieren',
+              handling_message: 'handling dode dieren',
               is_active: true
             },
             {
               _links: { self: { href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven' } },
               name: 'Duiven',
-              slug: 'duiven'
+              slug: 'duiven',
+              handling_message: 'handling duiven',
             }
           ]
         },
@@ -39,6 +41,7 @@ describe('The mapCategories service', () => {
               _links: { self: { href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/gladheid' } },
               name: 'Gladheid',
               slug: 'gladheid',
+              handling_message: 'handling gladheid',
               is_active: true
             }
           ]
@@ -60,12 +63,16 @@ describe('The mapCategories service', () => {
         {
           key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/dode-dieren',
           value: 'Dode dieren',
-          slug: 'dode-dieren'
+          slug: 'dode-dieren',
+          category_slug: 'overlast-van-dieren',
+          handling_message: 'handling dode dieren'
         },
         {
           key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/gladheid',
           value: 'Gladheid',
-          slug: 'gladheid'
+          slug: 'gladheid',
+          category_slug: 'wegen-verkeer-straatmeubilair',
+          handling_message: 'handling gladheid'
         }
       ],
       mainToSub: {

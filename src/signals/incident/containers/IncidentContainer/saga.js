@@ -1,4 +1,4 @@
-import { all, call, put, /* select, */ takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import { replace } from 'react-router-redux';
 import request from 'utils/request';
 
@@ -15,13 +15,12 @@ import {
   setPriorityError
 } from './actions';
 import { uploadRequest, showGlobalError } from '../../../../containers/App/actions';
-
+import { makeSelectCategories } from '../../../../containers/App/selectors';
 import mapControlsToParams from '../../services/map-controls-to-params';
 import setClassification from '../../services/set-classification';
 
 export function* getClassification(action) {
   const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals_mltool/predict`;
-
   try {
     const result = yield call(request, requestURL, {
       method: 'POST',
@@ -32,7 +31,7 @@ export function* getClassification(action) {
         'Content-Type': 'application/json'
       }
     });
-
+    yield select(makeSelectCategories());
     yield put(getClassificationSuccess(setClassification(result)));
   } catch (error) {
     yield put(getClassificationError(setClassification()));
