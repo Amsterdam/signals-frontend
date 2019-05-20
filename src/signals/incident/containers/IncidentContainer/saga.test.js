@@ -27,9 +27,9 @@ import { makeSelectCategories } from '../../../../containers/App/selectors';
 jest.mock('../../services/map-controls-to-params');
 jest.mock('../../services/set-classification');
 jest.mock('../../../../containers/App/selectors', () => {
-  function mockedAakeSelectCategories() { }
+  function mockedMakeSelectCategories() { }
   return ({
-    makeSelectCategories: () => mockedAakeSelectCategories
+    makeSelectCategories: () => mockedMakeSelectCategories
   });
 });
 

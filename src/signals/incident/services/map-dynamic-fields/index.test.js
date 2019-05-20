@@ -19,6 +19,6 @@ describe('The map dynamic fields service', () => {
     expect(mapDynamicFields('foo {incident.id} bar', {
       incident: {
       }
-    })).toEqual('foo [incident.id] bar');
+    })).toEqual('foo [niet gevonden: incident.id] bar');
   });
 });
