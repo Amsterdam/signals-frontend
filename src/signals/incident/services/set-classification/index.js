@@ -3,7 +3,9 @@ const DEFAULT_CATEGORY = 'overig';
 const categoryServerUri = 'https://api.data.amsterdam.nl/signals/v1/public/terms/categories/';
 const DEFAULT_CATEGORY_LINK = `${categoryServerUri}${DEFAULT_CATEGORY}/sub_categories/${DEFAULT_CATEGORY}`;
 
-const setClassification = ({ hoofdrubriek, subrubriek }, subcategories) => {
+const setClassification = (result, subcategories) => {
+  const hoofdrubriek = result && result.hoofdrubriek;
+  const subrubriek = result && result.subrubriek;
   let category = DEFAULT_CATEGORY;
   let subcategory = DEFAULT_CATEGORY;
   let subcategory_link = DEFAULT_CATEGORY_LINK;

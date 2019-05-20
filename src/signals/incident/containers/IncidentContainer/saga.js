@@ -31,8 +31,8 @@ export function* getClassification(action) {
         'Content-Type': 'application/json'
       }
     });
-    yield select(makeSelectCategories());
-    yield put(getClassificationSuccess(setClassification(result)));
+    const categories = yield select(makeSelectCategories());
+    yield put(getClassificationSuccess(setClassification(result, categories.sub)));
   } catch (error) {
     yield put(getClassificationError(setClassification()));
   }
