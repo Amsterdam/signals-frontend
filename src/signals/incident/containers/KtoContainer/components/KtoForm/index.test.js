@@ -146,10 +146,10 @@ describe('<KtoForm />', () => {
 
     it('submit JA should trigger store kto', () => {
       form = {
-        tevreden: '',
+        tevreden: {},
         tevreden_anders: '',
         text_extra: 'Zoveel te vertellen',
-        allows_contact: true,
+        allows_contact: { value: true },
         is_satisfied: true
       };
       instance.form.patchValue(form);
@@ -174,10 +174,12 @@ describe('<KtoForm />', () => {
 
     it('submit NEE with Anders-option should trigger store kto', () => {
       form = {
-        niet_tevreden: andersOptionText,
+        niet_tevreden: {
+          id: 'anders',
+          label: andersOptionText
+        },
         niet_tevreden_anders: 'Meer over die melding',
         text_extra: '',
-        allows_contact: false,
         is_satisfied: false
       };
       instance.form.patchValue(form);

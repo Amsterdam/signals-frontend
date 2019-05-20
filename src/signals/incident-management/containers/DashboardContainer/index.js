@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { FormBuilder } from 'react-reactive-form';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash.isequal';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';

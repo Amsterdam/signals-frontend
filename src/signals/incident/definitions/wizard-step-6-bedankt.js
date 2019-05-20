@@ -28,7 +28,6 @@ export default {
           ifOneOf: {
             subcategory: [
               'huisafval',
-              'bedrijfsafval',
               'puin-sloopafval',
               'container-is-vol',
               'container-is-kapot',
@@ -135,7 +134,7 @@ export default {
               'put-riolering-verstopt',
               'speelplaats',
               'sportvoorziening',
-              'verkeersoverlast-verkeerssituaties',
+              'verkeersoverlast',
               'graffiti-wildplak',
               'hinderlijk-geplaatst-object',
               'boom',
@@ -203,8 +202,7 @@ export default {
               'stank-geluidsoverlast',
               'bouw-sloopoverlast',
               'auto-scooter-bromfietswrak',
-              'hondenpoep',
-              'deelfiets'
+              'hondenpoep'
             ]
           },
           value: [

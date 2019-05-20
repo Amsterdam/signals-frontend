@@ -22,7 +22,7 @@ function IncidentWizard({ wizardDefinition, getClassification, updateIncident, c
     <div className="incident-wizard">
       <Route
         render={({ history }) => (
-          <Wizard history={history} onNext={(wiz) => onNext(wizardDefinition, wiz, incidentContainer.incident)}>
+          <Wizard history={history} onNext={(wiz) => onNext(wizardDefinition, wiz, incidentContainer.incident, isAuthenticated)}>
             {incidentContainer.loading ? <LoadingIndicator /> : ''}
             {!incidentContainer.loading ?
               <Steps>
@@ -41,9 +41,9 @@ function IncidentWizard({ wizardDefinition, getClassification, updateIncident, c
                           />
                           : ''}
 
-                        {wizardDefinition[key].form ?
+                        {wizardDefinition[key].form || wizardDefinition[key].formFactory ?
                           <IncidentForm
-                            fieldConfig={wizardDefinition[key].form}
+                            fieldConfig={wizardDefinition[key].form || wizardDefinition[key].formFactory(incidentContainer.incident)}
                             incidentContainer={incidentContainer}
                             getClassification={getClassification}
                             updateIncident={updateIncident}

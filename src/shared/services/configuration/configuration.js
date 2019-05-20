@@ -2,6 +2,7 @@ import globalConfig from 'globalConfig'; // eslint-disable-line import/extension
 
 const domainName = 'meldingen.amsterdam.nl';
 const apiDomainName = 'api.data.amsterdam.nl';
+const mapserverDomainName = 'map.data.amsterdam.nl';
 
 export class Configuration {
   constructor(host) {
@@ -20,6 +21,7 @@ export class Configuration {
         ROOT: `https://${this.hostname}/`,
         AUTH_ROOT: `https://${apiDomainName}/`,
         API_ROOT_MLTOOL: `https://${apiDomainName}/`,
+        API_ROOT_MAPSERVER: `https://${mapserverDomainName}/`,
       };
     } else if (this.hostname === `acc.${domainName}`) {
       config = {
@@ -27,6 +29,7 @@ export class Configuration {
         ROOT: `https://${this.hostname}/`,
         AUTH_ROOT: `https://acc.${apiDomainName}/`,
         API_ROOT_MLTOOL: `https://acc.${apiDomainName}/`,
+        API_ROOT_MAPSERVER: `https://acc.${mapserverDomainName}/`,
       };
     } else if (this.hostname === `opleiding.${domainName}`) {
       config = {
@@ -34,13 +37,15 @@ export class Configuration {
         ROOT: `https://${this.hostname}/`,
         AUTH_ROOT: `https://acc.${apiDomainName}/`,
         API_ROOT_MLTOOL: `https://api.opleiding.${domainName}/`,
+        API_ROOT_MAPSERVER: `https://${mapserverDomainName}/`,
       };
     } else {
       config = {
         API_ROOT: `https://acc.${apiDomainName}/`,
         ROOT: 'http://localhost:3001/',
         AUTH_ROOT: 'https://acc.api.data.amsterdam.nl/',
-        API_ROOT_MLTOOL: `https://acc.${apiDomainName}/`
+        API_ROOT_MLTOOL: `https://acc.${apiDomainName}/`,
+        API_ROOT_MAPSERVER: `https://acc.${mapserverDomainName}/`,
       };
     }
 
@@ -71,6 +76,10 @@ export class Configuration {
 
   get API_ROOT_MLTOOL() {
     return this.config.API_ROOT_MLTOOL;
+  }
+
+  get API_ROOT_MAPSERVER() {
+    return this.config.API_ROOT_MAPSERVER;
   }
 }
 

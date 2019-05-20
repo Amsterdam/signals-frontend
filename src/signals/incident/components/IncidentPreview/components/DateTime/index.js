@@ -5,7 +5,7 @@ import moment from 'moment';
 import './style.scss';
 
 function getValue(value, incident) {
-  if (value === 'Nu') {
+  if (value && value.id === 'Nu') {
     return 'Nu';
   }
   if (!incident) {
@@ -35,7 +35,7 @@ const DateTime = ({ label, value, incident }) => (
 
 DateTime.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.object,
   incident: PropTypes.object
 };
 

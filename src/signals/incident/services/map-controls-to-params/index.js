@@ -1,17 +1,34 @@
 import moment from 'moment';
-import { forEach, set } from 'lodash';
+import forEach from 'lodash.foreach';
+import set from 'lodash.set';
+import isFunction from 'lodash.isfunction';
+import isObject from 'lodash.isobject';
+
+const convertValue = (value) => {
+  if (value === 0) {
+    return 0;
+  }
+  if (value === true) {
+    return 'ja';
+  }
+  if (value === false) {
+    return 'nee';
+  }
+  return value;
+};
 
 const mapControlsToParams = (incident, wizard) => {
   let date;
 
-  if (incident.datetime === 'Nu') {
+  if (incident.datetime && incident.datetime.id === 'Nu') {
     date = moment();
   } else if (incident.incident_date) {
     const time = `${incident.incident_time_hours}:${incident.incident_time_minutes}`;
-    date = moment(`${incident.incident_date === 'Vandaag' ? moment().format('YYYY-MM-DD') : incident.incident_date} ${time}`, 'YYYY-MM-DD HH:mm');
+    date = moment(`${incident.incident_date && incident.incident_date.id === 'Vandaag' ? moment().format('YYYY-MM-DD') : incident.incident_date} ${time}`, 'YYYY-MM-DD HH:mm');
   }
 
   const params = {
+    reporter: {},
     status: {
       state: 'm',
       extra_properties: {}
@@ -22,36 +39,61 @@ const mapControlsToParams = (incident, wizard) => {
     params.incident_date_start = date.format();
   }
 
+  const category_url = incident && incident.subcategory_link ? new URL(incident.subcategory_link).pathname : '';
   const map = [];
   let mapMerge = {};
   forEach(wizard, (step) => {
-    const controls = step.form && step.form.controls;
+    let controls = {};
+    if (step.formFactory && isFunction(step.formFactory)) {
+      const form = step.formFactory(incident);
+      controls = form && form.controls;
+    } else {
+      controls = step.form && step.form.controls;
+    }
     forEach(controls, (control, name) => {
-      if (control.meta && control.meta.path) {
+      const value = incident[name];
+      const meta = control.meta;
+
+      if (meta && meta.path) {
         map.push({
-          path: control.meta.path,
-          value: incident[name]
+          path: meta.path,
+          value
         });
       }
 
-      if (control.meta && control.meta.pathMerge && incident[name]) {
-        mapMerge = {
-          ...mapMerge,
-          [control.meta.pathMerge]: {
-            ...mapMerge[control.meta.pathMerge],
-            [control.meta.label || name]: incident[name]
-          }
-        };
+      if (meta && meta.isVisible && meta.pathMerge) {
+        const answer = convertValue(value);
+        if (answer || answer === 0) {
+          mapMerge = {
+            ...mapMerge,
+            [meta.pathMerge]: [
+              ...(mapMerge[meta.pathMerge] || []),
+              {
+                id: name,
+                label: meta.label,
+                category_url,
+                answer
+              }
+            ]
+          };
+        }
       }
     });
   });
 
   forEach(map, (item) => {
-    set(params, item.path, item.value);
+    let itemValue = convertValue(item.value);
+    if (itemValue || itemValue === 0) {
+      if (isObject(itemValue) && itemValue.id) {
+        itemValue = itemValue.id;
+      }
+
+      set(params, item.path, itemValue);
+    }
   });
 
-  forEach(mapMerge, (item, key) => {
-    set(params, key, item);
+  forEach(mapMerge, (value, key) => {
+    set(params, key, value);
   });
 
   return params;

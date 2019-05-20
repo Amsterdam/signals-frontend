@@ -50,7 +50,9 @@ exports[`<IncidentWizard /> expect to render form correctly 1`] = `
         Object {
           "beschrijf": Object {
             "form": Object {
-              "controls": Object {},
+              "controls": Object {
+                "with_definition": Object {},
+              },
             },
           },
         }
@@ -113,7 +115,9 @@ exports[`<IncidentWizard /> expect to render form correctly 1`] = `
                     createIncident={[MockFunction]}
                     fieldConfig={
                       Object {
-                        "controls": Object {},
+                        "controls": Object {
+                          "with_definition": Object {},
+                        },
                       }
                     }
                     getClassification={[MockFunction]}
@@ -128,8 +132,155 @@ exports[`<IncidentWizard /> expect to render form correctly 1`] = `
                       Object {
                         "beschrijf": Object {
                           "form": Object {
-                            "controls": Object {},
+                            "controls": Object {
+                              "with_definition": Object {},
+                            },
                           },
+                        },
+                      }
+                    }
+                  >
+                    IncidentForm
+                  </Component>
+                </div>
+              </Step>
+            </Steps>
+          </Wizard>
+        </Route>
+      </div>
+    </IncidentWizard>
+  </Router>
+</MemoryRouter>
+`;
+
+exports[`<IncidentWizard /> expect to render form factory correctly 1`] = `
+<MemoryRouter
+  keyLength={0}
+>
+  <Router
+    history={
+      Object {
+        "action": "REPLACE",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "pathname": "/incident/beschrijf",
+            "search": "",
+            "state": undefined,
+          },
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/incident/beschrijf",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <IncidentWizard
+      createIncident={[MockFunction]}
+      getClassification={[MockFunction]}
+      incidentContainer={
+        Object {
+          "loading": false,
+        }
+      }
+      isAuthenticated={false}
+      updateIncident={[MockFunction]}
+      wizardDefinition={
+        Object {
+          "beschrijf": Object {
+            "formFactory": [Function],
+          },
+        }
+      }
+    >
+      <div
+        className="incident-wizard"
+      >
+        <Route
+          render={[Function]}
+        >
+          <Wizard
+            basename=""
+            history={
+              Object {
+                "action": "REPLACE",
+                "block": [Function],
+                "canGo": [Function],
+                "createHref": [Function],
+                "entries": Array [
+                  Object {
+                    "hash": "",
+                    "pathname": "/incident/beschrijf",
+                    "search": "",
+                    "state": undefined,
+                  },
+                ],
+                "go": [Function],
+                "goBack": [Function],
+                "goForward": [Function],
+                "index": 0,
+                "length": 1,
+                "listen": [Function],
+                "location": Object {
+                  "hash": "",
+                  "pathname": "/incident/beschrijf",
+                  "search": "",
+                  "state": undefined,
+                },
+                "push": [Function],
+                "replace": [Function],
+              }
+            }
+            onNext={[Function]}
+            render={null}
+          >
+            <Steps
+              step={null}
+            >
+              <Step
+                id="incident/beschrijf"
+                key=".$beschrijf"
+                render={[Function]}
+              >
+                <div>
+                  <h1>
+                    beschrijf
+                  </h1>
+                  <Component
+                    createIncident={[MockFunction]}
+                    fieldConfig={
+                      Object {
+                        "controls": Object {
+                          "with_factory": Object {},
+                        },
+                      }
+                    }
+                    getClassification={[MockFunction]}
+                    incidentContainer={
+                      Object {
+                        "loading": false,
+                      }
+                    }
+                    isAuthenticated={false}
+                    updateIncident={[MockFunction]}
+                    wizard={
+                      Object {
+                        "beschrijf": Object {
+                          "formFactory": [Function],
                         },
                       }
                     }
