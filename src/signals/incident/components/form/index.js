@@ -2,6 +2,7 @@ import CheckboxInput from './CheckboxInput';
 import DescriptionWithClassificationInput from './DescriptionWithClassificationInput/';
 import DateTimeInput from './DateTimeInput/';
 import FileInput from './FileInput/';
+import HandlingMessage from './HandlingMessage';
 import HiddenInput from './HiddenInput/';
 import PlainText from './PlainText/';
 import RadioInput from './RadioInput/';
@@ -17,6 +18,7 @@ export default {
   DateTimeInput,
   DescriptionWithClassificationInput,
   FileInput,
+  HandlingMessage,
   HiddenInput,
   MapInput,
   MapSelect,

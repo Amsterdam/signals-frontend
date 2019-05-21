@@ -2,7 +2,7 @@
  * Test  sagas
  */
 
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import { replace } from 'react-router-redux';
 import request from 'utils/request';
 
@@ -22,9 +22,16 @@ import {
 } from './actions';
 import { uploadRequest, showGlobalError } from '../../../../containers/App/actions';
 import mapControlsToParams from '../../services/map-controls-to-params';
+import { makeSelectCategories } from '../../../../containers/App/selectors';
 
 jest.mock('../../services/map-controls-to-params');
 jest.mock('../../services/set-classification');
+jest.mock('../../../../containers/App/selectors', () => {
+  function mockedMakeSelectCategories() { }
+  return ({
+    makeSelectCategories: () => mockedMakeSelectCategories
+  });
+});
 
 describe('IncidentContainer saga', () => {
   afterEach(() => {
@@ -50,6 +57,7 @@ describe('IncidentContainer saga', () => {
     });
 
     it('should success', () => {
+      const categories = { sub: [1, 2, 3] };
       expect(gen.next().value).toEqual(call(request, 'https://acc.api.data.amsterdam.nl/signals_mltool/predict', {
         method: 'POST',
         body: JSON.stringify({
@@ -59,7 +67,8 @@ describe('IncidentContainer saga', () => {
           'Content-Type': 'application/json'
         }
       }));
-      expect(gen.next().value).toEqual(put(getClassificationSuccess()));
+      expect(gen.next().value).toEqual(select(makeSelectCategories()));
+      expect(gen.next(categories).value).toEqual(put(getClassificationSuccess()));
     });
 
     it('should error', () => {
