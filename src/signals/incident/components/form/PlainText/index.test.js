@@ -27,7 +27,59 @@ describe('Form component <PlainText />', () => {
       wrapper.setProps({
         meta: {
           value: 'Lorem Ipsum',
+        },
+        parent: {
+          meta: {
+            incidentContainer
+          }
+        }
+      });
+
+      expect(wrapper).toMatchSnapshot();
+      expect(mapDynamicFields).toHaveBeenCalledWith('Lorem Ipsum', incidentContainer);
+    });
+
+    it('should render plain text citation correctly', () => {
+      wrapper.setProps({
+        meta: {
+          value: 'Lorem Ipsum',
           type: 'citation',
+          isVisible: true
+        },
+        parent: {
+          meta: {
+            incidentContainer
+          }
+        }
+      });
+
+      expect(wrapper).toMatchSnapshot();
+      expect(mapDynamicFields).toHaveBeenCalledWith('Lorem Ipsum', incidentContainer);
+    });
+
+    it('should render plain text caution correctly', () => {
+      wrapper.setProps({
+        meta: {
+          value: 'Caution',
+          type: 'caution',
+          isVisible: true
+        },
+        parent: {
+          meta: {
+            incidentContainer
+          }
+        }
+      });
+
+      expect(wrapper).toMatchSnapshot();
+      expect(mapDynamicFields).toHaveBeenCalledWith('Lorem Ipsum', incidentContainer);
+    });
+
+    it('should render plain text alert correctly', () => {
+      wrapper.setProps({
+        meta: {
+          value: 'Alert',
+          type: 'alert',
           isVisible: true
         },
         parent: {

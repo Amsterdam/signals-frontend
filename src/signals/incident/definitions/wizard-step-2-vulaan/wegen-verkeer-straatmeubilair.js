@@ -84,7 +84,7 @@ export default {
     },
     extra_straatverlichting_text: {
       meta: {
-        className: 'col-sm-12 col-md-6',
+        className: 'col-sm-12 col-md-8',
         ifAllOf: {
           subcategory: 'lantaarnpaal-straatverlichting',
         },
@@ -96,7 +96,7 @@ export default {
             'losse_kabels_zichtbaar_of_lamp_los'
           ]
         },
-        type: 'caution',
+        type: 'alert',
         value: [
           'Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.'
         ],
@@ -190,6 +190,48 @@ export default {
       },
       render: FormComponents.MapSelect
     },
+    extra_straatverlichting_niet_op_kaart: {
+      meta: {
+        ifAllOf: {
+          subcategory: 'lantaarnpaal-straatverlichting',
+        },
+        ifOneOf: {
+          extra_straatverlichting_probleem: [
+            'lamp_doet_het_niet',
+            'lamp_brandt_overdag',
+            'geeft_lichthinder',
+            'lamp_is_vervuild',
+            'lamp_is_zichtbaar_beschadigd',
+            'overig'
+          ]
+        },
+        pathMerge: 'extra_properties',
+        value: 'Het lichtpunt staat niet op de kaart?'
+      },
+      render: FormComponents.CheckboxInput
+    },
+    extra_straatverlichting_niet_op_kaart_nummer: {
+      meta: {
+        label: 'Weet u het nummer dat op het lichtpunt staat?',
+        pathMerge: 'extra_properties',
+        placeholder: 'Nummer lichtpunt, nummer lichtpunt',
+        ifAllOf: {
+          extra_straatverlichting_niet_op_kaart: true,
+          subcategory: 'lantaarnpaal-straatverlichting',
+        },
+        ifOneOf: {
+          extra_straatverlichting_probleem: [
+            'lamp_doet_het_niet',
+            'lamp_brandt_overdag',
+            'geeft_lichthinder',
+            'lamp_is_vervuild',
+            'lamp_is_zichtbaar_beschadigd',
+            'overig'
+          ]
+        }
+      },
+      render: FormComponents.TextInput
+    },
 
     extra_klok: {
       meta: {
@@ -215,7 +257,7 @@ export default {
     },
     extra_klok_text: {
       meta: {
-        className: 'col-sm-12 col-md-6',
+        className: 'col-sm-12 col-md-8',
         ifAllOf: {
           subcategory: 'klok',
         },
@@ -227,7 +269,7 @@ export default {
             'losse_kabels_zichtbaar_of_lamp_los'
           ]
         },
-        type: 'caution',
+        type: 'alert',
         value: [
           'Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.'
         ],
@@ -286,6 +328,44 @@ export default {
         pathMerge: 'extra_properties'
       },
       render: FormComponents.MapSelect
+    },
+    extra_klok_niet_op_kaart: {
+      meta: {
+        ifAllOf: {
+          subcategory: 'klok'
+        },
+        ifOneOf: {
+          extra_klok_probleem: [
+            'klok_staat_niet_op_tijd_of_stil',
+            'klok_is_zichtbaar_beschadigd',
+            'klok_is_vervuild',
+            'overig'
+          ]
+        },
+        pathMerge: 'extra_properties',
+        value: 'De klok staat niet op de kaart?'
+      },
+      render: FormComponents.CheckboxInput
+    },
+    extra_klok_niet_op_kaart_nummer: {
+      meta: {
+        label: 'Weet u het nummer dat op de klok staat?',
+        pathMerge: 'extra_properties',
+        placeholder: 'Nummer klok, nummer klok',
+        ifAllOf: {
+          extra_klok_niet_op_kaart: true,
+          subcategory: 'klok'
+        },
+        ifOneOf: {
+          extra_klok_probleem: [
+            'klok_staat_niet_op_tijd_of_stil',
+            'klok_is_zichtbaar_beschadigd',
+            'klok_is_vervuild',
+            'overig'
+          ]
+        }
+      },
+      render: FormComponents.TextInput
     },
 
     extra_fietsrek_aanvragen: {

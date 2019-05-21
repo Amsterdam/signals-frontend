@@ -18,7 +18,7 @@ const PlainText = ({ meta, parent }) => (
   <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
     {meta && meta.isVisible ?
       <div className={`${meta.className || 'col-12'} mode_input`}>
-        <div className={`${meta.type} plain-text__box`}>
+        <div className={`${meta.type || ''} plain-text__box`}>
           <div className="label">{meta.label}</div>
           {meta.value && isString(meta.value) ?
             renderText(meta.value, parent)

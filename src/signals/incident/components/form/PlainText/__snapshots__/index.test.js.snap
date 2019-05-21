@@ -56,7 +56,45 @@ exports[`Form component <PlainText /> rendering should render no plain text when
 />
 `;
 
-exports[`Form component <PlainText /> rendering should render plain text correctly 1`] = `
+exports[`Form component <PlainText /> rendering should render plain text alert correctly 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="col-12 mode_input"
+  >
+    <div
+      className="alert plain-text__box"
+    >
+      <div
+        className="label"
+      />
+      Lorem Ipsum
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Form component <PlainText /> rendering should render plain text caution correctly 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="col-12 mode_input"
+  >
+    <div
+      className="caution plain-text__box"
+    >
+      <div
+        className="label"
+      />
+      Lorem Ipsum
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Form component <PlainText /> rendering should render plain text citation correctly 1`] = `
 <div
   className="row"
 >
@@ -73,4 +111,10 @@ exports[`Form component <PlainText /> rendering should render plain text correct
     </div>
   </div>
 </div>
+`;
+
+exports[`Form component <PlainText /> rendering should render plain text correctly 1`] = `
+<div
+  className=""
+/>
 `;
