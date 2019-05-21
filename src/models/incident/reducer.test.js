@@ -188,11 +188,17 @@ describe('incidentModelReducer', () => {
     expect(
       incidentModelReducer(state, {
         type: REQUEST_CATEGORY_UPDATE_SUCCESS,
-        payload: 'test'
+        payload: {
+          category: {
+            category_url: 'test'
+          }
+        }
       }).toJS()
     ).toEqual({
       incident: {
-        category: 'test'
+        category: {
+          category_url: 'test'
+        }
       },
       incidentNotesList: []
     });
