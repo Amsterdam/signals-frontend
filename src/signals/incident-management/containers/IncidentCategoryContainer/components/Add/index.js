@@ -9,15 +9,25 @@ import './style.scss';
 
 class Add extends React.Component { // eslint-disable-line react/prefer-stateless-function
   categoryForm = FormBuilder.group({ // eslint-disable-line react/sort-comp
-    _signal: [''],
+    id: [''],
     sub_category: ['', Validators.required],
     loading: false
   });
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const status = { ...this.categoryForm.value, _signal: this.props.id };
-    this.props.onRequestCategoryUpdate(status);
+    const patch = {
+      id: this.props.id,
+      patch: {
+        category: {
+          sub_category: this.categoryForm.value.sub_category
+        },
+        status: {
+          state: 'm'
+        }
+      }
+    };
+    this.props.onRequestCategoryUpdate(patch);
   }
 
   componentWillUpdate(props) {
