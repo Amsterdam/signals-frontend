@@ -89,7 +89,7 @@ describe('incidentContainerReducer', () => {
   });
 
   describe('CREATE_INCIDENT_SUCCESS', () => {
-    it('sets incident and loading and id', () => {
+    it('sets incident and loading and id but keeps the handling_message', () => {
       expect(
         incidentContainerReducer(fromJS({
           incident: {
@@ -110,8 +110,6 @@ describe('incidentContainerReducer', () => {
         incident: {
           ...initialState.get('incident').toJS(),
           id: 666,
-          category: 'foo',
-          subcategory: 'bar',
           handling_message: 'baz'
         }
       });
