@@ -13,6 +13,9 @@ describe('<IncidentCategoryContainer />', () => {
     props = {
       id: '1',
       categories: { subcategories: [] },
+      status: {
+        state: 'm'
+      },
       incidentCategoryContainer: { loading: false },
       onRequestCategoryUpdate: jest.fn(),
     };

@@ -11,6 +11,11 @@ exports[`<IncidentCategoryContainer /> should render correctly 1`] = `
       id="1"
       loading={false}
       onRequestCategoryUpdate={[MockFunction]}
+      status={
+        Object {
+          "state": "m",
+        }
+      }
     />
   </div>
 </div>

@@ -12,6 +12,9 @@ describe('<Add />', () => {
     props = {
       id: '1',
       subcategoryList: ['test'],
+      status: {
+        state: 'm'
+      },
       onRequestCategoryUpdate: jest.fn()
     };
 

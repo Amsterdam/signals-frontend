@@ -91,7 +91,7 @@ function incidentModelReducer(state = initialState, action) {
 
     case REQUEST_CATEGORY_UPDATE_SUCCESS:
       return state
-        .set('incident', fromJS({ ...state.get('incident').toJS(), category: action.payload }));
+        .set('incident', fromJS({ ...state.get('incident').toJS(), category: { ...action.payload.category } }));
 
     case REQUEST_PRIORITY_UPDATE_SUCCESS:
       return state
