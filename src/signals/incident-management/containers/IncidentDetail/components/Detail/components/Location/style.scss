@@ -25,7 +25,7 @@
 
     #mapdiv {
       height: 100px !important;
-      width: 100px;
+      width: 100px !important;
     }
 
     &-button-edit {
@@ -43,18 +43,18 @@
     padding: 9px 0;
   }
 
-  &--highlight {
-    position: relative;
+  // &--highlight {
+  //   position: relative;
 
-    &:after {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      background-color: $ams-geel;
-      animation: highlight-fade-out 2.5s;
-    }
-  }
+  //   &:after {
+  //     content: "";
+  //     position: absolute;
+  //     left: 0;
+  //     top: 0;
+  //     bottom: 0;
+  //     right: 0;
+  //     background-color: $ams-geel;
+  //     animation: highlight-fade-out 2.5s;
+  //   }
+  // }
 }

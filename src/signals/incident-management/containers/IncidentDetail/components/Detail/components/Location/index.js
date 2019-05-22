@@ -7,10 +7,10 @@ import MapDetail from '../../../MapDetail';
 
 import './style.scss';
 
-const Location = ({ incident, stadsdeelList, locationUpdated, onShowLocation, onEditLocation }) => {
+const Location = ({ incident, stadsdeelList, onShowLocation, onEditLocation }) => {
   const address = incident.location.address;
   return (
-    <dl className={`location ${locationUpdated ? 'location--highlight' : ''}`}>
+    <dl className="location">
       <dt className="location__definition">Locatie</dt>
       <dd className="location__value">
         <button className="location__value-button-edit detail__button--edit" onClick={onEditLocation}></button>
@@ -37,7 +37,6 @@ const Location = ({ incident, stadsdeelList, locationUpdated, onShowLocation, on
 Location.propTypes = {
   incident: PropTypes.object.isRequired,
   stadsdeelList: PropTypes.array.isRequired,
-  locationUpdated: PropTypes.bool.isRequired,
   onShowLocation: PropTypes.func.isRequired,
   onEditLocation: PropTypes.func.isRequired
 };
