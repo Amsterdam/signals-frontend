@@ -46,7 +46,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
   }
 
   showForm() {
-    this.form.controls.input.setValue(get(this.props.incident, this.props.path));
+    this.form.controls.input.setValue(get(this.props.incident, this.props.valuePath || this.props.path));
     this.setState({ formVisible: true });
   }
 
@@ -55,7 +55,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
   }
 
   render() {
-    const { display, definitionClass, valueClass, list, incident, path } = this.props;
+    const { display, definitionClass, valueClass, list, incident, path, valuePath } = this.props;
     const { formVisible } = this.state;
     return (
       <dl className="change-value">
@@ -86,13 +86,17 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
         :
           <dd className={valueClass}>
             <button className="change-value__edit detail__button--edit" onClick={this.showForm} />
-            {getListValueByKey(list, get(incident, path))}
+            {getListValueByKey(list, get(incident, valuePath || path))}
           </dd>
         }
       </dl>
     );
   }
 }
+
+ChangeValue.defaultProps = {
+  valuePath: ''
+};
 
 ChangeValue.propTypes = {
   incident: PropTypes.object.isRequired,
@@ -101,6 +105,7 @@ ChangeValue.propTypes = {
   list: PropTypes.array.isRequired,
   display: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
+  valuePath: PropTypes.string,
   type: PropTypes.string.isRequired,
 
   onPatchIncident: PropTypes.func.isRequired

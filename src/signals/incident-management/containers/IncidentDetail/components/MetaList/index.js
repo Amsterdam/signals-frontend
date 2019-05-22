@@ -37,7 +37,8 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
         valueClass="meta-list__value"
         list={subcategories}
         incident={incident}
-        path="category.category_url"
+        path="category.sub_category"
+        valuePath="category.category_url"
         type="subcategory"
         onPatchIncident={onPatchIncident}
       />
