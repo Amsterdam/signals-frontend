@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { isEqual } from 'lodash';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 
@@ -10,49 +9,8 @@ import Attachments from './components/Attachments';
 import Location from './components/Location';
 
 class Detail extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  // constructor(props) {
-    // super(props);
-
-    // this.state = {
-      // location: props.incident.location,
-      // locationUpdated: props.locationUpdated
-    // };
-
-    // this.clearHighlight = this.clearHighlight.bind(this);
-    // this.locationTimer = null;
-  // }
-
-  // static getDerivedStateFromProps(props, state) {
-    // const locationChanged = isEqual(props.incident.location, state.location);
-    // return {
-      // location: !locationChanged ? props.incident.location : state.location,
-      // locationUpdated: !locationChanged
-    // };
-  // }
-
-  // componentDidUpdate = () => {
-    // if (this.state.locationUpdated) {
-      // this.locationTimer = global.window.setTimeout(() => {
-        // this.clearHighlight('locationUpdated');
-      // }, HIGHLIGHT_TIMEOUT_INTERVAL);
-    // }
-  // }
-
-  // componentWillUnmount() {
-    // if (this.locationTimer) {
-      // global.window.clearTimeout(this.locationTimer);
-    // }
-  // }
-
-  // clearHighlight(highlight) {
-    // this.setState({
-      // [highlight]: false
-    // });
-  // }
-
   render() {
     const { incident, attachments, stadsdeelList, onShowLocation, onEditLocation, onShowAttachment } = this.props;
-    // const { locationUpdated } = this.state;
 
     return (
       <article className="detail">
@@ -91,17 +49,9 @@ class Detail extends React.Component { // eslint-disable-line react/prefer-state
   }
 }
 
-Detail.defaultProps = {
-  location: {},
-  locationUpdated: false,
-  locationTimer: null
-};
-
 Detail.propTypes = {
   incident: PropTypes.object.isRequired,
   attachments: PropTypes.array.isRequired,
-  // location: PropTypes.object,
-  // locationUpdated: PropTypes.bool,
   stadsdeelList: PropTypes.array.isRequired,
 
   onShowAttachment: PropTypes.func.isRequired,

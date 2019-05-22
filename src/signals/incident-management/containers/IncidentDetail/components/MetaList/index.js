@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 
 import ChangeValue from './components/ChangeValue';
+import Highlight from '../../components/Highlight';
 
 import './style.scss';
 
@@ -20,31 +21,45 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
       </dt>
       <dd className="meta-list__value">{incident.status.state_display}</dd>
 
-      <ChangeValue
-        display="Urgentie"
-        definitionClass="meta-list__definition"
-        valueClass="meta-list__value"
-        list={priorityList}
-        incident={incident}
-        path="priority.priority"
-        type="priority"
-        onPatchIncident={onPatchIncident}
-      />
+      <Highlight
+        subscribeTo={incident.priority.priority}
+      >
+        <ChangeValue
+          display="Urgentie"
+          definitionClass="meta-list__definition"
+          valueClass="meta-list__value"
+          list={priorityList}
+          incident={incident}
+          path="priority.priority"
+          type="priority"
+          onPatchIncident={onPatchIncident}
+        />
+      </Highlight>
 
-      <ChangeValue
-        display="Subcategorie"
-        definitionClass="meta-list__definition"
-        valueClass="meta-list__value"
-        list={subcategories}
-        incident={incident}
-        path="category.sub_category"
-        valuePath="category.category_url"
-        type="subcategory"
-        onPatchIncident={onPatchIncident}
-      />
+      <Highlight
+        subscribeTo={incident.category.sub_slug}
+      >
+        <ChangeValue
+          display="Subcategorie"
+          definitionClass="meta-list__definition"
+          valueClass="meta-list__value"
+          list={subcategories}
+          incident={incident}
+          path="category.sub_category"
+          valuePath="category.category_url"
+          type="subcategory"
+          onPatchIncident={onPatchIncident}
+        />
+      </Highlight>
 
-      <dt className="meta-list__definition">Hoofdcategorie</dt>
-      <dd className="meta-list__value">{incident.category.main}</dd>
+      <Highlight
+        subscribeTo={incident.category.main_slug}
+      >
+        <dl>
+          <dt className="meta-list__definition">Hoofdcategorie</dt>
+          <dd className="meta-list__value">{incident.category.main}</dd>
+        </dl>
+      </Highlight>
 
       <dt className="meta-list__definition">Verantwoordelijke afdeling</dt>
       <dd className="meta-list__value">{incident.category.department}</dd>
