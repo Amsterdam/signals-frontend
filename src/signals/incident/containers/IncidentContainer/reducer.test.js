@@ -89,9 +89,13 @@ describe('incidentContainerReducer', () => {
   });
 
   describe('CREATE_INCIDENT_SUCCESS', () => {
-    it('sets incident and loading and id', () => {
+    it('sets incident and loading and id but keeps the handling_message', () => {
       expect(
-        incidentContainerReducer(fromJS({}), {
+        incidentContainerReducer(fromJS({
+          incident: {
+            handling_message: 'baz'
+          }
+        }), {
           type: CREATE_INCIDENT_SUCCESS,
           payload: {
             id: 666,
@@ -106,8 +110,7 @@ describe('incidentContainerReducer', () => {
         incident: {
           ...initialState.get('incident').toJS(),
           id: 666,
-          category: 'foo',
-          subcategory: 'bar'
+          handling_message: 'baz'
         }
       });
     });

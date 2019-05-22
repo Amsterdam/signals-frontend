@@ -17,7 +17,7 @@ import { requestCategoryUpdate } from './actions';
 
 export class IncidentCategoryContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { categories, incidentCategoryContainer: { loading } } = this.props;
+    const { categories, status, incidentCategoryContainer: { loading } } = this.props;
     return (
       <div className="col-6">
         <div className="incident-edit-container">
@@ -25,6 +25,7 @@ export class IncidentCategoryContainer extends React.Component { // eslint-disab
             id={this.props.id}
             subcategoryList={categories.sub}
             loading={loading}
+            status={status}
             onRequestCategoryUpdate={this.props.onRequestCategoryUpdate}
           />
         </div>
@@ -37,6 +38,7 @@ IncidentCategoryContainer.propTypes = {
   id: PropTypes.string.isRequired,
   incidentCategoryContainer: PropTypes.object.isRequired,
   categories: PropTypes.object.isRequired,
+  status: PropTypes.object.isRequired,
 
   onRequestCategoryUpdate: PropTypes.func.isRequired,
 };

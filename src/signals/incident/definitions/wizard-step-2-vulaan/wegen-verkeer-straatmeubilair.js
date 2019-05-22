@@ -53,7 +53,6 @@ export default {
         value: [
           'Let op:',
           'Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB:',
-          <DefinitionComponents.Anchor href="http://ns.nl/klantenservice" target="_blank" className="more-link">ns.nl/klantenservice</DefinitionComponents.Anchor>,
           <DefinitionComponents.Anchor href="http://gvb.nl/klantenservice" target="_blank" className="more-link">gvb.nl/klantenservice</DefinitionComponents.Anchor>
         ],
         pathMerge: 'extra_properties'
@@ -177,9 +176,19 @@ export default {
             'overig'
           ]
         },
+        endpoint: 'maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Verlichting&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326',
+        zoomMin: 18,
+        legend_items: [
+          'lichtmast',
+          'grachtmast',
+          'overspanning',
+          'gevelArmatuur',
+          'schijnwerper',
+          'overig_lichtpunt',
+        ],
         pathMerge: 'extra_properties'
       },
-      render: FormComponents.TextInput
+      render: FormComponents.MapSelect
     },
 
     extra_klok: {
@@ -269,9 +278,14 @@ export default {
             'overig'
           ]
         },
+        endpoint: 'maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Klokken&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326',
+        legend_items: [
+          'klok'
+        ],
+        zoomMin: 14,
         pathMerge: 'extra_properties'
       },
-      render: FormComponents.TextInput
+      render: FormComponents.MapSelect
     },
 
     extra_fietsrek_aanvragen: {
@@ -321,31 +335,35 @@ export default {
       render: FormComponents.TextareaInput
     },
 
-    redirect_to_kim: {
-      meta: {
-        ifOneOf: {
-          subcategory: [
-            'verkeerslicht'
-          ]
-        },
-        label: 'Redirect naar',
-        value: 'Voor meldingen over openbare verlichting, klokken en verkeerslichten is een apart formulier beschikbaar',
-        buttonLabel: 'Meteen doorgaan',
-        buttonAction: 'https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx',
-        buttonTimeout: 5000
-      },
-      render: FormComponents.RedirectButton
-    },
-    hide_navigation_buttons: {
-      meta: {
-        ifOneOf: {
-          subcategory: [
-            'verkeerslicht'
-          ]
-        },
-        ignoreVisibility: true
-      }
-    },
+    // redirect_to_kim: {
+    //   meta: {
+    //     ifOneOf: {
+    //       subcategory: [
+    //         'klok',
+    //         'lantaarnpaal-straatverlichting',
+    //         'verkeerslicht'
+    //       ]
+    //     },
+    //     label: 'Redirect naar',
+    //     value: 'Voor meldingen over openbare verlichting, klokken en verkeerslichten is een apart formulier beschikbaar',
+    //     buttonLabel: 'Meteen doorgaan',
+    //     buttonAction: 'https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx',
+    //     buttonTimeout: 5000
+    //   },
+    //   render: FormComponents.RedirectButton
+    // },
+    // hide_navigation_buttons: {
+    //   meta: {
+    //     ifOneOf: {
+    //       subcategory: [
+    //         'klok',
+    //         'lantaarnpaal-straatverlichting',
+    //         'verkeerslicht'
+    //       ]
+    //     },
+    //     ignoreVisibility: true
+    //   }
+    // },
 
     $field_0: {
       isStatic: false,
