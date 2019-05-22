@@ -62,7 +62,7 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
       </Highlight>
 
       <dt className="meta-list__definition">Verantwoordelijke afdeling</dt>
-      <dd className="meta-list__value">{incident.category.department}</dd>
+      <dd className="meta-list__value">{incident.category.departments}</dd>
 
       <dt className="meta-list__definition">Bron</dt>
       <dd className="meta-list__value">{incident.source}</dd>
