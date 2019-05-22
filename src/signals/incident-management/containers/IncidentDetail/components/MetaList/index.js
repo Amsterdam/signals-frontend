@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 
-import ChangeValue from '../ChangeValue';
+import ChangeValue from './components/ChangeValue';
 
 import './style.scss';
 

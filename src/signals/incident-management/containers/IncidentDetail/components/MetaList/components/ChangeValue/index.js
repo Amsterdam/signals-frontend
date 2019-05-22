@@ -5,8 +5,8 @@ import { get, set } from 'lodash';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
-import FieldControlWrapper from '../../../../components/FieldControlWrapper';
-import SelectInput from '../../../../components/SelectInput';
+import FieldControlWrapper from '../../../../../../components/FieldControlWrapper';
+import SelectInput from '../../../../../../components/SelectInput';
 
 import './style.scss';
 
