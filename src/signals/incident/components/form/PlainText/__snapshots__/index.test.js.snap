@@ -115,6 +115,19 @@ exports[`Form component <PlainText /> rendering should render plain text citatio
 
 exports[`Form component <PlainText /> rendering should render plain text correctly 1`] = `
 <div
-  className=""
-/>
+  className="row"
+>
+  <div
+    className="col-12 mode_input"
+  >
+    <div
+      className=" plain-text__box"
+    >
+      <div
+        className="label"
+      />
+      Lorem Ipsum
+    </div>
+  </div>
+</div>
 `;

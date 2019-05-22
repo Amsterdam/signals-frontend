@@ -27,6 +27,7 @@ describe('Form component <PlainText />', () => {
       wrapper.setProps({
         meta: {
           value: 'Lorem Ipsum',
+          isVisible: true
         },
         parent: {
           meta: {
