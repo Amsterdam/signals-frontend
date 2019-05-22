@@ -1,16 +1,16 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import TextInput from './index';
+import SelectInput from './index';
 
-describe('Form component <TextInput />', () => {
+describe('Form component <SelectInput />', () => {
   const metaFields = {
     name: 'input-field-name',
     placeholder: 'type here',
     values: {
-      foo: 'foo',
-      bar: 'bar',
-      baz: 'baz'
+      foo: 'Foo',
+      bar: 'Bar',
+      baz: 'Baz'
     }
   };
   let wrapper;
@@ -31,9 +31,14 @@ describe('Form component <TextInput />', () => {
       }
     };
 
-    handler.mockImplementation(() => ({ value: 'bar' }));
+    handler.mockImplementation(() => ({
+      value: {
+        id: 'baz',
+        label: 'Baz'
+      }
+    }));
 
-    wrapper = shallow(<TextInput
+    wrapper = shallow(<SelectInput
       handler={handler}
       parent={parent}
       touched={touched}
@@ -51,7 +56,6 @@ describe('Form component <TextInput />', () => {
         }
       });
 
-      expect(handler).toHaveBeenCalledWith();
       expect(wrapper).toMatchSnapshot();
     });
 
@@ -64,7 +68,6 @@ describe('Form component <TextInput />', () => {
         }
       });
 
-      expect(handler).toHaveBeenCalledWith();
       expect(wrapper).toMatchSnapshot();
     });
 
@@ -76,13 +79,20 @@ describe('Form component <TextInput />', () => {
         }
       });
 
-      expect(handler).not.toHaveBeenCalled();
       expect(wrapper).toMatchSnapshot();
     });
   });
 
   describe('events', () => {
-    const event = { target: { value: 'baz' } };
+    const event = {
+      target: {
+        selectedIndex: 2,
+        2: {
+          text: 'Baz'
+        },
+        value: 'baz'
+      }
+    };
 
     it('sets incident when value changes', () => {
       wrapper.setProps({
@@ -95,7 +105,10 @@ describe('Form component <TextInput />', () => {
       wrapper.find('select').simulate('change', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': 'baz'
+        'input-field-name': {
+          id: 'baz',
+          label: 'Baz'
+        }
       });
     });
   });

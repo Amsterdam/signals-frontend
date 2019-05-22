@@ -1,11 +1,19 @@
 import formatConditionalForm from './index';
+import checkVisibility from '../../services/check-visibility';
+
+jest.mock('../../services/check-visibility');
 
 describe('The format conditional form service', () => {
+  beforeEach(() => {
+  });
+
   it('should be undefined by default', () => {
     expect(formatConditionalForm()).toBeUndefined();
   });
 
-  it('should add name and isVisible true when meta is available', () => {
+  it('should add name and isVisible true when controls are visible', () => {
+    checkVisibility.mockImplementation(() => true);
+
     const controls = {
       description: {
         meta: {
@@ -17,7 +25,7 @@ describe('The format conditional form service', () => {
           bar: 'baz'
         }
       },
-      var_no_path: {}
+      var_no_meta: {}
     };
     expect(
       formatConditionalForm({
@@ -39,450 +47,48 @@ describe('The format conditional form service', () => {
             name: 'title'
           }
         },
-        var_no_path: {}
+        var_no_meta: {}
       }
     });
   });
 
-  it('should show controls based on authorization', () => {
+  it('should add name and isVisible true when controls are not visible', () => {
+    checkVisibility.mockImplementation(() => false);
+
+    const controls = {
+      description: {
+        meta: {
+          foo: 'bar'
+        }
+      },
+      title: {
+        meta: {
+          bar: 'baz'
+        }
+      },
+      var_no_meta: {}
+    };
     expect(
       formatConditionalForm({
-        controls: {
-          var_1: {
-            meta: {},
-            authenticated: true
-          }
-        }
-      }, {}, true)
+        controls
+      })
     ).toEqual({
       controls: {
-        var_1: {
+        description: {
           meta: {
-            isVisible: true,
-            name: 'var_1'
-          },
-          authenticated: true
-        }
-      }
-    });
-  });
-
-  it('should hide controls when not authorized', () => {
-    expect(
-      formatConditionalForm({
-        controls: {
-          var_1: {
-            meta: {},
-            authenticated: true
-          }
-        }
-      }, {}, false)
-    ).toEqual({
-      controls: {
-        var_1: {
-          meta: {
+            ...controls.description.meta,
             isVisible: false,
-            name: 'var_1'
-          },
-          authenticated: true
-        }
-      }
-    });
-  });
-
-  it('should show control according to the ifAllOf', () => {
-    const controls = {
-      var_1: {
-        meta: {
-          ifAllOf: {
-            category: 'bar'
-          }
-        }
-      },
-      var_2: {
-        meta: {
-          ifAllOf: {
-            category: 'bar',
-            subcategory: 'foo'
-          }
-        }
-      },
-      var_3: {
-        meta: {
-          ifAllOf: {
-            category: 'wrong'
-          }
-        }
-      },
-      var_4: {
-        meta: {
-          ifAllOf: {
-            category: 'bar',
-            subcategory: 'wrong'
-          }
-        }
-      },
-      array_1: {
-        meta: {
-          ifAllOf: {
-            category: ['bar']
-          }
-        }
-      },
-      array_2: {
-        meta: {
-          ifAllOf: {
-            category: ['bar', 'wrong']
-          }
-        }
-      }
-    };
-
-    expect(
-      formatConditionalForm(
-        {
-          controls
-        },
-        {
-          category: 'bar',
-          subcategory: 'foo'
-        }
-      )
-    ).toEqual({
-      controls: {
-        var_1: {
-          meta: {
-            ...controls.var_1.meta,
-            isVisible: true,
-            name: 'var_1'
+            name: 'description'
           }
         },
-        var_2: {
+        title: {
           meta: {
-            ...controls.var_2.meta,
-            isVisible: true,
-            name: 'var_2'
-          }
-        },
-        var_3: {
-          meta: {
-            ...controls.var_3.meta,
+            ...controls.title.meta,
             isVisible: false,
-            name: 'var_3'
+            name: 'title'
           }
         },
-        var_4: {
-          meta: {
-            ...controls.var_4.meta,
-            isVisible: false,
-            name: 'var_4'
-          }
-        },
-        array_1: {
-          meta: {
-            ...controls.array_1.meta,
-            isVisible: true,
-            name: 'array_1'
-          }
-        },
-        array_2: {
-          meta: {
-            ...controls.array_2.meta,
-            isVisible: false,
-            name: 'array_2'
-          }
-        }
-      }
-    });
-  });
-
-  it('should show control according to the isOneOf', () => {
-    const controls = {
-      var_1: {
-        meta: {
-          ifOneOf: {
-            category: 'bar'
-          }
-        }
-      },
-      var_2: {
-        meta: {
-          ifOneOf: {
-            category: 'bar',
-            subcategory: 'foo'
-          }
-        }
-      },
-      var_3: {
-        meta: {
-          ifOneOf: {
-            category: 'wrong'
-          }
-        }
-      },
-      var_4: {
-        meta: {
-          ifOneOf: {
-            category: 'bar',
-            subcategory: 'wrong'
-          }
-        }
-      },
-      array_1: {
-        meta: {
-          ifOneOf: {
-            category: ['bar']
-          },
-          isVisible: true,
-          name: 'array_1'
-        }
-      },
-      array_2: {
-        meta: {
-          ifOneOf: {
-            category: ['incorrect', 'wrong']
-          },
-          isVisible: false,
-          name: 'array_2'
-        }
-      }
-    };
-
-    expect(
-      formatConditionalForm(
-        {
-          controls
-        },
-        {
-          category: 'bar',
-          subcategory: 'foo'
-        }
-      )
-    ).toEqual({
-      controls: {
-        var_1: {
-          meta: {
-            ...controls.var_1.meta,
-            isVisible: true,
-            name: 'var_1'
-          }
-        },
-        var_2: {
-          meta: {
-            ...controls.var_2.meta,
-            isVisible: true,
-            name: 'var_2'
-          }
-        },
-        var_3: {
-          meta: {
-            ...controls.var_3.meta,
-            isVisible: false,
-            name: 'var_3'
-          }
-        },
-        var_4: {
-          meta: {
-            ...controls.var_4.meta,
-            isVisible: true,
-            name: 'var_4'
-          }
-        },
-        array_1: {
-          meta: {
-            ...controls.array_1.meta,
-            isVisible: true,
-            name: 'array_1'
-          }
-        },
-        array_2: {
-          meta: {
-            ...controls.array_2.meta,
-            isVisible: false,
-            name: 'array_2'
-          }
-        }
-      }
-    });
-  });
-
-  it('should show control according to the ifNoneOf', () => {
-    const controls = {
-      var_1: {
-        meta: {
-          ifNoneOf: {
-            category: 'bar'
-          }
-        }
-      },
-      var_2: {
-        meta: {
-          ifNoneOf: {
-            category: 'bar',
-            subcategory: 'foo'
-          }
-        }
-      },
-      var_3: {
-        meta: {
-          ifNoneOf: {
-            category: 'wrong'
-          }
-        }
-      },
-      var_4: {
-        meta: {
-          ifNoneOf: {
-            category: 'bar',
-            subcategory: 'wrong'
-          }
-        }
-      },
-      array_1: {
-        meta: {
-          ifNoneOf: {
-            category: ['bar']
-          },
-          isVisible: true,
-          name: 'array_1'
-        }
-      },
-      array_2: {
-        meta: {
-          ifNoneOf: {
-            category: ['incorrect', 'wrong']
-          },
-          isVisible: false,
-          name: 'array_2'
-        }
-      }
-    };
-
-    expect(
-      formatConditionalForm(
-        {
-          controls
-        },
-        {
-          category: 'bar',
-          subcategory: 'foo'
-        }
-      )
-    ).toEqual({
-      controls: {
-        var_1: {
-          meta: {
-            ...controls.var_1.meta,
-            isVisible: false,
-            name: 'var_1'
-          }
-        },
-        var_2: {
-          meta: {
-            ...controls.var_2.meta,
-            isVisible: false,
-            name: 'var_2'
-          }
-        },
-        var_3: {
-          meta: {
-            ...controls.var_3.meta,
-            isVisible: true,
-            name: 'var_3'
-          }
-        },
-        var_4: {
-          meta: {
-            ...controls.var_4.meta,
-            isVisible: false,
-            name: 'var_4'
-          }
-        },
-        array_1: {
-          meta: {
-            ...controls.array_1.meta,
-            isVisible: false,
-            name: 'array_1'
-          }
-        },
-        array_2: {
-          meta: {
-            ...controls.array_2.meta,
-            isVisible: true,
-            name: 'array_2'
-          }
-        }
-      }
-    });
-  });
-
-  it('should show control according to the ifAllOf and isOneOf', () => {
-    const controls = {
-      var_1: {
-        meta: {
-          ifOneOf: {
-            category: 'bar'
-          },
-          ifAllOf: {
-            subcategory: 'foo'
-          }
-        }
-      },
-      var_2: {
-        meta: {
-          ifOneOf: {
-            category: 'wrong'
-          },
-          ifAllOf: {
-            subcategory: 'foo'
-          }
-        }
-      },
-      var_3: {
-        meta: {
-          ifOneOf: {
-            category: 'bar'
-          },
-          ifAllOf: {
-            subcategory: 'wrong'
-          }
-        }
-      }
-    };
-
-    expect(
-      formatConditionalForm(
-        {
-          controls
-        },
-        {
-          category: 'bar',
-          subcategory: 'foo'
-        }
-      )
-    ).toEqual({
-      controls: {
-        var_1: {
-          meta: {
-            ...controls.var_1.meta,
-            isVisible: true,
-            name: 'var_1'
-          }
-        },
-        var_2: {
-          meta: {
-            ...controls.var_2.meta,
-            isVisible: false,
-            name: 'var_2'
-          }
-        },
-        var_3: {
-          meta: {
-            ...controls.var_3.meta,
-            isVisible: false,
-            name: 'var_3'
-          }
-        }
+        var_no_meta: {}
       }
     });
   });

@@ -25,11 +25,13 @@ import {
 export const initialState = fromJS({
   incident: {
     // ...debugInitialState,
-
     incident_date: 'Vandaag',
     incident_time_hours: 9,
     incident_time_minutes: 0,
-    priority: 'normal'
+    priority: {
+      id: 'normal',
+      label: 'Normaal'
+    }
   },
   priority: {}
 });
@@ -64,8 +66,7 @@ function incidentContainerReducer(state = initialState, action) {
         .set('incident', fromJS({
           ...(initialState.get('incident').toJS()),
           id: action.payload.id,
-          category: action.payload.category.main_slug,
-          subcategory: action.payload.category.sub_slug
+          handling_message: state.get('incident').toJS().handling_message
         }));
 
     case CREATE_INCIDENT_ERROR:

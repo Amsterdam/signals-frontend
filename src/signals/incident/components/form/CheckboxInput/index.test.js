@@ -29,6 +29,13 @@ describe('Form component <CheckboxInput />', () => {
       hasError={hasError}
       getError={getError}
     />);
+
+    handler.mockImplementation(() => ({
+      value: {
+        value: true,
+        label: 'Ja dat wil ik'
+      }
+    }));
   });
 
   describe('rendering', () => {
@@ -36,11 +43,41 @@ describe('Form component <CheckboxInput />', () => {
       wrapper.setProps({
         meta: {
           name: 'input-field-name',
+          value: 'Ja, dat is goed',
           isVisible: true
         }
       });
 
-      expect(handler).toHaveBeenCalledWith('checkbox');
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render multi checkbox correctly', () => {
+      handler = handler.mockImplementation(() => ({
+        value: ['blue']
+      }));
+
+      wrapper.setProps({
+        meta: {
+          name: 'input-field-name',
+          values: { red: 'Rood', blue: 'Blauw', green: 'Groen' },
+          isVisible: true
+        }
+      });
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render multi checkbox without value correctly', () => {
+      handler = handler.mockImplementation(() => ({ value: undefined }));
+
+      wrapper.setProps({
+        meta: {
+          name: 'input-field-name',
+          values: { red: 'Rood', blue: 'Blauw', green: 'Groen' },
+          isVisible: true
+        }
+      });
+
       expect(wrapper).toMatchSnapshot();
     });
 
@@ -52,16 +89,16 @@ describe('Form component <CheckboxInput />', () => {
         }
       });
 
-      expect(handler).not.toHaveBeenCalled();
       expect(wrapper).toMatchSnapshot();
     });
   });
 
   describe('events', () => {
-    it('can be checked and unchecked', () => {
+    it('can be checked and unchecked with default values', () => {
       wrapper.setProps({
         meta: {
           name: 'input-field-name',
+          value: 'Ja, dat is goed',
           isVisible: true
         }
       });
@@ -70,14 +107,43 @@ describe('Form component <CheckboxInput />', () => {
       wrapper.find('input').simulate('click', checkEevent);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': true
+        'input-field-name': {
+          value: true,
+          label: 'Ja, dat is goed'
+        }
       });
 
       const uncheckEevent = { target: { checked: false } };
       wrapper.find('input').simulate('click', uncheckEevent);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': false
+        'input-field-name': { value: false, label: 'Ja, dat is goed' }
+      });
+    });
+
+    it('can be checked and unchecked with multiple values', () => {
+      handler = handler.mockImplementation(() => ({ value: [{ id: 'blue', label: 'Blauw' }] }));
+
+      wrapper.setProps({
+        meta: {
+          name: 'input-field-name',
+          values: { red: 'Rood', blue: 'Blauw', green: 'Groen' },
+          isVisible: true
+        }
+      });
+
+      const checkEevent = { target: { checked: true } };
+      wrapper.find('input[type="checkbox"]').at(2).simulate('click', checkEevent);
+
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name': [{ id: 'blue', label: 'Blauw' }, { id: 'green', label: 'Groen' }]
+      });
+
+      const uncheckEevent = { target: { checked: false } };
+      wrapper.find('input[type="checkbox"]').at(2).simulate('click', uncheckEevent);
+
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name': [{ id: 'blue', label: 'Blauw' }]
       });
     });
   });

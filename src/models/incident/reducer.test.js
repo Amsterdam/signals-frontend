@@ -181,7 +181,6 @@ describe('incidentModelReducer', () => {
     });
   });
 
-
   it('should handle the SPLIT_INCIDENT_SUCCESS ', () => {
     const payload = { id: 42, created: [{ id: 3 }] };
     expect(

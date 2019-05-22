@@ -1,17 +1,20 @@
-import { some } from 'lodash';
+import some from 'lodash.some';
 import { Validators } from 'react-reactive-form';
 
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
-import { checkVisibility } from '../services/format-conditional-form';
+import checkVisibility from '../services/check-visibility';
 
 export default {
   label: 'Beschrijf uw melding',
-  getNextStep: (wizard, { subcategory, category }) => {
-    if (!some(wizard.vulaan.form.controls, (control) => control.meta && control.meta.pathMerge && checkVisibility(control, {
-      category,
-      subcategory
-    }))) {
+  getNextStep: (wizard, incident, isAuthenticated) => {
+    const form = wizard.vulaan.form || wizard.vulaan.formFactory({ category: incident.category });
+    if (!some(form.controls, (control) => {
+      if (control.meta && !control.meta.ignoreVisibility) {
+        return checkVisibility(control, incident, isAuthenticated);
+      }
+      return false;
+    })) {
       return 'incident/telefoon';
     }
     return false;
@@ -53,7 +56,7 @@ export default {
       location: {
         meta: {
           label: 'Waar is het?',
-          subtitle: 'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart',
+          subheader: 'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart',
           path: 'location',
         },
         options: {

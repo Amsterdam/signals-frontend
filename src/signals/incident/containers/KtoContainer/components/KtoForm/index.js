@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FormGenerator } from 'react-reactive-form';
-import { defer, isEqual } from 'lodash';
+import defer from 'lodash.defer';
+import isEqual from 'lodash.isequal';
 
 import ktoDefinition from 'signals/incident/definitions/kto';
 import formatConditionalForm from '../../../../services/format-conditional-form';
@@ -10,7 +11,7 @@ import formatConditionalForm from '../../../../services/format-conditional-form'
 import './style.scss';
 
 export const andersOptionText = 'Anders, namelijk...';
-const andersOption = { andersOptionText };
+const andersOption = { anders: andersOptionText };
 
 class KtoForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -75,7 +76,7 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
   handleSubmit(e) {
     e.preventDefault();
     const values = this.form.value;
-    const text = values[`${values.is_satisfied ? '' : 'niet_'}tevreden`] || '';
+    const text = values[`${values.is_satisfied ? '' : 'niet_'}tevreden`].label || '';
     const textAnders = values[`${values.is_satisfied ? '' : 'niet_'}tevreden_anders`] || '';
 
     this.props.onStoreKto({
@@ -84,7 +85,7 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
         is_satisfied: values.is_satisfied,
         text: text === andersOptionText ? textAnders : text,
         text_extra: values.text_extra || '',
-        allows_contact: !!(values.allows_contact)
+        allows_contact: Boolean(values.allows_contact && values.allows_contact.value)
       }
     });
 
