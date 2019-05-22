@@ -7,6 +7,7 @@ import './style.scss';
 
 import Attachments from './components/Attachments';
 import Location from './components/Location';
+import Highlight from '../../components/Highlight';
 
 class Detail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -22,12 +23,16 @@ class Detail extends React.Component { // eslint-disable-line react/prefer-state
           <dt className="detail__definition">Overlast</dt>
           <dd className="detail__value">{string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}&nbsp;</dd>
 
-          <Location
-            incident={incident}
-            stadsdeelList={stadsdeelList}
-            onShowLocation={onShowLocation}
-            onEditLocation={onEditLocation}
-          />
+          <Highlight
+            subscribeTo={incident.location}
+          >
+            <Location
+              incident={incident}
+              stadsdeelList={stadsdeelList}
+              onShowLocation={onShowLocation}
+              onEditLocation={onEditLocation}
+            />
+          </Highlight>
 
           <Attachments
             attachments={attachments}
