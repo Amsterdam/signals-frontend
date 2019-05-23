@@ -58,7 +58,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
               <form onSubmit={this.handleSubmit}>
                 <div>
                   <FieldControlWrapper render={SelectInput} name="state" display="Status" control={this.statusForm.get('state')} values={changeStatusOptionList} multiple={false} emptyOptionText="Selecteer..." />
-                  <FieldControlWrapper render={TextAreaInput} name="text" display="Toelichting" control={this.statusForm.get('text')} rows={5} />
+                  <FieldControlWrapper render={TextAreaInput} name="text" display="Omschrijving" control={this.statusForm.get('text')} rows={5} />
 
                   {error ? <div className="notification notification-red" >
                     {error && error.response && error.response.status === 403 ?
@@ -69,7 +69,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
                   <div className="notification notification-red">{this.state.warning}</div>
 
                   <button className="incident-status-add__submit action primary" type="submit" disabled={invalid || loading}>
-                    <span className="value">Status opslaan</span>
+                    <span className="value">Status toevoegen</span>
                     {loading ?
                       <span className="working">
                         <div className="progress-indicator progress-white"></div>
