@@ -5,9 +5,10 @@ import { string2date, string2time } from 'shared/services/string-parser/string-p
 
 import './style.scss';
 
-import Attachments from './components/Attachments';
-import Location from './components/Location';
 import Highlight from '../../components/Highlight';
+import Location from './components/Location';
+import Attachments from './components/Attachments';
+import ExtraProperties from './components/ExtraProperties';
 
 class Detail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -39,9 +40,7 @@ class Detail extends React.Component { // eslint-disable-line react/prefer-state
             onShowAttachment={onShowAttachment}
           />
 
-          {incident.extra_properties && Object.keys(incident.extra_properties).map((key) =>
-           (<dl key={key}><dt className="detail__definition">{key}</dt><dd className="detail__value">{incident.extra_properties[key]}&nbsp;</dd></dl>)
-          )}
+          {incident.extra_properties ? <ExtraProperties items={incident.extra_properties} /> : ''}
 
           <dt className="detail__definition">Email</dt>
           <dd className="detail__value">{incident.reporter.email}</dd>
