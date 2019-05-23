@@ -22,9 +22,13 @@
     }
   }
 
+  .zoom-control, .legend-control, .loading-control, error-control {
+    border: 2px solid rgba($ams-zwart, .02);
+    background-clip: padding-box;
+  }
+
   .zoom-control {
-    border: 2px solid $ams-lichtgrijs;
-    background-color: $ams-geel;
+    background-color: #FEC813;
     color: $ams-zwart;
     font-family: Avenir;
     font-size: 16px;
@@ -33,8 +37,7 @@
   }
 
   .legend-control {
-    border: 2px solid $ams-lichtgrijs;
-    background-color: $ams-lichtgrijs;
+    background-color: $ams-wit;
     color: $ams-zwart;
     font-family: Avenir;
     font-size: 16px;
@@ -42,14 +45,25 @@
     min-width: 240px;
   }
 
-  @media (max-width: 600px)  {
-    .legend-control {
-      display: none;
-    }
-  }
-
   .legend-header {
     padding: 14px;
+    font-family: Avenir;
+    color: $ams-zwart;
+
+    background-color: #F5F5F5;;
+
+    background-image: url("../../shared/images/Chevron-Down.svg");
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-origin: content-box;
+
+    &:hover, &:focus {
+      background-color: $ams-pinkish-grey;
+      color: $ams-zwart;
+      fill: $ams-zwart;
+      outline: none;
+    }
   }
 
   .legend-content {
@@ -69,21 +83,34 @@
     margin-left: 8px;
   }
 
+  .legend-control {
+    &.is-closed {
+      .legend-header {
+        background-image: url("../../shared/images/Chevron-Top.svg");
+      }
+
+      .legend-content {
+        display: none;
+      }
+    }
+  }
+
+
   .loading-control {
-    border: 2px solid $ams-lichtgrijs;
     background-color: $ams-wit;
     font-size: 16px;
     line-height: 22px;
     padding: 13px 17px;
   }
 
+
   .error-control {
-    border: 2px solid $ams-lichtgrijs;
     background-color: $ams-wit;
     font-size: 16px;
     line-height: 22px;
     padding: 13px 17px;
   }
+
 
   .hide {
     display: none;

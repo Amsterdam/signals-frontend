@@ -27,4 +27,19 @@ describe('Leaflet legend control', () => {
 
     expect(containerEl).toMatchSnapshot();
   });
+
+  it('can close', () => {
+    const [containerEl, control] = createControl({ // eslint-disable-line array-bracket-spacing
+      elements: [
+        {
+          iconUrl: 'foo/bar.svg',
+          label: 'bar label',
+        }
+      ]
+    });
+
+    containerEl.querySelector('.legend-header').click();
+
+    expect(control.isClosed).toBe(false);
+  });
 });
