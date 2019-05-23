@@ -20,7 +20,7 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
   }
 
   render() {
-    const { incidentStatusList, changeStatusOptionList, error, loading, loadingExternal } = this.props.incidentStatusContainer;
+    const { incidentStatusList, changeStatusOptionList, statusList, error, loading, loadingExternal } = this.props.incidentStatusContainer;
     const state = incidentStatusList && incidentStatusList.length && incidentStatusList[incidentStatusList.length - 1].state;
     const canDisplay = typeof state !== 'number';
 
@@ -34,6 +34,7 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
                 loading={loading}
                 loadingExternal={loadingExternal}
                 changeStatusOptionList={changeStatusOptionList}
+                statusList={statusList}
                 error={error}
                 onRequestStatusCreate={this.props.onRequestStatusCreate}
                 incidentStatusList={incidentStatusList}
