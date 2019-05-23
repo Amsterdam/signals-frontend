@@ -13,7 +13,7 @@ const Location = ({ incident, stadsdeelList, onShowLocation, onEditLocation }) =
     <dl className="location">
       <dt className="location__definition">Locatie</dt>
       <dd className="location__value">
-        <button className="location__value-button-edit detail__button--edit" onClick={onEditLocation}></button>
+        <button className="location__value-button-edit incident-detail__button--edit" onClick={onEditLocation}></button>
         <button className="location__value-button-show" onClick={onShowLocation} >
           <MapDetail
             value={incident.location}

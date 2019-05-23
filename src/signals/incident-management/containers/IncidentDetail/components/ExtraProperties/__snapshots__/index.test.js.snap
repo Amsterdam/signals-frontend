@@ -8,12 +8,12 @@ exports[`<ExtraProperties /> should render correctly 1`] = `
     key="extra_straatverlichting"
   >
     <dt
-      className="incident-detail__body__definition"
+      className="incident-incident-detail__body__definition"
     >
       Gaat uw melding over één of over meer lampen?
     </dt>
     <dd
-      className="incident-detail__body__value"
+      className="incident-incident-detail__body__value"
     >
       Meer lampen
     </dd>
@@ -22,12 +22,12 @@ exports[`<ExtraProperties /> should render correctly 1`] = `
     key="extra_straatverlichting_wat"
   >
     <dt
-      className="incident-detail__body__definition"
+      className="incident-incident-detail__body__definition"
     >
       Wat is er aan de hand met de lamp(en)?
     </dt>
     <dd
-      className="incident-detail__body__value"
+      className="incident-incident-detail__body__value"
     >
       Brandt niet, Brandt overdag
     </dd>
@@ -36,12 +36,12 @@ exports[`<ExtraProperties /> should render correctly 1`] = `
     key="extra_straatverlichting_nummer"
   >
     <dt
-      className="incident-detail__body__definition"
+      className="incident-incident-detail__body__definition"
     >
       Hebt u een nummer van (één van) de lamp(en)?
     </dt>
     <dd
-      className="incident-detail__body__value"
+      className="incident-incident-detail__body__value"
     >
       42
     </dd>
@@ -50,12 +50,12 @@ exports[`<ExtraProperties /> should render correctly 1`] = `
     key="extra_bedrijven_vaker"
   >
     <dt
-      className="incident-detail__body__definition"
+      className="incident-incident-detail__body__definition"
     >
       Gebeurt het vaker?
     </dt>
     <dd
-      className="incident-detail__body__value"
+      className="incident-incident-detail__body__value"
     >
       Nee
     </dd>
@@ -64,12 +64,12 @@ exports[`<ExtraProperties /> should render correctly 1`] = `
     key="extra_bedrijven_gezien"
   >
     <dt
-      className="incident-detail__body__definition"
+      className="incident-incident-detail__body__definition"
     >
       Heeft u het gezien?
     </dt>
     <dd
-      className="incident-detail__body__value"
+      className="incident-incident-detail__body__value"
     >
       Ja, het gebeurt vaker
     </dd>
@@ -78,12 +78,12 @@ exports[`<ExtraProperties /> should render correctly 1`] = `
     key="lampen"
   >
     <dt
-      className="incident-detail__body__definition"
+      className="incident-incident-detail__body__definition"
     >
       Welke lampen?
     </dt>
     <dd
-      className="incident-detail__body__value"
+      className="incident-incident-detail__body__value"
     >
       126543, 87654
     </dd>

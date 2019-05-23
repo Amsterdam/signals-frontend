@@ -16,13 +16,13 @@ class Detail extends React.Component { // eslint-disable-line react/prefer-state
 
     return (
       <article className="detail">
-        <div className="detail__text">
+        <div className="incident-detail__text">
           {incident.text}
         </div>
 
         <dl>
-          <dt className="detail__definition">Overlast</dt>
-          <dd className="detail__value">{string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}&nbsp;</dd>
+          <dt className="incident-detail__definition">Overlast</dt>
+          <dd className="incident-detail__value">{string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}&nbsp;</dd>
 
           <Highlight
             subscribeTo={incident.location}
@@ -42,11 +42,11 @@ class Detail extends React.Component { // eslint-disable-line react/prefer-state
 
           {incident.extra_properties ? <ExtraProperties items={incident.extra_properties} /> : ''}
 
-          <dt className="detail__definition">Email</dt>
-          <dd className="detail__value">{incident.reporter.email}</dd>
+          <dt className="incident-detail__definition">Email</dt>
+          <dd className="incident-detail__value">{incident.reporter.email}</dd>
 
-          <dt className="detail__definition">Telefoonnummer</dt>
-          <dd className="detail__value">{incident.reporter.phone}</dd>
+          <dt className="incident-detail__definition">Telefoonnummer</dt>
+          <dd className="incident-detail__value">{incident.reporter.phone}</dd>
         </dl>
       </article>
     );

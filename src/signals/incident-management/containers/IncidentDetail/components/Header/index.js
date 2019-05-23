@@ -18,17 +18,17 @@ const Header = ({ incident, baseUrl, onThor, onDownloadPdf }) => {
           {canSplit ?
             <Link
               to={`${baseUrl}/incident/${incident.id}/split`}
-              className="detail__button align-self-center"
+              className="incident-detail__button align-self-center"
             >Splitsen</Link> : ''}
 
           {canThor ?
             <button
-              className="detail__button align-self-center"
+              className="incident-detail__button align-self-center"
               onClick={onThor}
             >THOR</button> : ''}
 
           <button
-            className="detail__button--download align-self-center"
+            className="incident-detail__button--download align-self-center"
             onClick={() => onDownloadPdf(downloadLink)}
           />
         </div>

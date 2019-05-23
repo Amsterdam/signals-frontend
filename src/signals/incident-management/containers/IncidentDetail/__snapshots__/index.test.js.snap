@@ -110,7 +110,7 @@ exports[`<IncidentDetail /> rendering should render correctly 1`] = `
       </button>
     </div>
     <ul
-      className="col-12 col-md-4 detail__map"
+      className="col-12 col-md-4 incident-detail__map"
     />
     <div
       className="col-12 col-md-8"
@@ -232,7 +232,7 @@ exports[`<IncidentDetail /> rendering should render correctly 1`] = `
       className="col-12"
     >
       <div
-        className="detail__tab-container"
+        className="incident-detail__tab-container"
       >
         <Component
           id="100"
@@ -290,7 +290,7 @@ exports[`<IncidentDetail /> rendering should render correctly with image 1`] = `
       </button>
     </div>
     <ul
-      className="col-12 col-md-4 detail__map"
+      className="col-12 col-md-4 incident-detail__map"
     />
     <div
       className="col-12 col-md-8"
@@ -383,12 +383,12 @@ exports[`<IncidentDetail /> rendering should render correctly with image 1`] = `
               "value": <div>
                 <img
                   alt=""
-                  className="detail__image--max-width"
+                  className="incident-detail__image--max-width"
                   src={1}
                 />
                 <img
                   alt=""
-                  className="detail__image--max-width"
+                  className="incident-detail__image--max-width"
                   src={2}
                 />
               </div>,
@@ -426,7 +426,7 @@ exports[`<IncidentDetail /> rendering should render correctly with image 1`] = `
       className="col-12"
     >
       <div
-        className="detail__tab-container"
+        className="incident-detail__tab-container"
       >
         <Component
           id="100"
@@ -484,7 +484,7 @@ exports[`<IncidentDetail /> rendering should render correctly with location 1`] 
       </button>
     </div>
     <ul
-      className="col-12 col-md-4 detail__map"
+      className="col-12 col-md-4 incident-detail__map"
     >
       <Component
         label=""
@@ -612,7 +612,7 @@ exports[`<IncidentDetail /> rendering should render correctly with location 1`] 
       className="col-12"
     >
       <div
-        className="detail__tab-container"
+        className="incident-detail__tab-container"
       >
         <Component
           id="100"
@@ -663,7 +663,7 @@ exports[`<IncidentDetail /> rendering should render correctly with parent 1`] = 
       </button>
     </div>
     <ul
-      className="col-12 col-md-4 detail__map"
+      className="col-12 col-md-4 incident-detail__map"
     />
     <div
       className="col-12 col-md-8"
@@ -786,7 +786,7 @@ exports[`<IncidentDetail /> rendering should render correctly with parent 1`] = 
       className="col-12"
     >
       <div
-        className="detail__tab-container"
+        className="incident-detail__tab-container"
       >
         <Component
           id="100"
@@ -837,7 +837,7 @@ exports[`<IncidentDetail /> rendering should render correctly without incident 1
       </button>
     </div>
     <ul
-      className="col-12 col-md-4 detail__map"
+      className="col-12 col-md-4 incident-detail__map"
     />
     <div
       className="col-12 col-md-8"
@@ -896,7 +896,7 @@ exports[`<IncidentDetail /> rendering should render correctly without incident 1
       className="col-12"
     >
       <div
-        className="detail__tab-container"
+        className="incident-detail__tab-container"
       >
         <Component
           id="100"

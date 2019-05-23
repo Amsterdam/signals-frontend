@@ -65,7 +65,7 @@ class AddNote extends React.Component { // eslint-disable-line react/prefer-stat
             )}
             />
           :
-            <button className="add-note__show-form detail__button" onClick={this.showForm}>Notitie toevoegen</button>
+            <button className="add-note__show-form incident-detail__button" onClick={this.showForm}>Notitie toevoegen</button>
           }
         </div>
       </section>

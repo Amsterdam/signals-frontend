@@ -124,7 +124,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
     const { previewState, attachment } = this.state;
 
     return (
-      <div className="detail">
+      <div className="incident-detail">
         <SplitNotificationBar data={split} onClose={this.onDismissSplitNotification} />
         {loading ? <LoadingIndicator /> : (
           <div>
@@ -144,8 +144,8 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
 
             {previewState ? (
               <div className="row">
-                <div className="col-12 detail__preview">
-                  <button className="detail__preview-close detail__button--close" onClick={this.onCloseAll} />
+                <div className="col-12 incident-detail__preview">
+                  <button className="incident-detail__preview-close incident-detail__button--close" onClick={this.onCloseAll} />
 
                   {previewState === 'showImage' ? (
                     <AttachmentViewer

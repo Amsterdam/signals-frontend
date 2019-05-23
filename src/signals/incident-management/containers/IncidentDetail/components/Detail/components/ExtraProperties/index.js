@@ -22,8 +22,8 @@ const ExtraProperties = ({ items }) => (
   <div className="extra-properties">
     {items && items.map((item) =>
       (<dl key={item.id}>
-        <dt className="detail__definition">{item.label}</dt>
-        <dd className="detail__value">{getValue(item.answer)}</dd>
+        <dt className="incident-detail__definition">{item.label}</dt>
+        <dd className="incident-detail__value">{getValue(item.answer)}</dd>
       </dl>)
     )}
   </div>
