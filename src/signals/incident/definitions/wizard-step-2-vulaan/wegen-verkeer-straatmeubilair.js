@@ -416,33 +416,33 @@ export default {
     },
 
     // redirect_to_kim: {
-    //   meta: {
-    //     ifOneOf: {
-    //       subcategory: [
-    //         'klok',
-    //         'lantaarnpaal-straatverlichting',
-    //         'verkeerslicht'
-    //       ]
-    //     },
-    //     label: 'Redirect naar',
-    //     value: 'Voor meldingen over openbare verlichting, klokken en verkeerslichten is een apart formulier beschikbaar',
-    //     buttonLabel: 'Meteen doorgaan',
-    //     buttonAction: 'https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx',
-    //     buttonTimeout: 5000
-    //   },
-    //   render: FormComponents.RedirectButton
+      // meta: {
+        // ifOneOf: {
+          // subcategory: [
+            // 'klok',
+            // 'lantaarnpaal-straatverlichting',
+            // 'verkeerslicht'
+          // ]
+        // },
+        // label: 'Redirect naar',
+        // value: 'Voor meldingen over openbare verlichting, klokken en verkeerslichten is een apart formulier beschikbaar',
+        // buttonLabel: 'Meteen doorgaan',
+        // buttonAction: 'https://formulieren.amsterdam.nl/TripleForms/DirectRegelen/formulier/nl-NL/evAmsterdam/scMeldingenovl.aspx',
+        // buttonTimeout: 5000
+      // },
+      // render: FormComponents.RedirectButton
     // },
     // hide_navigation_buttons: {
-    //   meta: {
-    //     ifOneOf: {
-    //       subcategory: [
-    //         'klok',
-    //         'lantaarnpaal-straatverlichting',
-    //         'verkeerslicht'
-    //       ]
-    //     },
-    //     ignoreVisibility: true
-    //   }
+      // meta: {
+        // ifOneOf: {
+          // subcategory: [
+            // 'klok',
+            // 'lantaarnpaal-straatverlichting',
+            // 'verkeerslicht'
+          // ]
+        // },
+        // ignoreVisibility: true
+      // }
     // },
 
     $field_0: {
