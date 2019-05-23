@@ -605,7 +605,7 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
           },
         }
       }
-      display="Omschrijving"
+      display="Toelichting"
       emptyOptionText=""
       name="text"
       render={[Function]}
@@ -623,7 +623,7 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
       <span
         className="value"
       >
-        Status toevoegen
+        Status opslaan
       </span>
     </button>
     <Thor
@@ -1241,7 +1241,7 @@ exports[`<Add /> FieldGroup rendering should render authentication error 1`] = `
           },
         }
       }
-      display="Omschrijving"
+      display="Toelichting"
       emptyOptionText=""
       name="text"
       render={[Function]}
@@ -1264,7 +1264,7 @@ exports[`<Add /> FieldGroup rendering should render authentication error 1`] = `
       <span
         className="value"
       >
-        Status toevoegen
+        Status opslaan
       </span>
     </button>
     <Thor
@@ -1882,7 +1882,7 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
           },
         }
       }
-      display="Omschrijving"
+      display="Toelichting"
       emptyOptionText=""
       name="text"
       render={[Function]}
@@ -1900,7 +1900,7 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
       <span
         className="value"
       >
-        Status toevoegen
+        Status opslaan
       </span>
       <span
         className="working"
@@ -2525,7 +2525,7 @@ exports[`<Add /> FieldGroup rendering should render loading Thor 1`] = `
           },
         }
       }
-      display="Omschrijving"
+      display="Toelichting"
       emptyOptionText=""
       name="text"
       render={[Function]}
@@ -2543,7 +2543,7 @@ exports[`<Add /> FieldGroup rendering should render loading Thor 1`] = `
       <span
         className="value"
       >
-        Status toevoegen
+        Status opslaan
       </span>
     </button>
     <Thor
@@ -3161,7 +3161,7 @@ exports[`<Add /> FieldGroup rendering should render normal error 1`] = `
           },
         }
       }
-      display="Omschrijving"
+      display="Toelichting"
       emptyOptionText=""
       name="text"
       render={[Function]}
@@ -3184,7 +3184,7 @@ exports[`<Add /> FieldGroup rendering should render normal error 1`] = `
       <span
         className="value"
       >
-        Status toevoegen
+        Status opslaan
       </span>
     </button>
     <Thor
