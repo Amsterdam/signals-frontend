@@ -9,15 +9,25 @@ import './style.scss';
 
 class Add extends React.Component { // eslint-disable-line react/prefer-stateless-function
   categoryForm = FormBuilder.group({ // eslint-disable-line react/sort-comp
-    _signal: [''],
+    id: [''],
     sub_category: ['', Validators.required],
     loading: false
   });
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const status = { ...this.categoryForm.value, _signal: this.props.id };
-    this.props.onRequestCategoryUpdate(status);
+    const patch = {
+      id: this.props.id,
+      patch: {
+        category: {
+          sub_category: this.categoryForm.value.sub_category
+        },
+        status: {
+          state: 'm'
+        }
+      }
+    };
+    this.props.onRequestCategoryUpdate(patch);
   }
 
   componentWillUpdate(props) {
@@ -27,7 +37,8 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
   }
 
   render() {
-    const { subcategoryList, loading } = this.props;
+    const { subcategoryList, status, loading } = this.props;
+    const canChangeCategory = ['m', 'i', 'b', 'h', 'send failed', 'closure requested'].includes(status.state);
     return (
       <div className="incident-category-add">
         <div className="incident-category-add__body">
@@ -47,7 +58,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
                     emptyOptionText="Selecteer..."
                   />
 
-                  <button className="action primary" type="submit" disabled={invalid || loading}>
+                  <button className="action primary" type="submit" disabled={invalid || loading || !canChangeCategory}>
                     <span className="value">Subcategorie wijzigen</span>
                     {loading ?
                       <span className="working">
@@ -72,6 +83,7 @@ Add.defaultProps = {
 Add.propTypes = {
   id: PropTypes.string,
   subcategoryList: PropTypes.array,
+  status: PropTypes.object,
   loading: PropTypes.bool,
 
   onRequestCategoryUpdate: PropTypes.func.isRequired

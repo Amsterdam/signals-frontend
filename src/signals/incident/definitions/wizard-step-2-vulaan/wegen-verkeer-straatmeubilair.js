@@ -53,7 +53,6 @@ export default {
         value: [
           'Let op:',
           'Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB:',
-          <DefinitionComponents.Anchor href="http://ns.nl/klantenservice" target="_blank" className="more-link">ns.nl/klantenservice</DefinitionComponents.Anchor>,
           <DefinitionComponents.Anchor href="http://gvb.nl/klantenservice" target="_blank" className="more-link">gvb.nl/klantenservice</DefinitionComponents.Anchor>
         ],
         pathMerge: 'extra_properties'

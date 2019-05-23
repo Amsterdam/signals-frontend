@@ -12,6 +12,9 @@ describe('<Add />', () => {
     props = {
       id: '1',
       subcategoryList: ['test'],
+      status: {
+        state: 'm'
+      },
       onRequestCategoryUpdate: jest.fn()
     };
 
@@ -79,7 +82,17 @@ describe('<Add />', () => {
       renderedFormGroup = (wrapper.find(FieldGroup).shallow().dive());
       // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
       renderedFormGroup.find('form').simulate('submit', { preventDefault() { } });
-      const formCallValue = { ...formValue, _signal: props.id };
+      const formCallValue = {
+        id: props.id,
+        patch: {
+          category: {
+            sub_category: 'test'
+          },
+          status: {
+            state: 'm'
+          }
+        }
+      };
       expect(props.onRequestCategoryUpdate).toHaveBeenCalledWith(formCallValue);
     });
   });

@@ -185,6 +185,11 @@ exports[`<IncidentDetailPage /> rendering should render correctly 1`] = `
               "name": "Subcategorie",
               "value": <Unknown
                 id="100"
+                status={
+                  Object {
+                    "state": "m",
+                  }
+                }
               />,
             },
             "history": Object {
@@ -360,6 +365,11 @@ exports[`<IncidentDetailPage /> rendering should render correctly with image 1`]
               "name": "Subcategorie",
               "value": <Unknown
                 id="100"
+                status={
+                  Object {
+                    "state": "m",
+                  }
+                }
               />,
             },
             "history": Object {
@@ -555,6 +565,11 @@ exports[`<IncidentDetailPage /> rendering should render correctly with location 
               "name": "Subcategorie",
               "value": <Unknown
                 id="100"
+                status={
+                  Object {
+                    "state": "m",
+                  }
+                }
               />,
             },
             "history": Object {
@@ -724,6 +739,11 @@ exports[`<IncidentDetailPage /> rendering should render correctly with parent 1`
               "name": "Subcategorie",
               "value": <Unknown
                 id="100"
+                status={
+                  Object {
+                    "state": "m",
+                  }
+                }
               />,
             },
             "history": Object {
