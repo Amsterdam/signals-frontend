@@ -37,7 +37,7 @@ export class IncidentContainer extends React.Component {
         <div className="container">
           <div className="incident-container__alert">
             <b>*** BELANGRIJK ***</b><br />
-              Melding over horeca of evenementen? Vul dan bij de melding altijd uw contactgegevens in, dan kunnen wij u beter en sneller helpen.<br /><br />
+              Melding over horeca of evenementen? Vul dan bij de melding altijd uw contactgegevens in, dan kunnen wij u beter en sneller helpen.
           </div>
           <IncidentWizard
             wizardDefinition={wizardDefinition}
