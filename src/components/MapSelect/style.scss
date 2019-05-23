@@ -42,6 +42,12 @@
     min-width: 240px;
   }
 
+  @media (max-width: 600px)  {
+    .legend-control {
+      display: none;
+    }
+  }
+
   .legend-header {
     padding: 14px;
   }
