@@ -15,11 +15,17 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
       <dt className="meta-list__definition">Gemeld op</dt>
       <dd className="meta-list__value">{string2date(incident.created_at)} {string2time(incident.created_at)}</dd>
 
-      <dt className="meta-list__definition">
-        <button className="meta-list__edit incident-detail__button--edit" onClick={onEditStatus} />
-        Status
-      </dt>
-      <dd className="meta-list__value">{incident.status.state_display}</dd>
+      <Highlight
+        subscribeTo={incident.status.state}
+      >
+        <dl>
+          <dt className="meta-list__definition">
+            <button className="meta-list__edit incident-detail__button--edit" onClick={onEditStatus} />
+            Status
+          </dt>
+          <dd className="meta-list__value">{incident.status.state_display}</dd>
+        </dl>
+      </Highlight>
 
       <Highlight
         subscribeTo={incident.priority.priority}
