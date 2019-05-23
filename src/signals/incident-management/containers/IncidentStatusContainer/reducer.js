@@ -9,12 +9,11 @@ import {
   REQUEST_STATUS_CREATE_ERROR
 }
   from './constants';
-import statusList, { changeStatusOptionList } from '../../definitions/statusList';
+import { changeStatusOptionList } from '../../definitions/statusList';
 
 export const initialState = fromJS({
   incidentStatusList: [],
   changeStatusOptionList,
-  statusList,
   loading: false,
   loadingExternal: false
 });

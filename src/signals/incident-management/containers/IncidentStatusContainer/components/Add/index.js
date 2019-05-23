@@ -18,19 +18,6 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
     loadingExternal: false
   });
 
-  state = {
-    warning: ''
-  };
-
-  componentDidMount() {
-    this.statusForm.controls.state.valueChanges.subscribe((state) => {
-      const found = this.props.statusList.find((s) => s.key === state);
-      this.setState({
-        warning: (found && found.warning) || ''
-      });
-    });
-  }
-
   componentWillUpdate(props) {
     if (props.loading !== this.props.loading) {
       this.statusForm.controls.loading.setValue(props.loading);
@@ -66,8 +53,6 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
                       'De gekozen status is niet mogelijk in deze situatie.'}
                   </div> : ''}
 
-                  <div className="notification notification-red">{this.state.warning}</div>
-
                   <button className="incident-status-add__submit action primary" type="submit" disabled={invalid || loading}>
                     <span className="value">Status toevoegen</span>
                     {loading ?
@@ -101,7 +86,6 @@ Add.defaultProps = {
 Add.propTypes = {
   id: PropTypes.string,
   changeStatusOptionList: PropTypes.array,
-  statusList: PropTypes.array,
   incidentStatusList: PropTypes.array,
   loading: PropTypes.bool,
   loadingExternal: PropTypes.bool,

@@ -4,26 +4,19 @@ import { FieldGroup } from 'react-reactive-form';
 
 import Add from './index';
 
-describe.only('<Add />', () => {
+describe('<Add />', () => {
   let wrapper;
   let props;
 
   beforeEach(() => {
     props = {
       id: '1',
-      statusList: [{
-        key: 'gemeld',
-        warning: 'warning'
-      }],
+      statusList: ['test'],
       state: 'gemeld',
       text: 'extra text',
       error: false,
       incidentStatusList: [{
         state: 'm'
-      }],
-      changeStatusOptionList: [{
-        key: 'm',
-        value: 'Gemeld'
       }],
       onRequestStatusCreate: jest.fn()
     };
@@ -93,7 +86,7 @@ describe.only('<Add />', () => {
       expect(renderedFormGroup.find('.incident-status-add__submit').prop('disabled')).toBe(true);
     });
 
-    it('should enable the submit buttonand show warning when a status is selected', () => {
+    it('should enable the submit button when a status is selected', () => {
       const form = wrapper.instance().statusForm;
       const formValue = { state: 'gemeld' };
       form.patchValue(formValue);
