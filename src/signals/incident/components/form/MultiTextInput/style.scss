@@ -9,7 +9,13 @@
 
   &__button {
     display: inline-block;
+    cursor: pointer;
     padding: 0;
     border-style: none;
+    margin: 0;
+    @include avenirnextdemi;
+    color: $ams-donkerblauw;
+    text-decoration: underline;
+    font-size: 16px;
   }
 }

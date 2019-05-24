@@ -13,6 +13,7 @@ exports[`Form component <MultiTextInput /> rendering should render multi text co
       meta={
         Object {
           "isVisible": true,
+          "itemClassName": "col-3",
           "name": "input-field-name",
           "placeholder": "type here",
         }
@@ -36,7 +37,7 @@ exports[`Form component <MultiTextInput /> rendering should render multi text co
           key="input-field-name-1"
         >
           <input
-            className="multi-text-input__input"
+            className="multi-text-input__input col-3"
             id="input-field-name-1"
             name="input-field-name-1"
             onChange={[Function]}
@@ -83,7 +84,7 @@ exports[`Form component <MultiTextInput /> rendering should render multi text wi
           key="input-field-name-1"
         >
           <input
-            className="multi-text-input__input"
+            className="multi-text-input__input "
             id="input-field-name-1"
             name="input-field-name-1"
             onChange={[Function]}

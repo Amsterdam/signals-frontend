@@ -35,25 +35,19 @@ describe('Form component <MultiTextInput />', () => {
     />);
 
     handler.mockImplementation(() => ({
-      value: {
+      value: [{
         id: 'input-field-name-1',
         label: 'Lorem'
-      }
+      }]
     }));
   });
 
   describe('rendering', () => {
     it('should render multi text correctly', () => {
-      handler = handler.mockImplementation(() => ({
-        value: [{
-          id: 'input-field-name-1',
-          label: 'Lorem'
-        }]
-      }));
-
       wrapper.setProps({
         meta: {
           ...metaFields,
+          itemClassName: 'col-3',
           isVisible: true
         }
       });
@@ -90,13 +84,6 @@ describe('Form component <MultiTextInput />', () => {
     const event = { target: { value: 'Ipsum' } };
 
     it('should set incident when value changes', () => {
-      handler = handler.mockImplementation(() => ({
-        value: [{
-          id: 'input-field-name-1',
-          label: 'Lorem'
-        }]
-      }));
-
       wrapper.setProps({
         meta: {
           ...metaFields,
@@ -115,13 +102,6 @@ describe('Form component <MultiTextInput />', () => {
     });
 
     it('should add a text field when button is clicked', () => {
-      handler = handler.mockImplementation(() => ({
-        value: [{
-          id: 'input-field-name-1',
-          label: 'Lorem'
-        }]
-      }));
-
       wrapper.setProps({
         meta: {
           ...metaFields,

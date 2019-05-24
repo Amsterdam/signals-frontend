@@ -40,9 +40,9 @@ const MultiTextInput = ({ handler, touched, hasError, meta, parent, getError, va
             />
 
             {map(handler().value || [{ id: `${meta.name}-1`, label: '' }], (input, key) =>
-              (<div key={input.id} className="invoer">
+              (<div key={`${meta.name}-${key + 1}`} className="invoer">
                 <input
-                  className="multi-text-input__input"
+                  className={`multi-text-input__input ${meta.itemClassName ? meta.itemClassName : ''}`}
                   id={`${meta.name}-${key + 1}`}
                   name={`${meta.name}-${key + 1}`}
                   type="text"

@@ -216,6 +216,7 @@ export default {
         pathMerge: 'extra_properties',
         placeholder: 'Nummer lichtpunt',
         newItemText: '+ Voeg een extra nummer toe',
+        itemClassName: 'col-3',
         ifAllOf: {
           extra_straatverlichting_niet_op_kaart: true,
           subcategory: 'lantaarnpaal-straatverlichting',
@@ -352,12 +353,12 @@ export default {
       meta: {
         label: 'Weet u het nummer dat op de klok staat?',
         pathMerge: 'extra_properties',
-        className: 'col-sm-3 col-md-3',
         placeholder: 'Nummer klok',
         ifAllOf: {
           extra_klok_niet_op_kaart: true,
           subcategory: 'klok'
         },
+        itemClassName: 'col-3',
         newItemText: '+ Voeg een extra nummer toe',
         ifOneOf: {
           extra_klok_probleem: [
