@@ -214,7 +214,8 @@ export default {
       meta: {
         label: 'Weet u het nummer dat op het lichtpunt staat?',
         pathMerge: 'extra_properties',
-        placeholder: 'Nummer lichtpunt, nummer lichtpunt',
+        placeholder: 'Nummer lichtpunt',
+        newItemText: '+ Voeg een extra nummer toe',
         ifAllOf: {
           extra_straatverlichting_niet_op_kaart: true,
           subcategory: 'lantaarnpaal-straatverlichting',
@@ -230,7 +231,7 @@ export default {
           ]
         }
       },
-      render: FormComponents.TextInput
+      render: FormComponents.MultiTextInput
     },
 
     extra_klok: {
@@ -351,11 +352,13 @@ export default {
       meta: {
         label: 'Weet u het nummer dat op de klok staat?',
         pathMerge: 'extra_properties',
-        placeholder: 'Nummer klok, nummer klok',
+        className: 'col-sm-3 col-md-3',
+        placeholder: 'Nummer klok',
         ifAllOf: {
           extra_klok_niet_op_kaart: true,
           subcategory: 'klok'
         },
+        newItemText: '+ Voeg een extra nummer toe',
         ifOneOf: {
           extra_klok_probleem: [
             'klok_staat_niet_op_tijd_of_stil',
@@ -365,7 +368,7 @@ export default {
           ]
         }
       },
-      render: FormComponents.TextInput
+      render: FormComponents.MultiTextInput
     },
 
     extra_fietsrek_aanvragen: {
