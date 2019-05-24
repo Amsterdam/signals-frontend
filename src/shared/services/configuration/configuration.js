@@ -29,7 +29,7 @@ export class Configuration {
         ROOT: `https://${this.hostname}/`,
         AUTH_ROOT: `https://acc.${apiDomainName}/`,
         API_ROOT_MLTOOL: `https://acc.${apiDomainName}/`,
-        API_ROOT_MAPSERVER: `https://acc.${mapserverDomainName}/`,
+        API_ROOT_MAPSERVER: `https://${mapserverDomainName}/`,
       };
     } else if (this.hostname === `opleiding.${domainName}`) {
       config = {
@@ -45,7 +45,7 @@ export class Configuration {
         ROOT: 'http://localhost:3001/',
         AUTH_ROOT: 'https://acc.api.data.amsterdam.nl/',
         API_ROOT_MLTOOL: `https://acc.${apiDomainName}/`,
-        API_ROOT_MAPSERVER: `https://acc.${mapserverDomainName}/`,
+        API_ROOT_MAPSERVER: `https://${mapserverDomainName}/`,
       };
     }
 
