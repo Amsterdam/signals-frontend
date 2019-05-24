@@ -4,6 +4,10 @@ import { shallow } from 'enzyme';
 import MultiTextInput from './index';
 
 describe('Form component <MultiTextInput />', () => {
+  const metaFields = {
+    name: 'input-field-name',
+    placeholder: 'type here'
+  };
   let wrapper;
   let handler;
   let touched;
@@ -32,34 +36,24 @@ describe('Form component <MultiTextInput />', () => {
 
     handler.mockImplementation(() => ({
       value: {
-        value: true,
-        label: 'Ja dat wil ik'
+        id: 'input-field-name-1',
+        label: 'Lorem'
       }
     }));
   });
 
   describe('rendering', () => {
-    it('should render checkbox correctly', () => {
-      wrapper.setProps({
-        meta: {
-          name: 'input-field-name',
-          value: 'Ja, dat is goed',
-          isVisible: true
-        }
-      });
-
-      expect(wrapper).toMatchSnapshot();
-    });
-
-    it('should render multi checkbox correctly', () => {
+    it('should render multi text correctly', () => {
       handler = handler.mockImplementation(() => ({
-        value: ['blue']
+        value: [{
+          id: 'input-field-name-1',
+          label: 'Lorem'
+        }]
       }));
 
       wrapper.setProps({
         meta: {
-          name: 'input-field-name',
-          values: { red: 'Rood', blue: 'Blauw', green: 'Groen' },
+          ...metaFields,
           isVisible: true
         }
       });
@@ -67,13 +61,12 @@ describe('Form component <MultiTextInput />', () => {
       expect(wrapper).toMatchSnapshot();
     });
 
-    it('should render multi checkbox without value correctly', () => {
+    it('should render multi text without value correctly', () => {
       handler = handler.mockImplementation(() => ({ value: undefined }));
 
       wrapper.setProps({
         meta: {
-          name: 'input-field-name',
-          values: { red: 'Rood', blue: 'Blauw', green: 'Groen' },
+          ...metaFields,
           isVisible: true
         }
       });
@@ -81,10 +74,10 @@ describe('Form component <MultiTextInput />', () => {
       expect(wrapper).toMatchSnapshot();
     });
 
-    it('should render no checkbox when not visible', () => {
+    it('should render no multi text  when not visible', () => {
       wrapper.setProps({
         meta: {
-          name: 'input-field-name',
+          ...metaFields,
           isVisible: false
         }
       });
@@ -94,56 +87,58 @@ describe('Form component <MultiTextInput />', () => {
   });
 
   describe('events', () => {
-    it('can be checked and unchecked with default values', () => {
+    const event = { target: { value: 'Ipsum' } };
+
+    it('should set incident when value changes', () => {
+      handler = handler.mockImplementation(() => ({
+        value: [{
+          id: 'input-field-name-1',
+          label: 'Lorem'
+        }]
+      }));
+
       wrapper.setProps({
         meta: {
-          name: 'input-field-name',
-          value: 'Ja, dat is goed',
+          ...metaFields,
           isVisible: true
         }
       });
 
-      const checkEevent = { target: { checked: true } };
-      wrapper.find('input').simulate('click', checkEevent);
+      wrapper.find('input.multi-text-input__input').simulate('change', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': {
-          value: true,
-          label: 'Ja, dat is goed'
-        }
-      });
-
-      const uncheckEevent = { target: { checked: false } };
-      wrapper.find('input').simulate('click', uncheckEevent);
-
-      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': { value: false, label: 'Ja, dat is goed' }
+        'input-field-name': [{
+          id: 'input-field-name-1',
+          label: 'Ipsum'
+        }]
       });
     });
 
-    it('can be checked and unchecked with multiple values', () => {
-      handler = handler.mockImplementation(() => ({ value: [{ id: 'blue', label: 'Blauw' }] }));
+    it('should add a text field when button is clicked', () => {
+      handler = handler.mockImplementation(() => ({
+        value: [{
+          id: 'input-field-name-1',
+          label: 'Lorem'
+        }]
+      }));
 
       wrapper.setProps({
         meta: {
-          name: 'input-field-name',
-          values: { red: 'Rood', blue: 'Blauw', green: 'Groen' },
+          ...metaFields,
           isVisible: true
         }
       });
 
-      const checkEevent = { target: { checked: true } };
-      wrapper.find('input[type="checkbox"]').at(2).simulate('click', checkEevent);
+      wrapper.find('button').simulate('click', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': [{ id: 'blue', label: 'Blauw' }, { id: 'green', label: 'Groen' }]
-      });
-
-      const uncheckEevent = { target: { checked: false } };
-      wrapper.find('input[type="checkbox"]').at(2).simulate('click', uncheckEevent);
-
-      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': [{ id: 'blue', label: 'Blauw' }]
+        'input-field-name': [{
+          id: 'input-field-name-1',
+          label: 'Lorem'
+        }, {
+          id: 'input-field-name-2',
+          label: ''
+        }]
       });
     });
   });

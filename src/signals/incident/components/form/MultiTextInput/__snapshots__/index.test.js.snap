@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Form component <CheckboxInput /> rendering should render checkbox correctly 1`] = `
+exports[`Form component <MultiTextInput /> rendering should render multi text correctly 1`] = `
 <div
-  className="row"
+  className="multi-text-input row"
 >
   <div
     className="col-12 mode_input"
@@ -14,39 +14,50 @@ exports[`Form component <CheckboxInput /> rendering should render checkbox corre
         Object {
           "isVisible": true,
           "name": "input-field-name",
-          "value": "Ja, dat is goed",
+          "placeholder": "type here",
         }
       }
       touched={false}
     >
-      <div
-        className="antwoorden"
-      >
+      <div>
+        <input
+          type="hidden"
+          value={
+            Array [
+              Object {
+                "id": "input-field-name-1",
+                "label": "Lorem",
+              },
+            ]
+          }
+        />
         <div
-          className="antwoord"
+          className="invoer"
+          key="input-field-name-1"
         >
           <input
-            defaultChecked={true}
-            id="input-field-name"
-            name="input-field-name"
-            onClick={[Function]}
-            type="checkbox"
+            className="multi-text-input__input"
+            id="input-field-name-1"
+            name="input-field-name-1"
+            onChange={[Function]}
+            placeholder="type here"
+            type="text"
+            value="Lorem"
           />
-          <label
-            htmlFor="input-field-name"
-          >
-            Ja, dat is goed
-          </label>
         </div>
+        <button
+          className="multi-text-input__button"
+          onClick={[Function]}
+        />
       </div>
     </Header>
   </div>
 </div>
 `;
 
-exports[`Form component <CheckboxInput /> rendering should render multi checkbox correctly 1`] = `
+exports[`Form component <MultiTextInput /> rendering should render multi text without value correctly 1`] = `
 <div
-  className="row"
+  className="multi-text-input row"
 >
   <div
     className="col-12 mode_input"
@@ -58,175 +69,41 @@ exports[`Form component <CheckboxInput /> rendering should render multi checkbox
         Object {
           "isVisible": true,
           "name": "input-field-name",
-          "values": Object {
-            "blue": "Blauw",
-            "green": "Groen",
-            "red": "Rood",
-          },
+          "placeholder": "type here",
         }
       }
       touched={false}
     >
-      <div
-        className="antwoorden"
-      >
-        <div>
+      <div>
+        <input
+          type="hidden"
+        />
+        <div
+          className="invoer"
+          key="input-field-name-1"
+        >
           <input
-            type="hidden"
-            value={
-              Array [
-                "blue",
-              ]
-            }
+            className="multi-text-input__input"
+            id="input-field-name-1"
+            name="input-field-name-1"
+            onChange={[Function]}
+            placeholder="type here"
+            type="text"
+            value=""
           />
-          <div
-            className="antwoord"
-            key="Rood"
-          >
-            <input
-              id="input-field-name-red1"
-              name="input-field-name-red1"
-              onClick={[Function]}
-              type="checkbox"
-              value="red"
-            />
-            <label
-              htmlFor="input-field-name-red1"
-            >
-              Rood
-            </label>
-          </div>
-          <div
-            className="antwoord"
-            key="Blauw"
-          >
-            <input
-              id="input-field-name-blue1"
-              name="input-field-name-blue1"
-              onClick={[Function]}
-              type="checkbox"
-              value="blue"
-            />
-            <label
-              htmlFor="input-field-name-blue1"
-            >
-              Blauw
-            </label>
-          </div>
-          <div
-            className="antwoord"
-            key="Groen"
-          >
-            <input
-              id="input-field-name-green1"
-              name="input-field-name-green1"
-              onClick={[Function]}
-              type="checkbox"
-              value="green"
-            />
-            <label
-              htmlFor="input-field-name-green1"
-            >
-              Groen
-            </label>
-          </div>
         </div>
+        <button
+          className="multi-text-input__button"
+          onClick={[Function]}
+        />
       </div>
     </Header>
   </div>
 </div>
 `;
 
-exports[`Form component <CheckboxInput /> rendering should render multi checkbox without value correctly 1`] = `
+exports[`Form component <MultiTextInput /> rendering should render no multi text  when not visible 1`] = `
 <div
-  className="row"
->
-  <div
-    className="col-12 mode_input"
-  >
-    <Header
-      getError={[MockFunction]}
-      hasError={[MockFunction]}
-      meta={
-        Object {
-          "isVisible": true,
-          "name": "input-field-name",
-          "values": Object {
-            "blue": "Blauw",
-            "green": "Groen",
-            "red": "Rood",
-          },
-        }
-      }
-      touched={false}
-    >
-      <div
-        className="antwoorden"
-      >
-        <div>
-          <input
-            type="hidden"
-          />
-          <div
-            className="antwoord"
-            key="Rood"
-          >
-            <input
-              id="input-field-name-red1"
-              name="input-field-name-red1"
-              onClick={[Function]}
-              type="checkbox"
-              value="red"
-            />
-            <label
-              htmlFor="input-field-name-red1"
-            >
-              Rood
-            </label>
-          </div>
-          <div
-            className="antwoord"
-            key="Blauw"
-          >
-            <input
-              id="input-field-name-blue1"
-              name="input-field-name-blue1"
-              onClick={[Function]}
-              type="checkbox"
-              value="blue"
-            />
-            <label
-              htmlFor="input-field-name-blue1"
-            >
-              Blauw
-            </label>
-          </div>
-          <div
-            className="antwoord"
-            key="Groen"
-          >
-            <input
-              id="input-field-name-green1"
-              name="input-field-name-green1"
-              onClick={[Function]}
-              type="checkbox"
-              value="green"
-            />
-            <label
-              htmlFor="input-field-name-green1"
-            >
-              Groen
-            </label>
-          </div>
-        </div>
-      </div>
-    </Header>
-  </div>
-</div>
-`;
-
-exports[`Form component <CheckboxInput /> rendering should render no checkbox when not visible 1`] = `
-<div
-  className=""
+  className="multi-text-input "
 />
 `;
