@@ -15,8 +15,6 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
       </b>
       <br />
       Melding over horeca of evenementen? Vul dan bij de melding altijd uw contactgegevens in, dan kunnen wij u beter en sneller helpen.
-      <br />
-      <br />
     </div>
     <Component
       createIncident={[Function]}

@@ -2,7 +2,7 @@
 
 exports[`Leaflet legend control is rendered 1`] = `
 <div
-  class="legend-control leaflet-control"
+  class="legend-control is-closed leaflet-control"
 >
   <div
     class="legend-header"
