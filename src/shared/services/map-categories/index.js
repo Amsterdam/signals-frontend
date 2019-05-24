@@ -20,7 +20,9 @@ function mapCategories(data) {
           sub.push({
             key: subcategory._links && subcategory._links.self && subcategory._links.self.href,
             value: subcategory.name,
-            slug: subcategory.slug
+            slug: subcategory.slug,
+            category_slug: category.slug,
+            handling_message: subcategory.handling_message
           });
 
           mainToSub[category.slug].push(subcategory.slug);

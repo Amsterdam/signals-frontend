@@ -20,11 +20,12 @@ import {
   SET_PRIORITY_SUCCESS,
   SET_PRIORITY_ERROR
 } from './constants';
-// import debugInitialState from './debug/initialState';
+// eslint-disable-next-line no-unused-vars
+import debugInitialState from './debug/initialState';
 
 export const initialState = fromJS({
   incident: {
-    // ...debugInitialState,
+    ...debugInitialState,
     incident_date: 'Vandaag',
     incident_time_hours: 9,
     incident_time_minutes: 0,
@@ -66,8 +67,7 @@ function incidentContainerReducer(state = initialState, action) {
         .set('incident', fromJS({
           ...(initialState.get('incident').toJS()),
           id: action.payload.id,
-          category: action.payload.category.main_slug,
-          subcategory: action.payload.category.sub_slug
+          handling_message: state.get('incident').toJS().handling_message
         }));
 
     case CREATE_INCIDENT_ERROR:

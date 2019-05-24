@@ -4,9 +4,11 @@ import LegendControl from './LegendControl';
 describe('Leaflet legend control', () => {
   let mapDiv;
 
-  const createControl = (options = {}) => {
+  const createControl = (options = {}, mockSize = { x: 640, y: 480 }) => {
     mapDiv = document.createElement('div');
     const map = L.map(mapDiv);
+
+    map.getSize = jest.fn().mockImplementation(() => mockSize);
 
     const control = new LegendControl(options);
     control.addTo(map);
@@ -15,7 +17,7 @@ describe('Leaflet legend control', () => {
     return [containerEl, control];
   };
 
-  it('is rendered', () => {
+  it('should render correctly with legend open', () => {
     const [containerEl, ] = createControl({ // eslint-disable-line array-bracket-spacing
       elements: [
         {
@@ -26,5 +28,48 @@ describe('Leaflet legend control', () => {
     });
 
     expect(containerEl).toMatchSnapshot();
+  });
+
+  it('should render correctly with legend closed', () => {
+    const [containerEl, ] = createControl({ // eslint-disable-line array-bracket-spacing
+      elements: [
+        {
+          iconUrl: 'foo/bar.svg',
+          label: 'bar label',
+        }
+      ]
+    }, { x: 440, y: 480 });
+
+    expect(containerEl).toMatchSnapshot();
+  });
+
+  it('can close', () => {
+    const [containerEl, control] = createControl({ // eslint-disable-line array-bracket-spacing
+      elements: [
+        {
+          iconUrl: 'foo/bar.svg',
+          label: 'bar label',
+        }
+      ]
+    });
+
+    containerEl.querySelector('.legend-header').click();
+
+    expect(control.isClosed).toBe(true);
+  });
+
+  it('can open', () => {
+    const [containerEl, control] = createControl({ // eslint-disable-line array-bracket-spacing
+      elements: [
+        {
+          iconUrl: 'foo/bar.svg',
+          label: 'bar label',
+        }
+      ]
+    }, { x: 440, y: 480 });
+
+    containerEl.querySelector('.legend-header').click();
+
+    expect(control.isClosed).toBe(false);
   });
 });

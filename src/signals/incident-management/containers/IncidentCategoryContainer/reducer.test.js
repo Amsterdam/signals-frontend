@@ -19,7 +19,17 @@ describe('indcidentEditContainerReducer', () => {
       expect(
         incidentStatusContainerReducer(fromJS({}), {
           type: REQUEST_CATEGORY_UPDATE,
-          payload: 'Overlast op land'
+          payload: {
+            id: 42,
+            patch: {
+              category: {
+                sub_category: 'category_url'
+              },
+              status: {
+                state: 'm'
+              }
+            }
+          }
         }).toJS()
       ).toEqual({
         error: false,

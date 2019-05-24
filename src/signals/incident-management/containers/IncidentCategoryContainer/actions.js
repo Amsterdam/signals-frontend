@@ -5,10 +5,10 @@ import {
 }
   from './constants';
 
-export function requestCategoryUpdate(category) {
+export function requestCategoryUpdate(patch) {
   return {
     type: REQUEST_CATEGORY_UPDATE,
-    payload: category
+    payload: patch
   };
 }
 

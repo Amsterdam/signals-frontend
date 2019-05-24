@@ -79,7 +79,7 @@ export class IncidentDetailPage extends React.Component { // eslint-disable-line
     const tabs = {
       status: { name: 'Status', value: <IncidentStatusContainer id={this.props.id} /> },
       priority: { name: 'Urgentie', value: <IncidentPriorityContainer id={this.props.id} /> },
-      category: { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} /> },
+      category: { name: 'Subcategorie', value: <IncidentCategoryContainer id={this.props.id} status={incident && incident.status} /> },
       notes: { name: 'Notities', value: <IncidentNotesContainer id={this.props.id} />, count: incidentNotesList && incidentNotesList.length },
       image: attachments && attachments.length ? { name: 'Foto',
         value:

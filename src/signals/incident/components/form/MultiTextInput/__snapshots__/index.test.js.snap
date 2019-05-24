@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form component <MultiTextInput /> rendering should render multi text correctly 1`] = `
+<div
+  className="multi-text-input row"
+>
+  <div
+    className="col-12 mode_input"
+  >
+    <Header
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
+      meta={
+        Object {
+          "isVisible": true,
+          "itemClassName": "col-3",
+          "name": "input-field-name",
+          "placeholder": "type here",
+        }
+      }
+      touched={false}
+    >
+      <div>
+        <input
+          type="hidden"
+          value={
+            Array [
+              Object {
+                "id": "input-field-name-1",
+                "label": "Lorem",
+              },
+            ]
+          }
+        />
+        <div
+          className="invoer"
+          key="input-field-name-1"
+        >
+          <input
+            className="multi-text-input__input col-3"
+            id="input-field-name-1"
+            name="input-field-name-1"
+            onChange={[Function]}
+            placeholder="type here"
+            type="text"
+            value="Lorem"
+          />
+        </div>
+        <button
+          className="multi-text-input__button"
+          onClick={[Function]}
+        />
+      </div>
+    </Header>
+  </div>
+</div>
+`;
+
+exports[`Form component <MultiTextInput /> rendering should render multi text without value correctly 1`] = `
+<div
+  className="multi-text-input row"
+>
+  <div
+    className="col-12 mode_input"
+  >
+    <Header
+      getError={[MockFunction]}
+      hasError={[MockFunction]}
+      meta={
+        Object {
+          "isVisible": true,
+          "name": "input-field-name",
+          "placeholder": "type here",
+        }
+      }
+      touched={false}
+    >
+      <div>
+        <input
+          type="hidden"
+        />
+        <div
+          className="invoer"
+          key="input-field-name-1"
+        >
+          <input
+            className="multi-text-input__input "
+            id="input-field-name-1"
+            name="input-field-name-1"
+            onChange={[Function]}
+            placeholder="type here"
+            type="text"
+            value=""
+          />
+        </div>
+        <button
+          className="multi-text-input__button"
+          onClick={[Function]}
+        />
+      </div>
+    </Header>
+  </div>
+</div>
+`;
+
+exports[`Form component <MultiTextInput /> rendering should render no multi text  when not visible 1`] = `
+<div
+  className="multi-text-input "
+/>
+`;
