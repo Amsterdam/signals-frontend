@@ -4,7 +4,7 @@ import { FieldGroup } from 'react-reactive-form';
 
 import Add from './index';
 
-describe.only('<Add />', () => {
+describe('<Add />', () => {
   let wrapper;
   let props;
 
