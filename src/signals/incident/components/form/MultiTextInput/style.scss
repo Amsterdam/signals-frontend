@@ -1,0 +1,15 @@
+@import "config.scss";
+
+.multi-text-input {
+  // margin: 16px 0;
+
+  &__input {
+    margin-bottom: 15px;
+  }
+
+  &__button {
+    display: inline-block;
+    padding: 0;
+    border-style: none;
+  }
+}
