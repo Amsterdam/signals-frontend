@@ -22,7 +22,7 @@ describe('incidentContainerReducer', () => {
     expect(incidentContainerReducer(undefined, {})).toEqual(fromJS(initialState));
   });
 
-  it.skip('default wizard state should contain date, time, and priority', () => {
+  it('default wizard state should contain date, time, and priority', () => {
     expect(initialState.get('incident')).toEqual(fromJS({
       incident_date: 'Vandaag',
       incident_time_hours: 9,
