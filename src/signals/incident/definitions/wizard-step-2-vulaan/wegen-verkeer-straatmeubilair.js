@@ -162,7 +162,7 @@ export default {
     },
     extra_straatverlichting_nummer: {
       meta: {
-        label: 'Selecteer het lichtpunt waar het om gaat?',
+        label: 'Selecteer het lichtpunt waar het om gaat',
         ifAllOf: {
           subcategory: 'lantaarnpaal-straatverlichting',
         },
@@ -206,7 +206,7 @@ export default {
           ]
         },
         pathMerge: 'extra_properties',
-        value: 'Het lichtpunt staat niet op de kaart?'
+        value: 'Het lichtpunt staat niet op de kaart'
       },
       render: FormComponents.CheckboxInput
     },
@@ -310,7 +310,7 @@ export default {
     },
     extra_klok_nummer: {
       meta: {
-        label: 'Selecteer de klok waar het om gaat?',
+        label: 'Selecteer de klok waar het om gaat',
         ifAllOf: {
           subcategory: 'klok'
         },
@@ -345,7 +345,7 @@ export default {
           ]
         },
         pathMerge: 'extra_properties',
-        value: 'De klok staat niet op de kaart?'
+        value: 'De klok staat niet op de kaart'
       },
       render: FormComponents.CheckboxInput
     },
