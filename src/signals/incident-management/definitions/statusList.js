@@ -18,7 +18,7 @@ const BEHANDELING = {
 const AFGEHANDELD = {
   key: 'o',
   value: 'Afgehandeld',
-  warning: 'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. Het sjabloon bevat al een aanhef en afsluiting. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding. Gebruik deze status alleen als de melding ook echt is afgehandeld, gebruik anders de status Ingepland.',
+  warning: 'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding. Gebruik deze status alleen als de melding ook echt is afgehandeld, gebruik anders de status Ingepland.',
   color: 'lightgreen'
 };
 const GESPLITST = {
@@ -26,10 +26,10 @@ const GESPLITST = {
   value: 'Gesplitst',
   color: 'lightgreen'
 };
-const ON_HOLD = {
-  key: 'h',
-  value: 'On hold',
-  warning: 'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. Het sjabloon bevat al een aanhef en afsluiting.',
+const INGEPLAND = {
+  key: 'ingepland',
+  value: 'Ingepland',
+  warning: 'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.',
   color: 'grey'
 };
 const GEANNULEERD = {
@@ -69,7 +69,7 @@ const statusList = [
   AFWACHTING,
   BEHANDELING,
   AFGEHANDELD,
-  ON_HOLD,
+  INGEPLAND,
   GEANNULEERD,
   GESPLITST,
   HEROPEND,
@@ -87,7 +87,7 @@ export const changeStatusOptionList = [
   AFWACHTING,
   BEHANDELING,
   AFGEHANDELD,
-  ON_HOLD,
+  INGEPLAND,
   GEANNULEERD,
   HEROPEND
 ];
