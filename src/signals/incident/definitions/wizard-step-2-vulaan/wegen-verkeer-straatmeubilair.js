@@ -82,7 +82,7 @@ export default {
       },
       render: FormComponents.RadioInput
     },
-    extra_straatverlichting_text: {
+    extra_straatverlichting_gevaar: {
       meta: {
         className: 'col-sm-12 col-md-8',
         ifAllOf: {
@@ -257,7 +257,7 @@ export default {
       },
       render: FormComponents.RadioInput
     },
-    extra_klok_text: {
+    extra_klok_gevaar: {
       meta: {
         className: 'col-sm-12 col-md-8',
         ifAllOf: {
@@ -371,6 +371,201 @@ export default {
       },
       render: FormComponents.MultiTextInput
     },
+
+    extra_verkeerslicht: {
+      meta: {
+        label: 'Is de situatie gevaarlijk?',
+        ifAllOf: {
+          subcategory: 'verkeerslicht'
+        },
+        values: {
+          is_gevolg_van_aanrijding: 'Het is het gevolg van een aanrijding',
+          verkeerslicht_op_grond_of_scheef: 'Verkeerslicht ligt op de grond of staat gevaarlijk scheef',
+          deurtje_weg_of_open: 'Deurtje in de mast is niet aanwezig of staat open',
+          losse_kabels_zichtbaar_of_lamp_los: 'Er zijn losse electriciteitskabels zichtbaar of er hangt een lamp los',
+          niet_gevaarlijk: 'Niet gevaarlijk'
+        },
+        pathMerge: 'extra_properties'
+      },
+      options: {
+        validators: [
+          Validators.required
+        ]
+      },
+      render: FormComponents.RadioInput
+    },
+    extra_verkeerslicht_gevaar: {
+      meta: {
+        className: 'col-sm-12 col-md-8',
+        ifAllOf: {
+          subcategory: 'verkeerslicht'
+        },
+        ifOneOf: {
+          extra_verkeerslicht: [
+            'is_gevolg_van_aanrijding',
+            'verkeerslicht_op_grond_of_scheef',
+            'deurtje_weg_of_open',
+            'losse_kabels_zichtbaar_of_lamp_los'
+          ]
+        },
+        type: 'alert',
+        value: [
+          'Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.'
+        ],
+      },
+      render: FormComponents.PlainText
+    },
+    extra_verkeerslicht_welk: {
+      meta: {
+        label: 'Welk verkeerslicht werkt niet juist?',
+        ifAllOf: {
+          subcategory: 'verkeerslicht'
+        },
+        ifOneOf: {
+          extra_verkeerslicht: [
+            'is_gevolg_van_aanrijding',
+            'verkeerslicht_op_grond_of_scheef',
+            'deurtje_weg_of_open',
+            'losse_kabels_zichtbaar_of_lamp_los',
+            'niet_gevaarlijk'
+          ]
+        },
+        values: {
+          voetganger: 'Voetganger',
+          fiets: 'Fiets',
+          auto: 'Auto',
+          tram_bus: 'Tram of bus'
+        },
+        pathMerge: 'extra_properties'
+      },
+      options: {
+        validators: [
+          Validators.required
+        ]
+      },
+      render: FormComponents.RadioInput
+    },
+    extra_verkeerslicht_probleem_voetganger: {
+      meta: {
+        label: 'Wat is het probleem?',
+        ifAllOf: {
+          subcategory: 'verkeerslicht',
+          extra_verkeerslicht_welk: 'voetganger'
+        },
+        ifOneOf: {
+          extra_verkeerslicht_welk: [
+            'voetganger'
+          ]
+        },
+        values: {
+          rood_werkt_niet: 'Rood licht werkt niet',
+          groen_werkt_niet: 'Groen licht werkt niet',
+          blindentikker_werkt_niet: 'Blindentikker werkt niet',
+          groen_duurt_te_lang: 'Duurt (te) lang voordat het groen wordt',
+          anders: 'Anders'
+        },
+        pathMerge: 'extra_properties'
+      },
+      options: {
+        validators: [
+          Validators.required
+        ]
+      },
+      render: FormComponents.CheckboxInput
+    },
+    extra_verkeerslicht_probleem_fiets_auto: {
+      meta: {
+        label: 'Wat is het probleem?',
+        ifAllOf: {
+          subcategory: 'verkeerslicht'
+        },
+        ifOneOf: {
+          extra_verkeerslicht_welk: [
+            'fiets',
+            'auto'
+          ]
+        },
+        values: {
+          rood_werkt_niet: 'Rood licht werkt niet',
+          oranje_werkt_niet: 'Oranje/geel licht werkt niet',
+          groen_werkt_niet: 'Groen licht werkt niet',
+          groen_duurt_te_lang: 'Duurt (te) lang voordat het groen wordt',
+          anders: 'Anders'
+        },
+        pathMerge: 'extra_properties'
+      },
+      options: {
+        validators: [
+          Validators.required
+        ]
+      },
+      render: FormComponents.CheckboxInput
+    },
+    extra_verkeerslicht_probleem_bus_tram: {
+      meta: {
+        label: 'Wat is het probleem?',
+        ifAllOf: {
+          subcategory: 'verkeerslicht',
+          extra_verkeerslicht_welk: 'tram_bus'
+        },
+        values: {
+          rood_werkt_niet: 'Rood licht werkt niet',
+          oranje_werkt_niet: 'Oranje/geel licht werkt niet',
+          wit_werkt_niet: 'Wit licht werkt niet',
+          waarschuwingslicht_tram_werkt_niet: 'Waarschuwingslicht tram werkt niet',
+          anders: 'Anders'
+        },
+        pathMerge: 'extra_properties'
+      },
+      options: {
+        validators: [
+          Validators.required
+        ]
+      },
+      render: FormComponents.CheckboxInput
+    },
+    extra_verkeerslicht_rijrichting: {
+      meta: {
+        label: 'Wat is de rijrichting?',
+        subtitle: 'Bijvoorbeeld: In de richting van Waterlooplein naar Mr. Visserplein',
+        pathMerge: 'extra_properties',
+        placeholder: 'Rijrichting verkeerslicht',
+        ifAllOf: {
+          subcategory: 'verkeerslicht'
+        },
+        ifOneOf: {
+          extra_verkeerslicht_welk: [
+            'voetganger',
+            'fiets',
+            'auto',
+            'tram_bus'
+          ]
+        }
+      },
+      render: FormComponents.TextInput
+    },
+    extra_verkeerslicht_nummer: {
+      meta: {
+        label: 'Weet u het nummer van het verkeerslicht?',
+        subtitle: 'Deze kunt u meestal vinden in witte tekst onder of boven de lampen',
+        pathMerge: 'extra_properties',
+        placeholder: 'Nummer verkeerslicht',
+        ifAllOf: {
+          subcategory: 'verkeerslicht'
+        },
+        className: 'col-sm-12 col-md-6',
+        ifOneOf: {
+          extra_verkeerslicht_welk: [
+            'voetganger',
+            'fiets',
+            'auto',
+            'tram_bus'
+          ]
+        }
+      },
+      render: FormComponents.TextInput
+    },
+
 
     extra_fietsrek_aanvragen: {
       meta: {
