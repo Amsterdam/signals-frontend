@@ -38,7 +38,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
 
   render() {
     const { subcategoryList, status, loading } = this.props;
-    const canChangeCategory = ['m', 'i', 'b', 'h', 'send failed', 'closure requested'].includes(status.state);
+    const canChangeCategory = ['m', 'i', 'b', 'ingepland', 'send failed', 'closure requested'].includes(status.state);
     return (
       <div className="incident-category-add">
         <div className="incident-category-add__body">

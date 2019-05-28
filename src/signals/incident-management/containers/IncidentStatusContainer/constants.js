@@ -5,3 +5,5 @@ export const REQUEST_STATUS_LIST_ERROR = 'sia/IncidentStatusContainer/REQUEST_ST
 export const REQUEST_STATUS_CREATE = 'sia/IncidentStatusContainer/REQUEST_STATUS_CREATE';
 export const REQUEST_STATUS_CREATE_SUCCESS = 'sia/IncidentStatusContainer/REQUEST_STATUS_CREATE_SUCCESS';
 export const REQUEST_STATUS_CREATE_ERROR = 'sia/IncidentStatusContainer/REQUEST_STATUS_CREATE_ERROR';
+
+export const REQUEST_STATUS_DISMISS_ERROR = 'sia/IncidentStatusContainer/REQUEST_STATUS_DISMISS_ERROR';

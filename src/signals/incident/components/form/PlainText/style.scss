@@ -1,16 +1,25 @@
+@import "config.scss";
+
 .plain-text {
   margin: 16px 0;
 
   &__box {
     &.citation,
     &.disclaimer {
-      background-color: #e5e5e5;
+      background-color: $ams-background-sidebars;
       padding: 20px;
     }
 
     &.caution {
-      border-left: 3px solid #ce0000;
+      border-left: 3px solid $ams-rood;
       padding-left: 10px;
+    }
+
+    &.alert {
+      color: $ams-rood;
+      border: 2px solid $ams-rood;
+      padding:  9px 20px 0;
+      @include avenirnextdemi();
     }
 
     &-p {
