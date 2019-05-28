@@ -6,16 +6,19 @@ const GEMELD = {
 const AFWACHTING = {
   key: 'i',
   value: 'In afwachting van behandeling',
+  warning: 'De melder ontvangt deze toelichting niet.',
   color: 'purple'
 };
 const BEHANDELING = {
   key: 'b',
   value: 'In behandeling',
+  warning: 'De melder ontvangt deze toelichting niet, maar kan die wel opvragen door te bellen.',
   color: 'blue'
 };
 const AFGEHANDELD = {
   key: 'o',
   value: 'Afgehandeld',
+  warning: 'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding. Gebruik deze status alleen als de melding ook echt is afgehandeld, gebruik anders de status Ingepland.',
   color: 'lightgreen'
 };
 const GESPLITST = {
@@ -23,14 +26,16 @@ const GESPLITST = {
   value: 'Gesplitst',
   color: 'lightgreen'
 };
-const ON_HOLD = {
-  key: 'h',
-  value: 'On hold',
+const INGEPLAND = {
+  key: 'ingepland',
+  value: 'Ingepland',
+  warning: 'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.',
   color: 'grey'
 };
 const GEANNULEERD = {
   key: 'a',
   value: 'Geannuleerd',
+  warning: 'Bij deze status wordt de melding afgesloten en er wordt GEEN bericht naar de melder gestuurd. Gebruik deze status alleen voor test- en nepmeldingen of meldingen van veelmelders.',
   color: 'darkgrey'
 };
 const HEROPEND = {
@@ -64,7 +69,7 @@ const statusList = [
   AFWACHTING,
   BEHANDELING,
   AFGEHANDELD,
-  ON_HOLD,
+  INGEPLAND,
   GEANNULEERD,
   GESPLITST,
   HEROPEND,
@@ -82,7 +87,7 @@ export const changeStatusOptionList = [
   AFWACHTING,
   BEHANDELING,
   AFGEHANDELD,
-  ON_HOLD,
+  INGEPLAND,
   GEANNULEERD,
   HEROPEND
 ];

@@ -100,6 +100,7 @@ class MapSelect extends React.Component {
     });
     legendControl.addTo(this.map);
 
+
     const div = L.DomUtil.create('div', 'loading-control');
     div.innerText = 'Bezig met laden...';
 

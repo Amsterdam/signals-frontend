@@ -292,7 +292,9 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
           },
           "value": "",
           "valueChanges": Observable {
-            "observers": Array [],
+            "observers": Array [
+              [Function],
+            ],
           },
         }
       }
@@ -301,7 +303,14 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
       multiple={false}
       name="state"
       render={[Function]}
-      values={Array []}
+      values={
+        Array [
+          Object {
+            "key": "m",
+            "value": "Gemeld",
+          },
+        ]
+      }
     />
     <FieldControlWrapper
       control={
@@ -506,7 +515,9 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
                 },
                 "value": "",
                 "valueChanges": Observable {
-                  "observers": Array [],
+                  "observers": Array [
+                    [Function],
+                  ],
                 },
               },
               "text": [Circular],
@@ -594,12 +605,15 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
           },
         }
       }
-      display="Omschrijving"
+      display="Toelichting"
       emptyOptionText=""
       name="text"
       render={[Function]}
       rows={5}
       values={Array []}
+    />
+    <div
+      className="notification notification-red"
     />
     <button
       className="incident-status-add__submit action primary"
@@ -609,7 +623,7 @@ exports[`<Add /> FieldGroup rendering should render FormGroup correctly 1`] = `
       <span
         className="value"
       >
-        Status toevoegen
+        Status opslaan
       </span>
     </button>
     <Thor
@@ -914,7 +928,9 @@ exports[`<Add /> FieldGroup rendering should render authentication error 1`] = `
           },
           "value": "",
           "valueChanges": Observable {
-            "observers": Array [],
+            "observers": Array [
+              [Function],
+            ],
           },
         }
       }
@@ -923,7 +939,14 @@ exports[`<Add /> FieldGroup rendering should render authentication error 1`] = `
       multiple={false}
       name="state"
       render={[Function]}
-      values={Array []}
+      values={
+        Array [
+          Object {
+            "key": "m",
+            "value": "Gemeld",
+          },
+        ]
+      }
     />
     <FieldControlWrapper
       control={
@@ -1128,7 +1151,9 @@ exports[`<Add /> FieldGroup rendering should render authentication error 1`] = `
                 },
                 "value": "",
                 "valueChanges": Observable {
-                  "observers": Array [],
+                  "observers": Array [
+                    [Function],
+                  ],
                 },
               },
               "text": [Circular],
@@ -1216,7 +1241,7 @@ exports[`<Add /> FieldGroup rendering should render authentication error 1`] = `
           },
         }
       }
-      display="Omschrijving"
+      display="Toelichting"
       emptyOptionText=""
       name="text"
       render={[Function]}
@@ -1228,6 +1253,9 @@ exports[`<Add /> FieldGroup rendering should render authentication error 1`] = `
     >
       Je bent niet geautoriseerd om dit te doen.
     </div>
+    <div
+      className="notification notification-red"
+    />
     <button
       className="incident-status-add__submit action primary"
       disabled={true}
@@ -1236,7 +1264,7 @@ exports[`<Add /> FieldGroup rendering should render authentication error 1`] = `
       <span
         className="value"
       >
-        Status toevoegen
+        Status opslaan
       </span>
     </button>
     <Thor
@@ -1541,7 +1569,9 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
           },
           "value": "",
           "valueChanges": Observable {
-            "observers": Array [],
+            "observers": Array [
+              [Function],
+            ],
           },
         }
       }
@@ -1550,7 +1580,14 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
       multiple={false}
       name="state"
       render={[Function]}
-      values={Array []}
+      values={
+        Array [
+          Object {
+            "key": "m",
+            "value": "Gemeld",
+          },
+        ]
+      }
     />
     <FieldControlWrapper
       control={
@@ -1755,7 +1792,9 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
                 },
                 "value": "",
                 "valueChanges": Observable {
-                  "observers": Array [],
+                  "observers": Array [
+                    [Function],
+                  ],
                 },
               },
               "text": [Circular],
@@ -1843,12 +1882,15 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
           },
         }
       }
-      display="Omschrijving"
+      display="Toelichting"
       emptyOptionText=""
       name="text"
       render={[Function]}
       rows={5}
       values={Array []}
+    />
+    <div
+      className="notification notification-red"
     />
     <button
       className="incident-status-add__submit action primary"
@@ -1858,7 +1900,7 @@ exports[`<Add /> FieldGroup rendering should render loading 1`] = `
       <span
         className="value"
       >
-        Status toevoegen
+        Status opslaan
       </span>
       <span
         className="working"
@@ -2170,7 +2212,9 @@ exports[`<Add /> FieldGroup rendering should render loading Thor 1`] = `
           },
           "value": "",
           "valueChanges": Observable {
-            "observers": Array [],
+            "observers": Array [
+              [Function],
+            ],
           },
         }
       }
@@ -2179,7 +2223,14 @@ exports[`<Add /> FieldGroup rendering should render loading Thor 1`] = `
       multiple={false}
       name="state"
       render={[Function]}
-      values={Array []}
+      values={
+        Array [
+          Object {
+            "key": "m",
+            "value": "Gemeld",
+          },
+        ]
+      }
     />
     <FieldControlWrapper
       control={
@@ -2384,7 +2435,9 @@ exports[`<Add /> FieldGroup rendering should render loading Thor 1`] = `
                 },
                 "value": "",
                 "valueChanges": Observable {
-                  "observers": Array [],
+                  "observers": Array [
+                    [Function],
+                  ],
                 },
               },
               "text": [Circular],
@@ -2472,12 +2525,15 @@ exports[`<Add /> FieldGroup rendering should render loading Thor 1`] = `
           },
         }
       }
-      display="Omschrijving"
+      display="Toelichting"
       emptyOptionText=""
       name="text"
       render={[Function]}
       rows={5}
       values={Array []}
+    />
+    <div
+      className="notification notification-red"
     />
     <button
       className="incident-status-add__submit action primary"
@@ -2487,7 +2543,7 @@ exports[`<Add /> FieldGroup rendering should render loading Thor 1`] = `
       <span
         className="value"
       >
-        Status toevoegen
+        Status opslaan
       </span>
     </button>
     <Thor
@@ -2792,7 +2848,9 @@ exports[`<Add /> FieldGroup rendering should render normal error 1`] = `
           },
           "value": "",
           "valueChanges": Observable {
-            "observers": Array [],
+            "observers": Array [
+              [Function],
+            ],
           },
         }
       }
@@ -2801,7 +2859,14 @@ exports[`<Add /> FieldGroup rendering should render normal error 1`] = `
       multiple={false}
       name="state"
       render={[Function]}
-      values={Array []}
+      values={
+        Array [
+          Object {
+            "key": "m",
+            "value": "Gemeld",
+          },
+        ]
+      }
     />
     <FieldControlWrapper
       control={
@@ -3006,7 +3071,9 @@ exports[`<Add /> FieldGroup rendering should render normal error 1`] = `
                 },
                 "value": "",
                 "valueChanges": Observable {
-                  "observers": Array [],
+                  "observers": Array [
+                    [Function],
+                  ],
                 },
               },
               "text": [Circular],
@@ -3094,7 +3161,7 @@ exports[`<Add /> FieldGroup rendering should render normal error 1`] = `
           },
         }
       }
-      display="Omschrijving"
+      display="Toelichting"
       emptyOptionText=""
       name="text"
       render={[Function]}
@@ -3106,6 +3173,9 @@ exports[`<Add /> FieldGroup rendering should render normal error 1`] = `
     >
       De gekozen status is niet mogelijk in deze situatie.
     </div>
+    <div
+      className="notification notification-red"
+    />
     <button
       className="incident-status-add__submit action primary"
       disabled={true}
@@ -3114,7 +3184,7 @@ exports[`<Add /> FieldGroup rendering should render normal error 1`] = `
       <span
         className="value"
       >
-        Status toevoegen
+        Status opslaan
       </span>
     </button>
     <Thor
@@ -3334,7 +3404,9 @@ exports[`<Add /> rendering should render correctly 1`] = `
               },
               "value": "",
               "valueChanges": Observable {
-                "observers": Array [],
+                "observers": Array [
+                  [Function],
+                ],
               },
             },
             "text": FormControl {
