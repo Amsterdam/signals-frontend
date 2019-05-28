@@ -4,6 +4,7 @@ import DateTimeInput from './DateTimeInput/';
 import FileInput from './FileInput/';
 import HandlingMessage from './HandlingMessage';
 import HiddenInput from './HiddenInput/';
+import MultiTextInput from './MultiTextInput';
 import PlainText from './PlainText/';
 import RadioInput from './RadioInput/';
 import RedirectButton from './RedirectButton/';
@@ -26,6 +27,7 @@ describe('Form components', () => {
       HiddenInput,
       MapInput,
       MapSelect,
+      MultiTextInput,
       PlainText,
       RadioInput,
       RedirectButton,
