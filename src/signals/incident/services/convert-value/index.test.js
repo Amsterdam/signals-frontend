@@ -5,10 +5,6 @@ describe('The convert value service', () => {
     expect(convertValue()).toBeUndefined();
   });
 
-  it('should return undefined by default', () => {
-    expect(convertValue()).toBeUndefined();
-  });
-
   it('should return text', () => {
     expect(convertValue('This is a beautiful phrase')).toBe('This is a beautiful phrase');
   });
