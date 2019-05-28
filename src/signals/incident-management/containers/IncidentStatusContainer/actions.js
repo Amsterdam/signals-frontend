@@ -1,6 +1,7 @@
 import {
   REQUEST_STATUS_LIST, REQUEST_STATUS_LIST_SUCCESS, REQUEST_STATUS_LIST_ERROR,
-  REQUEST_STATUS_CREATE, REQUEST_STATUS_CREATE_SUCCESS, REQUEST_STATUS_CREATE_ERROR
+  REQUEST_STATUS_CREATE, REQUEST_STATUS_CREATE_SUCCESS, REQUEST_STATUS_CREATE_ERROR,
+  REQUEST_STATUS_DISMISS_ERROR
 }
   from './constants';
 
@@ -43,5 +44,11 @@ export function requestStatusCreateError(message) {
   return {
     type: REQUEST_STATUS_CREATE_ERROR,
     payload: message
+  };
+}
+
+export function requestStatusDismissError() {
+  return {
+    type: REQUEST_STATUS_DISMISS_ERROR
   };
 }

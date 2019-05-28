@@ -28,6 +28,7 @@ class Add extends React.Component { // eslint-disable-line react/prefer-stateles
       this.setState({
         warning: (found && found.warning) || ''
       });
+      this.props.onRequestStatusDismissError();
     });
   }
 
@@ -107,7 +108,8 @@ Add.propTypes = {
   loadingExternal: PropTypes.bool,
   error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
 
-  onRequestStatusCreate: PropTypes.func.isRequired
+  onRequestStatusCreate: PropTypes.func.isRequired,
+  onRequestStatusDismissError: PropTypes.func.isRequired
 };
 
 export default Add;

@@ -6,7 +6,9 @@ import {
 
   REQUEST_STATUS_CREATE,
   REQUEST_STATUS_CREATE_SUCCESS,
-  REQUEST_STATUS_CREATE_ERROR
+  REQUEST_STATUS_CREATE_ERROR,
+
+  REQUEST_STATUS_DISMISS_ERROR
 }
   from './constants';
 import statusList, { changeStatusOptionList } from '../../definitions/statusList';
@@ -48,6 +50,10 @@ function incidentStatusContainerReducer(state = initialState, action) {
         .set('loadingExternal', false)
         .set('error', action.payload)
         .set('loading', false);
+
+    case REQUEST_STATUS_DISMISS_ERROR:
+      return state
+        .set('error', false);
 
     default:
       return state;

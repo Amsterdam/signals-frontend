@@ -25,7 +25,8 @@ describe('<Add />', () => {
         key: 'm',
         value: 'Gemeld'
       }],
-      onRequestStatusCreate: jest.fn()
+      onRequestStatusCreate: jest.fn(),
+      onRequestStatusDismissError: jest.fn()
     };
 
     wrapper = shallow(
@@ -93,7 +94,7 @@ describe('<Add />', () => {
       expect(renderedFormGroup.find('.incident-status-add__submit').prop('disabled')).toBe(true);
     });
 
-    it('should enable the submit buttonand show warning when a status is selected', () => {
+    it('should enable the submit button and show warning and dismiss when a status is selected', () => {
       const form = wrapper.instance().statusForm;
       const formValue = { state: 'gemeld' };
       form.patchValue(formValue);

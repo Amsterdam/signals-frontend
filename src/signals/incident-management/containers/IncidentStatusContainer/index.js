@@ -12,7 +12,7 @@ import saga from './saga';
 import './style.scss';
 import List from './components/List';
 import Add from './components/Add';
-import { requestStatusList, requestStatusCreate } from './actions';
+import { requestStatusList, requestStatusCreate, requestStatusDismissError } from './actions';
 
 export class IncidentStatusContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
@@ -38,6 +38,7 @@ export class IncidentStatusContainer extends React.Component { // eslint-disable
                 error={error}
                 onRequestStatusCreate={this.props.onRequestStatusCreate}
                 incidentStatusList={incidentStatusList}
+                onRequestStatusDismissError={this.props.onRequestStatusDismissError}
               />
             </div>
             <div className="col-12">
@@ -55,6 +56,7 @@ IncidentStatusContainer.propTypes = {
 
   onRequestStatusList: PropTypes.func.isRequired,
   onRequestStatusCreate: PropTypes.func.isRequired,
+  onRequestStatusDismissError: PropTypes.func.isRequired
 };
 
 
@@ -65,6 +67,7 @@ const mapStateToProps = createStructuredSelector({
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestStatusList: requestStatusList,
   onRequestStatusCreate: requestStatusCreate,
+  onRequestStatusDismissError: requestStatusDismissError
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

@@ -8,7 +8,9 @@ import {
 
   REQUEST_STATUS_CREATE,
   REQUEST_STATUS_CREATE_SUCCESS,
-  REQUEST_STATUS_CREATE_ERROR
+  REQUEST_STATUS_CREATE_ERROR,
+
+  REQUEST_STATUS_DISMISS_ERROR
 }
   from './constants';
 import statusList, { changeStatusOptionList } from '../../definitions/statusList';
@@ -149,6 +151,23 @@ describe('incidentStatusContainerReducer', () => {
         }).toJS()
       ).toEqual({
         error: true,
+        loading: false,
+        loadingExternal: false,
+        incidentStatusList: [],
+        changeStatusOptionList,
+        statusList
+      });
+    });
+  });
+
+  describe('REQUEST_STATUS_DISMISS_ERROR', () => {
+    it('sets error and loading', () => {
+      expect(
+        incidentStatusContainerReducer(undefined, {
+          type: REQUEST_STATUS_DISMISS_ERROR
+        }).toJS()
+      ).toEqual({
+        error: false,
         loading: false,
         loadingExternal: false,
         incidentStatusList: [],
