@@ -61,10 +61,6 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
       type: 'status',
       patch: { status: { state: this.form.value.status } }
     });
-
-    this.setState({
-      isSubmitting: true
-    });
   }
 
   render() {
