@@ -28,7 +28,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const payload = {};
+    const payload = { ...this.props.patch };
     set(payload, this.props.path, this.form.value.input);
     this.props.onPatchIncident({
       id: this.props.incident.id,
@@ -55,7 +55,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
   }
 
   render() {
-    const { display, definitionClass, valueClass, list, incident, path, valuePath } = this.props;
+    const { display, definitionClass, valueClass, list, incident, path, valuePath, disabled } = this.props;
     const { formVisible } = this.state;
     return (
       <dl className="change-value">
@@ -75,6 +75,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
                     values={list}
                     className="change-value__form-input"
                     control={this.form.get('input')}
+                    disabled={disabled}
                   />
 
                   <button className="change-value__form-submit action primary" type="submit" disabled={invalid}>Opslaan</button>
@@ -85,7 +86,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
           />
         :
           <dd className={valueClass}>
-            <button className="change-value__edit incident-detail__button--edit" onClick={this.showForm} />
+            <button className="change-value__edit incident-detail__button--edit" onClick={this.showForm} disabled={disabled} />
             {getListValueByKey(list, get(incident, valuePath || path))}
           </dd>
         }
@@ -95,7 +96,9 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
 }
 
 ChangeValue.defaultProps = {
-  valuePath: ''
+  valuePath: '',
+  patch: {},
+  disabled: false
 };
 
 ChangeValue.propTypes = {
@@ -106,6 +109,8 @@ ChangeValue.propTypes = {
   display: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
   valuePath: PropTypes.string,
+  patch: PropTypes.object,
+  disabled: PropTypes.bool,
   type: PropTypes.string.isRequired,
 
   onPatchIncident: PropTypes.func.isRequired
