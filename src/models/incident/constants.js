@@ -8,6 +8,8 @@ export const PATCH_INCIDENT = 'sia/incidentModel/PATCH_INCIDENT';
 export const PATCH_INCIDENT_SUCCESS = 'sia/incidentModel/PATCH_INCIDENT_SUCCESS';
 export const PATCH_INCIDENT_ERROR = 'sia/incidentModel/PATCH_INCIDENT_ERROR';
 
+export const DISMISS_ERROR = 'sia/incidentModel/DISMISS_ERROR';
+
 export const REQUEST_ATTACHMENTS = 'sia/incidentModel/REQUEST_ATTACHMENTS';
 export const REQUEST_ATTACHMENTS_SUCCESS = 'sia/incidentModel/REQUEST_ATTACHMENTS_SUCCESS';
 export const REQUEST_ATTACHMENTS_ERROR = 'sia/incidentModel/REQUEST_ATTACHMENTS_ERROR';

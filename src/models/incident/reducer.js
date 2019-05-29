@@ -2,7 +2,7 @@ import { fromJS } from 'immutable';
 
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 import priorityList from 'signals/incident-management/definitions/priorityList';
-import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList';
+import statusList, { changeStatusOptionList } from 'signals/incident-management/definitions/statusList';
 
 import { SPLIT_INCIDENT_SUCCESS, SPLIT_INCIDENT_ERROR } from 'signals/incident-management/containers/IncidentSplitContainer/constants';
 
@@ -10,6 +10,7 @@ import {
   REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR,
   DISMISS_SPLIT_NOTIFICATION,
   PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
+  DISMISS_ERROR,
   REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR
 } from './constants';
 
@@ -18,11 +19,16 @@ export const initialState = fromJS({
   stadsdeelList,
   priorityList,
   changeStatusOptionList,
+  statusList,
   loading: false,
   error: false,
   attachments: [],
   patching: {
-    location: false
+    location: false,
+    notes: false,
+    priority: false,
+    status: false,
+    subcategory: false
   },
   split: false
 });
@@ -70,11 +76,15 @@ function incidentModelReducer(state = initialState, action) {
 
     case PATCH_INCIDENT_ERROR:
       return state
-        .set('patching', fromJS({
-          ...state.get('patching').toJS(),
-          [action.payload.type]: false
-        }))
-        .set('error', fromJS(action.payload.error));
+            .set('patching', fromJS({
+              ...state.get('patching').toJS(),
+              [action.payload.type]: false
+            }))
+            .set('error', fromJS(action.payload.error));
+
+    case DISMISS_ERROR:
+      return state
+        .set('error', false);
 
     case REQUEST_ATTACHMENTS:
       return state

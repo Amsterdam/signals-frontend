@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { makeSelectLoading, makeSelectError, makeSelectCategories } from 'containers/App/selectors';
-import { requestIncident, patchIncident, dismissSplitNotification, requestAttachments, downloadPdf } from 'models/incident/actions';
+import { requestIncident, patchIncident, dismissSplitNotification, requestAttachments, downloadPdf, dismissError } from 'models/incident/actions';
 import { requestHistoryList } from 'models/history/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 import makeSelectHistoryModel from 'models/history/selectors';
@@ -118,9 +118,9 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
   }
 
   render() {
-    const { id, onPatchIncident, categories } = this.props;
+    const { id, categories, onPatchIncident, onDismissError } = this.props;
     const { list } = this.props.historyModel;
-    const { incident, attachments, loading, split, stadsdeelList, priorityList, changeStatusOptionList } = this.props.incidentModel;
+    const { incident, attachments, loading, patching, error, split, stadsdeelList, priorityList, changeStatusOptionList, statusList } = this.props.incidentModel;
     const { previewState, attachment } = this.state;
 
     return (
@@ -173,8 +173,12 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
                   {previewState === 'editStatus' ?
                     <StatusForm
                       incident={incident}
+                      patching={patching}
+                      error={error}
                       changeStatusOptionList={changeStatusOptionList}
+                      statusList={statusList}
                       onPatchIncident={onPatchIncident}
+                      onDismissError={onDismissError}
                       onClose={this.onCloseAll}
                     />
                 : ''}
@@ -252,6 +256,7 @@ IncidentDetail.propTypes = {
   onRequestHistoryList: PropTypes.func.isRequired,
   onRequestAttachments: PropTypes.func.isRequired,
   onDismissSplitNotification: PropTypes.func.isRequired,
+  onDismissError: PropTypes.func.isRequired,
   onDownloadPdf: PropTypes.func.isRequired
 };
 
@@ -270,6 +275,7 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestHistoryList: requestHistoryList,
   onRequestAttachments: requestAttachments,
   onDismissSplitNotification: dismissSplitNotification,
+  onDismissError: dismissError,
   onDownloadPdf: downloadPdf
 }, dispatch);
 
