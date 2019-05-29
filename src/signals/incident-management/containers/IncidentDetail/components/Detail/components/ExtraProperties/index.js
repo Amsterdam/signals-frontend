@@ -4,6 +4,8 @@ import isObject from 'lodash.isobject';
 import isArray from 'lodash.isarray';
 import isBoolean from 'lodash.isboolean';
 
+import './style.scss';
+
 const getValue = (answer) => {
   if (isArray(answer)) {
     return answer.map((item) => isObject(item) ? item.label : item).join(', ');
@@ -19,14 +21,14 @@ const getValue = (answer) => {
 };
 
 const ExtraProperties = ({ items }) => (
-  <div className="extra-properties">
+  <dl className="extra-properties">
     {items && items.map((item) =>
       (<dl key={item.id}>
-        <dt className="incident-detail__definition">{item.label}</dt>
-        <dd className="incident-detail__value">{getValue(item.answer)}</dd>
+        <dt className="detail__definition">{item.label}</dt>
+        <dd className="detail__value">{getValue(item.answer)}</dd>
       </dl>)
     )}
-  </div>
+  </dl>
 );
 
 ExtraProperties.defaultProps = {
