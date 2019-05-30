@@ -1,9 +1,15 @@
 import { fromJS } from 'immutable';
+
+import { defaultTextsOptionList } from 'signals/incident-management/definitions/statusList';
+
 import {
   DEFAULT_ACTION,
 } from './constants';
 
-const initialState = fromJS({});
+
+const initialState = fromJS({
+  defaultTextsOptionList
+});
 
 function defaultTextsAdminReducer(state = initialState, action) {
   switch (action.type) {
