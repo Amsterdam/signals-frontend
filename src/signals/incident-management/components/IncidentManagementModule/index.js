@@ -11,6 +11,7 @@ import { makeSelectIsAuthenticated } from 'containers/App/selectors';
 import IncidentOverviewPage from '../../containers/IncidentOverviewPage';
 import IncidentDetail from '../../containers/IncidentDetail';
 import DashboardContainer from '../../containers/DashboardContainer';
+import DefaultTextsAdmin from '../../containers/DefaultTextsAdmin';
 import IncidentSplitContainer from '../../containers/IncidentSplitContainer';
 
 import './style.scss';
@@ -34,6 +35,7 @@ export class IncidentManagementModule extends React.Component { // eslint-disabl
               <Route exact path={`${baseUrl}/incidents`} render={IncidentOverviewPageWrapper} />
               <Route exact path={`${baseUrl}/incident/:id`} render={IncidentDetailWrapper} />
               <Route exact path={`${baseUrl}/incident/:id/split`} render={IncidentSplitContainerWrapper} />
+              <Route path={`${baseUrl}/default/texts`} component={DefaultTextsAdmin} />
               <Route path={`${baseUrl}/dashboard`} component={DashboardContainer} />
             </div>
           )
