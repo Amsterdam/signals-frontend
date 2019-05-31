@@ -11,30 +11,36 @@ import './style.scss';
 class SelectForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   form = FormBuilder.group({ // eslint-disable-line react/sort-comp
     subcategory: [''],
-    status: ['']
+    state: ['']
   });
 
   constructor(props) {
     super(props);
 
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
     this.form.controls.subcategory.valueChanges.subscribe((subcategory) => {
-      console.log('change subcategory', subcategory);
+      this.handleChange({ subcategory });
     });
-    this.form.controls.status.valueChanges.subscribe((status) => {
-      console.log('change status', status);
+    this.form.controls.state.valueChanges.subscribe((state) => {
+      this.handleChange({ state });
     });
+  }
 
+  componentDidUpdate() {
     this.form.updateValueAndValidity();
   }
 
+  handleChange = (changed) => {
+    const newValues = {
+      ...this.form.value,
+      ...changed
+    };
 
-  handleSubmit = () => {
-    // event.preventDefault();
-    console.log('handleSubmit');
+    this.props.onFetchDefaultTexts(newValues);
+    console.log('newValues ', newValues);
   }
 
   render() {
@@ -45,21 +51,23 @@ class SelectForm extends React.Component { // eslint-disable-line react/prefer-s
         <FieldGroup
           control={this.form}
           render={() => (
-            <form className="change-value__form">
+            <form className="select-form__form">
               <FieldControlWrapper
                 display="Subcategorie"
                 render={SelectInput}
                 name="subcategory"
                 values={subcategories}
                 control={this.form.get('subcategory')}
+                useSlug
+                emptyOptionText="Kies"
               />
 
               <FieldControlWrapper
                 display="Status"
                 render={RadioInput}
-                name="status"
+                name="state"
                 values={statusList}
-                control={this.form.get('status')}
+                control={this.form.get('state')}
               />
             </form>
               )}
@@ -72,12 +80,16 @@ class SelectForm extends React.Component { // eslint-disable-line react/prefer-s
 
 SelectForm.defaultProps = {
   subcategories: [],
-  statusList: []
+  stateList: [],
+
+  onFetchDefaultTexts: () => {}
 };
 
 SelectForm.propTypes = {
   subcategories: PropTypes.array,
-  statusList: PropTypes.array
+  statusList: PropTypes.array,
+
+  onFetchDefaultTexts: PropTypes.func
 };
 
 export default SelectForm;
