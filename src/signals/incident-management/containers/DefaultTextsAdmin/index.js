@@ -10,6 +10,7 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
 import SelectForm from './components/SelectForm';
+import DefaultTextsForm from './components/DefaultTextsForm';
 
 import { fetchDefaultTexts } from './actions';
 import makeSelectDefaultTextsAdmin from './selectors';
@@ -19,9 +20,9 @@ import './style.scss';
 
 export class DefaultTextsAdmin extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { defaultTextsOptionList } = this.props.defaultTextsAdmin;
-    const { categories, onFetchDefaultTexts } = this.props;
-    console.log('-', categories, defaultTextsOptionList);
+    const { defaultTexts, defaultTextsOptionList } = this.props.defaultTextsAdmin;
+    const { categories, onFetchDefaultTexts, onSubmitTexts } = this.props;
+
     return (
       <div className="default-texts-admin">
         <div className="row">
@@ -32,8 +33,11 @@ export class DefaultTextsAdmin extends React.Component { // eslint-disable-line 
               onFetchDefaultTexts={onFetchDefaultTexts}
             />
           </div>
-          <div className="col-4">
-            DefaultTextsForm
+          <div className="col-8">
+            <DefaultTextsForm
+              defaultTexts={defaultTexts}
+              onSubmitTexts={onSubmitTexts}
+            />
           </div>
         </div>
       </div>
@@ -45,11 +49,13 @@ DefaultTextsAdmin.propTypes = {
   defaultTextsAdmin: PropTypes.object.isRequired,
   categories: PropTypes.object.isRequired,
 
-  onFetchDefaultTexts: PropTypes.func.isRequired
+  onFetchDefaultTexts: PropTypes.func.isRequired,
+  onSubmitTexts: PropTypes.func.isRequired
 };
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  onFetchDefaultTexts: fetchDefaultTexts
+  onFetchDefaultTexts: fetchDefaultTexts,
+  onSubmitTexts: () => {}
 }, dispatch);
 
 const mapStateToProps = createStructuredSelector({
