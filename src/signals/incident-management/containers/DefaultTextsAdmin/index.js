@@ -28,7 +28,7 @@ export class DefaultTextsAdmin extends React.Component { // eslint-disable-line 
         <div className="row">
           <div className="col-4">
             <SelectForm
-              subcategories={categories.sub}
+              categories={categories}
               statusList={defaultTextsOptionList}
               onFetchDefaultTexts={onFetchDefaultTexts}
             />
