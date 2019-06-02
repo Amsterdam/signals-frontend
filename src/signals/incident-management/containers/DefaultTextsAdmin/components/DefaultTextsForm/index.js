@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
 
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
-import TextInput from '../../../../components/TextInput';
+// import TextInput from '../../../../components/TextInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 
 
@@ -14,8 +14,16 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
     title1: [''],
     text1: [''],
     title2: [''],
-    text2: ['']
+    text2: [''],
+    title3: [''],
+    text3: [''],
+    title4: [''],
+    text4: [''],
+    title5: [''],
+    text5: ['']
   });
+
+  texts = [1, 2, 3, 4, 5];
 
   constructor(props) {
     super(props);
@@ -38,13 +46,32 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log('handleSubmit', this.form.value);
-    // this.props.onSubmitTexts();
+
+    const payload = [];
+
+    this.texts.forEach((key) => {
+      payload.push({
+        text: this.form.controls[`text${key}`].value,
+        order: key,
+        category_url: this.props.categoryUrl,
+        state: this.props.state
+      });
+    });
+
+    this.props.onSubmitTexts(payload);
   }
 
+  /*
+                    <FieldControlWrapper
+                    placeholder="Titel"
+                    render={TextInput}
+                    name={`title${key}`}
+                    control={this.form.get(`title${key}`)}
+                  />
+*/
   render() {
-    const { defaultTexts } = this.props;
-    console.log('render', defaultTexts);
+    const { defaultTexts, categoryUrl } = this.props;
+    console.log('render', defaultTexts, categoryUrl);
     return (
       <div className="default-texts-form">
         DefaultTextsForm
@@ -52,29 +79,17 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
           control={this.form}
           render={({ invalid }) => (
             <form onSubmit={this.handleSubmit} className="default-texts-form__form">
-              <FieldControlWrapper
-                render={TextInput}
-                name="title1"
-                control={this.form.get('title1')}
-              />
+              {this.texts.map((key) => (
+                <div key={key}>
 
-              <FieldControlWrapper
-                render={TextAreaInput}
-                name="text1"
-                control={this.form.get('text1')}
-              />
-
-              <FieldControlWrapper
-                render={TextInput}
-                name="title2"
-                control={this.form.get('title2')}
-              />
-
-              <FieldControlWrapper
-                render={TextAreaInput}
-                name="text2"
-                control={this.form.get('text2')}
-              />
+                  <FieldControlWrapper
+                    placeholder="Tekstl"
+                    render={TextAreaInput}
+                    name={`text${key}`}
+                    control={this.form.get(`text${key}`)}
+                  />
+                </div>
+              ))}
 
               <button className="status-form__form-submit action primary" type="submit" disabled={invalid}>Opslaan</button>
             </form>
@@ -89,14 +104,18 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
 
 DefaultTextsForm.defaultProps = {
   defaultTexts: [],
+  categoryUrl: '',
+  state: '',
 
   onSubmitTexts: () => {}
 };
 
 DefaultTextsForm.propTypes = {
   defaultTexts: PropTypes.array,
+  categoryUrl: PropTypes.string,
+  state: PropTypes.string,
 
-  // onSubmitTexts: PropTypes.func
+  onSubmitTexts: PropTypes.func
 };
 
 export default DefaultTextsForm;

@@ -12,7 +12,7 @@ import injectReducer from 'utils/injectReducer';
 import SelectForm from './components/SelectForm';
 import DefaultTextsForm from './components/DefaultTextsForm';
 
-import { fetchDefaultTexts } from './actions';
+import { fetchDefaultTexts, storeDefaultTexts } from './actions';
 import makeSelectDefaultTextsAdmin from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -20,7 +20,7 @@ import './style.scss';
 
 export class DefaultTextsAdmin extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { defaultTexts, defaultTextsOptionList } = this.props.defaultTextsAdmin;
+    const { defaultTexts, defaultTextsOptionList, categoryUrl, state } = this.props.defaultTextsAdmin;
     const { categories, onFetchDefaultTexts, onSubmitTexts } = this.props;
 
     return (
@@ -36,6 +36,8 @@ export class DefaultTextsAdmin extends React.Component { // eslint-disable-line 
           <div className="col-8">
             <DefaultTextsForm
               defaultTexts={defaultTexts}
+              categoryUrl={categoryUrl}
+              state={state}
               onSubmitTexts={onSubmitTexts}
             />
           </div>
@@ -55,7 +57,7 @@ DefaultTextsAdmin.propTypes = {
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onFetchDefaultTexts: fetchDefaultTexts,
-  onSubmitTexts: () => {}
+  onSubmitTexts: storeDefaultTexts
 }, dispatch);
 
 const mapStateToProps = createStructuredSelector({

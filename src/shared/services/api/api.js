@@ -51,6 +51,7 @@ export function* authCallWithPayload(url, params, method) {
   };
 
   const fullUrl = `${url}`;
+  console.log('----', fullUrl);
   return yield call(request, fullUrl, options);
 }
 
