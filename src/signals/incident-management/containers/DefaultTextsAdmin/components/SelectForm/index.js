@@ -26,14 +26,12 @@ class SelectForm extends React.Component { // eslint-disable-line react/prefer-s
   componentDidMount() {
     this.form.controls.category_url.valueChanges.subscribe((category_url) => {
       const found = this.props.categories.sub.find((sub) => sub.key === category_url);
-      if (found && found.slug && found.category_slug) {
-        this.form.patchValue({
-          sub_slug: found.slug,
-          main_slug: found.category_slug
-        });
+      this.form.patchValue({
+        sub_slug: (found && found.slug) || '',
+        main_slug: (found && found.category_slug) || ''
+      });
 
-        this.handleChange({ category_url });
-      }
+      this.handleChange({ category_url: found && found.slug && found.category_slug ? category_url : '' });
     });
 
     this.form.controls.state.valueChanges.subscribe((state) => {
