@@ -12,7 +12,7 @@ export function* fetchDefaultTexts(action) {
   try {
     const payload = action.payload;
     const result = yield authCall(`${requestURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`, { state: payload.state });
-    yield put(fetchDefaultTextsSuccess(result));
+    yield put(fetchDefaultTextsSuccess(orderBy(result, ['order'])));
   } catch (error) {
     yield put(fetchDefaultTextsError(error));
   }
@@ -31,7 +31,7 @@ export function* storeDefaultTexts(action) {
     if (payload.patch && payload.patch.length) {
       patches = yield authPatchCall(requestURL, payload.patch);
     }
-    const result = orderBy([...posts, ...patches], ['order'], ['asc']);
+    const result = orderBy([...posts, ...patches], ['order']);
     yield put(storeDefaultTextsSuccess(result));
   } catch (error) {
     yield put(storeDefaultTextsError(error));
