@@ -13,26 +13,36 @@ import './style.scss';
 
 class DefaultTextsForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   form = FormBuilder.group({ // eslint-disable-line react/sort-comp
-    pk1: [''],
-    order1: [''],
-    title1: [''],
-    text1: [''],
-    pk2: [''],
-    order2: [''],
-    title2: [''],
-    text2: [''],
-    pk3: [''],
-    order3: [''],
-    title3: [''],
-    text3: [''],
-    pk4: [''],
-    order4: [''],
-    title4: [''],
-    text4: [''],
-    pk5: [''],
-    order5: [''],
-    title5: [''],
-    text5: [''],
+    item1: FormBuilder.group({
+      pk: [''],
+      order: [''],
+      title: [''],
+      text: [''],
+    }),
+    item2: FormBuilder.group({
+      pk: [''],
+      order: [''],
+      title: [''],
+      text: [''],
+    }),
+    item3: FormBuilder.group({
+      pk: [''],
+      order: [''],
+      title: [''],
+      text: [''],
+    }),
+    item4: FormBuilder.group({
+      pk: [''],
+      order: [''],
+      title: [''],
+      text: [''],
+    }),
+    item5: FormBuilder.group({
+      pk: [''],
+      order: [''],
+      title: [''],
+      text: [''],
+    }),
     categoryUrl: ['', Validators.required],
     state: ['', Validators.required]
   });
@@ -52,14 +62,11 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
 
   componentDidUpdate(prevProps) {
     const newValue = {};
-
     if (!isEqual(prevProps.defaultTexts, this.props.defaultTexts)) {
       this.texts.forEach((key, index) => {
-        const item = this.props.defaultTexts[index];
-        newValue[`text${index + 1}`] = (item && item.text) || '';
-        newValue[`pk${index + 1}`] = (item && item.pk) || '';
-        newValue[`order${index + 1}`] = (item && item.order) || '';
-        newValue[`title${index + 1}`] = (item && item.title) || '';
+        const empty = { title: '', text: '', order: '' };
+        const data = this.props.defaultTexts[index] || {};
+        this.form.get(`item${index + 1}`).patchValue({ ...empty, ...data });
       });
     }
 
@@ -83,27 +90,19 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
     const state = this.props.state;
     let maxOrder = 10;
     this.texts.forEach((key, index) => {
-      const pk = this.form.controls[`pk${index + 1}`].value;
-      const text = this.form.controls[`text${index + 1}`].value;
-      const title = this.form.controls[`title${index + 1}`].value || '';
-      const order = this.form.controls[`order${index + 1}`].value;
-
-      maxOrder = order > maxOrder ? order : maxOrder;
-      if (text) {
-        if (pk) {
+      const data = this.form.get(`item${index + 1}`).value;
+      maxOrder = data.order > maxOrder ? data.order : maxOrder;
+      if (data.text) {
+        if (data.pk) {
           payload.patch.push({
-            pk,
-            text,
-            title,
-            order,
+            ...data,
             category,
             state,
           });
         } else {
           maxOrder += 10;
           payload.post.push({
-            text,
-            title,
+            ...data,
             order: maxOrder,
             category,
             state
@@ -148,38 +147,38 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
                       placeholder="Titel"
                       render={TextInput}
                       name={`title${key}`}
-                      control={this.form.get(`title${index + 1}`)}
+                      control={this.form.get(`item${index + 1}.title`)}
                     />
 
                     <FieldControlWrapper
                       placeholder="Tekst"
                       render={TextAreaInput}
                       name={`text${key}`}
-                      control={this.form.get(`text${index + 1}`)}
+                      control={this.form.get(`item${index + 1}.text`)}
                     />
 
                     <FieldControlWrapper
                       render={HiddenInput}
                       name={`pk${key}`}
-                      control={this.form.get(`pk${index + 1}`)}
+                      control={this.form.get(`item${index + 1}.pk`)}
                     />
 
                     <FieldControlWrapper
                       render={HiddenInput}
                       name={`order${key}`}
-                      control={this.form.get(`order${index + 1}`)}
+                      control={this.form.get(`item${index + 1}.order`)}
                     />
                   </div>
                   <div className="col-2 default-texts-form__actions">
                     <button
                       disabled={index === 0}
                       className="default-texts-form__order-button default-texts-form__order-button--up"
-                      onClick={(e) => this.changeOrdering(e, this.form.get(`order${index + 1}`).value, 'up')}
+                      onClick={(e) => this.changeOrdering(e, this.form.get(`item${index + 1}.order`).value, 'up')}
                     />
                     <button
                       disabled={index === this.texts.length - 1}
                       className="default-texts-form__order-button default-texts-form__order-button--down"
-                      onClick={(e) => this.changeOrdering(e, this.form.get(`order${index + 1}`).value, 'down')}
+                      onClick={(e) => this.changeOrdering(e, this.form.get(`item${index + 1}.order`).value, 'down')}
                     />
                   </div>
                 </div>
