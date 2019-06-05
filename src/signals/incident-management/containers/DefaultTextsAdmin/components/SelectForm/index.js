@@ -58,7 +58,6 @@ class SelectForm extends React.Component { // eslint-disable-line react/prefer-s
     const { categories, statusList } = this.props;
     return (
       <div className="select-form">
-        SelectForm
         <FieldGroup
           control={this.form}
           render={() => (
@@ -70,6 +69,7 @@ class SelectForm extends React.Component { // eslint-disable-line react/prefer-s
                 values={categories.sub}
                 control={this.form.get('category_url')}
                 emptyOptionText="Kies"
+                sort
               />
 
               <FieldControlWrapper

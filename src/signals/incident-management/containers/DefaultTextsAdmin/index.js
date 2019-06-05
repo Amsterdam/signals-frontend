@@ -26,6 +26,9 @@ export class DefaultTextsAdmin extends React.Component { // eslint-disable-line 
     return (
       <div className="default-texts-admin">
         <div className="row">
+          <div className="col-12">
+            <h1>Beheer standaard teksten</h1>
+          </div>
           <div className="col-4">
             <SelectForm
               categories={categories}
