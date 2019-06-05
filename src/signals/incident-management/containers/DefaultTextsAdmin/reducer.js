@@ -40,7 +40,6 @@ function defaultTextsAdminReducer(state = initialState, action) {
 
     case STORE_DEFAULT_TEXTS:
       return state
-        .set('categoryUrl', fromJS(action.payload.category_url))
         .set('storing', true)
         .set('error', false);
 
