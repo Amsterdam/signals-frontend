@@ -11,10 +11,10 @@ import './style.scss';
 
 class SelectForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   form = FormBuilder.group({ // eslint-disable-line react/sort-comp
-    category_url: [''],
-    state: [''],
-    sub_slug: [''],
-    main_slug: ['']
+    category_url: ['https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu'],
+    state: ['i'],
+    sub_slug: ['asbest-accu'],
+    main_slug: ['afval']
   });
 
   constructor(props) {
