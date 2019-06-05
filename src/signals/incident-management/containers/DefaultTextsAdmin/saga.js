@@ -7,12 +7,14 @@ import { authCall, authPostCall, authPatchCall } from 'shared/services/api/api';
 import { FETCH_DEFAULT_TEXTS, STORE_DEFAULT_TEXTS } from './constants';
 import { fetchDefaultTextsSuccess, fetchDefaultTextsError, storeDefaultTextsSuccess, storeDefaultTextsError } from './actions';
 
+import { renumberOrder, sortByOrder } from './services/ordering-utils';
+
 export function* fetchDefaultTexts(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/public/terms/categories`;
   try {
     const payload = action.payload;
     const result = yield authCall(`${requestURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`, { state: payload.state });
-    yield put(fetchDefaultTextsSuccess(orderBy(result, ['order'])));
+    yield put(fetchDefaultTextsSuccess(renumberOrder(sortByOrder(result))));
   } catch (error) {
     yield put(fetchDefaultTextsError(error));
   }
