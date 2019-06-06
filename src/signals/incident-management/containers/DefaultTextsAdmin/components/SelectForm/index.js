@@ -39,6 +39,8 @@ class SelectForm extends React.Component { // eslint-disable-line react/prefer-s
     this.form.controls.state.valueChanges.subscribe((state) => {
       this.handleChange({ state });
     });
+
+    this.handleChange({});
   }
 
   componentDidUpdate() {

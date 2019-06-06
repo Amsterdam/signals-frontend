@@ -57,6 +57,13 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
   }
 
   componentDidMount() {
+    this.texts.forEach((key, index) => {
+      this.form.get(`item${index + 1}`).valueChanges.subscribe(() => {
+        this.props.onSaveDefaultTexts(this.form.get(`item${index + 1}`).value);
+        this.form.updateValueAndValidity();
+      });
+    });
+
     this.form.updateValueAndValidity();
   }
 
@@ -88,10 +95,7 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
     const payload = { patch: [], post: [] };
     const category = this.props.categoryUrl;
     const state = this.props.state;
-    let maxOrder = 10;
-    this.texts.forEach((key, index) => {
-      const data = this.form.get(`item${index + 1}`).value;
-      maxOrder = data.order > maxOrder ? data.order : maxOrder;
+    this.props.defaultTexts.forEach((data) => {
       if (data.text) {
         if (data.pk) {
           payload.patch.push({
@@ -100,10 +104,8 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
             state,
           });
         } else {
-          maxOrder += 10;
           payload.post.push({
             ...data,
-            order: maxOrder,
             category,
             state
           });
@@ -171,12 +173,12 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
                   </div>
                   <div className="col-2 default-texts-form__actions">
                     <button
-                      disabled={index === 0}
+                      disabled={index === 0 || !this.form.get(`item${index + 1}.text`).value}
                       className="default-texts-form__order-button default-texts-form__order-button--up"
                       onClick={(e) => this.changeOrdering(e, this.form.get(`item${index + 1}.order`).value, 'up')}
                     />
                     <button
-                      disabled={index === this.texts.length - 1}
+                      disabled={index === this.texts.length - 1 || !this.form.get(`item${index + 2}.text`).value}
                       className="default-texts-form__order-button default-texts-form__order-button--down"
                       onClick={(e) => this.changeOrdering(e, this.form.get(`item${index + 1}.order`).value, 'down')}
                     />
@@ -201,7 +203,8 @@ DefaultTextsForm.defaultProps = {
   state: '',
 
   onSubmitTexts: () => {},
-  onOrderDefaultTexts: () => {}
+  onOrderDefaultTexts: () => {},
+  onSaveDefaultTexts: () => {}
 };
 
 DefaultTextsForm.propTypes = {
@@ -210,7 +213,8 @@ DefaultTextsForm.propTypes = {
   state: PropTypes.string,
 
   onSubmitTexts: PropTypes.func,
-  onOrderDefaultTexts: PropTypes.func
+  onOrderDefaultTexts: PropTypes.func,
+  onSaveDefaultTexts: PropTypes.func
 };
 
 export default DefaultTextsForm;
