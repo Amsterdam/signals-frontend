@@ -245,6 +245,7 @@
     ]
   },
   "dependencies": {
+    "@datapunt/leaflet-geojson-bbox-layer": "0.1.1",
     "amsterdam-amaps": "^2.0.0",
     "amsterdam-stijl": "^3.0.2",
     "babel-plugin-inline-react-svg": "^0.5.4",

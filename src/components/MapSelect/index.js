@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import amaps from 'amsterdam-amaps/dist/amaps';
+import BboxGeojsonLayer from '@datapunt/leaflet-geojson-bbox-layer';
 import isEqual from 'lodash.isequal';
 
 import './style.scss';
 import request from '../../utils/request';
 import MaxSelection from '../../utils/maxSelection';
-import BboxGeojsonLayer from './layer/BboxGeojsonLayer';
 import ZoomMessageControl from './control/ZoomMessageControl';
 import LegendControl from './control/LegendControl';
 import LoadingControl from './control/LoadingControl';
