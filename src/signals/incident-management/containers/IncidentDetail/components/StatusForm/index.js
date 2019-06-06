@@ -34,7 +34,7 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
       this.props.onDismissError();
 
       const textField = this.form.controls.text;
-      if (['o', 'reopened'].includes(status)) {
+      if (['o', 'ingepland'].includes(status)) {
         textField.setValidators([Validators.required]);
       } else {
         textField.clearValidators();

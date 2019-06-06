@@ -93,7 +93,6 @@ export const changeStatusOptionList = [
 ];
 
 export const defaultTextsOptionList = [
-  AFWACHTING,
   AFGEHANDELD,
-  GEANNULEERD
+  INGEPLAND
 ];
