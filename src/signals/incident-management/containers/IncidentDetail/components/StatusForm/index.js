@@ -6,6 +6,7 @@ import isEqual from 'lodash.isequal';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
+import DefaultTexts from './components/DefaultTexts';
 
 import './style.scss';
 
@@ -23,6 +24,7 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleUseDefaultText = this.handleUseDefaultText.bind(this);
   }
 
   componentDidMount() {
@@ -54,8 +56,8 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
     this.form.updateValueAndValidity();
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+  handleSubmit = (e) => {
+    e.preventDefault();
     this.props.onPatchIncident({
       id: this.props.incident.id,
       type: 'status',
@@ -63,8 +65,17 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
     });
   }
 
+  handleUseDefaultText(e, pk) {
+    e.preventDefault();
+
+    const found = this.props.defaultTexts.find((item) => item.pk === pk);
+    if (found && found.text) {
+      this.form.get('text').patchValue(found.text);
+    }
+  }
+
   render() {
-    const { error, changeStatusOptionList, onClose } = this.props;
+    const { error, changeStatusOptionList, onClose, defaultTexts } = this.props;
     const { warning } = this.state;
     return (
       <section className="status-form">
@@ -77,7 +88,7 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
                   <h4>Status wijzigen</h4>
                   <FieldControlWrapper
                     render={RadioInput}
-                    name="text"
+                    name="status"
                     className="status-form__form-input"
                     control={this.form.get('status')}
                     values={changeStatusOptionList}
@@ -102,7 +113,12 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
                   <button className="status-form__form-cancel action secundary-grey" onClick={onClose}>Annuleren</button>
                 </div>
                 <div className="col-6">
-                  kolom met standaard teksten
+                  <h4>Standaard teksten</h4>
+                  <DefaultTexts
+                    defaultTexts={defaultTexts}
+                    state={this.form.get('status').value}
+                    onHandleUseDefaultText={this.handleUseDefaultText}
+                  />
                 </div>
               </div>
             </form>
@@ -124,6 +140,7 @@ StatusForm.propTypes = {
   warning: PropTypes.string,
   changeStatusOptionList: PropTypes.array.isRequired,
   statusList: PropTypes.array.isRequired,
+  defaultTexts: PropTypes.array.isRequired,
 
   onPatchIncident: PropTypes.func.isRequired,
   onDismissError: PropTypes.func.isRequired,

@@ -126,7 +126,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
   render() {
     const { id, categories, onPatchIncident, onDismissError } = this.props;
     const { list } = this.props.historyModel;
-    const { incident, attachments, loading, patching, error, split, stadsdeelList, priorityList, changeStatusOptionList, statusList } = this.props.incidentModel;
+    const { incident, attachments, loading, patching, error, split, stadsdeelList, priorityList, changeStatusOptionList, statusList, defaultTexts } = this.props.incidentModel;
     const { previewState, attachment } = this.state;
 
     return (
@@ -183,6 +183,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
                       error={error}
                       changeStatusOptionList={changeStatusOptionList}
                       statusList={statusList}
+                      defaultTexts={defaultTexts}
                       onPatchIncident={onPatchIncident}
                       onDismissError={onDismissError}
                       onClose={this.onCloseAll}
