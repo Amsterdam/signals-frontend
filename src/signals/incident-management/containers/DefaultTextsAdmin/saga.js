@@ -12,7 +12,8 @@ export function* fetchDefaultTexts(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/public/terms/categories`;
   try {
     const payload = action.payload;
-    const result = yield authCall(`${requestURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`, { state: payload.state });
+    const options = payload.state ? { state: payload.state } : undefined;
+    const result = yield authCall(`${requestURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`, options);
     yield put(fetchDefaultTextsSuccess(addTrailingItems(renumberOrder(sortByOrder(result)))));
   } catch (error) {
     yield put(fetchDefaultTextsError(error));
