@@ -4,8 +4,14 @@ import { delay } from 'redux-saga';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authCall, authPatchCall } from 'shared/services/api/api';
 
-import { REQUEST_INCIDENT, PATCH_INCIDENT, REQUEST_ATTACHMENTS, DOWNLOAD_PDF } from './constants';
-import { requestIncidentSuccess, requestIncidentError, patchIncidentSuccess, patchIncidentError, requestAttachmentsSuccess, requestAttachmentsError, downloadPdfSuccess, downloadPdfError } from './actions';
+import { REQUEST_INCIDENT, PATCH_INCIDENT, REQUEST_ATTACHMENTS, REQUEST_DEFAULT_TEXTS, DOWNLOAD_PDF } from './constants';
+import {
+  requestIncidentSuccess, requestIncidentError,
+  patchIncidentSuccess, patchIncidentError,
+  requestAttachmentsSuccess, requestAttachmentsError,
+  requestDefaultTextsSuccess, requestDefaultTextsError,
+  downloadPdfSuccess, downloadPdfError
+} from './actions';
 import { requestHistoryList } from '../history/actions';
 
 export function* fetchIncident(action) {
@@ -43,6 +49,17 @@ export function* requestAttachments(action) {
   }
 }
 
+export function* requestDefaultTexts(action) {
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/public/terms/categories`;
+  try {
+    const payload = action.payload;
+    const result = yield authCall(`${requestURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`);
+    yield put(requestDefaultTextsSuccess(result));
+  } catch (error) {
+    yield put(requestDefaultTextsError(error));
+  }
+}
+
 export function* downloadPdf(action) {
   try {
     const url = action.payload;
@@ -58,6 +75,7 @@ export default function* watchIncidentModelSaga() {
     takeLatest(REQUEST_INCIDENT, fetchIncident),
     takeLatest(PATCH_INCIDENT, patchIncident),
     takeLatest(REQUEST_ATTACHMENTS, requestAttachments),
+    takeLatest(REQUEST_DEFAULT_TEXTS, requestDefaultTexts),
     takeLatest(DOWNLOAD_PDF, downloadPdf)
   ]);
 }

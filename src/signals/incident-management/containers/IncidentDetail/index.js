@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
+import isEqual from 'lodash.isequal';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { makeSelectLoading, makeSelectError, makeSelectCategories } from 'containers/App/selectors';
-import { requestIncident, patchIncident, dismissSplitNotification, requestAttachments, downloadPdf, dismissError } from 'models/incident/actions';
+import { requestIncident, patchIncident, dismissSplitNotification, requestAttachments, requestDefaultTexts, downloadPdf, dismissError } from 'models/incident/actions';
 import { requestHistoryList } from 'models/history/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 import makeSelectHistoryModel from 'models/history/selectors';
@@ -48,14 +49,21 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
     this.props.onRequestIncident(this.props.id);
     this.props.onRequestHistoryList(this.props.id);
     this.props.onRequestAttachments(this.props.id);
+    console.log('mount', this.props.incidentModel.incident);
   }
 
-  shouldComponentUpdate(props) {
-    if (props.id !== this.props.id) {
-      props.onRequestIncident(props.id);
+  componentDidUpdate(prevProps) {
+    if (prevProps.id !== this.props.id) {
+      this.props.onRequestIncident(this.props.id);
     }
-
-    return true;
+    console.log('update', prevProps.incidentModel.incident);
+    if (this.props.incidentModel.incident) {
+      const category = this.props.incidentModel.incident.category;
+      if (!isEqual(prevProps.incidentModel.incident && prevProps.incidentModel.incident.category, this.props.incidentModel.incident.category)) {
+        console.log('CHANGE', category);
+        this.props.onRequestDefaultTexts({ main_slug: category.main_slug, sub_slug: category.sub_slug });
+      }
+    }
   }
 
   onThor() {
@@ -255,6 +263,7 @@ IncidentDetail.propTypes = {
   onPatchIncident: PropTypes.func.isRequired,
   onRequestHistoryList: PropTypes.func.isRequired,
   onRequestAttachments: PropTypes.func.isRequired,
+  onRequestDefaultTexts: PropTypes.func.isRequired,
   onDismissSplitNotification: PropTypes.func.isRequired,
   onDismissError: PropTypes.func.isRequired,
   onDownloadPdf: PropTypes.func.isRequired
@@ -274,6 +283,7 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onPatchIncident: patchIncident,
   onRequestHistoryList: requestHistoryList,
   onRequestAttachments: requestAttachments,
+  onRequestDefaultTexts: requestDefaultTexts,
   onDismissSplitNotification: dismissSplitNotification,
   onDismissError: dismissError,
   onDownloadPdf: downloadPdf

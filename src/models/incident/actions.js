@@ -4,7 +4,8 @@ import {
   PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
   DISMISS_ERROR,
   REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR,
-  DOWNLOAD_PDF, DOWNLOAD_PDF_SUCCESS, DOWNLOAD_PDF_ERROR
+  DOWNLOAD_PDF, DOWNLOAD_PDF_SUCCESS, DOWNLOAD_PDF_ERROR,
+  REQUEST_DEFAULT_TEXTS, REQUEST_DEFAULT_TEXTS_SUCCESS, REQUEST_DEFAULT_TEXTS_ERROR
 } from './constants';
 
 export function requestIncident(id) {
@@ -102,3 +103,25 @@ export function downloadPdfError(error) {
     payload: error
   };
 }
+
+export function requestDefaultTexts(payload) {
+  return {
+    type: REQUEST_DEFAULT_TEXTS,
+    payload
+  };
+}
+
+export function requestDefaultTextsSuccess(payload) {
+  return {
+    type: REQUEST_DEFAULT_TEXTS_SUCCESS,
+    payload
+  };
+}
+
+export function requestDefaultTextsError(error) {
+  return {
+    type: REQUEST_DEFAULT_TEXTS_ERROR,
+    payload: error
+  };
+}
+

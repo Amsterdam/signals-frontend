@@ -11,7 +11,8 @@ import {
   DISMISS_SPLIT_NOTIFICATION,
   PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
   DISMISS_ERROR,
-  REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR
+  REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR,
+  REQUEST_DEFAULT_TEXTS, REQUEST_DEFAULT_TEXTS_SUCCESS, REQUEST_DEFAULT_TEXTS_ERROR
 } from './constants';
 
 export const initialState = fromJS({
@@ -88,15 +89,28 @@ function incidentModelReducer(state = initialState, action) {
 
     case REQUEST_ATTACHMENTS:
       return state
-        .set('attachments', fromJS([]));
+              .set('attachments', fromJS([]));
 
     case REQUEST_ATTACHMENTS_SUCCESS:
       return state
-      .set('attachments', fromJS(action.payload));
+            .set('attachments', fromJS(action.payload));
 
     case REQUEST_ATTACHMENTS_ERROR:
       return state
-        .set('attachments', fromJS([]));
+              .set('attachments', fromJS([]));
+
+
+    case REQUEST_DEFAULT_TEXTS:
+      return state
+        .set('defaultTexts', fromJS([]));
+
+    case REQUEST_DEFAULT_TEXTS_SUCCESS:
+      return state
+        .set('defaultTexts', fromJS(action.payload));
+
+    case REQUEST_DEFAULT_TEXTS_ERROR:
+      return state
+        .set('defaultTexts', fromJS([]));
 
     case SPLIT_INCIDENT_SUCCESS:
     case SPLIT_INCIDENT_ERROR:
