@@ -6,6 +6,7 @@ import isEqual from 'lodash.isequal';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
+import DefaultTexts from './components/DefaultTexts';
 
 import './style.scss';
 
@@ -64,7 +65,7 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
   }
 
   render() {
-    const { error, changeStatusOptionList, onClose } = this.props;
+    const { error, changeStatusOptionList, onClose, defaultTexts } = this.props;
     const { warning } = this.state;
     return (
       <section className="status-form">
@@ -102,7 +103,10 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
                   <button className="status-form__form-cancel action secundary-grey" onClick={onClose}>Annuleren</button>
                 </div>
                 <div className="col-6">
-                  kolom met standaard teksten
+                  <DefaultTexts
+                    defaultTexts={defaultTexts}
+                    state={this.form.get('status').value}
+                  />
                 </div>
               </div>
             </form>
@@ -124,6 +128,7 @@ StatusForm.propTypes = {
   warning: PropTypes.string,
   changeStatusOptionList: PropTypes.array.isRequired,
   statusList: PropTypes.array.isRequired,
+  defaultTexts: PropTypes.array.isRequired,
 
   onPatchIncident: PropTypes.func.isRequired,
   onDismissError: PropTypes.func.isRequired,
