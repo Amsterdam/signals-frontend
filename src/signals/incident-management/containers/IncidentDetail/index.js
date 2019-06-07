@@ -49,18 +49,16 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
     this.props.onRequestIncident(this.props.id);
     this.props.onRequestHistoryList(this.props.id);
     this.props.onRequestAttachments(this.props.id);
-    console.log('mount', this.props.incidentModel.incident);
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.id !== this.props.id) {
       this.props.onRequestIncident(this.props.id);
     }
-    console.log('update', prevProps.incidentModel.incident);
+
     if (this.props.incidentModel.incident) {
       const category = this.props.incidentModel.incident.category;
       if (!isEqual(prevProps.incidentModel.incident && prevProps.incidentModel.incident.category, this.props.incidentModel.incident.category)) {
-        console.log('CHANGE', category);
         this.props.onRequestDefaultTexts({ main_slug: category.main_slug, sub_slug: category.sub_slug });
       }
     }
