@@ -44,7 +44,8 @@ export default {
             'Meldkamer burger/ondernemer': 'Meldkamer burger/ondernemer',
             'Meldkamer Handhaver': 'Meldkamer Handhaver',
             'Meldkamer Politie': 'Meldkamer Politie',
-            VerbeterDeBuurt: 'VerbeterDeBuurt'
+            VerbeterDeBuurt: 'VerbeterDeBuurt',
+            Waarnemingenapp: 'Waarnemingenapp'
           }
         },
         options: {
