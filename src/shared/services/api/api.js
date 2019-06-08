@@ -57,6 +57,10 @@ export function* authPostCall(url, params) {
   return yield call(authCallWithPayload, url, params, 'POST');
 }
 
+export function* authDeleteCall(url, params) {
+  return yield call(authCallWithPayload, url, params, 'DELETE');
+}
+
 export function* authPatchCall(url, params) {
   return yield call(authCallWithPayload, url, params, 'PATCH');
 }

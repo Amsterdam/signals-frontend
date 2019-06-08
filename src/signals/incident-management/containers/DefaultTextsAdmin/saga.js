@@ -11,6 +11,7 @@ import { renumberOrder, sortByOrder, addTrailingItems } from './services/orderin
 export function* fetchDefaultTexts(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/public/terms/categories`;
   try {
+    // yield authDeleteCall(`${CONFIGURATION.API_ROOT}signals/v1/public/terms/categories`);
     const payload = action.payload;
     const options = payload.state ? { state: payload.state } : undefined;
     const result = yield authCall(`${requestURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`, options);
