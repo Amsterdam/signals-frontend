@@ -35,7 +35,7 @@ export class IncidentManagementModule extends React.Component { // eslint-disabl
               <Route exact path={`${baseUrl}/incidents`} render={IncidentOverviewPageWrapper} />
               <Route exact path={`${baseUrl}/incident/:id`} render={IncidentDetailWrapper} />
               <Route exact path={`${baseUrl}/incident/:id/split`} render={IncidentSplitContainerWrapper} />
-              <Route path={`${baseUrl}/default/texts`} component={DefaultTextsAdmin} />
+              <Route path={`${baseUrl}/standaard/teksten`} component={DefaultTextsAdmin} />
               <Route path={`${baseUrl}/dashboard`} component={DashboardContainer} />
             </div>
           )
