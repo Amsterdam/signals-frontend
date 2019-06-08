@@ -8,11 +8,8 @@
   }
 
   &__title {
-
-  }
-
-  &__text {
-
+    @include avenirnextdemi;
+    margin-bottom: 5px;
   }
 
   &__button {

@@ -6,6 +6,10 @@ import './style.scss';
 
 const DefaultTexts = ({ defaultTexts, state, onHandleUseDefaultText }) => (
   <div className="default-texts">
+    {defaultTexts.find((text) => text.state === state) ?
+      <h4>Standaard teksten</h4>
+    : ''}
+
     {defaultTexts.map((text) => (
       <div key={text.pk}>
         {text.state === state ?

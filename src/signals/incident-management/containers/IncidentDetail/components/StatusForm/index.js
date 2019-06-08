@@ -113,7 +113,6 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
                   <button className="status-form__form-cancel action secundary-grey" onClick={onClose}>Annuleren</button>
                 </div>
                 <div className="col-6">
-                  <h4>Standaard teksten</h4>
                   <DefaultTexts
                     defaultTexts={defaultTexts}
                     state={this.form.get('status').value}
