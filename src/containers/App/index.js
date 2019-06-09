@@ -27,7 +27,7 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
 
   render() {
     return (
-      <div className="app-container">
+      <div className="app-container container-fluid">
         <GlobalError />
         <div className="container">
           <HeaderContainer />
