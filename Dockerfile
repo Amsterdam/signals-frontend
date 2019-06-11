@@ -7,8 +7,7 @@ ARG BUILD_NUMBER=0
 WORKDIR /app
 
 # Run updates and cleanup
-RUN apt-get update
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
       netcat \
       git
 RUN rm -rf /var/lib/apt/lists/*
