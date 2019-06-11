@@ -1,9 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import * as BboxGeojsonLayer from '@datapunt/leaflet-geojson-bbox-layer';
+
 import amaps from 'amsterdam-amaps/dist/amaps';
 
 import request from '../../utils/request';
-import BboxGeojsonLayer from './layer/BboxGeojsonLayer';
 import ZoomMessageControl from './control/ZoomMessageControl';
 import LegendControl from './control/LegendControl';
 import LoadingControl from './control/LoadingControl';
@@ -13,7 +14,6 @@ import MapSelect from './index';
 
 jest.mock('amsterdam-amaps/dist/amaps');
 jest.mock('../../utils/request');
-jest.mock('./layer/BboxGeojsonLayer');
 jest.mock('./control/ZoomMessageControl');
 jest.mock('./control/LegendControl');
 jest.mock('./control/LoadingControl');
@@ -46,7 +46,7 @@ describe('<MapSelect />', () => {
     const url = 'foo/geo.json?';
 
     mockLayer = { addTo: jest.fn() };
-    BboxGeojsonLayer.mockReturnValue(mockLayer);
+    BboxGeojsonLayer.default.mockReturnValue(mockLayer);
 
     const wrapper = shallow(
       <MapSelect
@@ -63,6 +63,7 @@ describe('<MapSelect />', () => {
   }
 
   beforeEach(() => {
+    BboxGeojsonLayer.default = jest.fn();
     ZoomMessageControl.mockClear();
     ErrorControl.mockClear();
     LegendControl.mockClear();
@@ -92,7 +93,7 @@ describe('<MapSelect />', () => {
     createComponent();
 
     request.mockReturnValue(Promise.resolve());
-    BboxGeojsonLayer.mock.calls[0][0].fetchRequest('bbox_str');
+    BboxGeojsonLayer.default.mock.calls[0][0].fetchRequest('bbox_str');
 
     expect(request).toHaveBeenCalledWith('foo/geo.json?&bbox=bbox_str');
   });
