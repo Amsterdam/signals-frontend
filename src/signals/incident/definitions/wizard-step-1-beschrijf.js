@@ -4,12 +4,12 @@ import { Validators } from 'react-reactive-form';
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
 import checkVisibility from '../services/check-visibility';
+import getStepControls from '../services/get-step-controls';
 
 export default {
   label: 'Beschrijf uw melding',
   getNextStep: (wizard, incident, isAuthenticated) => {
-    const form = wizard.vulaan.form || wizard.vulaan.formFactory({ category: incident.category });
-    if (!some(form.controls, (control) => {
+    if (!some(getStepControls(wizard.vulaan, incident), (control) => {
       if (control.meta && !control.meta.ignoreVisibility) {
         return checkVisibility(control, incident, isAuthenticated);
       }
@@ -44,7 +44,8 @@ export default {
             'Meldkamer burger/ondernemer': 'Meldkamer burger/ondernemer',
             'Meldkamer Handhaver': 'Meldkamer Handhaver',
             'Meldkamer Politie': 'Meldkamer Politie',
-            VerbeterDeBuurt: 'VerbeterDeBuurt'
+            VerbeterDeBuurt: 'VerbeterDeBuurt',
+            Waarnemingenapp: 'Waarnemingenapp'
           }
         },
         options: {
