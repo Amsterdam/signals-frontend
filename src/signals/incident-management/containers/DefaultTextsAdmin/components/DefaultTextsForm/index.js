@@ -143,7 +143,7 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
               />
 
               {this.texts.map((key, index) => (
-                <div key={key} className="row">
+                <div key={key} className="row default-texts-form__row">
                   <div className="col-10">
                     <FieldControlWrapper
                       placeholder="Titel"
