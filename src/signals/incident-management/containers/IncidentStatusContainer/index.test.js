@@ -17,7 +17,8 @@ describe('<IncidentStatusContainer />', () => {
         }]
       },
       onRequestStatusList: jest.fn(),
-      onRequestStatusCreate: jest.fn()
+      onRequestStatusCreate: jest.fn(),
+      onRequestStatusDismissError: jest.fn()
     };
   });
 

@@ -21,6 +21,7 @@ exports[`<IncidentStatusContainer /> rendering should render correctly 1`] = `
         loading={false}
         loadingExternal={false}
         onRequestStatusCreate={[MockFunction]}
+        onRequestStatusDismissError={[MockFunction]}
       />
     </div>
     <div
