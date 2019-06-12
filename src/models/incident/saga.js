@@ -1,8 +1,10 @@
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authCall, authPatchCall } from 'shared/services/api/api';
+import download from 'shared/services/download';
+import { makeSelectAccessToken } from 'containers/App/selectors';
 
 import { REQUEST_INCIDENT, PATCH_INCIDENT, REQUEST_ATTACHMENTS, REQUEST_DEFAULT_TEXTS, DOWNLOAD_PDF } from './constants';
 import {
@@ -62,8 +64,9 @@ export function* requestDefaultTexts(action) {
 
 export function* downloadPdf(action) {
   try {
-    const url = action.payload;
-    yield authCall(url);
+    const payload = action.payload;
+    const token = yield select(makeSelectAccessToken());
+    yield call(download, payload.url, payload.filename, token);
     yield put(downloadPdfSuccess());
   } catch (error) {
     yield put(downloadPdfError());

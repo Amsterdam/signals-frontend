@@ -12,6 +12,7 @@ import { requestIncident, patchIncident, dismissSplitNotification, requestAttach
 import { requestHistoryList } from 'models/history/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 import makeSelectHistoryModel from 'models/history/selectors';
+
 import './style.scss';
 
 import Header from './components/Header';
@@ -81,7 +82,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
   }
 
   onDownloadPdf(url) {
-    this.props.onDownloadPdf(url);
+    this.props.onDownloadPdf({ url, filename: `SIA melding ${this.props.id}.pdf` });
   }
 
   onDismissSplitNotification() {
