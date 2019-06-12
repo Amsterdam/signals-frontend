@@ -58,7 +58,7 @@ describe('IncidentContainer saga', () => {
 
     it('should success', () => {
       const categories = { sub: [1, 2, 3] };
-      expect(gen.next().value).toEqual(call(request, 'https://acc.api.data.amsterdam.nl/signals_mltool/predict', {
+      expect(gen.next().value).toEqual(call(request, 'https://acc.api.data.amsterdam.nl/signals/category/prediction', {
         method: 'POST',
         body: JSON.stringify({
           text: 'poep'
