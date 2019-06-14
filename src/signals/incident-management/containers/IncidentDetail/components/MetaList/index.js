@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
+import get from 'lodash.get';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 
@@ -9,89 +10,99 @@ import Highlight from '../../components/Highlight';
 
 import './style.scss';
 
-const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEditStatus }) => (
-  <div className="meta-list">
-    <dl>
-      <dt className="meta-list__definition">Gemeld op</dt>
-      <dd className="meta-list__value">{string2date(incident.created_at)} {string2time(incident.created_at)}</dd>
+function getId(item) {
+  return item.href.match(/\/(\d+)$/)[1];
+}
 
-      <Highlight
-        subscribeTo={incident.status.state}
-      >
-        <dl>
-          <dt className="meta-list__definition">
-            <button className="meta-list__edit incident-detail__button--edit" onClick={onEditStatus} />
-            Status
-          </dt>
-          <dd className="meta-list__value">{incident.status.state_display}</dd>
-        </dl>
-      </Highlight>
 
-      <Highlight
-        subscribeTo={incident.priority.priority}
-      >
-        <ChangeValue
-          display="Urgentie"
-          definitionClass="meta-list__definition"
-          valueClass="meta-list__value"
-          list={priorityList}
-          incident={incident}
-          path="priority.priority"
-          type="priority"
-          onPatchIncident={onPatchIncident}
-        />
-      </Highlight>
+const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEditStatus }) => {
+  const children = get(incident, '_links.sia:children');
+  const parent = get(incident, '_links.sia:parent');
 
-      <Highlight
-        subscribeTo={incident.category.sub_slug}
-      >
-        <ChangeValue
-          display="Subcategorie"
-          definitionClass="meta-list__definition"
-          valueClass="meta-list__value"
-          list={subcategories}
-          incident={incident}
-          path="category.sub_category"
-          valuePath="category.category_url"
-          patch={{ status: { state: 'm' } }}
-          type="subcategory"
-          disabled={!['m', 'i', 'b', 'ingepland', 'send failed', 'closure requested'].includes(incident.status.state)}
-          onPatchIncident={onPatchIncident}
-        />
-      </Highlight>
+  return (
+    <div className="meta-list">
+      <dl>
+        <dt className="meta-list__definition">Gemeld op</dt>
+        <dd className="meta-list__value">{string2date(incident.created_at)} {string2time(incident.created_at)}</dd>
 
-      <Highlight
-        subscribeTo={incident.category.main_slug}
-      >
-        <dl>
-          <dt className="meta-list__definition">Hoofdcategorie</dt>
-          <dd className="meta-list__value">{incident.category.main}</dd>
-        </dl>
-      </Highlight>
+        <Highlight
+          subscribeTo={incident.status.state}
+        >
+          <dl>
+            <dt className="meta-list__definition">
+              <button className="meta-list__edit incident-detail__button--edit" onClick={onEditStatus} />
+              Status
+            </dt>
+            <dd className="meta-list__value">{incident.status.state_display}</dd>
+          </dl>
+        </Highlight>
 
-      <dt className="meta-list__definition">Verantwoordelijke afdeling</dt>
-      <dd className="meta-list__value">{incident.category.departments}</dd>
+        <Highlight
+          subscribeTo={incident.priority.priority}
+        >
+          <ChangeValue
+            display="Urgentie"
+            definitionClass="meta-list__definition"
+            valueClass="meta-list__value"
+            list={priorityList}
+            incident={incident}
+            path="priority.priority"
+            type="priority"
+            onPatchIncident={onPatchIncident}
+          />
+        </Highlight>
 
-      <dt className="meta-list__definition">Bron</dt>
-      <dd className="meta-list__value">{incident.source}</dd>
+        <Highlight
+          subscribeTo={incident.category.sub_slug}
+        >
+          <ChangeValue
+            display="Subcategorie"
+            definitionClass="meta-list__definition"
+            valueClass="meta-list__value"
+            list={subcategories}
+            incident={incident}
+            path="category.sub_category"
+            valuePath="category.category_url"
+            patch={{ status: { state: 'm' } }}
+            type="subcategory"
+            disabled={!['m', 'i', 'b', 'ingepland', 'send failed', 'closure requested'].includes(incident.status.state)}
+            onPatchIncident={onPatchIncident}
+          />
+        </Highlight>
 
-      {incident.parent_id ?
-        (<span>
-          <dt className="meta-list__definition">Oorspronkelijke melding</dt>
-          <dd className="meta-list__value"><NavLink className="meta-list__link" to={`/manage/incident/${incident.parent_id}`}>{incident.parent_id}</NavLink></dd>
-        </span>)
-        : ''}
-      {incident.child_ids && incident.child_ids.length > 0 ?
-        (<span>
-          <dt className="meta-list__definition">Gesplitst in</dt>
-          <dd className="meta-list__value">{incident.child_ids.map((child_id) =>
-            (<NavLink className="meta-list__link" key={child_id} to={`/manage/incident/${child_id}`}>{child_id}</NavLink>))}</dd>
-        </span>)
-        : ''}
+        <Highlight
+          subscribeTo={incident.category.main_slug}
+        >
+          <dl>
+            <dt className="meta-list__definition">Hoofdcategorie</dt>
+            <dd className="meta-list__value">{incident.category.main}</dd>
+          </dl>
+        </Highlight>
 
-    </dl>
-  </div>
-);
+        <dt className="meta-list__definition">Verantwoordelijke afdeling</dt>
+        <dd className="meta-list__value">{incident.category.departments}</dd>
+
+        <dt className="meta-list__definition">Bron</dt>
+        <dd className="meta-list__value">{incident.source}</dd>
+
+        {parent ?
+          (<span>
+            <dt className="meta-list__definition">Oorspronkelijke melding</dt>
+            <dd className="meta-list__value"><NavLink className="meta-list__link" to={`/manage/incident/${getId(parent)}`}>{getId(parent)}</NavLink></dd>
+          </span>)
+          : ''}
+        {children && children.length > 0 ?
+          (<span>
+            <dt className="meta-list__definition">Gesplitst in</dt>
+            <dd className="meta-list__value">{children.map((child) =>
+              (<NavLink className="meta-list__link" key={child.href} to={`/manage/incident/${getId(child)}`}>{getId(child)}</NavLink>))}</dd>
+          </span>)
+          : ''}
+
+      </dl>
+    </div>
+  );
+};
 
 MetaList.propTypes = {
   incident: PropTypes.object.isRequired,
