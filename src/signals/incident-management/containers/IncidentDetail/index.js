@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom';
 import isEqual from 'lodash.isequal';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
-import { makeSelectLoading, makeSelectError, makeSelectCategories } from 'containers/App/selectors';
-import { requestIncident, patchIncident, dismissSplitNotification, requestAttachments, requestDefaultTexts, downloadPdf, dismissError } from 'models/incident/actions';
+import { makeSelectLoading, makeSelectError, makeSelectCategories, makeSelectAccessToken } from 'containers/App/selectors';
+import { requestIncident, patchIncident, dismissSplitNotification, requestAttachments, requestDefaultTexts, dismissError } from 'models/incident/actions';
 import { requestHistoryList } from 'models/history/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 import makeSelectHistoryModel from 'models/history/selectors';
@@ -36,7 +36,6 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
     };
 
     this.onThor = this.onThor.bind(this);
-    this.onDownloadPdf = this.onDownloadPdf.bind(this);
     this.onDismissSplitNotification = this.onDismissSplitNotification.bind(this);
     this.onShowLocation = this.onShowLocation.bind(this);
     this.onEditLocation = this.onEditLocation.bind(this);
@@ -81,10 +80,6 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
     this.props.onPatchIncident(patch);
   }
 
-  onDownloadPdf(url) {
-    this.props.onDownloadPdf({ url, filename: `SIA melding ${this.props.id}.pdf` });
-  }
-
   onDismissSplitNotification() {
     this.props.onDismissSplitNotification();
   }
@@ -125,7 +120,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
   }
 
   render() {
-    const { id, categories, onPatchIncident, onDismissError } = this.props;
+    const { id, categories, accessToken, onPatchIncident, onDismissError } = this.props;
     const { list } = this.props.historyModel;
     const { incident, attachments, loading, patching, error, split, stadsdeelList, priorityList, changeStatusOptionList, statusList, defaultTexts } = this.props.incidentModel;
     const { previewState, attachment } = this.state;
@@ -145,8 +140,8 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
               <Header
                 incident={incident}
                 baseUrl={this.props.baseUrl}
+                accessToken={accessToken}
                 onThor={this.onThor}
-                onDownloadPdf={this.onDownloadPdf}
               /> : ''}
 
             {previewState ? (
@@ -255,6 +250,7 @@ IncidentDetail.propTypes = {
   incidentModel: PropTypes.object.isRequired,
   historyModel: PropTypes.object.isRequired,
   categories: PropTypes.object.isRequired,
+  accessToken: PropTypes.string.isRequired,
 
   id: PropTypes.string,
   baseUrl: PropTypes.string,
@@ -265,8 +261,7 @@ IncidentDetail.propTypes = {
   onRequestAttachments: PropTypes.func.isRequired,
   onRequestDefaultTexts: PropTypes.func.isRequired,
   onDismissSplitNotification: PropTypes.func.isRequired,
-  onDismissError: PropTypes.func.isRequired,
-  onDownloadPdf: PropTypes.func.isRequired
+  onDismissError: PropTypes.func.isRequired
 };
 
 /* istanbul ignore next */
@@ -275,7 +270,8 @@ const mapStateToProps = () => createStructuredSelector({
   error: makeSelectError(),
   incidentModel: makeSelectIncidentModel(),
   categories: makeSelectCategories(),
-  historyModel: makeSelectHistoryModel()
+  historyModel: makeSelectHistoryModel(),
+  accessToken: makeSelectAccessToken()
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -285,8 +281,7 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
   onRequestAttachments: requestAttachments,
   onRequestDefaultTexts: requestDefaultTexts,
   onDismissSplitNotification: dismissSplitNotification,
-  onDismissError: dismissError,
-  onDownloadPdf: downloadPdf
+  onDismissError: dismissError
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(IncidentDetail);

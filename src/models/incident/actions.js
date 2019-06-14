@@ -4,7 +4,6 @@ import {
   PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
   DISMISS_ERROR,
   REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR,
-  DOWNLOAD_PDF, DOWNLOAD_PDF_SUCCESS, DOWNLOAD_PDF_ERROR,
   REQUEST_DEFAULT_TEXTS, REQUEST_DEFAULT_TEXTS_SUCCESS, REQUEST_DEFAULT_TEXTS_ERROR
 } from './constants';
 
@@ -79,27 +78,6 @@ export function requestAttachmentsSuccess(files) {
 export function requestAttachmentsError(error) {
   return {
     type: REQUEST_ATTACHMENTS_ERROR,
-    payload: error
-  };
-}
-
-export function downloadPdf(id) {
-  return {
-    type: DOWNLOAD_PDF,
-    payload: id
-  };
-}
-
-export function downloadPdfSuccess(files) {
-  return {
-    type: DOWNLOAD_PDF_SUCCESS,
-    payload: files
-  };
-}
-
-export function downloadPdfError(error) {
-  return {
-    type: DOWNLOAD_PDF_ERROR,
     payload: error
   };
 }

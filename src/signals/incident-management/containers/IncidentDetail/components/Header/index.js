@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import DownloadButton from './components/DownloadButton';
+
 import './style.scss';
 
-const Header = ({ incident, baseUrl, onThor, onDownloadPdf }) => {
+const Header = ({ incident, baseUrl, onThor, accessToken }) => {
   const status = incident && incident.status && incident.status.state;
   const canSplit = (status === 'm') && !(incident && incident.parent_id);
   const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some((value) => value === status);
@@ -27,9 +29,10 @@ const Header = ({ incident, baseUrl, onThor, onDownloadPdf }) => {
               onClick={onThor}
             >THOR</button> : ''}
 
-          <button
-            className="incident-detail__button--download align-self-center"
-            onClick={() => onDownloadPdf(downloadLink)}
+          <DownloadButton
+            url={downloadLink}
+            filename={`SIA melding ${incident.id}.pdf`}
+            accessToken={accessToken}
           />
         </div>
       </div>
@@ -40,9 +43,9 @@ const Header = ({ incident, baseUrl, onThor, onDownloadPdf }) => {
 Header.propTypes = {
   incident: PropTypes.object.isRequired,
   baseUrl: PropTypes.string.isRequired,
+  accessToken: PropTypes.string.isRequired,
 
-  onThor: PropTypes.func.isRequired,
-  onDownloadPdf: PropTypes.func.isRequired
+  onThor: PropTypes.func.isRequired
 };
 
 export default Header;

@@ -1,18 +1,15 @@
-import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authCall, authPatchCall } from 'shared/services/api/api';
-import download from 'shared/services/download';
-import { makeSelectAccessToken } from 'containers/App/selectors';
 
-import { REQUEST_INCIDENT, PATCH_INCIDENT, REQUEST_ATTACHMENTS, REQUEST_DEFAULT_TEXTS, DOWNLOAD_PDF } from './constants';
+import { REQUEST_INCIDENT, PATCH_INCIDENT, REQUEST_ATTACHMENTS, REQUEST_DEFAULT_TEXTS } from './constants';
 import {
   requestIncidentSuccess, requestIncidentError,
   patchIncidentSuccess, patchIncidentError,
   requestAttachmentsSuccess, requestAttachmentsError,
-  requestDefaultTextsSuccess, requestDefaultTextsError,
-  downloadPdfSuccess, downloadPdfError
+  requestDefaultTextsSuccess, requestDefaultTextsError
 } from './actions';
 import { requestHistoryList } from '../history/actions';
 
@@ -62,23 +59,11 @@ export function* requestDefaultTexts(action) {
   }
 }
 
-export function* downloadPdf(action) {
-  try {
-    const payload = action.payload;
-    const token = yield select(makeSelectAccessToken());
-    yield call(download, payload.url, payload.filename, token);
-    yield put(downloadPdfSuccess());
-  } catch (error) {
-    yield put(downloadPdfError());
-  }
-}
-
 export default function* watchIncidentModelSaga() {
   yield all([
     takeLatest(REQUEST_INCIDENT, fetchIncident),
     takeLatest(PATCH_INCIDENT, patchIncident),
     takeLatest(REQUEST_ATTACHMENTS, requestAttachments),
-    takeLatest(REQUEST_DEFAULT_TEXTS, requestDefaultTexts),
-    takeLatest(DOWNLOAD_PDF, downloadPdf)
+    takeLatest(REQUEST_DEFAULT_TEXTS, requestDefaultTexts)
   ]);
 }

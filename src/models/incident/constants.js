@@ -14,10 +14,6 @@ export const REQUEST_ATTACHMENTS = 'sia/incidentModel/REQUEST_ATTACHMENTS';
 export const REQUEST_ATTACHMENTS_SUCCESS = 'sia/incidentModel/REQUEST_ATTACHMENTS_SUCCESS';
 export const REQUEST_ATTACHMENTS_ERROR = 'sia/incidentModel/REQUEST_ATTACHMENTS_ERROR';
 
-export const DOWNLOAD_PDF = 'sia/incidentModel/DOWNLOAD_PDF';
-export const DOWNLOAD_PDF_SUCCESS = 'sia/incidentModel/DOWNLOAD_PDF_SUCCESS';
-export const DOWNLOAD_PDF_ERROR = 'sia/incidentModel/DOWNLOAD_PDF_ERROR';
-
 export const REQUEST_DEFAULT_TEXTS = 'src/incidentModel/REQUEST_DEFAULT_TEXTS';
 export const REQUEST_DEFAULT_TEXTS_SUCCESS = 'src/incidentModel/REQUEST_DEFAULT_TEXTS_SUCCESS';
 export const REQUEST_DEFAULT_TEXTS_ERROR = 'src/incidentModel/REQUEST_DEFAULT_TEXTS_ERROR';
