@@ -13,7 +13,7 @@ export default function* download(url, filename, authorizationToken) {
     responseType: 'blob'
   }).then((response) => response.blob())
     .then((blob) => {
-      const urlTag = window.URL.createObjectURL(new Blob([blob]));
+      const urlTag = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = urlTag;
       link.setAttribute('download', filename);
