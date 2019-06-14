@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/href-no-hash,jsx-a11y/anchor-has-content */
 import React from 'react';
 import PropTypes from 'prop-types';
 import 'whatwg-fetch';
@@ -17,11 +18,8 @@ function handleDownload(url, filename, accessToken) {
     responseType: 'blob'
   }).then((response) => response.blob())
     .then((blob) => {
-      const urlTag = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = urlTag;
-      link.setAttribute('download', filename);
-      document.body.appendChild(link);
+      const link = document.querySelector('.download-button__link');
+      link.href = window.URL.createObjectURL(blob);
       link.click();
     });
 }
@@ -33,6 +31,11 @@ const DownloadButton = ({ url, filename, accessToken }) => (
       onClick={() => handleDownload(url, filename, accessToken)}
     />
 
+    <a
+      href="#"
+      className="download-button__link"
+      download={filename}
+    ></a>
   </div>
 );
 
