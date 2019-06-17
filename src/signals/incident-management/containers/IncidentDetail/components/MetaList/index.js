@@ -79,18 +79,13 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
           </dl>
         </Highlight>
 
-        <dt className="meta-list__definition">Verantwoordelijke afdeling</dt>
-        <dd className="meta-list__value">{incident.category.departments}</dd>
-
-        <dt className="meta-list__definition">Bron</dt>
-        <dd className="meta-list__value">{incident.source}</dd>
-
         {parent ?
           (<span>
             <dt className="meta-list__definition">Oorspronkelijke melding</dt>
             <dd className="meta-list__value"><NavLink className="meta-list__link" to={`/manage/incident/${getId(parent)}`}>{getId(parent)}</NavLink></dd>
           </span>)
           : ''}
+
         {children && children.length > 0 ?
           (<span>
             <dt className="meta-list__definition">Gesplitst in</dt>
@@ -98,6 +93,12 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
               (<NavLink className="meta-list__link" key={child.href} to={`/manage/incident/${getId(child)}`}>{getId(child)}</NavLink>))}</dd>
           </span>)
           : ''}
+
+        <dt className="meta-list__definition">Verantwoordelijke afdeling</dt>
+        <dd className="meta-list__value">{incident.category.departments}</dd>
+
+        <dt className="meta-list__definition">Bron</dt>
+        <dd className="meta-list__value">{incident.source}</dd>
 
       </dl>
     </div>
