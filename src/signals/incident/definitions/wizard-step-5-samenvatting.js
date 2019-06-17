@@ -56,16 +56,29 @@ export default {
     extra_straatverlichting: { // group name
       extra_straatverlichting: { // actual incident field name
         label: 'Is de situatie gevaarlijk?',
-        render: PreviewComponents.ObjectValue // use value.label as plaintext
+        render: PreviewComponents.ObjectValue, // use value.label as plaintext,
+        optional: true
       },
       extra_straatverlichting_hoeveel: {
         label: 'Aantal lichtpunten',
-        render: PreviewComponents.ObjectValue
+        render: PreviewComponents.ObjectValue,
+        optional: true
       },
       extra_straatverlichting_probleem: {
         label: 'Probleem',
-        render: PreviewComponents.ObjectValue
-      }
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_straatverlichting_nummer: {
+        label: 'Lichtpunt(en) op kaart',
+        render: PreviewComponents.CommaArray,
+        optional: true
+      },
+      extra_straatverlichting_niet_op_kaart_nummer: {
+        label: 'Nummer lichtpunt(en)',
+        render: PreviewComponents.CommaArray,
+        optional: true
+      },
     },
     email: {
       email: {
