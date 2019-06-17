@@ -53,6 +53,20 @@ export default {
         render: PreviewComponents.PlainText
       }
     },
+    extra_straatverlichting: { // group name
+      extra_straatverlichting: { // actual incident field name
+        label: 'Is de situatie gevaarlijk?',
+        render: PreviewComponents.ObjectValue // use value.label as plaintext
+      },
+      extra_straatverlichting_hoeveel: {
+        label: 'Aantal lichtpunten',
+        render: PreviewComponents.ObjectValue
+      },
+      extra_straatverlichting_probleem: {
+        label: 'Probleem',
+        render: PreviewComponents.ObjectValue
+      }
+    },
     email: {
       email: {
         label: 'Uw e-mailadres',
