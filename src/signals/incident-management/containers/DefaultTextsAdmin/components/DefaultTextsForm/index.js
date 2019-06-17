@@ -96,7 +96,7 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
     const category = this.props.categoryUrl;
     const state = this.props.state;
     this.props.defaultTexts.forEach((data) => {
-      if (data.text) {
+      if (data.text || data.text === '') {
         if (data.pk) {
           payload.patch.push({
             ...data,
