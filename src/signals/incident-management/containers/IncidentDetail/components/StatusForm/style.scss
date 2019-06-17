@@ -3,6 +3,8 @@
 .status-form {
   &__form {
     &-submit {
+      height: 50px;
+
       &:disabled {
         color: #B4B4B4 !important;
         background-color: $ams-lichtgrijs !important;
@@ -10,6 +12,8 @@
     }
 
     &-cancel {
+      height: 50px;
+
       color: $ams-zwart !important;
       background-color: #B4B4B4 !important;
     }
