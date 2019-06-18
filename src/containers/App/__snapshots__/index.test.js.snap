@@ -247,6 +247,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
             <Connect(MainMenu)>
               <MainMenu
                 isAuthenticated={false}
+                permissions={Array []}
                 resetIncident={[Function]}
               >
                 <div
