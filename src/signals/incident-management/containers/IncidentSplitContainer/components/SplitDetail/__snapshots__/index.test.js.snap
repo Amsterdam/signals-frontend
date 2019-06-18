@@ -11,82 +11,82 @@ exports[`<SplitDetail /> should render correctly 1`] = `
     </h4>
     <dl>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         Datum
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         21-07-1970
       </dd>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         Tijd
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         11:56
       </dd>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         Datum overlast
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         21-07-1970
       </dd>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         Tijd overlast
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         11:56
       </dd>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         Stadsdeel
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         11:56
       </dd>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         Adres
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         Amstel 1 1011PN Amsterdam
       </dd>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         Bron
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         Meldkamer Politie
       </dd>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         Verantwoordelijke afdeling
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         ASC, CCA
       </dd>
@@ -106,102 +106,102 @@ exports[`<SplitDetail /> should render correctly with phone and email 1`] = `
     </h4>
     <dl>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         Datum
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         21-07-1970
       </dd>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         Tijd
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         11:56
       </dd>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         Datum overlast
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         21-07-1970
       </dd>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         Tijd overlast
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         11:56
       </dd>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         Stadsdeel
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         11:56
       </dd>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         Adres
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         Amstel 1 1011PN Amsterdam
       </dd>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         E-mailadres
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         sinter@klaas.es
       </dd>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         Telefonnummer
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         0206793793
       </dd>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         Bron
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         Meldkamer Politie
       </dd>
       <dt
-        className="split-detail__definition"
+        className="split-incident-detail__definition"
       >
         Verantwoordelijke afdeling
       </dt>
       <dd
-        className="split-detail__value"
+        className="split-incident-detail__value"
       >
         ASC, CCA
       </dd>

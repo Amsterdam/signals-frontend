@@ -6,8 +6,8 @@ import './style.scss';
 
 
 const LoginPage = () => (
-  <div className="container">
-    <div className="login-page notification notification-red margin-top-bottom">
+  <div className="login-page">
+    <div className="notification notification-red margin-top-bottom">
       <div className="col-12">
         <p>
           Om deze pagina te zien dient u ingelogd te zijn.

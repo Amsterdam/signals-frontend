@@ -108,7 +108,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
         }
       >
         <div
-          className="container app-container"
+          className="app-container container-fluid"
         >
           <Connect(GlobalError)>
             <GlobalError
@@ -299,7 +299,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
             </Connect(MainMenu)>
           </div>
           <div
-            className="content"
+            className="container content"
           >
             <Switch>
               <Route

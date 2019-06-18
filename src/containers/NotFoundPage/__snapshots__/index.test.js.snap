@@ -2,7 +2,7 @@
 
 exports[`<NotFound /> should render the Page Not Found text 1`] = `
 <div
-  className="container"
+  className="not-found"
 >
   <article>
     <h1>

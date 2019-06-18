@@ -40,7 +40,7 @@ describe('api service', () => {
 
   describe('authCall', () => {
     it('should generate the right call', () => {
-      const fullUrl = `${url}/?${queryString}`;
+      const fullUrl = `${url}?${queryString}`;
       const options = {
         method: 'GET',
         headers: {
@@ -54,7 +54,7 @@ describe('api service', () => {
     });
 
     it('should generate a call without token if it is not present', () => {
-      const fullUrl = `${url}/?${queryString}`;
+      const fullUrl = `${url}?${queryString}`;
       const options = {
         method: 'GET',
         headers: {
@@ -81,7 +81,7 @@ describe('api service', () => {
     });
 
     it('should generate the right call with a custom token', () => {
-      const fullUrl = `${url}/?${queryString}`;
+      const fullUrl = `${url}?${queryString}`;
       const options = {
         method: 'GET',
         headers: {

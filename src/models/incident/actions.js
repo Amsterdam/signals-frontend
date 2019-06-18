@@ -2,7 +2,9 @@ import {
   REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR,
   DISMISS_SPLIT_NOTIFICATION,
   PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
-  REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR
+  DISMISS_ERROR,
+  REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR,
+  REQUEST_DEFAULT_TEXTS, REQUEST_DEFAULT_TEXTS_SUCCESS, REQUEST_DEFAULT_TEXTS_ERROR
 } from './constants';
 
 export function requestIncident(id) {
@@ -39,10 +41,10 @@ export function patchIncident(patch) {
   };
 }
 
-export function patchIncidentSuccess(incident) {
+export function patchIncidentSuccess(patching) {
   return {
     type: PATCH_INCIDENT_SUCCESS,
-    payload: incident
+    payload: patching
   };
 }
 
@@ -50,6 +52,12 @@ export function patchIncidentError(error) {
   return {
     type: PATCH_INCIDENT_ERROR,
     payload: error
+  };
+}
+
+export function dismissError() {
+  return {
+    type: DISMISS_ERROR
   };
 }
 
@@ -73,3 +81,25 @@ export function requestAttachmentsError(error) {
     payload: error
   };
 }
+
+export function requestDefaultTexts(payload) {
+  return {
+    type: REQUEST_DEFAULT_TEXTS,
+    payload
+  };
+}
+
+export function requestDefaultTextsSuccess(payload) {
+  return {
+    type: REQUEST_DEFAULT_TEXTS_SUCCESS,
+    payload
+  };
+}
+
+export function requestDefaultTextsError(error) {
+  return {
+    type: REQUEST_DEFAULT_TEXTS_ERROR,
+    payload: error
+  };
+}
+
