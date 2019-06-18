@@ -35,10 +35,7 @@ describe('Form component <MultiTextInput />', () => {
     />);
 
     handler.mockImplementation(() => ({
-      value: [{
-        id: 'input-field-name-1',
-        label: 'Lorem'
-      }]
+      value: ['Lorem']
     }));
   });
 
@@ -68,7 +65,7 @@ describe('Form component <MultiTextInput />', () => {
       expect(wrapper).toMatchSnapshot();
     });
 
-    it('should render no multi text  when not visible', () => {
+    it('should render no multi text when not visible', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
@@ -94,10 +91,7 @@ describe('Form component <MultiTextInput />', () => {
       wrapper.find('input.multi-text-input__input').simulate('change', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': [{
-          id: 'input-field-name-1',
-          label: 'Ipsum'
-        }]
+        'input-field-name': ['Ipsum']
       });
     });
 
@@ -112,13 +106,7 @@ describe('Form component <MultiTextInput />', () => {
       wrapper.find('button').simulate('click', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': [{
-          id: 'input-field-name-1',
-          label: 'Lorem'
-        }, {
-          id: 'input-field-name-2',
-          label: ''
-        }]
+        'input-field-name': ['Lorem', '']
       });
     });
   });
