@@ -115,7 +115,10 @@ describe('incidentModelReducer', () => {
       }).toJS()
     ).toEqual({
       ...expected,
-      patching: { location: true }
+      patching: {
+        ...expected.patching,
+        location: true
+      }
     });
   });
 
@@ -131,7 +134,9 @@ describe('incidentModelReducer', () => {
       }).toJS()
     ).toEqual({
       ...expected,
-      patching: { location: false }
+      patching: {
+        ...expected.patching
+      }
     });
   });
 
@@ -147,7 +152,9 @@ describe('incidentModelReducer', () => {
      }).toJS()
     ).toEqual({
       ...expected,
-      patching: { location: false },
+      patching: {
+        ...expected.patching
+      },
       error: payload.error
     });
   });

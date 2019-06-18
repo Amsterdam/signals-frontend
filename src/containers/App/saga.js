@@ -57,7 +57,7 @@ export function* callAuthorize(action) {
 
       const user = yield authCall(requestURL, null, accessToken);
 
-      const credentials = { ...action.payload, userPermissions: [...user.groups] };
+      const credentials = { ...action.payload, userScopes: [...user.groups] };
       yield put(authorizeUser(credentials));
     }
   } catch (error) {

@@ -42,11 +42,11 @@ import {
 describe('App actions', () => {
   it('should dispatch authenticate user action', () => {
     const userName = 'name';
-    const userPermissions = 'scopes';
+    const userScopes = 'scopes';
     const accessToken = 'token';
     const payload = {
       userName,
-      userPermissions,
+      userScopes,
       accessToken
     };
     testActionCreator(authenticateUser, AUTHENTICATE_USER, payload);
@@ -54,11 +54,11 @@ describe('App actions', () => {
 
   it('should dispatch authorize user, action', () => {
     const userName = 'name';
-    const userPermissions = 'scopes';
+    const userScopes = 'scopes';
     const accessToken = 'token';
     const payload = {
       userName,
-      userPermissions,
+      userScopes,
       accessToken
     };
     testActionCreator(authorizeUser, AUTHORIZE_USER, payload);

@@ -23,9 +23,9 @@ const ERROR_MESSAGES = {
 // success
 const AUTH_PARAMS = ['access_token', 'token_type', 'expires_in', 'state'];
 
-// All the userPermissions this City Daty frontend needs for communication with
+// All the userScopes this City Daty frontend needs for communication with
 // the backend APIs
-const userPermissions = [
+const userScopes = [
   // Signals
   'SIG/ALL'
 ];
@@ -43,7 +43,7 @@ function getDomain(domain) {
   return domain || domainList[0];
 }
 
-const encodedScopes = encodeURIComponent(userPermissions.join(' '));
+const encodedScopes = encodeURIComponent(userScopes.join(' '));
 // The URI we need to redirect to for communication with the OAuth2
 // authorization service
 export const AUTH_PATH = (domain) => `oauth2/authorize?idp_id=${getDomain(domain)}&response_type=token&client_id=sia&scope=${encodedScopes}`;
@@ -57,7 +57,7 @@ const RETURN_PATH = 'returnPath';
 // our app state), which is a random string
 const STATE_TOKEN = 'stateToken';
 // The access token returned by the OAuth2 authorization service
-// containing user userPermissions and name
+// containing user userScopes and name
 const ACCESS_TOKEN = 'accessToken';
 
 const OAUTH_DOMAIN = 'oauthDomain';
@@ -231,7 +231,7 @@ export function isAuthenticated() {
 }
 
 export function getScopes() {
-  return tokenData.userPermissions || [];
+  return tokenData.userScopes || [];
 }
 
 export function getName() {
@@ -255,7 +255,7 @@ export function authenticate() {
 
   const accessToken = getAccessToken();
   if (accessToken) {
-    const credentials = { userName: getName(), userPermissions: getScopes(), accessToken: getAccessToken() };
+    const credentials = { userName: getName(), userScopes: getScopes(), accessToken: getAccessToken() };
     return credentials;
   }
 

@@ -12,7 +12,7 @@ jest.mock('utils/injectSagaModel');
 jest.mock('./reducer');
 jest.mock('./saga');
 
-describe('loadModel', () => {
+describe('loadModel history', () => {
   const store = { foo: 'bar' };
   let spy;
 
@@ -28,13 +28,13 @@ describe('loadModel', () => {
     injectReducerModel.mockImplementation(spy);
     loadModel(store);
 
-    expect(spy).toHaveBeenCalledWith('incidentModel', reducer, store);
+    expect(spy).toHaveBeenCalledWith('history', reducer, store);
   });
 
   it('should inject saga', () => {
     injectSagaModel.mockImplementation(spy);
     loadModel(store);
 
-    expect(spy).toHaveBeenCalledWith('incidentModel', saga, store);
+    expect(spy).toHaveBeenCalledWith('history', saga, store);
   });
 });

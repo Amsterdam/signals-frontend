@@ -12,7 +12,7 @@ jest.mock('utils/injectSagaModel');
 jest.mock('./reducer');
 jest.mock('./saga');
 
-describe('loadModel', () => {
+describe('loadModel incident', () => {
   const store = { foo: 'bar' };
   let spy;
 

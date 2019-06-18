@@ -82,7 +82,7 @@ describe('App saga', () => {
     const payload = {
       accessToken: 'akjgrff',
       userName: 'foo@bar.com',
-      userPermissions: [
+      userScopes: [
         'SIG/ALL'
       ]
     };
@@ -91,7 +91,7 @@ describe('App saga', () => {
       const mockCredentials = {
         accessToken: 'akjgrff',
         userName: 'foo@bar.com',
-        userPermissions: ['SIG/ALL']
+        userScopes: ['SIG/ALL']
       };
       const gen = callAuthorize({ payload });
       expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/user/auth/me/', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects
@@ -104,7 +104,7 @@ describe('App saga', () => {
       const mockCredentials = {
         accessToken: 'akjgrff',
         userName: 'foo@bar.com',
-        userPermissions: ['SIG/ALL']
+        userScopes: ['SIG/ALL']
       };
       const gen = callAuthorize({ payload });
       expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/user/auth/me/', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects

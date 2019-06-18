@@ -39,7 +39,7 @@ function appReducer(state = initialState, action) {
     case AUTHORIZE_USER:
       return state
         .set('userName', action.payload.userName)
-        .set('userPermissions', fromJS(action.payload.userPermissions))
+        .set('userScopes', fromJS(action.payload.userScopes))
         .set('accessToken', action.payload.accessToken);
 
     case SHOW_GLOBAL_ERROR:

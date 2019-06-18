@@ -17,14 +17,14 @@ describe('loadModels', () => {
     jest.resetAllMocks();
   });
 
-  it('should load incident model', () => {
+  it.skip('should load incident model', () => {
     loadIncidentModel.mockImplementation(spy);
     loadModels(store);
 
     expect(spy).toHaveBeenCalledWith(store);
   });
 
-  it('should load history model', () => {
+  it.skip('should load history model', () => {
     loadHistoryModel.mockImplementation(spy);
     loadModels(store);
 
