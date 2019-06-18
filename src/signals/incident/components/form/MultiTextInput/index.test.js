@@ -109,5 +109,23 @@ describe('Form component <MultiTextInput />', () => {
         'input-field-name': ['Lorem', '']
       });
     });
+
+    it('should prevent invalid character input', () => {
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          isVisible: true
+        }
+      });
+
+      const invalidKeyEvent = { key: '@', preventDefault: jest.fn() };
+      const validKeyEvent = { key: '5', preventDefault: jest.fn() };
+
+      wrapper.find('input.multi-text-input__input').simulate('keypress', invalidKeyEvent);
+      wrapper.find('input.multi-text-input__input').simulate('keypress', validKeyEvent);
+
+      expect(invalidKeyEvent.preventDefault).toHaveBeenCalled();
+      expect(validKeyEvent.preventDefault).not.toHaveBeenCalled();
+    });
   });
 });
