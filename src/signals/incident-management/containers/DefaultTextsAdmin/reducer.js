@@ -10,7 +10,7 @@ import {
 
 import { renumberOrder, sortByOrder } from './services/ordering-utils';
 
-const initialState = fromJS({
+export const initialState = fromJS({
   defaultTexts: [],
   loading: false,
   error: false,

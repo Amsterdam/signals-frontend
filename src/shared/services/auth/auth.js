@@ -27,7 +27,7 @@ const AUTH_PARAMS = ['access_token', 'token_type', 'expires_in', 'state'];
 // the backend APIs
 const userPermissions = [
   // Signals
-  // 'SIG/ALL'
+  'SIG/ALL'
 ];
 
 const domainList = [

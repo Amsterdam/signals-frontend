@@ -2,6 +2,7 @@ import { fromJS } from 'immutable';
 
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 import priorityList from 'signals/incident-management/definitions/priorityList';
+import statusList, { changeStatusOptionList } from 'signals/incident-management/definitions/statusList';
 
 import { SPLIT_INCIDENT_SUCCESS } from 'signals/incident-management/containers/IncidentSplitContainer/constants';
 
@@ -18,15 +19,21 @@ describe('incidentModelReducer', () => {
   const reducer = incidentModelReducer;
   const expected = {
     id: null,
+    stadsdeelList,
+    priorityList,
+    changeStatusOptionList,
+    statusList,
     loading: false,
     error: false,
     attachments: [],
     patching: {
-      location: false
+      location: false,
+      notes: false,
+      priority: false,
+      status: false,
+      subcategory: false
     },
-    split: false,
-    priorityList,
-    stadsdeelList
+    split: false
   };
   // let state;
 

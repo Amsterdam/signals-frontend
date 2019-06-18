@@ -1,4 +1,5 @@
 import loadIncidentModel from './incident';
+import loadHistoryModel from './history';
 
 import loadModels from './index';
 
@@ -18,6 +19,13 @@ describe('loadModels', () => {
 
   it('should load incident model', () => {
     loadIncidentModel.mockImplementation(spy);
+    loadModels(store);
+
+    expect(spy).toHaveBeenCalledWith(store);
+  });
+
+  it('should load history model', () => {
+    loadHistoryModel.mockImplementation(spy);
     loadModels(store);
 
     expect(spy).toHaveBeenCalledWith(store);

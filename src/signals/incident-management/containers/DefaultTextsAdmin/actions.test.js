@@ -1,15 +1,15 @@
 import { testActionCreator } from 'test/utils';
 
 import {
-  defaultAction,
+  fetchDefaultTexts,
 } from './actions';
 import {
-  DEFAULT_ACTION,
+  FETCH_DEFAULT_TEXTS,
 } from './constants';
 
 describe('DefaultTextsAdmin actions', () => {
   it('should dispatch defaultAction action', () => {
     const payload = {};
-    testActionCreator(defaultAction, DEFAULT_ACTION, payload);
+    testActionCreator(fetchDefaultTexts, FETCH_DEFAULT_TEXTS, payload);
   });
 });
