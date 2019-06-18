@@ -5,7 +5,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
   className="incident-container"
 >
   <div
-    className="container"
+    className=""
   >
     <div
       className="incident-container__alert"

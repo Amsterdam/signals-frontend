@@ -9,7 +9,7 @@ const PREVIEW_ZOOM_LEVEL = 16;
 
 class Map extends React.Component {
   componentDidMount() {
-    amaps.createMap({
+    const map = amaps.createMap({
       center: {
         latitude: this.props.latlng.latitude,
         longitude: this.props.latlng.longitude
@@ -18,8 +18,16 @@ class Map extends React.Component {
       target: 'mapdiv',
       marker: true,
       search: false,
-      zoom: PREVIEW_ZOOM_LEVEL
+      zoom: this.props.zoom
     });
+
+    if (this.props.hideAttribution) {
+      map.attributionControl.remove();
+    }
+
+    if (this.props.hideZoomControls) {
+      map.zoomControl.remove();
+    }
   }
 
   render() {
@@ -34,11 +42,17 @@ class Map extends React.Component {
 }
 
 Map.defaultProps = {
-  latlng: {}
+  latlng: {},
+  hideAttribution: false,
+  hideZoomControls: false,
+  zoom: PREVIEW_ZOOM_LEVEL
 };
 
 Map.propTypes = {
-  latlng: PropTypes.object
+  latlng: PropTypes.object,
+  hideAttribution: PropTypes.bool,
+  hideZoomControls: PropTypes.bool,
+  zoom: PropTypes.string
 };
 
 export default Map;

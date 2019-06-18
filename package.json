@@ -217,10 +217,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "statements": 100,
-        "branches": 100,
-        "functions": 100,
-        "lines": 100
+        "statements": 85,
+        "branches": 84,
+        "functions": 80,
+        "lines": 85
       }
     },
     "coverageReporters": [
@@ -274,6 +274,7 @@
     "lodash.isobject": "^3.0.2",
     "lodash.isstring": "^4.0.1",
     "lodash.map": "^4.6.0",
+    "lodash.orderby": "^4.6.0",
     "lodash.pullallby": "^4.7.0",
     "lodash.set": "^4.3.2",
     "lodash.some": "^4.6.0",

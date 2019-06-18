@@ -25,10 +25,7 @@ exports[`Form component <MultiTextInput /> rendering should render multi text co
           type="hidden"
           value={
             Array [
-              Object {
-                "id": "input-field-name-1",
-                "label": "Lorem",
-              },
+              "Lorem",
             ]
           }
         />
@@ -39,8 +36,11 @@ exports[`Form component <MultiTextInput /> rendering should render multi text co
           <input
             className="multi-text-input__input col-3"
             id="input-field-name-1"
+            maxLength="15"
             name="input-field-name-1"
             onChange={[Function]}
+            onKeyPress={[Function]}
+            pattern="[0-9.,;]+"
             placeholder="type here"
             type="text"
             value="Lorem"
@@ -86,8 +86,11 @@ exports[`Form component <MultiTextInput /> rendering should render multi text wi
           <input
             className="multi-text-input__input "
             id="input-field-name-1"
+            maxLength="15"
             name="input-field-name-1"
             onChange={[Function]}
+            onKeyPress={[Function]}
+            pattern="[0-9.,;]+"
             placeholder="type here"
             type="text"
             value=""
@@ -103,7 +106,7 @@ exports[`Form component <MultiTextInput /> rendering should render multi text wi
 </div>
 `;
 
-exports[`Form component <MultiTextInput /> rendering should render no multi text  when not visible 1`] = `
+exports[`Form component <MultiTextInput /> rendering should render no multi text when not visible 1`] = `
 <div
   className="multi-text-input "
 />

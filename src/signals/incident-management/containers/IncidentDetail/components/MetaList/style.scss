@@ -1,0 +1,22 @@
+@import "config.scss";
+
+.meta-list {
+  &__definition {
+    color: $ams-donkergrijs;
+    margin-bottom: 5px;
+  }
+
+  &__value {
+    @include avenirnextdemi();
+    margin-bottom: 16px;
+  }
+
+  &__edit {
+    float: right;
+  }
+
+  &__link {
+    color: $ams-donkerblauw;
+    margin-right: 10px;
+  }
+}

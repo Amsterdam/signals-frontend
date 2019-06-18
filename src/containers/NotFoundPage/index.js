@@ -11,7 +11,7 @@ import messages from './messages';
 
 export default function NotFound() {
   return (
-    <div className="container">
+    <div className="not-found">
       <article>
         <h1>
           <FormattedMessage {...messages.header} />

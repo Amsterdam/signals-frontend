@@ -41,7 +41,6 @@ const MapPreview = ({label, value}) => (
   </div>
 );
 
-
 MapPreview.propTypes = {
   label: PropTypes.string,
   value: PropTypes.shape({

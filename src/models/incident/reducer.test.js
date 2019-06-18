@@ -2,10 +2,8 @@ import { fromJS } from 'immutable';
 
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 import priorityList from 'signals/incident-management/definitions/priorityList';
+import statusList, { changeStatusOptionList } from 'signals/incident-management/definitions/statusList';
 
-import { REQUEST_PRIORITY_UPDATE_SUCCESS } from 'signals/incident-management/containers/IncidentPriorityContainer/constants';
-import { REQUEST_CATEGORY_UPDATE_SUCCESS } from 'signals/incident-management/containers/IncidentCategoryContainer/constants';
-import { REQUEST_STATUS_CREATE_SUCCESS } from 'signals/incident-management/containers/IncidentStatusContainer/constants';
 import { SPLIT_INCIDENT_SUCCESS } from 'signals/incident-management/containers/IncidentSplitContainer/constants';
 
 import incidentModelReducer, { initialState } from './reducer';
@@ -21,23 +19,29 @@ describe('incidentModelReducer', () => {
   const reducer = incidentModelReducer;
   const expected = {
     id: null,
+    stadsdeelList,
+    priorityList,
+    changeStatusOptionList,
+    statusList,
     loading: false,
     error: false,
     attachments: [],
     patching: {
-      location: false
+      location: false,
+      notes: false,
+      priority: false,
+      status: false,
+      subcategory: false
     },
-    split: false,
-    priorityList,
-    stadsdeelList
+    split: false
   };
-  let state;
+  // let state;
 
   beforeEach(() => {
-    state = fromJS({
-      incident: {},
-      incidentNotesList: [],
-    });
+    // state = fromJS({
+      // incident: {},
+      // incidentNotesList: [],
+    // });
   });
 
   it('returns the initial state', () => {
@@ -111,7 +115,10 @@ describe('incidentModelReducer', () => {
       }).toJS()
     ).toEqual({
       ...expected,
-      patching: { location: true }
+      patching: {
+        ...expected.patching,
+        location: true
+      }
     });
   });
 
@@ -127,7 +134,9 @@ describe('incidentModelReducer', () => {
       }).toJS()
     ).toEqual({
       ...expected,
-      patching: { location: false }
+      patching: {
+        ...expected.patching
+      }
     });
   });
 
@@ -143,7 +152,9 @@ describe('incidentModelReducer', () => {
      }).toJS()
     ).toEqual({
       ...expected,
-      patching: { location: false },
+      patching: {
+        ...expected.patching
+      },
       error: payload.error
     });
   });
@@ -181,54 +192,6 @@ describe('incidentModelReducer', () => {
     ).toEqual({
       ...expected,
       attachments: []
-    });
-  });
-
-  it('should handle the REQUEST_CATEGORY_UPDATE_SUCCESS', () => {
-    expect(
-      incidentModelReducer(state, {
-        type: REQUEST_CATEGORY_UPDATE_SUCCESS,
-        payload: {
-          category: {
-            category_url: 'test'
-          }
-        }
-      }).toJS()
-    ).toEqual({
-      incident: {
-        category: {
-          category_url: 'test'
-        }
-      },
-      incidentNotesList: []
-    });
-  });
-
-  it('should handle the REQUEST_PRIORITY_UPDATE_SUCCESS', () => {
-    expect(
-      incidentModelReducer(state, {
-        type: REQUEST_PRIORITY_UPDATE_SUCCESS,
-        payload: 'high'
-      }).toJS()
-    ).toEqual({
-      incident: {
-        priority: 'high'
-      },
-      incidentNotesList: []
-    });
-  });
-
-  it('should handle the REQUEST_STATUS_CREATE_SUCCESS', () => {
-    expect(
-      incidentModelReducer(state, {
-        type: REQUEST_STATUS_CREATE_SUCCESS,
-        payload: 'gemeld'
-      }).toJS()
-    ).toEqual({
-      incident: {
-        status: 'gemeld'
-      },
-      incidentNotesList: []
     });
   });
 

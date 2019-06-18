@@ -91,3 +91,8 @@ export const changeStatusOptionList = [
   GEANNULEERD,
   HEROPEND
 ];
+
+export const defaultTextsOptionList = [
+  AFGEHANDELD,
+  INGEPLAND
+];
