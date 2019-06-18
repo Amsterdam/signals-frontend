@@ -384,7 +384,7 @@ describe('The auth service', () => {
       expect(authenticate()).toEqual(
         {
           userName: 'Jan Klaasen',
-          userScopes: ['SIG/ALL'],
+          userPermissions: ['SIG/ALL'],
           accessToken: '123AccessToken'
         }
       );

@@ -6,7 +6,7 @@ exports[`<SplitDetail /> should render correctly 1`] = `
 >
   <div>
     <h4>
-      Melding
+      Melding 
       1712
     </h4>
     <dl>
@@ -101,7 +101,7 @@ exports[`<SplitDetail /> should render correctly with phone and email 1`] = `
 >
   <div>
     <h4>
-      Melding
+      Melding 
       1712
     </h4>
     <dl>

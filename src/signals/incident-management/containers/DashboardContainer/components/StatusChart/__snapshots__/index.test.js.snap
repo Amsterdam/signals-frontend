@@ -18,29 +18,28 @@ exports[`<StatusChart /> should render correctly 1`] = `
       viewBox="0 0 400 460"
       width="400"
     >
-      <clipPath
-        id="recharts1-clip"
-      >
-        <rect
-          height="450"
-          width="390"
-          x="5"
-          y="5"
-        />
-      </clipPath>
+      <defs>
+        <clipPath
+          id="recharts1-clip"
+        >
+          <rect
+            height="450"
+            width="390"
+            x="5"
+            y="5"
+          />
+        </clipPath>
+      </defs>
       <g
         class="recharts-layer recharts-pie"
       >
         <g
-          clip-path="url(#recharts-pie-2)"
+          class="recharts-layer recharts-pie-sector"
         >
-          <g
-            class="recharts-layer recharts-pie-sector"
-          >
-            <path
-              class="recharts-sector"
-              color="#23B0C3"
-              d="M 200,60
+          <path
+            class="recharts-sector"
+            color="#23B0C3"
+            d="M 200,60
     A 170,170,0,
     1,1,
     122.10149130634024,381.10202627133697
@@ -48,17 +47,17 @@ exports[`<StatusChart /> should render correctly 1`] = `
             A 35,35,0,
             1,0,
             200,195 Z"
-              fill="red"
-              stroke="#fff"
-            />
-          </g>
-          <g
-            class="recharts-layer recharts-pie-sector"
-          >
-            <path
-              class="recharts-sector"
-              color="#E8663F"
-              d="M 122.10149130634024,381.10202627133697
+            fill="red"
+            stroke="#fff"
+          />
+        </g>
+        <g
+          class="recharts-layer recharts-pie-sector"
+        >
+          <path
+            class="recharts-sector"
+            color="#E8663F"
+            d="M 122.10149130634024,381.10202627133697
     A 170,170,0,
     0,1,
     64.7204871097585,332.9536468134033
@@ -66,17 +65,17 @@ exports[`<StatusChart /> should render correctly 1`] = `
             A 35,35,0,
             0,0,
             183.96207173954065,261.1092407029223 Z"
-              fill="lightgrey"
-              stroke="#fff"
-            />
-          </g>
-          <g
-            class="recharts-layer recharts-pie-sector"
-          >
-            <path
-              class="recharts-sector"
-              color="#FE952F"
-              d="M 64.7204871097585,332.9536468134033
+            fill="lightgrey"
+            stroke="#fff"
+          />
+        </g>
+        <g
+          class="recharts-layer recharts-pie-sector"
+        >
+          <path
+            class="recharts-sector"
+            color="#FE952F"
+            d="M 64.7204871097585,332.9536468134033
     A 170,170,0,
     0,1,
     61.52208815144297,131.39032537289626
@@ -84,17 +83,17 @@ exports[`<StatusChart /> should render correctly 1`] = `
             A 35,35,0,
             0,0,
             172.14833558142087,251.19633904981833 Z"
-              fill="blue"
-              stroke="#fff"
-            />
-          </g>
-          <g
-            class="recharts-layer recharts-pie-sector"
-          >
-            <path
-              class="recharts-sector"
-              color="#96C14F"
-              d="M 61.52208815144297,131.39032537289626
+            fill="blue"
+            stroke="#fff"
+          />
+        </g>
+        <g
+          class="recharts-layer recharts-pie-sector"
+        >
+          <path
+            class="recharts-sector"
+            color="#96C14F"
+            d="M 61.52208815144297,131.39032537289626
     A 170,170,0,
     0,1,
     75.11940952821938,114.65340003528749
@@ -102,17 +101,17 @@ exports[`<StatusChart /> should render correctly 1`] = `
             A 35,35,0,
             0,0,
             171.48984167823826,209.69800816500805 Z"
-              fill="darkgrey"
-              stroke="#fff"
-            />
-          </g>
-          <g
-            class="recharts-layer recharts-pie-sector"
-          >
-            <path
-              class="recharts-sector"
-              color="#9B4474"
-              d="M 75.11940952821938,114.65340003528749
+            fill="darkgrey"
+            stroke="#fff"
+          />
+        </g>
+        <g
+          class="recharts-layer recharts-pie-sector"
+        >
+          <path
+            class="recharts-sector"
+            color="#9B4474"
+            d="M 75.11940952821938,114.65340003528749
     A 170,170,0,
     0,1,
     199.99999999999997,60
@@ -120,14 +119,13 @@ exports[`<StatusChart /> should render correctly 1`] = `
             A 35,35,0,
             0,0,
             174.28929019698634,206.25217059550036 Z"
-              fill="lightgreen"
-              stroke="#fff"
-            />
-          </g>
-          <g
-            class="recharts-layer recharts-pie-sector"
+            fill="lightgreen"
+            stroke="#fff"
           />
         </g>
+        <g
+          class="recharts-layer recharts-pie-sector"
+        />
         <g
           class="recharts-layer recharts-pie-labels"
         >

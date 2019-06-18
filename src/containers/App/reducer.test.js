@@ -31,13 +31,13 @@ describe('appReducer', () => {
           type: AUTHORIZE_USER,
           payload: {
             userName: 'Diabolo',
-            userScopes: ['SCOPE'],
+            userPermissions: ['SCOPE'],
             accessToken: 'DFGHJGFDSDFGHJKJH'
           }
         }).toJS()
       ).toEqual({
         userName: 'Diabolo',
-        userScopes: ['SCOPE'],
+        userPermissions: ['SCOPE'],
         accessToken: 'DFGHJGFDSDFGHJKJH'
       });
     });

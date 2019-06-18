@@ -315,7 +315,6 @@ exports[`<Form /> FieldGroup rendering should render FormGroup correctly 1`] = `
           },
         }
       }
-      display="Locatie"
       emptyOptionText=""
       name="location"
       onQueryResult={[Function]}
@@ -323,15 +322,16 @@ exports[`<Form /> FieldGroup rendering should render FormGroup correctly 1`] = `
       values={Array []}
     />
     <button
-      className="action primary"
+      className="location-form__submit action primary"
       disabled={true}
       type="submit"
     >
-      <span
-        className="value"
-      >
-        Locatie wijzigen
-      </span>
+      Locatie opslaan
+    </button>
+    <button
+      className="location-form__cancel action secundary-grey"
+    >
+      Annuleren
     </button>
   </div>
 </form>
@@ -652,7 +652,6 @@ exports[`<Form /> FieldGroup rendering should render FormGroup unauthorized erro
           },
         }
       }
-      display="Locatie"
       emptyOptionText=""
       name="location"
       onQueryResult={[Function]}
@@ -665,15 +664,16 @@ exports[`<Form /> FieldGroup rendering should render FormGroup unauthorized erro
       U bent niet geautoriseerd om dit te doen.
     </div>
     <button
-      className="action primary"
+      className="location-form__submit action primary"
       disabled={true}
       type="submit"
     >
-      <span
-        className="value"
-      >
-        Locatie wijzigen
-      </span>
+      Locatie opslaan
+    </button>
+    <button
+      className="location-form__cancel action secundary-grey"
+    >
+      Annuleren
     </button>
   </div>
 </form>
@@ -994,7 +994,6 @@ exports[`<Form /> FieldGroup rendering should render FormGroup unspecified error
           },
         }
       }
-      display="Locatie"
       emptyOptionText=""
       name="location"
       onQueryResult={[Function]}
@@ -1007,15 +1006,16 @@ exports[`<Form /> FieldGroup rendering should render FormGroup unspecified error
       De nieuwe locatie kon niet worden gewijzigd.
     </div>
     <button
-      className="action primary"
+      className="location-form__submit action primary"
       disabled={true}
       type="submit"
     >
-      <span
-        className="value"
-      >
-        Locatie wijzigen
-      </span>
+      Locatie opslaan
+    </button>
+    <button
+      className="location-form__cancel action secundary-grey"
+    >
+      Annuleren
     </button>
   </div>
 </form>
@@ -1336,7 +1336,6 @@ exports[`<Form /> FieldGroup rendering should render patching 1`] = `
           },
         }
       }
-      display="Locatie"
       emptyOptionText=""
       name="location"
       onQueryResult={[Function]}
@@ -1344,22 +1343,16 @@ exports[`<Form /> FieldGroup rendering should render patching 1`] = `
       values={Array []}
     />
     <button
-      className="action primary"
+      className="location-form__submit action primary"
       disabled={true}
       type="submit"
     >
-      <span
-        className="value"
-      >
-        Locatie wijzigen
-      </span>
-      <span
-        className="working"
-      >
-        <div
-          className="progress-indicator progress-white"
-        />
-      </span>
+      Locatie opslaan
+    </button>
+    <button
+      className="location-form__cancel action secundary-grey"
+    >
+      Annuleren
     </button>
   </div>
 </form>
@@ -1367,164 +1360,160 @@ exports[`<Form /> FieldGroup rendering should render patching 1`] = `
 
 exports[`<Form /> should render correctly 1`] = `
 <div
-  className="incident-location-form"
+  className="location-form"
 >
-  <div
-    className="incident-location-form__body"
-  >
-    <FieldGroup
-      control={
-        FormGroup {
-          "_onDisabledChange": Array [],
-          "_pendingChange": false,
-          "_pendingDirty": false,
-          "_pendingTouched": false,
-          "asyncValidator": null,
-          "controls": Object {
-            "coordinates": FormControl {
-              "_onCollectionChange": [Function],
-              "_onDisabledChange": Array [],
-              "_parent": [Circular],
-              "_pendingChange": true,
-              "_pendingDirty": false,
-              "_pendingTouched": false,
-              "_pendingValue": "",
-              "asyncValidator": null,
-              "errors": Object {
-                "required": true,
-              },
-              "formState": "",
-              "get": [Function],
-              "getError": [Function],
-              "handler": [Function],
-              "hasError": [Function],
-              "meta": Object {},
-              "onBlur": [Function],
-              "onBlurChanges": Observable {
-                "observers": Array [],
-              },
-              "onChange": [Function],
-              "onValueChanges": Observable {
-                "observers": Array [],
-              },
-              "patchValue": [Function],
-              "pristine": true,
-              "reset": [Function],
-              "setValue": [Function],
-              "stateChanges": Observable {
-                "observers": Array [],
-              },
-              "status": "INVALID",
-              "statusChanges": Observable {
-                "observers": Array [],
-              },
-              "submitted": false,
-              "touched": false,
-              "validator": [Function],
-              "validatorsOrOpts": Object {
-                "asyncValidators": null,
-                "updateOn": null,
-                "validators": [Function],
-              },
-              "value": "",
-              "valueChanges": Observable {
-                "observers": Array [],
-              },
+  <FieldGroup
+    control={
+      FormGroup {
+        "_onDisabledChange": Array [],
+        "_pendingChange": false,
+        "_pendingDirty": false,
+        "_pendingTouched": false,
+        "asyncValidator": null,
+        "controls": Object {
+          "coordinates": FormControl {
+            "_onCollectionChange": [Function],
+            "_onDisabledChange": Array [],
+            "_parent": [Circular],
+            "_pendingChange": true,
+            "_pendingDirty": false,
+            "_pendingTouched": false,
+            "_pendingValue": "",
+            "asyncValidator": null,
+            "errors": Object {
+              "required": true,
             },
-            "location": FormControl {
-              "_onCollectionChange": [Function],
-              "_onDisabledChange": Array [],
-              "_parent": [Circular],
-              "_pendingChange": true,
-              "_pendingDirty": false,
-              "_pendingTouched": false,
-              "_pendingValue": Object {
-                "foo": "bar",
-              },
-              "asyncValidator": null,
-              "errors": null,
-              "formState": Object {
-                "foo": "bar",
-              },
-              "get": [Function],
-              "getError": [Function],
-              "handler": [Function],
-              "hasError": [Function],
-              "meta": Object {},
-              "onBlur": [Function],
-              "onBlurChanges": Observable {
-                "observers": Array [],
-              },
-              "onChange": [Function],
-              "onValueChanges": Observable {
-                "observers": Array [],
-              },
-              "patchValue": [Function],
-              "pristine": true,
-              "reset": [Function],
-              "setValue": [Function],
-              "stateChanges": Observable {
-                "observers": Array [],
-              },
-              "status": "VALID",
-              "statusChanges": Observable {
-                "observers": Array [],
-              },
-              "submitted": false,
-              "touched": false,
-              "validator": null,
-              "validatorsOrOpts": Object {
-                "asyncValidators": undefined,
-                "updateOn": undefined,
-                "validators": undefined,
-              },
-              "value": Object {
-                "foo": "bar",
-              },
-              "valueChanges": Observable {
-                "observers": Array [],
-              },
+            "formState": "",
+            "get": [Function],
+            "getError": [Function],
+            "handler": [Function],
+            "hasError": [Function],
+            "meta": Object {},
+            "onBlur": [Function],
+            "onBlurChanges": Observable {
+              "observers": Array [],
+            },
+            "onChange": [Function],
+            "onValueChanges": Observable {
+              "observers": Array [],
+            },
+            "patchValue": [Function],
+            "pristine": true,
+            "reset": [Function],
+            "setValue": [Function],
+            "stateChanges": Observable {
+              "observers": Array [],
+            },
+            "status": "INVALID",
+            "statusChanges": Observable {
+              "observers": Array [],
+            },
+            "submitted": false,
+            "touched": false,
+            "validator": [Function],
+            "validatorsOrOpts": Object {
+              "asyncValidators": null,
+              "updateOn": null,
+              "validators": [Function],
+            },
+            "value": "",
+            "valueChanges": Observable {
+              "observers": Array [],
             },
           },
-          "errors": null,
-          "get": [Function],
-          "getError": [Function],
-          "handleSubmit": [Function],
-          "hasError": [Function],
-          "meta": Object {},
-          "patchValue": [Function],
-          "pristine": true,
-          "reset": [Function],
-          "setValue": [Function],
-          "stateChanges": Observable {
-            "observers": Array [],
-          },
-          "status": "INVALID",
-          "statusChanges": Observable {
-            "observers": Array [],
-          },
-          "submitted": false,
-          "touched": false,
-          "validator": null,
-          "validatorOrOpts": Object {
-            "asyncValidators": null,
-            "updateOn": null,
-            "validators": null,
-          },
-          "value": Object {
-            "coordinates": "",
-            "location": Object {
+          "location": FormControl {
+            "_onCollectionChange": [Function],
+            "_onDisabledChange": Array [],
+            "_parent": [Circular],
+            "_pendingChange": true,
+            "_pendingDirty": false,
+            "_pendingTouched": false,
+            "_pendingValue": Object {
               "foo": "bar",
             },
+            "asyncValidator": null,
+            "errors": null,
+            "formState": Object {
+              "foo": "bar",
+            },
+            "get": [Function],
+            "getError": [Function],
+            "handler": [Function],
+            "hasError": [Function],
+            "meta": Object {},
+            "onBlur": [Function],
+            "onBlurChanges": Observable {
+              "observers": Array [],
+            },
+            "onChange": [Function],
+            "onValueChanges": Observable {
+              "observers": Array [],
+            },
+            "patchValue": [Function],
+            "pristine": true,
+            "reset": [Function],
+            "setValue": [Function],
+            "stateChanges": Observable {
+              "observers": Array [],
+            },
+            "status": "VALID",
+            "statusChanges": Observable {
+              "observers": Array [],
+            },
+            "submitted": false,
+            "touched": false,
+            "validator": null,
+            "validatorsOrOpts": Object {
+              "asyncValidators": undefined,
+              "updateOn": undefined,
+              "validators": undefined,
+            },
+            "value": Object {
+              "foo": "bar",
+            },
+            "valueChanges": Observable {
+              "observers": Array [],
+            },
           },
-          "valueChanges": Observable {
-            "observers": Array [],
+        },
+        "errors": null,
+        "get": [Function],
+        "getError": [Function],
+        "handleSubmit": [Function],
+        "hasError": [Function],
+        "meta": Object {},
+        "patchValue": [Function],
+        "pristine": true,
+        "reset": [Function],
+        "setValue": [Function],
+        "stateChanges": Observable {
+          "observers": Array [],
+        },
+        "status": "INVALID",
+        "statusChanges": Observable {
+          "observers": Array [],
+        },
+        "submitted": false,
+        "touched": false,
+        "validator": null,
+        "validatorOrOpts": Object {
+          "asyncValidators": null,
+          "updateOn": null,
+          "validators": null,
+        },
+        "value": Object {
+          "coordinates": "",
+          "location": Object {
+            "foo": "bar",
           },
-        }
+        },
+        "valueChanges": Observable {
+          "observers": Array [],
+        },
       }
-      render={[Function]}
-      strict={true}
-    />
-  </div>
+    }
+    render={[Function]}
+    strict={true}
+  />
 </div>
 `;
