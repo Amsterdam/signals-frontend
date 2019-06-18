@@ -1,11 +1,13 @@
 @import "config.scss";
 
 .location {
+
   dl {
     margin: 0;
   }
 
   &__definition {
+    font-weight: normal;
     width: 25%;
     display: inline-block;
     color: $ams-donkergrijs;
