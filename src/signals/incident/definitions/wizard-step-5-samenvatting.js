@@ -1,5 +1,7 @@
 import IncidentNavigation from '../components/IncidentNavigation';
 import PreviewComponents from '../components/IncidentPreview/components/';
+import MapSelectPreview from "../components/IncidentPreview/components/MapSelect";
+import {createCompoundPreview} from "../components/IncidentPreview/components/CompoundPreview";
 
 export default {
   label: 'Controleer uw gegevens',
@@ -53,7 +55,7 @@ export default {
         render: PreviewComponents.PlainText
       }
     },
-    extra_straatverlichting: { // group name
+    vulaan: { // page route --> /incident/vulaan
       extra_straatverlichting: { // actual incident field name
         label: 'Is de situatie gevaarlijk?',
         render: PreviewComponents.ObjectValue, // use value.label as plaintext,
@@ -71,11 +73,19 @@ export default {
       },
       extra_straatverlichting_nummer: {
         label: 'Lichtpunt(en) op kaart',
-        render: PreviewComponents.CommaArray,
+        render: createCompoundPreview([
+          PreviewComponents.MapSelectPreview,
+          ({label, ...props}) => PreviewComponents.CommaArray(props), // remove label from props
+        ]),
+        optional: true
+      },
+      extra_straatverlichting_niet_op_kaart: {
+        label: 'Staat niet op kaart',
+        render: PreviewComponents.ObjectValue,
         optional: true
       },
       extra_straatverlichting_niet_op_kaart_nummer: {
-        label: 'Nummer lichtpunt(en)',
+        label: 'Lichtpunt(en) niet op kaart',
         render: PreviewComponents.CommaArray,
         optional: true
       },

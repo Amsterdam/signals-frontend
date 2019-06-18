@@ -10,9 +10,7 @@ import { getOVLIcon, LEGEND_ITEMS } from './iconMapping';
 
 const filter_legend = (items, types) => items.filter((element) => types.includes(element.key));
 
-const DEFAULT_COORDS = [4.900312721729279,
-  52.37248465266875
-];
+const DEFAULT_COORDS = [4.900312721729279, 52.37248465266875];
 
 const getLatlng = (meta) => {
   const coords = get(meta, 'incidentContainer.incident.location.geometrie.coordinates', DEFAULT_COORDS);

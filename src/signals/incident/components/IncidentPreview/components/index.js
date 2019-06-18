@@ -4,6 +4,7 @@ import Image from './Image/';
 import ObjectValue from './ObjectValue';
 import Map from './Map/';
 import CommaArray from './CommaArray';
+import MapSelectPreview from './MapSelect';
 
 export default {
   CommaArray,
@@ -11,5 +12,6 @@ export default {
   DateTime,
   Image,
   ObjectValue,
-  Map
+  Map,
+  MapSelectPreview
 };

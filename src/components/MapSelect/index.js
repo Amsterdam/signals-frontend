@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import amaps from 'amsterdam-amaps/dist/amaps';
 import BboxGeojsonLayer from '@datapunt/leaflet-geojson-bbox-layer';
+import classNames from 'classnames';
 import isEqual from 'lodash.isequal';
 
 import './style.scss';
@@ -40,7 +41,7 @@ class MapSelect extends React.Component {
         longitude: centerLatLng.longitude
       },
       layer: 'standaard',
-      target: 'mapdiv',
+      target: 'mapSelect', // requires unique id because amaps doesn't support passing dom element (according to docs)
       marker: false,
       search: false,
       zoom: ZOOM_INIT
@@ -74,15 +75,18 @@ class MapSelect extends React.Component {
       },
 
       onEachFeature(feature, layer) {
-        // istanbul ignore next
-        layer.on({
-          click: (e) => {
-            const _layer = e.target;
-            const id = _layer.feature.properties[idField];
-            selection.toggle(id);
-            onSelectionChange(selection);
-          }
-        });
+        if (onSelectionChange) {
+          // Check that the component is in write mode
+          // istanbul ignore next
+          layer.on({
+            click: (e) => {
+              const _layer = e.target;
+              const id = _layer.feature.properties[idField];
+              selection.toggle(id);
+              onSelectionChange(selection);
+            }
+          });
+        }
       }
     });
     this.featuresLayer.addTo(this.map);
@@ -93,12 +97,15 @@ class MapSelect extends React.Component {
     });
     zoomMessageControl.addTo(this.map);
 
-    const legendControl = new LegendControl({
-      position: 'topright',
-      zoomMin,
-      elements: this.props.legend
-    });
-    legendControl.addTo(this.map);
+    if (this.props.legend) {
+      // only show if legend items are provided
+      const legendControl = new LegendControl({
+        position: 'topright',
+        zoomMin,
+        elements: this.props.legend
+      });
+      legendControl.addTo(this.map);
+    }
 
 
     const div = L.DomUtil.create('div', 'loading-control');
@@ -145,9 +152,9 @@ class MapSelect extends React.Component {
 
   render() {
     return (
-      <div className="map-component">
+      <div className={classNames('map-component', { write: this.props.onSelectionChange })}>
         <div className="map">
-          <div id="mapdiv" />
+          <div className="map-container" id="mapSelect" />
         </div>
       </div>
     );
@@ -165,7 +172,7 @@ MapSelect.propTypes = {
     longitude: PropTypes.number.isRequired
   }).isRequired,
   geojsonUrl: PropTypes.string.isRequired,
-  onSelectionChange: PropTypes.func.isRequired,
+  onSelectionChange: PropTypes.func,
   getIcon: PropTypes.func.isRequired,
   legend: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
