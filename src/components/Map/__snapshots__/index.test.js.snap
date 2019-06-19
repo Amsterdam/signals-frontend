@@ -8,6 +8,7 @@ exports[`<Map /> should render correctly 1`] = `
     className="map"
   >
     <div
+      className="map-container"
       id="mapdiv"
     />
   </div>

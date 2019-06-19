@@ -1,7 +1,6 @@
 import IncidentNavigation from '../components/IncidentNavigation';
 import PreviewComponents from '../components/IncidentPreview/components/';
-import MapSelectPreview from "../components/IncidentPreview/components/MapSelect";
-import {createCompoundPreview} from "../components/IncidentPreview/components/CompoundPreview";
+import { createCompoundPreview } from '../components/IncidentPreview/components/CompoundPreview';
 
 export default {
   label: 'Controleer uw gegevens',
@@ -75,7 +74,7 @@ export default {
         label: 'Lichtpunt(en) op kaart',
         render: createCompoundPreview([
           PreviewComponents.MapSelectPreview,
-          ({label, ...props}) => PreviewComponents.CommaArray(props), // remove label from props
+          ({ label, ...props }) => PreviewComponents.CommaArray(props), // remove label from props
         ]),
         optional: true
       },

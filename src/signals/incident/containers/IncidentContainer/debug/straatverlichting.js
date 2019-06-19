@@ -23,14 +23,5 @@ export default {
     label: 'Het lichtpunt staat niet op de kaart',
     value: true
   },
-  extra_straatverlichting_niet_op_kaart_nummer: [
-    {
-      id: 'extra_straatverlichting_niet_op_kaart_nummer-1',
-      label: '24'
-    },
-    {
-      id: 'extra_straatverlichting_niet_op_kaart_nummer-2',
-      label: 'someotherid'
-    }
-  ],
-}
+  extra_straatverlichting_niet_op_kaart_nummer: ['24', 'someotherid'],
+};
