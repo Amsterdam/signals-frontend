@@ -290,7 +290,7 @@
     "react-loadable": "4.0.3",
     "react-reactive-form": "1.0.27",
     "react-redux": "^5.0.7",
-    "react-router-dom": "4.1.1",
+    "react-router-dom": "^4.3.1",
     "react-router-redux": "5.0.0-alpha.6",
     "recharts": "^1.4.2",
     "redux": "3.6.0",
