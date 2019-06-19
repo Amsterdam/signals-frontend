@@ -89,6 +89,7 @@ exports[`<MainMenu /> rendering should render Nieuwe Melding and Afhandelen NavL
         <li>
           <NavLink
             activeClassName="active"
+            aria-current="page"
             onClick={[Function]}
             to="/"
           >
@@ -102,6 +103,7 @@ exports[`<MainMenu /> rendering should render Nieuwe Melding and Afhandelen NavL
         <li>
           <NavLink
             activeClassName="active"
+            aria-current="page"
             to="/manage/incidents"
           >
             <span
@@ -131,6 +133,7 @@ exports[`<MainMenu /> rendering should render Nieuwe Melding and Afhandelen and 
         <li>
           <NavLink
             activeClassName="active"
+            aria-current="page"
             onClick={[Function]}
             to="/"
           >
@@ -144,6 +147,7 @@ exports[`<MainMenu /> rendering should render Nieuwe Melding and Afhandelen and 
         <li>
           <NavLink
             activeClassName="active"
+            aria-current="page"
             to="/manage/incidents"
           >
             <span
@@ -156,6 +160,7 @@ exports[`<MainMenu /> rendering should render Nieuwe Melding and Afhandelen and 
         <li>
           <NavLink
             activeClassName="active"
+            aria-current="page"
             to="/manage/standaard/teksten"
           >
             <span

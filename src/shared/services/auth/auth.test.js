@@ -374,7 +374,7 @@ describe('The auth service', () => {
   });
 
   describe('authenticate', () => {
-    it.skip('should authenticate with credentials with accessToken', () => {
+    it('should authenticate with credentials with accessToken', () => {
       parseAccessToken.mockImplementation(() => ({
         name: 'Jan Klaasen',
         scopes: ['SIG/ALL']
