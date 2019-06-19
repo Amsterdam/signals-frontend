@@ -14,6 +14,11 @@ const makeSelectAccessToken = () => createSelector(
   (globalState) => globalState.get('accessToken')
 );
 
+const makeSelectUserPermissions = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.get('userPermissions').toJS()
+);
+
 const makeSelectLoading = () => createSelector(
   selectGlobal,
   (globalState) => globalState.get('loading')
@@ -49,6 +54,7 @@ export {
   selectGlobal,
   makeSelectUserName,
   makeSelectAccessToken,
+  makeSelectUserPermissions,
   makeSelectLoading,
   makeSelectError,
   makeSelectErrorMessage,
