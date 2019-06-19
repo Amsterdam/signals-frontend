@@ -1,6 +1,7 @@
 import IncidentNavigation from '../components/IncidentNavigation';
 import PreviewComponents from '../components/IncidentPreview/components/';
 import { createCompoundPreview } from '../components/IncidentPreview/components/CompoundPreview';
+import { OVL_KLOKKEN_LAYER, OVL_VERLICHTING_LAYER } from '../../../shared/services/configuration/configuration';
 
 export default {
   label: 'Controleer uw gegevens',
@@ -55,6 +56,40 @@ export default {
       }
     },
     vulaan: { // page route --> /incident/vulaan
+      extra_klok: { // actual incident field name
+        label: 'Is de situatie gevaarlijk?',
+        render: PreviewComponents.ObjectValue, // use value.label as plaintext,
+        optional: true
+      },
+      extra_klok_hoeveel: {
+        label: 'Aantal lichtpunten',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_klok_probleem: {
+        label: 'Probleem',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_klok_nummer: {
+        label: 'Klok(ken) op kaart',
+        render: createCompoundPreview([
+          (props) => PreviewComponents.MapSelectPreview({ ...props, endpoint: OVL_KLOKKEN_LAYER }),
+          ({ label, ...props }) => PreviewComponents.CommaArray(props), // remove label from props
+        ]),
+        optional: true
+      },
+      extra_klok_niet_op_kaart: {
+        label: 'Staat niet op kaart',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_klok_niet_op_kaart_nummer: {
+        label: 'Klok(ken) niet op kaart',
+        render: PreviewComponents.CommaArray,
+        optional: true
+      },
+
       extra_straatverlichting: { // actual incident field name
         label: 'Is de situatie gevaarlijk?',
         render: PreviewComponents.ObjectValue, // use value.label as plaintext,
@@ -73,7 +108,7 @@ export default {
       extra_straatverlichting_nummer: {
         label: 'Lichtpunt(en) op kaart',
         render: createCompoundPreview([
-          PreviewComponents.MapSelectPreview,
+          (props) => PreviewComponents.MapSelectPreview({ ...props, endpoint: OVL_VERLICHTING_LAYER }),
           ({ label, ...props }) => PreviewComponents.CommaArray(props), // remove label from props
         ]),
         optional: true

@@ -1,3 +1,4 @@
+import klok from './klok';
 import straatverlichting from './straatverlichting';
 
 export default {
@@ -33,6 +34,6 @@ export default {
     label: 'Nu'
   },
 
-  ...straatverlichting
-
+  ...klok,
+  // ...straatverlichting
 };

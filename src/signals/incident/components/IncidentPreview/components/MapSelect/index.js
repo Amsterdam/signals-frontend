@@ -9,17 +9,17 @@ import './style.scss';
 
 const DEFAULT_COORDS = [4.900312721729279, 52.37248465266875];
 
-const getLatlng = (meta) => {
-  const coords = get(meta, 'location.geometrie.coordinates', DEFAULT_COORDS);
+const getLatlng = (incident) => {
+  const coords = get(incident, 'location.geometrie.coordinates', DEFAULT_COORDS);
   return {
     latitude: coords[1],
     longitude: coords[0]
   };
 };
 
-const MapSelectPreview = ({ label, value, incident }) => {
+const MapSelectPreview = ({ label, value, endpoint, incident }) => {
   const latlng = getLatlng(incident);
-  const geojsonUrl = `${configuration.API_ROOT_MAPSERVER}maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Verlichting&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326`;
+  const geojsonUrl = `${configuration.API_ROOT_MAPSERVER}${endpoint}`;
 
   return (
     <div className="preview-map-select">
@@ -43,7 +43,10 @@ const MapSelectPreview = ({ label, value, incident }) => {
 };
 
 MapSelectPreview.propTypes = {
-  incident: PropTypes.object,
+  incident: PropTypes.shape({
+    location: PropTypes.object
+  }),
+  endpoint: PropTypes.string.isRequired,
   label: PropTypes.string,
   value: PropTypes.arrayOf(PropTypes.string)
 };
