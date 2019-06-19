@@ -382,6 +382,38 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                   "render": [Function],
                 },
               },
+              "vulaan": Object {
+                "extra_straatverlichting": Object {
+                  "label": "Is de situatie gevaarlijk?",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_straatverlichting_hoeveel": Object {
+                  "label": "Aantal lichtpunten",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_straatverlichting_niet_op_kaart": Object {
+                  "label": "Staat niet op kaart",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_straatverlichting_niet_op_kaart_nummer": Object {
+                  "label": "Lichtpunt(en) niet op kaart",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_straatverlichting_nummer": Object {
+                  "label": "Lichtpunt(en) op kaart",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_straatverlichting_probleem": Object {
+                  "label": "Probleem",
+                  "optional": true,
+                  "render": [Function],
+                },
+              },
             },
             "previousButtonClass": "action startagain",
             "previousButtonLabel": "Vorige",
