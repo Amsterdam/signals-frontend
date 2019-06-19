@@ -13,6 +13,9 @@ exports[`Form component <HandlingMessage /> rendering should render empty correc
       <div
         className="label"
       />
+      <div>
+        We gaan zo snel mogelijk aan de slag.
+      </div>
     </div>
   </div>
 </div>
