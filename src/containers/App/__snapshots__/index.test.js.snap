@@ -263,13 +263,15 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                         <li>
                           <NavLink
                             activeClassName="active"
+                            aria-current="page"
                             onClick={[Function]}
                             to="/"
                           >
                             <Route
-                              path="/"
+                              path="\\\\/"
                             >
                               <Link
+                                aria-current="page"
                                 className="active"
                                 onClick={[Function]}
                                 replace={false}
@@ -277,6 +279,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                 to="/"
                               >
                                 <a
+                                  aria-current="page"
                                   className="active"
                                   href="/"
                                   onClick={[Function]}
