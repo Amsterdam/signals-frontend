@@ -54,7 +54,7 @@ Map.propTypes = {
   latlng: PropTypes.object,
   hideAttribution: PropTypes.bool,
   hideZoomControls: PropTypes.bool,
-  zoom: PropTypes.string
+  zoom: PropTypes.number
 };
 
 export default Map;
