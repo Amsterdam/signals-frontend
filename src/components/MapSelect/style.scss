@@ -1,0 +1,118 @@
+@import "config.scss";
+
+.map-component {
+  #mapdiv {
+    position: relative;
+    width: 100%;
+    height: 450px;
+  }
+
+  &__loading {
+    background-color: $ams-lichtgrijs;
+    display: block;
+    width: calc(100% - 30px); // padding left and right of grid
+    height: 100%;
+    position: absolute;
+    z-index: 1001;
+  }
+
+  .object-marker {
+    &:hover {
+      filter: drop-shadow(0 0 2px $ams-zwart);
+    }
+  }
+
+  .zoom-control, .legend-control, .loading-control, error-control {
+    border: 2px solid rgba($ams-zwart, .02);
+    background-clip: padding-box;
+  }
+
+  .zoom-control {
+    background-color: #FEC813;
+    color: $ams-zwart;
+    font-family: Avenir;
+    font-size: 16px;
+    line-height: 22px;
+    padding: 13px;
+  }
+
+  .legend-control {
+    background-color: $ams-wit;
+    color: $ams-zwart;
+    font-family: Avenir;
+    font-size: 16px;
+    line-height: 16px;
+    min-width: 240px;
+  }
+
+  .legend-header {
+    padding: 14px;
+    font-family: Avenir;
+    color: $ams-zwart;
+
+    background-color: #F5F5F5;;
+
+    background-image: url("../../shared/images/Chevron-Down.svg");
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-origin: content-box;
+
+    &:hover, &:focus {
+      background-color: $ams-pinkish-grey;
+      color: $ams-zwart;
+      fill: $ams-zwart;
+      outline: none;
+    }
+  }
+
+  .legend-content {
+    background-color: $ams-wit;
+    padding: 5px 14px;
+  }
+
+  .legend-content-item {
+    display: flex;
+    align-items:center;
+    height: 28px;
+    line-height: 28px;
+    margin: 10px 0;
+  }
+
+  .legend-content-text {
+    margin-left: 8px;
+  }
+
+  .legend-control {
+    &.is-closed {
+      .legend-header {
+        background-image: url("../../shared/images/Chevron-Top.svg");
+      }
+
+      .legend-content {
+        display: none;
+      }
+    }
+  }
+
+
+  .loading-control {
+    background-color: $ams-wit;
+    font-size: 16px;
+    line-height: 22px;
+    padding: 13px 17px;
+  }
+
+
+  .error-control {
+    background-color: $ams-wit;
+    font-size: 16px;
+    line-height: 22px;
+    padding: 13px 17px;
+  }
+
+
+  .hide {
+    display: none;
+  }
+}

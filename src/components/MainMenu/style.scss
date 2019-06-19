@@ -1,0 +1,7 @@
+@import '~amsterdam-stijl/dist/scss/ams-colorpalette';
+
+.main-menu-component {
+  position: relative;
+  background-color: $ams-top-menu;
+  z-index: 100;
+}

@@ -7,43 +7,48 @@
 
 // Needed for redux-saga es6 generator support
 import 'babel-polyfill';
+import 'url-polyfill';
 
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
+import moment from 'moment';
+import 'moment/src/locale/nl';
 import createHistory from 'history/createBrowserHistory';
-import loadModels from 'models';
+import 'leaflet/dist/leaflet';
+
 
 // Import root app
 import App from 'containers/App';
+import { authenticateUser } from 'containers/App/actions';
+import { authenticate } from 'shared/services/auth/auth';
+import loadModels from 'models';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
 
 // Load the favicon, the manifest.json file and the .htaccess file
-/* eslint-disable import/no-unresolved, import/extensions */
+/* eslint-disable import/no-webpack-loader-syntax */
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
-import '!file-loader?name=[name].[ext]!./images/icon-72x72.png';
-import '!file-loader?name=[name].[ext]!./images/icon-96x96.png';
-import '!file-loader?name=[name].[ext]!./images/icon-128x128.png';
-import '!file-loader?name=[name].[ext]!./images/icon-144x144.png';
-import '!file-loader?name=[name].[ext]!./images/icon-152x152.png';
-import '!file-loader?name=[name].[ext]!./images/icon-192x192.png';
-import '!file-loader?name=[name].[ext]!./images/icon-384x384.png';
-import '!file-loader?name=[name].[ext]!./images/icon-512x512.png';
 import '!file-loader?name=[name].[ext]!./manifest.json';
-import 'file-loader?name=[name].[ext]!./.htaccess';
-/* eslint-enable import/no-unresolved, import/extensions */
+import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line import/extensions
+/* eslint-enable import/no-webpack-loader-syntax */
+
+// Import CSS and Global Styles
+import 'leaflet/dist/leaflet.css';
+import 'amsterdam-amaps/dist/nlmaps/dist/assets/css/nlmaps.css';
+import 'amsterdam-stijl/dist/css/ams-stijl.css';
+import './global.scss';
 
 import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
 
-// Import CSS reset and Global Styles
-import './global-styles';
+// load locale for date formatting
+moment.locale('nl');
 
 // Create redux store with history
 const initialState = {};
@@ -83,6 +88,7 @@ if (!window.Intl) {
   }))
     .then(() => Promise.all([
       import('intl/locale-data/jsonp/en.js'),
+      import('intl/locale-data/jsonp/nl.js'),
     ]))
     .then(() => render(translationMessages))
     .catch((err) => {
@@ -95,6 +101,11 @@ if (!window.Intl) {
 // Install ServiceWorker and AppCache in the end since
 // it's not most important operation and if main code fails,
 // we do not want it installed
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'acceptance') {
   require('offline-plugin/runtime').install(); // eslint-disable-line global-require
 }
+
+// Authenticate and start the authorization process
+const credentials = authenticate();
+store.dispatch(authenticateUser(credentials));
+
