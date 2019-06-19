@@ -9,7 +9,7 @@ const PREVIEW_ZOOM_LEVEL = 16;
 
 class Map extends React.Component {
   componentDidMount() {
-    const map = amaps.createMap({
+    this.map = amaps.createMap({
       center: {
         latitude: this.props.latlng.latitude,
         longitude: this.props.latlng.longitude
@@ -22,13 +22,15 @@ class Map extends React.Component {
     });
 
     if (this.props.hideAttribution) {
-      map.attributionControl.remove();
+      this.map.attributionControl.remove();
     }
 
     if (this.props.hideZoomControls) {
-      map.zoomControl.remove();
+      this.map.zoomControl.remove();
     }
   }
+
+  map = {};
 
   render() {
     return (
