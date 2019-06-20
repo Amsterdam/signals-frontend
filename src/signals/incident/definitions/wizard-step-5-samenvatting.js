@@ -123,6 +123,49 @@ export default {
         render: PreviewComponents.CommaArray,
         optional: true
       },
+
+      extra_afval: {  // actual incident field name
+        label: 'Waar vandaan',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_container_kind: {
+        label: 'Soort container',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_container_number: {
+        label: 'Container nummer',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+
+      // Extra bedrijven overlast questions
+      extra_bedrijven_overig: {
+        label: 'Melding over',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_bedrijven_naam: {
+        label: 'Naam',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_bedrijven_adres: {
+        label: 'Adres extra',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_bedrijven_vaker: {
+        label: 'Vaker overlast',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_bedrijven_momenten: {
+        label: 'Momenten',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
     },
     email: {
       email: {

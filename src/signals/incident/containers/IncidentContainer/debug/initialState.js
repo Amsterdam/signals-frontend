@@ -1,5 +1,7 @@
-import klok from './klok';
-import straatverlichting from './straatverlichting';
+// import afval from './afval';
+// import klok from './klok';
+import overlast from './overlast-bedrijven-en-horeca';
+// import straatverlichting from './straatverlichting';
 
 export default {
   location: {
@@ -34,6 +36,8 @@ export default {
     label: 'Nu'
   },
 
-  ...klok,
+  // ...afval,
+  ...overlast,
+  // ...klok,
   // ...straatverlichting
 };
