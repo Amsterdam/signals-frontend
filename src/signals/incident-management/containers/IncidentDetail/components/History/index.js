@@ -8,15 +8,17 @@ import './style.scss';
 const History = ({ list }) => (
   <section className="history">
     <h4>Historie</h4>
+
     {list.map((item) => (
-      <div key={item.identifier} className="history__item">
-        <div className="history__item-header">
-          <span className="history__item-header-when">{string2date(item.when)}</span>
-          <span className="history__item-header-when">{string2time(item.when)}</span>
-          {item.who}
+      <div key={item.identifier} className="row history__item">
+        <div className="col-5 history__item-left">
+          {string2date(item.when)} om {string2time(item.when)}
+          <div>{item.who}</div>
         </div>
-        <div className="history__item-action">{item.action}</div>
-        <div className="history__item-description pre-wrap">{item.description}</div>
+        <div className="col-7 history__item-right pre-wrap">
+          <div>{item.action}</div>
+          <div>{item.description}</div>
+        </div>
       </div>
     ))}
   </section>

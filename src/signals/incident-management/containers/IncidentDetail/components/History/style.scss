@@ -2,28 +2,10 @@
 
 .history {
   &__item {
-    &-header, &-action, &-description {
-      display: inline-block;
-      vertical-align: top;
       margin-bottom: 32px;
-    }
 
-    &-header {
-      width: 100%;
+      &-left {
       color: $ams-donkergrijs;
-      margin-bottom: 6px;
-
-      &-when {
-        margin-right: 12px;
-      }
-    }
-
-    &-action {
-      width: 40%;
-    }
-
-    &-description {
-      width: 60%;
     }
   }
 }
