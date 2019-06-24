@@ -55,7 +55,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
   }
 
   render() {
-    const { display, definitionClass, valueClass, list, incident, path, valuePath, disabled } = this.props;
+    const { display, definitionClass, valueClass, list, incident, path, valuePath, sort, disabled } = this.props;
     const { formVisible } = this.state;
     return (
       <dl className="change-value">
@@ -76,6 +76,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
                     className="change-value__form-input"
                     control={this.form.get('input')}
                     disabled={disabled}
+                    sort={sort}
                   />
 
                   <button className="change-value__form-submit action primary" type="submit" disabled={invalid}>Opslaan</button>
@@ -111,6 +112,7 @@ ChangeValue.propTypes = {
   valuePath: PropTypes.string,
   patch: PropTypes.object,
   disabled: PropTypes.bool,
+  sort: PropTypes.bool,
   type: PropTypes.string.isRequired,
 
   onPatchIncident: PropTypes.func.isRequired
