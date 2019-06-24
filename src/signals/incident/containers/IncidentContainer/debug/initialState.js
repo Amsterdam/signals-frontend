@@ -3,7 +3,7 @@ import overlastBedrijven from './overlast-bedrijven-en-horeca'; // eslint-disabl
 import overlastOpenbareRuimte from './overlast-in-openbare-ruimte'; // eslint-disable-line no-unused-vars
 import overlastWater from './overlast-op-het-water'; // eslint-disable-line no-unused-vars
 import overlastDieren from './overlast-van-dieren'; // eslint-disable-line no-unused-vars
-import overlastPersonen from './overlast-van-en-door-personen-of-groepen';
+// import overlastPersonen from './overlast-van-en-door-personen-of-groepen';
 import klok from './klok'; // eslint-disable-line no-unused-vars
 import verkeerslicht from './verkeerslicht'; // eslint-disable-line no-unused-vars
 import straatverlichting from './straatverlichting'; // eslint-disable-line no-unused-vars
