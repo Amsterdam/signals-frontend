@@ -1,7 +1,7 @@
 @import "config.scss";
 
 .map-component {
-  #mapdiv {
+  .map-container {
     position: relative;
     width: 100%;
     height: 450px;
@@ -16,8 +16,8 @@
     z-index: 1001;
   }
 
-  .object-marker {
-    &:hover {
+  &.write {
+    .object-marker:hover {
       filter: drop-shadow(0 0 2px $ams-zwart);
     }
   }

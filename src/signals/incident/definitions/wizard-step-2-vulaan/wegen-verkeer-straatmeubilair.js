@@ -5,6 +5,7 @@ import { Validators } from 'react-reactive-form';
 import DefinitionComponents from '../components/';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
+import { OVL_KLOKKEN_LAYER, OVL_VERLICHTING_LAYER } from '../../../../shared/services/configuration/configuration';
 
 export default {
   controls: {
@@ -176,7 +177,7 @@ export default {
             'overig'
           ]
         },
-        endpoint: 'maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Verlichting&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326',
+        endpoint: OVL_VERLICHTING_LAYER,
         zoomMin: 18,
         legend_items: [
           'lichtmast',
@@ -322,7 +323,7 @@ export default {
             'overig'
           ]
         },
-        endpoint: 'maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Klokken&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326',
+        endpoint: OVL_KLOKKEN_LAYER,
         legend_items: [
           'klok'
         ],

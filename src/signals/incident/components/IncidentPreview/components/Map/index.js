@@ -10,6 +10,9 @@ const formatAddress = (address) => {
   return display;
 };
 
+/**
+ * Map preview with one or more markers
+ */
 const MapPreview = ({ label, value }) => (
   <div className="preview-map">
     <div className="row">
@@ -18,7 +21,7 @@ const MapPreview = ({ label, value }) => (
       </div>
       <div className="col-5 col-md-7">
         <div className="preview-map__item-value">
-          {value ?
+          {value &&
             <div>
               <div>
                 {value.address ? formatAddress(value.address) : 'Geen adres gevonden'}
@@ -29,9 +32,9 @@ const MapPreview = ({ label, value }) => (
                     latlng={{ latitude: value.geometrie.coordinates[1], longitude: value.geometrie.coordinates[0] }}
                   />
                 </div>
-              : ''}
+                : ''}
             </div>
-            : ''}
+          }
         </div>
       </div>
     </div>
@@ -40,7 +43,10 @@ const MapPreview = ({ label, value }) => (
 
 MapPreview.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.object
+  value: PropTypes.shape({
+    address: PropTypes.object,
+    geometrie: PropTypes.object
+  })
 };
 
 export default MapPreview;

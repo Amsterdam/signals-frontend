@@ -20,8 +20,7 @@ import {
   SET_PRIORITY_SUCCESS,
   SET_PRIORITY_ERROR
 } from './constants';
-// eslint-disable-next-line no-unused-vars
-import debugInitialState from './debug/initialState';
+// import debugInitialState from './debug/initialState';
 
 export const initialState = fromJS({
   incident: {
