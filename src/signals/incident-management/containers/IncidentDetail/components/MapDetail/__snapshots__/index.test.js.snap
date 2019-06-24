@@ -13,7 +13,8 @@ exports[`<MapDetail /> should render correctly 1`] = `
         "longitude": 0,
       }
     }
-    zoom={16}
+    useSmallMarker={false}
+    zoom="16"
   />
 </div>
 `;
