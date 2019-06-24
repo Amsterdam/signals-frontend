@@ -10,19 +10,35 @@ describe('<MainMenu />', () => {
   beforeEach(() => {
     props = {
       isAuthenticated: false,
+      permissions: [],
       resetIncident: jest.fn()
     };
   });
 
   describe('rendering', () => {
-    it('should render 1 NavLink components when not authenticated', () => {
+    it('should render Nieuwe Melding NavLink component when not authenticated', () => {
       const wrapper = shallow(<MainMenu {...props} />);
 
       expect(wrapper).toMatchSnapshot();
     });
 
-    it('should render 2 NavLink components when authenticated', () => {
+    it('should render Nieuwe Melding and Afhandelen NavLink components when authenticated', () => {
       props.isAuthenticated = true;
+      const wrapper = shallow(<MainMenu {...props} />);
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render Nieuwe Melding and Afhandelen NavLink components when authenticated', () => {
+      props.isAuthenticated = true;
+      const wrapper = shallow(<MainMenu {...props} />);
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render Nieuwe Melding and Afhandelen and Beheer standaard teksten NavLink components when authenticated', () => {
+      props.isAuthenticated = true;
+      props.permissions = ['signals.sia_statusmessagetemplate_write'];
       const wrapper = shallow(<MainMenu {...props} />);
 
       expect(wrapper).toMatchSnapshot();

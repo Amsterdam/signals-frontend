@@ -46,10 +46,10 @@ export default {
   // ...overlastOpenbareRuimte,
   // ...overlastWater,
   // ...overlastDieren,
-  ...overlastPersonen,
-  // ...verkeerslicht,
+  // ...overlastPersonen,
 
   // wegen-verkeer-straatmeulilair:
   // ...klok,
-  // ...straatverlichting
+  // ...verkeerslicht,
+  ...straatverlichting
 };

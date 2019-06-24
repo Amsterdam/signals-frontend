@@ -25,7 +25,7 @@ const AUTH_PARAMS = ['access_token', 'token_type', 'expires_in', 'state'];
 
 // All the userScopes this City Daty frontend needs for communication with
 // the backend APIs
-const userScopes = [
+const scopes = [
   // Signals
   'SIG/ALL'
 ];
@@ -43,7 +43,7 @@ function getDomain(domain) {
   return domain || domainList[0];
 }
 
-const encodedScopes = encodeURIComponent(userScopes.join(' '));
+const encodedScopes = encodeURIComponent(scopes.join(' '));
 // The URI we need to redirect to for communication with the OAuth2
 // authorization service
 export const AUTH_PATH = (domain) => `oauth2/authorize?idp_id=${getDomain(domain)}&response_type=token&client_id=sia&scope=${encodedScopes}`;
@@ -231,7 +231,7 @@ export function isAuthenticated() {
 }
 
 export function getScopes() {
-  return tokenData.userScopes || [];
+  return tokenData.scopes || [];
 }
 
 export function getName() {
