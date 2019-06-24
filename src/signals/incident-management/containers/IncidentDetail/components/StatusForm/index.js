@@ -96,7 +96,7 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
                   <FieldControlWrapper
                     render={TextAreaInput}
                     name="text"
-                    display="Toeliching"
+                    display="Toelichting"
                     control={this.form.get('text')}
                     rows={5}
                   />
