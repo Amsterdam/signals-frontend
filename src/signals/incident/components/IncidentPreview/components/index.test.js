@@ -7,6 +7,7 @@ import Map from './Map/';
 import MapSelectPreview from './MapSelect';
 
 import components from './index';
+import ListObjectValue from './ListObjectValue';
 
 describe('Preview components', () => {
   it('should load all components', () => {
@@ -14,6 +15,7 @@ describe('Preview components', () => {
       CommaArray,
       PlainText,
       DateTime,
+      ListObjectValue,
       Image,
       ObjectValue,
       Map,

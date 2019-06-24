@@ -124,6 +124,44 @@ export default {
         optional: true
       },
 
+      // verkeerslicht
+      extra_verkeerslicht: {
+        label: 'Is de situatie gevaarlijk?',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_verkeerslicht_welk: {
+        label: 'Type verkeerslicht',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_verkeerslicht_probleem_voetganger: {
+        label: 'Probleem',
+        render: PreviewComponents.ListObjectValue,
+        optional: true,
+      },
+      extra_verkeerslicht_probleem_fiets_auto: {
+        label: 'Probleem',
+        render: PreviewComponents.ListObjectValue,
+        optional: true,
+      },
+      extra_verkeerslicht_probleem_bus_tram: {
+        label: 'Probleem',
+        render: PreviewComponents.ListObjectValue,
+        optional: true,
+      },
+      extra_verkeerslicht_rijrichting: {
+        label: 'Rijrichting',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
+      extra_verkeerslicht_nummer: {
+        label: 'Verkeerslicht nummer',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
+
+      // afval
       extra_afval: {  // actual incident field name
         label: 'Waar vandaan',
         render: PreviewComponents.PlainText,
@@ -147,12 +185,12 @@ export default {
         optional: true
       },
       extra_bedrijven_naam: {
-        label: 'Naam',
+        label: 'Bedrijfsnaam',
         render: PreviewComponents.PlainText,
         optional: true
       },
       extra_bedrijven_adres: {
-        label: 'Adres extra',
+        label: 'Uw adres',
         render: PreviewComponents.PlainText,
         optional: true
       },
@@ -162,10 +200,77 @@ export default {
         optional: true
       },
       extra_bedrijven_momenten: {
+        label: 'Welke momenten',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+
+      // Extra overlast openbare ruimte
+      extra_auto_scooter_bromfietswrak: {
+        label: 'Extra informatie',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_fietswrak: {
+        label: 'Extra fietswrak',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_parkeeroverlast: {
+        label: 'Extra parkeeroverlast',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+
+      // Extra overlast op het water
+      extra_boten_snelheid_rondvaartboot: {
+        label: 'Rondvaartboot',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_boten_snelheid_rederij: {
+        label: 'Rederij',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_boten_snelheid_naamboot: {
+        label: 'Naam boot',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_boten_snelheid_meer: {
+        label: 'Extra informatie',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_boten_geluid_meer: {
+        label: 'Extra informatie',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_boten_gezonken_meer: {
+        label: 'Extra informatie',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+
+      // Extra overlast personen
+      extra_personen_overig: {
+        label: 'Aantal personen',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_personen_overig_vaker: {
+        label: 'Vaker',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_personen_overig_vaker_momenten: {
         label: 'Momenten',
         render: PreviewComponents.PlainText,
         optional: true
       },
+
     },
     email: {
       email: {
