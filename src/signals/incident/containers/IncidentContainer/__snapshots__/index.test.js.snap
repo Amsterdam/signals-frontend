@@ -382,6 +382,203 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                   "render": [Function],
                 },
               },
+              "vulaan": Object {
+                "extra_afval": Object {
+                  "label": "Waar vandaan",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_auto_scooter_bromfietswrak": Object {
+                  "label": "Extra informatie",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_adres": Object {
+                  "label": "Uw adres",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_momenten": Object {
+                  "label": "Welke momenten",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_naam": Object {
+                  "label": "Bedrijfsnaam",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_overig": Object {
+                  "label": "Melding over",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_vaker": Object {
+                  "label": "Vaker overlast",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_boten_geluid_meer": Object {
+                  "label": "Extra informatie",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_boten_gezonken_meer": Object {
+                  "label": "Extra informatie",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_boten_snelheid_meer": Object {
+                  "label": "Extra informatie",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_boten_snelheid_naamboot": Object {
+                  "label": "Naam boot",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_boten_snelheid_rederij": Object {
+                  "label": "Rederij",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_boten_snelheid_rondvaartboot": Object {
+                  "label": "Rondvaartboot",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_container_kind": Object {
+                  "label": "Soort container",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_container_number": Object {
+                  "label": "Container nummer",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_fietswrak": Object {
+                  "label": "Extra fietswrak",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_klok": Object {
+                  "label": "Is de situatie gevaarlijk?",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_klok_hoeveel": Object {
+                  "label": "Aantal lichtpunten",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_klok_niet_op_kaart": Object {
+                  "label": "Staat niet op kaart",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_klok_niet_op_kaart_nummer": Object {
+                  "label": "Klok(ken) niet op kaart",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_klok_nummer": Object {
+                  "label": "Klok(ken) op kaart",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_klok_probleem": Object {
+                  "label": "Probleem",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_parkeeroverlast": Object {
+                  "label": "Extra parkeeroverlast",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_personen_overig": Object {
+                  "label": "Aantal personen",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_personen_overig_vaker": Object {
+                  "label": "Vaker",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_personen_overig_vaker_momenten": Object {
+                  "label": "Momenten",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_straatverlichting": Object {
+                  "label": "Is de situatie gevaarlijk?",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_straatverlichting_hoeveel": Object {
+                  "label": "Aantal lichtpunten",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_straatverlichting_niet_op_kaart": Object {
+                  "label": "Staat niet op kaart",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_straatverlichting_niet_op_kaart_nummer": Object {
+                  "label": "Lichtpunt(en) niet op kaart",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_straatverlichting_nummer": Object {
+                  "label": "Lichtpunt(en) op kaart",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_straatverlichting_probleem": Object {
+                  "label": "Probleem",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_verkeerslicht": Object {
+                  "label": "Is de situatie gevaarlijk?",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_verkeerslicht_nummer": Object {
+                  "label": "Verkeerslicht nummer",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_verkeerslicht_probleem_bus_tram": Object {
+                  "label": "Probleem",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_verkeerslicht_probleem_fiets_auto": Object {
+                  "label": "Probleem",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_verkeerslicht_probleem_voetganger": Object {
+                  "label": "Probleem",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_verkeerslicht_rijrichting": Object {
+                  "label": "Rijrichting",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_verkeerslicht_welk": Object {
+                  "label": "Type verkeerslicht",
+                  "optional": true,
+                  "render": [Function],
+                },
+              },
             },
             "previousButtonClass": "action startagain",
             "previousButtonLabel": "Vorige",
