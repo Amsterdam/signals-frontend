@@ -65,7 +65,7 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
             valuePath="category.category_url"
             patch={{ status: { state: 'm' } }}
             type="subcategory"
-            disabled={!['m', 'i', 'b', 'ingepland', 'send failed', 'closure requested'].includes(incident.status.state)}
+            disabled={!['m', 'reopened', 'i', 'b', 'ingepland', 'send failed', 'closure requested'].includes(incident.status.state)}
             onPatchIncident={onPatchIncident}
           />
         </Highlight>
