@@ -12,7 +12,7 @@ import './style.scss';
 
 class StatusForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   form = FormBuilder.group({ // eslint-disable-line react/sort-comp
-    status: [this.props.incident.status.state, Validators.required],
+    status: ['', Validators.required],
     text: ['']
   });
 
@@ -41,6 +41,7 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
       } else {
         textField.clearValidators();
       }
+
       textField.updateValueAndValidity();
     });
   }
@@ -61,7 +62,7 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
     this.props.onPatchIncident({
       id: this.props.incident.id,
       type: 'status',
-      patch: { status: { state: this.form.value.status } }
+      patch: { status: { state: this.form.value.status, text: this.form.value.text } }
     });
   }
 
@@ -75,8 +76,9 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
   }
 
   render() {
-    const { patching, error, changeStatusOptionList, onClose, defaultTexts } = this.props;
+    const { incident, patching, error, statusList, changeStatusOptionList, onClose, defaultTexts } = this.props;
     const { warning } = this.state;
+    const currentStatus = statusList.find((status) => status.key === incident.status.state);
     return (
       <section className="status-form">
         <FieldGroup
@@ -86,7 +88,14 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
               <div className="row">
                 <div className="col-6">
                   <h4>Status wijzigen</h4>
+
+                  <div className="status-form__current-state">
+                    <label htmlFor="currentStatus">Huidige status</label>
+                    <div id="currentStatus">{currentStatus.value}</div>
+                  </div>
+
                   <FieldControlWrapper
+                    display="Nieuwe status"
                     render={RadioInput}
                     name="status"
                     className="status-form__form-input"

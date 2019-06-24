@@ -1,6 +1,15 @@
 @import "config.scss";
 
 .status-form {
+  &__current-state {
+    margin-bottom: 20px;
+
+    label {
+      display: inline-block;
+      margin-bottom: 5px;
+    }
+  }
+
   &__form {
     &-submit {
       height: 50px;
