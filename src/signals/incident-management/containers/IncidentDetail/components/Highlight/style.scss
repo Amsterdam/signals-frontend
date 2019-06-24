@@ -11,8 +11,9 @@
       top: -3px;
       bottom: 0;
       right: 0;
-      background-color: $ams-geel;
-      // animation: highlight-fade-out 2.5s;
+      background-color: #FEC813;
+      opacity: 0;
+      animation: highlight-fade-out 1.5s;
       z-index: 10;
     }
   }
@@ -33,5 +34,4 @@
       opacity: 0;
     }
   }
-
 }

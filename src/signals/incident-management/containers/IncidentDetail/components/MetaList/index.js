@@ -94,8 +94,14 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
           </span>)
           : ''}
 
-        <dt className="meta-list__definition">Verantwoordelijke afdeling</dt>
-        <dd className="meta-list__value">{incident.category.departments}</dd>
+        <Highlight
+          subscribeTo={incident.category.departments}
+        >
+          <dl>
+            <dt className="meta-list__definition">Verantwoordelijke afdeling</dt>
+            <dd className="meta-list__value">{incident.category.departments}</dd>
+          </dl>
+        </Highlight>
 
         <dt className="meta-list__definition">Bron</dt>
         <dd className="meta-list__value">{incident.source}</dd>
