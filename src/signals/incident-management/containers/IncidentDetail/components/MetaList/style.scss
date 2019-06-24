@@ -8,8 +8,12 @@
   }
 
   &__value {
-    @include avenirnextdemi();
     margin-bottom: 16px;
+
+    &--status {
+      @include avenirnextdemi();
+      color: $ams-rood;
+    }
   }
 
   &__edit {

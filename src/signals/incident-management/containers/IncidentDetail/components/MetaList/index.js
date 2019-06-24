@@ -33,7 +33,7 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
               <button className="meta-list__edit incident-detail__button--edit" onClick={onEditStatus} />
               Status
             </dt>
-            <dd className="meta-list__value">{incident.status.state_display}</dd>
+            <dd className="meta-list__value meta-list__value--status">{incident.status.state_display}</dd>
           </dl>
         </Highlight>
 
