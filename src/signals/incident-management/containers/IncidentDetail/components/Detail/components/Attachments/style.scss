@@ -16,10 +16,10 @@
     width: 75%;
     display: inline-block;
 
-    #mapdiv {
-      height: 100px !important;
-      width: 100px;
-    }
+    // #mapdiv {
+      // height: 80px !important;
+      // width: 80px;
+    // }
   }
 
   &__definition, &__value {
@@ -31,8 +31,8 @@
   &__image-button {
     padding: 0;
     cursor: pointer;
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     background-size: cover;
     margin-right: 10px;
   }

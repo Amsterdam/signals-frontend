@@ -40,7 +40,7 @@ describe('<Map />', () => {
       target: 'mapdiv',
       marker: true,
       search: false,
-      zoom: 16
+      zoom: '16'
     });
   });
 

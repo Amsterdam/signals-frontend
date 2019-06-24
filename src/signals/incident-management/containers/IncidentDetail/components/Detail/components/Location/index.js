@@ -19,7 +19,8 @@ const Location = ({ incident, stadsdeelList, onShowLocation, onEditLocation }) =
             value={incident.location}
             hideAttribution
             hideZoomControls
-            zoom="10"
+            useSmallMarker
+            zoom="15"
           />
         </button>
         {incident.location.address_text ?
