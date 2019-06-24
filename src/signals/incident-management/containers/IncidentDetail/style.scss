@@ -31,7 +31,6 @@
     text-decoration: none;
 
     &:hover {
-      background-color: $ams-lichtgrijs;
       border-color: $ams-zwart;
       color: $ams-zwart;
     }
@@ -53,14 +52,13 @@
       background-color: $ams-wit;
 
       &:hover {
-        background-color: $ams-lichtgrijs;
         border-color: $ams-zwart;
         color: $ams-zwart;
       }
 
       &:disabled {
         border-color: $ams-background-sidebars !important;
-        cursor: not-allowed;
+        cursor: default;
       }
     }
 
