@@ -24,12 +24,12 @@ function handleDownload(url, filename, accessToken) {
     });
 }
 
-const DownloadButton = ({ url, filename, accessToken }) => (
+const DownloadButton = ({ label, url, filename, accessToken }) => (
   <div className="download-button align-self-center">
     <button
-      className="incident-detail__button--download"
+      className="incident-detail__button"
       onClick={() => handleDownload(url, filename, accessToken)}
-    />
+    >{label}</button>
 
     <a
       href="#"
@@ -42,6 +42,7 @@ const DownloadButton = ({ url, filename, accessToken }) => (
 DownloadButton.propTypes = {
   url: PropTypes.string.isRequired,
   filename: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
   accessToken: PropTypes.string
 };
 

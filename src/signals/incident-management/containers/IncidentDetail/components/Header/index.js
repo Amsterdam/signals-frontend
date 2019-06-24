@@ -30,6 +30,7 @@ const Header = ({ incident, baseUrl, onThor, accessToken }) => {
             >THOR</button> : ''}
 
           <DownloadButton
+            label="PDF"
             url={downloadLink}
             filename={`SIA melding ${incident.id}.pdf`}
             accessToken={accessToken}
