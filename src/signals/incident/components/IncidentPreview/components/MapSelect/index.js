@@ -35,6 +35,7 @@ const MapSelectPreview = ({ label, value, endpoint, incident }) => {
             iconField="type_name"
             idField="objectnummer"
             value={value}
+            selectionOnly
           />
         </div>
       </div>
