@@ -66,13 +66,10 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
     });
   }
 
-  handleUseDefaultText(e, pk) {
+  handleUseDefaultText(e, text) {
     e.preventDefault();
 
-    const found = this.props.defaultTexts.find((item) => item.pk === pk);
-    if (found && found.text) {
-      this.form.get('text').patchValue(found.text);
-    }
+    this.form.get('text').patchValue(text);
   }
 
   render() {

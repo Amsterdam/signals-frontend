@@ -49,7 +49,7 @@ export function* requestAttachments(action) {
 }
 
 export function* requestDefaultTexts(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/public/terms/categories`;
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/terms/categories`;
   try {
     const payload = action.payload;
     const result = yield authCall(`${requestURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`);
