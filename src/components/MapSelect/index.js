@@ -32,7 +32,8 @@ class MapSelect extends React.Component {
       iconField,
       idField,
       zoomMin,
-      value
+      value,
+      selectionOnly
     } = this.props;
 
     this.map = amaps.createMap({
@@ -66,6 +67,13 @@ class MapSelect extends React.Component {
       fetchRequest,
     }, {
       zoomMin,
+
+      filter(feature) {
+        if (selectionOnly) {
+          return selection.has(feature.properties[idField]);
+        }
+        return true;
+      },
 
       pointToLayer(feature, latlng) {
         // istanbul ignore next
@@ -163,7 +171,8 @@ class MapSelect extends React.Component {
 
 MapSelect.defaultProps = {
   zoomMin: ZOOM_MIN,
-  value: []
+  value: [],
+  selectionOnly: false
 };
 
 MapSelect.propTypes = {
@@ -182,6 +191,7 @@ MapSelect.propTypes = {
   idField: PropTypes.string.isRequired,
   zoomMin: PropTypes.number,
   value: PropTypes.array,
+  selectionOnly: PropTypes.bool
 };
 
 export default MapSelect;
