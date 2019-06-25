@@ -448,6 +448,11 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                   "optional": true,
                   "render": [Function],
                 },
+                "extra_brug": Object {
+                  "label": "Naam brug",
+                  "optional": true,
+                  "render": [Function],
+                },
                 "extra_container_kind": Object {
                   "label": "Soort container",
                   "optional": true,
@@ -490,6 +495,11 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
                 "extra_klok_probleem": Object {
                   "label": "Probleem",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_onderhoud_stoep_straat_en_fietspad": Object {
+                  "label": "Soort wegdek",
                   "optional": true,
                   "render": [Function],
                 },

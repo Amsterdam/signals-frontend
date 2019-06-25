@@ -56,6 +56,18 @@ export default {
       }
     },
     vulaan: { // page route --> /incident/vulaan
+      extra_brug: {
+        label: 'Naam brug',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+
+      extra_onderhoud_stoep_straat_en_fietspad: {
+        label: 'Soort wegdek',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+
       extra_klok: { // actual incident field name
         label: 'Is de situatie gevaarlijk?',
         render: PreviewComponents.ObjectValue, // use value.label as plaintext,
