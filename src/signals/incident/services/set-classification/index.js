@@ -1,6 +1,9 @@
-const MINIMUM_CERTAINTY = 0.40;
+import CONFIGURATION from 'shared/services/configuration/configuration';
+
+export const MINIMUM_CERTAINTY = 0.41;
 const DEFAULT_CATEGORY = 'overig';
-const categoryServerUri = 'https://api.data.amsterdam.nl/signals/v1/public/terms/categories/';
+
+const categoryServerUri = `${CONFIGURATION.API_ROOT}signals/v1/public/terms/categories/`;
 const DEFAULT_CATEGORY_LINK = `${categoryServerUri}${DEFAULT_CATEGORY}/sub_categories/${DEFAULT_CATEGORY}`;
 
 const setClassification = (result, subcategories) => {
