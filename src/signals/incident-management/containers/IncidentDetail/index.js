@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
 import isEqual from 'lodash.isequal';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
@@ -131,12 +130,6 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
         <SplitNotificationBar data={split} onClose={this.onDismissSplitNotification} />
         {loading ? <LoadingIndicator /> : (
           <div>
-            <div className="row">
-              <div className="col-12">
-                <Link to={`${this.props.baseUrl}/incidents`} className="startagain action" >Terug naar overzicht</Link>
-              </div>
-            </div>
-
             {incident ?
               <Header
                 incident={incident}

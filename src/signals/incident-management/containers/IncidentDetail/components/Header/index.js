@@ -15,6 +15,10 @@ const Header = ({ incident, baseUrl, onThor, accessToken }) => {
   return (
     <header className="header">
       <div className="row">
+        <div className="col-12">
+          <Link to={`${baseUrl}/incidents`} className="startagain action" >Terug naar overzicht</Link>
+        </div>
+
         <div className="col-6 header__title align-self-center">Melding {incident.id}</div>
         <div className="col-6 header__buttons d-flex justify-content-end">
           {canSplit ?
