@@ -4,6 +4,8 @@ import overlastOpenbareRuimte from './overlast-in-openbare-ruimte'; // eslint-di
 import overlastWater from './overlast-op-het-water'; // eslint-disable-line no-unused-vars
 import overlastDieren from './overlast-van-dieren'; // eslint-disable-line no-unused-vars
 // import overlastPersonen from './overlast-van-en-door-personen-of-groepen';
+import brug from './brug'; // eslint-disable-line no-unused-vars
+import gladheid from './gladheid'; // eslint-disable-line no-unused-vars
 import klok from './klok'; // eslint-disable-line no-unused-vars
 import verkeerslicht from './verkeerslicht'; // eslint-disable-line no-unused-vars
 import straatverlichting from './straatverlichting'; // eslint-disable-line no-unused-vars
@@ -49,7 +51,9 @@ export default {
   // ...overlastPersonen,
 
   // wegen-verkeer-straatmeulilair:
+  ...brug,
+  // ...gladheid,
   // ...klok,
   // ...verkeerslicht,
-  ...straatverlichting
+  // ...straatverlichting
 };
