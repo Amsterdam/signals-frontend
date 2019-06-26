@@ -1,0 +1,23 @@
+@import "config.scss";
+
+.attachment-viewer {
+  position: relative;
+  text-align: center;
+
+  &__attachment {
+    max-height: 722px;
+    width: 100%;
+  }
+
+  &__button-previous {
+    position: absolute;
+    left: 10px;
+    top: calc(50% - 16px);
+  }
+
+  &__button-next {
+    position: absolute;
+    right: 10px;
+    top: calc(50% - 16px);
+  }
+}

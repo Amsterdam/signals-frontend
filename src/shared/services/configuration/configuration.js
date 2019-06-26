@@ -4,6 +4,9 @@ const domainName = 'meldingen.amsterdam.nl';
 const apiDomainName = 'api.data.amsterdam.nl';
 const mapserverDomainName = 'map.data.amsterdam.nl';
 
+export const OVL_KLOKKEN_LAYER = 'maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Klokken&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326';
+export const OVL_VERLICHTING_LAYER = 'maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Verlichting&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326';
+
 export class Configuration {
   constructor(host) {
     this.hostname = host || (window && window.location && window.location.hostname);

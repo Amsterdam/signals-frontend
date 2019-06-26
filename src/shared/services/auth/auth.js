@@ -23,7 +23,7 @@ const ERROR_MESSAGES = {
 // success
 const AUTH_PARAMS = ['access_token', 'token_type', 'expires_in', 'state'];
 
-// All the scopes this City Daty frontend needs for communication with
+// All the userScopes this City Daty frontend needs for communication with
 // the backend APIs
 const scopes = [
   // Signals
@@ -57,7 +57,7 @@ const RETURN_PATH = 'returnPath';
 // our app state), which is a random string
 const STATE_TOKEN = 'stateToken';
 // The access token returned by the OAuth2 authorization service
-// containing user scopes and name
+// containing user userScopes and name
 const ACCESS_TOKEN = 'accessToken';
 
 const OAUTH_DOMAIN = 'oauthDomain';

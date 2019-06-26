@@ -28,6 +28,7 @@ export const initialState = fromJS({
   loading: false,
   error: false,
   upload: {},
+  userPermissions: [],
   categories: {
     main: [],
     sub: []
@@ -40,6 +41,7 @@ function appReducer(state = initialState, action) {
       return state
         .set('userName', action.payload.userName)
         .set('userScopes', fromJS(action.payload.userScopes))
+        .set('userPermissions', fromJS(action.payload.userPermissions))
         .set('accessToken', action.payload.accessToken);
 
     case SHOW_GLOBAL_ERROR:

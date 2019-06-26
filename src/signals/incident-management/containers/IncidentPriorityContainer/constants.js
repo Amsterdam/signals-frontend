@@ -1,3 +1,0 @@
-export const REQUEST_PRIORITY_UPDATE = 'sia/IncidentPriorityContainer/REQUEST_PRIORITY_UPDATE';
-export const REQUEST_PRIORITY_UPDATE_SUCCESS = 'sia/IncidentPriorityContainer/REQUEST_PRIORITY_UPDATE_SUCCESS';
-export const REQUEST_PRIORITY_UPDATE_ERROR = 'sia/IncidentPriorityContainer/REQUEST_PRIORITY_UPDATE_ERROR';

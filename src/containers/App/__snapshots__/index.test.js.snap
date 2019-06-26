@@ -108,7 +108,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
         }
       >
         <div
-          className="container app-container"
+          className="app-container container-fluid"
         >
           <Connect(GlobalError)>
             <GlobalError
@@ -247,6 +247,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
             <Connect(MainMenu)>
               <MainMenu
                 isAuthenticated={false}
+                permissions={Array []}
                 resetIncident={[Function]}
               >
                 <div
@@ -262,13 +263,15 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                         <li>
                           <NavLink
                             activeClassName="active"
+                            aria-current="page"
                             onClick={[Function]}
                             to="/"
                           >
                             <Route
-                              path="/"
+                              path="\\\\/"
                             >
                               <Link
+                                aria-current="page"
                                 className="active"
                                 onClick={[Function]}
                                 replace={false}
@@ -276,6 +279,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                 to="/"
                               >
                                 <a
+                                  aria-current="page"
                                   className="active"
                                   href="/"
                                   onClick={[Function]}
@@ -299,7 +303,7 @@ exports[`<App /> routing can navigate to kto form 1`] = `
             </Connect(MainMenu)>
           </div>
           <div
-            className="content"
+            className="container content"
           >
             <Switch>
               <Route

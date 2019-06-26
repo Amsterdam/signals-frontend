@@ -29,8 +29,7 @@ export function* authCall(url, params, authorizationToken) {
     method: 'GET',
     headers
   };
-
-  const fullUrl = `${url}${params ? `/?${generateParams(params)}` : ''}`;
+  const fullUrl = `${url}${params ? `?${generateParams(params)}` : ''}`;
   return yield call(request, fullUrl, options);
 }
 
@@ -56,6 +55,10 @@ export function* authCallWithPayload(url, params, method) {
 
 export function* authPostCall(url, params) {
   return yield call(authCallWithPayload, url, params, 'POST');
+}
+
+export function* authDeleteCall(url, params) {
+  return yield call(authCallWithPayload, url, params, 'DELETE');
 }
 
 export function* authPatchCall(url, params) {

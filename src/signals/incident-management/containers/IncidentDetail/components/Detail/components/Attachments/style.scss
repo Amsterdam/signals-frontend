@@ -1,0 +1,40 @@
+@import "config.scss";
+
+.attachments {
+  dl {
+    margin: 0;
+  }
+
+  &__definition {
+    font-weight: normal;
+    width: 25%;
+    display: inline-block;
+    color: $ams-donkergrijs;
+  }
+
+  &__value{
+    width: 75%;
+    display: inline-block;
+
+    // #mapdiv {
+      // height: 80px !important;
+      // width: 80px;
+    // }
+  }
+
+  &__definition, &__value {
+    margin: 0;
+    vertical-align: top;
+    padding: 9px 0;
+  }
+
+  &__image-button {
+    padding: 0;
+    cursor: pointer;
+    width: 80px;
+    height: 80px;
+    background-size: cover;
+    margin-right: 10px;
+  }
+
+}

@@ -7,7 +7,7 @@ import { createStructuredSelector } from 'reselect';
 import { NavLink } from 'react-router-dom';
 
 import './style.scss';
-import { makeSelectIsAuthenticated } from '../../containers/App/selectors';
+import { makeSelectIsAuthenticated, makeSelectUserPermissions } from '../../containers/App/selectors';
 import { resetIncident } from '../../signals/incident/containers/IncidentContainer/actions';
 
 export class MainMenu extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -24,6 +24,7 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
   }
 
   render() {
+    const { permissions } = this.props;
     return (
       <div className="row main-menu-component no-print">
         <div className="container type-nav-primair">
@@ -45,9 +46,16 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
                   </NavLink>
                 </li> : ''
               }
-
-              {/* TEMP removed to test in PROD
-                this.props.isAuthenticated ?
+              {permissions.includes('signals.sia_statusmessagetemplate_write') ?
+                <li>
+                  <NavLink to="/manage/standaard/teksten">
+                    <span className="linklabel">
+                      Beheer standaard teksten
+                    </span>
+                  </NavLink>
+                </li> : ''
+              }
+              {/* this.props.isAuthenticated ?
                 <li>
                   <NavLink to="/manage/dashboard">
                     <span className="linklabel">
@@ -64,13 +72,19 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
   }
 }
 
+MainMenu.defaultProps = {
+  permissions: []
+};
+
 MainMenu.propTypes = {
   isAuthenticated: PropTypes.bool,
+  permissions: PropTypes.array,
   resetIncident: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
-  isAuthenticated: makeSelectIsAuthenticated()
+  isAuthenticated: makeSelectIsAuthenticated(),
+  permissions: makeSelectUserPermissions()
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({

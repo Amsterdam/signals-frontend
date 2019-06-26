@@ -2,12 +2,13 @@
 
 .split-detail {
   &__definition {
-    color: $ams-donkergrijs;
+    @include avenirnext();
+    font-weight: normal;
+    color: $ams-donkergrijs !important;
     margin-bottom: 5px;
   }
 
   &__value {
-    @include avenirnextdemi();
     margin-bottom: 16px;
   }
 }

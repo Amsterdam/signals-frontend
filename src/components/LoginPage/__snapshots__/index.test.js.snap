@@ -2,10 +2,10 @@
 
 exports[`<LoginPage /> should render correctly 1`] = `
 <div
-  className="container"
+  className="login-page"
 >
   <div
-    className="login-page notification notification-red margin-top-bottom"
+    className="notification notification-red margin-top-bottom"
   >
     <div
       className="col-12"

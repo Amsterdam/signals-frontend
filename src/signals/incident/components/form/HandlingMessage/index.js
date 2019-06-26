@@ -7,12 +7,15 @@ import './style.scss';
 
 function renderText(key, name, parent) {
   const replacedValue = get(parent, `meta.incidentContainer.${key}`);
-  return replacedValue.split('\n\n').map((item, k) => (
-    <div
-      key={`${name}-${k + 1}`}
-      className="plain-text__box-p"
-    >{item}
-    </div>));
+  if (replacedValue) {
+    return replacedValue.split('\n\n').map((item, k) => (
+      <div
+        key={`${name}-${k + 1}`}
+        className="plain-text__box-p"
+      >{item}
+      </div>));
+  }
+  return <div>We gaan zo snel mogelijk aan de slag.</div>;
 }
 
 const HandlingMessage = ({ meta, parent }) => (

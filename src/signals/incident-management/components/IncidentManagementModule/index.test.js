@@ -8,7 +8,7 @@ import { IncidentManagementModule } from './index';
 import configureStore from '../../../../configureStore';
 
 jest.mock('../../containers/IncidentOverviewPage', () => () => 'IncidentOverviewPage');
-jest.mock('../../containers/IncidentDetailPage', () => () => 'IncidentDetailPage');
+jest.mock('../../containers/IncidentDetail', () => () => 'IncidentDetail');
 jest.mock('../../containers/IncidentSplitContainer', () => () => 'IncidentSplitContainer');
 
 describe('<IncidentManagementModule />', () => {

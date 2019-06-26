@@ -1,0 +1,12 @@
+@import "config.scss";
+
+.history {
+  &__item {
+      margin-bottom: 27px;
+      line-height: 22px;
+
+      &-left {
+      color: $ams-donkergrijs;
+    }
+  }
+}

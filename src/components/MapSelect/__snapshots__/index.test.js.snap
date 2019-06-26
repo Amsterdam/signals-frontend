@@ -2,13 +2,14 @@
 
 exports[`<MapSelect /> should render correctly 1`] = `
 <div
-  className="map-component"
+  className="map-component write"
 >
   <div
     className="map"
   >
     <div
-      id="mapdiv"
+      className="map-container"
+      id="mapSelect"
     />
   </div>
 </div>

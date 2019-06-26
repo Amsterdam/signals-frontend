@@ -20,7 +20,7 @@ import mapControlsToParams from '../../services/map-controls-to-params';
 import setClassification from '../../services/set-classification';
 
 export function* getClassification(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals_mltool/predict`;
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/category/prediction`;
   try {
     const result = yield call(request, requestURL, {
       method: 'POST',

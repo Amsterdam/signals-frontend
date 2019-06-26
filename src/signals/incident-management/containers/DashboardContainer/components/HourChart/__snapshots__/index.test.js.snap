@@ -18,16 +18,18 @@ exports[`<HourChart /> should render correctly 1`] = `
       viewBox="0 0 582 400"
       width="582"
     >
-      <clipPath
-        id="recharts2-clip"
-      >
-        <rect
-          height="340"
-          width="542"
-          x="20"
-          y="30"
-        />
-      </clipPath>
+      <defs>
+        <clipPath
+          id="recharts2-clip"
+        >
+          <rect
+            height="340"
+            width="542"
+            x="20"
+            y="30"
+          />
+        </clipPath>
+      </defs>
       <g
         class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
       >

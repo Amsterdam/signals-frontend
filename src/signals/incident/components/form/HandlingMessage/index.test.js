@@ -34,13 +34,19 @@ describe('Form component <HandlingMessage />', () => {
     });
 
     it('should render empty correctly with no handling message', () => {
+      const emptyIncidentContainer = {
+        incident: {
+        }
+      };
+
       wrapper.setProps({
         meta: {
+          key: 'incident.handling_message',
           isVisible: true
         },
         parent: {
           meta: {
-            incidentContainer
+            emptyIncidentContainer
           }
         }
       });
