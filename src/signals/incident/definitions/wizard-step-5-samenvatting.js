@@ -281,7 +281,7 @@ export default {
 
     telefoon: {
       phone: {
-        label: 'Uw (mobiele) telefoon',
+        label: 'Uw telefoonnummer',
         render: PreviewComponents.PlainText
       }
     },

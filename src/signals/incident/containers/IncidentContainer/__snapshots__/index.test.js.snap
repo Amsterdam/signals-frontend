@@ -378,7 +378,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
               "telefoon": Object {
                 "phone": Object {
-                  "label": "Uw (mobiele) telefoon",
+                  "label": "Uw telefoonnummer",
                   "render": [Function],
                 },
               },
