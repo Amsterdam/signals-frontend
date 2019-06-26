@@ -32,11 +32,11 @@ export default {
         authenticated: true
       },
       location: {
-        label: 'Hier is het',
+        label: 'Locatie',
         render: PreviewComponents.Map
       },
       description: {
-        label: 'Hier gaat het om',
+        label: 'Beschrijving',
         render: PreviewComponents.PlainText
       },
       datetime: {
@@ -47,12 +47,6 @@ export default {
         label: 'Foto',
         render: PreviewComponents.Image,
         optional: true
-      }
-    },
-    telefoon: {
-      phone: {
-        label: 'Uw (mobiele) telefoon',
-        render: PreviewComponents.PlainText
       }
     },
     vulaan: { // page route --> /incident/vulaan
@@ -283,6 +277,13 @@ export default {
         optional: true
       },
 
+    },
+
+    telefoon: {
+      phone: {
+        label: 'Uw telefoonnummer',
+        render: PreviewComponents.PlainText
+      }
     },
     email: {
       email: {
