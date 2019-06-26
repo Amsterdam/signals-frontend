@@ -37,7 +37,7 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
           </dl>
         </Highlight>
 
-        <Highlight
+        { incident.priority && <Highlight
           subscribeTo={incident.priority.priority}
         >
           <ChangeValue
@@ -50,7 +50,7 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
             type="priority"
             onPatchIncident={onPatchIncident}
           />
-        </Highlight>
+        </Highlight> }
 
         <Highlight
           subscribeTo={incident.category.sub_slug}
