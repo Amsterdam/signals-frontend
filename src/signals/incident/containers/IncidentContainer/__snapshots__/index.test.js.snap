@@ -347,7 +347,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                   "render": [Function],
                 },
                 "description": Object {
-                  "label": "Hier gaat het om",
+                  "label": "Beschrijving",
                   "render": [Function],
                 },
                 "images_previews": Object {
@@ -356,7 +356,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                   "render": [Function],
                 },
                 "location": Object {
-                  "label": "Hier is het",
+                  "label": "Locatie",
                   "render": [Function],
                 },
                 "priority": Object {
@@ -378,7 +378,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
               },
               "telefoon": Object {
                 "phone": Object {
-                  "label": "Uw (mobiele) telefoon",
+                  "label": "Uw telefoonnummer",
                   "render": [Function],
                 },
               },
