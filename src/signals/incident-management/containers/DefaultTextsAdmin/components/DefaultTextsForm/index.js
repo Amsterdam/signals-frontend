@@ -108,9 +108,9 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
     this.form.updateValueAndValidity();
   }
 
-  changeOrdering(e, order, type) {
+  changeOrdering(e, index, type) {
     e.preventDefault();
-    this.props.onOrderDefaultTexts({ order, type });
+    this.props.onOrderDefaultTexts({ index, type });
     this.form.updateValueAndValidity();
   }
 
@@ -154,12 +154,12 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
                     <button
                       disabled={index === 0 || !this.form.get(`item${index + 1}.text`).value}
                       className="default-texts-form__order-button default-texts-form__order-button--up"
-                      onClick={(e) => this.changeOrdering(e, this.form.get(`item${index + 1}.order`).value, 'up')}
+                      onClick={(e) => this.changeOrdering(e, index, 'up')}
                     />
                     <button
                       disabled={index === this.texts.length - 1 || !this.form.get(`item${index + 2}.text`).value}
                       className="default-texts-form__order-button default-texts-form__order-button--down"
-                      onClick={(e) => this.changeOrdering(e, this.form.get(`item${index + 1}.order`).value, 'down')}
+                      onClick={(e) => this.changeOrdering(e, index, 'down')}
                     />
                   </div>
                 </div>

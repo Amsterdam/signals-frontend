@@ -8,8 +8,6 @@ import {
   ORDER_DEFAULT_TEXTS, SAVE_DEFAULT_TEXTS_ITEM
 } from './constants';
 
-import { renumberOrder, sortByOrder } from './services/ordering-utils';
-
 export const initialState = fromJS({
   defaultTexts: [],
   loading: false,
@@ -20,8 +18,8 @@ export const initialState = fromJS({
 
 function defaultTextsAdminReducer(state = initialState, action) {
   let defaultTexts;
-  let delta;
   let result;
+  let delta;
 
   switch (action.type) {
     case FETCH_DEFAULT_TEXTS:
@@ -60,10 +58,11 @@ function defaultTextsAdminReducer(state = initialState, action) {
 
     case ORDER_DEFAULT_TEXTS:
       defaultTexts = state.get('defaultTexts').toJS();
-      delta = action.payload.type === 'up' ? -15 : 15;
-      result = defaultTexts.map((item) => ({ ...item, order: (item.order === action.payload.order ? item.order + delta : item.order) }));
+      delta = action.payload.type === 'up' ? -1 : 1;
+      defaultTexts.splice(action.payload.index + delta, 0, defaultTexts.splice(action.payload.index, 1)[0]);
+      result = [...defaultTexts];
       return state
-        .set('defaultTexts', fromJS(renumberOrder(sortByOrder(result))));
+        .set('defaultTexts', fromJS(result));
 
     case SAVE_DEFAULT_TEXTS_ITEM:
       defaultTexts = state.get('defaultTexts').toJS();
