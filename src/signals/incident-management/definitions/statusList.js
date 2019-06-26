@@ -41,6 +41,7 @@ const GEANNULEERD = {
 const HEROPEND = {
   key: 'reopened',
   value: 'Heropend',
+  warning: 'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding.',
   color: 'orange'
 };
 const TE_VERZENDEN = {
