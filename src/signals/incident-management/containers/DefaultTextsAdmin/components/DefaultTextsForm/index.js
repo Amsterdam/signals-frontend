@@ -46,18 +46,6 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
     this.changeOrdering = this.changeOrdering.bind(this);
   }
 
-  componentDidMount() {
-    // this.texts.forEach((key, index) => {
-      // this.form.get(`item${index + 1}`).valueChanges.subscribe(() => {
-        //
-        // this.props.onSaveDefaultTexts(this.form.get(`item${index + 1}`).value);
-        // this.form.updateValueAndValidity();
-      // });
-    // });
-
-    this.form.updateValueAndValidity();
-  }
-
   componentDidUpdate(prevProps) {
     const newValue = {};
     if (!isEqual(prevProps.defaultTexts, this.props.defaultTexts)) {
@@ -195,7 +183,6 @@ DefaultTextsForm.propTypes = {
 
   onSubmitTexts: PropTypes.func,
   onOrderDefaultTexts: PropTypes.func
-  // onSaveDefaultTexts: PropTypes.func
 };
 
 export default DefaultTextsForm;

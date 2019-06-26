@@ -5,7 +5,7 @@ import { defaultTextsOptionList } from 'signals/incident-management/definitions/
 import {
   FETCH_DEFAULT_TEXTS, FETCH_DEFAULT_TEXTS_SUCCESS, FETCH_DEFAULT_TEXTS_ERROR,
   STORE_DEFAULT_TEXTS, STORE_DEFAULT_TEXTS_SUCCESS, STORE_DEFAULT_TEXTS_ERROR,
-  ORDER_DEFAULT_TEXTS, SAVE_DEFAULT_TEXTS_ITEM
+  ORDER_DEFAULT_TEXTS
 } from './constants';
 
 export const initialState = fromJS({
@@ -63,15 +63,6 @@ function defaultTextsAdminReducer(state = initialState, action) {
       result = [...defaultTexts];
       return state
         .set('defaultTexts', fromJS(result));
-
-    case SAVE_DEFAULT_TEXTS_ITEM:
-      defaultTexts = state.get('defaultTexts').toJS();
-      return state
-        .set('defaultTexts', fromJS(defaultTexts.map((item) => ({
-          ...item,
-          title: item.order === action.payload.order ? action.payload.title : item.title,
-          text: item.order === action.payload.order ? action.payload.text : item.text
-        }))));
 
     default:
       return state;
