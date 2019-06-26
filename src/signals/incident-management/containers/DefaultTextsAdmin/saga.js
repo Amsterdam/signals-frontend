@@ -1,40 +1,30 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { authCall, authPostCall, authPatchCall } from 'shared/services/api/api';
+import { authCall, authPostCall } from 'shared/services/api/api';
 
 import { FETCH_DEFAULT_TEXTS, STORE_DEFAULT_TEXTS } from './constants';
 import { fetchDefaultTextsSuccess, fetchDefaultTextsError, storeDefaultTextsSuccess, storeDefaultTextsError } from './actions';
 
-import { renumberOrder, sortByOrder, addTrailingItems } from './services/ordering-utils';
-
 export function* fetchDefaultTexts(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/public/terms/categories`;
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/terms/categories`;
   try {
-    // yield authDeleteCall(`${CONFIGURATION.API_ROOT}signals/v1/public/terms/categories`);
     const payload = action.payload;
-    const options = payload.state ? { state: payload.state } : undefined;
-    const result = yield authCall(`${requestURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`, options);
-    yield put(fetchDefaultTextsSuccess(addTrailingItems(renumberOrder(sortByOrder(result)))));
+    const result = yield authCall(`${requestURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`);
+    const found = result.find((item) => item.state === payload.state);
+    yield put(fetchDefaultTextsSuccess((found && found.templates) || []));
   } catch (error) {
     yield put(fetchDefaultTextsError(error));
   }
 }
 
 export function* storeDefaultTexts(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/status-message-templates/`;
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/terms/categories`;
   try {
-    let posts = [];
-    let patches = [];
     const payload = action.payload;
-    if (payload.post && payload.post.length) {
-      posts = yield authPostCall(requestURL, payload.post);
-    }
-
-    if (payload.patch && payload.patch.length) {
-      patches = yield authPatchCall(requestURL, payload.patch);
-    }
-    yield put(storeDefaultTextsSuccess(addTrailingItems([...posts, ...patches])));
+    const result = yield authPostCall(`${requestURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`, [payload.post]);
+    const found = result.find((item) => item.state === payload.post.state);
+    yield put(storeDefaultTextsSuccess((found && found.templates) || []));
   } catch (error) {
     yield put(storeDefaultTextsError(error));
   }

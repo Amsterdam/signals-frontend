@@ -25,7 +25,7 @@ class SelectForm extends React.Component { // eslint-disable-line react/prefer-s
 
   componentDidMount() {
     this.form.controls.category_url.valueChanges.subscribe((category_url) => {
-      const found = this.props.categories.sub.find((sub) => sub.key === category_url);
+      const found = this.props.subCategories.find((sub) => sub.key === category_url);
       if (found && found.slug && found.category_slug) {
         this.form.patchValue({
           sub_slug: found.slug,
@@ -57,7 +57,7 @@ class SelectForm extends React.Component { // eslint-disable-line react/prefer-s
   }
 
   render() {
-    const { categories, statusList } = this.props;
+    const { subCategories, statusList } = this.props;
     return (
       <div className="select-form">
         <FieldGroup
@@ -68,7 +68,7 @@ class SelectForm extends React.Component { // eslint-disable-line react/prefer-s
                 display="Subcategorie"
                 render={SelectInput}
                 name="category_url"
-                values={categories.sub}
+                values={subCategories}
                 control={this.form.get('category_url')}
                 emptyOptionText="Kies"
                 sort
@@ -102,14 +102,14 @@ class SelectForm extends React.Component { // eslint-disable-line react/prefer-s
 }
 
 SelectForm.defaultProps = {
-  categories: {},
+  subCategories: [],
   stateList: [],
 
   onFetchDefaultTexts: () => {}
 };
 
 SelectForm.propTypes = {
-  categories: PropTypes.object,
+  subCategories: PropTypes.array,
   statusList: PropTypes.array,
 
   onFetchDefaultTexts: PropTypes.func
