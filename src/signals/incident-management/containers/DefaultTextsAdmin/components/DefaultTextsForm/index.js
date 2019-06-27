@@ -13,6 +13,10 @@ import './style.scss';
 
 class DefaultTextsForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   form = FormBuilder.group({ // eslint-disable-line react/sort-comp
+    item0: FormBuilder.group({
+      title: [''],
+      text: [''],
+    }),
     item1: FormBuilder.group({
       title: [''],
       text: [''],
@@ -29,10 +33,6 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
       title: [''],
       text: [''],
     }),
-    item5: FormBuilder.group({
-      title: [''],
-      text: [''],
-    }),
     categoryUrl: ['', Validators.required],
     state: ['', Validators.required]
   });
@@ -46,13 +46,21 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
     this.changeOrdering = this.changeOrdering.bind(this);
   }
 
+  componentDidMount() {
+    // this.texts.forEach((key, index) => {
+      // this.form.get(`item${index}`).valueChanges.subscribe((data) => {
+        // console.log('data', data, );
+      // });
+    // });
+  }
+
   componentDidUpdate(prevProps) {
     const newValue = {};
     if (!isEqual(prevProps.defaultTexts, this.props.defaultTexts)) {
       this.texts.forEach((key, index) => {
         const empty = { title: '', text: '' };
         const data = this.props.defaultTexts[index] || {};
-        this.form.get(`item${index + 1}`).patchValue({ ...empty, ...data });
+        this.form.get(`item${index}`).patchValue({ ...empty, ...data });
       });
     }
 
@@ -84,7 +92,7 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
       payload.main_slug = found.category_slug;
 
       this.texts.forEach((key, index) => {
-        const item = this.form.get(`item${index + 1}`).value;
+        const item = this.form.get(`item${index}`).value;
         if (item.text && item.title) {
           payload.post.templates.push({ ...item });
         }
@@ -128,24 +136,24 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
                       placeholder="Titel"
                       render={TextInput}
                       name={`title${key}`}
-                      control={this.form.get(`item${index + 1}.title`)}
+                      control={this.form.get(`item${index}.title`)}
                     />
 
                     <FieldControlWrapper
                       placeholder="Tekst"
                       render={TextAreaInput}
                       name={`text${key}`}
-                      control={this.form.get(`item${index + 1}.text`)}
+                      control={this.form.get(`item${index}.text`)}
                     />
                   </div>
                   <div className="col-2 default-texts-form__actions">
                     <button
-                      disabled={index === 0 || !this.form.get(`item${index + 1}.text`).value}
+                      disabled={index === 0 || !this.form.get(`item${index}.text`).value}
                       className="default-texts-form__order-button default-texts-form__order-button--up"
                       onClick={(e) => this.changeOrdering(e, index, 'up')}
                     />
                     <button
-                      disabled={index === this.texts.length - 1 || !this.form.get(`item${index + 2}.text`).value}
+                      disabled={index === this.texts.length - 1 || !this.form.get(`item${index + 1}.text`).value}
                       className="default-texts-form__order-button default-texts-form__order-button--down"
                       onClick={(e) => this.changeOrdering(e, index, 'down')}
                     />
