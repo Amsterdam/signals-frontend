@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
+import { FormattedMessage } from 'react-intl';
 
 import { NavLink } from 'react-router-dom';
 
@@ -33,36 +34,45 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
               <li>
                 <NavLink to="/" onClick={this.resetIncident}>
                   <span className="linklabel">
-                    Nieuwe melding
+                    <FormattedMessage
+                      id="menu.new_melding"
+                      description="Top navigation new melding label"
+                    />
                   </span>
                 </NavLink>
               </li>
-              {this.props.isAuthenticated ?
+              {this.props.isAuthenticated &&
                 <li>
                   <NavLink to="/manage/incidents">
                     <span className="linklabel">
-                      Afhandelen
+                      <FormattedMessage
+                        id="menu.afhandelen"
+                        description="Top navigation afhandelen link label"
+                      />
                     </span>
                   </NavLink>
-                </li> : ''
+                </li>
               }
-              {permissions.includes('signals.sia_statusmessagetemplate_write') ?
+              {permissions.includes('signals.sia_statusmessagetemplate_write') &&
                 <li>
                   <NavLink to="/manage/standaard/teksten">
                     <span className="linklabel">
-                      Beheer standaard teksten
+                      <FormattedMessage
+                        id="menu.manage_standaard_teksten"
+                        description="Top navigation manage default responsenses link label"
+                      />
                     </span>
                   </NavLink>
-                </li> : ''
+                </li>
               }
-              {/* this.props.isAuthenticated ?
+              {/* this.props.isAuthenticated &&
                 <li>
                   <NavLink to="/manage/dashboard">
                     <span className="linklabel">
                       Dashboard [beta]
                     </span>
                   </NavLink>
-                </li> : ''
+                </li>
               */}
             </ul>
           </nav>
