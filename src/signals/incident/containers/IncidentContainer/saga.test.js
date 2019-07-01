@@ -123,7 +123,7 @@ describe('IncidentContainer saga', () => {
 
     it('should success with logged in', () => {
       payload.isAuthenticated = true;
-      payload.incident.priority = 'high';
+      payload.incident.priority = { id: 'high', label: 'Hoog' };
       gen = createIncident({ payload });
 
       expect(gen.next().value).toEqual(call(request, 'https://acc.api.data.amsterdam.nl/signals/signal/', {
@@ -160,7 +160,7 @@ describe('setPriority', () => {
   let gen;
 
   beforeEach(() => {
-    payload = { priority: 'normal' };
+    payload = { priority: { id: 'normal', label: 'Normaal' } };
     gen = setPriorityHandler({ payload });
   });
 
