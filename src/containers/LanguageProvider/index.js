@@ -15,7 +15,7 @@ import { IntlProvider } from 'react-intl';
 import { makeSelectLocale } from './selectors';
 
 
-const LanguageProvider = ({ messages, locale, children }) => {
+export const LanguageProvider = ({ messages, locale, children }) => {
   console.log(messages);
   return (
     <IntlProvider locale={locale} key={locale} messages={messages[locale]} defaultLocale="nl">

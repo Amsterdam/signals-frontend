@@ -21,7 +21,12 @@ exports[`<MainMenu /> rendering should render Nieuwe Melding NavLink component w
             <span
               className="linklabel"
             >
-              Nieuwe melding
+              <FormattedMessage
+                defaultMessage="Nieuwe melding"
+                description="Top navigation new melding label"
+                id="menu.new_melding"
+                values={Object {}}
+              />
             </span>
           </NavLink>
         </li>
@@ -52,7 +57,12 @@ exports[`<MainMenu /> rendering should render Nieuwe Melding and Afhandelen NavL
             <span
               className="linklabel"
             >
-              Nieuwe melding
+              <FormattedMessage
+                defaultMessage="Nieuwe melding"
+                description="Top navigation new melding label"
+                id="menu.new_melding"
+                values={Object {}}
+              />
             </span>
           </NavLink>
         </li>
@@ -65,7 +75,12 @@ exports[`<MainMenu /> rendering should render Nieuwe Melding and Afhandelen NavL
             <span
               className="linklabel"
             >
-              Afhandelen
+              <FormattedMessage
+                defaultMessage="Afhandelen"
+                description="Top navigation afhandelen link label"
+                id="menu.afhandelen"
+                values={Object {}}
+              />
             </span>
           </NavLink>
         </li>
@@ -96,7 +111,12 @@ exports[`<MainMenu /> rendering should render Nieuwe Melding and Afhandelen NavL
             <span
               className="linklabel"
             >
-              Nieuwe melding
+              <FormattedMessage
+                defaultMessage="Nieuwe melding"
+                description="Top navigation new melding label"
+                id="menu.new_melding"
+                values={Object {}}
+              />
             </span>
           </NavLink>
         </li>
@@ -109,7 +129,12 @@ exports[`<MainMenu /> rendering should render Nieuwe Melding and Afhandelen NavL
             <span
               className="linklabel"
             >
-              Afhandelen
+              <FormattedMessage
+                defaultMessage="Afhandelen"
+                description="Top navigation afhandelen link label"
+                id="menu.afhandelen"
+                values={Object {}}
+              />
             </span>
           </NavLink>
         </li>
@@ -140,7 +165,12 @@ exports[`<MainMenu /> rendering should render Nieuwe Melding and Afhandelen and 
             <span
               className="linklabel"
             >
-              Nieuwe melding
+              <FormattedMessage
+                defaultMessage="Nieuwe melding"
+                description="Top navigation new melding label"
+                id="menu.new_melding"
+                values={Object {}}
+              />
             </span>
           </NavLink>
         </li>
@@ -153,7 +183,12 @@ exports[`<MainMenu /> rendering should render Nieuwe Melding and Afhandelen and 
             <span
               className="linklabel"
             >
-              Afhandelen
+              <FormattedMessage
+                defaultMessage="Afhandelen"
+                description="Top navigation afhandelen link label"
+                id="menu.afhandelen"
+                values={Object {}}
+              />
             </span>
           </NavLink>
         </li>
@@ -166,7 +201,12 @@ exports[`<MainMenu /> rendering should render Nieuwe Melding and Afhandelen and 
             <span
               className="linklabel"
             >
-              Beheer standaard teksten
+              <FormattedMessage
+                defaultMessage="Beheer standaard teksten"
+                description="Top navigation manage default responsenses link label"
+                id="menu.manage_standaard_teksten"
+                values={Object {}}
+              />
             </span>
           </NavLink>
         </li>

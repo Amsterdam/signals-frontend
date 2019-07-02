@@ -10,6 +10,7 @@ import { NavLink } from 'react-router-dom';
 import './style.scss';
 import { makeSelectIsAuthenticated, makeSelectUserPermissions } from '../../containers/App/selectors';
 import { resetIncident } from '../../signals/incident/containers/IncidentContainer/actions';
+import messages from './messages';
 
 export class MainMenu extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -34,10 +35,7 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
               <li>
                 <NavLink to="/" onClick={this.resetIncident}>
                   <span className="linklabel">
-                    <FormattedMessage
-                      id="menu.new_melding"
-                      description="Top navigation new melding label"
-                    />
+                    <FormattedMessage {...messages.new_melding} />
                   </span>
                 </NavLink>
               </li>
@@ -45,10 +43,7 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
                 <li>
                   <NavLink to="/manage/incidents">
                     <span className="linklabel">
-                      <FormattedMessage
-                        id="menu.afhandelen"
-                        description="Top navigation afhandelen link label"
-                      />
+                      <FormattedMessage {...messages.afhandelen} />
                     </span>
                   </NavLink>
                 </li>
@@ -57,10 +52,7 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
                 <li>
                   <NavLink to="/manage/standaard/teksten">
                     <span className="linklabel">
-                      <FormattedMessage
-                        id="menu.manage_standaard_teksten"
-                        description="Top navigation manage default responsenses link label"
-                      />
+                      <FormattedMessage {...messages.manage_standaard_teksten} />
                     </span>
                   </NavLink>
                 </li>

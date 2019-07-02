@@ -1,7 +1,6 @@
 {
-  "menu.new_melding": "Nieuwe melding",
+  "boilerplate.containers.NotFoundPage.header": "Pagina niet gevonden.",
   "menu.afhandelen": "Afhandelen",
   "menu.manage_standaard_teksten": "Beheer standaard teksten",
-
-  "boilerplate.containers.NotFoundPage.header": "Pagina niet gevonden."
+  "menu.new_melding": "Nieuwe melding"
 }
