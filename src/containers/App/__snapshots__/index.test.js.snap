@@ -288,7 +288,16 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                                   <span
                                     className="linklabel"
                                   >
-                                    Nieuwe melding
+                                    <FormattedMessage
+                                      defaultMessage="Nieuwe melding"
+                                      description="Top navigation new melding label"
+                                      id="menu.new_melding"
+                                      values={Object {}}
+                                    >
+                                      <span>
+                                        Nieuwe melding
+                                      </span>
+                                    </FormattedMessage>
                                   </span>
                                 </a>
                               </Link>

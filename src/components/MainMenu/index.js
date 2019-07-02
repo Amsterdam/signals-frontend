@@ -5,10 +5,12 @@ import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
 import { NavLink } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 import './style.scss';
 import { makeSelectIsAuthenticated, makeSelectUserPermissions } from '../../containers/App/selectors';
 import { resetIncident } from '../../signals/incident/containers/IncidentContainer/actions';
+import messages from './messages';
 
 export class MainMenu extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -33,37 +35,28 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
               <li>
                 <NavLink to="/" onClick={this.resetIncident}>
                   <span className="linklabel">
-                    Nieuwe melding
+                    <FormattedMessage {...messages.new_melding} />
                   </span>
                 </NavLink>
               </li>
-              {this.props.isAuthenticated ?
+              {this.props.isAuthenticated &&
                 <li>
                   <NavLink to="/manage/incidents">
                     <span className="linklabel">
-                      Afhandelen
+                      <FormattedMessage {...messages.afhandelen} />
                     </span>
                   </NavLink>
-                </li> : ''
+                </li>
               }
-              {permissions.includes('signals.sia_statusmessagetemplate_write') ?
+              {permissions.includes('signals.sia_statusmessagetemplate_write') &&
                 <li>
                   <NavLink to="/manage/standaard/teksten">
                     <span className="linklabel">
-                      Beheer standaard teksten
+                      <FormattedMessage {...messages.manage_standaard_teksten} />
                     </span>
                   </NavLink>
-                </li> : ''
+                </li>
               }
-              {/* this.props.isAuthenticated ?
-                <li>
-                  <NavLink to="/manage/dashboard">
-                    <span className="linklabel">
-                      Dashboard [beta]
-                    </span>
-                  </NavLink>
-                </li> : ''
-              */}
             </ul>
           </nav>
         </div>

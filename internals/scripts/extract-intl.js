@@ -15,7 +15,7 @@ const presets = pkg.babel.presets;
 const plugins = pkg.babel.plugins || [];
 
 const i18n = require('../../src/i18n');
-import { DEFAULT_LOCALE } from '../../src/containers/src/constants';
+import { DEFAULT_LOCALE } from '../../src/containers/App/constants';
 
 require('shelljs/global');
 
@@ -38,7 +38,7 @@ const task = (message) => {
     clearTimeout(progress);
     return addCheckmark(() => newLine());
   }
-}
+};
 
 // Wrap async functions below into a promise
 const glob = (pattern) => new Promise((resolve, reject) => {
@@ -93,7 +93,7 @@ for (const locale of locales) {
   }
   ```
 */
-plugins.push(['react-intl'])
+plugins.push(['react-intl']);
 
 const extractFromFile = async (fileName) => {
   try {
