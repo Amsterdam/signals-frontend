@@ -15,14 +15,11 @@ import { IntlProvider } from 'react-intl';
 import { makeSelectLocale } from './selectors';
 
 
-export const LanguageProvider = ({ messages, locale, children }) => {
-  console.log(messages);
-  return (
-    <IntlProvider locale={locale} key={locale} messages={messages[locale]} defaultLocale="nl">
-      {React.Children.only(children)}
-    </IntlProvider>
-  );
-};
+export const LanguageProvider = ({ messages, locale, children }) => (
+  <IntlProvider locale={locale} key={locale} messages={messages[locale]} defaultLocale="nl">
+    {React.Children.only(children)}
+  </IntlProvider>
+);
 
 LanguageProvider.propTypes = {
   locale: PropTypes.string.isRequired,

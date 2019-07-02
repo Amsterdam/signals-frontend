@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { FormattedMessage } from 'react-intl';
 
 import { NavLink } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 import './style.scss';
 import { makeSelectIsAuthenticated, makeSelectUserPermissions } from '../../containers/App/selectors';
@@ -57,15 +57,6 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
                   </NavLink>
                 </li>
               }
-              {/* this.props.isAuthenticated &&
-                <li>
-                  <NavLink to="/manage/dashboard">
-                    <span className="linklabel">
-                      Dashboard [beta]
-                    </span>
-                  </NavLink>
-                </li>
-              */}
             </ul>
           </nav>
         </div>

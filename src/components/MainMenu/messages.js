@@ -4,7 +4,7 @@ export default defineMessages({
   new_melding: {
     id: 'menu.new_melding',
     description: 'Top navigation new melding label',
-    defaultMessage: 'Nieuwe melding', // TODO decide if we want to use functionality (overlap in functionality)
+    defaultMessage: 'Nieuwe melding',
   },
   afhandelen: {
     id: 'menu.afhandelen',

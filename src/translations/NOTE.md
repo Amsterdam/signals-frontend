@@ -4,5 +4,3 @@ Any keys added to the json file will be **removed** when running the above comma
 
 The "correct" way is to proxy message configuration through `messages.js` files.
 See: https://github.com/react-boilerplate/react-boilerplate/blob/master/docs/js/i18n.md
-
-(don't shoot the messenger) 
