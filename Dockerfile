@@ -7,18 +7,15 @@ ARG BUILD_NUMBER=0
 WORKDIR /app
 
 # Run updates and cleanup
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && \
+    apt-get install -y \
       netcat \
       git
 RUN rm -rf /var/lib/apt/lists/*
 
-# Copy sources
-# COPY . /app/
+RUN npm install --unsafe-perm -g full-icu && npm cache clean --force
+ENV NODE_ICU_DATA="/usr/local/lib/node_modules/full-icu"
 
-COPY src /app/src
-COPY internals /app/internals
-COPY server /app/server
-# COPY test /app/test
 COPY package.json \
      package-lock.json \
      .gitignore \
@@ -31,13 +28,17 @@ COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
 RUN git config --global url."https://".insteadOf git://
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
-
 # Install NPM dependencies. Also:
 RUN npm --production=false \
         --unsafe-perm \
         --verbose \
-       install
-RUN npm cache clean --force
+       install && npm cache clean --force
+
+# Copy sources
+COPY src /app/src
+COPY internals /app/internals
+COPY server /app/server
+
 
 # Build
 ENV NODE_ENV=production
