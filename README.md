@@ -17,3 +17,6 @@ See https://github.com/Amsterdam/react-boilerplate.git for more information on t
 
 ## Testing
 - NODE_ENV=development npm run test
+
+## Thanks to
+<a href="http://browserstack.com/"><img src="src/images/browserstack-logo-600x315.png" height="130" alt="BrowserStack Logo" /></a>
