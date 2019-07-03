@@ -1,11 +1,74 @@
 import React from 'react';
 
 import { Validators } from 'react-reactive-form';
+import { defineMessages } from 'react-intl';
 
 import DefinitionComponents from '../components/';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
 import { OVL_KLOKKEN_LAYER, OVL_VERLICHTING_LAYER } from '../../../../shared/services/configuration/configuration';
+
+
+const messages = defineMessages({
+  lamp_doet_het_niet: {
+    id: 'melding.questions.extra_straatverlichting_probleem.lamp_doet_het_niet',
+    defaultMessage: `
+    {extra_straatverlichting_hoeveel:id, select,
+      1_lichtpunt {Lamp doet het niet}
+      other {Lampen doen het niet}
+    }
+    `
+  },
+  lamp_brandt_overdag: {
+    id: 'melding.questions.extra_straatverlichting_probleem.lamp_brandt_overdag',
+    defaultMessage: `
+    {extra_straatverlichting_hoeveel:id, select,
+      1_lichtpunt {Lamp brandt overdag}
+      other {Lampen branden overdag}
+    }
+    `
+  },
+  geeft_lichthinder: {
+    id: 'melding.questions.extra_straatverlichting_probleem.geeft_lichthinder',
+    defaultMessage: `
+    {extra_straatverlichting_hoeveel:id, select,
+      1_lichtpunt {Lamp geeft lichthinder (schijnt bijvoorbeeld in de slaapkamer)}
+      other {Lampen geven lichthinder (schijnen bijvoorbeeld in de slaapkamer)}
+    }
+    `
+  },
+  lamp_is_vervuild: {
+    id: 'melding.questions.extra_straatverlichting_probleem.lamp_is_vervuild',
+    defaultMessage: `
+    {extra_straatverlichting_hoeveel:id, select,
+      1_lichtpunt {Lichtpunt is vervuild of heeft aanslag}
+      other {Lichtpunten zijn vervuild of hebben aanslag}
+    }
+    `
+  },
+  lamp_is_zichtbaar_beschadigd: {
+    id: 'melding.questions.extra_straatverlichting_probleem.lamp_is_zichtbaar_beschadigd',
+    defaultMessage: `
+    {extra_straatverlichting_hoeveel:id, select,
+      1_lichtpunt {Lichtpunt is zichtbaar beschadigd en/of incompleet}
+      other {Lichtpunten zijn zichtbaar beschadigd en/of incompleet}
+    }
+    `
+  },
+  overig: {
+    id: 'melding.questions.extra_straatverlichting_probleem.overig',
+    defaultMessage: 'Overig'
+  },
+  extra_straatverlichting_nummer: {
+    id: 'melding.questions.extra_straatverlichting_nummer',
+    defaultMessage: `
+    {extra_straatverlichting_hoeveel:id, select,
+      1_lichtpunt {Selecteer het lichtpunt waar het om gaat}
+      other {Selecteer de lichtpunten waar het om gaat}
+    }
+    `
+  }
+});
 
 export default {
   controls: {
@@ -145,12 +208,12 @@ export default {
           ]
         },
         values: {
-          lamp_doet_het_niet: 'Lamp doet het niet',
-          lamp_brandt_overdag: 'Lamp brandt overdag',
-          geeft_lichthinder: 'Geeft lichthinder (schijnt bijvoorbeeld in de slaapkamer)',
-          lamp_is_vervuild: 'Lichtpunt is vervuild of heeft aanslag',
-          lamp_is_zichtbaar_beschadigd: 'Lichtpunt is zichtbaar beschadigd en/of incompleet',
-          overig: 'Overig'
+          lamp_doet_het_niet: messages.lamp_doet_het_niet,
+          lamp_brandt_overdag: messages.lamp_brandt_overdag,
+          geeft_lichthinder: messages.geeft_lichthinder,
+          lamp_is_vervuild: messages.lamp_is_vervuild,
+          lamp_is_zichtbaar_beschadigd: messages.lamp_is_zichtbaar_beschadigd,
+          overig: messages.overig
         },
         pathMerge: 'extra_properties'
       },
@@ -164,6 +227,7 @@ export default {
     extra_straatverlichting_nummer: {
       meta: {
         label: 'Selecteer het lichtpunt waar het om gaat',
+        label_descriptor: messages.extra_straatverlichting_nummer,
         ifAllOf: {
           subcategory: 'lantaarnpaal-straatverlichting',
         },

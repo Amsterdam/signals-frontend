@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGenerator } from 'react-reactive-form';
 import defer from 'lodash.defer';
+import get from 'lodash.get';
 
 import formatConditionalForm from '../../services/format-conditional-form/';
 
@@ -29,7 +30,9 @@ class IncidentForm extends React.Component {
 
   setForm(form, incidentContainer) {
     this.form = form;
+    const incident = get(incidentContainer, 'incident', {});
     this.form.meta = {
+      incident,
       incidentContainer,
       form: this.form,
       wizard: this.props.wizard,
