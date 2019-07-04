@@ -31,6 +31,8 @@ COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
 RUN git config --global url."https://".insteadOf git://
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
+RUN npm install --unsafe-perm -g full-icu
+ENV NODE_ICU_DATA="/usr/local/lib/node_modules/full-icu"
 
 # Install NPM dependencies. Also:
 RUN npm --production=false \
@@ -61,4 +63,3 @@ COPY default.conf /etc/nginx/conf.d/
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
-
