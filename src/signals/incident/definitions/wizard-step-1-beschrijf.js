@@ -10,7 +10,7 @@ import getStepControls from '../services/get-step-controls';
 const messages = defineMessages({
   source: {
     id: 'melding.questions.source',
-    defaultMessage: 'Hoe komt de melding binnen ?'
+    defaultMessage: 'Hoe komt de melding binnen?'
   }
 });
 

@@ -198,7 +198,10 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                   "authenticated": true,
                   "meta": Object {
                     "className": "col-sm-12 col-md-6",
-                    "label": "Hoe komt de melding binnen?",
+                    "label": Object {
+                      "defaultMessage": "Hoe komt de melding binnen?",
+                      "id": "melding.questions.source",
+                    },
                     "path": "source",
                     "values": Object {
                       "": "Vul bron in",

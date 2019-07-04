@@ -35,7 +35,7 @@ const RadioInput = ({ handler, touched, hasError, meta = {}, parent, getError, v
   const { className, isVisible, name, values } = meta;
   return (
     <div className={`${isVisible ? 'row' : ''}`}>
-      {isVisible ?
+      {isVisible &&
         <div className={`${className || 'col-12'} mode_input`}>
           <Header
             meta={meta}
@@ -52,18 +52,19 @@ const RadioInput = ({ handler, touched, hasError, meta = {}, parent, getError, v
             </div>
           </Header>
         </div>
-        : ''}
+      }
     </div>
   );
 };
 
 RadioInput.propTypes = {
+  intl: PropTypes.object,
+  parent: PropTypes.object,
   handler: PropTypes.func,
   touched: PropTypes.bool,
   getError: PropTypes.func.isRequired,
   hasError: PropTypes.func.isRequired,
   meta: PropTypes.object,
-  parent: PropTypes.object,
   validatorsOrOpts: PropTypes.object
 };
 
@@ -71,9 +72,11 @@ RadioInput.propTypes = {
  * Wraps React class component inside function because react-reactive-forms doesn't seem to handle class components
  * in our use case.
  */
-const FunctionWrappedComponent = (props) => {
-  const IntlProvider = injectIntl(RadioInput);
-  return <IntlProvider {...props} parent={props.parent} />;
+const IntlProvider = injectIntl(RadioInput);
+const FunctionWrappedComponent = (props) => <IntlProvider {...props} parent={props.parent} />;
+
+FunctionWrappedComponent.propTypes = {
+  parent: PropTypes.object
 };
 
 export default FunctionWrappedComponent;

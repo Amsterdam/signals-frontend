@@ -19,8 +19,7 @@ const Header = ({ meta, options, touched, hasError, getError, children, parent }
   const isLabelDescriptor = typeof label === 'object';
 
   return (
-    <div
-      className={`header ${touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom')) ? 'header--invalid' : ''}`}>
+    <div className={`header ${touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom')) ? 'header--invalid' : ''}`}>
       <div className="header__label">{
         isLabelDescriptor ?
           <FormattedMessage {...label} values={shallowValues} />
@@ -74,7 +73,8 @@ Header.propTypes = {
   touched: PropTypes.bool,
   hasError: PropTypes.func,
   getError: PropTypes.func,
-  children: PropTypes.object
+  children: PropTypes.object,
+  parent: PropTypes.object
 };
 
 export default Header;

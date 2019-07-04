@@ -287,7 +287,11 @@ exports[`Form component <Header /> should render when label is not available 1`]
 >
   <div
     className="header__label"
-  />
+  >
+    <FormattedMessage
+      values={Object {}}
+    />
+  </div>
   <div
     className="header__subtitle"
   />
