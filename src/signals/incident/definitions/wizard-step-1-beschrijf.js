@@ -21,6 +21,7 @@ export default {
   },
   nextButtonLabel: 'Volgende',
   nextButtonClass: 'action primary arrow-right',
+  formAction: 'UPDATE_INCIDENT',
   form: {
     controls: {
       source: {
@@ -104,8 +105,7 @@ export default {
         meta: {
           label: 'Subcategorie',
           path: 'category.sub_category',
-          type: 'text',
-          validateAsyncProp: 'incidentContainer.loadingClassification'
+          type: 'text'
         },
         options: {
           validators: [Validators.required]

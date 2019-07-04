@@ -10,14 +10,14 @@ import { WithWizard } from 'react-albus';
 
 import './style.scss';
 
-const IncidentNavigation = ({ controls, value, meta: { incidentContainer, wizard, submitting, isAuthenticated, updateIncident, createIncident, handleSubmit } }) => {
+const IncidentNavigation = ({ valid, controls, value, meta: { incidentContainer, wizard, isAuthenticated, updateIncident, createIncident, handleSubmit } }) => {
   const hideSubmit = controls.hide_navigation_buttons && controls.hide_navigation_buttons.meta && controls.hide_navigation_buttons.meta ? controls.hide_navigation_buttons.meta.isVisible : false;
   return (
     <span>
       <WithWizard
         render={({ next, previous, step }) => {
-          const currentStep = (step && step.id && step.id.split('/').pop()) || 0;
-          const wizardStep = currentStep && wizard[currentStep];
+          const currentStep = step && step.id;
+          const wizardStep = currentStep && wizard[currentStep.split('/').pop()];
 
           return (
             <div>
@@ -34,26 +34,28 @@ const IncidentNavigation = ({ controls, value, meta: { incidentContainer, wizard
 
                   {!hideSubmit && wizardStep.nextButtonLabel && (
                     <button
-                      className={`incident-navigation__button incident-navigation__button--next  ${wizardStep.nextButtonClass}`}
-                      onClick={(e) => handleSubmit(e, () => {
-                        switch (wizardStep.formAction) { // eslint-disable-line default-case
-                          case 'UPDATE_INCIDENT':
-                            updateIncident(value);
-                            break;
+                      className={`incident-navigation__button  ${wizardStep.nextButtonClass}`}
+                      onClick={(e) => {
+                        if (valid) {
+                          switch (wizardStep.formAction) { // eslint-disable-line default-case
+                            case 'UPDATE_INCIDENT':
+                              updateIncident(value);
+                              break;
 
-                          case 'CREATE_INCIDENT':
-                            createIncident({
-                              incident: incidentContainer.incident,
-                              wizard,
-                              isAuthenticated
-                            });
+                            case 'CREATE_INCIDENT':
+                              createIncident({
+                                incident: incidentContainer.incident,
+                                wizard,
+                                isAuthenticated
+                              });
+                          }
+
+                          handleSubmit(e);
+                          next();
                         }
-
-                        next();
-                      })}
+                      }}
                     >
-                      <span className="value">{wizardStep.nextButtonLabel}</span>
-                      {submitting ? <span className="working"><div className="progress-indicator progress-white"></div></span> : ''}
+                      {wizardStep.nextButtonLabel}
                     </button>
                   )}
                 </div>
@@ -71,6 +73,7 @@ IncidentNavigation.defaultProps = {
 };
 
 IncidentNavigation.propTypes = {
+  valid: PropTypes.bool.isRequired,
   controls: PropTypes.object.isRequired,
   value: PropTypes.object.isRequired,
   meta: PropTypes.shape({

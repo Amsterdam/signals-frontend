@@ -17,44 +17,14 @@ class IncidentForm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      loading: false,
-      submitting: false,
-      submitCallback: null
-    };
-
     this.setForm = this.setForm.bind(this);
     this.setValues = this.setValues.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  static getDerivedStateFromProps(props, prevState) {
-    if (props.incidentContainer.loadingClassification !== prevState.loading) {
-      return {
-        loading: props.incidentContainer.loadingClassification
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    this.setValues(this.props.incidentContainer.incident);
-    this.form.meta.incident = this.props.incidentContainer.incident;
-    this.form.meta.submitting = this.submitting;
-
-    if (this.state.loading !== prevState.loading && !this.state.loading && this.state.submitCallback) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        loading: false,
-        submitting: false
-      });
-
-      defer(() => {
-        if (this.form.valid) {
-          this.state.submitCallback();
-        }
-      });
-    }
+  componentWillReceiveProps(props) {
+    this.setValues(props.incidentContainer.incident);
+    this.form.meta.incident = props.incidentContainer.incident;
   }
 
   setForm(form, incidentContainer) {
@@ -63,19 +33,12 @@ class IncidentForm extends React.Component {
       incidentContainer,
       form: this.form,
       wizard: this.props.wizard,
-      submitting: this.submitting,
       isAuthenticated: this.props.isAuthenticated,
       handleSubmit: this.handleSubmit,
       getClassification: this.props.getClassification,
       updateIncident: this.props.updateIncident,
       createIncident: this.props.createIncident
     };
-
-    this.setState({
-      loading: false,
-      submitting: false,
-      submitCallback: null
-    });
 
     this.setValues(incidentContainer.incident, true);
   }
@@ -97,23 +60,8 @@ class IncidentForm extends React.Component {
     });
   }
 
-  get submitting() {
-    return this.state.submitting;
-  }
-
-  handleSubmit(e, submitCallback) {
+  handleSubmit(e) {
     e.preventDefault();
-
-    if (submitCallback) {
-      if (this.state.loading) {
-        this.setState({
-          submitting: true,
-          submitCallback
-        });
-      } else if (this.form.valid) {
-        submitCallback();
-      }
-    }
 
     Object.values(this.form.controls).map((control) => control.onBlur());
   }
@@ -132,14 +80,8 @@ class IncidentForm extends React.Component {
   }
 }
 
-IncidentForm.defaultProps = {
-  fieldConfig: {
-    controls: {}
-  }
-};
-
 IncidentForm.propTypes = {
-  fieldConfig: PropTypes.object,
+  fieldConfig: PropTypes.object.isRequired,
   incidentContainer: PropTypes.object.isRequired,
   wizard: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,

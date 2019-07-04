@@ -30,11 +30,11 @@ export default {
       ]
     }
   },
-  // category: 'wegen-verkeer-straatmeubilair',
-  // subcategory: 'lantaarnpaal-straatverlichting',
-  // subcategory_link: 'https://api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/lantaarnpaal-straatverlichting',
-  // description: 'lantaarnpaal-straatverlichting',
-  handling_message: '',
+  category: 'wegen-verkeer-straatmeubilair',
+  subcategory: 'lantaarnpaal-straatverlichting',
+  subcategory_link: 'https://api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/lantaarnpaal-straatverlichting',
+  description: 'lantaarnpaal-straatverlichting',
+  handling_message: 'Het herstellen van problemen met de openbare verlichting lukt doorgaans binnen 5 werkdagen. Bij gevaarlijke situaties wordt de melding meteen opgepakt.',
   phone: '020654321',
   email: 'a@b.com',
 
@@ -51,7 +51,7 @@ export default {
   // ...overlastPersonen,
 
   // wegen-verkeer-straatmeulilair:
-  // ...brug,
+  ...brug,
   // ...gladheid,
   // ...klok,
   // ...verkeerslicht,

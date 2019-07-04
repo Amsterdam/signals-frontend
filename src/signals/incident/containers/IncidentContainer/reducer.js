@@ -13,7 +13,6 @@ import {
   CREATE_INCIDENT_SUCCESS,
   CREATE_INCIDENT_ERROR,
 
-  GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
 
@@ -21,11 +20,11 @@ import {
   SET_PRIORITY_SUCCESS,
   SET_PRIORITY_ERROR
 } from './constants';
-import debugInitialState from './debug/initialState';
+// import debugInitialState from './debug/initialState';
 
 export const initialState = fromJS({
   incident: {
-    ...debugInitialState,
+    // ...debugInitialState,
     incident_date: 'Vandaag',
     incident_time_hours: 9,
     incident_time_minutes: 0,
@@ -34,7 +33,6 @@ export const initialState = fromJS({
       label: 'Normaal'
     }
   },
-  loadingClassification: false,
   priority: {}
 });
 
@@ -76,18 +74,13 @@ function incidentContainerReducer(state = initialState, action) {
         .set('error', true)
         .set('loading', false);
 
-    case GET_CLASSIFICATION:
-      return state
-        .set('loadingClassification', true);
-
     case GET_CLASSIFICATION_SUCCESS:
     case GET_CLASSIFICATION_ERROR:
       return state
-      .set('loadingClassification', false)
-      .set('incident', fromJS({
-        ...state.get('incident').toJS(),
-        ...action.payload
-      }));
+        .set('incident', fromJS({
+          ...state.get('incident').toJS(),
+          ...action.payload
+        }));
 
     case SET_PRIORITY:
       return state
