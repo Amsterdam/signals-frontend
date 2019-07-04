@@ -10,5 +10,13 @@
 
   &__button {
     align-self: center;
+    height: 50px;
+
+    &--next {
+      &:after {
+        height: 50px;
+        // width: 20px;
+      }
+    }
   }
 }
