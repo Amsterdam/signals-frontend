@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGenerator } from 'react-reactive-form';
 import defer from 'lodash.defer';
+import get from 'lodash.get';
 
 import formatConditionalForm from '../../services/format-conditional-form/';
 
@@ -17,14 +18,45 @@ class IncidentForm extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      loading: false,
+      submitting: false,
+      submitCallback: null
+    };
+
     this.setForm = this.setForm.bind(this);
     this.setValues = this.setValues.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentWillReceiveProps(props) {
-    this.setValues(props.incidentContainer.incident);
-    this.form.meta.incident = props.incidentContainer.incident;
+  static getDerivedStateFromProps(props, prevState) {
+    if (!props.postponeSubmitWhenLoading) {
+      return null;
+    }
+
+    const loading = get(props, props.postponeSubmitWhenLoading);
+    if (loading !== prevState.loading) {
+      return {
+        loading,
+        submitting: !loading ? false : prevState.submitting
+      };
+    }
+
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.setValues(this.props.incidentContainer.incident);
+    this.form.meta.incident = this.props.incidentContainer.incident;
+    this.form.meta.submitting = this.submitting;
+
+    if (this.state.loading !== prevState.loading && !this.state.loading && this.state.submitCallback) {
+      defer(() => {
+        if (this.form.valid) {
+          this.state.submitCallback();
+        }
+      });
+    }
   }
 
   setForm(form, incidentContainer) {
@@ -33,12 +65,19 @@ class IncidentForm extends React.Component {
       incidentContainer,
       form: this.form,
       wizard: this.props.wizard,
+      submitting: this.submitting,
       isAuthenticated: this.props.isAuthenticated,
       handleSubmit: this.handleSubmit,
       getClassification: this.props.getClassification,
       updateIncident: this.props.updateIncident,
       createIncident: this.props.createIncident
     };
+
+    this.setState({
+      loading: false,
+      submitting: false,
+      submitCallback: null
+    });
 
     this.setValues(incidentContainer.incident, true);
   }
@@ -60,8 +99,26 @@ class IncidentForm extends React.Component {
     });
   }
 
-  handleSubmit(e) {
+  get submitting() {
+    return this.state.submitting;
+  }
+
+  handleSubmit(e, submitCallback) {
     e.preventDefault();
+
+    if (this.props.postponeSubmitWhenLoading && submitCallback) {
+      if (this.state.loading) {
+        this.setState({
+          submitting: true,
+          submitCallback
+        });
+
+        return;
+      }
+    }
+    if (this.form.valid) {
+      submitCallback();
+    }
 
     Object.values(this.form.controls).map((control) => control.onBlur());
   }
@@ -80,13 +137,21 @@ class IncidentForm extends React.Component {
   }
 }
 
+IncidentForm.defaultProps = {
+  fieldConfig: {
+    controls: {}
+  },
+  postponeSubmitWhenLoading: ''
+};
+
 IncidentForm.propTypes = {
-  fieldConfig: PropTypes.object.isRequired,
+  fieldConfig: PropTypes.object,
   incidentContainer: PropTypes.object.isRequired,
   wizard: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
   updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
+  postponeSubmitWhenLoading: PropTypes.string,
   isAuthenticated: PropTypes.bool.isRequired
 };
 
