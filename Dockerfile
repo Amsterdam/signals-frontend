@@ -15,7 +15,7 @@ RUN rm -rf /var/lib/apt/lists/*
 # Copy sources
 # COPY . /app/
 
-COPY src /app/src
+# COPY src /app/src
 COPY internals /app/internals
 COPY server /app/server
 # COPY test /app/test
@@ -37,8 +37,8 @@ ENV NODE_ICU_DATA="/usr/local/lib/node_modules/full-icu"
 # Install NPM dependencies. Also:
 RUN npm --production=false \
         --unsafe-perm \
-        --verbose \
-       install
+        --no-progress \
+       ci
 RUN npm cache clean --force
 
 # Build
