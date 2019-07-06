@@ -116,7 +116,7 @@ class IncidentForm extends React.Component {
         return;
       }
     }
-    if (this.form.valid) {
+    if (this.form.valid && submitCallback) {
       submitCallback();
     }
 
