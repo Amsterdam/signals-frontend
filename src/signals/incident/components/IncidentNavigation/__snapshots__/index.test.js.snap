@@ -1,5 +1,118 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<IncidentNavigation /> rendering render correctly button with submitting state 1`] = `
+<Wizard
+  basename=""
+  history={
+    Object {
+      "listen": [MockFunction] {
+        "calls": Array [
+          Array [
+            [Function],
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      },
+    }
+  }
+  onNext={null}
+  render={null}
+>
+  <IncidentNavigation
+    controls={Object {}}
+    meta={
+      Object {
+        "createIncident": [MockFunction],
+        "handleSubmit": [MockFunction],
+        "incidentContainer": Object {
+          "incident": Object {},
+        },
+        "isAuthenticated": false,
+        "submitting": true,
+        "updateIncident": [MockFunction],
+        "wizard": Object {
+          "bedankt": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+          },
+          "beschrijf": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "UPDATE_INCIDENT",
+            "nextButtonClass": "next-class",
+            "nextButtonLabel": "Volgende",
+          },
+          "email": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "UPDATE_INCIDENT",
+            "nextButtonClass": "next-class",
+            "nextButtonLabel": "Volgende",
+            "previousButtonClass": "previous-class",
+            "previousButtonLabel": "Vorige",
+          },
+          "samenvatting": Object {
+            "form": Object {
+              "controls": Object {},
+            },
+            "formAction": "CREATE_INCIDENT",
+            "nextButtonClass": "next-class send-button",
+            "nextButtonLabel": "Volgende",
+            "previousButtonClass": "previous-class",
+            "previousButtonLabel": "Vorige",
+          },
+        },
+      }
+    }
+    valid={true}
+    value={Object {}}
+  >
+    <span>
+      <WithWizard
+        render={[Function]}
+      >
+        <div />
+      </WithWizard>
+    </span>
+  </IncidentNavigation>
+</Wizard>
+`;
+
+exports[`<IncidentNavigation /> rendering render correctly button with submitting state 2`] = `
+<div>
+  <div
+    className="incident-navigation"
+  >
+    <span />
+    <button
+      className="incident-navigation__button incident-navigation__button--next  next-class"
+      onClick={[Function]}
+    >
+      <span
+        className="value"
+      >
+        Volgende
+      </span>
+      <span
+        className="working"
+      >
+        <div
+          className="progress-indicator progress-white"
+        />
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
 exports[`<IncidentNavigation /> rendering render correctly first step with one button: next 1`] = `
 <Wizard
   basename=""
@@ -33,6 +146,7 @@ exports[`<IncidentNavigation /> rendering render correctly first step with one b
           "incident": Object {},
         },
         "isAuthenticated": false,
+        "submitting": false,
         "updateIncident": [MockFunction],
         "wizard": Object {
           "bedankt": Object {
@@ -92,10 +206,14 @@ exports[`<IncidentNavigation /> rendering render correctly first step with one b
   >
     <span />
     <button
-      className="incident-navigation__button  next-class"
+      className="incident-navigation__button incident-navigation__button--next  next-class"
       onClick={[Function]}
     >
-      Volgende
+      <span
+        className="value"
+      >
+        Volgende
+      </span>
     </button>
   </div>
 </div>
@@ -134,6 +252,7 @@ exports[`<IncidentNavigation /> rendering render correctly last step with no but
           "incident": Object {},
         },
         "isAuthenticated": false,
+        "submitting": false,
         "updateIncident": [MockFunction],
         "wizard": Object {
           "bedankt": Object {
@@ -229,6 +348,7 @@ exports[`<IncidentNavigation /> rendering render correctly last step with two bu
           "incident": Object {},
         },
         "isAuthenticated": false,
+        "submitting": false,
         "updateIncident": [MockFunction],
         "wizard": Object {
           "bedankt": Object {
@@ -293,10 +413,14 @@ exports[`<IncidentNavigation /> rendering render correctly last step with two bu
       Vorige
     </button>
     <button
-      className="incident-navigation__button  next-class send-button"
+      className="incident-navigation__button incident-navigation__button--next  next-class send-button"
       onClick={[Function]}
     >
-      Volgende
+      <span
+        className="value"
+      >
+        Volgende
+      </span>
     </button>
   </div>
 </div>
@@ -343,6 +467,7 @@ exports[`<IncidentNavigation /> rendering render correctly second step when subm
           "incident": Object {},
         },
         "isAuthenticated": false,
+        "submitting": false,
         "updateIncident": [MockFunction],
         "wizard": Object {
           "bedankt": Object {
@@ -438,6 +563,7 @@ exports[`<IncidentNavigation /> rendering render correctly second step with two 
           "incident": Object {},
         },
         "isAuthenticated": false,
+        "submitting": false,
         "updateIncident": [MockFunction],
         "wizard": Object {
           "bedankt": Object {
@@ -502,10 +628,14 @@ exports[`<IncidentNavigation /> rendering render correctly second step with two 
       Vorige
     </button>
     <button
-      className="incident-navigation__button  next-class"
+      className="incident-navigation__button incident-navigation__button--next  next-class"
       onClick={[Function]}
     >
-      Volgende
+      <span
+        className="value"
+      >
+        Volgende
+      </span>
     </button>
   </div>
 </div>

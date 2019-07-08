@@ -15,6 +15,7 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
     }
   }
   isAuthenticated={false}
+  postponeSubmitWhenLoading=""
   updateIncident={[MockFunction]}
   wizard={Object {}}
 >
@@ -225,10 +226,12 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                 "form": [Circular],
                 "getClassification": [MockFunction],
                 "handleSubmit": [Function],
+                "incident": Object {},
                 "incidentContainer": Object {
                   "incident": Object {},
                 },
                 "isAuthenticated": false,
+                "submitting": false,
                 "updateIncident": [MockFunction],
                 "wizard": Object {},
               },
@@ -433,10 +436,12 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                   "form": [Circular],
                   "getClassification": [MockFunction],
                   "handleSubmit": [Function],
+                  "incident": Object {},
                   "incidentContainer": Object {
                     "incident": Object {},
                   },
                   "isAuthenticated": false,
+                  "submitting": false,
                   "updateIncident": [MockFunction],
                   "wizard": Object {},
                 },
@@ -606,10 +611,12 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                         "form": [Circular],
                         "getClassification": [MockFunction],
                         "handleSubmit": [Function],
+                        "incident": Object {},
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
                         "isAuthenticated": false,
+                        "submitting": false,
                         "updateIncident": [MockFunction],
                         "wizard": Object {},
                       },
@@ -826,10 +833,12 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                         "form": [Circular],
                         "getClassification": [MockFunction],
                         "handleSubmit": [Function],
+                        "incident": Object {},
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
                         "isAuthenticated": false,
+                        "submitting": false,
                         "updateIncident": [MockFunction],
                         "wizard": Object {},
                       },
@@ -1047,10 +1056,12 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                         "form": [Circular],
                         "getClassification": [MockFunction],
                         "handleSubmit": [Function],
+                        "incident": Object {},
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
                         "isAuthenticated": false,
+                        "submitting": false,
                         "updateIncident": [MockFunction],
                         "wizard": Object {},
                       },
@@ -1159,6 +1170,7 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
     }
   }
   isAuthenticated={false}
+  postponeSubmitWhenLoading=""
   updateIncident={[MockFunction]}
   wizard={Object {}}
 >
@@ -1380,6 +1392,7 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                   "incident": Object {},
                 },
                 "isAuthenticated": false,
+                "submitting": false,
                 "updateIncident": [MockFunction],
                 "wizard": Object {},
               },
@@ -1595,6 +1608,7 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                     "incident": Object {},
                   },
                   "isAuthenticated": false,
+                  "submitting": false,
                   "updateIncident": [MockFunction],
                   "wizard": Object {},
                 },
@@ -1775,6 +1789,7 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                           "incident": Object {},
                         },
                         "isAuthenticated": false,
+                        "submitting": false,
                         "updateIncident": [MockFunction],
                         "wizard": Object {},
                       },
@@ -2002,6 +2017,7 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                           "incident": Object {},
                         },
                         "isAuthenticated": false,
+                        "submitting": false,
                         "updateIncident": [MockFunction],
                         "wizard": Object {},
                       },
@@ -2230,6 +2246,7 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                           "incident": Object {},
                         },
                         "isAuthenticated": false,
+                        "submitting": false,
                         "updateIncident": [MockFunction],
                         "wizard": Object {},
                       },

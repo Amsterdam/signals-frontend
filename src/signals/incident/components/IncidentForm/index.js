@@ -59,12 +59,12 @@ class IncidentForm extends React.Component {
     }
   }
 
-  setForm(form, incidentContainer) {
+  setForm(form) {
     this.form = form;
     this.form.meta = {
-      incidentContainer,
       form: this.form,
       wizard: this.props.wizard,
+      incidentContainer: this.props.incidentContainer,
       submitting: this.submitting,
       isAuthenticated: this.props.isAuthenticated,
       handleSubmit: this.handleSubmit,
@@ -79,7 +79,7 @@ class IncidentForm extends React.Component {
       submitCallback: null
     });
 
-    this.setValues(incidentContainer.incident, true);
+    this.setValues(this.props.incidentContainer.incident, true);
   }
 
   setValues(incident, setAllValues) {
@@ -128,7 +128,7 @@ class IncidentForm extends React.Component {
       <div className="incident-form">
         <form onSubmit={this.handleSubmit}>
           <FormGenerator
-            onMount={(form) => this.setForm(form, this.props.incidentContainer)}
+            onMount={this.setForm}
             fieldConfig={formatConditionalForm(this.props.fieldConfig, this.props.incidentContainer.incident, this.props.isAuthenticated)}
           />
         </form>
