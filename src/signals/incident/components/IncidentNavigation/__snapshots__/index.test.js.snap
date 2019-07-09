@@ -53,7 +53,6 @@ exports[`<IncidentNavigation /> rendering render correctly button with submittin
             "form": Object {
               "controls": Object {},
             },
-            "formAction": "UPDATE_INCIDENT",
             "nextButtonClass": "next-class",
             "nextButtonLabel": "Volgende",
             "previousButtonClass": "previous-class",
@@ -166,7 +165,6 @@ exports[`<IncidentNavigation /> rendering render correctly first step with one b
             "form": Object {
               "controls": Object {},
             },
-            "formAction": "UPDATE_INCIDENT",
             "nextButtonClass": "next-class",
             "nextButtonLabel": "Volgende",
             "previousButtonClass": "previous-class",
@@ -272,7 +270,6 @@ exports[`<IncidentNavigation /> rendering render correctly last step with no but
             "form": Object {
               "controls": Object {},
             },
-            "formAction": "UPDATE_INCIDENT",
             "nextButtonClass": "next-class",
             "nextButtonLabel": "Volgende",
             "previousButtonClass": "previous-class",
@@ -368,7 +365,6 @@ exports[`<IncidentNavigation /> rendering render correctly last step with two bu
             "form": Object {
               "controls": Object {},
             },
-            "formAction": "UPDATE_INCIDENT",
             "nextButtonClass": "next-class",
             "nextButtonLabel": "Volgende",
             "previousButtonClass": "previous-class",
@@ -487,7 +483,6 @@ exports[`<IncidentNavigation /> rendering render correctly second step when subm
             "form": Object {
               "controls": Object {},
             },
-            "formAction": "UPDATE_INCIDENT",
             "nextButtonClass": "next-class",
             "nextButtonLabel": "Volgende",
             "previousButtonClass": "previous-class",
@@ -583,7 +578,6 @@ exports[`<IncidentNavigation /> rendering render correctly second step with two 
             "form": Object {
               "controls": Object {},
             },
-            "formAction": "UPDATE_INCIDENT",
             "nextButtonClass": "next-class",
             "nextButtonLabel": "Volgende",
             "previousButtonClass": "previous-class",

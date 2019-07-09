@@ -46,7 +46,6 @@ describe('<IncidentNavigation />', () => {
             previousButtonClass: 'previous-class',
             nextButtonLabel: 'Volgende',
             nextButtonClass: 'next-class',
-            formAction: 'UPDATE_INCIDENT',
             form: {
               controls: {}
             }
@@ -161,66 +160,49 @@ describe('<IncidentNavigation />', () => {
   });
 
   describe('events', () => {
+    const event = {};
+
     it('should trigger next when clicking next button', () => {
       getComponent();
 
       context.wizard.step = { id: 'incident/beschrijf' };
       const withWizardWrapper = shallow(withWizard.get(0), { context });
 
-      withWizardWrapper.find('button').simulate('click');
+      withWizardWrapper.find('button').simulate('click', event);
 
-      expect(context.wizard.next).toHaveBeenCalled();
-      expect(props.meta.handleSubmit).toHaveBeenCalled();
-      expect(props.meta.updateIncident).toHaveBeenCalled();
-      expect(props.meta.createIncident).not.toHaveBeenCalled();
+      expect(props.meta.handleSubmit).toHaveBeenCalledWith(event, context.wizard.next, 'UPDATE_INCIDENT');
     });
 
-  //   it('should trigger previous when clicking previous button', () => {
-  //     context.wizard.step = { id: 'incident/email' };
-  //     const withWizardWrapper = shallow(withWizard.get(0), { context });
+    it('should trigger next when clicking next button without form action', () => {
+      getComponent();
 
-  //     withWizardWrapper.find('button').first().simulate('click');
+      context.wizard.step = { id: 'incident/email' };
+      const withWizardWrapper = shallow(withWizard.get(0), { context });
 
-  //     expect(context.wizard.previous).toHaveBeenCalled();
-  //     expect(props.meta.handleSubmit).not.toHaveBeenCalled();
-  //     expect(props.meta.updateIncident).not.toHaveBeenCalled();
-  //     expect(props.meta.createIncident).not.toHaveBeenCalled();
-  //   });
+      withWizardWrapper.find('button').last().simulate('click', event);
 
-  //   it('should trigger create when clicking submit button', () => {
-  //     getComponent();
+      expect(props.meta.handleSubmit).toHaveBeenCalledWith(event, context.wizard.next, undefined);
+    });
 
-  //     context.wizard.step = { id: 'incident/samenvatting' };
-  //     const withWizardWrapper = shallow(withWizard.get(0), { context });
+    it('should trigger previous when clicking previous button', () => {
+      context.wizard.step = { id: 'incident/email' };
+      const withWizardWrapper = shallow(withWizard.get(0), { context });
 
-  //     withWizardWrapper.find('button').last().simulate('click');
+      withWizardWrapper.find('button').first().simulate('click');
 
-  //     expect(context.wizard.next).toHaveBeenCalled();
-  //     expect(props.meta.handleSubmit).toHaveBeenCalled();
-  //     expect(props.meta.updateIncident).not.toHaveBeenCalled();
-  //     expect(props.meta.createIncident).toHaveBeenCalled();
-  //   });
+      expect(context.wizard.previous).toHaveBeenCalled();
+      expect(props.meta.handleSubmit).not.toHaveBeenCalled();
+    });
 
-  //   it('should not trigger next when valid is false and clicking next button', () => {
-  //     getComponent();
+    it('should trigger create when clicking submit button', () => {
+      getComponent();
 
-  //     props.valid = false;
+      context.wizard.step = { id: 'incident/samenvatting' };
+      const withWizardWrapper = shallow(withWizard.get(0), { context });
 
-  //     wrapper = mount(
-  //       <Wizard history={historySpy}>
-  //         <IncidentNavigation {...props} />
-  //       </Wizard>
-  //     );
+      withWizardWrapper.find('button').last().simulate('click', event);
 
-  //     withWizard = wrapper.find(WithWizard);
-
-  //     context.wizard.step = { id: 'incident/samenvatting' };
-  //     const withWizardWrapper = shallow(withWizard.get(0), { context });
-
-  //     withWizardWrapper.find('button').last().simulate('click');
-
-  //     expect(context.wizard.next).not.toHaveBeenCalled();
-  //     expect(props.meta.handleSubmit).not.toHaveBeenCalled();
-  //   });
+      expect(props.meta.handleSubmit).toHaveBeenCalledWith(event, context.wizard.next, 'CREATE_INCIDENT');
+    });
   });
 });
