@@ -10,7 +10,7 @@ import { WithWizard } from 'react-albus';
 
 import './style.scss';
 
-const IncidentNavigation = ({ controls, value, meta: { incidentContainer, wizard, submitting, isAuthenticated, updateIncident, createIncident, handleSubmit } }) => {
+const IncidentNavigation = ({ controls, meta: { wizard, submitting, handleSubmit } }) => {
   const hideSubmit = controls.hide_navigation_buttons && controls.hide_navigation_buttons.meta && controls.hide_navigation_buttons.meta ? controls.hide_navigation_buttons.meta.isVisible : false;
   return (
     <span>
@@ -35,22 +35,7 @@ const IncidentNavigation = ({ controls, value, meta: { incidentContainer, wizard
                   {!hideSubmit && wizardStep.nextButtonLabel && (
                     <button
                       className={`incident-navigation__button incident-navigation__button--next  ${wizardStep.nextButtonClass}`}
-                      onClick={(e) => handleSubmit(e, () => {
-                        switch (wizardStep.formAction) { // eslint-disable-line default-case
-                          case 'UPDATE_INCIDENT':
-                            updateIncident(value);
-                            break;
-
-                          case 'CREATE_INCIDENT':
-                            createIncident({
-                              incident: incidentContainer.incident,
-                              wizard,
-                              isAuthenticated
-                            });
-                        }
-
-                        next();
-                      })}
+                      onClick={(e) => handleSubmit(e, next, wizardStep.formAction)}
                     >
                       <span className="value">{wizardStep.nextButtonLabel}</span>
                       {submitting ? <span className="working"><div className="progress-indicator progress-white"></div></span> : ''}
@@ -72,9 +57,9 @@ IncidentNavigation.defaultProps = {
 
 IncidentNavigation.propTypes = {
   controls: PropTypes.object.isRequired,
-  value: PropTypes.object.isRequired,
   meta: PropTypes.shape({
     wizard: PropTypes.object,
+    submitting: PropTypes.bool,
     handleSubmit: PropTypes.function
   })
 };

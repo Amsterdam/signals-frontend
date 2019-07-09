@@ -21,12 +21,14 @@ class IncidentForm extends React.Component {
     this.state = {
       loading: false,
       submitting: false,
-      submitCallback: null
+      formAction: '',
+      next: null
     };
 
     this.setForm = this.setForm.bind(this);
     this.setValues = this.setValues.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.doSubmit = this.doSubmit.bind(this);
   }
 
   static getDerivedStateFromProps(props, prevState) {
@@ -50,10 +52,10 @@ class IncidentForm extends React.Component {
     this.form.meta.incident = this.props.incidentContainer.incident;
     this.form.meta.submitting = this.submitting;
 
-    if (this.state.loading !== prevState.loading && !this.state.loading && this.state.submitCallback) {
+    if (this.state.loading !== prevState.loading && !this.state.loading && this.state.next) {
       defer(() => {
         if (this.form.valid) {
-          this.state.submitCallback();
+          this.doSubmit(this.state.next, this.state);
         }
       });
     }
@@ -76,7 +78,8 @@ class IncidentForm extends React.Component {
     this.setState({
       loading: false,
       submitting: false,
-      submitCallback: null
+      formAction: '',
+      next: null
     });
 
     this.setValues(this.props.incidentContainer.incident, true);
@@ -103,24 +106,42 @@ class IncidentForm extends React.Component {
     return this.state.submitting;
   }
 
-  handleSubmit(e, submitCallback) {
+  handleSubmit(e, next, formAction) {
     e.preventDefault();
 
-    if (this.props.postponeSubmitWhenLoading && submitCallback) {
+    if (this.props.postponeSubmitWhenLoading && next) {
       if (this.state.loading) {
         this.setState({
           submitting: true,
-          submitCallback
+          formAction,
+          next
         });
 
         return;
       }
     }
-    if (this.form.valid && submitCallback) {
-      submitCallback();
+    if (this.form.valid && next) {
+      this.doSubmit(next, formAction);
     }
 
     Object.values(this.form.controls).map((control) => control.onBlur());
+  }
+
+  doSubmit(next, formAction) {
+    switch (formAction) { // eslint-disable-line default-case
+      case 'UPDATE_INCIDENT':
+        this.props.updateIncident(this.form.value);
+        break;
+
+      case 'CREATE_INCIDENT':
+        this.props.createIncident({
+          incident: this.props.incidentContainer.incident,
+          wizard: this.props.wizard,
+          isAuthenticated: this.props.isAuthenticated
+        });
+    }
+
+    next();
   }
 
   render() {
