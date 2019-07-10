@@ -17,7 +17,11 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
   isAuthenticated={false}
   postponeSubmitWhenLoading=""
   updateIncident={[MockFunction]}
-  wizard={Object {}}
+  wizard={
+    Object {
+      "step": Object {},
+    }
+  }
 >
   <div
     className="incident-form"
@@ -30,25 +34,37 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
           Object {
             "controls": Object {
               "email": Object {
+                "disable": [MockFunction],
+                "enable": [MockFunction],
                 "meta": Object {
                   "doNotUpdateValue": true,
                   "isVisible": true,
                   "label": "Wat is uw email?",
                   "type": "text",
                 },
+                "onBlur": [MockFunction],
+                "setValue": [MockFunction],
               },
               "extra_boten_geluid_meer": Object {
+                "disable": [MockFunction],
+                "enable": [MockFunction],
                 "meta": Object {
                   "isVisible": false,
                   "label": "Zijn er nog dingen die u ons nog meer kunt vertellen?",
                 },
+                "onBlur": [MockFunction],
+                "setValue": [MockFunction],
               },
               "phone": Object {
+                "disable": [MockFunction],
+                "enable": [MockFunction],
                 "meta": Object {
                   "isVisible": true,
                   "label": "Wat is uw telefoonnummer?",
                   "type": "text",
                 },
+                "onBlur": [MockFunction],
+                "setValue": [MockFunction],
               },
             },
           }
@@ -233,7 +249,9 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                 "isAuthenticated": false,
                 "submitting": false,
                 "updateIncident": [MockFunction],
-                "wizard": Object {},
+                "wizard": Object {
+                  "step": Object {},
+                },
               },
               "patchValue": [Function],
               "pristine": true,
@@ -443,7 +461,9 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                   "isAuthenticated": false,
                   "submitting": false,
                   "updateIncident": [MockFunction],
-                  "wizard": Object {},
+                  "wizard": Object {
+                    "step": Object {},
+                  },
                 },
                 "patchValue": [Function],
                 "pristine": true,
@@ -618,7 +638,9 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                         "isAuthenticated": false,
                         "submitting": false,
                         "updateIncident": [MockFunction],
-                        "wizard": Object {},
+                        "wizard": Object {
+                          "step": Object {},
+                        },
                       },
                       "patchValue": [Function],
                       "pristine": true,
@@ -840,7 +862,9 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                         "isAuthenticated": false,
                         "submitting": false,
                         "updateIncident": [MockFunction],
-                        "wizard": Object {},
+                        "wizard": Object {
+                          "step": Object {},
+                        },
                       },
                       "patchValue": [Function],
                       "pristine": true,
@@ -1063,7 +1087,9 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                         "isAuthenticated": false,
                         "submitting": false,
                         "updateIncident": [MockFunction],
-                        "wizard": Object {},
+                        "wizard": Object {
+                          "step": Object {},
+                        },
                       },
                       "patchValue": [Function],
                       "pristine": true,
@@ -1162,17 +1188,18 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
     Object {
       "incident": Object {
         "extra_boten_geluid_meer": "Ja! Wat een teringzooi hier",
-        "extra_personen_overig_vaker": true,
         "phone": "06987654321",
-        "priority": "high",
-        "subcategory": "(Honden)poep",
       },
     }
   }
   isAuthenticated={false}
   postponeSubmitWhenLoading=""
   updateIncident={[MockFunction]}
-  wizard={Object {}}
+  wizard={
+    Object {
+      "step": Object {},
+    }
+  }
 >
   <div
     className="incident-form"
@@ -1185,25 +1212,37 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
           Object {
             "controls": Object {
               "email": Object {
+                "disable": [MockFunction],
+                "enable": [MockFunction],
                 "meta": Object {
                   "doNotUpdateValue": true,
                   "isVisible": true,
                   "label": "Wat is uw email?",
                   "type": "text",
                 },
+                "onBlur": [MockFunction],
+                "setValue": [MockFunction],
               },
               "extra_boten_geluid_meer": Object {
+                "disable": [MockFunction],
+                "enable": [MockFunction],
                 "meta": Object {
                   "isVisible": false,
                   "label": "Zijn er nog dingen die u ons nog meer kunt vertellen?",
                 },
+                "onBlur": [MockFunction],
+                "setValue": [MockFunction],
               },
               "phone": Object {
+                "disable": [MockFunction],
+                "enable": [MockFunction],
                 "meta": Object {
                   "isVisible": true,
                   "label": "Wat is uw telefoonnummer?",
                   "type": "text",
                 },
+                "onBlur": [MockFunction],
+                "setValue": [MockFunction],
               },
             },
           }
@@ -1381,20 +1420,16 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                 "form": [Circular],
                 "getClassification": [MockFunction],
                 "handleSubmit": [Function],
-                "incident": Object {
-                  "extra_boten_geluid_meer": "Ja! Wat een teringzooi hier",
-                  "extra_personen_overig_vaker": true,
-                  "phone": "06987654321",
-                  "priority": "high",
-                  "subcategory": "(Honden)poep",
-                },
+                "incident": Object {},
                 "incidentContainer": Object {
                   "incident": Object {},
                 },
                 "isAuthenticated": false,
                 "submitting": false,
                 "updateIncident": [MockFunction],
-                "wizard": Object {},
+                "wizard": Object {
+                  "step": Object {},
+                },
               },
               "patchValue": [Function],
               "pristine": true,
@@ -1597,20 +1632,16 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                   "form": [Circular],
                   "getClassification": [MockFunction],
                   "handleSubmit": [Function],
-                  "incident": Object {
-                    "extra_boten_geluid_meer": "Ja! Wat een teringzooi hier",
-                    "extra_personen_overig_vaker": true,
-                    "phone": "06987654321",
-                    "priority": "high",
-                    "subcategory": "(Honden)poep",
-                  },
+                  "incident": Object {},
                   "incidentContainer": Object {
                     "incident": Object {},
                   },
                   "isAuthenticated": false,
                   "submitting": false,
                   "updateIncident": [MockFunction],
-                  "wizard": Object {},
+                  "wizard": Object {
+                    "step": Object {},
+                  },
                 },
                 "patchValue": [Function],
                 "pristine": true,
@@ -1778,20 +1809,16 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                         "form": [Circular],
                         "getClassification": [MockFunction],
                         "handleSubmit": [Function],
-                        "incident": Object {
-                          "extra_boten_geluid_meer": "Ja! Wat een teringzooi hier",
-                          "extra_personen_overig_vaker": true,
-                          "phone": "06987654321",
-                          "priority": "high",
-                          "subcategory": "(Honden)poep",
-                        },
+                        "incident": Object {},
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
                         "isAuthenticated": false,
                         "submitting": false,
                         "updateIncident": [MockFunction],
-                        "wizard": Object {},
+                        "wizard": Object {
+                          "step": Object {},
+                        },
                       },
                       "patchValue": [Function],
                       "pristine": true,
@@ -2006,20 +2033,16 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                         "form": [Circular],
                         "getClassification": [MockFunction],
                         "handleSubmit": [Function],
-                        "incident": Object {
-                          "extra_boten_geluid_meer": "Ja! Wat een teringzooi hier",
-                          "extra_personen_overig_vaker": true,
-                          "phone": "06987654321",
-                          "priority": "high",
-                          "subcategory": "(Honden)poep",
-                        },
+                        "incident": Object {},
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
                         "isAuthenticated": false,
                         "submitting": false,
                         "updateIncident": [MockFunction],
-                        "wizard": Object {},
+                        "wizard": Object {
+                          "step": Object {},
+                        },
                       },
                       "patchValue": [Function],
                       "pristine": true,
@@ -2235,20 +2258,16 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                         "form": [Circular],
                         "getClassification": [MockFunction],
                         "handleSubmit": [Function],
-                        "incident": Object {
-                          "extra_boten_geluid_meer": "Ja! Wat een teringzooi hier",
-                          "extra_personen_overig_vaker": true,
-                          "phone": "06987654321",
-                          "priority": "high",
-                          "subcategory": "(Honden)poep",
-                        },
+                        "incident": Object {},
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
                         "isAuthenticated": false,
                         "submitting": false,
                         "updateIncident": [MockFunction],
-                        "wizard": Object {},
+                        "wizard": Object {
+                          "step": Object {},
+                        },
                       },
                       "patchValue": [Function],
                       "pristine": true,

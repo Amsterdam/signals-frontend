@@ -28,7 +28,7 @@ class IncidentForm extends React.Component {
     this.setForm = this.setForm.bind(this);
     this.setValues = this.setValues.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.doSubmit = this.doSubmit.bind(this);
+    this.setIncident = this.setIncident.bind(this);
   }
 
   static getDerivedStateFromProps(props, prevState) {
@@ -51,11 +51,11 @@ class IncidentForm extends React.Component {
     this.setValues(this.props.incidentContainer.incident);
     this.form.meta.incident = this.props.incidentContainer.incident;
     this.form.meta.submitting = this.submitting;
-
     if (this.state.loading !== prevState.loading && !this.state.loading && this.state.next) {
       defer(() => {
         if (this.form.valid) {
-          this.doSubmit(this.state.next, this.state);
+          this.setIncident(this.state.formAction);
+          this.state.next();
         }
       });
     }
@@ -106,6 +106,21 @@ class IncidentForm extends React.Component {
     return this.state.submitting;
   }
 
+  setIncident(formAction) {
+    switch (formAction) { // eslint-disable-line default-case
+      case 'UPDATE_INCIDENT':
+        this.props.updateIncident(this.form.value);
+        break;
+
+      case 'CREATE_INCIDENT':
+        this.props.createIncident({
+          incident: this.props.incidentContainer.incident,
+          wizard: this.props.wizard,
+          isAuthenticated: this.props.isAuthenticated
+        });
+    }
+  }
+
   handleSubmit(e, next, formAction) {
     e.preventDefault();
 
@@ -121,27 +136,11 @@ class IncidentForm extends React.Component {
       }
     }
     if (this.form.valid && next) {
-      this.doSubmit(next, formAction);
+      this.setIncident(formAction);
+      next();
     }
 
     Object.values(this.form.controls).map((control) => control.onBlur());
-  }
-
-  doSubmit(next, formAction) {
-    switch (formAction) { // eslint-disable-line default-case
-      case 'UPDATE_INCIDENT':
-        this.props.updateIncident(this.form.value);
-        break;
-
-      case 'CREATE_INCIDENT':
-        this.props.createIncident({
-          incident: this.props.incidentContainer.incident,
-          wizard: this.props.wizard,
-          isAuthenticated: this.props.isAuthenticated
-        });
-    }
-
-    next();
   }
 
   render() {
