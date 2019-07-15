@@ -26,6 +26,13 @@ exports[`Form component <MapSelectFormComponent /> rendering should render the M
           "name": "my_question",
         }
       }
+      parent={
+        Object {
+          "meta": Object {
+            "updateIncident": [MockFunction],
+          },
+        }
+      }
       touched={false}
     >
       <div
