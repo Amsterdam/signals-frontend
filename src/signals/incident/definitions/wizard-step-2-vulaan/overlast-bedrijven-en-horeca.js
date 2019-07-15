@@ -69,6 +69,7 @@ export default {
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties'
       },
+      options: { validators: [Validators.required] },
       render: FormComponents.TextInput
     },
 
@@ -80,9 +81,7 @@ export default {
         ifOneOf: {
           extra_bedrijven_horeca_wat: [
             'horecabedrijf',
-            'ander_soort_bedrijf',
-            'evenement_festival_markt',
-            'iets_anders'
+            'ander_soort_bedrijf'
           ]
         },
         label: 'Woont u direct boven of direct naast het pand waar het geluid vandaan komt?',
@@ -106,9 +105,7 @@ export default {
         ifOneOf: {
           extra_bedrijven_horeca_wat: [
             'horecabedrijf',
-            'ander_soort_bedrijf',
-            'evenement_festival_markt',
-            'iets_anders'
+            'ander_soort_bedrijf'
           ]
         },
         label: 'Hebt u ook last van het geluid als uw ramen en deuren gesloten zijn?',
@@ -129,9 +126,7 @@ export default {
         ifOneOf: {
           extra_bedrijven_horeca_wat: [
             'horecabedrijf',
-            'ander_soort_bedrijf',
-            'evenement_festival_markt',
-            'iets_anders'
+            'ander_soort_bedrijf'
           ]
         },
         label: 'Staan de ramen of deuren open van de horeca onderneming?',
@@ -153,9 +148,7 @@ export default {
         ifOneOf: {
           extra_bedrijven_horeca_wat: [
             'horecabedrijf',
-            'ander_soort_bedrijf',
-            'evenement_festival_markt',
-            'iets_anders'
+            'ander_soort_bedrijf'
           ]
         },
         label: 'Gaan de ramen of deuren kort of lang open?',
@@ -172,15 +165,8 @@ export default {
     extra_bedrijven_horeca_muziek_evenement: {
       meta: {
         ifAllOf: {
-          subcategory: 'geluidsoverlast-muziek'
-        },
-        ifOneOf: {
-          extra_bedrijven_horeca_wat: [
-            'horecabedrijf',
-            'ander_soort_bedrijf',
-            'evenement_festival_markt',
-            'iets_anders'
-          ]
+          subcategory: 'geluidsoverlast-muziek',
+          extra_bedrijven_horeca_wat: 'evenement_festival_markt',
         },
         label: 'Bent u geïnformeerd door de organisator van het evenement?',
         className: 'col-sm-12 col-md-8',
