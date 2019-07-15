@@ -29,8 +29,8 @@
     _paq.push(['trackPageView']);
     _paq.push(['enableLinkTracking']);
     (function () {
-      var u = "//piwik.data.amsterdam.nl/";
-      _paq.push(['setTrackerUrl', u + 'piwik.php']);
+      var u = "//analytics.data.amsterdam.nl/";
+      _paq.push(['setTrackerUrl', u + 'matomo.php']);
       var hostname = window && window.location && window.location.hostname;
       if (hostname === 'meldingen.amsterdam.nl') {
         _paq.push(['setSiteId', '13']);
@@ -38,7 +38,7 @@
         _paq.push(['setSiteId', '14']);
       }
       var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-      g.type = 'text/javascript'; g.async = true; g.defer = true; g.src = u + 'piwik.js'; s.parentNode.insertBefore(g, s);
+      g.type = 'text/javascript'; g.async = true; g.defer = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
     })();
   </script>
   <!-- End Matomo Code -->
