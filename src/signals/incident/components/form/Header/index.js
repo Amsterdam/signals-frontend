@@ -16,7 +16,7 @@ const Header = ({ meta, options, touched, hasError, getError, children, parent }
 
   const incident = get(parent, 'meta.incident', {});
   const shallowValues = flattenObject(incident, '', ':');
-  const isLabelDescriptor = typeof label === 'object';
+  const isLabelDescriptor = label !== null && typeof label === 'object';
 
   return (
     <div className={`header ${touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom')) ? 'header--invalid' : ''}`}>

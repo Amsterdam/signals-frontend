@@ -1,7 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import { IntlProvider } from 'react-intl';
 
-import RadioInput from './index';
+import { _RadioInput as RadioInput } from './index';
 
 describe('Form component <RadioInput />', () => {
   const metaFields = {
@@ -30,12 +31,19 @@ describe('Form component <RadioInput />', () => {
       }
     };
 
+    const messages = {
+      'melding.questions.extra_something.overig': 'overig message'
+    };
+    const intlProvider = new IntlProvider({ locale: 'nl', messages }, {});
+    const { intl } = intlProvider.getChildContext();
+
     wrapper = shallow(<RadioInput
       handler={handler}
       parent={parent}
       touched={touched}
       hasError={hasError}
       getError={getError}
+      intl={intl}
     />);
 
     handler.mockImplementation(() => ({
@@ -77,8 +85,24 @@ describe('Form component <RadioInput />', () => {
           isVisible: false
         }
       });
-
       expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should use translation for radio label and value if available', () => {
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          isVisible: true,
+          values: {
+            foo: {
+              id: 'melding.questions.extra_something.overig',
+              defaultMessage: 'Overig default'
+            }
+          }
+        }
+      });
+
+      expect(wrapper.find('.antwoord').text()).toBe('overig message');
     });
   });
 
@@ -93,12 +117,36 @@ describe('Form component <RadioInput />', () => {
         }
       });
 
-      wrapper.find('input').first().simulate('click', event);
+      wrapper.find('input').first().simulate('change', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': {
           id: 'foo',
           label: 'Foo'
+        }
+      });
+    });
+
+    it('sets the translation value if using translation', () => {
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          isVisible: true,
+          values: {
+            foo: {
+              id: 'melding.questions.extra_something.overig',
+              defaultMessage: 'Overig default'
+            }
+          }
+        }
+      });
+
+      wrapper.find('input').first().simulate('change', event);
+
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name': {
+          id: 'foo',
+          label: 'overig message'
         }
       });
     });

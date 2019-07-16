@@ -22,4 +22,10 @@ describe('format incident message', () => {
     };
     expect(formatIncidentMessage(intl, messageDescriptor, { abc: 'xyz' })).toBe('my message xyz');
   });
+
+  it('should throw an error on an invalid value', () => {
+    const intl = initIntlProvider();
+    const funcCall = () => formatIncidentMessage(intl, undefined, undefined);
+    expect(funcCall).toThrow();
+  });
 });

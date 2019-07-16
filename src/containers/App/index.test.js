@@ -1,10 +1,6 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import { memoryHistory } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router';
+import { shallow } from 'enzyme';
 
-import configureStore from 'configureStore';
 import HeaderContainer from 'containers/HeaderContainer';
 import Footer from 'components/Footer';
 import { App, mapDispatchToProps } from './index';

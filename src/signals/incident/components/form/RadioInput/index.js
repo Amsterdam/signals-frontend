@@ -31,7 +31,7 @@ const renderOption = (intl, key, name, value, handler, parent) => {
   );
 };
 
-const RadioInput = ({ handler, touched, hasError, meta = {}, parent, getError, validatorsOrOpts, intl }) => {
+export const _RadioInput = ({ handler, touched, hasError, meta = {}, parent, getError, validatorsOrOpts, intl }) => {
   const { className, isVisible, name, values } = meta;
   return (
     <div className={`${isVisible ? 'row' : ''}`}>
@@ -57,7 +57,7 @@ const RadioInput = ({ handler, touched, hasError, meta = {}, parent, getError, v
   );
 };
 
-RadioInput.propTypes = {
+_RadioInput.propTypes = {
   intl: PropTypes.object,
   parent: PropTypes.object,
   handler: PropTypes.func,
@@ -69,10 +69,12 @@ RadioInput.propTypes = {
 };
 
 /**
- * Wraps React class component inside function because react-reactive-forms doesn't seem to handle class components
- * in our use case.
+ * React-intl injector creates a class component from our function component.
+ * This class component is wrapped inside a function compontent because react-reactive-forms
+ * doesn't seem to work with class components in our way of using the form generator
+ * (it expects a functional component).
  */
-const IntlProvider = injectIntl(RadioInput);
+const IntlProvider = injectIntl(_RadioInput);
 const FunctionWrappedComponent = (props) => <IntlProvider {...props} parent={props.parent} />;
 
 FunctionWrappedComponent.propTypes = {

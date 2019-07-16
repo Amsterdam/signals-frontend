@@ -219,7 +219,7 @@
       "global": {
         "statements": 84,
         "branches": 83,
-        "functions": 80,
+        "functions": 79,
         "lines": 84
       }
     },
