@@ -121,9 +121,31 @@ describe('IncidentContainer saga', () => {
       expect(gen.next().value).toEqual(put(createIncidentSuccess({ signal_id: 42 })));
     });
 
-    it('should success with logged in', () => {
+    it('should success when logged in and setting normal priority', () => {
       payload.isAuthenticated = true;
-      payload.incident.priority = 'high';
+      payload.incident.priority = { id: 'normal', label: 'Normaal' };
+      gen = createIncident({ payload });
+
+      expect(gen.next().value).toEqual(call(request, 'https://acc.api.data.amsterdam.nl/signals/signal/', {
+        method: 'POST',
+        body: JSON.stringify({
+          payload
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }));
+      expect(gen.next({
+        id: 666
+      }).value).toEqual(put(createIncidentSuccess({
+        id: 666
+      })));
+    });
+
+
+    it('should success when logged in and setting high priority', () => {
+      payload.isAuthenticated = true;
+      payload.incident.priority = { id: 'high', label: 'Hoog' };
       gen = createIncident({ payload });
 
       expect(gen.next().value).toEqual(call(request, 'https://acc.api.data.amsterdam.nl/signals/signal/', {
@@ -160,7 +182,7 @@ describe('setPriority', () => {
   let gen;
 
   beforeEach(() => {
-    payload = { priority: 'normal' };
+    payload = { priority: { id: 'normal', label: 'Normaal' } };
     gen = setPriorityHandler({ payload });
   });
 
