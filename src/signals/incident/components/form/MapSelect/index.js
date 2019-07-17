@@ -46,6 +46,7 @@ const MapSelectFormComponent = ({ handler, touched, hasError, meta, parent, getE
             touched={touched}
             hasError={hasError}
             getError={getError}
+            parent={parent}
           >
             <div className="invoer">
               { latlng && <MapSelect

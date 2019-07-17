@@ -7,18 +7,19 @@ ARG BUILD_NUMBER=0
 WORKDIR /app
 
 # Run updates and cleanup
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && \
+    apt-get install -y \
       netcat \
       git
 RUN rm -rf /var/lib/apt/lists/*
 
-# Copy sources
-# COPY . /app/
-
-COPY src /app/src
+# npm preinstall uses some scripts in the internals folder, so this is required before any npm install
 COPY internals /app/internals
-COPY server /app/server
-# COPY test /app/test
+
+# Install full i18n support for node testing of translations
+RUN npm install --unsafe-perm -g full-icu && npm cache clean --force
+ENV NODE_ICU_DATA="/usr/local/lib/node_modules/full-icu"
+
 COPY package.json \
      package-lock.json \
      .gitignore \
@@ -31,13 +32,16 @@ COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
 RUN git config --global url."https://".insteadOf git://
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
-
-# Install NPM dependencies. Also:
+# Install NPM dependencies
 RUN npm --production=false \
         --unsafe-perm \
         --verbose \
-       install
-RUN npm cache clean --force
+       install && npm cache clean --force
+
+# Copy sources
+COPY server /app/server
+COPY src /app/src
+
 
 # Build
 ENV NODE_ENV=production

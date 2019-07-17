@@ -27,9 +27,11 @@ class IncidentForm extends React.Component {
     this.form.meta.incident = props.incidentContainer.incident;
   }
 
-  setForm(form, incidentContainer) {
+  setForm(form, incidentContainer = {}) {
     this.form = form;
+    const { incident = {} } = incidentContainer;
     this.form.meta = {
+      incident,
       incidentContainer,
       form: this.form,
       wizard: this.props.wizard,

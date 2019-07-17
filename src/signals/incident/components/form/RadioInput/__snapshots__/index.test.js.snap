@@ -27,6 +27,13 @@ exports[`Form component <RadioInput /> rendering should render radio fields corr
           },
         }
       }
+      parent={
+        Object {
+          "meta": Object {
+            "updateIncident": [MockFunction],
+          },
+        }
+      }
       touched={false}
     >
       <div
@@ -40,7 +47,7 @@ exports[`Form component <RadioInput /> rendering should render radio fields corr
             checked={true}
             className="kenmerkradio"
             id="input-field-name-foo1"
-            onClick={[Function]}
+            onChange={[Function]}
             type="radio"
           />
           <label
@@ -57,7 +64,7 @@ exports[`Form component <RadioInput /> rendering should render radio fields corr
             checked={false}
             className="kenmerkradio"
             id="input-field-name-bar1"
-            onClick={[Function]}
+            onChange={[Function]}
             type="radio"
           />
           <label
@@ -88,6 +95,13 @@ exports[`Form component <RadioInput /> rendering should render zero radio fields
           "name": "input-field-name",
           "placeholder": "type here",
           "values": undefined,
+        }
+      }
+      parent={
+        Object {
+          "meta": Object {
+            "updateIncident": [MockFunction],
+          },
         }
       }
       touched={false}

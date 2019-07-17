@@ -1,10 +1,18 @@
 import some from 'lodash.some';
+import { defineMessages } from 'react-intl';
 import { Validators } from 'react-reactive-form';
 
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
 import checkVisibility from '../services/check-visibility';
 import getStepControls from '../services/get-step-controls';
+
+const messages = defineMessages({
+  source: {
+    id: 'melding.questions.source',
+    defaultMessage: 'Hoe komt de melding binnen?'
+  }
+});
 
 export default {
   label: 'Beschrijf uw melding',
@@ -27,7 +35,7 @@ export default {
       source: {
         meta: {
           className: 'col-sm-12 col-md-6',
-          label: 'Hoe komt de melding binnen?',
+          label: messages.source,
           path: 'source',
           values: {
             '': 'Vul bron in',

@@ -51,9 +51,9 @@ export default {
   // ...overlastPersonen,
 
   // wegen-verkeer-straatmeulilair:
-  ...brug,
+  // ...brug,
   // ...gladheid,
   // ...klok,
   // ...verkeerslicht,
-  // ...straatverlichting
+  ...straatverlichting
 };

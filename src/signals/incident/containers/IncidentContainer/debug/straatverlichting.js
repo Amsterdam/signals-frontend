@@ -16,8 +16,8 @@ export default {
     label: 'Lichtpunt is zichtbaar beschadigd en/of incompleet'
   },
   extra_straatverlichting_hoeveel: {
-    id: '1_lichtpunt',
-    label: '1 lichtpunt'
+    id: 'meerdere_lichtpunten',
+    label: 'Een aantal lichtpunten die bi…an/hangen'
   },
   extra_straatverlichting_niet_op_kaart: {
     label: 'Het lichtpunt staat niet op de kaart',
