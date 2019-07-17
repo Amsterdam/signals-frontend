@@ -4,6 +4,7 @@ exports[`<HeaderContainer /> should render correctly when authenticated 1`] = `
 <Header
   isAuthenticated={true}
   onLoginLogoutButtonClick={[Function]}
+  permissions={Array []}
   userName="user"
 />
 `;

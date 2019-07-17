@@ -108,4 +108,3 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'acceptanc
 // Authenticate and start the authorization process
 const credentials = authenticate();
 store.dispatch(authenticateUser(credentials));
-

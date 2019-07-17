@@ -1,13 +1,15 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import { render, fireEvent } from '@testing-library/react';
 
 import Header from './index';
+import { withAppContext } from '../../test/utils';
 
 describe('<Header />', () => {
   describe('rendering', () => {
     it('should render correctly', () => {
       const wrapper = shallow(
-        <Header />
+        <Header permissions={[]} />
       );
       expect(wrapper).toMatchSnapshot();
     });
@@ -15,7 +17,7 @@ describe('<Header />', () => {
 
   it('should render correctly when logged in', () => {
     const wrapper = shallow(
-      <Header isAuthenticated />
+      <Header isAuthenticated permissions={[]} />
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -24,14 +26,20 @@ describe('<Header />', () => {
     it('should render correctly when logged in', () => {
       const onLoginLogoutButtonClick = jest.fn();
 
-      const wrapper = shallow(
+      const { container } = render(withAppContext(
         <Header
+          permissions={[]}
           isAuthenticated
           onLoginLogoutButtonClick={onLoginLogoutButtonClick}
         />
-      );
+      ));
 
-      wrapper.find('.header-component__logout').simulate('click');
+      const logoutButton = container.querySelector('.header-component__logout');
+
+      expect(logoutButton).not.toBeNull();
+
+      fireEvent.click(logoutButton);
+
       expect(onLoginLogoutButtonClick).toHaveBeenCalled();
     });
   });
