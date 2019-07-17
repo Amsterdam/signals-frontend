@@ -7,7 +7,7 @@
     "url": "https://github.com/Amsterdam/signals-frontend.git"
   },
   "engines": {
-    "npm": ">=3",
+    "npm": ">=5",
     "node": ">=8"
   },
   "author": "Datapunt Amsterdam",
