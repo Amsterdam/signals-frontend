@@ -49,10 +49,12 @@ import configureStore from './configureStore';
 import { translationMessages } from './i18n';
 
 const environment = process.env.NODE_ENV;
+const release = process.env.GIT_COMMIT;
 
 Sentry.init({
   environment,
   dsn: 'https://3de59e3a93034a348089131aa565bdf4@sentry.data.amsterdam.nl/27',
+  release,
 });
 
 // load locale for date formatting
