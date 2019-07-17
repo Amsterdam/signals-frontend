@@ -11,6 +11,12 @@ function handleDownload(url, filename, accessToken) {
   if (accessToken) {
     headers.Authorization = `Bearer ${accessToken}`;
   }
+  headers.Origin = window.location.origin;
+
+  console.log('request', url, { method: 'GET',
+    headers,
+    responseType: 'blob'
+  });
 
   fetch(url, {
     method: 'GET',
@@ -18,6 +24,7 @@ function handleDownload(url, filename, accessToken) {
     responseType: 'blob'
   }).then((response) => response.blob())
     .then((blob) => {
+      console.log('BLOB', blob);
       const link = document.querySelector('.download-button__link');
       link.href = window.URL.createObjectURL(blob);
       link.click();
