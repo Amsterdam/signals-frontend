@@ -35,9 +35,9 @@ RUN npm --production=false \
        install && npm cache clean --force
 
 # Copy sources
-COPY src /app/src
 COPY internals /app/internals
 COPY server /app/server
+COPY src /app/src
 
 
 # Build

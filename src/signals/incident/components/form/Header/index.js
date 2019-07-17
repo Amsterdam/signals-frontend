@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Validators } from 'react-reactive-form';
 import get from 'lodash.get';
 
+import { MessageDescriptor } from 'translations/propTypes';
 import './style.scss';
 import flattenObject from '../../../services/object-flatten';
 
@@ -16,12 +17,12 @@ const Header = ({ meta, options, touched, hasError, getError, children, parent }
 
   const incident = get(parent, 'meta.incident', {});
   const shallowValues = flattenObject(incident, '', ':');
-  const isLabelDescriptor = label !== null && typeof label === 'object';
+  const isMessageDescriptor = label !== null && typeof label === 'object';
 
   return (
     <div className={`header ${touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom')) ? 'header--invalid' : ''}`}>
       <div className="header__label">{
-        isLabelDescriptor ?
+        isMessageDescriptor ?
           <FormattedMessage {...label} values={shallowValues} />
           : label
         }
@@ -66,7 +67,10 @@ const Header = ({ meta, options, touched, hasError, getError, children, parent }
 
 Header.propTypes = {
   meta: PropTypes.shape({
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      MessageDescriptor
+    ]),
     subtitle: PropTypes.string,
   }),
   options: PropTypes.object,

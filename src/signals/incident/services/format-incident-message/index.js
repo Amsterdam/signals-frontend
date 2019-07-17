@@ -3,12 +3,12 @@ import flattenObject from '../object-flatten';
 /**
  * Either formats message through i18n intl context or simply passes back string value
  * @param intl
- * @param value
+ * @param value either string label or a message descriptor object
  * @param incident
- * @returns {*}
+ * @returns string
  */
 const formatIncidentMessage = (intl, value, incident) => {
-  if (typeof value === 'object') {
+  if (value !== null && typeof value === 'object' && value.id && value.defaultMessage) {
     const descriptor = value;
     const shallowValues = flattenObject(incident, '', ':');
     return intl.formatMessage(descriptor, shallowValues);

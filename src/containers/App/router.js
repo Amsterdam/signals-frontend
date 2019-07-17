@@ -23,7 +23,12 @@ const Router = () => (
 );
 
 Router.propTypes = {
-  match: PropTypes.object
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      yesNo: PropTypes.string,
+      uuid: PropTypes.string,
+    }).isRequired,
+  })
 };
 
 export default Router;

@@ -18,7 +18,7 @@ describe('format incident message', () => {
     const intl = initIntlProvider({ foo: 'my message {abc}' });
     const messageDescriptor = {
       id: 'foo',
-      defaultValue: 'bar'
+      defaultMessage: 'bar'
     };
     expect(formatIncidentMessage(intl, messageDescriptor, { abc: 'xyz' })).toBe('my message xyz');
   });
