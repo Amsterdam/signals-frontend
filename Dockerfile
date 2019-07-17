@@ -13,6 +13,10 @@ RUN apt-get update && \
       git
 RUN rm -rf /var/lib/apt/lists/*
 
+# npm preinstall uses some scripts in the internals folder, so this is required before any npm install
+COPY internals /app/internals
+
+# Install full i18n support for node testing of translations
 RUN npm install --unsafe-perm -g full-icu && npm cache clean --force
 ENV NODE_ICU_DATA="/usr/local/lib/node_modules/full-icu"
 
@@ -28,14 +32,13 @@ COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
 RUN git config --global url."https://".insteadOf git://
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
-# Install NPM dependencies. Also:
+# Install NPM dependencies
 RUN npm --production=false \
         --unsafe-perm \
         --verbose \
        install && npm cache clean --force
 
 # Copy sources
-COPY internals /app/internals
 COPY server /app/server
 COPY src /app/src
 
