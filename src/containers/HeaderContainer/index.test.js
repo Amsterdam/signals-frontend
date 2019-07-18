@@ -28,13 +28,6 @@ describe('<HeaderContainer />', () => {
     jest.resetAllMocks();
   });
 
-  it('should render correctly when authenticated', () => {
-    isAuthenticated.mockImplementation(() => true);
-
-    const wrapper = shallow(<HeaderContainer {...props} />);
-    expect(wrapper).toMatchSnapshot();
-  });
-
   describe('onLoginLogoutButtonClick', () => {
     it('should login when not authenticated', () => {
       isAuthenticated.mockImplementation(() => false);

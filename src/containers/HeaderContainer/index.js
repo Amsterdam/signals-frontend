@@ -11,9 +11,12 @@ import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { makeSelectUserName, makeSelectUserPermissions } from 'containers/App/selectors';
 import Header from 'components/Header';
+import { withRouter } from 'react-router-dom';
 
 import { doLogin, doLogout } from '../App/actions';
 import { isAuthenticated } from '../../shared/services/auth/auth';
+
+const HeaderWithRouter = withRouter(Header);
 
 export class HeaderContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -34,7 +37,7 @@ export class HeaderContainer extends React.Component { // eslint-disable-line re
 
   render() {
     return (
-      <Header
+      <HeaderWithRouter
         permissions={this.props.permissions}
         isAuthenticated={isAuthenticated()}
         onLoginLogoutButtonClick={this.onLoginLogoutButtonClick}
