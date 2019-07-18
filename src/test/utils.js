@@ -3,10 +3,22 @@ import { ConnectedRouter } from 'react-router-redux';
 import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@datapunt/asc-ui';
+import MatchMediaMock from 'match-media-mock';
 
 import configureStore from '../configureStore';
 
 const history = createBrowserHistory();
+
+// set a default screenwidth of 2560 pixels
+const mmm = MatchMediaMock.create();
+
+mmm.setConfig({ type: 'screen', width: 2560 });
+
+// eslint-disable-next-line no-undef
+Object.defineProperty(global.window, 'matchMedia', {
+  value: mmm,
+  writable: true,
+});
 
 export const testActionCreator = (action, actionType, payload) => {
   const expected = {
