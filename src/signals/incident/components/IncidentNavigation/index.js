@@ -1,8 +1,8 @@
 /**
-*
-* IncidentNavigation
-*
-*/
+ *
+ * IncidentNavigation
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -10,34 +10,59 @@ import { WithWizard } from 'react-albus';
 
 import './style.scss';
 
-const IncidentNavigation = ({ valid, controls, value, meta: { incidentContainer, wizard, isAuthenticated, updateIncident, createIncident, handleSubmit } }) => {
-  const hideSubmit = controls.hide_navigation_buttons && controls.hide_navigation_buttons.meta && controls.hide_navigation_buttons.meta ? controls.hide_navigation_buttons.meta.isVisible : false;
+const IncidentNavigation = ({
+  valid,
+  controls,
+  value,
+  meta: {
+    incidentContainer,
+    wizard,
+    isAuthenticated,
+    updateIncident,
+    createIncident,
+    handleSubmit,
+  },
+}) => {
+  const hideSubmit =
+    controls.hide_navigation_buttons &&
+    controls.hide_navigation_buttons.meta &&
+    controls.hide_navigation_buttons.meta
+      ? controls.hide_navigation_buttons.meta.isVisible
+      : false;
   return (
     <span>
       <WithWizard
         render={({ next, previous, step }) => {
           const currentStep = step && step.id;
-          const wizardStep = currentStep && wizard[currentStep.split('/').pop()];
+          const wizardStep =
+            currentStep && wizard[currentStep.split('/').pop()];
 
           return (
             <div>
-              {wizardStep ?
+              {wizardStep ? (
                 <div className="incident-navigation">
                   {!hideSubmit && wizardStep.previousButtonLabel ? (
                     <button
-                      className={`incident-navigation__button  ${wizardStep.previousButtonClass}`}
+                      className={`incident-navigation__button  ${
+                        wizardStep.previousButtonClass
+                      }`}
                       onClick={previous}
                     >
                       {wizardStep.previousButtonLabel}
                     </button>
-                  ) : <span /> }
+                  ) : (
+                    <span />
+                  )}
 
                   {!hideSubmit && wizardStep.nextButtonLabel && (
                     <button
-                      className={`incident-navigation__button  ${wizardStep.nextButtonClass}`}
+                      className={`incident-navigation__button  ${
+                        wizardStep.nextButtonClass
+                      }`}
                       onClick={(e) => {
                         if (valid) {
-                          switch (wizardStep.formAction) { // eslint-disable-line default-case
+                          /* eslint-disable default-case */
+                          switch (wizardStep.formAction) {
                             case 'UPDATE_INCIDENT':
                               updateIncident(value);
                               break;
@@ -46,7 +71,7 @@ const IncidentNavigation = ({ valid, controls, value, meta: { incidentContainer,
                               createIncident({
                                 incident: incidentContainer.incident,
                                 wizard,
-                                isAuthenticated
+                                isAuthenticated,
                               });
                           }
 
@@ -59,7 +84,9 @@ const IncidentNavigation = ({ valid, controls, value, meta: { incidentContainer,
                     </button>
                   )}
                 </div>
-              : ''}
+              ) : (
+                ''
+              )}
             </div>
           );
         }}
@@ -69,7 +96,7 @@ const IncidentNavigation = ({ valid, controls, value, meta: { incidentContainer,
 };
 
 IncidentNavigation.defaultProps = {
-  meta: {}
+  meta: {},
 };
 
 IncidentNavigation.propTypes = {
@@ -77,9 +104,15 @@ IncidentNavigation.propTypes = {
   controls: PropTypes.object.isRequired,
   value: PropTypes.object.isRequired,
   meta: PropTypes.shape({
+    isAuthenticated: PropTypes.bool,
     wizard: PropTypes.object,
-    handleSubmit: PropTypes.function
-  })
+    handleSubmit: PropTypes.function,
+    incidentContainer: PropTypes.shape({
+      incident: PropTypes.shape({}),
+    }).isRequired,
+    updateIncident: PropTypes.func.isRequired,
+    createIncident: PropTypes.func.isRequired,
+  }),
 };
 
 export default IncidentNavigation;
