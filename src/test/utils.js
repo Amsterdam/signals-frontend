@@ -42,9 +42,11 @@ export const getContext = (state) => {
   return { store };
 };
 
+const store = configureStore({}, history);
+
 export const withAppContext = (Component) => (
   <ThemeProvider>
-    <Provider store={configureStore({}, history)}>
+    <Provider store={store}>
       <ConnectedRouter history={history}>
         {Component}
       </ConnectedRouter>
