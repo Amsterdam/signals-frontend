@@ -333,7 +333,7 @@
     "dyson-generators": "^0.2.0",
     "dyson-image": "^0.2.0",
     "enzyme": "^3.6.0",
-    "enzyme-adapter-react-16.3": "^1.2.0",
+    "enzyme-adapter-react-16": "^1.14.0",
     "enzyme-to-json": "^3.1.4",
     "eslint": "3.19.0",
     "eslint-config-airbnb": "15.0.1",
