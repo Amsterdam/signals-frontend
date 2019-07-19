@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { goBack } from 'react-router-redux';
+import { goBack } from 'connected-react-router';
 
 import { makeSelectCategories } from 'containers/App/selectors';
 import injectSaga from 'utils/injectSaga';

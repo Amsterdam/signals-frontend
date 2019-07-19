@@ -152,7 +152,7 @@ website!
 - **New industry-standard JS utilities** We're now making the most of...
     - ImmutableJS
     - reselect
-    - react-router-redux
+    - connected-react-router
     - redux-saga
 
 - **Huge CSS Improvements**

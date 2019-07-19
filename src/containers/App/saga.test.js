@@ -1,6 +1,6 @@
 import { all, call, put, take, takeLatest, takeEvery } from 'redux-saga/effects';
 import { channel } from 'redux-saga';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import request from 'utils/request';
 
 import { authCall } from 'shared/services/api/api';

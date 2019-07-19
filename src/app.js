@@ -6,17 +6,17 @@
  */
 
 // Needed for redux-saga es6 generator support
-import 'babel-polyfill';
+import '@babel/polyfill';
 import 'url-polyfill';
 
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
+import { ConnectedRouter } from 'connected-react-router';
+import history from 'utils/history';
 import moment from 'moment';
 import 'moment/src/locale/nl';
-import { createBrowserHistory } from 'history';
 import 'leaflet/dist/leaflet';
 
 
@@ -29,10 +29,9 @@ import loadModels from 'models';
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
 
-// Load the favicon, the manifest.json file and the .htaccess file
+// Load the favicon and the .htaccess file
 /* eslint-disable import/no-webpack-loader-syntax */
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
-import '!file-loader?name=[name].[ext]!./manifest.json';
 import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line import/extensions
 /* eslint-enable import/no-webpack-loader-syntax */
 
@@ -52,7 +51,6 @@ moment.locale('nl');
 
 // Create redux store with history
 const initialState = {};
-const history = createBrowserHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
@@ -108,4 +106,3 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'acceptanc
 // Authenticate and start the authorization process
 const credentials = authenticate();
 store.dispatch(authenticateUser(credentials));
-

@@ -1,11 +1,11 @@
-# Routing via `react-router` and `react-router-redux`
+# Routing via `react-router` and `connected-react-router`
 
 `react-router` is the de-facto standard routing solution for react applications.
 The thing is that with redux and a single state tree, the URL is part of that
-state. `react-router-redux` takes care of synchronizing the location of our
+state. `connected-react-router` takes care of synchronizing the location of our
 application with the application state.
 
-(See the [`react-router-redux` documentation](https://github.com/ReactTraining/react-router/tree/master/packages/react-router-redux)
+(See the [`connected-react-router` documentation](https://github.com/ReactTraining/react-router/tree/master/packages/connected-react-router)
 for more information)
 
 ## Usage
@@ -18,12 +18,12 @@ To add a new route, simply import the `Route` component and use it standalone or
 
 Top level routes are located in `App.js`.
 
-If you want your route component (or any component for that matter) to be loaded asynchronously, use container or component generator with 'Do you want an async loader?' option activated. 
+If you want your route component (or any component for that matter) to be loaded asynchronously, use container or component generator with 'Do you want an async loader?' option activated.
 
-To go to a new page use the `push` function by `react-router-redux`:
+To go to a new page use the `push` function by `connected-react-router`:
 
 ```JS
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 
 dispatch(push('/some/page'));
 ```
@@ -48,9 +48,9 @@ class AboutPage extends React.PureComponent {
 ```
 
 Note that with React Router v4, route re-rendering is handled by React's `setState`. This
-means that when wrapping route components in a redux connected container, or `PureComponent` or any other component with 
+means that when wrapping route components in a redux connected container, or `PureComponent` or any other component with
 `shouldComponentUpdate`, you need to create a [ConnectedSwitch](https://github.com/ReactTraining/react-router/issues/5072#issuecomment-310184271)
-container that receives `location` directly from a redux store. Read more about this in 
+container that receives `location` directly from a redux store. Read more about this in
 [Dealing with Update Blocking](https://reacttraining.com/react-router/web/guides/dealing-with-update-blocking).
 
 You can read more in [`react-router`'s documentation](https://reacttraining.com/react-router/web/api).

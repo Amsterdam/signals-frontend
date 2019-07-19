@@ -1,5 +1,5 @@
 import { put, takeLatest, select, all } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { authCall } from 'shared/services/api/api';
 
 import { REQUEST_INCIDENTS, INCIDENT_SELECTED } from './constants';

@@ -3,7 +3,7 @@
  */
 
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
-import { replace } from 'react-router-redux';
+import { replace } from 'connected-react-router';
 import request from 'utils/request';
 
 import { authPostCall } from 'shared/services/api/api';

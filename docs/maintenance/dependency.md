@@ -11,7 +11,7 @@ It is recommended that you use [Node Version Manager](https://github.com/creatio
 
 ## Update Tooling
 
-**Update Yarn:** 
+**Update Yarn:**
 
 1. For OSX users- `brew unlink yarn && brew install yarn`
 
@@ -25,7 +25,7 @@ It is recommended that you use [Node Version Manager](https://github.com/creatio
 2. Go to `Chrome -> About` and record version number in `Update Log`
 
 ## Update Dependencies
-[npm-check-updates](https://github.com/tjunnone/npm-check-updates) is a great tool to update your dependencies. It will only update your `package.json`. Run `npm install` or `yarn` if you want to install updated package versions. There are 3 useful commands. 
+[npm-check-updates](https://github.com/tjunnone/npm-check-updates) is a great tool to update your dependencies. It will only update your `package.json`. Run `npm install` or `yarn` if you want to install updated package versions. There are 3 useful commands.
 
 1. `ncu -u --semverLevel minor`
 2. `ncu -u --semverLevel major`
@@ -70,7 +70,7 @@ Identify problems that occur and try to resolve them by rolling back the respect
 - `npm run generate component` TestComp /w defaults
 - `npm run generate container TestPage` /w defaults
 - `npm run generate route` to TestPage - /test
-    
+
     Use TestComp on TestPage -> bypass all tests in TestComp and TestPage (set true = true)
 - `npm start` > `localhost:3000/test`
 - `npm test` (expect test failure due to incomplete test coverage)
@@ -94,91 +94,91 @@ Identify problems that occur and try to resolve them by rolling back the respect
 > A few deprecation warnings were added in React 15.5. This supports the new APIs that React recommends. Ref. [#876](https://github.com/airbnb/enzyme/pull/876)
 4. If you see a package-name being repeated, note that the version number of the last occurrence will get precedence.
 
-## :package: Version Diff  
+## :package: Version Diff
 **[0] PATCH UPDATES**
 ```
- fontfaceobserver                        2.0.8  →    2.0.9 
- ip                                      1.1.4  →    1.1.5 
- react-redux                             5.0.2  →    5.0.5 
- react-router                            3.0.2  →    3.0.5 
- react-router-redux                      4.0.7  →    4.0.8 
- react-router-scroll                     0.4.1  →    0.4.2 
- redux-saga                             0.14.3  →   0.14.8 
- whatwg-fetch                            2.0.2  →    2.0.3 
- babel-plugin-dynamic-import-node        1.0.0  →    1.0.2 
- coveralls                             2.11.15  →  2.11.16 
- css-loader                             0.26.1  →   0.26.4 
- exports-loader                          0.6.3  →    0.6.4 
- file-loader                            0.10.0  →   0.10.1 
- html-loader                             0.4.4  →    0.4.5 
- imports-loader                          0.7.0  →    0.7.1 
- lint-staged                             3.3.0  →    3.3.2 
- ngrok                                   2.2.6  →    2.2.9 
- offline-plugin                          4.6.1  →    4.6.2 
- shelljs                                 0.7.6  →    0.7.7 
- sinon                             2.0.0-pre.5  →    2.0.0 
- style-loader                           0.13.1  →   0.13.2 
- url-loader                              0.5.7  →    0.5.8 
- webpack-dev-middleware                 1.10.0  →   1.10.2 
+ fontfaceobserver                        2.0.8  →    2.0.9
+ ip                                      1.1.4  →    1.1.5
+ react-redux                             5.0.2  →    5.0.5
+ react-router                            3.0.2  →    3.0.5
+ connected-react-router                      4.0.7  →    4.0.8
+ react-router-scroll                     0.4.1  →    0.4.2
+ redux-saga                             0.14.3  →   0.14.8
+ whatwg-fetch                            2.0.2  →    2.0.3
+ babel-plugin-dynamic-import-node        1.0.0  →    1.0.2
+ coveralls                             2.11.15  →  2.11.16
+ css-loader                             0.26.1  →   0.26.4
+ exports-loader                          0.6.3  →    0.6.4
+ file-loader                            0.10.0  →   0.10.1
+ html-loader                             0.4.4  →    0.4.5
+ imports-loader                          0.7.0  →    0.7.1
+ lint-staged                             3.3.0  →    3.3.2
+ ngrok                                   2.2.6  →    2.2.9
+ offline-plugin                          4.6.1  →    4.6.2
+ shelljs                                 0.7.6  →    0.7.7
+ sinon                             2.0.0-pre.5  →    2.0.0
+ style-loader                           0.13.1  →   0.13.2
+ url-loader                              0.5.7  →    0.5.8
+ webpack-dev-middleware                 1.10.0  →   1.10.2
 ```
 **[1] MINOR UPDATES**
 ```
- babel-polyfill                                   6.22.0  →                 6.23.0 
- cross-env                                         3.1.4  →                  3.2.4 
- express                                          4.14.1  →                 4.15.3 
- history                                           3.2.1  →                  3.3.0 
- react                                            15.4.2  →                 15.5.4 
- react-dom                                        15.4.2  →                 15.5.4 
- react-intl                                        2.2.3  →                  2.3.0 
- redux-immutable                                  3.0.11  →                  3.1.0 
- redux-saga                                       0.14.8  →                 0.15.3 
- babel-cli                                        6.22.2  →                 6.24.1 
- babel-core                                       6.22.1  →                 6.24.1 
- babel-eslint                                      7.1.1  →                  7.2.3 
- babel-loader                                     6.2.10  →                  6.4.1 
- babel-plugin-transform-es2015-modules-commonjs   6.22.0  →                 6.24.1 
- babel-plugin-transform-react-constant-elements   6.22.0  →                 6.23.0 
- babel-plugin-transform-react-remove-prop-types   0.2.12  →                  0.4.5 
- babel-preset-env                                  1.4.0  →                  1.5.1 
- babel-preset-react                               6.22.0  →                 6.24.1 
- babel-preset-stage-0                             6.22.0  →                 6.24.1 
- coveralls                                       2.11.16  →                 2.13.1 
- css-loader                                       0.26.4  →                 0.28.4 
- enzyme                                            2.7.1  →                  2.8.2 
- eslint                                           3.13.1  →                 3.19.0 
- eslint-config-airbnb                             14.0.0  →                 14.1.0 
- eslint-config-airbnb-base                        11.0.1  →                 11.2.0 
- eslint-plugin-import                              2.2.0  →                  2.3.0 
- eslint-plugin-react                               6.9.0  →                 6.10.3 
- file-loader                                      0.10.1  →                 0.11.1 
- jest-cli                                         18.1.0  →  18.5.0-alpha.7da3df39 
- lint-staged                                       3.3.2  →                  3.5.1 
- node-plop                                         0.5.5  →                  0.7.0 
- offline-plugin                                    4.6.2  →                  4.8.1 
- plop                                              1.7.4  →                  1.8.0 
- react-addons-test-utils                          15.4.2  →                 15.5.1 
- rimraf                                            2.5.4  →                  2.6.1 
- sinon                                             2.0.0  →                  2.3.2 
- style-loader                                     0.13.2  →                 0.18.1 
- webpack                                           2.2.1  →                  2.6.1 
- webpack-hot-middleware                           2.16.1  →                 2.18.0 
+ babel-polyfill                                   6.22.0  →                 6.23.0
+ cross-env                                         3.1.4  →                  3.2.4
+ express                                          4.14.1  →                 4.15.3
+ history                                           3.2.1  →                  3.3.0
+ react                                            15.4.2  →                 15.5.4
+ react-dom                                        15.4.2  →                 15.5.4
+ react-intl                                        2.2.3  →                  2.3.0
+ redux-immutable                                  3.0.11  →                  3.1.0
+ redux-saga                                       0.14.8  →                 0.15.3
+ babel-cli                                        6.22.2  →                 6.24.1
+ babel-core                                       6.22.1  →                 6.24.1
+ babel-eslint                                      7.1.1  →                  7.2.3
+ babel-loader                                     6.2.10  →                  6.4.1
+ babel-plugin-transform-es2015-modules-commonjs   6.22.0  →                 6.24.1
+ babel-plugin-transform-react-constant-elements   6.22.0  →                 6.23.0
+ babel-plugin-transform-react-remove-prop-types   0.2.12  →                  0.4.5
+ babel-preset-env                                  1.4.0  →                  1.5.1
+ babel-preset-react                               6.22.0  →                 6.24.1
+ babel-preset-stage-0                             6.22.0  →                 6.24.1
+ coveralls                                       2.11.16  →                 2.13.1
+ css-loader                                       0.26.4  →                 0.28.4
+ enzyme                                            2.7.1  →                  2.8.2
+ eslint                                           3.13.1  →                 3.19.0
+ eslint-config-airbnb                             14.0.0  →                 14.1.0
+ eslint-config-airbnb-base                        11.0.1  →                 11.2.0
+ eslint-plugin-import                              2.2.0  →                  2.3.0
+ eslint-plugin-react                               6.9.0  →                 6.10.3
+ file-loader                                      0.10.1  →                 0.11.1
+ jest-cli                                         18.1.0  →  18.5.0-alpha.7da3df39
+ lint-staged                                       3.3.2  →                  3.5.1
+ node-plop                                         0.5.5  →                  0.7.0
+ offline-plugin                                    4.6.2  →                  4.8.1
+ plop                                              1.7.4  →                  1.8.0
+ react-addons-test-utils                          15.4.2  →                 15.5.1
+ rimraf                                            2.5.4  →                  2.6.1
+ sinon                                             2.0.0  →                  2.3.2
+ style-loader                                     0.13.2  →                 0.18.1
+ webpack                                           2.2.1  →                  2.6.1
+ webpack-hot-middleware                           2.16.1  →                 2.18.0
 ```
 **[3] MAJOR UPDATES**
 ```
- cross-env                                   3.2.4  →       5.0.0 
- history                                     3.3.0  →       4.6.1 
- react-helmet                                4.0.0  →       5.1.3 
- react-router                                3.0.5  →       4.1.1 
- redux-immutable                             3.1.0  →       4.0.0 
- reselect                                    2.5.4  →       3.0.1 
- sanitize.css                                4.1.0  →       5.0.0 
- babel-loader                                6.4.1  →       7.0.0 
- circular-dependency-plugin                  2.0.0  →       3.0.0 
- eslint-config-airbnb                       14.1.0  →      15.0.1 
- eslint-plugin-jsx-a11y                      3.0.2  →       5.0.3 
- eslint-plugin-react                        6.10.3  →       7.0.1 
- image-webpack-loader                        2.0.0  →       3.3.1 
- jest-cli                    18.5.0-alpha.7da3df39  →      20.0.4 
+ cross-env                                   3.2.4  →       5.0.0
+ history                                     3.3.0  →       4.6.1
+ react-helmet                                4.0.0  →       5.1.3
+ react-router                                3.0.5  →       4.1.1
+ redux-immutable                             3.1.0  →       4.0.0
+ reselect                                    2.5.4  →       3.0.1
+ sanitize.css                                4.1.0  →       5.0.0
+ babel-loader                                6.4.1  →       7.0.0
+ circular-dependency-plugin                  2.0.0  →       3.0.0
+ eslint-config-airbnb                       14.1.0  →      15.0.1
+ eslint-plugin-jsx-a11y                      3.0.2  →       5.0.3
+ eslint-plugin-react                        6.10.3  →       7.0.1
+ image-webpack-loader                        2.0.0  →       3.3.1
+ jest-cli                    18.5.0-alpha.7da3df39  →      20.0.4
 ```
 **[4] ROLLBACKS**
 ```
@@ -230,10 +230,10 @@ react-test-renderer                                     15.5.4
      Reason: image not found
 
    ***image-webpack-loader              2.0.0  →    3.0.0 <--- rolled back***
-   see: https://github.com/mxstbr/react-boilerplate/pull/1322#issuecomment-266264527 and #1335  
+   see: https://github.com/mxstbr/react-boilerplate/pull/1322#issuecomment-266264527 and #1335
 
 - Warning: Observed on `npm start`
-    
+
     WARNING in ./app/components/Header/banner.jpg
    DEPRECATED. Configure gifsicle's interlaced option in it's own options. (gifsicle.interlaced)
     @ ./app/components/Header/index.js 47:0-34
