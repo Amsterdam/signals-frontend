@@ -23,11 +23,6 @@ module.exports = (options) => ({
     rules: [
       {
         test: /\.svg$/,
-        exclude: /asc-ui/,
-        use: ['@svgr/webpack'],
-      },
-      {
-        test: /\.svg$/,
         include: /asc-ui/,
         use: [
           {
