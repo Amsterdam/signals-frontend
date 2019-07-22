@@ -7,6 +7,7 @@ const StyledSection = styled.section`
   background-color: #f3f3f3;
   padding-top: 10px;
   padding-bottom: 10px;
+  margin-bottom: 40px;
 `;
 
 const PageHeader = ({ className, children, title }) => (
