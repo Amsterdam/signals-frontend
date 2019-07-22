@@ -14,52 +14,45 @@ import DashboardContainer from '../../containers/DashboardContainer';
 import DefaultTextsAdmin from '../../containers/DefaultTextsAdmin';
 import IncidentSplitContainer from '../../containers/IncidentSplitContainer';
 
-import './style.scss';
-
-const IncidentManagementModule = (props) => {
-  const { isAuthenticated } = props;
-  const baseUrl = props.match.url;
-
-  const IncidentDetailWrapper = (wrapperProps) => (
-    <IncidentDetail id={wrapperProps.match.params.id} baseUrl={baseUrl} />
-  );
-  const IncidentOverviewPageWrapper = () => (
-    <IncidentOverviewPage baseUrl={baseUrl} />
-  );
-  const IncidentSplitContainerWrapper = (wrapperProps) => (
-    <IncidentSplitContainer id={wrapperProps.match.params.id} baseUrl={baseUrl} />
-  );
-
-  return !isAuthenticated ? (
+export const IncidentManagementModuleComponent = ({
+  isAuthenticated,
+  match: { url },
+}) =>
+  !isAuthenticated ? (
     <Route component={LoginPage} />
   ) : (
     <Fragment>
       <Route
         exact
-        path={`${baseUrl}/incidents`}
-        render={IncidentOverviewPageWrapper}
+        path={`${url}/incidents`}
+        render={() => <IncidentOverviewPage baseUrl={url} />}
       />
       <Route
         exact
-        path={`${baseUrl}/incident/:id`}
-        render={IncidentDetailWrapper}
+        path={`${url}/incident/:id`}
+        render={(wrapperProps) => (
+          <IncidentDetail id={wrapperProps.match.params.id} baseUrl={url} />
+        )}
       />
       <Route
         exact
-        path={`${baseUrl}/incident/:id/split`}
-        render={IncidentSplitContainerWrapper}
+        path={`${url}/incident/:id/split`}
+        render={(wrapperProps) => (
+          <IncidentSplitContainer
+            id={wrapperProps.match.params.id}
+            baseUrl={url}
+          />
+        )}
       />
-      <Route
-        path={`${baseUrl}/standaard/teksten`}
-        component={DefaultTextsAdmin}
-      />
-      <Route path={`${baseUrl}/dashboard`} component={DashboardContainer} />
+      <Route path={`${url}/standaard/teksten`} component={DefaultTextsAdmin} />
+      <Route path={`${url}/dashboard`} component={DashboardContainer} />
     </Fragment>
   );
-};
 
-IncidentManagementModule.propTypes = {
-  match: PropTypes.object,
+IncidentManagementModuleComponent.propTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string.isRequired,
+  }),
   isAuthenticated: PropTypes.bool.isRequired,
 };
 
@@ -69,4 +62,4 @@ const mapStateToProps = createStructuredSelector({
 
 const withConnect = connect(mapStateToProps);
 
-export default compose(withConnect)(IncidentManagementModule);
+export default compose(withConnect)(IncidentManagementModuleComponent);

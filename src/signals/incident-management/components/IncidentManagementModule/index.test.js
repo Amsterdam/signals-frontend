@@ -1,86 +1,119 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router';
-import { memoryHistory } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
+import { withAppContext } from 'test/utils';
+import { render, cleanup } from '@testing-library/react';
 
-import { IncidentManagementModule } from './index';
-import configureStore from '../../../../configureStore';
+import { IncidentManagementModuleComponent } from './index';
 
-jest.mock('../../containers/IncidentOverviewPage', () => () => 'IncidentOverviewPage');
-jest.mock('../../containers/IncidentDetail', () => () => 'IncidentDetail');
-jest.mock('../../containers/IncidentSplitContainer', () => () => 'IncidentSplitContainer');
+const history = createMemoryHistory();
 
 describe('<IncidentManagementModule />', () => {
   let props;
+
+  afterEach(cleanup);
 
   beforeEach(() => {
     props = {
       match: {
         isExact: false,
         params: {},
-        path: '/manage',
-        url: '/manage'
+        path: '/manage/incidents',
+        url: '/manage/incidents',
       },
       isAuthenticated: true,
     };
   });
 
-  it('should render correctly when authenticated', () => {
-    const wrapper = shallow(
-      <IncidentManagementModule {...props} />
+  it('should render correctly', () => {
+    const { rerender, asFragment } = render(
+      withAppContext(<IncidentManagementModuleComponent {...props} />),
+    );
+    const firstRender = asFragment();
+
+    rerender(
+      withAppContext(
+        <IncidentManagementModuleComponent
+          {...props}
+          isAuthenticated={false}
+        />,
+      ),
     );
 
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it('should render correctly when not authenticated', () => {
-    props.isAuthenticated = false;
-    const wrapper = shallow(
-      <IncidentManagementModule {...props} />
-    );
-
-    expect(wrapper).toMatchSnapshot();
+    expect(
+      firstRender.firstElementChild === asFragment().firstElementChild,
+    ).toEqual(false);
   });
 
   describe('routing', () => {
+    const loginText = 'Om deze pagina te zien dient u ingelogd te zijn.';
+
     it('can navigate to incident list', () => {
-      const store = configureStore({}, memoryHistory);
-      const wrapper = mount(
-        <Provider store={store}>
-          <MemoryRouter keyLength={0} initialEntries={['/manage/incidents']}>
-            <IncidentManagementModule {...props} />
-          </MemoryRouter>
-        </Provider>
+      history.push('/manage/incidents');
+
+      const { rerender, queryByText } = render(
+        withAppContext(
+          <IncidentManagementModuleComponent
+            {...props}
+            isAuthenticated={false}
+          />,
+        ),
       );
 
-      expect(wrapper).toMatchSnapshot();
+      expect(queryByText(loginText)).not.toBeNull();
+
+      rerender(
+        withAppContext(
+          <IncidentManagementModuleComponent {...props} isAuthenticated />,
+        ),
+      );
+
+      expect(queryByText(loginText)).toBeNull();
     });
 
     it('can navigate to incident detail', () => {
-      const store = configureStore({}, memoryHistory);
-      const wrapper = mount(
-        <Provider store={store}>
-          <MemoryRouter keyLength={0} initialEntries={['/manage/incident/666']}>
-            <IncidentManagementModule {...props} />
-          </MemoryRouter>
-        </Provider>
+      history.push('/manage/incident/1101');
+
+      const { rerender, queryByText } = render(
+        withAppContext(
+          <IncidentManagementModuleComponent
+            {...props}
+            isAuthenticated={false}
+          />,
+        ),
       );
 
-      expect(wrapper).toMatchSnapshot();
+      expect(queryByText(loginText)).not.toBeNull();
+
+      rerender(
+        withAppContext(
+          <IncidentManagementModuleComponent {...props} isAuthenticated />,
+        ),
+      );
+
+      expect(queryByText(loginText)).toBeNull();
     });
-  });
 
-  it('can navigate to incident split', () => {
-    const store = configureStore({}, memoryHistory);
-    const wrapper = mount(
-      <Provider store={store}>
-        <MemoryRouter keyLength={0} initialEntries={['/manage/incident/42/split']}>
-          <IncidentManagementModule {...props} />
-        </MemoryRouter>
-      </Provider>
-    );
+    it('can navigate to incident split', () => {
+      history.push('/manage/incident/1101/split');
 
-    expect(wrapper).toMatchSnapshot();
+      const { rerender, queryByText } = render(
+        withAppContext(
+          <IncidentManagementModuleComponent
+            {...props}
+            isAuthenticated={false}
+          />,
+        ),
+      );
+
+      expect(queryByText(loginText)).not.toBeNull();
+
+      rerender(
+        withAppContext(
+          <IncidentManagementModuleComponent {...props} isAuthenticated />,
+        ),
+      );
+
+      expect(queryByText(loginText)).toBeNull();
+    });
   });
 });

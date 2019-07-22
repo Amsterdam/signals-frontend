@@ -15,7 +15,7 @@ import {
   makeSelectCategories,
 } from 'containers/App/selectors';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
-import makeSelectOverviewPage from './selectors';
+import makeSelectOverviewPage, { makeSelectIncidentsCount } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
@@ -45,14 +45,17 @@ export class IncidentOverviewPage extends React.Component {
       incidents,
       loading,
       filter,
-      incidentsCount,
       page,
       sort,
       ...rest
     } = this.props.overviewpage;
+    const { incidentsCount } = this.props;
+
     return (
       <Fragment>
-        <PageHeader title={`Meldingen${incidentsCount ? ` (${incidentsCount})` : ''}`} />
+        <PageHeader
+          title={`Meldingen${incidentsCount ? ` (${incidentsCount})` : ''}`}
+        />
 
         <OverviewPage>
           <Column span={3}>
@@ -101,6 +104,7 @@ IncidentOverviewPage.propTypes = {
   overviewpage: PropTypes.object.isRequired,
   baseUrl: PropTypes.string.isRequired,
   categories: PropTypes.object.isRequired,
+  incidentsCount: PropTypes.number,
 
   onRequestIncidents: PropTypes.func.isRequired,
   onIncidentSelected: PropTypes.func.isRequired,
@@ -109,6 +113,7 @@ IncidentOverviewPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   overviewpage: makeSelectOverviewPage(),
+  incidentsCount: makeSelectIncidentsCount,
   categories: makeSelectCategories(),
   loading: makeSelectLoading(),
   error: makeSelectError(),

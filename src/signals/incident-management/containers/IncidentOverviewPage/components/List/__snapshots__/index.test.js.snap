@@ -5,12 +5,6 @@ exports[`<List /> should render correctly 1`] = `
   className="list-component"
 >
   <div
-    className="list-component__title"
-  >
-    Meldingen (
-    )
-  </div>
-  <div
     className="list-component__body"
   >
     <table

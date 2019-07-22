@@ -19,7 +19,7 @@ const makeSelectOverviewPage = () =>
     (substate) => substate.toJS(),
   );
 
-const makeSelectOverviewCount = createSelector(
+const makeSelectIncidentsCount = createSelector(
   selectOverviewPageDomain,
   (state) => {
     if (!state) return state;
@@ -43,5 +43,5 @@ export default makeSelectOverviewPage;
 export {
   selectOverviewPageDomain,
   makeSelectFilterParams,
-  makeSelectOverviewCount,
+  makeSelectIncidentsCount,
 };
