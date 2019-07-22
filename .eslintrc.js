@@ -5,8 +5,8 @@ const prettierOptions = JSON.parse(fs.readFileSync(path.resolve(__dirname, '.pre
 
 module.exports = {
   parser: 'babel-eslint',
-  extends: ['airbnb', 'prettier', 'prettier/react'],
-  plugins: ['prettier', 'redux-saga', 'react', 'react-hooks', 'jsx-a11y'],
+  extends: ['airbnb', 'prettier', 'prettier/react', 'plugin:jsx-a11y/recommended'],
+  plugins: ['prettier', 'redux-saga', 'react', 'react-hooks'],
   env: {
     jest: true,
     browser: true,
@@ -46,13 +46,6 @@ module.exports = {
         SwitchCase: 1,
       },
     ],
-    'jsx-a11y/aria-props': 2,
-    'jsx-a11y/heading-has-content': 0,
-    'jsx-a11y/href-no-hash': 2,
-    'jsx-a11y/label-has-for': 2,
-    'jsx-a11y/mouse-events-have-key-events': 2,
-    'jsx-a11y/role-has-required-aria-props': 2,
-    'jsx-a11y/role-supports-aria-props': 2,
     'max-len': 0,
     'newline-per-chained-call': 0,
     'no-confusing-arrow': 0,
