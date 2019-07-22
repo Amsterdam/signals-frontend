@@ -1,12 +1,18 @@
-import { fromJS } from 'immutable';
+import produce from 'immer';
 import {
   UPDATE_KTO,
-  REQUEST_KTO_ANSWERS, REQUEST_KTO_ANSWERS_SUCCESS, REQUEST_KTO_ANSWERS_ERROR,
-  CHECK_KTO, CHECK_KTO_SUCCESS, CHECK_KTO_ERROR,
-  STORE_KTO, STORE_KTO_SUCCESS, STORE_KTO_ERROR
+  REQUEST_KTO_ANSWERS,
+  REQUEST_KTO_ANSWERS_SUCCESS,
+  REQUEST_KTO_ANSWERS_ERROR,
+  CHECK_KTO,
+  CHECK_KTO_SUCCESS,
+  CHECK_KTO_ERROR,
+  STORE_KTO,
+  STORE_KTO_SUCCESS,
+  STORE_KTO_ERROR,
 } from './constants';
 
-export const initialState = fromJS({
+export const initialState = {
   form: {},
   loading: false,
   error: false,
@@ -14,64 +20,61 @@ export const initialState = fromJS({
   statusError: false,
   ktoFinished: false,
   ktoError: false,
-  answers: {}
-});
+  answers: {},
+};
 
-function ktoContainerReducer(state = initialState, action) {
-  switch (action.type) {
-    case UPDATE_KTO:
-      return state
-        .set('form', fromJS({
-          ...state.get('form').toJS(),
-          ...action.payload
-        }));
+/* eslint-disable default-case, no-param-reassign */
+export default (state = initialState, action) =>
+  produce(state, draft => {
+    switch (action.type) {
+      case UPDATE_KTO:
+        draft.form = {
+          ...state.form,
+          ...action.payload,
+        };
+        break;
 
-    case REQUEST_KTO_ANSWERS:
-      return state
-        .set('form', fromJS({
-          ...state.get('form').toJS(),
-          is_satisfied: fromJS(action.payload)
-        }));
+      case REQUEST_KTO_ANSWERS:
+        draft.form = {
+          ...state.form,
+          is_satisfied: action.payload,
+        };
+        break;
 
-    case REQUEST_KTO_ANSWERS_SUCCESS:
-      return state
-        .set('answers', fromJS(action.payload));
+      case REQUEST_KTO_ANSWERS_SUCCESS:
+        draft.answers = action.payload;
+        break;
 
-    case REQUEST_KTO_ANSWERS_ERROR:
-      return state
-        .set('error', true);
+      case REQUEST_KTO_ANSWERS_ERROR:
+        draft.error = true;
+        break;
 
-    case CHECK_KTO:
-      return state
-        .set('uuid', fromJS(action.payload))
-        .set('statusError', null);
+      case CHECK_KTO:
+        draft.uuid = action.payload;
+        draft.statusError = null;
+        break;
 
-    case CHECK_KTO_SUCCESS:
-      return state
-        .set('statusError', null);
+      case CHECK_KTO_SUCCESS:
+        draft.statusError = null;
+        break;
 
-    case CHECK_KTO_ERROR:
-      return state
-        .set('statusError', fromJS(action.payload));
+      case CHECK_KTO_ERROR:
+        draft.statusError = action.payload;
+        break;
 
-    case STORE_KTO:
-      return state
-        .set('ktoError', false)
-        .set('ktoFinished', false);
+      case STORE_KTO:
+        draft.ktoError = false;
+        draft.ktoFinished = false;
+        break;
 
-    case STORE_KTO_SUCCESS:
-      return state
-      .set('ktoError', false)
-      .set('ktoFinished', true);
+      case STORE_KTO_SUCCESS:
+        draft.ktoError = false;
+        draft.ktoFinished = true;
+        break;
 
-    case STORE_KTO_ERROR:
-      return state
-      .set('ktoError', true)
-      .set('ktoFinished', false);
-
-    default:
-      return state;
-  }
-}
-
-export default ktoContainerReducer;
+      case STORE_KTO_ERROR:
+        draft.ktoError = true;
+        draft.ktoFinished = false;
+        break;
+    }
+  });

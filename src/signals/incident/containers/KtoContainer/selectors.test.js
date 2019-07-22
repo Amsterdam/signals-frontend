@@ -1,4 +1,3 @@
-import { fromJS } from 'immutable';
 import makeSelectKtoContainer from './selectors';
 
 describe('makeSelectKtoContainer', () => {
@@ -9,9 +8,9 @@ describe('makeSelectKtoContainer', () => {
         yesNo: 'ja'
       }
     };
-    const mockedState = fromJS({
+    const mockedState = {
       ktoContainer
-    });
+    };
 
     expect(selector(mockedState)).toEqual(ktoContainer);
   });

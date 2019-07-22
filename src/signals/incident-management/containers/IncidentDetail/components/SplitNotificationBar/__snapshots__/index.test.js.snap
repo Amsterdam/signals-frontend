@@ -78,8 +78,6 @@ exports[`<SplitNotificationBar /> success should render 2  items correctly 1`] =
       >
          
         <NavLink
-          activeClassName="active"
-          aria-current="page"
           to="/manage/incident/43"
         >
           43
@@ -91,8 +89,6 @@ exports[`<SplitNotificationBar /> success should render 2  items correctly 1`] =
       >
          
         <NavLink
-          activeClassName="active"
-          aria-current="page"
           to="/manage/incident/44"
         >
           44
@@ -124,8 +120,6 @@ exports[`<SplitNotificationBar /> success should render 3 items correctly 1`] = 
       >
          
         <NavLink
-          activeClassName="active"
-          aria-current="page"
           to="/manage/incident/43"
         >
           43
@@ -137,8 +131,6 @@ exports[`<SplitNotificationBar /> success should render 3 items correctly 1`] = 
       >
          
         <NavLink
-          activeClassName="active"
-          aria-current="page"
           to="/manage/incident/44"
         >
           44
@@ -150,8 +142,6 @@ exports[`<SplitNotificationBar /> success should render 3 items correctly 1`] = 
       >
          
         <NavLink
-          activeClassName="active"
-          aria-current="page"
           to="/manage/incident/45"
         >
           45

@@ -1,101 +1,86 @@
-/*
- *
- * IncidentContainer reducer
- *
- */
+import produce from 'immer';
 
-import { fromJS } from 'immutable';
 import {
   UPDATE_INCIDENT,
   RESET_INCIDENT,
-
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
   CREATE_INCIDENT_ERROR,
-
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
-
   SET_PRIORITY,
   SET_PRIORITY_SUCCESS,
-  SET_PRIORITY_ERROR
+  SET_PRIORITY_ERROR,
 } from './constants';
-// import debugInitialState from './debug/initialState';
 
-export const initialState = fromJS({
+export const initialState = {
   incident: {
-    // ...debugInitialState,
     incident_date: 'Vandaag',
     incident_time_hours: 9,
     incident_time_minutes: 0,
     priority: {
       id: 'normal',
-      label: 'Normaal'
-    }
+      label: 'Normaal',
+    },
   },
-  priority: {}
-});
+  priority: {},
+};
 
-function incidentContainerReducer(state = initialState, action) {
-  switch (action.type) {
-    case UPDATE_INCIDENT:
-      return state
-        .set('incident', fromJS({
-          ...state.get('incident').toJS(),
-          ...action.payload
-        }));
+/* eslint-disable default-case, no-param-reassign */
+export default (state = initialState, action) =>
+  produce(state, draft => {
+    switch (action.type) {
+      case UPDATE_INCIDENT:
+        draft.incident = {
+          ...state.incident,
+          ...action.payload,
+        };
+        break;
 
-    case RESET_INCIDENT:
-      return state
-        .set('incident', fromJS({
-          ...(initialState.get('incident').toJS())
-        }));
+      case RESET_INCIDENT:
+        draft.incident = {
+          ...initialState.incident,
+        };
+        break;
 
-    case CREATE_INCIDENT:
-      return state
-        .set('loading', true)
-        .set('error', false)
-        .set('incident', fromJS({
-          ...state.get('incident').toJS(),
-          id: null
-        }));
+      case CREATE_INCIDENT:
+        draft.loading = true;
+        draft.error = false;
+        draft.incident = {
+          ...state.incident,
+          id: null,
+        };
+        break;
 
-    case CREATE_INCIDENT_SUCCESS:
-      return state
-        .set('loading', false)
-        .set('incident', fromJS({
-          ...(initialState.get('incident').toJS()),
+      case CREATE_INCIDENT_SUCCESS:
+        draft.loading = false;
+        draft.incident = {
+          ...initialState.incident,
           id: action.payload.id,
-          handling_message: state.get('incident').toJS().handling_message
-        }));
+          handling_message: state.incident.handling_message,
+        };
+        break;
 
-    case CREATE_INCIDENT_ERROR:
-      return state
-        .set('error', true)
-        .set('loading', false);
+      case CREATE_INCIDENT_ERROR:
+        draft.error = true;
+        draft.loading = false;
+        break;
 
-    case GET_CLASSIFICATION_SUCCESS:
-    case GET_CLASSIFICATION_ERROR:
-      return state
-        .set('incident', fromJS({
-          ...state.get('incident').toJS(),
-          ...action.payload
-        }));
+      case GET_CLASSIFICATION_SUCCESS:
+      case GET_CLASSIFICATION_ERROR:
+        draft.incident = {
+          ...state.incident,
+          ...action.payload,
+        };
+        break;
 
-    case SET_PRIORITY:
-      return state
-        .set('priority', fromJS({
-          ...action.payload
-        }));
+      case SET_PRIORITY:
+        draft.priority = action.payload;
+        break;
 
-    case SET_PRIORITY_SUCCESS:
-    case SET_PRIORITY_ERROR:
-      return state
-        .set('priority', fromJS({}));
-
-    default:
-      return state;
-  }
-}
-
-export default incidentContainerReducer;
+      case SET_PRIORITY_SUCCESS:
+      case SET_PRIORITY_ERROR:
+        draft.priority = {};
+        break;
+    }
+  });

@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { fromJS } from 'immutable';
 
 import { getContext } from 'test/utils';
 import { KtoContainer, mapDispatchToProps } from './index';
@@ -25,12 +24,12 @@ describe('<KtoContainer />', () => {
       onStoreKto: jest.fn()
     };
 
-    state = fromJS({
+    state = {
       global: {},
       ktoContainer: {
         form: {}
       }
-    });
+    };
     context = getContext(state);
   });
 

@@ -1,4 +1,3 @@
-import { fromJS } from 'immutable';
 import makeSelectIncidentModel from './selectors';
 
 
@@ -9,9 +8,9 @@ describe('makeSelectIncidentModel', () => {
       foo: 'bar'
     };
 
-    const mockedState = fromJS({
+    const mockedState = {
       incidentModel
-    });
+    };
     expect(selector(mockedState)).toEqual(incidentModel);
   });
 });

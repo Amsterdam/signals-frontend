@@ -25,7 +25,6 @@ module.exports = {
     L: true,
   },
   rules: {
-    'arrow-parens': ['error', 'always'],
     'arrow-body-style': [2, 'as-needed'],
     camelcase: 0,
     'class-methods-use-this': 0,

@@ -1,4 +1,3 @@
-import { fromJS } from 'immutable';
 import makeSelectDashboardContainer from './selectors';
 
 describe('makeSelectDashboardContainer', () => {
@@ -7,9 +6,9 @@ describe('makeSelectDashboardContainer', () => {
     const incidentDashboardContainer = {
       dashboard: {}
     };
-    const mockedState = fromJS({
+    const mockedState = {
       incidentDashboardContainer
-    });
+    };
 
     expect(selector(mockedState)).toEqual(incidentDashboardContainer);
   });

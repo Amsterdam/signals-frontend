@@ -1,6 +1,3 @@
-
-import { fromJS } from 'immutable';
-
 import overviewPageReducer, { initialState } from './reducer';
 import filterSubcategories from './services/filter-subcategories';
 
@@ -12,7 +9,7 @@ import {
   filterIncidentsChanged,
   pageIncidentsChanged,
   sortIncidentsChanged,
-  mainCategoryFilterSelectionChanged
+  mainCategoryFilterSelectionChanged,
 } from './actions';
 
 jest.mock('./services/filter-subcategories');
@@ -25,45 +22,52 @@ describe('overviewPageReducer', () => {
       {
         key: '',
         value: 'Alles',
-        slug: ''
+        slug: '',
       },
       {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/dode-dieren',
+        key:
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/dode-dieren',
         value: 'Dode dieren',
-        slug: 'dode-dieren'
+        slug: 'dode-dieren',
       },
       {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven',
+        key:
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven',
         value: 'Duiven',
-        slug: 'duiven'
+        slug: 'duiven',
       },
       {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ganzen',
+        key:
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ganzen',
         value: 'Ganzen',
-        slug: 'ganzen'
+        slug: 'ganzen',
       },
       {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/meeuwen',
+        key:
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/meeuwen',
         value: 'Meeuwen',
-        slug: 'meeuwen'
+        slug: 'meeuwen',
       },
       {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/overig-dieren',
+        key:
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/overig-dieren',
         value: 'Overig dieren',
-        slug: 'overig-dieren'
+        slug: 'overig-dieren',
       },
       {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ratten',
+        key:
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ratten',
         value: 'Ratten',
-        slug: 'ratten'
+        slug: 'ratten',
       },
       {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/wespen',
+        key:
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/wespen',
         value: 'Wespen',
-        slug: 'wespen'
-      }
+        slug: 'wespen',
+      },
     ]);
-    state = fromJS({});
+    state = {};
   });
 
   it('returns the initial state', () => {
@@ -74,68 +78,69 @@ describe('overviewPageReducer', () => {
     const action = requestIncidents({});
     const expected = {
       loading: true,
-      error: false
+      error: false,
     };
-    expect(overviewPageReducer(state, action)).toEqual(fromJS(expected));
+    expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 
   it('should handle the REQUEST_INICDENTS_SUCCESS', () => {
     const payload = { count: 1, results: [1] };
     const action = requestIncidentsSuccess(payload);
-    const expected = fromJS({})
-      .set('incidents', fromJS(payload.results))
-      .set('incidentsCount', payload.count)
-      .set('loading', false);
+    const expected = {
+      incidents: payload.results,
+      incidentsCount: payload.count,
+      loading: false,
+    };
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 
   it('should handle the REQUEST_INCIDENTS_ERROR', () => {
     const message = '';
     const action = requestIncidentsError(message);
-    const expected = fromJS({})
-      .set('error', message)
-      .set('loading', false);
+    const expected = {
+      error: message,
+      loading: false,
+    };
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 
   it('should handle the INCIDENT_SELECTED', () => {
     const incident = {};
     const action = incidentSelected(incident);
-    const expected = fromJS({});
+    const expected = {};
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 
   it('should handle the FILTER_INCIDENTS_CHANGED', () => {
     const filter = {};
     const action = filterIncidentsChanged(filter);
-    const expected = fromJS({})
-      .set('filter', filter)
-      .set('page', 1);
+    const expected = {
+      filter,
+      page: 1,
+    };
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 
   it('should handle the PAGE_INCIDENTS_CHANGED', () => {
     const page = 1;
     const action = pageIncidentsChanged(page);
-    const expected = fromJS({})
-      .set('page', 1);
+    const expected = { page: 1 };
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 
   it('should handle the SORT_INCIDENTS_CHANGED', () => {
     const sort = '-created_at';
     const action = sortIncidentsChanged(sort);
-    const expected = fromJS({})
-      .set('page', 1)
-      .set('sort', sort);
+    const expected = { page: 1, sort };
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 
   it('should handle the MAIN_CATEGORY_FILTER_SELECTION_CHANGED', () => {
     const payload = { selectedOptions: ['overlast-van-dieren'], categories: {} };
     const action = mainCategoryFilterSelectionChanged(payload);
-    const expected = fromJS({})
-      .set('filterSubCategoryList', fromJS(filterSubcategories(action.payload.selectedOptions, action.payload.categories)));
+    const expected = {
+      filterSubCategoryList: filterSubcategories(action.payload.selectedOptions, action.payload.categories),
+    };
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 });

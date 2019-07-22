@@ -1,16 +1,4 @@
-/*
- * AppReducer
- *
- * The reducer takes care of our data. Using actions, we can change our
- * application state.
- * To add a new action, add it to the switch statement in the reducer function
- *
- * Example:
- * case YOUR_ACTION_CONSTANT:
- *   return state.set('yourStateVariable', true);
- */
-
-import { fromJS } from 'immutable';
+import produce from 'immer';
 
 import {
   AUTHORIZE_USER,
@@ -20,68 +8,65 @@ import {
   UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
   UPLOAD_SUCCESS,
-  UPLOAD_FAILURE
+  UPLOAD_FAILURE,
 } from './constants';
 
 // The initial state of the App
-export const initialState = fromJS({
+export const initialState = {
   loading: false,
   error: false,
   upload: {},
   userPermissions: [],
   categories: {
     main: [],
-    sub: []
-  }
-});
+    sub: [],
+  },
+};
 
-function appReducer(state = initialState, action) {
-  switch (action.type) {
-    case AUTHORIZE_USER:
-      return state
-        .set('userName', action.payload.userName)
-        .set('userScopes', fromJS(action.payload.userScopes))
-        .set('userPermissions', fromJS(action.payload.userPermissions))
-        .set('accessToken', action.payload.accessToken);
+/* eslint-disable default-case, no-param-reassign */
+export default (state = initialState, action) =>
+  produce(state, (draft) => {
+    switch (action.type) {
+      case AUTHORIZE_USER:
+        draft.userName = action.payload.userName;
+        draft.userScopes = action.payload.userScopes;
+        draft.userPermissions = action.payload.userPermissions;
+        draft.accessToken = action.payload.accessToken;
+        break;
 
-    case SHOW_GLOBAL_ERROR:
-      return state
-        .set('error', !!(action.payload))
-        .set('errorMessage', action.payload)
-        .set('loading', false);
+      case SHOW_GLOBAL_ERROR:
+        draft.error = !!action.payload;
+        draft.errorMessage = action.payload;
+        draft.loading = false;
+        break;
 
-    case RESET_GLOBAL_ERROR:
-      return state
-        .set('error', false)
-        .set('errorMessage', '')
-        .set('loading', false);
+      case RESET_GLOBAL_ERROR:
+        draft.error = false;
+        draft.errorMessage = '';
+        draft.loading = false;
+        break;
 
-    case REQUEST_CATEGORIES_SUCCESS:
-      return state
-        .set('categories', fromJS(action.payload));
+      case REQUEST_CATEGORIES_SUCCESS:
+        draft.categories = action.payload;
+        break;
 
-    case UPLOAD_REQUEST:
-      return state
-        .set('upload', fromJS({
+      case UPLOAD_REQUEST:
+        draft.upload = {
           id: action.payload.id,
-          file: action.payload.file.name
-        }));
+          file: action.payload.file.name,
+        };
+        break;
 
-    case UPLOAD_PROGRESS:
-      return state
-        .set('upload', fromJS({
-          ...state.get('upload').toJS(),
-          progress: action.payload
-        }));
+      case UPLOAD_PROGRESS:
+        draft.upload = {
+          ...state.upload,
+          progress: action.payload,
+        };
+        break;
 
-    case UPLOAD_SUCCESS:
-    case UPLOAD_FAILURE:
-      return state
-        .set('upload', fromJS({}));
-
-    default:
-      return state;
-  }
-}
-
-export default appReducer;
+      case UPLOAD_SUCCESS:
+      case UPLOAD_FAILURE:
+        draft.upload = {};
+        break;
+    }
+  });

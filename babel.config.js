@@ -6,22 +6,12 @@ module.exports = {
         modules: false,
       },
     ],
-    '@babel/preset-react',
+    '@babel/preset-react'
   ],
-  plugins: [
-    'styled-components',
-    '@babel/plugin-proposal-class-properties',
-    '@babel/plugin-syntax-dynamic-import',
-    [
-      'inline-react-svg',
-      {
-        ignorePattern: '.*marker\\.svg',
-      },
-    ],
-  ],
+  plugins: ['styled-components', '@babel/plugin-proposal-class-properties', '@babel/plugin-syntax-dynamic-import'],
   env: {
     production: {
-      only: ['app'],
+      only: ['src'],
       plugins: [
         'lodash',
         'transform-react-remove-prop-types',
@@ -30,10 +20,7 @@ module.exports = {
       ],
     },
     test: {
-      plugins: [
-        '@babel/plugin-transform-modules-commonjs',
-        'dynamic-import-node',
-      ],
+      plugins: ['@babel/plugin-transform-modules-commonjs', 'dynamic-import-node'],
     },
   },
 };

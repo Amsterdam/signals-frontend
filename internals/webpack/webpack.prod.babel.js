@@ -1,7 +1,7 @@
 // Important modules this config uses
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
+// const WebpackPwaManifest = require('webpack-pwa-manifest');
 const { HashedModuleIdsPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
@@ -42,9 +42,6 @@ module.exports = require('./webpack.base.babel')({
         sourceMap: true,
       }),
     ],
-    nodeEnv: 'production',
-    sideEffects: true,
-    concatenateModules: true,
     splitChunks: {
       chunks: 'all',
       minSize: 30000,
@@ -136,25 +133,25 @@ module.exports = require('./webpack.base.babel')({
       minRatio: 0.8,
     }),
 
-    new WebpackPwaManifest({
-      name: 'Registraties Amsterdam',
-      short_name: 'Registraties Amsterdam',
-      background_color: '#fafafa',
-      theme_color: '#b1624d',
-      inject: true,
-      ios: true,
-      icons: [
-        {
-          src: path.resolve('app/images/icon-512x512.png'),
-          sizes: [72, 96, 128, 144, 192, 384, 512],
-        },
-        {
-          src: path.resolve('app/images/icon-512x512.png'),
-          sizes: [120, 152, 167, 180],
-          ios: true,
-        },
-      ],
-    }),
+    // new WebpackPwaManifest({
+    //   name: 'Registraties Amsterdam',
+    //   short_name: 'Registraties Amsterdam',
+    //   background_color: '#fafafa',
+    //   theme_color: '#b1624d',
+    //   inject: true,
+    //   ios: true,
+    //   icons: [
+    //     {
+    //       src: path.resolve('src/images/icon-512x512.png'),
+    //       sizes: [72, 96, 128, 144, 192, 384, 512],
+    //     },
+    //     {
+    //       src: path.resolve('src/images/icon-512x512.png'),
+    //       sizes: [120, 152, 167, 180],
+    //       ios: true,
+    //     },
+    //   ],
+    // }),
 
     new HashedModuleIdsPlugin({
       hashFunction: 'sha256',

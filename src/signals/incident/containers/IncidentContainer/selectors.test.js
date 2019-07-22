@@ -1,4 +1,3 @@
-import { fromJS } from 'immutable';
 import makeSelectIncidentContainer from './selectors';
 
 describe('makeSelectIncidentContainer', () => {
@@ -9,9 +8,9 @@ describe('makeSelectIncidentContainer', () => {
         categoy: 'poep'
       }
     };
-    const mockedState = fromJS({
+    const mockedState = {
       incidentContainer
-    });
+    };
 
     expect(selector(mockedState)).toEqual(incidentContainer);
   });

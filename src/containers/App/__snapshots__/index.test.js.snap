@@ -11,22 +11,34 @@ exports[`<App /> routing can navigate to kto form 1`] = `
       },
       "injectedSagas": Object {
         "ktoContainer": Object {
-          "mode": "@@saga-injector/restart-on-remount",
+          "mode": "@@saga-injector/daemon",
           "saga": [Function],
           "task": Object {
             "@@redux-saga/TASK": true,
             "cancel": [Function],
-            "cont": undefined,
-            "done": Promise {},
+            "cont": [Function],
+            "context": Object {},
+            "end": [Function],
             "error": [Function],
             "id": 1,
             "isAborted": [Function],
             "isCancelled": [Function],
+            "isRoot": true,
             "isRunning": [Function],
             "joiners": Array [],
-            "name": "watchKtoContainerSaga",
+            "meta": Object {
+              "location": undefined,
+              "name": "watchKtoContainerSaga",
+            },
+            "queue": Object {
+              "abort": [Function],
+              "addTask": [Function],
+              "cancelAll": [Function],
+              "getTasks": [Function],
+            },
             "result": [Function],
             "setContext": [Function],
+            "toPromise": [Function],
           },
         },
       },
@@ -150,38 +162,10 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                             <span
                               className="logoset"
                             >
-                              <LogoSvg
+                              <IMAGE_MOCK
                                 alt="Gemeente Amsterdam"
                                 className="screen-logo"
-                                id="Layer_1"
-                                viewBox="0 0 20 68"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <svg
-                                  alt="Gemeente Amsterdam"
-                                  className="screen-logo"
-                                  id="Layer_1"
-                                  viewBox="0 0 20 68"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <style>
-                                    .st0
-                                    {
-                                    fill:#ec0000
-                                    }
-                                  </style>
-                                  <title>
-                                    Canvas 1
-                                  </title>
-                                  <title>
-                                    Layer 1
-                                  </title>
-                                  <path
-                                    className="st0"
-                                    d="M0 64l6-6-6-6 4-4 6 6 6-6 4 4-6 6 6 6-4 4-6-6-6 6-4-4zM0 16l6-6-6-6 4-4 6 6 6-6 4 4-6 6 6 6-4 4-6-6-6 6-4-4zM0 40l6-6-6-6 4-4 6 6 6-6 4 4-6 6 6 6-4 4-6-6-6 6-4-4z"
-                                  />
-                                </svg>
-                              </LogoSvg>
+                              />
                               <img
                                 alt="Gemeente Amsterdam"
                                 className="alt-logo"
@@ -262,37 +246,30 @@ exports[`<App /> routing can navigate to kto form 1`] = `
                       >
                         <li>
                           <NavLink
-                            activeClassName="active"
-                            aria-current="page"
                             onClick={[Function]}
                             to="/"
                           >
-                            <Route
-                              path="\\\\/"
+                            <Link
+                              aria-current="page"
+                              className="active"
+                              onClick={[Function]}
+                              style={Object {}}
+                              to="/"
                             >
-                              <Link
+                              <a
                                 aria-current="page"
                                 className="active"
+                                href="/"
                                 onClick={[Function]}
-                                replace={false}
                                 style={Object {}}
-                                to="/"
                               >
-                                <a
-                                  aria-current="page"
-                                  className="active"
-                                  href="/"
-                                  onClick={[Function]}
-                                  style={Object {}}
+                                <span
+                                  className="linklabel"
                                 >
-                                  <span
-                                    className="linklabel"
-                                  >
-                                    Nieuwe melding
-                                  </span>
-                                </a>
-                              </Link>
-                            </Route>
+                                  Nieuwe melding
+                                </span>
+                              </a>
+                            </Link>
                           </NavLink>
                         </li>
                       </ul>

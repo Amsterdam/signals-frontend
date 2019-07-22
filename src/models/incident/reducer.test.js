@@ -1,5 +1,3 @@
-import { fromJS } from 'immutable';
-
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 import priorityList from 'signals/incident-management/definitions/priorityList';
 import statusList, { changeStatusOptionList } from 'signals/incident-management/definitions/statusList';
@@ -8,12 +6,17 @@ import { SPLIT_INCIDENT_SUCCESS } from 'signals/incident-management/containers/I
 
 import incidentModelReducer, { initialState } from './reducer';
 import {
-  REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR,
+  REQUEST_INCIDENT,
+  REQUEST_INCIDENT_SUCCESS,
+  REQUEST_INCIDENT_ERROR,
   DISMISS_SPLIT_NOTIFICATION,
-  PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
-  REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR
-}
-  from './constants';
+  PATCH_INCIDENT,
+  PATCH_INCIDENT_SUCCESS,
+  PATCH_INCIDENT_ERROR,
+  REQUEST_ATTACHMENTS,
+  REQUEST_ATTACHMENTS_SUCCESS,
+  REQUEST_ATTACHMENTS_ERROR,
+} from './constants';
 
 describe('incidentModelReducer', () => {
   const reducer = incidentModelReducer;
@@ -31,34 +34,26 @@ describe('incidentModelReducer', () => {
       notes: false,
       priority: false,
       status: false,
-      subcategory: false
+      subcategory: false,
     },
-    split: false
+    split: false,
   };
-  // let state;
-
-  beforeEach(() => {
-    // state = fromJS({
-      // incident: {},
-      // incidentNotesList: [],
-    // });
-  });
 
   it('returns the initial state', () => {
-    expect(reducer(undefined, {})).toEqual(fromJS(initialState));
+    expect(reducer(undefined, {})).toEqual(initialState);
   });
 
   it('should handle the REQUEST_INCIDENT', () => {
     expect(
       incidentModelReducer(undefined, {
         type: REQUEST_INCIDENT,
-        payload: 42
-      }).toJS()
+        payload: 42,
+      }),
     ).toEqual({
       ...expected,
       id: 42,
       incident: null,
-      loading: true
+      loading: true,
     });
   });
 
@@ -67,24 +62,24 @@ describe('incidentModelReducer', () => {
     expect(
       incidentModelReducer(undefined, {
         type: REQUEST_INCIDENT_SUCCESS,
-        payload
-      }).toJS()
+        payload,
+      }),
     ).toEqual({
       ...expected,
       incident: {
-        id: 1
-      }
+        id: 1,
+      },
     });
   });
 
   it('should handle the DISMISS_SPLIT_NOTIFICATION', () => {
     const split = { id: 42, created: [{ id: 3 }] };
     expect(
-      incidentModelReducer(fromJS({ split }), {
-        type: DISMISS_SPLIT_NOTIFICATION
-      }).toJS()
+      incidentModelReducer({ split }, {
+        type: DISMISS_SPLIT_NOTIFICATION,
+      }),
     ).toEqual({
-      split: false
+      split: false,
     });
   });
 
@@ -92,11 +87,11 @@ describe('incidentModelReducer', () => {
     expect(
       incidentModelReducer(undefined, {
         type: REQUEST_INCIDENT_ERROR,
-        payload: true
-      }).toJS()
+        payload: true,
+      }),
     ).toEqual({
       ...expected,
-      error: true
+      error: true,
     });
   });
 
@@ -105,20 +100,20 @@ describe('incidentModelReducer', () => {
       id: 42,
       type: 'location',
       patch: {
-        location: { foo: 'bar' }
-      }
+        location: { foo: 'bar' },
+      },
     };
     expect(
       incidentModelReducer(undefined, {
         type: PATCH_INCIDENT,
-        payload
-      }).toJS()
+        payload,
+      }),
     ).toEqual({
       ...expected,
       patching: {
         ...expected.patching,
-        location: true
-      }
+        location: true,
+      },
     });
   });
 
@@ -130,32 +125,32 @@ describe('incidentModelReducer', () => {
     expect(
       incidentModelReducer(undefined, {
         type: PATCH_INCIDENT_SUCCESS,
-        payload
-      }).toJS()
+        payload,
+      }),
     ).toEqual({
       ...expected,
       patching: {
-        ...expected.patching
-      }
+        ...expected.patching,
+      },
     });
   });
 
   it('should handle the PATCH_INCIDENT_ERROR', () => {
     const payload = {
       error: { response: {} },
-      type: 'location'
+      type: 'location',
     };
     expect(
-     incidentModelReducer(undefined, {
-       type: PATCH_INCIDENT_ERROR,
-       payload
-     }).toJS()
+      incidentModelReducer(undefined, {
+        type: PATCH_INCIDENT_ERROR,
+        payload,
+      }),
     ).toEqual({
       ...expected,
       patching: {
-        ...expected.patching
+        ...expected.patching,
       },
-      error: payload.error
+      error: payload.error,
     });
   });
 
@@ -163,11 +158,11 @@ describe('incidentModelReducer', () => {
     expect(
       incidentModelReducer(undefined, {
         type: REQUEST_ATTACHMENTS,
-        payload: 42
-      }).toJS()
+        payload: 42,
+      }),
     ).toEqual({
       ...expected,
-      attachments: []
+      attachments: [],
     });
   });
 
@@ -176,34 +171,34 @@ describe('incidentModelReducer', () => {
     expect(
       incidentModelReducer(undefined, {
         type: REQUEST_ATTACHMENTS_SUCCESS,
-        payload
-      }).toJS()
+        payload,
+      }),
     ).toEqual({
       ...expected,
-      attachments: payload
+      attachments: payload,
     });
   });
 
   it('should handle the REQUEST_ATTACHMENTS_ERROR', () => {
     expect(
       incidentModelReducer(undefined, {
-        type: REQUEST_ATTACHMENTS_ERROR
-      }).toJS()
+        type: REQUEST_ATTACHMENTS_ERROR,
+      }),
     ).toEqual({
       ...expected,
-      attachments: []
+      attachments: [],
     });
   });
 
   it('should handle the SPLIT_INCIDENT_SUCCESS ', () => {
     const payload = { id: 42, created: [{ id: 3 }] };
     expect(
-      incidentModelReducer(fromJS({}), {
+      incidentModelReducer({}, {
         type: SPLIT_INCIDENT_SUCCESS,
-        payload
-      }).toJS()
+        payload,
+      }),
     ).toEqual({
-      split: payload
+      split: payload,
     });
   });
 });

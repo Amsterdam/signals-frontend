@@ -15,8 +15,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import history from 'utils/history';
-import moment from 'moment';
-import 'moment/src/locale/nl';
 import 'leaflet/dist/leaflet';
 
 
@@ -45,9 +43,6 @@ import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
-
-// load locale for date formatting
-moment.locale('nl');
 
 // Create redux store with history
 const initialState = {};

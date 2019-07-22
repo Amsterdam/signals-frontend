@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { fromJS } from 'immutable';
 
 import { getContext } from 'test/utils';
 import { IncidentContainer, mapDispatchToProps } from './index';
@@ -27,12 +26,12 @@ describe('<IncidentContainer />', () => {
 
   describe('rendering', () => {
     it('should render correctly', () => {
-      const state = fromJS({
+      const state = {
         global: {},
         incidentContainer: {
           incident: {}
         }
-      });
+      };
       const context = getContext(state);
       const wrapper = shallow(<IncidentContainer {...props} />, { context });
 

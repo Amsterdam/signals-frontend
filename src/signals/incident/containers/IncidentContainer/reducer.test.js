@@ -1,57 +1,56 @@
-import { fromJS } from 'immutable';
 import incidentContainerReducer, { initialState } from './reducer';
 
 import {
   UPDATE_INCIDENT,
   RESET_INCIDENT,
-
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
   CREATE_INCIDENT_ERROR,
-
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
-
   SET_PRIORITY,
   SET_PRIORITY_SUCCESS,
-  SET_PRIORITY_ERROR
+  SET_PRIORITY_ERROR,
 } from './constants';
 
 describe('incidentContainerReducer', () => {
   it('returns the initial state', () => {
-    expect(incidentContainerReducer(undefined, {})).toEqual(fromJS(initialState));
+    expect(incidentContainerReducer(undefined, {})).toEqual(initialState);
   });
 
   it('default wizard state should contain date, time, and priority', () => {
-    expect(initialState.get('incident')).toEqual(fromJS({
+    expect(initialState.incident).toEqual({
       incident_date: 'Vandaag',
       incident_time_hours: 9,
       incident_time_minutes: 0,
       priority: {
         id: 'normal',
-        label: 'Normaal'
-      }
-    }));
+        label: 'Normaal',
+      },
+    });
   });
 
   describe('UPDATE_INCIDENT', () => {
     it('sets new properties and keeps the old ones', () => {
       expect(
-        incidentContainerReducer(fromJS({
-          incident: {
-            category: 'bar'
-          }
-        }), {
-          type: UPDATE_INCIDENT,
-          payload: {
-            subcategory: 'foo'
-          }
-        }).toJS()
+        incidentContainerReducer(
+          {
+            incident: {
+              category: 'bar',
+            },
+          },
+          {
+            type: UPDATE_INCIDENT,
+            payload: {
+              subcategory: 'foo',
+            },
+          },
+        ),
       ).toEqual({
         incident: {
           category: 'bar',
-          subcategory: 'foo'
-        }
+          subcategory: 'foo',
+        },
       });
     });
   });
@@ -59,15 +58,18 @@ describe('incidentContainerReducer', () => {
   describe('RESET_INCIDENT', () => {
     it('sets new properties and keeps the old ones', () => {
       expect(
-        incidentContainerReducer(fromJS({
-          incident: {
-            category: 'foo'
-          }
-        }), {
-          type: RESET_INCIDENT
-        }).toJS()
+        incidentContainerReducer(
+          {
+            incident: {
+              category: 'foo',
+            },
+          },
+          {
+            type: RESET_INCIDENT,
+          },
+        ),
       ).toEqual({
-        incident: initialState.get('incident').toJS()
+        incident: initialState.incident,
       });
     });
   });
@@ -75,15 +77,18 @@ describe('incidentContainerReducer', () => {
   describe('CREATE_INCIDENT', () => {
     it('resets error and loading and id', () => {
       expect(
-        incidentContainerReducer(fromJS({ incident: {} }), {
-          type: CREATE_INCIDENT
-        }).toJS()
+        incidentContainerReducer(
+          { incident: {} },
+          {
+            type: CREATE_INCIDENT,
+          },
+        ),
       ).toEqual({
         error: false,
         loading: true,
         incident: {
-          id: null
-        }
+          id: null,
+        },
       });
     });
   });
@@ -91,27 +96,30 @@ describe('incidentContainerReducer', () => {
   describe('CREATE_INCIDENT_SUCCESS', () => {
     it('sets incident and loading and id but keeps the handling_message', () => {
       expect(
-        incidentContainerReducer(fromJS({
-          incident: {
-            handling_message: 'baz'
-          }
-        }), {
-          type: CREATE_INCIDENT_SUCCESS,
-          payload: {
-            id: 666,
-            category: {
-              main_slug: 'foo',
-              sub_slug: 'bar'
-            }
-          }
-        }).toJS()
+        incidentContainerReducer(
+          {
+            incident: {
+              handling_message: 'baz',
+            },
+          },
+          {
+            type: CREATE_INCIDENT_SUCCESS,
+            payload: {
+              id: 666,
+              category: {
+                main_slug: 'foo',
+                sub_slug: 'bar',
+              },
+            },
+          },
+        ),
       ).toEqual({
         loading: false,
         incident: {
-          ...initialState.get('incident').toJS(),
+          ...initialState.incident,
           id: 666,
-          handling_message: 'baz'
-        }
+          handling_message: 'baz',
+        },
       });
     });
   });
@@ -119,12 +127,15 @@ describe('incidentContainerReducer', () => {
   describe('CREATE_INCIDENT_ERROR', () => {
     it('sets error and loading', () => {
       expect(
-        incidentContainerReducer(fromJS({}), {
-          type: CREATE_INCIDENT_ERROR
-        }).toJS()
+        incidentContainerReducer(
+          {},
+          {
+            type: CREATE_INCIDENT_ERROR,
+          },
+        ),
       ).toEqual({
         error: true,
-        loading: false
+        loading: false,
       });
     });
   });
@@ -132,20 +143,23 @@ describe('incidentContainerReducer', () => {
   describe('GET_CLASSIFICATION_SUCCESS', () => {
     it('sets category and subcategory', () => {
       expect(
-        incidentContainerReducer(fromJS({
-          incident: {}
-        }), {
-          type: GET_CLASSIFICATION_SUCCESS,
-          payload: {
-            category: 'Overlast in de openbare ruimte',
-            subcategory: 'Honden(poep)'
-          }
-        }).toJS()
+        incidentContainerReducer(
+          {
+            incident: {},
+          },
+          {
+            type: GET_CLASSIFICATION_SUCCESS,
+            payload: {
+              category: 'Overlast in de openbare ruimte',
+              subcategory: 'Honden(poep)',
+            },
+          },
+        ),
       ).toEqual({
         incident: {
           category: 'Overlast in de openbare ruimte',
-          subcategory: 'Honden(poep)'
-        }
+          subcategory: 'Honden(poep)',
+        },
       });
     });
   });
@@ -153,20 +167,23 @@ describe('incidentContainerReducer', () => {
   describe('GET_CLASSIFICATION_ERROR', () => {
     it('sets category and subcategory', () => {
       expect(
-        incidentContainerReducer(fromJS({
-          incident: {}
-        }), {
-          type: GET_CLASSIFICATION_ERROR,
-          payload: {
-            category: 'Overlast in de openbare ruimte',
-            subcategory: 'Honden(poep)'
-          }
-        }).toJS()
+        incidentContainerReducer(
+          {
+            incident: {},
+          },
+          {
+            type: GET_CLASSIFICATION_ERROR,
+            payload: {
+              category: 'Overlast in de openbare ruimte',
+              subcategory: 'Honden(poep)',
+            },
+          },
+        ),
       ).toEqual({
         incident: {
           category: 'Overlast in de openbare ruimte',
-          subcategory: 'Honden(poep)'
-        }
+          subcategory: 'Honden(poep)',
+        },
       });
     });
   });
@@ -174,18 +191,21 @@ describe('incidentContainerReducer', () => {
   describe('SET_PRIORITY', () => {
     it('sets priority', () => {
       expect(
-        incidentContainerReducer(fromJS({}), {
-          type: SET_PRIORITY,
-          payload: {
-            _signal: 666,
-            priority: 'normal'
-          }
-        }).toJS()
+        incidentContainerReducer(
+          {},
+          {
+            type: SET_PRIORITY,
+            payload: {
+              _signal: 666,
+              priority: 'normal',
+            },
+          },
+        ),
       ).toEqual({
         priority: {
           _signal: 666,
-          priority: 'normal'
-        }
+          priority: 'normal',
+        },
       });
     });
   });
@@ -193,11 +213,14 @@ describe('incidentContainerReducer', () => {
   describe('SET_PRIORITY_SUCCESS', () => {
     it('sets priority', () => {
       expect(
-        incidentContainerReducer(fromJS({}), {
-          type: SET_PRIORITY_SUCCESS
-        }).toJS()
+        incidentContainerReducer(
+          {},
+          {
+            type: SET_PRIORITY_SUCCESS,
+          },
+        ),
       ).toEqual({
-        priority: {}
+        priority: {},
       });
     });
   });
@@ -205,11 +228,14 @@ describe('incidentContainerReducer', () => {
   describe('SET_PRIORITY_ERROR', () => {
     it('sets priority', () => {
       expect(
-        incidentContainerReducer(fromJS({}), {
-          type: SET_PRIORITY_ERROR
-        }).toJS()
+        incidentContainerReducer(
+          {},
+          {
+            type: SET_PRIORITY_ERROR,
+          },
+        ),
       ).toEqual({
-        priority: {}
+        priority: {},
       });
     });
   });

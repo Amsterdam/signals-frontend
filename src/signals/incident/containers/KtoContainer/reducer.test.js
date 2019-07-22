@@ -1,35 +1,44 @@
-import { fromJS } from 'immutable';
+import {} from 'immutable';
 import ktoContainerReducer, { initialState } from './reducer';
 
 import {
   UPDATE_KTO,
-  REQUEST_KTO_ANSWERS, REQUEST_KTO_ANSWERS_SUCCESS, REQUEST_KTO_ANSWERS_ERROR,
-  CHECK_KTO, CHECK_KTO_SUCCESS, CHECK_KTO_ERROR,
-  STORE_KTO, STORE_KTO_SUCCESS, STORE_KTO_ERROR
+  REQUEST_KTO_ANSWERS,
+  REQUEST_KTO_ANSWERS_SUCCESS,
+  REQUEST_KTO_ANSWERS_ERROR,
+  CHECK_KTO,
+  CHECK_KTO_SUCCESS,
+  CHECK_KTO_ERROR,
+  STORE_KTO,
+  STORE_KTO_SUCCESS,
+  STORE_KTO_ERROR,
 } from './constants';
 
 describe('ktoContainerReducer', () => {
   it('returns the initial state', () => {
-    expect(ktoContainerReducer(undefined, {})).toEqual(fromJS(initialState));
+    expect(ktoContainerReducer(undefined, {})).toEqual(initialState);
   });
 
   it('should UPDATE_KTO', () => {
     expect(
-      ktoContainerReducer(fromJS({
-        form: {
-          so: 'long'
-        }
-      }), {
-        type: UPDATE_KTO,
-        payload: {
-          thanks: 'for all the fish'
-        }
-      }).toJS()
+      ktoContainerReducer(
+        {
+          form: {
+            so: 'long',
+          },
+        },
+        {
+          type: UPDATE_KTO,
+          payload: {
+            thanks: 'for all the fish',
+          },
+        },
+      ),
     ).toEqual({
       form: {
         so: 'long',
-        thanks: 'for all the fish'
-      }
+        thanks: 'for all the fish',
+      },
     });
   });
 
@@ -38,40 +47,40 @@ describe('ktoContainerReducer', () => {
     expect(
       ktoContainerReducer(undefined, {
         type: REQUEST_KTO_ANSWERS,
-        payload
-      }).toJS()
+        payload,
+      }),
     ).toEqual({
-      ...initialState.toJS(),
+      ...initialState,
       form: {
-        is_satisfied: payload
-      }
+        is_satisfied: payload,
+      },
     });
   });
 
   it('should REQUEST_KTO_ANSWERS_SUCCESS', () => {
     const payload = {
       'answer 1': 'answer 1',
-      'answer 2': 'answer 2'
+      'answer 2': 'answer 2',
     };
     expect(
       ktoContainerReducer(undefined, {
         type: REQUEST_KTO_ANSWERS_SUCCESS,
-        payload
-      }).toJS()
+        payload,
+      }),
     ).toEqual({
-      ...initialState.toJS(),
-      answers: payload
+      ...initialState,
+      answers: payload,
     });
   });
 
   it('should REQUEST_KTO_ANSWERS_ERROR', () => {
     expect(
       ktoContainerReducer(undefined, {
-        type: REQUEST_KTO_ANSWERS_ERROR
-      }).toJS()
+        type: REQUEST_KTO_ANSWERS_ERROR,
+      }),
     ).toEqual({
-      ...initialState.toJS(),
-      error: true
+      ...initialState,
+      error: true,
     });
   });
 
@@ -80,23 +89,23 @@ describe('ktoContainerReducer', () => {
     expect(
       ktoContainerReducer(undefined, {
         type: CHECK_KTO,
-        payload
-      }).toJS()
+        payload,
+      }),
     ).toEqual({
-      ...initialState.toJS(),
+      ...initialState,
       uuid: payload,
-      statusError: null
+      statusError: null,
     });
   });
 
   it('should CHECK_KTO_SUCCESS', () => {
     expect(
       ktoContainerReducer(undefined, {
-        type: CHECK_KTO_SUCCESS
-      }).toJS()
+        type: CHECK_KTO_SUCCESS,
+      }),
     ).toEqual({
-      ...initialState.toJS(),
-      statusError: null
+      ...initialState,
+      statusError: null,
     });
   });
 
@@ -105,47 +114,47 @@ describe('ktoContainerReducer', () => {
     expect(
       ktoContainerReducer(undefined, {
         type: CHECK_KTO_ERROR,
-        payload
-      }).toJS()
+        payload,
+      }),
     ).toEqual({
-      ...initialState.toJS(),
-      statusError: payload
+      ...initialState,
+      statusError: payload,
     });
   });
 
   it('should STORE_KTO', () => {
     expect(
       ktoContainerReducer(undefined, {
-        type: STORE_KTO
-      }).toJS()
+        type: STORE_KTO,
+      }),
     ).toEqual({
-      ...initialState.toJS(),
+      ...initialState,
       ktoError: false,
-      ktoFinished: false
+      ktoFinished: false,
     });
   });
 
   it('should STORE_KTO_SUCCESS', () => {
     expect(
       ktoContainerReducer(undefined, {
-        type: STORE_KTO_SUCCESS
-      }).toJS()
+        type: STORE_KTO_SUCCESS,
+      }),
     ).toEqual({
-      ...initialState.toJS(),
+      ...initialState,
       ktoError: false,
-      ktoFinished: true
+      ktoFinished: true,
     });
   });
 
   it('should STORE_KTO_ERROR', () => {
     expect(
       ktoContainerReducer(undefined, {
-        type: STORE_KTO_ERROR
-      }).toJS()
+        type: STORE_KTO_ERROR,
+      }),
     ).toEqual({
-      ...initialState.toJS(),
+      ...initialState,
       ktoError: true,
-      ktoFinished: false
+      ktoFinished: false,
     });
   });
 });

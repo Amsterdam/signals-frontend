@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { fromJS } from 'immutable';
 
 import { getContext } from 'test/utils';
 
@@ -21,13 +20,13 @@ describe('<IncidentContainer />', () => {
         loading: false,
         filter: {},
         incidentsCount: 666,
-        page: 3
+        page: 3,
       },
       categories: {},
       onRequestIncidents: jest.fn(),
       onIncidentSelected: jest.fn(),
       onMainCategoryFilterSelectionChanged: jest.fn(),
-      baseUrl: ''
+      baseUrl: '',
     };
   });
 
@@ -37,12 +36,12 @@ describe('<IncidentContainer />', () => {
 
   describe('rendering', () => {
     it('should render correctly', () => {
-      const state = fromJS({
+      const state = {
         global: {},
         incidentOverviewPage: {
-          incidents: []
-        }
-      });
+          incidents: [],
+        },
+      };
       const context = getContext(state);
       const wrapper = shallow(<IncidentOverviewPage {...props} />, { context });
 
@@ -50,12 +49,12 @@ describe('<IncidentContainer />', () => {
     });
 
     it('should render loader correctly', () => {
-      const state = fromJS({
+      const state = {
         global: {},
         incidentOverviewPage: {
-          incidents: []
-        }
-      });
+          incidents: [],
+        },
+      };
 
       props.overviewpage.loading = true;
 

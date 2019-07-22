@@ -20,12 +20,9 @@ exports[`<Header /> rendering should render correctly 1`] = `
           <span
             className="logoset"
           >
-            <LogoSvg
+            <IMAGE_MOCK
               alt="Gemeente Amsterdam"
               className="screen-logo"
-              id="Layer_1"
-              viewBox="0 0 20 68"
-              xmlns="http://www.w3.org/2000/svg"
             />
             <img
               alt="Gemeente Amsterdam"
@@ -94,12 +91,9 @@ exports[`<Header /> should render correctly when logged in 1`] = `
           <span
             className="logoset"
           >
-            <LogoSvg
+            <IMAGE_MOCK
               alt="Gemeente Amsterdam"
               className="screen-logo"
-              id="Layer_1"
-              viewBox="0 0 20 68"
-              xmlns="http://www.w3.org/2000/svg"
             />
             <img
               alt="Gemeente Amsterdam"

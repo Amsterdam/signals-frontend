@@ -37,7 +37,6 @@ module.exports = (options) => ({
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          options: options.babelQuery,
         },
       },
       {
@@ -51,9 +50,7 @@ module.exports = (options) => ({
         test: /\.scss$/,
         use: [
           // fallback to style-loader in development
-          process.env.NODE_ENV !== 'production'
-            ? 'style-loader'
-            : MiniCssExtractPlugin.loader,
+          process.env.NODE_ENV !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader,
           'css-loader',
           'sass-loader',
         ],
@@ -153,8 +150,7 @@ module.exports = (options) => ({
   performance: options.performance || {},
   externals: {
     globalConfig: JSON.stringify(
-      //eslint-disable-next-line
-      require(path.resolve(process.cwd(), 'environment.conf.json')),
+      require(path.resolve(process.cwd(), 'environment.conf.json')), // eslint-disable-line
     ),
     ...options.externals,
   },

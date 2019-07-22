@@ -1,35 +1,28 @@
-import { fromJS } from 'immutable';
-import {
-  REQUEST_HISTORY_LIST,
-  REQUEST_HISTORY_LIST_SUCCESS,
-  REQUEST_HISTORY_LIST_ERROR,
-}
-  from './constants';
+import produce from 'immer';
+import { REQUEST_HISTORY_LIST, REQUEST_HISTORY_LIST_SUCCESS, REQUEST_HISTORY_LIST_ERROR } from './constants';
 
-export const initialState = fromJS({
+export const initialState = {
   list: [],
-  loading: false
-});
+  loading: false,
+};
 
-function historyReducer(state = initialState, action) {
-  switch (action.type) {
-    case REQUEST_HISTORY_LIST:
-      return state
-        .set('loading', true)
-        .set('error', false);
+/* eslint-disable default-case, no-param-reassign */
+export default (state = initialState, action) =>
+  produce(state, draft => {
+    switch (action.type) {
+      case REQUEST_HISTORY_LIST:
+        draft.loading = true;
+        draft.error = false;
+        break;
 
-    case REQUEST_HISTORY_LIST_SUCCESS:
-      return state
-        .set('list', fromJS(action.payload))
-        .set('loading', false);
+      case REQUEST_HISTORY_LIST_SUCCESS:
+        draft.list = action.payload;
+        draft.loading = false;
+        break;
 
-    case REQUEST_HISTORY_LIST_ERROR:
-      return state
-        .set('error', action.payload)
-        .set('loading', false);
-    default:
-      return state;
-  }
-}
-
-export default historyReducer;
+      case REQUEST_HISTORY_LIST_ERROR:
+        draft.error = action.payload;
+        draft.loading = false;
+        break;
+    }
+  });

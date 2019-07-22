@@ -1,11 +1,5 @@
-import { fromJS } from 'immutable';
 import incidentSplitContainerReducer, { initialState } from './reducer';
-import {
-  SPLIT_INCIDENT,
-  SPLIT_INCIDENT_SUCCESS,
-  SPLIT_INCIDENT_ERROR
-}
-  from './constants';
+import { SPLIT_INCIDENT, SPLIT_INCIDENT_SUCCESS, SPLIT_INCIDENT_ERROR } from './constants';
 
 jest.mock('../../definitions/stadsdeelList');
 
@@ -14,21 +8,21 @@ describe('incidentSplitContainerReducer', () => {
   const expected = {
     split: false,
     loading: false,
-    error: false
+    error: false,
   };
 
   it('returns the initial state', () => {
-    expect(reducer(undefined, {})).toEqual(fromJS(initialState));
+    expect(reducer(undefined, {})).toEqual(initialState);
   });
 
   it('should handle the SPLIT_INCIDENT', () => {
     expect(
       incidentSplitContainerReducer(undefined, {
-        type: SPLIT_INCIDENT
-      }).toJS()
+        type: SPLIT_INCIDENT,
+      }),
     ).toEqual({
       ...expected,
-      loading: true
+      loading: true,
     });
   });
 
@@ -37,11 +31,11 @@ describe('incidentSplitContainerReducer', () => {
     expect(
       incidentSplitContainerReducer(undefined, {
         type: SPLIT_INCIDENT_SUCCESS,
-        payload
-      }).toJS()
+        payload,
+      }),
     ).toEqual({
       ...expected,
-      split: payload
+      split: payload,
     });
   });
 
@@ -51,12 +45,12 @@ describe('incidentSplitContainerReducer', () => {
     expect(
       incidentSplitContainerReducer(undefined, {
         type: SPLIT_INCIDENT_ERROR,
-        payload
-      }).toJS()
+        payload,
+      }),
     ).toEqual({
       ...expected,
       error: payload,
-      split: payload
+      split: payload,
     });
   });
 });
