@@ -19,7 +19,6 @@ RUN rm -rf /var/lib/apt/lists/*
 # Copy sources
 # COPY . /app/
 
-COPY src /app/src
 COPY internals /app/internals
 COPY server /app/server
 COPY test /app/test
@@ -28,6 +27,7 @@ COPY package.json \
      .gitignore \
      .gitattributes \
       /app/
+COPY src /app/src
 
 COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
 
