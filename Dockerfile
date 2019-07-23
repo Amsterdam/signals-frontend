@@ -21,7 +21,7 @@ RUN rm -rf /var/lib/apt/lists/*
 
 COPY internals /app/internals
 COPY server /app/server
-COPY test /app/test
+# COPY test /app/test
 COPY package.json \
      package-lock.json \
      .gitignore \
