@@ -17,15 +17,15 @@ function handleDownload(url, filename, accessToken) {
     headers,
     responseType: 'blob'
   }).then((response) => response.blob())
-    .then((blob) => {
-      if (navigator.msSaveOrOpenBlob) {
-        navigator.msSaveOrOpenBlob(blob, filename);
-      } else {
-        const link = document.querySelector('.download-button__link');
-        link.href = window.URL.createObjectURL(blob);
-        link.click();
-      }
-    });
+      .then((blob) => {
+        if (navigator.msSaveOrOpenBlob) {
+          navigator.msSaveOrOpenBlob(blob, filename);
+        } else {
+          const link = document.querySelector('.download-button__link');
+          link.href = window.URL.createObjectURL(blob);
+          link.click();
+        }
+      });
 }
 
 const DownloadButton = ({ label, url, filename, accessToken }) => (
@@ -41,7 +41,7 @@ const DownloadButton = ({ label, url, filename, accessToken }) => (
       download={filename}
     ></a>
   </div>
-);
+    );
 
 DownloadButton.propTypes = {
   url: PropTypes.string.isRequired,
