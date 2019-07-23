@@ -1,8 +1,8 @@
 /**
-*
-* IncidentNavigation
-*
-*/
+ *
+ * IncidentNavigation
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -10,8 +10,16 @@ import { WithWizard } from 'react-albus';
 
 import './style.scss';
 
-const IncidentNavigation = ({ valid, controls, value, meta: { incidentContainer, wizard, isAuthenticated, updateIncident, createIncident, handleSubmit } }) => {
-  const hideSubmit = controls.hide_navigation_buttons && controls.hide_navigation_buttons.meta && controls.hide_navigation_buttons.meta ? controls.hide_navigation_buttons.meta.isVisible : false;
+const IncidentNavigation = ({
+  valid,
+  controls,
+  value,
+  meta: { incidentContainer, wizard, isAuthenticated, updateIncident, createIncident, handleSubmit },
+}) => {
+  const hideSubmit =
+    controls.hide_navigation_buttons && controls.hide_navigation_buttons.meta && controls.hide_navigation_buttons.meta
+      ? controls.hide_navigation_buttons.meta.isVisible
+      : false;
   return (
     <span>
       <WithWizard
@@ -21,23 +29,30 @@ const IncidentNavigation = ({ valid, controls, value, meta: { incidentContainer,
 
           return (
             <div>
-              {wizardStep ?
+              {wizardStep ? (
                 <div className="incident-navigation">
                   {!hideSubmit && wizardStep.previousButtonLabel ? (
                     <button
                       className={`incident-navigation__button  ${wizardStep.previousButtonClass}`}
                       onClick={previous}
+                      type="button"
                     >
                       {wizardStep.previousButtonLabel}
                     </button>
-                  ) : <span /> }
+                  ) : (
+                    <span />
+                  )}
 
                   {!hideSubmit && wizardStep.nextButtonLabel && (
                     <button
+                      type="submit"
                       className={`incident-navigation__button  ${wizardStep.nextButtonClass}`}
-                      onClick={(e) => {
+                      onClick={e => {
                         if (valid) {
-                          switch (wizardStep.formAction) { // eslint-disable-line default-case
+                          /* eslint-disable default-case */
+                          switch (
+                            wizardStep.formAction
+                          ) {
                             case 'UPDATE_INCIDENT':
                               updateIncident(value);
                               break;
@@ -46,7 +61,7 @@ const IncidentNavigation = ({ valid, controls, value, meta: { incidentContainer,
                               createIncident({
                                 incident: incidentContainer.incident,
                                 wizard,
-                                isAuthenticated
+                                isAuthenticated,
                               });
                           }
 
@@ -59,7 +74,9 @@ const IncidentNavigation = ({ valid, controls, value, meta: { incidentContainer,
                     </button>
                   )}
                 </div>
-              : ''}
+              ) : (
+                ''
+              )}
             </div>
           );
         }}
@@ -69,7 +86,7 @@ const IncidentNavigation = ({ valid, controls, value, meta: { incidentContainer,
 };
 
 IncidentNavigation.defaultProps = {
-  meta: {}
+  meta: {},
 };
 
 IncidentNavigation.propTypes = {
@@ -78,8 +95,22 @@ IncidentNavigation.propTypes = {
   value: PropTypes.object.isRequired,
   meta: PropTypes.shape({
     wizard: PropTypes.object,
-    handleSubmit: PropTypes.function
-  })
+    handleSubmit: PropTypes.func,
+    incidentContainer: PropTypes.shape({
+      incident: PropTypes.shape({
+        incident_date: PropTypes.string,
+        incident_time_hours: PropTypes.number,
+        incident_time_minutes: PropTypes.number,
+        priority: PropTypes.shape({
+          id: PropTypes.string,
+          label: PropTypes.string,
+        }),
+      }).isRequired,
+    }).isRequired,
+    isAuthenticated: PropTypes.bool,
+    updateIncident: PropTypes.func,
+    createIncident: PropTypes.func,
+  }),
 };
 
 export default IncidentNavigation;

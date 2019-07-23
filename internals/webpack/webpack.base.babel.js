@@ -28,11 +28,6 @@ module.exports = (options) => ({
   module: {
     rules: [
       {
-        test: /\.svg$/,
-        exclude: /asc-ui/,
-        use: ['@svgr/webpack'],
-      },
-      {
         test: /\.js$/, // Transform all .js files required somewhere with Babel
         exclude: /node_modules/,
         use: {
@@ -130,14 +125,22 @@ module.exports = (options) => ({
       chunkFilename: '[id].css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
+
     new CopyWebpackPlugin([
       {
         from: './node_modules/amsterdam-amaps/dist/nlmaps/dist/assets',
         to: './assets',
-      },
+      }
     ]),
-    new webpack.EnvironmentPlugin({
-      GIT_COMMIT: '',
+
+    // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
+    // inside your code for any environment checks; UglifyJS will automatically
+    // drop any unreachable code.
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        GIT_COMMIT: JSON.stringify(process.env.GIT_COMMIT),
+      },
     }),
   ]),
   resolve: {

@@ -16,6 +16,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import history from 'utils/history';
 import 'leaflet/dist/leaflet';
+import * as Sentry from '@sentry/browser';
 
 
 // Import root app
@@ -43,6 +44,15 @@ import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
+
+const environment = process.env.NODE_ENV;
+const release = process.env.GIT_COMMIT;
+
+Sentry.init({
+  environment,
+  dsn: 'https://3de59e3a93034a348089131aa565bdf4@sentry.data.amsterdam.nl/27',
+  release,
+});
 
 // Create redux store with history
 const initialState = {};
