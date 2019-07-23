@@ -18,7 +18,8 @@ def tryStep(String message, Closure block, Closure tearDown = null) {
 
 node {
     stage("Checkout") {
-        checkout scm
+        def scmVars = checkout(scm)
+        env.GIT_COMMIT = scmVars.GIT_COMMIT
     }
 
     stage("Lint") {
@@ -55,6 +56,7 @@ node {
                 "--shm-size 1G " +
                 "--build-arg BUILD_ENV=acc " +
                 "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
+                "--build-arg GIT_COMMIT=${env.GIT_COMMIT} " +
                 ". ")
             image.push()
         }
@@ -96,6 +98,7 @@ if (BRANCH == "master") {
                 def image = docker.build("build.app.amsterdam.nl:5000/ois/signalsfrontend:${env.BUILD_NUMBER}",
                     "--shm-size 1G " +
                     "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
+                    "--build-arg GIT_COMMIT=${env.GIT_COMMIT} " +
                     ".")
                 image.push("production")
                 image.push("latest")
