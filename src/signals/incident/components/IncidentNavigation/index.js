@@ -78,7 +78,21 @@ IncidentNavigation.propTypes = {
   value: PropTypes.object.isRequired,
   meta: PropTypes.shape({
     wizard: PropTypes.object,
-    handleSubmit: PropTypes.function
+    handleSubmit: PropTypes.function,
+    incidentContainer: PropTypes.shape({
+      incident: PropTypes.shape({
+        incident_date: PropTypes.string,
+        incident_time_hours: PropTypes.number,
+        incident_time_minutes: PropTypes.number,
+        priority: PropTypes.shape({
+          id: PropTypes.string,
+          label: PropTypes.string,
+        }),
+      }).isRequired,
+    }).isRequired,
+    isAuthenticated: PropTypes.bool,
+    updateIncident: PropTypes.func,
+    createIncident: PropTypes.func,
   })
 };
 
