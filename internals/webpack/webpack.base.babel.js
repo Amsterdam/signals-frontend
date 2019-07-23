@@ -23,11 +23,6 @@ module.exports = (options) => ({
     rules: [
       {
         test: /\.svg$/,
-        exclude: /asc-ui/,
-        use: ['@svgr/webpack'],
-      },
-      {
-        test: /\.svg$/,
         include: /asc-ui/,
         use: [
           {
@@ -108,6 +103,7 @@ module.exports = (options) => ({
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        GIT_COMMIT: JSON.stringify(process.env.GIT_COMMIT),
       },
     }),
     new webpack.NamedModulesPlugin(),
