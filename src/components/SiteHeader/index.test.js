@@ -56,6 +56,20 @@ describe('components/SiteHeader', () => {
     );
   });
 
+  it('should show buttons based on permissions', () => {
+    const { queryByText } = render(
+      withAppContext(
+        <SiteHeader
+          permissions={['signals.sia_statusmessagetemplate_write']}
+          isAuthenticated
+          location={{ pathname: '/incident/beschrijf' }}
+        />,
+      ),
+    );
+
+    expect(queryByText('Beheer standaard teksten')).not.toBeNull();
+  });
+
   it('should not show login button on homepage', () => {
     //  dont' show login button on homepage
     const { rerender, queryByText } = render(
