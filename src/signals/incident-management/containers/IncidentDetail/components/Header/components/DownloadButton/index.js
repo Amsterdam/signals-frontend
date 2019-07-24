@@ -35,8 +35,8 @@ class DownloadButton extends React.Component {
             document.body.appendChild(link);
             link.click();
 
+            window.URL.revokeObjectURL(href);
             document.body.removeChild(link);
-            link.remove();
           }
         });
   }
