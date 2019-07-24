@@ -14,6 +14,20 @@ import DashboardContainer from '../../containers/DashboardContainer';
 import DefaultTextsAdmin from '../../containers/DefaultTextsAdmin';
 import IncidentSplitContainer from '../../containers/IncidentSplitContainer';
 
+const IncidentDetailWrapper = (baseUrl) => (props) => (
+  // eslint-disable-next-line react/prop-types
+  <IncidentDetail id={props.match.params.id} baseUrl={baseUrl} />
+);
+
+const IncidentOverviewPageWrapper = (baseUrl) => () => (
+  <IncidentOverviewPage baseUrl={baseUrl} />
+);
+
+const IncidentSplitContainerWrapper = (baseUrl) => (props) => (
+  // eslint-disable-next-line react/prop-types
+  <IncidentSplitContainer id={props.match.params.id} baseUrl={baseUrl} />
+);
+
 export const IncidentManagementModuleComponent = ({
   isAuthenticated,
   match: { url },
@@ -25,24 +39,17 @@ export const IncidentManagementModuleComponent = ({
       <Route
         exact
         path={`${url}/incidents`}
-        render={() => <IncidentOverviewPage baseUrl={url} />}
+        render={IncidentOverviewPageWrapper(url)}
       />
       <Route
         exact
         path={`${url}/incident/:id`}
-        render={(wrapperProps) => (
-          <IncidentDetail id={wrapperProps.match.params.id} baseUrl={url} />
-        )}
+        render={IncidentDetailWrapper(url)}
       />
       <Route
         exact
         path={`${url}/incident/:id/split`}
-        render={(wrapperProps) => (
-          <IncidentSplitContainer
-            id={wrapperProps.match.params.id}
-            baseUrl={url}
-          />
-        )}
+        render={IncidentSplitContainerWrapper(url)}
       />
       <Route path={`${url}/standaard/teksten`} component={DefaultTextsAdmin} />
       <Route path={`${url}/dashboard`} component={DashboardContainer} />
