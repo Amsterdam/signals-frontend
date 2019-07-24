@@ -9,7 +9,6 @@ class DownloadButton extends React.Component {
   constructor(props) {
     super(props);
 
-    this.downloadLink = React.createRef();
     this.handleDownload = this.handleDownload.bind(this);
   }
 
@@ -29,9 +28,15 @@ class DownloadButton extends React.Component {
           if (navigator.msSaveOrOpenBlob) {
             navigator.msSaveOrOpenBlob(blob, filename);
           } else {
-            const link = this.downloadLink.current;
-            link.href = window.URL.createObjectURL(blob);
+            const href = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = href;
+            link.download = filename;
+            document.body.appendChild(link);
             link.click();
+
+            document.body.removeChild(link);
+            link.remove();
           }
         });
   }
@@ -44,32 +49,11 @@ class DownloadButton extends React.Component {
           className="incident-detail__button"
           onClick={() => this.handleDownload(url, filename, accessToken)}
         >{label}</button>
-
-        <a
-          href="#"
-          ref={this.downloadLink}
-          className="download-button__link"
-          download={filename}
-        ></a>
       </div>
     );
   }
 
 }
-// const DownloadButton = ({ label, url, filename, accessToken }) => (
-  // <div className="download-button align-self-center">
-    // <button
-      // className="incident-detail__button"
-      // onClick={() => handleDownload(url, filename, accessToken)}
-    // >{label}</button>
-//
-    // <a
-      // href="#"
-      // className="download-button__link"
-      // download={filename}
-    // ></a>
-  // </div>
-    // );
 
 DownloadButton.propTypes = {
   url: PropTypes.string.isRequired,
