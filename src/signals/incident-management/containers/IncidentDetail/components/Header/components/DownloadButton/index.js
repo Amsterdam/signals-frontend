@@ -5,39 +5,56 @@ import 'whatwg-fetch';
 
 import './style.scss';
 
-function handleDownload(url, filename, accessToken) {
-  const headers = {};
+class DownloadButton extends React.Component {
+  constructor(props) {
+    super(props);
 
-  if (accessToken) {
-    headers.Authorization = `Bearer ${accessToken}`;
+    this.handleDownload = this.handleDownload.bind(this);
   }
 
-  fetch(url, {
-    method: 'GET',
-    headers,
-    responseType: 'blob'
-  }).then((response) => response.blob())
-    .then((blob) => {
-      const link = document.querySelector('.download-button__link');
-      link.href = window.URL.createObjectURL(blob);
-      link.click();
-    });
+  handleDownload(url, filename, accessToken) {
+    const headers = {};
+
+    if (accessToken) {
+      headers.Authorization = `Bearer ${accessToken}`;
+    }
+
+    fetch(url, {
+      method: 'GET',
+      headers,
+      responseType: 'blob'
+    }).then((response) => response.blob())
+        .then((blob) => {
+          if (navigator.msSaveOrOpenBlob) {
+            navigator.msSaveOrOpenBlob(blob, filename);
+          } else {
+            const href = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = href;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+
+            window.URL.revokeObjectURL(href);
+            document.body.removeChild(link);
+          }
+        });
+  }
+
+  render() {
+    const { label, url, filename, accessToken } = this.props;
+    return (
+      <div className="download-button align-self-center">
+        <button
+          className="incident-detail__button"
+          type="button"
+          onClick={() => this.handleDownload(url, filename, accessToken)}
+        >{label}</button>
+      </div>
+    );
+  }
+
 }
-
-const DownloadButton = ({ label, url, filename, accessToken }) => (
-  <div className="download-button align-self-center">
-    <button
-      className="incident-detail__button"
-      onClick={() => handleDownload(url, filename, accessToken)}
-    >{label}</button>
-
-    <a
-      href="#"
-      className="download-button__link"
-      download={filename}
-    ></a>
-  </div>
-);
 
 DownloadButton.propTypes = {
   url: PropTypes.string.isRequired,
