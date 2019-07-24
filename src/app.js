@@ -18,6 +18,7 @@ import moment from 'moment';
 import 'moment/src/locale/nl';
 import { createBrowserHistory } from 'history';
 import 'leaflet/dist/leaflet';
+import * as Sentry from '@sentry/browser';
 
 
 // Import root app
@@ -46,6 +47,15 @@ import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
+
+const environment = process.env.NODE_ENV;
+const release = process.env.GIT_COMMIT;
+
+Sentry.init({
+  environment,
+  dsn: 'https://3de59e3a93034a348089131aa565bdf4@sentry.data.amsterdam.nl/27',
+  release,
+});
 
 // load locale for date formatting
 moment.locale('nl');
@@ -108,4 +118,3 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'acceptanc
 // Authenticate and start the authorization process
 const credentials = authenticate();
 store.dispatch(authenticateUser(credentials));
-
