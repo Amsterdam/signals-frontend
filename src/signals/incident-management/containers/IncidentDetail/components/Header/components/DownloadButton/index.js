@@ -5,43 +5,73 @@ import 'whatwg-fetch';
 
 import './style.scss';
 
-function handleDownload(url, filename, accessToken) {
-  const headers = {};
+class DownloadButton extends React.Component {
+  constructor(props) {
+    super(props);
 
-  if (accessToken) {
-    headers.Authorization = `Bearer ${accessToken}`;
+    this.downloadLink = React.createRef();
+    this.handleDownload = this.handleDownload.bind(this);
   }
 
-  fetch(url, {
-    method: 'GET',
-    headers,
-    responseType: 'blob'
-  }).then((response) => response.blob())
-      .then((blob) => {
-        if (navigator.msSaveOrOpenBlob) {
-          navigator.msSaveOrOpenBlob(blob, filename);
-        } else {
-          const link = document.querySelector('.download-button__link');
-          link.href = window.URL.createObjectURL(blob);
-          link.click();
-        }
-      });
-}
+  handleDownload(url, filename, accessToken) {
+    const headers = {};
 
-const DownloadButton = ({ label, url, filename, accessToken }) => (
-  <div className="download-button align-self-center">
-    <button
-      className="incident-detail__button"
-      onClick={() => handleDownload(url, filename, accessToken)}
-    >{label}</button>
+    if (accessToken) {
+      headers.Authorization = `Bearer ${accessToken}`;
+    }
 
-    <a
-      href="#"
-      className="download-button__link"
-      download={filename}
-    ></a>
-  </div>
+    fetch(url, {
+      method: 'GET',
+      headers,
+      responseType: 'blob'
+    }).then((response) => response.blob())
+        .then((blob) => {
+          if (navigator.msSaveOrOpenBlob) {
+            navigator.msSaveOrOpenBlob(blob, filename);
+          } else {
+            const link = this.downloadLink.current;
+            link.href = window.URL.createObjectURL(blob);
+            console.log('1 href', link.href);
+            link.click();
+            console.log('2 click');
+          }
+        });
+  }
+
+  render() {
+    const { label, url, filename, accessToken } = this.props;
+    return (
+      <div className="download-button align-self-center">
+        <button
+          className="incident-detail__button"
+          onClick={() => this.handleDownload(url, filename, accessToken)}
+        >{label}</button>
+
+        <a
+          href="#"
+          ref={this.downloadLink}
+          className="download-button__link"
+          download={filename}
+        ></a>
+      </div>
     );
+  }
+
+}
+// const DownloadButton = ({ label, url, filename, accessToken }) => (
+  // <div className="download-button align-self-center">
+    // <button
+      // className="incident-detail__button"
+      // onClick={() => handleDownload(url, filename, accessToken)}
+    // >{label}</button>
+//
+    // <a
+      // href="#"
+      // className="download-button__link"
+      // download={filename}
+    // ></a>
+  // </div>
+    // );
 
 DownloadButton.propTypes = {
   url: PropTypes.string.isRequired,
