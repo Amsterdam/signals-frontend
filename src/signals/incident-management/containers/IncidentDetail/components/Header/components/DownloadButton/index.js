@@ -47,6 +47,7 @@ class DownloadButton extends React.Component {
       <div className="download-button align-self-center">
         <button
           className="incident-detail__button"
+          type="button"
           onClick={() => this.handleDownload(url, filename, accessToken)}
         >{label}</button>
       </div>
