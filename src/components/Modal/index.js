@@ -23,6 +23,8 @@ const ModalInner = styled.div`
   max-width: 1800px;
   padding-top: 20px;
   padding-bottom: 20px;
+  overflow: hidden;
+  overflow-y: auto;
 
   ${({ theme }) => css`
     ${theme.breakpoints.laptopM('max-width')} {
@@ -84,12 +86,12 @@ const CancelButton = styled(Button).attrs({
   background-color: #b4b4b4;
 `;
 
-const Modal = ({ isOpen, onClose, onReset, onCancel, onSubmit, ...rest }) => (
+const Modal = ({ children, title, isOpen, onClose, onReset, onCancel, onSubmit, ...rest }) => (
   <StyledModal data-testid="modal" open={isOpen} backdropOpacity={1} {...rest}>
     <Header>
       <HeaderRow>
         <Column span={12}>
-          <Heading as="h2">Filters</Heading>
+          <Heading as="h2">{title}</Heading>
         </Column>
 
         <CloseButton
@@ -106,7 +108,7 @@ const Modal = ({ isOpen, onClose, onReset, onCancel, onSubmit, ...rest }) => (
 
     <ModalInner>
       <Row>
-        <Column span={12}>Here be filters</Column>
+        <Column span={12}>{children}</Column>
       </Row>
     </ModalInner>
 
@@ -140,6 +142,7 @@ const Modal = ({ isOpen, onClose, onReset, onCancel, onSubmit, ...rest }) => (
 );
 
 Modal.defaultProps = {
+  children: null,
   // setting default value for non-exposed prop: should not be visible; just for testing purposes
   disablePortal: process.env.NODE_ENV === 'test',
   isOpen: false,
@@ -150,11 +153,13 @@ Modal.defaultProps = {
 };
 
 Modal.propTypes = {
+  children: PropTypes.node,
   isOpen: PropTypes.bool,
   onCancel: PropTypes.func,
   onClose: PropTypes.func,
   onReset: PropTypes.func,
   onSubmit: PropTypes.func,
+  title: PropTypes.string.isRequired,
 };
 
 export default Modal;

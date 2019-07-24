@@ -4,10 +4,10 @@ import { FieldGroup } from 'react-reactive-form';
 
 import Filter from './index';
 
-jest.mock('../../../../components/FieldControlWrapper', () => () => 'FieldControlWrapper');
-jest.mock('../../../../components/TextInput', () => () => 'TextInput');
-jest.mock('../../../../components/SelectInput', () => () => 'SelectInput');
-jest.mock('../../../../components/DatePickerInput', () => () => 'DatePickerInput');
+jest.mock('../FieldControlWrapper', () => () => 'FieldControlWrapper');
+jest.mock('../TextInput', () => () => 'TextInput');
+jest.mock('../SelectInput', () => () => 'SelectInput');
+jest.mock('../DatePickerInput', () => () => 'DatePickerInput');
 
 describe('<Filter />', () => {
   let wrapper;
