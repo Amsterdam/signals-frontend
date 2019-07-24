@@ -9,6 +9,7 @@ import {
   CREATE_INCIDENT_SUCCESS,
   CREATE_INCIDENT_ERROR,
 
+  GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
 
@@ -129,6 +130,20 @@ describe('incidentContainerReducer', () => {
     });
   });
 
+  describe('GET_CLASSIFICATION', () => {
+    it('resets error and loading and id', () => {
+      expect(
+        incidentContainerReducer(fromJS({ incident: {} }), {
+          type: GET_CLASSIFICATION,
+          payload: 'lamp'
+        }).toJS()
+      ).toEqual({
+        incident: {},
+        loadingClassification: true
+      });
+    });
+  });
+
   describe('GET_CLASSIFICATION_SUCCESS', () => {
     it('sets category and subcategory', () => {
       expect(
@@ -145,7 +160,8 @@ describe('incidentContainerReducer', () => {
         incident: {
           category: 'Overlast in de openbare ruimte',
           subcategory: 'Honden(poep)'
-        }
+        },
+        loadingClassification: false
       });
     });
   });
@@ -166,7 +182,8 @@ describe('incidentContainerReducer', () => {
         incident: {
           category: 'Overlast in de openbare ruimte',
           subcategory: 'Honden(poep)'
-        }
+        },
+        loadingClassification: false
       });
     });
   });

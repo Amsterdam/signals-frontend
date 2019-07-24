@@ -243,6 +243,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                     "label": "Subcategorie",
                     "path": "category.sub_category",
                     "type": "text",
+                    "validateAsyncProp": "incidentContainer.loadingClassification",
                   },
                   "options": Object {
                     "validators": Array [
@@ -253,11 +254,11 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
               },
             },
-            "formAction": "UPDATE_INCIDENT",
             "getNextStep": [Function],
             "label": "Beschrijf uw melding",
             "nextButtonClass": "action primary arrow-right",
             "nextButtonLabel": "Volgende",
+            "postponeSubmitWhenLoading": "incidentContainer.loadingClassification",
           },
           "email": Object {
             "form": Object {
