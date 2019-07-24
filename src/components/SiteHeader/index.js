@@ -83,7 +83,7 @@ const MenuItems = ({
   );
 };
 
-const Header = (props) => (
+const SiteHeader = (props) => (
   <StyledHeader
     title="Meldingen"
     homeLink={CONFIGURATION.ROOT}
@@ -107,12 +107,12 @@ const Header = (props) => (
   />
 );
 
-Header.defaultProps = {
+SiteHeader.defaultProps = {
   isAuthenticated: false,
   onLoginLogoutButtonClick: undefined,
 };
 
-Header.propTypes = {
+SiteHeader.propTypes = {
   isAuthenticated: PropTypes.bool,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
@@ -121,6 +121,6 @@ Header.propTypes = {
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-MenuItems.propTypes = Header.propTypes;
+MenuItems.propTypes = SiteHeader.propTypes;
 
-export default Header;
+export default SiteHeader;

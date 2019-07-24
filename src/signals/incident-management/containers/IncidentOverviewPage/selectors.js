@@ -9,26 +9,39 @@ const selectOverviewPageDomain = (state) => state.get('incidentOverviewPage');
  * Other specific selectors
  */
 
-
 /**
  * Default selector used by OverviewPage
  */
 
-const makeSelectOverviewPage = () => createSelector(
+const makeSelectOverviewPage = () =>
+  createSelector(
+    selectOverviewPageDomain,
+    (substate) => substate.toJS(),
+  );
+
+const makeSelectIncidentsCount = createSelector(
   selectOverviewPageDomain,
-  (substate) => substate.toJS()
+  (state) => {
+    if (!state) return state;
+
+    const obj = state.toJS();
+
+    return obj.incidentsCount;
+  },
 );
 
-const makeSelectFilterParams = () => createSelector(
-  selectOverviewPageDomain,
-  (substate) => {
-    const state = substate.toJS();
-    return { ...state.filter, page: state.page, ordering: state.sort };
-  }
-);
+const makeSelectFilterParams = () =>
+  createSelector(
+    selectOverviewPageDomain,
+    (substate) => {
+      const state = substate.toJS();
+      return { ...state.filter, page: state.page, ordering: state.sort };
+    },
+  );
 
 export default makeSelectOverviewPage;
 export {
   selectOverviewPageDomain,
-  makeSelectFilterParams
+  makeSelectFilterParams,
+  makeSelectIncidentsCount,
 };

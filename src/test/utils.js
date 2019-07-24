@@ -1,13 +1,13 @@
 import React from 'react';
 import { ConnectedRouter } from 'react-router-redux';
-import { createBrowserHistory } from 'history';
+import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@datapunt/asc-ui';
 import MatchMediaMock from 'match-media-mock';
 
 import configureStore from '../configureStore';
 
-const history = createBrowserHistory();
+const history = createMemoryHistory();
 
 // set a default screenwidth of 2560 pixels
 const mmm = MatchMediaMock.create();
@@ -48,6 +48,17 @@ export const withAppContext = (Component) => (
   <ThemeProvider>
     <Provider store={store}>
       <ConnectedRouter history={history}>
+        {Component}
+      </ConnectedRouter>
+    </Provider>
+  </ThemeProvider>
+);
+
+// eslint-disable-next-line
+export const withCustomAppContext = (Component) => ({ themeCfg = {}, storeCfg = {}, routerCfg = {} }) => (
+  <ThemeProvider {...themeCfg}>
+    <Provider store={store} {...storeCfg}>
+      <ConnectedRouter history={history} {...routerCfg}>
         {Component}
       </ConnectedRouter>
     </Provider>

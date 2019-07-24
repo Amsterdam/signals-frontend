@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Route } from 'react-router-dom';
-import HeaderContainer from 'containers/HeaderContainer';
+import SiteHeaderContainer from 'containers/SiteHeader';
 import Footer from 'components/Footer';
 import { App, mapDispatchToProps } from './index';
 import { REQUEST_CATEGORIES } from './constants';
@@ -37,7 +37,7 @@ describe('<App />', () => {
     const wrapper = shallow(
       <App {...props} />
     );
-    expect(wrapper.find(HeaderContainer).length).toBe(1);
+    expect(wrapper.find(SiteHeaderContainer).length).toBe(1);
   });
 
   it('should render some routes', () => {

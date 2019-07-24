@@ -75,7 +75,6 @@ class Filter extends React.Component {
     const { categories, filterSubCategoryList, statusList, stadsdeelList, priorityList } = this.props;
     return (
       <div className="filter-component">
-        <div className="filter-component__title">Filters</div>
         <div className="filter-component__body">
           <FieldGroup
             control={this.filterForm}

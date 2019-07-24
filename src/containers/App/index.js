@@ -10,7 +10,7 @@ import injectReducer from 'utils/injectReducer';
 
 import NotFoundPage from 'containers/NotFoundPage';
 import Footer from 'components/Footer';
-import HeaderContainer from 'containers/HeaderContainer';
+import SiteHeaderContainer from 'containers/SiteHeader';
 import GlobalError from 'containers/GlobalError';
 
 import reducer from './reducer';
@@ -29,22 +29,26 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
     return (
       <ThemeProvider>
         <Fragment>
-          <HeaderContainer />
+          <SiteHeaderContainer />
           <div className="app-container container-fluid">
             <GlobalError />
-            <div className="container content">
-              <Switch>
-                <Redirect exact from="/" to="/incident" />
-                <Redirect exact from="/login" to="/manage" />
-                <Route path="/manage" component={IncidentManagementModule} />
-                <Route path="/incident" component={IncidentContainer} />
-                <Route path="/kto/:yesNo/:uuid" component={(props) => (<KtoContainer yesNo={props.match.params.yesNo} uuid={props.match.params.uuid} />)} />
-                <Route path="" component={NotFoundPage} />
-              </Switch>
-            </div>
-            <div className="container-fluid">
-              <Footer />
-            </div>
+            <Switch>
+              <Redirect exact from="/" to="/incident" />
+              <Redirect exact from="/login" to="/manage" />
+              <Route path="/manage" component={IncidentManagementModule} />
+              <Route path="/incident" component={IncidentContainer} />
+              <Route
+                path="/kto/:yesNo/:uuid"
+                component={(props) => (
+                  <KtoContainer
+                    yesNo={props.match.params.yesNo}
+                    uuid={props.match.params.uuid}
+                  />
+                )}
+              />
+              <Route path="" component={NotFoundPage} />
+            </Switch>
+            <Footer />
           </div>
         </Fragment>
       </ThemeProvider>
@@ -53,14 +57,21 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
 }
 
 App.propTypes = {
-  requestCategories: PropTypes.func.isRequired
+  requestCategories: PropTypes.func.isRequired,
 };
 
-export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  requestCategories
-}, dispatch);
+export const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      requestCategories,
+    },
+    dispatch,
+  );
 
-const withConnect = connect(null, mapDispatchToProps);
+const withConnect = connect(
+  null,
+  mapDispatchToProps,
+);
 
 const withReducer = injectReducer({ key: 'global', reducer });
 const withSaga = injectSaga({ key: 'global', saga });
@@ -69,5 +80,5 @@ export default compose(
   withReducer,
   withSaga,
   withRouter,
-  withConnect
+  withConnect,
 )(App);

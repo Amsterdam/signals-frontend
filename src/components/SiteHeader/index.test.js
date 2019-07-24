@@ -2,12 +2,12 @@ import React from 'react';
 import { render, fireEvent, cleanup } from '@testing-library/react';
 import MatchMediaMock from 'match-media-mock';
 
-import Header, { breakpoint } from './index';
+import SiteHeader, { breakpoint } from './index';
 import { withAppContext } from '../../test/utils';
 
 const mmm = MatchMediaMock.create();
 
-describe('<Header />', () => {
+describe('components/SiteHeader', () => {
   afterEach(cleanup);
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('<Header />', () => {
 
   it('should render correctly', () => {
     const { container, rerender, queryByText } = render(
-      withAppContext(<Header permissions={[]} location={{ pathname: '/' }} />),
+      withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />),
     );
 
     // render site title
@@ -47,7 +47,7 @@ describe('<Header />', () => {
     });
 
     rerender(
-      withAppContext(<Header permissions={[]} location={{ pathname: '/' }} />),
+      withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />),
     );
 
     // toggle menu should be visible
@@ -59,7 +59,7 @@ describe('<Header />', () => {
   it('should show buttons based on permissions', () => {
     const { queryByText } = render(
       withAppContext(
-        <Header
+        <SiteHeader
           permissions={['signals.sia_statusmessagetemplate_write']}
           isAuthenticated
           location={{ pathname: '/incident/beschrijf' }}
@@ -74,7 +74,7 @@ describe('<Header />', () => {
     //  dont' show login button on homepage
     const { rerender, queryByText } = render(
       withAppContext(
-        <Header
+        <SiteHeader
           permissions={[]}
           isAuthenticated={false}
           location={{ pathname: '/incident/beschrijf' }}
@@ -86,7 +86,7 @@ describe('<Header />', () => {
 
     rerender(
       withAppContext(
-        <Header
+        <SiteHeader
           permissions={[]}
           isAuthenticated={false}
           location={{ pathname: '/manage/incidents' }}
@@ -100,7 +100,7 @@ describe('<Header />', () => {
   it('should render correctly when logged in', () => {
     const { queryByText } = render(
       withAppContext(
-        <Header
+        <SiteHeader
           isAuthenticated
           permissions={[]}
           location={{ pathname: '/' }}
@@ -120,7 +120,7 @@ describe('<Header />', () => {
 
     const { rerender, getByText } = render(
       withAppContext(
-        <Header
+        <SiteHeader
           permissions={[]}
           onLoginLogoutButtonClick={onLoginLogoutButtonClick}
           location={{ pathname: '/' }}
@@ -143,7 +143,7 @@ describe('<Header />', () => {
 
     rerender(
       withAppContext(
-        <Header
+        <SiteHeader
           permissions={[]}
           isAuthenticated
           onLoginLogoutButtonClick={onLoginLogoutButtonClick}
