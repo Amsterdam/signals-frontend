@@ -7,14 +7,10 @@ exports[`<DownloadButton /> rendering should render correctly 1`] = `
   <button
     className="incident-detail__button"
     onClick={[Function]}
+    type="button"
   >
     PDF
   </button>
-  <a
-    className="download-button__link"
-    download="12345.pdf"
-    href="#"
-  />
 </div>
 `;
 
@@ -25,13 +21,9 @@ exports[`<DownloadButton /> rendering should render correctly when logged in 1`]
   <button
     className="incident-detail__button"
     onClick={[Function]}
+    type="button"
   >
     PDF
   </button>
-  <a
-    className="download-button__link"
-    download="12345.pdf"
-    href="#"
-  />
 </div>
 `;
