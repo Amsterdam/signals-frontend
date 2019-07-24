@@ -31,9 +31,7 @@ class DownloadButton extends React.Component {
           } else {
             const link = this.downloadLink.current;
             link.href = window.URL.createObjectURL(blob);
-            console.log('1 href', link.href);
             link.click();
-            console.log('2 click');
           }
         });
   }
