@@ -1,65 +1,126 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
+import Media from 'react-media';
+
 import CONFIGURATION from 'shared/services/configuration/configuration';
+import LoginIcon from '@datapunt/asc-assets/lib/Icons/Login.svg';
+import LogoutIcon from '@datapunt/asc-assets/lib/Icons/Logout.svg';
+import {
+  Header as HeaderComponent,
+  MenuInline,
+  MenuItem,
+  MenuToggle,
+} from '@datapunt/asc-ui';
+import { resetIncident } from '../../signals/incident/containers/IncidentContainer/actions';
 
-import './style.scss';
-import LogoSvg from '../../../node_modules/amsterdam-stijl/dist/images/logos/andreas.svg';
-import LogoPng from '../../../node_modules/amsterdam-stijl/dist/images/logos/andreas.png';
-import LogoPrint from '../../../node_modules/amsterdam-stijl/dist/images/logos/andreas-print.png';
+export const breakpoint = 899;
 
-class Header extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  render() {
-    return (
-      <div className="header-component has_header_modern no-print">
-        <div className="row header-wrapper">
-          <div className="col-sm-6 grid-header-logo">
-            <h1 className="sitelogo">
-              <a className="mainlogo" href={CONFIGURATION.ROOT}>
-                <span className="logoset">
-                  <LogoSvg className="screen-logo" alt="Gemeente Amsterdam" />
-                  <img src={LogoPng} className="alt-logo" alt="Gemeente Amsterdam" />
-                  <img src={LogoPrint} className="print-logo" alt="Gemeente Amsterdam" />
-                </span>
-                <span className="logotexts">
-                  <span className="logotext red">Gemeente</span>
-                  <span className="logotext red">Amsterdam</span>
-                </span>
-              </a>
-            </h1>
-          </div>
-          <div className="col-sm-6">
-            <nav>
-              <ul className="links">
-                <li>
-                  <span>
-                    {this.props.isAuthenticated && ('Ingelogd als: ')}<b>{this.props.userName}</b>
-                  </span>
-                </li>
-                {this.props.isAuthenticated ?
-                  <li>
-                    <a href="" className="header-component__logout" onClick={this.props.onLoginLogoutButtonClick}>
-                      {'Uitloggen'}
-                    </a>
-                  </li> : ''}
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </div >
-    );
+const StyledLogin = styled(LoginIcon)`
+  margin-right: 5px;
+`;
+
+const StyledLogout = styled(LogoutIcon)`
+  margin-right: 5px;
+`;
+
+const StyledHeader = styled(HeaderComponent)`
+  a:link {
+    text-decoration: none;
   }
-}
+`;
 
-Header.propTypes = {
-  isAuthenticated: PropTypes.bool,
-  onLoginLogoutButtonClick: PropTypes.func,
-  userName: PropTypes.string
+const MenuItems = ({
+  isAuthenticated,
+  onLoginLogoutButtonClick,
+  permissions,
+  location: { pathname },
+}) => {
+  const showLogin = pathname !== '/incident/beschrijf' && !isAuthenticated;
+  const showLogout = isAuthenticated;
+
+  return (
+    <Fragment>
+      <MenuItem element="span">
+        <NavLink to="/" onClick={resetIncident}>
+          Nieuwe melding
+        </NavLink>
+      </MenuItem>
+      {isAuthenticated && (
+        <MenuItem element="span">
+          <NavLink to="/manage/incidents">Afhandelen</NavLink>
+        </MenuItem>
+      )}
+      {permissions.includes('signals.sia_statusmessagetemplate_write') && (
+        <MenuItem element="span">
+          <NavLink to="/manage/standaard/teksten">
+            Beheer standaard teksten
+          </NavLink>
+        </MenuItem>
+      )}
+      {showLogout && (
+        <MenuItem
+          element="button"
+          data-testid="logout-button"
+          onClick={onLoginLogoutButtonClick}
+          iconLeft={<StyledLogout focusable="false" width={20} />}
+        >
+          Uitloggen
+        </MenuItem>
+      )}
+      {showLogin && (
+        <MenuItem
+          element="button"
+          data-testid="login-button"
+          onClick={onLoginLogoutButtonClick}
+          iconLeft={<StyledLogin focusable="false" width={20} />}
+        >
+          Log in
+        </MenuItem>
+      )}
+    </Fragment>
+  );
 };
+
+const Header = (props) => (
+  <StyledHeader
+    title="Meldingen"
+    homeLink={CONFIGURATION.ROOT}
+    tall={false}
+    fullWidth={false}
+    navigation={
+      <Media query={`(max-width: ${breakpoint}px)`}>
+        {(matches) =>
+          matches ? (
+            <MenuToggle align="right">
+              <MenuItems {...props} />
+            </MenuToggle>
+          ) : (
+            <MenuInline>
+              <MenuItems {...props} />
+            </MenuInline>
+          )
+        }
+      </Media>
+    }
+  />
+);
 
 Header.defaultProps = {
   isAuthenticated: false,
   onLoginLogoutButtonClick: undefined,
-  userName: ''
 };
+
+Header.propTypes = {
+  isAuthenticated: PropTypes.bool,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
+  onLoginLogoutButtonClick: PropTypes.func,
+  permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+MenuItems.propTypes = Header.propTypes;
 
 export default Header;

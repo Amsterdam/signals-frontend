@@ -67,12 +67,16 @@ dd {
   }
 
   .app-container {
-    padding: 0;
+    padding: 80px 0 0;
     background-color: $ams-wit;
     overflow-x: hidden;
+    max-width: 1800px;
   }
 }
 
+[aria-hidden="true"] {
+  display: none !important;
+}
 
 @media print {
   html, body {height: 100%;}

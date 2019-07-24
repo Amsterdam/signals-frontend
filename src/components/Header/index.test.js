@@ -1,38 +1,166 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, fireEvent, cleanup } from '@testing-library/react';
+import MatchMediaMock from 'match-media-mock';
 
-import Header from './index';
+import Header, { breakpoint } from './index';
+import { withAppContext } from '../../test/utils';
+
+const mmm = MatchMediaMock.create();
 
 describe('<Header />', () => {
-  describe('rendering', () => {
-    it('should render correctly', () => {
-      const wrapper = shallow(
-        <Header />
-      );
-      expect(wrapper).toMatchSnapshot();
+  afterEach(cleanup);
+
+  beforeEach(() => {
+    mmm.setConfig({ type: 'screen', width: breakpoint + 1 });
+
+    // eslint-disable-next-line no-undef
+    Object.defineProperty(window, 'matchMedia', {
+      value: mmm,
     });
+  });
+
+  it('should render correctly', () => {
+    const { container, rerender, queryByText } = render(
+      withAppContext(<Header permissions={[]} location={{ pathname: '/' }} />),
+    );
+
+    // render site title
+    expect(queryByText('Meldingen')).not.toBeNull();
+
+    // log in button
+    expect(queryByText('Log in')).not.toBeNull();
+
+    // menu items
+    expect(queryByText('Nieuwe melding')).not.toBeNull();
+
+    // inline menu should be visible
+    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(
+      0,
+    );
+
+    // narrow window toggle
+    mmm.setConfig({ type: 'screen', width: breakpoint - 1 });
+
+    // eslint-disable-next-line no-undef
+    Object.defineProperty(window, 'matchMedia', {
+      value: mmm,
+    });
+
+    rerender(
+      withAppContext(<Header permissions={[]} location={{ pathname: '/' }} />),
+    );
+
+    // toggle menu should be visible
+    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(
+      1,
+    );
+  });
+
+  it('should show buttons based on permissions', () => {
+    const { queryByText } = render(
+      withAppContext(
+        <Header
+          permissions={['signals.sia_statusmessagetemplate_write']}
+          isAuthenticated
+          location={{ pathname: '/incident/beschrijf' }}
+        />,
+      ),
+    );
+
+    expect(queryByText('Beheer standaard teksten')).not.toBeNull();
+  });
+
+  it('should not show login button on homepage', () => {
+    //  dont' show login button on homepage
+    const { rerender, queryByText } = render(
+      withAppContext(
+        <Header
+          permissions={[]}
+          isAuthenticated={false}
+          location={{ pathname: '/incident/beschrijf' }}
+        />,
+      ),
+    );
+
+    expect(queryByText('Log in')).toBeNull();
+
+    rerender(
+      withAppContext(
+        <Header
+          permissions={[]}
+          isAuthenticated={false}
+          location={{ pathname: '/manage/incidents' }}
+        />,
+      ),
+    );
+
+    expect(queryByText('Log in')).not.toBeNull();
   });
 
   it('should render correctly when logged in', () => {
-    const wrapper = shallow(
-      <Header isAuthenticated />
-    );
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  describe('events', () => {
-    it('should render correctly when logged in', () => {
-      const onLoginLogoutButtonClick = jest.fn();
-
-      const wrapper = shallow(
+    const { queryByText } = render(
+      withAppContext(
         <Header
           isAuthenticated
-          onLoginLogoutButtonClick={onLoginLogoutButtonClick}
-        />
-      );
+          permissions={[]}
+          location={{ pathname: '/' }}
+        />,
+      ),
+    );
 
-      wrapper.find('.header-component__logout').simulate('click');
-      expect(onLoginLogoutButtonClick).toHaveBeenCalled();
-    });
+    // log in button
+    expect(queryByText('Log in')).toBeNull();
+
+    // log out button
+    expect(queryByText('Uitloggen')).not.toBeNull();
+  });
+
+  it('should handle login/logout callback', () => {
+    const onLoginLogoutButtonClick = jest.fn();
+
+    const { rerender, getByText } = render(
+      withAppContext(
+        <Header
+          permissions={[]}
+          onLoginLogoutButtonClick={onLoginLogoutButtonClick}
+          location={{ pathname: '/' }}
+        />,
+      ),
+    );
+
+    const loginButton = getByText('Log in');
+
+    fireEvent(
+      loginButton,
+      new MouseEvent('click', {
+        bubbles: true,
+      }),
+    );
+
+    expect(onLoginLogoutButtonClick).toHaveBeenCalled();
+
+    onLoginLogoutButtonClick.mockReset();
+
+    rerender(
+      withAppContext(
+        <Header
+          permissions={[]}
+          isAuthenticated
+          onLoginLogoutButtonClick={onLoginLogoutButtonClick}
+          location={{ pathname: '/' }}
+        />,
+      ),
+    );
+
+    const logoutButton = getByText('Uitloggen');
+
+    fireEvent(
+      logoutButton,
+      new MouseEvent('click', {
+        bubbles: true,
+      }),
+    );
+
+    expect(onLoginLogoutButtonClick).toHaveBeenCalled();
   });
 });
