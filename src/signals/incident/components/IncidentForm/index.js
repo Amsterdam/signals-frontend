@@ -50,7 +50,7 @@ class IncidentForm extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     this.setValues(this.props.incidentContainer.incident);
     this.form.meta.incident = this.props.incidentContainer.incident;
-    this.form.meta.submitting = this.submitting;
+    this.form.meta.submitting = this.state.submitting;
     if (this.state.loading !== prevState.loading && !this.state.loading && this.state.next) {
       defer(() => {
         if (this.form.valid) {
@@ -67,7 +67,7 @@ class IncidentForm extends React.Component {
       form: this.form,
       wizard: this.props.wizard,
       incidentContainer: this.props.incidentContainer,
-      submitting: this.submitting,
+      submitting: this.state.submitting,
       isAuthenticated: this.props.isAuthenticated,
       handleSubmit: this.handleSubmit,
       getClassification: this.props.getClassification,
@@ -102,10 +102,6 @@ class IncidentForm extends React.Component {
     });
   }
 
-  get submitting() {
-    return this.state.submitting;
-  }
-
   setIncident(formAction) {
     switch (formAction) { // eslint-disable-line default-case
       case 'UPDATE_INCIDENT':
@@ -124,20 +120,22 @@ class IncidentForm extends React.Component {
   handleSubmit(e, next, formAction) {
     e.preventDefault();
 
-    if (this.props.postponeSubmitWhenLoading && next) {
-      if (this.state.loading) {
-        this.setState({
-          submitting: true,
-          formAction,
-          next
-        });
+    if (next) {
+      if (this.props.postponeSubmitWhenLoading) {
+        if (this.state.loading) {
+          this.setState({
+            submitting: true,
+            formAction,
+            next
+          });
 
-        return;
+          return;
+        }
       }
-    }
-    if (this.form.valid && next) {
-      this.setIncident(formAction);
-      next();
+      if (this.form.valid) {
+        this.setIncident(formAction);
+        next();
+      }
     }
 
     Object.values(this.form.controls).map((control) => control.onBlur());

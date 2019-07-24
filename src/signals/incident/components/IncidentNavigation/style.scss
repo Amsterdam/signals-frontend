@@ -12,11 +12,9 @@
     align-self: center;
     height: 50px;
 
-    &--next {
-      &:after {
-        border-bottom: calc(0.5em + 17px) solid #0000 !important;
-        border-top: calc(0.5em + 17px) solid #0000 !important;
-      }
+    &--next:after {
+      border-bottom: calc(0.5em + 17px) solid #0000 !important;
+      border-top: calc(0.5em + 17px) solid #0000 !important;
     }
   }
 }
