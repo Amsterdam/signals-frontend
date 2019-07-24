@@ -1,69 +1,57 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Footer /> should render correctly 1`] = `
-<div
+<Footer__FooterWrapper
   className="footer no-print"
 >
   <Footer__Disclaimer>
-    <Row
+    <Column
       debug={false}
-      debugColor="rgba(51,102,153,0.75)"
-      hasMargin={true}
+      debugColor="rgba(51,102,153,0.5)"
+      order={0}
+      push={0}
+      span={12}
+      wrap={false}
     >
-      <Column
-        debug={false}
-        debugColor="rgba(51,102,153,0.5)"
-        order={0}
-        push={0}
-        span={12}
-        wrap={false}
+      <Heading
+        as="h2"
       >
-        <Heading
-          as="h2"
-        >
-          Lukt het niet om een melding te doen?
-        </Heading>
-        <Paragraph>
-           
-        </Paragraph>
-      </Column>
-      <Column
-        debug={false}
-        debugColor="rgba(51,102,153,0.5)"
-        order={0}
-        push={0}
-        span={12}
-        wrap={false}
-      >
-        <Paragraph>
-          Bel het Gemeentelijk informatienummer: 14 020 
-          <br />
-          op werkdagen van 08.00 tot 18.00 uur.
-        </Paragraph>
-      </Column>
-    </Row>
+        Lukt het niet om een melding te doen?
+      </Heading>
+      <Paragraph>
+         
+      </Paragraph>
+    </Column>
+    <Column
+      debug={false}
+      debugColor="rgba(51,102,153,0.5)"
+      order={0}
+      push={0}
+      span={12}
+      wrap={false}
+    >
+      <Paragraph>
+        Bel het Gemeentelijk informatienummer: 14 020 
+        <br />
+        op werkdagen van 08.00 tot 18.00 uur.
+      </Paragraph>
+    </Column>
   </Footer__Disclaimer>
   <Footer__Privacy>
-    <Row
+    <Column
       debug={false}
-      debugColor="rgba(51,102,153,0.75)"
-      hasMargin={true}
+      debugColor="rgba(51,102,153,0.5)"
+      order={0}
+      push={0}
+      span={12}
+      wrap={false}
     >
-      <Column
-        debug={false}
-        debugColor="rgba(51,102,153,0.5)"
-        order={0}
-        push={0}
-        span={12}
-        wrap={false}
+      <Link
+        href="https://www.amsterdam.nl/privacy/"
       >
-        <Link
-          href="https://www.amsterdam.nl/privacy/"
-        >
-          Privacy
-        </Link>
-      </Column>
-    </Row>
+        Privacy
+      </Link>
+    </Column>
   </Footer__Privacy>
-</div>
+</Footer__FooterWrapper>
 `;

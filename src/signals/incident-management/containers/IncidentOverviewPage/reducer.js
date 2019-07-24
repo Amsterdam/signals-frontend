@@ -24,6 +24,7 @@ function overviewPageReducer(state = initialState, action) {
   switch (action.type) {
     case REQUEST_INCIDENTS:
       return state
+        .set('incidents', [])
         .set('loading', true)
         .set('error', false);
     case REQUEST_INCIDENTS_SUCCESS:

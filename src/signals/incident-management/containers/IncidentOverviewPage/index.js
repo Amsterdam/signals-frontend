@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { Row, Column } from '@datapunt/asc-ui';
-import styled from 'styled-components';
 
 import PageHeader from 'components/PageHeader';
 import injectSaga from 'utils/injectSaga';
@@ -18,22 +17,10 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import makeSelectOverviewPage, { makeSelectIncidentsCount } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import './style.scss';
 
-import {
-  requestIncidents,
-  incidentSelected,
-  // mainCategoryFilterSelectionChanged,
-} from './actions';
-// import Filter from 'signals/incident-management/components/Filter';
+import { requestIncidents, incidentSelected } from './actions';
 import ListComponent from './components/List';
 import Pager from './components/Pager';
-
-const OverviewPage = styled(Row)`
-  padding: 0;
-  width: 100%;
-  min-height: 400px;
-`;
 
 const IncidentOverviewPage = ({
   onRequestIncidents,
@@ -53,19 +40,7 @@ const IncidentOverviewPage = ({
         title={`Meldingen${incidentsCount ? ` (${incidentsCount})` : ''}`}
       />
 
-      <OverviewPage>
-        {/* <Column span={3}>
-            <Filter
-              onRequestIncidents={this.props.onRequestIncidents}
-              onMainCategoryFilterSelectionChanged={
-                this.props.onMainCategoryFilterSelectionChanged
-              }
-              categories={this.props.categories}
-              filter={filter}
-              {...rest}
-            />
-          </Column> */}
-
+      <Row>
         <Column span={12} wrap>
           <Column span={12}>
             {loading ? (
@@ -83,14 +58,16 @@ const IncidentOverviewPage = ({
           </Column>
 
           <Column span={12}>
-            <Pager
-              incidentsCount={incidentsCount}
-              page={page}
-              onRequestIncidents={onRequestIncidents}
-            />
+            {!loading && (
+              <Pager
+                incidentsCount={incidentsCount}
+                page={page}
+                onRequestIncidents={onRequestIncidents}
+              />
+            )}
           </Column>
         </Column>
-      </OverviewPage>
+      </Row>
     </Fragment>
   );
 };
@@ -108,7 +85,6 @@ IncidentOverviewPage.propTypes = {
 
   onRequestIncidents: PropTypes.func.isRequired,
   onIncidentSelected: PropTypes.func.isRequired,
-  // onMainCategoryFilterSelectionChanged: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -123,7 +99,6 @@ export const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onRequestIncidents: requestIncidents,
-      // onMainCategoryFilterSelectionChanged: mainCategoryFilterSelectionChanged,
       onIncidentSelected: incidentSelected,
     },
     dispatch,

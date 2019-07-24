@@ -61,7 +61,7 @@ const PageHeader = ({ className, children, title }) => {
         </Button>
 
         <Modal isOpen={modalIsOpen} onClose={closeModal} title="Filters">
-          <Filters />
+          <Filters onSubmit={closeModal} onCancel={closeModal} />
         </Modal>
       </Row>
     </StyledSection>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
 import isEqual from 'lodash.isequal';
 import styled from 'styled-components';
+import { Button, Row, Column } from '@datapunt/asc-ui';
 
 import FieldControlWrapper from '../FieldControlWrapper';
 import TextInput from '../TextInput';
@@ -14,15 +15,39 @@ const FilterForm = styled.form`
   column-gap: 100px;
   width: 100%;
   column-rule: 1px dotted #ddd;
-  column-fill: auto
-
-  @media (max-width: 1020px) {
+  column-fill: auto @media (max-width: 1020px) {
     column-gap: 60px;
   }
 
   @media (max-width: 600px) {
     column-count: 1;
   }
+`;
+
+const FormFooter = styled.footer`
+  border-top: 2px solid #e6e6e6;
+  background: white;
+  height: 66px;
+  padding: 10px 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+`;
+
+const ButtonContainer = styled(Column)`
+  justify-content: flex-end;
+`;
+
+const ResetButton = styled(Button)`
+  margin-right: auto;
+`;
+
+const CancelButton = styled(Button).attrs({
+  color: 'bright',
+})`
+  margin-right: 10px;
+  background-color: #b4b4b4;
 `;
 
 class Filter extends React.Component {
@@ -89,17 +114,21 @@ class Filter extends React.Component {
   };
 
   handleSubmit = (event) => {
+    const { onSubmit } = this.props;
     event.preventDefault();
     this.onFilter(this.filterForm.value);
+
+    onSubmit(event);
   };
 
   render() {
     const {
       categories,
       filterSubCategoryList,
-      statusList,
-      stadsdeelList,
+      onCancel,
       priorityList,
+      stadsdeelList,
+      statusList,
     } = this.props;
     return (
       <FieldGroup
@@ -175,21 +204,28 @@ class Filter extends React.Component {
                 control={this.filterForm.get('location__address_text')}
               />
 
-              <button
-                className="action tertiair"
-                onClick={this.handleReset}
-                type="button"
-              >
-                <span className="value">Reset filter</span>
-              </button>
+              <FormFooter>
+                <Row>
+                  <ButtonContainer span={12}>
+                    <ResetButton onClick={this.handleReset} type="reset">
+                      Reset filter
+                    </ResetButton>
 
-              <button
-                className="action primary"
-                type="submit"
-                disabled={invalid}
-              >
-                <span className="value">Zoek</span>
-              </button>
+                    <CancelButton data-testid="cancelBtn" type="button" onClick={onCancel}>
+                      Annuleren
+                    </CancelButton>
+
+                    <Button
+                      data-testid="submitBtn"
+                      type="submit"
+                      color="secondary"
+                      disabled={invalid}
+                    >
+                      Filteren
+                    </Button>
+                  </ButtonContainer>
+                </Row>
+              </FormFooter>
             </Fragment>
           </FilterForm>
         )}
@@ -206,14 +242,18 @@ Filter.defaulProps = {
   },
   filterSubCategoryList: [],
   filterSubs: [],
+  onCancel: null,
+  onSubmit: () => {},
 };
 
 Filter.propTypes = {
   categories: PropTypes.object,
   filter: PropTypes.object,
   filterSubCategoryList: PropTypes.array,
+  onCancel: PropTypes.func,
   onMainCategoryFilterSelectionChanged: PropTypes.func.isRequired,
   onRequestIncidents: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
   priorityList: PropTypes.array,
   stadsdeelList: PropTypes.array,
   statusList: PropTypes.array,

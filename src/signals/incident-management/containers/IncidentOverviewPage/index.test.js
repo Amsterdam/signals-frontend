@@ -7,7 +7,6 @@ import { getContext } from 'test/utils';
 import { IncidentOverviewPage, mapDispatchToProps } from './index';
 import { REQUEST_INCIDENTS, INCIDENT_SELECTED } from './constants';
 
-jest.mock('./components/Filter', () => () => 'Filter');
 jest.mock('./components/List', () => () => 'List');
 jest.mock('./components/Pager', () => () => 'Pager');
 
