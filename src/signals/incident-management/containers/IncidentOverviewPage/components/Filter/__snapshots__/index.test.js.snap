@@ -5,11 +5,6 @@ exports[`<Filter /> FieldGroup should lazy load categories correctly with existi
   className="filter-component"
 >
   <div
-    className="filter-component__title"
-  >
-    Filters
-  </div>
-  <div
     className="filter-component__body"
   >
     <FieldGroup
@@ -4445,11 +4440,6 @@ exports[`<Filter /> FieldGroup should update main category to All when main all 
   className="filter-component"
 >
   <div
-    className="filter-component__title"
-  >
-    Filters
-  </div>
-  <div
     className="filter-component__body"
   >
     <FieldGroup
@@ -4927,11 +4917,6 @@ exports[`<Filter /> FieldGroup should update sub categories when main categories
 <div
   className="filter-component"
 >
-  <div
-    className="filter-component__title"
-  >
-    Filters
-  </div>
   <div
     className="filter-component__body"
   >
@@ -5420,11 +5405,6 @@ exports[`<Filter /> should lazy load categories correctly 1`] = `
   className="filter-component"
 >
   <div
-    className="filter-component__title"
-  >
-    Filters
-  </div>
-  <div
     className="filter-component__body"
   >
     <FieldGroup
@@ -5907,11 +5887,6 @@ exports[`<Filter /> should render correctly 1`] = `
   className="filter-component"
 >
   <div
-    className="filter-component__title"
-  >
-    Filters
-  </div>
-  <div
     className="filter-component__body"
   >
     <FieldGroup
@@ -6393,11 +6368,6 @@ exports[`<Filter /> should render with set filter correctly  1`] = `
 <div
   className="filter-component"
 >
-  <div
-    className="filter-component__title"
-  >
-    Filters
-  </div>
   <div
     className="filter-component__body"
   >

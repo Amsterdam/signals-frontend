@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { ThemeProvider } from '@datapunt/asc-ui';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
 import NotFoundPage from 'containers/NotFoundPage';
 import Footer from 'components/Footer';
-import MainMenu from 'components/MainMenu';
-import HeaderContainer from 'containers/HeaderContainer';
+import SiteHeaderContainer from 'containers/SiteHeader';
 import GlobalError from 'containers/GlobalError';
 
 import reducer from './reducer';
@@ -27,41 +27,51 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
 
   render() {
     return (
-      <div className="app-container container-fluid">
-        <GlobalError />
-        <div className="container">
-          <HeaderContainer />
-        </div>
-        <div className="container-fluid">
-          <MainMenu />
-        </div>
-        <div className="container content">
-          <Switch>
-            <Redirect exact from="/" to="/incident" />
-            <Redirect exact from="/login" to="/manage" />
-            <Route path="/manage" component={IncidentManagementModule} />
-            <Route path="/incident" component={IncidentContainer} />
-            <Route path="/kto/:yesNo/:uuid" component={(props) => (<KtoContainer yesNo={props.match.params.yesNo} uuid={props.match.params.uuid} />)} />
-            <Route path="" component={NotFoundPage} />
-          </Switch>
-        </div>
-        <div className="container-fluid">
-          <Footer />
-        </div>
-      </div>
+      <ThemeProvider>
+        <Fragment>
+          <SiteHeaderContainer />
+          <div className="app-container container-fluid">
+            <GlobalError />
+            <Switch>
+              <Redirect exact from="/" to="/incident" />
+              <Redirect exact from="/login" to="/manage" />
+              <Route path="/manage" component={IncidentManagementModule} />
+              <Route path="/incident" component={IncidentContainer} />
+              <Route
+                path="/kto/:yesNo/:uuid"
+                component={(props) => (
+                  <KtoContainer
+                    yesNo={props.match.params.yesNo}
+                    uuid={props.match.params.uuid}
+                  />
+                )}
+              />
+              <Route path="" component={NotFoundPage} />
+            </Switch>
+            <Footer />
+          </div>
+        </Fragment>
+      </ThemeProvider>
     );
   }
 }
 
 App.propTypes = {
-  requestCategories: PropTypes.func.isRequired
+  requestCategories: PropTypes.func.isRequired,
 };
 
-export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  requestCategories
-}, dispatch);
+export const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      requestCategories,
+    },
+    dispatch,
+  );
 
-const withConnect = connect(null, mapDispatchToProps);
+const withConnect = connect(
+  null,
+  mapDispatchToProps,
+);
 
 const withReducer = injectReducer({ key: 'global', reducer });
 const withSaga = injectSaga({ key: 'global', saga });
@@ -70,5 +80,5 @@ export default compose(
   withReducer,
   withSaga,
   withRouter,
-  withConnect
+  withConnect,
 )(App);

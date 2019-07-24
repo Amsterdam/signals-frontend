@@ -2,12 +2,12 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
-import { HeaderContainer, mapDispatchToProps } from './index';
+import { SiteHeaderContainer, mapDispatchToProps } from './index';
 import { LOGIN, LOGOUT } from '../App/constants';
 
 jest.mock('shared/services/auth/auth');
 
-describe('<HeaderContainer />', () => {
+describe('containers/SiteHeaderContainer', () => {
   let props;
   const event = {
     persist: jest.fn(),
@@ -19,7 +19,8 @@ describe('<HeaderContainer />', () => {
     props = {
       userName: 'user',
       onLogin: jest.fn(),
-      onLogout: jest.fn()
+      onLogout: jest.fn(),
+      permissions: [],
     };
   });
 
@@ -27,22 +28,11 @@ describe('<HeaderContainer />', () => {
     jest.resetAllMocks();
   });
 
-  it('should render correctly when authenticated', () => {
-    isAuthenticated.mockImplementation((() => true));
-
-    const wrapper = shallow(
-      <HeaderContainer {...props} />
-    );
-    expect(wrapper).toMatchSnapshot();
-  });
-
   describe('onLoginLogoutButtonClick', () => {
     it('should login when not authenticated', () => {
-      isAuthenticated.mockImplementation((() => false));
+      isAuthenticated.mockImplementation(() => false);
 
-      const wrapper = shallow(
-        <HeaderContainer {...props} />
-      );
+      const wrapper = shallow(<SiteHeaderContainer {...props} />);
 
       const domain = 'the-login-domain';
       expect(wrapper.instance().onLoginLogoutButtonClick(event, domain));
@@ -50,11 +40,9 @@ describe('<HeaderContainer />', () => {
     });
 
     it('should logout when authenticated', () => {
-      isAuthenticated.mockImplementation((() => true));
+      isAuthenticated.mockImplementation(() => true);
 
-      const wrapper = shallow(
-        <HeaderContainer {...props} />
-      );
+      const wrapper = shallow(<SiteHeaderContainer {...props} />);
       expect(wrapper.instance().onLoginLogoutButtonClick(event));
       expect(props.onLogout).toHaveBeenCalled();
     });
