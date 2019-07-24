@@ -17,7 +17,6 @@ services:
       context: .
       target: builder
     environment:
-      - NODE_ENV=development
+      - CI=true
       - TZ=Europe/Amsterdam
     command: npm run test
-

@@ -42,7 +42,7 @@
     "lint:staged": "lint-staged",
     "pretest": "npm run test:clean && npm run lint",
     "test:clean": "rimraf ./coverage",
-    "test": "cross-env NODE_ENV=development jest --coverage",
+    "test": "cross-env jest --coverage",
     "test:no-coverage": "cross-env NODE_ENV=test jest ",
     "test:only": "cross-env NODE_ENV=test jest --watch --onlyChanged --coverage --verbose false",
     "test:update": "cross-env NODE_ENV=test jest --updateSnapshot --coverage --verbose false",
