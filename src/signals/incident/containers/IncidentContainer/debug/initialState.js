@@ -18,12 +18,6 @@ export default {
       ]
     }
   },
-//   0(pin): "geluidsoverlast-installaties"
-// 1(pin): "geluidsoverlast-muziek"
-// 2(pin): "overig-horecabedrijven"
-// 3(pin): "overlast-door-bezoekers-niet-op-terras"
-// 4(pin): "overlast-terrassen"
-// 5(pin): "stankoverlast"
   category: 'overlast-bedrijven-en-horeca',
   subcategory: 'stankoverlast',
   subcategory_link: 'https://api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/overig-horecabedrijven',
