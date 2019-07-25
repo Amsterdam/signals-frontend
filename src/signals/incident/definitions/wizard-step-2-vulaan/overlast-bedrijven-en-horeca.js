@@ -435,7 +435,7 @@ export default {
             'iets_anders'
           ]
         },
-        label: 'We willen graag een geluidsmeting bij u thuis doen. Mogen we contact met u opnemen om een afspraak te maken?',
+        label: 'Mogen we contact met u opnemen over de melding? Bijvoorbeeld om bij u thuis een geluidsmeting te doen?',
         labelShort: 'Toestemming contact opnemen',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties',
@@ -460,7 +460,7 @@ export default {
             'iets_anders'
           ]
         },
-        label: 'We willen graag een geluidsmeting bij u thuis doen. Mogen we contact met u opnemen om een afspraak te maken?',
+        label: 'Mogen we contact met u opnemen over de melding? Bijvoorbeeld om bij u thuis een geluidsmeting te doen?',
         labelShort: 'Toestemming contact opnemen',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties',
