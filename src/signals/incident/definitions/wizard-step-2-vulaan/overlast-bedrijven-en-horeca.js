@@ -191,6 +191,7 @@ export default {
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties'
       },
+      options: { validators: [Validators.required] },
       render: FormComponents.TextInput
     },
 
@@ -212,6 +213,7 @@ export default {
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties'
       },
+      options: { validators: [Validators.required] },
       render: FormComponents.TextInput
     },
 
@@ -423,6 +425,7 @@ export default {
           nee: 'Nee, liever geen contact'
         }
       },
+      options: { validators: [Validators.required] },
       render: FormComponents.RadioInput
     },
     extra_bedrijven_horeca_muziek_geluidmeting_caution: {
@@ -459,7 +462,7 @@ export default {
             'iets_anders'
           ]
         },
-        label: 'We willen graag een geluidsmeting bij u thuis doen. Mogen we contact met u opnemen om een afspraak te maken?',
+        label: 'Mogen we u nu bellen?',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties',
         values: {
