@@ -21,6 +21,7 @@ export default {
           category: 'overlast-bedrijven-en-horeca'
         },
         label: 'Uw melding gaat over:',
+        labelShort: 'Soort bedrijf',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties',
         values: {
@@ -47,6 +48,7 @@ export default {
           ]
         },
         label: 'Wie of wat zorgt voor deze overlast, denkt u?',
+        labelShort: 'Mogelijke veroorzaker',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties'
       },
@@ -66,6 +68,7 @@ export default {
           ]
         },
         label: 'Op welk adres ervaart u de overlast?',
+        labelShort: 'Adres overlast',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties'
       },
@@ -85,6 +88,7 @@ export default {
           ]
         },
         label: 'Woont u direct boven of direct naast het pand waar het geluid vandaan komt?',
+        labelShort: 'Aanpandig',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties',
         values: {
@@ -109,6 +113,7 @@ export default {
           ]
         },
         label: 'Hebt u ook last van het geluid als uw ramen en deuren gesloten zijn?',
+        labelShort: 'Overlast met ramen en deuren dicht',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties',
         values: {
@@ -130,6 +135,7 @@ export default {
           ]
         },
         label: 'Staan de ramen of deuren open van de horeca onderneming?',
+        labelShort: 'Ramen/deuren horeca open',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties',
         values: {
@@ -152,6 +158,7 @@ export default {
           ]
         },
         label: 'Gaan de ramen of deuren kort of lang open?',
+        labelShort: 'Ramen/deuren gaan',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties',
         values: {
@@ -169,6 +176,7 @@ export default {
           extra_bedrijven_horeca_wat: 'evenement_festival_markt',
         },
         label: 'Bent u geïnformeerd door de organisator van het evenement?',
+        labelShort: 'Geïnformeerd door organisator',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties',
         values: {
@@ -188,6 +196,7 @@ export default {
           extra_bedrijven_horeca_muziek_evenement: 'ja'
         },
         label: 'Weet u hoe laat het evenement eindigt?',
+        labelShort: 'Evenement eindigt om',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties'
       },
@@ -209,6 +218,7 @@ export default {
           ]
         },
         label: 'Van wat voor een soort installatie heeft u last?',
+        labelShort: 'Soort installatie',
         subtitle: 'Bijvoorbeeld een afzuiger of airconditioning',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties'
@@ -231,6 +241,7 @@ export default {
           ]
         },
         label: 'Wat is de oorzaak van de overlast?',
+        labelShort: 'Oorzaak overlast',
         values: {
           dronken_bezoekers: 'Dronken bezoekers',
           schreeuwende_bezoekers: 'Schreeuwende bezoekers',
@@ -259,6 +270,7 @@ export default {
           ]
         },
         label: 'Wat is de oorzaak van de overlast?',
+        labelShort: 'Oorzaak overlast',
         values: {
           uitgewaaierd_terras: 'Uitgewaaierd terras (buiten de toegestane grens)',
           doorloop: 'Het terras belemmert de doorloop',
@@ -287,6 +299,7 @@ export default {
           ]
         },
         label: 'Welke geur ruikt u?',
+        labelShort: 'Soort geur',
         subtitle: 'Beschrijf wat voor geur het is',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties'
@@ -308,6 +321,7 @@ export default {
           ]
         },
         label: 'Wat is de vermoedelijke oorzaak van de geuroverlast?',
+        labelShort: 'Vermoedelijke oorzaak',
         subtitle: 'Bijvoorbeeld afvoerpijp of schoorsteen',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties'
@@ -329,6 +343,7 @@ export default {
           ]
         },
         label: 'Wat zijn de weersomstandigheden tijdens de overlast?',
+        labelShort: 'Weersomstandigheden',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties'
       },
@@ -349,6 +364,7 @@ export default {
           ]
         },
         label: 'Staan de ramen of deuren open van de vermoedelijke veroorzaker?',
+        labelShort: 'Ramen/deuren open',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties',
         values: {
@@ -373,6 +389,7 @@ export default {
           ]
         },
         label: 'Gebeurt het vaker?',
+        labelShort: 'Vaker overlast',
         subtitle: 'Is de overlast vaker aanwezig of is dit een eenmalige gebeurtenis',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties',
@@ -398,6 +415,7 @@ export default {
           ]
         },
         label: 'Op welk(e) tijdstip(pen) ervaart u de overlast?',
+        labelShort: 'Overlast momenten',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties'
       },
@@ -418,6 +436,7 @@ export default {
           ]
         },
         label: 'We willen graag een geluidsmeting bij u thuis doen. Mogen we contact met u opnemen om een afspraak te maken?',
+        labelShort: 'Toestemming contact opnemen',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties',
         values: {
@@ -442,6 +461,7 @@ export default {
           ]
         },
         label: 'We willen graag een geluidsmeting bij u thuis doen. Mogen we contact met u opnemen om een afspraak te maken?',
+        labelShort: 'Toestemming contact opnemen',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties',
         values: {
@@ -471,6 +491,7 @@ export default {
           extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'ja'
         },
         label: 'Mogen we u nu bellen?',
+        labelShort: 'Bel moment',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties',
         values: {
@@ -488,6 +509,7 @@ export default {
           extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'nee'
         },
         label: 'Waarom heeft u liever geen contact?',
+        labelShort: 'Liever geen contact',
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties'
       },
