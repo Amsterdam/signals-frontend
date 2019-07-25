@@ -404,7 +404,7 @@ export default {
       render: FormComponents.TextInput
     },
 
-    extra_bedrijven_horeca_muziek_geluidmeting: {
+    extra_bedrijven_horeca_muziek_geluidmeting_muziek: {
       meta: {
         ifAllOf: {
           subcategory: 'geluidsoverlast-muziek'
@@ -428,11 +428,10 @@ export default {
       options: { validators: [Validators.required] },
       render: FormComponents.RadioInput
     },
-    extra_bedrijven_horeca_muziek_geluidmeting_caution: {
+    extra_bedrijven_horeca_muziek_geluidmeting_installaties: {
       meta: {
         ifAllOf: {
-          subcategory: 'geluidsoverlast-muziek',
-          extra_bedrijven_horeca_muziek_geluidmeting: 'ja'
+          subcategory: 'geluidsoverlast-installaties'
         },
         ifOneOf: {
           extra_bedrijven_horeca_wat: [
@@ -441,6 +440,23 @@ export default {
             'evenement_festival_markt',
             'iets_anders'
           ]
+        },
+        label: 'We willen graag een geluidsmeting bij u thuis doen. Mogen we contact met u opnemen om een afspraak te maken?',
+        className: 'col-sm-12 col-md-8',
+        pathMerge: 'extra_properties',
+        values: {
+          ja: 'Ja, u mag contact met mij opnemen',
+          nee: 'Nee, liever geen contact'
+        }
+      },
+      options: { validators: [Validators.required] },
+      render: FormComponents.RadioInput
+    },
+    extra_bedrijven_horeca_muziek_geluidmeting_caution: {
+      meta: {
+        ifOneOf: {
+          extra_bedrijven_horeca_muziek_geluidmeting_muziek: 'ja',
+          extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'ja'
         },
         value: 'Let op! Vul uw telefoonnummer in op de volgende pagina',
         className: 'col-sm-12 col-md-8',
@@ -450,17 +466,9 @@ export default {
     },
     extra_bedrijven_horeca_muziek_geluidmeting_ja: {
       meta: {
-        ifAllOf: {
-          subcategory: 'geluidsoverlast-muziek',
-          extra_bedrijven_horeca_muziek_geluidmeting: 'ja'
-        },
         ifOneOf: {
-          extra_bedrijven_horeca_wat: [
-            'horecabedrijf',
-            'ander_soort_bedrijf',
-            'evenement_festival_markt',
-            'iets_anders'
-          ]
+          extra_bedrijven_horeca_muziek_geluidmeting_muziek: 'ja',
+          extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'ja'
         },
         label: 'Mogen we u nu bellen?',
         className: 'col-sm-12 col-md-8',
@@ -475,17 +483,9 @@ export default {
     },
     extra_bedrijven_horeca_muziek_geluidmeting_nee: {
       meta: {
-        ifAllOf: {
-          subcategory: 'geluidsoverlast-muziek',
-          extra_bedrijven_horeca_muziek_geluidmeting: 'nee'
-        },
         ifOneOf: {
-          extra_bedrijven_horeca_wat: [
-            'horecabedrijf',
-            'ander_soort_bedrijf',
-            'evenement_festival_markt',
-            'iets_anders'
-          ]
+          extra_bedrijven_horeca_muziek_geluidmeting_muziek: 'nee',
+          extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'nee'
         },
         label: 'Waarom heeft u liever geen contact?',
         className: 'col-sm-12 col-md-8',
