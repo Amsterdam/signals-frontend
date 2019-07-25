@@ -38,7 +38,7 @@
     "prebuild": "npm run build:clean",
     "preinstall": "npm run npmcheckversion",
     "presetup": "npm i chalk shelljs",
-    "pretest": "npm run test:clean && npm run lint",
+    "pretest": "npm run test:clean",
     "setup": "node ./internals/scripts/setup.js",
     "start:dev": "npm-run-all -p dyson:server start:proxy-dev",
     "start:prod": "cross-env NODE_ENV=production node server",
@@ -51,7 +51,7 @@
     "test:only": "cross-env NODE_ENV=test jest --watch --onlyChanged --coverage --verbose false",
     "test:update": "cross-env NODE_ENV=test jest --updateSnapshot --coverage --verbose false",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll --coverage --verbose false",
-    "test": "cross-env NODE_ENV=development jest --coverage"
+    "test": "cross-env jest --coverage"
   },
   "lint-staged": {
     "*.js": "lint:eslint"
