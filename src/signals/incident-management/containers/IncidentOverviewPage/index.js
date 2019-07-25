@@ -22,7 +22,7 @@ import { requestIncidents, incidentSelected } from './actions';
 import ListComponent from './components/List';
 import Pager from './components/Pager';
 
-const IncidentOverviewPage = ({
+export const IncidentOverviewPageContainerComponent = ({
   onRequestIncidents,
   overviewpage,
   incidentsCount,
@@ -72,14 +72,13 @@ const IncidentOverviewPage = ({
   );
 };
 
-IncidentOverviewPage.propTypes = {
+IncidentOverviewPageContainerComponent.propTypes = {
   overviewpage: PropTypes.shape({
     incidents: PropTypes.arrayOf(PropTypes.shape({})),
     loading: PropTypes.bool,
     page: PropTypes.number,
     sort: PropTypes.string,
   }).isRequired,
-  baseUrl: PropTypes.string.isRequired,
   categories: PropTypes.shape({}).isRequired,
   incidentsCount: PropTypes.number,
 
@@ -116,4 +115,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(IncidentOverviewPage);
+)(IncidentOverviewPageContainerComponent);

@@ -50,30 +50,50 @@ const CancelButton = styled(Button).attrs({
   background-color: #b4b4b4;
 `;
 
+export const defaults = {
+  id: [''],
+  incident_date_start: [''],
+  location__stadsdeel: [['']],
+  priority__priority: '',
+  main_slug: [['']],
+  sub_slug: [['']],
+  status__state: [['']],
+  location__address_text: [''],
+};
+
 class Filter extends React.Component {
   constructor(props) {
     super(props);
 
+    this.filterForm = FormBuilder.group(defaults);
+
     if (props.filter) {
       this.filterForm.setValue(props.filter);
     }
+
+    this.onFilter = this.onFilter.bind(this);
+    this.handleReset = this.handleReset.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
+    const { categories } = this.props;
+
     this.filterForm.get('main_slug').valueChanges.subscribe((value) => {
-      this.filterForm.get('sub_slug').setValue(this.default.sub_slug);
+      this.filterForm.get('sub_slug').setValue(defaults.sub_slug);
 
       this.props.onMainCategoryFilterSelectionChanged({
         selectedOptions: value,
-        categories: this.props.categories,
+        categories,
       });
     });
 
+    const selectedOptions =
+      (this.props.filter && this.props.filter.main_slug) || defaults.main_slug;
+
     this.props.onMainCategoryFilterSelectionChanged({
-      selectedOptions:
-        (this.props.filter && this.props.filter.main_slug) ||
-        this.default.main_slug,
-      categories: this.props.categories,
+      selectedOptions,
+      categories,
     });
   }
 
@@ -87,26 +107,17 @@ class Filter extends React.Component {
 
   onFilter = (filter) => {
     const newFilter = { ...filter };
-    if (isEqual(newFilter.main_slug, this.default.main_slug)) {
+
+    if (isEqual(newFilter.main_slug, defaults.main_slug)) {
       newFilter.main_slug = null;
     }
-    if (isEqual(newFilter.sub_slug, this.default.sub_slug)) {
+
+    if (isEqual(newFilter.sub_slug, defaults.sub_slug)) {
       newFilter.sub_slug = null;
     }
+
     this.props.onRequestIncidents({ filter: newFilter });
   };
-
-  default = {
-    id: [''],
-    incident_date_start: [''],
-    location__stadsdeel: [['']],
-    priority__priority: '',
-    main_slug: [['']],
-    sub_slug: [['']],
-    status__state: [['']],
-    location__address_text: [''],
-  };
-  filterForm = FormBuilder.group(this.default);
 
   handleReset = () => {
     this.filterForm.reset();
@@ -114,8 +125,9 @@ class Filter extends React.Component {
   };
 
   handleSubmit = (event) => {
-    const { onSubmit } = this.props;
     event.preventDefault();
+
+    const { onSubmit } = this.props;
     this.onFilter(this.filterForm.value);
 
     onSubmit(event);
@@ -130,6 +142,7 @@ class Filter extends React.Component {
       stadsdeelList,
       statusList,
     } = this.props;
+
     return (
       <FieldGroup
         control={this.filterForm}
@@ -211,7 +224,11 @@ class Filter extends React.Component {
                       Reset filter
                     </ResetButton>
 
-                    <CancelButton data-testid="cancelBtn" type="button" onClick={onCancel}>
+                    <CancelButton
+                      data-testid="cancelBtn"
+                      type="button"
+                      onClick={onCancel}
+                    >
                       Annuleren
                     </CancelButton>
 
@@ -234,7 +251,7 @@ class Filter extends React.Component {
   }
 }
 
-Filter.defaulProps = {
+Filter.defaultProps = {
   categories: {
     main: [],
     sub: [],
