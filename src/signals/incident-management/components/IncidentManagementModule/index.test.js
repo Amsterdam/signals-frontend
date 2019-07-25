@@ -1,14 +1,24 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import { createMemoryHistory } from 'history';
-import { withAppContext } from 'test/utils';
+import { withAppContext, withCustomAppContext } from 'test/utils';
 import { render, cleanup } from '@testing-library/react';
 
-import { IncidentManagementModuleComponent } from './index';
+import {
+  IncidentManagementModuleComponent,
+  incidentDetailWrapper,
+  incidentOverviewPageWrapper,
+  incidentSplitContainerWrapper,
+} from './index';
 
 const history = createMemoryHistory();
 
-describe('<IncidentManagementModule />', () => {
+describe('signals/incident-management/components/IncidentManagementModule', () => {
   let props;
+
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
 
   afterEach(cleanup);
 
@@ -114,6 +124,56 @@ describe('<IncidentManagementModule />', () => {
       );
 
       expect(queryByText(loginText)).toBeNull();
+    });
+  });
+
+  describe('route components', () => {
+    beforeAll(() => {
+      // silencing console errors because of missing props in rendered containers
+      global.console.error = jest.fn();
+    });
+
+    afterAll(() => {
+      global.console.error.mockRestore();
+    });
+
+    it('renders IncidentDetailWrapper', () => {
+      const baseUrl = '/manage';
+      const IncidentDetail = withRouter(incidentDetailWrapper(baseUrl));
+
+      const { container } = render(
+        withCustomAppContext(<IncidentDetail />)({
+          routerCfg: { initialEntries: ['/manage/incident/1101'] },
+        }),
+      );
+
+      expect(container.firstChild).toBeTruthy();
+    });
+
+    it('renders IncidentOverviewPageWrapper', () => {
+      const baseUrl = '/manage';
+      const IncidentOverviewPage = withRouter(incidentOverviewPageWrapper(baseUrl));
+
+      const { container } = render(
+        withCustomAppContext(<IncidentOverviewPage />)({
+          routerCfg: { initialEntries: ['/manage/incidents'] },
+        }),
+      );
+
+      expect(container.firstChild).toBeTruthy();
+    });
+
+    it('renders IncidentSplitContainerWrapper', () => {
+      const baseUrl = '/manage';
+      const IncidentSplitContainer = withRouter(incidentSplitContainerWrapper(baseUrl));
+
+      const { container } = render(
+        withCustomAppContext(<IncidentSplitContainer />)({
+          routerCfg: { initialEntries: ['/manage/incident/1101/split'] },
+        }),
+      );
+
+      expect(container.firstChild).toBeTruthy();
     });
   });
 });

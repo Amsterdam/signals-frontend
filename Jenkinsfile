@@ -22,6 +22,19 @@ node {
         env.GIT_COMMIT = scmVars.GIT_COMMIT
     }
 
+    stage("Lint") {
+      String  PROJECT = "sia-eslint"
+
+      tryStep "lint start", {
+        sh "docker-compose -p ${PROJECT} up --build --exit-code-from lint-container lint-container"
+      }
+      always {
+        tryStep "lint stop", {
+          sh "docker-compose -p ${PROJECT} down -v || true"
+        }
+      }
+    }
+
     stage("Unit and Integration") {
       String  PROJECT = "sia-unittests"
 
