@@ -49,6 +49,7 @@ export default {
         optional: true
       }
     },
+
     vulaan: { // page route --> /incident/vulaan
       extra_brug: {
         label: 'Naam brug',
@@ -277,6 +278,112 @@ export default {
         optional: true
       },
 
+      // horeca
+      extra_bedrijven_horeca_wat: {
+        label: 'Soort bedrijf',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_bedrijven_horeca_naam: {
+        label: 'Mogelijke veroorzaker',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_bedrijven_horeca_adres: {
+        label: 'Adres overlast',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_bedrijven_horeca_muziek_direct_naast: {
+        label: 'Aanpandig',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_bedrijven_horeca_muziek_ramen_dicht: {
+        label: 'Overlast met ramen en deuren dicht',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_bedrijven_horeca_muziek_ramen_dicht_onderneming_lang: {
+        label: 'Ramen/deuren gaan',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_bedrijven_horeca_muziek_evenement: {
+        label: 'Geïnformeerd door organisator',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_bedrijven_horeca_muziek_evenement_einde: {
+        label: 'Evenement eindigt om',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_bedrijven_horeca_installaties: {
+        label: 'Soort installatie',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_bedrijven_horeca_personen: {
+        label: 'Oorzaak overlast',
+        render: PreviewComponents.ListObjectValue,
+        optional: true
+      },
+      extra_bedrijven_horeca_terrassen: {
+        label: 'Oorzaak overlast',
+        render: PreviewComponents.ListObjectValue,
+        optional: true
+      },
+      extra_bedrijven_horeca_stank: {
+        label: 'Soort geur',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_bedrijven_horeca_stank_oorzaak: {
+        label: 'Vermoedelijke oorzaak',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_bedrijven_horeca_stank_weer: {
+        label: 'Weersomstandigheden',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_bedrijven_horeca_stank_ramen: {
+        label: 'Ramen/deuren open',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_bedrijven_horeca_vaker: {
+        label: 'Gebeurt het vaker?',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_bedrijven_horeca_tijdstippen: {
+        label: 'Overlast momenten',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_bedrijven_horeca_muziek_geluidmeting_muziek: {
+        label: 'Toestemming contact opnemen',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
+      extra_bedrijven_horeca_muziek_geluidmeting_installaties: {
+        label: 'Toestemming contact opnemen',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_bedrijven_horeca_muziek_geluidmeting_ja: {
+        label: 'Bel moment',
+        render: PreviewComponents.ObjectValue,
+        optional: true
+      },
+      extra_bedrijven_horeca_muziek_geluidmeting_nee: {
+        label: 'Liever geen contact',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
     },
 
     telefoon: {
@@ -285,6 +392,7 @@ export default {
         render: PreviewComponents.PlainText
       }
     },
+
     email: {
       email: {
         label: 'Uw e-mailadres',
