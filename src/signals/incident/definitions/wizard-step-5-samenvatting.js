@@ -379,6 +379,11 @@ export default {
         render: PreviewComponents.ObjectValue,
         optional: true
       },
+      extra_bedrijven_horeca_muziek_geluidmeting_ja_nietnu: {
+        label: 'Ander bel moment',
+        render: PreviewComponents.PlainText,
+        optional: true
+      },
       extra_bedrijven_horeca_muziek_geluidmeting_nee: {
         label: 'Liever geen contact',
         render: PreviewComponents.PlainText,
