@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme';
 
 import { Wizard, WithWizard } from 'react-albus';
 
-import PreviewComponents from '../../components/IncidentPreview/components/';
+import PreviewComponents from './components';
 import IncidentPreview from './index';
 import isVisible from './services/is-visible';
 

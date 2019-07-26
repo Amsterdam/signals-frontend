@@ -1,24 +1,22 @@
-/**
- *
- * HeaderContainer
- *
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { makeSelectUserName } from 'containers/App/selectors';
-import Header from 'components/Header';
+import {
+  makeSelectUserName,
+  makeSelectUserPermissions,
+} from 'containers/App/selectors';
+import SiteHeader from 'components/SiteHeader';
+import { withRouter } from 'react-router-dom';
 
 import { doLogin, doLogout } from '../App/actions';
-
-import './style.scss';
-
 import { isAuthenticated } from '../../shared/services/auth/auth';
 
-export class HeaderContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
+const HeaderWithRouter = withRouter(SiteHeader);
+
+export class SiteHeaderContainer extends React.Component {
+  // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.onLoginLogoutButtonClick = this.onLoginLogoutButtonClick.bind(this);
@@ -37,7 +35,8 @@ export class HeaderContainer extends React.Component { // eslint-disable-line re
 
   render() {
     return (
-      <Header
+      <HeaderWithRouter
+        permissions={this.props.permissions}
         isAuthenticated={isAuthenticated()}
         onLoginLogoutButtonClick={this.onLoginLogoutButtonClick}
         userName={this.props.userName}
@@ -46,23 +45,30 @@ export class HeaderContainer extends React.Component { // eslint-disable-line re
   }
 }
 
-HeaderContainer.propTypes = {
+SiteHeaderContainer.propTypes = {
   userName: PropTypes.string,
   onLogin: PropTypes.func,
-  onLogout: PropTypes.func
+  onLogout: PropTypes.func,
+  permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  userName: makeSelectUserName()
+  userName: makeSelectUserName(),
+  permissions: makeSelectUserPermissions(),
 });
 
-export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  onLogin: doLogin,
-  onLogout: doLogout
-}, dispatch);
+export const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      onLogin: doLogin,
+      onLogout: doLogout,
+    },
+    dispatch,
+  );
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
-export default compose(
-  withConnect,
-)(HeaderContainer);
+export default compose(withConnect)(SiteHeaderContainer);

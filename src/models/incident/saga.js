@@ -29,7 +29,7 @@ export function* patchIncident(action) {
   const payload = action.payload;
   try {
     const incident = yield authPatchCall(`${requestURL}/${payload.id}`, payload.patch);
-    yield call(delay, 1000);
+    yield call(delay(1000));
     yield put(patchIncidentSuccess({ type: payload.type, incident }));
     yield put(requestHistoryList(payload.id));
   } catch (error) {

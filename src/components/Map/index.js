@@ -6,12 +6,12 @@ import amaps from 'amsterdam-amaps/dist/amaps';
 import './style.scss';
 
 const PREVIEW_ZOOM_LEVEL = '16';
-const smallIcon = global.window.L.icon({
+const smallIcon = global.L.icon({
   iconUrl: 'https://map.data.amsterdam.nl/dist/images/svg/marker.svg',
   iconSize: [20, 20],
   iconAnchor: [10, 19]
 });
-const defaultIcon = global.window.L.icon({
+const defaultIcon = global.L.icon({
   iconUrl: 'https://map.data.amsterdam.nl/dist/images/svg/marker.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 39]

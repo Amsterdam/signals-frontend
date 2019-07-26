@@ -9,7 +9,7 @@ import './style.scss';
 
 const DEFAULT_ZOOM_LEVEL = 14;
 const PREVIEW_ZOOM_LEVEL = 16;
-const customIcon = global.window.L.icon({
+const customIcon = global.L.icon({
   iconUrl: 'https://map.data.amsterdam.nl/dist/images/svg/marker.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 39]
@@ -63,14 +63,14 @@ class MapInteractive extends React.Component {
 
       /* istanbul ignore next */
       this.state.map.eachLayer((layer) => {
-        if (layer instanceof global.window.L.Marker) {
+        if (layer instanceof global.L.Marker) {
           markerFound = true;
         }
       });
 
       /* istanbul ignore next */
       if (!markerFound) {
-        global.window.L.marker(
+        global.L.marker(
           [this.props.location.geometrie.coordinates[1], this.props.location.geometrie.coordinates[0]],
           { icon: customIcon }
         ).addTo(this.state.map);

@@ -3,20 +3,39 @@ import { delay } from 'redux-saga';
 
 import { authCall, authPatchCall } from 'shared/services/api/api';
 import { REQUEST_INCIDENT, PATCH_INCIDENT, REQUEST_ATTACHMENTS, REQUEST_DEFAULT_TEXTS } from './constants';
-import { requestIncidentSuccess, requestIncidentError, patchIncidentSuccess, patchIncidentError, requestAttachmentsSuccess, requestAttachmentsError, requestDefaultTexts } from './actions';
+import {
+  requestIncidentSuccess,
+  requestIncidentError,
+  patchIncidentSuccess,
+  patchIncidentError,
+  requestAttachmentsSuccess,
+  requestAttachmentsError,
+  requestDefaultTexts,
+} from './actions';
 import watchIncidentModelSaga, { fetchIncident, patchIncident, requestAttachments } from './saga';
 
 jest.mock('shared/services/api/api');
+jest.mock('redux-saga', () => {
+  const actual = jest.requireActual('redux-saga');
+
+  return {
+    __esModule: true,
+    ...actual,
+    delay: jest.fn(),
+  };
+});
 
 describe('incidentModel saga', () => {
   it.skip('should watchIncidentModelSaga', () => {
     const gen = watchIncidentModelSaga();
-    expect(gen.next().value).toEqual(all([
-      takeLatest(REQUEST_INCIDENT, fetchIncident),
-      takeLatest(PATCH_INCIDENT, patchIncident),
-      takeLatest(REQUEST_ATTACHMENTS, requestAttachments),
-      takeLatest(REQUEST_DEFAULT_TEXTS, requestDefaultTexts)
-    ]));
+    expect(gen.next().value).toEqual(
+      all([
+        takeLatest(REQUEST_INCIDENT, fetchIncident),
+        takeLatest(PATCH_INCIDENT, patchIncident),
+        takeLatest(REQUEST_ATTACHMENTS, requestAttachments),
+        takeLatest(REQUEST_DEFAULT_TEXTS, requestDefaultTexts),
+      ]),
+    );
   });
 
   it('should fetchIncident success ', () => {
@@ -59,13 +78,12 @@ describe('incidentModel saga', () => {
         id,
         type: 'location',
         patch: {
-          location: { stadsdeel: 'A' }
-        }
-      }
+          location: { stadsdeel: 'A' },
+        },
+      },
     };
     const incident = { id: 1000 };
     const payload = { type: 'location', incident };
-
 
     const gen = patchIncident(action);
     expect(gen.next().value).toEqual(authPatchCall(`${requestURL}/${id}`));
@@ -80,9 +98,9 @@ describe('incidentModel saga', () => {
         id,
         type: 'location',
         patch: {
-          location: { stadsdeel: 'A' }
-        }
-      }
+          location: { stadsdeel: 'A' },
+        },
+      },
     };
     const error = new Error('404 Not Found');
 

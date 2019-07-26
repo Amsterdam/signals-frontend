@@ -1,6 +1,9 @@
-import Loadable from 'react-loadable';
+/**
+ *
+ * Asynchronously loads the component for {{ properCase name }}
+ *
+ */
 
-export default Loadable({
-  loader: () => import('./index'),
-  loading: () => null,
-});
+import loadable from 'utils/loadable';
+
+export default loadable(() => import('./index'));

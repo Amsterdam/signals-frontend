@@ -13,7 +13,7 @@ exports[`<IncidentNavigation /> rendering render correctly first step with one b
         ],
         "results": Array [
           Object {
-            "isThrow": false,
+            "type": "return",
             "value": undefined,
           },
         ],
@@ -94,6 +94,7 @@ exports[`<IncidentNavigation /> rendering render correctly first step with one b
     <button
       className="incident-navigation__button  next-class"
       onClick={[Function]}
+      type="submit"
     >
       Volgende
     </button>
@@ -114,7 +115,7 @@ exports[`<IncidentNavigation /> rendering render correctly last step with no but
         ],
         "results": Array [
           Object {
-            "isThrow": false,
+            "type": "return",
             "value": undefined,
           },
         ],
@@ -209,7 +210,7 @@ exports[`<IncidentNavigation /> rendering render correctly last step with two bu
         ],
         "results": Array [
           Object {
-            "isThrow": false,
+            "type": "return",
             "value": undefined,
           },
         ],
@@ -289,12 +290,14 @@ exports[`<IncidentNavigation /> rendering render correctly last step with two bu
     <button
       className="incident-navigation__button  previous-class"
       onClick={[MockFunction]}
+      type="button"
     >
       Vorige
     </button>
     <button
       className="incident-navigation__button  next-class send-button"
       onClick={[Function]}
+      type="submit"
     >
       Volgende
     </button>
@@ -315,7 +318,7 @@ exports[`<IncidentNavigation /> rendering render correctly second step when subm
         ],
         "results": Array [
           Object {
-            "isThrow": false,
+            "type": "return",
             "value": undefined,
           },
         ],
@@ -418,7 +421,7 @@ exports[`<IncidentNavigation /> rendering render correctly second step with two 
         ],
         "results": Array [
           Object {
-            "isThrow": false,
+            "type": "return",
             "value": undefined,
           },
         ],
@@ -498,12 +501,14 @@ exports[`<IncidentNavigation /> rendering render correctly second step with two 
     <button
       className="incident-navigation__button  previous-class"
       onClick={[MockFunction]}
+      type="button"
     >
       Vorige
     </button>
     <button
       className="incident-navigation__button  next-class"
       onClick={[Function]}
+      type="submit"
     >
       Volgende
     </button>

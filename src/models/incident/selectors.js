@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect';
+import { initialState } from './reducer';
 
 /**
  * Direct selector to the incidentSplitContainer state domain
  */
-const selectIncidentDomain = state => state.incidentModel;
+const selectIncidentDomain = state => state.incidentModel || initialState;
 
 /**
  * Other specific selectors
@@ -16,7 +17,7 @@ const selectIncidentDomain = state => state.incidentModel;
 const makeSelectIncidentModel = () =>
   createSelector(
     selectIncidentDomain,
-    substate => substate,
+    substate => substate
   );
 
 export default makeSelectIncidentModel;

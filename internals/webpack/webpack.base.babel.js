@@ -13,7 +13,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 // in the next major version of loader-utils.'
 process.noDeprecation = true;
 
-module.exports = (options) => ({
+module.exports = options => ({
   mode: options.mode,
   entry: options.entry,
   output: Object.assign(
@@ -53,6 +53,11 @@ module.exports = (options) => ({
       {
         test: /\.(eot|otf|ttf|woff|woff2)$/,
         use: 'file-loader',
+      },
+      {
+        test: /\.svg$/,
+        exclude: /asc-ui/,
+        use: ['@svgr/webpack', 'url-loader'],
       },
       {
         test: /\.svg$/,
@@ -130,7 +135,7 @@ module.exports = (options) => ({
       {
         from: './node_modules/amsterdam-amaps/dist/nlmaps/dist/assets',
         to: './assets',
-      }
+      },
     ]),
 
     // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
@@ -144,6 +149,7 @@ module.exports = (options) => ({
     }),
   ]),
   resolve: {
+    alias: { moment: 'moment/moment.js' },
     modules: ['node_modules', 'src'],
     extensions: ['.js', '.jsx', '.react.js'],
     mainFields: ['browser', 'jsnext:main', 'main'],

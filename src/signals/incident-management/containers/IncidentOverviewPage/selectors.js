@@ -16,17 +16,25 @@ const selectOverviewPageDomain = state => state.incidentOverviewPage;
 const makeSelectOverviewPage = () =>
   createSelector(
     selectOverviewPageDomain,
-    substate => substate,
+    state => state,
   );
+
+const makeSelectIncidentsCount = createSelector(
+  selectOverviewPageDomain,
+  state => {
+    if (!state) return state;
+
+    return state.incidentsCount;
+  },
+);
 
 const makeSelectFilterParams = () =>
   createSelector(
     selectOverviewPageDomain,
-    substate => {
-      const state = substate;
+    state => {
       return { ...state.filter, page: state.page, ordering: state.sort };
     },
   );
 
 export default makeSelectOverviewPage;
-export { selectOverviewPageDomain, makeSelectFilterParams };
+export { selectOverviewPageDomain, makeSelectFilterParams, makeSelectIncidentsCount };
