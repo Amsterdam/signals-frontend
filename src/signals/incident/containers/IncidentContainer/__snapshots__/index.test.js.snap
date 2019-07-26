@@ -434,6 +434,11 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                   "optional": true,
                   "render": [Function],
                 },
+                "extra_bedrijven_horeca_muziek_geluidmeting_ja_nietnu": Object {
+                  "label": "Ander bel moment",
+                  "optional": true,
+                  "render": [Function],
+                },
                 "extra_bedrijven_horeca_muziek_geluidmeting_muziek": Object {
                   "label": "Toestemming contact opnemen",
                   "optional": true,
