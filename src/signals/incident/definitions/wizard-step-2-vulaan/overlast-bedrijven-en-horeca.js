@@ -529,6 +529,18 @@ export default {
       },
       render: FormComponents.RadioInput
     },
+    extra_bedrijven_horeca_muziek_geluidmeting_ja_nietnu: {
+      meta: {
+        ifOneOf: {
+          extra_bedrijven_horeca_muziek_geluidmeting_ja: 'not_now'
+        },
+        label: 'Wanneer mogen we u bellen?',
+        labelShort: 'Ander bel moment',
+        className: 'col-sm-12 col-md-8',
+        pathMerge: 'extra_properties'
+      },
+      render: FormComponents.TextInput
+    },
     extra_bedrijven_horeca_muziek_geluidmeting_nee: {
       meta: {
         ifOneOf: {
