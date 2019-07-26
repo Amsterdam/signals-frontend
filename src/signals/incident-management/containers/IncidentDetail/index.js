@@ -14,7 +14,7 @@ import makeSelectHistoryModel from 'models/history/selectors';
 
 import './style.scss';
 
-import Header from './components/Header';
+import DetailHeader from './components/DetailHeader';
 import MetaList from './components/MetaList';
 import History from './components/History';
 import AddNote from './components/AddNote';
@@ -131,7 +131,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
         {loading ? <LoadingIndicator /> : (
           <div>
             {incident ?
-              <Header
+              <DetailHeader
                 incident={incident}
                 baseUrl={this.props.baseUrl}
                 accessToken={accessToken}

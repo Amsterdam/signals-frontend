@@ -243,6 +243,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                     "label": "Subcategorie",
                     "path": "category.sub_category",
                     "type": "text",
+                    "validateAsyncProp": "incidentContainer.loadingClassification",
                   },
                   "options": Object {
                     "validators": Array [
@@ -253,11 +254,11 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
               },
             },
-            "formAction": "UPDATE_INCIDENT",
             "getNextStep": [Function],
             "label": "Beschrijf uw melding",
             "nextButtonClass": "action primary arrow-right",
             "nextButtonLabel": "Volgende",
+            "postponeSubmitWhenLoading": "incidentContainer.loadingClassification",
           },
           "email": Object {
             "form": Object {
@@ -395,6 +396,116 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                 },
                 "extra_bedrijven_adres": Object {
                   "label": "Uw adres",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_adres": Object {
+                  "label": "Adres overlast",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_installaties": Object {
+                  "label": "Soort installatie",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_muziek_direct_naast": Object {
+                  "label": "Aanpandig",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_muziek_evenement": Object {
+                  "label": "Geïnformeerd door organisator",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_muziek_evenement_einde": Object {
+                  "label": "Evenement eindigt om",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_muziek_geluidmeting_installaties": Object {
+                  "label": "Toestemming contact opnemen",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_muziek_geluidmeting_ja": Object {
+                  "label": "Bel moment",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_muziek_geluidmeting_ja_nietnu": Object {
+                  "label": "Ander bel moment",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_muziek_geluidmeting_muziek": Object {
+                  "label": "Toestemming contact opnemen",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_muziek_geluidmeting_nee": Object {
+                  "label": "Liever geen contact",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_muziek_ramen_dicht": Object {
+                  "label": "Overlast met ramen en deuren dicht",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_muziek_ramen_dicht_onderneming_lang": Object {
+                  "label": "Ramen/deuren gaan",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_naam": Object {
+                  "label": "Mogelijke veroorzaker",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_personen": Object {
+                  "label": "Oorzaak overlast",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_stank": Object {
+                  "label": "Soort geur",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_stank_oorzaak": Object {
+                  "label": "Vermoedelijke oorzaak",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_stank_ramen": Object {
+                  "label": "Ramen/deuren open",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_stank_weer": Object {
+                  "label": "Weersomstandigheden",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_terrassen": Object {
+                  "label": "Oorzaak overlast",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_tijdstippen": Object {
+                  "label": "Overlast momenten",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_vaker": Object {
+                  "label": "Gebeurt het vaker?",
+                  "optional": true,
+                  "render": [Function],
+                },
+                "extra_bedrijven_horeca_wat": Object {
+                  "label": "Soort bedrijf",
                   "optional": true,
                   "render": [Function],
                 },

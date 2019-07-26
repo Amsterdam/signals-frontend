@@ -1,12 +1,14 @@
 
 # SIA - Signalen informatievoorziening Amsterdam
 
-
 This project is based on the react boilerplate that was adapted for the needs of the municipality of Amsterdam.
 See https://github.com/Amsterdam/react-boilerplate.git for more information on the react boilerplate
 
 ## Requirements
-- npm
+- npm >= 5
+- node >= 8
+
+This project relies on the[ `leaflet-headless`](https://www.npmjs.com/package/leaflet-headless) package. On OSX, you'll need to have [`cairo`](https://formulae.brew.sh/formula/cairo), [`pango`](https://formulae.brew.sh/formula/pango) and [`cmake`](https://formulae.brew.sh/formula/cmake) installed.
 
 ## Installations
 - npm install
