@@ -472,11 +472,37 @@ export default {
       options: { validators: [Validators.required] },
       render: FormComponents.RadioInput
     },
+    extra_bedrijven_horeca_muziek_geluidmeting_overige: {
+      meta: {
+        ifAllOf: {
+          subcategory: 'overig-horecabedrijven'
+        },
+        ifOneOf: {
+          extra_bedrijven_horeca_wat: [
+            'horecabedrijf',
+            'ander_soort_bedrijf',
+            'evenement_festival_markt',
+            'iets_anders'
+          ]
+        },
+        label: 'Mogen we contact met u opnemen over de melding? Bijvoorbeeld om bij u thuis een geluidsmeting te doen?',
+        labelShort: 'Toestemming contact opnemen',
+        className: 'col-sm-12 col-md-8',
+        pathMerge: 'extra_properties',
+        values: {
+          ja: 'Ja, u mag contact met mij opnemen',
+          nee: 'Nee, liever geen contact'
+        }
+      },
+      options: { validators: [Validators.required] },
+      render: FormComponents.RadioInput
+    },
     extra_bedrijven_horeca_muziek_geluidmeting_caution: {
       meta: {
         ifOneOf: {
           extra_bedrijven_horeca_muziek_geluidmeting_muziek: 'ja',
-          extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'ja'
+          extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'ja',
+          extra_bedrijven_horeca_muziek_geluidmeting_overige: 'ja'
         },
         value: 'Let op! Vul uw telefoonnummer in op de volgende pagina',
         className: 'col-sm-12 col-md-8',
@@ -488,7 +514,8 @@ export default {
       meta: {
         ifOneOf: {
           extra_bedrijven_horeca_muziek_geluidmeting_muziek: 'ja',
-          extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'ja'
+          extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'ja',
+          extra_bedrijven_horeca_muziek_geluidmeting_overige: 'ja'
         },
         label: 'Mogen we u nu bellen?',
         labelShort: 'Bel moment',
@@ -506,7 +533,8 @@ export default {
       meta: {
         ifOneOf: {
           extra_bedrijven_horeca_muziek_geluidmeting_muziek: 'nee',
-          extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'nee'
+          extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'nee',
+          extra_bedrijven_horeca_muziek_geluidmeting_overige: 'nee'
         },
         label: 'Waarom heeft u liever geen contact?',
         labelShort: 'Liever geen contact',
