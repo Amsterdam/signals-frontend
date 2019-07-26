@@ -366,7 +366,7 @@ export default {
       },
       extra_bedrijven_horeca_muziek_geluidmeting_muziek: {
         label: 'Toestemming contact opnemen',
-        render: PreviewComponents.PlainText,
+        render: PreviewComponents.ObjectValue,
         optional: true
       },
       extra_bedrijven_horeca_muziek_geluidmeting_installaties: {
