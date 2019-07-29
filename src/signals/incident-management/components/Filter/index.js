@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
 import isEqual from 'lodash.isequal';
@@ -148,102 +148,100 @@ class Filter extends React.Component {
         control={this.filterForm}
         render={({ invalid }) => (
           <FilterForm onSubmit={this.handleSubmit}>
-            <Fragment>
-              <FieldControlWrapper
-                render={TextInput}
-                name="id"
-                display="Id"
-                control={this.filterForm.get('id')}
-              />
-              <FieldControlWrapper
-                render={DatePickerInput}
-                name="incident_date_start"
-                display="Datum"
-                control={this.filterForm.get('incident_date_start')}
-                placeholder={'JJJJ-MM-DD'}
-              />
-              <FieldControlWrapper
-                render={SelectInput}
-                name="priority__priority"
-                display="Urgentie"
-                control={this.filterForm.get('priority__priority')}
-                values={priorityList}
-                emptyOptionText="Alles"
-              />
-              <FieldControlWrapper
-                render={SelectInput}
-                name="location__stadsdeel"
-                display="Stadsdeel"
-                control={this.filterForm.get('location__stadsdeel')}
-                values={stadsdeelList}
-                emptyOptionText="Alle stadsdelen"
-                multiple
-              />
-              <FieldControlWrapper
-                render={SelectInput}
-                name="main_slug"
-                display="Hoofdcategorie"
-                control={this.filterForm.get('main_slug')}
-                values={categories.main}
-                emptyOptionText="Alles"
-                multiple
-                useSlug
-                size={10}
-              />
-              <FieldControlWrapper
-                render={SelectInput}
-                name="sub_slug"
-                display="Subcategorie"
-                control={this.filterForm.get('sub_slug')}
-                values={filterSubCategoryList}
-                emptyOptionText="Alles"
-                multiple
-                useSlug
-                size={10}
-              />
-              <FieldControlWrapper
-                render={SelectInput}
-                name="status__state"
-                display="Status"
-                control={this.filterForm.get('status__state')}
-                values={statusList}
-                emptyOptionText="Alle statussen"
-                multiple
-              />
-              <FieldControlWrapper
-                render={TextInput}
-                name="location__address_text"
-                display="Adres"
-                control={this.filterForm.get('location__address_text')}
-              />
+            <FieldControlWrapper
+              render={TextInput}
+              name="id"
+              display="Id"
+              control={this.filterForm.get('id')}
+            />
+            <FieldControlWrapper
+              render={DatePickerInput}
+              name="incident_date_start"
+              display="Datum"
+              control={this.filterForm.get('incident_date_start')}
+              placeholder={'JJJJ-MM-DD'}
+            />
+            <FieldControlWrapper
+              render={SelectInput}
+              name="priority__priority"
+              display="Urgentie"
+              control={this.filterForm.get('priority__priority')}
+              values={priorityList}
+              emptyOptionText="Alles"
+            />
+            <FieldControlWrapper
+              render={SelectInput}
+              name="location__stadsdeel"
+              display="Stadsdeel"
+              control={this.filterForm.get('location__stadsdeel')}
+              values={stadsdeelList}
+              emptyOptionText="Alle stadsdelen"
+              multiple
+            />
+            <FieldControlWrapper
+              render={SelectInput}
+              name="main_slug"
+              display="Hoofdcategorie"
+              control={this.filterForm.get('main_slug')}
+              values={categories.main}
+              emptyOptionText="Alles"
+              multiple
+              useSlug
+              size={10}
+            />
+            <FieldControlWrapper
+              render={SelectInput}
+              name="sub_slug"
+              display="Subcategorie"
+              control={this.filterForm.get('sub_slug')}
+              values={filterSubCategoryList}
+              emptyOptionText="Alles"
+              multiple
+              useSlug
+              size={10}
+            />
+            <FieldControlWrapper
+              render={SelectInput}
+              name="status__state"
+              display="Status"
+              control={this.filterForm.get('status__state')}
+              values={statusList}
+              emptyOptionText="Alle statussen"
+              multiple
+            />
+            <FieldControlWrapper
+              render={TextInput}
+              name="location__address_text"
+              display="Adres"
+              control={this.filterForm.get('location__address_text')}
+            />
 
-              <FormFooter>
-                <Row>
-                  <ButtonContainer span={12}>
-                    <ResetButton onClick={this.handleReset} type="reset">
-                      Reset filter
-                    </ResetButton>
+            <FormFooter>
+              <Row>
+                <ButtonContainer span={12}>
+                  <ResetButton onClick={this.handleReset} type="reset">
+                    Reset filter
+                  </ResetButton>
 
-                    <CancelButton
-                      data-testid="cancelBtn"
-                      type="button"
-                      onClick={onCancel}
-                    >
-                      Annuleren
-                    </CancelButton>
+                  <CancelButton
+                    data-testid="cancelBtn"
+                    type="button"
+                    onClick={onCancel}
+                  >
+                    Annuleren
+                  </CancelButton>
 
-                    <Button
-                      data-testid="submitBtn"
-                      type="submit"
-                      color="secondary"
-                      disabled={invalid}
-                    >
-                      Filteren
-                    </Button>
-                  </ButtonContainer>
-                </Row>
-              </FormFooter>
-            </Fragment>
+                  <Button
+                    data-testid="submitBtn"
+                    type="submit"
+                    color="secondary"
+                    disabled={invalid}
+                  >
+                    Filteren
+                  </Button>
+                </ButtonContainer>
+              </Row>
+            </FormFooter>
           </FilterForm>
         )}
       />
