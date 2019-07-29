@@ -20,6 +20,7 @@ export const incidentDetailWrapper = (baseUrl) => (props) => (
 );
 
 export const incidentOverviewPageWrapper = (baseUrl) => () => (
+  // eslint-disable-next-line react/prop-types
   <IncidentOverviewPage baseUrl={baseUrl} />
 );
 
