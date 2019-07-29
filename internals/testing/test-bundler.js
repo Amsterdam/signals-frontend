@@ -7,5 +7,3 @@ import Adapter from 'enzyme-adapter-react-16';
 
 // React 16 Enzyme adapter
 Enzyme.configure({ adapter: new Adapter() });
-
-global.window.L = global.L;
