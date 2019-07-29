@@ -21,7 +21,6 @@ module.exports = {
     },
   },
   globals: {
-    jsdom: true,
     L: true,
   },
   rules: {
@@ -44,6 +43,7 @@ module.exports = {
     'newline-per-chained-call': 0,
     'no-confusing-arrow': 0,
     'no-console': 1,
+    indent: ['error', 2, { SwitchCase: 1 }],
     'no-underscore-dangle': [
       0,
       {
