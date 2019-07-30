@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { Row, Column } from '@datapunt/asc-ui';
 
-import PageHeader from 'components/PageHeader';
+import PageHeader from 'containers/PageHeader';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import {
@@ -36,9 +36,7 @@ export const IncidentOverviewPageContainerComponent = ({
 
   return (
     <Fragment>
-      <PageHeader
-        title={`Meldingen${incidentsCount ? ` (${incidentsCount})` : ''}`}
-      />
+      <PageHeader />
 
       <Row>
         <Column span={12} wrap>

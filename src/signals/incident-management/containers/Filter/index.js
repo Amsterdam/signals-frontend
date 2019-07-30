@@ -4,22 +4,29 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 
-import { makeSelectCategories } from 'containers/App/selectors';
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
 
+import { makeSelectCategories } from 'containers/App/selectors';
 import {
   requestIncidents as onRequestIncidents,
   incidentSelected as onIncidentSelected,
   mainCategoryFilterSelectionChanged as onMainCategoryFilterSelectionChanged,
 } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 import makeSelectOverviewPage from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
-
 import Filter from 'signals/incident-management/components/Filter';
+import { makeSelectActiveFilter } from './selectors';
+
+import saga from './saga';
+import reducer from './reducer';
+import { filterSaved } from './actions';
 
 export const FiltersContainerComponent = (props) => (
   <Filter {...props} {...props.overviewpage} />
 );
 
 FiltersContainerComponent.propTypes = {
+  activeFilter: PropTypes.shape({}),
   categories: PropTypes.shape({
     main: PropTypes.arrayOf(
       PropTypes.shape({
@@ -65,11 +72,13 @@ FiltersContainerComponent.propTypes = {
       }),
     ),
   }),
+  onApplyFilters: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   overviewpage: makeSelectOverviewPage(),
   categories: makeSelectCategories(),
+  activeFilter: makeSelectActiveFilter,
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -78,6 +87,7 @@ const mapDispatchToProps = (dispatch) =>
       onIncidentSelected,
       onMainCategoryFilterSelectionChanged,
       onRequestIncidents,
+      onApplyFilters: filterSaved,
     },
     dispatch,
   );
@@ -87,4 +97,11 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(FiltersContainerComponent);
+const withReducer = injectReducer({ key: 'incidentManagementFilter', reducer });
+const withSaga = injectSaga({ key: 'incidentManagementFilter', saga });
+
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(FiltersContainerComponent);

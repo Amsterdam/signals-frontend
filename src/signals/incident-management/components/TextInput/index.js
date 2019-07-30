@@ -1,27 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Label from '../Label';
+import Caption from '../Caption';
 
 import './style.scss';
 
-export const TextInput = (props) => {
-  const { name, display, placeholder } = props;
+export const TextInput = ({ name, caption, display, placeholder }) => {
   const render = ({ handler }) => (
     <div className="text-input">
       <div className="mode_input text rij_verplicht">
         <div className="text-input__label">
-          <label htmlFor={`form${name}`}>{display}</label>
+          <Label htmlFor={`form${name}`}>{display}</Label>
         </div>
+
+        {caption && <Caption>{caption}</Caption>}
 
         <div className="text-input__control invoer">
-          <input name="" id={`form${name}`} value="" className="input" type="text" {...handler()} placeholder={placeholder} />
+          <input
+            id={`form${name}`}
+            value=""
+            className="input"
+            type="text"
+            {...handler()}
+            placeholder={placeholder}
+          />
         </div>
-
       </div>
-    </div>);
+    </div>
+  );
 
   render.defaultProps = {
     touched: false,
-    placeholder: ''
+    placeholder: '',
   };
 
   render.propTypes = {
