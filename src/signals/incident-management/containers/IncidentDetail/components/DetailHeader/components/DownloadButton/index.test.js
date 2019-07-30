@@ -1,5 +1,6 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+// import { shallow } from 'enzyme';
+import { render, fireEvent } from '@testing-library/react';
 
 import DownloadButton from './index';
 
@@ -7,38 +8,63 @@ describe('<DownloadButton />', () => {
   let props;
 
   beforeEach(() => {
-    const mockFetchPromise = new Promise((resolve) => resolve({
-      blob: () => new Blob()
-    }));
-
     props = {
       label: 'PDF',
-      url: 'zzz',
-      filename: '12345.pdf'
+      url: 'https://api.data.amsterdam.nl/signals/v1/private/signals/3077/pdf',
+      filename: 'SIA melding 3077.pdf'
     };
-    global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
-    global.window.URL.createObjectURL = jest.fn().mockImplementation(() => 'blob-href');
-  });
 
-  afterEach(() => {
-    global.fetch.mockClear();
-    delete global.fetch;
+    global.window.fetch = jest.fn();
+    global.window.URL.createObjectURL = jest.fn();
+    global.window.URL.revokeObjectURL = jest.fn();
   });
 
   describe('rendering', () => {
     it('should render correctly', () => {
-      const wrapper = shallow(
+      const { queryByTestId } = render(
         <DownloadButton {...props} />
       );
-      expect(wrapper).toMatchSnapshot();
+
+      expect(queryByTestId('download-button')).toHaveTextContent(/^PDF$/);
+    });
+  });
+
+  describe('events', () => {
+    beforeEach(() => {
+      const res = new Response('{"hello":"world"}', {
+        status: 200,
+        headers: {
+          'Content-type': 'application/blob',
+        },
+      });
+
+      global.window.fetch.mockReturnValue(Promise.resolve(res));
     });
 
-    it('should render correctly when logged in', () => {
-      props.accessToken = 'access-token';
-      const wrapper = shallow(
+    it('should download document', () => {
+      const { queryByTestId } = render(
         <DownloadButton {...props} />
       );
-      expect(wrapper).toMatchSnapshot();
+      fireEvent.click(queryByTestId('download-button'));
+
+      expect(window.fetch).toHaveBeenCalledWith(props.url, {
+        method: 'GET',
+        headers: {},
+        responseType: 'blob'
+      });
+    });
+
+    it('should download document when logged in', () => {
+      const { queryByTestId } = render(
+        <DownloadButton {...props} accessToken="MOCK-TOKEN" />
+        );
+      fireEvent.click(queryByTestId('download-button'));
+
+      expect(window.fetch).toHaveBeenCalledWith(props.url, {
+        method: 'GET',
+        headers: { Authorization: 'Bearer MOCK-TOKEN' },
+        responseType: 'blob'
+      });
     });
   });
 });
