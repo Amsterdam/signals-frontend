@@ -13,6 +13,7 @@ import {
   CREATE_INCIDENT_SUCCESS,
   CREATE_INCIDENT_ERROR,
 
+  GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
 
@@ -20,7 +21,8 @@ import {
   SET_PRIORITY_SUCCESS,
   SET_PRIORITY_ERROR
 } from './constants';
-// import debugInitialState from './debug/initialState';
+// eslint-disable-next-line no-unused-vars
+import debugInitialState from './debug/initialState';
 
 export const initialState = fromJS({
   incident: {
@@ -33,6 +35,7 @@ export const initialState = fromJS({
       label: 'Normaal'
     }
   },
+  loadingClassification: false,
   priority: {}
 });
 
@@ -74,13 +77,18 @@ function incidentContainerReducer(state = initialState, action) {
         .set('error', true)
         .set('loading', false);
 
+    case GET_CLASSIFICATION:
+      return state
+        .set('loadingClassification', true);
+
     case GET_CLASSIFICATION_SUCCESS:
     case GET_CLASSIFICATION_ERROR:
       return state
-        .set('incident', fromJS({
-          ...state.get('incident').toJS(),
-          ...action.payload
-        }));
+      .set('loadingClassification', false)
+      .set('incident', fromJS({
+        ...state.get('incident').toJS(),
+        ...action.payload
+      }));
 
     case SET_PRIORITY:
       return state

@@ -108,13 +108,6 @@ if (!window.Intl) {
   render(translationMessages);
 }
 
-// Install ServiceWorker and AppCache in the end since
-// it's not most important operation and if main code fails,
-// we do not want it installed
-if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'acceptance') {
-  require('offline-plugin/runtime').install(); // eslint-disable-line global-require
-}
-
 // Authenticate and start the authorization process
 const credentials = authenticate();
 store.dispatch(authenticateUser(credentials));
