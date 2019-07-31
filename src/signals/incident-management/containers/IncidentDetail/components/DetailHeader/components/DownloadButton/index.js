@@ -7,10 +7,14 @@ class DownloadButton extends React.Component {
   constructor(props) {
     super(props);
 
+    this.button = React.createRef();
     this.handleDownload = this.handleDownload.bind(this);
   }
 
-  handleDownload(url, filename, accessToken) {
+  handleDownload(e, url, filename, accessToken) {
+    e.preventDefault();
+    e.stopPropagation();
+
     const headers = {};
 
     if (accessToken) {
@@ -28,14 +32,11 @@ class DownloadButton extends React.Component {
             navigator.msSaveOrOpenBlob(blob, filename);
           } else {
             const href = URL.createObjectURL(blob);
-            const link = document.createElement('a');
+            const link = this.button.current;
             link.href = href;
-            link.download = filename;
-            document.body.appendChild(link);
             link.click();
 
             window.URL.revokeObjectURL(href);
-            document.body.removeChild(link);
           }
         });
   }
@@ -44,12 +45,13 @@ class DownloadButton extends React.Component {
     const { label, url, filename, accessToken } = this.props;
     return (
       <div className="download-button align-self-center">
-        <button
+        <a
+          href="#"
+          download={filename}
           className="incident-detail__button"
-          type="button"
           data-testid="download-button"
-          onClick={() => this.handleDownload(url, filename, accessToken)}
-        >{label}</button>
+          onClick={(e) => this.handleDownload(e, url, filename, accessToken)}
+        >{label}</a>
       </div>
     );
   }
