@@ -1,10 +1,28 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
+import React from 'react';
+// import { render, fireEvent } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
 
-// import Header from 'index';
+import DetailHeader from './index';
 
-describe('<Header />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(true);
+describe('<DetailHeader />', () => {
+  let props;
+
+  beforeEach(() => {
+    props = {
+      incident: { id: 42 },
+      baseUrl: '/manage',
+      accessToken: 'MOCK-TOKEN'
+    };
+  });
+
+  describe('rendering', () => {
+    it('should render correctly', () => {
+      expect(10).toBe(10);
+      const { queryByTestId } = withAppContext(
+        <DetailHeader {...props} />
+      );
+
+      expect(queryByTestId('detail-header-title')).toHaveTextContent(/^Melding 42$/);
+    });
   });
 });
