@@ -30,7 +30,7 @@ import { makeSelectIncidentsCount } from 'signals/incident-management/containers
 
 import './style.scss';
 
-import Header from './components/Header';
+import DetailHeader from './components/DetailHeader';
 import MetaList from './components/MetaList';
 import History from './components/History';
 import AddNote from './components/AddNote';
@@ -193,20 +193,20 @@ export class IncidentDetail extends React.Component {
             <Fragment>
               {incident && (
                 <Row>
-                  <DetailContainer span={12}>
-                    <Header
+                  <Column span={12}>
+                    <DetailHeader
                       incident={incident}
                       baseUrl={this.props.baseUrl}
                       accessToken={accessToken}
                       onThor={this.onThor}
                     />
-                  </DetailContainer>
+                  </Column>
                 </Row>
               )}
 
-              {previewState ? (
+              {previewState && (
                 <Row>
-                  <DetailContainer span={12}>
+                  <DetailContainer span={7}>
                     <button
                       className="incident-detail__preview-close incident-detail__button--close"
                       onClick={this.onCloseAll}
@@ -223,7 +223,9 @@ export class IncidentDetail extends React.Component {
                     {previewState === 'showLocation' && (
                       <LocationPreview
                         incident={incident}
-                        onEditLocation={this.onEditLocation}
+                        baseUrl={this.props.baseUrl}
+                        accessToken={accessToken}
+                        onThor={this.onThor}
                       />
                     )}
 
@@ -250,7 +252,9 @@ export class IncidentDetail extends React.Component {
                     )}
                   </DetailContainer>
                 </Row>
-              ) : (
+              )}
+
+              {!previewState && (
                 <Row>
                   <DetailContainer span={7}>
                     {incident && (

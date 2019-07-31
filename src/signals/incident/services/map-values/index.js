@@ -9,7 +9,7 @@ const mapValues = (params, incident, wizard) => {
   forEach(wizard, (step) => {
     const controls = getStepControls(step, incident);
 
-    forEach(controls, (control, name) => { // eslint-disable-line consistent-return
+    forEach(controls, (control, name) => {
       const value = incident[name];
       const meta = control.meta;
 
