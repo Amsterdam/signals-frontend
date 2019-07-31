@@ -1,9 +1,11 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import { shallow } from 'enzyme';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
+import { withAppContext } from 'test/utils';
 
-import DatePickerInput from './index';
+import DatePickerInput from '../index';
 
 describe('<DatePickerInput />', () => {
   const props = {
@@ -22,21 +24,20 @@ describe('<DatePickerInput />', () => {
   describe('rendering', () => {
     it('should render correctly', () => {
       const DatePickerInputRender = DatePickerInput(props);
-      wrapper = shallow(
+      const { container } = render(withAppContext(
         <DatePickerInputRender {...props} />
-      );
+      ));
 
-      expect(wrapper).toMatchSnapshot();
+      expect(container.firstChild.querySelector('button')).toBeTruthy();
     });
 
     it('should render correctly with no value', () => {
-      props.value = undefined;
       const DatePickerInputRender = DatePickerInput(props);
-      wrapper = shallow(
-        <DatePickerInputRender {...props} />
-      );
+      const { container } = render(withAppContext(
+        <DatePickerInputRender {...props} value={undefined} />
+      ));
 
-      expect(wrapper).toMatchSnapshot();
+      expect(container.firstChild.querySelector('button')).toBeFalsy();
     });
   });
 

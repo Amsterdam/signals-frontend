@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { FormBuilder } from 'react-reactive-form';
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import Filter, { defaults } from '../';
@@ -212,26 +212,17 @@ describe('signals/incident-management/components/Filter', () => {
       );
       const { filterForm } = tree.find(Filter).instance();
 
-      const filterEmptyValue = {
-        id: null,
-        incident_date_start: null,
-        priority__priority: null,
-        main_slug: null,
-        sub_slug: null,
-        location__address_text: null,
-        location__stadsdeel: null,
-        status__state: null,
-      };
-      const filterValue = { id: 50 };
+      const filterValue = { location__address_text: 'Weesperstraat 113' };
       filterForm.patchValue(filterValue);
-      expect(filterForm.value.id).toEqual(filterValue.id);
+      expect(filterForm.value.location__address_text).toEqual(
+        filterValue.location__address_text,
+      );
 
       jest.spyOn(filterForm, 'reset');
 
       tree.find('button[type="reset"]').simulate('click');
       expect(filterForm.reset).toHaveBeenCalled();
-      expect(onRequestIncidents).toHaveBeenCalled();
-      expect(filterForm.value).toEqual(filterEmptyValue);
+      expect(filterForm.value).toEqual(defaults);
 
       tree.unmount();
     });
@@ -256,13 +247,11 @@ describe('signals/incident-management/components/Filter', () => {
       const { filterForm } = tree.find(Filter).instance();
       const filterValue = {
         ...filterForm.value,
-        id: 50,
         location__address_text: 'dam',
       };
 
       filterForm.setValue(filterValue);
 
-      expect(filterForm.value.id).toEqual(filterValue.id);
       expect(filterForm.value.location__address_text).toEqual(
         filterValue.location__address_text,
       );
@@ -302,11 +291,9 @@ describe('signals/incident-management/components/Filter', () => {
         ...filterForm.value,
         main_slug: [['']],
         sub_slug: [['']],
-        id: 50,
         location__address_text: 'dam',
       };
       filterForm.setValue(filterValue);
-      expect(filterForm.value.id).toEqual(filterValue.id);
       expect(filterForm.value.location__address_text).toEqual(
         filterValue.location__address_text,
       );
@@ -314,12 +301,13 @@ describe('signals/incident-management/components/Filter', () => {
       tree.find('form').simulate('submit');
 
       expect(filterForm.value).toEqual(filterValue);
+
+      const expectedFilterValue = { ...filterValue };
+      delete expectedFilterValue.main_slug;
+      delete expectedFilterValue.sub_slug;
+
       expect(onRequestIncidents).toHaveBeenCalledWith({
-        filter: {
-          ...filterValue,
-          main_slug: null,
-          sub_slug: null,
-        },
+        filter: expectedFilterValue,
       });
 
       tree.unmount();
@@ -352,7 +340,7 @@ describe('signals/incident-management/components/Filter', () => {
 
       expect(onMainCategoryFilterSelectionChangedFn).toHaveBeenCalledTimes(2);
       expect(onMainCategoryFilterSelectionChangedFn).toHaveBeenLastCalledWith({
-        selectedOptions: ['', 'overlast-van-dieren'],
+        selectedOptions: ['overlast-van-dieren'],
         categories,
       });
     });
@@ -383,9 +371,161 @@ describe('signals/incident-management/components/Filter', () => {
 
       expect(onMainCategoryFilterSelectionChangedFn).toHaveBeenCalledTimes(2);
       expect(onMainCategoryFilterSelectionChangedFn).toHaveBeenLastCalledWith({
-        selectedOptions: [],
+        selectedOptions: undefined,
         categories,
       });
+    });
+
+    it('should watch for changes in name field for a new filter', () => {
+      const { getByTestId } = render(
+        withAppContext(
+          <Filter
+            {...{
+              ...props,
+              filterSubCategoryList,
+              categories,
+            }}
+          />,
+        ),
+      );
+
+      expect(getByTestId('submitBtn').textContent).toEqual('Filteren');
+
+      fireEvent.change(document.getElementById('formname'), {
+        target: { value: 'New name' },
+      });
+
+      expect(getByTestId('submitBtn').textContent).toEqual(
+        'Opslaan en filteren',
+      );
+
+      fireEvent.change(document.getElementById('formname'), {
+        target: { value: '' },
+      });
+
+      expect(getByTestId('submitBtn').textContent).toEqual('Filteren');
+    });
+
+    it('should watch for changes in name field for an existing filter', () => {
+      const { getByTestId } = render(
+        withAppContext(
+          <Filter
+            {...{
+              ...props,
+              filterSubCategoryList,
+              categories,
+              activeFilter: { name: 'My cool filter' },
+            }}
+          />,
+        ),
+      );
+
+      expect(getByTestId('submitBtn').textContent).toEqual('Filteren');
+
+      fireEvent.change(document.getElementById('formname'), {
+        target: { value: 'My awesome filter' },
+      });
+
+      expect(getByTestId('submitBtn').textContent).toEqual(
+        'Opslaan en filteren',
+      );
+
+      fireEvent.change(document.getElementById('formname'), {
+        target: { value: 'My cool filter' },
+      });
+    });
+
+    it('should watch for changes in main slug field for an existing filter', () => {
+      const { getByTestId } = render(
+        withAppContext(
+          <Filter
+            {...{
+              ...props,
+              filterSubCategoryList,
+              categories,
+              activeFilter: { name: 'My cool filter' },
+            }}
+          />,
+        ),
+      );
+
+      expect(getByTestId('submitBtn').textContent).toEqual('Filteren');
+
+      fireEvent.change(document.getElementById('formmain_slug'), {
+        target: { value: 'afval' },
+      });
+
+      expect(getByTestId('submitBtn').textContent).toEqual(
+        'Opslaan en filteren',
+      );
+    });
+
+    it('should call handlers when defined', () => {
+      const onSubmit = jest.fn();
+      const onApplyFilters = jest.fn();
+
+      const { getByTestId, rerender } = render(
+        withAppContext(
+          <Filter
+            {...{
+              ...props,
+              filterSubCategoryList,
+              categories,
+              onSubmit,
+              onApplyFilters,
+            }}
+          />,
+        ),
+      );
+
+      fireEvent.click(getByTestId('submitBtn'));
+
+      expect(onSubmit).toHaveBeenCalled();
+      expect(onApplyFilters).toHaveBeenCalled();
+
+      rerender(
+        withAppContext(
+          <Filter
+            {...{
+              ...props,
+              filterSubCategoryList,
+              categories,
+              onSubmit: null,
+              onApplyFilters: null,
+            }}
+          />,
+        ),
+      );
+
+      fireEvent.click(getByTestId('submitBtn'));
+    });
+
+    it('should unsubscribe', () => {
+      const tree = mount(
+        withAppContext(
+          <Filter
+            {...{
+              ...props,
+              filterSubCategoryList,
+              categories,
+            }}
+          />,
+        ),
+      );
+
+      const { filterForm } = tree.find(Filter).instance();
+      const nameField = filterForm.get('name');
+      const mainSlugField = filterForm.get('main_slug');
+
+      const unsubscribeSpy = jest.spyOn(filterForm.valueChanges, 'unsubscribe');
+      const nameUnsubscribeSpy = jest.spyOn(nameField.valueChanges, 'unsubscribe');
+      const mainSlugUnsubscribeSpy = jest.spyOn(mainSlugField.valueChanges, 'unsubscribe');
+
+      tree.unmount();
+
+      expect(unsubscribeSpy).toHaveBeenCalled();
+      expect(nameUnsubscribeSpy).toHaveBeenCalled();
+      expect(mainSlugUnsubscribeSpy).toHaveBeenCalled();
     });
   });
 });

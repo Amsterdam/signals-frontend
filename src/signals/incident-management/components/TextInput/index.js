@@ -18,7 +18,6 @@ export const TextInput = ({ name, caption, display, placeholder }) => {
         <div className="text-input__control invoer">
           <input
             id={`form${name}`}
-            value=""
             className="input"
             type="text"
             {...handler()}

@@ -4,27 +4,22 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
-// import injectSaga from 'utils/injectSaga';
 import PageHeader from 'components/PageHeader';
 import { makeSelectActiveFilter } from 'signals/incident-management/containers/Filter/selectors';
 import { makeSelectIncidentsCount } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
-// import saga from './saga';
 
-export const PageHeaderComponent = ({
+export const PageHeaderContainerComponent = ({
   incidentsCount,
   activeFilter: { name },
 }) => {
   let title = name || 'Meldingen';
-  title += incidentsCount !== undefined ? ` (${incidentsCount})` : '';
+  const hasCount = !!incidentsCount && isNaN(Number(incidentsCount)) === false;
+  title += hasCount ? ` (${incidentsCount})` : '';
 
   return <PageHeader title={title} />;
 };
 
-PageHeaderComponent.defaultProps = {
-  incidentsCount: undefined,
-};
-
-PageHeaderComponent.propTypes = {
+PageHeaderContainerComponent.propTypes = {
   activeFilter: PropTypes.shape({
     name: PropTypes.string,
   }).isRequired,
@@ -37,9 +32,5 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const withConnect = connect(mapStateToProps);
-// const withSaga = injectSaga({ key: 'incidentManagementFilter', saga });
 
-export default compose(
-  // withSaga,
-  withConnect,
-)(PageHeaderComponent);
+export default compose(withConnect)(PageHeaderContainerComponent);

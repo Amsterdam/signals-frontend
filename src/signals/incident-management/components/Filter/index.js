@@ -126,8 +126,8 @@ class Filter extends React.Component {
 
     // listen for changes in the 'name' field for new filters
     filterForm.get('name').valueChanges.subscribe((value) => {
-      const { activeFilter } = this.props;
-      const isNewFilter = typeof activeFilter.name === 'undefined';
+      const { activeFilter = {} } = this.props;
+      const isNewFilter = !activeFilter.name;
       const nameHasChanged = !!value && value.trim() !== filterName;
 
       if (!isNewFilter) {

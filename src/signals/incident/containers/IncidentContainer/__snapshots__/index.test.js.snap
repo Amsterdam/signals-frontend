@@ -1,0 +1,788 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IncidentContainer /> rendering should render correctly 1`] = `
+<Fragment>
+  <Row
+    debug={false}
+    debugColor="rgba(51,102,153,0.75)"
+    hasMargin={true}
+  >
+    <Column
+      debug={false}
+      debugColor="rgba(51,102,153,0.5)"
+      order={0}
+      push={0}
+      span={12}
+      wrap={false}
+    >
+      <div
+        className="incident-container__alert"
+      >
+        <b>
+          *** BELANGRIJK ***
+        </b>
+        <br />
+        Melding over horeca of evenementen? Vul dan bij de melding altijd uw contactgegevens in, dan kunnen wij u beter en sneller helpen.
+      </div>
+    </Column>
+  </Row>
+  <Row
+    debug={false}
+    debugColor="rgba(51,102,153,0.75)"
+    hasMargin={true}
+  >
+    <Column
+      debug={false}
+      debugColor="rgba(51,102,153,0.5)"
+      order={0}
+      push={0}
+      span={12}
+      wrap={false}
+    >
+      <Component
+        createIncident={[Function]}
+        getClassification={[Function]}
+        incidentContainer={
+          Object {
+            "incident": Object {},
+          }
+        }
+        isAuthenticated={false}
+        updateIncident={[Function]}
+        wizardDefinition={
+          Object {
+            "bedankt": Object {
+              "form": Object {
+                "controls": Object {
+                  "$field_0": Object {
+                    "isStatic": false,
+                    "render": [Function],
+                  },
+                  "text": Object {
+                    "meta": Object {
+                      "className": "col-sm-12 col-md-6",
+                      "label": "Wat doen we met uw melding?",
+                      "type": "bedankt",
+                    },
+                    "render": [Function],
+                  },
+                  "text_melding": Object {
+                    "meta": Object {
+                      "className": "col-sm-12 col-md-6",
+                      "type": "bedankt",
+                      "value": "Uw melding is bij ons bekend onder nummer: {incident.id}.",
+                    },
+                    "render": [Function],
+                  },
+                  "text_melding_extra": Object {
+                    "meta": Object {
+                      "className": "col-sm-12 col-md-6",
+                      "key": "incident.handling_message",
+                      "type": "bedankt",
+                    },
+                    "render": [Function],
+                  },
+                },
+              },
+              "label": "Bedankt!",
+            },
+            "beschrijf": Object {
+              "form": Object {
+                "controls": Object {
+                  "$field_0": Object {
+                    "isStatic": false,
+                    "render": [Function],
+                  },
+                  "category": Object {
+                    "meta": Object {
+                      "label": "Categorie",
+                      "type": "text",
+                    },
+                    "options": Object {
+                      "validators": Array [
+                        [Function],
+                      ],
+                    },
+                    "render": [Function],
+                  },
+                  "datetime": Object {
+                    "meta": Object {
+                      "className": "col-sm-12 col-md-6",
+                      "label": "Geef het tijdstip aan",
+                      "values": Object {
+                        "Eerder": "Eerder",
+                        "Nu": "Nu",
+                      },
+                    },
+                    "options": Object {
+                      "validators": Array [
+                        [Function],
+                      ],
+                    },
+                    "render": [Function],
+                  },
+                  "description": Object {
+                    "meta": Object {
+                      "doNotUpdateValue": true,
+                      "label": "Waar gaat het om?",
+                      "maxLength": 1000,
+                      "path": "text",
+                      "placeholder": "Beschrijf uw melding",
+                    },
+                    "options": Object {
+                      "validators": Array [
+                        [Function],
+                        [Function],
+                      ],
+                    },
+                    "render": [Function],
+                  },
+                  "images": Object {
+                    "meta": Object {
+                      "allowedFileTypes": Array [
+                        "image/jpeg",
+                        "image/png",
+                        "image/gif",
+                      ],
+                      "label": "Foto's toevoegen",
+                      "maxFileSize": 8388608,
+                      "maxNumberOfFiles": 3,
+                      "subtitle": "Voeg een foto toe om de situatie te verduidelijken.",
+                    },
+                    "render": [Function],
+                  },
+                  "images_errors": Object {
+                    "meta": Object {
+                      "label": "images_errors",
+                    },
+                    "render": [Function],
+                  },
+                  "images_previews": Object {
+                    "meta": Object {
+                      "label": "images_previews",
+                    },
+                    "render": [Function],
+                  },
+                  "incident_date": Object {
+                    "meta": Object {
+                      "ifAllOf": Object {
+                        "datetime": "Eerder",
+                      },
+                    },
+                    "render": [Function],
+                    "strict": false,
+                  },
+                  "incident_time_hours": Object {
+                    "meta": Object {
+                      "label": "Incident time hours",
+                      "readOnly": true,
+                    },
+                    "render": [Function],
+                  },
+                  "incident_time_minutes": Object {
+                    "meta": Object {
+                      "label": "Incident time minutes",
+                      "readOnly": true,
+                    },
+                    "render": [Function],
+                  },
+                  "location": Object {
+                    "meta": Object {
+                      "label": "Waar is het?",
+                      "path": "location",
+                      "subheader": "Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart",
+                    },
+                    "options": Object {
+                      "validators": Array [
+                        [Function],
+                      ],
+                    },
+                    "render": [Function],
+                  },
+                  "priority": Object {
+                    "authenticated": true,
+                    "meta": Object {
+                      "className": "col-sm-12 col-md-6",
+                      "label": "Wat is de urgentie?",
+                      "path": "priority",
+                      "values": Object {
+                        "high": "Hoog",
+                        "normal": "Normaal",
+                      },
+                    },
+                    "options": Object {
+                      "validators": Array [
+                        [Function],
+                      ],
+                    },
+                    "render": [Function],
+                  },
+                  "source": Object {
+                    "authenticated": true,
+                    "meta": Object {
+                      "className": "col-sm-12 col-md-6",
+                      "label": "Hoe komt de melding binnen?",
+                      "path": "source",
+                      "values": Object {
+                        "": "Vul bron in",
+                        "E-mail – ASC": "E-mail – ASC",
+                        "E-mail – CCA": "E-mail – CCA",
+                        "E-mail – Stadsdeel": "E-mail – Stadsdeel",
+                        "Eigen organisatie": "Eigen organisatie",
+                        "Meldkamer Handhaver": "Meldkamer Handhaver",
+                        "Meldkamer Politie": "Meldkamer Politie",
+                        "Meldkamer burger/ondernemer": "Meldkamer burger/ondernemer",
+                        "Telefoon – ASC": "Telefoon – ASC",
+                        "Telefoon – Adoptant": "Telefoon – Adoptant",
+                        "Telefoon – CCA": "Telefoon – CCA",
+                        "Telefoon – Interswitch": "Telefoon – Interswitch",
+                        "Telefoon – Stadsdeel": "Telefoon – Stadsdeel",
+                        "VerbeterDeBuurt": "VerbeterDeBuurt",
+                        "Waarnemingenapp": "Waarnemingenapp",
+                        "Webcare – CCA": "Webcare – CCA",
+                      },
+                    },
+                    "options": Object {
+                      "validators": Array [
+                        [Function],
+                      ],
+                    },
+                    "render": [Function],
+                  },
+                  "subcategory": Object {
+                    "meta": Object {
+                      "label": "Subcategorie",
+                      "type": "text",
+                    },
+                    "options": Object {
+                      "validators": Array [
+                        [Function],
+                      ],
+                    },
+                    "render": [Function],
+                  },
+                  "subcategory_link": Object {
+                    "meta": Object {
+                      "label": "Subcategorie",
+                      "path": "category.sub_category",
+                      "type": "text",
+                      "validateAsyncProp": "incidentContainer.loadingClassification",
+                    },
+                    "options": Object {
+                      "validators": Array [
+                        [Function],
+                      ],
+                    },
+                    "render": [Function],
+                  },
+                },
+              },
+              "getNextStep": [Function],
+              "label": "Beschrijf uw melding",
+              "nextButtonClass": "action primary arrow-right",
+              "nextButtonLabel": "Volgende",
+              "postponeSubmitWhenLoading": "incidentContainer.loadingClassification",
+            },
+            "email": Object {
+              "form": Object {
+                "controls": Object {
+                  "$field_0": Object {
+                    "isStatic": false,
+                    "render": [Function],
+                  },
+                  "email": Object {
+                    "meta": Object {
+                      "autoRemove": /\\[\\^a-zA-Z0-9@\\.!#\\$%&'\\*\\+\\\\-\\\\/=\\?\\^_\`\\{\\|\\}~;\\]/g,
+                      "label": "Wat is uw e-mailadres?",
+                      "path": "reporter.email",
+                      "placeholder": "E-mailadres",
+                      "subheader": "We mailen om u te vertellen wat we met uw melding doen en wanneer het klaar is.",
+                      "type": "text",
+                    },
+                    "options": Object {
+                      "validators": Array [
+                        [Function],
+                        [Function],
+                      ],
+                    },
+                    "render": [Function],
+                  },
+                  "privacy_text": Object {
+                    "meta": Object {
+                      "className": "col-sm-12 col-md-6",
+                      "label": "Uw privacy",
+                      "type": "disclaimer",
+                      "value": "We gebruiken uw e-mailadres alléén om u op de hoogte houden, of wanneer wij een vraag hebben en u niet per telefoon kunnen bereiken.",
+                    },
+                    "render": [Function],
+                  },
+                },
+              },
+              "formAction": "UPDATE_INCIDENT",
+              "label": "Wilt u op de hoogte blijven?",
+              "nextButtonClass": "action primary arrow-right",
+              "nextButtonLabel": "Volgende",
+              "previousButtonClass": "action startagain",
+              "previousButtonLabel": "Vorige",
+            },
+            "fout": Object {
+              "form": Object {
+                "controls": Object {
+                  "$field_0": Object {
+                    "isStatic": false,
+                    "render": [Function],
+                  },
+                  "text": Object {
+                    "meta": Object {
+                      "className": "col-sm-12 col-md-6",
+                      "label": "Momenteel zijn er problemen met deze website en kan uw melding niet verwerkt worden.",
+                      "type": "bedankt",
+                      "value": Array [
+                        "Probeert u het later nogmaals.",
+                        "Voor spoedeisende zaken kunt u ook telefonisch contact opnemen met 14 020.",
+                      ],
+                    },
+                    "render": [Function],
+                  },
+                },
+              },
+              "formAction": "UPDATE_INCIDENT",
+              "label": "Fout",
+              "previousButtonClass": "action startagain",
+              "previousButtonLabel": "Vorige",
+            },
+            "samenvatting": Object {
+              "form": Object {
+                "controls": Object {
+                  "$field_0": Object {
+                    "isStatic": false,
+                    "render": [Function],
+                  },
+                },
+              },
+              "formAction": "CREATE_INCIDENT",
+              "label": "Controleer uw gegevens",
+              "nextButtonClass": "action primary",
+              "nextButtonLabel": "Verstuur",
+              "preview": Object {
+                "beschrijf": Object {
+                  "datetime": Object {
+                    "label": "Tijdstip",
+                    "render": [Function],
+                  },
+                  "description": Object {
+                    "label": "Beschrijving",
+                    "render": [Function],
+                  },
+                  "images_previews": Object {
+                    "label": "Foto",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "location": Object {
+                    "label": "Locatie",
+                    "render": [Function],
+                  },
+                  "priority": Object {
+                    "authenticated": true,
+                    "label": "Urgentie",
+                    "render": [Function],
+                  },
+                  "source": Object {
+                    "authenticated": true,
+                    "label": "Bron",
+                    "render": [Function],
+                  },
+                },
+                "email": Object {
+                  "email": Object {
+                    "label": "Uw e-mailadres",
+                    "render": [Function],
+                  },
+                },
+                "telefoon": Object {
+                  "phone": Object {
+                    "label": "Uw telefoonnummer",
+                    "render": [Function],
+                  },
+                },
+                "vulaan": Object {
+                  "extra_afval": Object {
+                    "label": "Waar vandaan",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_auto_scooter_bromfietswrak": Object {
+                    "label": "Extra informatie",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_adres": Object {
+                    "label": "Uw adres",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_adres": Object {
+                    "label": "Adres overlast",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_installaties": Object {
+                    "label": "Soort installatie",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_muziek_direct_naast": Object {
+                    "label": "Aanpandig",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_muziek_evenement": Object {
+                    "label": "Geïnformeerd door organisator",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_muziek_evenement_einde": Object {
+                    "label": "Evenement eindigt om",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_muziek_geluidmeting_installaties": Object {
+                    "label": "Toestemming contact opnemen",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_muziek_geluidmeting_ja": Object {
+                    "label": "Bel moment",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_muziek_geluidmeting_ja_nietnu": Object {
+                    "label": "Ander bel moment",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_muziek_geluidmeting_muziek": Object {
+                    "label": "Toestemming contact opnemen",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_muziek_geluidmeting_nee": Object {
+                    "label": "Liever geen contact",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_muziek_ramen_dicht": Object {
+                    "label": "Overlast met ramen en deuren dicht",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_muziek_ramen_dicht_onderneming_lang": Object {
+                    "label": "Ramen/deuren gaan",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_naam": Object {
+                    "label": "Mogelijke veroorzaker",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_personen": Object {
+                    "label": "Oorzaak overlast",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_stank": Object {
+                    "label": "Soort geur",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_stank_oorzaak": Object {
+                    "label": "Vermoedelijke oorzaak",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_stank_ramen": Object {
+                    "label": "Ramen/deuren open",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_stank_weer": Object {
+                    "label": "Weersomstandigheden",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_terrassen": Object {
+                    "label": "Oorzaak overlast",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_tijdstippen": Object {
+                    "label": "Overlast momenten",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_vaker": Object {
+                    "label": "Gebeurt het vaker?",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_horeca_wat": Object {
+                    "label": "Soort bedrijf",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_momenten": Object {
+                    "label": "Welke momenten",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_naam": Object {
+                    "label": "Bedrijfsnaam",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_overig": Object {
+                    "label": "Melding over",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_bedrijven_vaker": Object {
+                    "label": "Vaker overlast",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_boten_geluid_meer": Object {
+                    "label": "Extra informatie",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_boten_gezonken_meer": Object {
+                    "label": "Extra informatie",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_boten_snelheid_meer": Object {
+                    "label": "Extra informatie",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_boten_snelheid_naamboot": Object {
+                    "label": "Naam boot",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_boten_snelheid_rederij": Object {
+                    "label": "Rederij",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_boten_snelheid_rondvaartboot": Object {
+                    "label": "Rondvaartboot",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_brug": Object {
+                    "label": "Naam brug",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_container_kind": Object {
+                    "label": "Soort container",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_container_number": Object {
+                    "label": "Container nummer",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_fietswrak": Object {
+                    "label": "Extra fietswrak",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_klok": Object {
+                    "label": "Is de situatie gevaarlijk?",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_klok_hoeveel": Object {
+                    "label": "Aantal lichtpunten",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_klok_niet_op_kaart": Object {
+                    "label": "Staat niet op kaart",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_klok_niet_op_kaart_nummer": Object {
+                    "label": "Klok(ken) niet op kaart",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_klok_nummer": Object {
+                    "label": "Klok(ken) op kaart",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_klok_probleem": Object {
+                    "label": "Probleem",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_onderhoud_stoep_straat_en_fietspad": Object {
+                    "label": "Soort wegdek",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_parkeeroverlast": Object {
+                    "label": "Extra parkeeroverlast",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_personen_overig": Object {
+                    "label": "Aantal personen",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_personen_overig_vaker": Object {
+                    "label": "Vaker",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_personen_overig_vaker_momenten": Object {
+                    "label": "Momenten",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_straatverlichting": Object {
+                    "label": "Is de situatie gevaarlijk?",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_straatverlichting_hoeveel": Object {
+                    "label": "Aantal lichtpunten",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_straatverlichting_niet_op_kaart": Object {
+                    "label": "Staat niet op kaart",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_straatverlichting_niet_op_kaart_nummer": Object {
+                    "label": "Lichtpunt(en) niet op kaart",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_straatverlichting_nummer": Object {
+                    "label": "Lichtpunt(en) op kaart",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_straatverlichting_probleem": Object {
+                    "label": "Probleem",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_verkeerslicht": Object {
+                    "label": "Is de situatie gevaarlijk?",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_verkeerslicht_nummer": Object {
+                    "label": "Verkeerslicht nummer",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_verkeerslicht_probleem_bus_tram": Object {
+                    "label": "Probleem",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_verkeerslicht_probleem_fiets_auto": Object {
+                    "label": "Probleem",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_verkeerslicht_probleem_voetganger": Object {
+                    "label": "Probleem",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_verkeerslicht_rijrichting": Object {
+                    "label": "Rijrichting",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                  "extra_verkeerslicht_welk": Object {
+                    "label": "Type verkeerslicht",
+                    "optional": true,
+                    "render": [Function],
+                  },
+                },
+              },
+              "previousButtonClass": "action startagain",
+              "previousButtonLabel": "Vorige",
+              "subheader": "Maak een aanpassing als dat nodig is.",
+            },
+            "telefoon": Object {
+              "form": Object {
+                "controls": Object {
+                  "$field_0": Object {
+                    "isStatic": false,
+                    "render": [Function],
+                  },
+                  "phone": Object {
+                    "meta": Object {
+                      "autoRemove": /\\[\\^ \\(\\)\\\\d\\+-\\]/g,
+                      "label": "Wat is uw telefoonnummer?",
+                      "path": "reporter.phone",
+                      "placeholder": "Telefoonnummer",
+                      "subheader": "Zo kunt u ons helpen het probleem sneller of beter op te lossen.",
+                      "type": "text",
+                    },
+                    "options": Object {
+                      "validators": Array [
+                        [Function],
+                        [Function],
+                      ],
+                    },
+                    "render": [Function],
+                  },
+                  "privacy_text": Object {
+                    "meta": Object {
+                      "className": "col-sm-12 col-md-6",
+                      "label": "Uw privacy",
+                      "type": "disclaimer",
+                      "value": "We gebruiken uw telefoonnummer alléén om nog iets te kunnen vragen over uw melding.",
+                    },
+                    "render": [Function],
+                  },
+                },
+              },
+              "formAction": "UPDATE_INCIDENT",
+              "label": "Mogen we u bellen voor vragen?",
+              "nextButtonClass": "action primary arrow-right",
+              "nextButtonLabel": "Volgende",
+              "previousButtonClass": "action startagain",
+              "previousButtonLabel": "Vorige",
+            },
+            "vulaan": Object {
+              "formAction": "UPDATE_INCIDENT",
+              "formFactory": [Function],
+              "label": "Dit hebben we nog van u nodig",
+              "nextButtonClass": "action primary arrow-right",
+              "nextButtonLabel": "Volgende",
+              "previousButtonClass": "action startagain",
+              "previousButtonLabel": "Vorige",
+            },
+          }
+        }
+      />
+    </Column>
+  </Row>
+</Fragment>
+`;
