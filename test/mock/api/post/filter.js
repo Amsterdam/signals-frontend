@@ -1,7 +1,7 @@
 import uuid from 'uuid/v1';
 import categories from '../get/categories.json';
-import status from '../get/status.json';
-import stadsdeel from '../get/stadsdeel.json';
+import status from '../../../../src/signals/incident-management/definitions/statusList';
+import stadsdeel from '../../../../src/signals/incident-management/definitions/stadsdeelList';
 
 const filter = {
   path: '/filters',

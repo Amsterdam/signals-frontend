@@ -1,9 +1,9 @@
 import g from 'dyson-generators';
 import uuid from 'uuid/v1';
 import categories from './categories.json';
-import status from './status.json';
-import stadsdeel from './stadsdeel.json';
-import priority from './priority.json';
+import status from '../../../../src/signals/incident-management/definitions/statusList';
+import stadsdeel from '../../../../src/signals/incident-management/definitions/stadsdeelList';
+import priority from '../../../../src/signals/incident-management/definitions/priorityList';
 import address from './address.json';
 import { pickRandomSublist } from '../../../lib/listRandomizer';
 
