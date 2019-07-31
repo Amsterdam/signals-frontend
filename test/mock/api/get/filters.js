@@ -8,7 +8,7 @@ import address from './address.json';
 import { pickRandomSublist } from '../../../lib/listRandomizer';
 
 const filter = {
-  path: '/me/filter/:id',
+  path: '/filters/:id',
   method: 'GET',
   cache: true,
   template: {
@@ -57,7 +57,7 @@ const filter = {
 };
 
 const filters = {
-  path: '/me/filters',
+  path: '/filters',
   method: 'GET',
   collection: true,
   cache: false,

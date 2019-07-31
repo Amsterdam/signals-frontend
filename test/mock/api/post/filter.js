@@ -1,12 +1,10 @@
-//  import { pickRandomSublist } from '../../../lib/listRandomizer';
 import uuid from 'uuid/v1';
 import categories from '../get/categories.json';
 import status from '../get/status.json';
 import stadsdeel from '../get/stadsdeel.json';
-import priority from '../get/priority.json';
 
 const filter = {
-  path: '/me/filter',
+  path: '/filters',
   method: 'POST',
   cache: false,
   status: (req, res, next) => {
@@ -33,9 +31,7 @@ const filter = {
       status: status__state.map((statusKey) =>
         status.find(({ key }) => key === statusKey),
       ),
-      priority: priority__priority.map((prioKey) =>
-        priority.find(({ key }) => key === prioKey),
-      ),
+      priority: priority__priority,
       main: main_slug.map((slugKey) =>
         categories.main.find(({ key }) => key === slugKey),
       ),

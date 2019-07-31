@@ -1,5 +1,5 @@
 const filter = {
-  path: '/me/filter/:id',
+  path: '/filters/:id',
   method: 'DELETE',
   cache: false,
   status: (req, res, next) => {
