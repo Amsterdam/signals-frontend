@@ -36,7 +36,7 @@ const FormFooter = styled.footer`
 `;
 
 const ButtonContainer = styled(Column)`
-  justify-content: flex-end;
+  justify-content: flex-start;
 `;
 
 const ResetButton = styled(Button)`
@@ -93,7 +93,6 @@ class Filter extends React.Component {
     const filterName = filterForm.get('name').value;
 
     filterForm.get('main_slug').valueChanges.subscribe((value) => {
-      // filterForm.get('sub_slug').setValue(defaults.sub_slug);
       this.dispatchMainCategoryFilterChange(value);
     });
 
@@ -103,7 +102,7 @@ class Filter extends React.Component {
       const isNewFilter = !activeFilter.name;
 
       if (isNewFilter) {
-        return null;
+        return;
       }
 
       const valuesHaveChanged = !isEqual(values, activeFilter);
@@ -111,35 +110,36 @@ class Filter extends React.Component {
 
       if (valuesHaveChanged) {
         if (btnHasSaveLabel) {
-          return null;
+          return;
         }
 
-        return this.onSetName();
+        this.onSetName();
+        return;
       }
 
       if (!btnHasSaveLabel) {
-        return null;
+        return;
       }
 
-      return this.onResetName();
+      this.onResetName();
     });
 
     // listen for changes in the 'name' field for new filters
-    filterForm.get('name').valueChanges.subscribe(() => {
+    filterForm.get('name').valueChanges.subscribe((value) => {
       const { activeFilter } = this.props;
-      const { value = '' } = filterForm.get('name');
       const isNewFilter = typeof activeFilter.name === 'undefined';
-      const nameHasChanged = value.trim() !== filterName;
+      const nameHasChanged = !!value && value.trim() !== filterName;
 
       if (!isNewFilter) {
-        return null;
+        return;
       }
 
       if (nameHasChanged) {
-        return this.onSetName();
+        this.onSetName();
+        return;
       }
 
-      return this.onResetName();
+      this.onResetName();
     });
 
     this.dispatchMainCategoryFilterChange(filter.main_slug);
@@ -151,15 +151,17 @@ class Filter extends React.Component {
 
   componentWillUnmount() {
     this.filterForm.get('main_slug').valueChanges.unsubscribe();
+    this.filterForm.get('name').valueChanges.unsubscribe();
+    this.filterForm.valueChanges.unsubscribe();
   }
 
-  onSetName = () => {
+  onSetName() {
     this.setState({ submitBtnLabel: 'Opslaan en filteren' });
-  };
+  }
 
-  onResetName = () => {
+  onResetName() {
     this.setState({ submitBtnLabel: 'Filteren' });
-  };
+  }
 
   onFilter = (filter) => {
     const newFilter = { ...filter };
@@ -188,12 +190,11 @@ class Filter extends React.Component {
     });
   }
 
-  handleReset = () => {
-    this.filterForm.reset();
-    this.onFilter(this.filterForm.value);
-  };
+  handleReset() {
+    this.filterForm.reset(defaults, { emitEvent: false });
+  }
 
-  handleSubmit = (event) => {
+  handleSubmit(event) {
     const { onApplyFilters, onSubmit } = this.props;
 
     event.preventDefault();
@@ -207,7 +208,7 @@ class Filter extends React.Component {
     if (typeof onSubmit === 'function') {
       onSubmit(event);
     }
-  };
+  }
 
   render() {
     const {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const StyledLabel = styled.label`
@@ -8,6 +9,10 @@ const StyledLabel = styled.label`
   line-height: 25px;
 `;
 
-const Label = ({ htmlFor, ...rest }) => <StyledLabel htmlFor={htmlFor} {...rest} />; // eslint-disable-line
+const Label = ({ htmlFor, ...rest }) => <StyledLabel htmlFor={htmlFor} {...rest} />;
+
+Label.propTypes = {
+  htmlFor: PropTypes.string.isRequired
+};
 
 export default Label;

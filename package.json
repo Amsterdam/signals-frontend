@@ -147,7 +147,6 @@
       "jsx-a11y/aria-props": 2,
       "jsx-a11y/heading-has-content": 0,
       "jsx-a11y/href-no-hash": 2,
-      "jsx-a11y/label-has-for": 2,
       "jsx-a11y/mouse-events-have-key-events": 2,
       "jsx-a11y/role-has-required-aria-props": 2,
       "jsx-a11y/role-supports-aria-props": 2,
@@ -298,7 +297,7 @@
     "scroll-lock": "^2.1.2",
     "styled-components": "4.3.2",
     "url-polyfill": "^1.1.7",
-    "whatwg-fetch": "^2.0.4"
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "@testing-library/react": "^8.0.7",
@@ -342,12 +341,12 @@
     "eslint-plugin-redux-saga": "^0.9.0",
     "eventsource-polyfill": "0.9.6",
     "exports-loader": "^0.7.0",
-    "express": "^4.16.3",
+    "express": "^4.17.1",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "0.11.1",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "2.29.0",
-    "http-proxy-middleware": "^0.18.0",
+    "http-proxy-middleware": "^0.19.1",
     "image-webpack-loader": "2.0.0",
     "imports-loader": "^0.8.0",
     "ip": "1.1.5",
