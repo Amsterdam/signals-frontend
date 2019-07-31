@@ -15,6 +15,7 @@ describe('The map paths service', () => {
           description: {
             meta: {
               label: 'Omschrijving',
+              labelShort: 'Omschr.',
               pathMerge: 'extra_properties',
               isVisible: true
             }
@@ -110,7 +111,7 @@ describe('The map paths service', () => {
     expect(mapPaths({}, incident, wizard)).toMatchObject({
       extra_properties: [{
         id: 'description',
-        label: 'Omschrijving',
+        label: 'Omschr.',
         answer: 'free text',
         category_url
       },
