@@ -1,17 +1,17 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { fromJS } from 'immutable';
+import { mount } from 'enzyme';
+import cloneDeep from 'lodash.clonedeep';
+import { render, cleanup } from '@testing-library/react';
 
-import { getContext } from 'test/utils';
+import { withAppContext } from 'test/utils';
 
-import { IncidentOverviewPage, mapDispatchToProps } from './index';
+import IncidentOverviewPage, {
+  IncidentOverviewPageContainerComponent,
+  mapDispatchToProps,
+} from './';
 import { REQUEST_INCIDENTS, INCIDENT_SELECTED } from './constants';
 
-jest.mock('./components/Filter', () => () => 'Filter');
-jest.mock('./components/List', () => () => 'List');
-jest.mock('./components/Pager', () => () => 'Pager');
-
-describe('<IncidentContainer />', () => {
+describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   let props;
 
   beforeEach(() => {
@@ -21,62 +21,92 @@ describe('<IncidentContainer />', () => {
         loading: false,
         filter: {},
         incidentsCount: 666,
-        page: 3
+        page: 3,
+        priorityList: [],
+        stadsdeelList: [],
+        statusList: [],
       },
       categories: {},
       onRequestIncidents: jest.fn(),
       onIncidentSelected: jest.fn(),
       onMainCategoryFilterSelectionChanged: jest.fn(),
-      baseUrl: ''
+      baseUrl: '',
     };
   });
 
   afterEach(() => {
+    cleanup();
     jest.resetAllMocks();
   });
 
-  describe('rendering', () => {
-    it('should render correctly', () => {
-      const state = fromJS({
-        global: {},
-        incidentOverviewPage: {
-          incidents: []
-        }
-      });
-      const context = getContext(state);
-      const wrapper = shallow(<IncidentOverviewPage {...props} />, { context });
+  it('should render correctly', () => {
+    const { queryByTestId, rerender } = render(
+      withAppContext(<IncidentOverviewPageContainerComponent {...props} />),
+    );
 
-      expect(wrapper).toMatchSnapshot();
-    });
+    expect(queryByTestId('incidentOverviewPagerComponent')).not.toBeNull();
+    expect(queryByTestId('incidentOverviewListComponent')).not.toBeNull();
+    expect(queryByTestId('loadingIndicator')).toBeNull();
 
-    it('should render loader correctly', () => {
-      const state = fromJS({
-        global: {},
-        incidentOverviewPage: {
-          incidents: []
-        }
-      });
+    const loadingProps = cloneDeep(props);
+    loadingProps.overviewpage.loading = true;
 
-      props.overviewpage.loading = true;
+    rerender(
+      withAppContext(<IncidentOverviewPageContainerComponent {...loadingProps} />),
+    );
 
-      const context = getContext(state);
-      const wrapper = shallow(<IncidentOverviewPage {...props} />, { context });
+    expect(queryByTestId('incidentOverviewPagerComponent')).toBeNull();
+    expect(queryByTestId('incidentOverviewListComponent')).toBeNull();
+    expect(queryByTestId('loadingIndicator')).not.toBeNull();
+  });
 
-      expect(wrapper).toMatchSnapshot();
-    });
+  it('should have props from structured selector', () => {
+    const tree = mount(withAppContext(
+      <IncidentOverviewPage />
+    ));
+
+    const containerProps = tree.find(IncidentOverviewPageContainerComponent).props();
+
+    expect(containerProps.overviewpage).not.toBeUndefined();
+    expect(containerProps.categories).not.toBeUndefined();
+    expect(containerProps.loading).not.toBeUndefined();
+    expect(containerProps.error).not.toBeUndefined();
+  });
+
+  it('should have props from action creator', () => {
+    const tree = mount(withAppContext(
+      <IncidentOverviewPage />
+    ));
+
+    const containerProps = tree.find(IncidentOverviewPageContainerComponent).props();
+
+    expect(containerProps.onIncidentSelected).not.toBeUndefined();
+    expect(typeof containerProps.onIncidentSelected).toEqual('function');
+
+    expect(containerProps.onRequestIncidents).not.toBeUndefined();
+    expect(typeof containerProps.onRequestIncidents).toEqual('function');
   });
 
   describe('mapDispatchToProps', () => {
     const dispatch = jest.fn();
 
     it('should request incidents', () => {
-      mapDispatchToProps(dispatch).onRequestIncidents({ filter: {}, page: 666 });
-      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_INCIDENTS, payload: { filter: {}, page: 666 } });
+      mapDispatchToProps(dispatch).onRequestIncidents({
+        filter: {},
+        page: 666,
+      });
+      expect(dispatch).toHaveBeenCalledWith({
+        type: REQUEST_INCIDENTS,
+        payload: { filter: {}, page: 666 },
+      });
     });
 
     it('should select an incident', () => {
       mapDispatchToProps(dispatch).onIncidentSelected({ id: 666 });
-      expect(dispatch).toHaveBeenCalledWith({ type: INCIDENT_SELECTED, payload: { id: 666 } });
+      expect(dispatch).toHaveBeenCalledWith({
+        type: INCIDENT_SELECTED,
+        payload: { id: 666 },
+      });
     });
   });
 });

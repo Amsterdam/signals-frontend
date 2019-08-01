@@ -70,7 +70,7 @@ describe('overviewPageReducer', () => {
     expect(overviewPageReducer(undefined, {})).toEqual(initialState);
   });
 
-  it('should handle the REQUEST_INICDENTS', () => {
+  it('should handle the REQUEST_INCIDENTS', () => {
     const action = requestIncidents({});
     const expected = {
       loading: true,

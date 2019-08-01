@@ -9,7 +9,7 @@ describe('components/Modal', () => {
 
   it('should not render', () => {
     const { container } = render(
-      withAppContext(<Modal isOpen={false} />),
+      withAppContext(<Modal isOpen={false} title="Modal" />),
     );
 
     expect(container.firstChild).toBeNull();
@@ -17,7 +17,7 @@ describe('components/Modal', () => {
 
   it('should have a heading', () => {
     const { container } = render(
-      withAppContext(<Modal isOpen />),
+      withAppContext(<Modal isOpen title="Modal" />),
     );
 
     expect(container.querySelectorAll('h2')).toHaveLength(1);
@@ -26,7 +26,7 @@ describe('components/Modal', () => {
   it('should call onClose', () => {
     const onClose = jest.fn();
     const { getByTestId } = render(
-      withAppContext(<Modal isOpen onClose={onClose} />),
+      withAppContext(<Modal isOpen onClose={onClose} title="Modal" />),
     );
 
     fireEvent(
@@ -35,57 +35,5 @@ describe('components/Modal', () => {
     );
 
     expect(onClose).toHaveBeenCalled();
-  });
-
-  it('should have confirmation buttons', () => {
-    const { queryByTestId } = render(
-      withAppContext(<Modal isOpen />),
-    );
-
-    expect(queryByTestId('resetBtn')).not.toBeNull();
-    expect(queryByTestId('cancelBtn')).not.toBeNull();
-    expect(queryByTestId('submitBtn')).not.toBeNull();
-  });
-
-  it('should call onReset', () => {
-    const onReset = jest.fn();
-    const { getByTestId } = render(
-      withAppContext(<Modal isOpen onReset={onReset} />),
-    );
-
-    fireEvent(
-      getByTestId('resetBtn'),
-      new MouseEvent('click', { bubbles: true }),
-    );
-
-    expect(onReset).toHaveBeenCalled();
-  });
-
-  it('should call onCancel', () => {
-    const onCancel = jest.fn();
-    const { getByTestId } = render(
-      withAppContext(<Modal isOpen onCancel={onCancel} />),
-    );
-
-    fireEvent(
-      getByTestId('cancelBtn'),
-      new MouseEvent('click', { bubbles: true }),
-    );
-
-    expect(onCancel).toHaveBeenCalled();
-  });
-
-  it('should call onSubmit', () => {
-    const onSubmit = jest.fn();
-    const { getByTestId } = render(
-      withAppContext(<Modal isOpen onSubmit={onSubmit} />),
-    );
-
-    fireEvent(
-      getByTestId('submitBtn'),
-      new MouseEvent('click', { bubbles: true }),
-    );
-
-    expect(onSubmit).toHaveBeenCalled();
   });
 });
