@@ -64,3 +64,10 @@ export const withCustomAppContext = (Component) => ({ themeCfg = {}, storeCfg = 
     </Provider>
   </ThemeProvider>
 );
+
+export const run = (callback) => {
+  if (callback) {
+    callback();
+  }
+};
+
