@@ -16,8 +16,7 @@ describe('<History />', () => {
           what: 'UPDATE_STATUS',
           action: 'Update status naar: Gesplitst',
           description: 'Deze melding is opgesplitst.',
-          who: 'jasper.g.swart@gmail.com',
-          _signal: 3074
+          who: 'jasper.g.swart@gmail.com'
         },
         {
           identifier: 'UPDATE_PRIORITY_3790',
@@ -25,8 +24,7 @@ describe('<History />', () => {
           what: 'UPDATE_PRIORITY',
           action: 'Prioriteit update naar: Normal',
           description: null,
-          who: 'SIA systeem',
-          _signal: 3074
+          who: 'SIA systeem'
         },
         {
           identifier: 'UPDATE_CATEGORY_ASSIGNMENT_3996',
@@ -34,8 +32,7 @@ describe('<History />', () => {
           what: 'UPDATE_CATEGORY_ASSIGNMENT',
           action: 'Categorie gewijzigd naar: Geluidsoverlast installaties',
           description: null,
-          who: 'SIA systeem',
-          _signal: 3074
+          who: 'SIA systeem'
         }
       ]
     };
