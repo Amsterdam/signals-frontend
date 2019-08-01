@@ -4,7 +4,7 @@ import { withAppContext } from 'test/utils';
 
 import DetailHeader from './index';
 
-jest.mock('./components/DownloadButton', () => () => 'DownloadButton');
+jest.mock('./components/DownloadButton', () => () => <div data-testid="detail-header-button-download" />);
 
 describe('<DetailHeader />', () => {
   let props;
@@ -27,8 +27,7 @@ describe('<DetailHeader />', () => {
   });
 
   describe('rendering', () => {
-    it('should render correctly', () => {
-      expect(10).toBe(10);
+    it('should render all buttons when state is gemeld and no parent or children are present', () => {
       const { queryByTestId } = render(
         withAppContext(<DetailHeader {...props} />)
       );
@@ -37,7 +36,44 @@ describe('<DetailHeader />', () => {
       expect(queryByTestId('detail-header-title')).toHaveTextContent(/^Melding 42$/);
       expect(queryByTestId('detail-header-button-split')).toHaveTextContent(/^Splitsen$/);
       expect(queryByTestId('detail-header-button-thor')).toHaveTextContent(/^THOR$/);
-      // expect(queryByTestId('detail-header-button-download')).toHaveTextContent(/^PDF$/);
+      expect(queryByTestId('detail-header-button-download')).not.toBeNull();
+    });
+
+    it('should render no split button when children are present', () => {
+      props.incident._links['sia:children'] = [{ mock: 'child' }];
+      const { queryByTestId } = render(
+        withAppContext(<DetailHeader {...props} />)
+      );
+
+      expect(queryByTestId('detail-header-button-split')).toBeNull();
+    });
+
+    it('should render no split button when parent is present', () => {
+      props.incident._links['sia:parent'] = { mock: 'parent' };
+      const { queryByTestId } = render(
+        withAppContext(<DetailHeader {...props} />)
+      );
+
+      expect(queryByTestId('detail-header-button-split')).toBeNull();
+    });
+
+    it('should render no split button when state is not m', () => {
+      props.incident.status.state = 'o';
+      const { queryByTestId } = render(
+        withAppContext(<DetailHeader {...props} />)
+      );
+
+      expect(queryByTestId('detail-header-button-split')).toBeNull();
+    });
+
+
+    it('should render no thor button when state is not m, i, b, h, send failed or reopened', () => {
+      props.incident.status.state = 'o';
+      const { queryByTestId } = render(
+        withAppContext(<DetailHeader {...props} />)
+      );
+
+      expect(queryByTestId('detail-header-button-thor')).toBeNull();
     });
   });
 });
