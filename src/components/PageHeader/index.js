@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Heading, Row, Button } from '@datapunt/asc-ui';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
+import Filter from 'signals/incident-management/containers/Filter';
 
 import Modal from 'components/Modal';
 
@@ -59,8 +60,8 @@ const PageHeader = ({ className, children, title }) => {
           Filteren
         </Button>
 
-        <Modal isOpen={modalIsOpen} onClose={closeModal}>
-          Here be filters
+        <Modal isOpen={modalIsOpen} onClose={closeModal} title="Filters">
+          <Filter onSubmit={closeModal} onCancel={closeModal} />
         </Modal>
       </Row>
     </StyledSection>

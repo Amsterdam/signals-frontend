@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import isEqual from 'lodash.isequal';
 
-import FieldControlWrapper from '../../../../components/FieldControlWrapper';
-import TextInput from '../../../../components/TextInput';
-import TextAreaInput from '../../../../components/TextAreaInput';
-import HiddenInput from '../../../../components/HiddenInput';
-
+import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
+import TextInput from 'signals/incident-management/components/TextInput';
+import TextAreaInput from 'signals/incident-management/components/TextAreaInput';
+import HiddenInput from 'signals/incident-management/components/HiddenInput';
 
 import './style.scss';
 

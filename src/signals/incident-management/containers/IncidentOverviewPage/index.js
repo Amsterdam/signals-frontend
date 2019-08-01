@@ -1,10 +1,9 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { Row, Column } from '@datapunt/asc-ui';
-import styled from 'styled-components';
 
 import PageHeader from 'components/PageHeader';
 import injectSaga from 'utils/injectSaga';
@@ -18,97 +17,73 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import makeSelectOverviewPage, { makeSelectIncidentsCount } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import './style.scss';
 
-import {
-  requestIncidents,
-  incidentSelected,
-  mainCategoryFilterSelectionChanged,
-} from './actions';
-import Filter from './components/Filter';
+import { requestIncidents, incidentSelected } from './actions';
 import ListComponent from './components/List';
 import Pager from './components/Pager';
 
-const OverviewPage = styled(Row)`
-  padding: 0;
-  width: 100%;
-`;
+export const IncidentOverviewPageContainerComponent = ({
+  onRequestIncidents,
+  overviewpage,
+  incidentsCount,
+  onIncidentSelected,
+}) => {
+  useEffect(() => {
+    onRequestIncidents({});
+  }, []);
 
-export class IncidentOverviewPage extends React.Component {
-  // eslint-disable-line react/prefer-stateless-function
-  componentDidMount() {
-    this.props.onRequestIncidents({});
-  }
+  const { incidents, loading, page, sort, ...rest } = overviewpage;
 
-  render() {
-    const {
-      incidents,
-      loading,
-      filter,
-      page,
-      sort,
-      ...rest
-    } = this.props.overviewpage;
-    const { incidentsCount } = this.props;
+  return (
+    <Fragment>
+      <PageHeader
+        title={`Meldingen${incidentsCount ? ` (${incidentsCount})` : ''}`}
+      />
 
-    return (
-      <Fragment>
-        <PageHeader
-          title={`Meldingen${incidentsCount ? ` (${incidentsCount})` : ''}`}
-        />
-
-        <OverviewPage>
-          <Column span={3}>
-            <Filter
-              onRequestIncidents={this.props.onRequestIncidents}
-              onMainCategoryFilterSelectionChanged={
-                this.props.onMainCategoryFilterSelectionChanged
-              }
-              categories={this.props.categories}
-              filter={filter}
-              {...rest}
-            />
+      <Row>
+        <Column span={12} wrap>
+          <Column span={12}>
+            {loading ? (
+              <LoadingIndicator />
+            ) : (
+              <ListComponent
+                incidentSelected={onIncidentSelected}
+                incidents={incidents}
+                onRequestIncidents={onRequestIncidents}
+                sort={sort}
+                incidentsCount={incidentsCount}
+                {...rest}
+              />
+            )}
           </Column>
 
-          <Column span={9} wrap>
-            <Column span={9}>
-              {loading ? (
-                <LoadingIndicator />
-              ) : (
-                <ListComponent
-                  incidentSelected={this.props.onIncidentSelected}
-                  incidents={incidents}
-                  onRequestIncidents={this.props.onRequestIncidents}
-                  sort={sort}
-                  incidentsCount={incidentsCount}
-                  {...rest}
-                />
-              )}
-            </Column>
-
-            <Column span={9}>
+          <Column span={12}>
+            {!loading && (
               <Pager
                 incidentsCount={incidentsCount}
                 page={page}
-                onRequestIncidents={this.props.onRequestIncidents}
+                onRequestIncidents={onRequestIncidents}
               />
-            </Column>
+            )}
           </Column>
-        </OverviewPage>
-      </Fragment>
-    );
-  }
-}
+        </Column>
+      </Row>
+    </Fragment>
+  );
+};
 
-IncidentOverviewPage.propTypes = {
-  overviewpage: PropTypes.object.isRequired,
-  baseUrl: PropTypes.string.isRequired,
-  categories: PropTypes.object.isRequired,
+IncidentOverviewPageContainerComponent.propTypes = {
+  overviewpage: PropTypes.shape({
+    incidents: PropTypes.arrayOf(PropTypes.shape({})),
+    loading: PropTypes.bool,
+    page: PropTypes.number,
+    sort: PropTypes.string,
+  }).isRequired,
+  categories: PropTypes.shape({}).isRequired,
   incidentsCount: PropTypes.number,
 
   onRequestIncidents: PropTypes.func.isRequired,
   onIncidentSelected: PropTypes.func.isRequired,
-  onMainCategoryFilterSelectionChanged: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -123,7 +98,6 @@ export const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onRequestIncidents: requestIncidents,
-      onMainCategoryFilterSelectionChanged: mainCategoryFilterSelectionChanged,
       onIncidentSelected: incidentSelected,
     },
     dispatch,
@@ -141,4 +115,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(IncidentOverviewPage);
+)(IncidentOverviewPageContainerComponent);

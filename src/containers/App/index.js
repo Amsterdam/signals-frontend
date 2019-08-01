@@ -30,7 +30,7 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
       <ThemeProvider>
         <Fragment>
           <SiteHeaderContainer />
-          <div className="app-container container-fluid">
+          <div className="app-container">
             <GlobalError />
             <Switch>
               <Redirect exact from="/" to="/incident" />
@@ -48,8 +48,8 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
               />
               <Route path="" component={NotFoundPage} />
             </Switch>
-            <Footer />
           </div>
+          <Footer />
         </Fragment>
       </ThemeProvider>
     );

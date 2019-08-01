@@ -18,10 +18,12 @@ export const incidentDetailWrapper = (baseUrl) => (props) => (
   // eslint-disable-next-line react/prop-types
   <IncidentDetail id={props.match.params.id} baseUrl={baseUrl} />
 );
+
 export const incidentOverviewPageWrapper = (baseUrl) => () => (
   // eslint-disable-next-line react/prop-types
   <IncidentOverviewPage baseUrl={baseUrl} />
 );
+
 export const incidentSplitContainerWrapper = (baseUrl) => (props) => (
   // eslint-disable-next-line react/prop-types
   <IncidentSplitContainer id={props.match.params.id} baseUrl={baseUrl} />

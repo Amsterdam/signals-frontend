@@ -41,7 +41,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
   render() {
     const { incidents, priorityList, statusList, stadsdeelList } = this.props;
     return (
-      <div className="list-component">
+      <div className="list-component" data-testid="incidentOverviewListComponent">
         <div className="list-component__body">
           <table className="list-component__table" cellSpacing="0" cellPadding="0">
             <thead>
