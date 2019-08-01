@@ -5,6 +5,7 @@ const StyledSpan = styled.span`
   font-size: 16px;
   color: #767676;
   line-height: 22px;
+  display: block;
 `;
 
 const Caption = (props) => <StyledSpan {...props} />;

@@ -9,6 +9,7 @@ import FieldControlWrapper from '../FieldControlWrapper';
 import TextInput from '../TextInput';
 import SelectInput from '../SelectInput';
 import DatePickerInput from '../DatePickerInput';
+import CheckboxInput from '../CheckboxInput';
 
 const FilterForm = styled.form`
   column-count: 2;
@@ -57,12 +58,12 @@ const ControlsWrapper = styled.div`
 export const defaults = {
   incident_date_start: '',
   location__address_text: '',
-  location__stadsdeel: [['']],
-  main_slug: [['']],
+  location__stadsdeel: [[]],
+  main_slug: [[]],
   name: '',
   priority__priority: '',
-  status__state: [['']],
-  sub_slug: [['']],
+  status__state: [[]],
+  sub_slug: [[]],
 };
 
 class Filter extends React.Component {
@@ -201,6 +202,7 @@ class Filter extends React.Component {
 
     this.onFilter(this.filterForm.value);
 
+    debugger;
     if (typeof onApplyFilters === 'function') {
       onApplyFilters(this.filterForm.value);
     }
@@ -236,34 +238,26 @@ class Filter extends React.Component {
                 caption="Geef de filterinstelling een naam op deze op te slaan"
               />
               <FieldControlWrapper
-                render={SelectInput}
+                render={CheckboxInput}
                 name="status__state"
                 display="Status"
                 control={this.filterForm.get('status__state')}
                 values={statusList}
-                emptyOptionText="Alle statussen"
-                multiple
               />
               <FieldControlWrapper
-                render={SelectInput}
+                render={CheckboxInput}
                 name="location__stadsdeel"
                 display="Stadsdeel"
                 control={this.filterForm.get('location__stadsdeel')}
                 values={stadsdeelList}
-                emptyOptionText="Alle stadsdelen"
-                multiple
               />
               <FieldControlWrapper
-                render={SelectInput}
+                render={CheckboxInput}
                 name="priority__priority"
                 display="Urgentie"
                 control={this.filterForm.get('priority__priority')}
                 values={priorityList}
-                emptyOptionText="Alles"
               />
-            </ControlsWrapper>
-
-            <ControlsWrapper>
               <FieldControlWrapper
                 render={DatePickerInput}
                 name="incident_date_start"
@@ -277,6 +271,9 @@ class Filter extends React.Component {
                 display="Adres"
                 control={this.filterForm.get('location__address_text')}
               />
+            </ControlsWrapper>
+
+            <ControlsWrapper>
               <FieldControlWrapper
                 render={SelectInput}
                 name="main_slug"

@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import sortBy from 'lodash.sortby';
 import styled from 'styled-components';
-import { FieldControl } from 'react-reactive-form';
+import { FieldControl, FormControl } from 'react-reactive-form';
 
 const FieldControlContainer = styled.div`
   break-inside: avoid;
+  margin-bottom: 30px;
 `;
 
 export class FieldControlWrapper extends React.Component {
-  // eslint-disable-line react/prefer-stateless-function
   static formatValues(props) {
     if (props.values.find((value) => value.key === '')) {
       return props.values;
@@ -28,8 +28,11 @@ export class FieldControlWrapper extends React.Component {
     super(props);
 
     this.state = {
+      allChecked: false,
       values: FieldControlWrapper.formatValues(props),
     };
+
+    this.toggleChecked = this.toggleChecked.bind(this);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -48,18 +51,29 @@ export class FieldControlWrapper extends React.Component {
     }
   }
 
+  toggleChecked() {
+    this.setState((state) => ({
+      allChecked: !state.allChecked,
+    }));
+  }
+
   render() {
-    const { name, control, render, meta, ...props } = this.props;
+    const { name, control, render, meta, strict, ...props } = this.props;
+    const { allChecked } = this.state;
+
     return (
       <FieldControlContainer>
         <FieldControl
           name={name}
           control={control}
           meta={meta}
+          strict={strict}
           render={render({
             ...props,
             values: this.state.values,
             name,
+            allChecked,
+            toggleChecked: this.toggleChecked,
           })}
         />
       </FieldControlContainer>
@@ -69,15 +83,23 @@ export class FieldControlWrapper extends React.Component {
 
 FieldControlWrapper.defaultProps = {
   emptyOptionText: '',
+  hasToggleAll: false,
   values: [],
 };
 
 FieldControlWrapper.propTypes = {
-  name: PropTypes.string.isRequired,
-  control: PropTypes.object.isRequired,
-  values: PropTypes.array,
-  render: PropTypes.func.isRequired,
+  /** Element containing the value of the current field */
+  control: PropTypes.instanceOf(FormControl).isRequired,
+  /** Object containing custom data or handlers */
   meta: PropTypes.shape({}),
+  /** Name of the form element */
+  name: PropTypes.string.isRequired,
+  /** Component that needs to be rendered */
+  render: PropTypes.func.isRequired,
+  /** When true, will update component when props are updated */
+  strict: PropTypes.bool,
+  /** Form values */
+  values: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 export default FieldControlWrapper;

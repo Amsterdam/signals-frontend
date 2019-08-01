@@ -5,38 +5,41 @@ import Caption from '../Caption';
 
 import './style.scss';
 
-export const TextInput = ({ name, caption, display, placeholder }) => {
-  const render = ({ handler }) => (
-    <div className="text-input">
-      <div className="mode_input text rij_verplicht">
-        <div className="text-input__label">
-          <Label htmlFor={`form${name}`}>{display}</Label>
-        </div>
+const TextInput = ({ name, caption, display, placeholder }) => {
+  const Render = ({ handler }) => (
+    <div className="text-input invoer">
+      <Label htmlFor={`form${name}`}>{display}</Label>
 
-        {caption && <Caption>{caption}</Caption>}
+      {caption && <Caption>{caption}</Caption>}
 
-        <div className="text-input__control invoer">
-          <input
-            id={`form${name}`}
-            className="input"
-            type="text"
-            {...handler()}
-            placeholder={placeholder}
-          />
-        </div>
-      </div>
+      <input
+        id={`form${name}`}
+        className="input"
+        type="text"
+        {...handler()}
+        placeholder={placeholder}
+      />
     </div>
   );
 
-  render.defaultProps = {
+  Render.defaultProps = {
     touched: false,
-    placeholder: '',
   };
 
-  render.propTypes = {
+  Render.propTypes = {
     handler: PropTypes.func.isRequired,
+    touched: PropTypes.bool,
   };
-  return render;
+
+  return Render;
+};
+
+TextInput.defaultProps = {
+  placeholder: '',
+};
+
+TextInput.propTypes = {
+  placeholder: PropTypes.string,
 };
 
 export default TextInput;
