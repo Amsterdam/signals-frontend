@@ -11,10 +11,10 @@ const Location = ({ incident, stadsdeelList, onShowLocation, onEditLocation }) =
   const address = incident.location.address;
   return (
     <dl className="location">
-      <dt className="location__definition">Locatie</dt>
+      <dt className="location__definition" data-testid="location-definition">Locatie</dt>
       <dd className="location__value">
-        <button className="location__value-button-edit incident-detail__button--edit" onClick={onEditLocation}></button>
-        <button className="location__value-button-show" onClick={onShowLocation} >
+        <button className="location__value-button-edit incident-detail__button--edit" onClick={onEditLocation} data-testid="location-button-edit"></button>
+        <button className="location__value-button-show" onClick={onShowLocation} data-testid="location-button-show">
           <MapDetail
             value={incident.location}
             hideAttribution
@@ -25,11 +25,11 @@ const Location = ({ incident, stadsdeelList, onShowLocation, onEditLocation }) =
         </button>
         {incident.location.address_text ?
           <div className="location__value-address">
-            <div>Stadsdeel: {getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</div>
-            <div>{address.openbare_ruimte} {address.huisnummer}{address.huisletter}{address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : ''}</div>
-            <div>{address.postcode} {address.woonplaats}</div>
+            <div data-testid="location-value-address-stadsdeel">Stadsdeel: {getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</div>
+            <div data-testid="location-value-address-street">{address.openbare_ruimte} {address.huisnummer}{address.huisletter}{address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : ''}</div>
+            <div data-testid="location-value-address-city">{address.postcode} {address.woonplaats}</div>
           </div>
-        : 'Locatie is gepind op de kaart'}
+        : <span data-testid="location-value-pinned">Locatie is gepind op de kaart</span>}
       </dd>
     </dl>
   );
