@@ -62,6 +62,7 @@ describe('<Location />', () => {
       expect(queryByTestId('location-value-address-stadsdeel')).toHaveTextContent(/^Stadsdeel: Centrum$/);
       expect(queryByTestId('location-value-address-street')).toHaveTextContent(/^Rokin 123A-H$/);
       expect(queryByTestId('location-value-address-city')).toHaveTextContent(/^1012KP Amsterdam$/);
+      expect(queryByTestId('location-map')).not.toBeNull();
     });
 
     it('should render correctly without huisnummer_toevoeging', () => {

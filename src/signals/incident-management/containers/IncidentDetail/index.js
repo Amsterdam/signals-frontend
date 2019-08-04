@@ -21,7 +21,6 @@ import AddNote from './components/AddNote';
 import LocationForm from './components/LocationForm';
 import AttachmentViewer from './components/AttachmentViewer';
 import StatusForm from './components/StatusForm';
-// import MapDetail from './components/MapDetail';
 import Detail from './components/Detail';
 import SplitNotificationBar from './components/SplitNotificationBar';
 import LocationPreview from './components/LocationPreview';
@@ -153,7 +152,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
 
                   {previewState === 'showLocation' ? (
                     <LocationPreview
-                      incident={incident}
+                      location={incident.location}
                       onEditLocation={this.onEditLocation}
                     />
                 ) : ''}
