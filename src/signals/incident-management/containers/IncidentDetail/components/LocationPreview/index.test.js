@@ -40,12 +40,12 @@ describe('<LocationPreview />', () => {
 
   describe('rendering', () => {
     it('should render correctly', () => {
-      const { queryByTestId } = render(
+      const { queryByTestId, queryAllByTestId } = render(
         <LocationPreview {...props} />
       );
 
       expect(queryByTestId('location-preview-button-edit')).toHaveTextContent(/^Locatie wijzigen$/);
-      expect(queryByTestId('location-preview-map')).not.toBeNull();
+      expect(queryAllByTestId('location-preview-map')).toHaveLength(1);
     });
   });
 

@@ -54,7 +54,7 @@ describe('<Location />', () => {
 
   describe('rendering', () => {
     it('should render correctly', () => {
-      const { queryByTestId } = render(
+      const { queryByTestId, queryAllByTestId } = render(
         <Location {...props} />
       );
 
@@ -62,7 +62,7 @@ describe('<Location />', () => {
       expect(queryByTestId('location-value-address-stadsdeel')).toHaveTextContent(/^Stadsdeel: Centrum$/);
       expect(queryByTestId('location-value-address-street')).toHaveTextContent(/^Rokin 123A-H$/);
       expect(queryByTestId('location-value-address-city')).toHaveTextContent(/^1012KP Amsterdam$/);
-      expect(queryByTestId('location-map')).not.toBeNull();
+      expect(queryAllByTestId('location-map')).toHaveLength(1);
     });
 
     it('should render correctly without huisnummer_toevoeging', () => {

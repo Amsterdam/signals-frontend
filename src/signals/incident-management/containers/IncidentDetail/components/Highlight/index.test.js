@@ -17,11 +17,11 @@ describe('<Highlight />', () => {
   describe('rendering', () => {
     it('should render all children that are passed in', () => {
       const string = 'foo';
-      const { queryByTestId } = render(
+      const { queryByTestId, queryAllByTestId } = render(
         <Highlight subscribeTo={string}><div data-testid="highlight-child">some text</div></Highlight>
       );
 
-      expect(queryByTestId('highlight-child')).not.toBeNull();
+      expect(queryAllByTestId('highlight-child')).toHaveLength(1);
       expect(queryByTestId('highlight')).not.toHaveClass('highlight--active');
     });
   });

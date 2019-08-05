@@ -28,7 +28,7 @@ describe('<DetailHeader />', () => {
 
   describe('rendering', () => {
     it('should render all buttons when state is gemeld and no parent or children are present', () => {
-      const { queryByTestId } = render(
+      const { queryByTestId, queryAllByTestId } = render(
         withAppContext(<DetailHeader {...props} />)
       );
 
@@ -36,7 +36,7 @@ describe('<DetailHeader />', () => {
       expect(queryByTestId('detail-header-title')).toHaveTextContent(/^Melding 42$/);
       expect(queryByTestId('detail-header-button-split')).toHaveTextContent(/^Splitsen$/);
       expect(queryByTestId('detail-header-button-thor')).toHaveTextContent(/^THOR$/);
-      expect(queryByTestId('detail-header-button-download')).not.toBeNull();
+      expect(queryAllByTestId('detail-header-button-download')).toHaveLength(1);
     });
 
     it('should render no split button when children are present', () => {
