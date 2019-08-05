@@ -159,7 +159,9 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
 
                   {previewState === 'editLocation' ? (
                     <LocationForm
-                      incidentModel={this.props.incidentModel}
+                      incident={incident}
+                      patching={patching}
+                      error={error}
                       onPatchIncident={onPatchIncident}
                       onClose={this.onCloseAll}
                     />

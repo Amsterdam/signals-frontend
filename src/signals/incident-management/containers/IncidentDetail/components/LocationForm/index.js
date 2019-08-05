@@ -24,17 +24,23 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (!isEqual(props.incidentModel.incident.location, state.location)) {
+    if (!isEqual(props.incident.location, state.location)) {
       return {
-        location: props.incidentModel.incident.location,
-        newLocation: props.incidentModel.incident.location
+        location: props.incident.location,
+        newLocation: props.incident.location
       };
     }
 
     return null;
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (!isEqual(prevProps.patching && prevProps.patching.location, this.props.patching && this.props.patching.location) && this.props.patching.location === false) {
+      const hasError = (this.props.error && this.props.error.response && !this.props.error.response.ok) || false;
+      if (!hasError) {
+        this.props.onClose();
+      }
+    }
     this.locationForm.updateValueAndValidity();
   }
 
@@ -50,23 +56,21 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
 
   locationForm = FormBuilder.group({
     coordinates: ['', Validators.required],
-    location: this.props.incidentModel.incident.location
+    location: this.props.incident.location
   });
 
   handleSubmit = (event) => {
     event.preventDefault();
 
     this.props.onPatchIncident({
-      id: this.props.incidentModel.incident.id,
+      id: this.props.incident.id,
       type: 'location',
       patch: { location: { ...this.state.newLocation } }
     });
-
-    this.props.onClose();
   }
 
   render() {
-    const { incidentModel, onClose } = this.props;
+    const { patching, error, onClose } = this.props;
     return (
       <div className="location-form">
         <FieldGroup
@@ -88,13 +92,16 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
                   onQueryResult={this.onQueryResult}
                 />
 
-                {incidentModel.error ? <div className="notification notification-red" >
-                  {incidentModel.error && incidentModel.error.response && incidentModel.error.response.status === 403 ?
+                {error ? <div className="notification notification-red" >
+                  {error && error.response && error.response.location === 403 ?
                       'U bent niet geautoriseerd om dit te doen.' :
                       'De nieuwe locatie kon niet worden gewijzigd.'}
                 </div> : ''}
 
-                <button className="location-form__submit action primary" type="submit" disabled={invalid} data-testid="location-form-button-submit">Locatie opslaan</button>
+                <button className="location-form__submit action primary" type="submit" disabled={invalid} data-testid="location-form-button-submit">
+                  <span className="value">Status opslaan</span>
+                  {patching.location ? <span className="working"><div className="progress-indicator progress-white"></div></span> : ''}
+                </button>
                 <button className="location-form__cancel action secundary-grey" onClick={onClose} data-testid="location-form-button-cancel">Annuleren</button>
               </div>
             </form>
@@ -107,18 +114,14 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
 
 LocationForm.defaultProps = {
   location: {},
-  newLocation: {},
-  incidentModel: {
-    incident: {},
-    patching: {
-      location: false
-    }
-  }
+  newLocation: {}
 };
 
 LocationForm.propTypes = {
   id: PropTypes.string,
-  incidentModel: PropTypes.object,
+  incident: PropTypes.object.isRequired,
+  error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  patching: PropTypes.object.isRequired,
   location: PropTypes.object,
   newLocation: PropTypes.object,
 
