@@ -34,10 +34,8 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
     return null;
   }
 
-  componentDidUpdate(props) {
-    if (props.incidentModel.patching.location !== this.props.incidentModel.patching.location) {
-      this.locationForm.updateValueAndValidity();
-    }
+  componentDidUpdate() {
+    this.locationForm.updateValueAndValidity();
   }
 
   onQueryResult(location) {
@@ -49,6 +47,7 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
     this.locationForm.controls.location.setValue(newLocation);
     this.locationForm.controls.coordinates.setValue(newLocation.geometrie.coordinates.join(','));
   }
+
   locationForm = FormBuilder.group({
     coordinates: ['', Validators.required],
     location: this.props.incidentModel.incident.location
@@ -95,8 +94,8 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
                       'De nieuwe locatie kon niet worden gewijzigd.'}
                 </div> : ''}
 
-                <button className="location-form__submit action primary" type="submit" disabled={invalid || incidentModel.patching.location}>Locatie opslaan</button>
-                <button className="location-form__cancel action secundary-grey" onClick={onClose}>Annuleren</button>
+                <button className="location-form__submit action primary" type="submit" disabled={invalid} data-testid="location-form-button-submit">Locatie opslaan</button>
+                <button className="location-form__cancel action secundary-grey" onClick={onClose} data-testid="location-form-button-cancel">Annuleren</button>
               </div>
             </form>
             )}

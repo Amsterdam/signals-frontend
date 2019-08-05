@@ -1,10 +1,149 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-// import { LocationForm } from 'index';
+import { FieldGroup } from 'react-reactive-form';
+
+import mapLocation from 'shared/services/map-location';
+
+import LocationForm from './index';
+
+jest.mock('shared/services/map-location');
 
 describe('<LocationForm />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(true);
+  let location;
+  let wrapper;
+  let props;
+  let instance;
+
+  beforeEach(() => {
+    location = {
+      extra_properties: null,
+      geometrie: {
+        type: 'Point',
+        coordinates: [4, 52]
+      },
+      buurt_code: 'A00d',
+      created_by: null,
+      address: {
+        postcode: '1012KP',
+        huisletter: 'A',
+        huisnummer: '123',
+        woonplaats: 'Amsterdam',
+        openbare_ruimte: 'Rokin',
+        huisnummer_toevoeging: 'H'
+      },
+      stadsdeel: 'A',
+      bag_validated: false,
+      address_text: 'Rokin 123-H 1012KP Amsterdam',
+      id: 3372
+    };
+    props = {
+      incidentModel: {
+        incident: {
+          id: 42,
+          location
+        },
+        patching: { location: false }
+      },
+      onPatchIncident: jest.fn(),
+      onClose: jest.fn()
+    };
+
+    wrapper = shallow(
+      <LocationForm {...props} />
+    );
+
+    instance = wrapper.instance();
+
+    mapLocation.mockImplementation(() => ({ ...location, stadsdeel: 'B' }));
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it('should contain the FieldGroup', () => {
+    expect(wrapper.find(FieldGroup)).toHaveLength(1);
+  });
+
+  describe('FieldGroup', () => {
+    let renderedFormGroup;
+
+    beforeEach(() => {
+      renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
+    });
+
+    describe('rendering', () => {
+      it('should render buttons correctly', () => {
+        expect(renderedFormGroup.find('location-form__submit')).not.toBeNull();
+        expect(renderedFormGroup.find('location-form__cancel')).not.toBeNull();
+      });
+    });
+
+    it('should disable the submit button when no location is selected', () => {
+      expect(renderedFormGroup.find('.location-form__submit').prop('disabled')).toBe(true);
+    });
+
+    it('should enable the submit button when a location has been selected', () => {
+      const form = instance.locationForm;
+      const formValue = {
+        location: { stadsdeel: 'E' },
+        coordinates: '5,52'
+      };
+      form.patchValue(formValue);
+      expect(form.value.location).toEqual(formValue.location);
+      expect(form.value.coordinates).toEqual(formValue.coordinates);
+      expect(renderedFormGroup.find('.location-form__submit').prop('disabled')).toBe(false);
+    });
+
+    it('should update the location and coordinates when the map returns a new value', () => {
+      const form = instance.locationForm;
+      instance.onQueryResult();
+      expect(form.value.coordinates).toEqual('4,52');
+      expect(form.value.location).toEqual({ ...location, stadsdeel: 'B' });
+    });
+
+    it('should call location when the form is submitted (search button is clicked)', () => {
+      wrapper.setProps({
+        incidentModel: {
+          incident: {
+            id: 42,
+            location: { stadsdeel: 'E' }
+          },
+          patching: { location: false }
+        }
+      });
+
+      // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
+      renderedFormGroup.find('form').simulate('submit', { preventDefault() { } });
+      expect(props.onPatchIncident).toHaveBeenCalledWith({
+        id: 42,
+        patch: {
+          location: { stadsdeel: 'E' }
+        },
+        type: 'location'
+      });
+    });
+    it('should show an error message when 403 is returned', () => {
+      wrapper.setProps({
+        incidentModel: {
+          incident: {
+            id: 42,
+            location: { stadsdeel: 'E' }
+          },
+          patching: { location: false }
+        }
+      });
+
+      // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
+      renderedFormGroup.find('form').simulate('submit', { preventDefault() { } });
+      expect(props.onPatchIncident).toHaveBeenCalledWith({
+        id: 42,
+        patch: {
+          location: { stadsdeel: 'E' }
+        },
+        type: 'location'
+      });
+    });
   });
 });
