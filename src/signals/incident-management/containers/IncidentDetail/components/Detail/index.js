@@ -16,7 +16,7 @@ class Detail extends React.Component { // eslint-disable-line react/prefer-state
 
     return (
       <article className="detail">
-        <div className="detail__text">
+        <div className="detail__text" data-testid="detail-title">
           {incident.text}
         </div>
 
@@ -42,11 +42,11 @@ class Detail extends React.Component { // eslint-disable-line react/prefer-state
 
           {incident.extra_properties ? <ExtraProperties items={incident.extra_properties} /> : ''}
 
-          <dt className="detail__definition">E-mail melder</dt>
-          <dd className="detail__value">{incident.reporter.email}</dd>
+          <dt className="detail__definition" data-testid="detail-email-definition">E-mail melder</dt>
+          <dd className="detail__value" data-testid="detail-email-value">{incident.reporter.email}</dd>
 
-          <dt className="detail__definition">Telefoon melder</dt>
-          <dd className="detail__value">{incident.reporter.phone}</dd>
+          <dt className="detail__definition" data-testid="detail-phone-definition">Telefoon melder</dt>
+          <dd className="detail__value" data-testid="detail-phone-value">{incident.reporter.phone}</dd>
         </dl>
       </article>
     );
