@@ -163,6 +163,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
                       patching={patching}
                       error={error}
                       onPatchIncident={onPatchIncident}
+                      onDismissError={onDismissError}
                       onClose={this.onCloseAll}
                     />
                 ) : ''}

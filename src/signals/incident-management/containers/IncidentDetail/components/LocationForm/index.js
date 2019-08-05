@@ -34,6 +34,10 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
     return null;
   }
 
+  componentDidMount() {
+    this.props.onDismissError();
+  }
+
   componentDidUpdate(prevProps) {
     if (!isEqual(prevProps.patching && prevProps.patching.location, this.props.patching && this.props.patching.location) && this.props.patching.location === false) {
       const hasError = (this.props.error && this.props.error.response && !this.props.error.response.ok) || false;
@@ -41,7 +45,7 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
         this.props.onClose();
       }
     }
-    this.locationForm.updateValueAndValidity();
+    this.form.updateValueAndValidity();
   }
 
   onQueryResult(location) {
@@ -50,11 +54,11 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
       newLocation
     });
 
-    this.locationForm.controls.location.setValue(newLocation);
-    this.locationForm.controls.coordinates.setValue(newLocation.geometrie.coordinates.join(','));
+    this.form.controls.location.setValue(newLocation);
+    this.form.controls.coordinates.setValue(newLocation.geometrie.coordinates.join(','));
   }
 
-  locationForm = FormBuilder.group({
+  form = FormBuilder.group({
     coordinates: ['', Validators.required],
     location: this.props.incident.location
   });
@@ -74,7 +78,7 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
     return (
       <div className="location-form">
         <FieldGroup
-          control={this.locationForm}
+          control={this.form}
           render={({ invalid }) => (
             <form onSubmit={this.handleSubmit}>
               <div>
@@ -82,18 +86,18 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
                   render={HiddenInput}
                   name="coordinates"
                   display="Coordinates"
-                  control={this.locationForm.get('coordinates')}
+                  control={this.form.get('coordinates')}
                 />
 
                 <FieldControlWrapper
                   render={MapInput}
                   name="location"
-                  control={this.locationForm.get('location')}
+                  control={this.form.get('location')}
                   onQueryResult={this.onQueryResult}
                 />
 
                 {error ? <div className="notification notification-red" >
-                  {error && error.response && error.response.location === 403 ?
+                  {error && error.response && error.response.status === 403 ?
                       'U bent niet geautoriseerd om dit te doen.' :
                       'De nieuwe locatie kon niet worden gewijzigd.'}
                 </div> : ''}
@@ -118,7 +122,6 @@ LocationForm.defaultProps = {
 };
 
 LocationForm.propTypes = {
-  id: PropTypes.string,
   incident: PropTypes.object.isRequired,
   error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   patching: PropTypes.object.isRequired,
@@ -126,6 +129,7 @@ LocationForm.propTypes = {
   newLocation: PropTypes.object,
 
   onPatchIncident: PropTypes.func.isRequired,
+  onDismissError: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
 };
 
