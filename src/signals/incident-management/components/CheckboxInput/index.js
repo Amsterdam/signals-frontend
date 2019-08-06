@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+// import { FormArray } from 'reac-reactive-form';
 import Label from '../Label';
 
 const CheckboxInput = ({
@@ -13,10 +14,9 @@ const CheckboxInput = ({
 }) => {
   const render = ({ handler }) => {
     const inputValues = handler().value || [];
-    debugger;
 
     return (
-      <Fragment key={Math.random()}>
+      <Fragment>
         {display && <Label htmlFor={`${name}-${values[0].key}`}>{display}</Label>}
 
         {hasToggleAll && toggleLabel && (

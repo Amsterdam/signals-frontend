@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import sortBy from 'lodash.sortby';
 import styled from 'styled-components';
-import { FieldControl, FormControl } from 'react-reactive-form';
+import { FieldControl, FormControl, FormGroup, FormArray } from 'react-reactive-form';
 
 const FieldControlContainer = styled.div`
   break-inside: avoid;
@@ -58,7 +58,7 @@ export class FieldControlWrapper extends React.Component {
   }
 
   render() {
-    const { name, control, render, meta, strict, ...props } = this.props;
+    const { name, control, render, meta, parent, strict, ...props } = this.props;
     const { allChecked } = this.state;
 
     return (
@@ -67,6 +67,7 @@ export class FieldControlWrapper extends React.Component {
           name={name}
           control={control}
           meta={meta}
+          parent={parent}
           strict={strict}
           render={render({
             ...props,
@@ -84,6 +85,7 @@ export class FieldControlWrapper extends React.Component {
 FieldControlWrapper.defaultProps = {
   emptyOptionText: '',
   hasToggleAll: false,
+  strict: true,
   values: [],
 };
 
@@ -94,9 +96,11 @@ FieldControlWrapper.propTypes = {
   meta: PropTypes.shape({}),
   /** Name of the form element */
   name: PropTypes.string.isRequired,
+  /** Parent element that the current control needs to report to */
+  parent: PropTypes.oneOfType([FormGroup, FormArray]),
   /** Component that needs to be rendered */
   render: PropTypes.func.isRequired,
-  /** When true, will update component when props are updated */
+  /** When true, will update component when props are updated. Otherwise, the component will be memoized */
   strict: PropTypes.bool,
   /** Form values */
   values: PropTypes.arrayOf(PropTypes.shape({})),

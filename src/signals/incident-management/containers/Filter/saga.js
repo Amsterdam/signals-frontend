@@ -1,9 +1,14 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { all, put, takeLatest } from 'redux-saga/effects';
 
-import { authPostCall } from 'shared/services/api/api';
+import { authPostCall, authPatchCall } from 'shared/services/api/api';
 
-import { SAVE_FILTER } from './constants';
-import { filterSaveFailed, filterSaveSuccess } from './actions';
+import { SAVE_FILTER, UPDATE_FILTER } from './constants';
+import {
+  filterSaveFailed,
+  filterSaveSuccess,
+  filterUpdatedFailed,
+  filterUpdatedSuccess,
+} from './actions';
 
 const requestURL = '/signals/user/auth/me/filters';
 
@@ -20,7 +25,11 @@ export function* saveFilter(action) {
       yield put(filterSaveFailed('No name supplied'));
     }
   } catch (error) {
-    if (error.response && error.response.status >= 400 && error.response.status < 500) {
+    if (
+      error.response &&
+      error.response.status >= 400 &&
+      error.response.status < 500
+    ) {
       yield put(filterSaveFailed('Invalid data supplied'));
     } else if (error.response && error.response.status >= 500) {
       yield put(filterSaveFailed('Internal server error'));
@@ -30,6 +39,32 @@ export function* saveFilter(action) {
   }
 }
 
+export function* updateFilter(action) {
+  const filterData = action.payload;
+
+  try {
+    yield put(filterUpdatedSuccess(filterData));
+    const result = yield authPatchCall(requestURL, filterData);
+
+    yield put(filterUpdatedSuccess(result));
+  } catch (error) {
+    if (
+      error.response &&
+      error.response.status >= 400 &&
+      error.response.status < 500
+    ) {
+      yield put(filterUpdatedFailed('Invalid data supplied'));
+    } else if (error.response && error.response.status >= 500) {
+      yield put(filterUpdatedFailed('Internal server error'));
+    } else {
+      yield put(filterUpdatedFailed(error));
+    }
+  }
+}
+
 export default function* watchFilterSaga() {
-  yield takeLatest(SAVE_FILTER, saveFilter);
+  yield all([
+    takeLatest(SAVE_FILTER, saveFilter),
+    takeLatest(UPDATE_FILTER, updateFilter),
+  ]);
 }

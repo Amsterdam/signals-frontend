@@ -14,15 +14,15 @@ import {
   mainCategoryFilterSelectionChanged as onMainCategoryFilterSelectionChanged,
 } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 import makeSelectOverviewPage from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
-import Filter from 'signals/incident-management/components/Filter';
+import FilterForm from 'signals/incident-management/components/FilterForm';
 import { makeSelectActiveFilter } from './selectors';
 
 import saga from './saga';
 import reducer from './reducer';
-import { filterSaved } from './actions';
+import { filterSaved, filterUpdated, filterCleared } from './actions';
 
 export const FiltersContainerComponent = (props) => (
-  <Filter {...props} {...props.overviewpage} />
+  <FilterForm {...props} {...props.overviewpage} />
 );
 
 FiltersContainerComponent.propTypes = {
@@ -36,7 +36,12 @@ FiltersContainerComponent.propTypes = {
       }),
     ),
     mainToSub: PropTypes.shape({
-      [PropTypes.string]: PropTypes.arrayOf(PropTypes.string),
+      [PropTypes.string]: PropTypes.arrayOf(
+        PropTypes.shape({
+          key: PropTypes.string.isRequired,
+          value: PropTypes.string.isRequired,
+        }),
+      ),
     }),
     sub: PropTypes.arrayOf(
       PropTypes.shape({
@@ -72,7 +77,9 @@ FiltersContainerComponent.propTypes = {
       }),
     ),
   }),
-  onApplyFilters: PropTypes.func.isRequired,
+  onSaveFilter: PropTypes.func.isRequired,
+  onClearFilter: PropTypes.func.isRequired,
+  onUpdateFilter: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -84,10 +91,12 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
+      onClearFilter: filterCleared,
       onIncidentSelected,
       onMainCategoryFilterSelectionChanged,
       onRequestIncidents,
-      onApplyFilters: filterSaved,
+      onSaveFilter: filterSaved,
+      onUpdateFilter: filterUpdated,
     },
     dispatch,
   );
