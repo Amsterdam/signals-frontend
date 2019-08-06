@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect';
 
-const selectGlobal = (state) => state.get('global');
+import { initialState } from './reducer';
+
+const selectGlobal = (state) => state.get('global') || initialState;
 
 const selectRoute = (state) => state.get('route');
 

@@ -1,4 +1,4 @@
-import { all, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import { authPostCall, authPatchCall } from 'shared/services/api/api';
 
@@ -10,15 +10,15 @@ import {
   filterUpdatedSuccess,
 } from './actions';
 
-const requestURL = '/signals/user/auth/me/filters';
+export const requestURL = '/signals/v1/private/me/filters';
 
 export function* saveFilter(action) {
   const filterData = action.payload;
 
   try {
     if (filterData.name) {
-      yield put(filterSaveSuccess(filterData));
-      const result = yield authPostCall(requestURL, filterData);
+      // yield put(filterSaveSuccess(filterData));
+      const result = yield call(authPostCall, requestURL, filterData);
 
       yield put(filterSaveSuccess(result));
     } else {
@@ -43,8 +43,8 @@ export function* updateFilter(action) {
   const filterData = action.payload;
 
   try {
-    yield put(filterUpdatedSuccess(filterData));
-    const result = yield authPatchCall(requestURL, filterData);
+    // yield put(filterUpdatedSuccess(filterData));
+    const result = yield call(authPatchCall, requestURL, filterData);
 
     yield put(filterUpdatedSuccess(result));
   } catch (error) {

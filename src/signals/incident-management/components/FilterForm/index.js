@@ -250,7 +250,7 @@ const FilterForm = ({
           <Label as="span">Categorie</Label>
 
           {Object.keys(categories.mainToSub)
-            .filter((key) => !!key)
+            .filter((key) => !!key) // remove elements without 'key' prop
             .sort()
             .map((mainCategory) => (
               <CheckboxList

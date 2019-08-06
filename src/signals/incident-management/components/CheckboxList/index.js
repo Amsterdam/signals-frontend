@@ -48,7 +48,6 @@ const CheckboxList = ({
   clusterName,
   defaultValue,
   groupName,
-  hasToggle,
   options,
   title,
   toggleFieldName,
@@ -79,9 +78,9 @@ const CheckboxList = ({
       `input[type="checkbox"][name="${toggleFieldName}"]`,
     );
 
-    if (mainSlugCheckbox) {
-      mainSlugCheckbox.checked = false;
-    }
+    if (!mainSlugCheckbox) return;
+
+    mainSlugCheckbox.checked = false;
   };
 
   /**
@@ -108,17 +107,17 @@ const CheckboxList = ({
    * @param   {String} [indexName=key] - the name of the prop who's value should be compared
    * @returns {Boolean}
    */
-  const isDefaultChecked = (key, indexName = 'key') =>
-    defaultValue.findIndex((value) => value[indexName] === key) >= 0;
+  const isDefaultChecked = (key) =>
+    defaultValue.findIndex((value) => value.key === key) >= 0;
 
   // mount
   useEffect(() => {
-    if (isDefaultChecked(groupName, 'slug')) {
+    if (isDefaultChecked(groupName)) {
       setGroupChecked(true);
     }
   }, []);
 
-  const displayToggle = hasToggle && !!toggleLabel && !!toggleFieldName;
+  const displayToggle = !!toggleLabel && !!toggleFieldName;
 
   return (
     <FilterGroup ref={groupContainer}>
@@ -136,7 +135,7 @@ const CheckboxList = ({
 
           <input
             type="checkbox"
-            data-value={isDefaultChecked(groupName, 'slug') ? 'all' : 'none'}
+            data-value={isDefaultChecked(groupName) ? 'all' : 'none'}
             name={toggleFieldName}
             id={`${groupName}_toggle`}
             onClick={handleToggleCheck}
@@ -145,14 +144,14 @@ const CheckboxList = ({
         </Fragment>
       )}
 
-      {options.map(({ key, slug, value }) => (
+      {options.map(({ key, value }) => (
         <div className="antwoord" key={key}>
           <input
             type="checkbox"
             id={key}
             name={`${groupName}${clusterName ? `_${clusterName}` : ''}`}
-            value={slug || key}
-            defaultChecked={isDefaultChecked(key) || isDefaultChecked(slug)}
+            value={key}
+            defaultChecked={isDefaultChecked(key)}
             onClick={handleIndividualCheck}
           />
           <label htmlFor={key}>{value}</label>
@@ -184,21 +183,22 @@ CheckboxList.propTypes = {
    * to select them all.
    */
   groupName: PropTypes.string.isRequired,
-  /** When true, will show a label for a hidden checkbox element that (de)selects all boxes */
-  hasToggle: PropTypes.bool,
   /** Values to be rendered as checkbox elements */
   options: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
-      slug: PropTypes.string,
       value: PropTypes.string.isRequired,
     }),
   ).isRequired,
   /** Group label contents */
   title: PropTypes.string,
-  /** Required when setting `hasToggle` */
-  toggleLabel: PropTypes.string,
+  /**
+   * Name of the toggle field as it should appear in the form data. Note that both `toggleLabel` and `toggleFieldName`
+   * are required to render the group's toggle
+   */
   toggleFieldName: PropTypes.string,
+  /** Text label for the group toggle */
+  toggleLabel: PropTypes.string,
 };
 
 export default CheckboxList;

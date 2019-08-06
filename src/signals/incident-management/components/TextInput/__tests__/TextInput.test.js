@@ -21,21 +21,4 @@ describe('<TextInput />', () => {
     expect(container.firstChild.querySelector('input[type="text"][id="formmy_input"]')).toBeTruthy();
     expect(container.firstChild.querySelector('label[for="formmy_input"]')).toBeTruthy();
   });
-
-  it('should render a caption', () => {
-    const props = {
-      name: 'my_input',
-      display: '',
-      placeholder: 'placeholder',
-      handler: jest.fn(),
-      caption: 'Here be a caption',
-    };
-
-    const TextInputRender = TextInput(props);
-    const { container } = render(
-      withAppContext(<TextInputRender {...props} />),
-    );
-
-    expect(container.firstChild.textContent).toEqual(props.caption);
-  });
 });

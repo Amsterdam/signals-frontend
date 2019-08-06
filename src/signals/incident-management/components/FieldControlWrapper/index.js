@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import sortBy from 'lodash.sortby';
 import styled from 'styled-components';
-import { FieldControl, FormControl, FormGroup, FormArray } from 'react-reactive-form';
+import {
+  FieldControl,
+  FormControl,
+  FormGroup,
+  FormArray,
+} from 'react-reactive-form';
 
 const FieldControlContainer = styled.div`
   break-inside: avoid;
@@ -28,11 +33,8 @@ export class FieldControlWrapper extends React.Component {
     super(props);
 
     this.state = {
-      allChecked: false,
       values: FieldControlWrapper.formatValues(props),
     };
-
-    this.toggleChecked = this.toggleChecked.bind(this);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -51,15 +53,8 @@ export class FieldControlWrapper extends React.Component {
     }
   }
 
-  toggleChecked() {
-    this.setState((state) => ({
-      allChecked: !state.allChecked,
-    }));
-  }
-
   render() {
-    const { name, control, render, meta, parent, strict, ...props } = this.props;
-    const { allChecked } = this.state;
+    const { name, control, render, meta, parent, ...props } = this.props;
 
     return (
       <FieldControlContainer>
@@ -68,13 +63,10 @@ export class FieldControlWrapper extends React.Component {
           control={control}
           meta={meta}
           parent={parent}
-          strict={strict}
           render={render({
             ...props,
             values: this.state.values,
             name,
-            allChecked,
-            toggleChecked: this.toggleChecked,
           })}
         />
       </FieldControlContainer>
@@ -84,8 +76,6 @@ export class FieldControlWrapper extends React.Component {
 
 FieldControlWrapper.defaultProps = {
   emptyOptionText: '',
-  hasToggleAll: false,
-  strict: true,
   values: [],
 };
 
@@ -100,8 +90,6 @@ FieldControlWrapper.propTypes = {
   parent: PropTypes.oneOfType([FormGroup, FormArray]),
   /** Component that needs to be rendered */
   render: PropTypes.func.isRequired,
-  /** When true, will update component when props are updated. Otherwise, the component will be memoized */
-  strict: PropTypes.bool,
   /** Form values */
   values: PropTypes.arrayOf(PropTypes.shape({})),
 };

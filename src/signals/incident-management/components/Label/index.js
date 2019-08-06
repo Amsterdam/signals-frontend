@@ -32,7 +32,6 @@ const Label = ({ htmlFor, as, ...rest }) => (
 
 Label.defaultProps = {
   as: 'label',
-  caption: '',
   isGroupHeader: true,
 };
 

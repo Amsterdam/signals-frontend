@@ -74,8 +74,8 @@ export const parseInputFormData = (filterData, dataLists) => {
 
   const parsed = clonedeep(filterData);
 
-  // convert scalar values to arrays
   if (Object.keys(filterData).length) {
+    // convert scalar values to arrays
     Object.keys(filterData).forEach((fieldName) => {
       if (
         arrayFields.includes(fieldName) &&
@@ -85,6 +85,7 @@ export const parseInputFormData = (filterData, dataLists) => {
       }
     });
 
+    // replace string entries in filter data with objects from dataLists
     Object.keys(parsed)
       .filter((fieldName) => arrayFields.includes(fieldName))
       .forEach((fieldName) => {
@@ -94,6 +95,23 @@ export const parseInputFormData = (filterData, dataLists) => {
           ),
         );
       });
+
+    // make sure all objects in filterData have the correct values for their 'key' prop
+    if (parsed.main_slug) {
+      parsed.main_slug = parsed.main_slug.map((obj) => ({
+        ...obj,
+        key: obj.slug,
+      }));
+    }
+
+    if (parsed.sub_slug) {
+      parsed.sub_slug = parsed.sub_slug.map((obj) => ({
+        ...obj,
+        key: obj.slug,
+      }));
+    }
+
+    debugger;
   }
 
   return parsed;

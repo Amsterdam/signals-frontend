@@ -21,11 +21,11 @@ import saga from './saga';
 import reducer from './reducer';
 import { filterSaved, filterUpdated, filterCleared } from './actions';
 
-export const FiltersContainerComponent = (props) => (
+export const FilterContainerComponent = (props) => (
   <FilterForm {...props} {...props.overviewpage} />
 );
 
-FiltersContainerComponent.propTypes = {
+FilterContainerComponent.propTypes = {
   activeFilter: PropTypes.shape({}),
   categories: PropTypes.shape({
     main: PropTypes.arrayOf(
@@ -113,4 +113,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(FiltersContainerComponent);
+)(FilterContainerComponent);

@@ -11,9 +11,3 @@ export const makeSelectActiveFilter = createSelector(
     return state.activeFilter;
   },
 );
-
-export const makeSelectFilters = () =>
-  createSelector(
-    selectFilters,
-    (substate) => substate.toJS(),
-  );
