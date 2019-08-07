@@ -161,13 +161,13 @@ describe('<Filter />', () => {
   it('should render with set filter correctly ', () => {
     props.filter = {
       id: '',
-      incident_date_start: null,
-      priority__priority: null,
-      main_slug: null,
-      sub_slug: null,
-      location__address_text: null,
-      location__stadsdeel: ['B'],
-      status__state: null,
+      incident_date: null,
+      priority: null,
+      maincategory_slug: null,
+      category_slug: null,
+      address_text: null,
+      stadsdeel: ['B'],
+      status: null,
 
     };
     wrapper = shallow(<Filter {...props} />);
@@ -207,8 +207,8 @@ describe('<Filter />', () => {
       const filterForm = wrapper.instance().filterForm;
       const filterValue = {
         ...filterForm.value,
-        main_slug: ['overlast-van-dieren'],
-        sub_slug: ['ganzen']
+        maincategory_slug: ['overlast-van-dieren'],
+        category_slug: ['ganzen']
       };
 
       props.filter = filterValue;
@@ -225,13 +225,13 @@ describe('<Filter />', () => {
       const filterForm = wrapper.instance().filterForm;
       const filterEmptyValue = {
         id: null,
-        incident_date_start: null,
-        priority__priority: null,
-        main_slug: null,
-        sub_slug: null,
-        location__address_text: null,
-        location__stadsdeel: null,
-        status__state: null,
+        incident_date: null,
+        priority: null,
+        maincategory_slug: null,
+        category_slug: null,
+        address_text: null,
+        stadsdeel: null,
+        status: null,
       };
       const filterValue = { id: 50 };
       filterForm.patchValue(filterValue);
@@ -250,43 +250,43 @@ describe('<Filter />', () => {
       const filterValue = {
         ...filterForm.value,
         id: 50,
-        location__address_text: 'dam'
+        address_text: 'dam'
       };
       filterForm.setValue(filterValue);
       expect(filterForm.value.id).toEqual(filterValue.id);
-      expect(filterForm.value.location__address_text).toEqual(filterValue.location__address_text);
+      expect(filterForm.value.address_text).toEqual(filterValue.address_text);
 
       renderedFormGroup.find('form').simulate('submit', { preventDefault() {} });
       expect(filterForm.value).toEqual(filterValue);
       expect(props.onRequestIncidents).toHaveBeenCalledWith({
         filter: {
           ...filterValue,
-          main_slug: [''],
-          sub_slug: ['']
+          maincategory_slug: [''],
+          category_slug: ['']
         }
       });
     });
 
-    it('should filter when form is submitted with default main_slug and sub_slug', () => {
+    it('should filter when form is submitted with default maincategory_slug and category_slug', () => {
       const filterForm = wrapper.instance().filterForm;
       const filterValue = {
         ...filterForm.value,
-        main_slug: [['']],
-        sub_slug: [['']],
+        maincategory_slug: [['']],
+        category_slug: [['']],
         id: 50,
-        location__address_text: 'dam'
+        address_text: 'dam'
       };
       filterForm.setValue(filterValue);
       expect(filterForm.value.id).toEqual(filterValue.id);
-      expect(filterForm.value.location__address_text).toEqual(filterValue.location__address_text);
+      expect(filterForm.value.address_text).toEqual(filterValue.address_text);
 
       renderedFormGroup.find('form').simulate('submit', { preventDefault() {} });
       expect(filterForm.value).toEqual(filterValue);
       expect(props.onRequestIncidents).toHaveBeenCalledWith({
         filter: {
           ...filterValue,
-          main_slug: null,
-          sub_slug: null
+          maincategory_slug: null,
+          category_slug: null
         }
       });
     });
@@ -295,7 +295,7 @@ describe('<Filter />', () => {
       const filterForm = wrapper.instance().filterForm;
       const filterValue = {
         ...filterForm.value,
-        main_slug: ['', 'overlast-van-dieren'],
+        maincategory_slug: ['', 'overlast-van-dieren'],
       };
       filterForm.setValue(filterValue);
 
@@ -306,7 +306,7 @@ describe('<Filter />', () => {
       const filterForm = wrapper.instance().filterForm;
       const filterValue = {
         ...filterForm.value,
-        main_slug: [],
+        maincategory_slug: [],
       };
       filterForm.setValue(filterValue);
 
