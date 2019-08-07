@@ -42,7 +42,7 @@ describe('IncidentOverviewPage saga', () => {
     const action = { payload: { filter, page, sort } };
     const incidents = {};
 
-    const requestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals';
+    const requestURL = 'https://acc.api.data.amsterdam.nl/signals/auth/signal';
     const params = { test: 'test' };
 
     const gen = fetchIncidents(action);
@@ -60,7 +60,7 @@ describe('IncidentOverviewPage saga', () => {
     const sort = 'days_open';
     const action = { payload: { filter, page, sort } };
 
-    const requestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals';
+    const requestURL = 'https://acc.api.data.amsterdam.nl/signals/auth/signal';
     const params = { ordering: 'days_open' };
 
     const gen = fetchIncidents(action);
@@ -80,7 +80,7 @@ describe('IncidentOverviewPage saga', () => {
     const sort = '-days_open';
     const action = { payload: { filter, page, sort } };
 
-    const requestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals';
+    const requestURL = 'https://acc.api.data.amsterdam.nl/signals/auth/signal';
     const params = { ordering: '-days_open' };
 
     const gen = fetchIncidents(action);
