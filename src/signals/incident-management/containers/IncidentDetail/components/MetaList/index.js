@@ -22,8 +22,8 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
   return (
     <div className="meta-list">
       <dl>
-        <dt className="meta-list__definition">Gemeld op</dt>
-        <dd className="meta-list__value">{string2date(incident.created_at)} {string2time(incident.created_at)}</dd>
+        <dt className="meta-list__definition" data-testid="meta-list-date-definition">Gemeld op</dt>
+        <dd className="meta-list__value" data-testid="meta-list-date-value">{string2date(incident.created_at)} {string2time(incident.created_at)}</dd>
 
         <Highlight
           subscribeTo={incident.status.state}
@@ -82,15 +82,15 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
 
         {parent ?
           (<span>
-            <dt className="meta-list__definition">Oorspronkelijke melding</dt>
-            <dd className="meta-list__value"><NavLink className="meta-list__link" to={`/manage/incident/${getId(parent)}`}>{getId(parent)}</NavLink></dd>
+            <dt className="meta-list__definition" data-testid="meta-list-parent-definition">Oorspronkelijke melding</dt>
+            <dd className="meta-list__value" data-testid="meta-list-parent-value"><NavLink className="meta-list__link" to={`/manage/incident/${getId(parent)}`}>{getId(parent)}</NavLink></dd>
           </span>)
           : ''}
 
         {children && children.length > 0 ?
           (<span>
-            <dt className="meta-list__definition">Gesplitst in</dt>
-            <dd className="meta-list__value">{children.map((child) =>
+            <dt className="meta-list__definition" data-testid="meta-list-children-definition">Gesplitst in</dt>
+            <dd className="meta-list__value" data-testid="meta-list-children-value">{children.map((child) =>
               (<NavLink className="meta-list__link" key={child.href} to={`/manage/incident/${getId(child)}`}>{getId(child)}</NavLink>))}</dd>
           </span>)
           : ''}
@@ -99,13 +99,13 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
           subscribeTo={incident.category.departments}
         >
           <dl>
-            <dt className="meta-list__definition">Verantwoordelijke afdeling</dt>
-            <dd className="meta-list__value">{incident.category.departments}</dd>
+            <dt className="meta-list__definition" data-testid="meta-list-department-definition">Verantwoordelijke afdeling</dt>
+            <dd className="meta-list__value" data-testid="meta-list-department-value">{incident.category.departments}</dd>
           </dl>
         </Highlight>
 
-        <dt className="meta-list__definition">Bron</dt>
-        <dd className="meta-list__value">{incident.source}</dd>
+        <dt className="meta-list__definition" data-testid="meta-list-source-definition">Bron</dt>
+        <dd className="meta-list__value" data-testid="meta-list-source-value">{incident.source}</dd>
 
       </dl>
     </div>
