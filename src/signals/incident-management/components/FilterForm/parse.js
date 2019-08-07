@@ -110,8 +110,6 @@ export const parseInputFormData = (filterData, dataLists) => {
         key: obj.slug,
       }));
     }
-
-    debugger;
   }
 
   return parsed;
