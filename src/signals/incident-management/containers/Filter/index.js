@@ -26,7 +26,6 @@ export const FilterContainerComponent = (props) => (
 );
 
 FilterContainerComponent.propTypes = {
-  activeFilter: PropTypes.shape({}),
   categories: PropTypes.shape({
     main: PropTypes.arrayOf(
       PropTypes.shape({
@@ -54,7 +53,31 @@ FilterContainerComponent.propTypes = {
     ),
   }),
   overviewpage: PropTypes.shape({
-    filter: PropTypes.shape({}),
+    filter: PropTypes.shape({
+      incident_date_start: PropTypes.string,
+      location__address_text: PropTypes.string,
+      location__stadsdeel: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      main_slug: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      name: PropTypes.string,
+      priority__priority: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      status__state: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      sub_slug: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+    }),
     filterSubCategoryList: PropTypes.arrayOf(PropTypes.shape({})),
     priorityList: PropTypes.arrayOf(
       PropTypes.shape({
