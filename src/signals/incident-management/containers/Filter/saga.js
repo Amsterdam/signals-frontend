@@ -17,7 +17,6 @@ export function* saveFilter(action) {
 
   try {
     if (filterData.name) {
-      // yield put(filterSaveSuccess(filterData));
       const result = yield call(authPostCall, requestURL, filterData);
 
       yield put(filterSaveSuccess(result));
@@ -43,7 +42,6 @@ export function* updateFilter(action) {
   const filterData = action.payload;
 
   try {
-    // yield put(filterUpdatedSuccess(filterData));
     const result = yield call(authPatchCall, requestURL, filterData);
 
     yield put(filterUpdatedSuccess(result));
