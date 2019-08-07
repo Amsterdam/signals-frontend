@@ -9,7 +9,7 @@ import { requestIncidentsSuccess, requestIncidentsError, filterIncidentsChanged,
 import { makeSelectFilterParams } from './selectors';
 
 export function* fetchIncidents(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals/`;
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/auth/signal/`;
 
   try {
     const filter = action.payload.filter;
