@@ -66,7 +66,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
         {formVisible ?
           <FieldGroup
             control={this.form}
-            render={({ invalid }) => (
+            render={() => (
               <form onSubmit={this.handleSubmit} className="change-value__form">
                 <div>
                   <FieldControlWrapper
@@ -79,8 +79,8 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
                     sort={sort}
                   />
 
-                  <button className="change-value__form-submit action primary" type="submit" disabled={invalid}>Opslaan</button>
-                  <button className="change-value__form-cancel action secundary-grey" onClick={this.handleCancel}>Annuleren</button>
+                  <button className="change-value__form-submit action primary" type="submit">Opslaan</button>
+                  <button className="change-value__form-cancel action secundary-grey" type="button" onClick={this.handleCancel}>Annuleren</button>
                 </div>
               </form>
               )}
@@ -88,7 +88,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
         :
           <dd className={valueClass}>
             <button className="change-value__edit incident-detail__button--edit" onClick={this.showForm} disabled={disabled} />
-            {getListValueByKey(list, get(incident, valuePath || path))}
+            <span className="change-value__value">{getListValueByKey(list, get(incident, valuePath || path))}</span>
           </dd>
         }
       </dl>
