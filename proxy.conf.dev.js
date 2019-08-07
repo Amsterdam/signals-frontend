@@ -6,9 +6,9 @@ const PROXY_CONFIG = {
     changeOrigin: true,
     logLevel: 'debug',
   },
-  '/signals/user/auth/me/*': {
+  '/signals/v1/private/me/*': {
     target: 'http://localhost:5001',
-    pathRewrite: { '^/signals/user/auth/me/': '' },
+    pathRewrite: { '^/signals/v1/private/me/': '' },
     secure: false,
     changeOrigin: true,
     logLevel: 'debug',

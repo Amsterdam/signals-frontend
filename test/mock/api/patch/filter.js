@@ -5,12 +5,8 @@ import stadsdeel from '../../../../src/signals/incident-management/definitions/s
 
 const filter = {
   path: '/filters',
-  method: 'POST',
+  method: 'PATCH',
   cache: false,
-  status: (req, res, next) => {
-    res.status(201);
-    next();
-  },
   template: (params, query, body) => {
     const {
       name = '',
