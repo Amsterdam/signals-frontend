@@ -37,7 +37,7 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
           </dl>
         </Highlight>
 
-        { incident.priority && <Highlight
+        <Highlight
           subscribeTo={incident.priority.priority}
         >
           <ChangeValue
@@ -50,7 +50,7 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
             type="priority"
             onPatchIncident={onPatchIncident}
           />
-        </Highlight> }
+        </Highlight>
 
         <Highlight
           subscribeTo={incident.category.sub_slug}
@@ -91,7 +91,7 @@ const MetaList = ({ incident, subcategories, priorityList, onPatchIncident, onEd
           (<span>
             <dt className="meta-list__definition" data-testid="meta-list-children-definition">Gesplitst in</dt>
             <dd className="meta-list__value" data-testid="meta-list-children-value">{children.map((child) =>
-              (<NavLink className="meta-list__link" key={child.href} to={`/manage/incident/${getId(child)}`}>{getId(child)}</NavLink>))}</dd>
+              (<NavLink className="meta-list__link" key={child.href} to={`/manage/incident/${getId(child)}`}>{getId(child)} </NavLink>))}</dd>
           </span>)
           : ''}
 
