@@ -30,6 +30,10 @@ export const ButtonContainer = styled(Column)`
   justify-content: flex-start;
 `;
 
+export const SubmitButton = styled(Button).attrs({
+  color: 'secondary',
+})``;
+
 export const ResetButton = styled(Button)`
   margin-right: auto;
 `;

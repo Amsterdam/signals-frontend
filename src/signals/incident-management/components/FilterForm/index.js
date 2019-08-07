@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Row } from '@datapunt/asc-ui';
+import { Row } from '@datapunt/asc-ui';
 import isEqual from 'lodash.isequal';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
@@ -10,15 +10,19 @@ import CheckboxList from '../CheckboxList';
 import Label from '../Label';
 import { parseInputFormData, parseOutputFormData } from './parse';
 import {
-  Form,
-  FormFooter,
   ButtonContainer,
-  ResetButton,
   CancelButton,
   ControlsWrapper,
-  FilterGroup,
   Fieldset,
+  FilterGroup,
+  Form,
+  FormFooter,
+  ResetButton,
+  SubmitButton,
 } from './styled';
+
+export const defaultSubmitBtnLabel = 'Filteren';
+export const saveSubmitBtnLabel = 'Opslaan en filteren';
 
 /**
  * Component that renders the incident filter form
@@ -48,9 +52,6 @@ const FilterForm = ({
     sub_slug: categories.sub,
   });
 
-  const defaultSubmitBtnLabel = 'Filteren';
-  const saveSubmitBtnLabel = 'Opslaan en filteren';
-
   const [submitBtnLabel, setSubmitBtnLabel] = useState(defaultSubmitBtnLabel);
   const [filterData, setFilterData] = useState(parsedfilterData);
 
@@ -59,17 +60,30 @@ const FilterForm = ({
   );
 
   const onSubmitForm = (event) => {
-    const formData = parseOutputFormData(event.target);
+    const formData = parseOutputFormData(event.target.form);
     const isNewFilter = !filterData.name;
+    const valuesHaveChanged = !isEqual(formData, filterData);
 
+    /* istanbul ignore else */
     if (typeof onSaveFilter === 'function' && isNewFilter) {
       onSaveFilter(formData);
     }
 
-    if (typeof onUpdateFilter === 'function' && !isNewFilter) {
+    /* istanbul ignore else */
+    if (
+      typeof onUpdateFilter === 'function' &&
+      !isNewFilter &&
+      valuesHaveChanged
+    ) {
+      if (formData.name.trim() === '') {
+        event.preventDefault();
+        global.window.alert('Filter naam mag niet leeg zijn');
+        return;
+      }
       onUpdateFilter(formData);
     }
 
+    /* istanbul ignore else */
     if (typeof onSubmit === 'function') {
       onSubmit(event);
     }
@@ -85,10 +99,11 @@ const FilterForm = ({
   const onResetForm = () => {
     setFilterData({
       name: '',
-      incident_date_start: '',
+      incident_date_start: null,
       location__address_text: '',
     });
 
+    /* istanbul ignore else */
     if (typeof onClearFilter === 'function') {
       onClearFilter();
     }
@@ -97,6 +112,7 @@ const FilterForm = ({
   const onChangeForm = (event) => {
     const isNewFilter = !filterData.name;
 
+    /* istanbul ignore else */
     if (isNewFilter) {
       return;
     }
@@ -105,6 +121,7 @@ const FilterForm = ({
     const valuesHaveChanged = !isEqual(formData, filterData);
     const btnHasSaveLabel = submitBtnLabel === saveSubmitBtnLabel;
 
+    /* istanbul ignore else */
     if (valuesHaveChanged) {
       if (!btnHasSaveLabel) {
         setSubmitBtnLabel(saveSubmitBtnLabel);
@@ -113,6 +130,7 @@ const FilterForm = ({
       return;
     }
 
+    /* istanbul ignore else */
     if (!btnHasSaveLabel) {
       return;
     }
@@ -121,30 +139,19 @@ const FilterForm = ({
   };
 
   const onNameChange = (event) => {
-    const isNewFilter = !filterData.name;
     const { value } = event.target;
-    const nameHasChanged = !!value && value.trim() !== filterData.name;
-
-    if (!isNewFilter) {
-      return;
-    }
+    const nameHasChanged =
+      typeof value === 'string' && value.trim() !== filterData.name;
 
     if (nameHasChanged) {
       setSubmitBtnLabel(saveSubmitBtnLabel);
-      return;
+    } else {
+      setSubmitBtnLabel(defaultSubmitBtnLabel);
     }
-
-    setSubmitBtnLabel(defaultSubmitBtnLabel);
   };
 
   return (
-    <Form
-      action=""
-      novalidate
-      onChange={onChangeForm}
-      onReset={onResetForm}
-      onSubmit={onSubmitForm}
-    >
+    <Form action="" novalidate onChange={onChangeForm}>
       <ControlsWrapper>
         <Fieldset>
           <legend className="hiddenvisually">Naam van het filter</legend>
@@ -165,51 +172,67 @@ const FilterForm = ({
         <Fieldset>
           <legend>Filter parameters</legend>
 
-          <FilterGroup>
-            <Label htmlFor={`status_${status__state[0].key}`}>Status</Label>
-            <CheckboxList
-              defaultValue={filterData.status__state}
-              groupName="status__state"
-              options={status__state}
-            />
-          </FilterGroup>
+          {Array.isArray(status__state) && status__state.length > 0 && (
+            <FilterGroup data-testid="statusFilterGroup">
+              <Label htmlFor={`status_${status__state[0].key}`}>Status</Label>
+              <CheckboxList
+                defaultValue={filterData.status__state}
+                groupName="status__state"
+                options={status__state}
+              />
+            </FilterGroup>
+          )}
 
-          <FilterGroup>
-            <Label htmlFor={`status_${location__stadsdeel[0].key}`}>
-              Stadsdeel
-            </Label>
-            <CheckboxList
-              defaultValue={filterData.location__stadsdeel}
-              groupName="location__stadsdeel"
-              options={location__stadsdeel}
-            />
-          </FilterGroup>
+          {Array.isArray(location__stadsdeel) &&
+            location__stadsdeel.length > 0 && (
+              <FilterGroup data-testid="stadsdeelFilterGroup">
+                <Label htmlFor={`status_${location__stadsdeel[0].key}`}>
+                  Stadsdeel
+                </Label>
+                <CheckboxList
+                  defaultValue={filterData.location__stadsdeel}
+                  groupName="location__stadsdeel"
+                  options={location__stadsdeel}
+                />
+              </FilterGroup>
+            )}
 
-          <FilterGroup>
-            <Label htmlFor={`status_${priority__priority[0].key}`}>
-              Urgentie
-            </Label>
-            <CheckboxList
-              defaultValue={filterData.priority__priority}
-              groupName="priority__priority"
-              options={priority__priority}
-            />
-          </FilterGroup>
+          {Array.isArray(priority__priority) && priority__priority.length > 0 && (
+            <FilterGroup data-testid="priorityFilterGroup">
+              <Label htmlFor={`status_${priority__priority[0].key}`}>
+                Urgentie
+              </Label>
+              <CheckboxList
+                defaultValue={filterData.priority__priority}
+                groupName="priority__priority"
+                options={priority__priority}
+              />
+            </FilterGroup>
+          )}
 
           <FilterGroup>
             <Label htmlFor="filter_date">Datum</Label>
             <div className="invoer">
               <DatePicker
                 id="filter_date"
-                onChange={(dateValue) => {
-                  if (!dateValue) return;
+                /**
+                 * Ignoring the internals of the `onChange` handler since they cannot be tested
+                 * @see https://github.com/Hacker0x01/react-datepicker/issues/1578
+                 */
+                onChange={
+                  /* istanbul ignore next */ (dateValue) => {
+                    if (!dateValue) return;
 
-                  const formattedDate = moment(dateValue).format('YYYY-MM-DD');
-                  setFilterData({
-                    ...filterData,
-                    incident_date_start: formattedDate,
-                  });
-                }}
+                    const formattedDate = moment(dateValue).format(
+                      'YYYY-MM-DD',
+                    );
+
+                    setFilterData({
+                      ...filterData,
+                      incident_date_start: formattedDate,
+                    });
+                  }
+                }
                 placeholderText="JJJJ-MM-DD"
                 selected={
                   filterData.incident_date_start &&
@@ -217,15 +240,16 @@ const FilterForm = ({
                 }
               />
 
-              <input
-                defaultValue={
-                  filterData.incident_date_start &&
-                  moment(filterData.incident_date_start).format('YYYY-MM-DD')
-                }
-                name="incident_date_start"
-                readOnly
-                type="hidden"
-              />
+              {filterData.incident_date_start && (
+                <input
+                  defaultValue={moment(filterData.incident_date_start).format(
+                    'YYYY-MM-DD',
+                  )}
+                  name="incident_date_start"
+                  readOnly
+                  type="hidden"
+                />
+              )}
             </div>
           </FilterGroup>
 
@@ -273,7 +297,13 @@ const FilterForm = ({
       <FormFooter>
         <Row>
           <ButtonContainer span={12}>
-            <ResetButton type="reset">Reset filter</ResetButton>
+            <ResetButton
+              data-testid="resetBtn"
+              onClick={onResetForm}
+              type="reset"
+            >
+              Reset filter
+            </ResetButton>
 
             <CancelButton
               data-testid="cancelBtn"
@@ -283,14 +313,13 @@ const FilterForm = ({
               Annuleren
             </CancelButton>
 
-            <Button
-              color="secondary"
-              data-testid="submitBtn"
+            <SubmitButton
               name="submit_button"
+              onClick={onSubmitForm}
               type="submit"
             >
               {submitBtnLabel}
-            </Button>
+            </SubmitButton>
           </ButtonContainer>
         </Row>
       </FormFooter>
@@ -299,7 +328,9 @@ const FilterForm = ({
 };
 
 FilterForm.defaultProps = {
-  filter: {},
+  filter: {
+    name: '',
+  },
 };
 
 FilterForm.propTypes = {
@@ -327,7 +358,7 @@ FilterForm.propTypes = {
         value: PropTypes.string.isRequired,
       }),
     ),
-  }),
+  }).isRequired,
   filter: PropTypes.shape({
     incident_date_start: PropTypes.string,
     location__address_text: PropTypes.string,

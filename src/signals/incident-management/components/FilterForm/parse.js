@@ -1,14 +1,14 @@
 import clonedeep from 'lodash.clonedeep';
 
 /**
- * Parse form data for
+ * Parse form data for consumption by global store actions
  *
  * The data required for filtering incidents should contain values for keys 'main_slug' and 'sub_slug'
  * If the form data contains entries for main_slug, it means that 'Select all' has been toggled. If it contains entries
  * for sub_slug, individual entries have been selected. If an entry for main_slug is found in the form data, all
  * corresponding entries for sub_slug are removed. Individual sub_slug entries are grouped under the key 'sub_slug'.
  *
- * @param   {FormData} formData
+ * @param   {HTMLFormElement} - Form element from which the data should be extracted
  * @returns {Object}
  */
 export const parseOutputFormData = (form) => {
@@ -35,8 +35,9 @@ export const parseOutputFormData = (form) => {
   }
 
   // consolidate sub_slug entries
-  Object.keys(parsed).forEach((key) => {
-    if (key.endsWith('_sub_slug')) {
+  Object.keys(parsed)
+    .filter((key) => key.endsWith('_sub_slug'))
+    .forEach((key) => {
       const subSlugs = parsed[key];
       delete parsed[key];
 
@@ -49,8 +50,7 @@ export const parseOutputFormData = (form) => {
       } else {
         parsed.sub_slug = [...parsed.sub_slug, subSlugs];
       }
-    }
-  });
+    });
 
   return parsed;
 };
@@ -65,15 +65,16 @@ export const parseOutputFormData = (form) => {
  */
 export const parseInputFormData = (filterData, dataLists) => {
   const arrayFields = [
+    'location__stadsdeel',
     'main_slug',
-    'sub_slug',
     'priority__priority',
     'status__state',
-    'location__stadsdeel',
+    'sub_slug',
   ];
 
   const parsed = clonedeep(filterData);
 
+  /* istanbul ignore else */
   if (Object.keys(filterData).length) {
     // convert scalar values to arrays
     Object.keys(filterData).forEach((fieldName) => {
