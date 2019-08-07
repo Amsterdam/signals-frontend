@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { fromJS } from 'immutable';
+import toJSON from 'enzyme-to-json';
 
 import { getContext } from 'test/utils';
 import { IncidentContainer, mapDispatchToProps } from './index';
@@ -36,7 +37,7 @@ describe('<IncidentContainer />', () => {
       const context = getContext(state);
       const wrapper = shallow(<IncidentContainer {...props} />, { context });
 
-      expect(wrapper).toMatchSnapshot();
+      expect(toJSON(wrapper)).toMatchSnapshot();
     });
   });
 
