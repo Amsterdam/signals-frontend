@@ -28,7 +28,6 @@ describe('<ChangeValue />', () => {
       ],
       display: 'De letter',
       path: 'incident.mockPath',
-      // valuePath: 'incident.mockValuePath',
       patch: {},
       disabled: false,
       sort: false,
