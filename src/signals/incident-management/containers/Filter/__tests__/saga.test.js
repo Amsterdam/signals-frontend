@@ -1,6 +1,7 @@
 import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { takeLatest } from 'redux-saga/effects';
+import { throwError } from 'redux-saga-test-plan/providers';
 
 import { authPostCall, authPatchCall } from 'shared/services/api/api';
 import filterSaga, { saveFilter, updateFilter, requestURL } from '../saga';
@@ -72,13 +73,10 @@ describe('signals/incident-management/containers/Filter/saga', () => {
         status: 300,
       };
 
-      testSaga(saveFilter, action)
-        .next()
-        .call(authPostCall, requestURL, payload)
-        .throw(error)
+      expectSaga(saveFilter, action)
+        .provide([[matchers.call.fn(requestURL), throwError(error)]])
         .put(filterSaveFailed(error))
-        .next()
-        .isDone();
+        .run();
     });
 
     it('catches 400', () => {
@@ -87,13 +85,10 @@ describe('signals/incident-management/containers/Filter/saga', () => {
         status: 400,
       };
 
-      testSaga(saveFilter, action)
-        .next()
-        .call(authPostCall, requestURL, payload)
-        .throw(error)
+      expectSaga(saveFilter, action)
+        .provide([[matchers.call.fn(requestURL), throwError(error)]])
         .put(filterSaveFailed('Invalid data supplied'))
-        .next()
-        .isDone();
+        .run();
     });
 
     it('catches 500', () => {
@@ -102,13 +97,10 @@ describe('signals/incident-management/containers/Filter/saga', () => {
         status: 500,
       };
 
-      testSaga(saveFilter, action)
-        .next()
-        .call(authPostCall, requestURL, payload)
-        .throw(error)
+      expectSaga(saveFilter, action)
+        .provide([[matchers.call.fn(requestURL), throwError(error)]])
         .put(filterSaveFailed('Internal server error'))
-        .next()
-        .isDone();
+        .run();
     });
   });
 
@@ -151,13 +143,10 @@ describe('signals/incident-management/containers/Filter/saga', () => {
         status: 300,
       };
 
-      testSaga(updateFilter, action)
-        .next()
-        .call(authPatchCall, requestURL, payload)
-        .throw(error)
+      expectSaga(updateFilter, action)
+        .provide([[matchers.call.fn(requestURL), throwError(error)]])
         .put(filterUpdatedFailed(error))
-        .next()
-        .isDone();
+        .run();
     });
 
     it('catches 400', () => {
@@ -166,13 +155,10 @@ describe('signals/incident-management/containers/Filter/saga', () => {
         status: 400,
       };
 
-      testSaga(updateFilter, action)
-        .next()
-        .call(authPatchCall, requestURL, payload)
-        .throw(error)
-        .put(filterUpdatedFailed('Invalid data supplied'))
-        .next()
-        .isDone();
+      expectSaga(updateFilter, action)
+        .provide([[matchers.call.fn(requestURL), throwError(error)]])
+        .put(filterSaveFailed('Invalid data supplied'))
+        .run();
     });
 
     it('catches 500', () => {
@@ -181,13 +167,10 @@ describe('signals/incident-management/containers/Filter/saga', () => {
         status: 500,
       };
 
-      testSaga(updateFilter, action)
-        .next()
-        .call(authPatchCall, requestURL, payload)
-        .throw(error)
-        .put(filterUpdatedFailed('Internal server error'))
-        .next()
-        .isDone();
+      expectSaga(updateFilter, action)
+        .provide([[matchers.call.fn(requestURL), throwError(error)]])
+        .put(filterSaveFailed('Internal server error'))
+        .run();
     });
   });
 });

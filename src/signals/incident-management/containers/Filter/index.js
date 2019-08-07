@@ -15,7 +15,6 @@ import {
 } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 import makeSelectOverviewPage from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 import FilterForm from 'signals/incident-management/components/FilterForm';
-import { makeSelectActiveFilter } from './selectors';
 
 import saga from './saga';
 import reducer from './reducer';
@@ -108,7 +107,6 @@ FilterContainerComponent.propTypes = {
 const mapStateToProps = createStructuredSelector({
   overviewpage: makeSelectOverviewPage(),
   categories: makeSelectCategories(),
-  activeFilter: makeSelectActiveFilter,
 });
 
 const mapDispatchToProps = (dispatch) =>

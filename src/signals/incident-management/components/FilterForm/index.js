@@ -334,9 +334,6 @@ FilterForm.defaultProps = {
 };
 
 FilterForm.propTypes = {
-  activeFilter: PropTypes.shape({
-    name: PropTypes.string,
-  }),
   categories: PropTypes.shape({
     mainToSub: PropTypes.shape({
       [PropTypes.string]: PropTypes.arrayOf(
