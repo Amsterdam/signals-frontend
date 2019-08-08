@@ -31,7 +31,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
 
     this.state = {
       previewState: props.previewState, // showLocation, editLocation, editStatus, showImage
-      attachment: props.attachment
+      attachmentHref: props.attachmentHref
     };
 
     this.onThor = this.onThor.bind(this);
@@ -86,35 +86,35 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
   onShowLocation() {
     this.setState({
       previewState: 'showLocation',
-      attachment: '',
+      attachmentHref: '',
     });
   }
 
   onEditLocation() {
     this.setState({
       previewState: 'editLocation',
-      attachment: ''
+      attachmentHref: ''
     });
   }
 
   onEditStatus() {
     this.setState({
       previewState: 'editStatus',
-      attachment: ''
+      attachmentHref: ''
     });
   }
 
-  onShowAttachment(attachment) {
+  onShowAttachment(attachmentHref) {
     this.setState({
       previewState: 'showImage',
-      attachment
+      attachmentHref
     });
   }
 
   onCloseAll() {
     this.setState({
       previewState: '',
-      attachment: ''
+      attachmentHref: ''
     });
   }
 
@@ -122,7 +122,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
     const { id, categories, accessToken, onPatchIncident, onDismissError } = this.props;
     const { list } = this.props.historyModel;
     const { incident, attachments, loading, patching, error, split, stadsdeelList, priorityList, changeStatusOptionList, statusList, defaultTexts } = this.props.incidentModel;
-    const { previewState, attachment } = this.state;
+    const { previewState, attachmentHref } = this.state;
 
     return (
       <div className="incident-detail">
@@ -145,7 +145,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
                   {previewState === 'showImage' ? (
                     <AttachmentViewer
                       attachments={attachments}
-                      attachment={attachment}
+                      href={attachmentHref}
                       onShowAttachment={this.onShowAttachment}
                     />
                 ) : ''}
@@ -236,12 +236,12 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
 
 IncidentDetail.defaultProps = {
   previewState: '',
-  attachment: ''
+  attachmentHref: ''
 };
 
 IncidentDetail.propTypes = {
   previewState: PropTypes.string,
-  attachment: PropTypes.string,
+  attachmentHref: PropTypes.string,
 
   incidentModel: PropTypes.object.isRequired,
   historyModel: PropTypes.object.isRequired,
