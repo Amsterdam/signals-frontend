@@ -127,7 +127,7 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
                 <div className="col-6">
                   <DefaultTexts
                     defaultTexts={defaultTexts}
-                    state={this.form.get('status').value}
+                    status={this.form.get('status').value}
                     onHandleUseDefaultText={this.handleUseDefaultText}
                   />
                 </div>

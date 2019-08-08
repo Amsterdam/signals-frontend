@@ -250,7 +250,7 @@ describe('<StatusForm />', () => {
       });
 
       wrapper.setProps({
-        patching: { lstatusocation: false },
+        patching: { status: false },
         error: { response: { ok: false, status: 500 } }
       });
 
