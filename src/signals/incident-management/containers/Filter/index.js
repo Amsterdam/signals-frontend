@@ -4,22 +4,27 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 
-import { makeSelectCategories } from 'containers/App/selectors';
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
 
+import { makeSelectCategories } from 'containers/App/selectors';
 import {
   requestIncidents as onRequestIncidents,
   incidentSelected as onIncidentSelected,
   mainCategoryFilterSelectionChanged as onMainCategoryFilterSelectionChanged,
 } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 import makeSelectOverviewPage from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
+import FilterForm from 'signals/incident-management/components/FilterForm';
 
-import Filter from 'signals/incident-management/components/Filter';
+import saga from './saga';
+import reducer from './reducer';
+import { filterSaved, filterUpdated, filterCleared } from './actions';
 
-export const FiltersContainerComponent = (props) => (
-  <Filter {...props} {...props.overviewpage} />
+export const FilterContainerComponent = (props) => (
+  <FilterForm {...props} {...props.overviewpage} />
 );
 
-FiltersContainerComponent.propTypes = {
+FilterContainerComponent.propTypes = {
   categories: PropTypes.shape({
     main: PropTypes.arrayOf(
       PropTypes.shape({
@@ -29,7 +34,12 @@ FiltersContainerComponent.propTypes = {
       }),
     ),
     mainToSub: PropTypes.shape({
-      [PropTypes.string]: PropTypes.arrayOf(PropTypes.string),
+      [PropTypes.string]: PropTypes.arrayOf(
+        PropTypes.shape({
+          key: PropTypes.string.isRequired,
+          value: PropTypes.string.isRequired,
+        }),
+      ),
     }),
     sub: PropTypes.arrayOf(
       PropTypes.shape({
@@ -42,7 +52,31 @@ FiltersContainerComponent.propTypes = {
     ),
   }),
   overviewpage: PropTypes.shape({
-    filter: PropTypes.shape({}),
+    filter: PropTypes.shape({
+      incident_date_start: PropTypes.string,
+      location__address_text: PropTypes.string,
+      location__stadsdeel: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      main_slug: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      name: PropTypes.string,
+      priority__priority: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      status__state: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      sub_slug: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+    }),
     filterSubCategoryList: PropTypes.arrayOf(PropTypes.shape({})),
     priorityList: PropTypes.arrayOf(
       PropTypes.shape({
@@ -65,6 +99,9 @@ FiltersContainerComponent.propTypes = {
       }),
     ),
   }),
+  onSaveFilter: PropTypes.func.isRequired,
+  onClearFilter: PropTypes.func.isRequired,
+  onUpdateFilter: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -75,9 +112,12 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
+      onClearFilter: filterCleared,
       onIncidentSelected,
       onMainCategoryFilterSelectionChanged,
       onRequestIncidents,
+      onSaveFilter: filterSaved,
+      onUpdateFilter: filterUpdated,
     },
     dispatch,
   );
@@ -87,4 +127,11 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(FiltersContainerComponent);
+const withReducer = injectReducer({ key: 'incidentManagementFilter', reducer });
+const withSaga = injectSaga({ key: 'incidentManagementFilter', saga });
+
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(FilterContainerComponent);

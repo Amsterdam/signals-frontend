@@ -12,12 +12,13 @@ import statusList from '../../definitions/statusList';
 import filterSubcategories from './services/filter-subcategories';
 
 export const initialState = fromJS({
-  incidents: [],
-  priorityList,
-  stadsdeelList,
   filterSubCategoryList: [],
+  incidents: [],
+  incidentsCount: null,
+  priorityList,
+  sort: '-created_at',
+  stadsdeelList,
   statusList,
-  sort: '-created_at'
 });
 
 function overviewPageReducer(state = initialState, action) {

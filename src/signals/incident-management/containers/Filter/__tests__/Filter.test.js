@@ -1,8 +1,8 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { withAppContext } from 'test/utils';
-import FilterComponent from 'signals/incident-management/components/Filter';
-import Filter, { FiltersContainerComponent } from '../';
+import FilterForm from 'signals/incident-management/components/FilterForm';
+import Filter, { FilterContainerComponent } from '../';
 
 describe('signals/incident-management/containers/Filter', () => {
   it('should have props from structured selector', () => {
@@ -10,7 +10,7 @@ describe('signals/incident-management/containers/Filter', () => {
       <Filter />
     ));
 
-    const props = tree.find(FiltersContainerComponent).props();
+    const props = tree.find(FilterContainerComponent).props();
 
     expect(props.overviewpage).not.toBeUndefined();
     expect(props.categories).not.toBeUndefined();
@@ -21,7 +21,7 @@ describe('signals/incident-management/containers/Filter', () => {
       <Filter />
     ));
 
-    const props = tree.find(FiltersContainerComponent).props();
+    const props = tree.find(FilterContainerComponent).props();
 
     expect(props.onIncidentSelected).not.toBeUndefined();
     expect(typeof props.onIncidentSelected).toEqual('function');
@@ -31,13 +31,22 @@ describe('signals/incident-management/containers/Filter', () => {
 
     expect(props.onRequestIncidents).not.toBeUndefined();
     expect(typeof props.onRequestIncidents).toEqual('function');
+
+    expect(props.onClearFilter).not.toBeUndefined();
+    expect(typeof props.onClearFilter).toEqual('function');
+
+    expect(props.onSaveFilter).not.toBeUndefined();
+    expect(typeof props.onSaveFilter).toEqual('function');
+
+    expect(props.onUpdateFilter).not.toBeUndefined();
+    expect(typeof props.onUpdateFilter).toEqual('function');
   });
 
-  it('renders a Filter component', () => {
-    const tree = mount(withAppContext(
+  it('renders a FilterForm component', () => {
+    const tree = shallow(withAppContext(
       <Filter />
     ));
 
-    expect(tree.find(FilterComponent)).not.toBeUndefined();
+    expect(tree.find(FilterForm)).not.toBeUndefined();
   });
 });

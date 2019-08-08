@@ -31,6 +31,12 @@ const StyledHeader = styled(HeaderComponent)`
   }
 `;
 
+const StyledMenuItem = styled(MenuItem)`
+  button {
+    background: transparent;
+  }
+`;
+
 const MenuItems = ({
   isAuthenticated,
   onLoginLogoutButtonClick,
@@ -42,42 +48,42 @@ const MenuItems = ({
 
   return (
     <Fragment>
-      <MenuItem element="span">
+      <StyledMenuItem element="span">
         <NavLink to="/" onClick={resetIncident}>
           Nieuwe melding
         </NavLink>
-      </MenuItem>
+      </StyledMenuItem>
       {isAuthenticated && (
-        <MenuItem element="span">
+        <StyledMenuItem element="span">
           <NavLink to="/manage/incidents">Afhandelen</NavLink>
-        </MenuItem>
+        </StyledMenuItem>
       )}
       {permissions.includes('signals.sia_statusmessagetemplate_write') && (
-        <MenuItem element="span">
+        <StyledMenuItem element="span">
           <NavLink to="/manage/standaard/teksten">
             Beheer standaard teksten
           </NavLink>
-        </MenuItem>
+        </StyledMenuItem>
       )}
       {showLogout && (
-        <MenuItem
+        <StyledMenuItem
           element="button"
           data-testid="logout-button"
           onClick={onLoginLogoutButtonClick}
           iconLeft={<StyledLogout focusable="false" width={20} />}
         >
           Uitloggen
-        </MenuItem>
+        </StyledMenuItem>
       )}
       {showLogin && (
-        <MenuItem
+        <StyledMenuItem
           element="button"
           data-testid="login-button"
           onClick={onLoginLogoutButtonClick}
           iconLeft={<StyledLogin focusable="false" width={20} />}
         >
           Log in
-        </MenuItem>
+        </StyledMenuItem>
       )}
     </Fragment>
   );

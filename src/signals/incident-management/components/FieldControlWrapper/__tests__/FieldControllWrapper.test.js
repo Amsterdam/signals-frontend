@@ -1,8 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import { FormControl } from 'react-reactive-form';
-import FieldControlWrapper from './index';
+import FieldControlWrapper from '../index';
+import TextInput from '../../TextInput';
+import HiddenInput from '../../HiddenInput';
 
 describe('FieldControlWrapper', () => {
   const values = [{ key: 'foo', value: 'Foo' }];
@@ -19,8 +22,16 @@ describe('FieldControlWrapper', () => {
     wrapper = shallow(<FieldControlWrapper {...props} />);
   });
 
-  it('should render correctly', () => {
-    expect(wrapper).toMatchSnapshot();
+  it('should render a text input', () => {
+    const { container } = render(<FieldControlWrapper {...props} render={TextInput} />);
+    expect(container.querySelector('label')).not.toBeNull();
+    expect(container.querySelector('input[type="text"]')).not.toBeNull();
+  });
+
+  it('should render a hidden input', () => {
+    const { container } = render(<FieldControlWrapper {...props} render={HiddenInput} />);
+    expect(container.querySelector('label')).toBeNull();
+    expect(container.querySelector('input[type="hidden"]')).not.toBeNull();
   });
 
   describe('check for correct setting of values', () => {

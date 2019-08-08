@@ -9,6 +9,7 @@ import { requestIncidentsSuccess, requestIncidentsError, filterIncidentsChanged,
 import { makeSelectFilterParams } from './selectors';
 
 export function* fetchIncidents(action) {
+  // debugger;
   const requestURL = `${CONFIGURATION.API_ROOT}signals/auth/signal/`;
 
   try {
@@ -19,6 +20,7 @@ export function* fetchIncidents(action) {
     const sort = action.payload.sort;
     if (sort) yield put(sortIncidentsChanged(sort));
     const params = yield select(makeSelectFilterParams());
+
     // TEMP remove when server can order days_open
     if (params.ordering === 'days_open') {
       params.ordering = '-created_at';
