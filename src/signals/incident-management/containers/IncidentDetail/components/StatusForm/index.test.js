@@ -163,7 +163,10 @@ describe('<StatusForm />', () => {
       renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
     });
 
-    it('should render buttons correctly', () => {
+    it('should render form correctly', () => {
+      expect(renderedFormGroup.find('.status-form__form-status')).toHaveLength(1);
+      expect(renderedFormGroup.find('.status-form__form-text')).toHaveLength(1);
+
       expect(renderedFormGroup.find('.status-form__form-submit')).toHaveLength(1);
       expect(renderedFormGroup.find('.status-form__form-cancel')).toHaveLength(1);
     });
@@ -198,6 +201,12 @@ describe('<StatusForm />', () => {
       form.patchValue(newText);
       expect(form.value.text).toEqual(newText.text);
       expect(renderedFormGroup.find('.status-form__form-submit').prop('disabled')).toBe(false);
+    });
+
+    it('should set default text when it has triggered', () => {
+      instance.handleUseDefaultText({ preventDefault: jest.fn() }, 'default text');
+
+      expect(instance.form.value.text).toEqual('default text');
     });
 
     it('should call patch status when the form is submitted (submit button is clicked)', () => {
