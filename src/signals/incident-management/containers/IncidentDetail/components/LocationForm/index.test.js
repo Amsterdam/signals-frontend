@@ -74,11 +74,9 @@ describe('<LocationForm />', () => {
       renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
     });
 
-    describe('rendering', () => {
-      it('should render buttons correctly', () => {
-        expect(renderedFormGroup.find('location-form__submit')).not.toBeNull();
-        expect(renderedFormGroup.find('location-form__cancel')).not.toBeNull();
-      });
+    it('should render buttons correctly', () => {
+      expect(renderedFormGroup.find('location-form__submit')).not.toBeNull();
+      expect(renderedFormGroup.find('location-form__cancel')).not.toBeNull();
     });
 
     it('should disable the submit button when no location is selected', () => {

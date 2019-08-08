@@ -44,6 +44,8 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
 
       textField.updateValueAndValidity();
     });
+
+    this.props.onDismissError();
   }
 
   componentDidUpdate(prevProps) {
