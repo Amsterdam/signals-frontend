@@ -163,7 +163,10 @@ describe('<StatusForm />', () => {
       renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
     });
 
-    it('should render buttons correctly', () => {
+    it('should render form correctly', () => {
+      expect(renderedFormGroup.find('.status-form__form-status')).toHaveLength(1);
+      expect(renderedFormGroup.find('.status-form__form-text')).toHaveLength(1);
+
       expect(renderedFormGroup.find('.status-form__form-submit')).toHaveLength(1);
       expect(renderedFormGroup.find('.status-form__form-cancel')).toHaveLength(1);
     });

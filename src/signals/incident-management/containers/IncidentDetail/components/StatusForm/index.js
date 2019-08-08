@@ -97,13 +97,14 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
                     display="Nieuwe status"
                     render={RadioInput}
                     name="status"
-                    className="status-form__form-input"
+                    className="status-form__form-status"
                     control={this.form.get('status')}
                     values={changeStatusOptionList}
                   />
                   <FieldControlWrapper
                     render={TextAreaInput}
                     name="text"
+                    className="status-form__form-text"
                     display="Toelichting"
                     control={this.form.get('text')}
                     rows={5}
