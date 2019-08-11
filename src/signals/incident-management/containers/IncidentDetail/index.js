@@ -34,7 +34,6 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
       attachmentHref: props.attachmentHref
     };
 
-    this.onDismissSplitNotification = this.onDismissSplitNotification.bind(this);
     this.onShowLocation = this.onShowLocation.bind(this);
     this.onEditLocation = this.onEditLocation.bind(this);
     this.onEditStatus = this.onEditStatus.bind(this);
@@ -59,10 +58,6 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
         this.props.onRequestDefaultTexts({ main_slug: category.main_slug, sub_slug: category.sub_slug });
       }
     }
-  }
-
-  onDismissSplitNotification() {
-    this.props.onDismissSplitNotification();
   }
 
   onShowLocation() {
@@ -101,14 +96,14 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
   }
 
   render() {
-    const { id, categories, accessToken, onPatchIncident, onDismissError } = this.props;
+    const { id, categories, accessToken, onPatchIncident, onDismissError, onDismissSplitNotification } = this.props;
     const { list } = this.props.historyModel;
     const { incident, attachments, loading, patching, error, split, stadsdeelList, priorityList, changeStatusOptionList, statusList, defaultTexts } = this.props.incidentModel;
     const { previewState, attachmentHref } = this.state;
 
     return (
       <div className="incident-detail">
-        <SplitNotificationBar data={split} onClose={this.onDismissSplitNotification} />
+        <SplitNotificationBar data={split} onDismissSplitNotification={onDismissSplitNotification} />
         {loading ? <LoadingIndicator /> : (
           <div>
             {incident ?
