@@ -34,7 +34,6 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
       attachmentHref: props.attachmentHref
     };
 
-    this.onThor = this.onThor.bind(this);
     this.onDismissSplitNotification = this.onDismissSplitNotification.bind(this);
     this.onShowLocation = this.onShowLocation.bind(this);
     this.onEditLocation = this.onEditLocation.bind(this);
@@ -42,7 +41,6 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
     this.onShowAttachment = this.onShowAttachment.bind(this);
     this.onCloseAll = this.onCloseAll.bind(this);
   }
-
 
   componentDidMount() {
     this.props.onRequestIncident(this.props.id);
@@ -61,22 +59,6 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
         this.props.onRequestDefaultTexts({ main_slug: category.main_slug, sub_slug: category.sub_slug });
       }
     }
-  }
-
-  onThor() {
-    const patch = {
-      id: this.props.id,
-      type: 'thor',
-      patch: {
-        status: {
-          state: 'ready to send',
-          text: 'Te verzenden naar THOR',
-          target_api: 'sigmax'
-        }
-      }
-    };
-
-    this.props.onPatchIncident(patch);
   }
 
   onDismissSplitNotification() {
@@ -134,7 +116,7 @@ export class IncidentDetail extends React.Component { // eslint-disable-line rea
                 incident={incident}
                 baseUrl={this.props.baseUrl}
                 accessToken={accessToken}
-                onThor={this.onThor}
+                onPatchIncident={onPatchIncident}
               /> : ''}
 
             {previewState ? (

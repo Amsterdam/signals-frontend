@@ -6,11 +6,22 @@ import DownloadButton from './components/DownloadButton';
 
 import './style.scss';
 
-const DetailHeader = ({ incident, baseUrl, onThor, accessToken }) => {
+const DetailHeader = ({ incident, baseUrl, accessToken, onPatchIncident }) => {
   const status = incident && incident.status && incident.status.state;
   const canSplit = (status === 'm') && !(incident && (incident._links['sia:children'] || incident._links['sia:parent']));
   const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some((value) => value === status);
   const downloadLink = incident._links && incident._links['sia:pdf'] && incident._links['sia:pdf'].href;
+  const patch = {
+    id: incident.id,
+    type: 'thor',
+    patch: {
+      status: {
+        state: 'ready to send',
+        text: 'Te verzenden naar THOR',
+        target_api: 'sigmax'
+      }
+    }
+  };
 
   return (
     <header className="detail-header">
@@ -35,7 +46,7 @@ const DetailHeader = ({ incident, baseUrl, onThor, accessToken }) => {
           {canThor ?
             <button
               className="incident-detail__button align-self-center"
-              onClick={onThor}
+              onClick={() => onPatchIncident(patch)}
               data-testid="detail-header-button-thor"
             >THOR</button> : ''}
 
@@ -57,7 +68,7 @@ DetailHeader.propTypes = {
   baseUrl: PropTypes.string.isRequired,
   accessToken: PropTypes.string.isRequired,
 
-  onThor: PropTypes.func.isRequired
+  onPatchIncident: PropTypes.func.isRequired
 };
 
 export default DetailHeader;

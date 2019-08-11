@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import DetailHeader from './index';
@@ -22,7 +22,7 @@ describe('<DetailHeader />', () => {
       },
       baseUrl: '/manage',
       accessToken: 'MOCK-TOKEN',
-      onThor: jest.fn()
+      onPatchIncident: jest.fn()
     };
   });
 
@@ -74,6 +74,27 @@ describe('<DetailHeader />', () => {
       );
 
       expect(queryByTestId('detail-header-button-thor')).toBeNull();
+    });
+  });
+
+  describe('events', () => {
+    it('test clicking the thor button', () => {
+      const { queryByTestId } = render(
+        withAppContext(<DetailHeader {...props} />)
+      );
+
+      fireEvent.click(queryByTestId('detail-header-button-thor'));
+      expect(props.onPatchIncident).toHaveBeenCalledWith({
+        id: 42,
+        type: 'thor',
+        patch: {
+          status: {
+            state: 'ready to send',
+            text: 'Te verzenden naar THOR',
+            target_api: 'sigmax'
+          }
+        }
+      });
     });
   });
 });
