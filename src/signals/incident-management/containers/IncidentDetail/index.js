@@ -220,8 +220,28 @@ IncidentDetail.propTypes = {
   previewState: PropTypes.string,
   attachmentHref: PropTypes.string,
 
-  incidentModel: PropTypes.object.isRequired,
-  historyModel: PropTypes.object.isRequired,
+  incidentModel: PropTypes.shape({
+    incident: PropTypes.object,
+    attachments: PropTypes.array,
+    loading: PropTypes.bool.isRequired,
+    patching: PropTypes.object.isRequired,
+    error: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object
+    ]),
+    split: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object
+    ]),
+    stadsdeelList: PropTypes.array,
+    priorityList: PropTypes.array,
+    changeStatusOptionList: PropTypes.array,
+    statusList: PropTypes.array,
+    defaultTexts: PropTypes.array
+  }).isRequired,
+  historyModel: PropTypes.shape({
+    list: PropTypes.array.isRequired
+  }).isRequired,
   categories: PropTypes.object.isRequired,
   accessToken: PropTypes.string.isRequired,
 
