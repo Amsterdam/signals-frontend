@@ -74,21 +74,21 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
   it('should parse input FormData', () => {
     const input = {
       name: 'Afval in Westpoort',
-      location__stadsdeel: 'B',
-      location__address_text: '',
+      stadsdeel: 'B',
+      address_text: '',
       main_slug: 'afval',
       sub_slug: ['maaien-snoeien', 'onkruid', 'autom-verzinkbare-palen'],
     };
 
     const expected = {
       name: 'Afval in Westpoort',
-      location__stadsdeel: [
+      stadsdeel: [
         {
           key: 'B',
           value: 'Westpoort',
         },
       ],
-      location__address_text: '',
+      address_text: '',
       main_slug: [
         {
           key: 'afval',
@@ -125,10 +125,10 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
     };
 
     const dataLists = {
-      location__stadsdeel: stadsdeelList,
+      stadsdeel: stadsdeelList,
       main_slug: categories.main,
-      priority__priority: priorityList,
-      status__state: statusList,
+      priority: priorityList,
+      status: statusList,
       sub_slug: categories.sub,
     };
 

@@ -54,8 +54,8 @@ FilterContainerComponent.propTypes = {
   overviewpage: PropTypes.shape({
     filter: PropTypes.shape({
       incident_date_start: PropTypes.string,
-      location__address_text: PropTypes.string,
-      location__stadsdeel: PropTypes.oneOfType([
+      address_text: PropTypes.string,
+      stadsdeel: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.arrayOf(PropTypes.string),
       ]),
@@ -64,11 +64,11 @@ FilterContainerComponent.propTypes = {
         PropTypes.arrayOf(PropTypes.string),
       ]),
       name: PropTypes.string,
-      priority__priority: PropTypes.oneOfType([
+      priority: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.arrayOf(PropTypes.string),
       ]),
-      status__state: PropTypes.oneOfType([
+      status: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.arrayOf(PropTypes.string),
       ]),

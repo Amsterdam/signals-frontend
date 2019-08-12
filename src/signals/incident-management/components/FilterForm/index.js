@@ -40,17 +40,17 @@ const FilterForm = ({
 }) => {
   const {
     categories,
-    priorityList: priority__priority,
-    stadsdeelList: location__stadsdeel,
-    statusList: status__state,
+    priorityList: priority,
+    stadsdeelList: stadsdeel,
+    statusList: status,
   } = dataLists;
 
   const parsedfilterData = parseInputFormData(filter, {
     feedback,
-    location__stadsdeel,
+    stadsdeel,
     main_slug: categories.main,
-    priority__priority,
-    status__state,
+    priority,
+    status,
     sub_slug: categories.sub,
   });
 
@@ -102,7 +102,7 @@ const FilterForm = ({
     setFilterData({
       name: '',
       incident_date_start: null,
-      location__address_text: '',
+      address_text: '',
     });
 
     /* istanbul ignore else */
@@ -174,40 +174,40 @@ const FilterForm = ({
         <Fieldset>
           <legend>Filter parameters</legend>
 
-          {Array.isArray(status__state) && status__state.length > 0 && (
+          {Array.isArray(status) && status.length > 0 && (
             <FilterGroup data-testid="statusFilterGroup">
-              <Label htmlFor={`status_${status__state[0].key}`}>Status</Label>
+              <Label htmlFor={`status_${status[0].key}`}>Status</Label>
               <CheckboxList
-                defaultValue={filterData.status__state}
-                groupName="status__state"
-                options={status__state}
+                defaultValue={filterData.status}
+                groupName="status"
+                options={status}
               />
             </FilterGroup>
           )}
 
-          {Array.isArray(location__stadsdeel) &&
-            location__stadsdeel.length > 0 && (
+          {Array.isArray(stadsdeel) &&
+            stadsdeel.length > 0 && (
               <FilterGroup data-testid="stadsdeelFilterGroup">
-                <Label htmlFor={`status_${location__stadsdeel[0].key}`}>
+                <Label htmlFor={`status_${stadsdeel[0].key}`}>
                   Stadsdeel
                 </Label>
                 <CheckboxList
-                  defaultValue={filterData.location__stadsdeel}
-                  groupName="location__stadsdeel"
-                  options={location__stadsdeel}
+                  defaultValue={filterData.stadsdeel}
+                  groupName="stadsdeel"
+                  options={stadsdeel}
                 />
               </FilterGroup>
           )}
 
-          {Array.isArray(priority__priority) && priority__priority.length > 0 && (
+          {Array.isArray(priority) && priority.length > 0 && (
             <FilterGroup data-testid="priorityFilterGroup">
-              <Label htmlFor={`status_${priority__priority[0].key}`}>
+              <Label htmlFor={`status_${priority[0].key}`}>
                 Urgentie
               </Label>
               <CheckboxList
-                defaultValue={filterData.priority__priority}
-                groupName="priority__priority"
-                options={priority__priority}
+                defaultValue={filterData.priority}
+                groupName="priority"
+                options={priority}
               />
             </FilterGroup>
           )}
@@ -273,9 +273,9 @@ const FilterForm = ({
             <div className="invoer">
               <input
                 type="text"
-                name="location__address_text"
+                name="address_text"
                 id="filter_address"
-                defaultValue={filterData.location__address_text}
+                defaultValue={filterData.address_text}
               />
             </div>
           </FilterGroup>
@@ -380,8 +380,8 @@ FilterForm.propTypes = {
   filter: PropTypes.shape({
     feedback: PropTypes.string,
     incident_date_start: PropTypes.string,
-    location__address_text: PropTypes.string,
-    location__stadsdeel: PropTypes.oneOfType([
+    address_text: PropTypes.string,
+    stadsdeel: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string),
     ]),
@@ -390,11 +390,11 @@ FilterForm.propTypes = {
       PropTypes.arrayOf(PropTypes.string),
     ]),
     name: PropTypes.string,
-    priority__priority: PropTypes.oneOfType([
+    priority: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string),
     ]),
-    status__state: PropTypes.oneOfType([
+    status: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string),
     ]),
