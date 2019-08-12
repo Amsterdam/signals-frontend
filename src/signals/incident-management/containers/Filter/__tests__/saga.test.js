@@ -30,7 +30,7 @@ describe('signals/incident-management/containers/Filter/saga', () => {
     const payload = {
       name: 'Name of my filter',
       main_slug: ['i', 'a', 'o', 'u'],
-      location__address_text: 'Weesperstraat 113-117',
+      address_text: 'Weesperstraat 113-117',
     };
     const payloadResponse = {
       ...payload,
@@ -108,7 +108,7 @@ describe('signals/incident-management/containers/Filter/saga', () => {
     const savePayload = {
       name: 'Name of my filter',
       main_slug: ['i', 'a', 'o', 'u'],
-      location__address_text: 'Weesperstraat 113-117',
+      address_text: 'Weesperstraat 113-117',
     };
     const payload = {
       name: 'New name of my filter',

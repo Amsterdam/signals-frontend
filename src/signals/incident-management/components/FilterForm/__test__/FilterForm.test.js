@@ -22,7 +22,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     ).toHaveLength(1);
     expect(
       container.querySelectorAll(
-        'input[type="text"][name="location__address_text"]',
+        'input[type="text"][name="address_text"]',
       ),
     ).toHaveLength(1);
   });
@@ -67,7 +67,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="priority__priority"]',
+        'input[type="checkbox"][name="priority"]',
       ),
     ).toHaveLength(0);
 
@@ -81,7 +81,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="priority__priority"]',
+        'input[type="checkbox"][name="priority"]',
       ),
     ).toHaveLength(0);
 
@@ -95,7 +95,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="priority__priority"]',
+        'input[type="checkbox"][name="priority"]',
       ),
     ).toHaveLength(priorityList.length);
   });
@@ -109,7 +109,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="status__state"]',
+        'input[type="checkbox"][name="status"]',
       ),
     ).toHaveLength(0);
 
@@ -123,7 +123,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="status__state"]',
+        'input[type="checkbox"][name="status"]',
       ),
     ).toHaveLength(0);
 
@@ -137,7 +137,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="status__state"]',
+        'input[type="checkbox"][name="status"]',
       ),
     ).toHaveLength(statusList.length);
   });
@@ -151,7 +151,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="location__stadsdeel"]',
+        'input[type="checkbox"][name="stadsdeel"]',
       ),
     ).toHaveLength(0);
 
@@ -165,7 +165,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="location__stadsdeel"]',
+        'input[type="checkbox"][name="stadsdeel"]',
       ),
     ).toHaveLength(0);
 
@@ -179,7 +179,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="location__stadsdeel"]',
+        'input[type="checkbox"][name="stadsdeel"]',
       ),
     ).toHaveLength(stadsdeelList.length);
   });
@@ -232,7 +232,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     );
     const dateField = container.querySelector('input[id="filter_date"]');
     const addressField = container.querySelector(
-      'input[type="text"][name="location__address_text"]',
+      'input[type="text"][name="address_text"]',
     );
     const afvalToggle = container.querySelector(
       'input[type="checkbox"][value="afval"]',
