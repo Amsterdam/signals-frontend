@@ -49,14 +49,14 @@ const FilterForm = ({
     maincategory_slug: categories.main,
     priority,
     status,
-    sub_slug: categories.sub,
+    category_slug: categories.sub,
   });
 
   const [submitBtnLabel, setSubmitBtnLabel] = useState(defaultSubmitBtnLabel);
   const [filterData, setFilterData] = useState(parsedfilterData);
 
   const filterSlugs = (filterData.maincategory_slug || []).concat(
-    filterData.sub_slug || [],
+    filterData.category_slug || [],
   );
 
   const onSubmitForm = (event) => {
@@ -278,7 +278,7 @@ const FilterForm = ({
             .sort()
             .map((mainCategory) => (
               <CheckboxList
-                clusterName="sub_slug"
+                clusterName="category_slug"
                 defaultValue={filterSlugs}
                 groupName={mainCategory}
                 hasToggle
@@ -376,7 +376,7 @@ FilterForm.propTypes = {
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string),
     ]),
-    sub_slug: PropTypes.oneOfType([
+    category_slug: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string),
     ]),

@@ -50,7 +50,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     Object.keys(categories.mainToSub).forEach((category) => {
       expect(
         container.querySelectorAll(
-          `input[type="checkbox"][name="${category}_sub_slug"]`,
+          `input[type="checkbox"][name="${category}_category_slug"]`,
         ),
       ).toHaveLength(Object.keys(categories.mainToSub[category]).length);
     });
