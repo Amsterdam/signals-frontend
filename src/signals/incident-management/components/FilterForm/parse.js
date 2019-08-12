@@ -3,10 +3,10 @@ import clonedeep from 'lodash.clonedeep';
 /**
  * Parse form data for consumption by global store actions
  *
- * The data required for filtering incidents should contain values for keys 'maincategory_slug' and 'sub_slug'
+ * The data required for filtering incidents should contain values for keys 'maincategory_slug' and 'category_slug'
  * If the form data contains entries for maincategory_slug, it means that 'Select all' has been toggled. If it contains entries
- * for sub_slug, individual entries have been selected. If an entry for maincategory_slug is found in the form data, all
- * corresponding entries for sub_slug are removed. Individual sub_slug entries are grouped under the key 'sub_slug'.
+ * for category_slug, individual entries have been selected. If an entry for maincategory_slug is found in the form data, all
+ * corresponding entries for category_slug are removed. Individual category_slug entries are grouped under the key 'category_slug'.
  *
  * @param   {HTMLFormElement} - Form element from which the data should be extracted
  * @returns {Object}
@@ -25,30 +25,30 @@ export const parseOutputFormData = (form) => {
     }
   });
 
-  // remove any sub_slug entries that are covered by entries in maincategory_slug
+  // remove any category_slug entries that are covered by entries in maincategory_slug
   if (Array.isArray(parsed.maincategory_slug)) {
     parsed.maincategory_slug.forEach((maincategory_slug) => {
-      delete parsed[`${maincategory_slug}_sub_slug`];
+      delete parsed[`${maincategory_slug}_category_slug`];
     });
   } else {
-    delete parsed[`${parsed.maincategory_slug}_sub_slug`];
+    delete parsed[`${parsed.maincategory_slug}_category_slug`];
   }
 
-  // consolidate sub_slug entries
+  // consolidate category_slug entries
   Object.keys(parsed)
-    .filter((key) => key.endsWith('_sub_slug'))
+    .filter((key) => key.endsWith('_category_slug'))
     .forEach((key) => {
       const subSlugs = parsed[key];
       delete parsed[key];
 
-      if (!parsed.sub_slug) {
-        parsed.sub_slug = [];
+      if (!parsed.category_slug) {
+        parsed.category_slug = [];
       }
 
       if (Array.isArray(subSlugs)) {
-        parsed.sub_slug = [...parsed.sub_slug, ...subSlugs];
+        parsed.category_slug = [...parsed.category_slug, ...subSlugs];
       } else {
-        parsed.sub_slug = [...parsed.sub_slug, subSlugs];
+        parsed.category_slug = [...parsed.category_slug, subSlugs];
       }
     });
 
@@ -70,7 +70,7 @@ export const parseInputFormData = (filterData, dataLists) => {
     'maincategory_slug',
     'priority',
     'status',
-    'sub_slug',
+    'category_slug',
   ];
 
   const parsed = clonedeep(filterData);
@@ -106,8 +106,8 @@ export const parseInputFormData = (filterData, dataLists) => {
       }));
     }
 
-    if (parsed.sub_slug) {
-      parsed.sub_slug = parsed.sub_slug.map((obj) => ({
+    if (parsed.category_slug) {
+      parsed.category_slug = parsed.category_slug.map((obj) => ({
         ...obj,
         key: obj.slug,
       }));

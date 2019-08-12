@@ -72,7 +72,7 @@ FilterContainerComponent.propTypes = {
         PropTypes.string,
         PropTypes.arrayOf(PropTypes.string),
       ]),
-      sub_slug: PropTypes.oneOfType([
+      category_slug: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.arrayOf(PropTypes.string),
       ]),

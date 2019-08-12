@@ -24,7 +24,7 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
 
     const individualCheckbox1 = document.createElement('input');
     individualCheckbox1.setAttribute('type', 'checkbox');
-    individualCheckbox1.setAttribute('name', 'drijfvuil_sub_slug');
+    individualCheckbox1.setAttribute('name', 'drijfvuil_category_slug');
     individualCheckbox1.setAttribute('value', 'drijfvuil');
     individualCheckbox1.checked = true;
     form.appendChild(individualCheckbox1);
@@ -32,7 +32,7 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
     const expected1 = {
       name: 'Afval in Westpoort',
       maincategory_slug: 'afval',
-      sub_slug: ['drijfvuil'],
+      category_slug: ['drijfvuil'],
     };
 
     const parsedOutput1 = parseOutputFormData(form);
@@ -41,14 +41,14 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
 
     const individualCheckbox2 = document.createElement('input');
     individualCheckbox2.setAttribute('type', 'checkbox');
-    individualCheckbox2.setAttribute('name', 'maaien-snoeien_sub_slug');
+    individualCheckbox2.setAttribute('name', 'maaien-snoeien_category_slug');
     individualCheckbox2.setAttribute('value', 'maaien-snoeien');
     individualCheckbox2.checked = true;
     form.appendChild(individualCheckbox2);
 
     const individualCheckbox3 = document.createElement('input');
     individualCheckbox3.setAttribute('type', 'checkbox');
-    individualCheckbox3.setAttribute('name', 'maaien-snoeien_sub_slug');
+    individualCheckbox3.setAttribute('name', 'maaien-snoeien_category_slug');
     individualCheckbox3.setAttribute('value', 'maaien-snoeien-2');
     individualCheckbox3.checked = true;
     form.appendChild(individualCheckbox3);
@@ -63,7 +63,7 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
     const expected2 = {
       name: 'Afval in Westpoort',
       maincategory_slug: ['afval', 'wegen-verkeer-straatmeubilair'],
-      sub_slug: ['drijfvuil', 'maaien-snoeien', 'maaien-snoeien-2'],
+      category_slug: ['drijfvuil', 'maaien-snoeien', 'maaien-snoeien-2'],
     };
 
     const parsedOutput2 = parseOutputFormData(form);
@@ -77,7 +77,7 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
       stadsdeel: 'B',
       address_text: '',
       maincategory_slug: 'afval',
-      sub_slug: ['maaien-snoeien', 'onkruid', 'autom-verzinkbare-palen'],
+      category_slug: ['maaien-snoeien', 'onkruid', 'autom-verzinkbare-palen'],
     };
 
     const expected = {
@@ -96,7 +96,7 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
           value: 'Afval',
         },
       ],
-      sub_slug: [
+      category_slug: [
         {
           key: 'maaien-snoeien',
           value: 'Maaien / snoeien',
@@ -129,7 +129,7 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
       maincategory_slug: categories.main,
       priority: priorityList,
       status: statusList,
-      sub_slug: categories.sub,
+      category_slug: categories.sub,
     };
 
     const parsedInput = parseInputFormData(input, dataLists);
