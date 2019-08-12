@@ -53,13 +53,13 @@ FilterContainerComponent.propTypes = {
   }),
   overviewpage: PropTypes.shape({
     filter: PropTypes.shape({
-      incident_date_start: PropTypes.string,
+      incident_date: PropTypes.string,
       address_text: PropTypes.string,
       stadsdeel: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.arrayOf(PropTypes.string),
       ]),
-      main_slug: PropTypes.oneOfType([
+      maincategory_slug: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.arrayOf(PropTypes.string),
       ]),
