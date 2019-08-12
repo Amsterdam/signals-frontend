@@ -17,7 +17,7 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
 
     const toggle = document.createElement('input');
     toggle.setAttribute('type', 'checkbox');
-    toggle.setAttribute('name', 'main_slug');
+    toggle.setAttribute('name', 'maincategory_slug');
     toggle.setAttribute('value', 'afval');
     toggle.checked = true;
     form.appendChild(toggle);
@@ -31,7 +31,7 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
 
     const expected1 = {
       name: 'Afval in Westpoort',
-      main_slug: 'afval',
+      maincategory_slug: 'afval',
       sub_slug: ['drijfvuil'],
     };
 
@@ -55,14 +55,14 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
 
     const toggle2 = document.createElement('input');
     toggle2.setAttribute('type', 'checkbox');
-    toggle2.setAttribute('name', 'main_slug');
+    toggle2.setAttribute('name', 'maincategory_slug');
     toggle2.setAttribute('value', 'wegen-verkeer-straatmeubilair');
     toggle2.checked = true;
     form.appendChild(toggle2);
 
     const expected2 = {
       name: 'Afval in Westpoort',
-      main_slug: ['afval', 'wegen-verkeer-straatmeubilair'],
+      maincategory_slug: ['afval', 'wegen-verkeer-straatmeubilair'],
       sub_slug: ['drijfvuil', 'maaien-snoeien', 'maaien-snoeien-2'],
     };
 
@@ -76,7 +76,7 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
       name: 'Afval in Westpoort',
       stadsdeel: 'B',
       address_text: '',
-      main_slug: 'afval',
+      maincategory_slug: 'afval',
       sub_slug: ['maaien-snoeien', 'onkruid', 'autom-verzinkbare-palen'],
     };
 
@@ -89,7 +89,7 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
         },
       ],
       address_text: '',
-      main_slug: [
+      maincategory_slug: [
         {
           key: 'afval',
           slug: 'afval',
@@ -126,7 +126,7 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
 
     const dataLists = {
       stadsdeel: stadsdeelList,
-      main_slug: categories.main,
+      maincategory_slug: categories.main,
       priority: priorityList,
       status: statusList,
       sub_slug: categories.sub,

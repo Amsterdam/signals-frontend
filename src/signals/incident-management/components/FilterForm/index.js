@@ -48,7 +48,7 @@ const FilterForm = ({
   const parsedfilterData = parseInputFormData(filter, {
     feedback,
     stadsdeel,
-    main_slug: categories.main,
+    maincategory_slug: categories.main,
     priority,
     status,
     sub_slug: categories.sub,
@@ -57,7 +57,7 @@ const FilterForm = ({
   const [submitBtnLabel, setSubmitBtnLabel] = useState(defaultSubmitBtnLabel);
   const [filterData, setFilterData] = useState(parsedfilterData);
 
-  const filterSlugs = (filterData.main_slug || []).concat(
+  const filterSlugs = (filterData.maincategory_slug || []).concat(
     filterData.sub_slug || [],
   );
 
@@ -101,7 +101,7 @@ const FilterForm = ({
   const onResetForm = () => {
     setFilterData({
       name: '',
-      incident_date_start: null,
+      incident_date: null,
       address_text: '',
     });
 
@@ -244,23 +244,23 @@ const FilterForm = ({
 
                     setFilterData({
                       ...filterData,
-                      incident_date_start: formattedDate,
+                      incident_date: formattedDate,
                     });
                   }
                 }
                 placeholderText="JJJJ-MM-DD"
                 selected={
-                  filterData.incident_date_start &&
-                  moment(filterData.incident_date_start)
+                  filterData.incident_date &&
+                  moment(filterData.incident_date)
                 }
               />
 
-              {filterData.incident_date_start && (
+              {filterData.incident_date && (
                 <input
-                  defaultValue={moment(filterData.incident_date_start).format(
+                  defaultValue={moment(filterData.incident_date).format(
                     'YYYY-MM-DD',
                   )}
-                  name="incident_date_start"
+                  name="incident_date"
                   readOnly
                   type="hidden"
                 />
@@ -303,7 +303,7 @@ const FilterForm = ({
                   categories.main.find(({ slug }) => slug === mainCategory)
                     .value
                 }
-                toggleFieldName="main_slug"
+                toggleFieldName="maincategory_slug"
               />
             ))}
         </Fieldset>
@@ -379,13 +379,13 @@ FilterForm.propTypes = {
   ),
   filter: PropTypes.shape({
     feedback: PropTypes.string,
-    incident_date_start: PropTypes.string,
+    incident_date: PropTypes.string,
     address_text: PropTypes.string,
     stadsdeel: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string),
     ]),
-    main_slug: PropTypes.oneOfType([
+    maincategory_slug: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string),
     ]),

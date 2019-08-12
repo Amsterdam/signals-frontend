@@ -44,7 +44,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     // category groups
     expect(
-      container.querySelectorAll('input[type="checkbox"][name="main_slug"]'),
+      container.querySelectorAll('input[type="checkbox"][name="maincategory_slug"]'),
     ).toHaveLength(Object.keys(categories.mainToSub).length);
 
     Object.keys(categories.mainToSub).forEach((category) => {
@@ -228,7 +228,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="hidden"][name="incident_date_start"]',
+        'input[type="hidden"][name="incident_date"]',
       ),
     ).toHaveLength(0);
 
@@ -241,14 +241,14 @@ describe('signals/incident-management/components/FilterForm', () => {
       withAppContext(
         <FilterForm
           categories={categories}
-          filter={{ incident_date_start: '1970-01-01' }}
+          filter={{ incident_date: '1970-01-01' }}
         />,
       ),
     );
 
     expect(
       container.querySelectorAll(
-        'input[type="hidden"][name="incident_date_start"]',
+        'input[type="hidden"][name="incident_date"]',
       ),
     ).toHaveLength(1);
   });
@@ -336,7 +336,7 @@ describe('signals/incident-management/components/FilterForm', () => {
         <FilterForm
           categories={categories}
           {...handlers}
-          filter={{ name: 'My filter', incident_date_start: '1970-01-01' }}
+          filter={{ name: 'My filter', incident_date: '1970-01-01' }}
         />,
       ),
     );

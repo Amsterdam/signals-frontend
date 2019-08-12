@@ -3,9 +3,9 @@ import clonedeep from 'lodash.clonedeep';
 /**
  * Parse form data for consumption by global store actions
  *
- * The data required for filtering incidents should contain values for keys 'main_slug' and 'sub_slug'
- * If the form data contains entries for main_slug, it means that 'Select all' has been toggled. If it contains entries
- * for sub_slug, individual entries have been selected. If an entry for main_slug is found in the form data, all
+ * The data required for filtering incidents should contain values for keys 'maincategory_slug' and 'sub_slug'
+ * If the form data contains entries for maincategory_slug, it means that 'Select all' has been toggled. If it contains entries
+ * for sub_slug, individual entries have been selected. If an entry for maincategory_slug is found in the form data, all
  * corresponding entries for sub_slug are removed. Individual sub_slug entries are grouped under the key 'sub_slug'.
  *
  * @param   {HTMLFormElement} - Form element from which the data should be extracted
@@ -25,13 +25,13 @@ export const parseOutputFormData = (form) => {
     }
   });
 
-  // remove any sub_slug entries that are covered by entries in main_slug
-  if (Array.isArray(parsed.main_slug)) {
-    parsed.main_slug.forEach((main_slug) => {
-      delete parsed[`${main_slug}_sub_slug`];
+  // remove any sub_slug entries that are covered by entries in maincategory_slug
+  if (Array.isArray(parsed.maincategory_slug)) {
+    parsed.maincategory_slug.forEach((maincategory_slug) => {
+      delete parsed[`${maincategory_slug}_sub_slug`];
     });
   } else {
-    delete parsed[`${parsed.main_slug}_sub_slug`];
+    delete parsed[`${parsed.maincategory_slug}_sub_slug`];
   }
 
   // consolidate sub_slug entries
@@ -67,7 +67,7 @@ export const parseInputFormData = (filterData, dataLists) => {
   const arrayFields = [
     'feedback',
     'stadsdeel',
-    'main_slug',
+    'maincategory_slug',
     'priority',
     'status',
     'sub_slug',
@@ -99,8 +99,8 @@ export const parseInputFormData = (filterData, dataLists) => {
       });
 
     // make sure all objects in filterData have the correct values for their 'key' prop
-    if (parsed.main_slug) {
-      parsed.main_slug = parsed.main_slug.map((obj) => ({
+    if (parsed.maincategory_slug) {
+      parsed.maincategory_slug = parsed.maincategory_slug.map((obj) => ({
         ...obj,
         key: obj.slug,
       }));
