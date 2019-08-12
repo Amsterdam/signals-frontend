@@ -336,7 +336,7 @@ describe('The auth service', () => {
       expect(scopes).toEqual([]);
     });
 
-    it.skip('should return the scopes', () => {
+    it('should return the scopes', () => {
       parseAccessToken.mockImplementation(() => ({
         scopes: ['SIG/ALL']
       }));
