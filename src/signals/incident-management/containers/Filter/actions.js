@@ -5,6 +5,9 @@ import {
   UPDATE_FILTER,
   UPDATE_FILTER_SUCCESS,
   UPDATE_FILTER_FAILED,
+  GET_FILTERS,
+  GET_FILTERS_SUCCESS,
+  GET_FILTERS_FAILED,
   CLEAR_FILTER,
 } from './constants';
 
@@ -35,6 +38,20 @@ export const filterUpdatedSuccess = (payload) => ({
 
 export const filterUpdatedFailed = (payload) => ({
   type: UPDATE_FILTER_FAILED,
+  payload,
+});
+
+export const getFilters = () => ({
+  type: GET_FILTERS
+});
+
+export const getFiltersSuccess = (payload) => ({
+  type: GET_FILTERS_SUCCESS,
+  payload,
+});
+
+export const getFiltersFailed = (payload) => ({
+  type: GET_FILTERS_FAILED,
   payload,
 });
 
