@@ -52,7 +52,9 @@ export const parseOutputFormData = (form) => {
       }
     });
 
-  return parsed;
+  const { name, ...options } = parsed;
+
+  return { name, options };
 };
 
 /**
@@ -72,17 +74,19 @@ export const parseInputFormData = (filterData, dataLists) => {
     'category_slug',
   ];
 
-  const parsed = clonedeep(filterData);
+  const options = filterData.options || {};
+  const parsed = clonedeep(options);
+  parsed.name = filterData.name;
 
   /* istanbul ignore else */
-  if (Object.keys(filterData).length) {
+  if (Object.keys(parsed).length) {
     // convert scalar values to arrays
-    Object.keys(filterData).forEach((fieldName) => {
+    Object.keys(parsed).forEach((fieldName) => {
       if (
         arrayFields.includes(fieldName) &&
-        !Array.isArray(filterData[fieldName])
+        !Array.isArray(options[fieldName])
       ) {
-        parsed[fieldName] = [filterData[fieldName]];
+        parsed[fieldName] = [options[fieldName]];
       }
     });
 
