@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Row } from '@datapunt/asc-ui';
 import isEqual from 'lodash.isequal';
@@ -35,6 +35,7 @@ const FilterForm = ({
   onSaveFilter,
   onSubmit,
   onUpdateFilter,
+  onGetFilters,
   ...dataLists
 }) => {
   const {
@@ -43,6 +44,10 @@ const FilterForm = ({
     stadsdeelList: stadsdeel,
     statusList: status,
   } = dataLists;
+
+  useEffect(() => {
+    onGetFilters({});
+  }, []);
 
   const parsedfilterData = parseInputFormData(filter, {
     stadsdeel,
@@ -393,6 +398,8 @@ FilterForm.propTypes = {
   onSubmit: PropTypes.func,
   /** Callback handler for handling filter settings updates */
   onUpdateFilter: PropTypes.func,
+  /** Callback handler for for fetching all filters */
+  onGetFilters: PropTypes.func.isRequired,
   priorityList: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
