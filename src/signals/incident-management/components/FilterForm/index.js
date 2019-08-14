@@ -46,7 +46,9 @@ const FilterForm = ({
   } = dataLists;
 
   useEffect(() => {
-    onGetFilters({});
+    if (typeof onGetFilters === 'function') {
+      onGetFilters({});
+    }
   }, []);
 
   const parsedfilterData = parseInputFormData(filter, {
@@ -398,8 +400,8 @@ FilterForm.propTypes = {
   onSubmit: PropTypes.func,
   /** Callback handler for handling filter settings updates */
   onUpdateFilter: PropTypes.func,
-  /** Callback handler for for fetching all filters */
-  onGetFilters: PropTypes.func.isRequired,
+  /** Callback handler for handling filter settings updates */
+  onGetFilters: PropTypes.func,
   priorityList: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,

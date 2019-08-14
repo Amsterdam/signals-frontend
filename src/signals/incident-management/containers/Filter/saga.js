@@ -73,7 +73,6 @@ export function* getFilters() {
 }
 
 export default function* watchFilterSaga() {
-  console.log('watchFilterSaga');
   yield all([
     takeLatest(SAVE_FILTER, saveFilter),
     takeLatest(UPDATE_FILTER, updateFilter),
