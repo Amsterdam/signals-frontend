@@ -1,5 +1,13 @@
 import clonedeep from 'lodash.clonedeep';
 
+export const arrayFields = [
+  'stadsdeel',
+  'maincategory_slug',
+  'priority',
+  'status',
+  'category_slug',
+];
+
 /**
  * Parse form data for consumption by global store actions
  *
@@ -16,10 +24,9 @@ export const parseOutputFormData = (form) => {
   const parsed = {};
 
   Array.from(formData.entries()).forEach(([key, value]) => {
-    if (Object.keys(parsed).includes(key)) {
-      const val = parsed[key];
-
-      parsed[key] = Array.isArray(val) ? [...val, value] : [val, value];
+    if (arrayFields.includes(key)) {
+      const val = parsed[key] || [];
+      parsed[key] = [...val, value];
     } else {
       parsed[key] = value;
     }
@@ -66,14 +73,6 @@ export const parseOutputFormData = (form) => {
  * @returns {Object}
  */
 export const parseInputFormData = (filterData, dataLists) => {
-  const arrayFields = [
-    'stadsdeel',
-    'maincategory_slug',
-    'priority',
-    'status',
-    'category_slug',
-  ];
-
   const options = filterData.options || {};
   const parsed = clonedeep(options);
   parsed.name = filterData.name;
