@@ -17,6 +17,8 @@ import {
 } from '@datapunt/asc-ui';
 import Modal from 'components/Modal';
 
+import MyFilters from 'signals/incident-management/containers/MyFilters';
+
 import { resetIncident } from '../../signals/incident/containers/IncidentContainer/actions';
 
 export const breakpoint = 899;
@@ -47,7 +49,6 @@ const MenuItems = ({
   isAuthenticated,
   onLoginLogoutButtonClick,
   permissions,
-  allFilters,
   location: { pathname },
 }) => {
   const showLogin = pathname !== '/incident/beschrijf' && !isAuthenticated;
@@ -65,7 +66,6 @@ const MenuItems = ({
     toggleModal(false);
     lastActiveElement.focus();
   }
-  console.log('-', allFilters);
 
   useEffect(() => {
     const escFunction = (event) => {
@@ -90,7 +90,7 @@ const MenuItems = ({
         </StyledMenuItem>
       )}
       <Modal isOpen={modalIsOpen} onClose={closeModal} title="Mijn filters">
-        <div>{allFilters.length}</div>
+        <MyFilters />
       </Modal>
       <StyledMenuItem element="span">
         <NavLink to="/" onClick={resetIncident}>
@@ -169,7 +169,6 @@ SiteHeader.propTypes = {
   }).isRequired,
   onLoginLogoutButtonClick: PropTypes.func,
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
-  allFilters: PropTypes.array,
 };
 
 MenuItems.propTypes = SiteHeader.propTypes;
