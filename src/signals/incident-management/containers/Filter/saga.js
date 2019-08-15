@@ -1,16 +1,14 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
-import { authCall, authPostCall, authPatchCall } from 'shared/services/api/api';
+import { authPostCall, authPatchCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
-import { SAVE_FILTER, UPDATE_FILTER, GET_FILTERS } from './constants';
+import { SAVE_FILTER, UPDATE_FILTER } from './constants';
 import {
   filterSaveFailed,
   filterSaveSuccess,
   filterUpdatedFailed,
   filterUpdatedSuccess,
-  getFiltersSuccess,
-  getFiltersFailed
 } from './actions';
 
 export const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/`;
@@ -63,19 +61,9 @@ export function* updateFilter(action) {
   }
 }
 
-export function* getFilters() {
-  try {
-    const result = yield call(authCall, requestURL);
-    yield put(getFiltersSuccess(result.results));
-  } catch (error) {
-    yield put(getFiltersFailed(error));
-  }
-}
-
 export default function* watchFilterSaga() {
   yield all([
     takeLatest(SAVE_FILTER, saveFilter),
     takeLatest(UPDATE_FILTER, updateFilter),
-    takeLatest(GET_FILTERS, getFilters),
   ]);
 }

@@ -7,7 +7,10 @@
 import {
   REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR,
   INCIDENT_SELECTED, FILTER_INCIDENTS_CHANGED, PAGE_INCIDENTS_CHANGED,
-  SORT_INCIDENTS_CHANGED, MAIN_CATEGORY_FILTER_SELECTION_CHANGED
+  SORT_INCIDENTS_CHANGED, MAIN_CATEGORY_FILTER_SELECTION_CHANGED,
+  GET_FILTERS,
+  GET_FILTERS_SUCCESS,
+  GET_FILTERS_FAILED,
 }
   from './constants';
 
@@ -66,3 +69,17 @@ export function mainCategoryFilterSelectionChanged({ selectedOptions, categories
     payload: { selectedOptions, categories }
   };
 }
+
+export const getFilters = () => ({
+  type: GET_FILTERS
+});
+
+export const getFiltersSuccess = (payload) => ({
+  type: GET_FILTERS_SUCCESS,
+  payload,
+});
+
+export const getFiltersFailed = (payload) => ({
+  type: GET_FILTERS_FAILED,
+  payload,
+});

@@ -4,12 +4,11 @@ import { push } from 'react-router-redux';
 import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
-import { REQUEST_INCIDENTS, INCIDENT_SELECTED } from './constants';
-import { requestIncidentsSuccess, requestIncidentsError, filterIncidentsChanged, pageIncidentsChanged, sortIncidentsChanged } from './actions';
+import { REQUEST_INCIDENTS, INCIDENT_SELECTED, GET_FILTERS } from './constants';
+import { requestIncidentsSuccess, requestIncidentsError, filterIncidentsChanged, pageIncidentsChanged, sortIncidentsChanged, getFiltersSuccess, getFiltersFailed } from './actions';
 import { makeSelectFilterParams } from './selectors';
 
 export function* fetchIncidents(action) {
-  // debugger;
   const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals`;
 
   try {
@@ -41,9 +40,22 @@ export function* openIncident(action) {
   yield put(push(navigateUrl));
 }
 
+export function* getFilters() {
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/`;
+
+  try {
+    const result = yield authCall(requestURL);
+    yield put(getFiltersSuccess(result.results));
+  } catch (error) {
+    yield put(getFiltersFailed(error));
+  }
+}
+
+
 export default function* watchRequestIncidentsSaga() {
   yield all([
     takeLatest(REQUEST_INCIDENTS, fetchIncidents),
-    takeLatest(INCIDENT_SELECTED, openIncident)
+    takeLatest(INCIDENT_SELECTED, openIncident),
+    takeLatest(GET_FILTERS, getFilters),
   ]);
 }

@@ -18,7 +18,7 @@ import FilterForm from 'signals/incident-management/components/FilterForm';
 
 import saga from './saga';
 import reducer from './reducer';
-import { filterSaved, filterUpdated, filterCleared, getFilters } from './actions';
+import { filterSaved, filterUpdated, filterCleared } from './actions';
 
 export const FilterContainerComponent = (props) => (
   <FilterForm {...props} {...props.overviewpage} />
@@ -102,7 +102,6 @@ FilterContainerComponent.propTypes = {
   onSaveFilter: PropTypes.func.isRequired,
   onClearFilter: PropTypes.func.isRequired,
   onUpdateFilter: PropTypes.func.isRequired,
-  onGetFilters: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -119,7 +118,6 @@ const mapDispatchToProps = (dispatch) =>
       onRequestIncidents,
       onSaveFilter: filterSaved,
       onUpdateFilter: filterUpdated,
-      onGetFilters: getFilters,
     },
     dispatch,
   );

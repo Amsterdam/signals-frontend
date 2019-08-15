@@ -18,7 +18,7 @@ import makeSelectOverviewPage, { makeSelectIncidentsCount } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-import { requestIncidents, incidentSelected } from './actions';
+import { requestIncidents, incidentSelected, getFilters } from './actions';
 import ListComponent from './components/List';
 import Pager from './components/Pager';
 
@@ -27,9 +27,11 @@ export const IncidentOverviewPageContainerComponent = ({
   overviewpage,
   incidentsCount,
   onIncidentSelected,
+  onGetFilters,
 }) => {
   useEffect(() => {
     onRequestIncidents({});
+    onGetFilters();
   }, []);
 
   const { incidents, loading, page, sort, ...rest } = overviewpage;
@@ -82,6 +84,7 @@ IncidentOverviewPageContainerComponent.propTypes = {
 
   onRequestIncidents: PropTypes.func.isRequired,
   onIncidentSelected: PropTypes.func.isRequired,
+  onGetFilters: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -97,6 +100,7 @@ export const mapDispatchToProps = (dispatch) =>
     {
       onRequestIncidents: requestIncidents,
       onIncidentSelected: incidentSelected,
+      onGetFilters: getFilters,
     },
     dispatch,
   );

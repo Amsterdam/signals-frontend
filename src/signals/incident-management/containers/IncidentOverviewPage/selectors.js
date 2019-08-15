@@ -37,8 +37,8 @@ const makeSelectFilterParams = () =>
     selectOverviewPageDomain,
     (substate) => {
       const state = substate.toJS();
-
-      return { ...state.filter, page: state.page, ordering: state.sort };
+      const filter = state.filter || {};
+      return { name: filter.name, ...filter.options, page: state.page, ordering: state.sort };
     },
   );
 
@@ -48,3 +48,12 @@ export {
   makeSelectFilterParams,
   makeSelectIncidentsCount,
 };
+
+export const makeSelectActiveFilter = createSelector(
+  selectOverviewPageDomain,
+  (stateMap) => {
+    const state = stateMap.toJS();
+
+    return state.allFilters;
+  },
+);
