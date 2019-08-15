@@ -7,6 +7,7 @@ import {
   makeSelectUserName,
   makeSelectUserPermissions,
 } from 'containers/App/selectors';
+import { makeSelectAllFilters } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 import SiteHeader from 'components/SiteHeader';
 import { withRouter } from 'react-router-dom';
 
@@ -40,6 +41,7 @@ export class SiteHeaderContainer extends React.Component {
         isAuthenticated={isAuthenticated()}
         onLoginLogoutButtonClick={this.onLoginLogoutButtonClick}
         userName={this.props.userName}
+        allFilters={this.props.allFilters}
       />
     );
   }
@@ -50,11 +52,13 @@ SiteHeaderContainer.propTypes = {
   onLogin: PropTypes.func,
   onLogout: PropTypes.func,
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  allFilters: PropTypes.array,
 };
 
 const mapStateToProps = createStructuredSelector({
   userName: makeSelectUserName(),
   permissions: makeSelectUserPermissions(),
+  allFilters: makeSelectAllFilters,
 });
 
 export const mapDispatchToProps = (dispatch) =>

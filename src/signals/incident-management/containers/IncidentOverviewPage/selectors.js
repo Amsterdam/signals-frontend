@@ -49,7 +49,7 @@ export {
   makeSelectIncidentsCount,
 };
 
-export const makeSelectActiveFilter = createSelector(
+export const makeSelectAllFilters = createSelector(
   selectOverviewPageDomain,
   (stateMap) => {
     const state = stateMap.toJS();
