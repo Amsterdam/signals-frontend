@@ -7,10 +7,15 @@ import { bindActionCreators } from 'redux';
 
 import { makeSelectAllFilters } from '../IncidentOverviewPage/selectors';
 
+import FilterItem from './components/FilterItem';
+
 export const MyFilters = ({ allFilters }) => (
   <div className="my-filters">
-    {allFilters.map((filter) => (
-      <div key={filter._links.self.href}>{filter.name}</div>
+    {allFilters && allFilters.map((filter) => (
+      <FilterItem
+        key={filter._links.self.href}
+        filter={filter}
+      />
     ))}
   </div>
 );

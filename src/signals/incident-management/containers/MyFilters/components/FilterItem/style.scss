@@ -1,0 +1,11 @@
+@import "config.scss";
+
+.filter-item {
+  margin-bottom: 20px;
+
+  &__name {
+    color: red;
+    font-size: 18px;
+    line-height: 25px;
+  }
+}

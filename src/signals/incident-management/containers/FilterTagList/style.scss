@@ -1,0 +1,12 @@
+@import "config.scss";
+
+.filter-tag-list {
+  &__item {
+    background-color: #e6e6e6;
+    font-size: 14px;
+    line-height: 20px;
+    display: inline-block;
+    margin-right: 5px;
+    padding: 1px 7px;
+  }
+}
