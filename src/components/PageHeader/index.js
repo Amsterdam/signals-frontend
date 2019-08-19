@@ -5,6 +5,8 @@ import { Heading, Row, Button } from '@datapunt/asc-ui';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import Filter from 'signals/incident-management/containers/Filter';
 
+import FilterTagList from 'signals/incident-management/containers/FilterTagList';
+
 import Modal from 'components/Modal';
 
 const StyledSection = styled.section`
@@ -16,7 +18,7 @@ const StyledSection = styled.section`
 
 let lastActiveElement = null;
 
-const PageHeader = ({ className, children, title }) => {
+const PageHeader = ({ className, children, title, filter }) => {
   const [modalIsOpen, toggleModal] = useState(false);
 
   const openModal = () => {
@@ -49,7 +51,9 @@ const PageHeader = ({ className, children, title }) => {
     <StyledSection className={className}>
       <Row>
         <Heading as="h1">{title}</Heading>
+
         {children}
+
         <Button
           data-testid="modalBtn"
           type="button"
@@ -64,6 +68,10 @@ const PageHeader = ({ className, children, title }) => {
           <Filter onSubmit={closeModal} onCancel={closeModal} />
         </Modal>
       </Row>
+
+      <Row>
+        <FilterTagList tags={filter.options} />
+      </Row>
     </StyledSection>
   );
 };
@@ -74,6 +82,10 @@ PageHeader.defaultProps = {
 };
 
 PageHeader.propTypes = {
+  filter: PropTypes.shape({
+    name: PropTypes.string,
+    options: PropTypes.object,
+  }).isRequired,
   children: PropTypes.node,
   className: PropTypes.string,
   title: PropTypes.string.isRequired,

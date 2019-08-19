@@ -27,8 +27,12 @@ export const FilterTagList = ({ tags, overviewpage: { priorityList, stadsdeelLis
 );
 
 FilterTagList.propTypes = {
-  tags: PropTypes.object.isRequired,
+  tags: PropTypes.object,
   overviewpage: PropTypes.object.isRequired,
+};
+
+FilterTagList.defaultProps = {
+  tags: {}
 };
 
 const mapStateToProps = createStructuredSelector({

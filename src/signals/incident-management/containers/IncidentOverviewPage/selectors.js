@@ -57,3 +57,12 @@ export const makeSelectAllFilters = createSelector(
     return state.allFilters;
   },
 );
+
+export const makeSelectFilter = createSelector(
+  selectOverviewPageDomain,
+  (stateMap) => {
+    const state = stateMap.toJS();
+
+    return state.filter;
+  },
+);

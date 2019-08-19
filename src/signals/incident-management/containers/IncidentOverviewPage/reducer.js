@@ -27,6 +27,7 @@ export const initialState = fromJS({
   stadsdeelList,
   statusList,
   allFilters: [],
+  filter: {},
 });
 
 function overviewPageReducer(state = initialState, action) {
