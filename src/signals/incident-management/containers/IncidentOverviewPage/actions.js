@@ -11,6 +11,7 @@ import {
   GET_FILTERS,
   GET_FILTERS_SUCCESS,
   GET_FILTERS_FAILED,
+  REMOVE_FILTER,
 }
   from './constants';
 
@@ -81,5 +82,10 @@ export const getFiltersSuccess = (payload) => ({
 
 export const getFiltersFailed = (payload) => ({
   type: GET_FILTERS_FAILED,
+  payload,
+});
+
+export const removeFilter = (payload) => ({
+  type: REMOVE_FILTER,
   payload,
 });

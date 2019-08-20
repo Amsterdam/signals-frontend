@@ -1,6 +1,8 @@
 @import "config.scss";
 
 .filter-tag-list {
+  display: inline-block;
+
   &__item {
     background-color: #e6e6e6;
     font-size: 14px;
