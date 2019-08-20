@@ -5,7 +5,7 @@ import { authCall, authDeleteCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import { REQUEST_INCIDENTS, INCIDENT_SELECTED, GET_FILTERS, REMOVE_FILTER } from './constants';
-import { requestIncidentsSuccess, requestIncidentsError, filterIncidentsChanged, pageIncidentsChanged, sortIncidentsChanged, getFiltersSuccess, getFiltersFailed } from './actions';
+import { requestIncidentsSuccess, requestIncidentsError, filterIncidentsChanged, pageIncidentsChanged, sortIncidentsChanged, getFiltersSuccess, getFiltersFailed, removeFilterSuccess, removeFilterFailed } from './actions';
 import { makeSelectFilterParams } from './selectors';
 
 export function* fetchIncidents(action) {
@@ -56,10 +56,10 @@ export function* removeFilter(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/${id}`;
 
   try {
-    const result = yield authDeleteCall(requestURL);
-    yield put(getFiltersSuccess(result.results));
+    yield authDeleteCall(requestURL);
+    yield put(removeFilterSuccess(id));
   } catch (error) {
-    yield put(getFiltersFailed(error));
+    yield put(removeFilterFailed());
   }
 }
 

@@ -11,6 +11,7 @@ import {
   SORT_INCIDENTS_CHANGED,
   GET_FILTERS_SUCCESS,
   GET_FILTERS_FAILED,
+  REMOVE_FILTER_SUCCESS,
 }
   from './constants';
 import priorityList from '../../definitions/priorityList';
@@ -30,6 +31,8 @@ export const initialState = fromJS({
 });
 
 function overviewPageReducer(state = initialState, action) {
+  let newFilters;
+  let re;
   switch (action.type) {
     case REQUEST_INCIDENTS:
       return state
@@ -55,14 +58,20 @@ function overviewPageReducer(state = initialState, action) {
       return state
         .set('page', 1)
         .set('sort', fromJS(action.payload));
+    case GET_FILTERS_SUCCESS:
+      return state
+            .set('allFilters', fromJS(action.payload))
+            .set('loading', false);
     case GET_FILTERS_FAILED:
       return state
         .set('loading', false)
         .set('error', true)
         .set('errorMessage', action.payload);
-    case GET_FILTERS_SUCCESS:
+    case REMOVE_FILTER_SUCCESS:
+      re = new RegExp(`/${action.payload}`, 'g');
+      newFilters = state.get('allFilters').toJS().filter((i) => !i._links.self.href.match(re));
       return state
-        .set('allFilters', fromJS(action.payload))
+        .set('allFilters', fromJS(newFilters))
         .set('loading', false);
 
     default:

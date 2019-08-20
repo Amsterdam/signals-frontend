@@ -12,3 +12,5 @@ export const GET_FILTERS_SUCCESS = 'sia/IncidentOverviewPage/GET_FILTERS_SUCCESS
 export const GET_FILTERS_FAILED = 'sia/IncidentOverviewPage/GET_FILTERS_FAILED';
 
 export const REMOVE_FILTER = 'sia/IncidentOverviewPage/REMOVE_FILTER';
+export const REMOVE_FILTER_SUCCESS = 'sia/IncidentOverviewPage/REMOVE_FILTER_SUCCESS';
+export const REMOVE_FILTER_FAILED = 'sia/IncidentOverviewPage/REMOVE_FILTER_FAILED';
