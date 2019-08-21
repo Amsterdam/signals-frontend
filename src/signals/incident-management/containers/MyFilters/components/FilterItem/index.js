@@ -17,13 +17,17 @@ const handleApplyFilter = (id, onApplyFilter, onClose) => {
   onClose();
 };
 
+const handleEditFilter = (id, onClose) => {
+  onClose();
+};
+
 const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => (
   <div className="filter-item">
     <div className="filter-item__name">{filter.name}</div>
     <div className="filter-item__tag-list"><FilterTagList tags={filter.options} /></div>
     <div className="filter-item__actions">
       <button className="filter-item__actions-button" type="button" onClick={() => handleApplyFilter(getId(filter), onApplyFilter, onClose)}>Toon resultaat</button>
-      <button className="filter-item__actions-button" type="button">Wijzig</button>
+      <button className="filter-item__actions-button" type="button" onClick={() => handleEditFilter(getId(filter), onClose)}>Wijzig</button>
       <button className="filter-item__actions-button" type="button" onClick={() => onRemoveFilter(getId(filter))}>Verwijder</button>
     </div>
   </div>

@@ -46,6 +46,9 @@ export function* getFilters() {
 
   try {
     const result = yield authCall(requestURL);
+
+    result.results.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
+
     yield put(getFiltersSuccess(result.results));
   } catch (error) {
     yield put(getFiltersFailed(error));
