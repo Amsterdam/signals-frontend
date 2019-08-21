@@ -18,6 +18,7 @@ import {
   REVERT_FILTER_SUCCESS,
   REVERT_FILTER_FAILED,
   APPLY_FILTER,
+  EMPTY_REVERTED,
 }
   from './constants';
 
@@ -116,4 +117,8 @@ export const revertFilterFailed = (payload) => ({
 export const applyFilter = (payload) => ({
   type: APPLY_FILTER,
   payload,
+});
+
+export const emptyReverted = () => ({
+  type: EMPTY_REVERTED
 });

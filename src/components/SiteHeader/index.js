@@ -48,6 +48,7 @@ let lastActiveElement = null;
 const MenuItems = ({
   isAuthenticated,
   onLoginLogoutButtonClick,
+  onClose,
   permissions,
   location: { pathname },
 }) => {
@@ -64,6 +65,7 @@ const MenuItems = ({
   function closeModal() {
     enablePageScroll();
     toggleModal(false);
+    onClose();
     lastActiveElement.focus();
   }
 
@@ -168,6 +170,7 @@ SiteHeader.propTypes = {
     pathname: PropTypes.string.isRequired,
   }).isRequired,
   onLoginLogoutButtonClick: PropTypes.func,
+  onClose: PropTypes.func.isRequired,
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 

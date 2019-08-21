@@ -20,3 +20,4 @@ export const REVERT_FILTER_SUCCESS = 'sia/IncidentOverviewPage/REVERT_FILTER_SUC
 export const REVERT_FILTER_FAILED = 'sia/IncidentOverviewPage/REVERT_FILTER_FAILED';
 
 export const APPLY_FILTER = 'sia/IncidentOverviewPage/APPLY_FILTER';
+export const EMPTY_REVERTED = 'sia/IncidentOverviewPage/EMPTY_REVERTED';

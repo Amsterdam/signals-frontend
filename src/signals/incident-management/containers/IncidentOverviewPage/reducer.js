@@ -14,8 +14,9 @@ import {
   REMOVE_FILTER_SUCCESS,
   // REVERT_FILTER,
   // REVERT_FILTER_SUCCESS,
-  APPLY_FILTER,
   REVERT_FILTER_SUCCESS,
+  APPLY_FILTER,
+  EMPTY_REVERTED,
 }
   from './constants';
 import priorityList from '../../definitions/priorityList';
@@ -87,6 +88,9 @@ function overviewPageReducer(state = initialState, action) {
       re = new RegExp(`/${action.payload}`, 'g');
       return state
         .set('filter', fromJS(state.get('allFilters').toJS().find((i) => i._links.self.href.match(re))));
+    case EMPTY_REVERTED:
+      return state
+        .set('removedFilter', fromJS({}));
 
     default:
       return state;
