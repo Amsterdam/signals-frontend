@@ -90,7 +90,7 @@ const MenuItems = ({
         </StyledMenuItem>
       )}
       <Modal isOpen={modalIsOpen} onClose={closeModal} title="Mijn filters">
-        <MyFilters />
+        <MyFilters onClose={closeModal} />
       </Modal>
       <StyledMenuItem element="span">
         <NavLink to="/" onClick={resetIncident}>

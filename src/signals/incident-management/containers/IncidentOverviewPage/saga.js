@@ -1,11 +1,12 @@
 import { all, put, select, takeLatest } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 
-import { authCall, authDeleteCall } from 'shared/services/api/api';
+import { authCall, authDeleteCall, authPostCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
-import { REQUEST_INCIDENTS, INCIDENT_SELECTED, GET_FILTERS, REMOVE_FILTER } from './constants';
-import { requestIncidentsSuccess, requestIncidentsError, filterIncidentsChanged, pageIncidentsChanged, sortIncidentsChanged, getFiltersSuccess, getFiltersFailed, removeFilterSuccess, removeFilterFailed } from './actions';
+import { REQUEST_INCIDENTS, INCIDENT_SELECTED, GET_FILTERS, REMOVE_FILTER, REVERT_FILTER } from './constants';
+import { requestIncidentsSuccess, requestIncidentsError, filterIncidentsChanged, pageIncidentsChanged, sortIncidentsChanged,
+  getFiltersSuccess, getFiltersFailed, removeFilterSuccess, removeFilterFailed, revertFilterSuccess, revertFilterFailed } from './actions';
 import { makeSelectFilterParams } from './selectors';
 
 export function* fetchIncidents(action) {
@@ -63,11 +64,24 @@ export function* removeFilter(action) {
   }
 }
 
+export function* revertFilter(action) {
+  const filter = action.payload;
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/`;
+
+  try {
+    const result = yield authPostCall(requestURL, filter);
+    yield put(revertFilterSuccess(result));
+  } catch (error) {
+    yield put(revertFilterFailed());
+  }
+}
+
 export default function* watchRequestIncidentsSaga() {
   yield all([
     takeLatest(REQUEST_INCIDENTS, fetchIncidents),
     takeLatest(INCIDENT_SELECTED, openIncident),
     takeLatest(GET_FILTERS, getFilters),
     takeLatest(REMOVE_FILTER, removeFilter),
+    takeLatest(REVERT_FILTER, revertFilter),
   ]);
 }

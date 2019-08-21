@@ -14,6 +14,10 @@ import {
   REMOVE_FILTER,
   REMOVE_FILTER_SUCCESS,
   REMOVE_FILTER_FAILED,
+  REVERT_FILTER,
+  REVERT_FILTER_SUCCESS,
+  REVERT_FILTER_FAILED,
+  APPLY_FILTER,
 }
   from './constants';
 
@@ -92,5 +96,24 @@ export const removeFilterSuccess = (payload) => ({
 
 export const removeFilterFailed = (payload) => ({
   type: REMOVE_FILTER_FAILED,
+  payload,
+});
+
+export const revertFilter = () => ({
+  type: REVERT_FILTER,
+});
+
+export const revertFilterSuccess = (payload) => ({
+  type: REVERT_FILTER_SUCCESS,
+  payload,
+});
+
+export const revertFilterFailed = (payload) => ({
+  type: REVERT_FILTER_FAILED,
+  payload,
+});
+
+export const applyFilter = (payload) => ({
+  type: APPLY_FILTER,
   payload,
 });

@@ -12,12 +12,17 @@ const getId = (filter) => {
   return (found && found[1]) || 0;
 };
 
-const FilterItem = ({ filter, onRemoveFilter }) => (
+const handleApplyFilter = (id, onApplyFilter, onClose) => {
+  onApplyFilter(id);
+  onClose();
+};
+
+const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => (
   <div className="filter-item">
     <div className="filter-item__name">{filter.name}</div>
     <div className="filter-item__tag-list"><FilterTagList tags={filter.options} /></div>
     <div className="filter-item__actions">
-      <button className="filter-item__actions-button" type="button">Toon resultaat</button>
+      <button className="filter-item__actions-button" type="button" onClick={() => handleApplyFilter(getId(filter), onApplyFilter, onClose)}>Toon resultaat</button>
       <button className="filter-item__actions-button" type="button">Wijzig</button>
       <button className="filter-item__actions-button" type="button" onClick={() => onRemoveFilter(getId(filter))}>Verwijder</button>
     </div>
@@ -29,7 +34,9 @@ FilterItem.propTypes = {
     name: PropTypes.string.isRequired,
     options: PropTypes.shape.isRequired,
   }).isRequired,
+  onApplyFilter: PropTypes.func.isRequired,
   onRemoveFilter: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default FilterItem;

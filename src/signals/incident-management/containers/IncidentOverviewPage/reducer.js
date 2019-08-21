@@ -12,6 +12,9 @@ import {
   GET_FILTERS_SUCCESS,
   GET_FILTERS_FAILED,
   REMOVE_FILTER_SUCCESS,
+  REVERT_FILTER,
+  // REVERT_FILTER_SUCCESS,
+  APPLY_FILTER,
 }
   from './constants';
 import priorityList from '../../definitions/priorityList';
@@ -28,6 +31,7 @@ export const initialState = fromJS({
   statusList,
   allFilters: [],
   filter: {},
+  removedFilter: {},
 });
 
 function overviewPageReducer(state = initialState, action) {
@@ -72,7 +76,17 @@ function overviewPageReducer(state = initialState, action) {
       newFilters = state.get('allFilters').toJS().filter((i) => !i._links.self.href.match(re));
       return state
         .set('allFilters', fromJS(newFilters))
+        .set('removedFilter', state.get('allFilters').toJS().find((i) => i._links.self.href.match(re)))
         .set('loading', false);
+    case REVERT_FILTER:
+      return state
+        .set('allFilters', state.get('removedFilter'))
+        .set('removedFilter', fromJS({}))
+        .set('loading', false);
+    case APPLY_FILTER:
+      re = new RegExp(`/${action.payload}`, 'g');
+      return state
+        .set('filter', fromJS(state.get('allFilters').toJS().find((i) => i._links.self.href.match(re))));
 
     default:
       return state;

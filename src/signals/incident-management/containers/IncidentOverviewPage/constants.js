@@ -14,3 +14,9 @@ export const GET_FILTERS_FAILED = 'sia/IncidentOverviewPage/GET_FILTERS_FAILED';
 export const REMOVE_FILTER = 'sia/IncidentOverviewPage/REMOVE_FILTER';
 export const REMOVE_FILTER_SUCCESS = 'sia/IncidentOverviewPage/REMOVE_FILTER_SUCCESS';
 export const REMOVE_FILTER_FAILED = 'sia/IncidentOverviewPage/REMOVE_FILTER_FAILED';
+
+export const REVERT_FILTER = 'sia/IncidentOverviewPage/REVERT_FILTER';
+export const REVERT_FILTER_SUCCESS = 'sia/IncidentOverviewPage/REVERT_FILTER_SUCCESS';
+export const REVERT_FILTER_FAILED = 'sia/IncidentOverviewPage/REVERT_FILTER_FAILED';
+
+export const APPLY_FILTER = 'sia/IncidentOverviewPage/APPLY_FILTER';

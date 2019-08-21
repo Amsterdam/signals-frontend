@@ -66,3 +66,12 @@ export const makeSelectFilter = createSelector(
     return state.filter;
   },
 );
+
+export const makeSelectRemovedFilter = createSelector(
+  selectOverviewPageDomain,
+  (stateMap) => {
+    const state = stateMap.toJS();
+
+    return state.removedFilter;
+  },
+);
