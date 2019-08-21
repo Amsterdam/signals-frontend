@@ -12,9 +12,10 @@ import {
   GET_FILTERS_SUCCESS,
   GET_FILTERS_FAILED,
   REMOVE_FILTER_SUCCESS,
-  REVERT_FILTER,
+  // REVERT_FILTER,
   // REVERT_FILTER_SUCCESS,
   APPLY_FILTER,
+  REVERT_FILTER_SUCCESS,
 }
   from './constants';
 import priorityList from '../../definitions/priorityList';
@@ -76,13 +77,12 @@ function overviewPageReducer(state = initialState, action) {
       newFilters = state.get('allFilters').toJS().filter((i) => !i._links.self.href.match(re));
       return state
         .set('allFilters', fromJS(newFilters))
-        .set('removedFilter', state.get('allFilters').toJS().find((i) => i._links.self.href.match(re)))
-        .set('loading', false);
-    case REVERT_FILTER:
+        .set('removedFilter', fromJS(newFilters))
+        .set('removedFilter', fromJS(state.get('allFilters').toJS().find((i) => i._links.self.href.match(re))));
+    case REVERT_FILTER_SUCCESS:
       return state
-        .set('allFilters', state.get('removedFilter'))
-        .set('removedFilter', fromJS({}))
-        .set('loading', false);
+        .set('allFilters', fromJS([...state.get('allFilters').toJS(), state.get('removedFilter').toJS()]))
+        .set('removedFilter', fromJS({}));
     case APPLY_FILTER:
       re = new RegExp(`/${action.payload}`, 'g');
       return state

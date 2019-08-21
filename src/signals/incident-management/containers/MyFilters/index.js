@@ -12,14 +12,20 @@ import FilterItem from './components/FilterItem';
 
 import './style.scss';
 
+const sortFilters = (allFilters) => {
+  allFilters.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
+
+  return allFilters;
+};
+
 export const MyFilters = ({ allFilters, removedFilter, onApplyFilter, onRemoveFilter, onRevertFilter, onClose }) => (
   <div className="my-filters">
     {removedFilter && removedFilter.name ? <div className="my-filters__removed-filter">
       De filterinstelling &ldquo;{removedFilter.name}&rdquo; is verwijderd.
-      <button className="my-filters__revert-button" type="button" onClick={() => onRevertFilter(removedFilter)}>Ongedaan maken</button>
+      <div><button className="my-filters__revert-button" type="button" onClick={() => onRevertFilter(removedFilter)}>Ongedaan maken</button></div>
     </div> : ''}
 
-    {allFilters && allFilters.map((filter) => (
+    {allFilters && allFilters.length && sortFilters(allFilters).map((filter) => (
       <FilterItem
         key={filter._links.self.href}
         filter={filter}

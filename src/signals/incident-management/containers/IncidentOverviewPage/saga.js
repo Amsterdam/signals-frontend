@@ -47,8 +47,6 @@ export function* getFilters() {
   try {
     const result = yield authCall(requestURL);
 
-    result.results.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
-
     yield put(getFiltersSuccess(result.results));
   } catch (error) {
     yield put(getFiltersFailed(error));
@@ -72,8 +70,8 @@ export function* revertFilter(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/`;
 
   try {
-    const result = yield authPostCall(requestURL, filter);
-    yield put(revertFilterSuccess(result));
+    yield authPostCall(requestURL, filter);
+    yield put(revertFilterSuccess());
   } catch (error) {
     yield put(revertFilterFailed());
   }
