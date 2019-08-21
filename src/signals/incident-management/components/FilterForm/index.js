@@ -35,6 +35,7 @@ const FilterForm = ({
   onSaveFilter,
   onSubmit,
   onUpdateFilter,
+  onGetFilters,
   ...dataLists
 }) => {
   const {
@@ -67,6 +68,9 @@ const FilterForm = ({
     /* istanbul ignore else */
     if (typeof onSaveFilter === 'function' && isNewFilter) {
       onSaveFilter(formData);
+      if (typeof onGetFilters === 'function') {
+        onGetFilters();
+      }
     }
 
     /* istanbul ignore else */
@@ -393,6 +397,7 @@ FilterForm.propTypes = {
   onSubmit: PropTypes.func,
   /** Callback handler for handling filter settings updates */
   onUpdateFilter: PropTypes.func,
+  onGetFilters: PropTypes.func,
   priorityList: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
