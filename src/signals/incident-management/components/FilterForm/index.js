@@ -139,6 +139,10 @@ const FilterForm = ({
       return;
     }
 
+    if (typeof onGetFilters === 'function') {
+      onGetFilters();
+    }
+
     setSubmitBtnLabel(defaultSubmitBtnLabel);
   };
 

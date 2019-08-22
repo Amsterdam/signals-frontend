@@ -12,24 +12,26 @@ const getId = (filter) => {
   return (found && found[1]) || 0;
 };
 
-const handleApplyFilter = (id, onApplyFilter, onClose) => {
-  onApplyFilter(id);
+const handleApplyFilter = (filter, onApplyFilter, onRequestIncidents, onClose) => {
+  onApplyFilter(getId(filter));
+  onRequestIncidents({ filter });
   onClose();
 };
 
-const handleEditFilter = (id, onApplyFilter, onClose) => {
-  onApplyFilter(id);
+const handleEditFilter = (filter, onApplyFilter, onRequestIncidents, onClose) => {
+  onApplyFilter(getId(filter));
+  onRequestIncidents({ filter });
   document.dispatchEvent(new Event('openFilter'));
   onClose();
 };
 
-const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => (
+const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose, onRequestIncidents }) => (
   <div className="filter-item">
     <div className="filter-item__name">{filter.name}</div>
     <div className="filter-item__tag-list"><FilterTagList tags={filter.options} /></div>
     <div className="filter-item__actions">
-      <button className="filter-item__actions-button" type="button" onClick={() => handleApplyFilter(getId(filter), onApplyFilter, onClose)}>Toon resultaat</button>
-      <button className="filter-item__actions-button" type="button" onClick={() => handleEditFilter(getId(filter), onApplyFilter, onClose)}>Wijzig</button>
+      <button className="filter-item__actions-button" type="button" onClick={() => handleApplyFilter(filter, onApplyFilter, onRequestIncidents, onClose)}>Toon resultaat</button>
+      <button className="filter-item__actions-button" type="button" onClick={() => handleEditFilter(filter, onApplyFilter, onRequestIncidents, onClose)}>Wijzig</button>
       <button className="filter-item__actions-button" type="button" onClick={() => onRemoveFilter(getId(filter))}>Verwijder</button>
     </div>
   </div>
@@ -42,6 +44,7 @@ FilterItem.propTypes = {
   }).isRequired,
   onApplyFilter: PropTypes.func.isRequired,
   onRemoveFilter: PropTypes.func.isRequired,
+  onRequestIncidents: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

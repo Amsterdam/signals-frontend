@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 // import { Row, Column } from '@datapunt/asc-ui';
 
 import { makeSelectAllFilters, makeSelectRemovedFilter } from '../IncidentOverviewPage/selectors';
-import { applyFilter, removeFilter, revertFilter } from '../IncidentOverviewPage/actions';
+import { applyFilter, removeFilter, revertFilter, requestIncidents } from '../IncidentOverviewPage/actions';
 
 import FilterItem from './components/FilterItem';
 
@@ -18,7 +18,7 @@ const sortFilters = (allFilters) => {
   return allFilters;
 };
 
-export const MyFilters = ({ allFilters, removedFilter, onApplyFilter, onRemoveFilter, onRevertFilter, onClose }) => (
+export const MyFilters = ({ allFilters, removedFilter, onApplyFilter, onRemoveFilter, onRevertFilter, onClose, onRequestIncidents }) => (
   <div className="my-filters">
     {removedFilter && removedFilter.name ? <div className="my-filters__removed-filter">
       De filterinstelling &ldquo;{removedFilter.name}&rdquo; is verwijderd.
@@ -32,6 +32,7 @@ export const MyFilters = ({ allFilters, removedFilter, onApplyFilter, onRemoveFi
         onApplyFilter={onApplyFilter}
         onRemoveFilter={onRemoveFilter}
         onClose={onClose}
+        onRequestIncidents={onRequestIncidents}
       />
     ))}
   </div>
@@ -44,6 +45,7 @@ MyFilters.propTypes = {
   onRevertFilter: PropTypes.func.isRequired,
   onRemoveFilter: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  onRequestIncidents: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -57,6 +59,7 @@ const mapDispatchToProps = (dispatch) =>
       onApplyFilter: applyFilter,
       onRemoveFilter: removeFilter,
       onRevertFilter: revertFilter,
+      onRequestIncidents: requestIncidents,
     },
     dispatch,
   );
