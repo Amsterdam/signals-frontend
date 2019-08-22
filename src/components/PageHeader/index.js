@@ -39,11 +39,16 @@ const PageHeader = ({ className, children, title, filter }) => {
         closeModal();
       }
     };
+    const openFilterFuntion = () => {
+      openModal();
+    };
 
     document.addEventListener('keydown', escFunction);
+    document.addEventListener('openFilter', openFilterFuntion);
 
     return () => {
       document.removeEventListener('keydown', escFunction);
+      document.removeEventListener('openFilter', openFilterFuntion);
     };
   });
 
