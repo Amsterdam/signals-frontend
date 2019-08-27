@@ -1,12 +1,12 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { fromJS } from 'immutable';
+import { render } from '@testing-library/react';
 
-import { getContext } from 'test/utils';
+import { withAppContext } from 'test/utils';
 import { IncidentContainer, mapDispatchToProps } from './index';
 import { GET_CLASSIFICATION, UPDATE_INCIDENT, CREATE_INCIDENT } from './constants';
 
-jest.mock('../../components/IncidentWizard', () => () => 'IncidentWizard');
+// jest.mock('../../components/IncidenptWizard', () => () => 'IncidentWizard');
+jest.mock('signals/incident/components/form/MapInput', () => () => 'MapInput');
 
 describe('<IncidentContainer />', () => {
   let props;
@@ -27,16 +27,11 @@ describe('<IncidentContainer />', () => {
 
   describe('rendering', () => {
     it('should render correctly', () => {
-      const state = fromJS({
-        global: {},
-        incidentContainer: {
-          incident: {}
-        }
-      });
-      const context = getContext(state);
-      const wrapper = shallow(<IncidentContainer {...props} />, { context });
+      const { getAllByText } = render(withAppContext(<IncidentContainer {...props} />));
 
-      expect(wrapper).toMatchSnapshot();
+      expect(getAllByText('Volgende')).not.toBeNull(); // navigation
+      expect(document.querySelectorAll('input[type="file"]')).toHaveLength(1); // image upload
+      expect(document.querySelectorAll('input[type="radio"].kenmerkradio')).toHaveLength(2); // time indicator radio buttons
     });
   });
 
