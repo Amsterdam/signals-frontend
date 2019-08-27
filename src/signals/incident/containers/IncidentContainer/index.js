@@ -4,7 +4,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -34,22 +34,14 @@ export class IncidentContainer extends React.Component {
   render() {
     return (
       <div className="incident-container">
-        <Fragment>
-          <div className="incident-container__alert">
-            <b>*** BELANGRIJK ***</b>
-            <br />
-            Melding over horeca of evenementen? Vul dan bij de melding altijd uw
-            contactgegevens in, dan kunnen wij u beter en sneller helpen.
-          </div>
-          <IncidentWizard
-            wizardDefinition={wizardDefinition}
-            getClassification={this.getClassification}
-            updateIncident={this.updateIncident}
-            createIncident={this.createIncident}
-            incidentContainer={this.props.incidentContainer}
-            isAuthenticated={this.props.isAuthenticated}
-          />
-        </Fragment>
+        <IncidentWizard
+          wizardDefinition={wizardDefinition}
+          getClassification={this.getClassification}
+          updateIncident={this.updateIncident}
+          createIncident={this.createIncident}
+          incidentContainer={this.props.incidentContainer}
+          isAuthenticated={this.props.isAuthenticated}
+        />
       </div>
     );
   }
