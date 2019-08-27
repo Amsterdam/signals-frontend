@@ -83,7 +83,7 @@ const PageHeader = ({ className, children, title, filter, onClose }) => {
             data-testid="modalMyfiltersBtn"
             type="button"
             color="primary"
-            $$as="button"
+            $as="button"
             onClick={openMyFiltersModal}
           >
           Mijn filters
@@ -93,7 +93,7 @@ const PageHeader = ({ className, children, title, filter, onClose }) => {
             data-testid="modalFilterBtn"
             type="button"
             color="primary"
-            $$as="button"
+            $as="button"
             onClick={openFilterModal}
           >
           Filteren

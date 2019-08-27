@@ -6,8 +6,10 @@ import styled from 'styled-components';
 import Media from 'react-media';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-// import LoginIcon from '@datapunt/asc-assets/lib/Icons/Login.svg';
-// import LogoutIcon from '@datapunt/asc-assets/lib/Icons/Logout.svg';
+
+import LoginIcon from '@datapunt/asc-assets/lib/assets/Icons/Login.svg';
+import LogoutIcon from '@datapunt/asc-assets/lib/assets/Icons/Logout.svg';
+
 import {
   Header as HeaderComponent,
   MenuInline,
@@ -19,13 +21,13 @@ import { resetIncident } from '../../signals/incident/containers/IncidentContain
 
 export const breakpoint = 899;
 
-// const StyledLogin = styled(LoginIcon)`
-  // margin-right: 5px;
-// `;
-//
-// const StyledLogout = styled(LogoutIcon)`
-  // margin-right: 5px;
-// `;
+const StyledLogin = styled(LoginIcon)`
+  margin-right: 5px;
+`;
+
+const StyledLogout = styled(LogoutIcon)`
+  margin-right: 5px;
+`;
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
@@ -72,7 +74,7 @@ const MenuItems = ({
           element="button"
           data-testid="logout-button"
           onClick={onLoginLogoutButtonClick}
-          iconLeft={<span></span>}
+          iconLeft={<StyledLogout focusable="false" width={20} />}
         >
           Uitloggen
         </StyledMenuItem>
@@ -82,7 +84,7 @@ const MenuItems = ({
           element="button"
           data-testid="login-button"
           onClick={onLoginLogoutButtonClick}
-          iconLeft={<span></span>}
+          iconLeft={<StyledLogin focusable="false" width={20} />}
         >
           Log in
         </StyledMenuItem>
