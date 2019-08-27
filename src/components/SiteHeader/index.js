@@ -1,35 +1,31 @@
 /* eslint-disable jsx-a11y/interactive-supports-focus */
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import Media from 'react-media';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import LoginIcon from '@datapunt/asc-assets/lib/Icons/Login.svg';
-import LogoutIcon from '@datapunt/asc-assets/lib/Icons/Logout.svg';
+// import LoginIcon from '@datapunt/asc-assets/lib/Icons/Login.svg';
+// import LogoutIcon from '@datapunt/asc-assets/lib/Icons/Logout.svg';
 import {
   Header as HeaderComponent,
   MenuInline,
   MenuItem,
   MenuToggle,
 } from '@datapunt/asc-ui';
-import Modal from 'components/Modal';
-
-import MyFilters from 'signals/incident-management/containers/MyFilters';
 
 import { resetIncident } from '../../signals/incident/containers/IncidentContainer/actions';
 
 export const breakpoint = 899;
 
-const StyledLogin = styled(LoginIcon)`
-  margin-right: 5px;
-`;
-
-const StyledLogout = styled(LogoutIcon)`
-  margin-right: 5px;
-`;
+// const StyledLogin = styled(LoginIcon)`
+  // margin-right: 5px;
+// `;
+//
+// const StyledLogout = styled(LogoutIcon)`
+  // margin-right: 5px;
+// `;
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
@@ -43,67 +39,27 @@ const StyledMenuItem = styled(MenuItem)`
   }
 `;
 
-let lastActiveElement = null;
-
 const MenuItems = ({
   isAuthenticated,
   onLoginLogoutButtonClick,
-  onClose,
   permissions,
   location: { pathname },
 }) => {
   const showLogin = pathname !== '/incident/beschrijf' && !isAuthenticated;
   const showLogout = isAuthenticated;
-  const [modalIsOpen, toggleModal] = useState(false);
-
-  const openModal = () => {
-    disablePageScroll();
-    toggleModal(true);
-    lastActiveElement = document.activeElement;
-  };
-
-  function closeModal() {
-    enablePageScroll();
-    toggleModal(false);
-    onClose();
-    lastActiveElement.focus();
-  }
-
-  useEffect(() => {
-    const escFunction = (event) => {
-      if (event.keyCode === 27) {
-        closeModal();
-      }
-    };
-
-    document.addEventListener('keydown', escFunction);
-
-    return () => {
-      document.removeEventListener('keydown', escFunction);
-    };
-  });
-
 
   return (
     <Fragment>
       {isAuthenticated && (
         <StyledMenuItem element="span">
-          <span role="button" onClick={openModal}>Mijn filters</span>
+          <NavLink to="/manage/incidents">Afhandelen</NavLink>
         </StyledMenuItem>
       )}
-      <Modal isOpen={modalIsOpen} onClose={closeModal} title="Mijn filters">
-        <MyFilters onClose={closeModal} />
-      </Modal>
       <StyledMenuItem element="span">
         <NavLink to="/" onClick={resetIncident}>
           Nieuwe melding
         </NavLink>
       </StyledMenuItem>
-      {isAuthenticated && (
-        <StyledMenuItem element="span">
-          <NavLink to="/manage/incidents">Afhandelen</NavLink>
-        </StyledMenuItem>
-      )}
       {permissions.includes('signals.sia_statusmessagetemplate_write') && (
         <StyledMenuItem element="span">
           <NavLink to="/manage/standaard/teksten">
@@ -116,7 +72,7 @@ const MenuItems = ({
           element="button"
           data-testid="logout-button"
           onClick={onLoginLogoutButtonClick}
-          iconLeft={<StyledLogout focusable="false" width={20} />}
+          iconLeft={<span></span>}
         >
           Uitloggen
         </StyledMenuItem>
@@ -126,7 +82,7 @@ const MenuItems = ({
           element="button"
           data-testid="login-button"
           onClick={onLoginLogoutButtonClick}
-          iconLeft={<StyledLogin focusable="false" width={20} />}
+          iconLeft={<span></span>}
         >
           Log in
         </StyledMenuItem>
@@ -170,7 +126,6 @@ SiteHeader.propTypes = {
     pathname: PropTypes.string.isRequired,
   }).isRequired,
   onLoginLogoutButtonClick: PropTypes.func,
-  onClose: PropTypes.func.isRequired,
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 

@@ -12,7 +12,6 @@ import { withRouter } from 'react-router-dom';
 
 import { doLogin, doLogout } from '../App/actions';
 import { isAuthenticated } from '../../shared/services/auth/auth';
-import { emptyReverted } from '../../signals/incident-management/containers/IncidentOverviewPage/actions';
 
 const HeaderWithRouter = withRouter(SiteHeader);
 
@@ -40,7 +39,6 @@ export class SiteHeaderContainer extends React.Component {
         permissions={this.props.permissions}
         isAuthenticated={isAuthenticated()}
         onLoginLogoutButtonClick={this.onLoginLogoutButtonClick}
-        onClose={this.props.onClose}
         userName={this.props.userName}
       />
     );
@@ -51,7 +49,6 @@ SiteHeaderContainer.propTypes = {
   userName: PropTypes.string,
   onLogin: PropTypes.func,
   onLogout: PropTypes.func,
-  onClose: PropTypes.func.isRequired,
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
@@ -65,7 +62,6 @@ export const mapDispatchToProps = (dispatch) =>
     {
       onLogin: doLogin,
       onLogout: doLogout,
-      onClose: emptyReverted,
     },
     dispatch,
   );
