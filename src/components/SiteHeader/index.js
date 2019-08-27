@@ -7,8 +7,7 @@ import Media from 'react-media';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
-import LoginIcon from '@datapunt/asc-assets/lib/assets/Icons/Login.svg';
-import LogoutIcon from '@datapunt/asc-assets/lib/assets/Icons/Logout.svg';
+import { Login, Logout } from '@datapunt/asc-assets';
 
 import {
   Header as HeaderComponent,
@@ -21,11 +20,11 @@ import { resetIncident } from '../../signals/incident/containers/IncidentContain
 
 export const breakpoint = 899;
 
-const StyledLogin = styled(LoginIcon)`
+const StyledLogin = styled(Login)`
   margin-right: 5px;
 `;
 
-const StyledLogout = styled(LogoutIcon)`
+const StyledLogout = styled(Logout)`
   margin-right: 5px;
 `;
 
