@@ -27,7 +27,7 @@ const Footer = () => (
   <FooterWrapper className="footer no-print">
     <Disclaimer>
       <Column span={12}>
-        <Heading as="h2">Lukt het niet om een melding te doen?</Heading>
+        <Heading $as="h2">Lukt het niet om een melding te doen?</Heading>
         <Paragraph>&nbsp;</Paragraph>
       </Column>
 

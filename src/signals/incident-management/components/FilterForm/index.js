@@ -279,7 +279,7 @@ const FilterForm = ({
         <Fieldset>
           <legend>Filter categorieën</legend>
 
-          <Label as="span">Categorie</Label>
+          <Label $as="span">Categorie</Label>
 
           {Object.keys(categories.mainToSub)
             .filter((key) => !!key) // remove elements without 'key' prop

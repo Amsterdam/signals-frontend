@@ -64,14 +64,14 @@ const Modal = ({ children, title, isOpen, onClose, ...rest }) => (
     <Header>
       <HeaderRow>
         <Column span={12}>
-          <Heading as="h2">{title}</Heading>
+          <Heading $as="h2">{title}</Heading>
         </Column>
 
         <CloseButton
           data-testid="closeBtn"
           square
           type="button"
-          as="button"
+          $as="button"
           onClick={onClose}
         >
           <Close width="20" height="20" fill="#000000" />

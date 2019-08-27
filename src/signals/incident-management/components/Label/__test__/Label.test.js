@@ -41,7 +41,7 @@ describe('signals/incident-management/components/Label', () => {
     rerender(
       withAppContext(
         <div>
-          <Label as="span">This is my label text</Label>
+          <Label $as="span">This is my label text</Label>
           <input type="text" id="someOtherElementId" />
         </div>,
       ),
