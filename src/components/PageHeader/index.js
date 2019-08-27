@@ -6,8 +6,8 @@ import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import Filter from 'signals/incident-management/containers/Filter';
 
 import FilterTagList from 'signals/incident-management/containers/FilterTagList';
-
 import Modal from 'components/Modal';
+import MyFilters from 'signals/incident-management/containers/MyFilters';
 
 const StyledSection = styled.section`
   background-color: #f3f3f3;
@@ -16,31 +16,50 @@ const StyledSection = styled.section`
   margin-bottom: 40px;
 `;
 
+const StyledButton = styled(Button)`
+  margin-left: 10px;
+`;
+
 let lastActiveElement = null;
 
-const PageHeader = ({ className, children, title, filter }) => {
-  const [modalIsOpen, toggleModal] = useState(false);
+const PageHeader = ({ className, children, title, filter, onClose }) => {
+  const [modalFilterIsOpen, toggleFilterModal] = useState(false);
+  const [modalMyFiltersIsOpen, toggleMyFiltersModal] = useState(false);
 
-  const openModal = () => {
+  const openMyFiltersModal = () => {
     disablePageScroll();
-    toggleModal(true);
+    toggleMyFiltersModal(true);
     lastActiveElement = document.activeElement;
   };
 
-  function closeModal() {
+  function closeMyFiltersModal() {
     enablePageScroll();
-    toggleModal(false);
+    toggleMyFiltersModal(false);
+    onClose();
+    lastActiveElement.focus();
+  }
+
+  const openFilterModal = () => {
+    disablePageScroll();
+    toggleFilterModal(true);
+    lastActiveElement = document.activeElement;
+  };
+
+  function closeFilterModal() {
+    enablePageScroll();
+    toggleFilterModal(false);
     lastActiveElement.focus();
   }
 
   useEffect(() => {
     const escFunction = (event) => {
       if (event.keyCode === 27) {
-        closeModal();
+        closeFilterModal();
+        closeMyFiltersModal();
       }
     };
     const openFilterFuntion = () => {
-      openModal();
+      openFilterModal();
     };
 
     document.addEventListener('keydown', escFunction);
@@ -55,22 +74,38 @@ const PageHeader = ({ className, children, title, filter }) => {
   return (
     <StyledSection className={className}>
       <Row>
-        <Heading as="h1">{title}</Heading>
+        <Heading $as="h1">{title}</Heading>
 
         {children}
 
-        <Button
-          data-testid="modalBtn"
-          type="button"
-          color="primary"
-          as="button"
-          onClick={openModal}
-        >
-          Filteren
-        </Button>
+        <div>
+          <StyledButton
+            data-testid="modalMyfiltersBtn"
+            type="button"
+            color="primary"
+            $$as="button"
+            onClick={openMyFiltersModal}
+          >
+          Mijn filters
+          </StyledButton>
 
-        <Modal isOpen={modalIsOpen} onClose={closeModal} title="Filters">
-          <Filter onSubmit={closeModal} onCancel={closeModal} />
+          <StyledButton
+            data-testid="modalFilterBtn"
+            type="button"
+            color="primary"
+            $$as="button"
+            onClick={openFilterModal}
+          >
+          Filteren
+          </StyledButton>
+        </div>
+
+        <Modal isOpen={modalMyFiltersIsOpen} onClose={closeMyFiltersModal} title="Mijn filters">
+          <MyFilters onClose={closeMyFiltersModal} />
+        </Modal>
+
+        <Modal isOpen={modalFilterIsOpen} onClose={closeFilterModal} title="Filters">
+          <Filter onSubmit={closeFilterModal} onCancel={closeFilterModal} />
         </Modal>
       </Row>
 
@@ -94,6 +129,7 @@ PageHeader.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   title: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default PageHeader;
