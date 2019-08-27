@@ -197,6 +197,7 @@ exports[`<IncidentContainer /> rendering should render correctly 1`] = `
                     "Meldkamer Handhaver": "Meldkamer Handhaver",
                     "Meldkamer Politie": "Meldkamer Politie",
                     "Meldkamer burger/ondernemer": "Meldkamer burger/ondernemer",
+                    "Telefoon - CCTR": "Telefoon - CCTR",
                     "Telefoon – ASC": "Telefoon – ASC",
                     "Telefoon – Adoptant": "Telefoon – Adoptant",
                     "Telefoon – CCA": "Telefoon – CCA",
