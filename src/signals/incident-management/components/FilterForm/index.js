@@ -233,7 +233,7 @@ const FilterForm = ({
                     });
                   }
                 }
-                placeholderText="JJJJ-MM-DD"
+                placeholderText="DD-MM-JJJJ"
                 selected={
                   filterData.incident_date_start &&
                   moment(filterData.incident_date_start)
