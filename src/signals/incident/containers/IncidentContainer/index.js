@@ -34,20 +34,14 @@ export class IncidentContainer extends React.Component {
   render() {
     return (
       <div className="incident-container">
-        <div className="">
-          <div className="incident-container__alert">
-            <b>*** BELANGRIJK ***</b><br />
-              Melding over horeca of evenementen? Vul dan bij de melding altijd uw contactgegevens in, dan kunnen wij u beter en sneller helpen.
-          </div>
-          <IncidentWizard
-            wizardDefinition={wizardDefinition}
-            getClassification={this.getClassification}
-            updateIncident={this.updateIncident}
-            createIncident={this.createIncident}
-            incidentContainer={this.props.incidentContainer}
-            isAuthenticated={this.props.isAuthenticated}
-          />
-        </div>
+        <IncidentWizard
+          wizardDefinition={wizardDefinition}
+          getClassification={this.getClassification}
+          updateIncident={this.updateIncident}
+          createIncident={this.createIncident}
+          incidentContainer={this.props.incidentContainer}
+          isAuthenticated={this.props.isAuthenticated}
+        />
       </div>
     );
   }
