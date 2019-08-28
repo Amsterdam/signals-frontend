@@ -36,16 +36,11 @@ export class IncidentContainer extends React.Component {
     return (
       <Fragment>
         <Row>
-          <Column span={12}>
-            <div className="incident-container__alert">
-              <b>*** BELANGRIJK ***</b><br />
-                Melding over horeca of evenementen? Vul dan bij de melding altijd uw contactgegevens in, dan kunnen wij u beter en sneller helpen.
-            </div>
-          </Column>
-        </Row>
+          <Column span={{ small: 0, medium: 0, big: 2, large: 2, xLarge: 2 }} />
 
-        <Row>
-          <Column span={12}>
+          <Column
+            span={{ small: 12, medium: 12, big: 8, large: 8, xLarge: 8 }}
+          >
             <IncidentWizard
               wizardDefinition={wizardDefinition}
               getClassification={this.getClassification}
@@ -55,6 +50,8 @@ export class IncidentContainer extends React.Component {
               isAuthenticated={this.props.isAuthenticated}
             />
           </Column>
+
+          <Column span={{ small: 0, medium: 0, big: 2, large: 2, xLarge: 2 }} />
         </Row>
       </Fragment>
     );
