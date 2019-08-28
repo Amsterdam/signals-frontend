@@ -12,6 +12,7 @@ import {
   MenuInline,
   MenuItem,
   MenuToggle,
+  SearchBar,
 } from '@datapunt/asc-ui';
 
 export const breakpoint = 899;
@@ -19,6 +20,15 @@ export const breakpoint = 899;
 const StyledHeader = styled(HeaderComponent)`
   a:link {
     text-decoration: none;
+  }
+
+  nav {
+    width: 100%;
+
+    ul {
+      width: 100%;
+      justify-content: flex-end;
+    }
   }
 `;
 
@@ -29,23 +39,73 @@ const StyledMenuButton = styled(MenuButton)`
   color: #323232;
 `;
 
+const SearchBarMenuItem = styled(MenuItem)`
+  margin-right: auto;
+  max-width: 365px;
+  flex: 2;
+`;
+
+const StyledSearchBar = styled(SearchBar)`
+  margin-top: 5px;
+`;
+
 const MenuItems = ({
   isAuthenticated,
   onLoginLogoutButtonClick,
   permissions,
   location: { pathname },
+  onSearchSubmit,
 }) => {
   const showLogin = pathname !== '/incident/beschrijf' && !isAuthenticated;
   const showLogout = isAuthenticated;
 
+  const searchSubmit = (event) => {
+    if (typeof onSearchSubmit === 'function') {
+      onSearchSubmit(event);
+    }
+  };
+
   return (
     <Fragment>
       {isAuthenticated && (
-        <MenuItem element="span">
-          <StyledMenuButton $as={NavLink} to="/manage/incidents">
-            Afhandelen
-          </StyledMenuButton>
-        </MenuItem>
+        <Fragment>
+          <SearchBarMenuItem>
+            <StyledSearchBar
+              placeholder="Zoek op melding nummer"
+              onChange={() => {}} // component requires onChange handler, even though we don't need it
+              onSubmit={searchSubmit}
+              onKeyDown={(event) => {
+                const { keyCode } = event;
+
+                const allowedButtonCodes = [
+                  8,  // backspace
+                  37, // left
+                  39, // right
+                  46, // delete
+                  48, // 0
+                  49, // 1
+                  50, // 2
+                  51, // 3
+                  52, // 4
+                  53, // 5
+                  54, // 6
+                  55, // 7
+                  56, // 8
+                  57, // 9
+                ];
+
+                if (!allowedButtonCodes.includes(keyCode)) {
+                  event.preventDefault();
+                }
+              }}
+            />
+          </SearchBarMenuItem>
+          <MenuItem element="span">
+            <StyledMenuButton $as={NavLink} to="/manage/incidents">
+              Afhandelen
+            </StyledMenuButton>
+          </MenuItem>
+        </Fragment>
       )}
       <MenuItem element="span">
         <StyledMenuButton $as={NavLink} to="/">
@@ -117,6 +177,7 @@ const SiteHeader = (props) => (
 
 SiteHeader.defaultProps = {
   isAuthenticated: false,
+  onSearchSubmit: undefined,
   onLoginLogoutButtonClick: undefined,
 };
 
@@ -125,6 +186,7 @@ SiteHeader.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
+  onSearchSubmit: PropTypes.func,
   onLoginLogoutButtonClick: PropTypes.func,
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

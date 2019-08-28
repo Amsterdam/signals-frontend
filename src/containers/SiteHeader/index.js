@@ -9,6 +9,8 @@ import {
 } from 'containers/App/selectors';
 import SiteHeader from 'components/SiteHeader';
 import { withRouter } from 'react-router-dom';
+import { requestIncidents as onRequestIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
+import { setSearchQuery } from 'models/search/actions';
 
 import { doLogin, doLogout } from '../App/actions';
 import { isAuthenticated } from '../../shared/services/auth/auth';
@@ -20,6 +22,7 @@ export class SiteHeaderContainer extends React.Component {
   constructor(props) {
     super(props);
     this.onLoginLogoutButtonClick = this.onLoginLogoutButtonClick.bind(this);
+    this.onSearchSubmit = this.onSearchSubmit.bind(this);
   }
 
   onLoginLogoutButtonClick(event, domain) {
@@ -33,6 +36,18 @@ export class SiteHeaderContainer extends React.Component {
     }
   }
 
+  /**
+   * Send search form input to action
+   *
+   * @param {String} searchInput
+   */
+  onSearchSubmit = (searchInput) => {
+    if (!searchInput) return;
+
+    this.props.onSetSearchQuery(searchInput);
+    this.props.onRequestIncidents({ filter: { id: searchInput } });
+  }
+
   render() {
     return (
       <HeaderWithRouter
@@ -40,21 +55,24 @@ export class SiteHeaderContainer extends React.Component {
         isAuthenticated={isAuthenticated()}
         onLoginLogoutButtonClick={this.onLoginLogoutButtonClick}
         userName={this.props.userName}
+        onSearchSubmit={this.onSearchSubmit}
       />
     );
   }
 }
 
 SiteHeaderContainer.propTypes = {
-  userName: PropTypes.string,
   onLogin: PropTypes.func,
   onLogout: PropTypes.func,
+  onRequestIncidents: PropTypes.func,
+  onSetSearchQuery: PropTypes.func,
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  userName: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
-  userName: makeSelectUserName(),
   permissions: makeSelectUserPermissions(),
+  userName: makeSelectUserName(),
 });
 
 export const mapDispatchToProps = (dispatch) =>
@@ -62,6 +80,8 @@ export const mapDispatchToProps = (dispatch) =>
     {
       onLogin: doLogin,
       onLogout: doLogout,
+      onRequestIncidents,
+      onSetSearchQuery: setSearchQuery,
     },
     dispatch,
   );
