@@ -94,9 +94,9 @@ const MenuItems = ({
 
 const SiteHeader = (props) => (
   <StyledHeader
-    title="Meldingen"
+    title={props.isAuthenticated ? 'Meldingen' : ''}
     homeLink={CONFIGURATION.ROOT}
-    tall={false}
+    tall={!props.isAuthenticated}
     fullWidth={false}
     navigation={
       <Media query={`(max-width: ${breakpoint}px)`}>
