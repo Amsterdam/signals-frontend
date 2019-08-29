@@ -12,8 +12,8 @@ import {
   MenuInline,
   MenuItem,
   MenuToggle,
-  SearchBar,
 } from '@datapunt/asc-ui';
+import SearchBar from 'containers/SearchBar';
 
 export const breakpoint = 899;
 
@@ -54,53 +54,16 @@ const MenuItems = ({
   onLoginLogoutButtonClick,
   permissions,
   location: { pathname },
-  onSearchSubmit,
 }) => {
   const showLogin = pathname !== '/incident/beschrijf' && !isAuthenticated;
   const showLogout = isAuthenticated;
-
-  const searchSubmit = (event) => {
-    if (typeof onSearchSubmit === 'function') {
-      onSearchSubmit(event);
-    }
-  };
 
   return (
     <Fragment>
       {isAuthenticated && (
         <Fragment>
           <SearchBarMenuItem>
-            <StyledSearchBar
-              data-testid="searchBar"
-              placeholder="Zoek op melding nummer"
-              onChange={() => {}} // component requires onChange handler, even though we don't need it
-              onSubmit={searchSubmit}
-              onKeyDown={(event) => {
-                const { keyCode } = event;
-
-                const allowedButtonCodes = [
-                  8,  // backspace
-                  37, // left
-                  39, // right
-                  46, // delete
-                  48, // 0
-                  49, // 1
-                  50, // 2
-                  51, // 3
-                  52, // 4
-                  53, // 5
-                  54, // 6
-                  55, // 7
-                  56, // 8
-                  57, // 9
-                ];
-
-                /* istanbul ignore else */
-                if (!allowedButtonCodes.includes(keyCode)) {
-                  event.preventDefault();
-                }
-              }}
-            />
+            <StyledSearchBar />
           </SearchBarMenuItem>
 
           <MenuItem element="span">
@@ -180,7 +143,6 @@ const SiteHeader = (props) => (
 
 SiteHeader.defaultProps = {
   isAuthenticated: false,
-  onSearchSubmit: undefined,
   onLoginLogoutButtonClick: undefined,
 };
 
@@ -189,7 +151,6 @@ SiteHeader.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
-  onSearchSubmit: PropTypes.func,
   onLoginLogoutButtonClick: PropTypes.func,
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

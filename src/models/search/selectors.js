@@ -4,9 +4,17 @@ import { initialState } from './reducer';
 const selectSearchDomain = (state) =>
   (state && state.get('search')) || initialState;
 
-const makeSelectSearch = createSelector(
+export const makeSelectSearch = createSelector(
   selectSearchDomain,
   (substate) => substate.toJS(),
 );
 
-export { makeSelectSearch as default, selectSearchDomain };
+export const makeSelectQuery = createSelector(
+  selectSearchDomain,
+  (substate) => {
+    const { query } = substate.toJS();
+    return query;
+  },
+);
+
+export default selectSearchDomain;

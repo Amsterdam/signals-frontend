@@ -9,8 +9,6 @@ import {
 } from 'containers/App/selectors';
 import SiteHeader from 'components/SiteHeader';
 import { withRouter } from 'react-router-dom';
-import { requestIncidents as onRequestIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
-import { setSearchQuery } from 'models/search/actions';
 import { isAuthenticated } from 'shared/services/auth/auth';
 
 import { doLogin, doLogout } from '../App/actions';
@@ -22,7 +20,6 @@ export class SiteHeaderContainer extends React.Component {
   constructor(props) {
     super(props);
     this.onLoginLogoutButtonClick = this.onLoginLogoutButtonClick.bind(this);
-    this.onSearchSubmit = this.onSearchSubmit.bind(this);
   }
 
   onLoginLogoutButtonClick(event, domain) {
@@ -36,26 +33,13 @@ export class SiteHeaderContainer extends React.Component {
     }
   }
 
-  /**
-   * Send search form input to action
-   *
-   * @param {String} searchInput
-   */
-  onSearchSubmit = (searchInput) => {
-    if (!searchInput) return;
-
-    this.props.onSetSearchQuery(searchInput);
-    this.props.onRequestIncidents({ filter: { id: searchInput } });
-  }
-
   render() {
     return (
       <HeaderWithRouter
-        permissions={this.props.permissions}
         isAuthenticated={isAuthenticated()}
         onLoginLogoutButtonClick={this.onLoginLogoutButtonClick}
+        permissions={this.props.permissions}
         userName={this.props.userName}
-        onSearchSubmit={this.onSearchSubmit}
       />
     );
   }
@@ -64,8 +48,6 @@ export class SiteHeaderContainer extends React.Component {
 SiteHeaderContainer.propTypes = {
   onLogin: PropTypes.func,
   onLogout: PropTypes.func,
-  onRequestIncidents: PropTypes.func,
-  onSetSearchQuery: PropTypes.func,
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   userName: PropTypes.string,
 };
@@ -80,8 +62,6 @@ export const mapDispatchToProps = (dispatch) =>
     {
       onLogin: doLogin,
       onLogout: doLogout,
-      onRequestIncidents,
-      onSetSearchQuery: setSearchQuery,
     },
     dispatch,
   );

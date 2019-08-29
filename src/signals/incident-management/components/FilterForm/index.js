@@ -31,7 +31,6 @@ const FilterForm = ({
   filter,
   onCancel,
   onClearFilter,
-  onRequestIncidents,
   onSaveFilter,
   onSubmit,
   onUpdateFilter,
@@ -85,10 +84,8 @@ const FilterForm = ({
 
     /* istanbul ignore else */
     if (typeof onSubmit === 'function') {
-      onSubmit(event);
+      onSubmit(event, formData);
     }
-
-    onRequestIncidents({ filter: formData });
   };
 
   /**
@@ -385,12 +382,14 @@ FilterForm.propTypes = {
   onCancel: PropTypes.func,
   /** Callback handler to reset filter */
   onClearFilter: PropTypes.func,
-  /** Handler called whenever form is submitted. Param contains parsed form data */
-  onRequestIncidents: PropTypes.func,
   /** Callback handler for new filter settings */
   onSaveFilter: PropTypes.func,
-  /** Callback handler called whenever form is submitted. Param contains submission event  */
-  onSubmit: PropTypes.func,
+  /**
+   * Callback handler called whenever form is submitted
+   * @param {Event} event
+   * @param {FormData} formData
+   */
+  onSubmit: PropTypes.func.isRequired,
   /** Callback handler for handling filter settings updates */
   onUpdateFilter: PropTypes.func,
   priorityList: PropTypes.arrayOf(

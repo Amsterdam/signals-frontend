@@ -3,7 +3,6 @@ import {
   render,
   fireEvent,
   cleanup,
-  createEvent,
 } from '@testing-library/react';
 import MatchMediaMock from 'match-media-mock';
 
@@ -128,89 +127,6 @@ describe('components/SiteHeader', () => {
 
     // log out button
     expect(queryByText('Uitloggen')).toBeTruthy();
-  });
-
-  it('should only accept numeric characters in the search field', () => {
-    const { queryByTestId } = render(
-      withAppContext(
-        <SiteHeader
-          isAuthenticated
-          permissions={[]}
-          location={{ pathname: '/' }}
-        />,
-      ),
-    );
-
-    const input = queryByTestId('searchBar').querySelector('input');
-
-    // simulate the input of numeric keys
-    const numericKeyCodes = [...Array(58).keys()].slice(48);
-    numericKeyCodes.forEach((keyCode, value) => {
-      fireEvent.change(input, { target: { value, keyCode } });
-      expect(parseInt(input.value, 10)).toEqual(value);
-    });
-
-    // simulate the input of navigational keys
-    const navKeyCodes = [
-      8, // backspace
-      37, // left
-      39, // right
-      46, // delete
-    ];
-    navKeyCodes.forEach((keyCode) => {
-      const myEvent = createEvent.change(input, { target: { keyCode } });
-      const preventDefaultSpy = jest.spyOn(myEvent, 'preventDefault');
-      fireEvent(input, myEvent);
-
-      expect(preventDefaultSpy).not.toHaveBeenCalled();
-    });
-
-    // simulate other keys
-    const invalidKeyCodes = [1, 2, 3, 4, 58, 60, 90];
-    invalidKeyCodes.forEach((keyCode) => {
-      const myEvent = createEvent.keyDown(input, { target: { keyCode } });
-      const preventDefaultSpy = jest.spyOn(myEvent, 'preventDefault');
-      fireEvent(input, myEvent);
-
-      expect(preventDefaultSpy).toHaveBeenCalled();
-    });
-  });
-
-  it('should call searchSubmit handler', () => {
-    const onSearchSubmit = jest.fn();
-
-    const { queryByTestId, rerender } = render(
-      withAppContext(
-        <SiteHeader
-          isAuthenticated
-          permissions={[]}
-          location={{ pathname: '/' }}
-          onSearchSubmit={onSearchSubmit}
-        />,
-      ),
-    );
-
-    const formSubmitBtn = queryByTestId('searchBar').querySelector('button');
-    fireEvent.click(formSubmitBtn);
-
-    expect(onSearchSubmit).toHaveBeenCalled();
-
-    onSearchSubmit.mockReset();
-
-    rerender(
-      withAppContext(
-        <SiteHeader
-          isAuthenticated
-          permissions={[]}
-          location={{ pathname: '/' }}
-          onSearchSubmit={null}
-        />,
-      ),
-    );
-
-    fireEvent.click(formSubmitBtn);
-
-    expect(onSearchSubmit).not.toHaveBeenCalled();
   });
 
   it('should handle login/logout callback', () => {
