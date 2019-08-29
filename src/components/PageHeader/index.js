@@ -41,6 +41,7 @@ const PageHeader = ({ className, children, subTitle, title }) => {
 
   useEffect(() => {
     const escFunction = (event) => {
+      /* istanbul ignore next */
       if (event.keyCode === 27) {
         closeModal();
       }

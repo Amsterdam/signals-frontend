@@ -18,7 +18,7 @@ export const PageHeaderContainerComponent = ({
   const hasCount = !!incidentsCount && isNaN(Number(incidentsCount)) === false;
   title += hasCount ? ` (${incidentsCount})` : '';
 
-  const subTitle = searchModel.query && `Zoekresultaten voor "${searchModel.query}"`;
+  const subTitle = searchModel && searchModel.query && `Zoekresultaten voor "${searchModel.query}"`;
 
   return <PageHeader title={title} subTitle={subTitle} />;
 };

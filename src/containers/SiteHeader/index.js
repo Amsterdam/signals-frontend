@@ -11,9 +11,9 @@ import SiteHeader from 'components/SiteHeader';
 import { withRouter } from 'react-router-dom';
 import { requestIncidents as onRequestIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 import { setSearchQuery } from 'models/search/actions';
+import { isAuthenticated } from 'shared/services/auth/auth';
 
 import { doLogin, doLogout } from '../App/actions';
-import { isAuthenticated } from '../../shared/services/auth/auth';
 
 const HeaderWithRouter = withRouter(SiteHeader);
 

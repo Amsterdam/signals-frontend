@@ -1,12 +1,12 @@
 import injectReducerModel from 'utils/injectReducerModel';
 
-import reducer from './reducer';
+import reducer from '../reducer';
 
-import loadModel from './index';
+import loadModel from '../index';
 
 jest.mock('utils/injectReducerModel');
 
-jest.mock('./reducer');
+jest.mock('../reducer');
 
 describe('loadModel', () => {
   const store = { foo: 'bar' };
@@ -24,6 +24,6 @@ describe('loadModel', () => {
     injectReducerModel.mockImplementation(spy);
     loadModel(store);
 
-    expect(spy).toHaveBeenCalledWith('incidentModel', reducer, store);
+    expect(spy).toHaveBeenCalledWith('search', reducer, store);
   });
 });

@@ -1,9 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import { fireEvent, render } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
-import { SiteHeaderContainer, mapDispatchToProps } from './index';
-import { LOGIN, LOGOUT } from '../App/constants';
+import { SiteHeaderContainer, mapDispatchToProps } from '../index';
+import { LOGIN, LOGOUT } from '../../App/constants';
 
 jest.mock('shared/services/auth/auth');
 
@@ -59,6 +61,32 @@ describe('containers/SiteHeaderContainer', () => {
     it('should log out', () => {
       mapDispatchToProps(dispatch).onLogout();
       expect(dispatch).toHaveBeenCalledWith({ type: LOGOUT, payload: null });
+    });
+  });
+
+  describe('onSearchSubmit', () => {
+    it('should dispatch actions', () => {
+      isAuthenticated.mockImplementation(() => true);
+
+      const onSetSearchQuery = jest.fn();
+      const onRequestIncidents = jest.fn();
+
+      const { container } = render(withAppContext(
+        <SiteHeaderContainer onLogin={() => {}} onSetSearchQuery={onSetSearchQuery} onRequestIncidents={onRequestIncidents} permissions={[]} />
+      ));
+
+      const searchFormInput = container.querySelector('input[type="text"]');
+      const searchFormButton = container.querySelector('button[type="submit"]');
+
+      fireEvent.click(searchFormButton);
+      expect(onSetSearchQuery).not.toHaveBeenCalled();
+      expect(onRequestIncidents).not.toHaveBeenCalled();
+
+      fireEvent.change(searchFormInput, { target: { value: '3453' } });
+      fireEvent.click(searchFormButton);
+
+      expect(onSetSearchQuery).toHaveBeenCalled();
+      expect(onRequestIncidents).toHaveBeenCalled();
     });
   });
 });

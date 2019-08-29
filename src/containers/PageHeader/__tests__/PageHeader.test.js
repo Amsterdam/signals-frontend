@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { mount } from 'enzyme';
 import { withAppContext } from 'test/utils';
 import PageHeaderComponent from 'components/PageHeader';
+import { initialState } from 'models/search/reducer';
 import PageHeaderContainer, { PageHeaderContainerComponent } from '../';
 
 describe('containers/PageHeader', () => {
@@ -15,6 +16,7 @@ describe('containers/PageHeader', () => {
 
     expect(props.activeFilter).toBeDefined();
     expect(props.incidentsCount).toBeNull();
+    expect(props.searchModel).toEqual(initialState.toJS());
   });
 
   it('renders a PageHeader component', () => {
@@ -51,5 +53,16 @@ describe('containers/PageHeader', () => {
     ));
 
     expect(container.firstChild.querySelector('h1').textContent).toEqual('Foo bar !!1! (99)');
+  });
+
+  it('should provide the PageHeader component with a subtitle', () => {
+    const activeFilter = { name: '' };
+    const searchModel = { query: 'Foo bar' };
+
+    const { container } = render(withAppContext(
+      <PageHeaderContainerComponent activeFilter={activeFilter} incidentsCount={null} searchModel={searchModel} />
+    ));
+
+    expect(container.textContent).toEqual(expect.stringMatching(/Foo bar/));
   });
 });

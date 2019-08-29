@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 import { SET_QUERY, RESET_QUERY } from './constants';
 
-const initialState = fromJS({
+export const initialState = fromJS({
   query: '',
 });
 

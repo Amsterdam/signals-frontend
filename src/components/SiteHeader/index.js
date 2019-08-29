@@ -71,6 +71,7 @@ const MenuItems = ({
         <Fragment>
           <SearchBarMenuItem>
             <StyledSearchBar
+              data-testid="searchBar"
               placeholder="Zoek op melding nummer"
               onChange={() => {}} // component requires onChange handler, even though we don't need it
               onSubmit={searchSubmit}
@@ -94,12 +95,14 @@ const MenuItems = ({
                   57, // 9
                 ];
 
+                /* istanbul ignore else */
                 if (!allowedButtonCodes.includes(keyCode)) {
                   event.preventDefault();
                 }
               }}
             />
           </SearchBarMenuItem>
+
           <MenuItem element="span">
             <StyledMenuButton $as={NavLink} to="/manage/incidents">
               Afhandelen
