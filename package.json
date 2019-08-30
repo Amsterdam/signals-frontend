@@ -244,9 +244,9 @@
     ]
   },
   "dependencies": {
-    "@datapunt/asc-assets": "^0.12.2",
-    "@datapunt/asc-core": "^0.12.2",
-    "@datapunt/asc-ui": "^0.12.2",
+    "@datapunt/asc-assets": "^0.12.7",
+    "@datapunt/asc-core": "^0.12.6",
+    "@datapunt/asc-ui": "^0.12.7",
     "@datapunt/leaflet-geojson-bbox-layer": "0.1.1",
     "@sentry/browser": "^5.5.0",
     "amsterdam-amaps": "^2.0.0",

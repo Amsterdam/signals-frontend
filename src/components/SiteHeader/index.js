@@ -13,20 +13,13 @@ import {
   Header as HeaderComponent,
   MenuInline,
   MenuItem,
+  MenuButton,
   MenuToggle,
 } from '@datapunt/asc-ui';
 
 import { resetIncident } from '../../signals/incident/containers/IncidentContainer/actions';
 
 export const breakpoint = 899;
-
-const StyledLogin = styled(Login)`
-  margin-right: 5px;
-`;
-
-const StyledLogout = styled(Logout)`
-  margin-right: 5px;
-`;
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
@@ -44,53 +37,59 @@ const MenuItems = ({
   isAuthenticated,
   onLoginLogoutButtonClick,
   permissions,
-  location: { pathname },
-}) => {
-  const showLogin = pathname !== '/incident/beschrijf' && !isAuthenticated;
-  const showLogout = isAuthenticated;
-
-  return (
-    <Fragment>
-      {isAuthenticated && (
-        <StyledMenuItem element="span">
-          <NavLink to="/manage/incidents">Afhandelen</NavLink>
-        </StyledMenuItem>
+}) => (
+  <Fragment>
+    {isAuthenticated && (
+    <StyledMenuItem element="span">
+      <MenuButton>
+        <NavLink to="/manage/incidents">Afhandelen</NavLink>
+      </MenuButton>
+    </StyledMenuItem>
       )}
-      <StyledMenuItem element="span">
+    <StyledMenuItem element="span">
+      <MenuButton>
         <NavLink to="/" onClick={resetIncident}>
           Nieuwe melding
         </NavLink>
-      </StyledMenuItem>
-      {permissions.includes('signals.sia_statusmessagetemplate_write') && (
-        <StyledMenuItem element="span">
-          <NavLink to="/manage/standaard/teksten">
+      </MenuButton>
+    </StyledMenuItem>
+    {permissions.includes('signals.sia_statusmessagetemplate_write') && (
+    <StyledMenuItem element="span">
+      <MenuButton>
+        <NavLink to="/manage/standaard/teksten">
             Beheer standaard teksten
-          </NavLink>
-        </StyledMenuItem>
+        </NavLink>
+      </MenuButton>
+    </StyledMenuItem>
       )}
-      {showLogout && (
-        <StyledMenuItem
-          element="button"
-          data-testid="logout-button"
-          onClick={onLoginLogoutButtonClick}
-          iconLeft={<StyledLogout focusable="false" width={20} />}
-        >
+    {isAuthenticated && (
+    <StyledMenuItem
+      element="button"
+      data-testid="logout-button"
+      onClick={onLoginLogoutButtonClick}
+    >
+      <MenuButton
+        iconLeft={<Logout focusable="false" width={20} />}
+      >
           Uitloggen
-        </StyledMenuItem>
+      </MenuButton>
+    </StyledMenuItem>
       )}
-      {showLogin && (
-        <StyledMenuItem
-          element="button"
-          data-testid="login-button"
-          onClick={onLoginLogoutButtonClick}
-          iconLeft={<StyledLogin focusable="false" width={20} />}
-        >
+    {isAuthenticated && (
+    <StyledMenuItem
+      element="button"
+      data-testid="login-button"
+      onClick={onLoginLogoutButtonClick}
+    >
+      <MenuButton
+        iconLeft={<Login focusable="false" width={20} />}
+      >
           Log in
-        </StyledMenuItem>
+      </MenuButton>
+    </StyledMenuItem>
       )}
-    </Fragment>
+  </Fragment>
   );
-};
 
 const SiteHeader = (props) => (
   <StyledHeader
