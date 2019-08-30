@@ -19,6 +19,20 @@ export const initialState = fromJS({
   sort: '-created_at',
   stadsdeelList,
   statusList,
+  feedback: [
+    {
+      key: 'satisfied',
+      value: 'Tevreden',
+    },
+    {
+      key: 'not_satisfied',
+      value: 'Niet tevreden',
+    },
+    {
+      key: 'not_received',
+      value: 'Niet ontvangen',
+    },
+  ],
 });
 
 function overviewPageReducer(state = initialState, action) {
