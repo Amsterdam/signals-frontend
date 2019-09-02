@@ -54,7 +54,6 @@ const PageHeader = ({ className, children, title }) => {
           data-testid="modalBtn"
           type="button"
           color="primary"
-          as="button"
           onClick={openModal}
         >
           Filteren

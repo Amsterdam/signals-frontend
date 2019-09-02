@@ -3,7 +3,7 @@ import { testActionCreator } from 'test/utils';
 import * as constants from '../constants';
 import * as actions from '../actions';
 
-describe('signals/incident-management/containers/Filter/actions', () => {
+describe('models/filter/actions', () => {
   it('should dispatch filterSaved action', () => {
     const foo = 'bar';
     const payload = { foo };

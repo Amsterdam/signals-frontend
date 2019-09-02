@@ -14,7 +14,7 @@ import {
 } from '../constants';
 import { filterSaveFailed, filterUpdatedFailed } from '../actions';
 
-describe('signals/incident-management/containers/Filter/saga', () => {
+describe('models/filter/saga', () => {
   it('should watch filterSaga', () => {
     testSaga(filterSaga)
       .next()

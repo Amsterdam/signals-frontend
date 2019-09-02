@@ -1,6 +1,7 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import { authPostCall, authPatchCall } from 'shared/services/api/api';
+import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import { SAVE_FILTER, UPDATE_FILTER } from './constants';
 import {
@@ -10,15 +11,13 @@ import {
   filterUpdatedSuccess,
 } from './actions';
 
-export const requestURL = '/signals/v1/private/me/filters';
+export const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters`;
 
 export function* saveFilter(action) {
   const filterData = action.payload;
 
   try {
     if (filterData.name) {
-      // remove the line below when the API has been deployed and is capable of storing a filter
-      yield put(filterSaveSuccess(filterData));
       const result = yield call(authPostCall, requestURL, filterData);
 
       yield put(filterSaveSuccess(result));
@@ -44,8 +43,6 @@ export function* updateFilter(action) {
   const filterData = action.payload;
 
   try {
-    // remove the line below when the API has been deployed and is capable of patching a filter
-    yield put(filterUpdatedSuccess(filterData));
     const result = yield call(authPatchCall, requestURL, filterData);
 
     yield put(filterUpdatedSuccess(result));

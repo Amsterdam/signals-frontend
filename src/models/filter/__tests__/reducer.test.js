@@ -14,7 +14,7 @@ const activeFilter = {
   name: 'Foo Bar',
 };
 
-describe('signals/incident-management/containers/Filter/reducer', () => {
+describe('models/filter/reducer', () => {
   it('should return the initial state', () => {
     const defaultAction = {
       type: 'SOME_UNSUPPORTED_TYPE',

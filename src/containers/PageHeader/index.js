@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
 import PageHeader from 'components/PageHeader';
-import { makeSelectActiveFilter } from 'signals/incident-management/containers/Filter/selectors';
+import { makeSelectActiveFilter } from 'models/filter/selectors';
 import { makeSelectIncidentsCount } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 
 export const PageHeaderContainerComponent = ({
