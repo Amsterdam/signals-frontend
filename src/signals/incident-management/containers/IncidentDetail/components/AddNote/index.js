@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 
 import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
-import TextInput from 'signals/incident-management/components/TextInput';
+import TextAreaInput from 'signals/incident-management/components/TextAreaInput';
 
 import './style.scss';
 
@@ -56,7 +56,7 @@ class AddNote extends React.Component { // eslint-disable-line react/prefer-stat
               render={({ invalid }) => (
                 <form onSubmit={this.handleSubmit} className="add-note__form">
                   <div>
-                    <FieldControlWrapper render={TextInput} name="text" className="add-note__form-input" control={this.form.get('text')} />
+                    <FieldControlWrapper render={TextAreaInput} name="text" className="add-note__form-input" control={this.form.get('text')} />
 
                     <button className="add-note__form-submit action primary" type="submit" disabled={invalid}>Opslaan</button>
                     <button className="add-note__form-cancel action secundary-grey" onClick={this.hideForm}>Annuleren</button>
