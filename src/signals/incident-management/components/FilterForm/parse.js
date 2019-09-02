@@ -1,6 +1,7 @@
 import clonedeep from 'lodash.clonedeep';
 
 export const arrayFields = [
+  'feedback',
   'stadsdeel',
   'maincategory_slug',
   'priority',

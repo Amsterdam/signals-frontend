@@ -34,6 +34,20 @@ export const initialState = fromJS({
   allFilters: [],
   filter: {},
   removedFilter: {},
+  feedback: [
+    {
+      key: 'satisfied',
+      value: 'Tevreden',
+    },
+    {
+      key: 'not_satisfied',
+      value: 'Niet tevreden',
+    },
+    {
+      key: 'not_received',
+      value: 'Niet ontvangen',
+    },
+  ],
 });
 
 function overviewPageReducer(state = initialState, action) {

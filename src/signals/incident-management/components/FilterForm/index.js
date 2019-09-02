@@ -28,6 +28,7 @@ export const saveSubmitBtnLabel = 'Opslaan en filteren';
  * Component that renders the incident filter form
  */
 const FilterForm = ({
+  feedback,
   filter,
   onCancel,
   onClearFilter,
@@ -46,6 +47,7 @@ const FilterForm = ({
   } = dataLists;
 
   const parsedfilterData = parseInputFormData(filter, {
+    feedback,
     stadsdeel,
     maincategory_slug: categories.main,
     priority,
@@ -203,7 +205,7 @@ const FilterForm = ({
                   options={stadsdeel}
                 />
               </FilterGroup>
-            )}
+          )}
 
           {Array.isArray(priority) && priority.length > 0 && (
             <FilterGroup data-testid="priorityFilterGroup">
@@ -214,6 +216,19 @@ const FilterForm = ({
                 defaultValue={filterData.priority}
                 groupName="priority"
                 options={priority}
+              />
+            </FilterGroup>
+          )}
+
+          {Array.isArray(feedback) && feedback.length > 0 && (
+            <FilterGroup data-testid="feedbackFilterGroup">
+              <Label htmlFor={`feedback_${feedback[0].key}`}>
+                Tevredenheid
+              </Label>
+              <CheckboxList
+                defaultValue={filterData.feedback}
+                groupName="feedback"
+                options={feedback}
               />
             </FilterGroup>
           )}
@@ -364,7 +379,14 @@ FilterForm.propTypes = {
       }),
     ),
   }).isRequired,
+  feedback: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    }),
+  ),
   filter: PropTypes.shape({
+    feedback: PropTypes.string,
     incident_date: PropTypes.string,
     address_text: PropTypes.string,
     stadsdeel: PropTypes.oneOfType([

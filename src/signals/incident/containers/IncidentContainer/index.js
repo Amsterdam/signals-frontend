@@ -63,21 +63,28 @@ IncidentContainer.propTypes = {
   getClassification: PropTypes.func.isRequired,
   updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
 };
 
 const mapStateToProps = createStructuredSelector({
   incidentContainer: makeSelectIncidentContainer(),
-  isAuthenticated: makeSelectIsAuthenticated()
+  isAuthenticated: makeSelectIsAuthenticated(),
 });
 
-export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  getClassification,
-  updateIncident,
-  createIncident
-}, dispatch);
+export const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      getClassification,
+      updateIncident,
+      createIncident,
+    },
+    dispatch,
+  );
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 const withReducer = injectReducer({ key: 'incidentContainer', reducer });
 const withSaga = injectSaga({ key: 'incidentContainer', saga });

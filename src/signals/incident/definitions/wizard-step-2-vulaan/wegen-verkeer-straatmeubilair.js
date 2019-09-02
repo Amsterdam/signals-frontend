@@ -183,7 +183,7 @@ export default {
           'lichtmast',
           'grachtmast',
           'overspanning',
-          'gevelArmatuur',
+          'gevel_armatuur',
           'schijnwerper',
           'overig_lichtpunt',
         ],
