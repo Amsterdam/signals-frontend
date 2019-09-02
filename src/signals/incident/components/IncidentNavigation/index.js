@@ -27,6 +27,7 @@ const IncidentNavigation = ({ controls, meta: { wizard, submitting, handleSubmit
                     <button
                       className={`incident-navigation__button  ${wizardStep.previousButtonClass}`}
                       onClick={previous}
+                      type="button"
                     >
                       {wizardStep.previousButtonLabel}
                     </button>
@@ -36,6 +37,7 @@ const IncidentNavigation = ({ controls, meta: { wizard, submitting, handleSubmit
                     <button
                       className={`incident-navigation__button incident-navigation__button--next  ${wizardStep.nextButtonClass}`}
                       onClick={(e) => handleSubmit(e, next, wizardStep.formAction)}
+                      type="submit"
                     >
                       <span className="value">{wizardStep.nextButtonLabel}</span>
                       {submitting ? <span className="working"><div className="progress-indicator progress-white"></div></span> : ''}
