@@ -28,6 +28,7 @@ export const saveSubmitBtnLabel = 'Opslaan en filteren';
  * Component that renders the incident filter form
  */
 const FilterForm = ({
+  feedback,
   filter,
   onCancel,
   onClearFilter,
@@ -44,6 +45,7 @@ const FilterForm = ({
   } = dataLists;
 
   const parsedfilterData = parseInputFormData(filter, {
+    feedback,
     location__stadsdeel,
     main_slug: categories.main,
     priority__priority,
@@ -192,7 +194,7 @@ const FilterForm = ({
                   options={location__stadsdeel}
                 />
               </FilterGroup>
-            )}
+          )}
 
           {Array.isArray(priority__priority) && priority__priority.length > 0 && (
             <FilterGroup data-testid="priorityFilterGroup">
@@ -203,6 +205,19 @@ const FilterForm = ({
                 defaultValue={filterData.priority__priority}
                 groupName="priority__priority"
                 options={priority__priority}
+              />
+            </FilterGroup>
+          )}
+
+          {Array.isArray(feedback) && feedback.length > 0 && (
+            <FilterGroup data-testid="feedbackFilterGroup">
+              <Label htmlFor={`feedback_${feedback[0].key}`}>
+                Tevredenheid
+              </Label>
+              <CheckboxList
+                defaultValue={filterData.feedback}
+                groupName="feedback"
+                options={feedback}
               />
             </FilterGroup>
           )}
@@ -353,7 +368,14 @@ FilterForm.propTypes = {
       }),
     ),
   }).isRequired,
+  feedback: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    }),
+  ),
   filter: PropTypes.shape({
+    feedback: PropTypes.string,
     incident_date_start: PropTypes.string,
     location__address_text: PropTypes.string,
     location__stadsdeel: PropTypes.oneOfType([

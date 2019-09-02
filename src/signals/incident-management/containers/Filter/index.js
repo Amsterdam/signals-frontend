@@ -100,6 +100,12 @@ FilterContainerComponent.propTypes = {
         PropTypes.arrayOf(PropTypes.string),
       ]),
     }),
+    feedback: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        value: PropTypes.string.isRequired,
+      }),
+    ),
     filterSubCategoryList: PropTypes.arrayOf(PropTypes.shape({})),
     priorityList: PropTypes.arrayOf(
       PropTypes.shape({
