@@ -9,20 +9,26 @@ import { makeSelectActiveFilter } from 'models/filter/selectors';
 import { makeSelectIncidentsCount } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 
 export const PageHeaderContainerComponent = ({
-  incidentsCount,
   activeFilter: { name },
+  children,
+  incidentsCount,
 }) => {
   let title = name || 'Meldingen';
   const hasCount = !!incidentsCount && isNaN(Number(incidentsCount)) === false;
   title += hasCount ? ` (${incidentsCount})` : '';
 
-  return <PageHeader title={title} />;
+  return <PageHeader title={title}>{children}</PageHeader>;
+};
+
+PageHeaderContainerComponent.defaultProps = {
+  children: null,
 };
 
 PageHeaderContainerComponent.propTypes = {
   activeFilter: PropTypes.shape({
     name: PropTypes.string,
   }).isRequired,
+  children: PropTypes.node,
   incidentsCount: PropTypes.number,
 };
 

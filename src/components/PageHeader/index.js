@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Heading, Row, Button } from '@datapunt/asc-ui';
-import { disablePageScroll, enablePageScroll } from 'scroll-lock';
-import Filter from 'signals/incident-management/containers/Filter';
-
-import Modal from 'components/Modal';
+import { Heading, Row } from '@datapunt/asc-ui';
 
 const StyledSection = styled.section`
   background-color: #f3f3f3;
@@ -14,58 +10,14 @@ const StyledSection = styled.section`
   margin-bottom: 40px;
 `;
 
-let lastActiveElement = null;
-
-const PageHeader = ({ className, children, title }) => {
-  const [modalIsOpen, toggleModal] = useState(false);
-
-  const openModal = () => {
-    disablePageScroll();
-    toggleModal(true);
-    lastActiveElement = document.activeElement;
-  };
-
-  function closeModal() {
-    enablePageScroll();
-    toggleModal(false);
-    lastActiveElement.focus();
-  }
-
-  useEffect(() => {
-    const escFunction = (event) => {
-      if (event.keyCode === 27) {
-        closeModal();
-      }
-    };
-
-    document.addEventListener('keydown', escFunction);
-
-    return () => {
-      document.removeEventListener('keydown', escFunction);
-    };
-  });
-
-  return (
-    <StyledSection className={className}>
-      <Row>
-        <Heading as="h1">{title}</Heading>
-        {children}
-        <Button
-          data-testid="modalBtn"
-          type="button"
-          color="primary"
-          onClick={openModal}
-        >
-          Filteren
-        </Button>
-
-        <Modal isOpen={modalIsOpen} onClose={closeModal} title="Filters">
-          <Filter onSubmit={closeModal} onCancel={closeModal} />
-        </Modal>
-      </Row>
-    </StyledSection>
-  );
-};
+const PageHeader = ({ className, children, title }) => (
+  <StyledSection className={className}>
+    <Row>
+      <Heading as="h1">{title}</Heading>
+      {children}
+    </Row>
+  </StyledSection>
+);
 
 PageHeader.defaultProps = {
   className: '',

@@ -6,6 +6,8 @@ import PageHeaderComponent from 'components/PageHeader';
 import PageHeaderContainer, { PageHeaderContainerComponent } from '../';
 
 describe('containers/PageHeader', () => {
+  const activeFilter = { name: '' };
+
   it('should have props from structured selector', () => {
     const tree = mount(withAppContext(
       <PageHeaderContainer />
@@ -26,8 +28,6 @@ describe('containers/PageHeader', () => {
   });
 
   it('should provide the PageHeader component with a title', () => {
-    const activeFilter = { name: '' };
-
     const { container, rerender } = render(withAppContext(
       <PageHeaderContainerComponent activeFilter={activeFilter} incidentsCount={null} />
     ));

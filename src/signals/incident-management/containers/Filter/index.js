@@ -104,8 +104,9 @@ FilterContainerComponent.propTypes = {
       }),
     ),
   }),
-  onSaveFilter: PropTypes.func.isRequired,
   onClearFilter: PropTypes.func.isRequired,
+  onSaveFilter: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
   onUpdateFilter: PropTypes.func.isRequired,
 };
 
