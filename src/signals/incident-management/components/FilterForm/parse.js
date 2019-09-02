@@ -65,6 +65,7 @@ export const parseOutputFormData = (form) => {
  */
 export const parseInputFormData = (filterData, dataLists) => {
   const arrayFields = [
+    'feedback',
     'location__stadsdeel',
     'main_slug',
     'priority__priority',

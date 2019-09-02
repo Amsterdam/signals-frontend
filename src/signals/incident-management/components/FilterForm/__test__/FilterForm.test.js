@@ -184,6 +184,43 @@ describe('signals/incident-management/components/FilterForm', () => {
     ).toHaveLength(stadsdeelList.length);
   });
 
+  it('should render a list of feedback options', () => {
+    const feedback = [
+      {
+        key: 'meh',
+        value: 'Could be better',
+      },
+      {
+        key: '🥳',
+        value: 'Yeah!!1!',
+      },
+    ];
+
+    const { container, rerender, queryByTestId } = render(
+      withAppContext(<FilterForm categories={categories} feedback={[]} />),
+    );
+
+    expect(queryByTestId('feedbackFilterGroup')).toBeNull();
+
+    expect(
+      container.querySelectorAll(
+        'input[type="checkbox"][name="feedback"]',
+      ),
+    ).toHaveLength(0);
+
+    cleanup();
+
+    rerender(
+      withAppContext(<FilterForm categories={categories} feedback={feedback} />),
+    );
+
+    expect(
+      container.querySelectorAll(
+        'input[type="checkbox"][name="feedback"]',
+      ),
+    ).toHaveLength(feedback.length);
+  });
+
   it('should render a datepicker', () => {
     const { container, rerender } = render(
       withAppContext(<FilterForm categories={categories} />),
