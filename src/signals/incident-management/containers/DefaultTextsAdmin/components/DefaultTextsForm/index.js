@@ -53,6 +53,12 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
     });
   }
 
+  componentWillUnmount() {
+    this.items.forEach((item) => {
+      this.form.get(item).valueChanges.unsubscribe();
+    });
+  }
+
   componentDidUpdate(prevProps) {
     const newValue = {};
     if (!isEqual(prevProps.defaultTexts, this.props.defaultTexts)) {
