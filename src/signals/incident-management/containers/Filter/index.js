@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
+
 import { makeSelectCategories } from 'containers/App/selectors';
 import {
   requestIncidents as onRequestIncidents,
@@ -13,11 +16,9 @@ import {
 import makeSelectOverviewPage from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 import FilterForm from 'signals/incident-management/components/FilterForm';
 
-import {
-  filterSaved,
-  filterUpdated,
-  filterCleared,
-} from 'models/filter/actions';
+import saga from './saga';
+import reducer from './reducer';
+import { filterSaved, filterUpdated, filterCleared } from './actions';
 
 export const FilterContainerComponent = (props) => (
   <FilterForm {...props} {...props.overviewpage} />
@@ -134,4 +135,11 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(FilterContainerComponent);
+const withReducer = injectReducer({ key: 'incidentManagementFilter', reducer });
+const withSaga = injectSaga({ key: 'incidentManagementFilter', saga });
+
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(FilterContainerComponent);
