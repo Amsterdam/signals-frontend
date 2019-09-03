@@ -158,17 +158,15 @@ exports[`<MainMenu /> rendering should render Nieuwe Melding and Afhandelen and 
           </NavLink>
         </li>
         <li>
-          <NavLink
-            activeClassName="active"
-            aria-current="page"
-            to="/manage/standaard/teksten"
+          <a
+            href="/manage/standaard/teksten"
           >
             <span
               className="linklabel"
             >
               Beheer standaard teksten
             </span>
-          </NavLink>
+          </a>
         </li>
       </ul>
     </nav>
