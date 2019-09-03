@@ -48,22 +48,13 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
               }
               {permissions.includes('signals.sia_statusmessagetemplate_write') ?
                 <li>
-                  <NavLink to="/manage/standaard/teksten">
+                  <a href="/manage/standaard/teksten">
                     <span className="linklabel">
                       Beheer standaard teksten
                     </span>
-                  </NavLink>
+                  </a>
                 </li> : ''
               }
-              {/* this.props.isAuthenticated ?
-                <li>
-                  <NavLink to="/manage/dashboard">
-                    <span className="linklabel">
-                      Dashboard [beta]
-                    </span>
-                  </NavLink>
-                </li> : ''
-              */}
             </ul>
           </nav>
         </div>
