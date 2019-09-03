@@ -38,11 +38,11 @@ const Toggle = styled.label`
 /**
  * Component that renders a group of checkboxes that can optionally be collectively toggled on or off
  *
- * With props toggleFieldName=main_slug, groupName=afval and clustterName=sub_slug, will render the following boxes:
+ * With props toggleFieldName=maincategory_slug, groupName=afval and clustterName=category_slug, will render the following boxes:
  * @example
- * <input type="checkbox" name="main_slug" value="afval" /> <!-- toggle element -->
- * <input type="checkbox" name="afval_sub_slug" value="..." />
- * <input type="checkbox" name="afval_sub_slug" value="..." />
+ * <input type="checkbox" name="maincategory_slug" value="afval" /> <!-- toggle element -->
+ * <input type="checkbox" name="afval_category_slug" value="..." />
+ * <input type="checkbox" name="afval_category_slug" value="..." />
  */
 const CheckboxList = ({
   clusterName,

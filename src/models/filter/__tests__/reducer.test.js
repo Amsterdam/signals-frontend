@@ -10,7 +10,7 @@ import {
 
 const errorMessage = 'Something went horribly wrong';
 const activeFilter = {
-  main_slug: ['i', 'o'],
+  maincategory_slug: ['i', 'o'],
   name: 'Foo Bar',
 };
 
