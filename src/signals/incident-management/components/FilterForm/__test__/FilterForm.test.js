@@ -22,7 +22,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     ).toHaveLength(1);
     expect(
       container.querySelectorAll(
-        'input[type="text"][name="location__address_text"]',
+        'input[type="text"][name="address_text"]',
       ),
     ).toHaveLength(1);
   });
@@ -44,13 +44,13 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     // category groups
     expect(
-      container.querySelectorAll('input[type="checkbox"][name="main_slug"]'),
+      container.querySelectorAll('input[type="checkbox"][name="maincategory_slug"]'),
     ).toHaveLength(Object.keys(categories.mainToSub).length);
 
     Object.keys(categories.mainToSub).forEach((category) => {
       expect(
         container.querySelectorAll(
-          `input[type="checkbox"][name="${category}_sub_slug"]`,
+          `input[type="checkbox"][name="${category}_category_slug"]`,
         ),
       ).toHaveLength(Object.keys(categories.mainToSub[category]).length);
     });
@@ -67,7 +67,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="priority__priority"]',
+        'input[type="checkbox"][name="priority"]',
       ),
     ).toHaveLength(0);
 
@@ -81,7 +81,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="priority__priority"]',
+        'input[type="checkbox"][name="priority"]',
       ),
     ).toHaveLength(0);
 
@@ -95,7 +95,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="priority__priority"]',
+        'input[type="checkbox"][name="priority"]',
       ),
     ).toHaveLength(priorityList.length);
   });
@@ -109,7 +109,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="status__state"]',
+        'input[type="checkbox"][name="status"]',
       ),
     ).toHaveLength(0);
 
@@ -123,7 +123,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="status__state"]',
+        'input[type="checkbox"][name="status"]',
       ),
     ).toHaveLength(0);
 
@@ -137,7 +137,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="status__state"]',
+        'input[type="checkbox"][name="status"]',
       ),
     ).toHaveLength(statusList.length);
   });
@@ -151,7 +151,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="location__stadsdeel"]',
+        'input[type="checkbox"][name="stadsdeel"]',
       ),
     ).toHaveLength(0);
 
@@ -165,7 +165,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="location__stadsdeel"]',
+        'input[type="checkbox"][name="stadsdeel"]',
       ),
     ).toHaveLength(0);
 
@@ -179,7 +179,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="checkbox"][name="location__stadsdeel"]',
+        'input[type="checkbox"][name="stadsdeel"]',
       ),
     ).toHaveLength(stadsdeelList.length);
   });
@@ -228,7 +228,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(
       container.querySelectorAll(
-        'input[type="hidden"][name="incident_date_start"]',
+        'input[type="hidden"][name="incident_date"]',
       ),
     ).toHaveLength(0);
 
@@ -241,14 +241,14 @@ describe('signals/incident-management/components/FilterForm', () => {
       withAppContext(
         <FilterForm
           categories={categories}
-          filter={{ incident_date_start: '1970-01-01' }}
+          filter={{ incident_date: '1970-01-01' }}
         />,
       ),
     );
 
     expect(
       container.querySelectorAll(
-        'input[type="hidden"][name="incident_date_start"]',
+        'input[type="hidden"][name="incident_date"]',
       ),
     ).toHaveLength(1);
   });
@@ -269,7 +269,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     );
     const dateField = container.querySelector('input[id="filter_date"]');
     const addressField = container.querySelector(
-      'input[type="text"][name="location__address_text"]',
+      'input[type="text"][name="address_text"]',
     );
     const afvalToggle = container.querySelector(
       'input[type="checkbox"][value="afval"]',
@@ -336,7 +336,7 @@ describe('signals/incident-management/components/FilterForm', () => {
         <FilterForm
           categories={categories}
           {...handlers}
-          filter={{ name: 'My filter', incident_date_start: '1970-01-01' }}
+          filter={{ name: 'My filter', incident_date: '1970-01-01' }}
         />,
       ),
     );

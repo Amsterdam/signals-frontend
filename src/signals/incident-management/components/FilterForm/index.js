@@ -40,25 +40,25 @@ const FilterForm = ({
 }) => {
   const {
     categories,
-    priorityList: priority__priority,
-    stadsdeelList: location__stadsdeel,
-    statusList: status__state,
+    priorityList: priority,
+    stadsdeelList: stadsdeel,
+    statusList: status,
   } = dataLists;
 
   const parsedfilterData = parseInputFormData(filter, {
     feedback,
-    location__stadsdeel,
-    main_slug: categories.main,
-    priority__priority,
-    status__state,
-    sub_slug: categories.sub,
+    stadsdeel,
+    maincategory_slug: categories.main,
+    priority,
+    status,
+    category_slug: categories.sub,
   });
 
   const [submitBtnLabel, setSubmitBtnLabel] = useState(defaultSubmitBtnLabel);
   const [filterData, setFilterData] = useState(parsedfilterData);
 
-  const filterSlugs = (filterData.main_slug || []).concat(
-    filterData.sub_slug || [],
+  const filterSlugs = (filterData.maincategory_slug || []).concat(
+    filterData.category_slug || [],
   );
 
   const onSubmitForm = (event) => {
@@ -101,8 +101,8 @@ const FilterForm = ({
   const onResetForm = () => {
     setFilterData({
       name: '',
-      incident_date_start: null,
-      location__address_text: '',
+      incident_date: null,
+      address_text: '',
     });
 
     /* istanbul ignore else */
@@ -174,40 +174,40 @@ const FilterForm = ({
         <Fieldset>
           <legend>Filter parameters</legend>
 
-          {Array.isArray(status__state) && status__state.length > 0 && (
+          {Array.isArray(status) && status.length > 0 && (
             <FilterGroup data-testid="statusFilterGroup">
-              <Label htmlFor={`status_${status__state[0].key}`}>Status</Label>
+              <Label htmlFor={`status_${status[0].key}`}>Status</Label>
               <CheckboxList
-                defaultValue={filterData.status__state}
-                groupName="status__state"
-                options={status__state}
+                defaultValue={filterData.status}
+                groupName="status"
+                options={status}
               />
             </FilterGroup>
           )}
 
-          {Array.isArray(location__stadsdeel) &&
-            location__stadsdeel.length > 0 && (
+          {Array.isArray(stadsdeel) &&
+            stadsdeel.length > 0 && (
               <FilterGroup data-testid="stadsdeelFilterGroup">
-                <Label htmlFor={`status_${location__stadsdeel[0].key}`}>
+                <Label htmlFor={`status_${stadsdeel[0].key}`}>
                   Stadsdeel
                 </Label>
                 <CheckboxList
-                  defaultValue={filterData.location__stadsdeel}
-                  groupName="location__stadsdeel"
-                  options={location__stadsdeel}
+                  defaultValue={filterData.stadsdeel}
+                  groupName="stadsdeel"
+                  options={stadsdeel}
                 />
               </FilterGroup>
           )}
 
-          {Array.isArray(priority__priority) && priority__priority.length > 0 && (
+          {Array.isArray(priority) && priority.length > 0 && (
             <FilterGroup data-testid="priorityFilterGroup">
-              <Label htmlFor={`status_${priority__priority[0].key}`}>
+              <Label htmlFor={`status_${priority[0].key}`}>
                 Urgentie
               </Label>
               <CheckboxList
-                defaultValue={filterData.priority__priority}
-                groupName="priority__priority"
-                options={priority__priority}
+                defaultValue={filterData.priority}
+                groupName="priority"
+                options={priority}
               />
             </FilterGroup>
           )}
@@ -244,23 +244,23 @@ const FilterForm = ({
 
                     setFilterData({
                       ...filterData,
-                      incident_date_start: formattedDate,
+                      incident_date: formattedDate,
                     });
                   }
                 }
                 placeholderText="DD-MM-JJJJ"
                 selected={
-                  filterData.incident_date_start &&
-                  moment(filterData.incident_date_start)
+                  filterData.incident_date &&
+                  moment(filterData.incident_date)
                 }
               />
 
-              {filterData.incident_date_start && (
+              {filterData.incident_date && (
                 <input
-                  defaultValue={moment(filterData.incident_date_start).format(
+                  defaultValue={moment(filterData.incident_date).format(
                     'YYYY-MM-DD',
                   )}
-                  name="incident_date_start"
+                  name="incident_date"
                   readOnly
                   type="hidden"
                 />
@@ -273,9 +273,9 @@ const FilterForm = ({
             <div className="invoer">
               <input
                 type="text"
-                name="location__address_text"
+                name="address_text"
                 id="filter_address"
-                defaultValue={filterData.location__address_text}
+                defaultValue={filterData.address_text}
               />
             </div>
           </FilterGroup>
@@ -293,7 +293,7 @@ const FilterForm = ({
             .sort()
             .map((mainCategory) => (
               <CheckboxList
-                clusterName="sub_slug"
+                clusterName="category_slug"
                 defaultValue={filterSlugs}
                 groupName={mainCategory}
                 hasToggle
@@ -303,7 +303,7 @@ const FilterForm = ({
                   categories.main.find(({ slug }) => slug === mainCategory)
                     .value
                 }
-                toggleFieldName="main_slug"
+                toggleFieldName="maincategory_slug"
               />
             ))}
         </Fieldset>
@@ -379,26 +379,26 @@ FilterForm.propTypes = {
   ),
   filter: PropTypes.shape({
     feedback: PropTypes.string,
-    incident_date_start: PropTypes.string,
-    location__address_text: PropTypes.string,
-    location__stadsdeel: PropTypes.oneOfType([
+    incident_date: PropTypes.string,
+    address_text: PropTypes.string,
+    stadsdeel: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string),
     ]),
-    main_slug: PropTypes.oneOfType([
+    maincategory_slug: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string),
     ]),
     name: PropTypes.string,
-    priority__priority: PropTypes.oneOfType([
+    priority: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string),
     ]),
-    status__state: PropTypes.oneOfType([
+    status: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string),
     ]),
-    sub_slug: PropTypes.oneOfType([
+    category_slug: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string),
     ]),

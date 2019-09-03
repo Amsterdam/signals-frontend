@@ -82,7 +82,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       expect(el.name).toEqual(groupName);
     });
 
-    const clusterName = 'sub_slug';
+    const clusterName = 'category_slug';
     // now rendering with a value for the `clusterName` prop
     rerender(
       withAppContext(

@@ -29,8 +29,8 @@ describe('signals/incident-management/containers/Filter/saga', () => {
   describe('saveFilter', () => {
     const payload = {
       name: 'Name of my filter',
-      main_slug: ['i', 'a', 'o', 'u'],
-      location__address_text: 'Weesperstraat 113-117',
+      maincategory_slug: ['i', 'a', 'o', 'u'],
+      address_text: 'Weesperstraat 113-117',
     };
     const payloadResponse = {
       ...payload,
@@ -107,12 +107,12 @@ describe('signals/incident-management/containers/Filter/saga', () => {
   describe('updateFilter', () => {
     const savePayload = {
       name: 'Name of my filter',
-      main_slug: ['i', 'a', 'o', 'u'],
-      location__address_text: 'Weesperstraat 113-117',
+      maincategory_slug: ['i', 'a', 'o', 'u'],
+      address_text: 'Weesperstraat 113-117',
     };
     const payload = {
       name: 'New name of my filter',
-      main_slug: ['i', 'a'],
+      maincategory_slug: ['i', 'a'],
     };
     const action = {
       type: UPDATE_FILTER,
