@@ -62,7 +62,7 @@ export const LEGEND_ITEMS = [
   { key: 'lichtmast', label: 'Lantaarnpaal', iconUrl: LichtmastIcon },
   { key: 'grachtmast', label: 'Grachtmast', iconUrl: GrachtmastIcon },
   { key: 'overspanning', label: 'Lamp aan kabel', iconUrl: OverspanningIcon },
-  { key: 'gevelarmatuur', label: 'Lamp aan gevel', iconUrl: GevelArmatuurIcon },
+  { key: 'gevel_armatuur', label: 'Lamp aan gevel', iconUrl: GevelArmatuurIcon },
   { key: 'schijnwerper', label: 'Schijnwerper', iconUrl: SchijnwerperIcon },
   { key: 'overig_lichtpunt', label: 'Overig lichtpunt', iconUrl: OverigIcon },
 ];
