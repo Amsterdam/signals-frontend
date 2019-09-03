@@ -100,18 +100,16 @@ export const removeFilterFailed = (payload) => ({
   payload,
 });
 
-export const revertFilter = (payload) => ({
-  type: REVERT_FILTER,
-  payload,
+export const revertFilter = () => ({
+  type: REVERT_FILTER
 });
 
 export const revertFilterSuccess = () => ({
   type: REVERT_FILTER_SUCCESS
 });
 
-export const revertFilterFailed = (payload) => ({
-  type: REVERT_FILTER_FAILED,
-  payload,
+export const revertFilterFailed = () => ({
+  type: REVERT_FILTER_FAILED
 });
 
 export const applyFilter = (payload) => ({

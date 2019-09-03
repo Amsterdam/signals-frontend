@@ -1,7 +1,7 @@
 import { all, put, select, takeLatest } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 
-import { authCall, authDeleteCall, authPostCall } from 'shared/services/api/api';
+import { authCall, authDeleteCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import { REQUEST_INCIDENTS, INCIDENT_SELECTED, GET_FILTERS, REMOVE_FILTER, REVERT_FILTER } from './constants';
@@ -65,12 +65,8 @@ export function* removeFilter(action) {
   }
 }
 
-export function* revertFilter(action) {
-  const filter = action.payload;
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/`;
-
+export function* revertFilter() {
   try {
-    yield authPostCall(requestURL, filter);
     yield put(revertFilterSuccess());
   } catch (error) {
     yield put(revertFilterFailed());
