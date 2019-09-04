@@ -8,10 +8,10 @@ import {
   Modal as ASCModal,
   Heading,
 } from '@datapunt/asc-ui';
-import { Close } from '@datapunt/asc-assets';
+import { Close as CloseIcon } from '@datapunt/asc-assets';
 
 const StyledModal = styled(ASCModal)`
-  > div:last-of-type {
+  & [role='dialog'] {
     max-height: 100vh;
     height: 100vh;
     max-width: 1430px;
@@ -53,12 +53,6 @@ const Header = styled.header`
   border-bottom: 2px solid #e6e6e6;
 `;
 
-const CloseButton = styled(Button)`
-  border: 0;
-  cursor: pointer;
-  margin-left: auto;
-`;
-
 const Modal = ({ children, title, isOpen, onClose, ...rest }) => (
   <StyledModal data-testid="modal" open={isOpen} backdropOpacity={1} {...rest}>
     <Header>
@@ -67,15 +61,16 @@ const Modal = ({ children, title, isOpen, onClose, ...rest }) => (
           <Heading as="h2">{title}</Heading>
         </Column>
 
-        <CloseButton
+        <Button
           data-testid="closeBtn"
           square
           type="button"
-          as="button"
           onClick={onClose}
-        >
-          <Close width="20" height="20" fill="#000000" />
-        </CloseButton>
+          size={32}
+          iconSize={20}
+          variant="blank"
+          icon={<CloseIcon />}
+        />
       </HeaderRow>
     </Header>
 

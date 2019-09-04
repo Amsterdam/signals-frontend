@@ -5,25 +5,16 @@ import styled from 'styled-components';
 import Media from 'react-media';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import LoginIcon from '@datapunt/asc-assets/lib/Icons/Login.svg';
-import LogoutIcon from '@datapunt/asc-assets/lib/Icons/Logout.svg';
+import { Login as LoginIcon, Logout as LogoutIcon } from '@datapunt/asc-assets';
 import {
   Header as HeaderComponent,
+  MenuButton,
   MenuInline,
   MenuItem,
   MenuToggle,
 } from '@datapunt/asc-ui';
-import { resetIncident } from '../../signals/incident/containers/IncidentContainer/actions';
 
 export const breakpoint = 899;
-
-const StyledLogin = styled(LoginIcon)`
-  margin-right: 5px;
-`;
-
-const StyledLogout = styled(LogoutIcon)`
-  margin-right: 5px;
-`;
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
@@ -31,10 +22,11 @@ const StyledHeader = styled(HeaderComponent)`
   }
 `;
 
-const StyledMenuItem = styled(MenuItem)`
-  button {
-    background: transparent;
-  }
+const StyledMenuButton = styled(MenuButton)`
+  background: transparent;
+  font-size: 16px;
+  font-family: inherit;
+  color: #323232;
 `;
 
 const MenuItems = ({
@@ -48,42 +40,52 @@ const MenuItems = ({
 
   return (
     <Fragment>
-      <StyledMenuItem element="span">
-        <NavLink to="/" onClick={resetIncident}>
-          Nieuwe melding
-        </NavLink>
-      </StyledMenuItem>
       {isAuthenticated && (
-        <StyledMenuItem element="span">
-          <NavLink to="/manage/incidents">Afhandelen</NavLink>
-        </StyledMenuItem>
+        <MenuItem element="span">
+          <StyledMenuButton $as={NavLink} to="/manage/incidents">
+            Afhandelen
+          </StyledMenuButton>
+        </MenuItem>
       )}
+      <MenuItem element="span">
+        <StyledMenuButton $as={NavLink} to="/">
+          Melden
+        </StyledMenuButton>
+      </MenuItem>
       {permissions.includes('signals.sia_statusmessagetemplate_write') && (
-        <StyledMenuItem element="span">
-          <NavLink to="/manage/standaard/teksten">
-            Beheer standaard teksten
-          </NavLink>
-        </StyledMenuItem>
+        <MenuItem element="span">
+          <StyledMenuButton $as={NavLink} to="/manage/standaard/teksten">
+            Standaard teksten
+          </StyledMenuButton>
+        </MenuItem>
       )}
       {showLogout && (
-        <StyledMenuItem
+        <MenuItem
           element="button"
           data-testid="logout-button"
           onClick={onLoginLogoutButtonClick}
-          iconLeft={<StyledLogout focusable="false" width={20} />}
         >
-          Uitloggen
-        </StyledMenuItem>
+          <StyledMenuButton
+            iconSize={16}
+            iconLeft={<LogoutIcon focusable="false" />}
+          >
+            Uitloggen
+          </StyledMenuButton>
+        </MenuItem>
       )}
       {showLogin && (
-        <StyledMenuItem
+        <MenuItem
           element="button"
           data-testid="login-button"
           onClick={onLoginLogoutButtonClick}
-          iconLeft={<StyledLogin focusable="false" width={20} />}
         >
-          Log in
-        </StyledMenuItem>
+          <StyledMenuButton
+            iconSize={16}
+            iconLeft={<LoginIcon focusable="false" />}
+          >
+            Log in
+          </StyledMenuButton>
+        </MenuItem>
       )}
     </Fragment>
   );
