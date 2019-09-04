@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
+import { NavLink, withRouter } from 'react-router-dom';
+import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
@@ -26,9 +26,19 @@ const StyledLogout = styled(LogoutIcon)`
 `;
 
 const StyledHeader = styled(HeaderComponent)`
+  z-index: 1001;
+
   a:link {
     text-decoration: none;
   }
+
+  ${({ isFrontPage }) =>
+    isFrontPage &&
+    css`
+      & {
+        max-width: 960px;
+      }
+    `}
 `;
 
 const StyledMenuItem = styled(MenuItem)`
@@ -89,29 +99,38 @@ const MenuItems = ({
   );
 };
 
-const SiteHeader = (props) => (
-  <StyledHeader
-    title="Meldingen"
-    homeLink={CONFIGURATION.ROOT}
-    tall={false}
-    fullWidth={false}
-    navigation={
-      <Media query={`(max-width: ${breakpoint}px)`}>
-        {(matches) =>
-          matches ? (
-            <MenuToggle align="right">
-              <MenuItems {...props} />
-            </MenuToggle>
-          ) : (
-            <MenuInline>
-              <MenuItems {...props} />
-            </MenuInline>
-          )
-        }
-      </Media>
-    }
-  />
-);
+export const SiteHeader = (props) => {
+  const isFrontPage = ['/', '/incident/beschrijf'].includes(
+    props.location.pathname,
+  );
+  const tall = isFrontPage;
+  const title = !isFrontPage ? 'Meldingen' : '';
+
+  return (
+    <StyledHeader
+      isFrontPage={isFrontPage}
+      title={title}
+      homeLink={CONFIGURATION.ROOT}
+      tall={tall}
+      fullWidth={false}
+      navigation={
+        <Media query={`(max-width: ${breakpoint}px)`}>
+          {(matches) =>
+            matches ? (
+              <MenuToggle align="right">
+                <MenuItems {...props} />
+              </MenuToggle>
+            ) : (
+              <MenuInline>
+                <MenuItems {...props} />
+              </MenuInline>
+            )
+          }
+        </Media>
+      }
+    />
+  );
+};
 
 SiteHeader.defaultProps = {
   isAuthenticated: false,
@@ -129,4 +148,6 @@ SiteHeader.propTypes = {
 
 MenuItems.propTypes = SiteHeader.propTypes;
 
-export default SiteHeader;
+const SiteHeaderWithRouter = withRouter(SiteHeader);
+
+export default SiteHeaderWithRouter;
