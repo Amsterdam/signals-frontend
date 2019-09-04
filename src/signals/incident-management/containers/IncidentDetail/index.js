@@ -7,7 +7,6 @@ import isEqual from 'lodash.isequal';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
-import PageHeader from 'components/PageHeader';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import {
   makeSelectLoading,
@@ -26,7 +25,6 @@ import {
 import { requestHistoryList } from 'models/history/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 import makeSelectHistoryModel from 'models/history/selectors';
-import { makeSelectIncidentsCount } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 
 import './style.scss';
 
@@ -157,7 +155,6 @@ export class IncidentDetail extends React.Component {
       accessToken,
       onPatchIncident,
       onDismissError,
-      incidentsCount,
     } = this.props;
     const { list } = this.props.historyModel;
     const {
@@ -177,10 +174,6 @@ export class IncidentDetail extends React.Component {
 
     return (
       <Fragment>
-        <PageHeader
-          title={`Meldingen${incidentsCount ? ` (${incidentsCount})` : ''}`}
-        />
-
         <div className="incident-detail">
           <SplitNotificationBar
             data={split}
@@ -305,7 +298,6 @@ IncidentDetail.defaultProps = {
 IncidentDetail.propTypes = {
   previewState: PropTypes.string,
   attachment: PropTypes.string,
-  incidentsCount: PropTypes.number,
 
   incidentModel: PropTypes.object.isRequired,
   historyModel: PropTypes.object.isRequired,
@@ -333,7 +325,6 @@ const mapStateToProps = () =>
     categories: makeSelectCategories(),
     historyModel: makeSelectHistoryModel(),
     accessToken: makeSelectAccessToken(),
-    incidentsCount: makeSelectIncidentsCount,
   });
 
 export const mapDispatchToProps = (dispatch) =>

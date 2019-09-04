@@ -1,9 +1,13 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  cleanup,
+} from '@testing-library/react';
 import MatchMediaMock from 'match-media-mock';
 
-import SiteHeader, { breakpoint } from './index';
-import { withAppContext } from '../../test/utils';
+import SiteHeader, { breakpoint } from '../index';
+import { withAppContext } from '../../../test/utils';
 
 const mmm = MatchMediaMock.create();
 
@@ -21,7 +25,9 @@ describe('components/SiteHeader', () => {
 
   it('should render correctly', () => {
     const { container, rerender, queryByText } = render(
-      withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />),
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/' }} />,
+      ),
     );
 
     // render site title
@@ -47,7 +53,9 @@ describe('components/SiteHeader', () => {
     });
 
     rerender(
-      withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />),
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/' }} />,
+      ),
     );
 
     // toggle menu should be visible
@@ -98,7 +106,7 @@ describe('components/SiteHeader', () => {
   });
 
   it('should render correctly when logged in', () => {
-    const { queryByText } = render(
+    const { container, queryByText } = render(
       withAppContext(
         <SiteHeader
           isAuthenticated
@@ -111,8 +119,14 @@ describe('components/SiteHeader', () => {
     // log in button
     expect(queryByText('Log in')).toBeNull();
 
+    // afhandelen menu item
+    expect(queryByText('Afhandelen')).toBeTruthy();
+
+    // search field
+    expect(container.querySelector('input[type="text"]')).toBeTruthy();
+
     // log out button
-    expect(queryByText('Uitloggen')).not.toBeNull();
+    expect(queryByText('Uitloggen')).toBeTruthy();
   });
 
   it('should handle login/logout callback', () => {

@@ -1,7 +1,8 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import cloneDeep from 'lodash.clonedeep';
-import { render, cleanup } from '@testing-library/react';
+import { fireEvent, render, cleanup } from '@testing-library/react';
+import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 
 import { withAppContext } from 'test/utils';
 
@@ -10,6 +11,8 @@ import IncidentOverviewPage, {
   mapDispatchToProps,
 } from './';
 import { REQUEST_INCIDENTS, INCIDENT_SELECTED } from './constants';
+
+jest.mock('scroll-lock');
 
 describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   let props;
@@ -40,7 +43,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   });
 
   it('should render correctly', () => {
-    const { queryByTestId, rerender } = render(
+    const { queryByTestId, rerender, getByText } = render(
       withAppContext(<IncidentOverviewPageContainerComponent {...props} />),
     );
 
@@ -52,20 +55,25 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     loadingProps.overviewpage.loading = true;
 
     rerender(
-      withAppContext(<IncidentOverviewPageContainerComponent {...loadingProps} />),
+      withAppContext(
+        <IncidentOverviewPageContainerComponent {...loadingProps} />,
+      ),
     );
 
     expect(queryByTestId('incidentOverviewPagerComponent')).toBeNull();
     expect(queryByTestId('incidentOverviewListComponent')).toBeNull();
     expect(queryByTestId('loadingIndicator')).not.toBeNull();
+
+    // filter button
+    expect(getByText('Filteren').tagName).toEqual('BUTTON');
   });
 
   it('should have props from structured selector', () => {
-    const tree = mount(withAppContext(
-      <IncidentOverviewPage />
-    ));
+    const tree = mount(withAppContext(<IncidentOverviewPage />));
 
-    const containerProps = tree.find(IncidentOverviewPageContainerComponent).props();
+    const containerProps = tree
+      .find(IncidentOverviewPageContainerComponent)
+      .props();
 
     expect(containerProps.overviewpage).not.toBeUndefined();
     expect(containerProps.categories).not.toBeUndefined();
@@ -74,17 +82,110 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   });
 
   it('should have props from action creator', () => {
-    const tree = mount(withAppContext(
-      <IncidentOverviewPage />
-    ));
+    const tree = mount(withAppContext(<IncidentOverviewPage />));
 
-    const containerProps = tree.find(IncidentOverviewPageContainerComponent).props();
+    const containerProps = tree
+      .find(IncidentOverviewPageContainerComponent)
+      .props();
 
     expect(containerProps.onIncidentSelected).not.toBeUndefined();
     expect(typeof containerProps.onIncidentSelected).toEqual('function');
 
     expect(containerProps.onRequestIncidents).not.toBeUndefined();
     expect(typeof containerProps.onRequestIncidents).toEqual('function');
+  });
+
+  it('opens modal', () => {
+    const { queryByTestId, getByTestId } = render(
+      withAppContext(<IncidentOverviewPage />),
+    );
+
+    expect(queryByTestId('modal')).toBeNull();
+
+    fireEvent(
+      getByTestId('modalBtn'),
+      new MouseEvent('click', {
+        bubbles: true,
+      }),
+    );
+
+    expect(queryByTestId('modal')).not.toBeNull();
+  });
+
+  it('closes modal on ESC', () => {
+    const { queryByTestId, getByTestId } = render(
+      withAppContext(<IncidentOverviewPage />),
+    );
+
+    fireEvent(
+      getByTestId('modalBtn'),
+      new MouseEvent('click', {
+        bubbles: true,
+      }),
+    );
+
+    expect(queryByTestId('modal')).not.toBeNull();
+
+    fireEvent.keyDown(global.document, { key: 'Esc', keyCode: 27 });
+
+    expect(queryByTestId('modal')).toBeNull();
+  });
+
+  it('closes modal by means of close button', () => {
+    const { queryByTestId, getByTestId } = render(
+      withAppContext(<IncidentOverviewPage />),
+    );
+
+    fireEvent(
+      getByTestId('modalBtn'),
+      new MouseEvent('click', {
+        bubbles: true,
+      }),
+    );
+
+    expect(queryByTestId('modal')).not.toBeNull();
+
+    fireEvent(
+      getByTestId('closeBtn'),
+      new MouseEvent('click', {
+        bubbles: true,
+      }),
+    );
+
+    expect(queryByTestId('modal')).toBeNull();
+  });
+
+  it('should disable page scroll', () => {
+    const { getByTestId } = render(withAppContext(<IncidentOverviewPage />));
+
+    fireEvent(
+      getByTestId('modalBtn'),
+      new MouseEvent('click', {
+        bubbles: true,
+      }),
+    );
+
+    expect(disablePageScroll).toHaveBeenCalled();
+  });
+
+  it('should enable page scroll', () => {
+    const { getByTestId } = render(withAppContext(<IncidentOverviewPage />));
+
+    fireEvent(
+      getByTestId('modalBtn'),
+      new MouseEvent('click', {
+        bubbles: true,
+      }),
+    );
+
+    fireEvent(
+      getByTestId('closeBtn'),
+      new MouseEvent('click', {
+        bubbles: true,
+      }),
+    );
+
+    expect(enablePageScroll).toHaveBeenCalled();
   });
 
   describe('mapDispatchToProps', () => {

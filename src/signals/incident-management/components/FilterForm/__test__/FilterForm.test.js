@@ -14,7 +14,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should render filter fields', () => {
     const { container } = render(
-      withAppContext(<FilterForm categories={categories} />),
+      withAppContext(<FilterForm categories={categories} onSubmit={() => {}} />),
     );
 
     expect(
@@ -29,7 +29,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should render buttons in the footer', () => {
     const { container, getAllByTestId } = render(
-      withAppContext(<FilterForm categories={categories} />),
+      withAppContext(<FilterForm categories={categories} onSubmit={() => {}} />),
     );
 
     expect(container.querySelectorAll('button[type="reset"]')).toHaveLength(1);
@@ -39,7 +39,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should render groups of category checkboxes', () => {
     const { container } = render(
-      withAppContext(<FilterForm categories={categories} />),
+      withAppContext(<FilterForm categories={categories} onSubmit={() => {}} />),
     );
 
     // category groups
@@ -59,7 +59,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   it('should render a list of priority options', () => {
     const { container, rerender, queryByTestId } = render(
       withAppContext(
-        <FilterForm categories={categories} priorityList={null} />,
+        <FilterForm categories={categories} priorityList={null} onSubmit={() => {}} />,
       ),
     );
 
@@ -74,7 +74,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     cleanup();
 
     rerender(
-      withAppContext(<FilterForm categories={categories} priorityList={[]} />),
+      withAppContext(<FilterForm categories={categories} priorityList={[]} onSubmit={() => {}} />),
     );
 
     expect(queryByTestId('priorityFilterGroup')).toBeNull();
@@ -89,7 +89,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     rerender(
       withAppContext(
-        <FilterForm categories={categories} priorityList={priorityList} />,
+        <FilterForm categories={categories} priorityList={priorityList} onSubmit={() => {}} />,
       ),
     );
 
@@ -102,7 +102,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should render a list of status options', () => {
     const { container, rerender, queryByTestId } = render(
-      withAppContext(<FilterForm categories={categories} statusList={null} />),
+      withAppContext(<FilterForm categories={categories} statusList={null} onSubmit={() => {}} />),
     );
 
     expect(queryByTestId('statusFilterGroup')).toBeNull();
@@ -116,7 +116,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     cleanup();
 
     rerender(
-      withAppContext(<FilterForm categories={categories} statusList={[]} />),
+      withAppContext(<FilterForm categories={categories} statusList={[]} onSubmit={() => {}} />),
     );
 
     expect(queryByTestId('statusFilterGroup')).toBeNull();
@@ -131,7 +131,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     rerender(
       withAppContext(
-        <FilterForm categories={categories} statusList={statusList} />,
+        <FilterForm categories={categories} statusList={statusList} onSubmit={() => {}} />,
       ),
     );
 
@@ -144,7 +144,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should render a list of stadsdeel options', () => {
     const { container, rerender, queryByTestId } = render(
-      withAppContext(<FilterForm categories={categories} stadsdeelList={[]} />),
+      withAppContext(<FilterForm categories={categories} stadsdeelList={[]} onSubmit={() => {}} />),
     );
 
     expect(queryByTestId('stadsdeelFilterGroup')).toBeNull();
@@ -158,7 +158,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     cleanup();
 
     rerender(
-      withAppContext(<FilterForm categories={categories} stadsdeelList={[]} />),
+      withAppContext(<FilterForm categories={categories} stadsdeelList={[]} onSubmit={() => {}} />),
     );
 
     expect(queryByTestId('stadsdeelFilterGroup')).toBeNull();
@@ -173,7 +173,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     rerender(
       withAppContext(
-        <FilterForm categories={categories} stadsdeelList={stadsdeelList} />,
+        <FilterForm categories={categories} stadsdeelList={stadsdeelList} onSubmit={() => {}} />,
       ),
     );
 
@@ -223,7 +223,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should render a datepicker', () => {
     const { container, rerender } = render(
-      withAppContext(<FilterForm categories={categories} />),
+      withAppContext(<FilterForm categories={categories} onSubmit={() => {}} />),
     );
 
     expect(
@@ -242,6 +242,7 @@ describe('signals/incident-management/components/FilterForm', () => {
         <FilterForm
           categories={categories}
           filter={{ incident_date: '1970-01-01' }}
+          onSubmit={() => {}}
         />,
       ),
     );
@@ -260,7 +261,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const onClearFilter = jest.fn();
     const { container } = render(
       withAppContext(
-        <FilterForm categories={categories} onClearFilter={onClearFilter} />,
+        <FilterForm categories={categories} onClearFilter={onClearFilter} onSubmit={() => {}} />,
       ),
     );
 
@@ -295,7 +296,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const onCancel = jest.fn();
     const { getByTestId } = render(
       withAppContext(
-        <FilterForm categories={categories} onCancel={onCancel} />,
+        <FilterForm categories={categories} onCancel={onCancel} onSubmit={() => {}} />,
       ),
     );
 
@@ -307,58 +308,84 @@ describe('signals/incident-management/components/FilterForm', () => {
     expect(onCancel).toHaveBeenCalled();
   });
 
-  it('should handle submit for new filter', () => {
-    const handlers = {
-      onSubmit: jest.fn(),
-      onSaveFilter: jest.fn(),
-      onRequestIncidents: jest.fn(),
-    };
+  describe('submit', () => {
+    let emit;
 
-    const { container } = render(
-      withAppContext(<FilterForm categories={categories} {...handlers} />),
-    );
+    beforeAll(() => {
+      ({ emit } = window._virtualConsole);
+    });
 
-    fireEvent.click(container.querySelector('button[type="submit"]'));
+    beforeEach(() => {
+      window._virtualConsole.emit = jest.fn();
+    });
 
-    expect(handlers.onSaveFilter).toHaveBeenCalled();
-    expect(handlers.onSubmit).toHaveBeenCalled();
-    expect(handlers.onRequestIncidents).toHaveBeenCalled();
-  });
+    afterAll(() => {
+      window._virtualConsole.emit = emit;
+    });
 
-  it('should handle submit for existing filter', () => {
-    const handlers = {
-      onUpdateFilter: jest.fn(),
-      onRequestIncidents: jest.fn(),
-    };
+    it('should handle submit for new filter', () => {
+      const handlers = {
+        onSubmit: jest.fn(),
+        onSaveFilter: jest.fn(),
+      };
 
-    const { container } = render(
-      withAppContext(
-        <FilterForm
-          categories={categories}
-          {...handlers}
-          filter={{ name: 'My filter', incident_date: '1970-01-01' }}
-        />,
-      ),
-    );
+      const { container } = render(
+        withAppContext(
+          <FilterForm
+            categories={categories}
+            {...handlers}
+            filter={{ name: '', incident_date: '1970-01-01' }}
+          />,
+        ),
+      );
 
-    fireEvent.click(container.querySelector('button[type="submit"]'));
+      fireEvent.click(container.querySelector('button[type="submit"]'));
 
-    expect(handlers.onUpdateFilter).toHaveBeenCalled();
+      expect(handlers.onSaveFilter).toHaveBeenCalled();
+      expect(handlers.onSubmit).toHaveBeenCalled();
+    });
 
-    const nameField = container.querySelector(
-      'input[type="text"][name="name"]',
-    );
+    it('should handle submit for existing filter', () => {
+      const handlers = {
+        onUpdateFilter: jest.fn(),
+        onSubmit: jest.fn(),
+      };
 
-    handlers.onUpdateFilter.mockReset();
+      const { container } = render(
+        withAppContext(
+          <FilterForm
+            categories={categories}
+            {...handlers}
+            filter={{ name: 'My filter', incident_date_start: '1970-01-01' }}
+          />,
+        ),
+      );
 
-    fireEvent.change(nameField, { target: { value: '' } });
+      fireEvent.click(container.querySelector('button[type="submit"]'));
 
-    expect(handlers.onUpdateFilter).not.toHaveBeenCalled();
+      expect(handlers.onUpdateFilter).toHaveBeenCalled();
+
+      const nameField = container.querySelector(
+        'input[type="text"][name="name"]',
+      );
+
+      handlers.onUpdateFilter.mockReset();
+
+      fireEvent.change(nameField, { target: { value: '' } });
+
+      expect(handlers.onUpdateFilter).not.toHaveBeenCalled();
+    });
   });
 
   it('should watch for changes in name field value', () => {
     const { container } = render(
-      withAppContext(<FilterForm categories={categories} filter={{ name: 'My saved filter' }} />),
+      withAppContext(
+        <FilterForm
+          categories={categories}
+          filter={{ name: 'My saved filter' }}
+          onSubmit={() => {}}
+        />,
+      ),
     );
 
     const submitButton = container.querySelector('button[type="submit"]');

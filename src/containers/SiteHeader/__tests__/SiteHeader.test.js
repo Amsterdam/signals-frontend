@@ -2,12 +2,12 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
-import { SiteHeaderContainer, mapDispatchToProps } from './index';
-import { LOGIN, LOGOUT } from '../App/constants';
+import { SiteHeaderContainer, mapDispatchToProps } from '../index';
+import { LOGIN, LOGOUT } from '../../App/constants';
 
 jest.mock('shared/services/auth/auth');
 
-describe('containers/SiteHeaderContainer', () => {
+describe('containers/SiteHeader', () => {
   let props;
   const event = {
     persist: jest.fn(),
@@ -42,7 +42,7 @@ describe('containers/SiteHeaderContainer', () => {
     it('should logout when authenticated', () => {
       isAuthenticated.mockImplementation(() => true);
 
-      const wrapper = shallow(<SiteHeaderContainer {...props} />);
+      const wrapper = shallow(<SiteHeaderContainer {...props} isAuthenticated />);
       expect(wrapper.instance().onLoginLogoutButtonClick(event));
       expect(props.onLogout).toHaveBeenCalled();
     });

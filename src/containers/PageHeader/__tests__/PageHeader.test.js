@@ -6,6 +6,8 @@ import PageHeaderComponent from 'components/PageHeader';
 import PageHeaderContainer, { PageHeaderContainerComponent } from '../';
 
 describe('containers/PageHeader', () => {
+  const activeFilter = { name: '' };
+
   it('should have props from structured selector', () => {
     const tree = mount(withAppContext(
       <PageHeaderContainer />
@@ -15,6 +17,7 @@ describe('containers/PageHeader', () => {
 
     expect(props.activeFilter).toBeDefined();
     expect(props.incidentsCount).toBeNull();
+    expect(props.query).toBeDefined();
   });
 
   it('renders a PageHeader component', () => {
@@ -26,8 +29,6 @@ describe('containers/PageHeader', () => {
   });
 
   it('should provide the PageHeader component with a title', () => {
-    const activeFilter = { name: '' };
-
     const { container, rerender } = render(withAppContext(
       <PageHeaderContainerComponent activeFilter={activeFilter} incidentsCount={null} />
     ));
@@ -51,5 +52,15 @@ describe('containers/PageHeader', () => {
     ));
 
     expect(container.firstChild.querySelector('h1').textContent).toEqual('Foo bar !!1! (99)');
+  });
+
+  it('should provide the PageHeader component with a subtitle', () => {
+    const query = 'Foo bar';
+
+    const { container } = render(withAppContext(
+      <PageHeaderContainerComponent activeFilter={activeFilter} incidentsCount={null} query={query} />
+    ));
+
+    expect(container.textContent).toEqual(expect.stringMatching(/Foo bar/));
   });
 });

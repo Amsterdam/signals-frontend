@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Heading, Row, Button } from '@datapunt/asc-ui';
-import { disablePageScroll, enablePageScroll } from 'scroll-lock';
-import Filter from 'signals/incident-management/containers/Filter';
-
-import Modal from 'components/Modal';
+import { Heading, Row, Paragraph } from '@datapunt/asc-ui';
 
 const StyledSection = styled.section`
   background-color: #f3f3f3;
@@ -14,79 +10,29 @@ const StyledSection = styled.section`
   margin-bottom: 40px;
 `;
 
-const ModalButton = styled(Button)`
-  font-family: inherit;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: bold;
-`;
+const PageHeader = ({ className, children, subTitle, title }) => (
+  <StyledSection className={className}>
+    <Row>
+      <div>
+        <Heading as="h1">{title}</Heading>
+        {subTitle && <Paragraph>{subTitle}</Paragraph>}
+      </div>
 
-let lastActiveElement = null;
-
-const PageHeader = ({ className, children, title }) => {
-  const [modalIsOpen, toggleModal] = useState(false);
-
-  const openModal = () => {
-    disablePageScroll();
-    toggleModal(true);
-    lastActiveElement = document.activeElement;
-  };
-
-  function closeModal() {
-    enablePageScroll();
-    toggleModal(false);
-    lastActiveElement.focus();
-  }
-
-  useEffect(() => {
-    const escFunction = (event) => {
-      if (event.keyCode === 27) {
-        closeModal();
-      }
-    };
-
-    document.addEventListener('keydown', escFunction);
-
-    return () => {
-      document.removeEventListener('keydown', escFunction);
-    };
-  });
-
-  const StyledHeading = styled(Heading)`
-    font-size: 20px;
-  `;
-
-  return (
-    <StyledSection className={className}>
-      <Row>
-        <StyledHeading>{title}</StyledHeading>
-        {children}
-        <ModalButton
-          data-testid="modalBtn"
-          type="button"
-          color="primary"
-          $as="button"
-          onClick={openModal}
-        >
-          Filteren
-        </ModalButton>
-
-        <Modal isOpen={modalIsOpen} onClose={closeModal} title="Filters">
-          <Filter onSubmit={closeModal} onCancel={closeModal} />
-        </Modal>
-      </Row>
-    </StyledSection>
-  );
-};
+      {children}
+    </Row>
+  </StyledSection>
+);
 
 PageHeader.defaultProps = {
   className: '',
   children: null,
+  subTitle: '',
 };
 
 PageHeader.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  subTitle: PropTypes.string,
   title: PropTypes.string.isRequired,
 };
 
