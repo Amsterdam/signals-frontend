@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Heading, Row, Button } from '@datapunt/asc-ui';
+import { Heading, Row, Button, Paragraph } from '@datapunt/asc-ui';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import Filter from 'signals/incident-management/containers/Filter';
 
@@ -19,11 +19,12 @@ const ModalButton = styled(Button)`
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: bold;
+  max-height: 50px;
 `;
 
 let lastActiveElement = null;
 
-const PageHeader = ({ className, children, title }) => {
+const PageHeader = ({ className, children, subTitle, title }) => {
   const [modalIsOpen, toggleModal] = useState(false);
 
   const openModal = () => {
@@ -40,6 +41,7 @@ const PageHeader = ({ className, children, title }) => {
 
   useEffect(() => {
     const escFunction = (event) => {
+      /* istanbul ignore next */
       if (event.keyCode === 27) {
         closeModal();
       }
@@ -59,8 +61,13 @@ const PageHeader = ({ className, children, title }) => {
   return (
     <StyledSection className={className}>
       <Row>
-        <StyledHeading>{title}</StyledHeading>
+        <div>
+          <StyledHeading>{title}</StyledHeading>
+          {subTitle && <Paragraph>{subTitle}</Paragraph>}
+        </div>
+
         {children}
+
         <ModalButton
           data-testid="modalBtn"
           type="button"
@@ -82,11 +89,13 @@ const PageHeader = ({ className, children, title }) => {
 PageHeader.defaultProps = {
   className: '',
   children: null,
+  subTitle: '',
 };
 
 PageHeader.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  subTitle: PropTypes.string,
   title: PropTypes.string.isRequired,
 };
 

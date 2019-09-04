@@ -13,12 +13,22 @@ import {
   MenuItem,
   MenuToggle,
 } from '@datapunt/asc-ui';
+import SearchBar from 'containers/SearchBar';
 
 export const breakpoint = 899;
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
     text-decoration: none;
+  }
+
+  nav {
+    width: 100%;
+
+    ul {
+      width: 100%;
+      justify-content: flex-end;
+    }
   }
 `;
 
@@ -27,6 +37,16 @@ const StyledMenuButton = styled(MenuButton)`
   font-size: 16px;
   font-family: inherit;
   color: #323232;
+`;
+
+const SearchBarMenuItem = styled(MenuItem)`
+  margin-right: auto;
+  max-width: 365px;
+  flex: 2;
+`;
+
+const StyledSearchBar = styled(SearchBar)`
+  margin-top: 5px;
 `;
 
 const MenuItems = ({
@@ -41,11 +61,17 @@ const MenuItems = ({
   return (
     <Fragment>
       {isAuthenticated && (
-        <MenuItem element="span">
-          <StyledMenuButton $as={NavLink} to="/manage/incidents">
-            Afhandelen
-          </StyledMenuButton>
-        </MenuItem>
+        <Fragment>
+          <SearchBarMenuItem>
+            <StyledSearchBar />
+          </SearchBarMenuItem>
+
+          <MenuItem element="span">
+            <StyledMenuButton $as={NavLink} to="/manage/incidents">
+              Afhandelen
+            </StyledMenuButton>
+          </MenuItem>
+        </Fragment>
       )}
       <MenuItem element="span">
         <StyledMenuButton $as={NavLink} to="/">
