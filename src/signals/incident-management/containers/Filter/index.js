@@ -9,20 +9,37 @@ import injectSaga from 'utils/injectSaga';
 
 import { makeSelectCategories } from 'containers/App/selectors';
 import {
-  requestIncidents as onRequestIncidents,
+  requestIncidents,
   incidentSelected as onIncidentSelected,
   mainCategoryFilterSelectionChanged as onMainCategoryFilterSelectionChanged,
 } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 import makeSelectOverviewPage from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 import FilterForm from 'signals/incident-management/components/FilterForm';
+import { resetSearchQuery } from 'models/search/actions';
 
 import saga from './saga';
 import reducer from './reducer';
-import { filterSaved, filterUpdated, filterCleared } from './actions';
+import {
+  filterSaved as onSaveFilter,
+  filterUpdated as onUpdateFilter,
+  filterCleared as onClearFilter,
+} from './actions';
 
-export const FilterContainerComponent = (props) => (
-  <FilterForm {...props} {...props.overviewpage} />
-);
+export const FilterContainerComponent = ({
+  onResetSearchQuery,
+  onRequestIncidents,
+  overviewpage,
+  onSubmit,
+  ...rest
+}) => {
+  const onFormSubmit = (event, formData) => {
+    onResetSearchQuery();
+    onRequestIncidents({ filter: formData });
+    onSubmit(event);
+  };
+
+  return <FilterForm {...rest} {...overviewpage} onSubmit={onFormSubmit} />;
+};
 
 FilterContainerComponent.propTypes = {
   categories: PropTypes.shape({
@@ -51,6 +68,12 @@ FilterContainerComponent.propTypes = {
       }),
     ),
   }),
+  onClearFilter: PropTypes.func.isRequired,
+  onRequestIncidents: PropTypes.func.isRequired,
+  onResetSearchQuery: PropTypes.func.isRequired,
+  onSaveFilter: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onUpdateFilter: PropTypes.func.isRequired,
   overviewpage: PropTypes.shape({
     filter: PropTypes.shape({
       incident_date: PropTypes.string,
@@ -105,10 +128,6 @@ FilterContainerComponent.propTypes = {
       }),
     ),
   }),
-  onClearFilter: PropTypes.func.isRequired,
-  onSaveFilter: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func,
-  onUpdateFilter: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = () =>
@@ -120,12 +139,13 @@ const mapStateToProps = () =>
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      onClearFilter: filterCleared,
+      onClearFilter,
       onIncidentSelected,
       onMainCategoryFilterSelectionChanged,
-      onRequestIncidents,
-      onSaveFilter: filterSaved,
-      onUpdateFilter: filterUpdated,
+      onRequestIncidents: requestIncidents,
+      onResetSearchQuery: resetSearchQuery,
+      onSaveFilter,
+      onUpdateFilter,
     },
     dispatch,
   );

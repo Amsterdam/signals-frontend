@@ -23,4 +23,17 @@ describe('components/PageHeader', () => {
     // children
     expect(document.querySelectorAll('span')).toHaveLength(1);
   });
+
+  it('renders a subtitle', () => {
+    const subTitle = 'And me is subtitle';
+    const { getByText } = render(
+      withAppContext(
+        <PageHeader title="I am a title" subTitle={subTitle}>
+          <span>I am a child</span>
+        </PageHeader>,
+      ),
+    );
+
+    expect(getByText(subTitle)).toBeTruthy();
+  });
 });

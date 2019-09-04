@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Heading, Row } from '@datapunt/asc-ui';
+import { Heading, Row, Paragraph } from '@datapunt/asc-ui';
 
 const StyledSection = styled.section`
   background-color: #f3f3f3;
@@ -10,10 +10,14 @@ const StyledSection = styled.section`
   margin-bottom: 40px;
 `;
 
-const PageHeader = ({ className, children, title }) => (
+const PageHeader = ({ className, children, subTitle, title }) => (
   <StyledSection className={className}>
     <Row>
-      <Heading as="h1">{title}</Heading>
+      <div>
+        <Heading as="h1">{title}</Heading>
+        {subTitle && <Paragraph>{subTitle}</Paragraph>}
+      </div>
+
       {children}
     </Row>
   </StyledSection>
@@ -22,11 +26,13 @@ const PageHeader = ({ className, children, title }) => (
 PageHeader.defaultProps = {
   className: '',
   children: null,
+  subTitle: '',
 };
 
 PageHeader.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  subTitle: PropTypes.string,
   title: PropTypes.string.isRequired,
 };
 

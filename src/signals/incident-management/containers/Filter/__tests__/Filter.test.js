@@ -6,9 +6,7 @@ import Filter, { FilterContainerComponent } from '../';
 
 describe('signals/incident-management/containers/Filter', () => {
   it('should have props from structured selector', () => {
-    const tree = mount(withAppContext(
-      <Filter />
-    ));
+    const tree = mount(withAppContext(<Filter onSubmit={() => {}} />));
 
     const props = tree.find(FilterContainerComponent).props();
 
@@ -17,9 +15,7 @@ describe('signals/incident-management/containers/Filter', () => {
   });
 
   it('should have props from action creator', () => {
-    const tree = mount(withAppContext(
-      <Filter />
-    ));
+    const tree = mount(withAppContext(<Filter onSubmit={() => {}} />));
 
     const props = tree.find(FilterContainerComponent).props();
 
@@ -27,7 +23,9 @@ describe('signals/incident-management/containers/Filter', () => {
     expect(typeof props.onIncidentSelected).toEqual('function');
 
     expect(props.onMainCategoryFilterSelectionChanged).not.toBeUndefined();
-    expect(typeof props.onMainCategoryFilterSelectionChanged).toEqual('function');
+    expect(typeof props.onMainCategoryFilterSelectionChanged).toEqual(
+      'function',
+    );
 
     expect(props.onRequestIncidents).not.toBeUndefined();
     expect(typeof props.onRequestIncidents).toEqual('function');
@@ -43,9 +41,7 @@ describe('signals/incident-management/containers/Filter', () => {
   });
 
   it('renders a FilterForm component', () => {
-    const tree = shallow(withAppContext(
-      <Filter />
-    ));
+    const tree = shallow(withAppContext(<Filter onSubmit={() => {}} />));
 
     expect(tree.find(FilterForm)).not.toBeUndefined();
   });

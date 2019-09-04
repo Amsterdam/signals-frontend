@@ -6,12 +6,12 @@ import { createStructuredSelector } from 'reselect';
 import {
   makeSelectUserName,
   makeSelectUserPermissions,
+  makeSelectIsAuthenticated,
 } from 'containers/App/selectors';
 import SiteHeader from 'components/SiteHeader';
 import { withRouter } from 'react-router-dom';
 
 import { doLogin, doLogout } from '../App/actions';
-import { isAuthenticated } from '../../shared/services/auth/auth';
 
 const HeaderWithRouter = withRouter(SiteHeader);
 
@@ -26,7 +26,7 @@ export class SiteHeaderContainer extends React.Component {
     event.persist();
     event.preventDefault();
     event.stopPropagation();
-    if (!isAuthenticated()) {
+    if (!this.props.isAuthenticated) {
       this.props.onLogin(domain);
     } else {
       this.props.onLogout();
@@ -34,27 +34,31 @@ export class SiteHeaderContainer extends React.Component {
   }
 
   render() {
+    const { isAuthenticated, permissions, userName } = this.props;
+
     return (
       <HeaderWithRouter
-        permissions={this.props.permissions}
-        isAuthenticated={isAuthenticated()}
+        isAuthenticated={isAuthenticated}
         onLoginLogoutButtonClick={this.onLoginLogoutButtonClick}
-        userName={this.props.userName}
+        permissions={permissions}
+        userName={userName}
       />
     );
   }
 }
 
 SiteHeaderContainer.propTypes = {
-  userName: PropTypes.string,
+  isAuthenticated: PropTypes.bool,
   onLogin: PropTypes.func,
   onLogout: PropTypes.func,
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  userName: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
-  userName: makeSelectUserName(),
+  isAuthenticated: makeSelectIsAuthenticated(),
   permissions: makeSelectUserPermissions(),
+  userName: makeSelectUserName(),
 });
 
 export const mapDispatchToProps = (dispatch) =>
