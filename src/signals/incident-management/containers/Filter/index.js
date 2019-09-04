@@ -130,10 +130,11 @@ FilterContainerComponent.propTypes = {
   }),
 };
 
-const mapStateToProps = createStructuredSelector({
-  overviewpage: makeSelectOverviewPage(),
-  categories: makeSelectCategories(),
-});
+const mapStateToProps = () =>
+  createStructuredSelector({
+    overviewpage: makeSelectOverviewPage(),
+    categories: makeSelectCategories(),
+  });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
