@@ -5,7 +5,7 @@ import { Heading, Row } from '@datapunt/asc-ui';
 
 const StyledSection = styled.section`
   background-color: #f3f3f3;
-  padding-top: 10px;
+  padding-top: 14px;
   padding-bottom: 10px;
   margin-bottom: 40px;
 `;

@@ -31,7 +31,7 @@ describe('components/SiteHeader', () => {
     expect(queryByText('Log in')).not.toBeNull();
 
     // menu items
-    expect(queryByText('Nieuwe melding')).not.toBeNull();
+    expect(queryByText('Melden')).not.toBeNull();
 
     // inline menu should be visible
     expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(
@@ -67,7 +67,7 @@ describe('components/SiteHeader', () => {
       ),
     );
 
-    expect(queryByText('Beheer standaard teksten')).not.toBeNull();
+    expect(queryByText('Standaard teksten')).not.toBeNull();
   });
 
   it('should not show login button on homepage', () => {
