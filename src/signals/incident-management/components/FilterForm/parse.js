@@ -1,5 +1,12 @@
 import clonedeep from 'lodash.clonedeep';
 
+const arrayFields = [
+  'stadsdeel',
+  'maincategory_slug',
+  'status',
+  'category_slug',
+];
+
 /**
  * Parse form data for consumption by global store actions
  *
@@ -21,7 +28,7 @@ export const parseOutputFormData = (form) => {
 
       parsed[key] = Array.isArray(val) ? [...val, value] : [val, value];
     } else {
-      parsed[key] = value;
+      parsed[key] = arrayFields.includes(key) ? [value] : value;
     }
   });
 
@@ -64,15 +71,6 @@ export const parseOutputFormData = (form) => {
  * @returns {Object}
  */
 export const parseInputFormData = (filterData, dataLists) => {
-  const arrayFields = [
-    'feedback',
-    'stadsdeel',
-    'maincategory_slug',
-    'priority',
-    'status',
-    'category_slug',
-  ];
-
   const parsed = clonedeep(filterData);
 
   /* istanbul ignore else */
