@@ -6,18 +6,25 @@ import { createStructuredSelector } from 'reselect';
 
 import PageHeader from 'components/PageHeader';
 import { makeSelectIncidentsCount, makeSelectFilter } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
+import { makeSelectQuery } from 'models/search/selectors';
 import { emptyReverted } from '../../signals/incident-management/containers/IncidentOverviewPage/actions';
 
 export const PageHeaderContainerComponent = ({
   incidentsCount,
   filter,
-  onClose,
+  children,
+  query,
 }) => {
   let title = filter.name || 'Meldingen';
   const hasCount = !!incidentsCount && isNaN(Number(incidentsCount)) === false;
   title += hasCount ? ` (${incidentsCount})` : '';
+  const subTitle = query && `Zoekresultaten voor "${query}"`;
 
-  return <PageHeader title={title} filter={filter} onClose={onClose} />;
+  return <PageHeader title={title} subTitle={subTitle}>{children}</PageHeader>;
+};
+
+PageHeaderContainerComponent.defaultProps = {
+  children: null,
 };
 
 PageHeaderContainerComponent.propTypes = {
@@ -25,13 +32,15 @@ PageHeaderContainerComponent.propTypes = {
     name: PropTypes.string,
     options: PropTypes.object,
   }).isRequired,
+  children: PropTypes.node,
   incidentsCount: PropTypes.number,
-  onClose: PropTypes.func.isRequired,
+  query: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
   filter: makeSelectFilter,
   incidentsCount: makeSelectIncidentsCount,
+  query: makeSelectQuery,
 });
 
 export const mapDispatchToProps = (dispatch) =>

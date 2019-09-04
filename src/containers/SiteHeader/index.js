@@ -14,6 +14,7 @@ import { withRouter } from 'react-router-dom';
 import { doLogin, doLogout } from '../App/actions';
 
 const HeaderWithRouter = withRouter(SiteHeader);
+
 export class SiteHeaderContainer extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -33,29 +34,31 @@ export class SiteHeaderContainer extends React.Component {
   }
 
   render() {
+    const { isAuthenticated, permissions, userName } = this.props;
+
     return (
       <HeaderWithRouter
-        permissions={this.props.permissions}
-        isAuthenticated={this.props.isAuthenticated}
+        isAuthenticated={isAuthenticated}
         onLoginLogoutButtonClick={this.onLoginLogoutButtonClick}
-        userName={this.props.userName}
+        permissions={permissions}
+        userName={userName}
       />
     );
   }
 }
 
 SiteHeaderContainer.propTypes = {
-  userName: PropTypes.string,
+  isAuthenticated: PropTypes.bool,
   onLogin: PropTypes.func,
   onLogout: PropTypes.func,
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
-  isAuthenticated: PropTypes.bool,
+  userName: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
-  userName: makeSelectUserName(),
-  permissions: makeSelectUserPermissions(),
   isAuthenticated: makeSelectIsAuthenticated(),
+  permissions: makeSelectUserPermissions(),
+  userName: makeSelectUserName(),
 });
 
 export const mapDispatchToProps = (dispatch) =>

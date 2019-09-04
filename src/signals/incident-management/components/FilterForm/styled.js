@@ -5,7 +5,6 @@ export const Form = styled.form`
   column-count: 2;
   column-gap: 100px;
   width: 100%;
-  column-rule: 1px dotted #ddd;
   column-fill: auto @media (max-width: 1020px) {
     column-gap: 60px;
   }
@@ -32,17 +31,30 @@ export const ButtonContainer = styled(Column)`
 
 export const SubmitButton = styled(Button).attrs({
   color: 'secondary',
-})``;
+})`
+  font-family: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: bold;
+`;
 
 export const ResetButton = styled(Button)`
   margin-right: auto;
+  font-family: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: bold;
 `;
 
 export const CancelButton = styled(Button).attrs({
   color: 'bright',
 })`
-  margin-right: 10px;
+  font-family: inherit;
+  margin-right: 15px;
   background-color: #b4b4b4;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: bold;
 `;
 
 export const ControlsWrapper = styled.div`
