@@ -9,9 +9,16 @@ import Modal from 'components/Modal';
 
 const StyledSection = styled.section`
   background-color: #f3f3f3;
-  padding-top: 10px;
+  padding-top: 14px;
   padding-bottom: 10px;
   margin-bottom: 40px;
+`;
+
+const ModalButton = styled(Button)`
+  font-family: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: bold;
 `;
 
 let lastActiveElement = null;
@@ -45,20 +52,24 @@ const PageHeader = ({ className, children, title }) => {
     };
   });
 
+  const StyledHeading = styled(Heading)`
+    font-size: 20px;
+  `;
+
   return (
     <StyledSection className={className}>
       <Row>
-        <Heading as="h1">{title}</Heading>
+        <StyledHeading>{title}</StyledHeading>
         {children}
-        <Button
+        <ModalButton
           data-testid="modalBtn"
           type="button"
           color="primary"
-          as="button"
+          $as="button"
           onClick={openModal}
         >
           Filteren
-        </Button>
+        </ModalButton>
 
         <Modal isOpen={modalIsOpen} onClose={closeModal} title="Filters">
           <Filter onSubmit={closeModal} onCancel={closeModal} />
