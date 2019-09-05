@@ -149,7 +149,7 @@ describe('components/SiteHeader', () => {
     expect(queryByText('Standaard teksten')).not.toBeNull();
   });
 
-  it.only('should not show login button on homepage', () => {
+  it('should not show login button on homepage', () => {
     //  dont' show login button on homepage
     const { rerender, queryByText } = render(
       withAppContext(
