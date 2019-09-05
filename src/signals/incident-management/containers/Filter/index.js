@@ -25,6 +25,8 @@ import {
   filterCleared as onClearFilter,
 } from './actions';
 
+import { makeSelectActiveFilter } from './selectors';
+
 export const FilterContainerComponent = ({
   onResetSearchQuery,
   onRequestIncidents,
@@ -42,6 +44,34 @@ export const FilterContainerComponent = ({
 };
 
 FilterContainerComponent.propTypes = {
+  activeFilter: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    options: PropTypes.shape({
+      incident_date: PropTypes.string,
+      address_text: PropTypes.string,
+      stadsdeel: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      maincategory_slug: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      priority: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      status: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      category_slug: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+    }),
+  }),
   categories: PropTypes.shape({
     main: PropTypes.arrayOf(
       PropTypes.shape({
@@ -75,32 +105,7 @@ FilterContainerComponent.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onUpdateFilter: PropTypes.func.isRequired,
   overviewpage: PropTypes.shape({
-    filter: PropTypes.shape({
-      incident_date: PropTypes.string,
-      address_text: PropTypes.string,
-      stadsdeel: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      maincategory_slug: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      name: PropTypes.string,
-      priority: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      status: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      category_slug: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-    }),
-    feedback: PropTypes.arrayOf(
+    feedbackList: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string.isRequired,
         value: PropTypes.string.isRequired,
@@ -134,6 +139,7 @@ const mapStateToProps = () =>
   createStructuredSelector({
     overviewpage: makeSelectOverviewPage(),
     categories: makeSelectCategories(),
+    activeFilter: makeSelectActiveFilter,
   });
 
 const mapDispatchToProps = (dispatch) =>

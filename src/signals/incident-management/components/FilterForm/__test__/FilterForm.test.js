@@ -14,22 +14,38 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should render filter fields', () => {
     const { container } = render(
-      withAppContext(<FilterForm categories={categories} onSubmit={() => {}} />),
+      withAppContext(
+        <FilterForm categories={categories} onSubmit={() => {}} />,
+      ),
     );
 
     expect(
       container.querySelectorAll('input[type="text"][name="name"]'),
     ).toHaveLength(1);
     expect(
-      container.querySelectorAll(
-        'input[type="text"][name="address_text"]',
-      ),
+      container.querySelectorAll('input[type="text"][name="address_text"]'),
     ).toHaveLength(1);
+  });
+
+  it('should render a hidden id field', () => {
+    const { container } = render(
+      withAppContext(
+        <FilterForm categories={categories} onSubmit={() => {}} activeFilter={{ id: 1234, name: 'FooBar' }} />,
+      ),
+    );
+
+    expect(
+      container.querySelectorAll('input[type="hidden"][name="id"]'),
+    ).toHaveLength(1);
+
+    expect(container.querySelector('input[type="hidden"][name="id"]').value).toEqual('1234');
   });
 
   it('should render buttons in the footer', () => {
     const { container, getAllByTestId } = render(
-      withAppContext(<FilterForm categories={categories} onSubmit={() => {}} />),
+      withAppContext(
+        <FilterForm categories={categories} onSubmit={() => {}} />,
+      ),
     );
 
     expect(container.querySelectorAll('button[type="reset"]')).toHaveLength(1);
@@ -39,12 +55,16 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should render groups of category checkboxes', () => {
     const { container } = render(
-      withAppContext(<FilterForm categories={categories} onSubmit={() => {}} />),
+      withAppContext(
+        <FilterForm categories={categories} onSubmit={() => {}} />,
+      ),
     );
 
     // category groups
     expect(
-      container.querySelectorAll('input[type="checkbox"][name="maincategory_slug"]'),
+      container.querySelectorAll(
+        'input[type="checkbox"][name="maincategory_slug"]',
+      ),
     ).toHaveLength(Object.keys(categories.mainToSub).length);
 
     Object.keys(categories.mainToSub).forEach((category) => {
@@ -59,128 +79,156 @@ describe('signals/incident-management/components/FilterForm', () => {
   it('should render a list of priority options', () => {
     const { container, rerender, queryByTestId } = render(
       withAppContext(
-        <FilterForm categories={categories} priorityList={null} onSubmit={() => {}} />,
+        <FilterForm
+          categories={categories}
+          priorityList={null}
+          onSubmit={() => {}}
+        />,
       ),
     );
 
     expect(queryByTestId('priorityFilterGroup')).toBeNull();
 
     expect(
-      container.querySelectorAll(
-        'input[type="checkbox"][name="priority"]',
-      ),
-    ).toHaveLength(0);
-
-    cleanup();
-
-    rerender(
-      withAppContext(<FilterForm categories={categories} priorityList={[]} onSubmit={() => {}} />),
-    );
-
-    expect(queryByTestId('priorityFilterGroup')).toBeNull();
-
-    expect(
-      container.querySelectorAll(
-        'input[type="checkbox"][name="priority"]',
-      ),
+      container.querySelectorAll('input[type="radio"][name="priority"]'),
     ).toHaveLength(0);
 
     cleanup();
 
     rerender(
       withAppContext(
-        <FilterForm categories={categories} priorityList={priorityList} onSubmit={() => {}} />,
+        <FilterForm
+          categories={categories}
+          priorityList={[]}
+          onSubmit={() => {}}
+        />,
+      ),
+    );
+
+    expect(queryByTestId('priorityFilterGroup')).toBeNull();
+
+    expect(
+      container.querySelectorAll('input[type="radio"][name="priority"]'),
+    ).toHaveLength(0);
+
+    cleanup();
+
+    rerender(
+      withAppContext(
+        <FilterForm
+          categories={categories}
+          priorityList={priorityList}
+          onSubmit={() => {}}
+        />,
       ),
     );
 
     expect(
-      container.querySelectorAll(
-        'input[type="checkbox"][name="priority"]',
-      ),
-    ).toHaveLength(priorityList.length);
+      container.querySelectorAll('input[type="radio"][name="priority"]'),
+    ).toHaveLength(priorityList.length + 1);
   });
 
   it('should render a list of status options', () => {
     const { container, rerender, queryByTestId } = render(
-      withAppContext(<FilterForm categories={categories} statusList={null} onSubmit={() => {}} />),
+      withAppContext(
+        <FilterForm
+          categories={categories}
+          statusList={null}
+          onSubmit={() => {}}
+        />,
+      ),
     );
 
     expect(queryByTestId('statusFilterGroup')).toBeNull();
 
     expect(
-      container.querySelectorAll(
-        'input[type="checkbox"][name="status"]',
-      ),
-    ).toHaveLength(0);
-
-    cleanup();
-
-    rerender(
-      withAppContext(<FilterForm categories={categories} statusList={[]} onSubmit={() => {}} />),
-    );
-
-    expect(queryByTestId('statusFilterGroup')).toBeNull();
-
-    expect(
-      container.querySelectorAll(
-        'input[type="checkbox"][name="status"]',
-      ),
+      container.querySelectorAll('input[type="checkbox"][name="status"]'),
     ).toHaveLength(0);
 
     cleanup();
 
     rerender(
       withAppContext(
-        <FilterForm categories={categories} statusList={statusList} onSubmit={() => {}} />,
+        <FilterForm
+          categories={categories}
+          statusList={[]}
+          onSubmit={() => {}}
+        />,
+      ),
+    );
+
+    expect(queryByTestId('statusFilterGroup')).toBeNull();
+
+    expect(
+      container.querySelectorAll('input[type="checkbox"][name="status"]'),
+    ).toHaveLength(0);
+
+    cleanup();
+
+    rerender(
+      withAppContext(
+        <FilterForm
+          categories={categories}
+          statusList={statusList}
+          onSubmit={() => {}}
+        />,
       ),
     );
 
     expect(
-      container.querySelectorAll(
-        'input[type="checkbox"][name="status"]',
-      ),
+      container.querySelectorAll('input[type="checkbox"][name="status"]'),
     ).toHaveLength(statusList.length);
   });
 
   it('should render a list of stadsdeel options', () => {
     const { container, rerender, queryByTestId } = render(
-      withAppContext(<FilterForm categories={categories} stadsdeelList={[]} onSubmit={() => {}} />),
+      withAppContext(
+        <FilterForm
+          categories={categories}
+          stadsdeelList={[]}
+          onSubmit={() => {}}
+        />,
+      ),
     );
 
     expect(queryByTestId('stadsdeelFilterGroup')).toBeNull();
 
     expect(
-      container.querySelectorAll(
-        'input[type="checkbox"][name="stadsdeel"]',
-      ),
-    ).toHaveLength(0);
-
-    cleanup();
-
-    rerender(
-      withAppContext(<FilterForm categories={categories} stadsdeelList={[]} onSubmit={() => {}} />),
-    );
-
-    expect(queryByTestId('stadsdeelFilterGroup')).toBeNull();
-
-    expect(
-      container.querySelectorAll(
-        'input[type="checkbox"][name="stadsdeel"]',
-      ),
+      container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]'),
     ).toHaveLength(0);
 
     cleanup();
 
     rerender(
       withAppContext(
-        <FilterForm categories={categories} stadsdeelList={stadsdeelList} onSubmit={() => {}} />,
+        <FilterForm
+          categories={categories}
+          stadsdeelList={[]}
+          onSubmit={() => {}}
+        />,
+      ),
+    );
+
+    expect(queryByTestId('stadsdeelFilterGroup')).toBeNull();
+
+    expect(
+      container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]'),
+    ).toHaveLength(0);
+
+    cleanup();
+
+    rerender(
+      withAppContext(
+        <FilterForm
+          categories={categories}
+          stadsdeelList={stadsdeelList}
+          onSubmit={() => {}}
+        />,
       ),
     );
 
     expect(
-      container.querySelectorAll(
-        'input[type="checkbox"][name="stadsdeel"]',
-      ),
+      container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]'),
     ).toHaveLength(stadsdeelList.length);
   });
 
@@ -197,39 +245,37 @@ describe('signals/incident-management/components/FilterForm', () => {
     ];
 
     const { container, rerender, queryByTestId } = render(
-      withAppContext(<FilterForm categories={categories} feedback={[]} />),
+      withAppContext(<FilterForm categories={categories} onSubmit={() => {}} feedbackList={[]} />),
     );
 
     expect(queryByTestId('feedbackFilterGroup')).toBeNull();
 
     expect(
-      container.querySelectorAll(
-        'input[type="checkbox"][name="feedback"]',
-      ),
+      container.querySelectorAll('input[type="radio"][name="feedback"]'),
     ).toHaveLength(0);
 
     cleanup();
 
     rerender(
-      withAppContext(<FilterForm categories={categories} feedback={feedback} />),
+      withAppContext(
+        <FilterForm categories={categories} onSubmit={() => {}} feedbackList={feedback} />,
+      ),
     );
 
     expect(
-      container.querySelectorAll(
-        'input[type="checkbox"][name="feedback"]',
-      ),
-    ).toHaveLength(feedback.length);
+      container.querySelectorAll('input[type="radio"][name="feedback"]'),
+    ).toHaveLength(feedback.length + 1); // by default, a radio button with an empty value is rendered
   });
 
   it('should render a datepicker', () => {
     const { container, rerender } = render(
-      withAppContext(<FilterForm categories={categories} onSubmit={() => {}} />),
+      withAppContext(
+        <FilterForm categories={categories} onSubmit={() => {}} />,
+      ),
     );
 
     expect(
-      container.querySelectorAll(
-        'input[type="hidden"][name="incident_date"]',
-      ),
+      container.querySelectorAll('input[type="hidden"][name="incident_date"]'),
     ).toHaveLength(0);
 
     expect(document.getElementById('filter_date')).toBeTruthy();
@@ -241,16 +287,14 @@ describe('signals/incident-management/components/FilterForm', () => {
       withAppContext(
         <FilterForm
           categories={categories}
-          filter={{ incident_date: '1970-01-01' }}
+          activeFilter={{ options: { incident_date: '1970-01-01' } }}
           onSubmit={() => {}}
         />,
       ),
     );
 
     expect(
-      container.querySelectorAll(
-        'input[type="hidden"][name="incident_date"]',
-      ),
+      container.querySelectorAll('input[type="hidden"][name="incident_date"]'),
     ).toHaveLength(1);
   });
 
@@ -261,7 +305,11 @@ describe('signals/incident-management/components/FilterForm', () => {
     const onClearFilter = jest.fn();
     const { container } = render(
       withAppContext(
-        <FilterForm categories={categories} onClearFilter={onClearFilter} onSubmit={() => {}} />,
+        <FilterForm
+          categories={categories}
+          onClearFilter={onClearFilter}
+          onSubmit={() => {}}
+        />,
       ),
     );
 
@@ -296,7 +344,11 @@ describe('signals/incident-management/components/FilterForm', () => {
     const onCancel = jest.fn();
     const { getByTestId } = render(
       withAppContext(
-        <FilterForm categories={categories} onCancel={onCancel} onSubmit={() => {}} />,
+        <FilterForm
+          categories={categories}
+          onCancel={onCancel}
+          onSubmit={() => {}}
+        />,
       ),
     );
 
@@ -334,7 +386,10 @@ describe('signals/incident-management/components/FilterForm', () => {
           <FilterForm
             categories={categories}
             {...handlers}
-            filter={{ name: '', incident_date: '1970-01-01' }}
+            activeFilter={{
+              name: '',
+              options: { incident_date: '1970-01-01' },
+            }}
           />,
         ),
       );
@@ -346,6 +401,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     });
 
     it('should handle submit for existing filter', () => {
+      jest.spyOn(window, 'alert').mockImplementation(() => {});
       const handlers = {
         onUpdateFilter: jest.fn(),
         onSubmit: jest.fn(),
@@ -356,7 +412,12 @@ describe('signals/incident-management/components/FilterForm', () => {
           <FilterForm
             categories={categories}
             {...handlers}
-            filter={{ name: 'My filter', incident_date_start: '1970-01-01' }}
+            activeFilter={{
+              name: 'My filter',
+              options: {
+                incident_date_start: '1970-01-01',
+              },
+            }}
           />,
         ),
       );
@@ -371,9 +432,14 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       handlers.onUpdateFilter.mockReset();
 
-      fireEvent.change(nameField, { target: { value: '' } });
+      fireEvent.change(nameField, { target: { value: ' ' } });
+
+      fireEvent.click(container.querySelector('button[type="submit"]'));
 
       expect(handlers.onUpdateFilter).not.toHaveBeenCalled();
+      expect(window.alert).toHaveBeenCalled();
+
+      window.alert.mockRestore();
     });
   });
 
@@ -382,7 +448,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       withAppContext(
         <FilterForm
           categories={categories}
-          filter={{ name: 'My saved filter' }}
+          activeFilter={{ name: 'My saved filter' }}
           onSubmit={() => {}}
         />,
       ),
