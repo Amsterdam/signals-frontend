@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { Login as LoginIcon, Logout as LogoutIcon } from '@datapunt/asc-assets';
+import { svg, Login as LoginIcon, Logout as LogoutIcon } from '@datapunt/asc-assets';
 import {
   Header as HeaderComponent,
   MenuButton,
@@ -18,17 +18,21 @@ import SearchBar from 'containers/SearchBar';
 export const breakpoint = 899;
 
 const StyledHeader = styled(HeaderComponent)`
-  z-index: 1001;
-
   a:link {
     text-decoration: none;
   }
 
-  ${({ isFrontPage }) =>
-    isFrontPage &&
+  ${({ isFrontOffice, tall }) =>
+    isFrontOffice &&
+    tall &&
     css`
       & {
         max-width: 960px;
+
+        h1 a span {
+          background-image: url(${svg.LogoShort}) !important;
+          width: 153px;
+        }
       }
     `}
 
@@ -59,13 +63,38 @@ const StyledSearchBar = styled(SearchBar)`
   margin-top: 5px;
 `;
 
+const HeaderWrapper = styled.div`
+  ${({ isFrontOffice, tall }) =>
+    isFrontOffice &&
+    tall &&
+    css`
+      #header {
+        position: static;
+
+        nav,
+        ul {
+          margin: 0;
+        }
+
+        nav ul {
+          justify-content: flex-start;
+
+          a {
+            font-family: avenir next w01,arial,sans-serif;
+            font-size: 18px;
+          }
+        }
+      }
+    `}
+`;
+
 const MenuItems = ({
   isAuthenticated,
   onLoginLogoutButtonClick,
   permissions,
   location: { pathname },
 }) => {
-  const showLogin = pathname !== '/incident/beschrijf' && !isAuthenticated;
+  const showLogin = !pathname.startsWith('/incident/') && !isAuthenticated;
   const showLogout = isAuthenticated;
 
   return (
@@ -128,35 +157,37 @@ const MenuItems = ({
 };
 
 export const SiteHeader = (props) => {
-  const isFrontPage = ['/', '/incident/beschrijf'].includes(
-    props.location.pathname,
-  );
-  const tall = isFrontPage;
-  const title = !isFrontPage ? 'Meldingen' : '';
+  const isFrontOffice =
+    props.location.pathname === '/' ||
+    props.location.pathname.startsWith('/incident/');
+  const tall = isFrontOffice && !props.isAuthenticated;
+  const title = isFrontOffice && !props.isAuthenticated ? '' : 'SIA';
 
   return (
-    <StyledHeader
-      isFrontPage={isFrontPage}
-      title={title}
-      homeLink={CONFIGURATION.ROOT}
-      tall={tall}
-      fullWidth={false}
-      navigation={
-        <Media query={`(max-width: ${breakpoint}px)`}>
-          {(matches) =>
-            matches ? (
-              <MenuToggle align="right">
-                <MenuItems {...props} />
-              </MenuToggle>
-            ) : (
-              <MenuInline>
-                <MenuItems {...props} />
-              </MenuInline>
-            )
-          }
-        </Media>
-      }
-    />
+    <HeaderWrapper isFrontOffice={isFrontOffice} tall={tall}>
+      <StyledHeader
+        isFrontOffice={isFrontOffice}
+        title={title}
+        homeLink={CONFIGURATION.ROOT}
+        tall={tall}
+        fullWidth={false}
+        navigation={
+          <Media query={`(max-width: ${breakpoint}px)`}>
+            {(matches) =>
+              matches ? (
+                <MenuToggle align="right">
+                  <MenuItems {...props} />
+                </MenuToggle>
+              ) : (
+                <MenuInline>
+                  <MenuItems {...props} />
+                </MenuInline>
+              )
+            }
+          </Media>
+        }
+      />
+    </HeaderWrapper>
   );
 };
 
