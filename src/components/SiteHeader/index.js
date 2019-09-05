@@ -29,9 +29,14 @@ const StyledHeader = styled(HeaderComponent)`
       & {
         max-width: 960px;
 
+        h1 a {
+          &, span {
+            width: 153px;
+          }
+        }
+
         h1 a span {
           background-image: url(${svg.LogoShort}) !important;
-          width: 153px;
         }
       }
     `}
@@ -71,17 +76,24 @@ const HeaderWrapper = styled.div`
       #header {
         position: static;
 
+        &:after {
+          max-width: 1400px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
         nav,
         ul {
           margin: 0;
         }
 
         nav ul {
-          justify-content: flex-start;
+          justify-content: space-between;
 
           a {
             font-family: avenir next w01,arial,sans-serif;
             font-size: 18px;
+            padding-left: 0;
           }
         }
       }
@@ -157,9 +169,7 @@ const MenuItems = ({
 };
 
 export const SiteHeader = (props) => {
-  const isFrontOffice =
-    props.location.pathname === '/' ||
-    props.location.pathname.startsWith('/incident/');
+  const isFrontOffice = !props.location.pathname.startsWith('/manage/');
   const tall = isFrontOffice && !props.isAuthenticated;
   const title = isFrontOffice && !props.isAuthenticated ? '' : 'SIA';
 
