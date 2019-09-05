@@ -1,10 +1,8 @@
 import clonedeep from 'lodash.clonedeep';
 
-export const arrayFields = [
-  'feedback',
+const arrayFields = [
   'stadsdeel',
   'maincategory_slug',
-  'priority',
   'status',
   'category_slug',
 ];
@@ -25,11 +23,12 @@ export const parseOutputFormData = (form) => {
   const parsed = {};
 
   Array.from(formData.entries()).forEach(([key, value]) => {
-    if (arrayFields.includes(key)) {
-      const val = parsed[key] || [];
-      parsed[key] = [...val, value];
+    if (Object.keys(parsed).includes(key)) {
+      const val = parsed[key];
+
+      parsed[key] = Array.isArray(val) ? [...val, value] : [val, value];
     } else {
-      parsed[key] = value;
+      parsed[key] = arrayFields.includes(key) ? [value] : value;
     }
   });
 
@@ -60,9 +59,7 @@ export const parseOutputFormData = (form) => {
       }
     });
 
-  const { name, ...options } = parsed;
-
-  return { name, options };
+  return parsed;
 };
 
 /**
@@ -74,19 +71,17 @@ export const parseOutputFormData = (form) => {
  * @returns {Object}
  */
 export const parseInputFormData = (filterData, dataLists) => {
-  const options = filterData.options || {};
-  const parsed = clonedeep(options);
-  parsed.name = filterData.name;
+  const parsed = clonedeep(filterData);
 
   /* istanbul ignore else */
-  if (Object.keys(parsed).length) {
+  if (Object.keys(filterData).length) {
     // convert scalar values to arrays
-    Object.keys(parsed).forEach((fieldName) => {
+    Object.keys(filterData).forEach((fieldName) => {
       if (
         arrayFields.includes(fieldName) &&
-        !Array.isArray(options[fieldName])
+        !Array.isArray(filterData[fieldName])
       ) {
-        parsed[fieldName] = [options[fieldName]];
+        parsed[fieldName] = [filterData[fieldName]];
       }
     });
 

@@ -34,7 +34,7 @@ export const initialState = fromJS({
   allFilters: [],
   filter: {},
   removedFilter: {},
-  feedback: [
+  feedbackList: [
     {
       key: 'satisfied',
       value: 'Tevreden',
