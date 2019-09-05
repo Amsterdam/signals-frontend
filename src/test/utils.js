@@ -54,6 +54,17 @@ export const withAppContext = (Component) => (
 );
 
 // eslint-disable-next-line
+export const withCustomAppContext = (Component) => ({ themeCfg = {}, storeCfg = {}, routerCfg = {} }) => (
+  <ThemeProvider {...themeCfg}>
+    <Provider store={store} {...storeCfg}>
+      <ConnectedRouter history={history} {...routerCfg}>
+        {Component}
+      </ConnectedRouter>
+    </Provider>
+  </ThemeProvider>
+);
+
+// eslint-disable-next-line
 export const withIntlAppContext = (Component, messages, locale='nl') => (
   <ThemeProvider>
     <Provider store={store}>
