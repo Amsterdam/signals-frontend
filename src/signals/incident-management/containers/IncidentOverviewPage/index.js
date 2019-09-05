@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { Row, Column, Button } from '@datapunt/asc-ui';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 
 import MyFilters from 'signals/incident-management/containers/MyFilters';
 
@@ -29,9 +29,9 @@ import Pager from './components/Pager';
 
 let lastActiveElement = null;
 
-// const StyledButton = styled.Button`
-  // margin-left: 10px;
-// `;
+const StyledButton = styled(Button)`
+  margin-left: 10px;
+`;
 
 export const IncidentOverviewPageContainerComponent = ({
   onRequestIncidents,
@@ -99,7 +99,7 @@ export const IncidentOverviewPageContainerComponent = ({
     <Fragment>
       <PageHeader>
         <div>
-          <Button
+          <StyledButton
             data-testid="modalMyfiltersBtn"
             type="button"
             color="primary"
@@ -107,9 +107,9 @@ export const IncidentOverviewPageContainerComponent = ({
             onClick={openMyFiltersModal}
           >
           Mijn filters
-          </Button>
+          </StyledButton>
 
-          <Button
+          <StyledButton
             data-testid="modalFilterBtn"
             type="button"
             color="primary"
@@ -117,7 +117,7 @@ export const IncidentOverviewPageContainerComponent = ({
             onClick={openFilterModal}
           >
           Filteren
-          </Button>
+          </StyledButton>
         </div>
 
         <Modal isOpen={modalMyFiltersIsOpen} onClose={closeMyFiltersModal} title="Mijn filters">
