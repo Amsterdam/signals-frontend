@@ -2,57 +2,69 @@
 
 exports[`<Footer /> should render correctly 1`] = `
 <Footer__FooterWrapper
-  className="footer no-print"
+  className="app-container no-print"
 >
   <Footer__Disclaimer>
-    <Column
+    <Row
       debug={false}
-      debugColor="rgba(51,102,153,0.5)"
-      order={0}
-      push={0}
-      span={12}
-      wrap={false}
+      debugColor="rgba(51,102,153,0.75)"
+      hasMargin={true}
     >
-      <Heading
-        $as="h1"
-        as="h2"
+      <Column
+        debug={false}
+        debugColor="rgba(51,102,153,0.5)"
+        order={0}
+        push={0}
+        span={12}
+        wrap={false}
       >
-        Lukt het niet om een melding te doen?
-      </Heading>
-      <Paragraph>
-         
-      </Paragraph>
-    </Column>
-    <Column
-      debug={false}
-      debugColor="rgba(51,102,153,0.5)"
-      order={0}
-      push={0}
-      span={12}
-      wrap={false}
-    >
-      <Paragraph>
-        Bel het Gemeentelijk informatienummer: 14 020 
-        <br />
-        op werkdagen van 08.00 tot 18.00 uur.
-      </Paragraph>
-    </Column>
+        <Heading
+          $as="h1"
+          as="h2"
+        >
+          Lukt het niet om een melding te doen?
+        </Heading>
+        <Paragraph>
+           
+        </Paragraph>
+      </Column>
+      <Column
+        debug={false}
+        debugColor="rgba(51,102,153,0.5)"
+        order={0}
+        push={0}
+        span={12}
+        wrap={false}
+      >
+        <Paragraph>
+          Bel het Gemeentelijk informatienummer: 14 020 
+          <br />
+          op werkdagen van 08.00 tot 18.00 uur.
+        </Paragraph>
+      </Column>
+    </Row>
   </Footer__Disclaimer>
   <Footer__Privacy>
-    <Column
+    <Row
       debug={false}
-      debugColor="rgba(51,102,153,0.5)"
-      order={0}
-      push={0}
-      span={12}
-      wrap={false}
+      debugColor="rgba(51,102,153,0.75)"
+      hasMargin={true}
     >
-      <Link
-        href="https://www.amsterdam.nl/privacy/"
+      <Column
+        debug={false}
+        debugColor="rgba(51,102,153,0.5)"
+        order={0}
+        push={0}
+        span={12}
+        wrap={false}
       >
-        Privacy
-      </Link>
-    </Column>
+        <Link
+          href="https://www.amsterdam.nl/privacy/"
+        >
+          Privacy
+        </Link>
+      </Column>
+    </Row>
   </Footer__Privacy>
 </Footer__FooterWrapper>
 `;

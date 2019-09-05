@@ -30,9 +30,6 @@ describe('components/SiteHeader', () => {
       ),
     );
 
-    // render site title
-    expect(queryByText('Meldingen')).not.toBeNull();
-
     // log in button
     expect(queryByText('Log in')).not.toBeNull();
 
@@ -64,6 +61,80 @@ describe('components/SiteHeader', () => {
     );
   });
 
+  it('should render a title', () => {
+    const { rerender, queryByText } = render(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/' }} />,
+      ),
+    );
+
+    const title = 'SIA';
+
+    // don't show title in front office when not authenticated
+    expect(queryByText(title)).toBeNull();
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/' }} isAuthenticated />,
+      ),
+    );
+
+    // do show title in front office when authenticated
+    expect(queryByText(title)).not.toBeNull();
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/manage' }} />,
+      ),
+    );
+
+    // don't show title in back office when not authenticated
+    expect(queryByText(title)).toBeNull();
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/manage' }} isAuthenticated />,
+      ),
+    );
+
+    // do show title in back office when authenticated
+    expect(queryByText(title)).not.toBeNull();
+  });
+
+  it('should render a tall header', () => {
+    const { container, rerender } = render(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/' }} />,
+      ),
+    );
+
+    expect(container.querySelector('.siteHeader').classList.contains('isTall')).toEqual(true);
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/' }} isAuthenticated />,
+      ),
+    );
+
+    expect(container.querySelector('.siteHeader').classList.contains('isShort')).toEqual(true);
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/manage' }} />,
+      ),
+    );
+
+    expect(container.querySelector('.siteHeader').classList.contains('isTall')).toEqual(true);
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/manage' }} isAuthenticated />,
+      ),
+    );
+
+    expect(container.querySelector('.siteHeader').classList.contains('isShort')).toEqual(true);
+  });
+
   it('should show buttons based on permissions', () => {
     const { queryByText } = render(
       withAppContext(
@@ -78,7 +149,7 @@ describe('components/SiteHeader', () => {
     expect(queryByText('Standaard teksten')).not.toBeNull();
   });
 
-  it('should not show login button on homepage', () => {
+  it.only('should not show login button on homepage', () => {
     //  dont' show login button on homepage
     const { rerender, queryByText } = render(
       withAppContext(

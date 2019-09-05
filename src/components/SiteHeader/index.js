@@ -5,7 +5,11 @@ import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { svg, Login as LoginIcon, Logout as LogoutIcon } from '@datapunt/asc-assets';
+import {
+  svg,
+  Login as LoginIcon,
+  Logout as LogoutIcon,
+} from '@datapunt/asc-assets';
 import {
   Header as HeaderComponent,
   MenuButton,
@@ -29,8 +33,13 @@ const StyledHeader = styled(HeaderComponent)`
       & {
         max-width: 960px;
 
+        h1 {
+          margin-left: -20px;
+        }
+
         h1 a {
-          &, span {
+          &,
+          span {
             width: 153px;
           }
         }
@@ -91,7 +100,7 @@ const HeaderWrapper = styled.div`
           justify-content: space-between;
 
           a {
-            font-family: avenir next w01,arial,sans-serif;
+            font-family: avenir next w01, arial, sans-serif;
             font-size: 18px;
             padding-left: 0;
           }
@@ -171,10 +180,14 @@ const MenuItems = ({
 export const SiteHeader = (props) => {
   const isFrontOffice = !props.location.pathname.startsWith('/manage/');
   const tall = isFrontOffice && !props.isAuthenticated;
-  const title = isFrontOffice && !props.isAuthenticated ? '' : 'SIA';
+  const title = tall ? '' : 'SIA';
 
   return (
-    <HeaderWrapper isFrontOffice={isFrontOffice} tall={tall}>
+    <HeaderWrapper
+      isFrontOffice={isFrontOffice}
+      tall={tall}
+      className={`siteHeader ${tall ? 'isTall' : 'isShort'}`}
+    >
       <StyledHeader
         isFrontOffice={isFrontOffice}
         title={title}

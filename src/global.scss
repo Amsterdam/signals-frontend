@@ -68,7 +68,6 @@ dd {
   }
 
   .app-container {
-    padding-top: 50px;
     padding-bottom: 20px;
     margin: 0 auto;
     background-color: $ams-wit;
@@ -80,6 +79,10 @@ dd {
   #header, .app-container {
     max-width: 1400px;
   }
+}
+
+.siteHeader.isShort + .app-container {
+  padding-top: 50px;
 }
 
 [aria-hidden="true"] {
