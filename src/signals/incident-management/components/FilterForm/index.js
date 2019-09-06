@@ -35,7 +35,6 @@ const FilterForm = ({
   onSaveFilter,
   onSubmit,
   onUpdateFilter,
-  onGetFilters,
   ...dataLists
 }) => {
   const {
@@ -46,10 +45,7 @@ const FilterForm = ({
     statusList: status,
   } = dataLists;
 
-  const { id, name, options } = activeFilter;
-  const filter = { id, name, ...options };
-
-  const parsedfilterData = parseInputFormData(filter, {
+  const parsedfilterData = parseInputFormData(activeFilter, {
     feedback,
     stadsdeel,
     maincategory_slug: categories.main,
@@ -72,9 +68,6 @@ const FilterForm = ({
     /* istanbul ignore else */
     if (typeof onSaveFilter === 'function' && isNewFilter) {
       onSaveFilter(formData);
-      if (typeof onGetFilters === 'function') {
-        onGetFilters();
-      }
     }
 
     /* istanbul ignore else */
@@ -139,10 +132,6 @@ const FilterForm = ({
     /* istanbul ignore else */
     if (!btnHasSaveLabel) {
       return;
-    }
-
-    if (typeof onGetFilters === 'function') {
-      onGetFilters();
     }
 
     setSubmitBtnLabel(defaultSubmitBtnLabel);
@@ -425,7 +414,6 @@ FilterForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   /** Callback handler for handling filter settings updates */
   onUpdateFilter: PropTypes.func,
-  onGetFilters: PropTypes.func,
   priorityList: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,

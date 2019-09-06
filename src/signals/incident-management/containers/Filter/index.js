@@ -11,7 +11,6 @@ import { makeSelectCategories } from 'containers/App/selectors';
 import {
   requestIncidents,
   incidentSelected as onIncidentSelected,
-  getFilters as onGetFilters,
 } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 import makeSelectOverviewPage from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 import FilterForm from 'signals/incident-management/components/FilterForm';
@@ -147,7 +146,6 @@ const mapDispatchToProps = (dispatch) =>
     {
       onClearFilter,
       onIncidentSelected,
-      onGetFilters,
       onRequestIncidents: requestIncidents,
       onResetSearchQuery: resetSearchQuery,
       onSaveFilter,
