@@ -1,6 +1,6 @@
 import { all, call, put, spawn, takeLatest } from 'redux-saga/effects';
 
-import { authCall, authPostCall, authPatchCall } from 'shared/services/api/api';
+import { authPostCall, authPatchCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import { SAVE_FILTER, UPDATE_FILTER } from './constants';
@@ -18,11 +18,10 @@ export function* doSaveFilter(action) {
   const filterData = action.payload;
 
   try {
-    if (name) {
+    if (filterData.name) {
       const result = yield call(authPostCall, requestURL, filterData);
-      yield authCall(getFilters);
-
       yield put(filterSaveSuccess(result));
+      yield put(getFilters());
     } else {
       yield put(filterSaveFailed('No name supplied'));
     }
