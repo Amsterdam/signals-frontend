@@ -1,6 +1,6 @@
 import { all, call, put, spawn, takeLatest } from 'redux-saga/effects';
 
-import { authPostCall, authPatchCall } from 'shared/services/api/api';
+import { authCall, authPostCall, authPatchCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import { SAVE_FILTER, UPDATE_FILTER } from './constants';
@@ -10,6 +10,7 @@ import {
   filterUpdatedFailed,
   filterUpdatedSuccess,
 } from './actions';
+import { getFilters } from '../IncidentOverviewPage/actions';
 
 export const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/`;
 
@@ -19,6 +20,7 @@ export function* doSaveFilter(action) {
   try {
     if (name) {
       const result = yield call(authPostCall, requestURL, { name, options });
+      yield authCall(getFilters);
 
       yield put(filterSaveSuccess(result));
     } else {
