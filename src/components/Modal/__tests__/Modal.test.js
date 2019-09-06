@@ -20,7 +20,7 @@ describe('components/Modal', () => {
       withAppContext(<Modal isOpen title="Modal" />),
     );
 
-    expect(container.querySelectorAll('h2')).toHaveLength(1);
+    expect(container.querySelector('h2')).not.toBeNull();
   });
 
   it('should call onClose', () => {

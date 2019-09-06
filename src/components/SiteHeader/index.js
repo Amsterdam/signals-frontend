@@ -1,11 +1,14 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
+import { NavLink, withRouter } from 'react-router-dom';
+import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { Login as LoginIcon, Logout as LogoutIcon } from '@datapunt/asc-assets';
+import {
+  svg,
+  Logout as LogoutIcon,
+} from '@datapunt/asc-assets';
 import {
   Header as HeaderComponent,
   MenuButton,
@@ -21,8 +24,34 @@ const StyledHeader = styled(HeaderComponent)`
   a:link {
     text-decoration: none;
   }
+
+  ${({ isFrontOffice, tall }) =>
+    isFrontOffice &&
+    tall &&
+    css`
+      & {
+        max-width: 960px;
+
+        h1 {
+          margin-left: -20px;
+        }
+
+        h1 a {
+          &,
+          span {
+            width: 153px;
+          }
+        }
+
+        h1 a span {
+          background-image: url(${svg.LogoShort}) !important;
+        }
+      }
+    `}
+
   nav {
     width: 100%;
+
     ul {
       width: 100%;
       justify-content: flex-end;
@@ -47,13 +76,43 @@ const StyledSearchBar = styled(SearchBar)`
   margin-top: 5px;
 `;
 
+const HeaderWrapper = styled.div`
+  ${({ isFrontOffice, tall }) =>
+    isFrontOffice &&
+    tall &&
+    css`
+      #header {
+        position: static;
+
+        &:after {
+          max-width: 1400px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        nav,
+        ul {
+          margin: 0;
+        }
+
+        nav ul {
+          justify-content: space-between;
+
+          a {
+            font-family: avenir next w01, arial, sans-serif;
+            font-size: 18px;
+            padding-left: 0;
+          }
+        }
+      }
+    `}
+`;
+
 const MenuItems = ({
   isAuthenticated,
   onLoginLogoutButtonClick,
   permissions,
-  location: { pathname },
 }) => {
-  const showLogin = pathname !== '/incident/beschrijf' && !isAuthenticated;
   const showLogout = isAuthenticated;
 
   return (
@@ -97,47 +156,46 @@ const MenuItems = ({
           </StyledMenuButton>
         </MenuItem>
       )}
-      {showLogin && (
-        <MenuItem
-          element="button"
-          data-testid="login-button"
-          onClick={onLoginLogoutButtonClick}
-        >
-          <StyledMenuButton
-            iconSize={16}
-            iconLeft={<LoginIcon focusable="false" />}
-          >
-            Log in
-          </StyledMenuButton>
-        </MenuItem>
-      )}
     </Fragment>
   );
 };
 
-const SiteHeader = (props) => (
-  <StyledHeader
-    title="Meldingen"
-    homeLink={CONFIGURATION.ROOT}
-    tall={false}
-    fullWidth={false}
-    navigation={
-      <Media query={`(max-width: ${breakpoint}px)`}>
-        {(matches) =>
-          matches ? (
-            <MenuToggle align="right">
-              <MenuItems {...props} />
-            </MenuToggle>
-          ) : (
-            <MenuInline>
-              <MenuItems {...props} />
-            </MenuInline>
-          )
+export const SiteHeader = (props) => {
+  const isFrontOffice = !props.location.pathname.startsWith('/manage/');
+  const tall = isFrontOffice && !props.isAuthenticated;
+  const title = tall ? '' : 'SIA';
+
+  return (
+    <HeaderWrapper
+      isFrontOffice={isFrontOffice}
+      tall={tall}
+      className={`siteHeader ${tall ? 'isTall' : 'isShort'}`}
+    >
+      <StyledHeader
+        isFrontOffice={isFrontOffice}
+        title={title}
+        homeLink={CONFIGURATION.ROOT}
+        tall={tall}
+        fullWidth={false}
+        navigation={
+          <Media query={`(max-width: ${breakpoint}px)`}>
+            {(matches) =>
+              matches ? (
+                <MenuToggle align="right">
+                  <MenuItems {...props} />
+                </MenuToggle>
+              ) : (
+                <MenuInline>
+                  <MenuItems {...props} />
+                </MenuInline>
+              )
+            }
+          </Media>
         }
-      </Media>
-    }
-  />
-);
+      />
+    </HeaderWrapper>
+  );
+};
 
 SiteHeader.defaultProps = {
   isAuthenticated: false,
@@ -155,4 +213,6 @@ SiteHeader.propTypes = {
 
 MenuItems.propTypes = SiteHeader.propTypes;
 
-export default SiteHeader;
+const SiteHeaderWithRouter = withRouter(SiteHeader);
+
+export default SiteHeaderWithRouter;

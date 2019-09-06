@@ -9,7 +9,6 @@ export default {
   controls: {
     tevreden: {
       meta: {
-        className: 'col-sm-12 col-md-8',
         label: 'Waarom bent u tevreden?',
         subtitle: 'Eén antwoord mogelijk, kies de belangrijkste reden.',
         ifAllOf: {
@@ -26,7 +25,7 @@ export default {
     },
     tevreden_anders: {
       meta: {
-        className: 'col-sm-12 col-md-8 kto-form--collapse-to-previous-question',
+        className: 'kto-form--collapse-to-previous-question',
         ifAllOf: {
           is_satisfied: true,
           tevreden: 'anders'
@@ -36,7 +35,6 @@ export default {
     },
     niet_tevreden: {
       meta: {
-        className: 'col-sm-12 col-md-8',
         label: 'Waarom bent u ontevreden?',
         subtitle: 'Eén antwoord mogelijk, kies de belangrijkste reden.',
         ifAllOf: {
@@ -53,7 +51,7 @@ export default {
     },
     niet_tevreden_anders: {
       meta: {
-        className: 'col-sm-12 col-md-8 kto-form--collapse-to-previous-question',
+        className: 'kto-form--collapse-to-previous-question',
         ifAllOf: {
           is_satisfied: false,
           niet_tevreden: 'anders'
@@ -63,7 +61,6 @@ export default {
     },
     text_extra: {
       meta: {
-        className: 'col-sm-12 col-md-8',
         label: 'Wilt u verder nog iets vermelden of toelichten?',
         maxLength: 1000
       },
@@ -76,7 +73,6 @@ export default {
     },
     allows_contact: {
       meta: {
-        className: 'col-sm-12 col-md-8',
         label: 'Mogen wij contact met u opnemen naar aanleiding van uw feedback?',
         value: 'Ja'
       },

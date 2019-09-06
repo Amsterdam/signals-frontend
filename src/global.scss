@@ -68,17 +68,21 @@ dd {
   }
 
   .app-container {
-    padding-top: 50px;
     padding-bottom: 20px;
     margin: 0 auto;
     background-color: $ams-wit;
     flex: 1 0 auto;
     width: 100%;
+    z-index: 1;
   }
 
   #header, .app-container {
-    max-width: 1430px;
+    max-width: 1400px;
   }
+}
+
+.siteHeader.isShort + .app-container {
+  padding-top: 50px;
 }
 
 [aria-hidden="true"] {
