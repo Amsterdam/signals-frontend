@@ -25,8 +25,6 @@ const handleEditFilter = (filter, onApplyFilter, onRequestIncidents, onClose) =>
   onClose();
 };
 
-// terugzetten tags={filter.options}
-
 const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose, onRequestIncidents }) => (
   <div className="filter-item">
     <div className="filter-item__name">{filter.name}</div>
