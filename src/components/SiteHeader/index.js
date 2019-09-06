@@ -7,7 +7,6 @@ import Media from 'react-media';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import {
   svg,
-  Login as LoginIcon,
   Logout as LogoutIcon,
 } from '@datapunt/asc-assets';
 import {
@@ -113,9 +112,7 @@ const MenuItems = ({
   isAuthenticated,
   onLoginLogoutButtonClick,
   permissions,
-  location: { pathname },
 }) => {
-  const showLogin = !pathname.startsWith('/incident/') && !isAuthenticated;
   const showLogout = isAuthenticated;
 
   return (
@@ -156,20 +153,6 @@ const MenuItems = ({
             iconLeft={<LogoutIcon focusable="false" />}
           >
             Uitloggen
-          </StyledMenuButton>
-        </MenuItem>
-      )}
-      {showLogin && (
-        <MenuItem
-          element="button"
-          data-testid="login-button"
-          onClick={onLoginLogoutButtonClick}
-        >
-          <StyledMenuButton
-            iconSize={16}
-            iconLeft={<LoginIcon focusable="false" />}
-          >
-            Log in
           </StyledMenuButton>
         </MenuItem>
       )}
