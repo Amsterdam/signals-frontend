@@ -20,6 +20,7 @@ export function* doSaveFilter(action) {
   try {
     if (filterData.name) {
       const result = yield call(authPostCall, requestURL, filterData);
+
       yield put(filterSaveSuccess(result));
       yield put(getFilters());
     } else {
@@ -41,12 +42,13 @@ export function* doSaveFilter(action) {
 }
 
 export function* doUpdateFilter(action) {
-  const { id, ...filterData } = action.payload;
+  const { name, options: { id, ...options } } = action.payload;
 
   try {
-    const result = yield call(authPatchCall, `${requestURL}${id}`, filterData);
+    const result = yield call(authPatchCall, `${requestURL}${id}`, { name, options });
 
     yield put(filterUpdatedSuccess(result));
+    yield put(getFilters());
   } catch (error) {
     if (
       error.response &&

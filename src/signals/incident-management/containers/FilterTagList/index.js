@@ -8,10 +8,12 @@ import './style.scss';
 
 import makeSelectOverviewPage from '../IncidentOverviewPage/selectors';
 
-const renderTag = (key, value, mainCategories, allLists) => {
+const ignoredTags = ['id'];
+
+const renderTag = (key, value, tagKey, mainCategories, allLists) => {
   const found = allLists.find((i) => i.key === key || i.slug === key);
   const display = (found && found.value) || value;
-  if (!display) {
+  if (!display || ignoredTags.includes(tagKey)) {
     return;
   }
 
@@ -22,10 +24,10 @@ const renderTag = (key, value, mainCategories, allLists) => {
 
 export const FilterTagList = ({ tags, overviewpage: { priorityList, stadsdeelList, statusList }, categories: { main, sub } }) => (
   <div className="filter-tag-list">
-    {Object.values(tags).map((tag) => (Array.isArray(tag) ?
+    {Object.entries(tags).map(([tagKey, tag]) => (Array.isArray(tag) ?
       <span key={tag}>{tag.map((item) =>
-        renderTag(item, item, main, [...priorityList, ...stadsdeelList, ...statusList, ...sub, ...main]))}</span> :
-        renderTag(tag, tag, main, [...priorityList, ...stadsdeelList, ...statusList, ...sub, ...main])))}
+        renderTag(item, item, tagKey, main, [...priorityList, ...stadsdeelList, ...statusList, ...sub, ...main]))}</span> :
+        renderTag(tag, tag, tagKey, main, [...priorityList, ...stadsdeelList, ...statusList, ...sub, ...main])))}
   </div>
 );
 

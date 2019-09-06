@@ -60,7 +60,7 @@ export const parseOutputFormData = (form) => {
     });
 
   const { name, ...options } = parsed;
-  console.log('OUT', { name, options });
+
   return { name, options };
 };
 
@@ -115,6 +115,6 @@ export const parseInputFormData = (filterData, dataLists) => {
       }));
     }
   }
-  console.log('IN', parsed);
+
   return parsed;
 };

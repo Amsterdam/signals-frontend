@@ -37,8 +37,12 @@ const makeSelectFilterParams = () =>
     selectOverviewPageDomain,
     (substate) => {
       const state = substate.toJS();
-      const filter = state.filter || {};
-      return { name: filter.name, ...filter.options, page: state.page, ordering: state.sort };
+      const filter = state.filter || { options: {} };
+      const { name, options } = filter;
+      if (options && options.id) {
+        delete options.id;
+      }
+      return { filter: { name, options }, page: state.page, ordering: state.sort };
     },
   );
 
