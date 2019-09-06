@@ -19,7 +19,7 @@ export const initialState = fromJS({
   sort: '-created_at',
   stadsdeelList,
   statusList,
-  feedback: [
+  feedbackList: [
     {
       key: 'satisfied',
       value: 'Tevreden',

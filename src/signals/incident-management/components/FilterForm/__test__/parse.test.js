@@ -31,7 +31,7 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
 
     const expected1 = {
       name: 'Afval in Westpoort',
-      maincategory_slug: 'afval',
+      maincategory_slug: ['afval'],
       category_slug: ['drijfvuil'],
     };
 

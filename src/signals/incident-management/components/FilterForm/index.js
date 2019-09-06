@@ -7,6 +7,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import CheckboxList from '../CheckboxList';
+import RadioButtonList from '../RadioButtonList';
 import Label from '../Label';
 import { parseInputFormData, parseOutputFormData } from './parse';
 import {
@@ -28,8 +29,7 @@ export const saveSubmitBtnLabel = 'Opslaan en filteren';
  * Component that renders the incident filter form
  */
 const FilterForm = ({
-  feedback,
-  filter,
+  activeFilter,
   onCancel,
   onClearFilter,
   onSaveFilter,
@@ -38,11 +38,15 @@ const FilterForm = ({
   ...dataLists
 }) => {
   const {
+    feedbackList: feedback,
     categories,
     priorityList: priority,
     stadsdeelList: stadsdeel,
     statusList: status,
   } = dataLists;
+
+  const { id, name, options } = activeFilter;
+  const filter = { id, name, ...options };
 
   const parsedfilterData = parseInputFormData(filter, {
     feedback,
@@ -55,7 +59,6 @@ const FilterForm = ({
 
   const [submitBtnLabel, setSubmitBtnLabel] = useState(defaultSubmitBtnLabel);
   const [filterData, setFilterData] = useState(parsedfilterData);
-
   const filterSlugs = (filterData.maincategory_slug || []).concat(
     filterData.category_slug || [],
   );
@@ -152,6 +155,9 @@ const FilterForm = ({
   return (
     <Form action="" novalidate onChange={onChangeForm}>
       <ControlsWrapper>
+        {filterData.id && (
+          <input type="hidden" name="id" value={filterData.id} />
+        )}
         <Fieldset>
           <legend className="hiddenvisually">Naam van het filter</legend>
 
@@ -182,26 +188,21 @@ const FilterForm = ({
             </FilterGroup>
           )}
 
-          {Array.isArray(stadsdeel) &&
-            stadsdeel.length > 0 && (
-              <FilterGroup data-testid="stadsdeelFilterGroup">
-                <Label htmlFor={`status_${stadsdeel[0].key}`}>
-                  Stadsdeel
-                </Label>
-                <CheckboxList
-                  defaultValue={filterData.stadsdeel}
-                  groupName="stadsdeel"
-                  options={stadsdeel}
-                />
-              </FilterGroup>
+          {Array.isArray(stadsdeel) && stadsdeel.length > 0 && (
+            <FilterGroup data-testid="stadsdeelFilterGroup">
+              <Label htmlFor={`status_${stadsdeel[0].key}`}>Stadsdeel</Label>
+              <CheckboxList
+                defaultValue={filterData.stadsdeel}
+                groupName="stadsdeel"
+                options={stadsdeel}
+              />
+            </FilterGroup>
           )}
 
           {Array.isArray(priority) && priority.length > 0 && (
             <FilterGroup data-testid="priorityFilterGroup">
-              <Label htmlFor={`status_${priority[0].key}`}>
-                Urgentie
-              </Label>
-              <CheckboxList
+              <Label htmlFor={`status_${priority[0].key}`}>Urgentie</Label>
+              <RadioButtonList
                 defaultValue={filterData.priority}
                 groupName="priority"
                 options={priority}
@@ -214,7 +215,7 @@ const FilterForm = ({
               <Label htmlFor={`feedback_${feedback[0].key}`}>
                 Tevredenheid
               </Label>
-              <CheckboxList
+              <RadioButtonList
                 defaultValue={filterData.feedback}
                 groupName="feedback"
                 options={feedback}
@@ -247,8 +248,7 @@ const FilterForm = ({
                 }
                 placeholderText="DD-MM-JJJJ"
                 selected={
-                  filterData.incident_date &&
-                  moment(filterData.incident_date)
+                  filterData.incident_date && moment(filterData.incident_date)
                 }
               />
 
@@ -340,7 +340,7 @@ const FilterForm = ({
 };
 
 FilterForm.defaultProps = {
-  filter: {
+  activeFilter: {
     name: '',
   },
 };
@@ -374,31 +374,34 @@ FilterForm.propTypes = {
       value: PropTypes.string.isRequired,
     }),
   ),
-  filter: PropTypes.shape({
-    feedback: PropTypes.string,
-    incident_date: PropTypes.string,
-    address_text: PropTypes.string,
-    stadsdeel: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
-    maincategory_slug: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
+  activeFilter: PropTypes.shape({
+    id: PropTypes.number,
     name: PropTypes.string,
-    priority: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
-    category_slug: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
+    options: PropTypes.shape({
+      feedback: PropTypes.string,
+      incident_date: PropTypes.string,
+      address_text: PropTypes.string,
+      stadsdeel: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      maincategory_slug: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      priority: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      status: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      category_slug: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+    }),
   }),
   /** Callback handler for when filter settings should not be applied */
   onCancel: PropTypes.func,
