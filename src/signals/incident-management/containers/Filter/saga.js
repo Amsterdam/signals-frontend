@@ -15,11 +15,11 @@ import { getFilters } from '../IncidentOverviewPage/actions';
 export const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/`;
 
 export function* doSaveFilter(action) {
-  const { name, ...options } = action.payload;
+  const filterData = action.payload;
 
   try {
     if (name) {
-      const result = yield call(authPostCall, requestURL, { name, options });
+      const result = yield call(authPostCall, requestURL, filterData);
       yield authCall(getFilters);
 
       yield put(filterSaveSuccess(result));
@@ -42,11 +42,10 @@ export function* doSaveFilter(action) {
 }
 
 export function* doUpdateFilter(action) {
-  const filterData = action.payload;
+  const { id, ...filterData } = action.payload;
 
   try {
-    const { id, name, ...options } = filterData;
-    const result = yield call(authPatchCall, `${requestURL}${id}`, { name, options });
+    const result = yield call(authPatchCall, `${requestURL}${id}`, filterData);
 
     yield put(filterUpdatedSuccess(result));
   } catch (error) {
