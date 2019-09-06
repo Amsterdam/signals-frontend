@@ -12,7 +12,7 @@ import {
   requestIncidents,
   incidentSelected as onIncidentSelected,
 } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
-import makeSelectOverviewPage from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
+import makeSelectOverviewPage, { makeSelectFilter } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 import FilterForm from 'signals/incident-management/components/FilterForm';
 import { resetSearchQuery } from 'models/search/actions';
 
@@ -23,8 +23,6 @@ import {
   filterUpdated as onUpdateFilter,
   filterCleared as onClearFilter,
 } from './actions';
-
-import { makeSelectActiveFilter } from './selectors';
 
 export const FilterContainerComponent = ({
   onResetSearchQuery,
@@ -138,7 +136,7 @@ const mapStateToProps = () =>
   createStructuredSelector({
     overviewpage: makeSelectOverviewPage(),
     categories: makeSelectCategories(),
-    activeFilter: makeSelectActiveFilter,
+    activeFilter: makeSelectFilter,
   });
 
 const mapDispatchToProps = (dispatch) =>
