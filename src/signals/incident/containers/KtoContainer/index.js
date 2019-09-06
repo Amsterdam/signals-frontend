@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
+import { Row, Column } from '@datapunt/asc-ui';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -26,7 +27,9 @@ export class KtoContainer extends React.Component {
         return <h1>Ja, ik ben tevreden met de behandeling van mijn melding</h1>;
 
       case 'nee':
-        return <h1>Nee, ik ben niet tevreden met de behandeling van mijn melding</h1>;
+        return (
+          <h1>Nee, ik ben niet tevreden met de behandeling van mijn melding</h1>
+        );
 
       case 'finished':
         return (
@@ -40,7 +43,10 @@ export class KtoContainer extends React.Component {
         return (
           <header>
             <h1>Helaas, de mogelijkheid om feedback te geven is verlopen</h1>
-            <p>Na het afhandelend van uw melding heeft u 2 weken de gelegenheid om feedback te geven.</p>
+            <p>
+              Na het afhandelend van uw melding heeft u 2 weken de gelegenheid
+              om feedback te geven.
+            </p>
           </header>
         );
 
@@ -48,50 +54,54 @@ export class KtoContainer extends React.Component {
         return (
           <header>
             <h1>Er is al feedback gegeven voor deze melding</h1>
-            <p>Nogmaals bedankt voor uw feedback. We zijn voortdurend bezig onze dienstverlening te verbeteren.</p>
+            <p>
+              Nogmaals bedankt voor uw feedback. We zijn voortdurend bezig onze
+              dienstverlening te verbeteren.
+            </p>
           </header>
         );
       default:
-        return (
-          <header />
-        );
+        return null;
     }
   }
 
   render() {
     const { ktoContainer, onUpdateKto, onStoreKto, yesNo } = this.props;
+
+    if (ktoContainer.statusError) {
+      return (
+        <Row>
+          <Column span={12}>
+            {KtoContainer.renderHeader(ktoContainer.statusError)}
+          </Column>
+        </Row>
+      );
+    }
+
+    if (ktoContainer.ktoFinished) {
+      return (
+        <Row>
+          <Column span={12}>{KtoContainer.renderHeader('finished')}</Column>
+        </Row>
+      );
+    }
+
     return (
-      <div className="kto-container">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              {!ktoContainer.statusError ?
-                <div>
-                  {ktoContainer.ktoFinished ?
-                    <div>
-                      {KtoContainer.renderHeader('finished')}
-                    </div> :
-                    <div>
-                      {KtoContainer.renderHeader(yesNo)}
+      <Fragment>
+        <Row>
+          <Column span={12}>{KtoContainer.renderHeader(yesNo)}</Column>
+        </Row>
 
-                      <KtoForm
-                        ktoContainer={ktoContainer}
-                        onUpdateKto={onUpdateKto}
-                        onStoreKto={onStoreKto}
-                      />
-                    </div>
-                }
-                </div>
-            :
-                <div>
-                  {KtoContainer.renderHeader(ktoContainer.statusError)}
-                </div>
-              }
-
-            </div>
-          </div>
-        </div>
-      </div>
+        <Row>
+          <Column span={{ small: 2, medium: 2, big: 8, large: 8, xLarge: 8 }}>
+            <KtoForm
+              ktoContainer={ktoContainer}
+              onUpdateKto={onUpdateKto}
+              onStoreKto={onStoreKto}
+            />
+          </Column>
+        </Row>
+      </Fragment>
     );
   }
 }
@@ -100,8 +110,8 @@ KtoContainer.defaultProps = {
   ktoContainer: {
     statusError: false,
     form: {},
-    answers: {}
-  }
+    answers: {},
+  },
 };
 
 KtoContainer.propTypes = {
@@ -112,21 +122,28 @@ KtoContainer.propTypes = {
   onUpdateKto: PropTypes.func.isRequired,
   onStoreKto: PropTypes.func.isRequired,
   requestKtoAnswers: PropTypes.func.isRequired,
-  checkKto: PropTypes.func.isRequired
+  checkKto: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   ktoContainer: makeSelectKtoContainer(),
 });
 
-export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  onUpdateKto: updateKto,
-  onStoreKto: storeKto,
-  requestKtoAnswers,
-  checkKto
-}, dispatch);
+export const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      onUpdateKto: updateKto,
+      onStoreKto: storeKto,
+      requestKtoAnswers,
+      checkKto,
+    },
+    dispatch,
+  );
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 const withReducer = injectReducer({ key: 'ktoContainer', reducer });
 const withSaga = injectSaga({ key: 'ktoContainer', saga });

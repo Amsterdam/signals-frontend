@@ -30,19 +30,11 @@ describe('components/SiteHeader', () => {
       ),
     );
 
-    // render site title
-    expect(queryByText('Meldingen')).not.toBeNull();
-
-    // log in button
-    expect(queryByText('Log in')).not.toBeNull();
-
     // menu items
     expect(queryByText('Melden')).not.toBeNull();
 
     // inline menu should be visible
-    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(
-      0,
-    );
+    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(0);
 
     // narrow window toggle
     mmm.setConfig({ type: 'screen', width: breakpoint - 1 });
@@ -59,9 +51,81 @@ describe('components/SiteHeader', () => {
     );
 
     // toggle menu should be visible
-    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(
-      1,
+    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(1);
+  });
+
+  it('should render a title', () => {
+    const { rerender, queryByText } = render(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/' }} />,
+      ),
     );
+
+    const title = 'SIA';
+
+    // don't show title in front office when not authenticated
+    expect(queryByText(title)).toBeNull();
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/' }} isAuthenticated />,
+      ),
+    );
+
+    // do show title in front office when authenticated
+    expect(queryByText(title)).not.toBeNull();
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/manage' }} />,
+      ),
+    );
+
+    // don't show title in back office when not authenticated
+    expect(queryByText(title)).toBeNull();
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/manage' }} isAuthenticated />,
+      ),
+    );
+
+    // do show title in back office when authenticated
+    expect(queryByText(title)).not.toBeNull();
+  });
+
+  it('should render a tall header', () => {
+    const { container, rerender } = render(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/' }} />,
+      ),
+    );
+
+    expect(container.querySelector('.siteHeader').classList.contains('isTall')).toEqual(true);
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/' }} isAuthenticated />,
+      ),
+    );
+
+    expect(container.querySelector('.siteHeader').classList.contains('isShort')).toEqual(true);
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/manage' }} />,
+      ),
+    );
+
+    expect(container.querySelector('.siteHeader').classList.contains('isTall')).toEqual(true);
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/manage' }} isAuthenticated />,
+      ),
+    );
+
+    expect(container.querySelector('.siteHeader').classList.contains('isShort')).toEqual(true);
   });
 
   it('should show buttons based on permissions', () => {
@@ -78,33 +142,6 @@ describe('components/SiteHeader', () => {
     expect(queryByText('Standaard teksten')).not.toBeNull();
   });
 
-  it('should not show login button on homepage', () => {
-    //  dont' show login button on homepage
-    const { rerender, queryByText } = render(
-      withAppContext(
-        <SiteHeader
-          permissions={[]}
-          isAuthenticated={false}
-          location={{ pathname: '/incident/beschrijf' }}
-        />,
-      ),
-    );
-
-    expect(queryByText('Log in')).toBeNull();
-
-    rerender(
-      withAppContext(
-        <SiteHeader
-          permissions={[]}
-          isAuthenticated={false}
-          location={{ pathname: '/manage/incidents' }}
-        />,
-      ),
-    );
-
-    expect(queryByText('Log in')).not.toBeNull();
-  });
-
   it('should render correctly when logged in', () => {
     const { container, queryByText } = render(
       withAppContext(
@@ -116,9 +153,6 @@ describe('components/SiteHeader', () => {
       ),
     );
 
-    // log in button
-    expect(queryByText('Log in')).toBeNull();
-
     // afhandelen menu item
     expect(queryByText('Afhandelen')).toBeTruthy();
 
@@ -129,7 +163,7 @@ describe('components/SiteHeader', () => {
     expect(queryByText('Uitloggen')).toBeTruthy();
   });
 
-  it('should handle login/logout callback', () => {
+  it.only('should handle login/logout callback', () => {
     const onLoginLogoutButtonClick = jest.fn();
 
     const { rerender, getByText } = render(
@@ -142,16 +176,7 @@ describe('components/SiteHeader', () => {
       ),
     );
 
-    const loginButton = getByText('Log in');
-
-    fireEvent(
-      loginButton,
-      new MouseEvent('click', {
-        bubbles: true,
-      }),
-    );
-
-    expect(onLoginLogoutButtonClick).toHaveBeenCalled();
+    expect(onLoginLogoutButtonClick).not.toHaveBeenCalled();
 
     onLoginLogoutButtonClick.mockReset();
 

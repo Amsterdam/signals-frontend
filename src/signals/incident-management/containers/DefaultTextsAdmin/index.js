@@ -5,6 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { Row, Column } from '@datapunt/asc-ui';
 import PageHeader from 'components/PageHeader';
+import styled from 'styled-components';
 
 import { makeSelectCategories } from 'containers/App/selectors';
 
@@ -25,6 +26,10 @@ import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
+const StyledPageHeader = styled(PageHeader)`
+  background-color: transparent;
+`;
+
 const DefaultTextsAdmin = ({
   categories,
   onFetchDefaultTexts,
@@ -39,7 +44,7 @@ const DefaultTextsAdmin = ({
   },
 }) => (
   <Fragment>
-    <PageHeader title="Beheer standaard teksten" />
+    <StyledPageHeader title="Beheer standaard teksten" />
     <Row>
       <Column span={4}>
         <SelectForm

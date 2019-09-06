@@ -13,7 +13,7 @@ import { withRouter } from 'react-router-dom';
 
 import { doLogin, doLogout } from '../App/actions';
 
-const HeaderWithRouter = withRouter(SiteHeader);
+const HeaderWithRouter = compose(withRouter)(SiteHeader);
 
 export class SiteHeaderContainer extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
