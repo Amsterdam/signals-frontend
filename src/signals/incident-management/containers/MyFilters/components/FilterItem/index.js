@@ -30,7 +30,7 @@ const handleEditFilter = (filter, onApplyFilter, onRequestIncidents, onClose) =>
 const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose, onRequestIncidents }) => (
   <div className="filter-item">
     <div className="filter-item__name">{filter.name}</div>
-    <div className="filter-item__tag-list"><FilterTagList tags={{}} /></div>
+    <div className="filter-item__tag-list"><FilterTagList tags={filter.options} /></div>
     <div className="filter-item__actions">
       <button className="filter-item__actions-button" type="button" onClick={() => handleApplyFilter(filter, onApplyFilter, onRequestIncidents, onClose)}>Toon resultaat</button>
       <button className="filter-item__actions-button" type="button" onClick={() => handleEditFilter(filter, onApplyFilter, onRequestIncidents, onClose)}>Wijzig</button>

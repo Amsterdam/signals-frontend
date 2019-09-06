@@ -59,7 +59,9 @@ export const parseOutputFormData = (form) => {
       }
     });
 
-  return parsed;
+  const { name, ...options } = parsed;
+  console.log('OUT', { name, options });
+  return { name, options };
 };
 
 /**
@@ -71,7 +73,11 @@ export const parseOutputFormData = (form) => {
  * @returns {Object}
  */
 export const parseInputFormData = (filterData, dataLists) => {
-  const parsed = clonedeep(filterData);
+  // const parsed = clonedeep(filterData);
+  console.log('IN top', filterData);
+
+  const parsed = clonedeep(filterData.options || {});
+  parsed.name = filterData.name;
 
   /* istanbul ignore else */
   if (Object.keys(filterData).length) {
@@ -111,6 +117,6 @@ export const parseInputFormData = (filterData, dataLists) => {
       }));
     }
   }
-
+  console.log('IN', parsed);
   return parsed;
 };

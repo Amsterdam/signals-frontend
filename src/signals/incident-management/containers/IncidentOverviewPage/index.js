@@ -26,6 +26,7 @@ import saga from './saga';
 import { requestIncidents, incidentSelected, getFilters } from './actions';
 import ListComponent from './components/List';
 import Pager from './components/Pager';
+import FilterTagList from '../FilterTagList';
 
 let lastActiveElement = null;
 
@@ -93,7 +94,7 @@ export const IncidentOverviewPageContainerComponent = ({
     onGetFilters();
   }, []);
 
-  const { incidents, loading, page, sort, ...rest } = overviewpage;
+  const { incidents, loading, page, sort, filter, ...rest } = overviewpage;
 
   return (
     <Fragment>
@@ -128,6 +129,8 @@ export const IncidentOverviewPageContainerComponent = ({
           <Filter onSubmit={closeFilterModal} onCancel={closeFilterModal} />
         </Modal>
       </PageHeader>
+
+      <FilterTagList tags={filter && filter.options} />
 
       <Row>
         <Column span={12} wrap>
@@ -167,6 +170,7 @@ IncidentOverviewPageContainerComponent.propTypes = {
     loading: PropTypes.bool,
     page: PropTypes.number,
     sort: PropTypes.string,
+    filter: PropTypes.object,
   }).isRequired,
   categories: PropTypes.shape({}).isRequired,
   incidentsCount: PropTypes.number,
