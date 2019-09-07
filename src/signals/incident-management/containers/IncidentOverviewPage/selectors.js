@@ -38,11 +38,11 @@ const makeSelectFilterParams = () =>
     (substate) => {
       const state = substate.toJS();
       const filter = state.filter || { options: {} };
-      const { name, options } = filter;
+      const { options } = filter;
       if (options && options.id) {
         delete options.id;
       }
-      return { filter: { name, ...options }, page: state.page, ordering: state.sort };
+      return { ...options, page: state.page, ordering: state.sort };
     },
   );
 
