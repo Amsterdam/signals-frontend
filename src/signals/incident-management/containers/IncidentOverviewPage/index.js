@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -8,7 +8,6 @@ import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import styled from 'styled-components';
 
 import MyFilters from 'signals/incident-management/containers/MyFilters';
-
 import PageHeader from 'containers/PageHeader';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -27,6 +26,8 @@ import { requestIncidents, incidentSelected, getFilters } from './actions';
 import ListComponent from './components/List';
 import Pager from './components/Pager';
 import FilterTagList from '../FilterTagList';
+
+import './style.scss';
 
 let lastActiveElement = null;
 
@@ -97,7 +98,7 @@ export const IncidentOverviewPageContainerComponent = ({
   const { incidents, loading, page, sort, filter, ...rest } = overviewpage;
 
   return (
-    <Fragment>
+    <div className="incident-overview-page">
       <PageHeader>
         <div>
           <StyledButton
@@ -128,9 +129,11 @@ export const IncidentOverviewPageContainerComponent = ({
         <Modal isOpen={modalFilterIsOpen} onClose={closeFilterModal} title="Filters">
           <Filter onSubmit={closeFilterModal} onCancel={closeFilterModal} />
         </Modal>
-      </PageHeader>
 
-      <FilterTagList tags={filter && filter.options} />
+        <div className="incident-overview-page__filter-tag-list">
+          <FilterTagList tags={filter && filter.options} />
+        </div>
+      </PageHeader>
 
       <Row>
         <Column span={12} wrap>
@@ -160,7 +163,7 @@ export const IncidentOverviewPageContainerComponent = ({
           </Column>
         </Column>
       </Row>
-    </Fragment>
+    </div>
   );
 };
 

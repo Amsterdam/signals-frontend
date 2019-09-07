@@ -27,6 +27,7 @@ export function* fetchIncidents(action) {
     } else if (params.ordering === '-days_open') {
       params.ordering = 'created_at';
     }
+    console.log('params', params);
     const incidents = yield authCall(requestURL, params);
 
     yield put(requestIncidentsSuccess(incidents));
