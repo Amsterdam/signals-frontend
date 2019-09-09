@@ -1,7 +1,7 @@
 import { all, put, select, takeLatest } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 
-import { authCall, authDeleteCall } from 'shared/services/api/api';
+import { authCall, authPostCall, authDeleteCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import { REQUEST_INCIDENTS, INCIDENT_SELECTED, GET_FILTERS, REMOVE_FILTER, REVERT_FILTER } from './constants';
@@ -27,7 +27,7 @@ export function* fetchIncidents(action) {
     } else if (params.ordering === '-days_open') {
       params.ordering = 'created_at';
     }
-    console.log('params', params);
+
     const incidents = yield authCall(requestURL, params);
 
     yield put(requestIncidentsSuccess(incidents));
@@ -66,8 +66,11 @@ export function* removeFilter(action) {
   }
 }
 
-export function* revertFilter() {
+export function* revertFilter(action) {
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/`;
+  const filter = action.payload;
   try {
+    yield authPostCall(requestURL, filter);
     yield put(revertFilterSuccess());
   } catch (error) {
     yield put(revertFilterFailed());
