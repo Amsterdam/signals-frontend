@@ -63,7 +63,7 @@ describe('overviewPageReducer', () => {
     const filter = {};
     const action = filterIncidentsChanged(filter);
     const expected = fromJS({})
-      .set('filter', filter)
+      .set('filter', fromJS(filter))
       .set('page', 1);
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
