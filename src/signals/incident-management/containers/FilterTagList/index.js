@@ -22,12 +22,12 @@ const renderTag = (key, value, tagKey, mainCategories, allLists) => {
   return <span className="filter-tag-list__item" key={key}>{display}{foundMain && ': Alles'}</span>;
 };
 
-export const FilterTagList = ({ tags, overviewpage: { priorityList, stadsdeelList, statusList }, categories: { main, sub } }) => (
+export const FilterTagList = ({ tags, overviewpage: { priorityList, stadsdeelList, statusList, feedbackList }, categories: { main, sub } }) => (
   <div className="filter-tag-list">
     {Object.entries(tags).map(([tagKey, tag]) => (Array.isArray(tag) ?
       <span key={tag}>{tag.map((item) =>
-        renderTag(item, item, tagKey, main, [...priorityList, ...stadsdeelList, ...statusList, ...sub, ...main]))}</span> :
-        renderTag(tag, tag, tagKey, main, [...priorityList, ...stadsdeelList, ...statusList, ...sub, ...main])))}
+        renderTag(item, item, tagKey, main, [...priorityList, ...stadsdeelList, ...statusList, ...feedbackList, ...sub, ...main]))}</span> :
+        renderTag(tag, tag, tagKey, main, [...priorityList, ...stadsdeelList, ...statusList, ...feedbackList, ...sub, ...main])))}
   </div>
 );
 
