@@ -22,6 +22,7 @@ import {
 import priorityList from '../../definitions/priorityList';
 import stadsdeelList from '../../definitions/stadsdeelList';
 import statusList from '../../definitions/statusList';
+import feedbackList from '../../definitions/feedbackList';
 
 export const initialState = fromJS({
   filterSubCategoryList: [],
@@ -31,23 +32,10 @@ export const initialState = fromJS({
   sort: '-created_at',
   stadsdeelList,
   statusList,
+  feedbackList,
   allFilters: [],
   filter: {},
   removedFilter: {},
-  feedbackList: [
-    {
-      key: 'satisfied',
-      value: 'Tevreden',
-    },
-    {
-      key: 'not_satisfied',
-      value: 'Niet tevreden',
-    },
-    {
-      key: 'not_received',
-      value: 'Niet ontvangen',
-    },
-  ],
 });
 
 function overviewPageReducer(state = initialState, action) {
