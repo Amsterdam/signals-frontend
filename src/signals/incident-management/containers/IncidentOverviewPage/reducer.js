@@ -99,9 +99,8 @@ function overviewPageReducer(state = initialState, action) {
         .set('allFilters', fromJS([...state.get('allFilters').toJS(), state.get('removedFilter').toJS()]))
         .set('removedFilter', fromJS({}));
     case APPLY_FILTER:
-      re = new RegExp(`/${action.payload}`, 'g');
       return state
-        .set('filter', fromJS(state.get('allFilters').toJS().find((i) => i._links.self.href.match(re))));
+        .set('filter', fromJS(action.payload));
     case EMPTY_REVERTED:
       return state
         .set('removedFilter', fromJS({}));

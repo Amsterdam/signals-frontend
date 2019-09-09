@@ -13,13 +13,13 @@ const getId = (filter) => {
 };
 
 const handleApplyFilter = (filter, onApplyFilter, onRequestIncidents, onClose) => {
-  onApplyFilter(getId(filter));
+  onApplyFilter(filter);
   onRequestIncidents({ filter });
   onClose();
 };
 
 const handleEditFilter = (filter, onApplyFilter, onRequestIncidents, onClose) => {
-  onApplyFilter(getId(filter));
+  onApplyFilter(filter);
   onRequestIncidents({ filter });
   document.dispatchEvent(new Event('openFilter'));
   onClose();
