@@ -1,6 +1,6 @@
 import { put, takeLatest, select, all } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
-import { authCall, authDeleteCall } from 'shared/services/api/api';
+import { authCall, authPostCall, authDeleteCall } from 'shared/services/api/api';
 
 import { REQUEST_INCIDENTS, INCIDENT_SELECTED, GET_FILTERS, REMOVE_FILTER, REVERT_FILTER } from './constants';
 import { requestIncidentsSuccess, requestIncidentsError, filterIncidentsChanged, pageIncidentsChanged, sortIncidentsChanged, getFiltersSuccess, getFiltersFailed, removeFilterSuccess, removeFilterFailed, revertFilterSuccess, revertFilterFailed } from './actions';
@@ -131,12 +131,13 @@ describe('IncidentOverviewPage saga', () => {
   });
 
   it('should removeFilter success', () => {
-    const id = 42;
+    const id = 1000;
+    const action = { payload: id };
     const requestURL = `https://acc.api.data.amsterdam.nl/signals/v1/private/me/filters/${id}`;
 
-    const gen = removeFilter(id);
+    const gen = removeFilter(action);
     expect(gen.next(0).value).toEqual(authDeleteCall(requestURL)); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next().value).toEqual(put(removeFilterSuccess())); // eslint-disable-line redux-saga/yield-effects
+    expect(gen.next().value).toEqual(put(removeFilterSuccess(id))); // eslint-disable-line redux-saga/yield-effects
   });
 
   it('should removeFilter error', () => {
@@ -148,7 +149,11 @@ describe('IncidentOverviewPage saga', () => {
   });
 
   it('should revertFilter success', () => {
-    const gen = revertFilter();
+    const requestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/private/me/filters';
+    const action = { payload: { name: 'filter' } };
+
+    const gen = revertFilter(action);
+    expect(gen.next().value).toEqual(authPostCall(requestURL)); // eslint-disable-line redux-saga/yield-effects
     expect(gen.next().value).toEqual(put(revertFilterSuccess())); // eslint-disable-line redux-saga/yield-effects
   });
 
