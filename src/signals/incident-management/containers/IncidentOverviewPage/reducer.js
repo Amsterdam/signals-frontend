@@ -25,11 +25,11 @@ import statusList from '../../definitions/statusList';
 import feedbackList from '../../definitions/feedbackList';
 
 export const initialState = fromJS({
-  filterSubCategoryList: [],
+  sort: '-created_at',
+  page: 1,
   incidents: [],
   incidentsCount: null,
   priorityList,
-  sort: '-created_at',
   stadsdeelList,
   statusList,
   feedbackList,

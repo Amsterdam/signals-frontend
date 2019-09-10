@@ -108,7 +108,6 @@ FilterContainerComponent.propTypes = {
         value: PropTypes.string.isRequired,
       }),
     ),
-    filterSubCategoryList: PropTypes.arrayOf(PropTypes.shape({})),
     priorityList: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string.isRequired,

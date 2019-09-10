@@ -42,6 +42,11 @@ const makeSelectFilterParams = () =>
       if (options && options.id) {
         delete options.id;
       }
+
+      if (filter.searchQuery) {
+        return { id: filter.searchQuery, page: state.page, ordering: state.sort };
+      }
+
       return { ...options, page: state.page, ordering: state.sort };
     },
   );

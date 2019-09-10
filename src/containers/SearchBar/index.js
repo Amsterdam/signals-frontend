@@ -33,11 +33,8 @@ export const SearchBarComponent = ({ className, query, onSetSearchQuery, onReque
    * @param {String} searchInput
    */
   const onSearchSubmit = (searchInput) => {
-    /* istanbul ignore else */
-    if (searchInput) {
-      onSetSearchQuery(searchInput);
-      onRequestIncidents({ filter: { id: searchInput } });
-    }
+    onSetSearchQuery(searchInput);
+    onRequestIncidents({ filter: { searchQuery: searchInput } });
   };
 
   return (
@@ -45,12 +42,10 @@ export const SearchBarComponent = ({ className, query, onSetSearchQuery, onReque
       className={className}
       data-testid="searchBar"
       placeholder="Zoek op melding nummer"
-      onChange={() => {}} // component requires onChange handler, even though we don't need it
-      onSubmit={onSearchSubmit}
+      onChange={onSearchSubmit} // component requires onChange handler, even though we don't need it
       value={query}
       onKeyDown={(event) => {
         const { keyCode } = event;
-
         /* istanbul ignore else */
         if (!allowedButtonCodes.includes(keyCode)) {
           event.preventDefault();
