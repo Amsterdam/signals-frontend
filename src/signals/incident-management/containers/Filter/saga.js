@@ -11,13 +11,15 @@ import {
   filterUpdatedSuccess,
 } from './actions';
 import { getFilters } from '../IncidentOverviewPage/actions';
-
+import { resetSearchQuery } from '../../../../models/search/actions';
 export const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/`;
 
 export function* doSaveFilter(action) {
   const filterData = action.payload;
 
   try {
+    yield put(resetSearchQuery);
+
     if (filterData.name) {
       const result = yield call(authPostCall, requestURL, filterData);
 
@@ -49,6 +51,7 @@ export function* doUpdateFilter(action) {
 
     yield put(filterUpdatedSuccess(result));
     yield put(getFilters());
+    yield put(resetSearchQuery);
   } catch (error) {
     if (
       error.response &&

@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
-// import { Row, Column } from '@datapunt/asc-ui';
 
 import { makeSelectAllFilters, makeSelectRemovedFilter } from '../IncidentOverviewPage/selectors';
 import { applyFilter, removeFilter, revertFilter, requestIncidents } from '../IncidentOverviewPage/actions';
+import { resetSearchQuery } from '../../../../models/search/actions';
 
 import FilterItem from './components/FilterItem';
 
@@ -18,7 +18,7 @@ const sortFilters = (allFilters) => {
   return allFilters;
 };
 
-export const MyFilters = ({ allFilters, removedFilter, onApplyFilter, onRemoveFilter, onRevertFilter, onClose, onRequestIncidents }) => (
+export const MyFilters = ({ allFilters, removedFilter, onApplyFilter, onRemoveFilter, onRevertFilter, onClose, onRequestIncidents, onResetSearchQuery }) => (
   <div className="my-filters">
     {removedFilter && removedFilter.name ? <div className="my-filters__removed-filter">
       De filterinstelling &ldquo;{removedFilter.name}&rdquo; is verwijderd.
@@ -33,6 +33,7 @@ export const MyFilters = ({ allFilters, removedFilter, onApplyFilter, onRemoveFi
         onRemoveFilter={onRemoveFilter}
         onClose={onClose}
         onRequestIncidents={onRequestIncidents}
+        onResetSearchQuery={onResetSearchQuery}
       />
     ))}
   </div>
@@ -46,6 +47,7 @@ MyFilters.propTypes = {
   onRemoveFilter: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onRequestIncidents: PropTypes.func.isRequired,
+  onResetSearchQuery: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -60,6 +62,7 @@ const mapDispatchToProps = (dispatch) =>
       onRemoveFilter: removeFilter,
       onRevertFilter: revertFilter,
       onRequestIncidents: requestIncidents,
+      onResetSearchQuery: resetSearchQuery,
     },
     dispatch,
   );
