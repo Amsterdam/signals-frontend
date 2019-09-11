@@ -27,38 +27,34 @@ const getId = (filter) => {
   return (found && found[1]) || 0;
 };
 
-const handleApplyFilter = (e, filter, onApplyFilter, onRequestIncidents, onResetSearchQuery, onClose) => {
+const handleApplyFilter = (e, filter, onApplyFilter, onClose) => {
   e.preventDefault();
   onApplyFilter(filter);
-  onRequestIncidents({ filter });
-  onResetSearchQuery();
   onClose();
 };
 
-const handleEditFilter = (e, filter, onApplyFilter, onRequestIncidents, onResetSearchQuery, onClose) => {
+const handleEditFilter = (e, filter, onApplyFilter, onClose) => {
   e.preventDefault();
   onApplyFilter(filter);
-  onRequestIncidents({ filter });
   document.dispatchEvent(new Event('openFilter'));
-  onResetSearchQuery();
   onClose();
 };
 
 const handleRemoveFilter = (e, id, onRemoveFilter) => {
   e.preventDefault();
   onRemoveFilter(id);
-}
-;
-const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose, onRequestIncidents, onResetSearchQuery }) => (
+};
+
+const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => (
   <div className="filter-item">
     <StyledHeading $as="h4">{filter.name}</StyledHeading>
     <div className="filter-item__tag-list"><FilterTagList tags={filter.options} /></div>
     <div className="filter-item__actions">
 
-      <StyledLink href="/" variant="inline" onClick={(e) => handleApplyFilter(e, filter, onApplyFilter, onRequestIncidents, onResetSearchQuery, onClose)}>
+      <StyledLink href="/" variant="inline" onClick={(e) => handleApplyFilter(e, filter, onApplyFilter, onClose)}>
         Toon resultaat
       </StyledLink>
-      <StyledLink href="/" variant="inline" onClick={(e) => handleEditFilter(e, filter, onApplyFilter, onRequestIncidents, onResetSearchQuery, onClose)}>
+      <StyledLink href="/" variant="inline" onClick={(e) => handleEditFilter(e, filter, onApplyFilter, onClose)}>
         Wijzig
       </StyledLink>
       <StyledLink href="/" variant="inline" onClick={(e) => handleRemoveFilter(e, getId(filter), onRemoveFilter)}>
@@ -75,9 +71,7 @@ FilterItem.propTypes = {
   }).isRequired,
   onApplyFilter: PropTypes.func.isRequired,
   onRemoveFilter: PropTypes.func.isRequired,
-  onRequestIncidents: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  onResetSearchQuery: PropTypes.func.isRequired,
 };
 
 export default FilterItem;
