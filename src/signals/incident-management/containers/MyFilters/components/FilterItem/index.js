@@ -1,10 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash.get';
+import styled from 'styled-components';
+
+import {
+  Heading,
+  Link,
+ } from '@datapunt/asc-ui';
 
 import FilterTagList from '../../../FilterTagList';
 
 import './style.scss';
+
+const StyledHeading = styled(Heading)`
+  margin-bottom: 10px;
+  color: #fe0000;
+`;
+
+const StyledLink = styled(Link)`
+  margin-right: 20px;
+`;
 
 const getId = (filter) => {
   const href = get(filter, '_links.self.href') || '';
@@ -12,14 +27,16 @@ const getId = (filter) => {
   return (found && found[1]) || 0;
 };
 
-const handleApplyFilter = (filter, onApplyFilter, onRequestIncidents, onResetSearchQuery, onClose) => {
+const handleApplyFilter = (e, filter, onApplyFilter, onRequestIncidents, onResetSearchQuery, onClose) => {
+  e.preventDefault();
   onApplyFilter(filter);
   onRequestIncidents({ filter });
   onResetSearchQuery();
   onClose();
 };
 
-const handleEditFilter = (filter, onApplyFilter, onRequestIncidents, onResetSearchQuery, onClose) => {
+const handleEditFilter = (e, filter, onApplyFilter, onRequestIncidents, onResetSearchQuery, onClose) => {
+  e.preventDefault();
   onApplyFilter(filter);
   onRequestIncidents({ filter });
   document.dispatchEvent(new Event('openFilter'));
@@ -27,14 +44,26 @@ const handleEditFilter = (filter, onApplyFilter, onRequestIncidents, onResetSear
   onClose();
 };
 
+const handleRemoveFilter = (e, id, onRemoveFilter) => {
+  e.preventDefault();
+  onRemoveFilter(id);
+}
+;
 const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose, onRequestIncidents, onResetSearchQuery }) => (
   <div className="filter-item">
-    <div className="filter-item__name">{filter.name}</div>
+    <StyledHeading $as="h4">{filter.name}</StyledHeading>
     <div className="filter-item__tag-list"><FilterTagList tags={filter.options} /></div>
     <div className="filter-item__actions">
-      <button className="filter-item__actions-button" type="button" onClick={() => handleApplyFilter(filter, onApplyFilter, onRequestIncidents, onResetSearchQuery, onClose)}>Toon resultaat</button>
-      <button className="filter-item__actions-button" type="button" onClick={() => handleEditFilter(filter, onApplyFilter, onRequestIncidents, onResetSearchQuery, onClose)}>Wijzig</button>
-      <button className="filter-item__actions-button" type="button" onClick={() => onRemoveFilter(getId(filter))}>Verwijder</button>
+
+      <StyledLink href="/" variant="inline" onClick={(e) => handleApplyFilter(e, filter, onApplyFilter, onRequestIncidents, onResetSearchQuery, onClose)}>
+        Toon resultaat
+      </StyledLink>
+      <StyledLink href="/" variant="inline" onClick={(e) => handleEditFilter(e, filter, onApplyFilter, onRequestIncidents, onResetSearchQuery, onClose)}>
+        Wijzig
+      </StyledLink>
+      <StyledLink href="/" variant="inline" onClick={(e) => handleRemoveFilter(e, getId(filter), onRemoveFilter)}>
+        Verwijder
+      </StyledLink>
     </div>
   </div>
 );
