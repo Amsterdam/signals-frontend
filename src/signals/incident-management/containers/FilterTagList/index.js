@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { makeSelectCategories } from 'containers/App/selectors';
 import { Tag } from '@datapunt/asc-ui';
-
-import './style.scss';
 
 import makeSelectOverviewPage from '../IncidentOverviewPage/selectors';
 
@@ -49,12 +47,12 @@ export const FilterTagList = (props) => {
   };
 
   return (
-    <div className="filter-tag-list">
+    <Fragment>
       {Object.entries(tags).map(([tagKey, tag]) => (Array.isArray(tag) ?
         <span key={tag}>{tag.map((item) =>
         renderTag(item, tagKey, main, map[tagKey]))}</span> :
         renderTag(tag, tagKey, main, map[tagKey])))}
-    </div>
+    </Fragment>
   );
 };
 
