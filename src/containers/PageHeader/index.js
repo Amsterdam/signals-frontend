@@ -30,8 +30,35 @@ PageHeaderContainerComponent.defaultProps = {
 PageHeaderContainerComponent.propTypes = {
   filter: PropTypes.shape({
     name: PropTypes.string,
-    options: PropTypes.object,
-  }).isRequired,
+    id: PropTypes.number,
+    searchQuery: PropTypes.string,
+    options: PropTypes.shape({
+      id: PropTypes.string,
+      feedback: PropTypes.string,
+      incident_date: PropTypes.string,
+      address_text: PropTypes.string,
+      stadsdeel: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      maincategory_slug: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      priority: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      status: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      category_slug: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+    }),
+  }),
   children: PropTypes.node,
   incidentsCount: PropTypes.number,
   query: PropTypes.string,
