@@ -64,8 +64,6 @@ const Modal = ({ children, title, isOpen, onClose, ...rest }) => (
         <Button
           data-testid="closeBtn"
           square
-          type="button"
-          $as="button"
           onClick={onClose}
           size={32}
           iconSize={20}

@@ -103,9 +103,7 @@ export const IncidentOverviewPageContainerComponent = ({
         <div>
           <StyledButton
             data-testid="modalMyfiltersBtn"
-            type="button"
             color="primary"
-            $as="button"
             onClick={openMyFiltersModal}
           >
           Mijn filters
@@ -113,9 +111,7 @@ export const IncidentOverviewPageContainerComponent = ({
 
           <StyledButton
             data-testid="modalFilterBtn"
-            type="button"
             color="primary"
-            $as="button"
             onClick={openFilterModal}
           >
           Filteren
