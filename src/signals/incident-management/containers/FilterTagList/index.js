@@ -10,26 +10,42 @@ import makeSelectOverviewPage from '../IncidentOverviewPage/selectors';
 
 const ignoredTags = ['id'];
 
-const renderTag = (key, value, tagKey, mainCategories, allLists) => {
-  const found = allLists.find((i) => i.key === key || i.slug === key);
-  const display = (found && found.value) || value;
+const renderTag = (key, tagKey, mainCategories, list) => {
+  let found = false;
+  if (list) {
+    found = list.find((i) => i.key === key || i.slug === key);
+  }
+  const display = (found && found.value) || key;
   if (!display || ignoredTags.includes(tagKey)) {
     return;
   }
 
-  const foundMain = mainCategories.find((i) => i.slug === value);
+  const foundMain = mainCategories.find((i) => i.slug === key);
   // eslint-disable-next-line consistent-return
   return <span className="filter-tag-list__item" key={key}>{display}{foundMain && ': Alles'}</span>;
 };
 
-export const FilterTagList = ({ tags, overviewpage: { priorityList, stadsdeelList, statusList, feedbackList }, categories: { main, sub } }) => (
-  <div className="filter-tag-list">
-    {Object.entries(tags).map(([tagKey, tag]) => (Array.isArray(tag) ?
-      <span key={tag}>{tag.map((item) =>
-        renderTag(item, item, tagKey, main, [...priorityList, ...stadsdeelList, ...statusList, ...feedbackList, ...sub, ...main]))}</span> :
-        renderTag(tag, tag, tagKey, main, [...priorityList, ...stadsdeelList, ...statusList, ...feedbackList, ...sub, ...main])))}
-  </div>
-);
+export const FilterTagList = (props) => {
+  const { tags, overviewpage: { priorityList, stadsdeelList, statusList, feedbackList }, categories: { main, sub } } = props;
+
+  const map = {
+    feedback: feedbackList,
+    priority: priorityList,
+    stadsdeel: stadsdeelList,
+    status: statusList,
+    maincategory_slug: main,
+    category_slug: sub,
+  };
+
+  return (
+    <div className="filter-tag-list">
+      {Object.entries(tags).map(([tagKey, tag]) => (Array.isArray(tag) ?
+        <span key={tag}>{tag.map((item) =>
+        renderTag(item, tagKey, main, map[tagKey]))}</span> :
+        renderTag(tag, tagKey, main, map[tagKey])))}
+    </div>
+  );
+};
 
 FilterTagList.propTypes = {
   tags: PropTypes.object,
