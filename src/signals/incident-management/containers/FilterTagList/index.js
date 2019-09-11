@@ -2,11 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import styled from 'styled-components';
 import { makeSelectCategories } from 'containers/App/selectors';
+import { Tag } from '@datapunt/asc-ui';
 
 import './style.scss';
 
 import makeSelectOverviewPage from '../IncidentOverviewPage/selectors';
+
+const StyledTag = styled(Tag)`
+  display: inline;
+  margin-right: 5px;
+`;
 
 const ignoredTags = ['id'];
 
@@ -22,7 +29,11 @@ const renderTag = (key, tagKey, mainCategories, list) => {
 
   const foundMain = mainCategories.find((i) => i.slug === key);
   // eslint-disable-next-line consistent-return
-  return <span className="filter-tag-list__item" key={key}>{display}{foundMain && ': Alles'}</span>;
+  return (<StyledTag
+    colorType="tint"
+    colorSubtype="level3"
+    key={key}
+  >{display}{foundMain && ': Alles'}</StyledTag>);
 };
 
 export const FilterTagList = (props) => {
