@@ -37,10 +37,10 @@ export const SearchBarComponent = ({ className, query, onSetSearchQuery, onReque
     onRequestIncidents({ filter: { searchQuery: searchInput } });
   };
 
-  const onWatchValue = (value) => {
+  const onChange = (value) => {
     if (value === '') {
       onSetSearchQuery('');
-      onRequestIncidents({ filter: { searchQuery: '' } });
+      onRequestIncidents({ filter: {} });
     }
   };
 
@@ -49,9 +49,8 @@ export const SearchBarComponent = ({ className, query, onSetSearchQuery, onReque
       className={className}
       data-testid="searchBar"
       placeholder="Zoek op melding nummer"
-      onChange={() => {}} // component requires onChange handler, even though we don't need it
+      onChange={onChange}
       onSubmit={onSearchSubmit}
-      onWatchValue={onWatchValue}
       value={query}
       onKeyDown={(event) => {
         const { keyCode } = event;
