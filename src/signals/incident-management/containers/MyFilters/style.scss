@@ -1,6 +1,8 @@
 @import "config.scss";
 
 .my-filters {
+  width: 100%;
+
   &__removed-filter {
     background-color: #eee;
     margin-bottom: 30px;
@@ -17,5 +19,14 @@
     color: #004699;
     background-color: transparent;
     text-decoration: underline;
+  }
+
+  &--empty {
+    @include avenirnextdemi();
+    font-size: 20px;
+    line-height: 25px;
+    text-align: center;
+    color: #b4b4b4;
+    margin-top: 90px;
   }
 }

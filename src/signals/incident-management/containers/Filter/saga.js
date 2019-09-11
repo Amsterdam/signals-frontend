@@ -18,10 +18,11 @@ export function* doSaveFilter(action) {
   const filterData = action.payload;
 
   try {
-    yield put(resetSearchQuery);
+    yield put(resetSearchQuery());
 
     if (filterData.name) {
       const result = yield call(authPostCall, requestURL, filterData);
+
 
       yield put(filterSaveSuccess(result));
       yield put(getFilters());
@@ -51,7 +52,7 @@ export function* doUpdateFilter(action) {
 
     yield put(filterUpdatedSuccess(result));
     yield put(getFilters());
-    yield put(resetSearchQuery);
+    yield put(resetSearchQuery());
   } catch (error) {
     if (
       error.response &&

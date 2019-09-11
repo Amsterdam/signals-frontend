@@ -25,7 +25,7 @@ export const MyFilters = ({ allFilters, removedFilter, onApplyFilter, onRemoveFi
       <div><button className="my-filters__revert-button" type="button" onClick={() => onRevertFilter(removedFilter)}>Ongedaan maken</button></div>
     </div> : ''}
 
-    {allFilters && allFilters.length && sortFilters(allFilters).map((filter) => (
+    {allFilters && allFilters.length ? sortFilters(allFilters).map((filter) => (
       <FilterItem
         key={filter._links.self.href}
         filter={filter}
@@ -35,7 +35,12 @@ export const MyFilters = ({ allFilters, removedFilter, onApplyFilter, onRemoveFi
         onRequestIncidents={onRequestIncidents}
         onResetSearchQuery={onResetSearchQuery}
       />
-    ))}
+    )) : (
+      <div className="my-filters--empty">
+        <p>U heeft geen eigen filter opgeslagen.</p>
+        <p>Ga naar &lsquo;Filteren&rsquo; en voer een naam in om een filterinstelling op te slaan.</p>
+      </div>
+    )}
   </div>
 );
 
