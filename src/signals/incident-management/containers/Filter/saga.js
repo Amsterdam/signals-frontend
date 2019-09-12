@@ -16,18 +16,16 @@ export const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filter
 
 export function* doSaveFilter(action) {
   const filterData = action.payload;
-  console.log(1, filterData);
 
   try {
     yield put(resetSearchQuery());
 
     if (filterData.name) {
       const result = yield call(authPostCall, requestURL, filterData);
-      console.log(2, result);
 
 
       yield put(filterSaveSuccess(result));
-      // yield put(getFilters());
+      yield put(getFilters());
     } else {
       yield put(filterSaveFailed('No name supplied'));
     }
