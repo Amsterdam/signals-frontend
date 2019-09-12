@@ -10,17 +10,24 @@ import {
   filterUpdatedFailed,
   filterUpdatedSuccess,
 } from './actions';
-
+import { getFilters } from '../IncidentOverviewPage/actions';
+import { resetSearchQuery } from '../../../../models/search/actions';
 export const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/`;
 
 export function* doSaveFilter(action) {
-  const { name, ...options } = action.payload;
+  const filterData = action.payload;
+  console.log(1, filterData);
 
   try {
-    if (name) {
-      const result = yield call(authPostCall, requestURL, { name, options });
+    yield put(resetSearchQuery());
+
+    if (filterData.name) {
+      const result = yield call(authPostCall, requestURL, filterData);
+      console.log(2, result);
+
 
       yield put(filterSaveSuccess(result));
+      // yield put(getFilters());
     } else {
       yield put(filterSaveFailed('No name supplied'));
     }
@@ -40,13 +47,14 @@ export function* doSaveFilter(action) {
 }
 
 export function* doUpdateFilter(action) {
-  const filterData = action.payload;
+  const { name, options: { id, ...options } } = action.payload;
 
   try {
-    const { id, name, ...options } = filterData;
     const result = yield call(authPatchCall, `${requestURL}${id}`, { name, options });
 
     yield put(filterUpdatedSuccess(result));
+    yield put(getFilters());
+    yield put(resetSearchQuery());
   } catch (error) {
     if (
       error.response &&

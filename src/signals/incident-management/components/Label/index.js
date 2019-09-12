@@ -26,7 +26,7 @@ const StyledLabel = styled.label`
 
 const Label = ({ htmlFor, as, ...rest }) => (
   <LabelWrapper>
-    <StyledLabel htmlFor={htmlFor} as={as} {...rest} />
+    <StyledLabel htmlFor={htmlFor} $as={as} {...rest} />
   </LabelWrapper>
 );
 

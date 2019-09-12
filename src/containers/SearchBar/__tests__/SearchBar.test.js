@@ -9,7 +9,7 @@ import {
 import { withAppContext } from 'test/utils';
 import SearchBarContainer, { SearchBarComponent } from '../';
 
-describe('containers/SearchBar', () => {
+describe.skip('containers/SearchBar', () => {
   afterEach(cleanup);
 
   it('should have props from structured selector', () => {

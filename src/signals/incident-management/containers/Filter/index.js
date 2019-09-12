@@ -11,9 +11,8 @@ import { makeSelectCategories } from 'containers/App/selectors';
 import {
   requestIncidents,
   incidentSelected as onIncidentSelected,
-  mainCategoryFilterSelectionChanged as onMainCategoryFilterSelectionChanged,
 } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
-import makeSelectOverviewPage from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
+import makeSelectOverviewPage, { makeSelectFilter } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 import FilterForm from 'signals/incident-management/components/FilterForm';
 import { resetSearchQuery } from 'models/search/actions';
 
@@ -24,8 +23,6 @@ import {
   filterUpdated as onUpdateFilter,
   filterCleared as onClearFilter,
 } from './actions';
-
-import { makeSelectActiveFilter } from './selectors';
 
 export const FilterContainerComponent = ({
   onResetSearchQuery,
@@ -111,7 +108,6 @@ FilterContainerComponent.propTypes = {
         value: PropTypes.string.isRequired,
       }),
     ),
-    filterSubCategoryList: PropTypes.arrayOf(PropTypes.shape({})),
     priorityList: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string.isRequired,
@@ -139,7 +135,7 @@ const mapStateToProps = () =>
   createStructuredSelector({
     overviewpage: makeSelectOverviewPage(),
     categories: makeSelectCategories(),
-    activeFilter: makeSelectActiveFilter,
+    activeFilter: makeSelectFilter,
   });
 
 const mapDispatchToProps = (dispatch) =>
@@ -147,7 +143,6 @@ const mapDispatchToProps = (dispatch) =>
     {
       onClearFilter,
       onIncidentSelected,
-      onMainCategoryFilterSelectionChanged,
       onRequestIncidents: requestIncidents,
       onResetSearchQuery: resetSearchQuery,
       onSaveFilter,

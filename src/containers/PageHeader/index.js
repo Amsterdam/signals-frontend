@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
 import PageHeader from 'components/PageHeader';
+import { makeSelectIncidentsCount, makeSelectFilter } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 import { makeSelectQuery } from 'models/search/selectors';
-import { makeSelectActiveFilter } from 'signals/incident-management/containers/Filter/selectors';
-import { makeSelectIncidentsCount } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
+import { emptyReverted } from '../../signals/incident-management/containers/IncidentOverviewPage/actions';
 
 export const PageHeaderContainerComponent = ({
-  activeFilter: { name },
-  children,
   incidentsCount,
+  filter,
+  children,
   query,
 }) => {
-  let title = name || 'Meldingen';
+  let title = filter.name || 'Meldingen';
   const hasCount = !!incidentsCount && isNaN(Number(incidentsCount)) === false;
   title += hasCount ? ` (${incidentsCount})` : '';
   const subTitle = query && `Zoekresultaten voor "${query}"`;
@@ -28,20 +28,56 @@ PageHeaderContainerComponent.defaultProps = {
 };
 
 PageHeaderContainerComponent.propTypes = {
-  activeFilter: PropTypes.shape({
+  filter: PropTypes.shape({
     name: PropTypes.string,
-  }).isRequired,
+    id: PropTypes.number,
+    searchQuery: PropTypes.string,
+    options: PropTypes.shape({
+      id: PropTypes.string,
+      feedback: PropTypes.string,
+      incident_date: PropTypes.string,
+      address_text: PropTypes.string,
+      stadsdeel: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      maincategory_slug: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      priority: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      status: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      category_slug: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+    }),
+  }),
   children: PropTypes.node,
   incidentsCount: PropTypes.number,
   query: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
-  activeFilter: makeSelectActiveFilter,
+  filter: makeSelectFilter,
   incidentsCount: makeSelectIncidentsCount,
   query: makeSelectQuery,
 });
 
-const withConnect = connect(mapStateToProps);
+export const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      onClose: emptyReverted,
+    },
+    dispatch,
+  );
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(withConnect)(PageHeaderContainerComponent);

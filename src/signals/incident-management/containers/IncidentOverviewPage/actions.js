@@ -7,7 +7,18 @@
 import {
   REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR,
   INCIDENT_SELECTED, FILTER_INCIDENTS_CHANGED, PAGE_INCIDENTS_CHANGED,
-  SORT_INCIDENTS_CHANGED, MAIN_CATEGORY_FILTER_SELECTION_CHANGED
+  SORT_INCIDENTS_CHANGED,
+  GET_FILTERS,
+  GET_FILTERS_SUCCESS,
+  GET_FILTERS_FAILED,
+  REMOVE_FILTER,
+  REMOVE_FILTER_SUCCESS,
+  REMOVE_FILTER_FAILED,
+  REVERT_FILTER,
+  REVERT_FILTER_SUCCESS,
+  REVERT_FILTER_FAILED,
+  APPLY_FILTER,
+  EMPTY_REVERTED,
 }
   from './constants';
 
@@ -60,9 +71,53 @@ export function sortIncidentsChanged(sort) {
   };
 }
 
-export function mainCategoryFilterSelectionChanged({ selectedOptions, categories }) {
-  return {
-    type: MAIN_CATEGORY_FILTER_SELECTION_CHANGED,
-    payload: { selectedOptions, categories }
-  };
-}
+export const getFilters = () => ({
+  type: GET_FILTERS
+});
+
+export const getFiltersSuccess = (payload) => ({
+  type: GET_FILTERS_SUCCESS,
+  payload,
+});
+
+export const getFiltersFailed = (payload) => ({
+  type: GET_FILTERS_FAILED,
+  payload,
+});
+
+export const removeFilter = (payload) => ({
+  type: REMOVE_FILTER,
+  payload,
+});
+
+export const removeFilterSuccess = (payload) => ({
+  type: REMOVE_FILTER_SUCCESS,
+  payload,
+});
+
+export const removeFilterFailed = (payload) => ({
+  type: REMOVE_FILTER_FAILED,
+  payload,
+});
+
+export const revertFilter = (payload) => ({
+  type: REVERT_FILTER,
+  payload,
+});
+
+export const revertFilterSuccess = () => ({
+  type: REVERT_FILTER_SUCCESS
+});
+
+export const revertFilterFailed = () => ({
+  type: REVERT_FILTER_FAILED
+});
+
+export const applyFilter = (payload) => ({
+  type: APPLY_FILTER,
+  payload,
+});
+
+export const emptyReverted = () => ({
+  type: EMPTY_REVERTED
+});

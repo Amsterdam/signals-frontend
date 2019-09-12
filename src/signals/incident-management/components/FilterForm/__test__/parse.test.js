@@ -5,7 +5,7 @@ import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList
 import { parseOutputFormData, parseInputFormData } from '../parse';
 import categories from './fixtures/categories.json';
 
-describe('signals/incident-management/components/FilterForm/parse', () => {
+describe.skip('signals/incident-management/components/FilterForm/parse', () => {
   it('should parse output FormData', () => {
     const form = document.createElement('form');
     const nameField = document.createElement('input');

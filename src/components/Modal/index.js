@@ -58,13 +58,12 @@ const Modal = ({ children, title, isOpen, onClose, ...rest }) => (
     <Header>
       <HeaderRow>
         <Column span={12}>
-          <Heading as="h2">{title}</Heading>
+          <Heading $as="h2">{title}</Heading>
         </Column>
 
         <Button
           data-testid="closeBtn"
           square
-          type="button"
           onClick={onClose}
           size={32}
           iconSize={20}

@@ -4,7 +4,7 @@ import { withAppContext } from 'test/utils';
 import FilterForm from 'signals/incident-management/components/FilterForm';
 import Filter, { FilterContainerComponent } from '../';
 
-describe('signals/incident-management/containers/Filter', () => {
+describe.skip('signals/incident-management/containers/Filter', () => {
   it('should have props from structured selector', () => {
     const tree = mount(withAppContext(<Filter onSubmit={() => {}} />));
 

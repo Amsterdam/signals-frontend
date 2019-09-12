@@ -37,8 +37,17 @@ const makeSelectFilterParams = () =>
     selectOverviewPageDomain,
     (substate) => {
       const state = substate.toJS();
+      const filter = state.filter || { options: {} };
+      const { options } = filter;
+      if (options && options.id) {
+        delete options.id;
+      }
 
-      return { ...state.filter, page: state.page, ordering: state.sort };
+      if (filter.searchQuery) {
+        return { id: filter.searchQuery, page: state.page, ordering: state.sort };
+      }
+
+      return { ...options, page: state.page, ordering: state.sort };
     },
   );
 
@@ -48,3 +57,30 @@ export {
   makeSelectFilterParams,
   makeSelectIncidentsCount,
 };
+
+export const makeSelectAllFilters = createSelector(
+  selectOverviewPageDomain,
+  (stateMap) => {
+    const state = stateMap.toJS();
+
+    return state.allFilters;
+  },
+);
+
+export const makeSelectFilter = createSelector(
+  selectOverviewPageDomain,
+  (stateMap) => {
+    const state = stateMap.toJS();
+
+    return state.filter;
+  },
+);
+
+export const makeSelectRemovedFilter = createSelector(
+  selectOverviewPageDomain,
+  (stateMap) => {
+    const state = stateMap.toJS();
+
+    return state.removedFilter;
+  },
+);

@@ -59,7 +59,9 @@ export const parseOutputFormData = (form) => {
       }
     });
 
-  return parsed;
+  const { name, ...options } = parsed;
+
+  return { name, options };
 };
 
 /**
@@ -71,7 +73,9 @@ export const parseOutputFormData = (form) => {
  * @returns {Object}
  */
 export const parseInputFormData = (filterData, dataLists) => {
-  const parsed = clonedeep(filterData);
+  const parsed = clonedeep(filterData.options || {});
+  parsed.name = filterData.name;
+  parsed.id = filterData.id;
 
   /* istanbul ignore else */
   if (Object.keys(filterData).length) {

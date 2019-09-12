@@ -45,10 +45,7 @@ const FilterForm = ({
     statusList: status,
   } = dataLists;
 
-  const { id, name, options } = activeFilter;
-  const filter = { id, name, ...options };
-
-  const parsedfilterData = parseInputFormData(filter, {
+  const parsedfilterData = parseInputFormData(activeFilter, {
     feedback,
     stadsdeel,
     maincategory_slug: categories.main,
@@ -283,7 +280,7 @@ const FilterForm = ({
         <Fieldset>
           <legend>Filter categorieën</legend>
 
-          <Label as="span">Categorie</Label>
+          <Label $as="span" htmlFor="not_used">Categorie</Label>
 
           {Object.keys(categories.mainToSub)
             .filter((key) => !!key) // remove elements without 'key' prop

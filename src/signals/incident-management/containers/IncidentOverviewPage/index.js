@@ -1,11 +1,13 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { Row, Column, Button } from '@datapunt/asc-ui';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
+import styled from 'styled-components';
 
+import MyFilters from 'signals/incident-management/containers/MyFilters';
 import PageHeader from 'containers/PageHeader';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -20,68 +22,113 @@ import Modal from 'components/Modal';
 import makeSelectOverviewPage, { makeSelectIncidentsCount } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { requestIncidents, incidentSelected } from './actions';
+import { requestIncidents, incidentSelected, getFilters } from './actions';
 import ListComponent from './components/List';
 import Pager from './components/Pager';
+import FilterTagList from '../FilterTagList';
+
+import './style.scss';
 
 let lastActiveElement = null;
+
+const StyledButton = styled(Button)`
+  margin-left: 10px;
+`;
 
 export const IncidentOverviewPageContainerComponent = ({
   onRequestIncidents,
   overviewpage,
   incidentsCount,
   onIncidentSelected,
+  onGetFilters,
 }) => {
-  const [modalIsOpen, toggleModal] = useState(false);
+  const [modalFilterIsOpen, toggleFilterModal] = useState(false);
+  const [modalMyFiltersIsOpen, toggleMyFiltersModal] = useState(false);
 
-  const openModal = () => {
+  const openMyFiltersModal = () => {
     disablePageScroll();
-    toggleModal(true);
+    toggleMyFiltersModal(true);
     lastActiveElement = document.activeElement;
   };
 
-  function closeModal() {
+  function closeMyFiltersModal() {
     enablePageScroll();
-    toggleModal(false);
+    toggleMyFiltersModal(false);
+    // onClose();
+    lastActiveElement.focus();
+  }
+
+  const openFilterModal = () => {
+    disablePageScroll();
+    toggleFilterModal(true);
+    lastActiveElement = document.activeElement;
+  };
+
+  function closeFilterModal() {
+    enablePageScroll();
+    toggleFilterModal(false);
     lastActiveElement.focus();
   }
 
   useEffect(() => {
     const escFunction = (event) => {
-      /* istanbul ignore else */
       if (event.keyCode === 27) {
-        closeModal();
+        closeFilterModal();
+        closeMyFiltersModal();
       }
+    };
+    const openFilterFuntion = () => {
+      openFilterModal();
     };
 
     document.addEventListener('keydown', escFunction);
+    document.addEventListener('openFilter', openFilterFuntion);
 
     return () => {
       document.removeEventListener('keydown', escFunction);
+      document.removeEventListener('openFilter', openFilterFuntion);
     };
   });
 
   useEffect(() => {
     onRequestIncidents({});
+    onGetFilters();
   }, []);
 
-  const { incidents, loading, page, sort, ...rest } = overviewpage;
+  const { incidents, loading, page, sort, filter, ...rest } = overviewpage;
 
   return (
-    <Fragment>
+    <div className="incident-overview-page">
       <PageHeader>
-        <Button
-          data-testid="modalBtn"
-          type="button"
-          color="primary"
-          onClick={openModal}
-        >
-          Filteren
-        </Button>
+        <div>
+          <StyledButton
+            data-testid="modalMyfiltersBtn"
+            color="primary"
+            onClick={openMyFiltersModal}
+          >
+          Mijn filters
+          </StyledButton>
 
-        <Modal isOpen={modalIsOpen} onClose={closeModal} title="Filters">
-          <Filter onSubmit={closeModal} onCancel={closeModal} />
+          <StyledButton
+            data-testid="modalFilterBtn"
+            color="primary"
+            onClick={openFilterModal}
+          >
+          Filteren
+          </StyledButton>
+        </div>
+
+        <Modal isOpen={modalMyFiltersIsOpen} onClose={closeMyFiltersModal} title="Mijn filters">
+          <MyFilters onClose={closeMyFiltersModal} />
         </Modal>
+
+        <Modal isOpen={modalFilterIsOpen} onClose={closeFilterModal} title="Filters">
+          <Filter onSubmit={closeFilterModal} onCancel={closeFilterModal} />
+        </Modal>
+
+        <div className="incident-overview-page__filter-tag-list">
+          <FilterTagList tags={filter && filter.options} />
+        </div>
       </PageHeader>
 
       <Row>
@@ -112,7 +159,7 @@ export const IncidentOverviewPageContainerComponent = ({
           </Column>
         </Column>
       </Row>
-    </Fragment>
+    </div>
   );
 };
 
@@ -122,12 +169,14 @@ IncidentOverviewPageContainerComponent.propTypes = {
     loading: PropTypes.bool,
     page: PropTypes.number,
     sort: PropTypes.string,
+    filter: PropTypes.object,
   }).isRequired,
   categories: PropTypes.shape({}).isRequired,
   incidentsCount: PropTypes.number,
 
   onRequestIncidents: PropTypes.func.isRequired,
   onIncidentSelected: PropTypes.func.isRequired,
+  onGetFilters: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -143,6 +192,7 @@ export const mapDispatchToProps = (dispatch) =>
     {
       onRequestIncidents: requestIncidents,
       onIncidentSelected: incidentSelected,
+      onGetFilters: getFilters,
     },
     dispatch,
   );

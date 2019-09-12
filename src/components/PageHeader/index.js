@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+
 import { Heading, Row, Paragraph } from '@datapunt/asc-ui';
 
 const StyledSection = styled.section`
@@ -30,6 +31,10 @@ PageHeader.defaultProps = {
 };
 
 PageHeader.propTypes = {
+  filter: PropTypes.shape({
+    name: PropTypes.string,
+    options: PropTypes.object,
+  }),
   children: PropTypes.node,
   className: PropTypes.string,
   subTitle: PropTypes.string,
