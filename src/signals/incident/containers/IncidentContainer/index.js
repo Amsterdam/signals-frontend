@@ -4,11 +4,12 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
+import { Row, Column } from '@datapunt/asc-ui';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -33,16 +34,26 @@ export class IncidentContainer extends React.Component {
 
   render() {
     return (
-      <div className="incident-container">
-        <IncidentWizard
-          wizardDefinition={wizardDefinition}
-          getClassification={this.getClassification}
-          updateIncident={this.updateIncident}
-          createIncident={this.createIncident}
-          incidentContainer={this.props.incidentContainer}
-          isAuthenticated={this.props.isAuthenticated}
-        />
-      </div>
+      <Fragment>
+        <Row>
+          <Column span={{ small: 0, medium: 0, big: 2, large: 2, xLarge: 2 }} />
+
+          <Column
+            span={{ small: 12, medium: 12, big: 8, large: 8, xLarge: 8 }}
+          >
+            <IncidentWizard
+              wizardDefinition={wizardDefinition}
+              getClassification={this.getClassification}
+              updateIncident={this.updateIncident}
+              createIncident={this.createIncident}
+              incidentContainer={this.props.incidentContainer}
+              isAuthenticated={this.props.isAuthenticated}
+            />
+          </Column>
+
+          <Column span={{ small: 0, medium: 0, big: 2, large: 2, xLarge: 2 }} />
+        </Row>
+      </Fragment>
     );
   }
 }

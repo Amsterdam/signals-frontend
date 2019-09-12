@@ -12,12 +12,22 @@ services:
       - "3001:80"
   # networks_mode: "host"
 
+  lint-container:
+    build:
+      context: .
+      target: builder
+    environment:
+      - NODE_ENV=test
+      - CI=true
+      - TZ=Europe/Amsterdam
+    command: npm run lint
+
   unittest-container:
     build:
       context: .
       target: builder
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=test
+      - CI=true
       - TZ=Europe/Amsterdam
     command: npm run test
-

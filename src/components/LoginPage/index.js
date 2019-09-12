@@ -1,26 +1,31 @@
 import React from 'react';
-
+import { Row, Column } from '@datapunt/asc-ui';
 import { login } from 'shared/services/auth/auth';
 
-import './style.scss';
-
-
 const LoginPage = () => (
-  <div className="login-page">
-    <div className="notification notification-red margin-top-bottom">
-      <div className="col-12">
-        <p>
-          Om deze pagina te zien dient u ingelogd te zijn.
-        </p>
-        <button className="action primary" onClick={() => { login('datapunt'); }}>
+  <Row>
+    <Column span={12}>
+      <div className="notification notification-red margin-top-bottom">
+        <p>Om deze pagina te zien dient u ingelogd te zijn.</p>
+        <button
+          className="action primary"
+          onClick={() => {
+            login('datapunt');
+          }}
+        >
           <span className="value">Inloggen</span>
         </button>
-        <button className="action primary" onClick={() => { login('grip'); }}>
+        <button
+          className="action primary"
+          onClick={() => {
+            login('grip');
+          }}
+        >
           <span className="value">Inloggen ADW</span>
         </button>
       </div>
-    </div>
-  </div>
+    </Column>
+  </Row>
 );
 
 export default LoginPage;

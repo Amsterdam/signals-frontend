@@ -1,12 +1,7 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import { Route, memoryHistory } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router';
-// import { memoryHistory } from 'react-router-dom';
-
-import configureStore from 'configureStore';
-import HeaderContainer from 'containers/HeaderContainer';
+import { shallow } from 'enzyme';
+import { Route } from 'react-router-dom';
+import SiteHeaderContainer from 'containers/SiteHeader';
 import Footer from 'components/Footer';
 import { App, mapDispatchToProps } from './index';
 import { REQUEST_CATEGORIES } from './constants';
@@ -42,7 +37,7 @@ describe('<App />', () => {
     const wrapper = shallow(
       <App {...props} />
     );
-    expect(wrapper.find(HeaderContainer).length).toBe(1);
+    expect(wrapper.find(SiteHeaderContainer).length).toBe(1);
   });
 
   it('should render some routes', () => {
@@ -57,21 +52,6 @@ describe('<App />', () => {
       <App {...props} />
     );
     expect(wrapper.find(Footer).length).toBe(1);
-  });
-
-  describe('routing', () => {
-    it('can navigate to kto form', () => {
-      const store = configureStore({}, memoryHistory);
-      const wrapper = mount(
-        <Provider store={store}>
-          <MemoryRouter keyLength={0} initialEntries={['/kto/ja/12345-abcsde']}>
-            <App {...props} />
-          </MemoryRouter>
-        </Provider>
-      );
-
-      expect(wrapper).toMatchSnapshot();
-    });
   });
 
   describe('mapDispatchToProps', () => {

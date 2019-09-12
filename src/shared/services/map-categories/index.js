@@ -4,8 +4,6 @@ function mapCategories(data) {
   const mainToSub = {};
 
   if (data && data.results) {
-    mainToSub[''] = [];
-
     data.results.forEach((category) => {
       main.push({
         key: category._links && category._links.self && category._links.self.href,
@@ -25,8 +23,13 @@ function mapCategories(data) {
             handling_message: subcategory.handling_message
           });
 
-          mainToSub[category.slug].push(subcategory.slug);
-          mainToSub[''].push(subcategory.slug);
+          mainToSub[category.slug].push({
+            key: subcategory.slug, // replacing 'key' prop since its value isn't used and it makes more sense for the filter form to have to deal with just one prop; 'key'
+            value: subcategory.name,
+            slug: subcategory.slug,
+            category_slug: category.slug,
+            handling_message: subcategory.handling_message
+          });
         }
       });
     });
