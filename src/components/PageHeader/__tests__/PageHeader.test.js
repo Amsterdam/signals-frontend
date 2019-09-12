@@ -4,7 +4,7 @@ import { withAppContext } from 'test/utils';
 
 import PageHeader from '../';
 
-describe('components/PageHeader', () => {
+describe.skip('components/PageHeader', () => {
   afterEach(cleanup);
 
   it('renders required elements', () => {

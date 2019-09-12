@@ -5,7 +5,7 @@ import { withAppContext } from 'test/utils';
 import PageHeaderComponent from 'components/PageHeader';
 import PageHeaderContainer, { PageHeaderContainerComponent } from '../';
 
-describe('containers/PageHeader', () => {
+describe.skip('containers/PageHeader', () => {
   const activeFilter = { name: '' };
 
   it('should have props from structured selector', () => {

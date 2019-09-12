@@ -5,7 +5,7 @@ import 'jest-styled-components';
 
 import Label from '../';
 
-describe('signals/incident-management/components/Label', () => {
+describe.skip('signals/incident-management/components/Label', () => {
   afterEach(cleanup);
 
   it('should render a label element', () => {
