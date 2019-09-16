@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { Row, Column, Button } from '@datapunt/asc-ui';
+import { Row, Column, Button, ButtonBar } from '@datapunt/asc-ui';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
-import styled from 'styled-components';
 
 import MyFilters from 'signals/incident-management/containers/MyFilters';
 import PageHeader from 'containers/PageHeader';
@@ -30,10 +29,6 @@ import FilterTagList from '../FilterTagList';
 import './style.scss';
 
 let lastActiveElement = null;
-
-const StyledButton = styled(Button)`
-  margin-left: 10px;
-`;
 
 export const IncidentOverviewPageContainerComponent = ({
   onRequestIncidents,
@@ -100,23 +95,23 @@ export const IncidentOverviewPageContainerComponent = ({
   return (
     <div className="incident-overview-page">
       <PageHeader>
-        <div>
-          <StyledButton
+        <ButtonBar>
+          <Button
             data-testid="modalMyfiltersBtn"
             color="primary"
             onClick={openMyFiltersModal}
           >
           Mijn filters
-          </StyledButton>
+          </Button>
 
-          <StyledButton
+          <Button
             data-testid="modalFilterBtn"
             color="primary"
             onClick={openFilterModal}
           >
           Filteren
-          </StyledButton>
-        </div>
+          </Button>
+        </ButtonBar>
 
         <Modal isOpen={modalMyFiltersIsOpen} onClose={closeMyFiltersModal} title="Mijn filters">
           <MyFilters onClose={closeMyFiltersModal} />
