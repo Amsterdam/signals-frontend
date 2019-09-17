@@ -19,7 +19,7 @@ export const FormFooter = styled.footer`
   background: white;
   height: 66px;
   padding: 10px 0;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   width: 100%;
   left: 0;
