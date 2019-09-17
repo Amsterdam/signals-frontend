@@ -15,7 +15,7 @@ import 'moment/src/locale/nl';
 import { createBrowserHistory } from 'history';
 import 'leaflet/dist/leaflet';
 import * as Sentry from '@sentry/browser';
-import MatomoTracker from '@datapunt/matomo-tracker-js';stream/develop
+import MatomoTracker from '@datapunt/matomo-tracker-js';
 
 // Import root app
 import App from 'containers/App';
