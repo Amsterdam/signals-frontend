@@ -54,7 +54,6 @@ const StyledHeader = styled(HeaderComponent)`
 
     ul {
       width: 100%;
-      justify-content: flex-end;
     }
   }
 `;
@@ -69,7 +68,7 @@ const StyledMenuButton = styled(MenuButton)`
 const SearchBarMenuItem = styled(MenuItem)`
   margin-right: auto;
   max-width: 365px;
-  flex: 2;
+  flex-basis: 365px;
 `;
 
 const StyledSearchBar = styled(SearchBar)`
