@@ -30,7 +30,11 @@ describe('signals/incident-management/components/FilterForm', () => {
   it('should render a hidden id field', () => {
     const { container } = render(
       withAppContext(
-        <FilterForm categories={categories} onSubmit={() => {}} activeFilter={{ id: 1234, name: 'FooBar' }} />,
+        <FilterForm
+          categories={categories}
+          onSubmit={() => {}}
+          activeFilter={{ id: 1234, name: 'FooBar' }}
+        />,
       ),
     );
 
@@ -38,7 +42,9 @@ describe('signals/incident-management/components/FilterForm', () => {
       container.querySelectorAll('input[type="hidden"][name="id"]'),
     ).toHaveLength(1);
 
-    expect(container.querySelector('input[type="hidden"][name="id"]').value).toEqual('1234');
+    expect(
+      container.querySelector('input[type="hidden"][name="id"]').value,
+    ).toEqual('1234');
   });
 
   it('should render buttons in the footer', () => {
@@ -245,7 +251,13 @@ describe('signals/incident-management/components/FilterForm', () => {
     ];
 
     const { container, rerender, queryByTestId } = render(
-      withAppContext(<FilterForm categories={categories} onSubmit={() => {}} feedbackList={[]} />),
+      withAppContext(
+        <FilterForm
+          categories={categories}
+          onSubmit={() => {}}
+          feedbackList={[]}
+        />,
+      ),
     );
 
     expect(queryByTestId('feedbackFilterGroup')).toBeNull();
@@ -258,7 +270,11 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     rerender(
       withAppContext(
-        <FilterForm categories={categories} onSubmit={() => {}} feedbackList={feedback} />,
+        <FilterForm
+          categories={categories}
+          onSubmit={() => {}}
+          feedbackList={feedback}
+        />,
       ),
     );
 

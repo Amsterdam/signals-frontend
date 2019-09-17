@@ -5,7 +5,7 @@ import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList
 import { parseOutputFormData, parseInputFormData } from '../parse';
 import categories from './fixtures/categories.json';
 
-describe.skip('signals/incident-management/components/FilterForm/parse', () => {
+describe('signals/incident-management/components/FilterForm/parse', () => {
   it('should parse output FormData', () => {
     const form = document.createElement('form');
     const nameField = document.createElement('input');
@@ -31,8 +31,10 @@ describe.skip('signals/incident-management/components/FilterForm/parse', () => {
 
     const expected1 = {
       name: 'Afval in Westpoort',
-      maincategory_slug: ['afval'],
-      category_slug: ['drijfvuil'],
+      options: {
+        maincategory_slug: ['afval'],
+        category_slug: ['drijfvuil'],
+      },
     };
 
     const parsedOutput1 = parseOutputFormData(form);
@@ -62,8 +64,10 @@ describe.skip('signals/incident-management/components/FilterForm/parse', () => {
 
     const expected2 = {
       name: 'Afval in Westpoort',
-      maincategory_slug: ['afval', 'wegen-verkeer-straatmeubilair'],
-      category_slug: ['drijfvuil', 'maaien-snoeien', 'maaien-snoeien-2'],
+      options: {
+        maincategory_slug: ['afval', 'wegen-verkeer-straatmeubilair'],
+        category_slug: ['drijfvuil', 'maaien-snoeien', 'maaien-snoeien-2'],
+      },
     };
 
     const parsedOutput2 = parseOutputFormData(form);
@@ -74,10 +78,12 @@ describe.skip('signals/incident-management/components/FilterForm/parse', () => {
   it('should parse input FormData', () => {
     const input = {
       name: 'Afval in Westpoort',
-      stadsdeel: 'B',
-      address_text: '',
-      maincategory_slug: 'afval',
-      category_slug: ['maaien-snoeien', 'onkruid', 'autom-verzinkbare-palen'],
+      options: {
+        stadsdeel: ['B'],
+        address_text: '',
+        maincategory_slug: ['afval'],
+        category_slug: ['maaien-snoeien', 'onkruid', 'autom-verzinkbare-palen'],
+      },
     };
 
     const expected = {
