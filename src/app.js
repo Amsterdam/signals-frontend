@@ -5,10 +5,6 @@
  * code.
  */
 
-// Needed for redux-saga es6 generator support
-import 'babel-polyfill';
-import 'url-polyfill';
-
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -19,7 +15,7 @@ import 'moment/src/locale/nl';
 import { createBrowserHistory } from 'history';
 import 'leaflet/dist/leaflet';
 import * as Sentry from '@sentry/browser';
-import MatomoTracker from '@datapunt/matomo-tracker-js';
+import MatomoTracker from '@datapunt/matomo-tracker-js';stream/develop
 
 // Import root app
 import App from 'containers/App';
@@ -42,6 +38,7 @@ import 'leaflet/dist/leaflet.css';
 import 'amsterdam-amaps/dist/nlmaps/dist/assets/css/nlmaps.css';
 import 'amsterdam-stijl/dist/css/ams-stijl.css';
 import './global.scss';
+import './polyfills';
 
 import configureStore from './configureStore';
 

@@ -45,7 +45,7 @@ class Pager extends React.Component { // eslint-disable-line react/prefer-statel
     });
 
     return (
-      <div className="incidents-list-pager" >
+      <div className="incidents-list-pager" data-testid="incidentOverviewPagerComponent">
         <div className="pager">
           {hasPrevious ? <a role="presentation" className="pager_nav vorige" onClick={() => this.onPageChanged(currentPage - 1)}>vorige</a> : null}
           {pages.length > 1 ? pages : ''}

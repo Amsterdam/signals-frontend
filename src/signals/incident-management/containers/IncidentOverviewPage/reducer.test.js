@@ -2,7 +2,6 @@
 import { fromJS } from 'immutable';
 
 import overviewPageReducer, { initialState } from './reducer';
-import filterSubcategories from './services/filter-subcategories';
 
 import {
   requestIncidents,
@@ -12,57 +11,12 @@ import {
   filterIncidentsChanged,
   pageIncidentsChanged,
   sortIncidentsChanged,
-  mainCategoryFilterSelectionChanged
 } from './actions';
-
-jest.mock('./services/filter-subcategories');
 
 describe('overviewPageReducer', () => {
   let state;
 
   beforeEach(() => {
-    filterSubcategories.mockImplementation(() => [
-      {
-        key: '',
-        value: 'Alles',
-        slug: ''
-      },
-      {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/dode-dieren',
-        value: 'Dode dieren',
-        slug: 'dode-dieren'
-      },
-      {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven',
-        value: 'Duiven',
-        slug: 'duiven'
-      },
-      {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ganzen',
-        value: 'Ganzen',
-        slug: 'ganzen'
-      },
-      {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/meeuwen',
-        value: 'Meeuwen',
-        slug: 'meeuwen'
-      },
-      {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/overig-dieren',
-        value: 'Overig dieren',
-        slug: 'overig-dieren'
-      },
-      {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ratten',
-        value: 'Ratten',
-        slug: 'ratten'
-      },
-      {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/wespen',
-        value: 'Wespen',
-        slug: 'wespen'
-      }
-    ]);
     state = fromJS({});
   });
 
@@ -70,7 +24,7 @@ describe('overviewPageReducer', () => {
     expect(overviewPageReducer(undefined, {})).toEqual(initialState);
   });
 
-  it('should handle the REQUEST_INICDENTS', () => {
+  it('should handle the REQUEST_INCIDENTS', () => {
     const action = requestIncidents({});
     const expected = {
       loading: true,
@@ -109,7 +63,7 @@ describe('overviewPageReducer', () => {
     const filter = {};
     const action = filterIncidentsChanged(filter);
     const expected = fromJS({})
-      .set('filter', filter)
+      .set('filter', fromJS(filter))
       .set('page', 1);
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
@@ -128,14 +82,6 @@ describe('overviewPageReducer', () => {
     const expected = fromJS({})
       .set('page', 1)
       .set('sort', sort);
-    expect(overviewPageReducer(state, action)).toEqual(expected);
-  });
-
-  it('should handle the MAIN_CATEGORY_FILTER_SELECTION_CHANGED', () => {
-    const payload = { selectedOptions: ['overlast-van-dieren'], categories: {} };
-    const action = mainCategoryFilterSelectionChanged(payload);
-    const expected = fromJS({})
-      .set('filterSubCategoryList', fromJS(filterSubcategories(action.payload.selectedOptions, action.payload.categories)));
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 });

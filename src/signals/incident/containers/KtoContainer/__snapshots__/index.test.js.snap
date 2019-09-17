@@ -1,193 +1,240 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<KtoContainer /> rendering should render empty header correctly 1`] = `
-<div
-  className="kto-container"
->
-  <div
-    className="container"
+<Fragment>
+  <Row
+    debug={false}
+    debugColor="rgba(51,102,153,0.75)"
+    hasMargin={true}
   >
-    <div
-      className="row"
+    <Column
+      debug={false}
+      debugColor="rgba(51,102,153,0.5)"
+      order={0}
+      push={0}
+      span={12}
+      wrap={false}
+    />
+  </Row>
+  <Row
+    debug={false}
+    debugColor="rgba(51,102,153,0.75)"
+    hasMargin={true}
+  >
+    <Column
+      debug={false}
+      debugColor="rgba(51,102,153,0.5)"
+      order={0}
+      push={0}
+      span={
+        Object {
+          "big": 8,
+          "large": 8,
+          "medium": 2,
+          "small": 2,
+          "xLarge": 8,
+        }
+      }
+      wrap={false}
     >
-      <div
-        className="col-12"
-      >
-        <div>
-          <div>
-            <header />
-            <Component
-              ktoContainer={
-                Object {
-                  "form": Object {},
-                }
-              }
-              onStoreKto={[MockFunction]}
-              onUpdateKto={[MockFunction]}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+      <Component
+        ktoContainer={
+          Object {
+            "form": Object {},
+          }
+        }
+        onStoreKto={[MockFunction]}
+        onUpdateKto={[MockFunction]}
+      />
+    </Column>
+  </Row>
+</Fragment>
 `;
 
 exports[`<KtoContainer /> rendering should render filled out error header correctly 1`] = `
-<div
-  className="kto-container"
+<Row
+  debug={false}
+  debugColor="rgba(51,102,153,0.75)"
+  hasMargin={true}
 >
-  <div
-    className="container"
+  <Column
+    debug={false}
+    debugColor="rgba(51,102,153,0.5)"
+    order={0}
+    push={0}
+    span={12}
+    wrap={false}
   >
-    <div
-      className="row"
-    >
-      <div
-        className="col-12"
-      >
-        <div>
-          <header>
-            <h1>
-              Er is al feedback gegeven voor deze melding
-            </h1>
-            <p>
-              Nogmaals bedankt voor uw feedback. We zijn voortdurend bezig onze dienstverlening te verbeteren.
-            </p>
-          </header>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+    <header>
+      <h1>
+        Er is al feedback gegeven voor deze melding
+      </h1>
+      <p>
+        Nogmaals bedankt voor uw feedback. We zijn voortdurend bezig onze dienstverlening te verbeteren.
+      </p>
+    </header>
+  </Column>
+</Row>
 `;
 
 exports[`<KtoContainer /> rendering should render finished header correctly 1`] = `
-<div
-  className="kto-container"
+<Row
+  debug={false}
+  debugColor="rgba(51,102,153,0.75)"
+  hasMargin={true}
 >
-  <div
-    className="container"
+  <Column
+    debug={false}
+    debugColor="rgba(51,102,153,0.5)"
+    order={0}
+    push={0}
+    span={12}
+    wrap={false}
   >
-    <div
-      className="row"
-    >
-      <div
-        className="col-12"
-      >
-        <div>
-          <div>
-            <header>
-              <h1>
-                Bedankt voor uw feedback!
-              </h1>
-              <p>
-                We zijn voortdurend bezig onze dienstverlening te verbeteren.
-              </p>
-            </header>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+    <header>
+      <h1>
+        Bedankt voor uw feedback!
+      </h1>
+      <p>
+        We zijn voortdurend bezig onze dienstverlening te verbeteren.
+      </p>
+    </header>
+  </Column>
+</Row>
 `;
 
 exports[`<KtoContainer /> rendering should render no header correctly 1`] = `
-<div
-  className="kto-container"
->
-  <div
-    className="container"
+<Fragment>
+  <Row
+    debug={false}
+    debugColor="rgba(51,102,153,0.75)"
+    hasMargin={true}
   >
-    <div
-      className="row"
+    <Column
+      debug={false}
+      debugColor="rgba(51,102,153,0.5)"
+      order={0}
+      push={0}
+      span={12}
+      wrap={false}
     >
-      <div
-        className="col-12"
-      >
-        <div>
-          <div>
-            <h1>
-              Nee, ik ben niet tevreden met de behandeling van mijn melding
-            </h1>
-            <Component
-              ktoContainer={
-                Object {
-                  "form": Object {},
-                }
-              }
-              onStoreKto={[MockFunction]}
-              onUpdateKto={[MockFunction]}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+      <h1>
+        Nee, ik ben niet tevreden met de behandeling van mijn melding
+      </h1>
+    </Column>
+  </Row>
+  <Row
+    debug={false}
+    debugColor="rgba(51,102,153,0.75)"
+    hasMargin={true}
+  >
+    <Column
+      debug={false}
+      debugColor="rgba(51,102,153,0.5)"
+      order={0}
+      push={0}
+      span={
+        Object {
+          "big": 8,
+          "large": 8,
+          "medium": 2,
+          "small": 2,
+          "xLarge": 8,
+        }
+      }
+      wrap={false}
+    >
+      <Component
+        ktoContainer={
+          Object {
+            "form": Object {},
+          }
+        }
+        onStoreKto={[MockFunction]}
+        onUpdateKto={[MockFunction]}
+      />
+    </Column>
+  </Row>
+</Fragment>
 `;
 
 exports[`<KtoContainer /> rendering should render too late error header correctly 1`] = `
-<div
-  className="kto-container"
+<Row
+  debug={false}
+  debugColor="rgba(51,102,153,0.75)"
+  hasMargin={true}
 >
-  <div
-    className="container"
+  <Column
+    debug={false}
+    debugColor="rgba(51,102,153,0.5)"
+    order={0}
+    push={0}
+    span={12}
+    wrap={false}
   >
-    <div
-      className="row"
-    >
-      <div
-        className="col-12"
-      >
-        <div>
-          <header>
-            <h1>
-              Helaas, de mogelijkheid om feedback te geven is verlopen
-            </h1>
-            <p>
-              Na het afhandelend van uw melding heeft u 2 weken de gelegenheid om feedback te geven.
-            </p>
-          </header>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+    <header>
+      <h1>
+        Helaas, de mogelijkheid om feedback te geven is verlopen
+      </h1>
+      <p>
+        Na het afhandelend van uw melding heeft u 2 weken de gelegenheid om feedback te geven.
+      </p>
+    </header>
+  </Column>
+</Row>
 `;
 
 exports[`<KtoContainer /> rendering should render yes header correctly 1`] = `
-<div
-  className="kto-container"
->
-  <div
-    className="container"
+<Fragment>
+  <Row
+    debug={false}
+    debugColor="rgba(51,102,153,0.75)"
+    hasMargin={true}
   >
-    <div
-      className="row"
+    <Column
+      debug={false}
+      debugColor="rgba(51,102,153,0.5)"
+      order={0}
+      push={0}
+      span={12}
+      wrap={false}
     >
-      <div
-        className="col-12"
-      >
-        <div>
-          <div>
-            <h1>
-              Ja, ik ben tevreden met de behandeling van mijn melding
-            </h1>
-            <Component
-              ktoContainer={
-                Object {
-                  "form": Object {},
-                }
-              }
-              onStoreKto={[MockFunction]}
-              onUpdateKto={[MockFunction]}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+      <h1>
+        Ja, ik ben tevreden met de behandeling van mijn melding
+      </h1>
+    </Column>
+  </Row>
+  <Row
+    debug={false}
+    debugColor="rgba(51,102,153,0.75)"
+    hasMargin={true}
+  >
+    <Column
+      debug={false}
+      debugColor="rgba(51,102,153,0.5)"
+      order={0}
+      push={0}
+      span={
+        Object {
+          "big": 8,
+          "large": 8,
+          "medium": 2,
+          "small": 2,
+          "xLarge": 8,
+        }
+      }
+      wrap={false}
+    >
+      <Component
+        ktoContainer={
+          Object {
+            "form": Object {},
+          }
+        }
+        onStoreKto={[MockFunction]}
+        onUpdateKto={[MockFunction]}
+      />
+    </Column>
+  </Row>
+</Fragment>
 `;

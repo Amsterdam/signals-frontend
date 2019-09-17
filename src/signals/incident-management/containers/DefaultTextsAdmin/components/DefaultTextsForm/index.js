@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import isEqual from 'lodash.isequal';
 
-import FieldControlWrapper from '../../../../components/FieldControlWrapper';
-import TextInput from '../../../../components/TextInput';
-import TextAreaInput from '../../../../components/TextAreaInput';
-import HiddenInput from '../../../../components/HiddenInput';
-
+import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
+import TextInput from 'signals/incident-management/components/TextInput';
+import TextAreaInput from 'signals/incident-management/components/TextAreaInput';
+import HiddenInput from 'signals/incident-management/components/HiddenInput';
 
 import './style.scss';
 
@@ -118,7 +117,7 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
 
   render() {
     return (
-      <div className="default-texts-form">
+      <div className="default-texts-form container">
         <FieldGroup
           control={this.form}
           render={({ invalid }) => (
@@ -137,7 +136,7 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
 
               {this.items.map((item, index) => (
                 <div key={item} className="row default-texts-form__row">
-                  <div className="col-10">
+                  <div className="col-8">
                     <FieldControlWrapper
                       placeholder="Titel"
                       render={TextInput}
@@ -153,11 +152,13 @@ class DefaultTextsForm extends React.Component { // eslint-disable-line react/pr
                     />
                   </div>
                   <div className="col-2 default-texts-form__actions">
-                    <button
-                      disabled={index === 0 || !this.form.get(`${item}.text`).value}
-                      className="default-texts-form__order-button default-texts-form__order-button--up"
-                      onClick={(e) => this.changeOrdering(e, index, 'up')}
-                    />
+                    <div>
+                      <button
+                        disabled={index === 0 || !this.form.get(`${item}.text`).value}
+                        className="default-texts-form__order-button default-texts-form__order-button--up"
+                        onClick={(e) => this.changeOrdering(e, index, 'up')}
+                      />
+                    </div>
                     <button
                       disabled={index === this.items.length - 1 || !this.form.get(`item${index + 1}.text`).value}
                       className="default-texts-form__order-button default-texts-form__order-button--down"

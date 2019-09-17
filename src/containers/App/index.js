@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import styled from 'styled-components';
+import { ThemeProvider as AscThemeProvider } from '@datapunt/asc-ui';
 
+import AmsThemeProvider from 'components/ThemeProvider';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
 import NotFoundPage from 'containers/NotFoundPage';
 import Footer from 'components/Footer';
-import MainMenu from 'components/MainMenu';
-import HeaderContainer from 'containers/HeaderContainer';
+import SiteHeaderContainer from 'containers/SiteHeader';
 import GlobalError from 'containers/GlobalError';
+import { makeSelectIsAuthenticated } from 'containers/App/selectors';
 
 import reducer from './reducer';
 import saga from './saga';
@@ -20,48 +24,73 @@ import IncidentContainer from '../../signals/incident/containers/IncidentContain
 import KtoContainer from '../../signals/incident/containers/KtoContainer';
 import { requestCategories } from './actions';
 
-export class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
+const ThemeWrapper = styled.div``;
+
+export class App extends React.Component {
+  // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
     this.props.requestCategories();
   }
 
   render() {
     return (
-      <div className="app-container container-fluid">
-        <GlobalError />
-        <div className="container">
-          <HeaderContainer />
-        </div>
-        <div className="container-fluid">
-          <MainMenu />
-        </div>
-        <div className="container content">
-          <Switch>
-            <Redirect exact from="/" to="/incident" />
-            <Redirect exact from="/login" to="/manage" />
-            <Route path="/manage" component={IncidentManagementModule} />
-            <Route path="/incident" component={IncidentContainer} />
-            <Route path="/kto/:yesNo/:uuid" component={(props) => (<KtoContainer yesNo={props.match.params.yesNo} uuid={props.match.params.uuid} />)} />
-            <Route path="" component={NotFoundPage} />
-          </Switch>
-        </div>
-        <div className="container-fluid">
+      <ThemeWrapper
+        as={this.props.isAuthenticated ? AscThemeProvider : AmsThemeProvider}
+      >
+        <Fragment>
+          {/**
+           * Forcing rerender of SiteHeader component to reevaluate its props, because it will
+           * otherwise not pick up a navigation action and will not present the component as tall
+           */}
+          <SiteHeaderContainer key={Math.random()} />
+
+          <div className="app-container">
+            <GlobalError />
+            <Switch>
+              <Redirect exact from="/" to="/incident" />
+              <Redirect exact from="/login" to="/manage" />
+              <Route path="/manage" component={IncidentManagementModule} />
+              <Route path="/incident" component={IncidentContainer} />
+              <Route
+                path="/kto/:yesNo/:uuid"
+                component={(props) => (
+                  <KtoContainer
+                    yesNo={props.match.params.yesNo}
+                    uuid={props.match.params.uuid}
+                  />
+                )}
+              />
+              <Route path="" component={NotFoundPage} />
+            </Switch>
+          </div>
           <Footer />
-        </div>
-      </div>
+        </Fragment>
+      </ThemeWrapper>
     );
   }
 }
 
 App.propTypes = {
-  requestCategories: PropTypes.func.isRequired
+  requestCategories: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
 
-export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  requestCategories
-}, dispatch);
+const mapStateToProps = createStructuredSelector({
+  isAuthenticated: makeSelectIsAuthenticated(),
+});
 
-const withConnect = connect(null, mapDispatchToProps);
+export const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      requestCategories,
+    },
+    dispatch,
+  );
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 const withReducer = injectReducer({ key: 'global', reducer });
 const withSaga = injectSaga({ key: 'global', saga });
@@ -70,5 +99,5 @@ export default compose(
   withReducer,
   withSaga,
   withRouter,
-  withConnect
+  withConnect,
 )(App);

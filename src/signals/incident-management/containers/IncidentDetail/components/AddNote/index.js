@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 
-import FieldControlWrapper from '../../../../components/FieldControlWrapper';
-import TextAreaInput from '../../../../components/TextAreaInput';
+import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
+import TextAreaInput from 'signals/incident-management/components/TextAreaInput';
 
 import './style.scss';
 
