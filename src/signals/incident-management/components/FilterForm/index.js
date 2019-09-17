@@ -231,11 +231,9 @@ const FilterForm = ({
                  */
                 onChange={
                   /* istanbul ignore next */ (dateValue) => {
-                    if (!dateValue) return;
-
-                    const formattedDate = moment(dateValue).format(
-                      'YYYY-MM-DD',
-                    );
+                    const formattedDate = dateValue
+                      ? moment(dateValue).format('YYYY-MM-DD')
+                      : '';
 
                     setFilterData({
                       ...filterData,
@@ -280,7 +278,9 @@ const FilterForm = ({
         <Fieldset>
           <legend>Filter categorieën</legend>
 
-          <Label $as="span" htmlFor="not_used">Categorie</Label>
+          <Label $as="span" htmlFor="not_used">
+            Categorie
+          </Label>
 
           {Object.keys(categories.mainToSub)
             .filter((key) => !!key) // remove elements without 'key' prop
