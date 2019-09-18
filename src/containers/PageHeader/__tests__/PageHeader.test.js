@@ -5,8 +5,8 @@ import { withAppContext } from 'test/utils';
 import PageHeaderComponent from 'components/PageHeader';
 import PageHeaderContainer, { PageHeaderContainerComponent } from '../';
 
-describe.skip('containers/PageHeader', () => {
-  const activeFilter = { name: '' };
+describe('containers/PageHeader', () => {
+  const filter = { name: '' };
 
   it('should have props from structured selector', () => {
     const tree = mount(withAppContext(
@@ -15,7 +15,7 @@ describe.skip('containers/PageHeader', () => {
 
     const props = tree.find(PageHeaderContainerComponent).props();
 
-    expect(props.activeFilter).toBeDefined();
+    expect(props.filter).toBeDefined();
     expect(props.incidentsCount).toBeNull();
     expect(props.query).toBeDefined();
   });
@@ -30,25 +30,25 @@ describe.skip('containers/PageHeader', () => {
 
   it('should provide the PageHeader component with a title', () => {
     const { container, rerender } = render(withAppContext(
-      <PageHeaderContainerComponent activeFilter={activeFilter} incidentsCount={null} />
+      <PageHeaderContainerComponent filter={filter} incidentsCount={null} />
     ));
 
     expect(container.firstChild.querySelector('h1').textContent).toEqual('Meldingen');
 
     rerender(withAppContext(
-      <PageHeaderContainerComponent activeFilter={activeFilter} incidentsCount={10} />
+      <PageHeaderContainerComponent filter={filter} incidentsCount={10} />
     ));
 
     expect(container.firstChild.querySelector('h1').textContent).toEqual('Meldingen (10)');
 
     rerender(withAppContext(
-      <PageHeaderContainerComponent activeFilter={{ name: 'Foo bar !!1!' }} incidentsCount={null} />
+      <PageHeaderContainerComponent filter={{ name: 'Foo bar !!1!' }} incidentsCount={null} />
     ));
 
     expect(container.firstChild.querySelector('h1').textContent).toEqual('Foo bar !!1!');
 
     rerender(withAppContext(
-      <PageHeaderContainerComponent activeFilter={{ name: 'Foo bar !!1!' }} incidentsCount={99} />
+      <PageHeaderContainerComponent filter={{ name: 'Foo bar !!1!' }} incidentsCount={99} />
     ));
 
     expect(container.firstChild.querySelector('h1').textContent).toEqual('Foo bar !!1! (99)');
@@ -58,7 +58,7 @@ describe.skip('containers/PageHeader', () => {
     const query = 'Foo bar';
 
     const { container } = render(withAppContext(
-      <PageHeaderContainerComponent activeFilter={activeFilter} incidentsCount={null} query={query} />
+      <PageHeaderContainerComponent filter={filter} incidentsCount={null} query={query} />
     ));
 
     expect(container.textContent).toEqual(expect.stringMatching(/Foo bar/));
