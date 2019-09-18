@@ -48,7 +48,7 @@ export const SearchBarComponent = ({ className, query, onSetSearchQuery, onReque
     <SearchBar
       className={className}
       data-testid="searchBar"
-      placeholder="Zoek op melding nummer"
+      placeholder="Zoek op meldingsnummer"
       onChange={onChange}
       onSubmit={onSearchSubmit}
       value={query}
