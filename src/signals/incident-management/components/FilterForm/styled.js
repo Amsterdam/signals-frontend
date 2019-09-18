@@ -39,6 +39,7 @@ export const SubmitButton = styled(Button).attrs({
 `;
 
 export const ResetButton = styled(Button)`
+  background-color: white;
   margin-right: auto;
   font-family: inherit;
   -webkit-font-smoothing: antialiased;
