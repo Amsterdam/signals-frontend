@@ -104,7 +104,7 @@ export const IncidentOverviewPageContainerComponent = ({
       <PageHeader>
         <div>
           <StyledButton
-            data-testid="modalMyfiltersBtn"
+            data-testid="myFiltersModalBtn"
             color="primary"
             onClick={openMyFiltersModal}
           >
@@ -112,7 +112,7 @@ export const IncidentOverviewPageContainerComponent = ({
           </StyledButton>
 
           <StyledButton
-            data-testid="modalFilterBtn"
+            data-testid="filterModalBtn"
             color="primary"
             onClick={openFilterModal}
           >
@@ -120,11 +120,11 @@ export const IncidentOverviewPageContainerComponent = ({
           </StyledButton>
         </div>
 
-        <Modal isOpen={modalMyFiltersIsOpen} onClose={closeMyFiltersModal} title="Mijn filters">
+        <Modal data-testid="filterModal" isOpen={modalMyFiltersIsOpen} onClose={closeMyFiltersModal} title="Mijn filters">
           <MyFilters onClose={closeMyFiltersModal} />
         </Modal>
 
-        <Modal isOpen={modalFilterIsOpen} onClose={closeFilterModal} title="Filters">
+        <Modal data-testid="myFiltersModal" isOpen={modalFilterIsOpen} onClose={closeFilterModal} title="Filters">
           <Filter onSubmit={closeFilterModal} onCancel={closeFilterModal} />
         </Modal>
 
