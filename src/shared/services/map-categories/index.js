@@ -25,7 +25,6 @@ function mapCategories(data) {
 
           mainToSub[category.slug].push({
             id: subcategory._links && subcategory._links.self && subcategory._links.self.href,
-            // key: subcategory.slug, // replacing 'key' prop since its value isn't used and it makes more sense for the filter form to have to deal with just one prop; 'key'
             value: subcategory.name,
             slug: subcategory.slug,
             category_slug: category.slug,
