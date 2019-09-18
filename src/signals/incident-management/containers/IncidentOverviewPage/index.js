@@ -16,6 +16,7 @@ import {
   makeSelectError,
   makeSelectCategories,
 } from 'containers/App/selectors';
+import { makeSelectQuery } from 'models/search/selectors';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
@@ -41,6 +42,7 @@ export const IncidentOverviewPageContainerComponent = ({
   incidentsCount,
   onIncidentSelected,
   onGetFilters,
+  searchQuery,
 }) => {
   const [modalFilterIsOpen, toggleFilterModal] = useState(false);
   const [modalMyFiltersIsOpen, toggleMyFiltersModal] = useState(false);
@@ -91,7 +93,7 @@ export const IncidentOverviewPageContainerComponent = ({
   });
 
   useEffect(() => {
-    onRequestIncidents({});
+    onRequestIncidents(searchQuery ? { filter: { searchQuery } } : {});
     onGetFilters();
   }, []);
 
@@ -173,6 +175,7 @@ IncidentOverviewPageContainerComponent.propTypes = {
   }).isRequired,
   categories: PropTypes.shape({}).isRequired,
   incidentsCount: PropTypes.number,
+  searchQuery: PropTypes.string,
 
   onRequestIncidents: PropTypes.func.isRequired,
   onIncidentSelected: PropTypes.func.isRequired,
@@ -182,6 +185,7 @@ IncidentOverviewPageContainerComponent.propTypes = {
 const mapStateToProps = createStructuredSelector({
   overviewpage: makeSelectOverviewPage(),
   incidentsCount: makeSelectIncidentsCount,
+  searchQuery: makeSelectQuery,
   categories: makeSelectCategories(),
   loading: makeSelectLoading(),
   error: makeSelectError(),
