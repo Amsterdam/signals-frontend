@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
 
-import { makeSelectAllFilters, makeSelectRemovedFilter } from '../IncidentOverviewPage/selectors';
-import { applyFilter, removeFilter, revertFilter } from '../IncidentOverviewPage/actions';
+import { makeSelectAllFilters } from '../IncidentOverviewPage/selectors';
+import { applyFilter, removeFilter } from '../IncidentOverviewPage/actions';
 
 import FilterItem from './components/FilterItem';
 
@@ -17,16 +17,11 @@ const sortFilters = (allFilters) => {
   return allFilters;
 };
 
-export const MyFilters = ({ allFilters, removedFilter, onApplyFilter, onRemoveFilter, onRevertFilter, onClose }) => (
+export const MyFiltersComponent = ({ allFilters, onApplyFilter, onRemoveFilter, onClose }) => (
   <div className="my-filters">
-    {removedFilter && removedFilter.name ? <div className="my-filters__removed-filter">
-      De filterinstelling &ldquo;{removedFilter.name}&rdquo; is verwijderd.
-      <div><button className="my-filters__revert-button" type="button" onClick={() => onRevertFilter(removedFilter)}>Ongedaan maken</button></div>
-    </div> : ''}
-
     {allFilters && allFilters.length ? sortFilters(allFilters).map((filter) => (
       <FilterItem
-        key={filter._links.self.href}
+        key={filter.id}
         filter={filter}
         onApplyFilter={onApplyFilter}
         onRemoveFilter={onRemoveFilter}
@@ -41,18 +36,15 @@ export const MyFilters = ({ allFilters, removedFilter, onApplyFilter, onRemoveFi
   </div>
 );
 
-MyFilters.propTypes = {
+MyFiltersComponent.propTypes = {
   allFilters: PropTypes.array.isRequired,
-  removedFilter: PropTypes.object,
   onApplyFilter: PropTypes.func.isRequired,
-  onRevertFilter: PropTypes.func.isRequired,
-  onRemoveFilter: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  onRemoveFilter: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   allFilters: makeSelectAllFilters,
-  removedFilter: makeSelectRemovedFilter,
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -60,7 +52,6 @@ const mapDispatchToProps = (dispatch) =>
     {
       onApplyFilter: applyFilter,
       onRemoveFilter: removeFilter,
-      onRevertFilter: revertFilter,
     },
     dispatch,
   );
@@ -70,4 +61,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default withConnect(MyFilters);
+export default withConnect(MyFiltersComponent);
