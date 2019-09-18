@@ -6,8 +6,8 @@ import priorityList from 'signals/incident-management/definitions/priorityList';
 import statusList from 'signals/incident-management/definitions/statusList';
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 
+import categories from 'utils/__tests__/fixtures/categories.json';
 import FilterForm, { defaultSubmitBtnLabel, saveSubmitBtnLabel } from '../';
-import categories from './fixtures/categories.json';
 
 describe('signals/incident-management/components/FilterForm', () => {
   afterEach(cleanup);
