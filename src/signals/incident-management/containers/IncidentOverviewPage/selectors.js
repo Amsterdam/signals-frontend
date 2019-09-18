@@ -44,7 +44,11 @@ const makeSelectFilterParams = () =>
       }
 
       if (filter.searchQuery) {
-        return { id: filter.searchQuery, page: state.page, ordering: state.sort };
+        return {
+          id: filter.searchQuery,
+          page: state.page,
+          ordering: state.sort,
+        };
       }
 
       return { ...options, page: state.page, ordering: state.sort };
@@ -73,14 +77,5 @@ export const makeSelectFilter = createSelector(
     const state = stateMap.toJS();
 
     return state.filter;
-  },
-);
-
-export const makeSelectRemovedFilter = createSelector(
-  selectOverviewPageDomain,
-  (stateMap) => {
-    const state = stateMap.toJS();
-
-    return state.removedFilter;
   },
 );

@@ -108,7 +108,7 @@ export const IncidentOverviewPageContainerComponent = ({
             color="primary"
             onClick={openMyFiltersModal}
           >
-          Mijn filters
+            Mijn filters
           </StyledButton>
 
           <StyledButton
@@ -116,21 +116,31 @@ export const IncidentOverviewPageContainerComponent = ({
             color="primary"
             onClick={openFilterModal}
           >
-          Filteren
+            Filteren
           </StyledButton>
         </div>
 
-        <Modal data-testid="filterModal" isOpen={modalMyFiltersIsOpen} onClose={closeMyFiltersModal} title="Mijn filters">
+        <Modal
+          isOpen={modalMyFiltersIsOpen}
+          onClose={closeMyFiltersModal}
+          title="Mijn filters"
+        >
           <MyFilters onClose={closeMyFiltersModal} />
         </Modal>
 
-        <Modal data-testid="myFiltersModal" isOpen={modalFilterIsOpen} onClose={closeFilterModal} title="Filters">
+        <Modal
+          isOpen={modalFilterIsOpen}
+          onClose={closeFilterModal}
+          title="Filters"
+        >
           <Filter onSubmit={closeFilterModal} onCancel={closeFilterModal} />
         </Modal>
 
-        <div className="incident-overview-page__filter-tag-list">
-          <FilterTagList tags={filter && filter.options} />
-        </div>
+        {filter && filter.options && (
+          <div className="incident-overview-page__filter-tag-list">
+            <FilterTagList tags={filter.options} />
+          </div>
+        )}
       </PageHeader>
 
       <Row>
