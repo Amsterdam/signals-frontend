@@ -15,8 +15,8 @@ const FilterWrapper = styled.div`
 `;
 
 const StyledTag = styled(Tag)`
-  display: inline;
-  margin-right: 5px;
+  display: inline-block;
+  margin: 0 5px 5px 0;
 `;
 
 const ignoredTags = ['id'];
