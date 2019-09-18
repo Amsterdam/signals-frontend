@@ -11,11 +11,17 @@ const StyledSection = styled.section`
   margin-bottom: 40px;
 `;
 
+const StyledHeading = styled(Heading)`
+  font-size: 20px;
+  margin: 0;
+  line-height: 44px;
+`;
+
 const PageHeader = ({ className, children, subTitle, title }) => (
   <StyledSection className={className}>
     <Row>
       <div>
-        <Heading as="h1">{title}</Heading>
+        <StyledHeading $as="h1">{title}</StyledHeading>
         {subTitle && <Paragraph>{subTitle}</Paragraph>}
       </div>
 

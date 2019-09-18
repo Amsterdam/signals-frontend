@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -7,6 +7,10 @@ import { makeSelectCategories } from 'containers/App/selectors';
 import { Tag } from '@datapunt/asc-ui';
 
 import makeSelectOverviewPage from '../IncidentOverviewPage/selectors';
+
+const FilterWrapper = styled.div`
+  margin-top: 10px;
+`;
 
 const StyledTag = styled(Tag)`
   display: inline;
@@ -27,15 +31,20 @@ const renderTag = (key, tagKey, mainCategories, list) => {
 
   const foundMain = mainCategories.find((i) => i.slug === key);
   // eslint-disable-next-line consistent-return
-  return (<StyledTag
-    colorType="tint"
-    colorSubtype="level3"
-    key={key}
-  >{display}{foundMain && ': Alles'}</StyledTag>);
+  return (
+    <StyledTag colorType="tint" colorSubtype="level3" key={key}>
+      {display}
+      {foundMain && ': Alles'}
+    </StyledTag>
+  );
 };
 
 export const FilterTagList = (props) => {
-  const { tags, overviewpage: { priorityList, stadsdeelList, statusList, feedbackList }, categories: { main, sub } } = props;
+  const {
+    tags,
+    overviewpage: { priorityList, stadsdeelList, statusList, feedbackList },
+    categories: { main, sub },
+  } = props;
 
   const map = {
     feedback: feedbackList,
@@ -47,12 +56,17 @@ export const FilterTagList = (props) => {
   };
 
   return (
-    <Fragment>
-      {Object.entries(tags).map(([tagKey, tag]) => (Array.isArray(tag) ?
-        <span key={tag}>{tag.map((item) =>
-        renderTag(item, tagKey, main, map[tagKey]))}</span> :
-        renderTag(tag, tagKey, main, map[tagKey])))}
-    </Fragment>
+    <FilterWrapper>
+      {Object.entries(tags).map(([tagKey, tag]) =>
+        Array.isArray(tag) ? (
+          <span key={tag}>
+            {tag.map((item) => renderTag(item, tagKey, main, map[tagKey]))}
+          </span>
+        ) : (
+          renderTag(tag, tagKey, main, map[tagKey])
+        ),
+      )}
+    </FilterWrapper>
   );
 };
 
@@ -63,7 +77,7 @@ FilterTagList.propTypes = {
 };
 
 FilterTagList.defaultProps = {
-  tags: {}
+  tags: {},
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -71,8 +85,6 @@ const mapStateToProps = createStructuredSelector({
   categories: makeSelectCategories(),
 });
 
-const withConnect = connect(
-  mapStateToProps,
-);
+const withConnect = connect(mapStateToProps);
 
 export default withConnect(FilterTagList);
