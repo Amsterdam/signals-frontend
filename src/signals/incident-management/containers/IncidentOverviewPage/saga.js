@@ -1,12 +1,28 @@
 import { all, put, select, takeLatest } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 
-import { authCall, authPostCall, authDeleteCall } from 'shared/services/api/api';
+import { authCall, authDeleteCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
-import { REQUEST_INCIDENTS, INCIDENT_SELECTED, GET_FILTERS, REMOVE_FILTER, REVERT_FILTER, APPLY_FILTER } from './constants';
-import { requestIncidents, requestIncidentsSuccess, requestIncidentsError, filterIncidentsChanged, pageIncidentsChanged, sortIncidentsChanged,
-  getFiltersSuccess, getFiltersFailed, removeFilterSuccess, removeFilterFailed, revertFilterSuccess, revertFilterFailed } from './actions';
+import {
+  REQUEST_INCIDENTS,
+  INCIDENT_SELECTED,
+  GET_FILTERS,
+  REMOVE_FILTER,
+  APPLY_FILTER,
+} from './constants';
+import {
+  requestIncidents,
+  requestIncidentsSuccess,
+  requestIncidentsError,
+  filterIncidentsChanged,
+  pageIncidentsChanged,
+  sortIncidentsChanged,
+  getFiltersSuccess,
+  getFiltersFailed,
+  removeFilterSuccess,
+  removeFilterFailed,
+} from './actions';
 import { makeSelectFilterParams } from './selectors';
 
 import { resetSearchQuery } from '../../../../models/search/actions';
@@ -68,17 +84,6 @@ export function* removeFilter(action) {
   }
 }
 
-export function* revertFilter(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/`;
-  const filter = action.payload;
-  try {
-    yield authPostCall(requestURL, filter);
-    yield put(revertFilterSuccess());
-  } catch (error) {
-    yield put(revertFilterFailed());
-  }
-}
-
 export function* applyFilter(action) {
   const filter = action.payload;
   yield put(resetSearchQuery());
@@ -91,7 +96,6 @@ export default function* watchRequestIncidentsSaga() {
     takeLatest(INCIDENT_SELECTED, openIncident),
     takeLatest(GET_FILTERS, getFilters),
     takeLatest(REMOVE_FILTER, removeFilter),
-    takeLatest(REVERT_FILTER, revertFilter),
     takeLatest(APPLY_FILTER, applyFilter),
   ]);
 }

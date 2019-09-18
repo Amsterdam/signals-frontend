@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import get from 'lodash.get';
 import styled from 'styled-components';
-
-import {
-  Heading,
-  Link,
- } from '@datapunt/asc-ui';
+import { Heading, Link } from '@datapunt/asc-ui';
 
 import FilterTagList from '../../../FilterTagList';
 
@@ -21,57 +16,87 @@ const StyledLink = styled(Link)`
   margin-right: 20px;
 `;
 
-const getId = (filter) => {
-  const href = get(filter, '_links.self.href') || '';
-  const found = href.match(/\/(\d+)$/);
-  return (found && found[1]) || 0;
-};
+const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => {
+  const handleApplyFilter = (e) => {
+    e.preventDefault();
 
-const handleApplyFilter = (e, filter, onApplyFilter, onClose) => {
-  e.preventDefault();
-  onApplyFilter(filter);
-  onClose();
-};
+    onApplyFilter(filter);
+    onClose();
+  };
 
-const handleEditFilter = (e, filter, onApplyFilter, onClose) => {
-  e.preventDefault();
-  onApplyFilter(filter);
-  document.dispatchEvent(new Event('openFilter'));
-  onClose();
-};
+  const handleEditFilter = (e) => {
+    e.preventDefault();
 
-const handleRemoveFilter = (e, id, onRemoveFilter) => {
-  e.preventDefault();
-  onRemoveFilter(id);
-};
+    onApplyFilter(filter);
+    document.dispatchEvent(new Event('openFilter'));
+    onClose();
+  };
 
-const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => (
-  <div className="filter-item">
-    <StyledHeading $as="h4">{filter.name}</StyledHeading>
-    <div className="filter-item__tag-list"><FilterTagList tags={filter.options} /></div>
-    <div className="filter-item__actions">
+  const handleRemoveFilter = (e) => {
+    e.preventDefault();
 
-      <StyledLink href="/" variant="inline" onClick={(e) => handleApplyFilter(e, filter, onApplyFilter, onClose)}>
-        Toon resultaat
-      </StyledLink>
-      <StyledLink href="/" variant="inline" onClick={(e) => handleEditFilter(e, filter, onApplyFilter, onClose)}>
-        Wijzig
-      </StyledLink>
-      <StyledLink href="/" variant="inline" onClick={(e) => handleRemoveFilter(e, getId(filter), onRemoveFilter)}>
-        Verwijder
-      </StyledLink>
+    if (
+      global.confirm(
+        'Weet je zeker dat je dit filter wilt verwijderen?\nDit kan niet ongedaan worden gemaakt.',
+      )
+    ) {
+      onRemoveFilter(filter.id);
+    }
+  };
+
+  return (
+    <div className="filter-item">
+      <StyledHeading $as="h4">{filter.name}</StyledHeading>
+      <div className="filter-item__tag-list">
+        <FilterTagList tags={filter.options} />
+      </div>
+      <div className="filter-item__actions">
+        <StyledLink href="/" variant="inline" onClick={handleApplyFilter} data-testid="handleApplyFilterButton">
+          Toon resultaat
+        </StyledLink>
+        <StyledLink href="/" variant="inline" onClick={handleEditFilter} data-testid="handleEditFilterButton">
+          Wijzig
+        </StyledLink>
+        <StyledLink href="/" variant="inline" onClick={handleRemoveFilter} data-testid="handleRemoveFilterButton">
+          Verwijder
+        </StyledLink>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 FilterItem.propTypes = {
   filter: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    options: PropTypes.shape.isRequired,
+    options: PropTypes.shape({
+      incident_date: PropTypes.string,
+      address_text: PropTypes.string,
+      stadsdeel: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      maincategory_slug: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      priority: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      status: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+      category_slug: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]),
+    }).isRequired,
   }).isRequired,
   onApplyFilter: PropTypes.func.isRequired,
-  onRemoveFilter: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  onRemoveFilter: PropTypes.func.isRequired,
 };
 
 export default FilterItem;
