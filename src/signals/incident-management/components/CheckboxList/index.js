@@ -38,7 +38,7 @@ const Toggle = styled.label`
 /**
  * Component that renders a group of checkboxes that can optionally be collectively toggled on or off
  *
- * With props toggleFieldName=maincategory_slug, groupName=afval and clustterName=category_slug, will render the following boxes:
+ * With props toggleFieldName=maincategory_slug, groupName=afval and clusterName=category_slug, will render the following boxes:
  * @example
  * <input type="checkbox" name="maincategory_slug" value="afval" /> <!-- toggle element -->
  * <input type="checkbox" name="afval_category_slug" value="..." />
@@ -47,6 +47,7 @@ const Toggle = styled.label`
 const CheckboxList = ({
   clusterName,
   defaultValue,
+  groupId,
   groupName,
   options,
   title,
@@ -58,9 +59,9 @@ const CheckboxList = ({
   /**
    * Check or uncheck all boxes in this group
    *
-   * @param {Boolean} shouldBeChecked
+   * @param {Boolean} [shouldBeChecked=true]
    */
-  const setGroupChecked = (shouldBeChecked) => {
+  const setGroupChecked = (shouldBeChecked = true) => {
     const checkboxes = groupContainer.current.querySelectorAll(
       'input[type="checkbox"]',
     );
@@ -104,25 +105,26 @@ const CheckboxList = ({
    * Checks if a field should be displayed as checked
    *
    * @param   {String} key - the value of a field's properties that should be compared with the list of defaultChecked values
-   * @param   {String} [indexName=key] - the name of the prop who's value should be compared
+   * @param   {String} [indexName='id'] - the name of the prop who's value should be compared
    * @returns {Boolean}
    */
-  const isDefaultChecked = (key) =>
-    defaultValue.findIndex((value) => value.key === key) >= 0;
+  const isDefaultChecked = (id) =>
+    defaultValue.findIndex((value) => value.id === id || value.key === id) >= 0;
 
   // mount
   useEffect(() => {
-    if (isDefaultChecked(groupName)) {
-      setGroupChecked(true);
+    if (isDefaultChecked(groupId)) {
+      setGroupChecked();
     }
   }, []);
 
   const displayToggle = !!toggleLabel && !!toggleFieldName;
+  const firstOptionIdentifier = options[0].id || options[0].key;
 
   return (
     <FilterGroup ref={groupContainer}>
       {title && (
-        <Label htmlFor={options[0].key} isGroupHeader={false}>
+        <Label htmlFor={firstOptionIdentifier} isGroupHeader={false}>
           {title}
         </Label>
       )}
@@ -135,7 +137,7 @@ const CheckboxList = ({
 
           <input
             type="checkbox"
-            data-value={isDefaultChecked(groupName) ? 'all' : 'none'}
+            data-value={isDefaultChecked(groupId) ? 'all' : 'none'}
             name={toggleFieldName}
             id={`${groupName}_toggle`}
             onClick={handleToggleCheck}
@@ -144,19 +146,24 @@ const CheckboxList = ({
         </Fragment>
       )}
 
-      {options.map(({ key, value }) => (
-        <div className="antwoord" key={key}>
-          <input
-            type="checkbox"
-            id={key}
-            name={`${groupName}${clusterName ? `_${clusterName}` : ''}`}
-            value={key}
-            defaultChecked={isDefaultChecked(key)}
-            onClick={handleIndividualCheck}
-          />
-          <label htmlFor={key}>{value}</label>
-        </div>
-      ))}
+      {options.map(({ id, key, slug, value }) => {
+        const optionIdentifier = id || key;
+        const optionValue = slug || value;
+
+        return (
+          <div className="antwoord" key={optionIdentifier}>
+            <input
+              type="checkbox"
+              id={optionIdentifier}
+              name={`${groupName}${clusterName ? `_${clusterName}` : ''}`}
+              value={optionValue}
+              defaultChecked={isDefaultChecked(optionIdentifier)}
+              onClick={handleIndividualCheck}
+            />
+            <label htmlFor={optionIdentifier}>{value}</label>
+          </div>
+        );
+      })}
     </FilterGroup>
   );
 };
@@ -179,6 +186,10 @@ CheckboxList.propTypes = {
     }),
   ),
   /**
+   * Unique group identifier. Is used to check for toggling the group checkbox
+   */
+  groupId: PropTypes.string.isRequired,
+  /**
    * Value of the `name` attribute of the toggle box. This value is used to identify all children by without having
    * to select them all.
    */
@@ -186,7 +197,9 @@ CheckboxList.propTypes = {
   /** Values to be rendered as checkbox elements */
   options: PropTypes.arrayOf(
     PropTypes.shape({
-      key: PropTypes.string.isRequired,
+      id: PropTypes.string,
+      key: PropTypes.string,
+      slug: PropTypes.string,
       value: PropTypes.string.isRequired,
     }),
   ).isRequired,

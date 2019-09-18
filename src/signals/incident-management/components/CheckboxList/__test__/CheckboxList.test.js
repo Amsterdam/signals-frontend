@@ -12,7 +12,12 @@ describe('signals/incident-management/components/CheckboxList', () => {
     const title = 'This is my title';
     const { getByLabelText } = render(
       withAppContext(
-        <CheckboxList groupName="newGroup" options={options} title={title} />,
+        <CheckboxList
+          groupName="newGroup"
+          groupId="newGroup"
+          options={options}
+          title={title}
+        />,
       ),
     );
 
@@ -21,7 +26,13 @@ describe('signals/incident-management/components/CheckboxList', () => {
 
   it('should render a toggle', () => {
     const { getAllByLabelText, rerender } = render(
-      withAppContext(<CheckboxList groupName="newGroup" options={options} />),
+      withAppContext(
+        <CheckboxList
+          groupName="newGroup"
+          groupId="newGroup"
+          options={options}
+        />,
+      ),
     );
 
     // should not render a toggle checkbox, expecting number of checkboxes to be equal to the number of options
@@ -34,6 +45,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       withAppContext(
         <CheckboxList
           groupName="newGroup"
+          groupId="newGroup"
           options={options}
           toggleLabel="Toggle me"
         />,
@@ -50,6 +62,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       withAppContext(
         <CheckboxList
           groupName="newGroup"
+          groupId="newGroup"
           options={options}
           toggleLabel="Toggle me"
           toggleFieldName={toggleFieldName}
@@ -70,7 +83,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
 
     const { rerender } = render(
       withAppContext(
-        <CheckboxList groupName={groupName} options={truncated} />,
+        <CheckboxList groupName={groupName} groupId={groupName} options={truncated} />,
       ),
     );
 
@@ -88,6 +101,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       withAppContext(
         <CheckboxList
           groupName="newGroup"
+          groupId="newGroup"
           options={truncated}
           clusterName={clusterName}
         />,
@@ -103,7 +117,13 @@ describe('signals/incident-management/components/CheckboxList', () => {
 
   it('should set default checked', () => {
     const { container, rerender } = render(
-      withAppContext(<CheckboxList groupName="newGroup" options={options} />),
+      withAppContext(
+        <CheckboxList
+          groupName="newGroup"
+          groupId="newGroup"
+          options={options}
+        />,
+      ),
     );
 
     // nothing should be checked
@@ -119,6 +139,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       withAppContext(
         <CheckboxList
           groupName="newGroup"
+          groupId="newGroup"
           options={options}
           defaultValue={defaultValue}
         />,
@@ -137,6 +158,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       withAppContext(
         <CheckboxList
           groupName="newGroup"
+          groupId="newGroup"
           options={options}
           toggleLabel="Toggle me"
           toggleFieldName={toggleFieldName}
@@ -177,7 +199,13 @@ describe('signals/incident-management/components/CheckboxList', () => {
 
   it('should handle individual checkbox interaction without a toggle checkbox', () => {
     const { container } = render(
-      withAppContext(<CheckboxList groupName="newGroup" options={options} />),
+      withAppContext(
+        <CheckboxList
+          groupName="newGroup"
+          groupId="newGroup"
+          options={options}
+        />,
+      ),
     );
 
     const individualBoxes = container.querySelectorAll(
@@ -205,6 +233,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       withAppContext(
         <CheckboxList
           groupName="newGroup"
+          groupId="newGroup"
           options={options}
           toggleLabel="Toggle me"
           toggleFieldName={toggleFieldName}
@@ -261,6 +290,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
         <CheckboxList
           defaultValue={defaultValue}
           groupName={groupName}
+          groupId={groupName}
           options={options}
           toggleLabel="Toggle me"
           toggleFieldName={toggleFieldName}

@@ -12,7 +12,9 @@ import {
   requestIncidents,
   incidentSelected as onIncidentSelected,
 } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
-import makeSelectOverviewPage, { makeSelectFilter } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
+import makeSelectOverviewPage, {
+  makeSelectFilter,
+} from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 import FilterForm from 'signals/incident-management/components/FilterForm';
 import { resetSearchQuery } from 'models/search/actions';
 
