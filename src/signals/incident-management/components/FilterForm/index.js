@@ -211,9 +211,7 @@ const FilterForm = ({
 
           {Array.isArray(feedback) && feedback.length > 0 && (
             <FilterGroup data-testid="feedbackFilterGroup">
-              <Label htmlFor={`feedback_${feedback[0].key}`}>
-                Tevredenheid
-              </Label>
+              <Label htmlFor={`feedback_${feedback[0].key}`}>Feedback</Label>
               <RadioButtonList
                 defaultValue={filterData.feedback}
                 groupName="feedback"
