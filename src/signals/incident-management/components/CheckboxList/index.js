@@ -148,7 +148,7 @@ const CheckboxList = ({
 
       {options.map(({ id, key, slug, value }) => {
         const optionIdentifier = id || key;
-        const optionValue = slug || value;
+        const optionValue = slug || key;
 
         return (
           <div className="antwoord" key={optionIdentifier}>

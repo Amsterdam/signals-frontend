@@ -1,7 +1,8 @@
 import React from 'react';
 import { fireEvent, render, cleanup } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
-import options from 'signals/incident-management/definitions/statusList';
+import statuses from 'signals/incident-management/definitions/statusList';
+import categories from 'utils/__tests__/fixtures/categories.json';
 
 import CheckboxList from '../';
 
@@ -15,7 +16,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
         <CheckboxList
           groupName="newGroup"
           groupId="newGroup"
-          options={options}
+          options={statuses}
           title={title}
         />,
       ),
@@ -30,14 +31,14 @@ describe('signals/incident-management/components/CheckboxList', () => {
         <CheckboxList
           groupName="newGroup"
           groupId="newGroup"
-          options={options}
+          options={statuses}
         />,
       ),
     );
 
     // should not render a toggle checkbox, expecting number of checkboxes to be equal to the number of options
     expect(document.querySelectorAll('input[type="checkbox"]')).toHaveLength(
-      options.length,
+      statuses.length,
     );
 
     // still shouldn't render a toggle checkbox
@@ -46,14 +47,14 @@ describe('signals/incident-management/components/CheckboxList', () => {
         <CheckboxList
           groupName="newGroup"
           groupId="newGroup"
-          options={options}
+          options={statuses}
           toggleLabel="Toggle me"
         />,
       ),
     );
 
     expect(document.querySelectorAll('input[type="checkbox"]')).toHaveLength(
-      options.length,
+      statuses.length,
     );
 
     // now it should
@@ -63,7 +64,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
         <CheckboxList
           groupName="newGroup"
           groupId="newGroup"
-          options={options}
+          options={statuses}
           toggleLabel="Toggle me"
           toggleFieldName={toggleFieldName}
         />,
@@ -78,7 +79,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
 
   it('should render a list of checkboxes ', () => {
     const numOptions = 5;
-    const truncated = options.slice(0, numOptions);
+    const truncated = statuses.slice(0, numOptions);
     const groupName = 'newGroup';
 
     const { rerender } = render(
@@ -121,7 +122,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
         <CheckboxList
           groupName="newGroup"
           groupId="newGroup"
-          options={options}
+          options={statuses}
         />,
       ),
     );
@@ -131,7 +132,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       expect(el.checked).toEqual(false);
     });
 
-    const defaultValue = [options[1], options[3], options[5]];
+    const defaultValue = [statuses[1], statuses[3], statuses[5]];
 
     cleanup();
 
@@ -140,7 +141,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
         <CheckboxList
           groupName="newGroup"
           groupId="newGroup"
-          options={options}
+          options={statuses}
           defaultValue={defaultValue}
         />,
       ),
@@ -159,7 +160,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
         <CheckboxList
           groupName="newGroup"
           groupId="newGroup"
-          options={options}
+          options={statuses}
           toggleLabel="Toggle me"
           toggleFieldName={toggleFieldName}
         />,
@@ -203,7 +204,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
         <CheckboxList
           groupName="newGroup"
           groupId="newGroup"
-          options={options}
+          options={statuses}
         />,
       ),
     );
@@ -213,7 +214,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     );
 
     const singleBox = individualBoxes.item(
-      Math.floor(Math.random() * options.length),
+      Math.floor(Math.random() * statuses.length),
     );
 
     fireEvent.click(singleBox);
@@ -234,7 +235,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
         <CheckboxList
           groupName="newGroup"
           groupId="newGroup"
-          options={options}
+          options={statuses}
           toggleLabel="Toggle me"
           toggleFieldName={toggleFieldName}
         />,
@@ -254,7 +255,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
 
     // click one of the checkboxes in the list. This should deselect the toggle and leave all the other boxes checked
     const singleBox = individualBoxes.item(
-      Math.floor(Math.random() * options.length),
+      Math.floor(Math.random() * statuses.length),
     );
 
     fireEvent.click(singleBox);
@@ -291,7 +292,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
           defaultValue={defaultValue}
           groupName={groupName}
           groupId={groupName}
-          options={options}
+          options={statuses}
           toggleLabel="Toggle me"
           toggleFieldName={toggleFieldName}
         />,
@@ -304,5 +305,47 @@ describe('signals/incident-management/components/CheckboxList', () => {
 
     expect(toggleBox.checked).toEqual(true);
     expect(toggleBox.dataset.value).toEqual('all');
+  });
+
+  it('should give preference to slugs over keys for checkbox values from the incoming data', () => {
+    const options = categories.mainToSub.afval;
+    const slugs = options.map(({ slug }) => slug);
+    const { container, rerender } = render(
+      withAppContext(
+        <CheckboxList
+          defaultValue={options.slice(0, 2)}
+          groupName="afval"
+          groupId="afval"
+          options={options}
+          toggleLabel="Toggle me"
+          toggleFieldName="main"
+        />,
+      ),
+    );
+
+    container.querySelectorAll('input[type="checkbox"]').forEach((element) => {
+      expect(slugs.includes(element.value));
+    });
+
+    cleanup();
+
+    const keys = statuses.map(({ key }) => key);
+
+    rerender(
+      withAppContext(
+        <CheckboxList
+          defaultValue={statuses.slice(0, 2)}
+          groupName="status"
+          groupId="status"
+          options={statuses}
+          toggleLabel="Toggle me"
+          toggleFieldName="main"
+        />,
+      ),
+    );
+
+    container.querySelectorAll('input[type="checkbox"]').forEach((element) => {
+      expect(keys.includes(element.value));
+    });
   });
 });
