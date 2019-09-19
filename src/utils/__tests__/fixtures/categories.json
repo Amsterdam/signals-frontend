@@ -315,105 +315,105 @@
   "mainToSub": {
     "afval": [
       {
-        "key": "asbest-accu",
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu",
         "value": "Asbest / accu",
         "slug": "asbest-accu",
         "category_slug": "afval",
         "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
       },
       {
-        "key": "container-is-kapot",
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot",
         "value": "Container is kapot",
         "slug": "container-is-kapot",
         "category_slug": "afval",
         "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
       },
       {
-        "key": "container-is-vol",
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-vol",
         "value": "Container is vol",
         "slug": "container-is-vol",
         "category_slug": "afval",
         "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
       },
       {
-        "key": "container-voor-papier-is-stuk",
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-stuk",
         "value": "Container papier kapot",
         "slug": "container-voor-papier-is-stuk",
         "category_slug": "afval",
         "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
       },
       {
-        "key": "container-voor-papier-is-vol",
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-vol",
         "value": "Container papier vol",
         "slug": "container-voor-papier-is-vol",
         "category_slug": "afval",
         "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
       },
       {
-        "key": "container-voor-plastic-afval-is-vol",
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-plastic-afval-is-vol",
         "value": "Container plastic afval vol",
         "slug": "container-voor-plastic-afval-is-vol",
         "category_slug": "afval",
         "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
       },
       {
-        "key": "container-voor-plastic-afval-is-kapot",
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-plastic-afval-is-kapot",
         "value": "Container plastic kapot",
         "slug": "container-voor-plastic-afval-is-kapot",
         "category_slug": "afval",
         "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
       },
       {
-        "key": "grofvuil",
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/grofvuil",
         "value": "Grofvuil",
         "slug": "grofvuil",
         "category_slug": "afval",
         "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.  In Nieuw-West komen we de volgende ophaaldag.\nWe houden u op de hoogte via e-mail."
       },
       {
-        "key": "handhaving-op-afval",
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/handhaving-op-afval",
         "value": "Handhaving op afval",
         "slug": "handhaving-op-afval",
         "category_slug": "afval",
         "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
       },
       {
-        "key": "huisafval",
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval",
         "value": "Huisafval",
         "slug": "huisafval",
         "category_slug": "afval",
         "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
       },
       {
-        "key": "overig-afval",
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/overig-afval",
         "value": "Overig afval",
         "slug": "overig-afval",
         "category_slug": "afval",
         "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op."
       },
       {
-        "key": "prullenbak-is-kapot",
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/prullenbak-is-kapot",
         "value": "Prullenbak is kapot",
         "slug": "prullenbak-is-kapot",
         "category_slug": "afval",
         "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
       },
       {
-        "key": "prullenbak-is-vol",
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/prullenbak-is-vol",
         "value": "Prullenbak is vol",
         "slug": "prullenbak-is-vol",
         "category_slug": "afval",
         "handling_message": "\nWij handelen uw melding binnen drie werkdagen af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
       },
       {
-        "key": "puin-sloopafval",
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/puin-sloopafval",
         "value": "Puin- / sloopafval",
         "slug": "puin-sloopafval",
         "category_slug": "afval",
         "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
       },
       {
-        "key": "veeg-zwerfvuil",
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/veeg-zwerfvuil",
         "value": "Veeg- / zwerfvuil",
         "slug": "veeg-zwerfvuil",
         "category_slug": "afval",
