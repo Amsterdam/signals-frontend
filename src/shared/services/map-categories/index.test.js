@@ -110,7 +110,8 @@ describe('The mapCategories service', () => {
       mainToSub: {
         'overlast-van-dieren': [
           {
-            key: 'dode-dieren',
+            id:
+              'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/dode-dieren',
             value: 'Dode dieren',
             slug: 'dode-dieren',
             category_slug: 'overlast-van-dieren',
@@ -119,7 +120,8 @@ describe('The mapCategories service', () => {
         ],
         'wegen-verkeer-straatmeubilair': [
           {
-            key: 'gladheid',
+            id:
+              'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/gladheid',
             value: 'Gladheid',
             slug: 'gladheid',
             handling_message: 'handling gladheid',

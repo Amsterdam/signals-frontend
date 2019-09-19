@@ -99,21 +99,6 @@ export const parseInputFormData = (filterData, dataLists) => {
           ),
         );
       });
-
-    // make sure all objects in filterData have the correct values for their 'key' prop
-    if (parsed.maincategory_slug) {
-      parsed.maincategory_slug = parsed.maincategory_slug.map((obj) => ({
-        ...obj,
-        key: obj.slug,
-      }));
-    }
-
-    if (parsed.category_slug) {
-      parsed.category_slug = parsed.category_slug.map((obj) => ({
-        ...obj,
-        key: obj.slug,
-      }));
-    }
   }
 
   return parsed;

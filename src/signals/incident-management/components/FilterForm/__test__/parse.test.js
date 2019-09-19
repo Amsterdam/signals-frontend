@@ -97,14 +97,15 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
       address_text: '',
       maincategory_slug: [
         {
-          key: 'afval',
+          key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
           slug: 'afval',
           value: 'Afval',
         },
       ],
       category_slug: [
         {
-          key: 'maaien-snoeien',
+          key:
+            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/maaien-snoeien',
           value: 'Maaien / snoeien',
           slug: 'maaien-snoeien',
           category_slug: 'openbaar-groen-en-water',
@@ -112,7 +113,8 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
             '\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.',
         },
         {
-          key: 'onkruid',
+          key:
+            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/onkruid',
           value: 'Onkruid',
           slug: 'onkruid',
           category_slug: 'openbaar-groen-en-water',
@@ -120,7 +122,8 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
             '\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.',
         },
         {
-          key: 'autom-verzinkbare-palen',
+          key:
+            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/autom-verzinkbare-palen',
           value: 'Autom. Verzinkbare palen',
           slug: 'autom-verzinkbare-palen',
           category_slug: 'wegen-verkeer-straatmeubilair',

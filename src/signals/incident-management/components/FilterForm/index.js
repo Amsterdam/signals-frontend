@@ -180,6 +180,7 @@ const FilterForm = ({
               <CheckboxList
                 defaultValue={filterData.status}
                 groupName="status"
+                groupId="status"
                 options={status}
               />
             </FilterGroup>
@@ -191,6 +192,7 @@ const FilterForm = ({
               <CheckboxList
                 defaultValue={filterData.stadsdeel}
                 groupName="stadsdeel"
+                groupId="stadsdeel"
                 options={stadsdeel}
               />
             </FilterGroup>
@@ -285,21 +287,26 @@ const FilterForm = ({
           {Object.keys(categories.mainToSub)
             .filter((key) => !!key) // remove elements without 'key' prop
             .sort()
-            .map((mainCategory) => (
-              <CheckboxList
-                clusterName="category_slug"
-                defaultValue={filterSlugs}
-                groupName={mainCategory}
-                hasToggle
-                key={mainCategory}
-                options={categories.mainToSub[mainCategory]}
-                title={
-                  categories.main.find(({ slug }) => slug === mainCategory)
-                    .value
-                }
-                toggleFieldName="maincategory_slug"
-              />
-            ))}
+            .map((mainCategory) => {
+              const mainCatObj = categories.main.find(
+                ({ slug }) => slug === mainCategory,
+              );
+              const options = categories.mainToSub[mainCategory];
+
+              return (
+                <CheckboxList
+                  clusterName="category_slug"
+                  defaultValue={filterSlugs}
+                  groupName={mainCategory}
+                  groupId={mainCatObj.key}
+                  hasToggle
+                  key={mainCategory}
+                  options={options}
+                  title={mainCatObj.value}
+                  toggleFieldName="maincategory_slug"
+                />
+              );
+            })}
         </Fieldset>
       </ControlsWrapper>
 

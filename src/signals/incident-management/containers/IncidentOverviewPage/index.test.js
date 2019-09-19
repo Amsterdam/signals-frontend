@@ -75,10 +75,10 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
   it('should render correctly with search query present', () => {
     render(
-      withAppContext(<IncidentOverviewPageContainerComponent {...props} searchQuery={666} />),
+      withAppContext(<IncidentOverviewPageContainerComponent {...props} searchQuery="666" />),
     );
 
-    expect(props.onRequestIncidents).toBeCalledWith({ filter: { searchQuery: 666 } });
+    expect(props.onRequestIncidents).toBeCalledWith({ filter: { searchQuery: '666' } });
   });
 
   it('should have props from structured selector', () => {
