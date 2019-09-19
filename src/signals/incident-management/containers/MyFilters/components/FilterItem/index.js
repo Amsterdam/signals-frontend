@@ -28,7 +28,21 @@ const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => {
     e.preventDefault();
 
     onApplyFilter(filter);
-    document.dispatchEvent(new Event('openFilter'));
+
+    // IE11 doesn't support dispatching an event without initialisation
+    // @see {@link https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events#Creating_custom_events}
+    let event;
+    if (typeof Event === 'function') {
+      event = new Event('openFilter');
+    } else {
+      event = document.createEvent('Event');
+      const bubbles = false;
+      const cancelable = false;
+      event.initEvent('openFilter', bubbles, cancelable);
+    }
+
+    document.dispatchEvent(event);
+
     onClose();
   };
 
@@ -51,13 +65,28 @@ const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => {
         <FilterTagList tags={filter.options} />
       </div>
       <div className="filter-item__actions">
-        <StyledLink href="/" variant="inline" onClick={handleApplyFilter} data-testid="handleApplyFilterButton">
+        <StyledLink
+          href="/"
+          variant="inline"
+          onClick={handleApplyFilter}
+          data-testid="handleApplyFilterButton"
+        >
           Toon resultaat
         </StyledLink>
-        <StyledLink href="/" variant="inline" onClick={handleEditFilter} data-testid="handleEditFilterButton">
+        <StyledLink
+          href="/"
+          variant="inline"
+          onClick={handleEditFilter}
+          data-testid="handleEditFilterButton"
+        >
           Wijzig
         </StyledLink>
-        <StyledLink href="/" variant="inline" onClick={handleRemoveFilter} data-testid="handleRemoveFilterButton">
+        <StyledLink
+          href="/"
+          variant="inline"
+          onClick={handleRemoveFilter}
+          data-testid="handleRemoveFilterButton"
+        >
           Verwijder
         </StyledLink>
       </div>
