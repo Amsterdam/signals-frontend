@@ -318,7 +318,7 @@ const FilterForm = ({
               onClick={onResetForm}
               type="reset"
             >
-              Reset filter
+              Nieuw filter
             </ResetButton>
 
             <CancelButton
