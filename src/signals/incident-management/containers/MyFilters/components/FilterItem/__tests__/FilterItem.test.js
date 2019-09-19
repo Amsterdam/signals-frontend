@@ -83,6 +83,32 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
     expect(event.preventDefault).toHaveBeenCalled();
   });
 
+  it('should dispatch event in IE11', () => {
+    const Event = global.Event;
+    global.Event = null;
+    const createEventSpy = jest.spyOn(document, 'createEvent');
+    const props = {
+      onApplyFilter: () => {},
+      onClose: () => {},
+      onRemoveFilter: () => {},
+      filter,
+    };
+
+    const { getByTestId } = render(
+      withAppContext(<FilterItem {...props} />),
+    );
+
+    const handleEditFilterButton = getByTestId('handleEditFilterButton');
+    const event = createEvent.click(handleEditFilterButton, { button: 1 });
+    event.preventDefault = jest.fn();
+
+    fireEvent(handleEditFilterButton, event);
+
+    expect(createEventSpy).toHaveBeenCalled();
+
+    global.Event = Event;
+  });
+
   it('should handle remove filter', () => {
     const props = {
       onApplyFilter: () => {},
