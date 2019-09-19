@@ -248,6 +248,7 @@
     "@datapunt/asc-core": "^0.14.0",
     "@datapunt/asc-ui": "^0.14.0",
     "@datapunt/leaflet-geojson-bbox-layer": "0.1.1",
+    "@datapunt/matomo-tracker-js": "0.0.14",
     "@sentry/browser": "^5.5.0",
     "amsterdam-amaps": "^2.0.0",
     "babel-polyfill": "^6.26.0",

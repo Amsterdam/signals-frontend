@@ -15,6 +15,7 @@ import 'moment/src/locale/nl';
 import { createBrowserHistory } from 'history';
 import 'leaflet/dist/leaflet';
 import * as Sentry from '@sentry/browser';
+import MatomoTracker from '@datapunt/matomo-tracker-js';
 
 // Import root app
 import App from 'containers/App';
@@ -63,6 +64,15 @@ const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
 loadModels(store);
+
+// Setup Matomo
+const hostname = window && window.location && window.location.hostname;
+const MatomoInstance = new MatomoTracker({
+  urlBase: 'https://analytics.data.amsterdam.nl/',
+  siteId: (hostname === 'meldingen.amsterdam.nl') ? 13 : 14
+});
+
+MatomoInstance.trackPageView();
 
 const render = (messages) => {
   ReactDOM.render(
