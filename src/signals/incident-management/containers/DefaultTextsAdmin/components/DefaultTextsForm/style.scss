@@ -8,36 +8,4 @@
   &__row {
     margin-top: 19px;
   }
-
-  &__order-button {
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    margin: 0;
-    border: 1px solid  $ams-zwart;
-    border-radius: 0;
-    background-repeat: no-repeat;
-    background-position: 11px;
-    background-size: 22px;
-
-    &--up {
-      background-image: url("../../../../../../shared/images/Chevron-Top.svg");
-
-      &:disabled {
-        background-image: url("../../../../../../shared/images/icon-chevron-up-disabled.svg");
-      }
-    }
-
-    &--down {
-      background-image: url("../../../../../../shared/images/Chevron-Down.svg");
-
-      &:disabled {
-        background-image: url("../../../../../../shared/images/icon-chevron-down-disabled.svg");
-      }
-    }
-
-    &:disabled {
-      border-color: #b4b4b4;
-    }
-  }
 }

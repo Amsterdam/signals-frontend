@@ -3,7 +3,6 @@ import { random } from 'lodash';
 export const pickRandomElement = (list) => list[random(list.length - 1)];
 
 export const pickRandomSublist = (list, resultLength) => {
-  console.log(resultLength);// eslint-disable-line no-console
   const maxLength = resultLength || list.length - 1;
   const length = random(maxLength - 1);
   const resultList = [];

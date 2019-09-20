@@ -1,0 +1,617 @@
+{
+  "main": [
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+      "value": "Afval",
+      "slug": "afval"
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
+      "value": "Openbaar groen en water",
+      "slug": "openbaar-groen-en-water"
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair",
+      "value": "Wegen, verkeer, straatmeubilair",
+      "slug": "wegen-verkeer-straatmeubilair"
+    }
+  ],
+  "sub": [
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu",
+      "value": "Asbest / accu",
+      "slug": "asbest-accu",
+      "category_slug": "afval",
+      "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot",
+      "value": "Container is kapot",
+      "slug": "container-is-kapot",
+      "category_slug": "afval",
+      "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-vol",
+      "value": "Container is vol",
+      "slug": "container-is-vol",
+      "category_slug": "afval",
+      "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-stuk",
+      "value": "Container papier kapot",
+      "slug": "container-voor-papier-is-stuk",
+      "category_slug": "afval",
+      "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-vol",
+      "value": "Container papier vol",
+      "slug": "container-voor-papier-is-vol",
+      "category_slug": "afval",
+      "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-plastic-afval-is-vol",
+      "value": "Container plastic afval vol",
+      "slug": "container-voor-plastic-afval-is-vol",
+      "category_slug": "afval",
+      "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-plastic-afval-is-kapot",
+      "value": "Container plastic kapot",
+      "slug": "container-voor-plastic-afval-is-kapot",
+      "category_slug": "afval",
+      "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/grofvuil",
+      "value": "Grofvuil",
+      "slug": "grofvuil",
+      "category_slug": "afval",
+      "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.  In Nieuw-West komen we de volgende ophaaldag.\nWe houden u op de hoogte via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/handhaving-op-afval",
+      "value": "Handhaving op afval",
+      "slug": "handhaving-op-afval",
+      "category_slug": "afval",
+      "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval",
+      "value": "Huisafval",
+      "slug": "huisafval",
+      "category_slug": "afval",
+      "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/overig-afval",
+      "value": "Overig afval",
+      "slug": "overig-afval",
+      "category_slug": "afval",
+      "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/prullenbak-is-kapot",
+      "value": "Prullenbak is kapot",
+      "slug": "prullenbak-is-kapot",
+      "category_slug": "afval",
+      "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/prullenbak-is-vol",
+      "value": "Prullenbak is vol",
+      "slug": "prullenbak-is-vol",
+      "category_slug": "afval",
+      "handling_message": "\nWij handelen uw melding binnen drie werkdagen af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/puin-sloopafval",
+      "value": "Puin- / sloopafval",
+      "slug": "puin-sloopafval",
+      "category_slug": "afval",
+      "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/veeg-zwerfvuil",
+      "value": "Veeg- / zwerfvuil",
+      "slug": "veeg-zwerfvuil",
+      "category_slug": "afval",
+      "handling_message": "\nWij handelen uw melding binnen drie werkdagen af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom",
+      "value": "Boom",
+      "slug": "boom",
+      "category_slug": "openbaar-groen-en-water",
+      "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/drijfvuil",
+      "value": "Drijfvuil",
+      "slug": "drijfvuil",
+      "category_slug": "openbaar-groen-en-water",
+      "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/maaien-snoeien",
+      "value": "Maaien / snoeien",
+      "slug": "maaien-snoeien",
+      "category_slug": "openbaar-groen-en-water",
+      "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/oever-kade-steiger",
+      "value": "Oever / kade / steiger",
+      "slug": "oever-kade-steiger",
+      "category_slug": "openbaar-groen-en-water",
+      "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/onkruid",
+      "value": "Onkruid",
+      "slug": "onkruid",
+      "category_slug": "openbaar-groen-en-water",
+      "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/overig-groen-en-water",
+      "value": "Overig groen en water",
+      "slug": "overig-groen-en-water",
+      "category_slug": "openbaar-groen-en-water",
+      "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/autom-verzinkbare-palen",
+      "value": "Autom. Verzinkbare palen",
+      "slug": "autom-verzinkbare-palen",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/bewegwijzering",
+      "value": "Bewegwijzering",
+      "slug": "bewegwijzering",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/brug",
+      "value": "Brug",
+      "slug": "brug",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/camerasystemen",
+      "value": "Camerasystemen",
+      "slug": "camerasystemen",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/fietsrek-nietje",
+      "value": "Fietsrek / nietje",
+      "slug": "fietsrek-nietje",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/gladheid",
+      "value": "Gladheid",
+      "slug": "gladheid",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nGaat het om gladheid door een ongeluk (olie of frituurvet op de weg)? Dan pakken we uw melding zo snel mogelijk op. In ieder geval binnen 3 werkdagen.\n\nBij gladheid door sneeuw of bladeren pakken we hoofdwegen en fietsroutes als eerste aan. Andere meldingen behandelen we als de belangrijkste routes zijn gedaan.\n\nU ontvangt geen apart bericht meer over de afhandeling van uw melding."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/klok",
+      "value": "Klok",
+      "slug": "klok",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nGevaarlijke situaties zullen wij zo snel mogelijk verhelpen, andere situaties kunnen wat langer duren. Wij kunnen u hier helaas niet altijd van op de hoogte houden."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/omleiding-belijning-verkeer",
+      "value": "Omleiding / belijning verkeer",
+      "slug": "omleiding-belijning-verkeer",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/onderhoud-stoep-straat-en-fietspad",
+      "value": "Onderhoud stoep, straat en fietspad",
+      "slug": "onderhoud-stoep-straat-en-fietspad",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nWij handelen uw melding binnen drie werkdagen af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/overig-wegen-verkeer-straatmeubilair",
+      "value": "Overig Wegen, verkeer, straatmeubilair",
+      "slug": "overig-wegen-verkeer-straatmeubilair",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/parkeer-verwijssysteem",
+      "value": "Parkeer verwijssysteem",
+      "slug": "parkeer-verwijssysteem",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/put-riolering-verstopt",
+      "value": "Put / riolering verstopt",
+      "slug": "put-riolering-verstopt",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/speelplaats",
+      "value": "Speelplaats",
+      "slug": "speelplaats",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/sportvoorziening",
+      "value": "Sportvoorziening",
+      "slug": "sportvoorziening",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/stadsplattegronden",
+      "value": "Stadsplattegronden",
+      "slug": "stadsplattegronden",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatmeubilair",
+      "value": "Straatmeubilair",
+      "slug": "straatmeubilair",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/lantaarnpaal-straatverlichting",
+      "value": "Straatverlichting",
+      "slug": "lantaarnpaal-straatverlichting",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "Het herstellen van problemen met de openbare verlichting lukt doorgaans binnen 5 werkdagen. Bij gevaarlijke situaties wordt de melding meteen opgepakt."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/verkeersbord-verkeersafzetting",
+      "value": "Verkeersbord / verkeersafzetting",
+      "slug": "verkeersbord-verkeersafzetting",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nWij handelen uw melding binnen drie werkdagen af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/verkeerslicht",
+      "value": "Verkeerslicht",
+      "slug": "verkeerslicht",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nGevaarlijke situaties zullen wij zo snel mogelijk verhelpen, andere situaties handelen wij meestal binnen 5 werkdagen af. U ontvangt dan geen apart bericht meer.\nAls we uw melding niet binnen 5 werkdagen kunnen afhandelen, hoort u - via e-mail – hoe wij uw melding oppakken."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/verkeersoverlast",
+      "value": "Verkeersoverlast",
+      "slug": "verkeersoverlast",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+    },
+    {
+      "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/verkeerssituaties",
+      "value": "Verkeerssituaties",
+      "slug": "verkeerssituaties",
+      "category_slug": "wegen-verkeer-straatmeubilair",
+      "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+    }
+  ],
+  "mainToSub": {
+    "afval": [
+      {
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu",
+        "value": "Asbest / accu",
+        "slug": "asbest-accu",
+        "category_slug": "afval",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+      },
+      {
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot",
+        "value": "Container is kapot",
+        "slug": "container-is-kapot",
+        "category_slug": "afval",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+      },
+      {
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-vol",
+        "value": "Container is vol",
+        "slug": "container-is-vol",
+        "category_slug": "afval",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+      },
+      {
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-stuk",
+        "value": "Container papier kapot",
+        "slug": "container-voor-papier-is-stuk",
+        "category_slug": "afval",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+      },
+      {
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-vol",
+        "value": "Container papier vol",
+        "slug": "container-voor-papier-is-vol",
+        "category_slug": "afval",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+      },
+      {
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-plastic-afval-is-vol",
+        "value": "Container plastic afval vol",
+        "slug": "container-voor-plastic-afval-is-vol",
+        "category_slug": "afval",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+      },
+      {
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-plastic-afval-is-kapot",
+        "value": "Container plastic kapot",
+        "slug": "container-voor-plastic-afval-is-kapot",
+        "category_slug": "afval",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+      },
+      {
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/grofvuil",
+        "value": "Grofvuil",
+        "slug": "grofvuil",
+        "category_slug": "afval",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.  In Nieuw-West komen we de volgende ophaaldag.\nWe houden u op de hoogte via e-mail."
+      },
+      {
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/handhaving-op-afval",
+        "value": "Handhaving op afval",
+        "slug": "handhaving-op-afval",
+        "category_slug": "afval",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+      },
+      {
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval",
+        "value": "Huisafval",
+        "slug": "huisafval",
+        "category_slug": "afval",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+      },
+      {
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/overig-afval",
+        "value": "Overig afval",
+        "slug": "overig-afval",
+        "category_slug": "afval",
+        "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op."
+      },
+      {
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/prullenbak-is-kapot",
+        "value": "Prullenbak is kapot",
+        "slug": "prullenbak-is-kapot",
+        "category_slug": "afval",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+      },
+      {
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/prullenbak-is-vol",
+        "value": "Prullenbak is vol",
+        "slug": "prullenbak-is-vol",
+        "category_slug": "afval",
+        "handling_message": "\nWij handelen uw melding binnen drie werkdagen af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+      },
+      {
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/puin-sloopafval",
+        "value": "Puin- / sloopafval",
+        "slug": "puin-sloopafval",
+        "category_slug": "afval",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail."
+      },
+      {
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/veeg-zwerfvuil",
+        "value": "Veeg- / zwerfvuil",
+        "slug": "veeg-zwerfvuil",
+        "category_slug": "afval",
+        "handling_message": "\nWij handelen uw melding binnen drie werkdagen af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+      }
+    ],
+    "openbaar-groen-en-water": [
+      {
+        "key": "boom",
+        "value": "Boom",
+        "slug": "boom",
+        "category_slug": "openbaar-groen-en-water",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+      },
+      {
+        "key": "drijfvuil",
+        "value": "Drijfvuil",
+        "slug": "drijfvuil",
+        "category_slug": "openbaar-groen-en-water",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+      },
+      {
+        "key": "maaien-snoeien",
+        "value": "Maaien / snoeien",
+        "slug": "maaien-snoeien",
+        "category_slug": "openbaar-groen-en-water",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+      },
+      {
+        "key": "oever-kade-steiger",
+        "value": "Oever / kade / steiger",
+        "slug": "oever-kade-steiger",
+        "category_slug": "openbaar-groen-en-water",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+      },
+      {
+        "key": "onkruid",
+        "value": "Onkruid",
+        "slug": "onkruid",
+        "category_slug": "openbaar-groen-en-water",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+      },
+      {
+        "key": "overig-groen-en-water",
+        "value": "Overig groen en water",
+        "slug": "overig-groen-en-water",
+        "category_slug": "openbaar-groen-en-water",
+        "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op."
+      }
+    ],
+    "wegen-verkeer-straatmeubilair": [
+      {
+        "key": "autom-verzinkbare-palen",
+        "value": "Autom. Verzinkbare palen",
+        "slug": "autom-verzinkbare-palen",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+      },
+      {
+        "key": "bewegwijzering",
+        "value": "Bewegwijzering",
+        "slug": "bewegwijzering",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+      },
+      {
+        "key": "brug",
+        "value": "Brug",
+        "slug": "brug",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+      },
+      {
+        "key": "camerasystemen",
+        "value": "Camerasystemen",
+        "slug": "camerasystemen",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+      },
+      {
+        "key": "fietsrek-nietje",
+        "value": "Fietsrek / nietje",
+        "slug": "fietsrek-nietje",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+      },
+      {
+        "key": "gladheid",
+        "value": "Gladheid",
+        "slug": "gladheid",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nGaat het om gladheid door een ongeluk (olie of frituurvet op de weg)? Dan pakken we uw melding zo snel mogelijk op. In ieder geval binnen 3 werkdagen.\n\nBij gladheid door sneeuw of bladeren pakken we hoofdwegen en fietsroutes als eerste aan. Andere meldingen behandelen we als de belangrijkste routes zijn gedaan.\n\nU ontvangt geen apart bericht meer over de afhandeling van uw melding."
+      },
+      {
+        "key": "klok",
+        "value": "Klok",
+        "slug": "klok",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nGevaarlijke situaties zullen wij zo snel mogelijk verhelpen, andere situaties kunnen wat langer duren. Wij kunnen u hier helaas niet altijd van op de hoogte houden."
+      },
+      {
+        "key": "omleiding-belijning-verkeer",
+        "value": "Omleiding / belijning verkeer",
+        "slug": "omleiding-belijning-verkeer",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+      },
+      {
+        "key": "onderhoud-stoep-straat-en-fietspad",
+        "value": "Onderhoud stoep, straat en fietspad",
+        "slug": "onderhoud-stoep-straat-en-fietspad",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nWij handelen uw melding binnen drie werkdagen af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+      },
+      {
+        "key": "overig-wegen-verkeer-straatmeubilair",
+        "value": "Overig Wegen, verkeer, straatmeubilair",
+        "slug": "overig-wegen-verkeer-straatmeubilair",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op."
+      },
+      {
+        "key": "parkeer-verwijssysteem",
+        "value": "Parkeer verwijssysteem",
+        "slug": "parkeer-verwijssysteem",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+      },
+      {
+        "key": "put-riolering-verstopt",
+        "value": "Put / riolering verstopt",
+        "slug": "put-riolering-verstopt",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+      },
+      {
+        "key": "speelplaats",
+        "value": "Speelplaats",
+        "slug": "speelplaats",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+      },
+      {
+        "key": "sportvoorziening",
+        "value": "Sportvoorziening",
+        "slug": "sportvoorziening",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+      },
+      {
+        "key": "stadsplattegronden",
+        "value": "Stadsplattegronden",
+        "slug": "stadsplattegronden",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+      },
+      {
+        "key": "straatmeubilair",
+        "value": "Straatmeubilair",
+        "slug": "straatmeubilair",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+      },
+      {
+        "key": "lantaarnpaal-straatverlichting",
+        "value": "Straatverlichting",
+        "slug": "lantaarnpaal-straatverlichting",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "Het herstellen van problemen met de openbare verlichting lukt doorgaans binnen 5 werkdagen. Bij gevaarlijke situaties wordt de melding meteen opgepakt."
+      },
+      {
+        "key": "verkeersbord-verkeersafzetting",
+        "value": "Verkeersbord / verkeersafzetting",
+        "slug": "verkeersbord-verkeersafzetting",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nWij handelen uw melding binnen drie werkdagen af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken."
+      },
+      {
+        "key": "verkeerslicht",
+        "value": "Verkeerslicht",
+        "slug": "verkeerslicht",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nGevaarlijke situaties zullen wij zo snel mogelijk verhelpen, andere situaties handelen wij meestal binnen 5 werkdagen af. U ontvangt dan geen apart bericht meer.\nAls we uw melding niet binnen 5 werkdagen kunnen afhandelen, hoort u - via e-mail – hoe wij uw melding oppakken."
+      },
+      {
+        "key": "verkeersoverlast",
+        "value": "Verkeersoverlast",
+        "slug": "verkeersoverlast",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+      },
+      {
+        "key": "verkeerssituaties",
+        "value": "Verkeerssituaties",
+        "slug": "verkeerssituaties",
+        "category_slug": "wegen-verkeer-straatmeubilair",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail."
+      }
+    ]
+  }
+}

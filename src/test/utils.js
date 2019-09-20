@@ -4,6 +4,7 @@ import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@datapunt/asc-ui';
 import MatchMediaMock from 'match-media-mock';
+import { IntlProvider } from 'react-intl';
 
 import configureStore from '../configureStore';
 
@@ -47,9 +48,7 @@ const store = configureStore({}, history);
 export const withAppContext = (Component) => (
   <ThemeProvider>
     <Provider store={store}>
-      <ConnectedRouter history={history}>
-        {Component}
-      </ConnectedRouter>
+      <ConnectedRouter history={history}>{Component}</ConnectedRouter>
     </Provider>
   </ThemeProvider>
 );
@@ -65,9 +64,19 @@ export const withCustomAppContext = (Component) => ({ themeCfg = {}, storeCfg = 
   </ThemeProvider>
 );
 
+// eslint-disable-next-line
+export const withIntlAppContext = (Component, messages, locale='nl') => (
+  <ThemeProvider>
+    <Provider store={store}>
+      <IntlProvider locale={locale} messages={messages}>
+        <ConnectedRouter history={history}>{Component}</ConnectedRouter>
+      </IntlProvider>
+    </Provider>
+  </ThemeProvider>
+);
+
 export const run = (callback) => {
   if (callback) {
     callback();
   }
 };
-

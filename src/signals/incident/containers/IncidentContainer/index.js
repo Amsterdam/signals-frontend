@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
+import { Row, Column } from '@datapunt/asc-ui';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -33,12 +34,8 @@ export class IncidentContainer extends React.Component {
 
   render() {
     return (
-      <div className="incident-container">
-        <div className="">
-          <div className="incident-container__alert">
-            <b>*** BELANGRIJK ***</b><br />
-              Melding over horeca of evenementen? Vul dan bij de melding altijd uw contactgegevens in, dan kunnen wij u beter en sneller helpen.
-          </div>
+      <Row>
+        <Column span={12}>
           <IncidentWizard
             wizardDefinition={wizardDefinition}
             getClassification={this.getClassification}
@@ -47,8 +44,8 @@ export class IncidentContainer extends React.Component {
             incidentContainer={this.props.incidentContainer}
             isAuthenticated={this.props.isAuthenticated}
           />
-        </div>
-      </div>
+        </Column>
+      </Row>
     );
   }
 }
@@ -58,21 +55,28 @@ IncidentContainer.propTypes = {
   getClassification: PropTypes.func.isRequired,
   updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
 };
 
 const mapStateToProps = createStructuredSelector({
   incidentContainer: makeSelectIncidentContainer(),
-  isAuthenticated: makeSelectIsAuthenticated()
+  isAuthenticated: makeSelectIsAuthenticated(),
 });
 
-export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  getClassification,
-  updateIncident,
-  createIncident
-}, dispatch);
+export const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      getClassification,
+      updateIncident,
+      createIncident,
+    },
+    dispatch,
+  );
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 const withReducer = injectReducer({ key: 'incidentContainer', reducer });
 const withSaga = injectSaga({ key: 'incidentContainer', saga });
