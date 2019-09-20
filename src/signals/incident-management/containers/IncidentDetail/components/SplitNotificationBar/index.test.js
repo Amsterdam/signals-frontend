@@ -1,6 +1,6 @@
 import React from 'react';
 // import { shallow } from 'enzyme';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import SplitNotificationBar from './index';
@@ -27,6 +27,8 @@ describe('<SplitNotificationBar />', () => {
         onDismissSplitNotification: jest.fn()
       };
     });
+
+    afterEach(cleanup);
 
     it('should render 2  items correctly', () => {
       const { queryByTestId } = render(

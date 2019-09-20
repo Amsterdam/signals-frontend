@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 
 import Detail from './index';
 
@@ -27,6 +27,8 @@ describe('<Detail />', () => {
       onShowAttachment: jest.fn()
     };
   });
+
+  afterEach(cleanup);
 
   it('should render correctly', () => {
     const { queryByTestId, queryAllByTestId } = render(

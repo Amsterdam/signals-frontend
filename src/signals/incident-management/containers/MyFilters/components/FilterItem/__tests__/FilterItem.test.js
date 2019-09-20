@@ -1,5 +1,5 @@
 import React from 'react';
-import { createEvent, fireEvent, render } from '@testing-library/react';
+import { createEvent, fireEvent, render, cleanup } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import FilterItem from '../';
 
@@ -17,6 +17,8 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
       category_slug: ['oever-kade-steiger'],
     },
   };
+
+  afterEach(cleanup);
 
   it('should render correctly', () => {
     const props = {
