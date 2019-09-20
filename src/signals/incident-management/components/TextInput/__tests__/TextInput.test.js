@@ -1,12 +1,10 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import TextInput from '../';
 
 describe('<TextInput />', () => {
-  afterEach(cleanup);
-
   it('should render correctly', () => {
     const props = {
       name: 'my_input',

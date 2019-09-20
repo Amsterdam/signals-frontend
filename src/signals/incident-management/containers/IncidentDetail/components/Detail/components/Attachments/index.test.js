@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 import Attachments from './index';
 
@@ -22,8 +22,6 @@ describe('<Attachments />', () => {
       onShowAttachment: jest.fn()
     };
   });
-
-  afterEach(cleanup);
 
   describe('rendering', () => {
     it('should render all attachments when they are defined', () => {

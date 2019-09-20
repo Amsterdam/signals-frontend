@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import History from './index';
 
@@ -37,8 +37,6 @@ describe('<History />', () => {
       ]
     };
   });
-
-  afterEach(cleanup);
 
   describe('rendering', () => {
     it('should render all items when list is defined', () => {

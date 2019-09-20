@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 import DefaultTexts from './index';
 
@@ -29,8 +29,6 @@ describe('<DefaultTexts />', () => {
       onHandleUseDefaultText: jest.fn()
     };
   });
-
-  afterEach(cleanup);
 
   describe('rendering', () => {
     it('should render correctly', () => {

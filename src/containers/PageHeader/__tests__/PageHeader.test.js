@@ -1,13 +1,11 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { mount } from 'enzyme';
 import { withAppContext } from 'test/utils';
 import PageHeaderComponent from 'components/PageHeader';
 import PageHeaderContainer, { PageHeaderContainerComponent } from '../';
 
 describe('containers/PageHeader', () => {
-  afterEach(cleanup);
-
   const filter = { name: '' };
 
   it('should have props from structured selector', () => {

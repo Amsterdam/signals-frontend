@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { withAppContext, withIntlAppContext } from 'test/utils';
 import categories from 'utils/__tests__/fixtures/categories.json';
 
@@ -22,8 +22,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     incident_date: '2019-09-17',
     category_slug: ['oever-kade-steiger'],
   };
-
-  afterEach(cleanup);
 
   it('should have props from structured selector', () => {
     const tree = mount(withAppContext(<FilterTagList />));

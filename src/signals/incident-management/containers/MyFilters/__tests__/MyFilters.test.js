@@ -1,13 +1,11 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
 import MyFilters, { MyFiltersComponent } from '../';
 
 describe('signals/incident-management/containers/MyFilters', () => {
-  afterEach(cleanup);
-
   it('should have props from structured selector', () => {
     const tree = mount(withAppContext(<MyFilters onClose={() => {}} />));
 

@@ -5,6 +5,7 @@ import { withAppContext } from 'test/utils';
 import { IncidentContainer, mapDispatchToProps } from './index';
 import { GET_CLASSIFICATION, UPDATE_INCIDENT, CREATE_INCIDENT } from './constants';
 
+// jest.mock('../../components/IncidenptWizard', () => () => 'IncidentWizard');
 jest.mock('signals/incident/components/form/MapInput', () => () => 'MapInput');
 
 describe('<IncidentContainer />', () => {

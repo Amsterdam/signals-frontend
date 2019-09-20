@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import { FormControl } from 'react-reactive-form';
 import FieldControlWrapper from '../index';
@@ -21,8 +21,6 @@ describe('FieldControlWrapper', () => {
 
     wrapper = shallow(<FieldControlWrapper {...props} />);
   });
-
-  afterEach(cleanup);
 
   it('should render a text input', () => {
     const { container } = render(<FieldControlWrapper {...props} render={TextInput} />);

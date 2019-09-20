@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import ExtraProperties from './index';
 
@@ -52,7 +52,9 @@ describe('<ExtraProperties />', () => {
     };
   });
 
-  afterEach(cleanup);
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
 
   it('should render correctly', () => {
     const { queryAllByTestId } = render(

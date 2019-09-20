@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import DetailHeader from './index';
@@ -25,8 +25,6 @@ describe('<DetailHeader />', () => {
       onPatchIncident: jest.fn()
     };
   });
-
-  afterEach(cleanup);
 
   describe('rendering', () => {
     it('should render all buttons when state is gemeld and no parent or children are present', () => {

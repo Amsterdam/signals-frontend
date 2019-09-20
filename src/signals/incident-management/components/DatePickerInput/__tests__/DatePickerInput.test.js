@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { shallow } from 'enzyme';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
@@ -19,7 +19,6 @@ describe('<DatePickerInput />', () => {
 
   afterEach(() => {
     jest.resetAllMocks();
-    cleanup();
   });
 
   describe('rendering', () => {
