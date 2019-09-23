@@ -5,6 +5,7 @@ import isEqual from 'lodash.isequal';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 
 import CheckboxList from '../CheckboxList';
 import RadioButtonList from '../RadioButtonList';
@@ -100,6 +101,7 @@ const FilterForm = ({
       name: '',
       incident_date: null,
       address_text: '',
+      refresh: false,
     });
 
     /* istanbul ignore else */
@@ -149,13 +151,23 @@ const FilterForm = ({
     }
   };
 
+  const onRefreshChange = (event) => {
+    event.persist();
+    const { currentTarget: { checked } } = event;
+
+    setFilterData({
+      ...filterData,
+      refresh: checked,
+    });
+  };
+
   return (
     <Form action="" novalidate onChange={onChangeForm}>
       <ControlsWrapper>
         {filterData.id && (
           <input type="hidden" name="id" value={filterData.id} />
         )}
-        <Fieldset>
+        <Fieldset isSection>
           <legend className="hiddenvisually">Naam van het filter</legend>
 
           <Label htmlFor="filter_name">Filternaam</Label>
@@ -168,6 +180,20 @@ const FilterForm = ({
               placeholder="Geef deze filterinstelling een naam om deze op te slaan"
               type="text"
             />
+          </div>
+
+          <Label htmlFor="filter_refresh">Automatisch verversen</Label>
+          <div className="antwoord">
+            <input
+              id="filter_refresh"
+              name="refresh"
+              onClick={onRefreshChange}
+              defaultChecked={filterData.refresh}
+              type="checkbox"
+            />
+            <label htmlFor="filter_refresh">
+              <RefreshIcon width={16} height={18} /> Automatisch verversen
+            </label>
           </div>
         </Fieldset>
 
@@ -404,6 +430,7 @@ FilterForm.propTypes = {
         PropTypes.arrayOf(PropTypes.string),
       ]),
     }),
+    refresh: PropTypes.bool,
   }),
   /** Callback handler for when filter settings should not be applied */
   onCancel: PropTypes.func,
