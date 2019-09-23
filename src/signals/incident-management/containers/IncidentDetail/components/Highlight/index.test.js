@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import { run } from 'test/utils';
 
 import Highlight, { HIGHLIGHT_TIMEOUT_INTERVAL } from './index';
@@ -12,6 +12,7 @@ describe('<Highlight />', () => {
 
   afterEach(() => {
     jest.runAllTimers();
+    cleanup();
   });
 
   describe('rendering', () => {

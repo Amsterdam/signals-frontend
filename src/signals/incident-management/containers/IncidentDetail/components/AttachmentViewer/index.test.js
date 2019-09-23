@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 
 import AttachmentViewer from './index';
 
@@ -42,6 +42,8 @@ describe('<AttachmentViewer />', () => {
     ],
     onShowAttachment: jest.fn()
   };
+
+  afterEach(cleanup);
 
   describe('rendering', () => {
     it('on page 1 it should render the correct image and only next button', () => {

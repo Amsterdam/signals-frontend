@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
@@ -51,6 +51,8 @@ describe('<Location />', () => {
       onEditLocation: jest.fn()
     };
   });
+
+  afterEach(cleanup);
 
   describe('rendering', () => {
     it('should render correctly', () => {

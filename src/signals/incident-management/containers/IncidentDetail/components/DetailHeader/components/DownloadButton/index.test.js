@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 
 import DownloadButton from './index';
 
@@ -17,6 +17,8 @@ describe('<DownloadButton />', () => {
     global.window.URL.createObjectURL = jest.fn();
     global.window.URL.revokeObjectURL = jest.fn();
   });
+
+  afterEach(cleanup);
 
   describe('rendering', () => {
     it('should render correctly', () => {

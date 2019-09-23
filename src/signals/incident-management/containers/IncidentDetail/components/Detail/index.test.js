@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 
 import Detail from './index';
 
@@ -8,25 +8,23 @@ jest.mock('./components/ExtraProperties', () => () => <div data-testid="detail-e
 jest.mock('../../components/Highlight', () => () => <div data-testid="detail-highlight" />);
 
 describe('<Detail />', () => {
-  let props;
-
-  beforeEach(() => {
-    props = {
-      incident: {
-        text: 'het is een rotzooi weer',
-        reporter: {
-          email: 'steve@apple.com',
-          phone: '098754321'
-        },
-        extra_properties: [{ extra_straatverlichting: {} }]
+  const props = {
+    incident: {
+      text: 'het is een rotzooi weer',
+      reporter: {
+        email: 'steve@apple.com',
+        phone: '098754321'
       },
-      attachments: [],
-      stadsdeelList: [],
-      onShowLocation: jest.fn(),
-      onEditLocation: jest.fn(),
-      onShowAttachment: jest.fn()
-    };
-  });
+      extra_properties: [{ extra_straatverlichting: {} }]
+    },
+    attachments: [],
+    stadsdeelList: [],
+    onShowLocation: jest.fn(),
+    onEditLocation: jest.fn(),
+    onShowAttachment: jest.fn()
+  };
+
+  afterEach(cleanup);
 
   it('should render correctly', () => {
     const { queryByTestId, queryAllByTestId } = render(
