@@ -43,14 +43,20 @@ const MetaList = ({
 
         <Highlight subscribeTo={incident.status.state}>
           <dl>
-            <dt className="meta-list__definition">
+            <dt
+              className="meta-list__definition"
+              data-testid="meta-list-status-definition"
+            >
               <button
                 className="meta-list__edit incident-detail__button--edit"
                 onClick={onEditStatus}
               />
               Status
             </dt>
-            <dd className="meta-list__value meta-list__value--status">
+            <dd
+              className="meta-list__value meta-list__value--status"
+              data-testid="meta-list-status-value"
+            >
               {incident.status.state_display}
             </dd>
           </dl>
@@ -100,8 +106,14 @@ const MetaList = ({
 
         <Highlight subscribeTo={incident.category.main_slug}>
           <dl>
-            <dt className="meta-list__definition">Hoofdcategorie</dt>
-            <dd className="meta-list__value">{incident.category.main}</dd>
+            <dt
+              className="meta-list__definition"
+              data-testid="meta-list-main-category-definition"
+            >Hoofdcategorie</dt>
+            <dd
+              className="meta-list__value"
+              data-testid="meta-list-main-category-value"
+            >{incident.category.main}</dd>
           </dl>
         </Highlight>
 
@@ -113,10 +125,10 @@ const MetaList = ({
             >Oorspronkelijke melding</dt>
             <dd
               className="meta-list__value"
-              data-testid="meta-list-parent-value"
             >
               <NavLink
                 className="meta-list__link"
+                data-testid="meta-list-parent-link"
                 to={`/manage/incident/${getId(parent)}`}
               >
                 {getId(parent)}
@@ -135,11 +147,11 @@ const MetaList = ({
             >Gesplitst in</dt>
             <dd
               className="meta-list__value"
-              data-testid="meta-list-children-value"
             >
               {children.map((child) => (
                 <NavLink
                   className="meta-list__link"
+                  data-testid={`meta-list-children-link-${getId(child)}`}
                   key={child.href}
                   to={`/manage/incident/${getId(child)}`}
                 >
@@ -156,13 +168,13 @@ const MetaList = ({
           <dl>
             <dt
               className="meta-list__definition"
-              data-testid="meta-list-source-definition"
+              data-testid="meta-list-department-definition"
             >
               Verantwoordelijke afdeling
             </dt>
             <dd
               className="meta-list__value"
-              data-testid="meta-list-source-value"
+              data-testid="meta-list-department-value"
             >
               {incident.category.departments}
             </dd>
