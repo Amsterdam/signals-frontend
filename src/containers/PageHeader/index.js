@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
+import styled from 'styled-components';
 
 import PageHeader from 'components/PageHeader';
-import { makeSelectIncidentsCount, makeSelectFilter } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
+import {
+  makeSelectIncidentsCount,
+  makeSelectFilter,
+} from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 import { makeSelectQuery } from 'models/search/selectors';
 import { emptyReverted } from '../../signals/incident-management/containers/IncidentOverviewPage/actions';
+import Refresh from '../../shared/images/icon-refresh.svg';
+
+const RefreshIcon = styled(Refresh).attrs({
+  height: 18,
+})`
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 15px;
+`;
 
 export const PageHeaderContainerComponent = ({
   incidentsCount,
@@ -18,9 +31,20 @@ export const PageHeaderContainerComponent = ({
   let title = filter.name || 'Meldingen';
   const hasCount = !!incidentsCount && isNaN(Number(incidentsCount)) === false;
   title += hasCount ? ` (${incidentsCount})` : '';
+  title = filter.refresh ? (
+    <Fragment>
+      <RefreshIcon /> {title}
+    </Fragment>
+  ) : (
+    title
+  );
   const subTitle = query && `Zoekresultaten voor "${query}"`;
 
-  return <PageHeader title={title} subTitle={subTitle}>{children}</PageHeader>;
+  return (
+    <PageHeader title={title} subTitle={subTitle}>
+      {children}
+    </PageHeader>
+  );
 };
 
 PageHeaderContainerComponent.defaultProps = {
@@ -58,6 +82,7 @@ PageHeaderContainerComponent.propTypes = {
         PropTypes.arrayOf(PropTypes.string),
       ]),
     }),
+    refresh: PropTypes.bool,
   }),
   children: PropTypes.node,
   incidentsCount: PropTypes.number,
@@ -78,6 +103,9 @@ export const mapDispatchToProps = (dispatch) =>
     dispatch,
   );
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 export default compose(withConnect)(PageHeaderContainerComponent);

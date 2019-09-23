@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Heading, Link } from '@datapunt/asc-ui';
 
+import Refresh from '../../../../../../shared/images/icon-refresh.svg';
 import FilterTagList from '../../../FilterTagList';
 
 import './style.scss';
@@ -10,10 +11,21 @@ import './style.scss';
 const StyledHeading = styled(Heading)`
   margin-bottom: 10px;
   color: #fe0000;
+  display: block;
 `;
 
 const StyledLink = styled(Link)`
   margin-right: 20px;
+`;
+
+const RefreshIcon = styled(Refresh).attrs({
+  color: '#ff0000',
+  height: 18,
+})`
+  margin-right: 10px;
+  vertical-align: middle;
+  margin-top: -2px;
+  cursor: default;
 `;
 
 const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => {
@@ -60,7 +72,11 @@ const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => {
 
   return (
     <div className="filter-item">
-      <StyledHeading $as="h4">{filter.name}</StyledHeading>
+      <StyledHeading $as="h4">
+        {filter.refresh && (<RefreshIcon />)}
+        {filter.name}
+      </StyledHeading>
+
       <div className="filter-item__tag-list">
         <FilterTagList tags={filter.options} />
       </div>
@@ -122,6 +138,7 @@ FilterItem.propTypes = {
         PropTypes.arrayOf(PropTypes.string),
       ]),
     }).isRequired,
+    refresh: PropTypes.bool,
   }).isRequired,
   onApplyFilter: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
