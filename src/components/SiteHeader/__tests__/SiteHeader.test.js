@@ -163,7 +163,7 @@ describe('components/SiteHeader', () => {
     expect(queryByText('Uitloggen')).toBeTruthy();
   });
 
-  it.only('should handle login/logout callback', () => {
+  it('should handle login/logout callback', () => {
     const onLoginLogoutButtonClick = jest.fn();
 
     const { rerender, getByText } = render(
