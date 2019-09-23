@@ -14,42 +14,29 @@ import DashboardContainer from '../../containers/DashboardContainer';
 import DefaultTextsAdmin from '../../containers/DefaultTextsAdmin';
 import IncidentSplitContainer from '../../containers/IncidentSplitContainer';
 
-export const incidentDetailWrapper = (baseUrl) => (props) => (
-  // eslint-disable-next-line react/prop-types
+export const incidentDetailWrapper = baseUrl => props => (
+  // eslint-disable-next-line react/prop-types,react/destructuring-assignment
   <IncidentDetail id={props.match.params.id} baseUrl={baseUrl} />
 );
-export const incidentOverviewPageWrapper = (baseUrl) => () => (
+
+export const incidentOverviewPageWrapper = baseUrl => () => (
   // eslint-disable-next-line react/prop-types
   <IncidentOverviewPage baseUrl={baseUrl} />
 );
-export const incidentSplitContainerWrapper = (baseUrl) => (props) => (
-  // eslint-disable-next-line react/prop-types
+
+export const incidentSplitContainerWrapper = baseUrl => props => (
+  // eslint-disable-next-line react/prop-types,react/destructuring-assignment
   <IncidentSplitContainer id={props.match.params.id} baseUrl={baseUrl} />
 );
 
-export const IncidentManagementModuleComponent = ({
-  isAuthenticated,
-  match: { url },
-}) =>
+export const IncidentManagementModuleComponent = ({ isAuthenticated, match: { url } }) =>
   !isAuthenticated ? (
     <Route component={LoginPage} />
   ) : (
     <Fragment>
-      <Route
-        exact
-        path={`${url}/incidents`}
-        render={incidentOverviewPageWrapper(url)}
-      />
-      <Route
-        exact
-        path={`${url}/incident/:id`}
-        render={incidentDetailWrapper(url)}
-      />
-      <Route
-        exact
-        path={`${url}/incident/:id/split`}
-        render={incidentSplitContainerWrapper(url)}
-      />
+      <Route exact path={`${url}/incidents`} render={incidentOverviewPageWrapper(url)} />
+      <Route exact path={`${url}/incident/:id`} render={incidentDetailWrapper(url)} />
+      <Route exact path={`${url}/incident/:id/split`} render={incidentSplitContainerWrapper(url)} />
       <Route path={`${url}/standaard/teksten`} component={DefaultTextsAdmin} />
       <Route path={`${url}/dashboard`} component={DashboardContainer} />
     </Fragment>

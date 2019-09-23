@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { ThemeProvider } from '@datapunt/asc-ui';
+import { createStructuredSelector } from 'reselect';
+import styled from 'styled-components';
+import { ThemeProvider as AscThemeProvider } from '@datapunt/asc-ui';
 
+import AmsThemeProvider from 'components/ThemeProvider';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
@@ -12,6 +15,7 @@ import NotFoundPage from 'containers/NotFoundPage';
 import Footer from 'components/Footer';
 import SiteHeaderContainer from 'containers/SiteHeader';
 import GlobalError from 'containers/GlobalError';
+import { makeSelectIsAuthenticated } from 'containers/App/selectors';
 
 import reducer from './reducer';
 import saga from './saga';
@@ -20,17 +24,27 @@ import IncidentContainer from '../../signals/incident/containers/IncidentContain
 import KtoContainer from '../../signals/incident/containers/KtoContainer';
 import { requestCategories } from './actions';
 
-export class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
+const ThemeWrapper = styled.div``;
+
+export class App extends React.Component {
+  // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
+    // eslint-disable-next-line react/destructuring-assignment
     this.props.requestCategories();
   }
 
   render() {
     return (
-      <ThemeProvider>
+      // eslint-disable-next-line react/destructuring-assignment
+      <ThemeWrapper as={this.props.isAuthenticated ? AscThemeProvider : AmsThemeProvider}>
         <Fragment>
-          <SiteHeaderContainer />
-          <div className="app-container container-fluid">
+          {/**
+           * Forcing rerender of SiteHeader component to reevaluate its props, because it will
+           * otherwise not pick up a navigation action and will not present the component as tall
+           */}
+          <SiteHeaderContainer key={Math.random()} />
+
+          <div className="app-container">
             <GlobalError />
             <Switch>
               <Redirect exact from="/" to="/incident" />
@@ -39,28 +53,28 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
               <Route path="/incident" component={IncidentContainer} />
               <Route
                 path="/kto/:yesNo/:uuid"
-                component={(props) => (
-                  <KtoContainer
-                    yesNo={props.match.params.yesNo}
-                    uuid={props.match.params.uuid}
-                  />
-                )}
+                component={props => <KtoContainer yesNo={props.match.params.yesNo} uuid={props.match.params.uuid} />}
               />
               <Route path="" component={NotFoundPage} />
             </Switch>
-            <Footer />
           </div>
+          <Footer />
         </Fragment>
-      </ThemeProvider>
+      </ThemeWrapper>
     );
   }
 }
 
 App.propTypes = {
   requestCategories: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
 
-export const mapDispatchToProps = (dispatch) =>
+const mapStateToProps = createStructuredSelector({
+  isAuthenticated: makeSelectIsAuthenticated(),
+});
+
+export const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       requestCategories,
@@ -69,7 +83,7 @@ export const mapDispatchToProps = (dispatch) =>
   );
 
 const withConnect = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 );
 

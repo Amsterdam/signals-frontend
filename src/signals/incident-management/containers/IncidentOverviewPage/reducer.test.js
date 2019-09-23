@@ -1,5 +1,4 @@
 import overviewPageReducer, { initialState } from './reducer';
-import filterSubcategories from './services/filter-subcategories';
 
 import {
   requestIncidents,
@@ -11,8 +10,6 @@ import {
   sortIncidentsChanged,
   mainCategoryFilterSelectionChanged,
 } from './actions';
-
-jest.mock('./services/filter-subcategories');
 
 describe('overviewPageReducer', () => {
   let state;
@@ -74,7 +71,7 @@ describe('overviewPageReducer', () => {
     expect(overviewPageReducer(undefined, {})).toEqual(initialState);
   });
 
-  it('should handle the REQUEST_INICDENTS', () => {
+  it('should handle the REQUEST_INCIDENTS', () => {
     const action = requestIncidents({});
     const expected = {
       loading: true,

@@ -30,4 +30,4 @@ services:
       - NODE_ENV=test
       - CI=true
       - TZ=Europe/Amsterdam
-    command: npm test
+    command: npm run test

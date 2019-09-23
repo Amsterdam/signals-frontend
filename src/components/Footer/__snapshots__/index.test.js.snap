@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Footer /> should render correctly 1`] = `
-<div
-  className="footer no-print"
+<Footer__FooterWrapper
+  className="app-container no-print"
 >
   <Footer__Disclaimer>
     <Row
@@ -19,6 +19,7 @@ exports[`<Footer /> should render correctly 1`] = `
         wrap={false}
       >
         <Heading
+          $as="h1"
           as="h2"
         >
           Lukt het niet om een melding te doen?
@@ -65,5 +66,5 @@ exports[`<Footer /> should render correctly 1`] = `
       </Column>
     </Row>
   </Footer__Privacy>
-</div>
+</Footer__FooterWrapper>
 `;

@@ -37,7 +37,7 @@ export default {
         return wegenVerkeerStraatmeubilair;
 
       default:
-        return {};
+        return { controls: {} };
     }
   }
 };

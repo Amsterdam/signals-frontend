@@ -3,10 +3,15 @@
 .attachment-viewer {
   position: relative;
   text-align: center;
+  background-color: #F5F5F5;
+  height: 722px;
+  display: flex;
 
   &__attachment {
     max-height: 722px;
-    width: 100%;
+    max-width: 100%;
+    align-self: center;
+    margin: 0 auto;
   }
 
   &__button-previous {

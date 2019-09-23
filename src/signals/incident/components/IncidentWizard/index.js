@@ -49,6 +49,7 @@ function IncidentWizard({ wizardDefinition, getClassification, updateIncident, c
                             updateIncident={updateIncident}
                             createIncident={createIncident}
                             wizard={wizardDefinition}
+                            postponeSubmitWhenLoading={wizardDefinition[key].postponeSubmitWhenLoading}
                             isAuthenticated={isAuthenticated}
                           />
                           : ''}

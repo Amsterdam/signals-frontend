@@ -7,7 +7,6 @@ import isEqual from 'lodash.isequal';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
-import PageHeader from 'components/PageHeader';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import {
   makeSelectLoading,
@@ -26,11 +25,10 @@ import {
 import { requestHistoryList } from 'models/history/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 import makeSelectHistoryModel from 'models/history/selectors';
-import { makeSelectIncidentsCount } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 
 import './style.scss';
 
-import Header from './components/Header';
+import DetailHeader from './components/DetailHeader';
 import MetaList from './components/MetaList';
 import History from './components/History';
 import AddNote from './components/AddNote';
@@ -157,7 +155,6 @@ export class IncidentDetail extends React.Component {
       accessToken,
       onPatchIncident,
       onDismissError,
-      incidentsCount,
     } = this.props;
     const { list } = this.props.historyModel;
     const {
@@ -177,10 +174,6 @@ export class IncidentDetail extends React.Component {
 
     return (
       <Fragment>
-        <PageHeader
-          title={`Meldingen${incidentsCount ? ` (${incidentsCount})` : ''}`}
-        />
-
         <div className="incident-detail">
           <SplitNotificationBar
             data={split}
@@ -193,20 +186,20 @@ export class IncidentDetail extends React.Component {
             <Fragment>
               {incident && (
                 <Row>
-                  <DetailContainer span={12}>
-                    <Header
+                  <Column span={12}>
+                    <DetailHeader
                       incident={incident}
                       baseUrl={this.props.baseUrl}
                       accessToken={accessToken}
                       onThor={this.onThor}
                     />
-                  </DetailContainer>
+                  </Column>
                 </Row>
               )}
 
-              {previewState ? (
+              {previewState && (
                 <Row>
-                  <DetailContainer span={12}>
+                  <DetailContainer span={7}>
                     <button
                       className="incident-detail__preview-close incident-detail__button--close"
                       onClick={this.onCloseAll}
@@ -223,7 +216,9 @@ export class IncidentDetail extends React.Component {
                     {previewState === 'showLocation' && (
                       <LocationPreview
                         incident={incident}
-                        onEditLocation={this.onEditLocation}
+                        baseUrl={this.props.baseUrl}
+                        accessToken={accessToken}
+                        onThor={this.onThor}
                       />
                     )}
 
@@ -250,7 +245,9 @@ export class IncidentDetail extends React.Component {
                     )}
                   </DetailContainer>
                 </Row>
-              ) : (
+              )}
+
+              {!previewState && (
                 <Row>
                   <DetailContainer span={7}>
                     {incident && (
@@ -301,7 +298,6 @@ IncidentDetail.defaultProps = {
 IncidentDetail.propTypes = {
   previewState: PropTypes.string,
   attachment: PropTypes.string,
-  incidentsCount: PropTypes.number,
 
   incidentModel: PropTypes.object.isRequired,
   historyModel: PropTypes.object.isRequired,
@@ -329,7 +325,6 @@ const mapStateToProps = () =>
     categories: makeSelectCategories(),
     historyModel: makeSelectHistoryModel(),
     accessToken: makeSelectAccessToken(),
-    incidentsCount: makeSelectIncidentsCount,
   });
 
 export const mapDispatchToProps = (dispatch) =>

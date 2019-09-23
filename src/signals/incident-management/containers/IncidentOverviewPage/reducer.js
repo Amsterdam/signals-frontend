@@ -6,20 +6,27 @@ import {
   FILTER_INCIDENTS_CHANGED,
   PAGE_INCIDENTS_CHANGED,
   SORT_INCIDENTS_CHANGED,
-  MAIN_CATEGORY_FILTER_SELECTION_CHANGED,
+  GET_FILTERS_SUCCESS,
+  GET_FILTERS_FAILED,
+  REMOVE_FILTER_SUCCESS,
+  APPLY_FILTER,
 } from './constants';
 import priorityList from '../../definitions/priorityList';
 import stadsdeelList from '../../definitions/stadsdeelList';
 import statusList from '../../definitions/statusList';
-import filterSubcategories from './services/filter-subcategories';
+import feedbackList from '../../definitions/feedbackList';
 
 export const initialState = {
+  sort: '-created_at',
+  page: 1,
   incidents: [],
+  incidentsCount: null,
   priorityList,
   stadsdeelList,
-  filterSubCategoryList: [],
   statusList,
-  sort: '-created_at',
+  feedbackList,
+  allFilters: [],
+  filter: {},
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -56,8 +63,25 @@ export default (state = initialState, action) =>
         draft.sort = action.payload;
         break;
 
-      case MAIN_CATEGORY_FILTER_SELECTION_CHANGED:
-        draft.filterSubCategoryList = filterSubcategories(action.payload.selectedOptions, action.payload.categories);
+      case GET_FILTERS_SUCCESS:
+        draft.allFilters = action.payload;
+        draft.loading = false;
+        break;
+
+      case GET_FILTERS_FAILED:
+        draft.loading = false;
+        draft.error = true;
+        draft.errorMessage = action.payload;
+        break;
+
+      case REMOVE_FILTER_SUCCESS:
+        const re = new RegExp(`/${action.payload}`, 'g');
+        const newFilters = state.allFilters.filter(i => !i._links.self.href.match(re));
+        draft.allFilters = newFilters;
+        break;
+
+      case APPLY_FILTER:
+        draft.filter = action.payload;
         break;
     }
   });

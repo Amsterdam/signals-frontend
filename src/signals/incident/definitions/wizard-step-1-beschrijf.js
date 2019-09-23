@@ -21,7 +21,7 @@ export default {
   },
   nextButtonLabel: 'Volgende',
   nextButtonClass: 'action primary arrow-right',
-  formAction: 'UPDATE_INCIDENT',
+  postponeSubmitWhenLoading: 'incidentContainer.loadingClassification',
   form: {
     controls: {
       source: {
@@ -31,11 +31,12 @@ export default {
           path: 'source',
           values: {
             '': 'Vul bron in',
-            'Telefoon – CCA': 'Telefoon – CCA',
+            'Telefoon – Adoptant': 'Telefoon – Adoptant',
             'Telefoon – ASC': 'Telefoon – ASC',
+            'Telefoon – CCA': 'Telefoon – CCA',
+            'Telefoon - CCTR': 'Telefoon - CCTR',
             'Telefoon – Interswitch': 'Telefoon – Interswitch',
             'Telefoon – Stadsdeel': 'Telefoon – Stadsdeel',
-            'Telefoon – Adoptant': 'Telefoon – Adoptant',
             'E-mail – CCA': 'E-mail – CCA',
             'E-mail – ASC': 'E-mail – ASC',
             'E-mail – Stadsdeel': 'E-mail – Stadsdeel',
@@ -105,7 +106,8 @@ export default {
         meta: {
           label: 'Subcategorie',
           path: 'category.sub_category',
-          type: 'text'
+          type: 'text',
+          validateAsyncProp: 'incidentContainer.loadingClassification'
         },
         options: {
           validators: [Validators.required]

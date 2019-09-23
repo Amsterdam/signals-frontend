@@ -5,64 +5,101 @@
  */
 
 import {
-  REQUEST_INCIDENTS, REQUEST_INCIDENTS_SUCCESS, REQUEST_INCIDENTS_ERROR,
-  INCIDENT_SELECTED, FILTER_INCIDENTS_CHANGED, PAGE_INCIDENTS_CHANGED,
-  SORT_INCIDENTS_CHANGED, MAIN_CATEGORY_FILTER_SELECTION_CHANGED
-}
-  from './constants';
+  REQUEST_INCIDENTS,
+  REQUEST_INCIDENTS_SUCCESS,
+  REQUEST_INCIDENTS_ERROR,
+  INCIDENT_SELECTED,
+  FILTER_INCIDENTS_CHANGED,
+  PAGE_INCIDENTS_CHANGED,
+  SORT_INCIDENTS_CHANGED,
+  GET_FILTERS,
+  GET_FILTERS_SUCCESS,
+  GET_FILTERS_FAILED,
+  REMOVE_FILTER,
+  REMOVE_FILTER_SUCCESS,
+  REMOVE_FILTER_FAILED,
+  APPLY_FILTER,
+} from './constants';
 
 export function requestIncidents({ filter, page, sort }) {
   return {
     type: REQUEST_INCIDENTS,
-    payload: { filter, page, sort }
+    payload: { filter, page, sort },
   };
 }
 
 export function requestIncidentsSuccess(incidents) {
   return {
     type: REQUEST_INCIDENTS_SUCCESS,
-    payload: incidents
+    payload: incidents,
   };
 }
 
 export function requestIncidentsError(message) {
   return {
     type: REQUEST_INCIDENTS_ERROR,
-    payload: message
+    payload: message,
   };
 }
 
 export function incidentSelected(incident) {
   return {
     type: INCIDENT_SELECTED,
-    payload: incident
+    payload: incident,
   };
 }
 
 export function filterIncidentsChanged(filter) {
   return {
     type: FILTER_INCIDENTS_CHANGED,
-    payload: filter
+    payload: filter,
   };
 }
 
 export function pageIncidentsChanged(page) {
   return {
     type: PAGE_INCIDENTS_CHANGED,
-    payload: page
+    payload: page,
   };
 }
 
 export function sortIncidentsChanged(sort) {
   return {
     type: SORT_INCIDENTS_CHANGED,
-    payload: sort
+    payload: sort,
   };
 }
 
-export function mainCategoryFilterSelectionChanged({ selectedOptions, categories }) {
-  return {
-    type: MAIN_CATEGORY_FILTER_SELECTION_CHANGED,
-    payload: { selectedOptions, categories }
-  };
-}
+export const getFilters = () => ({
+  type: GET_FILTERS,
+});
+
+export const getFiltersSuccess = (payload) => ({
+  type: GET_FILTERS_SUCCESS,
+  payload,
+});
+
+export const getFiltersFailed = (payload) => ({
+  type: GET_FILTERS_FAILED,
+  payload,
+});
+
+export const removeFilter = (payload) => ({
+  type: REMOVE_FILTER,
+  payload,
+});
+
+export const removeFilterSuccess = (payload) => ({
+  type: REMOVE_FILTER_SUCCESS,
+  payload,
+});
+
+export const removeFilterFailed = (payload) => ({
+  type: REMOVE_FILTER_FAILED,
+  payload,
+});
+
+export const applyFilter = (payload) => ({
+  type: APPLY_FILTER,
+  payload,
+});

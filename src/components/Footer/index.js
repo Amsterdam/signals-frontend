@@ -6,7 +6,6 @@ const Disclaimer = styled.div`
   background-color: #666;
   padding-top: 20px;
   padding-bottom: 20px;
-  margin-top: 20px;
 
   * {
     color: white;
@@ -14,11 +13,22 @@ const Disclaimer = styled.div`
 `;
 
 const Privacy = styled.div`
-  padding: 10px 0;
+  background: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+`;
+
+const FooterWrapper = styled.div`
+  & {
+    display: flex;
+    flex-direction: column;
+    flex: 0 1 auto !important;
+    padding-bottom: 0 !important;
+  }
 `;
 
 const Footer = () => (
-  <div className="footer no-print">
+  <FooterWrapper className="app-container no-print">
     <Disclaimer>
       <Row>
         <Column span={12}>
@@ -42,7 +52,7 @@ const Footer = () => (
         </Column>
       </Row>
     </Privacy>
-  </div>
+  </FooterWrapper>
 );
 
 export default Footer;

@@ -6,6 +6,7 @@ import {
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
   CREATE_INCIDENT_ERROR,
+  GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
   SET_PRIORITY,
@@ -140,6 +141,20 @@ describe('incidentContainerReducer', () => {
     });
   });
 
+  describe('GET_CLASSIFICATION', () => {
+    it('resets error and loading and id', () => {
+      expect(
+        incidentContainerReducer(fromJS({ incident: {} }), {
+          type: GET_CLASSIFICATION,
+          payload: 'lamp'
+        }).toJS()
+      ).toEqual({
+        incident: {},
+        loadingClassification: true
+      });
+    });
+  });
+
   describe('GET_CLASSIFICATION_SUCCESS', () => {
     it('sets category and subcategory', () => {
       expect(
@@ -158,8 +173,9 @@ describe('incidentContainerReducer', () => {
       ).toEqual({
         incident: {
           category: 'Overlast in de openbare ruimte',
-          subcategory: 'Honden(poep)',
+          subcategory: 'Honden(poep)'
         },
+        loadingClassification: false
       });
     });
   });
@@ -182,8 +198,9 @@ describe('incidentContainerReducer', () => {
       ).toEqual({
         incident: {
           category: 'Overlast in de openbare ruimte',
-          subcategory: 'Honden(poep)',
+          subcategory: 'Honden(poep)'
         },
+        loadingClassification: false
       });
     });
   });

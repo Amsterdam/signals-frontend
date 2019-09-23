@@ -3,13 +3,13 @@
 .header {
   &__label {
     @include avenirnextdemi();
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 
   &__subtitle {
     color: $ams-donkergrijs;
-    font-size: 14px;
-    margin-bottom: 6px;
+    margin-top: -5px;
+    margin-bottom: 8px;
   }
 
   &--not-required {

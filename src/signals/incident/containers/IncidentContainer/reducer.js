@@ -6,12 +6,15 @@ import {
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
   CREATE_INCIDENT_ERROR,
+  GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
   SET_PRIORITY,
   SET_PRIORITY_SUCCESS,
   SET_PRIORITY_ERROR,
 } from './constants';
+// eslint-disable-next-line no-unused-vars
+import debugInitialState from './debug/initialState';
 
 export const initialState = {
   incident: {
@@ -23,6 +26,7 @@ export const initialState = {
       label: 'Normaal',
     },
   },
+  loadingClassification: false,
   priority: {},
 };
 
@@ -66,13 +70,17 @@ export default (state = initialState, action) =>
         draft.loading = false;
         break;
 
+      case GET_CLASSIFICATION:
+        draft.loadingClassification = true;
+        break;
+
       case GET_CLASSIFICATION_SUCCESS:
       case GET_CLASSIFICATION_ERROR:
+        draft.loadingClassification = false;
         draft.incident = {
           ...state.incident,
           ...action.payload,
         };
-        break;
 
       case SET_PRIORITY:
         draft.priority = action.payload;

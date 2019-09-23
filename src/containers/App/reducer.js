@@ -20,7 +20,8 @@ export const initialState = {
   categories: {
     main: [],
     sub: [],
-  },
+    mainToSub: {},
+  }
 };
 
 /* eslint-disable default-case, no-param-reassign */

@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DownloadButton /> rendering should render correctly 1`] = `
+<div
+  className="download-button align-self-center"
+>
+  <button
+    className="incident-detail__button"
+    onClick={[Function]}
+    type="button"
+  >
+    PDF
+  </button>
+</div>
+`;
+
+exports[`<DownloadButton /> rendering should render correctly when logged in 1`] = `
+<div
+  className="download-button align-self-center"
+>
+  <button
+    className="incident-detail__button"
+    onClick={[Function]}
+    type="button"
+  >
+    PDF
+  </button>
+</div>
+`;
