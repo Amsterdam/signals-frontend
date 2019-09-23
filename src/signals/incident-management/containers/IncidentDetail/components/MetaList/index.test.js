@@ -104,6 +104,8 @@ describe('<MetaList />', () => {
 
       expect(queryByTestId('meta-list-parent-definition')).toHaveTextContent(/^Oorspronkelijke melding$/);
       expect(queryByTestId('meta-list-parent-link')).toHaveTextContent(/^3094$/);
+
+      expect(queryByTestId('meta-list-parent-link')).toHaveAttribute('href', '/manage/incident/3094');
     });
 
     it('should render correctly with children', () => {
@@ -119,6 +121,9 @@ describe('<MetaList />', () => {
       expect(queryByTestId('meta-list-children-definition')).toHaveTextContent(/^Gesplitst in$/);
       expect(queryByTestId('meta-list-children-link-3095')).toHaveTextContent(/^3095$/);
       expect(queryByTestId('meta-list-children-link-3096')).toHaveTextContent(/^3096$/);
+
+      expect(queryByTestId('meta-list-children-link-3095')).toHaveAttribute('href', '/manage/incident/3095');
+      expect(queryByTestId('meta-list-children-link-3096')).toHaveAttribute('href', '/manage/incident/3096');
     });
   });
 });
