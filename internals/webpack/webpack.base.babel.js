@@ -22,6 +22,20 @@ module.exports = (options) => ({
   module: {
     rules: [
       {
+        test: /\.svg$/,
+        include: /asc-ui/,
+        use: [
+          {
+            loader: 'svg-url-loader',
+            options: {
+              // Inline files smaller than 10 kB
+              limit: 10 * 1024,
+              noquotes: true,
+            },
+          },
+        ],
+      },
+      {
         test: /\.js$/, // Transform all .js files required somewhere with Babel
         exclude: /node_modules/,
         use: {

@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
+import { Row, Column } from '@datapunt/asc-ui';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -33,16 +34,18 @@ export class IncidentContainer extends React.Component {
 
   render() {
     return (
-      <div className="incident-container">
-        <IncidentWizard
-          wizardDefinition={wizardDefinition}
-          getClassification={this.getClassification}
-          updateIncident={this.updateIncident}
-          createIncident={this.createIncident}
-          incidentContainer={this.props.incidentContainer}
-          isAuthenticated={this.props.isAuthenticated}
-        />
-      </div>
+      <Row>
+        <Column span={12}>
+          <IncidentWizard
+            wizardDefinition={wizardDefinition}
+            getClassification={this.getClassification}
+            updateIncident={this.updateIncident}
+            createIncident={this.createIncident}
+            incidentContainer={this.props.incidentContainer}
+            isAuthenticated={this.props.isAuthenticated}
+          />
+        </Column>
+      </Row>
     );
   }
 }

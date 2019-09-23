@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
+import { Heading } from '@datapunt/asc-ui';
 
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import SelectInput from '../../../../components/SelectInput';
@@ -9,14 +10,7 @@ import HiddenInput from '../../../../components/HiddenInput';
 
 import './style.scss';
 
-class SelectForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  form = FormBuilder.group({ // eslint-disable-line react/sort-comp
-    category_url: ['https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu'],
-    state: ['o'],
-    sub_slug: ['asbest-accu'],
-    main_slug: ['afval']
-  });
-
+class SelectForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -25,11 +19,13 @@ class SelectForm extends React.Component { // eslint-disable-line react/prefer-s
 
   componentDidMount() {
     this.form.controls.category_url.valueChanges.subscribe((category_url) => {
-      const found = this.props.subCategories.find((sub) => sub.key === category_url);
+      const found = this.props.subCategories.find(
+        (sub) => sub.key === category_url,
+      );
       if (found && found.slug && found.category_slug) {
         this.form.patchValue({
           sub_slug: found.slug,
-          main_slug: found.category_slug
+          main_slug: found.category_slug,
         });
 
         this.handleChange({ category_url });
@@ -47,14 +43,23 @@ class SelectForm extends React.Component { // eslint-disable-line react/prefer-s
     this.form.updateValueAndValidity();
   }
 
+  form = FormBuilder.group({
+    category_url: [
+      'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+    ],
+    state: ['o'],
+    sub_slug: ['asbest-accu'],
+    main_slug: ['afval'],
+  });
+
   handleChange = (changed) => {
     const newValues = {
       ...this.form.value,
-      ...changed
+      ...changed,
     };
 
     this.props.onFetchDefaultTexts(newValues);
-  }
+  };
 
   render() {
     const { subCategories, statusList } = this.props;
@@ -64,8 +69,10 @@ class SelectForm extends React.Component { // eslint-disable-line react/prefer-s
           control={this.form}
           render={() => (
             <form className="select-form__form">
+              <Heading $as="h2" styleAs="h4" compact>
+                Subcategorie
+              </Heading>
               <FieldControlWrapper
-                display="Subcategorie"
                 render={SelectInput}
                 name="category_url"
                 values={subCategories}
@@ -74,8 +81,10 @@ class SelectForm extends React.Component { // eslint-disable-line react/prefer-s
                 sort
               />
 
+              <Heading $as="h2" styleAs="h4">
+                Status
+              </Heading>
               <FieldControlWrapper
-                display="Status"
                 render={RadioInput}
                 name="state"
                 values={statusList}
@@ -93,9 +102,8 @@ class SelectForm extends React.Component { // eslint-disable-line react/prefer-s
                 control={this.form.get('main_slug')}
               />
             </form>
-              )}
+          )}
         />
-
       </div>
     );
   }
@@ -105,14 +113,14 @@ SelectForm.defaultProps = {
   subCategories: [],
   stateList: [],
 
-  onFetchDefaultTexts: () => {}
+  onFetchDefaultTexts: () => {},
 };
 
 SelectForm.propTypes = {
   subCategories: PropTypes.array,
   statusList: PropTypes.array,
 
-  onFetchDefaultTexts: PropTypes.func
+  onFetchDefaultTexts: PropTypes.func,
 };
 
 export default SelectForm;

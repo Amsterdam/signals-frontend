@@ -6,7 +6,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = require('./webpack.base.babel')({
   // In production, we skip all hot-reloading stuff
   entry: [
-    'babel-polyfill', path.join(process.cwd(), 'src/app.js'),
+    'babel-polyfill',
+    'formdata-polyfill',
+    path.join(process.cwd(), 'src/app.js'),
   ],
 
   // Utilize long-term caching by adding content hashes (not compilation hashes) to compiled assets

@@ -1,17 +1,15 @@
-/**
- * Testing the NotFoundPage
- */
-
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { withIntlAppContext } from 'test/utils';
 
-import NotFound from './index';
+import NotFoundPage from './';
+import messages from './messages';
+import translations from '../../translations/nl.json';
 
-describe('<NotFound />', () => {
-  it('should render the Page Not Found text', () => {
-    const wrapper = shallow(
-      <NotFound />
-    );
-    expect(wrapper).toMatchSnapshot();
+describe('containers/NotFoundPage', () => {
+  it('Renders header message', () => {
+    const { getByText } = render(withIntlAppContext(<NotFoundPage />, translations, 'nl'));
+
+    expect(getByText(translations[messages.header.id])).toBeTruthy();
   });
 });

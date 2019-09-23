@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-
 import 'react-datepicker/dist/react-datepicker.css';
+
+import Label from '../Label';
+
 import './style.scss';
 
 export const DatePickerInput = (props) => {
@@ -17,7 +18,7 @@ export const DatePickerInput = (props) => {
       <div className="date-picker-input">
         <div className="mode_input text rij_verplicht">
           <div className="date-picker-input__label">
-            <label htmlFor={`form${name}`}>{display}</label>
+            <Label htmlFor={`form${name}`}>{display}</Label>
           </div>
 
           <div className="date-picker-input__control invoer">

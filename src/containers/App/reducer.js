@@ -31,7 +31,8 @@ export const initialState = fromJS({
   userPermissions: [],
   categories: {
     main: [],
-    sub: []
+    sub: [],
+    mainToSub: {},
   }
 });
 

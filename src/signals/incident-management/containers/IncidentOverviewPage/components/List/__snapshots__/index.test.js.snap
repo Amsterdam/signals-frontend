@@ -3,13 +3,8 @@
 exports[`<List /> should render correctly 1`] = `
 <div
   className="list-component"
+  data-testid="incidentOverviewListComponent"
 >
-  <div
-    className="list-component__title"
-  >
-    Meldingen (
-    )
-  </div>
   <div
     className="list-component__body"
   >
