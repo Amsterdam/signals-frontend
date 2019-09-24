@@ -5,13 +5,16 @@ import getStepControls from '../get-step-controls';
 import convertValue from '../convert-value';
 
 const mapPaths = (params, incident, wizard) => {
+  console.log('mapPaths', params, incident, wizard);
   const category_url = incident && incident.subcategory_link ? new URL(incident.subcategory_link).pathname : '';
 
   forEach(wizard, (step) => {
+    console.log('mapPaths step', step);
     const controls = getStepControls(step, incident);
     let mapMerge = {};
 
     forEach(controls, (control, name) => {
+      console.log('mapPaths control', name, control);
       const value = incident[name];
       const meta = control.meta;
 
@@ -35,9 +38,11 @@ const mapPaths = (params, incident, wizard) => {
     });
 
     forEach(mapMerge, (value, key) => {
+      console.log('mapPaths foreach', key, value);
       set(params, key, value);
     });
   });
+  console.log('mapPaths out', params);
 
   return params || {};
 };
