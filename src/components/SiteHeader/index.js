@@ -87,6 +87,7 @@ const HeaderWrapper = styled.div`
           max-width: 1400px;
           margin-left: auto;
           margin-right: auto;
+          position: static !important;
         }
 
         nav,
