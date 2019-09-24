@@ -27,6 +27,47 @@ describe('signals/incident-management/components/FilterForm', () => {
     ).toHaveLength(1);
   });
 
+  it('should render a refresh checkbox', () => {
+    const { container } = render(
+      withAppContext(
+        <FilterForm
+          categories={categories}
+          onSubmit={() => {}}
+          activeFilter={{}}
+        />,
+      ),
+    );
+
+    expect(
+      container.querySelector('input[type="checkbox"][name="refresh"]'),
+    ).toBeTruthy();
+  });
+
+  it('should handle checking the refresh box', () => {
+    const { container } = render(
+      withAppContext(
+        <FilterForm
+          categories={categories}
+          onSubmit={() => {}}
+          activeFilter={{ id: 1234, name: 'FooBar' }}
+        />,
+      ),
+    );
+
+    fireEvent.click(container.querySelector('input[type="checkbox"][name="refresh"]'));
+
+    expect(
+      container.querySelector('input[type="checkbox"][name="refresh"]').checked,
+    ).toBeTruthy();
+
+
+    fireEvent.click(container.querySelector('input[type="checkbox"][name="refresh"]'));
+
+    expect(
+      container.querySelector('input[type="checkbox"][name="refresh"]').checked,
+    ).toBeFalsy();
+  });
+
   it('should render a hidden id field', () => {
     const { container } = render(
       withAppContext(

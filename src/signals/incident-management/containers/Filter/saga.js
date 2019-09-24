@@ -45,10 +45,10 @@ export function* doSaveFilter(action) {
 }
 
 export function* doUpdateFilter(action) {
-  const { name, options: { id, ...options } } = action.payload;
+  const { name, refresh, id, options } = action.payload;
 
   try {
-    const result = yield call(authPatchCall, `${requestURL}${id}`, { name, options });
+    const result = yield call(authPatchCall, `${requestURL}${id}`, { name, refresh, options });
 
     yield put(filterUpdatedSuccess(result));
     yield put(getFilters());
