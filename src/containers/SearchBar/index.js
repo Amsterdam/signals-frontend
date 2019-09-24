@@ -14,6 +14,8 @@ const allowedButtonCodes = [
   37, // left
   39, // right
   46, // delete
+  67, // c
+  86, // v
   48, // 0
   49, // 1
   50, // 2
@@ -24,6 +26,16 @@ const allowedButtonCodes = [
   55, // 7
   56, // 8
   57, // 9
+  96, // kp 0
+  97, // kp 1
+  98, // kp 2
+  99, // kp 3
+  100, // kp 4
+  101, // kp 5
+  102, // kp 6
+  103, // kp 7
+  104, // kp 8
+  105, // kp 9
 ];
 
 export const SearchBarComponent = ({ className, query, onSetSearchQuery, onRequestIncidents }) => {
