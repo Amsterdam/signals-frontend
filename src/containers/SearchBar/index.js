@@ -9,24 +9,12 @@ import { requestIncidents } from 'signals/incident-management/containers/Inciden
 import { setSearchQuery } from 'models/search/actions';
 import { makeSelectQuery } from 'models/search/selectors';
 
-const allowedButtonCodes = [
-  8, // backspace
-  37, // left
-  39, // right
-  46, // delete
-  48, // 0
-  49, // 1
-  50, // 2
-  51, // 3
-  52, // 4
-  53, // 5
-  54, // 6
-  55, // 7
-  56, // 8
-  57, // 9
-];
-
-export const SearchBarComponent = ({ className, query, onSetSearchQuery, onRequestIncidents }) => {
+export const SearchBarComponent = ({
+  className,
+  query,
+  onSetSearchQuery,
+  onRequestIncidents,
+}) => {
   /**
    * Send search form input to actions
    *
@@ -52,13 +40,6 @@ export const SearchBarComponent = ({ className, query, onSetSearchQuery, onReque
       onChange={onChange}
       onSubmit={onSearchSubmit}
       value={query}
-      onKeyDown={(event) => {
-        const { keyCode } = event;
-        /* istanbul ignore else */
-        if (!allowedButtonCodes.includes(keyCode)) {
-          event.preventDefault();
-        }
-      }}
     />
   );
 };
@@ -87,6 +68,9 @@ export const mapDispatchToProps = (dispatch) =>
     dispatch,
   );
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 export default compose(withConnect)(SearchBarComponent);
