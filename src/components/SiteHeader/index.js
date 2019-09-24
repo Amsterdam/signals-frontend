@@ -93,7 +93,7 @@ const HeaderWrapper = styled.div`
           margin-right: auto;
           content: '';
           display: block;
-          position: absolute;
+          position: static !important;
           left: 0;
           right: 0;
           height: 50px;
