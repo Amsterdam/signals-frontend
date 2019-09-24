@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose, bindActionCreators } from 'redux';
+import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 
@@ -11,7 +11,6 @@ import {
   makeSelectFilter,
 } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 import { makeSelectQuery } from 'models/search/selectors';
-import { emptyReverted } from '../../signals/incident-management/containers/IncidentOverviewPage/actions';
 import Refresh from '../../shared/images/icon-refresh.svg';
 
 const RefreshIcon = styled(Refresh).attrs({
@@ -95,17 +94,6 @@ const mapStateToProps = createStructuredSelector({
   query: makeSelectQuery,
 });
 
-export const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      onClose: emptyReverted,
-    },
-    dispatch,
-  );
-
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps);
 
 export default compose(withConnect)(PageHeaderContainerComponent);

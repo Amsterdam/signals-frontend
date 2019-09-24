@@ -64,10 +64,11 @@ const FilterForm = ({
   const onSubmitForm = (event) => {
     const formData = parseOutputFormData(event.target.form);
     const isNewFilter = !filterData.name;
+    const hasName = formData.name.trim() !== '';
     const valuesHaveChanged = !isEqual(formData, filterData);
 
     /* istanbul ignore else */
-    if (typeof onSaveFilter === 'function' && isNewFilter) {
+    if (typeof onSaveFilter === 'function' && isNewFilter && hasName) {
       onSaveFilter(formData);
     }
 

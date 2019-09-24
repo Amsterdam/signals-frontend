@@ -1,6 +1,8 @@
 import { testActionCreator } from 'test/utils';
 
 import {
+  APPLY_FILTER_REFRESH,
+  APPLY_FILTER_REFRESH_STOP,
   REQUEST_INCIDENTS,
   REQUEST_INCIDENTS_SUCCESS,
   REQUEST_INCIDENTS_ERROR,
@@ -9,6 +11,8 @@ import {
 } from './constants';
 
 import {
+  applyFilterRefresh,
+  applyFilterRefreshStop,
   requestIncidents,
   requestIncidentsSuccess,
   requestIncidentsError,
@@ -24,5 +28,7 @@ describe('OverviewPage actions', () => {
     testActionCreator(requestIncidentsError, REQUEST_INCIDENTS_ERROR, payload);
     testActionCreator(incidentSelected, INCIDENT_SELECTED, payload);
     testActionCreator(filterIncidentsChanged, FILTER_INCIDENTS_CHANGED, payload);
+    testActionCreator(applyFilterRefresh, APPLY_FILTER_REFRESH);
+    testActionCreator(applyFilterRefreshStop, APPLY_FILTER_REFRESH_STOP, payload);
   });
 });

@@ -453,7 +453,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       fireEvent.click(container.querySelector('button[type="submit"]'));
 
-      expect(handlers.onSaveFilter).toHaveBeenCalled();
+      expect(handlers.onSaveFilter).not.toHaveBeenCalled();
       expect(handlers.onSubmit).toHaveBeenCalled();
     });
 
