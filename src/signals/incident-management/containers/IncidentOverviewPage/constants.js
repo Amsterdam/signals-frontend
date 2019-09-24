@@ -16,3 +16,5 @@ export const REMOVE_FILTER_SUCCESS = 'sia/IncidentOverviewPage/REMOVE_FILTER_SUC
 export const REMOVE_FILTER_FAILED = 'sia/IncidentOverviewPage/REMOVE_FILTER_FAILED';
 
 export const APPLY_FILTER = 'sia/IncidentOverviewPage/APPLY_FILTER';
+export const APPLY_FILTER_REFRESH = 'sia/IncidentOverviewPage/APPLY_FILTER_REFRESH';
+export const APPLY_FILTER_REFRESH_STOP = 'sia/IncidentOverviewPage/APPLY_FILTER_REFRESH_STOP';

@@ -1,29 +1,44 @@
-import { all, put, select, takeLatest } from 'redux-saga/effects';
+/* eslint no-constant-condition: ["error", { "checkLoops": false }] */
+
+import {
+  all,
+  delay,
+  put,
+  select,
+  call,
+  race,
+  take,
+  takeLatest,
+} from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 
 import { authCall, authDeleteCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import {
-  REQUEST_INCIDENTS,
-  INCIDENT_SELECTED,
-  GET_FILTERS,
-  REMOVE_FILTER,
+  APPLY_FILTER_REFRESH_STOP,
+  APPLY_FILTER_REFRESH,
   APPLY_FILTER,
+  GET_FILTERS,
+  INCIDENT_SELECTED,
+  REMOVE_FILTER,
+  REQUEST_INCIDENTS,
 } from './constants';
 import {
-  requestIncidents,
-  requestIncidentsSuccess,
-  requestIncidentsError,
+  applyFilterRefresh,
+  applyFilterRefreshStop,
   filterIncidentsChanged,
-  pageIncidentsChanged,
-  sortIncidentsChanged,
-  getFiltersSuccess,
   getFiltersFailed,
-  removeFilterSuccess,
+  getFiltersSuccess,
+  pageIncidentsChanged,
   removeFilterFailed,
+  removeFilterSuccess,
+  requestIncidents,
+  requestIncidentsError,
+  requestIncidentsSuccess,
+  sortIncidentsChanged,
 } from './actions';
-import { makeSelectFilterParams } from './selectors';
+import { makeSelectFilterParams, makeSelectFilter } from './selectors';
 
 import { resetSearchQuery } from '../../../../models/search/actions';
 
@@ -32,11 +47,24 @@ export function* fetchIncidents(action) {
 
   try {
     const filter = action.payload.filter;
-    if (filter) yield put(filterIncidentsChanged(filter));
+
+    if (filter) {
+      yield put(applyFilterRefreshStop());
+      yield put(filterIncidentsChanged(filter));
+    }
+
     const page = action.payload.page;
-    if (page) yield put(pageIncidentsChanged(page));
+
+    if (page) {
+      yield put(pageIncidentsChanged(page));
+    }
+
     const sort = action.payload.sort;
-    if (sort) yield put(sortIncidentsChanged(sort));
+
+    if (sort) {
+      yield put(sortIncidentsChanged(sort));
+    }
+
     const params = yield select(makeSelectFilterParams());
 
     // TEMP remove when server can order days_open
@@ -46,9 +74,11 @@ export function* fetchIncidents(action) {
       params.ordering = 'created_at';
     }
 
-    const incidents = yield authCall(requestURL, params);
+    const incidents = yield call(authCall, requestURL, params);
 
     yield put(requestIncidentsSuccess(incidents));
+
+    yield put(applyFilterRefresh());
   } catch (err) {
     yield put(requestIncidentsError(err));
   }
@@ -64,7 +94,7 @@ export function* getFilters() {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/`;
 
   try {
-    const result = yield authCall(requestURL);
+    const result = yield call(authCall, requestURL);
 
     yield put(getFiltersSuccess(result.results));
   } catch (error) {
@@ -77,7 +107,7 @@ export function* removeFilter(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/${id}`;
 
   try {
-    yield authDeleteCall(requestURL);
+    yield call(authDeleteCall, requestURL);
     yield put(removeFilterSuccess(id));
   } catch (error) {
     yield put(removeFilterFailed());
@@ -90,6 +120,19 @@ export function* applyFilter(action) {
   yield put(requestIncidents({ filter }));
 }
 
+export const refreshRequestDelay = 2 * 60 * 1000;
+
+export function* refreshIncidents(timeout = refreshRequestDelay) {
+  while (true) {
+    const filter = yield select(makeSelectFilter);
+
+    if (filter && filter.refresh) {
+      yield delay(timeout);
+      yield put(requestIncidents({ filter }));
+    }
+  }
+}
+
 export default function* watchRequestIncidentsSaga() {
   yield all([
     takeLatest(REQUEST_INCIDENTS, fetchIncidents),
@@ -98,4 +141,9 @@ export default function* watchRequestIncidentsSaga() {
     takeLatest(REMOVE_FILTER, removeFilter),
     takeLatest(APPLY_FILTER, applyFilter),
   ]);
+
+  while (true) {
+    yield take(APPLY_FILTER_REFRESH);
+    yield race([call(refreshIncidents), take(APPLY_FILTER_REFRESH_STOP)]);
+  }
 }
