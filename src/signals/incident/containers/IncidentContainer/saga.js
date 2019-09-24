@@ -41,6 +41,9 @@ export function* getClassification(action) {
 export function* createIncident(action) {
   console.log('createIncident 1', action);
   const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/`;
+  const payload = mapControlsToParams(action.payload.incident, action.payload.wizard);
+  console.log('createIncident 1a payload', payload);
+
   // try {
   console.log('createIncident 2 requestURL', requestURL);
   const result = yield call(request, requestURL, {
