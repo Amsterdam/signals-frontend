@@ -7,6 +7,7 @@ import convertValue from '../convert-value';
 const mapPaths = (params, incident, wizard) => {
   console.log('mapPaths', params, incident, wizard);
   const category_url = incident && incident.subcategory_link ? new URL(incident.subcategory_link).pathname : '';
+  console.log('mapPaths 2', category_url);
 
   forEach(wizard, (step) => {
     console.log('mapPaths step', step);
