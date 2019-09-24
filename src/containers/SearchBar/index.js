@@ -54,6 +54,7 @@ export const SearchBarComponent = ({ className, query, onSetSearchQuery, onReque
       value={query}
       onKeyDown={(event) => {
         const { keyCode } = event;
+        console.log('onKeyDown', keyCode);
         /* istanbul ignore else */
         if (!allowedButtonCodes.includes(keyCode)) {
           event.preventDefault();
