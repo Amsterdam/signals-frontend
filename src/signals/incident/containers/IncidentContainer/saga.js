@@ -39,8 +39,10 @@ export function* getClassification(action) {
 }
 
 export function* createIncident(action) {
+  console.log('createIncident 1', action);
   const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/`;
   try {
+    console.log('createIncident 2 requestURL', requestURL);
     const result = yield call(request, requestURL, {
       method: 'POST',
       body: JSON.stringify(mapControlsToParams(action.payload.incident, action.payload.wizard)),
@@ -48,8 +50,10 @@ export function* createIncident(action) {
         'Content-Type': 'application/json'
       }
     });
+    console.log('createIncident 3 result', result);
 
     if (action.payload.isAuthenticated && action.payload.incident.priority.id === 'high') {
+      console.log('createIncident 4 prio', result, action.payload.incident.priority.id);
       yield put(setPriority({
         priority: action.payload.incident.priority.id,
         _signal: result.id
@@ -57,6 +61,7 @@ export function* createIncident(action) {
     }
 
     if (action.payload.incident.images) {
+      console.log('createIncident 5 images', result, action.payload.incident.images);
       yield all(action.payload.incident.images.map((image) =>
         put(uploadRequest({
           file: image,
@@ -65,6 +70,7 @@ export function* createIncident(action) {
       ));
     }
     yield put(createIncidentSuccess(result));
+    console.log('createIncident 6 sucess');
   } catch (error) {
     yield put(createIncidentError());
     yield put(replace('/incident/fout'));
