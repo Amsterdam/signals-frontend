@@ -3,7 +3,9 @@ import { mount } from 'enzyme';
 import { render } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
+import categories from 'utils/__tests__/fixtures/categories.json';
 import MyFilters, { MyFiltersComponent } from '../';
+import * as definitions from '../../../definitions';
 
 describe('signals/incident-management/containers/MyFilters', () => {
   it('should have props from structured selector', () => {
@@ -36,26 +38,26 @@ describe('signals/incident-management/containers/MyFilters', () => {
       id: 1234,
       name: 'Foo bar baz',
       options: {
-        status: ['m'],
+        status: [definitions.statusList[0]],
         feedback: '',
         priority: 'normal',
-        stadsdeel: ['A', 'T'],
+        stadsdeel: [definitions.stadsdeelList[0], definitions.stadsdeelList[1]],
         address_text: '',
         incident_date: '2019-09-17',
-        category_slug: ['oever-kade-steiger'],
+        category_slug: [categories.sub[0]],
       },
     };
     const filter2 = {
       id: 1235,
       name: 'Bar bar baz',
       options: {
-        status: ['m'],
+        status: [definitions.statusList[0]],
         feedback: '',
         priority: 'normal',
-        stadsdeel: ['A', 'T'],
+        stadsdeel: [definitions.stadsdeelList[0], definitions.stadsdeelList[1]],
         address_text: '',
         incident_date: '2019-09-17',
-        category_slug: ['oever-kade-steiger'],
+        category_slug: [categories.sub[1]],
       },
     };
     const sortSpy = jest.spyOn(Array.prototype, 'sort');

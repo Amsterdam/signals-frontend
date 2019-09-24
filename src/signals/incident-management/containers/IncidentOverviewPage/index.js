@@ -11,15 +11,16 @@ import MyFilters from 'signals/incident-management/containers/MyFilters';
 import PageHeader from 'containers/PageHeader';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import {
-  makeSelectLoading,
-  makeSelectError,
-  makeSelectCategories,
-} from 'containers/App/selectors';
+// import {
+//   makeSelectLoading,
+//   makeSelectError,
+//   makeSelectCategories,
+// } from 'containers/App/selectors';
 import { makeSelectQuery } from 'models/search/selectors';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
+import { parseInputFormData } from 'signals/incident-management/services/filter/parse';
 import makeSelectOverviewPage, { makeSelectIncidentsCount } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -43,7 +44,14 @@ export const IncidentOverviewPageContainerComponent = ({
   onIncidentSelected,
   onGetFilters,
   searchQuery,
+  categories,
+  feedbackList,
+  priorityList,
+  stadsdeelList,
+  statusList,
+  ...last,
 }) => {
+  debugger;
   const [modalFilterIsOpen, toggleFilterModal] = useState(false);
   const [modalMyFiltersIsOpen, toggleMyFiltersModal] = useState(false);
 
@@ -99,6 +107,15 @@ export const IncidentOverviewPageContainerComponent = ({
 
   const { incidents, loading, page, sort, filter, ...rest } = overviewpage;
 
+  const parsedFilterData = parseInputFormData(filter, {
+    category_slug: categories.sub,
+    feedback: feedbackList,
+    maincategory_slug: categories.main,
+    priority: priorityList,
+    stadsdeel: stadsdeelList,
+    status: statusList,
+  });
+
   return (
     <div className="incident-overview-page">
       <PageHeader>
@@ -138,7 +155,7 @@ export const IncidentOverviewPageContainerComponent = ({
 
         {filter && filter.options && (
           <div className="incident-overview-page__filter-tag-list">
-            <FilterTagList tags={filter.options} />
+            <FilterTagList tags={parsedFilterData} />
           </div>
         )}
       </PageHeader>
@@ -183,7 +200,10 @@ IncidentOverviewPageContainerComponent.propTypes = {
     sort: PropTypes.string,
     filter: PropTypes.object,
   }).isRequired,
-  categories: PropTypes.shape({}).isRequired,
+  categories: PropTypes.shape({
+    main: PropTypes.arrayOf(PropTypes.shape({})),
+    sub: PropTypes.arrayOf(PropTypes.shape({})),
+  }).isRequired,
   incidentsCount: PropTypes.number,
   searchQuery: PropTypes.string,
 
@@ -193,12 +213,16 @@ IncidentOverviewPageContainerComponent.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  overviewpage: makeSelectOverviewPage(),
+  // categories: makeSelectCategories(),
+  // error: makeSelectError(),
+  // feedbackList: makeSelectFeedbackList,
   incidentsCount: makeSelectIncidentsCount,
+  // loading: makeSelectLoading(),
+  overviewpage: makeSelectOverviewPage(),
+  // priorityList: makeSelectPriorityList,
   searchQuery: makeSelectQuery,
-  categories: makeSelectCategories(),
-  loading: makeSelectLoading(),
-  error: makeSelectError(),
+  // stadsdeelList: makeSelectStadsdeelList,
+  // statusList: makeSelectStatusList,
 });
 
 export const mapDispatchToProps = (dispatch) =>

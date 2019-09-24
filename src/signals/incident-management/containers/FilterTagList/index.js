@@ -40,7 +40,7 @@ const renderTag = (key, tagKey, mainCategories, list) => {
     display = moment(display).format('DD-MM-YYYY');
   }
 
-  const foundMain = mainCategories.find((i) => i.slug === key);
+  const foundMain = mainCategories.find((i) => i.key === key);
 
   display += foundMain ? allLabelAppend : '';
 
@@ -55,25 +55,32 @@ const renderTag = (key, tagKey, mainCategories, list) => {
 export const FilterTagListComponent = (props) => {
   const {
     tags,
-    overviewpage: { priorityList, stadsdeelList, statusList, feedbackList },
-    categories: { main, sub },
+    overviewpage,
+    categories: { main: maincategory_slug, sub: category_slug },
   } = props;
 
+  const {
+    feedbackList: feedback,
+    priorityList: priority,
+    stadsdeelList: stadsdeel,
+    statusList: status,
+  } = overviewpage;
+
   const map = {
-    feedback: feedbackList,
-    priority: priorityList,
-    stadsdeel: stadsdeelList,
-    status: statusList,
-    maincategory_slug: main,
-    category_slug: sub,
+    category_slug,
+    feedback,
+    maincategory_slug,
+    priority,
+    stadsdeel,
+    status,
   };
 
   return (
     <FilterWrapper>
       {Object.entries(tags).map(([tagKey, tag]) =>
         Array.isArray(tag)
-          ? tag.map((item) => renderTag(item, tagKey, main, map[tagKey]))
-          : renderTag(tag, tagKey, main, map[tagKey]),
+          ? tag.map((item) => renderTag(item.key, tagKey, maincategory_slug, map[tagKey]))
+          : renderTag(tag, tagKey, maincategory_slug, map[tagKey]),
       )}
     </FilterWrapper>
   );
@@ -83,26 +90,34 @@ FilterTagListComponent.propTypes = {
   tags: PropTypes.shape({
     incident_date: PropTypes.string,
     address_text: PropTypes.string,
-    stadsdeel: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
-    maincategory_slug: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
-    priority: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
-    category_slug: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
+    stadsdeel: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        slug: PropTypes.string,
+        value: PropTypes.string.isRequired,
+      }),
+    ),
+    maincategory_slug: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        slug: PropTypes.string,
+        value: PropTypes.string.isRequired,
+      }),
+    ),
+    priority: PropTypes.string,
+    status: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        value: PropTypes.string.isRequired,
+      }),
+    ),
+    category_slug: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        slug: PropTypes.string,
+        value: PropTypes.string.isRequired,
+      }),
+    ),
   }),
   overviewpage: PropTypes.shape({
     feedbackList: PropTypes.arrayOf(
@@ -110,19 +125,19 @@ FilterTagListComponent.propTypes = {
         key: PropTypes.string.isRequired,
         value: PropTypes.string.isRequired,
       }),
-    ),
+    ).isRequired,
     priorityList: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string.isRequired,
         value: PropTypes.string.isRequired,
       }),
-    ),
+    ).isRequired,
     stadsdeelList: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string.isRequired,
         value: PropTypes.string.isRequired,
       }),
-    ),
+    ).isRequired,
     statusList: PropTypes.arrayOf(
       PropTypes.shape({
         color: PropTypes.string,
@@ -130,7 +145,7 @@ FilterTagListComponent.propTypes = {
         value: PropTypes.string.isRequired,
         warning: PropTypes.string,
       }),
-    ),
+    ).isRequired,
   }).isRequired,
   categories: PropTypes.shape({
     main: PropTypes.arrayOf(
@@ -139,7 +154,7 @@ FilterTagListComponent.propTypes = {
         slug: PropTypes.string,
         value: PropTypes.string.isRequired,
       }),
-    ),
+    ).isRequired,
     sub: PropTypes.arrayOf(
       PropTypes.shape({
         category_slug: PropTypes.string,
@@ -148,7 +163,7 @@ FilterTagListComponent.propTypes = {
         slug: PropTypes.string,
         value: PropTypes.string.isRequired,
       }),
-    ),
+    ).isRequired,
   }).isRequired,
 };
 

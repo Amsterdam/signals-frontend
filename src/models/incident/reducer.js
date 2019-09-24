@@ -1,8 +1,5 @@
 import { fromJS } from 'immutable';
-
-import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
-import priorityList from 'signals/incident-management/definitions/priorityList';
-import statusList, { changeStatusOptionList } from 'signals/incident-management/definitions/statusList';
+import { changeStatusOptionList } from 'shared/definitions/statusList';
 
 import { SPLIT_INCIDENT_SUCCESS, SPLIT_INCIDENT_ERROR } from 'signals/incident-management/containers/IncidentSplitContainer/constants';
 
@@ -17,10 +14,7 @@ import {
 
 export const initialState = fromJS({
   id: null,
-  stadsdeelList,
-  priorityList,
   changeStatusOptionList,
-  statusList,
   loading: false,
   error: false,
   attachments: [],

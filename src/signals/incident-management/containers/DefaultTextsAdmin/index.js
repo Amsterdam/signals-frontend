@@ -7,7 +7,7 @@ import { Row, Column } from '@datapunt/asc-ui';
 import PageHeader from 'components/PageHeader';
 import styled from 'styled-components';
 
-import { makeSelectCategories } from 'containers/App/selectors';
+// import { makeSelectCategories } from 'containers/App/selectors';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -36,9 +36,9 @@ const DefaultTextsAdmin = ({
   onSubmitTexts,
   onOrderDefaultTexts,
   onSaveDefaultTextsItem,
+  statusList,
   defaultTextsAdmin: {
     defaultTexts,
-    defaultTextsOptionList,
     categoryUrl,
     state,
   },
@@ -49,7 +49,7 @@ const DefaultTextsAdmin = ({
       <Column span={4}>
         <SelectForm
           subCategories={categories.sub}
-          statusList={defaultTextsOptionList}
+          statusList={statusList}
           onFetchDefaultTexts={onFetchDefaultTexts}
         />
       </Column>
@@ -72,11 +72,11 @@ const DefaultTextsAdmin = ({
 DefaultTextsAdmin.propTypes = {
   defaultTextsAdmin: PropTypes.object.isRequired,
   categories: PropTypes.object.isRequired,
-
   onFetchDefaultTexts: PropTypes.func.isRequired,
   onSubmitTexts: PropTypes.func.isRequired,
   onOrderDefaultTexts: PropTypes.func.isRequired,
   onSaveDefaultTextsItem: PropTypes.func.isRequired,
+  statusList: PropTypes.shape({}).isRequired,
 };
 
 export const mapDispatchToProps = (dispatch) =>
@@ -92,7 +92,7 @@ export const mapDispatchToProps = (dispatch) =>
 
 const mapStateToProps = createStructuredSelector({
   defaultTextsAdmin: makeSelectDefaultTextsAdmin(),
-  categories: makeSelectCategories(),
+  // categories: makeSelectCategories(),
 });
 
 const withConnect = connect(

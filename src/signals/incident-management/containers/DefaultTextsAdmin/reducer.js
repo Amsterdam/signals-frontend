@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 
-import { defaultTextsOptionList } from 'signals/incident-management/definitions/statusList';
+// import { defaultTextsOptionList } from 'signals/incident-management/definitions/statusList';
 
 import {
   FETCH_DEFAULT_TEXTS, FETCH_DEFAULT_TEXTS_SUCCESS, FETCH_DEFAULT_TEXTS_ERROR,
@@ -13,7 +13,7 @@ export const initialState = fromJS({
   loading: false,
   error: false,
   storing: false,
-  defaultTextsOptionList
+  // defaultTextsOptionList
 });
 
 function defaultTextsAdminReducer(state = initialState, action) {

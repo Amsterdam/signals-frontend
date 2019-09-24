@@ -9,9 +9,9 @@ import styled from 'styled-components';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import {
-  makeSelectLoading,
-  makeSelectError,
-  makeSelectCategories,
+  // makeSelectLoading,
+  // makeSelectError,
+  // makeSelectCategories,
   makeSelectAccessToken,
 } from 'containers/App/selectors';
 import {
@@ -319,10 +319,10 @@ IncidentDetail.propTypes = {
 /* istanbul ignore next */
 const mapStateToProps = () =>
   createStructuredSelector({
-    loading: makeSelectLoading(),
-    error: makeSelectError(),
+    // loading: makeSelectLoading(),
+    // error: makeSelectError(),
     incidentModel: makeSelectIncidentModel(),
-    categories: makeSelectCategories(),
+    // categories: makeSelectCategories(),
     historyModel: makeSelectHistoryModel(),
     accessToken: makeSelectAccessToken(),
   });

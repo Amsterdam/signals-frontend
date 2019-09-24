@@ -17,20 +17,12 @@ import {
   REMOVE_FILTER_SUCCESS,
   APPLY_FILTER,
 } from './constants';
-import priorityList from '../../definitions/priorityList';
-import stadsdeelList from '../../definitions/stadsdeelList';
-import statusList from '../../definitions/statusList';
-import feedbackList from '../../definitions/feedbackList';
 
 export const initialState = fromJS({
   sort: '-created_at',
   page: 1,
   incidents: [],
   incidentsCount: null,
-  priorityList,
-  stadsdeelList,
-  statusList,
-  feedbackList,
   allFilters: [],
   filter: {},
 });
