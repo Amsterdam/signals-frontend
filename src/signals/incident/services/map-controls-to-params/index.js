@@ -4,7 +4,9 @@ import mapValues from '../map-values';
 import mapPaths from '../map-paths';
 
 const mapControlsToParams = (incident, wizard) => {
+  console.log('mapControlsToParams', incident);
   let datetime;
+
 
   if (incident.datetime && incident.datetime.id === 'Nu') {
     datetime = moment();
@@ -26,9 +28,12 @@ const mapControlsToParams = (incident, wizard) => {
     params.incident_date_start = datetime.format();
   }
 
+  console.log('mapControlsToParams mapValues');
   params = mapValues(params, incident, wizard);
+  console.log('mapControlsToParams mapPaths');
   params = mapPaths(params, incident, wizard);
 
+  console.log('mapControlsToParams output', params);
   return params;
 };
 
