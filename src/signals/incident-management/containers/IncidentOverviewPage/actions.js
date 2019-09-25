@@ -5,20 +5,22 @@
  */
 
 import {
-  REQUEST_INCIDENTS,
-  REQUEST_INCIDENTS_SUCCESS,
-  REQUEST_INCIDENTS_ERROR,
-  INCIDENT_SELECTED,
-  FILTER_INCIDENTS_CHANGED,
-  PAGE_INCIDENTS_CHANGED,
-  SORT_INCIDENTS_CHANGED,
-  GET_FILTERS,
-  GET_FILTERS_SUCCESS,
-  GET_FILTERS_FAILED,
-  REMOVE_FILTER,
-  REMOVE_FILTER_SUCCESS,
-  REMOVE_FILTER_FAILED,
+  APPLY_FILTER_REFRESH_STOP,
+  APPLY_FILTER_REFRESH,
   APPLY_FILTER,
+  FILTER_INCIDENTS_CHANGED,
+  GET_FILTERS_FAILED,
+  GET_FILTERS_SUCCESS,
+  GET_FILTERS,
+  INCIDENT_SELECTED,
+  PAGE_INCIDENTS_CHANGED,
+  REMOVE_FILTER_FAILED,
+  REMOVE_FILTER_SUCCESS,
+  REMOVE_FILTER,
+  REQUEST_INCIDENTS_ERROR,
+  REQUEST_INCIDENTS_SUCCESS,
+  REQUEST_INCIDENTS,
+  SORT_INCIDENTS_CHANGED,
 } from './constants';
 
 export function requestIncidents({ filter, page, sort }) {
@@ -101,5 +103,14 @@ export const removeFilterFailed = (payload) => ({
 
 export const applyFilter = (payload) => ({
   type: APPLY_FILTER,
+  payload,
+});
+
+export const applyFilterRefresh = () => ({
+  type: APPLY_FILTER_REFRESH,
+});
+
+export const applyFilterRefreshStop = (payload) => ({
+  type: APPLY_FILTER_REFRESH_STOP,
   payload,
 });

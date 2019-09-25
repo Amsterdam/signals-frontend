@@ -65,24 +65,24 @@ describe.skip('signals/incident-management/containers/Filter/saga', () => {
         .isDone();
     });
 
-    it('should dispatch success', () => {
+    it('should dispatch success', () =>
       expectSaga(doSaveFilter, action)
         .provide([[matchers.call.fn(authPostCall), payloadResponse]])
         .put({
           type: SAVE_FILTER_SUCCESS,
           payload: payloadResponse,
         })
-        .run();
-    });
+        .run());
 
-    it('should dispatch failed', () => {
-      expectSaga(doSaveFilter, { payload: { ...payload, name: undefined } })
+    it('should dispatch failed', () =>
+      expectSaga(doSaveFilter, {
+        payload: { ...payload, name: undefined },
+      })
         .put({
           type: SAVE_FILTER_FAILED,
           payload: 'No name supplied',
         })
-        .run();
-    });
+        .run());
 
     it('catches anything', () => {
       const error = new Error('Something bad happened');
@@ -156,7 +156,7 @@ describe.skip('signals/incident-management/containers/Filter/saga', () => {
 
     it('should dispatch success', () => {
       const payloadResponse = { ...updatePayload, payload };
-      expectSaga(doUpdateFilter, action)
+      return expectSaga(doUpdateFilter, action)
         .provide([[matchers.call.fn(authPatchCall), payloadResponse]])
         .put({
           type: UPDATE_FILTER_SUCCESS,
@@ -220,7 +220,7 @@ describe.skip('signals/incident-management/containers/Filter/saga', () => {
         payload,
       };
 
-      expectSaga(saveFilter, action)
+      return expectSaga(saveFilter, action)
         .spawn(doSaveFilter, action)
         .run();
     });
@@ -238,7 +238,7 @@ describe.skip('signals/incident-management/containers/Filter/saga', () => {
         payload,
       };
 
-      expectSaga(updateFilter, action)
+      return expectSaga(updateFilter, action)
         .spawn(doUpdateFilter, action)
         .run();
     });
