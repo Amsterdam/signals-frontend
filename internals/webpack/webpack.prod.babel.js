@@ -8,6 +8,7 @@ module.exports = require('./webpack.base.babel')({
   entry: [
     'babel-polyfill',
     'formdata-polyfill',
+    'url-polyfill',
     path.join(process.cwd(), 'src/app.js'),
   ],
 

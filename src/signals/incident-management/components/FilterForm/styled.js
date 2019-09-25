@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Button, Column } from '@datapunt/asc-ui';
 
 export const Form = styled.form`
@@ -82,4 +82,17 @@ export const Fieldset = styled.fieldset`
     position: absolute;
     width: 1px;
   }
+
+  .invoer + .Label {
+    margin-top: 20px;
+  }
+
+  svg {
+    vertical-align: top;
+  }
+
+  ${({ isSection }) => isSection && css`
+    background-color: #f5f5f5;
+    padding: 15px 20px;
+  `}
 `;

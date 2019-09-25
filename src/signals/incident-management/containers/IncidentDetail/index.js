@@ -197,7 +197,7 @@ export class IncidentDetail extends React.Component {
 
               {previewState && (
                 <Row>
-                  <DetailContainer span={7}>
+                  <DetailContainer span={12}>
                     <button
                       className="incident-detail__preview-close incident-detail__button--close"
                       onClick={this.onCloseAll}

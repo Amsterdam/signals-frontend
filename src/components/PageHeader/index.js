@@ -43,7 +43,7 @@ PageHeader.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   subTitle: PropTypes.string,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.node.isRequired,
 };
 
 export default PageHeader;

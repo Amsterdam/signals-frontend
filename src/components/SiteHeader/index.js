@@ -18,7 +18,7 @@ import {
 } from '@datapunt/asc-ui';
 import SearchBar from 'containers/SearchBar';
 
-export const breakpoint = 899;
+export const breakpoint = 1000;
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
@@ -66,9 +66,13 @@ const StyledMenuButton = styled(MenuButton)`
 `;
 
 const SearchBarMenuItem = styled(MenuItem)`
-  margin-right: auto;
+  margin-right: 0;
   max-width: 365px;
-  flex-basis: 365px;
+
+  @media screen and (min-width: ${breakpoint + 1}px) {
+    margin-right: auto;
+    flex-basis: 365px;
+  }
 `;
 
 const StyledSearchBar = styled(SearchBar)`
@@ -87,11 +91,44 @@ const HeaderWrapper = styled.div`
           max-width: 1400px;
           margin-left: auto;
           margin-right: auto;
+          content: '';
+          display: block;
+          position: static !important;
+          left: 0;
+          right: 0;
+          height: 50px;
+          margin-top: -50px;
+          background-color: #F5F5F5;
         }
 
         nav,
         ul {
           margin: 0;
+        }
+
+        > header {
+          flex-wrap: wrap;
+        }
+
+        h1 {
+          padding: 15px 0;
+
+          @media screen and (max-width: 990px) {
+            margin: 0;
+          }
+
+          a {
+            height: 68px;
+
+            span {
+              background-repeat: no-repeat;
+              background-size: auto 100%;
+            }
+
+            @media screen and (max-width: 539px) {
+              height: 41px;
+            }
+          }
         }
 
         nav ul {
