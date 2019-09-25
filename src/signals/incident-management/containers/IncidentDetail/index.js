@@ -54,8 +54,6 @@ export class IncidentDetail extends React.Component {
       attachmentHref: props.attachmentHref,
     };
 
-    this.onThor = this.onThor.bind(this);
-    this.onDismissSplitNotification = this.onDismissSplitNotification.bind(this);
     this.onShowLocation = this.onShowLocation.bind(this);
     this.onEditLocation = this.onEditLocation.bind(this);
     this.onEditStatus = this.onEditStatus.bind(this);
@@ -89,26 +87,6 @@ export class IncidentDetail extends React.Component {
         });
       }
     }
-  }
-
-  onThor() {
-    const patch = {
-      id: this.props.id,
-      type: 'thor',
-      patch: {
-        status: {
-          state: 'ready to send',
-          text: 'Te verzenden naar THOR',
-          target_api: 'sigmax',
-        },
-      },
-    };
-
-    this.props.onPatchIncident(patch);
-  }
-
-  onDismissSplitNotification() {
-    this.props.onDismissSplitNotification();
   }
 
   onShowLocation() {
@@ -153,6 +131,7 @@ export class IncidentDetail extends React.Component {
       accessToken,
       onPatchIncident,
       onDismissError,
+      onDismissSplitNotification,
     } = this.props;
     const { list } = this.props.historyModel;
     const {
@@ -175,7 +154,7 @@ export class IncidentDetail extends React.Component {
         <div className="incident-detail">
           <SplitNotificationBar
             data={split}
-            onClose={this.onDismissSplitNotification}
+            onDismissSplitNotification={onDismissSplitNotification}
           />
 
           {loading && <LoadingIndicator />}
@@ -189,7 +168,7 @@ export class IncidentDetail extends React.Component {
                       incident={incident}
                       baseUrl={this.props.baseUrl}
                       accessToken={accessToken}
-                      onThor={this.onThor}
+                      onPatchIncident={onPatchIncident}
                     />
                   </Column>
                 </Row>
@@ -206,7 +185,7 @@ export class IncidentDetail extends React.Component {
                     {previewState === 'showImage' && (
                       <AttachmentViewer
                         attachments={attachments}
-                        attachmentHref={attachmentHref}
+                        href={attachmentHref}
                         onShowAttachment={this.onShowAttachment}
                       />
                     )}
@@ -220,8 +199,11 @@ export class IncidentDetail extends React.Component {
 
                     {previewState === 'editLocation' && (
                       <LocationForm
-                        incidentModel={this.props.incidentModel}
+                        incident={incident}
+                        patching={patching}
+                        error={error}
                         onPatchIncident={onPatchIncident}
+                        onDismissError={onDismissError}
                         onClose={this.onCloseAll}
                       />
                     )}
@@ -252,7 +234,6 @@ export class IncidentDetail extends React.Component {
                           incident={incident}
                           attachments={attachments}
                           stadsdeelList={stadsdeelList}
-                          priorityList={priorityList}
                           onShowLocation={this.onShowLocation}
                           onEditLocation={this.onEditLocation}
                           onShowAttachment={this.onShowAttachment}

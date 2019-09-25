@@ -48,10 +48,7 @@ describe('<ExtraProperties />', () => {
     ]
   };
 
-  afterEach(() => {
-    jest.resetAllMocks();
-    cleanup();
-  });
+  afterEach(cleanup);
 
   it('should render correctly', () => {
     const { queryAllByTestId } = render(

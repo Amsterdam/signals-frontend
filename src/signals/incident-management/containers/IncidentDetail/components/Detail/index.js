@@ -60,7 +60,7 @@ Detail.propTypes = {
 
   onShowAttachment: PropTypes.func.isRequired,
   onShowLocation: PropTypes.func.isRequired,
-  onEditLocation: PropTypes.func.isRequired
+  onEditLocation: PropTypes.func.isRequired,
 };
 
 export default Detail;
