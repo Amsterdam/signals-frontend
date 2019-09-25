@@ -52,6 +52,12 @@ describe('containers/PageHeader', () => {
     ));
 
     expect(container.firstChild.querySelector('h1').textContent).toEqual('Foo bar !!1! (99)');
+
+    rerender(withAppContext(
+      <PageHeaderContainerComponent filter={{ name: 'Foo bar !!1!', refresh: true }} incidentsCount={99} />
+    ));
+
+    expect(container.firstChild.querySelector('svg')).toBeTruthy();
   });
 
   it('should provide the PageHeader component with a subtitle', () => {

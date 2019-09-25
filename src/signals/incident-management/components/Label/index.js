@@ -24,20 +24,22 @@ const StyledLabel = styled.label`
     `}
 `;
 
-const Label = ({ htmlFor, as, ...rest }) => (
-  <LabelWrapper>
-    <StyledLabel htmlFor={htmlFor} $as={as} {...rest} />
+const Label = ({ className, htmlFor, as, ...rest }) => (
+  <LabelWrapper className={`Label ${className}`}>
+    <StyledLabel htmlFor={htmlFor} as={as} {...rest} />
   </LabelWrapper>
 );
 
 Label.defaultProps = {
   as: 'label',
+  className: '',
   isGroupHeader: true,
 };
 
 Label.propTypes = {
   /** HTMLElement render identifier. Allows rendering the Label component as a 'span' or other element */
   as: PropTypes.string,
+  className: PropTypes.string,
   /** `for` Attribute that is required whenever `as` is undefined or has a value of `label`. In all other cases not required. */
   htmlFor: (props, propName, componentName) => {
     const as = props.as;

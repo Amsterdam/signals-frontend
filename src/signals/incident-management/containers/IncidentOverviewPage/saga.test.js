@@ -1,57 +1,60 @@
-import { put, takeLatest, select, all } from 'redux-saga/effects';
+import { put, takeLatest, select, call, take } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import { authCall, authDeleteCall } from 'shared/services/api/api';
+import { expectSaga, testSaga } from 'redux-saga-test-plan';
+import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import {
-  REQUEST_INCIDENTS,
-  INCIDENT_SELECTED,
-  GET_FILTERS,
-  REMOVE_FILTER,
   APPLY_FILTER,
+  APPLY_FILTER_REFRESH,
+  APPLY_FILTER_REFRESH_STOP,
+  GET_FILTERS,
+  INCIDENT_SELECTED,
+  REMOVE_FILTER,
+  REQUEST_INCIDENTS,
 } from './constants';
 import {
-  requestIncidentsSuccess,
-  requestIncidentsError,
+  applyFilterRefresh,
+  applyFilterRefreshStop,
   filterIncidentsChanged,
-  pageIncidentsChanged,
-  sortIncidentsChanged,
-  getFiltersSuccess,
   getFiltersFailed,
-  removeFilterSuccess,
+  getFiltersSuccess,
+  pageIncidentsChanged,
   removeFilterFailed,
+  removeFilterSuccess,
+  requestIncidents,
+  requestIncidentsError,
+  requestIncidentsSuccess,
+  sortIncidentsChanged,
 } from './actions';
 import watchRequestIncidentSaga, {
-  fetchIncidents,
-  openIncident,
-  getFilters,
-  removeFilter,
   applyFilter,
+  fetchIncidents,
+  getFilters,
+  openIncident,
+  refreshIncidents,
+  removeFilter,
 } from './saga';
-import { makeSelectFilterParams } from './selectors';
+import { makeSelectFilter } from './selectors';
 
-jest.mock('shared/services/api/api');
-jest.mock('./selectors', () => {
-  function mockedMakeSelectFilterParams() {}
-  return {
-    makeSelectFilterParams: () => mockedMakeSelectFilterParams,
-  };
-});
-
-describe('IncidentOverviewPage saga', () => {
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+describe('signals/incident-management/containers/IncidentOverviewPage/saga', () => {
   it('should watchRequestIncidentsSaga', () => {
-    const gen = watchRequestIncidentSaga();
-    expect(gen.next().value).toEqual(
-      all([
+    testSaga(watchRequestIncidentSaga)
+      .next()
+      .all([
         takeLatest(REQUEST_INCIDENTS, fetchIncidents),
         takeLatest(INCIDENT_SELECTED, openIncident),
         takeLatest(GET_FILTERS, getFilters),
         takeLatest(REMOVE_FILTER, removeFilter),
         takeLatest(APPLY_FILTER, applyFilter),
-      ]),
-    );
+      ])
+      .next()
+      .take(APPLY_FILTER_REFRESH)
+      .next()
+      .race([call(refreshIncidents), take(APPLY_FILTER_REFRESH_STOP)])
+      .finish()
+      .next()
+      .isDone();
   });
 
   it('should openIncident success', () => {
@@ -65,24 +68,32 @@ describe('IncidentOverviewPage saga', () => {
   });
 
   it('should fetchIncidents success', () => {
-    const filter = { name: 'filter' };
+    const filter = { name: 'filter', refresh: false };
     const page = 2;
     const sort = '-created_at';
     const action = { payload: { filter, page, sort } };
-    const incidents = {};
-
-    const requestURL = 'https://acc.api.data.amsterdam.nl/signals/auth/signal';
+    const incidents = [{}, {}];
     const params = { test: 'test' };
+    const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals/`;
 
-    const gen = fetchIncidents(action);
-    expect(gen.next().value).toEqual(put(filterIncidentsChanged(filter))); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next().value).toEqual(put(pageIncidentsChanged(page))); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next().value).toEqual(put(sortIncidentsChanged(sort))); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next().value).toEqual(select(makeSelectFilterParams())); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next(params).value).toEqual(authCall(requestURL, params)); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next(incidents).value).toEqual(
-      put(requestIncidentsSuccess(incidents)),
-    ); // eslint-disable-line redux-saga/yield-effects
+    testSaga(fetchIncidents, action)
+      .next()
+      .put(applyFilterRefreshStop())
+      .next()
+      .put(filterIncidentsChanged(filter))
+      .next()
+      .put(pageIncidentsChanged(page))
+      .next()
+      .put(sortIncidentsChanged(sort))
+      .next()
+      .next(params)
+      .call(authCall, requestURL, params)
+      .next(incidents)
+      .put(requestIncidentsSuccess(incidents))
+      .next()
+      .put(applyFilterRefresh())
+      .next()
+      .isDone();
   });
 
   it('should fetchIncidents success with sort days_open', () => {
@@ -90,19 +101,25 @@ describe('IncidentOverviewPage saga', () => {
     const page = 2;
     const sort = 'days_open';
     const action = { payload: { filter, page, sort } };
-
-    const requestURL = 'https://acc.api.data.amsterdam.nl/signals/auth/signal';
     const params = { ordering: 'days_open' };
+    const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals/`;
 
-    const gen = fetchIncidents(action);
-    expect(gen.next().value).toEqual(put(filterIncidentsChanged(filter))); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next().value).toEqual(put(pageIncidentsChanged(page))); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next().value).toEqual(put(sortIncidentsChanged(sort))); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next().value).toEqual(select(makeSelectFilterParams())); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next(params).value).toEqual(authCall(requestURL, params)); // eslint-disable-line redux-saga/yield-effects
-    expect(params).toEqual({
-      ordering: '-created_at',
-    });
+    testSaga(fetchIncidents, action)
+      .next()
+      .put(applyFilterRefreshStop())
+      .next()
+      .put(filterIncidentsChanged(filter))
+      .next()
+      .put(pageIncidentsChanged(page))
+      .next()
+      .put(sortIncidentsChanged(sort))
+      .next()
+      .next(params)
+      .call(authCall, requestURL, {
+        ordering: '-created_at',
+      })
+      .finish()
+      .isDone();
   });
 
   it('should fetchIncidents success with sort -days_open', () => {
@@ -110,19 +127,25 @@ describe('IncidentOverviewPage saga', () => {
     const page = 2;
     const sort = '-days_open';
     const action = { payload: { filter, page, sort } };
-
-    const requestURL = 'https://acc.api.data.amsterdam.nl/signals/auth/signal';
     const params = { ordering: '-days_open' };
+    const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals/`;
 
-    const gen = fetchIncidents(action);
-    expect(gen.next().value).toEqual(put(filterIncidentsChanged(filter))); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next().value).toEqual(put(pageIncidentsChanged(page))); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next().value).toEqual(put(sortIncidentsChanged(sort))); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next().value).toEqual(select(makeSelectFilterParams())); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next(params).value).toEqual(authCall(requestURL, params)); // eslint-disable-line redux-saga/yield-effects
-    expect(params).toEqual({
-      ordering: 'created_at',
-    });
+    testSaga(fetchIncidents, action)
+      .next()
+      .put(applyFilterRefreshStop())
+      .next()
+      .put(filterIncidentsChanged(filter))
+      .next()
+      .put(pageIncidentsChanged(page))
+      .next()
+      .put(sortIncidentsChanged(sort))
+      .next()
+      .next(params)
+      .call(authCall, requestURL, {
+        ordering: 'created_at',
+      })
+      .finish()
+      .isDone();
   });
 
   it('should fetchIncidents error', () => {
@@ -136,15 +159,17 @@ describe('IncidentOverviewPage saga', () => {
   });
 
   it('should getFilters success', () => {
+    const filters = { results: [{ a: 1 }] };
     const requestURL =
       'https://acc.api.data.amsterdam.nl/signals/v1/private/me/filters/';
-    const filters = { results: [{ a: 1 }] };
 
-    const gen = getFilters();
-    expect(gen.next().value).toEqual(authCall(requestURL)); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next(filters).value).toEqual(
-      put(getFiltersSuccess(filters.results)),
-    ); // eslint-disable-line redux-saga/yield-effects
+    testSaga(getFilters)
+      .next()
+      .call(authCall, requestURL)
+      .next(filters)
+      .put(getFiltersSuccess(filters.results))
+      .next()
+      .isDone();
   });
 
   it('should getFilters error', () => {
@@ -160,9 +185,13 @@ describe('IncidentOverviewPage saga', () => {
     const action = { payload: id };
     const requestURL = `https://acc.api.data.amsterdam.nl/signals/v1/private/me/filters/${id}`;
 
-    const gen = removeFilter(action);
-    expect(gen.next(0).value).toEqual(authDeleteCall(requestURL)); // eslint-disable-line redux-saga/yield-effects
-    expect(gen.next().value).toEqual(put(removeFilterSuccess(id))); // eslint-disable-line redux-saga/yield-effects
+    testSaga(removeFilter, action)
+      .next()
+      .call(authDeleteCall, requestURL)
+      .next(id)
+      .put(removeFilterSuccess(id))
+      .next()
+      .isDone();
   });
 
   it('should removeFilter error', () => {
@@ -171,5 +200,35 @@ describe('IncidentOverviewPage saga', () => {
     const gen = removeFilter(666);
     gen.next();
     expect(gen.throw(error).value).toEqual(put(removeFilterFailed())); // eslint-disable-line redux-saga/yield-effects
+  });
+
+  describe('incident refresh', () => {
+    it('should NOT refresh incidents periodically', () => {
+      const filter = {
+        name: 'Foo bar baz',
+      };
+
+      return expectSaga(refreshIncidents, 100)
+        .provide([[select(makeSelectFilter), filter]])
+        .select(makeSelectFilter)
+        .not.put(requestIncidents({ filter }))
+        .silentRun(150);
+    });
+
+    it('should refresh incidents periodically', () => {
+      const filter = {
+        name: 'Foo bar baz',
+        refresh: true,
+      };
+
+      return expectSaga(refreshIncidents, 100)
+        .provide([[select(makeSelectFilter), filter]])
+        .select(makeSelectFilter)
+        .delay(100)
+        .put(requestIncidents({ filter, page: undefined, sort: undefined }))
+        .delay(100)
+        .put(requestIncidents({ filter, page: undefined, sort: undefined }))
+        .silentRun(250);
+    });
   });
 });

@@ -31,6 +31,7 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
 
     const expected1 = {
       name: 'Afval in Westpoort',
+      refresh: false,
       options: {
         maincategory_slug: ['afval'],
         category_slug: ['drijfvuil'],
@@ -64,6 +65,7 @@ describe('signals/incident-management/components/FilterForm/parse', () => {
 
     const expected2 = {
       name: 'Afval in Westpoort',
+      refresh: false,
       options: {
         maincategory_slug: ['afval', 'wegen-verkeer-straatmeubilair'],
         category_slug: ['drijfvuil', 'maaien-snoeien', 'maaien-snoeien-2'],

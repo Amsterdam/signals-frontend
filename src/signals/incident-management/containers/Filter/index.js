@@ -70,6 +70,7 @@ FilterContainerComponent.propTypes = {
         PropTypes.arrayOf(PropTypes.string),
       ]),
     }),
+    refresh: PropTypes.bool,
   }),
   categories: PropTypes.shape({
     main: PropTypes.arrayOf(
