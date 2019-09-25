@@ -31,7 +31,7 @@ LocationPreview.propTypes = {
       woonplaats: PropTypes.string.isRequired,
       openbare_ruimte: PropTypes.string.isRequired,
       huisnummer_toevoeging: PropTypes.string.isRequired,
-    }), null]),
+    }), PropTypes.oneOf([null])]),
     stadsdeel: PropTypes.string.isRequired,
     bag_validated: PropTypes.bool.isRequired,
     address_text: PropTypes.string.isRequired,
