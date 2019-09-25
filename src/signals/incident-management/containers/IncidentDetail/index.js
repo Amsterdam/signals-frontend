@@ -213,10 +213,8 @@ export class IncidentDetail extends React.Component {
 
                     {previewState === 'showLocation' && (
                       <LocationPreview
-                        incident={incident}
-                        baseUrl={this.props.baseUrl}
-                        accessToken={accessToken}
-                        onThor={this.onThor}
+                        location={incident.location}
+                        onEditLocation={this.onEditLocation}
                       />
                     )}
 
