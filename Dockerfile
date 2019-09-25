@@ -15,22 +15,24 @@ RUN apt-get update && apt-get install -y \
       git && \
       rm -rf /var/lib/apt/lists/*
 
-COPY internals /app/internals
-COPY server /app/server
-COPY package.json \
-     package-lock.json \
-     .gitignore \
-     .gitattributes \
-      /app/
-
 COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
 
 #  Changing git URL because network is blocking git protocol...
 RUN git config --global url."https://".insteadOf git://
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
+COPY internals /app/internals
+COPY server /app/server
+COPY .gitignore \
+     .gitattributes \
+      /app/
+
 RUN npm install --unsafe-perm -g full-icu
 ENV NODE_ICU_DATA="/usr/local/lib/node_modules/full-icu"
+
+COPY package.json \
+     package-lock.json \
+      /app/
 
 # Install NPM dependencies, cleaning cache afterwards:
 RUN npm --production=false \
