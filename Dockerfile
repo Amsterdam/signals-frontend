@@ -1,4 +1,3 @@
-
 FROM node:8.15-stretch AS builder
 LABEL maintainer="datapunt@amsterdam.nl"
 
@@ -13,21 +12,16 @@ WORKDIR /app
 # Run updates and cleanup
 RUN apt-get update && apt-get install -y \
       netcat \
-      git
-RUN rm -rf /var/lib/apt/lists/*
-
-# Copy sources
-# COPY . /app/
+      git && \
+      rm -rf /var/lib/apt/lists/*
 
 COPY internals /app/internals
 COPY server /app/server
-# COPY test /app/test
 COPY package.json \
      package-lock.json \
      .gitignore \
      .gitattributes \
       /app/
-COPY src /app/src
 
 COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
 
@@ -38,12 +32,14 @@ RUN git config --global url."https://github.com/".insteadOf git@github.com:
 RUN npm install --unsafe-perm -g full-icu
 ENV NODE_ICU_DATA="/usr/local/lib/node_modules/full-icu"
 
-# Install NPM dependencies. Also:
+# Install NPM dependencies, cleaning cache afterwards:
 RUN npm --production=false \
-        --unsafe-perm \
-        --no-progress \
-       ci
-RUN npm cache clean --force
+      --unsafe-perm \
+      --no-progress \
+      ci && \
+      npm cache clean --force
+
+COPY src /app/src
 
 # Build
 ENV NODE_ENV=production
