@@ -18,7 +18,25 @@ const LocationPreview = ({ location, onEditLocation }) => (
 );
 
 LocationPreview.propTypes = {
-  location: PropTypes.object.isRequired,
+  location: PropTypes.shape({
+    geometrie: PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      coordinates: PropTypes.array.isRequired,
+    }),
+    buurt_code: PropTypes.string,
+    address: PropTypes.oneOfType([PropTypes.shape({
+      postcode: PropTypes.string.isRequired,
+      huisletter: PropTypes.string.isRequired,
+      huisnummer: PropTypes.string.isRequired,
+      woonplaats: PropTypes.string.isRequired,
+      openbare_ruimte: PropTypes.string.isRequired,
+      huisnummer_toevoeging: PropTypes.string.isRequired,
+    }), null]),
+    stadsdeel: PropTypes.string.isRequired,
+    bag_validated: PropTypes.bool.isRequired,
+    address_text: PropTypes.string.isRequired,
+    id: PropTypes.number,
+  }).isRequired,
   onEditLocation: PropTypes.func.isRequired
 };
 
