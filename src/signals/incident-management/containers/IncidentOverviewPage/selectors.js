@@ -1,3 +1,8 @@
+import {
+  makeSelectCategories,
+  makeSelectDataLists,
+} from 'containers/App/selectors';
+import { parseFilterData } from 'signals/incident-management/services/filter/parse';
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
@@ -42,7 +47,7 @@ const makeSelectFilterParams = () =>
       if (options && options.id) {
         delete options.id;
       }
-
+debugger;
       if (filter.searchQuery) {
         return {
           id: filter.searchQuery,
@@ -64,18 +69,36 @@ export {
 
 export const makeSelectAllFilters = createSelector(
   selectOverviewPageDomain,
-  (stateMap) => {
+  makeSelectCategories(),
+  makeSelectDataLists(),
+  (stateMap, { sub: category_slug, main: maincategory_slug }, dataLists) => {
     const state = stateMap.toJS();
+    const dataMap = {
+      category_slug,
+      maincategory_slug,
+      ...dataLists,
+    };
 
-    return state.allFilters;
+    return state.allFilters.map((filter) => parseFilterData(filter, dataMap));
   },
 );
 
 export const makeSelectFilter = createSelector(
   selectOverviewPageDomain,
-  (stateMap) => {
+  makeSelectCategories(),
+  makeSelectDataLists(),
+  (stateMap, { sub: category_slug, main: maincategory_slug }, dataLists) => {
     const state = stateMap.toJS();
+    const dataMap = {
+      category_slug,
+      maincategory_slug,
+      ...dataLists,
+    };
 
-    return state.filter;
+    if (!state.filter.id) {
+      return {};
+    }
+
+    return parseFilterData(state.filter, dataMap);
   },
 );

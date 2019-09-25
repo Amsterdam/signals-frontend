@@ -103,3 +103,9 @@ export const parseInputFormData = (filterData, dataLists) => {
 
   return parsed;
 };
+
+export const parseFilterData = (filterData, dataLists) => {
+  const { name, id, ...options } = parseInputFormData(filterData, dataLists);
+
+  return Object.assign({}, filterData, { options });
+};

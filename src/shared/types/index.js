@@ -1,27 +1,6 @@
 import PropTypes from 'prop-types';
 import { isDate } from 'utils';
 
-const dataItemType = {
-  key: PropTypes.string.isRequired,
-  slug: PropTypes.string,
-  value: PropTypes.string.isRequired,
-};
-
-const filterType = PropTypes.shape({
-  id: PropTypes.number,
-  name: PropTypes.string,
-  options: PropTypes.shape({
-    feedback: PropTypes.string,
-    incident_date: PropTypes.string,
-    address_text: PropTypes.string,
-    stadsdeel: PropTypes.arrayOf(PropTypes.string),
-    maincategory_slug: PropTypes.arrayOf(PropTypes.string),
-    priority: PropTypes.arrayOf(PropTypes.string),
-    status: PropTypes.arrayOf(PropTypes.string),
-    category_slug: PropTypes.arrayOf(PropTypes.string),
-  }),
-});
-
 const dateTypeFactory = (isRequired) =>
   /**
    * @param  {Object} props - component props
@@ -51,6 +30,46 @@ const dateTypeFactory = (isRequired) =>
 
 const dateType = dateTypeFactory(false);
 dateType.isRequired = dateTypeFactory(true);
+
+const dataItemType = PropTypes.shape({
+  key: PropTypes.string.isRequired,
+  slug: PropTypes.string,
+  value: PropTypes.string.isRequired,
+});
+
+export const filterType = PropTypes.shape({
+  created_at: dateType,
+  id: PropTypes.number,
+  name: PropTypes.string,
+  options: PropTypes.shape({
+    address_text: PropTypes.string,
+    category_slug: PropTypes.arrayOf(PropTypes.string),
+    feedback: PropTypes.string,
+    incident_date: PropTypes.string,
+    maincategory_slug: PropTypes.arrayOf(PropTypes.string),
+    priority: PropTypes.arrayOf(PropTypes.string),
+    stadsdeel: PropTypes.arrayOf(PropTypes.string),
+    status: PropTypes.arrayOf(PropTypes.string),
+  }),
+  refresh: PropTypes.bool,
+});
+
+export const parsedFilterType = PropTypes.shape({
+  created_at: dateType,
+  id: PropTypes.number,
+  name: PropTypes.string,
+  options: PropTypes.shape({
+    address_text: PropTypes.string,
+    category_slug: PropTypes.arrayOf(dataItemType),
+    feedback: PropTypes.string,
+    incident_date: PropTypes.string,
+    maincategory_slug: PropTypes.arrayOf(dataItemType),
+    priority: PropTypes.string,
+    stadsdeel: PropTypes.arrayOf(dataItemType),
+    status: PropTypes.arrayOf(dataItemType),
+  }),
+  refresh: PropTypes.bool,
+});
 
 export const incidentType = PropTypes.shape({
   _display: PropTypes.string,
@@ -103,7 +122,7 @@ export const incidentType = PropTypes.shape({
   updated_at: dateType,
 });
 
-export const dataList = PropTypes.arrayOf(PropTypes.shape(dataItemType));
+export const dataList = PropTypes.arrayOf(dataItemType);
 
 export const categories = PropTypes.shape({
   main: dataList,
@@ -111,9 +130,16 @@ export const categories = PropTypes.shape({
   sub: dataList,
 });
 
+export const dataLists = PropTypes.shape({
+  priority: dataList,
+  stadsdeel: dataList,
+  status: dataList,
+  feedback: dataList,
+});
+
 export const overviewPage = PropTypes.shape({
   incidents: PropTypes.arrayOf(incidentType),
-  filter: filterType,
+  filter: parsedFilterType,
   page: PropTypes.number,
   sort: PropTypes.string,
 });

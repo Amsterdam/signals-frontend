@@ -84,6 +84,20 @@ const makeSelectFeedbackList = () =>
     (state) => state.get('feedbackList').toJS(),
   );
 
+const makeSelectDataLists = () =>
+  createSelector(
+    makeSelectPriorityList(),
+    makeSelectStadsdeelList(),
+    makeSelectStatusList(),
+    makeSelectFeedbackList(),
+    (priority, stadsdeel, status, feedback) => ({
+      priority,
+      stadsdeel,
+      status,
+      feedback,
+    }),
+  );
+
 export {
   selectGlobal,
   makeSelectUserName,
@@ -99,4 +113,5 @@ export {
   makeSelectStadsdeelList,
   makeSelectStatusList,
   makeSelectFeedbackList,
+  makeSelectDataLists,
 };

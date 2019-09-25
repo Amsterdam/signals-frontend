@@ -5,7 +5,8 @@ import isEqual from 'lodash.isequal';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { parseInputFormData, parseOutputFormData } from 'signals/incident-management/services/filter/parse';
+import { parseFilterData, parseOutputFormData } from 'signals/incident-management/services/filter/parse';
+import * as types from 'shared/types';
 
 import CheckboxList from '../CheckboxList';
 import RadioButtonList from '../RadioButtonList';
@@ -35,27 +36,18 @@ const FilterForm = ({
   onSaveFilter,
   onSubmit,
   onUpdateFilter,
-  ...dataLists
+  dataLists,
+  categories,
 }) => {
   const {
-    feedbackList: feedback,
-    categories,
-    priorityList: priority,
-    stadsdeelList: stadsdeel,
-    statusList: status,
+    feedback,
+    priority,
+    stadsdeel,
+    status,
   } = dataLists;
 
-  const parsedfilterData = parseInputFormData(activeFilter, {
-    feedback,
-    stadsdeel,
-    maincategory_slug: categories.main,
-    priority,
-    status,
-    category_slug: categories.sub,
-  });
-
   const [submitBtnLabel, setSubmitBtnLabel] = useState(defaultSubmitBtnLabel);
-  const [filterData, setFilterData] = useState(parsedfilterData);
+  const [filterData, setFilterData] = useState(activeFilter);
   const filterSlugs = (filterData.maincategory_slug || []).concat(
     filterData.category_slug || [],
   );
@@ -348,63 +340,10 @@ FilterForm.defaultProps = {
 };
 
 FilterForm.propTypes = {
-  categories: PropTypes.shape({
-    mainToSub: PropTypes.shape({
-      [PropTypes.string]: PropTypes.arrayOf(
-        PropTypes.shape({
-          key: PropTypes.string.isRequired,
-          value: PropTypes.string.isRequired,
-        }),
-      ),
-    }),
-    main: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
-      }),
-    ),
-    sub: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
-      }),
-    ),
-  }).isRequired,
-  feedback: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    }),
-  ),
-  activeFilter: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    options: PropTypes.shape({
-      feedback: PropTypes.string,
-      incident_date: PropTypes.string,
-      address_text: PropTypes.string,
-      stadsdeel: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      maincategory_slug: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      priority: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      status: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      category_slug: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-    }),
-  }),
+  categories: types.categories.isRequired,
+  feedback: types.dataList,
+  activeFilter: types.parsedFilterType,
+  dataLists: types.dataLists.isRequired,
   /** Callback handler for when filter settings should not be applied */
   onCancel: PropTypes.func,
   /** Callback handler to reset filter */
@@ -419,24 +358,6 @@ FilterForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   /** Callback handler for handling filter settings updates */
   onUpdateFilter: PropTypes.func,
-  priorityList: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    }),
-  ),
-  stadsdeelList: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    }),
-  ),
-  statusList: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    }),
-  ),
 };
 
 export default FilterForm;

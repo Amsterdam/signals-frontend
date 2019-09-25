@@ -15,10 +15,10 @@ import { makeSelectQuery } from 'models/search/selectors';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
-import { parseInputFormData } from 'signals/incident-management/services/filter/parse';
+import { parseFilterData } from 'signals/incident-management/services/filter/parse';
 import * as types from 'shared/types';
 
-import makeSelectOverviewPage, { makeSelectIncidentsCount } from './selectors';
+import makeSelectOverviewPage, { makeSelectIncidentsCount, makeSelectFilter } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { requestIncidents, incidentSelected, getFilters } from './actions';
@@ -35,18 +35,17 @@ const StyledButton = styled(Button)`
 `;
 
 export const IncidentOverviewPageContainerComponent = ({
+  feedbackList,
+  incidentsCount,
+  loading,
+  onGetFilters,
+  onIncidentSelected,
   onRequestIncidents,
   overviewpage,
-  incidentsCount,
-  onIncidentSelected,
-  onGetFilters,
-  searchQuery,
-  categories,
-  feedbackList,
   priorityList,
+  searchQuery,
   stadsdeelList,
   statusList,
-  loading,
 }) => {
   const dataLists = {
     feedback: feedbackList,
@@ -109,12 +108,6 @@ export const IncidentOverviewPageContainerComponent = ({
 
   const { incidents, page, sort, filter } = overviewpage;
 
-  const parsedFilterData = parseInputFormData(filter, {
-    ...dataLists,
-    category_slug: categories.sub,
-    maincategory_slug: categories.main,
-  });
-
   return (
     <div className="incident-overview-page">
       <PageHeader>
@@ -154,7 +147,7 @@ export const IncidentOverviewPageContainerComponent = ({
 
         {filter && filter.options && (
           <div className="incident-overview-page__filter-tag-list">
-            <FilterTagList tags={parsedFilterData} />
+            <FilterTagList />
           </div>
         )}
       </PageHeader>
@@ -192,19 +185,17 @@ export const IncidentOverviewPageContainerComponent = ({
 };
 
 IncidentOverviewPageContainerComponent.propTypes = {
+  feedbackList: types.dataList,
+  incidentsCount: PropTypes.number,
   loading: PropTypes.bool,
+  onGetFilters: PropTypes.func.isRequired,
+  onIncidentSelected: PropTypes.func.isRequired,
+  onRequestIncidents: PropTypes.func.isRequired,
   overviewpage: types.overviewPage.isRequired,
   priorityList: types.dataList,
-  statusList: types.dataList,
-  stadsdeelList: types.dataList,
-  feedbackList: types.dataList,
-  categories: types.categories.isRequired,
-  incidentsCount: PropTypes.number,
   searchQuery: PropTypes.string,
-
-  onRequestIncidents: PropTypes.func.isRequired,
-  onIncidentSelected: PropTypes.func.isRequired,
-  onGetFilters: PropTypes.func.isRequired,
+  stadsdeelList: types.dataList,
+  statusList: types.dataList,
 };
 
 const mapStateToProps = createStructuredSelector({

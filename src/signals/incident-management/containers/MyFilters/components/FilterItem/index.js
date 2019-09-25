@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Heading, Link } from '@datapunt/asc-ui';
+import * as types from 'shared/types';
 
 import FilterTagList from '../../../FilterTagList';
 
@@ -95,34 +96,7 @@ const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => {
 };
 
 FilterItem.propTypes = {
-  filter: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    options: PropTypes.shape({
-      incident_date: PropTypes.string,
-      address_text: PropTypes.string,
-      stadsdeel: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      maincategory_slug: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      priority: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      status: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      category_slug: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-    }).isRequired,
-  }).isRequired,
+  filter: types.parsedFilterType.isRequired,
   onApplyFilter: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onRemoveFilter: PropTypes.func.isRequired,
