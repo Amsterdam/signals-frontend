@@ -11,16 +11,13 @@ import MyFilters from 'signals/incident-management/containers/MyFilters';
 import PageHeader from 'containers/PageHeader';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-// import {
-//   makeSelectLoading,
-//   makeSelectError,
-//   makeSelectCategories,
-// } from 'containers/App/selectors';
 import { makeSelectQuery } from 'models/search/selectors';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
 import { parseInputFormData } from 'signals/incident-management/services/filter/parse';
+import * as types from 'shared/types';
+
 import makeSelectOverviewPage, { makeSelectIncidentsCount } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -49,9 +46,14 @@ export const IncidentOverviewPageContainerComponent = ({
   priorityList,
   stadsdeelList,
   statusList,
-  ...last,
+  loading,
 }) => {
-  debugger;
+  const dataLists = {
+    feedback: feedbackList,
+    priority: priorityList,
+    stadsdeel: stadsdeelList,
+    status: statusList,
+  };
   const [modalFilterIsOpen, toggleFilterModal] = useState(false);
   const [modalMyFiltersIsOpen, toggleMyFiltersModal] = useState(false);
 
@@ -105,15 +107,12 @@ export const IncidentOverviewPageContainerComponent = ({
     onGetFilters();
   }, []);
 
-  const { incidents, loading, page, sort, filter, ...rest } = overviewpage;
+  const { incidents, page, sort, filter } = overviewpage;
 
   const parsedFilterData = parseInputFormData(filter, {
+    ...dataLists,
     category_slug: categories.sub,
-    feedback: feedbackList,
     maincategory_slug: categories.main,
-    priority: priorityList,
-    stadsdeel: stadsdeelList,
-    status: statusList,
   });
 
   return (
@@ -172,7 +171,7 @@ export const IncidentOverviewPageContainerComponent = ({
                 onRequestIncidents={onRequestIncidents}
                 sort={sort}
                 incidentsCount={incidentsCount}
-                {...rest}
+                {...dataLists}
               />
             )}
           </Column>
@@ -193,17 +192,13 @@ export const IncidentOverviewPageContainerComponent = ({
 };
 
 IncidentOverviewPageContainerComponent.propTypes = {
-  overviewpage: PropTypes.shape({
-    incidents: PropTypes.arrayOf(PropTypes.shape({})),
-    loading: PropTypes.bool,
-    page: PropTypes.number,
-    sort: PropTypes.string,
-    filter: PropTypes.object,
-  }).isRequired,
-  categories: PropTypes.shape({
-    main: PropTypes.arrayOf(PropTypes.shape({})),
-    sub: PropTypes.arrayOf(PropTypes.shape({})),
-  }).isRequired,
+  loading: PropTypes.bool,
+  overviewpage: types.overviewPage.isRequired,
+  priorityList: types.dataList,
+  statusList: types.dataList,
+  stadsdeelList: types.dataList,
+  feedbackList: types.dataList,
+  categories: types.categories.isRequired,
   incidentsCount: PropTypes.number,
   searchQuery: PropTypes.string,
 
@@ -213,16 +208,9 @@ IncidentOverviewPageContainerComponent.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  // categories: makeSelectCategories(),
-  // error: makeSelectError(),
-  // feedbackList: makeSelectFeedbackList,
   incidentsCount: makeSelectIncidentsCount,
-  // loading: makeSelectLoading(),
   overviewpage: makeSelectOverviewPage(),
-  // priorityList: makeSelectPriorityList,
   searchQuery: makeSelectQuery,
-  // stadsdeelList: makeSelectStadsdeelList,
-  // statusList: makeSelectStatusList,
 });
 
 export const mapDispatchToProps = (dispatch) =>

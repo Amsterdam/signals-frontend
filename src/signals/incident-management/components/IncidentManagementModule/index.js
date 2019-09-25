@@ -17,11 +17,13 @@ import {
   makeSelectFeedbackList,
 } from 'containers/App/selectors';
 
-import IncidentOverviewPage from '../../containers/IncidentOverviewPage';
-import IncidentDetail from '../../containers/IncidentDetail';
-import DashboardContainer from '../../containers/DashboardContainer';
-import DefaultTextsAdmin from '../../containers/DefaultTextsAdmin';
-import IncidentSplitContainer from '../../containers/IncidentSplitContainer';
+import IncidentOverviewPage from 'signals/incident-management/containers/IncidentOverviewPage';
+import IncidentDetail from 'signals/incident-management/containers/IncidentDetail';
+import DashboardContainer from 'signals/incident-management/containers/DashboardContainer';
+import DefaultTextsAdmin from 'signals/incident-management/containers/DefaultTextsAdmin';
+import IncidentSplitContainer from 'signals/incident-management/containers/IncidentSplitContainer';
+
+import * as types from 'shared/types';
 
 export const incidentDetailWrapper = (baseUrl, rest) => (props) => (
   // eslint-disable-next-line react/prop-types
@@ -55,13 +57,20 @@ export const IncidentManagementModuleComponent = ({
   match: { url },
   error,
   loading,
-  dispatch,
-  history,
-  location,
-  staticContext,
-  ...dataLists
-}) =>
-  !isAuthenticated ? (
+  categories,
+  feedbackList,
+  stadsdeelList,
+  statusList,
+  priorityList,
+}) => {
+  const dataLists = {
+    categories,
+    feedbackList,
+    stadsdeelList,
+    statusList,
+    priorityList,
+  };
+  return !isAuthenticated ? (
     <Route component={LoginPage} />
   ) : (
     <Fragment>
@@ -106,6 +115,7 @@ export const IncidentManagementModuleComponent = ({
       />
     </Fragment>
   );
+};
 
 IncidentManagementModuleComponent.propTypes = {
   error: PropTypes.bool,
@@ -114,6 +124,11 @@ IncidentManagementModuleComponent.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string.isRequired,
   }),
+  priorityList: types.dataList,
+  statusList: types.dataList,
+  stadsdeelList: types.dataList,
+  feedbackList: types.dataList,
+  categories: types.categories,
 };
 
 const mapStateToProps = createStructuredSelector({
