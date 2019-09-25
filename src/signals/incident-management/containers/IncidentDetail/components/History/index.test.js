@@ -49,10 +49,10 @@ describe('<History />', () => {
       expect(queryByTestId('history-title')).toHaveTextContent(/^Historie$/);
       expect(queryAllByTestId('history-list-item')).toHaveLength(3);
 
-      expect(queryAllByTestId('history-list-item-when')[0]).toHaveTextContent('31-07-2019 om 15:10');
-      expect(queryAllByTestId('history-list-item-who')[0]).toHaveTextContent('jasper.g.swart@gmail.com');
-      expect(queryAllByTestId('history-list-item-action')[0]).toHaveTextContent('Update status naar: Gesplitst');
-      expect(queryAllByTestId('history-list-item-description')[0]).toHaveTextContent('Deze melding is opgesplitst.');
+      expect(queryAllByTestId('history-list-item-when')[0]).toHaveTextContent(/^31-07-2019 om 15:10$/);
+      expect(queryAllByTestId('history-list-item-who')[0]).toHaveTextContent(/^jasper.g.swart@gmail.com$/);
+      expect(queryAllByTestId('history-list-item-action')[0]).toHaveTextContent(/^Update status naar: Gesplitst$/);
+      expect(queryAllByTestId('history-list-item-description')[0]).toHaveTextContent(/^Deze melding is opgesplitst\.$/);
     });
 
     it('should render empty when no list is defined', () => {

@@ -31,12 +31,12 @@ describe('<Detail />', () => {
       <Detail {...props} />
     );
 
-    expect(queryByTestId('detail-title')).toHaveTextContent('het is een rotzooi weer');
+    expect(queryByTestId('detail-title')).toHaveTextContent(/^het is een rotzooi weer$/);
 
-    expect(queryByTestId('detail-email-definition')).toHaveTextContent('E-mail melder');
-    expect(queryByTestId('detail-email-value')).toHaveTextContent('steve@apple.com');
-    expect(queryByTestId('detail-phone-definition')).toHaveTextContent('Telefoon melder');
-    expect(queryByTestId('detail-phone-value')).toHaveTextContent('098754321');
+    expect(queryByTestId('detail-email-definition')).toHaveTextContent(/^E-mail melder$/);
+    expect(queryByTestId('detail-email-value')).toHaveTextContent(/^steve@apple.com$/);
+    expect(queryByTestId('detail-phone-definition')).toHaveTextContent(/^Telefoon melder$/);
+    expect(queryByTestId('detail-phone-value')).toHaveTextContent(/^098754321$/);
 
     expect(queryAllByTestId('detail-attachments')).toHaveLength(1);
     expect(queryAllByTestId('detail-extra-properties')).toHaveLength(1);
