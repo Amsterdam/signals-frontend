@@ -6,63 +6,210 @@ import { REQUEST_HISTORY_LIST } from 'models/history/constants';
 
 import { IncidentDetail, mapDispatchToProps } from './index';
 
-jest.mock('shared/components/LoadingIndicator', () => () => <div className="loading-indicator" />);
-jest.mock('./components/SplitNotificationBar', () => () => <div className="split-notification-bar" />);
-jest.mock('./components/DetailHeader', () => () => <div className="detail-header" />);
-jest.mock('./components/MetaList', () => () => <div className="meta-list" />);
-jest.mock('./components/History', () => () => <div className="history" />);
-jest.mock('./components/AddNote', () => () => <div className="add-note" />);
-jest.mock('./components/LocationForm', () => () => <div className="location-form" />);
-jest.mock('./components/AttachmentViewer', () => () => <div className="attachment-viewer" />);
-jest.mock('./components/StatusForm', () => () => <div className="status-form" />);
-jest.mock('./components/Detail', () => () => <div className="detail" />);
-jest.mock('./components/LocationPreview', () => () => <div className="location-preview" />);
+import DetailHeader from './components/DetailHeader';
+import MetaList from './components/MetaList';
+import History from './components/History';
+import AddNote from './components/AddNote';
+import LocationForm from './components/LocationForm';
+import AttachmentViewer from './components/AttachmentViewer';
+import StatusForm from './components/StatusForm';
+import Detail from './components/Detail';
+import SplitNotificationBar from './components/SplitNotificationBar';
+import LocationPreview from './components/LocationPreview';
+
+import statusList, { changeStatusOptionList } from '../../definitions/statusList';
+import stadsdeelList from '../../definitions/stadsdeelList';
+import priorityList from '../../definitions/priorityList';
 
 describe('<IncidentDetail />', () => {
   let wrapper;
-  let props;
   // eslint-disable-next-line no-unused-vars
   let instance;
-
-  beforeEach(() => {
-    props = {
-      id: '42',
-      incidentModel: {
-        incident: {
-          id: 42,
-          status: {
-            state: 'm'
+  const props = {
+    id: '42',
+    incidentModel: {
+      loading: false,
+      patching: {},
+      defaultTexts: [],
+      incident: {
+        reporter: {
+          email: '',
+          phone: ''
+        },
+        notes: [],
+        extra_properties: null,
+        _display: '3254 - i - A06j - 2019-09-25 14:35:58.843458+00:00',
+        priority: {
+          priority: 'high',
+          created_by: 'jasper.g.swart@gmail.com'
+        },
+        created_at: '2019-09-25T16:35:58.843458+02:00',
+        has_attachments: true,
+        text: 'poep',
+        status: {
+          text: 'In behandeling via HNW app',
+          user: 'rob@apptimize.nl',
+          state: 'i',
+          state_display: 'In afwachting van behandeling',
+          target_api: null,
+          extra_properties: null,
+          created_at: '2019-09-26T11:10:04.118517+02:00'
+        },
+        location: {
+          extra_properties: {
+            original_address: {
+              postcode: '',
+              huisletter: 'D',
+              huisnummer: '342',
+              woonplaats: 'Amsterdam',
+              openbare_ruimte: 'Marnixstraat',
+              huisnummer_toevoeging: ''
+            }
           },
-          category: {
-            category_url: 'foo'
+          geometrie: {
+            type: 'Point',
+            coordinates: [
+              4.879088401794434,
+              52.3670312505349
+            ]
+          },
+          buurt_code: 'A06j',
+          created_by: 'jasper.g.swart@gmail.com',
+          address: {
+            postcode: '',
+            huisletter: 'D',
+            huisnummer: 342,
+            woonplaats: 'Amsterdam',
+            openbare_ruimte: 'Marnixstraat',
+            huisnummer_toevoeging: ''
+          },
+          stadsdeel: 'A',
+          bag_validated: true,
+          address_text: 'Marnixstraat 342D Amsterdam',
+          id: 3566
+        },
+        incident_date_end: null,
+        updated_at: '2019-09-26T11:10:04.119863+02:00',
+        _links: {
+          curies: {
+            name: 'sia',
+            href: 'https://acc.api.data.amsterdam.nl/signals/v1/relations'
+          },
+          self: {
+            href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254'
+          },
+          archives: {
+            href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/history'
+          },
+          'sia:attachments': {
+            href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/attachments'
+          },
+          'sia:pdf': {
+            href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/pdf'
           }
         },
-        attachments: [],
-        stadsdeelList: [],
-        changeStatusOptionList: [],
-        statusList: [],
-        defaultTexts: [],
-        priorityList: [],
-        loading: false,
-        patching: {},
-        error: false,
+        source: 'Meldkamer Handhaver',
+        id: 3254,
+        category: {
+          sub: 'Uitwerpselen',
+          sub_slug: 'hondenpoep',
+          main: 'Overlast in de openbare ruimte',
+          main_slug: 'overlast-in-de-openbare-ruimte',
+          category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hondenpoep',
+          departments: 'STW, THO',
+          created_by: null,
+          text: null
+        },
+        incident_date_start: '2019-09-25T16:35:58+02:00',
+        text_extra: ''
       },
-      historyModel: {
-        list: []
-      },
-      categories: {},
-      accessToken: '123',
-      baseUrl: 'aaa/',
 
-      onRequestIncident: jest.fn(),
-      onPatchIncident: jest.fn(),
-      onRequestHistoryList: jest.fn(),
-      onRequestAttachments: jest.fn(),
-      onRequestDefaultTexts: jest.fn(),
-      onDismissSplitNotification: jest.fn(),
-      onDismissError: jest.fn()
-    };
+      attachments: [
+        {
+          _display: 'Attachment object (774)',
+          _links: {
+            self: {
+              href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/attachments'
+            }
+          },
+          location: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/attachments/2019/09/25/jasper_pepper_klein.jpg?temp_url_sig=e5d22e71096db94a86e6d3d64e6bcca2b896b1f9&temp_url_expires=1569491557',
+          is_image: true,
+          created_at: '2019-09-25T16:35:59.107661+02:00'
+        },
+        {
+          _display: 'Attachment object (773)',
+          _links: {
+            self: {
+              href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/attachments'
+            }
+          },
+          location: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/attachments/2019/09/25/landscape_te_klein.jpg?temp_url_sig=870025b81672f36cd0eff62d3dc78595242ba07a&temp_url_expires=1569491557',
+          is_image: true,
+          created_at: '2019-09-25T16:35:59.113090+02:00'
+        }
+      ],
+      stadsdeelList,
+      priorityList,
+      changeStatusOptionList,
+      statusList,
 
+    },
+    historyModel: {
+      list: [
+        {
+          identifier: 'UPDATE_CATEGORY_ASSIGNMENT_4201',
+          when: '2019-09-25T16:35:58.871689+02:00',
+          what: 'UPDATE_CATEGORY_ASSIGNMENT',
+          action: 'Categorie gewijzigd naar: Uitwerpselen',
+          description: null,
+          who: 'SIA systeem',
+          _signal: 3254
+        },
+        {
+          identifier: 'UPDATE_STATUS_7115',
+          when: '2019-09-25T16:35:58.870553+02:00',
+          what: 'UPDATE_STATUS',
+          action: 'Update status naar: Gemeld',
+          description: null,
+          who: 'SIA systeem',
+          _signal: 3254
+        },
+        {
+          identifier: 'UPDATE_LOCATION_3559',
+          when: '2019-09-25T16:35:58.849857+02:00',
+          what: 'UPDATE_LOCATION',
+          action: 'Locatie gewijzigd',
+          description: 'Stadsdeel: West\nBaarsjesweg 28\nAmsterdam',
+          who: 'SIA systeem',
+          _signal: 3254
+        }
+      ]
+    },
+    categories: {
+      sub: [
+        {
+          key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hondenpoep',
+          value: 'Uitwerpselen',
+          slug: 'hondenpoep',
+          category_slug: 'overlast-in-de-openbare-ruimte',
+          handling_message: '\nWe laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.'
+        }
+      ]
+    },
+    accessToken: '123',
+    baseUrl: 'aaa/',
+
+    onRequestIncident: jest.fn(),
+    onPatchIncident: jest.fn(),
+    onRequestHistoryList: jest.fn(),
+    onRequestAttachments: jest.fn(),
+    onRequestDefaultTexts: jest.fn(),
+    onDismissSplitNotification: jest.fn(),
+    onDismissError: jest.fn()
+  };
+
+
+  beforeEach(() => {
     wrapper = shallow(
       <IncidentDetail {...props} />
     );
@@ -76,10 +223,89 @@ describe('<IncidentDetail />', () => {
 
 
   describe('rendering', () => {
-    it('should render correctly', () => {
-      //  TODO
+    it('should render default correctly', () => {
+      expect(wrapper.find(SplitNotificationBar)).toHaveLength(1);
+      expect(wrapper.find(DetailHeader)).toHaveLength(1);
+      expect(wrapper.find(Detail)).toHaveLength(1);
+      expect(wrapper.find(MetaList)).toHaveLength(1);
+      expect(wrapper.find(History)).toHaveLength(1);
+      expect(wrapper.find(AddNote)).toHaveLength(1);
+
+      expect(wrapper.find(LocationForm)).toHaveLength(0);
+      expect(wrapper.find(AttachmentViewer)).toHaveLength(0);
+      expect(wrapper.find(StatusForm)).toHaveLength(0);
+      expect(wrapper.find(LocationPreview)).toHaveLength(0);
+    });
+
+    it('should render StatusForm correctly', () => {
+      instance.onEditStatus();
+
+      expect(wrapper.find(Detail)).toHaveLength(0);
+      expect(wrapper.find(MetaList)).toHaveLength(0);
+      expect(wrapper.find(History)).toHaveLength(0);
+      expect(wrapper.find(AddNote)).toHaveLength(0);
+
+      expect(wrapper.find(LocationForm)).toHaveLength(0);
+      expect(wrapper.find(AttachmentViewer)).toHaveLength(0);
+      expect(wrapper.find(StatusForm)).toHaveLength(1);
+      expect(wrapper.find(LocationPreview)).toHaveLength(0);
+    });
+
+    it('should render LocationForm correctly', () => {
+      instance.onEditLocation();
+
+      expect(wrapper.find(Detail)).toHaveLength(0);
+      expect(wrapper.find(MetaList)).toHaveLength(0);
+      expect(wrapper.find(History)).toHaveLength(0);
+      expect(wrapper.find(AddNote)).toHaveLength(0);
+
+      expect(wrapper.find(LocationForm)).toHaveLength(1);
+      expect(wrapper.find(AttachmentViewer)).toHaveLength(0);
+      expect(wrapper.find(StatusForm)).toHaveLength(0);
+      expect(wrapper.find(LocationPreview)).toHaveLength(0);
+    });
+
+    it('should render AttachmentViewer correctly', () => {
+      instance.onShowAttachment('https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/attachments/2019/09/25/jasper_pepper_klein.jpg?temp_url_sig=e5d22e71096db94a86e6d3d64e6bcca2b896b1f9&temp_url_expires=1569491557');
+
+      expect(wrapper.find(Detail)).toHaveLength(0);
+      expect(wrapper.find(MetaList)).toHaveLength(0);
+      expect(wrapper.find(History)).toHaveLength(0);
+      expect(wrapper.find(AddNote)).toHaveLength(0);
+
+      expect(wrapper.find(LocationForm)).toHaveLength(0);
+      expect(wrapper.find(AttachmentViewer)).toHaveLength(1);
+      expect(wrapper.find(StatusForm)).toHaveLength(0);
+      expect(wrapper.find(LocationPreview)).toHaveLength(0);
+    });
+
+    it('should render LocationPreview and onCloseAll correctly', () => {
+      instance.onShowLocation();
+
+      expect(wrapper.find(Detail)).toHaveLength(0);
+      expect(wrapper.find(MetaList)).toHaveLength(0);
+      expect(wrapper.find(History)).toHaveLength(0);
+      expect(wrapper.find(AddNote)).toHaveLength(0);
+
+      expect(wrapper.find(LocationForm)).toHaveLength(0);
+      expect(wrapper.find(AttachmentViewer)).toHaveLength(0);
+      expect(wrapper.find(StatusForm)).toHaveLength(0);
+      expect(wrapper.find(LocationPreview)).toHaveLength(1);
+
+      instance.onCloseAll();
+
+      expect(wrapper.find(Detail)).toHaveLength(1);
+      expect(wrapper.find(MetaList)).toHaveLength(1);
+      expect(wrapper.find(History)).toHaveLength(1);
+      expect(wrapper.find(AddNote)).toHaveLength(1);
+
+      expect(wrapper.find(LocationForm)).toHaveLength(0);
+      expect(wrapper.find(AttachmentViewer)).toHaveLength(0);
+      expect(wrapper.find(StatusForm)).toHaveLength(0);
+      expect(wrapper.find(LocationPreview)).toHaveLength(0);
     });
   });
+
 
   describe('events', () => {
     it('should call 3 actions on load', () => {

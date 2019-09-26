@@ -24,14 +24,14 @@ LocationPreview.propTypes = {
       coordinates: PropTypes.array.isRequired,
     }),
     buurt_code: PropTypes.string,
-    address: PropTypes.oneOfType([PropTypes.shape({
+    address: PropTypes.shape({
       postcode: PropTypes.string.isRequired,
       huisletter: PropTypes.string.isRequired,
       huisnummer: PropTypes.string.isRequired,
       woonplaats: PropTypes.string.isRequired,
       openbare_ruimte: PropTypes.string.isRequired,
       huisnummer_toevoeging: PropTypes.string.isRequired,
-    }), PropTypes.oneOf([null])]),
+    }),
     stadsdeel: PropTypes.string.isRequired,
     bag_validated: PropTypes.bool.isRequired,
     address_text: PropTypes.string.isRequired,
