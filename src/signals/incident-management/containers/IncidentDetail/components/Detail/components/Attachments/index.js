@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { attachmentsType } from 'shared/types';
 
 import './style.scss';
 
@@ -28,7 +29,7 @@ const Attachments = ({ attachments, onShowAttachment }) => (
 );
 
 Attachments.propTypes = {
-  attachments: PropTypes.array.isRequired,
+  attachments: attachmentsType.isRequired,
   onShowAttachment: PropTypes.func.isRequired
 };
 

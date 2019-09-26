@@ -36,7 +36,22 @@ ExtraProperties.defaultProps = {
 };
 
 ExtraProperties.propTypes = {
-  items: PropTypes.array
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      label: PropTypes.string,
+      answer: PropTypes.oneOfType([
+        PropTypes.shape({
+          id: PropTypes.string,
+          label: PropTypes.string,
+          value: PropTypes.bool,
+        }),
+        PropTypes.array,
+        PropTypes.string,
+      ]),
+      category_url: PropTypes.string.isRequired,
+    })
+  )
 };
 
 export default ExtraProperties;

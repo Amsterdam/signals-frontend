@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { incidentType, dataListType, attachmentsType } from 'shared/types';
+
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 
 import './style.scss';
@@ -54,9 +56,9 @@ class Detail extends React.Component { // eslint-disable-line react/prefer-state
 }
 
 Detail.propTypes = {
-  incident: PropTypes.object.isRequired,
-  attachments: PropTypes.array.isRequired,
-  stadsdeelList: PropTypes.array.isRequired,
+  incident: incidentType.isRequired,
+  attachments: attachmentsType.isRequired,
+  stadsdeelList: dataListType.isRequired,
 
   onShowAttachment: PropTypes.func.isRequired,
   onShowLocation: PropTypes.func.isRequired,

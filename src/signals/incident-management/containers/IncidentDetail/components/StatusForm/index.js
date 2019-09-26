@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import isEqual from 'lodash.isequal';
 
+import { incidentType, dataListType, defaultTextsType } from 'shared/types';
+
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
@@ -145,13 +147,13 @@ StatusForm.defaultProps = {
 };
 
 StatusForm.propTypes = {
-  incident: PropTypes.object.isRequired,
+  incident: incidentType.isRequired,
   error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   patching: PropTypes.object.isRequired,
   warning: PropTypes.string,
-  changeStatusOptionList: PropTypes.array.isRequired,
-  statusList: PropTypes.array.isRequired,
-  defaultTexts: PropTypes.array.isRequired,
+  changeStatusOptionList: dataListType.isRequired,
+  statusList: dataListType.isRequired,
+  defaultTexts: defaultTextsType.isRequired,
 
   onPatchIncident: PropTypes.func.isRequired,
   onDismissError: PropTypes.func.isRequired,

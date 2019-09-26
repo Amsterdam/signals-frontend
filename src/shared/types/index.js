@@ -83,7 +83,7 @@ export const filterType = PropTypes.shape({
 export const locationType = PropTypes.shape({
   address: PropTypes.shape({
     huisletter: PropTypes.string,
-    huisnummer: PropTypes.number,
+    huisnummer: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     huisnummer_toevoeging: PropTypes.string,
     openbare_ruimte: PropTypes.string,
     postcode: PropTypes.string,
@@ -133,6 +133,25 @@ export const incidentType = PropTypes.shape({
   }),
   updated_at: date,
 });
+
+export const attachmentsType = PropTypes.arrayOf(
+  PropTypes.shape({
+    _display: PropTypes.string,
+    location: PropTypes.string,
+  })
+);
+
+export const defaultTextsType = PropTypes.arrayOf(
+  PropTypes.shape({
+    state: PropTypes.string,
+    templates: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string,
+        text: PropTypes.string,
+      })
+    ),
+  })
+);
 
 /**
  * Generic datalist type

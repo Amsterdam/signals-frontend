@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import isEqual from 'lodash.isequal';
 
+import { incidentType, locationType } from 'shared/types';
+
 import mapLocation from 'shared/services/map-location';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import MapInput from '../../../../components/MapInput';
@@ -122,11 +124,18 @@ LocationForm.defaultProps = {
 };
 
 LocationForm.propTypes = {
-  incident: PropTypes.object.isRequired,
-  error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  patching: PropTypes.object.isRequired,
-  location: PropTypes.object,
-  newLocation: PropTypes.object,
+  incident: incidentType.isRequired,
+  error: PropTypes.oneOfType([PropTypes.shape({
+    response: {
+      status: PropTypes.number.isRequired,
+      ok: PropTypes.bool.isRequired,
+    }
+  }), PropTypes.bool]).isRequired,
+  patching: PropTypes.shape({
+    location: PropTypes.bool,
+  }).isRequired,
+  location: locationType,
+  newLocation: locationType,
 
   onPatchIncident: PropTypes.func.isRequired,
   onDismissError: PropTypes.func.isRequired,

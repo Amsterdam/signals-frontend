@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { attachmentType } from 'shared/types';
+
 import './style.scss';
 
 const AttachmentViewer = ({ href, attachments, onShowAttachment }) => {
@@ -31,7 +33,7 @@ const AttachmentViewer = ({ href, attachments, onShowAttachment }) => {
 
 AttachmentViewer.propTypes = {
   href: PropTypes.string.isRequired,
-  attachments: PropTypes.array.isRequired,
+  attachments: PropTypes.arrayOf(attachmentType).isRequired,
 
   onShowAttachment: PropTypes.func.isRequired
 };

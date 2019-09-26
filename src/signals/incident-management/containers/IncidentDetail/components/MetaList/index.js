@@ -8,6 +8,8 @@ import {
   string2time,
 } from 'shared/services/string-parser/string-parser';
 
+import { incidentType, dataListType } from 'shared/types';
+
 import ChangeValue from './components/ChangeValue';
 import Highlight from '../../components/Highlight';
 
@@ -195,8 +197,8 @@ const MetaList = ({
 };
 
 MetaList.propTypes = {
-  incident: PropTypes.object.isRequired,
-  priorityList: PropTypes.array.isRequired,
+  incident: incidentType.isRequired,
+  priorityList: dataListType.isRequired,
   subcategories: PropTypes.array.isRequired,
 
   onPatchIncident: PropTypes.func.isRequired,

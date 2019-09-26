@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { defaultTextsType } from 'shared/types';
 
 import './style.scss';
 
@@ -36,7 +37,7 @@ const DefaultTexts = ({ defaultTexts, status, onHandleUseDefaultText }) => {
 };
 
 DefaultTexts.propTypes = {
-  defaultTexts: PropTypes.array.isRequired,
+  defaultTexts: defaultTextsType.isRequired,
   status: PropTypes.string.isRequired,
 
   onHandleUseDefaultText: PropTypes.func.isRequired

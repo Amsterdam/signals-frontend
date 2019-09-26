@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
+import { incidentType, dataListType } from 'shared/types';
+
 import MapDetail from '../../../MapDetail';
 
 import './style.scss';
@@ -36,8 +38,8 @@ const Location = ({ incident, stadsdeelList, onShowLocation, onEditLocation }) =
 };
 
 Location.propTypes = {
-  incident: PropTypes.object.isRequired,
-  stadsdeelList: PropTypes.array.isRequired,
+  incident: incidentType.isRequired,
+  stadsdeelList: dataListType.isRequired,
   onShowLocation: PropTypes.func.isRequired,
   onEditLocation: PropTypes.func.isRequired
 };

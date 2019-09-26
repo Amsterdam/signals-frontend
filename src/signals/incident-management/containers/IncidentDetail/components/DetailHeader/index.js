@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import { incidentType } from 'shared/types';
+
 import DownloadButton from './components/DownloadButton';
 
 import './style.scss';
@@ -64,7 +66,7 @@ const DetailHeader = ({ incident, baseUrl, accessToken, onPatchIncident }) => {
 };
 
 DetailHeader.propTypes = {
-  incident: PropTypes.object.isRequired,
+  incident: incidentType.isRequired,
   baseUrl: PropTypes.string.isRequired,
   accessToken: PropTypes.string.isRequired,
 

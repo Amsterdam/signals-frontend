@@ -7,6 +7,8 @@ import isEqual from 'lodash.isequal';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
+import { incidentType, dataListType, defaultTextsType, attachmentsType } from 'shared/types';
+
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import {
   makeSelectLoading,
@@ -277,8 +279,8 @@ IncidentDetail.propTypes = {
   attachmentHref: PropTypes.string,
 
   incidentModel: PropTypes.shape({
-    incident: PropTypes.object,
-    attachments: PropTypes.array,
+    incident: incidentType,
+    attachments: attachmentsType,
     loading: PropTypes.bool.isRequired,
     patching: PropTypes.object.isRequired,
     error: PropTypes.oneOfType([
@@ -289,11 +291,11 @@ IncidentDetail.propTypes = {
       PropTypes.bool,
       PropTypes.object
     ]),
-    stadsdeelList: PropTypes.array,
-    priorityList: PropTypes.array,
-    changeStatusOptionList: PropTypes.array,
-    statusList: PropTypes.array,
-    defaultTexts: PropTypes.array
+    stadsdeelList: dataListType,
+    priorityList: dataListType,
+    changeStatusOptionList: dataListType,
+    statusList: dataListType,
+    defaultTexts: defaultTextsType,
   }).isRequired,
   historyModel: PropTypes.shape({
     list: PropTypes.array.isRequired

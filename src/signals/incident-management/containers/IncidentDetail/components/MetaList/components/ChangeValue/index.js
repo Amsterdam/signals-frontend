@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import { get, set } from 'lodash';
 
+import { incidentType } from 'shared/types';
+
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
 import FieldControlWrapper from '../../../../../../components/FieldControlWrapper';
@@ -103,10 +105,14 @@ ChangeValue.defaultProps = {
 };
 
 ChangeValue.propTypes = {
-  incident: PropTypes.object.isRequired,
+  incident: incidentType.isRequired,
   definitionClass: PropTypes.string.isRequired,
   valueClass: PropTypes.string.isRequired,
-  list: PropTypes.array.isRequired,
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    })).isRequired,
   display: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
   valuePath: PropTypes.string,
