@@ -23,7 +23,7 @@ import Modal from 'components/Modal';
 import makeSelectOverviewPage, { makeSelectIncidentsCount } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { requestIncidents, incidentSelected, getFilters } from './actions';
+import { requestIncidents, incidentSelected } from './actions';
 import ListComponent from './components/List';
 import Pager from './components/Pager';
 import FilterTagList from '../FilterTagList';
@@ -41,7 +41,6 @@ export const IncidentOverviewPageContainerComponent = ({
   overviewpage,
   incidentsCount,
   onIncidentSelected,
-  onGetFilters,
   searchQuery,
 }) => {
   const [modalFilterIsOpen, toggleFilterModal] = useState(false);
@@ -94,7 +93,6 @@ export const IncidentOverviewPageContainerComponent = ({
 
   useEffect(() => {
     onRequestIncidents(searchQuery ? { filter: { searchQuery } } : {});
-    onGetFilters();
   }, []);
 
   const { incidents, loading, page, sort, filter, ...rest } = overviewpage;
@@ -189,7 +187,6 @@ IncidentOverviewPageContainerComponent.propTypes = {
 
   onRequestIncidents: PropTypes.func.isRequired,
   onIncidentSelected: PropTypes.func.isRequired,
-  onGetFilters: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -206,7 +203,6 @@ export const mapDispatchToProps = (dispatch) =>
     {
       onRequestIncidents: requestIncidents,
       onIncidentSelected: incidentSelected,
-      onGetFilters: getFilters,
     },
     dispatch,
   );

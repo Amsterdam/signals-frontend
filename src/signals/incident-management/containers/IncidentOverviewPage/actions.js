@@ -1,22 +1,9 @@
-/*
- *
- * OverviewPage actions
- *
- */
-
 import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
-  APPLY_FILTER,
   FILTER_INCIDENTS_CHANGED,
-  GET_FILTERS_FAILED,
-  GET_FILTERS_SUCCESS,
-  GET_FILTERS,
   INCIDENT_SELECTED,
   PAGE_INCIDENTS_CHANGED,
-  REMOVE_FILTER_FAILED,
-  REMOVE_FILTER_SUCCESS,
-  REMOVE_FILTER,
   REQUEST_INCIDENTS_ERROR,
   REQUEST_INCIDENTS_SUCCESS,
   REQUEST_INCIDENTS,
@@ -71,40 +58,6 @@ export function sortIncidentsChanged(sort) {
     payload: sort,
   };
 }
-
-export const getFilters = () => ({
-  type: GET_FILTERS,
-});
-
-export const getFiltersSuccess = (payload) => ({
-  type: GET_FILTERS_SUCCESS,
-  payload,
-});
-
-export const getFiltersFailed = (payload) => ({
-  type: GET_FILTERS_FAILED,
-  payload,
-});
-
-export const removeFilter = (payload) => ({
-  type: REMOVE_FILTER,
-  payload,
-});
-
-export const removeFilterSuccess = (payload) => ({
-  type: REMOVE_FILTER_SUCCESS,
-  payload,
-});
-
-export const removeFilterFailed = (payload) => ({
-  type: REMOVE_FILTER_FAILED,
-  payload,
-});
-
-export const applyFilter = (payload) => ({
-  type: APPLY_FILTER,
-  payload,
-});
 
 export const applyFilterRefresh = () => ({
   type: APPLY_FILTER_REFRESH,

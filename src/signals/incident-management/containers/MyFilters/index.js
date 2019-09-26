@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
 
-import { makeSelectAllFilters } from '../IncidentOverviewPage/selectors';
-import { applyFilter, removeFilter } from '../IncidentOverviewPage/actions';
+import { applyFilter, removeFilter } from 'signals/incident-management/actions';
+import { makeSelectAllFilters } from 'signals/incident-management/selectors';
 
 import FilterItem from './components/FilterItem';
 

@@ -11,9 +11,10 @@ import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { Row, Column } from '@datapunt/asc-ui';
 
+import { isAuthenticated } from 'shared/services/auth/auth';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectIsAuthenticated } from 'containers/App/selectors';
+
 import wizardDefinition from '../../definitions/wizard';
 import { getClassification, updateIncident, createIncident } from './actions';
 import makeSelectIncidentContainer from './selectors';
@@ -42,7 +43,7 @@ export class IncidentContainer extends React.Component {
             updateIncident={this.updateIncident}
             createIncident={this.createIncident}
             incidentContainer={this.props.incidentContainer}
-            isAuthenticated={this.props.isAuthenticated}
+            isAuthenticated={isAuthenticated()}
           />
         </Column>
       </Row>
@@ -55,12 +56,10 @@ IncidentContainer.propTypes = {
   getClassification: PropTypes.func.isRequired,
   updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
 };
 
 const mapStateToProps = createStructuredSelector({
   incidentContainer: makeSelectIncidentContainer(),
-  isAuthenticated: makeSelectIsAuthenticated(),
 });
 
 export const mapDispatchToProps = (dispatch) =>

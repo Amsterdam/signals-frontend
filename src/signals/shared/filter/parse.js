@@ -70,6 +70,7 @@ export const parseOutputFormData = (form) => {
  * Turns scalar values into arrays where necessary and replaces keys and slugs with objects
  *
  * @param   {Object} filterData - Data to be passed on to the form
+ * @param   {Object} dataLists - collection of fixtures that is used to enrich the filter data with
  * @returns {Object}
  */
 export const parseInputFormData = (filterData, dataLists) => {
@@ -103,4 +104,13 @@ export const parseInputFormData = (filterData, dataLists) => {
   }
 
   return parsed;
+};
+
+/**
+ * Formats filter data that comes in from the API
+ */
+export const parseAPIData = (filterData, dataLists) => {
+  const { options } = parseInputFormData(filterData, dataLists);
+
+  return Object.assign({}, filterData, { options });
 };

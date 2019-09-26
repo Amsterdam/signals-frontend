@@ -5,12 +5,12 @@ import isEqual from 'lodash.isequal';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { parseInputFormData, parseOutputFormData } from 'signals/shared/filter/parse';
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 
 import CheckboxList from '../CheckboxList';
 import RadioButtonList from '../RadioButtonList';
 import Label from '../Label';
-import { parseInputFormData, parseOutputFormData } from './parse';
 import {
   ButtonContainer,
   CancelButton,

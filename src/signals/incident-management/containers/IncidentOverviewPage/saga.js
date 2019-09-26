@@ -12,35 +12,26 @@ import {
 } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 
-import { authCall, authDeleteCall } from 'shared/services/api/api';
+import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
+import { makeSelectFilterParams, makeSelectFilter } from 'signals/incident-management/selectors';
 import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
-  APPLY_FILTER,
-  GET_FILTERS,
   INCIDENT_SELECTED,
-  REMOVE_FILTER,
   REQUEST_INCIDENTS,
 } from './constants';
 import {
   applyFilterRefresh,
   applyFilterRefreshStop,
   filterIncidentsChanged,
-  getFiltersFailed,
-  getFiltersSuccess,
   pageIncidentsChanged,
-  removeFilterFailed,
-  removeFilterSuccess,
   requestIncidents,
   requestIncidentsError,
   requestIncidentsSuccess,
   sortIncidentsChanged,
 } from './actions';
-import { makeSelectFilterParams, makeSelectFilter } from './selectors';
-
-import { resetSearchQuery } from '../../../../models/search/actions';
 
 export function* fetchIncidents(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals/`;
@@ -90,36 +81,6 @@ export function* openIncident(action) {
   yield put(push(navigateUrl));
 }
 
-export function* getFilters() {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/`;
-
-  try {
-    const result = yield call(authCall, requestURL);
-
-    yield put(getFiltersSuccess(result.results));
-  } catch (error) {
-    yield put(getFiltersFailed(error));
-  }
-}
-
-export function* removeFilter(action) {
-  const id = action.payload;
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/${id}`;
-
-  try {
-    yield call(authDeleteCall, requestURL);
-    yield put(removeFilterSuccess(id));
-  } catch (error) {
-    yield put(removeFilterFailed());
-  }
-}
-
-export function* applyFilter(action) {
-  const filter = action.payload;
-  yield put(resetSearchQuery());
-  yield put(requestIncidents({ filter }));
-}
-
 export const refreshRequestDelay = 2 * 60 * 1000;
 
 export function* refreshIncidents(timeout = refreshRequestDelay) {
@@ -137,9 +98,6 @@ export default function* watchRequestIncidentsSaga() {
   yield all([
     takeLatest(REQUEST_INCIDENTS, fetchIncidents),
     takeLatest(INCIDENT_SELECTED, openIncident),
-    takeLatest(GET_FILTERS, getFilters),
-    takeLatest(REMOVE_FILTER, removeFilter),
-    takeLatest(APPLY_FILTER, applyFilter),
   ]);
 
   while (true) {

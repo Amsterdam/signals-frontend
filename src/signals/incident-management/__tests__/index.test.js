@@ -9,11 +9,11 @@ import {
   incidentDetailWrapper,
   incidentOverviewPageWrapper,
   incidentSplitContainerWrapper,
-} from './index';
+} from '../';
 
 const history = createMemoryHistory();
 
-describe('signals/incident-management/components/IncidentManagementModule', () => {
+describe('signals/incident-management', () => {
   let props;
 
   afterAll(() => {
@@ -152,7 +152,9 @@ describe('signals/incident-management/components/IncidentManagementModule', () =
 
     it('renders IncidentOverviewPageWrapper', () => {
       const baseUrl = '/manage';
-      const IncidentOverviewPage = withRouter(incidentOverviewPageWrapper(baseUrl));
+      const IncidentOverviewPage = withRouter(
+        incidentOverviewPageWrapper(baseUrl),
+      );
 
       const { container } = render(
         withCustomAppContext(<IncidentOverviewPage />)({
@@ -165,7 +167,9 @@ describe('signals/incident-management/components/IncidentManagementModule', () =
 
     it('renders IncidentSplitContainerWrapper', () => {
       const baseUrl = '/manage';
-      const IncidentSplitContainer = withRouter(incidentSplitContainerWrapper(baseUrl));
+      const IncidentSplitContainer = withRouter(
+        incidentSplitContainerWrapper(baseUrl),
+      );
 
       const { container } = render(
         withCustomAppContext(<IncidentSplitContainer />)({
