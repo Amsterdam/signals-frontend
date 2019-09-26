@@ -7,7 +7,7 @@ import StatusForm from './index';
 
 import statusList, { changeStatusOptionList } from '../../../../definitions/statusList';
 
-jest.mock('./components/DefaultTexts', () => () => <div data-testid="detail-header-button-download" />);
+jest.mock('./components/DefaultTexts', () => () => <div data-testid="status-form-default-texts" />);
 
 describe('<StatusForm />', () => {
   let wrapper;
