@@ -43,7 +43,7 @@ const dataItem = PropTypes.shape({
 /**
  * Filter type validation for the data structure that comes from and goes to the API
  */
-export const apiFilter = PropTypes.shape({
+export const apiFilterType = PropTypes.shape({
   created_at: date,
   id: PropTypes.number,
   name: PropTypes.string,
@@ -63,7 +63,7 @@ export const apiFilter = PropTypes.shape({
 /**
  * Filter type validation for filter data structure in the application
  */
-export const filter = PropTypes.shape({
+export const filterType = PropTypes.shape({
   created_at: date,
   id: PropTypes.number,
   name: PropTypes.string,
@@ -80,7 +80,23 @@ export const filter = PropTypes.shape({
   refresh: PropTypes.bool,
 });
 
-export const incident = PropTypes.shape({
+export const locationType = PropTypes.shape({
+  address: PropTypes.shape({
+    huisletter: PropTypes.string,
+    huisnummer: PropTypes.number,
+    huisnummer_toevoeging: PropTypes.string,
+    openbare_ruimte: PropTypes.string,
+    postcode: PropTypes.string,
+    woonplaats: PropTypes.string,
+  }),
+  address_text: PropTypes.string,
+  buurt_code: PropTypes.string,
+  id: PropTypes.number,
+  bag_validated: PropTypes.bool,
+  stadsdeel: PropTypes.string,
+});
+
+export const incidentType = PropTypes.shape({
   _display: PropTypes.string,
   _links: PropTypes.shape({
     self: PropTypes.shape({
@@ -100,20 +116,7 @@ export const incident = PropTypes.shape({
     id: PropTypes.number,
     incident_date_end: date,
     incident_date_start: date,
-    location: PropTypes.shape({
-      address: PropTypes.shape({
-        huisletter: PropTypes.string,
-        huisnummer: PropTypes.string,
-        huisnummer_toevoeging: PropTypes.string,
-        openbare_ruimte: PropTypes.string,
-        postcode: PropTypes.string,
-        woonplaats: PropTypes.string,
-      }),
-      address_text: PropTypes.string,
-      buurt_code: PropTypes.string,
-      id: PropTypes.number,
-      stadsdeel: PropTypes.string,
-    }),
+    location: locationType,
   }),
   notes: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string,
@@ -134,24 +137,24 @@ export const incident = PropTypes.shape({
 /**
  * Generic datalist type
  */
-export const dataList = PropTypes.arrayOf(dataItem);
+export const dataListType = PropTypes.arrayOf(dataItem);
 
-export const categories = PropTypes.shape({
-  main: dataList,
+export const categoriesType = PropTypes.shape({
+  main: dataListType,
   mainToSub: PropTypes.shape({}),
-  sub: dataList,
+  sub: dataListType,
 });
 
 export const dataLists = PropTypes.shape({
-  priority: dataList,
-  stadsdeel: dataList,
-  status: dataList,
-  feedback: dataList,
+  priority: dataListType,
+  stadsdeel: dataListType,
+  status: dataListType,
+  feedback: dataListType,
 });
 
 export const overviewPage = PropTypes.shape({
-  incidents: PropTypes.arrayOf(incident),
-  filter,
+  incidents: PropTypes.arrayOf(incidentType),
+  filter: filterType,
   page: PropTypes.number,
   sort: PropTypes.string,
 });
