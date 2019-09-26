@@ -17,7 +17,26 @@ import {
 } from './constants';
 
 describe('appReducer', () => {
+  let origSessionStorage;
+
   beforeEach(() => {
+    origSessionStorage = global.sessionStorage;
+    global.sessionStorage = {
+      getItem: (key) => {
+        switch (key) {
+          case 'accessToken':
+            return '42';
+          default:
+            return '';
+        }
+      },
+      setItem: jest.fn(),
+      removeItem: jest.fn(),
+    };
+  });
+
+  afterEach(() => {
+    global.sessionStorage = origSessionStorage;
   });
 
   it('should return the initial state', () => {

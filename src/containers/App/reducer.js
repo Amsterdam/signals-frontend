@@ -13,6 +13,8 @@
 import { fromJS } from 'immutable';
 
 import {
+  LOGOUT,
+  AUTHENTICATE_USER,
   AUTHORIZE_USER,
   SHOW_GLOBAL_ERROR,
   RESET_GLOBAL_ERROR,
@@ -20,7 +22,7 @@ import {
   UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
   UPLOAD_SUCCESS,
-  UPLOAD_FAILURE
+  UPLOAD_FAILURE,
 } from './constants';
 
 // The initial state of the App
@@ -29,16 +31,25 @@ export const initialState = fromJS({
   error: false,
   upload: {},
   userPermissions: [],
+  userName: undefined,
+  userScopes: undefined,
+  accessToken: undefined,
   categories: {
     main: [],
     sub: [],
     mainToSub: {},
-  }
+  },
 });
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
+    case AUTHENTICATE_USER:
+      global.sessionStorage.setItem('accessToken', action.payload.accessToken);
+      return state;
+
     case AUTHORIZE_USER:
+      global.sessionStorage.setItem('accessToken', action.payload.accessToken);
+
       return state
         .set('userName', action.payload.userName)
         .set('userScopes', fromJS(action.payload.userScopes))
@@ -47,7 +58,7 @@ function appReducer(state = initialState, action) {
 
     case SHOW_GLOBAL_ERROR:
       return state
-        .set('error', !!(action.payload))
+        .set('error', !!action.payload)
         .set('errorMessage', action.payload)
         .set('loading', false);
 
@@ -58,27 +69,38 @@ function appReducer(state = initialState, action) {
         .set('loading', false);
 
     case REQUEST_CATEGORIES_SUCCESS:
-      return state
-        .set('categories', fromJS(action.payload));
+      return state.set('categories', fromJS(action.payload));
 
     case UPLOAD_REQUEST:
-      return state
-        .set('upload', fromJS({
+      return state.set(
+        'upload',
+        fromJS({
           id: action.payload.id,
-          file: action.payload.file.name
-        }));
+          file: action.payload.file.name,
+        }),
+      );
 
     case UPLOAD_PROGRESS:
-      return state
-        .set('upload', fromJS({
+      return state.set(
+        'upload',
+        fromJS({
           ...state.get('upload').toJS(),
-          progress: action.payload
-        }));
+          progress: action.payload,
+        }),
+      );
 
     case UPLOAD_SUCCESS:
     case UPLOAD_FAILURE:
+      return state.set('upload', fromJS({}));
+
+    case LOGOUT:
+      global.sessionStorage.removeItem('accessToken');
+
       return state
-        .set('upload', fromJS({}));
+        .set('userName', undefined)
+        .set('userScopes', undefined)
+        .set('userPermissions', [])
+        .set('accessToken', undefined);
 
     default:
       return state;
