@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MapDetail from '../MapDetail';
+import { locationType } from 'shared/types';
 
+import MapDetail from '../MapDetail';
 
 import './style.scss';
 
@@ -18,25 +19,7 @@ const LocationPreview = ({ location, onEditLocation }) => (
 );
 
 LocationPreview.propTypes = {
-  location: PropTypes.shape({
-    geometrie: PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      coordinates: PropTypes.array.isRequired,
-    }),
-    buurt_code: PropTypes.string,
-    address: PropTypes.shape({
-      postcode: PropTypes.string.isRequired,
-      huisletter: PropTypes.string.isRequired,
-      huisnummer: PropTypes.string.isRequired,
-      woonplaats: PropTypes.string.isRequired,
-      openbare_ruimte: PropTypes.string.isRequired,
-      huisnummer_toevoeging: PropTypes.string.isRequired,
-    }),
-    stadsdeel: PropTypes.string.isRequired,
-    bag_validated: PropTypes.bool.isRequired,
-    address_text: PropTypes.string.isRequired,
-    id: PropTypes.number,
-  }).isRequired,
+  location: locationType.isRequired,
   onEditLocation: PropTypes.func.isRequired
 };
 
