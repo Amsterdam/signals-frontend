@@ -5,7 +5,8 @@ import { FieldGroup } from 'react-reactive-form';
 
 import StatusForm from './index';
 
-jest.mock('shared/services/map-location');
+import statusList, { changeStatusOptionList } from '../../../../definitions/statusList';
+
 jest.mock('./components/DefaultTexts', () => () => <div data-testid="detail-header-button-download" />);
 
 describe('<StatusForm />', () => {
@@ -23,143 +24,82 @@ describe('<StatusForm />', () => {
       },
       patching: { location: false },
       error: false,
-      changeStatusOptionList: [
-        {
-          key: 'm',
-          value: 'Gemeld',
-          color: 'red'
-        },
-        {
-          key: 'i',
-          value: 'In afwachting van behandeling',
-          warning: 'De melder ontvangt deze toelichting niet.',
-          color: 'purple'
-        },
-        {
-          key: 'b',
-          value: 'In behandeling',
-          warning: 'De melder ontvangt deze toelichting niet, maar kan die wel opvragen door te bellen.',
-          color: 'blue'
-        },
-        {
-          key: 'o',
-          value: 'Afgehandeld',
-          warning: 'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding. Gebruik deze status alleen als de melding ook echt is afgehandeld, gebruik anders de status Ingepland.',
-          color: 'lightgreen'
-        },
-        {
-          key: 'ingepland',
-          value: 'Ingepland',
-          warning: 'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.',
-          color: 'grey'
-        },
-        {
-          key: 'a',
-          value: 'Geannuleerd',
-          warning: 'Bij deze status wordt de melding afgesloten en er wordt GEEN bericht naar de melder gestuurd. Gebruik deze status alleen voor test- en nepmeldingen of meldingen van veelmelders.',
-          color: 'darkgrey'
-        },
-        {
-          key: 'reopened',
-          value: 'Heropend',
-          warning: 'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding.',
-          color: 'orange'
-        }
-      ],
-      statusList: [
-        {
-          key: 'm',
-          value: 'Gemeld',
-          color: 'red'
-        },
-        {
-          key: 'i',
-          value: 'In afwachting van behandeling',
-          warning: 'De melder ontvangt deze toelichting niet.',
-          color: 'purple'
-        },
-        {
-          key: 'b',
-          value: 'In behandeling',
-          warning: 'De melder ontvangt deze toelichting niet, maar kan die wel opvragen door te bellen.',
-          color: 'blue'
-        },
-        {
-          key: 'o',
-          value: 'Afgehandeld',
-          warning: 'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding. Gebruik deze status alleen als de melding ook echt is afgehandeld, gebruik anders de status Ingepland.',
-          color: 'lightgreen'
-        },
-        {
-          key: 'ingepland',
-          value: 'Ingepland',
-          warning: 'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.',
-          color: 'grey'
-        },
-        {
-          key: 'a',
-          value: 'Geannuleerd',
-          warning: 'Bij deze status wordt de melding afgesloten en er wordt GEEN bericht naar de melder gestuurd. Gebruik deze status alleen voor test- en nepmeldingen of meldingen van veelmelders.',
-          color: 'darkgrey'
-        },
-        {
-          key: 's',
-          value: 'Gesplitst',
-          color: 'lightgreen'
-        },
-        {
-          key: 'reopened',
-          value: 'Heropend',
-          warning: 'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding.',
-          color: 'orange'
-        },
-        {
-          key: 'ready to send',
-          value: 'Extern: te verzenden'
-        },
-        {
-          key: 'sent',
-          value: 'Extern: verzonden'
-        },
-        {
-          key: 'send failed',
-          value: 'Extern: mislukt'
-        },
-        {
-          key: 'closure requested',
-          value: 'Extern: verzoek tot afhandeling'
-        },
-        {
-          key: 'done external',
-          value: 'Extern: afgehandeld'
-        }
-      ],
+      changeStatusOptionList,
+      statusList,
       defaultTexts: [],
       onPatchIncident: jest.fn(),
       onDismissError: jest.fn(),
       onClose: jest.fn()
     };
+  });
 
-    wrapper = shallow(
-      <StatusForm {...props} />
+  const getComponent = (prps) => {
+    const wrap = shallow(
+      <StatusForm {...prps} />
     );
 
-    instance = wrapper.instance();
-  });
+    const inst = wrap.instance();
+
+    return [wrap, inst];
+  };
 
   afterEach(() => {
     jest.resetAllMocks();
   });
 
   it('should contain the FieldGroup', () => {
+    [wrapper, instance] = getComponent(props);
+
     expect(wrapper.find(FieldGroup)).toHaveLength(1);
     expect(props.onDismissError).toHaveBeenCalledTimes(1);
+  });
+
+  it('should contain render unauthorized error', () => {
+    props.error = {
+      response: {
+        status: 403
+      }
+    };
+
+    [wrapper, instance] = getComponent(props);
+    const renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
+
+    expect(renderedFormGroup.find('.status-form__error').text()).toBe('Je bent niet geautoriseerd om dit te doen.');
+  });
+
+  it('should contain render other error', () => {
+    props.error = {
+      response: {
+        status: 400
+      }
+    };
+
+    [wrapper, instance] = getComponent(props);
+
+    const renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
+
+    expect(renderedFormGroup.find('.status-form__error').text()).toBe('De gekozen status is niet mogelijk in deze situatie.');
+  });
+
+
+  it('should contain loading indicator when patching error', () => {
+    props.patching = {
+      status: true
+    };
+
+    [wrapper, instance] = getComponent(props);
+
+    const renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
+
+    expect(renderedFormGroup.exists('.status-form__submit--progress')).toBe(true);
   });
 
   describe('FieldGroup', () => {
     let renderedFormGroup;
 
     beforeEach(() => {
+      [wrapper, instance] = getComponent(props);
+
       renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
     });
 
@@ -258,4 +198,4 @@ describe('<StatusForm />', () => {
     });
   });
 });
-
+//

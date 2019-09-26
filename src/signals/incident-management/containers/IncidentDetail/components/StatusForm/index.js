@@ -110,17 +110,17 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
                     rows={5}
                   />
 
-                  <div className="notification notification-red" >
+                  <div className="status-form__warning notification notification-red" >
                     {warning}
                   </div>
-                  <div className="notification notification-red" >
+                  <div className="status-form__error notification notification-red" >
                     {error && error.response && error.response.status === 403 ? 'Je bent niet geautoriseerd om dit te doen.' : '' }
-                    {error && error.response && error.response.status ? 'De gekozen status is niet mogelijk in deze situatie.' : '' }
+                    {error && error.response && error.response.status !== 403 ? 'De gekozen status is niet mogelijk in deze situatie.' : '' }
                   </div>
 
                   <button className="status-form__form-submit action primary" type="submit" disabled={invalid}>
                     <span className="value">Status opslaan</span>
-                    {patching.status ? <span className="working"><div className="progress-indicator progress-white"></div></span> : ''}
+                    {patching.status ? <span className="working"><div className="status-form__submit--progress progress-indicator progress-white"></div></span> : ''}
                   </button>
                   <button className="status-form__form-cancel action secundary-grey" onClick={onClose}>Annuleren</button>
                 </div>
