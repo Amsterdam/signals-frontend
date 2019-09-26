@@ -45,6 +45,14 @@ describe('<App />', () => {
     expect(getByTestId('siteHeader')).toBeTruthy();
   });
 
+  it('should render the correct theme', () => {
+    jest.spyOn(global.sessionStorage, 'getItem').mockImplementation(() => undefined);
+
+    const { getByTestId } = render(withAppContext(<AppContainer requestCategoriesAction={() => {}} />));
+
+    expect(getByTestId('signalsThemeProvider')).toBeTruthy();
+  });
+
   describe('mapDispatchToProps', () => {
     const dispatch = jest.fn();
 

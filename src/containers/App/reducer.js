@@ -12,6 +12,8 @@
 
 import { fromJS } from 'immutable';
 
+import { ACCESS_TOKEN } from 'shared/services/auth/auth';
+
 import {
   LOGOUT,
   AUTHENTICATE_USER,
@@ -44,11 +46,11 @@ export const initialState = fromJS({
 function appReducer(state = initialState, action) {
   switch (action.type) {
     case AUTHENTICATE_USER:
-      global.sessionStorage.setItem('accessToken', action.payload.accessToken);
+      global.sessionStorage.setItem(ACCESS_TOKEN, action.payload.accessToken);
       return state;
 
     case AUTHORIZE_USER:
-      global.sessionStorage.setItem('accessToken', action.payload.accessToken);
+      global.sessionStorage.setItem(ACCESS_TOKEN, action.payload.accessToken);
 
       return state
         .set('userName', action.payload.userName)
@@ -94,7 +96,7 @@ function appReducer(state = initialState, action) {
       return state.set('upload', fromJS({}));
 
     case LOGOUT:
-      global.sessionStorage.removeItem('accessToken');
+      global.sessionStorage.removeItem(ACCESS_TOKEN);
 
       return state
         .set('userName', undefined)
