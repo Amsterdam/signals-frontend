@@ -55,7 +55,7 @@ describe('<DownloadButton />', () => {
       });
     });
 
-    it('should download document when logged in', () => {
+    it('should download document with token when present', () => {
       const { queryByTestId } = render(
         <DownloadButton {...props} accessToken="MOCK-TOKEN" />
         );

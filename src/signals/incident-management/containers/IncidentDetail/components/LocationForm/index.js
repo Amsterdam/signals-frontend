@@ -41,7 +41,9 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
   }
 
   componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps.patching && prevProps.patching.location, this.props.patching && this.props.patching.location) && this.props.patching.location === false) {
+    const prevPatchingLocation = prevProps.patching && prevProps.patching.location;
+    const patchingLocation = this.props.patching && this.props.patching.location;
+    if (prevPatchingLocation !== patchingLocation && patchingLocation === false) {
       const hasError = (this.props.error && this.props.error.response && !this.props.error.response.ok) || false;
       if (!hasError) {
         this.props.onClose();
