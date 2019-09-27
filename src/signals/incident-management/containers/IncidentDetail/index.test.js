@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 
 import { REQUEST_INCIDENT, PATCH_INCIDENT, REQUEST_ATTACHMENTS, REQUEST_DEFAULT_TEXTS, DISMISS_SPLIT_NOTIFICATION, DISMISS_ERROR } from 'models/incident/constants';
 import { REQUEST_HISTORY_LIST } from 'models/history/constants';
+import LoadingIndicator from 'shared/components/LoadingIndicator';
 
 import { IncidentDetail, mapDispatchToProps } from './index';
 
@@ -31,6 +32,7 @@ describe('<IncidentDetail />', () => {
       loading: false,
       patching: {},
       defaultTexts: [],
+      error: false,
       incident: {
         reporter: {
           email: '',
@@ -224,12 +226,35 @@ describe('<IncidentDetail />', () => {
 
   describe('rendering', () => {
     it('should render default correctly', () => {
+      expect(wrapper.find(LoadingIndicator)).toHaveLength(0);
+
       expect(wrapper.find(SplitNotificationBar)).toHaveLength(1);
       expect(wrapper.find(DetailHeader)).toHaveLength(1);
       expect(wrapper.find(Detail)).toHaveLength(1);
       expect(wrapper.find(MetaList)).toHaveLength(1);
       expect(wrapper.find(History)).toHaveLength(1);
       expect(wrapper.find(AddNote)).toHaveLength(1);
+
+      expect(wrapper.find(LocationForm)).toHaveLength(0);
+      expect(wrapper.find(AttachmentViewer)).toHaveLength(0);
+      expect(wrapper.find(StatusForm)).toHaveLength(0);
+      expect(wrapper.find(LocationPreview)).toHaveLength(0);
+    });
+
+    it('should render lazy loading correctly', () => {
+      wrapper.setProps({
+        incidentModel: {
+          ...props.incidentModel,
+          loading: true
+        }
+      });
+
+      expect(wrapper.find(LoadingIndicator)).toHaveLength(1);
+
+      expect(wrapper.find(Detail)).toHaveLength(0);
+      expect(wrapper.find(MetaList)).toHaveLength(0);
+      expect(wrapper.find(History)).toHaveLength(0);
+      expect(wrapper.find(AddNote)).toHaveLength(0);
 
       expect(wrapper.find(LocationForm)).toHaveLength(0);
       expect(wrapper.find(AttachmentViewer)).toHaveLength(0);

@@ -80,6 +80,7 @@ export class IncidentDetail extends React.Component {
       this.props.onRequestIncident(this.props.id);
     }
 
+    /* istanbul ignore else */
     if (this.props.incidentModel.incident) {
       const category = this.props.incidentModel.incident.category;
       if (
