@@ -7,7 +7,13 @@ import isEqual from 'lodash.isequal';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
-import { incidentType, dataListType, defaultTextsType, attachmentsType } from 'shared/types';
+import {
+  incidentType,
+  dataListType,
+  defaultTextsType,
+  attachmentsType,
+  categoriesType
+} from 'shared/types';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import {
@@ -303,7 +309,7 @@ IncidentDetail.propTypes = {
   historyModel: PropTypes.shape({
     list: PropTypes.array.isRequired
   }).isRequired,
-  categories: PropTypes.object.isRequired,
+  categories: categoriesType.isRequired,
   accessToken: PropTypes.string.isRequired,
 
   id: PropTypes.string,
