@@ -282,7 +282,10 @@ IncidentDetail.propTypes = {
     incident: incidentType,
     attachments: attachmentsType,
     loading: PropTypes.bool.isRequired,
-    patching: PropTypes.object.isRequired,
+    patching: PropTypes.shape({
+      location: PropTypes.bool,
+      status: PropTypes.bool,
+    }).isRequired,
     error: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.object

@@ -149,7 +149,9 @@ StatusForm.defaultProps = {
 StatusForm.propTypes = {
   incident: incidentType.isRequired,
   error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  patching: PropTypes.object.isRequired,
+  patching: PropTypes.shape({
+    status: PropTypes.bool,
+  }).isRequired,
   warning: PropTypes.string,
   changeStatusOptionList: dataListType.isRequired,
   statusList: dataListType.isRequired,
