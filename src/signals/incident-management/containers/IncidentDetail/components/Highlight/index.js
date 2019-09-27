@@ -53,7 +53,10 @@ class Highlight extends React.Component { // eslint-disable-line react/prefer-st
   render() {
     const { show } = this.state;
     return (
-      <div className={`highlight ${show ? 'highlight--active' : ''}`} data-testid="highlight">
+      <div
+        className={`highlight ${show ? 'highlight--active' : ''}`}
+        data-testid="highlight"
+      >
         <div className="highlight__children">
           {this.props.children}
         </div>

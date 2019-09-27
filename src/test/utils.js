@@ -74,9 +74,3 @@ export const withIntlAppContext = (Component, messages, locale='nl') => (
     </Provider>
   </ThemeProvider>
 );
-
-export const run = (callback) => {
-  if (callback) {
-    callback();
-  }
-};
