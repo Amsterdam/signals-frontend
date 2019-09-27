@@ -24,7 +24,6 @@ import priorityList from '../../definitions/priorityList';
 
 describe('<IncidentDetail />', () => {
   let wrapper;
-  // eslint-disable-next-line no-unused-vars
   let instance;
   const props = {
     id: '42',
