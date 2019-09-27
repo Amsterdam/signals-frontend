@@ -6,45 +6,73 @@ import { bindActionCreators } from 'redux';
 
 import { applyFilter, removeFilter } from 'signals/incident-management/actions';
 import { makeSelectAllFilters } from 'signals/incident-management/selectors';
+import { requestIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
+import * as types from 'shared/types';
 
 import FilterItem from './components/FilterItem';
 
 import './style.scss';
 
 const sortFilters = (allFilters) => {
-  allFilters.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
+  allFilters.sort((a, b) =>
+    a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1,
+  );
 
   return allFilters;
 };
 
-export const MyFiltersComponent = ({ allFilters, onApplyFilter, onRemoveFilter, onClose }) => (
-  <div className="my-filters">
-    {allFilters && allFilters.length ? sortFilters(allFilters).map((filter) => (
-      <FilterItem
-        key={filter.id}
-        filter={filter}
-        onApplyFilter={onApplyFilter}
-        onRemoveFilter={onRemoveFilter}
-        onClose={onClose}
-      />
-    )) : (
-      <div className="my-filters--empty">
-        <p>U heeft geen eigen filter opgeslagen.</p>
-        <p>Ga naar &lsquo;Filteren&rsquo; en voer een naam in om een filterinstelling op te slaan.</p>
-      </div>
-    )}
-  </div>
-);
+export const MyFiltersComponent = ({
+  allFilters,
+  onApplyFilter,
+  onRemoveFilter,
+  onRequestIncidents,
+  onClose,
+}) => {
+  const handleApplyFilter = (filter) => {
+    onApplyFilter(filter);
+    onRequestIncidents({ filter });
+  };
+
+  const handleEditFilter = (filter) => {
+    onApplyFilter(filter);
+  };
+
+  return (
+    <div className="my-filters">
+      {allFilters && allFilters.length ? (
+        sortFilters(allFilters).map((filter) => (
+          <FilterItem
+            key={filter.id}
+            filter={filter}
+            onEditFilter={handleEditFilter}
+            onApplyFilter={handleApplyFilter}
+            onRemoveFilter={onRemoveFilter}
+            onClose={onClose}
+          />
+        ))
+      ) : (
+        <div className="my-filters--empty">
+          <p>U heeft geen eigen filter opgeslagen.</p>
+          <p>
+            Ga naar &lsquo;Filteren&rsquo; en voer een naam in om een
+            filterinstelling op te slaan.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
 
 MyFiltersComponent.propTypes = {
-  allFilters: PropTypes.array.isRequired,
+  allFilters: PropTypes.arrayOf(types.filter),
   onApplyFilter: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onRemoveFilter: PropTypes.func.isRequired,
+  onRequestIncidents: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  allFilters: makeSelectAllFilters,
+  allFilters: makeSelectAllFilters(),
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -52,6 +80,7 @@ const mapDispatchToProps = (dispatch) =>
     {
       onApplyFilter: applyFilter,
       onRemoveFilter: removeFilter,
+      onRequestIncidents: requestIncidents,
     },
     dispatch,
   );

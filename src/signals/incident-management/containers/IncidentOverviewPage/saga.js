@@ -25,7 +25,6 @@ import {
 import {
   applyFilterRefresh,
   applyFilterRefreshStop,
-  filterIncidentsChanged,
   pageIncidentsChanged,
   requestIncidents,
   requestIncidentsError,
@@ -41,7 +40,7 @@ export function* fetchIncidents(action) {
 
     if (filter) {
       yield put(applyFilterRefreshStop());
-      yield put(filterIncidentsChanged(filter));
+      // yield put(pageIncidentsChanged(1));
     }
 
     const page = action.payload.page;
@@ -70,8 +69,8 @@ export function* fetchIncidents(action) {
     yield put(requestIncidentsSuccess(incidents));
 
     yield put(applyFilterRefresh());
-  } catch (err) {
-    yield put(requestIncidentsError(err));
+  } catch (error) {
+    yield put(requestIncidentsError(error.message));
   }
 }
 

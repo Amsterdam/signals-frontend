@@ -24,7 +24,7 @@ import {
   filterUpdatedSuccess,
 } from '../actions';
 
-describe.skip('signals/incident-management/containers/Filter/saga', () => {
+describe('signals/incident-management/saga', () => {
   it('should watch filterSaga', () => {
     testSaga(filterSaga)
       .next()

@@ -4,6 +4,8 @@ import moment from 'moment';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
+import * as types from 'shared/types';
+
 import './style.scss';
 
 class List extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -39,7 +41,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
 
 
   render() {
-    const { incidents, priorityList, statusList, stadsdeelList } = this.props;
+    const { incidents, priority, status, stadsdeel } = this.props;
     return (
       <div className="list-component" data-testid="incidentOverviewListComponent">
         <div className="list-component__body">
@@ -62,10 +64,10 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
                   <td>{incident.id}</td>
                   <td>{this.getDaysOpen(incident)}</td>
                   <td className="no-wrap">{string2date(incident.created_at)} {string2time(incident.created_at)}</td>
-                  <td>{getListValueByKey(stadsdeelList, incident.location && incident.location.stadsdeel)}</td>
+                  <td>{getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}</td>
                   <td>{incident.category && incident.category.sub}</td>
-                  <td>{getListValueByKey(statusList, incident.status && incident.status.state)}</td>
-                  <td>{getListValueByKey(priorityList, incident.priority && incident.priority.priority)}</td>
+                  <td>{getListValueByKey(status, incident.status && incident.status.state)}</td>
+                  <td>{getListValueByKey(priority, incident.priority && incident.priority.priority)}</td>
                   <td>{incident.location && incident.location.address_text}</td>
                 </tr>
               ))
@@ -79,10 +81,10 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
 }
 
 List.propTypes = {
-  incidents: PropTypes.array.isRequired,
-  priorityList: PropTypes.array.isRequired,
-  statusList: PropTypes.array.isRequired,
-  stadsdeelList: PropTypes.array.isRequired,
+  incidents: PropTypes.arrayOf(types.incident).isRequired,
+  priority: types.dataList.isRequired,
+  status: types.dataList.isRequired,
+  stadsdeel: types.dataList.isRequired,
 
   incidentSelected: PropTypes.func.isRequired,
   onRequestIncidents: PropTypes.func.isRequired,

@@ -1,14 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { makeSelectCategories } from 'containers/App/selectors';
+import { makeSelectDataLists } from 'signals/incident-management/selectors';
 import { Tag } from '@datapunt/asc-ui';
 import { isDate } from 'utils';
 import moment from 'moment';
-
-import makeSelectOverviewPage from '../IncidentOverviewPage/selectors';
+import * as types from 'shared/types';
 
 const FilterWrapper = styled.div`
   margin-top: 10px;
@@ -40,7 +39,7 @@ const renderTag = (key, tagKey, mainCategories, list) => {
     display = moment(display).format('DD-MM-YYYY');
   }
 
-  const foundMain = mainCategories.find((i) => i.slug === key);
+  const foundMain = mainCategories.find((i) => i.key === key);
 
   display += foundMain ? allLabelAppend : '';
 
@@ -55,24 +54,25 @@ const renderTag = (key, tagKey, mainCategories, list) => {
 export const FilterTagListComponent = (props) => {
   const {
     tags,
-    overviewpage: { priorityList, stadsdeelList, statusList, feedbackList },
+    dataLists,
     categories: { main, sub },
   } = props;
 
   const map = {
-    feedback: feedbackList,
-    priority: priorityList,
-    stadsdeel: stadsdeelList,
-    status: statusList,
+    ...dataLists,
     maincategory_slug: main,
     category_slug: sub,
   };
 
+  if (!tags) {
+    return null;
+  }
+
   return (
-    <FilterWrapper>
+    <FilterWrapper className="incident-overview-page__filter-tag-list">
       {Object.entries(tags).map(([tagKey, tag]) =>
         Array.isArray(tag)
-          ? tag.map((item) => renderTag(item, tagKey, main, map[tagKey]))
+          ? tag.map((item) => renderTag(item.key, tagKey, main, map[tagKey]))
           : renderTag(tag, tagKey, main, map[tagKey]),
       )}
     </FilterWrapper>
@@ -80,76 +80,9 @@ export const FilterTagListComponent = (props) => {
 };
 
 FilterTagListComponent.propTypes = {
-  tags: PropTypes.shape({
-    incident_date: PropTypes.string,
-    address_text: PropTypes.string,
-    stadsdeel: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
-    maincategory_slug: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
-    priority: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
-    category_slug: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
-  }),
-  overviewpage: PropTypes.shape({
-    feedbackList: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
-      }),
-    ),
-    priorityList: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
-      }),
-    ),
-    stadsdeelList: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
-      }),
-    ),
-    statusList: PropTypes.arrayOf(
-      PropTypes.shape({
-        color: PropTypes.string,
-        key: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
-        warning: PropTypes.string,
-      }),
-    ),
-  }).isRequired,
-  categories: PropTypes.shape({
-    main: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        slug: PropTypes.string,
-        value: PropTypes.string.isRequired,
-      }),
-    ),
-    sub: PropTypes.arrayOf(
-      PropTypes.shape({
-        category_slug: PropTypes.string,
-        handling_message: PropTypes.string,
-        key: PropTypes.string.isRequired,
-        slug: PropTypes.string,
-        value: PropTypes.string.isRequired,
-      }),
-    ),
-  }).isRequired,
+  tags: types.filter,
+  categories: types.categories.isRequired,
+  dataLists: types.dataLists.isRequired,
 };
 
 FilterTagListComponent.defaultProps = {
@@ -157,8 +90,8 @@ FilterTagListComponent.defaultProps = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  overviewpage: makeSelectOverviewPage(),
   categories: makeSelectCategories(),
+  dataLists: makeSelectDataLists(),
 });
 
 const withConnect = connect(mapStateToProps);

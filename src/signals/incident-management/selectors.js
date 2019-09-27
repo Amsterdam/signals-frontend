@@ -1,4 +1,6 @@
-// import { parseAPIData } from 'signals/incident-management/shared/filter/parse';
+import { parseFromAPIData } from 'signals/shared/filter/parse';
+import { makeSelectCategories } from 'containers/App/selectors';
+
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
@@ -8,36 +10,36 @@ import { initialState } from './reducer';
 const selectIncidentManagementDomain = (state) =>
   state.get('incidentManagement') || initialState;
 
-export const makeSelectPriorityList = () =>
+export const makeSelectPriority = () =>
   createSelector(
     selectIncidentManagementDomain,
-    (state) => state.get('priorityList').toJS(),
+    (state) => state.get('priority').toJS(),
   );
 
-export const makeSelectStadsdeelList = () =>
+export const makeSelectStadsdeel = () =>
   createSelector(
     selectIncidentManagementDomain,
-    (state) => state.get('stadsdeelList').toJS(),
+    (state) => state.get('stadsdeel').toJS(),
   );
 
-export const makeSelectStatusList = () =>
+export const makeSelectStatus = () =>
   createSelector(
     selectIncidentManagementDomain,
-    (state) => state.get('statusList').toJS(),
+    (state) => state.get('status').toJS(),
   );
 
-export const makeSelectFeedbackList = () =>
+export const makeSelectFeedback = () =>
   createSelector(
     selectIncidentManagementDomain,
-    (state) => state.get('feedbackList').toJS(),
+    (state) => state.get('feedback').toJS(),
   );
 
 export const makeSelectDataLists = () =>
   createSelector(
-    makeSelectPriorityList(),
-    makeSelectStadsdeelList(),
-    makeSelectStatusList(),
-    makeSelectFeedbackList(),
+    makeSelectPriority(),
+    makeSelectStadsdeel(),
+    makeSelectStatus(),
+    makeSelectFeedback(),
     (priority, stadsdeel, status, feedback) => ({
       priority,
       stadsdeel,
@@ -46,43 +48,63 @@ export const makeSelectDataLists = () =>
     }),
   );
 
-export const makeSelectAllFilters = createSelector(
-  selectIncidentManagementDomain,
-  (stateMap) => {
-    const state = stateMap.toJS();
+export const makeSelectAllFilters = () =>
+  createSelector(
+    selectIncidentManagementDomain,
+    makeSelectDataLists(),
+    makeSelectCategories(),
+    (stateMap, dataLists, categories) => {
+      const { allFilters } = stateMap.toJS();
 
-    return state.allFilters;
-  },
-);
+      return allFilters.map((filter) =>
+        parseFromAPIData(filter, {
+          ...dataLists,
+          maincategory_slug: categories.main,
+          category_slug: categories.sub,
+        }),
+      );
+    },
+  );
 
-export const makeSelectFilter = createSelector(
-  selectIncidentManagementDomain,
-  (stateMap) => {
-    const state = stateMap.toJS();
+export const makeSelectFilter = () =>
+  createSelector(
+    selectIncidentManagementDomain,
+    makeSelectDataLists(),
+    makeSelectCategories(),
+    (stateMap, dataLists, categories) => {
+      const state = stateMap.toJS();
+      if (!state.filter) {
+        return {};
+      }
 
-    return state.filter;
-  },
-);
+      return parseFromAPIData(state.filter, {
+        ...dataLists,
+        maincategory_slug: categories.main,
+        category_slug: categories.sub,
+      });
+    },
+  );
 
-export const makeSelectFilterParams = createSelector(
-  selectIncidentManagementDomain,
-  (substate) => {
-    const state = substate.toJS();
-    const filter = state.filter || { options: {} };
-    const { options } = filter;
+export const makeSelectFilterParams = () =>
+  createSelector(
+    selectIncidentManagementDomain,
+    (substate) => {
+      const state = substate.toJS();
+      const filter = state.filter || { options: {} };
+      const { options } = filter;
 
-    if (options && options.id) {
-      delete options.id;
-    }
+      if (options && options.id) {
+        delete options.id;
+      }
 
-    if (filter.searchQuery) {
-      return {
-        id: filter.searchQuery,
-        page: state.page,
-        ordering: state.sort,
-      };
-    }
+      if (filter.searchQuery) {
+        return {
+          id: filter.searchQuery,
+          page: state.page,
+          ordering: state.sort,
+        };
+      }
 
-    return { ...options, page: state.page, ordering: state.sort };
-  },
-);
+      return { ...options, page: state.page, ordering: state.sort };
+    },
+  );

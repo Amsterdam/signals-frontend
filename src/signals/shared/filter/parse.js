@@ -109,8 +109,26 @@ export const parseInputFormData = (filterData, dataLists) => {
 /**
  * Formats filter data that comes in from the API
  */
-export const parseAPIData = (filterData, dataLists) => {
-  const { options } = parseInputFormData(filterData, dataLists);
+export const parseFromAPIData = (filterData, dataLists) => {
+  const { id, name, refresh, ...options } = parseInputFormData(
+    filterData,
+    dataLists,
+  );
+
+  return { id, name, refresh, options };
+};
+
+/**
+ * Reverse formats filter data
+ */
+export const parseToAPIData = (filterData) => {
+  const options = clonedeep(filterData.options || {});
+
+  Object.keys(options)
+    .filter((fieldName) => arrayFields.includes(fieldName))
+    .forEach((fieldName) => {
+      options[fieldName] = options[fieldName].map(({ key }) => key);
+    });
 
   return Object.assign({}, filterData, { options });
 };

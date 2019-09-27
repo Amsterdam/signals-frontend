@@ -1,23 +1,30 @@
 import { fromJS } from 'immutable';
-import priorityList from './definitions/priorityList';
-import stadsdeelList from './definitions/stadsdeelList';
-import statusList from './definitions/statusList';
-import feedbackList from './definitions/feedbackList';
+
+import priority from './definitions/priorityList';
+import stadsdeel from './definitions/stadsdeelList';
+import status from './definitions/statusList';
+import feedback from './definitions/feedbackList';
 
 import {
-  GET_FILTERS_SUCCESS,
-  GET_FILTERS_FAILED,
-  REMOVE_FILTER_SUCCESS,
   APPLY_FILTER,
+  CLEAR_FILTER_FAILED,
+  CLEAR_FILTER,
+  GET_FILTERS_FAILED,
+  GET_FILTERS_SUCCESS,
+  REMOVE_FILTER_SUCCESS,
+  SAVE_FILTER_FAILED,
+  SAVE_FILTER_SUCCESS,
+  UPDATE_FILTER_FAILED,
+  UPDATE_FILTER_SUCCESS,
 } from './constants';
 
 export const initialState = fromJS({
-  priorityList,
-  stadsdeelList,
-  statusList,
-  feedbackList,
+  priority,
+  stadsdeel,
+  status,
+  feedback,
   allFilters: [],
-  filter: {},
+  filter: undefined,
 });
 
 export default (state = initialState, action) => {
@@ -46,6 +53,23 @@ export default (state = initialState, action) => {
 
     case APPLY_FILTER:
       return state.set('filter', fromJS(action.payload));
+
+    case SAVE_FILTER_FAILED:
+    case UPDATE_FILTER_FAILED:
+    case CLEAR_FILTER_FAILED:
+      return state
+        .set('loading', false)
+        .set('error', true)
+        .set('errorMessage', action.payload);
+
+    case SAVE_FILTER_SUCCESS:
+    case UPDATE_FILTER_SUCCESS:
+    case CLEAR_FILTER:
+      return state
+        .set('filter', fromJS(action.payload))
+        .set('error', false)
+        .set('errorMessage', undefined)
+        .set('loading', false);
 
     default:
       return state;
