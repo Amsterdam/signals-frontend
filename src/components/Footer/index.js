@@ -28,7 +28,7 @@ const FooterWrapper = styled.div`
 `;
 
 const Footer = () => (
-  <FooterWrapper className="app-container no-print">
+  <FooterWrapper className="app-container no-print" data-testid="siteFooter">
     <Disclaimer>
       <Row>
         <Column span={12}>

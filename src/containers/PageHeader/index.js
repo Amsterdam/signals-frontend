@@ -88,7 +88,7 @@ PageHeaderContainerComponent.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  filter: makeSelectFilter,
+  filter: makeSelectFilter(),
   incidentsCount: makeSelectIncidentsCount,
   query: makeSelectQuery,
 });
