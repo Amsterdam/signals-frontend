@@ -153,6 +153,23 @@ export const defaultTextsType = PropTypes.arrayOf(
   })
 );
 
+export const extraPropertiesType = PropTypes.arrayOf(
+  PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    label: PropTypes.string,
+    answer: PropTypes.oneOfType([
+      PropTypes.shape({
+        id: PropTypes.string,
+        label: PropTypes.string,
+        value: PropTypes.bool,
+      }),
+      PropTypes.array,
+      PropTypes.string,
+    ]),
+    category_url: PropTypes.string.isRequired,
+  })
+);
+
 /**
  * Generic datalist type
  */

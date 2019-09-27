@@ -1,8 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import isObject from 'lodash.isobject';
 import isArray from 'lodash.isarray';
 import isBoolean from 'lodash.isboolean';
+
+import { extraPropertiesType } from 'shared/types';
 
 import './style.scss';
 
@@ -36,22 +37,7 @@ ExtraProperties.defaultProps = {
 };
 
 ExtraProperties.propTypes = {
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      label: PropTypes.string,
-      answer: PropTypes.oneOfType([
-        PropTypes.shape({
-          id: PropTypes.string,
-          label: PropTypes.string,
-          value: PropTypes.bool,
-        }),
-        PropTypes.array,
-        PropTypes.string,
-      ]),
-      category_url: PropTypes.string.isRequired,
-    })
-  )
+  items: extraPropertiesType
 };
 
 export default ExtraProperties;
