@@ -16,7 +16,7 @@ describe('<History />', () => {
           what: 'UPDATE_STATUS',
           action: 'Update status naar: Gesplitst',
           description: 'Deze melding is opgesplitst.',
-          who: 'jasper.g.swart@gmail.com'
+          who: 'steve@apple.com'
         },
         {
           identifier: 'UPDATE_PRIORITY_3790',
@@ -50,7 +50,7 @@ describe('<History />', () => {
       expect(queryAllByTestId('history-list-item')).toHaveLength(3);
 
       expect(queryAllByTestId('history-list-item-when')[0]).toHaveTextContent(/^31-07-2019 om 15:10$/);
-      expect(queryAllByTestId('history-list-item-who')[0]).toHaveTextContent(/^jasper.g.swart@gmail.com$/);
+      expect(queryAllByTestId('history-list-item-who')[0]).toHaveTextContent(/^steve@apple.com$/);
       expect(queryAllByTestId('history-list-item-action')[0]).toHaveTextContent(/^Update status naar: Gesplitst$/);
       expect(queryAllByTestId('history-list-item-description')[0]).toHaveTextContent(/^Deze melding is opgesplitst\.$/);
     });

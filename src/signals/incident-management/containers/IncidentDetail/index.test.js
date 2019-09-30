@@ -42,7 +42,7 @@ describe('<IncidentDetail />', () => {
         _display: '3254 - i - A06j - 2019-09-25 14:35:58.843458+00:00',
         priority: {
           priority: 'high',
-          created_by: 'jasper.g.swart@gmail.com'
+          created_by: 'steve@apple.com'
         },
         created_at: '2019-09-25T16:35:58.843458+02:00',
         has_attachments: true,
@@ -75,7 +75,7 @@ describe('<IncidentDetail />', () => {
             ]
           },
           buurt_code: 'A06j',
-          created_by: 'jasper.g.swart@gmail.com',
+          created_by: 'steve@apple.com',
           address: {
             postcode: '',
             huisletter: 'D',
