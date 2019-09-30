@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import { get, set } from 'lodash';
 
-import { incidentType } from 'shared/types';
+import { incidentType, dataListType } from 'shared/types';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
@@ -70,7 +70,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
             control={this.form}
             render={() => (
               <form onSubmit={this.handleSubmit} className="change-value__form">
-                <div>
+                <Fragment>
                   <FieldControlWrapper
                     render={SelectInput}
                     name="input"
@@ -81,15 +81,27 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
                     sort={sort}
                   />
 
-                  <button className="change-value__form-submit action primary" type="submit">Opslaan</button>
-                  <button className="change-value__form-cancel action secundary-grey" type="button" onClick={this.handleCancel}>Annuleren</button>
-                </div>
+                  <button
+                    className="change-value__form-submit action primary"
+                    type="submit"
+                  >Opslaan</button>
+                  <button
+                    className="change-value__form-cancel action secundary-grey"
+                    type="button"
+                    onClick={this.handleCancel}
+                  >Annuleren</button>
+                </Fragment>
               </form>
               )}
           />
         :
           <dd className={valueClass}>
-            <button className="change-value__edit incident-detail__button--edit" onClick={this.showForm} disabled={disabled} />
+            <button
+              className="change-value__edit incident-detail__button--edit"
+              type="button"
+              onClick={this.showForm}
+              disabled={disabled}
+            />
             <span className="change-value__value">{getListValueByKey(list, get(incident, valuePath || path))}</span>
           </dd>
         }
@@ -108,11 +120,7 @@ ChangeValue.propTypes = {
   incident: incidentType.isRequired,
   definitionClass: PropTypes.string.isRequired,
   valueClass: PropTypes.string.isRequired,
-  list: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    })).isRequired,
+  list: dataListType.isRequired,
   display: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
   valuePath: PropTypes.string,

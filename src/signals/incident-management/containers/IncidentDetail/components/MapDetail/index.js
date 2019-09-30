@@ -25,7 +25,7 @@ const MapDetail = ({ value, hideAttribution, hideZoomControls, useSmallMarker, z
 };
 
 MapDetail.propTypes = {
-  value: locationType,
+  value: locationType.isRequired,
   hideAttribution: PropTypes.bool,
   hideZoomControls: PropTypes.bool,
   useSmallMarker: PropTypes.bool,

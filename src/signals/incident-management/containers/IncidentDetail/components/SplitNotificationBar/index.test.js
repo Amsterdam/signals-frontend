@@ -1,5 +1,4 @@
 import React from 'react';
-// import { shallow } from 'enzyme';
 import { render, fireEvent, cleanup } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 

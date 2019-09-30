@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { historyType } from 'shared/types';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 
@@ -25,16 +25,7 @@ const History = ({ list }) => (
 );
 
 History.propTypes = {
-  list: PropTypes.arrayOf(
-    PropTypes.shape({
-      identifier: PropTypes.string.isRequired,
-      when: PropTypes.string.isRequired,
-      what: PropTypes.string.isRequired,
-      action: PropTypes.string.isRequired,
-      description: PropTypes.string,
-      who: PropTypes.string.isRequired,
-    })
-  )
+  list: historyType.isRequired,
 };
 
 export default History;

@@ -15,8 +15,18 @@ const Location = ({ incident, stadsdeelList, onShowLocation, onEditLocation }) =
     <dl className="location">
       <dt className="location__definition" data-testid="location-definition">Locatie</dt>
       <dd className="location__value">
-        <button className="location__value-button-edit incident-detail__button--edit" onClick={onEditLocation} data-testid="location-button-edit"></button>
-        <button className="location__value-button-show" onClick={onShowLocation} data-testid="location-button-show">
+        <button
+          className="location__value-button-edit incident-detail__button--edit"
+          type="button"
+          onClick={onEditLocation}
+          data-testid="location-button-edit"
+        ></button>
+        <button
+          className="location__value-button-show"
+          type="button"
+          onClick={onShowLocation}
+          data-testid="location-button-show"
+        >
           <MapDetail
             value={incident.location}
             hideAttribution

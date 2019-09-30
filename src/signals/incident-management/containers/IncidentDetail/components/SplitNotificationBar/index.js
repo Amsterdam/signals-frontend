@@ -22,7 +22,12 @@ const SplitNotificationBar = ({ data, onDismissSplitNotification }) => (
     {data && data.id && data.created && data.created.children && Array.isArray(data.created.children) ?
       <div className="split-notification-bar success">
         <div className="split-notification-bar__body">
-          <button className="split-notification-bar__close-button" data-testid="split-notification-bar-close-button" onClick={onDismissSplitNotification} />
+          <button
+            className="split-notification-bar__close-button"
+            type="button"
+            data-testid="split-notification-bar-close-button"
+            onClick={onDismissSplitNotification}
+          />
 
           Melding {data.id} is gesplitst in
           {data.created.children.map((item) =>
@@ -36,7 +41,12 @@ const SplitNotificationBar = ({ data, onDismissSplitNotification }) => (
     {data && data.response && data.response.status ?
       <div className="split-notification-bar error">
         <div className="split-notification-bar__body">
-          <button className="split-notification-bar__close-button" data-testid="split-notification-bar-close-button" onClick={onDismissSplitNotification} />
+          <button
+            className="split-notification-bar__close-button"
+            type="button"
+            data-testid="split-notification-bar-close-button"
+            onClick={onDismissSplitNotification}
+          />
 
           De melding is helaas niet gesplitst.&nbsp;
           {getErrorMessage(data.response.status)}

@@ -48,6 +48,7 @@ const DetailHeader = ({ incident, baseUrl, accessToken, onPatchIncident }) => {
           {canThor ?
             <button
               className="incident-detail__button align-self-center"
+              type="button"
               onClick={() => onPatchIncident(patch)}
               data-testid="detail-header-button-thor"
             >THOR</button> : ''}

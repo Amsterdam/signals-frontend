@@ -163,10 +163,21 @@ export const extraPropertiesType = PropTypes.arrayOf(
         label: PropTypes.string,
         value: PropTypes.bool,
       }),
-      PropTypes.array,
+      PropTypes.arrayOf(PropTypes.string),
       PropTypes.string,
     ]),
     category_url: PropTypes.string.isRequired,
+  })
+);
+
+export const historyType = PropTypes.arrayOf(
+  PropTypes.shape({
+    identifier: PropTypes.string.isRequired,
+    when: PropTypes.string.isRequired,
+    what: PropTypes.string.isRequired,
+    action: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    who: PropTypes.string.isRequired,
   })
 );
 

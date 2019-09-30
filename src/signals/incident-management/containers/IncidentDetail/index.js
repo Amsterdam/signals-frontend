@@ -12,7 +12,8 @@ import {
   dataListType,
   defaultTextsType,
   attachmentsType,
-  categoriesType
+  categoriesType,
+  historyType,
 } from 'shared/types';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
@@ -308,7 +309,7 @@ IncidentDetail.propTypes = {
     defaultTexts: defaultTextsType,
   }).isRequired,
   historyModel: PropTypes.shape({
-    list: PropTypes.array.isRequired
+    list: historyType.isRequired,
   }).isRequired,
   categories: categoriesType.isRequired,
   accessToken: PropTypes.string.isRequired,
