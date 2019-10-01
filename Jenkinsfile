@@ -110,7 +110,7 @@ if (BRANCH == "master") {
                 }
             }
         }
-    }   
+    }
 
     node {
         stage("Deploy to PROD") {
