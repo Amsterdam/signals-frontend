@@ -71,14 +71,12 @@ export class IncidentDetail extends React.Component {
   }
 
   componentDidMount() {
-    this.props.onRequestIncident(this.props.id);
-    this.props.onRequestHistoryList(this.props.id);
-    this.props.onRequestAttachments(this.props.id);
+    this.fetchAll();
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.id !== this.props.id) {
-      this.props.onRequestIncident(this.props.id);
+      this.fetchAll();
     }
 
     /* istanbul ignore else */
@@ -132,6 +130,12 @@ export class IncidentDetail extends React.Component {
       previewState: '',
       attachmentHref: ''
     });
+  }
+
+  fetchAll() {
+    this.props.onRequestIncident(this.props.id);
+    this.props.onRequestHistoryList(this.props.id);
+    this.props.onRequestAttachments(this.props.id);
   }
 
   render() {

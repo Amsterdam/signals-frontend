@@ -16,9 +16,7 @@ import AttachmentViewer from './components/AttachmentViewer';
 import StatusForm from './components/StatusForm';
 import Detail from './components/Detail';
 import SplitNotificationBar from './components/SplitNotificationBar';
-import LocationPreview from './components/LocationPreview';
-
-import statusList, { changeStatusOptionList } from '../../definitions/statusList';
+import LocationPreview from './components/LocationPreview'; import statusList, { changeStatusOptionList } from '../../definitions/statusList';
 import stadsdeelList from '../../definitions/stadsdeelList';
 import priorityList from '../../definitions/priorityList';
 
@@ -238,6 +236,10 @@ describe('<IncidentDetail />', () => {
       expect(wrapper.find(AttachmentViewer)).toHaveLength(0);
       expect(wrapper.find(StatusForm)).toHaveLength(0);
       expect(wrapper.find(LocationPreview)).toHaveLength(0);
+
+      expect(props.onRequestIncident).toHaveBeenCalledWith('42');
+      expect(props.onRequestHistoryList).toHaveBeenCalledWith('42');
+      expect(props.onRequestAttachments).toHaveBeenCalledWith('42');
     });
 
     it('should render lazy loading correctly', () => {
@@ -259,6 +261,24 @@ describe('<IncidentDetail />', () => {
       expect(wrapper.find(AttachmentViewer)).toHaveLength(0);
       expect(wrapper.find(StatusForm)).toHaveLength(0);
       expect(wrapper.find(LocationPreview)).toHaveLength(0);
+
+      expect(props.onRequestIncident).toHaveBeenCalledWith('42');
+      expect(props.onRequestHistoryList).toHaveBeenCalledWith('42');
+      expect(props.onRequestAttachments).toHaveBeenCalledWith('42');
+    });
+
+    it('should load assets when id changes', () => {
+      expect(props.onRequestIncident).toHaveBeenCalledWith('42');
+      expect(props.onRequestHistoryList).toHaveBeenCalledWith('42');
+      expect(props.onRequestAttachments).toHaveBeenCalledWith('42');
+
+      wrapper.setProps({
+        id: '43',
+      });
+
+      expect(props.onRequestIncident).toHaveBeenCalledWith('43');
+      expect(props.onRequestHistoryList).toHaveBeenCalledWith('43');
+      expect(props.onRequestAttachments).toHaveBeenCalledWith('43');
     });
 
     it('should render StatusForm correctly', () => {
