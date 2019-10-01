@@ -37,11 +37,7 @@ export const AppContainer = ({ requestCategoriesAction }) => {
   return (
     <ThemeWrapper as={isAuthenticated() ? AscThemeProvider : AmsThemeProvider}>
       <Fragment>
-        {/**
-         * Forcing rerender of SiteHeader component to reevaluate its props, because it will
-         * otherwise not pick up a navigation action and will not present the component as tall
-         */}
-        <SiteHeaderContainer key={Math.random()} />
+        <SiteHeaderContainer />
 
         <div className="app-container">
           <GlobalError />
