@@ -218,8 +218,8 @@
       "global": {
         "statements": 90.93,
         "branches": 91.62,
-        "functions": 88.69,
-        "lines": 90.89
+        "functions": 88.71,
+        "lines": 90.9
       }
     },
     "coverageReporters": [
