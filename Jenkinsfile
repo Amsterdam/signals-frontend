@@ -52,13 +52,15 @@ node {
 node {
     stage("Build acceptance image") {
         tryStep "build", {
-            def image = docker.build("build.app.amsterdam.nl:5000/ois/signalsfrontend:${env.BUILD_NUMBER}",
+            docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
+                def image = docker.build("ois/signalsfrontend:${env.BUILD_NUMBER}",
                 "--shm-size 1G " +
                 "--build-arg BUILD_ENV=acc " +
                 "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
                 "--build-arg GIT_COMMIT=${env.GIT_COMMIT} " +
-                ". ")
+                ".")
             image.push()
+            }
         }
     }
 }
@@ -70,9 +72,11 @@ if (BRANCH == "develop") {
     node {
         stage('Push acceptance image') {
             tryStep "image tagging", {
-                def image = docker.image("build.app.amsterdam.nl:5000/ois/signalsfrontend:${env.BUILD_NUMBER}")
-                image.pull()
-                image.push("acceptance")
+                docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
+                    def image = docker.image("ois/signalsfrontend:${env.BUILD_NUMBER}")
+                    image.pull()
+                    image.push("acceptance")
+                }
             }
         }
     }
@@ -95,16 +99,18 @@ if (BRANCH == "master") {
     node {
         stage("Build and Push Production image") {
             tryStep "build", {
-                def image = docker.build("build.app.amsterdam.nl:5000/ois/signalsfrontend:${env.BUILD_NUMBER}",
+                docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
+                    def image = docker.image("ois/signalsfrontend:${env.BUILD_NUMBER}",
                     "--shm-size 1G " +
                     "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
                     "--build-arg GIT_COMMIT=${env.GIT_COMMIT} " +
                     ".")
                 image.push("production")
                 image.push("latest")
+                }
             }
         }
-    }
+    }   
 
     node {
         stage("Deploy to PROD") {
