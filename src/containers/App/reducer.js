@@ -46,7 +46,10 @@ export const initialState = fromJS({
 function appReducer(state = initialState, action) {
   switch (action.type) {
     case AUTHENTICATE_USER:
-      global.sessionStorage.setItem(ACCESS_TOKEN, action.payload.accessToken);
+      if (action.payload && action.payload.accessToken) {
+        global.sessionStorage.setItem(ACCESS_TOKEN, action.payload.accessToken);
+      }
+
       return state;
 
     case AUTHORIZE_USER:
