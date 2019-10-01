@@ -10,7 +10,7 @@ import {
   incidentSelected as onIncidentSelected,
 } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 import {
-  makeSelectFilter,
+  makeSelectEditFilter,
   makeSelectDataLists,
 } from 'signals/incident-management/selectors';
 import FilterForm from 'signals/incident-management/components/FilterForm';
@@ -48,9 +48,9 @@ export const FilterContainerComponent = ({
 };
 
 FilterContainerComponent.propTypes = {
-  activeFilter: types.filter.isRequired,
-  categories: types.categories.isRequired,
-  dataLists: types.dataLists.isRequired,
+  categories: types.categoriesType.isRequired,
+  dataLists: types.dataListsType.isRequired,
+  filter: types.filterType.isRequired,
   onApplyFilter: PropTypes.func.isRequired,
   onClearFilter: PropTypes.func.isRequired,
   onRequestIncidents: PropTypes.func.isRequired,
@@ -61,9 +61,9 @@ FilterContainerComponent.propTypes = {
 
 const mapStateToProps = () =>
   createStructuredSelector({
-    dataLists: makeSelectDataLists(),
     categories: makeSelectCategories(),
-    activeFilter: makeSelectFilter(),
+    dataLists: makeSelectDataLists,
+    filter: makeSelectEditFilter,
   });
 
 const mapDispatchToProps = (dispatch) =>

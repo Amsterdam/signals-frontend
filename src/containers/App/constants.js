@@ -18,7 +18,11 @@ export const SHOW_GLOBAL_ERROR = 'sia/App/SHOW_GLOBAL_ERROR';
 export const RESET_GLOBAL_ERROR = 'sia/App/RESET_GLOBAL_ERROR';
 
 export const LOGIN = 'sia/App/LOGIN';
+export const LOGIN_FAILED = 'sia/App/LOGIN_FAILED';
+
 export const LOGOUT = 'sia/App/LOGOUT';
+export const LOGOUT_FAILED = 'sia/App/LOGOUT_FAILED';
+export const LOGOUT_SUCCESS = 'sia/App/LOGOUT_SUCCESS';
 
 export const REQUEST_CATEGORIES = 'sia/App/REQUEST_CATEGORIES';
 export const REQUEST_CATEGORIES_SUCCESS = 'sia/App/REQUEST_CATEGORIES_SUCCESS';

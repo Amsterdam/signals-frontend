@@ -24,8 +24,6 @@ const makeSelectOverviewPage = () =>
 const makeSelectIncidentsCount = createSelector(
   selectOverviewPageDomain,
   (state) => {
-    if (!state) return state;
-
     const obj = state.toJS();
 
     return obj.incidentsCount;

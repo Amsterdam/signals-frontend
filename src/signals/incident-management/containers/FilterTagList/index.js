@@ -80,9 +80,9 @@ export const FilterTagListComponent = (props) => {
 };
 
 FilterTagListComponent.propTypes = {
-  tags: types.filter,
-  categories: types.categories.isRequired,
-  dataLists: types.dataLists.isRequired,
+  tags: types.filterType,
+  categories: types.categoriesType.isRequired,
+  dataLists: types.dataListsType.isRequired,
 };
 
 FilterTagListComponent.defaultProps = {
@@ -91,7 +91,7 @@ FilterTagListComponent.defaultProps = {
 
 const mapStateToProps = createStructuredSelector({
   categories: makeSelectCategories(),
-  dataLists: makeSelectDataLists(),
+  dataLists: makeSelectDataLists,
 });
 
 const withConnect = connect(mapStateToProps);

@@ -44,20 +44,6 @@ const FilterItem = ({ filter, onApplyFilter, onEditFilter, onRemoveFilter, onClo
 
     onEditFilter(parseToAPIData(filter));
 
-    // IE11 doesn't support dispatching an event without initialisation
-    // @see {@link https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events#Creating_custom_events}
-    let event;
-    if (typeof Event === 'function') {
-      event = new Event('openFilter');
-    } else {
-      event = document.createEvent('Event');
-      const bubbles = false;
-      const cancelable = false;
-      event.initEvent('openFilter', bubbles, cancelable);
-    }
-
-    document.dispatchEvent(event);
-
     onClose();
   };
 
@@ -114,7 +100,7 @@ const FilterItem = ({ filter, onApplyFilter, onEditFilter, onRemoveFilter, onClo
 };
 
 FilterItem.propTypes = {
-  filter: types.filter.isRequired,
+  filter: types.filterType.isRequired,
   onApplyFilter: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onEditFilter: PropTypes.func.isRequired,

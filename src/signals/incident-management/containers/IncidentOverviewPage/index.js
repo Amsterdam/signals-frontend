@@ -12,10 +12,7 @@ import PageHeader from 'containers/PageHeader';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectCategories } from 'containers/App/selectors';
-import {
-  makeSelectFilter,
-  makeSelectDataLists,
-} from 'signals/incident-management/selectors';
+import { makeSelectDataLists } from 'signals/incident-management/selectors';
 import { makeSelectQuery } from 'models/search/selectors';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
@@ -75,21 +72,19 @@ export const IncidentOverviewPageContainerComponent = ({
 
   useEffect(() => {
     const escFunction = (event) => {
+      /* istanbul ignore next */
       if (event.keyCode === 27) {
         closeFilterModal();
         closeMyFiltersModal();
       }
     };
-    const openFilterFuntion = () => {
-      openFilterModal();
-    };
 
     document.addEventListener('keydown', escFunction);
-    document.addEventListener('openFilter', openFilterFuntion);
+    document.addEventListener('openFilter', openFilterModal);
 
     return () => {
       document.removeEventListener('keydown', escFunction);
-      document.removeEventListener('openFilter', openFilterFuntion);
+      document.removeEventListener('openFilter', openFilterModal);
     };
   });
 
@@ -121,6 +116,7 @@ export const IncidentOverviewPageContainerComponent = ({
         </div>
 
         <Modal
+          data-testid="myFiltersModal"
           isOpen={modalMyFiltersIsOpen}
           onClose={closeMyFiltersModal}
           title="Mijn filters"
@@ -129,6 +125,7 @@ export const IncidentOverviewPageContainerComponent = ({
         </Modal>
 
         <Modal
+          data-testid="filterModal"
           isOpen={modalFilterIsOpen}
           onClose={closeFilterModal}
           title="Filters"
@@ -172,9 +169,9 @@ export const IncidentOverviewPageContainerComponent = ({
 };
 
 IncidentOverviewPageContainerComponent.propTypes = {
-  overviewpage: types.overviewPage.isRequired,
-  dataLists: types.dataLists.isRequired,
-  categories: types.categories.isRequired,
+  overviewpage: types.overviewPageType.isRequired,
+  dataLists: types.dataListsType.isRequired,
+  categories: types.categoriesType.isRequired,
   incidentsCount: PropTypes.number,
   searchQuery: PropTypes.string,
 
@@ -184,8 +181,7 @@ IncidentOverviewPageContainerComponent.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   categories: makeSelectCategories(),
-  dataLists: makeSelectDataLists(),
-  filter: makeSelectFilter(),
+  dataLists: makeSelectDataLists,
   incidentsCount: makeSelectIncidentsCount,
   overviewpage: makeSelectOverviewPage(),
   searchQuery: makeSelectQuery,

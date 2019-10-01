@@ -31,7 +31,7 @@ export const saveSubmitBtnLabel = 'Opslaan en filteren';
  * Component that renders the incident filter form
  */
 const FilterForm = ({
-  activeFilter,
+  filter,
   onCancel,
   onClearFilter,
   onSaveFilter,
@@ -48,7 +48,7 @@ const FilterForm = ({
   } = dataLists;
 
   const [submitBtnLabel, setSubmitBtnLabel] = useState(defaultSubmitBtnLabel);
-  const [filterData, setFilterData] = useState(activeFilter);
+  const [filterData, setFilterData] = useState(filter);
   const filterSlugs = (filterData.maincategory_slug || []).concat(
     filterData.category_slug || [],
   );
@@ -197,7 +197,7 @@ const FilterForm = ({
             <FilterGroup data-testid="statusFilterGroup">
               <Label htmlFor={`status_${status[0].key}`}>Status</Label>
               <CheckboxList
-                defaultValue={filterData.options.status}
+                defaultValue={filterData.options && filterData.options.status}
                 groupName="status"
                 groupId="status"
                 options={status}
@@ -209,7 +209,7 @@ const FilterForm = ({
             <FilterGroup data-testid="stadsdeelFilterGroup">
               <Label htmlFor={`status_${stadsdeel[0].key}`}>Stadsdeel</Label>
               <CheckboxList
-                defaultValue={filterData.options.stadsdeel}
+                defaultValue={filterData.options && filterData.options.stadsdeel}
                 groupName="stadsdeel"
                 groupId="stadsdeel"
                 options={stadsdeel}
@@ -221,7 +221,7 @@ const FilterForm = ({
             <FilterGroup data-testid="priorityFilterGroup">
               <Label htmlFor={`status_${priority[0].key}`}>Urgentie</Label>
               <RadioButtonList
-                defaultValue={filterData.options.priority}
+                defaultValue={filterData.options && filterData.options.priority}
                 groupName="priority"
                 options={priority}
               />
@@ -232,7 +232,7 @@ const FilterForm = ({
             <FilterGroup data-testid="feedbackFilterGroup">
               <Label htmlFor={`feedback_${feedback[0].key}`}>Feedback</Label>
               <RadioButtonList
-                defaultValue={filterData.options.feedback}
+                defaultValue={filterData.options && filterData.options.feedback}
                 groupName="feedback"
                 options={feedback}
               />
@@ -262,11 +262,11 @@ const FilterForm = ({
                 }
                 placeholderText="DD-MM-JJJJ"
                 selected={
-                  filterData.options.incident_date && moment(filterData.options.incident_date)
+                  filterData.options && filterData.options.incident_date && moment(filterData.options.incident_date)
                 }
               />
 
-              {filterData.incident_date && (
+              {filterData.options && filterData.options.incident_date && (
                 <input
                   defaultValue={moment(filterData.options.incident_date).format(
                     'YYYY-MM-DD',
@@ -286,7 +286,7 @@ const FilterForm = ({
                 type="text"
                 name="address_text"
                 id="filter_address"
-                defaultValue={filterData.options.address_text}
+                defaultValue={filterData.options && filterData.options.address_text}
               />
             </div>
           </FilterGroup>
@@ -361,15 +361,15 @@ const FilterForm = ({
 };
 
 FilterForm.defaultProps = {
-  activeFilter: {
+  filter: {
     name: '',
   },
 };
 
 FilterForm.propTypes = {
-  activeFilter: types.filter,
-  categories: types.categories.isRequired,
-  dataLists: types.dataLists.isRequired,
+  filter: types.filterType,
+  categories: types.categoriesType.isRequired,
+  dataLists: types.dataListsType.isRequired,
   /** Callback handler for when filter settings should not be applied */
   onCancel: PropTypes.func,
   /** Callback handler to reset filter */

@@ -1,3 +1,5 @@
+import { fromJS } from 'immutable';
+
 import { parseFromAPIData } from 'signals/shared/filter/parse';
 import { makeSelectCategories } from 'containers/App/selectors';
 
@@ -8,103 +10,93 @@ import { initialState } from './reducer';
  * Direct selector to the overviewPage state domain
  */
 const selectIncidentManagementDomain = (state) =>
-  state.get('incidentManagement') || initialState;
+  (state && state.get('incidentManagement')) || fromJS(initialState);
 
-export const makeSelectPriority = () =>
-  createSelector(
-    selectIncidentManagementDomain,
-    (state) => state.get('priority').toJS(),
-  );
+export const makeSelectDataLists = createSelector(
+  selectIncidentManagementDomain,
+  (state) => {
+    const priority = state.get('priority').toJS();
+    const stadsdeel = state.get('stadsdeel').toJS();
+    const status = state.get('status').toJS();
+    const feedback = state.get('feedback').toJS();
 
-export const makeSelectStadsdeel = () =>
-  createSelector(
-    selectIncidentManagementDomain,
-    (state) => state.get('stadsdeel').toJS(),
-  );
-
-export const makeSelectStatus = () =>
-  createSelector(
-    selectIncidentManagementDomain,
-    (state) => state.get('status').toJS(),
-  );
-
-export const makeSelectFeedback = () =>
-  createSelector(
-    selectIncidentManagementDomain,
-    (state) => state.get('feedback').toJS(),
-  );
-
-export const makeSelectDataLists = () =>
-  createSelector(
-    makeSelectPriority(),
-    makeSelectStadsdeel(),
-    makeSelectStatus(),
-    makeSelectFeedback(),
-    (priority, stadsdeel, status, feedback) => ({
+    return {
       priority,
       stadsdeel,
       status,
       feedback,
-    }),
-  );
+    };
+  },
+);
 
-export const makeSelectAllFilters = () =>
-  createSelector(
-    selectIncidentManagementDomain,
-    makeSelectDataLists(),
-    makeSelectCategories(),
-    (stateMap, dataLists, categories) => {
-      const { allFilters } = stateMap.toJS();
+export const makeSelectAllFilters = createSelector(
+  selectIncidentManagementDomain,
+  makeSelectDataLists,
+  makeSelectCategories(),
+  (stateMap, dataLists, categories) => {
+    const filters = stateMap.get('filters').toJS();
 
-      return allFilters.map((filter) =>
-        parseFromAPIData(filter, {
-          ...dataLists,
-          maincategory_slug: categories.main,
-          category_slug: categories.sub,
-        }),
-      );
-    },
-  );
-
-export const makeSelectFilter = () =>
-  createSelector(
-    selectIncidentManagementDomain,
-    makeSelectDataLists(),
-    makeSelectCategories(),
-    (stateMap, dataLists, categories) => {
-      const state = stateMap.toJS();
-      if (!state.filter) {
-        return {};
-      }
-
-      return parseFromAPIData(state.filter, {
+    return filters.map((filter) =>
+      parseFromAPIData(filter, {
         ...dataLists,
         maincategory_slug: categories.main,
         category_slug: categories.sub,
-      });
-    },
-  );
+      }),
+    );
+  },
+);
 
-export const makeSelectFilterParams = () =>
-  createSelector(
-    selectIncidentManagementDomain,
-    (substate) => {
-      const state = substate.toJS();
-      const filter = state.filter || { options: {} };
-      const { options } = filter;
+export const makeSelectActiveFilter = createSelector(
+  selectIncidentManagementDomain,
+  makeSelectDataLists,
+  makeSelectCategories(),
+  (stateMap, dataLists, categories) => {
+    const state = stateMap.toJS();
+    if (!state.activeFilter) {
+      return {};
+    }
 
-      if (options && options.id) {
-        delete options.id;
-      }
+    return parseFromAPIData(state.activeFilter, {
+      ...dataLists,
+      maincategory_slug: categories.main,
+      category_slug: categories.sub,
+    });
+  },
+);
 
-      if (filter.searchQuery) {
-        return {
-          id: filter.searchQuery,
-          page: state.page,
-          ordering: state.sort,
-        };
-      }
+export const makeSelectEditFilter = createSelector(
+  selectIncidentManagementDomain,
+  makeSelectDataLists,
+  makeSelectCategories(),
+  (stateMap, dataLists, categories) => {
+    const state = stateMap.toJS();
+    if (!state.editFilter) {
+      return {};
+    }
 
-      return { ...options, page: state.page, ordering: state.sort };
-    },
-  );
+    return parseFromAPIData(state.editFilter, {
+      ...dataLists,
+      maincategory_slug: categories.main,
+      category_slug: categories.sub,
+    });
+  },
+);
+
+export const makeSelectFilterParams = createSelector(
+  selectIncidentManagementDomain,
+  (substate) => {
+    const state = substate.toJS();
+    const filter = state.activeFilter || { options: {} };
+    const { options } = filter;
+
+    if (filter.searchQuery) {
+      return {
+        id: filter.searchQuery,
+        page: state.page,
+        ordering: state.sort,
+      };
+    }
+
+    return { ...options, page: state.page, ordering: state.sort };
+  },
+);

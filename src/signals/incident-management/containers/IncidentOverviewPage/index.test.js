@@ -5,12 +5,18 @@ import { fireEvent, render, cleanup } from '@testing-library/react';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 
 import { withAppContext } from 'test/utils';
+import {
+  priorityList,
+  statusList,
+  stadsdeelList,
+  feedbackList,
+} from 'signals/incident-management/definitions';
 
 import IncidentOverviewPage, {
   IncidentOverviewPageContainerComponent,
   mapDispatchToProps,
 } from './';
-import { REQUEST_INCIDENTS, INCIDENT_SELECTED, GET_FILTERS } from './constants';
+import { REQUEST_INCIDENTS, INCIDENT_SELECTED } from './constants';
 
 jest.mock('scroll-lock');
 
@@ -32,8 +38,13 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       categories: {},
       onRequestIncidents: jest.fn(),
       onIncidentSelected: jest.fn(),
-      onGetFilters: jest.fn(),
       baseUrl: '',
+      dataLists: {
+        priority: priorityList,
+        status: statusList,
+        stadsdeel: stadsdeelList,
+        feedback: feedbackList,
+      },
     };
   });
 
@@ -69,16 +80,18 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     expect(getByText('Mijn filters').tagName).toEqual('BUTTON');
 
     expect(props.onRequestIncidents).toBeCalledWith({});
-    expect(props.onGetFilters).toBeCalledWith();
   });
-
 
   it('should render correctly with search query present', () => {
     render(
-      withAppContext(<IncidentOverviewPageContainerComponent {...props} searchQuery="666" />),
+      withAppContext(
+        <IncidentOverviewPageContainerComponent {...props} searchQuery="666" />,
+      ),
     );
 
-    expect(props.onRequestIncidents).toBeCalledWith({ filter: { searchQuery: '666' } });
+    expect(props.onRequestIncidents).toBeCalledWith({
+      filter: { searchQuery: '666' },
+    });
   });
 
   it('should have props from structured selector', () => {
@@ -90,8 +103,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
     expect(containerProps.overviewpage).not.toBeUndefined();
     expect(containerProps.categories).not.toBeUndefined();
-    expect(containerProps.loading).not.toBeUndefined();
-    expect(containerProps.error).not.toBeUndefined();
     expect(containerProps.searchQuery).not.toBeUndefined();
   });
 
@@ -107,13 +118,10 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
     expect(containerProps.onRequestIncidents).not.toBeUndefined();
     expect(typeof containerProps.onRequestIncidents).toEqual('function');
-
-    expect(containerProps.onGetFilters).not.toBeUndefined();
-    expect(typeof containerProps.onGetFilters).toEqual('function');
   });
 
-  describe.skip('filter modal', async () => {
-    it('opens modal', () => {
+  describe('filter modal', () => {
+    it('opens filter modal', () => {
       const { queryByTestId, getByTestId } = render(
         withAppContext(<IncidentOverviewPage />),
       );
@@ -128,17 +136,32 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       expect(queryByTestId('filterModal')).not.toBeNull();
     });
 
-    it('closes modal on ESC', () => {
+    it('opens my filters modal', () => {
       const { queryByTestId, getByTestId } = render(
-      withAppContext(<IncidentOverviewPage />),
-    );
+        withAppContext(<IncidentOverviewPage />),
+      );
+
+      expect(queryByTestId('myFiltersModal')).toBeNull();
 
       fireEvent(
-      getByTestId('filterModalBtn'),
-      new MouseEvent('click', {
-        bubbles: true,
-      }),
-    );
+        getByTestId('myFiltersModalBtn'),
+        new MouseEvent('click', { bubbles: true }),
+      );
+
+      expect(queryByTestId('myFiltersModal')).not.toBeNull();
+    });
+
+    it('closes modal on ESC', () => {
+      const { queryByTestId, getByTestId } = render(
+        withAppContext(<IncidentOverviewPage />),
+      );
+
+      fireEvent(
+        getByTestId('filterModalBtn'),
+        new MouseEvent('click', {
+          bubbles: true,
+        }),
+      );
 
       expect(queryByTestId('filterModal')).not.toBeNull();
 
@@ -149,37 +172,37 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
     it('closes modal by means of close button', () => {
       const { queryByTestId, getByTestId } = render(
-      withAppContext(<IncidentOverviewPage />),
-    );
+        withAppContext(<IncidentOverviewPage />),
+      );
 
       fireEvent(
-      getByTestId('modalBtn'),
-      new MouseEvent('click', {
-        bubbles: true,
-      }),
-    );
+        getByTestId('filterModalBtn'),
+        new MouseEvent('click', {
+          bubbles: true,
+        }),
+      );
 
-      expect(queryByTestId('modal')).not.toBeNull();
+      expect(queryByTestId('filterModal')).not.toBeNull();
 
       fireEvent(
-      getByTestId('closeBtn'),
-      new MouseEvent('click', {
-        bubbles: true,
-      }),
-    );
+        getByTestId('closeBtn'),
+        new MouseEvent('click', {
+          bubbles: true,
+        }),
+      );
 
-      expect(queryByTestId('modal')).toBeNull();
+      expect(queryByTestId('filterModal')).toBeNull();
     });
 
     it('should disable page scroll', () => {
       const { getByTestId } = render(withAppContext(<IncidentOverviewPage />));
 
       fireEvent(
-      getByTestId('modalBtn'),
-      new MouseEvent('click', {
-        bubbles: true,
-      }),
-    );
+        getByTestId('filterModalBtn'),
+        new MouseEvent('click', {
+          bubbles: true,
+        }),
+      );
 
       expect(disablePageScroll).toHaveBeenCalled();
     });
@@ -188,18 +211,18 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       const { getByTestId } = render(withAppContext(<IncidentOverviewPage />));
 
       fireEvent(
-      getByTestId('modalBtn'),
-      new MouseEvent('click', {
-        bubbles: true,
-      }),
-    );
+        getByTestId('filterModalBtn'),
+        new MouseEvent('click', {
+          bubbles: true,
+        }),
+      );
 
       fireEvent(
-      getByTestId('closeBtn'),
-      new MouseEvent('click', {
-        bubbles: true,
-      }),
-    );
+        getByTestId('closeBtn'),
+        new MouseEvent('click', {
+          bubbles: true,
+        }),
+      );
 
       expect(enablePageScroll).toHaveBeenCalled();
     });
@@ -224,13 +247,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       expect(dispatch).toHaveBeenCalledWith({
         type: INCIDENT_SELECTED,
         payload: { id: 666 },
-      });
-    });
-
-    it('should select an incident', () => {
-      mapDispatchToProps(dispatch).onGetFilters();
-      expect(dispatch).toHaveBeenCalledWith({
-        type: GET_FILTERS,
       });
     });
   });

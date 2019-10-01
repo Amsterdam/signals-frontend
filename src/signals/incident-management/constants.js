@@ -1,6 +1,7 @@
 export const APPLY_FILTER = 'sia/incidentManagement/APPLY_FILTER';
 
 export const CLEAR_FILTER = 'sia/incidentManagement/CLEAR_FILTER';
+export const EDIT_FILTER = 'sia/incidentManagement/EDIT_FILTER';
 
 export const GET_FILTERS = 'sia/incidentManagement/GET_FILTERS';
 export const GET_FILTERS_FAILED = 'sia/incidentManagement/GET_FILTERS_FAILED';

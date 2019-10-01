@@ -22,9 +22,7 @@ import {
 import { requestHistoryList } from '../history/actions';
 
 export const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals`;
-export const requestTermsURL = `${
-  CONFIGURATION.API_ROOT
-}signals/v1/private/terms/categories`;
+export const requestTermsURL = `${CONFIGURATION.API_ROOT}signals/v1/private/terms/categories`;
 
 export function* fetchIncident(action) {
   try {
@@ -69,9 +67,7 @@ export function* requestDefaultTexts(action) {
     const payload = action.payload;
     const result = yield call(
       authCall,
-      `${requestTermsURL}/${payload.main_slug}/sub_categories/${
-        payload.sub_slug
-      }/status-message-templates`,
+      `${requestTermsURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`,
     );
     yield put(requestDefaultTextsSuccess(result));
   } catch (error) {

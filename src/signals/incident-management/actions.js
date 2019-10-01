@@ -1,6 +1,7 @@
 import {
   APPLY_FILTER,
   CLEAR_FILTER,
+  EDIT_FILTER,
   GET_FILTERS_FAILED,
   GET_FILTERS_SUCCESS,
   GET_FILTERS,
@@ -46,6 +47,11 @@ export const removeFilterFailed = (payload) => ({
 
 export const applyFilter = (payload) => ({
   type: APPLY_FILTER,
+  payload,
+});
+
+export const editFilter = (payload) => ({
+  type: EDIT_FILTER,
   payload,
 });
 

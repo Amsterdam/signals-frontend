@@ -15,7 +15,7 @@ import { push } from 'react-router-redux';
 import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
-import { makeSelectFilterParams, makeSelectFilter } from 'signals/incident-management/selectors';
+import { makeSelectFilterParams, makeSelectActiveFilter } from 'signals/incident-management/selectors';
 import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
@@ -40,7 +40,6 @@ export function* fetchIncidents(action) {
 
     if (filter) {
       yield put(applyFilterRefreshStop());
-      // yield put(pageIncidentsChanged(1));
     }
 
     const page = action.payload.page;
@@ -55,7 +54,7 @@ export function* fetchIncidents(action) {
       yield put(sortIncidentsChanged(sort));
     }
 
-    const params = yield select(makeSelectFilterParams());
+    const params = yield select(makeSelectFilterParams);
 
     // TEMP remove when server can order days_open
     if (params.ordering === 'days_open') {
@@ -84,7 +83,7 @@ export const refreshRequestDelay = 2 * 60 * 1000;
 
 export function* refreshIncidents(timeout = refreshRequestDelay) {
   while (true) {
-    const filter = yield select(makeSelectFilter);
+    const filter = yield select(makeSelectActiveFilter);
 
     if (filter && filter.refresh) {
       yield delay(timeout);

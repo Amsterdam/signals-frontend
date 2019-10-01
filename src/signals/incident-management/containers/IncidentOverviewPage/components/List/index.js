@@ -81,10 +81,10 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
 }
 
 List.propTypes = {
-  incidents: PropTypes.arrayOf(types.incident).isRequired,
-  priority: types.dataList.isRequired,
-  status: types.dataList.isRequired,
-  stadsdeel: types.dataList.isRequired,
+  incidents: PropTypes.arrayOf(types.incidentType).isRequired,
+  priority: types.dataListType.isRequired,
+  status: types.dataListType.isRequired,
+  stadsdeel: types.dataListType.isRequired,
 
   incidentSelected: PropTypes.func.isRequired,
   onRequestIncidents: PropTypes.func.isRequired,

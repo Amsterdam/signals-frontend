@@ -43,7 +43,7 @@ export const getContext = (state) => {
   return { store };
 };
 
-const store = configureStore({}, history);
+export const store = configureStore({}, history);
 
 export const withAppContext = (Component) => (
   <ThemeProvider>

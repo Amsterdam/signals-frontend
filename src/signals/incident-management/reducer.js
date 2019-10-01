@@ -9,6 +9,7 @@ import {
   APPLY_FILTER,
   CLEAR_FILTER_FAILED,
   CLEAR_FILTER,
+  EDIT_FILTER,
   GET_FILTERS_FAILED,
   GET_FILTERS_SUCCESS,
   REMOVE_FILTER_SUCCESS,
@@ -23,8 +24,9 @@ export const initialState = fromJS({
   stadsdeel,
   status,
   feedback,
-  allFilters: [],
-  filter: undefined,
+  filters: [],
+  activeFilter: undefined,  // filter settings for the list of incidents
+  editFilter: undefined,    // settings selected for editing
 });
 
 export default (state = initialState, action) => {
@@ -34,7 +36,7 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case GET_FILTERS_SUCCESS:
       return state
-        .set('allFilters', fromJS(action.payload))
+        .set('filters', fromJS(action.payload))
         .set('loading', false);
 
     case GET_FILTERS_FAILED:
@@ -46,13 +48,16 @@ export default (state = initialState, action) => {
     case REMOVE_FILTER_SUCCESS:
       re = new RegExp(`/${action.payload}`, 'g');
       newFilters = state
-        .get('allFilters')
+        .get('filters')
         .toJS()
         .filter((i) => !i._links.self.href.match(re));
-      return state.set('allFilters', fromJS(newFilters));
+      return state.set('filters', fromJS(newFilters));
 
     case APPLY_FILTER:
-      return state.set('filter', fromJS(action.payload));
+      return state.set('activeFilter', fromJS(action.payload));
+
+    case EDIT_FILTER:
+      return state.set('editFilter', fromJS(action.payload));
 
     case SAVE_FILTER_FAILED:
     case UPDATE_FILTER_FAILED:
@@ -66,7 +71,7 @@ export default (state = initialState, action) => {
     case UPDATE_FILTER_SUCCESS:
     case CLEAR_FILTER:
       return state
-        .set('filter', fromJS(action.payload))
+        .set('activeFilter', fromJS(action.payload))
         .set('error', false)
         .set('errorMessage', undefined)
         .set('loading', false);

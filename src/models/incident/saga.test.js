@@ -31,7 +31,7 @@ import watchIncidentModelSaga, {
 import { requestHistoryList } from '../history/actions';
 
 describe('models/incident/saga', () => {
-  it('should watch incidentModemSaga', () => {
+  it('should watch incidentModelSaga', () => {
     testSaga(watchIncidentModelSaga)
       .next()
       .all([
@@ -52,7 +52,7 @@ describe('models/incident/saga', () => {
         payload,
       };
 
-      expectSaga(fetchIncident, action)
+      return expectSaga(fetchIncident, action)
         .provide([[matchers.call.fn(requestURL)]])
         .call(authCall, `${requestURL}/${id}`)
         .run();
@@ -63,7 +63,7 @@ describe('models/incident/saga', () => {
       const action = { payload: id };
       const incident = { id, name: 'incident' };
 
-      expectSaga(fetchIncident, action)
+      return expectSaga(fetchIncident, action)
         .provide([[matchers.call.fn(authCall), incident]])
         .put(requestIncidentSuccess(incident))
         .run();
@@ -74,7 +74,7 @@ describe('models/incident/saga', () => {
       const action = { payload: id };
       const error = new Error('Whoops!!1!');
 
-      expectSaga(fetchIncident, action)
+      return expectSaga(fetchIncident, action)
         .provide([[matchers.call.fn(authCall), throwError(error)]])
         .put(requestIncidentError(error))
         .run();
@@ -85,6 +85,7 @@ describe('models/incident/saga', () => {
     it('should call endpoint with filter data', () => {
       const id = 123456;
       const payload = {
+        id,
         patch: {
           id,
         },
@@ -93,8 +94,7 @@ describe('models/incident/saga', () => {
         payload,
       };
 
-      expectSaga(patchIncident, action)
-        .provide([[matchers.call.fn(requestURL)]])
+      return expectSaga(patchIncident, action)
         .call(authPatchCall, `${requestURL}/${id}`, payload.patch)
         .run();
     });
@@ -115,7 +115,7 @@ describe('models/incident/saga', () => {
       };
       const incident = { id, name: 'incident' };
 
-      expectSaga(patchIncident, action)
+      return expectSaga(patchIncident, action)
         .provide([[matchers.call.fn(authPatchCall), incident]])
         .put(patchIncidentSuccess({ type, incident }))
         .put(requestHistoryList(id))
@@ -136,7 +136,7 @@ describe('models/incident/saga', () => {
       };
       const error = new Error('Whoops!!1!');
 
-      expectSaga(patchIncident, action)
+      return expectSaga(patchIncident, action)
         .provide([[matchers.call.fn(authPatchCall), throwError(error)]])
         .put(patchIncidentError({ type, error }))
         .run();
@@ -148,9 +148,8 @@ describe('models/incident/saga', () => {
       const id = 678543;
       const action = { payload: id };
 
-      expectSaga(requestAttachments, action)
-        .provide([[matchers.call.fn(requestURL)]])
-        .call(authPatchCall, `${requestURL}/${id}/attachments`, id)
+      return expectSaga(requestAttachments, action)
+        .call(authCall, `${requestURL}/${id}/attachments`)
         .run();
     });
 
@@ -187,7 +186,7 @@ describe('models/incident/saga', () => {
         ],
       };
 
-      expectSaga(requestAttachments, action)
+      return expectSaga(requestAttachments, action)
         .provide([[matchers.call.fn(authCall), attachments]])
         .put(requestAttachmentsSuccess(attachments.results.slice(0, 3)))
         .run();
@@ -198,7 +197,7 @@ describe('models/incident/saga', () => {
       const action = { payload: id };
       const error = new Error('Whoops!!1!');
 
-      expectSaga(requestAttachments, action)
+      return expectSaga(requestAttachments, action)
         .provide([[matchers.call.fn(authCall), throwError(error)]])
         .put(requestAttachmentsError())
         .run();
@@ -214,17 +213,14 @@ describe('models/incident/saga', () => {
       payload,
     };
 
-    it('should call endpoint with filter data', () => {
+    it('should call endpoint with filter data', () =>
       expectSaga(requestDefaultTexts, action)
         .provide([[matchers.call.fn(requestURL)]])
         .call(
-          authPatchCall,
-          `${requestTermsURL}/${payload.main_slug}/sub_categories/${
-            payload.sub_slug
-          }/status-message-templates`,
+          authCall,
+          `${requestTermsURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`,
         )
-        .run();
-    });
+        .run());
 
     it('should dispatch success', () => {
       const templates = [
@@ -249,7 +245,7 @@ describe('models/incident/saga', () => {
           ],
         },
       ];
-      expectSaga(requestDefaultTexts, action)
+      return expectSaga(requestDefaultTexts, action)
         .provide([[matchers.call.fn(authCall), templates]])
         .put(requestDefaultTextsSuccess(templates))
         .run();
@@ -258,7 +254,7 @@ describe('models/incident/saga', () => {
     it('should dispatch failed', () => {
       const error = new Error('Whoops!!1!');
 
-      expectSaga(requestDefaultTexts, action)
+      return expectSaga(requestDefaultTexts, action)
         .provide([[matchers.call.fn(authCall), throwError(error)]])
         .put(requestDefaultTextsError(error))
         .run();
