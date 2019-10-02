@@ -55,24 +55,17 @@ node {
         }
     }
 
-    stage("Build") {
-        when {
-            not {
-                anyOf {
-                    branch 'master';
-                    branch 'develop'
-                }
+    if (BRANCH != "develop" && BRANCH != 'master') {
+        stage("Build") {
+            String PROJECT = "sia-build"
+
+            tryStep "build start", {
+                sh "docker-compose -p ${PROJECT} up --build --exit-code-from build-container build-container"
             }
-        }
-
-        String PROJECT = "sia-build"
-
-        tryStep "build start", {
-            sh "docker-compose -p ${PROJECT} up --build --exit-code-from build-container build-container"
-        }
-        always {
-            tryStep "build stop", {
-                sh "docker-compose -p ${PROJECT} down -v || true"
+            always {
+                tryStep "build stop", {
+                    sh "docker-compose -p ${PROJECT} down -v || true"
+                }
             }
         }
     }
