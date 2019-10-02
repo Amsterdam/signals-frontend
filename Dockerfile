@@ -2,10 +2,6 @@ FROM node:8.15-stretch AS builder
 LABEL maintainer="datapunt@amsterdam.nl"
 
 ARG BUILD_ENV=prod
-ARG BUILD_NUMBER=0
-
-ARG GIT_COMMIT
-ENV GIT_COMMIT ${GIT_COMMIT}
 
 WORKDIR /app
 
@@ -43,10 +39,14 @@ RUN npm --production=false \
 
 COPY src /app/src
 
+ARG GIT_COMMIT
+ENV GIT_COMMIT ${GIT_COMMIT}
+
+ARG BUILD_NUMBER=0
+
 # Build
 ENV NODE_ENV=production
 RUN echo "run build"
-# RUN npm rebuild node-sass
 RUN npm run build:${BUILD_ENV}
 RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
 
@@ -55,7 +55,7 @@ RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
 
 # Deploy
 FROM nginx:stable-alpine
-ARG BUILD_ENV=prod
+# ARG BUILD_ENV=prod
 # COPY .nginx-${BUILD_ENV}.conf /etc/nginx/nginx.conf
 # COPY default.conf /etc/nginx/nginx.conf
 COPY --from=builder /app/build/. /usr/share/nginx/html/
