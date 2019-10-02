@@ -8,28 +8,6 @@ import { REQUEST_CATEGORIES } from './constants';
 jest.mock('components/MapInteractive');
 
 describe('<App />', () => {
-  let origSessionStorage;
-
-  beforeEach(() => {
-    origSessionStorage = global.sessionStorage;
-    global.sessionStorage = {
-      getItem: (key) => {
-        switch (key) {
-          case 'accessToken':
-            return '42';
-          default:
-            return '';
-        }
-      },
-      setItem: jest.fn(),
-      removeItem: jest.fn(),
-    };
-  });
-
-  afterEach(() => {
-    global.sessionStorage = origSessionStorage;
-  });
-
   it('should have props from structured selector', () => {
     const tree = mount(withAppContext(<App />));
 
@@ -46,7 +24,7 @@ describe('<App />', () => {
   });
 
   it('should render the correct theme', () => {
-    jest.spyOn(global.sessionStorage, 'getItem').mockImplementation(() => undefined);
+    global.sessionStorage.getItem.mockImplementationOnce(() => undefined);
 
     const { getByTestId } = render(withAppContext(<AppContainer requestCategoriesAction={() => {}} />));
 

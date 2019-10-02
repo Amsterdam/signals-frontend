@@ -16,46 +16,17 @@ describe('api service', () => {
   const queryString = 'name1=value1&name2=value2&value3=foo&value3=bar';
   const url = 'https://url/to/test';
   const token = 'bearer-token';
-  let origSessionStorage;
-  let savedAccessToken;
-  let savedReturnPath;
-  let savedStateToken;
-  let savedOauthDomain;
 
   beforeEach(() => {
-    const noop = () => {};
     params = {
       name1: 'value1',
       name2: 'value2',
       value3: ['foo', 'bar']
     };
-    origSessionStorage = global.sessionStorage;
-    global.sessionStorage = {
-      getItem: (key) => {
-        switch (key) {
-          case 'accessToken':
-            return savedAccessToken;
-          case 'stateToken':
-            return savedStateToken;
-          case 'returnPath':
-            return savedReturnPath;
-          case 'oauthDomain':
-            return savedOauthDomain;
-          default:
-            return '';
-        }
-      },
-      setItem: noop,
-      removeItem: noop
-    };
-    savedStateToken = '';
-    savedReturnPath = '';
-    savedAccessToken = '';
   });
 
   afterEach(() => {
     jest.resetAllMocks();
-    global.sessionStorage = origSessionStorage;
   });
 
 
@@ -68,7 +39,8 @@ describe('api service', () => {
 
   describe('authCall', () => {
     it('should generate the right call', () => {
-      savedAccessToken = token;
+      global.sessionStorage.getItem.mockImplementationOnce(() => token);
+
       const fullUrl = `${url}?${queryString}`;
       const options = {
         method: 'GET',
@@ -94,7 +66,8 @@ describe('api service', () => {
     });
 
     it('should generate the right call when params are not defined', () => {
-      savedAccessToken = token;
+      global.sessionStorage.getItem.mockImplementationOnce(() => token);
+
       const fullUrl = `${url}`;
       const options = {
         method: 'GET',
@@ -123,7 +96,7 @@ describe('api service', () => {
 
   describe('authCallWithPayload', () => {
     it('should generate the right call', () => {
-      savedAccessToken = token;
+      global.sessionStorage.getItem.mockImplementationOnce(() => token);
       const options = {
         method: 'METHOD',
         headers: {

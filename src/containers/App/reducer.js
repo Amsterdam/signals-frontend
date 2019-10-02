@@ -16,7 +16,6 @@ import { ACCESS_TOKEN } from 'shared/services/auth/auth';
 
 import {
   LOGOUT,
-  AUTHENTICATE_USER,
   AUTHORIZE_USER,
   SHOW_GLOBAL_ERROR,
   RESET_GLOBAL_ERROR,
@@ -45,13 +44,6 @@ export const initialState = fromJS({
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
-    case AUTHENTICATE_USER:
-      if (action.payload && action.payload.accessToken) {
-        global.sessionStorage.setItem(ACCESS_TOKEN, action.payload.accessToken);
-      }
-
-      return state;
-
     case AUTHORIZE_USER:
       global.sessionStorage.setItem(ACCESS_TOKEN, action.payload.accessToken);
 
