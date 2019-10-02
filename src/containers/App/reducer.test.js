@@ -5,7 +5,6 @@ import appReducer, { initialState } from './reducer';
 
 import {
   AUTHORIZE_USER,
-  LOGOUT,
   SHOW_GLOBAL_ERROR,
   RESET_GLOBAL_ERROR,
   REQUEST_CATEGORIES_SUCCESS,
@@ -189,33 +188,6 @@ describe('appReducer', () => {
       ).toEqual({
         upload: {},
       });
-    });
-  });
-
-  describe('LOGOUT', () => {
-    it('should remove the access token from session storage', () => {
-      const accessToken =
-        'eyJhbGciOiJFUzI1NiIsImtpZCI6ImU1MDJjOGYzLTNkOGEtNDBiMy1hYjZjLTEyOTQ4MzMyYWU5YyJ9';
-      const action = {
-        type: LOGOUT,
-      };
-
-      const newState = appReducer(
-        fromJS({
-          userName: 'Diabolo',
-          userScopes: ['SCOPE'],
-          accessToken,
-        }),
-        action,
-      ).toJS();
-
-      expect(global.sessionStorage.removeItem).toHaveBeenCalledWith(
-        ACCESS_TOKEN,
-      );
-
-      expect(newState.userName).toBeUndefined();
-      expect(newState.userScopes).toBeUndefined();
-      expect(newState.accessToken).toBeUndefined();
     });
   });
 });

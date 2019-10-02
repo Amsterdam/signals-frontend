@@ -91,9 +91,8 @@ function appReducer(state = initialState, action) {
       return state.set('upload', fromJS({}));
 
     case LOGOUT:
-      global.sessionStorage.removeItem(ACCESS_TOKEN);
-
       return state
+        .set('upload', fromJS({}))
         .set('userName', undefined)
         .set('userScopes', undefined)
         .set('userPermissions', [])
