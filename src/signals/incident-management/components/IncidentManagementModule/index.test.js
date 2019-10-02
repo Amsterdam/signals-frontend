@@ -15,7 +15,6 @@ const history = createMemoryHistory();
 
 describe('signals/incident-management', () => {
   let props;
-  let origSessionStorage;
 
   afterAll(() => {
     jest.restoreAllMocks();
@@ -23,8 +22,6 @@ describe('signals/incident-management', () => {
 
   afterEach(() => {
     cleanup();
-
-    global.sessionStorage = origSessionStorage;
   });
 
   beforeEach(() => {
@@ -37,32 +34,17 @@ describe('signals/incident-management', () => {
       },
       getFiltersAction: () => {},
     };
-
-    origSessionStorage = global.sessionStorage;
-
-    global.sessionStorage = {
-      getItem: (key) => {
-        switch (key) {
-          case 'accessToken':
-            return '42';
-          default:
-            return '';
-        }
-      },
-      setItem: jest.fn(),
-      removeItem: jest.fn(),
-    };
   });
 
   it('should render correctly', () => {
+    sessionStorage.getItem.mockImplementationOnce(() => 'token');
+
     const { rerender, asFragment } = render(
       withAppContext(<IncidentManagementModuleComponent {...props} />),
     );
     const firstRender = asFragment();
 
-    jest
-      .spyOn(global.sessionStorage, 'getItem')
-      .mockImplementationOnce(() => undefined);
+    sessionStorage.getItem.mockImplementationOnce(() => undefined);
 
     rerender(withAppContext(<IncidentManagementModuleComponent {...props} />));
 
@@ -77,15 +59,15 @@ describe('signals/incident-management', () => {
     it('can navigate to incident list', () => {
       history.push('/manage/incidents');
 
-      jest
-        .spyOn(global.sessionStorage, 'getItem')
-        .mockImplementationOnce(() => undefined);
+      sessionStorage.getItem.mockImplementationOnce(() => undefined);
 
       const { rerender, queryByText } = render(
         withAppContext(<IncidentManagementModuleComponent {...props} />),
       );
 
       expect(queryByText(loginText)).not.toBeNull();
+
+      sessionStorage.getItem.mockImplementationOnce(() => 'token');
 
       rerender(
         withAppContext(<IncidentManagementModuleComponent {...props} />),
@@ -97,15 +79,15 @@ describe('signals/incident-management', () => {
     it('can navigate to incident detail', () => {
       history.push('/manage/incident/1101');
 
-      jest
-        .spyOn(global.sessionStorage, 'getItem')
-        .mockImplementationOnce(() => undefined);
+      sessionStorage.getItem.mockImplementationOnce(() => undefined);
 
       const { rerender, queryByText } = render(
         withAppContext(<IncidentManagementModuleComponent {...props} />),
       );
 
       expect(queryByText(loginText)).not.toBeNull();
+
+      sessionStorage.getItem.mockImplementationOnce(() => 'token');
 
       rerender(
         withAppContext(<IncidentManagementModuleComponent {...props} />),
@@ -117,15 +99,15 @@ describe('signals/incident-management', () => {
     it('can navigate to incident split', () => {
       history.push('/manage/incident/1101/split');
 
-      jest
-        .spyOn(global.sessionStorage, 'getItem')
-        .mockImplementationOnce(() => undefined);
+      sessionStorage.getItem.mockImplementationOnce(() => undefined);
 
       const { rerender, queryByText } = render(
         withAppContext(<IncidentManagementModuleComponent {...props} />),
       );
 
       expect(queryByText(loginText)).not.toBeNull();
+
+      sessionStorage.getItem.mockImplementationOnce(() => 'token');
 
       rerender(
         withAppContext(<IncidentManagementModuleComponent {...props} />),
