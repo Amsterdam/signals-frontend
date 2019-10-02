@@ -30,29 +30,51 @@ node {
     }
 
     stage("Lint") {
-      String  PROJECT = "sia-eslint"
+        String PROJECT = "sia-eslint"
 
-      tryStep "lint start", {
-        sh "docker-compose -p ${PROJECT} up --build --exit-code-from lint-container lint-container"
-      }
-      always {
-        tryStep "lint stop", {
-          sh "docker-compose -p ${PROJECT} down -v || true"
+        tryStep "lint start", {
+            sh "docker-compose -p ${PROJECT} up --build --exit-code-from lint-container lint-container"
         }
-      }
+        always {
+            tryStep "lint stop", {
+                sh "docker-compose -p ${PROJECT} down -v || true"
+            }
+        }
     }
 
-    stage("Unit and Integration") {
-      String  PROJECT = "sia-unittests"
+    stage("Test") {
+        String PROJECT = "sia-unittests"
 
-      tryStep "unittests start", {
-        sh "docker-compose -p ${PROJECT} up --build --exit-code-from unittest-container unittest-container"
-      }
-      always {
-        tryStep "unittests stop", {
-          sh "docker-compose -p ${PROJECT} down -v || true"
+        tryStep "unittests start", {
+            sh "docker-compose -p ${PROJECT} up --build --exit-code-from unittest-container unittest-container"
         }
-      }
+        always {
+            tryStep "unittests stop", {
+            sh "docker-compose -p ${PROJECT} down -v || true"
+            }
+        }
+    }
+
+    stage("Build") {
+        when {
+            not {
+                anyOf {
+                    branch 'master';
+                    branch 'develop'
+                }
+            }
+        }
+
+        String PROJECT = "sia-build"
+
+        tryStep "build start", {
+            sh "docker-compose -p ${PROJECT} up --build --exit-code-from build-container build-container"
+        }
+        always {
+            tryStep "build stop", {
+                sh "docker-compose -p ${PROJECT} down -v || true"
+            }
+        }
     }
 }
 
