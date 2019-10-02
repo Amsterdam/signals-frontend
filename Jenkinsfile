@@ -16,6 +16,8 @@ def tryStep(String message, Closure block, Closure tearDown = null) {
     }
 }
 
+String BRANCH = "${env.BRANCH_NAME}"
+
 node {
     stage("Checkout") {
         def scmVars = checkout(scm)
@@ -70,8 +72,6 @@ node {
         }
     }
 }
-
-String BRANCH = "${env.BRANCH_NAME}"
 
 if (BRANCH == "develop") {
     node {
