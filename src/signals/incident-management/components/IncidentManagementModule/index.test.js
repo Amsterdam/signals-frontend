@@ -9,18 +9,23 @@ import {
   incidentDetailWrapper,
   incidentOverviewPageWrapper,
   incidentSplitContainerWrapper,
-} from './index';
+} from './';
 
 const history = createMemoryHistory();
 
-describe('signals/incident-management/components/IncidentManagementModule', () => {
+describe('signals/incident-management', () => {
   let props;
+  let origSessionStorage;
 
   afterAll(() => {
     jest.restoreAllMocks();
   });
 
-  afterEach(cleanup);
+  afterEach(() => {
+    cleanup();
+
+    global.sessionStorage = origSessionStorage;
+  });
 
   beforeEach(() => {
     props = {
@@ -30,7 +35,22 @@ describe('signals/incident-management/components/IncidentManagementModule', () =
         path: '/manage/incidents',
         url: '/manage/incidents',
       },
-      isAuthenticated: true,
+      getFiltersAction: () => {},
+    };
+
+    origSessionStorage = global.sessionStorage;
+
+    global.sessionStorage = {
+      getItem: (key) => {
+        switch (key) {
+          case 'accessToken':
+            return '42';
+          default:
+            return '';
+        }
+      },
+      setItem: jest.fn(),
+      removeItem: jest.fn(),
     };
   });
 
@@ -40,14 +60,11 @@ describe('signals/incident-management/components/IncidentManagementModule', () =
     );
     const firstRender = asFragment();
 
-    rerender(
-      withAppContext(
-        <IncidentManagementModuleComponent
-          {...props}
-          isAuthenticated={false}
-        />,
-      ),
-    );
+    jest
+      .spyOn(global.sessionStorage, 'getItem')
+      .mockImplementationOnce(() => undefined);
+
+    rerender(withAppContext(<IncidentManagementModuleComponent {...props} />));
 
     expect(
       firstRender.firstElementChild === asFragment().firstElementChild,
@@ -60,21 +77,18 @@ describe('signals/incident-management/components/IncidentManagementModule', () =
     it('can navigate to incident list', () => {
       history.push('/manage/incidents');
 
+      jest
+        .spyOn(global.sessionStorage, 'getItem')
+        .mockImplementationOnce(() => undefined);
+
       const { rerender, queryByText } = render(
-        withAppContext(
-          <IncidentManagementModuleComponent
-            {...props}
-            isAuthenticated={false}
-          />,
-        ),
+        withAppContext(<IncidentManagementModuleComponent {...props} />),
       );
 
       expect(queryByText(loginText)).not.toBeNull();
 
       rerender(
-        withAppContext(
-          <IncidentManagementModuleComponent {...props} isAuthenticated />,
-        ),
+        withAppContext(<IncidentManagementModuleComponent {...props} />),
       );
 
       expect(queryByText(loginText)).toBeNull();
@@ -83,21 +97,18 @@ describe('signals/incident-management/components/IncidentManagementModule', () =
     it('can navigate to incident detail', () => {
       history.push('/manage/incident/1101');
 
+      jest
+        .spyOn(global.sessionStorage, 'getItem')
+        .mockImplementationOnce(() => undefined);
+
       const { rerender, queryByText } = render(
-        withAppContext(
-          <IncidentManagementModuleComponent
-            {...props}
-            isAuthenticated={false}
-          />,
-        ),
+        withAppContext(<IncidentManagementModuleComponent {...props} />),
       );
 
       expect(queryByText(loginText)).not.toBeNull();
 
       rerender(
-        withAppContext(
-          <IncidentManagementModuleComponent {...props} isAuthenticated />,
-        ),
+        withAppContext(<IncidentManagementModuleComponent {...props} />),
       );
 
       expect(queryByText(loginText)).toBeNull();
@@ -106,21 +117,18 @@ describe('signals/incident-management/components/IncidentManagementModule', () =
     it('can navigate to incident split', () => {
       history.push('/manage/incident/1101/split');
 
+      jest
+        .spyOn(global.sessionStorage, 'getItem')
+        .mockImplementationOnce(() => undefined);
+
       const { rerender, queryByText } = render(
-        withAppContext(
-          <IncidentManagementModuleComponent
-            {...props}
-            isAuthenticated={false}
-          />,
-        ),
+        withAppContext(<IncidentManagementModuleComponent {...props} />),
       );
 
       expect(queryByText(loginText)).not.toBeNull();
 
       rerender(
-        withAppContext(
-          <IncidentManagementModuleComponent {...props} isAuthenticated />,
-        ),
+        withAppContext(<IncidentManagementModuleComponent {...props} />),
       );
 
       expect(queryByText(loginText)).toBeNull();
@@ -152,7 +160,9 @@ describe('signals/incident-management/components/IncidentManagementModule', () =
 
     it('renders IncidentOverviewPageWrapper', () => {
       const baseUrl = '/manage';
-      const IncidentOverviewPage = withRouter(incidentOverviewPageWrapper(baseUrl));
+      const IncidentOverviewPage = withRouter(
+        incidentOverviewPageWrapper(baseUrl),
+      );
 
       const { container } = render(
         withCustomAppContext(<IncidentOverviewPage />)({
@@ -165,7 +175,9 @@ describe('signals/incident-management/components/IncidentManagementModule', () =
 
     it('renders IncidentSplitContainerWrapper', () => {
       const baseUrl = '/manage';
-      const IncidentSplitContainer = withRouter(incidentSplitContainerWrapper(baseUrl));
+      const IncidentSplitContainer = withRouter(
+        incidentSplitContainerWrapper(baseUrl),
+      );
 
       const { container } = render(
         withCustomAppContext(<IncidentSplitContainer />)({
