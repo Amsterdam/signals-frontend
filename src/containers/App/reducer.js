@@ -15,6 +15,8 @@ import { fromJS } from 'immutable';
 import { ACCESS_TOKEN } from 'shared/services/auth/auth';
 
 import {
+  LOGIN_FAILED,
+  LOGOUT_FAILED,
   LOGOUT,
   AUTHORIZE_USER,
   SHOW_GLOBAL_ERROR,
@@ -53,6 +55,8 @@ function appReducer(state = initialState, action) {
         .set('userPermissions', fromJS(action.payload.userPermissions))
         .set('accessToken', action.payload.accessToken);
 
+    case LOGIN_FAILED:
+    case LOGOUT_FAILED:
     case SHOW_GLOBAL_ERROR:
       return state
         .set('error', !!action.payload)

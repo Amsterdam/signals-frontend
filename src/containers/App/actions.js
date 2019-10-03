@@ -6,7 +6,9 @@ import {
   RESET_GLOBAL_ERROR,
 
   LOGIN,
+  LOGIN_FAILED,
   LOGOUT,
+  LOGOUT_FAILED,
 
   REQUEST_CATEGORIES,
   REQUEST_CATEGORIES_SUCCESS,
@@ -16,6 +18,16 @@ import {
   UPLOAD_SUCCESS,
   UPLOAD_FAILURE
 } from './constants';
+
+export const loginFailed = (payload) => ({
+  type: LOGIN_FAILED,
+  payload,
+});
+
+export const logoutFailed = (payload) => ({
+  type: LOGOUT_FAILED,
+  payload,
+});
 
 export function authenticateUser(credentials) {
   return {
