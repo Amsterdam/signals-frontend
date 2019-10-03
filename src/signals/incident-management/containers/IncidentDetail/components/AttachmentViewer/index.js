@@ -15,6 +15,7 @@ const AttachmentViewer = ({ href, attachments, onShowAttachment }) => {
       {previous ?
         <button
           className="attachment-viewer__button-previous incident-detail__button--previous"
+          type="button"
           data-testid="attachment-viewer-button-previous"
           onClick={() => onShowAttachment(previous)}
         /> : ''}
@@ -22,6 +23,7 @@ const AttachmentViewer = ({ href, attachments, onShowAttachment }) => {
       {next ?
         <button
           className="attachment-viewer__button-next incident-detail__button--next"
+          type="button"
           data-testid="attachment-viewer-button-next"
           onClick={() => onShowAttachment(next)}
         /> : ''}

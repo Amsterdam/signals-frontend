@@ -120,11 +120,19 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
                     {error && error.response && error.response.status !== 403 ? 'De gekozen status is niet mogelijk in deze situatie.' : '' }
                   </div>
 
-                  <button className="status-form__form-submit action primary" type="submit" disabled={invalid}>
+                  <button
+                    className="status-form__form-submit action primary"
+                    type="submit"
+                    disabled={invalid}
+                  >
                     <span className="value">Status opslaan</span>
                     {patching.status ? <span className="working"><div className="status-form__submit--progress progress-indicator progress-white"></div></span> : ''}
                   </button>
-                  <button className="status-form__form-cancel action secundary-grey" onClick={onClose}>Annuleren</button>
+                  <button
+                    className="status-form__form-cancel action secundary-grey"
+                    type="button"
+                    onClick={onClose}
+                  >Annuleren</button>
                 </div>
                 <div className="col-6">
                   <DefaultTexts

@@ -24,6 +24,7 @@ const DefaultTexts = ({ defaultTexts, status, onHandleUseDefaultText }) => {
 
                 <button
                   className="default-texts__button"
+                  type="button"
                   data-testid="default-texts-item-button"
                   onClick={(e) => onHandleUseDefaultText(e, item.text)}
                 >Gebruik deze tekst</button>

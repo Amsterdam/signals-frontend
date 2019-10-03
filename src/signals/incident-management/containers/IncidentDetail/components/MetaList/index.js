@@ -51,6 +51,7 @@ const MetaList = ({
             >
               <button
                 className="meta-list__edit incident-detail__button--edit"
+                type="button"
                 onClick={onEditStatus}
               />
               Status

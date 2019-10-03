@@ -9,7 +9,12 @@ import './style.scss';
 
 const LocationPreview = ({ location, onEditLocation }) => (
   <div className="location-preview">
-    <button className="action primary location-preview__button-edit" onClick={onEditLocation} data-testid="location-preview-button-edit">Locatie wijzigen</button>
+    <button
+      className="action primary location-preview__button-edit"
+      type="button"
+      onClick={onEditLocation}
+      data-testid="location-preview-button-edit"
+    >Locatie wijzigen</button>
 
     <MapDetail
       value={location}

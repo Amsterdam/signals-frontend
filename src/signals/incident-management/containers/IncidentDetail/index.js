@@ -193,6 +193,7 @@ export class IncidentDetail extends React.Component {
                   <DetailContainer span={12}>
                     <button
                       className="incident-detail__preview-close incident-detail__button--close"
+                      type="button"
                       onClick={this.onCloseAll}
                     />
 
