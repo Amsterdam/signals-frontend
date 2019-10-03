@@ -17,7 +17,20 @@ describe('<IncidentContainer />', () => {
       getClassification: jest.fn(),
       updateIncident: jest.fn(),
       createIncident: jest.fn(),
-      isAuthenticated: false
+    };
+    origSessionStorage = global.sessionStorage;
+
+    global.sessionStorage = {
+      getItem: (key) => {
+        switch (key) {
+          case 'accessToken':
+            return '42';
+          default:
+            return '';
+        }
+      },
+      setItem: jest.fn(),
+      removeItem: jest.fn(),
     };
     origSessionStorage = global.sessionStorage;
 

@@ -5,8 +5,6 @@ import appReducer, { initialState } from './reducer';
 
 import {
   AUTHORIZE_USER,
-  AUTHENTICATE_USER,
-  LOGOUT,
   SHOW_GLOBAL_ERROR,
   RESET_GLOBAL_ERROR,
   REQUEST_CATEGORIES_SUCCESS,
@@ -17,52 +15,8 @@ import {
 } from './constants';
 
 describe('appReducer', () => {
-  let origSessionStorage;
-
-  beforeEach(() => {
-    origSessionStorage = global.sessionStorage;
-    global.sessionStorage = {
-      getItem: (key) => {
-        switch (key) {
-          case 'accessToken':
-            return '42';
-          default:
-            return '';
-        }
-      },
-      setItem: jest.fn(),
-      removeItem: jest.fn(),
-    };
-  });
-
-  afterEach(() => {
-    global.sessionStorage = origSessionStorage;
-  });
-
   it('should return the initial state', () => {
     expect(appReducer(undefined, {})).toEqual(fromJS(initialState));
-  });
-
-  describe('AUTHENTICATE_USER', () => {
-    it('should set the access token in session storage', () => {
-      const accessToken =
-        'eyJhbGciOiJFUzI1NiIsImtpZCI6ImU1MDJjOGYzLTNkOGEtNDBiMy1hYjZjLTEyOTQ4MzMyYWU5YyJ9';
-      const action = {
-        type: AUTHENTICATE_USER,
-        payload: {
-          userName: 'Diabolo',
-          userScopes: ['SCOPE'],
-          accessToken,
-        },
-      };
-
-      appReducer(fromJS({}), action);
-
-      expect(global.sessionStorage.setItem).toHaveBeenCalledWith(
-        ACCESS_TOKEN,
-        accessToken,
-      );
-    });
   });
 
   describe('AUTHORIZE_USER', () => {
@@ -234,33 +188,6 @@ describe('appReducer', () => {
       ).toEqual({
         upload: {},
       });
-    });
-  });
-
-  describe('LOGOUT', () => {
-    it('should remove the access token from session storage', () => {
-      const accessToken =
-        'eyJhbGciOiJFUzI1NiIsImtpZCI6ImU1MDJjOGYzLTNkOGEtNDBiMy1hYjZjLTEyOTQ4MzMyYWU5YyJ9';
-      const action = {
-        type: LOGOUT,
-      };
-
-      const newState = appReducer(
-        fromJS({
-          userName: 'Diabolo',
-          userScopes: ['SCOPE'],
-          accessToken,
-        }),
-        action,
-      ).toJS();
-
-      expect(global.sessionStorage.removeItem).toHaveBeenCalledWith(
-        ACCESS_TOKEN,
-      );
-
-      expect(newState.userName).toBeUndefined();
-      expect(newState.userScopes).toBeUndefined();
-      expect(newState.accessToken).toBeUndefined();
     });
   });
 });

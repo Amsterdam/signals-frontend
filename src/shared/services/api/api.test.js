@@ -15,7 +15,6 @@ describe('api service', () => {
   const queryString = 'name1=value1&name2=value2&value3=foo&value3=bar';
   const url = 'https://url/to/test';
   const token = 'bearer-token';
-  let origSessionStorage;
 
   beforeEach(() => {
     params = {
@@ -23,25 +22,10 @@ describe('api service', () => {
       name2: 'value2',
       value3: ['foo', 'bar'],
     };
-    origSessionStorage = global.sessionStorage;
-
-    global.sessionStorage = {
-      getItem: (key) => {
-        switch (key) {
-          case 'accessToken':
-            return '42';
-          default:
-            return '';
-        }
-      },
-      setItem: jest.fn(),
-      removeItem: jest.fn(),
-    };
   });
 
   afterEach(() => {
     jest.resetAllMocks();
-    global.sessionStorage = origSessionStorage;
   });
 
   describe('generateParams', () => {
@@ -53,12 +37,14 @@ describe('api service', () => {
 
   describe('authCall', () => {
     it('should generate the right call', () => {
+      sessionStorage.getItem.mockImplementationOnce(() => token);
+
       const fullUrl = `${url}?${queryString}`;
       const options = {
         method: 'GET',
         headers: {
           accept: 'application/json',
-          Authorization: 'Bearer 42',
+          Authorization: `Bearer ${token}`,
         },
       };
 
@@ -67,9 +53,7 @@ describe('api service', () => {
     });
 
     it('should generate a call without token if it is not present', () => {
-      jest
-        .spyOn(global.sessionStorage, 'getItem')
-        .mockImplementationOnce(() => undefined);
+      sessionStorage.getItem.mockImplementationOnce(() => undefined);
 
       const fullUrl = `${url}?${queryString}`;
       const options = {
@@ -79,13 +63,12 @@ describe('api service', () => {
         },
       };
       const gen = authCall(url, params);
-      expect(gen.next().value).toEqual(call(request, fullUrl, options));
+      expect(gen.next().value).toEqual(call(request, fullUrl, options)); // eslint-disable-line redux-saga/yield-effects
     });
 
     it('should generate the right call when params are not defined', () => {
-      jest
-        .spyOn(global.sessionStorage, 'getItem')
-        .mockImplementationOnce(() => 'bearer-token');
+      sessionStorage.getItem.mockImplementationOnce(() => token);
+
       const fullUrl = `${url}`;
       const options = {
         method: 'GET',
@@ -114,11 +97,12 @@ describe('api service', () => {
 
   describe('authCallWithPayload', () => {
     it('should generate the right call', () => {
+      sessionStorage.getItem.mockImplementationOnce(() => token);
       const options = {
         method: 'METHOD',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: 'Bearer 42',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(params),
       };
@@ -127,9 +111,7 @@ describe('api service', () => {
     });
 
     it('should generate a call without token if it is not present', () => {
-      jest
-        .spyOn(global.sessionStorage, 'getItem')
-        .mockImplementationOnce(() => undefined);
+      sessionStorage.getItem.mockImplementationOnce(() => undefined);
       const options = {
         method: 'METHOD',
         headers: {

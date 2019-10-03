@@ -18,7 +18,6 @@ import {
   LOGIN_FAILED,
   LOGOUT_FAILED,
   LOGOUT,
-  AUTHENTICATE_USER,
   AUTHORIZE_USER,
   SHOW_GLOBAL_ERROR,
   RESET_GLOBAL_ERROR,
@@ -47,10 +46,6 @@ export const initialState = fromJS({
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
-    case AUTHENTICATE_USER:
-      global.sessionStorage.setItem(ACCESS_TOKEN, action.payload.accessToken);
-      return state;
-
     case AUTHORIZE_USER:
       global.sessionStorage.setItem(ACCESS_TOKEN, action.payload.accessToken);
 
@@ -100,9 +95,8 @@ function appReducer(state = initialState, action) {
       return state.set('upload', fromJS({}));
 
     case LOGOUT:
-      global.sessionStorage.removeItem(ACCESS_TOKEN);
-
       return state
+        .set('upload', fromJS({}))
         .set('userName', undefined)
         .set('userScopes', undefined)
         .set('userPermissions', [])

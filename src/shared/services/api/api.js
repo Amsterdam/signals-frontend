@@ -19,6 +19,7 @@ export function* authCall(url, params, authorizationToken) {
     headers.Authorization = `Bearer ${authorizationToken}`;
   } else {
     const token = getAccessToken();
+
     if (token) {
       headers.Authorization = `Bearer ${token}`;
     }
