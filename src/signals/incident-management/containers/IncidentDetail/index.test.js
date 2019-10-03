@@ -196,7 +196,6 @@ describe('<IncidentDetail />', () => {
         }
       ]
     },
-    accessToken: '123',
     baseUrl: 'aaa/',
 
     onRequestIncident: jest.fn(),
@@ -417,4 +416,3 @@ describe('<IncidentDetail />', () => {
     });
   });
 });
-

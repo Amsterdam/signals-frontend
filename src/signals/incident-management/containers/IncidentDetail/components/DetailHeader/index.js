@@ -8,7 +8,7 @@ import DownloadButton from './components/DownloadButton';
 
 import './style.scss';
 
-const DetailHeader = ({ incident, baseUrl, accessToken, onPatchIncident }) => {
+const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
   const status = incident && incident.status && incident.status.state;
   const canSplit = (status === 'm') && !(incident && (incident._links['sia:children'] || incident._links['sia:parent']));
   const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some((value) => value === status);
@@ -57,7 +57,6 @@ const DetailHeader = ({ incident, baseUrl, accessToken, onPatchIncident }) => {
             label="PDF"
             url={downloadLink}
             filename={`SIA melding ${incident.id}.pdf`}
-            accessToken={accessToken}
             data-testid="detail-header-button-download"
           />
         </div>
@@ -69,8 +68,6 @@ const DetailHeader = ({ incident, baseUrl, accessToken, onPatchIncident }) => {
 DetailHeader.propTypes = {
   incident: incidentType.isRequired,
   baseUrl: PropTypes.string.isRequired,
-  accessToken: PropTypes.string.isRequired,
-
   onPatchIncident: PropTypes.func.isRequired
 };
 
