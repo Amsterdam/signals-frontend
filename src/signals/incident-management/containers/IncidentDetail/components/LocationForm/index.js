@@ -151,7 +151,7 @@ LocationForm.propTypes = {
 
   onPatchIncident: PropTypes.func.isRequired,
   onDismissError: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 };
 
 export default LocationForm;
