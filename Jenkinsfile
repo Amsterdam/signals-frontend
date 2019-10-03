@@ -77,7 +77,7 @@ node {
 
 if (BRANCH == "develop") {
     node {
-        stage("Build acceptance image") {
+        stage("Build and push acceptance image") {
             tryStep "build", {
                 docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
                     def cachedImage = docker.image("ois/signalsfrontend:acceptance")
@@ -92,18 +92,6 @@ if (BRANCH == "develop") {
                     ".")
 
                     image.push()
-                    image.push("acceptance")
-                }
-            }
-        }
-    }
-
-    node {
-        stage('Push acceptance image') {
-            tryStep "image tagging", {
-                docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
-                    def image = docker.image("ois/signalsfrontend:${env.BUILD_NUMBER}")
-                    image.pull()
                     image.push("acceptance")
                 }
             }
