@@ -29,8 +29,6 @@ COPY package.json \
       /app/
 COPY src /app/src
 
-COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
-
 #  Changing git URL because network is blocking git protocol...
 RUN git config --global url."https://".insteadOf git://
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
@@ -47,6 +45,10 @@ RUN npm cache clean --force
 
 # Build
 ENV NODE_ENV=production
+
+ARG BUILD_ENV=prod
+COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
+
 RUN echo "run build"
 # RUN npm rebuild node-sass
 RUN npm run build:${BUILD_ENV}
@@ -57,9 +59,7 @@ RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
 
 # Deploy
 FROM nginx:stable-alpine
-ARG BUILD_ENV=prod
-# COPY .nginx-${BUILD_ENV}.conf /etc/nginx/nginx.conf
-# COPY default.conf /etc/nginx/nginx.conf
+
 COPY --from=builder /app/build/. /usr/share/nginx/html/
 
 COPY default.conf /etc/nginx/conf.d/
