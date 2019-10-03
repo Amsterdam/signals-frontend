@@ -25,9 +25,11 @@ node {
     }
 
     stage("Get cached build") {
-        docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
-            def cachedImage = docker.image("ois/signalsfrontend:acceptance")
-            cachedImage.pull()
+        if (env.JENKINS_URL == "https://ci.data.amsterdam.nl/") {
+            docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
+                def cachedImage = docker.image("ois/signalsfrontend:acceptance")
+                cachedImage.pull()
+            }
         }
     }
 
