@@ -3,14 +3,6 @@ import request from 'utils/request';
 
 import { generateParams, authCall, authCallWithPayload, authPostCall, authPatchCall } from './api';
 
-jest.mock('containers/App/selectors', () => {
-  function mockedMakeSelectAccessToken() { }
-
-  return ({
-    makeSelectAccessToken: () => mockedMakeSelectAccessToken,
-  });
-});
-
 describe('api service', () => {
   let params;
   const queryString = 'name1=value1&name2=value2&value3=foo&value3=bar';
