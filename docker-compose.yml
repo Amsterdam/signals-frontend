@@ -10,7 +10,6 @@ services:
     ipc: host
     ports:
       - "3001:80"
-  # networks_mode: "host"
 
   lint-container:
     build:
@@ -31,3 +30,11 @@ services:
       - CI=true
       - TZ=Europe/Amsterdam
     command: npm run test
+
+  build-container:
+    build:
+      context: .
+      target: builder
+    environment:
+      - TZ=Europe/Amsterdam
+    command: npm run build
