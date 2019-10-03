@@ -1,16 +1,7 @@
-import { call, select } from 'redux-saga/effects';
+import { call } from 'redux-saga/effects';
 import request from 'utils/request';
-import { makeSelectAccessToken } from 'containers/App/selectors';
 
 import { generateParams, authCall, authCallWithPayload, authPostCall, authPatchCall } from './api';
-
-jest.mock('containers/App/selectors', () => {
-  function mockedMakeSelectAccessToken() { }
-
-  return ({
-    makeSelectAccessToken: () => mockedMakeSelectAccessToken,
-  });
-});
 
 describe('api service', () => {
   let params;
@@ -40,6 +31,8 @@ describe('api service', () => {
 
   describe('authCall', () => {
     it('should generate the right call', () => {
+      global.sessionStorage.getItem.mockImplementationOnce(() => token);
+
       const fullUrl = `${url}?${queryString}`;
       const options = {
         method: 'GET',
@@ -49,7 +42,6 @@ describe('api service', () => {
         }
       };
       const gen = authCall(url, params);
-      expect(gen.next().value).toEqual(select(makeSelectAccessToken())); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next(token).value).toEqual(call(request, fullUrl, options)); // eslint-disable-line redux-saga/yield-effects
     });
 
@@ -62,11 +54,12 @@ describe('api service', () => {
         }
       };
       const gen = authCall(url, params);
-      expect(gen.next().value).toEqual(select(makeSelectAccessToken())); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next().value).toEqual(call(request, fullUrl, options)); // eslint-disable-line redux-saga/yield-effects
     });
 
     it('should generate the right call when params are not defined', () => {
+      global.sessionStorage.getItem.mockImplementationOnce(() => token);
+
       const fullUrl = `${url}`;
       const options = {
         method: 'GET',
@@ -76,7 +69,6 @@ describe('api service', () => {
         }
       };
       const gen = authCall(url, undefined);
-      expect(gen.next().value).toEqual(select(makeSelectAccessToken())); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next(token).value).toEqual(call(request, fullUrl, options)); // eslint-disable-line redux-saga/yield-effects
     });
 
@@ -96,6 +88,7 @@ describe('api service', () => {
 
   describe('authCallWithPayload', () => {
     it('should generate the right call', () => {
+      global.sessionStorage.getItem.mockImplementationOnce(() => token);
       const options = {
         method: 'METHOD',
         headers: {
@@ -105,7 +98,6 @@ describe('api service', () => {
         body: JSON.stringify(params)
       };
       const gen = authCallWithPayload(url, params, 'METHOD');
-      expect(gen.next().value).toEqual(select(makeSelectAccessToken())); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next(token).value).toEqual(call(request, url, options)); // eslint-disable-line redux-saga/yield-effects
     });
 
@@ -118,7 +110,6 @@ describe('api service', () => {
         body: JSON.stringify(params)
       };
       const gen = authCallWithPayload(url, params, 'METHOD');
-      expect(gen.next().value).toEqual(select(makeSelectAccessToken())); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next().value).toEqual(call(request, url, options)); // eslint-disable-line redux-saga/yield-effects
     });
   });

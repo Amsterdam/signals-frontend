@@ -1,12 +1,9 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
 import { Route } from 'react-router-dom';
+import { isAuthenticated } from 'shared/services/auth/auth';
 
 import LoginPage from 'components/LoginPage';
-import { makeSelectIsAuthenticated } from 'containers/App/selectors';
 
 import IncidentOverviewPage from '../../containers/IncidentOverviewPage';
 import IncidentDetail from '../../containers/IncidentDetail';
@@ -30,10 +27,9 @@ export const incidentSplitContainerWrapper = (baseUrl) => (props) => (
 );
 
 export const IncidentManagementModuleComponent = ({
-  isAuthenticated,
   match: { url },
 }) =>
-  !isAuthenticated ? (
+  !isAuthenticated() ? (
     <Route component={LoginPage} />
   ) : (
     <Fragment>
@@ -61,13 +57,6 @@ IncidentManagementModuleComponent.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string.isRequired,
   }),
-  isAuthenticated: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = createStructuredSelector({
-  isAuthenticated: makeSelectIsAuthenticated(),
-});
-
-const withConnect = connect(mapStateToProps);
-
-export default compose(withConnect)(IncidentManagementModuleComponent);
+export default IncidentManagementModuleComponent;

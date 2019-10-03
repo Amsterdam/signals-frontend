@@ -31,7 +31,7 @@ import watchIncidentModelSaga, {
 import { requestHistoryList } from '../history/actions';
 
 describe('models/incident/saga', () => {
-  it('should watch incidentModemSaga', () => {
+  it('should watch incidentModelSaga', () => {
     testSaga(watchIncidentModelSaga)
       .next()
       .all([
@@ -52,7 +52,7 @@ describe('models/incident/saga', () => {
         payload,
       };
 
-      expectSaga(fetchIncident, action)
+      return expectSaga(fetchIncident, action)
         .provide([[matchers.call.fn(requestURL)]])
         .call(authCall, `${requestURL}/${id}`)
         .run();
@@ -63,7 +63,7 @@ describe('models/incident/saga', () => {
       const action = { payload: id };
       const incident = { id, name: 'incident' };
 
-      expectSaga(fetchIncident, action)
+      return expectSaga(fetchIncident, action)
         .provide([[matchers.call.fn(authCall), incident]])
         .put(requestIncidentSuccess(incident))
         .run();
@@ -74,7 +74,7 @@ describe('models/incident/saga', () => {
       const action = { payload: id };
       const error = new Error('Whoops!!1!');
 
-      expectSaga(fetchIncident, action)
+      return expectSaga(fetchIncident, action)
         .provide([[matchers.call.fn(authCall), throwError(error)]])
         .put(requestIncidentError(error))
         .run();
@@ -85,6 +85,7 @@ describe('models/incident/saga', () => {
     it('should call endpoint with filter data', () => {
       const id = 123456;
       const payload = {
+        id,
         patch: {
           id,
         },
@@ -93,8 +94,7 @@ describe('models/incident/saga', () => {
         payload,
       };
 
-      expectSaga(patchIncident, action)
-        .provide([[matchers.call.fn(requestURL)]])
+      return expectSaga(patchIncident, action)
         .call(authPatchCall, `${requestURL}/${id}`, payload.patch)
         .run();
     });
@@ -115,7 +115,7 @@ describe('models/incident/saga', () => {
       };
       const incident = { id, name: 'incident' };
 
-      expectSaga(patchIncident, action)
+      return expectSaga(patchIncident, action)
         .provide([[matchers.call.fn(authPatchCall), incident]])
         .put(patchIncidentSuccess({ type, incident }))
         .put(requestHistoryList(id))
@@ -136,7 +136,7 @@ describe('models/incident/saga', () => {
       };
       const error = new Error('Whoops!!1!');
 
-      expectSaga(patchIncident, action)
+      return expectSaga(patchIncident, action)
         .provide([[matchers.call.fn(authPatchCall), throwError(error)]])
         .put(patchIncidentError({ type, error }))
         .run();
@@ -148,9 +148,8 @@ describe('models/incident/saga', () => {
       const id = 678543;
       const action = { payload: id };
 
-      expectSaga(requestAttachments, action)
-        .provide([[matchers.call.fn(requestURL)]])
-        .call(authPatchCall, `${requestURL}/${id}/attachments`, id)
+      return expectSaga(requestAttachments, action)
+        .call(authCall, `${requestURL}/${id}/attachments`)
         .run();
     });
 
@@ -187,7 +186,7 @@ describe('models/incident/saga', () => {
         ],
       };
 
-      expectSaga(requestAttachments, action)
+      return expectSaga(requestAttachments, action)
         .provide([[matchers.call.fn(authCall), attachments]])
         .put(requestAttachmentsSuccess(attachments.results.slice(0, 3)))
         .run();
@@ -198,7 +197,7 @@ describe('models/incident/saga', () => {
       const action = { payload: id };
       const error = new Error('Whoops!!1!');
 
-      expectSaga(requestAttachments, action)
+      return expectSaga(requestAttachments, action)
         .provide([[matchers.call.fn(authCall), throwError(error)]])
         .put(requestAttachmentsError())
         .run();
@@ -214,17 +213,14 @@ describe('models/incident/saga', () => {
       payload,
     };
 
-    it('should call endpoint with filter data', () => {
+    it('should call endpoint with filter data', () =>
       expectSaga(requestDefaultTexts, action)
         .provide([[matchers.call.fn(requestURL)]])
         .call(
-          authPatchCall,
-          `${requestTermsURL}/${payload.main_slug}/sub_categories/${
-            payload.sub_slug
-          }/status-message-templates`,
+          authCall,
+          `${requestTermsURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`,
         )
-        .run();
-    });
+        .run());
 
     it('should dispatch success', () => {
       const templates = [
@@ -249,7 +245,7 @@ describe('models/incident/saga', () => {
           ],
         },
       ];
-      expectSaga(requestDefaultTexts, action)
+      return expectSaga(requestDefaultTexts, action)
         .provide([[matchers.call.fn(authCall), templates]])
         .put(requestDefaultTextsSuccess(templates))
         .run();
@@ -258,102 +254,10 @@ describe('models/incident/saga', () => {
     it('should dispatch failed', () => {
       const error = new Error('Whoops!!1!');
 
-      expectSaga(requestDefaultTexts, action)
+      return expectSaga(requestDefaultTexts, action)
         .provide([[matchers.call.fn(authCall), throwError(error)]])
         .put(requestDefaultTextsError(error))
         .run();
     });
   });
-  // it('should fetchIncident success ', () => {
-  //   const requestURL = 'https://acc.api.data.amsterdam.nl/signals/auth/signal';
-  //   const id = 1000;
-  //   const action = { payload: id };
-  //   const incident = { id, name: 'incident' };
-
-  //   const gen = fetchIncident(action);
-  //   expect(gen.next().value).toEqual(authCall(`${requestURL}/${id}`));
-  //   expect(gen.next(incident).value).toEqual(put(requestIncidentSuccess(incident))); // eslint-disable-line redux-saga/yield-effects
-  // });
-
-  // it('should fetchIncident error', () => {
-  //   const id = 1000;
-  //   const action = { payload: id };
-  //   const error = new Error('404 Not Found');
-
-  //   const gen = fetchIncident(action);
-  //   gen.next();
-  //   expect(gen.throw(error).value).toEqual(put(requestIncidentError(error))); // eslint-disable-line redux-saga/yield-effects
-  // });
-
-  // it('should fetchIncident success', () => {
-  //   const requestURL = 'https://acc.api.data.amsterdam.nl/signals/auth/signal';
-  //   const id = 1000;
-  //   const action = { payload: id };
-  //   const incident = { id, name: 'incident' };
-
-  //   const gen = fetchIncident(action);
-  //   expect(gen.next().value).toEqual(authCall(`${requestURL}/${id}`));
-  //   expect(gen.next(incident).value).toEqual(put(requestIncidentSuccess(incident))); // eslint-disable-line redux-saga/yield-effects
-  // });
-
-  // it('should patchIncident success', () => {
-  //   const id = 1000;
-  //   const requestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals';
-  //   const action = {
-  //     payload: {
-  //       id,
-  //       type: 'location',
-  //       patch: {
-  //         location: { stadsdeel: 'A' }
-  //       }
-  //     }
-  //   };
-  //   const incident = { id };
-  //   const payload = { type: 'location', incident };
-
-  //   const gen = patchIncident(action);
-  //   expect(gen.next().value).toEqual(authPatchCall(`${requestURL}/${id}`));
-  //   expect(gen.next().value).toEqual(delay(1000)); // eslint-disable-line redux-saga/yield-effects
-  //   expect(gen.next().value).toEqual(put(patchIncidentSuccess(payload))); // eslint-disable-line redux-saga/yield-effects
-  // });
-
-  // it('should patchIncident error', () => {
-  //   const id = 1000;
-  //   const action = {
-  //     payload: {
-  //       id,
-  //       type: 'location',
-  //       patch: {
-  //         location: { stadsdeel: 'A' }
-  //       }
-  //     }
-  //   };
-  //   const error = new Error('404 Not Found');
-
-  //   const gen = patchIncident(action);
-  //   gen.next();
-  //   expect(gen.throw(error).value).toEqual(put(patchIncidentError({ type: action.payload.type, error }))); // eslint-disable-line redux-saga/yield-effects
-  // });
-
-  // it('should requestAttachment success', () => {
-  //   const requestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals';
-  //   const id = 1000;
-  //   const action = { payload: id };
-  //   const attachments = { results: [{ file: 1 }, { file: 2 }, { file: 3 }, { file: 4 }] };
-  //   const firstThree = [{ file: 1 }, { file: 2 }, { file: 3 }];
-
-  //   const gen = requestAttachments(action);
-  //   expect(gen.next().value).toEqual(authCall(`${requestURL}/${id}/attachments`));
-  //   expect(gen.next(attachments).value).toEqual(put(requestAttachmentsSuccess(firstThree))); // eslint-disable-line redux-saga/yield-effects
-  // });
-
-  // it('should fetchIncident error', () => {
-  //   const id = 1000;
-  //   const action = { payload: id };
-  //   const error = new Error('404 Not Found');
-
-  //   const gen = requestAttachments(action);
-  //   gen.next();
-  //   expect(gen.throw(error).value).toEqual(put(requestAttachmentsError())); // eslint-disable-line redux-saga/yield-effects
-  // });
 });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { ThemeProvider as ASCThemeProvider } from '@datapunt/asc-ui';
 
@@ -43,7 +43,10 @@ export const amsterdamThemeCfg = {
 
 const ThemeProvider = ({ children }) => (
   <ASCThemeProvider overrides={amsterdamThemeCfg}>
-    {children}
+    <Fragment>
+      <span data-testid="signalsThemeProvider" />
+      {children}
+    </Fragment>
   </ASCThemeProvider>
 );
 
