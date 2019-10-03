@@ -43,7 +43,7 @@ const dataItem = PropTypes.shape({
 /**
  * Filter type validation for the data structure that comes from and goes to the API
  */
-export const apiFilter = PropTypes.shape({
+export const apiFilterType = PropTypes.shape({
   created_at: date,
   id: PropTypes.number,
   name: PropTypes.string,
@@ -63,7 +63,7 @@ export const apiFilter = PropTypes.shape({
 /**
  * Filter type validation for filter data structure in the application
  */
-export const filter = PropTypes.shape({
+export const filterType = PropTypes.shape({
   created_at: date,
   id: PropTypes.number,
   name: PropTypes.string,
@@ -80,7 +80,23 @@ export const filter = PropTypes.shape({
   refresh: PropTypes.bool,
 });
 
-export const incident = PropTypes.shape({
+export const locationType = PropTypes.shape({
+  address: PropTypes.shape({
+    huisletter: PropTypes.string,
+    huisnummer: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    huisnummer_toevoeging: PropTypes.string,
+    openbare_ruimte: PropTypes.string,
+    postcode: PropTypes.string,
+    woonplaats: PropTypes.string,
+  }),
+  address_text: PropTypes.string,
+  buurt_code: PropTypes.string,
+  id: PropTypes.number,
+  bag_validated: PropTypes.bool,
+  stadsdeel: PropTypes.string,
+});
+
+export const incidentType = PropTypes.shape({
   _display: PropTypes.string,
   _links: PropTypes.shape({
     self: PropTypes.shape({
@@ -100,20 +116,7 @@ export const incident = PropTypes.shape({
     id: PropTypes.number,
     incident_date_end: date,
     incident_date_start: date,
-    location: PropTypes.shape({
-      address: PropTypes.shape({
-        huisletter: PropTypes.string,
-        huisnummer: PropTypes.string,
-        huisnummer_toevoeging: PropTypes.string,
-        openbare_ruimte: PropTypes.string,
-        postcode: PropTypes.string,
-        woonplaats: PropTypes.string,
-      }),
-      address_text: PropTypes.string,
-      buurt_code: PropTypes.string,
-      id: PropTypes.number,
-      stadsdeel: PropTypes.string,
-    }),
+    location: locationType,
   }),
   notes: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string,
@@ -131,27 +134,74 @@ export const incident = PropTypes.shape({
   updated_at: date,
 });
 
+export const attachmentsType = PropTypes.arrayOf(
+  PropTypes.shape({
+    _display: PropTypes.string,
+    location: PropTypes.string,
+  })
+);
+
+export const defaultTextsType = PropTypes.arrayOf(
+  PropTypes.shape({
+    state: PropTypes.string,
+    templates: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string,
+        text: PropTypes.string,
+      })
+    ),
+  })
+);
+
+export const extraPropertiesType = PropTypes.arrayOf(
+  PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    label: PropTypes.string,
+    answer: PropTypes.oneOfType([
+      PropTypes.shape({
+        id: PropTypes.string,
+        label: PropTypes.string,
+        value: PropTypes.bool,
+      }),
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.string,
+    ]),
+    category_url: PropTypes.string.isRequired,
+  })
+);
+
+export const historyType = PropTypes.arrayOf(
+  PropTypes.shape({
+    identifier: PropTypes.string.isRequired,
+    when: PropTypes.string.isRequired,
+    what: PropTypes.string.isRequired,
+    action: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    who: PropTypes.string.isRequired,
+  })
+);
+
 /**
  * Generic datalist type
  */
-export const dataList = PropTypes.arrayOf(dataItem);
+export const dataListType = PropTypes.arrayOf(dataItem);
 
-export const categories = PropTypes.shape({
-  main: dataList,
+export const categoriesType = PropTypes.shape({
+  main: dataListType,
   mainToSub: PropTypes.shape({}),
-  sub: dataList,
+  sub: dataListType,
 });
 
 export const dataLists = PropTypes.shape({
-  priority: dataList,
-  stadsdeel: dataList,
-  status: dataList,
-  feedback: dataList,
+  priority: dataListType,
+  stadsdeel: dataListType,
+  status: dataListType,
+  feedback: dataListType,
 });
 
 export const overviewPage = PropTypes.shape({
-  incidents: PropTypes.arrayOf(incident),
-  filter,
+  incidents: PropTypes.arrayOf(incidentType),
+  filter: filterType,
   page: PropTypes.number,
   sort: PropTypes.string,
 });

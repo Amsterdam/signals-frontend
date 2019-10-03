@@ -3,8 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import 'whatwg-fetch';
 
-import './style.scss';
-
 class DownloadButton extends React.Component {
   constructor(props) {
     super(props);
@@ -25,6 +23,7 @@ class DownloadButton extends React.Component {
       responseType: 'blob'
     }).then((response) => response.blob())
         .then((blob) => {
+          /* istanbul ignore next */
           if (navigator.msSaveOrOpenBlob) {
             navigator.msSaveOrOpenBlob(blob, filename);
           } else {
@@ -48,6 +47,7 @@ class DownloadButton extends React.Component {
         <button
           className="incident-detail__button"
           type="button"
+          data-testid="download-button"
           onClick={() => this.handleDownload(url, filename, accessToken)}
         >{label}</button>
       </div>

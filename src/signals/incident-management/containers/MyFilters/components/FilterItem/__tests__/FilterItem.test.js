@@ -35,7 +35,7 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
     expect(container.querySelectorAll('svg')).toHaveLength(0);
     expect(getByText('Foo bar baz')).toBeTruthy();
 
-    const withRefresh = Object.assign({}, props, { filter: { refresh: true } });
+    const withRefresh = Object.assign({}, props, { filter: { ...filter, refresh: true } });
 
     rerender(
       withAppContext(<FilterItem {...withRefresh} />),
