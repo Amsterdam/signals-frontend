@@ -16,7 +16,8 @@ import AttachmentViewer from './components/AttachmentViewer';
 import StatusForm from './components/StatusForm';
 import Detail from './components/Detail';
 import SplitNotificationBar from './components/SplitNotificationBar';
-import LocationPreview from './components/LocationPreview'; import statusList, { changeStatusOptionList } from '../../definitions/statusList';
+import LocationPreview from './components/LocationPreview';
+import statusList, { changeStatusOptionList } from '../../definitions/statusList';
 import stadsdeelList from '../../definitions/stadsdeelList';
 import priorityList from '../../definitions/priorityList';
 
