@@ -19,6 +19,7 @@ COPY .gitignore \
      .gitattributes \
       /app/
 
+# Install language packs
 RUN npm install --unsafe-perm -g full-icu
 ENV NODE_ICU_DATA="/usr/local/lib/node_modules/full-icu"
 
@@ -38,13 +39,14 @@ COPY src /app/src
 ARG GIT_COMMIT
 ENV GIT_COMMIT ${GIT_COMMIT}
 
-ARG BUILD_NUMBER=0
-ARG BUILD_ENV=prod
-
-COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
-
 # Build
 ENV NODE_ENV=production
+
+ARG BUILD_ENV=prod
+COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
+
+ARG BUILD_NUMBER=0
+
 RUN echo "run build"
 RUN npm run build:${BUILD_ENV}
 RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
@@ -53,9 +55,7 @@ RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
 
 # Deploy
 FROM nginx:stable-alpine
-# ARG BUILD_ENV=prod
-# COPY .nginx-${BUILD_ENV}.conf /etc/nginx/nginx.conf
-# COPY default.conf /etc/nginx/nginx.conf
+
 COPY --from=builder /app/build/. /usr/share/nginx/html/
 
 COPY default.conf /etc/nginx/conf.d/
