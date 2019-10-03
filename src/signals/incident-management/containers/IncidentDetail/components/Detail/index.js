@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { incidentType, dataListType, attachmentsType } from 'shared/types';
+
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 
 import './style.scss';
@@ -16,7 +18,7 @@ class Detail extends React.Component { // eslint-disable-line react/prefer-state
 
     return (
       <article className="detail">
-        <div className="detail__text">
+        <div className="detail__text" data-testid="detail-title">
           {incident.text}
         </div>
 
@@ -42,11 +44,11 @@ class Detail extends React.Component { // eslint-disable-line react/prefer-state
 
           {incident.extra_properties ? <ExtraProperties items={incident.extra_properties} /> : ''}
 
-          <dt className="detail__definition">E-mail melder</dt>
-          <dd className="detail__value">{incident.reporter.email}</dd>
+          <dt className="detail__definition" data-testid="detail-email-definition">E-mail melder</dt>
+          <dd className="detail__value" data-testid="detail-email-value">{incident.reporter.email}</dd>
 
-          <dt className="detail__definition">Telefoon melder</dt>
-          <dd className="detail__value">{incident.reporter.phone}</dd>
+          <dt className="detail__definition" data-testid="detail-phone-definition">Telefoon melder</dt>
+          <dd className="detail__value" data-testid="detail-phone-value">{incident.reporter.phone}</dd>
         </dl>
       </article>
     );
@@ -54,13 +56,13 @@ class Detail extends React.Component { // eslint-disable-line react/prefer-state
 }
 
 Detail.propTypes = {
-  incident: PropTypes.object.isRequired,
-  attachments: PropTypes.array.isRequired,
-  stadsdeelList: PropTypes.array.isRequired,
+  incident: incidentType.isRequired,
+  attachments: attachmentsType.isRequired,
+  stadsdeelList: dataListType.isRequired,
 
   onShowAttachment: PropTypes.func.isRequired,
   onShowLocation: PropTypes.func.isRequired,
-  onEditLocation: PropTypes.func.isRequired
+  onEditLocation: PropTypes.func.isRequired,
 };
 
 export default Detail;

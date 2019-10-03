@@ -80,6 +80,22 @@ export const filterType = PropTypes.shape({
   refresh: PropTypes.bool,
 });
 
+export const locationType = PropTypes.shape({
+  address: PropTypes.shape({
+    huisletter: PropTypes.string,
+    huisnummer: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    huisnummer_toevoeging: PropTypes.string,
+    openbare_ruimte: PropTypes.string,
+    postcode: PropTypes.string,
+    woonplaats: PropTypes.string,
+  }),
+  address_text: PropTypes.string,
+  buurt_code: PropTypes.string,
+  id: PropTypes.number,
+  bag_validated: PropTypes.bool,
+  stadsdeel: PropTypes.string,
+});
+
 export const incidentType = PropTypes.shape({
   _display: PropTypes.string,
   _links: PropTypes.shape({
@@ -100,20 +116,7 @@ export const incidentType = PropTypes.shape({
     id: PropTypes.number,
     incident_date_end: dateType,
     incident_date_start: dateType,
-    location: PropTypes.shape({
-      address: PropTypes.shape({
-        huisletter: PropTypes.string,
-        huisnummer: PropTypes.string,
-        huisnummer_toevoeging: PropTypes.string,
-        openbare_ruimte: PropTypes.string,
-        postcode: PropTypes.string,
-        woonplaats: PropTypes.string,
-      }),
-      address_text: PropTypes.string,
-      buurt_code: PropTypes.string,
-      id: PropTypes.number,
-      stadsdeel: PropTypes.string,
-    }),
+    location: locationType,
   }),
   notes: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string,
@@ -130,6 +133,53 @@ export const incidentType = PropTypes.shape({
   }),
   updated_at: dateType,
 });
+
+export const attachmentsType = PropTypes.arrayOf(
+  PropTypes.shape({
+    _display: PropTypes.string,
+    location: PropTypes.string,
+  })
+);
+
+export const defaultTextsType = PropTypes.arrayOf(
+  PropTypes.shape({
+    state: PropTypes.string,
+    templates: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string,
+        text: PropTypes.string,
+      })
+    ),
+  })
+);
+
+export const extraPropertiesType = PropTypes.arrayOf(
+  PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    label: PropTypes.string,
+    answer: PropTypes.oneOfType([
+      PropTypes.shape({
+        id: PropTypes.string,
+        label: PropTypes.string,
+        value: PropTypes.bool,
+      }),
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.string,
+    ]),
+    category_url: PropTypes.string.isRequired,
+  })
+);
+
+export const historyType = PropTypes.arrayOf(
+  PropTypes.shape({
+    identifier: PropTypes.string.isRequired,
+    when: PropTypes.string.isRequired,
+    what: PropTypes.string.isRequired,
+    action: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    who: PropTypes.string.isRequired,
+  })
+);
 
 /**
  * Generic datalist type

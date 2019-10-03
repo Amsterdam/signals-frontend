@@ -24,7 +24,7 @@ describe('<MapDetail />', () => {
   });
 
   it('should render correctly without location', () => {
-    props.value = undefined;
+    props.value = {};
     wrapper = shallow(<MapDetail {...props} />);
 
     expect(wrapper).toMatchSnapshot();
