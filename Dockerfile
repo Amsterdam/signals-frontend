@@ -39,16 +39,13 @@ COPY src /app/src
 ARG GIT_COMMIT
 ENV GIT_COMMIT ${GIT_COMMIT}
 
-ARG BUILD_NUMBER=0
-ARG BUILD_ENV=prod
-
-COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
-
 # Build
 ENV NODE_ENV=production
 
 ARG BUILD_ENV=prod
 COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
+
+ARG BUILD_NUMBER=0
 
 RUN echo "run build"
 RUN npm run build:${BUILD_ENV}
