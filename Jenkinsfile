@@ -17,6 +17,7 @@ def tryStep(String message, Closure block, Closure tearDown = null) {
 }
 
 String BRANCH = "${env.BRANCH_NAME}"
+String JENKINS_URL = "${env.JENKINS_URL}"
 
 node {
     stage("Checkout") {
@@ -24,7 +25,7 @@ node {
         env.GIT_COMMIT = scmVars.GIT_COMMIT
     }
 
-    if (env.JENKINS_URL ==~ "ci.data.amsterdam.nl") {
+    if (JENKINS_URL == "https://ci.app.amsterdam.nl/") {
         stage("Get cached build") {
             docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
                 def cachedImage = docker.image("ois/signalsfrontend:acceptance")
