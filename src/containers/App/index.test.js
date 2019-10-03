@@ -1,57 +1,34 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { Route } from 'react-router-dom';
-import SiteHeaderContainer from 'containers/SiteHeader';
-import Footer from 'components/Footer';
-import { App, mapDispatchToProps } from './index';
+import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
+import App, { AppContainer, mapDispatchToProps } from './index';
 import { REQUEST_CATEGORIES } from './constants';
 
+jest.mock('components/MapInteractive');
+
 describe('<App />', () => {
-  let origSessionStorage;
+  it('should have props from structured selector', () => {
+    const tree = mount(withAppContext(<App />));
 
-  const props = {
-    requestCategories: jest.fn()
-  };
+    const props = tree.find(AppContainer).props();
 
-  beforeEach(() => {
-    origSessionStorage = global.sessionStorage;
-    global.sessionStorage = {
-      getItem: (key) => {
-        switch (key) {
-          case 'accessToken':
-            return '42';
-          default:
-            return '';
-        }
-      },
-      setItem: jest.fn(),
-      removeItem: jest.fn()
-    };
+    expect(props.requestCategoriesAction).not.toBeUndefined();
   });
 
-  afterEach(() => {
-    global.sessionStorage = origSessionStorage;
+  it('should render correctly', () => {
+    const { getByTestId } = render(withAppContext(<AppContainer requestCategoriesAction={() => {}} />));
+
+    expect(getByTestId('siteFooter')).toBeTruthy();
+    expect(getByTestId('siteHeader')).toBeTruthy();
   });
 
-  it('should render the header', () => {
-    const wrapper = shallow(
-      <App {...props} />
-    );
-    expect(wrapper.find(SiteHeaderContainer).length).toBe(1);
-  });
+  it('should render the correct theme', () => {
+    global.sessionStorage.getItem.mockImplementationOnce(() => undefined);
 
-  it('should render some routes', () => {
-    const wrapper = shallow(
-      <App {...props} />
-    );
-    expect(wrapper.find(Route).length).not.toBe(0);
-  });
+    const { getByTestId } = render(withAppContext(<AppContainer requestCategoriesAction={() => {}} />));
 
-  it('should render the footer', () => {
-    const wrapper = shallow(
-      <App {...props} />
-    );
-    expect(wrapper.find(Footer).length).toBe(1);
+    expect(getByTestId('signalsThemeProvider')).toBeTruthy();
   });
 
   describe('mapDispatchToProps', () => {
@@ -60,7 +37,7 @@ describe('<App />', () => {
     it('onRequestIncident', () => {
       // For the `mapDispatchToProps`, call it directly but pass in
       // a mock function and check the arguments passed in are as expected
-      mapDispatchToProps(dispatch).requestCategories();
+      mapDispatchToProps(dispatch).requestCategoriesAction();
       expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_CATEGORIES });
     });
   });

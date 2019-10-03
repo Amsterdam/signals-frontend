@@ -1,7 +1,6 @@
-import { call, select } from 'redux-saga/effects';
+import { call } from 'redux-saga/effects';
 import request from 'utils/request';
-
-import { makeSelectAccessToken } from '../../../containers/App/selectors';
+import { getAccessToken } from 'shared/services/auth/auth';
 
 export const generateParams = (data) => Object.entries(data)
   .filter((pair) => pair[1])
@@ -19,7 +18,8 @@ export function* authCall(url, params, authorizationToken) {
   if (authorizationToken) {
     headers.Authorization = `Bearer ${authorizationToken}`;
   } else {
-    const token = yield select(makeSelectAccessToken());
+    const token = getAccessToken();
+
     if (token) {
       headers.Authorization = `Bearer ${token}`;
     }
@@ -38,7 +38,7 @@ export function* authCallWithPayload(url, params, method) {
     'Content-Type': 'application/json'
   };
 
-  const token = yield select(makeSelectAccessToken());
+  const token = getAccessToken();
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
