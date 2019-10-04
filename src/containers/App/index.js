@@ -46,17 +46,7 @@ export const AppContainer = ({ requestCategoriesAction }) => {
             <Redirect exact from="/login" to="/manage" />
             <Route path="/manage" component={IncidentManagementModule} />
             <Route path="/incident" component={IncidentContainer} />
-            <Route
-              path="/kto/:yesNo/:uuid"
-              component={(props) => (
-                <KtoContainer
-                  // eslint-disable-next-line react/prop-types
-                  yesNo={props.match.params.yesNo}
-                  // eslint-disable-next-line react/prop-types
-                  uuid={props.match.params.uuid}
-                />
-              )}
-            />
+            <Route path="/kto/:yesNo/:uuid" component={KtoContainer} />
             <Route path="" component={NotFoundPage} />
           </Switch>
         </div>
