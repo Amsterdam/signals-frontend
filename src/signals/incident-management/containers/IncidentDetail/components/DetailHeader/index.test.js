@@ -21,7 +21,6 @@ describe('<DetailHeader />', () => {
         }
       },
       baseUrl: '/manage',
-      accessToken: 'MOCK-TOKEN',
       onPatchIncident: jest.fn()
     };
   });

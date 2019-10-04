@@ -56,8 +56,9 @@ describe('<DownloadButton />', () => {
     });
 
     it('should download document with token when present', () => {
+      sessionStorage.getItem.mockImplementation(() => 'MOCK-TOKEN');
       const { queryByTestId } = render(
-        <DownloadButton {...props} accessToken="MOCK-TOKEN" />
+        <DownloadButton {...props} />
         );
       fireEvent.click(queryByTestId('download-button'));
 
