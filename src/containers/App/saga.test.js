@@ -206,6 +206,19 @@ describe('App saga', () => {
         .run();
     });
 
+    it('should dispatch error when authorization has failed', async () => {
+      const action = { payload };
+      const errorObj = new Error('Whoops');
+      errorObj.response = {
+        status: 403,
+      };
+
+      return expectSaga(callAuthorize, action)
+        .provide([[matchers.call.fn(authCall), throwError(errorObj)]])
+        .put(showGlobalError('AUTHORIZE_FAILED'))
+        .run();
+    });
+
     it('should dispatch error when session has expired', async () => {
       const action = { payload };
       const errorObj = new Error('Whoops');
