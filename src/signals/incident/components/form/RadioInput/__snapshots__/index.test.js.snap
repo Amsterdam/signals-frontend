@@ -40,7 +40,7 @@ exports[`Form component <RadioInput /> rendering should render radio fields corr
             checked={true}
             className="kenmerkradio"
             id="input-field-name-foo1"
-            onClick={[Function]}
+            onChange={[Function]}
             type="radio"
           />
           <label
@@ -57,7 +57,7 @@ exports[`Form component <RadioInput /> rendering should render radio fields corr
             checked={false}
             className="kenmerkradio"
             id="input-field-name-bar1"
-            onClick={[Function]}
+            onChange={[Function]}
             type="radio"
           />
           <label

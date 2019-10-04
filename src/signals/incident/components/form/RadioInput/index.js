@@ -24,7 +24,7 @@ const RadioInput = ({ handler, touched, hasError, meta, parent, getError, valida
                   className="kenmerkradio"
                   type="radio"
                   checked={handler().value.id === key}
-                  onClick={() => parent.meta.updateIncident({ [meta.name]: {
+                  onChange={() => parent.meta.updateIncident({ [meta.name]: {
                     id: key,
                     label: value
                   } })}

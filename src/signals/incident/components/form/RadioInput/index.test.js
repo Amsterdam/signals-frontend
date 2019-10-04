@@ -93,7 +93,7 @@ describe('Form component <RadioInput />', () => {
         }
       });
 
-      wrapper.find('input').first().simulate('click', event);
+      wrapper.find('input').first().simulate('change', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': {
