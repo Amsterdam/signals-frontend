@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import 'whatwg-fetch';
+import { isAuthenticated, getAccessToken } from 'shared/services/auth/auth';
 
 class DownloadButton extends React.Component {
   constructor(props) {
@@ -10,11 +11,11 @@ class DownloadButton extends React.Component {
     this.handleDownload = this.handleDownload.bind(this);
   }
 
-  handleDownload(url, filename, accessToken) {
+  handleDownload(url, filename) {
     const headers = {};
 
-    if (accessToken) {
-      headers.Authorization = `Bearer ${accessToken}`;
+    if (isAuthenticated()) {
+      headers.Authorization = `Bearer ${getAccessToken()}`;
     }
 
     fetch(url, {
@@ -41,14 +42,14 @@ class DownloadButton extends React.Component {
   }
 
   render() {
-    const { label, url, filename, accessToken } = this.props;
+    const { label, url, filename } = this.props;
     return (
       <div className="download-button align-self-center">
         <button
           className="incident-detail__button"
           type="button"
           data-testid="download-button"
-          onClick={() => this.handleDownload(url, filename, accessToken)}
+          onClick={() => this.handleDownload(url, filename, getAccessToken())}
         >{label}</button>
       </div>
     );
@@ -60,7 +61,6 @@ DownloadButton.propTypes = {
   url: PropTypes.string.isRequired,
   filename: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  accessToken: PropTypes.string
 };
 
 export default DownloadButton;
