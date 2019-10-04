@@ -21,7 +21,6 @@ import {
   makeSelectLoading,
   makeSelectError,
   makeSelectCategories,
-  makeSelectAccessToken,
 } from 'containers/App/selectors';
 import {
   requestIncident,
@@ -142,7 +141,6 @@ export class IncidentDetail extends React.Component {
     const {
       id,
       categories,
-      accessToken,
       onPatchIncident,
       onDismissError,
       onDismissSplitNotification,
@@ -181,7 +179,6 @@ export class IncidentDetail extends React.Component {
                     <DetailHeader
                       incident={incident}
                       baseUrl={this.props.baseUrl}
-                      accessToken={accessToken}
                       onPatchIncident={onPatchIncident}
                     />
                   </Column>
@@ -317,7 +314,6 @@ IncidentDetail.propTypes = {
     list: historyType.isRequired,
   }).isRequired,
   categories: categoriesType.isRequired,
-  accessToken: PropTypes.string.isRequired,
 
   id: PropTypes.string,
   baseUrl: PropTypes.string,
@@ -339,7 +335,6 @@ const mapStateToProps = () =>
     incidentModel: makeSelectIncidentModel(),
     categories: makeSelectCategories(),
     historyModel: makeSelectHistoryModel(),
-    accessToken: makeSelectAccessToken(),
   });
 
 export const mapDispatchToProps = (dispatch) =>
