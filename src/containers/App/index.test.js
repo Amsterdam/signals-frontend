@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { render } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import App, { AppContainer, mapDispatchToProps } from './index';
 import { REQUEST_CATEGORIES } from './constants';
@@ -17,18 +17,32 @@ describe('<App />', () => {
   });
 
   it('should render correctly', () => {
-    const { getByTestId } = render(withAppContext(<AppContainer requestCategoriesAction={() => {}} />));
+    const { getByTestId } = render(
+      withAppContext(<AppContainer requestCategoriesAction={() => {}} />),
+    );
 
     expect(getByTestId('siteFooter')).toBeTruthy();
     expect(getByTestId('siteHeader')).toBeTruthy();
   });
 
   it('should render the correct theme', () => {
-    global.sessionStorage.getItem.mockImplementationOnce(() => undefined);
+    global.sessionStorage.getItem.mockImplementation(() => undefined);
 
-    const { getByTestId } = render(withAppContext(<AppContainer requestCategoriesAction={() => {}} />));
+    const { queryByTestId, rerender } = render(
+      withAppContext(<AppContainer requestCategoriesAction={() => {}} />),
+    );
 
-    expect(getByTestId('signalsThemeProvider')).toBeTruthy();
+    expect(queryByTestId('signalsThemeProvider')).not.toBeNull();
+
+    cleanup();
+
+    global.sessionStorage.getItem.mockImplementation(() => '42');
+
+    rerender(
+      withAppContext(<AppContainer requestCategoriesAction={() => {}} />),
+    );
+
+    expect(queryByTestId('signalsThemeProvider')).toBeNull();
   });
 
   describe('mapDispatchToProps', () => {
