@@ -12,7 +12,6 @@ import {
 
 const FieldControlContainer = styled.div`
   break-inside: avoid;
-  margin-bottom: 30px;
 `;
 
 export class FieldControlWrapper extends React.Component {
