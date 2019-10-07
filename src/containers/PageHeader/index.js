@@ -6,11 +6,9 @@ import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 
 import PageHeader from 'components/PageHeader';
-import {
-  makeSelectIncidentsCount,
-  makeSelectFilter,
-} from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
+import { makeSelectIncidentsCount, makeSelectFilter } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 import { makeSelectQuery } from 'models/search/selectors';
+
 import Refresh from '../../shared/images/icon-refresh.svg';
 
 const RefreshIcon = styled(Refresh).attrs({

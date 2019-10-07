@@ -1,8 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import isObject from 'lodash.isobject';
 import isArray from 'lodash.isarray';
 import isBoolean from 'lodash.isboolean';
+
+import { extraPropertiesType } from 'shared/types';
 
 import './style.scss';
 
@@ -24,8 +25,8 @@ const ExtraProperties = ({ items }) => (
   <dl className="extra-properties">
     {items && items.map((item) =>
       (<dl key={item.id}>
-        <dt className="detail__definition">{item.label}</dt>
-        <dd className="detail__value">{getValue(item.answer)}</dd>
+        <dt className="detail__definition" data-testid="extra-properties-definition">{item.label}</dt>
+        <dd className="detail__value" data-testid="extra-properties-value">{getValue(item.answer)}</dd>
       </dl>)
     )}
   </dl>
@@ -36,7 +37,7 @@ ExtraProperties.defaultProps = {
 };
 
 ExtraProperties.propTypes = {
-  items: PropTypes.array
+  items: extraPropertiesType
 };
 
 export default ExtraProperties;

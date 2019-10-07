@@ -7,12 +7,20 @@ import isEqual from 'lodash.isequal';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
+import {
+  incidentType,
+  dataListType,
+  defaultTextsType,
+  attachmentsType,
+  categoriesType,
+  historyType,
+} from 'shared/types';
+
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import {
   makeSelectLoading,
   makeSelectError,
   makeSelectCategories,
-  makeSelectAccessToken,
 } from 'containers/App/selectors';
 import {
   requestIncident,
@@ -51,13 +59,9 @@ export class IncidentDetail extends React.Component {
 
     this.state = {
       previewState: props.previewState, // showLocation, editLocation, editStatus, showImage
-      attachment: props.attachment,
+      attachmentHref: props.attachmentHref,
     };
 
-    this.onThor = this.onThor.bind(this);
-    this.onDismissSplitNotification = this.onDismissSplitNotification.bind(
-      this,
-    );
     this.onShowLocation = this.onShowLocation.bind(this);
     this.onEditLocation = this.onEditLocation.bind(this);
     this.onEditStatus = this.onEditStatus.bind(this);
@@ -74,6 +78,7 @@ export class IncidentDetail extends React.Component {
       this.fetchAll();
     }
 
+    /* istanbul ignore else */
     if (this.props.incidentModel.incident) {
       const category = this.props.incidentModel.incident.category;
       if (
@@ -91,58 +96,38 @@ export class IncidentDetail extends React.Component {
     }
   }
 
-  onThor() {
-    const patch = {
-      id: this.props.id,
-      type: 'thor',
-      patch: {
-        status: {
-          state: 'ready to send',
-          text: 'Te verzenden naar THOR',
-          target_api: 'sigmax',
-        },
-      },
-    };
-
-    this.props.onPatchIncident(patch);
-  }
-
-  onDismissSplitNotification() {
-    this.props.onDismissSplitNotification();
-  }
-
   onShowLocation() {
     this.setState({
       previewState: 'showLocation',
-      attachment: '',
+      attachmentHref: '',
     });
   }
 
   onEditLocation() {
     this.setState({
       previewState: 'editLocation',
-      attachment: '',
+      attachmentHref: ''
     });
   }
 
   onEditStatus() {
     this.setState({
       previewState: 'editStatus',
-      attachment: '',
+      attachmentHref: ''
     });
   }
 
-  onShowAttachment(attachment) {
+  onShowAttachment(attachmentHref) {
     this.setState({
       previewState: 'showImage',
-      attachment,
+      attachmentHref
     });
   }
 
   onCloseAll() {
     this.setState({
       previewState: '',
-      attachment: '',
+      attachmentHref: ''
     });
   }
 
@@ -156,9 +141,9 @@ export class IncidentDetail extends React.Component {
     const {
       id,
       categories,
-      accessToken,
       onPatchIncident,
       onDismissError,
+      onDismissSplitNotification,
     } = this.props;
     const { list } = this.props.historyModel;
     const {
@@ -174,14 +159,14 @@ export class IncidentDetail extends React.Component {
       statusList,
       defaultTexts,
     } = this.props.incidentModel;
-    const { previewState, attachment } = this.state;
+    const { previewState, attachmentHref } = this.state;
 
     return (
       <Fragment>
         <div className="incident-detail">
           <SplitNotificationBar
             data={split}
-            onClose={this.onDismissSplitNotification}
+            onDismissSplitNotification={onDismissSplitNotification}
           />
 
           {loading && <LoadingIndicator />}
@@ -194,8 +179,7 @@ export class IncidentDetail extends React.Component {
                     <DetailHeader
                       incident={incident}
                       baseUrl={this.props.baseUrl}
-                      accessToken={accessToken}
-                      onThor={this.onThor}
+                      onPatchIncident={onPatchIncident}
                     />
                   </Column>
                 </Row>
@@ -206,30 +190,32 @@ export class IncidentDetail extends React.Component {
                   <DetailContainer span={12}>
                     <button
                       className="incident-detail__preview-close incident-detail__button--close"
+                      type="button"
                       onClick={this.onCloseAll}
                     />
 
                     {previewState === 'showImage' && (
                       <AttachmentViewer
                         attachments={attachments}
-                        attachment={attachment}
+                        href={attachmentHref}
                         onShowAttachment={this.onShowAttachment}
                       />
                     )}
 
                     {previewState === 'showLocation' && (
                       <LocationPreview
-                        incident={incident}
-                        baseUrl={this.props.baseUrl}
-                        accessToken={accessToken}
-                        onThor={this.onThor}
+                        location={incident.location}
+                        onEditLocation={this.onEditLocation}
                       />
                     )}
 
                     {previewState === 'editLocation' && (
                       <LocationForm
-                        incidentModel={this.props.incidentModel}
+                        incident={incident}
+                        patching={patching}
+                        error={error}
                         onPatchIncident={onPatchIncident}
+                        onDismissError={onDismissError}
                         onClose={this.onCloseAll}
                       />
                     )}
@@ -260,7 +246,6 @@ export class IncidentDetail extends React.Component {
                           incident={incident}
                           attachments={attachments}
                           stadsdeelList={stadsdeelList}
-                          priorityList={priorityList}
                           onShowLocation={this.onShowLocation}
                           onEditLocation={this.onEditLocation}
                           onShowAttachment={this.onShowAttachment}
@@ -296,17 +281,39 @@ export class IncidentDetail extends React.Component {
 
 IncidentDetail.defaultProps = {
   previewState: '',
-  attachment: '',
+  attachmentHref: '',
 };
 
 IncidentDetail.propTypes = {
   previewState: PropTypes.string,
-  attachment: PropTypes.string,
+  attachmentHref: PropTypes.string,
 
-  incidentModel: PropTypes.object.isRequired,
-  historyModel: PropTypes.object.isRequired,
-  categories: PropTypes.object.isRequired,
-  accessToken: PropTypes.string.isRequired,
+  incidentModel: PropTypes.shape({
+    incident: incidentType,
+    attachments: attachmentsType,
+    loading: PropTypes.bool.isRequired,
+    patching: PropTypes.shape({
+      location: PropTypes.bool,
+      status: PropTypes.bool,
+    }).isRequired,
+    error: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object
+    ]),
+    split: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object
+    ]),
+    stadsdeelList: dataListType,
+    priorityList: dataListType,
+    changeStatusOptionList: dataListType,
+    statusList: dataListType,
+    defaultTexts: defaultTextsType,
+  }).isRequired,
+  historyModel: PropTypes.shape({
+    list: historyType.isRequired,
+  }).isRequired,
+  categories: categoriesType.isRequired,
 
   id: PropTypes.string,
   baseUrl: PropTypes.string,
@@ -328,7 +335,6 @@ const mapStateToProps = () =>
     incidentModel: makeSelectIncidentModel(),
     categories: makeSelectCategories(),
     historyModel: makeSelectHistoryModel(),
-    accessToken: makeSelectAccessToken(),
   });
 
 export const mapDispatchToProps = (dispatch) =>

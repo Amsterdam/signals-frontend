@@ -58,7 +58,7 @@ const RETURN_PATH = 'returnPath';
 const STATE_TOKEN = 'stateToken';
 // The access token returned by the OAuth2 authorization service
 // containing user userScopes and name
-const ACCESS_TOKEN = 'accessToken';
+export const ACCESS_TOKEN = 'accessToken';
 
 const OAUTH_DOMAIN = 'oauthDomain';
 

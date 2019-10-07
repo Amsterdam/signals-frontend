@@ -3,6 +3,7 @@
 exports[`<Footer /> should render correctly 1`] = `
 <Footer__FooterWrapper
   className="app-container no-print"
+  data-testid="siteFooter"
 >
   <Footer__Disclaimer>
     <Row

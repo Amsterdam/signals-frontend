@@ -1,10 +1,9 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, cleanup } from '@testing-library/react';
 
 import ExtraProperties from './index';
 
 describe('<ExtraProperties />', () => {
-  let wrapper;
   const props = {
     items: [
       {
@@ -49,19 +48,36 @@ describe('<ExtraProperties />', () => {
     ]
   };
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+  afterEach(cleanup);
 
   it('should render correctly', () => {
-    wrapper = shallow(<ExtraProperties {...props} />);
+    const { queryAllByTestId } = render(
+      <ExtraProperties {...props} />
+    );
 
-    expect(wrapper).toMatchSnapshot();
+    expect(queryAllByTestId('extra-properties-definition')).toHaveLength(6);
+    expect(queryAllByTestId('extra-properties-value')).toHaveLength(6);
+
+    expect(queryAllByTestId('extra-properties-definition')[0]).toHaveTextContent(/^Gaat uw melding over één of over meer lampen\?$/);
+    expect(queryAllByTestId('extra-properties-value')[0]).toHaveTextContent(/^Meer lampen$/);
+    expect(queryAllByTestId('extra-properties-definition')[1]).toHaveTextContent(/^Wat is er aan de hand met de lamp\(en\)\?$/);
+    expect(queryAllByTestId('extra-properties-value')[1]).toHaveTextContent(/^Brandt niet, Brandt overdag$/);
+    expect(queryAllByTestId('extra-properties-definition')[2]).toHaveTextContent(/^Hebt u een nummer van \(één van\) de lamp\(en\)\?$/);
+    expect(queryAllByTestId('extra-properties-value')[2]).toHaveTextContent(/^42$/);
+    expect(queryAllByTestId('extra-properties-definition')[3]).toHaveTextContent(/^Gebeurt het vaker\?$/);
+    expect(queryAllByTestId('extra-properties-value')[3]).toHaveTextContent(/^Nee$/);
+    expect(queryAllByTestId('extra-properties-definition')[4]).toHaveTextContent(/^Heeft u het gezien\?$/);
+    expect(queryAllByTestId('extra-properties-value')[4]).toHaveTextContent(/^Ja, het gebeurt vaker$/);
+    expect(queryAllByTestId('extra-properties-definition')[5]).toHaveTextContent(/^Welke lampen\?$/);
+    expect(queryAllByTestId('extra-properties-value')[5]).toHaveTextContent(/^126543, 87654$/);
   });
 
   it('should render correctly without items', () => {
-    wrapper = shallow(<ExtraProperties />);
+    const { queryAllByTestId } = render(
+      <ExtraProperties />
+    );
 
-    expect(wrapper).toMatchSnapshot();
+    expect(queryAllByTestId('extra-properties-definition')).toHaveLength(0);
+    expect(queryAllByTestId('extra-properties-value')).toHaveLength(0);
   });
 });

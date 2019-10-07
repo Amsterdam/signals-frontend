@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import isEqual from 'lodash.isequal';
 
+import { incidentType, dataListType, defaultTextsType } from 'shared/types';
+
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
@@ -44,6 +46,8 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
 
       textField.updateValueAndValidity();
     });
+
+    this.props.onDismissError();
   }
 
   componentDidUpdate(prevProps) {
@@ -95,36 +99,45 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
                     display="Nieuwe status"
                     render={RadioInput}
                     name="status"
-                    className="status-form__form-input"
+                    className="status-form__form-status"
                     control={this.form.get('status')}
                     values={changeStatusOptionList}
                   />
                   <FieldControlWrapper
                     render={TextAreaInput}
                     name="text"
+                    className="status-form__form-text"
                     display="Toelichting"
                     control={this.form.get('text')}
                     rows={5}
                   />
 
-                  <div className="notification notification-red" >
+                  <div className="status-form__warning notification notification-red" >
                     {warning}
                   </div>
-                  <div className="notification notification-red" >
+                  <div className="status-form__error notification notification-red" >
                     {error && error.response && error.response.status === 403 ? 'Je bent niet geautoriseerd om dit te doen.' : '' }
-                    {error && error.response && error.response.status ? 'De gekozen status is niet mogelijk in deze situatie.' : '' }
+                    {error && error.response && error.response.status !== 403 ? 'De gekozen status is niet mogelijk in deze situatie.' : '' }
                   </div>
 
-                  <button className="status-form__form-submit action primary" type="submit" disabled={invalid}>
+                  <button
+                    className="status-form__form-submit action primary"
+                    type="submit"
+                    disabled={invalid}
+                  >
                     <span className="value">Status opslaan</span>
-                    {patching.status ? <span className="working"><div className="progress-indicator progress-white"></div></span> : ''}
+                    {patching.status ? <span className="working"><div className="status-form__submit--progress progress-indicator progress-white"></div></span> : ''}
                   </button>
-                  <button className="status-form__form-cancel action secundary-grey" onClick={onClose}>Annuleren</button>
+                  <button
+                    className="status-form__form-cancel action secundary-grey"
+                    type="button"
+                    onClick={onClose}
+                  >Annuleren</button>
                 </div>
                 <div className="col-6">
                   <DefaultTexts
                     defaultTexts={defaultTexts}
-                    state={this.form.get('status').value}
+                    status={this.form.get('status').value}
                     onHandleUseDefaultText={this.handleUseDefaultText}
                   />
                 </div>
@@ -142,13 +155,15 @@ StatusForm.defaultProps = {
 };
 
 StatusForm.propTypes = {
-  incident: PropTypes.object.isRequired,
+  incident: incidentType.isRequired,
   error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  patching: PropTypes.object.isRequired,
+  patching: PropTypes.shape({
+    status: PropTypes.bool,
+  }).isRequired,
   warning: PropTypes.string,
-  changeStatusOptionList: PropTypes.array.isRequired,
-  statusList: PropTypes.array.isRequired,
-  defaultTexts: PropTypes.array.isRequired,
+  changeStatusOptionList: dataListType.isRequired,
+  statusList: dataListType.isRequired,
+  defaultTexts: defaultTextsType.isRequired,
 
   onPatchIncident: PropTypes.func.isRequired,
   onDismissError: PropTypes.func.isRequired,
