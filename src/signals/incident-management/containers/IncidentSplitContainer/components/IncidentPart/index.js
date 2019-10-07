@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Heading } from '@datapunt/asc-ui';
+import styled from '@datapunt/asc-core';
 
 import './style.scss';
 
@@ -9,9 +11,13 @@ import RadioInput from '../../../../components/RadioInput';
 import SelectInput from '../../../../components/SelectInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 
+const StyledHeading = styled(Heading)`
+  font-weight: normal;
+`;
+
 const IncidentPart = ({ index, attachments, subcategories, priorityList, splitForm }) => (
   <section className="incident-part">
-    <h2>Deelmelding {index}</h2>
+    <StyledHeading $as="h2">Deelmelding {index}</StyledHeading>
     <FieldControlWrapper
       render={SelectInput}
       name={`part${index}.subcategory`}
@@ -28,13 +34,13 @@ const IncidentPart = ({ index, attachments, subcategories, priorityList, splitFo
       rows={5}
     />
 
-    {attachments && attachments.length &&
+    {attachments && attachments.length ?
       <FieldControlWrapper
         render={CopyFileInput}
         name={`part${index}.image`}
         control={splitForm.get(`part${index}.image`)}
         values={attachments}
-      />
+      /> : ''
     }
     <FieldControlWrapper
       render={TextAreaInput}

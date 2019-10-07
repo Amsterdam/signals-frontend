@@ -1,16 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Heading } from '@datapunt/asc-ui';
+import styled from '@datapunt/asc-core';
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
 import './style.scss';
+
+const StyledHeading = styled(Heading)`
+  font-weight: normal;
+`;
 
 const SplitDetail = ({ incident, stadsdeelList }) => (
   <aside className="split-detail">
     {incident ?
     (
       <div>
-        <h4>Melding {incident.id}</h4>
+        <StyledHeading $as="h4">Melding {incident.id}</StyledHeading>
 
         <dl>
           <dt className="split-detail__definition">Datum</dt>

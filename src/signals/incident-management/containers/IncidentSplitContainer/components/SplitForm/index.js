@@ -1,17 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button, Heading } from '@datapunt/asc-ui';
+import styled from '@datapunt/asc-core';
+
 import { FormBuilder } from 'react-reactive-form';
 
-import './style.scss';
-
 import IncidentPart from '../IncidentPart';
+
+const StyledButton = styled(Button)`
+  margin-right: 20px;
+`;
+
+const StyledRemoveButton = styled(Button)`
+  padding: 0;
+  float: right;
+`;
+
+const StyledHeading = styled(Heading)`
+  font-weight: normal;
+`;
+
+const StyledDisclaimer = styled.div`
+  background-color: #e8e8e8;
+  padding: 15px;
+  margin: 20px 0;
+
+  ul {
+    margin: 0 0 0 25px;
+    padding: 0;
+
+    li {
+      list-style-type: square;
+      margin-top: 10px;
+    }
+  }
+`;
 
 class SplitForm extends React.Component {
   constructor(props) {
     super(props);
 
-    // TEMP work around because the endpoint does not supply category as uri
-    const subcategory = `https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/${props.incident.category.main_slug}/sub_categories/${props.incident.category.sub_slug}`;
+    const subcategory = props.incident.category.category_url;
     this.state = {
       isVisible: props.isVisible,
       splitForm: FormBuilder.group({
@@ -77,11 +106,9 @@ class SplitForm extends React.Component {
     const { incident, attachments, subcategories, priorityList, handleCancel } = this.props;
     return (
       <div className="split-form">
-        <h1>Splitsen</h1>
-
-        <div className="split-form__disclainer-top">
+        <StyledDisclaimer>
           Splitsen mag alleen als de oorspronkelijke melding over twee verschillende onderwerpen gaat, die zonder samenwerking met een andere afdeling kan worden afgehandeld.
-        </div>
+        </StyledDisclaimer>
 
         <IncidentPart
           index="1"
@@ -102,7 +129,10 @@ class SplitForm extends React.Component {
 
         {this.state.isVisible ?
           <div>
-            <button onClick={() => this.setVisibility(false)} className="action reset split-form__button-hide">Verwijder</button>
+            <StyledRemoveButton
+              variant="textButton"
+              onClick={() => this.setVisibility(false)}
+            >Verwijder</StyledRemoveButton>
 
             <IncidentPart
               index="3"
@@ -115,21 +145,30 @@ class SplitForm extends React.Component {
 
           </div>
           :
-          <button onClick={() => this.setVisibility(true)} className="action tertiair split-form__button-show">Deelmelding 3 toevoegen</button>
+          <StyledButton
+            variant="primaryInverted"
+            onClick={() => this.setVisibility(true)}
+          >Deelmelding 3 toevoegen</StyledButton>
         }
 
-        <div className="split-form__disclainer">
-          <h4>Let op</h4>
+        <StyledDisclaimer>
+          <StyledHeading $as="h4">Let op</StyledHeading>
           <ul>
             <li>De persoon die de oorspronkelijke melding heeft gedaan, ontvangt een email per deelmelding.</li>
             <li>De oorspronkelijke melding wordt afgesloten als deze gesplitst wordt.</li>
             <li>Een melding kan maar 1 keer gesplitst worden.</li>
           </ul>
-        </div>
+        </StyledDisclaimer>
 
         <div>
-          <button onClick={this.handleSubmit} className="action primary">Splitsen</button>
-          <button onClick={handleCancel} className="action tertiair">Annuleer</button>
+          <StyledButton
+            variant="secondary"
+            onClick={this.handleSubmit}
+          >Splitsen</StyledButton>
+          <StyledButton
+            variant="primaryInverted"
+            onClick={handleCancel}
+          >Annuleer</StyledButton>
         </div>
       </div>
     );

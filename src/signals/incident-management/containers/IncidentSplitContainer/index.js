@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
+import { Row, Column, Heading } from '@datapunt/asc-ui';
 import { goBack } from 'react-router-redux';
+import styled from '@datapunt/asc-core';
 
 import { makeSelectCategories } from 'containers/App/selectors';
 import injectSaga from 'utils/injectSaga';
@@ -20,6 +22,10 @@ import './style.scss';
 
 import SplitDetail from './components/SplitDetail';
 import SplitForm from './components/SplitForm';
+
+const StyledHeading = styled(Heading)`
+  font-weight: normal;
+`;
 
 export class IncidentSplitContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -47,10 +53,17 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
     const { incident, attachments, loading, stadsdeelList, priorityList } = this.props.incidentModel;
     return (
       <div className="incident-split-container">
-        {loading ? <LoadingIndicator /> :
-        (
-          <div className="row">
-            <div className="col-8">
+        <Row>
+          {loading ? <LoadingIndicator /> :
+          <Fragment>
+            <Column span={12}>
+              <StyledHeading $as="h1">Splitsen</StyledHeading>
+            </Column>
+
+            <Column
+              span={{ small: 12, medium: 12, big: 7, large: 7, xLarge: 7 }}
+              order={{ small: 2, medium: 2, big: 2, large: 1, xLarge: 1 }}
+            >
               <SplitForm
                 incident={incident}
                 attachments={attachments}
@@ -59,15 +72,20 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
                 handleSubmit={this.handleSubmit}
                 handleCancel={this.handleCancel}
               />
-            </div>
-            <div className="col-4">
+            </Column>
+            <Column
+              span={{ small: 12, medium: 12, big: 4, large: 4, xLarge: 4 }}
+              push={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }}
+              order={{ small: 1, medium: 1, big: 1, large: 2, xLarge: 2 }}
+            >
               <SplitDetail
                 incident={incident}
                 stadsdeelList={stadsdeelList}
               />
-            </div>
-          </div>
-        )}
+            </Column>
+          </Fragment>
+          }
+        </Row>
       </div>
     );
   }
