@@ -5,13 +5,16 @@ import appReducer, { initialState } from './reducer';
 
 import {
   AUTHORIZE_USER,
-  SHOW_GLOBAL_ERROR,
-  RESET_GLOBAL_ERROR,
+  LOGIN_FAILED,
+  LOGOUT_FAILED,
+  LOGOUT,
   REQUEST_CATEGORIES_SUCCESS,
-  UPLOAD_REQUEST,
-  UPLOAD_PROGRESS,
-  UPLOAD_SUCCESS,
+  RESET_GLOBAL_ERROR,
+  SHOW_GLOBAL_ERROR,
   UPLOAD_FAILURE,
+  UPLOAD_PROGRESS,
+  UPLOAD_REQUEST,
+  UPLOAD_SUCCESS,
 } from './constants';
 
 describe('appReducer', () => {
@@ -187,6 +190,53 @@ describe('appReducer', () => {
         ).toJS(),
       ).toEqual({
         upload: {},
+      });
+    });
+  });
+
+  describe('LOGIN_FAILED', () => {
+    it('should handle failed login', () => {
+      expect(
+        appReducer(fromJS({}), {
+          type: LOGIN_FAILED,
+          payload: 'ERROR_MESSAGE',
+        }).toJS(),
+      ).toEqual({
+        error: true,
+        errorMessage: 'ERROR_MESSAGE',
+        loading: false,
+      });
+    });
+  });
+
+  describe('LOGOUT_FAILED', () => {
+    it('should handle failed logout', () => {
+      expect(
+        appReducer(fromJS({}), {
+          type: LOGOUT_FAILED,
+          payload: 'ERROR_MESSAGE',
+        }).toJS(),
+      ).toEqual({
+        error: true,
+        errorMessage: 'ERROR_MESSAGE',
+        loading: false,
+      });
+    });
+  });
+
+
+  describe('LOGOUT', () => {
+    it('should handle logout', () => {
+      expect(
+        appReducer(fromJS({}), {
+          type: LOGOUT,
+        }).toJS(),
+      ).toEqual({
+        upload: {},
+        userName: undefined,
+        userScopes: undefined,
+        userPermissions: [],
+        accessToken: undefined,
       });
     });
   });
