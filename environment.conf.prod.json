@@ -1,2 +1,6 @@
 {
+  "API_ROOT": "https://api.data.amsterdam.nl/",
+  "ROOT": "https://meldingen.amsterdam.nl/",
+  "AUTH_ROOT": "https://api.data.amsterdam.nl/",
+  "API_ROOT_MLTOOL": "https://api.data.amsterdam.nl/"
 }
