@@ -242,7 +242,6 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                 "form": [Circular],
                 "getClassification": [MockFunction],
                 "handleSubmit": [Function],
-                "incident": Object {},
                 "incidentContainer": Object {
                   "incident": Object {},
                 },
@@ -454,7 +453,6 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                   "form": [Circular],
                   "getClassification": [MockFunction],
                   "handleSubmit": [Function],
-                  "incident": Object {},
                   "incidentContainer": Object {
                     "incident": Object {},
                   },
@@ -631,7 +629,6 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                         "form": [Circular],
                         "getClassification": [MockFunction],
                         "handleSubmit": [Function],
-                        "incident": Object {},
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
@@ -855,7 +852,6 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                         "form": [Circular],
                         "getClassification": [MockFunction],
                         "handleSubmit": [Function],
-                        "incident": Object {},
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
@@ -1080,7 +1076,6 @@ exports[`<IncidentForm /> rendering expect to render correctly 1`] = `
                         "form": [Circular],
                         "getClassification": [MockFunction],
                         "handleSubmit": [Function],
-                        "incident": Object {},
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
@@ -1420,7 +1415,6 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                 "form": [Circular],
                 "getClassification": [MockFunction],
                 "handleSubmit": [Function],
-                "incident": Object {},
                 "incidentContainer": Object {
                   "incident": Object {},
                 },
@@ -1632,7 +1626,6 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                   "form": [Circular],
                   "getClassification": [MockFunction],
                   "handleSubmit": [Function],
-                  "incident": Object {},
                   "incidentContainer": Object {
                     "incident": Object {},
                   },
@@ -1809,7 +1802,6 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                         "form": [Circular],
                         "getClassification": [MockFunction],
                         "handleSubmit": [Function],
-                        "incident": Object {},
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
@@ -2033,7 +2025,6 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                         "form": [Circular],
                         "getClassification": [MockFunction],
                         "handleSubmit": [Function],
-                        "incident": Object {},
                         "incidentContainer": Object {
                           "incident": Object {},
                         },
@@ -2258,7 +2249,6 @@ exports[`<IncidentForm /> rendering expect to render correctly when form vars ha
                         "form": [Circular],
                         "getClassification": [MockFunction],
                         "handleSubmit": [Function],
-                        "incident": Object {},
                         "incidentContainer": Object {
                           "incident": Object {},
                         },

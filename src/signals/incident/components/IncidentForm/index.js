@@ -75,12 +75,12 @@ class IncidentForm extends React.Component {
       createIncident: this.props.createIncident
     };
 
-    this.setState({
-      loading: false,
-      submitting: false,
-      formAction: '',
-      next: null
-    });
+    // this.setState({
+    //   loading: false,
+    //   submitting: false,
+    //   formAction: '',
+    //   next: null
+    // });
 
     this.setValues(this.props.incidentContainer.incident, true);
   }
