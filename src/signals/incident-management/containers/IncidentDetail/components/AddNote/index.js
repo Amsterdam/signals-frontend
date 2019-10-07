@@ -58,14 +58,26 @@ class AddNote extends React.Component { // eslint-disable-line react/prefer-stat
                   <div>
                     <FieldControlWrapper render={TextAreaInput} name="text" className="add-note__form-input" control={this.form.get('text')} />
 
-                    <button className="add-note__form-submit action primary" type="submit" disabled={invalid}>Opslaan</button>
-                    <button className="add-note__form-cancel action secundary-grey" onClick={this.hideForm}>Annuleren</button>
+                    <button
+                      className="add-note__form-submit action primary"
+                      type="submit"
+                      disabled={invalid}
+                    >Opslaan</button>
+                    <button
+                      className="add-note__form-cancel action secundary-grey"
+                      type="button"
+                      onClick={this.hideForm}
+                    >Annuleren</button>
                   </div>
                 </form>
             )}
             />
           :
-            <button className="add-note__show-form incident-detail__button" onClick={this.showForm}>Notitie toevoegen</button>
+            <button
+              className="add-note__show-form incident-detail__button"
+              type="button"
+              onClick={this.showForm}
+            >Notitie toevoegen</button>
           }
         </div>
       </section>

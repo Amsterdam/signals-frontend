@@ -21,7 +21,6 @@ jest.mock('./services/access-token-parser/access-token-parser');
 describe('The auth service', () => {
   const noop = () => { };
 
-  let origSessionStorage;
   let queryObject;
   let savedAccessToken;
   let savedReturnPath;
@@ -30,32 +29,24 @@ describe('The auth service', () => {
   let stateToken;
 
   beforeEach(() => {
-    origSessionStorage = global.sessionStorage;
-    global.sessionStorage = {
-      getItem: (key) => {
-        switch (key) {
-          case 'accessToken':
-            return savedAccessToken;
-          case 'stateToken':
-            return savedStateToken;
-          case 'returnPath':
-            return savedReturnPath;
-          case 'oauthDomain':
-            return savedOauthDomain;
-          default:
-            return '';
-        }
-      },
-      setItem: noop,
-      removeItem: noop
-    };
+    global.sessionStorage.getItem.mockImplementation((key) => {
+      switch (key) {
+        case 'accessToken':
+          return savedAccessToken;
+        case 'stateToken':
+          return savedStateToken;
+        case 'returnPath':
+          return savedReturnPath;
+        case 'oauthDomain':
+          return savedOauthDomain;
+        default:
+          return '';
+      }
+    });
 
     jest.spyOn(global.history, 'replaceState').mockImplementation(noop);
     jest.spyOn(global.location, 'assign').mockImplementation(noop);
     jest.spyOn(global.location, 'reload').mockImplementation(noop);
-    jest.spyOn(global.sessionStorage, 'getItem');
-    jest.spyOn(global.sessionStorage, 'removeItem');
-    jest.spyOn(global.sessionStorage, 'setItem');
 
     queryStringParser.mockImplementation(() => queryObject);
     stateTokenGenerator.mockImplementation(() => stateToken);
@@ -71,7 +62,9 @@ describe('The auth service', () => {
     global.history.replaceState.mockRestore();
     global.location.assign.mockRestore();
     global.location.reload.mockRestore();
-    global.sessionStorage = origSessionStorage;
+
+    global.sessionStorage.removeItem.mockReset();
+    global.sessionStorage.setItem.mockReset();
   });
 
   describe('init funtion', () => {
@@ -336,7 +329,7 @@ describe('The auth service', () => {
       expect(scopes).toEqual([]);
     });
 
-    it.skip('should return the scopes', () => {
+    it('should return the scopes', () => {
       parseAccessToken.mockImplementation(() => ({
         scopes: ['SIG/ALL']
       }));
