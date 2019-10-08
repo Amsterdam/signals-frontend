@@ -2,33 +2,53 @@ import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { takeLatest } from 'redux-saga/effects';
 
-import { authPostCall, authPatchCall } from 'shared/services/api/api';
+import { resetSearchQuery } from 'models/search/actions';
+import {
+  authCall,
+  authDeleteCall,
+  authPatchCall,
+  authPostCall,
+} from 'shared/services/api/api';
 import filterSaga, {
+  applyFilter,
   doSaveFilter,
   doUpdateFilter,
+  fetchFilters,
+  removeFilter,
+  requestURL,
   saveFilter,
   updateFilter,
-  requestURL,
 } from '../saga';
 import {
-  SAVE_FILTER_SUCCESS,
+  APPLY_FILTER,
+  GET_FILTERS,
+  REMOVE_FILTER,
   SAVE_FILTER_FAILED,
+  SAVE_FILTER_SUCCESS,
   SAVE_FILTER,
-  UPDATE_FILTER,
   UPDATE_FILTER_SUCCESS,
+  UPDATE_FILTER,
 } from '../constants';
 import {
   filterSaveFailed,
-  filterUpdatedFailed,
   filterSaveSuccess,
+  filterUpdatedFailed,
   filterUpdatedSuccess,
+  getFilters,
+  getFiltersFailed,
+  getFiltersSuccess,
+  removeFilterFailed,
+  removeFilterSuccess,
 } from '../actions';
 
-describe.skip('signals/incident-management/containers/Filter/saga', () => {
+describe('signals/incident-management/saga', () => {
   it('should watch filterSaga', () => {
     testSaga(filterSaga)
       .next()
       .all([
+        takeLatest(GET_FILTERS, fetchFilters),
+        takeLatest(REMOVE_FILTER, removeFilter),
+        takeLatest(APPLY_FILTER, applyFilter),
         takeLatest(SAVE_FILTER, saveFilter),
         takeLatest(UPDATE_FILTER, updateFilter),
       ])
@@ -36,14 +56,79 @@ describe.skip('signals/incident-management/containers/Filter/saga', () => {
       .isDone();
   });
 
+  it('should dispatch getFiltersSuccess', () => {
+    const filters = { results: [{ a: 1 }] };
+
+    testSaga(fetchFilters)
+      .next()
+      .call(authCall, requestURL)
+      .next(filters)
+      .put(getFiltersSuccess(filters.results))
+      .next()
+      .isDone();
+  });
+
+  it('should dispatch getFiltersFailed', () => {
+    const message = '404 not found';
+    const error = new Error(message);
+
+    testSaga(fetchFilters)
+      .next()
+      .call(authCall, requestURL)
+      .throw(error)
+      .put(getFiltersFailed(message))
+      .next()
+      .isDone();
+  });
+
+  it('should dispatch removeFilterSuccess', () => {
+    const id = 1000;
+    const action = { payload: id };
+
+    testSaga(removeFilter, action)
+      .next()
+      .call(authDeleteCall, `${requestURL}${id}`)
+      .next(id)
+      .put(removeFilterSuccess(id))
+      .next()
+      .isDone();
+  });
+
+  it('should dispatch removeFilterFailed', () => {
+    const id = 1000;
+    const action = { payload: id };
+    const message = '404 not found';
+    const error = new Error(message);
+
+    testSaga(removeFilter, action)
+      .next()
+      .call(authDeleteCall, `${requestURL}${id}`)
+      .throw(error)
+      .put(removeFilterFailed(message))
+      .next()
+      .isDone();
+  });
+
+  describe('applyFilter', () => {
+    it('should dispatch resetSearchQuery', () => {
+      testSaga(applyFilter)
+        .next()
+        .put(resetSearchQuery())
+        .next()
+        .isDone();
+    });
+  });
+
   describe('doSaveFilter', () => {
     const filterData = {
       name: 'Name of my filter',
-      maincategory_slug: ['i', 'a', 'o', 'u'],
-      address_text: 'Weesperstraat 113-117',
+      options: {
+        maincategory_slug: ['i', 'a', 'o', 'u'],
+        address_text: 'Weesperstraat 113-117',
+      },
     };
 
-    const { name, ...options } = filterData;
+    const { name, options } = filterData;
 
     const payload = filterData;
     const payloadResponse = {
@@ -58,9 +143,13 @@ describe.skip('signals/incident-management/containers/Filter/saga', () => {
     it('should call endpoint with filter data', () => {
       testSaga(doSaveFilter, action)
         .next()
+        .put(resetSearchQuery())
+        .next()
         .call(authPostCall, requestURL, { name, options })
         .next(payloadResponse)
         .put(filterSaveSuccess(payloadResponse))
+        .next()
+        .put(getFilters())
         .next()
         .isDone();
     });
@@ -131,10 +220,13 @@ describe.skip('signals/incident-management/containers/Filter/saga', () => {
     const updatePayload = {
       id: 1234,
       name: 'Name of my filter',
-      maincategory_slug: ['i', 'a', 'o', 'u'],
-      address_text: 'Weesperstraat 113-117',
+      options: {
+        maincategory_slug: ['i', 'a', 'o', 'u'],
+        address_text: 'Weesperstraat 113-117',
+      },
+      refresh: true,
     };
-    const { name, id, ...options } = updatePayload;
+    const { name, id, refresh, options } = updatePayload;
     const payload = {
       name: 'New name of my filter',
       maincategory_slug: ['i', 'a'],
@@ -147,9 +239,13 @@ describe.skip('signals/incident-management/containers/Filter/saga', () => {
     it('should call endpoint with filter data', () => {
       testSaga(doUpdateFilter, { ...action, payload: updatePayload })
         .next()
-        .call(authPatchCall, `${requestURL}${id}`, { name, options })
+        .call(authPatchCall, `${requestURL}${id}`, { name, refresh, options })
         .next(updatePayload)
         .put(filterUpdatedSuccess(updatePayload))
+        .next()
+        .put(getFilters())
+        .next()
+        .put(resetSearchQuery())
         .next()
         .isDone();
     });

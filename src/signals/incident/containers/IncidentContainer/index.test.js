@@ -32,6 +32,20 @@ describe('<IncidentContainer />', () => {
       setItem: jest.fn(),
       removeItem: jest.fn(),
     };
+    origSessionStorage = global.sessionStorage;
+
+    global.sessionStorage = {
+      getItem: (key) => {
+        switch (key) {
+          case 'accessToken':
+            return '42';
+          default:
+            return '';
+        }
+      },
+      setItem: jest.fn(),
+      removeItem: jest.fn(),
+    };
   });
 
   afterEach(() => {

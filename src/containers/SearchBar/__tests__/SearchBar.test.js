@@ -4,7 +4,7 @@ import { render, fireEvent, cleanup } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import SearchBarContainer, { SearchBarComponent } from '../';
 
-describe.skip('containers/SearchBar', () => {
+describe('containers/SearchBar', () => {
   afterEach(cleanup);
 
   it('should have props from structured selector', () => {
@@ -22,7 +22,7 @@ describe.skip('containers/SearchBar', () => {
     const onSetSearchQuery = jest.fn();
     const query = '';
 
-    const { queryByTestId, rerender } = render(
+    const { queryByTestId } = render(
       withAppContext(
         <SearchBarComponent
           onRequestIncidents={onRequestIncidents}
@@ -40,25 +40,5 @@ describe.skip('containers/SearchBar', () => {
 
     expect(onRequestIncidents).toHaveBeenCalled();
     expect(onSetSearchQuery).toHaveBeenCalled();
-
-    onRequestIncidents.mockReset();
-    onSetSearchQuery.mockReset();
-
-    rerender(
-      withAppContext(
-        <SearchBarComponent
-          onRequestIncidents={onRequestIncidents}
-          onSetSearchQuery={onSetSearchQuery}
-          query={query}
-        />,
-      ),
-    );
-
-    const submitBtn = queryByTestId('searchBar').querySelector('button');
-
-    fireEvent.click(submitBtn);
-
-    expect(onRequestIncidents).not.toHaveBeenCalled();
-    expect(onSetSearchQuery).not.toHaveBeenCalled();
   });
 });

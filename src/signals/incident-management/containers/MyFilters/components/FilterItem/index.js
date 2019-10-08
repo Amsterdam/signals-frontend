@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Heading, Link } from '@datapunt/asc-ui';
+import * as types from 'shared/types';
+import { parseToAPIData } from 'signals/shared/filter/parse';
 
 import Refresh from '../../../../../../shared/images/icon-refresh.svg';
 import FilterTagList from '../../../FilterTagList';
@@ -28,32 +30,19 @@ const RefreshIcon = styled(Refresh).attrs({
   cursor: default;
 `;
 
-const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => {
+const FilterItem = ({ filter, onApplyFilter, onEditFilter, onRemoveFilter, onClose }) => {
   const handleApplyFilter = (e) => {
     e.preventDefault();
 
-    onApplyFilter(filter);
+    onApplyFilter(parseToAPIData(filter));
+
     onClose();
   };
 
   const handleEditFilter = (e) => {
     e.preventDefault();
 
-    onApplyFilter(filter);
-
-    // IE11 doesn't support dispatching an event without initialisation
-    // @see {@link https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events#Creating_custom_events}
-    let event;
-    if (typeof Event === 'function') {
-      event = new Event('openFilter');
-    } else {
-      event = document.createEvent('Event');
-      const bubbles = false;
-      const cancelable = false;
-      event.initEvent('openFilter', bubbles, cancelable);
-    }
-
-    document.dispatchEvent(event);
+    onEditFilter(parseToAPIData(filter));
 
     onClose();
   };
@@ -111,37 +100,10 @@ const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => {
 };
 
 FilterItem.propTypes = {
-  filter: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    options: PropTypes.shape({
-      incident_date: PropTypes.string,
-      address_text: PropTypes.string,
-      stadsdeel: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      maincategory_slug: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      priority: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      status: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      category_slug: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-    }).isRequired,
-    refresh: PropTypes.bool,
-  }).isRequired,
+  filter: types.filterType.isRequired,
   onApplyFilter: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  onEditFilter: PropTypes.func.isRequired,
   onRemoveFilter: PropTypes.func.isRequired,
 };
 

@@ -1,4 +1,3 @@
-
 import { fromJS } from 'immutable';
 
 import overviewPageReducer, { initialState } from './reducer';
@@ -8,7 +7,6 @@ import {
   requestIncidentsSuccess,
   requestIncidentsError,
   incidentSelected,
-  filterIncidentsChanged,
   pageIncidentsChanged,
   sortIncidentsChanged,
 } from './actions';
@@ -28,7 +26,8 @@ describe('overviewPageReducer', () => {
     const action = requestIncidents({});
     const expected = {
       loading: true,
-      error: false
+      error: false,
+      errorMessage: undefined,
     };
     expect(overviewPageReducer(state, action)).toEqual(fromJS(expected));
   });
@@ -39,7 +38,9 @@ describe('overviewPageReducer', () => {
     const expected = fromJS({})
       .set('incidents', fromJS(payload.results))
       .set('incidentsCount', payload.count)
-      .set('loading', false);
+      .set('loading', false)
+      .set('error', false)
+      .set('errorMessage', undefined);
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 
@@ -47,7 +48,8 @@ describe('overviewPageReducer', () => {
     const message = '';
     const action = requestIncidentsError(message);
     const expected = fromJS({})
-      .set('error', message)
+      .set('error', true)
+      .set('errorMessage', message)
       .set('loading', false);
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
@@ -59,20 +61,10 @@ describe('overviewPageReducer', () => {
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 
-  it('should handle the FILTER_INCIDENTS_CHANGED', () => {
-    const filter = {};
-    const action = filterIncidentsChanged(filter);
-    const expected = fromJS({})
-      .set('filter', fromJS(filter))
-      .set('page', 1);
-    expect(overviewPageReducer(state, action)).toEqual(expected);
-  });
-
   it('should handle the PAGE_INCIDENTS_CHANGED', () => {
     const page = 1;
     const action = pageIncidentsChanged(page);
-    const expected = fromJS({})
-      .set('page', 1);
+    const expected = fromJS({}).set('page', 1);
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 

@@ -4,54 +4,100 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
 
-import { makeSelectAllFilters } from '../IncidentOverviewPage/selectors';
-import { applyFilter, removeFilter } from '../IncidentOverviewPage/actions';
+import { applyFilter, editFilter, removeFilter } from 'signals/incident-management/actions';
+import { makeSelectAllFilters } from 'signals/incident-management/selectors';
+import { requestIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
+import * as types from 'shared/types';
 
 import FilterItem from './components/FilterItem';
 
 import './style.scss';
 
-const sortFilters = (allFilters) => {
-  allFilters.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
+const sortFilters = (filters) => {
+  filters.sort((a, b) =>
+    a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1,
+  );
 
-  return allFilters;
+  return filters;
 };
 
-export const MyFiltersComponent = ({ allFilters, onApplyFilter, onRemoveFilter, onClose }) => (
-  <div className="my-filters">
-    {allFilters && allFilters.length ? sortFilters(allFilters).map((filter) => (
-      <FilterItem
-        key={filter.id}
-        filter={filter}
-        onApplyFilter={onApplyFilter}
-        onRemoveFilter={onRemoveFilter}
-        onClose={onClose}
-      />
-    )) : (
-      <div className="my-filters--empty">
-        <p>U heeft geen eigen filter opgeslagen.</p>
-        <p>Ga naar &lsquo;Filteren&rsquo; en voer een naam in om een filterinstelling op te slaan.</p>
-      </div>
-    )}
-  </div>
-);
+export const MyFiltersComponent = ({
+  filters,
+  onApplyFilter,
+  onEditFilter,
+  onRemoveFilter,
+  onRequestIncidents,
+  onClose,
+}) => {
+  const handleApplyFilter = (filter) => {
+    onApplyFilter(filter);
+    onRequestIncidents({ filter });
+  };
+
+  const handleEditFilter = (filter) => {
+    onEditFilter(filter);
+    // IE11 doesn't support dispatching an event without initialisation
+    // @see {@link https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events#Creating_custom_events}
+    let event;
+    if (typeof Event === 'function') {
+      event = new Event('openFilter');
+    } else {
+      event = document.createEvent('Event');
+      const bubbles = false;
+      const cancelable = false;
+      event.initEvent('openFilter', bubbles, cancelable);
+    }
+
+    event.data = filter;
+    document.dispatchEvent(event);
+  };
+
+  return (
+    <div className="my-filters">
+      {filters && filters.length ? (
+        sortFilters(filters).map((filter) => (
+          <FilterItem
+            key={filter.id}
+            filter={filter}
+            onEditFilter={handleEditFilter}
+            onApplyFilter={handleApplyFilter}
+            onRemoveFilter={onRemoveFilter}
+            onClose={onClose}
+          />
+        ))
+      ) : (
+        <div className="my-filters--empty">
+          <p>U heeft geen eigen filter opgeslagen.</p>
+          <p>
+            Ga naar &lsquo;Filteren&rsquo; en voer een naam in om een
+            filterinstelling op te slaan.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
 
 MyFiltersComponent.propTypes = {
-  allFilters: PropTypes.array.isRequired,
+  filters: PropTypes.arrayOf(types.filterType),
   onApplyFilter: PropTypes.func.isRequired,
+  onEditFilter: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onRemoveFilter: PropTypes.func.isRequired,
+  onRequestIncidents: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  allFilters: makeSelectAllFilters,
+  filters: makeSelectAllFilters,
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onApplyFilter: applyFilter,
+      onEditFilter: editFilter,
       onRemoveFilter: removeFilter,
+      onRequestIncidents: requestIncidents,
     },
     dispatch,
   );

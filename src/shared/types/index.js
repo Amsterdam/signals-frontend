@@ -28,13 +28,13 @@ const dateTypeFactory = (isRequired) =>
     return null;
   };
 
-const date = dateTypeFactory(false);
-date.isRequired = dateTypeFactory(true);
+const dateType = dateTypeFactory(false);
+dateType.isRequired = dateTypeFactory(true);
 
 /**
  * Generic data item type
  */
-const dataItem = PropTypes.shape({
+const dataItemType = PropTypes.shape({
   key: PropTypes.string.isRequired,
   slug: PropTypes.string,
   value: PropTypes.string.isRequired,
@@ -44,8 +44,8 @@ const dataItem = PropTypes.shape({
  * Filter type validation for the data structure that comes from and goes to the API
  */
 export const apiFilterType = PropTypes.shape({
-  created_at: date,
-  id: PropTypes.number,
+  created_at: dateType,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   name: PropTypes.string,
   options: PropTypes.shape({
     address_text: PropTypes.string,
@@ -64,18 +64,18 @@ export const apiFilterType = PropTypes.shape({
  * Filter type validation for filter data structure in the application
  */
 export const filterType = PropTypes.shape({
-  created_at: date,
-  id: PropTypes.number,
+  created_at: dateType,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   name: PropTypes.string,
   options: PropTypes.shape({
     address_text: PropTypes.string,
-    category_slug: PropTypes.arrayOf(dataItem),
+    category_slug: PropTypes.arrayOf(dataItemType),
     feedback: PropTypes.string,
     incident_date: PropTypes.string,
-    maincategory_slug: PropTypes.arrayOf(dataItem),
+    maincategory_slug: PropTypes.arrayOf(dataItemType),
     priority: PropTypes.string,
-    stadsdeel: PropTypes.arrayOf(dataItem),
-    status: PropTypes.arrayOf(dataItem),
+    stadsdeel: PropTypes.arrayOf(dataItemType),
+    status: PropTypes.arrayOf(dataItemType),
   }),
   refresh: PropTypes.bool,
 });
@@ -111,11 +111,11 @@ export const incidentType = PropTypes.shape({
     sub: PropTypes.string,
     sub_slug: PropTypes.string,
     text: PropTypes.string,
-    created_at: date,
+    created_at: dateType,
     has_attachmens: PropTypes.bool,
     id: PropTypes.number,
-    incident_date_end: date,
-    incident_date_start: date,
+    incident_date_end: dateType,
+    incident_date_start: dateType,
     location: locationType,
   }),
   notes: PropTypes.arrayOf(PropTypes.shape({
@@ -131,7 +131,7 @@ export const incidentType = PropTypes.shape({
     state: PropTypes.string,
     state_display: PropTypes.string,
   }),
-  updated_at: date,
+  updated_at: dateType,
 });
 
 export const attachmentsType = PropTypes.arrayOf(
@@ -184,7 +184,7 @@ export const historyType = PropTypes.arrayOf(
 /**
  * Generic datalist type
  */
-export const dataListType = PropTypes.arrayOf(dataItem);
+export const dataListType = PropTypes.arrayOf(dataItemType);
 
 export const categoriesType = PropTypes.shape({
   main: dataListType,
@@ -192,14 +192,14 @@ export const categoriesType = PropTypes.shape({
   sub: dataListType,
 });
 
-export const dataLists = PropTypes.shape({
+export const dataListsType = PropTypes.shape({
   priority: dataListType,
   stadsdeel: dataListType,
   status: dataListType,
   feedback: dataListType,
 });
 
-export const overviewPage = PropTypes.shape({
+export const overviewPageType = PropTypes.shape({
   incidents: PropTypes.arrayOf(incidentType),
   filter: filterType,
   page: PropTypes.number,
