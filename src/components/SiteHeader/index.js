@@ -206,6 +206,7 @@ export const SiteHeader = (props) => {
       isFrontOffice={isFrontOffice}
       tall={tall}
       className={`siteHeader ${tall ? 'isTall' : 'isShort'}`}
+      data-testid="siteHeader"
     >
       <StyledHeader
         isFrontOffice={isFrontOffice}

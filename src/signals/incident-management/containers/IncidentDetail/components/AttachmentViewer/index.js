@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { attachmentsType } from 'shared/types';
 
 import './style.scss';
 
-const ImageViewer = ({ attachment, attachments, onShowAttachment }) => {
-  const index = attachments.findIndex((item) => item.location === attachment);
+const AttachmentViewer = ({ href, attachments, onShowAttachment }) => {
+  const index = attachments.findIndex((item) => item.location === href);
   const previous = index > 0 ? attachments[index - 1].location : false;
   const next = index < (attachments.length - 1) ? attachments[index + 1].location : false;
 
@@ -14,25 +15,29 @@ const ImageViewer = ({ attachment, attachments, onShowAttachment }) => {
       {previous ?
         <button
           className="attachment-viewer__button-previous incident-detail__button--previous"
+          type="button"
+          data-testid="attachment-viewer-button-previous"
           onClick={() => onShowAttachment(previous)}
         /> : ''}
 
       {next ?
         <button
           className="attachment-viewer__button-next incident-detail__button--next"
+          type="button"
+          data-testid="attachment-viewer-button-next"
           onClick={() => onShowAttachment(next)}
         /> : ''}
 
-      <img src={attachment} className="attachment-viewer__attachment" alt="uploaded afbeelding" />
+      <img src={href} data-testid="attachment-viewer-image" className="attachment-viewer__image" alt="uploaded afbeelding" />
     </div>
   );
 };
 
-ImageViewer.propTypes = {
-  attachment: PropTypes.string.isRequired,
-  attachments: PropTypes.array.isRequired,
+AttachmentViewer.propTypes = {
+  href: PropTypes.string.isRequired,
+  attachments: attachmentsType.isRequired,
 
   onShowAttachment: PropTypes.func.isRequired
 };
 
-export default ImageViewer;
+export default AttachmentViewer;

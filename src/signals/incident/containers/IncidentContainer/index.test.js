@@ -5,11 +5,11 @@ import { withAppContext } from 'test/utils';
 import { IncidentContainer, mapDispatchToProps } from './index';
 import { GET_CLASSIFICATION, UPDATE_INCIDENT, CREATE_INCIDENT } from './constants';
 
-// jest.mock('../../components/IncidenptWizard', () => () => 'IncidentWizard');
 jest.mock('signals/incident/components/form/MapInput', () => () => 'MapInput');
 
 describe('<IncidentContainer />', () => {
   let props;
+  let origSessionStorage;
 
   beforeEach(() => {
     props = {
@@ -17,12 +17,26 @@ describe('<IncidentContainer />', () => {
       getClassification: jest.fn(),
       updateIncident: jest.fn(),
       createIncident: jest.fn(),
-      isAuthenticated: false
+    };
+    origSessionStorage = global.sessionStorage;
+
+    global.sessionStorage = {
+      getItem: (key) => {
+        switch (key) {
+          case 'accessToken':
+            return '42';
+          default:
+            return '';
+        }
+      },
+      setItem: jest.fn(),
+      removeItem: jest.fn(),
     };
   });
 
   afterEach(() => {
     jest.resetAllMocks();
+    global.sessionStorage = origSessionStorage;
   });
 
   describe('rendering', () => {

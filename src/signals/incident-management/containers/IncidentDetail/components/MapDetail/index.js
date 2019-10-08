@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Map from 'components/Map';
 
+import { locationType } from 'shared/types';
+
 import './style.scss';
 
 const MapDetail = ({ value, hideAttribution, hideZoomControls, useSmallMarker, zoom }) => {
@@ -23,7 +25,7 @@ const MapDetail = ({ value, hideAttribution, hideZoomControls, useSmallMarker, z
 };
 
 MapDetail.propTypes = {
-  value: PropTypes.object,
+  value: locationType.isRequired,
   hideAttribution: PropTypes.bool,
   hideZoomControls: PropTypes.bool,
   useSmallMarker: PropTypes.bool,

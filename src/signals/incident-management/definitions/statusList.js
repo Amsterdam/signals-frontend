@@ -38,6 +38,13 @@ const GEANNULEERD = {
   warning: 'Bij deze status wordt de melding afgesloten en er wordt GEEN bericht naar de melder gestuurd. Gebruik deze status alleen voor test- en nepmeldingen of meldingen van veelmelders.',
   color: 'darkgrey'
 };
+
+const VERZOEK_TOT_HEROPENEN = {
+  key: 'reopen requested',
+  value: 'Verzoek tot heropenen',
+  color: 'orange'
+};
+
 const HEROPEND = {
   key: 'reopened',
   value: 'Heropend',
@@ -73,6 +80,7 @@ const statusList = [
   INGEPLAND,
   GEANNULEERD,
   GESPLITST,
+  VERZOEK_TOT_HEROPENEN,
   HEROPEND,
   TE_VERZENDEN,
   VERZONDEN,

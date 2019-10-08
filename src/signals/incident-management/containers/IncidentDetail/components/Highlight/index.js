@@ -4,7 +4,7 @@ import { isEqual } from 'lodash';
 
 import './style.scss';
 
-const HIGHLIGHT_TIMEOUT_INTERVAL = 3000;
+export const HIGHLIGHT_TIMEOUT_INTERVAL = 3000;
 
 class Highlight extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -53,7 +53,10 @@ class Highlight extends React.Component { // eslint-disable-line react/prefer-st
   render() {
     const { show } = this.state;
     return (
-      <div className={`highlight ${show ? 'highlight--active' : ''}`}>
+      <div
+        className={`highlight ${show ? 'highlight--active' : ''}`}
+        data-testid="highlight"
+      >
         <div className="highlight__children">
           {this.props.children}
         </div>

@@ -1,4 +1,11 @@
-import { all, call, put, take, takeEvery, takeLatest } from 'redux-saga/effects';
+import {
+  all,
+  call,
+  put,
+  take,
+  takeEvery,
+  takeLatest,
+} from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import request from 'utils/request';
 
@@ -11,15 +18,17 @@ import {
   LOGIN,
   AUTHENTICATE_USER,
   REQUEST_CATEGORIES,
-  UPLOAD_REQUEST
+  UPLOAD_REQUEST,
 } from './constants';
 import {
+  loginFailed,
+  logoutFailed,
   showGlobalError,
   authorizeUser,
   requestCategoriesSuccess,
   uploadProgress,
   uploadSuccess,
-  uploadFailure
+  uploadFailure,
 } from './actions';
 import { login, logout, getOauthDomain } from '../../shared/services/auth/auth';
 
@@ -29,9 +38,9 @@ export const baseUrl = `${CONFIGURATION.API_ROOT}signals/user/auth/me/`;
 
 export function* callLogin(action) {
   try {
-    login(action.payload);
+    yield call(login, action.payload);
   } catch (error) {
-    /* istanbul ignore next */
+    yield put(loginFailed(error.message));
     yield put(showGlobalError('LOGIN_FAILED'));
   }
 }
@@ -40,11 +49,17 @@ export function* callLogout() {
   try {
     // This forces the remove of the grip cookies.
     if (getOauthDomain() === 'grip') {
-      window.open('https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t', '_blank').close();
+      window
+        .open(
+          'https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t',
+          '_blank',
+        )
+        .close();
     }
-    logout();
+    yield call(logout);
     yield put(push('/'));
   } catch (error) {
+    yield put(logoutFailed(error.message));
     yield put(showGlobalError('LOGOUT_FAILED'));
   }
 }
@@ -52,15 +67,27 @@ export function* callLogout() {
 export function* callAuthorize(action) {
   try {
     const accessToken = action.payload && action.payload.accessToken;
-    if (accessToken) {
-      const requestURL = `${baseUrl}`;
 
-      const user = yield authCall(requestURL, null, accessToken);
-      const credentials = { ...action.payload, userScopes: [...user.groups], userPermissions: [...user.permissions] };
+    if (accessToken) {
+      const user = yield call(authCall, baseUrl, null, accessToken);
+
+      const credentials = {
+        ...action.payload,
+        userScopes: user.groups,
+        userPermissions: user.permissions,
+      };
+
       yield put(authorizeUser(credentials));
     }
   } catch (error) {
-    yield put(showGlobalError('AUTHORIZE_FAILED'));
+    const { response } = error;
+
+    if (response.status === 401) {
+      yield call(logout);
+      yield put(push('/login'));
+    } else {
+      yield put(showGlobalError('AUTHORIZE_FAILED'));
+    }
   }
 }
 
@@ -83,7 +110,12 @@ export function* uploadFileWrapper(action) {
 export function* uploadFile(action) {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/image/`;
 
-  const channel = yield call(fileUploadChannel, requestURL, action.payload.file, action.payload.id);
+  const channel = yield call(
+    fileUploadChannel,
+    requestURL,
+    action.payload.file,
+    action.payload.id,
+  );
   const forever = true;
   while (forever) {
     const { progress = 0, error, success } = yield take(channel);
@@ -106,6 +138,6 @@ export default function* watchAppSaga() {
     takeLatest(LOGOUT, callLogout),
     takeLatest(AUTHENTICATE_USER, callAuthorize),
     takeLatest(REQUEST_CATEGORIES, fetchCategories),
-    takeEvery(UPLOAD_REQUEST, uploadFileWrapper)
+    takeEvery(UPLOAD_REQUEST, uploadFileWrapper),
   ]);
 }
