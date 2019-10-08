@@ -1,62 +1,47 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import TextArea from 'components/TextArea';
 
 import Header from '../Header/';
 
 import './style.scss';
 
-const DescriptionWithClassificationInput = ({
-  handler,
-  touched,
-  value,
-  hasError,
-  meta,
-  parent,
-  getError,
-  validatorsOrOpts,
-}) => {
-  const get = (e) => {
-    if (e.target.value.trim() !== '') {
-      parent.meta.getClassification(e.target.value);
-      parent.meta.updateIncident({ [meta.name]: e.target.value });
-    }
-  };
+function get(e, meta, parent) {
+  parent.meta.getClassification(e.target.value);
+  parent.meta.updateIncident({ [meta.name]: e.target.value });
+}
 
-  return (
-    <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
-      {meta && meta.isVisible ? (
-        <div className={`${meta.className || 'col-12'} mode_input`}>
-          <Header
-            meta={meta}
-            options={validatorsOrOpts}
-            touched={touched}
-            hasError={hasError}
-            getError={getError}
-          >
-            <Fragment>
-              <TextArea
-                rows={meta.rows || 6}
-                placeholder={meta.placeholder}
-                {...handler()}
-                onBlur={get}
-              />
-              {meta.maxLength && (
-                <div className="input-help">
-                  <span className="text-area-input__counter">
-                    {`${value ? value.length : '0'}/${meta.maxLength} tekens`}
-                  </span>
-                </div>
-              )}
-            </Fragment>
-          </Header>
-        </div>
-      ) : (
-        ''
-      )}
-    </div>
-  );
-};
+
+const DescriptionWithClassificationInput = ({ handler, touched, value, hasError, meta, parent, getError, validatorsOrOpts }) => (
+  <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
+    {meta && meta.isVisible ?
+      <div className={`${meta.className || 'col-12'} mode_input`}>
+        <Header
+          meta={meta}
+          options={validatorsOrOpts}
+          touched={touched}
+          hasError={hasError}
+          getError={getError}
+        >
+          <div className="invoer">
+            <textarea
+              rows={meta.rows || 6}
+              placeholder={meta.placeholder}
+              {...handler()}
+              onBlur={(e) => get(e, meta, parent)}
+            />
+            { meta.maxLength &&
+              <div className="input-help">
+                <span className="text-area-input__counter">
+                  {`${value ? value.length : '0'}/${meta.maxLength} tekens` }
+                </span>
+              </div>
+            }
+          </div>
+        </Header>
+      </div>
+       : ''}
+  </div>
+);
 
 DescriptionWithClassificationInput.propTypes = {
   handler: PropTypes.func,
@@ -66,7 +51,7 @@ DescriptionWithClassificationInput.propTypes = {
   meta: PropTypes.object,
   parent: PropTypes.object,
   getError: PropTypes.func,
-  validatorsOrOpts: PropTypes.object,
+  validatorsOrOpts: PropTypes.object
 };
 
 export default DescriptionWithClassificationInput;
