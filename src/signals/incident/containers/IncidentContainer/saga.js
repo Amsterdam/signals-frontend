@@ -1,9 +1,9 @@
-import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, delay, put, select, takeLatest } from 'redux-saga/effects';
 import { replace } from 'react-router-redux';
-import request from 'utils/request';
 
-import { authPostCall } from 'shared/services/api/api';
+import { authPostCall, postCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
+import { uploadRequest, showGlobalError } from 'containers/App/actions';
 import { CREATE_INCIDENT, GET_CLASSIFICATION, SET_PRIORITY } from './constants';
 import {
   createIncidentSuccess,
@@ -12,58 +12,81 @@ import {
   getClassificationError,
   setPriority,
   setPrioritySuccess,
-  setPriorityError
+  setPriorityError,
 } from './actions';
-import { uploadRequest, showGlobalError } from '../../../../containers/App/actions';
 import { makeSelectCategories } from '../../../../containers/App/selectors';
 import mapControlsToParams from '../../services/map-controls-to-params';
 import setClassification from '../../services/set-classification';
 
-export function* getClassification(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/category/prediction`;
-  try {
-    const result = yield call(request, requestURL, {
-      method: 'POST',
-      body: JSON.stringify({
-        text: action.payload
-      }),
-      headers: {
-        'Content-Type': 'application/json'
+export const PREDICTION_REQUEST_URL = `${CONFIGURATION.API_ROOT}signals/category/prediction`;
+export const INCIDENT_REQUEST_URL = `${CONFIGURATION.API_ROOT}signals/signal/`;
+export const PRIORITY_REQUEST_URL = `${CONFIGURATION.API_ROOT}signals/auth/priority/`;
+
+export function* retryFetchClassification(text, msDelay = 1000) {
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < 3; i++) {
+    try {
+      const apiResponse = yield call(postCall, PREDICTION_REQUEST_URL, {
+        text,
+      });
+      return apiResponse;
+    } catch (err) {
+      if (i < 2) {
+        yield delay(msDelay);
       }
-    });
-    const categories = yield select(makeSelectCategories());
-    yield put(getClassificationSuccess(setClassification(result, categories.sub)));
+    }
+  }
+  // attempts failed after 3 attempts
+  throw new Error('API request failed');
+}
+
+export function* getClassification(action) {
+  const categories = yield select(makeSelectCategories());
+
+  try {
+    const result = yield call(retryFetchClassification, action.payload);
+
+    yield put(
+      getClassificationSuccess(setClassification(result, categories.sub)),
+    );
   } catch (error) {
-    yield put(getClassificationError(setClassification()));
+    yield put(
+      getClassificationError(setClassification(undefined, categories.sub)),
+    );
   }
 }
 
 export function* createIncident(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/`;
   try {
-    const result = yield call(request, requestURL, {
-      method: 'POST',
-      body: JSON.stringify(mapControlsToParams(action.payload.incident, action.payload.wizard)),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    const result = yield call(postCall, INCIDENT_REQUEST_URL, {
+      body: mapControlsToParams(action.payload.incident, action.payload.wizard),
     });
 
-    if (action.payload.isAuthenticated && action.payload.incident.priority.id === 'high') {
-      yield put(setPriority({
-        priority: action.payload.incident.priority.id,
-        _signal: result.id
-      }));
+    if (
+      action.payload.isAuthenticated &&
+      action.payload.incident.priority.id === 'high'
+    ) {
+      yield put(
+        setPriority({
+          priority: action.payload.incident.priority.id,
+          _signal: result.id,
+        }),
+      );
     }
 
     if (action.payload.incident.images) {
-      yield all(action.payload.incident.images.map((image) =>
-        put(uploadRequest({
-          file: image,
-          id: result.signal_id
-        }))
-      ));
+      yield all(
+        action.payload.incident.images.map((image) =>
+          put(
+            uploadRequest({
+              file: image,
+              id: result.signal_id,
+            }),
+          ),
+        ),
+      );
     }
+
     yield put(createIncidentSuccess(result));
   } catch (error) {
     yield put(createIncidentError());
@@ -72,21 +95,19 @@ export function* createIncident(action) {
 }
 
 export function* setPriorityHandler(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/auth/priority/`;
   try {
-    const result = yield authPostCall(requestURL, action.payload);
+    const result = yield call(authPostCall, PRIORITY_REQUEST_URL, action.payload);
     yield put(setPrioritySuccess(result));
   } catch (error) {
     yield put(setPriorityError());
-    yield put(showGlobalError('PRIORITY_FRAILED'));
+    yield put(showGlobalError('PRIORITY_FAILED'));
   }
 }
 
-// Individual exports for testing
 export default function* watchIncidentContainerSaga() {
   yield all([
     takeLatest(GET_CLASSIFICATION, getClassification),
     takeLatest(CREATE_INCIDENT, createIncident),
-    takeLatest(SET_PRIORITY, setPriorityHandler)
+    takeLatest(SET_PRIORITY, setPriorityHandler),
   ]);
 }
