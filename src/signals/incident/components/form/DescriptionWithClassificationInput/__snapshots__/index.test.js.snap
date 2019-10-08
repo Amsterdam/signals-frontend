@@ -19,15 +19,11 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
       }
       touched={false}
     >
-      <div
-        className="invoer"
-      >
-        <textarea
-          onBlur={[Function]}
-          placeholder="type here"
-          rows={6}
-        />
-      </div>
+      <Component
+        onBlur={[Function]}
+        placeholder="type here"
+        rows={6}
+      />
     </Header>
   </div>
 </div>
@@ -59,23 +55,19 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
       }
       touched={false}
     >
+      <Component
+        onBlur={[Function]}
+        placeholder="type here"
+        rows={6}
+      />
       <div
-        className="invoer"
+        className="input-help"
       >
-        <textarea
-          onBlur={[Function]}
-          placeholder="type here"
-          rows={6}
-        />
-        <div
-          className="input-help"
+        <span
+          className="text-area-input__counter"
         >
-          <span
-            className="text-area-input__counter"
-          >
-            0/3000 tekens
-          </span>
-        </div>
+          0/3000 tekens
+        </span>
       </div>
     </Header>
   </div>
@@ -102,23 +94,19 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
       }
       touched={false}
     >
+      <Component
+        onBlur={[Function]}
+        placeholder="type here"
+        rows={6}
+      />
       <div
-        className="invoer"
+        className="input-help"
       >
-        <textarea
-          onBlur={[Function]}
-          placeholder="type here"
-          rows={6}
-        />
-        <div
-          className="input-help"
+        <span
+          className="text-area-input__counter"
         >
-          <span
-            className="text-area-input__counter"
-          >
-            4/3000 tekens
-          </span>
-        </div>
+          4/3000 tekens
+        </span>
       </div>
     </Header>
   </div>
