@@ -100,6 +100,10 @@ describe('signals/incident-management/actions', () => {
   });
 
   it('should dispatch filterCleared action', () => {
-    testActionCreator(actions.filterCleared, constants.CLEAR_FILTER, {});
+    testActionCreator(actions.filterCleared, constants.CLEAR_FILTER);
+  });
+
+  it('should dispatch filterEditCanceled action', () => {
+    testActionCreator(actions.filterEditCanceled, constants.FILTER_EDIT_CANCELED);
   });
 });

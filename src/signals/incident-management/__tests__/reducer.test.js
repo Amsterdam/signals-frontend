@@ -1,15 +1,17 @@
 import { fromJS } from 'immutable';
 import reducer, { initialState } from '../reducer';
 import {
-  EDIT_FILTER,
   APPLY_FILTER,
+  CLEAR_FILTER,
+  EDIT_FILTER,
+  FILTER_EDIT_CANCELED,
+  GET_FILTERS_FAILED,
+  GET_FILTERS_SUCCESS,
+  REMOVE_FILTER_SUCCESS,
   SAVE_FILTER_FAILED,
   SAVE_FILTER_SUCCESS,
-  UPDATE_FILTER_SUCCESS,
   UPDATE_FILTER_FAILED,
-  GET_FILTERS_SUCCESS,
-  GET_FILTERS_FAILED,
-  REMOVE_FILTER_SUCCESS,
+  UPDATE_FILTER_SUCCESS,
 } from '../constants';
 
 const errorMessage = 'Something went horribly wrong';
@@ -190,5 +192,32 @@ describe('signals/incident-management/reducer', () => {
       .set('errorMessage', errorMessage);
 
     expect(reducer(initialState, filterUpdatedFailed)).toEqual(expected);
+  });
+
+  it('should handle CLEAR_FILTER', () => {
+    const clearFilter = {
+      type: CLEAR_FILTER,
+    };
+
+    const expected = fromJS(initialState)
+      .set('editFilter', undefined)
+      .set('loading', false)
+      .set('error', false)
+      .set('errorMessage', undefined);
+
+    expect(reducer(initialState, clearFilter)).toEqual(expected);
+  });
+
+  it('should handle FILTER_EDIT_CANCELED', () => {
+    const filterEditCanceled = {
+      type: FILTER_EDIT_CANCELED,
+    };
+
+    initialState.activeFilter = filters.activeFilter;
+
+    const expected = fromJS(initialState)
+      .set('editFilter', initialState.activeFilter);
+
+    expect(reducer(initialState, filterEditCanceled)).toEqual(expected);
   });
 });

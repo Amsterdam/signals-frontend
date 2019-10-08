@@ -18,3 +18,5 @@ export const SAVE_FILTER_SUCCESS = 'sia/incidentManagement/SAVE_FILTER_SUCCESS';
 export const UPDATE_FILTER = 'sia/incidentManagement/UPDATE_FILTER';
 export const UPDATE_FILTER_FAILED = 'sia/incidentManagement/UPDATE_FILTER_FAILED';
 export const UPDATE_FILTER_SUCCESS = 'sia/incidentManagement/UPDATE_FILTER_SUCCESS';
+
+export const FILTER_EDIT_CANCELED = 'sia/incidentManagement/FILTER_EDIT_CANCELED';

@@ -10,6 +10,7 @@ import {
   CLEAR_FILTER_FAILED,
   CLEAR_FILTER,
   EDIT_FILTER,
+  FILTER_EDIT_CANCELED,
   GET_FILTERS_FAILED,
   GET_FILTERS_SUCCESS,
   REMOVE_FILTER_SUCCESS,
@@ -25,8 +26,8 @@ export const initialState = fromJS({
   status,
   feedback,
   filters: [],
-  activeFilter: undefined,  // filter settings for the list of incidents
-  editFilter: undefined,    // settings selected for editing
+  activeFilter: undefined, // filter settings for the list of incidents
+  editFilter: undefined, // settings selected for editing
 });
 
 export default (state = initialState, action) => {
@@ -35,9 +36,7 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
     case GET_FILTERS_SUCCESS:
-      return state
-        .set('filters', fromJS(action.payload))
-        .set('loading', false);
+      return state.set('filters', fromJS(action.payload)).set('loading', false);
 
     case GET_FILTERS_FAILED:
       return state
@@ -69,12 +68,21 @@ export default (state = initialState, action) => {
 
     case SAVE_FILTER_SUCCESS:
     case UPDATE_FILTER_SUCCESS:
-    case CLEAR_FILTER:
       return state
         .set('activeFilter', fromJS(action.payload))
         .set('error', false)
         .set('errorMessage', undefined)
         .set('loading', false);
+
+    case CLEAR_FILTER:
+      return state
+        .set('editFilter', undefined)
+        .set('error', false)
+        .set('errorMessage', undefined)
+        .set('loading', false);
+
+    case FILTER_EDIT_CANCELED:
+      return state.set('editFilter', state.get('activeFilter'));
 
     default:
       return state;

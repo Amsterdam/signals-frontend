@@ -29,8 +29,13 @@ export const MyFiltersComponent = ({
   onRequestIncidents,
   onClose,
 }) => {
+  /**
+   * Selecting apply filter should show the filtered incidents as well as set the filter values
+   * for the filter form and should thus call both the onApplyFilter and onEditFilter actions
+   */
   const handleApplyFilter = (filter) => {
     onApplyFilter(filter);
+    onEditFilter(filter);
     onRequestIncidents({ filter });
   };
 

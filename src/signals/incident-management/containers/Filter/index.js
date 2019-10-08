@@ -18,17 +18,20 @@ import * as types from 'shared/types';
 
 import {
   applyFilter,
+  filterEditCanceled,
   filterSaved as onSaveFilter,
   filterUpdated as onUpdateFilter,
   filterCleared as onClearFilter,
 } from 'signals/incident-management/actions';
 
 export const FilterContainerComponent = ({
-  onApplyFilter,
-  onRequestIncidents,
-  onSubmit,
-  dataLists,
   categories,
+  dataLists,
+  onApplyFilter,
+  onCancel,
+  onFilterEditCancel,
+  onSubmit,
+  onRequestIncidents,
   ...rest
 }) => {
   const onFormSubmit = (event, filter) => {
@@ -37,9 +40,15 @@ export const FilterContainerComponent = ({
     onSubmit(event);
   };
 
+  const onEditCancel = () => {
+    onFilterEditCancel();
+    onCancel();
+  };
+
   return (
     <FilterForm
       {...rest}
+      onCancel={onEditCancel}
       categories={categories}
       dataLists={dataLists}
       onSubmit={onFormSubmit}
@@ -52,7 +61,9 @@ FilterContainerComponent.propTypes = {
   dataLists: types.dataListsType.isRequired,
   filter: types.filterType.isRequired,
   onApplyFilter: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
   onClearFilter: PropTypes.func.isRequired,
+  onFilterEditCancel: PropTypes.func.isRequired,
   onRequestIncidents: PropTypes.func.isRequired,
   onSaveFilter: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -71,6 +82,7 @@ const mapDispatchToProps = (dispatch) =>
     {
       onApplyFilter: applyFilter,
       onClearFilter,
+      onFilterEditCancel: filterEditCanceled,
       onIncidentSelected,
       onRequestIncidents: requestIncidents,
       onSaveFilter,

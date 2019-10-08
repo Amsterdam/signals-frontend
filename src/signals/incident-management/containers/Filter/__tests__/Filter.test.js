@@ -14,8 +14,14 @@ const dataLists = {
 };
 
 describe('signals/incident-management/containers/Filter', () => {
+  const handlers = {
+    onSubmit: () => {},
+    onCancel: () => {},
+    onFilterEditCancel: () => {},
+  };
+
   it('should have props from structured selector', () => {
-    const tree = mount(withAppContext(<Filter onSubmit={() => {}} />));
+    const tree = mount(withAppContext(<Filter {...handlers} />));
 
     const props = tree.find(FilterContainerComponent).props();
 
@@ -25,7 +31,7 @@ describe('signals/incident-management/containers/Filter', () => {
   });
 
   it('should have props from action creator', () => {
-    const tree = mount(withAppContext(<Filter onSubmit={() => {}} />));
+    const tree = mount(withAppContext(<Filter {...handlers} />));
 
     const props = tree.find(FilterContainerComponent).props();
 
@@ -46,15 +52,18 @@ describe('signals/incident-management/containers/Filter', () => {
 
     expect(props.onUpdateFilter).not.toBeUndefined();
     expect(typeof props.onUpdateFilter).toEqual('function');
+
+    expect(props.onFilterEditCancel).not.toBeUndefined();
+    expect(typeof props.onFilterEditCancel).toEqual('function');
   });
 
   it('renders a FilterForm component', () => {
-    const tree = shallow(withAppContext(<Filter onSubmit={() => {}} />));
+    const tree = shallow(withAppContext(<Filter {...handlers} />));
 
     expect(tree.find(FilterForm)).not.toBeUndefined();
   });
 
-  it('handles submitting the form', () => {
+  describe('interaction handling', () => {
     const filter = {
       id: 234234,
       name: 'Foo bar',
@@ -64,26 +73,57 @@ describe('signals/incident-management/containers/Filter', () => {
     const onSubmit = jest.fn();
     const onApplyFilter = jest.fn();
     const onRequestIncidents = jest.fn();
-    const tree = mount(
-      withAppContext(
-        <FilterContainerComponent
-          onApplyFilter={onApplyFilter}
-          onRequestIncidents={onRequestIncidents}
-          onSubmit={onSubmit}
-          onClearFilter={() => {}}
-          onSaveFilter={() => {}}
-          onUpdateFilter={() => {}}
-          filter={filter}
-          dataLists={dataLists}
-          categories={categories}
-        />,
-      ),
-    );
 
-    tree.find('button[type="submit"]').simulate('click');
+    it('handles submitting the form', () => {
+      const tree = mount(
+        withAppContext(
+          <FilterContainerComponent
+            onApplyFilter={onApplyFilter}
+            onRequestIncidents={onRequestIncidents}
+            onClearFilter={() => {}}
+            onSaveFilter={() => {}}
+            onUpdateFilter={() => {}}
+            filter={filter}
+            dataLists={dataLists}
+            categories={categories}
+            {...handlers}
+            onSubmit={onSubmit}
+          />,
+        ),
+      );
 
-    expect(onApplyFilter).toHaveBeenCalled();
-    expect(onRequestIncidents).toHaveBeenCalled();
-    expect(onSubmit).toHaveBeenCalled();
+      tree.find('button[type="submit"]').simulate('click');
+
+      expect(onApplyFilter).toHaveBeenCalled();
+      expect(onRequestIncidents).toHaveBeenCalled();
+      expect(onSubmit).toHaveBeenCalled();
+    });
+
+    it('handles canceling edit', () => {
+      const onFilterEditCancel = jest.fn();
+      const onCancel = jest.fn();
+      const tree = mount(
+        withAppContext(
+          <FilterContainerComponent
+            onApplyFilter={onApplyFilter}
+            onRequestIncidents={onRequestIncidents}
+            onClearFilter={() => {}}
+            onSaveFilter={() => {}}
+            onUpdateFilter={() => {}}
+            filter={filter}
+            dataLists={dataLists}
+            categories={categories}
+            onSubmit={onSubmit}
+            onCancel={onCancel}
+            onFilterEditCancel={onFilterEditCancel}
+          />,
+        ),
+      );
+
+      tree.find('button[type="button"]').simulate('click');
+
+      expect(onCancel).toHaveBeenCalled();
+      expect(onFilterEditCancel).toHaveBeenCalled();
+    });
   });
 });

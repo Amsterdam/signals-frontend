@@ -2,6 +2,7 @@ import {
   APPLY_FILTER,
   CLEAR_FILTER,
   EDIT_FILTER,
+  FILTER_EDIT_CANCELED,
   GET_FILTERS_FAILED,
   GET_FILTERS_SUCCESS,
   GET_FILTERS,
@@ -87,5 +88,8 @@ export const filterUpdatedFailed = (payload) => ({
 
 export const filterCleared = () => ({
   type: CLEAR_FILTER,
-  payload: {},
+});
+
+export const filterEditCanceled = () => ({
+  type: FILTER_EDIT_CANCELED,
 });

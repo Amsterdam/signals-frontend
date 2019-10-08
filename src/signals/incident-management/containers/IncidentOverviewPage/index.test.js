@@ -28,12 +28,8 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       overviewpage: {
         incidents: [],
         loading: false,
-        filter: {},
         incidentsCount: 666,
         page: 3,
-        priorityList: [],
-        stadsdeelList: [],
-        statusList: [],
       },
       categories: {},
       onRequestIncidents: jest.fn(),

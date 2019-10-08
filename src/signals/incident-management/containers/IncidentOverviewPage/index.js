@@ -12,7 +12,7 @@ import PageHeader from 'containers/PageHeader';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectCategories } from 'containers/App/selectors';
-import { makeSelectDataLists } from 'signals/incident-management/selectors';
+import { makeSelectDataLists, makeSelectActiveFilter } from 'signals/incident-management/selectors';
 import { makeSelectQuery } from 'models/search/selectors';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
@@ -36,6 +36,7 @@ const StyledButton = styled(Button)`
 `;
 
 export const IncidentOverviewPageContainerComponent = ({
+  activeFilter,
   onRequestIncidents,
   overviewpage,
   incidentsCount,
@@ -133,7 +134,7 @@ export const IncidentOverviewPageContainerComponent = ({
           <Filter onSubmit={closeFilterModal} onCancel={closeFilterModal} />
         </Modal>
 
-        <FilterTagList />
+        <FilterTagList tags={activeFilter.options} />
       </PageHeader>
 
       <Row>
@@ -168,7 +169,12 @@ export const IncidentOverviewPageContainerComponent = ({
   );
 };
 
+IncidentOverviewPageContainerComponent.defaultProps = {
+  activeFilter: {},
+};
+
 IncidentOverviewPageContainerComponent.propTypes = {
+  activeFilter: types.filterType,
   overviewpage: types.overviewPageType.isRequired,
   dataLists: types.dataListsType.isRequired,
   categories: types.categoriesType.isRequired,
@@ -180,6 +186,7 @@ IncidentOverviewPageContainerComponent.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
+  activeFilter: makeSelectActiveFilter,
   categories: makeSelectCategories(),
   dataLists: makeSelectDataLists,
   incidentsCount: makeSelectIncidentsCount,
