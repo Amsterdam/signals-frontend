@@ -15,6 +15,7 @@ const setClassification = (result, subcategories) => {
 
   if (!hoofdrubriek || !subrubriek) {
     const found = subcategories && subcategories.find((sub) => sub.key.includes(`${DEFAULT_CATEGORY}/sub_categories/${DEFAULT_CATEGORY}`));
+
     return {
       category: DEFAULT_CATEGORY,
       subcategory: DEFAULT_CATEGORY,

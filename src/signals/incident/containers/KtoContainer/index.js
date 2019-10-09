@@ -11,7 +11,6 @@ import injectReducer from 'utils/injectReducer';
 import makeSelectKtoContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import './style.scss';
 
 import { updateKto, requestKtoAnswers, checkKto, storeKto } from './actions';
 import KtoForm from './components/KtoForm';

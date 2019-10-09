@@ -15,7 +15,7 @@ function getMessage(errorMessage) {
     case 'FETCH_CATEGORIES_FAILED':
       return 'Inladen van categorieën is niet gelukt.';
 
-    case 'PRIORITY_FRAILED':
+    case 'PRIORITY_FAILED':
       return 'Het zetten van de urgentie van deze melding is niet gelukt.';
 
     default:

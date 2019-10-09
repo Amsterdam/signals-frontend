@@ -1,7 +1,14 @@
 import { call } from 'redux-saga/effects';
 import request from 'utils/request';
 
-import { generateParams, authCall, authCallWithPayload, authPostCall, authPatchCall } from './api';
+import {
+  generateParams,
+  authCall,
+  authCallWithPayload,
+  authPostCall,
+  authPatchCall,
+  postCall,
+} from './api';
 
 describe('api service', () => {
   let params;
@@ -125,6 +132,20 @@ describe('api service', () => {
     it('should generate the right call', () => {
       const gen = authPatchCall(url, params);
       expect(gen.next(token).value).toEqual(call(authCallWithPayload, url, params, 'PATCH')); // eslint-disable-line redux-saga/yield-effects
+    });
+  });
+
+  describe('postCall', () => {
+    it('should generate the right call', () => {
+      const postBody = {
+        method: 'POST',
+        body: JSON.stringify({ ...params }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      };
+      const gen = postCall(url, params);
+      expect(gen.next(token).value).toEqual(call(request, url, postBody));
     });
   });
 });
