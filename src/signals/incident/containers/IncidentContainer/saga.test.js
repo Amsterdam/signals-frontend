@@ -10,6 +10,7 @@ import incident from 'utils/__tests__/fixtures/incident.json';
 import priority from 'utils/__tests__/fixtures/priority.json';
 import { showGlobalError } from 'containers/App/actions';
 import { UPLOAD_REQUEST } from 'containers/App/constants';
+import mapControlsToParams from '../../services/map-controls-to-params';
 
 import {
   GET_CLASSIFICATION_SUCCESS,
@@ -25,6 +26,7 @@ import watchIncidentContainerSaga, {
   setPriorityHandler,
   PREDICTION_REQUEST_URL,
   PRIORITY_REQUEST_URL,
+  INCIDENT_REQUEST_URL,
 } from './saga';
 import {
   createIncidentSuccess,
@@ -144,12 +146,13 @@ describe('IncidentContainer saga', () => {
           incident: {
             images: [{ name: 'some-file' }, { name: 'some-other-file' }],
           },
+          wizard: {},
         },
       };
 
       return expectSaga(createIncident, action)
         .provide([[matchers.call.fn(postCall), incident]])
-        .call.like({ fn: postCall })
+        .call(postCall, INCIDENT_REQUEST_URL, mapControlsToParams(action.payload.incident, action.payload.wizard))
         .put.like({ action: { type: UPLOAD_REQUEST } })
         .put.like({ action: { type: UPLOAD_REQUEST } })
         .put(createIncidentSuccess(incident))
@@ -163,12 +166,13 @@ describe('IncidentContainer saga', () => {
           ...payload,
           isAuthenticated: true,
           incident: { priority: { id: priorityId } },
+          wizard: {},
         },
       };
 
       return expectSaga(createIncident, action)
         .provide([[matchers.call.fn(postCall), incident]])
-        .call.like({ fn: postCall })
+        .call(postCall, INCIDENT_REQUEST_URL, mapControlsToParams(action.payload.incident, action.payload.wizard))
         .not.put(setPriority({ priority: priorityId, _signal: incident.id }))
         .put(createIncidentSuccess(incident))
         .run();
