@@ -12,8 +12,8 @@ describe.skip('signals/incident-management/components/Label', () => {
     const { container, getByLabelText } = render(
       withAppContext(
         <div>
-          <Label htmlFor="someOtherElementId">This is my label text</Label>
-          <input type="text" id="someOtherElementId" />
+          <Label htmlFor="someOtherElementId" >This is my label text</Label>
+          <input type="text" id="someOtherElementId" isGroupHeader={false} />
         </div>,
       ),
     );
@@ -28,7 +28,7 @@ describe.skip('signals/incident-management/components/Label', () => {
     const { container, rerender } = render(
       withAppContext(
         <div>
-          <Label>This is my label text</Label>
+          <Label isGroupHeader={false} >This is my label text</Label>
           <input type="text" id="someOtherElementId" />
         </div>,
       ),
@@ -41,7 +41,7 @@ describe.skip('signals/incident-management/components/Label', () => {
     rerender(
       withAppContext(
         <div>
-          <Label $as="span">This is my label text</Label>
+          <Label $as="span" isGroupHeader={false}>This is my label text</Label>
           <input type="text" id="someOtherElementId" />
         </div>,
       ),
@@ -57,7 +57,7 @@ describe.skip('signals/incident-management/components/Label', () => {
     const { container, rerender } = render(
       withAppContext(
         <div>
-          <Label htmlFor="someOtherElementId">This is my label text</Label>
+          <Label htmlFor="someOtherElementId" isGroupHeader>This is my label text</Label>
           <input type="text" id="someOtherElementId" />
         </div>,
       ),
@@ -68,7 +68,7 @@ describe.skip('signals/incident-management/components/Label', () => {
     rerender(
       withAppContext(
         <div>
-          <Label htmlFor="someOtherElementId" isGroupHeader={false}>This is my label text</Label>
+          <Label htmlFor="someOtherElementId" isGroupHeader>This is my label text</Label>
           <input type="text" id="someOtherElementId" />
         </div>,
       ),

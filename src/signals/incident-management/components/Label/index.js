@@ -12,15 +12,16 @@ const LabelWrapper = styled.div`
 
 const StyledLabel = styled.label`
   font-family: 'Avenir Next LT W01 Demi', arial, sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 25px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   display: inline-block;
 
   ${({ isGroupHeader }) =>
     isGroupHeader &&
     css`
-      color: #ec0000;
+    font-size: 18px;
+    color: #ec0000;
     `}
 `;
 
@@ -33,7 +34,7 @@ const Label = ({ className, htmlFor, as, ...rest }) => (
 Label.defaultProps = {
   as: 'label',
   className: '',
-  isGroupHeader: true,
+  isGroupHeader: false,
 };
 
 Label.propTypes = {
