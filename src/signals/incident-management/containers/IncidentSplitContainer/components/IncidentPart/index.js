@@ -3,13 +3,17 @@ import PropTypes from 'prop-types';
 import { Heading } from '@datapunt/asc-ui';
 import styled from '@datapunt/asc-core';
 
-import './style.scss';
-
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import CopyFileInput from '../../../../components/CopyFileInput';
 import RadioInput from '../../../../components/RadioInput';
 import SelectInput from '../../../../components/SelectInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
+
+const SytyledWrapper = styled.section`
+  border-bottom: 1px solid #bebebe;
+  padding-bottom: 15px;
+  margin-bottom: 37px;
+`;
 
 const StyledH2 = styled(Heading)`
   font-weight: normal;
@@ -17,7 +21,7 @@ const StyledH2 = styled(Heading)`
 `;
 
 const IncidentPart = ({ index, attachments, subcategories, priorityList, splitForm }) => (
-  <section className="incident-part">
+  <SytyledWrapper>
     <StyledH2 $as="h2">Deelmelding {index}</StyledH2>
     <FieldControlWrapper
       render={SelectInput}
@@ -57,7 +61,7 @@ const IncidentPart = ({ index, attachments, subcategories, priorityList, splitFo
       control={splitForm.get(`part${index}.priority`)}
       values={priorityList}
     />
-  </section>
+  </SytyledWrapper>
 );
 
 IncidentPart.defaultProps = {
