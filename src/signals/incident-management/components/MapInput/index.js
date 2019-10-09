@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 
 import MapInteractive from 'components/MapInteractive';
 
+import Label from '../Label';
+
 export const MapInput = (props) => {
   const { name, display, onQueryResult } = props;
   const render = ({ handler }) => (
     <div className="map-input">
       <div className="mode_input map rij_verplicht">
         <div className="map-input__label">
-          <label htmlFor={`form${name}`}>{display}</label>
+          <Label htmlFor={`form${name}`}>{display}</Label>
         </div>
 
         <div className="map-input__control invoer">

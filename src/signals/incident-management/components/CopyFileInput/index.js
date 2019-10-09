@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Label from '../Label';
+
 import './style.scss';
 
 export const CopyFileInput = (props) => {
@@ -9,7 +11,7 @@ export const CopyFileInput = (props) => {
     <div className="copy-file-input">
       <div className="mode_input text rij_verplicht">
         <div className="copy-file-input__label">
-          <label htmlFor={`form${name}`}>{display}</label>
+          <Label htmlFor={`form${name}`}>{display}</Label>
         </div>
 
         {values.map((attachment) => (
