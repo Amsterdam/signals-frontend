@@ -18,7 +18,6 @@ import { splitIncident } from './actions';
 
 import reducer from './reducer';
 import saga from './saga';
-import './style.scss';
 
 import SplitDetail from './components/SplitDetail';
 import SplitForm from './components/SplitForm';
@@ -27,6 +26,11 @@ const StyledH1 = styled(Heading)`
   font-weight: normal;
   margin-bottom: 30px;
 `;
+
+const StyledWrapper = styled.div`
+  min-height: 800px;
+`;
+
 
 export class IncidentSplitContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -53,7 +57,7 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
     const { categories } = this.props;
     const { incident, attachments, loading, stadsdeelList, priorityList } = this.props.incidentModel;
     return (
-      <div className="incident-split-container">
+      <StyledWrapper>
         <Row>
           {loading ? <LoadingIndicator /> :
           <Fragment>
@@ -85,7 +89,7 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
           </Fragment>
           }
         </Row>
-      </div>
+      </StyledWrapper>
     );
   }
 }

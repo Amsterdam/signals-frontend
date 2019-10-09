@@ -24,7 +24,7 @@ const StyledH4 = styled(Heading)`
 const StyledDisclaimer = styled.div`
   background-color: #e8e8e8;
   padding: 15px;
-  margin: 20px 0;
+  margin-bottom: 20px;
 
   ul {
     margin: 0 0 0 25px;
@@ -35,6 +35,10 @@ const StyledDisclaimer = styled.div`
       margin-top: 10px;
     }
   }
+`;
+
+const StyledBottomDisclaimer = styled(StyledDisclaimer)`
+  margin: 20px 0;
 `;
 
 class SplitForm extends React.Component {
@@ -152,14 +156,14 @@ class SplitForm extends React.Component {
           >Deelmelding 3 toevoegen</StyledButton>
         }
 
-        <StyledDisclaimer>
+        <StyledBottomDisclaimer>
           <StyledH4 $as="h4">Let op</StyledH4>
           <ul>
             <li>De persoon die de oorspronkelijke melding heeft gedaan, ontvangt een email per deelmelding.</li>
             <li>De oorspronkelijke melding wordt afgesloten als deze gesplitst wordt.</li>
             <li>Een melding kan maar 1 keer gesplitst worden.</li>
           </ul>
-        </StyledDisclaimer>
+        </StyledBottomDisclaimer>
 
         <div>
           <StyledButton
