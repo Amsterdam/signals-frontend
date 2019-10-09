@@ -23,8 +23,9 @@ import './style.scss';
 import SplitDetail from './components/SplitDetail';
 import SplitForm from './components/SplitForm';
 
-const StyledHeading = styled(Heading)`
+const StyledH1 = styled(Heading)`
   font-weight: normal;
+  margin-bottom: 30px;
 `;
 
 export class IncidentSplitContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -57,7 +58,7 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
           {loading ? <LoadingIndicator /> :
           <Fragment>
             <Column span={12}>
-              <StyledHeading $as="h1">Splitsen</StyledHeading>
+              <StyledH1 $as="h1">Splitsen</StyledH1>
             </Column>
 
             <Column

@@ -10,9 +10,7 @@ export const CopyFileInput = (props) => {
   const render = ({ handler }) => (
     <div className="copy-file-input">
       <div className="mode_input text rij_verplicht">
-        <div className="copy-file-input__label">
-          <Label htmlFor={`form${name}`}>{display}</Label>
-        </div>
+        <Label htmlFor={`form${name}`}>{display}</Label>
 
         {values.map((attachment) => (
           <div

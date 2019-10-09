@@ -10,9 +10,7 @@ const TextAreaInput = (props) => {
   const render = ({ handler, value }) => (
     <div className="text-area-input">
       <div className="mode_input text rij_verplicht">
-        <div className="text-area-input__label">
-          <Label htmlFor={`form${name}`}>{display}</Label>
-        </div>
+        <Label htmlFor={`form${name}`}>{display}</Label>
 
         <div className="text-area-input__control invoer">
           <textarea

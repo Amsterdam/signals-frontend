@@ -16,8 +16,9 @@ const StyledRemoveButton = styled(Button)`
   float: right;
 `;
 
-const StyledHeading = styled(Heading)`
+const StyledH4 = styled(Heading)`
   font-weight: normal;
+  margin-bottm: 8px;
 `;
 
 const StyledDisclaimer = styled.div`
@@ -152,7 +153,7 @@ class SplitForm extends React.Component {
         }
 
         <StyledDisclaimer>
-          <StyledHeading $as="h4">Let op</StyledHeading>
+          <StyledH4 $as="h4">Let op</StyledH4>
           <ul>
             <li>De persoon die de oorspronkelijke melding heeft gedaan, ontvangt een email per deelmelding.</li>
             <li>De oorspronkelijke melding wordt afgesloten als deze gesplitst wordt.</li>

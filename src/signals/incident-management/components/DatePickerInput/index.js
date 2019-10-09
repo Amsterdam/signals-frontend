@@ -17,9 +17,7 @@ export const DatePickerInput = (props) => {
     return (
       <div className="date-picker-input">
         <div className="mode_input text rij_verplicht">
-          <div className="date-picker-input__label">
-            <Label htmlFor={`form${name}`}>{display}</Label>
-          </div>
+          <Label htmlFor={`form${name}`}>{display}</Label>
 
           <div className="date-picker-input__control invoer">
             <DatePicker

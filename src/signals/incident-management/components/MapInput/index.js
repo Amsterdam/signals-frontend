@@ -10,9 +10,7 @@ export const MapInput = (props) => {
   const render = ({ handler }) => (
     <div className="map-input">
       <div className="mode_input map rij_verplicht">
-        <div className="map-input__label">
-          <Label htmlFor={`form${name}`}>{display}</Label>
-        </div>
+        <Label htmlFor={`form${name}`}>{display}</Label>
 
         <div className="map-input__control invoer">
           <MapInteractive location={handler().value} onQueryResult={onQueryResult} />

@@ -16,9 +16,7 @@ export const RadioInput = (props) => {
   const render = ({ handler }) => (
     <div className="radio-input">
       <div className="mode_input text rij_verplicht">
-        <div className="radio-input__label">
-          <Label htmlFor={`form${name}`}>{display}</Label>
-        </div>
+        <Label htmlFor={`form${name}`}>{display}</Label>
 
         <div className="radio-input__control invoer">
           {values && values.map(({ key, value }) => (

@@ -11,13 +11,14 @@ import RadioInput from '../../../../components/RadioInput';
 import SelectInput from '../../../../components/SelectInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 
-const StyledHeading = styled(Heading)`
+const StyledH2 = styled(Heading)`
   font-weight: normal;
+  margin-bottom: 12px;
 `;
 
 const IncidentPart = ({ index, attachments, subcategories, priorityList, splitForm }) => (
   <section className="incident-part">
-    <StyledHeading $as="h2">Deelmelding {index}</StyledHeading>
+    <StyledH2 $as="h2">Deelmelding {index}</StyledH2>
     <FieldControlWrapper
       render={SelectInput}
       name={`part${index}.subcategory`}

@@ -7,8 +7,9 @@ import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
 import './style.scss';
 
-const StyledHeading = styled(Heading)`
+const StyledH4 = styled(Heading)`
   font-weight: normal;
+  margin-bottom: 8px;
 `;
 
 const SplitDetail = ({ incident, stadsdeelList }) => (
@@ -16,7 +17,7 @@ const SplitDetail = ({ incident, stadsdeelList }) => (
     {incident ?
     (
       <div>
-        <StyledHeading $as="h4">Melding {incident.id}</StyledHeading>
+        <StyledH4 $as="h4">Melding {incident.id}</StyledH4>
 
         <dl>
           <dt className="split-detail__definition">Datum</dt>
