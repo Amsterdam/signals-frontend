@@ -62,8 +62,7 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
             </Column>
 
             <Column
-              span={{ small: 12, medium: 12, big: 7, large: 7, xLarge: 7 }}
-              order={{ small: 2, medium: 2, big: 2, large: 1, xLarge: 1 }}
+              span={7}
             >
               <SplitForm
                 incident={incident}
@@ -75,9 +74,8 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
               />
             </Column>
             <Column
-              span={{ small: 12, medium: 12, big: 4, large: 4, xLarge: 4 }}
-              push={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }}
-              order={{ small: 1, medium: 1, big: 1, large: 2, xLarge: 2 }}
+              span={4}
+              push={1}
             >
               <SplitDetail
                 incident={incident}
