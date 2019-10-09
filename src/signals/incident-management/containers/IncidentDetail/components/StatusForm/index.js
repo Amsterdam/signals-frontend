@@ -8,6 +8,7 @@ import { incidentType, dataListType, defaultTextsType } from 'shared/types';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
+import Label from '../../../../components/Label';
 import DefaultTexts from './components/DefaultTexts';
 
 import './style.scss';
@@ -91,7 +92,7 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
                   <h4>Status wijzigen</h4>
 
                   <div className="status-form__current-state">
-                    <label htmlFor="currentStatus">Huidige status</label>
+                    <Label htmlFor="currentStatus">Huidige status</Label>
                     <div id="currentStatus">{currentStatus.value}</div>
                   </div>
 
