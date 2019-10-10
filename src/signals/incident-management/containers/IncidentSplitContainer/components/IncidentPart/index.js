@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Heading } from '@datapunt/asc-ui';
-import styled from '@datapunt/asc-core';
+import styled, { ascDefaultTheme } from '@datapunt/asc-core';
 
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import CopyFileInput from '../../../../components/CopyFileInput';
@@ -10,7 +10,7 @@ import SelectInput from '../../../../components/SelectInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 
 const SytyledWrapper = styled.section`
-  border-bottom: 1px solid #bebebe;
+  border-bottom: 1px solid ${ascDefaultTheme.colors.tint.level4};
   padding-bottom: 15px;
   margin-bottom: 37px;
 `;

@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Heading } from '@datapunt/asc-ui';
-import styled from '@datapunt/asc-core';
+import styled, { ascDefaultTheme } from '@datapunt/asc-core';
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
 const StyledWrapper = styled.aside`
   dt {
-    color: #787878;
+    color: ${ascDefaultTheme.colors.tint.level5};
     margin-bottom: 5px;
   }
 
