@@ -58,9 +58,11 @@ export function* getClassification(action) {
 
 export function* createIncident(action) {
   try {
-    const result = yield call(postCall, INCIDENT_REQUEST_URL, {
-      body: mapControlsToParams(action.payload.incident, action.payload.wizard),
-    });
+    const result = yield call(
+      postCall,
+      INCIDENT_REQUEST_URL,
+      mapControlsToParams(action.payload.incident, action.payload.wizard),
+    );
 
     if (
       action.payload.isAuthenticated &&
@@ -96,7 +98,11 @@ export function* createIncident(action) {
 
 export function* setPriorityHandler(action) {
   try {
-    const result = yield call(authPostCall, PRIORITY_REQUEST_URL, action.payload);
+    const result = yield call(
+      authPostCall,
+      PRIORITY_REQUEST_URL,
+      action.payload,
+    );
     yield put(setPrioritySuccess(result));
   } catch (error) {
     yield put(setPriorityError());
