@@ -216,10 +216,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "statements": 90.98,
-        "branches": 91.5,
-        "functions": 88.96,
-        "lines": 90.94
+        "statements": 91.13,
+        "branches": 91.73,
+        "functions": 89.13,
+        "lines": 91.1
       }
     },
     "coverageReporters": [
@@ -378,7 +378,7 @@
     "prop-types": "^15.6.2",
     "react-test-renderer": "15.6.1",
     "redux-mock-store": "^1.5.3",
-    "redux-saga-test-plan": "^4.0.0-beta.3",
+    "redux-saga-test-plan": "^4.0.0-rc.3",
     "rimraf": "^2.6.2",
     "sass-loader": "^7.0.2",
     "shelljs": "^0.8.3",

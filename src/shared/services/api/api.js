@@ -2,17 +2,22 @@ import { call } from 'redux-saga/effects';
 import request from 'utils/request';
 import { getAccessToken } from 'shared/services/auth/auth';
 
-export const generateParams = (data) => Object.entries(data)
-  .filter((pair) => pair[1])
-  .map((pair) => (Array.isArray(pair[1]) === true ?
-    pair[1]
-      .filter((val) => val)
-      .map((val) => `${pair[0]}=${val}`).join('&') :
-    pair.map(encodeURIComponent).join('='))).join('&');
+export const generateParams = (data) =>
+  Object.entries(data)
+    .filter((pair) => pair[1])
+    .map((pair) =>
+      Array.isArray(pair[1]) === true
+        ? pair[1]
+            .filter((val) => val)
+            .map((val) => `${pair[0]}=${val}`)
+            .join('&')
+        : pair.map(encodeURIComponent).join('='),
+    )
+    .join('&');
 
 export function* authCall(url, params, authorizationToken) {
   const headers = {
-    accept: 'application/json'
+    accept: 'application/json',
   };
 
   if (authorizationToken) {
@@ -27,7 +32,7 @@ export function* authCall(url, params, authorizationToken) {
 
   const options = {
     method: 'GET',
-    headers
+    headers,
   };
   const fullUrl = `${url}${params ? `?${generateParams(params)}` : ''}`;
   return yield call(request, fullUrl, options);
@@ -35,7 +40,7 @@ export function* authCall(url, params, authorizationToken) {
 
 export function* authCallWithPayload(url, params, method) {
   const headers = {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   };
 
   const token = getAccessToken();
@@ -46,7 +51,7 @@ export function* authCallWithPayload(url, params, method) {
   const options = {
     method,
     headers,
-    body: JSON.stringify(params)
+    body: JSON.stringify(params),
   };
 
   const fullUrl = `${url}`;
@@ -63,4 +68,16 @@ export function* authDeleteCall(url, params) {
 
 export function* authPatchCall(url, params) {
   return yield call(authCallWithPayload, url, params, 'PATCH');
+}
+
+export function* postCall(url, params) {
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(params),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  return yield call(request, url, options);
 }
