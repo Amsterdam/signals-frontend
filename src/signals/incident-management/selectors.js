@@ -53,7 +53,7 @@ export const makeSelectActiveFilter = createSelector(
   (stateMap, dataLists, categories) => {
     const state = stateMap.toJS();
     if (!state.activeFilter) {
-      return {};
+      return undefined;
     }
 
     return parseFromAPIData(state.activeFilter, {
@@ -71,7 +71,8 @@ export const makeSelectEditFilter = createSelector(
   (stateMap, dataLists, categories) => {
     const state = stateMap.toJS();
     if (!state.editFilter) {
-      return {};
+      const initial = initialState.toJS();
+      return initial.editFilter;
     }
 
     return parseFromAPIData(state.editFilter, {

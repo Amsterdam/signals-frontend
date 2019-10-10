@@ -213,10 +213,10 @@ describe('signals/incident-management/reducer', () => {
       type: FILTER_EDIT_CANCELED,
     };
 
-    initialState.activeFilter = filters.activeFilter;
+    initialState.set('activeFilter', activeFilter);
 
     const expected = fromJS(initialState)
-      .set('editFilter', initialState.activeFilter);
+      .set('editFilter', initialState.get('activeFilter'));
 
     expect(reducer(initialState, filterEditCanceled)).toEqual(expected);
   });

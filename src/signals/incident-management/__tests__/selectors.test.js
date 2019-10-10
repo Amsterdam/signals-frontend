@@ -76,7 +76,7 @@ describe('signals/incident-management/selectors', () => {
     const emptState = fromJS({
       incidentManagement: { ...initialState.toJS() },
     });
-    expect(makeSelectActiveFilter(emptState)).toEqual({});
+    expect(makeSelectActiveFilter(emptState)).toEqual(initialState.toJS().activeFilter);
 
     const state = fromJS({
       incidentManagement: { ...initialState.toJS(), activeFilter: filters[0] },
@@ -89,7 +89,7 @@ describe('signals/incident-management/selectors', () => {
     const emptState = fromJS({
       incidentManagement: { ...initialState.toJS() },
     });
-    expect(makeSelectEditFilter(emptState)).toEqual({});
+    expect(makeSelectEditFilter(emptState)).toEqual(initialState.toJS().editFilter);
 
     const state = fromJS({
       incidentManagement: { ...initialState.toJS(), editFilter: filters[2] },

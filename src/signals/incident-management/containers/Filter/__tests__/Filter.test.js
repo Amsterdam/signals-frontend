@@ -55,6 +55,9 @@ describe('signals/incident-management/containers/Filter', () => {
 
     expect(props.onFilterEditCancel).not.toBeUndefined();
     expect(typeof props.onFilterEditCancel).toEqual('function');
+
+    expect(props.onEditFilter).not.toBeUndefined();
+    expect(typeof props.onEditFilter).toEqual('function');
   });
 
   it('renders a FilterForm component', () => {
@@ -72,6 +75,7 @@ describe('signals/incident-management/containers/Filter', () => {
     };
     const onSubmit = jest.fn();
     const onApplyFilter = jest.fn();
+    const onEditFilter = jest.fn();
     const onRequestIncidents = jest.fn();
 
     it('handles submitting the form', () => {
@@ -79,6 +83,7 @@ describe('signals/incident-management/containers/Filter', () => {
         withAppContext(
           <FilterContainerComponent
             onApplyFilter={onApplyFilter}
+            onEditFilter={onEditFilter}
             onRequestIncidents={onRequestIncidents}
             onClearFilter={() => {}}
             onSaveFilter={() => {}}
@@ -95,6 +100,7 @@ describe('signals/incident-management/containers/Filter', () => {
       tree.find('button[type="submit"]').simulate('click');
 
       expect(onApplyFilter).toHaveBeenCalled();
+      expect(onEditFilter).toHaveBeenCalled();
       expect(onRequestIncidents).toHaveBeenCalled();
       expect(onSubmit).toHaveBeenCalled();
     });

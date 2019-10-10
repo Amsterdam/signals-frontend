@@ -40,17 +40,11 @@ const FilterForm = ({
   dataLists,
   categories,
 }) => {
-  const {
-    feedback,
-    priority,
-    stadsdeel,
-    status,
-  } = dataLists;
-
+  const { feedback, priority, stadsdeel, status } = dataLists;
   const [submitBtnLabel, setSubmitBtnLabel] = useState(defaultSubmitBtnLabel);
   const [filterData, setFilterData] = useState(filter);
-  const filterSlugs = (filterData.maincategory_slug || []).concat(
-    filterData.category_slug || [],
+  const filterSlugs = (filterData.options.maincategory_slug || []).concat(
+    filterData.options.category_slug || [],
   );
 
   const onSubmitForm = (event) => {
@@ -92,9 +86,8 @@ const FilterForm = ({
   const onResetForm = () => {
     setFilterData({
       name: '',
-      incident_date: null,
-      address_text: '',
       refresh: false,
+      options: {},
     });
 
     /* istanbul ignore else */
@@ -146,10 +139,12 @@ const FilterForm = ({
 
   const onRefreshChange = (event) => {
     event.persist();
-    const { currentTarget: { checked } } = event;
+    const {
+      currentTarget: { checked },
+    } = event;
 
     setFilterData({
-      ...filterData.options,
+      ...filterData,
       refresh: checked,
     });
   };
@@ -209,7 +204,9 @@ const FilterForm = ({
             <FilterGroup data-testid="stadsdeelFilterGroup">
               <Label htmlFor={`status_${stadsdeel[0].key}`}>Stadsdeel</Label>
               <CheckboxList
-                defaultValue={filterData.options && filterData.options.stadsdeel}
+                defaultValue={
+                  filterData.options && filterData.options.stadsdeel
+                }
                 groupName="stadsdeel"
                 groupId="stadsdeel"
                 options={stadsdeel}
@@ -243,6 +240,7 @@ const FilterForm = ({
             <Label htmlFor="filter_date">Datum</Label>
             <div className="invoer">
               <DatePicker
+                autoComplete="off"
                 id="filter_date"
                 /**
                  * Ignoring the internals of the `onChange` handler since they cannot be tested
@@ -250,19 +248,21 @@ const FilterForm = ({
                  */
                 onChange={
                   /* istanbul ignore next */ (dateValue) => {
-                    const formattedDate = dateValue
+                    const incident_date = dateValue
                       ? moment(dateValue).format('YYYY-MM-DD')
                       : '';
 
-                    setFilterData({
-                      ...filterData.options,
-                      incident_date: formattedDate,
-                    });
+                    const updatedFilterData = Object.assign({}, filterData);
+                    updatedFilterData.options.incident_date = incident_date;
+
+                    setFilterData(updatedFilterData);
                   }
                 }
                 placeholderText="DD-MM-JJJJ"
                 selected={
-                  filterData.options && filterData.options.incident_date && moment(filterData.options.incident_date)
+                  filterData.options &&
+                  filterData.options.incident_date &&
+                  moment(filterData.options.incident_date)
                 }
               />
 
@@ -286,7 +286,9 @@ const FilterForm = ({
                 type="text"
                 name="address_text"
                 id="filter_address"
-                defaultValue={filterData.options && filterData.options.address_text}
+                defaultValue={
+                  filterData.options && filterData.options.address_text
+                }
               />
             </div>
           </FilterGroup>
@@ -363,6 +365,7 @@ const FilterForm = ({
 FilterForm.defaultProps = {
   filter: {
     name: '',
+    options: {},
   },
 };
 

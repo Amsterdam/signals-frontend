@@ -26,8 +26,16 @@ export const initialState = fromJS({
   status,
   feedback,
   filters: [],
-  activeFilter: undefined, // filter settings for the list of incidents
-  editFilter: undefined, // settings selected for editing
+  activeFilter: {
+    // filter settings for the list of incidents
+    name: '',
+    options: {},
+  },
+  editFilter: {
+    // settings selected for editing
+    name: '',
+    options: {},
+  },
 });
 
 export default (state = initialState, action) => {

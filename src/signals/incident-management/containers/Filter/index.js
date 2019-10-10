@@ -18,6 +18,7 @@ import * as types from 'shared/types';
 
 import {
   applyFilter,
+  editFilter,
   filterEditCanceled,
   filterSaved as onSaveFilter,
   filterUpdated as onUpdateFilter,
@@ -29,13 +30,22 @@ export const FilterContainerComponent = ({
   dataLists,
   onApplyFilter,
   onCancel,
+  onEditFilter,
   onFilterEditCancel,
   onSubmit,
   onRequestIncidents,
   ...rest
 }) => {
+  /**
+   * When submitting the filter form:
+   * - the active filter has to be set so that incidents can be retrieved with those settings
+   * - the edit filter has to be set to populate the filter form when the form is opened again
+   * - incidents have to be requested
+   * - the parent's submit() callback handler has to be called
+   */
   const onFormSubmit = (event, filter) => {
     onApplyFilter(filter);
+    onEditFilter(filter);
     onRequestIncidents({ filter });
     onSubmit(event);
   };
@@ -63,6 +73,7 @@ FilterContainerComponent.propTypes = {
   onApplyFilter: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onClearFilter: PropTypes.func.isRequired,
+  onEditFilter: PropTypes.func.isRequired,
   onFilterEditCancel: PropTypes.func.isRequired,
   onRequestIncidents: PropTypes.func.isRequired,
   onSaveFilter: PropTypes.func.isRequired,
@@ -82,6 +93,7 @@ const mapDispatchToProps = (dispatch) =>
     {
       onApplyFilter: applyFilter,
       onClearFilter,
+      onEditFilter: editFilter,
       onFilterEditCancel: filterEditCanceled,
       onIncidentSelected,
       onRequestIncidents: requestIncidents,

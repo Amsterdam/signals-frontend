@@ -45,7 +45,7 @@ describe('signals/incident-management/components/FilterForm', () => {
         <FilterForm
           categories={categories}
           onSubmit={() => {}}
-          filter={{}}
+          filter={{ options: {} }}
           dataLists={dataLists}
         />,
       ),
@@ -62,7 +62,7 @@ describe('signals/incident-management/components/FilterForm', () => {
         <FilterForm
           categories={categories}
           onSubmit={() => {}}
-          filter={{ id: 1234, name: 'FooBar' }}
+          filter={{ id: 1234, name: 'FooBar', options: {} }}
           dataLists={dataLists}
         />,
       ),
@@ -91,7 +91,7 @@ describe('signals/incident-management/components/FilterForm', () => {
         <FilterForm
           categories={categories}
           onSubmit={() => {}}
-          filter={{ id: 1234, name: 'FooBar' }}
+          filter={{ id: 1234, name: 'FooBar', options: {} }}
           dataLists={dataLists}
         />,
       ),
@@ -550,7 +550,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       withAppContext(
         <FilterForm
           categories={categories}
-          filter={{ name: 'My saved filter' }}
+          filter={{ name: 'My saved filter', options: {} }}
           onSubmit={() => {}}
           dataLists={dataLists}
         />,
