@@ -80,6 +80,23 @@ describe('IncidentContainer saga', () => {
       await expectSaga(retryFetchClassification, text, 100)
         .provide([
           [matchers.call.fn(postCall), throwError(error)],
+          [matchers.call.fn(postCall), predictionResponse],
+        ])
+        .call(postCall, PREDICTION_REQUEST_URL, { text })
+        .delay(100)
+        .silentRun(150);
+
+
+      global.console.error.mockRestore();
+    });
+
+    it('should throw', async () => {
+      const text = 'Bar qux bazzzz';
+      const error = new Error('Uhoh!!!1!');
+
+      await expectSaga(retryFetchClassification, text, 100)
+        .provide([
+          [matchers.call.fn(postCall), throwError(error)],
           [matchers.call.fn(postCall), throwError(error)],
           [matchers.call.fn(postCall), predictionResponse],
         ])
@@ -88,13 +105,10 @@ describe('IncidentContainer saga', () => {
         .call(postCall, PREDICTION_REQUEST_URL, { text })
         .delay(100)
         .call(postCall, PREDICTION_REQUEST_URL, { text })
+        .delay(100)
         .throws('API request failed')
         .silentRun(350);
-
-      global.console.error.mockRestore();
     });
-
-    it('should throw', () => {});
   });
 
   describe('getClassification', () => {
@@ -120,7 +134,7 @@ describe('IncidentContainer saga', () => {
         .call(retryFetchClassification, payload)
         .call(postCall, PREDICTION_REQUEST_URL, { text: payload })
         .put.like({ action: { type: GET_CLASSIFICATION_ERROR } })
-        .silentRun(2250)); // make sure it runs long enough for the postCall generator to throw
+        .silentRun(3250)); // make sure it runs long enough for the postCall generator to throw
   });
 
   describe('createIncident', () => {
