@@ -8,6 +8,7 @@ import {
   authPatchCall,
   authPostCall,
   generateParams,
+  postCall,
 } from './api';
 
 describe('api service', () => {
@@ -148,6 +149,20 @@ describe('api service', () => {
       expect(gen.next(token).value).toEqual(
         call(authCallWithPayload, url, params, 'DELETE'),
       );
+    });
+  });
+
+  describe('postCall', () => {
+    it('should generate the right call', () => {
+      const postBody = {
+        method: 'POST',
+        body: JSON.stringify({ ...params }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      };
+      const gen = postCall(url, params);
+      expect(gen.next(token).value).toEqual(call(request, url, postBody));
     });
   });
 });

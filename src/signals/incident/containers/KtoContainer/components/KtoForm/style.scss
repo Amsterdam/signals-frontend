@@ -1,6 +1,8 @@
 @import "config.scss";
 
 .kto-form {
+  flex-basis: 100%;
+
   .row + .row {
     margin-top: 20px !important;
   }
