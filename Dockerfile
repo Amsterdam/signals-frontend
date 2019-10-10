@@ -27,6 +27,9 @@ COPY package.json \
      package-lock.json \
       /app/
 
+ARG BUILD_ENV=prod
+COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
+
 # Install NPM dependencies, cleaning cache afterwards:
 RUN npm --production=false \
       --unsafe-perm \
@@ -41,9 +44,6 @@ ENV GIT_COMMIT ${GIT_COMMIT}
 
 # Build
 ENV NODE_ENV=production
-
-ARG BUILD_ENV=prod
-COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
 
 ARG BUILD_NUMBER=0
 
