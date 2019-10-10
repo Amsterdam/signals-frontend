@@ -23,7 +23,8 @@ export default ({ key, saga, mode }) => (WrappedComponent) => {
       store: PropTypes.object.isRequired,
     };
 
-    componentWillMount() {
+    constructor(props, context) {
+      super(props, context);
       const { injectSaga } = this.injectors;
 
       injectSaga(key, { saga, mode }, this.props);
