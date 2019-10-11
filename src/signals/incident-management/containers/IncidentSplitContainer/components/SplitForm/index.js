@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Heading } from '@datapunt/asc-ui';
 import styled, { ascDefaultTheme } from '@datapunt/asc-core';
@@ -13,6 +13,7 @@ const StyledButton = styled(Button)`
 
 const StyledRemoveButton = styled(Button)`
   padding: 0;
+  border-color: transparent;
   float: right;
 `;
 
@@ -110,7 +111,7 @@ class SplitForm extends React.Component {
   render() {
     const { incident, attachments, subcategories, priorityList, handleCancel } = this.props;
     return (
-      <div className="split-form">
+      <div>
         <StyledDisclaimer>
           Splitsen mag alleen als de oorspronkelijke melding over twee verschillende onderwerpen gaat, die zonder samenwerking met een andere afdeling kan worden afgehandeld.
         </StyledDisclaimer>
@@ -133,7 +134,7 @@ class SplitForm extends React.Component {
         />
 
         {this.state.isVisible ?
-          <div>
+          <Fragment>
             <StyledRemoveButton
               variant="textButton"
               onClick={() => this.setVisibility(false)}
@@ -148,7 +149,7 @@ class SplitForm extends React.Component {
               splitForm={this.state.splitForm}
             />
 
-          </div>
+          </Fragment>
           :
           <StyledButton
             variant="primaryInverted"
@@ -165,7 +166,7 @@ class SplitForm extends React.Component {
           </ul>
         </StyledBottomDisclaimer>
 
-        <div>
+        <Fragment>
           <StyledButton
             variant="secondary"
             onClick={this.handleSubmit}
@@ -174,7 +175,7 @@ class SplitForm extends React.Component {
             variant="primaryInverted"
             onClick={handleCancel}
           >Annuleer</StyledButton>
-        </div>
+        </Fragment>
       </div>
     );
   }

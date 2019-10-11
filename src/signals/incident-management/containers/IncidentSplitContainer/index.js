@@ -27,7 +27,7 @@ const StyledH1 = styled(Heading)`
   margin-bottom: 30px;
 `;
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled(Fragment)`
   min-height: 800px;
 `;
 

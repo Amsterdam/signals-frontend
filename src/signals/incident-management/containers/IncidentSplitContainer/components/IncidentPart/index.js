@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Heading } from '@datapunt/asc-ui';
 import styled, { ascDefaultTheme } from '@datapunt/asc-core';
@@ -9,7 +9,7 @@ import RadioInput from '../../../../components/RadioInput';
 import SelectInput from '../../../../components/SelectInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 
-const SytyledWrapper = styled.section`
+const StyledWrapper = styled(Fragment)`
   border-bottom: 1px solid ${ascDefaultTheme.colors.tint.level4};
   padding-bottom: 15px;
   margin-bottom: 37px;
@@ -21,7 +21,7 @@ const StyledH2 = styled(Heading)`
 `;
 
 const IncidentPart = ({ index, attachments, subcategories, priorityList, splitForm }) => (
-  <SytyledWrapper>
+  <StyledWrapper>
     <StyledH2 $as="h2">Deelmelding {index}</StyledH2>
     <FieldControlWrapper
       render={SelectInput}
@@ -61,7 +61,7 @@ const IncidentPart = ({ index, attachments, subcategories, priorityList, splitFo
       control={splitForm.get(`part${index}.priority`)}
       values={priorityList}
     />
-  </SytyledWrapper>
+  </StyledWrapper>
 );
 
 IncidentPart.defaultProps = {
