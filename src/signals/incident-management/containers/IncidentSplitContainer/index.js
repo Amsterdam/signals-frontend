@@ -31,14 +31,25 @@ const StyledWrapper = styled.div`
   min-height: 800px;
 `;
 
-
-export const IncidentSplitContainer = ({ id, incidentModel, categories, onRequestIncident, onRequestAttachments, onSplitIncident, onGoBack }) => { // eslint-disable-line react/prefer-stateless-function
+export const IncidentSplitContainer = ({
+  id,
+  incidentModel: {
+    incident,
+    attachments,
+    loading,
+    stadsdeelList,
+    priorityList,
+  },
+  categories,
+  onRequestIncident,
+  onRequestAttachments,
+  onSplitIncident,
+  onGoBack,
+ }) => { // eslint-disable-line react/prefer-stateless-function
   useEffect(() => {
     onRequestIncident(id);
     onRequestAttachments(id);
   }, []);
-
-  const { incident, attachments, loading, stadsdeelList, priorityList } = incidentModel;
 
   return (
     <StyledWrapper>
