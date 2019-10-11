@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -27,72 +27,56 @@ const StyledH1 = styled(Heading)`
   margin-bottom: 30px;
 `;
 
-const StyledWrapper = styled(Fragment)`
+const StyledWrapper = styled.div`
   min-height: 800px;
 `;
 
 
-export class IncidentSplitContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
+export const IncidentSplitContainer = ({ id, incidentModel, categories, onRequestIncident, onRequestAttachments, onSplitIncident, onGoBack }) => { // eslint-disable-line react/prefer-stateless-function
+  useEffect(() => {
+    onRequestIncident(id);
+    onRequestAttachments(id);
+  }, []);
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
-  }
+  const { incident, attachments, loading, stadsdeelList, priorityList } = incidentModel;
 
-  componentDidMount() {
-    this.props.onRequestIncident(this.props.id);
-    this.props.onRequestAttachments(this.props.id);
-  }
+  return (
+    <StyledWrapper>
+      <Row>
+        {loading ? <LoadingIndicator /> :
+        <Fragment>
+          <Column span={12}>
+            <StyledH1 $as="h1">Splitsen</StyledH1>
+          </Column>
 
-  handleSubmit(splitForm) {
-    this.props.onSplitIncident(splitForm);
-  }
-
-  handleCancel() {
-    this.props.onGoBack();
-  }
-
-  render() {
-    const { categories } = this.props;
-    const { incident, attachments, loading, stadsdeelList, priorityList } = this.props.incidentModel;
-    return (
-      <StyledWrapper>
-        <Row>
-          {loading ? <LoadingIndicator /> :
-          <Fragment>
-            <Column span={12}>
-              <StyledH1 $as="h1">Splitsen</StyledH1>
-            </Column>
-
-            <Column
-              span={7}
-            >
-              <SplitForm
-                incident={incident}
-                attachments={attachments}
-                subcategories={categories.sub}
-                priorityList={priorityList}
-                handleSubmit={this.handleSubmit}
-                handleCancel={this.handleCancel}
-              />
-            </Column>
-            <Column
-              span={4}
-              push={1}
-            >
-              <SplitDetail
-                incident={incident}
-                stadsdeelList={stadsdeelList}
-              />
-            </Column>
-          </Fragment>
+          <Column
+            span={7}
+          >
+            <SplitForm
+              incident={incident}
+              attachments={attachments}
+              subcategories={categories.sub}
+              priorityList={priorityList}
+              handleSubmit={onSplitIncident}
+              handleCancel={onGoBack}
+            />
+          </Column>
+          <Column
+            span={4}
+            push={1}
+          >
+            <SplitDetail
+              incident={incident}
+              stadsdeelList={stadsdeelList}
+            />
+          </Column>
+        </Fragment>
           }
-        </Row>
-      </StyledWrapper>
-    );
-  }
-}
+      </Row>
+    </StyledWrapper>
+  );
+  // }
+};
 
 IncidentSplitContainer.propTypes = {
   id: PropTypes.string.isRequired,

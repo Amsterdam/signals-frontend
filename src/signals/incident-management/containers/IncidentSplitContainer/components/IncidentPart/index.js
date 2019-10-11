@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Heading } from '@datapunt/asc-ui';
 import styled, { ascDefaultTheme } from '@datapunt/asc-core';
@@ -9,7 +9,7 @@ import RadioInput from '../../../../components/RadioInput';
 import SelectInput from '../../../../components/SelectInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 
-const StyledWrapper = styled(Fragment)`
+const StyledWrapper = styled.div`
   border-bottom: 1px solid ${ascDefaultTheme.colors.tint.level4};
   padding-bottom: 15px;
   margin-bottom: 37px;
