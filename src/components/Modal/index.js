@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
+import { ascDefaultTheme } from '@datapunt/asc-core';
 import {
   Button,
   Row,
@@ -47,7 +48,7 @@ const HeaderRow = styled(Row)`
 `;
 
 const Header = styled.header`
-  background: white;
+  background: ${ascDefaultTheme.colors.bright.main};
   height: 50px;
   padding: 10px 0;
   border-bottom: 2px solid #e6e6e6;
