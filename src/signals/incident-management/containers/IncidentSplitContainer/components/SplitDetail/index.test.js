@@ -1,8 +1,13 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import {
+  render,
+} from '@testing-library/react';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
+
+import incident from 'utils/__tests__/fixtures/incident';
+import stadsdeelList from '../../../../definitions/stadsdeelList';
 
 import SplitDetail from './index';
 
@@ -10,104 +15,79 @@ jest.mock('shared/services/string-parser/string-parser');
 jest.mock('shared/services/list-helper/list-helper');
 
 describe('<SplitDetail />', () => {
-  let wrapper;
   let props;
 
   beforeEach(() => {
-    string2date.mockImplementation(() => '21-07-1970');
-    string2time.mockImplementation(() => '11:56');
-    getListValueByKey.mockImplementation(() => '11:56');
-
     props = {
-      incident: {
-        reporter: {
-          email: '',
-          phone: ''
-        },
-        created_at: '2019-01-11T20:06:34.382725+01:00',
-        text: 'patrick sonneveldt werd aan gevalen door een reuzen octopus',
-        location: {
-          stadsdeel: 'A',
-          address_text: 'Amstel 1 1011PN Amsterdam'
-        },
-        incident_date_end: null,
-        updated_at: '2019-01-11T20:06:35.441604+01:00',
-        source: 'Meldkamer Politie',
-        id: 1712,
-        category: {
-          sub: 'Overig',
-          sub_slug: 'overig',
-          main: 'Overig',
-          main_slug: 'overig',
-          department: 'ASC, CCA'
-        },
-        incident_date_start: '2019-01-11T20:06:34+01:00'
-      },
-      stadsdeelList: [
-        {
-          key: 'A',
-          value: 'Centrum'
-        },
-        {
-          key: 'B',
-          value: 'Westpoort'
-        },
-        {
-          key: 'E',
-          value: 'West'
-        },
-        {
-          key: 'M',
-          value: 'Oost'
-        },
-        {
-          key: 'N',
-          value: 'Noord'
-        },
-        {
-          key: 'T',
-          value: 'Zuidoost'
-        },
-        {
-          key: 'K',
-          value: 'Zuid'
-        },
-        {
-          key: 'F',
-          value: 'Nieuw-West'
-        }
-      ]
+      incident,
+      stadsdeelList,
+      onPatchIncident: jest.fn(),
+      onEditStatus: jest.fn(),
+      onShowAttachment: jest.fn()
     };
+
+    string2date.mockImplementation(() => '14-01-1969');
+    string2time.mockImplementation(() => '11:56');
+    getListValueByKey.mockImplementation(() => 'Centrum');
   });
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+  describe('rendering', () => {
+    it('should render correctly', () => {
+      console.log('--------------------------------------------- start');
+      props.incident.category.departments = '';
 
-  it('should render correctly', () => {
-    wrapper = shallow(
-      <SplitDetail {...props} />
-    );
+      const { queryByTestId, rerender } = render(
+        <SplitDetail {...props} />
+      );
 
-    expect(wrapper).toMatchSnapshot();
-  });
+      expect(queryByTestId('splitDetailTitleDate')).toHaveTextContent(/^Datum$/);
+      expect(queryByTestId('splitDetailValueDate')).toHaveTextContent(/^14-01-1969$/);
 
-  it('should render correctly with phone and email', () => {
-    props.incident.reporter.phone = '0206793793';
-    props.incident.reporter.email = 'sinter@klaas.es';
-    wrapper = shallow(
-      <SplitDetail {...props} />
-    );
+      expect(queryByTestId('splitDetailTitleTime')).toHaveTextContent(/^Tijd$/);
+      expect(queryByTestId('splitDetailValueTime')).toHaveTextContent(/^11:56$/);
 
-    expect(wrapper).toMatchSnapshot();
-  });
+      expect(queryByTestId('splitDetailTitleDateOverlast')).toHaveTextContent(/^Datum overlast$/);
+      expect(queryByTestId('splitDetailValueDateOverlast')).toHaveTextContent(/^14-01-1969$/);
 
-  it('should render empty when incident is undefined', () => {
-    props.incident = undefined;
-    wrapper = shallow(
-      <SplitDetail {...props} />
-    );
+      expect(queryByTestId('splitDetailTitleTimeOverlast')).toHaveTextContent(/^Tijd overlast$/);
+      expect(queryByTestId('splitDetailValueTimeOverlast')).toHaveTextContent(/^11:56$/);
 
-    expect(wrapper).toMatchSnapshot();
+
+      expect(queryByTestId('splitDetailTitleStadsdeel')).toHaveTextContent(/^Stadsdeel$/);
+      expect(queryByTestId('splitDetailValueStadsdeel')).toHaveTextContent(/^Centrum$/);
+
+      expect(queryByTestId('splitDetailTitleAddress')).toHaveTextContent(/^Adres$/);
+      expect(queryByTestId('splitDetailValueAddress')).toHaveTextContent(/^Marnixstraat 342D Amsterdam$/);
+
+      expect(queryByTestId('splitDetailTitleEmail')).toBeNull();
+      expect(queryByTestId('splitDetailValueEmail')).toBeNull();
+
+      expect(queryByTestId('splitDetailTitlePhone')).toBeNull();
+      expect(queryByTestId('splitDetailValuePhone')).toBeNull();
+
+      expect(queryByTestId('splitDetailTitleSource')).toHaveTextContent(/^Bron$/);
+      expect(queryByTestId('splitDetailValueSource')).toHaveTextContent(/^Meldkamer Handhaver$/);
+
+      expect(queryByTestId('splitDetailTitleDepartment')).toBeNull();
+      expect(queryByTestId('splitDetailValueDepartment')).toBeNull();
+
+      props.incident.reporter.email = 'steve@apple.com';
+      props.incident.reporter.phone = '1234567890';
+      props.incident.category.departments = 'STW, THO';
+      rerender(
+        <SplitDetail {...props} />
+        );
+
+      expect(queryByTestId('splitDetailTitleEmail')).toHaveTextContent(/^E-mailadres$/);
+      expect(queryByTestId('splitDetailValueEmail')).toHaveTextContent(/^steve@apple.com$/);
+
+      expect(queryByTestId('splitDetailTitlePhone')).toHaveTextContent(/^Telefonnummer$/);
+      expect(queryByTestId('splitDetailValuePhone')).toHaveTextContent(/^1234567890$/);
+
+      expect(queryByTestId('splitDetailTitleDepartment')).toHaveTextContent(/^Verantwoordelijke afdeling$/);
+      expect(queryByTestId('splitDetailValueDepartment')).toHaveTextContent(/^STW, THO$/);
+
+      console.log('--------------------------------------------- end');
+    });
   });
 });

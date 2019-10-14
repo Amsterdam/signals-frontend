@@ -27,29 +27,32 @@ const SplitDetail = ({ incident, stadsdeelList }) => (
     {incident ?
     (
       <Fragment>
-        <StyledH4 $as="h4">Melding {incident.id}</StyledH4>
+        <StyledH4
+          data-testid="splitDetailTitle"
+          $as="h4"
+        >Melding {incident.id}</StyledH4>
 
         <dl>
-          <dt>Datum</dt>
-          <dd>{string2date(incident.created_at)}</dd>
-          <dt>Tijd</dt>
-          <dd>{string2time(incident.created_at)}</dd>
-          <dt>Datum overlast</dt>
-          <dd>{string2date(incident.incident_date_start)}</dd>
-          <dt>Tijd overlast</dt>
-          <dd>{string2time(incident.incident_date_start)}</dd>
-          <dt>Stadsdeel</dt>
-          <dd>{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</dd>
-          <dt>Adres</dt>
-          <dd>{incident.location.address_text}</dd>
-          {incident.reporter.email ? <dt>E-mailadres</dt> : ''}
-          {incident.reporter.email ? <dd>{incident.reporter.email}</dd> : ''}
-          {incident.reporter.phone ? <dt>Telefonnummer</dt> : ''}
-          {incident.reporter.phone ? <dd>{incident.reporter.phone}</dd> : ''}
-          <dt>Bron</dt>
-          <dd>{incident.source}</dd>
-          {incident.category.department ? <dt>Verantwoordelijke afdeling</dt> : ''}
-          {incident.category.department ? <dd>{incident.category.department}</dd> : ''}
+          <dt data-testid="splitDetailTitleDate">Datum</dt>
+          <dd data-testid="splitDetailValueDate">{string2date(incident.created_at)}</dd>
+          <dt data-testid="splitDetailTitleTime">Tijd</dt>
+          <dd data-testid="splitDetailValueTime">{string2time(incident.created_at)}</dd>
+          <dt data-testid="splitDetailTitleDateOverlast">Datum overlast</dt>
+          <dd data-testid="splitDetailValueDateOverlast">{string2date(incident.incident_date_start)}</dd>
+          <dt data-testid="splitDetailTitleTimeOverlast">Tijd overlast</dt>
+          <dd data-testid="splitDetailValueTimeOverlast">{string2time(incident.incident_date_start)}</dd>
+          <dt data-testid="splitDetailTitleStadsdeel">Stadsdeel</dt>
+          <dd data-testid="splitDetailValueStadsdeel">{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</dd>
+          <dt data-testid="splitDetailTitleAddress">Adres</dt>
+          <dd data-testid="splitDetailValueAddress">{incident.location.address_text}</dd>
+          {incident.reporter.email ? <dt data-testid="splitDetailTitleEmail">E-mailadres</dt> : ''}
+          {incident.reporter.email ? <dd data-testid="splitDetailValueEmail">{incident.reporter.email}</dd> : ''}
+          {incident.reporter.phone ? <dt data-testid="splitDetailTitlePhone">Telefonnummer</dt> : ''}
+          {incident.reporter.phone ? <dd data-testid="splitDetailValuePhone">{incident.reporter.phone}</dd> : ''}
+          <dt data-testid="splitDetailTitleSource">Bron</dt>
+          <dd data-testid="splitDetailValueSource">{incident.source}</dd>
+          {incident.category.departments ? <dt data-testid="splitDetailTitleDepartment">Verantwoordelijke afdeling</dt> : ''}
+          {incident.category.departments ? <dd data-testid="splitDetailValueDepartment">{incident.category.departments}</dd> : ''}
         </dl>
       </Fragment>
     )
