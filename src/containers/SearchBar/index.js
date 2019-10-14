@@ -8,10 +8,12 @@ import { createStructuredSelector } from 'reselect';
 import { requestIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 import { setSearchQuery } from 'models/search/actions';
 import { makeSelectQuery } from 'models/search/selectors';
+import { applyFilter } from 'signals/incident-management/actions';
 
 export const SearchBarComponent = ({
   className,
   query,
+  onApplyFilter,
   onSetSearchQuery,
   onRequestIncidents,
 }) => {
@@ -21,14 +23,15 @@ export const SearchBarComponent = ({
    * @param {String} searchInput
    */
   const onSearchSubmit = (searchInput) => {
+    onApplyFilter({});
     onSetSearchQuery(searchInput);
-    onRequestIncidents({ filter: { searchQuery: searchInput } });
+    onRequestIncidents();
   };
 
   const onChange = (value) => {
     if (value === '') {
       onSetSearchQuery('');
-      onRequestIncidents({ filter: {} });
+      onRequestIncidents();
     }
   };
 
@@ -50,6 +53,7 @@ SearchBarComponent.defaultProps = {
 
 SearchBarComponent.propTypes = {
   className: PropTypes.string,
+  onApplyFilter: PropTypes.func.isRequired,
   onRequestIncidents: PropTypes.func.isRequired,
   onSetSearchQuery: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
@@ -62,6 +66,7 @@ const mapStateToProps = createStructuredSelector({
 export const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
+      onApplyFilter: applyFilter,
       onRequestIncidents: requestIncidents,
       onSetSearchQuery: setSearchQuery,
     },

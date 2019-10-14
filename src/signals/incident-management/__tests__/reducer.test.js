@@ -7,6 +7,8 @@ import {
   FILTER_EDIT_CANCELED,
   GET_FILTERS_FAILED,
   GET_FILTERS_SUCCESS,
+  ORDERING_INCIDENTS_CHANGED,
+  PAGE_INCIDENTS_CHANGED,
   REMOVE_FILTER_SUCCESS,
   SAVE_FILTER_FAILED,
   SAVE_FILTER_SUCCESS,
@@ -60,6 +62,7 @@ describe('signals/incident-management/reducer', () => {
     };
 
     expect(reducer(initialState, defaultAction)).toEqual(initialState);
+    expect(reducer(undefined, defaultAction)).toEqual(initialState);
   });
 
   it('should handle GET_FILTERS_SUCCESS', () => {
@@ -73,6 +76,7 @@ describe('signals/incident-management/reducer', () => {
       .set('filters', fromJS(filters));
 
     expect(reducer(initialState, getFiltersSuccess)).toEqual(expected);
+    expect(reducer(undefined, getFiltersSuccess)).toEqual(expected);
   });
 
   it('should handle GET_FILTERS_FAILED', () => {
@@ -88,6 +92,7 @@ describe('signals/incident-management/reducer', () => {
       .set('errorMessage', message);
 
     expect(reducer(initialState, getFiltersFailed)).toEqual(expected);
+    expect(reducer(undefined, getFiltersFailed)).toEqual(expected);
   });
 
   it('should handle REMOVE_FILTER_SUCCESS', () => {
@@ -119,6 +124,7 @@ describe('signals/incident-management/reducer', () => {
     );
 
     expect(reducer(initialState, applyFilter)).toEqual(expected);
+    expect(reducer(undefined, applyFilter)).toEqual(expected);
   });
 
   it('should handle EDIT_FILTER', () => {
@@ -134,6 +140,7 @@ describe('signals/incident-management/reducer', () => {
     );
 
     expect(reducer(initialState, editFilter)).toEqual(expected);
+    expect(reducer(undefined, editFilter)).toEqual(expected);
   });
 
   it('should handle SAVE_FILTER_FAILED', () => {
@@ -148,6 +155,7 @@ describe('signals/incident-management/reducer', () => {
       .set('errorMessage', errorMessage);
 
     expect(reducer(initialState, filterSaveFailed)).toEqual(expected);
+    expect(reducer(undefined, filterSaveFailed)).toEqual(expected);
   });
 
   it('should handle SAVE_FILTER_SUCCESS', () => {
@@ -163,6 +171,7 @@ describe('signals/incident-management/reducer', () => {
       .set('activeFilter', fromJS(activeFilter));
 
     expect(reducer(initialState, filterSaveSuccess)).toEqual(expected);
+    expect(reducer(undefined, filterSaveSuccess)).toEqual(expected);
   });
 
   it('should handle UPDATE_FILTER_SUCCESS', () => {
@@ -178,6 +187,7 @@ describe('signals/incident-management/reducer', () => {
       .set('activeFilter', fromJS(activeFilter));
 
     expect(reducer(initialState, filterUpdatedSuccess)).toEqual(expected);
+    expect(reducer(undefined, filterUpdatedSuccess)).toEqual(expected);
   });
 
   it('should handle UPDATE_FILTER_FAILED', () => {
@@ -192,6 +202,7 @@ describe('signals/incident-management/reducer', () => {
       .set('errorMessage', errorMessage);
 
     expect(reducer(initialState, filterUpdatedFailed)).toEqual(expected);
+    expect(reducer(undefined, filterUpdatedFailed)).toEqual(expected);
   });
 
   it('should handle CLEAR_FILTER', () => {
@@ -200,12 +211,13 @@ describe('signals/incident-management/reducer', () => {
     };
 
     const expected = fromJS(initialState)
-      .set('editFilter', undefined)
+      .set('editFilter', initialState.get('editFilter'))
       .set('loading', false)
       .set('error', false)
       .set('errorMessage', undefined);
 
     expect(reducer(initialState, clearFilter)).toEqual(expected);
+    expect(reducer(undefined, clearFilter)).toEqual(expected);
   });
 
   it('should handle FILTER_EDIT_CANCELED', () => {
@@ -219,5 +231,39 @@ describe('signals/incident-management/reducer', () => {
       .set('editFilter', initialState.get('activeFilter'));
 
     expect(reducer(initialState, filterEditCanceled)).toEqual(expected);
+    expect(reducer(undefined, filterEditCanceled)).toEqual(expected);
+  });
+
+  it('should handle PAGE_INCIDENTS_CHANGED', () => {
+    const page = 333;
+    const pageIncidentsChanged = {
+      type: PAGE_INCIDENTS_CHANGED,
+      payload: page,
+    };
+
+    initialState.set('page', 1);
+
+    const expected = fromJS(initialState)
+      .set('page', page);
+
+    expect(reducer(initialState, pageIncidentsChanged)).toEqual(expected);
+    expect(reducer(undefined, pageIncidentsChanged)).toEqual(expected);
+  });
+
+  it('should handle ORDERING_INCIDENTS_CHANGED', () => {
+    const ordering = 'some-arbitrary-ordering';
+    const orderingIncidentsChanged = {
+      type: ORDERING_INCIDENTS_CHANGED,
+      payload: ordering,
+    };
+
+    initialState.set('page', 2).set('ordering', 'Foo bar baz');
+
+    const expected = fromJS(initialState)
+      .set('page', 1)
+      .set('ordering', ordering);
+
+    expect(reducer(initialState, orderingIncidentsChanged)).toEqual(expected);
+    expect(reducer(undefined, orderingIncidentsChanged)).toEqual(expected);
   });
 });

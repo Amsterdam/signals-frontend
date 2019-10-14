@@ -1,5 +1,6 @@
 import { fromJS } from 'immutable';
 import * as definitions from 'signals/incident-management/definitions';
+import selectSearchDomain from 'models/search/selectors';
 import {
   makeSelectFilterParams,
   makeSelectDataLists,
@@ -9,6 +10,8 @@ import {
 } from '../selectors';
 
 import { initialState } from '../reducer';
+
+jest.mock('models/search/selectors');
 
 const filters = [
   {
@@ -49,7 +52,7 @@ const filters = [
   },
 ];
 
-describe('signals/incident-management/selectors', () => {
+describe.only('signals/incident-management/selectors', () => {
   it('should select data lists', () => {
     const dataLists = makeSelectDataLists();
     expect(dataLists).toEqual({
@@ -98,37 +101,58 @@ describe('signals/incident-management/selectors', () => {
     expect(makeSelectEditFilter(state).id).toEqual(filters[2].id);
   });
 
-  it('should select filter params', () => {
-    const emptyState = fromJS({
-      incidentManagement: { ...initialState.toJS(), editFilter: filters[1] },
+  describe('makeSelectFilterParams', () => {
+    selectSearchDomain.mockImplementation(() => fromJS({ query: '' }));
+
+    it('should select filter params', () => {
+      const emptyState = fromJS({
+        incidentManagement: { ...initialState.toJS(), editFilter: filters[1] },
+      });
+
+      expect(makeSelectFilterParams(emptyState)).toEqual({
+        ordering: '-created_at',
+        page: 1,
+      });
+
+      const state = fromJS({
+        incidentManagement: { ...initialState.toJS(), activeFilter: filters[1] },
+      });
+
+      expect(makeSelectFilterParams(state)).toEqual({
+        ordering: '-created_at',
+        page: 1,
+        stadsdeel: ['B', 'E'],
+      });
     });
 
-    expect(makeSelectFilterParams(emptyState)).toEqual({
-      ordering: undefined,
-      page: undefined,
+    it('should reformat days_open', () => {
+      const state1 = fromJS({
+        incidentManagement: { ...initialState.toJS(), ordering: 'days_open' },
+      });
+
+      expect(makeSelectFilterParams(state1)).toEqual({
+        ordering: '-created_at',
+        page: 1,
+      });
+
+      const state2 = fromJS({
+        incidentManagement: { ...initialState.toJS(), ordering: '-days_open' },
+      });
+
+      expect(makeSelectFilterParams(state2)).toEqual({
+        ordering: 'created_at',
+        page: 1,
+      });
     });
 
-    const state = fromJS({
-      incidentManagement: { ...initialState.toJS(), activeFilter: filters[1] },
-    });
+    it('should return params with id search', () => {
+      selectSearchDomain.mockImplementation(() => fromJS({ query: 'Foo bar baz' }));
 
-    expect(makeSelectFilterParams(state)).toEqual({
-      ordering: undefined,
-      page: undefined,
-      stadsdeel: ['B', 'E'],
-    });
-
-    const stateWithFilterSearchQuery = fromJS({
-      incidentManagement: {
-        ...initialState.toJS(),
-        activeFilter: { ...filters[1], searchQuery: 'Foo bar baz' },
-      },
-    });
-
-    expect(makeSelectFilterParams(stateWithFilterSearchQuery)).toEqual({
-      ordering: undefined,
-      page: undefined,
-      id: 'Foo bar baz',
+      expect(makeSelectFilterParams()).toEqual({
+        ordering: '-created_at',
+        page: 1,
+        id: 'Foo bar baz',
+      });
     });
   });
 });

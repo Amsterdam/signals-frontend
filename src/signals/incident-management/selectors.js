@@ -2,6 +2,7 @@ import { fromJS } from 'immutable';
 
 import { parseFromAPIData } from 'signals/shared/filter/parse';
 import { makeSelectCategories } from 'containers/App/selectors';
+import selectSearchDomain from 'models/search/selectors';
 
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
@@ -52,9 +53,6 @@ export const makeSelectActiveFilter = createSelector(
   makeSelectCategories(),
   (stateMap, dataLists, categories) => {
     const state = stateMap.toJS();
-    if (!state.activeFilter) {
-      return undefined;
-    }
 
     return parseFromAPIData(state.activeFilter, {
       ...dataLists,
@@ -70,10 +68,6 @@ export const makeSelectEditFilter = createSelector(
   makeSelectCategories(),
   (stateMap, dataLists, categories) => {
     const state = stateMap.toJS();
-    if (!state.editFilter) {
-      const initial = initialState.toJS();
-      return initial.editFilter;
-    }
 
     return parseFromAPIData(state.editFilter, {
       ...dataLists,
@@ -85,19 +79,50 @@ export const makeSelectEditFilter = createSelector(
 
 export const makeSelectFilterParams = createSelector(
   selectIncidentManagementDomain,
-  (substate) => {
-    const state = substate.toJS();
-    const filter = state.activeFilter || { options: {} };
+  selectSearchDomain,
+  (incidentManagementState, searchQueryState) => {
+    const incidentManagement = incidentManagementState.toJS();
+    const searchQuery = searchQueryState.toJS();
+    const { query } = searchQuery;
+    const filter = incidentManagement.activeFilter;
     const { options } = filter;
+    const { page } = incidentManagement;
+    let { ordering } = incidentManagement;
 
-    if (filter.searchQuery) {
+    if (ordering === 'days_open') {
+      ordering = '-created_at';
+    }
+
+    if (ordering === '-days_open') {
+      ordering = 'created_at';
+    }
+
+    if (query) {
       return {
-        id: filter.searchQuery,
-        page: state.page,
-        ordering: state.sort,
+        id: query,
+        page,
+        ordering,
       };
     }
 
-    return { ...options, page: state.page, ordering: state.sort };
+    return { ...options, page, ordering };
+  },
+);
+
+export const makeSelectPage = createSelector(
+  selectIncidentManagementDomain,
+  (state) => {
+    const obj = state.toJS();
+
+    return obj.page;
+  },
+);
+
+export const makeSelectOrdering = createSelector(
+  selectIncidentManagementDomain,
+  (state) => {
+    const obj = state.toJS();
+
+    return obj.ordering;
   },
 );

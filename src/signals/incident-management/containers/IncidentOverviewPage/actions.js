@@ -3,17 +3,14 @@ import {
   APPLY_FILTER_REFRESH,
   FILTER_INCIDENTS_CHANGED,
   INCIDENT_SELECTED,
-  PAGE_INCIDENTS_CHANGED,
   REQUEST_INCIDENTS_ERROR,
   REQUEST_INCIDENTS_SUCCESS,
   REQUEST_INCIDENTS,
-  SORT_INCIDENTS_CHANGED,
 } from './constants';
 
-export function requestIncidents({ filter, page, sort }) {
+export function requestIncidents() {
   return {
     type: REQUEST_INCIDENTS,
-    payload: { filter, page, sort },
   };
 }
 
@@ -45,25 +42,10 @@ export function filterIncidentsChanged(filter) {
   };
 }
 
-export function pageIncidentsChanged(page) {
-  return {
-    type: PAGE_INCIDENTS_CHANGED,
-    payload: page,
-  };
-}
-
-export function sortIncidentsChanged(sort) {
-  return {
-    type: SORT_INCIDENTS_CHANGED,
-    payload: sort,
-  };
-}
-
 export const applyFilterRefresh = () => ({
   type: APPLY_FILTER_REFRESH,
 });
 
-export const applyFilterRefreshStop = (payload) => ({
+export const applyFilterRefreshStop = () => ({
   type: APPLY_FILTER_REFRESH_STOP,
-  payload,
 });

@@ -15,7 +15,14 @@ import { push } from 'react-router-redux';
 import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
-import { makeSelectFilterParams, makeSelectActiveFilter } from 'signals/incident-management/selectors';
+import {
+  makeSelectFilterParams,
+  makeSelectActiveFilter,
+} from 'signals/incident-management/selectors';
+import {
+  PAGE_INCIDENTS_CHANGED,
+  ORDERING_INCIDENTS_CHANGED,
+} from 'signals/incident-management/constants';
 import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
@@ -25,49 +32,30 @@ import {
 import {
   applyFilterRefresh,
   applyFilterRefreshStop,
-  pageIncidentsChanged,
   requestIncidents,
   requestIncidentsError,
   requestIncidentsSuccess,
-  sortIncidentsChanged,
 } from './actions';
 
-export function* fetchIncidents(action) {
+export function* fetchIncidents() {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals/`;
 
   try {
-    const filter = action.payload.filter;
+    const filter = yield select(makeSelectActiveFilter);
 
-    if (filter) {
+    if (filter && filter.refresh) {
       yield put(applyFilterRefreshStop());
     }
 
-    const page = action.payload.page;
-
-    if (page) {
-      yield put(pageIncidentsChanged(page));
-    }
-
-    const sort = action.payload.sort;
-
-    if (sort) {
-      yield put(sortIncidentsChanged(sort));
-    }
-
     const params = yield select(makeSelectFilterParams);
-
-    // TEMP remove when server can order days_open
-    if (params.ordering === 'days_open') {
-      params.ordering = '-created_at';
-    } else if (params.ordering === '-days_open') {
-      params.ordering = 'created_at';
-    }
 
     const incidents = yield call(authCall, requestURL, params);
 
     yield put(requestIncidentsSuccess(incidents));
 
-    yield put(applyFilterRefresh());
+    if (filter && filter.refresh) {
+      yield put(applyFilterRefresh());
+    }
   } catch (error) {
     yield put(requestIncidentsError(error.message));
   }
@@ -87,7 +75,7 @@ export function* refreshIncidents(timeout = refreshRequestDelay) {
 
     if (filter && filter.refresh) {
       yield delay(timeout);
-      yield put(requestIncidents({ filter }));
+      yield put(requestIncidents());
     }
   }
 }
@@ -96,6 +84,8 @@ export default function* watchRequestIncidentsSaga() {
   yield all([
     takeLatest(REQUEST_INCIDENTS, fetchIncidents),
     takeLatest(INCIDENT_SELECTED, openIncident),
+    takeLatest(PAGE_INCIDENTS_CHANGED, fetchIncidents),
+    takeLatest(ORDERING_INCIDENTS_CHANGED, fetchIncidents),
   ]);
 
   while (true) {

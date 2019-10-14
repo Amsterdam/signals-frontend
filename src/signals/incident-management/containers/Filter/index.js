@@ -46,7 +46,7 @@ export const FilterContainerComponent = ({
   const onFormSubmit = (event, filter) => {
     onApplyFilter(filter);
     onEditFilter(filter);
-    onRequestIncidents({ filter });
+    onRequestIncidents();
     onSubmit(event);
   };
 

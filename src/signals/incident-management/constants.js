@@ -20,3 +20,6 @@ export const UPDATE_FILTER_FAILED = 'sia/incidentManagement/UPDATE_FILTER_FAILED
 export const UPDATE_FILTER_SUCCESS = 'sia/incidentManagement/UPDATE_FILTER_SUCCESS';
 
 export const FILTER_EDIT_CANCELED = 'sia/incidentManagement/FILTER_EDIT_CANCELED';
+
+export const PAGE_INCIDENTS_CHANGED = 'sia/incidentManagement/PAGE_INCIDENTS_CHANGED';
+export const ORDERING_INCIDENTS_CHANGED = 'sia/incidentManagement/ORDERING_INCIDENTS_CHANGED';

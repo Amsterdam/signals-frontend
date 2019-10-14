@@ -12,8 +12,8 @@ import PageHeader from 'containers/PageHeader';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectCategories } from 'containers/App/selectors';
-import { makeSelectDataLists, makeSelectActiveFilter } from 'signals/incident-management/selectors';
-import { makeSelectQuery } from 'models/search/selectors';
+import { makeSelectDataLists, makeSelectActiveFilter, makeSelectPage, makeSelectOrdering } from 'signals/incident-management/selectors';
+import { pageIncidentsChanged, orderingIncidentsChanged } from 'signals/incident-management/actions';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
@@ -38,11 +38,14 @@ const StyledButton = styled(Button)`
 export const IncidentOverviewPageContainerComponent = ({
   activeFilter,
   onRequestIncidents,
+  onPageIncidentsChanged,
   overviewpage,
   incidentsCount,
   onIncidentSelected,
-  searchQuery,
   dataLists,
+  page,
+  ordering,
+  onChangeOrdering,
 }) => {
   const [modalFilterIsOpen, toggleFilterModal] = useState(false);
   const [modalMyFiltersIsOpen, toggleMyFiltersModal] = useState(false);
@@ -90,10 +93,10 @@ export const IncidentOverviewPageContainerComponent = ({
   });
 
   useEffect(() => {
-    onRequestIncidents(searchQuery ? { filter: { searchQuery } } : {});
+    onRequestIncidents();
   }, []);
 
-  const { incidents, loading, page, sort } = overviewpage;
+  const { incidents, loading } = overviewpage;
 
   return (
     <div className="incident-overview-page">
@@ -146,8 +149,8 @@ export const IncidentOverviewPageContainerComponent = ({
               <ListComponent
                 incidentSelected={onIncidentSelected}
                 incidents={incidents}
-                onRequestIncidents={onRequestIncidents}
-                sort={sort}
+                onChangeOrdering={onChangeOrdering}
+                sort={ordering}
                 incidentsCount={incidentsCount}
                 {...dataLists}
               />
@@ -159,7 +162,7 @@ export const IncidentOverviewPageContainerComponent = ({
               <Pager
                 incidentsCount={incidentsCount}
                 page={page}
-                onRequestIncidents={onRequestIncidents}
+                onPageIncidentsChanged={onPageIncidentsChanged}
               />
             )}
           </Column>
@@ -175,14 +178,16 @@ IncidentOverviewPageContainerComponent.defaultProps = {
 
 IncidentOverviewPageContainerComponent.propTypes = {
   activeFilter: types.filterType,
-  overviewpage: types.overviewPageType.isRequired,
-  dataLists: types.dataListsType.isRequired,
   categories: types.categoriesType.isRequired,
+  dataLists: types.dataListsType.isRequired,
   incidentsCount: PropTypes.number,
-  searchQuery: PropTypes.string,
-
-  onRequestIncidents: PropTypes.func.isRequired,
+  onChangeOrdering: PropTypes.func.isRequired,
   onIncidentSelected: PropTypes.func.isRequired,
+  onPageIncidentsChanged: PropTypes.func.isRequired,
+  onRequestIncidents: PropTypes.func.isRequired,
+  ordering: PropTypes.string,
+  overviewpage: types.overviewPageType.isRequired,
+  page: PropTypes.number,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -190,15 +195,18 @@ const mapStateToProps = createStructuredSelector({
   categories: makeSelectCategories(),
   dataLists: makeSelectDataLists,
   incidentsCount: makeSelectIncidentsCount,
+  ordering: makeSelectOrdering,
   overviewpage: makeSelectOverviewPage(),
-  searchQuery: makeSelectQuery,
+  page: makeSelectPage,
 });
 
 export const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      onRequestIncidents: requestIncidents,
+      onChangeOrdering: orderingIncidentsChanged,
       onIncidentSelected: incidentSelected,
+      onPageIncidentsChanged: pageIncidentsChanged,
+      onRequestIncidents: requestIncidents,
     },
     dispatch,
   );

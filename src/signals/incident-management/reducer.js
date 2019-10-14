@@ -13,9 +13,11 @@ import {
   FILTER_EDIT_CANCELED,
   GET_FILTERS_FAILED,
   GET_FILTERS_SUCCESS,
+  PAGE_INCIDENTS_CHANGED,
   REMOVE_FILTER_SUCCESS,
   SAVE_FILTER_FAILED,
   SAVE_FILTER_SUCCESS,
+  ORDERING_INCIDENTS_CHANGED,
   UPDATE_FILTER_FAILED,
   UPDATE_FILTER_SUCCESS,
 } from './constants';
@@ -36,6 +38,8 @@ export const initialState = fromJS({
     name: '',
     options: {},
   },
+  page: 1,
+  ordering: '-created_at',
 });
 
 export default (state = initialState, action) => {
@@ -84,13 +88,19 @@ export default (state = initialState, action) => {
 
     case CLEAR_FILTER:
       return state
-        .set('editFilter', undefined)
+        .set('editFilter', state.get('editFilter'))
         .set('error', false)
         .set('errorMessage', undefined)
         .set('loading', false);
 
     case FILTER_EDIT_CANCELED:
       return state.set('editFilter', state.get('activeFilter'));
+
+    case PAGE_INCIDENTS_CHANGED:
+      return state.set('page', fromJS(action.payload));
+
+    case ORDERING_INCIDENTS_CHANGED:
+      return state.set('page', 1).set('ordering', fromJS(action.payload));
 
     default:
       return state;

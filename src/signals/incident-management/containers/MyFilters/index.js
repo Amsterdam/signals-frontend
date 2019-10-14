@@ -36,7 +36,7 @@ export const MyFiltersComponent = ({
   const handleApplyFilter = (filter) => {
     onApplyFilter(filter);
     onEditFilter(filter);
-    onRequestIncidents({ filter });
+    onRequestIncidents();
   };
 
   const handleEditFilter = (filter) => {
