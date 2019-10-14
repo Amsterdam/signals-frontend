@@ -1,11 +1,14 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import {
+  render,
+  fireEvent,
+} from '@testing-library/react';
+import { withAppContext } from 'test/utils';
 
 import SplitForm from './index';
 
 import priorityList from '../../../../definitions/priorityList';
-
-jest.mock('../IncidentPart', () => () => 'IncidentPart');
 
 describe('<SplitForm />', () => {
   const mockCreate = {
@@ -27,9 +30,11 @@ describe('<SplitForm />', () => {
   beforeEach(() => {
     props = {
       incident: {
+        id: '42',
         category: {
           main_slug: 'afval',
-          sub_slug: 'poep'
+          sub_slug: 'poep',
+          category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep',
         },
         priority: {
           priority: 'high'
@@ -49,30 +54,28 @@ describe('<SplitForm />', () => {
 
   describe('rendering', () => {
     it('should render correctly', () => {
-      const wrapper = shallow(<SplitForm {...props} />);
+      const { queryByTestId } = render(
+        withAppContext(<SplitForm {...props} />)
+      );
 
-      expect(wrapper).toMatchSnapshot();
-    });
-
-    it('should render 3 parts correctly', () => {
-      const wrapper = shallow(<SplitForm {...props} />);
-      wrapper.setState({ isVisible: true });
-
-      expect(wrapper).toMatchSnapshot();
+      expect(queryByTestId('splitFormDisclaimer')).not.toBeNull();
+      expect(queryByTestId('splitFormBottomDisclaimer')).not.toBeNull();
     });
   });
 
   describe('events', () => {
     it('should toggle visiblity of part 3 on and off and on again', () => {
-      const wrapper = shallow(<SplitForm {...props} />);
+      const { getByTestId, queryAllByTestId } = render(
+        withAppContext(<SplitForm {...props} />)
+      );
 
-      expect(wrapper.state('isVisible')).toBe(false);
-      wrapper.find('.split-form__button-show').simulate('click');
+      fireEvent.click(getByTestId('splitForPartAdd'));
 
-      expect(wrapper.state('isVisible')).toBe(true);
-      wrapper.find('.split-form__button-hide').simulate('click');
+      expect(queryAllByTestId('incidentPartTitle')[2]).toHaveTextContent(/^Deelmelding 3$/);
 
-      expect(wrapper.state('isVisible')).toBe(false);
+      fireEvent.click(getByTestId('splitForPartRemove'));
+
+      expect(queryAllByTestId('incidentPartTitle')[2]).toBeUndefined();
     });
   });
 

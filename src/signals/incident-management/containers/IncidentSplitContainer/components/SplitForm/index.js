@@ -46,32 +46,8 @@ class SplitForm extends React.Component {
   constructor(props) {
     super(props);
 
-    const subcategory = props.incident.category.category_url;
     this.state = {
-      isVisible: props.isVisible,
-      splitForm: FormBuilder.group({
-        part1: FormBuilder.group({
-          subcategory,
-          text: props.incident.text,
-          image: true,
-          note: '',
-          priority: props.incident.priority.priority,
-        }),
-        part2: FormBuilder.group({
-          subcategory,
-          text: props.incident.text,
-          image: true,
-          note: '',
-          priority: props.incident.priority.priority,
-        }),
-        part3: FormBuilder.group({
-          subcategory,
-          text: props.incident.text,
-          image: true,
-          note: '',
-          priority: props.incident.priority.priority,
-        }),
-      })
+      isVisible: props.isVisible
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -82,6 +58,30 @@ class SplitForm extends React.Component {
     this.setState({ isVisible });
   }
 
+  form = FormBuilder.group({
+    part1: FormBuilder.group({
+      subcategory: this.props.incident.category.category_url,
+      text: this.props.incident.text,
+      image: true,
+      note: '',
+      priority: this.props.incident.priority.priority,
+    }),
+    part2: FormBuilder.group({
+      subcategory: this.props.incident.category.category_url,
+      text: this.props.incident.text,
+      image: true,
+      note: '',
+      priority: this.props.incident.priority.priority,
+    }),
+    part3: FormBuilder.group({
+      subcategory: this.props.incident.category.category_url,
+      text: this.props.incident.text,
+      image: true,
+      note: '',
+      priority: this.props.incident.priority.priority,
+    }),
+  });
+
   handleSubmit() {
     const create = [];
     const update = [];
@@ -91,13 +91,13 @@ class SplitForm extends React.Component {
     }
 
     parts.forEach((part) => {
-      update.push(this.state.splitForm.value[part]);
+      update.push(this.form.value[part]);
       create.push({
         category: {
-          sub_category: this.state.splitForm.value[part].subcategory
+          sub_category: this.form.value[part].subcategory
         },
-        reuse_parent_image: this.state.splitForm.value[part].image,
-        text: this.state.splitForm.value[part].text
+        reuse_parent_image: this.form.value[part].image,
+        text: this.form.value[part].text
       });
     });
 
@@ -112,7 +112,7 @@ class SplitForm extends React.Component {
     const { incident, attachments, subcategories, priorityList, handleCancel } = this.props;
     return (
       <div>
-        <StyledDisclaimer>
+        <StyledDisclaimer data-testid="splitFormDisclaimer">
           Splitsen mag alleen als de oorspronkelijke melding over twee verschillende onderwerpen gaat, die zonder samenwerking met een andere afdeling kan worden afgehandeld.
         </StyledDisclaimer>
 
@@ -121,7 +121,7 @@ class SplitForm extends React.Component {
           attachments={attachments}
           subcategories={subcategories}
           priorityList={priorityList}
-          splitForm={this.state.splitForm}
+          splitForm={this.form}
         />
 
         <IncidentPart
@@ -130,12 +130,13 @@ class SplitForm extends React.Component {
           attachments={attachments}
           subcategories={subcategories}
           priorityList={priorityList}
-          splitForm={this.state.splitForm}
+          splitForm={this.form}
         />
 
         {this.state.isVisible ?
           <Fragment>
             <StyledRemoveButton
+              data-testid="splitForPartRemove"
               variant="textButton"
               onClick={() => this.setVisibility(false)}
             >Verwijder</StyledRemoveButton>
@@ -146,18 +147,19 @@ class SplitForm extends React.Component {
               attachments={attachments}
               subcategories={subcategories}
               priorityList={priorityList}
-              splitForm={this.state.splitForm}
+              splitForm={this.form}
             />
 
           </Fragment>
           :
           <StyledButton
+            data-testid="splitForPartAdd"
             variant="primaryInverted"
             onClick={() => this.setVisibility(true)}
           >Deelmelding 3 toevoegen</StyledButton>
         }
 
-        <StyledBottomDisclaimer>
+        <StyledBottomDisclaimer data-testid="splitFormBottomDisclaimer">
           <StyledH4 $as="h4">Let op</StyledH4>
           <ul>
             <li>De persoon die de oorspronkelijke melding heeft gedaan, ontvangt een email per deelmelding.</li>
