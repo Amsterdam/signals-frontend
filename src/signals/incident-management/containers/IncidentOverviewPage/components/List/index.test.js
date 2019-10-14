@@ -5,12 +5,9 @@ import {
   string2time,
 } from 'shared/services/string-parser/string-parser';
 import moment from 'moment';
-import {
-  priorityList,
-  statusList,
-  stadsdeelList,
-  feedbackList,
-} from 'signals/incident-management/definitions';
+import { render } from '@testing-library/react';
+import { priorityList, statusList, stadsdeelList } from 'signals/incident-management/definitions';
+import { withAppContext } from 'test/utils';
 
 import List from './index';
 
@@ -37,7 +34,7 @@ describe('<List />', () => {
       incidents: [
         {
           reporter: {
-            email: 'p.lippmann@amsterdam.nl',
+            email: 'user@domain.com',
             phone: '',
             extra_properties: null,
           },
@@ -52,7 +49,7 @@ describe('<List />', () => {
           signal_id: '84c8125c-6162-4504-9932-d2eec88d4053',
           status: {
             text: ',m,',
-            user: 's.l.kok@amsterdam.nl',
+            user: 'another_user@domain.com',
             state: 'o',
             state_display: 'Afgehandeld',
             extra_properties: null,
@@ -163,13 +160,12 @@ describe('<List />', () => {
             category_url: 'https://category-url.amsterdam.nl',
           },
           incident_date_start: '2018-11-29T23:03:19+01:00',
-          text_extra: '',
-        },
+          text_extra: ''
+        }
       ],
-      priority: priorityList,
-      status: statusList,
-      stadsdeel: stadsdeelList,
-      feedback: feedbackList,
+      priorityList,
+      statusList,
+      stadsdeelList,
       incidentSelected: jest.fn(),
       onRequestIncidents: jest.fn(),
     };
@@ -220,6 +216,47 @@ describe('<List />', () => {
       expect(props.onRequestIncidents).toHaveBeenCalledWith({
         sort: '-created_at',
       });
+    });
+
+    it('should not show days open for specific statuses', () => {
+      const incidentList = [...props.incidents];
+
+      const incidentWithStatusA = Object.assign({}, incidentList[0], { status: { state: 'a' } });
+      incidentWithStatusA.id = incidentList[0].id + 1;
+
+      incidentList.push(incidentWithStatusA);
+
+      const incidentWithStatusS = Object.assign({}, incidentList[0], { status: { state: 's' } });
+      incidentWithStatusS.id = incidentList[0].id + 2;
+
+      incidentList.push(incidentWithStatusS);
+
+      const incidentWithStatusReopenRequested = Object.assign(
+        {},
+        incidentList[0],
+        { status: { state: 'reopen requested' } }
+      );
+      incidentWithStatusReopenRequested.id = incidentList[0].id + 3;
+
+      incidentList.push(incidentWithStatusReopenRequested);
+
+      const incidentWithStatusB = Object.assign({}, incidentList[0], { status: { state: 'b' } });
+      incidentWithStatusB.id = incidentList[0].id + 4;
+
+      incidentList.push(incidentWithStatusB);
+
+      const listProps = Object.assign({}, props);
+      listProps.incidents = incidentList;
+
+      const { getAllByTestId } = render(withAppContext(<List {...listProps} />));
+
+      const numCells = getAllByTestId('incidentDaysOpen').length;
+
+      expect(numCells).toEqual(incidentList.length);
+
+      const elementsWithTextContent = Array.from(getAllByTestId('incidentDaysOpen')).filter((element) => element.textContent !== '-');
+
+      expect(elementsWithTextContent).toHaveLength(2);
     });
   });
 });

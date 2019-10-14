@@ -18,11 +18,13 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
   }
 
   getDaysOpen(incident) {
-    if (incident.status && incident.status.state !== 'o' && incident.status.state !== 'a') {
+    const statusesWithoutDaysOpen = ['o', 'a', 's', 'reopen requested'];
+    if (incident.status && !statusesWithoutDaysOpen.includes(incident.status.state)) {
       const start = moment(incident.created_at.split('T')[0]);
       const duration = moment.duration(moment().diff(start));
       return Math.trunc(duration.asDays());
     }
+
     return '-';
   }
 
@@ -62,7 +64,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
               {incidents.map((incident) => (
                 <tr key={incident.id} onClick={this.selectIncident(incident)}>
                   <td>{incident.id}</td>
-                  <td>{this.getDaysOpen(incident)}</td>
+                  <td data-testid="incidentDaysOpen">{this.getDaysOpen(incident)}</td>
                   <td className="no-wrap">{string2date(incident.created_at)} {string2time(incident.created_at)}</td>
                   <td>{getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}</td>
                   <td>{incident.category && incident.category.sub}</td>
