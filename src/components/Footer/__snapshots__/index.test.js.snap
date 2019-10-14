@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Footer /> should render correctly 1`] = `
-<Footer__FooterWrapper
+<styled.div
   className="app-container no-print"
   data-testid="siteFooter"
 >
-  <Footer__Disclaimer>
+  <styled.div>
     <Row
       debug={false}
       debugColor="rgba(51,102,153,0.75)"
@@ -44,8 +44,8 @@ exports[`<Footer /> should render correctly 1`] = `
         </Paragraph>
       </Column>
     </Row>
-  </Footer__Disclaimer>
-  <Footer__Privacy>
+  </styled.div>
+  <styled.div>
     <Row
       debug={false}
       debugColor="rgba(51,102,153,0.75)"
@@ -66,6 +66,6 @@ exports[`<Footer /> should render correctly 1`] = `
         </Link>
       </Column>
     </Row>
-  </Footer__Privacy>
-</Footer__FooterWrapper>
+  </styled.div>
+</styled.div>
 `;
