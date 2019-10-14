@@ -22,8 +22,12 @@ const StyledH2 = styled(Heading)`
 
 const IncidentPart = ({ index, attachments, subcategories, priorityList, splitForm }) => (
   <StyledWrapper>
-    <StyledH2 $as="h2">Deelmelding {index}</StyledH2>
+    <StyledH2
+      $as="h2"
+      data-testid="incidentPartTitle"
+    >Deelmelding {index}</StyledH2>
     <FieldControlWrapper
+      data-testid="incidentPartFieldSubcategory"
       render={SelectInput}
       name={`part${index}.subcategory`}
       display="Subcategorie"
@@ -32,6 +36,7 @@ const IncidentPart = ({ index, attachments, subcategories, priorityList, splitFo
       sort
     />
     <FieldControlWrapper
+      data-testid="incidentPartFieldText"
       render={TextAreaInput}
       name={`part${index}.text`}
       display="Omschrijving"

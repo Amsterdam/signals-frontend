@@ -1,5 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import {
+  render,
+} from '@testing-library/react';
+import { FormControl } from 'react-reactive-form';
+
+import incident from 'utils/__tests__/fixtures/incident.json';
 
 import IncidentPart from './index';
 import priorityList from '../../../../definitions/priorityList';
@@ -9,17 +14,12 @@ describe('<IncidentPart />', () => {
 
   beforeEach(() => {
     const splitForm = {
-      get: jest.fn().mockImplementation((item) => ({ item }))
+      get: jest.fn().mockImplementation(() => new FormControl())
     };
 
     props = {
       index: '2',
-      incident: {
-        category: {},
-        priority: {
-          priority: ''
-        }
-      },
+      incident,
       attachments: [],
       subcategories: [{
         key: 'key',
@@ -32,19 +32,24 @@ describe('<IncidentPart />', () => {
   });
 
   describe('rendering', () => {
-    it('should render correctly without image', () => {
-      const wrapper = shallow(
+    it('should render correctly', () => {
+      const { queryByTestId, queryByText, rerender } = render(
         <IncidentPart {...props} />
       );
-      expect(wrapper).toMatchSnapshot();
-    });
+      expect(queryByTestId('incidentPartTitle')).toHaveTextContent(/^Deelmelding 2$/);
+      expect(queryByText('Subcategorie')).not.toBeNull();
+      expect(queryByText('Omschrijving')).not.toBeNull();
+      expect(queryByText('Notitie')).not.toBeNull();
+      expect(queryByText('Urgentie')).not.toBeNull();
+      expect(queryByText('Foto\'s toevoegen')).toBeNull();
 
-    it('should render correctly with image', () => {
+
       props.attachments.push({ location: 'mock-image' });
-      const wrapper = shallow(
+      rerender(
         <IncidentPart {...props} />
       );
-      expect(wrapper).toMatchSnapshot();
+
+      expect(queryByText('Foto\'s toevoegen')).not.toBeNull();
     });
   });
 });
