@@ -6,7 +6,7 @@ import {
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
-import incident from 'utils/__tests__/fixtures/incident';
+import incident from 'utils/__tests__/fixtures/incident.json';
 import stadsdeelList from '../../../../definitions/stadsdeelList';
 
 import SplitDetail from './index';
@@ -15,17 +15,16 @@ jest.mock('shared/services/string-parser/string-parser');
 jest.mock('shared/services/list-helper/list-helper');
 
 describe('<SplitDetail />', () => {
-  let props;
+  const props = {
+    incident,
+    stadsdeelList,
+    onPatchIncident: jest.fn(),
+    onEditStatus: jest.fn(),
+    onShowAttachment: jest.fn()
+  };
+
 
   beforeEach(() => {
-    props = {
-      incident,
-      stadsdeelList,
-      onPatchIncident: jest.fn(),
-      onEditStatus: jest.fn(),
-      onShowAttachment: jest.fn()
-    };
-
     string2date.mockImplementation(() => '14-01-1969');
     string2time.mockImplementation(() => '11:56');
     getListValueByKey.mockImplementation(() => 'Centrum');
@@ -33,9 +32,7 @@ describe('<SplitDetail />', () => {
 
   describe('rendering', () => {
     it('should render correctly', () => {
-      console.log('--------------------------------------------- start');
       props.incident.category.departments = '';
-
       const { queryByTestId, rerender } = render(
         <SplitDetail {...props} />
       );
@@ -86,8 +83,6 @@ describe('<SplitDetail />', () => {
 
       expect(queryByTestId('splitDetailTitleDepartment')).toHaveTextContent(/^Verantwoordelijke afdeling$/);
       expect(queryByTestId('splitDetailValueDepartment')).toHaveTextContent(/^STW, THO$/);
-
-      console.log('--------------------------------------------- end');
     });
   });
 });
