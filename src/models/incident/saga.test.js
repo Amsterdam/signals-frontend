@@ -55,7 +55,7 @@ describe('models/incident/saga', () => {
       return expectSaga(fetchIncident, action)
         .provide([[matchers.call.fn(requestURL)]])
         .call(authCall, `${requestURL}/${id}`)
-        .run();
+        .silentRun();
     });
 
     it('should dispatch success', () => {
@@ -66,7 +66,7 @@ describe('models/incident/saga', () => {
       return expectSaga(fetchIncident, action)
         .provide([[matchers.call.fn(authCall), incident]])
         .put(requestIncidentSuccess(incident))
-        .run();
+        .silentRun();
     });
 
     it('should dispatch failed', () => {
@@ -77,7 +77,7 @@ describe('models/incident/saga', () => {
       return expectSaga(fetchIncident, action)
         .provide([[matchers.call.fn(authCall), throwError(error)]])
         .put(requestIncidentError(error))
-        .run();
+        .silentRun();
     });
   });
 
@@ -96,7 +96,7 @@ describe('models/incident/saga', () => {
 
       return expectSaga(patchIncident, action)
         .call(authPatchCall, `${requestURL}/${id}`, payload.patch)
-        .run();
+        .silentRun();
     });
 
     it('should dispatch success', () => {
@@ -119,7 +119,7 @@ describe('models/incident/saga', () => {
         .provide([[matchers.call.fn(authPatchCall), incident]])
         .put(patchIncidentSuccess({ type, incident }))
         .put(requestHistoryList(id))
-        .run();
+        .silentRun();
     });
 
     it('should dispatch failed', () => {
@@ -139,7 +139,7 @@ describe('models/incident/saga', () => {
       return expectSaga(patchIncident, action)
         .provide([[matchers.call.fn(authPatchCall), throwError(error)]])
         .put(patchIncidentError({ type, error }))
-        .run();
+        .silentRun();
     });
   });
 
@@ -150,7 +150,7 @@ describe('models/incident/saga', () => {
 
       return expectSaga(requestAttachments, action)
         .call(authCall, `${requestURL}/${id}/attachments`)
-        .run();
+        .silentRun();
     });
 
     it('should dispatch success', () => {
@@ -189,7 +189,7 @@ describe('models/incident/saga', () => {
       return expectSaga(requestAttachments, action)
         .provide([[matchers.call.fn(authCall), attachments]])
         .put(requestAttachmentsSuccess(attachments.results.slice(0, 3)))
-        .run();
+        .silentRun();
     });
 
     it('should dispatch failed', () => {
@@ -200,7 +200,7 @@ describe('models/incident/saga', () => {
       return expectSaga(requestAttachments, action)
         .provide([[matchers.call.fn(authCall), throwError(error)]])
         .put(requestAttachmentsError())
-        .run();
+        .silentRun();
     });
   });
 
@@ -220,7 +220,7 @@ describe('models/incident/saga', () => {
           authCall,
           `${requestTermsURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`,
         )
-        .run());
+        .silentRun());
 
     it('should dispatch success', () => {
       const templates = [
@@ -248,7 +248,7 @@ describe('models/incident/saga', () => {
       return expectSaga(requestDefaultTexts, action)
         .provide([[matchers.call.fn(authCall), templates]])
         .put(requestDefaultTextsSuccess(templates))
-        .run();
+        .silentRun();
     });
 
     it('should dispatch failed', () => {
@@ -257,7 +257,7 @@ describe('models/incident/saga', () => {
       return expectSaga(requestDefaultTexts, action)
         .provide([[matchers.call.fn(authCall), throwError(error)]])
         .put(requestDefaultTextsError(error))
-        .run();
+        .silentRun();
     });
   });
 });

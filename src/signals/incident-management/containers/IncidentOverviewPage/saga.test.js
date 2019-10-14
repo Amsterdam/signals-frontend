@@ -63,56 +63,81 @@ describe('signals/incident-management/containers/IncidentOverviewPage/saga', () 
     expect(gen.next().value).toEqual(put(push(navigateUrl)));
   });
 
-  it('should fetchIncidents success', () => {
-    const filter = { name: 'filter', refresh: false };
-    const page = 2;
-    const ordering = '-created_at';
-    const incidents = [{}, {}];
-    const params = { test: 'test' };
-    const filterParams = {
-      page,
-      ordering,
-      ...params,
-    };
+  describe('fetch incidents', () => {
+    it('should fetchIncidents success', () => {
+      const filter = { name: 'filter', refresh: false };
+      const page = 2;
+      const ordering = '-created_at';
+      const incidents = [{}, {}];
+      const params = { test: 'test' };
+      const filterParams = {
+        page,
+        ordering,
+        ...params,
+      };
 
-    return expectSaga(fetchIncidents)
-      .provide([
-        [select(makeSelectActiveFilter), filter],
-        [select(makeSelectFilterParams), filterParams],
-        [matchers.call.fn(authCall), incidents],
-      ])
-      .select(makeSelectActiveFilter)
-      .put(requestIncidentsSuccess(incidents))
-      .run();
-  });
+      return expectSaga(fetchIncidents)
+        .provide([
+          [select(makeSelectActiveFilter), filter],
+          [select(makeSelectFilterParams), filterParams],
+          [matchers.call.fn(authCall), incidents],
+        ])
+        .select(makeSelectActiveFilter)
+        .put(requestIncidentsSuccess(incidents))
+        .run();
+    });
 
-  it('should stop and start filter refresh', () => {
-    const filter = { name: 'filter', refresh: true };
+    it('should stop and start filter refresh', () => {
+      const filter = { name: 'filter', refresh: true };
 
-    return expectSaga(fetchIncidents)
-      .provide([
-        [select(makeSelectActiveFilter), filter],
-        [matchers.call.fn(authCall), []],
-      ])
-      .select(makeSelectActiveFilter)
-      .put(applyFilterRefreshStop())
-      .put(applyFilterRefresh())
-      .run();
-  });
+      return expectSaga(fetchIncidents)
+        .provide([
+          [select(makeSelectActiveFilter), filter],
+          [matchers.call.fn(authCall), []],
+        ])
+        .select(makeSelectActiveFilter)
+        .put(applyFilterRefreshStop())
+        .put(applyFilterRefresh())
+        .run();
+    });
 
-  it('should dispatch fetchIncidents error', () => {
-    const message = '404 Not Found';
-    const error = new Error(message);
+    it('should dispatch fetchIncidents error', () => {
+      const message = '404 Not Found';
+      const error = new Error(message);
 
-    return expectSaga(fetchIncidents)
-      .provide([
-        [select(makeSelectFilterParams), {}],
-        [matchers.call.fn(authCall), throwError(error)],
-      ])
-      .select(makeSelectFilterParams)
-      .call.like(authCall)
-      .put(requestIncidentsError(message))
-      .run();
+      return expectSaga(fetchIncidents)
+        .provide([
+          [select(makeSelectFilterParams), {}],
+          [matchers.call.fn(authCall), throwError(error)],
+        ])
+        .select(makeSelectFilterParams)
+        .call.like(authCall)
+        .put(requestIncidentsError(message))
+        .run();
+    });
+
+    it('should fetch incidents after page change', () =>
+      expectSaga(watchRequestIncidentSaga)
+        .provide([
+          [select(makeSelectActiveFilter), {}],
+          [matchers.call.fn(authCall), []],
+        ])
+        .put(requestIncidentsSuccess([]))
+        .dispatch({ type: PAGE_INCIDENTS_CHANGED, payload: 4 })
+        .silentRun());
+
+    it('should fetch incidents after sort change', () =>
+      expectSaga(watchRequestIncidentSaga)
+        .provide([
+          [select(makeSelectActiveFilter), {}],
+          [matchers.call.fn(authCall), []],
+        ])
+        .put(requestIncidentsSuccess([]))
+        .dispatch({
+          type: ORDERING_INCIDENTS_CHANGED,
+          payload: 'incident-id-in-asc-order',
+        })
+        .silentRun());
   });
 
   describe('incident refresh', () => {

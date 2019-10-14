@@ -20,9 +20,7 @@ describe('containers/SearchBar', () => {
   it('should have props from action creator', () => {
     const tree = mount(withAppContext(<SearchBarContainer />));
 
-    const containerProps = tree
-      .find(SearchBarComponent)
-      .props();
+    const containerProps = tree.find(SearchBarComponent).props();
 
     expect(containerProps.onRequestIncidents).not.toBeUndefined();
     expect(typeof containerProps.onRequestIncidents).toEqual('function');
@@ -34,31 +32,57 @@ describe('containers/SearchBar', () => {
     expect(typeof containerProps.onSetSearchQuery).toEqual('function');
   });
 
-  it('should call searchSubmit handler', () => {
+  describe('callback handlers', () => {
     const onRequestIncidents = jest.fn();
     const onSetSearchQuery = jest.fn();
     const onApplyFilter = jest.fn();
-    const query = '';
 
-    const { queryByTestId } = render(
-      withAppContext(
-        <SearchBarComponent
-          onRequestIncidents={onRequestIncidents}
-          onSetSearchQuery={onSetSearchQuery}
-          onApplyFilter={onApplyFilter}
-          query={query}
-        />,
-      ),
-    );
+    afterEach(jest.resetAllMocks);
 
-    const formInput = queryByTestId('searchBar').querySelector('input');
-    const formSubmitBtn = queryByTestId('searchBar').querySelector('button');
+    it('should call searchSubmit handler', () => {
+      const query = '';
 
-    fireEvent.change(formInput, { target: { value: '1234' } });
-    fireEvent.click(formSubmitBtn);
+      const { queryByTestId } = render(
+        withAppContext(
+          <SearchBarComponent
+            onRequestIncidents={onRequestIncidents}
+            onSetSearchQuery={onSetSearchQuery}
+            onApplyFilter={onApplyFilter}
+            query={query}
+          />,
+        ),
+      );
 
-    expect(onRequestIncidents).toHaveBeenCalledWith();
-    expect(onSetSearchQuery).toHaveBeenCalledWith('1234');
-    expect(onApplyFilter).toHaveBeenCalledWith({});
+      const formInput = queryByTestId('searchBar').querySelector('input');
+      const formSubmitBtn = queryByTestId('searchBar').querySelector('button');
+
+      fireEvent.change(formInput, { target: { value: '1234' } });
+      fireEvent.click(formSubmitBtn);
+
+      expect(onRequestIncidents).toHaveBeenCalledWith();
+      expect(onSetSearchQuery).toHaveBeenCalledWith('1234');
+      expect(onApplyFilter).toHaveBeenCalledWith({});
+    });
+
+    it('should call onChange handler', () => {
+      const query = 'Foo baz barrr';
+
+      const { queryByTestId } = render(
+        withAppContext(
+          <SearchBarComponent
+            onRequestIncidents={onRequestIncidents}
+            onSetSearchQuery={onSetSearchQuery}
+            onApplyFilter={onApplyFilter}
+            query={query}
+          />,
+        ),
+      );
+
+      const formInput = queryByTestId('searchBar').querySelector('input');
+      fireEvent.change(formInput, { target: { value: '' } });
+
+      expect(onSetSearchQuery).toHaveBeenCalledWith('');
+      expect(onRequestIncidents).toHaveBeenCalledWith();
+    });
   });
 });
