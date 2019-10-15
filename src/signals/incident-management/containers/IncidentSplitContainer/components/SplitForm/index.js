@@ -6,7 +6,7 @@ import styled, { ascDefaultTheme } from '@datapunt/asc-core';
 import { FormBuilder } from 'react-reactive-form';
 
 import IncidentPart from '../IncidentPart';
-console.log('-', ascDefaultTheme.colors);
+
 const StyledButton = styled(Button)`
   margin-right: 20px;
   background-color: white;
