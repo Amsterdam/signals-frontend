@@ -1,6 +1,6 @@
 import { call, put, take, takeLatest, takeEvery } from 'redux-saga/effects';
 import { channel } from 'redux-saga';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router/immutable';
 import request from 'utils/request';
 import { testSaga, expectSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';

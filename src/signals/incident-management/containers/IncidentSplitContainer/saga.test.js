@@ -1,5 +1,5 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router/immutable';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authPatchCall, authPostCall } from 'shared/services/api/api';

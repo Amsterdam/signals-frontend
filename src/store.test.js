@@ -3,13 +3,14 @@
  */
 
 import { browserHistory } from 'react-router-dom';
+import Immutable from 'immutable';
 import configureStore from './configureStore';
 
 describe('configureStore', () => {
   let store;
 
   beforeAll(() => {
-    store = configureStore({}, browserHistory);
+    store = configureStore(Immutable.Map(), browserHistory);
   });
 
   describe('injectedReducers', () => {

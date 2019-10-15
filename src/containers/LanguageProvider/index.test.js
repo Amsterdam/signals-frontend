@@ -1,11 +1,9 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { FormattedMessage, defineMessages } from 'react-intl';
-import { Provider } from 'react-redux';
-import { browserHistory } from 'react-router-dom';
+import { withIntlAppContext } from 'test/utils';
 
 import ConnectedLanguageProvider, { LanguageProvider } from './index';
-import configureStore from '../../configureStore';
 
 import { translationMessages } from '../../i18n';
 
@@ -30,20 +28,12 @@ describe('<LanguageProvider />', () => {
 });
 
 describe('<ConnectedLanguageProvider />', () => {
-  let store;
-
-  beforeAll(() => {
-    store = configureStore({}, browserHistory);
-  });
-
   it('should render the default language messages', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <ConnectedLanguageProvider messages={translationMessages}>
-          <FormattedMessage {...messages.someMessage} />
-        </ConnectedLanguageProvider>
-      </Provider>
-    );
+    const wrapper = mount(withIntlAppContext(
+      <ConnectedLanguageProvider messages={translationMessages}>
+        <FormattedMessage {...messages.someMessage} />
+      </ConnectedLanguageProvider>
+    ));
     expect(wrapper.contains(<FormattedMessage {...messages.someMessage} />)).toBe(true);
   });
 });
