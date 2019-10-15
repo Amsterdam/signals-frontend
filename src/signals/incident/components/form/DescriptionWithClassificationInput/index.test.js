@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import TextArea from 'components/TextArea';
 
 import DescriptionWithClassificationInput from './index';
 
@@ -98,7 +99,7 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
         }
       });
 
-      wrapper.find('textarea').simulate('blur', event);
+      wrapper.find(TextArea).simulate('blur', event);
       expect(parent.meta.getClassification).toHaveBeenCalledWith('diabolo');
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': 'diabolo'

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import TextArea from 'components/TextArea';
 
 import Header from '../Header/';
 
@@ -23,7 +24,7 @@ const DescriptionWithClassificationInput = ({ handler, touched, value, hasError,
           getError={getError}
         >
           <div className="invoer">
-            <textarea
+            <TextArea
               rows={meta.rows || 6}
               placeholder={meta.placeholder}
               {...handler()}
