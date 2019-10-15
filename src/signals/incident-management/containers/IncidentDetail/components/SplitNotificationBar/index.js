@@ -16,12 +16,12 @@ const StyledWrapper = styled.div`
   `;
 
 const StyledSuccess = styled.div`
-  background-color: #00a03c;
+  background-color: ${ascDefaultTheme.colors.support.valid};
   padding: 6px 10px;
 `;
 
 const StyledError = styled.div`
-  background-color: ${ascDefaultTheme.colors.error.main};
+  background-color: ${ascDefaultTheme.colors.support.invalid};
   padding: 6px 10px;
 `;
 

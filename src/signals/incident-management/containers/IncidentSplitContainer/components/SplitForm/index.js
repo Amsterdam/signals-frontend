@@ -9,7 +9,7 @@ import IncidentPart from '../IncidentPart';
 
 const StyledButton = styled(Button)`
   margin-right: 20px;
-  background-color: white;
+  background-color: ${ascDefaultTheme.colors.bright.main};
 `;
 
 const StyledSubmitButton = styled(Button)`
@@ -117,6 +117,7 @@ class SplitForm extends React.Component {
 
   render() {
     const { incident, attachments, subcategories, priorityList, handleCancel } = this.props;
+    console.log('ascDefaultTheme', ascDefaultTheme.colors);
     return (
       <div>
         <StyledDisclaimer data-testid="splitFormDisclaimer">
