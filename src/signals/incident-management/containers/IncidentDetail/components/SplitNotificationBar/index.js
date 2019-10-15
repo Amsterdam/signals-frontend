@@ -64,12 +64,13 @@ const renderCloseButton = (onDismissSplitNotification) => (
     size={20}
     variant="blank"
     icon={<Close />}
+    data-testid="splitNotificationBarCloseButton"
     onClick={onDismissSplitNotification}
   />
 );
 
 const SplitNotificationBar = ({ data, onDismissSplitNotification }) => (
-  <StyledWrapper data-testid="split-notification-bar">
+  <StyledWrapper data-testid="splitNotificationBar">
     {data && data.id && data.created && data.created.children && Array.isArray(data.created.children) ?
       <StyledSuccess>
         {renderCloseButton(onDismissSplitNotification)}
