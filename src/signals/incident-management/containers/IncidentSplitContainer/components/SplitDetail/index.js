@@ -8,13 +8,10 @@ import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 const StyledWrapper = styled.aside`
   dt {
     color: ${ascDefaultTheme.colors.tint.level5};
-    font-weight: normal;
     margin-bottom: 5px;
   }
 
   dd {
-    font-family: 'Avenir Next LT W01 Demi', arial, sans-serif;
-    font-weight: normal;
     margin-bottom: 16px;
   }
 `;
