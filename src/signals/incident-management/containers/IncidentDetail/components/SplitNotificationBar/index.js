@@ -18,7 +18,7 @@ const getErrorMessage = (status) => {
 };
 
 const SplitNotificationBar = ({ data, onDismissSplitNotification }) => (
-  <div data-testid="split-notification-bar">
+  <div className="split-notification-bar__wrapper" data-testid="split-notification-bar">
     {data && data.id && data.created && data.created.children && Array.isArray(data.created.children) ?
       <div className="split-notification-bar success">
         <div className="split-notification-bar__body">

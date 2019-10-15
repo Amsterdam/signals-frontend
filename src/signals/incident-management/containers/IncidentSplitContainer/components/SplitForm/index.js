@@ -6,12 +6,18 @@ import styled, { ascDefaultTheme } from '@datapunt/asc-core';
 import { FormBuilder } from 'react-reactive-form';
 
 import IncidentPart from '../IncidentPart';
-
+console.log('-', ascDefaultTheme.colors);
 const StyledButton = styled(Button)`
+  margin-right: 20px;
+  background-color: white;
+`;
+
+const StyledSubmitButton = styled(Button)`
   margin-right: 20px;
 `;
 
 const StyledRemoveButton = styled(Button)`
+  background-color: ${ascDefaultTheme.colors.bright.main};
   padding: 0;
   border-color: transparent;
   float: right;
@@ -26,6 +32,7 @@ const StyledDisclaimer = styled.div`
   background-color: ${ascDefaultTheme.colors.tint.level3};
   padding: 15px;
   margin-bottom: 20px;
+  line-height: 22px;
 
   ul {
     margin: 0 0 0 25px;
@@ -169,10 +176,10 @@ class SplitForm extends React.Component {
         </StyledBottomDisclaimer>
 
         <Fragment>
-          <StyledButton
+          <StyledSubmitButton
             variant="secondary"
             onClick={this.handleSubmit}
-          >Splitsen</StyledButton>
+          >Splitsen</StyledSubmitButton>
           <StyledButton
             variant="primaryInverted"
             onClick={handleCancel}

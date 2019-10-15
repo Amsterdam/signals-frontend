@@ -1,5 +1,9 @@
 @import "config.scss";
 
+.split-notification-bar__wrapper {
+  flex-basis: 100%;
+}
+
 .split-notification-bar {
   padding: 6px 10px;
   color: $ams-wit;
@@ -40,3 +44,4 @@
     background-image: url("../../../../../../shared/images/icon-sluitkruis.svg");
   }
 }
+
