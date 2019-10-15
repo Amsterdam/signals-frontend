@@ -73,7 +73,9 @@ exports[`<List /> should render correctly 1`] = `
           <td>
             1668
           </td>
-          <td>
+          <td
+            data-testid="incidentDaysOpen"
+          >
             -
           </td>
           <td
@@ -106,7 +108,9 @@ exports[`<List /> should render correctly 1`] = `
           <td>
             1667
           </td>
-          <td>
+          <td
+            data-testid="incidentDaysOpen"
+          >
             42
           </td>
           <td

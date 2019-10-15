@@ -26,15 +26,11 @@ exports[`Form component <TextInput /> rendering should render text field correct
       }
       touched={false}
     >
-      <div
-        className="invoer"
-      >
-        <input
-          onBlur={[Function]}
-          placeholder="type here"
-          type="text"
-        />
-      </div>
+      <Input
+        onBlur={[Function]}
+        placeholder="type here"
+        type="text"
+      />
     </Header>
   </div>
 </div>

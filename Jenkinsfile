@@ -25,16 +25,14 @@ node {
     }
 
     stage("Get cached build") {
-        if (env.JENKINS_URL == "https://ci.data.amsterdam.nl/") {
-            docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
-                def cachedImage = docker.image("ois/signalsfrontend:acceptance")
-                cachedImage.pull()
-            }
+        docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
+            def cachedImage = docker.image("ois/signalsfrontend:acceptance")
+            cachedImage.pull()
         }
     }
 
     stage("Lint") {
-        String PROJECT = "sia-eslint"
+        String PROJECT = "sia-eslint-${env.GIT_COMMIT}"
 
         tryStep "lint start", {
             sh "docker-compose -p ${PROJECT} up --build --exit-code-from lint-container lint-container"
@@ -47,7 +45,7 @@ node {
     }
 
     stage("Test") {
-        String PROJECT = "sia-unittests"
+        String PROJECT = "sia-unittests-${env.GIT_COMMIT}"
 
         tryStep "unittests start", {
             sh "docker-compose -p ${PROJECT} up --build --exit-code-from unittest-container unittest-container"
@@ -100,15 +98,21 @@ if (BRANCH == "master") {
     node {
         stage("Build and Push Production image") {
             tryStep "build", {
-                def image = docker.build("build.app.amsterdam.nl:5000/ois/signalsfrontend:${env.BUILD_NUMBER}",
-                    "--shm-size 1G " +
-                    "--build-arg NODE_ENV=production " +
-                    "--build-arg BUILD_ENV=prod " +
-                    "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
-                    "--build-arg GIT_COMMIT=${env.GIT_COMMIT} " +
-                    ".")
-                image.push("production")
-                image.push("latest")
+                docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
+                    def cachedImage = docker.image("ois/signalsfrontend:production")
+                    cachedImage.pull()
+
+                    def image = docker.build("ois/signalsfrontend:${env.BUILD_NUMBER}",
+                        "--shm-size 1G " +
+                        "--build-arg NODE_ENV=production " +
+                        "--build-arg BUILD_ENV=prod " +
+                        "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
+                        "--build-arg GIT_COMMIT=${env.GIT_COMMIT} " +
+                        ".")
+
+                    image.push("production")
+                    image.push("latest")
+                }
             }
         }
     }
