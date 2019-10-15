@@ -10,7 +10,7 @@ import SelectInput from '../../../../components/SelectInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 
 const StyledWrapper = styled.div`
-  border-bottom: 2px solid ${ascDefaultTheme.colors.tint.level4};
+  border-bottom: 2px solid ${ascDefaultTheme.colors.tint.level3};
   padding-bottom: 15px;
   margin-bottom: 37px;
 `;
