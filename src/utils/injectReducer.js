@@ -19,7 +19,9 @@ export default ({ key, reducer }) => (WrappedComponent) => {
       store: PropTypes.object.isRequired,
     };
 
-    componentWillMount() {
+    constructor(props, context) {
+      super(props, context);
+
       const { injectReducer } = this.injectors;
 
       injectReducer(key, reducer);
