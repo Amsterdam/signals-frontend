@@ -1,4 +1,4 @@
-  const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 
 const prettierOptions = JSON.parse(
@@ -95,6 +95,7 @@ module.exports = {
     'prefer-destructuring': 0,
     'react/jsx-fragments': [1, 'element'],
     'react/jsx-one-expression-per-line': 0,
+    'react/jsx-indent': [2, 2, { checkAttributes: true }],
   },
   settings: {
     'import/resolver': {

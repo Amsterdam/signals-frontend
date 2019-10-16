@@ -1,6 +1,4 @@
-import {
-  all, call, put, spawn, takeLatest,
-} from 'redux-saga/effects';
+import { all, call, put, spawn, takeLatest } from 'redux-saga/effects';
 
 import { authPostCall, authPatchCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';

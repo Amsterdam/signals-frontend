@@ -15,11 +15,16 @@ process.noDeprecation = true;
 
 module.exports = options => ({
   entry: options.entry,
-  output: { // Compile into js/build.js
-    path: path.resolve(process.cwd(), 'build'),
-    publicPath: '/',
-    ...options.output,
-  }, // Merge with env dependent settings
+  // eslint-disable-next-line prefer-object-spread
+  output: Object.assign(
+    {},
+    {
+      // Compile into js/build.js
+      path: path.resolve(process.cwd(), 'build'),
+      publicPath: '/',
+    },
+    options.output // Merge with env dependent settings
+  ),
   module: {
     rules: [
       {
@@ -90,7 +95,10 @@ module.exports = options => ({
   },
   plugins: options.plugins.concat([
     new CopyWebpackPlugin([
-      { from: './node_modules/amsterdam-amaps/dist/nlmaps/dist/assets', to: './assets' },
+      {
+        from: './node_modules/amsterdam-amaps/dist/nlmaps/dist/assets',
+        to: './assets',
+      },
     ]),
 
     new webpack.ProvidePlugin({
@@ -115,21 +123,16 @@ module.exports = options => ({
   ]),
   resolve: {
     modules: ['src', 'node_modules'],
-    extensions: [
-      '.js',
-      '.jsx',
-      '.react.js',
-    ],
-    mainFields: [
-      'browser',
-      'jsnext:main',
-      'main',
-    ],
+    extensions: ['.js', '.jsx', '.react.js'],
+    mainFields: ['browser', 'jsnext:main', 'main'],
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},
   externals: {
-    globalConfig: JSON.stringify(require(path.resolve(process.cwd(),'environment.conf.json'))), //eslint-disable-line
+    globalConfig: JSON.stringify(
+      // eslint-disable-next-line
+      require(path.resolve(process.cwd(), 'environment.conf.json'))
+    ),
   },
 });
