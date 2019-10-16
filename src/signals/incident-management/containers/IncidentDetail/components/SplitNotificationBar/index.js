@@ -29,10 +29,10 @@ const SplitNotificationBar = ({ data, onDismissSplitNotification }) => (
               data-testid="split-notification-bar-close-button"
               onClick={onDismissSplitNotification}
             />
-            Melding {data.id} is gesplitst in&nbsp;
+            Melding {data.id} is gesplitst in
             {data.created.children.map(item => (
               <span key={item.id} className="split-notification-bar__link">
-                <NavLink to={`/manage/incident/${item.id}`}>{item.id}</NavLink>
+                &nbsp;<NavLink to={`/manage/incident/${item.id}`}>{item.id}</NavLink>
               </span>
             ))}
           </div>

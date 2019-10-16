@@ -34,13 +34,12 @@ const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
             className="startagain action"
             data-testid="detail-header-button-back"
           >
-Terug naar overzicht
+            Terug naar overzicht
           </Link>
         </div>
 
         <div className="col-6 detail-header__title align-self-center" data-testid="detail-header-title">
-Melding
-          {incident.id}
+          Melding {incident.id}
         </div>
         <div className="col-6 detail-header__buttons d-flex justify-content-end">
           {canSplit
@@ -50,7 +49,7 @@ Melding
                 className="incident-detail__button align-self-center"
                 data-testid="detail-header-button-split"
               >
-Splitsen
+                Splitsen
               </Link>
             ) : ''}
 
@@ -62,7 +61,7 @@ Splitsen
                 onClick={() => onPatchIncident(patch)}
                 data-testid="detail-header-button-thor"
               >
-THOR
+                THOR
               </button>
             ) : ''}
 
