@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import { Input } from '@datapunt/asc-ui';
 
 import TextInput from './index';
 
@@ -73,7 +74,7 @@ describe('Form component <TextInput />', () => {
         }
       });
 
-      wrapper.find('input').simulate('blur', event);
+      wrapper.find(Input).simulate('blur', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': 'diabolo'
@@ -89,7 +90,7 @@ describe('Form component <TextInput />', () => {
         }
       });
 
-      wrapper.find('input').simulate('blur', event);
+      wrapper.find(Input).simulate('blur', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': 'iaoo'

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import map from 'lodash.map';
+import { Input } from '@datapunt/asc-ui';
 
 import './style.scss';
 
@@ -50,8 +51,8 @@ const MultiTextInput = ({ handler, touched, hasError, meta, parent, getError, va
             />
 
             {map(handler().value || [''], (input, index) =>
-              (<div key={`${meta.name}-${index + 1}`} className="invoer">
-                <input
+              (<div key={`${meta.name}-${index + 1}`}>
+                <Input
                   className={`multi-text-input__input ${meta.itemClassName ? meta.itemClassName : ''}`}
                   id={`${meta.name}-${index + 1}`}
                   name={`${meta.name}-${index + 1}`}
