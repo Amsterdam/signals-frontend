@@ -43,13 +43,25 @@ describe('<IncidentPart />', () => {
       expect(queryByText('Urgentie')).not.toBeNull();
       expect(queryByText('Foto\'s toevoegen')).toBeNull();
 
-
       props.attachments.push({ location: 'mock-image' });
       rerender(
         <IncidentPart {...props} />
       );
 
       expect(queryByText('Foto\'s toevoegen')).not.toBeNull();
+    });
+
+    it('should render no form components when form is not available', () => {
+      props.splitForm = undefined;
+      const { queryByTestId, queryByText } = render(
+        <IncidentPart {...props} />
+      );
+      expect(queryByTestId('incidentPartTitle')).toBeNull();
+      expect(queryByText('Subcategorie')).toBeNull();
+      expect(queryByText('Omschrijving')).toBeNull();
+      expect(queryByText('Notitie')).toBeNull();
+      expect(queryByText('Urgentie')).toBeNull();
+      expect(queryByText('Foto\'s toevoegen')).toBeNull();
     });
   });
 });
