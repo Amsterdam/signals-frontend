@@ -68,8 +68,8 @@ export const IncidentSplitContainer = ({
               attachments={attachments}
               subcategories={categories.sub}
               priorityList={priorityList}
-              handleSubmit={onSplitIncident}
-              handleCancel={onGoBack}
+              onHandleSubmit={onSplitIncident}
+              onHandleCancel={onGoBack}
             />
           </Column>
           <Column

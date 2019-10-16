@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Heading } from '@datapunt/asc-ui';
 import styled, { ascDefaultTheme } from '@datapunt/asc-core';
@@ -49,147 +49,139 @@ const StyledBottomDisclaimer = styled(StyledDisclaimer)`
   margin: 20px 0;
 `;
 
-class SplitForm extends React.Component {
-  constructor(props) {
-    super(props);
+let form;
 
-    this.state = {
-      isVisible: props.isVisible
-    };
+const SplitForm = ({
+  incident,
+  attachments,
+  subcategories,
+  priorityList,
+  onHandleCancel,
+  onHandleSubmit
+}) => {
+  const [isVisible, setVisibility] = useState(false);
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.setVisibility = this.setVisibility.bind(this);
-  }
-
-  setVisibility(isVisible) {
-    this.setState({ isVisible });
-  }
-
-  form = FormBuilder.group({
-    part1: FormBuilder.group({
-      subcategory: this.props.incident.category.category_url,
-      text: this.props.incident.text,
-      image: true,
-      note: '',
-      priority: this.props.incident.priority.priority,
-    }),
-    part2: FormBuilder.group({
-      subcategory: this.props.incident.category.category_url,
-      text: this.props.incident.text,
-      image: true,
-      note: '',
-      priority: this.props.incident.priority.priority,
-    }),
-    part3: FormBuilder.group({
-      subcategory: this.props.incident.category.category_url,
-      text: this.props.incident.text,
-      image: true,
-      note: '',
-      priority: this.props.incident.priority.priority,
-    }),
-  });
-
-  handleSubmit() {
+  const handleSubmit = () => {
     const create = [];
     const update = [];
     const parts = ['part1', 'part2'];
-    if (this.state.isVisible) {
+    if (isVisible) {
       parts.push('part3');
     }
 
     parts.forEach((part) => {
-      update.push(this.form.value[part]);
+      update.push(form.value[part]);
       create.push({
         category: {
-          sub_category: this.form.value[part].subcategory
+          sub_category: form.value[part].subcategory
         },
-        reuse_parent_image: this.form.value[part].image,
-        text: this.form.value[part].text
+        reuse_parent_image: form.value[part].image,
+        text: form.value[part].text
       });
     });
 
-    this.props.handleSubmit({
-      id: this.props.incident.id,
+    onHandleSubmit({
+      id: incident.id,
       create,
       update
     });
-  }
+  };
 
-  render() {
-    const { incident, attachments, subcategories, priorityList, handleCancel } = this.props;
+  useEffect(() => {
+    form = FormBuilder.group({
+      part1: FormBuilder.group({
+        subcategory: incident.category.category_url,
+        text: incident.text,
+        image: true,
+        note: '',
+        priority: incident.priority.priority,
+      }),
+      part2: FormBuilder.group({
+        subcategory: incident.category.category_url,
+        text: incident.text,
+        image: true,
+        note: '',
+        priority: incident.priority.priority,
+      }),
+      part3: FormBuilder.group({
+        subcategory: incident.category.category_url,
+        text: incident.text,
+        image: true,
+        note: '',
+        priority: incident.priority.priority,
+      }),
+    });
+  }, []);
 
-    return (
-      <div>
-        <StyledDisclaimer data-testid="splitFormDisclaimer">
-          Splitsen mag alleen als de oorspronkelijke melding over twee verschillende onderwerpen gaat, die zonder samenwerking met een andere afdeling kan worden afgehandeld.
-        </StyledDisclaimer>
+  return (
+    <div>
+      <StyledDisclaimer data-testid="splitFormDisclaimer">
+        Splitsen mag alleen als de oorspronkelijke melding over twee verschillende onderwerpen gaat, die zonder samenwerking met een andere afdeling kan worden afgehandeld.
+      </StyledDisclaimer>
 
-        <IncidentPart
-          index="1"
-          attachments={attachments}
-          subcategories={subcategories}
-          priorityList={priorityList}
-          splitForm={this.form}
-        />
+      {form ? <IncidentPart
+        index="1"
+        attachments={attachments}
+        subcategories={subcategories}
+        priorityList={priorityList}
+        splitForm={form}
+      /> : ''}
 
-        <IncidentPart
-          index="2"
-          incident={incident}
-          attachments={attachments}
-          subcategories={subcategories}
-          priorityList={priorityList}
-          splitForm={this.form}
-        />
+      {form ? <IncidentPart
+        index="2"
+        attachments={attachments}
+        subcategories={subcategories}
+        priorityList={priorityList}
+        splitForm={form}
+      /> : ''}
 
-        {this.state.isVisible ?
-          <Fragment>
-            <StyledRemoveButton
-              data-testid="splitForPartRemove"
-              variant="textButton"
-              onClick={() => this.setVisibility(false)}
-            >Verwijder</StyledRemoveButton>
-
-            <IncidentPart
-              index="3"
-              incident={incident}
-              attachments={attachments}
-              subcategories={subcategories}
-              priorityList={priorityList}
-              splitForm={this.form}
-            />
-
-          </Fragment>
-          :
-          <StyledButton
-            data-testid="splitForPartAdd"
-            variant="primaryInverted"
-            onClick={() => this.setVisibility(true)}
-          >Deelmelding 3 toevoegen</StyledButton>
-        }
-
-        <StyledBottomDisclaimer data-testid="splitFormBottomDisclaimer">
-          <StyledH4 $as="h4">Let op</StyledH4>
-          <ul>
-            <li>De persoon die de oorspronkelijke melding heeft gedaan, ontvangt een email per deelmelding.</li>
-            <li>De oorspronkelijke melding wordt afgesloten als deze gesplitst wordt.</li>
-            <li>Een melding kan maar 1 keer gesplitst worden.</li>
-          </ul>
-        </StyledBottomDisclaimer>
-
+      {isVisible ?
         <Fragment>
-          <StyledSubmitButton
-            variant="secondary"
-            onClick={this.handleSubmit}
-          >Splitsen</StyledSubmitButton>
-          <StyledButton
-            variant="primaryInverted"
-            onClick={handleCancel}
-          >Annuleer</StyledButton>
+          <StyledRemoveButton
+            data-testid="splitForPartRemove"
+            variant="textButton"
+            onClick={() => setVisibility(false)}
+          >Verwijder</StyledRemoveButton>
+
+          {form ? <IncidentPart
+            index="3"
+            attachments={attachments}
+            subcategories={subcategories}
+            priorityList={priorityList}
+            splitForm={form}
+          /> : ''}
+
         </Fragment>
-      </div>
-    );
-  }
-}
+        :
+        <StyledButton
+          data-testid="splitForPartAdd"
+          variant="primaryInverted"
+          onClick={() => setVisibility(true)}
+        >Deelmelding 3 toevoegen</StyledButton>
+      }
+
+      <StyledBottomDisclaimer data-testid="splitFormBottomDisclaimer">
+        <StyledH4 $as="h4">Let op</StyledH4>
+        <ul>
+          <li>De persoon die de oorspronkelijke melding heeft gedaan, ontvangt een email per deelmelding.</li>
+          <li>De oorspronkelijke melding wordt afgesloten als deze gesplitst wordt.</li>
+          <li>Een melding kan maar 1 keer gesplitst worden.</li>
+        </ul>
+      </StyledBottomDisclaimer>
+
+      <Fragment>
+        <StyledSubmitButton
+          variant="secondary"
+          onClick={handleSubmit}
+        >Splitsen</StyledSubmitButton>
+        <StyledButton
+          variant="primaryInverted"
+          onClick={onHandleCancel}
+        >Annuleer</StyledButton>
+      </Fragment>
+    </div>
+  );
+};
 
 SplitForm.defaultProps = {
   incident: {
@@ -205,11 +197,10 @@ SplitForm.defaultProps = {
 SplitForm.propTypes = {
   incident: PropTypes.object,
   attachments: PropTypes.array,
-  isVisible: PropTypes.bool,
   subcategories: PropTypes.array,
   priorityList: PropTypes.array,
-  handleSubmit: PropTypes.func.isRequired,
-  handleCancel: PropTypes.func.isRequired
+  onHandleSubmit: PropTypes.func.isRequired,
+  onHandleCancel: PropTypes.func.isRequired
 };
 
 export default SplitForm;
