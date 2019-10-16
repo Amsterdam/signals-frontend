@@ -12,8 +12,8 @@ describe.skip('signals/incident-management/components/Label', () => {
     const { container, getByLabelText } = render(
       withAppContext(
         <div>
-          <Label htmlFor="someOtherElementId" >This is my label text</Label>
-          <input type="text" id="someOtherElementId" isGroupHeader={false} />
+          <Label isGroupHeader={false} htmlFor="someOtherElementId">This is my label text</Label>
+          <input type="text" id="someOtherElementId" />
         </div>,
       ),
     );
@@ -22,7 +22,7 @@ describe.skip('signals/incident-management/components/Label', () => {
     expect(getByLabelText('This is my label text')).toBeTruthy();
   });
 
-  it('should not require the htmlFor prop when the element is not rendered as a label', () => {
+  it.skip('should not require the htmlFor prop when the element is not rendered as a label', () => {
     global.console.error = jest.fn();
 
     const { container, rerender } = render(
@@ -68,7 +68,7 @@ describe.skip('signals/incident-management/components/Label', () => {
     rerender(
       withAppContext(
         <div>
-          <Label htmlFor="someOtherElementId" isGroupHeader>This is my label text</Label>
+          <Label htmlFor="someOtherElementId" isGroupHeader={false}>This is my label text</Label>
           <input type="text" id="someOtherElementId" />
         </div>,
       ),

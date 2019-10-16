@@ -117,7 +117,7 @@ class SplitForm extends React.Component {
 
   render() {
     const { incident, attachments, subcategories, priorityList, handleCancel } = this.props;
-    console.log('ascDefaultTheme', ascDefaultTheme.colors);
+
     return (
       <div>
         <StyledDisclaimer data-testid="splitFormDisclaimer">
