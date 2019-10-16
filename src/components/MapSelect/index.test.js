@@ -29,7 +29,7 @@ describe('<MapSelect />', () => {
 
     const latlng = {
       latitude: 4,
-      longitude: 52
+      longitude: 52,
     };
     const onSelectionChange = jest.fn();
 
@@ -78,7 +78,7 @@ describe('<MapSelect />', () => {
     expect(LegendControl).toHaveBeenCalledWith({
       position: 'topright',
       zoomMin: 17,
-      elements: legend
+      elements: legend,
     });
 
     expect(mockLayer.addTo).toHaveBeenCalled();
@@ -107,13 +107,13 @@ describe('<MapSelect />', () => {
     wrapper.setProps({
       latlng: {
         latitude: lat,
-        longitude: lng
-      }
+        longitude: lng,
+      },
     });
 
     expect(map.panTo).toHaveBeenCalledWith({
       lat,
-      lng
+      lng,
     });
   });
 
@@ -122,7 +122,7 @@ describe('<MapSelect />', () => {
 
     mockLayer.getLayers = jest.fn(() => []);
     wrapper.setProps({
-      value: ['foo']
+      value: ['foo'],
     });
 
     expect(wrapper.instance().selection.set).toEqual(new Set(['foo']));

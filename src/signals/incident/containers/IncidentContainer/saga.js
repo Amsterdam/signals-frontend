@@ -1,4 +1,6 @@
-import { all, call, delay, put, select, takeLatest } from 'redux-saga/effects';
+import {
+  all, call, delay, put, select, takeLatest,
+} from 'redux-saga/effects';
 import { replace } from 'react-router-redux';
 
 import { authPostCall, postCall } from 'shared/services/api/api';
@@ -65,8 +67,8 @@ export function* createIncident(action) {
     );
 
     if (
-      action.payload.isAuthenticated &&
-      action.payload.incident.priority.id === 'high'
+      action.payload.isAuthenticated
+      && action.payload.incident.priority.id === 'high'
     ) {
       yield put(
         setPriority({
@@ -78,14 +80,12 @@ export function* createIncident(action) {
 
     if (action.payload.incident.images) {
       yield all(
-        action.payload.incident.images.map((image) =>
-          put(
-            uploadRequest({
-              file: image,
-              id: result.signal_id,
-            }),
-          ),
-        ),
+        action.payload.incident.images.map(image => put(
+          uploadRequest({
+            file: image,
+            id: result.signal_id,
+          }),
+        ),),
       );
     }
 

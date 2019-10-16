@@ -1,4 +1,4 @@
-const convertValue = (value) => {
+const convertValue = value => {
   if (value === 0) {
     return 0;
   }

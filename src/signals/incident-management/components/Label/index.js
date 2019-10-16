@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 const LabelWrapper = styled.div`
-  ${({ isGroupHeader }) =>
-    !isGroupHeader &&
-    css`
+  ${({ isGroupHeader }) => !isGroupHeader
+    && css`
       display: inline-block;
     `}
 `;
@@ -17,14 +16,15 @@ const StyledLabel = styled.label`
   margin-bottom: 10px;
   display: inline-block;
 
-  ${({ isGroupHeader }) =>
-    isGroupHeader &&
-    css`
+  ${({ isGroupHeader }) => isGroupHeader
+    && css`
       color: #ec0000;
     `}
 `;
 
-const Label = ({ className, htmlFor, as, ...rest }) => (
+const Label = ({
+  className, htmlFor, as, ...rest
+}) => (
   <LabelWrapper className={`Label ${className}`}>
     <StyledLabel htmlFor={htmlFor} as={as} {...rest} />
   </LabelWrapper>

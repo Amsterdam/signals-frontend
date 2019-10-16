@@ -21,30 +21,32 @@ const IncidentNavigation = ({ controls, meta: { wizard, submitting, handleSubmit
 
           return (
             <div>
-              {wizardStep ?
-                <div className="incident-navigation">
-                  {!hideSubmit && wizardStep.previousButtonLabel ? (
-                    <button
-                      className={`incident-navigation__button  ${wizardStep.previousButtonClass}`}
-                      onClick={previous}
-                      type="button"
-                    >
-                      {wizardStep.previousButtonLabel}
-                    </button>
-                  ) : <span /> }
+              {wizardStep
+                ? (
+                  <div className="incident-navigation">
+                    {!hideSubmit && wizardStep.previousButtonLabel ? (
+                      <button
+                        className={`incident-navigation__button  ${wizardStep.previousButtonClass}`}
+                        onClick={previous}
+                        type="button"
+                      >
+                        {wizardStep.previousButtonLabel}
+                      </button>
+                    ) : <span /> }
 
-                  {!hideSubmit && wizardStep.nextButtonLabel && (
-                    <button
-                      className={`incident-navigation__button incident-navigation__button--next  ${wizardStep.nextButtonClass}`}
-                      onClick={(e) => handleSubmit(e, next, wizardStep.formAction)}
-                      type="submit"
-                    >
-                      <span className="value">{wizardStep.nextButtonLabel}</span>
-                      {submitting ? <span className="working"><div className="progress-indicator progress-white"></div></span> : ''}
-                    </button>
-                  )}
-                </div>
-              : ''}
+                    {!hideSubmit && wizardStep.nextButtonLabel && (
+                      <button
+                        className={`incident-navigation__button incident-navigation__button--next  ${wizardStep.nextButtonClass}`}
+                        onClick={e => handleSubmit(e, next, wizardStep.formAction)}
+                        type="submit"
+                      >
+                        <span className="value">{wizardStep.nextButtonLabel}</span>
+                        {submitting ? <span className="working"><div className="progress-indicator progress-white"></div></span> : ''}
+                      </button>
+                    )}
+                  </div>
+                )
+                : ''}
             </div>
           );
         }}
@@ -54,7 +56,7 @@ const IncidentNavigation = ({ controls, meta: { wizard, submitting, handleSubmit
 };
 
 IncidentNavigation.defaultProps = {
-  meta: {}
+  meta: {},
 };
 
 IncidentNavigation.propTypes = {
@@ -62,8 +64,8 @@ IncidentNavigation.propTypes = {
   meta: PropTypes.shape({
     wizard: PropTypes.object,
     submitting: PropTypes.bool,
-    handleSubmit: PropTypes.function
-  })
+    handleSubmit: PropTypes.func,
+  }),
 };
 
 export default IncidentNavigation;

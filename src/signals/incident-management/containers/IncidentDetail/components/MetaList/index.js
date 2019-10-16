@@ -11,7 +11,7 @@ import {
 import { incidentType, dataListType } from 'shared/types';
 
 import ChangeValue from './components/ChangeValue';
-import Highlight from '../../components/Highlight';
+import Highlight from '../Highlight';
 
 import './style.scss';
 
@@ -35,12 +35,16 @@ const MetaList = ({
         <dt
           className="meta-list__definition"
           data-testid="meta-list-date-definition"
-        >Gemeld op</dt>
+        >
+Gemeld op
+        </dt>
         <dd
           className="meta-list__value"
           data-testid="meta-list-date-value"
         >
-          {string2date(incident.created_at)} {string2time(incident.created_at)}
+          {string2date(incident.created_at)}
+          {' '}
+          {string2time(incident.created_at)}
         </dd>
 
         <Highlight subscribeTo={incident.status.state}>
@@ -112,11 +116,15 @@ const MetaList = ({
             <dt
               className="meta-list__definition"
               data-testid="meta-list-main-category-definition"
-            >Hoofdcategorie</dt>
+            >
+Hoofdcategorie
+            </dt>
             <dd
               className="meta-list__value"
               data-testid="meta-list-main-category-value"
-            >{incident.category.main}</dd>
+            >
+              {incident.category.main}
+            </dd>
           </dl>
         </Highlight>
 
@@ -125,7 +133,9 @@ const MetaList = ({
             <dt
               className="meta-list__definition"
               data-testid="meta-list-parent-definition"
-            >Oorspronkelijke melding</dt>
+            >
+Oorspronkelijke melding
+            </dt>
             <dd
               className="meta-list__value"
             >
@@ -147,11 +157,13 @@ const MetaList = ({
             <dt
               className="meta-list__definition"
               data-testid="meta-list-children-definition"
-            >Gesplitst in</dt>
+            >
+Gesplitst in
+            </dt>
             <dd
               className="meta-list__value"
             >
-              {children.map((child) => (
+              {children.map(child => (
                 <NavLink
                   className="meta-list__link"
                   data-testid={`meta-list-children-link-${getId(child)}`}
@@ -187,11 +199,15 @@ const MetaList = ({
         <dt
           className="meta-list__definition"
           data-testid="meta-list-source-definition"
-        >Bron</dt>
+        >
+Bron
+        </dt>
         <dd
           className="meta-list__value"
           data-testid="meta-list-source-value"
-        >{incident.source}</dd>
+        >
+          {incident.source}
+        </dd>
       </dl>
     </div>
   );

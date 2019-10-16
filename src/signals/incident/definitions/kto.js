@@ -12,15 +12,15 @@ export default {
         label: 'Waarom bent u tevreden?',
         subtitle: 'Eén antwoord mogelijk, kies de belangrijkste reden.',
         ifAllOf: {
-          is_satisfied: true
+          is_satisfied: true,
         },
-        values: {} // will be populated from endpoint
+        values: {}, // will be populated from endpoint
       },
       render: FormComponents.RadioInput,
       options: {
         validators: [
-          Validators.required
-        ]
+          Validators.required,
+        ],
       },
     },
     tevreden_anders: {
@@ -28,25 +28,25 @@ export default {
         className: 'kto-form--collapse-to-previous-question',
         ifAllOf: {
           is_satisfied: true,
-          tevreden: 'anders'
-        }
+          tevreden: 'anders',
+        },
       },
-      render: FormComponents.TextInput
+      render: FormComponents.TextInput,
     },
     niet_tevreden: {
       meta: {
         label: 'Waarom bent u ontevreden?',
         subtitle: 'Eén antwoord mogelijk, kies de belangrijkste reden.',
         ifAllOf: {
-          is_satisfied: false
+          is_satisfied: false,
         },
-        values: {} // will be populated from endpoint
+        values: {}, // will be populated from endpoint
       },
       render: FormComponents.RadioInput,
       options: {
         validators: [
-          Validators.required
-        ]
+          Validators.required,
+        ],
       },
     },
     niet_tevreden_anders: {
@@ -54,35 +54,35 @@ export default {
         className: 'kto-form--collapse-to-previous-question',
         ifAllOf: {
           is_satisfied: false,
-          niet_tevreden: 'anders'
-        }
+          niet_tevreden: 'anders',
+        },
       },
-      render: FormComponents.TextInput
+      render: FormComponents.TextInput,
     },
     text_extra: {
       meta: {
         label: 'Wilt u verder nog iets vermelden of toelichten?',
-        maxLength: 1000
+        maxLength: 1000,
       },
       options: {
         validators: [
-          Validators.maxLength(1000)
-        ]
+          Validators.maxLength(1000),
+        ],
       },
-      render: FormComponents.TextareaInput
+      render: FormComponents.TextareaInput,
     },
     allows_contact: {
       meta: {
         label: 'Mogen wij contact met u opnemen naar aanleiding van uw feedback?',
-        value: 'Ja'
+        value: 'Ja',
       },
-      render: FormComponents.CheckboxInput
+      render: FormComponents.CheckboxInput,
     },
     is_satisfied: {
       meta: {
-        label: 'Is tevreden?'
+        label: 'Is tevreden?',
       },
-      render: FormComponents.HiddenInput
+      render: FormComponents.HiddenInput,
     },
     $field_0: {
       isStatic: false,
@@ -96,7 +96,7 @@ export default {
             Verstuur
           </button>
         </div>
-      )
-    }
-  }
+      ),
+    },
+  },
 };

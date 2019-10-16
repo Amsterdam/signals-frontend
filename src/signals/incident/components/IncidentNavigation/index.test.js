@@ -28,7 +28,7 @@ describe('<IncidentNavigation />', () => {
       value: {},
       meta: {
         incidentContainer: {
-          incident: {}
+          incident: {},
         },
         submitting: false,
         isAuthenticated: false,
@@ -38,8 +38,8 @@ describe('<IncidentNavigation />', () => {
             nextButtonClass: 'next-class',
             formAction: 'UPDATE_INCIDENT',
             form: {
-              controls: {}
-            }
+              controls: {},
+            },
           },
           email: {
             previousButtonLabel: 'Vorige',
@@ -47,8 +47,8 @@ describe('<IncidentNavigation />', () => {
             nextButtonLabel: 'Volgende',
             nextButtonClass: 'next-class',
             form: {
-              controls: {}
-            }
+              controls: {},
+            },
           },
           samenvatting: {
             previousButtonLabel: 'Vorige',
@@ -57,31 +57,31 @@ describe('<IncidentNavigation />', () => {
             nextButtonClass: 'next-class send-button',
             formAction: 'CREATE_INCIDENT',
             form: {
-              controls: {}
-            }
+              controls: {},
+            },
           },
           bedankt: {
             form: {
-              controls: {}
-            }
-          }
+              controls: {},
+            },
+          },
         },
         updateIncident: jest.fn(),
         createIncident: jest.fn(),
-        handleSubmit: jest.fn()
+        handleSubmit: jest.fn(),
       },
     };
 
     historySpy = {
-      listen: jest.fn()
+      listen: jest.fn(),
     };
 
     context = {
       wizard: {
         next: jest.fn(),
         previous: jest.fn(),
-        step: { id: 'incident/beschrijf' }
-      }
+        step: { id: 'incident/beschrijf' },
+      },
     };
   });
 
@@ -134,9 +134,9 @@ describe('<IncidentNavigation />', () => {
       props.controls = {
         hide_navigation_buttons: {
           meta: {
-            isVisible: true
-          }
-        }
+            isVisible: true,
+          },
+        },
       };
       getComponent();
 

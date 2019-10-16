@@ -6,11 +6,11 @@ describe('makeSelectIncidentModel', () => {
   const selector = makeSelectIncidentModel();
   it('should select the incidentModel', () => {
     const incidentModel = {
-      foo: 'bar'
+      foo: 'bar',
     };
 
     const mockedState = fromJS({
-      incidentModel
+      incidentModel,
     });
     expect(selector(mockedState)).toEqual(incidentModel);
   });

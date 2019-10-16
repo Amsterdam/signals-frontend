@@ -13,7 +13,7 @@ describe('<TextAreaInput />', () => {
       display: 'display',
       placeholder: 'placeholder',
       handler: jest.fn(),
-      rows: 2
+      rows: 2,
     };
 
     const TextAreaInputRender = TextAreaInput(props);

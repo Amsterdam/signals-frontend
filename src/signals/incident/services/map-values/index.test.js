@@ -13,43 +13,43 @@ describe('The map values service', () => {
         controls: {
           description: {
             meta: {
-              path: 'text'
-            }
+              path: 'text',
+            },
           },
           title: {
             meta: {
-              path: 'meaningOfLife'
-            }
+              path: 'meaningOfLife',
+            },
           },
           object: {
             meta: {
-              path: 'colors'
-            }
+              path: 'colors',
+            },
           },
           undefined_value: {
             meta: {
-              path: 'undefined_value'
-            }
+              path: 'undefined_value',
+            },
           },
           value_0: {
             meta: {
-              path: 'value_0'
-            }
+              path: 'value_0',
+            },
           },
           value_false: {
             meta: {
-              path: 'value_false'
-            }
+              path: 'value_false',
+            },
           },
           value_true: {
             meta: {
-              path: 'value_true'
-            }
+              path: 'value_true',
+            },
           },
-          var_no_path: {}
-        }
-      }
-    }
+          var_no_path: {},
+        },
+      },
+    },
   };
   const incident = {
     description: 'bar',
@@ -58,7 +58,7 @@ describe('The map values service', () => {
     undefined_value: undefined,
     value_0: 0,
     value_false: false,
-    value_true: true
+    value_true: true,
   };
 
   it('should map status by default', () => {
@@ -82,7 +82,7 @@ describe('The map values service', () => {
       meaningOfLife: 42,
       value_0: 0,
       value_false: 'nee',
-      value_true: 'ja'
+      value_true: 'ja',
     });
   });
 });

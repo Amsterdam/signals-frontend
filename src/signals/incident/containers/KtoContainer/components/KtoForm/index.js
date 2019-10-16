@@ -30,14 +30,14 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
       if (props.ktoContainer.form.is_satisfied && this.ktoForm.controls.tevreden && this.ktoForm.controls.tevreden.meta) {
         this.ktoForm.controls.tevreden.meta.values = {
           ...props.ktoContainer.answers,
-          ...andersOption
+          ...andersOption,
         };
       }
 
       if (!props.ktoContainer.form.is_satisfied && this.ktoForm.controls.niet_tevreden && this.ktoForm.controls.niet_tevreden.meta) {
         this.ktoForm.controls.niet_tevreden.meta.values = {
           ...props.ktoContainer.answers,
-          ...andersOption
+          ...andersOption,
         };
       }
     }
@@ -47,7 +47,7 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
 
   setValues(incident) {
     defer(() => {
-      Object.keys(this.form.controls).map((key) => {
+      Object.keys(this.form.controls).map(key => {
         const control = this.form.controls[key];
         if (control.meta.isVisible) {
           control.enable();
@@ -62,10 +62,10 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
     });
   }
 
-  setForm = (form) => {
+  setForm = form => {
     this.form = form;
     this.form.meta = {
-      updateIncident: this.updateKto
+      updateIncident: this.updateKto,
     };
   }
 
@@ -85,11 +85,11 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
         is_satisfied: values.is_satisfied,
         text: text === andersOptionText ? textAnders : text,
         text_extra: values.text_extra || '',
-        allows_contact: Boolean(values.allows_contact && values.allows_contact.value)
-      }
+        allows_contact: Boolean(values.allows_contact && values.allows_contact.value),
+      },
     });
 
-    Object.values(this.form.controls).map((control) => control.onBlur());
+    Object.values(this.form.controls).map(control => control.onBlur());
   }
 
   render() {
@@ -111,7 +111,7 @@ KtoForm.propTypes = {
   ktoContainer: PropTypes.object.isRequired,
 
   onUpdateKto: PropTypes.func.isRequired,
-  onStoreKto: PropTypes.func.isRequired
+  onStoreKto: PropTypes.func.isRequired,
 };
 
 export default KtoForm;

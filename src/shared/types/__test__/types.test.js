@@ -1,4 +1,4 @@
-import * as types from '../';
+import * as types from '..';
 
 describe('shared/types', () => {
   const dateValidator = types.date;

@@ -2,7 +2,7 @@ import { fromJS } from 'immutable';
 import defaultTextsAdminReducer, { initialState } from './reducer';
 
 // import {
-  // DEFAULT_ACTION,
+// DEFAULT_ACTION,
 // } from './constants';
 
 describe('defaultTextsAdminReducer', () => {
@@ -11,12 +11,12 @@ describe('defaultTextsAdminReducer', () => {
   });
 
   // it('should DEFAULT_ACTION', () => {
-    // expect(
-      // defaultTextsAdminReducer(fromJS({}), {
-        // type: DEFAULT_ACTION
-      // }).toJS()
-    // ).toEqual({
-      // foo: 'bar'
-    // });
+  // expect(
+  // defaultTextsAdminReducer(fromJS({}), {
+  // type: DEFAULT_ACTION
+  // }).toJS()
+  // ).toEqual({
+  // foo: 'bar'
+  // });
   // });
 });

@@ -9,7 +9,7 @@ import {
   incidentDetailWrapper,
   incidentOverviewPageWrapper,
   incidentSplitContainerWrapper,
-} from './';
+} from '.';
 
 const history = createMemoryHistory();
 

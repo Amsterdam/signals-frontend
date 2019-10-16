@@ -2,7 +2,7 @@ import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import PageHeader from '../';
+import PageHeader from '..';
 
 describe.skip('components/PageHeader', () => {
   afterEach(cleanup);

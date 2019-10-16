@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Anchor = ({ href, target, className, children }) =>
-  <a href={href} className={className} target={target}>{children}</a>;
+const Anchor = ({
+  href, target, className, children,
+}) => <a href={href} className={className} target={target}>{children}</a>;
 
 Anchor.defaultProps = {
   target: '_self',
-  className: ''
+  className: '',
 };
 
 Anchor.propTypes = {

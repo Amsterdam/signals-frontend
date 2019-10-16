@@ -15,7 +15,7 @@ describe('The state token generator service', () => {
     origCrypto = global.crypto;
     global.crypto = {};
     global.crypto.getRandomValues = jest.fn();
-    global.crypto.getRandomValues.mockImplementation((list) => {
+    global.crypto.getRandomValues.mockImplementation(list => {
       /* eslint-disable no-param-reassign */
       list[0] = 48; // 0
       list[1] = 52; // 4

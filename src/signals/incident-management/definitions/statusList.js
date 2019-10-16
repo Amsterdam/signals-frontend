@@ -1,75 +1,75 @@
 const GEMELD = {
   key: 'm',
   value: 'Gemeld',
-  color: 'red'
+  color: 'red',
 };
 const AFWACHTING = {
   key: 'i',
   value: 'In afwachting van behandeling',
   warning: 'De melder ontvangt deze toelichting niet.',
-  color: 'purple'
+  color: 'purple',
 };
 const BEHANDELING = {
   key: 'b',
   value: 'In behandeling',
   warning: 'De melder ontvangt deze toelichting niet, maar kan die wel opvragen door te bellen.',
-  color: 'blue'
+  color: 'blue',
 };
 const AFGEHANDELD = {
   key: 'o',
   value: 'Afgehandeld',
   warning: 'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding. Gebruik deze status alleen als de melding ook echt is afgehandeld, gebruik anders de status Ingepland. Let op: als de huidige status “Verzoek tot heropenen” is, dan wordt er geen e-mail naar de melder gestuurd.',
-  color: 'lightgreen'
+  color: 'lightgreen',
 };
 const GESPLITST = {
   key: 's',
   value: 'Gesplitst',
-  color: 'lightgreen'
+  color: 'lightgreen',
 };
 const INGEPLAND = {
   key: 'ingepland',
   value: 'Ingepland',
   warning: 'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.',
-  color: 'grey'
+  color: 'grey',
 };
 const GEANNULEERD = {
   key: 'a',
   value: 'Geannuleerd',
   warning: 'Bij deze status wordt de melding afgesloten en er wordt GEEN bericht naar de melder gestuurd. Gebruik deze status alleen voor test- en nepmeldingen of meldingen van veelmelders.',
-  color: 'darkgrey'
+  color: 'darkgrey',
 };
 
 const VERZOEK_TOT_HEROPENEN = {
   key: 'reopen requested',
   value: 'Verzoek tot heropenen',
-  color: 'orange'
+  color: 'orange',
 };
 
 const HEROPEND = {
   key: 'reopened',
   value: 'Heropend',
   warning: 'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding.',
-  color: 'orange'
+  color: 'orange',
 };
 const TE_VERZENDEN = {
   key: 'ready to send',
-  value: 'Extern: te verzenden'
+  value: 'Extern: te verzenden',
 };
 const VERZONDEN = {
   key: 'sent',
-  value: 'Extern: verzonden'
+  value: 'Extern: verzonden',
 };
 const VERZENDEN_MISLUKT = {
   key: 'send failed',
-  value: 'Extern: mislukt'
+  value: 'Extern: mislukt',
 };
 const VERZOEK_TOT_AFHANDELING = {
   key: 'closure requested',
-  value: 'Extern: verzoek tot afhandeling'
+  value: 'Extern: verzoek tot afhandeling',
 };
 const AFGEHANDELD_EXTERN = {
   key: 'done external',
-  value: 'Extern: afgehandeld'
+  value: 'Extern: afgehandeld',
 };
 
 const statusList = [
@@ -86,7 +86,7 @@ const statusList = [
   VERZONDEN,
   VERZENDEN_MISLUKT,
   VERZOEK_TOT_AFHANDELING,
-  AFGEHANDELD_EXTERN
+  AFGEHANDELD_EXTERN,
 ];
 
 export default statusList;
@@ -98,10 +98,10 @@ export const changeStatusOptionList = [
   AFGEHANDELD,
   INGEPLAND,
   GEANNULEERD,
-  HEROPEND
+  HEROPEND,
 ];
 
 export const defaultTextsOptionList = [
   AFGEHANDELD,
-  INGEPLAND
+  INGEPLAND,
 ];

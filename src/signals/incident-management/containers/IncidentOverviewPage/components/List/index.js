@@ -7,7 +7,7 @@ import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import './style.scss';
 
 class List extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  onSort = (sort) => () => {
+  onSort = sort => () => {
     if (this.props.sort && this.props.sort.indexOf(sort) === 0) {
       this.props.onRequestIncidents({ sort: `-${sort}` });
     } else {
@@ -26,7 +26,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
     return '-';
   }
 
-  selectIncident = (incident) => () => {
+  selectIncident = incident => () => {
     this.props.incidentSelected(incident);
   }
 
@@ -41,14 +41,16 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
 
 
   render() {
-    const { incidents, priorityList, statusList, stadsdeelList } = this.props;
+    const {
+      incidents, priorityList, statusList, stadsdeelList,
+    } = this.props;
     return (
       <div className="list-component" data-testid="incidentOverviewListComponent">
         <div className="list-component__body">
           <table className="list-component__table" cellSpacing="0" cellPadding="0">
             <thead>
               <tr>
-                <th onClick={this.onSort('id')} className={this.sortClassName('id')} >Id</th>
+                <th onClick={this.onSort('id')} className={this.sortClassName('id')}>Id</th>
                 <th onClick={this.onSort('days_open')} className={this.sortClassName('days_open')}>Dag</th>
                 <th onClick={this.onSort('created_at')} className={this.sortClassName('created_at')}>Datum en tijd</th>
                 <th onClick={this.onSort('stadsdeel,-created_at')} className={this.sortClassName('stadsdeel')}>Stadsdeel</th>
@@ -59,19 +61,22 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
               </tr>
             </thead>
             <tbody>
-              {incidents.map((incident) => (
+              {incidents.map(incident => (
                 <tr key={incident.id} onClick={this.selectIncident(incident)}>
                   <td>{incident.id}</td>
                   <td data-testid="incidentDaysOpen">{this.getDaysOpen(incident)}</td>
-                  <td className="no-wrap">{string2date(incident.created_at)} {string2time(incident.created_at)}</td>
+                  <td className="no-wrap">
+                    {string2date(incident.created_at)}
+                    {' '}
+                    {string2time(incident.created_at)}
+                  </td>
                   <td>{getListValueByKey(stadsdeelList, incident.location && incident.location.stadsdeel)}</td>
                   <td>{incident.category && incident.category.sub}</td>
                   <td>{getListValueByKey(statusList, incident.status && incident.status.state)}</td>
                   <td>{getListValueByKey(priorityList, incident.priority && incident.priority.priority)}</td>
                   <td>{incident.location && incident.location.address_text}</td>
                 </tr>
-              ))
-              }
+              ))}
             </tbody>
           </table>
         </div>
@@ -88,7 +93,7 @@ List.propTypes = {
 
   incidentSelected: PropTypes.func.isRequired,
   onRequestIncidents: PropTypes.func.isRequired,
-  sort: PropTypes.string
+  sort: PropTypes.string,
 };
 
 export default List;

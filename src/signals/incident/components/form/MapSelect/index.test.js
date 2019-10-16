@@ -22,16 +22,16 @@ describe('Form component <MapSelectFormComponent />', () => {
     touched = false;
     parent = {
       meta: {
-        updateIncident: jest.fn()
-      }
+        updateIncident: jest.fn(),
+      },
     };
     meta = {
       name: 'my_question',
       isVisible: true,
       endpoint: 'foo/bar?',
       legend_items: [
-        'klok'
-      ]
+        'klok',
+      ],
     };
 
     return shallow(<MapSelectFormComponent
@@ -74,8 +74,8 @@ describe('Form component <MapSelectFormComponent />', () => {
       wrapper.setProps({
         meta: {
           ...meta,
-          isVisible: false
-        }
+          isVisible: false,
+        },
       });
 
       expect(handler).toHaveBeenCalledWith();

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Row, Column, Heading, Link, Paragraph } from '@datapunt/asc-ui';
+import {
+  Row, Column, Heading, Link, Paragraph,
+} from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
 const Disclaimer = styled.div`
@@ -38,7 +40,9 @@ const Footer = () => (
 
         <Column span={12}>
           <Paragraph>
-            Bel het Gemeentelijk informatienummer: 14 020 <br />
+            Bel het Gemeentelijk informatienummer: 14 020
+            {' '}
+            <br />
             op werkdagen van 08.00 tot 18.00 uur.
           </Paragraph>
         </Column>

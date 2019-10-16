@@ -61,7 +61,7 @@ const FilterForm = ({
     filterData.category_slug || [],
   );
 
-  const onSubmitForm = (event) => {
+  const onSubmitForm = event => {
     const formData = parseOutputFormData(event.target.form);
     const isNewFilter = !filterData.name;
     const hasName = formData.name.trim() !== '';
@@ -74,9 +74,9 @@ const FilterForm = ({
 
     /* istanbul ignore else */
     if (
-      typeof onUpdateFilter === 'function' &&
-      !isNewFilter &&
-      valuesHaveChanged
+      typeof onUpdateFilter === 'function'
+      && !isNewFilter
+      && valuesHaveChanged
     ) {
       if (formData.name.trim() === '') {
         event.preventDefault();
@@ -111,7 +111,7 @@ const FilterForm = ({
     }
   };
 
-  const onChangeForm = (event) => {
+  const onChangeForm = event => {
     const isNewFilter = !filterData.name;
 
     /* istanbul ignore else */
@@ -140,10 +140,9 @@ const FilterForm = ({
     setSubmitBtnLabel(defaultSubmitBtnLabel);
   };
 
-  const onNameChange = (event) => {
+  const onNameChange = event => {
     const { value } = event.target;
-    const nameHasChanged =
-      typeof value === 'string' && value.trim() !== filterData.name;
+    const nameHasChanged = typeof value === 'string' && value.trim() !== filterData.name;
 
     if (nameHasChanged) {
       setSubmitBtnLabel(saveSubmitBtnLabel);
@@ -152,7 +151,7 @@ const FilterForm = ({
     }
   };
 
-  const onRefreshChange = (event) => {
+  const onRefreshChange = event => {
     event.persist();
     const { currentTarget: { checked } } = event;
 
@@ -193,7 +192,9 @@ const FilterForm = ({
               type="checkbox"
             />
             <label htmlFor="filter_refresh">
-              <RefreshIcon width={16} height={18} /> Automatisch verversen
+              <RefreshIcon width={16} height={18} />
+              {' '}
+Automatisch verversen
             </label>
           </div>
         </Fieldset>
@@ -257,7 +258,7 @@ const FilterForm = ({
                  * @see https://github.com/Hacker0x01/react-datepicker/issues/1578
                  */
                 onChange={
-                  /* istanbul ignore next */ (dateValue) => {
+                  /* istanbul ignore next */ dateValue => {
                     const formattedDate = dateValue
                       ? moment(dateValue).format('YYYY-MM-DD')
                       : '';
@@ -310,9 +311,9 @@ const FilterForm = ({
           </Label>
 
           {Object.keys(categories.mainToSub)
-            .filter((key) => !!key) // remove elements without 'key' prop
+            .filter(key => !!key) // remove elements without 'key' prop
             .sort()
-            .map((mainCategory) => {
+            .map(mainCategory => {
               const mainCatObj = categories.main.find(
                 ({ slug }) => slug === mainCategory,
               );

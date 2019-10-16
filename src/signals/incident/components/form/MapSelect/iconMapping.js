@@ -14,7 +14,7 @@ import OverigIcon from '!!file-loader!../../../../../shared/images/openbare_verl
 
 const defaultOptions = {
   className: 'object-marker',
-  iconSize: [32, 32]
+  iconSize: [32, 32],
 };
 
 export const OVL_MAPPING = {

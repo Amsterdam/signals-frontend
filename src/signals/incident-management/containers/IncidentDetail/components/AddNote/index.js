@@ -9,27 +9,27 @@ import './style.scss';
 
 class AddNote extends React.Component { // eslint-disable-line react/prefer-stateless-function
   form = FormBuilder.group({ // eslint-disable-line react/sort-comp
-    text: [null, Validators.required]
+    text: [null, Validators.required],
   });
 
   constructor(props) {
     super(props);
 
     this.state = {
-      formVisible: false
+      formVisible: false,
     };
 
     this.showForm = this.showForm.bind(this);
     this.hideForm = this.hideForm.bind(this);
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault();
     const notes = [{ text: this.form.value.text }];
     this.props.onPatchIncident({
       id: this.props.id,
       type: 'notes',
-      patch: { notes }
+      patch: { notes },
     });
 
     this.form.reset();
@@ -50,35 +50,43 @@ class AddNote extends React.Component { // eslint-disable-line react/prefer-stat
     return (
       <section className="add-note">
         <div>
-          {formVisible ?
-            <FieldGroup
-              control={this.form}
-              render={({ invalid }) => (
-                <form onSubmit={this.handleSubmit} className="add-note__form">
-                  <div>
-                    <FieldControlWrapper render={TextAreaInput} name="text" className="add-note__form-input" control={this.form.get('text')} />
+          {formVisible
+            ? (
+              <FieldGroup
+                control={this.form}
+                render={({ invalid }) => (
+                  <form onSubmit={this.handleSubmit} className="add-note__form">
+                    <div>
+                      <FieldControlWrapper render={TextAreaInput} name="text" className="add-note__form-input" control={this.form.get('text')} />
 
-                    <button
-                      className="add-note__form-submit action primary"
-                      type="submit"
-                      disabled={invalid}
-                    >Opslaan</button>
-                    <button
-                      className="add-note__form-cancel action secundary-grey"
-                      type="button"
-                      onClick={this.hideForm}
-                    >Annuleren</button>
-                  </div>
-                </form>
+                      <button
+                        className="add-note__form-submit action primary"
+                        type="submit"
+                        disabled={invalid}
+                      >
+Opslaan
+                      </button>
+                      <button
+                        className="add-note__form-cancel action secundary-grey"
+                        type="button"
+                        onClick={this.hideForm}
+                      >
+Annuleren
+                      </button>
+                    </div>
+                  </form>
+                )}
+              />
+            )
+            : (
+              <button
+                className="add-note__show-form incident-detail__button"
+                type="button"
+                onClick={this.showForm}
+              >
+Notitie toevoegen
+              </button>
             )}
-            />
-          :
-            <button
-              className="add-note__show-form incident-detail__button"
-              type="button"
-              onClick={this.showForm}
-            >Notitie toevoegen</button>
-          }
         </div>
       </section>
     );
@@ -88,7 +96,7 @@ class AddNote extends React.Component { // eslint-disable-line react/prefer-stat
 AddNote.propTypes = {
   id: PropTypes.string.isRequired,
 
-  onPatchIncident: PropTypes.func.isRequired
+  onPatchIncident: PropTypes.func.isRequired,
 };
 
 export default AddNote;

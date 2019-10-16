@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import './style.scss';
 
-const getErrorMessage = (status) => {
+const getErrorMessage = status => {
   switch (status) {
     case 403:
       return 'U bent niet bevoegd om deze melding te splitsen.';
@@ -19,40 +19,48 @@ const getErrorMessage = (status) => {
 
 const SplitNotificationBar = ({ data, onDismissSplitNotification }) => (
   <div data-testid="split-notification-bar">
-    {data && data.id && data.created && data.created.children && Array.isArray(data.created.children) ?
-      <div className="split-notification-bar success">
-        <div className="split-notification-bar__body">
-          <button
-            className="split-notification-bar__close-button"
-            type="button"
-            data-testid="split-notification-bar-close-button"
-            onClick={onDismissSplitNotification}
-          />
+    {data && data.id && data.created && data.created.children && Array.isArray(data.created.children)
+      ? (
+        <div className="split-notification-bar success">
+          <div className="split-notification-bar__body">
+            <button
+              className="split-notification-bar__close-button"
+              type="button"
+              data-testid="split-notification-bar-close-button"
+              onClick={onDismissSplitNotification}
+            />
 
-          Melding {data.id} is gesplitst in
-          {data.created.children.map((item) =>
-            (<span key={item.id} className="split-notification-bar__link">
-              &nbsp;<NavLink to={`/manage/incident/${item.id}`}>{item.id}</NavLink>
-            </span>)
-          )}
+          Melding
+            {' '}
+            {data.id}
+            {' '}
+is gesplitst in
+            {data.created.children.map(item => (
+              <span key={item.id} className="split-notification-bar__link">
+                <NavLink to={`/manage/incident/${item.id}`}>{item.id}</NavLink>
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
+      )
       : ''}
-    {data && data.response && data.response.status ?
-      <div className="split-notification-bar error">
-        <div className="split-notification-bar__body">
-          <button
-            className="split-notification-bar__close-button"
-            type="button"
-            data-testid="split-notification-bar-close-button"
-            onClick={onDismissSplitNotification}
-          />
+    {data && data.response && data.response.status
+      ? (
+        <div className="split-notification-bar error">
+          <div className="split-notification-bar__body">
+            <button
+              className="split-notification-bar__close-button"
+              type="button"
+              data-testid="split-notification-bar-close-button"
+              onClick={onDismissSplitNotification}
+            />
 
           De melding is helaas niet gesplitst.&nbsp;
-          {getErrorMessage(data.response.status)}
+            {getErrorMessage(data.response.status)}
+          </div>
         </div>
-      </div>
-        : ''}
+      )
+      : ''}
   </div>
 );
 
@@ -60,9 +68,9 @@ SplitNotificationBar.propTypes = {
   data: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.object,
-    PropTypes.array
+    PropTypes.array,
   ]),
-  onDismissSplitNotification: PropTypes.func.isRequired
+  onDismissSplitNotification: PropTypes.func.isRequired,
 };
 
 export default SplitNotificationBar;

@@ -7,7 +7,7 @@ import convertValue from '../convert-value';
 const mapPaths = (params, incident, wizard) => {
   const category_url = incident && incident.subcategory_link ? new URL(incident.subcategory_link).pathname : '';
 
-  forEach(wizard, (step) => {
+  forEach(wizard, step => {
     const controls = getStepControls(step, incident);
     let mapMerge = {};
 
@@ -26,9 +26,9 @@ const mapPaths = (params, incident, wizard) => {
                 id: name,
                 label: meta.labelShort || meta.label,
                 category_url,
-                answer
-              }
-            ]
+                answer,
+              },
+            ],
           };
         }
       }

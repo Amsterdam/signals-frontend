@@ -17,7 +17,7 @@ describe('Leaflet zoom control', () => {
   };
 
   it('is checks visibility on load', () => {
-    const [containerEl, ] = createControl(4, { zoomMin: 3 }); // eslint-disable-line array-bracket-spacing
+    const [containerEl ] = createControl(4, { zoomMin: 3 }); // eslint-disable-line array-bracket-spacing
 
     expect(containerEl.innerText).toBe('Zoom in om de objecten te zien');
     expect(containerEl.classList.contains('zoom-control')).toBe(true);
@@ -25,7 +25,7 @@ describe('Leaflet zoom control', () => {
   });
 
   it('updates visibility on zoomend', () => {
-    const [containerEl, ] = createControl(4, { zoomMin: 3 }); // eslint-disable-line array-bracket-spacing
+    const [containerEl ] = createControl(4, { zoomMin: 3 }); // eslint-disable-line array-bracket-spacing
 
     map.getZoom.mockReturnValue(2);
     map.fire('zoomend');

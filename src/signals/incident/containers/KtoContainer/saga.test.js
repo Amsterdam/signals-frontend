@@ -1,4 +1,6 @@
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import {
+  all, call, put, takeLatest,
+} from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import request from 'utils/request';
 
@@ -7,7 +9,7 @@ import { REQUEST_KTO_ANSWERS, CHECK_KTO, STORE_KTO } from './constants';
 import {
   requestKtoAnswersSuccess, requestKtoAnswersError,
   checkKtoSuccess, checkKtoError,
-  storeKtoSuccess, storeKtoError
+  storeKtoSuccess, storeKtoError,
 } from './actions';
 
 describe('KtoContainer saga', () => {
@@ -20,8 +22,8 @@ describe('KtoContainer saga', () => {
     const answers = {
       results: [
         { is_satisfied: true, text: 'Antwoord JA' },
-        { is_satisfied: false, text: 'Antwoord NEE' }
-      ]
+        { is_satisfied: false, text: 'Antwoord NEE' },
+      ],
     };
 
     it('should success with JA', () => {
@@ -60,7 +62,7 @@ describe('KtoContainer saga', () => {
     it('should error with 404', () => {
       const error = new Error();
       error.response = {
-        status: 404
+        status: 404,
       };
       gen.next();
       expect(gen.throw(error).value).toEqual(put(push('/niet-gevonden')));
@@ -71,8 +73,8 @@ describe('KtoContainer saga', () => {
       const error = new Error();
       error.response = {
         jsonBody: {
-          detail: 'too late'
-        }
+          detail: 'too late',
+        },
       };
       gen.next();
       expect(gen.throw(error).value).toEqual(put(checkKtoError('too late')));
@@ -95,8 +97,8 @@ describe('KtoContainer saga', () => {
           is_satisfied: true,
           text: 'foo',
           text_extra: 'bar',
-          allows_contact: false
-        }
+          allows_contact: false,
+        },
       };
       gen = storeKto({ payload });
     });
@@ -106,8 +108,8 @@ describe('KtoContainer saga', () => {
         method: 'PUT',
         body: JSON.stringify(payload.form),
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       }));
       expect(gen.next().value).toEqual(put(storeKtoSuccess()));
     });
@@ -123,7 +125,7 @@ describe('KtoContainer saga', () => {
     expect(gen.next().value).toEqual(all([
       takeLatest(REQUEST_KTO_ANSWERS, requestKtoAnswers),
       takeLatest(CHECK_KTO, checkKto),
-      takeLatest(STORE_KTO, storeKto)
+      takeLatest(STORE_KTO, storeKto),
     ]));
   });
 });

@@ -73,7 +73,7 @@ export const IncidentOverviewPageContainerComponent = ({
   }
 
   useEffect(() => {
-    const escFunction = (event) => {
+    const escFunction = event => {
       if (event.keyCode === 27) {
         closeFilterModal();
         closeMyFiltersModal();
@@ -97,7 +97,9 @@ export const IncidentOverviewPageContainerComponent = ({
     onGetFilters();
   }, []);
 
-  const { incidents, loading, page, sort, filter, ...rest } = overviewpage;
+  const {
+    incidents, loading, page, sort, filter, ...rest
+  } = overviewpage;
 
   return (
     <div className="incident-overview-page">
@@ -201,15 +203,14 @@ const mapStateToProps = createStructuredSelector({
   error: makeSelectError(),
 });
 
-export const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      onRequestIncidents: requestIncidents,
-      onIncidentSelected: incidentSelected,
-      onGetFilters: getFilters,
-    },
-    dispatch,
-  );
+export const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    onRequestIncidents: requestIncidents,
+    onIncidentSelected: incidentSelected,
+    onGetFilters: getFilters,
+  },
+  dispatch,
+);
 
 const withConnect = connect(
   mapStateToProps,

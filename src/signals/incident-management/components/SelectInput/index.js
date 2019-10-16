@@ -5,7 +5,7 @@ import Label from '../Label';
 
 import './style.scss';
 
-export const SelectInput = (props) => {
+export const SelectInput = props => {
   const {
     name,
     display,
@@ -57,6 +57,8 @@ export const SelectInput = (props) => {
 
   render.propTypes = {
     handler: PropTypes.func.isRequired,
+    size: PropTypes.number,
+    touched: PropTypes.bool,
   };
   return render;
 };

@@ -4,7 +4,7 @@ import { withAppContext } from 'test/utils';
 import statuses from 'signals/incident-management/definitions/statusList';
 import categories from 'utils/__tests__/fixtures/categories.json';
 
-import CheckboxList from '../';
+import CheckboxList from '..';
 
 describe('signals/incident-management/components/CheckboxList', () => {
   afterEach(cleanup);
@@ -92,7 +92,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
 
     expect(allBoxes).toHaveLength(numOptions);
 
-    allBoxes.forEach((el) => {
+    allBoxes.forEach(el => {
       expect(el.name).toEqual(groupName);
     });
 
@@ -128,7 +128,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     );
 
     // nothing should be checked
-    document.querySelectorAll('input[type="checkbox"]').forEach((el) => {
+    document.querySelectorAll('input[type="checkbox"]').forEach(el => {
       expect(el.checked).toEqual(false);
     });
 
@@ -149,7 +149,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
 
     const checkedBoxes = Array.from(
       container.querySelectorAll('input[type="checkbox"]'),
-    ).filter((el) => el.checked);
+    ).filter(el => el.checked);
     expect(checkedBoxes).toHaveLength(defaultValue.length);
   });
 
@@ -183,7 +183,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     expect(toggleBox.checked).toEqual(true);
     expect(toggleBox.dataset.value).toEqual('all');
 
-    individualBoxes.forEach((el) => {
+    individualBoxes.forEach(el => {
       expect(el.checked).toEqual(true);
     });
 
@@ -193,7 +193,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     expect(toggleBox.checked).toEqual(false);
     expect(toggleBox.dataset.value).toEqual('none');
 
-    individualBoxes.forEach((el) => {
+    individualBoxes.forEach(el => {
       expect(el.checked).toEqual(false);
     });
   });
@@ -222,8 +222,8 @@ describe('signals/incident-management/components/CheckboxList', () => {
     expect(singleBox.checked).toEqual(true);
 
     Array.from(individualBoxes)
-      .filter((el) => el !== singleBox)
-      .forEach((el) => {
+      .filter(el => el !== singleBox)
+      .forEach(el => {
         expect(el.checked).toEqual(false);
       });
   });
@@ -264,15 +264,15 @@ describe('signals/incident-management/components/CheckboxList', () => {
     expect(singleBox.checked).toEqual(false);
 
     Array.from(individualBoxes)
-      .filter((el) => el !== singleBox)
-      .forEach((el) => {
+      .filter(el => el !== singleBox)
+      .forEach(el => {
         expect(el.checked).toEqual(true);
       });
 
     // click the toggle again; this should uncheck all boxes
     fireEvent.click(toggleBox);
 
-    individualBoxes.forEach((el) => {
+    individualBoxes.forEach(el => {
       expect(el.checked).toEqual(false);
     });
   });
@@ -323,7 +323,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       ),
     );
 
-    container.querySelectorAll('input[type="checkbox"]').forEach((element) => {
+    container.querySelectorAll('input[type="checkbox"]').forEach(element => {
       expect(slugs.includes(element.value));
     });
 
@@ -344,7 +344,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       ),
     );
 
-    container.querySelectorAll('input[type="checkbox"]').forEach((element) => {
+    container.querySelectorAll('input[type="checkbox"]').forEach(element => {
       expect(keys.includes(element.value));
     });
   });

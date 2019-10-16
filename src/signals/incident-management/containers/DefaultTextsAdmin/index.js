@@ -79,16 +79,15 @@ DefaultTextsAdmin.propTypes = {
   onSaveDefaultTextsItem: PropTypes.func.isRequired,
 };
 
-export const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      onFetchDefaultTexts: fetchDefaultTexts,
-      onSubmitTexts: storeDefaultTexts,
-      onOrderDefaultTexts: orderDefaultTexts,
-      onSaveDefaultTextsItem: saveDefaultTextsItem,
-    },
-    dispatch,
-  );
+export const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    onFetchDefaultTexts: fetchDefaultTexts,
+    onSubmitTexts: storeDefaultTexts,
+    onOrderDefaultTexts: orderDefaultTexts,
+    onSaveDefaultTextsItem: saveDefaultTextsItem,
+  },
+  dispatch,
+);
 
 const mapStateToProps = createStructuredSelector({
   defaultTextsAdmin: makeSelectDefaultTextsAdmin(),

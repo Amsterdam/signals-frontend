@@ -6,5 +6,5 @@ export const template = {
     return params.id;
   },
   name: g.name,
-  status: 'OK'
+  status: 'OK',
 };

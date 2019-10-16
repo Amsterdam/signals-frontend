@@ -29,7 +29,7 @@ export const testActionCreator = (action, actionType, payload) => {
   expect(action(payload)).toEqual(expected);
 };
 
-export const getContext = (state) => {
+export const getContext = state => {
   const store = {
     dispatch: jest.fn(),
     getState: () => state,
@@ -45,7 +45,7 @@ export const getContext = (state) => {
 
 const store = configureStore({}, history);
 
-export const withAppContext = (Component) => (
+export const withAppContext = Component => (
   <ThemeProvider>
     <Provider store={store}>
       <ConnectedRouter history={history}>{Component}</ConnectedRouter>

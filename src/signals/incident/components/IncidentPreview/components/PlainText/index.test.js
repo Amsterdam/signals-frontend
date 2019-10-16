@@ -13,7 +13,7 @@ describe('Preview component <PlainText />', () => {
   it('should render text correctly', () => {
     wrapper.setProps({
       label: 'Title',
-      value: 'Plain text'
+      value: 'Plain text',
     });
 
     expect(wrapper).toMatchSnapshot();

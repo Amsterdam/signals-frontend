@@ -9,7 +9,9 @@ import MapDetail from '../../../MapDetail';
 
 import './style.scss';
 
-const Location = ({ incident, stadsdeelList, onShowLocation, onEditLocation }) => {
+const Location = ({
+  incident, stadsdeelList, onShowLocation, onEditLocation,
+}) => {
   const address = incident.location.address;
   return (
     <dl className="location">
@@ -35,13 +37,28 @@ const Location = ({ incident, stadsdeelList, onShowLocation, onEditLocation }) =
             zoom="15"
           />
         </button>
-        {incident.location.address_text ?
-          <div className="location__value-address">
-            <div data-testid="location-value-address-stadsdeel">Stadsdeel: {getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</div>
-            <div data-testid="location-value-address-street">{address.openbare_ruimte} {address.huisnummer}{address.huisletter}{address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : ''}</div>
-            <div data-testid="location-value-address-city">{address.postcode} {address.woonplaats}</div>
-          </div>
-        : <span data-testid="location-value-pinned">Locatie is gepind op de kaart</span>}
+        {incident.location.address_text
+          ? (
+            <div className="location__value-address">
+              <div data-testid="location-value-address-stadsdeel">
+Stadsdeel:
+                {getListValueByKey(stadsdeelList, incident.location.stadsdeel)}
+              </div>
+              <div data-testid="location-value-address-street">
+                {address.openbare_ruimte}
+                {' '}
+                {address.huisnummer}
+                {address.huisletter}
+                {address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : ''}
+              </div>
+              <div data-testid="location-value-address-city">
+                {address.postcode}
+                {' '}
+                {address.woonplaats}
+              </div>
+            </div>
+          )
+          : <span data-testid="location-value-pinned">Locatie is gepind op de kaart</span>}
       </dd>
     </dl>
   );
@@ -51,7 +68,7 @@ Location.propTypes = {
   incident: incidentType.isRequired,
   stadsdeelList: dataListType.isRequired,
   onShowLocation: PropTypes.func.isRequired,
-  onEditLocation: PropTypes.func.isRequired
+  onEditLocation: PropTypes.func.isRequired,
 };
 
 export default Location;
