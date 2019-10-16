@@ -240,7 +240,7 @@
     "connected-react-router": "^6.5.2",
     "formdata-polyfill": "^3.0.19",
     "history": "^4.10.1",
-    "hoist-non-react-statics": "2.1.1",
+    "hoist-non-react-statics": "^3.3.0",
     "immutable": "^3.8.2",
     "intl": "1.2.5",
     "invariant": "^2.2.4",
