@@ -119,21 +119,21 @@ const SplitForm = ({
         Splitsen mag alleen als de oorspronkelijke melding over twee verschillende onderwerpen gaat, die zonder samenwerking met een andere afdeling kan worden afgehandeld.
       </StyledDisclaimer>
 
-      {form ? <IncidentPart
+      <IncidentPart
         index="1"
         attachments={attachments}
         subcategories={subcategories}
         priorityList={priorityList}
         splitForm={form}
-      /> : ''}
+      />
 
-      {form ? <IncidentPart
+      <IncidentPart
         index="2"
         attachments={attachments}
         subcategories={subcategories}
         priorityList={priorityList}
         splitForm={form}
-      /> : ''}
+      />
 
       {isVisible ?
         <Fragment>
@@ -143,13 +143,13 @@ const SplitForm = ({
             onClick={() => setVisibility(false)}
           >Verwijder</StyledRemoveButton>
 
-          {form ? <IncidentPart
+          <IncidentPart
             index="3"
             attachments={attachments}
             subcategories={subcategories}
             priorityList={priorityList}
             splitForm={form}
-          /> : ''}
+          />
 
         </Fragment>
         :

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Heading } from '@datapunt/asc-ui';
 import styled, { ascDefaultTheme } from '@datapunt/asc-core';
@@ -26,46 +26,51 @@ const IncidentPart = ({ index, attachments, subcategories, priorityList, splitFo
       $as="h2"
       data-testid="incidentPartTitle"
     >Deelmelding {index}</StyledH2>
-    <FieldControlWrapper
-      data-testid="incidentPartFieldSubcategory"
-      render={SelectInput}
-      name={`part${index}.subcategory`}
-      display="Subcategorie"
-      control={splitForm.get(`part${index}.subcategory`)}
-      values={subcategories}
-      sort
-    />
-    <FieldControlWrapper
-      data-testid="incidentPartFieldText"
-      render={TextAreaInput}
-      name={`part${index}.text`}
-      display="Omschrijving"
-      control={splitForm.get(`part${index}.text`)}
-      rows={5}
-    />
+    {splitForm ?
+      <Fragment>
+        <FieldControlWrapper
+          data-testid="incidentPartFieldSubcategory"
+          render={SelectInput}
+          name={`part${index}.subcategory`}
+          display="Subcategorie"
+          control={splitForm.get(`part${index}.subcategory`)}
+          values={subcategories}
+          sort
+        />
+        <FieldControlWrapper
+          data-testid="incidentPartFieldText"
+          render={TextAreaInput}
+          name={`part${index}.text`}
+          display="Omschrijving"
+          control={splitForm.get(`part${index}.text`)}
+          rows={5}
+        />
 
-    {attachments && attachments.length ?
-      <FieldControlWrapper
-        render={CopyFileInput}
-        name={`part${index}.image`}
-        control={splitForm.get(`part${index}.image`)}
-        values={attachments}
-      /> : ''
+        {attachments && attachments.length ?
+          <FieldControlWrapper
+            render={CopyFileInput}
+            name={`part${index}.image`}
+            control={splitForm.get(`part${index}.image`)}
+            values={attachments}
+          /> : ''
     }
-    <FieldControlWrapper
-      render={TextAreaInput}
-      name={`part${index}.note`}
-      display="Notitie"
-      control={splitForm.get(`part${index}.note`)}
-      rows={5}
-    />
-    <FieldControlWrapper
-      render={RadioInput}
-      name={`part${index}.priority`}
-      display="Urgentie"
-      control={splitForm.get(`part${index}.priority`)}
-      values={priorityList}
-    />
+        <FieldControlWrapper
+          render={TextAreaInput}
+          name={`part${index}.note`}
+          display="Notitie"
+          control={splitForm.get(`part${index}.note`)}
+          rows={5}
+        />
+        <FieldControlWrapper
+          render={RadioInput}
+          name={`part${index}.priority`}
+          display="Urgentie"
+          control={splitForm.get(`part${index}.priority`)}
+          values={priorityList}
+        />
+
+      </Fragment>
+       : ''}
   </StyledWrapper>
 );
 
@@ -84,7 +89,7 @@ IncidentPart.propTypes = {
   attachments: PropTypes.array,
   subcategories: PropTypes.array,
   priorityList: PropTypes.array,
-  splitForm: PropTypes.object.isRequired
+  splitForm: PropTypes.object
 };
 
 export default IncidentPart;
