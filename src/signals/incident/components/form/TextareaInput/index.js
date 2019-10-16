@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import TextArea from 'components/TextArea';
 
 import Header from '../Header/';
 
@@ -14,8 +15,8 @@ const TextareaInput = ({ handler, touched, value, hasError, meta, parent, getErr
           hasError={hasError}
           getError={getError}
         >
-          <div className="invoer">
-            <textarea
+          <Fragment>
+            <TextArea
               placeholder={meta.placeholder}
               {...handler()}
               onBlur={(e) => parent.meta.updateIncident({
@@ -29,7 +30,7 @@ const TextareaInput = ({ handler, touched, value, hasError, meta, parent, getErr
                 </span>
               </div>
             }
-          </div>
+          </Fragment>
         </Header>
       </div>
        : ''}
