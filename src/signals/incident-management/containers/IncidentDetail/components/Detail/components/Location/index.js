@@ -41,20 +41,15 @@ const Location = ({
           ? (
             <div className="location__value-address">
               <div data-testid="location-value-address-stadsdeel">
-Stadsdeel:
-                {getListValueByKey(stadsdeelList, incident.location.stadsdeel)}
+                Stadsdeel: {getListValueByKey(stadsdeelList, incident.location.stadsdeel)}
               </div>
               <div data-testid="location-value-address-street">
-                {address.openbare_ruimte}
-                {' '}
-                {address.huisnummer}
+                {address.openbare_ruimte} {address.huisnummer}
                 {address.huisletter}
                 {address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : ''}
               </div>
               <div data-testid="location-value-address-city">
-                {address.postcode}
-                {' '}
-                {address.woonplaats}
+                {address.postcode} {address.woonplaats}
               </div>
             </div>
           )

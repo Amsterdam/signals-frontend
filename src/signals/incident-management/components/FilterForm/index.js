@@ -192,9 +192,7 @@ const FilterForm = ({
               type="checkbox"
             />
             <label htmlFor="filter_refresh">
-              <RefreshIcon width={16} height={18} />
-              {' '}
-Automatisch verversen
+              <RefreshIcon width={16} height={18} /> Automatisch verversen
             </label>
           </div>
         </Fieldset>

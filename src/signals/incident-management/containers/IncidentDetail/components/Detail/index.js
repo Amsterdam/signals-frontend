@@ -27,10 +27,7 @@ class Detail extends React.Component { // eslint-disable-line react/prefer-state
         <dl>
           <dt className="detail__definition">Overlast</dt>
           <dd className="detail__value">
-            {string2date(incident.incident_date_start)}
-            {' '}
-            {string2time(incident.incident_date_start)}
-&nbsp;
+            {string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}&nbsp;
           </dd>
 
           <Highlight

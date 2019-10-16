@@ -66,9 +66,7 @@ class List extends React.Component { // eslint-disable-line react/prefer-statele
                   <td>{incident.id}</td>
                   <td data-testid="incidentDaysOpen">{this.getDaysOpen(incident)}</td>
                   <td className="no-wrap">
-                    {string2date(incident.created_at)}
-                    {' '}
-                    {string2time(incident.created_at)}
+                    {string2date(incident.created_at)} {string2time(incident.created_at)}
                   </td>
                   <td>{getListValueByKey(stadsdeelList, incident.location && incident.location.stadsdeel)}</td>
                   <td>{incident.category && incident.category.sub}</td>

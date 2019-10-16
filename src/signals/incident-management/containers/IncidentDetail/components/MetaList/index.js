@@ -36,15 +36,13 @@ const MetaList = ({
           className="meta-list__definition"
           data-testid="meta-list-date-definition"
         >
-Gemeld op
+          Gemeld op
         </dt>
         <dd
           className="meta-list__value"
           data-testid="meta-list-date-value"
         >
-          {string2date(incident.created_at)}
-          {' '}
-          {string2time(incident.created_at)}
+          {string2date(incident.created_at)} {string2time(incident.created_at)}
         </dd>
 
         <Highlight subscribeTo={incident.status.state}>
@@ -117,7 +115,7 @@ Gemeld op
               className="meta-list__definition"
               data-testid="meta-list-main-category-definition"
             >
-Hoofdcategorie
+              Hoofdcategorie
             </dt>
             <dd
               className="meta-list__value"
@@ -134,7 +132,7 @@ Hoofdcategorie
               className="meta-list__definition"
               data-testid="meta-list-parent-definition"
             >
-Oorspronkelijke melding
+              Oorspronkelijke melding
             </dt>
             <dd
               className="meta-list__value"
@@ -158,7 +156,7 @@ Oorspronkelijke melding
               className="meta-list__definition"
               data-testid="meta-list-children-definition"
             >
-Gesplitst in
+              Gesplitst in
             </dt>
             <dd
               className="meta-list__value"
@@ -200,7 +198,7 @@ Gesplitst in
           className="meta-list__definition"
           data-testid="meta-list-source-definition"
         >
-Bron
+          Bron
         </dt>
         <dd
           className="meta-list__value"

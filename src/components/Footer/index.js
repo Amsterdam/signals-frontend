@@ -40,9 +40,7 @@ const Footer = () => (
 
         <Column span={12}>
           <Paragraph>
-            Bel het Gemeentelijk informatienummer: 14 020
-            {' '}
-            <br />
+            Bel het Gemeentelijk informatienummer: 14 020 <br />
             op werkdagen van 08.00 tot 18.00 uur.
           </Paragraph>
         </Column>

@@ -30,9 +30,7 @@ export const PageHeaderContainerComponent = ({
   title += hasCount ? ` (${incidentsCount})` : '';
   title = filter.refresh ? (
     <Fragment>
-      <RefreshIcon />
-      {' '}
-      {title}
+      <RefreshIcon /> {title}
     </Fragment>
   ) : (
     title
