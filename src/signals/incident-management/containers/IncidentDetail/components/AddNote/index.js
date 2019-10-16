@@ -64,14 +64,14 @@ class AddNote extends React.Component { // eslint-disable-line react/prefer-stat
                         type="submit"
                         disabled={invalid}
                       >
-Opslaan
+                        Opslaan
                       </button>
                       <button
                         className="add-note__form-cancel action secundary-grey"
                         type="button"
                         onClick={this.hideForm}
                       >
-Annuleren
+                        Annuleren
                       </button>
                     </div>
                   </form>
@@ -84,7 +84,7 @@ Annuleren
                 type="button"
                 onClick={this.showForm}
               >
-Notitie toevoegen
+                Notitie toevoegen
               </button>
             )}
         </div>
