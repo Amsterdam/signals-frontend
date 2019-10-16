@@ -5,7 +5,7 @@ import 'jest-styled-components';
 
 import Label from '../';
 
-describe.skip('signals/incident-management/components/Label', () => {
+describe('<Label /', () => {
   afterEach(cleanup);
 
   it('should render a label element', () => {
@@ -22,7 +22,7 @@ describe.skip('signals/incident-management/components/Label', () => {
     expect(getByLabelText('This is my label text')).toBeTruthy();
   });
 
-  it.skip('should not require the htmlFor prop when the element is not rendered as a label', () => {
+  it('should not require the htmlFor prop when the element is not rendered as a label', () => {
     global.console.error = jest.fn();
 
     const { container, rerender } = render(
@@ -41,7 +41,7 @@ describe.skip('signals/incident-management/components/Label', () => {
     rerender(
       withAppContext(
         <div>
-          <Label $as="span" isGroupHeader={false}>This is my label text</Label>
+          <Label as="span" isGroupHeader={false}>This is my label text</Label>
           <input type="text" id="someOtherElementId" />
         </div>,
       ),
