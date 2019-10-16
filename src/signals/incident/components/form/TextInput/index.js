@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Input } from '@datapunt/asc-ui';
 
 import Header from '../Header/';
 
@@ -14,16 +15,14 @@ const TextInput = ({ handler, touched, hasError, meta, parent, getError, validat
           hasError={hasError}
           getError={getError}
         >
-          <div className="invoer">
-            <input
-              type={meta.type}
-              placeholder={meta.placeholder}
-              {...handler()}
-              onBlur={(e) => parent.meta.updateIncident({
-                [meta.name]: meta.autoRemove ? e.target.value.replace(meta.autoRemove, '') : e.target.value
-              })}
-            />
-          </div>
+          <Input
+            type={meta.type}
+            placeholder={meta.placeholder}
+            {...handler()}
+            onBlur={(e) => parent.meta.updateIncident({
+              [meta.name]: meta.autoRemove ? e.target.value.replace(meta.autoRemove, '') : e.target.value
+            })}
+          />
         </Header>
       </div>
        : ''}

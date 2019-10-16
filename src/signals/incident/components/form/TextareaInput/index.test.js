@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import TextArea from 'components/TextArea';
 
 import TextareaInput from './index';
 
@@ -97,7 +98,7 @@ describe('Form component <TextareaInput />', () => {
         }
       });
 
-      wrapper.find('textarea').simulate('blur', event);
+      wrapper.find(TextArea).simulate('blur', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': 'diabolo'
@@ -113,7 +114,7 @@ describe('Form component <TextareaInput />', () => {
         }
       });
 
-      wrapper.find('textarea').simulate('blur', event);
+      wrapper.find(TextArea).simulate('blur', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': 'dbl'
