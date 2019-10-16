@@ -45,7 +45,7 @@ export const IncidentSplitContainer = ({
   onRequestAttachments,
   onSplitIncident,
   onGoBack,
- }) => { // eslint-disable-line react/prefer-stateless-function
+ }) => {
   useEffect(() => {
     onRequestIncident(id);
     onRequestAttachments(id);
@@ -86,7 +86,6 @@ export const IncidentSplitContainer = ({
       </Row>
     </StyledWrapper>
   );
-  // }
 };
 
 IncidentSplitContainer.propTypes = {

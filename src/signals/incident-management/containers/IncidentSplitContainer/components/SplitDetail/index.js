@@ -16,9 +16,11 @@ const StyledWrapper = styled.aside`
   }
 `;
 
-const StyledH4 = styled(Heading)`
-  font-weight: normal;
-  margin-bottom: 8px;
+const StyledH4 = styled(Heading).attrs({
+  $as: 'h4',
+})`
+ font-weight: normal;
+ margin-bottom: 8px;
 `;
 
 const SplitDetail = ({ incident, stadsdeelList }) => (
@@ -26,10 +28,7 @@ const SplitDetail = ({ incident, stadsdeelList }) => (
     {incident ?
     (
       <Fragment>
-        <StyledH4
-          data-testid="splitDetailTitle"
-          $as="h4"
-        >Melding {incident.id}</StyledH4>
+        <StyledH4 data-testid="splitDetailTitle">Melding {incident.id}</StyledH4>
 
         <dl>
           <dt data-testid="splitDetailTitleDate">Datum</dt>
@@ -44,18 +43,18 @@ const SplitDetail = ({ incident, stadsdeelList }) => (
           <dd data-testid="splitDetailValueStadsdeel">{getListValueByKey(stadsdeelList, incident.location.stadsdeel)}</dd>
           <dt data-testid="splitDetailTitleAddress">Adres</dt>
           <dd data-testid="splitDetailValueAddress">{incident.location.address_text}</dd>
-          {incident.reporter.email ? <dt data-testid="splitDetailTitleEmail">E-mailadres</dt> : ''}
-          {incident.reporter.email ? <dd data-testid="splitDetailValueEmail">{incident.reporter.email}</dd> : ''}
-          {incident.reporter.phone ? <dt data-testid="splitDetailTitlePhone">Telefonnummer</dt> : ''}
-          {incident.reporter.phone ? <dd data-testid="splitDetailValuePhone">{incident.reporter.phone}</dd> : ''}
+          {incident.reporter.email ? <dt data-testid="splitDetailTitleEmail">E-mailadres</dt> : null}
+          {incident.reporter.email ? <dd data-testid="splitDetailValueEmail">{incident.reporter.email}</dd> : null}
+          {incident.reporter.phone ? <dt data-testid="splitDetailTitlePhone">Telefonnummer</dt> : null}
+          {incident.reporter.phone ? <dd data-testid="splitDetailValuePhone">{incident.reporter.phone}</dd> : null}
           <dt data-testid="splitDetailTitleSource">Bron</dt>
           <dd data-testid="splitDetailValueSource">{incident.source}</dd>
-          {incident.category.departments ? <dt data-testid="splitDetailTitleDepartment">Verantwoordelijke afdeling</dt> : ''}
-          {incident.category.departments ? <dd data-testid="splitDetailValueDepartment">{incident.category.departments}</dd> : ''}
+          {incident.category.departments ? <dt data-testid="splitDetailTitleDepartment">Verantwoordelijke afdeling</dt> : null}
+          {incident.category.departments ? <dd data-testid="splitDetailValueDepartment">{incident.category.departments}</dd> : null}
         </dl>
       </Fragment>
     )
-      : ''}
+      : null}
   </StyledWrapper>
 );
 

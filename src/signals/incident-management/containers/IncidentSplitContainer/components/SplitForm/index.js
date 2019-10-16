@@ -169,18 +169,16 @@ const SplitForm = ({
         </ul>
       </StyledBottomDisclaimer>
 
-      <Fragment>
-        <StyledSubmitButton
-          data-testid="splitFormSubmit"
-          variant="secondary"
-          onClick={handleSubmit}
-        >Splitsen</StyledSubmitButton>
-        <StyledButton
-          data-testid="splitFormCancel"
-          variant="primaryInverted"
-          onClick={onHandleCancel}
-        >Annuleer</StyledButton>
-      </Fragment>
+      <StyledSubmitButton
+        data-testid="splitFormSubmit"
+        variant="secondary"
+        onClick={handleSubmit}
+      >Splitsen</StyledSubmitButton>
+      <StyledButton
+        data-testid="splitFormCancel"
+        variant="primaryInverted"
+        onClick={onHandleCancel}
+      >Annuleer</StyledButton>
     </div>
   );
 };

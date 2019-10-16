@@ -52,7 +52,7 @@ const IncidentPart = ({ index, attachments, subcategories, priorityList, splitFo
             name={`part${index}.image`}
             control={splitForm.get(`part${index}.image`)}
             values={attachments}
-          /> : ''
+          /> : null
     }
         <FieldControlWrapper
           render={TextAreaInput}
@@ -70,7 +70,7 @@ const IncidentPart = ({ index, attachments, subcategories, priorityList, splitFo
         />
 
       </Fragment>
-       : ''}
+       : null}
   </StyledWrapper>
 );
 
