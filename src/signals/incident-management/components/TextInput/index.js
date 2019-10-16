@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Input } from '@datapunt/asc-ui';
 import Label from '../Label';
 
 import './style.scss';
 
 const TextInput = ({ name, display, placeholder }) => {
   const Render = ({ handler }) => (
-    <div className="text-input invoer">
+    <div>
       <Label htmlFor={`form${name}`}>{display}</Label>
 
-      <input
+      <Input
         id={`form${name}`}
-        className="input"
         type="text"
         {...handler()}
         placeholder={placeholder}

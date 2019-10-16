@@ -28,7 +28,7 @@ const dateTypeFactory = (isRequired) =>
     return null;
   };
 
-const date = dateTypeFactory(false);
+export const date = dateTypeFactory(false);
 date.isRequired = dateTypeFactory(true);
 
 /**
