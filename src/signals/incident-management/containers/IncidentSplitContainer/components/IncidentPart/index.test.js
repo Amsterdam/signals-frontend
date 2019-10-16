@@ -56,7 +56,7 @@ describe('<IncidentPart />', () => {
       const { queryByTestId, queryByText } = render(
         <IncidentPart {...props} />
       );
-      expect(queryByTestId('incidentPartTitle')).toBeNull();
+      expect(queryByTestId('incidentPartTitle')).not.toBeNull();
       expect(queryByText('Subcategorie')).toBeNull();
       expect(queryByText('Omschrijving')).toBeNull();
       expect(queryByText('Notitie')).toBeNull();

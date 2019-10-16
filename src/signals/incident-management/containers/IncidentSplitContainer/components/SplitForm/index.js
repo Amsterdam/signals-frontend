@@ -138,7 +138,7 @@ const SplitForm = ({
       {isVisible ?
         <Fragment>
           <StyledRemoveButton
-            data-testid="splitForPartRemove"
+            data-testid="splitFormPartRemove"
             variant="textButton"
             onClick={() => setVisibility(false)}
           >Verwijder</StyledRemoveButton>
@@ -154,7 +154,7 @@ const SplitForm = ({
         </Fragment>
         :
         <StyledButton
-          data-testid="splitForPartAdd"
+          data-testid="splitFormPartAdd"
           variant="primaryInverted"
           onClick={() => setVisibility(true)}
         >Deelmelding 3 toevoegen</StyledButton>
@@ -171,10 +171,12 @@ const SplitForm = ({
 
       <Fragment>
         <StyledSubmitButton
+          data-testid="splitFormSubmit"
           variant="secondary"
           onClick={handleSubmit}
         >Splitsen</StyledSubmitButton>
         <StyledButton
+          data-testid="splitFormCancel"
           variant="primaryInverted"
           onClick={onHandleCancel}
         >Annuleer</StyledButton>

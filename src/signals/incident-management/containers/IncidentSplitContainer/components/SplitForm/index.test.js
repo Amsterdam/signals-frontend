@@ -1,5 +1,4 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import {
   render,
   fireEvent,
@@ -47,8 +46,8 @@ describe('<SplitForm />', () => {
         slug: 'poep'
       }],
       priorityList,
-      handleSubmit: jest.fn(),
-      handleCancel: jest.fn()
+      onHandleCancel: jest.fn(),
+      onHandleSubmit: jest.fn()
     };
   });
 
@@ -69,20 +68,24 @@ describe('<SplitForm />', () => {
         withAppContext(<SplitForm {...props} />)
       );
 
-      fireEvent.click(getByTestId('splitForPartAdd'));
+      fireEvent.click(getByTestId('splitFormPartAdd'));
 
       expect(queryAllByTestId('incidentPartTitle')[2]).toHaveTextContent(/^Deelmelding 3$/);
 
-      fireEvent.click(getByTestId('splitForPartRemove'));
+      fireEvent.click(getByTestId('splitFormPartRemove'));
 
       expect(queryAllByTestId('incidentPartTitle')[2]).toBeUndefined();
     });
   });
 
   it('should handle submit with 2 items', () => {
-    const wrapper = shallow(<SplitForm {...props} />);
-    wrapper.instance().handleSubmit();
-    expect(props.handleSubmit).toHaveBeenCalledWith({
+    const { getByTestId } = render(
+      withAppContext(<SplitForm {...props} />)
+    );
+
+    fireEvent.click(getByTestId('splitFormSubmit'));
+
+    expect(props.onHandleSubmit).toHaveBeenCalledWith({
       create: [mockCreate, mockCreate],
       id: props.incident.id,
       update: [mockUpdate, mockUpdate]
@@ -90,14 +93,27 @@ describe('<SplitForm />', () => {
   });
 
   it('should handle submit with 3 items', () => {
-    const wrapper = shallow(<SplitForm {...props} />);
-    wrapper.setState({ isVisible: true });
+    const { getByTestId } = render(
+      withAppContext(<SplitForm {...props} />)
+    );
 
-    wrapper.instance().handleSubmit();
-    expect(props.handleSubmit).toHaveBeenCalledWith({
+    fireEvent.click(getByTestId('splitFormPartAdd'));
+    fireEvent.click(getByTestId('splitFormSubmit'));
+
+    expect(props.onHandleSubmit).toHaveBeenCalledWith({
       create: [mockCreate, mockCreate, mockCreate],
       id: props.incident.id,
       update: [mockUpdate, mockUpdate, mockUpdate]
     });
+  });
+
+  it('should handle cancel', () => {
+    const { getByTestId } = render(
+      withAppContext(<SplitForm {...props} />)
+    );
+
+    fireEvent.click(getByTestId('splitFormCancel'));
+
+    expect(props.onHandleCancel).toHaveBeenCalled();
   });
 });
