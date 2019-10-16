@@ -58,7 +58,7 @@ const FilterForm = ({
   const [submitBtnLabel, setSubmitBtnLabel] = useState(defaultSubmitBtnLabel);
   const [filterData, setFilterData] = useState(parsedfilterData);
   const filterSlugs = (filterData.maincategory_slug || []).concat(
-    filterData.category_slug || [],
+    filterData.category_slug || []
   );
 
   const onSubmitForm = event => {
@@ -74,9 +74,9 @@ const FilterForm = ({
 
     /* istanbul ignore else */
     if (
-      typeof onUpdateFilter === 'function'
-      && !isNewFilter
-      && valuesHaveChanged
+      typeof onUpdateFilter === 'function' &&
+      !isNewFilter &&
+      valuesHaveChanged
     ) {
       if (formData.name.trim() === '') {
         event.preventDefault();
@@ -142,7 +142,8 @@ const FilterForm = ({
 
   const onNameChange = event => {
     const { value } = event.target;
-    const nameHasChanged = typeof value === 'string' && value.trim() !== filterData.name;
+    const nameHasChanged =
+      typeof value === 'string' && value.trim() !== filterData.name;
 
     if (nameHasChanged) {
       setSubmitBtnLabel(saveSubmitBtnLabel);
@@ -153,7 +154,9 @@ const FilterForm = ({
 
   const onRefreshChange = event => {
     event.persist();
-    const { currentTarget: { checked } } = event;
+    const {
+      currentTarget: { checked },
+    } = event;
 
     setFilterData({
       ...filterData,
@@ -255,18 +258,17 @@ const FilterForm = ({
                  * Ignoring the internals of the `onChange` handler since they cannot be tested
                  * @see https://github.com/Hacker0x01/react-datepicker/issues/1578
                  */
-                onChange={
-                  /* istanbul ignore next */ dateValue => {
-                    const formattedDate = dateValue
-                      ? moment(dateValue).format('YYYY-MM-DD')
-                      : '';
+                /* istanbul ignore next */
+                onChange={dateValue => {
+                  const formattedDate = dateValue
+                    ? moment(dateValue).format('YYYY-MM-DD')
+                    : '';
 
-                    setFilterData({
-                      ...filterData,
-                      incident_date: formattedDate,
-                    });
-                  }
-                }
+                  setFilterData({
+                    ...filterData,
+                    incident_date: formattedDate,
+                  });
+                }}
                 placeholderText="DD-MM-JJJJ"
                 selected={
                   filterData.incident_date && moment(filterData.incident_date)
@@ -276,7 +278,7 @@ const FilterForm = ({
               {filterData.incident_date && (
                 <input
                   defaultValue={moment(filterData.incident_date).format(
-                    'YYYY-MM-DD',
+                    'YYYY-MM-DD'
                   )}
                   name="incident_date"
                   readOnly
@@ -313,7 +315,7 @@ const FilterForm = ({
             .sort()
             .map(mainCategory => {
               const mainCatObj = categories.main.find(
-                ({ slug }) => slug === mainCategory,
+                ({ slug }) => slug === mainCategory
               );
               const options = categories.mainToSub[mainCategory];
 
@@ -340,24 +342,21 @@ const FilterForm = ({
             <ResetButton
               data-testid="resetBtn"
               onClick={onResetForm}
-              type="reset"
-            >
+              type="reset">
               Nieuw filter
             </ResetButton>
 
             <CancelButton
               data-testid="cancelBtn"
               onClick={onCancel}
-              type="button"
-            >
+              type="button">
               Annuleren
             </CancelButton>
 
             <SubmitButton
               name="submit_button"
               onClick={onSubmitForm}
-              type="submit"
-            >
+              type="submit">
               {submitBtnLabel}
             </SubmitButton>
           </ButtonContainer>
@@ -380,27 +379,27 @@ FilterForm.propTypes = {
         PropTypes.shape({
           key: PropTypes.string.isRequired,
           value: PropTypes.string.isRequired,
-        }),
+        })
       ),
     }),
     main: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string.isRequired,
         value: PropTypes.string.isRequired,
-      }),
+      })
     ),
     sub: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string.isRequired,
         value: PropTypes.string.isRequired,
-      }),
+      })
     ),
   }).isRequired,
   feedback: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
-    }),
+    })
   ),
   activeFilter: PropTypes.shape({
     id: PropTypes.number,
@@ -450,19 +449,19 @@ FilterForm.propTypes = {
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
-    }),
+    })
   ),
   stadsdeelList: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
-    }),
+    })
   ),
   statusList: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
-    }),
+    })
   ),
 };
 
