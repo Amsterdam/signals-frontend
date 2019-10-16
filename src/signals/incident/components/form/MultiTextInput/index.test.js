@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import { Input } from '@datapunt/asc-ui';
 
 import MultiTextInput from './index';
 
@@ -88,7 +89,7 @@ describe('Form component <MultiTextInput />', () => {
         }
       });
 
-      wrapper.find('input.multi-text-input__input').simulate('change', event);
+      wrapper.find(Input).simulate('change', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': ['Ipsum']
@@ -121,8 +122,8 @@ describe('Form component <MultiTextInput />', () => {
       const invalidKeyEvent = { key: '@', preventDefault: jest.fn() };
       const validKeyEvent = { key: '5', preventDefault: jest.fn() };
 
-      wrapper.find('input.multi-text-input__input').simulate('keypress', invalidKeyEvent);
-      wrapper.find('input.multi-text-input__input').simulate('keypress', validKeyEvent);
+      wrapper.find(Input).simulate('keypress', invalidKeyEvent);
+      wrapper.find(Input).simulate('keypress', validKeyEvent);
 
       expect(invalidKeyEvent.preventDefault).toHaveBeenCalled();
       expect(validKeyEvent.preventDefault).not.toHaveBeenCalled();
