@@ -1,5 +1,5 @@
 import { put, takeLatest, select, call, take } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router/immutable';
 import { authCall, authDeleteCall } from 'shared/services/api/api';
 import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import CONFIGURATION from 'shared/services/configuration/configuration';

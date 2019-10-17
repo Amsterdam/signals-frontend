@@ -9,13 +9,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
+import { ConnectedRouter } from 'connected-react-router/immutable';
 import moment from 'moment';
 import 'moment/src/locale/nl';
-import { createBrowserHistory } from 'history';
 import 'leaflet/dist/leaflet';
 import * as Sentry from '@sentry/browser';
 import MatomoTracker from '@datapunt/matomo-tracker-js';
+import Immutable from 'immutable';
+import history from 'utils/history';
 
 // Import root app
 import App from 'containers/App';
@@ -58,8 +59,7 @@ Sentry.init({
 moment.locale('nl');
 
 // Create redux store with history
-const initialState = {};
-const history = createBrowserHistory();
+const initialState = Immutable.Map();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 

@@ -1,23 +1,21 @@
 /**
  * Test injectors
  */
-
-import { memoryHistory } from 'react-router-dom';
-import { shallow } from 'enzyme';
 import React from 'react';
-import identity from 'lodash/identity';
+import { mount } from 'enzyme';
+import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
 
-import configureStore from '../configureStore';
-import injectReducer from './injectReducer';
+import injectReducer, { useInjectReducer } from './injectReducer';
 import * as reducerInjectors from './reducerInjectors';
 
 // Fixtures
 const Component = () => null;
 
-const reducer = identity;
+const reducer = (s) => s;
 
 describe('injectReducer decorator', () => {
-  let store;
   let injectors;
   let ComponentWithReducer;
 
@@ -26,7 +24,6 @@ describe('injectReducer decorator', () => {
   });
 
   beforeEach(() => {
-    store = configureStore({}, memoryHistory);
     injectors = {
       injectReducer: jest.fn(),
     };
@@ -35,7 +32,7 @@ describe('injectReducer decorator', () => {
   });
 
   it('should inject a given reducer', () => {
-    shallow(<ComponentWithReducer />, { context: { store } });
+    renderer.create(withAppContext(<ComponentWithReducer />));
 
     expect(injectors.injectReducer).toHaveBeenCalledTimes(1);
     expect(injectors.injectReducer).toHaveBeenCalledWith('test', reducer);
@@ -43,13 +40,44 @@ describe('injectReducer decorator', () => {
 
   it('should set a correct display name', () => {
     expect(ComponentWithReducer.displayName).toBe('withReducer(Component)');
-    expect(injectReducer({ key: 'test', reducer })(() => null).displayName).toBe('withReducer(Component)');
+    expect(
+      injectReducer({ key: 'test', reducer })(() => null).displayName,
+    ).toBe('withReducer(Component)');
   });
 
   it('should propagate props', () => {
     const props = { testProp: 'test' };
-    const wrapper = shallow(<ComponentWithReducer {...props} />, { context: { store } });
+    const renderedComponent = mount(
+      withAppContext(<ComponentWithReducer {...props} />),
+    );
 
-    expect(wrapper.prop('testProp')).toBe('test');
+    const { props: componentProps } = renderedComponent
+      .find(ComponentWithReducer)
+      .instance();
+
+    expect(componentProps).toEqual(props);
+  });
+});
+
+describe('useInjectReducer hook', () => {
+  let injectors;
+  let ComponentWithReducer;
+
+  beforeAll(() => {
+    injectors = {
+      injectReducer: jest.fn(),
+    };
+    reducerInjectors.default = jest.fn().mockImplementation(() => injectors);
+    ComponentWithReducer = () => {
+      useInjectReducer({ key: 'test', reducer });
+      return null;
+    };
+  });
+
+  it('should inject a given reducer', () => {
+    render(withAppContext(<ComponentWithReducer />));
+
+    expect(injectors.injectReducer).toHaveBeenCalledTimes(1);
+    expect(injectors.injectReducer).toHaveBeenCalledWith('test', reducer);
   });
 });

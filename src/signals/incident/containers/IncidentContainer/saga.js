@@ -1,5 +1,5 @@
 import { all, call, delay, put, select, takeLatest } from 'redux-saga/effects';
-import { replace } from 'react-router-redux';
+import { replace } from 'connected-react-router/immutable';
 
 import { authPostCall, postCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
