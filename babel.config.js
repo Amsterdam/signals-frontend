@@ -1,4 +1,15 @@
 module.exports = {
+  plugins: [
+    'styled-components',
+    '@babel/plugin-proposal-class-properties',
+    [
+      'inline-react-svg',
+      {
+        ignorePattern: '.*marker\\.svg',
+      },
+    ],
+    '@babel/plugin-syntax-dynamic-import',
+  ],
   presets: [
     [
       '@babel/preset-env',
@@ -7,11 +18,6 @@ module.exports = {
       },
     ],
     '@babel/preset-react',
-  ],
-  plugins: [
-    'styled-components',
-    '@babel/plugin-proposal-class-properties',
-    '@babel/plugin-syntax-dynamic-import',
   ],
   env: {
     production: {

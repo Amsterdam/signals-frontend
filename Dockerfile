@@ -19,6 +19,8 @@ COPY .gitignore \
      .gitattributes \
      .eslintrc.js \
      .prettierrc \
+     jest.config.js \
+     babel.config.js \
       /app/
 
 # Install language packs
