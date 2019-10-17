@@ -11,8 +11,8 @@ describe('Form component <PlainText />', () => {
   const MockComponent = ({ children }) => <div>{children}</div>;
   const incidentContainer = {
     incident: {
-      id: 666
-    }
+      id: 666,
+    },
   };
   let wrapper;
 
@@ -27,13 +27,13 @@ describe('Form component <PlainText />', () => {
       wrapper.setProps({
         meta: {
           value: 'Lorem Ipsum',
-          isVisible: true
+          isVisible: true,
         },
         parent: {
           meta: {
-            incidentContainer
-          }
-        }
+            incidentContainer,
+          },
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -45,13 +45,13 @@ describe('Form component <PlainText />', () => {
         meta: {
           value: 'Lorem Ipsum',
           type: 'citation',
-          isVisible: true
+          isVisible: true,
         },
         parent: {
           meta: {
-            incidentContainer
-          }
-        }
+            incidentContainer,
+          },
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -63,13 +63,13 @@ describe('Form component <PlainText />', () => {
         meta: {
           value: 'Caution',
           type: 'caution',
-          isVisible: true
+          isVisible: true,
         },
         parent: {
           meta: {
-            incidentContainer
-          }
-        }
+            incidentContainer,
+          },
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -81,13 +81,13 @@ describe('Form component <PlainText />', () => {
         meta: {
           value: 'Alert',
           type: 'alert',
-          isVisible: true
+          isVisible: true,
         },
         parent: {
           meta: {
-            incidentContainer
-          }
-        }
+            incidentContainer,
+          },
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -101,16 +101,16 @@ describe('Form component <PlainText />', () => {
             'Lorem Ipsum',
             'jumps over',
             'DOG',
-            <MockComponent>Foo bar</MockComponent>
+            <MockComponent>Foo bar</MockComponent>,
           ],
           type: 'citation',
-          isVisible: true
+          isVisible: true,
         },
         parent: {
           meta: {
-            incidentContainer
-          }
-        }
+            incidentContainer,
+          },
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -122,8 +122,8 @@ describe('Form component <PlainText />', () => {
     it('should render no plain text when not visible', () => {
       wrapper.setProps({
         meta: {
-          isVisible: false
-        }
+          isVisible: false,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();

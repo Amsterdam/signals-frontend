@@ -10,7 +10,7 @@ describe('<DownloadButton />', () => {
     props = {
       label: 'PDF',
       url: 'https://api.data.amsterdam.nl/signals/v1/private/signals/3077/pdf',
-      filename: 'SIA melding 3077.pdf'
+      filename: 'SIA melding 3077.pdf',
     };
 
     global.window.fetch = jest.fn();
@@ -51,7 +51,7 @@ describe('<DownloadButton />', () => {
       expect(window.fetch).toHaveBeenCalledWith(props.url, {
         method: 'GET',
         headers: {},
-        responseType: 'blob'
+        responseType: 'blob',
       });
     });
 
@@ -59,13 +59,13 @@ describe('<DownloadButton />', () => {
       sessionStorage.getItem.mockImplementation(() => 'MOCK-TOKEN');
       const { queryByTestId } = render(
         <DownloadButton {...props} />
-        );
+      );
       fireEvent.click(queryByTestId('download-button'));
 
       expect(window.fetch).toHaveBeenCalledWith(props.url, {
         method: 'GET',
         headers: { Authorization: 'Bearer MOCK-TOKEN' },
-        responseType: 'blob'
+        responseType: 'blob',
       });
     });
   });

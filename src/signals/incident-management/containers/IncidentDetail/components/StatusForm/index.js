@@ -15,14 +15,14 @@ import './style.scss';
 class StatusForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   form = FormBuilder.group({ // eslint-disable-line react/sort-comp
     status: ['', Validators.required],
-    text: ['']
+    text: [''],
   });
 
   constructor(props) {
     super(props);
 
     this.state = {
-      warning: props.warning
+      warning: props.warning,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,10 +30,10 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
   }
 
   componentDidMount() {
-    this.form.controls.status.valueChanges.subscribe((status) => {
-      const found = this.props.statusList.find((s) => s.key === status);
+    this.form.controls.status.valueChanges.subscribe(status => {
+      const found = this.props.statusList.find(s => s.key === status);
       this.setState({
-        warning: (found && found.warning) || ''
+        warning: (found && found.warning) || '',
       });
       this.props.onDismissError();
 
@@ -61,12 +61,12 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
     this.form.updateValueAndValidity();
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     this.props.onPatchIncident({
       id: this.props.incident.id,
       type: 'status',
-      patch: { status: { state: this.form.value.status, text: this.form.value.text } }
+      patch: { status: { state: this.form.value.status, text: this.form.value.text } },
     });
   }
 
@@ -77,9 +77,11 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
   }
 
   render() {
-    const { incident, patching, error, statusList, changeStatusOptionList, onClose, defaultTexts } = this.props;
+    const {
+      incident, patching, error, statusList, changeStatusOptionList, onClose, defaultTexts,
+    } = this.props;
     const { warning } = this.state;
-    const currentStatus = statusList.find((status) => status.key === incident.status.state);
+    const currentStatus = statusList.find(status => status.key === incident.status.state);
     return (
       <section className="status-form">
         <FieldGroup
@@ -112,10 +114,10 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
                     rows={5}
                   />
 
-                  <div className="status-form__warning notification notification-red" >
+                  <div className="status-form__warning notification notification-red">
                     {warning}
                   </div>
-                  <div className="status-form__error notification notification-red" >
+                  <div className="status-form__error notification notification-red">
                     {error && error.response && error.response.status === 403 ? 'Je bent niet geautoriseerd om dit te doen.' : '' }
                     {error && error.response && error.response.status !== 403 ? 'De gekozen status is niet mogelijk in deze situatie.' : '' }
                   </div>
@@ -132,7 +134,9 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
                     className="status-form__form-cancel action secundary-grey"
                     type="button"
                     onClick={onClose}
-                  >Annuleren</button>
+                  >
+Annuleren
+                  </button>
                 </div>
                 <div className="col-6">
                   <DefaultTexts
@@ -143,7 +147,7 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
                 </div>
               </div>
             </form>
-            )}
+          )}
         />
       </section>
     );
@@ -151,7 +155,7 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
 }
 
 StatusForm.defaultProps = {
-  warning: ''
+  warning: '',
 };
 
 StatusForm.propTypes = {
@@ -167,7 +171,7 @@ StatusForm.propTypes = {
 
   onPatchIncident: PropTypes.func.isRequired,
   onDismissError: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 };
 
 export default StatusForm;

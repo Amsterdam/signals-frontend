@@ -15,8 +15,8 @@ describe('<CopyFileInput />', () => {
       values: [
         { location: 'item0' },
         { location: 'item1' },
-        { location: 'item2' }
-      ]
+        { location: 'item2' },
+      ],
     };
   });
 

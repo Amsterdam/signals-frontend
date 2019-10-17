@@ -8,22 +8,22 @@ describe('formatUpdateIncident service', () => {
   it('should return optial priority from new incident', () => {
     const priority = 'normal';
     expect(formatUpdateIncident({
-      priority
+      priority,
     })).toEqual({
       priority: {
-        priority
-      }
+        priority,
+      },
     });
   });
 
   it('should return optial note from new incident', () => {
     const note = 'notitie';
     expect(formatUpdateIncident({
-      note
+      note,
     })).toEqual({
       notes: [{
-        text: note
-      }]
+        text: note,
+      }],
     });
   });
 });

@@ -18,7 +18,7 @@ const arrayFields = [
  * @param   {HTMLFormElement} - Form element from which the data should be extracted
  * @returns {Object}
  */
-export const parseOutputFormData = (form) => {
+export const parseOutputFormData = form => {
   const formData = new FormData(form);
   const parsed = {};
 
@@ -34,7 +34,7 @@ export const parseOutputFormData = (form) => {
 
   // remove any category_slug entries that are covered by entries in maincategory_slug
   if (Array.isArray(parsed.maincategory_slug)) {
-    parsed.maincategory_slug.forEach((maincategory_slug) => {
+    parsed.maincategory_slug.forEach(maincategory_slug => {
       delete parsed[`${maincategory_slug}_category_slug`];
     });
   } else {
@@ -43,8 +43,8 @@ export const parseOutputFormData = (form) => {
 
   // consolidate category_slug entries
   Object.keys(parsed)
-    .filter((key) => key.endsWith('_category_slug'))
-    .forEach((key) => {
+    .filter(key => key.endsWith('_category_slug'))
+    .forEach(key => {
       const subSlugs = parsed[key];
       delete parsed[key];
 
@@ -59,9 +59,13 @@ export const parseOutputFormData = (form) => {
       }
     });
 
-  const { name, refresh, id, ...options } = parsed;
+  const {
+    name, refresh, id, ...options
+  } = parsed;
 
-  return { name, refresh: !!refresh, id, options };
+  return {
+    name, refresh: !!refresh, id, options,
+  };
 };
 
 /**
@@ -81,10 +85,10 @@ export const parseInputFormData = (filterData, dataLists) => {
   /* istanbul ignore else */
   if (Object.keys(filterData).length) {
     // convert scalar values to arrays
-    Object.keys(filterData).forEach((fieldName) => {
+    Object.keys(filterData).forEach(fieldName => {
       if (
-        arrayFields.includes(fieldName) &&
-        !Array.isArray(filterData[fieldName])
+        arrayFields.includes(fieldName)
+        && !Array.isArray(filterData[fieldName])
       ) {
         parsed[fieldName] = [filterData[fieldName]];
       }
@@ -92,13 +96,11 @@ export const parseInputFormData = (filterData, dataLists) => {
 
     // replace string entries in filter data with objects from dataLists
     Object.keys(parsed)
-      .filter((fieldName) => arrayFields.includes(fieldName))
-      .forEach((fieldName) => {
-        parsed[fieldName] = parsed[fieldName].map((value) =>
-          dataLists[fieldName].find(
-            ({ key, slug }) => key === value || slug === value,
-          ),
-        );
+      .filter(fieldName => arrayFields.includes(fieldName))
+      .forEach(fieldName => {
+        parsed[fieldName] = parsed[fieldName].map(value => dataLists[fieldName].find(
+          ({ key, slug }) => key === value || slug === value,
+        ),);
       });
   }
 

@@ -4,7 +4,7 @@ import historyReducer, { initialState } from './reducer';
 import {
   REQUEST_HISTORY_LIST,
   REQUEST_HISTORY_LIST_SUCCESS,
-  REQUEST_HISTORY_LIST_ERROR
+  REQUEST_HISTORY_LIST_ERROR,
 }
   from './constants';
 
@@ -17,12 +17,12 @@ describe('historyReducer', () => {
     it('resets error and loading', () => {
       expect(
         historyReducer(undefined, {
-          type: REQUEST_HISTORY_LIST
+          type: REQUEST_HISTORY_LIST,
         }).toJS()
       ).toEqual({
         error: false,
         loading: true,
-        list: []
+        list: [],
       });
     });
   });
@@ -32,11 +32,11 @@ describe('historyReducer', () => {
       expect(
         historyReducer(undefined, {
           type: REQUEST_HISTORY_LIST_SUCCESS,
-          payload: ['history 1', 'history 2']
+          payload: ['history 1', 'history 2'],
         }).toJS()
       ).toEqual({
         loading: false,
-        list: ['history 1', 'history 2']
+        list: ['history 1', 'history 2'],
       });
     });
   });
@@ -46,12 +46,12 @@ describe('historyReducer', () => {
       expect(
         historyReducer(undefined, {
           type: REQUEST_HISTORY_LIST_ERROR,
-          payload: true
+          payload: true,
         }).toJS()
       ).toEqual({
         error: true,
         loading: false,
-        list: []
+        list: [],
       });
     });
   });

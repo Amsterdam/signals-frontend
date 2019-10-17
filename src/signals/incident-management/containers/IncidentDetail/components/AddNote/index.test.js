@@ -15,7 +15,7 @@ describe('<AddNote />', () => {
   beforeEach(() => {
     props = {
       id: '42',
-      onPatchIncident: jest.fn()
+      onPatchIncident: jest.fn(),
     };
 
     wrapper = shallow(
@@ -83,7 +83,7 @@ describe('<AddNote />', () => {
       const text = 'yooooo';
       const form = instance.form;
       const formValue = {
-        text
+        text,
       };
       form.setValue(formValue);
       expect(form.value.input).toEqual(formValue.input);
@@ -94,8 +94,8 @@ describe('<AddNote />', () => {
         id: '42',
         type: 'notes',
         patch: {
-          notes: [{ text }]
-        }
+          notes: [{ text }],
+        },
       });
     });
   });

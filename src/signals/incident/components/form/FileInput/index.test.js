@@ -5,12 +5,12 @@ import FileInput, { ERROR_TIMEOUT_INTERVAL } from './index';
 
 describe('Form component <FileInput />', () => {
   const metaFields = {
-    name: 'input-field-name'
+    name: 'input-field-name',
   };
   const parentControls = {
     'input-field-name': {
-      updateValueAndValidity: jest.fn()
-    }
+      updateValueAndValidity: jest.fn(),
+    },
   };
   const maxFileSize = 1024 * 1024;
   let wrapper;
@@ -27,10 +27,10 @@ describe('Form component <FileInput />', () => {
     hasError = jest.fn();
     parent = {
       meta: {
-        updateIncident: jest.fn()
+        updateIncident: jest.fn(),
       },
       value: jest.fn(),
-      controls: parentControls
+      controls: parentControls,
     };
 
     wrapper = shallow(<FileInput
@@ -48,8 +48,8 @@ describe('Form component <FileInput />', () => {
         meta: {
           ...metaFields,
           maxNumberOfFiles: 3,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -57,14 +57,14 @@ describe('Form component <FileInput />', () => {
 
     it('should render upload field with one uploaded file and one loading correctly', () => {
       parent.value = {
-        'input-field-name_previews': ['blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c', 'loading-42']
+        'input-field-name_previews': ['blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c', 'loading-42'],
       };
       wrapper.setProps({
         meta: {
           ...metaFields,
           maxNumberOfFiles: 2,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -76,14 +76,14 @@ describe('Form component <FileInput />', () => {
           'Dit bestand is te groot. De maximale bestandgrootte is 976,6 kB.',
           'Dit bestandstype wordt niet ondersteund. Toegestaan zijn: jpeg.',
           'U kunt maximaal 3 bestanden uploaden.',
-        ]
+        ],
       };
       wrapper.setProps({
         meta: {
           ...metaFields,
           maxNumberOfFiles: 3,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -94,8 +94,8 @@ describe('Form component <FileInput />', () => {
         meta: {
           ...metaFields,
           maxNumberOfFiles: 3,
-          isVisible: false
-        }
+          isVisible: false,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -106,22 +106,22 @@ describe('Form component <FileInput />', () => {
     const file1 = {
       name: 'bloem.jpeg',
       size: 89691,
-      type: 'image/jpeg'
+      type: 'image/jpeg',
     };
     const file2 = {
       name: 'already uploaded.gif',
       size: 24567,
-      type: 'image/gif'
+      type: 'image/gif',
     };
     const file3 = {
       name: 'way too large file.jpeg',
       size: 10000000000000,
-      type: 'image/jpeg'
+      type: 'image/jpeg',
     };
     const file4 = {
       name: 'poeeee.jpeg',
       size: 24567,
-      type: 'image/jpeg'
+      type: 'image/jpeg',
     };
 
     let readAsText;
@@ -132,12 +132,12 @@ describe('Form component <FileInput />', () => {
       addEventListener = jest.fn((_, evtHandler) => { evtHandler(); });
       window.FileReader = jest.fn(() => ({
         addEventListener,
-        readAsText
+        readAsText,
       }));
 
       window.URL = {
         createObjectURL: jest.fn(),
-        revokeObjectURL: jest.fn()
+        revokeObjectURL: jest.fn(),
       };
     });
 
@@ -155,8 +155,8 @@ describe('Form component <FileInput />', () => {
           maxNumberOfFiles: 3,
           maxFileSize,
           allowedFileTypes: ['image/jpeg'],
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
 
@@ -179,8 +179,8 @@ describe('Form component <FileInput />', () => {
           maxNumberOfFiles: 3,
           maxFileSize,
           allowedFileTypes: ['image/jpeg'],
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       wrapper.find('input').simulate('change', { target: { files: [file1] } });
@@ -198,13 +198,13 @@ describe('Form component <FileInput />', () => {
           'Dit bestand is te groot. De maximale bestandgrootte is 1 MB.',
           'Dit bestandstype wordt niet ondersteund. Toegestaan zijn: jpeg.',
           'U kunt maximaal 3 bestanden uploaden.',
-        ]
+        ],
       });
 
       jest.runTimersToTime(1);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name_errors': null
+        'input-field-name_errors': null,
       });
 
       jest.runAllTimers();
@@ -216,8 +216,8 @@ describe('Form component <FileInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       wrapper.find('input').simulate('change', { target: { files: [file1] } });
@@ -234,7 +234,7 @@ describe('Form component <FileInput />', () => {
 
     it('it removes 1 file when remove button was clicked', () => {
       parent.value = {
-        'input-field-name_previews': ['blob:http://host/1', 'blob:http://host/2']
+        'input-field-name_previews': ['blob:http://host/1', 'blob:http://host/2'],
       };
 
       handler.mockImplementation(() => ({ value: [file1, file2] }));
@@ -242,8 +242,8 @@ describe('Form component <FileInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       wrapper.find('button').first().simulate('click', { preventDefault: jest.fn(), foo: 'booo' });
@@ -251,7 +251,7 @@ describe('Form component <FileInput />', () => {
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': [file2],
         'input-field-name_previews': ['blob:http://host/2'],
-        'input-field-name_errors': null
+        'input-field-name_errors': null,
       });
     });
   });

@@ -12,7 +12,7 @@ const PREVIEW_ZOOM_LEVEL = 16;
 const customIcon = global.window.L.icon({
   iconUrl: 'https://map.data.amsterdam.nl/dist/images/svg/marker.svg',
   iconSize: [40, 40],
-  iconAnchor: [20, 39]
+  iconAnchor: [20, 39],
 });
 
 class MapInteractive extends React.Component {
@@ -23,7 +23,7 @@ class MapInteractive extends React.Component {
       marker: false,
       search: true,
       zoom: DEFAULT_ZOOM_LEVEL,
-      onQueryResult: props.onQueryResult
+      onQueryResult: props.onQueryResult,
     };
 
     if (props.location.geometrie) {
@@ -31,7 +31,7 @@ class MapInteractive extends React.Component {
       options.marker = true;
       options.center = {
         longitude: props.location.geometrie.coordinates[0],
-        latitude: props.location.geometrie.coordinates[1]
+        latitude: props.location.geometrie.coordinates[1],
       };
     }
     return pointquery.createMap(options);
@@ -41,14 +41,14 @@ class MapInteractive extends React.Component {
     super(props);
 
     this.state = {
-      map: props.map
+      map: props.map,
     };
 
     this.updateInput = this.updateInput.bind(this);
   }
 
   componentDidMount() {
-    MapInteractive.initMap(this.props).then((map) => {
+    MapInteractive.initMap(this.props).then(map => {
       this.setState({ map });
     });
 
@@ -62,7 +62,7 @@ class MapInteractive extends React.Component {
       let markerFound = false;
 
       /* istanbul ignore next */
-      this.state.map.eachLayer((layer) => {
+      this.state.map.eachLayer(layer => {
         if (layer instanceof global.window.L.Marker) {
           markerFound = true;
         }
@@ -105,12 +105,12 @@ class MapInteractive extends React.Component {
 
 MapInteractive.defaultProps = {
   location: {},
-  map: false
+  map: false,
 };
 
 MapInteractive.propTypes = {
   location: PropTypes.object,
-  map: PropTypes.oneOfType([PropTypes.bool, PropTypes.object])
+  map: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
 };
 
 export default MapInteractive;

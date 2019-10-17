@@ -15,8 +15,8 @@ describe('Preview component <DateTime />', () => {
       label: 'Datetime',
       value: {
         id: 'Nu',
-        label: 'Nu'
-      }
+        label: 'Nu',
+      },
     });
 
     expect(wrapper).toMatchSnapshot();
@@ -27,13 +27,13 @@ describe('Preview component <DateTime />', () => {
       label: 'Datetime',
       value: {
         id: 'Eerder',
-        label: 'Eerder'
+        label: 'Eerder',
       },
       incident: {
         incident_date: 'Vandaag',
         incident_time_hours: 13,
-        incident_time_minutes: 45
-      }
+        incident_time_minutes: 45,
+      },
     });
 
     expect(wrapper).toMatchSnapshot();
@@ -44,13 +44,13 @@ describe('Preview component <DateTime />', () => {
       label: 'Datetime',
       value: {
         id: 'Eerder',
-        label: 'Eerder'
+        label: 'Eerder',
       },
       incident: {
         incident_date: '2018-02-21',
         incident_time_hours: 6,
-        incident_time_minutes: 66
-      }
+        incident_time_minutes: 66,
+      },
     });
 
     expect(wrapper).toMatchSnapshot();

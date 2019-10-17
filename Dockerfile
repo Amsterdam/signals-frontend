@@ -17,6 +17,8 @@ COPY internals /app/internals
 COPY server /app/server
 COPY .gitignore \
      .gitattributes \
+     .eslintrc.js \
+     .prettierrc \
       /app/
 
 # Install language packs

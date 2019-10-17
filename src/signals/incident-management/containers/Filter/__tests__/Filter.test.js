@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { withAppContext } from 'test/utils';
 import FilterForm from 'signals/incident-management/components/FilterForm';
-import Filter, { FilterContainerComponent } from '../';
+import Filter, { FilterContainerComponent } from '..';
 
 describe.skip('signals/incident-management/containers/Filter', () => {
   it('should have props from structured selector', () => {

@@ -19,7 +19,7 @@ import {
 
   SET_PRIORITY,
   SET_PRIORITY_SUCCESS,
-  SET_PRIORITY_ERROR
+  SET_PRIORITY_ERROR,
 } from './constants';
 // eslint-disable-next-line no-unused-vars
 import debugInitialState from './debug/initialState';
@@ -32,11 +32,11 @@ export const initialState = fromJS({
     incident_time_minutes: 0,
     priority: {
       id: 'normal',
-      label: 'Normaal'
-    }
+      label: 'Normaal',
+    },
   },
   loadingClassification: false,
-  priority: {}
+  priority: {},
 });
 
 function incidentContainerReducer(state = initialState, action) {
@@ -45,13 +45,13 @@ function incidentContainerReducer(state = initialState, action) {
       return state
         .set('incident', fromJS({
           ...state.get('incident').toJS(),
-          ...action.payload
+          ...action.payload,
         }));
 
     case RESET_INCIDENT:
       return state
         .set('incident', fromJS({
-          ...(initialState.get('incident').toJS())
+          ...(initialState.get('incident').toJS()),
         }));
 
     case CREATE_INCIDENT:
@@ -60,7 +60,7 @@ function incidentContainerReducer(state = initialState, action) {
         .set('error', false)
         .set('incident', fromJS({
           ...state.get('incident').toJS(),
-          id: null
+          id: null,
         }));
 
     case CREATE_INCIDENT_SUCCESS:
@@ -69,7 +69,7 @@ function incidentContainerReducer(state = initialState, action) {
         .set('incident', fromJS({
           ...(initialState.get('incident').toJS()),
           id: action.payload.id,
-          handling_message: state.get('incident').toJS().handling_message
+          handling_message: state.get('incident').toJS().handling_message,
         }));
 
     case CREATE_INCIDENT_ERROR:
@@ -84,16 +84,16 @@ function incidentContainerReducer(state = initialState, action) {
     case GET_CLASSIFICATION_SUCCESS:
     case GET_CLASSIFICATION_ERROR:
       return state
-      .set('loadingClassification', false)
-      .set('incident', fromJS({
-        ...state.get('incident').toJS(),
-        ...action.payload
-      }));
+        .set('loadingClassification', false)
+        .set('incident', fromJS({
+          ...state.get('incident').toJS(),
+          ...action.payload,
+        }));
 
     case SET_PRIORITY:
       return state
         .set('priority', fromJS({
-          ...action.payload
+          ...action.payload,
         }));
 
     case SET_PRIORITY_SUCCESS:

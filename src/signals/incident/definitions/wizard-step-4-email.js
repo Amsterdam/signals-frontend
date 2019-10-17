@@ -19,14 +19,14 @@ export default {
           path: 'reporter.email',
           placeholder: 'E-mailadres',
           type: 'text',
-          autoRemove: /[^a-zA-Z0-9@.!#$%&'*+\-/=?^_`{|}~;]/g
+          autoRemove: /[^a-zA-Z0-9@.!#$%&'*+\-/=?^_`{|}~;]/g,
         },
         render: FormComponents.TextInput,
         options: {
           validators: [
             Validators.email,
-            Validators.maxLength(254)
-          ]
+            Validators.maxLength(254),
+          ],
         },
       },
       privacy_text: {
@@ -34,14 +34,14 @@ export default {
           className: 'col-sm-12 col-md-6',
           label: 'Uw privacy',
           type: 'disclaimer',
-          value: 'We gebruiken uw e-mailadres alléén om u op de hoogte houden, of wanneer wij een vraag hebben en u niet per telefoon kunnen bereiken.'
+          value: 'We gebruiken uw e-mailadres alléén om u op de hoogte houden, of wanneer wij een vraag hebben en u niet per telefoon kunnen bereiken.',
         },
-        render: FormComponents.PlainText
+        render: FormComponents.PlainText,
       },
       $field_0: {
         isStatic: false,
-        render: IncidentNavigation
-      }
-    }
-  }
+        render: IncidentNavigation,
+      },
+    },
+  },
 };

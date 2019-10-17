@@ -22,13 +22,13 @@ describe('<SplitDetail />', () => {
       incident: {
         reporter: {
           email: '',
-          phone: ''
+          phone: '',
         },
         created_at: '2019-01-11T20:06:34.382725+01:00',
         text: 'patrick sonneveldt werd aan gevalen door een reuzen octopus',
         location: {
           stadsdeel: 'A',
-          address_text: 'Amstel 1 1011PN Amsterdam'
+          address_text: 'Amstel 1 1011PN Amsterdam',
         },
         incident_date_end: null,
         updated_at: '2019-01-11T20:06:35.441604+01:00',
@@ -39,44 +39,44 @@ describe('<SplitDetail />', () => {
           sub_slug: 'overig',
           main: 'Overig',
           main_slug: 'overig',
-          department: 'ASC, CCA'
+          department: 'ASC, CCA',
         },
-        incident_date_start: '2019-01-11T20:06:34+01:00'
+        incident_date_start: '2019-01-11T20:06:34+01:00',
       },
       stadsdeelList: [
         {
           key: 'A',
-          value: 'Centrum'
+          value: 'Centrum',
         },
         {
           key: 'B',
-          value: 'Westpoort'
+          value: 'Westpoort',
         },
         {
           key: 'E',
-          value: 'West'
+          value: 'West',
         },
         {
           key: 'M',
-          value: 'Oost'
+          value: 'Oost',
         },
         {
           key: 'N',
-          value: 'Noord'
+          value: 'Noord',
         },
         {
           key: 'T',
-          value: 'Zuidoost'
+          value: 'Zuidoost',
         },
         {
           key: 'K',
-          value: 'Zuid'
+          value: 'Zuid',
         },
         {
           key: 'F',
-          value: 'Nieuw-West'
-        }
-      ]
+          value: 'Nieuw-West',
+        },
+      ],
     };
   });
 

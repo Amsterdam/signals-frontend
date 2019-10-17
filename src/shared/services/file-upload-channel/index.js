@@ -1,11 +1,11 @@
 import {
   buffers,
   eventChannel,
-  END
+  END,
 } from 'redux-saga';
 
 function fileUploadChannel(endpoint, file, id) {
-  return eventChannel((emitter) => {
+  return eventChannel(emitter => {
     const formData = new window.FormData();
     formData.append('signal_id', id);
     formData.append('image', file);
@@ -13,7 +13,7 @@ function fileUploadChannel(endpoint, file, id) {
     const xhr = new window.XMLHttpRequest();
 
     /* istanbul ignore next */
-    const onProgress = (e) => {
+    const onProgress = e => {
       if (e.lengthComputable) {
         const progress = e.loaded / e.total;
         emitter({ progress });

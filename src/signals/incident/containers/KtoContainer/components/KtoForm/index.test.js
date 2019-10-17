@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 
 import KtoForm, { andersOptionText } from './index';
-import formatConditionalForm from '../../../../services/format-conditional-form/';
+import formatConditionalForm from '../../../../services/format-conditional-form';
 
 jest.mock('../../../../services/format-conditional-form/');
 
@@ -12,51 +12,51 @@ const mockForm = {
       meta: {
         isVisible: true,
         label: 'Waarom bent u tevreden?',
-        values: {}
-      }
+        values: {},
+      },
     },
     tevreden_anders: {
       meta: {
-        isVisible: false
-      }
+        isVisible: false,
+      },
     },
     niet_tevreden: {
       meta: {
         isVisible: true,
         label: 'Waarom bent u ontevreden?',
-        values: {}
-      }
+        values: {},
+      },
     },
     niet_tevreden_anders: {
       meta: {
-        isVisible: false
-      }
+        isVisible: false,
+      },
     },
     text_extra: {
       meta: {
         isVisible: true,
-        label: 'Wilt u verder nog iets vermelden of toelichten?'
-      }
+        label: 'Wilt u verder nog iets vermelden of toelichten?',
+      },
     },
     allows_contact: {
       meta: {
         isVisible: true,
-        label: 'Mogen wij conact met u opnemen naar aanleiding vanuw feedback?'
-      }
+        label: 'Mogen wij conact met u opnemen naar aanleiding vanuw feedback?',
+      },
     },
     is_satisfied: {
       meta: {
         isVisible: true,
-        label: 'Is tevreden?'
-      }
+        label: 'Is tevreden?',
+      },
     },
     not_update: {
       meta: {
         isVisible: true,
-        doNotUpdateValue: true
-      }
-    }
-  }
+        doNotUpdateValue: true,
+      },
+    },
+  },
 };
 
 describe('<KtoForm />', () => {
@@ -68,14 +68,14 @@ describe('<KtoForm />', () => {
   beforeEach(() => {
     props = {
       fieldConfig: {
-        controls: {}
+        controls: {},
       },
       ktoContainer: {
         form: {},
-        answers: {}
+        answers: {},
       },
       onUpdateKto: jest.fn(),
-      onStoreKto: jest.fn()
+      onStoreKto: jest.fn(),
     };
 
     formatConditionalForm.mockImplementation(() => mockForm);
@@ -100,12 +100,12 @@ describe('<KtoForm />', () => {
       wrapper.setProps({
         ktoContainer: {
           form: {
-            yesNo: 'ja'
+            yesNo: 'ja',
           },
           answers: {
-            'Antwoord JA': 'Antwoord JA'
-          }
-        }
+            'Antwoord JA': 'Antwoord JA',
+          },
+        },
       });
       expect(wrapper).toMatchSnapshot();
     });
@@ -114,12 +114,12 @@ describe('<KtoForm />', () => {
       wrapper.setProps({
         ktoContainer: {
           form: {
-            yesNo: 'nee'
+            yesNo: 'nee',
           },
           answers: {
-            'Antwoord NEE': 'Antwoord NEE'
-          }
-        }
+            'Antwoord NEE': 'Antwoord NEE',
+          },
+        },
       });
       expect(wrapper).toMatchSnapshot();
     });
@@ -150,12 +150,12 @@ describe('<KtoForm />', () => {
         tevreden_anders: '',
         text_extra: 'Zoveel te vertellen',
         allows_contact: { value: true },
-        is_satisfied: true
+        is_satisfied: true,
       };
       instance.form.patchValue(form);
       const ktoContainer = {
         form,
-        uuid: 'abc-42'
+        uuid: 'abc-42',
       };
       wrapper.setProps({ ktoContainer });
 
@@ -167,8 +167,8 @@ describe('<KtoForm />', () => {
           text: '',
           text_extra: 'Zoveel te vertellen',
           allows_contact: true,
-          is_satisfied: true
-        }
+          is_satisfied: true,
+        },
       });
     });
 
@@ -176,16 +176,16 @@ describe('<KtoForm />', () => {
       form = {
         niet_tevreden: {
           id: 'anders',
-          label: andersOptionText
+          label: andersOptionText,
         },
         niet_tevreden_anders: 'Meer over die melding',
         text_extra: '',
-        is_satisfied: false
+        is_satisfied: false,
       };
       instance.form.patchValue(form);
       const ktoContainer = {
         form,
-        uuid: 'abc-42'
+        uuid: 'abc-42',
       };
       wrapper.setProps({ ktoContainer });
 
@@ -197,8 +197,8 @@ describe('<KtoForm />', () => {
           text: 'Meer over die melding',
           text_extra: '',
           allows_contact: false,
-          is_satisfied: false
-        }
+          is_satisfied: false,
+        },
       });
     });
   });

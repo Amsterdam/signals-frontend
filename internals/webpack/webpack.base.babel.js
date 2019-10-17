@@ -1,16 +1,18 @@
 const path = require('path');
 const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = (options) => ({
+module.exports = options => ({
   mode: options.mode,
   entry: options.entry,
+  // eslint-disable-next-line prefer-object-spread
   output: Object.assign(
     {
       // Compile into js/build.js
       path: path.resolve(process.cwd(), 'build'),
       publicPath: '/',
     },
-    options.output,
+    options.output
   ), // Merge with env dependent settings
   optimization: options.optimization,
   module: {
@@ -104,6 +106,13 @@ module.exports = (options) => ({
     ],
   },
   plugins: options.plugins.concat([
+    new CopyWebpackPlugin([
+      {
+        from: './node_modules/amsterdam-amaps/dist/nlmaps/dist/assets',
+        to: './assets',
+      },
+    ]),
+
     // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
     // inside your code for any environment checks; Terser will automatically
     // drop any unreachable code.
@@ -119,4 +128,10 @@ module.exports = (options) => ({
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},
+  externals: {
+    globalConfig: JSON.stringify(
+      // eslint-disable-next-line
+      require(path.resolve(process.cwd(), 'environment.conf.json'))
+    ),
+  },
 });

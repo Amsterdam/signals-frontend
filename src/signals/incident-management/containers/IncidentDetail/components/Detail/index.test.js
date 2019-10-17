@@ -13,15 +13,15 @@ describe('<Detail />', () => {
       text: 'het is een rotzooi weer',
       reporter: {
         email: 'steve@apple.com',
-        phone: '098754321'
+        phone: '098754321',
       },
-      extra_properties: [{ extra_straatverlichting: {} }]
+      extra_properties: [{ extra_straatverlichting: {} }],
     },
     attachments: [],
     stadsdeelList: [],
     onShowLocation: jest.fn(),
     onEditLocation: jest.fn(),
-    onShowAttachment: jest.fn()
+    onShowAttachment: jest.fn(),
   };
 
   afterEach(cleanup);

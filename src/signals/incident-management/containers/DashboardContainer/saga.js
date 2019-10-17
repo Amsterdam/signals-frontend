@@ -5,11 +5,11 @@ import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import {
   REQUEST_DASHBOARD,
-  UPDATE_DASHBOARD
+  UPDATE_DASHBOARD,
 } from './constants';
 import {
   requestDashboardSuccess,
-  requestDashboardError
+  requestDashboardError,
 } from './actions';
 
 export const requestURL = `${CONFIGURATION.API_ROOT}signals/experimental/dashboards/1`;
@@ -18,9 +18,9 @@ export function* fetchDashboard() {
   try {
     const dashboard = yield authCall(requestURL);
 
-    dashboard.hour = dashboard.hour.map((item) => ({
+    dashboard.hour = dashboard.hour.map(item => ({
       ...item,
-      timestamp: new Date(item.interval_start).getTime()
+      timestamp: new Date(item.interval_start).getTime(),
     }));
 
     // TEMP: remove these items
@@ -28,7 +28,7 @@ export function* fetchDashboard() {
       { name: 'Melding is afgehandeld in extern systeem' },
       { name: 'Te verzenden naar extern systeem' },
       { name: 'Verzending naar extern systeem mislukt' },
-      { name: 'Verzonden naar extern systeem' }
+      { name: 'Verzonden naar extern systeem' },
     ], 'name');
 
     yield put(requestDashboardSuccess(dashboard));
@@ -40,6 +40,6 @@ export function* fetchDashboard() {
 export default function* watchDashboardSaga() {
   yield all([
     takeLatest(REQUEST_DASHBOARD, fetchDashboard),
-    takeLatest(UPDATE_DASHBOARD, fetchDashboard)
+    takeLatest(UPDATE_DASHBOARD, fetchDashboard),
   ]);
 }

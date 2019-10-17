@@ -6,8 +6,8 @@ const user = {
   template: {
     id: g.id,
     user: g.name,
-    city: g.address.city
-  }
+    city: g.address.city,
+  },
 };
 
 const users = {

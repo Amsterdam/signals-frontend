@@ -16,7 +16,9 @@ const StyledHeading = styled(Heading)`
   line-height: 44px;
 `;
 
-const PageHeader = ({ className, children, subTitle, title }) => (
+const PageHeader = ({
+  className, children, subTitle, title,
+}) => (
   <StyledSection className={className}>
     <Row>
       <div>

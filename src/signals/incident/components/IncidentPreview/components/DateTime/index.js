@@ -36,7 +36,7 @@ const DateTime = ({ label, value, incident }) => (
 DateTime.propTypes = {
   label: PropTypes.string,
   value: PropTypes.object,
-  incident: PropTypes.object
+  incident: PropTypes.object,
 };
 
 export default DateTime;

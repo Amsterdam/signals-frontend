@@ -8,7 +8,7 @@ import {
   isAuthenticated,
   getScopes,
   getName,
-  authenticate
+  authenticate,
 } from './auth';
 import queryStringParser from './services/query-string-parser/query-string-parser';
 import stateTokenGenerator from './services/state-token-generator/state-token-generator';
@@ -29,7 +29,7 @@ describe('The auth service', () => {
   let stateToken;
 
   beforeEach(() => {
-    global.sessionStorage.getItem.mockImplementation((key) => {
+    global.sessionStorage.getItem.mockImplementation(key => {
       switch (key) {
         case 'accessToken':
           return savedAccessToken;
@@ -74,20 +74,20 @@ describe('The auth service', () => {
         jsdom.reconfigure({ url: `https://data.amsterdam.nl/${queryString}` });
         queryObject = {
           error: 'invalid_request',
-          error_description: 'invalid request'
+          error_description: 'invalid request',
         };
 
         expect(() => {
           initAuth();
-        }).toThrow('Authorization service responded with error invalid_request [invalid request] ' +
-          '(The request is missing a required parameter, includes an invalid parameter value, ' +
-          'includes a parameter more than once, or is otherwise malformed.)');
+        }).toThrow('Authorization service responded with error invalid_request [invalid request] '
+          + '(The request is missing a required parameter, includes an invalid parameter value, '
+          + 'includes a parameter more than once, or is otherwise malformed.)');
         expect(queryStringParser).toHaveBeenCalledWith(queryString);
       });
 
       it('throws an error without a description in the query string', () => {
         queryObject = {
-          error: 'invalid_request'
+          error: 'invalid_request',
         };
 
         expect(() => {
@@ -97,7 +97,7 @@ describe('The auth service', () => {
 
       it('removes the state token from the session storage', () => {
         queryObject = {
-          error: 'invalid_request'
+          error: 'invalid_request',
         };
 
         expect(() => {
@@ -133,7 +133,7 @@ describe('The auth service', () => {
           access_token: '123AccessToken',
           token_type: 'token',
           expires_in: '36000',
-          state: 'invalidStateToken'
+          state: 'invalidStateToken',
         };
         savedStateToken = '123StateToken';
 
@@ -150,7 +150,7 @@ describe('The auth service', () => {
           access_token: '123AccessToken',
           token_type: 'token',
           expires_in: '36000',
-          state: '123StateToken'
+          state: '123StateToken',
         };
         savedStateToken = '123StateToken';
         savedReturnPath = '/path/leading/back';
@@ -170,7 +170,7 @@ describe('The auth service', () => {
           token_type: 'token',
           expires_in: '36000',
           state: '123StateToken',
-          extra: 'sauce'
+          extra: 'sauce',
         };
         savedStateToken = '123StateToken';
         savedReturnPath = '/path/leading/back';
@@ -185,7 +185,7 @@ describe('The auth service', () => {
         queryObject = {
           access_token: '123AccessToken',
           token_type: 'token',
-          state: '123StateToken'
+          state: '123StateToken',
         };
         savedStateToken = '123StateToken';
 
@@ -221,10 +221,10 @@ describe('The auth service', () => {
 
       login();
 
-      expect(global.location.assign).toHaveBeenCalledWith('https://acc.api.data.amsterdam.nl/' +
-        'oauth2/authorize?idp_id=datapunt&response_type=token&client_id=sia' +
-        '&scope=SIG%2FALL' +
-        '&state=123StateToken&redirect_uri=https%3A%2F%2Fdata.amsterdam.nl%2Fmanage%2Fincidents');
+      expect(global.location.assign).toHaveBeenCalledWith('https://acc.api.data.amsterdam.nl/'
+        + 'oauth2/authorize?idp_id=datapunt&response_type=token&client_id=sia'
+        + '&scope=SIG%2FALL'
+        + '&state=123StateToken&redirect_uri=https%3A%2F%2Fdata.amsterdam.nl%2Fmanage%2Fincidents');
     });
   });
 
@@ -246,7 +246,7 @@ describe('The auth service', () => {
         access_token: '123AccessToken',
         token_type: 'token',
         expires_in: '36000',
-        state: '123StateToken'
+        state: '123StateToken',
       };
       savedStateToken = '123StateToken';
       savedReturnPath = '/path/leading/back';
@@ -262,7 +262,7 @@ describe('The auth service', () => {
 
     it('returns an empty string when there was an error callback', () => {
       queryObject = {
-        error: 'invalid_request'
+        error: 'invalid_request',
       };
 
       expect(() => {
@@ -283,7 +283,7 @@ describe('The auth service', () => {
       const authHeaders = getAuthHeaders();
 
       expect(authHeaders).toEqual({
-        Authorization: 'Bearer 123AccessToken'
+        Authorization: 'Bearer 123AccessToken',
       });
     });
 
@@ -331,7 +331,7 @@ describe('The auth service', () => {
 
     it('should return the scopes', () => {
       parseAccessToken.mockImplementation(() => ({
-        scopes: ['SIG/ALL']
+        scopes: ['SIG/ALL'],
       }));
 
       savedAccessToken = '123AccessToken';
@@ -355,7 +355,7 @@ describe('The auth service', () => {
 
     it('should return the scopes', () => {
       parseAccessToken.mockImplementation(() => ({
-        name: 'Jan Klaasen'
+        name: 'Jan Klaasen',
       }));
 
       savedAccessToken = '123AccessToken';
@@ -370,7 +370,7 @@ describe('The auth service', () => {
     it('should authenticate with credentials with accessToken', () => {
       parseAccessToken.mockImplementation(() => ({
         name: 'Jan Klaasen',
-        scopes: ['SIG/ALL']
+        scopes: ['SIG/ALL'],
       }));
       savedAccessToken = '123AccessToken';
 
@@ -378,7 +378,7 @@ describe('The auth service', () => {
         {
           userName: 'Jan Klaasen',
           userScopes: ['SIG/ALL'],
-          accessToken: '123AccessToken'
+          accessToken: '123AccessToken',
         }
       );
     });
@@ -386,7 +386,7 @@ describe('The auth service', () => {
     it('should not authenticate without accessToken', () => {
       parseAccessToken.mockImplementation(() => ({
         name: 'Jan Klaasen',
-        scopes: ['SIG/ALL']
+        scopes: ['SIG/ALL'],
       }));
 
       expect(authenticate()).toEqual(null);

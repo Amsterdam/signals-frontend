@@ -18,7 +18,7 @@ const ObjectValue = ({ label, value }) => (
 
 ObjectValue.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.object
+  value: PropTypes.object,
 };
 
 export default ObjectValue;
