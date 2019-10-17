@@ -1,7 +1,5 @@
-import {
-  all, call, delay, put, select, takeLatest,
-} from 'redux-saga/effects';
-import { replace } from 'react-router-redux';
+import { all, call, delay, put, select, takeLatest } from 'redux-saga/effects';
+import { replace } from 'connected-react-router/immutable';
 
 import { authPostCall, postCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
@@ -49,11 +47,11 @@ export function* getClassification(action) {
     const result = yield call(retryFetchClassification, action.payload);
 
     yield put(
-      getClassificationSuccess(setClassification(result, categories.sub)),
+      getClassificationSuccess(setClassification(result, categories.sub))
     );
   } catch (error) {
     yield put(
-      getClassificationError(setClassification(undefined, categories.sub)),
+      getClassificationError(setClassification(undefined, categories.sub))
     );
   }
 }
@@ -63,29 +61,31 @@ export function* createIncident(action) {
     const result = yield call(
       postCall,
       INCIDENT_REQUEST_URL,
-      mapControlsToParams(action.payload.incident, action.payload.wizard),
+      mapControlsToParams(action.payload.incident, action.payload.wizard)
     );
 
     if (
-      action.payload.isAuthenticated
-      && action.payload.incident.priority.id === 'high'
+      action.payload.isAuthenticated &&
+      action.payload.incident.priority.id === 'high'
     ) {
       yield put(
         setPriority({
           priority: action.payload.incident.priority.id,
           _signal: result.id,
-        }),
+        })
       );
     }
 
     if (action.payload.incident.images) {
       yield all(
-        action.payload.incident.images.map(image => put(
-          uploadRequest({
-            file: image,
-            id: result.signal_id,
-          }),
-        ),),
+        action.payload.incident.images.map(image =>
+          put(
+            uploadRequest({
+              file: image,
+              id: result.signal_id,
+            })
+          )
+        )
       );
     }
 
@@ -101,7 +101,7 @@ export function* setPriorityHandler(action) {
     const result = yield call(
       authPostCall,
       PRIORITY_REQUEST_URL,
-      action.payload,
+      action.payload
     );
     yield put(setPrioritySuccess(result));
   } catch (error) {

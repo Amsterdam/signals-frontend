@@ -1,15 +1,20 @@
-import {
-  all, call, put, takeLatest,
-} from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { push } from 'connected-react-router/immutable';
 import request from 'utils/request';
 
-import watchKtoContainerSaga, { requestKtoAnswers, checkKto, storeKto } from './saga';
+import watchKtoContainerSaga, {
+  requestKtoAnswers,
+  checkKto,
+  storeKto,
+} from './saga';
 import { REQUEST_KTO_ANSWERS, CHECK_KTO, STORE_KTO } from './constants';
 import {
-  requestKtoAnswersSuccess, requestKtoAnswersError,
-  checkKtoSuccess, checkKtoError,
-  storeKtoSuccess, storeKtoError,
+  requestKtoAnswersSuccess,
+  requestKtoAnswersError,
+  checkKtoSuccess,
+  checkKtoError,
+  storeKtoSuccess,
+  storeKtoError,
 } from './actions';
 
 describe('KtoContainer saga', () => {
@@ -28,14 +33,28 @@ describe('KtoContainer saga', () => {
 
     it('should success with JA', () => {
       gen = requestKtoAnswers({ payload: true });
-      expect(gen.next().value).toEqual(call(request, 'https://acc.api.data.amsterdam.nl/signals/v1/public/feedback/standard_answers/'));
-      expect(gen.next(answers).value).toEqual(put(requestKtoAnswersSuccess({ 'Antwoord JA': 'Antwoord JA' })));
+      expect(gen.next().value).toEqual(
+        call(
+          request,
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/feedback/standard_answers/'
+        )
+      );
+      expect(gen.next(answers).value).toEqual(
+        put(requestKtoAnswersSuccess({ 'Antwoord JA': 'Antwoord JA' }))
+      );
     });
 
     it('should success with NEE', () => {
       gen = requestKtoAnswers({ payload: false });
-      expect(gen.next().value).toEqual(call(request, 'https://acc.api.data.amsterdam.nl/signals/v1/public/feedback/standard_answers/'));
-      expect(gen.next(answers).value).toEqual(put(requestKtoAnswersSuccess({ 'Antwoord NEE': 'Antwoord NEE' })));
+      expect(gen.next().value).toEqual(
+        call(
+          request,
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/feedback/standard_answers/'
+        )
+      );
+      expect(gen.next(answers).value).toEqual(
+        put(requestKtoAnswersSuccess({ 'Antwoord NEE': 'Antwoord NEE' }))
+      );
     });
 
     it('should error', () => {
@@ -55,7 +74,12 @@ describe('KtoContainer saga', () => {
     });
 
     it('should success', () => {
-      expect(gen.next().value).toEqual(call(request, `https://acc.api.data.amsterdam.nl/signals/v1/public/feedback/forms/${payload}`));
+      expect(gen.next().value).toEqual(
+        call(
+          request,
+          `https://acc.api.data.amsterdam.nl/signals/v1/public/feedback/forms/${payload}`
+        )
+      );
       expect(gen.next().value).toEqual(put(checkKtoSuccess()));
     });
 
@@ -104,13 +128,19 @@ describe('KtoContainer saga', () => {
     });
 
     it('should success', () => {
-      expect(gen.next().value).toEqual(call(request, `https://acc.api.data.amsterdam.nl/signals/v1/public/feedback/forms/${payload.uuid}`, {
-        method: 'PUT',
-        body: JSON.stringify(payload.form),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }));
+      expect(gen.next().value).toEqual(
+        call(
+          request,
+          `https://acc.api.data.amsterdam.nl/signals/v1/public/feedback/forms/${payload.uuid}`,
+          {
+            method: 'PUT',
+            body: JSON.stringify(payload.form),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+      );
       expect(gen.next().value).toEqual(put(storeKtoSuccess()));
     });
 
@@ -122,10 +152,12 @@ describe('KtoContainer saga', () => {
 
   it('should watchKtoContainerSaga', () => {
     const gen = watchKtoContainerSaga();
-    expect(gen.next().value).toEqual(all([
-      takeLatest(REQUEST_KTO_ANSWERS, requestKtoAnswers),
-      takeLatest(CHECK_KTO, checkKto),
-      takeLatest(STORE_KTO, storeKto),
-    ]));
+    expect(gen.next().value).toEqual(
+      all([
+        takeLatest(REQUEST_KTO_ANSWERS, requestKtoAnswers),
+        takeLatest(CHECK_KTO, checkKto),
+        takeLatest(STORE_KTO, storeKto),
+      ])
+    );
   });
 });

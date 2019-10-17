@@ -1,7 +1,5 @@
-import {
-  put, takeLatest, select, call, take,
-} from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { put, takeLatest, select, call, take } from 'redux-saga/effects';
+import { push } from 'connected-react-router/immutable';
 import { authCall, authDeleteCall } from 'shared/services/api/api';
 import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import CONFIGURATION from 'shared/services/configuration/configuration';
@@ -162,7 +160,8 @@ describe('signals/incident-management/containers/IncidentOverviewPage/saga', () 
 
   it('should getFilters success', () => {
     const filters = { results: [{ a: 1 }] };
-    const requestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/private/me/filters/';
+    const requestURL =
+      'https://acc.api.data.amsterdam.nl/signals/v1/private/me/filters/';
 
     testSaga(getFilters)
       .next()

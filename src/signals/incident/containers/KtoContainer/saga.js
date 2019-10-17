@@ -1,15 +1,16 @@
-import {
-  all, call, put, takeLatest,
-} from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { push } from 'connected-react-router/immutable';
 import request from 'utils/request';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { REQUEST_KTO_ANSWERS, CHECK_KTO, STORE_KTO } from './constants';
 import {
-  requestKtoAnswersSuccess, requestKtoAnswersError,
-  checkKtoSuccess, checkKtoError,
-  storeKtoSuccess, storeKtoError,
+  requestKtoAnswersSuccess,
+  requestKtoAnswersError,
+  checkKtoSuccess,
+  checkKtoError,
+  storeKtoSuccess,
+  storeKtoError,
 } from './actions';
 
 export function* requestKtoAnswers(action) {
@@ -40,7 +41,11 @@ export function* checkKto(action) {
     if (error && error.response && error.response.status === 404) {
       yield put(push('/niet-gevonden'));
     }
-    const message = error && error.response && error.response.jsonBody && error.response.jsonBody.detail;
+    const message =
+      error &&
+      error.response &&
+      error.response.jsonBody &&
+      error.response.jsonBody.detail;
     yield put(checkKtoError(message || true));
   }
 }
