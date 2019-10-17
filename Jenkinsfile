@@ -32,7 +32,7 @@ node {
     }
 
     stage("Lint") {
-        String PROJECT = "sia-eslint-${env.JOB_NAME}"
+        String PROJECT = "sia-eslint-${env.GIT_COMMIT}"
 
         tryStep "lint start", {
             sh "docker-compose -p ${PROJECT} up --build --exit-code-from lint-container lint-container"
@@ -45,7 +45,7 @@ node {
     }
 
     stage("Test") {
-        String PROJECT = "sia-unittests-${env.JOB_NAME}"
+        String PROJECT = "sia-unittests-${env.GIT_COMMIT}"
 
         tryStep "unittests start", {
             sh "docker-compose -p ${PROJECT} up --build --exit-code-from unittest-container unittest-container"
