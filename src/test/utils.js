@@ -1,10 +1,11 @@
 import React from 'react';
-import { ConnectedRouter } from 'react-router-redux';
+import { ConnectedRouter } from 'connected-react-router/immutable';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@datapunt/asc-ui';
 import MatchMediaMock from 'match-media-mock';
 import { IntlProvider } from 'react-intl';
+import Immutable from 'immutable';
 
 import configureStore from '../configureStore';
 
@@ -43,7 +44,7 @@ export const getContext = (state) => {
   return { store };
 };
 
-const store = configureStore({}, history);
+const store = configureStore(Immutable.Map(), history);
 
 export const withAppContext = (Component) => (
   <ThemeProvider>
