@@ -245,7 +245,6 @@
     "scroll-lock": "^2.1.2",
     "styled-components": "4.3.2",
     "url-polyfill": "^1.1.7",
-    "webpack-pwa-manifest": "^4.1.0",
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {

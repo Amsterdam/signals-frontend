@@ -1,7 +1,6 @@
 // Important modules this config uses
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
 const OfflinePlugin = require('offline-plugin');
 const { HashedModuleIdsPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -113,27 +112,6 @@ module.exports = require('./webpack.base.babel')({
       test: /\.js$|\.css$|\.html$/,
       threshold: 10240,
       minRatio: 0.8,
-    }),
-
-    new WebpackPwaManifest({
-      name: 'meldingen.amsterdam.nl',
-      short_name: 'SIA',
-      description: '',
-      background_color: '#ffffff',
-      theme_color: '#cc0000',
-      inject: true,
-      ios: true,
-      icons: [
-        {
-          src: path.resolve('src/images/favicon.png'),
-          sizes: [72, 96, 128, 144, 192, 384, 512],
-        },
-        // {
-        //   src: path.resolve('src/images/icon-512x512.png'),
-        //   sizes: [120, 152, 167, 180],
-        //   ios: true,
-        // },
-      ],
     }),
 
     new HashedModuleIdsPlugin({
