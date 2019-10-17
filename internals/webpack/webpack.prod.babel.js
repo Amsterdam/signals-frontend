@@ -2,6 +2,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 const { HashedModuleIdsPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
@@ -9,10 +10,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
 
-  // In production, we skip all hot-reloading stuff
   entry: [
-    '@babel/polyfill',
-    require.resolve('react-app-polyfill/ie11'),
     path.join(process.cwd(), 'src/app.js'),
   ],
 
@@ -106,6 +104,23 @@ module.exports = require('./webpack.base.babel')({
 
       // Removes warning for about `additional` section usage
       safeToUseOptionalCaches: true,
+    }),
+
+    new WebpackPwaManifest({
+      name: 'Signalen Informatievoorziening Amsterdam',
+      short_name: 'SIA',
+      background_color: '#ffffff',
+      theme_color: '#ec0000',
+      inject: true,
+      ios: true,
+      display: 'fullscreen',
+      orientation: 'portrait',
+      icons: [
+        {
+          src: path.resolve('src/images/logo.png'),
+          sizes: [96, 128, 192, 256, 384, 512],
+        },
+      ],
     }),
 
     new CompressionPlugin({

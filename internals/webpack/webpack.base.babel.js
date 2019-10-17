@@ -1,14 +1,19 @@
 const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = options => ({
   mode: options.mode,
-  entry: options.entry,
+  entry: [
+    '@babel/polyfill',
+    'formdata-polyfill',
+    'url-polyfill',
+    require.resolve('react-app-polyfill/ie11'),
+  ].concat(options.entry),
   // eslint-disable-next-line prefer-object-spread
   output: Object.assign(
     {
-      // Compile into js/build.js
       path: path.resolve(process.cwd(), 'build'),
       publicPath: '/',
     },
@@ -26,18 +31,19 @@ module.exports = options => ({
         },
       },
       {
-        // Preprocess our own .css files
-        // This is the place to add your own loaders (e.g. sass/less etc.)
-        // for a list of loaders, see https://webpack.js.org/loaders/#styling
-        test: /\.scss$/,
-        exclude: /node_modules/,
-        use: ['css-loader', 'sass-loader'],
-      },
-      {
-        // Preprocess 3rd party .css files located in node_modules
-        test: /\.css$/,
-        include: /node_modules/,
-        use: ['style-loader', 'css-loader'],
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: (resourcePath, context) =>
+                `${path.relative(path.dirname(resourcePath), context)}/`,
+              hmr: process.env.NODE_ENV === 'development',
+            },
+          },
+          'css-loader',
+          'sass-loader',
+        ],
       },
       {
         test: /\.(eot|otf|ttf|woff|woff2)$/,
@@ -83,7 +89,7 @@ module.exports = options => ({
                 optimizationLevel: 7,
               },
               pngquant: {
-                quality: '65-90',
+                quality: [0.65, 0.9],
                 speed: 4,
               },
             },
@@ -117,7 +123,16 @@ module.exports = options => ({
     // inside your code for any environment checks; Terser will automatically
     // drop any unreachable code.
     new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development',
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      GIT_COMMIT: JSON.stringify(process.env.GIT_COMMIT),
+    }),
+
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // all options are optional
+      filename: 'css/[name].[contenthash].css',
+      chunkFilename: 'css/[id].css',
+      ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
   ]),
   resolve: {
