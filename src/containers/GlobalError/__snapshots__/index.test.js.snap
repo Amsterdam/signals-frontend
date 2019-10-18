@@ -50,7 +50,7 @@ exports[`<GlobalError /> events should render showing no error by default 2`] = 
                 ],
                 "results": Array [
                   Object {
-                    "isThrow": false,
+                    "type": "return",
                     "value": undefined,
                   },
                 ],

@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = require('./webpack.base.babel')({
   // In production, we skip all hot-reloading stuff
   entry: [
-    'babel-polyfill',
+    '@babel/polyfill',
     'formdata-polyfill',
     'url-polyfill',
     path.join(process.cwd(), 'src/app.js'),

@@ -40,7 +40,7 @@ if (dllPlugin) {
 module.exports = require('./webpack.base.babel')({
   // Add hot reloading in development
   entry: [
-    'babel-polyfill',
+    '@babel/polyfill',
     'formdata-polyfill',
     'url-polyfill',
     'eventsource-polyfill', // Necessary for hot reloading with IE
