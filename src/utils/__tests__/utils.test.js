@@ -1,4 +1,4 @@
-import { isArray, isDate } from '../';
+import { isArray, isDate } from '..';
 
 const date = new Date();
 const nr = Date.now();

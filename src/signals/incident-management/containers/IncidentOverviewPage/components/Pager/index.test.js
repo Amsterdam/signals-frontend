@@ -10,7 +10,7 @@ describe('<Pager />', () => {
   beforeEach(() => {
     props = {
       onRequestIncidents: jest.fn(),
-      incidentsCount: 2350
+      incidentsCount: 2350,
     };
   });
 

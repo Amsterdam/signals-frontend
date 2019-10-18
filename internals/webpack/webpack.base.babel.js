@@ -13,12 +13,18 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 // in the next major version of loader-utils.'
 process.noDeprecation = true;
 
-module.exports = (options) => ({
+module.exports = options => ({
   entry: options.entry,
-  output: Object.assign({ // Compile into js/build.js
-    path: path.resolve(process.cwd(), 'build'),
-    publicPath: '/',
-  }, options.output), // Merge with env dependent settings
+  // eslint-disable-next-line prefer-object-spread
+  output: Object.assign(
+    {},
+    {
+      // Compile into js/build.js
+      path: path.resolve(process.cwd(), 'build'),
+      publicPath: '/',
+    },
+    options.output // Merge with env dependent settings
+  ),
   module: {
     rules: [
       {
@@ -49,24 +55,24 @@ module.exports = (options) => ({
         // for a list of loaders, see https://webpack.js.org/loaders/#styling
         test: /\.(scss|css)$/,
         loader: ExtractTextPlugin.extract({
-          use: ['css-loader', 'sass-loader']
-        })
+          use: ['css-loader', 'sass-loader'],
+        }),
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'fonts/[name].[hash:7].[ext]'
-        }
+          name: 'fonts/[name].[hash:7].[ext]',
+        },
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'images/[name].[hash:7].[ext]'
-        }
+          name: 'images/[name].[hash:7].[ext]',
+        },
       },
       {
         test: /\.html$/,
@@ -89,7 +95,10 @@ module.exports = (options) => ({
   },
   plugins: options.plugins.concat([
     new CopyWebpackPlugin([
-      { from: './node_modules/amsterdam-amaps/dist/nlmaps/dist/assets', to: './assets' }
+      {
+        from: './node_modules/amsterdam-amaps/dist/nlmaps/dist/assets',
+        to: './assets',
+      },
     ]),
 
     new webpack.ProvidePlugin({
@@ -110,25 +119,20 @@ module.exports = (options) => ({
     new ExtractTextPlugin({
       filename: 'css/[name].[contenthash].css',
       allChunks: true,
-    })
+    }),
   ]),
   resolve: {
     modules: ['src', 'node_modules'],
-    extensions: [
-      '.js',
-      '.jsx',
-      '.react.js',
-    ],
-    mainFields: [
-      'browser',
-      'jsnext:main',
-      'main',
-    ],
+    extensions: ['.js', '.jsx', '.react.js'],
+    mainFields: ['browser', 'jsnext:main', 'main'],
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},
   externals: {
-    globalConfig: JSON.stringify(require(path.resolve(process.cwd(),'environment.conf.json'))), //eslint-disable-line
+    globalConfig: JSON.stringify(
+      // eslint-disable-next-line
+      require(path.resolve(process.cwd(), 'environment.conf.json'))
+    ),
   },
 });

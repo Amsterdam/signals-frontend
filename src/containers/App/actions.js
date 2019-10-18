@@ -16,15 +16,15 @@ import {
   UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
   UPLOAD_SUCCESS,
-  UPLOAD_FAILURE
+  UPLOAD_FAILURE,
 } from './constants';
 
-export const loginFailed = (payload) => ({
+export const loginFailed = payload => ({
   type: LOGIN_FAILED,
   payload,
 });
 
-export const logoutFailed = (payload) => ({
+export const logoutFailed = payload => ({
   type: LOGOUT_FAILED,
   payload,
 });
@@ -32,79 +32,79 @@ export const logoutFailed = (payload) => ({
 export function authenticateUser(credentials) {
   return {
     type: AUTHENTICATE_USER,
-    payload: credentials
+    payload: credentials,
   };
 }
 
 export function authorizeUser(credentials) {
   return {
     type: AUTHORIZE_USER,
-    payload: credentials
+    payload: credentials,
   };
 }
 
 export function showGlobalError(message) {
   return {
     type: SHOW_GLOBAL_ERROR,
-    payload: message
+    payload: message,
   };
 }
 
 export function resetGlobalError() {
   return {
-    type: RESET_GLOBAL_ERROR
+    type: RESET_GLOBAL_ERROR,
   };
 }
 
 export function doLogin(domain) {
   return {
     type: LOGIN,
-    payload: domain
+    payload: domain,
   };
 }
 
 export function doLogout() {
   return {
     type: LOGOUT,
-    payload: null
+    payload: null,
   };
 }
 
 export function requestCategories() {
   return {
-    type: REQUEST_CATEGORIES
+    type: REQUEST_CATEGORIES,
   };
 }
 
 export function requestCategoriesSuccess(categories) {
   return {
     type: REQUEST_CATEGORIES_SUCCESS,
-    payload: categories
+    payload: categories,
   };
 }
 
 export function uploadRequest({ file, id }) {
   return {
     type: UPLOAD_REQUEST,
-    payload: { file, id }
+    payload: { file, id },
   };
 }
 
 export function uploadProgress(progress) {
   return {
     type: UPLOAD_PROGRESS,
-    payload: progress
+    payload: progress,
   };
 }
 
 export function uploadSuccess() {
   return {
-    type: UPLOAD_SUCCESS
+    type: UPLOAD_SUCCESS,
   };
 }
 
 export function uploadFailure() {
   return {
-    type: UPLOAD_FAILURE
+    type: UPLOAD_FAILURE,
   };
 }

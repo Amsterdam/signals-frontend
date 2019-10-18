@@ -10,8 +10,8 @@ describe('Form component <SelectInput />', () => {
     values: {
       foo: 'Foo',
       bar: 'Bar',
-      baz: 'Baz'
-    }
+      baz: 'Baz',
+    },
   };
   let wrapper;
   let handler;
@@ -27,15 +27,15 @@ describe('Form component <SelectInput />', () => {
     hasError = jest.fn();
     parent = {
       meta: {
-        updateIncident: jest.fn()
-      }
+        updateIncident: jest.fn(),
+      },
     };
 
     handler.mockImplementation(() => ({
       value: {
         id: 'baz',
-        label: 'Baz'
-      }
+        label: 'Baz',
+      },
     }));
 
     wrapper = shallow(<SelectInput
@@ -52,8 +52,8 @@ describe('Form component <SelectInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -64,8 +64,8 @@ describe('Form component <SelectInput />', () => {
         meta: {
           ...metaFields,
           isVisible: true,
-          values: undefined
-        }
+          values: undefined,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -75,8 +75,8 @@ describe('Form component <SelectInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: false
-        }
+          isVisible: false,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -88,18 +88,18 @@ describe('Form component <SelectInput />', () => {
       target: {
         selectedIndex: 2,
         2: {
-          text: 'Baz'
+          text: 'Baz',
         },
-        value: 'baz'
-      }
+        value: 'baz',
+      },
     };
 
     it('sets incident when value changes', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       wrapper.find('select').simulate('change', event);
@@ -107,8 +107,8 @@ describe('Form component <SelectInput />', () => {
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': {
           id: 'baz',
-          label: 'Baz'
-        }
+          label: 'Baz',
+        },
       });
     });
   });

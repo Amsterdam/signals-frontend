@@ -15,8 +15,8 @@ describe('<RadioInput />', () => {
       values: [
         { key: '', value: 'none' },
         { key: '1', value: 'item1' },
-        { key: '2', value: 'item2' }
-      ]
+        { key: '2', value: 'item2' },
+      ],
     };
   });
 

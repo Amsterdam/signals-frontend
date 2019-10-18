@@ -18,7 +18,7 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
 
     this.state = {
       location: props.location,
-      newLocation: props.newLocation
+      newLocation: props.newLocation,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,7 +29,7 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
     if (!isEqual(props.incident.location, state.location)) {
       return {
         location: props.incident.location,
-        newLocation: props.incident.location
+        newLocation: props.incident.location,
       };
     }
 
@@ -55,7 +55,7 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
   onQueryResult(location) {
     const newLocation = mapLocation(location);
     this.setState({
-      newLocation
+      newLocation,
     });
 
     this.form.controls.location.setValue(newLocation);
@@ -64,16 +64,16 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
 
   form = FormBuilder.group({
     coordinates: ['', Validators.required],
-    location: this.props.incident.location
+    location: this.props.incident.location,
   });
 
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault();
 
     this.props.onPatchIncident({
       id: this.props.incident.id,
       type: 'location',
-      patch: { location: { ...this.state.newLocation } }
+      patch: { location: { ...this.state.newLocation } },
     });
   }
 
@@ -100,11 +100,13 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
                   onQueryResult={this.onQueryResult}
                 />
 
-                {error ? <div className="notification notification-red" >
-                  {error && error.response && error.response.status === 403 ?
-                      'U bent niet geautoriseerd om dit te doen.' :
-                      'De nieuwe locatie kon niet worden gewijzigd.'}
-                </div> : ''}
+                {error ? (
+                  <div className="notification notification-red">
+                    {error && error.response && error.response.status === 403
+                      ? 'U bent niet geautoriseerd om dit te doen.'
+                      : 'De nieuwe locatie kon niet worden gewijzigd.'}
+                  </div>
+                ) : ''}
 
                 <button
                   className="location-form__submit action primary"
@@ -120,10 +122,12 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
                   type="button"
                   onClick={onClose}
                   data-testid="location-form-button-cancel"
-                >Annuleren</button>
+                >
+Annuleren
+                </button>
               </div>
             </form>
-            )}
+          )}
         />
       </div>
     );
@@ -132,7 +136,7 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
 
 LocationForm.defaultProps = {
   location: {},
-  newLocation: {}
+  newLocation: {},
 };
 
 LocationForm.propTypes = {
@@ -141,7 +145,7 @@ LocationForm.propTypes = {
     response: {
       status: PropTypes.number.isRequired,
       ok: PropTypes.bool.isRequired,
-    }
+    },
   }), PropTypes.bool]).isRequired,
   patching: PropTypes.shape({
     location: PropTypes.bool,

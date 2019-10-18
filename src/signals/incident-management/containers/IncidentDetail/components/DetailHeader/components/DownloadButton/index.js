@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/href-no-hash,jsx-a11y/anchor-has-content */
 import React from 'react';
 import PropTypes from 'prop-types';
 import 'whatwg-fetch';
@@ -21,24 +20,24 @@ class DownloadButton extends React.Component {
     fetch(url, {
       method: 'GET',
       headers,
-      responseType: 'blob'
-    }).then((response) => response.blob())
-        .then((blob) => {
-          /* istanbul ignore next */
-          if (navigator.msSaveOrOpenBlob) {
-            navigator.msSaveOrOpenBlob(blob, filename);
-          } else {
-            const href = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = href;
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
+      responseType: 'blob',
+    }).then(response => response.blob())
+      .then(blob => {
+        /* istanbul ignore next */
+        if (navigator.msSaveOrOpenBlob) {
+          navigator.msSaveOrOpenBlob(blob, filename);
+        } else {
+          const href = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = href;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
 
-            window.URL.revokeObjectURL(href);
-            document.body.removeChild(link);
-          }
-        });
+          window.URL.revokeObjectURL(href);
+          document.body.removeChild(link);
+        }
+      });
   }
 
   render() {
@@ -50,11 +49,12 @@ class DownloadButton extends React.Component {
           type="button"
           data-testid="download-button"
           onClick={() => this.handleDownload(url, filename, getAccessToken())}
-        >{label}</button>
+        >
+          {label}
+        </button>
       </div>
     );
   }
-
 }
 
 DownloadButton.propTypes = {

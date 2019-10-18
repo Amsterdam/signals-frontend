@@ -1,17 +1,16 @@
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
-const selectSearchDomain = (state) =>
-  (state && state.get('search')) || initialState;
+const selectSearchDomain = state => (state && state.get('search')) || initialState;
 
 export const makeSelectSearch = createSelector(
   selectSearchDomain,
-  (substate) => substate.toJS(),
+  substate => substate.toJS(),
 );
 
 export const makeSelectQuery = createSelector(
   selectSearchDomain,
-  (substate) => {
+  substate => {
     const { query } = substate.toJS();
     return query;
   },

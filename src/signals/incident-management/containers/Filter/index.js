@@ -134,25 +134,23 @@ FilterContainerComponent.propTypes = {
   }),
 };
 
-const mapStateToProps = () =>
-  createStructuredSelector({
-    overviewpage: makeSelectOverviewPage(),
-    categories: makeSelectCategories(),
-    activeFilter: makeSelectFilter,
-  });
+const mapStateToProps = () => createStructuredSelector({
+  overviewpage: makeSelectOverviewPage(),
+  categories: makeSelectCategories(),
+  activeFilter: makeSelectFilter,
+});
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      onClearFilter,
-      onIncidentSelected,
-      onRequestIncidents: requestIncidents,
-      onResetSearchQuery: resetSearchQuery,
-      onSaveFilter,
-      onUpdateFilter,
-    },
-    dispatch,
-  );
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    onClearFilter,
+    onIncidentSelected,
+    onRequestIncidents: requestIncidents,
+    onResetSearchQuery: resetSearchQuery,
+    onSaveFilter,
+    onUpdateFilter,
+  },
+  dispatch,
+);
 
 const withConnect = connect(
   mapStateToProps,

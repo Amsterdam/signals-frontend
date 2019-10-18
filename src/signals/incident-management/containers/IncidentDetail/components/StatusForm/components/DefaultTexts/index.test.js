@@ -14,19 +14,19 @@ describe('<DefaultTexts />', () => {
         templates: [
           {
             title: 'Titel 1',
-            text: 'Er is een accu gevonden en deze is meegenomen'
+            text: 'Er is een accu gevonden en deze is meegenomen',
           },
           {
             title: '222',
-            text: 'sdfsdfsdf'
+            text: 'sdfsdfsdf',
           },
           {
             title: 'Asbest',
-            text: 'Er is asbest gevonden en dit zal binnen 3 werkdagen worden opgeruimd.'
-          }
-        ]
+            text: 'Er is asbest gevonden en dit zal binnen 3 werkdagen worden opgeruimd.',
+          },
+        ],
       }],
-      onHandleUseDefaultText: jest.fn()
+      onHandleUseDefaultText: jest.fn(),
     };
   });
 

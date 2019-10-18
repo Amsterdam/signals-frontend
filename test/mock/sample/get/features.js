@@ -18,9 +18,9 @@ const feature = {
     habitat: {
       zip: g.address.zipUS,
       city: g.address.city,
-      country: 'Timbuctoo'
-    }
-  }
+      country: 'Timbuctoo',
+    },
+  },
 };
 
 const features = {
@@ -37,15 +37,15 @@ const features = {
         path: this.path,
         size: data.length,
         bar: params.bar,
-        query
+        query,
       };
     },
     data: {
       here(params, query, data) {
         return data;
-      }
-    }
-  }
+      },
+    },
+  },
 };
 
 module.exports = [feature, features];

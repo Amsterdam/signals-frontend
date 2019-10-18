@@ -9,7 +9,7 @@ import { withAppContext } from 'test/utils';
 import IncidentOverviewPage, {
   IncidentOverviewPageContainerComponent,
   mapDispatchToProps,
-} from './';
+} from '.';
 import { REQUEST_INCIDENTS, INCIDENT_SELECTED, GET_FILTERS } from './constants';
 
 jest.mock('scroll-lock');
@@ -130,15 +130,15 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
     it('closes modal on ESC', () => {
       const { queryByTestId, getByTestId } = render(
-      withAppContext(<IncidentOverviewPage />),
-    );
+        withAppContext(<IncidentOverviewPage />),
+      );
 
       fireEvent(
-      getByTestId('filterModalBtn'),
-      new MouseEvent('click', {
-        bubbles: true,
-      }),
-    );
+        getByTestId('filterModalBtn'),
+        new MouseEvent('click', {
+          bubbles: true,
+        }),
+      );
 
       expect(queryByTestId('filterModal')).not.toBeNull();
 
@@ -149,24 +149,24 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
     it('closes modal by means of close button', () => {
       const { queryByTestId, getByTestId } = render(
-      withAppContext(<IncidentOverviewPage />),
-    );
+        withAppContext(<IncidentOverviewPage />),
+      );
 
       fireEvent(
-      getByTestId('modalBtn'),
-      new MouseEvent('click', {
-        bubbles: true,
-      }),
-    );
+        getByTestId('modalBtn'),
+        new MouseEvent('click', {
+          bubbles: true,
+        }),
+      );
 
       expect(queryByTestId('modal')).not.toBeNull();
 
       fireEvent(
-      getByTestId('closeBtn'),
-      new MouseEvent('click', {
-        bubbles: true,
-      }),
-    );
+        getByTestId('closeBtn'),
+        new MouseEvent('click', {
+          bubbles: true,
+        }),
+      );
 
       expect(queryByTestId('modal')).toBeNull();
     });
@@ -175,11 +175,11 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       const { getByTestId } = render(withAppContext(<IncidentOverviewPage />));
 
       fireEvent(
-      getByTestId('modalBtn'),
-      new MouseEvent('click', {
-        bubbles: true,
-      }),
-    );
+        getByTestId('modalBtn'),
+        new MouseEvent('click', {
+          bubbles: true,
+        }),
+      );
 
       expect(disablePageScroll).toHaveBeenCalled();
     });
@@ -188,18 +188,18 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       const { getByTestId } = render(withAppContext(<IncidentOverviewPage />));
 
       fireEvent(
-      getByTestId('modalBtn'),
-      new MouseEvent('click', {
-        bubbles: true,
-      }),
-    );
+        getByTestId('modalBtn'),
+        new MouseEvent('click', {
+          bubbles: true,
+        }),
+      );
 
       fireEvent(
-      getByTestId('closeBtn'),
-      new MouseEvent('click', {
-        bubbles: true,
-      }),
-    );
+        getByTestId('closeBtn'),
+        new MouseEvent('click', {
+          bubbles: true,
+        }),
+      );
 
       expect(enablePageScroll).toHaveBeenCalled();
     });

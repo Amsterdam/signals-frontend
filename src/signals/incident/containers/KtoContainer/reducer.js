@@ -3,7 +3,7 @@ import {
   UPDATE_KTO,
   REQUEST_KTO_ANSWERS, REQUEST_KTO_ANSWERS_SUCCESS, REQUEST_KTO_ANSWERS_ERROR,
   CHECK_KTO, CHECK_KTO_SUCCESS, CHECK_KTO_ERROR,
-  STORE_KTO, STORE_KTO_SUCCESS, STORE_KTO_ERROR
+  STORE_KTO, STORE_KTO_SUCCESS, STORE_KTO_ERROR,
 } from './constants';
 
 export const initialState = fromJS({
@@ -14,7 +14,7 @@ export const initialState = fromJS({
   statusError: false,
   ktoFinished: false,
   ktoError: false,
-  answers: {}
+  answers: {},
 });
 
 function ktoContainerReducer(state = initialState, action) {
@@ -23,14 +23,14 @@ function ktoContainerReducer(state = initialState, action) {
       return state
         .set('form', fromJS({
           ...state.get('form').toJS(),
-          ...action.payload
+          ...action.payload,
         }));
 
     case REQUEST_KTO_ANSWERS:
       return state
         .set('form', fromJS({
           ...state.get('form').toJS(),
-          is_satisfied: fromJS(action.payload)
+          is_satisfied: fromJS(action.payload),
         }));
 
     case REQUEST_KTO_ANSWERS_SUCCESS:
@@ -61,13 +61,13 @@ function ktoContainerReducer(state = initialState, action) {
 
     case STORE_KTO_SUCCESS:
       return state
-      .set('ktoError', false)
-      .set('ktoFinished', true);
+        .set('ktoError', false)
+        .set('ktoFinished', true);
 
     case STORE_KTO_ERROR:
       return state
-      .set('ktoError', true)
-      .set('ktoFinished', false);
+        .set('ktoError', true)
+        .set('ktoFinished', false);
 
     default:
       return state;

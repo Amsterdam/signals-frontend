@@ -6,11 +6,11 @@ describe('makeSelectHistoryModel', () => {
   const selector = makeSelectHistoryModel();
   it('should select the history', () => {
     const history = {
-      foo: 'bar'
+      foo: 'bar',
     };
 
     const mockedState = fromJS({
-      history
+      history,
     });
     expect(selector(mockedState)).toEqual(history);
   });

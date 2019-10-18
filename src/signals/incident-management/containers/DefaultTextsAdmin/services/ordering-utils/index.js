@@ -15,7 +15,7 @@ export function addTrailingItems(list) {
     newList.push({
       order: order + 10,
       text: '',
-      title: ''
+      title: '',
     });
   }
   return newList;

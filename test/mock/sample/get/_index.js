@@ -12,8 +12,8 @@ export function render(req, res) {
     '/image/400x200',
     '/image/300x500/000/fff',
     '/image/600x150/000/fff.gif&text=dummyimage.com+rocks!',
-    '/images'
+    '/images',
   ];
-  html += `<ul>${examples.map((example) => `<li><a href="${example}">${example}</a></li>`).join('')}</ul>`;
+  html += `<ul>${examples.map(example => `<li><a href="${example}">${example}</a></li>`).join('')}</ul>`;
   res.send(200, html);
 }

@@ -5,5 +5,5 @@ export const template = {
   },
   authenticated(params, query, body) {
     return body.password === 'password1';
-  }
+  },
 };

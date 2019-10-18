@@ -32,7 +32,7 @@ describe('The auth service', () => {
   let stateToken;
 
   beforeEach(() => {
-    global.sessionStorage.getItem.mockImplementation((key) => {
+    global.sessionStorage.getItem.mockImplementation(key => {
       switch (key) {
         case 'accessToken':
           return savedAccessToken;
@@ -89,7 +89,7 @@ describe('The auth service', () => {
         }).toThrow(
           'Authorization service responded with error invalid_request [invalid request] ' +
             '(The request is missing a required parameter, includes an invalid parameter value, ' +
-            'includes a parameter more than once, or is otherwise malformed.)',
+            'includes a parameter more than once, or is otherwise malformed.)'
         );
         expect(queryStringParser).toHaveBeenCalledWith(queryString);
       });
@@ -113,7 +113,7 @@ describe('The auth service', () => {
           initAuth();
         }).toThrow();
         expect(global.sessionStorage.removeItem).toHaveBeenCalledWith(
-          'stateToken',
+          'stateToken'
         );
       });
 
@@ -124,7 +124,7 @@ describe('The auth service', () => {
           initAuth();
         }).not.toThrow();
         expect(global.sessionStorage.removeItem).not.toHaveBeenCalledWith(
-          'stateToken',
+          'stateToken'
         );
       });
 
@@ -135,7 +135,7 @@ describe('The auth service', () => {
           initAuth();
         }).not.toThrow();
         expect(global.sessionStorage.removeItem).not.toHaveBeenCalledWith(
-          'stateToken',
+          'stateToken'
         );
       });
     });
@@ -156,7 +156,7 @@ describe('The auth service', () => {
         expect(() => {
           initAuth();
         }).toThrow(
-          'Authenticator encountered an invalid state token (invalidStateToken)',
+          'Authenticator encountered an invalid state token (invalidStateToken)'
         );
         expect(queryStringParser).toHaveBeenLastCalledWith(`#${queryString}`);
       });
@@ -177,16 +177,16 @@ describe('The auth service', () => {
         initAuth();
         expect(global.sessionStorage.setItem).toHaveBeenCalledWith(
           'accessToken',
-          '123AccessToken',
+          '123AccessToken'
         );
         expect(global.sessionStorage.getItem).toHaveBeenCalledWith(
-          'returnPath',
+          'returnPath'
         );
         expect(global.sessionStorage.removeItem).toHaveBeenCalledWith(
-          'returnPath',
+          'returnPath'
         );
         expect(global.sessionStorage.removeItem).toHaveBeenCalledWith(
-          'stateToken',
+          'stateToken'
         );
       });
 
@@ -207,7 +207,7 @@ describe('The auth service', () => {
         initAuth();
         expect(global.sessionStorage.setItem).toHaveBeenCalledWith(
           'accessToken',
-          '123AccessToken',
+          '123AccessToken'
         );
       });
 
@@ -225,13 +225,13 @@ describe('The auth service', () => {
         initAuth();
         expect(global.sessionStorage.setItem).not.toHaveBeenCalledWith(
           'accessToken',
-          '123AccessToken',
+          '123AccessToken'
         );
         expect(global.sessionStorage.removeItem).not.toHaveBeenCalledWith(
-          'returnPath',
+          'returnPath'
         );
         expect(global.sessionStorage.removeItem).not.toHaveBeenCalledWith(
-          'stateToken',
+          'stateToken'
         );
       });
     });
@@ -252,15 +252,15 @@ describe('The auth service', () => {
       login();
 
       expect(global.sessionStorage.removeItem).toHaveBeenCalledWith(
-        'accessToken',
+        'accessToken'
       );
       expect(global.sessionStorage.setItem).toHaveBeenCalledWith(
         'returnPath',
-        hash,
+        hash
       );
       expect(global.sessionStorage.setItem).toHaveBeenCalledWith(
         'stateToken',
-        stateToken,
+        stateToken
       );
     });
 
@@ -274,7 +274,7 @@ describe('The auth service', () => {
         'https://acc.api.data.amsterdam.nl/' +
           'oauth2/authorize?idp_id=datapunt&response_type=token&client_id=sia' +
           '&scope=SIG%2FALL' +
-          '&state=123StateToken&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents',
+          '&state=123StateToken&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents'
       );
     });
   });
@@ -283,7 +283,7 @@ describe('The auth service', () => {
     it('Removes the access token from the session storage', () => {
       logout();
       expect(global.sessionStorage.removeItem).toHaveBeenCalledWith(
-        'accessToken',
+        'accessToken'
       );
     });
 

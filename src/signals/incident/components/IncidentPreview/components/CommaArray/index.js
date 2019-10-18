@@ -6,7 +6,7 @@ const CommaArray = ({ value, ...props }) => <PlainText value={value.join(', ')} 
 
 CommaArray.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.arrayOf(PropTypes.string).isRequired
+  value: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default CommaArray;

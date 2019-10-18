@@ -4,19 +4,19 @@ import {
   updateKto,
   requestKtoAnswers, requestKtoAnswersSuccess, requestKtoAnswersError,
   checkKto, checkKtoSuccess, checkKtoError,
-  storeKto, storeKtoSuccess, storeKtoError
+  storeKto, storeKtoSuccess, storeKtoError,
 } from './actions';
 import {
   UPDATE_KTO,
   REQUEST_KTO_ANSWERS, REQUEST_KTO_ANSWERS_SUCCESS, REQUEST_KTO_ANSWERS_ERROR,
   CHECK_KTO, CHECK_KTO_SUCCESS, CHECK_KTO_ERROR,
-  STORE_KTO, STORE_KTO_SUCCESS, STORE_KTO_ERROR
+  STORE_KTO, STORE_KTO_SUCCESS, STORE_KTO_ERROR,
 } from './constants';
 
 describe('KtoContainer actions', () => {
   const payload = {
     text: 'foo',
-    category: 'bar'
+    category: 'bar',
   };
 
   it('should dispatch updateKto action', () => {

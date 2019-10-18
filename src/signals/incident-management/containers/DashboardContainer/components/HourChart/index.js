@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LineChart, Line, XAxis, YAxis, LabelList } from 'recharts';
+import {
+  LineChart, Line, XAxis, YAxis, LabelList,
+} from 'recharts';
 import moment from 'moment';
 
 import './style.scss';
@@ -16,7 +18,7 @@ const HourChart = ({ data }) => (
       margin={{ top: 30, right: 20, left: 20 }}
     >
       <XAxis
-        tickFormatter={(tick) => moment(tick).format('HH')}
+        tickFormatter={tick => moment(tick).format('HH')}
         domain={['dataMin', 'dataMax']}
         type="number"
         scale="time"
@@ -36,17 +38,19 @@ const HourChart = ({ data }) => (
         stroke="#23B0C3"
         strokeWidth={3}
         dot={{ strokeWidth: 5 }}
-      ><LabelList dataKey="count" position="top" offset={12} /></Line>
+      >
+        <LabelList dataKey="count" position="top" offset={12} />
+      </Line>
     </LineChart>
   </div>
-  );
+);
 
 HourChart.defaultProps = {
-  data: []
+  data: [],
 };
 
 HourChart.propTypes = {
-  data: PropTypes.array
+  data: PropTypes.array,
 };
 
 export default HourChart;

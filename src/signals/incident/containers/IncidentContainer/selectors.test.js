@@ -6,11 +6,11 @@ describe('makeSelectIncidentContainer', () => {
     const selector = makeSelectIncidentContainer();
     const incidentContainer = {
       incident: {
-        categoy: 'poep'
-      }
+        categoy: 'poep',
+      },
     };
     const mockedState = fromJS({
-      incidentContainer
+      incidentContainer,
     });
 
     expect(selector(mockedState)).toEqual(incidentContainer);

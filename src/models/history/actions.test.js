@@ -1,12 +1,12 @@
 import { testActionCreator } from 'test/utils';
 
 import {
-  REQUEST_HISTORY_LIST, REQUEST_HISTORY_LIST_SUCCESS, REQUEST_HISTORY_LIST_ERROR
+  REQUEST_HISTORY_LIST, REQUEST_HISTORY_LIST_SUCCESS, REQUEST_HISTORY_LIST_ERROR,
 }
   from './constants';
 
 import {
-  requestHistoryList, requestHistoryListSuccess, requestHistoryListError
+  requestHistoryList, requestHistoryListSuccess, requestHistoryListError,
 } from './actions';
 
 

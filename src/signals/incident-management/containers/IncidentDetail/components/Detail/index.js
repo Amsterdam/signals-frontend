@@ -7,14 +7,16 @@ import { string2date, string2time } from 'shared/services/string-parser/string-p
 
 import './style.scss';
 
-import Highlight from '../../components/Highlight';
+import Highlight from '../Highlight';
 import Location from './components/Location';
 import Attachments from './components/Attachments';
 import ExtraProperties from './components/ExtraProperties';
 
 class Detail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { incident, attachments, stadsdeelList, onShowLocation, onEditLocation, onShowAttachment } = this.props;
+    const {
+      incident, attachments, stadsdeelList, onShowLocation, onEditLocation, onShowAttachment,
+    } = this.props;
 
     return (
       <article className="detail">
@@ -24,7 +26,9 @@ class Detail extends React.Component { // eslint-disable-line react/prefer-state
 
         <dl>
           <dt className="detail__definition">Overlast</dt>
-          <dd className="detail__value">{string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}&nbsp;</dd>
+          <dd className="detail__value">
+            {string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}&nbsp;
+          </dd>
 
           <Highlight
             subscribeTo={incident.location}

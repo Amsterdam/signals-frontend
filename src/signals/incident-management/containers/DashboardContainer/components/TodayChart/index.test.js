@@ -12,11 +12,11 @@ describe('<TodayChart />', () => {
 
   beforeEach(() => {
     moment.mockImplementation(() => ({
-      format: () => 'vrijdag 11 januari 2019'
+      format: () => 'vrijdag 11 januari 2019',
     }));
 
     props = {
-      data: 639
+      data: 639,
     };
 
     wrapper = shallow(

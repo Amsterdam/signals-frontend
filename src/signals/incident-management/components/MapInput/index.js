@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import MapInteractive from 'components/MapInteractive';
 
-export const MapInput = (props) => {
+export const MapInput = props => {
   const { name, display, onQueryResult } = props;
   const render = ({ handler }) => (
     <div className="map-input">
@@ -17,10 +17,11 @@ export const MapInput = (props) => {
         </div>
 
       </div>
-    </div>);
+    </div>
+  );
 
   render.propTypes = {
-    handler: PropTypes.func.isRequired
+    handler: PropTypes.func.isRequired,
   };
   return render;
 };

@@ -76,32 +76,32 @@ export const getFilters = () => ({
   type: GET_FILTERS,
 });
 
-export const getFiltersSuccess = (payload) => ({
+export const getFiltersSuccess = payload => ({
   type: GET_FILTERS_SUCCESS,
   payload,
 });
 
-export const getFiltersFailed = (payload) => ({
+export const getFiltersFailed = payload => ({
   type: GET_FILTERS_FAILED,
   payload,
 });
 
-export const removeFilter = (payload) => ({
+export const removeFilter = payload => ({
   type: REMOVE_FILTER,
   payload,
 });
 
-export const removeFilterSuccess = (payload) => ({
+export const removeFilterSuccess = payload => ({
   type: REMOVE_FILTER_SUCCESS,
   payload,
 });
 
-export const removeFilterFailed = (payload) => ({
+export const removeFilterFailed = payload => ({
   type: REMOVE_FILTER_FAILED,
   payload,
 });
 
-export const applyFilter = (payload) => ({
+export const applyFilter = payload => ({
   type: APPLY_FILTER,
   payload,
 });
@@ -110,7 +110,7 @@ export const applyFilterRefresh = () => ({
   type: APPLY_FILTER_REFRESH,
 });
 
-export const applyFilterRefreshStop = (payload) => ({
+export const applyFilterRefreshStop = payload => ({
   type: APPLY_FILTER_REFRESH_STOP,
   payload,
 });
