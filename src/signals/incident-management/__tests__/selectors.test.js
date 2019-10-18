@@ -52,7 +52,7 @@ const filters = [
   },
 ];
 
-describe.only('signals/incident-management/selectors', () => {
+describe('signals/incident-management/selectors', () => {
   it('should select data lists', () => {
     const dataLists = makeSelectDataLists();
     expect(dataLists).toEqual({
