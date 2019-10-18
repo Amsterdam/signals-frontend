@@ -124,7 +124,7 @@ module.exports = options => ({
     // drop any unreachable code.
     new webpack.EnvironmentPlugin({
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      GIT_COMMIT: JSON.stringify(process.env.GIT_COMMIT),
+      GIT_COMMIT: JSON.stringify(process.env.GIT_COMMIT) || 'dummy',
     }),
 
     new MiniCssExtractPlugin({
