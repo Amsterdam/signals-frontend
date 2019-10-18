@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
-import isEqual from 'lodash.isequal';
+import { isEqual } from 'lodash';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 

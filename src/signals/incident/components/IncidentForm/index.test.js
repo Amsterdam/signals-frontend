@@ -1,7 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import defer from 'lodash.defer';
-
+import { defer } from 'lodash';
 
 import IncidentForm from './index';
 import formatConditionalForm from '../../services/format-conditional-form';

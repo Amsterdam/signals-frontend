@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import configuration from 'shared/services/configuration/configuration';
-import get from 'lodash.get';
+import { get } from 'lodash';
 import MapSelect from '../../../../../../components/MapSelect';
 import { getOVLIcon } from '../../../form/MapSelect/iconMapping';
 import './style.scss';

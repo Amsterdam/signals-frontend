@@ -1,5 +1,4 @@
-import forEach from 'lodash.foreach';
-
+import { forEach } from 'lodash';
 import checkVisibility from '../check-visibility';
 
 const formatConditionalForm = (form, incident, isAuthenticated) => {

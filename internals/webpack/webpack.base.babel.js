@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 module.exports = options => ({
   mode: options.mode,
@@ -28,6 +29,10 @@ module.exports = options => ({
         use: {
           loader: 'babel-loader',
           options: options.babelQuery,
+          query: {
+            plugins: ['lodash'],
+            presets: [['@babel/env', { modules: false, targets: { node: 6 } }]],
+          },
         },
       },
       {
@@ -134,6 +139,8 @@ module.exports = options => ({
       chunkFilename: 'css/[id].css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
+
+    new LodashModuleReplacementPlugin(),
   ]),
   resolve: {
     modules: ['node_modules', 'src'],

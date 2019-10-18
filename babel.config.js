@@ -1,5 +1,6 @@
 module.exports = {
   plugins: [
+    'lodash',
     'styled-components',
     '@babel/plugin-proposal-class-properties',
     [
@@ -15,6 +16,7 @@ module.exports = {
       '@babel/preset-env',
       {
         modules: false,
+        targets: { node: 6 },
       },
     ],
     '@babel/preset-react',

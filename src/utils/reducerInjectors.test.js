@@ -3,7 +3,7 @@
  */
 
 import { memoryHistory } from 'react-router-dom';
-import identity from 'lodash/identity';
+import { identity } from 'lodash';
 import Immutable from 'immutable';
 
 import configureStore from '../configureStore';

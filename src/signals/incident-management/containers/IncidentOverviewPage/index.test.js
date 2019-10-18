@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import cloneDeep from 'lodash.clonedeep';
+import { cloneDeep } from 'lodash';
 import { fireEvent, render, cleanup } from '@testing-library/react';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 

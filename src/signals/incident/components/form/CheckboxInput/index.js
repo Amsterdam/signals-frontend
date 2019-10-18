@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import map from 'lodash.map';
-import isObject from 'lodash.isobject';
+import { map, isObject } from 'lodash';
 
 import Header from '../Header';
 

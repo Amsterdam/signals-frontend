@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isEqual from 'lodash.isequal';
-import sortBy from 'lodash.sortby';
+import { isEqual, orderBy } from 'lodash';
 import styled from 'styled-components';
 import {
   FieldControl,
@@ -20,7 +19,7 @@ export class FieldControlWrapper extends React.Component {
       return props.values;
     }
     const sortedValues = props.sort
-      ? sortBy(props.values, item => item.value)
+      ? orderBy(props.values, item => item.value)
       : props.values;
 
     return props.emptyOptionText

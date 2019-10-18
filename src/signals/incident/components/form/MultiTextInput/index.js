@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import map from 'lodash.map';
+import { map } from 'lodash';
 import { Input } from '@datapunt/asc-ui';
 
 import './style.scss';

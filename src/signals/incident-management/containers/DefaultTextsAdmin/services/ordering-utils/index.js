@@ -1,4 +1,4 @@
-import orderBy from 'lodash.orderby';
+import { orderBy } from 'lodash';
 
 export function renumberOrder(list) {
   return list.map((item, index) => ({ ...item, order: (index + 1) * 10 }));

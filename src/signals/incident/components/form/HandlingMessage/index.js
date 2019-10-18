@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isString from 'lodash.isstring';
-import get from 'lodash.get';
+import { isString, get } from 'lodash';
 
 import './style.scss';
 

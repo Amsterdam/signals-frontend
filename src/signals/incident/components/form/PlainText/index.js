@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isArray from 'lodash.isarray';
-import isString from 'lodash.isstring';
-import get from 'lodash.get';
+import { isString, isArray, get } from 'lodash';
 
 import mapDynamicFields from '../../../services/map-dynamic-fields';
 import './style.scss';

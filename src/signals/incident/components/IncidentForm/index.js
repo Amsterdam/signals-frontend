@@ -7,8 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGenerator } from 'react-reactive-form';
-import defer from 'lodash.defer';
-import get from 'lodash.get';
+import { defer, get } from 'lodash';
 
 import formatConditionalForm from '../../services/format-conditional-form';
 

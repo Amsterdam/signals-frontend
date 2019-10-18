@@ -1,5 +1,4 @@
-import forEach from 'lodash.foreach';
-import set from 'lodash.set';
+import { forEach, set } from 'lodash';
 
 import getStepControls from '../get-step-controls';
 import convertValue from '../convert-value';

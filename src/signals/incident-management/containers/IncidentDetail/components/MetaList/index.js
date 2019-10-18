@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import get from 'lodash.get';
+import { get } from 'lodash';
 
 import {
   string2date,

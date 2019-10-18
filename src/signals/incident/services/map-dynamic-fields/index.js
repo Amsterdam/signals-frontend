@@ -1,4 +1,4 @@
-import get from 'lodash.get';
+import { get } from 'lodash';
 
 function mapDynamicFields(text, fields) {
   return text.replace(/{.+?}/g, match => {

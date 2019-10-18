@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FormGenerator } from 'react-reactive-form';
-import defer from 'lodash.defer';
-import isEqual from 'lodash.isequal';
+import { defer, isEqual } from 'lodash';
 
 import ktoDefinition from 'signals/incident/definitions/kto';
 import formatConditionalForm from '../../../../services/format-conditional-form';

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import amaps from 'amsterdam-amaps/dist/amaps';
 import BboxGeojsonLayer from '@datapunt/leaflet-geojson-bbox-layer';
 import classNames from 'classnames';
-import isEqual from 'lodash.isequal';
+import { isEqual } from 'lodash';
 
 import './style.scss';
 import request from '../../utils/request';

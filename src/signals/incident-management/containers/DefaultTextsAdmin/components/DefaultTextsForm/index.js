@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
-import isEqual from 'lodash.isequal';
+import { isEqual } from 'lodash';
 import styled from 'styled-components';
 
 import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';

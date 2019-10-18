@@ -1,7 +1,5 @@
 import React from 'react';
-import isObject from 'lodash.isobject';
-import isArray from 'lodash.isarray';
-import isBoolean from 'lodash.isboolean';
+import { isObject, isArray, isBoolean } from 'lodash';
 
 import { extraPropertiesType } from 'shared/types';
 

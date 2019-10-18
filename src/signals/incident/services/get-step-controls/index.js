@@ -1,4 +1,4 @@
-import isFunction from 'lodash.isfunction';
+import { isFunction } from 'lodash';
 
 const getStepControls = (step, incident) => {
   if (step && step.formFactory && isFunction(step.formFactory)) {

@@ -1,4 +1,4 @@
-import clonedeep from 'lodash.clonedeep';
+import { cloneDeep } from 'lodash';
 
 const arrayFields = [
   'stadsdeel',
@@ -77,7 +77,7 @@ export const parseOutputFormData = form => {
  * @returns {Object}
  */
 export const parseInputFormData = (filterData, dataLists) => {
-  const parsed = clonedeep(filterData.options || {});
+  const parsed = cloneDeep(filterData.options || {});
   parsed.name = filterData.name;
   parsed.id = filterData.id;
   parsed.refresh = filterData.refresh;
