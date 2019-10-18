@@ -1,48 +1,29 @@
-/**
- * COMMON WEBPACK CONFIGURATION
- */
-
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
-// Remove this line once the following warning goes away (it was meant for webpack loader authors not users):
-// 'DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic,
-// see https://github.com/webpack/loader-utils/issues/56 parseQuery() will be replaced with getOptions()
-// in the next major version of loader-utils.'
-process.noDeprecation = true;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = options => ({
-  entry: options.entry,
+  mode: options.mode,
+  entry: [
+    '@babel/polyfill',
+    'formdata-polyfill',
+    'url-polyfill',
+    require.resolve('react-app-polyfill/ie11'),
+  ].concat(options.entry),
   // eslint-disable-next-line prefer-object-spread
   output: Object.assign(
-    {},
     {
-      // Compile into js/build.js
       path: path.resolve(process.cwd(), 'build'),
       publicPath: '/',
     },
-    options.output // Merge with env dependent settings
-  ),
+    options.output
+  ), // Merge with env dependent settings
+  optimization: options.optimization,
   module: {
     rules: [
       {
-        test: /\.svg$/,
-        include: /asc-ui/,
-        use: [
-          {
-            loader: 'svg-url-loader',
-            options: {
-              // Inline files smaller than 10 kB
-              limit: 10 * 1024,
-              noquotes: true,
-            },
-          },
-        ],
-      },
-      {
-        test: /\.js$/, // Transform all .js files required somewhere with Babel
+        test: /\.jsx?$/, // Transform all .js and .jsx files required somewhere with Babel
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -50,37 +31,74 @@ module.exports = options => ({
         },
       },
       {
-        // Preprocess our own .css files
-        // This is the place to add your own loaders (e.g. sass/less etc.)
-        // for a list of loaders, see https://webpack.js.org/loaders/#styling
-        test: /\.(scss|css)$/,
-        loader: ExtractTextPlugin.extract({
-          use: ['css-loader', 'sass-loader'],
-        }),
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: (resourcePath, context) =>
+                `${path.relative(path.dirname(resourcePath), context)}/`,
+              hmr: process.env.NODE_ENV === 'development',
+            },
+          },
+          'css-loader',
+          'sass-loader',
+        ],
       },
       {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url-loader',
-        options: {
-          limit: 10000,
-          name: 'fonts/[name].[hash:7].[ext]',
-        },
+        test: /\.(eot|otf|ttf|woff|woff2)$/,
+        use: 'file-loader',
       },
       {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: 'url-loader',
-        options: {
-          limit: 10000,
-          name: 'images/[name].[hash:7].[ext]',
-        },
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-url-loader',
+            options: {
+              // Inline files smaller than 5 kB
+              limit: 5 * 1024,
+              noquotes: true,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(jpg|png|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              // Inline files smaller than 10 kB
+              limit: 10 * 1024,
+            },
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                enabled: false,
+                // NOTE: mozjpeg is disabled as it causes errors in some Linux environments
+                // Try enabling it in your environment by switching the config to:
+                // enabled: true,
+                // progressive: true,
+              },
+              gifsicle: {
+                interlaced: false,
+              },
+              optipng: {
+                optimizationLevel: 7,
+              },
+              pngquant: {
+                quality: [0.65, 0.9],
+                speed: 4,
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.html$/,
         use: 'html-loader',
-      },
-      {
-        test: /\.json$/,
-        use: 'json-loader',
       },
       {
         test: /\.(mp4|webm)$/,
@@ -101,28 +119,24 @@ module.exports = options => ({
       },
     ]),
 
-    new webpack.ProvidePlugin({
-      // make fetch available
-      fetch: 'exports-loader?self.fetch!whatwg-fetch',
+    // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
+    // inside your code for any environment checks; Terser will automatically
+    // drop any unreachable code.
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      GIT_COMMIT: JSON.stringify(process.env.GIT_COMMIT) || 'dummy',
     }),
 
-    // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
-    // inside your code for any environment checks; UglifyJS will automatically
-    // drop any unreachable code.
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        GIT_COMMIT: JSON.stringify(process.env.GIT_COMMIT),
-      },
-    }),
-    new webpack.NamedModulesPlugin(),
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // all options are optional
       filename: 'css/[name].[contenthash].css',
-      allChunks: true,
+      chunkFilename: 'css/[id].css',
+      ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
   ]),
   resolve: {
-    modules: ['src', 'node_modules'],
+    modules: ['node_modules', 'src'],
     extensions: ['.js', '.jsx', '.react.js'],
     mainFields: ['browser', 'jsnext:main', 'main'],
   },

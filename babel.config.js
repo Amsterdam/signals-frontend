@@ -8,6 +8,7 @@ module.exports = {
         ignorePattern: '.*marker\\.svg',
       },
     ],
+    '@babel/plugin-syntax-dynamic-import',
   ],
   presets: [
     [

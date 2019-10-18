@@ -52,7 +52,7 @@ ENV NODE_ENV=production
 ARG BUILD_NUMBER=0
 
 RUN echo "run build"
-RUN npm run build:${BUILD_ENV}
+RUN npm run build
 RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
 
 # Test

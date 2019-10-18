@@ -228,7 +228,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage/saga', () 
         .put(requestIncidents({ filter, page: undefined, sort: undefined }))
         .delay(100)
         .put(requestIncidents({ filter, page: undefined, sort: undefined }))
-        .silentRun(250);
+        .silentRun();
     });
   });
 });
