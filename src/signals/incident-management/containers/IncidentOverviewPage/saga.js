@@ -129,6 +129,8 @@ export function* refreshIncidents(timeout = refreshRequestDelay) {
     if (filter && filter.refresh) {
       yield delay(timeout);
       yield put(requestIncidents({ filter }));
+    } else {
+      break;
     }
   }
 }
