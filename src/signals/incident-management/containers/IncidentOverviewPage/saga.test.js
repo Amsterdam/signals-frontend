@@ -5,26 +5,28 @@ import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import { throwError } from 'redux-saga-test-plan/providers';
 import * as matchers from 'redux-saga-test-plan/matchers';
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
 import {
   makeSelectActiveFilter,
   makeSelectFilterParams,
 } from 'signals/incident-management/selectors';
 
 import {
-  APPLY_FILTER_REFRESH,
+  ORDERING_INCIDENTS_CHANGED,
+  PAGE_INCIDENTS_CHANGED,
+} from 'signals/incident-management/constants';
+
+import {
   APPLY_FILTER_REFRESH_STOP,
+  APPLY_FILTER_REFRESH,
   INCIDENT_SELECTED,
   REQUEST_INCIDENTS,
 } from './constants';
 import {
   applyFilterRefresh,
   applyFilterRefreshStop,
-  pageIncidentsChanged,
   requestIncidents,
   requestIncidentsError,
   requestIncidentsSuccess,
-  sortIncidentsChanged,
 } from './actions';
 import watchRequestIncidentSaga, {
   fetchIncidents,
@@ -39,6 +41,8 @@ describe('signals/incident-management/containers/IncidentOverviewPage/saga', () 
       .all([
         takeLatest(REQUEST_INCIDENTS, fetchIncidents),
         takeLatest(INCIDENT_SELECTED, openIncident),
+        takeLatest(PAGE_INCIDENTS_CHANGED, fetchIncidents),
+        takeLatest(ORDERING_INCIDENTS_CHANGED, fetchIncidents),
       ])
       .next()
       .take(APPLY_FILTER_REFRESH)
@@ -59,96 +63,81 @@ describe('signals/incident-management/containers/IncidentOverviewPage/saga', () 
     expect(gen.next().value).toEqual(put(push(navigateUrl)));
   });
 
-  it('should fetchIncidents success', () => {
-    const filter = { name: 'filter', refresh: false };
-    const page = 2;
-    const sort = '-created_at';
-    const action = { payload: { filter, page, sort } };
-    const incidents = [{}, {}];
-    const params = { test: 'test' };
-    const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals/`;
+  describe('fetch incidents', () => {
+    it('should fetchIncidents success', () => {
+      const filter = { name: 'filter', refresh: false };
+      const page = 2;
+      const ordering = '-created_at';
+      const incidents = [{}, {}];
+      const params = { test: 'test' };
+      const filterParams = {
+        page,
+        ordering,
+        ...params,
+      };
 
-    testSaga(fetchIncidents, action)
-      .next()
-      .put(applyFilterRefreshStop())
-      .next()
-      .put(pageIncidentsChanged(page))
-      .next()
-      .put(sortIncidentsChanged(sort))
-      .next()
-      .next(params)
-      .call(authCall, requestURL, params)
-      .next(incidents)
-      .put(requestIncidentsSuccess(incidents))
-      .next()
-      .put(applyFilterRefresh())
-      .next()
-      .isDone();
-  });
+      return expectSaga(fetchIncidents)
+        .provide([
+          [select(makeSelectActiveFilter), filter],
+          [select(makeSelectFilterParams), filterParams],
+          [matchers.call.fn(authCall), incidents],
+        ])
+        .select(makeSelectActiveFilter)
+        .put(requestIncidentsSuccess(incidents))
+        .run();
+    });
 
-  it('should fetchIncidents success with sort days_open', () => {
-    const filter = { name: 'filter' };
-    const page = 2;
-    const sort = 'days_open';
-    const action = { payload: { filter, page, sort } };
-    const params = { ordering: 'days_open' };
-    const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals/`;
+    it('should stop and start filter refresh', () => {
+      const filter = { name: 'filter', refresh: true };
 
-    testSaga(fetchIncidents, action)
-      .next()
-      .put(applyFilterRefreshStop())
-      .next()
-      .put(pageIncidentsChanged(page))
-      .next()
-      .put(sortIncidentsChanged(sort))
-      .next()
-      .next(params)
-      .call(authCall, requestURL, {
-        ordering: '-created_at',
-      })
-      .finish()
-      .isDone();
-  });
+      return expectSaga(fetchIncidents)
+        .provide([
+          [select(makeSelectActiveFilter), filter],
+          [matchers.call.fn(authCall), []],
+        ])
+        .select(makeSelectActiveFilter)
+        .put(applyFilterRefreshStop())
+        .put(applyFilterRefresh())
+        .run();
+    });
 
-  it('should fetchIncidents success with sort -days_open', () => {
-    const filter = { name: 'filter' };
-    const page = 2;
-    const sort = '-days_open';
-    const action = { payload: { filter, page, sort } };
-    const params = { ordering: '-days_open' };
-    const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals/`;
+    it('should dispatch fetchIncidents error', () => {
+      const message = '404 Not Found';
+      const error = new Error(message);
 
-    testSaga(fetchIncidents, action)
-      .next()
-      .put(applyFilterRefreshStop())
-      .next()
-      .put(pageIncidentsChanged(page))
-      .next()
-      .put(sortIncidentsChanged(sort))
-      .next()
-      .next(params)
-      .call(authCall, requestURL, {
-        ordering: 'created_at',
-      })
-      .finish()
-      .isDone();
-  });
+      return expectSaga(fetchIncidents)
+        .provide([
+          [select(makeSelectFilterParams), {}],
+          [matchers.call.fn(authCall), throwError(error)],
+        ])
+        .select(makeSelectFilterParams)
+        .call.like(authCall)
+        .put(requestIncidentsError(message))
+        .run();
+    });
 
-  it('should dispatch fetchIncidents error', () => {
-    const id = 1000;
-    const action = { payload: id };
-    const message = '404 Not Found';
-    const error = new Error(message);
+    it('should fetch incidents after page change', () =>
+      expectSaga(watchRequestIncidentSaga)
+        .provide([
+          [select(makeSelectActiveFilter), {}],
+          [matchers.call.fn(authCall), []],
+        ])
+        .put(requestIncidentsSuccess([]))
+        .dispatch({ type: PAGE_INCIDENTS_CHANGED, payload: 4 })
+        .silentRun());
 
-    return expectSaga(fetchIncidents, action)
-      .provide([
-        [select(makeSelectFilterParams), {}],
-        [matchers.call.fn(authCall), throwError(error)],
-      ])
-      .select(makeSelectFilterParams)
-      .call.like(authCall)
-      .put(requestIncidentsError(message))
-      .run();
+    it('should fetch incidents after sort change', () =>
+      expectSaga(watchRequestIncidentSaga)
+        .provide([
+          [select(makeSelectActiveFilter), {}],
+          [matchers.call.fn(authCall), []],
+        ])
+        .put(requestIncidentsSuccess([]))
+        .dispatch({
+          type: ORDERING_INCIDENTS_CHANGED,
+          payload: 'incident-id-in-asc-order',
+        })
+        .silentRun());
   });
 
   describe('incident refresh', () => {

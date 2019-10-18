@@ -1,10 +1,8 @@
 import { fromJS } from 'immutable';
 import {
-  PAGE_INCIDENTS_CHANGED,
   REQUEST_INCIDENTS_ERROR,
   REQUEST_INCIDENTS_SUCCESS,
   REQUEST_INCIDENTS,
-  SORT_INCIDENTS_CHANGED,
 } from './constants';
 
 export const initialState = fromJS({
@@ -13,8 +11,6 @@ export const initialState = fromJS({
   incidents: [],
   incidentsCount: null,
   loading: false,
-  page: 1,
-  sort: '-created_at',
 });
 
 export default (state = initialState, action) => {
@@ -38,12 +34,6 @@ export default (state = initialState, action) => {
         .set('error', true)
         .set('errorMessage', action.payload)
         .set('loading', false);
-
-    case PAGE_INCIDENTS_CHANGED:
-      return state.set('page', fromJS(action.payload));
-
-    case SORT_INCIDENTS_CHANGED:
-      return state.set('page', 1).set('sort', fromJS(action.payload));
 
     default:
       return state;

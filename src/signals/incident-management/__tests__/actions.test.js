@@ -100,6 +100,20 @@ describe('signals/incident-management/actions', () => {
   });
 
   it('should dispatch filterCleared action', () => {
-    testActionCreator(actions.filterCleared, constants.CLEAR_FILTER, {});
+    testActionCreator(actions.filterCleared, constants.CLEAR_FILTER);
+  });
+
+  it('should dispatch filterEditCanceled action', () => {
+    testActionCreator(actions.filterEditCanceled, constants.FILTER_EDIT_CANCELED);
+  });
+
+  it('should dispatch pageIncidentsChanged action', () => {
+    const page = 9;
+    testActionCreator(actions.pageIncidentsChanged, constants.PAGE_INCIDENTS_CHANGED, page);
+  });
+
+  it('should dispatch orderingIncidentsChanged action', () => {
+    const ordering = 'order-from-asc-to-desc';
+    testActionCreator(actions.orderingIncidentsChanged, constants.ORDERING_INCIDENTS_CHANGED, ordering);
   });
 });

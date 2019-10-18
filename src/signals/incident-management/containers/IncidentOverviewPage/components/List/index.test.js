@@ -167,7 +167,7 @@ describe('<List />', () => {
       statusList,
       stadsdeelList,
       incidentSelected: jest.fn(),
-      onRequestIncidents: jest.fn(),
+      onChangeOrdering: jest.fn(),
     };
 
     wrapper = shallow(<List {...props} />);
@@ -199,9 +199,7 @@ describe('<List />', () => {
         .find('thead > tr > th')
         .at(2)
         .simulate('click');
-      expect(props.onRequestIncidents).toHaveBeenCalledWith({
-        sort: 'created_at',
-      });
+      expect(props.onChangeOrdering).toHaveBeenCalledWith('created_at');
     });
 
     it('should sort desc the incidents when the header is clicked', () => {
@@ -213,9 +211,7 @@ describe('<List />', () => {
         .find('thead > tr > th')
         .at(2)
         .simulate('click');
-      expect(props.onRequestIncidents).toHaveBeenCalledWith({
-        sort: '-created_at',
-      });
+      expect(props.onChangeOrdering).toHaveBeenCalledWith('-created_at');
     });
 
     it('should not show days open for specific statuses', () => {

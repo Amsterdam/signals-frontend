@@ -127,7 +127,7 @@ export const parseToAPIData = (filterData) => {
   Object.keys(options)
     .filter((fieldName) => arrayFields.includes(fieldName))
     .forEach((fieldName) => {
-      options[fieldName] = options[fieldName].map(({ key }) => key);
+      options[fieldName] = options[fieldName].map(({ slug, key }) => slug || key);
     });
 
   return Object.assign({}, filterData, { options });

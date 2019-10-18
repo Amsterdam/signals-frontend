@@ -117,10 +117,11 @@ describe('signals/incident-management/containers/MyFilters', () => {
 
     it('should handle applyFilter', () => {
       const onApplyFilter = jest.fn();
+      const onEditFilter = jest.fn();
       const onRequestIncidents = jest.fn();
 
       const { getAllByTestId } = render(
-        withAppContext(<MyFiltersComponent {...{ ...props, onApplyFilter, onRequestIncidents }} />),
+        withAppContext(<MyFiltersComponent {...{ ...props, onApplyFilter, onEditFilter, onRequestIncidents }} />),
       );
 
       const handleApplyFilterButton = getAllByTestId(
@@ -132,6 +133,7 @@ describe('signals/incident-management/containers/MyFilters', () => {
       fireEvent(handleApplyFilterButton, event);
 
       expect(onApplyFilter).toHaveBeenCalled();
+      expect(onEditFilter).toHaveBeenCalled();
       expect(onRequestIncidents).toHaveBeenCalled();
     });
 

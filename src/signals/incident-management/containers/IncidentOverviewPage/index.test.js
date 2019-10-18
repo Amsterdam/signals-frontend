@@ -28,16 +28,14 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       overviewpage: {
         incidents: [],
         loading: false,
-        filter: {},
         incidentsCount: 666,
         page: 3,
-        priorityList: [],
-        stadsdeelList: [],
-        statusList: [],
       },
       categories: {},
       onRequestIncidents: jest.fn(),
       onIncidentSelected: jest.fn(),
+      onChangeOrdering: jest.fn(),
+      onPageIncidentsChanged: jest.fn(),
       baseUrl: '',
       dataLists: {
         priority: priorityList,
@@ -79,19 +77,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     expect(getByText('Filteren').tagName).toEqual('BUTTON');
     expect(getByText('Mijn filters').tagName).toEqual('BUTTON');
 
-    expect(props.onRequestIncidents).toBeCalledWith({});
-  });
-
-  it('should render correctly with search query present', () => {
-    render(
-      withAppContext(
-        <IncidentOverviewPageContainerComponent {...props} searchQuery="666" />,
-      ),
-    );
-
-    expect(props.onRequestIncidents).toBeCalledWith({
-      filter: { searchQuery: '666' },
-    });
+    expect(props.onRequestIncidents).toBeCalledWith();
   });
 
   it('should have props from structured selector', () => {
@@ -103,7 +89,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
     expect(containerProps.overviewpage).not.toBeUndefined();
     expect(containerProps.categories).not.toBeUndefined();
-    expect(containerProps.searchQuery).not.toBeUndefined();
   });
 
   it('should have props from action creator', () => {
@@ -118,6 +103,12 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
     expect(containerProps.onRequestIncidents).not.toBeUndefined();
     expect(typeof containerProps.onRequestIncidents).toEqual('function');
+
+    expect(containerProps.onPageIncidentsChanged).not.toBeUndefined();
+    expect(typeof containerProps.onPageIncidentsChanged).toEqual('function');
+
+    expect(containerProps.onChangeOrdering).not.toBeUndefined();
+    expect(typeof containerProps.onChangeOrdering).toEqual('function');
   });
 
   describe('filter modal', () => {
@@ -232,13 +223,9 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     const dispatch = jest.fn();
 
     it('should request incidents', () => {
-      mapDispatchToProps(dispatch).onRequestIncidents({
-        filter: {},
-        page: 666,
-      });
+      mapDispatchToProps(dispatch).onRequestIncidents();
       expect(dispatch).toHaveBeenCalledWith({
         type: REQUEST_INCIDENTS,
-        payload: { filter: {}, page: 666 },
       });
     });
 

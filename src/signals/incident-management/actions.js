@@ -2,9 +2,12 @@ import {
   APPLY_FILTER,
   CLEAR_FILTER,
   EDIT_FILTER,
+  FILTER_EDIT_CANCELED,
   GET_FILTERS_FAILED,
   GET_FILTERS_SUCCESS,
   GET_FILTERS,
+  ORDERING_INCIDENTS_CHANGED,
+  PAGE_INCIDENTS_CHANGED,
   REMOVE_FILTER_FAILED,
   REMOVE_FILTER_SUCCESS,
   REMOVE_FILTER,
@@ -87,5 +90,18 @@ export const filterUpdatedFailed = (payload) => ({
 
 export const filterCleared = () => ({
   type: CLEAR_FILTER,
-  payload: {},
+});
+
+export const filterEditCanceled = () => ({
+  type: FILTER_EDIT_CANCELED,
+});
+
+export const pageIncidentsChanged = (page) => ({
+  type: PAGE_INCIDENTS_CHANGED,
+  payload: page,
+});
+
+export const orderingIncidentsChanged = (ordering) => ({
+  type: ORDERING_INCIDENTS_CHANGED,
+  payload: ordering,
 });

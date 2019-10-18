@@ -8,13 +8,11 @@ import * as types from 'shared/types';
 
 import './style.scss';
 
-class List extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class List extends React.Component {
   onSort = (sort) => () => {
-    if (this.props.sort && this.props.sort.indexOf(sort) === 0) {
-      this.props.onRequestIncidents({ sort: `-${sort}` });
-    } else {
-      this.props.onRequestIncidents({ sort });
-    }
+    const sortIsAsc = this.props.sort && this.props.sort.indexOf(sort) === 0;
+
+    this.props.onChangeOrdering(sortIsAsc ? `-${sort}` : sort);
   }
 
   getDaysOpen(incident) {
@@ -89,7 +87,7 @@ List.propTypes = {
   stadsdeel: types.dataListType.isRequired,
 
   incidentSelected: PropTypes.func.isRequired,
-  onRequestIncidents: PropTypes.func.isRequired,
+  onChangeOrdering: PropTypes.func.isRequired,
   sort: PropTypes.string
 };
 

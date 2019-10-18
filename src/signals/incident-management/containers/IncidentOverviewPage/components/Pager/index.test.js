@@ -9,7 +9,7 @@ describe('<Pager />', () => {
 
   beforeEach(() => {
     props = {
-      onRequestIncidents: jest.fn(),
+      onPageIncidentsChanged: jest.fn(),
       incidentsCount: 2350
     };
   });
@@ -69,17 +69,17 @@ describe('<Pager />', () => {
 
     it('should move to the second page when 2 is clicked', () => {
       wrapper.find('a').at(2).simulate('click');
-      expect(props.onRequestIncidents).toHaveBeenCalledWith({ filter: null, page: 2 });
+      expect(props.onPageIncidentsChanged).toHaveBeenCalledWith(2);
     });
 
     it('should move to the page 9 when next is clicked', () => {
       wrapper.find('a').last().simulate('click');
-      expect(props.onRequestIncidents).toHaveBeenCalledWith({ filter: null, page: 9 });
+      expect(props.onPageIncidentsChanged).toHaveBeenCalledWith(9);
     });
 
     it('should move to the page 7 when previous is clicked', () => {
       wrapper.find('a').first().simulate('click');
-      expect(props.onRequestIncidents).toHaveBeenCalledWith({ filter: null, page: 7 });
+      expect(props.onPageIncidentsChanged).toHaveBeenCalledWith(7);
     });
   });
 });

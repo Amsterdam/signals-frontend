@@ -10,11 +10,14 @@ import {
   CLEAR_FILTER_FAILED,
   CLEAR_FILTER,
   EDIT_FILTER,
+  FILTER_EDIT_CANCELED,
   GET_FILTERS_FAILED,
   GET_FILTERS_SUCCESS,
+  PAGE_INCIDENTS_CHANGED,
   REMOVE_FILTER_SUCCESS,
   SAVE_FILTER_FAILED,
   SAVE_FILTER_SUCCESS,
+  ORDERING_INCIDENTS_CHANGED,
   UPDATE_FILTER_FAILED,
   UPDATE_FILTER_SUCCESS,
 } from './constants';
@@ -25,8 +28,18 @@ export const initialState = fromJS({
   status,
   feedback,
   filters: [],
-  activeFilter: undefined,  // filter settings for the list of incidents
-  editFilter: undefined,    // settings selected for editing
+  activeFilter: {
+    // filter settings for the list of incidents
+    name: '',
+    options: {},
+  },
+  editFilter: {
+    // settings selected for editing
+    name: '',
+    options: {},
+  },
+  page: 1,
+  ordering: '-created_at',
 });
 
 export default (state = initialState, action) => {
@@ -35,9 +48,7 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
     case GET_FILTERS_SUCCESS:
-      return state
-        .set('filters', fromJS(action.payload))
-        .set('loading', false);
+      return state.set('filters', fromJS(action.payload)).set('loading', false);
 
     case GET_FILTERS_FAILED:
       return state
@@ -69,12 +80,27 @@ export default (state = initialState, action) => {
 
     case SAVE_FILTER_SUCCESS:
     case UPDATE_FILTER_SUCCESS:
-    case CLEAR_FILTER:
       return state
         .set('activeFilter', fromJS(action.payload))
         .set('error', false)
         .set('errorMessage', undefined)
         .set('loading', false);
+
+    case CLEAR_FILTER:
+      return state
+        .set('editFilter', state.get('editFilter'))
+        .set('error', false)
+        .set('errorMessage', undefined)
+        .set('loading', false);
+
+    case FILTER_EDIT_CANCELED:
+      return state.set('editFilter', state.get('activeFilter'));
+
+    case PAGE_INCIDENTS_CHANGED:
+      return state.set('page', fromJS(action.payload));
+
+    case ORDERING_INCIDENTS_CHANGED:
+      return state.set('page', 1).set('ordering', fromJS(action.payload));
 
     default:
       return state;
