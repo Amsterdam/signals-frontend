@@ -17,6 +17,8 @@ COPY internals /app/internals
 COPY server /app/server
 COPY .gitignore \
      .gitattributes \
+     jest.config.js \
+     babel.config.js \
       /app/
 
 # Install language packs
