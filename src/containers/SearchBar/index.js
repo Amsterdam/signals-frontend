@@ -4,6 +4,7 @@ import { SearchBar } from '@datapunt/asc-ui';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
+import { withRouter } from 'react-router';
 
 import { requestIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 import { setSearchQuery } from 'models/search/actions';
@@ -16,6 +17,7 @@ export const SearchBarComponent = ({
   onApplyFilter,
   onSetSearchQuery,
   onRequestIncidents,
+  history,
 }) => {
   /**
    * Send search form input to actions
@@ -25,6 +27,7 @@ export const SearchBarComponent = ({
   const onSearchSubmit = (searchInput) => {
     onApplyFilter({});
     onSetSearchQuery(searchInput);
+    history.push('/manage/incidents');
     onRequestIncidents();
   };
 
@@ -57,6 +60,9 @@ SearchBarComponent.propTypes = {
   onRequestIncidents: PropTypes.func.isRequired,
   onSetSearchQuery: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -78,4 +84,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(SearchBarComponent);
+export default withRouter(compose(withConnect)(SearchBarComponent));
