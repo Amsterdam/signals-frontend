@@ -96,7 +96,7 @@
     "react": "^16.10.2",
     "react-albus": "^2.0.0",
     "react-app-polyfill": "^1.0.4",
-    "react-datepicker": "^2.9.6",
+    "react-datepicker": "^1.5.0",
     "react-dom": "^16.10.2",
     "react-intl": "2.3.0",
     "react-media": "^1.10.0",
