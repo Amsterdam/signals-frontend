@@ -44,23 +44,16 @@ module.exports = {
     name: 'wantMessages',
     default: false,
     message: 'Do you want i18n messages (i.e. will this component use text)?',
-  }, {
-    type: 'confirm',
-    name: 'wantLoadable',
-    default: false,
-    message: 'Do you want to load resources asynchronously?',
   }],
   actions: data => {
     // Generate index.js and index.test.js
     var componentTemplate; // eslint-disable-line no-var
 
     switch (data.type) {
-      case 'Stateless Function': {
+      case 'Stateless Function':
+      default: {
         componentTemplate = './ams-container/stateless.js.hbs';
         break;
-      }
-      default: {
-        componentTemplate = './ams-container/class.js.hbs';
       }
     }
 
@@ -152,15 +145,6 @@ module.exports = {
         type: 'add',
         path: '../../src/containers/{{properCase name}}/saga.test.js',
         templateFile: './ams-container/saga.test.js.hbs',
-        abortOnFail: true,
-      });
-    }
-
-    if (data.wantLoadable) {
-      actions.push({
-        type: 'add',
-        path: '../../src/containers/{{properCase name}}/Loadable.js',
-        templateFile: './ams-container/loadable.js.hbs',
         abortOnFail: true,
       });
     }

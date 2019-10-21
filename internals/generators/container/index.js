@@ -156,15 +156,6 @@ module.exports = {
       });
     }
 
-    if (data.wantLoadable) {
-      actions.push({
-        type: 'add',
-        path: '../../src/containers/{{properCase name}}/Loadable.js',
-        templateFile: './component/loadable.js.hbs',
-        abortOnFail: true,
-      });
-    }
-
     return actions;
   },
 };
