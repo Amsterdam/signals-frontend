@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Button, Column } from '@datapunt/asc-ui';
-import themeColor from 'shared/services/theme-color';
+import { Button, Column, themeColor } from '@datapunt/asc-ui';
 
 export const Form = styled.form`
   column-count: 2;

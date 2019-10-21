@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { Button } from '@datapunt/asc-ui';
+import { Button, themeColor } from '@datapunt/asc-ui';
 import styled from '@datapunt/asc-core';
 import {
   Close,
 } from '@datapunt/asc-assets';
-import themeColor from 'shared/services/theme-color';
 
 const StyledWrapper = styled.div`
   flex-basis: 100%;

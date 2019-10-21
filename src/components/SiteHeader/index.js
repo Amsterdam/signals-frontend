@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import themeColor from 'shared/services/theme-color';
 import Media from 'react-media';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
@@ -16,6 +15,7 @@ import {
   MenuInline,
   MenuItem,
   MenuToggle,
+  themeColor,
 } from '@datapunt/asc-ui';
 import SearchBar from 'containers/SearchBar';
 

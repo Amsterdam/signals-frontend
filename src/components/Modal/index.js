@@ -7,8 +7,8 @@ import {
   Column,
   Modal as ASCModal,
   Heading,
+  themeColor,
 } from '@datapunt/asc-ui';
-import themeColor from 'shared/services/theme-color';
 import { Close as CloseIcon } from '@datapunt/asc-assets';
 
 

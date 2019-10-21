@@ -1,8 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Heading } from '@datapunt/asc-ui';
+import { Button, Heading, themeColor } from '@datapunt/asc-ui';
 import styled from '@datapunt/asc-core';
-import themeColor from 'shared/services/theme-color';
 
 import { FormBuilder } from 'react-reactive-form';
 
@@ -30,6 +29,7 @@ const StyledH4 = styled(Heading)`
 `;
 
 const StyledDisclaimer = styled.div`
+  background-color: ${themeColor('tint', 'level3')};
   padding: 15px;
   margin-bottom: 20px;
   line-height: 22px;

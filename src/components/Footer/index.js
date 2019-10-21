@@ -1,7 +1,6 @@
 import React from 'react';
-import { Row, Column, Heading, Link, Paragraph } from '@datapunt/asc-ui';
+import { Row, Column, Heading, Link, Paragraph, themeColor } from '@datapunt/asc-ui';
 import styled from '@datapunt/asc-core';
-import themeColor from 'shared/services/theme-color';
 
 const Disclaimer = styled.div`
   background-color: #666;
