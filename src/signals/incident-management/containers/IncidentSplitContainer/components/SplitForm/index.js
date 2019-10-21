@@ -190,8 +190,8 @@ SplitForm.defaultProps = {
       priority: ''
     }
   },
-  isVisible: false,
-  subcategories: []
+  attachments: [],
+  subcategories: [],
 };
 
 SplitForm.propTypes = {
@@ -200,7 +200,7 @@ SplitForm.propTypes = {
   subcategories: PropTypes.array,
   priorityList: PropTypes.array,
   onHandleSubmit: PropTypes.func.isRequired,
-  onHandleCancel: PropTypes.func.isRequired
+  onHandleCancel: PropTypes.func.isRequired,
 };
 
 export default SplitForm;

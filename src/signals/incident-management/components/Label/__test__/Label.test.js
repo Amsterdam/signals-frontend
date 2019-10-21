@@ -5,14 +5,14 @@ import 'jest-styled-components';
 
 import Label from '../';
 
-describe('<Label /', () => {
+describe('signals/incident-management/components/Label', () => {
   afterEach(cleanup);
 
   it('should render a label element', () => {
     const { container, getByLabelText } = render(
       withAppContext(
         <div>
-          <Label isGroupHeader={false} htmlFor="someOtherElementId">This is my label text</Label>
+          <Label htmlFor="someOtherElementId">This is my label text</Label>
           <input type="text" id="someOtherElementId" />
         </div>,
       ),
@@ -28,7 +28,7 @@ describe('<Label /', () => {
     const { container, rerender } = render(
       withAppContext(
         <div>
-          <Label isGroupHeader={false} >This is my label text</Label>
+          <Label>This is my label text</Label>
           <input type="text" id="someOtherElementId" />
         </div>,
       ),
@@ -41,7 +41,7 @@ describe('<Label /', () => {
     rerender(
       withAppContext(
         <div>
-          <Label as="span" isGroupHeader={false}>This is my label text</Label>
+          <Label as="span">This is my label text</Label>
           <input type="text" id="someOtherElementId" />
         </div>,
       ),
