@@ -79,6 +79,14 @@ const StyledSearchBar = styled(SearchBar)`
 `;
 
 const HeaderWrapper = styled.div`
+  ${({  tall }) => !tall && css`
+    #header {
+      left: 0;
+      right: 0;
+      position: fixed;
+    }
+  `}
+
   ${({ isFrontOffice, tall }) => isFrontOffice
     && tall
     && css`
@@ -195,7 +203,7 @@ const MenuItems = ({
 };
 
 export const SiteHeader = props => {
-  const isFrontOffice = !props.location.pathname.startsWith('/manage/');
+  const isFrontOffice = !props.location.pathname.startsWith('/manage');
   const tall = isFrontOffice && !props.isAuthenticated;
   const title = tall ? '' : 'SIA';
 
