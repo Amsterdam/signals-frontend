@@ -9,17 +9,17 @@ const colors = {
   },
   tint: {
     level1: '#ffffff',
-    level2: '#F5F5F5',
-    level3: '#E6E6E6',
-    level4: '#B4B4B4',
+    level2: '#f5f5f5',
+    level3: '#e6e6e6',
+    level4: '#b4b4b4',
     level5: '#767676',
     level6: '#323232',
     level7: '#000000',
   },
   support: {
-    valid: '#00A03C',
-    invalid: '#EC0000',
-    focus: '#FEC813',
+    valid: '#00a03c',
+    invalid: '#ec0000',
+    focus: '#fec813',
   },
   bright: {
     main: '#ffffff',
