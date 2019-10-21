@@ -47,7 +47,7 @@
     "test": "cross-env NODE_ENV=test jest --coverage"
   },
   "lint-staged": {
-    "*.js": "lint:eslint"
+    "*.js": "eslint --ignore-path .gitignore --ignore-pattern internals/scripts"
   },
   "pre-commit": "lint:staged",
   "browserslist": [
@@ -96,10 +96,10 @@
     "react": "^16.10.2",
     "react-albus": "^2.0.0",
     "react-app-polyfill": "^1.0.4",
-    "react-datepicker": "1.5.0",
+    "react-datepicker": "^2.9.6",
     "react-dom": "^16.10.2",
     "react-intl": "2.3.0",
-    "react-media": "^1.9.2",
+    "react-media": "^1.10.0",
     "react-reactive-form": "1.0.27",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.2",
@@ -109,7 +109,7 @@
     "redux-saga": "^1.1.1",
     "reselect": "^4.0.0",
     "scroll-lock": "^2.1.2",
-    "styled-components": "4.3.2",
+    "styled-components": "^4.4.0",
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
