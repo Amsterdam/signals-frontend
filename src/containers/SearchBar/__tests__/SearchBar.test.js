@@ -30,6 +30,9 @@ describe('containers/SearchBar', () => {
 
     expect(containerProps.onSetSearchQuery).not.toBeUndefined();
     expect(typeof containerProps.onSetSearchQuery).toEqual('function');
+
+    expect(containerProps.history).not.toBeUndefined();
+    expect(typeof containerProps.history.push).toEqual('function');
   });
 
   describe('callback handlers', () => {
@@ -41,6 +44,8 @@ describe('containers/SearchBar', () => {
 
     it('should call searchSubmit handler', () => {
       const query = '';
+      const push = jest.fn();
+      const history = { push };
 
       const { queryByTestId } = render(
         withAppContext(
@@ -49,6 +54,7 @@ describe('containers/SearchBar', () => {
             onSetSearchQuery={onSetSearchQuery}
             onApplyFilter={onApplyFilter}
             query={query}
+            history={history}
           />,
         ),
       );
@@ -59,6 +65,7 @@ describe('containers/SearchBar', () => {
       fireEvent.change(formInput, { target: { value: '1234' } });
       fireEvent.click(formSubmitBtn);
 
+      expect(push).toHaveBeenCalledWith('/manage/incidents');
       expect(onRequestIncidents).toHaveBeenCalledWith();
       expect(onSetSearchQuery).toHaveBeenCalledWith('1234');
       expect(onApplyFilter).toHaveBeenCalledWith({});
@@ -66,6 +73,8 @@ describe('containers/SearchBar', () => {
 
     it('should call onChange handler', () => {
       const query = 'Foo baz barrr';
+      const push = jest.fn();
+      const history = { push };
 
       const { queryByTestId } = render(
         withAppContext(
@@ -74,6 +83,7 @@ describe('containers/SearchBar', () => {
             onSetSearchQuery={onSetSearchQuery}
             onApplyFilter={onApplyFilter}
             query={query}
+            history={history}
           />,
         ),
       );
@@ -81,6 +91,7 @@ describe('containers/SearchBar', () => {
       const formInput = queryByTestId('searchBar').querySelector('input');
       fireEvent.change(formInput, { target: { value: '' } });
 
+      expect(push).not.toHaveBeenCalled();
       expect(onSetSearchQuery).toHaveBeenCalledWith('');
       expect(onRequestIncidents).toHaveBeenCalledWith();
     });

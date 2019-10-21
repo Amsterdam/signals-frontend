@@ -41,6 +41,8 @@ export function* fetchIncidents() {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals/`;
 
   try {
+    yield put(push('/manage/incidents'));
+
     const filter = yield select(makeSelectActiveFilter);
 
     if (filter && filter.refresh) {
