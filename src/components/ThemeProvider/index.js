@@ -38,7 +38,7 @@ export const amsterdamThemeCfg = {
       margin: 10,
       min: 1430,
     },
-  },
+  }
 };
 
 const ThemeProvider = ({ children }) => (
