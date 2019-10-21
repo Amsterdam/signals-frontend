@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { ascDefaultTheme } from '@datapunt/asc-core';
+import themeColor from 'shared/services/theme-color';
 import Media from 'react-media';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
@@ -63,7 +63,7 @@ const StyledMenuButton = styled(MenuButton)`
   background: transparent;
   font-size: 16px;
   font-family: inherit;
-  color: ${ascDefaultTheme.colors.tint.level6};
+  color: ${themeColor('tint', 'level6')};
 `;
 
 const SearchBarMenuItem = styled(MenuItem)`
@@ -99,7 +99,7 @@ const HeaderWrapper = styled.div`
           right: 0;
           height: 50px;
           margin-top: -50px;
-          background-color: #F5F5F5;
+          background-color: ${themeColor('tint', 'level2')};
         }
 
         nav,

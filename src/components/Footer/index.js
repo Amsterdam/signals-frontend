@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Column, Heading, Link, Paragraph } from '@datapunt/asc-ui';
-import styled, { ascDefaultTheme } from '@datapunt/asc-core';
+import styled from '@datapunt/asc-core';
+import themeColor from 'shared/services/theme-color';
 
 const Disclaimer = styled.div`
   background-color: #666;
@@ -8,12 +9,12 @@ const Disclaimer = styled.div`
   padding-bottom: 20px;
 
   * {
-    color: ${ascDefaultTheme.colors.bright.main};
+    color: ${themeColor('bright', 'main')};
   }
 `;
 
 const Privacy = styled.div`
-  background: ${ascDefaultTheme.colors.bright.main};
+  background: ${themeColor('bright', 'main')};
   padding-top: 10px;
   padding-bottom: 10px;
 `;

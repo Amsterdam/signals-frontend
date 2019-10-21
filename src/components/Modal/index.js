@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { ascDefaultTheme } from '@datapunt/asc-core';
 import {
   Button,
   Row,
@@ -9,7 +8,9 @@ import {
   Modal as ASCModal,
   Heading,
 } from '@datapunt/asc-ui';
+import themeColor from 'shared/services/theme-color';
 import { Close as CloseIcon } from '@datapunt/asc-assets';
+
 
 const StyledModal = styled(ASCModal)`
   & [role='dialog'] {
@@ -48,7 +49,7 @@ const HeaderRow = styled(Row)`
 `;
 
 const Header = styled.header`
-  background: ${ascDefaultTheme.colors.bright.main};
+  background: ${themeColor('bright', 'main')};
   height: 50px;
   padding: 10px 0;
   border-bottom: 2px solid #e6e6e6;

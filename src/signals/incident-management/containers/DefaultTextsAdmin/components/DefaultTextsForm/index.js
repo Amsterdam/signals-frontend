@@ -11,12 +11,12 @@ import HiddenInput from 'signals/incident-management/components/HiddenInput';
 
 import { ChevronDown, ChevronUp } from '@datapunt/asc-assets';
 import { Button } from '@datapunt/asc-ui';
-import { ascDefaultTheme } from '@datapunt/asc-core';
+import themeColor from 'shared/services/theme-color';
 
 import './style.scss';
 
 const StyledButton = styled(Button)`
-  border: 1px solid ${ascDefaultTheme.colors.tint.level7};;
+  border: 1px solid ${themeColor('tint', 'level7')};
 
   & + button:not([disabled]) {
     margin-top: -1px;

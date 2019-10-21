@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Heading } from '@datapunt/asc-ui';
-import styled, { ascDefaultTheme } from '@datapunt/asc-core';
+import styled from '@datapunt/asc-core';
+import themeColor from 'shared/services/theme-color';
 
 import { FormBuilder } from 'react-reactive-form';
 
@@ -9,7 +10,7 @@ import IncidentPart from '../IncidentPart';
 
 const StyledButton = styled(Button)`
   margin-right: 20px;
-  background-color: ${ascDefaultTheme.colors.bright.main};
+  background-color: ${themeColor('tint', 'level1')};
 `;
 
 const StyledSubmitButton = styled(Button)`
@@ -17,7 +18,7 @@ const StyledSubmitButton = styled(Button)`
 `;
 
 const StyledRemoveButton = styled(Button)`
-  background-color: ${ascDefaultTheme.colors.bright.main};
+  background-color: ${themeColor('tint', 'level1')};
   padding: 0;
   border-color: transparent;
   float: right;
@@ -29,7 +30,6 @@ const StyledH4 = styled(Heading)`
 `;
 
 const StyledDisclaimer = styled.div`
-  background-color: ${ascDefaultTheme.colors.tint.level3};
   padding: 15px;
   margin-bottom: 20px;
   line-height: 22px;

@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Heading } from '@datapunt/asc-ui';
-import styled, { ascDefaultTheme } from '@datapunt/asc-core';
+import styled from '@datapunt/asc-core';
+import themeColor from 'shared/services/theme-color';
 
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import CopyFileInput from '../../../../components/CopyFileInput';
@@ -10,7 +11,7 @@ import SelectInput from '../../../../components/SelectInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 
 const StyledWrapper = styled.div`
-  border-bottom: 2px solid ${ascDefaultTheme.colors.tint.level3};
+  border-bottom: 2px solid ${themeColor('tint', 'level3')};
   padding-bottom: 15px;
   margin-bottom: 37px;
 `;

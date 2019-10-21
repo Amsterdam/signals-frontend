@@ -2,26 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { Button } from '@datapunt/asc-ui';
-import styled, { ascDefaultTheme } from '@datapunt/asc-core';
+import styled from '@datapunt/asc-core';
 import {
   Close,
 } from '@datapunt/asc-assets';
+import themeColor from 'shared/services/theme-color';
 
 const StyledWrapper = styled.div`
   flex-basis: 100%;
-  color: ${ascDefaultTheme.colors.bright.main};
+  color: ${themeColor('bright', 'main')};
   a {
-    color: ${ascDefaultTheme.colors.bright.main};
+    color: ${themeColor('bright', 'main')};
   }
   `;
 
 const StyledSuccess = styled.div`
-  background-color: ${ascDefaultTheme.colors.support.valid};
+  background-color: ${themeColor('support', 'valid')};
   padding: 6px 10px;
 `;
 
 const StyledError = styled.div`
-  background-color: ${ascDefaultTheme.colors.support.invalid};
+  background-color: ${themeColor('support', 'invalid')};
   padding: 6px 10px;
 `;
 
@@ -34,7 +35,7 @@ const StyledCloseButton = styled(Button)`
   }
 
   svg path {
-    fill: ${ascDefaultTheme.colors.bright.main};
+    fill: ${themeColor('bright', 'main')};
     ;
   }
 `;
