@@ -75,16 +75,6 @@ module.exports = {
       });
     }
 
-    // If want Loadable.js to load the component asynchronously
-    if (data.wantLoadable) {
-      actions.push({
-        type: 'add',
-        path: '../../src/components/{{properCase name}}/Loadable.js',
-        templateFile: './component/loadable.js.hbs',
-        abortOnFail: true,
-      });
-    }
-
     return actions;
   },
 };
