@@ -18,26 +18,26 @@ describe('Leaflet legend control', () => {
   };
 
   it('should render correctly with legend open', () => {
-    const [containerEl, ] = createControl({ // eslint-disable-line array-bracket-spacing
+    const [containerEl ] = createControl({ // eslint-disable-line array-bracket-spacing
       elements: [
         {
           iconUrl: 'foo/bar.svg',
           label: 'bar label',
-        }
-      ]
+        },
+      ],
     });
 
     expect(containerEl).toMatchSnapshot();
   });
 
   it('should render correctly with legend closed', () => {
-    const [containerEl, ] = createControl({ // eslint-disable-line array-bracket-spacing
+    const [containerEl ] = createControl({ // eslint-disable-line array-bracket-spacing
       elements: [
         {
           iconUrl: 'foo/bar.svg',
           label: 'bar label',
-        }
-      ]
+        },
+      ],
     }, { x: 440, y: 480 });
 
     expect(containerEl).toMatchSnapshot();
@@ -49,8 +49,8 @@ describe('Leaflet legend control', () => {
         {
           iconUrl: 'foo/bar.svg',
           label: 'bar label',
-        }
-      ]
+        },
+      ],
     });
 
     containerEl.querySelector('.legend-header').click();
@@ -64,8 +64,8 @@ describe('Leaflet legend control', () => {
         {
           iconUrl: 'foo/bar.svg',
           label: 'bar label',
-        }
-      ]
+        },
+      ],
     }, { x: 440, y: 480 });
 
     containerEl.querySelector('.legend-header').click();

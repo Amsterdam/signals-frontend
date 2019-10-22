@@ -36,7 +36,7 @@ class SplitForm extends React.Component {
           note: '',
           priority: props.incident.priority.priority,
         }),
-      })
+      }),
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -55,26 +55,28 @@ class SplitForm extends React.Component {
       parts.push('part3');
     }
 
-    parts.forEach((part) => {
+    parts.forEach(part => {
       update.push(this.state.splitForm.value[part]);
       create.push({
         category: {
-          sub_category: this.state.splitForm.value[part].subcategory
+          sub_category: this.state.splitForm.value[part].subcategory,
         },
         reuse_parent_image: this.state.splitForm.value[part].image,
-        text: this.state.splitForm.value[part].text
+        text: this.state.splitForm.value[part].text,
       });
     });
 
     this.props.handleSubmit({
       id: this.props.incident.id,
       create,
-      update
+      update,
     });
   }
 
   render() {
-    const { incident, attachments, subcategories, priorityList, handleCancel } = this.props;
+    const {
+      incident, attachments, subcategories, priorityList, handleCancel,
+    } = this.props;
     return (
       <div className="split-form">
         <h1>Splitsen</h1>
@@ -100,23 +102,23 @@ class SplitForm extends React.Component {
           splitForm={this.state.splitForm}
         />
 
-        {this.state.isVisible ?
-          <div>
-            <button onClick={() => this.setVisibility(false)} className="action reset split-form__button-hide">Verwijder</button>
+        {this.state.isVisible
+          ? (
+            <div>
+              <button onClick={() => this.setVisibility(false)} className="action reset split-form__button-hide">Verwijder</button>
 
-            <IncidentPart
-              index="3"
-              incident={incident}
-              attachments={attachments}
-              subcategories={subcategories}
-              priorityList={priorityList}
-              splitForm={this.state.splitForm}
-            />
+              <IncidentPart
+                index="3"
+                incident={incident}
+                attachments={attachments}
+                subcategories={subcategories}
+                priorityList={priorityList}
+                splitForm={this.state.splitForm}
+              />
 
-          </div>
-          :
-          <button onClick={() => this.setVisibility(true)} className="action tertiair split-form__button-show">Deelmelding 3 toevoegen</button>
-        }
+            </div>
+          )
+          : <button onClick={() => this.setVisibility(true)} className="action tertiair split-form__button-show">Deelmelding 3 toevoegen</button>}
 
         <div className="split-form__disclainer">
           <h4>Let op</h4>
@@ -140,11 +142,11 @@ SplitForm.defaultProps = {
   incident: {
     category: {},
     priority: {
-      priority: ''
-    }
+      priority: '',
+    },
   },
   isVisible: false,
-  subcategories: []
+  subcategories: [],
 };
 
 SplitForm.propTypes = {
@@ -154,7 +156,7 @@ SplitForm.propTypes = {
   subcategories: PropTypes.array,
   priorityList: PropTypes.array,
   handleSubmit: PropTypes.func.isRequired,
-  handleCancel: PropTypes.func.isRequired
+  handleCancel: PropTypes.func.isRequired,
 };
 
 export default SplitForm;

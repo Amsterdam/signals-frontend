@@ -1,6 +1,6 @@
 const priorityList = [
-    { key: 'normal', value: 'Normaal' },
-    { key: 'high', value: 'Hoog' }
+  { key: 'normal', value: 'Normaal' },
+  { key: 'high', value: 'Hoog' },
 ];
 
 export default priorityList;

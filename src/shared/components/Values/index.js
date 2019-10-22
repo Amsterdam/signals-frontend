@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export default (value) => (
+export default value => (
   <div style={styles.main}>
     <h3 style={{ color: '#389926' }}>Values</h3>
     <pre style={styles.text}>{JSON.stringify(value)}</pre>
@@ -16,11 +16,11 @@ const styles = {
     marginLeft: '7%',
     marginTop: '20px',
     padding: '10px 20px',
-    textAlign: 'left'
+    textAlign: 'left',
   },
   text: {
     color: '#DDE1DC',
     fontSize: '18px',
     lineHeight: '30px',
-  }
+  },
 };

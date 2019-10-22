@@ -1,5 +1,5 @@
 import { select, takeLatest } from 'redux-saga/effects';
-import { replace } from 'react-router-redux';
+import { replace } from 'connected-react-router/immutable';
 import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
@@ -101,26 +101,24 @@ describe('IncidentContainer saga', () => {
     const payload = 'Grof vuil op straat';
     const action = { payload };
 
-    it('should dispatch success', () =>
-      expectSaga(getClassification, action)
-        .provide([
-          [select(makeSelectCategories), categories],
-          [matchers.call.fn(postCall), predictionResponse],
-        ])
-        .call(retryFetchClassification, payload)
-        .put.like({ action: { type: GET_CLASSIFICATION_SUCCESS } })
-        .run());
+    it('should dispatch success', () => expectSaga(getClassification, action)
+      .provide([
+        [select(makeSelectCategories), categories],
+        [matchers.call.fn(postCall), predictionResponse],
+      ])
+      .call(retryFetchClassification, payload)
+      .put.like({ action: { type: GET_CLASSIFICATION_SUCCESS } })
+      .run());
 
-    it('should dispatch error', () =>
-      expectSaga(getClassification, action)
-        .provide([
-          [select(makeSelectCategories), categories],
-          [matchers.call.fn(postCall), throwError(new Error('whoops!!!1!'))],
-        ])
-        .call(retryFetchClassification, payload)
-        .call(postCall, PREDICTION_REQUEST_URL, { text: payload })
-        .put.like({ action: { type: GET_CLASSIFICATION_ERROR } })
-        .silentRun(2250)); // make sure it runs long enough for the postCall generator to throw
+    it('should dispatch error', () => expectSaga(getClassification, action)
+      .provide([
+        [select(makeSelectCategories), categories],
+        [matchers.call.fn(postCall), throwError(new Error('whoops!!!1!'))],
+      ])
+      .call(retryFetchClassification, payload)
+      .call(postCall, PREDICTION_REQUEST_URL, { text: payload })
+      .put.like({ action: { type: GET_CLASSIFICATION_ERROR } })
+      .silentRun(2250)); // make sure it runs long enough for the postCall generator to throw
   });
 
   describe('createIncident', () => {
@@ -215,23 +213,21 @@ describe('setPriorityHandler', () => {
   const payload = { priority: { id: 'normal', label: 'Normaal' } };
   const action = { payload };
 
-  it('should dispatch success', () =>
-    expectSaga(setPriorityHandler, action)
-      .provide([[matchers.call.fn(authPostCall), priority]])
-      .call(authPostCall, PRIORITY_REQUEST_URL, payload)
-      .put(setPrioritySuccess(priority))
-      .run());
+  it('should dispatch success', () => expectSaga(setPriorityHandler, action)
+    .provide([[matchers.call.fn(authPostCall), priority]])
+    .call(authPostCall, PRIORITY_REQUEST_URL, payload)
+    .put(setPrioritySuccess(priority))
+    .run());
 
-  it('should dispatch error', () =>
-    expectSaga(setPriorityHandler, action)
-      .provide([
-        [
-          matchers.call.fn(authPostCall),
-          throwError(new Error('Nope. Not possible')),
-        ],
-      ])
-      .call(authPostCall, PRIORITY_REQUEST_URL, payload)
-      .put(setPriorityError())
-      .put(showGlobalError('PRIORITY_FAILED'))
-      .run());
+  it('should dispatch error', () => expectSaga(setPriorityHandler, action)
+    .provide([
+      [
+        matchers.call.fn(authPostCall),
+        throwError(new Error('Nope. Not possible')),
+      ],
+    ])
+    .call(authPostCall, PRIORITY_REQUEST_URL, payload)
+    .put(setPriorityError())
+    .put(showGlobalError('PRIORITY_FAILED'))
+    .run());
 });

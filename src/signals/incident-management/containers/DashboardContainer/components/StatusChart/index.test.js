@@ -17,45 +17,45 @@ describe('<StatusChart />', () => {
         { name: 'In behandeling', count: 20, color: '#FE952F' },
         { name: 'Geannuleerd', count: 2, color: '#96C14F' },
         { name: 'Afgehandeld', count: 13, color: '#9B4474' },
-        { name: 'On hold', count: 0, color: '#E8663F' }
+        { name: 'On hold', count: 0, color: '#E8663F' },
       ],
       statusList: [
         {
           key: 'm',
           value: 'Gemeld',
-          color: 'red'
+          color: 'red',
         },
         {
           key: 'i',
           value: 'In afwachting van behandeling',
-          color: 'purple'
+          color: 'purple',
         },
         {
           key: 'b',
           value: 'In behandeling',
-          color: 'blue'
+          color: 'blue',
         },
         {
           key: 'o',
           value: 'Afgehandeld',
-          color: 'lightgreen'
+          color: 'lightgreen',
         },
         {
           key: 'h',
           value: 'On hold',
-          color: 'grey'
+          color: 'grey',
         },
         {
           key: 'a',
           value: 'Geannuleerd',
-          color: 'darkgrey'
+          color: 'darkgrey',
         },
         {
           key: 'reopened',
           value: 'Heropend',
-          color: 'orange'
-        }
-      ]
+          color: 'orange',
+        },
+      ],
     };
 
     wrapper = render(

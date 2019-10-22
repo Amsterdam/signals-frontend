@@ -16,7 +16,7 @@ describe('Leaflet error control', () => {
   };
 
   it('is accepts message option', () => {
-    const [containerEl, ] = createControl({ message: 'foo' }); // eslint-disable-line array-bracket-spacing
+    const [containerEl ] = createControl({ message: 'foo' }); // eslint-disable-line array-bracket-spacing
 
     expect(containerEl.innerText).toBe('foo');
     expect(containerEl.classList.contains('error-control')).toBe(true);

@@ -7,7 +7,7 @@ import MultiTextInput from './index';
 describe('Form component <MultiTextInput />', () => {
   const metaFields = {
     name: 'input-field-name',
-    placeholder: 'type here'
+    placeholder: 'type here',
   };
   let wrapper;
   let handler;
@@ -23,8 +23,8 @@ describe('Form component <MultiTextInput />', () => {
     hasError = jest.fn();
     parent = {
       meta: {
-        updateIncident: jest.fn()
-      }
+        updateIncident: jest.fn(),
+      },
     };
 
     wrapper = shallow(<MultiTextInput
@@ -36,7 +36,7 @@ describe('Form component <MultiTextInput />', () => {
     />);
 
     handler.mockImplementation(() => ({
-      value: ['Lorem']
+      value: ['Lorem'],
     }));
   });
 
@@ -46,8 +46,8 @@ describe('Form component <MultiTextInput />', () => {
         meta: {
           ...metaFields,
           itemClassName: 'col-3',
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -59,8 +59,8 @@ describe('Form component <MultiTextInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -70,8 +70,8 @@ describe('Form component <MultiTextInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: false
-        }
+          isVisible: false,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -85,14 +85,14 @@ describe('Form component <MultiTextInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       wrapper.find(Input).simulate('change', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': ['Ipsum']
+        'input-field-name': ['Ipsum'],
       });
     });
 
@@ -100,14 +100,14 @@ describe('Form component <MultiTextInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       wrapper.find('button').simulate('click', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': ['Lorem', '']
+        'input-field-name': ['Lorem', ''],
       });
     });
 
@@ -115,8 +115,8 @@ describe('Form component <MultiTextInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       const invalidKeyEvent = { key: '@', preventDefault: jest.fn() };

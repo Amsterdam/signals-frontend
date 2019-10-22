@@ -11,10 +11,10 @@ describe('Preview component <Map />', () => {
     huisnummer: '666',
     huisletter: 'C',
     postcode: '1087JC',
-    woonplaats: 'Amsterdam'
+    woonplaats: 'Amsterdam',
   };
   const geometrie = {
-    coordinates: [52, 4]
+    coordinates: [52, 4],
   };
   let wrapper;
 
@@ -27,8 +27,8 @@ describe('Preview component <Map />', () => {
       label: 'Location',
       value: {
         address,
-        geometrie
-      }
+        geometrie,
+      },
     });
 
     expect(wrapper).toMatchSnapshot();
@@ -38,8 +38,8 @@ describe('Preview component <Map />', () => {
     wrapper.setProps({
       label: 'Location',
       value: {
-        geometrie
-      }
+        geometrie,
+      },
     });
 
     expect(wrapper).toMatchSnapshot();
@@ -49,8 +49,8 @@ describe('Preview component <Map />', () => {
     wrapper.setProps({
       label: 'Location',
       value: {
-        address
-      }
+        address,
+      },
     });
 
     expect(wrapper).toMatchSnapshot();
@@ -62,9 +62,9 @@ describe('Preview component <Map />', () => {
       value: {
         address: {
           ...address,
-          huisnummer_toevoeging: '3'
-        }
-      }
+          huisnummer_toevoeging: '3',
+        },
+      },
     });
 
     expect(wrapper).toMatchSnapshot();

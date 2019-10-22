@@ -22,8 +22,8 @@ describe('<Location />', () => {
             type: 'Point',
             coordinates: [
               4.892649650573731,
-              52.36918517949316
-            ]
+              52.36918517949316,
+            ],
           },
           buurt_code: 'A00d',
           created_by: null,
@@ -33,22 +33,22 @@ describe('<Location />', () => {
             huisnummer: '123',
             woonplaats: 'Amsterdam',
             openbare_ruimte: 'Rokin',
-            huisnummer_toevoeging: 'H'
+            huisnummer_toevoeging: 'H',
           },
           stadsdeel: 'A',
           bag_validated: false,
           address_text: 'Rokin 123-H 1012KP Amsterdam',
-          id: 3372
-        }
+          id: 3372,
+        },
       },
       stadsdeelList: [
         {
           key: 'A',
-          value: 'Centrum'
-        }
+          value: 'Centrum',
+        },
       ],
       onShowLocation: jest.fn(),
-      onEditLocation: jest.fn()
+      onEditLocation: jest.fn(),
     };
   });
 

@@ -48,6 +48,7 @@ exports[`Form component <MultiTextInput /> rendering should render multi text co
         <button
           className="multi-text-input__button"
           onClick={[Function]}
+          type="button"
         />
       </div>
     </Header>
@@ -97,6 +98,7 @@ exports[`Form component <MultiTextInput /> rendering should render multi text wi
         <button
           className="multi-text-input__button"
           onClick={[Function]}
+          type="button"
         />
       </div>
     </Header>

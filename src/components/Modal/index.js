@@ -53,7 +53,9 @@ const Header = styled.header`
   border-bottom: 2px solid #e6e6e6;
 `;
 
-const Modal = ({ children, title, isOpen, onClose, ...rest }) => (
+const Modal = ({
+  children, title, isOpen, onClose, ...rest
+}) => (
   <StyledModal data-testid="modal" open={isOpen} backdropOpacity={1} {...rest}>
     <Header>
       <HeaderRow>
@@ -84,7 +86,7 @@ const Modal = ({ children, title, isOpen, onClose, ...rest }) => (
 Modal.defaultProps = {
   children: null,
   // setting default value for non-exposed prop: should not be visible; just for testing purposes
-  disablePortal: process.env.NODE_ENV === 'test',
+  disablePortal: process.env.NODE_ENV === 'test', // eslint-disable-line react/default-props-match-prop-types
   isOpen: false,
   onClose: null,
 };

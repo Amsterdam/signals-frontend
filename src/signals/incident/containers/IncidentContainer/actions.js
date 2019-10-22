@@ -18,78 +18,78 @@ import {
 
   SET_PRIORITY,
   SET_PRIORITY_SUCCESS,
-  SET_PRIORITY_ERROR
+  SET_PRIORITY_ERROR,
 } from './constants';
 
 export function updateIncident(incident) {
   return {
     type: UPDATE_INCIDENT,
-    payload: { ...incident }
+    payload: { ...incident },
   };
 }
 
 export function resetIncident() {
   return {
-    type: RESET_INCIDENT
+    type: RESET_INCIDENT,
   };
 }
 
 export function createIncident(payload) {
   return {
     type: CREATE_INCIDENT,
-    payload
+    payload,
   };
 }
 
 export function createIncidentSuccess(incident) {
   return {
     type: CREATE_INCIDENT_SUCCESS,
-    payload: { ...incident }
+    payload: { ...incident },
   };
 }
 
 export function createIncidentError() {
   return {
-    type: CREATE_INCIDENT_ERROR
+    type: CREATE_INCIDENT_ERROR,
   };
 }
 
 export function getClassification(text) {
   return {
     type: GET_CLASSIFICATION,
-    payload: text
+    payload: text,
   };
 }
 
 export function getClassificationSuccess(classification) {
   return {
     type: GET_CLASSIFICATION_SUCCESS,
-    payload: { ...classification }
+    payload: { ...classification },
   };
 }
 
 export function getClassificationError(classification) {
   return {
     type: GET_CLASSIFICATION_ERROR,
-    payload: { ...classification }
+    payload: { ...classification },
   };
 }
 
 export function setPriority(payload) {
   return {
     type: SET_PRIORITY,
-    payload
+    payload,
   };
 }
 
 export function setPrioritySuccess() {
   return {
-    type: SET_PRIORITY_SUCCESS
+    type: SET_PRIORITY_SUCCESS,
   };
 }
 
 export function setPriorityError() {
   return {
-    type: SET_PRIORITY_ERROR
+    type: SET_PRIORITY_ERROR,
   };
 }

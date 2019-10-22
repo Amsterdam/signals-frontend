@@ -14,7 +14,7 @@ import {
 
   SET_PRIORITY,
   SET_PRIORITY_SUCCESS,
-  SET_PRIORITY_ERROR
+  SET_PRIORITY_ERROR,
 } from './constants';
 
 import {
@@ -31,13 +31,13 @@ import {
 
   setPriority,
   setPrioritySuccess,
-  setPriorityError
+  setPriorityError,
 } from './actions';
 
 describe('Incident container actions', () => {
   const incident = {
     text: 'foo',
-    category: 'bar'
+    category: 'bar',
   };
 
   it('should dispatch update incident action', () => {
@@ -68,8 +68,8 @@ describe('Incident container actions', () => {
     const payload = {
       category: {
         main: [],
-        sub: []
-      }
+        sub: [],
+      },
     };
     testActionCreator(getClassificationSuccess, GET_CLASSIFICATION_SUCCESS, payload);
   });
@@ -78,8 +78,8 @@ describe('Incident container actions', () => {
     const payload = {
       category: {
         main: [],
-        sub: []
-      }
+        sub: [],
+      },
     };
     testActionCreator(getClassificationError, GET_CLASSIFICATION_ERROR, payload);
   });
@@ -87,7 +87,7 @@ describe('Incident container actions', () => {
   it('should dispatch set priority action', () => {
     testActionCreator(setPriority, SET_PRIORITY, {
       priority: 'normal',
-      _signal: 666
+      _signal: 666,
     });
   });
 

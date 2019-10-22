@@ -12,7 +12,7 @@ describe('injectReducerModel', () => {
     const spy = jest.fn();
 
     getInjectorsReducer.mockImplementation(() => ({
-      injectReducer: spy
+      injectReducer: spy,
     }));
     injectReducerModel('mockKey', mockReducer, store);
 

@@ -25,10 +25,9 @@ const StyledHeader = styled(HeaderComponent)`
     text-decoration: none;
   }
 
-  ${({ isFrontOffice, tall }) =>
-    isFrontOffice &&
-    tall &&
-    css`
+  ${({ isFrontOffice, tall }) => isFrontOffice
+    && tall
+    && css`
       & {
         max-width: 960px;
 
@@ -80,10 +79,17 @@ const StyledSearchBar = styled(SearchBar)`
 `;
 
 const HeaderWrapper = styled.div`
-  ${({ isFrontOffice, tall }) =>
-    isFrontOffice &&
-    tall &&
-    css`
+  ${({  tall }) => !tall && css`
+    #header {
+      left: 0;
+      right: 0;
+      position: fixed;
+    }
+  `}
+
+  ${({ isFrontOffice, tall }) => isFrontOffice
+    && tall
+    && css`
       #header {
         position: static;
 
@@ -196,8 +202,8 @@ const MenuItems = ({
   );
 };
 
-export const SiteHeader = (props) => {
-  const isFrontOffice = !props.location.pathname.startsWith('/manage/');
+export const SiteHeader = props => {
+  const isFrontOffice = !props.location.pathname.startsWith('/manage');
   const tall = isFrontOffice && !props.isAuthenticated;
   const title = tall ? '' : 'SIA';
 
@@ -214,21 +220,19 @@ export const SiteHeader = (props) => {
         homeLink={CONFIGURATION.ROOT}
         tall={tall}
         fullWidth={false}
-        navigation={
+        navigation={(
           <Media query={`(max-width: ${breakpoint}px)`}>
-            {(matches) =>
-              matches ? (
-                <MenuToggle align="right">
-                  <MenuItems {...props} />
-                </MenuToggle>
-              ) : (
-                <MenuInline>
-                  <MenuItems {...props} />
-                </MenuInline>
-              )
-            }
+            {matches => matches ? (
+              <MenuToggle align="right">
+                <MenuItems {...props} />
+              </MenuToggle>
+            ) : (
+              <MenuInline>
+                <MenuItems {...props} />
+              </MenuInline>
+            )}
           </Media>
-        }
+        )}
       />
     </HeaderWrapper>
   );

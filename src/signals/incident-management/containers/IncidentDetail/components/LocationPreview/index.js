@@ -14,7 +14,9 @@ const LocationPreview = ({ location, onEditLocation }) => (
       type="button"
       onClick={onEditLocation}
       data-testid="location-preview-button-edit"
-    >Locatie wijzigen</button>
+    >
+Locatie wijzigen
+    </button>
 
     <MapDetail
       value={location}
@@ -25,7 +27,7 @@ const LocationPreview = ({ location, onEditLocation }) => (
 
 LocationPreview.propTypes = {
   location: locationType.isRequired,
-  onEditLocation: PropTypes.func.isRequired
+  onEditLocation: PropTypes.func.isRequired,
 };
 
 export default LocationPreview;

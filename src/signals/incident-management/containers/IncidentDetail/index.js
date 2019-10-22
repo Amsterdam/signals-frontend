@@ -83,8 +83,8 @@ export class IncidentDetail extends React.Component {
       const category = this.props.incidentModel.incident.category;
       if (
         !isEqual(
-          prevProps.incidentModel.incident &&
-            prevProps.incidentModel.incident.category,
+          prevProps.incidentModel.incident
+            && prevProps.incidentModel.incident.category,
           this.props.incidentModel.incident.category,
         )
       ) {
@@ -106,28 +106,28 @@ export class IncidentDetail extends React.Component {
   onEditLocation() {
     this.setState({
       previewState: 'editLocation',
-      attachmentHref: ''
+      attachmentHref: '',
     });
   }
 
   onEditStatus() {
     this.setState({
       previewState: 'editStatus',
-      attachmentHref: ''
+      attachmentHref: '',
     });
   }
 
   onShowAttachment(attachmentHref) {
     this.setState({
       previewState: 'showImage',
-      attachmentHref
+      attachmentHref,
     });
   }
 
   onCloseAll() {
     this.setState({
       previewState: '',
-      attachmentHref: ''
+      attachmentHref: '',
     });
   }
 
@@ -298,11 +298,11 @@ IncidentDetail.propTypes = {
     }).isRequired,
     error: PropTypes.oneOfType([
       PropTypes.bool,
-      PropTypes.object
+      PropTypes.object,
     ]),
     split: PropTypes.oneOfType([
       PropTypes.bool,
-      PropTypes.object
+      PropTypes.object,
     ]),
     stadsdeelList: dataListType,
     priorityList: dataListType,
@@ -328,28 +328,26 @@ IncidentDetail.propTypes = {
 };
 
 /* istanbul ignore next */
-const mapStateToProps = () =>
-  createStructuredSelector({
-    loading: makeSelectLoading(),
-    error: makeSelectError(),
-    incidentModel: makeSelectIncidentModel(),
-    categories: makeSelectCategories(),
-    historyModel: makeSelectHistoryModel(),
-  });
+const mapStateToProps = () => createStructuredSelector({
+  loading: makeSelectLoading(),
+  error: makeSelectError(),
+  incidentModel: makeSelectIncidentModel(),
+  categories: makeSelectCategories(),
+  historyModel: makeSelectHistoryModel(),
+});
 
-export const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      onRequestIncident: requestIncident,
-      onPatchIncident: patchIncident,
-      onRequestHistoryList: requestHistoryList,
-      onRequestAttachments: requestAttachments,
-      onRequestDefaultTexts: requestDefaultTexts,
-      onDismissSplitNotification: dismissSplitNotification,
-      onDismissError: dismissError,
-    },
-    dispatch,
-  );
+export const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    onRequestIncident: requestIncident,
+    onPatchIncident: patchIncident,
+    onRequestHistoryList: requestHistoryList,
+    onRequestAttachments: requestAttachments,
+    onRequestDefaultTexts: requestDefaultTexts,
+    onDismissSplitNotification: dismissSplitNotification,
+    onDismissError: dismissError,
+  },
+  dispatch,
+);
 
 export default connect(
   mapStateToProps,

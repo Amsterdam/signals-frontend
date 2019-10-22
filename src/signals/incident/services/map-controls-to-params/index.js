@@ -18,8 +18,8 @@ const mapControlsToParams = (incident, wizard) => {
     reporter: {},
     status: {
       state: 'm',
-      extra_properties: {}
-    }
+      extra_properties: {},
+    },
   };
 
   if (datetime) {

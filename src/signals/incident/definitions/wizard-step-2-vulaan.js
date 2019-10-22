@@ -39,5 +39,5 @@ export default {
       default:
         return { controls: {} };
     }
-  }
+  },
 };

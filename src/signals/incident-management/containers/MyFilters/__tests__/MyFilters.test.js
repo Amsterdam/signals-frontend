@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import { render } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
-import MyFilters, { MyFiltersComponent } from '../';
+import MyFilters, { MyFiltersComponent } from '..';
 
 describe('signals/incident-management/containers/MyFilters', () => {
   it('should have props from structured selector', () => {

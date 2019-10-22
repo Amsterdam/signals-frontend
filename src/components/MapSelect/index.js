@@ -33,19 +33,19 @@ class MapSelect extends React.Component {
       idField,
       zoomMin,
       value,
-      selectionOnly
+      selectionOnly,
     } = this.props;
 
     this.map = amaps.createMap({
       center: {
         latitude: centerLatLng.latitude,
-        longitude: centerLatLng.longitude
+        longitude: centerLatLng.longitude,
       },
       layer: 'standaard',
       target: 'mapSelect', // requires unique id because amaps doesn't support passing dom element (according to docs)
       marker: false,
       search: false,
-      zoom: ZOOM_INIT
+      zoom: ZOOM_INIT,
     });
 
     const errorControl = new ErrorControl({
@@ -57,8 +57,8 @@ class MapSelect extends React.Component {
     this.selection = selection;
 
     // istanbul ignore next
-    const fetchRequest = (bbox_str) => request(`${geojsonUrl}&bbox=${bbox_str}`)
-      .catch((e) => {
+    const fetchRequest = bbox_str => request(`${geojsonUrl}&bbox=${bbox_str}`)
+      .catch(e => {
         console.error('Error loading feature geojson', e); // eslint-disable-line no-console
         errorControl.show();
       });
@@ -78,7 +78,7 @@ class MapSelect extends React.Component {
       pointToLayer(feature, latlng) {
         // istanbul ignore next
         return L.marker(latlng, {
-          icon: getIcon(feature.properties[iconField], selection.has(feature.properties[idField]))
+          icon: getIcon(feature.properties[iconField], selection.has(feature.properties[idField])),
         });
       },
 
@@ -87,21 +87,21 @@ class MapSelect extends React.Component {
           // Check that the component is in write mode
           // istanbul ignore next
           layer.on({
-            click: (e) => {
+            click: e => {
               const _layer = e.target;
               const id = _layer.feature.properties[idField];
               selection.toggle(id);
               onSelectionChange(selection);
-            }
+            },
           });
         }
-      }
+      },
     });
     this.featuresLayer.addTo(this.map);
 
     const zoomMessageControl = new ZoomMessageControl({
       position: 'topleft',
-      zoomMin
+      zoomMin,
     });
     zoomMessageControl.addTo(this.map);
 
@@ -110,7 +110,7 @@ class MapSelect extends React.Component {
       const legendControl = new LegendControl({
         position: 'topright',
         zoomMin,
-        elements: this.props.legend
+        elements: this.props.legend,
       });
       legendControl.addTo(this.map);
     }
@@ -121,7 +121,7 @@ class MapSelect extends React.Component {
 
     const loadingControl = new LoadingControl({
       position: 'topleft',
-      element: div
+      element: div,
     });
     loadingControl.addTo(this.map);
 
@@ -134,7 +134,7 @@ class MapSelect extends React.Component {
     if (lat !== prevProps.latlng.latitude || lng !== prevProps.latlng.longitude) {
       this.map.panTo({
         lat,
-        lng
+        lng,
       });
     }
 
@@ -172,13 +172,13 @@ class MapSelect extends React.Component {
 MapSelect.defaultProps = {
   zoomMin: ZOOM_MIN,
   value: [],
-  selectionOnly: false
+  selectionOnly: false,
 };
 
 MapSelect.propTypes = {
   latlng: PropTypes.exact({
     latitude: PropTypes.number.isRequired,
-    longitude: PropTypes.number.isRequired
+    longitude: PropTypes.number.isRequired,
   }).isRequired,
   geojsonUrl: PropTypes.string.isRequired,
   onSelectionChange: PropTypes.func,
@@ -191,7 +191,7 @@ MapSelect.propTypes = {
   idField: PropTypes.string.isRequired,
   zoomMin: PropTypes.number,
   value: PropTypes.array,
-  selectionOnly: PropTypes.bool
+  selectionOnly: PropTypes.bool,
 };
 
 export default MapSelect;

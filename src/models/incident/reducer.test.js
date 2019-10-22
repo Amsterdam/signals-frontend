@@ -11,7 +11,7 @@ import {
   REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR,
   DISMISS_SPLIT_NOTIFICATION,
   PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
-  REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR
+  REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR,
 }
   from './constants';
 
@@ -31,16 +31,16 @@ describe('incidentModelReducer', () => {
       notes: false,
       priority: false,
       status: false,
-      subcategory: false
+      subcategory: false,
     },
-    split: false
+    split: false,
   };
   // let state;
 
   beforeEach(() => {
     // state = fromJS({
-      // incident: {},
-      // incidentNotesList: [],
+    // incident: {},
+    // incidentNotesList: [],
     // });
   });
 
@@ -52,13 +52,13 @@ describe('incidentModelReducer', () => {
     expect(
       incidentModelReducer(undefined, {
         type: REQUEST_INCIDENT,
-        payload: 42
+        payload: 42,
       }).toJS()
     ).toEqual({
       ...expected,
       id: 42,
       incident: null,
-      loading: true
+      loading: true,
     });
   });
 
@@ -67,13 +67,13 @@ describe('incidentModelReducer', () => {
     expect(
       incidentModelReducer(undefined, {
         type: REQUEST_INCIDENT_SUCCESS,
-        payload
+        payload,
       }).toJS()
     ).toEqual({
       ...expected,
       incident: {
-        id: 1
-      }
+        id: 1,
+      },
     });
   });
 
@@ -81,10 +81,10 @@ describe('incidentModelReducer', () => {
     const split = { id: 42, created: [{ id: 3 }] };
     expect(
       incidentModelReducer(fromJS({ split }), {
-        type: DISMISS_SPLIT_NOTIFICATION
+        type: DISMISS_SPLIT_NOTIFICATION,
       }).toJS()
     ).toEqual({
-      split: false
+      split: false,
     });
   });
 
@@ -92,11 +92,11 @@ describe('incidentModelReducer', () => {
     expect(
       incidentModelReducer(undefined, {
         type: REQUEST_INCIDENT_ERROR,
-        payload: true
+        payload: true,
       }).toJS()
     ).toEqual({
       ...expected,
-      error: true
+      error: true,
     });
   });
 
@@ -105,20 +105,20 @@ describe('incidentModelReducer', () => {
       id: 42,
       type: 'location',
       patch: {
-        location: { foo: 'bar' }
-      }
+        location: { foo: 'bar' },
+      },
     };
     expect(
       incidentModelReducer(undefined, {
         type: PATCH_INCIDENT,
-        payload
+        payload,
       }).toJS()
     ).toEqual({
       ...expected,
       patching: {
         ...expected.patching,
-        location: true
-      }
+        location: true,
+      },
     });
   });
 
@@ -130,32 +130,32 @@ describe('incidentModelReducer', () => {
     expect(
       incidentModelReducer(undefined, {
         type: PATCH_INCIDENT_SUCCESS,
-        payload
+        payload,
       }).toJS()
     ).toEqual({
       ...expected,
       patching: {
-        ...expected.patching
-      }
+        ...expected.patching,
+      },
     });
   });
 
   it('should handle the PATCH_INCIDENT_ERROR', () => {
     const payload = {
       error: { response: {} },
-      type: 'location'
+      type: 'location',
     };
     expect(
-     incidentModelReducer(undefined, {
-       type: PATCH_INCIDENT_ERROR,
-       payload
-     }).toJS()
+      incidentModelReducer(undefined, {
+        type: PATCH_INCIDENT_ERROR,
+        payload,
+      }).toJS()
     ).toEqual({
       ...expected,
       patching: {
-        ...expected.patching
+        ...expected.patching,
       },
-      error: payload.error
+      error: payload.error,
     });
   });
 
@@ -163,11 +163,11 @@ describe('incidentModelReducer', () => {
     expect(
       incidentModelReducer(undefined, {
         type: REQUEST_ATTACHMENTS,
-        payload: 42
+        payload: 42,
       }).toJS()
     ).toEqual({
       ...expected,
-      attachments: []
+      attachments: [],
     });
   });
 
@@ -176,22 +176,22 @@ describe('incidentModelReducer', () => {
     expect(
       incidentModelReducer(undefined, {
         type: REQUEST_ATTACHMENTS_SUCCESS,
-        payload
+        payload,
       }).toJS()
     ).toEqual({
       ...expected,
-      attachments: payload
+      attachments: payload,
     });
   });
 
   it('should handle the REQUEST_ATTACHMENTS_ERROR', () => {
     expect(
       incidentModelReducer(undefined, {
-        type: REQUEST_ATTACHMENTS_ERROR
+        type: REQUEST_ATTACHMENTS_ERROR,
       }).toJS()
     ).toEqual({
       ...expected,
-      attachments: []
+      attachments: [],
     });
   });
 
@@ -200,10 +200,10 @@ describe('incidentModelReducer', () => {
     expect(
       incidentModelReducer(fromJS({}), {
         type: SPLIT_INCIDENT_SUCCESS,
-        payload
+        payload,
       }).toJS()
     ).toEqual({
-      split: payload
+      split: payload,
     });
   });
 });

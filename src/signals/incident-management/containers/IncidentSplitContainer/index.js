@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { goBack } from 'react-router-redux';
+import { goBack } from 'connected-react-router/immutable';
 
 import { makeSelectCategories } from 'containers/App/selectors';
 import injectSaga from 'utils/injectSaga';
@@ -44,30 +44,32 @@ export class IncidentSplitContainer extends React.Component { // eslint-disable-
 
   render() {
     const { categories } = this.props;
-    const { incident, attachments, loading, stadsdeelList, priorityList } = this.props.incidentModel;
+    const {
+      incident, attachments, loading, stadsdeelList, priorityList,
+    } = this.props.incidentModel;
     return (
       <div className="incident-split-container">
-        {loading ? <LoadingIndicator /> :
-        (
-          <div className="row">
-            <div className="col-8">
-              <SplitForm
-                incident={incident}
-                attachments={attachments}
-                subcategories={categories.sub}
-                priorityList={priorityList}
-                handleSubmit={this.handleSubmit}
-                handleCancel={this.handleCancel}
-              />
+        {loading ? <LoadingIndicator />
+          : (
+            <div className="row">
+              <div className="col-8">
+                <SplitForm
+                  incident={incident}
+                  attachments={attachments}
+                  subcategories={categories.sub}
+                  priorityList={priorityList}
+                  handleSubmit={this.handleSubmit}
+                  handleCancel={this.handleCancel}
+                />
+              </div>
+              <div className="col-4">
+                <SplitDetail
+                  incident={incident}
+                  stadsdeelList={stadsdeelList}
+                />
+              </div>
             </div>
-            <div className="col-4">
-              <SplitDetail
-                incident={incident}
-                stadsdeelList={stadsdeelList}
-              />
-            </div>
-          </div>
-        )}
+          )}
       </div>
     );
   }
@@ -80,19 +82,19 @@ IncidentSplitContainer.propTypes = {
   onRequestIncident: PropTypes.func.isRequired,
   onRequestAttachments: PropTypes.func.isRequired,
   onSplitIncident: PropTypes.func.isRequired,
-  onGoBack: PropTypes.func.isRequired
+  onGoBack: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   incidentModel: makeSelectIncidentModel(),
-  categories: makeSelectCategories()
+  categories: makeSelectCategories(),
 });
 
-export const mapDispatchToProps = (dispatch) => bindActionCreators({
+export const mapDispatchToProps = dispatch => bindActionCreators({
   onRequestIncident: requestIncident,
   onRequestAttachments: requestAttachments,
   onSplitIncident: splitIncident,
-  onGoBack: goBack
+  onGoBack: goBack,
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

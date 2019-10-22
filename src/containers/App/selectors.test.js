@@ -10,7 +10,7 @@ import {
   makeSelectErrorMessage,
   makeSelectLocation,
   makeSelectIsAuthenticated,
-  makeSelectCategories
+  makeSelectCategories,
 } from './selectors';
 
 describe('selectGlobal', () => {
@@ -46,8 +46,8 @@ describe('makeSelectAccessToken', () => {
     const accessToken = 'thisistheaccesstoken';
     const mockedState = fromJS({
       global: {
-        accessToken
-      }
+        accessToken,
+      },
     });
     expect(selector(mockedState)).toEqual(accessToken);
   });
@@ -72,7 +72,7 @@ describe('makeSelectError', () => {
     const error = true;
     const mockedState = fromJS({
       global: {
-        error
+        error,
       },
     });
     expect(errorSelector(mockedState)).toEqual(error);
@@ -111,8 +111,8 @@ describe('makeSelectIsAuthenticated', () => {
     const accessToken = 'thisistheaccesstoken';
     const mockedState = fromJS({
       global: {
-        accessToken
-      }
+        accessToken,
+      },
     });
     expect(isAuthenticatedStateSelector(mockedState)).toEqual(true);
   });
@@ -123,12 +123,12 @@ describe('makeSelectCategories', () => {
   it('should select the login state', () => {
     const categories = {
       main: [1, 2],
-      sub: [3, 4]
+      sub: [3, 4],
     };
     const mockedState = fromJS({
       global: {
-        categories
-      }
+        categories,
+      },
     });
     expect(selector(mockedState)).toEqual(categories);
   });

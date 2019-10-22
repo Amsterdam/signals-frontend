@@ -24,14 +24,14 @@ describe('Leaflet loading control', () => {
   };
 
   it('is hidden if no requests in flight', () => {
-    const [element, ] = createControl();  // eslint-disable-line array-bracket-spacing
+    const [element ] = createControl(); // eslint-disable-line array-bracket-spacing
 
     expect(element.innerText).toBe('loading.');
     expect(element.classList.contains('hide')).toBe(true);
   });
 
   it('is shown when loading', () => {
-    const [element, ] = createControl({ foo: 'bar1' });  // eslint-disable-line array-bracket-spacing
+    const [element ] = createControl({ foo: 'bar1' }); // eslint-disable-line array-bracket-spacing
 
     layer.fireEvent('loading');
 
@@ -39,7 +39,7 @@ describe('Leaflet loading control', () => {
   });
 
   it('is hidden on load success', () => {
-    const [element, ] = createControl({ foo: 'bar2' });  // eslint-disable-line array-bracket-spacing
+    const [element ] = createControl({ foo: 'bar2' }); // eslint-disable-line array-bracket-spacing
 
     layer.fireEvent('loading');
     expect(element.classList.contains('hide')).toBe(false);
@@ -49,7 +49,7 @@ describe('Leaflet loading control', () => {
   });
 
   it('is hidden on load error', () => {
-    const [element, ] = createControl();  // eslint-disable-line array-bracket-spacing
+    const [element ] = createControl(); // eslint-disable-line array-bracket-spacing
 
     layer.fireEvent('loading');
     expect(element.classList.contains('hide')).toBe(false);

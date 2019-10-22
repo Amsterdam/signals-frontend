@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 /**
  * Direct selector to the incidentContainer state domain
  */
-const selectIncidentContainerDomain = (state) => state.get('incidentContainer');
+const selectIncidentContainerDomain = state => state.get('incidentContainer');
 
 /**
  * Other specific selectors
@@ -16,7 +16,7 @@ const selectIncidentContainerDomain = (state) => state.get('incidentContainer');
 
 const makeSelectIncidentContainer = () => createSelector(
   selectIncidentContainerDomain,
-  (substate) => substate.toJS()
+  substate => substate.toJS()
 );
 
 export default makeSelectIncidentContainer;

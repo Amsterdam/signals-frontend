@@ -12,7 +12,9 @@ import makeSelectKtoContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-import { updateKto, requestKtoAnswers, checkKto, storeKto } from './actions';
+import {
+  updateKto, requestKtoAnswers, checkKto, storeKto,
+} from './actions';
 import KtoForm from './components/KtoForm';
 
 export const headerStrings = {
@@ -23,7 +25,7 @@ export const headerStrings = {
   filledOut: 'Er is al feedback gegeven voor deze melding',
 };
 
-const renderHeader = (type) => {
+const renderHeader = type => {
   switch (type) {
     case 'ja':
       return <h1>{headerStrings.ja}</h1>;
@@ -105,7 +107,11 @@ export const KtoContainerComponent = ({
       </Row>
 
       <Row>
-        <Column span={{ small: 2, medium: 2, big: 8, large: 8, xLarge: 8 }}>
+        <Column
+          span={{
+            small: 2, medium: 2, big: 8, large: 8, xLarge: 8,
+          }}
+        >
           <KtoForm
             ktoContainer={ktoContainer}
             onUpdateKto={onUpdateKto}
@@ -142,16 +148,15 @@ const mapStateToProps = createStructuredSelector({
   ktoContainer: makeSelectKtoContainer(),
 });
 
-export const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      onUpdateKto: updateKto,
-      onStoreKto: storeKto,
-      requestKtoAnswersAction: requestKtoAnswers,
-      checkKtoAction: checkKto,
-    },
-    dispatch,
-  );
+export const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    onUpdateKto: updateKto,
+    onStoreKto: storeKto,
+    requestKtoAnswersAction: requestKtoAnswers,
+    checkKtoAction: checkKto,
+  },
+  dispatch,
+);
 
 const withConnect = connect(
   mapStateToProps,

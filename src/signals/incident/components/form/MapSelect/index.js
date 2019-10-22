@@ -5,15 +5,14 @@ import get from 'lodash.get';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import MapSelect from 'components/MapSelect';
 
-import Header from '../Header/';
+import Header from '../Header';
 import { getOVLIcon, LEGEND_ITEMS } from './iconMapping';
 
-const filter_legend = (items, types) =>
-  items.filter((element) => types.includes(element.key));
+const filter_legend = (items, types) => items.filter(element => types.includes(element.key));
 
 const DEFAULT_COORDS = [4.900312721729279, 52.37248465266875];
 
-const getLatlng = (meta) => {
+const getLatlng = meta => {
   const coords = get(
     meta,
     'incidentContainer.incident.location.geometrie.coordinates',
@@ -34,7 +33,7 @@ const MapSelectFormComponent = ({
   getError,
   validatorsOrOpts,
 }) => {
-  const onSelectionChange = (selection) => {
+  const onSelectionChange = selection => {
     const value = Array.from(selection.set.values());
     parent.meta.updateIncident({ [meta.name]: value });
   };

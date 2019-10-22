@@ -13,7 +13,7 @@ describe('<DatePickerInput />', () => {
     display: 'display',
     handler: jest.fn(),
     setValue: jest.fn(),
-    value: moment('2000-01-01')
+    value: moment('2000-01-01'),
   };
   let wrapper;
 

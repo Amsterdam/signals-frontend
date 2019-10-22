@@ -17,11 +17,11 @@ describe('<List />', () => {
 
   beforeEach(() => {
     moment.mockImplementation(() => ({
-      diff: jest.fn()
+      diff: jest.fn(),
     }));
 
     moment.duration.mockImplementation(() => ({
-      asDays: () => 42.666
+      asDays: () => 42.666,
     }));
 
     string2date.mockImplementation(() => '21-07-1970');
@@ -33,12 +33,12 @@ describe('<List />', () => {
           reporter: {
             email: 'user@domain.com',
             phone: '',
-            extra_properties: null
+            extra_properties: null,
           },
           extra_properties: null,
           _display: '1668 - o - A04h - 2018-12-03 09:41:43.012139+00:00',
           priority: {
-            priority: 'normal'
+            priority: 'normal',
           },
           created_at: '2018-12-03T10:41:43.012139+01:00',
           text: 'Grofvuil gedumpt',
@@ -50,7 +50,7 @@ describe('<List />', () => {
             state: 'o',
             state_display: 'Afgehandeld',
             extra_properties: null,
-            created_at: '2018-12-03T10:44:10.162204+01:00'
+            created_at: '2018-12-03T10:44:10.162204+01:00',
           },
           location: {
             id: 1638,
@@ -62,24 +62,24 @@ describe('<List />', () => {
               huisnummer: '3',
               woonplaats: 'Amsterdam',
               openbare_ruimte: 'Staalstraat',
-              huisnummer_toevoeging: ''
+              huisnummer_toevoeging: '',
             },
             address_text: 'Staalstraat 3B 1011JJ Amsterdam',
             geometrie: {
               type: 'Point',
               coordinates: [
                 4.896941184997559,
-                52.368364148255644
-              ]
+                52.368364148255644,
+              ],
             },
-            extra_properties: null
+            extra_properties: null,
           },
           incident_date_end: null,
           updated_at: '2018-12-03T12:53:51.589712+01:00',
           _links: {
             self: {
-              href: 'https://acc.api.data.amsterdam.nl/signals/auth/signal/1668/'
-            }
+              href: 'https://acc.api.data.amsterdam.nl/signals/auth/signal/1668/',
+            },
           },
           source: 'Telefoon – ASC',
           id: 1668,
@@ -90,21 +90,21 @@ describe('<List />', () => {
             sub_slug: 'wegsleep',
             main: 'Overlast in de openbare ruimte',
             main_slug: 'overlast-in-de-openbare-ruimte',
-            department: 'ASC, CCA, THO'
+            department: 'ASC, CCA, THO',
           },
           incident_date_start: '2018-12-03T10:41:42+01:00',
-          text_extra: ''
+          text_extra: '',
         },
         {
           reporter: {
             email: '',
             phone: '',
-            extra_properties: null
+            extra_properties: null,
           },
           extra_properties: null,
           _display: '1667 - m - A04h - 2018-11-29 22:03:19.398904+00:00',
           priority: {
-            priority: 'normal'
+            priority: 'normal',
           },
           created_at: '2018-11-29T23:03:19.398904+01:00',
           text: 'poep',
@@ -116,7 +116,7 @@ describe('<List />', () => {
             state: 'm',
             state_display: 'Gemeld',
             extra_properties: {},
-            created_at: '2018-11-29T23:03:19.566082+01:00'
+            created_at: '2018-11-29T23:03:19.566082+01:00',
           },
           location: {
             id: 1637,
@@ -128,24 +128,24 @@ describe('<List />', () => {
               huisnummer: '45',
               woonplaats: 'Amsterdam',
               openbare_ruimte: 'Raamgracht',
-              huisnummer_toevoeging: ''
+              huisnummer_toevoeging: '',
             },
             address_text: 'Raamgracht 45 1011KJ Amsterdam',
             geometrie: {
               type: 'Point',
               coordinates: [
                 4.900460243225099,
-                52.3692814746251
-              ]
+                52.3692814746251,
+              ],
             },
-            extra_properties: null
+            extra_properties: null,
           },
           incident_date_end: null,
           updated_at: '2018-11-29T23:05:52.590923+01:00',
           _links: {
             self: {
-              href: 'https://acc.api.data.amsterdam.nl/signals/auth/signal/1667/'
-            }
+              href: 'https://acc.api.data.amsterdam.nl/signals/auth/signal/1667/',
+            },
           },
           source: 'Telefoon – CCA',
           id: 1667,
@@ -156,17 +156,17 @@ describe('<List />', () => {
             sub_slug: 'dode-dieren',
             main: 'Overlast van dieren',
             main_slug: 'overlast-van-dieren',
-            department: 'ASC, CCA, GGD'
+            department: 'ASC, CCA, GGD',
           },
           incident_date_start: '2018-11-29T23:03:19+01:00',
-          text_extra: ''
-        }
+          text_extra: '',
+        },
       ],
       priorityList,
       statusList,
       stadsdeelList,
       incidentSelected: jest.fn(),
-      onRequestIncidents: jest.fn()
+      onRequestIncidents: jest.fn(),
     };
 
     wrapper = shallow(
@@ -190,7 +190,7 @@ describe('<List />', () => {
 
     it('should sort asc the incidents when the header is clicked', () => {
       wrapper.setProps({
-        sort: '-created_at'
+        sort: '-created_at',
       });
 
       wrapper.find('thead > tr > th').at(2).simulate('click');
@@ -199,7 +199,7 @@ describe('<List />', () => {
 
     it('should sort desc the incidents when the header is clicked', () => {
       wrapper.setProps({
-        sort: 'created_at'
+        sort: 'created_at',
       });
 
       wrapper.find('thead > tr > th').at(2).simulate('click');
@@ -209,31 +209,31 @@ describe('<List />', () => {
     it('should not show days open for specific statuses', () => {
       const incidentList = [...props.incidents];
 
-      const incidentWithStatusA = Object.assign({}, incidentList[0], { status: { state: 'a' } });
+      const incidentWithStatusA = { ...incidentList[0], status: { state: 'a' } };
       incidentWithStatusA.id = incidentList[0].id + 1;
 
       incidentList.push(incidentWithStatusA);
 
-      const incidentWithStatusS = Object.assign({}, incidentList[0], { status: { state: 's' } });
+      const incidentWithStatusS = { ...incidentList[0], status: { state: 's' } };
       incidentWithStatusS.id = incidentList[0].id + 2;
 
       incidentList.push(incidentWithStatusS);
 
-      const incidentWithStatusReopenRequested = Object.assign(
-        {},
-        incidentList[0],
-        { status: { state: 'reopen requested' } }
-      );
+      const incidentWithStatusReopenRequested = {
+
+        ...incidentList[0],
+        status: { state: 'reopen requested' },
+      };
       incidentWithStatusReopenRequested.id = incidentList[0].id + 3;
 
       incidentList.push(incidentWithStatusReopenRequested);
 
-      const incidentWithStatusB = Object.assign({}, incidentList[0], { status: { state: 'b' } });
+      const incidentWithStatusB = { ...incidentList[0], status: { state: 'b' } };
       incidentWithStatusB.id = incidentList[0].id + 4;
 
       incidentList.push(incidentWithStatusB);
 
-      const listProps = Object.assign({}, props);
+      const listProps = { ...props };
       listProps.incidents = incidentList;
 
       const { getAllByTestId } = render(withAppContext(<List {...listProps} />));
@@ -242,7 +242,7 @@ describe('<List />', () => {
 
       expect(numCells).toEqual(incidentList.length);
 
-      const elementsWithTextContent = Array.from(getAllByTestId('incidentDaysOpen')).filter((element) => element.textContent !== '-');
+      const elementsWithTextContent = Array.from(getAllByTestId('incidentDaysOpen')).filter(element => element.textContent !== '-');
 
       expect(elementsWithTextContent).toHaveLength(2);
     });

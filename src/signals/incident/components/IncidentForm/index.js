@@ -10,7 +10,7 @@ import { FormGenerator } from 'react-reactive-form';
 import defer from 'lodash.defer';
 import get from 'lodash.get';
 
-import formatConditionalForm from '../../services/format-conditional-form/';
+import formatConditionalForm from '../../services/format-conditional-form';
 
 import './style.scss';
 
@@ -22,7 +22,7 @@ class IncidentForm extends React.Component {
       loading: false,
       submitting: false,
       formAction: '',
-      next: null
+      next: null,
     };
 
     this.setForm = this.setForm.bind(this);
@@ -40,7 +40,7 @@ class IncidentForm extends React.Component {
     if (loading !== prevState.loading) {
       return {
         loading,
-        submitting: !loading ? false : prevState.submitting
+        submitting: !loading ? false : prevState.submitting,
       };
     }
 
@@ -72,14 +72,14 @@ class IncidentForm extends React.Component {
       handleSubmit: this.handleSubmit,
       getClassification: this.props.getClassification,
       updateIncident: this.props.updateIncident,
-      createIncident: this.props.createIncident
+      createIncident: this.props.createIncident,
     };
 
     this.setState({
       loading: false,
       submitting: false,
       formAction: '',
-      next: null
+      next: null,
     });
 
     this.setValues(this.props.incidentContainer.incident, true);
@@ -87,7 +87,7 @@ class IncidentForm extends React.Component {
 
   setValues(incident, setAllValues) {
     defer(() => {
-      Object.keys(this.form.controls).map((key) => {
+      Object.keys(this.form.controls).map(key => {
         const control = this.form.controls[key];
         if (control.meta.isVisible) {
           control.enable();
@@ -112,7 +112,7 @@ class IncidentForm extends React.Component {
         this.props.createIncident({
           incident: this.props.incidentContainer.incident,
           wizard: this.props.wizard,
-          isAuthenticated: this.props.isAuthenticated
+          isAuthenticated: this.props.isAuthenticated,
         });
     }
   }
@@ -126,7 +126,7 @@ class IncidentForm extends React.Component {
           this.setState({
             submitting: true,
             formAction,
-            next
+            next,
           });
 
           return;
@@ -138,7 +138,7 @@ class IncidentForm extends React.Component {
       }
     }
 
-    Object.values(this.form.controls).map((control) => control.onBlur());
+    Object.values(this.form.controls).map(control => control.onBlur());
   }
 
   render() {
@@ -157,9 +157,9 @@ class IncidentForm extends React.Component {
 
 IncidentForm.defaultProps = {
   fieldConfig: {
-    controls: {}
+    controls: {},
   },
-  postponeSubmitWhenLoading: ''
+  postponeSubmitWhenLoading: '',
 };
 
 IncidentForm.propTypes = {
@@ -170,7 +170,7 @@ IncidentForm.propTypes = {
   updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
   postponeSubmitWhenLoading: PropTypes.string,
-  isAuthenticated: PropTypes.bool.isRequired
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 export default IncidentForm;
