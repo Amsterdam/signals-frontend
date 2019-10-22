@@ -75,7 +75,7 @@ export const IncidentOverviewPageContainerComponent = ({
   }
 
   useEffect(() => {
-    const escFunction = (event) => {
+    const escFunction = event => {
       /* istanbul ignore next */
       if (event.keyCode === 27) {
         closeFilterModal();
@@ -105,16 +105,14 @@ export const IncidentOverviewPageContainerComponent = ({
           <StyledButton
             data-testid="myFiltersModalBtn"
             color="primary"
-            onClick={openMyFiltersModal}
-          >
+            onClick={openMyFiltersModal}>
             Mijn filters
           </StyledButton>
 
           <StyledButton
             data-testid="filterModalBtn"
             color="primary"
-            onClick={openFilterModal}
-          >
+            onClick={openFilterModal}>
             Filteren
           </StyledButton>
         </div>
@@ -123,8 +121,7 @@ export const IncidentOverviewPageContainerComponent = ({
           data-testid="myFiltersModal"
           isOpen={modalMyFiltersIsOpen}
           onClose={closeMyFiltersModal}
-          title="Mijn filters"
-        >
+          title="Mijn filters">
           <MyFilters onClose={closeMyFiltersModal} />
         </Modal>
 
@@ -132,8 +129,7 @@ export const IncidentOverviewPageContainerComponent = ({
           data-testid="filterModal"
           isOpen={modalFilterIsOpen}
           onClose={closeFilterModal}
-          title="Filters"
-        >
+          title="Filters">
           <Filter onSubmit={closeFilterModal} onCancel={closeFilterModal} />
         </Modal>
 
@@ -200,7 +196,7 @@ const mapStateToProps = createStructuredSelector({
   page: makeSelectPage,
 });
 
-export const mapDispatchToProps = (dispatch) =>
+export const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       onChangeOrdering: orderingIncidentsChanged,
@@ -208,12 +204,12 @@ export const mapDispatchToProps = (dispatch) =>
       onPageIncidentsChanged: pageIncidentsChanged,
       onRequestIncidents: requestIncidents,
     },
-    dispatch,
+    dispatch
   );
 
 const withConnect = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 );
 
 const withReducer = injectReducer({ key: 'incidentOverviewPage', reducer });
@@ -222,5 +218,5 @@ const withSaga = injectSaga({ key: 'incidentOverviewPage', saga });
 export default compose(
   withReducer,
   withSaga,
-  withConnect,
+  withConnect
 )(IncidentOverviewPageContainerComponent);

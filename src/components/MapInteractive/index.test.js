@@ -19,10 +19,10 @@ describe('<MapInteractive />', () => {
 
     onQueryResult = jest.fn();
     global.document.body.appendChild(input);
-    const mockMap = new Promise((resolve) => resolve({
+    const mockMap = new Promise(resolve => resolve({
       returns: 'valid map ',
       addLayer: jest.fn(),
-      eachLayer: jest.fn()
+      eachLayer: jest.fn(),
     }));
     pointquery.createMap.mockImplementation(() => mockMap);
   });
@@ -45,14 +45,14 @@ describe('<MapInteractive />', () => {
       marker: false,
       search: true,
       zoom: 14,
-      onQueryResult: expect.any(Function)
+      onQueryResult: expect.any(Function),
     });
   });
 
   it('should render an existing location with address correctly', () => {
     const location = {
       geometrie: {
-        coordinates: [4, 52]
+        coordinates: [4, 52],
       },
       address: {
         openbare_ruimte: 'Dam',
@@ -60,8 +60,8 @@ describe('<MapInteractive />', () => {
         huisletter: 'C',
         huisnummer: 666,
         postcode: '1000AA',
-        woonplaats: 'Amsterdam'
-      }
+        woonplaats: 'Amsterdam',
+      },
     };
 
     shallow(
@@ -71,14 +71,14 @@ describe('<MapInteractive />', () => {
     expect(pointquery.createMap).toHaveBeenCalledWith({
       center: {
         latitude: 52,
-        longitude: 4
+        longitude: 4,
       },
       layer: 'standaard',
       target: 'mapdiv-interactive',
       marker: true,
       search: true,
       zoom: 16,
-      onQueryResult: expect.any(Function)
+      onQueryResult: expect.any(Function),
     });
 
     const value = document.querySelector('#nlmaps-geocoder-control-input').value;
@@ -88,15 +88,15 @@ describe('<MapInteractive />', () => {
   it('should render an existing location with address without huisnummer_toevoeging correctly', () => {
     const location = {
       geometrie: {
-        coordinates: [4, 52]
+        coordinates: [4, 52],
       },
       address: {
         openbare_ruimte: 'Dam',
         huisletter: 'C',
         huisnummer: 666,
         postcode: '1000AA',
-        woonplaats: 'Amsterdam'
-      }
+        woonplaats: 'Amsterdam',
+      },
     };
 
     shallow(
@@ -106,14 +106,14 @@ describe('<MapInteractive />', () => {
     expect(pointquery.createMap).toHaveBeenCalledWith({
       center: {
         latitude: 52,
-        longitude: 4
+        longitude: 4,
       },
       layer: 'standaard',
       target: 'mapdiv-interactive',
       marker: true,
       search: true,
       zoom: 16,
-      onQueryResult: expect.any(Function)
+      onQueryResult: expect.any(Function),
     });
 
     const value = document.querySelector('#nlmaps-geocoder-control-input').value;
@@ -128,10 +128,10 @@ describe('<MapInteractive />', () => {
     wrapper.setProps({
       location: {
         geometrie: {
-          coordinates: [4, 52]
+          coordinates: [4, 52],
         },
-        address: false
-      }
+        address: false,
+      },
     });
 
     const value = document.querySelector('#nlmaps-geocoder-control-input').value;

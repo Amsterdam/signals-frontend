@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { render, fireEvent, cleanup } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
-import SearchBarContainer, { SearchBarComponent } from '../';
+import SearchBarContainer, { SearchBarComponent } from '..';
 
 describe('containers/SearchBar', () => {
   afterEach(cleanup);

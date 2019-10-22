@@ -9,9 +9,14 @@ import RadioInput from '../../../../components/RadioInput';
 import SelectInput from '../../../../components/SelectInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 
-const IncidentPart = ({ index, attachments, subcategories, priorityList, splitForm }) => (
+const IncidentPart = ({
+  index, attachments, subcategories, priorityList, splitForm,
+}) => (
   <section className="incident-part">
-    <h2>Deelmelding {index}</h2>
+    <h2>
+Deelmelding
+      {index}
+    </h2>
     <FieldControlWrapper
       render={SelectInput}
       name={`part${index}.subcategory`}
@@ -28,14 +33,15 @@ const IncidentPart = ({ index, attachments, subcategories, priorityList, splitFo
       rows={5}
     />
 
-    {attachments && attachments.length &&
-      <FieldControlWrapper
-        render={CopyFileInput}
-        name={`part${index}.image`}
-        control={splitForm.get(`part${index}.image`)}
-        values={attachments}
-      />
-    }
+    {attachments && attachments.length
+      && (
+        <FieldControlWrapper
+          render={CopyFileInput}
+          name={`part${index}.image`}
+          control={splitForm.get(`part${index}.image`)}
+          values={attachments}
+        />
+      )}
     <FieldControlWrapper
       render={TextAreaInput}
       name={`part${index}.note`}
@@ -57,18 +63,24 @@ IncidentPart.defaultProps = {
   incident: {
     category: {},
     priority: {
-      priority: ''
-    }
+      priority: '',
+    },
   },
-  subcategories: []
+  subcategories: [],
 };
 
 IncidentPart.propTypes = {
+  incident: PropTypes.shape({
+    category: PropTypes.shape({}),
+    priority: PropTypes.shape({
+      priority: PropTypes.string,
+    }),
+  }),
   index: PropTypes.string.isRequired,
   attachments: PropTypes.array,
   subcategories: PropTypes.array,
   priorityList: PropTypes.array,
-  splitForm: PropTypes.object.isRequired
+  splitForm: PropTypes.object.isRequired,
 };
 
 export default IncidentPart;

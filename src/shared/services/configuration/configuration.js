@@ -60,7 +60,7 @@ export class Configuration {
     if (globalConfig) {
       this.config = {
         ...this.config,
-        ...globalConfig
+        ...globalConfig,
       };
     }
   }

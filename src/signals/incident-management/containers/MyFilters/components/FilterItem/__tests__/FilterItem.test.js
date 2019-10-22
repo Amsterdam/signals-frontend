@@ -3,7 +3,7 @@ import { createEvent, fireEvent, render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import * as definitions from 'signals/incident-management/definitions';
 import { parseToAPIData } from 'signals/shared/filter/parse';
-import FilterItem from '../';
+import FilterItem from '..';
 
 describe('signals/incident-management/containers/MyFilters/components/FilterItem', () => {
   const filter = {
@@ -45,7 +45,7 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
     expect(container.querySelectorAll('svg')).toHaveLength(0);
     expect(getByText('Foo bar baz')).toBeTruthy();
 
-    const withRefresh = Object.assign({}, props, { filter: { ...filter, refresh: true } });
+    const withRefresh = { ...props, filter: { ...filter, refresh: true } };
 
     rerender(withAppContext(<FilterItem {...withRefresh} />));
     expect(container.querySelectorAll('svg')).toHaveLength(1);

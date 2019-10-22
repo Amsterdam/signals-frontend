@@ -2,7 +2,7 @@ import injectReducerModel from 'utils/injectReducerModel';
 
 import reducer from './reducer';
 
-const loadModel = (store) => {
+const loadModel = store => {
   injectReducerModel('search', reducer, store);
 };
 

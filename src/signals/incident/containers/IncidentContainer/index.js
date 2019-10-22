@@ -62,15 +62,14 @@ const mapStateToProps = createStructuredSelector({
   incidentContainer: makeSelectIncidentContainer(),
 });
 
-export const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      getClassification,
-      updateIncident,
-      createIncident,
-    },
-    dispatch,
-  );
+export const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    getClassification,
+    updateIncident,
+    createIncident,
+  },
+  dispatch,
+);
 
 const withConnect = connect(
   mapStateToProps,

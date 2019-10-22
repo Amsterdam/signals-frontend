@@ -1,5 +1,5 @@
 import { put, takeLatest, select, call, take } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router/immutable';
 import { authCall } from 'shared/services/api/api';
 import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import { throwError } from 'redux-saga-test-plan/providers';
@@ -166,7 +166,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage/saga', () 
         .put(requestIncidents({ filter, page: undefined, sort: undefined }))
         .delay(100)
         .put(requestIncidents({ filter, page: undefined, sort: undefined }))
-        .silentRun(250);
+        .silentRun();
     });
   });
 });

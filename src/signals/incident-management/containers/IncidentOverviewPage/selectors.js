@@ -4,7 +4,7 @@ import { initialState } from './reducer';
 /**
  * Direct selector to the overviewPage state domain
  */
-const selectOverviewPageDomain = (state) =>
+const selectOverviewPageDomain = state =>
   state.get('incidentOverviewPage') || initialState;
 
 /**
@@ -18,16 +18,16 @@ const selectOverviewPageDomain = (state) =>
 const makeSelectOverviewPage = () =>
   createSelector(
     selectOverviewPageDomain,
-    (substate) => substate.toJS(),
+    substate => substate.toJS()
   );
 
 const makeSelectIncidentsCount = createSelector(
   selectOverviewPageDomain,
-  (state) => {
+  state => {
     const obj = state.toJS();
 
     return obj.incidentsCount;
-  },
+  }
 );
 
 export default makeSelectOverviewPage;

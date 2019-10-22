@@ -1,7 +1,7 @@
 const LegendControl = L.Control.extend({
   options: {
     startClosedWidth: 600,
-    elements: []
+    elements: [],
   },
 
   initialize(options) {
@@ -27,7 +27,7 @@ const LegendControl = L.Control.extend({
     this._setClosed(div);
 
     const content = L.DomUtil.create('div', 'legend-content', div);
-    this.options.elements.forEach((element) => {
+    this.options.elements.forEach(element => {
       const item = L.DomUtil.create('div', 'legend-content-item', content);
       const icon = L.DomUtil.create('img', 'legend-content-icon', item);
       icon.src = element.iconUrl;
@@ -46,7 +46,7 @@ const LegendControl = L.Control.extend({
       L.DomUtil.removeClass(element, 'is-closed');
       L.DomUtil.addClass(element, 'is-open');
     }
-  }
+  },
 });
 
 export default LegendControl;

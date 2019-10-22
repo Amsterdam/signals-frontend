@@ -4,7 +4,7 @@ import { createEvent, fireEvent, render } from '@testing-library/react';
 import * as definitions from 'signals/incident-management/definitions';
 
 import { withAppContext } from 'test/utils';
-import MyFilters, { MyFiltersComponent } from '../';
+import MyFilters, { MyFiltersComponent } from '..';
 
 describe('signals/incident-management/containers/MyFilters', () => {
   const filter1 = {

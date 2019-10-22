@@ -31,7 +31,7 @@ const RefreshIcon = styled(Refresh).attrs({
 `;
 
 const FilterItem = ({ filter, onApplyFilter, onEditFilter, onRemoveFilter, onClose }) => {
-  const handleApplyFilter = (e) => {
+  const handleApplyFilter = e => {
     e.preventDefault();
 
     onApplyFilter(parseToAPIData(filter));
@@ -39,7 +39,7 @@ const FilterItem = ({ filter, onApplyFilter, onEditFilter, onRemoveFilter, onClo
     onClose();
   };
 
-  const handleEditFilter = (e) => {
+  const handleEditFilter = e => {
     e.preventDefault();
 
     onEditFilter(parseToAPIData(filter));
@@ -47,7 +47,7 @@ const FilterItem = ({ filter, onApplyFilter, onEditFilter, onRemoveFilter, onClo
     onClose();
   };
 
-  const handleRemoveFilter = (e) => {
+  const handleRemoveFilter = e => {
     e.preventDefault();
 
     if (

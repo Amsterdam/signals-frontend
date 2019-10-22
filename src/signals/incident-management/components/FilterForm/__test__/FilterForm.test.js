@@ -8,7 +8,7 @@ import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList
 
 import categories from 'utils/__tests__/fixtures/categories.json';
 import * as definitions from 'signals/incident-management/definitions';
-import FilterForm, { defaultSubmitBtnLabel, saveSubmitBtnLabel } from '../';
+import FilterForm, { defaultSubmitBtnLabel, saveSubmitBtnLabel } from '..';
 
 const dataLists = {
   priority: definitions.priorityList,
@@ -140,7 +140,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       ),
     ).toHaveLength(Object.keys(categories.mainToSub).length);
 
-    Object.keys(categories.mainToSub).forEach((category) => {
+    Object.keys(categories.mainToSub).forEach(category => {
       expect(
         container.querySelectorAll(
           `input[type="checkbox"][name="${category}_category_slug"]`,
@@ -150,7 +150,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render a list of priority options', () => {
-    const dataListsWithoutPriorityList = Object.assign({}, dataLists);
+    const dataListsWithoutPriorityList = { ...dataLists };
     delete dataListsWithoutPriorityList.priority;
 
     const { container, rerender, queryByTestId } = render(
@@ -171,7 +171,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     cleanup();
 
-    const dataListsWithEmptyPriorityList = Object.assign({}, dataLists);
+    const dataListsWithEmptyPriorityList = { ...dataLists };
     dataListsWithEmptyPriorityList.priority = [];
 
     rerender(
@@ -208,7 +208,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render a list of status options', () => {
-    const dataListsWithoutStatusList = Object.assign({}, dataLists);
+    const dataListsWithoutStatusList = { ...dataLists };
     delete dataListsWithoutStatusList.status;
 
     const { container, rerender, queryByTestId } = render(
@@ -229,7 +229,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     cleanup();
 
-    const dataListsWithEmptyStatusList = Object.assign({}, dataLists);
+    const dataListsWithEmptyStatusList = { ...dataLists };
     dataListsWithEmptyStatusList.status = [];
 
     rerender(
@@ -266,7 +266,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render a list of stadsdeel options', () => {
-    const dataListsWithoutStadsdeelList = Object.assign({}, dataLists);
+    const dataListsWithoutStadsdeelList = { ...dataLists };
     delete dataListsWithoutStadsdeelList.stadsdeel;
 
     const { container, rerender, queryByTestId } = render(
@@ -287,7 +287,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     cleanup();
 
-    const dataListsWithEmptyStadsdeelList = Object.assign({}, dataLists);
+    const dataListsWithEmptyStadsdeelList = { ...dataLists };
     dataListsWithEmptyStadsdeelList.stadsdeel = [];
 
     rerender(
@@ -324,7 +324,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render a list of feedback options', () => {
-    const dataListsWithoutFeedbackList = Object.assign({}, dataLists);
+    const dataListsWithoutFeedbackList = { ...dataLists };
     delete dataListsWithoutFeedbackList.feedback;
 
     const { container, rerender, queryByTestId } = render(

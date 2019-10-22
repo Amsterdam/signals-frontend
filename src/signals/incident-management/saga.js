@@ -73,9 +73,9 @@ export function* doSaveFilter(action) {
     }
   } catch (error) {
     if (
-      error.response &&
-      error.response.status >= 400 &&
-      error.response.status < 500
+      error.response
+      && error.response.status >= 400
+      && error.response.status < 500
     ) {
       yield put(filterSaveFailed('Invalid data supplied'));
     } else if (error.response && error.response.status >= 500) {
@@ -87,7 +87,9 @@ export function* doSaveFilter(action) {
 }
 
 export function* doUpdateFilter(action) {
-  const { name, refresh, id, options } = action.payload;
+  const {
+    name, refresh, id, options,
+  } = action.payload;
 
   try {
     const result = yield call(authPatchCall, `${requestURL}${id}`, {
@@ -101,9 +103,9 @@ export function* doUpdateFilter(action) {
     yield put(resetSearchQuery());
   } catch (error) {
     if (
-      error.response &&
-      error.response.status >= 400 &&
-      error.response.status < 500
+      error.response
+      && error.response.status >= 400
+      && error.response.status < 500
     ) {
       yield put(filterUpdatedFailed('Invalid data supplied'));
     } else if (error.response && error.response.status >= 500) {

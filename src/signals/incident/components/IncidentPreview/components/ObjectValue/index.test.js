@@ -11,7 +11,7 @@ describe('Preview component <ObjectValue />', () => {
         label="Urgentie"
         value={{
           id: 'normal',
-          label: 'Normaal'
+          label: 'Normaal',
         }}
       />
     );

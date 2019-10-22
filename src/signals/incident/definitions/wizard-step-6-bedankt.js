@@ -9,30 +9,30 @@ export default {
         meta: {
           className: 'col-sm-12 col-md-6',
           type: 'bedankt',
-          value: 'Uw melding is bij ons bekend onder nummer: {incident.id}.'
+          value: 'Uw melding is bij ons bekend onder nummer: {incident.id}.',
         },
-        render: FormComponents.PlainText
+        render: FormComponents.PlainText,
       },
       text: {
         meta: {
           className: 'col-sm-12 col-md-6',
           label: 'Wat doen we met uw melding?',
-          type: 'bedankt'
+          type: 'bedankt',
         },
-        render: FormComponents.PlainText
+        render: FormComponents.PlainText,
       },
       text_melding_extra: {
         meta: {
           className: 'col-sm-12 col-md-6',
           type: 'bedankt',
-          key: 'incident.handling_message'
+          key: 'incident.handling_message',
         },
-        render: FormComponents.HandlingMessage
+        render: FormComponents.HandlingMessage,
       },
       $field_0: {
         isStatic: false,
-        render: IncidentNavigation
-      }
-    }
-  }
+        render: IncidentNavigation,
+      },
+    },
+  },
 };

@@ -32,7 +32,7 @@ const LoadingControl = L.Control.extend({
   },
   _onDataLoad(event) {
     const id = event.target._leaflet_id;
-    this.inFlight = this.inFlight.filter((item) => item !== id);
+    this.inFlight = this.inFlight.filter(item => item !== id);
     this._checkVisiblity(this._container);
   },
 
@@ -49,7 +49,7 @@ const LoadingControl = L.Control.extend({
     layer.on({
       loading: this._onDataLoading,
       load: this._onDataLoad,
-      error: this._onDataLoad
+      error: this._onDataLoad,
     }, this);
   },
 
@@ -57,19 +57,18 @@ const LoadingControl = L.Control.extend({
     layer.off({
       loading: this._onDataLoading,
       load: this._onDataLoad,
-      error: this._onDataLoad
+      error: this._onDataLoad,
     }, this);
   },
 
   _addLayerListeners(map) {
-    map.eachLayer((layer) => this._addLayerLoadListener(layer));
+    map.eachLayer(layer => this._addLayerLoadListener(layer));
   },
 
   _removeLayerListeners(map) {
-    map.eachLayer((layer) => this._removeLayerLoadListener(layer));
+    map.eachLayer(layer => this._removeLayerLoadListener(layer));
   },
 
 });
 
 export default LoadingControl;
-

@@ -21,7 +21,7 @@ module.exports = {
     name: 'name',
     message: 'What should it be called?',
     default: 'Button',
-    validate: (value) => {
+    validate: value => {
       if ((/.+/).test(value)) {
         return componentExists(value) ? 'A component or container with this name already exists' : true;
       }
@@ -39,7 +39,7 @@ module.exports = {
     default: false,
     message: 'Do you want to load the component asynchronously?',
   }],
-  actions: (data) => {
+  actions: data => {
     // Generate index.js and index.test.js
     let componentTemplate;
 
@@ -71,16 +71,6 @@ module.exports = {
         type: 'add',
         path: '../../src/components/{{properCase name}}/messages.js',
         templateFile: './component/messages.js.hbs',
-        abortOnFail: true,
-      });
-    }
-
-    // If want Loadable.js to load the component asynchronously
-    if (data.wantLoadable) {
-      actions.push({
-        type: 'add',
-        path: '../../src/components/{{properCase name}}/Loadable.js',
-        templateFile: './component/loadable.js.hbs',
         abortOnFail: true,
       });
     }

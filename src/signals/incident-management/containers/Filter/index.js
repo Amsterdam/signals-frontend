@@ -88,7 +88,7 @@ const mapStateToProps = () =>
     filter: makeSelectEditFilter,
   });
 
-const mapDispatchToProps = (dispatch) =>
+const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       onApplyFilter: applyFilter,
@@ -100,12 +100,12 @@ const mapDispatchToProps = (dispatch) =>
       onSaveFilter,
       onUpdateFilter,
     },
-    dispatch,
+    dispatch
   );
 
 const withConnect = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 );
 
 export default compose(withConnect)(FilterContainerComponent);

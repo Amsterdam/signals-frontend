@@ -15,19 +15,19 @@ describe('<IncidentSplitContainer />', () => {
     props = {
       id: '42',
       categories: {
-        sub: []
+        sub: [],
       },
       incidentModel: {
         incident: {},
         attachments: [],
         stadsdeelList,
         priorityList,
-        loading: false
+        loading: false,
       },
       onRequestIncident: jest.fn(),
       onRequestAttachments: jest.fn(),
       onSplitIncident: jest.fn(),
-      onGoBack: jest.fn()
+      onGoBack: jest.fn(),
     };
   });
 

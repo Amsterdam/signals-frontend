@@ -1,5 +1,5 @@
 import { select, takeLatest } from 'redux-saga/effects';
-import { replace } from 'react-router-redux';
+import { replace } from 'connected-react-router/immutable';
 import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
@@ -86,7 +86,6 @@ describe('IncidentContainer saga', () => {
         .delay(100)
         .silentRun(150);
 
-
       global.console.error.mockRestore();
     });
 
@@ -166,7 +165,11 @@ describe('IncidentContainer saga', () => {
 
       return expectSaga(createIncident, action)
         .provide([[matchers.call.fn(postCall), incident]])
-        .call(postCall, INCIDENT_REQUEST_URL, mapControlsToParams(action.payload.incident, action.payload.wizard))
+        .call(
+          postCall,
+          INCIDENT_REQUEST_URL,
+          mapControlsToParams(action.payload.incident, action.payload.wizard)
+        )
         .put.like({ action: { type: UPLOAD_REQUEST } })
         .put.like({ action: { type: UPLOAD_REQUEST } })
         .put(createIncidentSuccess(incident))
@@ -186,7 +189,11 @@ describe('IncidentContainer saga', () => {
 
       return expectSaga(createIncident, action)
         .provide([[matchers.call.fn(postCall), incident]])
-        .call(postCall, INCIDENT_REQUEST_URL, mapControlsToParams(action.payload.incident, action.payload.wizard))
+        .call(
+          postCall,
+          INCIDENT_REQUEST_URL,
+          mapControlsToParams(action.payload.incident, action.payload.wizard)
+        )
         .not.put(setPriority({ priority: priorityId, _signal: incident.id }))
         .put(createIncidentSuccess(incident))
         .run();

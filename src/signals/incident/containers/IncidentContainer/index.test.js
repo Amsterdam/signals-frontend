@@ -21,7 +21,7 @@ describe('<IncidentContainer />', () => {
     origSessionStorage = global.sessionStorage;
 
     global.sessionStorage = {
-      getItem: (key) => {
+      getItem: key => {
         switch (key) {
           case 'accessToken':
             return '42';
@@ -35,7 +35,7 @@ describe('<IncidentContainer />', () => {
     origSessionStorage = global.sessionStorage;
 
     global.sessionStorage = {
-      getItem: (key) => {
+      getItem: key => {
         switch (key) {
           case 'accessToken':
             return '42';

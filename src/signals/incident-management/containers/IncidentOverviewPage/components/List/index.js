@@ -9,7 +9,7 @@ import * as types from 'shared/types';
 import './style.scss';
 
 class List extends React.Component {
-  onSort = (sort) => () => {
+  onSort = sort => () => {
     const sortIsAsc = this.props.sort && this.props.sort.indexOf(sort) === 0;
 
     this.props.onChangeOrdering(sortIsAsc ? `-${sort}` : sort);
@@ -26,7 +26,7 @@ class List extends React.Component {
     return '-';
   }
 
-  selectIncident = (incident) => () => {
+  selectIncident = incident => () => {
     this.props.incidentSelected(incident);
   }
 
@@ -48,7 +48,7 @@ class List extends React.Component {
           <table className="list-component__table" cellSpacing="0" cellPadding="0">
             <thead>
               <tr>
-                <th onClick={this.onSort('id')} className={this.sortClassName('id')} >Id</th>
+                <th onClick={this.onSort('id')} className={this.sortClassName('id')}>Id</th>
                 <th onClick={this.onSort('days_open')} className={this.sortClassName('days_open')}>Dag</th>
                 <th onClick={this.onSort('created_at')} className={this.sortClassName('created_at')}>Datum en tijd</th>
                 <th onClick={this.onSort('stadsdeel,-created_at')} className={this.sortClassName('stadsdeel')}>Stadsdeel</th>
@@ -59,7 +59,7 @@ class List extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {incidents.map((incident) => (
+              {incidents.map(incident => (
                 <tr key={incident.id} onClick={this.selectIncident(incident)}>
                   <td>{incident.id}</td>
                   <td data-testid="incidentDaysOpen">{this.getDaysOpen(incident)}</td>
@@ -70,8 +70,7 @@ class List extends React.Component {
                   <td>{getListValueByKey(priority, incident.priority && incident.priority.priority)}</td>
                   <td>{incident.location && incident.location.address_text}</td>
                 </tr>
-              ))
-              }
+              ))}
             </tbody>
           </table>
         </div>
@@ -88,7 +87,7 @@ List.propTypes = {
 
   incidentSelected: PropTypes.func.isRequired,
   onChangeOrdering: PropTypes.func.isRequired,
-  sort: PropTypes.string
+  sort: PropTypes.string,
 };
 
 export default List;

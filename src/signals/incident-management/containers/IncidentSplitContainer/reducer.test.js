@@ -3,7 +3,7 @@ import incidentSplitContainerReducer, { initialState } from './reducer';
 import {
   SPLIT_INCIDENT,
   SPLIT_INCIDENT_SUCCESS,
-  SPLIT_INCIDENT_ERROR
+  SPLIT_INCIDENT_ERROR,
 }
   from './constants';
 
@@ -14,7 +14,7 @@ describe('incidentSplitContainerReducer', () => {
   const expected = {
     split: false,
     loading: false,
-    error: false
+    error: false,
   };
 
   it('returns the initial state', () => {
@@ -24,11 +24,11 @@ describe('incidentSplitContainerReducer', () => {
   it('should handle the SPLIT_INCIDENT', () => {
     expect(
       incidentSplitContainerReducer(undefined, {
-        type: SPLIT_INCIDENT
+        type: SPLIT_INCIDENT,
       }).toJS()
     ).toEqual({
       ...expected,
-      loading: true
+      loading: true,
     });
   });
 
@@ -37,11 +37,11 @@ describe('incidentSplitContainerReducer', () => {
     expect(
       incidentSplitContainerReducer(undefined, {
         type: SPLIT_INCIDENT_SUCCESS,
-        payload
+        payload,
       }).toJS()
     ).toEqual({
       ...expected,
-      split: payload
+      split: payload,
     });
   });
 
@@ -51,12 +51,12 @@ describe('incidentSplitContainerReducer', () => {
     expect(
       incidentSplitContainerReducer(undefined, {
         type: SPLIT_INCIDENT_ERROR,
-        payload
+        payload,
       }).toJS()
     ).toEqual({
       ...expected,
       error: payload,
-      split: payload
+      split: payload,
     });
   });
 });

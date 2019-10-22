@@ -1,5 +1,7 @@
 import React from 'react';
-import { Row, Column, Heading, Link, Paragraph } from '@datapunt/asc-ui';
+import {
+  Row, Column, Heading, Link, Paragraph,
+} from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
 const Disclaimer = styled.div`

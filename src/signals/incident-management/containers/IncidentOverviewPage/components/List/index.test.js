@@ -70,7 +70,10 @@ describe('<List />', () => {
             address_text: 'Staalstraat 3B 1011JJ Amsterdam',
             geometrie: {
               type: 'Point',
-              coordinates: [4.896941184997559, 52.368364148255644],
+              coordinates: [
+                4.896941184997559,
+                52.368364148255644,
+              ],
             },
             extra_properties: null,
           },
@@ -78,8 +81,7 @@ describe('<List />', () => {
           updated_at: '2018-12-03T12:53:51.589712+01:00',
           _links: {
             self: {
-              href:
-                'https://acc.api.data.amsterdam.nl/signals/auth/signal/1668/',
+              href: 'https://acc.api.data.amsterdam.nl/signals/auth/signal/1668/',
             },
           },
           source: 'Telefoon – ASC',
@@ -135,7 +137,10 @@ describe('<List />', () => {
             address_text: 'Raamgracht 45 1011KJ Amsterdam',
             geometrie: {
               type: 'Point',
-              coordinates: [4.900460243225099, 52.3692814746251],
+              coordinates: [
+                4.900460243225099,
+                52.3692814746251,
+              ],
             },
             extra_properties: null,
           },
@@ -143,8 +148,7 @@ describe('<List />', () => {
           updated_at: '2018-11-29T23:05:52.590923+01:00',
           _links: {
             self: {
-              href:
-                'https://acc.api.data.amsterdam.nl/signals/auth/signal/1667/',
+              href: 'https://acc.api.data.amsterdam.nl/signals/auth/signal/1667/',
             },
           },
           source: 'Telefoon – CCA',
@@ -160,8 +164,8 @@ describe('<List />', () => {
             category_url: 'https://category-url.amsterdam.nl',
           },
           incident_date_start: '2018-11-29T23:03:19+01:00',
-          text_extra: ''
-        }
+          text_extra: '',
+        },
       ],
       priorityList,
       statusList,
@@ -217,31 +221,31 @@ describe('<List />', () => {
     it('should not show days open for specific statuses', () => {
       const incidentList = [...props.incidents];
 
-      const incidentWithStatusA = Object.assign({}, incidentList[0], { status: { state: 'a' } });
+      const incidentWithStatusA = { ...incidentList[0], status: { state: 'a' } };
       incidentWithStatusA.id = incidentList[0].id + 1;
 
       incidentList.push(incidentWithStatusA);
 
-      const incidentWithStatusS = Object.assign({}, incidentList[0], { status: { state: 's' } });
+      const incidentWithStatusS = { ...incidentList[0], status: { state: 's' } };
       incidentWithStatusS.id = incidentList[0].id + 2;
 
       incidentList.push(incidentWithStatusS);
 
-      const incidentWithStatusReopenRequested = Object.assign(
-        {},
-        incidentList[0],
-        { status: { state: 'reopen requested' } }
-      );
+      const incidentWithStatusReopenRequested = {
+
+        ...incidentList[0],
+        status: { state: 'reopen requested' },
+      };
       incidentWithStatusReopenRequested.id = incidentList[0].id + 3;
 
       incidentList.push(incidentWithStatusReopenRequested);
 
-      const incidentWithStatusB = Object.assign({}, incidentList[0], { status: { state: 'b' } });
+      const incidentWithStatusB = { ...incidentList[0], status: { state: 'b' } };
       incidentWithStatusB.id = incidentList[0].id + 4;
 
       incidentList.push(incidentWithStatusB);
 
-      const listProps = Object.assign({}, props);
+      const listProps = { ...props };
       listProps.incidents = incidentList;
 
       const { getAllByTestId } = render(withAppContext(<List {...listProps} />));
@@ -250,7 +254,7 @@ describe('<List />', () => {
 
       expect(numCells).toEqual(incidentList.length);
 
-      const elementsWithTextContent = Array.from(getAllByTestId('incidentDaysOpen')).filter((element) => element.textContent !== '-');
+      const elementsWithTextContent = Array.from(getAllByTestId('incidentDaysOpen')).filter(element => element.textContent !== '-');
 
       expect(elementsWithTextContent).toHaveLength(2);
     });

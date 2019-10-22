@@ -218,7 +218,7 @@ describe('models/incident/saga', () => {
         .provide([[matchers.call.fn(requestURL)]])
         .call(
           authCall,
-          `${requestTermsURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`,
+          `${requestTermsURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`
         )
         .silentRun());
 

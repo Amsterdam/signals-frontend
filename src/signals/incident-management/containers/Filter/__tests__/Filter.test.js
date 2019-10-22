@@ -4,7 +4,7 @@ import { withAppContext } from 'test/utils';
 import FilterForm from 'signals/incident-management/components/FilterForm';
 import * as definitions from 'signals/incident-management/definitions';
 import categories from 'utils/__tests__/fixtures/categories.json';
-import Filter, { FilterContainerComponent } from '../';
+import Filter, { FilterContainerComponent } from '..';
 
 const dataLists = {
   priority: definitions.priorityList,

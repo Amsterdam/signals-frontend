@@ -5,10 +5,10 @@ describe('makeSelectOverviewPage', () => {
   it('should select the incidentOverviewPage', () => {
     const selector = makeSelectOverviewPage();
     const incidentOverviewPage = {
-      incidents: []
+      incidents: [],
     };
     const mockedState = fromJS({
-      incidentOverviewPage
+      incidentOverviewPage,
     });
 
     expect(selector(mockedState)).toEqual(incidentOverviewPage);

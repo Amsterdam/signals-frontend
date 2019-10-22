@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 /**
  * Direct selector to the ktoContainer state domain
  */
-const selectKtoContainerDomain = (state) => state.get('ktoContainer');
+const selectKtoContainerDomain = state => state.get('ktoContainer');
 
 /**
  * Other specific selectors
@@ -16,7 +16,7 @@ const selectKtoContainerDomain = (state) => state.get('ktoContainer');
 
 const makeSelectKtoContainer = () => createSelector(
   selectKtoContainerDomain,
-  (substate) => substate.toJS()
+  substate => substate.toJS()
 );
 
 export default makeSelectKtoContainer;

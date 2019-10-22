@@ -65,7 +65,7 @@ const CheckboxList = ({
     const checkboxes = groupContainer.current.querySelectorAll(
       'input[type="checkbox"]',
     );
-    checkboxes.forEach((el) => {
+    checkboxes.forEach(el => {
       // eslint-disable-next-line no-param-reassign
       el.checked = shouldBeChecked;
     });
@@ -89,7 +89,7 @@ const CheckboxList = ({
    *
    * @param {Event} event
    */
-  const handleToggleCheck = (event) => {
+  const handleToggleCheck = event => {
     event.persist();
 
     const { target } = event;
@@ -108,8 +108,7 @@ const CheckboxList = ({
    * @param   {String} [indexName='id'] - the name of the prop who's value should be compared
    * @returns {Boolean}
    */
-  const isDefaultChecked = (id) =>
-    defaultValue.findIndex((value) => value.id === id || value.key === id) >= 0;
+  const isDefaultChecked = id => defaultValue.findIndex(value => value.id === id || value.key === id) >= 0;
 
   // mount
   useEffect(() => {
@@ -146,7 +145,9 @@ const CheckboxList = ({
         </Fragment>
       )}
 
-      {options.map(({ id, key, slug, value }) => {
+      {options.map(({
+        id, key, slug, value,
+      }) => {
         const optionIdentifier = id || key;
         const optionValue = slug || key;
 

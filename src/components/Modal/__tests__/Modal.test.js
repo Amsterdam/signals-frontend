@@ -2,7 +2,7 @@ import React from 'react';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import Modal from '../';
+import Modal from '..';
 
 describe('components/Modal', () => {
   afterEach(cleanup);

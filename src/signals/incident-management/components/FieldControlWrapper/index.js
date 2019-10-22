@@ -16,11 +16,11 @@ const FieldControlContainer = styled.div`
 
 export class FieldControlWrapper extends React.Component {
   static formatValues(props) {
-    if (props.values.find((value) => value.key === '')) {
+    if (props.values.find(value => value.key === '')) {
       return props.values;
     }
     const sortedValues = props.sort
-      ? sortBy(props.values, (item) => item.value)
+      ? sortBy(props.values, item => item.value)
       : props.values;
 
     return props.emptyOptionText
@@ -53,7 +53,9 @@ export class FieldControlWrapper extends React.Component {
   }
 
   render() {
-    const { name, control, render, meta, parent, ...props } = this.props;
+    const {
+      name, control, render, meta, parent, ...props
+    } = this.props;
 
     return (
       <FieldControlContainer>
@@ -81,6 +83,7 @@ FieldControlWrapper.defaultProps = {
 FieldControlWrapper.propTypes = {
   /** Element containing the value of the current field */
   control: PropTypes.instanceOf(FormControl).isRequired,
+  emptyOptionText: PropTypes.string,
   /** Object containing custom data or handlers */
   meta: PropTypes.shape({}),
   /** Name of the form element */

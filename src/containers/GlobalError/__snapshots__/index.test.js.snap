@@ -17,6 +17,7 @@ exports[`<GlobalError /> events should render showing no error by default 1`] = 
           <button
             className="global-error__close-button"
             onClick={[MockFunction]}
+            type="button"
           />
           An error message.
         </div>
@@ -49,12 +50,13 @@ exports[`<GlobalError /> events should render showing no error by default 2`] = 
                 ],
                 "results": Array [
                   Object {
-                    "isThrow": false,
+                    "type": "return",
                     "value": undefined,
                   },
                 ],
               }
             }
+            type="button"
           />
           An error message.
         </div>
@@ -80,6 +82,7 @@ exports[`<GlobalError /> rendering should render showing an error when defined 1
         >
           <button
             className="global-error__close-button"
+            type="button"
           />
           An error message.
         </div>

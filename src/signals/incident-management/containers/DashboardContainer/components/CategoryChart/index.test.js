@@ -18,8 +18,8 @@ describe('<CategoryChart />', () => {
         { name: 'Overlast in de openbare ruimte', count: 82 },
         { name: 'Overig', count: 88 },
         { name: 'Wegen verkeer straatmeubileir ', count: 126 },
-        { name: 'Afval', count: 275 }
-      ]
+        { name: 'Afval', count: 275 },
+      ],
     };
 
     wrapper = shallow(

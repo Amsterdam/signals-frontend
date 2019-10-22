@@ -15,7 +15,7 @@ import {
 import IncidentOverviewPage, {
   IncidentOverviewPageContainerComponent,
   mapDispatchToProps,
-} from './';
+} from '.';
 import { REQUEST_INCIDENTS, INCIDENT_SELECTED } from './constants';
 
 jest.mock('scroll-lock');

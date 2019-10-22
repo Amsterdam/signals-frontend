@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
 
-import { applyFilter, editFilter, removeFilter } from 'signals/incident-management/actions';
+import {
+  applyFilter,
+  editFilter,
+  removeFilter,
+} from 'signals/incident-management/actions';
 import { makeSelectAllFilters } from 'signals/incident-management/selectors';
 import { requestIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 import * as types from 'shared/types';
@@ -13,9 +17,9 @@ import FilterItem from './components/FilterItem';
 
 import './style.scss';
 
-const sortFilters = (filters) => {
+const sortFilters = filters => {
   filters.sort((a, b) =>
-    a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1,
+    a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1
   );
 
   return filters;
@@ -33,13 +37,13 @@ export const MyFiltersComponent = ({
    * Selecting apply filter should show the filtered incidents as well as set the filter values
    * for the filter form and should thus call both the onApplyFilter and onEditFilter actions
    */
-  const handleApplyFilter = (filter) => {
+  const handleApplyFilter = filter => {
     onApplyFilter(filter);
     onEditFilter(filter);
     onRequestIncidents();
   };
 
-  const handleEditFilter = (filter) => {
+  const handleEditFilter = filter => {
     onEditFilter(filter);
     // IE11 doesn't support dispatching an event without initialisation
     // @see {@link https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events#Creating_custom_events}
@@ -60,7 +64,7 @@ export const MyFiltersComponent = ({
   return (
     <div className="my-filters">
       {filters && filters.length ? (
-        sortFilters(filters).map((filter) => (
+        sortFilters(filters).map(filter => (
           <FilterItem
             key={filter.id}
             filter={filter}
@@ -96,7 +100,7 @@ const mapStateToProps = createStructuredSelector({
   filters: makeSelectAllFilters,
 });
 
-const mapDispatchToProps = (dispatch) =>
+const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       onApplyFilter: applyFilter,
@@ -104,12 +108,12 @@ const mapDispatchToProps = (dispatch) =>
       onRemoveFilter: removeFilter,
       onRequestIncidents: requestIncidents,
     },
-    dispatch,
+    dispatch
   );
 
 const withConnect = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 );
 
 export default withConnect(MyFiltersComponent);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 
-import Values from './';
+import Values from '.';
 
 describe('<Values />', () => {
   it('should render an <div> tag', () => {

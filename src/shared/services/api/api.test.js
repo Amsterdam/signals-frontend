@@ -158,7 +158,7 @@ describe('api service', () => {
         method: 'POST',
         body: JSON.stringify({ ...params }),
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
       };
       const gen = postCall(url, params);

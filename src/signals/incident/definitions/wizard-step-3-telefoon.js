@@ -1,5 +1,5 @@
 import { Validators } from 'react-reactive-form';
-import { validatePhoneNumber } from '../../incident/services/custom-validators';
+import { validatePhoneNumber } from '../services/custom-validators';
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
 
@@ -19,14 +19,14 @@ export default {
           path: 'reporter.phone',
           placeholder: 'Telefoonnummer',
           type: 'text',
-          autoRemove: /[^ ()\d+-]/g
+          autoRemove: /[^ ()\d+-]/g,
         },
         render: FormComponents.TextInput,
         options: {
           validators: [
             Validators.maxLength(17),
-            validatePhoneNumber
-          ]
+            validatePhoneNumber,
+          ],
         },
       },
       privacy_text: {
@@ -34,14 +34,14 @@ export default {
           className: 'col-sm-12 col-md-6',
           label: 'Uw privacy',
           type: 'disclaimer',
-          value: 'We gebruiken uw telefoonnummer alléén om nog iets te kunnen vragen over uw melding.'
+          value: 'We gebruiken uw telefoonnummer alléén om nog iets te kunnen vragen over uw melding.',
         },
-        render: FormComponents.PlainText
+        render: FormComponents.PlainText,
       },
       $field_0: {
         isStatic: false,
-        render: IncidentNavigation
-      }
-    }
-  }
+        render: IncidentNavigation,
+      },
+    },
+  },
 };

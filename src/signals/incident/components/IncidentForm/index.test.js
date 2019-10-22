@@ -4,7 +4,7 @@ import defer from 'lodash.defer';
 
 
 import IncidentForm from './index';
-import formatConditionalForm from '../../services/format-conditional-form/';
+import formatConditionalForm from '../../services/format-conditional-form';
 
 jest.mock('../../services/format-conditional-form/');
 
@@ -12,7 +12,7 @@ const mockControl = {
   onBlur: jest.fn(),
   enable: jest.fn(),
   disable: jest.fn(),
-  setValue: jest.fn()
+  setValue: jest.fn(),
 };
 
 const mockForm = {
@@ -22,8 +22,8 @@ const mockForm = {
       meta: {
         label: 'Wat is uw telefoonnummer?',
         type: 'text',
-        isVisible: true
-      }
+        isVisible: true,
+      },
     },
     email: {
       ...mockControl,
@@ -31,17 +31,17 @@ const mockForm = {
         label: 'Wat is uw email?',
         type: 'text',
         doNotUpdateValue: true,
-        isVisible: true
-      }
+        isVisible: true,
+      },
     },
     extra_boten_geluid_meer: {
       ...mockControl,
       meta: {
         label: 'Zijn er nog dingen die u ons nog meer kunt vertellen?',
-        isVisible: false
-      }
-    }
-  }
+        isVisible: false,
+      },
+    },
+  },
 };
 
 describe('<IncidentForm />', () => {
@@ -53,16 +53,16 @@ describe('<IncidentForm />', () => {
   beforeEach(() => {
     props = {
       fieldConfig: {
-        controls: {}
+        controls: {},
       },
       incidentContainer: {
-        incident: {}
+        incident: {},
       },
       wizard: { step: {} },
       getClassification: jest.fn(),
       updateIncident: jest.fn(),
       createIncident: jest.fn(),
-      isAuthenticated: false
+      isAuthenticated: false,
     };
 
     formatConditionalForm.mockImplementation(() => mockForm);
@@ -76,11 +76,11 @@ describe('<IncidentForm />', () => {
 
     instance.form = {
       meta: {
-        incident: {}
+        incident: {},
       },
       valid: true,
       controls: mockForm.controls,
-      value: {}
+      value: {},
     };
 
     spy = jest.spyOn(instance, 'setValues');
@@ -101,8 +101,8 @@ describe('<IncidentForm />', () => {
       const incidentContainer = {
         incident: {
           phone: '06987654321',
-          extra_boten_geluid_meer: 'Ja! Wat een teringzooi hier'
-        }
+          extra_boten_geluid_meer: 'Ja! Wat een teringzooi hier',
+        },
       };
       wrapper.setProps({ incidentContainer });
 
@@ -135,7 +135,7 @@ describe('<IncidentForm />', () => {
         instance.form.valid = true;
         instance.form.value = {
           phone: '06987654321',
-          extra_boten_geluid_meer: 'Ja! Wat een teringzooi hier'
+          extra_boten_geluid_meer: 'Ja! Wat een teringzooi hier',
         };
 
         instance.handleSubmit(event, next, 'UPDATE_INCIDENT');
@@ -149,7 +149,7 @@ describe('<IncidentForm />', () => {
         instance.form.valid = true;
         instance.form.value = {
           phone: '06987654321',
-          extra_boten_geluid_meer: 'Ja! Wat een teringzooi hier'
+          extra_boten_geluid_meer: 'Ja! Wat een teringzooi hier',
         };
 
         instance.handleSubmit(event, next, 'CREATE_INCIDENT');
@@ -181,7 +181,7 @@ describe('<IncidentForm />', () => {
           loading: true,
           submitting: true,
           formAction: undefined,
-          next
+          next,
         });
 
 
@@ -192,7 +192,7 @@ describe('<IncidentForm />', () => {
           loading: false,
           submitting: false,
           formAction: undefined,
-          next
+          next,
         });
 
         defer(() => {
@@ -213,7 +213,7 @@ describe('<IncidentForm />', () => {
         loading: true,
         submitting: true,
         formAction: 'UPDATE_INCIDENT',
-        next
+        next,
       });
 
 
@@ -224,7 +224,7 @@ describe('<IncidentForm />', () => {
         loading: false,
         submitting: false,
         formAction: 'UPDATE_INCIDENT',
-        next
+        next,
       });
 
       defer(() => {
@@ -245,7 +245,7 @@ describe('<IncidentForm />', () => {
         loading: true,
         submitting: true,
         formAction: undefined,
-        next
+        next,
       });
 
       wrapper.setProps({ mockloading: false });
@@ -254,7 +254,7 @@ describe('<IncidentForm />', () => {
         loading: false,
         submitting: false,
         formAction: undefined,
-        next
+        next,
       });
 
       defer(() => {
@@ -274,7 +274,7 @@ describe('<IncidentForm />', () => {
         loading: false,
         submitting: false,
         formAction: '',
-        next: null
+        next: null,
       });
 
       defer(() => {

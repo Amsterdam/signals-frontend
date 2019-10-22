@@ -10,7 +10,7 @@ import {
   take,
   takeLatest,
 } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router/immutable';
 
 import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
@@ -76,6 +76,8 @@ export function* refreshIncidents(timeout = refreshRequestDelay) {
     if (filter && filter.refresh) {
       yield delay(timeout);
       yield put(requestIncidents());
+    } else {
+      break;
     }
   }
 }

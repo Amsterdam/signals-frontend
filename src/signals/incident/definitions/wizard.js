@@ -13,5 +13,5 @@ export default {
   email,
   samenvatting,
   bedankt,
-  fout
+  fout,
 };

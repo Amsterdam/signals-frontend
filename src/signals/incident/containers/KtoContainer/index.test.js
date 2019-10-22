@@ -3,8 +3,10 @@ import { mount } from 'enzyme';
 import { render } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
-import KTOContainer, { headerStrings, KtoContainerComponent, mapDispatchToProps } from './';
-import { REQUEST_KTO_ANSWERS, CHECK_KTO, STORE_KTO, UPDATE_KTO } from './constants';
+import KTOContainer, { headerStrings, KtoContainerComponent, mapDispatchToProps } from '.';
+import {
+  REQUEST_KTO_ANSWERS, CHECK_KTO, STORE_KTO, UPDATE_KTO,
+} from './constants';
 
 jest.mock('./components/KtoForm', () => () => 'KtoForm');
 

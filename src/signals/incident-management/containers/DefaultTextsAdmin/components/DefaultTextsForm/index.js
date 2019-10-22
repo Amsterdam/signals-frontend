@@ -32,7 +32,7 @@ class DefaultTextsForm extends React.Component {
 
   componentDidMount() {
     this.items.forEach((item, index) => {
-      this.form.get(item).valueChanges.subscribe((data) => {
+      this.form.get(item).valueChanges.subscribe(data => {
         this.props.onSaveDefaultTextsItem({ index, data });
       });
     });
@@ -61,7 +61,7 @@ class DefaultTextsForm extends React.Component {
   }
 
   componentWillUnmount() {
-    this.items.forEach((item) => {
+    this.items.forEach(item => {
       this.form.get(item).valueChanges.unsubscribe();
     });
   }
@@ -106,13 +106,13 @@ class DefaultTextsForm extends React.Component {
       },
     };
     const found = this.props.subCategories.find(
-      (sub) => sub.key === categoryUrl,
+      sub => sub.key === categoryUrl,
     );
     if (found && found.slug && found.category_slug) {
       payload.sub_slug = found.slug;
       payload.main_slug = found.category_slug;
 
-      this.items.forEach((item) => {
+      this.items.forEach(item => {
         const data = this.form.get(item).value;
         if (data.text && data.title) {
           payload.post.templates.push({ ...data });
@@ -179,18 +179,18 @@ class DefaultTextsForm extends React.Component {
                       }
                       iconSize={16}
                       icon={<ChevronUp />}
-                      onClick={(e) => this.changeOrdering(e, index, 'up')}
+                      onClick={e => this.changeOrdering(e, index, 'up')}
                     />
                     <StyledButton
                       size={44}
                       variant="blank"
                       disabled={
-                        index === this.items.length - 1 ||
-                        !this.form.get(`item${index + 1}.text`).value
+                        index === this.items.length - 1
+                        || !this.form.get(`item${index + 1}.text`).value
                       }
                       iconSize={16}
                       icon={<ChevronDown />}
-                      onClick={(e) => this.changeOrdering(e, index, 'down')}
+                      onClick={e => this.changeOrdering(e, index, 'down')}
                     />
                   </div>
                 </div>
@@ -215,7 +215,6 @@ DefaultTextsForm.defaultProps = {
 
   onSubmitTexts: () => {},
   onOrderDefaultTexts: () => {},
-  onSaveDefaultTexts: () => {},
   onSaveDefaultTextsItem: () => {},
 };
 

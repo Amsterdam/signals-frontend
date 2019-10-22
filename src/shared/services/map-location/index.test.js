@@ -5,16 +5,16 @@ describe('The map location service', () => {
     expect(mapLocation({
       query: {
         longitude: 4,
-        latitude: 52
-      }
+        latitude: 52,
+      },
     })).toEqual({
       geometrie: {
         type: 'Point',
         coordinates: [
           4,
-          52
-        ]
-      }
+          52,
+        ],
+      },
     });
   });
 
@@ -22,11 +22,11 @@ describe('The map location service', () => {
     expect(mapLocation({
       omgevingsinfo: {
         buurtcode: 'A02d',
-        stadsdeelcode: 'A'
-      }
+        stadsdeelcode: 'A',
+      },
     })).toEqual({
       buurt_code: 'A02d',
-      stadsdeel: 'A'
+      stadsdeel: 'A',
     });
   });
 
@@ -37,16 +37,16 @@ describe('The map location service', () => {
         huisnummer: 666,
         huisletter: 'D',
         huisnummer_toevoeging: 3,
-        postcode: '1016EJ'
-      }
+        postcode: '1016EJ',
+      },
     })).toEqual({
       address: {
         openbare_ruimte: 'Keizersgracht',
         huisnummer: '666',
         huisletter: 'D',
         huisnummer_toevoeging: '3',
-        postcode: '1016EJ'
-      }
+        postcode: '1016EJ',
+      },
     });
   });
 });

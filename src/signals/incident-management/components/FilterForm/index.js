@@ -47,7 +47,7 @@ const FilterForm = ({
     filterData.options.category_slug || [],
   );
 
-  const onSubmitForm = (event) => {
+  const onSubmitForm = event => {
     const formData = parseOutputFormData(event.target.form);
     const isNewFilter = !filterData.name;
     const hasName = formData.name.trim() !== '';
@@ -96,7 +96,7 @@ const FilterForm = ({
     }
   };
 
-  const onChangeForm = (event) => {
+  const onChangeForm = event => {
     const isNewFilter = !filterData.name;
 
     /* istanbul ignore else */
@@ -125,7 +125,7 @@ const FilterForm = ({
     setSubmitBtnLabel(defaultSubmitBtnLabel);
   };
 
-  const onNameChange = (event) => {
+  const onNameChange = event => {
     const { value } = event.target;
     const nameHasChanged =
       typeof value === 'string' && value.trim() !== filterData.name;
@@ -137,7 +137,7 @@ const FilterForm = ({
     }
   };
 
-  const onRefreshChange = (event) => {
+  const onRefreshChange = event => {
     event.persist();
     const {
       currentTarget: { checked },
@@ -246,18 +246,17 @@ const FilterForm = ({
                  * Ignoring the internals of the `onChange` handler since they cannot be tested
                  * @see https://github.com/Hacker0x01/react-datepicker/issues/1578
                  */
-                onChange={
-                  /* istanbul ignore next */ (dateValue) => {
-                    const incident_date = dateValue
-                      ? moment(dateValue).format('YYYY-MM-DD')
-                      : '';
+                /* istanbul ignore next */
+                onChange={dateValue => {
+                  const formattedDate = dateValue
+                    ? moment(dateValue).format('YYYY-MM-DD')
+                    : '';
 
-                    const updatedFilterData = Object.assign({}, filterData);
-                    updatedFilterData.options.incident_date = incident_date;
+                  const updatedFilterData = { ...filterData };
+                  updatedFilterData.options.incident_date = formattedDate;
 
-                    setFilterData(updatedFilterData);
-                  }
-                }
+                  setFilterData(updatedFilterData);
+                }}
                 placeholderText="DD-MM-JJJJ"
                 selected={
                   filterData.options &&
@@ -269,7 +268,7 @@ const FilterForm = ({
               {filterData.options && filterData.options.incident_date && (
                 <input
                   defaultValue={moment(filterData.options.incident_date).format(
-                    'YYYY-MM-DD',
+                    'YYYY-MM-DD'
                   )}
                   name="incident_date"
                   readOnly
@@ -304,11 +303,11 @@ const FilterForm = ({
           </Label>
 
           {Object.keys(categories.mainToSub)
-            .filter((key) => !!key) // remove elements without 'key' prop
+            .filter(key => !!key) // remove elements without 'key' prop
             .sort()
-            .map((mainCategory) => {
+            .map(mainCategory => {
               const mainCatObj = categories.main.find(
-                ({ slug }) => slug === mainCategory,
+                ({ slug }) => slug === mainCategory
               );
               const options = categories.mainToSub[mainCategory];
 
@@ -335,24 +334,21 @@ const FilterForm = ({
             <ResetButton
               data-testid="resetBtn"
               onClick={onResetForm}
-              type="reset"
-            >
+              type="reset">
               Nieuw filter
             </ResetButton>
 
             <CancelButton
               data-testid="cancelBtn"
               onClick={onCancel}
-              type="button"
-            >
+              type="button">
               Annuleren
             </CancelButton>
 
             <SubmitButton
               name="submit_button"
               onClick={onSubmitForm}
-              type="submit"
-            >
+              type="submit">
               {submitBtnLabel}
             </SubmitButton>
           </ButtonContainer>

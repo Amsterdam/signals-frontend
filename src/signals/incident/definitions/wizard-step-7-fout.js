@@ -15,15 +15,15 @@ export default {
           type: 'bedankt',
           value: [
             'Probeert u het later nogmaals.',
-            'Voor spoedeisende zaken kunt u ook telefonisch contact opnemen met 14 020.'
-          ]
+            'Voor spoedeisende zaken kunt u ook telefonisch contact opnemen met 14 020.',
+          ],
         },
-        render: FormComponents.PlainText
+        render: FormComponents.PlainText,
       },
       $field_0: {
         isStatic: false,
-        render: IncidentNavigation
-      }
-    }
-  }
+        render: IncidentNavigation,
+      },
+    },
+  },
 };

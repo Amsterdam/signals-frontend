@@ -11,41 +11,44 @@ import './style.scss';
 
 export const GlobalError = ({ error, errorMessage, onClose }) => (
   <div>
-    {error ?
-      <div className="global-error container">
-        <div className="row">
-          <div className="col col-12">
-            <div className="global-error__message">
-              <button
-                className="global-error__close-button"
-                onClick={onClose}
-              />
-              {getMessage(errorMessage)}
+    {error
+      ? (
+        <div className="global-error container">
+          <div className="row">
+            <div className="col col-12">
+              <div className="global-error__message">
+                <button // eslint-disable-line jsx-a11y/control-has-associated-label
+                  className="global-error__close-button"
+                  onClick={onClose}
+                  type="button"
+                />
+                {getMessage(errorMessage)}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    : ''}
+      )
+      : ''}
   </div>
 );
 
 GlobalError.defaultProps = {
-  error: false
+  error: false,
 };
 
 GlobalError.propTypes = {
   error: PropTypes.bool,
   errorMessage: PropTypes.string,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
   error: makeSelectError(),
-  errorMessage: makeSelectErrorMessage()
+  errorMessage: makeSelectErrorMessage(),
 });
 
-export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  onClose: resetGlobalError
+export const mapDispatchToProps = dispatch => bindActionCreators({
+  onClose: resetGlobalError,
 }, dispatch);
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 

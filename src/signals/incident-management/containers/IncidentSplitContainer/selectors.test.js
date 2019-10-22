@@ -6,11 +6,11 @@ describe('makeSelectIncidentDetail', () => {
   const selector = makeSelectIncidentSplitContainer();
   it('should select the incidentSplitContainer', () => {
     const incidentSplitContainer = {
-      foo: 'bar'
+      foo: 'bar',
     };
 
     const mockedState = fromJS({
-      incidentSplitContainer
+      incidentSplitContainer,
     });
     expect(selector(mockedState)).toEqual(incidentSplitContainer);
   });
