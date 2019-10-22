@@ -4,11 +4,7 @@ import { NavLink, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
-import {
-  svg,
-  Logout as LogoutIcon,
-} from '@datapunt/asc-assets';
+import { svg, Logout as LogoutIcon } from '@datapunt/asc-assets';
 import {
   Header as HeaderComponent,
   MenuButton,
@@ -93,12 +89,12 @@ const HeaderWrapper = styled.div`
           margin-right: auto;
           content: '';
           display: block;
-          position: static !important;
+          position: absolute;
           left: 0;
           right: 0;
-          height: 50px;
-          margin-top: -50px;
-          background-color: #F5F5F5;
+          height: 44px;
+          margin-top: -44px;
+          background-color: #f5f5f5;
         }
 
         nav,
@@ -197,9 +193,25 @@ const MenuItems = ({
 };
 
 export const SiteHeader = (props) => {
-  const isFrontOffice = !props.location.pathname.startsWith('/manage/');
+  const isFrontOffice = !props.location.pathname.startsWith('/manage');
   const tall = isFrontOffice && !props.isAuthenticated;
   const title = tall ? '' : 'SIA';
+
+  const navigation = tall ? null : (
+    <Media query={`(max-width: ${breakpoint}px)`}>
+      {(matches) =>
+        matches ? (
+          <MenuToggle align="right">
+            <MenuItems {...props} />
+          </MenuToggle>
+        ) : (
+          <MenuInline>
+            <MenuItems {...props} />
+          </MenuInline>
+        )
+      }
+    </Media>
+  );
 
   return (
     <HeaderWrapper
@@ -211,24 +223,10 @@ export const SiteHeader = (props) => {
       <StyledHeader
         isFrontOffice={isFrontOffice}
         title={title}
-        homeLink={CONFIGURATION.ROOT}
+        homeLink="/"
         tall={tall}
         fullWidth={false}
-        navigation={
-          <Media query={`(max-width: ${breakpoint}px)`}>
-            {(matches) =>
-              matches ? (
-                <MenuToggle align="right">
-                  <MenuItems {...props} />
-                </MenuToggle>
-              ) : (
-                <MenuInline>
-                  <MenuItems {...props} />
-                </MenuInline>
-              )
-            }
-          </Media>
-        }
+        navigation={navigation}
       />
     </HeaderWrapper>
   );
