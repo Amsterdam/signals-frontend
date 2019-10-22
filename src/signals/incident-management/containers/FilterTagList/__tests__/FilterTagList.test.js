@@ -98,7 +98,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
         queryByText(`${maincategory_slug[0].value}${allLabelAppend}`),
       ).toBeFalsy();
 
-      const tagsWithMainCat = { ...tags, maincategory_slug: [maincategory_slug] };
+      const tagsWithMainCat = { ...tags, maincategory_slug };
 
       rerender(
         withAppContext(

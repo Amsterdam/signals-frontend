@@ -20,17 +20,17 @@ import { getFilters } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 
-export const incidentDetailWrapper = (baseUrl) => (props) => (
+export const incidentDetailWrapper = baseUrl => props => (
   // eslint-disable-next-line react/prop-types
   <IncidentDetail id={props.match.params.id} baseUrl={baseUrl} />
 );
 
-export const incidentOverviewPageWrapper = (baseUrl) => () => (
+export const incidentOverviewPageWrapper = baseUrl => () => (
   // eslint-disable-next-line react/prop-types
   <IncidentOverviewPage baseUrl={baseUrl} />
 );
 
-export const incidentSplitContainerWrapper = (baseUrl) => (props) => (
+export const incidentSplitContainerWrapper = baseUrl => props => (
   // eslint-disable-next-line react/prop-types
   <IncidentSplitContainer id={props.match.params.id} baseUrl={baseUrl} />
 );
@@ -75,12 +75,12 @@ IncidentManagementModuleComponent.propTypes = {
   getFiltersAction: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) =>
+const mapDispatchToProps = dispatch =>
   bindActionCreators({ getFiltersAction: getFilters }, dispatch);
 
 const withConnect = connect(
   null,
-  mapDispatchToProps,
+  mapDispatchToProps
 );
 
 const withReducer = injectReducer({ key: 'incidentManagement', reducer });
@@ -89,5 +89,5 @@ const withSaga = injectSaga({ key: 'incidentManagement', saga });
 export default compose(
   withConnect,
   withReducer,
-  withSaga,
+  withSaga
 )(IncidentManagementModuleComponent);

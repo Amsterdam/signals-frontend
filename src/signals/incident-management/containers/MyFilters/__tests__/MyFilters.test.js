@@ -6,6 +6,16 @@ import * as definitions from 'signals/incident-management/definitions';
 import { withAppContext } from 'test/utils';
 import MyFilters, { MyFiltersComponent } from '..';
 
+jest.mock('signals/shared/filter/parse', () => {
+  const actual = jest.requireActual('signals/shared/filter/parse');
+
+  return {
+    __esModule: true,
+    ...actual,
+    parseToAPIData: data => data,
+  };
+});
+
 describe('signals/incident-management/containers/MyFilters', () => {
   const filter1 = {
     id: 1234,

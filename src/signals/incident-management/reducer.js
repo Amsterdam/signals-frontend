@@ -7,7 +7,6 @@ import feedback from './definitions/feedbackList';
 
 import {
   APPLY_FILTER,
-  CLEAR_FILTER_FAILED,
   CLEAR_FILTER,
   EDIT_FILTER,
   FILTER_EDIT_CANCELED,
@@ -61,7 +60,7 @@ export default (state = initialState, action) => {
       newFilters = state
         .get('filters')
         .toJS()
-        .filter((i) => !i._links.self.href.match(re));
+        .filter(i => !i._links.self.href.match(re));
       return state.set('filters', fromJS(newFilters));
 
     case APPLY_FILTER:
@@ -72,7 +71,6 @@ export default (state = initialState, action) => {
 
     case SAVE_FILTER_FAILED:
     case UPDATE_FILTER_FAILED:
-    case CLEAR_FILTER_FAILED:
       return state
         .set('loading', false)
         .set('error', true)

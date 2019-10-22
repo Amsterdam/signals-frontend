@@ -1,7 +1,7 @@
 import injectReducerModel from 'utils/injectReducerModel';
 
 import reducer from '../reducer';
-import loadModel from '../';
+import loadModel from '..';
 
 jest.mock('utils/injectReducerModel');
 

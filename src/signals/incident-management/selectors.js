@@ -10,12 +10,12 @@ import { initialState } from './reducer';
 /**
  * Direct selector to the overviewPage state domain
  */
-const selectIncidentManagementDomain = (state) =>
+const selectIncidentManagementDomain = state =>
   (state && state.get('incidentManagement')) || fromJS(initialState);
 
 export const makeSelectDataLists = createSelector(
   selectIncidentManagementDomain,
-  (state) => {
+  state => {
     const priority = state.get('priority').toJS();
     const stadsdeel = state.get('stadsdeel').toJS();
     const status = state.get('status').toJS();
@@ -27,7 +27,7 @@ export const makeSelectDataLists = createSelector(
       status,
       feedback,
     };
-  },
+  }
 );
 
 export const makeSelectAllFilters = createSelector(
@@ -37,14 +37,14 @@ export const makeSelectAllFilters = createSelector(
   (stateMap, dataLists, categories) => {
     const filters = stateMap.get('filters').toJS();
 
-    return filters.map((filter) =>
+    return filters.map(filter =>
       parseFromAPIData(filter, {
         ...dataLists,
         maincategory_slug: categories.main,
         category_slug: categories.sub,
-      }),
+      })
     );
-  },
+  }
 );
 
 export const makeSelectActiveFilter = createSelector(
@@ -59,7 +59,7 @@ export const makeSelectActiveFilter = createSelector(
       maincategory_slug: categories.main,
       category_slug: categories.sub,
     });
-  },
+  }
 );
 
 export const makeSelectEditFilter = createSelector(
@@ -74,7 +74,7 @@ export const makeSelectEditFilter = createSelector(
       maincategory_slug: categories.main,
       category_slug: categories.sub,
     });
-  },
+  }
 );
 
 export const makeSelectFilterParams = createSelector(
@@ -106,23 +106,23 @@ export const makeSelectFilterParams = createSelector(
     }
 
     return { ...options, page, ordering };
-  },
+  }
 );
 
 export const makeSelectPage = createSelector(
   selectIncidentManagementDomain,
-  (state) => {
+  state => {
     const obj = state.toJS();
 
     return obj.page;
-  },
+  }
 );
 
 export const makeSelectOrdering = createSelector(
   selectIncidentManagementDomain,
-  (state) => {
+  state => {
     const obj = state.toJS();
 
     return obj.ordering;
-  },
+  }
 );

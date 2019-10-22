@@ -5,6 +5,16 @@ import * as definitions from 'signals/incident-management/definitions';
 import { parseToAPIData } from 'signals/shared/filter/parse';
 import FilterItem from '..';
 
+jest.mock('signals/shared/filter/parse', () => {
+  const actual = jest.requireActual('signals/shared/filter/parse');
+
+  return {
+    __esModule: true,
+    ...actual,
+    parseToAPIData: data => data,
+  };
+});
+
 describe('signals/incident-management/containers/MyFilters/components/FilterItem', () => {
   const filter = {
     id: 1234,

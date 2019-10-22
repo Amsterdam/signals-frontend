@@ -69,7 +69,7 @@ export const FilterTagListComponent = props => {
   }
 
   return (
-    <FilterWrapper>
+    <FilterWrapper className="incident-overview-page__filter-tag-list">
       {Object.entries(tags).map(([tagKey, tag]) =>
         Array.isArray(tag)
           ? tag.map(item => renderTag(item.key, tagKey, main, map[tagKey]))
