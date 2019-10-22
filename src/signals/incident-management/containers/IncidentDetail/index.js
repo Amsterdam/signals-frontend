@@ -164,10 +164,14 @@ export class IncidentDetail extends React.Component {
     return (
       <Fragment>
         <div className="incident-detail">
-          <SplitNotificationBar
-            data={split}
-            onDismissSplitNotification={onDismissSplitNotification}
-          />
+          <Row>
+            <Column span={12}>
+              <SplitNotificationBar
+                data={split}
+                onDismissSplitNotification={onDismissSplitNotification}
+              />
+            </Column>
+          </Row>
 
           {loading && <LoadingIndicator />}
 

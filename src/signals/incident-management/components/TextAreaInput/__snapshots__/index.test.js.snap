@@ -7,15 +7,14 @@ exports[`<TextAreaInput /> should render character counter correctly 1`] = `
   <div
     className="mode_input text rij_verplicht"
   >
-    <div
-      className="text-area-input__label"
+    <Label
+      as="label"
+      className=""
+      htmlFor="formname"
+      isGroupHeader={false}
     >
-      <label
-        htmlFor="formname"
-      >
-        display
-      </label>
-    </div>
+      display
+    </Label>
     <div
       className="text-area-input__control"
     >
@@ -47,15 +46,14 @@ exports[`<TextAreaInput /> should render character counter with value correctly 
   <div
     className="mode_input text rij_verplicht"
   >
-    <div
-      className="text-area-input__label"
+    <Label
+      as="label"
+      className=""
+      htmlFor="formname"
+      isGroupHeader={false}
     >
-      <label
-        htmlFor="formname"
-      >
-        display
-      </label>
-    </div>
+      display
+    </Label>
     <div
       className="text-area-input__control"
     >
@@ -87,15 +85,14 @@ exports[`<TextAreaInput /> should render correctly 1`] = `
   <div
     className="mode_input text rij_verplicht"
   >
-    <div
-      className="text-area-input__label"
+    <Label
+      as="label"
+      className=""
+      htmlFor="formname"
+      isGroupHeader={false}
     >
-      <label
-        htmlFor="formname"
-      >
-        display
-      </label>
-    </div>
+      display
+    </Label>
     <div
       className="text-area-input__control"
     >

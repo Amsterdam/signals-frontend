@@ -7,15 +7,14 @@ exports[`<CopyFileInput /> should render correctly 1`] = `
   <div
     className="mode_input text rij_verplicht"
   >
-    <div
-      className="copy-file-input__label"
+    <Label
+      as="label"
+      className=""
+      htmlFor="formname"
+      isGroupHeader={false}
     >
-      <label
-        htmlFor="formname"
-      >
-        display
-      </label>
-    </div>
+      display
+    </Label>
     <div
       className="copy-file-input__attachment"
       key="item0"
