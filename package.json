@@ -22,7 +22,7 @@
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "extract-intl": "babel-node --presets env,stage-0 -- ./internals/scripts/extract-intl.js",
     "generate": "plop --plopfile internals/generators/index.js",
-    "lint:eslint": "eslint --ignore-pattern internals/scripts",
+    "lint:eslint": "eslint --ignore-path .gitignore --ignore-pattern internals/scripts",
     "lint:js": "npm run lint:eslint -- . ",
     "lint:staged": "lint-staged",
     "lint": "npm run lint:js",
@@ -43,7 +43,7 @@
     "test": "cross-env NODE_ENV=test jest --coverage"
   },
   "lint-staged": {
-    "*.js": "eslint --ignore-path .gitignore --ignore-pattern internals/scripts"
+    "*.js": "eslint --ignore-pattern internals/scripts"
   },
   "pre-commit": "lint:staged",
   "browserslist": [
