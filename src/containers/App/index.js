@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
-import { ThemeProvider as AscThemeProvider } from '@datapunt/asc-ui';
 
-import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
-import AmsThemeProvider from 'components/ThemeProvider';
+import { authenticate } from 'shared/services/auth/auth';
+import ThemeProvider from 'components/ThemeProvider';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
@@ -24,8 +22,6 @@ import reducer from './reducer';
 import saga from './saga';
 import { requestCategories } from './actions';
 
-const ThemeWrapper = styled.div``;
-
 export const AppContainer = ({ requestCategoriesAction }) => {
   // on each component render, see if the current session is authenticated
   authenticate();
@@ -35,7 +31,7 @@ export const AppContainer = ({ requestCategoriesAction }) => {
   }, []);
 
   return (
-    <ThemeWrapper as={isAuthenticated() ? AscThemeProvider : AmsThemeProvider}>
+    <ThemeProvider>
       <Fragment>
         <SiteHeaderContainer />
 
@@ -52,7 +48,7 @@ export const AppContainer = ({ requestCategoriesAction }) => {
         </div>
         <Footer />
       </Fragment>
-    </ThemeWrapper>
+    </ThemeProvider>
   );
 };
 
