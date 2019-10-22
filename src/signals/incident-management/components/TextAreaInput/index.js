@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextArea from 'components/TextArea';
 
+import Label from '../Label';
+
 import './style.scss';
 
 const TextAreaInput = props => {
@@ -11,9 +13,7 @@ const TextAreaInput = props => {
   const render = ({ handler, value }) => (
     <div className="text-area-input">
       <div className="mode_input text rij_verplicht">
-        <div className="text-area-input__label">
-          <label htmlFor={`form${name}`}>{display}</label>
-        </div>
+        <Label htmlFor={`form${name}`}>{display}</Label>
 
         <div className="text-area-input__control">
           <TextArea

@@ -11,6 +11,7 @@ import {
   MenuInline,
   MenuItem,
   MenuToggle,
+  themeColor,
 } from '@datapunt/asc-ui';
 import SearchBar from 'containers/SearchBar';
 
@@ -57,7 +58,7 @@ const StyledMenuButton = styled(MenuButton)`
   background: transparent;
   font-size: 16px;
   font-family: inherit;
-  color: #323232;
+  color: ${themeColor('tint', 'level6')};
 `;
 
 const SearchBarMenuItem = styled(MenuItem)`
@@ -100,7 +101,7 @@ const HeaderWrapper = styled.div`
           right: 0;
           height: 44px;
           margin-top: -44px;
-          background-color: #f5f5f5;
+          background-color: ${themeColor('tint', 'level2')};
         }
 
         nav,

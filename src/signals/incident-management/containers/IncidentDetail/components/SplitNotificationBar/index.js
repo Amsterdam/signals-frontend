@@ -1,8 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
+import { Button, themeColor } from '@datapunt/asc-ui';
+import styled from 'styled-components';
+import {
+  Close,
+} from '@datapunt/asc-assets';
 
-import './style.scss';
+const StyledWrapper = styled.div`
+  flex-basis: 100%;
+  color: ${themeColor('bright', 'main')};
+  a {
+    color: ${themeColor('bright', 'main')};
+  }
+  `;
+
+const StyledSuccess = styled.div`
+  background-color: ${themeColor('support', 'valid')};
+  padding: 6px 10px;
+`;
+
+const StyledError = styled.div`
+  background-color: ${themeColor('support', 'invalid')};
+  padding: 6px 10px;
+`;
+
+const StyledCloseButton = styled(Button)`
+  float: right;
+  background-color: transparent;
+
+  &:hover {
+    background-color: transparent;
+  }
+
+  svg path {
+    fill: ${themeColor('bright', 'main')};
+    ;
+  }
+`;
 
 const getErrorMessage = status => {
   switch (status) {
@@ -17,46 +52,47 @@ const getErrorMessage = status => {
   }
 };
 
-const SplitNotificationBar = ({ data, onDismissSplitNotification }) => (
-  <div data-testid="split-notification-bar">
-    {data && data.id && data.created && data.created.children && Array.isArray(data.created.children)
-      ? (
-        <div className="split-notification-bar success">
-          <div className="split-notification-bar__body">
-            <button
-              className="split-notification-bar__close-button"
-              type="button"
-              data-testid="split-notification-bar-close-button"
-              onClick={onDismissSplitNotification}
-            />
-            Melding {data.id} is gesplitst in
-            {data.created.children.map(item => (
-              <span key={item.id} className="split-notification-bar__link">
-                &nbsp;<NavLink to={`/manage/incident/${item.id}`}>{item.id}</NavLink>
-              </span>
-            ))}
-          </div>
-        </div>
-      )
-      : ''}
-    {data && data.response && data.response.status
-      ? (
-        <div className="split-notification-bar error">
-          <div className="split-notification-bar__body">
-            <button
-              className="split-notification-bar__close-button"
-              type="button"
-              data-testid="split-notification-bar-close-button"
-              onClick={onDismissSplitNotification}
-            />
+const getDelimiter = (key, length) => {
+  if (key === length - 2) {
+    return ' en ';
+  }
+  return key < length - 1 ? ', ' : '';
+};
 
-            De melding is helaas niet gesplitst.&nbsp;
-            {getErrorMessage(data.response.status)}
-          </div>
-        </div>
-      )
+const renderCloseButton = onDismissSplitNotification => (
+  <StyledCloseButton
+    size={20}
+    variant="blank"
+    icon={<Close />}
+    data-testid="splitNotificationBarCloseButton"
+    onClick={onDismissSplitNotification}
+  />
+);
+
+const SplitNotificationBar = ({ data, onDismissSplitNotification }) => (
+  <StyledWrapper data-testid="splitNotificationBar">
+    {data && data.id && data.created && data.created.children && Array.isArray(data.created.children) ?
+      <StyledSuccess>
+        {renderCloseButton(onDismissSplitNotification)}
+
+        Melding {data.id} is gesplitst in&nbsp;
+        {data.created.children.map((item, key) =>
+          (<span key={item.id}>
+            <NavLink to={`/manage/incident/${item.id}`}>{item.id}</NavLink>
+            {getDelimiter(key, data.created.children.length)}
+          </span>)
+        )}
+      </StyledSuccess>
       : ''}
-  </div>
+    {data && data.response && data.response.status ?
+      <StyledError>
+        {renderCloseButton(onDismissSplitNotification)}
+
+        De melding is helaas niet gesplitst.&nbsp;
+        {getErrorMessage(data.response.status)}
+      </StyledError>
+      : ''}
+  </StyledWrapper>
 );
 
 SplitNotificationBar.propTypes = {
