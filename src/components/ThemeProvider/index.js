@@ -4,49 +4,52 @@ import { ThemeProvider as ASCThemeProvider } from '@datapunt/asc-ui';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 
-export const config = {};
+export const getConfig = () => {
+  const config = {};
+  if (!isAuthenticated()) {
+    config.maxGridWidth = 960;
+    config.layouts = {
+      small: {
+        columns: 2,
+        gutter: 20,
+        margin: 10,
+        max: 540,
+      },
+      medium: {
+        columns: 2,
+        gutter: 20,
+        margin: 10,
+        min: 540,
+        max: 1024,
+      },
+      big: {
+        columns: 12,
+        gutter: 20,
+        margin: 10,
+        min: 1024,
+        max: 1200,
+      },
+      large: {
+        columns: 12,
+        gutter: 20,
+        margin: 10,
+        min: 1200,
+        max: 1430,
+      },
+      xLarge: {
+        columns: 12,
+        gutter: 20,
+        margin: 10,
+        min: 1430,
+      },
+    };
+  }
 
-if (!isAuthenticated()) {
-  config.maxGridWidth = 960;
-  config.layouts = {
-    small: {
-      columns: 2,
-      gutter: 20,
-      margin: 10,
-      max: 540,
-    },
-    medium: {
-      columns: 2,
-      gutter: 20,
-      margin: 10,
-      min: 540,
-      max: 1024,
-    },
-    big: {
-      columns: 12,
-      gutter: 20,
-      margin: 10,
-      min: 1024,
-      max: 1200,
-    },
-    large: {
-      columns: 12,
-      gutter: 20,
-      margin: 10,
-      min: 1200,
-      max: 1430,
-    },
-    xLarge: {
-      columns: 12,
-      gutter: 20,
-      margin: 10,
-      min: 1430,
-    },
-  };
-}
+  return config;
+};
 
 const ThemeProvider = ({ children }) => (
-  <ASCThemeProvider overrides={config}>
+  <ASCThemeProvider overrides={getConfig()}>
     <Fragment>
       <span data-testid="signalsThemeProvider" />
       {children}
