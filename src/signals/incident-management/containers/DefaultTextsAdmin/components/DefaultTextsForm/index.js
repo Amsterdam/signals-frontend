@@ -89,6 +89,26 @@ class DefaultTextsForm extends React.Component {
       title: [''],
       text: [''],
     }),
+    item5: FormBuilder.group({
+      title: [''],
+      text: [''],
+    }),
+    item6: FormBuilder.group({
+      title: [''],
+      text: [''],
+    }),
+    item7: FormBuilder.group({
+      title: [''],
+      text: [''],
+    }),
+    item8: FormBuilder.group({
+      title: [''],
+      text: [''],
+    }),
+    item9: FormBuilder.group({
+      title: [''],
+      text: [''],
+    }),
     categoryUrl: ['', Validators.required],
     state: ['', Validators.required],
   });
