@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { Heading, themeColor } from '@datapunt/asc-ui';
 import styled from '@datapunt/asc-core';
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
+import { incidentType, dataListType } from 'shared/types';
 
 const StyledWrapper = styled.aside`
   dt {
@@ -58,10 +58,14 @@ const SplitDetail = ({ incident, stadsdeelList }) => (
   </StyledWrapper>
 );
 
+SplitDetail.defaultProps = {
+  incident: null,
+  stadsdeelList: [],
+};
 
 SplitDetail.propTypes = {
-  stadsdeelList: PropTypes.array,
-  incident: PropTypes.object
+  incident: incidentType,
+  stadsdeelList: dataListType,
 };
 
 export default SplitDetail;

@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Heading, themeColor } from '@datapunt/asc-ui';
 import styled from '@datapunt/asc-core';
+import { incidentType, attachmentsType, dataListType } from 'shared/types';
 
 import { FormBuilder } from 'react-reactive-form';
 
@@ -185,20 +186,23 @@ const SplitForm = ({
 
 SplitForm.defaultProps = {
   incident: {
-    category: {},
+    category: {
+      category_url: ''
+    },
     priority: {
       priority: ''
     }
   },
   attachments: [],
   subcategories: [],
+  priorityList: [],
 };
 
 SplitForm.propTypes = {
-  incident: PropTypes.object,
-  attachments: PropTypes.array,
-  subcategories: PropTypes.array,
-  priorityList: PropTypes.array,
+  incident: incidentType,
+  attachments: attachmentsType,
+  subcategories: dataListType,
+  priorityList: dataListType,
   onHandleSubmit: PropTypes.func.isRequired,
   onHandleCancel: PropTypes.func.isRequired,
 };

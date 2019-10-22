@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Heading, themeColor } from '@datapunt/asc-ui';
 import styled from '@datapunt/asc-core';
+import { attachmentsType, dataListType } from 'shared/types';
 
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import CopyFileInput from '../../../../components/CopyFileInput';
@@ -75,21 +76,20 @@ const IncidentPart = ({ index, attachments, subcategories, priorityList, splitFo
 );
 
 IncidentPart.defaultProps = {
-  incident: {
-    category: {},
-    priority: {
-      priority: ''
-    }
-  },
-  subcategories: []
+  attachments: [],
+  subcategories: [],
+  priorityList: [],
+  splitForm: null,
 };
 
 IncidentPart.propTypes = {
   index: PropTypes.string.isRequired,
-  attachments: PropTypes.array,
-  subcategories: PropTypes.array,
-  priorityList: PropTypes.array,
-  splitForm: PropTypes.object
+  attachments: attachmentsType,
+  subcategories: dataListType,
+  priorityList: dataListType,
+  splitForm: PropTypes.shape({
+    get: PropTypes.func,
+  }),
 };
 
 export default IncidentPart;

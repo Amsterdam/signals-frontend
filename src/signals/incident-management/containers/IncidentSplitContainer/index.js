@@ -13,6 +13,7 @@ import injectReducer from 'utils/injectReducer';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { requestIncident, requestAttachments } from 'models/incident/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
+import { categoriesType, incidentType, attachmentsType, dataListType } from 'shared/types';
 
 import { splitIncident } from './actions';
 
@@ -88,10 +89,21 @@ export const IncidentSplitContainer = ({
   );
 };
 
+IncidentSplitContainer.defaultProps = {
+  incidentModel: null,
+  stadsdeelList: [],
+};
+
 IncidentSplitContainer.propTypes = {
   id: PropTypes.string.isRequired,
-  categories: PropTypes.object,
-  incidentModel: PropTypes.object,
+  categories: categoriesType,
+  incidentModel: PropTypes.shape({
+    incident: incidentType,
+    attachments: attachmentsType,
+    loading: PropTypes.bool,
+    stadsdeelList: dataListType,
+    priorityList: dataListType,
+  }),
   onRequestIncident: PropTypes.func.isRequired,
   onRequestAttachments: PropTypes.func.isRequired,
   onSplitIncident: PropTypes.func.isRequired,
