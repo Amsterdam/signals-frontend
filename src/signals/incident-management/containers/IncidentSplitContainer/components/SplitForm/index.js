@@ -1,162 +1,210 @@
-import React from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormBuilder } from 'react-reactive-form';
+import { Button, Heading, themeColor } from '@datapunt/asc-ui';
+import styled from 'styled-components';
+import { incidentType, attachmentsType, dataListType } from 'shared/types';
 
-import './style.scss';
+import { FormBuilder } from 'react-reactive-form';
 
 import IncidentPart from '../IncidentPart';
 
-class SplitForm extends React.Component {
-  constructor(props) {
-    super(props);
+const StyledButton = styled(Button)`
+  margin-right: 20px;
+  background-color: ${themeColor('tint', 'level1')};
+`;
 
-    // TEMP work around because the endpoint does not supply category as uri
-    const subcategory = `https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/${props.incident.category.main_slug}/sub_categories/${props.incident.category.sub_slug}`;
-    this.state = {
-      isVisible: props.isVisible,
-      splitForm: FormBuilder.group({
-        part1: FormBuilder.group({
-          subcategory,
-          text: props.incident.text,
-          image: true,
-          note: '',
-          priority: props.incident.priority.priority,
-        }),
-        part2: FormBuilder.group({
-          subcategory,
-          text: props.incident.text,
-          image: true,
-          note: '',
-          priority: props.incident.priority.priority,
-        }),
-        part3: FormBuilder.group({
-          subcategory,
-          text: props.incident.text,
-          image: true,
-          note: '',
-          priority: props.incident.priority.priority,
-        }),
-      }),
-    };
+const StyledSubmitButton = styled(Button)`
+  margin-right: 20px;
+`;
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.setVisibility = this.setVisibility.bind(this);
+const StyledRemoveButton = styled(Button)`
+  background-color: ${themeColor('tint', 'level1')};
+  padding: 0;
+  border-color: transparent;
+  float: right;
+`;
+
+const StyledH4 = styled(Heading)`
+  font-weight: normal;
+  margin-bottm: 8px;
+`;
+
+const StyledDisclaimer = styled.div`
+  background-color: ${themeColor('tint', 'level3')};
+  padding: 15px;
+  margin-bottom: 20px;
+  line-height: 22px;
+
+  ul {
+    margin: 0 0 0 25px;
+    padding: 0;
+
+    li {
+      list-style-type: square;
+      margin-top: 10px;
+    }
   }
+`;
 
-  setVisibility(isVisible) {
-    this.setState({ isVisible });
-  }
+const StyledBottomDisclaimer = styled(StyledDisclaimer)`
+  margin: 20px 0;
+`;
 
-  handleSubmit() {
+let form;
+
+const SplitForm = ({
+  incident,
+  attachments,
+  subcategories,
+  priorityList,
+  onHandleCancel,
+  onHandleSubmit,
+}) => {
+  const [isVisible, setVisibility] = useState(false);
+
+  const handleSubmit = () => {
     const create = [];
     const update = [];
     const parts = ['part1', 'part2'];
-    if (this.state.isVisible) {
+    if (isVisible) {
       parts.push('part3');
     }
 
     parts.forEach(part => {
-      update.push(this.state.splitForm.value[part]);
+      update.push(form.value[part]);
       create.push({
         category: {
-          sub_category: this.state.splitForm.value[part].subcategory,
+          sub_category: form.value[part].subcategory,
         },
-        reuse_parent_image: this.state.splitForm.value[part].image,
-        text: this.state.splitForm.value[part].text,
+        reuse_parent_image: form.value[part].image,
+        text: form.value[part].text,
       });
     });
 
-    this.props.handleSubmit({
-      id: this.props.incident.id,
+    onHandleSubmit({
+      id: incident.id,
       create,
       update,
     });
-  }
+  };
 
-  render() {
-    const {
-      incident, attachments, subcategories, priorityList, handleCancel,
-    } = this.props;
-    return (
-      <div className="split-form">
-        <h1>Splitsen</h1>
+  useEffect(() => {
+    form = FormBuilder.group({
+      part1: FormBuilder.group({
+        subcategory: incident.category.category_url,
+        text: incident.text,
+        image: true,
+        note: '',
+        priority: incident.priority.priority,
+      }),
+      part2: FormBuilder.group({
+        subcategory: incident.category.category_url,
+        text: incident.text,
+        image: true,
+        note: '',
+        priority: incident.priority.priority,
+      }),
+      part3: FormBuilder.group({
+        subcategory: incident.category.category_url,
+        text: incident.text,
+        image: true,
+        note: '',
+        priority: incident.priority.priority,
+      }),
+    });
+  }, []);
 
-        <div className="split-form__disclainer-top">
-          Splitsen mag alleen als de oorspronkelijke melding over twee verschillende onderwerpen gaat, die zonder samenwerking met een andere afdeling kan worden afgehandeld.
-        </div>
+  return (
+    <div>
+      <StyledDisclaimer data-testid="splitFormDisclaimer">
+        Splitsen mag alleen als de oorspronkelijke melding over twee verschillende onderwerpen gaat, die zonder samenwerking met een andere afdeling kan worden afgehandeld.
+      </StyledDisclaimer>
 
-        <IncidentPart
-          index="1"
-          attachments={attachments}
-          subcategories={subcategories}
-          priorityList={priorityList}
-          splitForm={this.state.splitForm}
-        />
+      <IncidentPart
+        index="1"
+        attachments={attachments}
+        subcategories={subcategories}
+        priorityList={priorityList}
+        splitForm={form}
+      />
 
-        <IncidentPart
-          index="2"
-          incident={incident}
-          attachments={attachments}
-          subcategories={subcategories}
-          priorityList={priorityList}
-          splitForm={this.state.splitForm}
-        />
+      <IncidentPart
+        index="2"
+        attachments={attachments}
+        subcategories={subcategories}
+        priorityList={priorityList}
+        splitForm={form}
+      />
 
-        {this.state.isVisible
-          ? (
-            <div>
-              <button onClick={() => this.setVisibility(false)} className="action reset split-form__button-hide">Verwijder</button>
+      {isVisible ?
+        <Fragment>
+          <StyledRemoveButton
+            data-testid="splitFormPartRemove"
+            variant="textButton"
+            onClick={() => setVisibility(false)}
+          >Verwijder</StyledRemoveButton>
 
-              <IncidentPart
-                index="3"
-                incident={incident}
-                attachments={attachments}
-                subcategories={subcategories}
-                priorityList={priorityList}
-                splitForm={this.state.splitForm}
-              />
+          <IncidentPart
+            index="3"
+            attachments={attachments}
+            subcategories={subcategories}
+            priorityList={priorityList}
+            splitForm={form}
+          />
 
-            </div>
-          )
-          : <button onClick={() => this.setVisibility(true)} className="action tertiair split-form__button-show">Deelmelding 3 toevoegen</button>}
+        </Fragment>
+        :
+        <StyledButton
+          data-testid="splitFormPartAdd"
+          variant="primaryInverted"
+          onClick={() => setVisibility(true)}
+        >Deelmelding 3 toevoegen</StyledButton>
+      }
 
-        <div className="split-form__disclainer">
-          <h4>Let op</h4>
-          <ul>
-            <li>De persoon die de oorspronkelijke melding heeft gedaan, ontvangt een email per deelmelding.</li>
-            <li>De oorspronkelijke melding wordt afgesloten als deze gesplitst wordt.</li>
-            <li>Een melding kan maar 1 keer gesplitst worden.</li>
-          </ul>
-        </div>
+      <StyledBottomDisclaimer data-testid="splitFormBottomDisclaimer">
+        <StyledH4 $as="h4">Let op</StyledH4>
+        <ul>
+          <li>De persoon die de oorspronkelijke melding heeft gedaan, ontvangt een email per deelmelding.</li>
+          <li>De oorspronkelijke melding wordt afgesloten als deze gesplitst wordt.</li>
+          <li>Een melding kan maar 1 keer gesplitst worden.</li>
+        </ul>
+      </StyledBottomDisclaimer>
 
-        <div>
-          <button onClick={this.handleSubmit} className="action primary">Splitsen</button>
-          <button onClick={handleCancel} className="action tertiair">Annuleer</button>
-        </div>
-      </div>
-    );
-  }
-}
+      <StyledSubmitButton
+        data-testid="splitFormSubmit"
+        variant="secondary"
+        onClick={handleSubmit}
+      >Splitsen</StyledSubmitButton>
+      <StyledButton
+        data-testid="splitFormCancel"
+        variant="primaryInverted"
+        onClick={onHandleCancel}
+      >Annuleer</StyledButton>
+    </div>
+  );
+};
 
 SplitForm.defaultProps = {
   incident: {
-    category: {},
+    category: {
+      category_url: '',
+    },
     priority: {
       priority: '',
     },
   },
-  isVisible: false,
+  attachments: [],
   subcategories: [],
+  priorityList: [],
 };
 
 SplitForm.propTypes = {
-  incident: PropTypes.object,
-  attachments: PropTypes.array,
-  isVisible: PropTypes.bool,
-  subcategories: PropTypes.array,
-  priorityList: PropTypes.array,
-  handleSubmit: PropTypes.func.isRequired,
-  handleCancel: PropTypes.func.isRequired,
+  incident: incidentType,
+  attachments: attachmentsType,
+  subcategories: dataListType,
+  priorityList: dataListType,
+  onHandleSubmit: PropTypes.func.isRequired,
+  onHandleCancel: PropTypes.func.isRequired,
 };
 
 export default SplitForm;

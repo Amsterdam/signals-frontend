@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Row, Column, Heading, Link, Paragraph,
+  Row, Column, Heading, Link, Paragraph, themeColor,
 } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
@@ -10,12 +10,12 @@ const Disclaimer = styled.div`
   padding-bottom: 20px;
 
   * {
-    color: white;
+    color: ${themeColor('bright', 'main')};
   }
 `;
 
 const Privacy = styled.div`
-  background: white;
+  background: ${themeColor('bright', 'main')};
   padding-top: 10px;
   padding-bottom: 10px;
 `;
