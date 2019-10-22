@@ -6,7 +6,7 @@ import {
   PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
   DISMISS_ERROR,
   REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR,
-  REQUEST_DEFAULT_TEXTS, REQUEST_DEFAULT_TEXTS_SUCCESS, REQUEST_DEFAULT_TEXTS_ERROR
+  REQUEST_DEFAULT_TEXTS, REQUEST_DEFAULT_TEXTS_SUCCESS, REQUEST_DEFAULT_TEXTS_ERROR,
 } from './constants';
 
 import {
@@ -14,7 +14,7 @@ import {
   dismissSplitNotification, dismissError,
   patchIncident, patchIncidentSuccess, patchIncidentError,
   requestAttachments, requestAttachmentsSuccess, requestAttachmentsError,
-  requestDefaultTexts, requestDefaultTextsSuccess, requestDefaultTextsError
+  requestDefaultTexts, requestDefaultTextsSuccess, requestDefaultTextsError,
 } from './actions';
 
 describe('incidentModel actions', () => {

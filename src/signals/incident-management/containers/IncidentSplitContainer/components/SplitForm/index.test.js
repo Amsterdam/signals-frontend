@@ -12,17 +12,17 @@ import priorityList from '../../../../definitions/priorityList';
 describe('<SplitForm />', () => {
   const mockCreate = {
     category: {
-      sub_category: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep'
+      sub_category: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep',
     },
     reuse_parent_image: true,
-    text: undefined
+    text: undefined,
   };
   const mockUpdate = {
     image: true,
     note: '',
     priority: 'high',
     subcategory: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep',
-    text: undefined
+    text: undefined,
   };
   let props;
 
@@ -36,18 +36,18 @@ describe('<SplitForm />', () => {
           category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep',
         },
         priority: {
-          priority: 'high'
-        }
+          priority: 'high',
+        },
       },
       attachments: [],
       subcategories: [{
         key: 'poep',
         value: 'Poep',
-        slug: 'poep'
+        slug: 'poep',
       }],
       priorityList,
       onHandleCancel: jest.fn(),
-      onHandleSubmit: jest.fn()
+      onHandleSubmit: jest.fn(),
     };
   });
 
@@ -88,7 +88,7 @@ describe('<SplitForm />', () => {
     expect(props.onHandleSubmit).toHaveBeenCalledWith({
       create: [mockCreate, mockCreate],
       id: props.incident.id,
-      update: [mockUpdate, mockUpdate]
+      update: [mockUpdate, mockUpdate],
     });
   });
 
@@ -103,7 +103,7 @@ describe('<SplitForm />', () => {
     expect(props.onHandleSubmit).toHaveBeenCalledWith({
       create: [mockCreate, mockCreate, mockCreate],
       id: props.incident.id,
-      update: [mockUpdate, mockUpdate, mockUpdate]
+      update: [mockUpdate, mockUpdate, mockUpdate],
     });
   });
 

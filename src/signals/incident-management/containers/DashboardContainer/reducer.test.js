@@ -6,7 +6,7 @@ import {
   REQUEST_DASHBOARD,
   REQUEST_DASHBOARD_SUCCESS,
   REQUEST_DASHBOARD_ERROR,
-  UPDATE_DASHBOARD
+  UPDATE_DASHBOARD,
 }
   from './constants';
 
@@ -19,10 +19,10 @@ describe('dashboardReducer', () => {
     it('sets loading', () => {
       expect(
         dashboardReducer(fromJS({}), {
-          type: REQUEST_DASHBOARD
+          type: REQUEST_DASHBOARD,
         }).toJS()
       ).toEqual({
-        loading: true
+        loading: true,
       });
     });
   });
@@ -33,16 +33,16 @@ describe('dashboardReducer', () => {
         status: [],
         categorie: [],
         hour: [],
-        today: {}
+        today: {},
       };
       expect(
         dashboardReducer(fromJS({}), {
           type: REQUEST_DASHBOARD_SUCCESS,
-          payload
+          payload,
         }).toJS()
       ).toEqual({
         loading: false,
-        dashboard: payload
+        dashboard: payload,
       });
     });
   });
@@ -51,11 +51,11 @@ describe('dashboardReducer', () => {
     it('sets loading and error', () => {
       expect(
         dashboardReducer(fromJS({}), {
-          type: REQUEST_DASHBOARD_ERROR
+          type: REQUEST_DASHBOARD_ERROR,
         }).toJS()
       ).toEqual({
         loading: false,
-        error: true
+        error: true,
       });
     });
   });
@@ -64,7 +64,7 @@ describe('dashboardReducer', () => {
     it('not sets loading and error', () => {
       expect(
         dashboardReducer(fromJS({}), {
-          type: UPDATE_DASHBOARD
+          type: UPDATE_DASHBOARD,
         }).toJS()
       ).toEqual({});
     });

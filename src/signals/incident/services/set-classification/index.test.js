@@ -11,18 +11,18 @@ describe('The set classification service', () => {
       [
         'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hondenpoep',
         'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/wildplassen-poepen-overgeven',
-        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven'
+        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven',
       ],
-      [0.39, 0.1424216693948545, 0.04586915076913858]
+      [0.39, 0.1424216693948545, 0.04586915076913858],
     ];
 
     hoofdrubriek = [
       [
         'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca',
         'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte',
-        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen'
+        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen',
       ],
-      [0.39, 0.1424216693948545, 0.04586915076913858]
+      [0.39, 0.1424216693948545, 0.04586915076913858],
     ];
   });
 
@@ -31,7 +31,7 @@ describe('The set classification service', () => {
       category: 'overig',
       subcategory: 'overig',
       handling_message: 'Niet gevonden.',
-      subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig/sub_categories/overig'
+      subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig/sub_categories/overig',
     });
   });
 
@@ -40,7 +40,7 @@ describe('The set classification service', () => {
       category: 'overig',
       subcategory: 'overig',
       handling_message: '\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.',
-      subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig/sub_categories/overig'
+      subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig/sub_categories/overig',
     });
   });
 
@@ -53,7 +53,7 @@ describe('The set classification service', () => {
       category: 'overlast-in-de-openbare-ruimte',
       subcategory: 'hondenpoep',
       handling_message: '\nWe laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
-      subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hondenpoep'
+      subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hondenpoep',
     });
   });
 
@@ -64,7 +64,7 @@ describe('The set classification service', () => {
       category: 'overig',
       subcategory: 'overig',
       handling_message: '\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.',
-      subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig/sub_categories/overig'
+      subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig/sub_categories/overig',
     });
   });
 
@@ -80,7 +80,7 @@ describe('The set classification service', () => {
           category: 'afval',
           subcategory: 'overig-afval',
           handling_message: '\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.',
-          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/overig-afval'
+          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/overig-afval',
         });
       });
     });
@@ -96,7 +96,7 @@ describe('The set classification service', () => {
           category: 'openbaar-groen-en-water',
           subcategory: 'overig-groen-en-water',
           handling_message: '\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.',
-          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/overig-groen-en-water'
+          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/overig-groen-en-water',
         });
       });
     });
@@ -112,7 +112,7 @@ describe('The set classification service', () => {
           category: 'overlast-bedrijven-en-horeca',
           subcategory: 'overig-horecabedrijven',
           handling_message: '\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.',
-          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overig-horecabedrijven'
+          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overig-horecabedrijven',
         });
       });
     });
@@ -128,7 +128,7 @@ describe('The set classification service', () => {
           category: 'overlast-in-de-openbare-ruimte',
           subcategory: 'overig-openbare-ruimte',
           handling_message: 'zou niet leeg moeten zijn',
-          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/overig-openbare-ruimte'
+          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/overig-openbare-ruimte',
         });
       });
     });
@@ -144,7 +144,7 @@ describe('The set classification service', () => {
           category: 'overlast-op-het-water',
           subcategory: 'overig-boten',
           handling_message: '\nWe geven uw melding door aan onze handhavers. Zij beoordelen of het nodig is direct actie te ondernemen. Bijvoorbeeld omdat er olie lekt of omdat de situatie gevaar oplevert voor andere boten.\n\nAls er geen directe actie nodig is, dan pakken we uw melding op buiten het vaarseizoen (september - maart).\n',
-          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overig-boten'
+          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overig-boten',
         });
       });
     });
@@ -160,7 +160,7 @@ describe('The set classification service', () => {
           category: 'overlast-van-dieren',
           subcategory: 'overig-dieren',
           handling_message: '\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.',
-          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/overig-dieren'
+          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/overig-dieren',
         });
       });
     });
@@ -176,7 +176,7 @@ describe('The set classification service', () => {
           category: 'overlast-van-en-door-personen-of-groepen',
           subcategory: 'overige-overlast-door-personen',
           handling_message: '\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.',
-          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overige-overlast-door-personen'
+          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overige-overlast-door-personen',
         });
       });
     });
@@ -192,7 +192,7 @@ describe('The set classification service', () => {
           category: 'wegen-verkeer-straatmeubilair',
           subcategory: 'overig-wegen-verkeer-straatmeubilair',
           handling_message: '\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.',
-          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/overig-wegen-verkeer-straatmeubilair'
+          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/overig-wegen-verkeer-straatmeubilair',
         });
       });
     });
@@ -208,7 +208,7 @@ describe('The set classification service', () => {
           category: 'overig',
           subcategory: 'overig',
           handling_message: '\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.',
-          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig/sub_categories/overig'
+          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig/sub_categories/overig',
         });
       });
 
@@ -222,7 +222,7 @@ describe('The set classification service', () => {
           category: 'overig',
           subcategory: 'overig',
           handling_message: 'Niet gevonden.',
-          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig/sub_categories/overig'
+          subcategory_link: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig/sub_categories/overig',
         });
       });
     });

@@ -5,10 +5,10 @@ describe('makeSelectDashboardContainer', () => {
   it('should select the category container', () => {
     const selector = makeSelectDashboardContainer();
     const incidentDashboardContainer = {
-      dashboard: {}
+      dashboard: {},
     };
     const mockedState = fromJS({
-      incidentDashboardContainer
+      incidentDashboardContainer,
     });
 
     expect(selector(mockedState)).toEqual(incidentDashboardContainer);

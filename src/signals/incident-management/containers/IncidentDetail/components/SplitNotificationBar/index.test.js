@@ -19,11 +19,11 @@ describe('<SplitNotificationBar />', () => {
           created: {
             children: [
               { id: 43 },
-              { id: 44 }
-            ]
-          }
+              { id: 44 },
+            ],
+          },
         },
-        onDismissSplitNotification: jest.fn()
+        onDismissSplitNotification: jest.fn(),
       };
     });
 
@@ -68,10 +68,10 @@ describe('<SplitNotificationBar />', () => {
       props = {
         data: {
           response: {
-            status: 503
-          }
+            status: 503,
+          },
         },
-        onDismissSplitNotification: jest.fn()
+        onDismissSplitNotification: jest.fn(),
       };
     });
 

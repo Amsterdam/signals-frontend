@@ -2,31 +2,31 @@ import {
   REQUEST_DASHBOARD,
   REQUEST_DASHBOARD_SUCCESS,
   REQUEST_DASHBOARD_ERROR,
-  UPDATE_DASHBOARD
+  UPDATE_DASHBOARD,
 } from './constants';
 
 export function requestDashboard() {
   return {
-    type: REQUEST_DASHBOARD
+    type: REQUEST_DASHBOARD,
   };
 }
 
 export function requestDashboardSuccess(results) {
   return {
     type: REQUEST_DASHBOARD_SUCCESS,
-    payload: results
+    payload: results,
   };
 }
 
 export function requestDashboardError(error) {
   return {
     type: REQUEST_DASHBOARD_ERROR,
-    payload: error
+    payload: error,
   };
 }
 
 export function updateDashboard() {
   return {
-    type: UPDATE_DASHBOARD
+    type: UPDATE_DASHBOARD,
   };
 }

@@ -11,7 +11,7 @@ import './style.scss';
 
 import Label from '../Label';
 
-export const RadioInput = (props) => {
+export const RadioInput = props => {
   const { name, display, values } = props;
   const render = ({ handler }) => (
     <div className="radio-input">
@@ -31,14 +31,16 @@ export const RadioInput = (props) => {
           ))}
         </div>
       </div>
-    </div>);
+    </div>
+  );
 
   render.defaultProps = {
-    touched: false
+    touched: false,
   };
 
   render.propTypes = {
-    handler: PropTypes.func.isRequired
+    handler: PropTypes.func.isRequired,
+    touched: PropTypes.bool,
   };
   return render;
 };

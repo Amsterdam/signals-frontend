@@ -14,7 +14,7 @@ describe('<IncidentPart />', () => {
 
   beforeEach(() => {
     const splitForm = {
-      get: jest.fn().mockImplementation(() => new FormControl())
+      get: jest.fn().mockImplementation(() => new FormControl()),
     };
 
     props = {
@@ -24,10 +24,10 @@ describe('<IncidentPart />', () => {
       subcategories: [{
         key: 'key',
         value: 'value',
-        slug: 'slug'
+        slug: 'slug',
       }],
       priorityList,
-      splitForm
+      splitForm,
     };
   });
 

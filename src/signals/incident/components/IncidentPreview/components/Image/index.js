@@ -11,7 +11,7 @@ const Image = ({ label, value }) => (
       </div>
       <div className="col-5 col-md-7">
         <div className="preview-image__item-value">
-          {value && value.map((image) => <div key={image} className="preview-image__item-value-image" style={{ backgroundImage: `URL(${image})` }} />)}
+          {value && value.map(image => <div key={image} className="preview-image__item-value-image" style={{ backgroundImage: `URL(${image})` }} />)}
         </div>
       </div>
     </div>
@@ -20,7 +20,7 @@ const Image = ({ label, value }) => (
 
 Image.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.arrayOf(PropTypes.string)
+  value: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default Image;

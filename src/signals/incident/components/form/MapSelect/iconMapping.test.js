@@ -16,10 +16,10 @@ describe('getOVLIcon', () => {
   });
 
   it('should have matching keys', () => {
-    const mappingKeys = Object.keys(OVL_MAPPING).map((key) => key.toLowerCase());
+    const mappingKeys = Object.keys(OVL_MAPPING).map(key => key.toLowerCase());
     const legendKeys = LEGEND_ITEMS.map(({ key }) => key);
 
-    mappingKeys.forEach((mappingKey) => {
+    mappingKeys.forEach(mappingKey => {
       expect(legendKeys.includes(mappingKey));
     });
   });

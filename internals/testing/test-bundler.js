@@ -1,17 +1,18 @@
 import '@testing-library/jest-dom/extend-expect';
-
-// needed for regenerator-runtime
-// (ES7 generator support is required by redux-saga)
-import 'babel-polyfill';
+import L from 'leaflet-headless';
+import 'core-js/stable';
+import 'regenerator-runtime';
 import 'url-polyfill';
 import 'raf/polyfill';
-
+import 'jest-localstorage-mock';
 
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 // React 16 Enzyme adapter
 Enzyme.configure({ adapter: new Adapter() });
+
+global.window.L = L;
 
 /**
  * Element.closest() polyfill

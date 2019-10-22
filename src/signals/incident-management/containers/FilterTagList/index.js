@@ -27,7 +27,7 @@ const renderTag = (key, tagKey, mainCategories, list) => {
   let found = false;
 
   if (list) {
-    found = list.find((i) => i.key === key || i.slug === key);
+    found = list.find(i => i.key === key || i.slug === key);
   }
 
   let display = (found && found.value) || key;
@@ -40,7 +40,7 @@ const renderTag = (key, tagKey, mainCategories, list) => {
     display = moment(display).format('DD-MM-YYYY');
   }
 
-  const foundMain = mainCategories.find((i) => i.slug === key);
+  const foundMain = mainCategories.find(i => i.slug === key);
 
   display += foundMain ? allLabelAppend : '';
 
@@ -52,10 +52,12 @@ const renderTag = (key, tagKey, mainCategories, list) => {
   );
 };
 
-export const FilterTagListComponent = (props) => {
+export const FilterTagListComponent = props => {
   const {
     tags,
-    overviewpage: { priorityList, stadsdeelList, statusList, feedbackList },
+    overviewpage: {
+      priorityList, stadsdeelList, statusList, feedbackList,
+    },
     categories: { main, sub },
   } = props;
 
@@ -70,11 +72,9 @@ export const FilterTagListComponent = (props) => {
 
   return (
     <FilterWrapper>
-      {Object.entries(tags).map(([tagKey, tag]) =>
-        Array.isArray(tag)
-          ? tag.map((item) => renderTag(item, tagKey, main, map[tagKey]))
-          : renderTag(tag, tagKey, main, map[tagKey]),
-      )}
+      {Object.entries(tags).map(([tagKey, tag]) => Array.isArray(tag)
+        ? tag.map(item => renderTag(item, tagKey, main, map[tagKey]))
+        : renderTag(tag, tagKey, main, map[tagKey]),)}
     </FilterWrapper>
   );
 };

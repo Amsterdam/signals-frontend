@@ -58,7 +58,7 @@ const SplitForm = ({
   subcategories,
   priorityList,
   onHandleCancel,
-  onHandleSubmit
+  onHandleSubmit,
 }) => {
   const [isVisible, setVisibility] = useState(false);
 
@@ -70,21 +70,21 @@ const SplitForm = ({
       parts.push('part3');
     }
 
-    parts.forEach((part) => {
+    parts.forEach(part => {
       update.push(form.value[part]);
       create.push({
         category: {
-          sub_category: form.value[part].subcategory
+          sub_category: form.value[part].subcategory,
         },
         reuse_parent_image: form.value[part].image,
-        text: form.value[part].text
+        text: form.value[part].text,
       });
     });
 
     onHandleSubmit({
       id: incident.id,
       create,
-      update
+      update,
     });
   };
 
@@ -187,11 +187,11 @@ const SplitForm = ({
 SplitForm.defaultProps = {
   incident: {
     category: {
-      category_url: ''
+      category_url: '',
     },
     priority: {
-      priority: ''
-    }
+      priority: '',
+    },
   },
   attachments: [],
   subcategories: [],

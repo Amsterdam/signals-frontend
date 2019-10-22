@@ -14,13 +14,13 @@ const setClassification = (result, subcategories) => {
   let subcategory_link = DEFAULT_CATEGORY_LINK;
 
   if (!hoofdrubriek || !subrubriek) {
-    const found = subcategories && subcategories.find((sub) => sub.key.includes(`${DEFAULT_CATEGORY}/sub_categories/${DEFAULT_CATEGORY}`));
+    const found = subcategories && subcategories.find(sub => sub.key.includes(`${DEFAULT_CATEGORY}/sub_categories/${DEFAULT_CATEGORY}`));
 
     return {
       category: DEFAULT_CATEGORY,
       subcategory: DEFAULT_CATEGORY,
       subcategory_link: DEFAULT_CATEGORY_LINK,
-      handling_message: (found && found.handling_message) || 'Niet gevonden.'
+      handling_message: (found && found.handling_message) || 'Niet gevonden.',
     };
   }
 
@@ -78,13 +78,13 @@ const setClassification = (result, subcategories) => {
     subcategory_link = `${categoryServerUri}${category}/sub_categories/${subcategory}`;
   }
 
-  const found = subcategories && subcategories.find((sub) => sub.key.includes(`${category}/sub_categories/${subcategory}`));
+  const found = subcategories && subcategories.find(sub => sub.key.includes(`${category}/sub_categories/${subcategory}`));
 
   return {
     category,
     subcategory,
     subcategory_link,
-    handling_message: (found && found.handling_message) || 'Niet gevonden.'
+    handling_message: (found && found.handling_message) || 'Niet gevonden.',
   };
 };
 

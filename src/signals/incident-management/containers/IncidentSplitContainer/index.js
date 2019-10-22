@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { Row, Column, Heading } from '@datapunt/asc-ui';
-import { goBack } from 'react-router-redux';
+import { goBack } from 'connected-react-router/immutable';
 import styled from '@datapunt/asc-core';
 
 import { makeSelectCategories } from 'containers/App/selectors';
@@ -46,7 +46,7 @@ export const IncidentSplitContainer = ({
   onRequestAttachments,
   onSplitIncident,
   onGoBack,
- }) => {
+}) => {
   useEffect(() => {
     onRequestIncident(id);
     onRequestAttachments(id);
@@ -56,34 +56,34 @@ export const IncidentSplitContainer = ({
     <StyledWrapper>
       <Row>
         {loading ? <LoadingIndicator /> :
-        <Fragment>
-          <Column span={12}>
-            <StyledH1 $as="h1">Splitsen</StyledH1>
-          </Column>
+          (<Fragment>
+            <Column span={12}>
+              <StyledH1 $as="h1">Splitsen</StyledH1>
+            </Column>
 
-          <Column
-            span={7}
-          >
-            <SplitForm
-              incident={incident}
-              attachments={attachments}
-              subcategories={categories.sub}
-              priorityList={priorityList}
-              onHandleSubmit={onSplitIncident}
-              onHandleCancel={onGoBack}
-            />
-          </Column>
-          <Column
-            span={4}
-            push={1}
-          >
-            <SplitDetail
-              incident={incident}
-              stadsdeelList={stadsdeelList}
-            />
-          </Column>
-        </Fragment>
-          }
+            <Column
+              span={7}
+            >
+              <SplitForm
+                incident={incident}
+                attachments={attachments}
+                subcategories={categories.sub}
+                priorityList={priorityList}
+                onHandleSubmit={onSplitIncident}
+                onHandleCancel={onGoBack}
+              />
+            </Column>
+            <Column
+              span={4}
+              push={1}
+            >
+              <SplitDetail
+                incident={incident}
+                stadsdeelList={stadsdeelList}
+              />
+            </Column>
+          </Fragment>)
+        }
       </Row>
     </StyledWrapper>
   );
@@ -91,7 +91,6 @@ export const IncidentSplitContainer = ({
 
 IncidentSplitContainer.defaultProps = {
   incidentModel: null,
-  stadsdeelList: [],
 };
 
 IncidentSplitContainer.propTypes = {
@@ -107,19 +106,19 @@ IncidentSplitContainer.propTypes = {
   onRequestIncident: PropTypes.func.isRequired,
   onRequestAttachments: PropTypes.func.isRequired,
   onSplitIncident: PropTypes.func.isRequired,
-  onGoBack: PropTypes.func.isRequired
+  onGoBack: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   incidentModel: makeSelectIncidentModel(),
-  categories: makeSelectCategories()
+  categories: makeSelectCategories(),
 });
 
-export const mapDispatchToProps = (dispatch) => bindActionCreators({
+export const mapDispatchToProps = dispatch => bindActionCreators({
   onRequestIncident: requestIncident,
   onRequestAttachments: requestAttachments,
   onSplitIncident: splitIncident,
-  onGoBack: goBack
+  onGoBack: goBack,
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

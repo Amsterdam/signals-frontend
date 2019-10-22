@@ -54,7 +54,7 @@ const IncidentPart = ({ index, attachments, subcategories, priorityList, splitFo
             control={splitForm.get(`part${index}.image`)}
             values={attachments}
           /> : null
-    }
+        }
         <FieldControlWrapper
           render={TextAreaInput}
           name={`part${index}.note`}
@@ -71,7 +71,7 @@ const IncidentPart = ({ index, attachments, subcategories, priorityList, splitFo
         />
 
       </Fragment>
-       : null}
+      : null}
   </StyledWrapper>
 );
 
@@ -83,6 +83,12 @@ IncidentPart.defaultProps = {
 };
 
 IncidentPart.propTypes = {
+  incident: PropTypes.shape({
+    category: PropTypes.shape({}),
+    priority: PropTypes.shape({
+      priority: PropTypes.string,
+    }),
+  }),
   index: PropTypes.string.isRequired,
   attachments: attachmentsType,
   subcategories: dataListType,

@@ -28,7 +28,7 @@ describe('overviewPageReducer', () => {
     const action = requestIncidents({});
     const expected = {
       loading: true,
-      error: false
+      error: false,
     };
     expect(overviewPageReducer(state, action)).toEqual(fromJS(expected));
   });

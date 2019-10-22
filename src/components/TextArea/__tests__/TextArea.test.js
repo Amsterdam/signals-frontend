@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import TextArea from '../';
+import TextArea from '..';
 
 describe('components/TextArea', () => {
   it('renders correctly', () => {

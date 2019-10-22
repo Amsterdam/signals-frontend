@@ -7,7 +7,7 @@ import TextareaInput from './index';
 describe('Form component <TextareaInput />', () => {
   const metaFields = {
     name: 'input-field-name',
-    placeholder: 'type here'
+    placeholder: 'type here',
   };
   let wrapper;
   let handler;
@@ -23,8 +23,8 @@ describe('Form component <TextareaInput />', () => {
     hasError = jest.fn();
     parent = {
       meta: {
-        updateIncident: jest.fn()
-      }
+        updateIncident: jest.fn(),
+      },
     };
 
     wrapper = shallow(<TextareaInput
@@ -41,8 +41,8 @@ describe('Form component <TextareaInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(handler).toHaveBeenCalledWith();
@@ -53,8 +53,8 @@ describe('Form component <TextareaInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: false
-        }
+          isVisible: false,
+        },
       });
 
       expect(handler).not.toHaveBeenCalled();
@@ -66,8 +66,8 @@ describe('Form component <TextareaInput />', () => {
         meta: {
           ...metaFields,
           isVisible: true,
-          maxLength: 300
-        }
+          maxLength: 300,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -78,9 +78,9 @@ describe('Form component <TextareaInput />', () => {
         meta: {
           ...metaFields,
           isVisible: true,
-          maxLength: 300
+          maxLength: 300,
         },
-        value: 'test'
+        value: 'test',
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -94,14 +94,14 @@ describe('Form component <TextareaInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       wrapper.find(TextArea).simulate('blur', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': 'diabolo'
+        'input-field-name': 'diabolo',
       });
     });
 
@@ -110,14 +110,14 @@ describe('Form component <TextareaInput />', () => {
         meta: {
           ...metaFields,
           autoRemove: /[iao]*/g,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       wrapper.find(TextArea).simulate('blur', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': 'dbl'
+        'input-field-name': 'dbl',
       });
     });
   });

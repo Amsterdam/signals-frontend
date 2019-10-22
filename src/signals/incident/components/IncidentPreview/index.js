@@ -16,26 +16,28 @@ import './style.scss';
 function IncidentPreview({ incidentContainer, preview, isAuthenticated }) {
   return (
     <div className="incident-preview">
-      {Object.keys(preview).map((key) => (
+      {Object.keys(preview).map(key => (
         <div className="incident-preview__section" key={key}>
           <WithWizard
             render={({ push }) => (
               <button
+                aria-label="Bewerken"
                 className="incident-preview__button-edit link-functional edit"
                 onClick={() => push(`incident/${key}`)}
+                type="button"
               />
             )}
           />
 
-          {Object.keys(preview[key]).map((subkey) => (
+          {Object.keys(preview[key]).map(subkey => (
             <div key={subkey}>
-              {isVisible(incidentContainer.incident[subkey], preview[key][subkey], isAuthenticated) ?
-                preview[key][subkey].render({
+              {isVisible(incidentContainer.incident[subkey], preview[key][subkey], isAuthenticated)
+                ? preview[key][subkey].render({
                   ...preview[key][subkey],
                   value: incidentContainer.incident[subkey],
-                  incident: incidentContainer.incident
+                  incident: incidentContainer.incident,
                 })
-              : ''}
+                : ''}
             </div>
           ))}
         </div>
@@ -47,7 +49,7 @@ function IncidentPreview({ incidentContainer, preview, isAuthenticated }) {
 IncidentPreview.propTypes = {
   incidentContainer: PropTypes.object,
   preview: PropTypes.object,
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
 };
 
 export default IncidentPreview;

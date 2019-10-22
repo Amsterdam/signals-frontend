@@ -59,14 +59,13 @@ const mapStateToProps = createStructuredSelector({
   userName: makeSelectUserName(),
 });
 
-export const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      onLogin: doLogin,
-      onLogout: doLogout,
-    },
-    dispatch,
-  );
+export const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    onLogin: doLogin,
+    onLogout: doLogout,
+  },
+  dispatch,
+);
 
 const withConnect = connect(
   mapStateToProps,

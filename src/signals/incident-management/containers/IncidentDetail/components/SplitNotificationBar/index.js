@@ -39,7 +39,7 @@ const StyledCloseButton = styled(Button)`
   }
 `;
 
-const getErrorMessage = (status) => {
+const getErrorMessage = status => {
   switch (status) {
     case 403:
       return 'U bent niet bevoegd om deze melding te splitsen.';
@@ -59,7 +59,7 @@ const getDelimiter = (key, length) => {
   return key < length - 1 ? ', ' : '';
 };
 
-const renderCloseButton = (onDismissSplitNotification) => (
+const renderCloseButton = onDismissSplitNotification => (
   <StyledCloseButton
     size={20}
     variant="blank"
@@ -77,11 +77,11 @@ const SplitNotificationBar = ({ data, onDismissSplitNotification }) => (
 
         Melding {data.id} is gesplitst in&nbsp;
         {data.created.children.map((item, key) =>
-        (<span key={item.id}>
-          <NavLink to={`/manage/incident/${item.id}`}>{item.id}</NavLink>
-          {getDelimiter(key, data.created.children.length)}
-        </span>)
-      )}
+          (<span key={item.id}>
+            <NavLink to={`/manage/incident/${item.id}`}>{item.id}</NavLink>
+            {getDelimiter(key, data.created.children.length)}
+          </span>)
+        )}
       </StyledSuccess>
       : ''}
     {data && data.response && data.response.status ?
@@ -91,7 +91,7 @@ const SplitNotificationBar = ({ data, onDismissSplitNotification }) => (
         De melding is helaas niet gesplitst.&nbsp;
         {getErrorMessage(data.response.status)}
       </StyledError>
-        : ''}
+      : ''}
   </StyledWrapper>
 );
 
@@ -99,9 +99,9 @@ SplitNotificationBar.propTypes = {
   data: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.object,
-    PropTypes.array
+    PropTypes.array,
   ]),
-  onDismissSplitNotification: PropTypes.func.isRequired
+  onDismissSplitNotification: PropTypes.func.isRequired,
 };
 
 export default SplitNotificationBar;

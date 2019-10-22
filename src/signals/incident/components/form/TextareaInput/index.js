@@ -2,38 +2,43 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import TextArea from 'components/TextArea';
 
-import Header from '../Header/';
+import Header from '../Header';
 
-const TextareaInput = ({ handler, touched, value, hasError, meta, parent, getError, validatorsOrOpts }) => (
+const TextareaInput = ({
+  handler, touched, value, hasError, meta, parent, getError, validatorsOrOpts,
+}) => (
   <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
-    {meta && meta.isVisible ?
-      <div className={`${meta.className || 'col-12'} mode_input`}>
-        <Header
-          meta={meta}
-          options={validatorsOrOpts}
-          touched={touched}
-          hasError={hasError}
-          getError={getError}
-        >
-          <Fragment>
-            <TextArea
-              placeholder={meta.placeholder}
-              {...handler()}
-              onBlur={(e) => parent.meta.updateIncident({
-                [meta.name]: meta.autoRemove ? e.target.value.replace(meta.autoRemove, '') : e.target.value
-              })}
-            />
-            { meta.maxLength &&
-              <div className="input-help">
-                <span className="text-area-input__counter">
-                  {`${value ? value.length : '0'}/${meta.maxLength} tekens` }
-                </span>
-              </div>
-            }
-          </Fragment>
-        </Header>
-      </div>
-       : ''}
+    {meta && meta.isVisible
+      ? (
+        <div className={`${meta.className || 'col-12'} mode_input`}>
+          <Header
+            meta={meta}
+            options={validatorsOrOpts}
+            touched={touched}
+            hasError={hasError}
+            getError={getError}
+          >
+            <Fragment>
+              <TextArea
+                placeholder={meta.placeholder}
+                {...handler()}
+                onBlur={e => parent.meta.updateIncident({
+                  [meta.name]: meta.autoRemove ? e.target.value.replace(meta.autoRemove, '') : e.target.value,
+                })}
+              />
+              { meta.maxLength
+              && (
+                <div className="input-help">
+                  <span className="text-area-input__counter">
+                    {`${value ? value.length : '0'}/${meta.maxLength} tekens` }
+                  </span>
+                </div>
+              )}
+            </Fragment>
+          </Header>
+        </div>
+      )
+      : ''}
   </div>
 );
 
@@ -45,7 +50,7 @@ TextareaInput.propTypes = {
   meta: PropTypes.object,
   parent: PropTypes.object,
   getError: PropTypes.func,
-  validatorsOrOpts: PropTypes.object
+  validatorsOrOpts: PropTypes.object,
 };
 
 export default TextareaInput;

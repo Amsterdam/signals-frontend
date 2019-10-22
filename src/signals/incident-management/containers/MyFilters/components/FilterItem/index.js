@@ -28,15 +28,17 @@ const RefreshIcon = styled(Refresh).attrs({
   cursor: default;
 `;
 
-const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => {
-  const handleApplyFilter = (e) => {
+const FilterItem = ({
+  filter, onApplyFilter, onRemoveFilter, onClose,
+}) => {
+  const handleApplyFilter = e => {
     e.preventDefault();
 
     onApplyFilter(filter);
     onClose();
   };
 
-  const handleEditFilter = (e) => {
+  const handleEditFilter = e => {
     e.preventDefault();
 
     onApplyFilter(filter);
@@ -58,7 +60,7 @@ const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => {
     onClose();
   };
 
-  const handleRemoveFilter = (e) => {
+  const handleRemoveFilter = e => {
     e.preventDefault();
 
     if (

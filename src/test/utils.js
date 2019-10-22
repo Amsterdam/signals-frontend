@@ -1,10 +1,11 @@
 import React from 'react';
-import { ConnectedRouter } from 'react-router-redux';
+import { ConnectedRouter } from 'connected-react-router/immutable';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@datapunt/asc-ui';
 import MatchMediaMock from 'match-media-mock';
 import { IntlProvider } from 'react-intl';
+import Immutable from 'immutable';
 
 import configureStore from '../configureStore';
 
@@ -29,7 +30,7 @@ export const testActionCreator = (action, actionType, payload) => {
   expect(action(payload)).toEqual(expected);
 };
 
-export const getContext = (state) => {
+export const getContext = state => {
   const store = {
     dispatch: jest.fn(),
     getState: () => state,
@@ -43,9 +44,9 @@ export const getContext = (state) => {
   return { store };
 };
 
-const store = configureStore({}, history);
+const store = configureStore(Immutable.Map(), history);
 
-export const withAppContext = (Component) => (
+export const withAppContext = Component => (
   <ThemeProvider>
     <Provider store={store}>
       <ConnectedRouter history={history}>{Component}</ConnectedRouter>

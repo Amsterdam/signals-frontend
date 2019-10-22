@@ -16,7 +16,7 @@ import {
   UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
   UPLOAD_SUCCESS,
-  UPLOAD_FAILURE
+  UPLOAD_FAILURE,
 } from './constants';
 
 import {
@@ -35,7 +35,7 @@ import {
   uploadRequest,
   uploadProgress,
   uploadSuccess,
-  uploadFailure
+  uploadFailure,
 } from './actions';
 
 
@@ -47,7 +47,7 @@ describe('App actions', () => {
     const payload = {
       userName,
       userScopes,
-      accessToken
+      accessToken,
     };
     testActionCreator(authenticateUser, AUTHENTICATE_USER, payload);
   });
@@ -59,7 +59,7 @@ describe('App actions', () => {
     const payload = {
       userName,
       userScopes,
-      accessToken
+      accessToken,
     };
     testActionCreator(authorizeUser, AUTHORIZE_USER, payload);
   });
@@ -92,8 +92,8 @@ describe('App actions', () => {
     const payload = {
       id: 666,
       file: {
-        name: 'image.jpg'
-      }
+        name: 'image.jpg',
+      },
     };
     testActionCreator(uploadRequest, UPLOAD_REQUEST, payload);
   });

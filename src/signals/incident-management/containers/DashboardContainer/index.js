@@ -1,3 +1,6 @@
+// disabling linter rules for unused module
+/* eslint-disable */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -91,23 +94,23 @@ export class DashboardContainer extends React.PureComponent {
     const { dashboard } = this.state;
     return (
       <div className="dashboard">
-        {loading ? <LoadingIndicator /> :
-        (
-          <div>
-            <FieldControlWrapper
-              render={SelectInput}
-              name="intervalTime"
-              control={this.state.dashboardForm.get('intervalTime')}
-              values={values}
-            />
-            <div className="dashboard-charts">
-              <TodayChart data={dashboard.total} />
-              <CategoryChart data={dashboard.category} />
-              <StatusChart data={dashboard.status} statusList={statusList} />
-              <HourChart data={dashboard.hour} />
+        {loading ? <LoadingIndicator />
+          : (
+            <div>
+              <FieldControlWrapper
+                render={SelectInput}
+                name="intervalTime"
+                control={this.state.dashboardForm.get('intervalTime')}
+                values={values}
+              />
+              <div className="dashboard-charts">
+                <TodayChart data={dashboard.total} />
+                <CategoryChart data={dashboard.category} />
+                <StatusChart data={dashboard.status} statusList={statusList} />
+                <HourChart data={dashboard.hour} />
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
     );
   }

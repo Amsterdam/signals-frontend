@@ -11,8 +11,8 @@ describe('<HiddenInput />', () => {
     props = {
       name: 'name',
       handler: jest.fn().mockImplementation(() => ({
-        value: 'test waarde'
-      }))
+        value: 'test waarde',
+      })),
     };
 
     const HiddenInputRender = HiddenInput(props);
@@ -30,4 +30,3 @@ describe('<HiddenInput />', () => {
     expect(wrapper).toMatchSnapshot();
   });
 });
-

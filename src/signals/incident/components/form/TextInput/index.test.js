@@ -8,7 +8,7 @@ describe('Form component <TextInput />', () => {
   const metaFields = {
     name: 'input-field-name',
     type: 'text',
-    placeholder: 'type here'
+    placeholder: 'type here',
   };
   let wrapper;
   let handler;
@@ -24,8 +24,8 @@ describe('Form component <TextInput />', () => {
     hasError = jest.fn();
     parent = {
       meta: {
-        updateIncident: jest.fn()
-      }
+        updateIncident: jest.fn(),
+      },
     };
 
     wrapper = shallow(<TextInput
@@ -42,8 +42,8 @@ describe('Form component <TextInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(handler).toHaveBeenCalledWith();
@@ -54,8 +54,8 @@ describe('Form component <TextInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: false
-        }
+          isVisible: false,
+        },
       });
 
       expect(handler).not.toHaveBeenCalled();
@@ -70,14 +70,14 @@ describe('Form component <TextInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       wrapper.find(Input).simulate('blur', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': 'diabolo'
+        'input-field-name': 'diabolo',
       });
     });
 
@@ -86,14 +86,14 @@ describe('Form component <TextInput />', () => {
         meta: {
           ...metaFields,
           autoRemove: /[dbl]*/g,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       wrapper.find(Input).simulate('blur', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': 'iaoo'
+        'input-field-name': 'iaoo',
       });
     });
   });

@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { isAuthenticated } from 'shared/services/auth/auth';
 
-import ThemeProvider, { getConfig } from '../';
+import ThemeProvider, { getConfig } from '..';
 
 jest.mock('shared/services/auth/auth');
 

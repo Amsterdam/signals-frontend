@@ -12,6 +12,7 @@ const LoginPage = () => (
           onClick={() => {
             login('datapunt');
           }}
+          type="button"
         >
           <span className="value">Inloggen</span>
         </button>
@@ -20,6 +21,7 @@ const LoginPage = () => (
           onClick={() => {
             login('grip');
           }}
+          type="button"
         >
           <span className="value">Inloggen ADW</span>
         </button>

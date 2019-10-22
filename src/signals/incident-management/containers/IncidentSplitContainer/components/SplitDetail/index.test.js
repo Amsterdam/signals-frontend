@@ -20,9 +20,8 @@ describe('<SplitDetail />', () => {
     stadsdeelList,
     onPatchIncident: jest.fn(),
     onEditStatus: jest.fn(),
-    onShowAttachment: jest.fn()
+    onShowAttachment: jest.fn(),
   };
-
 
   beforeEach(() => {
     string2date.mockImplementation(() => '14-01-1969');
@@ -73,7 +72,7 @@ describe('<SplitDetail />', () => {
       props.incident.category.departments = 'STW, THO';
       rerender(
         <SplitDetail {...props} />
-        );
+      );
 
       expect(queryByTestId('splitDetailTitleEmail')).toHaveTextContent(/^E-mailadres$/);
       expect(queryByTestId('splitDetailValueEmail')).toHaveTextContent(/^steve@apple.com$/);

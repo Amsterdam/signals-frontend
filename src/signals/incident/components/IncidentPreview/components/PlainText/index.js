@@ -18,7 +18,7 @@ const PlainText = ({ label, value }) => (
 
 PlainText.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.string
+  value: PropTypes.string,
 };
 
 export default PlainText;

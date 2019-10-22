@@ -28,7 +28,7 @@ describe('<MetaList />', () => {
           main_slug: 'overlast-bedrijven-en-horeca',
           departments: 'VTH',
           created_by: null,
-          text: null
+          text: null,
         },
         source: 'public-api',
         status: {
@@ -36,9 +36,9 @@ describe('<MetaList />', () => {
           state_display: 'Gemeld',
         },
         priority: {
-          priority: 'normal'
+          priority: 'normal',
         },
-        _links: {}
+        _links: {},
       },
       subcategories: [{
         key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overig-horecabedrijven',
@@ -47,7 +47,7 @@ describe('<MetaList />', () => {
       priorityList,
       onPatchIncident: jest.fn(),
       onEditStatus: jest.fn(),
-      onShowAttachment: jest.fn()
+      onShowAttachment: jest.fn(),
     };
 
     string2date.mockImplementation(() => '21-07-1970');
@@ -111,7 +111,7 @@ describe('<MetaList />', () => {
     it('should render correctly with children', () => {
       props.incident._links['sia:children'] = [
         { href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3095' },
-        { href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3096' }
+        { href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3096' },
       ];
 
       const { queryByTestId } = render(

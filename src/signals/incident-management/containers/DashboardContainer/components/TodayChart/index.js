@@ -14,11 +14,11 @@ const TodayChart = ({ data }) => (
 
 
 TodayChart.defaultProps = {
-  data: 0
+  data: 0,
 };
 
 TodayChart.propTypes = {
-  data: PropTypes.number
+  data: PropTypes.number,
 };
 
 export default TodayChart;

@@ -2,7 +2,7 @@ import { all, put, takeLatest } from 'redux-saga/effects';
 
 import {
   REQUEST_DASHBOARD,
-  UPDATE_DASHBOARD
+  UPDATE_DASHBOARD,
 } from './constants';
 import { requestDashboardSuccess, requestDashboardError } from './actions';
 import watchDashboardSaga, { requestURL, fetchDashboard } from './saga';
@@ -20,7 +20,7 @@ describe('DashboardContainer saga', () => {
     expect(gen.next().value).toEqual(
       all([
         takeLatest(REQUEST_DASHBOARD, fetchDashboard),
-        takeLatest(UPDATE_DASHBOARD, fetchDashboard)
+        takeLatest(UPDATE_DASHBOARD, fetchDashboard),
       ])
     );
   });
@@ -33,10 +33,10 @@ describe('DashboardContainer saga', () => {
         {
           interval_start: '2019-01-21T17:00:00',
           hour: 17,
-          count: 384
+          count: 384,
         },
       ],
-      today: {}
+      today: {},
     };
 
     const resultOut = {
@@ -47,10 +47,10 @@ describe('DashboardContainer saga', () => {
           interval_start: '2019-01-21T17:00:00',
           hour: 17,
           count: 384,
-          timestamp: 1548086400000
-        }
+          timestamp: 1548086400000,
+        },
       ],
-      today: {}
+      today: {},
     };
 
     const gen = fetchDashboard();

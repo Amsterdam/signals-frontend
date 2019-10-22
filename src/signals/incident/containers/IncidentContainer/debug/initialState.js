@@ -6,7 +6,7 @@ export default {
       huisletter: '',
       huisnummer_toevoeging: '',
       postcode: '1018DH',
-      woonplaats: 'Amsterdam'
+      woonplaats: 'Amsterdam',
     },
     buurt_code: 'A08d',
     stadsdeel: 'A',
@@ -14,9 +14,9 @@ export default {
       type: 'Point',
       coordinates: [
         4.913291931152344,
-        52.36582256756977
-      ]
-    }
+        52.36582256756977,
+      ],
+    },
   },
   category: 'overlast-bedrijven-en-horeca',
   subcategory: 'stankoverlast',
@@ -30,6 +30,6 @@ export default {
 
   datetime: {
     id: 'Nu',
-    label: 'Nu'
-  }
+    label: 'Nu',
+  },
 };

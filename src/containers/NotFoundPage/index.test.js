@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { withIntlAppContext } from 'test/utils';
 
-import NotFoundPage from './';
+import NotFoundPage from '.';
 import messages from './messages';
 import translations from '../../translations/nl.json';
 

@@ -9,12 +9,12 @@ const PREVIEW_ZOOM_LEVEL = '16';
 const smallIcon = global.window.L.icon({
   iconUrl: 'https://map.data.amsterdam.nl/dist/images/svg/marker.svg',
   iconSize: [20, 20],
-  iconAnchor: [10, 19]
+  iconAnchor: [10, 19],
 });
 const defaultIcon = global.window.L.icon({
   iconUrl: 'https://map.data.amsterdam.nl/dist/images/svg/marker.svg',
   iconSize: [40, 40],
-  iconAnchor: [20, 39]
+  iconAnchor: [20, 39],
 });
 
 class Map extends React.Component {
@@ -22,13 +22,13 @@ class Map extends React.Component {
     this.map = amaps.createMap({
       center: {
         latitude: this.props.latlng.latitude,
-        longitude: this.props.latlng.longitude
+        longitude: this.props.latlng.longitude,
       },
       layer: 'standaard',
       target: 'mapdiv',
       marker: true,
       search: false,
-      zoom: this.props.zoom
+      zoom: this.props.zoom,
     });
 
     if (this.props.hideAttribution) {
@@ -80,7 +80,7 @@ Map.defaultProps = {
   hideAttribution: false,
   hideZoomControls: false,
   useSmallMarker: false,
-  zoom: PREVIEW_ZOOM_LEVEL
+  zoom: PREVIEW_ZOOM_LEVEL,
 };
 
 Map.propTypes = {
@@ -88,7 +88,7 @@ Map.propTypes = {
   hideAttribution: PropTypes.bool,
   hideZoomControls: PropTypes.bool,
   useSmallMarker: PropTypes.bool,
-  zoom: PropTypes.string
+  zoom: PropTypes.string,
 };
 
 export default Map;

@@ -18,8 +18,8 @@ describe('Form component <CheckboxInput />', () => {
     hasError = jest.fn();
     parent = {
       meta: {
-        updateIncident: jest.fn()
-      }
+        updateIncident: jest.fn(),
+      },
     };
 
     wrapper = shallow(<CheckboxInput
@@ -33,8 +33,8 @@ describe('Form component <CheckboxInput />', () => {
     handler.mockImplementation(() => ({
       value: {
         value: true,
-        label: 'Ja dat wil ik'
-      }
+        label: 'Ja dat wil ik',
+      },
     }));
   });
 
@@ -44,8 +44,8 @@ describe('Form component <CheckboxInput />', () => {
         meta: {
           name: 'input-field-name',
           value: 'Ja, dat is goed',
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -53,15 +53,15 @@ describe('Form component <CheckboxInput />', () => {
 
     it('should render multi checkbox correctly', () => {
       handler = handler.mockImplementation(() => ({
-        value: ['blue']
+        value: ['blue'],
       }));
 
       wrapper.setProps({
         meta: {
           name: 'input-field-name',
           values: { red: 'Rood', blue: 'Blauw', green: 'Groen' },
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -74,8 +74,8 @@ describe('Form component <CheckboxInput />', () => {
         meta: {
           name: 'input-field-name',
           values: { red: 'Rood', blue: 'Blauw', green: 'Groen' },
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -85,8 +85,8 @@ describe('Form component <CheckboxInput />', () => {
       wrapper.setProps({
         meta: {
           name: 'input-field-name',
-          isVisible: false
-        }
+          isVisible: false,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -99,8 +99,8 @@ describe('Form component <CheckboxInput />', () => {
         meta: {
           name: 'input-field-name',
           value: 'Ja, dat is goed',
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       const checkEevent = { target: { checked: true } };
@@ -109,15 +109,15 @@ describe('Form component <CheckboxInput />', () => {
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': {
           value: true,
-          label: 'Ja, dat is goed'
-        }
+          label: 'Ja, dat is goed',
+        },
       });
 
       const uncheckEevent = { target: { checked: false } };
       wrapper.find('input').simulate('click', uncheckEevent);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': { value: false, label: 'Ja, dat is goed' }
+        'input-field-name': { value: false, label: 'Ja, dat is goed' },
       });
     });
 
@@ -128,22 +128,22 @@ describe('Form component <CheckboxInput />', () => {
         meta: {
           name: 'input-field-name',
           values: { red: 'Rood', blue: 'Blauw', green: 'Groen' },
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       const checkEevent = { target: { checked: true } };
       wrapper.find('input[type="checkbox"]').at(2).simulate('click', checkEevent);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': [{ id: 'blue', label: 'Blauw' }, { id: 'green', label: 'Groen' }]
+        'input-field-name': [{ id: 'blue', label: 'Blauw' }, { id: 'green', label: 'Groen' }],
       });
 
       const uncheckEevent = { target: { checked: false } };
       wrapper.find('input[type="checkbox"]').at(2).simulate('click', uncheckEevent);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': [{ id: 'blue', label: 'Blauw' }]
+        'input-field-name': [{ id: 'blue', label: 'Blauw' }],
       });
     });
   });

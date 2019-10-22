@@ -3,11 +3,11 @@ import getStepControls from './index';
 describe('The get step controls service', () => {
   const controls = {
     description: {
-      type: 'text'
+      type: 'text',
     },
     location: {
-      type: 'latlng'
-    }
+      type: 'latlng',
+    },
   };
 
   it('should return undefined by default', () => {
@@ -17,14 +17,14 @@ describe('The get step controls service', () => {
   it('should return controls of wizard step from wizard definition', () => {
     expect(getStepControls({
       form: {
-        controls
-      }
+        controls,
+      },
     })).toEqual(controls);
   });
 
   it('should return controls of wizard step from wizard formFactory', () => {
     expect(getStepControls({
-      formFactory: () => ({ controls })
+      formFactory: () => ({ controls }),
     })).toEqual(controls);
   });
 });

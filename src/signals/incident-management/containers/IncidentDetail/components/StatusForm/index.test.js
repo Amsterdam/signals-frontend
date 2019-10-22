@@ -19,8 +19,8 @@ describe('<StatusForm />', () => {
       incident: {
         id: 42,
         status: {
-          state: 'm'
-        }
+          state: 'm',
+        },
       },
       patching: { location: false },
       error: false,
@@ -29,11 +29,11 @@ describe('<StatusForm />', () => {
       defaultTexts: [],
       onPatchIncident: jest.fn(),
       onDismissError: jest.fn(),
-      onClose: jest.fn()
+      onClose: jest.fn(),
     };
   });
 
-  const getComponent = (prps) => {
+  const getComponent = prps => {
     const wrap = shallow(
       <StatusForm {...prps} />
     );
@@ -57,8 +57,8 @@ describe('<StatusForm />', () => {
   it('should contain render unauthorized error', () => {
     props.error = {
       response: {
-        status: 403
-      }
+        status: 403,
+      },
     };
 
     [wrapper, instance] = getComponent(props);
@@ -70,8 +70,8 @@ describe('<StatusForm />', () => {
   it('should contain render other error', () => {
     props.error = {
       response: {
-        status: 400
-      }
+        status: 400,
+      },
     };
 
     [wrapper, instance] = getComponent(props);
@@ -84,7 +84,7 @@ describe('<StatusForm />', () => {
 
   it('should contain loading indicator when patching error', () => {
     props.patching = {
-      status: true
+      status: true,
     };
 
     [wrapper, instance] = getComponent(props);
@@ -118,7 +118,7 @@ describe('<StatusForm />', () => {
     it('should enable the submit button when a status has been selected', () => {
       const form = instance.form;
       const formValue = {
-        status: 'b'
+        status: 'b',
       };
       form.patchValue(formValue);
       expect(form.value.status).toEqual(formValue.status);
@@ -129,14 +129,14 @@ describe('<StatusForm />', () => {
     it('should enable the submit button when a status with a mandatory text have been selected', () => {
       const form = instance.form;
       const newStatus = {
-        status: 'o'
+        status: 'o',
       };
       form.patchValue(newStatus);
       expect(form.value.status).toEqual(newStatus.status);
       expect(renderedFormGroup.find('.status-form__form-submit').prop('disabled')).toBe(true);
 
       const newText = {
-        text: 'bla'
+        text: 'bla',
       };
       form.patchValue(newText);
       expect(form.value.text).toEqual(newText.text);
@@ -153,7 +153,7 @@ describe('<StatusForm />', () => {
       const form = instance.form;
       const formValues = {
         status: 'o',
-        text: 'boooooo'
+        text: 'boooooo',
       };
       form.patchValue(formValues);
 
@@ -164,21 +164,21 @@ describe('<StatusForm />', () => {
         patch: {
           status: {
             state: 'o',
-            text: 'boooooo'
-          }
+            text: 'boooooo',
+          },
         },
-        type: 'status'
+        type: 'status',
       });
     });
 
     it('should close the location form when result is ok', () => {
       wrapper.setProps({
-        patching: { status: true }
+        patching: { status: true },
       });
 
       wrapper.setProps({
         patching: { status: false },
-        error: { response: { ok: true } }
+        error: { response: { ok: true } },
       });
 
       expect(props.onClose).toHaveBeenCalledTimes(1);
@@ -186,12 +186,12 @@ describe('<StatusForm />', () => {
 
     it('should not close the location form when result triggers an error', () => {
       wrapper.setProps({
-        patching: { status: true }
+        patching: { status: true },
       });
 
       wrapper.setProps({
         patching: { status: false },
-        error: { response: { ok: false, status: 500 } }
+        error: { response: { ok: false, status: 500 } },
       });
 
       expect(props.onClose).not.toHaveBeenCalled();

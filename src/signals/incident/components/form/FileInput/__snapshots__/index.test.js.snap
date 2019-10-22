@@ -37,7 +37,6 @@ exports[`Form component <FileInput /> rendering should render upload field corre
           >
             <div
               className="file-input__button-label-icon"
-              htmlFor="formUpload"
             />
           </label>
           <input
@@ -96,7 +95,6 @@ exports[`Form component <FileInput /> rendering should render upload field with 
           >
             <div
               className="file-input__button-label-icon"
-              htmlFor="formUpload"
             />
           </label>
           <input
@@ -177,9 +175,9 @@ exports[`Form component <FileInput /> rendering should render upload field with 
             }
           >
             <button
+              aria-label="Verwijder deze foto"
               className="file-input__preview-button-delete"
               onClick={[Function]}
-              title="Verwijder deze foto"
               type="button"
             />
           </div>
