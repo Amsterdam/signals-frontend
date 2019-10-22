@@ -9,15 +9,17 @@ import './style.scss';
 
 const DEFAULT_COORDS = [4.900312721729279, 52.37248465266875];
 
-const getLatlng = (incident) => {
+const getLatlng = incident => {
   const coords = get(incident, 'location.geometrie.coordinates', DEFAULT_COORDS);
   return {
     latitude: coords[1],
-    longitude: coords[0]
+    longitude: coords[0],
   };
 };
 
-const MapSelectPreview = ({ label, value, endpoint, incident }) => {
+const MapSelectPreview = ({
+  label, value, endpoint, incident,
+}) => {
   const latlng = getLatlng(incident);
   const geojsonUrl = `${configuration.API_ROOT_MAPSERVER}${endpoint}`;
 
@@ -45,11 +47,11 @@ const MapSelectPreview = ({ label, value, endpoint, incident }) => {
 
 MapSelectPreview.propTypes = {
   incident: PropTypes.shape({
-    location: PropTypes.object
+    location: PropTypes.object,
   }),
   endpoint: PropTypes.string.isRequired,
   label: PropTypes.string,
-  value: PropTypes.arrayOf(PropTypes.string)
+  value: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default MapSelectPreview;

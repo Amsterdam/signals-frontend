@@ -5,7 +5,7 @@ import MapInput from './index';
 
 describe('Form component <MapInput />', () => {
   const metaFields = {
-    name: 'input-field-name'
+    name: 'input-field-name',
   };
   let wrapper;
   let handler;
@@ -21,19 +21,21 @@ describe('Form component <MapInput />', () => {
     hasError = jest.fn();
     parent = {
       meta: {
-        updateIncident: jest.fn()
-      }
+        updateIncident: jest.fn(),
+      },
     };
 
-    handler.mockImplementation(() => ({ value: {
-      geometrie: {
-        type: 'Point',
-        coordinates: [
-          4,
-          52
-        ]
-      }
-    } }));
+    handler.mockImplementation(() => ({
+      value: {
+        geometrie: {
+          type: 'Point',
+          coordinates: [
+            4,
+            52,
+          ],
+        },
+      },
+    }));
 
     wrapper = shallow(<MapInput
       handler={handler}
@@ -51,8 +53,8 @@ describe('Form component <MapInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(handler).toHaveBeenCalledWith();
@@ -65,8 +67,8 @@ describe('Form component <MapInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: false
-        }
+          isVisible: false,
+        },
       });
 
       expect(handler).toHaveBeenCalledWith();

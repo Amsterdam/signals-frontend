@@ -15,7 +15,7 @@ describe('The access token parser service', () => {
       notBefore: 1487843128,
       expiresAt: 1487843328,
       jwtId: 'jwtId',
-      scopes: ['HR/R', 'BRK/RS']
+      scopes: ['HR/R', 'BRK/RS'],
     });
   });
 

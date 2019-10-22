@@ -14,14 +14,14 @@ describe('<DetailHeader />', () => {
       incident: {
         id: 42,
         status: {
-          state: 'm'
+          state: 'm',
         },
         _links: {
-          'sia:pdf': { href: 'https://api.data.amsterdam.nl/signals/v1/private/signals/3076/pdf' }
-        }
+          'sia:pdf': { href: 'https://api.data.amsterdam.nl/signals/v1/private/signals/3076/pdf' },
+        },
       },
       baseUrl: '/manage',
-      onPatchIncident: jest.fn()
+      onPatchIncident: jest.fn(),
     };
   });
 
@@ -92,9 +92,9 @@ describe('<DetailHeader />', () => {
           status: {
             state: 'ready to send',
             text: 'Te verzenden naar THOR',
-            target_api: 'sigmax'
-          }
-        }
+            target_api: 'sigmax',
+          },
+        },
       });
     });
   });

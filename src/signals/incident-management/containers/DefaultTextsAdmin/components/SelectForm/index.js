@@ -18,9 +18,9 @@ class SelectForm extends React.Component {
   }
 
   componentDidMount() {
-    this.form.controls.category_url.valueChanges.subscribe((category_url) => {
+    this.form.controls.category_url.valueChanges.subscribe(category_url => {
       const found = this.props.subCategories.find(
-        (sub) => sub.key === category_url,
+        sub => sub.key === category_url,
       );
       if (found && found.slug && found.category_slug) {
         this.form.patchValue({
@@ -32,7 +32,7 @@ class SelectForm extends React.Component {
       }
     });
 
-    this.form.controls.state.valueChanges.subscribe((state) => {
+    this.form.controls.state.valueChanges.subscribe(state => {
       this.handleChange({ state });
     });
 
@@ -52,7 +52,7 @@ class SelectForm extends React.Component {
     main_slug: ['afval'],
   });
 
-  handleChange = (changed) => {
+  handleChange = changed => {
     const newValues = {
       ...this.form.value,
       ...changed,
@@ -111,7 +111,7 @@ class SelectForm extends React.Component {
 
 SelectForm.defaultProps = {
   subCategories: [],
-  stateList: [],
+  statusList: [],
 
   onFetchDefaultTexts: () => {},
 };

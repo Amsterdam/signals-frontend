@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DefinitionComponents from '../components/';
+import DefinitionComponents from '../components';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
 
@@ -11,9 +11,9 @@ export default {
         label: 'Dit hebt u net ingevuld:',
         type: 'citation',
         value: '{incident.description}',
-        ignoreVisibility: true
+        ignoreVisibility: true,
       },
-      render: FormComponents.PlainText
+      render: FormComponents.PlainText,
     },
 
     extra_jongeren_text: {
@@ -21,7 +21,7 @@ export default {
         className: 'col-sm-12 col-md-6',
         ifAllOf: {
           category: 'overlast-van-en-door-personen-of-groepen',
-          subcategory: 'jongerenoverlast'
+          subcategory: 'jongerenoverlast',
         },
         type: 'caution',
         value: [
@@ -31,16 +31,16 @@ export default {
               <DefinitionComponents.Anchor href="https://www.amsterdam.nl/zorg-ondersteuning/contact/meldpunt-zorg/">Melding zorg en woonoverlast</DefinitionComponents.Anchor>,
               '. Dan komt uw melding direct bij het juiste team terecht.',
             ]}
-          />
+          />,
         ],
       },
-      render: FormComponents.PlainText
+      render: FormComponents.PlainText,
     },
     extra_personen_overig: {
       meta: {
         className: 'col-sm-12 col-md-6',
         ifAllOf: {
-          category: 'overlast-van-en-door-personen-of-groepen'
+          category: 'overlast-van-en-door-personen-of-groepen',
         },
         label: 'Om hoe veel personen gaat het (ongeveer)?',
         pathMerge: 'extra_properties',
@@ -48,22 +48,22 @@ export default {
           '1-3': '1 - 3',
           '4-6': '4 - 6',
           '7_of_meer': '7 of meer',
-          onbekend: 'Onbekend'
-        }
+          onbekend: 'Onbekend',
+        },
       },
-      render: FormComponents.RadioInput
+      render: FormComponents.RadioInput,
     },
     extra_personen_overig_vaker: {
       meta: {
         className: 'col-sm-12 col-md-6',
         ifAllOf: {
-          category: 'overlast-van-en-door-personen-of-groepen'
+          category: 'overlast-van-en-door-personen-of-groepen',
         },
         label: 'Gebeurt het vaker?',
         pathMerge: 'extra_properties',
-        value: 'Ja, het gebeurt vaker:'
+        value: 'Ja, het gebeurt vaker:',
       },
-      render: FormComponents.CheckboxInput
+      render: FormComponents.CheckboxInput,
     },
     extra_personen_overig_vaker_momenten: {
       meta: {
@@ -71,14 +71,14 @@ export default {
         pathMerge: 'extra_properties',
         ifAllOf: {
           extra_personen_overig_vaker: true,
-          category: 'overlast-van-en-door-personen-of-groepen'
-        }
+          category: 'overlast-van-en-door-personen-of-groepen',
+        },
       },
-      render: FormComponents.TextareaInput
+      render: FormComponents.TextareaInput,
     },
     $field_0: {
       isStatic: false,
-      render: IncidentNavigation
-    }
-  }
+      render: IncidentNavigation,
+    },
+  },
 };

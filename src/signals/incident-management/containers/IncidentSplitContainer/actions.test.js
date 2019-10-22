@@ -1,11 +1,11 @@
 import { testActionCreator } from 'test/utils';
 
 import {
-  SPLIT_INCIDENT, SPLIT_INCIDENT_SUCCESS, SPLIT_INCIDENT_ERROR
+  SPLIT_INCIDENT, SPLIT_INCIDENT_SUCCESS, SPLIT_INCIDENT_ERROR,
 } from './constants';
 
 import {
-  splitIncident, splitIncidentSuccess, splitIncidentError
+  splitIncident, splitIncidentSuccess, splitIncidentError,
 } from './actions';
 
 describe('IncidentSplitontainer actions', () => {

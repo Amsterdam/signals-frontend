@@ -4,36 +4,36 @@ describe('The list helper service', () => {
   const list = [
     {
       key: 'A',
-      value: 'Centrum'
+      value: 'Centrum',
     },
     {
       key: 'B',
-      value: 'Westpoort'
+      value: 'Westpoort',
     },
     {
       key: 'E',
-      value: 'West'
+      value: 'West',
     },
     {
       key: 'M',
-      value: 'Oost'
+      value: 'Oost',
     },
     {
       key: 'N',
-      value: 'Noord'
+      value: 'Noord',
     },
     {
       key: 'T',
-      value: 'Zuidoost'
+      value: 'Zuidoost',
     },
     {
       key: 'K',
-      value: 'Zuid'
+      value: 'Zuid',
     },
     {
       key: 'F',
-      value: 'Nieuw-West'
-    }
+      value: 'Nieuw-West',
+    },
   ];
 
   it('by default should return false', () => {

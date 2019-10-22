@@ -8,7 +8,7 @@ import { addLocaleData } from 'react-intl';
 import enLocaleData from 'react-intl/locale-data/en';
 import nlLocaleData from 'react-intl/locale-data/nl';
 
-import { DEFAULT_LOCALE } from '../src/containers/App/constants';
+import { DEFAULT_LOCALE } from './containers/App/constants';
 
 import enTranslationMessages from './translations/en.json';
 import nlTranslationMessages from './translations/nl.json';

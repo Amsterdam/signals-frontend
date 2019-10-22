@@ -28,7 +28,7 @@ describe('<DashboardContainer />', () => {
             { name: 'In behandeling', count: 20, color: '#FE952F' },
             { name: 'Geannuleerd', count: 2, color: '#96C14F' },
             { name: 'Afgehandeld', count: 13, color: '#9B4474' },
-            { name: 'On hold', count: 1, color: '#E8663F' }
+            { name: 'On hold', count: 1, color: '#E8663F' },
           ],
           category: [
             { name: 'Overlast op het water', count: 2 },
@@ -39,33 +39,33 @@ describe('<DashboardContainer />', () => {
             { name: 'Overlast in de openbare ruimte', count: 82 },
             { name: 'Overig', count: 88 },
             { name: 'Wegen verkeer straatmeubileir ', count: 126 },
-            { name: 'Afval', count: 250 }
+            { name: 'Afval', count: 250 },
           ],
           hour: [
             {
               interval_start: '2019-01-21T14:00:00',
               hour: 14,
               count: 42,
-              timestamp: 1548075600000
+              timestamp: 1548075600000,
             },
             {
               interval_start: '2019-01-21T15:00:00',
               hour: 15,
               count: 666,
-              timestamp: 1548079200000
+              timestamp: 1548079200000,
             },
             {
               interval_start: '2019-01-21T16:00:00',
               hour: 16,
               count: 3333,
-              timestamp: 1548082800000
-            }
+              timestamp: 1548082800000,
+            },
           ],
-          total: 638
-        }
+          total: 638,
+        },
       },
       onRequestDashboard: jest.fn(),
-      onUpdateDashboard: jest.fn()
+      onUpdateDashboard: jest.fn(),
     };
   });
 
@@ -85,8 +85,8 @@ describe('<DashboardContainer />', () => {
       wrapper.setProps({
         incidentDashboardContainer: {
           dashboard: originalDashboard,
-          loading: false
-        }
+          loading: false,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();

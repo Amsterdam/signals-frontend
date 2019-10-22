@@ -10,16 +10,16 @@ describe('<Attachments />', () => {
     props = {
       attachments: [
         {
-          location: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/attachments/2019/07/02/landscape_3.jpg?temp_url_sig=96364a8c62ff29d18135b929c86533bea63179b0&temp_url_expires=1564671767'
+          location: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/attachments/2019/07/02/landscape_3.jpg?temp_url_sig=96364a8c62ff29d18135b929c86533bea63179b0&temp_url_expires=1564671767',
         },
         {
-          location: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/attachments/2019/07/02/landscape_2.jpg?temp_url_sig=fb4dd645ead47becc77e521e651fc3a5c4a2adb5&temp_url_expires=1564671767'
+          location: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/attachments/2019/07/02/landscape_2.jpg?temp_url_sig=fb4dd645ead47becc77e521e651fc3a5c4a2adb5&temp_url_expires=1564671767',
         },
         {
-          location: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/attachments/2019/07/02/landscape.jpg?temp_url_sig=fcc774586a87496aec433c61eea802f27df45664&temp_url_expires=1564671767'
-        }
+          location: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/attachments/2019/07/02/landscape.jpg?temp_url_sig=fcc774586a87496aec433c61eea802f27df45664&temp_url_expires=1564671767',
+        },
       ],
-      onShowAttachment: jest.fn()
+      onShowAttachment: jest.fn(),
     };
   });
 

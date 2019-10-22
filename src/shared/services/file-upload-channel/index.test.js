@@ -21,8 +21,8 @@ describe('The file upload channel service', () => {
       send,
       upload: {
         addEventListener,
-        removeEventListener
-      }
+        removeEventListener,
+      },
     }));
   });
 

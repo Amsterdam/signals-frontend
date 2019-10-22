@@ -5,7 +5,7 @@ exports[`<IncidentPart /> rendering should render correctly with image 1`] = `
   className="incident-part"
 >
   <h2>
-    Deelmelding 
+    Deelmelding
     2
   </h2>
   <FieldControlWrapper
@@ -103,7 +103,7 @@ exports[`<IncidentPart /> rendering should render correctly without image 1`] = 
   className="incident-part"
 >
   <h2>
-    Deelmelding 
+    Deelmelding
     2
   </h2>
   <FieldControlWrapper

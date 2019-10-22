@@ -11,15 +11,17 @@ import FilterItem from './components/FilterItem';
 
 import './style.scss';
 
-const sortFilters = (allFilters) => {
+const sortFilters = allFilters => {
   allFilters.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
 
   return allFilters;
 };
 
-export const MyFiltersComponent = ({ allFilters, onApplyFilter, onRemoveFilter, onClose }) => (
+export const MyFiltersComponent = ({
+  allFilters, onApplyFilter, onRemoveFilter, onClose,
+}) => (
   <div className="my-filters">
-    {allFilters && allFilters.length ? sortFilters(allFilters).map((filter) => (
+    {allFilters && allFilters.length ? sortFilters(allFilters).map(filter => (
       <FilterItem
         key={filter.id}
         filter={filter}
@@ -47,14 +49,13 @@ const mapStateToProps = createStructuredSelector({
   allFilters: makeSelectAllFilters,
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      onApplyFilter: applyFilter,
-      onRemoveFilter: removeFilter,
-    },
-    dispatch,
-  );
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    onApplyFilter: applyFilter,
+    onRemoveFilter: removeFilter,
+  },
+  dispatch,
+);
 
 const withConnect = connect(
   mapStateToProps,

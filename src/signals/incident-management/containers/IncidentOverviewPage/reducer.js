@@ -68,7 +68,7 @@ function overviewPageReducer(state = initialState, action) {
       newFilters = state
         .get('allFilters')
         .toJS()
-        .filter((i) => !i._links.self.href.match(re));
+        .filter(i => !i._links.self.href.match(re));
       return state.set('allFilters', fromJS(newFilters));
     case APPLY_FILTER:
       return state.set('filter', fromJS(action.payload));

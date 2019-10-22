@@ -1,15 +1,15 @@
-const formatUpdateIncident = (values) => {
+const formatUpdateIncident = values => {
   const update = {};
 
   if (values && values.priority) {
     update.priority = {
-      priority: values.priority
+      priority: values.priority,
     };
   }
 
   if (values && values.note) {
     update.notes = [{
-      text: values.note
+      text: values.note,
     }];
   }
 

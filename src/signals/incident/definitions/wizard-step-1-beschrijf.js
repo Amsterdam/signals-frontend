@@ -9,7 +9,7 @@ import getStepControls from '../services/get-step-controls';
 export default {
   label: 'Beschrijf uw melding',
   getNextStep: (wizard, incident, isAuthenticated) => {
-    if (!some(getStepControls(wizard.vulaan, incident), (control) => {
+    if (!some(getStepControls(wizard.vulaan, incident), control => {
       if (control.meta && !control.meta.ignoreVisibility) {
         return checkVisibility(control, incident, isAuthenticated);
       }
@@ -46,14 +46,14 @@ export default {
             'Meldkamer Handhaver': 'Meldkamer Handhaver',
             'Meldkamer Politie': 'Meldkamer Politie',
             VerbeterDeBuurt: 'VerbeterDeBuurt',
-            Waarnemingenapp: 'Waarnemingenapp'
-          }
+            Waarnemingenapp: 'Waarnemingenapp',
+          },
         },
         options: {
-          validators: [Validators.required]
+          validators: [Validators.required],
         },
         authenticated: true,
-        render: FormComponents.SelectInput
+        render: FormComponents.SelectInput,
       },
       location: {
         meta: {
@@ -62,9 +62,9 @@ export default {
           path: 'location',
         },
         options: {
-          validators: [Validators.required]
+          validators: [Validators.required],
         },
-        render: FormComponents.MapInput
+        render: FormComponents.MapInput,
       },
       description: {
         meta: {
@@ -72,47 +72,47 @@ export default {
           path: 'text',
           placeholder: 'Beschrijf uw melding',
           maxLength: 1000,
-          doNotUpdateValue: true
+          doNotUpdateValue: true,
         },
         options: {
           validators: [
             Validators.required,
-            Validators.maxLength(1000)
-          ]
+            Validators.maxLength(1000),
+          ],
         },
-        render: FormComponents.DescriptionWithClassificationInput
+        render: FormComponents.DescriptionWithClassificationInput,
       },
       category: {
         meta: {
           label: 'Categorie',
-          type: 'text'
+          type: 'text',
         },
         options: {
-          validators: [Validators.required]
+          validators: [Validators.required],
         },
-        render: FormComponents.HiddenInput
+        render: FormComponents.HiddenInput,
       },
       subcategory: {
         meta: {
           label: 'Subcategorie',
-          type: 'text'
+          type: 'text',
         },
         options: {
-          validators: [Validators.required]
+          validators: [Validators.required],
         },
-        render: FormComponents.HiddenInput
+        render: FormComponents.HiddenInput,
       },
       subcategory_link: {
         meta: {
           label: 'Subcategorie',
           path: 'category.sub_category',
           type: 'text',
-          validateAsyncProp: 'incidentContainer.loadingClassification'
+          validateAsyncProp: 'incidentContainer.loadingClassification',
         },
         options: {
-          validators: [Validators.required]
+          validators: [Validators.required],
         },
-        render: FormComponents.HiddenInput
+        render: FormComponents.HiddenInput,
       },
       datetime: {
         meta: {
@@ -120,36 +120,36 @@ export default {
           label: 'Geef het tijdstip aan',
           values: {
             Nu: 'Nu',
-            Eerder: 'Eerder'
-          }
+            Eerder: 'Eerder',
+          },
         },
         options: {
-          validators: [Validators.required]
+          validators: [Validators.required],
         },
-        render: FormComponents.RadioInput
+        render: FormComponents.RadioInput,
       },
       incident_date: {
         meta: {
           ifAllOf: {
-            datetime: 'Eerder'
-          }
+            datetime: 'Eerder',
+          },
         },
         render: FormComponents.DateTimeInput,
-        strict: false
+        strict: false,
       },
       incident_time_hours: {
         meta: {
           label: 'Incident time hours',
-          readOnly: true
+          readOnly: true,
         },
-        render: FormComponents.HiddenInput
+        render: FormComponents.HiddenInput,
       },
       incident_time_minutes: {
         meta: {
           label: 'Incident time minutes',
-          readOnly: true
+          readOnly: true,
         },
-        render: FormComponents.HiddenInput
+        render: FormComponents.HiddenInput,
       },
       priority: {
         meta: {
@@ -158,26 +158,26 @@ export default {
           path: 'priority',
           values: {
             normal: 'Normaal',
-            high: 'Hoog'
-          }
+            high: 'Hoog',
+          },
         },
         options: {
-          validators: [Validators.required]
+          validators: [Validators.required],
         },
         authenticated: true,
-        render: FormComponents.SelectInput
+        render: FormComponents.SelectInput,
       },
       images_previews: {
         meta: {
-          label: 'images_previews'
+          label: 'images_previews',
         },
-        render: FormComponents.HiddenInput
+        render: FormComponents.HiddenInput,
       },
       images_errors: {
         meta: {
-          label: 'images_errors'
+          label: 'images_errors',
         },
-        render: FormComponents.HiddenInput
+        render: FormComponents.HiddenInput,
       },
       images: {
         meta: {
@@ -185,14 +185,14 @@ export default {
           subtitle: 'Voeg een foto toe om de situatie te verduidelijken.',
           maxFileSize: 8388608,
           allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif'],
-          maxNumberOfFiles: 3
+          maxNumberOfFiles: 3,
         },
-        render: FormComponents.FileInput
+        render: FormComponents.FileInput,
       },
       $field_0: {
         isStatic: false,
-        render: IncidentNavigation
-      }
-    }
-  }
+        render: IncidentNavigation,
+      },
+    },
+  },
 };

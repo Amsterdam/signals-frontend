@@ -19,7 +19,7 @@ exports[`<TextAreaInput /> should render character counter correctly 1`] = `
     <div
       className="text-area-input__control"
     >
-      <Component
+      <TextArea
         id="formname"
         name=""
         placeholder="placeholder"
@@ -59,7 +59,7 @@ exports[`<TextAreaInput /> should render character counter with value correctly 
     <div
       className="text-area-input__control"
     >
-      <Component
+      <TextArea
         id="formname"
         name=""
         placeholder="placeholder"
@@ -99,7 +99,7 @@ exports[`<TextAreaInput /> should render correctly 1`] = `
     <div
       className="text-area-input__control"
     >
-      <Component
+      <TextArea
         id="formname"
         name=""
         placeholder="placeholder"

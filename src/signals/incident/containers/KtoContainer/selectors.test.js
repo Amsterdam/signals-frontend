@@ -6,11 +6,11 @@ describe('makeSelectKtoContainer', () => {
     const selector = makeSelectKtoContainer();
     const ktoContainer = {
       form: {
-        yesNo: 'ja'
-      }
+        yesNo: 'ja',
+      },
     };
     const mockedState = fromJS({
-      ktoContainer
+      ktoContainer,
     });
 
     expect(selector(mockedState)).toEqual(ktoContainer);

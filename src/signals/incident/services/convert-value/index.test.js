@@ -31,8 +31,8 @@ describe('The convert value service', () => {
       foo: 1,
       bar: {
         x: 42,
-        y: 42
-      }
+        y: 42,
+      },
     };
     expect(convertValue(object)).toBe(object);
   });

@@ -13,7 +13,7 @@ exports[`<IncidentNavigation /> rendering render correctly button with submittin
         ],
         "results": Array [
           Object {
-            "isThrow": false,
+            "type": "return",
             "value": undefined,
           },
         ],
@@ -126,7 +126,7 @@ exports[`<IncidentNavigation /> rendering render correctly first step with one b
         ],
         "results": Array [
           Object {
-            "isThrow": false,
+            "type": "return",
             "value": undefined,
           },
         ],
@@ -232,7 +232,7 @@ exports[`<IncidentNavigation /> rendering render correctly last step with no but
         ],
         "results": Array [
           Object {
-            "isThrow": false,
+            "type": "return",
             "value": undefined,
           },
         ],
@@ -327,7 +327,7 @@ exports[`<IncidentNavigation /> rendering render correctly last step with two bu
         ],
         "results": Array [
           Object {
-            "isThrow": false,
+            "type": "return",
             "value": undefined,
           },
         ],
@@ -439,7 +439,7 @@ exports[`<IncidentNavigation /> rendering render correctly second step when subm
         ],
         "results": Array [
           Object {
-            "isThrow": false,
+            "type": "return",
             "value": undefined,
           },
         ],
@@ -542,7 +542,7 @@ exports[`<IncidentNavigation /> rendering render correctly second step with two 
         ],
         "results": Array [
           Object {
-            "isThrow": false,
+            "type": "return",
             "value": undefined,
           },
         ],

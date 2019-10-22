@@ -1,6 +1,6 @@
 const ErrorControl = L.Control.extend({
   options: {
-    message: 'Oops, something went wrong'
+    message: 'Oops, something went wrong',
   },
 
   initialize(options) {
@@ -20,8 +20,7 @@ const ErrorControl = L.Control.extend({
 
   hide() {
     L.DomUtil.addClass(this._container, 'hide');
-  }
+  },
 });
 
 export default ErrorControl;
-

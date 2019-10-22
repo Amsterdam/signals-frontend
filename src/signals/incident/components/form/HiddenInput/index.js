@@ -11,7 +11,7 @@ const HiddenInput = ({ handler }) => (
 );
 
 HiddenInput.propTypes = {
-  handler: PropTypes.func
+  handler: PropTypes.func,
 };
 
 export default HiddenInput;

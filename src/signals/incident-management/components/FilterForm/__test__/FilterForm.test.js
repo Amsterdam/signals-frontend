@@ -7,7 +7,7 @@ import statusList from 'signals/incident-management/definitions/statusList';
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 
 import categories from 'utils/__tests__/fixtures/categories.json';
-import FilterForm, { defaultSubmitBtnLabel, saveSubmitBtnLabel } from '../';
+import FilterForm, { defaultSubmitBtnLabel, saveSubmitBtnLabel } from '..';
 
 describe('signals/incident-management/components/FilterForm', () => {
   afterEach(cleanup);
@@ -114,7 +114,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       ),
     ).toHaveLength(Object.keys(categories.mainToSub).length);
 
-    Object.keys(categories.mainToSub).forEach((category) => {
+    Object.keys(categories.mainToSub).forEach(category => {
       expect(
         container.querySelectorAll(
           `input[type="checkbox"][name="${category}_category_slug"]`,

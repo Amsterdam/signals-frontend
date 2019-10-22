@@ -5,12 +5,15 @@ import { Validators } from 'react-reactive-form';
 
 import './style.scss';
 
-const Header = ({ meta, options, touched, hasError, getError, children }) => (
+const Header = ({
+  meta, options, touched, hasError, getError, children,
+}) => (
   <div className={`header ${touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom')) ? 'header--invalid' : ''}`}>
-    <div className="header__label">{meta && meta.label}
-      {(meta.label && (!options || !options.validators)) || (options && options.validators && !options.validators.includes(Validators.required)) ?
-        <span className="header--not-required">(optioneel)</span>
-      : ''}
+    <div className="header__label">
+      {meta && meta.label}
+      {(meta.label && (!options || !options.validators)) || (options && options.validators && !options.validators.includes(Validators.required))
+        ? <span className="header--not-required">(optioneel)</span>
+        : ''}
     </div>
     <div className="header__subtitle">{meta && meta.subtitle}</div>
 
@@ -52,7 +55,7 @@ Header.propTypes = {
   touched: PropTypes.bool,
   hasError: PropTypes.func,
   getError: PropTypes.func,
-  children: PropTypes.object
+  children: PropTypes.object,
 };
 
 export default Header;

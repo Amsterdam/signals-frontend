@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme';
 
 import { Wizard, WithWizard } from 'react-albus';
 
-import PreviewComponents from '../../components/IncidentPreview/components/';
+import PreviewComponents from './components';
 import IncidentPreview from './index';
 import isVisible from './services/is-visible';
 
@@ -17,23 +17,23 @@ describe('<IncidentPreview />', () => {
       incidentContainer: {
         incident: {
           phone: '0666 666 666',
-          email: 'duvel@uiteendoosje.nl'
-        }
+          email: 'duvel@uiteendoosje.nl',
+        },
       },
       preview: {
         step1: {
           phone: {
             label: 'Uw (mobiele) telefoon',
-            render: PreviewComponents.PlainText
-          }
+            render: PreviewComponents.PlainText,
+          },
         },
         step2: {
           email: {
             label: 'Uw e-mailadres',
-            render: PreviewComponents.PlainText
-          }
-        }
-      }
+            render: PreviewComponents.PlainText,
+          },
+        },
+      },
     };
   });
 
@@ -64,7 +64,7 @@ describe('<IncidentPreview />', () => {
   it('should trigger new page when clicking button', () => {
     const historySpy = {
       push: jest.fn(),
-      listen: jest.fn()
+      listen: jest.fn(),
     };
 
     const wrapper = mount(
@@ -75,9 +75,11 @@ describe('<IncidentPreview />', () => {
 
     const withWizard = wrapper.find(WithWizard).last();
 
-    shallow(withWizard.get(0), { context: {
-      wizard: {}
-    } });
+    shallow(withWizard.get(0), {
+      context: {
+        wizard: {},
+      },
+    });
 
     withWizard.find('button').simulate('click');
 

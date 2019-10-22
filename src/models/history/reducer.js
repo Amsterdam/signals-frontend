@@ -8,7 +8,7 @@ import {
 
 export const initialState = fromJS({
   list: [],
-  loading: false
+  loading: false,
 });
 
 function historyReducer(state = initialState, action) {

@@ -7,7 +7,7 @@ import DescriptionWithClassificationInput from './index';
 describe('Form component <DescriptionWithClassificationInput />', () => {
   const metaFields = {
     name: 'input-field-name',
-    placeholder: 'type here'
+    placeholder: 'type here',
   };
   let wrapper;
   let handler;
@@ -24,8 +24,8 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
     parent = {
       meta: {
         updateIncident: jest.fn(),
-        getClassification: jest.fn()
-      }
+        getClassification: jest.fn(),
+      },
     };
 
     wrapper = shallow(<DescriptionWithClassificationInput
@@ -42,8 +42,8 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(handler).toHaveBeenCalledWith();
@@ -54,8 +54,8 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: false
-        }
+          isVisible: false,
+        },
       });
 
       expect(handler).not.toHaveBeenCalled();
@@ -67,8 +67,8 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
         meta: {
           ...metaFields,
           isVisible: true,
-          maxLength: 3000
-        }
+          maxLength: 3000,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -79,9 +79,9 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
         meta: {
           ...metaFields,
           isVisible: true,
-          maxLength: 3000
+          maxLength: 3000,
         },
-        value: 'test'
+        value: 'test',
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -95,14 +95,14 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       wrapper.find(TextArea).simulate('blur', event);
       expect(parent.meta.getClassification).toHaveBeenCalledWith('diabolo');
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': 'diabolo'
+        'input-field-name': 'diabolo',
       });
     });
   });

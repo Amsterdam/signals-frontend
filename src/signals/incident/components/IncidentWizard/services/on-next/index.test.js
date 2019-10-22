@@ -6,10 +6,10 @@ describe('The wizard on next service', () => {
     step1: {
     },
     step2: {
-      getNextStep: () => 'incident/step4'
+      getNextStep: () => 'incident/step4',
     },
     step3: {},
-    step4: {}
+    step4: {},
   };
   let props;
   let incident;
@@ -19,24 +19,24 @@ describe('The wizard on next service', () => {
       step: {},
       steps: [
         {
-          id: 'incident/step1'
+          id: 'incident/step1',
         },
         {
-          id: 'incident/step2'
+          id: 'incident/step2',
         },
         {
-          id: 'incident/step3'
+          id: 'incident/step3',
         },
         {
-          id: 'incident/step4'
-        }
+          id: 'incident/step4',
+        },
       ],
-      push: jest.fn()
+      push: jest.fn(),
     };
 
     incident = {
       category: 'foo',
-      subcategory: 'bar'
+      subcategory: 'bar',
     };
   });
 

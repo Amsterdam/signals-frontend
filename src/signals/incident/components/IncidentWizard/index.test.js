@@ -17,15 +17,16 @@ describe('<IncidentWizard />', () => {
       updateIncident: jest.fn(),
       createIncident: jest.fn(),
       incidentContainer: {
-        loading
+        loading,
       },
-      isAuthenticated: false
+      isAuthenticated: false,
     };
 
     const wrapper = mount(
       <MemoryRouter keyLength={0}>
         <IncidentWizard {...props} />
-      </MemoryRouter>);
+      </MemoryRouter>
+    );
 
     const step = wrapper.find(Step);
     if (step.length === 0) {
@@ -34,8 +35,8 @@ describe('<IncidentWizard />', () => {
 
     shallow(step.get(0), {
       context: {
-        wizard: {}
-      }
+        wizard: {},
+      },
     });
 
     return wrapper;
@@ -53,10 +54,10 @@ describe('<IncidentWizard />', () => {
       beschrijf: {
         form: {
           controls: {
-            with_definition: {}
-          }
-        }
-      }
+            with_definition: {},
+          },
+        },
+      },
     });
 
     expect(wrapper).toMatchSnapshot();
@@ -67,10 +68,10 @@ describe('<IncidentWizard />', () => {
       beschrijf: {
         formFactory: () => ({
           controls: {
-            with_factory: {}
-          }
-        })
-      }
+            with_factory: {},
+          },
+        }),
+      },
     });
 
     expect(wrapper).toMatchSnapshot();
@@ -79,8 +80,8 @@ describe('<IncidentWizard />', () => {
   it('expect to render preview correctly', () => {
     const wrapper = createComponent({
       samenvatting: {
-        preview: {}
-      }
+        preview: {},
+      },
     });
 
     expect(wrapper).toMatchSnapshot();
@@ -89,8 +90,8 @@ describe('<IncidentWizard />', () => {
   it('expect to render loading correctly', () => {
     const wrapper = createComponent({
       samenvatting: {
-        preview: {}
-      }
+        preview: {},
+      },
     }, true);
 
     expect(wrapper).toMatchSnapshot();

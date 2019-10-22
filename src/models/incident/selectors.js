@@ -4,8 +4,7 @@ import { initialState } from './reducer';
 /**
  * Direct selector to the incidentSplitContainer state domain
  */
-const selectIncidentDomain = (state) =>
-  state.get('incidentModel') || initialState;
+const selectIncidentDomain = state => state.get('incidentModel') || initialState;
 
 /**
  * Other specific selectors
@@ -15,11 +14,10 @@ const selectIncidentDomain = (state) =>
  * Default selector used by IncidentSplitContainer
  */
 
-const makeSelectIncidentModel = () =>
-  createSelector(
-    selectIncidentDomain,
-    (substate) => substate.toJS(),
-  );
+const makeSelectIncidentModel = () => createSelector(
+  selectIncidentDomain,
+  substate => substate.toJS(),
+);
 
 export default makeSelectIncidentModel;
 export { selectIncidentDomain };

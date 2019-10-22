@@ -1,5 +1,5 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router/immutable';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authPatchCall, authPostCall } from 'shared/services/api/api';
@@ -18,8 +18,8 @@ describe('IncidentSplitContainer saga', () => {
     payload: {
       id,
       create: [{ test: 'text 1' }, { text: 'text 2' }, { text: 'text 3' }],
-      update: [{ category: 'fo' }, { category: 'ba' }, { category: 'ba' }]
-    }
+      update: [{ category: 'fo' }, { category: 'ba' }, { category: 'ba' }],
+    },
   };
 
   it('should watchIncidentDetailContainerSaga', () => {
@@ -31,7 +31,7 @@ describe('IncidentSplitContainer saga', () => {
 
   it('should splitIncident success', () => {
     const created = {
-      children: [{ id: 43 }, { id: 44 }, { id: 45 }]
+      children: [{ id: 43 }, { id: 44 }, { id: 45 }],
     };
     const gen = splitIncident(action);
     expect(gen.next().value).toEqual(authPostCall(`${requestURL}/${id}/split`, action.payload.create));

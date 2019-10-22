@@ -1,6 +1,6 @@
 const ZoomMessageControl = L.Control.extend({
   options: {
-    zoomMin: 0
+    zoomMin: 0,
   },
 
   initialize(options) {
@@ -35,8 +35,7 @@ const ZoomMessageControl = L.Control.extend({
     } else {
       L.DomUtil.removeClass(element, 'hide');
     }
-  }
+  },
 });
 
 export default ZoomMessageControl;
-

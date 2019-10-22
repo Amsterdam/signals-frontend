@@ -17,8 +17,8 @@ function mapLocation(loc) {
       type: 'Point',
       coordinates: [
         loc.query.longitude,
-        loc.query.latitude
-      ]
+        loc.query.latitude,
+      ],
     };
   }
 

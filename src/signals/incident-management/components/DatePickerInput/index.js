@@ -8,10 +8,10 @@ import Label from '../Label';
 
 import './style.scss';
 
-export const DatePickerInput = (props) => {
+export const DatePickerInput = props => {
   const { name, display } = props;
 
-  const render = (theseProps) => {
+  const render = theseProps => {
     const { handler, setValue, value } = theseProps;
     const selectedValue = value ? moment(value) : null;
     return (
@@ -27,15 +27,15 @@ export const DatePickerInput = (props) => {
               isClearable
               selected={selectedValue}
               {...handler()}
-              onChange={((momentValue) => {
+              onChange={(momentValue => {
                 if (momentValue) setValue(moment(momentValue).format('YYYY-MM-DD'));
                 else setValue('');
               })}
             />
           </div>
         </div>
-      </div>)
-      ;
+      </div>
+    );
   };
 
   render.defaultProps = {
@@ -44,7 +44,7 @@ export const DatePickerInput = (props) => {
   render.propTypes = {
     handler: PropTypes.func.isRequired,
     setValue: PropTypes.func.isRequired,
-    value: PropTypes.object
+    value: PropTypes.object,
   };
   return render;
 };

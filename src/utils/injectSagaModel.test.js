@@ -12,7 +12,7 @@ describe('injectSagaModel', () => {
     const spy = jest.fn();
 
     getInjectorsSaga.mockImplementation(() => ({
-      injectSaga: spy
+      injectSaga: spy,
     }));
     injectSagaModel('mockKey', mockSaga, store);
 

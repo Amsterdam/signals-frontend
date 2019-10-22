@@ -5,7 +5,7 @@ import DateTimeInput from './index';
 
 describe('Form component <DateTimeInput />', () => {
   const metaFields = {
-    name: 'input-field-name'
+    name: 'input-field-name',
   };
   let wrapper;
   let parent;
@@ -16,12 +16,12 @@ describe('Form component <DateTimeInput />', () => {
 
     parent = {
       meta: {
-        updateIncident: jest.fn()
+        updateIncident: jest.fn(),
       },
       value: {
         incident_time_hours: 9,
-        incident_time_minutes: 0
-      }
+        incident_time_minutes: 0,
+      },
     };
 
     wrapper = shallow(<DateTimeInput
@@ -34,8 +34,8 @@ describe('Form component <DateTimeInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -45,8 +45,8 @@ describe('Form component <DateTimeInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: false
-        }
+          isVisible: false,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -58,14 +58,14 @@ describe('Form component <DateTimeInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       wrapper.find('.datetime-input__earlier-day').simulate('change', { target: { value: '2018-07-21' } });
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        incident_date: '2018-07-21'
+        incident_date: '2018-07-21',
       });
     });
 
@@ -73,14 +73,14 @@ describe('Form component <DateTimeInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       wrapper.find('.datetime-input__earlier-time-hours').simulate('change', { target: { value: '13' } });
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        incident_time_hours: '13'
+        incident_time_hours: '13',
       });
     });
 
@@ -88,14 +88,14 @@ describe('Form component <DateTimeInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       wrapper.find('.datetime-input__earlier-time-minutes').simulate('change', { target: { value: '42' } });
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        incident_time_minutes: '42'
+        incident_time_minutes: '42',
       });
     });
   });

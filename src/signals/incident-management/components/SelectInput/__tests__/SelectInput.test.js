@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import SelectInput from '../';
+import SelectInput from '..';
 
 describe('<SelectInput />', () => {
   let props;
@@ -15,11 +15,11 @@ describe('<SelectInput />', () => {
       values: [
         { key: '', value: 'none', slug: '' },
         { key: '1', value: 'item1', slug: 'item-1' },
-        { key: '2', value: 'item2', slug: 'item-2' }
+        { key: '2', value: 'item2', slug: 'item-2' },
       ],
       multiple: false,
       emptyOptionText: 'all items',
-      size: 4
+      size: 4,
     };
   });
 

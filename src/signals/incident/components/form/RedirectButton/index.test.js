@@ -6,7 +6,7 @@ import RedirectButton from './index';
 describe('Form component <RedirectButton />', () => {
   const metaFields = {
     name: 'redirect-button',
-    value: 'dit is een tekst'
+    value: 'dit is een tekst',
   };
   let wrapper;
 
@@ -19,8 +19,8 @@ describe('Form component <RedirectButton />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -31,8 +31,8 @@ describe('Form component <RedirectButton />', () => {
         meta: {
           ...metaFields,
           value: ['dit is een tekst 1', 'dit is een tekst 2'],
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -44,8 +44,8 @@ describe('Form component <RedirectButton />', () => {
           ...metaFields,
           buttonLabel: 'Redirect now!',
           buttonAction: 'http://somewhere.com/over/here',
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -58,8 +58,8 @@ describe('Form component <RedirectButton />', () => {
           buttonLabel: 'Redirect now!',
           buttonAction: 'http://somewhere.com/over/here',
           buttonTimeout: 100,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -79,8 +79,8 @@ describe('Form component <RedirectButton />', () => {
           buttonLabel: 'Redirect now!',
           buttonAction: 'http://somewhere.com/over/here',
           buttonTimeout: 100,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       jest.runTimersToTime(99);

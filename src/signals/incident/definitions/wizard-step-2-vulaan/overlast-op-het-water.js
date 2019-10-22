@@ -8,25 +8,25 @@ export default {
         label: 'Dit hebt u net ingevuld:',
         type: 'citation',
         value: '{incident.description}',
-        ignoreVisibility: true
+        ignoreVisibility: true,
       },
-      render: FormComponents.PlainText
+      render: FormComponents.PlainText,
     },
 
     extra_boten_snelheid_rondvaartboot: {
       meta: {
         className: 'col-sm-12 col-md-6',
         ifAllOf: {
-          subcategory: 'overlast-op-het-water-snel-varen'
+          subcategory: 'overlast-op-het-water-snel-varen',
         },
         label: 'Gaat de melding over een rondvaartboot?',
         pathMerge: 'extra_properties',
         values: {
           ja: 'Ja',
-          nee: 'Nee'
-        }
+          nee: 'Nee',
+        },
       },
-      render: FormComponents.RadioInput
+      render: FormComponents.RadioInput,
     },
     extra_boten_snelheid_rederij: {
       meta: {
@@ -98,14 +98,14 @@ export default {
           waterlelie_rondvaart: 'Waterlelie Rondvaart',
           windkracht_18: 'Windkracht 18',
           wolfsburght: 'Wolfsburght',
-          zonneboot_amsterdam: 'Zonneboot Amsterdam'
+          zonneboot_amsterdam: 'Zonneboot Amsterdam',
         },
         ifAllOf: {
           subcategory: 'overlast-op-het-water-snel-varen',
-          extra_boten_snelheid_rondvaartboot: 'ja'
-        }
+          extra_boten_snelheid_rondvaartboot: 'ja',
+        },
       },
-      render: FormComponents.SelectInput
+      render: FormComponents.SelectInput,
     },
     extra_boten_snelheid_naamboot: {
       meta: {
@@ -113,10 +113,10 @@ export default {
         label: 'Wat is de naam van de boot?',
         pathMerge: 'extra_properties',
         ifAllOf: {
-          subcategory: 'overlast-op-het-water-snel-varen'
-        }
+          subcategory: 'overlast-op-het-water-snel-varen',
+        },
       },
-      render: FormComponents.TextInput
+      render: FormComponents.TextInput,
     },
     extra_boten_snelheid_meer: {
       meta: {
@@ -124,10 +124,10 @@ export default {
         subheader: 'Bijvoorbeeld: de kleur(en) van de boot, het aantal passagiers, de vaarrichting, Y of Vignet nummer etc.',
         pathMerge: 'extra_properties',
         ifAllOf: {
-          subcategory: 'overlast-op-het-water-snel-varen'
-        }
+          subcategory: 'overlast-op-het-water-snel-varen',
+        },
       },
-      render: FormComponents.TextareaInput
+      render: FormComponents.TextareaInput,
     },
     extra_boten_geluid_meer: {
       meta: {
@@ -135,10 +135,10 @@ export default {
         subheader: 'Bijvoorbeeld: waar de boot naar toe vaart, kleur van de boot, aantal passagiers, kenteken, vignet, etc.',
         pathMerge: 'extra_properties',
         ifAllOf: {
-          subcategory: 'overlast-op-het-water-geluid'
-        }
+          subcategory: 'overlast-op-het-water-geluid',
+        },
       },
-      render: FormComponents.TextareaInput
+      render: FormComponents.TextareaInput,
     },
     extra_boten_gezonken_meer: {
       meta: {
@@ -146,14 +146,14 @@ export default {
         subheader: 'Bijvoorbeeld: "er lekt olie", "gevaar voor andere boten", etc.',
         pathMerge: 'extra_properties',
         ifAllOf: {
-          subcategory: 'overlast-op-het-water-gezonken-boot'
-        }
+          subcategory: 'overlast-op-het-water-gezonken-boot',
+        },
       },
-      render: FormComponents.TextareaInput
+      render: FormComponents.TextareaInput,
     },
     $field_0: {
       isStatic: false,
-      render: IncidentNavigation
-    }
-  }
+      render: IncidentNavigation,
+    },
+  },
 };

@@ -22,7 +22,7 @@ export default function (queryString) {
         const value = keyValue.join('=');
         return {
           ...params,
-          [decodeURIComponent(key)]: decodeURIComponent(value)
+          [decodeURIComponent(key)]: decodeURIComponent(value),
         };
       }, {})
     : null;

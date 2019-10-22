@@ -20,7 +20,7 @@ exports[`Form component <TextareaInput /> rendering should render character coun
       }
       touched={false}
     >
-      <Component
+      <TextArea
         onBlur={[Function]}
         placeholder="type here"
       />
@@ -58,7 +58,7 @@ exports[`Form component <TextareaInput /> rendering should render character coun
       }
       touched={false}
     >
-      <Component
+      <TextArea
         onBlur={[Function]}
         placeholder="type here"
       />
@@ -101,7 +101,7 @@ exports[`Form component <TextareaInput /> rendering should render text area fiel
       }
       touched={false}
     >
-      <Component
+      <TextArea
         onBlur={[Function]}
         placeholder="type here"
       />

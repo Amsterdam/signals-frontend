@@ -23,7 +23,7 @@ describe('<GlobalError />', () => {
     it('should render showing an error when defined', () => {
       const props = {
         error: true,
-        errorMessage: 'MOCK_ERROR'
+        errorMessage: 'MOCK_ERROR',
       };
       const wrapper = shallow(
         <GlobalError {...props} />
@@ -37,7 +37,7 @@ describe('<GlobalError />', () => {
       const props = {
         error: true,
         errorMessage: 'MOCK_ERROR',
-        onClose: jest.fn()
+        onClose: jest.fn(),
       };
       const wrapper = shallow(
         <GlobalError {...props} />
