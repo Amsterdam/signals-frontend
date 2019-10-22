@@ -57,7 +57,7 @@ describe('signals/incident-management/components/Label', () => {
     const { container, rerender } = render(
       withAppContext(
         <div>
-          <Label htmlFor="someOtherElementId">This is my label text</Label>
+          <Label htmlFor="someOtherElementId" isGroupHeader>This is my label text</Label>
           <input type="text" id="someOtherElementId" />
         </div>,
       ),

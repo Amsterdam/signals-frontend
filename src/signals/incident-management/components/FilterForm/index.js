@@ -158,7 +158,7 @@ const FilterForm = ({
         <Fieldset isSection>
           <legend className="hiddenvisually">Naam van het filter</legend>
 
-          <Label htmlFor="filter_name">Filternaam</Label>
+          <Label htmlFor="filter_name" isGroupHeader>Filternaam</Label>
           <div className="invoer">
             <input
               defaultValue={filterData.name}
@@ -170,7 +170,7 @@ const FilterForm = ({
             />
           </div>
 
-          <Label htmlFor="filter_refresh">Automatisch verversen</Label>
+          <Label htmlFor="filter_refresh" isGroupHeader>Automatisch verversen</Label>
           <div className="antwoord">
             <input
               id="filter_refresh"
@@ -190,7 +190,7 @@ const FilterForm = ({
 
           {Array.isArray(status) && status.length > 0 && (
             <FilterGroup data-testid="statusFilterGroup">
-              <Label htmlFor={`status_${status[0].key}`}>Status</Label>
+              <Label htmlFor={`status_${status[0].key}`} isGroupHeader>Status</Label>
               <CheckboxList
                 defaultValue={filterData.options && filterData.options.status}
                 groupName="status"
@@ -202,7 +202,7 @@ const FilterForm = ({
 
           {Array.isArray(stadsdeel) && stadsdeel.length > 0 && (
             <FilterGroup data-testid="stadsdeelFilterGroup">
-              <Label htmlFor={`status_${stadsdeel[0].key}`}>Stadsdeel</Label>
+              <Label htmlFor={`status_${stadsdeel[0].key}`} isGroupHeader>Stadsdeel</Label>
               <CheckboxList
                 defaultValue={
                   filterData.options && filterData.options.stadsdeel
@@ -216,7 +216,7 @@ const FilterForm = ({
 
           {Array.isArray(priority) && priority.length > 0 && (
             <FilterGroup data-testid="priorityFilterGroup">
-              <Label htmlFor={`status_${priority[0].key}`}>Urgentie</Label>
+              <Label htmlFor={`status_${priority[0].key}`} isGroupHeader>Urgentie</Label>
               <RadioButtonList
                 defaultValue={filterData.options && filterData.options.priority}
                 groupName="priority"
@@ -227,7 +227,7 @@ const FilterForm = ({
 
           {Array.isArray(feedback) && feedback.length > 0 && (
             <FilterGroup data-testid="feedbackFilterGroup">
-              <Label htmlFor={`feedback_${feedback[0].key}`}>Feedback</Label>
+              <Label htmlFor={`feedback_${feedback[0].key}`} isGroupHeader>Feedback</Label>
               <RadioButtonList
                 defaultValue={filterData.options && filterData.options.feedback}
                 groupName="feedback"
@@ -237,7 +237,7 @@ const FilterForm = ({
           )}
 
           <FilterGroup>
-            <Label htmlFor="filter_date">Datum</Label>
+            <Label htmlFor="filter_date" isGroupHeader>Datum</Label>
             <div className="invoer">
               <DatePicker
                 autoComplete="off"
@@ -279,7 +279,7 @@ const FilterForm = ({
           </FilterGroup>
 
           <FilterGroup>
-            <Label htmlFor="filter_address">Adres</Label>
+            <Label htmlFor="filter_address" isGroupHeader>Adres</Label>
             <div className="invoer">
               <input
                 type="text"
@@ -298,7 +298,7 @@ const FilterForm = ({
         <Fieldset>
           <legend>Filter categorieën</legend>
 
-          <Label $as="span" htmlFor="not_used">
+          <Label $as="span" htmlFor="not_used" isGroupHeader>
             Categorie
           </Label>
 

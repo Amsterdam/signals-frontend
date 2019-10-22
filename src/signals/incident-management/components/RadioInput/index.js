@@ -9,14 +9,14 @@ import PropTypes from 'prop-types';
 
 import './style.scss';
 
+import Label from '../Label';
+
 export const RadioInput = props => {
   const { name, display, values } = props;
   const render = ({ handler }) => (
     <div className="radio-input">
       <div className="mode_input text rij_verplicht">
-        <div className="radio-input__label">
-          <label htmlFor={`form${name}`}>{display}</label>
-        </div>
+        <Label htmlFor={`form${name}`}>{display}</Label>
 
         <div className="radio-input__control invoer">
           {values && values.map(({ key, value }) => (
