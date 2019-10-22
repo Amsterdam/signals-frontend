@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Heading, themeColor } from '@datapunt/asc-ui';
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import { attachmentsType, dataListType } from 'shared/types';
 
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';

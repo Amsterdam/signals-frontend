@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { Button, themeColor } from '@datapunt/asc-ui';
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import {
   Close,
 } from '@datapunt/asc-assets';

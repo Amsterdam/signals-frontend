@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Heading, themeColor } from '@datapunt/asc-ui';
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import { incidentType, dataListType } from 'shared/types';

@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Heading, themeColor } from '@datapunt/asc-ui';
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import { incidentType, attachmentsType, dataListType } from 'shared/types';
 
 import { FormBuilder } from 'react-reactive-form';

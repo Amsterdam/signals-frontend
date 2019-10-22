@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { Row, Column, Heading } from '@datapunt/asc-ui';
 import { goBack } from 'connected-react-router/immutable';
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 
 import { makeSelectCategories } from 'containers/App/selectors';
 import injectSaga from 'utils/injectSaga';
