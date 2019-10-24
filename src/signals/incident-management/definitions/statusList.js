@@ -104,4 +104,5 @@ export const changeStatusOptionList = [
 export const defaultTextsOptionList = [
   AFGEHANDELD,
   INGEPLAND,
+  HEROPEND,
 ];

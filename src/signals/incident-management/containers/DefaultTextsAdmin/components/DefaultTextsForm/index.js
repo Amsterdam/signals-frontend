@@ -10,12 +10,12 @@ import TextAreaInput from 'signals/incident-management/components/TextAreaInput'
 import HiddenInput from 'signals/incident-management/components/HiddenInput';
 
 import { ChevronDown, ChevronUp } from '@datapunt/asc-assets';
-import { Button } from '@datapunt/asc-ui';
+import { Button, themeColor } from '@datapunt/asc-ui';
 
 import './style.scss';
 
 const StyledButton = styled(Button)`
-  border: 1px solid black;
+  border: 1px solid ${themeColor('tint', 'level7')};
 
   & + button:not([disabled]) {
     margin-top: -1px;

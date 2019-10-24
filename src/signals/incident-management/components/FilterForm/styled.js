@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Button, Column } from '@datapunt/asc-ui';
+import { Button, Column, themeColor } from '@datapunt/asc-ui';
 
 export const Form = styled.form`
   column-count: 2;
@@ -16,7 +16,7 @@ export const Form = styled.form`
 
 export const FormFooter = styled.footer`
   border-top: 2px solid #e6e6e6;
-  background: white;
+  background: ${themeColor('tint', 'level1')};
   height: 66px;
   padding: 10px 0;
   position: absolute;
@@ -39,7 +39,7 @@ export const SubmitButton = styled(Button).attrs({
 `;
 
 export const ResetButton = styled(Button)`
-  background-color: white;
+  background-color: ${themeColor('tint', 'level1')};
   margin-right: auto;
   font-family: inherit;
   -webkit-font-smoothing: antialiased;

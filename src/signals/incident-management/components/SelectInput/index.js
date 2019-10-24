@@ -30,9 +30,7 @@ export const SelectInput = props => {
     <div className="select-input">
       <div className="mode_input text rij_verplicht">
         {display && (
-          <div className="select-input__label">
-            <Label htmlFor={`form${name}`}>{display}</Label>
-          </div>
+          <Label htmlFor={`form${name}`}>{display}</Label>
         )}
 
         <div className="select-input__control invoer">
