@@ -1,40 +1,61 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { Link, Heading } from '@datapunt/asc-ui';
 
 import { defaultTextsType } from 'shared/types';
 
-import './style.scss';
+const StyledH4 = styled(Heading)`
+  font-weight: normal;
+  margin-top: 20px;
+  margin-bottom: 8px;
+`;
 
-const DefaultTexts = ({ defaultTexts, status, onHandleUseDefaultText }) => {
+const StyledDefaultText = styled.div`
+  background-color: #e3e3e3;
+  padding: 10px;
+  margin-bottom: 10px;
+`;
+
+const StyledTitle = styled.div`
+  font-family: "Avenir Next LT W01 Demi";
+  margin-bottom: 5px;
+`;
+
+const StyledLink = styled(Link)`
+  font-size: 16px;
+  margin-top: 10px;
+  text-decoration: underline;
+  display: inline-block;
+  cursor: pointer;
+`;
+
+const DefaultTexts = ({ defaultTexts, status, hasDefaultTexts, onHandleUseDefaultText }) => {
   const allText = (defaultTexts && defaultTexts.length && defaultTexts.find(text => text.state === status));
-  const showTexts = allText && ['o', 'ingepland'].includes(status);
 
   return (
-    <div className="default-texts">
-      {showTexts
+    <div>
+      {hasDefaultTexts
         ? (
-          <div>
-            <h4 data-testid="default-texts-title">Standaard teksten</h4>
+          <Fragment>
+            <StyledH4 $as="h4" data-testid="default-texts-title">Standaard teksten</StyledH4>
 
-            {showTexts && allText.templates.map((item, index) => (
-              <div key={index}>
-                <div className="default-texts__wrapper" data-testid="default-texts-item">
-                  <div className="default-texts__title" data-testid="default-texts-item-title">{item.title}</div>
-                  <div className="default-texts__text" data-testid="default-texts-item-text">{item.text}</div>
-
-                  <button
-                    className="default-texts__button"
-                    type="button"
-                    data-testid="default-texts-item-button"
+            {allText && allText.templates.map((item, index) => (
+              <StyledDefaultText key={index}>
+                <StyledTitle data-testid="default-texts-item-title">{item.title}</StyledTitle>
+                {item.text}
+                <div>
+                  <StyledLink
+                    variant="inline"
                     onClick={e => onHandleUseDefaultText(e, item.text)}
                   >
-Gebruik deze tekst
-                  </button>
+                    Gebruik deze tekst
+                  </StyledLink>
                 </div>
-              </div>
+              </StyledDefaultText>
             ))}
-          </div>
+          </Fragment>
         )
         : ''}
     </div>
@@ -44,6 +65,7 @@ Gebruik deze tekst
 DefaultTexts.propTypes = {
   defaultTexts: defaultTextsType.isRequired,
   status: PropTypes.string.isRequired,
+  hasDefaultTexts: PropTypes.bool.isRequired,
 
   onHandleUseDefaultText: PropTypes.func.isRequired,
 };
