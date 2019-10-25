@@ -39,20 +39,23 @@ const DefaultTexts = ({ defaultTexts, status, hasDefaultTexts, onHandleUseDefaul
       {hasDefaultTexts
         ? (
           <Fragment>
-            <StyledH4 $as="h4" data-testid="default-texts-title">Standaard teksten</StyledH4>
+            <StyledH4 $as="h4" data-testid="defaultTextsTitle">Standaard teksten</StyledH4>
 
             {allText && allText.templates.map((item, index) => (
               <StyledDefaultText key={index}>
-                <StyledTitle data-testid="default-texts-item-title">{item.title}</StyledTitle>
-                {item.text}
-                <div>
-                  <StyledLink
-                    variant="inline"
-                    onClick={e => onHandleUseDefaultText(e, item.text)}
-                  >
-                    Gebruik deze tekst
-                  </StyledLink>
-                </div>
+                <StyledTitle
+                  data-testid="defaultTextsItemTitle"
+                >{item.title}</StyledTitle>
+                <div
+                  data-testid="defaultTextsItemText"
+                >{item.text}</div>
+                <StyledLink
+                  data-testid="defaultTextsItemButton"
+                  variant="inline"
+                  onClick={e => onHandleUseDefaultText(e, item.text)}
+                >
+                  Gebruik deze tekst
+                </StyledLink>
               </StyledDefaultText>
             ))}
           </Fragment>
