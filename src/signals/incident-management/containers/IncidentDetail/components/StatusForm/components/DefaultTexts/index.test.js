@@ -49,7 +49,7 @@ describe('<DefaultTexts />', () => {
       expect(queryAllByTestId('defaultTextsItemText')[2]).toHaveTextContent(/^Er is asbest gevonden en dit zal binnen 3 werkdagen worden opgeruimd\.$/);
     });
 
-    it('should not render when list is empty', () => {
+    it('should not render when wrong status is used', () => {
       props.hasDefaultTexts = false;
       props.defaultTexts = [{
         title: 'Not visible',
@@ -63,10 +63,22 @@ describe('<DefaultTexts />', () => {
       expect(queryAllByTestId('defaultTextsTitle')).toHaveLength(0);
       expect(queryAllByTestId('defaultTextsItemText')).toHaveLength(0);
     });
+
+    it('should not render when list is empty', () => {
+      props.hasDefaultTexts = true;
+      props.defaultTexts = [];
+
+      const { queryAllByTestId } = render(
+        <DefaultTexts {...props} />
+      );
+
+      expect(queryAllByTestId('defaultTextsTitle')).toHaveLength(0);
+      expect(queryAllByTestId('defaultTextsItemText')).toHaveLength(0);
+    });
   });
 
   describe('events', () => {
-    it('should download document', () => {
+    it('should call the callback function when button clicked', () => {
       const { queryAllByTestId } = render(
         <DefaultTexts {...props} />
       );

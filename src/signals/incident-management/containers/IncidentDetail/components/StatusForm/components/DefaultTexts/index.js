@@ -36,12 +36,12 @@ const DefaultTexts = ({ defaultTexts, status, hasDefaultTexts, onHandleUseDefaul
 
   return (
     <div>
-      {hasDefaultTexts
+      {hasDefaultTexts && allText
         ? (
           <Fragment>
             <StyledH4 $as="h4" data-testid="defaultTextsTitle">Standaard teksten</StyledH4>
 
-            {allText && allText.templates.map((item, index) => (
+            {allText.templates.map((item, index) => (
               <StyledDefaultText key={index}>
                 <StyledTitle
                   data-testid="defaultTextsItemTitle"
