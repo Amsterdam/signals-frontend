@@ -2,30 +2,31 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link, Heading } from '@datapunt/asc-ui';
+import { Link, Heading, themeSpacing  } from '@datapunt/asc-ui';
 
 import { defaultTextsType } from 'shared/types';
 
 const StyledH4 = styled(Heading)`
   font-weight: normal;
-  margin-top: 20px;
-  margin-bottom: 8px;
+  margin-bottom: ${themeSpacing(2)};
+  margin-top: ${themeSpacing(5)};
 `;
 
 const StyledDefaultText = styled.div`
   background-color: #e3e3e3;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: ${themeSpacing(3)};
+  margin-bottom: ${themeSpacing(1)};
 `;
+
 
 const StyledTitle = styled.div`
   font-family: "Avenir Next LT W01 Demi";
-  margin-bottom: 5px;
+  margin-bottom: ${themeSpacing(2)};
 `;
 
 const StyledLink = styled(Link)`
-  font-size: 16px;
-  margin-top: 10px;
+  font-size: ${themeSpacing(4)};
+  margin-top: ${themeSpacing(2)};
   text-decoration: underline;
   display: inline-block;
   cursor: pointer;

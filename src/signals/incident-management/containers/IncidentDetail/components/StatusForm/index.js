@@ -4,7 +4,7 @@ import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import isEqual from 'lodash.isequal';
 import styled from 'styled-components';
 
-import { Button, Spinner, Heading, Row, Column } from '@datapunt/asc-ui';
+import { Button, Spinner, Heading, Row, Column, themeSpacing } from '@datapunt/asc-ui';
 import { incidentType, dataListType, defaultTextsType } from 'shared/types';
 
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
@@ -19,16 +19,16 @@ const StyledColumn = styled(Column)`
 
 const StyledH4 = styled(Heading)`
   font-weight: normal;
-  margin-top: 20px;
-  margin-bottom: 8px;
+  margin-bottom: ${themeSpacing(2)};
+  margin-top: ${themeSpacing(5)};
 `;
 
 const StyledCurrentStatus = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: ${themeSpacing(5)};
 `;
 
 const StyledButton = styled(Button)`
-  margin-right: 10px;
+  margin-right: ${themeSpacing(2)};
 `;
 
 const StyledSpinner = styled(Spinner).attrs({
