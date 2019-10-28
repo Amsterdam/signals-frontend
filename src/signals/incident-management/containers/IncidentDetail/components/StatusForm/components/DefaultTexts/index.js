@@ -2,7 +2,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link, Heading, themeSpacing  } from '@datapunt/asc-ui';
+import { Link, Heading, themeColor, themeSpacing  } from '@datapunt/asc-ui';
 
 import { defaultTextsType } from 'shared/types';
 
@@ -13,11 +13,10 @@ const StyledH4 = styled(Heading)`
 `;
 
 const StyledDefaultText = styled.div`
-  background-color: #e3e3e3;
+  background-color: ${themeColor('tint', 'level3')};
   padding: ${themeSpacing(3)};
   margin-bottom: ${themeSpacing(1)};
 `;
-
 
 const StyledTitle = styled.div`
   font-family: "Avenir Next LT W01 Demi";
