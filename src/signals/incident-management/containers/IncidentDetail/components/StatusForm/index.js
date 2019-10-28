@@ -31,6 +31,11 @@ const StyledButton = styled(Button)`
   margin-right: 10px;
 `;
 
+const StyledSpinner = styled(Spinner).attrs({
+  'data-testid': 'statusFormSpinner',
+})`
+`;
+
 class StatusForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   form = FormBuilder.group({ // eslint-disable-line react/sort-comp
     status: ['', Validators.required],
@@ -129,6 +134,7 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
                   </StyledCurrentStatus>
 
                   <FieldControlWrapper
+                    data-testid="statusFormStatusField"
                     display="Nieuwe status"
                     render={RadioInput}
                     name="status"
@@ -143,21 +149,23 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
                     rows={5}
                   />
 
-                  <div className="notification notification-red">
+                  <div className="notification notification-red" data-testid="statusFormWarning">
                     {warning}
                   </div>
-                  <div className="notification notification-red">
+                  <div className="notification notification-red" data-testid="statusFormError">
                     {error && error.response && error.response.status === 403 ? 'Je bent niet geautoriseerd om dit te doen.' : '' }
                     {error && error.response && error.response.status !== 403 ? 'De gekozen status is niet mogelijk in deze situatie.' : '' }
                   </div>
 
                   <StyledButton
+                    data-testid="statusFormSubmitButton"
                     variant="secondary"
                     disabled={invalid}
                     type="submit"
-                    iconRight={patching.status ? <Spinner /> : null}
+                    iconRight={patching.status ? <StyledSpinner /> : null}
                   >Status opslaan</StyledButton>
                   <StyledButton
+                    data-testid="statusFormCancelButton"
                     variant="tertiary"
                     onClick={onClose}
                   >Annuleren</StyledButton>
