@@ -15,6 +15,7 @@ function historyReducer(state = initialState, action) {
   switch (action.type) {
     case REQUEST_HISTORY_LIST:
       return state
+        .set('list', fromJS([]))
         .set('loading', true)
         .set('error', false);
 
