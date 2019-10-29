@@ -18,10 +18,9 @@ export function fetchDefaultTextsSuccess(payload) {
   };
 }
 
-export function fetchDefaultTextsError(error) {
+export function fetchDefaultTextsError() {
   return {
     type: FETCH_DEFAULT_TEXTS_ERROR,
-    payload: error,
   };
 }
 
@@ -39,10 +38,9 @@ export function storeDefaultTextsSuccess(payload) {
   };
 }
 
-export function storeDefaultTextsError(error) {
+export function storeDefaultTextsError() {
   return {
     type: STORE_DEFAULT_TEXTS_ERROR,
-    payload: error,
   };
 }
 

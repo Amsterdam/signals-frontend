@@ -34,8 +34,7 @@ describe('DefaultTextsAdmin actions', () => {
   });
 
   it('should dispatch fetchDefaultTextsError action', () => {
-    const payload = {};
-    testActionCreator(fetchDefaultTextsError, FETCH_DEFAULT_TEXTS_ERROR, payload);
+    testActionCreator(fetchDefaultTextsError, FETCH_DEFAULT_TEXTS_ERROR);
   });
 
   it('should dispatch storeDefaultTexts action', () => {
@@ -49,8 +48,7 @@ describe('DefaultTextsAdmin actions', () => {
   });
 
   it('should dispatch storeDefaultTextsError action', () => {
-    const payload = {};
-    testActionCreator(storeDefaultTextsError, STORE_DEFAULT_TEXTS_ERROR, payload);
+    testActionCreator(storeDefaultTextsError, STORE_DEFAULT_TEXTS_ERROR);
   });
 
   it('should dispatch orderDefaultTexts action', () => {
