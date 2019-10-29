@@ -145,9 +145,26 @@ describe('defaultTextsAdminReducer', () => {
     });
   });
 
-  it('should SAVE_DEFAULT_TEXTS_ITEM', () => {
+  it('should SAVE_DEFAULT_TEXTS_ITEM with title', () => {
     const newText = {
       title: 'nieuwe titlel',
+    };
+    const action = {
+      type: SAVE_DEFAULT_TEXTS_ITEM,
+      payload: {
+        index: 0,
+        data: newText,
+      },
+    }
+    expect(
+      defaultTextsAdminReducer(fromJS({ defaultTexts: [text1, text2, text3] }), action).toJS()
+    ).toEqual({
+      defaultTexts: [newText, text2, text3],
+    });
+  });
+
+  it('should SAVE_DEFAULT_TEXTS_ITEM with text', () => {
+    const newText = {
       text: 'nieuwetekst',
     };
     const action = {
@@ -161,6 +178,21 @@ describe('defaultTextsAdminReducer', () => {
       defaultTextsAdminReducer(fromJS({ defaultTexts: [text1, text2, text3] }), action).toJS()
     ).toEqual({
       defaultTexts: [newText, text2, text3],
+    });
+  });
+
+  it('should SAVE_DEFAULT_TEXTS_ITEM without title and text and remove item', () => {
+    const action = {
+      type: SAVE_DEFAULT_TEXTS_ITEM,
+      payload: {
+        index: 0,
+        data: {},
+      },
+    }
+    expect(
+      defaultTextsAdminReducer(fromJS({ defaultTexts: [text1, text2, text3] }), action).toJS()
+    ).toEqual({
+      defaultTexts: [text2, text3],
     });
   });
 });
