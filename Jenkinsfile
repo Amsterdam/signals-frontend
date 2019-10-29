@@ -68,7 +68,6 @@ if (BRANCH == "develop") {
 
                     def image = docker.build("ois/signalsfrontend:${env.BUILD_NUMBER}",
                     "--shm-size 1G " +
-                    "--build-arg NODE_ENV=acceptance " +
                     "--build-arg BUILD_ENV=acc " +
                     "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
                     "--build-arg GIT_COMMIT=${env.GIT_COMMIT} " +
@@ -104,7 +103,6 @@ if (BRANCH == "master") {
 
                     def image = docker.build("ois/signalsfrontend:${env.BUILD_NUMBER}",
                         "--shm-size 1G " +
-                        "--build-arg NODE_ENV=production " +
                         "--build-arg BUILD_ENV=prod " +
                         "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
                         "--build-arg GIT_COMMIT=${env.GIT_COMMIT} " +
