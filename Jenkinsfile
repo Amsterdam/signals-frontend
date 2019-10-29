@@ -36,11 +36,8 @@ node {
 
         tryStep "lint start", {
             sh "docker-compose -p ${PROJECT} up --build --exit-code-from lint-container lint-container"
-        }
-        always {
-            tryStep "lint stop", {
-                sh "docker-compose -p ${PROJECT} down -v || true"
-            }
+        }, {
+            sh "docker-compose -p ${PROJECT} down -v || true"
         }
     }
 
@@ -49,11 +46,8 @@ node {
 
         tryStep "unittests start", {
             sh "docker-compose -p ${PROJECT} up --build --exit-code-from unittest-container unittest-container"
-        }
-        always {
-            tryStep "unittests stop", {
+        }, {
             sh "docker-compose -p ${PROJECT} down -v || true"
-            }
         }
     }
 }
