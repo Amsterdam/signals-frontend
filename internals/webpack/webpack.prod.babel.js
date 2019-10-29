@@ -47,7 +47,7 @@ module.exports = require('./webpack.base.babel')({
     runtimeChunk: 'single',
     splitChunks: {
       chunks: 'all',
-      maxInitialRequests: 20,
+      maxInitialRequests: 24,
       minSize: 0,
       cacheGroups: {
         vendor: {
@@ -82,7 +82,7 @@ module.exports = require('./webpack.base.babel')({
           name: 'incident-management',
         },
         styledComponents: {
-          test: /[\\/]node_modules[\\/](polished|styled-components|stylis)/,
+          test: /[\\/]node_modules[\\/](polished|styled-components|stylis|emotion)/,
           reuseExistingChunk: true,
           name: 'styled',
         },
