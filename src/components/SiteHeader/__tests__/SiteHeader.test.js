@@ -23,10 +23,40 @@ describe('components/SiteHeader', () => {
     });
   });
 
-  it('should render correctly', () => {
+  it('should render correctly when not authenticated', () => {
     const { container, rerender, queryByText } = render(
       withAppContext(
         <SiteHeader permissions={[]} location={{ pathname: '/' }} />,
+      ),
+    );
+
+    // menu items
+    expect(queryByText('Melden')).toBeNull();
+
+    // inline menu should not be visible
+    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(0);
+
+    // narrow window toggle
+    mmm.setConfig({ type: 'screen', width: breakpoint - 1 });
+
+    // eslint-disable-next-line no-undef
+    Object.defineProperty(window, 'matchMedia', {
+      value: mmm,
+    });
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/manage' }} />,
+      ),
+    );
+
+    expect(queryByText('Melden')).toBeNull();
+  });
+
+  it('should render correctly when authenticated', () => {
+    const { container, rerender, queryByText } = render(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/' }} isAuthenticated />,
       ),
     );
 
@@ -46,7 +76,7 @@ describe('components/SiteHeader', () => {
 
     rerender(
       withAppContext(
-        <SiteHeader permissions={[]} location={{ pathname: '/' }} />,
+        <SiteHeader permissions={[]} location={{ pathname: '/manage' }} isAuthenticated />,
       ),
     );
 
