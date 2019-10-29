@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import amaps from 'amsterdam-amaps/dist/amaps';
+import 'leaflet/dist/leaflet';
+import 'leaflet/dist/leaflet.css';
+import 'amsterdam-amaps/dist/nlmaps/dist/assets/css/nlmaps.css';
 import BboxGeojsonLayer from '@datapunt/leaflet-geojson-bbox-layer';
 import classNames from 'classnames';
 import isEqual from 'lodash.isequal';
@@ -36,96 +38,98 @@ class MapSelect extends React.Component {
       selectionOnly,
     } = this.props;
 
-    this.map = amaps.createMap({
-      center: {
-        latitude: centerLatLng.latitude,
-        longitude: centerLatLng.longitude,
-      },
-      layer: 'standaard',
-      target: 'mapSelect', // requires unique id because amaps doesn't support passing dom element (according to docs)
-      marker: false,
-      search: false,
-      zoom: ZOOM_INIT,
-    });
-
-    const errorControl = new ErrorControl({
-      position: 'topleft',
-      message: 'Oops, de objecten kunnen niet worden getoond. Probeer het later nog eens.',
-    });
-
-    const selection = new MaxSelection(SELECTION_MAX_COUNT, value);
-    this.selection = selection;
-
-    // istanbul ignore next
-    const fetchRequest = bbox_str => request(`${geojsonUrl}&bbox=${bbox_str}`)
-      .catch(e => {
-        console.error('Error loading feature geojson', e); // eslint-disable-line no-console
-        errorControl.show();
+    import('amsterdam-amaps/dist/amaps').then(amaps => {
+      this.map = amaps.createMap({
+        center: {
+          latitude: centerLatLng.latitude,
+          longitude: centerLatLng.longitude,
+        },
+        layer: 'standaard',
+        target: 'mapSelect', // requires unique id because amaps doesn't support passing dom element (according to docs)
+        marker: false,
+        search: false,
+        zoom: ZOOM_INIT,
       });
 
-    this.featuresLayer = BboxGeojsonLayer({
-      fetchRequest,
-    }, {
-      zoomMin,
+      const errorControl = new ErrorControl({
+        position: 'topleft',
+        message: 'Oops, de objecten kunnen niet worden getoond. Probeer het later nog eens.',
+      });
 
-      filter(feature) {
-        if (selectionOnly) {
-          return selection.has(feature.properties[idField]);
-        }
-        return true;
-      },
+      const selection = new MaxSelection(SELECTION_MAX_COUNT, value);
+      this.selection = selection;
 
-      pointToLayer(feature, latlng) {
-        // istanbul ignore next
-        return L.marker(latlng, {
-          icon: getIcon(feature.properties[iconField], selection.has(feature.properties[idField])),
+      // istanbul ignore next
+      const fetchRequest = bbox_str => request(`${geojsonUrl}&bbox=${bbox_str}`)
+        .catch(e => {
+          console.error('Error loading feature geojson', e); // eslint-disable-line no-console
+          errorControl.show();
         });
-      },
 
-      onEachFeature(feature, layer) {
-        if (onSelectionChange) {
-          // Check that the component is in write mode
-          // istanbul ignore next
-          layer.on({
-            click: e => {
-              const _layer = e.target;
-              const id = _layer.feature.properties[idField];
-              selection.toggle(id);
-              onSelectionChange(selection);
-            },
-          });
-        }
-      },
-    });
-    this.featuresLayer.addTo(this.map);
-
-    const zoomMessageControl = new ZoomMessageControl({
-      position: 'topleft',
-      zoomMin,
-    });
-    zoomMessageControl.addTo(this.map);
-
-    if (this.props.legend) {
-      // only show if legend items are provided
-      const legendControl = new LegendControl({
-        position: 'topright',
+      this.featuresLayer = BboxGeojsonLayer({
+        fetchRequest,
+      }, {
         zoomMin,
-        elements: this.props.legend,
+
+        filter(feature) {
+          if (selectionOnly) {
+            return selection.has(feature.properties[idField]);
+          }
+          return true;
+        },
+
+        pointToLayer(feature, latlng) {
+          // istanbul ignore next
+          return L.marker(latlng, {
+            icon: getIcon(feature.properties[iconField], selection.has(feature.properties[idField])),
+          });
+        },
+
+        onEachFeature(feature, layer) {
+          if (onSelectionChange) {
+            // Check that the component is in write mode
+            // istanbul ignore next
+            layer.on({
+              click: e => {
+                const _layer = e.target;
+                const id = _layer.feature.properties[idField];
+                selection.toggle(id);
+                onSelectionChange(selection);
+              },
+            });
+          }
+        },
       });
-      legendControl.addTo(this.map);
-    }
+      this.featuresLayer.addTo(this.map);
+
+      const zoomMessageControl = new ZoomMessageControl({
+        position: 'topleft',
+        zoomMin,
+      });
+      zoomMessageControl.addTo(this.map);
+
+      if (this.props.legend) {
+        // only show if legend items are provided
+        const legendControl = new LegendControl({
+          position: 'topright',
+          zoomMin,
+          elements: this.props.legend,
+        });
+        legendControl.addTo(this.map);
+      }
 
 
-    const div = L.DomUtil.create('div', 'loading-control');
-    div.innerText = 'Bezig met laden...';
+      const div = L.DomUtil.create('div', 'loading-control');
+      div.innerText = 'Bezig met laden...';
 
-    const loadingControl = new LoadingControl({
-      position: 'topleft',
-      element: div,
+      const loadingControl = new LoadingControl({
+        position: 'topleft',
+        element: div,
+      });
+      loadingControl.addTo(this.map);
+
+      errorControl.addTo(this.map);
     });
-    loadingControl.addTo(this.map);
-
-    errorControl.addTo(this.map);
   }
 
   componentDidUpdate(prevProps) {

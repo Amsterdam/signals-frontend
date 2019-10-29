@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import amaps from 'amsterdam-amaps/dist/amaps';
+import 'leaflet/dist/leaflet';
+import 'leaflet/dist/leaflet.css';
+import 'amsterdam-amaps/dist/nlmaps/dist/assets/css/nlmaps.css';
 
 import './style.scss';
 
@@ -19,27 +21,29 @@ const defaultIcon = global.window.L.icon({
 
 class Map extends React.Component {
   componentDidMount() {
-    this.map = amaps.createMap({
-      center: {
-        latitude: this.props.latlng.latitude,
-        longitude: this.props.latlng.longitude,
-      },
-      layer: 'standaard',
-      target: 'mapdiv',
-      marker: true,
-      search: false,
-      zoom: this.props.zoom,
+    import('amsterdam-amaps/dist/amaps').then(amaps => {
+      this.map = amaps.createMap({
+        center: {
+          latitude: this.props.latlng.latitude,
+          longitude: this.props.latlng.longitude,
+        },
+        layer: 'standaard',
+        target: 'mapdiv',
+        marker: true,
+        search: false,
+        zoom: this.props.zoom,
+      });
+
+      if (this.props.hideAttribution) {
+        this.map.attributionControl.remove();
+      }
+
+      if (this.props.hideZoomControls) {
+        this.map.zoomControl.remove();
+      }
+
+      this.renderMarker(this.props.latlng.latitude, this.props.latlng.longitude);
     });
-
-    if (this.props.hideAttribution) {
-      this.map.attributionControl.remove();
-    }
-
-    if (this.props.hideZoomControls) {
-      this.map.zoomControl.remove();
-    }
-
-    this.renderMarker(this.props.latlng.latitude, this.props.latlng.longitude);
   }
 
   componentDidUpdate(prevProps) {

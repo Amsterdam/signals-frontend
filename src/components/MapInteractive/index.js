@@ -3,7 +3,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import pointquery from 'amsterdam-amaps/dist/pointquery';
+import 'leaflet/dist/leaflet';
+// import 'leaflet/dist/leaflet.css';
+// import 'amsterdam-amaps/dist/nlmaps/dist/assets/css/nlmaps.css';
 
 import './style.scss';
 
@@ -17,24 +19,26 @@ const customIcon = global.window.L.icon({
 
 class MapInteractive extends React.Component {
   static initMap(props) {
-    const options = {
-      layer: 'standaard',
-      target: 'mapdiv-interactive',
-      marker: false,
-      search: true,
-      zoom: DEFAULT_ZOOM_LEVEL,
-      onQueryResult: props.onQueryResult,
-    };
-
-    if (props.location.geometrie) {
-      options.zoom = PREVIEW_ZOOM_LEVEL;
-      options.marker = true;
-      options.center = {
-        longitude: props.location.geometrie.coordinates[0],
-        latitude: props.location.geometrie.coordinates[1],
+    return import('amsterdam-amaps/dist/pointquery').then(pointquery => {
+      const options = {
+        layer: 'standaard',
+        target: 'mapdiv-interactive',
+        marker: false,
+        search: true,
+        zoom: DEFAULT_ZOOM_LEVEL,
+        onQueryResult: props.onQueryResult,
       };
-    }
-    return pointquery.createMap(options);
+
+      if (props.location.geometrie) {
+        options.zoom = PREVIEW_ZOOM_LEVEL;
+        options.marker = true;
+        options.center = {
+          longitude: props.location.geometrie.coordinates[0],
+          latitude: props.location.geometrie.coordinates[1],
+        };
+      }
+      return pointquery.createMap(options);
+    });
   }
 
   constructor(props) {

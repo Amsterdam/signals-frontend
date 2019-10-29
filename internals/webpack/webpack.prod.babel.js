@@ -10,9 +10,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
 
-  entry: [
-    path.join(process.cwd(), 'src/app.js'),
-  ],
+  entry: [path.join(process.cwd(), 'src/app.js')],
 
   // Utilize long-term caching by adding content hashes (not compilation hashes) to compiled assets
   output: {
@@ -47,7 +45,7 @@ module.exports = require('./webpack.base.babel')({
     runtimeChunk: 'single',
     splitChunks: {
       chunks: 'all',
-      maxInitialRequests: 10,
+      maxInitialRequests: 20,
       minSize: 0,
       cacheGroups: {
         vendor: {
@@ -58,6 +56,37 @@ module.exports = require('./webpack.base.babel')({
             )[1];
             return `npm.${packageName.replace('@', '')}`;
           },
+          reuseExistingChunk: true,
+        },
+        incident: {
+          test: /[\\/]signals[\\/]incident[\\/]/,
+          reuseExistingChunk: true,
+          name: 'incident',
+        },
+        incidentManagement: {
+          test: /[\\/]signals[\\/]incident-management[\\/]/,
+          reuseExistingChunk: true,
+          name: 'incident-management',
+        },
+        styledComponents: {
+          test: /[\\/]node_modules[\\/](polished|styled-components)/,
+          reuseExistingChunk: true,
+          name: 'styled',
+        },
+        polyfill: {
+          test: /(polyfill|whatwg-fetch)/,
+          reuseExistingChunk: true,
+          name: 'polyfills',
+        },
+        react: {
+          test: /[\\/]node_modules[\\/](connected-)?(immutable|react|history|redux)(-router)?(-dom|-router|-is|-redux|-saga)?[\\/]/,
+          reuseExistingChunk: true,
+          name: 'react',
+        },
+        leaflet: {
+          test: /leaflet[\\/]dist/,
+          reuseExistingChunk: true,
+          name: 'leaflet',
         },
       },
     },
