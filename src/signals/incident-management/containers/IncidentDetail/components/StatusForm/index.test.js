@@ -1,11 +1,13 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import { shallow } from 'enzyme';
+import { withAppContext } from 'test/utils';
 
 import { FieldGroup } from 'react-reactive-form';
 
 import StatusForm from './index';
 
-import statusList, { changeStatusOptionList } from '../../../../definitions/statusList';
+import statusList, { changeStatusOptionList, defaultTextsOptionList } from '../../../../definitions/statusList';
 
 jest.mock('./components/DefaultTexts', () => () => <div data-testid="status-form-default-texts" />);
 
@@ -19,12 +21,13 @@ describe('<StatusForm />', () => {
       incident: {
         id: 42,
         status: {
-          state: 'm',
+          state: 'reopen requested',
         },
       },
       patching: { location: false },
       error: false,
       changeStatusOptionList,
+      defaultTextsOptionList,
       statusList,
       defaultTexts: [],
       onPatchIncident: jest.fn(),
@@ -48,7 +51,7 @@ describe('<StatusForm />', () => {
   });
 
   it('should contain the FieldGroup', () => {
-    [wrapper, instance] = getComponent(props);
+    [wrapper] = getComponent(props);
 
     expect(wrapper.find(FieldGroup)).toHaveLength(1);
     expect(props.onDismissError).toHaveBeenCalledTimes(1);
@@ -61,10 +64,11 @@ describe('<StatusForm />', () => {
       },
     };
 
-    [wrapper, instance] = getComponent(props);
-    const renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
+    const { queryByTestId } = render(
+      withAppContext(<StatusForm {...props} />)
+    );
 
-    expect(renderedFormGroup.find('.status-form__error').text()).toBe('Je bent niet geautoriseerd om dit te doen.');
+    expect(queryByTestId('statusFormError')).toHaveTextContent(/^Je bent niet geautoriseerd om dit te doen\.$/);
   });
 
   it('should contain render other error', () => {
@@ -74,11 +78,11 @@ describe('<StatusForm />', () => {
       },
     };
 
-    [wrapper, instance] = getComponent(props);
+    const { queryByTestId } = render(
+      withAppContext(<StatusForm {...props} />)
+    );
 
-    const renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
-
-    expect(renderedFormGroup.find('.status-form__error').text()).toBe('De gekozen status is niet mogelijk in deze situatie.');
+    expect(queryByTestId('statusFormError')).toHaveTextContent(/^De gekozen status is niet mogelijk in deze situatie\.$/);
   });
 
 
@@ -87,11 +91,63 @@ describe('<StatusForm />', () => {
       status: true,
     };
 
-    [wrapper, instance] = getComponent(props);
+    const { queryByTestId } = render(
+      withAppContext(<StatusForm {...props} />)
+    );
 
-    const renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
+    expect(queryByTestId('statusFormSpinner')).not.toBeNull();
+  });
 
-    expect(renderedFormGroup.exists('.status-form__submit--progress')).toBe(true);
+  it('should render form correctly', () => {
+    const { queryByText, queryByTestId } = render(
+      withAppContext(<StatusForm {...props} />)
+    );
+
+    expect(queryByText('Huidige status')).not.toBeNull();
+    expect(queryByText('Verzoek tot heropenen')).not.toBeNull();
+
+    expect(queryByText('Nieuwe status')).not.toBeNull();
+    expect(queryByText('In behandeling')).not.toBeNull();
+
+    expect(queryByTestId('statusFormSubmitButton')).toHaveTextContent(/^Status opslaan$/);
+    expect(queryByTestId('statusFormCancelButton')).toHaveTextContent(/^Annuleren$/);
+  });
+
+  it('should disable the submit button when no status has been selected', () => {
+    const { queryByTestId } = render(
+      withAppContext(<StatusForm {...props} />)
+    );
+    expect(queryByTestId('statusFormSubmitButton')).toHaveAttribute('disabled');
+  });
+
+  it('should close the status form when result is ok', () => {
+    const { rerender } = render(
+      withAppContext(<StatusForm {...props} />)
+    );
+
+    props.patching = { status: false };
+    props.error = { response: { ok: true } };
+
+    rerender(
+      withAppContext(<StatusForm {...props} />)
+    );
+
+    expect(props.onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not close the status form when result triggers an error', () => {
+    const { rerender } = render(
+      withAppContext(<StatusForm {...props} />)
+    );
+
+    props.patching = { status: false };
+    props.error = { response: { ok: false, status: 500 } };
+
+    rerender(
+      withAppContext(<StatusForm {...props} />)
+    );
+
+    expect(props.onClose).not.toHaveBeenCalled();
   });
 
   describe('FieldGroup', () => {
@@ -103,18 +159,6 @@ describe('<StatusForm />', () => {
       renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
     });
 
-    it('should render form correctly', () => {
-      expect(renderedFormGroup.find('.status-form__form-status')).toHaveLength(1);
-      expect(renderedFormGroup.find('.status-form__form-text')).toHaveLength(1);
-
-      expect(renderedFormGroup.find('.status-form__form-submit')).toHaveLength(1);
-      expect(renderedFormGroup.find('.status-form__form-cancel')).toHaveLength(1);
-    });
-
-    it('should disable the submit button when no status has been selected', () => {
-      expect(renderedFormGroup.find('.status-form__form-submit').prop('disabled')).toBe(true);
-    });
-
     it('should enable the submit button when a status has been selected', () => {
       const form = instance.form;
       const formValue = {
@@ -123,7 +167,7 @@ describe('<StatusForm />', () => {
       form.patchValue(formValue);
       expect(form.value.status).toEqual(formValue.status);
       expect(form.value.coordinates).toEqual(formValue.coordinates);
-      expect(renderedFormGroup.find('.status-form__form-submit').prop('disabled')).toBe(false);
+      expect(renderedFormGroup.find('[data-testid="statusFormSubmitButton"]').prop('disabled')).toBe(false);
     });
 
     it('should enable the submit button when a status with a mandatory text have been selected', () => {
@@ -133,14 +177,14 @@ describe('<StatusForm />', () => {
       };
       form.patchValue(newStatus);
       expect(form.value.status).toEqual(newStatus.status);
-      expect(renderedFormGroup.find('.status-form__form-submit').prop('disabled')).toBe(true);
+      expect(renderedFormGroup.find('[data-testid="statusFormSubmitButton"]').prop('disabled')).toBe(true);
 
       const newText = {
         text: 'bla',
       };
       form.patchValue(newText);
       expect(form.value.text).toEqual(newText.text);
-      expect(renderedFormGroup.find('.status-form__form-submit').prop('disabled')).toBe(false);
+      expect(renderedFormGroup.find('[data-testid="statusFormSubmitButton"]').prop('disabled')).toBe(false);
     });
 
     it('should set default text when it has triggered', () => {
@@ -170,32 +214,5 @@ describe('<StatusForm />', () => {
         type: 'status',
       });
     });
-
-    it('should close the location form when result is ok', () => {
-      wrapper.setProps({
-        patching: { status: true },
-      });
-
-      wrapper.setProps({
-        patching: { status: false },
-        error: { response: { ok: true } },
-      });
-
-      expect(props.onClose).toHaveBeenCalledTimes(1);
-    });
-
-    it('should not close the location form when result triggers an error', () => {
-      wrapper.setProps({
-        patching: { status: true },
-      });
-
-      wrapper.setProps({
-        patching: { status: false },
-        error: { response: { ok: false, status: 500 } },
-      });
-
-      expect(props.onClose).not.toHaveBeenCalled();
-    });
   });
 });
-//

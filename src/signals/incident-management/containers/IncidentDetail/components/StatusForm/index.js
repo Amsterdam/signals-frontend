@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import isEqual from 'lodash.isequal';
+import styled from 'styled-components';
 
+import { Button, Spinner, Heading, Row, Column, themeSpacing } from '@datapunt/asc-ui';
 import { incidentType, dataListType, defaultTextsType } from 'shared/types';
 
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
@@ -11,7 +13,28 @@ import TextAreaInput from '../../../../components/TextAreaInput';
 import Label from '../../../../components/Label';
 import DefaultTexts from './components/DefaultTexts';
 
-import './style.scss';
+const StyledColumn = styled(Column)`
+  display: block;
+`;
+
+const StyledH4 = styled(Heading)`
+  font-weight: normal;
+  margin-bottom: ${themeSpacing(2)};
+  margin-top: ${themeSpacing(5)};
+`;
+
+const StyledCurrentStatus = styled.div`
+  margin-bottom: ${themeSpacing(5)};
+`;
+
+const StyledButton = styled(Button)`
+  margin-right: ${themeSpacing(2)};
+`;
+
+const StyledSpinner = styled(Spinner).attrs({
+  'data-testid': 'statusFormSpinner',
+})`
+`;
 
 class StatusForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   form = FormBuilder.group({ // eslint-disable-line react/sort-comp
@@ -24,6 +47,7 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
 
     this.state = {
       warning: props.warning,
+      hasDefaultTexts: props.hasDefaultTexts,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,11 +63,13 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
       this.props.onDismissError();
 
       const textField = this.form.controls.text;
-      if (['o', 'ingepland'].includes(status)) {
+      const hasDefaultTexts = Boolean(this.props.defaultTextsOptionList.find(s => s.key === status));
+      if (hasDefaultTexts) {
         textField.setValidators([Validators.required]);
       } else {
         textField.clearValidators();
       }
+      this.setState({ hasDefaultTexts });
 
       textField.updateValueAndValidity();
     });
@@ -79,94 +105,103 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
 
   render() {
     const {
-      incident, patching, error, statusList, changeStatusOptionList, onClose, defaultTexts,
+      incident,
+      patching,
+      error,
+      statusList,
+      changeStatusOptionList,
+      onClose,
+      defaultTexts,
     } = this.props;
-    const { warning } = this.state;
+    const {
+      warning,
+      hasDefaultTexts,
+    } = this.state;
     const currentStatus = statusList.find(status => status.key === incident.status.state);
     return (
-      <section className="status-form">
+      <Fragment>
         <FieldGroup
           control={this.form}
           render={({ invalid }) => (
-            <form onSubmit={this.handleSubmit} className="status-form__form">
-              <div className="row">
-                <div className="col-6">
-                  <h4>Status wijzigen</h4>
+            <form onSubmit={this.handleSubmit}>
+              <Row>
+                <StyledColumn span={6}>
+                  <StyledH4 $as="h4">Status wijzigen</StyledH4>
 
-                  <div className="status-form__current-state">
+                  <StyledCurrentStatus>
                     <Label htmlFor="currentStatus">Huidige status</Label>
                     <div id="currentStatus">{currentStatus.value}</div>
-                  </div>
+                  </StyledCurrentStatus>
 
                   <FieldControlWrapper
+                    data-testid="statusFormStatusField"
                     display="Nieuwe status"
                     render={RadioInput}
                     name="status"
-                    className="status-form__form-status"
                     control={this.form.get('status')}
                     values={changeStatusOptionList}
                   />
                   <FieldControlWrapper
                     render={TextAreaInput}
                     name="text"
-                    className="status-form__form-text"
                     display="Toelichting"
                     control={this.form.get('text')}
                     rows={5}
                   />
 
-                  <div className="status-form__warning notification notification-red">
+                  <div className="notification notification-red" data-testid="statusFormWarning">
                     {warning}
                   </div>
-                  <div className="status-form__error notification notification-red">
+                  <div className="notification notification-red" data-testid="statusFormError">
                     {error && error.response && error.response.status === 403 ? 'Je bent niet geautoriseerd om dit te doen.' : '' }
                     {error && error.response && error.response.status !== 403 ? 'De gekozen status is niet mogelijk in deze situatie.' : '' }
                   </div>
 
-                  <button
-                    className="status-form__form-submit action primary"
-                    type="submit"
+                  <StyledButton
+                    data-testid="statusFormSubmitButton"
+                    variant="secondary"
                     disabled={invalid}
-                  >
-                    <span className="value">Status opslaan</span>
-                    {patching.status ? <span className="working"><div className="status-form__submit--progress progress-indicator progress-white"></div></span> : ''}
-                  </button>
-                  <button
-                    className="status-form__form-cancel action secundary-grey"
-                    type="button"
+                    type="submit"
+                    iconRight={patching.status ? <StyledSpinner /> : null}
+                  >Status opslaan</StyledButton>
+                  <StyledButton
+                    data-testid="statusFormCancelButton"
+                    variant="tertiary"
                     onClick={onClose}
-                  >
-Annuleren
-                  </button>
-                </div>
-                <div className="col-6">
+                  >Annuleren</StyledButton>
+                </StyledColumn>
+                <StyledColumn span={6}>
                   <DefaultTexts
                     defaultTexts={defaultTexts}
                     status={this.form.get('status').value}
+                    hasDefaultTexts={hasDefaultTexts}
                     onHandleUseDefaultText={this.handleUseDefaultText}
                   />
-                </div>
-              </div>
+                </StyledColumn>
+              </Row>
             </form>
           )}
         />
-      </section>
+      </Fragment>
     );
   }
 }
 
 StatusForm.defaultProps = {
   warning: '',
+  hasDefaultTexts: false,
 };
 
 StatusForm.propTypes = {
   incident: incidentType.isRequired,
-  error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
   patching: PropTypes.shape({
     status: PropTypes.bool,
   }).isRequired,
   warning: PropTypes.string,
+  hasDefaultTexts: PropTypes.bool,
   changeStatusOptionList: dataListType.isRequired,
+  defaultTextsOptionList: dataListType.isRequired,
   statusList: dataListType.isRequired,
   defaultTexts: defaultTextsType.isRequired,
 
