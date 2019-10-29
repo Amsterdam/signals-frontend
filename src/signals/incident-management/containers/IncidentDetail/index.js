@@ -156,6 +156,7 @@ export class IncidentDetail extends React.Component {
       stadsdeelList,
       priorityList,
       changeStatusOptionList,
+      defaultTextsOptionList,
       statusList,
       defaultTexts,
     } = this.props.incidentModel;
@@ -230,6 +231,7 @@ export class IncidentDetail extends React.Component {
                         patching={patching}
                         error={error}
                         changeStatusOptionList={changeStatusOptionList}
+                        defaultTextsOptionList={defaultTextsOptionList}
                         statusList={statusList}
                         defaultTexts={defaultTexts}
                         onPatchIncident={onPatchIncident}
@@ -311,6 +313,7 @@ IncidentDetail.propTypes = {
     stadsdeelList: dataListType,
     priorityList: dataListType,
     changeStatusOptionList: dataListType,
+    defaultTextsOptionList: dataListType,
     statusList: dataListType,
     defaultTexts: defaultTextsType,
   }).isRequired,
