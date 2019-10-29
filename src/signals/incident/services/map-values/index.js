@@ -6,7 +6,7 @@ import getStepControls from '../get-step-controls';
 import convertValue from '../convert-value';
 
 const mapValues = (params, incident, wizard) => {
-  forEach(wizard, (step) => {
+  forEach(wizard, step => {
     const controls = getStepControls(step, incident);
 
     forEach(controls, (control, name) => {

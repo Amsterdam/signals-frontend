@@ -2,7 +2,7 @@ import { fromJS } from 'immutable';
 
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 import priorityList from 'signals/incident-management/definitions/priorityList';
-import statusList, { changeStatusOptionList } from 'signals/incident-management/definitions/statusList';
+import statusList, { changeStatusOptionList, defaultTextsOptionList } from 'signals/incident-management/definitions/statusList';
 
 import { SPLIT_INCIDENT_SUCCESS, SPLIT_INCIDENT_ERROR } from 'signals/incident-management/containers/IncidentSplitContainer/constants';
 
@@ -12,7 +12,7 @@ import {
   PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
   DISMISS_ERROR,
   REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR,
-  REQUEST_DEFAULT_TEXTS, REQUEST_DEFAULT_TEXTS_SUCCESS, REQUEST_DEFAULT_TEXTS_ERROR
+  REQUEST_DEFAULT_TEXTS, REQUEST_DEFAULT_TEXTS_SUCCESS, REQUEST_DEFAULT_TEXTS_ERROR,
 } from './constants';
 
 export const initialState = fromJS({
@@ -20,6 +20,7 @@ export const initialState = fromJS({
   stadsdeelList,
   priorityList,
   changeStatusOptionList,
+  defaultTextsOptionList,
   statusList,
   loading: false,
   error: false,
@@ -29,9 +30,9 @@ export const initialState = fromJS({
     notes: false,
     priority: false,
     status: false,
-    subcategory: false
+    subcategory: false,
   },
-  split: false
+  split: false,
 });
 
 function incidentModelReducer(state = initialState, action) {
@@ -62,7 +63,7 @@ function incidentModelReducer(state = initialState, action) {
       return state
         .set('patching', fromJS({
           ...state.get('patching').toJS(),
-          [action.payload.type]: true
+          [action.payload.type]: true,
         }))
         .set('error', false);
 
@@ -71,17 +72,17 @@ function incidentModelReducer(state = initialState, action) {
         .set('incident', fromJS(action.payload.incident))
         .set('patching', fromJS({
           ...state.get('patching').toJS(),
-          [action.payload.type]: false
+          [action.payload.type]: false,
         }))
         .set('error', false);
 
     case PATCH_INCIDENT_ERROR:
       return state
-            .set('patching', fromJS({
-              ...state.get('patching').toJS(),
-              [action.payload.type]: false
-            }))
-            .set('error', fromJS(action.payload.error));
+        .set('patching', fromJS({
+          ...state.get('patching').toJS(),
+          [action.payload.type]: false,
+        }))
+        .set('error', fromJS(action.payload.error));
 
     case DISMISS_ERROR:
       return state
@@ -89,15 +90,15 @@ function incidentModelReducer(state = initialState, action) {
 
     case REQUEST_ATTACHMENTS:
       return state
-              .set('attachments', fromJS([]));
+        .set('attachments', fromJS([]));
 
     case REQUEST_ATTACHMENTS_SUCCESS:
       return state
-            .set('attachments', fromJS(action.payload));
+        .set('attachments', fromJS(action.payload));
 
     case REQUEST_ATTACHMENTS_ERROR:
       return state
-              .set('attachments', fromJS([]));
+        .set('attachments', fromJS([]));
 
 
     case REQUEST_DEFAULT_TEXTS:

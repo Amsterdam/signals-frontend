@@ -1,23 +1,22 @@
 import PropTypes from 'prop-types';
 import { isDate } from 'utils';
 
-const dateTypeFactory = (isRequired) =>
+const dateTypeFactory = isRequired =>
   /**
    * @param  {Object} props - component props
    * @param  {String} propName - component prop name to validate
    * @param  {String} componentName - component name
    * @return {(Error|null)}
    */
-  (props, propName, componentName) => {
+  (props, propName, componentName) => { // eslint-disable-line implicit-arrow-linebreak
     const date = props[propName];
-    const errorMsg = (msg) =>
-      `Invalid prop \`${propName}\` supplied to \`${componentName}\`. ${msg}. Validation failed.`;
+    const errorMsg = msg => `Invalid prop \`${propName}\` supplied to \`${componentName}\`. ${msg}. Validation failed.`;
 
     if (date === undefined) {
       return isRequired
         ? new Error(
-            `The prop \`${propName}\` is marked as required in \`${componentName}\`, but its value is \`${date}\``,
-          )
+          `The prop \`${propName}\` is marked as required in \`${componentName}\`, but its value is \`${date}\``,
+        )
         : null;
     }
 

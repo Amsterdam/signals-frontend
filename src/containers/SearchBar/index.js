@@ -20,12 +20,12 @@ export const SearchBarComponent = ({
    *
    * @param {String} searchInput
    */
-  const onSearchSubmit = (searchInput) => {
+  const onSearchSubmit = searchInput => {
     onSetSearchQuery(searchInput);
     onRequestIncidents({ filter: { searchQuery: searchInput } });
   };
 
-  const onChange = (value) => {
+  const onChange = value => {
     if (value === '') {
       onSetSearchQuery('');
       onRequestIncidents({ filter: {} });
@@ -45,7 +45,7 @@ export const SearchBarComponent = ({
 };
 
 SearchBarComponent.defaultProps = {
-  classname: '',
+  className: '',
 };
 
 SearchBarComponent.propTypes = {
@@ -59,14 +59,13 @@ const mapStateToProps = createStructuredSelector({
   query: makeSelectQuery,
 });
 
-export const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      onRequestIncidents: requestIncidents,
-      onSetSearchQuery: setSearchQuery,
-    },
-    dispatch,
-  );
+export const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    onRequestIncidents: requestIncidents,
+    onSetSearchQuery: setSearchQuery,
+  },
+  dispatch,
+);
 
 const withConnect = connect(
   mapStateToProps,

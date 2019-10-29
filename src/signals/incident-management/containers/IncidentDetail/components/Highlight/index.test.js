@@ -34,7 +34,7 @@ describe('<Highlight />', () => {
 
       rerender(
         <Highlight subscribeTo="changed"><div>some text</div></Highlight>
-        );
+      );
 
       jest.runTimersToTime(HIGHLIGHT_TIMEOUT_INTERVAL - 1);
       expect(queryByTestId('highlight')).toHaveClass('highlight--active');

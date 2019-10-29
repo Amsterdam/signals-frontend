@@ -9,8 +9,8 @@ describe('Form component <RadioInput />', () => {
     placeholder: 'type here',
     values: {
       foo: 'Foo',
-      bar: 'Bar'
-    }
+      bar: 'Bar',
+    },
   };
   let wrapper;
   let handler;
@@ -26,8 +26,8 @@ describe('Form component <RadioInput />', () => {
     hasError = jest.fn();
     parent = {
       meta: {
-        updateIncident: jest.fn()
-      }
+        updateIncident: jest.fn(),
+      },
     };
 
     wrapper = shallow(<RadioInput
@@ -41,8 +41,8 @@ describe('Form component <RadioInput />', () => {
     handler.mockImplementation(() => ({
       value: {
         id: 'foo',
-        label: 'Foo'
-      }
+        label: 'Foo',
+      },
     }));
   });
 
@@ -51,8 +51,8 @@ describe('Form component <RadioInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -63,8 +63,8 @@ describe('Form component <RadioInput />', () => {
         meta: {
           ...metaFields,
           isVisible: true,
-          values: undefined
-        }
+          values: undefined,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -74,8 +74,8 @@ describe('Form component <RadioInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: false
-        }
+          isVisible: false,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -89,8 +89,8 @@ describe('Form component <RadioInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          isVisible: true
-        }
+          isVisible: true,
+        },
       });
 
       wrapper.find('input').first().simulate('change', event);
@@ -98,8 +98,8 @@ describe('Form component <RadioInput />', () => {
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': {
           id: 'foo',
-          label: 'Foo'
-        }
+          label: 'Foo',
+        },
       });
     });
   });

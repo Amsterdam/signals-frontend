@@ -17,14 +17,14 @@ describe('<ChangeValue />', () => {
   beforeEach(() => {
     props = {
       incident: {
-        id: 42
+        id: 42,
       },
       definitionClass: 'definition-class',
       valueClass: 'value-class',
       list: [
         { key: 'c', value: 'Cee' },
         { key: 'b', value: 'Bee' },
-        { key: 'a', value: 'Aaaaaaaa' }
+        { key: 'a', value: 'Aaaaaaaa' },
       ],
       display: 'De letter',
       path: 'incident.mockPath',
@@ -32,7 +32,7 @@ describe('<ChangeValue />', () => {
       disabled: false,
       sort: false,
       type: 'mockType',
-      onPatchIncident: jest.fn()
+      onPatchIncident: jest.fn(),
     };
 
     wrapper = shallow(
@@ -96,7 +96,7 @@ describe('<ChangeValue />', () => {
     it('should call category update when the form is submitted (search button is clicked)', () => {
       const form = instance.form;
       const formValue = {
-        input: 'b'
+        input: 'b',
       };
       form.setValue(formValue);
       expect(form.value.input).toEqual(formValue.input);
@@ -108,9 +108,9 @@ describe('<ChangeValue />', () => {
         type: 'mockType',
         patch: {
           incident: {
-            mockPath: 'b'
-          }
-        }
+            mockPath: 'b',
+          },
+        },
       });
     });
   });

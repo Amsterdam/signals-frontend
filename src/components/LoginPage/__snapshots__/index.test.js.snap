@@ -23,6 +23,7 @@ exports[`<LoginPage /> should render correctly 1`] = `
       <button
         className="action primary"
         onClick={[Function]}
+        type="button"
       >
         <span
           className="value"
@@ -33,6 +34,7 @@ exports[`<LoginPage /> should render correctly 1`] = `
       <button
         className="action primary"
         onClick={[Function]}
+        type="button"
       >
         <span
           className="value"

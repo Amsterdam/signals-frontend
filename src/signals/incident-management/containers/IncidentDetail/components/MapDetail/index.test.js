@@ -7,8 +7,8 @@ describe('<MapDetail />', () => {
   let wrapper;
   const props = {
     value: {
-      geometrie: { coordinates: [0, 0] }
-    }
+      geometrie: { coordinates: [0, 0] },
+    },
   };
   beforeEach(() => {
   });

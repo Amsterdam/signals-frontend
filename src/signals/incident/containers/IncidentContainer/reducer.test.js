@@ -15,7 +15,7 @@ import {
 
   SET_PRIORITY,
   SET_PRIORITY_SUCCESS,
-  SET_PRIORITY_ERROR
+  SET_PRIORITY_ERROR,
 } from './constants';
 
 describe('incidentContainerReducer', () => {
@@ -30,8 +30,8 @@ describe('incidentContainerReducer', () => {
       incident_time_minutes: 0,
       priority: {
         id: 'normal',
-        label: 'Normaal'
-      }
+        label: 'Normaal',
+      },
     }));
   });
 
@@ -40,19 +40,19 @@ describe('incidentContainerReducer', () => {
       expect(
         incidentContainerReducer(fromJS({
           incident: {
-            category: 'bar'
-          }
+            category: 'bar',
+          },
         }), {
           type: UPDATE_INCIDENT,
           payload: {
-            subcategory: 'foo'
-          }
+            subcategory: 'foo',
+          },
         }).toJS()
       ).toEqual({
         incident: {
           category: 'bar',
-          subcategory: 'foo'
-        }
+          subcategory: 'foo',
+        },
       });
     });
   });
@@ -62,13 +62,13 @@ describe('incidentContainerReducer', () => {
       expect(
         incidentContainerReducer(fromJS({
           incident: {
-            category: 'foo'
-          }
+            category: 'foo',
+          },
         }), {
-          type: RESET_INCIDENT
+          type: RESET_INCIDENT,
         }).toJS()
       ).toEqual({
-        incident: initialState.get('incident').toJS()
+        incident: initialState.get('incident').toJS(),
       });
     });
   });
@@ -77,14 +77,14 @@ describe('incidentContainerReducer', () => {
     it('resets error and loading and id', () => {
       expect(
         incidentContainerReducer(fromJS({ incident: {} }), {
-          type: CREATE_INCIDENT
+          type: CREATE_INCIDENT,
         }).toJS()
       ).toEqual({
         error: false,
         loading: true,
         incident: {
-          id: null
-        }
+          id: null,
+        },
       });
     });
   });
@@ -94,25 +94,25 @@ describe('incidentContainerReducer', () => {
       expect(
         incidentContainerReducer(fromJS({
           incident: {
-            handling_message: 'baz'
-          }
+            handling_message: 'baz',
+          },
         }), {
           type: CREATE_INCIDENT_SUCCESS,
           payload: {
             id: 666,
             category: {
               main_slug: 'foo',
-              sub_slug: 'bar'
-            }
-          }
+              sub_slug: 'bar',
+            },
+          },
         }).toJS()
       ).toEqual({
         loading: false,
         incident: {
           ...initialState.get('incident').toJS(),
           id: 666,
-          handling_message: 'baz'
-        }
+          handling_message: 'baz',
+        },
       });
     });
   });
@@ -121,11 +121,11 @@ describe('incidentContainerReducer', () => {
     it('sets error and loading', () => {
       expect(
         incidentContainerReducer(fromJS({}), {
-          type: CREATE_INCIDENT_ERROR
+          type: CREATE_INCIDENT_ERROR,
         }).toJS()
       ).toEqual({
         error: true,
-        loading: false
+        loading: false,
       });
     });
   });
@@ -135,11 +135,11 @@ describe('incidentContainerReducer', () => {
       expect(
         incidentContainerReducer(fromJS({ incident: {} }), {
           type: GET_CLASSIFICATION,
-          payload: 'lamp'
+          payload: 'lamp',
         }).toJS()
       ).toEqual({
         incident: {},
-        loadingClassification: true
+        loadingClassification: true,
       });
     });
   });
@@ -148,20 +148,20 @@ describe('incidentContainerReducer', () => {
     it('sets category and subcategory', () => {
       expect(
         incidentContainerReducer(fromJS({
-          incident: {}
+          incident: {},
         }), {
           type: GET_CLASSIFICATION_SUCCESS,
           payload: {
             category: 'Overlast in de openbare ruimte',
-            subcategory: 'Honden(poep)'
-          }
+            subcategory: 'Honden(poep)',
+          },
         }).toJS()
       ).toEqual({
         incident: {
           category: 'Overlast in de openbare ruimte',
-          subcategory: 'Honden(poep)'
+          subcategory: 'Honden(poep)',
         },
-        loadingClassification: false
+        loadingClassification: false,
       });
     });
   });
@@ -170,20 +170,20 @@ describe('incidentContainerReducer', () => {
     it('sets category and subcategory', () => {
       expect(
         incidentContainerReducer(fromJS({
-          incident: {}
+          incident: {},
         }), {
           type: GET_CLASSIFICATION_ERROR,
           payload: {
             category: 'Overlast in de openbare ruimte',
-            subcategory: 'Honden(poep)'
-          }
+            subcategory: 'Honden(poep)',
+          },
         }).toJS()
       ).toEqual({
         incident: {
           category: 'Overlast in de openbare ruimte',
-          subcategory: 'Honden(poep)'
+          subcategory: 'Honden(poep)',
         },
-        loadingClassification: false
+        loadingClassification: false,
       });
     });
   });
@@ -195,14 +195,14 @@ describe('incidentContainerReducer', () => {
           type: SET_PRIORITY,
           payload: {
             _signal: 666,
-            priority: 'normal'
-          }
+            priority: 'normal',
+          },
         }).toJS()
       ).toEqual({
         priority: {
           _signal: 666,
-          priority: 'normal'
-        }
+          priority: 'normal',
+        },
       });
     });
   });
@@ -211,10 +211,10 @@ describe('incidentContainerReducer', () => {
     it('sets priority', () => {
       expect(
         incidentContainerReducer(fromJS({}), {
-          type: SET_PRIORITY_SUCCESS
+          type: SET_PRIORITY_SUCCESS,
         }).toJS()
       ).toEqual({
-        priority: {}
+        priority: {},
       });
     });
   });
@@ -223,10 +223,10 @@ describe('incidentContainerReducer', () => {
     it('sets priority', () => {
       expect(
         incidentContainerReducer(fromJS({}), {
-          type: SET_PRIORITY_ERROR
+          type: SET_PRIORITY_ERROR,
         }).toJS()
       ).toEqual({
-        priority: {}
+        priority: {},
       });
     });
   });

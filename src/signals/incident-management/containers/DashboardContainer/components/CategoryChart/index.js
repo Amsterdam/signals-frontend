@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BarChart, Bar, XAxis, YAxis, LabelList } from 'recharts';
+import {
+  BarChart, Bar, XAxis, YAxis, LabelList,
+} from 'recharts';
 
 import './style.scss';
 
@@ -33,17 +35,19 @@ const CategoryChart = ({ data }) => (
         dataKey="count"
         animationDuration={300}
         fill="#23B0C3"
-      ><LabelList dataKey="count" position="right" /></Bar>
+      >
+        <LabelList dataKey="count" position="right" />
+      </Bar>
     </BarChart>
   </div>
-  );
+);
 
 CategoryChart.defaultProps = {
-  data: []
+  data: [],
 };
 
 CategoryChart.propTypes = {
-  data: PropTypes.array
+  data: PropTypes.array,
 };
 
 export default CategoryChart;

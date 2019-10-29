@@ -7,8 +7,8 @@ import HandlingMessage from './index';
 describe('Form component <HandlingMessage />', () => {
   const incidentContainer = {
     incident: {
-      handling_message: 'Jaaaaa!\n\nNeee!'
-    }
+      handling_message: 'Jaaaaa!\n\nNeee!',
+    },
   };
   let wrapper;
 
@@ -21,13 +21,13 @@ describe('Form component <HandlingMessage />', () => {
       wrapper.setProps({
         meta: {
           key: 'incident.handling_message',
-          isVisible: true
+          isVisible: true,
         },
         parent: {
           meta: {
-            incidentContainer
-          }
-        }
+            incidentContainer,
+          },
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -36,19 +36,19 @@ describe('Form component <HandlingMessage />', () => {
     it('should render empty correctly with no handling message', () => {
       const emptyIncidentContainer = {
         incident: {
-        }
+        },
       };
 
       wrapper.setProps({
         meta: {
           key: 'incident.handling_message',
-          isVisible: true
+          isVisible: true,
         },
         parent: {
           meta: {
-            emptyIncidentContainer
-          }
-        }
+            emptyIncidentContainer,
+          },
+        },
       });
 
       expect(wrapper).toMatchSnapshot();
@@ -57,8 +57,8 @@ describe('Form component <HandlingMessage />', () => {
     it('should render no handling message when not visible', () => {
       wrapper.setProps({
         meta: {
-          isVisible: false
-        }
+          isVisible: false,
+        },
       });
 
       expect(wrapper).toMatchSnapshot();

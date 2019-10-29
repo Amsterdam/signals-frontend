@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import SplitNotificationBar from './index';
@@ -19,22 +19,20 @@ describe('<SplitNotificationBar />', () => {
           created: {
             children: [
               { id: 43 },
-              { id: 44 }
-            ]
-          }
+              { id: 44 },
+            ],
+          },
         },
-        onDismissSplitNotification: jest.fn()
+        onDismissSplitNotification: jest.fn(),
       };
     });
-
-    afterEach(cleanup);
 
     it('should render 2  items correctly', () => {
       const { queryByTestId } = render(
         withAppContext(<SplitNotificationBar {...props} />)
       );
 
-      expect(queryByTestId('split-notification-bar')).toHaveTextContent(/^Melding 42 is gesplitst in 43 44$/);
+      expect(queryByTestId('splitNotificationBar')).toHaveTextContent(/^Melding 42 is gesplitst in 43 en 44$/);
     });
 
     it('should render 3 items correctly', () => {
@@ -43,7 +41,7 @@ describe('<SplitNotificationBar />', () => {
         withAppContext(<SplitNotificationBar {...props} />)
       );
 
-      expect(queryByTestId('split-notification-bar')).toHaveTextContent(/^Melding 42 is gesplitst in 43 44 45$/);
+      expect(queryByTestId('splitNotificationBar')).toHaveTextContent(/^Melding 42 is gesplitst in 43, 44 en 45$/);
     });
 
     it('should render no items correctly', () => {
@@ -52,14 +50,14 @@ describe('<SplitNotificationBar />', () => {
         withAppContext(<SplitNotificationBar {...props} />)
       );
 
-      expect(queryByTestId('split-notification-bar')).toHaveTextContent(/^$/);
+      expect(queryByTestId('splitNotificationBar')).toHaveTextContent(/^$/);
     });
 
     it('should dissmiss bar when clicked', () => {
       const { queryByTestId } = render(
         withAppContext(<SplitNotificationBar {...props} />)
       );
-      fireEvent.click(queryByTestId('split-notification-bar-close-button'));
+      fireEvent.click(queryByTestId('splitNotificationBarCloseButton'));
 
       expect(props.onDismissSplitNotification).toHaveBeenCalledTimes(1);
     });
@@ -70,10 +68,10 @@ describe('<SplitNotificationBar />', () => {
       props = {
         data: {
           response: {
-            status: 503
-          }
+            status: 503,
+          },
         },
-        onDismissSplitNotification: jest.fn()
+        onDismissSplitNotification: jest.fn(),
       };
     });
 
@@ -82,7 +80,7 @@ describe('<SplitNotificationBar />', () => {
         withAppContext(<SplitNotificationBar {...props} />)
       );
 
-      expect(queryByTestId('split-notification-bar')).toHaveTextContent(/^De melding is helaas niet gesplitst\. Er is een onbekende fout ontstaan\.$/);
+      expect(queryByTestId('splitNotificationBar')).toHaveTextContent(/^De melding is helaas niet gesplitst\. Er is een onbekende fout ontstaan\.$/);
     });
 
     it('should render general 403 correctly', () => {
@@ -91,7 +89,7 @@ describe('<SplitNotificationBar />', () => {
         withAppContext(<SplitNotificationBar {...props} />)
       );
 
-      expect(queryByTestId('split-notification-bar')).toHaveTextContent(/^De melding is helaas niet gesplitst\. U bent niet bevoegd om deze melding te splitsen\.$/);
+      expect(queryByTestId('splitNotificationBar')).toHaveTextContent(/^De melding is helaas niet gesplitst\. U bent niet bevoegd om deze melding te splitsen\.$/);
     });
 
     it('should render general 412 correctly', () => {
@@ -100,14 +98,14 @@ describe('<SplitNotificationBar />', () => {
         withAppContext(<SplitNotificationBar {...props} />)
       );
 
-      expect(queryByTestId('split-notification-bar')).toHaveTextContent(/^De melding is helaas niet gesplitst\. U kunt geen meldingen splitsen die al gesplitst zijn\.$/);
+      expect(queryByTestId('splitNotificationBar')).toHaveTextContent(/^De melding is helaas niet gesplitst\. U kunt geen meldingen splitsen die al gesplitst zijn\.$/);
     });
 
     it('should dissmiss bar when clicked', () => {
       const { queryByTestId } = render(
         withAppContext(<SplitNotificationBar {...props} />)
       );
-      fireEvent.click(queryByTestId('split-notification-bar-close-button'));
+      fireEvent.click(queryByTestId('splitNotificationBarCloseButton'));
 
       expect(props.onDismissSplitNotification).toHaveBeenCalledTimes(1);
     });

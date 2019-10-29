@@ -13,7 +13,7 @@ class Highlight extends React.Component { // eslint-disable-line react/prefer-st
     this.state = {
       subscribeTo: props.subscribeTo,
       valueChanged: props.valueChanged,
-      show: props.show
+      show: props.show,
     };
 
     this.clearHighlight = this.clearHighlight.bind(this);
@@ -25,7 +25,7 @@ class Highlight extends React.Component { // eslint-disable-line react/prefer-st
     return {
       subscribeTo: valueChanged ? props.subscribeTo : state.subscribeTo,
       valueChanged,
-      show: valueChanged === true ? true : state.show
+      show: valueChanged === true ? true : state.show,
     };
   }
 
@@ -46,7 +46,7 @@ class Highlight extends React.Component { // eslint-disable-line react/prefer-st
   clearHighlight() {
     this.setState({
       valueChanged: false,
-      show: false
+      show: false,
     });
   }
 
@@ -67,7 +67,7 @@ class Highlight extends React.Component { // eslint-disable-line react/prefer-st
 
 Highlight.defaultProps = {
   valueChanged: false,
-  show: false
+  show: false,
 };
 
 Highlight.propTypes = {
@@ -76,11 +76,11 @@ Highlight.propTypes = {
     PropTypes.number,
     PropTypes.bool,
     PropTypes.array,
-    PropTypes.object
+    PropTypes.object,
   ]),
   valueChanged: PropTypes.bool,
   show: PropTypes.bool,
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
 };
 
 export default Highlight;

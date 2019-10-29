@@ -6,7 +6,7 @@ import {
   takeEvery,
   takeLatest,
 } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router/immutable';
 import request from 'utils/request';
 
 import { authCall } from 'shared/services/api/api';

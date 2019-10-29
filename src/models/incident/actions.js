@@ -4,102 +4,101 @@ import {
   PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
   DISMISS_ERROR,
   REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR,
-  REQUEST_DEFAULT_TEXTS, REQUEST_DEFAULT_TEXTS_SUCCESS, REQUEST_DEFAULT_TEXTS_ERROR
+  REQUEST_DEFAULT_TEXTS, REQUEST_DEFAULT_TEXTS_SUCCESS, REQUEST_DEFAULT_TEXTS_ERROR,
 } from './constants';
 
 export function requestIncident(id) {
   return {
     type: REQUEST_INCIDENT,
-    payload: id
+    payload: id,
   };
 }
 
 export function requestIncidentSuccess(incident) {
   return {
     type: REQUEST_INCIDENT_SUCCESS,
-    payload: incident
+    payload: incident,
   };
 }
 
 export function requestIncidentError(error) {
   return {
     type: REQUEST_INCIDENT_ERROR,
-    payload: error
+    payload: error,
   };
 }
 
 export function dismissSplitNotification() {
   return {
-    type: DISMISS_SPLIT_NOTIFICATION
+    type: DISMISS_SPLIT_NOTIFICATION,
   };
 }
 
 export function patchIncident(patch) {
   return {
     type: PATCH_INCIDENT,
-    payload: patch
+    payload: patch,
   };
 }
 
 export function patchIncidentSuccess(patching) {
   return {
     type: PATCH_INCIDENT_SUCCESS,
-    payload: patching
+    payload: patching,
   };
 }
 
 export function patchIncidentError(error) {
   return {
     type: PATCH_INCIDENT_ERROR,
-    payload: error
+    payload: error,
   };
 }
 
 export function dismissError() {
   return {
-    type: DISMISS_ERROR
+    type: DISMISS_ERROR,
   };
 }
 
 export function requestAttachments(id) {
   return {
     type: REQUEST_ATTACHMENTS,
-    payload: id
+    payload: id,
   };
 }
 
 export function requestAttachmentsSuccess(files) {
   return {
     type: REQUEST_ATTACHMENTS_SUCCESS,
-    payload: files
+    payload: files,
   };
 }
 
 export function requestAttachmentsError(error) {
   return {
     type: REQUEST_ATTACHMENTS_ERROR,
-    payload: error
+    payload: error,
   };
 }
 
 export function requestDefaultTexts(payload) {
   return {
     type: REQUEST_DEFAULT_TEXTS,
-    payload
+    payload,
   };
 }
 
 export function requestDefaultTextsSuccess(payload) {
   return {
     type: REQUEST_DEFAULT_TEXTS_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function requestDefaultTextsError(error) {
   return {
     type: REQUEST_DEFAULT_TEXTS_ERROR,
-    payload: error
+    payload: error,
   };
 }
-

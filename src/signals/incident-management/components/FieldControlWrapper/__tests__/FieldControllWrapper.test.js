@@ -16,7 +16,7 @@ describe('FieldControlWrapper', () => {
     props = {
       name: 'inputfield',
       control: new FormControl(),
-      render: jest.fn()
+      render: jest.fn(),
     };
 
     wrapper = shallow(<FieldControlWrapper {...props} />);
@@ -60,7 +60,7 @@ describe('FieldControlWrapper', () => {
     it('should sort the values alphabettically', () => {
       wrapper.setProps({
         sort: true,
-        values: [...values, { key: 'bar', value: 'Bar' }]
+        values: [...values, { key: 'bar', value: 'Bar' }],
       });
 
       expect(wrapper.state('values')).toEqual([{ key: 'bar', value: 'Bar' }, ...values]);
@@ -70,7 +70,7 @@ describe('FieldControlWrapper', () => {
       wrapper.setProps({
         sort: true,
         values: [...values, { key: 'bar', value: 'Bar' }],
-        emptyOptionText: 'Selecteer...'
+        emptyOptionText: 'Selecteer...',
       });
 
       expect(wrapper.state('values')).toEqual([{ key: '', value: 'Selecteer...', slug: '' }, { key: 'bar', value: 'Bar' }, ...values]);
@@ -80,7 +80,7 @@ describe('FieldControlWrapper', () => {
   it('should not add an empty option if it already exists', () => {
     wrapper.setProps({
       values: [{ key: '', value: 'Selecteer...' }, ...values],
-      emptyOptionText: 'Selecteer...'
+      emptyOptionText: 'Selecteer...',
     });
 
     expect(wrapper.state('values')).toEqual([{ key: '', value: 'Selecteer...' }, ...values]);

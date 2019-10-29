@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Label from '../Label';
+
 import './style.scss';
 
-export const CopyFileInput = (props) => {
+export const CopyFileInput = props => {
   const { name, display, values } = props;
   const render = ({ handler }) => (
     <div className="copy-file-input">
       <div className="mode_input text rij_verplicht">
-        <div className="copy-file-input__label">
-          <label htmlFor={`form${name}`}>{display}</label>
-        </div>
+        <Label htmlFor={`form${name}`}>{display}</Label>
 
-        {values.map((attachment) => (
+        {values.map(attachment => (
           <div
             key={attachment.location}
             className="copy-file-input__attachment"
@@ -25,16 +25,18 @@ export const CopyFileInput = (props) => {
           <label htmlFor={`form${name}`}>Foto&apos;s toevoegen</label>
         </div>
       </div>
-    </div>);
+    </div>
+  );
 
   render.defaultProps = {
     touched: false,
-    values: []
+    values: [],
   };
 
   render.propTypes = {
     handler: PropTypes.func.isRequired,
-    values: PropTypes.array
+    touched: PropTypes.bool,
+    values: PropTypes.array,
   };
   return render;
 };

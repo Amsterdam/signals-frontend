@@ -3,28 +3,30 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 const LabelWrapper = styled.div`
-  ${({ isGroupHeader }) =>
-    !isGroupHeader &&
-    css`
+  ${({ isGroupHeader }) => !isGroupHeader
+    && css`
       display: inline-block;
     `}
 `;
 
 const StyledLabel = styled.label`
   font-family: 'Avenir Next LT W01 Demi', arial, sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 25px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   display: inline-block;
 
   ${({ isGroupHeader }) =>
     isGroupHeader &&
     css`
-      color: #ec0000;
-    `}
+    font-size: 18px;
+    color: #ec0000;
+  `}
 `;
 
-const Label = ({ className, htmlFor, as, ...rest }) => (
+const Label = ({
+  className, htmlFor, as, ...rest
+}) => (
   <LabelWrapper className={`Label ${className}`}>
     <StyledLabel htmlFor={htmlFor} as={as} {...rest} />
   </LabelWrapper>
@@ -33,7 +35,7 @@ const Label = ({ className, htmlFor, as, ...rest }) => (
 Label.defaultProps = {
   as: 'label',
   className: '',
-  isGroupHeader: true,
+  isGroupHeader: false,
 };
 
 Label.propTypes = {

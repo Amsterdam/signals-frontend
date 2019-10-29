@@ -8,8 +8,8 @@ import FilterTagList from '../../../FilterTagList';
 
 import './style.scss';
 
-const StyledHeading = styled(Heading)`
-  margin-bottom: 10px;
+const StyledH4 = styled(Heading)`
+  margin-bottom: 8px;
   color: #fe0000;
   display: block;
 `;
@@ -28,15 +28,17 @@ const RefreshIcon = styled(Refresh).attrs({
   cursor: default;
 `;
 
-const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => {
-  const handleApplyFilter = (e) => {
+const FilterItem = ({
+  filter, onApplyFilter, onRemoveFilter, onClose,
+}) => {
+  const handleApplyFilter = e => {
     e.preventDefault();
 
     onApplyFilter(filter);
     onClose();
   };
 
-  const handleEditFilter = (e) => {
+  const handleEditFilter = e => {
     e.preventDefault();
 
     onApplyFilter(filter);
@@ -58,7 +60,7 @@ const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => {
     onClose();
   };
 
-  const handleRemoveFilter = (e) => {
+  const handleRemoveFilter = e => {
     e.preventDefault();
 
     if (
@@ -72,10 +74,10 @@ const FilterItem = ({ filter, onApplyFilter, onRemoveFilter, onClose }) => {
 
   return (
     <div className="filter-item">
-      <StyledHeading $as="h4">
+      <StyledH4 $as="h4">
         {filter.refresh && (<RefreshIcon />)}
         {filter.name}
-      </StyledHeading>
+      </StyledH4>
 
       <div className="filter-item__tag-list">
         <FilterTagList tags={filter.options} />

@@ -1,100 +1,119 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import {
+  render,
+  fireEvent,
+} from '@testing-library/react';
+import { withAppContext } from 'test/utils';
 
 import SplitForm from './index';
 
 import priorityList from '../../../../definitions/priorityList';
 
-jest.mock('../IncidentPart', () => () => 'IncidentPart');
-
 describe('<SplitForm />', () => {
   const mockCreate = {
     category: {
-      sub_category: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep'
+      sub_category: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep',
     },
     reuse_parent_image: true,
-    text: undefined
+    text: undefined,
   };
   const mockUpdate = {
     image: true,
     note: '',
     priority: 'high',
     subcategory: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep',
-    text: undefined
+    text: undefined,
   };
   let props;
 
   beforeEach(() => {
     props = {
       incident: {
+        id: '42',
         category: {
           main_slug: 'afval',
-          sub_slug: 'poep'
+          sub_slug: 'poep',
+          category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep',
         },
         priority: {
-          priority: 'high'
-        }
+          priority: 'high',
+        },
       },
       attachments: [],
       subcategories: [{
         key: 'poep',
         value: 'Poep',
-        slug: 'poep'
+        slug: 'poep',
       }],
       priorityList,
-      handleSubmit: jest.fn(),
-      handleCancel: jest.fn()
+      onHandleCancel: jest.fn(),
+      onHandleSubmit: jest.fn(),
     };
   });
 
   describe('rendering', () => {
     it('should render correctly', () => {
-      const wrapper = shallow(<SplitForm {...props} />);
+      const { queryByTestId } = render(
+        withAppContext(<SplitForm {...props} />)
+      );
 
-      expect(wrapper).toMatchSnapshot();
-    });
-
-    it('should render 3 parts correctly', () => {
-      const wrapper = shallow(<SplitForm {...props} />);
-      wrapper.setState({ isVisible: true });
-
-      expect(wrapper).toMatchSnapshot();
+      expect(queryByTestId('splitFormDisclaimer')).not.toBeNull();
+      expect(queryByTestId('splitFormBottomDisclaimer')).not.toBeNull();
     });
   });
 
   describe('events', () => {
     it('should toggle visiblity of part 3 on and off and on again', () => {
-      const wrapper = shallow(<SplitForm {...props} />);
+      const { getByTestId, queryAllByTestId } = render(
+        withAppContext(<SplitForm {...props} />)
+      );
 
-      expect(wrapper.state('isVisible')).toBe(false);
-      wrapper.find('.split-form__button-show').simulate('click');
+      fireEvent.click(getByTestId('splitFormPartAdd'));
 
-      expect(wrapper.state('isVisible')).toBe(true);
-      wrapper.find('.split-form__button-hide').simulate('click');
+      expect(queryAllByTestId('incidentPartTitle')[2]).toHaveTextContent(/^Deelmelding 3$/);
 
-      expect(wrapper.state('isVisible')).toBe(false);
+      fireEvent.click(getByTestId('splitFormPartRemove'));
+
+      expect(queryAllByTestId('incidentPartTitle')[2]).toBeUndefined();
     });
   });
 
   it('should handle submit with 2 items', () => {
-    const wrapper = shallow(<SplitForm {...props} />);
-    wrapper.instance().handleSubmit();
-    expect(props.handleSubmit).toHaveBeenCalledWith({
+    const { getByTestId } = render(
+      withAppContext(<SplitForm {...props} />)
+    );
+
+    fireEvent.click(getByTestId('splitFormSubmit'));
+
+    expect(props.onHandleSubmit).toHaveBeenCalledWith({
       create: [mockCreate, mockCreate],
       id: props.incident.id,
-      update: [mockUpdate, mockUpdate]
+      update: [mockUpdate, mockUpdate],
     });
   });
 
   it('should handle submit with 3 items', () => {
-    const wrapper = shallow(<SplitForm {...props} />);
-    wrapper.setState({ isVisible: true });
+    const { getByTestId } = render(
+      withAppContext(<SplitForm {...props} />)
+    );
 
-    wrapper.instance().handleSubmit();
-    expect(props.handleSubmit).toHaveBeenCalledWith({
+    fireEvent.click(getByTestId('splitFormPartAdd'));
+    fireEvent.click(getByTestId('splitFormSubmit'));
+
+    expect(props.onHandleSubmit).toHaveBeenCalledWith({
       create: [mockCreate, mockCreate, mockCreate],
       id: props.incident.id,
-      update: [mockUpdate, mockUpdate, mockUpdate]
+      update: [mockUpdate, mockUpdate, mockUpdate],
     });
+  });
+
+  it('should handle cancel', () => {
+    const { getByTestId } = render(
+      withAppContext(<SplitForm {...props} />)
+    );
+
+    fireEvent.click(getByTestId('splitFormCancel'));
+
+    expect(props.onHandleCancel).toHaveBeenCalled();
   });
 });

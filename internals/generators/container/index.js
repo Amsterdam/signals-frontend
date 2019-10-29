@@ -17,7 +17,7 @@ module.exports = {
     name: 'name',
     message: 'What should it be called?',
     default: 'Form',
-    validate: (value) => {
+    validate: value => {
       if ((/.+/).test(value)) {
         return componentExists(value) ? 'A component or container with this name already exists' : true;
       }
@@ -50,7 +50,7 @@ module.exports = {
     default: true,
     message: 'Do you want to load resources asynchronously?',
   }],
-  actions: (data) => {
+  actions: data => {
     // Generate index.js and index.test.js
     var componentTemplate; // eslint-disable-line no-var
 
@@ -152,15 +152,6 @@ module.exports = {
         type: 'add',
         path: '../../src/containers/{{properCase name}}/saga.test.js',
         templateFile: './container/saga.test.js.hbs',
-        abortOnFail: true,
-      });
-    }
-
-    if (data.wantLoadable) {
-      actions.push({
-        type: 'add',
-        path: '../../src/containers/{{properCase name}}/Loadable.js',
-        templateFile: './component/loadable.js.hbs',
         abortOnFail: true,
       });
     }

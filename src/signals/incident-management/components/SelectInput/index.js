@@ -5,7 +5,7 @@ import Label from '../Label';
 
 import './style.scss';
 
-export const SelectInput = (props) => {
+export const SelectInput = props => {
   const {
     name,
     display,
@@ -30,9 +30,7 @@ export const SelectInput = (props) => {
     <div className="select-input">
       <div className="mode_input text rij_verplicht">
         {display && (
-          <div className="select-input__label">
-            <Label htmlFor={`form${name}`}>{display}</Label>
-          </div>
+          <Label htmlFor={`form${name}`}>{display}</Label>
         )}
 
         <div className="select-input__control invoer">
@@ -57,6 +55,8 @@ export const SelectInput = (props) => {
 
   render.propTypes = {
     handler: PropTypes.func.isRequired,
+    size: PropTypes.number,
+    touched: PropTypes.bool,
   };
   return render;
 };

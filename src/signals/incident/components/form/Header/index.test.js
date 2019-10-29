@@ -13,7 +13,7 @@ describe('Form component <Header />', () => {
 
   beforeEach(() => {
     meta = {
-      label: 'naam'
+      label: 'naam',
     };
     options = {};
     touched = false;
@@ -36,8 +36,8 @@ describe('Form component <Header />', () => {
   it('should render when label is not available', () => {
     wrapper.setProps({
       meta: {
-        label: null
-      }
+        label: null,
+      },
     });
 
     expect(wrapper).toMatchSnapshot();
@@ -51,23 +51,23 @@ describe('Form component <Header />', () => {
     });
 
     it('should render required error', () => {
-      hasError.mockImplementation((type) => type === 'required');
+      hasError.mockImplementation(type => type === 'required');
       wrapper.setProps({ touched: true });
 
       expect(wrapper).toMatchSnapshot();
     });
 
     it('should render email error', () => {
-      hasError.mockImplementation((type) => type === 'email');
+      hasError.mockImplementation(type => type === 'email');
       wrapper.setProps({ touched: true });
 
       expect(wrapper).toMatchSnapshot();
     });
 
     it('should render maxLength error', () => {
-      hasError.mockImplementation((type) => type === 'maxLength');
+      hasError.mockImplementation(type => type === 'maxLength');
       getError.mockImplementation(() => ({
-        requiredLength: 666
+        requiredLength: 666,
       }));
       wrapper.setProps({ touched: true });
 
@@ -75,7 +75,7 @@ describe('Form component <Header />', () => {
     });
 
     it('should render custom error', () => {
-      hasError.mockImplementation((type) => type === 'custom');
+      hasError.mockImplementation(type => type === 'custom');
       getError.mockImplementation(() => 'custom error message');
       wrapper.setProps({ touched: true });
 

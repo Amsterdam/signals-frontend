@@ -20,7 +20,7 @@ describe('<LocationForm />', () => {
       extra_properties: null,
       geometrie: {
         type: 'Point',
-        coordinates: [4, 52]
+        coordinates: [4, 52],
       },
       buurt_code: 'A00d',
       created_by: null,
@@ -30,23 +30,23 @@ describe('<LocationForm />', () => {
         huisnummer: '123',
         woonplaats: 'Amsterdam',
         openbare_ruimte: 'Rokin',
-        huisnummer_toevoeging: 'H'
+        huisnummer_toevoeging: 'H',
       },
       stadsdeel: 'A',
       bag_validated: false,
       address_text: 'Rokin 123-H 1012KP Amsterdam',
-      id: 3372
+      id: 3372,
     };
     props = {
       incident: {
         id: 42,
-        location
+        location,
       },
       patching: { location: false },
       error: false,
       onPatchIncident: jest.fn(),
       onDismissError: jest.fn(),
-      onClose: jest.fn()
+      onClose: jest.fn(),
     };
 
     wrapper = shallow(
@@ -87,7 +87,7 @@ describe('<LocationForm />', () => {
       const form = instance.form;
       const formValue = {
         location: { stadsdeel: 'E' },
-        coordinates: '5,52'
+        coordinates: '5,52',
       };
       form.patchValue(formValue);
       expect(form.value.location).toEqual(formValue.location);
@@ -99,7 +99,7 @@ describe('<LocationForm />', () => {
       const form = instance.form;
       const formValue = {
         location: { stadsdeel: 'E' },
-        coordinates: '5,52'
+        coordinates: '5,52',
       };
       form.patchValue(formValue);
       expect(form.value.location).toEqual(formValue.location);
@@ -117,9 +117,9 @@ describe('<LocationForm />', () => {
       wrapper.setProps({
         incident: {
           id: 42,
-          location: { stadsdeel: 'E' }
+          location: { stadsdeel: 'E' },
         },
-        patching: { location: false }
+        patching: { location: false },
       });
 
       // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
@@ -127,20 +127,20 @@ describe('<LocationForm />', () => {
       expect(props.onPatchIncident).toHaveBeenCalledWith({
         id: 42,
         patch: {
-          location: { stadsdeel: 'E' }
+          location: { stadsdeel: 'E' },
         },
-        type: 'location'
+        type: 'location',
       });
     });
 
     it('should close the location form when result is ok', () => {
       wrapper.setProps({
-        patching: { location: true }
+        patching: { location: true },
       });
 
       wrapper.setProps({
         patching: { location: false },
-        error: { response: { ok: true } }
+        error: { response: { ok: true } },
       });
 
       expect(props.onClose).toHaveBeenCalledTimes(1);
@@ -149,12 +149,12 @@ describe('<LocationForm />', () => {
 
     it('should not close the location form when result triggers an error', () => {
       wrapper.setProps({
-        patching: { location: true }
+        patching: { location: true },
       });
 
       wrapper.setProps({
         patching: { location: false },
-        error: { response: { ok: false, status: 500 } }
+        error: { response: { ok: false, status: 500 } },
       });
 
       expect(props.onClose).not.toHaveBeenCalled();

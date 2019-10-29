@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import TextInput from '../';
+import TextInput from '..';
 
 describe('<TextInput />', () => {
   it('should render correctly', () => {

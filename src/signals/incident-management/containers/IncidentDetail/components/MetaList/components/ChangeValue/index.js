@@ -14,28 +14,28 @@ import './style.scss';
 
 class ChangeValue extends React.Component { // eslint-disable-line react/prefer-stateless-function
   form = FormBuilder.group({ // eslint-disable-line react/sort-comp
-    input: ['', Validators.required]
+    input: ['', Validators.required],
   });
 
   constructor(props) {
     super(props);
 
     this.state = {
-      formVisible: false
+      formVisible: false,
     };
     this.showForm = this.showForm.bind(this);
     this.hideForm = this.hideForm.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault();
     const payload = { ...this.props.patch };
     set(payload, this.props.path, this.form.value.input);
     this.props.onPatchIncident({
       id: this.props.incident.id,
       type: this.props.type,
-      patch: { ...payload }
+      patch: { ...payload },
     });
 
     this.form.reset();
@@ -57,7 +57,9 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
   }
 
   render() {
-    const { display, definitionClass, valueClass, list, incident, path, valuePath, sort, disabled } = this.props;
+    const {
+      display, definitionClass, valueClass, list, incident, path, valuePath, sort, disabled,
+    } = this.props;
     const { formVisible } = this.state;
     return (
       <dl className="change-value">
@@ -65,46 +67,52 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
           {display}
         </dt>
 
-        {formVisible ?
-          <FieldGroup
-            control={this.form}
-            render={() => (
-              <form onSubmit={this.handleSubmit} className="change-value__form">
-                <Fragment>
-                  <FieldControlWrapper
-                    render={SelectInput}
-                    name="input"
-                    values={list}
-                    className="change-value__form-input"
-                    control={this.form.get('input')}
-                    disabled={disabled}
-                    sort={sort}
-                  />
+        {formVisible
+          ? (
+            <FieldGroup
+              control={this.form}
+              render={() => (
+                <form onSubmit={this.handleSubmit} className="change-value__form">
+                  <Fragment>
+                    <FieldControlWrapper
+                      render={SelectInput}
+                      name="input"
+                      values={list}
+                      className="change-value__form-input"
+                      control={this.form.get('input')}
+                      disabled={disabled}
+                      sort={sort}
+                    />
 
-                  <button
-                    className="change-value__form-submit action primary"
-                    type="submit"
-                  >Opslaan</button>
-                  <button
-                    className="change-value__form-cancel action secundary-grey"
-                    type="button"
-                    onClick={this.handleCancel}
-                  >Annuleren</button>
-                </Fragment>
-              </form>
+                    <button
+                      className="change-value__form-submit action primary"
+                      type="submit"
+                    >
+Opslaan
+                    </button>
+                    <button
+                      className="change-value__form-cancel action secundary-grey"
+                      type="button"
+                      onClick={this.handleCancel}
+                    >
+Annuleren
+                    </button>
+                  </Fragment>
+                </form>
               )}
-          />
-        :
-          <dd className={valueClass}>
-            <button
-              className="change-value__edit incident-detail__button--edit"
-              type="button"
-              onClick={this.showForm}
-              disabled={disabled}
             />
-            <span className="change-value__value">{getListValueByKey(list, get(incident, valuePath || path))}</span>
-          </dd>
-        }
+          )
+          : (
+            <dd className={valueClass}>
+              <button
+                className="change-value__edit incident-detail__button--edit"
+                type="button"
+                onClick={this.showForm}
+                disabled={disabled}
+              />
+              <span className="change-value__value">{getListValueByKey(list, get(incident, valuePath || path))}</span>
+            </dd>
+          )}
       </dl>
     );
   }
@@ -113,7 +121,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
 ChangeValue.defaultProps = {
   valuePath: '',
   patch: {},
-  disabled: false
+  disabled: false,
 };
 
 ChangeValue.propTypes = {
@@ -129,7 +137,7 @@ ChangeValue.propTypes = {
   sort: PropTypes.bool,
   type: PropTypes.string.isRequired,
 
-  onPatchIncident: PropTypes.func.isRequired
+  onPatchIncident: PropTypes.func.isRequired,
 };
 
 export default ChangeValue;

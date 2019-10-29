@@ -6,17 +6,17 @@ import CONFIGURATION from '../configuration/configuration';
 // A map of the error keys, that the OAuth2 authorization service can
 // return, to a full description
 const ERROR_MESSAGES = {
-  invalid_request: 'The request is missing a required parameter, includes an invalid parameter value, ' +
-    'includes a parameter more than once, or is otherwise malformed.',
+  invalid_request: 'The request is missing a required parameter, includes an invalid parameter value, '
+    + 'includes a parameter more than once, or is otherwise malformed.',
   unauthorized_client: 'The client is not authorized to request an access token using this method.',
   access_denied: 'The resource owner or authorization server denied the request.',
-  unsupported_response_type: 'The authorization server does not support obtaining an access token using ' +
-    'this method.',
+  unsupported_response_type: 'The authorization server does not support obtaining an access token using '
+    + 'this method.',
   invalid_scope: 'The requested scope is invalid, unknown, or malformed.',
-  server_error: 'The authorization server encountered an unexpected condition that prevented it from ' +
-    'fulfilling the request.',
-  temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a ' +
-    'temporary overloading or maintenance of the server.'
+  server_error: 'The authorization server encountered an unexpected condition that prevented it from '
+    + 'fulfilling the request.',
+  temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a '
+    + 'temporary overloading or maintenance of the server.',
 };
 
 // The parameters the OAuth2 authorization service will return on
@@ -27,12 +27,12 @@ const AUTH_PARAMS = ['access_token', 'token_type', 'expires_in', 'state'];
 // the backend APIs
 const scopes = [
   // Signals
-  'SIG/ALL'
+  'SIG/ALL',
 ];
 
 const domainList = [
   'datapunt',
-  'grip'
+  'grip',
 ];
 
 function getDomain(domain) {
@@ -46,7 +46,7 @@ function getDomain(domain) {
 const encodedScopes = encodeURIComponent(scopes.join(' '));
 // The URI we need to redirect to for communication with the OAuth2
 // authorization service
-export const AUTH_PATH = (domain) => `oauth2/authorize?idp_id=${getDomain(domain)}&response_type=token&client_id=sia&scope=${encodedScopes}`;
+export const AUTH_PATH = domain => `oauth2/authorize?idp_id=${getDomain(domain)}&response_type=token&client_id=sia&scope=${encodedScopes}`;
 
 // The keys of values we need to store in the session storage
 //
@@ -77,10 +77,10 @@ function handleError(code, description) {
 
   // Remove parameters from the URL, as set by the error callback from the
   // OAuth2 authorization service, to clean up the URL.
-  location.assign(`${location.protocol}//${location.host}${location.pathname}`);
+  global.location.assign(`${global.location.protocol}//${global.location.host}${global.location.pathname}`);
 
-  throw new Error('Authorization service responded with error ' +
-    `${code} [${description}] (${ERROR_MESSAGES[code]})`);
+  throw new Error('Authorization service responded with error '
+    + `${code} [${description}] (${ERROR_MESSAGES[code]})`);
 }
 
 /**
@@ -88,7 +88,7 @@ function handleError(code, description) {
  * service.
  */
 function catchError() {
-  const params = queryStringParser(location.search);
+  const params = queryStringParser(global.location.search);
   if (params && params.error) {
     handleError(params.error, params.error_description);
   }
@@ -119,7 +119,7 @@ function getAccessTokenFromParams(params) {
   // in the params the fastest check is not to check if all
   // parameters are defined but to check that no undefined parameter
   // can be found
-  const paramsValid = !AUTH_PARAMS.some((param) => params[param] === undefined);
+  const paramsValid = !AUTH_PARAMS.some(param => params[param] === undefined);
 
   if (paramsValid && !stateTokenValid) {
     // This is a callback, but the state token does not equal the
@@ -134,7 +134,7 @@ function getAccessTokenFromParams(params) {
  * Gets the access token and return path, and clears the session storage.
  */
 function handleCallback() {
-  const params = queryStringParser(location.hash);
+  const params = queryStringParser(global.location.hash);
   const accessToken = getAccessTokenFromParams(params);
   if (accessToken) {
     tokenData = accessTokenParser(accessToken);
@@ -145,7 +145,7 @@ function handleCallback() {
 
     // Clean up URL; remove query and hash
     // https://stackoverflow.com/questions/4508574/remove-hash-from-url
-    history.replaceState('', document.title, window.location.pathname);
+    global.history.replaceState('', document.title, global.location.pathname);
   }
 }
 
@@ -187,18 +187,18 @@ export function login(domain) {
   }
 
   sessionStorage.removeItem(ACCESS_TOKEN);
-  sessionStorage.setItem(RETURN_PATH, location.hash);
+  sessionStorage.setItem(RETURN_PATH, global.location.hash);
   sessionStorage.setItem(STATE_TOKEN, stateToken);
   sessionStorage.setItem(OAUTH_DOMAIN, domain);
 
-  const redirectUri = encodeURIComponent(`${location.protocol}//${location.host}/manage/incidents`);
-  location.assign(`${CONFIGURATION.AUTH_ROOT}${AUTH_PATH(domain)}&state=${encodedStateToken}&redirect_uri=${redirectUri}`);
+  const redirectUri = encodeURIComponent(`${global.location.protocol}//${global.location.host}/manage/incidents`);
+  global.location.assign(`${CONFIGURATION.AUTH_ROOT}${AUTH_PATH(domain)}&state=${encodedStateToken}&redirect_uri=${redirectUri}`);
 }
 
 export function logout() {
   sessionStorage.removeItem(ACCESS_TOKEN);
   sessionStorage.removeItem(OAUTH_DOMAIN);
-  location.reload();
+  global.location.reload();
 }
 
 /**

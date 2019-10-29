@@ -1,5 +1,5 @@
 import formatConditionalForm from './index';
-import checkVisibility from '../../services/check-visibility';
+import checkVisibility from '../check-visibility';
 
 jest.mock('../../services/check-visibility');
 
@@ -17,19 +17,19 @@ describe('The format conditional form service', () => {
     const controls = {
       description: {
         meta: {
-          foo: 'bar'
-        }
+          foo: 'bar',
+        },
       },
       title: {
         meta: {
-          bar: 'baz'
-        }
+          bar: 'baz',
+        },
       },
-      var_no_meta: {}
+      var_no_meta: {},
     };
     expect(
       formatConditionalForm({
-        controls
+        controls,
       })
     ).toEqual({
       controls: {
@@ -37,18 +37,18 @@ describe('The format conditional form service', () => {
           meta: {
             ...controls.description.meta,
             isVisible: true,
-            name: 'description'
-          }
+            name: 'description',
+          },
         },
         title: {
           meta: {
             ...controls.title.meta,
             isVisible: true,
-            name: 'title'
-          }
+            name: 'title',
+          },
         },
-        var_no_meta: {}
-      }
+        var_no_meta: {},
+      },
     });
   });
 
@@ -58,19 +58,19 @@ describe('The format conditional form service', () => {
     const controls = {
       description: {
         meta: {
-          foo: 'bar'
-        }
+          foo: 'bar',
+        },
       },
       title: {
         meta: {
-          bar: 'baz'
-        }
+          bar: 'baz',
+        },
       },
-      var_no_meta: {}
+      var_no_meta: {},
     };
     expect(
       formatConditionalForm({
-        controls
+        controls,
       })
     ).toEqual({
       controls: {
@@ -78,18 +78,18 @@ describe('The format conditional form service', () => {
           meta: {
             ...controls.description.meta,
             isVisible: false,
-            name: 'description'
-          }
+            name: 'description',
+          },
         },
         title: {
           meta: {
             ...controls.title.meta,
             isVisible: false,
-            name: 'title'
-          }
+            name: 'title',
+          },
         },
-        var_no_meta: {}
-      }
+        var_no_meta: {},
+      },
     });
   });
 });

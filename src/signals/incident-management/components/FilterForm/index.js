@@ -58,10 +58,10 @@ const FilterForm = ({
   const [submitBtnLabel, setSubmitBtnLabel] = useState(defaultSubmitBtnLabel);
   const [filterData, setFilterData] = useState(parsedfilterData);
   const filterSlugs = (filterData.maincategory_slug || []).concat(
-    filterData.category_slug || [],
+    filterData.category_slug || []
   );
 
-  const onSubmitForm = (event) => {
+  const onSubmitForm = event => {
     const formData = parseOutputFormData(event.target.form);
     const isNewFilter = !filterData.name;
     const hasName = formData.name.trim() !== '';
@@ -111,7 +111,7 @@ const FilterForm = ({
     }
   };
 
-  const onChangeForm = (event) => {
+  const onChangeForm = event => {
     const isNewFilter = !filterData.name;
 
     /* istanbul ignore else */
@@ -140,7 +140,7 @@ const FilterForm = ({
     setSubmitBtnLabel(defaultSubmitBtnLabel);
   };
 
-  const onNameChange = (event) => {
+  const onNameChange = event => {
     const { value } = event.target;
     const nameHasChanged =
       typeof value === 'string' && value.trim() !== filterData.name;
@@ -152,9 +152,11 @@ const FilterForm = ({
     }
   };
 
-  const onRefreshChange = (event) => {
+  const onRefreshChange = event => {
     event.persist();
-    const { currentTarget: { checked } } = event;
+    const {
+      currentTarget: { checked },
+    } = event;
 
     setFilterData({
       ...filterData,
@@ -171,7 +173,7 @@ const FilterForm = ({
         <Fieldset isSection>
           <legend className="hiddenvisually">Naam van het filter</legend>
 
-          <Label htmlFor="filter_name">Filternaam</Label>
+          <Label htmlFor="filter_name" isGroupHeader>Filternaam</Label>
           <div className="invoer">
             <input
               defaultValue={filterData.name}
@@ -183,7 +185,7 @@ const FilterForm = ({
             />
           </div>
 
-          <Label htmlFor="filter_refresh">Automatisch verversen</Label>
+          <Label htmlFor="filter_refresh" isGroupHeader>Automatisch verversen</Label>
           <div className="antwoord">
             <input
               id="filter_refresh"
@@ -203,7 +205,7 @@ const FilterForm = ({
 
           {Array.isArray(status) && status.length > 0 && (
             <FilterGroup data-testid="statusFilterGroup">
-              <Label htmlFor={`status_${status[0].key}`}>Status</Label>
+              <Label htmlFor={`status_${status[0].key}`} isGroupHeader>Status</Label>
               <CheckboxList
                 defaultValue={filterData.status}
                 groupName="status"
@@ -215,7 +217,7 @@ const FilterForm = ({
 
           {Array.isArray(stadsdeel) && stadsdeel.length > 0 && (
             <FilterGroup data-testid="stadsdeelFilterGroup">
-              <Label htmlFor={`status_${stadsdeel[0].key}`}>Stadsdeel</Label>
+              <Label htmlFor={`status_${stadsdeel[0].key}`} isGroupHeader>Stadsdeel</Label>
               <CheckboxList
                 defaultValue={filterData.stadsdeel}
                 groupName="stadsdeel"
@@ -227,7 +229,7 @@ const FilterForm = ({
 
           {Array.isArray(priority) && priority.length > 0 && (
             <FilterGroup data-testid="priorityFilterGroup">
-              <Label htmlFor={`status_${priority[0].key}`}>Urgentie</Label>
+              <Label htmlFor={`status_${priority[0].key}`} isGroupHeader>Urgentie</Label>
               <RadioButtonList
                 defaultValue={filterData.priority}
                 groupName="priority"
@@ -238,7 +240,7 @@ const FilterForm = ({
 
           {Array.isArray(feedback) && feedback.length > 0 && (
             <FilterGroup data-testid="feedbackFilterGroup">
-              <Label htmlFor={`feedback_${feedback[0].key}`}>Feedback</Label>
+              <Label htmlFor={`feedback_${feedback[0].key}`} isGroupHeader>Feedback</Label>
               <RadioButtonList
                 defaultValue={filterData.feedback}
                 groupName="feedback"
@@ -248,7 +250,7 @@ const FilterForm = ({
           )}
 
           <FilterGroup>
-            <Label htmlFor="filter_date">Datum</Label>
+            <Label htmlFor="filter_date" isGroupHeader>Datum</Label>
             <div className="invoer">
               <DatePicker
                 id="filter_date"
@@ -256,18 +258,17 @@ const FilterForm = ({
                  * Ignoring the internals of the `onChange` handler since they cannot be tested
                  * @see https://github.com/Hacker0x01/react-datepicker/issues/1578
                  */
-                onChange={
-                  /* istanbul ignore next */ (dateValue) => {
-                    const formattedDate = dateValue
-                      ? moment(dateValue).format('YYYY-MM-DD')
-                      : '';
+                /* istanbul ignore next */
+                onChange={dateValue => {
+                  const formattedDate = dateValue
+                    ? moment(dateValue).format('YYYY-MM-DD')
+                    : '';
 
-                    setFilterData({
-                      ...filterData,
-                      incident_date: formattedDate,
-                    });
-                  }
-                }
+                  setFilterData({
+                    ...filterData,
+                    incident_date: formattedDate,
+                  });
+                }}
                 placeholderText="DD-MM-JJJJ"
                 selected={
                   filterData.incident_date && moment(filterData.incident_date)
@@ -277,7 +278,7 @@ const FilterForm = ({
               {filterData.incident_date && (
                 <input
                   defaultValue={moment(filterData.incident_date).format(
-                    'YYYY-MM-DD',
+                    'YYYY-MM-DD'
                   )}
                   name="incident_date"
                   readOnly
@@ -288,7 +289,7 @@ const FilterForm = ({
           </FilterGroup>
 
           <FilterGroup>
-            <Label htmlFor="filter_address">Adres</Label>
+            <Label htmlFor="filter_address" isGroupHeader>Adres</Label>
             <div className="invoer">
               <input
                 type="text"
@@ -305,16 +306,16 @@ const FilterForm = ({
         <Fieldset>
           <legend>Filter categorieën</legend>
 
-          <Label $as="span" htmlFor="not_used">
+          <Label $as="span" htmlFor="not_used" isGroupHeader>
             Categorie
           </Label>
 
           {Object.keys(categories.mainToSub)
-            .filter((key) => !!key) // remove elements without 'key' prop
+            .filter(key => !!key) // remove elements without 'key' prop
             .sort()
-            .map((mainCategory) => {
+            .map(mainCategory => {
               const mainCatObj = categories.main.find(
-                ({ slug }) => slug === mainCategory,
+                ({ slug }) => slug === mainCategory
               );
               const options = categories.mainToSub[mainCategory];
 
@@ -341,24 +342,21 @@ const FilterForm = ({
             <ResetButton
               data-testid="resetBtn"
               onClick={onResetForm}
-              type="reset"
-            >
+              type="reset">
               Nieuw filter
             </ResetButton>
 
             <CancelButton
               data-testid="cancelBtn"
               onClick={onCancel}
-              type="button"
-            >
+              type="button">
               Annuleren
             </CancelButton>
 
             <SubmitButton
               name="submit_button"
               onClick={onSubmitForm}
-              type="submit"
-            >
+              type="submit">
               {submitBtnLabel}
             </SubmitButton>
           </ButtonContainer>
@@ -381,27 +379,27 @@ FilterForm.propTypes = {
         PropTypes.shape({
           key: PropTypes.string.isRequired,
           value: PropTypes.string.isRequired,
-        }),
+        })
       ),
     }),
     main: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string.isRequired,
         value: PropTypes.string.isRequired,
-      }),
+      })
     ),
     sub: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string.isRequired,
         value: PropTypes.string.isRequired,
-      }),
+      })
     ),
   }).isRequired,
   feedback: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
-    }),
+    })
   ),
   activeFilter: PropTypes.shape({
     id: PropTypes.number,
@@ -451,19 +449,19 @@ FilterForm.propTypes = {
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
-    }),
+    })
   ),
   stadsdeelList: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
-    }),
+    })
   ),
   statusList: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
-    }),
+    })
   ),
 };
 

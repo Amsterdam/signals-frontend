@@ -10,7 +10,7 @@ const ListObjectValue = ({ label, value }) => (
       </div>
       <div className="col-5 col-md-7">
         <ul className="list-object-value__item-value">
-          { value.map((item) => <li key={item.label}>{item.label}</li>) }
+          { value.map(item => <li key={item.label}>{item.label}</li>) }
         </ul>
       </div>
     </div>
@@ -19,7 +19,7 @@ const ListObjectValue = ({ label, value }) => (
 
 ListObjectValue.propTypes = {
   label: PropTypes.string.isRequired,
-  value: PropTypes.array.isRequired
+  value: PropTypes.array.isRequired,
 };
 
 export default ListObjectValue;

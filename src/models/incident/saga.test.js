@@ -213,14 +213,13 @@ describe('models/incident/saga', () => {
       payload,
     };
 
-    it('should call endpoint with filter data', () =>
-      expectSaga(requestDefaultTexts, action)
-        .provide([[matchers.call.fn(requestURL)]])
-        .call(
-          authCall,
-          `${requestTermsURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`,
-        )
-        .run());
+    it('should call endpoint with filter data', () => expectSaga(requestDefaultTexts, action)
+      .provide([[matchers.call.fn(requestURL)]])
+      .call(
+        authCall,
+        `${requestTermsURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`,
+      )
+      .run());
 
     it('should dispatch success', () => {
       const templates = [

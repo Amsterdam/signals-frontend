@@ -1,6 +1,6 @@
 import Anchor from './Anchor';
-import Concat from './Concat/';
-import Ul from './Ul/';
+import Concat from './Concat';
+import Ul from './Ul';
 
 import components from './index';
 
@@ -9,7 +9,7 @@ describe('Definition components', () => {
     expect(components).toEqual({
       Anchor,
       Concat,
-      Ul
+      Ul,
     });
   });
 });

@@ -1,5 +1,9 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import {
+  render,
+} from '@testing-library/react';
+import { withAppContext } from 'test/utils';
+import incident from 'utils/__tests__/fixtures/incident.json';
 
 import { REQUEST_INCIDENT } from 'models/incident/constants';
 import { SPLIT_INCIDENT } from './constants';
@@ -15,57 +19,31 @@ describe('<IncidentSplitContainer />', () => {
     props = {
       id: '42',
       categories: {
-        sub: []
+        sub: [],
       },
       incidentModel: {
-        incident: {},
+        incident,
         attachments: [],
         stadsdeelList,
         priorityList,
-        loading: false
+        loading: false,
       },
       onRequestIncident: jest.fn(),
       onRequestAttachments: jest.fn(),
       onSplitIncident: jest.fn(),
-      onGoBack: jest.fn()
+      onGoBack: jest.fn(),
     };
   });
 
   describe('rendering', () => {
     it('should render correctly', () => {
-      const wrapper = shallow(
-        <IncidentSplitContainer {...props} />
-      );
-      expect(wrapper).toMatchSnapshot();
-    });
-
-    it('should render loading indicator correctly', () => {
-      props.incidentModel.loading = true;
-      const wrapper = shallow(
-        <IncidentSplitContainer {...props} />
-      );
-      expect(wrapper).toMatchSnapshot();
-    });
-  });
-
-  describe('events', () => {
-    it('should handle submit', () => {
-      const mockForm = { foo: 'bar' };
-      const wrapper = shallow(
-        <IncidentSplitContainer {...props} />
+      const { queryByTestId, queryAllByTestId } = render(
+        withAppContext(<IncidentSplitContainer {...props} />)
       );
 
-      wrapper.instance().handleSubmit(mockForm);
-      expect(props.onSplitIncident).toHaveBeenCalledWith(mockForm);
-    });
-
-    it('should handle cancel', () => {
-      const wrapper = shallow(
-        <IncidentSplitContainer {...props} />
-      );
-
-      wrapper.instance().handleCancel();
-      expect(props.onGoBack).toHaveBeenCalled();
+      expect(queryByTestId('splitDetailTitle')).toHaveTextContent(/^Melding 6666$/);
+      expect(queryAllByTestId('incidentPartTitle')[0]).toHaveTextContent(/^Deelmelding 1$/);
+      expect(queryAllByTestId('incidentPartTitle')[1]).toHaveTextContent(/^Deelmelding 2$/);
     });
   });
 

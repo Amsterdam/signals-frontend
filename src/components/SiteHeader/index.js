@@ -4,17 +4,14 @@ import { NavLink, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
-import {
-  svg,
-  Logout as LogoutIcon,
-} from '@datapunt/asc-assets';
+import { svg, Logout as LogoutIcon } from '@datapunt/asc-assets';
 import {
   Header as HeaderComponent,
   MenuButton,
   MenuInline,
   MenuItem,
   MenuToggle,
+  themeColor,
 } from '@datapunt/asc-ui';
 import SearchBar from 'containers/SearchBar';
 
@@ -25,10 +22,9 @@ const StyledHeader = styled(HeaderComponent)`
     text-decoration: none;
   }
 
-  ${({ isFrontOffice, tall }) =>
-    isFrontOffice &&
-    tall &&
-    css`
+  ${({ isFrontOffice, tall }) => isFrontOffice
+    && tall
+    && css`
       & {
         max-width: 960px;
 
@@ -62,7 +58,7 @@ const StyledMenuButton = styled(MenuButton)`
   background: transparent;
   font-size: 16px;
   font-family: inherit;
-  color: #323232;
+  color: ${themeColor('tint', 'level6')};
 `;
 
 const SearchBarMenuItem = styled(MenuItem)`
@@ -80,10 +76,17 @@ const StyledSearchBar = styled(SearchBar)`
 `;
 
 const HeaderWrapper = styled.div`
-  ${({ isFrontOffice, tall }) =>
-    isFrontOffice &&
-    tall &&
-    css`
+  ${({  tall }) => !tall && css`
+    #header {
+      left: 0;
+      right: 0;
+      position: fixed;
+    }
+  `}
+
+  ${({ isFrontOffice, tall }) => isFrontOffice
+    && tall
+    && css`
       #header {
         position: static;
 
@@ -93,12 +96,12 @@ const HeaderWrapper = styled.div`
           margin-right: auto;
           content: '';
           display: block;
-          position: static !important;
+          position: absolute;
           left: 0;
           right: 0;
-          height: 50px;
-          margin-top: -50px;
-          background-color: #F5F5F5;
+          height: 44px;
+          margin-top: -44px;
+          background-color: ${themeColor('tint', 'level2')};
         }
 
         nav,
@@ -196,10 +199,26 @@ const MenuItems = ({
   );
 };
 
-export const SiteHeader = (props) => {
-  const isFrontOffice = !props.location.pathname.startsWith('/manage/');
+export const SiteHeader = props => {
+  const isFrontOffice = !props.location.pathname.startsWith('/manage');
   const tall = isFrontOffice && !props.isAuthenticated;
   const title = tall ? '' : 'SIA';
+
+  const navigation = tall ? null : (
+    <Media query={`(max-width: ${breakpoint}px)`}>
+      {matches =>
+        matches ? (
+          <MenuToggle align="right">
+            <MenuItems {...props} />
+          </MenuToggle>
+        ) : (
+          <MenuInline>
+            <MenuItems {...props} />
+          </MenuInline>
+        )
+      }
+    </Media>
+  );
 
   return (
     <HeaderWrapper
@@ -211,24 +230,10 @@ export const SiteHeader = (props) => {
       <StyledHeader
         isFrontOffice={isFrontOffice}
         title={title}
-        homeLink={CONFIGURATION.ROOT}
+        homeLink="/"
         tall={tall}
         fullWidth={false}
-        navigation={
-          <Media query={`(max-width: ${breakpoint}px)`}>
-            {(matches) =>
-              matches ? (
-                <MenuToggle align="right">
-                  <MenuItems {...props} />
-                </MenuToggle>
-              ) : (
-                <MenuInline>
-                  <MenuItems {...props} />
-                </MenuInline>
-              )
-            }
-          </Media>
-        }
+        navigation={navigation}
       />
     </HeaderWrapper>
   );

@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { withAppContext, withIntlAppContext } from 'test/utils';
 import categories from 'utils/__tests__/fixtures/categories.json';
 
-import FilterTagList, { FilterTagListComponent, allLabelAppend } from '../';
+import FilterTagList, { FilterTagListComponent, allLabelAppend } from '..';
 import definitions from '../../../definitions';
 import translations from '../../../../../translations/nl.json';
 
@@ -34,7 +34,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
   it('should skip fields', () => {
     const id = 'foo-bar-baz';
-    const tagsWithId = Object.assign({}, tags, { id });
+    const tagsWithId = { ...tags, id };
 
     const { queryByText } = render(
       withAppContext(
@@ -85,9 +85,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
       expect(queryByText(`${mainCat.value}${allLabelAppend}`)).toBeFalsy();
 
-      const tagsWithMainCat = Object.assign({}, tags, {
-        maincategory_slug: [maincategory_slug],
-      });
+      const tagsWithMainCat = { ...tags, maincategory_slug: [maincategory_slug] };
 
       rerender(
         withAppContext(

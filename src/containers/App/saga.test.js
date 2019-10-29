@@ -1,6 +1,8 @@
-import { call, put, take, takeLatest, takeEvery } from 'redux-saga/effects';
+import {
+  call, put, take, takeLatest, takeEvery,
+} from 'redux-saga/effects';
 import { channel } from 'redux-saga';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router/immutable';
 import request from 'utils/request';
 import { testSaga, expectSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
@@ -55,7 +57,7 @@ describe('App saga', () => {
     global.window.open = jest.fn();
     origSessionStorage = global.sessionStorage;
     global.sessionStorage = {
-      getItem: (key) => {
+      getItem: key => {
         switch (key) {
           case 'accessToken':
             return '42';
@@ -131,7 +133,7 @@ describe('App saga', () => {
     it('should grip success', () => {
       jest
         .spyOn(global.sessionStorage, 'getItem')
-        .mockImplementationOnce((key) => {
+        .mockImplementationOnce(key => {
           switch (key) {
             case 'oauthDomain':
               return 'grip';
@@ -234,8 +236,7 @@ describe('App saga', () => {
   });
 
   describe('fetchCategories', () => {
-    const requestURL =
-      'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/';
+    const requestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/';
 
     it('should dispatch success', () => {
       const categories = { categories: [1], subcategorie: [2] };

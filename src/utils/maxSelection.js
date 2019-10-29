@@ -14,6 +14,7 @@ export default class MaxSelection {
   }
 
   has(value) { return this.set.has(value); }
+
   delete(value) { return this.set.delete(value); }
 
   toggle(value) {
