@@ -2,6 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = options => ({
   mode: options.mode,
@@ -130,11 +133,13 @@ module.exports = options => ({
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // all options are optional
-      filename: 'css/[name].[contenthash].css',
-      chunkFilename: 'css/[id].css',
+      filename: devMode ? 'css/[name].css' : 'css/[name].[contenthash].css',
+      chunkFilename: devMode ? 'css/[id].css' : 'css/[id].[contenthash].css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
-  ]),
+
+    process.env.ANALYZE && new BundleAnalyzerPlugin(),
+  ]).filter(Boolean),
   resolve: {
     modules: ['node_modules', 'src'],
     extensions: ['.js', '.jsx', '.react.js'],

@@ -7,7 +7,6 @@ import LoginPage from 'components/LoginPage';
 
 import IncidentOverviewPage from '../../containers/IncidentOverviewPage';
 import IncidentDetail from '../../containers/IncidentDetail';
-import DashboardContainer from '../../containers/DashboardContainer';
 import DefaultTextsAdmin from '../../containers/DefaultTextsAdmin';
 import IncidentSplitContainer from '../../containers/IncidentSplitContainer';
 
@@ -48,7 +47,6 @@ export const IncidentManagementModuleComponent = ({
       render={incidentSplitContainerWrapper(url)}
     />
     <Route path={`${url}/standaard/teksten`} component={DefaultTextsAdmin} />
-    <Route path={`${url}/dashboard`} component={DashboardContainer} />
   </Fragment>
 );
 

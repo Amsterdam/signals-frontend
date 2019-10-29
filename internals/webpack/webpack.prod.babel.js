@@ -6,13 +6,12 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const { HashedModuleIdsPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
 
-  entry: [
-    path.join(process.cwd(), 'src/app.js'),
-  ],
+  entry: [path.join(process.cwd(), 'src/app.js')],
 
   // Utilize long-term caching by adding content hashes (not compilation hashes) to compiled assets
   output: {
@@ -40,6 +39,7 @@ module.exports = require('./webpack.base.babel')({
         cache: true,
         sourceMap: true,
       }),
+      new OptimizeCSSAssetsPlugin(),
     ],
     nodeEnv: 'production',
     sideEffects: true,
@@ -47,17 +47,101 @@ module.exports = require('./webpack.base.babel')({
     runtimeChunk: 'single',
     splitChunks: {
       chunks: 'all',
-      maxInitialRequests: 10,
+      maxInitialRequests: 24,
       minSize: 0,
       cacheGroups: {
         vendor: {
-          test: /[\\/]node_modules[\\/]/,
+          test: /[\\/]node_modules[\\/](?!@datapunt[\\/]asc-ui)(?!leaflet)(?!react-reactive-form)/,
           name(module) {
             const packageName = module.context.match(
               /[\\/]node_modules[\\/](.*?)([\\/]|$)/
             )[1];
             return `npm.${packageName.replace('@', '')}`;
           },
+          reuseExistingChunk: true,
+        },
+        ascUI: {
+          test: ({ context }) =>
+            context && context.indexOf('/node_modules/@datapunt/asc-ui/') >= 0,
+          reuseExistingChunk: true,
+          name: 'npm.asc-ui',
+        },
+        lodash: {
+          test: /lodash/,
+          reuseExistingChunk: true,
+          name: 'npm.lodash',
+        },
+        incident: {
+          test: /[\\/]signals[\\/]incident[\\/]/,
+          reuseExistingChunk: true,
+          name: 'incident',
+        },
+        incidentManagement: {
+          test: /[\\/]signals[\\/]incident-management[\\/]/,
+          reuseExistingChunk: true,
+          name: 'incident-management',
+        },
+        styledComponents: {
+          test: /[\\/]node_modules[\\/](polished|styled-components|stylis|emotion)/,
+          reuseExistingChunk: true,
+          name: 'styled',
+        },
+        polyfill: {
+          test: /([Pp]olyfill|whatwg-fetch|promise|object-assign)/,
+          reuseExistingChunk: true,
+          name: 'polyfills',
+        },
+        react: {
+          test: /[\\/]node_modules[\\/](react)(-dom|-router|-is)?[\\/]/,
+          reuseExistingChunk: true,
+          name: 'react',
+        },
+        redux: {
+          test: /[\\/]node_modules[\\/](connected-)?(redux-immutable|immutable|react|history|redux|reselect)(-router)?(-redux|-saga)?[\\/]/,
+          reuseExistingChunk: true,
+          name: 'redux',
+        },
+        leaflet: {
+          test: /leaflet/,
+          reuseExistingChunk: true,
+          name: 'npm.leaflet',
+          chunks: 'all',
+          enforce: true,
+        },
+        reactiveForm: {
+          test: ({ context }) =>
+            context && context.indexOf('react-reactive-form') >= 0,
+          reuseExistingChunk: true,
+          name: 'npm.react-reactive-form',
+          chunks: 'all',
+          enforce: true,
+        },
+        datePicker: {
+          test: ({ context }) =>
+            context && (context.indexOf('react-datepicker') >= 0 || context.indexOf('popper') >= 0),
+          reuseExistingChunk: true,
+          name: 'npm.react-datepicker',
+          chunks: 'all',
+          enforce: true,
+        },
+        amsStyles: {
+          name: 'ams-style',
+          test: ({ constructor, context }) =>
+            constructor.name === 'CssModule' &&
+            context &&
+            context.indexOf('/node_modules/amsterdam-stijl/') >= 0,
+          chunks: 'all',
+          enforce: true,
+        },
+        datePickerStyles: {
+          name: 'react-datepicker',
+          test: ({ constructor, context = '' }) =>
+            constructor.name === 'CssModule' &&
+            context &&
+            (context.indexOf('react-datepicker') >= 0 ||
+              context.indexOf('popper') >= 0),
+          chunks: 'all',
+          enforce: true,
         },
       },
     },
