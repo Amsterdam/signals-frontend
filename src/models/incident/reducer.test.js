@@ -2,7 +2,7 @@ import { fromJS } from 'immutable';
 
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 import priorityList from 'signals/incident-management/definitions/priorityList';
-import statusList, { changeStatusOptionList } from 'signals/incident-management/definitions/statusList';
+import statusList, { changeStatusOptionList, defaultTextsOptionList } from 'signals/incident-management/definitions/statusList';
 
 import { SPLIT_INCIDENT_SUCCESS } from 'signals/incident-management/containers/IncidentSplitContainer/constants';
 
@@ -23,6 +23,7 @@ describe('incidentModelReducer', () => {
     stadsdeelList,
     priorityList,
     changeStatusOptionList,
+    defaultTextsOptionList,
     statusList,
     loading: false,
     error: false,
