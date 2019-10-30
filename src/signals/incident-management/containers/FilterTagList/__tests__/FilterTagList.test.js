@@ -3,24 +3,34 @@ import { mount } from 'enzyme';
 import { render } from '@testing-library/react';
 import { withAppContext, withIntlAppContext } from 'test/utils';
 import categories from 'utils/__tests__/fixtures/categories.json';
+import * as definitions from 'signals/incident-management/definitions';
 
 import FilterTagList, { FilterTagListComponent, allLabelAppend } from '..';
-import definitions from '../../../definitions';
 import translations from '../../../../../translations/nl.json';
 
-describe('signals/incident-management/containers/FilterTagList', () => {
-  const overviewpage = {
-    ...definitions,
-  };
+const dataLists = {
+  priority: definitions.priorityList,
+  status: definitions.statusList,
+  feedback: definitions.feedbackList,
+  stadsdeel: definitions.stadsdeelList,
+};
 
+describe('signals/incident-management/containers/FilterTagList', () => {
   const tags = {
-    status: ['m'],
+    status: [definitions.statusList[1]],
     feedback: '',
     priority: 'normal',
-    stadsdeel: ['A', 'T'],
+    stadsdeel: [definitions.stadsdeelList[0], definitions.stadsdeelList[1]],
     address_text: '',
     incident_date: '2019-09-17',
-    category_slug: ['oever-kade-steiger'],
+    category_slug: [
+      {
+        key:
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+        value: 'Asbest / accu',
+        slug: 'asbest-accu',
+      },
+    ],
   };
 
   it('should have props from structured selector', () => {
@@ -28,7 +38,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
     const props = tree.find(FilterTagListComponent).props();
 
-    expect(props.overviewpage).not.toBeUndefined();
+    expect(props.dataLists).not.toBeUndefined();
     expect(props.categories).not.toBeUndefined();
   });
 
@@ -39,7 +49,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     const { queryByText } = render(
       withAppContext(
         <FilterTagListComponent
-          overviewpage={overviewpage}
+          dataLists={dataLists}
           tags={tagsWithId}
           categories={categories}
         />,
@@ -53,7 +63,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     const { queryByText } = render(
       withIntlAppContext(
         <FilterTagListComponent
-          overviewpage={overviewpage}
+          dataLists={dataLists}
           tags={tags}
           categories={categories}
         />,
@@ -66,45 +76,50 @@ describe('signals/incident-management/containers/FilterTagList', () => {
   });
 
   describe('tags list', () => {
-    const maincategory_slug = 'openbaar-groen-en-water';
+    const maincategory_slug = [{
+      key:
+        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
+      value: 'Afval',
+      slug: 'afval',
+    }];
 
     it('shows an extra label when a tag is a main category', () => {
       const { rerender, queryByText } = render(
         withAppContext(
           <FilterTagListComponent
-            overviewpage={overviewpage}
+            dataLists={dataLists}
             tags={tags}
             categories={categories}
           />,
         ),
       );
 
-      const mainCat = categories.main.find(
-        ({ slug }) => slug === maincategory_slug,
-      );
+      expect(
+        queryByText(`${maincategory_slug[0].value}${allLabelAppend}`),
+      ).toBeFalsy();
 
-      expect(queryByText(`${mainCat.value}${allLabelAppend}`)).toBeFalsy();
-
-      const tagsWithMainCat = { ...tags, maincategory_slug: [maincategory_slug] };
+      const tagsWithMainCat = { ...tags, maincategory_slug };
 
       rerender(
         withAppContext(
           <FilterTagListComponent
-            overviewpage={overviewpage}
+            dataLists={dataLists}
             tags={tagsWithMainCat}
             categories={categories}
           />,
         ),
       );
 
-      expect(queryByText(`${mainCat.value}${allLabelAppend}`)).toBeTruthy();
+      expect(
+        queryByText(`${maincategory_slug[0].value}${allLabelAppend}`),
+      ).toBeTruthy();
     });
 
     it('renders a list of tags', () => {
       const { container } = render(
         withAppContext(
           <FilterTagListComponent
-            overviewpage={overviewpage}
+            dataLists={dataLists}
             tags={tags}
             categories={categories}
           />,

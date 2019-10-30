@@ -29,13 +29,16 @@ export function* retryFetchClassification(text, msDelay = 1000) {
       const apiResponse = yield call(postCall, PREDICTION_REQUEST_URL, {
         text,
       });
+
       return apiResponse;
     } catch (err) {
-      if (i < 2) {
+      /* istanbul ignore else */
+      if (i <= 2) {
         yield delay(msDelay);
       }
     }
   }
+
   // attempts failed after 3 attempts
   throw new Error('API request failed');
 }

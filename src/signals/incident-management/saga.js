@@ -1,18 +1,61 @@
-import { all, call, put, spawn, takeLatest } from 'redux-saga/effects';
+import { all, put, call, spawn, takeLatest } from 'redux-saga/effects';
 
-import { authPostCall, authPatchCall } from 'shared/services/api/api';
+import {
+  authCall,
+  authDeleteCall,
+  authPatchCall,
+  authPostCall,
+} from 'shared/services/api/api';
+
 import CONFIGURATION from 'shared/services/configuration/configuration';
+import { resetSearchQuery } from 'models/search/actions';
 
-import { SAVE_FILTER, UPDATE_FILTER } from './constants';
 import {
   filterSaveFailed,
   filterSaveSuccess,
   filterUpdatedFailed,
   filterUpdatedSuccess,
+  getFilters,
+  getFiltersFailed,
+  getFiltersSuccess,
+  removeFilterFailed,
+  removeFilterSuccess,
 } from './actions';
-import { getFilters } from '../IncidentOverviewPage/actions';
-import { resetSearchQuery } from '../../../../models/search/actions';
+
+import {
+  APPLY_FILTER,
+  GET_FILTERS,
+  REMOVE_FILTER,
+  SAVE_FILTER,
+  UPDATE_FILTER,
+} from './constants';
+
 export const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/`;
+
+export function* fetchFilters() {
+  try {
+    const result = yield call(authCall, requestURL);
+
+    yield put(getFiltersSuccess(result.results));
+  } catch (error) {
+    yield put(getFiltersFailed(error.message));
+  }
+}
+
+export function* removeFilter(action) {
+  const id = action.payload;
+
+  try {
+    yield call(authDeleteCall, `${requestURL}${id}`);
+    yield put(removeFilterSuccess(id));
+  } catch (error) {
+    yield put(removeFilterFailed(error.message));
+  }
+}
+
+export function* applyFilter() {
+  yield put(resetSearchQuery());
+}
 
 export function* doSaveFilter(action) {
   const filterData = action.payload;
@@ -22,7 +65,6 @@ export function* doSaveFilter(action) {
 
     if (filterData.name) {
       const result = yield call(authPostCall, requestURL, filterData);
-
 
       yield put(filterSaveSuccess(result));
       yield put(getFilters());
@@ -50,7 +92,11 @@ export function* doUpdateFilter(action) {
   } = action.payload;
 
   try {
-    const result = yield call(authPatchCall, `${requestURL}${id}`, { name, refresh, options });
+    const result = yield call(authPatchCall, `${requestURL}${id}`, {
+      name,
+      refresh,
+      options,
+    });
 
     yield put(filterUpdatedSuccess(result));
     yield put(getFilters());
@@ -78,8 +124,11 @@ export function* updateFilter(action) {
   yield spawn(doUpdateFilter, action);
 }
 
-export default function* watchFilterSaga() {
+export default function* watchIncidentManagementSaga() {
   yield all([
+    takeLatest(GET_FILTERS, fetchFilters),
+    takeLatest(REMOVE_FILTER, removeFilter),
+    takeLatest(APPLY_FILTER, applyFilter),
     takeLatest(SAVE_FILTER, saveFilter),
     takeLatest(UPDATE_FILTER, updateFilter),
   ]);

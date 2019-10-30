@@ -80,6 +80,22 @@ describe('IncidentContainer saga', () => {
       await expectSaga(retryFetchClassification, text, 100)
         .provide([
           [matchers.call.fn(postCall), throwError(error)],
+          [matchers.call.fn(postCall), predictionResponse],
+        ])
+        .call(postCall, PREDICTION_REQUEST_URL, { text })
+        .delay(100)
+        .silentRun(150);
+
+      global.console.error.mockRestore();
+    });
+
+    it('should throw', async () => {
+      const text = 'Bar qux bazzzz';
+      const error = new Error('Uhoh!!!1!');
+
+      await expectSaga(retryFetchClassification, text, 100)
+        .provide([
+          [matchers.call.fn(postCall), throwError(error)],
           [matchers.call.fn(postCall), throwError(error)],
           [matchers.call.fn(postCall), predictionResponse],
         ])
@@ -88,37 +104,36 @@ describe('IncidentContainer saga', () => {
         .call(postCall, PREDICTION_REQUEST_URL, { text })
         .delay(100)
         .call(postCall, PREDICTION_REQUEST_URL, { text })
+        .delay(100)
         .throws('API request failed')
         .silentRun(350);
-
-      global.console.error.mockRestore();
     });
-
-    it('should throw', () => {});
   });
 
   describe('getClassification', () => {
     const payload = 'Grof vuil op straat';
     const action = { payload };
 
-    it('should dispatch success', () => expectSaga(getClassification, action)
-      .provide([
-        [select(makeSelectCategories), categories],
-        [matchers.call.fn(postCall), predictionResponse],
-      ])
-      .call(retryFetchClassification, payload)
-      .put.like({ action: { type: GET_CLASSIFICATION_SUCCESS } })
-      .run());
+    it('should dispatch success', () =>
+      expectSaga(getClassification, action)
+        .provide([
+          [select(makeSelectCategories), categories],
+          [matchers.call.fn(postCall), predictionResponse],
+        ])
+        .call(retryFetchClassification, payload)
+        .put.like({ action: { type: GET_CLASSIFICATION_SUCCESS } })
+        .run());
 
-    it('should dispatch error', () => expectSaga(getClassification, action)
-      .provide([
-        [select(makeSelectCategories), categories],
-        [matchers.call.fn(postCall), throwError(new Error('whoops!!!1!'))],
-      ])
-      .call(retryFetchClassification, payload)
-      .call(postCall, PREDICTION_REQUEST_URL, { text: payload })
-      .put.like({ action: { type: GET_CLASSIFICATION_ERROR } })
-      .silentRun(2250)); // make sure it runs long enough for the postCall generator to throw
+    it('should dispatch error', () =>
+      expectSaga(getClassification, action)
+        .provide([
+          [select(makeSelectCategories), categories],
+          [matchers.call.fn(postCall), throwError(new Error('whoops!!!1!'))],
+        ])
+        .call(retryFetchClassification, payload)
+        .call(postCall, PREDICTION_REQUEST_URL, { text: payload })
+        .put.like({ action: { type: GET_CLASSIFICATION_ERROR } })
+        .silentRun(3250)); // make sure it runs long enough for the postCall generator to throw
   });
 
   describe('createIncident', () => {
@@ -150,7 +165,11 @@ describe('IncidentContainer saga', () => {
 
       return expectSaga(createIncident, action)
         .provide([[matchers.call.fn(postCall), incident]])
-        .call(postCall, INCIDENT_REQUEST_URL, mapControlsToParams(action.payload.incident, action.payload.wizard))
+        .call(
+          postCall,
+          INCIDENT_REQUEST_URL,
+          mapControlsToParams(action.payload.incident, action.payload.wizard)
+        )
         .put.like({ action: { type: UPLOAD_REQUEST } })
         .put.like({ action: { type: UPLOAD_REQUEST } })
         .put(createIncidentSuccess(incident))
@@ -170,7 +189,11 @@ describe('IncidentContainer saga', () => {
 
       return expectSaga(createIncident, action)
         .provide([[matchers.call.fn(postCall), incident]])
-        .call(postCall, INCIDENT_REQUEST_URL, mapControlsToParams(action.payload.incident, action.payload.wizard))
+        .call(
+          postCall,
+          INCIDENT_REQUEST_URL,
+          mapControlsToParams(action.payload.incident, action.payload.wizard)
+        )
         .not.put(setPriority({ priority: priorityId, _signal: incident.id }))
         .put(createIncidentSuccess(incident))
         .run();
@@ -213,21 +236,23 @@ describe('setPriorityHandler', () => {
   const payload = { priority: { id: 'normal', label: 'Normaal' } };
   const action = { payload };
 
-  it('should dispatch success', () => expectSaga(setPriorityHandler, action)
-    .provide([[matchers.call.fn(authPostCall), priority]])
-    .call(authPostCall, PRIORITY_REQUEST_URL, payload)
-    .put(setPrioritySuccess(priority))
-    .run());
+  it('should dispatch success', () =>
+    expectSaga(setPriorityHandler, action)
+      .provide([[matchers.call.fn(authPostCall), priority]])
+      .call(authPostCall, PRIORITY_REQUEST_URL, payload)
+      .put(setPrioritySuccess(priority))
+      .run());
 
-  it('should dispatch error', () => expectSaga(setPriorityHandler, action)
-    .provide([
-      [
-        matchers.call.fn(authPostCall),
-        throwError(new Error('Nope. Not possible')),
-      ],
-    ])
-    .call(authPostCall, PRIORITY_REQUEST_URL, payload)
-    .put(setPriorityError())
-    .put(showGlobalError('PRIORITY_FAILED'))
-    .run());
+  it('should dispatch error', () =>
+    expectSaga(setPriorityHandler, action)
+      .provide([
+        [
+          matchers.call.fn(authPostCall),
+          throwError(new Error('Nope. Not possible')),
+        ],
+      ])
+      .call(authPostCall, PRIORITY_REQUEST_URL, payload)
+      .put(setPriorityError())
+      .put(showGlobalError('PRIORITY_FAILED'))
+      .run());
 });

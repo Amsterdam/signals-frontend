@@ -44,7 +44,7 @@ export const getContext = state => {
   return { store };
 };
 
-const store = configureStore(Immutable.Map(), history);
+export const store = configureStore(Immutable.Map(), history);
 
 export const withAppContext = Component => (
   <ThemeProvider>
