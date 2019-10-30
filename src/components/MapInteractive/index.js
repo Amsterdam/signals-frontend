@@ -2,8 +2,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import pointquery from 'amsterdam-amaps/dist/pointquery';
+
+import 'leaflet/dist/leaflet';
+import 'leaflet/dist/leaflet.css';
+import 'amsterdam-amaps/dist/nlmaps/dist/assets/css/nlmaps.css';
 
 import './style.scss';
 
