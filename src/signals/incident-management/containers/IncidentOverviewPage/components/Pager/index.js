@@ -18,7 +18,7 @@ class Pager extends React.Component { // eslint-disable-line react/prefer-statel
   }
 
   onPageChanged(page) {
-    this.props.onRequestIncidents({ filter: null, page });
+    this.props.onPageIncidentsChanged(page);
   }
 
   render() {
@@ -58,7 +58,7 @@ class Pager extends React.Component { // eslint-disable-line react/prefer-statel
 
 Pager.propTypes = {
   page: PropTypes.number,
-  onRequestIncidents: PropTypes.func.isRequired,
+  onPageIncidentsChanged: PropTypes.func.isRequired,
   incidentsCount: PropTypes.number,
 };
 

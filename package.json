@@ -43,7 +43,7 @@
     "test": "cross-env NODE_ENV=test jest --coverage"
   },
   "lint-staged": {
-    "*.js": "eslint --ignore-path .gitignore --ignore-pattern internals/scripts"
+    "*.js": "eslint --ignore-pattern internals/scripts"
   },
   "pre-commit": "lint:staged",
   "browserslist": [

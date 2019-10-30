@@ -5,7 +5,7 @@ import categories from 'utils/__tests__/fixtures/categories.json';
 
 import { parseOutputFormData, parseInputFormData } from '../parse';
 
-describe('signals/incident-management/components/FilterForm/parse', () => {
+describe('signals/shared/parse', () => {
   it('should parse output FormData', () => {
     const form = document.createElement('form');
     const nameField = document.createElement('input');
