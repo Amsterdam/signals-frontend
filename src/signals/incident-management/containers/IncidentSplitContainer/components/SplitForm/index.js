@@ -36,12 +36,12 @@ const StyledDisclaimer = styled.div`
   line-height: 22px;
 
   ul {
-    margin: 0 0 0 ${themeSpacing(6)};;
+    margin: 0 0 0 ${themeSpacing(6)};
     padding: 0;
 
     li {
       list-style-type: square;
-      margin-top: ${themeSpacing(2)};;
+      margin-top: ${themeSpacing(2)};
     }
   }
 `;
