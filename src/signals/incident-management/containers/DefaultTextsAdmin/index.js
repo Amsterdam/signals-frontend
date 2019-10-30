@@ -6,6 +6,7 @@ import { compose, bindActionCreators } from 'redux';
 import { Heading, Row, Column, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
+import { categoriesType, dataListType, defaultTextsType } from 'shared/types';
 import { makeSelectCategories } from 'containers/App/selectors';
 
 import injectSaga from 'utils/injectSaga';
@@ -71,9 +72,23 @@ const DefaultTextsAdmin = ({
   </Fragment>
 );
 
+DefaultTextsAdmin.defaultProps = {
+  defaultTextsAdmin: {
+    defaultTexts: [],
+    defaultTextsOptionList: [],
+    categoryUrl: 'bla',
+    state: 'o',
+  },
+};
+
 DefaultTextsAdmin.propTypes = {
-  defaultTextsAdmin: PropTypes.object.isRequired,
-  categories: PropTypes.object.isRequired,
+  defaultTextsAdmin: PropTypes.shape({
+    defaultTexts: defaultTextsType,
+    defaultTextsOptionList: dataListType,
+    categoryUrl: PropTypes.string,
+    state: PropTypes.string,
+  }),
+  categories: categoriesType.isRequired,
 
   onFetchDefaultTexts: PropTypes.func.isRequired,
   onSubmitTexts: PropTypes.func.isRequired,

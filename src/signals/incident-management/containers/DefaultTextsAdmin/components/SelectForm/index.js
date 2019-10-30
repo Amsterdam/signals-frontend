@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
 
+import { dataListType } from 'shared/types';
+
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import SelectInput from '../../../../components/SelectInput';
 import RadioInput from '../../../../components/RadioInput';
@@ -106,18 +108,11 @@ class SelectForm extends React.Component {
   }
 }
 
-SelectForm.defaultProps = {
-  subCategories: [],
-  defaultTextsOptionList: [],
-
-  onFetchDefaultTexts: () => {},
-};
-
 SelectForm.propTypes = {
-  subCategories: PropTypes.array,
-  defaultTextsOptionList: PropTypes.array,
+  subCategories: dataListType.isRequired,
+  defaultTextsOptionList: dataListType.isRequired,
 
-  onFetchDefaultTexts: PropTypes.func,
+  onFetchDefaultTexts: PropTypes.func.isRequired,
 };
 
 export default SelectForm;

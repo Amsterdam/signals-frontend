@@ -4,6 +4,8 @@ import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import isEqual from 'lodash.isequal';
 import styled from 'styled-components';
 
+import { dataListType, defaultTextsType } from 'shared/types';
+
 import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
 import TextInput from 'signals/incident-management/components/TextInput';
 import TextAreaInput from 'signals/incident-management/components/TextAreaInput';
@@ -233,21 +235,17 @@ DefaultTextsForm.defaultProps = {
   categoryUrl: '',
   subCategories: [],
   state: '',
-
-  onSubmitTexts: () => {},
-  onOrderDefaultTexts: () => {},
-  onSaveDefaultTextsItem: () => {},
 };
 
 DefaultTextsForm.propTypes = {
-  defaultTexts: PropTypes.array,
-  subCategories: PropTypes.array,
+  defaultTexts: defaultTextsType,
+  subCategories: dataListType,
   categoryUrl: PropTypes.string,
   state: PropTypes.string,
 
-  onSubmitTexts: PropTypes.func,
-  onOrderDefaultTexts: PropTypes.func,
-  onSaveDefaultTextsItem: PropTypes.func,
+  onSubmitTexts: PropTypes.func.isRequired,
+  onOrderDefaultTexts: PropTypes.func.isRequired,
+  onSaveDefaultTextsItem: PropTypes.func.isRequired,
 };
 
 export default DefaultTextsForm;
