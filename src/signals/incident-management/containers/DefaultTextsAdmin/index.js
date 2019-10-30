@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { Row, Column } from '@datapunt/asc-ui';
-import PageHeader from 'components/PageHeader';
+import { Heading, Row, Column, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
 import { makeSelectCategories } from 'containers/App/selectors';
@@ -24,10 +23,11 @@ import {
 import makeSelectDefaultTextsAdmin from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import './style.scss';
 
-const StyledPageHeader = styled(PageHeader)`
-  background-color: transparent;
+const StyledH1 = styled(Heading)`
+  font-weight: normal;
+  margin-bottom: ${themeSpacing(6)};
+  margin-top: ${themeSpacing(6)};
 `;
 
 const DefaultTextsAdmin = ({
@@ -44,8 +44,10 @@ const DefaultTextsAdmin = ({
   },
 }) => (
   <Fragment>
-    <StyledPageHeader title="Beheer standaard teksten" />
     <Row>
+      <Column span={12}>
+        <StyledH1 $as="h1">Beheer standaard teksten</StyledH1>
+      </Column>
       <Column span={4}>
         <SelectForm
           subCategories={categories.sub}

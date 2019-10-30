@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
-import { Heading } from '@datapunt/asc-ui';
 
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import SelectInput from '../../../../components/SelectInput';
@@ -72,22 +71,17 @@ class SelectForm extends React.Component {
               data-testid="selectFormForm"
               className="select-form__form"
             >
-              <Heading $as="h2" styleAs="h4" compact>
-                Subcategorie
-              </Heading>
               <FieldControlWrapper
                 render={SelectInput}
+                display="Subcategorie"
                 name="category_url"
                 values={subCategories}
                 control={this.form.get('category_url')}
                 emptyOptionText="Kies"
                 sort
               />
-
-              <Heading $as="h2" styleAs="h4">
-                Status
-              </Heading>
               <FieldControlWrapper
+                display="Status"
                 render={RadioInput}
                 name="state"
                 values={statusList}
