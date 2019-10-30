@@ -68,7 +68,10 @@ class SelectForm extends React.Component {
         <FieldGroup
           control={this.form}
           render={() => (
-            <form className="select-form__form">
+            <form
+              data-testid="selectFormForm"
+              className="select-form__form"
+            >
               <Heading $as="h2" styleAs="h4" compact>
                 Subcategorie
               </Heading>

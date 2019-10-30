@@ -158,6 +158,7 @@ class DefaultTextsForm extends React.Component {
           control={this.form}
           render={({ invalid }) => (
             <form
+              data-testid="defaultTextFormForm"
               onSubmit={this.handleSubmit}
               className="default-texts-form__form"
             >
