@@ -26,7 +26,7 @@ import saga from './saga';
 
 const StyledH1 = styled(Heading)`
   font-weight: normal;
-  margin-bottom: ${themeSpacing(6)};
+  margin-bottom: ${themeSpacing(8)};
   margin-top: ${themeSpacing(6)};
 `;
 
