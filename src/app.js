@@ -12,7 +12,6 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router/immutable';
 import moment from 'moment';
 import 'moment/src/locale/nl';
-import 'leaflet/dist/leaflet';
 import * as Sentry from '@sentry/browser';
 import MatomoTracker from '@datapunt/matomo-tracker-js';
 import Immutable from 'immutable';
@@ -34,8 +33,6 @@ import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line impor
 /* eslint-enable import/no-webpack-loader-syntax */
 
 // Import CSS and Global Styles
-import 'leaflet/dist/leaflet.css';
-import 'amsterdam-amaps/dist/nlmaps/dist/assets/css/nlmaps.css';
 import 'amsterdam-stijl/dist/css/ams-stijl.css';
 import './global.scss';
 import './polyfills';

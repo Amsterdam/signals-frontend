@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
+import * as types from 'shared/types';
 
 import PageHeader from 'components/PageHeader';
-import { makeSelectIncidentsCount, makeSelectFilter } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
+import { makeSelectIncidentsCount } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
+import { makeSelectActiveFilter } from 'signals/incident-management/selectors';
 import { makeSelectQuery } from 'models/search/selectors';
 
 import Refresh from '../../shared/images/icon-refresh.svg';
@@ -49,45 +51,14 @@ PageHeaderContainerComponent.defaultProps = {
 };
 
 PageHeaderContainerComponent.propTypes = {
-  filter: PropTypes.shape({
-    name: PropTypes.string,
-    id: PropTypes.number,
-    searchQuery: PropTypes.string,
-    options: PropTypes.shape({
-      id: PropTypes.string,
-      feedback: PropTypes.string,
-      incident_date: PropTypes.string,
-      address_text: PropTypes.string,
-      stadsdeel: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      maincategory_slug: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      priority: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      status: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      category_slug: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-    }),
-    refresh: PropTypes.bool,
-  }),
+  filter: types.filterType,
   children: PropTypes.node,
   incidentsCount: PropTypes.number,
   query: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
-  filter: makeSelectFilter,
+  filter: makeSelectActiveFilter,
   incidentsCount: makeSelectIncidentsCount,
   query: makeSelectQuery,
 });

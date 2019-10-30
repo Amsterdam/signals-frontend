@@ -4,9 +4,10 @@ import { styles } from '@datapunt/asc-ui';
 
 const { InputStyle } = styles;
 
-const TextArea = props => <InputStyle as="textarea" {...props} />;
+const TextArea = props => <textarea {...props} />;
 
 const StyledArea = styled(TextArea)`
+  ${InputStyle.componentStyle.rules}
   font-family: inherit;
 `;
 

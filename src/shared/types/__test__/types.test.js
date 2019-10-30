@@ -1,7 +1,7 @@
 import * as types from '..';
 
 describe('shared/types', () => {
-  const dateValidator = types.date;
+  const dateValidator = types.dateType;
   const requiredValidator = dateValidator.isRequired;
 
   it('should handle `date` prop type validation for missing date', () => {

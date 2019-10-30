@@ -4,7 +4,7 @@ import { withAppContext } from 'test/utils';
 
 import Modal from '..';
 
-describe.skip('components/Modal', () => {
+describe('components/Modal', () => {
   afterEach(cleanup);
 
   it('should not render', () => {

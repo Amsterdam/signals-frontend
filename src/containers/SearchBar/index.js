@@ -4,16 +4,20 @@ import { SearchBar } from '@datapunt/asc-ui';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
+import { withRouter } from 'react-router';
 
 import { requestIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 import { setSearchQuery } from 'models/search/actions';
 import { makeSelectQuery } from 'models/search/selectors';
+import { applyFilter } from 'signals/incident-management/actions';
 
 export const SearchBarComponent = ({
   className,
   query,
+  onApplyFilter,
   onSetSearchQuery,
   onRequestIncidents,
+  history,
 }) => {
   /**
    * Send search form input to actions
@@ -21,14 +25,16 @@ export const SearchBarComponent = ({
    * @param {String} searchInput
    */
   const onSearchSubmit = searchInput => {
+    onApplyFilter({});
     onSetSearchQuery(searchInput);
-    onRequestIncidents({ filter: { searchQuery: searchInput } });
+    history.push('/manage/incidents');
+    onRequestIncidents();
   };
 
   const onChange = value => {
     if (value === '') {
       onSetSearchQuery('');
-      onRequestIncidents({ filter: {} });
+      onRequestIncidents();
     }
   };
 
@@ -50,26 +56,32 @@ SearchBarComponent.defaultProps = {
 
 SearchBarComponent.propTypes = {
   className: PropTypes.string,
+  onApplyFilter: PropTypes.func.isRequired,
   onRequestIncidents: PropTypes.func.isRequired,
   onSetSearchQuery: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
 };
 
 const mapStateToProps = createStructuredSelector({
   query: makeSelectQuery,
 });
 
-export const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    onRequestIncidents: requestIncidents,
-    onSetSearchQuery: setSearchQuery,
-  },
-  dispatch,
-);
+export const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onApplyFilter: applyFilter,
+      onRequestIncidents: requestIncidents,
+      onSetSearchQuery: setSearchQuery,
+    },
+    dispatch
+  );
 
 const withConnect = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 );
 
-export default compose(withConnect)(SearchBarComponent);
+export default withRouter(compose(withConnect)(SearchBarComponent));

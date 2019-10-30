@@ -5,12 +5,13 @@ import isEqual from 'lodash.isequal';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { parseOutputFormData } from 'signals/shared/filter/parse';
+import * as types from 'shared/types';
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 
 import CheckboxList from '../CheckboxList';
 import RadioButtonList from '../RadioButtonList';
 import Label from '../Label';
-import { parseInputFormData, parseOutputFormData } from './parse';
 import {
   ButtonContainer,
   CancelButton,
@@ -30,35 +31,20 @@ export const saveSubmitBtnLabel = 'Opslaan en filteren';
  * Component that renders the incident filter form
  */
 const FilterForm = ({
-  activeFilter,
+  filter,
   onCancel,
   onClearFilter,
   onSaveFilter,
   onSubmit,
   onUpdateFilter,
-  ...dataLists
+  dataLists,
+  categories,
 }) => {
-  const {
-    feedbackList: feedback,
-    categories,
-    priorityList: priority,
-    stadsdeelList: stadsdeel,
-    statusList: status,
-  } = dataLists;
-
-  const parsedfilterData = parseInputFormData(activeFilter, {
-    feedback,
-    stadsdeel,
-    maincategory_slug: categories.main,
-    priority,
-    status,
-    category_slug: categories.sub,
-  });
-
+  const { feedback, priority, stadsdeel, status } = dataLists;
   const [submitBtnLabel, setSubmitBtnLabel] = useState(defaultSubmitBtnLabel);
-  const [filterData, setFilterData] = useState(parsedfilterData);
-  const filterSlugs = (filterData.maincategory_slug || []).concat(
-    filterData.category_slug || []
+  const [filterData, setFilterData] = useState(filter);
+  const filterSlugs = (filterData.options.maincategory_slug || []).concat(
+    filterData.options.category_slug || [],
   );
 
   const onSubmitForm = event => {
@@ -100,9 +86,8 @@ const FilterForm = ({
   const onResetForm = () => {
     setFilterData({
       name: '',
-      incident_date: null,
-      address_text: '',
       refresh: false,
+      options: {},
     });
 
     /* istanbul ignore else */
@@ -207,7 +192,7 @@ const FilterForm = ({
             <FilterGroup data-testid="statusFilterGroup">
               <Label htmlFor={`status_${status[0].key}`} isGroupHeader>Status</Label>
               <CheckboxList
-                defaultValue={filterData.status}
+                defaultValue={filterData.options && filterData.options.status}
                 groupName="status"
                 groupId="status"
                 options={status}
@@ -219,7 +204,9 @@ const FilterForm = ({
             <FilterGroup data-testid="stadsdeelFilterGroup">
               <Label htmlFor={`status_${stadsdeel[0].key}`} isGroupHeader>Stadsdeel</Label>
               <CheckboxList
-                defaultValue={filterData.stadsdeel}
+                defaultValue={
+                  filterData.options && filterData.options.stadsdeel
+                }
                 groupName="stadsdeel"
                 groupId="stadsdeel"
                 options={stadsdeel}
@@ -231,7 +218,7 @@ const FilterForm = ({
             <FilterGroup data-testid="priorityFilterGroup">
               <Label htmlFor={`status_${priority[0].key}`} isGroupHeader>Urgentie</Label>
               <RadioButtonList
-                defaultValue={filterData.priority}
+                defaultValue={filterData.options && filterData.options.priority}
                 groupName="priority"
                 options={priority}
               />
@@ -242,7 +229,7 @@ const FilterForm = ({
             <FilterGroup data-testid="feedbackFilterGroup">
               <Label htmlFor={`feedback_${feedback[0].key}`} isGroupHeader>Feedback</Label>
               <RadioButtonList
-                defaultValue={filterData.feedback}
+                defaultValue={filterData.options && filterData.options.feedback}
                 groupName="feedback"
                 options={feedback}
               />
@@ -253,6 +240,7 @@ const FilterForm = ({
             <Label htmlFor="filter_date" isGroupHeader>Datum</Label>
             <div className="invoer">
               <DatePicker
+                autoComplete="off"
                 id="filter_date"
                 /**
                  * Ignoring the internals of the `onChange` handler since they cannot be tested
@@ -264,20 +252,22 @@ const FilterForm = ({
                     ? moment(dateValue).format('YYYY-MM-DD')
                     : '';
 
-                  setFilterData({
-                    ...filterData,
-                    incident_date: formattedDate,
-                  });
+                  const updatedFilterData = { ...filterData };
+                  updatedFilterData.options.incident_date = formattedDate;
+
+                  setFilterData(updatedFilterData);
                 }}
                 placeholderText="DD-MM-JJJJ"
                 selected={
-                  filterData.incident_date && moment(filterData.incident_date)
+                  filterData.options &&
+                  filterData.options.incident_date &&
+                  moment(filterData.options.incident_date)
                 }
               />
 
-              {filterData.incident_date && (
+              {filterData.options && filterData.options.incident_date && (
                 <input
-                  defaultValue={moment(filterData.incident_date).format(
+                  defaultValue={moment(filterData.options.incident_date).format(
                     'YYYY-MM-DD'
                   )}
                   name="incident_date"
@@ -295,7 +285,9 @@ const FilterForm = ({
                 type="text"
                 name="address_text"
                 id="filter_address"
-                defaultValue={filterData.address_text}
+                defaultValue={
+                  filterData.options && filterData.options.address_text
+                }
               />
             </div>
           </FilterGroup>
@@ -367,70 +359,16 @@ const FilterForm = ({
 };
 
 FilterForm.defaultProps = {
-  activeFilter: {
+  filter: {
     name: '',
+    options: {},
   },
 };
 
 FilterForm.propTypes = {
-  categories: PropTypes.shape({
-    mainToSub: PropTypes.shape({
-      [PropTypes.string]: PropTypes.arrayOf(
-        PropTypes.shape({
-          key: PropTypes.string.isRequired,
-          value: PropTypes.string.isRequired,
-        })
-      ),
-    }),
-    main: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
-      })
-    ),
-    sub: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
-      })
-    ),
-  }).isRequired,
-  feedback: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    })
-  ),
-  activeFilter: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    options: PropTypes.shape({
-      feedback: PropTypes.string,
-      incident_date: PropTypes.string,
-      address_text: PropTypes.string,
-      stadsdeel: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      maincategory_slug: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      priority: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      status: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-      category_slug: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string),
-      ]),
-    }),
-    refresh: PropTypes.bool,
-  }),
+  filter: types.filterType,
+  categories: types.categoriesType.isRequired,
+  dataLists: types.dataListsType.isRequired,
   /** Callback handler for when filter settings should not be applied */
   onCancel: PropTypes.func,
   /** Callback handler to reset filter */
@@ -445,24 +383,6 @@ FilterForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   /** Callback handler for handling filter settings updates */
   onUpdateFilter: PropTypes.func,
-  priorityList: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    })
-  ),
-  stadsdeelList: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    })
-  ),
-  statusList: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    })
-  ),
 };
 
 export default FilterForm;

@@ -4,7 +4,7 @@ import { render, fireEvent, cleanup } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import SearchBarContainer, { SearchBarComponent } from '..';
 
-describe.skip('containers/SearchBar', () => {
+describe('containers/SearchBar', () => {
   afterEach(cleanup);
 
   it('should have props from structured selector', () => {
@@ -17,48 +17,83 @@ describe.skip('containers/SearchBar', () => {
     expect(props.query).toBeDefined();
   });
 
-  it('should call searchSubmit handler', () => {
+  it('should have props from action creator', () => {
+    const tree = mount(withAppContext(<SearchBarContainer />));
+
+    const containerProps = tree.find(SearchBarComponent).props();
+
+    expect(containerProps.onRequestIncidents).not.toBeUndefined();
+    expect(typeof containerProps.onRequestIncidents).toEqual('function');
+
+    expect(containerProps.onApplyFilter).not.toBeUndefined();
+    expect(typeof containerProps.onApplyFilter).toEqual('function');
+
+    expect(containerProps.onSetSearchQuery).not.toBeUndefined();
+    expect(typeof containerProps.onSetSearchQuery).toEqual('function');
+
+    expect(containerProps.history).not.toBeUndefined();
+    expect(typeof containerProps.history.push).toEqual('function');
+  });
+
+  describe('callback handlers', () => {
     const onRequestIncidents = jest.fn();
     const onSetSearchQuery = jest.fn();
-    const query = '';
+    const onApplyFilter = jest.fn();
 
-    const { queryByTestId, rerender } = render(
-      withAppContext(
-        <SearchBarComponent
-          onRequestIncidents={onRequestIncidents}
-          onSetSearchQuery={onSetSearchQuery}
-          query={query}
-        />,
-      ),
-    );
+    afterEach(jest.resetAllMocks);
 
-    const formInput = queryByTestId('searchBar').querySelector('input');
-    const formSubmitBtn = queryByTestId('searchBar').querySelector('button');
+    it('should call searchSubmit handler', () => {
+      const query = '';
+      const push = jest.fn();
+      const history = { push };
 
-    fireEvent.change(formInput, { target: { value: '1234' } });
-    fireEvent.click(formSubmitBtn);
+      const { queryByTestId } = render(
+        withAppContext(
+          <SearchBarComponent
+            onRequestIncidents={onRequestIncidents}
+            onSetSearchQuery={onSetSearchQuery}
+            onApplyFilter={onApplyFilter}
+            query={query}
+            history={history}
+          />,
+        ),
+      );
 
-    expect(onRequestIncidents).toHaveBeenCalled();
-    expect(onSetSearchQuery).toHaveBeenCalled();
+      const formInput = queryByTestId('searchBar').querySelector('input');
+      const formSubmitBtn = queryByTestId('searchBar').querySelector('button');
 
-    onRequestIncidents.mockReset();
-    onSetSearchQuery.mockReset();
+      fireEvent.change(formInput, { target: { value: '1234' } });
+      fireEvent.click(formSubmitBtn);
 
-    rerender(
-      withAppContext(
-        <SearchBarComponent
-          onRequestIncidents={onRequestIncidents}
-          onSetSearchQuery={onSetSearchQuery}
-          query={query}
-        />,
-      ),
-    );
+      expect(push).toHaveBeenCalledWith('/manage/incidents');
+      expect(onRequestIncidents).toHaveBeenCalledWith();
+      expect(onSetSearchQuery).toHaveBeenCalledWith('1234');
+      expect(onApplyFilter).toHaveBeenCalledWith({});
+    });
 
-    const submitBtn = queryByTestId('searchBar').querySelector('button');
+    it('should call onChange handler', () => {
+      const query = 'Foo baz barrr';
+      const push = jest.fn();
+      const history = { push };
 
-    fireEvent.click(submitBtn);
+      const { queryByTestId } = render(
+        withAppContext(
+          <SearchBarComponent
+            onRequestIncidents={onRequestIncidents}
+            onSetSearchQuery={onSetSearchQuery}
+            onApplyFilter={onApplyFilter}
+            query={query}
+            history={history}
+          />,
+        ),
+      );
 
-    expect(onRequestIncidents).not.toHaveBeenCalled();
-    expect(onSetSearchQuery).not.toHaveBeenCalled();
+      const formInput = queryByTestId('searchBar').querySelector('input');
+      fireEvent.change(formInput, { target: { value: '' } });
+
+      expect(push).not.toHaveBeenCalled();
+      expect(onSetSearchQuery).toHaveBeenCalledWith('');
+      expect(onRequestIncidents).toHaveBeenCalledWith();
+    });
   });
 });
