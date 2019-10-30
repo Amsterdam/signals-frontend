@@ -51,7 +51,7 @@ const DefaultTextsAdmin = ({
       <Column span={4}>
         <SelectForm
           subCategories={categories.sub}
-          statusList={defaultTextsOptionList}
+          defaultTextsOptionList={defaultTextsOptionList}
           onFetchDefaultTexts={onFetchDefaultTexts}
         />
       </Column>

@@ -61,7 +61,7 @@ class SelectForm extends React.Component {
   };
 
   render() {
-    const { subCategories, statusList } = this.props;
+    const { subCategories, defaultTextsOptionList } = this.props;
     return (
       <div className="select-form">
         <FieldGroup
@@ -84,7 +84,7 @@ class SelectForm extends React.Component {
                 display="Status"
                 render={RadioInput}
                 name="state"
-                values={statusList}
+                values={defaultTextsOptionList}
                 control={this.form.get('state')}
               />
 
@@ -108,14 +108,14 @@ class SelectForm extends React.Component {
 
 SelectForm.defaultProps = {
   subCategories: [],
-  statusList: [],
+  defaultTextsOptionList: [],
 
   onFetchDefaultTexts: () => {},
 };
 
 SelectForm.propTypes = {
   subCategories: PropTypes.array,
-  statusList: PropTypes.array,
+  defaultTextsOptionList: PropTypes.array,
 
   onFetchDefaultTexts: PropTypes.func,
 };
