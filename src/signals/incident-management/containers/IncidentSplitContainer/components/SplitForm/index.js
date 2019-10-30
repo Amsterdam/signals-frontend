@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Heading, themeColor } from '@datapunt/asc-ui';
+import { Button, Heading, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 import { incidentType, attachmentsType, dataListType } from 'shared/types';
 
@@ -9,12 +9,12 @@ import { FormBuilder } from 'react-reactive-form';
 import IncidentPart from '../IncidentPart';
 
 const StyledButton = styled(Button)`
-  margin-right: 20px;
+  margin-right: ${themeSpacing(5)};
   background-color: ${themeColor('tint', 'level1')};
 `;
 
 const StyledSubmitButton = styled(Button)`
-  margin-right: 20px;
+  margin-right: ${themeSpacing(5)};
 `;
 
 const StyledRemoveButton = styled(Button)`
@@ -26,28 +26,28 @@ const StyledRemoveButton = styled(Button)`
 
 const StyledH4 = styled(Heading)`
   font-weight: normal;
-  margin-bottm: 8px;
+  margin-bottm: ${themeSpacing(2)};
 `;
 
 const StyledDisclaimer = styled.div`
   background-color: ${themeColor('tint', 'level3')};
-  padding: 15px;
-  margin-bottom: 20px;
+  padding: ${themeSpacing(4)};
+  margin-bottom: ${themeSpacing(5)};
   line-height: 22px;
 
   ul {
-    margin: 0 0 0 25px;
+    margin: 0 0 0 ${themeSpacing(6)};;
     padding: 0;
 
     li {
       list-style-type: square;
-      margin-top: 10px;
+      margin-top: ${themeSpacing(2)};;
     }
   }
 `;
 
 const StyledBottomDisclaimer = styled(StyledDisclaimer)`
-  margin: 20px 0;
+  margin: ${themeSpacing(5)} 0;
 `;
 
 let form;

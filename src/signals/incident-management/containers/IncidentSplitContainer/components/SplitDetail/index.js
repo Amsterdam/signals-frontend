@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Heading, themeColor } from '@datapunt/asc-ui';
+import { Heading, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
@@ -8,11 +8,11 @@ import { incidentType, dataListType } from 'shared/types';
 const StyledWrapper = styled.aside`
   dt {
     color: ${themeColor('tint', 'level5')};
-    margin-bottom: 5px;
+    margin-bottom: ${themeSpacing(1)};
   }
 
   dd {
-    margin-bottom: 16px;
+    margin-bottom: ${themeSpacing(4)};
   }
 `;
 
@@ -20,7 +20,7 @@ const StyledH4 = styled(Heading).attrs({
   $as: 'h4',
 })`
  font-weight: normal;
- margin-bottom: 8px;
+ margin-bottom: ${themeSpacing(2)};
 `;
 
 const SplitDetail = ({ incident, stadsdeelList }) => (

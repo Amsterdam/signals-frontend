@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Heading, themeColor } from '@datapunt/asc-ui';
+import { Heading, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 import { attachmentsType, dataListType } from 'shared/types';
 
@@ -12,13 +12,13 @@ import TextAreaInput from '../../../../components/TextAreaInput';
 
 const StyledWrapper = styled.div`
   border-bottom: 2px solid ${themeColor('tint', 'level3')};
-  padding-bottom: 15px;
-  margin-bottom: 37px;
+  padding-bottom: ${themeSpacing(4)};
+  margin-bottom: ${themeSpacing(10)};
 `;
 
 const StyledH2 = styled(Heading)`
   font-weight: normal;
-  margin-bottom: 12px;
+  margin-bottom: ${themeSpacing(3)};
 `;
 
 const IncidentPart = ({ index, attachments, subcategories, priorityList, splitForm }) => (
