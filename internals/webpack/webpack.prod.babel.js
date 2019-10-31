@@ -173,6 +173,8 @@ module.exports = require('./webpack.base.babel')({
       publicPath: '/',
       appShell: '/',
 
+      excludes: ['version.txt'],
+
       caches: {
         main: [':rest:'],
 
