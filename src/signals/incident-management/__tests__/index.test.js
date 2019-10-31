@@ -9,7 +9,7 @@ import {
   incidentDetailWrapper,
   incidentOverviewPageWrapper,
   incidentSplitContainerWrapper,
-} from '.';
+} from '..';
 
 const history = createMemoryHistory();
 
@@ -40,7 +40,7 @@ describe('signals/incident-management', () => {
     sessionStorage.getItem.mockImplementationOnce(() => 'token');
 
     const { rerender, asFragment } = render(
-      withAppContext(<IncidentManagementModuleComponent {...props} />),
+      withAppContext(<IncidentManagementModuleComponent {...props} />)
     );
     const firstRender = asFragment();
 
@@ -49,7 +49,7 @@ describe('signals/incident-management', () => {
     rerender(withAppContext(<IncidentManagementModuleComponent {...props} />));
 
     expect(
-      firstRender.firstElementChild === asFragment().firstElementChild,
+      firstRender.firstElementChild === asFragment().firstElementChild
     ).toEqual(false);
   });
 
@@ -62,7 +62,7 @@ describe('signals/incident-management', () => {
       sessionStorage.getItem.mockImplementationOnce(() => undefined);
 
       const { rerender, queryByText } = render(
-        withAppContext(<IncidentManagementModuleComponent {...props} />),
+        withAppContext(<IncidentManagementModuleComponent {...props} />)
       );
 
       expect(queryByText(loginText)).not.toBeNull();
@@ -70,7 +70,7 @@ describe('signals/incident-management', () => {
       sessionStorage.getItem.mockImplementationOnce(() => 'token');
 
       rerender(
-        withAppContext(<IncidentManagementModuleComponent {...props} />),
+        withAppContext(<IncidentManagementModuleComponent {...props} />)
       );
 
       expect(queryByText(loginText)).toBeNull();
@@ -82,7 +82,7 @@ describe('signals/incident-management', () => {
       sessionStorage.getItem.mockImplementationOnce(() => undefined);
 
       const { rerender, queryByText } = render(
-        withAppContext(<IncidentManagementModuleComponent {...props} />),
+        withAppContext(<IncidentManagementModuleComponent {...props} />)
       );
 
       expect(queryByText(loginText)).not.toBeNull();
@@ -90,7 +90,7 @@ describe('signals/incident-management', () => {
       sessionStorage.getItem.mockImplementationOnce(() => 'token');
 
       rerender(
-        withAppContext(<IncidentManagementModuleComponent {...props} />),
+        withAppContext(<IncidentManagementModuleComponent {...props} />)
       );
 
       expect(queryByText(loginText)).toBeNull();
@@ -102,7 +102,7 @@ describe('signals/incident-management', () => {
       sessionStorage.getItem.mockImplementationOnce(() => undefined);
 
       const { rerender, queryByText } = render(
-        withAppContext(<IncidentManagementModuleComponent {...props} />),
+        withAppContext(<IncidentManagementModuleComponent {...props} />)
       );
 
       expect(queryByText(loginText)).not.toBeNull();
@@ -110,7 +110,7 @@ describe('signals/incident-management', () => {
       sessionStorage.getItem.mockImplementationOnce(() => 'token');
 
       rerender(
-        withAppContext(<IncidentManagementModuleComponent {...props} />),
+        withAppContext(<IncidentManagementModuleComponent {...props} />)
       );
 
       expect(queryByText(loginText)).toBeNull();
@@ -134,7 +134,7 @@ describe('signals/incident-management', () => {
       const { container } = render(
         withCustomAppContext(<IncidentDetail />)({
           routerCfg: { initialEntries: ['/manage/incident/1101'] },
-        }),
+        })
       );
 
       expect(container.firstChild).toBeTruthy();
@@ -143,13 +143,13 @@ describe('signals/incident-management', () => {
     it('renders IncidentOverviewPageWrapper', () => {
       const baseUrl = '/manage';
       const IncidentOverviewPage = withRouter(
-        incidentOverviewPageWrapper(baseUrl),
+        incidentOverviewPageWrapper(baseUrl)
       );
 
       const { container } = render(
         withCustomAppContext(<IncidentOverviewPage />)({
           routerCfg: { initialEntries: ['/manage/incidents'] },
-        }),
+        })
       );
 
       expect(container.firstChild).toBeTruthy();
@@ -158,13 +158,13 @@ describe('signals/incident-management', () => {
     it('renders IncidentSplitContainerWrapper', () => {
       const baseUrl = '/manage';
       const IncidentSplitContainer = withRouter(
-        incidentSplitContainerWrapper(baseUrl),
+        incidentSplitContainerWrapper(baseUrl)
       );
 
       const { container } = render(
         withCustomAppContext(<IncidentSplitContainer />)({
           routerCfg: { initialEntries: ['/manage/incident/1101/split'] },
-        }),
+        })
       );
 
       expect(container.firstChild).toBeTruthy();

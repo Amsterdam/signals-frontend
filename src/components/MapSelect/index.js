@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import amaps from 'amsterdam-amaps/dist/amaps';
+
+import 'leaflet/dist/leaflet';
+import 'leaflet/dist/leaflet.css';
+import 'amsterdam-amaps/dist/nlmaps/dist/assets/css/nlmaps.css';
 import BboxGeojsonLayer from '@datapunt/leaflet-geojson-bbox-layer';
 import classNames from 'classnames';
 import isEqual from 'lodash.isequal';

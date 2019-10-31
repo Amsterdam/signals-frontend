@@ -102,6 +102,7 @@ const HeaderWrapper = styled.div`
           height: 44px;
           margin-top: -44px;
           background-color: ${themeColor('tint', 'level2')};
+          width: 100%;
         }
 
         nav,

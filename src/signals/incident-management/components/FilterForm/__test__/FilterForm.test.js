@@ -7,7 +7,15 @@ import statusList from 'signals/incident-management/definitions/statusList';
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 
 import categories from 'utils/__tests__/fixtures/categories.json';
+import * as definitions from 'signals/incident-management/definitions';
 import FilterForm, { defaultSubmitBtnLabel, saveSubmitBtnLabel } from '..';
+
+const dataLists = {
+  priority: definitions.priorityList,
+  status: definitions.statusList,
+  feedback: definitions.feedbackList,
+  stadsdeel: definitions.stadsdeelList,
+};
 
 describe('signals/incident-management/components/FilterForm', () => {
   afterEach(cleanup);
@@ -15,7 +23,11 @@ describe('signals/incident-management/components/FilterForm', () => {
   it('should render filter fields', () => {
     const { container } = render(
       withAppContext(
-        <FilterForm categories={categories} onSubmit={() => {}} />,
+        <FilterForm
+          categories={categories}
+          onSubmit={() => {}}
+          dataLists={dataLists}
+        />,
       ),
     );
 
@@ -33,7 +45,8 @@ describe('signals/incident-management/components/FilterForm', () => {
         <FilterForm
           categories={categories}
           onSubmit={() => {}}
-          activeFilter={{}}
+          filter={{ options: {} }}
+          dataLists={dataLists}
         />,
       ),
     );
@@ -49,19 +62,23 @@ describe('signals/incident-management/components/FilterForm', () => {
         <FilterForm
           categories={categories}
           onSubmit={() => {}}
-          activeFilter={{ id: 1234, name: 'FooBar' }}
+          filter={{ id: 1234, name: 'FooBar', options: {} }}
+          dataLists={dataLists}
         />,
       ),
     );
 
-    fireEvent.click(container.querySelector('input[type="checkbox"][name="refresh"]'));
+    fireEvent.click(
+      container.querySelector('input[type="checkbox"][name="refresh"]'),
+    );
 
     expect(
       container.querySelector('input[type="checkbox"][name="refresh"]').checked,
     ).toBeTruthy();
 
-
-    fireEvent.click(container.querySelector('input[type="checkbox"][name="refresh"]'));
+    fireEvent.click(
+      container.querySelector('input[type="checkbox"][name="refresh"]'),
+    );
 
     expect(
       container.querySelector('input[type="checkbox"][name="refresh"]').checked,
@@ -74,7 +91,8 @@ describe('signals/incident-management/components/FilterForm', () => {
         <FilterForm
           categories={categories}
           onSubmit={() => {}}
-          activeFilter={{ id: 1234, name: 'FooBar' }}
+          filter={{ id: 1234, name: 'FooBar', options: {} }}
+          dataLists={dataLists}
         />,
       ),
     );
@@ -91,7 +109,11 @@ describe('signals/incident-management/components/FilterForm', () => {
   it('should render buttons in the footer', () => {
     const { container, getAllByTestId } = render(
       withAppContext(
-        <FilterForm categories={categories} onSubmit={() => {}} />,
+        <FilterForm
+          categories={categories}
+          onSubmit={() => {}}
+          dataLists={dataLists}
+        />,
       ),
     );
 
@@ -103,7 +125,11 @@ describe('signals/incident-management/components/FilterForm', () => {
   it('should render groups of category checkboxes', () => {
     const { container } = render(
       withAppContext(
-        <FilterForm categories={categories} onSubmit={() => {}} />,
+        <FilterForm
+          categories={categories}
+          onSubmit={() => {}}
+          dataLists={dataLists}
+        />,
       ),
     );
 
@@ -124,12 +150,36 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render a list of priority options', () => {
+    const dataListsWithoutPriorityList = { ...dataLists };
+    delete dataListsWithoutPriorityList.priority;
+
     const { container, rerender, queryByTestId } = render(
       withAppContext(
         <FilterForm
           categories={categories}
-          priorityList={null}
           onSubmit={() => {}}
+          dataLists={dataListsWithoutPriorityList}
+        />,
+      ),
+    );
+
+    expect(queryByTestId('priorityFilterGroup')).toBeNull();
+
+    expect(
+      container.querySelectorAll('input[type="radio"][name="priority"]'),
+    ).toHaveLength(0);
+
+    cleanup();
+
+    const dataListsWithEmptyPriorityList = { ...dataLists };
+    dataListsWithEmptyPriorityList.priority = [];
+
+    rerender(
+      withAppContext(
+        <FilterForm
+          categories={categories}
+          onSubmit={() => {}}
+          dataLists={dataListsWithEmptyPriorityList}
         />,
       ),
     );
@@ -146,26 +196,8 @@ describe('signals/incident-management/components/FilterForm', () => {
       withAppContext(
         <FilterForm
           categories={categories}
-          priorityList={[]}
           onSubmit={() => {}}
-        />,
-      ),
-    );
-
-    expect(queryByTestId('priorityFilterGroup')).toBeNull();
-
-    expect(
-      container.querySelectorAll('input[type="radio"][name="priority"]'),
-    ).toHaveLength(0);
-
-    cleanup();
-
-    rerender(
-      withAppContext(
-        <FilterForm
-          categories={categories}
-          priorityList={priorityList}
-          onSubmit={() => {}}
+          dataLists={dataLists}
         />,
       ),
     );
@@ -176,12 +208,36 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render a list of status options', () => {
+    const dataListsWithoutStatusList = { ...dataLists };
+    delete dataListsWithoutStatusList.status;
+
     const { container, rerender, queryByTestId } = render(
       withAppContext(
         <FilterForm
           categories={categories}
-          statusList={null}
           onSubmit={() => {}}
+          dataLists={dataListsWithoutStatusList}
+        />,
+      ),
+    );
+
+    expect(queryByTestId('statusFilterGroup')).toBeNull();
+
+    expect(
+      container.querySelectorAll('input[type="checkbox"][name="status"]'),
+    ).toHaveLength(0);
+
+    cleanup();
+
+    const dataListsWithEmptyStatusList = { ...dataLists };
+    dataListsWithEmptyStatusList.status = [];
+
+    rerender(
+      withAppContext(
+        <FilterForm
+          categories={categories}
+          onSubmit={() => {}}
+          dataLists={dataListsWithEmptyStatusList}
         />,
       ),
     );
@@ -198,26 +254,8 @@ describe('signals/incident-management/components/FilterForm', () => {
       withAppContext(
         <FilterForm
           categories={categories}
-          statusList={[]}
           onSubmit={() => {}}
-        />,
-      ),
-    );
-
-    expect(queryByTestId('statusFilterGroup')).toBeNull();
-
-    expect(
-      container.querySelectorAll('input[type="checkbox"][name="status"]'),
-    ).toHaveLength(0);
-
-    cleanup();
-
-    rerender(
-      withAppContext(
-        <FilterForm
-          categories={categories}
-          statusList={statusList}
-          onSubmit={() => {}}
+          dataLists={dataLists}
         />,
       ),
     );
@@ -228,12 +266,36 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render a list of stadsdeel options', () => {
+    const dataListsWithoutStadsdeelList = { ...dataLists };
+    delete dataListsWithoutStadsdeelList.stadsdeel;
+
     const { container, rerender, queryByTestId } = render(
       withAppContext(
         <FilterForm
           categories={categories}
-          stadsdeelList={[]}
           onSubmit={() => {}}
+          dataLists={dataListsWithoutStadsdeelList}
+        />,
+      ),
+    );
+
+    expect(queryByTestId('stadsdeelFilterGroup')).toBeNull();
+
+    expect(
+      container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]'),
+    ).toHaveLength(0);
+
+    cleanup();
+
+    const dataListsWithEmptyStadsdeelList = { ...dataLists };
+    dataListsWithEmptyStadsdeelList.stadsdeel = [];
+
+    rerender(
+      withAppContext(
+        <FilterForm
+          categories={categories}
+          onSubmit={() => {}}
+          dataLists={dataListsWithEmptyStadsdeelList}
         />,
       ),
     );
@@ -250,26 +312,8 @@ describe('signals/incident-management/components/FilterForm', () => {
       withAppContext(
         <FilterForm
           categories={categories}
-          stadsdeelList={[]}
           onSubmit={() => {}}
-        />,
-      ),
-    );
-
-    expect(queryByTestId('stadsdeelFilterGroup')).toBeNull();
-
-    expect(
-      container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]'),
-    ).toHaveLength(0);
-
-    cleanup();
-
-    rerender(
-      withAppContext(
-        <FilterForm
-          categories={categories}
-          stadsdeelList={stadsdeelList}
-          onSubmit={() => {}}
+          dataLists={dataLists}
         />,
       ),
     );
@@ -280,23 +324,15 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render a list of feedback options', () => {
-    const feedback = [
-      {
-        key: 'meh',
-        value: 'Could be better',
-      },
-      {
-        key: '🥳',
-        value: 'Yeah!!1!',
-      },
-    ];
+    const dataListsWithoutFeedbackList = { ...dataLists };
+    delete dataListsWithoutFeedbackList.feedback;
 
     const { container, rerender, queryByTestId } = render(
       withAppContext(
         <FilterForm
           categories={categories}
           onSubmit={() => {}}
-          feedbackList={[]}
+          dataLists={dataListsWithoutFeedbackList}
         />,
       ),
     );
@@ -314,20 +350,24 @@ describe('signals/incident-management/components/FilterForm', () => {
         <FilterForm
           categories={categories}
           onSubmit={() => {}}
-          feedbackList={feedback}
+          dataLists={dataLists}
         />,
       ),
     );
 
     expect(
       container.querySelectorAll('input[type="radio"][name="feedback"]'),
-    ).toHaveLength(feedback.length + 1); // by default, a radio button with an empty value is rendered
+    ).toHaveLength(dataLists.feedback.length + 1); // by default, a radio button with an empty value is rendered
   });
 
   it('should render a datepicker', () => {
     const { container, rerender } = render(
       withAppContext(
-        <FilterForm categories={categories} onSubmit={() => {}} />,
+        <FilterForm
+          categories={categories}
+          onSubmit={() => {}}
+          dataLists={dataLists}
+        />,
       ),
     );
 
@@ -344,8 +384,9 @@ describe('signals/incident-management/components/FilterForm', () => {
       withAppContext(
         <FilterForm
           categories={categories}
-          activeFilter={{ options: { incident_date: '1970-01-01' } }}
+          filter={{ options: { incident_date: '1970-01-01' } }}
           onSubmit={() => {}}
+          dataLists={dataLists}
         />,
       ),
     );
@@ -366,6 +407,7 @@ describe('signals/incident-management/components/FilterForm', () => {
           categories={categories}
           onClearFilter={onClearFilter}
           onSubmit={() => {}}
+          dataLists={dataLists}
         />,
       ),
     );
@@ -405,6 +447,7 @@ describe('signals/incident-management/components/FilterForm', () => {
           categories={categories}
           onCancel={onCancel}
           onSubmit={() => {}}
+          dataLists={dataLists}
         />,
       ),
     );
@@ -443,10 +486,11 @@ describe('signals/incident-management/components/FilterForm', () => {
           <FilterForm
             categories={categories}
             {...handlers}
-            activeFilter={{
+            filter={{
               name: '',
               options: { incident_date: '1970-01-01' },
             }}
+            dataLists={dataLists}
           />,
         ),
       );
@@ -469,12 +513,13 @@ describe('signals/incident-management/components/FilterForm', () => {
           <FilterForm
             categories={categories}
             {...handlers}
-            activeFilter={{
+            filter={{
               name: 'My filter',
               options: {
                 incident_date_start: '1970-01-01',
               },
             }}
+            dataLists={dataLists}
           />,
         ),
       );
@@ -505,8 +550,9 @@ describe('signals/incident-management/components/FilterForm', () => {
       withAppContext(
         <FilterForm
           categories={categories}
-          activeFilter={{ name: 'My saved filter' }}
+          filter={{ name: 'My saved filter', options: {} }}
           onSubmit={() => {}}
+          dataLists={dataLists}
         />,
       ),
     );

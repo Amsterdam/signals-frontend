@@ -4,7 +4,7 @@ import { withAppContext } from 'test/utils';
 
 import Modal from '..';
 
-describe.skip('components/Modal', () => {
+describe('components/Modal', () => {
   afterEach(cleanup);
 
   it('should not render', () => {
@@ -35,5 +35,13 @@ describe.skip('components/Modal', () => {
     );
 
     expect(onClose).toHaveBeenCalled();
+  });
+
+  it('should have scroll data attribute on modal inner element', () => {
+    const { container } = render(
+      withAppContext(<Modal isOpen title="Modal" />),
+    );
+
+    expect(container.querySelector('[data-scroll-lock-scrollable]')).toBeTruthy();
   });
 });

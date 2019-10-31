@@ -11,19 +11,18 @@ import MyFilters from 'signals/incident-management/containers/MyFilters';
 import PageHeader from 'containers/PageHeader';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import {
-  makeSelectLoading,
-  makeSelectError,
-  makeSelectCategories,
-} from 'containers/App/selectors';
-import { makeSelectQuery } from 'models/search/selectors';
+import { makeSelectCategories } from 'containers/App/selectors';
+import { makeSelectDataLists, makeSelectActiveFilter, makeSelectPage, makeSelectOrdering } from 'signals/incident-management/selectors';
+import { pageIncidentsChanged, orderingIncidentsChanged } from 'signals/incident-management/actions';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
+import * as types from 'shared/types';
+
 import makeSelectOverviewPage, { makeSelectIncidentsCount } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { requestIncidents, incidentSelected, getFilters } from './actions';
+import { requestIncidents, incidentSelected } from './actions';
 import ListComponent from './components/List';
 import Pager from './components/Pager';
 import FilterTagList from '../FilterTagList';
@@ -37,12 +36,16 @@ const StyledButton = styled(Button)`
 `;
 
 export const IncidentOverviewPageContainerComponent = ({
+  activeFilter,
   onRequestIncidents,
+  onPageIncidentsChanged,
   overviewpage,
   incidentsCount,
   onIncidentSelected,
-  onGetFilters,
-  searchQuery,
+  dataLists,
+  page,
+  ordering,
+  onChangeOrdering,
 }) => {
   const [modalFilterIsOpen, toggleFilterModal] = useState(false);
   const [modalMyFiltersIsOpen, toggleMyFiltersModal] = useState(false);
@@ -56,7 +59,6 @@ export const IncidentOverviewPageContainerComponent = ({
   function closeMyFiltersModal() {
     enablePageScroll();
     toggleMyFiltersModal(false);
-    // onClose();
     lastActiveElement.focus();
   }
 
@@ -74,30 +76,27 @@ export const IncidentOverviewPageContainerComponent = ({
 
   useEffect(() => {
     const escFunction = event => {
+      /* istanbul ignore next */
       if (event.keyCode === 27) {
         closeFilterModal();
         closeMyFiltersModal();
       }
     };
-    const openFilterFuntion = () => {
-      openFilterModal();
-    };
 
     document.addEventListener('keydown', escFunction);
-    document.addEventListener('openFilter', openFilterFuntion);
+    document.addEventListener('openFilter', openFilterModal);
 
     return () => {
       document.removeEventListener('keydown', escFunction);
-      document.removeEventListener('openFilter', openFilterFuntion);
+      document.removeEventListener('openFilter', openFilterModal);
     };
   });
 
   useEffect(() => {
-    onRequestIncidents(searchQuery ? { filter: { searchQuery } } : {});
-    onGetFilters();
+    onRequestIncidents();
   }, []);
 
-  const { incidents, loading, page, sort, filter, ...rest } = overviewpage;
+  const { incidents, loading } = overviewpage;
 
   return (
     <div className="incident-overview-page">
@@ -119,6 +118,7 @@ export const IncidentOverviewPageContainerComponent = ({
         </div>
 
         <Modal
+          data-testid="myFiltersModal"
           isOpen={modalMyFiltersIsOpen}
           onClose={closeMyFiltersModal}
           title="Mijn filters">
@@ -126,17 +126,14 @@ export const IncidentOverviewPageContainerComponent = ({
         </Modal>
 
         <Modal
+          data-testid="filterModal"
           isOpen={modalFilterIsOpen}
           onClose={closeFilterModal}
           title="Filters">
           <Filter onSubmit={closeFilterModal} onCancel={closeFilterModal} />
         </Modal>
 
-        {filter && filter.options && (
-          <div className="incident-overview-page__filter-tag-list">
-            <FilterTagList tags={filter.options} />
-          </div>
-        )}
+        <FilterTagList tags={activeFilter.options} />
       </PageHeader>
 
       <Row>
@@ -148,10 +145,10 @@ export const IncidentOverviewPageContainerComponent = ({
               <ListComponent
                 incidentSelected={onIncidentSelected}
                 incidents={incidents}
-                onRequestIncidents={onRequestIncidents}
-                sort={sort}
+                onChangeOrdering={onChangeOrdering}
+                sort={ordering}
                 incidentsCount={incidentsCount}
-                {...rest}
+                {...dataLists}
               />
             )}
           </Column>
@@ -161,7 +158,7 @@ export const IncidentOverviewPageContainerComponent = ({
               <Pager
                 incidentsCount={incidentsCount}
                 page={page}
-                onRequestIncidents={onRequestIncidents}
+                onPageIncidentsChanged={onPageIncidentsChanged}
               />
             )}
           </Column>
@@ -171,38 +168,41 @@ export const IncidentOverviewPageContainerComponent = ({
   );
 };
 
-IncidentOverviewPageContainerComponent.propTypes = {
-  overviewpage: PropTypes.shape({
-    incidents: PropTypes.arrayOf(PropTypes.shape({})),
-    loading: PropTypes.bool,
-    page: PropTypes.number,
-    sort: PropTypes.string,
-    filter: PropTypes.object,
-  }).isRequired,
-  categories: PropTypes.shape({}).isRequired,
-  incidentsCount: PropTypes.number,
-  searchQuery: PropTypes.string,
+IncidentOverviewPageContainerComponent.defaultProps = {
+  activeFilter: {},
+};
 
-  onRequestIncidents: PropTypes.func.isRequired,
+IncidentOverviewPageContainerComponent.propTypes = {
+  activeFilter: types.filterType,
+  categories: types.categoriesType.isRequired,
+  dataLists: types.dataListsType.isRequired,
+  incidentsCount: PropTypes.number,
+  onChangeOrdering: PropTypes.func.isRequired,
   onIncidentSelected: PropTypes.func.isRequired,
-  onGetFilters: PropTypes.func.isRequired,
+  onPageIncidentsChanged: PropTypes.func.isRequired,
+  onRequestIncidents: PropTypes.func.isRequired,
+  ordering: PropTypes.string,
+  overviewpage: types.overviewPageType.isRequired,
+  page: PropTypes.number,
 };
 
 const mapStateToProps = createStructuredSelector({
-  overviewpage: makeSelectOverviewPage(),
-  incidentsCount: makeSelectIncidentsCount,
-  searchQuery: makeSelectQuery,
+  activeFilter: makeSelectActiveFilter,
   categories: makeSelectCategories(),
-  loading: makeSelectLoading(),
-  error: makeSelectError(),
+  dataLists: makeSelectDataLists,
+  incidentsCount: makeSelectIncidentsCount,
+  ordering: makeSelectOrdering,
+  overviewpage: makeSelectOverviewPage(),
+  page: makeSelectPage,
 });
 
 export const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      onRequestIncidents: requestIncidents,
+      onChangeOrdering: orderingIncidentsChanged,
       onIncidentSelected: incidentSelected,
-      onGetFilters: getFilters,
+      onPageIncidentsChanged: pageIncidentsChanged,
+      onRequestIncidents: requestIncidents,
     },
     dispatch
   );

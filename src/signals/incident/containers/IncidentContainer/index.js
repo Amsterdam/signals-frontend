@@ -14,6 +14,7 @@ import { Row, Column } from '@datapunt/asc-ui';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+
 import wizardDefinition from '../../definitions/wizard';
 import { getClassification, updateIncident, createIncident } from './actions';
 import makeSelectIncidentContainer from './selectors';

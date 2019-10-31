@@ -1,6 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+import {
+  string2date,
+  string2time,
+} from 'shared/services/string-parser/string-parser';
 import moment from 'moment';
 import { render } from '@testing-library/react';
 import { priorityList, statusList, stadsdeelList } from 'signals/incident-management/definitions';
@@ -91,6 +94,7 @@ describe('<List />', () => {
             main: 'Overlast in de openbare ruimte',
             main_slug: 'overlast-in-de-openbare-ruimte',
             department: 'ASC, CCA, THO',
+            category_url: 'https://category-url.amsterdam.nl',
           },
           incident_date_start: '2018-12-03T10:41:42+01:00',
           text_extra: '',
@@ -157,6 +161,7 @@ describe('<List />', () => {
             main: 'Overlast van dieren',
             main_slug: 'overlast-van-dieren',
             department: 'ASC, CCA, GGD',
+            category_url: 'https://category-url.amsterdam.nl',
           },
           incident_date_start: '2018-11-29T23:03:19+01:00',
           text_extra: '',
@@ -166,12 +171,10 @@ describe('<List />', () => {
       statusList,
       stadsdeelList,
       incidentSelected: jest.fn(),
-      onRequestIncidents: jest.fn(),
+      onChangeOrdering: jest.fn(),
     };
 
-    wrapper = shallow(
-      <List {...props} />
-    );
+    wrapper = shallow(<List {...props} />);
   });
 
   afterEach(() => {
@@ -184,7 +187,10 @@ describe('<List />', () => {
 
   describe('events', () => {
     it('should select the incident when the row is clicked', () => {
-      wrapper.find('tbody > tr').at(1).simulate('click');
+      wrapper
+        .find('tbody > tr')
+        .at(1)
+        .simulate('click');
       expect(props.incidentSelected).toHaveBeenCalledWith(props.incidents[1]);
     });
 
@@ -193,8 +199,11 @@ describe('<List />', () => {
         sort: '-created_at',
       });
 
-      wrapper.find('thead > tr > th').at(2).simulate('click');
-      expect(props.onRequestIncidents).toHaveBeenCalledWith({ sort: 'created_at' });
+      wrapper
+        .find('thead > tr > th')
+        .at(2)
+        .simulate('click');
+      expect(props.onChangeOrdering).toHaveBeenCalledWith('created_at');
     });
 
     it('should sort desc the incidents when the header is clicked', () => {
@@ -202,8 +211,11 @@ describe('<List />', () => {
         sort: 'created_at',
       });
 
-      wrapper.find('thead > tr > th').at(2).simulate('click');
-      expect(props.onRequestIncidents).toHaveBeenCalledWith({ sort: '-created_at' });
+      wrapper
+        .find('thead > tr > th')
+        .at(2)
+        .simulate('click');
+      expect(props.onChangeOrdering).toHaveBeenCalledWith('-created_at');
     });
 
     it('should not show days open for specific statuses', () => {
