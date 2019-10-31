@@ -36,4 +36,12 @@ describe('components/Modal', () => {
 
     expect(onClose).toHaveBeenCalled();
   });
+
+  it('should have scroll data attribute on modal inner element', () => {
+    const { container } = render(
+      withAppContext(<Modal isOpen title="Modal" />),
+    );
+
+    expect(container.querySelector('[data-scroll-lock-scrollable]')).toBeTruthy();
+  });
 });

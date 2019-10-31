@@ -11,7 +11,6 @@ import {
 } from '@datapunt/asc-ui';
 import { Close as CloseIcon } from '@datapunt/asc-assets';
 
-
 const StyledModal = styled(ASCModal)`
   & [role='dialog'] {
     max-height: 100vh;
@@ -55,9 +54,7 @@ const Header = styled.header`
   border-bottom: 2px solid #e6e6e6;
 `;
 
-const Modal = ({
-  children, title, isOpen, onClose, ...rest
-}) => (
+const Modal = ({ children, title, isOpen, onClose, ...rest }) => (
   <StyledModal data-testid="modal" open={isOpen} backdropOpacity={1} {...rest}>
     <Header>
       <HeaderRow>
@@ -77,7 +74,7 @@ const Modal = ({
       </HeaderRow>
     </Header>
 
-    <ModalInner>
+    <ModalInner data-scroll-lock-scrollable>
       <Row>
         <Column span={12}>{children}</Column>
       </Row>
