@@ -40,8 +40,8 @@ describe('<DefaultTextsAdmin />', () => {
         withAppContext(<DefaultTextsAdmin {...props} />)
       );
 
-      expect(queryByTestId('defaultTextForm')).not.toBeNull();
-      expect(queryByTestId('selectForm')).not.toBeNull();
+      expect(queryByTestId('defaultTextFormForm')).not.toBeNull();
+      expect(queryByTestId('selectFormForm')).not.toBeNull();
     });
   });
   describe('mapDispatchToProps', () => {
