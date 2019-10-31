@@ -28,13 +28,15 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
       },
     };
 
-    wrapper = shallow(<DescriptionWithClassificationInput
-      handler={handler}
-      parent={parent}
-      touched={touched}
-      hasError={hasError}
-      getError={getError}
-    />);
+    wrapper = shallow(
+      <DescriptionWithClassificationInput
+        handler={handler}
+        parent={parent}
+        touched={touched}
+        hasError={hasError}
+        getError={getError}
+      />
+    );
   });
 
   describe('rendering', () => {

@@ -1,4 +1,5 @@
 module.exports = {
+  extends: '../../../.eslintrc.js',
   rules: {
     camelcase: 0,
     'jsx-a11y/control-has-associated-label': 0,
