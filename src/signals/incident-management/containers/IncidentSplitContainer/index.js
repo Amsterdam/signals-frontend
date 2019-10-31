@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { Row, Column, Heading } from '@datapunt/asc-ui';
+import { Row, Column, Heading, themeSpacing } from '@datapunt/asc-ui';
 import { goBack } from 'connected-react-router/immutable';
 import styled from 'styled-components';
 
@@ -25,7 +25,8 @@ import SplitForm from './components/SplitForm';
 
 const StyledH1 = styled(Heading)`
   font-weight: normal;
-  margin-bottom: 30px;
+  margin-bottom: ${themeSpacing(8)};
+  margin-top: ${themeSpacing(6)};
 `;
 
 const StyledWrapper = styled.div`
