@@ -23,6 +23,7 @@ class SelectForm extends React.Component {
       const found = this.props.subCategories.find(
         sub => sub.key === category_url,
       );
+      /* istanbul ignore else */
       if (found && found.slug && found.category_slug) {
         this.form.patchValue({
           sub_slug: found.slug,
@@ -40,6 +41,7 @@ class SelectForm extends React.Component {
     this.handleChange({});
   }
 
+  /* istanbul ignore next */
   componentDidUpdate() {
     this.form.updateValueAndValidity();
   }
