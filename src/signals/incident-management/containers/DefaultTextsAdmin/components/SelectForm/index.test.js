@@ -1,207 +1,97 @@
-// import React from 'react';
-// import { render } from '@testing-library/react';
-// import { shallow } from 'enzyme';
-// import { withAppContext } from 'test/utils';
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
 
-// import { FieldGroup } from 'react-reactive-form';
+import categories from 'utils/__tests__/fixtures/categories.json';
 
-// import SelectForm from './index';
+import SelectForm from './index';
 
-// import statusList, { changeStatusOptionList, defaultTextsOptionList } from '../../../../definitions/statusList';
+import { defaultTextsOptionList } from '../../../../definitions/statusList';
 
-// // jest.mock('./components/DefaultTexts', () => () => <div data-testid="status-form-default-texts" />);
+describe('<SelectForm />', () => {
+  let props;
 
-// describe('<SelectForm />', () => {
-//   let wrapper;
-//   let props;
-//   let instance;
+  beforeEach(() => {
+    props = {
+      subCategories: categories.sub,
+      defaultTextsOptionList,
 
-//   beforeEach(() => {
-//     props = {
-//       subCategories: [],
-//       statusList: [],
+      onFetchDefaultTexts: jest.fn(),
+    };
+  });
 
-//       onFetchDefaultTexts: () => {},
-//     };
-//   });
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
 
-//   const getComponent = prps => {
-//     const wrap = shallow(
-//       <SelectForm {...prps} />
-//     );
+  it('should render form correctly', () => {
+    const { queryByTestId, queryByText, queryByDisplayValue } = render(
+      withAppContext(<SelectForm {...props} />)
+    );
 
-//     const inst = wrap.instance();
+    expect(queryByTestId('selectFormForm')).not.toBeNull();
 
-//     return [wrap, inst];
-//   };
+    expect(queryByText('Subcategorie')).not.toBeNull();
+    expect(queryByText('Asbest / accu')).not.toBeNull();
 
-//   afterEach(() => {
-//     jest.resetAllMocks();
-//   });
+    expect(queryByText('Status')).not.toBeNull();
+    expect(queryByText('Afgehandeld')).not.toBeNull();
+    expect(queryByDisplayValue('o')).not.toBeNull();
+    expect(queryByText('Ingepland')).not.toBeNull();
+    expect(queryByText('Heropend')).not.toBeNull();
 
-//   it.only('should contain the FieldGroup', () => {
-//     [wrapper] = getComponent(props);
+    expect(queryByDisplayValue('afval')).not.toBeNull();
+    expect(queryByDisplayValue('asbest-accu')).not.toBeNull();
+  });
 
-//     expect(wrapper.find(FieldGroup)).toHaveLength(1);
-//     expect(props.onDismissError).toHaveBeenCalledTimes(1);
-//   });
+  describe('events', () => {
+    it('should trigger fetch default texts on load', () => {
+      render(
+        withAppContext(<SelectForm {...props} />)
+      );
 
-//   it.only('should contain render unauthorized error', () => {
-//     props.error = {
-//       response: {
-//         status: 403,
-//       },
-//     };
+      expect(props.onFetchDefaultTexts).toHaveBeenCalledWith({
+        category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+        state: 'o',
+        sub_slug: 'asbest-accu',
+        main_slug: 'afval',
+      });
+    });
 
-//     const { queryByTestId } = render(
-//       withAppContext(<SelectForm {...props} />)
-//     );
+    it('should trigger fetch default texts when a new status has been selected', () => {
+      const { getByDisplayValue} = render(
+        withAppContext(<SelectForm {...props} />)
+      );
+      const newStatus = 'ingepland';
+      fireEvent.click(getByDisplayValue(newStatus));
 
-//     expect(queryByTestId('statusFormError')).toHaveTextContent(/^Je bent niet geautoriseerd om dit te doen\.$/);
-//   });
+      expect(props.onFetchDefaultTexts).toHaveBeenCalledWith({
+        category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+        state: newStatus,
+        sub_slug: 'asbest-accu',
+        main_slug: 'afval',
+      });
+    });
 
-//   it('should contain render other error', () => {
-//     props.error = {
-//       response: {
-//         status: 400,
-//       },
-//     };
+    it('should trigger fetch default texts when a new category has been selected', () => {
+      const { getByTestId } = render(
+        withAppContext(<SelectForm {...props} />)
+      );
 
-//     const { queryByTestId } = render(
-//       withAppContext(<SelectForm {...props} />)
-//     );
+      const newCategory = 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom';
+      const event = {
+        target: {
+          value: newCategory,
+        },
+      };
+      fireEvent.change(getByTestId('category_url'), event);
 
-//     expect(queryByTestId('statusFormError')).toHaveTextContent(/^De gekozen status is niet mogelijk in deze situatie\.$/);
-//   });
-
-
-//   it('should contain loading indicator when patching error', () => {
-//     props.patching = {
-//       status: true,
-//     };
-
-//     const { queryByTestId } = render(
-//       withAppContext(<SelectForm {...props} />)
-//     );
-
-//     expect(queryByTestId('statusFormSpinner')).not.toBeNull();
-//   });
-
-//   it('should render form correctly', () => {
-//     const { queryByText, queryByTestId } = render(
-//       withAppContext(<SelectForm {...props} />)
-//     );
-
-//     expect(queryByText('Huidige status')).not.toBeNull();
-//     expect(queryByText('Verzoek tot heropenen')).not.toBeNull();
-
-//     expect(queryByText('Nieuwe status')).not.toBeNull();
-//     expect(queryByText('In behandeling')).not.toBeNull();
-
-//     expect(queryByTestId('statusFormSubmitButton')).toHaveTextContent(/^Status opslaan$/);
-//     expect(queryByTestId('statusFormCancelButton')).toHaveTextContent(/^Annuleren$/);
-//   });
-
-//   it('should disable the submit button when no status has been selected', () => {
-//     const { queryByTestId } = render(
-//       withAppContext(<StatusForm {...props} />)
-//     );
-//     expect(queryByTestId('statusFormSubmitButton')).toHaveAttribute('disabled');
-//   });
-
-//   it('should close the status form when result is ok', () => {
-//     const { rerender } = render(
-//       withAppContext(<StatusForm {...props} />)
-//     );
-
-//     props.patching = { status: false };
-//     props.error = { response: { ok: true } };
-
-//     rerender(
-//       withAppContext(<StatusForm {...props} />)
-//     );
-
-//     expect(props.onClose).toHaveBeenCalledTimes(1);
-//   });
-
-//   it('should not close the status form when result triggers an error', () => {
-//     const { rerender } = render(
-//       withAppContext(<StatusForm {...props} />)
-//     );
-
-//     props.patching = { status: false };
-//     props.error = { response: { ok: false, status: 500 } };
-
-//     rerender(
-//       withAppContext(<StatusForm {...props} />)
-//     );
-
-//     expect(props.onClose).not.toHaveBeenCalled();
-//   });
-
-//   // describe('FieldGroup', () => {
-//   //   let renderedFormGroup;
-
-//   //   beforeEach(() => {
-//   //     [wrapper, instance] = getComponent(props);
-
-//   //     renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
-//   //   });
-
-//   //   it('should enable the submit button when a status has been selected', () => {
-//   //     const form = instance.form;
-//   //     const formValue = {
-//   //       status: 'b',
-//   //     };
-//   //     form.patchValue(formValue);
-//   //     expect(form.value.status).toEqual(formValue.status);
-//   //     expect(form.value.coordinates).toEqual(formValue.coordinates);
-//   //     expect(renderedFormGroup.find('[data-testid="statusFormSubmitButton"]').prop('disabled')).toBe(false);
-//   //   });
-
-//   //   it('should enable the submit button when a status with a mandatory text have been selected', () => {
-//   //     const form = instance.form;
-//   //     const newStatus = {
-//   //       status: 'o',
-//   //     };
-//   //     form.patchValue(newStatus);
-//   //     expect(form.value.status).toEqual(newStatus.status);
-//   //     expect(renderedFormGroup.find('[data-testid="statusFormSubmitButton"]').prop('disabled')).toBe(true);
-
-//   //     const newText = {
-//   //       text: 'bla',
-//   //     };
-//   //     form.patchValue(newText);
-//   //     expect(form.value.text).toEqual(newText.text);
-//   //     expect(renderedFormGroup.find('[data-testid="statusFormSubmitButton"]').prop('disabled')).toBe(false);
-//   //   });
-
-//   //   it('should set default text when it has triggered', () => {
-//   //     instance.handleUseDefaultText({ preventDefault: jest.fn() }, 'default text');
-
-//   //     expect(instance.form.value.text).toEqual('default text');
-//   //   });
-
-//   //   it('should call patch status when the form is submitted (submit button is clicked)', () => {
-//   //     const form = instance.form;
-//   //     const formValues = {
-//   //       status: 'o',
-//   //       text: 'boooooo',
-//   //     };
-//   //     form.patchValue(formValues);
-
-//   //     // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
-//   //     renderedFormGroup.find('form').simulate('submit', { preventDefault() { } });
-//   //     expect(props.onPatchIncident).toHaveBeenCalledWith({
-//   //       id: 42,
-//   //       patch: {
-//   //         status: {
-//   //           state: 'o',
-//   //           text: 'boooooo',
-//   //         },
-//   //       },
-//   //       type: 'status',
-//   //     });
-//   //   });
-//   // });
-// });
+      expect(props.onFetchDefaultTexts).toHaveBeenCalledWith({
+        category_url: newCategory,
+        state: 'o',
+        sub_slug: 'boom',
+        main_slug: 'openbaar-groen-en-water',
+      });
+    });
+  });
+});
