@@ -29,19 +29,19 @@ describe('Form component <MapSelectFormComponent />', () => {
       name: 'my_question',
       isVisible: true,
       endpoint: 'foo/bar?',
-      legend_items: [
-        'klok',
-      ],
+      legend_items: ['klok'],
     };
 
-    return shallow(<MapSelectFormComponent
-      handler={handler}
-      parent={parent}
-      touched={touched}
-      hasError={hasError}
-      getError={getError}
-      meta={meta}
-    />);
+    return shallow(
+      <MapSelectFormComponent
+        handler={handler}
+        parent={parent}
+        touched={touched}
+        hasError={hasError}
+        getError={getError}
+        meta={meta}
+      />
+    );
   };
 
   describe('rendering', () => {
@@ -63,9 +63,14 @@ describe('Form component <MapSelectFormComponent />', () => {
 
       const selection = new MaxSelection(3);
       selection.add('obj002');
-      wrapper.find('MapSelect').props().onSelectionChange(selection);
+      wrapper
+        .find('MapSelect')
+        .props()
+        .onSelectionChange(selection);
 
-      expect(parent.meta.updateIncident).toHaveBeenCalledWith({ my_question: ['obj002'] });
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        my_question: ['obj002'],
+      });
     });
 
     it('should render no map field when not visible', () => {

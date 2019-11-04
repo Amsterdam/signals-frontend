@@ -12,8 +12,16 @@ import PageHeader from 'containers/PageHeader';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectCategories } from 'containers/App/selectors';
-import { makeSelectDataLists, makeSelectActiveFilter, makeSelectPage, makeSelectOrdering } from 'signals/incident-management/selectors';
-import { pageIncidentsChanged, orderingIncidentsChanged } from 'signals/incident-management/actions';
+import {
+  makeSelectDataLists,
+  makeSelectActiveFilter,
+  makeSelectPage,
+  makeSelectOrdering,
+} from 'signals/incident-management/selectors';
+import {
+  pageIncidentsChanged,
+  orderingIncidentsChanged,
+} from 'signals/incident-management/actions';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
@@ -105,14 +113,16 @@ export const IncidentOverviewPageContainerComponent = ({
           <StyledButton
             data-testid="myFiltersModalBtn"
             color="primary"
-            onClick={openMyFiltersModal}>
+            onClick={openMyFiltersModal}
+          >
             Mijn filters
           </StyledButton>
 
           <StyledButton
             data-testid="filterModalBtn"
             color="primary"
-            onClick={openFilterModal}>
+            onClick={openFilterModal}
+          >
             Filteren
           </StyledButton>
         </div>
@@ -121,7 +131,8 @@ export const IncidentOverviewPageContainerComponent = ({
           data-testid="myFiltersModal"
           isOpen={modalMyFiltersIsOpen}
           onClose={closeMyFiltersModal}
-          title="Mijn filters">
+          title="Mijn filters"
+        >
           <MyFilters onClose={closeMyFiltersModal} />
         </Modal>
 
@@ -129,7 +140,8 @@ export const IncidentOverviewPageContainerComponent = ({
           data-testid="filterModal"
           isOpen={modalFilterIsOpen}
           onClose={closeFilterModal}
-          title="Filters">
+          title="Filters"
+        >
           <Filter onSubmit={closeFilterModal} onCancel={closeFilterModal} />
         </Modal>
 

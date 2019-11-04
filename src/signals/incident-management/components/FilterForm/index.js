@@ -345,21 +345,24 @@ const FilterForm = ({
             <ResetButton
               data-testid="resetBtn"
               onClick={onResetForm}
-              type="reset">
+              type="reset"
+            >
               Nieuw filter
             </ResetButton>
 
             <CancelButton
               data-testid="cancelBtn"
               onClick={onCancel}
-              type="button">
+              type="button"
+            >
               Annuleren
             </CancelButton>
 
             <SubmitButton
               name="submit_button"
               onClick={onSubmitForm}
-              type="submit">
+              type="submit"
+            >
               {submitBtnLabel}
             </SubmitButton>
           </ButtonContainer>
