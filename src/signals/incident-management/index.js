@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 import injectReducer from 'utils/injectReducer';
@@ -15,6 +15,7 @@ import IncidentDetail from './containers/IncidentDetail';
 import DashboardContainer from './containers/DashboardContainer';
 import DefaultTextsAdmin from './containers/DefaultTextsAdmin';
 import IncidentSplitContainer from './containers/IncidentSplitContainer';
+import UserOverviewContainer from './containers/UserOverview';
 
 import { getFilters } from './actions';
 import reducer from './reducer';
@@ -62,8 +63,16 @@ export const IncidentManagementModuleComponent = ({
         path={`${url}/incident/:id/split`}
         render={incidentSplitContainerWrapper(url)}
       />
+      <Route
+        exact
+        path={`${url}/settings/gebruikers`}
+        component={UserOverviewContainer}
+      />
       <Route path={`${url}/standaard/teksten`} component={DefaultTextsAdmin} />
       <Route path={`${url}/dashboard`} component={DashboardContainer} />
+      <Route path="*">
+        <Redirect to={`${url}/incidents`} />
+      </Route>
     </Fragment>
   );
 };

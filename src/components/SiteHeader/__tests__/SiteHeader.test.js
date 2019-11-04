@@ -63,8 +63,8 @@ describe('components/SiteHeader', () => {
     // menu items
     expect(queryByText('Melden')).not.toBeNull();
 
-    // inline menu should be visible
-    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(0);
+    // inline menu should be visible, with a dropdown for instellingen
+    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(1);
 
     // narrow window toggle
     mmm.setConfig({ type: 'screen', width: breakpoint - 1 });
@@ -81,7 +81,7 @@ describe('components/SiteHeader', () => {
     );
 
     // toggle menu should be visible
-    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(1);
+    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(2);
   });
 
   it('should render a title', () => {
