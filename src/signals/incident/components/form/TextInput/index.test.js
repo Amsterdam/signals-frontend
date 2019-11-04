@@ -28,13 +28,15 @@ describe('Form component <TextInput />', () => {
       },
     };
 
-    wrapper = shallow(<TextInput
-      handler={handler}
-      parent={parent}
-      touched={touched}
-      hasError={hasError}
-      getError={getError}
-    />);
+    wrapper = shallow(
+      <TextInput
+        handler={handler}
+        parent={parent}
+        touched={touched}
+        hasError={hasError}
+        getError={getError}
+      />
+    );
   });
 
   describe('rendering', () => {

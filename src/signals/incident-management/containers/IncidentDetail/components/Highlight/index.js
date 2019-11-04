@@ -29,7 +29,7 @@ class Highlight extends React.Component { // eslint-disable-line react/prefer-st
     };
   }
 
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     if (this.state.valueChanged) {
       this.timer = global.window.setTimeout(() => {
         this.clearHighlight();

@@ -33,13 +33,15 @@ describe('Form component <FileInput />', () => {
       controls: parentControls,
     };
 
-    wrapper = shallow(<FileInput
-      handler={handler}
-      parent={parent}
-      touched={touched}
-      hasError={hasError}
-      getError={getError}
-    />);
+    wrapper = shallow(
+      <FileInput
+        handler={handler}
+        parent={parent}
+        touched={touched}
+        hasError={hasError}
+        getError={getError}
+      />
+    );
   });
 
   describe('rendering', () => {
@@ -57,7 +59,10 @@ describe('Form component <FileInput />', () => {
 
     it('should render upload field with one uploaded file and one loading correctly', () => {
       parent.value = {
-        'input-field-name_previews': ['blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c', 'loading-42'],
+        'input-field-name_previews': [
+          'blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c',
+          'loading-42',
+        ],
       };
       wrapper.setProps({
         meta: {
@@ -129,7 +134,9 @@ describe('Form component <FileInput />', () => {
 
     beforeEach(() => {
       readAsText = jest.fn();
-      addEventListener = jest.fn((_, evtHandler) => { evtHandler(); });
+      addEventListener = jest.fn((_, evtHandler) => {
+        evtHandler();
+      });
       window.FileReader = jest.fn(() => ({
         addEventListener,
         readAsText,
@@ -159,12 +166,16 @@ describe('Form component <FileInput />', () => {
         },
       });
 
-
       wrapper.find('input').simulate('change', { target: { files: [file1] } });
       expect(FileReader).toHaveBeenCalled();
-      expect(addEventListener).toHaveBeenCalledWith('load', expect.any(Function));
+      expect(addEventListener).toHaveBeenCalledWith(
+        'load',
+        expect.any(Function)
+      );
       expect(readAsText).toHaveBeenCalled();
-      expect(parentControls['input-field-name'].updateValueAndValidity).toHaveBeenCalledTimes(1);
+      expect(
+        parentControls['input-field-name'].updateValueAndValidity
+      ).toHaveBeenCalledTimes(1);
       expect(parent.meta.updateIncident).toHaveBeenCalled();
     });
 
@@ -188,9 +199,14 @@ describe('Form component <FileInput />', () => {
       jest.runTimersToTime(ERROR_TIMEOUT_INTERVAL - 1);
 
       expect(FileReader).toHaveBeenCalled();
-      expect(addEventListener).toHaveBeenCalledWith('load', expect.any(Function));
+      expect(addEventListener).toHaveBeenCalledWith(
+        'load',
+        expect.any(Function)
+      );
       expect(readAsText).toHaveBeenCalled();
-      expect(parentControls['input-field-name'].updateValueAndValidity).toHaveBeenCalledTimes(2);
+      expect(
+        parentControls['input-field-name'].updateValueAndValidity
+      ).toHaveBeenCalledTimes(2);
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name_previews': expect.any(Array),
         'input-field-name': [file4, file1],
@@ -222,9 +238,14 @@ describe('Form component <FileInput />', () => {
 
       wrapper.find('input').simulate('change', { target: { files: [file1] } });
       expect(FileReader).toHaveBeenCalled();
-      expect(addEventListener).toHaveBeenCalledWith('load', expect.any(Function));
+      expect(addEventListener).toHaveBeenCalledWith(
+        'load',
+        expect.any(Function)
+      );
       expect(readAsText).toHaveBeenCalled();
-      expect(parentControls['input-field-name'].updateValueAndValidity).toHaveBeenCalledTimes(1);
+      expect(
+        parentControls['input-field-name'].updateValueAndValidity
+      ).toHaveBeenCalledTimes(1);
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name_previews': expect.any(Array),
         'input-field-name': [file1],
@@ -234,7 +255,10 @@ describe('Form component <FileInput />', () => {
 
     it('it removes 1 file when remove button was clicked', () => {
       parent.value = {
-        'input-field-name_previews': ['blob:http://host/1', 'blob:http://host/2'],
+        'input-field-name_previews': [
+          'blob:http://host/1',
+          'blob:http://host/2',
+        ],
       };
 
       handler.mockImplementation(() => ({ value: [file1, file2] }));
@@ -246,7 +270,10 @@ describe('Form component <FileInput />', () => {
         },
       });
 
-      wrapper.find('button').first().simulate('click', { preventDefault: jest.fn(), foo: 'booo' });
+      wrapper
+        .find('button')
+        .first()
+        .simulate('click', { preventDefault: jest.fn(), foo: 'booo' });
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': [file2],
