@@ -38,13 +38,15 @@ describe('Form component <SelectInput />', () => {
       },
     }));
 
-    wrapper = shallow(<SelectInput
-      handler={handler}
-      parent={parent}
-      touched={touched}
-      hasError={hasError}
-      getError={getError}
-    />);
+    wrapper = shallow(
+      <SelectInput
+        handler={handler}
+        parent={parent}
+        touched={touched}
+        hasError={hasError}
+        getError={getError}
+      />
+    );
   });
 
   describe('rendering', () => {

@@ -20,13 +20,15 @@ describe('Form component <Header />', () => {
     getError = jest.fn();
     hasError = jest.fn();
 
-    wrapper = shallow(<Header
-      meta={meta}
-      options={options}
-      touched={touched}
-      hasError={hasError}
-      getError={getError}
-    />);
+    wrapper = shallow(
+      <Header
+        meta={meta}
+        options={options}
+        touched={touched}
+        hasError={hasError}
+        getError={getError}
+      />
+    );
   });
 
   it('should render correctly', () => {

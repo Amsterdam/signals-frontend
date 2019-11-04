@@ -27,13 +27,15 @@ describe('Form component <MultiTextInput />', () => {
       },
     };
 
-    wrapper = shallow(<MultiTextInput
-      handler={handler}
-      parent={parent}
-      touched={touched}
-      hasError={hasError}
-      getError={getError}
-    />);
+    wrapper = shallow(
+      <MultiTextInput
+        handler={handler}
+        parent={parent}
+        touched={touched}
+        hasError={hasError}
+        getError={getError}
+      />
+    );
 
     handler.mockImplementation(() => ({
       value: ['Lorem'],
