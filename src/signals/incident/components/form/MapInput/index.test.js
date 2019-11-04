@@ -29,21 +29,20 @@ describe('Form component <MapInput />', () => {
       value: {
         geometrie: {
           type: 'Point',
-          coordinates: [
-            4,
-            52,
-          ],
+          coordinates: [4, 52],
         },
       },
     }));
 
-    wrapper = shallow(<MapInput
-      handler={handler}
-      parent={parent}
-      touched={touched}
-      hasError={hasError}
-      getError={getError}
-    />);
+    wrapper = shallow(
+      <MapInput
+        handler={handler}
+        parent={parent}
+        touched={touched}
+        hasError={hasError}
+        getError={getError}
+      />
+    );
   });
 
   describe('rendering', () => {
