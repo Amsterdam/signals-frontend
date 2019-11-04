@@ -65,7 +65,7 @@ export const IncidentManagementModuleComponent = ({
       />
       <Route
         exact
-        path={`${url}/settings/gebruikers`}
+        path={`${url}/instellingen/gebruikers`}
         component={UserOverviewContainer}
       />
       <Route path={`${url}/standaard/teksten`} component={DefaultTextsAdmin} />
