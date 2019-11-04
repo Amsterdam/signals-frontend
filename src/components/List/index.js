@@ -27,7 +27,7 @@ class List extends React.Component {
   }
 
   selectIncident = incident => () => {
-    this.props.incidentSelected(incident);
+    this.props.itemSelected(incident);
   }
 
   sortClassName(sortName) {
@@ -85,7 +85,7 @@ List.propTypes = {
   status: types.dataListType.isRequired,
   stadsdeel: types.dataListType.isRequired,
 
-  incidentSelected: PropTypes.func.isRequired,
+  itemSelected: PropTypes.func.isRequired,
   onChangeOrdering: PropTypes.func.isRequired,
   sort: PropTypes.string,
 };

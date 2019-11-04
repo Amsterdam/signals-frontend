@@ -15,7 +15,6 @@ import IncidentDetail from './containers/IncidentDetail';
 import DashboardContainer from './containers/DashboardContainer';
 import DefaultTextsAdmin from './containers/DefaultTextsAdmin';
 import IncidentSplitContainer from './containers/IncidentSplitContainer';
-import UserOverviewContainer from './containers/UserOverview';
 
 import { getFilters } from './actions';
 import reducer from './reducer';
@@ -62,11 +61,6 @@ export const IncidentManagementModuleComponent = ({
         exact
         path={`${url}/incident/:id/split`}
         render={incidentSplitContainerWrapper(url)}
-      />
-      <Route
-        exact
-        path={`${url}/instellingen/gebruikers`}
-        component={UserOverviewContainer}
       />
       <Route path={`${url}/standaard/teksten`} component={DefaultTextsAdmin} />
       <Route path={`${url}/dashboard`} component={DashboardContainer} />

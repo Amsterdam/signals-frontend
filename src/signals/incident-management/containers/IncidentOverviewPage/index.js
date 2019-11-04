@@ -8,7 +8,6 @@ import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import styled from 'styled-components';
 
 import MyFilters from 'signals/incident-management/containers/MyFilters';
-import PageHeader from 'containers/PageHeader';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectCategories } from 'containers/App/selectors';
@@ -18,14 +17,15 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
 import * as types from 'shared/types';
+import ListComponent from 'components/List';
+import Pager from 'components/Pager';
 
 import makeSelectOverviewPage, { makeSelectIncidentsCount } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { requestIncidents, incidentSelected } from './actions';
-import ListComponent from './components/List';
-import Pager from './components/Pager';
 import FilterTagList from '../FilterTagList';
+import PageHeader from './components/PageHeader';
 
 import './style.scss';
 
@@ -143,11 +143,11 @@ export const IncidentOverviewPageContainerComponent = ({
               <LoadingIndicator />
             ) : (
               <ListComponent
-                incidentSelected={onIncidentSelected}
+                itemSelected={onIncidentSelected}
                 incidents={incidents}
                 onChangeOrdering={onChangeOrdering}
                 sort={ordering}
-                incidentsCount={incidentsCount}
+                itemCount={incidentsCount}
                 {...dataLists}
               />
             )}
@@ -156,9 +156,9 @@ export const IncidentOverviewPageContainerComponent = ({
           <Column span={12}>
             {!loading && (
               <Pager
-                incidentsCount={incidentsCount}
+                itemCount={incidentsCount}
                 page={page}
-                onPageIncidentsChanged={onPageIncidentsChanged}
+                onPageChanged={onPageIncidentsChanged}
               />
             )}
           </Column>
