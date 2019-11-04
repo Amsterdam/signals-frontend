@@ -92,7 +92,7 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
     e.preventDefault();
     const { value } = this.form;
 
-    if (value.text.match(/{{[^}]+}}/gi) !== null) {
+    if (/(?:{{|}})/gi.test(value.text)) {
       global.alert("Er is een gereserveerd teken ('{{' of '}}') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan.");
     } else {
       this.props.onPatchIncident({

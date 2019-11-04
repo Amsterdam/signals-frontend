@@ -215,7 +215,7 @@ describe('<StatusForm />', () => {
       });
     });
 
-    it.only('should show an alert when the text contains template characters', () => {
+    it('should show an alert when the text contains template characters', () => {
       global.alert = jest.fn();
       const form = instance.form;
       const formValues = {
