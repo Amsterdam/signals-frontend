@@ -197,6 +197,7 @@ class DefaultTextsForm extends React.Component {
                     <StyledButton
                       size={44}
                       variant="blank"
+                      data-testid={`defaultTextFormItemUpButton${index}`}
                       disabled={
                         index === 0 || !this.form.get(`${item}.text`).value
                       }
@@ -207,6 +208,7 @@ class DefaultTextsForm extends React.Component {
                     <StyledButton
                       size={44}
                       variant="blank"
+                      data-testid={`defaultTextFormItemDownButton${index}`}
                       disabled={
                         index === this.items.length - 1
                         || !this.form.get(`item${index + 1}.text`).value
@@ -219,7 +221,12 @@ class DefaultTextsForm extends React.Component {
                 </div>
               ))}
 
-              <Button variant="secondary" type="submit" disabled={invalid}>
+              <Button
+                data-testid="defaultTextFormSubmitButton"
+                variant="secondary"
+                type="submit"
+                disabled={invalid}
+              >
                 Opslaan
               </Button>
             </form>
