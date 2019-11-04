@@ -1,10 +1,17 @@
 import some from 'lodash.some';
 import { Validators } from 'react-reactive-form';
-
+import { sourceList } from 'signals/incident-management/definitions';
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
 import checkVisibility from '../services/check-visibility';
 import getStepControls from '../services/get-step-controls';
+
+const sourceValuesObj = {
+  '': 'Vul bron in',
+};
+sourceList.forEach(({ key, value }) => {
+  sourceValuesObj[key] = value;
+});
 
 export default {
   label: 'Beschrijf uw melding',
@@ -29,25 +36,7 @@ export default {
           className: 'col-sm-12 col-md-6',
           label: 'Hoe komt de melding binnen?',
           path: 'source',
-          values: {
-            '': 'Vul bron in',
-            'Telefoon – Adoptant': 'Telefoon – Adoptant',
-            'Telefoon – ASC': 'Telefoon – ASC',
-            'Telefoon – CCA': 'Telefoon – CCA',
-            'Telefoon - CCTR': 'Telefoon - CCTR',
-            'Telefoon – Interswitch': 'Telefoon – Interswitch',
-            'Telefoon – Stadsdeel': 'Telefoon – Stadsdeel',
-            'E-mail – CCA': 'E-mail – CCA',
-            'E-mail – ASC': 'E-mail – ASC',
-            'E-mail – Stadsdeel': 'E-mail – Stadsdeel',
-            'Webcare – CCA': 'Webcare – CCA',
-            'Eigen organisatie': 'Eigen organisatie',
-            'Meldkamer burger/ondernemer': 'Meldkamer burger/ondernemer',
-            'Meldkamer Handhaver': 'Meldkamer Handhaver',
-            'Meldkamer Politie': 'Meldkamer Politie',
-            VerbeterDeBuurt: 'VerbeterDeBuurt',
-            Waarnemingenapp: 'Waarnemingenapp',
-          },
+          values: sourceValuesObj,
         },
         options: {
           validators: [Validators.required],
