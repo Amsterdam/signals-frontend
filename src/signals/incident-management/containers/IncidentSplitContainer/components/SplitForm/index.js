@@ -50,7 +50,29 @@ const StyledBottomDisclaimer = styled(StyledDisclaimer)`
   margin: ${themeSpacing(5)} 0;
 `;
 
-let form;
+const form = FormBuilder.group({
+  part1: FormBuilder.group({
+    subcategory: '', // incident.category.category_url,
+    text: '', // incident.text,
+    image: true,
+    note: '',
+    priority: 'normal', // incident.priority.priority,
+  }),
+  part2: FormBuilder.group({
+    subcategory: '', // incident.category.category_url,
+    text: '', // incident.text,
+    image: true,
+    note: '',
+    priority: 'normal', // incident.priority.priority,
+  }),
+  part3: FormBuilder.group({
+    subcategory: '',// incident.category.category_url,
+    text: '', // incident.text,
+    image: true,
+    note: '',
+    priority: 'normal', // incident.priority.priority,
+  }),
+});
 
 const SplitForm = ({
   incident,
@@ -89,28 +111,12 @@ const SplitForm = ({
   };
 
   useEffect(() => {
-    form = FormBuilder.group({
-      part1: FormBuilder.group({
+    Object.values(form.controls).forEach(part => {
+      part.patchValue({
         subcategory: incident.category.category_url,
         text: incident.text,
-        image: true,
-        note: '',
         priority: incident.priority.priority,
-      }),
-      part2: FormBuilder.group({
-        subcategory: incident.category.category_url,
-        text: incident.text,
-        image: true,
-        note: '',
-        priority: incident.priority.priority,
-      }),
-      part3: FormBuilder.group({
-        subcategory: incident.category.category_url,
-        text: incident.text,
-        image: true,
-        note: '',
-        priority: incident.priority.priority,
-      }),
+      })
     });
   }, []);
 
