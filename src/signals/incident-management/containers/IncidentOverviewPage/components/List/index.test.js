@@ -167,9 +167,9 @@ describe('<List />', () => {
           text_extra: '',
         },
       ],
-      priorityList,
-      statusList,
-      stadsdeelList,
+      priority: priorityList,
+      status: statusList,
+      stadsdeel: stadsdeelList,
       incidentSelected: jest.fn(),
       onChangeOrdering: jest.fn(),
     };
