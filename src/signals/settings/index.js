@@ -18,6 +18,11 @@ export const SettingsModule = ({ match: { url } }) =>
         path={`${url}/gebruikers`}
         component={UsersOverviewContainer}
       />
+      <Route
+        exact
+        path={`${url}/gebruikers/page/:pageNum?`}
+        component={UsersOverviewContainer}
+      />
     </Fragment>
   );
 

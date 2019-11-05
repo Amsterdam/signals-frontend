@@ -5,7 +5,7 @@ import { getAuthHeaders } from 'shared/services/auth/auth';
 
 import filterData from './filterData';
 
-export const usersEndpoint = `${CONFIGURATION.API_ROOT}signals/v1/private/users/`;
+export const usersEndpoint = `${CONFIGURATION.API_ROOT}signals/v1/private/users/?page=`;
 
 /**
  * Custom hook useFetchUsers
@@ -14,7 +14,7 @@ export const usersEndpoint = `${CONFIGURATION.API_ROOT}signals/v1/private/users/
  *
  * @returns {FetchResponse}
  */
-const useFetchUsers = () => {
+const useFetchUsers = ({ page }) => {
   const [isLoading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(false);
@@ -24,7 +24,7 @@ const useFetchUsers = () => {
       setLoading(true);
 
       try {
-        const response = await fetch(usersEndpoint, {
+        const response = await fetch(`${usersEndpoint}${page}`, {
           headers: getAuthHeaders(),
         });
         const userData = await response.json();
@@ -39,7 +39,7 @@ const useFetchUsers = () => {
     }
 
     fetchData();
-  }, []);
+  }, [page]);
 
   /**
    * @typedef {Object} FetchResponse

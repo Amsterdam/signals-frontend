@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
@@ -9,9 +9,16 @@ import Pager from 'components/Pager';
 import PageHeader from 'signals/settings/components/PageHeader';
 import useFetchUsers from './hooks/useFetchUsers';
 
+const UsersOverview = () => {
+  const location = useLocation();
+  const [, pageNumber] = location.pathname.match(/\/(\d+)$/) || [];
+  const history = useHistory();
+  const [page, setPage] = useState(parseInt(pageNumber || 1, 10));
+  const { isLoading, users } = useFetchUsers({ page });
 
-const UsersOverview = ({ page }) => {
-  const { isLoading, users } = useFetchUsers();
+  useEffect(() => {
+    history.push(`/instellingen/gebruikers/page/${page}`);
+  }, [page]);
 
   return (
     <div className="users-overview-page">
@@ -37,7 +44,8 @@ const UsersOverview = ({ page }) => {
               <Pager
                 itemCount={users.length}
                 page={page}
-                onPageChanged={() => {}}
+                onPageChanged={pageNum => setPage(pageNum)}
+                itemsPerPage={30}
               />
             )}
           </Column>
@@ -45,14 +53,6 @@ const UsersOverview = ({ page }) => {
       </Row>
     </div>
   );
-};
-
-UsersOverview.defaultProps = {
-  page: 1,
-};
-
-UsersOverview.propTypes = {
-  page: PropTypes.number,
 };
 
 export default UsersOverview;
