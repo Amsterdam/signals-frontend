@@ -143,7 +143,7 @@ export const IncidentOverviewPageContainerComponent = ({
               <LoadingIndicator />
             ) : (
               <ListComponent
-                itemSelected={onIncidentSelected}
+                incidentSelected={onIncidentSelected}
                 incidents={incidents}
                 onChangeOrdering={onChangeOrdering}
                 sort={ordering}

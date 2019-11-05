@@ -63,11 +63,11 @@ const StyledMenuButton = styled(MenuButton)`
 `;
 
 const StyledMenuFlyout = styled(MenuFlyOut)`
-  & span {
+  & span, & button {
     font-family: inherit;
     font-weight: normal;
     font-size: 16px;
-    fnot-weight: normal;
+    font-weight: normal;
     color: ${themeColor('tint', 'level6')};
   }
 `;
