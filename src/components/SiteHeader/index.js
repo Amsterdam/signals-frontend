@@ -195,7 +195,7 @@ const MenuItems = ({
       )}
       {isAuthenticated && (
         <StyledMenuFlyout label="Instellingen">
-          <StyledMenuButton $as={NavLink} to="/manage/instellingen/gebruikers">
+          <StyledMenuButton $as={NavLink} to="/instellingen/gebruikers">
             Gebruikers
           </StyledMenuButton>
         </StyledMenuFlyout>

@@ -8,15 +8,12 @@ const StyledPageHeader = styled(PageHeader)`
   background-color: transparent;
 `;
 
-export const PageHeaderComponent = ({
-  title,
-}) => (
+export const PageHeaderComponent = ({ title }) => (
   <StyledPageHeader title={title} />
 );
 
 PageHeaderComponent.propTypes = {
   title: PropTypes.string.isRequired,
 };
-
 
 export default PageHeaderComponent;

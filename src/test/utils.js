@@ -9,7 +9,7 @@ import Immutable from 'immutable';
 
 import configureStore from '../configureStore';
 
-const history = createMemoryHistory();
+export const history = createMemoryHistory();
 
 // set a default screenwidth of 2560 pixels
 const mmm = MatchMediaMock.create();

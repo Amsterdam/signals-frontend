@@ -56,7 +56,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       withAppContext(<IncidentOverviewPageContainerComponent {...props} />),
     );
 
-    expect(queryByTestId('incidentOverviewPagerComponent')).not.toBeNull();
+    expect(queryByTestId('overviewPagerComponent')).not.toBeNull();
     expect(queryByTestId('incidentOverviewListComponent')).not.toBeNull();
     expect(queryByTestId('loadingIndicator')).toBeNull();
 
@@ -69,7 +69,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       ),
     );
 
-    expect(queryByTestId('incidentOverviewPagerComponent')).toBeNull();
+    expect(queryByTestId('overviewPagerComponent')).toBeNull();
     expect(queryByTestId('incidentOverviewListComponent')).toBeNull();
     expect(queryByTestId('loadingIndicator')).not.toBeNull();
 

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Row, Column } from '@datapunt/asc-ui';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
@@ -9,19 +10,56 @@ import PageHeader from 'signals/settings/components/PageHeader';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { getAuthHeaders } from 'shared/services/auth/auth';
 
-const UsersOverview = ({ loading, page, onPageUsersChanged }) => {
-  const [users, setUsers] = useState({});
+export const filterData = data => {
+  const colMap = {
+    id: 'id',
+    is_active: 'Status',
+    roles: 'Rol',
+    username: 'Gebruikersnaam',
+  };
+  const allowedKeys = Object.keys(colMap);
+
+  return data.map(item =>
+    Object.keys(item)
+      .filter(key => allowedKeys.includes(key)) // only handle values of valid key entries
+      .reduce((rawObj, key) => {
+        const obj = { ...rawObj };
+        let value = Array.isArray(item[key]) // join array values by a comma
+          ? item[key].join(', ')
+          : item[key];
+
+        if (typeof value === 'boolean') { // convert boolean value to text
+          value = value ? 'Actief' : 'Niet actief';
+        }
+
+        obj[colMap[key]] = value;
+
+        return obj;
+      }, {})
+  );
+};
+
+const UsersOverview = ({ page }) => {
+  const [isLoading, setLoading] = useState(false);
+  const [users, setUsers] = useState([]);
   const [, setErrors] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
-      try {
-        const response = await fetch(`${CONFIGURATION.API_ROOT}signals/v1/private/users/`, {
-          headers: getAuthHeaders(),
-        });
-        const userData = await response.json();
+      setLoading(true);
 
-        setUsers(userData);
+      try {
+        const response = await fetch(
+          `${CONFIGURATION.API_ROOT}signals/v1/private/users/`,
+          {
+            headers: getAuthHeaders(),
+          }
+        );
+        const userData = await response.json();
+        const filteredUserData = filterData(userData.results);
+
+        setUsers(filteredUserData);
+        setLoading(false);
       } catch (e) {
         setErrors(e);
       }
@@ -32,25 +70,31 @@ const UsersOverview = ({ loading, page, onPageUsersChanged }) => {
 
   return (
     <div className="users-overview-page">
-      <PageHeader title={`Gebruikers (${users.count})`} />
+      <PageHeader title={`Gebruikers (${users.length})`} />
 
       <Row>
         <Column span={12} wrap>
           <Column span={12}>
-            {loading ? (
+            {isLoading ? (
               <LoadingIndicator />
             ) : (
-              <ListComponent />
+              <ListComponent
+                items={users}
+                invisibleColumns={['id']}
+                primaryKeyColumn="id"
+                columnOrder={['Gebruikersnaam', 'Rol', 'Status']}
+              />
             )}
           </Column>
 
           <Column span={12}>
-            {!loading && users.count && (
+            {!isLoading && users.length && (
               <Pager
-                itemCount={users.count}
+                itemCount={users.length}
                 page={page}
-                onPageChanged={onPageUsersChanged}
+                onPageChanged={() => {}}
               />
+
             )}
           </Column>
         </Column>
@@ -60,14 +104,10 @@ const UsersOverview = ({ loading, page, onPageUsersChanged }) => {
 };
 
 UsersOverview.defaultProps = {
-  loading: true,
-  onPageUsersChanged: () => {},
   page: 1,
 };
 
 UsersOverview.propTypes = {
-  loading: PropTypes.bool,
-  onPageUsersChanged: PropTypes.func,
   page: PropTypes.number,
 };
 
