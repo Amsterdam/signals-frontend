@@ -1,23 +1,10 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { history, withAppContext } from 'test/utils';
-import isObject from 'lodash.isobject';
-import users from 'utils/__tests__/fixtures/users.json';
+import { history, withAppContext, userObjects } from 'test/utils';
 
 import List from '..';
 
-const userObjects = users.results.map(item =>
-  Object.keys(item)
-    .filter(key => !key.startsWith('_'))
-    .filter(key => !isObject(item[key]))
-    .reduce((rawObj, key) => {
-      const obj = { ...rawObj };
-
-      obj[key] = item[key];
-
-      return obj;
-    }, {})
-);
+const users = userObjects();
 
 describe('components/List', () => {
   it('returns null when there are no items to render', () => {
@@ -25,7 +12,7 @@ describe('components/List', () => {
 
     expect(container.querySelector('table')).toBeFalsy();
 
-    rerender(withAppContext(<List items={userObjects} />));
+    rerender(withAppContext(<List items={users} />));
 
     expect(container.querySelector('table')).toBeTruthy();
   });
@@ -33,7 +20,7 @@ describe('components/List', () => {
   it('renders column in the correct order', () => {
     const columnOrder = ['roles', 'username', 'id', 'is_active'];
     const { container } = render(
-      withAppContext(<List items={userObjects} columnOrder={columnOrder} />)
+      withAppContext(<List items={users} columnOrder={columnOrder} />)
     );
 
     expect(
@@ -52,7 +39,7 @@ describe('components/List', () => {
 
   it('does not render columns marked as invisible', () => {
     const { container } = render(
-      withAppContext(<List items={userObjects} invisibleColumns={['id']} />)
+      withAppContext(<List items={users} invisibleColumns={['id']} />)
     );
 
     container.querySelectorAll('thead td').forEach(element => {
@@ -63,7 +50,7 @@ describe('components/List', () => {
   it('navigates on row click', () => {
     const primaryKeyColumn = 'id';
     const { container, rerender } = render(
-      withAppContext(<List items={userObjects} />)
+      withAppContext(<List items={users} />)
     );
 
     fireEvent.click(container.querySelector('tbody > tr:nth-child(10)'));
@@ -71,12 +58,12 @@ describe('components/List', () => {
     expect(history.location.pathname.endsWith('/')).toEqual(true);
 
     rerender(
-      withAppContext(<List items={userObjects} primaryKeyColumn={primaryKeyColumn} />)
+      withAppContext(<List items={users} primaryKeyColumn={primaryKeyColumn} />)
     );
 
     fireEvent.click(container.querySelector('tbody > tr:nth-child(42)'));
 
-    const primaryKey = userObjects[41].id;
+    const primaryKey = users[41].id;
 
     expect(history.location.pathname.endsWith(`/${primaryKey}`)).toEqual(true);
   });

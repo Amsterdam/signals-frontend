@@ -6,6 +6,8 @@ import { ThemeProvider } from '@datapunt/asc-ui';
 import MatchMediaMock from 'match-media-mock';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
+import isObject from 'lodash.isobject';
+import usersJSON from 'utils/__tests__/fixtures/users.json';
 
 import configureStore from '../configureStore';
 
@@ -55,7 +57,11 @@ export const withAppContext = Component => (
 );
 
 // eslint-disable-next-line
-export const withCustomAppContext = (Component) => ({ themeCfg = {}, storeCfg = {}, routerCfg = {} }) => (
+export const withCustomAppContext = Component => ({
+  themeCfg = {},
+  storeCfg = {},
+  routerCfg = {},
+}) => (
   <ThemeProvider {...themeCfg}>
     <Provider store={store} {...storeCfg}>
       <ConnectedRouter history={history} {...routerCfg}>
@@ -66,7 +72,7 @@ export const withCustomAppContext = (Component) => ({ themeCfg = {}, storeCfg = 
 );
 
 // eslint-disable-next-line
-export const withIntlAppContext = (Component, messages, locale='nl') => (
+export const withIntlAppContext = (Component, messages, locale = 'nl') => (
   <ThemeProvider>
     <Provider store={store}>
       <IntlProvider locale={locale} messages={messages}>
@@ -75,3 +81,23 @@ export const withIntlAppContext = (Component, messages, locale='nl') => (
     </Provider>
   </ThemeProvider>
 );
+
+/**
+ * Get a list of users from JSON data that is coming from the API endpoint
+ * Invalid keys are filtered out of the return value.
+ *
+ * @param {Object} users
+ */
+export const userObjects = (users = usersJSON) =>
+  users.results.map(item =>
+    Object.keys(item)
+      .filter(key => !key.startsWith('_'))
+      .filter(key => !isObject(item[key]))
+      .reduce((rawObj, key) => {
+        const obj = { ...rawObj };
+
+        obj[key] = item[key];
+
+        return obj;
+      }, {})
+  );
