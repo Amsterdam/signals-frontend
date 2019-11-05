@@ -1,3 +1,4 @@
+// name mapping from API values to human readable values
 export const colMap = {
   id: 'id',
   is_active: 'Status',
@@ -5,19 +6,27 @@ export const colMap = {
   username: 'Gebruikersnaam',
 };
 
+/**
+ * Clean-up of users API response
+ *
+ * Filtering out invalid keys, turning array values into concatenated strings and
+ * converting boolean values to readable text values
+ *
+ * @param {Object} data
+ * @returns {Object}
+ */
 const filterData = data => {
   const allowedKeys = Object.keys(colMap);
 
   return data.map(item =>
     Object.keys(item)
-      .filter(key => allowedKeys.includes(key)) // only handle values of valid key entries
+      .filter(key => allowedKeys.includes(key))
       .reduce((rawObj, key) => {
         const obj = { ...rawObj };
-        let value = Array.isArray(item[key]) // join array values by a comma
+        let value = Array.isArray(item[key])
           ? item[key].join(', ')
           : item[key];
 
-        // convert boolean value to text
         if (typeof value === 'boolean') {
           value = value ? 'Actief' : 'Niet actief';
         }
