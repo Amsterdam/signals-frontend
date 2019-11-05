@@ -46,7 +46,7 @@ describe('<History />', () => {
         <History {...props} />
       );
 
-      expect(queryByTestId('history-title')).toHaveTextContent(/^Historie$/);
+      expect(queryByTestId('history-title')).toHaveTextContent(/^Geschiedenis$/);
       expect(queryAllByTestId('history-list-item')).toHaveLength(3);
 
       expect(queryAllByTestId('history-list-item-when')[0]).toHaveTextContent(/^31-07-2019 om 15:10$/);
@@ -61,7 +61,7 @@ describe('<History />', () => {
         <History {...props} />
       );
 
-      expect(queryByTestId('history-title')).toHaveTextContent(/^Historie$/);
+      expect(queryByTestId('history-title')).toHaveTextContent(/^Geschiedenis$/);
       expect(queryAllByTestId('history-list-item')).toHaveLength(0);
     });
   });

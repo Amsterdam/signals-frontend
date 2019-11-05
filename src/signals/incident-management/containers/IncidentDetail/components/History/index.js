@@ -35,7 +35,7 @@ const StyledH4 = styled(Heading)`
 
 const History = ({ list }) => (
   <section className="history">
-    <StyledH4 $as="h4" data-testid="history-title">Historie</StyledH4>
+    <StyledH4 $as="h4" data-testid="history-title">Geschiedenis</StyledH4>
 
     {list.map(item => (
       <StyledHistoryListItem key={item.identifier} data-testid="history-list-item">
