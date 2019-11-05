@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
 
@@ -8,8 +8,6 @@ import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import SelectInput from '../../../../components/SelectInput';
 import RadioInput from '../../../../components/RadioInput';
 import HiddenInput from '../../../../components/HiddenInput';
-
-import './style.scss';
 
 class SelectForm extends React.Component {
   constructor(props) {
@@ -67,7 +65,7 @@ class SelectForm extends React.Component {
   render() {
     const { subCategories, defaultTextsOptionList } = this.props;
     return (
-      <div className="select-form">
+      <Fragment>
         <FieldGroup
           control={this.form}
           render={() => (
@@ -105,7 +103,7 @@ class SelectForm extends React.Component {
             </form>
           )}
         />
-      </div>
+      </Fragment>
     );
   }
 }

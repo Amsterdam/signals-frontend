@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
+import { Row, Column, Button, themeColor  } from '@datapunt/asc-ui';
 import isEqual from 'lodash.isequal';
 import styled from 'styled-components';
 
@@ -12,9 +13,15 @@ import TextAreaInput from 'signals/incident-management/components/TextAreaInput'
 import HiddenInput from 'signals/incident-management/components/HiddenInput';
 
 import { ChevronDown, ChevronUp } from '@datapunt/asc-assets';
-import { Button, themeColor } from '@datapunt/asc-ui';
 
-import './style.scss';
+const StyledWrapper = styled.div`
+  margin-top: 33px;
+  width: 100%;
+`;
+
+const StyledColumn = styled(Column)`
+  display: block;
+`;
 
 const StyledButton = styled(Button)`
   border: 1px solid ${themeColor('tint', 'level7')};
@@ -161,7 +168,7 @@ class DefaultTextsForm extends React.Component {
 
   render() {
     return (
-      <div className="default-texts-form container">
+      <StyledWrapper>
         <FieldGroup
           control={this.form}
           render={({ invalid }) => (
@@ -183,8 +190,8 @@ class DefaultTextsForm extends React.Component {
               />
 
               {this.items.map((item, index) => (
-                <div key={item} className="row default-texts-form__row">
-                  <div className="col-8">
+                <Row key={item}>
+                  <StyledColumn span={7}>
                     <FieldControlWrapper
                       placeholder="Titel"
                       render={TextInput}
@@ -198,8 +205,8 @@ class DefaultTextsForm extends React.Component {
                       name={`text${index}`}
                       control={this.form.get(`${item}.text`)}
                     />
-                  </div>
-                  <div className="col-2 default-texts-form__actions">
+                  </StyledColumn>
+                  <StyledColumn span={1}>
                     <StyledButton
                       size={44}
                       variant="blank"
@@ -223,8 +230,8 @@ class DefaultTextsForm extends React.Component {
                       icon={<ChevronDown />}
                       onClick={e => this.changeOrdering(e, index, 'down')}
                     />
-                  </div>
-                </div>
+                  </StyledColumn>
+                </Row>
               ))}
 
               <Button
@@ -238,7 +245,7 @@ class DefaultTextsForm extends React.Component {
             </form>
           )}
         />
-      </div>
+      </StyledWrapper>
     );
   }
 }
