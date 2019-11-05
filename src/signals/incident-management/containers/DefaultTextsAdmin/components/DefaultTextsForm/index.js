@@ -34,6 +34,12 @@ class DefaultTextsForm extends React.Component {
 
   componentDidMount() {
     this.items.forEach((item, index) => {
+      if (this.props.defaultTexts.length && this.props.defaultTexts[index]) {
+        this.form.get(item).patchValue(this.props.defaultTexts[index]);
+      }
+      this.form.patchValue({categoryUrl: this.props.categoryUrl});
+      this.form.patchValue({state: this.props.state});
+
       this.form.get(item).valueChanges.subscribe(data => {
         this.props.onSaveDefaultTextsItem({ index, data });
       });
@@ -130,6 +136,7 @@ class DefaultTextsForm extends React.Component {
     const found = this.props.subCategories.find(
       sub => sub.key === categoryUrl,
     );
+    /* istanbul ignore else */
     if (found && found.slug && found.category_slug) {
       payload.sub_slug = found.slug;
       payload.main_slug = found.category_slug;
@@ -140,7 +147,6 @@ class DefaultTextsForm extends React.Component {
           payload.post.templates.push({ ...data });
         }
       });
-
       this.props.onSubmitTexts(payload);
     }
 
@@ -197,7 +203,7 @@ class DefaultTextsForm extends React.Component {
                     <StyledButton
                       size={44}
                       variant="blank"
-                      data-testid={`defaultTextFormItemUpButton${index}`}
+                      data-testid={`defaultTextFormItemButton${index}Up`}
                       disabled={
                         index === 0 || !this.form.get(`${item}.text`).value
                       }
@@ -208,7 +214,7 @@ class DefaultTextsForm extends React.Component {
                     <StyledButton
                       size={44}
                       variant="blank"
-                      data-testid={`defaultTextFormItemDownButton${index}`}
+                      data-testid={`defaultTextFormItemButton${index}Down`}
                       disabled={
                         index === this.items.length - 1
                         || !this.form.get(`item${index + 1}.text`).value
