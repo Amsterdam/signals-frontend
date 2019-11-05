@@ -40,7 +40,7 @@ const FilterForm = ({
   dataLists,
   categories,
 }) => {
-  const { feedback, priority, stadsdeel, status } = dataLists;
+  const { feedback, priority, stadsdeel, status, source } = dataLists;
   const [submitBtnLabel, setSubmitBtnLabel] = useState(defaultSubmitBtnLabel);
   const [filterData, setFilterData] = useState(filter);
   const filterSlugs = (filterData.options.maincategory_slug || []).concat(
@@ -291,6 +291,17 @@ const FilterForm = ({
               />
             </div>
           </FilterGroup>
+
+          {Array.isArray(source) && source.length > 0 && (
+            <FilterGroup data-testid="sourceFilterGroup">
+              <Label htmlFor={`source_${source[0].key}`} isGroupHeader>Bron</Label>
+              <RadioButtonList
+                defaultValue={filterData.options && filterData.options.source}
+                groupName="source"
+                options={source}
+              />
+            </FilterGroup>
+          )}
         </Fieldset>
       </ControlsWrapper>
 
@@ -334,21 +345,24 @@ const FilterForm = ({
             <ResetButton
               data-testid="resetBtn"
               onClick={onResetForm}
-              type="reset">
+              type="reset"
+            >
               Nieuw filter
             </ResetButton>
 
             <CancelButton
               data-testid="cancelBtn"
               onClick={onCancel}
-              type="button">
+              type="button"
+            >
               Annuleren
             </CancelButton>
 
             <SubmitButton
               name="submit_button"
               onClick={onSubmitForm}
-              type="submit">
+              type="submit"
+            >
               {submitBtnLabel}
             </SubmitButton>
           </ButtonContainer>

@@ -2,9 +2,16 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import isEqual from 'lodash.isequal';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import { Button, Spinner, Heading, Row, Column, themeSpacing } from '@datapunt/asc-ui';
+import {
+  Button,
+  Spinner,
+  Heading,
+  Row,
+  Column,
+  themeSpacing,
+} from '@datapunt/asc-ui';
 import { incidentType, dataListType, defaultTextsType } from 'shared/types';
 
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
@@ -33,11 +40,26 @@ const StyledButton = styled(Button)`
 
 const StyledSpinner = styled(Spinner).attrs({
   'data-testid': 'statusFormSpinner',
-})`
+})``;
+
+const Notification = styled.div`
+  ${({ warning }) =>
+    warning &&
+    css`
+      border-left: 3px solid;
+      display: block;
+      margin: 30px 0;
+      padding-left: 20px;
+      border-color: #ec0000;
+    `}
+
+  line-height: 22px;
 `;
 
-class StatusForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  form = FormBuilder.group({ // eslint-disable-line react/sort-comp
+class StatusForm extends React.Component {
+  // eslint-disable-line react/prefer-stateless-function
+  form = FormBuilder.group({
+    // eslint-disable-line react/sort-comp
     status: ['', Validators.required],
     text: [''],
   });
@@ -63,7 +85,9 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
       this.props.onDismissError();
 
       const textField = this.form.controls.text;
-      const hasDefaultTexts = Boolean(this.props.defaultTextsOptionList.find(s => s.key === status));
+      const hasDefaultTexts = Boolean(
+        this.props.defaultTextsOptionList.find(s => s.key === status)
+      );
       if (hasDefaultTexts) {
         textField.setValidators([Validators.required]);
       } else {
@@ -78,8 +102,18 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
   }
 
   componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps.patching && prevProps.patching.status, this.props.patching && this.props.patching.status) && this.props.patching.status === false) {
-      const hasError = (this.props.error && this.props.error.response && !this.props.error.response.ok) || false;
+    if (
+      !isEqual(
+        prevProps.patching && prevProps.patching.status,
+        this.props.patching && this.props.patching.status
+      ) &&
+      this.props.patching.status === false
+    ) {
+      const hasError =
+        (this.props.error &&
+          this.props.error.response &&
+          !this.props.error.response.ok) ||
+        false;
       if (!hasError) {
         this.form.reset();
         this.props.onClose();
@@ -93,9 +127,11 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
     this.props.onPatchIncident({
       id: this.props.incident.id,
       type: 'status',
-      patch: { status: { state: this.form.value.status, text: this.form.value.text } },
+      patch: {
+        status: { state: this.form.value.status, text: this.form.value.text },
+      },
     });
-  }
+  };
 
   handleUseDefaultText(e, text) {
     e.preventDefault();
@@ -113,11 +149,10 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
       onClose,
       defaultTexts,
     } = this.props;
-    const {
-      warning,
-      hasDefaultTexts,
-    } = this.state;
-    const currentStatus = statusList.find(status => status.key === incident.status.state);
+    const { warning, hasDefaultTexts } = this.state;
+    const currentStatus = statusList.find(
+      status => status.key === incident.status.state
+    );
     return (
       <Fragment>
         <FieldGroup
@@ -149,26 +184,33 @@ class StatusForm extends React.Component { // eslint-disable-line react/prefer-s
                     rows={5}
                   />
 
-                  <div className="notification notification-red" data-testid="statusFormWarning">
+                  <Notification warning data-testid="statusFormWarning">
                     {warning}
-                  </div>
-                  <div className="notification notification-red" data-testid="statusFormError">
-                    {error && error.response && error.response.status === 403 ? 'Je bent niet geautoriseerd om dit te doen.' : '' }
-                    {error && error.response && error.response.status !== 403 ? 'De gekozen status is niet mogelijk in deze situatie.' : '' }
-                  </div>
+                  </Notification>
+
+                  <Notification warning data-testid="statusFormError">
+                    {error && error.response && error.response.status === 403
+                      ? 'Je bent niet geautoriseerd om dit te doen.'
+                      : ''}
+                    {error && error.response && error.response.status !== 403
+                      ? 'De gekozen status is niet mogelijk in deze situatie.'
+                      : ''}
+                  </Notification>
 
                   <StyledButton
                     data-testid="statusFormSubmitButton"
                     variant="secondary"
                     disabled={invalid}
                     type="submit"
-                    iconRight={patching.status ? <StyledSpinner /> : null}
-                  >Status opslaan</StyledButton>
+                    iconRight={patching.status ? <StyledSpinner /> : null}>
+                    Status opslaan
+                  </StyledButton>
                   <StyledButton
                     data-testid="statusFormCancelButton"
                     variant="tertiary"
-                    onClick={onClose}
-                  >Annuleren</StyledButton>
+                    onClick={onClose}>
+                    Annuleren
+                  </StyledButton>
                 </StyledColumn>
                 <StyledColumn span={6}>
                   <DefaultTexts

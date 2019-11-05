@@ -30,13 +30,15 @@ describe('Form component <RadioInput />', () => {
       },
     };
 
-    wrapper = shallow(<RadioInput
-      handler={handler}
-      parent={parent}
-      touched={touched}
-      hasError={hasError}
-      getError={getError}
-    />);
+    wrapper = shallow(
+      <RadioInput
+        handler={handler}
+        parent={parent}
+        touched={touched}
+        hasError={hasError}
+        getError={getError}
+      />
+    );
 
     handler.mockImplementation(() => ({
       value: {
@@ -93,7 +95,10 @@ describe('Form component <RadioInput />', () => {
         },
       });
 
-      wrapper.find('input').first().simulate('change', event);
+      wrapper
+        .find('input')
+        .first()
+        .simulate('change', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': {
