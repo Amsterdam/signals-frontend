@@ -8,7 +8,6 @@ import './style.scss';
 const PAGE_NUMBER_PADDING = 2;
 
 class Pager extends React.Component {
-  // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.onPageChanged = this.onPageChanged.bind(this);
@@ -62,24 +61,22 @@ class Pager extends React.Component {
     return (
       <div className="list-pager" data-testid="overviewPagerComponent">
         <div className="pager">
-          {hasPrevious ? (
+          {hasPrevious && (
             <a
               role="presentation"
               className="pager_nav vorige"
               onClick={() => this.onPageChanged(currentPage - 1)}>
               vorige
             </a>
-          ) : null}
+          )}
           {pages.length > 1 ? pages : ''}
-          {hasNext ? (
+          {hasNext && (
             <a
               role="presentation"
               className="pager_nav volgende"
               onClick={() => this.onPageChanged(currentPage + 1)}>
               volgende
             </a>
-          ) : (
-            ''
           )}
         </div>
       </div>
