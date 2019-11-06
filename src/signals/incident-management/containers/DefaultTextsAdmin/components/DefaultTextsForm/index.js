@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import { Row, Column, Button, themeColor  } from '@datapunt/asc-ui';
-import isEqual from 'lodash.isequal';
 import styled from 'styled-components';
 
 import { dataListType, defaultTextsType } from 'shared/types';
@@ -30,225 +29,228 @@ const StyledButton = styled(Button)`
     margin-top: -1px;
   }
 `;
+export const form = FormBuilder.group({
+  item0: FormBuilder.group({
+    title: [''],
+    text: [''],
+  }),
+  item1: FormBuilder.group({
+    title: [''],
+    text: [''],
+  }),
+  item2: FormBuilder.group({
+    title: [''],
+    text: [''],
+  }),
+  item3: FormBuilder.group({
+    title: [''],
+    text: [''],
+  }),
+  item4: FormBuilder.group({
+    title: [''],
+    text: [''],
+  }),
+  item5: FormBuilder.group({
+    title: [''],
+    text: [''],
+  }),
+  item6: FormBuilder.group({
+    title: [''],
+    text: [''],
+  }),
+  item7: FormBuilder.group({
+    title: [''],
+    text: [''],
+  }),
+  item8: FormBuilder.group({
+    title: [''],
+    text: [''],
+  }),
+  item9: FormBuilder.group({
+    title: [''],
+    text: [''],
+  }),
+  categoryUrl: ['', Validators.required],
+  state: ['', Validators.required],
+});
 
-class DefaultTextsForm extends React.Component {
-  constructor(props) {
-    super(props);
+const items = Object.keys(form.controls).slice(0, -2);
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.changeOrdering = this.changeOrdering.bind(this);
-  }
-
-  componentDidMount() {
-    this.items.forEach((item, index) => {
-      if (this.props.defaultTexts.length && this.props.defaultTexts[index]) {
-        this.form.get(item).patchValue(this.props.defaultTexts[index]);
-      }
-      this.form.patchValue({categoryUrl: this.props.categoryUrl});
-      this.form.patchValue({state: this.props.state});
-
-      this.form.get(item).valueChanges.subscribe(data => {
-        this.props.onSaveDefaultTextsItem({ index, data });
-      });
-    });
-  }
-
-  componentDidUpdate(prevProps) {
-    const newValue = {};
-    if (!isEqual(prevProps.defaultTexts, this.props.defaultTexts)) {
-      this.items.forEach((item, index) => {
-        const empty = { title: '', text: '' };
-        const data = this.props.defaultTexts[index] || {};
-        this.form.get(item).patchValue({ ...empty, ...data });
-      });
-    }
-
-    if (!isEqual(prevProps.categoryUrl, this.props.categoryUrl)) {
-      newValue.categoryUrl = this.props.categoryUrl;
-    }
-
-    if (!isEqual(prevProps.state, this.props.state)) {
-      newValue.state = this.props.state;
-    }
-
-    this.form.patchValue(newValue);
-    this.form.updateValueAndValidity();
-  }
-
-  componentWillUnmount() {
-    this.items.forEach(item => {
-      this.form.get(item).valueChanges.unsubscribe();
-    });
-  }
-
-  // eslint-disable-line react/prefer-stateless-function
-  form = FormBuilder.group({
-    // eslint-disable-line react/sort-comp
-    item0: FormBuilder.group({
-      title: [''],
-      text: [''],
-    }),
-    item1: FormBuilder.group({
-      title: [''],
-      text: [''],
-    }),
-    item2: FormBuilder.group({
-      title: [''],
-      text: [''],
-    }),
-    item3: FormBuilder.group({
-      title: [''],
-      text: [''],
-    }),
-    item4: FormBuilder.group({
-      title: [''],
-      text: [''],
-    }),
-    item5: FormBuilder.group({
-      title: [''],
-      text: [''],
-    }),
-    item6: FormBuilder.group({
-      title: [''],
-      text: [''],
-    }),
-    item7: FormBuilder.group({
-      title: [''],
-      text: [''],
-    }),
-    item8: FormBuilder.group({
-      title: [''],
-      text: [''],
-    }),
-    item9: FormBuilder.group({
-      title: [''],
-      text: [''],
-    }),
-    categoryUrl: ['', Validators.required],
-    state: ['', Validators.required],
-  });
-
-  items = Object.keys(this.form.controls).slice(0, -2);
-
-  handleSubmit(e) {
+const DefaultTextsForm =({
+  categoryUrl,
+  state,
+  defaultTexts,
+  subCategories,
+  onSubmitTexts,
+  onOrderDefaultTexts,
+  onSaveDefaultTextsItem,
+}) => {
+  const handleSubmit = e => {
     e.preventDefault();
 
-    const categoryUrl = this.form.get('categoryUrl').value;
+    const category = form.get('categoryUrl').value;
     const payload = {
       post: {
-        state: this.form.get('state').value,
+        state: form.get('state').value,
         templates: [],
       },
     };
-    const found = this.props.subCategories.find(
-      sub => sub.key === categoryUrl,
+    const found = subCategories.find(
+      sub => sub.key === category,
     );
     /* istanbul ignore else */
     if (found && found.slug && found.category_slug) {
       payload.sub_slug = found.slug;
       payload.main_slug = found.category_slug;
 
-      this.items.forEach(item => {
-        const data = this.form.get(item).value;
+      items.forEach(item => {
+        const data = form.get(item).value;
         if (data.text && data.title) {
           payload.post.templates.push({ ...data });
         }
       });
-      this.props.onSubmitTexts(payload);
+      onSubmitTexts(payload);
     }
 
-    this.form.updateValueAndValidity();
-  }
+    form.updateValueAndValidity();
+  };
 
-  changeOrdering(e, index, type) {
+  const changeOrdering = (e, index, type) => {
     e.preventDefault();
-    this.props.onOrderDefaultTexts({ index, type });
-    this.form.updateValueAndValidity();
-  }
+    onOrderDefaultTexts({ index, type });
+    form.updateValueAndValidity();
+  };
 
-  render() {
-    return (
-      <StyledWrapper>
-        <FieldGroup
-          control={this.form}
-          render={({ invalid }) => (
-            <form
-              data-testid="defaultTextFormForm"
-              onSubmit={this.handleSubmit}
-              className="default-texts-form__form"
+  const subscribe = () => {
+    items.forEach((item, index) => {
+      form.get(item).valueChanges.subscribe(data => {
+        onSaveDefaultTextsItem({ index, data });
+      });
+    });
+  };
+
+  const unsubscribe = () => {
+    items.forEach(item => {
+      form.get(item).valueChanges.unsubscribe();
+    });
+  };
+
+  useEffect(() => {
+    // items.forEach((item, index) => {
+    // if (defaultTexts.length && defaultTexts[index]) {
+    // form.get(item).patchValue(defaultTexts[index]);
+    // }
+    // });
+    subscribe();
+
+    return unsubscribe;
+  }, []);
+
+
+  useEffect(() => {
+    unsubscribe();
+
+    items.forEach((item, index) => {
+      const empty = { title: '', text: '' };
+      const data = defaultTexts[index] || {};
+      form.get(item).patchValue({ ...empty, ...data });
+    });
+
+    subscribe();
+    form.updateValueAndValidity();
+  }, [defaultTexts]);
+
+  useEffect(() => {
+    form.patchValue({ categoryUrl });
+    form.updateValueAndValidity();
+  }, [categoryUrl]);
+
+  useEffect(() => {
+    form.patchValue({state});
+    form.updateValueAndValidity();
+  }, [state]);
+
+  return (
+    <StyledWrapper>
+      <FieldGroup
+        control={form}
+        render={({ invalid }) => (
+          <form
+            data-testid="defaultTextFormForm"
+            onSubmit={handleSubmit}
+            className="default-texts-form__form"
+          >
+            <FieldControlWrapper
+              render={HiddenInput}
+              name="state"
+              control={form.get('state')}
+            />
+
+            <FieldControlWrapper
+              render={HiddenInput}
+              name="categoryUrl"
+              control={form.get('categoryUrl')}
+            />
+
+            {items.map((item, index) => (
+              <Row key={item}>
+                <StyledColumn span={7}>
+                  <FieldControlWrapper
+                    placeholder="Titel"
+                    render={TextInput}
+                    name={`title${index}`}
+                    control={form.get(`${item}.title`)}
+                  />
+
+                  <FieldControlWrapper
+                    placeholder="Tekst"
+                    render={TextAreaInput}
+                    name={`text${index}`}
+                    control={form.get(`${item}.text`)}
+                  />
+                </StyledColumn>
+                <StyledColumn span={1}>
+                  <StyledButton
+                    size={44}
+                    variant="blank"
+                    data-testid={`defaultTextFormItemButton${index}Up`}
+                    disabled={
+                      index === 0 || !form.get(`${item}.text`).value
+                    }
+                    iconSize={16}
+                    icon={<ChevronUp />}
+                    onClick={e => changeOrdering(e, index, 'up')}
+                  />
+                  <StyledButton
+                    size={44}
+                    variant="blank"
+                    data-testid={`defaultTextFormItemButton${index}Down`}
+                    disabled={
+                      index === items.length - 1
+                      || !form.get(`item${index + 1}.text`).value
+                    }
+                    iconSize={16}
+                    icon={<ChevronDown />}
+                    onClick={e => changeOrdering(e, index, 'down')}
+                  />
+                </StyledColumn>
+              </Row>
+            ))}
+
+            <Button
+              data-testid="defaultTextFormSubmitButton"
+              variant="secondary"
+              type="submit"
+              disabled={invalid}
             >
-              <FieldControlWrapper
-                render={HiddenInput}
-                name="state"
-                control={this.form.get('state')}
-              />
-
-              <FieldControlWrapper
-                render={HiddenInput}
-                name="categoryUrl"
-                control={this.form.get('categoryUrl')}
-              />
-
-              {this.items.map((item, index) => (
-                <Row key={item}>
-                  <StyledColumn span={7}>
-                    <FieldControlWrapper
-                      placeholder="Titel"
-                      render={TextInput}
-                      name={`title${index}`}
-                      control={this.form.get(`${item}.title`)}
-                    />
-
-                    <FieldControlWrapper
-                      placeholder="Tekst"
-                      render={TextAreaInput}
-                      name={`text${index}`}
-                      control={this.form.get(`${item}.text`)}
-                    />
-                  </StyledColumn>
-                  <StyledColumn span={1}>
-                    <StyledButton
-                      size={44}
-                      variant="blank"
-                      data-testid={`defaultTextFormItemButton${index}Up`}
-                      disabled={
-                        index === 0 || !this.form.get(`${item}.text`).value
-                      }
-                      iconSize={16}
-                      icon={<ChevronUp />}
-                      onClick={e => this.changeOrdering(e, index, 'up')}
-                    />
-                    <StyledButton
-                      size={44}
-                      variant="blank"
-                      data-testid={`defaultTextFormItemButton${index}Down`}
-                      disabled={
-                        index === this.items.length - 1
-                        || !this.form.get(`item${index + 1}.text`).value
-                      }
-                      iconSize={16}
-                      icon={<ChevronDown />}
-                      onClick={e => this.changeOrdering(e, index, 'down')}
-                    />
-                  </StyledColumn>
-                </Row>
-              ))}
-
-              <Button
-                data-testid="defaultTextFormSubmitButton"
-                variant="secondary"
-                type="submit"
-                disabled={invalid}
-              >
-                Opslaan
-              </Button>
-            </form>
-          )}
-        />
-      </StyledWrapper>
-    );
-  }
-}
+              Opslaan
+            </Button>
+          </form>
+        )}
+      />
+    </StyledWrapper>
+  );
+};
 
 DefaultTextsForm.defaultProps = {
   defaultTexts: [],
