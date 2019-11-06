@@ -14,7 +14,7 @@ describe('signals/settings/users/containers/Overview', () => {
       await render(withAppContext(<UsersOverview />));
 
       await wait(() => expect(global.fetch).toHaveBeenCalledWith(
-        usersEndpoint,
+        `${usersEndpoint}/?page=1`,
         expect.objectContaining({ headers: {} })
       ));
     });

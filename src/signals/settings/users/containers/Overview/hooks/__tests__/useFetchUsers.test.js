@@ -19,7 +19,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
       await waitForNextUpdate();
 
       await expect(global.fetch).toHaveBeenCalledWith(
-        usersEndpoint,
+        `${usersEndpoint}/?page=1`,
         expect.objectContaining({ headers: {} })
       );
 

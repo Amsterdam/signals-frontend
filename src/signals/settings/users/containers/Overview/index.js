@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
 import { Row, Column } from '@datapunt/asc-ui';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
@@ -10,15 +9,8 @@ import PageHeader from 'signals/settings/components/PageHeader';
 import useFetchUsers from './hooks/useFetchUsers';
 
 const UsersOverview = () => {
-  const location = useLocation();
-  const [, pageNumber] = location.pathname.match(/\/(\d+)$/) || [];
-  const history = useHistory();
-  const [page, setPage] = useState(parseInt(pageNumber || 1, 10));
+  const [page, setPage] = useState(1);
   const { isLoading, users } = useFetchUsers({ page });
-
-  useEffect(() => {
-    history.push(`/instellingen/gebruikers/page/${page}`);
-  }, [page]);
 
   return (
     <div className="users-overview-page">
@@ -44,8 +36,9 @@ const UsersOverview = () => {
               <Pager
                 itemCount={users.length}
                 page={page}
-                onPageChanged={pageNum => setPage(pageNum)}
-                itemsPerPage={30}
+                onPageChanged={pageNum => {
+                  setPage(pageNum);
+                }}
               />
             )}
           </Column>
