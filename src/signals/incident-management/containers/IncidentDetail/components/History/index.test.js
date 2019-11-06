@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 
+import { withAppContext } from 'test/utils';
 import History from './index';
 
 
@@ -43,7 +44,7 @@ describe('<History />', () => {
   describe('rendering', () => {
     it('should render all items when list is defined', () => {
       const { queryByTestId, queryAllByTestId } = render(
-        <History {...props} />
+        withAppContext(<History {...props} />)
       );
 
       expect(queryByTestId('history-title')).toHaveTextContent(/^Geschiedenis$/);
@@ -58,7 +59,7 @@ describe('<History />', () => {
     it('should render empty when no list is defined', () => {
       props.list = [];
       const { queryByTestId, queryAllByTestId } = render(
-        <History {...props} />
+        withAppContext(<History {...props} />)
       );
 
       expect(queryByTestId('history-title')).toHaveTextContent(/^Geschiedenis$/);
