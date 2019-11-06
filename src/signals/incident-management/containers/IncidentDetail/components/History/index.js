@@ -1,21 +1,14 @@
 import React from 'react';
 
-import styled, { css } from '@datapunt/asc-core'
-import { themeColor, Heading, styles } from '@datapunt/asc-ui'
+import styled from '@datapunt/asc-core'
+import { themeColor, Heading, styles, Row } from '@datapunt/asc-ui'
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { historyType } from 'shared/types';
 
-const rowStyles = css`
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
-`;
-
-const StyledHistoryListItem = styled.div`
-  margin-bottom: 16px;
+const StyledHistoryListItem = styled(Row)`
+  margin : 0 -15px 16px;
+  padding: 0;
   line-height: 22px;
-  ${rowStyles}
 `;
 
 const StyledHistoryItemLeft = styled.div`
@@ -38,7 +31,7 @@ const History = ({ list }) => (
     <StyledH4 $as="h4" data-testid="history-title">Geschiedenis</StyledH4>
 
     {list.map(item => (
-      <StyledHistoryListItem key={item.identifier} data-testid="history-list-item">
+      <StyledHistoryListItem key={item.identifier} data-testid="history-list-item" >
         <StyledHistoryItemLeft className="col-5">
           <span data-testid="history-list-item-when">
             {string2date(item.when)} om {string2time(item.when)}
