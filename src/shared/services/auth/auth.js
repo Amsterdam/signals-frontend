@@ -73,7 +73,7 @@ let tokenData = {};
  * service.
  */
 function handleError(code, description) {
-  sessionStorage.removeItem(STATE_TOKEN);
+  localStorage.removeItem(STATE_TOKEN);
 
   // Remove parameters from the URL, as set by the error callback from the
   // OAuth2 authorization service, to clean up the URL.
@@ -109,7 +109,7 @@ function getAccessTokenFromParams(params) {
     return null;
   }
 
-  const stateToken = sessionStorage.getItem(STATE_TOKEN);
+  const stateToken = localStorage.getItem(STATE_TOKEN);
 
   // The state param must be exactly the same as the state token we
   // have saved in the session (to prevent CSRF)
@@ -138,10 +138,10 @@ function handleCallback() {
   const accessToken = getAccessTokenFromParams(params);
   if (accessToken) {
     tokenData = accessTokenParser(accessToken);
-    sessionStorage.setItem(ACCESS_TOKEN, accessToken);
-    returnPath = sessionStorage.getItem(RETURN_PATH);
-    sessionStorage.removeItem(RETURN_PATH);
-    sessionStorage.removeItem(STATE_TOKEN);
+    localStorage.setItem(ACCESS_TOKEN, accessToken);
+    returnPath = localStorage.getItem(RETURN_PATH);
+    localStorage.removeItem(RETURN_PATH);
+    localStorage.removeItem(STATE_TOKEN);
 
     // Clean up URL; remove query and hash
     // https://stackoverflow.com/questions/4508574/remove-hash-from-url
@@ -155,11 +155,11 @@ function handleCallback() {
  * @returns {string} The access token.
  */
 export function getAccessToken() {
-  return sessionStorage.getItem(ACCESS_TOKEN);
+  return localStorage.getItem(ACCESS_TOKEN);
 }
 
 export function getOauthDomain() {
-  return sessionStorage.getItem(OAUTH_DOMAIN);
+  return localStorage.getItem(OAUTH_DOMAIN);
 }
 
 /**
@@ -186,18 +186,18 @@ export function login(domain) {
     throw new Error('crypto library is not available on the current browser');
   }
 
-  sessionStorage.removeItem(ACCESS_TOKEN);
-  sessionStorage.setItem(RETURN_PATH, global.location.hash);
-  sessionStorage.setItem(STATE_TOKEN, stateToken);
-  sessionStorage.setItem(OAUTH_DOMAIN, domain);
+  localStorage.removeItem(ACCESS_TOKEN);
+  localStorage.setItem(RETURN_PATH, global.location.hash);
+  localStorage.setItem(STATE_TOKEN, stateToken);
+  localStorage.setItem(OAUTH_DOMAIN, domain);
 
   const redirectUri = encodeURIComponent(`${global.location.protocol}//${global.location.host}/manage/incidents`);
   global.location.assign(`${CONFIGURATION.AUTH_ROOT}${AUTH_PATH(domain)}&state=${encodedStateToken}&redirect_uri=${redirectUri}`);
 }
 
 export function logout() {
-  sessionStorage.removeItem(ACCESS_TOKEN);
-  sessionStorage.removeItem(OAUTH_DOMAIN);
+  localStorage.removeItem(ACCESS_TOKEN);
+  localStorage.removeItem(OAUTH_DOMAIN);
   global.location.reload();
 }
 
