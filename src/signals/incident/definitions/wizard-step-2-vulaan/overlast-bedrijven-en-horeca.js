@@ -277,7 +277,7 @@ export default {
           stoep_in_beslag: 'Terras / terrasbezoekers nemen hele stoep in zodat u via de weg erlangs moet',
           bezoekers_op_straat: 'Bezoekers staan op straat',
           bezoekers_op_terras: 'Bezoekers op terras',
-          opruimen_meubels: 'Opruimen meubels',
+          opruimen_meubels: 'Geluid van opruimen meubels',
         },
         className: 'col-sm-12 col-md-8',
         pathMerge: 'extra_properties',
