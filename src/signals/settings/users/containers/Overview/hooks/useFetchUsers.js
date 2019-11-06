@@ -14,7 +14,7 @@ export const usersEndpoint = `${CONFIGURATION.API_ROOT}signals/v1/private/users`
  *
  * @returns {FetchResponse}
  */
-const useFetchUsers = ({ page = 1, pageSize } = {}) => {
+const useFetchUsers = ({ page, pageSize } = {}) => {
   const [isLoading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(false);

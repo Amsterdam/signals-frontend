@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { useLocation, useParams } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
@@ -8,42 +9,53 @@ import Pager from 'components/Pager';
 
 import PageHeader from 'signals/settings/components/PageHeader';
 import useFetchUsers from './hooks/useFetchUsers';
+import routes from '../../../routes';
 
-const UsersOverview = () => {
-  const history = useHistory();
+const UsersOverview = ({ pageSize, history }) => {
   const location = useLocation();
-  const pageSize = 30;
-
+  const { pageNum } = useParams();
   const [page, setPage] = useState(1);
   const { isLoading, users } = useFetchUsers({ page, pageSize });
 
-  const getPageNum = () => {
-    const [, pageNum] = location.search.match(/page=(\d+)/) || [];
+  /**
+   * Get page number value from URL query string
+   *
+   * @returns {number|undefined}
+   */
+  const getPageNumFromQueryString = () => pageNum && parseInt(pageNum, 10);
 
-    return pageNum && parseInt(pageNum, 10);
-  };
-
+  // subscribe to 'page' state value changes
   useEffect(() => {
     if (history.action === 'POP') {
       return;
     }
 
-    const pageNumber = getPageNum();
+    const pageNumber = getPageNumFromQueryString();
 
     if (!pageNumber) {
-      history.replace(`${location.pathname}/?page=1`);
+      history.replace(routes.usersPaged.replace(':pageNum', 1));
     } else if (pageNumber !== page) {
-      history.push(`${location.pathname}?page=${page}`);
+      history.push(routes.usersPaged.replace(':pageNum', page));
     }
   }, [page]);
 
+  // subscribe to 'location' changes
   useEffect(() => {
-    const pageNumber = getPageNum();
+    const pageNumber = getPageNumFromQueryString();
 
     if (pageNumber && pageNumber !== page) {
       setPage(pageNumber);
     }
   }, [location]);
+
+  const onItemClick = e => {
+    const { dataset } = e.currentTarget;
+    const { itemId } = dataset;
+
+    if (itemId) {
+      history.push(routes.user.replace(':userId', itemId));
+    }
+  };
 
   return (
     <div className="users-overview-page">
@@ -56,10 +68,11 @@ const UsersOverview = () => {
               <LoadingIndicator />
             ) : (
               <ListComponent
-                items={users}
-                invisibleColumns={['id']}
-                primaryKeyColumn="id"
                 columnOrder={['Gebruikersnaam', 'Rol', 'Status']}
+                invisibleColumns={['id']}
+                items={users}
+                onItemClick={onItemClick}
+                primaryKeyColumn="id"
               />
             )}
           </Column>
@@ -70,7 +83,7 @@ const UsersOverview = () => {
                 itemCount={users.length}
                 page={page}
                 onPageChanged={pageNumber => {
-                  history.push(`${location.pathname}?page=${pageNumber}`);
+                  history.push(routes.usersPaged.replace(':pageNum', pageNumber));
                 }}
                 pageSize={pageSize}
               />
@@ -80,6 +93,19 @@ const UsersOverview = () => {
       </Row>
     </div>
   );
+};
+
+UsersOverview.defaultProps = {
+  pageSize: 30,
+};
+
+UsersOverview.propTypes = {
+  history: PropTypes.shape({
+    action: PropTypes.string,
+    push: PropTypes.func,
+    replace: PropTypes.func,
+  }),
+  pageSize: PropTypes.number,
 };
 
 export default UsersOverview;

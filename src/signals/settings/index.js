@@ -6,21 +6,22 @@ import { isAuthenticated } from 'shared/services/auth/auth';
 
 import LoginPage from 'components/LoginPage';
 
+import routes from './routes';
 import UsersOverviewContainer from './users/containers/Overview';
 
-export const SettingsModule = ({ match: { url } }) =>
+export const SettingsModule = () =>
   !isAuthenticated() ? (
     <Route component={LoginPage} />
   ) : (
     <Fragment>
       <Route
         exact
-        path={`${url}/gebruikers`}
+        path={routes.users}
         component={UsersOverviewContainer}
       />
       <Route
         exact
-        path={`${url}/gebruikers/page/:pageNum?`}
+        path={routes.usersPaged}
         component={UsersOverviewContainer}
       />
     </Fragment>
