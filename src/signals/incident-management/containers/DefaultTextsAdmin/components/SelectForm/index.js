@@ -49,6 +49,11 @@ const SelectForm = ({ subCategories, defaultTextsOptionList, onFetchDefaultTexts
 
     form.updateValueAndValidity();
     handleChange({});
+
+    return  () => {
+      form.controls.category_url.valueChanges.unsubscribe();
+      form.controls.state.valueChanges.unsubscribe();
+    }
   }, []);
 
   useEffect(() => {
