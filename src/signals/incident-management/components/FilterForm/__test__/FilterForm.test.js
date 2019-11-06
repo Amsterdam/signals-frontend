@@ -378,7 +378,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     expect(queryByTestId('sourceFilterGroup')).toBeNull();
 
     expect(
-      container.querySelectorAll('input[type="radio"][name="source"]'),
+      container.querySelectorAll('input[type="checkbox"][name="source"]'),
     ).toHaveLength(0);
 
     cleanup();
@@ -394,8 +394,8 @@ describe('signals/incident-management/components/FilterForm', () => {
     );
 
     expect(
-      container.querySelectorAll('input[type="radio"][name="source"]'),
-    ).toHaveLength(dataLists.source.length + 1); // by default, a radio button with an empty value is rendered
+      container.querySelectorAll('input[type="checkbox"][name="source"]'),
+    ).toHaveLength(dataLists.source.length);
   });
 
   it('should render a datepicker', () => {
