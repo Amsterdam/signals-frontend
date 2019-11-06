@@ -9,7 +9,7 @@ import SelectInput from '../../../../components/SelectInput';
 import RadioInput from '../../../../components/RadioInput';
 import HiddenInput from '../../../../components/HiddenInput';
 
-export const form = FormBuilder.group({
+const form = FormBuilder.group({
   category_url: [
     'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
   ],
@@ -57,8 +57,8 @@ const SelectForm = ({ subCategories, defaultTextsOptionList, onFetchDefaultTexts
   }, []);
 
   useEffect(() => {
-    form.updateValueAndValidity();
     subs = subCategories;
+    form.updateValueAndValidity();
   }, [subCategories]);
 
   return (

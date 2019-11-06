@@ -9,6 +9,7 @@ import SelectForm from './index';
 import { defaultTextsOptionList } from '../../../../definitions/statusList';
 
 describe('<SelectForm />', () => {
+  const category_url = 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu';
   let props;
 
   beforeEach(() => {
@@ -51,11 +52,12 @@ describe('<SelectForm />', () => {
       );
 
       expect(props.onFetchDefaultTexts).toHaveBeenCalledWith({
-        category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+        category_url,
         state: 'o',
         sub_slug: 'asbest-accu',
         main_slug: 'afval',
       });
+
     });
 
     it('should trigger fetch default texts when a new status has been selected', () => {
@@ -66,7 +68,7 @@ describe('<SelectForm />', () => {
       fireEvent.click(getByDisplayValue(newStatus));
 
       expect(props.onFetchDefaultTexts).toHaveBeenCalledWith({
-        category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+        category_url,
         state: newStatus,
         sub_slug: 'asbest-accu',
         main_slug: 'afval',
@@ -88,7 +90,7 @@ describe('<SelectForm />', () => {
 
       expect(props.onFetchDefaultTexts).toHaveBeenCalledWith({
         category_url: newCategory,
-        state: 'o',
+        state: 'ingepland',
         sub_slug: 'boom',
         main_slug: 'openbaar-groen-en-water',
       });
