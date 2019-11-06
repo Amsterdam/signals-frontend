@@ -136,11 +136,6 @@ const DefaultTextsForm =({
   };
 
   useEffect(() => {
-    // items.forEach((item, index) => {
-    // if (defaultTexts.length && defaultTexts[index]) {
-    // form.get(item).patchValue(defaultTexts[index]);
-    // }
-    // });
     subscribe();
 
     return unsubscribe;

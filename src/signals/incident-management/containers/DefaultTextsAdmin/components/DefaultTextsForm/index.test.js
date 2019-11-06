@@ -56,8 +56,21 @@ describe('<DefaultTextsForm />', () => {
     expect(queryByTestId('defaultTextFormItemButton2Down')).toBeDisabled();
     expect(queryByTestId('defaultTextFormItemButton3Up')).toBeDisabled();
     expect(queryByTestId('defaultTextFormItemButton3Down')).toBeDisabled();
+    expect(queryByTestId('defaultTextFormItemButton4Up')).toBeDisabled();
+    expect(queryByTestId('defaultTextFormItemButton4Down')).toBeDisabled();
+    expect(queryByTestId('defaultTextFormItemButton5Up')).toBeDisabled();
+    expect(queryByTestId('defaultTextFormItemButton5Down')).toBeDisabled();
+    expect(queryByTestId('defaultTextFormItemButton6Up')).toBeDisabled();
+    expect(queryByTestId('defaultTextFormItemButton6Down')).toBeDisabled();
+    expect(queryByTestId('defaultTextFormItemButton7Up')).toBeDisabled();
+    expect(queryByTestId('defaultTextFormItemButton7Down')).toBeDisabled();
+    expect(queryByTestId('defaultTextFormItemButton8Up')).toBeDisabled();
+    expect(queryByTestId('defaultTextFormItemButton8Down')).toBeDisabled();
+    expect(queryByTestId('defaultTextFormItemButton9Up')).toBeDisabled();
+    expect(queryByTestId('defaultTextFormItemButton9Down')).toBeDisabled();
 
     expect(queryByTestId('defaultTextFormSubmitButton')).not.toBeNull();
+    expect(queryByTestId('defaultTextFormSubmitButton')).not.toBeDisabled();
   });
 
   describe('events', () => {
@@ -127,7 +140,6 @@ describe('<DefaultTextsForm />', () => {
       withAppContext(<DefaultTextsForm {...props} />)
     );
 
-    // expect(getByTestId('defaultTextFormSubmitButton')).toBeDisabled();
     fireEvent.click(getByTestId('defaultTextFormSubmitButton'));
 
     expect(props.onSubmitTexts).toHaveBeenCalledWith({
