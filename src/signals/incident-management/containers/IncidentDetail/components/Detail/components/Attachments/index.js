@@ -46,7 +46,7 @@ const Attachments = ({ attachments, onShowAttachment }) => (
       ? (
         <dl>
           <StyledDefinition
-            data-testid="attachments-definition"
+            data-testid="attachmentsDefinition"
           >Foto</StyledDefinition>
           <StyledValue>
             {attachments.map(attachment => (
@@ -54,7 +54,7 @@ const Attachments = ({ attachments, onShowAttachment }) => (
                 key={attachment.location}
                 size={80}
                 variant="blank"
-                data-testid="attachments-value-button"
+                data-testid="attachmentsValueButton"
                 className="attachments__image-button"
                 onClick={() => onShowAttachment(attachment.location)}
                 style={{ backgroundImage: `url(${attachment.location})` }}
