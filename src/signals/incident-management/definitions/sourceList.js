@@ -1,3 +1,7 @@
+// HERE BE DRAGONS!!!1!
+// note that the dashes in the list below aren't '-' characters, but EN dashes
+// replacing the characters will affect filtering incidents, because the API does a
+// full-string match
 const sourceList = [
   { key: 'Telefoon – Adoptant', value: 'Telefoon – Adoptant' },
   { key: 'Telefoon – ASC', value: 'Telefoon – ASC' },
