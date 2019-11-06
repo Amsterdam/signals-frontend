@@ -1,33 +1,71 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import {
+  Button,
+  themeColor,
+  themeSpacing,
+} from '@datapunt/asc-ui';
 
 import { attachmentsType } from 'shared/types';
 
-import './style.scss';
+const StyledDL = styled.dl`
+  margin: 0;
+`;
+
+const StyledDefinition = styled.dt`
+  font-weight: normal;
+  width: 25%;
+  display: inline-block;
+  color: ${themeColor('tint', 'level5')};
+
+  margin: 0;
+  vertical-align: top;
+  padding: ${themeSpacing(2)} 0;
+`;
+
+const StyledValue = styled.dd`
+  width: 75%;
+  display: inline-block;
+
+  margin: 0;
+  vertical-align: top;
+  padding: ${themeSpacing(2)} 0;
+`;
+
+const StyledButton = styled(Button)`
+  display: inline-block;
+  margin-right: 10px;
+  background-size: cover;
+  border: 1px solid ${themeColor('tint', 'level3')} !important;
+`;
 
 const Attachments = ({ attachments, onShowAttachment }) => (
-  <dl className="attachments">
+  <StyledDL>
     {attachments.length
       ? (
         <dl>
-          <dt className="attachments__definition" data-testid="attachments-definition">Foto</dt>
-          <dd className="attachments__value" data-testid="attachments-value">
+          <StyledDefinition
+            data-testid="attachments-definition"
+          >Foto</StyledDefinition>
+          <StyledValue>
             {attachments.map(attachment => (
-              <button
+              <StyledButton
                 key={attachment.location}
-                type="button"
+                size={80}
+                variant="blank"
                 data-testid="attachments-value-button"
                 className="attachments__image-button"
                 onClick={() => onShowAttachment(attachment.location)}
                 style={{ backgroundImage: `url(${attachment.location})` }}
               />
             ))}
-          </dd>
+          </StyledValue>
         </dl>
       )
       : ''}
 
-  </dl>
+  </StyledDL>
 );
 
 Attachments.propTypes = {
