@@ -237,14 +237,18 @@ const DefaultTextsForm =({
               </Row>
             ))}
 
-            <Button
-              data-testid="defaultTextFormSubmitButton"
-              variant="secondary"
-              type="submit"
-              disabled={invalid}
-            >
+            <Row>
+              <StyledColumn span={12}>
+                <Button
+                  data-testid="defaultTextFormSubmitButton"
+                  variant="secondary"
+                  type="submit"
+                  disabled={invalid}
+                >
               Opslaan
-            </Button>
+                </Button>
+              </StyledColumn>
+            </Row>
           </form>
         )}
       />
