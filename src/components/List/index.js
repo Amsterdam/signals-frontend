@@ -26,7 +26,12 @@ const List = ({ columnOrder, invisibleColumns, items, primaryKeyColumn }) => {
     const { itemId } = dataset;
 
     if (itemId) {
-      history.push(`${location.pathname}/${itemId}`);
+      const parts = location.pathname
+        .split('/')
+        .filter(Boolean)
+        .join('/'); // getting rid of potential trailing slash
+
+      history.push(`/${parts}/${itemId}`);
     }
   };
 

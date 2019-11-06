@@ -14,7 +14,7 @@ export const usersEndpoint = `${CONFIGURATION.API_ROOT}signals/v1/private/users`
  *
  * @returns {FetchResponse}
  */
-const useFetchUsers = ({ page = 1 } = {}) => {
+const useFetchUsers = ({ page = 1, pageSize } = {}) => {
   const [isLoading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(false);
@@ -24,9 +24,13 @@ const useFetchUsers = ({ page = 1 } = {}) => {
       setLoading(true);
 
       try {
-        const url = [usersEndpoint, page && `?page=${page}`]
+        const params = [
+          page && `page=${page}`,
+          pageSize && `page_size=${pageSize}`,
+        ]
           .filter(Boolean)
-          .join('/');
+          .join('&');
+        const url = [usersEndpoint, params].filter(Boolean).join('/?');
         const response = await fetch(url, {
           headers: getAuthHeaders(),
         });

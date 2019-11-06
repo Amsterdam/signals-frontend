@@ -19,7 +19,7 @@ class Pager extends React.Component {
 
   render() {
     const currentPage = this.props.page;
-    const totalPages = Math.floor(this.props.itemCount / this.props.itemsPerPage) + 1;
+    const totalPages = Math.floor(this.props.itemCount / this.props.pageSize) + 1;
     const hasPrevious = currentPage > 1;
     const hasNext = currentPage < totalPages;
     let showDots = true;
@@ -86,15 +86,15 @@ class Pager extends React.Component {
 
 Pager.defaultProps = {
   itemCount: 0,
-  itemsPerPage: 100,
+  pageSize: 100,
   page: 1,
 };
 
 Pager.propTypes = {
   itemCount: PropTypes.number,
-  itemsPerPage: PropTypes.number,
   onPageChanged: PropTypes.func.isRequired,
   page: PropTypes.number,
+  pageSize: PropTypes.number,
 };
 
 export default Pager;
