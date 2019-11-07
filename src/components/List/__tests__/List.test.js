@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { history, withAppContext, userObjects } from 'test/utils';
+import { render } from '@testing-library/react';
+import { withAppContext, userObjects } from 'test/utils';
 
 import List from '..';
 
@@ -36,26 +36,5 @@ describe('components/List', () => {
     container.querySelectorAll('thead td').forEach(element => {
       expect(element.textContent).not.toEqual('id');
     });
-  });
-
-  it('navigates on row click', () => {
-    const primaryKeyColumn = 'id';
-    const { container, rerender } = render(
-      withAppContext(<List items={users} />)
-    );
-
-    fireEvent.click(container.querySelector('tbody > tr:nth-child(10)'));
-
-    expect(history.location.pathname.endsWith('/')).toEqual(true);
-
-    rerender(
-      withAppContext(<List items={users} primaryKeyColumn={primaryKeyColumn} />)
-    );
-
-    fireEvent.click(container.querySelector('tbody > tr:nth-child(42)'));
-
-    const primaryKey = users[41].id;
-
-    expect(history.location.pathname.endsWith(`/${primaryKey}`)).toEqual(true);
   });
 });
