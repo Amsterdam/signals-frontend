@@ -5,6 +5,7 @@ const arrayFields = [
   'maincategory_slug',
   'status',
   'category_slug',
+  'source',
 ];
 
 /**

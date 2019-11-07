@@ -295,9 +295,10 @@ const FilterForm = ({
           {Array.isArray(source) && source.length > 0 && (
             <FilterGroup data-testid="sourceFilterGroup">
               <Label htmlFor={`source_${source[0].key}`} isGroupHeader>Bron</Label>
-              <RadioButtonList
+              <CheckboxList
                 defaultValue={filterData.options && filterData.options.source}
                 groupName="source"
+                groupId="source"
                 options={source}
               />
             </FilterGroup>
