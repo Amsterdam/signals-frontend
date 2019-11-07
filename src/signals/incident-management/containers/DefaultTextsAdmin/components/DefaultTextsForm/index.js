@@ -173,7 +173,7 @@ const DefaultTextsForm =({
 
             {items.map((item, index) => (
               <div key={item}>
-                <StyledLeftColumn span={7}>
+                <StyledLeftColumn>
                   <FieldControlWrapper
                     placeholder="Titel"
                     render={TextInput}
@@ -188,7 +188,7 @@ const DefaultTextsForm =({
                     control={form.get(`${item}.text`)}
                   />
                 </StyledLeftColumn>
-                <StyledRightColumn span={1}>
+                <StyledRightColumn>
                   <StyledButton
                     size={44}
                     variant="blank"
