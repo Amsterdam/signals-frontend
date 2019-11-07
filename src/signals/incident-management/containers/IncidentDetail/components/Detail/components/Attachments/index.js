@@ -55,7 +55,6 @@ const Attachments = ({ attachments, onShowAttachment }) => (
                 size={80}
                 variant="blank"
                 data-testid="attachmentsValueButton"
-                className="attachments__image-button"
                 onClick={() => onShowAttachment(attachment.location)}
                 style={{ backgroundImage: `url(${attachment.location})` }}
               />
