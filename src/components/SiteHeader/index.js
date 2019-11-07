@@ -7,6 +7,7 @@ import Media from 'react-media';
 import { svg, Logout as LogoutIcon } from '@datapunt/asc-assets';
 import {
   Header as HeaderComponent,
+  MenuFlyOut,
   MenuButton,
   MenuInline,
   MenuItem,
@@ -15,7 +16,7 @@ import {
 } from '@datapunt/asc-ui';
 import SearchBar from 'containers/SearchBar';
 
-export const breakpoint = 1000;
+export const breakpoint = 1100;
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
@@ -59,6 +60,16 @@ const StyledMenuButton = styled(MenuButton)`
   font-size: 16px;
   font-family: inherit;
   color: ${themeColor('tint', 'level6')};
+`;
+
+const StyledMenuFlyout = styled(MenuFlyOut)`
+  & span, & button {
+    font-family: inherit;
+    font-weight: normal;
+    font-size: 16px;
+    font-weight: normal;
+    color: ${themeColor('tint', 'level6')};
+  }
 `;
 
 const SearchBarMenuItem = styled(MenuItem)`
@@ -181,6 +192,13 @@ const MenuItems = ({
             Standaard teksten
           </StyledMenuButton>
         </MenuItem>
+      )}
+      {isAuthenticated && (
+        <StyledMenuFlyout label="Instellingen">
+          <StyledMenuButton $as={NavLink} to="/instellingen/gebruikers">
+            Gebruikers
+          </StyledMenuButton>
+        </StyledMenuFlyout>
       )}
       {showLogout && (
         <MenuItem

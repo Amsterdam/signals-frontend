@@ -9,8 +9,8 @@ describe('<Pager />', () => {
 
   beforeEach(() => {
     props = {
-      onPageIncidentsChanged: jest.fn(),
-      incidentsCount: 2350,
+      onPageChanged: jest.fn(),
+      itemCount: 2350,
     };
   });
 
@@ -48,7 +48,7 @@ describe('<Pager />', () => {
     });
 
     it('should render empty correctly', () => {
-      props.incidentsCount = 0;
+      props.itemCount = 0;
 
       wrapper = shallow(
         <Pager {...props} />
@@ -69,17 +69,17 @@ describe('<Pager />', () => {
 
     it('should move to the second page when 2 is clicked', () => {
       wrapper.find('a').at(2).simulate('click');
-      expect(props.onPageIncidentsChanged).toHaveBeenCalledWith(2);
+      expect(props.onPageChanged).toHaveBeenCalledWith(2);
     });
 
     it('should move to the page 9 when next is clicked', () => {
       wrapper.find('a').last().simulate('click');
-      expect(props.onPageIncidentsChanged).toHaveBeenCalledWith(9);
+      expect(props.onPageChanged).toHaveBeenCalledWith(9);
     });
 
     it('should move to the page 7 when previous is clicked', () => {
       wrapper.find('a').first().simulate('click');
-      expect(props.onPageIncidentsChanged).toHaveBeenCalledWith(7);
+      expect(props.onPageChanged).toHaveBeenCalledWith(7);
     });
   });
 });

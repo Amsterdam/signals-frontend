@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 import injectReducer from 'utils/injectReducer';
@@ -64,6 +64,9 @@ export const IncidentManagementModuleComponent = ({
       />
       <Route path={`${url}/standaard/teksten`} component={DefaultTextsAdmin} />
       <Route path={`${url}/dashboard`} component={DashboardContainer} />
+      <Route path="*">
+        <Redirect to={`${url}/incidents`} />
+      </Route>
     </Fragment>
   );
 };

@@ -2,8 +2,8 @@
 
 exports[`<Pager /> rendering should render default correctly 1`] = `
 <div
-  className="incidents-list-pager"
-  data-testid="incidentOverviewPagerComponent"
+  className="list-pager"
+  data-testid="overviewPagerComponent"
 >
   <div
     className="pager"
@@ -79,8 +79,8 @@ exports[`<Pager /> rendering should render default correctly 1`] = `
 
 exports[`<Pager /> rendering should render empty correctly 1`] = `
 <div
-  className="incidents-list-pager"
-  data-testid="incidentOverviewPagerComponent"
+  className="list-pager"
+  data-testid="overviewPagerComponent"
 >
   <div
     className="pager"
@@ -90,8 +90,8 @@ exports[`<Pager /> rendering should render empty correctly 1`] = `
 
 exports[`<Pager /> rendering should render last page correctly 1`] = `
 <div
-  className="incidents-list-pager"
-  data-testid="incidentOverviewPagerComponent"
+  className="list-pager"
+  data-testid="overviewPagerComponent"
 >
   <div
     className="pager"
@@ -167,8 +167,8 @@ exports[`<Pager /> rendering should render last page correctly 1`] = `
 
 exports[`<Pager /> rendering should render page 8 correctly 1`] = `
 <div
-  className="incidents-list-pager"
-  data-testid="incidentOverviewPagerComponent"
+  className="list-pager"
+  data-testid="overviewPagerComponent"
 >
   <div
     className="pager"

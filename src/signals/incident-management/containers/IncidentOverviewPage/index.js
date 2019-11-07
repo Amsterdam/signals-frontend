@@ -8,24 +8,32 @@ import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import styled from 'styled-components';
 
 import MyFilters from 'signals/incident-management/containers/MyFilters';
-import PageHeader from 'containers/PageHeader';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectCategories } from 'containers/App/selectors';
-import { makeSelectDataLists, makeSelectActiveFilter, makeSelectPage, makeSelectOrdering } from 'signals/incident-management/selectors';
-import { pageIncidentsChanged, orderingIncidentsChanged } from 'signals/incident-management/actions';
+import {
+  makeSelectDataLists,
+  makeSelectActiveFilter,
+  makeSelectPage,
+  makeSelectOrdering,
+} from 'signals/incident-management/selectors';
+import {
+  pageIncidentsChanged,
+  orderingIncidentsChanged,
+} from 'signals/incident-management/actions';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
 import * as types from 'shared/types';
+import Pager from 'components/Pager';
+import ListComponent from './components/List';
 
 import makeSelectOverviewPage, { makeSelectIncidentsCount } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { requestIncidents, incidentSelected } from './actions';
-import ListComponent from './components/List';
-import Pager from './components/Pager';
 import FilterTagList from '../FilterTagList';
+import PageHeader from './components/PageHeader';
 
 import './style.scss';
 
@@ -138,30 +146,32 @@ export const IncidentOverviewPageContainerComponent = ({
 
       <Row>
         <Column span={12} wrap>
-          <Column span={12}>
-            {loading ? (
+          {loading ? (
+            <Column span={12}>
               <LoadingIndicator />
-            ) : (
+            </Column>
+          ) : (
+            <Column span={12}>
               <ListComponent
                 incidentSelected={onIncidentSelected}
                 incidents={incidents}
                 onChangeOrdering={onChangeOrdering}
                 sort={ordering}
-                incidentsCount={incidentsCount}
+                itemCount={incidentsCount}
                 {...dataLists}
               />
-            )}
-          </Column>
+            </Column>
+          )}
 
-          <Column span={12}>
-            {!loading && (
+          {!loading && (
+            <Column span={12}>
               <Pager
-                incidentsCount={incidentsCount}
+                itemCount={incidentsCount}
                 page={page}
-                onPageIncidentsChanged={onPageIncidentsChanged}
+                onPageChanged={onPageIncidentsChanged}
               />
-            )}
-          </Column>
+            </Column>
+          )}
         </Column>
       </Row>
     </div>
