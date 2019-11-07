@@ -27,7 +27,6 @@ describe('<DefaultTextsForm />', () => {
 
       onSubmitTexts: jest.fn(),
       onOrderDefaultTexts: jest.fn(),
-      onSaveDefaultTextsItem: jest.fn(),
     };
   });
 
@@ -36,6 +35,7 @@ describe('<DefaultTextsForm />', () => {
   });
 
   it('should render form correctly', () => {
+    props.defaultTexts = [];
     const fields = [...Array(10).keys()];
     const { queryByTestId } = render(
       withAppContext(<DefaultTextsForm {...props} />)
@@ -46,7 +46,18 @@ describe('<DefaultTextsForm />', () => {
     fields.forEach(i => {
       expect(queryByTestId(`title${i}`)).not.toBeNull();
       expect(queryByTestId(`text${i}`)).not.toBeNull();
+      expect(queryByTestId(`defaultTextFormItemButton${i}Up`)).toBeDisabled();
+      expect(queryByTestId(`defaultTextFormItemButton${i}Down`)).toBeDisabled();
     });
+
+    expect(queryByTestId('defaultTextFormSubmitButton')).not.toBeNull();
+    expect(queryByTestId('defaultTextFormSubmitButton')).not.toBeDisabled();
+  });
+
+  it('should render disabled ordering buttons whith 3 items defined correctly', () => {
+    const { queryByTestId } = render(
+      withAppContext(<DefaultTextsForm {...props} />)
+    );
 
     expect(queryByTestId('defaultTextFormItemButton0Up')).toBeDisabled();
     expect(queryByTestId('defaultTextFormItemButton0Down')).not.toBeDisabled();
@@ -56,100 +67,40 @@ describe('<DefaultTextsForm />', () => {
     expect(queryByTestId('defaultTextFormItemButton2Down')).toBeDisabled();
     expect(queryByTestId('defaultTextFormItemButton3Up')).toBeDisabled();
     expect(queryByTestId('defaultTextFormItemButton3Down')).toBeDisabled();
-    expect(queryByTestId('defaultTextFormItemButton4Up')).toBeDisabled();
-    expect(queryByTestId('defaultTextFormItemButton4Down')).toBeDisabled();
-    expect(queryByTestId('defaultTextFormItemButton5Up')).toBeDisabled();
-    expect(queryByTestId('defaultTextFormItemButton5Down')).toBeDisabled();
-    expect(queryByTestId('defaultTextFormItemButton6Up')).toBeDisabled();
-    expect(queryByTestId('defaultTextFormItemButton6Down')).toBeDisabled();
-    expect(queryByTestId('defaultTextFormItemButton7Up')).toBeDisabled();
-    expect(queryByTestId('defaultTextFormItemButton7Down')).toBeDisabled();
-    expect(queryByTestId('defaultTextFormItemButton8Up')).toBeDisabled();
-    expect(queryByTestId('defaultTextFormItemButton8Down')).toBeDisabled();
-    expect(queryByTestId('defaultTextFormItemButton9Up')).toBeDisabled();
-    expect(queryByTestId('defaultTextFormItemButton9Down')).toBeDisabled();
-
-    expect(queryByTestId('defaultTextFormSubmitButton')).not.toBeNull();
-    expect(queryByTestId('defaultTextFormSubmitButton')).not.toBeDisabled();
   });
 
   describe('events', () => {
-    it('should trigger save default texts when a new title has been entered', () => {
-      props.defaultTexts = [];
+    it('should trigger order default texts when ordering up and down button was called', () => {
       const { getByTestId } = render(
         withAppContext(<DefaultTextsForm {...props} />)
       );
 
-      const newTitle = 'Titel ipsum';
-      const event = {
-        target: {
-          value: newTitle,
-        },
-      };
-      fireEvent.change(getByTestId('title4'), event);
+      fireEvent.click(getByTestId('defaultTextFormItemButton1Down'));
 
-      expect(props.onSaveDefaultTextsItem).toHaveBeenCalledWith({
-        index: 4,
-        data: {
-          text: '',
-          title: newTitle,
+      expect(props.onOrderDefaultTexts).toHaveBeenCalledWith({ index: 1, type: 'down' });
+
+      fireEvent.click(getByTestId('defaultTextFormItemButton1Up'));
+
+      expect(props.onOrderDefaultTexts).toHaveBeenCalledWith({ index: 1, type: 'up' });
+    });
+
+    it('should trigger order submit when sumbit button is clicked', () => {
+      const { getByTestId } = render(
+        withAppContext(<DefaultTextsForm {...props} />)
+      );
+
+      fireEvent.click(getByTestId('defaultTextFormSubmitButton'));
+
+      expect(props.onSubmitTexts).toHaveBeenCalledWith({
+        main_slug: 'afval',
+        sub_slug: 'asbest-accu',
+        post: {
+          state: 'o',
+          templates: props.defaultTexts,
         },
       });
     });
   });
-
-  it('should trigger save default texts when a new text has been entered', () => {
-    props.defaultTexts = [];
-    const { getByTestId } = render(
-      withAppContext(<DefaultTextsForm {...props} />)
-    );
-
-    const newText = 'lorem ipsum';
-    const event = {
-      target: {
-        value: newText,
-      },
-    };
-    fireEvent.change(getByTestId('text1'), event);
-
-    expect(props.onSaveDefaultTextsItem).toHaveBeenCalledWith({
-      index: 1,
-      data: {
-        text: newText,
-        title: '',
-      },
-    });
-  });
-
-  it('should trigger order default texts when ordering up and down button was called', () => {
-    const { getByTestId } = render(
-      withAppContext(<DefaultTextsForm {...props} />)
-    );
-
-    fireEvent.click(getByTestId('defaultTextFormItemButton1Down'));
-
-    expect(props.onOrderDefaultTexts).toHaveBeenCalledWith({ index: 1, type: 'down' });
-
-    fireEvent.click(getByTestId('defaultTextFormItemButton1Up'));
-
-    expect(props.onOrderDefaultTexts).toHaveBeenCalledWith({ index: 1, type: 'up' });
-  });
-
-  it('should trigger order submit when sumbit button is clicked', () => {
-    const { getByTestId } = render(
-      withAppContext(<DefaultTextsForm {...props} />)
-    );
-
-    fireEvent.click(getByTestId('defaultTextFormSubmitButton'));
-
-    expect(props.onSubmitTexts).toHaveBeenCalledWith({
-      main_slug: 'afval',
-      sub_slug: 'asbest-accu',
-      post: {
-        state: 'o',
-        templates: props.defaultTexts,
-      },
-    });
-  });
 });
+
 

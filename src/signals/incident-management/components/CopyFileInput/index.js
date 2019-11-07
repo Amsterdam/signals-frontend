@@ -25,7 +25,8 @@ export const CopyFileInput = props => {
             name={name}
             data-testid={name}
             id={`form${name}`}
-            type="checkbox" {...handler('checkbox')}
+            type="checkbox"
+            {...handler('checkbox')}
           />
           <label htmlFor={`form${name}`}>Foto&apos;s toevoegen</label>
         </div>

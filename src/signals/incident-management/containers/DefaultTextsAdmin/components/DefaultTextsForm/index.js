@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
-import { Row, Column, Button, themeColor  } from '@datapunt/asc-ui';
+import { Button, themeColor  } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
 import { dataListType, defaultTextsType } from 'shared/types';
@@ -15,11 +15,20 @@ import { ChevronDown, ChevronUp } from '@datapunt/asc-assets';
 
 const StyledWrapper = styled.div`
   margin-top: 33px;
-  width: 100%;
+  flex-basis: 100%;
 `;
 
-const StyledColumn = styled(Column)`
-  display: block;
+const StyledLeftColumn = styled.div`
+  display: inline-block;
+  width: 70%;
+  margin-right: 5%;
+  vertical-align: top;
+`;
+
+const StyledRightColumn = styled.div`
+  display: inline-block;
+  width: 10%;
+  vertical-align: top;
 `;
 
 const StyledButton = styled(Button)`
@@ -83,7 +92,6 @@ const DefaultTextsForm =({
   subCategories,
   onSubmitTexts,
   onOrderDefaultTexts,
-  onSaveDefaultTextsItem,
 }) => {
   const handleSubmit = e => {
     e.preventDefault();
@@ -121,37 +129,13 @@ const DefaultTextsForm =({
     form.updateValueAndValidity();
   };
 
-  const subscribe = () => {
-    items.forEach((item, index) => {
-      form.get(item).valueChanges.subscribe(data => {
-        onSaveDefaultTextsItem({ index, data });
-      });
-    });
-  };
-
-  const unsubscribe = () => {
-    items.forEach(item => {
-      form.get(item).valueChanges.unsubscribe();
-    });
-  };
-
   useEffect(() => {
-    subscribe();
-
-    return unsubscribe;
-  }, []);
-
-
-  useEffect(() => {
-    unsubscribe();
-
     items.forEach((item, index) => {
       const empty = { title: '', text: '' };
       const data = defaultTexts[index] || {};
       form.get(item).patchValue({ ...empty, ...data });
     });
 
-    subscribe();
     form.updateValueAndValidity();
   }, [defaultTexts]);
 
@@ -188,8 +172,8 @@ const DefaultTextsForm =({
             />
 
             {items.map((item, index) => (
-              <Row key={item}>
-                <StyledColumn span={7}>
+              <div key={item}>
+                <StyledLeftColumn span={7}>
                   <FieldControlWrapper
                     placeholder="Titel"
                     render={TextInput}
@@ -203,8 +187,8 @@ const DefaultTextsForm =({
                     name={`text${index}`}
                     control={form.get(`${item}.text`)}
                   />
-                </StyledColumn>
-                <StyledColumn span={1}>
+                </StyledLeftColumn>
+                <StyledRightColumn span={1}>
                   <StyledButton
                     size={44}
                     variant="blank"
@@ -228,22 +212,20 @@ const DefaultTextsForm =({
                     icon={<ChevronDown />}
                     onClick={e => changeOrdering(e, index, 'down')}
                   />
-                </StyledColumn>
-              </Row>
+                </StyledRightColumn>
+              </div>
             ))}
 
-            <Row>
-              <StyledColumn span={12}>
-                <Button
-                  data-testid="defaultTextFormSubmitButton"
-                  variant="secondary"
-                  type="submit"
-                  disabled={invalid}
-                >
+            <div>
+              <Button
+                data-testid="defaultTextFormSubmitButton"
+                variant="secondary"
+                type="submit"
+                disabled={invalid}
+              >
               Opslaan
-                </Button>
-              </StyledColumn>
-            </Row>
+              </Button>
+            </div>
           </form>
         )}
       />
@@ -266,7 +248,6 @@ DefaultTextsForm.propTypes = {
 
   onSubmitTexts: PropTypes.func.isRequired,
   onOrderDefaultTexts: PropTypes.func.isRequired,
-  onSaveDefaultTextsItem: PropTypes.func.isRequired,
 };
 
 export default DefaultTextsForm;

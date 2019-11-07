@@ -7,7 +7,6 @@ import {
   FETCH_DEFAULT_TEXTS,
   STORE_DEFAULT_TEXTS,
   ORDER_DEFAULT_TEXTS,
-  SAVE_DEFAULT_TEXTS_ITEM,
 } from './constants';
 
 import DefaultTextsAdmin, { mapDispatchToProps } from ".";
@@ -83,18 +82,6 @@ describe('<DefaultTextsAdmin />', () => {
       };
       mapDispatchToProps(dispatch).onOrderDefaultTexts(payload);
       expect(dispatch).toHaveBeenCalledWith({ type: ORDER_DEFAULT_TEXTS, payload });
-    });
-
-    it('should request fetch default texts', () => {
-      const payload = {
-        index: 1,
-        data: {
-          title: 'test',
-          text: 'Lorem ipsum dolor sid amet',
-        },
-      };
-      mapDispatchToProps(dispatch).onSaveDefaultTextsItem(payload);
-      expect(dispatch).toHaveBeenCalledWith({ type: SAVE_DEFAULT_TEXTS_ITEM, payload });
     });
   });
 });

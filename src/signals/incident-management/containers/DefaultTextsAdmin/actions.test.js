@@ -8,7 +8,6 @@ import {
   STORE_DEFAULT_TEXTS_SUCCESS,
   STORE_DEFAULT_TEXTS_ERROR,
   ORDER_DEFAULT_TEXTS,
-  SAVE_DEFAULT_TEXTS_ITEM,
 } from './constants';
 
 import {
@@ -19,7 +18,6 @@ import {
   storeDefaultTextsSuccess,
   storeDefaultTextsError,
   orderDefaultTexts,
-  saveDefaultTextsItem,
 } from './actions';
 
 describe('DefaultTextsAdmin actions', () => {
@@ -54,10 +52,5 @@ describe('DefaultTextsAdmin actions', () => {
   it('should dispatch orderDefaultTexts action', () => {
     const payload = {};
     testActionCreator(orderDefaultTexts, ORDER_DEFAULT_TEXTS, payload);
-  });
-
-  it('should dispatch saveDefaultTextsItem action', () => {
-    const payload = {};
-    testActionCreator(saveDefaultTextsItem, SAVE_DEFAULT_TEXTS_ITEM, payload);
   });
 });

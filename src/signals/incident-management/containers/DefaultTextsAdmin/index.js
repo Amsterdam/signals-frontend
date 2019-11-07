@@ -19,7 +19,6 @@ import {
   fetchDefaultTexts,
   storeDefaultTexts,
   orderDefaultTexts,
-  saveDefaultTextsItem,
 } from './actions';
 import makeSelectDefaultTextsAdmin from './selectors';
 import reducer from './reducer';
@@ -36,7 +35,6 @@ const DefaultTextsAdmin = ({
   onFetchDefaultTexts,
   onSubmitTexts,
   onOrderDefaultTexts,
-  onSaveDefaultTextsItem,
   defaultTextsAdmin: {
     defaultTexts,
     defaultTextsOptionList,
@@ -47,7 +45,7 @@ const DefaultTextsAdmin = ({
   <Fragment>
     <Row>
       <Column span={12}>
-        <StyledH1 $as="h1">Beheer standaard teksten</StyledH1>
+        <StyledH1>Beheer standaard teksten</StyledH1>
       </Column>
       <Column span={4}>
         <SelectForm
@@ -65,7 +63,6 @@ const DefaultTextsAdmin = ({
           state={state}
           onSubmitTexts={onSubmitTexts}
           onOrderDefaultTexts={onOrderDefaultTexts}
-          onSaveDefaultTextsItem={onSaveDefaultTextsItem}
         />
       </Column>
     </Row>
@@ -76,7 +73,7 @@ DefaultTextsAdmin.defaultProps = {
   defaultTextsAdmin: {
     defaultTexts: [],
     defaultTextsOptionList: [],
-    categoryUrl: 'bla',
+    categoryUrl: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
     state: 'o',
   },
 };
@@ -93,7 +90,6 @@ DefaultTextsAdmin.propTypes = {
   onFetchDefaultTexts: PropTypes.func.isRequired,
   onSubmitTexts: PropTypes.func.isRequired,
   onOrderDefaultTexts: PropTypes.func.isRequired,
-  onSaveDefaultTextsItem: PropTypes.func.isRequired,
 };
 
 export const mapDispatchToProps = dispatch => bindActionCreators(
@@ -101,7 +97,6 @@ export const mapDispatchToProps = dispatch => bindActionCreators(
     onFetchDefaultTexts: fetchDefaultTexts,
     onSubmitTexts: storeDefaultTexts,
     onOrderDefaultTexts: orderDefaultTexts,
-    onSaveDefaultTextsItem: saveDefaultTextsItem,
   },
   dispatch,
 );
