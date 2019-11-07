@@ -24,17 +24,8 @@ describe('components/List', () => {
     );
 
     expect(
-      container.querySelector('thead > tr > th:first-child').textContent
-    ).toEqual('roles');
-    expect(
-      container.querySelector('thead > tr > th:nth-child(2)').textContent
-    ).toEqual('username');
-    expect(
-      container.querySelector('thead > tr > th:nth-child(3)').textContent
-    ).toEqual('id');
-    expect(
-      container.querySelector('thead > tr > th:nth-child(4)').textContent
-    ).toEqual('is_active');
+      [...container.querySelectorAll('th')].map(header => header.textContent)
+    ).toEqual(columnOrder);
   });
 
   it('does not render columns marked as invisible', () => {

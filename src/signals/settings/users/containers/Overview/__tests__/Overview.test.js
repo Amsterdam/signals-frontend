@@ -37,7 +37,7 @@ describe('signals/settings/users/containers/Overview', () => {
       ({ container, getByText } = await render(withAppContext(<UsersOverview />)));
     });
 
-    await expect(getByText('Gebruikers (69)')).toBeTruthy();
+    await expect(getByText(`Gebruikers (${usersJSON.count})`)).toBeTruthy();
 
     await expect(container.querySelectorAll('tbody tr')).toHaveLength(69);
   });

@@ -28,7 +28,7 @@ export const PageHeaderContainerComponent = ({
   query,
 }) => {
   let title = filter.name || 'Meldingen';
-  const hasCount = !!incidentsCount && isNaN(Number(incidentsCount)) === false; // eslint-disable-line no-restricted-globals
+  const hasCount = Boolean(incidentsCount) && isNaN(Number(incidentsCount)) === false; // eslint-disable-line no-restricted-globals
   title += hasCount ? ` (${incidentsCount})` : '';
   title = filter.refresh ? (
     <Fragment>

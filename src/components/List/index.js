@@ -19,7 +19,7 @@ const List = ({ columnOrder, invisibleColumns, items, primaryKeyColumn }) => {
     invisibleColumns.includes(colHeader) === false;
 
   const colHeaders =
-    columnOrder || Object.keys(items[0]).filter(filterVisibleColumns);
+    (columnOrder.length && columnOrder) || Object.keys(items[0]).filter(filterVisibleColumns);
 
   const onRowClick = e => {
     const { dataset } = e.currentTarget;
@@ -58,15 +58,19 @@ const List = ({ columnOrder, invisibleColumns, items, primaryKeyColumn }) => {
 };
 
 List.defaultProps = {
-  columnOrder: undefined,
+  columnOrder: [],
   invisibleColumns: [],
   primaryKeyColumn: undefined,
 };
 
 List.propTypes = {
+  /** List of column names in the order of which they should be displayed */
   columnOrder: PropTypes.arrayOf(PropTypes.string),
+  /** List of column names that should not be displayed */
   invisibleColumns: PropTypes.arrayOf(PropTypes.string),
+  /** List of key/value pairs */
   items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  /** Name of the column that contains the value that is used to build the URL to navigate to on item click */
   primaryKeyColumn: PropTypes.string,
 };
 

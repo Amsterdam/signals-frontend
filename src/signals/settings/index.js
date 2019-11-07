@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 
@@ -12,13 +12,11 @@ export const SettingsModule = ({ match: { url } }) =>
   !isAuthenticated() ? (
     <Route component={LoginPage} />
   ) : (
-    <Fragment>
-      <Route
-        exact
-        path={`${url}/gebruikers`}
-        component={UsersOverviewContainer}
-      />
-    </Fragment>
+    <Route
+      exact
+      path={`${url}/gebruikers`}
+      component={UsersOverviewContainer}
+    />
   );
 
 SettingsModule.propTypes = {

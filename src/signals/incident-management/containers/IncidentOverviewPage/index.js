@@ -11,8 +11,16 @@ import MyFilters from 'signals/incident-management/containers/MyFilters';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectCategories } from 'containers/App/selectors';
-import { makeSelectDataLists, makeSelectActiveFilter, makeSelectPage, makeSelectOrdering } from 'signals/incident-management/selectors';
-import { pageIncidentsChanged, orderingIncidentsChanged } from 'signals/incident-management/actions';
+import {
+  makeSelectDataLists,
+  makeSelectActiveFilter,
+  makeSelectPage,
+  makeSelectOrdering,
+} from 'signals/incident-management/selectors';
+import {
+  pageIncidentsChanged,
+  orderingIncidentsChanged,
+} from 'signals/incident-management/actions';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
@@ -138,10 +146,12 @@ export const IncidentOverviewPageContainerComponent = ({
 
       <Row>
         <Column span={12} wrap>
-          <Column span={12}>
-            {loading ? (
+          {loading ? (
+            <Column span={12}>
               <LoadingIndicator />
-            ) : (
+            </Column>
+          ) : (
+            <Column span={12}>
               <ListComponent
                 incidentSelected={onIncidentSelected}
                 incidents={incidents}
@@ -150,18 +160,18 @@ export const IncidentOverviewPageContainerComponent = ({
                 itemCount={incidentsCount}
                 {...dataLists}
               />
-            )}
-          </Column>
+            </Column>
+          )}
 
-          <Column span={12}>
-            {!loading && (
+          {!loading && (
+            <Column span={12}>
               <Pager
                 itemCount={incidentsCount}
                 page={page}
                 onPageChanged={onPageIncidentsChanged}
               />
-            )}
-          </Column>
+            </Column>
+          )}
         </Column>
       </Row>
     </div>
