@@ -60,6 +60,7 @@ describe('signals/incident-management/selectors', () => {
       stadsdeel: definitions.stadsdeelList,
       status: definitions.statusList,
       feedback: definitions.feedbackList,
+      source: definitions.sourceList,
     });
   });
 

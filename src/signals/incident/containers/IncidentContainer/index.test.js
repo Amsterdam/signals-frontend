@@ -18,9 +18,9 @@ describe('<IncidentContainer />', () => {
       updateIncident: jest.fn(),
       createIncident: jest.fn(),
     };
-    origSessionStorage = global.sessionStorage;
+    origSessionStorage = global.localStorage;
 
-    global.sessionStorage = {
+    global.localStorage = {
       getItem: key => {
         switch (key) {
           case 'accessToken':
@@ -32,9 +32,9 @@ describe('<IncidentContainer />', () => {
       setItem: jest.fn(),
       removeItem: jest.fn(),
     };
-    origSessionStorage = global.sessionStorage;
+    origSessionStorage = global.localStorage;
 
-    global.sessionStorage = {
+    global.localStorage = {
       getItem: key => {
         switch (key) {
           case 'accessToken':
@@ -50,7 +50,7 @@ describe('<IncidentContainer />', () => {
 
   afterEach(() => {
     jest.resetAllMocks();
-    global.sessionStorage = origSessionStorage;
+    global.localStorage = origSessionStorage;
   });
 
   describe('rendering', () => {

@@ -10,9 +10,7 @@ describe('Form component <HiddenInput />', () => {
   beforeEach(() => {
     handler = jest.fn();
 
-    wrapper = shallow(<HiddenInput
-      handler={handler}
-    />);
+    wrapper = shallow(<HiddenInput handler={handler} />);
   });
 
   describe('rendering', () => {
