@@ -39,6 +39,6 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await expect(getByText(`Gebruikers (${usersJSON.count})`)).toBeTruthy();
 
-    await expect(container.querySelectorAll('tbody tr')).toHaveLength(69);
+    await expect(container.querySelectorAll('tbody tr')).toHaveLength(usersJSON.count);
   });
 });
