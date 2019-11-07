@@ -55,7 +55,7 @@ class Pager extends React.Component {
         );
       }
 
-      return '';
+      return null;
     });
 
     return (
@@ -69,7 +69,9 @@ class Pager extends React.Component {
               vorige
             </a>
           )}
-          {pages.length > 1 ? pages : ''}
+
+          {pages.length > 1 && pages}
+
           {hasNext && (
             <a
               role="presentation"

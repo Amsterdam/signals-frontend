@@ -1,5 +1,4 @@
 import usersJSON from 'utils/__tests__/fixtures/users.json';
-import isEqual from 'lodash.isequal';
 import filterData, { colMap } from '../filterData';
 
 describe('signals/settings/users/containers/Overview/hooks/filterData', () => {
@@ -41,6 +40,6 @@ describe('signals/settings/users/containers/Overview/hooks/filterData', () => {
     const filteredKeys = Object.keys(filteredData[0]).sort();
     const mapValues = Object.values(colMap).sort();
 
-    expect(isEqual(filteredKeys, mapValues)).toBe(true);
+    expect(filteredKeys).toEqual(mapValues);
   });
 });
