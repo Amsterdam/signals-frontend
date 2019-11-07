@@ -17,6 +17,7 @@ import SiteHeaderContainer from 'containers/SiteHeader';
 import GlobalError from 'containers/GlobalError';
 
 import IncidentManagementModule from 'signals/incident-management';
+import SettingsModule from 'signals/settings';
 import IncidentContainer from 'signals/incident/containers/IncidentContainer';
 import KtoContainer from 'signals/incident/containers/KtoContainer';
 
@@ -42,6 +43,7 @@ export const AppContainer = ({ requestCategoriesAction }) => {
           <Switch>
             <Redirect exact from="/" to="/incident" />
             <Redirect exact from="/login" to="/manage" />
+            <Route path="/instellingen" component={SettingsModule} />
             <Route path="/manage" component={IncidentManagementModule} />
             <Route path="/incident" component={IncidentContainer} />
             <Route path="/kto/:yesNo/:uuid" component={KtoContainer} />
