@@ -49,15 +49,6 @@ describe('signals/settings/users/containers/Overview', () => {
     });
   });
 
-  it('should render a loading indicator', () => {
-    fetch.mockResponseOnce(null);
-
-    const { getByTestId } = render(
-      withAppContext(<UsersOverview history={historyMock} />)
-    );
-    expect(getByTestId('loadingIndicator')).toBeTruthy();
-  });
-
   it('should render the list of fetched users', async () => {
     let getByText;
     let container;
@@ -112,24 +103,6 @@ describe('signals/settings/users/containers/Overview', () => {
     );
   });
 
-  it('should replace on update without page parameter', async () => {
-    const historyMockObj = {
-      ...historyMock,
-      push: jest.fn(),
-      replace: jest.fn(),
-    };
-
-    await reAct(async () => {
-      await render(withAppContext(<UsersOverview history={historyMockObj} />));
-    });
-
-    expect(historyMockObj.replace).toHaveBeenCalledWith(
-      expect.stringContaining(`${routes.users}/page/1`)
-    );
-
-    expect(historyMockObj.push).not.toHaveBeenCalled();
-  });
-
   it('should push on update when page parameter and page state var differ', async () => {
     const historyMockObj = {
       ...historyMock,
@@ -153,12 +126,11 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(historyMockObj.replace).not.toHaveBeenCalled();
   });
 
-  it('should not push nor replace', async () => {
+  it('should not push', async () => {
     const historyMockObj = {
       ...historyMock,
       action: 'PUSH',
       push: jest.fn(),
-      replace: jest.fn(),
     };
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
@@ -170,15 +142,13 @@ describe('signals/settings/users/containers/Overview', () => {
     });
 
     expect(historyMockObj.push).not.toHaveBeenCalled();
-    expect(historyMockObj.replace).not.toHaveBeenCalled();
   });
 
-  it('should not push nor replace on POP', async () => {
+  it('should not push on POP', async () => {
     const historyMockObj = {
       ...historyMock,
       action: 'POP',
       push: jest.fn(),
-      replace: jest.fn(),
     };
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
@@ -190,7 +160,6 @@ describe('signals/settings/users/containers/Overview', () => {
     });
 
     expect(historyMockObj.push).not.toHaveBeenCalled();
-    expect(historyMockObj.replace).not.toHaveBeenCalled();
   });
 
   it('should push on list item click', async () => {
@@ -212,7 +181,9 @@ describe('signals/settings/users/containers/Overview', () => {
 
     fireEvent.click(row.querySelector('td:first-of-type'));
 
-    expect(historyMockObj.push).toHaveBeenCalledWith(routes.user.replace(':userId', itemId));
+    expect(historyMockObj.push).toHaveBeenCalledWith(
+      routes.user.replace(':userId', itemId)
+    );
 
     historyMockObj.push.mockReset();
 

@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 
@@ -13,18 +13,18 @@ export const SettingsModule = () =>
   !isAuthenticated() ? (
     <Route component={LoginPage} />
   ) : (
-    <Fragment>
-      <Route
+    <Switch>
+      <Redirect
         exact
-        path={routes.users}
-        component={UsersOverviewContainer}
+        from={routes.users}
+        to={routes.usersPaged.replace(':pageNum', 1)}
       />
       <Route
         exact
         path={routes.usersPaged}
         component={UsersOverviewContainer}
       />
-    </Fragment>
+    </Switch>
   );
 
 SettingsModule.propTypes = {

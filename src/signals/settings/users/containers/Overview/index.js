@@ -32,9 +32,7 @@ const UsersOverview = ({ pageSize, history }) => {
 
     const pageNumber = getPageNumFromQueryString();
 
-    if (!pageNumber) {
-      history.replace(routes.usersPaged.replace(':pageNum', 1));
-    } else if (pageNumber !== page) {
+    if (pageNumber !== page) {
       history.push(routes.usersPaged.replace(':pageNum', page));
     }
   }, [page]);
@@ -43,7 +41,7 @@ const UsersOverview = ({ pageSize, history }) => {
   useEffect(() => {
     const pageNumber = getPageNumFromQueryString();
 
-    if (pageNumber && pageNumber !== page) {
+    if (pageNumber !== page) {
       setPage(pageNumber);
     }
   }, [location]);
