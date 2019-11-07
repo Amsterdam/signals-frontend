@@ -10,7 +10,7 @@ export default {
     tevreden: {
       meta: {
         label: 'Waarom bent u tevreden?',
-        subtitle: 'Eén antwoord mogelijk, kies de belangrijkste reden.',
+        subtitle: 'Eén antwoord mogelijk, kies de belangrijkste reden',
         ifAllOf: {
           is_satisfied: true,
         },
@@ -36,7 +36,7 @@ export default {
     niet_tevreden: {
       meta: {
         label: 'Waarom bent u ontevreden?',
-        subtitle: 'Eén antwoord mogelijk, kies de belangrijkste reden.',
+        subtitle: 'Eén antwoord mogelijk, kies de belangrijkste reden',
         ifAllOf: {
           is_satisfied: false,
         },
