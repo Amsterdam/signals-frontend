@@ -20,12 +20,14 @@ export const makeSelectDataLists = createSelector(
     const stadsdeel = state.get('stadsdeel').toJS();
     const status = state.get('status').toJS();
     const feedback = state.get('feedback').toJS();
+    const source = state.get('source').toJS();
 
     return {
       priority,
       stadsdeel,
       status,
       feedback,
+      source,
     };
   }
 );

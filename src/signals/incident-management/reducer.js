@@ -4,6 +4,7 @@ import priority from './definitions/priorityList';
 import stadsdeel from './definitions/stadsdeelList';
 import status from './definitions/statusList';
 import feedback from './definitions/feedbackList';
+import source from './definitions/sourceList';
 
 import {
   APPLY_FILTER,
@@ -25,6 +26,7 @@ export const initialState = fromJS({
   priority,
   stadsdeel,
   status,
+  source,
   feedback,
   filters: [],
   activeFilter: {

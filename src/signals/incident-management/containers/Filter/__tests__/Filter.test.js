@@ -108,12 +108,14 @@ describe('signals/incident-management/containers/Filter', () => {
     it('handles canceling edit', () => {
       const onFilterEditCancel = jest.fn();
       const onCancel = jest.fn();
+
       const tree = mount(
         withAppContext(
           <FilterContainerComponent
             onApplyFilter={onApplyFilter}
             onRequestIncidents={onRequestIncidents}
             onClearFilter={() => {}}
+            onEditFilter={onEditFilter}
             onSaveFilter={() => {}}
             onUpdateFilter={() => {}}
             filter={filter}

@@ -32,7 +32,7 @@ describe('The auth service', () => {
   let stateToken;
 
   beforeEach(() => {
-    global.sessionStorage.getItem.mockImplementation(key => {
+    global.localStorage.getItem.mockImplementation(key => {
       switch (key) {
         case 'accessToken':
           return savedAccessToken;
@@ -66,8 +66,8 @@ describe('The auth service', () => {
     global.location.assign.mockRestore();
     global.location.reload.mockRestore();
 
-    global.sessionStorage.removeItem.mockReset();
-    global.sessionStorage.setItem.mockReset();
+    global.localStorage.removeItem.mockReset();
+    global.localStorage.setItem.mockReset();
   });
 
   describe('init funtion', () => {
@@ -112,7 +112,7 @@ describe('The auth service', () => {
         expect(() => {
           initAuth();
         }).toThrow();
-        expect(global.sessionStorage.removeItem).toHaveBeenCalledWith(
+        expect(global.localStorage.removeItem).toHaveBeenCalledWith(
           'stateToken'
         );
       });
@@ -123,7 +123,7 @@ describe('The auth service', () => {
         expect(() => {
           initAuth();
         }).not.toThrow();
-        expect(global.sessionStorage.removeItem).not.toHaveBeenCalledWith(
+        expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
           'stateToken'
         );
       });
@@ -134,7 +134,7 @@ describe('The auth service', () => {
         expect(() => {
           initAuth();
         }).not.toThrow();
-        expect(global.sessionStorage.removeItem).not.toHaveBeenCalledWith(
+        expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
           'stateToken'
         );
       });
@@ -175,17 +175,17 @@ describe('The auth service', () => {
         savedReturnPath = '/path/leading/back';
 
         initAuth();
-        expect(global.sessionStorage.setItem).toHaveBeenCalledWith(
+        expect(global.localStorage.setItem).toHaveBeenCalledWith(
           'accessToken',
           '123AccessToken'
         );
-        expect(global.sessionStorage.getItem).toHaveBeenCalledWith(
+        expect(global.localStorage.getItem).toHaveBeenCalledWith(
           'returnPath'
         );
-        expect(global.sessionStorage.removeItem).toHaveBeenCalledWith(
+        expect(global.localStorage.removeItem).toHaveBeenCalledWith(
           'returnPath'
         );
-        expect(global.sessionStorage.removeItem).toHaveBeenCalledWith(
+        expect(global.localStorage.removeItem).toHaveBeenCalledWith(
           'stateToken'
         );
       });
@@ -205,7 +205,7 @@ describe('The auth service', () => {
         savedReturnPath = '/path/leading/back';
 
         initAuth();
-        expect(global.sessionStorage.setItem).toHaveBeenCalledWith(
+        expect(global.localStorage.setItem).toHaveBeenCalledWith(
           'accessToken',
           '123AccessToken'
         );
@@ -223,14 +223,14 @@ describe('The auth service', () => {
         savedStateToken = '123StateToken';
 
         initAuth();
-        expect(global.sessionStorage.setItem).not.toHaveBeenCalledWith(
+        expect(global.localStorage.setItem).not.toHaveBeenCalledWith(
           'accessToken',
           '123AccessToken'
         );
-        expect(global.sessionStorage.removeItem).not.toHaveBeenCalledWith(
+        expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
           'returnPath'
         );
-        expect(global.sessionStorage.removeItem).not.toHaveBeenCalledWith(
+        expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
           'stateToken'
         );
       });
@@ -251,14 +251,14 @@ describe('The auth service', () => {
 
       login();
 
-      expect(global.sessionStorage.removeItem).toHaveBeenCalledWith(
+      expect(global.localStorage.removeItem).toHaveBeenCalledWith(
         'accessToken'
       );
-      expect(global.sessionStorage.setItem).toHaveBeenCalledWith(
+      expect(global.localStorage.setItem).toHaveBeenCalledWith(
         'returnPath',
         hash
       );
-      expect(global.sessionStorage.setItem).toHaveBeenCalledWith(
+      expect(global.localStorage.setItem).toHaveBeenCalledWith(
         'stateToken',
         stateToken
       );
@@ -282,7 +282,7 @@ describe('The auth service', () => {
   describe('Logout process', () => {
     it('Removes the access token from the session storage', () => {
       logout();
-      expect(global.sessionStorage.removeItem).toHaveBeenCalledWith(
+      expect(global.localStorage.removeItem).toHaveBeenCalledWith(
         'accessToken'
       );
     });

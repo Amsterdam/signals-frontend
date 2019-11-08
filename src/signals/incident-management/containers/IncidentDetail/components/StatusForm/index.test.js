@@ -214,5 +214,21 @@ describe('<StatusForm />', () => {
         type: 'status',
       });
     });
+
+    it('should show an alert when the text contains template characters', () => {
+      global.alert = jest.fn();
+      const form = instance.form;
+      const formValues = {
+        status: 'o',
+        text: 'Bedankt voor het melden, binnen {{ aantal }} werkdagen zal uw verzoek in behandeling worden genomen.',
+      };
+      form.patchValue(formValues);
+
+      // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
+      renderedFormGroup.find('form').simulate('submit', { preventDefault() { } });
+
+      expect(global.alert).toHaveBeenCalled();
+      expect(props.onPatchIncident).not.toHaveBeenCalledWith();
+    });
   });
 });
