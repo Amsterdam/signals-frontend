@@ -1,19 +1,18 @@
 import React from 'react';
 
 import styled from '@datapunt/asc-core'
-import { themeColor, Heading, styles, Column } from '@datapunt/asc-ui'
+import { themeColor, Heading, styles, Column, themeSpacing } from '@datapunt/asc-ui'
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { historyType } from 'shared/types';
 
 const StyledH4 = styled(Heading)`
   ${styles.HeaderStyles} {
-    margin-top: 1.33em;
-    margin-bottom: 1.33em;
+    margin: ${themeSpacing(2)} 0;
   }
 `;
 
 const StyledHistoryListItem = styled(Column)`
-  margin-bottom: 16px;
+  margin-bottom: ${themeSpacing(4)} 
   line-height: 22px;
 `;
 
