@@ -23,6 +23,7 @@ export const RadioInput = props => {
             <div className="antwoord" key={`${name}-${key}`}>
               <input
                 id={`${name}-${key}`}
+                data-testid={`${name}-${key}`}
                 className="kenmerkradio"
                 {...handler('radio', key)}
               />
