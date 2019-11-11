@@ -185,9 +185,9 @@ class StatusForm extends React.Component {
                   <FieldControlWrapper
                     render={TextAreaInput}
                     name="text"
-                    display="Toelichting"
+                    display="Notitie toevoegen"
                     control={this.form.get('text')}
-                    rows={5}
+                    rows={10}
                   />
 
                   <Notification warning data-testid="statusFormWarning">

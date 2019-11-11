@@ -171,7 +171,7 @@ export default {
       images: {
         meta: {
           label: 'Foto\'s toevoegen',
-          subtitle: 'Voeg een foto toe om de situatie te verduidelijken.',
+          subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
           maxFileSize: 8388608,
           allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif'],
           maxNumberOfFiles: 3,
