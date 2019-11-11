@@ -1,8 +1,16 @@
-// import { fromJS } from 'immutable';
-// import { selectDefaultTextsAdminDomain } from 'selectors';
+import { fromJS } from 'immutable';
+import makeSelectDefaultTextsAdmin from './selectors';
 
-describe('selectDefaultTextsAdminDomain', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(true);
+describe('makeSelectDefaultTextsAdmin', () => {
+  it('should select the incidentOverviewPage', () => {
+    const selector = makeSelectDefaultTextsAdmin();
+    const defaultTextsAdmin = {
+      defaultTexts: [],
+    };
+    const mockedState = fromJS({
+      defaultTextsAdmin,
+    });
+
+    expect(selector(mockedState)).toEqual(defaultTextsAdmin);
   });
 });
