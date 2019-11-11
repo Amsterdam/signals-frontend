@@ -23,6 +23,17 @@ export function validateMaxFilesize(file, meta) {
   return null;
 }
 
+export function validateMinFilesize(file, meta) {
+  if (meta && meta.minFileSize) {
+    if (file.size < meta.minFileSize) {
+      return {
+        custom: `Dit bestand is te klein (${fileSize(file.size)}). Minimale bestandgrootte is ${fileSize(meta.minFileSize)}.`,
+      };
+    }
+  }
+  return null;
+}
+
 export const validatePhoneNumber = control => {
   if (!control || control.value === '' || control.value === undefined || RegExp('^[ ()0-9+-]*$').test(control.value)) {
     return null;
