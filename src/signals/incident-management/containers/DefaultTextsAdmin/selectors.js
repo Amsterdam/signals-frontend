@@ -20,6 +20,3 @@ const makeSelectDefaultTextsAdmin = () => createSelector(
 );
 
 export default makeSelectDefaultTextsAdmin;
-export {
-  selectDefaultTextsAdminDomain,
-};
