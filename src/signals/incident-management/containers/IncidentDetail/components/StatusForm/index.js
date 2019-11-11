@@ -185,7 +185,7 @@ class StatusForm extends React.Component {
                   <FieldControlWrapper
                     render={TextAreaInput}
                     name="text"
-                    display="Notitie toevoegen"
+                    display="Toelichting"
                     control={this.form.get('text')}
                     rows={10}
                   />

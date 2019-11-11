@@ -12,7 +12,8 @@ describe('Form component <FileInput />', () => {
       updateValueAndValidity: jest.fn(),
     },
   };
-  const maxFileSize = 1024 * 1024;
+  const minFileSize = 30 * 2 ** 10;
+  const maxFileSize = 8 * 2 ** 20;
   let wrapper;
   let handler;
   let touched;
@@ -115,17 +116,22 @@ describe('Form component <FileInput />', () => {
     };
     const file2 = {
       name: 'already uploaded.gif',
-      size: 24567,
+      size: 34567,
       type: 'image/gif',
     };
     const file3 = {
       name: 'way too large file.jpeg',
-      size: 10000000000000,
+      size: maxFileSize,
       type: 'image/jpeg',
     };
     const file4 = {
       name: 'poeeee.jpeg',
-      size: 24567,
+      size: 34567,
+      type: 'image/jpeg',
+    };
+    const file5 = {
+      name: 'way too small file.jpeg',
+      size: minFileSize - 1,
       type: 'image/jpeg',
     };
 
@@ -153,7 +159,7 @@ describe('Form component <FileInput />', () => {
       jest.resetAllMocks();
     });
 
-    it('uploads a file when and updates incident when file changes', () => {
+    it('uploads a file and updates incident when file changes', () => {
       handler.mockImplementation(() => ({ value: [] }));
 
       wrapper.setProps({
@@ -179,7 +185,7 @@ describe('Form component <FileInput />', () => {
       expect(parent.meta.updateIncident).toHaveBeenCalled();
     });
 
-    it('uploads a file and with already uploaded file and triggers multiple errors', () => {
+    it('uploads already uploaded file and triggers multiple errors', () => {
       handler.mockImplementation(() => ({ value: [file2, file3, file4] }));
 
       jest.useFakeTimers();
@@ -211,7 +217,7 @@ describe('Form component <FileInput />', () => {
         'input-field-name_previews': expect.any(Array),
         'input-field-name': [file4, file1],
         'input-field-name_errors': [
-          'Dit bestand is te groot. De maximale bestandgrootte is 1 MB.',
+          'Dit bestand is te groot. De maximale bestandgrootte is 8 MB.',
           'Dit bestandstype wordt niet ondersteund. Toegestaan zijn: jpeg.',
           'U kunt maximaal 3 bestanden uploaden.',
         ],
@@ -280,6 +286,29 @@ describe('Form component <FileInput />', () => {
         'input-field-name_previews': ['blob:http://host/2'],
         'input-field-name_errors': null,
       });
+    });
+
+    it('returns error when trying to upload file that is too small', () => {
+      handler.mockImplementation(() => ({ }));
+
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          minFileSize,
+          isVisible: true,
+        },
+      });
+
+      wrapper.find('input').simulate('change', { target: { files: [file5] } });
+
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name_previews': [],
+        'input-field-name': [],
+        'input-field-name_errors': [
+          'Dit bestand is te klein. De minimale bestandgrootte is 30 kB.',
+        ],
+      });
+
     });
   });
 });
