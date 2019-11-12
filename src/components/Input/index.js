@@ -23,7 +23,7 @@ const Hint = styled(Typography).attrs({
   $as: 'span',
 })`
   color: ${themeColor('tint', 'level4')};
-  display: inline-block;
+  display: block;
   margin-bottom: ${themeSpacing(2)};
 `;
 

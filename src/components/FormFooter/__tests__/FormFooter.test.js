@@ -68,7 +68,4 @@ describe('src/components/FormFooter', () => {
     fireEvent.click(queryByTestId('submitBtn'));
     expect(onSubmitForm).toHaveBeenCalled();
   });
-  it('should', () => {});
-  it('should', () => {});
-  it('should', () => {});
 });

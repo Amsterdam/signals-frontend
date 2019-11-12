@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Link as AscLink, Icon, Typography, themeColor } from '@datapunt/asc-ui';
+import {
+  Link as AscLink,
+  Icon,
+  Typography,
+  themeColor,
+  themeSpacing,
+} from '@datapunt/asc-ui';
 import { ChevronLeft } from '@datapunt/asc-assets';
 
 const LinkLabel = styled(Typography).attrs({
@@ -14,26 +20,29 @@ const LinkLabel = styled(Typography).attrs({
 `;
 
 const Chevron = styled(ChevronLeft)`
-  & path {
-    fill: ${themeColor('primary')} !important;
-  }
-
-  :hover & path {
-    fill: ${themeColor('secondary')};
-  }
+  display: inline-block;
 `;
 
 const StyledLink = styled(AscLink)`
   &:hover {
-    &, span {
+    * {
       color: ${themeColor('secondary')};
     }
 
     path {
-      fill: ${themeColor('secondary')};
+      fill: ${themeColor('secondary')} !important;
     }
 
     text-decoration: none;
+  }
+`;
+
+const StyledIcon = styled(Icon)`
+  margin: 0 ${themeSpacing(2)} 0 0 !important;
+  display: inline-block;
+
+  svg > path {
+    fill: ${themeColor('primary')} !important;
   }
 `;
 
@@ -42,10 +51,10 @@ const StyledLink = styled(AscLink)`
  * To be used on detail pages for navigating back to its corresponding overview page
  */
 const BackLink = ({ className, children, to }) => (
-  <StyledLink className={className} $as={Link} to={to}>
-    <Icon size={12}>
-      <Chevron fill="blue" />
-    </Icon>
+  <StyledLink className={className} $as={Link} to={to} data-testid="backlink">
+    <StyledIcon size={12}>
+      <Chevron color={themeColor('primary')} />
+    </StyledIcon>
     <LinkLabel>{children}</LinkLabel>
   </StyledLink>
 );
