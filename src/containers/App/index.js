@@ -1,12 +1,10 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Switch, Route, Redirect, withRouter,
-} from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { authenticate } from 'shared/services/auth/auth';
+import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
 import ThemeProvider from 'components/ThemeProvider';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -50,7 +48,7 @@ export const AppContainer = ({ requestCategoriesAction }) => {
             <Route path="" component={NotFoundPage} />
           </Switch>
         </div>
-        <Footer />
+        {isAuthenticated() === false && <Footer />}
       </Fragment>
     </ThemeProvider>
   );
@@ -60,16 +58,17 @@ AppContainer.propTypes = {
   requestCategoriesAction: PropTypes.func.isRequired,
 };
 
-export const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    requestCategoriesAction: requestCategories,
-  },
-  dispatch,
-);
+export const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      requestCategoriesAction: requestCategories,
+    },
+    dispatch
+  );
 
 const withConnect = connect(
   null,
-  mapDispatchToProps,
+  mapDispatchToProps
 );
 
 const withReducer = injectReducer({ key: 'global', reducer });
@@ -79,5 +78,5 @@ export default compose(
   withReducer,
   withSaga,
   withRouter,
-  withConnect,
+  withConnect
 )(AppContainer);
