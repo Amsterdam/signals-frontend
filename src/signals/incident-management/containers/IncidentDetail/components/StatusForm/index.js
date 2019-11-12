@@ -208,13 +208,15 @@ class StatusForm extends React.Component {
                     variant="secondary"
                     disabled={invalid}
                     type="submit"
-                    iconRight={patching.status ? <StyledSpinner /> : null}>
+                    iconRight={patching.status ? <StyledSpinner /> : null}
+                  >
                     Status opslaan
                   </StyledButton>
                   <StyledButton
                     data-testid="statusFormCancelButton"
                     variant="tertiary"
-                    onClick={onClose}>
+                    onClick={onClose}
+                  >
                     Annuleren
                   </StyledButton>
                 </StyledColumn>
