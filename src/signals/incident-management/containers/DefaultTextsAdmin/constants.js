@@ -7,4 +7,3 @@ export const STORE_DEFAULT_TEXTS_SUCCESS = 'src/DefaultTextsAdmin/STORE_DEFAULT_
 export const STORE_DEFAULT_TEXTS_ERROR = 'src/DefaultTextsAdmin/STORE_DEFAULT_TEXTS_ERROR';
 
 export const ORDER_DEFAULT_TEXTS = 'src/DefaultTextsAdmin/ORDER_DEFAULT_TEXTS';
-export const SAVE_DEFAULT_TEXTS_ITEM = 'src/DefaultTextsAdmin/SAVE_DEFAULT_TEXTS_ITEM';

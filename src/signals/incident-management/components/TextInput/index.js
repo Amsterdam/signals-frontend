@@ -11,6 +11,8 @@ const TextInput = ({ name, display, placeholder }) => {
       <Label htmlFor={`form${name}`}>{display}</Label>
 
       <Input
+        name={name}
+        data-testid={name}
         id={`form${name}`}
         type="text"
         {...handler()}
