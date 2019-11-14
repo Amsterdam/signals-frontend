@@ -17,7 +17,8 @@ const TextAreaInput = props => {
 
         <div className="text-area-input__control">
           <TextArea
-            name=""
+            name={name}
+            data-testid={name}
             id={`form${name}`}
             value=""
             {...handler()}

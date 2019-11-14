@@ -29,13 +29,14 @@ describe('<SelectInput />', () => {
 
   it('should render correctly', () => {
     const SelectInputRender = SelectInput(props);
-    const { container } = render(withAppContext(
+    const { container, queryByTestId } = render(withAppContext(
       <SelectInputRender {...props} />
     ));
 
     const options = container.firstChild.querySelectorAll('option');
     expect(options).toHaveLength(props.values.length);
     expect(options[0].textContent).toEqual('all items');
+    expect(queryByTestId(props.name)).not.toBeNull();
   });
 
   it('should render correctly with multiple select', () => {
