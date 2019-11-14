@@ -5,7 +5,7 @@ import { defaultTextsOptionList } from 'signals/incident-management/definitions/
 import {
   FETCH_DEFAULT_TEXTS, FETCH_DEFAULT_TEXTS_SUCCESS, FETCH_DEFAULT_TEXTS_ERROR,
   STORE_DEFAULT_TEXTS, STORE_DEFAULT_TEXTS_SUCCESS, STORE_DEFAULT_TEXTS_ERROR,
-  ORDER_DEFAULT_TEXTS, SAVE_DEFAULT_TEXTS_ITEM,
+  ORDER_DEFAULT_TEXTS,
 } from './constants';
 
 export const initialState = fromJS({
@@ -59,16 +59,6 @@ function defaultTextsAdminReducer(state = initialState, action) {
       defaultTexts = state.get('defaultTexts').toJS();
       delta = action.payload.type === 'up' ? -1 : 1;
       defaultTexts.splice(action.payload.index + delta, 0, defaultTexts.splice(action.payload.index, 1)[0]);
-      return state
-        .set('defaultTexts', fromJS([...defaultTexts]));
-
-    case SAVE_DEFAULT_TEXTS_ITEM:
-      defaultTexts = state.get('defaultTexts').toJS();
-      if (action.payload.data.title || action.payload.data.text) {
-        defaultTexts[action.payload.index] = action.payload.data;
-      } else {
-        defaultTexts.splice(action.payload.index, 1);
-      }
       return state
         .set('defaultTexts', fromJS([...defaultTexts]));
 

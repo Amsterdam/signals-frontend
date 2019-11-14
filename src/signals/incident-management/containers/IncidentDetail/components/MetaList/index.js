@@ -67,20 +67,22 @@ const MetaList = ({
           </dl>
         </Highlight>
 
-        <Highlight
-          subscribeTo={incident.priority.priority}
-        >
-          <ChangeValue
-            display="Urgentie"
-            definitionClass="meta-list__definition"
-            valueClass={`meta-list__value ${incident.priority.priority === 'high' ? 'meta-list__value--status' : ''}`}
-            list={priorityList}
-            incident={incident}
-            path="priority.priority"
-            type="priority"
-            onPatchIncident={onPatchIncident}
-          />
-        </Highlight>
+        {incident.priority && (
+          <Highlight
+            subscribeTo={incident.priority.priority}
+          >
+            <ChangeValue
+              display="Urgentie"
+              definitionClass="meta-list__definition"
+              valueClass={`meta-list__value ${incident.priority.priority === 'high' ? 'meta-list__value--status' : ''}`}
+              list={priorityList}
+              incident={incident}
+              path="priority.priority"
+              type="priority"
+              onPatchIncident={onPatchIncident}
+            />
+          </Highlight>
+        )}
 
         <Highlight subscribeTo={incident.category.sub_slug}>
           <ChangeValue
