@@ -28,9 +28,9 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       overviewpage: {
         incidents: [],
         loading: false,
-        incidentsCount: 666,
-        page: 3,
       },
+      page: 3,
+      incidentsCount: 666,
       categories: {},
       onRequestIncidents: jest.fn(),
       onIncidentSelected: jest.fn(),
@@ -56,7 +56,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       withAppContext(<IncidentOverviewPageContainerComponent {...props} />),
     );
 
-    expect(queryByTestId('incidentOverviewPagerComponent')).not.toBeNull();
+    expect(queryByTestId('pagination')).not.toBeNull();
     expect(queryByTestId('incidentOverviewListComponent')).not.toBeNull();
     expect(queryByTestId('loadingIndicator')).toBeNull();
 
