@@ -7,7 +7,7 @@ const StyledTD = styled.td`
   cursor: pointer;
 `;
 
-const List = ({ columnOrder, invisibleColumns, items, primaryKeyColumn }) => {
+const List = ({ columnOrder, invisibleColumns, items, primaryKeyColumn, className }) => {
   const location = useLocation();
   const history = useHistory();
 
@@ -31,7 +31,7 @@ const List = ({ columnOrder, invisibleColumns, items, primaryKeyColumn }) => {
   };
 
   return (
-    <table cellPadding="0" cellSpacing="0" width="100%">
+    <table cellPadding="0" cellSpacing="0" width="100%" className={className}>
       <thead>
         <tr>
           {colHeaders.map(colHeader => (
@@ -72,6 +72,7 @@ List.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   /** Name of the column that contains the value that is used to build the URL to navigate to on item click */
   primaryKeyColumn: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default List;
