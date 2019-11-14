@@ -13,6 +13,8 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import ListComponent from 'components/List';
 
 import PageHeader from 'signals/settings/components/PageHeader';
+import formatRoles from '../../services/formatRoles';
+
 
 const StyledListComponent = styled(ListComponent)`
   tr:nth-child(1),
@@ -20,25 +22,6 @@ const StyledListComponent = styled(ListComponent)`
     width: 20%;
   }
 `;
-
-const formatRoles = items => {
-  const roles = [];
-  items.forEach(role => {
-    let permissions = '';
-
-    role.permissions.forEach(permission => {
-      permissions = `${permissions + permission._display} `;
-    });
-
-    roles.push({
-      id: role.id,
-      Naam: role._display,
-      Rechten: permissions,
-    });
-  });
-
-  return roles;
-};
 
 const RolesOverview = ({
   roles: {
