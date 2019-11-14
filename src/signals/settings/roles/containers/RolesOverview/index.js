@@ -15,8 +15,9 @@ import ListComponent from 'components/List';
 import PageHeader from 'signals/settings/components/PageHeader';
 
 const StyledListComponent = styled(ListComponent)`
-  tr, td {
-    width: 50%;
+  tr:nth-child(1),
+  td:nth-child(1) {
+    width: 20%;
   }
 `;
 
