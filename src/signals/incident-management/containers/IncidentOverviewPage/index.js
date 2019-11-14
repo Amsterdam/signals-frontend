@@ -29,7 +29,7 @@ import Pagination from 'components/Pagination';
 import * as types from 'shared/types';
 import { FILTER_PAGE_SIZE } from 'signals/incident-management/constants';
 
-import makeSelectOverviewPage, { makeSelectIncidentsCount } from './selectors';
+import { makeSelectOverviewPage, makeSelectIncidentsCount } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { requestIncidents, incidentSelected } from './actions';
@@ -171,7 +171,7 @@ export const IncidentOverviewPageContainerComponent = ({
           </Column>
 
           <Column span={12}>
-            {!loading && (
+            {!loading && incidentsCount && (
               <StyledPagination
                 currentPage={page}
                 hrefPrefix="/manage/incidents?page="
@@ -214,7 +214,7 @@ const mapStateToProps = createStructuredSelector({
   dataLists: makeSelectDataLists,
   incidentsCount: makeSelectIncidentsCount,
   ordering: makeSelectOrdering,
-  overviewpage: makeSelectOverviewPage(),
+  overviewpage: makeSelectOverviewPage,
   page: makeSelectPage,
 });
 

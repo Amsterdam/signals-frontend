@@ -69,7 +69,7 @@ const Pagination = ({
             isNav
             key={pageNum}
             label="Vorige"
-            onClick={() => onClick(prevIndex)}
+            onClick={() => onClick && onClick(prevIndex)}
             pageNum={pageNum}
             shouldPushToHistory={shouldPushToHistory}
             to={`${hrefPrefix}${prevIndex}`}
@@ -83,7 +83,7 @@ const Pagination = ({
             isNav
             key={pageNum}
             label="Volgende"
-            onClick={() => onClick(nextIndex)}
+            onClick={() => onClick && onClick(nextIndex)}
             pageNum={pageNum}
             shouldPushToHistory={shouldPushToHistory}
             to={`${hrefPrefix}${nextIndex}`}
@@ -105,7 +105,7 @@ const Pagination = ({
         return (
           <PaginationItem
             key={pageNum}
-            onClick={() => onClick(pageNum)}
+            onClick={() => onClick && onClick(pageNum)}
             pageNum={pageNum}
             shouldPushToHistory={shouldPushToHistory}
             to={`${hrefPrefix}${pageNum}`}
@@ -129,7 +129,7 @@ const Pagination = ({
 Pagination.defaultProps = {
   className: '',
   hrefPrefix: '',
-  onClick: () => {},
+  onClick: null,
   shouldPushToHistory: false,
 };
 
