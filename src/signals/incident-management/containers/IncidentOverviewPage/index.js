@@ -67,7 +67,10 @@ export const IncidentOverviewPageContainerComponent = ({
   function closeMyFiltersModal() {
     enablePageScroll();
     toggleMyFiltersModal(false);
-    lastActiveElement.focus();
+
+    if (lastActiveElement) {
+      lastActiveElement.focus();
+    }
   }
 
   const openFilterModal = () => {
@@ -79,7 +82,10 @@ export const IncidentOverviewPageContainerComponent = ({
   function closeFilterModal() {
     enablePageScroll();
     toggleFilterModal(false);
-    lastActiveElement.focus();
+
+    if (lastActiveElement) {
+      lastActiveElement.focus();
+    }
   }
 
   useEffect(() => {
