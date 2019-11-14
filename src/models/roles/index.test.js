@@ -28,13 +28,13 @@ describe('loadModel history', () => {
     injectReducerModel.mockImplementation(spy);
     loadModel(store);
 
-    expect(spy).toHaveBeenCalledWith('history', reducer, store);
+    expect(spy).toHaveBeenCalledWith('roles', reducer, store);
   });
 
   it('should inject saga', () => {
     injectSagaModel.mockImplementation(spy);
     loadModel(store);
 
-    expect(spy).toHaveBeenCalledWith('history', saga, store);
+    expect(spy).toHaveBeenCalledWith('roles', saga, store);
   });
 });

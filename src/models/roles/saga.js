@@ -21,7 +21,7 @@ export function* fetchRoles() {
   const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/roles/`;
 
   try {
-    const roles = yield authCall(requestURL);
+    const roles = yield call(authCall, requestURL);
     yield put(fetchRolesSuccess(roles.results));
   } catch (error) {
     yield put(fetchRolesError());
