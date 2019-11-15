@@ -67,7 +67,11 @@ export const IncidentOverviewPageContainerComponent = ({
   function closeMyFiltersModal() {
     enablePageScroll();
     toggleMyFiltersModal(false);
-    lastActiveElement.focus();
+
+    /* istanbul ignore next */
+    if (lastActiveElement) {
+      lastActiveElement.focus();
+    }
   }
 
   const openFilterModal = () => {
@@ -79,7 +83,11 @@ export const IncidentOverviewPageContainerComponent = ({
   function closeFilterModal() {
     enablePageScroll();
     toggleFilterModal(false);
-    lastActiveElement.focus();
+
+    /* istanbul ignore next */
+    if (lastActiveElement) {
+      lastActiveElement.focus();
+    }
   }
 
   useEffect(() => {
