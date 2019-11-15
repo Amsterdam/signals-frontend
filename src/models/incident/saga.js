@@ -49,6 +49,13 @@ export function* patchIncident(action) {
     yield put(patchIncidentSuccess({ type: payload.type, incident }));
     yield put(requestHistoryList(payload.id));
   } catch (error) {
+    const { response } = error;
+
+    if (response.status === 403) {
+      const { jsonBody } = response;
+      global.alert(jsonBody.detail);
+    }
+
     yield put(patchIncidentError({ type: payload.type, error }));
   }
 }
