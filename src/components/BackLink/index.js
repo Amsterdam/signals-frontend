@@ -64,7 +64,7 @@ BackLink.defaultProps = {
 };
 
 BackLink.propTypes = {
-  /** The BackLink label */
+  /** The BackLink label contents */
   children: PropTypes.node.isRequired,
   /** @ignore */
   className: PropTypes.string,
