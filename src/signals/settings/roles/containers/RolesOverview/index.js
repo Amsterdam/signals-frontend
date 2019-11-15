@@ -48,7 +48,6 @@ const RolesOverview = ({
                 items={formatRoles(list)}
                 invisibleColumns={['id']}
                 primaryKeyColumn="id"
-                columnOrder={['Naam', 'Rechten']}
               />
             )}
           </Column>
@@ -61,7 +60,7 @@ const RolesOverview = ({
 RolesOverview.defaultProps = {
   roles: {
     list: [],
-    loading: true,
+    loading: false,
   },
 };
 

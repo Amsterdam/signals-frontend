@@ -1,4 +1,4 @@
-import formatRoles from '../index'
+import formatRoles from '..'
 
 describe('formatRoles service', () => {
   const roles = [
