@@ -14,7 +14,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     await act(async () => {
       await expect(result.current.isLoading).toEqual(true);
-      await expect(result.current.users).toHaveLength(0);
+      await expect(result.current.users.list).toHaveLength(0);
 
       await waitForNextUpdate();
 
@@ -24,7 +24,8 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
       );
 
       await expect(result.current.isLoading).toEqual(false);
-      await expect(result.current.users).toHaveLength(usersJSON.count);
+      await expect(result.current.users.list).toHaveLength(usersJSON.count);
+      await expect(result.current.users.count).toEqual(usersJSON.count);
     });
   });
 

@@ -16,7 +16,7 @@ export const usersEndpoint = `${CONFIGURATION.API_ROOT}signals/v1/private/users`
  */
 const useFetchUsers = ({ page, pageSize } = {}) => {
   const [isLoading, setLoading] = useState(false);
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState({});
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const useFetchUsers = ({ page, pageSize } = {}) => {
         const userData = await response.json();
         const filteredUserData = filterData(userData.results);
 
-        setUsers(filteredUserData);
+        setUsers({ count: userData.count, list: filteredUserData });
       } catch (e) {
         setError(e);
       } finally {
@@ -51,7 +51,8 @@ const useFetchUsers = ({ page, pageSize } = {}) => {
   /**
    * @typedef {Object} FetchResponse
    * @property {Boolean} isLoading - Indicator of fetch state
-   * @property {Object[]} users - Array of user objects
+   * @property {Object[]} users - Array of pages user objects
+   * @property {number} count - Total number of users
    * @property {Error} error - Error object thrown during fetch and data parsing
    */
   return { isLoading, users, error };

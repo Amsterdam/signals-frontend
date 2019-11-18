@@ -74,7 +74,7 @@ describe('signals/settings/users/containers/Overview', () => {
       ));
     });
 
-    expect(queryByTestId('overviewPagerComponent')).toBeTruthy();
+    expect(queryByTestId('pagination')).toBeTruthy();
 
     cleanup();
 
@@ -84,20 +84,23 @@ describe('signals/settings/users/containers/Overview', () => {
       );
     });
 
-    expect(queryByTestId('overviewPagerComponent')).toBeFalsy();
+    expect(queryByTestId('pagination')).toBeFalsy();
   });
 
-  it('should push to the history stack on pager item click', async () => {
+  it('should push to the history stack on pagination item click', async () => {
     let container;
+    let getByTestId;
     const historyMockObj = { ...historyMock, push: jest.fn() };
 
     await reAct(async () => {
-      ({ container } = await render(
+      ({ container, getByTestId } = await render(
         withAppContext(<UsersOverview history={historyMockObj} />)
       ));
     });
 
-    fireEvent.click(container.querySelector('.pager_nav.volgende'));
+    await wait(() => expect(container.firstChild).toMatchSnapshot());
+
+    fireEvent.click(getByTestId('pagination-next'));
     expect(historyMockObj.push).toHaveBeenCalledWith(
       expect.stringContaining(routes.users)
     );

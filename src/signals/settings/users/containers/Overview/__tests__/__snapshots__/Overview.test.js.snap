@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`signals/settings/users/containers/Overview should push to the history stack on pagination item click 1`] = `
+<section
+  class="PageHeader__StyledSection-zrug1o-0 diDgeL PageHeader__StyledPageHeader-sc-1via2ti-0 dsIYGM"
+>
+  <div
+    class="sc-kgAjT iCvEVS"
+  >
+    <div>
+      <h1
+        class="sc-EHOje jjCRJL sc-bZQynM hJEdCc PageHeader__StyledHeading-zrug1o-1 gmiYbT"
+      >
+        Gebruikers (69)
+      </h1>
+      
+    </div>
+  </div>
+</section>
+`;

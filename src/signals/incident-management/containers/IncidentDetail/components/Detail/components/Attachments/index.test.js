@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 import Attachments from './index';
 
@@ -23,18 +23,16 @@ describe('<Attachments />', () => {
     };
   });
 
-  afterEach(cleanup);
-
   describe('rendering', () => {
     it('should render all attachments when they are defined', () => {
       const { queryByTestId, queryAllByTestId } = render(
         <Attachments {...props} />
       );
 
-      expect(queryByTestId('attachments-definition')).toHaveTextContent(/^Foto$/);
-      expect(queryAllByTestId('attachments-value-button')).toHaveLength(3);
+      expect(queryByTestId('attachmentsDefinition')).toHaveTextContent(/^Foto$/);
+      expect(queryAllByTestId('attachmentsValueButton')).toHaveLength(3);
 
-      expect(queryAllByTestId('attachments-value-button')[0]).toHaveStyle(`background-image: url(${props.attachments[0].location})`);
+      expect(queryAllByTestId('attachmentsValueButton')[0]).toHaveStyle(`background-image: url(${props.attachments[0].location})`);
     });
 
     it('should render empty list when no attachments are defined', () => {
@@ -43,8 +41,8 @@ describe('<Attachments />', () => {
         <Attachments {...props} />
       );
 
-      expect(queryByTestId('attachments-definition')).toBeNull();
-      expect(queryAllByTestId('attachments-value-button')).toHaveLength(0);
+      expect(queryByTestId('attachmentsDefinition')).toBeNull();
+      expect(queryAllByTestId('attachmentsValueButton')).toHaveLength(0);
     });
   });
 
@@ -53,7 +51,7 @@ describe('<Attachments />', () => {
       const { queryAllByTestId } = render(
         <Attachments {...props} />
       );
-      fireEvent.click(queryAllByTestId('attachments-value-button')[0]);
+      fireEvent.click(queryAllByTestId('attachmentsValueButton')[0]);
 
       expect(props.onShowAttachment).toHaveBeenCalledWith(props.attachments[0].location);
     });

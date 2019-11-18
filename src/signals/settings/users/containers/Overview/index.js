@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { useLocation, useParams } from 'react-router-dom';
-import { Row, Column } from '@datapunt/asc-ui';
+import { Row, Column, themeSpacing } from '@datapunt/asc-ui';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import ListComponent from 'components/List';
-import Pager from 'components/Pager';
+import Pagination from 'components/Pagination';
 
 import PageHeader from 'signals/settings/components/PageHeader';
 import useFetchUsers from './hooks/useFetchUsers';
 import routes from '../../../routes';
+
+const StyledPagination = styled(Pagination)`
+  margin-top: ${themeSpacing(12)};
+`;
 
 const UsersOverview = ({ pageSize, history }) => {
   const location = useLocation();
@@ -56,15 +61,15 @@ const UsersOverview = ({ pageSize, history }) => {
   };
 
   return (
-    <div className="users-overview-page">
-      <PageHeader title={`Gebruikers (${users.length})`} />
+    <Fragment>
+      <PageHeader title={`Gebruikers ${users.count ? `(${users.count})` : ''}`} />
 
       <Row>
         <Column span={12} wrap>
           <Column span={12}>
-            {isLoading ? (
-              <LoadingIndicator />
-            ) : (
+            {isLoading && <LoadingIndicator />}
+
+            {!isLoading && users.count && (
               <ListComponent
                 columnOrder={['Gebruikersnaam', 'Rol', 'Status']}
                 invisibleColumns={['id']}
@@ -75,21 +80,24 @@ const UsersOverview = ({ pageSize, history }) => {
             )}
           </Column>
 
-          <Column span={12}>
-            {!isLoading && users.length && (
-              <Pager
-                itemCount={users.length}
-                page={page}
-                onPageChanged={pageNumber => {
-                  history.push(routes.usersPaged.replace(':pageNum', pageNumber));
+          {!isLoading && users.count && (
+            <Column span={12}>
+              <StyledPagination
+                currentPage={page}
+                hrefPrefix="/instellingen/gebruikers/page"
+                onClick={pageToNavigateTo => {
+                  global.window.scrollTo(0, 0);
+                  history.push(
+                    routes.usersPaged.replace(':pageNum', pageToNavigateTo)
+                  );
                 }}
-                pageSize={pageSize}
+                totalPages={Math.ceil(users.count / pageSize)}
               />
-            )}
-          </Column>
+            </Column>
+          )}
         </Column>
       </Row>
-    </div>
+    </Fragment>
   );
 };
 
