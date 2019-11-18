@@ -46,7 +46,7 @@ const UsersOverview = ({ pageSize, history }) => {
   useEffect(() => {
     const pageNumber = getPageNumFromQueryString();
 
-    if (pageNumber !== page) {
+    if (pageNumber && pageNumber !== page) {
       setPage(pageNumber);
     }
   }, [location]);
@@ -60,37 +60,39 @@ const UsersOverview = ({ pageSize, history }) => {
     }
   };
 
+  const onPaginationClick = pageToNavigateTo => {
+    global.window.scrollTo(0, 0);
+    history.push(routes.usersPaged.replace(':pageNum', pageToNavigateTo));
+  };
+
   return (
     <Fragment>
-      <PageHeader title={`Gebruikers ${users.count ? `(${users.count})` : ''}`} />
+      <PageHeader
+        title={`Gebruikers ${users.count ? `(${users.count})` : ''}`}
+      />
 
       <Row>
         <Column span={12} wrap>
           <Column span={12}>
             {isLoading && <LoadingIndicator />}
 
-            {!isLoading && users.count && (
+            {users.list && (
               <ListComponent
                 columnOrder={['Gebruikersnaam', 'Rol', 'Status']}
                 invisibleColumns={['id']}
-                items={users}
+                items={users.list}
                 onItemClick={onItemClick}
                 primaryKeyColumn="id"
               />
             )}
           </Column>
 
-          {!isLoading && users.count && (
+          {users.count && (
             <Column span={12}>
               <StyledPagination
                 currentPage={page}
                 hrefPrefix="/instellingen/gebruikers/page"
-                onClick={pageToNavigateTo => {
-                  global.window.scrollTo(0, 0);
-                  history.push(
-                    routes.usersPaged.replace(':pageNum', pageToNavigateTo)
-                  );
-                }}
+                onClick={onPaginationClick}
                 totalPages={Math.ceil(users.count / pageSize)}
               />
             </Column>

@@ -27,7 +27,7 @@ jest.mock('react-router-dom', () => {
 });
 
 describe('signals/settings/users/containers/Overview', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     fetch.mockResponse(JSON.stringify(usersJSON));
   });
 
@@ -74,7 +74,7 @@ describe('signals/settings/users/containers/Overview', () => {
       ));
     });
 
-    expect(queryByTestId('pagination')).toBeTruthy();
+    expect(queryByTestId('pagination')).toBeInTheDocument();
 
     cleanup();
 
@@ -84,26 +84,28 @@ describe('signals/settings/users/containers/Overview', () => {
       );
     });
 
-    expect(queryByTestId('pagination')).toBeFalsy();
+    expect(queryByTestId('pagination')).not.toBeInTheDocument();
   });
 
   it('should push to the history stack on pagination item click', async () => {
-    let container;
-    let getByTestId;
-    const historyMockObj = { ...historyMock, push: jest.fn() };
+    global.window.scrollTo = jest.fn();
+    const push = jest.fn();
+    let getByText;
 
     await reAct(async () => {
-      ({ container, getByTestId } = await render(
-        withAppContext(<UsersOverview history={historyMockObj} />)
+      ({ getByText } = await render(
+        withAppContext(<UsersOverview history={{ ...historyMock, push }} />)
       ));
     });
 
-    await wait(() => expect(container.firstChild).toMatchSnapshot());
+    expect(getByText('2')).toBeInTheDocument();
 
-    fireEvent.click(getByTestId('pagination-next'));
-    expect(historyMockObj.push).toHaveBeenCalledWith(
-      expect.stringContaining(routes.users)
-    );
+    fireEvent.click(getByText('2'));
+
+    expect(push).toHaveBeenCalled();
+    expect(global.window.scrollTo).toHaveBeenCalledWith(0, 0);
+
+    global.window.scrollTo.mockRestore();
   });
 
   it('should push on update when page parameter and page state var differ', async () => {
