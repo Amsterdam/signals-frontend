@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { useLocation, useHistory } from 'react-router-dom';
 
 const StyledTD = styled.td`
   cursor: pointer;
 `;
 
-const List = ({ columnOrder, invisibleColumns, items, primaryKeyColumn }) => {
-  const location = useLocation();
-  const history = useHistory();
-
+const List = ({
+  columnOrder,
+  invisibleColumns,
+  items,
+  onItemClick,
+  primaryKeyColumn,
+}) => {
   if (!items.length) {
     return null;
   }
@@ -19,16 +21,8 @@ const List = ({ columnOrder, invisibleColumns, items, primaryKeyColumn }) => {
     invisibleColumns.includes(colHeader) === false;
 
   const colHeaders =
-    (columnOrder.length && columnOrder) || Object.keys(items[0]).filter(filterVisibleColumns);
-
-  const onRowClick = e => {
-    const { dataset } = e.currentTarget;
-    const { itemId } = dataset;
-
-    if (itemId) {
-      history.push(`${location.pathname}/${itemId}`);
-    }
-  };
+    (columnOrder.length && columnOrder) ||
+    Object.keys(items[0]).filter(filterVisibleColumns);
 
   return (
     <table cellPadding="0" cellSpacing="0" width="100%">
@@ -45,7 +39,7 @@ const List = ({ columnOrder, invisibleColumns, items, primaryKeyColumn }) => {
           <tr
             key={JSON.stringify(items[rowIndex])}
             data-item-id={primaryKeyColumn && items[rowIndex][primaryKeyColumn]}
-            onClick={onRowClick}>
+            onClick={onItemClick}>
             {colHeaders.filter(filterVisibleColumns).map(col => (
               // eslint-disable-next-line react/no-array-index-key
               <StyledTD key={JSON.stringify(col)}>{row[col]}</StyledTD>
@@ -60,6 +54,7 @@ const List = ({ columnOrder, invisibleColumns, items, primaryKeyColumn }) => {
 List.defaultProps = {
   columnOrder: [],
   invisibleColumns: [],
+  onItemClick: null,
   primaryKeyColumn: undefined,
 };
 
@@ -70,6 +65,7 @@ List.propTypes = {
   invisibleColumns: PropTypes.arrayOf(PropTypes.string),
   /** List of key/value pairs */
   items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  onItemClick: PropTypes.func,
   /** Name of the column that contains the value that is used to build the URL to navigate to on item click */
   primaryKeyColumn: PropTypes.string,
 };

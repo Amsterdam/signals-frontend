@@ -1,28 +1,29 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 
 import LoginPage from 'components/LoginPage';
 
+import routes from './routes';
 import UsersOverviewContainer from './users/containers/Overview';
 
-export const SettingsModule = ({ match: { url } }) =>
-  !isAuthenticated() ? (
-    <Route component={LoginPage} />
-  ) : (
-    <Route
-      exact
-      path={`${url}/gebruikers`}
-      component={UsersOverviewContainer}
-    />
-  );
+export const SettingsModule = () => {
+  if (!isAuthenticated()) {
+    return <Route component={LoginPage} />;
+  }
 
-SettingsModule.propTypes = {
-  match: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-  }),
+  return (
+    <Switch>
+      {/* always redirect from /gebruikers to /gebruikers/page/1 to avoid having complexity in the UsersOverviewContainer component */}
+      <Redirect
+        exact
+        from={routes.users}
+        to={routes.usersPaged.replace(':pageNum', 1)}
+      />
+      <Route path={routes.usersPaged} component={UsersOverviewContainer} />
+    </Switch>
+  );
 };
 
 export default SettingsModule;
