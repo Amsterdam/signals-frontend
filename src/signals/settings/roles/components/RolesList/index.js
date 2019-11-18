@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@datapunt/asc-core';
+import { useHistory } from 'react-router-dom';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import ListComponent from 'components/List';
@@ -18,21 +19,34 @@ const StyledListComponent = styled(ListComponent)`
 export const RolesList = ({
   list,
   loading,
-}) => (
-  <div>
-    <PageHeader title="Rollen" />
+}) => {
+  const history = useHistory();
 
-    {loading ? (
-      <LoadingIndicator />
-    ) : (
-      <StyledListComponent
-        items={formatRoles(list)}
-        invisibleColumns={['id']}
-        primaryKeyColumn="id"
-      />
-    )}
-  </div >
-);
+  const onItemClick = e => {
+    const roleId = e.currentTarget.getAttribute('data-item-id');
+    /* istanbul ignore else */
+    if (roleId > -1) {
+      history.push(`rollen/${roleId}`);
+    }
+  };
+
+  return (
+    <div>
+      <PageHeader title="Rollen" />
+
+      {loading ? (
+        <LoadingIndicator />
+      ) : (
+        <StyledListComponent
+          items={formatRoles(list)}
+          invisibleColumns={['id']}
+          primaryKeyColumn="id"
+          onItemClick={onItemClick}
+        />
+      )}
+    </div >
+  )
+};
 
 RolesList.defaultProps = {
   list: [],
