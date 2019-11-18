@@ -33,7 +33,7 @@ describe('<DetailHeader />', () => {
         withAppContext(<DetailHeader {...props} />)
       );
 
-      expect(queryByTestId('detail-header-button-back')).toHaveTextContent(/^Terug naar overzicht$/);
+      expect(queryByTestId('backlink')).toHaveTextContent(/^Terug naar overzicht$/);
       expect(queryByTestId('detail-header-title')).toHaveTextContent(/^Melding 42$/);
       expect(queryByTestId('detail-header-button-split')).toHaveTextContent(/^Splitsen$/);
       expect(queryByTestId('detail-header-button-thor')).toHaveTextContent(/^THOR$/);
