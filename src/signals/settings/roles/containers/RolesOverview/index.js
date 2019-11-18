@@ -4,24 +4,11 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
 import { Row, Column } from '@datapunt/asc-ui';
-import styled from '@datapunt/asc-core';
 
 import makeSelectRolesModel from 'models/roles/selectors';
 import { fetchRoles } from 'models/roles/actions';
 
-import LoadingIndicator from 'shared/components/LoadingIndicator';
-import ListComponent from 'components/List';
-
-import PageHeader from 'signals/settings/components/PageHeader';
-import formatRoles from '../../services/formatRoles';
-
-
-const StyledListComponent = styled(ListComponent)`
-  tr:nth-child(1),
-  td:nth-child(1) {
-    width: 20%;
-  }
-`;
+import RolesList from '../../components/RolesList';
 
 export const RolesOverview = ({
   roles: {
@@ -36,21 +23,12 @@ export const RolesOverview = ({
 
   return (
     <div>
-      <PageHeader title="Rollen" />
-
       <Row>
-        <Column span={12} wrap>
-          <Column span={12}>
-            {loading ? (
-              <LoadingIndicator />
-            ) : (
-              <StyledListComponent
-                items={formatRoles(list)}
-                invisibleColumns={['id']}
-                primaryKeyColumn="id"
-              />
-            )}
-          </Column>
+        <Column span={12}>
+          <RolesList
+            list={list}
+            loading={loading}
+          />
         </Column>
       </Row>
     </div>

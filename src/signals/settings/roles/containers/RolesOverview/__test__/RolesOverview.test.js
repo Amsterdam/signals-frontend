@@ -5,7 +5,6 @@ import { withAppContext } from 'test/utils';
 import { FETCH_ROLES } from 'models/roles/constants';
 import { RolesOverview, mapDispatchToProps } from '..';
 
-
 describe('containers/RolesOverview', () => {
   let props = {};
 
@@ -39,39 +38,6 @@ describe('containers/RolesOverview', () => {
       },
       onFetchRoles: jest.fn(),
     };
-  });
-
-  describe('rendering', () => {
-    it('should render correctly', () => {
-      const { container, rerender } = render(withAppContext(<RolesOverview {...props} />))
-
-      expect(container.querySelector('h1')).toHaveTextContent(/^Rollen$/);
-      expect(container.querySelector('table')).toBeTruthy();
-
-      expect(container.querySelector('tr:nth-child(1) td:nth-child(1)')).toHaveTextContent(/^behandelaars$/);
-      expect(container.querySelector('tr:nth-child(1) td:nth-child(2)')).toHaveTextContent(/^Can read frnom SIA, Can change the status of a signal$/);
-
-      expect(container.querySelector('tr:nth-child(2) td:nth-child(1)')).toHaveTextContent(/^coordinatoren$/);
-      expect(container.querySelector('tr:nth-child(2) td:nth-child(2)')).toHaveTextContent(/^$/);
-
-
-      props.roles.list = [];
-      rerender(withAppContext(<RolesOverview {...props} />))
-
-      expect(container.querySelector('table')).toBeFalsy();
-    });
-
-    it('should lazy load correctly', () => {
-      props.roles.loading = true;
-      const { container, rerender } = render(withAppContext(<RolesOverview {...props} />))
-
-      expect(container.querySelector('table')).toBeFalsy();
-
-      props.roles.loading = false;
-      rerender(withAppContext(<RolesOverview {...props} />))
-
-      expect(container.querySelector('table')).toBeTruthy();
-    });
   });
 
   describe('events', () => {
