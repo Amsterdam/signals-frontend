@@ -23,7 +23,7 @@ const StyledListComponent = styled(ListComponent)`
   }
 `;
 
-const RolesOverview = ({
+export const RolesOverview = ({
   roles: {
     list,
     loading,

@@ -2,7 +2,9 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import RolesOverview from '..';
+import { FETCH_ROLES } from 'models/roles/constants';
+import { RolesOverview, mapDispatchToProps } from '..';
+
 
 describe('containers/RolesOverview', () => {
   let props = {};
@@ -17,11 +19,11 @@ describe('containers/RolesOverview', () => {
             name: 'behandelaars',
             permissions: [
               {
-                _display: 'signals | signal | Can read from SIA',
+                _display: 'Can read frnom SIA',
                 codename: 'sia_read',
               },
               {
-                _display: 'signals | signal | Can change the status of a signal',
+                _display: 'Can change the status of a signal',
                 codename: 'sia_signal_change_status',
               },
             ],
@@ -39,54 +41,53 @@ describe('containers/RolesOverview', () => {
     };
   });
 
-  it('should render correctly', () => {
-    console.log('props 1', props.roles.list);
-    const { container, debug } =
-      render(withAppContext(<RolesOverview {...props} />))
-    debug();
+  describe('rendering', () => {
+    it('should render correctly', () => {
+      const { container, rerender } = render(withAppContext(<RolesOverview {...props} />))
 
-    expect(container.querySelector('table')).toBeTruthy();
+      expect(container.querySelector('h1')).toHaveTextContent(/^Rollen$/);
+      expect(container.querySelector('table')).toBeTruthy();
+
+      expect(container.querySelector('tr:nth-child(1) td:nth-child(1)')).toHaveTextContent(/^behandelaars$/);
+      expect(container.querySelector('tr:nth-child(1) td:nth-child(2)')).toHaveTextContent(/^Can read frnom SIA, Can change the status of a signal$/);
+
+      expect(container.querySelector('tr:nth-child(2) td:nth-child(1)')).toHaveTextContent(/^coordinatoren$/);
+      expect(container.querySelector('tr:nth-child(2) td:nth-child(2)')).toHaveTextContent(/^$/);
+
+
+      props.roles.list = [];
+      rerender(withAppContext(<RolesOverview {...props} />))
+
+      expect(container.querySelector('table')).toBeFalsy();
+    });
+
+    it('should lazy load correctly', () => {
+      props.roles.loading = true;
+      const { container, rerender } = render(withAppContext(<RolesOverview {...props} />))
+
+      expect(container.querySelector('table')).toBeFalsy();
+
+      props.roles.loading = false;
+      rerender(withAppContext(<RolesOverview {...props} />))
+
+      expect(container.querySelector('table')).toBeTruthy();
+    });
   });
 
-  // it('renders column in the correct order', () => {
-  // const columnOrder = ['roles', 'username', 'id', 'is_active'];
-  // const { container } = render(
-  // withAppContext(<List items={users} columnOrder={columnOrder} />)
-  // );
-  //
-  // expect(
-  // [...container.querySelectorAll('th')].map(header => header.textContent)
-  // ).toEqual(columnOrder);
-  // });
-  //
-  // it('does not render columns marked as invisible', () => {
-  // const { container } = render(
-  // withAppContext(<List items={users} invisibleColumns={['id']} />)
-  // );
-  //
-  // container.querySelectorAll('thead td').forEach(element => {
-  // expect(element.textContent).not.toEqual('id');
-  // });
-  // });
-  //
-  // it('navigates on row click', () => {
-  // const primaryKeyColumn = 'id';
-  // const { container, rerender } = render(
-  // withAppContext(<List items={users} />)
-  // );
-  //
-  // fireEvent.click(container.querySelector('tbody > tr:nth-child(10)'));
-  //
-  // expect(history.location.pathname.endsWith('/')).toEqual(true);
-  //
-  // rerender(
-  // withAppContext(<List items={users} primaryKeyColumn={primaryKeyColumn} />)
-  // );
-  //
-  // fireEvent.click(container.querySelector('tbody > tr:nth-child(42)'));
-  //
-  // const primaryKey = users[41].id;
-  //
-  // expect(history.location.pathname.endsWith(`/${primaryKey}`)).toEqual(true);
-  // });
+  describe('events', () => {
+    it('should fetch roles by default', () => {
+      render(withAppContext(<RolesOverview {...props} />))
+
+      expect(props.onFetchRoles).toHaveBeenCalled();
+    });
+  });
+
+  describe('mapDispatchToProps', () => {
+    const dispatch = jest.fn();
+
+    it('onRequestIncident', () => {
+      mapDispatchToProps(dispatch).onFetchRoles();
+      expect(dispatch).toHaveBeenCalledWith({ type: FETCH_ROLES });
+    });
+  });
 });
