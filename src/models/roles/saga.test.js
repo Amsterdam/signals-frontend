@@ -6,11 +6,14 @@ import {
   FETCH_ROLES,
   SAVE_ROLE,
   PATCH_ROLE,
+  FETCH_PERMISSIONS,
 } from './constants';
 
 import {
   fetchRolesSuccess,
   fetchRolesError,
+  fetchPermissionsSuccess,
+  fetchPermissionsError,
   saveRoleSuccess,
   saveRoleError,
   patchRoleSuccess,
@@ -19,12 +22,14 @@ import {
 
 import watchRolesSaga, {
   fetchRoles,
+  fetchPermissions,
   saveRole,
   patchRole,
 } from './saga';
 
 describe('rolesSaga', () => {
   const requestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/private/roles/';
+  const permissionsRequestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/';
   const result = { id: 42 };
   const action = { payload: result };
 
@@ -33,6 +38,7 @@ describe('rolesSaga', () => {
       .next()
       .all([
         takeLatest(FETCH_ROLES, fetchRoles),
+        takeLatest(FETCH_PERMISSIONS, fetchPermissions),
         takeLatest(SAVE_ROLE, saveRole),
         takeLatest(PATCH_ROLE, patchRole),
       ])
@@ -47,6 +53,31 @@ describe('rolesSaga', () => {
       testSaga(fetchRoles)
         .next()
         .call(authCall, requestURL)
+        .next(listResult)
+        .put(fetchPermissionsSuccess(listResult.results))
+        .next()
+        .isDone();
+    });
+
+    it('should dispatch error', () => {
+      const error = new Error('Something bad happened');
+
+      testSaga(fetchRoles)
+        .next()
+        .throw(error)
+        .put(fetchPermissionsError())
+        .next()
+        .isDone();
+    });
+  });
+
+  describe('fetchPermissions', () => {
+    it('should dispatch success', () => {
+      const listResult = { results: [{ id: 42 }, { id: 43 }] };
+
+      testSaga(fetchRoles)
+        .next()
+        .call(authCall, permissionsRequestURL)
         .next(listResult)
         .put(fetchRolesSuccess(listResult.results))
         .next()

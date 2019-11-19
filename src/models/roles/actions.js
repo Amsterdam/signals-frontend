@@ -2,6 +2,9 @@ import {
   FETCH_ROLES,
   FETCH_ROLES_SUCCESS,
   FETCH_ROLES_ERROR,
+  FETCH_PERMISSIONS,
+  FETCH_PERMISSIONS_SUCCESS,
+  FETCH_PERMISSIONS_ERROR,
   SAVE_ROLE,
   SAVE_ROLE_SUCCESS,
   SAVE_ROLE_ERROR,
@@ -24,10 +27,28 @@ export function fetchRolesSuccess(payload) {
   };
 }
 
-export function fetchRolesError(payload) {
+export function fetchRolesError() {
   return {
     type: FETCH_ROLES_ERROR,
+  };
+}
+
+export function fetchPermissions() {
+  return {
+    type: FETCH_PERMISSIONS,
+  };
+}
+
+export function fetchPermissionsSuccess(payload) {
+  return {
+    type: FETCH_PERMISSIONS_SUCCESS,
     payload,
+  };
+}
+
+export function fetchPermissionsError() {
+  return {
+    type: FETCH_PERMISSIONS_ERROR,
   };
 }
 

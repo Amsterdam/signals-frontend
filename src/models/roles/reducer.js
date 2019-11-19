@@ -4,6 +4,9 @@ import {
   FETCH_ROLES,
   FETCH_ROLES_SUCCESS,
   FETCH_ROLES_ERROR,
+  FETCH_PERMISSIONS,
+  FETCH_PERMISSIONS_SUCCESS,
+  FETCH_PERMISSIONS_ERROR,
   SAVE_ROLE,
   SAVE_ROLE_SUCCESS,
   SAVE_ROLE_ERROR,
@@ -15,7 +18,9 @@ import {
 
 export const initialState = fromJS({
   list: [],
+  permissions: [],
   loading: false,
+  loadingPermissions: false,
   saving: false,
   patching: false,
 });
@@ -40,6 +45,23 @@ function rolesReducer(state = initialState, action) {
       return state
         .set('error', true)
         .set('loading', false);
+
+    case FETCH_PERMISSIONS:
+      return state
+        .set('permissions', fromJS([]))
+        .set('loadingPermissions', true)
+        .set('error', false);
+
+    case FETCH_PERMISSIONS_SUCCESS:
+      return state
+        .set('permissions', fromJS(action.payload))
+        .set('loadingPermissions', false)
+        .set('error', false);
+
+    case FETCH_PERMISSIONS_ERROR:
+      return state
+        .set('error', true)
+        .set('loadingPermissions', false);
 
     case SAVE_ROLE:
       return state
