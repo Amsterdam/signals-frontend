@@ -1,37 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import LoadingIndicator from 'shared/components/LoadingIndicator';
-
 import PageHeader from 'signals/settings/components/PageHeader';
 
 export const RolesForm = ({
   id,
-  loading,
+  list,
+  permissions,
 }) => {
-  console.log('-------------------', id);
+  console.log('-------------------', permissions);
+  const role = list.find(item => item.id === id * 1);
+  console.log('role', role);
   return (
     <div>
-      {loading ? (
-        <LoadingIndicator />
-      ) : (
-        <div>
-          <PageHeader title="Rol instellingen" />
+      <PageHeader title="Rol instellingen" />
 
-          {id}
-        </div>
-      )}
-    </div >
+      {id}
+    </div>
   )
 };
 
 RolesForm.defaultProps = {
-  loading: false,
+  list: [],
+  permissions: [],
 };
 
 RolesForm.propTypes = {
   id: PropTypes.string.isRequired,
-  loading: PropTypes.bool,
+  list: PropTypes.array,
+  permissions: PropTypes.array,
 };
 
 export default RolesForm;
