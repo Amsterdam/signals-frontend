@@ -27,7 +27,7 @@ export const SettingsModule = ({ match: { url } }) =>
       <Route
         exact
         path={`${url}/rollen/:roleId`}
-        component={RolesOverviewContainer}
+        component={props => <RolesOverviewContainer id={props.match.params.roleId} />}
       />
     </Fragment>
   );
@@ -35,6 +35,9 @@ export const SettingsModule = ({ match: { url } }) =>
 SettingsModule.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string.isRequired,
+    params: {
+      roleId: PropTypes.string,
+    },
   }),
 };
 
