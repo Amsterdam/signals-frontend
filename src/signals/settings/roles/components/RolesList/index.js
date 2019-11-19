@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from '@datapunt/asc-core';
 import { useHistory } from 'react-router-dom';
 
-import LoadingIndicator from 'shared/components/LoadingIndicator';
 import ListComponent from 'components/List';
 
 import PageHeader from 'signals/settings/components/PageHeader';
@@ -18,7 +17,6 @@ const StyledListComponent = styled(ListComponent)`
 
 export const RolesList = ({
   list,
-  loading,
 }) => {
   const history = useHistory();
 
@@ -32,32 +30,26 @@ export const RolesList = ({
 
   return (
     <div>
-      {loading ? (
-        <LoadingIndicator />
-      ) : (
-        <div>
-          <PageHeader title="Rollen" />
+      <div>
+        <PageHeader title="Rollen" />
 
-          <StyledListComponent
-            items={formatRoles(list)}
-            invisibleColumns={['id']}
-            primaryKeyColumn="id"
-            onItemClick={onItemClick}
-          />
-        </div>
-      )}
+        <StyledListComponent
+          items={formatRoles(list)}
+          invisibleColumns={['id']}
+          primaryKeyColumn="id"
+          onItemClick={onItemClick}
+        />
+      </div>
     </div >
   )
 };
 
 RolesList.defaultProps = {
   list: [],
-  loading: false,
 };
 
 RolesList.propTypes = {
   list: PropTypes.array,
-  loading: PropTypes.bool,
 };
 
 export default RolesList;

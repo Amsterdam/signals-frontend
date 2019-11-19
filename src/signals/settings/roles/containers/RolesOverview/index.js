@@ -5,6 +5,8 @@ import { createStructuredSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
 import { Row, Column } from '@datapunt/asc-ui';
 
+import LoadingIndicator from 'shared/components/LoadingIndicator';
+
 import makeSelectRolesModel from 'models/roles/selectors';
 import { fetchRoles, fetchPermissions } from 'models/roles/actions';
 
@@ -14,6 +16,7 @@ import RolesForm from '../../components/RolesForm';
 export const RolesOverview = ({
   roles: {
     list,
+    permissions,
     loading,
     loadingPermissions,
   },
@@ -26,19 +29,24 @@ export const RolesOverview = ({
     onFetchPermissions();
   }, []);
 
+  const isLoading = () => loading || loadingPermissions;
+
   return (
     <div>
       <Row>
         <Column span={12}>
-          {id ?
+          {isLoading() && <LoadingIndicator />}
+
+          {id && !isLoading() &&
             <RolesForm
               id={id}
-              loading={loading || loadingPermissions}
-            />
-            :
+              list={list}
+              permissions={permissions}
+            />}
+
+          {!id && !isLoading() &&
             <RolesList
               list={list}
-              loading={loading || loadingPermissions}
             />
           }
         </Column>
