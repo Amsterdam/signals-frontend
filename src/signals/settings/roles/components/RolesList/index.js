@@ -32,17 +32,19 @@ export const RolesList = ({
 
   return (
     <div>
-      <PageHeader title="Rollen" />
-
       {loading ? (
         <LoadingIndicator />
       ) : (
-        <StyledListComponent
-          items={formatRoles(list)}
-          invisibleColumns={['id']}
-          primaryKeyColumn="id"
-          onItemClick={onItemClick}
-        />
+        <div>
+          <PageHeader title="Rollen" />
+
+          <StyledListComponent
+            items={formatRoles(list)}
+            invisibleColumns={['id']}
+            primaryKeyColumn="id"
+            onItemClick={onItemClick}
+          />
+        </div>
       )}
     </div >
   )

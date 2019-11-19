@@ -6,32 +6,44 @@ import { bindActionCreators } from 'redux';
 import { Row, Column } from '@datapunt/asc-ui';
 
 import makeSelectRolesModel from 'models/roles/selectors';
-import { fetchRoles } from 'models/roles/actions';
+import { fetchRoles, fetchPermissions } from 'models/roles/actions';
 
 import RolesList from '../../components/RolesList';
+import RolesForm from '../../components/RolesForm';
 
 export const RolesOverview = ({
   roles: {
     list,
     loading,
+    loadingPermissions,
   },
+  id,
   onFetchRoles,
+  onFetchPermissions,
 }) => {
   useEffect(() => {
     onFetchRoles();
+    onFetchPermissions();
   }, []);
 
   return (
     <div>
       <Row>
         <Column span={12}>
-          <RolesList
-            list={list}
-            loading={loading}
-          />
+          {id ?
+            <RolesForm
+              id={id}
+              loading={loading || loadingPermissions}
+            />
+            :
+            <RolesList
+              list={list}
+              loading={loading || loadingPermissions}
+            />
+          }
         </Column>
       </Row>
-    </div>
+    </div >
   );
 };
 
@@ -45,9 +57,13 @@ RolesOverview.defaultProps = {
 RolesOverview.propTypes = {
   roles: PropTypes.shape({
     list: PropTypes.array,
+    permissions: PropTypes.array,
     loading: PropTypes.bool,
+    loadingPermissions: PropTypes.bool,
   }),
+  id: PropTypes.string,
   onFetchRoles: PropTypes.func.isRequired,
+  onFetchPermissions: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -56,6 +72,7 @@ const mapStateToProps = createStructuredSelector({
 
 export const mapDispatchToProps = dispatch => bindActionCreators({
   onFetchRoles: fetchRoles,
+  onFetchPermissions: fetchPermissions,
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
