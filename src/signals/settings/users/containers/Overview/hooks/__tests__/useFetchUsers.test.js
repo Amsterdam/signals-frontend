@@ -1,4 +1,6 @@
-import { renderHook, act } from '@testing-library/react-hooks'
+import { renderHook, act } from '@testing-library/react-hooks';
+import { wait } from '@testing-library/react';
+import { act as reAct } from 'react-dom/test-utils';
 import usersJSON from 'utils/__tests__/fixtures/users.json';
 import useFetchUsers, { usersEndpoint } from '../useFetchUsers';
 
@@ -12,32 +14,40 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     const { result, waitForNextUpdate } = renderHook(() => useFetchUsers());
 
-    await act(async () => {
-      await expect(result.current.isLoading).toEqual(true);
-      await expect(result.current.users).toHaveLength(0);
+    expect(result.current.isLoading).toEqual(true);
+    expect(result.current.users.count).toBeUndefined();
+    expect(result.current.users.list).toBeUndefined();
 
-      await waitForNextUpdate();
+    reAct(() => {
+      waitForNextUpdate();
+    });
 
-      await expect(global.fetch).toHaveBeenCalledWith(
-        usersEndpoint,
-        expect.objectContaining({ headers: {} })
-      );
+    expect(global.fetch).toHaveBeenCalledWith(
+      usersEndpoint,
+      expect.objectContaining({ headers: {} })
+    );
 
-      await expect(result.current.isLoading).toEqual(false);
-      await expect(result.current.users).toHaveLength(usersJSON.count);
-    })
+    await wait(() => {
+      expect(result.current.isLoading).toEqual(false);
+      expect(result.current.users.count).toEqual(usersJSON.count);
+      expect(result.current.users.list).toHaveLength(usersJSON.count);
+    });
   });
 
   it('should return errors that are thrown during fetch', async () => {
     const error = new Error('fake error message');
     fetch.mockRejectOnce(error);
 
-    const { result } = renderHook(() => useFetchUsers());
+    const { result, waitForNextUpdate } = renderHook(() => useFetchUsers());
 
-    await act(async () => {
-      await expect(result.current.error).toEqual(false);
+    expect(result.current.error).toEqual(false);
 
-      await expect(result.current.error).toEqual(error);
+    reAct(() => {
+      waitForNextUpdate();
+    });
+
+    await wait(() => {
+      expect(result.current.error).toEqual(error);
     });
   });
 
@@ -67,5 +77,23 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
         expect.objectContaining({ headers: {} })
       );
     });
+  });
+
+  it('should abort request on unmount', () => {
+    const page = 1;
+    fetch.mockResponseOnce(
+      () =>
+        new Promise(resolve =>
+          setTimeout(() => resolve(JSON.stringify(usersJSON)), 100)
+        )
+    );
+
+    const abortSpy = jest.spyOn(global.AbortController.prototype, 'abort');
+
+    const { unmount } = renderHook(async () => useFetchUsers({ page }));
+
+    unmount();
+
+    expect(abortSpy).toHaveBeenCalled();
   });
 });

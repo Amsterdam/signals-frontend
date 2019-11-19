@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { history, withAppContext, userObjects } from 'test/utils';
+import { withAppContext, userObjects } from 'test/utils';
 
 import List from '..';
 
@@ -10,11 +10,11 @@ describe('components/List', () => {
   it('returns null when there are no items to render', () => {
     const { container, rerender } = render(withAppContext(<List items={[]} />));
 
-    expect(container.querySelector('table')).toBeFalsy();
+    expect(container.querySelector('table')).not.toBeInTheDocument();
 
     rerender(withAppContext(<List items={users} />));
 
-    expect(container.querySelector('table')).toBeTruthy();
+    expect(container.querySelector('table')).toBeInTheDocument();
   });
 
   it('renders column in the correct order', () => {
@@ -38,24 +38,31 @@ describe('components/List', () => {
     });
   });
 
-  it('navigates on row click', () => {
+  it('should set data-itemid', () => {
     const primaryKeyColumn = 'id';
-    const { container, rerender } = render(
-      withAppContext(<List items={users} />)
+    const randomUser = users[Math.floor(Math.random() * users.length)];
+
+    const { container } = render(
+      withAppContext(<List items={users} primaryKeyColumn={primaryKeyColumn} />)
     );
+    expect(container.querySelector(`[data-item-id="${randomUser.id}"]`)).toBeInTheDocument();
+  });
+
+  it('handles callback on row click', () => {
+    const onItemClick = jest.fn();
+
+    const { container } = render(
+      withAppContext(<List items={users} onItemClick={onItemClick} />)
+    );
+
+    expect(onItemClick).toHaveBeenCalledTimes(0);
 
     fireEvent.click(container.querySelector('tbody > tr:nth-child(10)'));
 
-    expect(history.location.pathname.endsWith('/')).toEqual(true);
+    expect(onItemClick).toHaveBeenCalledTimes(1);
 
-    rerender(
-      withAppContext(<List items={users} primaryKeyColumn={primaryKeyColumn} />)
-    );
+    fireEvent.click(container.querySelector('tbody > tr:nth-child(4)'));
 
-    fireEvent.click(container.querySelector('tbody > tr:nth-child(42)'));
-
-    const primaryKey = users[41].id;
-
-    expect(history.location.pathname.endsWith(`/${primaryKey}`)).toEqual(true);
+    expect(onItemClick).toHaveBeenCalledTimes(2);
   });
 });

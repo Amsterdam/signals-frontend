@@ -20,6 +20,9 @@ const useFetchUsers = ({ page, pageSize } = {}) => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
+
     async function fetchData() {
       setLoading(true);
 
@@ -33,11 +36,12 @@ const useFetchUsers = ({ page, pageSize } = {}) => {
         const url = [usersEndpoint, params].filter(Boolean).join('/?');
         const response = await fetch(url, {
           headers: getAuthHeaders(),
+          signal,
         });
         const userData = await response.json();
         const filteredUserData = filterData(userData.results);
 
-        setUsers(filteredUserData);
+        setUsers({ count: userData.count, list: filteredUserData });
       } catch (e) {
         setError(e);
       } finally {
@@ -46,7 +50,11 @@ const useFetchUsers = ({ page, pageSize } = {}) => {
     }
 
     fetchData();
-  }, []);
+
+    return () => {
+      controller.abort();
+    };
+  }, [page]);
 
   /**
    * @typedef {Object} FetchResponse

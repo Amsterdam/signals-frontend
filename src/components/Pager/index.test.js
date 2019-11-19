@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 
 import Pager from './index';
 
-describe('<Pager />', () => {
+describe.skip('<Pager />', () => {
   let wrapper;
   let props;
 

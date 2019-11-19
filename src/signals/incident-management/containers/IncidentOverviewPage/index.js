@@ -166,7 +166,7 @@ export const IncidentOverviewPageContainerComponent = ({
           {!loading && (
             <Column span={12}>
               <Pager
-                itemCount={incidentsCount}
+                totalPages={Math.ceil(incidentsCount / 100)}
                 page={page}
                 onPageChanged={onPageIncidentsChanged}
               />
