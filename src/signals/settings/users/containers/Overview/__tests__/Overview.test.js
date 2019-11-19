@@ -10,31 +10,31 @@ import routes from 'signals/settings/routes';
 import UsersOverview from '..';
 import { usersEndpoint } from '../hooks/useFetchUsers';
 
-jest.mock('react-router-dom', () => {
-  const actual = jest.requireActual('react-router-dom');
-  return {
-    __esModule: true,
-    ...actual,
-    useParams: jest.fn(() => ({})),
-    useLocation: () => ({
-      hash: '',
-      key: '',
-      pathname: '/instellingen/gebruikers/',
-      search: '',
-      state: null,
-    }),
-  };
-});
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+  useLocation: () => ({
+    hash: '',
+    key: '',
+    pathname: '/instellingen/gebruikers/',
+    search: '',
+    state: null,
+  }),
+}));
+
+let historyMock;
 
 describe('signals/settings/users/containers/Overview', () => {
   beforeEach(() => {
     fetch.mockResponse(JSON.stringify(usersJSON));
-  });
 
-  const historyMock = {
-    ...history,
-    action: '',
-  };
+    historyMock = {
+      ...history,
+      action: '',
+      push: jest.fn(),
+      replace: jest.fn(),
+    };
+  });
 
   it('should request users from API on mount', async () => {
     await act(async () => {
@@ -61,7 +61,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(getByText(`Gebruikers (${usersJSON.count})`)).toBeInTheDocument();
 
-    expect(container.querySelectorAll('tbody tr')).toHaveLength(69);
+    expect(container.querySelectorAll('tbody tr')).toHaveLength(usersJSON.count);
   });
 
   it('should render pagination controls', async () => {
@@ -112,8 +112,6 @@ describe('signals/settings/users/containers/Overview', () => {
     const historyMockObj = {
       ...historyMock,
       action: 'PUSH',
-      push: jest.fn(),
-      replace: jest.fn(),
     };
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
@@ -135,7 +133,6 @@ describe('signals/settings/users/containers/Overview', () => {
     const historyMockObj = {
       ...historyMock,
       action: 'PUSH',
-      push: jest.fn(),
     };
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
@@ -153,7 +150,6 @@ describe('signals/settings/users/containers/Overview', () => {
     const historyMockObj = {
       ...historyMock,
       action: 'POP',
-      push: jest.fn(),
     };
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
@@ -167,11 +163,10 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(historyMockObj.push).not.toHaveBeenCalled();
   });
 
-  it.only('should push on list item click', async () => {
+  it('should push on list item click', async () => {
     let container;
     const historyMockObj = {
       ...historyMock,
-      push: jest.fn(),
     };
 
     await reAct(async () => {

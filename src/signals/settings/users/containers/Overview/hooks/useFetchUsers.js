@@ -51,9 +51,9 @@ const useFetchUsers = ({ page, pageSize } = {}) => {
 
     fetchData();
 
-    return (() => {
+    return () => {
       controller.abort();
-    });
+    };
   }, [page]);
 
   /**

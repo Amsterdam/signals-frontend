@@ -78,4 +78,22 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
       );
     });
   });
+
+  it('should abort request on unmount', () => {
+    const page = 1;
+    fetch.mockResponseOnce(
+      () =>
+        new Promise(resolve =>
+          setTimeout(() => resolve(JSON.stringify(usersJSON)), 100)
+        )
+    );
+
+    const abortSpy = jest.spyOn(global.AbortController.prototype, 'abort');
+
+    const { unmount } = renderHook(async () => useFetchUsers({ page }));
+
+    unmount();
+
+    expect(abortSpy).toHaveBeenCalled();
+  });
 });

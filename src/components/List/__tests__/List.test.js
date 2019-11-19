@@ -55,8 +55,14 @@ describe('components/List', () => {
       withAppContext(<List items={users} onItemClick={onItemClick} />)
     );
 
+    expect(onItemClick).toHaveBeenCalledTimes(0);
+
     fireEvent.click(container.querySelector('tbody > tr:nth-child(10)'));
 
-    expect(onItemClick).toHaveBeenCalled();
+    expect(onItemClick).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(container.querySelector('tbody > tr:nth-child(4)'));
+
+    expect(onItemClick).toHaveBeenCalledTimes(2);
   });
 });

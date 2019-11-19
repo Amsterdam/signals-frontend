@@ -47,8 +47,7 @@ const UsersOverview = ({ pageSize, history }) => {
   }, [location]);
 
   const onItemClick = e => {
-    const { dataset } = e.currentTarget;
-    const { itemId } = dataset;
+    const { currentTarget: { dataset: { itemId } } } = e;
 
     if (itemId) {
       history.push(routes.user.replace(':userId', itemId));
