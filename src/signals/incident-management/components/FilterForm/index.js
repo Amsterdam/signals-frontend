@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Row } from '@datapunt/asc-ui';
 import isEqual from 'lodash.isequal';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
@@ -8,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { parseOutputFormData } from 'signals/shared/filter/parse';
 import * as types from 'shared/types';
 import FormFooter from 'components/FormFooter';
+import Input from 'components/Input';
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 
 import CheckboxList from '../CheckboxList';
@@ -154,19 +154,16 @@ const FilterForm = ({
         <Fieldset isSection>
           <legend className="hiddenvisually">Naam van het filter</legend>
 
-          <Label htmlFor="filter_name" isGroupHeader>
-            Filternaam
-          </Label>
-          <div className="invoer">
-            <input
-              defaultValue={filterData.name}
-              id="filter_name"
-              name="name"
-              onChange={onNameChange}
-              placeholder="Geef deze filterinstelling een naam om deze op te slaan"
-              type="text"
-            />
-          </div>
+          <Label htmlFor="filter_name" isGroupHeader>Filternaam</Label>
+          <Input
+            defaultValue={filterData.name}
+            id="filter_name"
+            name="name"
+            onChange={onNameChange}
+            placeholder="Geef deze filterinstelling een naam om deze op te slaan"
+          />
+
+          <br /><br />
 
           <Label htmlFor="filter_refresh" isGroupHeader>
             Automatisch verversen
@@ -289,19 +286,14 @@ const FilterForm = ({
           </FilterGroup>
 
           <FilterGroup>
-            <Label htmlFor="filter_address" isGroupHeader>
-              Adres
-            </Label>
-            <div className="invoer">
-              <input
-                type="text"
-                name="address_text"
-                id="filter_address"
-                defaultValue={
-                  filterData.options && filterData.options.address_text
-                }
-              />
-            </div>
+            <Label htmlFor="filter_address" isGroupHeader>Adres</Label>
+            <Input
+              name="address_text"
+              id="filter_address"
+              defaultValue={
+                filterData.options && filterData.options.address_text
+              }
+            />
           </FilterGroup>
 
           {Array.isArray(source) && source.length > 0 && (
