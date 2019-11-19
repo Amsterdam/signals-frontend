@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { Row, Column, themeSpacing } from '@datapunt/asc-ui';
@@ -30,10 +30,12 @@ const StyledColumn = styled(Column)`
   flex-direction: column;
 `;
 
-const PageWrapper = styled.div`
-  flex: 1;
-  position: relative;
+const FormContents = styled(Row)`
   padding-bottom: 66px;
+`;
+
+const StyledFormFooter = styled(FormFooter)`
+  position: fixed;
 `;
 
 const statusOptions = [
@@ -46,7 +48,7 @@ const UserDetail = ({ location }) => {
   const { isLoading, error, data } = useFetchUser(userId);
 
   return (
-    <PageWrapper>
+    <Fragment>
       <PageHeader
         title="Gebruiker instellingen"
         BackLink={
@@ -60,7 +62,7 @@ const UserDetail = ({ location }) => {
 
       {data && (
         <Form action="">
-          <Row debug>
+          <FormContents>
             <StyledColumn span={12}>
               {error && (
                 <FormAlert
@@ -70,7 +72,7 @@ const UserDetail = ({ location }) => {
               )}
             </StyledColumn>
 
-            <StyledColumn span={4}>
+            <StyledColumn span={4} debug>
               <FieldGroup>
                 <Input
                   defaultValue={data.email}
@@ -111,20 +113,18 @@ const UserDetail = ({ location }) => {
               </FieldGroup>
             </StyledColumn>
 
-            <StyledColumn span={5} push={2}></StyledColumn>
+            <StyledColumn span={5} push={2} debug></StyledColumn>
+          </FormContents>
 
-            <StyledColumn span={12}>
-              <FormFooter
-                cancelBtnLabel="Annuleren"
-                onCancel={() => {}}
-                submitBtnLabel="Opslaan"
-                onSubmitForm={() => {}}
-              />
-            </StyledColumn>
-          </Row>
+          <StyledFormFooter
+            cancelBtnLabel="Annuleren"
+            onCancel={() => {}}
+            submitBtnLabel="Opslaan"
+            onSubmitForm={() => {}}
+          />
         </Form>
       )}
-    </PageWrapper>
+    </Fragment>
   );
 };
 
