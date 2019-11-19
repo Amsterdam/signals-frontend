@@ -40,4 +40,32 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
       await expect(result.current.error).toEqual(error);
     });
   });
+
+  it('should request the correct page', async () => {
+    const page = 12;
+    const { waitForNextUpdate } = renderHook(() => useFetchUsers({ page }));
+
+    await act(async () => {
+      await waitForNextUpdate();
+
+      await expect(global.fetch).toHaveBeenCalledWith(
+        `${usersEndpoint}/?page=${page}`,
+        expect.objectContaining({ headers: {} })
+      );
+    });
+  });
+
+  it('should request the correct page size', async () => {
+    const pageSize = 30000;
+    const { waitForNextUpdate } = renderHook(() => useFetchUsers({ pageSize }));
+
+    await act(async () => {
+      await waitForNextUpdate();
+
+      await expect(global.fetch).toHaveBeenCalledWith(
+        `${usersEndpoint}/?page_size=${pageSize}`,
+        expect.objectContaining({ headers: {} })
+      );
+    });
+  });
 });
