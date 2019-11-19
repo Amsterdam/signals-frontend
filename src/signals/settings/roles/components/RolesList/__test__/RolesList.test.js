@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import { render, fireEvent } from '@testing-library/react';
+import { withAppContext, history } from 'test/utils';
 
 import RolesList from '..';
 
@@ -67,5 +67,19 @@ describe('containers/RolesOverview', () => {
 
       expect(container.querySelector('table')).toBeTruthy();
     });
+  });
+
+  // TODO fix later
+  it.skip('should click to role detail page', () => {
+    const historyMock = {
+      ...history,
+      push: jest.fn(),
+    };
+    const { container } = render(withAppContext(<RolesList {...props} history={historyMock} />))
+    const event = { currentTarget: { getAttribute: () => 2 } };
+
+    fireEvent.click(container.querySelector('tr:nth-child(1) td:nth-child(1)'), event);
+
+    expect(historyMock.push).toHaveBeenCalled();
   });
 });
