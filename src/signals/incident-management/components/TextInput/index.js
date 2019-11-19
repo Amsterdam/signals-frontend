@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Input } from '@datapunt/asc-ui';
-import Label from '../Label';
+import Label from 'components/Label';
 
 import './style.scss';
 

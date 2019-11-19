@@ -8,11 +8,11 @@ import { parseOutputFormData } from 'signals/shared/filter/parse';
 import * as types from 'shared/types';
 import FormFooter from 'components/FormFooter';
 import Input from 'components/Input';
+import Label from 'components/Label';
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 
 import CheckboxList from '../CheckboxList';
 import RadioButtonList from '../RadioButtonList';
-import Label from '../Label';
 import {
   ControlsWrapper,
   Fieldset,

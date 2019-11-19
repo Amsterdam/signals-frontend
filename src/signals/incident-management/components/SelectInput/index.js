@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Label from '../Label';
+import Label from 'components/Label';
 
 import './style.scss';
 
