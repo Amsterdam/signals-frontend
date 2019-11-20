@@ -1,16 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Label as FieldLabel, Button, themeSpacing } from '@datapunt/asc-ui';
+import {
+  Label as FieldLabel,
+  Button,
+  themeSpacing,
+} from '@datapunt/asc-ui';
 
 import PageHeader from 'signals/settings/components/PageHeader';
 import Input from 'components/Input';
 
-export const Label = styled(FieldLabel)`
+const Label = styled(FieldLabel)`
   display: block;
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
   margin-bottom: ${themeSpacing(3)};
-  `;
+`;
+
+const StyledInput = styled(Input)`
+  margin-bottom: ${themeSpacing(6)};
+`;
 
 export const RolesForm = ({
   id,
@@ -34,7 +42,12 @@ export const RolesForm = ({
             onSubmit={handleSubmit}
           >
 
-            <Input name="name" type="text" defaultValue={role.name} label="Naam" />
+            <StyledInput
+              label="Naam"
+              name="name"
+              type="text"
+              defaultValue={role.name}
+            />
 
             <Label label="Rechten" />
             {permissions.map(permission =>
@@ -43,7 +56,7 @@ export const RolesForm = ({
                   name={permission.codename}
                   id={permission.codename}
                   type="checkbox"
-                  checked={role.permissions.find(item => item.id === permission.id)}
+                  defaultChecked={role.permissions.find(item => item.id === permission.id)}
                 />
                 <label htmlFor={permission.codename}>{permission._display}</label>
               </div>)}
