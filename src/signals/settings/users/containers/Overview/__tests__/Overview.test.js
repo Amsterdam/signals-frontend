@@ -74,7 +74,7 @@ describe('signals/settings/users/containers/Overview', () => {
       ));
     });
 
-    expect(queryByTestId('overviewPagerComponent')).toBeInTheDocument();
+    expect(queryByTestId('pagination')).toBeInTheDocument();
 
     cleanup();
 
@@ -84,7 +84,7 @@ describe('signals/settings/users/containers/Overview', () => {
       );
     });
 
-    expect(queryByTestId('overviewPagerComponent')).not.toBeInTheDocument();
+    expect(queryByTestId('pagination')).not.toBeInTheDocument();
   });
 
   it('should push to the history stack on pagination item click', async () => {
@@ -182,7 +182,7 @@ describe('signals/settings/users/containers/Overview', () => {
     fireEvent.click(row.querySelector('td:first-of-type'), { bubbles: true });
 
     expect(historyMockObj.push).toHaveBeenCalledWith(
-      routes.user.replace(':userId', itemId)
+      routes.user.replace(/:userId.*/, itemId)
     );
 
     historyMockObj.push.mockReset();

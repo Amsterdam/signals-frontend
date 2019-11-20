@@ -39,7 +39,8 @@ const List = ({
           <tr
             key={JSON.stringify(items[rowIndex])}
             data-item-id={primaryKeyColumn && items[rowIndex][primaryKeyColumn]}
-            onClick={onItemClick}>
+            onClick={onItemClick}
+          >
             {colHeaders.filter(filterVisibleColumns).map(col => (
               // eslint-disable-next-line react/no-array-index-key
               <StyledTD key={JSON.stringify(col)}>{row[col]}</StyledTD>

@@ -87,9 +87,9 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
     );
 
-    expect(queryByTestId('pagination')).not.toBeNull();
-    expect(queryByTestId('incidentOverviewListComponent')).not.toBeNull();
-    expect(queryByTestId('loadingIndicator')).toBeNull();
+    expect(queryByTestId('pagination')).toBeInTheDocument();
+    expect(queryByTestId('incidentOverviewListComponent')).toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
 
     const loadingProps = cloneDeep(props);
     loadingProps.overviewpage.loading = true;
@@ -100,9 +100,9 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       )
     );
 
-    expect(queryByTestId('overviewPagerComponent')).toBeNull();
-    expect(queryByTestId('incidentOverviewListComponent')).toBeNull();
-    expect(queryByTestId('loadingIndicator')).not.toBeNull();
+    expect(queryByTestId('pagination')).not.toBeInTheDocument();
+    expect(queryByTestId('incidentOverviewListComponent')).not.toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
 
     // filter button
     expect(getByText('Filteren').tagName).toEqual('BUTTON');

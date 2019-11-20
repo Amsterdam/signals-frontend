@@ -5,7 +5,7 @@ import { Row, Column } from '@datapunt/asc-ui';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import ListComponent from 'components/List';
-import Pager from 'components/Pager';
+import Pagination from 'components/Pagination';
 
 import PageHeader from 'signals/settings/components/PageHeader';
 import useFetchUsers from './hooks/useFetchUsers';
@@ -33,7 +33,7 @@ const UsersOverview = ({ pageSize, history }) => {
     const pageNumber = getPageNumFromQueryString();
 
     if (pageNumber && pageNumber !== page) {
-      history.push(routes.usersPaged.replace(':pageNum', page));
+      history.push(routes.usersPaged.replace(/:pageNum.*/, page));
     }
   }, [page]);
 
@@ -50,13 +50,13 @@ const UsersOverview = ({ pageSize, history }) => {
     const { currentTarget: { dataset: { itemId } } } = e;
 
     if (itemId) {
-      history.push(routes.user.replace(':userId', itemId));
+      history.push(routes.user.replace(/:userId.*/, itemId));
     }
   };
 
   const onPaginationClick = pageToNavigateTo => {
     global.window.scrollTo(0, 0);
-    history.push(routes.usersPaged.replace(':pageNum', pageToNavigateTo));
+    history.push(routes.usersPaged.replace(/:pageNum.*/, pageToNavigateTo));
   };
 
   return (
@@ -83,9 +83,9 @@ const UsersOverview = ({ pageSize, history }) => {
 
           {!isLoading && users.count && (
             <Column span={12}>
-              <Pager
-                page={page}
-                onPageChanged={onPaginationClick}
+              <Pagination
+                currentPage={page}
+                onClick={onPaginationClick}
                 totalPages={Math.ceil(users.count / pageSize)}
               />
             </Column>
