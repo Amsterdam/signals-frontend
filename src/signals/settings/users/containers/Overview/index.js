@@ -24,19 +24,6 @@ const UsersOverview = ({ pageSize, history }) => {
    */
   const getPageNumFromQueryString = () => pageNum && parseInt(pageNum, 10);
 
-  // subscribe to 'page' state value changes
-  useEffect(() => {
-    if (history.action === 'POP') {
-      return;
-    }
-
-    const pageNumber = getPageNumFromQueryString();
-
-    if (pageNumber && pageNumber !== page) {
-      history.push(routes.usersPaged.replace(':pageNum', page));
-    }
-  }, [page]);
-
   // subscribe to 'location' changes
   useEffect(() => {
     const pageNumber = getPageNumFromQueryString();
