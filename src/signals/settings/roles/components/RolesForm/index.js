@@ -20,6 +20,11 @@ const StyledInput = styled(Input)`
   margin-bottom: ${themeSpacing(6)};
 `;
 
+const StyledButton = styled(Button)`
+  margin-top: ${themeSpacing(6)};
+  margin-right: ${themeSpacing(2)};
+`;
+
 export const RolesForm = ({
   id,
   list,
@@ -47,9 +52,14 @@ export const RolesForm = ({
     };
 
     onPatchRole(payload);
-
+    // navigate to roles list
     console.log('handleSubmit payload', payload);
   }
+
+  const handleCancel = () => {
+    // navigate to roles list
+    console.log('handleCancel');
+  };
 
   return (
     <div>
@@ -80,19 +90,20 @@ export const RolesForm = ({
               </div>)}
 
             <div>
-              <Button
+              <StyledButton
                 variant="secondary"
                 type="submit"
               >
                 Opslaan
-              </Button>
+              </StyledButton>
 
-              <Button
+              <StyledButton
                 variant="tertiary"
                 type="button"
+                onClick={handleCancel}
               >
                 Annuleren
-              </Button>
+              </StyledButton>
             </div>
           </form>
 
