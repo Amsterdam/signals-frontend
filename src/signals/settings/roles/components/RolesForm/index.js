@@ -29,16 +29,18 @@ export const RolesForm = ({
 
   const handleSubmit = e => {
     e.preventDefault();
-    const patch = {
-      name: e.target.elements.name.value,
-      permissions: [],
-    };
-
+    const permission_ids = [];
     permissions.forEach(permission => {
       if (e.target.elements[`permission${permission.id}`].checked) {
-        patch.permissions.push(permission.id);
+        permission_ids.push(permission.id);
       }
     });
+
+    const patch = {
+      id: role.id,
+      name: e.target.elements.name.value,
+      permission_ids,
+    };
 
     console.log('handleSubmit patch', patch);
   }
