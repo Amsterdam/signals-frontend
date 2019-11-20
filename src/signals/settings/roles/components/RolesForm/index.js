@@ -18,7 +18,7 @@ const Label = styled(FieldLabel)`
 `;
 
 const StyledInput = styled(Input)`
-  margin-bottom: ${themeSpacing(6)};
+  margin-bottom: ${themeSpacing(8)};
 `;
 
 const StyledButton = styled(Button)`
