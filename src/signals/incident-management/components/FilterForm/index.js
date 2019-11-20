@@ -1,27 +1,23 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Row } from '@datapunt/asc-ui';
 import isEqual from 'lodash.isequal';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { parseOutputFormData } from 'signals/shared/filter/parse';
 import * as types from 'shared/types';
+import FormFooter from 'components/FormFooter';
+import Input from 'components/Input';
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 
 import CheckboxList from '../CheckboxList';
 import RadioButtonList from '../RadioButtonList';
 import Label from '../Label';
 import {
-  ButtonContainer,
-  CancelButton,
   ControlsWrapper,
   Fieldset,
   FilterGroup,
   Form,
-  FormFooter,
-  ResetButton,
-  SubmitButton,
 } from './styled';
 
 export const defaultSubmitBtnLabel = 'Filteren';
@@ -40,7 +36,7 @@ const FilterForm = ({
   dataLists,
   categories,
 }) => {
-  const { feedback, priority, stadsdeel, status } = dataLists;
+  const { feedback, priority, stadsdeel, status, source } = dataLists;
   const [submitBtnLabel, setSubmitBtnLabel] = useState(defaultSubmitBtnLabel);
   const [filterData, setFilterData] = useState(filter);
   const filterSlugs = (filterData.options.maincategory_slug || []).concat(
@@ -159,16 +155,15 @@ const FilterForm = ({
           <legend className="hiddenvisually">Naam van het filter</legend>
 
           <Label htmlFor="filter_name" isGroupHeader>Filternaam</Label>
-          <div className="invoer">
-            <input
-              defaultValue={filterData.name}
-              id="filter_name"
-              name="name"
-              onChange={onNameChange}
-              placeholder="Geef deze filterinstelling een naam om deze op te slaan"
-              type="text"
-            />
-          </div>
+          <Input
+            defaultValue={filterData.name}
+            id="filter_name"
+            name="name"
+            onChange={onNameChange}
+            placeholder="Geef deze filterinstelling een naam om deze op te slaan"
+          />
+
+          <br /><br />
 
           <Label htmlFor="filter_refresh" isGroupHeader>Automatisch verversen</Label>
           <div className="antwoord">
@@ -280,17 +275,26 @@ const FilterForm = ({
 
           <FilterGroup>
             <Label htmlFor="filter_address" isGroupHeader>Adres</Label>
-            <div className="invoer">
-              <input
-                type="text"
-                name="address_text"
-                id="filter_address"
-                defaultValue={
-                  filterData.options && filterData.options.address_text
-                }
-              />
-            </div>
+            <Input
+              name="address_text"
+              id="filter_address"
+              defaultValue={
+                filterData.options && filterData.options.address_text
+              }
+            />
           </FilterGroup>
+
+          {Array.isArray(source) && source.length > 0 && (
+            <FilterGroup data-testid="sourceFilterGroup">
+              <Label htmlFor={`source_${source[0].key}`} isGroupHeader>Bron</Label>
+              <CheckboxList
+                defaultValue={filterData.options && filterData.options.source}
+                groupName="source"
+                groupId="source"
+                options={source}
+              />
+            </FilterGroup>
+          )}
         </Fieldset>
       </ControlsWrapper>
 
@@ -328,32 +332,14 @@ const FilterForm = ({
         </Fieldset>
       </ControlsWrapper>
 
-      <FormFooter>
-        <Row>
-          <ButtonContainer span={12}>
-            <ResetButton
-              data-testid="resetBtn"
-              onClick={onResetForm}
-              type="reset">
-              Nieuw filter
-            </ResetButton>
-
-            <CancelButton
-              data-testid="cancelBtn"
-              onClick={onCancel}
-              type="button">
-              Annuleren
-            </CancelButton>
-
-            <SubmitButton
-              name="submit_button"
-              onClick={onSubmitForm}
-              type="submit">
-              {submitBtnLabel}
-            </SubmitButton>
-          </ButtonContainer>
-        </Row>
-      </FormFooter>
+      <FormFooter
+        cancelBtnLabel="Annuleren"
+        onCancel={onCancel}
+        onResetForm={onResetForm}
+        onSubmitForm={onSubmitForm}
+        resetBtnLabel="Nieuw filter"
+        submitBtnLabel={submitBtnLabel}
+      />
     </Form>
   );
 };

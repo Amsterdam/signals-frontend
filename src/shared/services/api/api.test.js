@@ -38,7 +38,7 @@ describe('api service', () => {
 
   describe('authCall', () => {
     it('should generate the right call', () => {
-      sessionStorage.getItem.mockImplementationOnce(() => token);
+      localStorage.getItem.mockImplementationOnce(() => token);
 
       const fullUrl = `${url}?${queryString}`;
       const options = {
@@ -54,7 +54,7 @@ describe('api service', () => {
     });
 
     it('should generate a call without token if it is not present', () => {
-      sessionStorage.getItem.mockImplementationOnce(() => undefined);
+      localStorage.getItem.mockImplementationOnce(() => undefined);
 
       const fullUrl = `${url}?${queryString}`;
       const options = {
@@ -68,7 +68,7 @@ describe('api service', () => {
     });
 
     it('should generate the right call when params are not defined', () => {
-      sessionStorage.getItem.mockImplementationOnce(() => token);
+      localStorage.getItem.mockImplementationOnce(() => token);
 
       const fullUrl = `${url}`;
       const options = {
@@ -98,7 +98,7 @@ describe('api service', () => {
 
   describe('authCallWithPayload', () => {
     it('should generate the right call', () => {
-      sessionStorage.getItem.mockImplementationOnce(() => token);
+      localStorage.getItem.mockImplementationOnce(() => token);
       const options = {
         method: 'METHOD',
         headers: {
@@ -112,7 +112,7 @@ describe('api service', () => {
     });
 
     it('should generate a call without token if it is not present', () => {
-      sessionStorage.getItem.mockImplementationOnce(() => undefined);
+      localStorage.getItem.mockImplementationOnce(() => undefined);
       const options = {
         method: 'METHOD',
         headers: {

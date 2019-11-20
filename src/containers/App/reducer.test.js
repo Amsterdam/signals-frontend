@@ -53,7 +53,7 @@ describe('appReducer', () => {
 
       appReducer(fromJS({}), action);
 
-      expect(global.sessionStorage.setItem).toHaveBeenCalledWith(
+      expect(global.localStorage.setItem).toHaveBeenCalledWith(
         ACCESS_TOKEN,
         accessToken,
       );

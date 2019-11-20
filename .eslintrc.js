@@ -72,6 +72,7 @@ module.exports = {
     'prefer-template': 2,
     'react/destructuring-assignment': 0,
     'react-hooks/rules-of-hooks': 'error',
+    'react/jsx-closing-bracket-location': [1, 'tag-aligned'],
     'react/jsx-closing-tag-location': 0,
     'react/forbid-prop-types': 0,
     'react/jsx-first-prop-new-line': [2, 'multiline-multiprop'],
