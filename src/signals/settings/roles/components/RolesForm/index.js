@@ -29,7 +29,18 @@ export const RolesForm = ({
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('handleSubmit', e.currentTarget);
+    const patch = {
+      name: e.target.elements.name.value,
+      permissions: [],
+    };
+
+    permissions.forEach(permission => {
+      if (e.target.elements[`permission${permission.id}`].checked) {
+        patch.permissions.push(permission.id);
+      }
+    });
+
+    console.log('handleSubmit patch', patch);
   }
 
   return (
@@ -53,12 +64,12 @@ export const RolesForm = ({
             {permissions.map(permission =>
               <div key={permission.id} className="antwoord">
                 <input
-                  name={permission.codename}
-                  id={permission.codename}
+                  name={`permission${permission.id}`}
+                  id={`permission${permission.id}`}
                   type="checkbox"
                   defaultChecked={role.permissions.find(item => item.id === permission.id)}
                 />
-                <label htmlFor={permission.codename}>{permission._display}</label>
+                <label htmlFor={`permission${permission.id}`}>{permission._display}</label>
               </div>)}
 
             <div>
