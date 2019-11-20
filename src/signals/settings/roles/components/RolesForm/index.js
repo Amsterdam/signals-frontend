@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   Label as FieldLabel,
@@ -31,6 +32,7 @@ export const RolesForm = ({
   permissions,
   onPatchRole,
 }) => {
+  const history = useHistory();
   const role = list.find(item => item.id === id * 1);
 
   const handleSubmit = e => {
@@ -52,13 +54,12 @@ export const RolesForm = ({
     };
 
     onPatchRole(payload);
-    // navigate to roles list
-    console.log('handleSubmit payload', payload);
+
+    history.push(`/instellingen/rollen`);
   }
 
   const handleCancel = () => {
-    // navigate to roles list
-    console.log('handleCancel');
+    history.push(`/instellingen/rollen`);
   };
 
   return (
