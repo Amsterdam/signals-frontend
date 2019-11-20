@@ -108,27 +108,6 @@ describe('signals/settings/users/containers/Overview', () => {
     global.window.scrollTo.mockRestore();
   });
 
-  it('should push on update when page parameter and page state var differ', async () => {
-    const historyMockObj = {
-      ...historyMock,
-      action: 'PUSH',
-    };
-
-    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
-      pageNum: 2,
-    }));
-
-    await reAct(async () => {
-      await render(withAppContext(<UsersOverview history={historyMockObj} />));
-    });
-
-    expect(historyMockObj.push).toHaveBeenCalledWith(
-      expect.stringContaining(`${routes.users}/page/1`)
-    );
-
-    expect(historyMockObj.replace).not.toHaveBeenCalled();
-  });
-
   it('should not push', async () => {
     const historyMockObj = {
       ...historyMock,
@@ -182,7 +161,7 @@ describe('signals/settings/users/containers/Overview', () => {
     fireEvent.click(row.querySelector('td:first-of-type'), { bubbles: true });
 
     expect(historyMockObj.push).toHaveBeenCalledWith(
-      routes.user.replace(':userId', itemId)
+      routes.user.replace(/:userId.*/, itemId)
     );
 
     historyMockObj.push.mockReset();

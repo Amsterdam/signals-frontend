@@ -27,7 +27,7 @@ export const SettingsModule = () => {
   });
 
   if (!isAuthenticated()) {
-    return <LoginPage />;
+    return <Route component={LoginPage} />;
   }
 
   return (
@@ -39,9 +39,9 @@ export const SettingsModule = () => {
       <Redirect
         exact
         from={routes.users}
-        to={routes.usersPaged.replace(':pageNum', 1)}
+        to={routes.usersPaged.replace(/:pageNum.*/, 1)}
       />
-      <Route path={routes.usersPaged} component={UsersOverviewContainer} />
+      <Route exact path={routes.usersPaged} component={UsersOverviewContainer} />
       <Route exact path={routes.user} component={UsersDetailContainer} />
       <Route component={NotFoundPage} />
     </Switch>

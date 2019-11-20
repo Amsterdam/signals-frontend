@@ -24,19 +24,6 @@ const UsersOverview = ({ pageSize, history }) => {
    */
   const getPageNumFromQueryString = () => pageNum && parseInt(pageNum, 10);
 
-  // subscribe to 'page' state value changes
-  useEffect(() => {
-    if (history.action === 'POP') {
-      return;
-    }
-
-    const pageNumber = getPageNumFromQueryString();
-
-    if (pageNumber && pageNumber !== page) {
-      history.push(routes.usersPaged.replace(':pageNum', page));
-    }
-  }, [page]);
-
   // subscribe to 'location' changes
   useEffect(() => {
     const pageNumber = getPageNumFromQueryString();
@@ -50,13 +37,13 @@ const UsersOverview = ({ pageSize, history }) => {
     const { currentTarget: { dataset: { itemId } } } = e;
 
     if (itemId) {
-      history.push(routes.user.replace(':userId', itemId));
+      history.push(routes.user.replace(/:userId.*/, itemId));
     }
   };
 
   const onPaginationClick = pageToNavigateTo => {
     global.window.scrollTo(0, 0);
-    history.push(routes.usersPaged.replace(':pageNum', pageToNavigateTo));
+    history.push(routes.usersPaged.replace(/:pageNum.*/, pageToNavigateTo));
   };
 
   return (
