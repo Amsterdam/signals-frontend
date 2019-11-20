@@ -55,8 +55,8 @@ describe('App saga', () => {
       () => 'n8vd9fv528934n797cv342bj3h56',
     );
     global.window.open = jest.fn();
-    origSessionStorage = global.sessionStorage;
-    global.sessionStorage = {
+    origSessionStorage = global.localStorage;
+    global.localStorage = {
       getItem: key => {
         switch (key) {
           case 'accessToken':
@@ -73,7 +73,7 @@ describe('App saga', () => {
   });
 
   afterEach(() => {
-    global.sessionStorage = origSessionStorage;
+    global.localStorage = origSessionStorage;
     jest.resetAllMocks();
   });
 
@@ -132,7 +132,7 @@ describe('App saga', () => {
 
     it('should grip success', () => {
       jest
-        .spyOn(global.sessionStorage, 'getItem')
+        .spyOn(global.localStorage, 'getItem')
         .mockImplementationOnce(key => {
           switch (key) {
             case 'oauthDomain':
@@ -152,7 +152,7 @@ describe('App saga', () => {
     it('should dispatch error', () => {
       const message = 'no remove';
       jest
-        .spyOn(global.sessionStorage, 'removeItem')
+        .spyOn(global.localStorage, 'removeItem')
         .mockImplementationOnce(() => {
           throw new Error(message);
         });

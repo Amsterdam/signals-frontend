@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 
+import { withAppContext } from 'test/utils';
 import History from './index';
 
 
@@ -43,10 +44,10 @@ describe('<History />', () => {
   describe('rendering', () => {
     it('should render all items when list is defined', () => {
       const { queryByTestId, queryAllByTestId } = render(
-        <History {...props} />
+        withAppContext(<History {...props} />)
       );
 
-      expect(queryByTestId('history-title')).toHaveTextContent(/^Historie$/);
+      expect(queryByTestId('history-title')).toHaveTextContent(/^Geschiedenis$/);
       expect(queryAllByTestId('history-list-item')).toHaveLength(3);
 
       expect(queryAllByTestId('history-list-item-when')[0]).toHaveTextContent(/^31-07-2019 om 15:10$/);
@@ -58,10 +59,10 @@ describe('<History />', () => {
     it('should render empty when no list is defined', () => {
       props.list = [];
       const { queryByTestId, queryAllByTestId } = render(
-        <History {...props} />
+        withAppContext(<History {...props} />)
       );
 
-      expect(queryByTestId('history-title')).toHaveTextContent(/^Historie$/);
+      expect(queryByTestId('history-title')).toHaveTextContent(/^Geschiedenis$/);
       expect(queryAllByTestId('history-list-item')).toHaveLength(0);
     });
   });

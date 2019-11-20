@@ -6,6 +6,7 @@ import selectSearchDomain from 'models/search/selectors';
 
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
+import { FILTER_PAGE_SIZE } from './constants';
 
 /**
  * Direct selector to the overviewPage state domain
@@ -20,12 +21,14 @@ export const makeSelectDataLists = createSelector(
     const stadsdeel = state.get('stadsdeel').toJS();
     const status = state.get('status').toJS();
     const feedback = state.get('feedback').toJS();
+    const source = state.get('source').toJS();
 
     return {
       priority,
       stadsdeel,
       status,
       feedback,
+      source,
     };
   }
 );
@@ -97,15 +100,20 @@ export const makeSelectFilterParams = createSelector(
       ordering = 'created_at';
     }
 
+    const pagingOptions = {
+      page,
+      ordering,
+      page_size: FILTER_PAGE_SIZE,
+    };
+
     if (query) {
       return {
         id: query,
-        page,
-        ordering,
+        ...pagingOptions,
       };
     }
 
-    return { ...options, page, ordering };
+    return { ...options, ...pagingOptions };
   }
 );
 
