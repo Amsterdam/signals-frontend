@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useParams } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
@@ -32,7 +32,7 @@ const UsersOverview = ({ pageSize, history }) => {
 
     const pageNumber = getPageNumFromQueryString();
 
-    if (pageNumber !== page) {
+    if (pageNumber && pageNumber !== page) {
       history.push(routes.usersPaged.replace(':pageNum', page));
     }
   }, [page]);
@@ -41,55 +41,58 @@ const UsersOverview = ({ pageSize, history }) => {
   useEffect(() => {
     const pageNumber = getPageNumFromQueryString();
 
-    if (pageNumber !== page) {
+    if (pageNumber && pageNumber !== page) {
       setPage(pageNumber);
     }
   }, [location]);
 
   const onItemClick = e => {
-    const { dataset } = e.currentTarget;
-    const { itemId } = dataset;
+    const { currentTarget: { dataset: { itemId } } } = e;
 
     if (itemId) {
       history.push(routes.user.replace(':userId', itemId));
     }
   };
 
+  const onPaginationClick = pageToNavigateTo => {
+    global.window.scrollTo(0, 0);
+    history.push(routes.usersPaged.replace(':pageNum', pageToNavigateTo));
+  };
+
   return (
-    <div className="users-overview-page">
-      <PageHeader title={`Gebruikers (${users.length})`} />
+    <Fragment>
+      <PageHeader
+        title={`Gebruikers ${users.count ? `(${users.count})` : ''}`}
+      />
 
       <Row>
+        {isLoading && <LoadingIndicator />}
+
         <Column span={12} wrap>
           <Column span={12}>
-            {isLoading ? (
-              <LoadingIndicator />
-            ) : (
+            {!isLoading && users.list && (
               <ListComponent
                 columnOrder={['Gebruikersnaam', 'Rol', 'Status']}
                 invisibleColumns={['id']}
-                items={users}
+                items={users.list}
                 onItemClick={onItemClick}
                 primaryKeyColumn="id"
               />
             )}
           </Column>
 
-          <Column span={12}>
-            {!isLoading && users.length && (
+          {!isLoading && users.count && (
+            <Column span={12}>
               <Pager
-                itemCount={users.length}
                 page={page}
-                onPageChanged={pageNumber => {
-                  history.push(routes.usersPaged.replace(':pageNum', pageNumber));
-                }}
-                pageSize={pageSize}
+                onPageChanged={onPaginationClick}
+                totalPages={Math.ceil(users.count / pageSize)}
               />
-            )}
-          </Column>
+            </Column>
+          )}
         </Column>
       </Row>
-    </div>
+    </Fragment>
   );
 };
 

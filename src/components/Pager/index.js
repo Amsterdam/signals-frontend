@@ -19,17 +19,16 @@ class Pager extends React.Component {
 
   render() {
     const currentPage = this.props.page;
-    const totalPages = Math.floor(this.props.itemCount / this.props.pageSize) + 1;
     const hasPrevious = currentPage > 1;
-    const hasNext = currentPage < totalPages;
+    const hasNext = currentPage < this.props.totalPages;
     let showDots = true;
-    const pages = [...Array(totalPages).keys()].map(page => {
+    const pages = [...Array(this.props.totalPages).keys()].map(page => {
       const i = page + 1;
 
       if (
         Math.abs(currentPage - i) <= PAGE_NUMBER_PADDING ||
         i <= PAGE_NUMBER_PADDING + 1 ||
-        i >= totalPages - PAGE_NUMBER_PADDING
+        i >= this.props.totalPages - PAGE_NUMBER_PADDING
       ) {
         showDots = true;
         return currentPage === i ? (
@@ -41,7 +40,8 @@ class Pager extends React.Component {
             role="presentation"
             key={i}
             className="pager_step pagina"
-            onClick={() => this.onPageChanged(i)}>
+            onClick={() => this.onPageChanged(i)}
+          >
             {i}
           </a>
         );
@@ -65,7 +65,8 @@ class Pager extends React.Component {
             <a
               role="presentation"
               className="pager_nav vorige"
-              onClick={() => this.onPageChanged(currentPage - 1)}>
+              onClick={() => this.onPageChanged(currentPage - 1)}
+            >
               vorige
             </a>
           )}
@@ -76,7 +77,8 @@ class Pager extends React.Component {
             <a
               role="presentation"
               className="pager_nav volgende"
-              onClick={() => this.onPageChanged(currentPage + 1)}>
+              onClick={() => this.onPageChanged(currentPage + 1)}
+            >
               volgende
             </a>
           )}
@@ -86,17 +88,19 @@ class Pager extends React.Component {
   }
 }
 
+Pager.propTypes = {
+  page: PropTypes.number,
+  onPageChanged: PropTypes.func.isRequired,
+  totalPages: PropTypes.number.isRequired,
+};
+
 Pager.defaultProps = {
-  itemCount: 0,
-  pageSize: 100,
   page: 1,
 };
 
 Pager.propTypes = {
-  itemCount: PropTypes.number,
   onPageChanged: PropTypes.func.isRequired,
   page: PropTypes.number,
-  pageSize: PropTypes.number,
 };
 
 export default Pager;
