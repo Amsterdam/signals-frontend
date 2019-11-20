@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useParams } from 'react-router-dom';
-import { Row, Column } from '@datapunt/asc-ui';
+import { Row, Column, themeSpacing } from '@datapunt/asc-ui';
+import styled from 'styled-components';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import ListComponent from 'components/List';
@@ -10,6 +11,10 @@ import Pagination from 'components/Pagination';
 import PageHeader from 'signals/settings/components/PageHeader';
 import useFetchUsers from './hooks/useFetchUsers';
 import routes from '../../../routes';
+
+const StyledPagination = styled(Pagination)`
+  margin-top: ${themeSpacing(12)};
+`;
 
 const UsersOverview = ({ pageSize, history }) => {
   const location = useLocation();
@@ -83,7 +88,7 @@ const UsersOverview = ({ pageSize, history }) => {
 
           {!isLoading && users.count && (
             <Column span={12}>
-              <Pagination
+              <StyledPagination
                 currentPage={page}
                 onClick={onPaginationClick}
                 totalPages={Math.ceil(users.count / pageSize)}
