@@ -1,8 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '@datapunt/asc-ui';
+import styled from 'styled-components';
+import { Label as FieldLabel, Button, themeSpacing } from '@datapunt/asc-ui';
 
 import PageHeader from 'signals/settings/components/PageHeader';
+import Input from 'components/Input';
+
+export const Label = styled(FieldLabel)`
+  display: block;
+  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  margin-bottom: ${themeSpacing(3)};
+  `;
 
 export const RolesForm = ({
   id,
@@ -13,10 +21,9 @@ export const RolesForm = ({
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('handleSubmit', e);
+    console.log('handleSubmit', e.currentTarget);
   }
 
-  console.log('role', role);
   return (
     <div>
       <PageHeader title="Rol instellingen" />
@@ -27,8 +34,9 @@ export const RolesForm = ({
             onSubmit={handleSubmit}
           >
 
-            <input name="name" type="text" defaultValue={role.name} />
+            <Input name="name" type="text" defaultValue={role.name} label="Naam" />
 
+            <Label label="Rechten" />
             {permissions.map(permission =>
               <div key={permission.id} className="antwoord">
                 <input
