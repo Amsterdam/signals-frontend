@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Column, Heading } from '@datapunt/asc-ui';
 
 const NotFound = () => (
-  <div className="container" data-testid="notFoundPage>
+  <div className="container" data-testid="notFoundPage">
     <Row>
       <Column span={12}>
         <article>
