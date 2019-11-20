@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@datapunt/asc-core';
 import { useHistory } from 'react-router-dom';
@@ -10,7 +10,7 @@ import PageHeader from 'signals/settings/components/PageHeader';
 import formatRoles from '../../services/formatRoles';
 
 const StyledListComponent = styled(ListComponent)`
-  tr:nth-child(1),
+  th:nth-child(1),
   td:nth-child(1) {
     width: 20%;
   }
@@ -31,7 +31,7 @@ export const RolesList = ({
   };
 
   return (
-    <div>
+    <Fragment>
       <PageHeader title="Rollen" />
 
       {loading ? (
@@ -44,7 +44,7 @@ export const RolesList = ({
           onItemClick={onItemClick}
         />
       )}
-    </div >
+    </Fragment>
   )
 };
 

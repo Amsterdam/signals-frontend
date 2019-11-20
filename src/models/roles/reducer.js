@@ -18,6 +18,7 @@ export const initialState = fromJS({
   loading: false,
   saving: false,
   patching: false,
+  error: false,
 });
 
 function rolesReducer(state = initialState, action) {
@@ -66,7 +67,7 @@ function rolesReducer(state = initialState, action) {
     case PATCH_ROLE_SUCCESS:
       roles = state.get('list').toJS();
       index = roles.findIndex(role => role.id === action.payload.id);
-      if (index !== null && index !== -1) {
+      if (index !== -1) {
         roles[index] = { ...action.payload };
       }
       return state
@@ -77,7 +78,7 @@ function rolesReducer(state = initialState, action) {
     case PATCH_ROLE_ERROR:
       return state
         .set('error', true)
-        .set('saving', false);
+        .set('patching', false);
 
     default:
       return state;
