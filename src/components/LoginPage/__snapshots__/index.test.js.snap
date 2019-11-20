@@ -16,6 +16,7 @@ exports[`<LoginPage /> should render correctly 1`] = `
   >
     <div
       className="notification notification-red margin-top-bottom"
+      data-testid="loginPage"
     >
       <p>
         Om deze pagina te zien dient u ingelogd te zijn.

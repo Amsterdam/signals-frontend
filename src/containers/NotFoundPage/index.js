@@ -12,7 +12,7 @@ import messages from './messages';
 
 export default function NotFound() {
   return (
-    <div className="container">
+    <div className="container" data-testid="notFoundPage">
       <Row>
         <Column span={12}>
           <article>

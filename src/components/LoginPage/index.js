@@ -5,7 +5,7 @@ import { login } from 'shared/services/auth/auth';
 const LoginPage = () => (
   <Row>
     <Column span={12}>
-      <div className="notification notification-red margin-top-bottom">
+      <div className="notification notification-red margin-top-bottom" data-testid="loginPage">
         <p>Om deze pagina te zien dient u ingelogd te zijn.</p>
         <button
           className="action primary"
