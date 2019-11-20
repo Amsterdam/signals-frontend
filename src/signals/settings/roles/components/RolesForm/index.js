@@ -24,6 +24,7 @@ export const RolesForm = ({
   id,
   list,
   permissions,
+  onPatchRole,
 }) => {
   const role = list.find(item => item.id === id * 1);
 
@@ -36,13 +37,18 @@ export const RolesForm = ({
       }
     });
 
-    const patch = {
+    const payload = {
       id: role.id,
-      name: e.target.elements.name.value,
-      permission_ids,
+      patch: {
+        id: role.id,
+        name: e.target.elements.name.value,
+        permission_ids,
+      },
     };
 
-    console.log('handleSubmit patch', patch);
+    onPatchRole(payload);
+
+    console.log('handleSubmit payload', payload);
   }
 
   return (
@@ -54,7 +60,6 @@ export const RolesForm = ({
           <form
             onSubmit={handleSubmit}
           >
-
             <StyledInput
               label="Naam"
               name="name"
@@ -71,7 +76,7 @@ export const RolesForm = ({
                   type="checkbox"
                   defaultChecked={role.permissions.find(item => item.id === permission.id)}
                 />
-                <label htmlFor={`permission${permission.id}`}>{permission._display}</label>
+                <label htmlFor={`permission${permission.id}`}>{permission.name}</label>
               </div>)}
 
             <div>
@@ -107,6 +112,7 @@ RolesForm.propTypes = {
   id: PropTypes.string.isRequired,
   list: PropTypes.array,
   permissions: PropTypes.array,
+  onPatchRole: PropTypes.func.isRequired,
 };
 
 export default RolesForm;
