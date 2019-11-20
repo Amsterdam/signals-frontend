@@ -4,6 +4,7 @@ import { Route, Redirect, Switch, useLocation } from 'react-router-dom';
 import { isAuthenticated } from 'shared/services/auth/auth';
 
 import LoginPage from 'components/LoginPage';
+import NotFoundPage from 'containers/NotFoundPage';
 
 import routes from './routes';
 import UsersOverviewContainer from './users/containers/Overview';
@@ -25,7 +26,7 @@ export const SettingsModule = () => {
     }
   });
 
-  if (isAuthenticated() === false) {
+  if (!isAuthenticated()) {
     return <Route component={LoginPage} />;
   }
 
@@ -38,10 +39,11 @@ export const SettingsModule = () => {
       <Redirect
         exact
         from={routes.users}
-        to={routes.usersPaged.replace(':pageNum', 1)}
+        to={routes.usersPaged.replace(/:pageNum.*/, 1)}
       />
-      <Route path={routes.usersPaged} component={UsersOverviewContainer} />
+      <Route exact path={routes.usersPaged} component={UsersOverviewContainer} />
       <Route exact path={routes.user} component={UsersDetailContainer} />
+      <Route component={NotFoundPage} />
     </Switch>
   );
 };

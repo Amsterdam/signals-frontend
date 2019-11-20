@@ -28,9 +28,9 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       overviewpage: {
         incidents: [],
         loading: false,
-        incidentsCount: 666,
         page: 3,
       },
+      incidentsCount: 666,
       categories: {},
       onRequestIncidents: jest.fn(),
       onIncidentSelected: jest.fn(),

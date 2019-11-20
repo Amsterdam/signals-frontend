@@ -6,7 +6,13 @@ const StyledTD = styled.td`
   cursor: pointer;
 `;
 
-const List = ({ columnOrder, invisibleColumns, items, onItemClick, primaryKeyColumn }) => {
+const List = ({
+  columnOrder,
+  invisibleColumns,
+  items,
+  onItemClick,
+  primaryKeyColumn,
+}) => {
   if (!items.length) {
     return null;
   }
@@ -15,7 +21,8 @@ const List = ({ columnOrder, invisibleColumns, items, onItemClick, primaryKeyCol
     invisibleColumns.includes(colHeader) === false;
 
   const colHeaders =
-    (columnOrder.length && columnOrder) || Object.keys(items[0]).filter(filterVisibleColumns);
+    (columnOrder.length && columnOrder) ||
+    Object.keys(items[0]).filter(filterVisibleColumns);
 
   return (
     <table cellPadding="0" cellSpacing="0" width="100%">
@@ -32,7 +39,8 @@ const List = ({ columnOrder, invisibleColumns, items, onItemClick, primaryKeyCol
           <tr
             key={JSON.stringify(items[rowIndex])}
             data-item-id={primaryKeyColumn && items[rowIndex][primaryKeyColumn]}
-            onClick={onItemClick}>
+            onClick={onItemClick}
+          >
             {colHeaders.filter(filterVisibleColumns).map(col => (
               // eslint-disable-next-line react/no-array-index-key
               <StyledTD key={JSON.stringify(col)}>{row[col]}</StyledTD>
@@ -47,7 +55,7 @@ const List = ({ columnOrder, invisibleColumns, items, onItemClick, primaryKeyCol
 List.defaultProps = {
   columnOrder: [],
   invisibleColumns: [],
-  onItemClick: () => {},
+  onItemClick: null,
   primaryKeyColumn: undefined,
 };
 
