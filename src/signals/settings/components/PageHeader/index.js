@@ -8,7 +8,7 @@ import { Heading, Row } from '@datapunt/asc-ui';
 const StyledSection = styled.section`
   padding-top: ${({ hasBackLink }) => hasBackLink ? 24 : 12}px;
   padding-bottom: 10px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 
   ${({ hasBackLink }) => hasBackLink && css`
     h1 {

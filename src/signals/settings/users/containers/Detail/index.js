@@ -72,7 +72,7 @@ const UserDetail = ({ location }) => {
               )}
             </StyledColumn>
 
-            <StyledColumn span={4} debug>
+            <StyledColumn span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 4 }}>
               <FieldGroup>
                 <Input
                   defaultValue={data.email}
@@ -113,7 +113,7 @@ const UserDetail = ({ location }) => {
               </FieldGroup>
             </StyledColumn>
 
-            <StyledColumn span={5} push={2} debug></StyledColumn>
+            <StyledColumn span={{ small: 1, medium: 2, big: 4, large: 6, xLarge: 5 }}></StyledColumn>
           </FormContents>
 
           <StyledFormFooter
