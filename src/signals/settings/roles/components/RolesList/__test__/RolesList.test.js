@@ -7,9 +7,7 @@ import RolesList from '..';
 jest.mock('react-router-dom', () => ({
   __esModule: true,
   ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({
-    push: jest.fn(),
-  }),
+  useHistory: () => ({}),
 }));
 
 describe('/signals/settings/roles/components/RolesList', () => {
