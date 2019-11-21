@@ -51,7 +51,7 @@ export function* patchIncident(action) {
   } catch (error) {
     const { response } = error;
 
-    if (response.status === 403) {
+    if (response && response.status === 403) {
       const { jsonBody } = response;
       global.alert(jsonBody.detail);
     }

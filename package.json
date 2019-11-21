@@ -61,6 +61,7 @@
     "@datapunt/leaflet-geojson-bbox-layer": "0.1.1",
     "@datapunt/matomo-tracker-js": "0.0.15",
     "@sentry/browser": "^5.9.0",
+    "abortcontroller-polyfill": "^1.4.0",
     "amsterdam-amaps": "^2.0.0",
     "classnames": "^2.2.6",
     "compression": "^1.7.3",

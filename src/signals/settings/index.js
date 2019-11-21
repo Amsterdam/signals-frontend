@@ -1,41 +1,34 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+import React from 'react';
+import { Route, Redirect, Switch } from 'react-router-dom';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 
 import LoginPage from 'components/LoginPage';
+import NotFoundPage from 'containers/NotFoundPage';
 
+import routes from './routes';
 import UsersOverviewContainer from './users/containers/Overview';
 import RolesOverviewContainer from './roles/containers/RolesOverview';
 
-export const SettingsModule = ({ match: { url } }) =>
-  !isAuthenticated() ? (
-    <Route component={LoginPage} />
-  ) : (
-    <Fragment>
-      <Route
-        exact
-        path={`${url}/gebruikers`}
-        component={UsersOverviewContainer}
-      />
-      <Route
-        exact
-        path={`${url}/rollen`}
-        component={RolesOverviewContainer}
-      />
-      <Route
-        exact
-        path={`${url}/rollen/:roleId`}
-        component={RolesOverviewContainer}
-      />
-    </Fragment>
-  );
+export const SettingsModule = () => {
+  if (!isAuthenticated()) {
+    return <Route component={LoginPage} />;
+  }
 
-SettingsModule.propTypes = {
-  match: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-  }),
+  return (
+    <Switch>
+      {/* always redirect from /gebruikers to /gebruikers/page/1 to avoid having complexity in the UsersOverviewContainer component */}
+      <Redirect
+        exact
+        from={routes.users}
+        to={routes.usersPaged.replace(/:pageNum.*/, 1)}
+      />
+      <Route path={routes.usersPaged} component={UsersOverviewContainer} />
+      <Route path={routes.roles} component={RolesOverviewContainer} />
+      <Route path={routes.rol} component={RolesOverviewContainer} />
+      <Route path="" component={NotFoundPage} />
+    </Switch>
+  );
 };
 
 export default SettingsModule;
