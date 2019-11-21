@@ -12,24 +12,23 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
   it('should request user from API on mount', async () => {
     const userId = 45;
     fetch.mockResponseOnce(JSON.stringify(userJSON));
+
     const { result, waitForNextUpdate } = renderHook(() =>
       useFetchUser(userId)
     );
 
-    await act(async () => {
-      await expect(result.current.isLoading).toEqual(true);
-      await expect(result.current.data).toBeUndefined();
+    expect(result.current.isLoading).toEqual(true);
+    expect(result.current.data).toBeUndefined();
 
-      await waitForNextUpdate();
+    await waitForNextUpdate();
 
-      await expect(global.fetch).toHaveBeenCalledWith(
-        `${USERS_ENDPOINT}/${userId}`,
-        expect.objectContaining({ headers: {} })
-      );
+    expect(global.fetch).toHaveBeenCalledWith(
+      `${USERS_ENDPOINT}/${userId}`,
+      expect.objectContaining({ headers: {} })
+    );
 
-      await expect(result.current.isLoading).toEqual(false);
-      await expect(result.current.data).toEqual(userJSON);
-    });
+    expect(result.current.isLoading).toEqual(false);
+    expect(result.current.data).toEqual(userJSON);
   });
 
   it('should return errors that are thrown during fetch', async () => {
@@ -41,6 +40,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
       useFetchUser(userId)
     );
 
+    expect(result.current.isLoading).toEqual(true);
     expect(result.current.error).toEqual(false);
 
     await waitForNextUpdate();
@@ -76,11 +76,13 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
       useFetchUser(userId)
     );
 
+    expect(result.current.isLoading).toEqual(true);
     expect(result.current.error).toEqual(false);
 
     await waitForNextUpdate();
 
     expect(result.current.error).toEqual(response);
+    expect(result.current.isLoading).toEqual(false);
   });
 
   describe('patch', () => {
@@ -93,6 +95,8 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
         result,
         waitForNextUpdate,
       } = renderHook(() => useFetchUser(userId));
+
+      expect(result.current.isLoading).toEqual(true);
 
       // make sure the side effects are all done
       await waitForNextUpdate();
@@ -120,6 +124,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
       );
 
       expect(result.current.isSuccess).toEqual(true);
+      expect(result.current.isLoading).toEqual(false);
     });
 
     it('should throw on error response', async () => {
@@ -131,6 +136,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
         waitForNextUpdate,
       } = renderHook(() => useFetchUser(userId));
 
+      expect(result.current.isLoading).toEqual(true);
       expect(result.current.error).not.toEqual(response);
       expect(result.current.isSuccess).not.toEqual(false);
 
@@ -150,6 +156,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
       expect(result.current.error).toEqual(response);
       expect(result.current.isSuccess).toEqual(false);
+      expect(result.current.isLoading).toEqual(false);
     });
   });
 });
