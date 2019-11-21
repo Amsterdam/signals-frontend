@@ -187,7 +187,7 @@ class StatusForm extends React.Component {
                     name="text"
                     display="Toelichting"
                     control={this.form.get('text')}
-                    rows={5}
+                    rows={10}
                   />
 
                   <Notification warning data-testid="statusFormWarning">

@@ -1,126 +1,114 @@
-import React from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
-import { Heading } from '@datapunt/asc-ui';
+
+import { dataListType } from 'shared/types';
 
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import SelectInput from '../../../../components/SelectInput';
 import RadioInput from '../../../../components/RadioInput';
 import HiddenInput from '../../../../components/HiddenInput';
 
-import './style.scss';
+const form = FormBuilder.group({
+  category_url: [
+    'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+  ],
+  state: ['o'],
+  sub_slug: ['asbest-accu'],
+  main_slug: ['afval'],
+});
+let subs = [];
 
-class SelectForm extends React.Component {
-  constructor(props) {
-    super(props);
+const SelectForm = ({ subCategories, defaultTextsOptionList, onFetchDefaultTexts }) => {
+  const handleChange = changed => {
+    const newValues = {
+      ...form.value,
+      ...changed,
+    };
 
-    this.handleChange = this.handleChange.bind(this);
-  }
+    onFetchDefaultTexts(newValues);
+  };
 
-  componentDidMount() {
-    this.form.controls.category_url.valueChanges.subscribe(category_url => {
-      const found = this.props.subCategories.find(
-        sub => sub.key === category_url,
-      );
+  useEffect(() => {
+    form.controls.category_url.valueChanges.subscribe(category_url => {
+      const found = subs.find(sub => sub.key === category_url);
+      /* istanbul ignore else */
       if (found && found.slug && found.category_slug) {
-        this.form.patchValue({
+        form.patchValue({
           sub_slug: found.slug,
           main_slug: found.category_slug,
         });
 
-        this.handleChange({ category_url });
+        handleChange({ category_url });
       }
     });
 
-    this.form.controls.state.valueChanges.subscribe(state => {
-      this.handleChange({ state });
+    form.controls.state.valueChanges.subscribe(state => {
+      handleChange({ state });
     });
 
-    this.handleChange({});
-  }
+    form.updateValueAndValidity();
+    handleChange({});
 
-  componentDidUpdate() {
-    this.form.updateValueAndValidity();
-  }
+    return  () => {
+      form.controls.category_url.valueChanges.unsubscribe();
+      form.controls.state.valueChanges.unsubscribe();
+    }
+  }, []);
 
-  form = FormBuilder.group({
-    category_url: [
-      'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
-    ],
-    state: ['o'],
-    sub_slug: ['asbest-accu'],
-    main_slug: ['afval'],
-  });
+  useEffect(() => {
+    subs = subCategories;
+    form.updateValueAndValidity();
+  }, [subCategories]);
 
-  handleChange = changed => {
-    const newValues = {
-      ...this.form.value,
-      ...changed,
-    };
+  return (
+    <Fragment>
+      <FieldGroup
+        control={form}
+        render={() => (
+          <form
+            data-testid="selectFormForm"
+            className="select-form__form"
+          >
+            <FieldControlWrapper
+              render={SelectInput}
+              display="Subcategorie"
+              name="category_url"
+              values={subCategories}
+              control={form.get('category_url')}
+              emptyOptionText="Kies"
+              sort
+            />
+            <FieldControlWrapper
+              display="Status"
+              render={RadioInput}
+              name="state"
+              values={defaultTextsOptionList}
+              control={form.get('state')}
+            />
 
-    this.props.onFetchDefaultTexts(newValues);
-  };
-
-  render() {
-    const { subCategories, statusList } = this.props;
-    return (
-      <div className="select-form">
-        <FieldGroup
-          control={this.form}
-          render={() => (
-            <form className="select-form__form">
-              <Heading $as="h2" styleAs="h4" compact>
-                Subcategorie
-              </Heading>
-              <FieldControlWrapper
-                render={SelectInput}
-                name="category_url"
-                values={subCategories}
-                control={this.form.get('category_url')}
-                emptyOptionText="Kies"
-                sort
-              />
-
-              <Heading $as="h2" styleAs="h4">
-                Status
-              </Heading>
-              <FieldControlWrapper
-                render={RadioInput}
-                name="state"
-                values={statusList}
-                control={this.form.get('state')}
-              />
-
-              <FieldControlWrapper
-                render={HiddenInput}
-                name="sub_slug"
-                control={this.form.get('sub_slug')}
-              />
-              <FieldControlWrapper
-                render={HiddenInput}
-                name="main_slug"
-                control={this.form.get('main_slug')}
-              />
-            </form>
-          )}
-        />
-      </div>
-    );
-  }
-}
-
-SelectForm.defaultProps = {
-  subCategories: [],
-  statusList: [],
-
-  onFetchDefaultTexts: () => {},
+            <FieldControlWrapper
+              render={HiddenInput}
+              name="sub_slug"
+              control={form.get('sub_slug')}
+            />
+            <FieldControlWrapper
+              render={HiddenInput}
+              name="main_slug"
+              control={form.get('main_slug')}
+            />
+          </form>
+        )}
+      />
+    </Fragment>
+  );
 };
 
 SelectForm.propTypes = {
-  subCategories: PropTypes.array,
-  statusList: PropTypes.array,
+  subCategories: dataListType.isRequired,
+  defaultTextsOptionList: dataListType.isRequired,
 
-  onFetchDefaultTexts: PropTypes.func,
+  onFetchDefaultTexts: PropTypes.func.isRequired,
 };
 
 export default SelectForm;

@@ -15,6 +15,7 @@ global.fetch = require('jest-fetch-mock');
 Enzyme.configure({ adapter: new Adapter() });
 
 global.window.L = L;
+global.window.alert = msg => msg;
 
 /**
  * Element.closest() polyfill

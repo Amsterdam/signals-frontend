@@ -46,7 +46,7 @@ class Detail extends React.Component { // eslint-disable-line react/prefer-state
             onShowAttachment={onShowAttachment}
           />
 
-          {incident.extra_properties ? <ExtraProperties items={incident.extra_properties} /> : ''}
+          {incident.extra_properties && <ExtraProperties items={incident.extra_properties} />}
 
           <dt className="detail__definition" data-testid="detail-email-definition">E-mail melder</dt>
           <dd className="detail__value" data-testid="detail-email-value">{incident.reporter.email}</dd>

@@ -12,6 +12,7 @@ const List = ({
   items,
   onItemClick,
   primaryKeyColumn,
+  className,
 }) => {
   if (!items.length) {
     return null;
@@ -25,7 +26,7 @@ const List = ({
     Object.keys(items[0]).filter(filterVisibleColumns);
 
   return (
-    <table cellPadding="0" cellSpacing="0" width="100%">
+    <table cellPadding="0" cellSpacing="0" width="100%" className={className}>
       <thead>
         <tr>
           {colHeaders.map(colHeader => (
@@ -60,6 +61,7 @@ List.defaultProps = {
 };
 
 List.propTypes = {
+  className: PropTypes.string,
   /** List of column names in the order of which they should be displayed */
   columnOrder: PropTypes.arrayOf(PropTypes.string),
   /** List of column names that should not be displayed */
