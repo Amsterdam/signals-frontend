@@ -100,7 +100,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       )
     );
 
-    expect(queryByTestId('incidentOverviewPagerComponent')).toBeNull();
+    expect(queryByTestId('overviewPagerComponent')).toBeNull();
     expect(queryByTestId('incidentOverviewListComponent')).toBeNull();
     expect(queryByTestId('loadingIndicator')).not.toBeNull();
 

@@ -8,7 +8,6 @@ import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import styled from 'styled-components';
 
 import MyFilters from 'signals/incident-management/containers/MyFilters';
-import PageHeader from 'containers/PageHeader';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectCategories } from 'containers/App/selectors';
@@ -35,6 +34,7 @@ import saga from './saga';
 import { requestIncidents, incidentSelected } from './actions';
 import ListComponent from './components/List';
 import FilterTagList from '../FilterTagList';
+import PageHeader from './components/PageHeader';
 
 import './style.scss';
 
@@ -163,20 +163,22 @@ export const IncidentOverviewPageContainerComponent = ({
 
       <Row>
         <Column span={12} wrap>
-          <Column span={12}>
-            {loading ? (
+          {loading ? (
+            <Column span={12}>
               <LoadingIndicator />
-            ) : (
+            </Column>
+          ) : (
+            <Column span={12}>
               <ListComponent
                 incidentSelected={onIncidentSelected}
                 incidents={incidents}
                 onChangeOrdering={onChangeOrdering}
                 sort={ordering}
-                incidentsCount={incidentsCount}
+                itemCount={incidentsCount}
                 {...dataLists}
               />
-            )}
-          </Column>
+            </Column>
+          )}
 
           <Column span={12}>
             {!loading && incidentsCount && (
