@@ -20,7 +20,7 @@ export const SettingsModule = () => {
       <Redirect
         exact
         from={routes.users}
-        to={routes.usersPaged.replace(':pageNum', 1)}
+        to={routes.usersPaged.replace(/:pageNum.*/, 1)}
       />
       <Route path={routes.usersPaged} component={UsersOverviewContainer} />
       <Route path="" component={NotFoundPage} />

@@ -43,7 +43,7 @@ const UsersOverview = ({ pageSize, history }) => {
 
   const onPaginationClick = pageToNavigateTo => {
     global.window.scrollTo(0, 0);
-    history.push(routes.usersPaged.replace(':pageNum', pageToNavigateTo));
+    history.push(routes.usersPaged.replace(/:pageNum.*/, pageToNavigateTo));
   };
 
   return (
