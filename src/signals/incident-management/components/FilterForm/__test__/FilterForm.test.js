@@ -107,22 +107,6 @@ describe('signals/incident-management/components/FilterForm', () => {
     ).toEqual('1234');
   });
 
-  it('should render buttons in the footer', () => {
-    const { container, getAllByTestId } = render(
-      withAppContext(
-        <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
-          dataLists={dataLists}
-        />,
-      ),
-    );
-
-    expect(container.querySelectorAll('button[type="reset"]')).toHaveLength(1);
-    expect(container.querySelectorAll('button[type="submit"]')).toHaveLength(1);
-    expect(getAllByTestId('cancelBtn')).toHaveLength(1);
-  });
-
   it('should render groups of category checkboxes', () => {
     const { container } = render(
       withAppContext(
