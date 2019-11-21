@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { Row, Column } from '@datapunt/asc-ui';
-import PageHeader from 'components/PageHeader';
+import { Heading, Row, Column, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
+import { categoriesType, dataListType, defaultTextsType } from 'shared/types';
 import { makeSelectCategories } from 'containers/App/selectors';
 
 import injectSaga from 'utils/injectSaga';
@@ -19,15 +19,15 @@ import {
   fetchDefaultTexts,
   storeDefaultTexts,
   orderDefaultTexts,
-  saveDefaultTextsItem,
 } from './actions';
 import makeSelectDefaultTextsAdmin from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import './style.scss';
 
-const StyledPageHeader = styled(PageHeader)`
-  background-color: transparent;
+const StyledH1 = styled(Heading)`
+  font-weight: normal;
+  margin-bottom: ${themeSpacing(8)};
+  margin-top: ${themeSpacing(6)};
 `;
 
 const DefaultTextsAdmin = ({
@@ -35,7 +35,6 @@ const DefaultTextsAdmin = ({
   onFetchDefaultTexts,
   onSubmitTexts,
   onOrderDefaultTexts,
-  onSaveDefaultTextsItem,
   defaultTextsAdmin: {
     defaultTexts,
     defaultTextsOptionList,
@@ -44,12 +43,14 @@ const DefaultTextsAdmin = ({
   },
 }) => (
   <Fragment>
-    <StyledPageHeader title="Beheer standaard teksten" />
     <Row>
+      <Column span={12}>
+        <StyledH1>Beheer standaard teksten</StyledH1>
+      </Column>
       <Column span={4}>
         <SelectForm
           subCategories={categories.sub}
-          statusList={defaultTextsOptionList}
+          defaultTextsOptionList={defaultTextsOptionList}
           onFetchDefaultTexts={onFetchDefaultTexts}
         />
       </Column>
@@ -62,21 +63,33 @@ const DefaultTextsAdmin = ({
           state={state}
           onSubmitTexts={onSubmitTexts}
           onOrderDefaultTexts={onOrderDefaultTexts}
-          onSaveDefaultTextsItem={onSaveDefaultTextsItem}
         />
       </Column>
     </Row>
   </Fragment>
 );
 
+DefaultTextsAdmin.defaultProps = {
+  defaultTextsAdmin: {
+    defaultTexts: [],
+    defaultTextsOptionList: [],
+    categoryUrl: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+    state: 'o',
+  },
+};
+
 DefaultTextsAdmin.propTypes = {
-  defaultTextsAdmin: PropTypes.object.isRequired,
-  categories: PropTypes.object.isRequired,
+  defaultTextsAdmin: PropTypes.shape({
+    defaultTexts: defaultTextsType,
+    defaultTextsOptionList: dataListType,
+    categoryUrl: PropTypes.string,
+    state: PropTypes.string,
+  }),
+  categories: categoriesType.isRequired,
 
   onFetchDefaultTexts: PropTypes.func.isRequired,
   onSubmitTexts: PropTypes.func.isRequired,
   onOrderDefaultTexts: PropTypes.func.isRequired,
-  onSaveDefaultTextsItem: PropTypes.func.isRequired,
 };
 
 export const mapDispatchToProps = dispatch => bindActionCreators(
@@ -84,7 +97,6 @@ export const mapDispatchToProps = dispatch => bindActionCreators(
     onFetchDefaultTexts: fetchDefaultTexts,
     onSubmitTexts: storeDefaultTexts,
     onOrderDefaultTexts: orderDefaultTexts,
-    onSaveDefaultTextsItem: saveDefaultTextsItem,
   },
   dispatch,
 );

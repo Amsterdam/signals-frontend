@@ -101,6 +101,16 @@ const HeaderWrapper = styled.div`
       #header {
         position: static;
 
+        header {
+          height: 160px;
+        }
+
+        @media screen and (max-width: 539px) {
+          header {
+            height: 116px;
+          }
+        }
+
         &:after {
           max-width: 1400px;
           margin-left: auto;

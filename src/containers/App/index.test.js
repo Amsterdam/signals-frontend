@@ -26,7 +26,7 @@ describe('<App />', () => {
   });
 
   it('should render the correct theme', () => {
-    global.sessionStorage.getItem.mockImplementation(() => undefined);
+    global.localStorage.getItem.mockImplementation(() => undefined);
 
     const { queryByTestId, rerender } = render(
       withAppContext(<AppContainer requestCategoriesAction={() => {}} />),
@@ -36,7 +36,7 @@ describe('<App />', () => {
 
     cleanup();
 
-    global.sessionStorage.getItem.mockImplementation(() => '42');
+    global.localStorage.getItem.mockImplementation(() => '42');
 
     rerender(
       withAppContext(<AppContainer requestCategoriesAction={() => {}} />),

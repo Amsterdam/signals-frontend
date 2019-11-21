@@ -37,14 +37,14 @@ describe('signals/incident-management', () => {
   });
 
   it('should render correctly', () => {
-    sessionStorage.getItem.mockImplementationOnce(() => 'token');
+    localStorage.getItem.mockImplementationOnce(() => 'token');
 
     const { rerender, asFragment } = render(
       withAppContext(<IncidentManagementModuleComponent {...props} />)
     );
     const firstRender = asFragment();
 
-    sessionStorage.getItem.mockImplementationOnce(() => undefined);
+    localStorage.getItem.mockImplementationOnce(() => undefined);
 
     rerender(withAppContext(<IncidentManagementModuleComponent {...props} />));
 
@@ -59,7 +59,7 @@ describe('signals/incident-management', () => {
     it('can navigate to incident list', () => {
       history.push('/manage/incidents');
 
-      sessionStorage.getItem.mockImplementationOnce(() => undefined);
+      localStorage.getItem.mockImplementationOnce(() => undefined);
 
       const { rerender, queryByText } = render(
         withAppContext(<IncidentManagementModuleComponent {...props} />)
@@ -67,7 +67,7 @@ describe('signals/incident-management', () => {
 
       expect(queryByText(loginText)).not.toBeNull();
 
-      sessionStorage.getItem.mockImplementationOnce(() => 'token');
+      localStorage.getItem.mockImplementationOnce(() => 'token');
 
       rerender(
         withAppContext(<IncidentManagementModuleComponent {...props} />)
@@ -79,7 +79,7 @@ describe('signals/incident-management', () => {
     it('can navigate to incident detail', () => {
       history.push('/manage/incident/1101');
 
-      sessionStorage.getItem.mockImplementationOnce(() => undefined);
+      localStorage.getItem.mockImplementationOnce(() => undefined);
 
       const { rerender, queryByText } = render(
         withAppContext(<IncidentManagementModuleComponent {...props} />)
@@ -87,7 +87,7 @@ describe('signals/incident-management', () => {
 
       expect(queryByText(loginText)).not.toBeNull();
 
-      sessionStorage.getItem.mockImplementationOnce(() => 'token');
+      localStorage.getItem.mockImplementationOnce(() => 'token');
 
       rerender(
         withAppContext(<IncidentManagementModuleComponent {...props} />)
@@ -99,7 +99,7 @@ describe('signals/incident-management', () => {
     it('can navigate to incident split', () => {
       history.push('/manage/incident/1101/split');
 
-      sessionStorage.getItem.mockImplementationOnce(() => undefined);
+      localStorage.getItem.mockImplementationOnce(() => undefined);
 
       const { rerender, queryByText } = render(
         withAppContext(<IncidentManagementModuleComponent {...props} />)
@@ -107,7 +107,7 @@ describe('signals/incident-management', () => {
 
       expect(queryByText(loginText)).not.toBeNull();
 
-      sessionStorage.getItem.mockImplementationOnce(() => 'token');
+      localStorage.getItem.mockImplementationOnce(() => 'token');
 
       rerender(
         withAppContext(<IncidentManagementModuleComponent {...props} />)
