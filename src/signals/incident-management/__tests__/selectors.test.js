@@ -8,6 +8,7 @@ import {
   makeSelectActiveFilter,
   makeSelectEditFilter,
 } from '../selectors';
+import { FILTER_PAGE_SIZE } from '../constants';
 
 import { initialState } from '../reducer';
 
@@ -113,6 +114,7 @@ describe('signals/incident-management/selectors', () => {
       expect(makeSelectFilterParams(emptyState)).toEqual({
         ordering: '-created_at',
         page: 1,
+        page_size: FILTER_PAGE_SIZE,
       });
 
       const state = fromJS({
@@ -123,6 +125,7 @@ describe('signals/incident-management/selectors', () => {
         ordering: '-created_at',
         page: 1,
         stadsdeel: ['B', 'E'],
+        page_size: FILTER_PAGE_SIZE,
       });
     });
 
@@ -134,6 +137,7 @@ describe('signals/incident-management/selectors', () => {
       expect(makeSelectFilterParams(state1)).toEqual({
         ordering: '-created_at',
         page: 1,
+        page_size: FILTER_PAGE_SIZE,
       });
 
       const state2 = fromJS({
@@ -143,6 +147,7 @@ describe('signals/incident-management/selectors', () => {
       expect(makeSelectFilterParams(state2)).toEqual({
         ordering: 'created_at',
         page: 1,
+        page_size: FILTER_PAGE_SIZE,
       });
     });
 
@@ -153,6 +158,7 @@ describe('signals/incident-management/selectors', () => {
         ordering: '-created_at',
         page: 1,
         id: 'Foo bar baz',
+        page_size: FILTER_PAGE_SIZE,
       });
     });
   });
