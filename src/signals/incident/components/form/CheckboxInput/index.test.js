@@ -22,13 +22,15 @@ describe('Form component <CheckboxInput />', () => {
       },
     };
 
-    wrapper = shallow(<CheckboxInput
-      handler={handler}
-      parent={parent}
-      touched={touched}
-      hasError={hasError}
-      getError={getError}
-    />);
+    wrapper = shallow(
+      <CheckboxInput
+        handler={handler}
+        parent={parent}
+        touched={touched}
+        hasError={hasError}
+        getError={getError}
+      />
+    );
 
     handler.mockImplementation(() => ({
       value: {
@@ -122,7 +124,9 @@ describe('Form component <CheckboxInput />', () => {
     });
 
     it('can be checked and unchecked with multiple values', () => {
-      handler = handler.mockImplementation(() => ({ value: [{ id: 'blue', label: 'Blauw' }] }));
+      handler = handler.mockImplementation(() => ({
+        value: [{ id: 'blue', label: 'Blauw' }],
+      }));
 
       wrapper.setProps({
         meta: {
@@ -133,14 +137,23 @@ describe('Form component <CheckboxInput />', () => {
       });
 
       const checkEevent = { target: { checked: true } };
-      wrapper.find('input[type="checkbox"]').at(2).simulate('click', checkEevent);
+      wrapper
+        .find('input[type="checkbox"]')
+        .at(2)
+        .simulate('click', checkEevent);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': [{ id: 'blue', label: 'Blauw' }, { id: 'green', label: 'Groen' }],
+        'input-field-name': [
+          { id: 'blue', label: 'Blauw' },
+          { id: 'green', label: 'Groen' },
+        ],
       });
 
       const uncheckEevent = { target: { checked: false } };
-      wrapper.find('input[type="checkbox"]').at(2).simulate('click', uncheckEevent);
+      wrapper
+        .find('input[type="checkbox"]')
+        .at(2)
+        .simulate('click', uncheckEevent);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': [{ id: 'blue', label: 'Blauw' }],

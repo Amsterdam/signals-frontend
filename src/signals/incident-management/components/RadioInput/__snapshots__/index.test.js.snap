@@ -24,6 +24,7 @@ exports[`<RadioInput /> should render correctly 1`] = `
       >
         <input
           className="kenmerkradio"
+          data-testid="name-"
           id="name-"
         />
         <label
@@ -38,6 +39,7 @@ exports[`<RadioInput /> should render correctly 1`] = `
       >
         <input
           className="kenmerkradio"
+          data-testid="name-1"
           id="name-1"
         />
         <label
@@ -52,6 +54,7 @@ exports[`<RadioInput /> should render correctly 1`] = `
       >
         <input
           className="kenmerkradio"
+          data-testid="name-2"
           id="name-2"
         />
         <label

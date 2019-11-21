@@ -15,6 +15,7 @@ const dataLists = {
   status: definitions.statusList,
   feedback: definitions.feedbackList,
   stadsdeel: definitions.stadsdeelList,
+  source: definitions.sourceList,
 };
 
 describe('signals/incident-management/components/FilterForm', () => {
@@ -104,22 +105,6 @@ describe('signals/incident-management/components/FilterForm', () => {
     expect(
       container.querySelector('input[type="hidden"][name="id"]').value,
     ).toEqual('1234');
-  });
-
-  it('should render buttons in the footer', () => {
-    const { container, getAllByTestId } = render(
-      withAppContext(
-        <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
-          dataLists={dataLists}
-        />,
-      ),
-    );
-
-    expect(container.querySelectorAll('button[type="reset"]')).toHaveLength(1);
-    expect(container.querySelectorAll('button[type="submit"]')).toHaveLength(1);
-    expect(getAllByTestId('cancelBtn')).toHaveLength(1);
   });
 
   it('should render groups of category checkboxes', () => {
@@ -358,6 +343,43 @@ describe('signals/incident-management/components/FilterForm', () => {
     expect(
       container.querySelectorAll('input[type="radio"][name="feedback"]'),
     ).toHaveLength(dataLists.feedback.length + 1); // by default, a radio button with an empty value is rendered
+  });
+
+  it('should render a list of source options', () => {
+    const dataListsWithoutSourceList = { ...dataLists };
+    delete dataListsWithoutSourceList.source;
+
+    const { container, rerender, queryByTestId } = render(
+      withAppContext(
+        <FilterForm
+          categories={categories}
+          onSubmit={() => {}}
+          dataLists={dataListsWithoutSourceList}
+        />,
+      ),
+    );
+
+    expect(queryByTestId('sourceFilterGroup')).toBeNull();
+
+    expect(
+      container.querySelectorAll('input[type="checkbox"][name="source"]'),
+    ).toHaveLength(0);
+
+    cleanup();
+
+    rerender(
+      withAppContext(
+        <FilterForm
+          categories={categories}
+          onSubmit={() => {}}
+          dataLists={dataLists}
+        />,
+      ),
+    );
+
+    expect(
+      container.querySelectorAll('input[type="checkbox"][name="source"]'),
+    ).toHaveLength(dataLists.source.length);
   });
 
   it('should render a datepicker', () => {
