@@ -26,7 +26,7 @@ export const SettingsModule = ({ match: { url } }) =>
       />
       <Route
         exact
-        path={`${url}/rollen/:roleId`}
+        path={`${url}/rol/:roleId(\\d+)`}
         component={props => <RolesOverviewContainer id={props.match.params.roleId} />}
       />
     </Fragment>

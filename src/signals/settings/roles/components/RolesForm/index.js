@@ -54,12 +54,11 @@ export const RolesForm = ({
     };
 
     onPatchRole(payload);
-
-    history.push(`/instellingen/rollen`);
+    history.push('/instellingen/rollen');
   }
 
   const handleCancel = () => {
-    history.push(`/instellingen/rollen`);
+    history.push('/instellingen/rollen');
   };
 
   return (

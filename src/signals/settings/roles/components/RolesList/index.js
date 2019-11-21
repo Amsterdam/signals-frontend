@@ -24,7 +24,7 @@ export const RolesList = ({
     const roleId = e.currentTarget.getAttribute('data-item-id');
     /* istanbul ignore else */
     if (roleId > -1) {
-      history.push(`rollen/${roleId}`);
+      history.push(`/instellingen/rol/${roleId}`);
     }
   };
 
