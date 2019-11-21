@@ -4,7 +4,7 @@ import { Row, Column } from '@datapunt/asc-ui';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import ListComponent from 'components/List';
-import Pager from 'components/Pager';
+import Pagination from 'components/Pagination';
 
 import PageHeader from 'signals/settings/components/PageHeader';
 import useFetchUsers from './hooks/useFetchUsers';
@@ -34,10 +34,10 @@ const UsersOverview = ({ page }) => {
 
           <Column span={12}>
             {!isLoading && users.length && (
-              <Pager
+              <Pagination
                 itemCount={users.length}
                 page={page}
-                onPageChanged={() => {}}
+                onPageChanged={() => { }}
               />
             )}
           </Column>
