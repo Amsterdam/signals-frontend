@@ -6,9 +6,9 @@ import * as reactRouterDom from 'react-router-dom';
 import { withAppContext, history } from 'test/utils';
 import usersJSON from 'utils/__tests__/fixtures/users.json';
 import routes from 'signals/settings/routes';
+import { USERS_ENDPOINT } from 'shared/services/api/api';
 
 import UsersOverview from '..';
-import { usersEndpoint } from '../hooks/useFetchUsers';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -42,7 +42,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
       await wait(() =>
         expect(global.fetch).toHaveBeenCalledWith(
-          expect.stringContaining(usersEndpoint),
+          expect.stringContaining(USERS_ENDPOINT),
           expect.objectContaining({ headers: {} })
         )
       );

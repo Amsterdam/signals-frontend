@@ -1,6 +1,7 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 import userJSON from 'utils/__tests__/fixtures/user.json';
-import useFetchUser, { userEndpoint } from '../useFetchUser';
+import { USERS_ENDPOINT } from 'shared/services/api/api';
+import useFetchUser from '../useFetchUser';
 
 describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
   beforeEach(() => {
@@ -19,7 +20,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
       await waitForNextUpdate();
 
       await expect(global.fetch).toHaveBeenCalledWith(
-        `${userEndpoint}${userId}`,
+        `${USERS_ENDPOINT}${userId}`,
         expect.objectContaining({ headers: {} })
       );
 
@@ -41,5 +42,22 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
     expect(result.current.error).toEqual(error);
     expect(result.current.isLoading).toEqual(false);
+  });
+
+  it('should abort request on unmount', () => {
+    fetch.mockResponseOnce(
+      () =>
+        new Promise(resolve =>
+          setTimeout(() => resolve(JSON.stringify(userJSON)), 100)
+        )
+    );
+
+    const abortSpy = jest.spyOn(global.AbortController.prototype, 'abort');
+
+    const { unmount } = renderHook(async () => useFetchUser());
+
+    unmount();
+
+    expect(abortSpy).toHaveBeenCalled();
   });
 });

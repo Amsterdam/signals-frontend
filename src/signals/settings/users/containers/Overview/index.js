@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
@@ -11,8 +11,9 @@ import PageHeader from 'signals/settings/components/PageHeader';
 import useFetchUsers from './hooks/useFetchUsers';
 import routes from '../../../routes';
 
-const UsersOverview = ({ pageSize, history }) => {
+const UsersOverview = ({ pageSize }) => {
   const location = useLocation();
+  const history = useHistory();
   const { pageNum } = useParams();
   const [page, setPage] = useState(1);
   const { isLoading, users } = useFetchUsers({ page, pageSize });
@@ -88,11 +89,6 @@ UsersOverview.defaultProps = {
 };
 
 UsersOverview.propTypes = {
-  history: PropTypes.shape({
-    action: PropTypes.string,
-    push: PropTypes.func,
-    replace: PropTypes.func,
-  }),
   pageSize: PropTypes.number,
 };
 

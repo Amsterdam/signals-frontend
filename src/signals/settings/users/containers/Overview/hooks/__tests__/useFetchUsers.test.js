@@ -2,7 +2,8 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import { wait } from '@testing-library/react';
 import { act as reAct } from 'react-dom/test-utils';
 import usersJSON from 'utils/__tests__/fixtures/users.json';
-import useFetchUsers, { usersEndpoint } from '../useFetchUsers';
+import { USERS_ENDPOINT } from 'shared/services/api/api';
+import useFetchUsers from '../useFetchUsers';
 
 describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
   beforeEach(() => {
@@ -23,7 +24,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
     });
 
     expect(global.fetch).toHaveBeenCalledWith(
-      usersEndpoint,
+      USERS_ENDPOINT,
       expect.objectContaining({ headers: {} })
     );
 
@@ -42,7 +43,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
       await waitForNextUpdate();
 
       await expect(global.fetch).toHaveBeenCalledWith(
-        `${usersEndpoint}/?page=${page}`,
+        `${USERS_ENDPOINT}/?page=${page}`,
         expect.objectContaining({ headers: {} })
       );
     });
@@ -56,7 +57,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
       await waitForNextUpdate();
 
       await expect(global.fetch).toHaveBeenCalledWith(
-        `${usersEndpoint}/?page_size=${pageSize}`,
+        `${USERS_ENDPOINT}/?page_size=${pageSize}`,
         expect.objectContaining({ headers: {} })
       );
     });
@@ -87,7 +88,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
       await waitForNextUpdate();
 
       await expect(global.fetch).toHaveBeenCalledWith(
-        `${usersEndpoint}/?page=${page}`,
+        `${USERS_ENDPOINT}/?page=${page}`,
         expect.objectContaining({ headers: {} })
       );
     });
@@ -101,7 +102,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
       await waitForNextUpdate();
 
       await expect(global.fetch).toHaveBeenCalledWith(
-        `${usersEndpoint}/?page_size=${pageSize}`,
+        `${USERS_ENDPOINT}/?page_size=${pageSize}`,
         expect.objectContaining({ headers: {} })
       );
     });

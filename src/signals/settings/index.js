@@ -42,7 +42,7 @@ export const SettingsModule = () => {
         to={routes.usersPaged.replace(/:pageNum.*/, 1)}
       />
       <Route exact path={routes.usersPaged} component={UsersOverviewContainer} />
-      <Route exact path={routes.user} component={UsersDetailContainer} />
+      <Route exact path={[routes.user, routes.newUser]} component={UsersDetailContainer} />
       <Route component={NotFoundPage} />
     </Switch>
   );
