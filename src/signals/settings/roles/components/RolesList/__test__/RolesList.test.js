@@ -57,7 +57,6 @@ describe('containers/RolesOverview', () => {
       expect(container.querySelector('tr:nth-child(2) td:nth-child(1)')).toHaveTextContent(/^coordinatoren$/);
       expect(container.querySelector('tr:nth-child(2) td:nth-child(2)')).toHaveTextContent(/^$/);
 
-
       props.list = [];
       rerender(withAppContext(<RolesList {...props} />))
 
