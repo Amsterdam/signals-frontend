@@ -12,6 +12,7 @@ const List = ({
   items,
   onItemClick,
   primaryKeyColumn,
+  className,
 }) => {
   if (!items.length) {
     return null;
@@ -25,7 +26,7 @@ const List = ({
     Object.keys(items[0]).filter(filterVisibleColumns);
 
   return (
-    <table cellPadding="0" cellSpacing="0" width="100%">
+    <table cellPadding="0" cellSpacing="0" width="100%" className={className}>
       <thead>
         <tr>
           {colHeaders.map(colHeader => (
@@ -39,8 +40,7 @@ const List = ({
           <tr
             key={JSON.stringify(items[rowIndex])}
             data-item-id={primaryKeyColumn && items[rowIndex][primaryKeyColumn]}
-            onClick={onItemClick}
-          >
+            onClick={onItemClick}>
             {colHeaders.filter(filterVisibleColumns).map(col => (
               // eslint-disable-next-line react/no-array-index-key
               <StyledTD key={JSON.stringify(col)}>{row[col]}</StyledTD>
@@ -55,18 +55,18 @@ const List = ({
 List.defaultProps = {
   columnOrder: [],
   invisibleColumns: [],
-  onItemClick: () => { },
+  onItemClick: null,
   primaryKeyColumn: undefined,
 };
 
 List.propTypes = {
+  className: PropTypes.string,
   /** List of column names in the order of which they should be displayed */
   columnOrder: PropTypes.arrayOf(PropTypes.string),
   /** List of column names that should not be displayed */
   invisibleColumns: PropTypes.arrayOf(PropTypes.string),
   /** List of key/value pairs */
   items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  /** Row click callback handler */
   onItemClick: PropTypes.func,
   /** Name of the column that contains the value that is used to build the URL to navigate to on item click */
   primaryKeyColumn: PropTypes.string,

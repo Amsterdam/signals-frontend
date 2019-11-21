@@ -1,4 +1,4 @@
-import { validateFileType, validateMaxFilesize, validatePhoneNumber } from './index';
+import { validateFileType, validateMaxFilesize, validateMinFilesize, validatePhoneNumber } from './index';
 
 describe('The costom validators service', () => {
   describe('should validate file type', () => {
@@ -28,22 +28,23 @@ describe('The costom validators service', () => {
     });
   });
 
-  describe('should validate max file size', () => {
+  describe('should validate file size', () => {
     const meta = {
-      maxFileSize: 8388608,
+      minFileSize: 30 * 2**10,
+      maxFileSize: 8 * 2**20,
     };
 
-    it('with correct file type', () => {
+    it('not exceed max file size', () => {
       const file = {
-        size: 8388607,
+        size: meta.maxFileSize - 1,
       };
 
       expect(validateMaxFilesize(file, meta)).toEqual(null);
     });
 
-    it('with incorrect file type', () => {
+    it('to exceed max file size', () => {
       const file = {
-        size: 8388608,
+        size: meta.maxFileSize,
       };
 
       expect(validateMaxFilesize(file, meta)).toEqual({
@@ -51,8 +52,36 @@ describe('The costom validators service', () => {
       });
     });
 
+    it('to be equal to or exceed min file size', () => {
+      const file = {
+        size: meta.minFileSize,
+      };
+
+      expect(validateMinFilesize(file, meta)).toEqual(null);
+    });
+
+    it('not exceed min file size', () => {
+      const file = {
+        size: meta.minFileSize - 1,
+      };
+
+      expect(validateMinFilesize(file, meta)).toEqual({
+        custom: 'Dit bestand is te klein (30 kB). Minimale bestandgrootte is 30 kB.',
+      });
+    });
+
+    it('exceed min file size and not exceed max file size', () => {
+      const file = {
+        size: meta.maxFileSize - 1,
+      };
+
+      expect(validateMinFilesize(file, meta)).toEqual(null);
+      expect(validateMaxFilesize(file, meta)).toEqual(null);
+    });
+
     it('with empty value', () => {
       expect(validateMaxFilesize()).toEqual(null);
+      expect(validateMinFilesize()).toEqual(null);
     });
   });
 

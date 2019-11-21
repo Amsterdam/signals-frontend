@@ -9,7 +9,7 @@ import PageHeader from 'signals/settings/components/PageHeader';
 import formatRoles from '../../services/formatRoles';
 
 const StyledListComponent = styled(ListComponent)`
-  tr:nth-child(1),
+  th:nth-child(1),
   td:nth-child(1) {
     width: 20%;
   }

@@ -35,7 +35,8 @@ export const SelectInput = props => {
 
         <div className="select-input__control invoer">
           <select
-            name=""
+            name={name}
+            data-testid={name}
             id={`form${name}`}
             {...handler()}
             multiple={multiple}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -33,7 +33,7 @@ export const RolesOverview = ({
   const isLoading = () => loading || loadingPermissions;
 
   return (
-    <div>
+    <Fragment>
       <Row>
         <Column span={12}>
           {isLoading() && <LoadingIndicator />}
@@ -53,7 +53,7 @@ export const RolesOverview = ({
           }
         </Column>
       </Row>
-    </div >
+    </Fragment>
   );
 };
 
