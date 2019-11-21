@@ -12,7 +12,7 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
-describe('containers/RolesOverview', () => {
+describe('/signals/settings/roles/components/RolesList', () => {
   let props = {};
 
   beforeEach(() => {

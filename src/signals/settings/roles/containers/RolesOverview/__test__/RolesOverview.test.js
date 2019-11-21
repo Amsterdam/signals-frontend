@@ -5,7 +5,7 @@ import { withAppContext } from 'test/utils';
 import { FETCH_ROLES } from 'models/roles/constants';
 import { RolesOverview, mapDispatchToProps } from '..';
 
-describe('containers/RolesOverview', () => {
+describe('signals/settings/roles/components/RolesOverview', () => {
   let props = {};
 
   beforeEach(() => {
