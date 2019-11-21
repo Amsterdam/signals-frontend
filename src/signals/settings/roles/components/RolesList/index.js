@@ -49,7 +49,12 @@ RolesList.defaultProps = {
 };
 
 RolesList.propTypes = {
-  list: PropTypes.array,
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ),
 };
 
 export default RolesList;

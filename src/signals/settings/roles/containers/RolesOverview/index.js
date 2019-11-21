@@ -66,12 +66,23 @@ RolesOverview.defaultProps = {
 
 RolesOverview.propTypes = {
   roles: PropTypes.shape({
-    list: PropTypes.array,
-    permissions: PropTypes.array,
+    list: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+      })
+    ),
+    permissions: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+      })
+    ),
     loading: PropTypes.bool,
     loadingPermissions: PropTypes.bool,
   }),
   id: PropTypes.string,
+
   onFetchRoles: PropTypes.func.isRequired,
   onFetchPermissions: PropTypes.func.isRequired,
   onPatchRole: PropTypes.func.isRequired,

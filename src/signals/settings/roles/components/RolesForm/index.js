@@ -121,8 +121,19 @@ RolesForm.defaultProps = {
 
 RolesForm.propTypes = {
   id: PropTypes.string.isRequired,
-  list: PropTypes.array,
-  permissions: PropTypes.array,
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ),
+  permissions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ),
+
   onPatchRole: PropTypes.func.isRequired,
 };
 
