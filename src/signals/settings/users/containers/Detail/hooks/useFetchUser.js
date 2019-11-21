@@ -11,7 +11,7 @@ import { USERS_ENDPOINT } from 'shared/services/api/api';
  */
 const useFetchUser = id => {
   const [isLoading, setLoading] = useState();
-  const [isSuccess, setSuccess] = useState(false);
+  const [isSuccess, setSuccess] = useState();
   const initialState = id ? undefined : {};
   const [data, setData] = useState(initialState);
   const [error, setError] = useState(false);
@@ -31,7 +31,8 @@ const useFetchUser = id => {
           signal,
         });
 
-        if (!response.ok) {
+        /* istanbul ignore else */
+        if (response.ok === false) {
           throw response;
         }
 
@@ -40,7 +41,6 @@ const useFetchUser = id => {
         setData(userData);
       } catch (e) {
         e.message = getErrorMessage(e);
-
         setError(e);
       } finally {
         setLoading(false);
@@ -70,7 +70,8 @@ const useFetchUser = id => {
         body: JSON.stringify(patchData),
       });
 
-      if (!response.ok) {
+      /* istanbul ignore else */
+      if (response.ok === false) {
         throw response;
       }
 

@@ -3,7 +3,7 @@ import { act } from '@testing-library/react-hooks';
 import { render, wait, fireEvent, cleanup } from '@testing-library/react';
 import { act as reAct } from 'react-dom/test-utils';
 import * as reactRouterDom from 'react-router-dom';
-import { withAppContext, history } from 'test/utils';
+import { withAppContext } from 'test/utils';
 import usersJSON from 'utils/__tests__/fixtures/users.json';
 import routes from 'signals/settings/routes';
 import { USERS_ENDPOINT } from 'shared/services/api/api';
@@ -22,23 +22,20 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
-let historyMock;
+const push = jest.fn();
+jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
+  push,
+}));
 
 describe('signals/settings/users/containers/Overview', () => {
   beforeEach(() => {
     fetch.mockResponse(JSON.stringify(usersJSON));
-
-    historyMock = {
-      ...history,
-      action: '',
-      push: jest.fn(),
-      replace: jest.fn(),
-    };
+    push.mockReset();
   });
 
   it('should request users from API on mount', async () => {
     await act(async () => {
-      await render(withAppContext(<UsersOverview history={historyMock} />));
+      await render(withAppContext(<UsersOverview />));
 
       await wait(() =>
         expect(global.fetch).toHaveBeenCalledWith(
@@ -55,7 +52,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await reAct(async () => {
       ({ container, getByText } = await render(
-        withAppContext(<UsersOverview history={historyMock} />)
+        withAppContext(<UsersOverview />)
       ));
     });
 
@@ -70,7 +67,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await reAct(async () => {
       ({ rerender, queryByTestId } = await render(
-        withAppContext(<UsersOverview history={historyMock} />)
+        withAppContext(<UsersOverview />)
       ));
     });
 
@@ -80,7 +77,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await reAct(async () => {
       await rerender(
-        withAppContext(<UsersOverview pageSize={100} history={historyMock} />)
+        withAppContext(<UsersOverview pageSize={100} />)
       );
     });
 
@@ -89,12 +86,11 @@ describe('signals/settings/users/containers/Overview', () => {
 
   it('should push to the history stack on pagination item click', async () => {
     global.window.scrollTo = jest.fn();
-    const push = jest.fn();
     let getByText;
 
     await reAct(async () => {
       ({ getByText } = await render(
-        withAppContext(<UsersOverview history={{ ...historyMock, push }} />)
+        withAppContext(<UsersOverview />)
       ));
     });
 
@@ -109,48 +105,35 @@ describe('signals/settings/users/containers/Overview', () => {
   });
 
   it('should not push', async () => {
-    const historyMockObj = {
-      ...historyMock,
-      action: 'PUSH',
-    };
-
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       pageNum: 1,
     }));
 
     await reAct(async () => {
-      await render(withAppContext(<UsersOverview history={historyMockObj} />));
+      await render(withAppContext(<UsersOverview />));
     });
 
-    expect(historyMockObj.push).not.toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
   });
 
   it('should not push on POP', async () => {
-    const historyMockObj = {
-      ...historyMock,
-      action: 'POP',
-    };
-
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       pageNum: 1,
     }));
 
     await reAct(async () => {
-      await render(withAppContext(<UsersOverview history={historyMockObj} />));
+      await render(withAppContext(<UsersOverview />));
     });
 
-    expect(historyMockObj.push).not.toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
   });
 
   it('should push on list item click', async () => {
     let container;
-    const historyMockObj = {
-      ...historyMock,
-    };
 
     await reAct(async () => {
       ({ container } = await render(
-        withAppContext(<UsersOverview history={historyMockObj} />)
+        withAppContext(<UsersOverview />)
       ));
     });
 
@@ -160,17 +143,17 @@ describe('signals/settings/users/containers/Overview', () => {
 
     fireEvent.click(row.querySelector('td:first-of-type'), { bubbles: true });
 
-    expect(historyMockObj.push).toHaveBeenCalledWith(
+    expect(push).toHaveBeenCalledWith(
       routes.user.replace(/:userId.*/, itemId)
     );
 
-    historyMockObj.push.mockReset();
+    push.mockReset();
 
     const row2 = container.querySelector('tbody tr:nth-child(43)');
     delete row2.dataset.itemId;
 
     fireEvent.click(row2.querySelector('td:first-of-type'));
 
-    expect(historyMockObj.push).not.toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
   });
 });

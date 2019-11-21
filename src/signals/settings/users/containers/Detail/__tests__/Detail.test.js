@@ -12,21 +12,22 @@ import UserDetail from '..';
 jest.mock('react-router-dom', () => ({
   __esModule: true,
   ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    hash: '',
-    key: '',
-    pathname: '/instellingen/gebruikers/',
-    search: '',
-    state: null,
-  }),
-  // useHistory: jest.fn(() => ({ push: jest.fn() })),
 }));
 
 jest.mock('../hooks/useFetchUser', () =>
   jest.fn(() => ({ isLoading: undefined }))
 );
 
+const push = jest.fn();
+jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
+  push,
+}));
+
 describe('signals/settings/users/containers/Detail', () => {
+  afterEach(() => {
+    push.mockReset();
+  });
+
   it('should render a backlink', async () => {
     const referrer = '/some-page-we-came-from';
     let container;
@@ -153,13 +154,7 @@ describe('signals/settings/users/containers/Detail', () => {
     expect(getByText(message)).toBeInTheDocument();
   });
 
-  it.only('should push to history on cancel', () => {
-    const { push } = jest.fn();
-
-    jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
-      push,
-    }));
-
+  it('should push to history on cancel', () => {
     useFetchUser.mockImplementationOnce(() => ({ data: userJSON }));
 
     global.window.confirm = jest.fn();
@@ -173,14 +168,25 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should confirm on cancel', () => {
+    useFetchUser.mockImplementationOnce(() => ({ data: userJSON }));
 
-    // fireEvent.change(
-    //   getByTestId('detailUserForm').querySelector('#last_name'),
-    //   { target: { value: 'Foo Bar Baz' } }
-    // );
+    global.window.confirm = jest.fn();
 
-    // fireEvent.click(getByTestId('cancelBtn'));
+    const { getByTestId } = render(withAppContext(<UserDetail />));
 
-    // expect(global.window.confirm).toHaveBeenCalled();
+    fireEvent.change(
+      getByTestId('detailUserForm').querySelector('#last_name'),
+      { target: { value: 'Foo Bar Baz' } }
+    );
+
+    fireEvent.click(getByTestId('cancelBtn'));
+
+    expect(global.window.confirm).toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
+
+    global.window.confirm.mockReturnValue(true);
+    fireEvent.click(getByTestId('cancelBtn'));
+
+    expect(push).toHaveBeenCalled();
   });
 });
