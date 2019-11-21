@@ -8,6 +8,7 @@ import NotFoundPage from 'containers/NotFoundPage';
 
 import routes from './routes';
 import UsersOverviewContainer from './users/containers/Overview';
+import RolesOverviewContainer from './roles/containers/RolesOverview';
 
 export const SettingsModule = () => {
   if (!isAuthenticated()) {
@@ -23,6 +24,8 @@ export const SettingsModule = () => {
         to={routes.usersPaged.replace(/:pageNum.*/, 1)}
       />
       <Route path={routes.usersPaged} component={UsersOverviewContainer} />
+      <Route path={routes.roles} component={RolesOverviewContainer} />
+      <Route path={routes.rol} component={RolesOverviewContainer} />
       <Route path="" component={NotFoundPage} />
     </Switch>
   );

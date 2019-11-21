@@ -145,7 +145,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   it('should scroll page to top after navigating with pagination', async () => {
     constants.FILTER_PAGE_SIZE = 30;
     Object.defineProperty(window, 'scrollTo', {
-      value: () => {},
+      value: () => { },
       writable: true,
     });
     const scrollSpy = jest.spyOn(window, 'scrollTo');

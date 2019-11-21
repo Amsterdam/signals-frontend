@@ -24,15 +24,15 @@ import {
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
-import Pagination from 'components/Pagination';
 import * as types from 'shared/types';
+import Pagination from 'components/Pagination';
 import { FILTER_PAGE_SIZE } from 'signals/incident-management/constants';
+import ListComponent from './components/List';
 
 import { makeSelectOverviewPage, makeSelectIncidentsCount } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { requestIncidents, incidentSelected } from './actions';
-import ListComponent from './components/List';
 import FilterTagList from '../FilterTagList';
 import PageHeader from './components/PageHeader';
 
@@ -195,7 +195,7 @@ export const IncidentOverviewPageContainerComponent = ({
           </Column>
         </Column>
       </Row>
-    </div>
+    </div >
   );
 };
 
