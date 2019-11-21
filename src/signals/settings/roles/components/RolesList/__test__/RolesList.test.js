@@ -1,8 +1,16 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { withAppContext, history } from 'test/utils';
-
+import { withAppContext } from 'test/utils';
+import * as reactRouterDom from 'react-router-dom';
 import RolesList from '..';
+
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+  useHistory: () => ({
+    push: jest.fn(),
+  }),
+}));
 
 describe('containers/RolesOverview', () => {
   let props = {};
@@ -69,17 +77,15 @@ describe('containers/RolesOverview', () => {
     });
   });
 
-  // TODO fix later
-  it.skip('should click to role detail page', () => {
-    const historyMock = {
-      ...history,
-      push: jest.fn(),
-    };
-    const { container } = render(withAppContext(<RolesList {...props} history={historyMock} />))
+  it('should click to role detail page', () => {
+    const push = jest.fn();
+    jest.spyOn(reactRouterDom, 'useHistory').mockImplementationOnce(() => ({ push }));
+
+    const { container } = render(withAppContext(<RolesList {...props} />))
     const event = { currentTarget: { getAttribute: () => 2 } };
 
     fireEvent.click(container.querySelector('tr:nth-child(1) td:nth-child(1)'), event);
 
-    expect(historyMock.push).toHaveBeenCalled();
+    expect(push).toHaveBeenCalledWith('/instellingen/rol/2');
   });
 });
