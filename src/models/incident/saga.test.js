@@ -122,7 +122,7 @@ describe('models/incident/saga', () => {
         .silentRun();
     });
 
-    it('should dispatch failed', () => {
+    it('should dispatch failed', async () => {
       const id = 678543;
       const type = PATCH_INCIDENT;
       const payload = {
@@ -135,11 +135,33 @@ describe('models/incident/saga', () => {
         payload,
       };
       const error = new Error('Whoops!!1!');
+      const detail = 'Some error message';
+      error.response = {
+        status: 400,
+        jsonBody: {
+          detail,
+        },
+      };
 
-      return expectSaga(patchIncident, action)
+      jest.spyOn(global, 'alert');
+
+      await expectSaga(patchIncident, action)
         .provide([[matchers.call.fn(authPatchCall), throwError(error)]])
         .put(patchIncidentError({ type, error }))
         .silentRun();
+
+      expect(global.alert).not.toHaveBeenCalled();
+
+      error.response.status = 403;
+
+      await expectSaga(patchIncident, action)
+        .provide([[matchers.call.fn(authPatchCall), throwError(error)]])
+        .put(patchIncidentError({ type, error }))
+        .silentRun();
+
+      expect(global.alert).toHaveBeenCalled();
+
+      global.alert.mockRestore();
     });
   });
 

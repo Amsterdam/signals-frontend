@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { Row, Column, Button } from '@datapunt/asc-ui';
+import { Row, Column, Button, themeSpacing } from '@datapunt/asc-ui';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import styled from 'styled-components';
 
@@ -25,10 +25,11 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
 import * as types from 'shared/types';
-import Pager from 'components/Pager';
+import Pagination from 'components/Pagination';
+import { FILTER_PAGE_SIZE } from 'signals/incident-management/constants';
 import ListComponent from './components/List';
 
-import makeSelectOverviewPage, { makeSelectIncidentsCount } from './selectors';
+import { makeSelectOverviewPage, makeSelectIncidentsCount } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { requestIncidents, incidentSelected } from './actions';
@@ -41,6 +42,10 @@ let lastActiveElement = null;
 
 const StyledButton = styled(Button)`
   margin-left: 10px;
+`;
+
+const StyledPagination = styled(Pagination)`
+  margin-top: ${themeSpacing(12)};
 `;
 
 export const IncidentOverviewPageContainerComponent = ({
@@ -67,7 +72,11 @@ export const IncidentOverviewPageContainerComponent = ({
   function closeMyFiltersModal() {
     enablePageScroll();
     toggleMyFiltersModal(false);
-    lastActiveElement.focus();
+
+    /* istanbul ignore next */
+    if (lastActiveElement) {
+      lastActiveElement.focus();
+    }
   }
 
   const openFilterModal = () => {
@@ -79,7 +88,11 @@ export const IncidentOverviewPageContainerComponent = ({
   function closeFilterModal() {
     enablePageScroll();
     toggleFilterModal(false);
-    lastActiveElement.focus();
+
+    /* istanbul ignore next */
+    if (lastActiveElement) {
+      lastActiveElement.focus();
+    }
   }
 
   useEffect(() => {
@@ -167,23 +180,28 @@ export const IncidentOverviewPageContainerComponent = ({
             </Column>
           )}
 
-          {!loading && (
-            <Column span={12}>
-              <Pager
-                totalPages={Math.ceil(incidentsCount / 100)}
-                page={page}
-                onPageChanged={onPageIncidentsChanged}
+          <Column span={12}>
+            {!loading && incidentsCount && (
+              <StyledPagination
+                currentPage={page}
+                hrefPrefix="/manage/incidents?page="
+                onClick={pageToNavigateTo => {
+                  global.window.scrollTo(0, 0);
+                  onPageIncidentsChanged(pageToNavigateTo);
+                }}
+                totalPages={Math.ceil(incidentsCount / FILTER_PAGE_SIZE)}
               />
-            </Column>
-          )}
+            )}
+          </Column>
         </Column>
       </Row>
-    </div>
+    </div >
   );
 };
 
 IncidentOverviewPageContainerComponent.defaultProps = {
   activeFilter: {},
+  page: 1,
 };
 
 IncidentOverviewPageContainerComponent.propTypes = {
@@ -206,7 +224,7 @@ const mapStateToProps = createStructuredSelector({
   dataLists: makeSelectDataLists,
   incidentsCount: makeSelectIncidentsCount,
   ordering: makeSelectOrdering,
-  overviewpage: makeSelectOverviewPage(),
+  overviewpage: makeSelectOverviewPage,
   page: makeSelectPage,
 });
 

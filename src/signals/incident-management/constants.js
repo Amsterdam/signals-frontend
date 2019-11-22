@@ -1,3 +1,5 @@
+export const FILTER_PAGE_SIZE = 50;
+
 export const APPLY_FILTER = 'sia/incidentManagement/APPLY_FILTER';
 
 export const CLEAR_FILTER = 'sia/incidentManagement/CLEAR_FILTER';

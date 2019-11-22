@@ -100,13 +100,13 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
                   onQueryResult={this.onQueryResult}
                 />
 
-                {error ? (
+                {error && (
                   <div className="notification notification-red">
                     {error && error.response && error.response.status === 403
                       ? 'U bent niet geautoriseerd om dit te doen.'
                       : 'De nieuwe locatie kon niet worden gewijzigd.'}
                   </div>
-                ) : ''}
+                )}
 
                 <button
                   className="location-form__submit action primary"
@@ -115,7 +115,7 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
                   data-testid="location-form-button-submit"
                 >
                   <span className="value">Status opslaan</span>
-                  {patching.location ? <span className="working"><div className="progress-indicator progress-white"></div></span> : ''}
+                  {patching.location && <span className="working"><div className="progress-indicator progress-white"></div></span>}
                 </button>
                 <button
                   className="location-form__cancel action secundary-grey"

@@ -46,8 +46,9 @@ exports[`<CopyFileInput /> should render correctly 1`] = `
       className="copy-file-input__control invoer antwoord"
     >
       <input
+        data-testid="name"
         id="formname"
-        name=""
+        name="name"
         type="checkbox"
       />
       <label
