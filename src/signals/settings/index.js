@@ -9,6 +9,7 @@ import NotFoundPage from 'containers/NotFoundPage';
 import routes from './routes';
 import UsersOverviewContainer from './users/containers/Overview';
 import UsersDetailContainer from './users/containers/Detail';
+import RolesOverviewContainer from './roles/containers/RolesOverview';
 
 export const SettingsModule = () => {
   const moduleLocation = useLocation();
@@ -43,6 +44,8 @@ export const SettingsModule = () => {
       />
       <Route exact path={routes.usersPaged} component={UsersOverviewContainer} />
       <Route exact path={routes.user} component={UsersDetailContainer} />
+      <Route path={routes.roles} component={RolesOverviewContainer} />
+      <Route path={routes.rol} component={RolesOverviewContainer} />
       <Route component={NotFoundPage} />
     </Switch>
   );

@@ -16,7 +16,8 @@ const FileInput = ({
   const handleChange = e => {
     /* istanbul ignore next */
     if (e.target.files && e.target.files.length) {
-      const maxFileSizeFilter = meta.maxFileSize ? checkFileSize : () => true;
+      const minFileSizeFilter = meta.minFileSize ? checkMinFileSize : () => true;
+      const maxFileSizeFilter = meta.maxFileSize ? checkMaxFileSize : () => true;
       const allowedFileTypesFilter = meta.allowedFileTypes ? checkFileType : () => true;
       const maxNumberOfFilesFilter = checkNumberOfFiles;
       const existingFiles = handler().value || [];
@@ -25,6 +26,7 @@ const FileInput = ({
 
       existingFiles.map(file => ({ ...file, existing: true }));
       const files = [...existingFiles, ...batchFiles]
+        .filter(minFileSizeFilter)
         .filter(maxFileSizeFilter)
         .filter(allowedFileTypesFilter)
         .filter(maxNumberOfFilesFilter);
@@ -69,7 +71,9 @@ const FileInput = ({
     }
   };
 
-  const checkFileSize = file => file.size <= meta.maxFileSize;
+  const checkMinFileSize = file => file.size >= meta.minFileSize;
+
+  const checkMaxFileSize = file => file.size < meta.maxFileSize;
 
   const checkFileType = file => meta.allowedFileTypes.includes(file.type);
 
@@ -78,7 +82,10 @@ const FileInput = ({
   const getErrorMessages = files => {
     const errors = [];
 
-    if (meta.maxFileSize && !files.every(checkFileSize)) {
+    if (meta.minFileSize && !files.every(checkMinFileSize)) {
+      errors.push(`Dit bestand is te klein. De minimale bestandgrootte is ${fileSize(meta.minFileSize)}.`);
+    }
+    if (meta.maxFileSize && !files.every(checkMaxFileSize)) {
       errors.push(`Dit bestand is te groot. De maximale bestandgrootte is ${fileSize(meta.maxFileSize)}.`);
     }
     if (meta.allowedFileTypes && !files.every(checkFileType)) {

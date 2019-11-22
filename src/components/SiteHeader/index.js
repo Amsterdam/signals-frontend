@@ -87,7 +87,7 @@ const StyledSearchBar = styled(SearchBar)`
 `;
 
 const HeaderWrapper = styled.div`
-  ${({  tall }) => !tall && css`
+  ${({ tall }) => !tall && css`
     #header {
       left: 0;
       right: 0;
@@ -207,6 +207,9 @@ const MenuItems = ({
         <StyledMenuFlyout label="Instellingen">
           <StyledMenuButton $as={NavLink} to="/instellingen/gebruikers">
             Gebruikers
+          </StyledMenuButton>
+          <StyledMenuButton $as={NavLink} to="/instellingen/rollen">
+            Rollen
           </StyledMenuButton>
         </StyledMenuFlyout>
       )}
