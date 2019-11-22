@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -32,8 +32,15 @@ export const RolesForm = ({
   permissions,
   onPatchRole,
 }) => {
+  const [name, setName] = useState('');
   const history = useHistory();
   const role = list.find(item => item.id === id * 1);
+
+  useEffect(() => {
+    if (role) {
+      setName(role.name);
+    }
+  }, []);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -61,6 +68,10 @@ export const RolesForm = ({
     history.push('/instellingen/rollen');
   };
 
+  const handleChangeName = e => {
+    setName(e.target.value);
+  }
+
   return (
     <div>
       <PageHeader title="Rol instellingen" />
@@ -74,6 +85,8 @@ export const RolesForm = ({
               label="Naam"
               name="name"
               type="text"
+              onChange={handleChangeName}
+              placeholder="Rolnaam"
               defaultValue={role.name}
             />
 
@@ -93,6 +106,7 @@ export const RolesForm = ({
               <StyledButton
                 variant="secondary"
                 type="submit"
+                disabled={name === ''}
               >
                 Opslaan
               </StyledButton>
@@ -112,11 +126,6 @@ export const RolesForm = ({
   )
 };
 
-RolesForm.defaultProps = {
-  list: [],
-  permissions: [],
-};
-
 RolesForm.propTypes = {
   id: PropTypes.string.isRequired,
   list: PropTypes.arrayOf(
@@ -124,13 +133,13 @@ RolesForm.propTypes = {
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
     })
-  ),
+  ).isRequired,
   permissions: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
     })
-  ),
+  ).isRequired,
 
   onPatchRole: PropTypes.func.isRequired,
 };
