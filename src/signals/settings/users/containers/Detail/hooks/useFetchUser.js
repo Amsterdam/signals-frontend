@@ -56,7 +56,7 @@ const useFetchUser = id => {
     };
   }, []);
 
-  const patch = async patchData => {
+  const modify = method => async userData => {
     setLoading(true);
 
     try {
@@ -65,9 +65,9 @@ const useFetchUser = id => {
           'Content-Type': 'application/json',
           ...getAuthHeaders(),
         },
-        method: 'PATCH',
+        method,
         signal,
-        body: JSON.stringify(patchData),
+        body: JSON.stringify(userData),
       });
 
       /* istanbul ignore else */
@@ -75,19 +75,22 @@ const useFetchUser = id => {
         throw response;
       }
 
-      const userData = await response.json();
+      const responseData = await response.json();
 
+      setData(responseData);
       setSuccess(true);
-      setData(userData);
     } catch (e) {
       e.message = getErrorMessage(e);
 
-      setSuccess(false);
       setError(e);
+      setSuccess(false);
     } finally {
       setLoading(false);
     }
   };
+
+  const post = modify('POST');
+  const patch = modify('PATCH');
 
   /**
    * @typedef {Object} FetchResponse
@@ -96,8 +99,9 @@ const useFetchUser = id => {
    * @property {Object} data - User object
    * @property {Error} error - Error object thrown during fetch and data parsing
    * @property {Function} patch - Function that expects the user data object as parameter
+   * @property {Function} post - Function that expects the user data object as parameter
    */
-  return { isLoading, isSuccess, data, error, patch };
+  return { isLoading, isSuccess, data, error, patch, post };
 };
 
 export default useFetchUser;

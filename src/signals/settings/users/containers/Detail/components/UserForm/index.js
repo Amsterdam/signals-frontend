@@ -33,11 +33,10 @@ const UserForm = ({ data, onCancel, onSubmitForm }) => (
     <FieldGroup>
       <Input
         defaultValue={data.username}
-        id="email"
-        name="email"
+        id="username"
+        name="username"
         label="E-mailadres"
-        readOnly
-        disabled
+        disabled={data.username !== undefined}
       />
     </FieldGroup>
 
@@ -62,7 +61,7 @@ const UserForm = ({ data, onCancel, onSubmitForm }) => (
     <FieldGroup>
       <Label as="span">Status</Label>
       <RadioButtonList
-        defaultValue={`${data.is_active}`}
+        defaultValue={data.is_active !== undefined ? `${data.is_active}` : 'true'}
         groupName="is_active"
         hasEmptySelectionButton={false}
         options={statusOptions}

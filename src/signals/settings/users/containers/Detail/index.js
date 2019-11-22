@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
 import isEqual from 'lodash.isequal';
@@ -26,7 +26,16 @@ const UserDetail = () => {
   const location = useLocation();
   const history = useHistory();
   const { userId } = useParams();
-  const { isLoading, isSuccess, error, data, patch } = useFetchUser(userId);
+  const isExistingUser = userId !== undefined;
+  const { isLoading, isSuccess, error, data, patch, post } = useFetchUser(
+    userId
+  );
+
+  useEffect(() => {
+    if (!isExistingUser && isSuccess) {
+      history.replace(routes.user.replace(/:userId.*/, data.id));
+    }
+  });
 
   const getFormData = e =>
     [...new FormData(e.target.form).entries()]
@@ -40,8 +49,14 @@ const UserDetail = () => {
 
     const formData = getFormData(e);
 
-    if (!isEqual(data, formData)) {
+    if (isEqual(data, formData)) {
+      return;
+    }
+
+    if (isExistingUser) {
       patch(formData);
+    } else {
+      post(formData);
     }
   };
 
@@ -80,8 +95,16 @@ const UserDetail = () => {
       </Row>
 
       <FormContainer>
-        <StyledColumn span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 4 }}>
-          {data && <UserForm data={data} onCancel={onCancel} onSubmitForm={onSubmitForm} />}
+        <StyledColumn
+          span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 4 }}
+        >
+          {data && (
+            <UserForm
+              data={data}
+              onCancel={onCancel}
+              onSubmitForm={onSubmitForm}
+            />
+          )}
         </StyledColumn>
       </FormContainer>
     </Fragment>
