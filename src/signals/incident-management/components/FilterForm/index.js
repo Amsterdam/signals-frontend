@@ -13,12 +13,7 @@ import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 import CheckboxList from '../CheckboxList';
 import RadioButtonList from '../RadioButtonList';
 import Label from '../Label';
-import {
-  ControlsWrapper,
-  Fieldset,
-  FilterGroup,
-  Form,
-} from './styled';
+import { ControlsWrapper, Fieldset, FilterGroup, Form } from './styled';
 
 export const defaultSubmitBtnLabel = 'Filteren';
 export const saveSubmitBtnLabel = 'Opslaan en filteren';
@@ -154,7 +149,9 @@ const FilterForm = ({
         <Fieldset isSection>
           <legend className="hiddenvisually">Naam van het filter</legend>
 
-          <Label htmlFor="filter_name" isGroupHeader>Filternaam</Label>
+          <Label htmlFor="filter_name" isGroupHeader>
+            Filternaam
+          </Label>
           <Input
             defaultValue={filterData.name}
             id="filter_name"
@@ -163,7 +160,8 @@ const FilterForm = ({
             placeholder="Geef deze filterinstelling een naam om deze op te slaan"
           />
 
-          <br /><br />
+          <br />
+          <br />
 
           <Label htmlFor="filter_refresh" isGroupHeader>
             Automatisch verversen
@@ -286,7 +284,9 @@ const FilterForm = ({
           </FilterGroup>
 
           <FilterGroup>
-            <Label htmlFor="filter_address" isGroupHeader>Adres</Label>
+            <Label htmlFor="filter_address" isGroupHeader>
+              Adres
+            </Label>
             <Input
               name="address_text"
               id="filter_address"
