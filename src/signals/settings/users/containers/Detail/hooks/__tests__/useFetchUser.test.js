@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react-hooks';
 import userJSON from 'utils/__tests__/fixtures/user.json';
 import useFetchUser, { userEndpoint } from '../useFetchUser';
 
@@ -12,20 +12,18 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
     fetch.mockResponseOnce(JSON.stringify(userJSON));
     const { result, waitForNextUpdate } = renderHook(() => useFetchUser(userId));
 
-    await act(async () => {
-      await expect(result.current.isLoading).toEqual(true);
-      await expect(result.current.data).toBeUndefined();
+    expect(result.current.isLoading).toEqual(true);
+    expect(result.current.data).toBeUndefined();
 
-      await waitForNextUpdate();
+    await waitForNextUpdate();
 
-      await expect(global.fetch).toHaveBeenCalledWith(
-        `${userEndpoint}${userId}`,
-        expect.objectContaining({ headers: {} })
-      );
+    expect(global.fetch).toHaveBeenCalledWith(
+      `${userEndpoint}${userId}`,
+      expect.objectContaining({ headers: {} })
+    );
 
-      await expect(result.current.isLoading).toEqual(false);
-      await expect(result.current.data).toEqual(userJSON);
-    });
+    expect(result.current.isLoading).toEqual(false);
+    expect(result.current.data).toEqual(userJSON);
   });
 
   it('should return errors that are thrown during fetch', async () => {
