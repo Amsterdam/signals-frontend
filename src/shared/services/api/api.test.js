@@ -7,7 +7,7 @@ import {
   authDeleteCall,
   authPatchCall,
   authPostCall,
-  defaultErrorMessage,
+  errorMessageDictionary,
   generateParams,
   postCall,
   getErrorMessage,
@@ -170,15 +170,16 @@ describe('api service', () => {
 
   describe('getErrorMessage', () => {
     it('returns a default error message', () => {
-      expect(getErrorMessage({ status: 415 })).toEqual(defaultErrorMessage);
-      expect(getErrorMessage({ status: 'foo bar' })).toEqual(defaultErrorMessage);
+      expect(getErrorMessage({})).toEqual(errorMessageDictionary.default);
+      expect(getErrorMessage({ status: 415 })).toEqual(errorMessageDictionary.default);
+      expect(getErrorMessage({ status: 'foo bar' })).toEqual(errorMessageDictionary.default);
     });
 
     it('returns a specific error message', () => {
       const statuses = [401, 403, 408, 413, 429, 500, 503];
 
       statuses.forEach(status => {
-        expect(getErrorMessage({ status })).not.toEqual(defaultErrorMessage);
+        expect(getErrorMessage({ status })).toEqual(errorMessageDictionary[status]);
       });
     });
   });

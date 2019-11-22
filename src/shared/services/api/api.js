@@ -79,7 +79,18 @@ export function* postCall(url, params) {
   return yield call(request, url, options);
 }
 
-export const defaultErrorMessage = 'De opgevraagde gegevens konden niet gevonden worden';
+export const errorMessageDictionary = {
+  default: 'De opgevraagde gegevens konden niet gevonden worden',
+  400: 'De server kan de gegevens niet verwerken',
+  401: 'Je hebt niet voldoende rechten om de opgevraagde gegevens te bekijken',
+  403: 'Het is niet toegestaan om gegevens te bekijken of te wijzigen',
+  408: 'Het verzoek kan niet verwerkt worden door een timeout op de server',
+  413: 'De grootte van de payload overschrijdt de toegestane limiet',
+  418: 'The server refuses to brew coffee because it is a teapot',
+  429: 'Er zijn teveel verzoeken verstuurd',
+  500: 'Interne fout op de server. Probeer het nogmaals',
+  503: 'Server is op dit moment niet beschikbaar. Probeer het nogmaals',
+};
 
 /**
  * Get an error message based on an error's status code
@@ -88,41 +99,9 @@ export const defaultErrorMessage = 'De opgevraagde gegevens konden niet gevonden
  * @returns {String}
  */
 export const getErrorMessage = error => {
-  let message;
-
-  switch (error.status) {
-    case 500:
-      message = 'Interne fout op de server. Probeer het nogmaals';
-      break;
-    case 503:
-      message = 'Server is op dit moment niet beschikbaar. Probeer het nogmaals';
-      break;
-    case 400:
-      message = 'De server kan de gegevens niet verwerken';
-      break;
-    case 401:
-      message = 'Je hebt niet voldoende rechten om de opgevraagde gegevens te bekijken';
-      break;
-    case 403:
-      message = 'Het is niet toegestaan om gegevens te bekijken of te wijzigen';
-      break;
-    case 408:
-      message = 'Het verzoek kan niet verwerkt worden door een timeout op de server';
-      break;
-    case 413:
-      message = 'De grootte van de payload overschrijdt de toegestane limiet';
-      break;
-    case 418:
-      message = 'The server refuses to brew coffee because it is a teapot';
-      break;
-    case 429:
-      message = 'Er zijn teveel verzoeken verstuurd';
-      break;
-    case 404:
-    default:
-      message = defaultErrorMessage;
-      break;
+  if (!error.status) {
+    return errorMessageDictionary.default;
   }
 
-  return message;
+  return errorMessageDictionary[error.status] || errorMessageDictionary.default;
 };
