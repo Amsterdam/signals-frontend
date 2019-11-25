@@ -33,7 +33,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
   it('should return errors that are thrown during fetch', async () => {
     const userId = 99;
-    const error = new Error('fake error message');
+    const error = new Error();
     fetch.mockRejectOnce(error);
 
     const { result, waitForNextUpdate } = renderHook(() =>
@@ -50,6 +50,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
   });
 
   it('should abort request on unmount', () => {
+    const userId = 123;
     fetch.mockResponseOnce(
       () =>
         new Promise(resolve =>
@@ -59,7 +60,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
     const abortSpy = jest.spyOn(global.AbortController.prototype, 'abort');
 
-    const { unmount } = renderHook(async () => useFetchUser());
+    const { unmount } = renderHook(async () => useFetchUser(userId));
 
     unmount();
 

@@ -9,7 +9,6 @@ import {
 } from '@datapunt/asc-ui';
 
 const Div = styled.div`
-  width: inherit;
   background-color: ${themeColor('tint', 'level2')};
   border-left: ${themeSpacing(0.5)} solid;
   margin-bottom: ${themeSpacing(6)};
