@@ -2,6 +2,8 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import * as reactRouterDom from 'react-router-dom';
+import roles from 'utils/__tests__/fixtures/roles.json';
+
 import RolesList from '..';
 
 jest.mock('react-router-dom', () => ({
@@ -15,29 +17,7 @@ describe('/signals/settings/roles/components/RolesList', () => {
 
   beforeEach(() => {
     props = {
-      list: [
-        {
-          _display: 'behandelaars',
-          id: 2,
-          name: 'behandelaars',
-          permissions: [
-            {
-              name: 'Can read frnom SIA',
-              codename: 'sia_read',
-            },
-            {
-              name: 'Can change the status of a signal',
-              codename: 'sia_signal_change_status',
-            },
-          ],
-        },
-        {
-          _display: 'coordinatoren',
-          id: 3,
-          name: 'coordinatoren',
-          permissions: [],
-        },
-      ],
+      list: roles,
     };
   });
 

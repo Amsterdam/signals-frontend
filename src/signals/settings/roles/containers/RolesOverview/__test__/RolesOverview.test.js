@@ -1,8 +1,9 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
+import roles from 'utils/__tests__/fixtures/roles.json';
 
-import { FETCH_ROLES } from 'models/roles/constants';
+import { FETCH_ROLES, FETCH_PERMISSIONS, PATCH_ROLE } from 'models/roles/constants';
 import { RolesOverview, mapDispatchToProps } from '..';
 
 describe('signals/settings/roles/components/RolesOverview', () => {
@@ -10,42 +11,57 @@ describe('signals/settings/roles/components/RolesOverview', () => {
 
   beforeEach(() => {
     props = {
+      id: undefined,
       roles: {
-        list: [
-          {
-            _display: 'behandelaars',
-            id: 2,
-            name: 'behandelaars',
-            permissions: [
-              {
-                _display: 'Can read frnom SIA',
-                codename: 'sia_read',
-              },
-              {
-                _display: 'Can change the status of a signal',
-                codename: 'sia_signal_change_status',
-              },
-            ],
-          },
-          {
-            _display: 'coordinatoren',
-            id: 3,
-            name: 'coordinatoren',
-            permissions: [],
-          },
-        ],
+        list: roles,
         loading: false,
+        loadingPermissions: false,
       },
       onFetchRoles: jest.fn(),
+      onFetchPermissions: jest.fn(),
+      onPatchRole: jest.fn(),
     };
   });
 
-  describe('events', () => {
-    it('should fetch roles by default', () => {
-      render(withAppContext(<RolesOverview {...props} />))
 
-      expect(props.onFetchRoles).toHaveBeenCalled();
-    });
+  it('should lazy load list correctly', () => {
+    props.roles.loading = true;
+    const { queryByTestId, rerender } = render(withAppContext(<RolesOverview {...props} />))
+
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
+    expect(queryByTestId('rolesList')).not.toBeInTheDocument();
+    expect(queryByTestId('rolesForm')).not.toBeInTheDocument();
+
+    props.roles.loading = false;
+    props.roles.loadingPermissions = false;
+    rerender(withAppContext(<RolesOverview {...props} />))
+
+    expect(queryByTestId('rolesList')).toBeInTheDocument();
+    expect(queryByTestId('rolesForm')).not.toBeInTheDocument();
+  });
+
+  it('should lazy load form correctly', () => {
+    props.id = '3';
+    props.roles.loadingPermissions = true;
+    const { queryByTestId, rerender } = render(withAppContext(<RolesOverview {...props} />))
+
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
+    expect(queryByTestId('rolesList')).not.toBeInTheDocument();
+    expect(queryByTestId('rolesForm')).not.toBeInTheDocument();
+
+    props.roles.loading = false;
+    props.roles.loadingPermissions = false;
+    rerender(withAppContext(<RolesOverview {...props} />))
+
+    expect(queryByTestId('rolesList')).not.toBeInTheDocument();
+    expect(queryByTestId('rolesForm')).toBeInTheDocument();
+  });
+
+  it('should fetch roles and permissions by default', () => {
+    render(withAppContext(<RolesOverview {...props} />))
+
+    expect(props.onFetchRoles).toHaveBeenCalled();
+    expect(props.onFetchPermissions).toHaveBeenCalled();
   });
 
   describe('mapDispatchToProps', () => {
@@ -54,6 +70,16 @@ describe('signals/settings/roles/components/RolesOverview', () => {
     it('onRequestIncident', () => {
       mapDispatchToProps(dispatch).onFetchRoles();
       expect(dispatch).toHaveBeenCalledWith({ type: FETCH_ROLES });
+    });
+
+    it('onRequestIncident', () => {
+      mapDispatchToProps(dispatch).onFetchPermissions();
+      expect(dispatch).toHaveBeenCalledWith({ type: FETCH_PERMISSIONS });
+    });
+
+    it('onPatchRole', () => {
+      mapDispatchToProps(dispatch).onPatchRole();
+      expect(dispatch).toHaveBeenCalledWith({ type: PATCH_ROLE });
     });
   });
 });
