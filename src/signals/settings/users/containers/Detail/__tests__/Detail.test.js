@@ -27,7 +27,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
   it('should show an alert on error', async () => {
     let getByText;
-    const error = new Error('Not allowed');
+    const error = new Error();
     fetch.mockRejectOnce(error);
 
     await act(async () => {
