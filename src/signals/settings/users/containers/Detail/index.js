@@ -23,9 +23,9 @@ const StyledColumn = styled(Column)`
 `;
 
 const UserDetail = () => {
+  const { userId } = useParams();
   const location = useLocation();
   const history = useHistory();
-  const { userId } = useParams();
   const isExistingUser = userId !== undefined;
   const { isLoading, isSuccess, error, data, patch, post } = useFetchUser(
     userId
@@ -35,7 +35,7 @@ const UserDetail = () => {
     if (!isExistingUser && isSuccess) {
       history.replace(routes.user.replace(/:userId.*/, data.id));
     }
-  });
+  }, [isExistingUser, isSuccess]);
 
   const getFormData = e =>
     [...new FormData(e.target.form).entries()]

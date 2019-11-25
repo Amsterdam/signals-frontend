@@ -159,4 +159,80 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
       expect(result.current.isLoading).toEqual(false);
     });
   });
+
+  describe('post', () => {
+    it('should send POST request', async () => {
+      // fetch.mockResponse(JSON.stringify(userJSON));
+
+      // const userId = userJSON.id;
+
+      const {
+        result,
+        waitForNextUpdate,
+      } = renderHook(() => useFetchUser());
+
+      // expect(result.current.isLoading).toEqual(true);
+
+      // // make sure the side effects are all done
+      // await waitForNextUpdate();
+
+      // fetch.resetMocks();
+
+      const formData = { first_name: userJSON.first_name, last_name: userJSON.last_name, username: userJSON.username };
+      delete formData.id;
+
+      fetch.mockResponseOnce(JSON.stringify(userJSON));
+
+      expect(result.current.isSuccess).not.toEqual(true);
+
+      act(() => {
+        result.current.post(formData);
+      });
+
+      await waitForNextUpdate();
+
+      expect(global.fetch).toHaveBeenCalledWith(
+        USERS_ENDPOINT,
+        expect.objectContaining({
+          body: JSON.stringify(formData),
+          method: 'POST',
+        })
+      );
+
+      expect(result.current.isSuccess).toEqual(true);
+      expect(result.current.isLoading).toEqual(false);
+    });
+
+    it('should throw on error response', async () => {
+      const response = { status: 401, ok: false, statusText: 'Unauthorized' };
+      const formData = { ...userJSON, is_active: false };
+      const userId = 13;
+      const {
+        result,
+        waitForNextUpdate,
+      } = renderHook(() => useFetchUser(userId));
+
+      expect(result.current.isLoading).toEqual(true);
+      expect(result.current.error).not.toEqual(response);
+      expect(result.current.isSuccess).not.toEqual(false);
+
+      // make sure the side effects are all done
+      await waitForNextUpdate();
+
+      const { post } = result.current;
+
+      // set the result for the patch response
+      fetch.mockImplementation(() => response);
+
+      act(() => {
+        post(formData);
+      });
+
+      await waitForNextUpdate();
+
+      expect(result.current.error).toEqual(response);
+      expect(result.current.isSuccess).toEqual(false);
+      expect(result.current.isLoading).toEqual(false);
+    });
+  });
 });

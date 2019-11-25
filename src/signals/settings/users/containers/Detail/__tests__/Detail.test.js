@@ -1,6 +1,6 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 import { withAppContext } from 'test/utils';
 import routes from 'signals/settings/routes';
@@ -23,6 +23,10 @@ jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
   push,
 }));
 
+jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+  userId: userJSON.id,
+}));
+
 describe('signals/settings/users/containers/Detail', () => {
   afterEach(() => {
     push.mockReset();
@@ -31,10 +35,9 @@ describe('signals/settings/users/containers/Detail', () => {
   it('should render a backlink', async () => {
     const referrer = '/some-page-we-came-from';
     let container;
-    let rerender;
 
     await act(async () => {
-      ({ container, rerender } = await render(withAppContext(<UserDetail />)));
+      ({ container } = await render(withAppContext(<UserDetail />)));
     });
 
     expect(container.querySelector('a').getAttribute('href')).toEqual(
@@ -45,8 +48,10 @@ describe('signals/settings/users/containers/Detail', () => {
       referrer,
     }));
 
+    cleanup();
+
     await act(async () => {
-      rerender(withAppContext(<UserDetail />));
+      ({ container } = await render(withAppContext(<UserDetail />)));
     });
 
     expect(container.querySelector('a').getAttribute('href')).toEqual(referrer);
@@ -114,6 +119,41 @@ describe('signals/settings/users/containers/Detail', () => {
     expect(patch).toHaveBeenCalled();
   });
 
+  it('should post user data on submit', () => {
+    const post = jest.fn();
+    useFetchUser.mockImplementationOnce(() => ({ data: {}, post }));
+
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementationOnce(() => ({
+      userId: undefined,
+    }));
+
+    const { getByTestId } = render(withAppContext(<UserDetail />));
+
+    const lastName = 'Foo Bar Baz';
+    fireEvent.change(
+      getByTestId('detailUserForm').querySelector('#last_name'),
+      { target: { value: lastName } }
+    );
+
+    const firstName = 'Zork';
+    fireEvent.change(
+      getByTestId('detailUserForm').querySelector('#first_name'),
+      { target: { value: firstName } }
+    );
+
+    const username = 'zork@foobarbaz.com';
+    fireEvent.change(
+      getByTestId('detailUserForm').querySelector('#username'),
+      { target: { value: username } }
+    );
+
+    fireEvent.click(
+      getByTestId('detailUserForm').querySelector('[type="submit"]')
+    );
+
+    expect(post).toHaveBeenCalledWith(expect.objectContaining({ last_name: lastName, first_name: firstName, username }));
+  });
+
   it('should convert stringified booleans to boolean values', () => {
     const patch = jest.fn();
     useFetchUser.mockImplementationOnce(() => ({
@@ -146,12 +186,31 @@ describe('signals/settings/users/containers/Detail', () => {
 
   it('should show a notification on successful PATCH', () => {
     const message = 'Gegevens opgeslagen';
+
     useFetchUser.mockImplementationOnce(() => ({ isSuccess: true }));
 
     const { getByTestId, getByText } = render(withAppContext(<UserDetail />));
 
     expect(getByTestId('formAlert')).toBeInTheDocument();
     expect(getByText(message)).toBeInTheDocument();
+  });
+
+  it('should replace history on successful POST', () => {
+    const id = 123;
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementationOnce(() => ({
+      userId: undefined,
+    }));
+
+    const replace = jest.fn();
+    jest.spyOn(reactRouterDom, 'useHistory').mockImplementationOnce(() => ({
+      replace,
+    }));
+
+    useFetchUser.mockImplementationOnce(() => ({ isSuccess: true, data: { id } }));
+
+    render(withAppContext(<UserDetail />));
+
+    expect(replace).toHaveBeenCalledWith(expect.stringMatching(/123$/));
   });
 
   it('should push to history on cancel', () => {
