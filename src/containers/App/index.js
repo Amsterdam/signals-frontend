@@ -4,7 +4,7 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
+import { authenticate } from 'shared/services/auth/auth';
 import ThemeProvider from 'components/ThemeProvider';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -48,7 +48,7 @@ export const AppContainer = ({ requestCategoriesAction }) => {
             <Route path="" component={NotFoundPage} />
           </Switch>
         </div>
-        {isAuthenticated() === false && <Footer />}
+        <Footer />
       </Fragment>
     </ThemeProvider>
   );
@@ -66,10 +66,7 @@ export const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-const withConnect = connect(
-  null,
-  mapDispatchToProps
-);
+const withConnect = connect(null, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'global', reducer });
 const withSaga = injectSaga({ key: 'global', saga });
