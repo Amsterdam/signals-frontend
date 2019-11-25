@@ -1,7 +1,6 @@
 import { call } from 'redux-saga/effects';
 import request from 'utils/request';
 import { getAccessToken } from 'shared/services/auth/auth';
-import CONFIGURATION from 'shared/services/configuration/configuration';
 
 export const generateParams = data => Object.entries(data)
   .filter(pair => pair[1])
@@ -79,8 +78,6 @@ export function* postCall(url, params) {
 
   return yield call(request, url, options);
 }
-
-export const USERS_ENDPOINT = `${CONFIGURATION.API_ROOT}signals/v1/private/users`;
 
 export const errorMessageDictionary = {
   default: 'De opgevraagde gegevens konden niet gevonden worden',

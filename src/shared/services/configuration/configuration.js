@@ -66,7 +66,7 @@ export class Configuration {
   }
 
   get USERS_ENDPOINT() {
-    return `${this.config.API_ROOT}signals/private/v1/users`;
+    return `${this.config.API_ROOT}signals/v1/private/users`;
   }
 
   get API_ROOT() {
