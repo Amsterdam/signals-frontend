@@ -13,12 +13,7 @@ import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 import CheckboxList from '../CheckboxList';
 import RadioButtonList from '../RadioButtonList';
 import Label from '../Label';
-import {
-  ControlsWrapper,
-  Fieldset,
-  FilterGroup,
-  Form,
-} from './styled';
+import { ControlsWrapper, Fieldset, FilterGroup, Form } from './styled';
 
 export const defaultSubmitBtnLabel = 'Filteren';
 export const saveSubmitBtnLabel = 'Opslaan en filteren';
@@ -40,7 +35,7 @@ const FilterForm = ({
   const [submitBtnLabel, setSubmitBtnLabel] = useState(defaultSubmitBtnLabel);
   const [filterData, setFilterData] = useState(filter);
   const filterSlugs = (filterData.options.maincategory_slug || []).concat(
-    filterData.options.category_slug || [],
+    filterData.options.category_slug || []
   );
 
   const onSubmitForm = event => {
@@ -154,7 +149,9 @@ const FilterForm = ({
         <Fieldset isSection>
           <legend className="hiddenvisually">Naam van het filter</legend>
 
-          <Label htmlFor="filter_name" isGroupHeader>Filternaam</Label>
+          <Label htmlFor="filter_name" isGroupHeader>
+            Filternaam
+          </Label>
           <Input
             defaultValue={filterData.name}
             id="filter_name"
@@ -163,9 +160,12 @@ const FilterForm = ({
             placeholder="Geef deze filterinstelling een naam om deze op te slaan"
           />
 
-          <br /><br />
+          <br />
+          <br />
 
-          <Label htmlFor="filter_refresh" isGroupHeader>Automatisch verversen</Label>
+          <Label htmlFor="filter_refresh" isGroupHeader>
+            Automatisch verversen
+          </Label>
           <div className="antwoord">
             <input
               id="filter_refresh"
@@ -185,7 +185,9 @@ const FilterForm = ({
 
           {Array.isArray(status) && status.length > 0 && (
             <FilterGroup data-testid="statusFilterGroup">
-              <Label htmlFor={`status_${status[0].key}`} isGroupHeader>Status</Label>
+              <Label htmlFor={`status_${status[0].key}`} isGroupHeader>
+                Status
+              </Label>
               <CheckboxList
                 defaultValue={filterData.options && filterData.options.status}
                 groupName="status"
@@ -197,7 +199,9 @@ const FilterForm = ({
 
           {Array.isArray(stadsdeel) && stadsdeel.length > 0 && (
             <FilterGroup data-testid="stadsdeelFilterGroup">
-              <Label htmlFor={`status_${stadsdeel[0].key}`} isGroupHeader>Stadsdeel</Label>
+              <Label htmlFor={`status_${stadsdeel[0].key}`} isGroupHeader>
+                Stadsdeel
+              </Label>
               <CheckboxList
                 defaultValue={
                   filterData.options && filterData.options.stadsdeel
@@ -211,7 +215,9 @@ const FilterForm = ({
 
           {Array.isArray(priority) && priority.length > 0 && (
             <FilterGroup data-testid="priorityFilterGroup">
-              <Label htmlFor={`status_${priority[0].key}`} isGroupHeader>Urgentie</Label>
+              <Label htmlFor={`status_${priority[0].key}`} isGroupHeader>
+                Urgentie
+              </Label>
               <RadioButtonList
                 defaultValue={filterData.options && filterData.options.priority}
                 groupName="priority"
@@ -222,7 +228,9 @@ const FilterForm = ({
 
           {Array.isArray(feedback) && feedback.length > 0 && (
             <FilterGroup data-testid="feedbackFilterGroup">
-              <Label htmlFor={`feedback_${feedback[0].key}`} isGroupHeader>Feedback</Label>
+              <Label htmlFor={`feedback_${feedback[0].key}`} isGroupHeader>
+                Feedback
+              </Label>
               <RadioButtonList
                 defaultValue={filterData.options && filterData.options.feedback}
                 groupName="feedback"
@@ -232,7 +240,9 @@ const FilterForm = ({
           )}
 
           <FilterGroup>
-            <Label htmlFor="filter_date" isGroupHeader>Datum</Label>
+            <Label htmlFor="filter_date" isGroupHeader>
+              Datum
+            </Label>
             <div className="invoer">
               <DatePicker
                 autoComplete="off"
@@ -274,7 +284,9 @@ const FilterForm = ({
           </FilterGroup>
 
           <FilterGroup>
-            <Label htmlFor="filter_address" isGroupHeader>Adres</Label>
+            <Label htmlFor="filter_address" isGroupHeader>
+              Adres
+            </Label>
             <Input
               name="address_text"
               id="filter_address"
@@ -286,7 +298,9 @@ const FilterForm = ({
 
           {Array.isArray(source) && source.length > 0 && (
             <FilterGroup data-testid="sourceFilterGroup">
-              <Label htmlFor={`source_${source[0].key}`} isGroupHeader>Bron</Label>
+              <Label htmlFor={`source_${source[0].key}`} isGroupHeader>
+                Bron
+              </Label>
               <CheckboxList
                 defaultValue={filterData.options && filterData.options.source}
                 groupName="source"

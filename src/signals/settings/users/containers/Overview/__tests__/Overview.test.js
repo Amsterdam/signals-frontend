@@ -161,7 +161,7 @@ describe('signals/settings/users/containers/Overview', () => {
     fireEvent.click(row.querySelector('td:first-of-type'), { bubbles: true });
 
     expect(historyMockObj.push).toHaveBeenCalledWith(
-      routes.user.replace(':userId', itemId)
+      routes.user.replace(/:userId.*/, itemId)
     );
 
     historyMockObj.push.mockReset();
