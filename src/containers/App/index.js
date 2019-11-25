@@ -67,6 +67,7 @@ export const mapDispatchToProps = dispatch =>
   );
 
 const withConnect = connect(null, mapDispatchToProps);
+
 const withReducer = injectReducer({ key: 'global', reducer });
 const withSaga = injectSaga({ key: 'global', saga });
 
