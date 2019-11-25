@@ -40,4 +40,22 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
     expect(result.current.error).toEqual(error);
     expect(result.current.isLoading).toEqual(false);
   });
+
+  it('should abort request on unmount', () => {
+    const userId = 123;
+    fetch.mockResponseOnce(
+      () =>
+        new Promise(resolve =>
+          setTimeout(() => resolve(JSON.stringify(userJSON)), 100)
+        )
+    );
+
+    const abortSpy = jest.spyOn(global.AbortController.prototype, 'abort');
+
+    const { unmount } = renderHook(async () => useFetchUser(userId));
+
+    unmount();
+
+    expect(abortSpy).toHaveBeenCalled();
+  });
 });
