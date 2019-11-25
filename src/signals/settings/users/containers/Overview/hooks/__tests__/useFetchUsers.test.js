@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import usersJSON from 'utils/__tests__/fixtures/users.json';
-import { USERS_ENDPOINT } from 'shared/services/api/api';
+import configuration from 'shared/services/configuration/configuration';
 import useFetchUsers from '../useFetchUsers';
 
 describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
@@ -20,7 +20,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
     await waitForNextUpdate();
 
     expect(global.fetch).toHaveBeenCalledWith(
-      USERS_ENDPOINT,
+      configuration.USERS_ENDPOINT,
       expect.objectContaining({ headers: {} })
     );
 
@@ -36,7 +36,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
     await waitForNextUpdate();
 
     expect(global.fetch).toHaveBeenCalledWith(
-      `${USERS_ENDPOINT}/?page=${page}`,
+      expect.stringMatching(new RegExp(`\\/?page=${page}$`)),
       expect.objectContaining({ headers: {} })
     );
   });
@@ -48,7 +48,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
     await waitForNextUpdate();
 
     expect(global.fetch).toHaveBeenCalledWith(
-      `${USERS_ENDPOINT}/?page_size=${pageSize}`,
+      expect.stringMatching(new RegExp(`\\/?page_size=${pageSize}$`)),
       expect.objectContaining({ headers: {} })
     );
   });
@@ -64,30 +64,6 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
     await waitForNextUpdate();
 
     expect(result.current.error).toEqual(error);
-  });
-
-  it('should request the correct page', async () => {
-    const page = 12;
-    const { waitForNextUpdate } = renderHook(() => useFetchUsers({ page }));
-
-    await waitForNextUpdate();
-
-    expect(global.fetch).toHaveBeenCalledWith(
-      `${USERS_ENDPOINT}/?page=${page}`,
-      expect.objectContaining({ headers: {} })
-    );
-  });
-
-  it('should request the correct page size', async () => {
-    const pageSize = 30000;
-    const { waitForNextUpdate } = renderHook(() => useFetchUsers({ pageSize }));
-
-    await waitForNextUpdate();
-
-    expect(global.fetch).toHaveBeenCalledWith(
-      `${USERS_ENDPOINT}/?page_size=${pageSize}`,
-      expect.objectContaining({ headers: {} })
-    );
   });
 
   it('should abort request on unmount', () => {

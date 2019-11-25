@@ -1,6 +1,5 @@
 import { renderHook, act , cleanup} from '@testing-library/react-hooks';
 import userJSON from 'utils/__tests__/fixtures/user.json';
-import { USERS_ENDPOINT } from 'shared/services/api/api';
 import useFetchUser from '../useFetchUser';
 
 describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
@@ -23,7 +22,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
     await waitForNextUpdate();
 
     expect(global.fetch).toHaveBeenCalledWith(
-      `${USERS_ENDPOINT}/${userId}`,
+      expect.stringMatching(new RegExp(`\\/${userId}$`)),
       expect.objectContaining({ headers: {} })
     );
 
@@ -117,7 +116,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
       await waitForNextUpdate();
 
       expect(global.fetch).toHaveBeenLastCalledWith(
-        `${USERS_ENDPOINT}/${userId}`,
+        expect.stringMatching(new RegExp(`\\/${userId}$`)),
         expect.objectContaining({
           body: JSON.stringify(formData),
           method: 'PATCH',

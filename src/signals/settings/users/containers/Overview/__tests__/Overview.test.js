@@ -6,7 +6,7 @@ import * as reactRouterDom from 'react-router-dom';
 import { withAppContext } from 'test/utils';
 import usersJSON from 'utils/__tests__/fixtures/users.json';
 import routes from 'signals/settings/routes';
-import { USERS_ENDPOINT } from 'shared/services/api/api';
+import configuration from 'shared/services/configuration/configuration';
 
 import UsersOverview from '..';
 
@@ -39,7 +39,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
       await wait(() =>
         expect(global.fetch).toHaveBeenCalledWith(
-          expect.stringContaining(USERS_ENDPOINT),
+          expect.stringContaining(configuration.USERS_ENDPOINT),
           expect.objectContaining({ headers: {} })
         )
       );
