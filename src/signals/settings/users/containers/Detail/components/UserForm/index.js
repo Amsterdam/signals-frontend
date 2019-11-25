@@ -33,8 +33,8 @@ const UserForm = ({ data, onCancel, onSubmitForm }) => (
     <FieldGroup>
       <Input
         defaultValue={data.username}
-        id="email"
-        name="email"
+        id="username"
+        name="username"
         label="E-mailadres"
         readOnly
         disabled
