@@ -28,7 +28,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
   it('should return errors that are thrown during fetch', async () => {
     const userId = 99;
-    const error = new Error('fake error message');
+    const error = new Error();
     fetch.mockRejectOnce(error);
 
     const { result, waitForNextUpdate } = renderHook(() => useFetchUser(userId));
