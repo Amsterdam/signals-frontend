@@ -1,24 +1,45 @@
 {
-  "link": {
+  "list": [{
     "_links": {
       "self": {
-        "href": 'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/110'
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/roles/2"
       }
     },
-    "_display": 'signals | signal | Can read from SIA',
-    "id": 110,
-    "name": 'Can read from SIA',
-    "codename": 'sia_read'
-  },
-  {
-    "_links:" {
+    "_display": "behandelaars",
+    "id": 2,
+    "name": "behandelaars",
+    "permissions": [{
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/110"
+          }
+        },
+        "_display": "signals | signal | Can read from SIA",
+        "id": 110,
+        "name": "Can read from SIA",
+        "codename": "sia_read"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/164"
+          }
+        },
+        "_display": "signals | signal | Can change the status of a signal",
+        "id": 164,
+        "name": "Can change the status of a signal",
+        "codename": "sia_signal_change_status"
+      }
+    ]
+  }, {
+    "_links": {
       "self": {
-        "href": 'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/164'
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/roles/3"
       }
     },
-    "_display": 'signals | signal | Can change the status of a signal',
-    "id": 164,
-    "name": 'Can change the status of a signal',
-    "codename": 'sia_signal_change_status'
-  },
+    "_display": "coordinatoren",
+    "id": 3,
+    "name": "coordinatoren",
+    "permissions": []
+  }]
 }

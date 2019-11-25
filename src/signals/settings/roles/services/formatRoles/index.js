@@ -9,7 +9,7 @@ const formatRoles = items => {
 
     roles.push({
       id: role.id,
-      Naam: role._display,
+      Naam: role.name,
       Rechten: permissions.join(', '),
     });
   });

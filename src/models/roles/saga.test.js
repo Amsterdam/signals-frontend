@@ -54,31 +54,6 @@ describe('rolesSaga', () => {
         .next()
         .call(authCall, requestURL)
         .next(listResult)
-        .put(fetchPermissionsSuccess(listResult.results))
-        .next()
-        .isDone();
-    });
-
-    it('should dispatch error', () => {
-      const error = new Error('Something bad happened');
-
-      testSaga(fetchRoles)
-        .next()
-        .throw(error)
-        .put(fetchPermissionsError())
-        .next()
-        .isDone();
-    });
-  });
-
-  describe('fetchPermissions', () => {
-    it('should dispatch success', () => {
-      const listResult = { results: [{ id: 42 }, { id: 43 }] };
-
-      testSaga(fetchRoles)
-        .next()
-        .call(authCall, permissionsRequestURL)
-        .next(listResult)
         .put(fetchRolesSuccess(listResult.results))
         .next()
         .isDone();
@@ -91,6 +66,31 @@ describe('rolesSaga', () => {
         .next()
         .throw(error)
         .put(fetchRolesError())
+        .next()
+        .isDone();
+    });
+  });
+
+  describe('fetchPermissions', () => {
+    it('should dispatch success', () => {
+      const listResult = { results: [{ id: 42 }, { id: 43 }] };
+
+      testSaga(fetchPermissions)
+        .next()
+        .call(authCall, permissionsRequestURL)
+        .next(listResult)
+        .put(fetchPermissionsSuccess(listResult.results))
+        .next()
+        .isDone();
+    });
+
+    it('should dispatch error', () => {
+      const error = new Error('Something bad happened');
+
+      testSaga(fetchPermissions)
+        .next()
+        .throw(error)
+        .put(fetchPermissionsError())
         .next()
         .isDone();
     });
