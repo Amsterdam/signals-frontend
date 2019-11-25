@@ -73,7 +73,7 @@ export const RolesForm = ({
   }
 
   return (
-    <div>
+    <div data-testid="rolesForm">
       <PageHeader title="Rol instellingen" />
 
       {role &&
