@@ -37,6 +37,7 @@ export const RolesForm = ({
   const role = list.find(item => item.id === id * 1);
 
   useEffect(() => {
+    /* istanbul ignore else */
     if (role) {
       setName(role.name);
     }
@@ -85,6 +86,8 @@ export const RolesForm = ({
               label="Naam"
               name="name"
               type="text"
+              id={`role${role.id}`}
+              data-testid="rolesFormFieldName"
               onChange={handleChangeName}
               placeholder="Rolnaam"
               defaultValue={role.name}
@@ -97,6 +100,7 @@ export const RolesForm = ({
                   name={`permission${permission.id}`}
                   id={`permission${permission.id}`}
                   type="checkbox"
+                  data-testid="rolesFormFieldPermission"
                   defaultChecked={role.permissions.find(item => item.id === permission.id)}
                 />
                 <label htmlFor={`permission${permission.id}`}>{permission.name}</label>
@@ -105,6 +109,7 @@ export const RolesForm = ({
             <div>
               <StyledButton
                 variant="secondary"
+                data-testid="rolesFormButtonSubmit"
                 type="submit"
                 disabled={name === ''}
               >
@@ -113,6 +118,7 @@ export const RolesForm = ({
 
               <StyledButton
                 variant="tertiary"
+                data-testid="rolesFormButtonCancel"
                 type="button"
                 onClick={handleCancel}
               >

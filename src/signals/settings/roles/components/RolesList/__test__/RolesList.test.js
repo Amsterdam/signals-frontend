@@ -17,7 +17,7 @@ describe('/signals/settings/roles/components/RolesList', () => {
 
   beforeEach(() => {
     props = {
-      list: roles,
+      list: roles.list,
     };
   });
 
@@ -28,7 +28,7 @@ describe('/signals/settings/roles/components/RolesList', () => {
     expect(container.querySelector('table')).toBeTruthy();
 
     expect(container.querySelector('tr:nth-child(1) td:nth-child(1)')).toHaveTextContent(/^behandelaars$/);
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(2)')).toHaveTextContent(/^Can read frnom SIA, Can change the status of a signal$/);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(2)')).toHaveTextContent(/^Can read from SIA, Can change the status of a signal$/);
 
     expect(container.querySelector('tr:nth-child(2) td:nth-child(1)')).toHaveTextContent(/^coordinatoren$/);
     expect(container.querySelector('tr:nth-child(2) td:nth-child(2)')).toHaveTextContent(/^$/);

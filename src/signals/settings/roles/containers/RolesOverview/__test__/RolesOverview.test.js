@@ -13,7 +13,8 @@ describe('signals/settings/roles/components/RolesOverview', () => {
     props = {
       id: undefined,
       roles: {
-        list: roles,
+        list: roles.list,
+        permissions: [],
         loading: false,
         loadingPermissions: false,
       },
