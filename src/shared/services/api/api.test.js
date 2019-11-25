@@ -7,8 +7,10 @@ import {
   authDeleteCall,
   authPatchCall,
   authPostCall,
+  errorMessageDictionary,
   generateParams,
   postCall,
+  getErrorMessage,
 } from './api';
 
 describe('api service', () => {
@@ -129,7 +131,7 @@ describe('api service', () => {
     it('should generate the right call', () => {
       const gen = authPostCall(url, params);
       expect(gen.next(token).value).toEqual(
-        call(authCallWithPayload, url, params, 'POST'),
+        call(authCallWithPayload, url, params, 'POST')
       );
     });
   });
@@ -138,7 +140,7 @@ describe('api service', () => {
     it('should generate the right call', () => {
       const gen = authPatchCall(url, params);
       expect(gen.next(token).value).toEqual(
-        call(authCallWithPayload, url, params, 'PATCH'),
+        call(authCallWithPayload, url, params, 'PATCH')
       );
     });
   });
@@ -147,7 +149,7 @@ describe('api service', () => {
     it('should generate the right call', () => {
       const gen = authDeleteCall(url, params);
       expect(gen.next(token).value).toEqual(
-        call(authCallWithPayload, url, params, 'DELETE'),
+        call(authCallWithPayload, url, params, 'DELETE')
       );
     });
   });
@@ -163,6 +165,22 @@ describe('api service', () => {
       };
       const gen = postCall(url, params);
       expect(gen.next(token).value).toEqual(call(request, url, postBody));
+    });
+  });
+
+  describe('getErrorMessage', () => {
+    it('returns a default error message', () => {
+      expect(getErrorMessage({})).toEqual(errorMessageDictionary.default);
+      expect(getErrorMessage({ status: 415 })).toEqual(errorMessageDictionary.default);
+      expect(getErrorMessage({ status: 'foo bar' })).toEqual(errorMessageDictionary.default);
+    });
+
+    it('returns a specific error message', () => {
+      const statuses = [401, 403, 408, 413, 429, 500, 503];
+
+      statuses.forEach(status => {
+        expect(getErrorMessage({ status })).toEqual(errorMessageDictionary[status]);
+      });
     });
   });
 });

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { getAuthHeaders, getErrorMessage } from 'shared/services/auth/auth';
-import { USERS_ENDPOINT } from 'shared/services/api/api';
+import { getAuthHeaders } from 'shared/services/auth/auth';
+import { USERS_ENDPOINT, getErrorMessage } from 'shared/services/api/api';
 
 /**
  * Custom hook useFetchUser

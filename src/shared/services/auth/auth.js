@@ -261,25 +261,3 @@ export function authenticate() {
 
   return null;
 }
-
-export const getErrorMessage = error => {
-  let message;
-
-  switch (error.status) {
-    case 500:
-      message = 'Fout op de server. Probeer het nogmaals';
-      break;
-    case 401:
-      message = 'Je hebt niet voldoende rechten om de opgevraagde gegevens te bekijken';
-      break;
-    case 403:
-      message = 'Het is niet toegestaan om gegevens te bekijken of te wijzigen';
-      break;
-    case 404:
-    default:
-      message = 'De opgevraagde gegevens konden niet gevonden worden';
-      break;
-  }
-
-  return message;
-};
