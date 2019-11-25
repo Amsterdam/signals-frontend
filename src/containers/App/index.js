@@ -1,8 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Switch, Route, Redirect, withRouter,
-} from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -60,18 +58,15 @@ AppContainer.propTypes = {
   requestCategoriesAction: PropTypes.func.isRequired,
 };
 
-export const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    requestCategoriesAction: requestCategories,
-  },
-  dispatch,
-);
+export const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      requestCategoriesAction: requestCategories,
+    },
+    dispatch
+  );
 
-const withConnect = connect(
-  null,
-  mapDispatchToProps,
-);
-
+const withConnect = connect(null, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'global', reducer });
 const withSaga = injectSaga({ key: 'global', saga });
 
@@ -79,5 +74,5 @@ export default compose(
   withReducer,
   withSaga,
   withRouter,
-  withConnect,
+  withConnect
 )(AppContainer);
