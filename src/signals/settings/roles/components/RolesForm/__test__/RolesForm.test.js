@@ -34,16 +34,19 @@ describe('/signals/settings/roles/components/RolesForm', () => {
 
     expect(container.querySelector('h1')).toHaveTextContent(/^Rol instellingen$/);
 
+    expect(queryByTestId('rolesFormForm')).toBeInTheDocument();
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('behandelaars');
 
     expect(container.querySelectorAll('input[type="checkbox"]').length).toBe(12);
     expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toBe(2);
   });
 
-  it('should handle change name', () => {
+  it('should enable the submit button when the form is valid and should handle submit flow', () => {
+    props.list[0].name = '';
     const { getByTestId, queryByTestId } = render(withAppContext(<RolesForm {...props} />))
 
-    expect(queryByTestId('rolesFormFieldName')).toHaveValue('behandelaars');
+    expect(queryByTestId('rolesFormFieldName')).toHaveValue('');
+    expect(queryByTestId('rolesFormButtonSubmit')).toBeDisabled();
 
     const event = {
       target: {
@@ -53,15 +56,31 @@ describe('/signals/settings/roles/components/RolesForm', () => {
     fireEvent.change(getByTestId('rolesFormFieldName'), event);
 
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('nieuwe behandelaars');
+    expect(queryByTestId('rolesFormButtonSubmit')).toBeEnabled();
+  });
+
+  it('should not render form when role id is not found', () => {
+    props.id = 'not-found';
+    const { queryByTestId } = render(withAppContext(<RolesForm {...props} />))
+
+    expect(queryByTestId('rolesFormForm')).not.toBeInTheDocument();
   });
 
   it('should handle submit flow', () => {
     const push = jest.fn();
     jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({ push }));
 
-    const { getByTestId } = render(withAppContext(<RolesForm {...props} />))
+    const { getByTestId, queryByTestId } = render(withAppContext(<RolesForm {...props} />))
 
-    fireEvent.click(getByTestId('rolesFormButtonSubmit'));
+    const event = {
+      target: {
+        value: 'behandelaars',
+      },
+    };
+    fireEvent.change(getByTestId('rolesFormFieldName'), event);
+
+    expect(queryByTestId('rolesFormButtonSubmit')).toBeEnabled();
+    fireEvent.click(getByTestId('rolesFormButtonSubmit'), { preventDefault: jest.fn() });
 
     expect(push).toHaveBeenCalledWith('/instellingen/rollen');
     expect(props.onPatchRole).toHaveBeenCalledWith({

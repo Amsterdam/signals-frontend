@@ -80,6 +80,7 @@ export const RolesForm = ({
       {role &&
         (
           <form
+            data-testid="rolesFormForm"
             onSubmit={handleSubmit}
           >
             <StyledInput
