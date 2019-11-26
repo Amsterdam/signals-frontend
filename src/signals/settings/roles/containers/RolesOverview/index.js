@@ -30,27 +30,26 @@ export const RolesOverview = ({
     onFetchPermissions();
   }, []);
 
-  const isLoading = () => loading || loadingPermissions;
+  const isLoading = loading || loadingPermissions;
 
   return (
     <Fragment>
       <Row>
         <Column span={12}>
-          {isLoading() && <LoadingIndicator />}
+          {isLoading && <LoadingIndicator />}
 
-          {id && !isLoading() &&
-            <RolesForm
-              id={id}
-              list={list}
-              permissions={permissions}
-              onPatchRole={onPatchRole}
-            />}
-
-          {!id && !isLoading() &&
-            <RolesList
-              list={list}
-            />
-          }
+          {!isLoading && (
+            id ? (
+              <RolesForm
+                id={id}
+                list={list}
+                permissions={permissions}
+                onPatchRole={onPatchRole}
+              />
+            ) : (
+              <RolesList list={list} />
+            )
+          )}
         </Column>
       </Row>
     </Fragment>
