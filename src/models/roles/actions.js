@@ -14,80 +14,56 @@ import {
 }
   from './constants';
 
-export function fetchRoles() {
-  return {
-    type: FETCH_ROLES,
-  };
-}
+export const fetchRoles = () => ({
+  type: FETCH_ROLES,
+});
 
-export function fetchRolesSuccess(payload) {
-  return {
-    type: FETCH_ROLES_SUCCESS,
-    payload,
-  };
-}
+export const fetchRolesSuccess = payload => ({
+  type: FETCH_ROLES_SUCCESS,
+  payload,
+});
 
-export function fetchRolesError() {
-  return {
-    type: FETCH_ROLES_ERROR,
-  };
-}
+export const fetchRolesError = () => ({
+  type: FETCH_ROLES_ERROR,
+});
 
-export function fetchPermissions() {
-  return {
-    type: FETCH_PERMISSIONS,
-  };
-}
+export const fetchPermissions = () => ({
+  type: FETCH_PERMISSIONS,
+});
 
-export function fetchPermissionsSuccess(payload) {
-  return {
-    type: FETCH_PERMISSIONS_SUCCESS,
-    payload,
-  };
-}
+export const fetchPermissionsSuccess = payload => ({
+  type: FETCH_PERMISSIONS_SUCCESS,
+  payload,
+});
 
-export function fetchPermissionsError() {
-  return {
-    type: FETCH_PERMISSIONS_ERROR,
-  };
-}
+export const fetchPermissionsError = () => ({
+  type: FETCH_PERMISSIONS_ERROR,
+});
 
-export function saveRole(payload) {
-  return {
-    type: SAVE_ROLE,
-    payload,
-  };
-}
+export const saveRole = payload => ({
+  type: SAVE_ROLE,
+  payload,
+});
 
-export function saveRoleSuccess(payload) {
-  return {
-    type: SAVE_ROLE_SUCCESS,
-    payload,
-  };
-}
+export const saveRoleSuccess = payload => ({
+  type: SAVE_ROLE_SUCCESS,
+  payload,
+});
 
-export function saveRoleError() {
-  return {
-    type: SAVE_ROLE_ERROR,
-  };
-}
+export const saveRoleError = () => ({
+  type: SAVE_ROLE_ERROR,
+});
 
-export function patchRole(payload) {
-  return {
-    type: PATCH_ROLE,
-    payload,
-  };
-}
+export const patchRole = payload => ({
+  type: PATCH_ROLE,
+  payload,
+});
 
-export function patchRoleSuccess(payload) {
-  return {
-    type: PATCH_ROLE_SUCCESS,
-    payload,
-  };
-}
+export const patchRoleSuccess = payload => ({
+  type: PATCH_ROLE_SUCCESS,
+  payload,
+});
 
-export function patchRoleError() {
-  return {
-    type: PATCH_ROLE_ERROR,
-  };
-}
+export const patchRoleError = () => ({
+  type: PATCH_ROLE_ERROR,
+})
