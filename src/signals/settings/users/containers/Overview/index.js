@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { Row, Column, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
@@ -10,14 +10,15 @@ import Pagination from 'components/Pagination';
 
 import PageHeader from 'signals/settings/components/PageHeader';
 import useFetchUsers from './hooks/useFetchUsers';
-import routes from '../../../routes';
+import { USERS_PAGED_URL, USER_URL } from '../../../routes';
 
 const StyledPagination = styled(Pagination)`
   margin-top: ${themeSpacing(12)};
 `;
 
-const UsersOverview = ({ pageSize, history }) => {
+const UsersOverview = ({ pageSize }) => {
   const location = useLocation();
+  const history = useHistory();
   const { pageNum } = useParams();
   const [page, setPage] = useState(1);
   const { isLoading, users } = useFetchUsers({ page, pageSize });
@@ -42,13 +43,13 @@ const UsersOverview = ({ pageSize, history }) => {
     const { currentTarget: { dataset: { itemId } } } = e;
 
     if (itemId) {
-      history.push(routes.user.replace(':userId', itemId));
+      history.push(`${USER_URL}/${itemId}`);
     }
   };
 
   const onPaginationClick = pageToNavigateTo => {
     global.window.scrollTo(0, 0);
-    history.push(routes.usersPaged.replace(/:pageNum.*/, pageToNavigateTo));
+    history.push(`${USERS_PAGED_URL}/${pageToNavigateTo}`);
   };
 
   return (
@@ -93,11 +94,6 @@ UsersOverview.defaultProps = {
 };
 
 UsersOverview.propTypes = {
-  history: PropTypes.shape({
-    action: PropTypes.string,
-    push: PropTypes.func,
-    replace: PropTypes.func,
-  }),
   pageSize: PropTypes.number,
 };
 
