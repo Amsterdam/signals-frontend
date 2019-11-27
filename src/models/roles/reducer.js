@@ -24,6 +24,8 @@ export const initialState = fromJS({
   saving: false,
   patching: false,
   error: false,
+  responseSuccess: false,
+  responseError: false,
 });
 
 function rolesReducer(state = initialState, action) {
@@ -67,24 +69,29 @@ function rolesReducer(state = initialState, action) {
     case SAVE_ROLE:
       return state
         .set('saving', true)
-        .set('error', false);
+        .set('responseSuccess', false)
+        .set('responseError', false);
 
     case SAVE_ROLE_SUCCESS:
       roles = state.get('list').toJS();
       return state
         .set('list', fromJS([...roles, action.payload]))
-        .set('error', false)
-        .set('saving', false);
+        .set('saving', false)
+        .set('responseSuccess', true)
+        .set('responseError', false);
+
 
     case SAVE_ROLE_ERROR:
       return state
-        .set('error', true)
-        .set('saving', false);
+        .set('saving', false)
+        .set('responseSuccess', true)
+        .set('responseError', false);
 
     case PATCH_ROLE:
       return state
         .set('patching', true)
-        .set('error', false);
+        .set('responseSuccess', false)
+        .set('responseError', false);
 
     case PATCH_ROLE_SUCCESS:
       roles = state.get('list').toJS();
@@ -94,13 +101,15 @@ function rolesReducer(state = initialState, action) {
       }
       return state
         .set('list', fromJS(roles))
-        .set('error', false)
-        .set('patching', false);
+        .set('patching', false)
+        .set('responseSuccess', true)
+        .set('responseError', false);
 
     case PATCH_ROLE_ERROR:
       return state
-        .set('error', true)
-        .set('patching', false);
+        .set('patching', false)
+        .set('responseSuccess', false)
+        .set('responseError', true);
 
     default:
       return state;
