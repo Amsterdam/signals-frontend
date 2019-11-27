@@ -27,6 +27,7 @@ const UserDetail = () => {
   const history = useHistory();
   const { userId } = useParams();
   const { isLoading, isSuccess, error, data, patch } = useFetchUser(userId);
+  const shouldRenderForm = userId === undefined || (userId !== undefined && data !== undefined);
 
   const getFormData = e =>
     [...new FormData(e.target.form).entries()]
@@ -81,8 +82,16 @@ const UserDetail = () => {
       </Row>
 
       <FormContainer>
-        <StyledColumn span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 4 }}>
-          {data && <UserForm data={data} onCancel={onCancel} onSubmitForm={onSubmitForm} />}
+        <StyledColumn
+          span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 4 }}
+        >
+          {shouldRenderForm && (
+            <UserForm
+              data={data}
+              onCancel={onCancel}
+              onSubmitForm={onSubmitForm}
+            />
+          )}
         </StyledColumn>
       </FormContainer>
     </Fragment>
