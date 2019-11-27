@@ -9,7 +9,7 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import PageHeader from 'signals/settings/components/PageHeader';
 
 import makeSelectRolesModel from 'models/roles/selectors';
-import { fetchRoles } from 'models/roles/actions';
+import { fetchRoles, resetResponse } from 'models/roles/actions';
 
 import RolesList from '../../components/RolesList';
 
@@ -20,9 +20,11 @@ export const RolesListContainer = ({
     loadingPermissions,
   },
   onFetchRoles,
+  onResetResponse,
 }) => {
   useEffect(() => {
     onFetchRoles();
+    onResetResponse();
   }, []);
 
   return (
@@ -63,6 +65,7 @@ RolesListContainer.propTypes = {
   }),
 
   onFetchRoles: PropTypes.func.isRequired,
+  onResetResponse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -71,6 +74,8 @@ const mapStateToProps = createStructuredSelector({
 
 export const mapDispatchToProps = dispatch => bindActionCreators({
   onFetchRoles: fetchRoles,
+  onResetResponse: resetResponse,
+
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

@@ -50,7 +50,7 @@ export const RoleFormContainer = ({
       <Row>
         <Column span={12}>
           {responseSuccess && <FormAlert isNotification title="Gegevens opgeslagen" />}
-          {responseError && <FormAlert title="Het opslaan is fout gegaan" />}
+          {responseError && <FormAlert title="Er is iets mis gegaan bij het opslaan" />}
         </Column>
       </Row>
       <Row>
