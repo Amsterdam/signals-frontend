@@ -11,6 +11,7 @@ import {
   PATCH_ROLE,
   PATCH_ROLE_SUCCESS,
   PATCH_ROLE_ERROR,
+  RESET_RESONSE,
 }
   from './constants';
 
@@ -66,4 +67,8 @@ export const patchRoleSuccess = payload => ({
 
 export const patchRoleError = () => ({
   type: PATCH_ROLE_ERROR,
-})
+});
+
+export const resetResponse = () => ({
+  type: RESET_RESONSE,
+});

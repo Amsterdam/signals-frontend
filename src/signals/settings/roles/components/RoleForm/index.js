@@ -61,7 +61,6 @@ export const RoleForm = ({
     };
 
     onPatchRole(payload);
-    // history.push('/instellingen/rollen');
   }
 
   const handleCancel = () => {

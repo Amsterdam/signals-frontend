@@ -14,6 +14,7 @@ import {
   PATCH_ROLE,
   PATCH_ROLE_SUCCESS,
   PATCH_ROLE_ERROR,
+  RESET_RESONSE,
 }
   from './constants';
 
@@ -35,6 +36,8 @@ describe('rolesReducer', () => {
       saving: false,
       patching: false,
       error: false,
+      responseSuccess: false,
+      responseError: false,
     });
   });
 
@@ -53,6 +56,8 @@ describe('rolesReducer', () => {
       saving: false,
       patching: false,
       error: false,
+      responseSuccess: false,
+      responseError: false,
     });
   });
 
@@ -69,6 +74,8 @@ describe('rolesReducer', () => {
       saving: false,
       patching: false,
       error: true,
+      responseSuccess: false,
+      responseError: false,
     });
   });
 
@@ -85,6 +92,8 @@ describe('rolesReducer', () => {
       saving: false,
       patching: false,
       error: false,
+      responseSuccess: false,
+      responseError: false,
     });
   });
 
@@ -103,6 +112,8 @@ describe('rolesReducer', () => {
       saving: false,
       patching: false,
       error: false,
+      responseSuccess: false,
+      responseError: false,
     });
   });
 
@@ -119,6 +130,8 @@ describe('rolesReducer', () => {
       saving: false,
       patching: false,
       error: true,
+      responseSuccess: false,
+      responseError: false,
     });
   });
 
@@ -135,6 +148,8 @@ describe('rolesReducer', () => {
       saving: true,
       patching: false,
       error: false,
+      responseSuccess: false,
+      responseError: false,
     });
   });
 
@@ -147,7 +162,8 @@ describe('rolesReducer', () => {
     ).toEqual({
       list: [{ id: 42 }, { id: 43 }],
       saving: false,
-      error: false,
+      responseSuccess: true,
+      responseError: false,
     });
   });
 
@@ -163,7 +179,9 @@ describe('rolesReducer', () => {
       loadingPermissions: false,
       saving: false,
       patching: false,
-      error: true,
+      error: false,
+      responseSuccess: false,
+      responseError: true,
     });
   });
 
@@ -180,6 +198,8 @@ describe('rolesReducer', () => {
       saving: false,
       patching: true,
       error: false,
+      responseSuccess: false,
+      responseError: false,
     });
   });
 
@@ -192,7 +212,8 @@ describe('rolesReducer', () => {
     ).toEqual({
       list: [{ id: 41 }, { id: 42, name: 'bar' }, { id: 43 }],
       patching: false,
-      error: false,
+      responseSuccess: true,
+      responseError: false,
     });
   });
 
@@ -205,7 +226,8 @@ describe('rolesReducer', () => {
     ).toEqual({
       list: [{ id: 41 }, { id: 42 }, { id: 43 }],
       patching: false,
-      error: false,
+      responseSuccess: true,
+      responseError: false,
     });
   });
 
@@ -221,7 +243,27 @@ describe('rolesReducer', () => {
       loadingPermissions: false,
       saving: false,
       patching: false,
-      error: true,
+      error: false,
+      responseSuccess: false,
+      responseError: true,
+    });
+  });
+
+  it('RESET_RESONSE', () => {
+    expect(
+      rolesReducer(undefined, {
+        type: RESET_RESONSE,
+      }).toJS()
+    ).toEqual({
+      list: [],
+      permissions: [],
+      loading: false,
+      loadingPermissions: false,
+      saving: false,
+      patching: false,
+      error: false,
+      responseSuccess: false,
+      responseError: false,
     });
   });
 });
