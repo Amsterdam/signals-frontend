@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import BackLinkComponent from 'components/BackLink';
 
-import { Heading, Row } from '@datapunt/asc-ui';
+import { Heading, Row, themeSpacing } from '@datapunt/asc-ui';
 
 const StyledSection = styled.section`
-  padding-top: ${({ hasBackLink }) => hasBackLink ? 24 : 12}px;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
+  padding-top: ${({ hasBackLink }) => hasBackLink ? themeSpacing(6) : themeSpacing(3)};
+  padding-bottom: ${themeSpacing(3)};
+  margin-bottom: ${themeSpacing(5)};
 
   ${({ hasBackLink }) => hasBackLink && css`
     h1 {
-      margin-top: 12px;
+      margin-top: ${themeSpacing(3)};
     }
   `}
 `;

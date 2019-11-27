@@ -7,7 +7,7 @@ import List from '..';
 const users = userObjects();
 
 // temp disabled
-describe.skip('components/List', () => {
+describe('components/List', () => {
   it('returns null when there are no items to render', () => {
     const { container, rerender } = render(withAppContext(<List items={[]} />));
 

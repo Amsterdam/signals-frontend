@@ -10,7 +10,7 @@ import Pagination from 'components/Pagination';
 
 import PageHeader from 'signals/settings/components/PageHeader';
 import useFetchUsers from './hooks/useFetchUsers';
-import routes from '../../../routes';
+import { USERS_PAGED_URL, USER_URL } from '../../../routes';
 
 const StyledPagination = styled(Pagination)`
   margin-top: ${themeSpacing(12)};
@@ -53,23 +53,19 @@ const UsersOverview = ({ pageSize }) => {
     } = e;
 
     if (itemId) {
-      history.push(routes.user.replace(/:userId.*/, itemId));
+      history.push(`${USER_URL}/${itemId}`);
     }
   };
 
   const onPaginationClick = pageToNavigateTo => {
     global.window.scrollTo(0, 0);
-    history.push(routes.usersPaged.replace(/:pageNum.*/, pageToNavigateTo));
+    history.push(`${USERS_PAGED_URL}/${pageToNavigateTo}`);
   };
 
   return (
     <Fragment>
       <PageHeader title={`Gebruikers ${users.count ? `(${users.count})` : ''}`}>
-        <HeaderButton
-          variant="primary"
-          $as={Link}
-          to={routes.user.replace(/:userId.*/, '')}
-        >
+        <HeaderButton variant="primary" $as={Link} to={USER_URL}>
           Gebruiker toevoegen
         </HeaderButton>
       </PageHeader>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { getAuthHeaders, getErrorMessage } from 'shared/services/auth/auth';
-import { USERS_ENDPOINT } from 'shared/services/api/api';
+import { getAuthHeaders } from 'shared/services/auth/auth';
+import { getErrorMessage } from 'shared/services/api/api';
+import configuration from 'shared/services/configuration/configuration';
 
 /**
  * Custom hook useFetchUser
@@ -12,11 +13,10 @@ import { USERS_ENDPOINT } from 'shared/services/api/api';
 const useFetchUser = id => {
   const [isLoading, setLoading] = useState();
   const [isSuccess, setSuccess] = useState();
-  const initialState = id ? undefined : {};
-  const [data, setData] = useState(initialState);
+  const [data, setData] = useState();
   const [error, setError] = useState(false);
 
-  const url = [USERS_ENDPOINT, id].filter(Boolean).join('/');
+  const url = [configuration.USERS_ENDPOINT, id].filter(Boolean).join('/');
 
   const controller = new AbortController();
   const { signal } = controller;

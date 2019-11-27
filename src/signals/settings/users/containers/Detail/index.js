@@ -8,7 +8,7 @@ import PageHeader from 'signals/settings/components/PageHeader';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import BackLink from 'components/BackLink';
 import FormAlert from 'components/FormAlert';
-import routes from '../../../routes';
+import routes, { USER_URL } from '../../../routes';
 
 import useFetchUser from './hooks/useFetchUser';
 import UserForm from './components/UserForm';
@@ -30,10 +30,11 @@ const UserDetail = () => {
   const { isLoading, isSuccess, error, data, patch, post } = useFetchUser(
     userId
   );
+  const shouldRenderForm = !isExistingUser || (isExistingUser && Boolean(data));
 
   useEffect(() => {
     if (!isExistingUser && isSuccess) {
-      history.replace(routes.user.replace(/:userId.*/, data.id));
+      history.replace(`${USER_URL}/${data.id}`);
     }
   }, [isExistingUser, isSuccess]);
 
@@ -87,8 +88,9 @@ const UserDetail = () => {
 
       <Row>
         <Column span={12}>
-          {error && <FormAlert title={error.message} />}
-          {isSuccess && (
+          {!isLoading && error && <FormAlert title={error.message} />}
+
+          {!isLoading && isSuccess && (
             <FormAlert isNotification title="Gegevens opgeslagen" />
           )}
         </Column>
@@ -98,7 +100,7 @@ const UserDetail = () => {
         <StyledColumn
           span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 4 }}
         >
-          {data && (
+          {shouldRenderForm && (
             <UserForm
               data={data}
               onCancel={onCancel}

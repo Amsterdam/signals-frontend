@@ -1,6 +1,7 @@
-import { renderHook, act , cleanup} from '@testing-library/react-hooks';
+import { renderHook, act , cleanup } from '@testing-library/react-hooks';
+import { wait } from '@testing-library/react';
 import userJSON from 'utils/__tests__/fixtures/user.json';
-import { USERS_ENDPOINT } from 'shared/services/api/api';
+import configuration from 'shared/services/configuration/configuration';
 import useFetchUser from '../useFetchUser';
 
 describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
@@ -23,7 +24,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
     await waitForNextUpdate();
 
     expect(global.fetch).toHaveBeenCalledWith(
-      `${USERS_ENDPOINT}/${userId}`,
+      expect.stringMatching(new RegExp(`\\/${userId}$`)),
       expect.objectContaining({ headers: {} })
     );
 
@@ -33,7 +34,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
   it('should return errors that are thrown during fetch', async () => {
     const userId = 99;
-    const error = new Error('fake error message');
+    const error = new Error();
     fetch.mockRejectOnce(error);
 
     const { result, waitForNextUpdate } = renderHook(() =>
@@ -50,6 +51,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
   });
 
   it('should abort request on unmount', () => {
+    const userId = 123;
     fetch.mockResponseOnce(
       () =>
         new Promise(resolve =>
@@ -59,7 +61,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
     const abortSpy = jest.spyOn(global.AbortController.prototype, 'abort');
 
-    const { unmount } = renderHook(async () => useFetchUser());
+    const { unmount } = renderHook(async () => useFetchUser(userId));
 
     unmount();
 
@@ -107,6 +109,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
       fetch.mockResponseOnce(JSON.stringify(formData));
 
+      // value of isSuccess can be one of `undefined`, `false`, or `true`
       expect(result.current.isSuccess).not.toEqual(true);
 
       act(() => {
@@ -116,7 +119,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
       await waitForNextUpdate();
 
       expect(global.fetch).toHaveBeenLastCalledWith(
-        `${USERS_ENDPOINT}/${userId}`,
+        expect.stringMatching(new RegExp(`\\/${userId}$`)),
         expect.objectContaining({
           body: JSON.stringify(formData),
           method: 'PATCH',
@@ -138,6 +141,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
       expect(result.current.isLoading).toEqual(true);
       expect(result.current.error).not.toEqual(response);
+      // value of isSuccess can be one of `undefined`, `false`, or `true`
       expect(result.current.isSuccess).not.toEqual(false);
 
       // make sure the side effects are all done
@@ -192,7 +196,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
       await waitForNextUpdate();
 
       expect(global.fetch).toHaveBeenCalledWith(
-        USERS_ENDPOINT,
+        configuration.USERS_ENDPOINT,
         expect.objectContaining({
           body: JSON.stringify(formData),
           method: 'POST',
@@ -234,5 +238,15 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
       expect(result.current.isSuccess).toEqual(false);
       expect(result.current.isLoading).toEqual(false);
     });
+  });
+
+  it('should NOT request user from API on mount', async () => {
+    const { waitForNextUpdate } = renderHook(() =>
+      useFetchUser()
+    );
+
+    waitForNextUpdate();
+
+    await wait(() => expect(global.fetch).not.toHaveBeenCalled());
   });
 });
