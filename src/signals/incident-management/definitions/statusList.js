@@ -66,6 +66,8 @@ const VERZENDEN_MISLUKT = {
 const VERZOEK_TOT_AFHANDELING = {
   key: 'closure requested',
   value: 'Extern: verzoek tot afhandeling',
+  warning: 'De melder ontvangt deze toelichting niet, maar kan die wel opvragen door te bellen.',
+
 };
 const AFGEHANDELD_EXTERN = {
   key: 'done external',
@@ -94,11 +96,12 @@ export default statusList;
 export const changeStatusOptionList = [
   GEMELD,
   AFWACHTING,
-  BEHANDELING,
-  AFGEHANDELD,
   INGEPLAND,
-  GEANNULEERD,
+  BEHANDELING,
+  VERZOEK_TOT_AFHANDELING,
+  AFGEHANDELD,
   HEROPEND,
+  GEANNULEERD,
 ];
 
 export const defaultTextsOptionList = [
