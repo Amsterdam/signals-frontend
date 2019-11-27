@@ -26,7 +26,7 @@ describe('signals/settings', () => {
   it('should render login page', async () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => false);
 
-    const { queryByTestId, getByTestId, rerender } = await render(
+    const { queryByTestId, getByTestId, rerender } = render(
       withAppContext(<SettingsModule />)
     );
 
@@ -42,7 +42,7 @@ describe('signals/settings', () => {
   it('should render a 404', async () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    const { getByTestId } = await render(withAppContext(<SettingsModule />));
+    const { getByTestId } = render(withAppContext(<SettingsModule />));
 
     expect(getByTestId('notFoundPage')).toBeInTheDocument();
   });
@@ -50,7 +50,7 @@ describe('signals/settings', () => {
   it('should provide pages with a location that has a referrer', async () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    await render(withAppContext(<SettingsModule />));
+    render(withAppContext(<SettingsModule />));
 
     await act(async () => history.push(`${USER_URL}/1`));
 
