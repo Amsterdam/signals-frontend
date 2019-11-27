@@ -6,7 +6,7 @@ import {
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { authenticate } from 'shared/services/auth/auth';
+import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
 import ThemeProvider from 'components/ThemeProvider';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -50,7 +50,8 @@ export const AppContainer = ({ requestCategoriesAction }) => {
             <Route path="" component={NotFoundPage} />
           </Switch>
         </div>
-        <Footer />
+
+        {!isAuthenticated() && <Footer />}
       </Fragment>
     </ThemeProvider>
   );
