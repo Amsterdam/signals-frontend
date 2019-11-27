@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   Label as FieldLabel,
+  Checkbox,
   Button,
   themeSpacing,
 } from '@datapunt/asc-ui';
@@ -89,23 +90,18 @@ export const RolesForm = ({
               type="text"
               id={`role${role.id}`}
               data-testid="rolesFormFieldName"
-              onChange={handleChangeName}
+              onBlur={handleChangeName}
               placeholder="Rolnaam"
               defaultValue={role.name}
             />
 
             <Label label="Rechten" />
-            {permissions.map(permission =>
-              <div key={permission.id} className="antwoord">
-                <input
-                  name={`permission${permission.id}`}
-                  id={`permission${permission.id}`}
-                  type="checkbox"
-                  data-testid="rolesFormFieldPermission"
-                  defaultChecked={role.permissions.find(item => item.id === permission.id)}
-                />
-                <label htmlFor={`permission${permission.id}`}>{permission.name}</label>
-              </div>)}
+            {permissions.map(permission => (
+              <div key={permission.id}>
+                <FieldLabel htmlFor={`permission${permission.id}`} label={permission.name}>
+                  <Checkbox id={`permission${permission.id}`} checked={role.permissions.find(item => item.id === permission.id)} />
+                </FieldLabel>
+              </div>))}
 
             <div>
               <StyledButton
@@ -129,7 +125,7 @@ export const RolesForm = ({
           </form>
         )
       }
-    </div>
+    </div >
   )
 };
 
