@@ -110,6 +110,8 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { getByTestId } = render(withAppContext(<UserDetail />));
 
+    expect(patch).not.toHaveBeenCalled();
+
     fireEvent.change(
       getByTestId('detailUserForm').querySelector('#last_name'),
       { target: { value: 'Foo Bar Baz' } }
@@ -118,6 +120,7 @@ describe('signals/settings/users/containers/Detail', () => {
       getByTestId('detailUserForm').querySelector('[type="submit"]')
     );
 
+    expect(patch).toHaveBeenCalledTimes(1);
     expect(patch).toHaveBeenCalled();
   });
 
@@ -137,6 +140,8 @@ describe('signals/settings/users/containers/Detail', () => {
       )
     ).toBeInTheDocument();
 
+    expect(patch).not.toHaveBeenCalled();
+
     // change a field's value so that the form will be submitted
     fireEvent.change(
       getByTestId('detailUserForm').querySelector('#last_name'),
@@ -146,6 +151,7 @@ describe('signals/settings/users/containers/Detail', () => {
       getByTestId('detailUserForm').querySelector('[type="submit"]')
     );
 
+    expect(patch).toHaveBeenCalledTimes(1);
     expect(patch).toHaveBeenCalledWith(
       expect.objectContaining({ is_active: false })
     );
@@ -168,25 +174,30 @@ describe('signals/settings/users/containers/Detail', () => {
     expect(queryByTestId('formAlert')).toBeNull();
   });
 
-  it('should push to history on cancel', () => {
+  it('should direct to the overview page when cancel button is clicked and form data is pristine', () => {
     useFetchUser.mockImplementationOnce(() => ({ data: userJSON }));
 
     global.window.confirm = jest.fn();
 
     const { getByTestId } = render(withAppContext(<UserDetail />));
+
+    expect(push).not.toHaveBeenCalled();
 
     fireEvent.click(getByTestId('cancelBtn'));
 
     expect(global.window.confirm).not.toHaveBeenCalled();
-    expect(push).toHaveBeenCalled();
+    expect(push).toHaveBeenCalledTimes(1);
+    expect(push).toHaveBeenCalledWith(routes.users);
   });
 
-  it('should confirm on cancel', () => {
+  it('should direct to the overview page when cancel button is clicked and form data is NOT pristine', () => {
     useFetchUser.mockImplementationOnce(() => ({ data: userJSON }));
 
     global.window.confirm = jest.fn();
 
     const { getByTestId } = render(withAppContext(<UserDetail />));
+
+    expect(push).not.toHaveBeenCalled();
 
     fireEvent.change(
       getByTestId('detailUserForm').querySelector('#last_name'),
@@ -201,6 +212,29 @@ describe('signals/settings/users/containers/Detail', () => {
     global.window.confirm.mockReturnValue(true);
     fireEvent.click(getByTestId('cancelBtn'));
 
-    expect(push).toHaveBeenCalled();
+    expect(push).toHaveBeenCalledTimes(1);
+    expect(push).toHaveBeenCalledWith(routes.users);
+  });
+
+  it('should push to correct URL when cancel button is clicked and form data is pristine', () => {
+    const referrer = '/some-page-we-came-from';
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
+      referrer,
+    }));
+
+    useFetchUser.mockImplementationOnce(() => ({ data: userJSON }));
+
+    global.window.confirm = jest.fn();
+
+    const { getByTestId } = render(withAppContext(<UserDetail />));
+
+    expect(push).not.toHaveBeenCalled();
+
+    fireEvent.click(getByTestId('cancelBtn'));
+
+    // user is only asked for confirmation when form data isn't pristine
+    expect(global.window.confirm).not.toHaveBeenCalled();
+    expect(push).toHaveBeenCalledTimes(1);
+    expect(push).toHaveBeenCalledWith(referrer);
   });
 });

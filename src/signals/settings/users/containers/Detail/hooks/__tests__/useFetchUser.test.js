@@ -107,6 +107,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
       fetch.mockResponseOnce(JSON.stringify(formData));
 
+      // value of isSuccess can be one of `undefined`, `false`, or `true`
       expect(result.current.isSuccess).not.toEqual(true);
 
       act(() => {
@@ -138,6 +139,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
       expect(result.current.isLoading).toEqual(true);
       expect(result.current.error).not.toEqual(response);
+      // value of isSuccess can be one of `undefined`, `false`, or `true`
       expect(result.current.isSuccess).not.toEqual(false);
 
       // make sure the side effects are all done

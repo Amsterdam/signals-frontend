@@ -46,6 +46,8 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
 
     const { getByTestId } = render(withAppContext(<UserForm onCancel={onCancel} />));
 
+    expect(onCancel).not.toHaveBeenCalled();
+
     fireEvent.click(getByTestId('cancelBtn'));
 
     expect(onCancel).toHaveBeenCalled();
@@ -57,6 +59,8 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     // using enzyme instead of @testing-library; JSDOM hasn't implemented for submit callback and will show a warning
     // when a form's submit() handler is called or when the submit button receives a click event
     const tree = mount(withAppContext(<UserForm onSubmitForm={onSubmit} />));
+
+    expect(onSubmit).not.toHaveBeenCalled();
 
     tree.find('button[type="submit"]').simulate('click');
 
