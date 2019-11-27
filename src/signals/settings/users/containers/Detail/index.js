@@ -72,8 +72,9 @@ const UserDetail = () => {
 
       <Row>
         <Column span={12}>
-          {error && <FormAlert title={error.message} />}
-          {isSuccess && (
+          {!isLoading && error && <FormAlert title={error.message} />}
+
+          {!isLoading && isSuccess && (
             <FormAlert isNotification title="Gegevens opgeslagen" />
           )}
         </Column>

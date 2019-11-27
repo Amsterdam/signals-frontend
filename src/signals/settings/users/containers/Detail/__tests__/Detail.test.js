@@ -78,10 +78,17 @@ describe('signals/settings/users/containers/Detail', () => {
     const message = 'Something went wrong here';
     useFetchUser.mockImplementationOnce(() => ({ error: { message } }));
 
-    const { getByTestId, getByText } = render(withAppContext(<UserDetail />));
+    const { queryByTestId, getByTestId, getByText, rerender } = render(withAppContext(<UserDetail />));
 
     expect(getByTestId('formAlert')).toBeInTheDocument();
     expect(getByText(message)).toBeInTheDocument();
+
+    // should not show when loading
+    useFetchUser.mockImplementationOnce(() => ({ isLoading: true, error: { message } }));
+
+    rerender(withAppContext(<UserDetail />));
+
+    expect(queryByTestId('formAlert')).toBeNull();
   });
 
   it('should not patch user data on submit when form data has not been altered', () => {
@@ -148,10 +155,17 @@ describe('signals/settings/users/containers/Detail', () => {
     const message = 'Gegevens opgeslagen';
     useFetchUser.mockImplementationOnce(() => ({ isSuccess: true }));
 
-    const { getByTestId, getByText } = render(withAppContext(<UserDetail />));
+    const { queryByTestId, rerender, getByTestId, getByText } = render(withAppContext(<UserDetail />));
 
     expect(getByTestId('formAlert')).toBeInTheDocument();
     expect(getByText(message)).toBeInTheDocument();
+
+    // should not show when loading
+    useFetchUser.mockImplementationOnce(() => ({ isLoading: true, isSuccess: true }));
+
+    rerender(withAppContext(<UserDetail />));
+
+    expect(queryByTestId('formAlert')).toBeNull();
   });
 
   it('should push to history on cancel', () => {
