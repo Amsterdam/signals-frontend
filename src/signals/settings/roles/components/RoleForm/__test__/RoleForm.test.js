@@ -18,8 +18,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
   beforeEach(() => {
     props = {
-      id: '2',
-      list: roles.list,
+      role: roles.list[0],
       permissions: roles.permissions,
       onPatchRole: jest.fn(),
     };
@@ -42,7 +41,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
   });
 
   it('should enable the submit button when the form is valid and should handle submit flow', () => {
-    props.list[0].name = '';
+    props.role.name = '';
     const { getByTestId, queryByTestId } = render(withAppContext(<RoleForm {...props} />))
 
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('');
@@ -57,13 +56,6 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('nieuwe behandelaars');
     expect(queryByTestId('rolesFormButtonSubmit')).toBeEnabled();
-  });
-
-  it('should not render form when role id is not found', () => {
-    props.id = 'not-found';
-    const { queryByTestId } = render(withAppContext(<RoleForm {...props} />))
-
-    expect(queryByTestId('rolesFormForm')).not.toBeInTheDocument();
   });
 
   it('should handle submit flow', () => {

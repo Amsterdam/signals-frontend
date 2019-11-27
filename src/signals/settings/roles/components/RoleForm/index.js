@@ -88,7 +88,7 @@ export const RoleForm = ({
               type="text"
               id={`role${role.id}`}
               data-testid="rolesFormFieldName"
-              onBlur={handleChangeName}
+              onChange={handleChangeName}
               placeholder="Rolnaam"
               defaultValue={role.name}
             />
