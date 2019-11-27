@@ -13,8 +13,7 @@ import configuration from 'shared/services/configuration/configuration';
 const useFetchUser = id => {
   const [isLoading, setLoading] = useState();
   const [isSuccess, setSuccess] = useState();
-  const initialState = id ? undefined : {};
-  const [data, setData] = useState(initialState);
+  const [data, setData] = useState();
   const [error, setError] = useState(false);
 
   const url = [configuration.USERS_ENDPOINT, id].filter(Boolean).join('/');

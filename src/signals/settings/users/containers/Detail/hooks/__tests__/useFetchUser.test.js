@@ -1,4 +1,5 @@
-import { renderHook, act , cleanup} from '@testing-library/react-hooks';
+import { renderHook, act , cleanup } from '@testing-library/react-hooks';
+import { wait } from '@testing-library/react';
 import userJSON from 'utils/__tests__/fixtures/user.json';
 import useFetchUser from '../useFetchUser';
 
@@ -160,5 +161,15 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
       expect(result.current.isSuccess).toEqual(false);
       expect(result.current.isLoading).toEqual(false);
     });
+  });
+
+  it('should NOT request user from API on mount', async () => {
+    const { waitForNextUpdate } = renderHook(() =>
+      useFetchUser()
+    );
+
+    waitForNextUpdate();
+
+    await wait(() => expect(global.fetch).not.toHaveBeenCalled());
   });
 });

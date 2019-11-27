@@ -1,6 +1,6 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 import { withAppContext } from 'test/utils';
 import routes from 'signals/settings/routes';
@@ -66,10 +66,47 @@ describe('signals/settings/users/containers/Detail', () => {
     expect(getByTestId('loadingIndicator')).toBeInTheDocument();
   });
 
-  it('should render a form', () => {
+  it('should not render a form when the data from the API is not yet available', async () => {
+    const userId = userJSON.id;
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementationOnce(() => ({
+      userId,
+    }));
+
+    const { queryByTestId } = await render(withAppContext(<UserDetail />));
+
+    expect(queryByTestId('detailUserForm')).toBeNull();
+
+  });
+
+  it('should render a form when the URL contains a user ID AND the data has been retrieved from the API', async () => {
+    const userId = userJSON.id;
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementationOnce(() => ({
+      userId,
+    }));
+
+    useFetchUser.mockImplementationOnce(() => ({ loading: true }));
+
+    const { queryByTestId } = await render(withAppContext(<UserDetail />));
+
+    expect(queryByTestId('detailUserForm')).toBeNull();
+
+    cleanup();
+
     useFetchUser.mockImplementationOnce(() => ({ data: userJSON }));
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    const { getByTestId } = await render(withAppContext(<UserDetail />));
+
+    expect(getByTestId('detailUserForm')).toBeInTheDocument();
+  });
+
+  it('should render a form when the URL does not contain a user ID', async () => {
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementationOnce(() => ({
+      userId: undefined,
+    }));
+
+    useFetchUser.mockImplementationOnce(() => ({ data: userJSON }));
+
+    const { getByTestId } = await render(withAppContext(<UserDetail />));
 
     expect(getByTestId('detailUserForm')).toBeInTheDocument();
   });
