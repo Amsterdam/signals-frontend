@@ -48,7 +48,8 @@ export const AppContainer = ({ requestCategoriesAction }) => {
             <Route path="" component={NotFoundPage} />
           </Switch>
         </div>
-        {isAuthenticated() === false && <Footer />}
+
+        {!isAuthenticated() && <Footer />}
       </Fragment>
     </ThemeProvider>
   );

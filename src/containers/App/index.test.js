@@ -2,10 +2,15 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { render, cleanup } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
+import * as auth from 'shared/services/auth/auth';
 import App, { AppContainer, mapDispatchToProps } from './index';
 import { REQUEST_CATEGORIES } from './constants';
 
 jest.mock('components/MapInteractive');
+jest.mock('shared/services/auth/auth', () => ({
+  __esModule: true,
+  ...jest.requireActual('shared/services/auth/auth'),
+}));
 
 describe('<App />', () => {
   it('should have props from structured selector', () => {
@@ -17,12 +22,22 @@ describe('<App />', () => {
   });
 
   it('should render correctly', () => {
-    const { getByTestId } = render(
+    jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => false);
+
+    const { getByTestId, queryByTestId, rerender } = render(
       withAppContext(<AppContainer requestCategoriesAction={() => {}} />),
     );
 
-    expect(getByTestId('siteFooter')).toBeTruthy();
-    expect(getByTestId('siteHeader')).toBeTruthy();
+    expect(getByTestId('siteFooter')).toBeInTheDocument();
+    expect(getByTestId('siteHeader')).toBeInTheDocument();
+
+    jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => true);
+
+    rerender(
+      withAppContext(<AppContainer requestCategoriesAction={() => {}} />),
+    );
+
+    expect(queryByTestId('siteFooter')).toBeNull();
   });
 
   it('should render the correct theme', () => {
