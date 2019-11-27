@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom';
 
 import ListComponent from 'components/List';
 
-import PageHeader from 'signals/settings/components/PageHeader';
 import formatRoles from '../../services/formatRoles';
 
 const StyledListComponent = styled(ListComponent)`
@@ -30,8 +29,6 @@ export const RolesList = ({
 
   return (
     <div data-testid="rolesList">
-      <PageHeader title="Rollen" />
-
       <StyledListComponent
         items={formatRoles(list)}
         invisibleColumns={['id']}

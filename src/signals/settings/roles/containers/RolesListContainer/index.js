@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { Row, Column } from '@datapunt/asc-ui';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
+import PageHeader from 'signals/settings/components/PageHeader';
 
 import makeSelectRolesModel from 'models/roles/selectors';
 import { fetchRoles } from 'models/roles/actions';
@@ -26,6 +27,7 @@ export const RolesListContainer = ({
 
   return (
     <Fragment>
+      <PageHeader title="Rollen" />
       <Row>
         <Column span={12}>
           {loading || loadingPermissions ? <LoadingIndicator /> : <RolesList list={list} />}
