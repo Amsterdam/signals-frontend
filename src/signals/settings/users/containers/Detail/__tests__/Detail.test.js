@@ -1,6 +1,6 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 import { withAppContext } from 'test/utils';
 import routes from 'signals/settings/routes';
@@ -83,6 +83,14 @@ describe('signals/settings/users/containers/Detail', () => {
     jest.spyOn(reactRouterDom, 'useParams').mockImplementationOnce(() => ({
       userId,
     }));
+
+    useFetchUser.mockImplementationOnce(() => ({ loading: true }));
+
+    const { queryByTestId } = await render(withAppContext(<UserDetail />));
+
+    expect(queryByTestId('detailUserForm')).toBeNull();
+
+    cleanup();
 
     useFetchUser.mockImplementationOnce(() => ({ data: userJSON }));
 
