@@ -265,6 +265,8 @@ describe('signals/settings/users/containers/Detail', () => {
 
     useFetchUser.mockImplementationOnce(() => ({ isSuccess: true, data: { id } }));
 
+    expect(replace).not.toHaveBeenCalled();
+
     render(withAppContext(<UserDetail />));
 
     expect(replace).toHaveBeenCalledWith(expect.stringMatching(/123$/));
