@@ -40,7 +40,7 @@ export const RoleFormContainer = ({
   return (
     <Fragment>
       <PageHeader
-        title="Gebruiker instellingen"
+        title="Rol instellingen"
         BackLink={
           <BackLink to="/instellingen/rollen">
             Terug naar overzicht
@@ -49,8 +49,16 @@ export const RoleFormContainer = ({
       />
       <Row>
         <Column span={12}>
-          {responseSuccess && <FormAlert isNotification title="Gegevens opgeslagen" />}
-          {responseError && <FormAlert title="Er is iets mis gegaan bij het opslaan" />}
+          {responseSuccess && <FormAlert
+            data-testid="roleFormSuccess"
+            isNotification
+            title="Gegevens opgeslagen"
+          />}
+          {responseError &&
+            <FormAlert
+              data-testid="roleFormError"
+              title="Er is iets mis gegaan bij het opslaan"
+            />}
         </Column>
       </Row>
       <Row>

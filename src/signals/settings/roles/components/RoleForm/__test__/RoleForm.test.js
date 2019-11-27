@@ -31,8 +31,6 @@ describe('/signals/settings/roles/components/RoleForm', () => {
   it('should render correctly', () => {
     const { container, queryByTestId } = render(withAppContext(<RoleForm {...props} />))
 
-    expect(container.querySelector('h1')).toHaveTextContent(/^Rol instellingen$/);
-
     expect(queryByTestId('rolesFormForm')).toBeInTheDocument();
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('behandelaars');
 
@@ -74,7 +72,6 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     expect(queryByTestId('rolesFormButtonSubmit')).toBeEnabled();
     fireEvent.click(getByTestId('rolesFormButtonSubmit'), { preventDefault: jest.fn() });
 
-    expect(push).toHaveBeenCalledWith('/instellingen/rollen');
     expect(props.onPatchRole).toHaveBeenCalledWith({
       id: 2,
       patch: {

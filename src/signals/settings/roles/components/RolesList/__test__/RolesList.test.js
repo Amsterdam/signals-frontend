@@ -24,7 +24,6 @@ describe('/signals/settings/roles/components/RolesList', () => {
   it('should render correctly', () => {
     const { container, rerender } = render(withAppContext(<RolesList {...props} />))
 
-    expect(container.querySelector('h1')).toHaveTextContent(/^Rollen$/);
     expect(container.querySelector('table')).toBeTruthy();
 
     expect(container.querySelector('tr:nth-child(1) td:nth-child(1)')).toHaveTextContent(/^behandelaars$/);

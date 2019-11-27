@@ -16,6 +16,8 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
         permissions: [],
         loading: false,
         loadingPermissions: false,
+        responseSuccess: false,
+        responseError: false,
       },
       onFetchRoles: jest.fn(),
       onFetchPermissions: jest.fn(),
@@ -25,7 +27,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
 
   it('should lazy load form correctly', () => {
     props.roles.loadingPermissions = true;
-    const { queryByTestId, rerender } = render(withAppContext(<RoleFormContainer {...props} />))
+    const { container, queryByTestId, rerender } = render(withAppContext(<RoleFormContainer {...props} />))
 
     expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
     expect(queryByTestId('rolesForm')).not.toBeInTheDocument();
@@ -36,6 +38,21 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
 
     expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
     expect(queryByTestId('rolesForm')).toBeInTheDocument();
+    expect(container.querySelector('h1')).toHaveTextContent(/^Rol instellingen$/);
+  });
+
+  it('should show success message', () => {
+    props.roles.responseSuccess = true;
+    const { getByText } = render(withAppContext(<RoleFormContainer {...props} />))
+
+    expect(getByText('Gegevens opgeslagen')).toBeInTheDocument();
+  });
+
+  it('should show error message', () => {
+    props.roles.responseError = true;
+    const { getByText } = render(withAppContext(<RoleFormContainer {...props} />))
+
+    expect(getByText('Er is iets mis gegaan bij het opslaan')).toBeInTheDocument();
   });
 
   it('should fetch roles and permissions by default', () => {
