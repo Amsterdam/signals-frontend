@@ -27,15 +27,13 @@ const StyledButton = styled(Button)`
   margin-right: ${themeSpacing(2)};
 `;
 
-export const RolesForm = ({
-  id,
-  list,
+export const RoleForm = ({
+  role,
   permissions,
   onPatchRole,
 }) => {
   const [name, setName] = useState('');
   const history = useHistory();
-  const role = list.find(item => item.id === id * 1);
 
   useEffect(() => {
     /* istanbul ignore else */
@@ -129,14 +127,17 @@ export const RolesForm = ({
   )
 };
 
-RolesForm.propTypes = {
-  id: PropTypes.string.isRequired,
-  list: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-    })
-  ).isRequired,
+RoleForm.propTypes = {
+  role: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    permissions: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+      })
+    ),
+  }),
   permissions: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -147,4 +148,4 @@ RolesForm.propTypes = {
   onPatchRole: PropTypes.func.isRequired,
 };
 
-export default RolesForm;
+export default RoleForm;

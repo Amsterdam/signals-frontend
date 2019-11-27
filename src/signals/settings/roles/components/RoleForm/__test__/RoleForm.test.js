@@ -5,7 +5,7 @@ import * as reactRouterDom from 'react-router-dom';
 
 import roles from 'utils/__tests__/fixtures/roles.json';
 
-import RolesForm from '..';
+import RoleForm from '..';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -13,7 +13,7 @@ jest.mock('react-router-dom', () => ({
   useHistory: () => ({}),
 }));
 
-describe('/signals/settings/roles/components/RolesForm', () => {
+describe('/signals/settings/roles/components/RoleForm', () => {
   let props = {};
 
   beforeEach(() => {
@@ -30,7 +30,7 @@ describe('/signals/settings/roles/components/RolesForm', () => {
   });
 
   it('should render correctly', () => {
-    const { container, queryByTestId } = render(withAppContext(<RolesForm {...props} />))
+    const { container, queryByTestId } = render(withAppContext(<RoleForm {...props} />))
 
     expect(container.querySelector('h1')).toHaveTextContent(/^Rol instellingen$/);
 
@@ -43,7 +43,7 @@ describe('/signals/settings/roles/components/RolesForm', () => {
 
   it('should enable the submit button when the form is valid and should handle submit flow', () => {
     props.list[0].name = '';
-    const { getByTestId, queryByTestId } = render(withAppContext(<RolesForm {...props} />))
+    const { getByTestId, queryByTestId } = render(withAppContext(<RoleForm {...props} />))
 
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('');
     expect(queryByTestId('rolesFormButtonSubmit')).toBeDisabled();
@@ -61,7 +61,7 @@ describe('/signals/settings/roles/components/RolesForm', () => {
 
   it('should not render form when role id is not found', () => {
     props.id = 'not-found';
-    const { queryByTestId } = render(withAppContext(<RolesForm {...props} />))
+    const { queryByTestId } = render(withAppContext(<RoleForm {...props} />))
 
     expect(queryByTestId('rolesFormForm')).not.toBeInTheDocument();
   });
@@ -70,7 +70,7 @@ describe('/signals/settings/roles/components/RolesForm', () => {
     const push = jest.fn();
     jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({ push }));
 
-    const { getByTestId, queryByTestId } = render(withAppContext(<RolesForm {...props} />))
+    const { getByTestId, queryByTestId } = render(withAppContext(<RoleForm {...props} />))
 
     const event = {
       target: {
@@ -97,7 +97,7 @@ describe('/signals/settings/roles/components/RolesForm', () => {
     const push = jest.fn();
     jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({ push }));
 
-    const { getByTestId } = render(withAppContext(<RolesForm {...props} />))
+    const { getByTestId } = render(withAppContext(<RoleForm {...props} />))
 
     fireEvent.click(getByTestId('rolesFormButtonCancel'));
 

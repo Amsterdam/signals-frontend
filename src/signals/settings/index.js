@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Route, Redirect, Switch } from 'react-router-dom';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
@@ -9,7 +8,8 @@ import NotFoundPage from 'containers/NotFoundPage';
 
 import routes from './routes';
 import UsersOverviewContainer from './users/containers/Overview';
-import RolesOverviewContainer from './roles/containers/RolesOverview';
+import RolesListContainer from './roles/containers/RolesListContainer';
+import RoleFormContainer from './roles/containers/RoleFormContainer';
 
 export const SettingsModule = () => {
   if (!isAuthenticated()) {
@@ -25,19 +25,11 @@ export const SettingsModule = () => {
         to={routes.usersPaged.replace(/:pageNum.*/, 1)}
       />
       <Route path={routes.usersPaged} component={UsersOverviewContainer} />
-      <Route path={routes.roles} component={RolesOverviewContainer} />
-      <Route path={routes.rol} component={props => <RolesOverviewContainer id={props.match.params.roleId} />} />
+      <Route path={routes.roles} component={RolesListContainer} />
+      <Route path={routes.role} component={RoleFormContainer} />
       <Route path="" component={NotFoundPage} />
     </Switch>
   );
-};
-
-SettingsModule.propTypes = {
-  match: PropTypes.shape({
-    params: {
-      roleId: PropTypes.string,
-    },
-  }),
 };
 
 export default SettingsModule;

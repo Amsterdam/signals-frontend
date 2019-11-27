@@ -3,7 +3,7 @@ const routes = {
   usersPaged: '/instellingen/gebruikers/page/:pageNum(\\d+)',
   user: '/instellingen/gebruikers/:userId',
   roles: '/instellingen/rollen',
-  rol: '/instellingen/rol/:roleId(\\d+)',
+  role: '/instellingen/rol/:roleId(\\d+)',
 };
 
 export default routes;

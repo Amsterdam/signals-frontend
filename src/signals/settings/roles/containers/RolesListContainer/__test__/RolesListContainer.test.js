@@ -4,7 +4,7 @@ import { withAppContext } from 'test/utils';
 import roles from 'utils/__tests__/fixtures/roles.json';
 
 import { FETCH_ROLES, FETCH_PERMISSIONS, PATCH_ROLE } from 'models/roles/constants';
-import { RolesOverview, mapDispatchToProps } from '..';
+import { RolesListContainer, mapDispatchToProps } from '..';
 
 describe('signals/settings/roles/components/RolesOverview', () => {
   let props = {};
@@ -27,7 +27,7 @@ describe('signals/settings/roles/components/RolesOverview', () => {
 
   it('should lazy load list correctly', () => {
     props.roles.loading = true;
-    const { queryByTestId, rerender } = render(withAppContext(<RolesOverview {...props} />))
+    const { queryByTestId, rerender } = render(withAppContext(<RolesListContainer {...props} />))
 
     expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
     expect(queryByTestId('rolesList')).not.toBeInTheDocument();
@@ -35,7 +35,7 @@ describe('signals/settings/roles/components/RolesOverview', () => {
 
     props.roles.loading = false;
     props.roles.loadingPermissions = false;
-    rerender(withAppContext(<RolesOverview {...props} />))
+    rerender(withAppContext(<RolesListContainer {...props} />))
 
     expect(queryByTestId('rolesList')).toBeInTheDocument();
     expect(queryByTestId('rolesForm')).not.toBeInTheDocument();
@@ -44,7 +44,7 @@ describe('signals/settings/roles/components/RolesOverview', () => {
   it('should lazy load form correctly', () => {
     props.id = '3';
     props.roles.loadingPermissions = true;
-    const { queryByTestId, rerender } = render(withAppContext(<RolesOverview {...props} />))
+    const { queryByTestId, rerender } = render(withAppContext(<RolesListContainer {...props} />))
 
     expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
     expect(queryByTestId('rolesList')).not.toBeInTheDocument();
@@ -52,14 +52,14 @@ describe('signals/settings/roles/components/RolesOverview', () => {
 
     props.roles.loading = false;
     props.roles.loadingPermissions = false;
-    rerender(withAppContext(<RolesOverview {...props} />))
+    rerender(withAppContext(<RolesListContainer {...props} />))
 
     expect(queryByTestId('rolesList')).not.toBeInTheDocument();
     expect(queryByTestId('rolesForm')).toBeInTheDocument();
   });
 
   it('should fetch roles and permissions by default', () => {
-    render(withAppContext(<RolesOverview {...props} />))
+    render(withAppContext(<RolesListContainer {...props} />))
 
     expect(props.onFetchRoles).toHaveBeenCalled();
     expect(props.onFetchPermissions).toHaveBeenCalled();
