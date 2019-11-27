@@ -8,7 +8,7 @@ import { Row, Column } from '@datapunt/asc-ui';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 
 import makeSelectRolesModel from 'models/roles/selectors';
-import { fetchRoles, fetchPermissions } from 'models/roles/actions';
+import { fetchRoles } from 'models/roles/actions';
 
 import RolesList from '../../components/RolesList';
 
@@ -19,11 +19,9 @@ export const RolesListContainer = ({
     loadingPermissions,
   },
   onFetchRoles,
-  onFetchPermissions,
 }) => {
   useEffect(() => {
     onFetchRoles();
-    onFetchPermissions();
   }, []);
 
   return (
@@ -63,7 +61,6 @@ RolesListContainer.propTypes = {
   }),
 
   onFetchRoles: PropTypes.func.isRequired,
-  onFetchPermissions: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -72,7 +69,6 @@ const mapStateToProps = createStructuredSelector({
 
 export const mapDispatchToProps = dispatch => bindActionCreators({
   onFetchRoles: fetchRoles,
-  onFetchPermissions: fetchPermissions,
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
