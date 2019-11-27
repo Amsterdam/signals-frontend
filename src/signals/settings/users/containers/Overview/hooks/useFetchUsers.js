@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
 import { getAuthHeaders } from 'shared/services/auth/auth';
+import configuration from 'shared/services/configuration/configuration';
 
 import filterData from './filterData';
-
-export const usersEndpoint = `${CONFIGURATION.API_ROOT}signals/v1/private/users`;
 
 /**
  * Custom hook useFetchUsers
@@ -33,7 +31,7 @@ const useFetchUsers = ({ page, pageSize } = {}) => {
         ]
           .filter(Boolean)
           .join('&');
-        const url = [usersEndpoint, params].filter(Boolean).join('/?');
+        const url = [configuration.USERS_ENDPOINT, params].filter(Boolean).join('/?');
         const response = await fetch(url, {
           headers: getAuthHeaders(),
           signal,

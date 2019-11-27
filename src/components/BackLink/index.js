@@ -53,7 +53,7 @@ const StyledIcon = styled(Icon)`
 const BackLink = ({ className, children, to }) => (
   <StyledLink className={className} $as={Link} to={to} data-testid="backlink">
     <StyledIcon size={12}>
-      <Chevron color={themeColor('primary')} />
+      <Chevron />
     </StyledIcon>
     <LinkLabel>{children}</LinkLabel>
   </StyledLink>
