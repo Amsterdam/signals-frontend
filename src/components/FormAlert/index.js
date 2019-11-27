@@ -42,7 +42,7 @@ const Title = styled(Heading).attrs({
  * for generic feedback that is not related to individual fields.
  */
 const FormAlert = ({ className, message, title, isNotification }) => (
-  <Div className={className} isNotification={isNotification}>
+  <Div className={className} isNotification={isNotification} data-testid="formAlert">
     <Title isNotification={isNotification} hasMessage={Boolean(message)}>
       {title}
     </Title>

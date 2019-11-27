@@ -1,16 +1,20 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act , cleanup} from '@testing-library/react-hooks';
 import userJSON from 'utils/__tests__/fixtures/user.json';
-import useFetchUser, { userEndpoint } from '../useFetchUser';
+import useFetchUser from '../useFetchUser';
 
 describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
-  beforeEach(() => {
+  afterEach(() => {
+    cleanup();
     fetch.resetMocks();
   });
 
   it('should request user from API on mount', async () => {
     const userId = 45;
     fetch.mockResponseOnce(JSON.stringify(userJSON));
-    const { result, waitForNextUpdate } = renderHook(() => useFetchUser(userId));
+
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useFetchUser(userId)
+    );
 
     expect(result.current.isLoading).toEqual(true);
     expect(result.current.data).toBeUndefined();
@@ -18,7 +22,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
     await waitForNextUpdate();
 
     expect(global.fetch).toHaveBeenCalledWith(
-      `${userEndpoint}${userId}`,
+      expect.stringMatching(new RegExp(`\\/${userId}$`)),
       expect.objectContaining({ headers: {} })
     );
 
@@ -31,8 +35,11 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
     const error = new Error();
     fetch.mockRejectOnce(error);
 
-    const { result, waitForNextUpdate } = renderHook(() => useFetchUser(userId));
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useFetchUser(userId)
+    );
 
+    expect(result.current.isLoading).toEqual(true);
     expect(result.current.error).toEqual(false);
 
     await waitForNextUpdate();
@@ -57,5 +64,101 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
     unmount();
 
     expect(abortSpy).toHaveBeenCalled();
+  });
+
+  it('should throw on error response', async () => {
+    const userId = 13;
+    const response = { status: 401, ok: false, statusText: 'Unauthorized' };
+
+    fetch.mockImplementation(() => response);
+
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useFetchUser(userId)
+    );
+
+    expect(result.current.isLoading).toEqual(true);
+    expect(result.current.error).toEqual(false);
+
+    await waitForNextUpdate();
+
+    expect(result.current.error).toEqual(response);
+    expect(result.current.isLoading).toEqual(false);
+  });
+
+  describe('patch', () => {
+    it('should send PATCH request', async () => {
+      fetch.mockResponse(JSON.stringify(userJSON));
+
+      const userId = 1;
+
+      const {
+        result,
+        waitForNextUpdate,
+      } = renderHook(() => useFetchUser(userId));
+
+      expect(result.current.isLoading).toEqual(true);
+
+      // make sure the side effects are all done
+      await waitForNextUpdate();
+
+      fetch.resetMocks();
+
+      const formData = { ...userJSON, is_active: false };
+
+      fetch.mockResponseOnce(JSON.stringify(formData));
+
+      // value of isSuccess can be one of `undefined`, `false`, or `true`
+      expect(result.current.isSuccess).not.toEqual(true);
+
+      act(() => {
+        result.current.patch(formData);
+      });
+
+      await waitForNextUpdate();
+
+      expect(global.fetch).toHaveBeenLastCalledWith(
+        expect.stringMatching(new RegExp(`\\/${userId}$`)),
+        expect.objectContaining({
+          body: JSON.stringify(formData),
+          method: 'PATCH',
+        })
+      );
+
+      expect(result.current.isSuccess).toEqual(true);
+      expect(result.current.isLoading).toEqual(false);
+    });
+
+    it('should throw on error response', async () => {
+      const response = { status: 401, ok: false, statusText: 'Unauthorized' };
+      const formData = { ...userJSON, is_active: false };
+      const userId = 13;
+      const {
+        result,
+        waitForNextUpdate,
+      } = renderHook(() => useFetchUser(userId));
+
+      expect(result.current.isLoading).toEqual(true);
+      expect(result.current.error).not.toEqual(response);
+      // value of isSuccess can be one of `undefined`, `false`, or `true`
+      expect(result.current.isSuccess).not.toEqual(false);
+
+      // make sure the side effects are all done
+      await waitForNextUpdate();
+
+      const { patch } = result.current;
+
+      // set the result for the patch response
+      fetch.mockImplementation(() => response);
+
+      act(() => {
+        patch(formData);
+      });
+
+      await waitForNextUpdate();
+
+      expect(result.current.error).toEqual(response);
+      expect(result.current.isSuccess).toEqual(false);
+      expect(result.current.isLoading).toEqual(false);
+    });
   });
 });

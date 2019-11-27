@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
+import isEqual from 'lodash.isequal';
+import styled from 'styled-components';
 
 import PageHeader from 'signals/settings/components/PageHeader';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
@@ -10,10 +11,51 @@ import FormAlert from 'components/FormAlert';
 import routes from '../../../routes';
 
 import useFetchUser from './hooks/useFetchUser';
+import UserForm from './components/UserForm';
 
-const UserDetail = ({ location }) => {
+const FormContainer = styled(Row)`
+  // taking into account the space that the FormFooter component takes up
+  padding-bottom: 66px;
+`;
+
+const StyledColumn = styled(Column)`
+  flex-direction: column;
+`;
+
+const UserDetail = () => {
+  const location = useLocation();
+  const history = useHistory();
   const { userId } = useParams();
-  const { isLoading, error, data } = useFetchUser(userId);
+  const { isLoading, isSuccess, error, data, patch } = useFetchUser(userId);
+
+  const getFormData = e =>
+    [...new FormData(e.target.form).entries()]
+      // convert stringified boolean values to actual booleans
+      .map(([key, val]) => [key, key === 'is_active' ? val === 'true' : val])
+      // reduce the entries() array to an object, merging it with the initial data
+      .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data });
+
+  const onSubmitForm = e => {
+    e.preventDefault();
+
+    const formData = getFormData(e);
+
+    if (!isEqual(data, formData)) {
+      patch(formData);
+    }
+  };
+
+  const onCancel = e => {
+    const formData = getFormData(e);
+
+    if (
+      isEqual(data, formData) ||
+      (!isEqual(data, formData) &&
+        global.confirm('Niet opgeslagen gegevens gaan verloren. Doorgaan?'))
+    ) {
+      history.push(location.referrer || routes.users);
+    }
+  };
 
   return (
     <Fragment>
@@ -29,34 +71,22 @@ const UserDetail = ({ location }) => {
       {isLoading && <LoadingIndicator />}
 
       <Row>
-        {error && (
-          <Column span={12}>
-            <FormAlert title="Gegevens konden niet opgehaald worden" message={<span>error</span>} />
-          </Column>
-        )}
-        <Column span={5}>
-          {data && (
-            <Fragment>
-              E-mail: {data.email}
-              <br />
-              Voornaam: {data.first_name}
-              <br />
-              Achternaam: {data.last_name}
-              <br />
-              Gebruikersnaam: {data.username}
-            </Fragment>
+        <Column span={12}>
+          {!isLoading && error && <FormAlert title={error.message} />}
+
+          {!isLoading && isSuccess && (
+            <FormAlert isNotification title="Gegevens opgeslagen" />
           )}
         </Column>
-        <Column span={7}></Column>
       </Row>
+
+      <FormContainer>
+        <StyledColumn span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 4 }}>
+          {data && <UserForm data={data} onCancel={onCancel} onSubmitForm={onSubmitForm} />}
+        </StyledColumn>
+      </FormContainer>
     </Fragment>
   );
-};
-
-UserDetail.propTypes = {
-  location: PropTypes.shape({
-    referrer: PropTypes.string,
-  }).isRequired,
 };
 
 export default UserDetail;

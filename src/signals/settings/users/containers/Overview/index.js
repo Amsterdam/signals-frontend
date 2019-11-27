@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { Row, Column, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
@@ -16,8 +16,9 @@ const StyledPagination = styled(Pagination)`
   margin-top: ${themeSpacing(12)};
 `;
 
-const UsersOverview = ({ pageSize, history }) => {
+const UsersOverview = ({ pageSize }) => {
   const location = useLocation();
+  const history = useHistory();
   const { pageNum } = useParams();
   const [page, setPage] = useState(1);
   const { isLoading, users } = useFetchUsers({ page, pageSize });
@@ -93,11 +94,6 @@ UsersOverview.defaultProps = {
 };
 
 UsersOverview.propTypes = {
-  history: PropTypes.shape({
-    action: PropTypes.string,
-    push: PropTypes.func,
-    replace: PropTypes.func,
-  }),
   pageSize: PropTypes.number,
 };
 

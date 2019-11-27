@@ -12,6 +12,9 @@ export const FooterWrapper = styled.footer`
   bottom: 0;
   width: 100%;
   left: 0;
+  max-width: 1400px;
+  left: 50%;
+  transform: translate(-50%);
 `;
 
 export const ButtonContainer = styled(Column)`

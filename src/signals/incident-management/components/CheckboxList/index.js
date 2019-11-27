@@ -2,7 +2,7 @@ import React, { Fragment, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import Label from '../Label';
+import Label from 'components/Label';
 
 const FilterGroup = styled.div`
   position: relative;
