@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation, useParams, useHistory } from 'react-router-dom';
-import { Row, Column, themeSpacing } from '@datapunt/asc-ui';
+import { useLocation, useParams, useHistory, Link } from 'react-router-dom';
+import { Row, Column, themeSpacing, Button } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
@@ -14,6 +14,12 @@ import routes from '../../../routes';
 
 const StyledPagination = styled(Pagination)`
   margin-top: ${themeSpacing(12)};
+`;
+
+const HeaderButton = styled(Button)`
+  &:hover {
+    color: white;
+  }
 `;
 
 const UsersOverview = ({ pageSize }) => {
@@ -40,7 +46,11 @@ const UsersOverview = ({ pageSize }) => {
   }, [location]);
 
   const onItemClick = e => {
-    const { currentTarget: { dataset: { itemId } } } = e;
+    const {
+      currentTarget: {
+        dataset: { itemId },
+      },
+    } = e;
 
     if (itemId) {
       history.push(routes.user.replace(/:userId.*/, itemId));
@@ -54,9 +64,15 @@ const UsersOverview = ({ pageSize }) => {
 
   return (
     <Fragment>
-      <PageHeader
-        title={`Gebruikers ${users.count ? `(${users.count})` : ''}`}
-      />
+      <PageHeader title={`Gebruikers ${users.count ? `(${users.count})` : ''}`}>
+        <HeaderButton
+          variant="primary"
+          $as={Link}
+          to={routes.user.replace(/:userId.*/, '')}
+        >
+          Gebruiker toevoegen
+        </HeaderButton>
+      </PageHeader>
 
       <Row>
         {isLoading && <LoadingIndicator />}
