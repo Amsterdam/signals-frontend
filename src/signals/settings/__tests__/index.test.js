@@ -47,7 +47,7 @@ describe('signals/settings', () => {
     expect(getByTestId('notFoundPage')).toBeInTheDocument();
   });
 
-  it.only('should provide pages with a location that has a referrer', async () => {
+  it('should provide pages with a location that has a referrer', async () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
     await render(withAppContext(<SettingsModule />));
