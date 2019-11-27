@@ -9,7 +9,6 @@ import {
   themeSpacing,
 } from '@datapunt/asc-ui';
 
-import PageHeader from 'signals/settings/components/PageHeader';
 import Input from 'components/Input';
 
 const Label = styled(FieldLabel)`
@@ -39,6 +38,7 @@ export const RoleForm = ({
     /* istanbul ignore else */
     if (role) {
       setName(role.name);
+
     }
   }, []);
 
@@ -61,7 +61,7 @@ export const RoleForm = ({
     };
 
     onPatchRole(payload);
-    history.push('/instellingen/rollen');
+    // history.push('/instellingen/rollen');
   }
 
   const handleCancel = () => {
@@ -74,8 +74,6 @@ export const RoleForm = ({
 
   return (
     <div data-testid="rolesForm">
-      <PageHeader title="Rol instellingen" />
-
       {role &&
         (
           <form

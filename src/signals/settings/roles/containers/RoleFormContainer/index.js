@@ -6,7 +6,10 @@ import { createStructuredSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
 import { Row, Column } from '@datapunt/asc-ui';
 
+import PageHeader from 'signals/settings/components/PageHeader';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
+import BackLink from 'components/BackLink';
+import FormAlert from 'components/FormAlert';
 
 import makeSelectRolesModel from 'models/roles/selectors';
 import { fetchRoles, fetchPermissions, patchRole } from 'models/roles/actions';
@@ -19,6 +22,8 @@ export const RoleFormContainer = ({
     permissions,
     loading,
     loadingPermissions,
+    responseSuccess,
+    responseError,
   },
   onFetchRoles,
   onFetchPermissions,
@@ -34,6 +39,20 @@ export const RoleFormContainer = ({
 
   return (
     <Fragment>
+      <PageHeader
+        title="Gebruiker instellingen"
+        BackLink={
+          <BackLink to="/instellingen/rollen">
+            Terug naar overzicht
+          </BackLink>
+        }
+      />
+      <Row>
+        <Column span={12}>
+          {responseSuccess && <FormAlert isNotification title="Gegevens opgeslagen" />}
+          {responseError && <FormAlert title="Het opslaan is fout gegaan" />}
+        </Column>
+      </Row>
       <Row>
         <Column span={12}>
           {loading || loadingPermissions ?
@@ -76,6 +95,8 @@ RoleFormContainer.propTypes = {
     ),
     loading: PropTypes.bool,
     loadingPermissions: PropTypes.bool,
+    responseSuccess: PropTypes.bool,
+    responseError: PropTypes.bool,
   }),
 
   onFetchRoles: PropTypes.func.isRequired,
