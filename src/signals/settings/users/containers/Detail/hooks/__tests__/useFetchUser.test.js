@@ -63,6 +63,8 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
     const { unmount } = renderHook(async () => useFetchUser(userId));
 
+    expect(abortSpy).not.toHaveBeenCalled();
+
     unmount();
 
     expect(abortSpy).toHaveBeenCalled();
@@ -109,8 +111,18 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
       fetch.mockResponseOnce(JSON.stringify(formData));
 
+      const expectRequest = [
+        expect.stringMatching(new RegExp(`\\/${userId}$`)),
+        expect.objectContaining({
+          body: JSON.stringify(formData),
+          method: 'PATCH',
+        }),
+      ];
+
       // value of isSuccess can be one of `undefined`, `false`, or `true`
       expect(result.current.isSuccess).not.toEqual(true);
+
+      expect(global.fetch).not.toHaveBeenLastCalledWith(...expectRequest);
 
       act(() => {
         result.current.patch(formData);
@@ -118,13 +130,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
       await waitForNextUpdate();
 
-      expect(global.fetch).toHaveBeenLastCalledWith(
-        expect.stringMatching(new RegExp(`\\/${userId}$`)),
-        expect.objectContaining({
-          body: JSON.stringify(formData),
-          method: 'PATCH',
-        })
-      );
+      expect(global.fetch).toHaveBeenLastCalledWith(...expectRequest);
 
       expect(result.current.isSuccess).toEqual(true);
       expect(result.current.isLoading).toEqual(false);
@@ -166,21 +172,10 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
   describe('post', () => {
     it('should send POST request', async () => {
-      // fetch.mockResponse(JSON.stringify(userJSON));
-
-      // const userId = userJSON.id;
-
       const {
         result,
         waitForNextUpdate,
       } = renderHook(() => useFetchUser());
-
-      // expect(result.current.isLoading).toEqual(true);
-
-      // // make sure the side effects are all done
-      // await waitForNextUpdate();
-
-      // fetch.resetMocks();
 
       const formData = { first_name: userJSON.first_name, last_name: userJSON.last_name, username: userJSON.username };
       delete formData.id;
@@ -189,19 +184,23 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
       expect(result.current.isSuccess).not.toEqual(true);
 
+      const expectRequest = [
+        configuration.USERS_ENDPOINT,
+        expect.objectContaining({
+          body: JSON.stringify(formData),
+          method: 'POST',
+        }),
+      ];
+
+      expect(global.fetch).not.toHaveBeenCalledWith(...expectRequest);
+
       act(() => {
         result.current.post(formData);
       });
 
       await waitForNextUpdate();
 
-      expect(global.fetch).toHaveBeenCalledWith(
-        configuration.USERS_ENDPOINT,
-        expect.objectContaining({
-          body: JSON.stringify(formData),
-          method: 'POST',
-        })
-      );
+      expect(global.fetch).toHaveBeenCalledWith(...expectRequest);
 
       expect(result.current.isSuccess).toEqual(true);
       expect(result.current.isLoading).toEqual(false);
