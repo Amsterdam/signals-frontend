@@ -115,7 +115,7 @@ export const IncidentOverviewPageContainerComponent = ({
 
   useEffect(() => {
     onRequestIncidents();
-  }, []);
+  }, [onRequestIncidents]);
 
   const { incidents, loading } = overviewpage;
 
@@ -195,7 +195,7 @@ export const IncidentOverviewPageContainerComponent = ({
           </Column>
         </Column>
       </Row>
-    </div >
+    </div>
   );
 };
 
@@ -239,10 +239,7 @@ export const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'incidentOverviewPage', reducer });
 const withSaga = injectSaga({ key: 'incidentOverviewPage', saga });

@@ -10,25 +10,16 @@ import { fetchRoles } from 'models/roles/actions';
 
 import RolesList from '../../components/RolesList';
 
-export const RolesOverview = ({
-  roles: {
-    list,
-    loading,
-  },
-  onFetchRoles,
-}) => {
+export const RolesOverview = ({ roles: { list, loading }, onFetchRoles }) => {
   useEffect(() => {
     onFetchRoles();
-  }, []);
+  }, [onFetchRoles]);
 
   return (
     <Fragment>
       <Row>
         <Column span={12}>
-          <RolesList
-            list={list}
-            loading={loading}
-          />
+          <RolesList list={list} loading={loading} />
         </Column>
       </Row>
     </Fragment>
@@ -54,9 +45,13 @@ const mapStateToProps = createStructuredSelector({
   roles: makeSelectRolesModel,
 });
 
-export const mapDispatchToProps = dispatch => bindActionCreators({
-  onFetchRoles: fetchRoles,
-}, dispatch);
+export const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onFetchRoles: fetchRoles,
+    },
+    dispatch
+  );
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 

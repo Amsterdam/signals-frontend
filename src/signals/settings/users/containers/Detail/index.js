@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
 import isEqual from 'lodash.isequal';
@@ -27,36 +27,46 @@ const UserDetail = () => {
   const history = useHistory();
   const { userId } = useParams();
   const { isLoading, isSuccess, error, data, patch } = useFetchUser(userId);
-  const shouldRenderForm = userId === undefined || (userId !== undefined && data !== undefined);
+  const shouldRenderForm =
+    userId === undefined || (userId !== undefined && data !== undefined);
 
-  const getFormData = e =>
-    [...new FormData(e.target.form).entries()]
-      // convert stringified boolean values to actual booleans
-      .map(([key, val]) => [key, key === 'is_active' ? val === 'true' : val])
-      // reduce the entries() array to an object, merging it with the initial data
-      .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data });
+  const getFormData = useCallback(
+    e =>
+      [...new FormData(e.target.form).entries()]
+        // convert stringified boolean values to actual booleans
+        .map(([key, val]) => [key, key === 'is_active' ? val === 'true' : val])
+        // reduce the entries() array to an object, merging it with the initial data
+        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data }),
+    [data]
+  );
 
-  const onSubmitForm = e => {
-    e.preventDefault();
+  const onSubmitForm = useCallback(
+    e => {
+      e.preventDefault();
 
-    const formData = getFormData(e);
+      const formData = getFormData(e);
 
-    if (!isEqual(data, formData)) {
-      patch(formData);
-    }
-  };
+      if (!isEqual(data, formData)) {
+        patch(formData);
+      }
+    },
+    [data, getFormData, patch]
+  );
 
-  const onCancel = e => {
-    const formData = getFormData(e);
+  const onCancel = useCallback(
+    e => {
+      const formData = getFormData(e);
 
-    if (
-      isEqual(data, formData) ||
-      (!isEqual(data, formData) &&
-        global.confirm('Niet opgeslagen gegevens gaan verloren. Doorgaan?'))
-    ) {
-      history.push(location.referrer || routes.users);
-    }
-  };
+      if (
+        isEqual(data, formData) ||
+        (!isEqual(data, formData) &&
+          global.confirm('Niet opgeslagen gegevens gaan verloren. Doorgaan?'))
+      ) {
+        history.push(location.referrer || routes.users);
+      }
+    },
+    [data, location, getFormData, history]
+  );
 
   return (
     <Fragment>

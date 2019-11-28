@@ -29,7 +29,7 @@ export const AppContainer = ({ requestCategoriesAction }) => {
 
   useEffect(() => {
     requestCategoriesAction();
-  }, []);
+  }, [requestCategoriesAction]);
 
   return (
     <ThemeProvider>

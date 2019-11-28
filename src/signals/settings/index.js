@@ -25,7 +25,7 @@ export const SettingsModule = () => {
 
       setLocation(locWithReferrer);
     }
-  });
+  }, [setLocation, location.pathname, moduleLocation]);
 
   if (!isAuthenticated()) {
     return <Route component={LoginPage} />;
@@ -42,7 +42,11 @@ export const SettingsModule = () => {
         from={routes.users}
         to={routes.usersPaged.replace(/:pageNum.*/, 1)}
       />
-      <Route exact path={routes.usersPaged} component={UsersOverviewContainer} />
+      <Route
+        exact
+        path={routes.usersPaged}
+        component={UsersOverviewContainer}
+      />
       <Route exact path={routes.user} component={UsersDetailContainer} />
       <Route path={routes.roles} component={RolesOverviewContainer} />
       <Route path={routes.rol} component={RolesOverviewContainer} />
