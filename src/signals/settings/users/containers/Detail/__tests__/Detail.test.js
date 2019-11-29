@@ -253,7 +253,7 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should replace history on successful POST', () => {
-    const id = 123;
+    const id = userJSON.id;
     jest.spyOn(reactRouterDom, 'useParams').mockImplementationOnce(() => ({
       userId: undefined,
     }));
@@ -269,7 +269,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     render(withAppContext(<UserDetail />));
 
-    expect(replace).toHaveBeenCalledWith(expect.stringMatching(/123$/));
+    expect(replace).toHaveBeenCalledWith(expect.stringMatching(new RegExp(`${id}$`)));
   });
 
   it('should direct to the overview page when cancel button is clicked and form data is pristine', () => {
