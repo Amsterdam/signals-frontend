@@ -28,6 +28,8 @@ const statusOptions = [
   { key: 'false', value: 'Niet actief' },
 ];
 
+const DEFAULT_STATUS_OPTION = 'true';
+
 const UserForm = ({ data, onCancel, onSubmitForm }) => (
   <Form action="" data-testid="detailUserForm">
     <FieldGroup>
@@ -36,8 +38,7 @@ const UserForm = ({ data, onCancel, onSubmitForm }) => (
         id="username"
         name="username"
         label="E-mailadres"
-        readOnly
-        disabled
+        disabled={data.username !== undefined}
       />
     </FieldGroup>
 
@@ -62,7 +63,7 @@ const UserForm = ({ data, onCancel, onSubmitForm }) => (
     <FieldGroup>
       <Label as="span">Status</Label>
       <RadioButtonList
-        defaultValue={`${data.is_active}`}
+        defaultValue={data.is_active === undefined ? DEFAULT_STATUS_OPTION : `${data.is_active}`}
         groupName="is_active"
         hasEmptySelectionButton={false}
         options={statusOptions}
