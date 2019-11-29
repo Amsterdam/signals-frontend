@@ -3,7 +3,11 @@ import { replace } from 'connected-react-router/immutable';
 
 import { authPostCall, postCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { uploadRequest, showGlobalError } from 'containers/App/actions';
+
+import { uploadRequest, showGlobalNotification } from 'containers/App/actions';
+import { makeSelectCategories } from 'containers/App/selectors';
+import { TYPE_ERROR } from 'components/Notification';
+
 import { CREATE_INCIDENT, GET_CLASSIFICATION, SET_PRIORITY } from './constants';
 import {
   createIncidentSuccess,
@@ -14,7 +18,6 @@ import {
   setPrioritySuccess,
   setPriorityError,
 } from './actions';
-import { makeSelectCategories } from '../../../../containers/App/selectors';
 import mapControlsToParams from '../../services/map-controls-to-params';
 import setClassification from '../../services/set-classification';
 
@@ -109,7 +112,7 @@ export function* setPriorityHandler(action) {
     yield put(setPrioritySuccess(result));
   } catch (error) {
     yield put(setPriorityError());
-    yield put(showGlobalError('PRIORITY_FAILED'));
+    yield put(showGlobalNotification(TYPE_ERROR, 'Het zetten van de urgentie van deze melding is niet gelukt'));
   }
 }
 

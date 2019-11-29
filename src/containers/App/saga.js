@@ -11,7 +11,11 @@ import request from 'utils/request';
 
 import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import mapCategories from '../../shared/services/map-categories';
+import mapCategories from 'shared/services/map-categories';
+import { login, logout, getOauthDomain } from 'shared/services/auth/auth';
+import fileUploadChannel from 'shared/services/file-upload-channel';
+
+import { TYPE_ERROR } from 'components/Notification';
 
 import {
   LOGOUT,
@@ -23,16 +27,13 @@ import {
 import {
   loginFailed,
   logoutFailed,
-  showGlobalError,
+  showGlobalNotification,
   authorizeUser,
   requestCategoriesSuccess,
   uploadProgress,
   uploadSuccess,
   uploadFailure,
 } from './actions';
-import { login, logout, getOauthDomain } from '../../shared/services/auth/auth';
-
-import fileUploadChannel from '../../shared/services/file-upload-channel';
 
 export const baseUrl = `${CONFIGURATION.API_ROOT}signals/user/auth/me/`;
 
@@ -41,7 +42,7 @@ export function* callLogin(action) {
     yield call(login, action.payload);
   } catch (error) {
     yield put(loginFailed(error.message));
-    yield put(showGlobalError('LOGIN_FAILED'));
+    yield put(showGlobalNotification(TYPE_ERROR, 'Inloggen is niet gelukt'));
   }
 }
 
@@ -60,7 +61,7 @@ export function* callLogout() {
     yield put(push('/'));
   } catch (error) {
     yield put(logoutFailed(error.message));
-    yield put(showGlobalError('LOGOUT_FAILED'));
+    yield put(showGlobalNotification(TYPE_ERROR, 'Uitloggen is niet gelukt'));
   }
 }
 
@@ -86,7 +87,7 @@ export function* callAuthorize(action) {
       yield call(logout);
       yield put(push('/login'));
     } else {
-      yield put(showGlobalError('AUTHORIZE_FAILED'));
+      yield put(showGlobalNotification(TYPE_ERROR, 'Authenticeren is niet gelukt'));
     }
   }
 }
@@ -99,7 +100,7 @@ export function* fetchCategories() {
 
     yield put(requestCategoriesSuccess(mapCategories(categories)));
   } catch (err) {
-    yield put(showGlobalError('FETCH_CATEGORIES_FAILED'));
+    yield put(showGlobalNotification(TYPE_ERROR, 'Inladen van categorieën is niet gelukt', 'Het kan zijn dat de API tijdelijk niet beschikbaar is. Herlaad de pagina'));
   }
 }
 
@@ -121,7 +122,7 @@ export function* uploadFile(action) {
     const { progress = 0, error, success } = yield take(channel);
     if (error) {
       yield put(uploadFailure());
-      yield put(showGlobalError('UPLOAD_FAILED'));
+      yield put(showGlobalNotification(TYPE_ERROR, 'Het uploaden van de foto is niet gelukt'));
       return;
     }
     if (success) {

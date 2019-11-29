@@ -4,8 +4,8 @@ import {
   AUTHENTICATE_USER,
   AUTHORIZE_USER,
 
-  SHOW_GLOBAL_ERROR,
-  RESET_GLOBAL_ERROR,
+  SHOW_GLOBAL_NOTIFICATION,
+  RESET_GLOBAL_NOTIFICATION,
 
   LOGIN,
   LOGOUT,
@@ -23,8 +23,8 @@ import {
   authenticateUser,
   authorizeUser,
 
-  showGlobalError,
-  resetGlobalError,
+  showGlobalNotification,
+  resetGlobalNotification,
 
   doLogin,
   doLogout,
@@ -66,11 +66,11 @@ describe('App actions', () => {
 
   it('should dispatch show global error action', () => {
     const payload = 'global error';
-    testActionCreator(showGlobalError, SHOW_GLOBAL_ERROR, payload);
+    testActionCreator(showGlobalNotification, SHOW_GLOBAL_NOTIFICATION, payload);
   });
 
   it('should dispatch reset global error action', () => {
-    testActionCreator(resetGlobalError, RESET_GLOBAL_ERROR);
+    testActionCreator(resetGlobalNotification, RESET_GLOBAL_NOTIFICATION);
   });
 
   it('should dispatch login action', () => {

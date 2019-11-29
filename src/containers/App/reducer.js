@@ -13,35 +13,41 @@
 import { fromJS } from 'immutable';
 
 import { ACCESS_TOKEN } from 'shared/services/auth/auth';
+import { TYPE_DEFAULT } from 'components/Notification';
 
 import {
+  AUTHORIZE_USER,
   LOGIN_FAILED,
   LOGOUT_FAILED,
   LOGOUT,
-  AUTHORIZE_USER,
-  SHOW_GLOBAL_ERROR,
-  RESET_GLOBAL_ERROR,
   REQUEST_CATEGORIES_SUCCESS,
-  UPLOAD_REQUEST,
-  UPLOAD_PROGRESS,
-  UPLOAD_SUCCESS,
+  RESET_GLOBAL_NOTIFICATION,
+  SHOW_GLOBAL_NOTIFICATION,
   UPLOAD_FAILURE,
+  UPLOAD_PROGRESS,
+  UPLOAD_REQUEST,
+  UPLOAD_SUCCESS,
 } from './constants';
 
 // The initial state of the App
 export const initialState = fromJS({
-  loading: false,
-  error: false,
-  upload: {},
-  userPermissions: [],
-  userName: undefined,
-  userScopes: undefined,
   accessToken: undefined,
   categories: {
     main: [],
     sub: [],
     mainToSub: {},
   },
+  error: false,
+  loading: false,
+  notification: {
+    message: '',
+    title: '',
+    type: TYPE_DEFAULT,
+  },
+  upload: {},
+  userName: undefined,
+  userPermissions: [],
+  userScopes: undefined,
 });
 
 function appReducer(state = initialState, action) {
@@ -57,17 +63,15 @@ function appReducer(state = initialState, action) {
 
     case LOGIN_FAILED:
     case LOGOUT_FAILED:
-    case SHOW_GLOBAL_ERROR:
       return state
-        .set('error', !!action.payload)
-        .set('errorMessage', action.payload)
+        .set('error', Boolean(action.payload))
         .set('loading', false);
 
-    case RESET_GLOBAL_ERROR:
-      return state
-        .set('error', false)
-        .set('errorMessage', '')
-        .set('loading', false);
+    case SHOW_GLOBAL_NOTIFICATION:
+      return state.set('notification', fromJS({ ...action.payload }));
+
+    case RESET_GLOBAL_NOTIFICATION:
+      return state.set('notification', initialState.get('notification'));
 
     case REQUEST_CATEGORIES_SUCCESS:
       return state.set('categories', fromJS(action.payload));
@@ -78,7 +82,7 @@ function appReducer(state = initialState, action) {
         fromJS({
           id: action.payload.id,
           file: action.payload.file.name,
-        }),
+        })
       );
 
     case UPLOAD_PROGRESS:
@@ -87,7 +91,7 @@ function appReducer(state = initialState, action) {
         fromJS({
           ...state.get('upload').toJS(),
           progress: action.payload,
-        }),
+        })
       );
 
     case UPLOAD_SUCCESS:

@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
@@ -14,7 +14,10 @@ import {
   MenuToggle,
   themeColor,
 } from '@datapunt/asc-ui';
+
 import SearchBar from 'containers/SearchBar';
+
+import Notification from '../Notification';
 
 export const breakpoint = 1100;
 
@@ -23,9 +26,10 @@ const StyledHeader = styled(HeaderComponent)`
     text-decoration: none;
   }
 
-  ${({ isFrontOffice, tall }) => isFrontOffice
-    && tall
-    && css`
+  ${({ isFrontOffice, tall }) =>
+    isFrontOffice &&
+    tall &&
+    css`
       & {
         max-width: 960px;
 
@@ -63,7 +67,8 @@ const StyledMenuButton = styled(MenuButton)`
 `;
 
 const StyledMenuFlyout = styled(MenuFlyOut)`
-  & span, & button {
+  & span,
+  & button {
     font-family: inherit;
     font-weight: normal;
     font-size: 16px;
@@ -87,17 +92,22 @@ const StyledSearchBar = styled(SearchBar)`
 `;
 
 const HeaderWrapper = styled.div`
-  ${({ tall }) => !tall && css`
-    #header {
-      left: 0;
-      right: 0;
-      position: fixed;
-    }
-  `}
+  ${({ showError }) => showError && css``}
 
-  ${({ isFrontOffice, tall }) => isFrontOffice
-    && tall
-    && css`
+  ${({ tall }) =>
+    !tall &&
+    css`
+      #header {
+        left: 0;
+        right: 0;
+        position: fixed;
+      }
+    `}
+
+  ${({ isFrontOffice, tall }) =>
+    isFrontOffice &&
+    tall &&
+    css`
       #header {
         position: static;
 
@@ -169,11 +179,7 @@ const HeaderWrapper = styled.div`
     `}
 `;
 
-const MenuItems = ({
-  isAuthenticated,
-  onLoginLogoutButtonClick,
-  permissions,
-}) => {
+const MenuItems = ({ isAuthenticated, onSignOut, permissions }) => {
   const showLogout = isAuthenticated;
 
   return (
@@ -217,7 +223,7 @@ const MenuItems = ({
         <MenuItem
           element="button"
           data-testid="logout-button"
-          onClick={onLoginLogoutButtonClick}
+          onClick={onSignOut}
         >
           <StyledMenuButton
             iconSize={16}
@@ -232,28 +238,53 @@ const MenuItems = ({
 };
 
 export const SiteHeader = props => {
-  const isFrontOffice = !props.location.pathname.startsWith('/manage');
+  const location = useLocation();
+  const isFrontOffice = !location.pathname.startsWith('/manage');
   const tall = isFrontOffice && !props.isAuthenticated;
   const title = tall ? '' : 'SIA';
 
-  const navigation = tall ? null : (
-    <Media query={`(max-width: ${breakpoint}px)`}>
-      {matches =>
-        matches ? (
-          <MenuToggle align="right">
-            <MenuItems {...props} />
-          </MenuToggle>
-        ) : (
-          <MenuInline>
-            <MenuItems {...props} />
-          </MenuInline>
-        )
-      }
-    </Media>
+  const navigation = useMemo(
+    () =>
+      tall ? null : (
+        <Media query={`(max-width: ${breakpoint}px)`}>
+          {matches =>
+            matches ? (
+              <MenuToggle align="right">
+                <MenuItems {...props} />
+              </MenuToggle>
+            ) : (
+              <MenuInline>
+                <MenuItems {...props} />
+              </MenuInline>
+            )
+          }
+        </Media>
+      ),
+    [
+      tall,
+      breakpoint,
+      props.isAuthenticated,
+      props.onSignOut,
+      props.permissions,
+    ]
+  );
+
+  const notification = useMemo(
+    () =>
+      props.notification.title && (
+        <Notification
+          isFrontOffice={isFrontOffice}
+          onClose={props.onResetNotification}
+          tall={tall}
+          {...props.notification}
+        />
+      ),
+    [isFrontOffice, props.notification, props.onResetNotification, tall]
   );
 
   return (
     <HeaderWrapper
+      showError={Boolean(props.errorMessage)}
       isFrontOffice={isFrontOffice}
       tall={tall}
       className={`siteHeader ${tall ? 'isTall' : 'isShort'}`}
@@ -267,26 +298,30 @@ export const SiteHeader = props => {
         fullWidth={false}
         navigation={navigation}
       />
+      {notification}
     </HeaderWrapper>
   );
 };
 
 SiteHeader.defaultProps = {
+  notification: {},
   isAuthenticated: false,
-  onLoginLogoutButtonClick: undefined,
+  onSignOut: null,
+  onResetNotification: null,
 };
 
 SiteHeader.propTypes = {
+  notification: PropTypes.shape({
+    message: PropTypes.string,
+    title: PropTypes.string,
+    type: PropTypes.string,
+  }),
   isAuthenticated: PropTypes.bool,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
-  onLoginLogoutButtonClick: PropTypes.func,
+  onSignOut: PropTypes.func,
+  onResetNotification: PropTypes.func,
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 MenuItems.propTypes = SiteHeader.propTypes;
 
-const SiteHeaderWithRouter = withRouter(SiteHeader);
-
-export default SiteHeaderWithRouter;
+export default SiteHeader;

@@ -12,7 +12,6 @@ import injectReducer from 'utils/injectReducer';
 import NotFoundPage from 'containers/NotFoundPage';
 import Footer from 'components/Footer';
 import SiteHeaderContainer from 'containers/SiteHeader';
-import GlobalError from 'containers/GlobalError';
 
 import IncidentManagementModule from 'signals/incident-management';
 import SettingsModule from 'signals/settings';
@@ -37,7 +36,6 @@ export const AppContainer = ({ requestCategoriesAction }) => {
         <SiteHeaderContainer />
 
         <div className="app-container">
-          <GlobalError />
           <Switch>
             <Redirect exact from="/" to="/incident" />
             <Redirect exact from="/login" to="/manage" />

@@ -8,8 +8,9 @@ import { authPostCall, postCall } from 'shared/services/api/api';
 import categories from 'utils/__tests__/fixtures/categories.json';
 import incident from 'utils/__tests__/fixtures/incident.json';
 import priority from 'utils/__tests__/fixtures/priority.json';
-import { showGlobalError } from 'containers/App/actions';
+import { showGlobalNotification } from 'containers/App/actions';
 import { UPLOAD_REQUEST } from 'containers/App/constants';
+import { TYPE_ERROR } from 'components/Notification';
 import mapControlsToParams from '../../services/map-controls-to-params';
 
 import {
@@ -253,6 +254,6 @@ describe('setPriorityHandler', () => {
       ])
       .call(authPostCall, PRIORITY_REQUEST_URL, payload)
       .put(setPriorityError())
-      .put(showGlobalError('PRIORITY_FAILED'))
+      .put(showGlobalNotification(TYPE_ERROR, 'Het zetten van de urgentie van deze melding is niet gelukt'))
       .run());
 });

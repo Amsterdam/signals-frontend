@@ -1,75 +1,90 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import {
-  makeSelectUserName,
   makeSelectUserPermissions,
+  makeSelectNotification,
 } from 'containers/App/selectors';
 import SiteHeader from 'components/SiteHeader';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { isAuthenticated } from 'shared/services/auth/auth';
 
-import { doLogin, doLogout } from '../App/actions';
+import { doLogin, doLogout, resetGlobalNotification } from '../App/actions';
 
-const HeaderWithRouter = compose(withRouter)(SiteHeader);
+const SiteHeaderContainer = ({
+  onLogin,
+  onLogout,
+  notification,
+  onResetNotification,
+  permissions,
+}) => {
+  const history = useHistory();
 
-export class SiteHeaderContainer extends React.Component {
-  // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-    this.onLoginLogoutButtonClick = this.onLoginLogoutButtonClick.bind(this);
-  }
+  useEffect(() => {
+    const unlisten = history.listen(() => {
+      onResetNotification();
+    });
 
-  onLoginLogoutButtonClick(event, domain) {
-    event.persist();
-    event.preventDefault();
-    event.stopPropagation();
-    if (!isAuthenticated()) {
-      this.props.onLogin(domain);
-    } else {
-      this.props.onLogout();
-    }
-  }
+    return () => {
+      unlisten();
+    };
+  }, []);
 
-  render() {
-    const { permissions, userName } = this.props;
+  const onSignOut = useCallback(
+    (event, domain) => {
+      event.persist();
+      event.preventDefault();
+      event.stopPropagation();
 
-    return (
-      <HeaderWithRouter
-        isAuthenticated={isAuthenticated()}
-        onLoginLogoutButtonClick={this.onLoginLogoutButtonClick}
-        permissions={permissions}
-        userName={userName}
-      />
-    );
-  }
-}
+      if (!isAuthenticated()) {
+        onLogin(domain);
+      } else {
+        onLogout();
+      }
+    },
+    [onLogin, onLogout]
+  );
+
+  return (
+    <SiteHeader
+      isAuthenticated={isAuthenticated()}
+      notification={notification}
+      onSignOut={onSignOut}
+      onResetNotification={onResetNotification}
+      permissions={permissions}
+    />
+  );
+};
 
 SiteHeaderContainer.propTypes = {
+  notification: PropTypes.shape({
+    message: PropTypes.string,
+    title: PropTypes.string,
+    type: PropTypes.string,
+  }),
   onLogin: PropTypes.func,
   onLogout: PropTypes.func,
+  onResetNotification: PropTypes.func,
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
-  userName: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
+  notification: makeSelectNotification(),
   permissions: makeSelectUserPermissions(),
-  userName: makeSelectUserName(),
 });
 
-export const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    onLogin: doLogin,
-    onLogout: doLogout,
-  },
-  dispatch,
-);
+export const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onLogin: doLogin,
+      onLogout: doLogout,
+      onResetNotification: resetGlobalNotification,
+    },
+    dispatch
+  );
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(withConnect)(SiteHeaderContainer);
