@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback } from 'react';
+import React, { Fragment, useCallback, useEffect } from 'react';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
 import isEqual from 'lodash.isequal';
@@ -8,7 +8,7 @@ import PageHeader from 'signals/settings/components/PageHeader';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import BackLink from 'components/BackLink';
 import FormAlert from 'components/FormAlert';
-import routes from '../../../routes';
+import routes, { USER_URL } from '../../../routes';
 
 import useFetchUser from './hooks/useFetchUser';
 import UserForm from './components/UserForm';
@@ -23,12 +23,15 @@ const StyledColumn = styled(Column)`
 `;
 
 const UserDetail = () => {
+  const { userId } = useParams();
   const location = useLocation();
   const history = useHistory();
-  const { userId } = useParams();
-  const { isLoading, isSuccess, error, data, patch } = useFetchUser(userId);
-  const shouldRenderForm =
-    userId === undefined || (userId !== undefined && data !== undefined);
+  const isExistingUser = userId !== undefined;
+  const { isLoading, isSuccess, error, data, patch, post } = useFetchUser(
+    userId
+  );
+  const shouldRenderForm = !isExistingUser || (isExistingUser && Boolean(data));
+  const dataId = data && data.id;
 
   const getFormData = useCallback(
     e =>
@@ -40,17 +43,29 @@ const UserDetail = () => {
     [data]
   );
 
+  useEffect(() => {
+    if (!isExistingUser && isSuccess) {
+      history.replace(`${USER_URL}/${dataId}`);
+    }
+  }, [isExistingUser, isSuccess, dataId, history]);
+
   const onSubmitForm = useCallback(
     e => {
       e.preventDefault();
 
       const formData = getFormData(e);
 
-      if (!isEqual(data, formData)) {
+      if (isEqual(data, formData)) {
+        return;
+      }
+
+      if (isExistingUser) {
         patch(formData);
+      } else {
+        post(formData);
       }
     },
-    [data, getFormData, patch]
+    [data, getFormData, patch, isExistingUser, post]
   );
 
   const onCancel = useCallback(

@@ -6,7 +6,7 @@ import { isAuthenticated } from 'shared/services/auth/auth';
 import LoginPage from 'components/LoginPage';
 import NotFoundPage from 'containers/NotFoundPage';
 
-import routes from './routes';
+import routes, { USERS_PAGED_URL, USER_URL } from './routes';
 import UsersOverviewContainer from './users/containers/Overview';
 import UsersDetailContainer from './users/containers/Detail';
 import RolesOverviewContainer from './roles/containers/RolesOverview';
@@ -40,7 +40,7 @@ export const SettingsModule = () => {
       <Redirect
         exact
         from={routes.users}
-        to={routes.usersPaged.replace(/:pageNum.*/, 1)}
+        to={`${USERS_PAGED_URL}/1`}
       />
       <Route
         exact
@@ -48,6 +48,7 @@ export const SettingsModule = () => {
         component={UsersOverviewContainer}
       />
       <Route exact path={routes.user} component={UsersDetailContainer} />
+      <Route exact path={USER_URL} component={UsersDetailContainer} />
       <Route path={routes.roles} component={RolesOverviewContainer} />
       <Route path={routes.rol} component={RolesOverviewContainer} />
       <Route component={NotFoundPage} />

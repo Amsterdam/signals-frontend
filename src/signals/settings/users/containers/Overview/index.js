@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useParams, useHistory } from 'react-router-dom';
-import { Row, Column, themeSpacing } from '@datapunt/asc-ui';
+import { useParams, useHistory, Link } from 'react-router-dom';
+import { Row, Column, themeSpacing, Button } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
@@ -14,6 +14,12 @@ import { USERS_PAGED_URL, USER_URL } from '../../../routes';
 
 const StyledPagination = styled(Pagination)`
   margin-top: ${themeSpacing(12)};
+`;
+
+const HeaderButton = styled(Button)`
+  &:hover {
+    color: white;
+  }
 `;
 
 const UsersOverview = ({ pageSize }) => {
@@ -57,9 +63,11 @@ const UsersOverview = ({ pageSize }) => {
 
   return (
     <Fragment>
-      <PageHeader
-        title={`Gebruikers ${users.count ? `(${users.count})` : ''}`}
-      />
+      <PageHeader title={`Gebruikers ${users.count ? `(${users.count})` : ''}`}>
+        <HeaderButton variant="primary" $as={Link} to={USER_URL}>
+          Gebruiker toevoegen
+        </HeaderButton>
+      </PageHeader>
 
       <Row>
         {isLoading && <LoadingIndicator />}
