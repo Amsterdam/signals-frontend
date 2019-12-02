@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -40,7 +40,7 @@ export const RoleForm = ({
     }
   }, []);
 
-  const handleSubmit = e => {
+  const handleSubmit = useCallback(e => {
     e.preventDefault();
     if (isValid) {
       const elements = e.target.elements;
@@ -68,15 +68,15 @@ export const RoleForm = ({
         onSaveRole(updatedRole);
       }
     }
-  }
+  }, [isValid, role]);
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     history.push(ROLES_URL);
-  };
+  }, [history.push]);
 
-  const handleChangeName = e => {
+  const handleChangeName = useCallback(e => {
     setName(e.target.value);
-  }
+  }, [setName]);
 
   return (
     <div data-testid="rolesForm">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@datapunt/asc-core';
 import { useHistory } from 'react-router-dom';
@@ -20,13 +20,13 @@ export const RolesList = ({
 }) => {
   const history = useHistory();
 
-  const onItemClick = e => {
+  const onItemClick = useCallback(e => {
     const roleId = e.currentTarget.getAttribute('data-item-id');
     /* istanbul ignore else */
     if (roleId > -1) {
       history.push(`${ROLE_URL}/${roleId}`);
     }
-  };
+  }, [history.push]);
 
   return (
     <div data-testid="rolesList">
