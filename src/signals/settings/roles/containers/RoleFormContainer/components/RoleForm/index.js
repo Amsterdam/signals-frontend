@@ -36,6 +36,7 @@ export const RoleForm = ({
 }) => {
   const [name, setName] = useState('');
   const history = useHistory();
+  const isValid = name !== '';
 
   useEffect(() => {
     /* istanbul ignore else */
@@ -46,29 +47,31 @@ export const RoleForm = ({
 
   const handleSubmit = e => {
     e.preventDefault();
-    const elements = e.target.elements;
-    const permission_ids = [];
-    permissions.forEach(permission => {
-      if (elements[`permission${permission.id}`].checked) {
-        permission_ids.push(permission.id);
-      }
-    });
-
-    const updatedRole = {
-      name: elements.name.value,
-      permission_ids,
-    };
-
-    if (role.id) {
-      onPatchRole({
-        id: role.id,
-        patch: {
-          ...updatedRole,
-          id: role.id,
-        },
+    if (isValid) {
+      const elements = e.target.elements;
+      const permission_ids = [];
+      permissions.forEach(permission => {
+        if (elements[`permission${permission.id}`].checked) {
+          permission_ids.push(permission.id);
+        }
       });
-    } else {
-      onSaveRole(updatedRole);
+
+      const updatedRole = {
+        name: elements.name.value,
+        permission_ids,
+      };
+
+      if (role.id) {
+        onPatchRole({
+          id: role.id,
+          patch: {
+            ...updatedRole,
+            id: role.id,
+          },
+        });
+      } else {
+        onSaveRole(updatedRole);
+      }
     }
   }
 
@@ -77,6 +80,7 @@ export const RoleForm = ({
   };
 
   const handleChangeName = e => {
+    console.log('yoooo', e.target.value);
     setName(e.target.value);
   }
 
@@ -90,9 +94,10 @@ export const RoleForm = ({
           label="Naam"
           name="name"
           type="text"
+          error={isValid ? '' : 'Dit veld is verplicht'}
           id={`role${role.id}`}
           data-testid="rolesFormFieldName"
-          onChange={handleChangeName}
+          onBlur={handleChangeName}
           placeholder="Rolnaam"
           defaultValue={role.name}
         />
@@ -110,7 +115,6 @@ export const RoleForm = ({
             variant="secondary"
             data-testid="rolesFormButtonSubmit"
             type="submit"
-            disabled={name === ''}
           >
             Opslaan
           </StyledButton>
