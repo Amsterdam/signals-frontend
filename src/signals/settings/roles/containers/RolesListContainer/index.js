@@ -1,17 +1,26 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
-import { Row, Column } from '@datapunt/asc-ui';
+import { Row, Column, Button } from '@datapunt/asc-ui';
+import styled from 'styled-components';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import PageHeader from 'signals/settings/components/PageHeader';
 
 import makeSelectRolesModel from 'models/roles/selectors';
 import { fetchRoles, resetResponse } from 'models/roles/actions';
+import { ROLE_URL } from '../../../routes';
 
 import RolesList from './components/RolesList';
+
+const HeaderButton = styled(Button)`
+  &:hover {
+    color: white;
+  }
+`;
 
 export const RolesListContainer = ({
   roles: {
@@ -29,7 +38,11 @@ export const RolesListContainer = ({
 
   return (
     <Fragment>
-      <PageHeader title="Rollen" />
+      <PageHeader title="Rollen">
+        <HeaderButton variant="primary" $as={Link} to={ROLE_URL}>
+          Rol toevoegen
+        </HeaderButton>
+      </PageHeader>
       <Row>
         <Column span={12}>
           {loading || loadingPermissions ? <LoadingIndicator /> : <RolesList list={list} />}
