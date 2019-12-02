@@ -5,11 +5,11 @@ import styled from 'styled-components';
 import {
   Label as FieldLabel,
   Checkbox,
-  Button,
   themeSpacing,
 } from '@datapunt/asc-ui';
 
 import Input from 'components/Input';
+import FormFooter from 'components/FormFooter';
 
 import { ROLES_URL } from '../../../../../routes';
 
@@ -21,11 +21,6 @@ const Label = styled(FieldLabel)`
 
 const StyledInput = styled(Input)`
   margin-bottom: ${themeSpacing(8)};
-`;
-
-const StyledButton = styled(Button)`
-  margin-top: ${themeSpacing(6)};
-  margin-right: ${themeSpacing(2)};
 `;
 
 export const RoleForm = ({
@@ -80,7 +75,6 @@ export const RoleForm = ({
   };
 
   const handleChangeName = e => {
-    console.log('yoooo', e.target.value);
     setName(e.target.value);
   }
 
@@ -98,7 +92,6 @@ export const RoleForm = ({
           id={`role${role.id}`}
           data-testid="rolesFormFieldName"
           onBlur={handleChangeName}
-          placeholder="Rolnaam"
           defaultValue={role.name}
         />
 
@@ -111,22 +104,12 @@ export const RoleForm = ({
           </div>))}
 
         <div>
-          <StyledButton
-            variant="secondary"
-            data-testid="rolesFormButtonSubmit"
-            type="submit"
-          >
-            Opslaan
-          </StyledButton>
-
-          <StyledButton
-            variant="tertiary"
-            data-testid="rolesFormButtonCancel"
-            type="button"
-            onClick={handleCancel}
-          >
-            Annuleren
-          </StyledButton>
+          <FormFooter
+            onSubmitForm={() => { }}
+            submitBtnLabel="Opslaan"
+            onCancel={handleCancel}
+            cancelBtnLabel="Annuleer"
+          />
         </div>
       </form>
     </div >
