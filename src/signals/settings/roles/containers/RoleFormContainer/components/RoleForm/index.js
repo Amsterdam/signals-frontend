@@ -11,6 +11,8 @@ import {
 
 import Input from 'components/Input';
 
+import { ROLES_URL } from '../../../../../routes';
+
 const Label = styled(FieldLabel)`
   display: block;
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
@@ -30,41 +32,49 @@ export const RoleForm = ({
   role,
   permissions,
   onPatchRole,
+  onSaveRole,
 }) => {
   const [name, setName] = useState('');
   const history = useHistory();
 
   useEffect(() => {
     /* istanbul ignore else */
-    if (role) {
+    if (role.id) {
       setName(role.name);
-
     }
   }, []);
 
   const handleSubmit = e => {
     e.preventDefault();
+    const elements = e.target.elements;
     const permission_ids = [];
     permissions.forEach(permission => {
-      if (e.target.elements[`permission${permission.id}`].checked) {
+      if (elements[`permission${permission.id}`].checked) {
         permission_ids.push(permission.id);
       }
     });
 
-    const payload = {
-      id: role.id,
-      patch: {
-        id: role.id,
-        name: e.target.elements.name.value,
-        permission_ids,
-      },
+    const updatedRole = {
+      name: elements.name.value,
+      permission_ids,
     };
 
-    onPatchRole(payload);
+    if (role.id) {
+      onPatchRole({
+        id: role.id,
+        patch: {
+          ...updatedRole,
+          id: role.id,
+        },
+      });
+    } else {
+      console.log('SAVE', updatedRole);
+      onSaveRole(updatedRole);
+    }
   }
 
   const handleCancel = () => {
-    history.push('/instellingen/rollen');
+    history.push(ROLES_URL);
   };
 
   const handleChangeName = e => {
@@ -73,60 +83,63 @@ export const RoleForm = ({
 
   return (
     <div data-testid="rolesForm">
-      {role &&
-        (
-          <form
-            data-testid="rolesFormForm"
-            onSubmit={handleSubmit}
+      <form
+        data-testid="rolesFormForm"
+        onSubmit={handleSubmit}
+      >
+        <StyledInput
+          label="Naam"
+          name="name"
+          type="text"
+          id={`role${role.id}`}
+          data-testid="rolesFormFieldName"
+          onChange={handleChangeName}
+          placeholder="Rolnaam"
+          defaultValue={role.name}
+        />
+
+        <Label label="Rechten" />
+        {permissions.map(permission => (
+          <div key={permission.id}>
+            <FieldLabel htmlFor={`permission${permission.id}`} label={permission.name}>
+              <Checkbox id={`permission${permission.id}`} checked={role.permissions.find(item => item.id === permission.id)} />
+            </FieldLabel>
+          </div>))}
+
+        <div>
+          <StyledButton
+            variant="secondary"
+            data-testid="rolesFormButtonSubmit"
+            type="submit"
+            disabled={name === ''}
           >
-            <StyledInput
-              label="Naam"
-              name="name"
-              type="text"
-              id={`role${role.id}`}
-              data-testid="rolesFormFieldName"
-              onChange={handleChangeName}
-              placeholder="Rolnaam"
-              defaultValue={role.name}
-            />
+            Opslaan
+          </StyledButton>
 
-            <Label label="Rechten" />
-            {permissions.map(permission => (
-              <div key={permission.id}>
-                <FieldLabel htmlFor={`permission${permission.id}`} label={permission.name}>
-                  <Checkbox id={`permission${permission.id}`} checked={role.permissions.find(item => item.id === permission.id)} />
-                </FieldLabel>
-              </div>))}
-
-            <div>
-              <StyledButton
-                variant="secondary"
-                data-testid="rolesFormButtonSubmit"
-                type="submit"
-                disabled={name === ''}
-              >
-                Opslaan
-              </StyledButton>
-
-              <StyledButton
-                variant="tertiary"
-                data-testid="rolesFormButtonCancel"
-                type="button"
-                onClick={handleCancel}
-              >
-                Annuleren
-              </StyledButton>
-            </div>
-          </form>
-        )
-      }
+          <StyledButton
+            variant="tertiary"
+            data-testid="rolesFormButtonCancel"
+            type="button"
+            onClick={handleCancel}
+          >
+            Annuleren
+          </StyledButton>
+        </div>
+      </form>
     </div >
   )
 };
 
+RoleForm.defaultProps = {
+  role: {
+    name: '',
+    permissions: [],
+  },
+};
+
 RoleForm.propTypes = {
   role: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.number,
     name: PropTypes.string.isRequired,
     permissions: PropTypes.arrayOf(
       PropTypes.shape({
@@ -143,6 +156,7 @@ RoleForm.propTypes = {
   ).isRequired,
 
   onPatchRole: PropTypes.func.isRequired,
+  onSaveRole: PropTypes.func.isRequired,
 };
 
 export default RoleForm;

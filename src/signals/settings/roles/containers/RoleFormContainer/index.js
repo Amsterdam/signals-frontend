@@ -12,9 +12,11 @@ import BackLink from 'components/BackLink';
 import FormAlert from 'components/FormAlert';
 
 import makeSelectRolesModel from 'models/roles/selectors';
-import { fetchRoles, fetchPermissions, patchRole } from 'models/roles/actions';
+import { fetchRoles, fetchPermissions, patchRole, saveRole } from 'models/roles/actions';
 
 import RoleForm from './components/RoleForm';
+
+import { ROLES_URL } from '../../../routes';
 
 export const RoleFormContainer = ({
   roles: {
@@ -28,6 +30,7 @@ export const RoleFormContainer = ({
   onFetchRoles,
   onFetchPermissions,
   onPatchRole,
+  onSaveRole,
 }) => {
   useEffect(() => {
     onFetchRoles();
@@ -42,7 +45,7 @@ export const RoleFormContainer = ({
       <PageHeader
         title="Rol instellingen"
         BackLink={
-          <BackLink to="/instellingen/rollen">
+          <BackLink to={ROLES_URL}>
             Terug naar overzicht
           </BackLink>
         }
@@ -71,6 +74,7 @@ export const RoleFormContainer = ({
                 role={role}
                 permissions={permissions}
                 onPatchRole={onPatchRole}
+                onSaveRole={onSaveRole}
               />
             )
           }
@@ -110,6 +114,7 @@ RoleFormContainer.propTypes = {
   onFetchRoles: PropTypes.func.isRequired,
   onFetchPermissions: PropTypes.func.isRequired,
   onPatchRole: PropTypes.func.isRequired,
+  onSaveRole: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -120,6 +125,7 @@ export const mapDispatchToProps = dispatch => bindActionCreators({
   onFetchRoles: fetchRoles,
   onFetchPermissions: fetchPermissions,
   onPatchRole: patchRole,
+  onSaveRole: saveRole,
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import ListComponent from 'components/List';
 
 import formatRoles from '../../../../services/formatRoles';
+import { ROLE_URL } from '../../../../../routes';
 
 const StyledListComponent = styled(ListComponent)`
   th:nth-child(1),
@@ -23,7 +24,7 @@ export const RolesList = ({
     const roleId = e.currentTarget.getAttribute('data-item-id');
     /* istanbul ignore else */
     if (roleId > -1) {
-      history.push(`/instellingen/rol/${roleId}`);
+      history.push(`${ROLE_URL}/${roleId}`);
     }
   };
 
