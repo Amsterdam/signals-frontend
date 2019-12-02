@@ -11,7 +11,7 @@ import PageHeader from 'signals/settings/components/PageHeader';
 import makeSelectRolesModel from 'models/roles/selectors';
 import { fetchRoles, resetResponse } from 'models/roles/actions';
 
-import RolesList from '../../components/RolesList';
+import RolesList from './components/RolesList';
 
 export const RolesListContainer = ({
   roles: {

@@ -14,7 +14,7 @@ import FormAlert from 'components/FormAlert';
 import makeSelectRolesModel from 'models/roles/selectors';
 import { fetchRoles, fetchPermissions, patchRole } from 'models/roles/actions';
 
-import RoleForm from '../../components/RoleForm';
+import RoleForm from './components/RoleForm';
 
 export const RoleFormContainer = ({
   roles: {
