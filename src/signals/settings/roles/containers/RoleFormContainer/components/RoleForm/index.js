@@ -68,7 +68,6 @@ export const RoleForm = ({
         },
       });
     } else {
-      console.log('SAVE', updatedRole);
       onSaveRole(updatedRole);
     }
   }
