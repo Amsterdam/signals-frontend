@@ -6,7 +6,7 @@ import { isAuthenticated } from 'shared/services/auth/auth';
 import LoginPage from 'components/LoginPage';
 import NotFoundPage from 'containers/NotFoundPage';
 
-import routes from './routes';
+import routes, { USERS_PAGED_URL, USER_URL } from './routes';
 import UsersOverviewContainer from './users/containers/Overview';
 import RolesListContainer from './roles/containers/RolesListContainer';
 import RoleFormContainer from './roles/containers/RoleFormContainer';
@@ -41,13 +41,13 @@ export const SettingsModule = () => {
       <Redirect
         exact
         from={routes.users}
-        to={routes.usersPaged.replace(/:pageNum.*/, 1)}
+        to={`${USERS_PAGED_URL}/1`}
       />
 
       <Route exact path={routes.usersPaged} component={UsersOverviewContainer} />
-      <Route exact path={routes.user} component={UsersDetailContainer} />
-      <Route path={routes.roles} component={RolesListContainer} />
-      <Route path={routes.role} component={RoleFormContainer} />
+      <Route exact path={USER_URL} component={UsersDetailContainer} />
+      <Route exact path={routes.roles} component={RolesListContainer} />
+      <Route exact path={routes.role} component={RoleFormContainer} />
       <Route component={NotFoundPage} />
     </Switch >
   );

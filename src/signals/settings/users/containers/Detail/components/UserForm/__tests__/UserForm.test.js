@@ -19,7 +19,7 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
 
     expect(container.querySelectorAll('[name="is_active"]')).toHaveLength(2);
     expect(container.querySelectorAll('[name="is_active"]')[0].value).toBe('true');
-    expect(container.querySelectorAll('[name="is_active"]')[0].checked).toBe(false);
+    expect(container.querySelectorAll('[name="is_active"]')[0].checked).toBe(true);
     expect(container.querySelectorAll('[name="is_active"]')[1].value).toBe('false');
     expect(container.querySelectorAll('[name="is_active"]')[1].checked).toBe(false);
   });

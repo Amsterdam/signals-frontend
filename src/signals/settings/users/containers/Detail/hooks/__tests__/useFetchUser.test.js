@@ -1,6 +1,7 @@
 import { renderHook, act , cleanup } from '@testing-library/react-hooks';
 import { wait } from '@testing-library/react';
 import userJSON from 'utils/__tests__/fixtures/user.json';
+import configuration from 'shared/services/configuration/configuration';
 import useFetchUser from '../useFetchUser';
 
 describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
@@ -62,6 +63,8 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
     const { unmount } = renderHook(async () => useFetchUser(userId));
 
+    expect(abortSpy).not.toHaveBeenCalled();
+
     unmount();
 
     expect(abortSpy).toHaveBeenCalled();
@@ -108,8 +111,18 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
       fetch.mockResponseOnce(JSON.stringify(formData));
 
+      const expectRequest = [
+        expect.stringMatching(new RegExp(`\\/${userId}$`)),
+        expect.objectContaining({
+          body: JSON.stringify(formData),
+          method: 'PATCH',
+        }),
+      ];
+
       // value of isSuccess can be one of `undefined`, `false`, or `true`
       expect(result.current.isSuccess).not.toEqual(true);
+
+      expect(global.fetch).not.toHaveBeenLastCalledWith(...expectRequest);
 
       act(() => {
         result.current.patch(formData);
@@ -117,13 +130,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
       await waitForNextUpdate();
 
-      expect(global.fetch).toHaveBeenLastCalledWith(
-        expect.stringMatching(new RegExp(`\\/${userId}$`)),
-        expect.objectContaining({
-          body: JSON.stringify(formData),
-          method: 'PATCH',
-        })
-      );
+      expect(global.fetch).toHaveBeenLastCalledWith(...expectRequest);
 
       expect(result.current.isSuccess).toEqual(true);
       expect(result.current.isLoading).toEqual(false);
@@ -153,6 +160,75 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
       act(() => {
         patch(formData);
+      });
+
+      await waitForNextUpdate();
+
+      expect(result.current.error).toEqual(response);
+      expect(result.current.isSuccess).toEqual(false);
+      expect(result.current.isLoading).toEqual(false);
+    });
+  });
+
+  describe('post', () => {
+    it('should send POST request', async () => {
+      const {
+        result,
+        waitForNextUpdate,
+      } = renderHook(() => useFetchUser());
+
+      const formData = { first_name: userJSON.first_name, last_name: userJSON.last_name, username: userJSON.username };
+      delete formData.id;
+
+      fetch.mockResponseOnce(JSON.stringify(userJSON));
+
+      expect(result.current.isSuccess).not.toEqual(true);
+
+      const expectRequest = [
+        configuration.USERS_ENDPOINT,
+        expect.objectContaining({
+          body: JSON.stringify(formData),
+          method: 'POST',
+        }),
+      ];
+
+      expect(global.fetch).not.toHaveBeenCalledWith(...expectRequest);
+
+      act(() => {
+        result.current.post(formData);
+      });
+
+      await waitForNextUpdate();
+
+      expect(global.fetch).toHaveBeenCalledWith(...expectRequest);
+
+      expect(result.current.isSuccess).toEqual(true);
+      expect(result.current.isLoading).toEqual(false);
+    });
+
+    it('should throw on error response', async () => {
+      const response = { status: 401, ok: false, statusText: 'Unauthorized' };
+      const formData = { ...userJSON, is_active: false };
+      const userId = 13;
+      const {
+        result,
+        waitForNextUpdate,
+      } = renderHook(() => useFetchUser(userId));
+
+      expect(result.current.isLoading).toEqual(true);
+      expect(result.current.error).not.toEqual(response);
+      expect(result.current.isSuccess).not.toEqual(false);
+
+      // make sure the side effects are all done
+      await waitForNextUpdate();
+
+      const { post } = result.current;
+
+      // set the result for the patch response
+      fetch.mockImplementation(() => response);
+
+      act(() => {
+        post(formData);
       });
 
       await waitForNextUpdate();
