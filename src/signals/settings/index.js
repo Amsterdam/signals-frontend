@@ -45,9 +45,11 @@ export const SettingsModule = () => {
       />
 
       <Route exact path={routes.usersPaged} component={UsersOverviewContainer} />
+      <Route exact path={routes.user} component={UsersDetailContainer} />
       <Route exact path={USER_URL} component={UsersDetailContainer} />
       <Route exact path={routes.roles} component={RolesListContainer} />
-      <Route path={ROLE_URL} component={RoleFormContainer} />
+      <Route exact path={routes.role} component={RoleFormContainer} />
+      <Route exact path={ROLE_URL} component={RoleFormContainer} />
       <Route component={NotFoundPage} />
     </Switch >
   );
