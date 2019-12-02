@@ -21,7 +21,7 @@ import {
 } from './actions';
 
 export function* fetchRoles() {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/roles/`;
+  const requestURL = CONFIGURATION.ROLES_ENDPOINT;
 
   try {
     const roles = yield call(authCall, requestURL);
@@ -32,7 +32,7 @@ export function* fetchRoles() {
 }
 
 export function* fetchPermissions() {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/permissions/`;
+  const requestURL = CONFIGURATION.PERMISSIONS_ENDPOINT;
 
   try {
     const permissions = yield call(authCall, requestURL);
@@ -43,7 +43,7 @@ export function* fetchPermissions() {
 }
 
 export function* saveRole(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/roles/`;
+  const requestURL = CONFIGURATION.ROLES_ENDPOINT;
   const payload = action.payload;
   try {
     const role = yield call(authPostCall, requestURL, payload);
@@ -55,7 +55,7 @@ export function* saveRole(action) {
 
 export function* patchRole(action) {
   const payload = action.payload;
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/roles/${payload.id}`;
+  const requestURL = `${CONFIGURATION.ROLES_ENDPOINT}${payload.id}`;
 
   try {
     const role = yield call(authPatchCall, requestURL, payload.patch);
