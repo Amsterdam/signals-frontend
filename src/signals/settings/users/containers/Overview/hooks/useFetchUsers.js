@@ -21,7 +21,7 @@ const useFetchUsers = ({ page, pageSize } = {}) => {
     const controller = new AbortController();
     const { signal } = controller;
 
-    async function fetchData() {
+    (async function fetchData() {
       setLoading(true);
 
       try {
@@ -31,7 +31,9 @@ const useFetchUsers = ({ page, pageSize } = {}) => {
         ]
           .filter(Boolean)
           .join('&');
-        const url = [configuration.USERS_ENDPOINT, params].filter(Boolean).join('/?');
+        const url = [configuration.USERS_ENDPOINT, params]
+          .filter(Boolean)
+          .join('/?');
         const response = await fetch(url, {
           headers: getAuthHeaders(),
           signal,
@@ -45,14 +47,12 @@ const useFetchUsers = ({ page, pageSize } = {}) => {
       } finally {
         setLoading(false);
       }
-    }
-
-    fetchData();
+    })();
 
     return () => {
       controller.abort();
     };
-  }, [page]);
+  }, [page, pageSize]);
 
   /**
    * @typedef {Object} FetchResponse

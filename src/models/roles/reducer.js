@@ -13,7 +13,7 @@ import {
   PATCH_ROLE,
   PATCH_ROLE_SUCCESS,
   PATCH_ROLE_ERROR,
-  RESET_RESONSE,
+  RESET_RESPONSE,
 }
   from './constants';
 
@@ -112,7 +112,7 @@ function rolesReducer(state = initialState, action) {
         .set('responseSuccess', false)
         .set('responseError', true);
 
-    case RESET_RESONSE:
+    case RESET_RESPONSE:
       return state
         .set('responseSuccess', false)
         .set('responseError', false);

@@ -14,7 +14,7 @@ import {
   PATCH_ROLE,
   PATCH_ROLE_SUCCESS,
   PATCH_ROLE_ERROR,
-  RESET_RESONSE,
+  RESET_RESPONSE,
 }
   from './constants';
 
@@ -249,10 +249,10 @@ describe('rolesReducer', () => {
     });
   });
 
-  it('RESET_RESONSE', () => {
+  it('RESET_RESPONSE', () => {
     expect(
       rolesReducer(undefined, {
-        type: RESET_RESONSE,
+        type: RESET_RESPONSE,
       }).toJS()
     ).toEqual({
       list: [],

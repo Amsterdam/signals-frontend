@@ -14,4 +14,4 @@ export const PATCH_ROLE = 'src/roles/PATCH_ROLE';
 export const PATCH_ROLE_SUCCESS = 'src/roles/PATCH_ROLE_SUCCESS';
 export const PATCH_ROLE_ERROR = 'src/roles/PATCH_ROLE_ERROR';
 
-export const RESET_RESONSE = 'src/roles/RESET_RESONSE';
+export const RESET_RESPONSE = 'src/roles/RESET_RESPONSE';

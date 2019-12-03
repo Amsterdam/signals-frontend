@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import roles from 'utils/__tests__/fixtures/roles.json';
 
-import { FETCH_ROLES, RESET_RESONSE } from 'models/roles/constants';
+import { FETCH_ROLES, RESET_RESPONSE } from 'models/roles/constants';
 import { RolesListContainer, mapDispatchToProps } from '..';
 
 describe('signals/settings/roles/containers/RolesListContainer', () => {
@@ -58,7 +58,7 @@ describe('signals/settings/roles/containers/RolesListContainer', () => {
 
     it('onResetResponse', () => {
       mapDispatchToProps(dispatch).onResetResponse();
-      expect(dispatch).toHaveBeenCalledWith({ type: RESET_RESONSE });
+      expect(dispatch).toHaveBeenCalledWith({ type: RESET_RESPONSE });
     });
   });
 });
