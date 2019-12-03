@@ -4,21 +4,29 @@ import {
   FETCH_ROLES,
   FETCH_ROLES_SUCCESS,
   FETCH_ROLES_ERROR,
+  FETCH_PERMISSIONS,
+  FETCH_PERMISSIONS_SUCCESS,
+  FETCH_PERMISSIONS_ERROR,
   SAVE_ROLE,
   SAVE_ROLE_SUCCESS,
   SAVE_ROLE_ERROR,
   PATCH_ROLE,
   PATCH_ROLE_SUCCESS,
   PATCH_ROLE_ERROR,
+  RESET_RESPONSE,
 }
   from './constants';
 
 export const initialState = fromJS({
   list: [],
+  permissions: [],
   loading: false,
+  loadingPermissions: false,
   saving: false,
   patching: false,
   error: false,
+  responseSuccess: false,
+  responseError: false,
 });
 
 function rolesReducer(state = initialState, action) {
@@ -42,27 +50,49 @@ function rolesReducer(state = initialState, action) {
         .set('error', true)
         .set('loading', false);
 
+    case FETCH_PERMISSIONS:
+      return state
+        .set('permissions', fromJS([]))
+        .set('loadingPermissions', true)
+        .set('error', false);
+
+    case FETCH_PERMISSIONS_SUCCESS:
+      return state
+        .set('permissions', fromJS(action.payload))
+        .set('loadingPermissions', false)
+        .set('error', false);
+
+    case FETCH_PERMISSIONS_ERROR:
+      return state
+        .set('error', true)
+        .set('loadingPermissions', false);
+
     case SAVE_ROLE:
       return state
         .set('saving', true)
-        .set('error', false);
+        .set('responseSuccess', false)
+        .set('responseError', false);
 
     case SAVE_ROLE_SUCCESS:
       roles = state.get('list').toJS();
       return state
         .set('list', fromJS([...roles, action.payload]))
-        .set('error', false)
-        .set('saving', false);
+        .set('saving', false)
+        .set('responseSuccess', true)
+        .set('responseError', false);
+
 
     case SAVE_ROLE_ERROR:
       return state
-        .set('error', true)
-        .set('saving', false);
+        .set('saving', false)
+        .set('responseSuccess', false)
+        .set('responseError', true);
 
     case PATCH_ROLE:
       return state
         .set('patching', true)
-        .set('error', false);
+        .set('responseSuccess', false)
+        .set('responseError', false);
 
     case PATCH_ROLE_SUCCESS:
       roles = state.get('list').toJS();
@@ -72,13 +102,20 @@ function rolesReducer(state = initialState, action) {
       }
       return state
         .set('list', fromJS(roles))
-        .set('error', false)
-        .set('patching', false);
+        .set('patching', false)
+        .set('responseSuccess', true)
+        .set('responseError', false);
 
     case PATCH_ROLE_ERROR:
       return state
-        .set('error', true)
-        .set('patching', false);
+        .set('patching', false)
+        .set('responseSuccess', false)
+        .set('responseError', true);
+
+    case RESET_RESPONSE:
+      return state
+        .set('responseSuccess', false)
+        .set('responseError', false);
 
     default:
       return state;

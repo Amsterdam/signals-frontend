@@ -4,12 +4,12 @@ const formatRoles = items => {
     const permissions = [];
 
     role.permissions.forEach(permission => {
-      permissions.push(permission._display);
+      permissions.push(permission.name);
     });
 
     roles.push({
       id: role.id,
-      Naam: role._display,
+      Naam: role.name,
       Rechten: permissions.join(', '),
     });
   });

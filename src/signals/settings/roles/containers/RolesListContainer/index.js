@@ -5,49 +5,67 @@ import { createStructuredSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
 import { Row, Column } from '@datapunt/asc-ui';
 
+import LoadingIndicator from 'shared/components/LoadingIndicator';
+import PageHeader from 'signals/settings/components/PageHeader';
+
 import makeSelectRolesModel from 'models/roles/selectors';
-import { fetchRoles } from 'models/roles/actions';
+import { fetchRoles, resetResponse } from 'models/roles/actions';
 
 import RolesList from '../../components/RolesList';
 
-export const RolesOverview = ({
+export const RolesListContainer = ({
   roles: {
     list,
     loading,
+    loadingPermissions,
   },
   onFetchRoles,
+  onResetResponse,
 }) => {
   useEffect(() => {
     onFetchRoles();
-  }, []);
+    onResetResponse();
+  }, [onFetchRoles, onResetResponse]);
 
   return (
     <Fragment>
+      <PageHeader title="Rollen" />
       <Row>
         <Column span={12}>
-          <RolesList
-            list={list}
-            loading={loading}
-          />
+          {loading || loadingPermissions ? <LoadingIndicator /> : <RolesList list={list} />}
         </Column>
       </Row>
     </Fragment>
   );
 };
 
-RolesOverview.defaultProps = {
+RolesListContainer.defaultProps = {
   roles: {
     list: [],
     loading: false,
   },
 };
 
-RolesOverview.propTypes = {
+RolesListContainer.propTypes = {
   roles: PropTypes.shape({
-    list: PropTypes.array,
+    list: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+      })
+    ),
+    permissions: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+      })
+    ),
     loading: PropTypes.bool,
+    loadingPermissions: PropTypes.bool,
   }),
+
   onFetchRoles: PropTypes.func.isRequired,
+  onResetResponse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -56,8 +74,10 @@ const mapStateToProps = createStructuredSelector({
 
 export const mapDispatchToProps = dispatch => bindActionCreators({
   onFetchRoles: fetchRoles,
+  onResetResponse: resetResponse,
+
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default withConnect(RolesOverview);
+export default withConnect(RolesListContainer);

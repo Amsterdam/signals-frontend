@@ -4,6 +4,7 @@ import { authCall, authPostCall, authPatchCall } from 'shared/services/api/api';
 
 import {
   FETCH_ROLES,
+  FETCH_PERMISSIONS,
   SAVE_ROLE,
   PATCH_ROLE,
 } from './constants';
@@ -11,6 +12,8 @@ import {
 import {
   fetchRolesSuccess,
   fetchRolesError,
+  fetchPermissionsSuccess,
+  fetchPermissionsError,
   saveRoleSuccess,
   saveRoleError,
   patchRoleSuccess,
@@ -25,6 +28,17 @@ export function* fetchRoles() {
     yield put(fetchRolesSuccess(roles.results));
   } catch (error) {
     yield put(fetchRolesError());
+  }
+}
+
+export function* fetchPermissions() {
+  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/permissions/`;
+
+  try {
+    const permissions = yield call(authCall, requestURL);
+    yield put(fetchPermissionsSuccess(permissions.results));
+  } catch (error) {
+    yield put(fetchPermissionsError());
   }
 }
 
@@ -54,6 +68,7 @@ export function* patchRole(action) {
 export default function* watchRolesSaga() {
   yield all([
     takeLatest(FETCH_ROLES, fetchRoles),
+    takeLatest(FETCH_PERMISSIONS, fetchPermissions),
     takeLatest(SAVE_ROLE, saveRole),
     takeLatest(PATCH_ROLE, patchRole),
   ])

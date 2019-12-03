@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useCallback, useEffect } from 'react';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
 import isEqual from 'lodash.isequal';
@@ -31,47 +31,57 @@ const UserDetail = () => {
     userId
   );
   const shouldRenderForm = !isExistingUser || (isExistingUser && Boolean(data));
+  const dataId = data && data.id;
+
+  const getFormData = useCallback(
+    e =>
+      [...new FormData(e.target.form).entries()]
+        // convert stringified boolean values to actual booleans
+        .map(([key, val]) => [key, key === 'is_active' ? val === 'true' : val])
+        // reduce the entries() array to an object, merging it with the initial data
+        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data }),
+    [data]
+  );
 
   useEffect(() => {
     if (!isExistingUser && isSuccess) {
-      history.replace(`${USER_URL}/${data.id}`);
+      history.replace(`${USER_URL}/${dataId}`);
     }
-  }, [isExistingUser, isSuccess]);
+  }, [isExistingUser, isSuccess, dataId, history]);
 
-  const getFormData = e =>
-    [...new FormData(e.target.form).entries()]
-      // convert stringified boolean values to actual booleans
-      .map(([key, val]) => [key, key === 'is_active' ? val === 'true' : val])
-      // reduce the entries() array to an object, merging it with the initial data
-      .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data });
+  const onSubmitForm = useCallback(
+    e => {
+      e.preventDefault();
 
-  const onSubmitForm = e => {
-    e.preventDefault();
+      const formData = getFormData(e);
 
-    const formData = getFormData(e);
+      if (isEqual(data, formData)) {
+        return;
+      }
 
-    if (isEqual(data, formData)) {
-      return;
-    }
+      if (isExistingUser) {
+        patch(formData);
+      } else {
+        post(formData);
+      }
+    },
+    [data, getFormData, patch, isExistingUser, post]
+  );
 
-    if (isExistingUser) {
-      patch(formData);
-    } else {
-      post(formData);
-    }
-  };
+  const onCancel = useCallback(
+    e => {
+      const formData = getFormData(e);
 
-  const onCancel = e => {
-    const formData = getFormData(e);
-
-    if (
-      isEqual(data, formData) ||
-      (!isEqual(data, formData) &&
-        global.confirm('Niet opgeslagen gegevens gaan verloren. Doorgaan?'))
-    ) {
-      history.push(location.referrer || routes.users);
-    }
-  };
+      if (
+        isEqual(data, formData) ||
+        (!isEqual(data, formData) &&
+          global.confirm('Niet opgeslagen gegevens gaan verloren. Doorgaan?'))
+      ) {
+        history.push(location.referrer || routes.users);
+      }
+    },
+    [data, location, getFormData, history]
+  );
 
   return (
     <Fragment>

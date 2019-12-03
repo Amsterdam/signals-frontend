@@ -8,8 +8,9 @@ import NotFoundPage from 'components/NotFoundPage';
 
 import routes, { USERS_PAGED_URL, USER_URL } from './routes';
 import UsersOverviewContainer from './users/containers/Overview';
+import RolesListContainer from './roles/containers/RolesListContainer';
+import RoleFormContainer from './roles/containers/RoleFormContainer';
 import UsersDetailContainer from './users/containers/Detail';
-import RolesOverviewContainer from './roles/containers/RolesOverview';
 
 export const SettingsModule = () => {
   const moduleLocation = useLocation();
@@ -25,7 +26,7 @@ export const SettingsModule = () => {
 
       setLocation(locWithReferrer);
     }
-  }, [location.pathname, moduleLocation.pathname, setLocation]);
+  }, [location.pathname, moduleLocation, setLocation]);
 
   if (!isAuthenticated()) {
     return <Route component={LoginPage} />;
@@ -42,13 +43,17 @@ export const SettingsModule = () => {
         from={routes.users}
         to={`${USERS_PAGED_URL}/1`}
       />
-      <Route exact path={routes.usersPaged} component={UsersOverviewContainer} />
+      <Route
+        exact
+        path={routes.usersPaged}
+        component={UsersOverviewContainer}
+      />
       <Route exact path={routes.user} component={UsersDetailContainer} />
       <Route exact path={USER_URL} component={UsersDetailContainer} />
-      <Route path={routes.roles} component={RolesOverviewContainer} />
-      <Route path={routes.rol} component={RolesOverviewContainer} />
+      <Route exact path={routes.roles} component={RolesListContainer} />
+      <Route exact path={routes.role} component={RoleFormContainer} />
       <Route component={NotFoundPage} />
-    </Switch>
+    </Switch >
   );
 };
 
