@@ -58,7 +58,7 @@ export function* patchRole(action) {
   const requestURL = `${CONFIGURATION.ROLES_ENDPOINT}${payload.id}`;
 
   try {
-    const role = yield call(authPatchCall, requestURL, payload.patch);
+    const role = yield call(authPatchCall, requestURL, payload);
     yield put(patchRoleSuccess(role));
   } catch (error) {
     yield put(patchRoleError());

@@ -42,31 +42,31 @@ export const RoleForm = ({
 
   const handleSubmit = useCallback(e => {
     e.preventDefault();
-    if (isValid) {
-      const elements = e.target.elements;
-      const permission_ids = [];
-      permissions.forEach(permission => {
-        if (elements[`permission${permission.id}`].checked) {
-          permission_ids.push(permission.id);
-        }
-      });
+    if (!isValid) {
+      return;
+    }
 
-      const updatedRole = {
-        name: elements.name.value,
-        permission_ids,
-      };
+    const elements = e.target.elements;
 
-      if (role.id) {
-        onPatchRole({
-          id: role.id,
-          patch: {
-            ...updatedRole,
-            id: role.id,
-          },
-        });
-      } else {
-        onSaveRole(updatedRole);
+    const permission_ids = [];
+    permissions.forEach(permission => {
+      if (elements[`permission${permission.id}`].checked) {
+        permission_ids.push(permission.id);
       }
+    });
+
+    const updatedRole = {
+      name: elements.name.value,
+      permission_ids,
+    };
+
+    if (role.id) {
+      onPatchRole({
+        id: role.id,
+        ...updatedRole,
+      });
+    } else {
+      onSaveRole(updatedRole);
     }
   }, [isValid, onPatchRole, onSaveRole, permissions, role.id]);
 

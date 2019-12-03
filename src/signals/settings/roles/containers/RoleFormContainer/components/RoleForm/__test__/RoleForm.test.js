@@ -72,11 +72,8 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
     expect(props.onPatchRole).toHaveBeenCalledWith({
       id: 2,
-      patch: {
-        id: 2,
-        name: 'behandelaars',
-        permission_ids: [110, 164],
-      },
+      name: 'behandelaars',
+      permission_ids: [110, 164],
     });
   });
 
