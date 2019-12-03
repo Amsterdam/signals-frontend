@@ -1,15 +1,16 @@
 import React, { Fragment, useEffect, useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useParams, useHistory, Link } from 'react-router-dom';
-import { Row, Column, themeSpacing, Button } from '@datapunt/asc-ui';
+import { Row, Column, themeSpacing, Button, SearchBar } from '@datapunt/asc-ui';
 import styled from 'styled-components';
+import debounce from 'lodash/debounce';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Pagination from 'components/Pagination';
 import PageHeader from 'signals/settings/components/PageHeader';
 import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes';
 import useFetchUsers from './hooks/useFetchUsers';
-import DataView, { DataHeader, DataList } from './components/DataView';
+import DataView, { DataHeader, DataFilter, DataList } from './components/DataView';
 
 const StyledPagination = styled(Pagination)`
   margin-top: ${themeSpacing(12)};
@@ -21,11 +22,18 @@ const HeaderButton = styled(Button)`
   }
 `;
 
+const StyledSearchbar = styled(SearchBar)`
+  > button {
+    display: none;
+  }
+`;
+
 const UsersOverview = ({ pageSize }) => {
   const history = useHistory();
   const { pageNum } = useParams();
   const [page, setPage] = useState(1);
-  const { isLoading, users: { list: data }, users } = useFetchUsers({ page, pageSize });
+  const [filters, setFilters] = useState({});
+  const { isLoading, users: { list: data }, users } = useFetchUsers({ page, pageSize, filters });
 
   /**
    * Get page number value from URL query string
@@ -42,6 +50,16 @@ const UsersOverview = ({ pageSize }) => {
       setPage(pageNumber);
     }
   }, [pageNumFromQueryString, page]);
+
+  const createOnChangeFilter = filter => value => {
+    // Functionally updating state because it depends on previous state.
+    setFilters(state => ({
+      ...state,
+      [filter]: value,
+    }));
+  };
+
+  const debouncedOnChangeFilterByEmail = useCallback(debounce(createOnChangeFilter('username'), 250), []);
 
   const onItemClick = useCallback(e => {
     const {
@@ -77,6 +95,14 @@ const UsersOverview = ({ pageSize }) => {
           <Column span={12}>
             <DataView>
               <DataHeader labels={columnHeaders} />
+
+              <DataFilter headersLength={columnHeaders.length}>
+                <StyledSearchbar
+                  label="Zoek op emailadres"
+                  placeholder="Zoek op emailadres..."
+                  onChange={debouncedOnChangeFilterByEmail}
+                />
+              </DataFilter>
 
               {!isLoading && data && (
                 <DataList
