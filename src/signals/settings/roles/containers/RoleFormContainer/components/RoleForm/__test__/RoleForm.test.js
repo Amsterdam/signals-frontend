@@ -21,6 +21,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
       role: roles.list[0],
       permissions: roles.permissions,
       onPatchRole: jest.fn(),
+      onSaveRole: jest.fn(),
     };
   });
 
@@ -38,39 +39,35 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toBe(2);
   });
 
-  it('should enable the submit button when the form is valid and should handle submit flow', () => {
+  it('should trigger error in name field when it is empty', () => {
     props.role.name = '';
-    const { getByTestId, queryByTestId } = render(withAppContext(<RoleForm {...props} />))
+    const { getByTestId, queryByTestId, queryByText } = render(withAppContext(<RoleForm {...props} />))
 
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('');
-    expect(queryByTestId('rolesFormButtonSubmit')).toBeDisabled();
+    expect(queryByText('Dit veld is verplicht')).toBeInTheDocument();
 
     const event = {
       target: {
         value: 'nieuwe behandelaars',
       },
     };
-    fireEvent.change(getByTestId('rolesFormFieldName'), event);
+    fireEvent.blur(getByTestId('rolesFormFieldName'), event);
 
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('nieuwe behandelaars');
-    expect(queryByTestId('rolesFormButtonSubmit')).toBeEnabled();
+    expect(queryByText('Dit veld is verplicht')).not.toBeInTheDocument();
   });
 
-  it('should handle submit flow', () => {
-    const push = jest.fn();
-    jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({ push }));
-
-    const { getByTestId, queryByTestId } = render(withAppContext(<RoleForm {...props} />))
+  it('should handle submit flow when patching an existing role', () => {
+    const { getByTestId } = render(withAppContext(<RoleForm {...props} />))
 
     const event = {
       target: {
         value: 'behandelaars',
       },
     };
-    fireEvent.change(getByTestId('rolesFormFieldName'), event);
+    fireEvent.blur(getByTestId('rolesFormFieldName'), event);
 
-    expect(queryByTestId('rolesFormButtonSubmit')).toBeEnabled();
-    fireEvent.click(getByTestId('rolesFormButtonSubmit'), { preventDefault: jest.fn() });
+    fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
 
     expect(props.onPatchRole).toHaveBeenCalledWith({
       id: 2,
@@ -82,13 +79,42 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     });
   });
 
+  it('should handle submit flow when saving an new role', () => {
+    props.role = undefined;
+    const { getByTestId } = render(withAppContext(<RoleForm {...props} />))
+
+    const event = {
+      target: {
+        value: 'nieuwe behandelaars',
+      },
+    };
+    fireEvent.blur(getByTestId('rolesFormFieldName'), event);
+
+    fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+
+    expect(props.onSaveRole).toHaveBeenCalledWith({
+      name: 'nieuwe behandelaars',
+      permission_ids: [],
+    });
+  });
+
+  it('should not do submit when form is invalid', () => {
+    props.role.name = '';
+    const { getByTestId } = render(withAppContext(<RoleForm {...props} />))
+
+    fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+
+    expect(props.onPatchRole).not.toHaveBeenCalled();
+    expect(props.onSaveRole).not.toHaveBeenCalled();
+  });
+
   it('should handle cancel flow', () => {
     const push = jest.fn();
     jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({ push }));
 
     const { getByTestId } = render(withAppContext(<RoleForm {...props} />))
 
-    fireEvent.click(getByTestId('rolesFormButtonCancel'));
+    fireEvent.click(getByTestId('cancelBtn'));
 
     expect(props.onPatchRole).not.toHaveBeenCalled();
     expect(push).toHaveBeenCalledWith('/instellingen/rollen');

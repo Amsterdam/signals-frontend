@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import roles from 'utils/__tests__/fixtures/roles.json';
 
-import { FETCH_ROLES, FETCH_PERMISSIONS, PATCH_ROLE } from 'models/roles/constants';
+import { FETCH_ROLES, FETCH_PERMISSIONS, PATCH_ROLE, SAVE_ROLE } from 'models/roles/constants';
 import { RoleFormContainer, mapDispatchToProps } from '..';
 
 describe('signals/settings/roles/containers/RoleFormContainer', () => {
@@ -22,6 +22,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
       onFetchRoles: jest.fn(),
       onFetchPermissions: jest.fn(),
       onPatchRole: jest.fn(),
+      onSaveRole: jest.fn(),
     };
   });
 
@@ -78,6 +79,11 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
     it('onPatchRole', () => {
       mapDispatchToProps(dispatch).onPatchRole();
       expect(dispatch).toHaveBeenCalledWith({ type: PATCH_ROLE });
+    });
+
+    it('onSaveRole', () => {
+      mapDispatchToProps(dispatch).onSaveRole();
+      expect(dispatch).toHaveBeenCalledWith({ type: SAVE_ROLE });
     });
   });
 });
