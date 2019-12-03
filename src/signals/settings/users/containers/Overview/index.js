@@ -35,7 +35,7 @@ const UsersOverview = ({ pageSize }) => {
    */
   const pageNumFromQueryString = useMemo(() => pageNum && parseInt(pageNum, 10), [pageNum]);
 
-  // subscribe to 'location' changes
+  // subscribe to param changes
   useEffect(() => {
     const pageNumber = pageNumFromQueryString;
 
