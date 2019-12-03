@@ -146,7 +146,7 @@ const Notification = ({ title, message, onClose, className, type, variant }) => 
   let slideUpTimeout;
 
   useEffect(() => {
-    if (variant === VARIANT_ERROR) return undefined;
+    if (variant === VARIANT_ERROR || type === TYPE_GLOBAL) return undefined;
 
     if (hasFocus) {
       global.clearTimeout(onCloseTimeout);
@@ -183,7 +183,7 @@ const Notification = ({ title, message, onClose, className, type, variant }) => 
         onClose();
       }
     }, SLIDEUP_TIMEOUT);
-  }, [slideUpTimeout, SLIDEUP_TIMEOUT, onClose, setSlideUp]);
+  }, [slideUpTimeout]);
 
   const top =
     isFrontOffice && tall
@@ -193,11 +193,12 @@ const Notification = ({ title, message, onClose, className, type, variant }) => 
   return (
     <Wrapper
       className={`${className} ${slideUp && 'slideup'}`}
-      onMouseLeave={() => setHasFocus(false)}
+      data-testid="notification"
       onMouseEnter={() => setHasFocus(true)}
+      onMouseLeave={() => setHasFocus(false)}
       top={top}
-      variant={variant}
       type={type}
+      variant={variant}
     >
       <Row>
         <Column span={12}>
@@ -207,6 +208,7 @@ const Notification = ({ title, message, onClose, className, type, variant }) => 
           </div>
           <CloseButton
             alignTop={Boolean(message)}
+            data-testid="notificationClose"
             icon={<Close onClick={onCloseNotification} />}
             size={20}
             variant="blank"
@@ -219,6 +221,7 @@ const Notification = ({ title, message, onClose, className, type, variant }) => 
 
 Notification.defaultProps = {
   className: '',
+  message: '',
   onClose: null,
   type: TYPE_DEFAULT,
   variant: VARIANT_DEFAULT,
