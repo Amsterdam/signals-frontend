@@ -6,6 +6,8 @@ import roles from 'utils/__tests__/fixtures/roles.json';
 
 import RolesList from '..';
 
+import { ROLE_URL } from '../../../../../../routes';
+
 jest.mock('react-router-dom', () => ({
   __esModule: true,
   ...jest.requireActual('react-router-dom'),
@@ -47,6 +49,6 @@ describe('/signals/settings/roles/components/RolesList', () => {
 
     fireEvent.click(container.querySelector('tr:nth-child(1) td:nth-child(1)'), event);
 
-    expect(push).toHaveBeenCalledWith('/instellingen/rol/2');
+    expect(push).toHaveBeenCalledWith(`${ROLE_URL}/2`);
   });
 });

@@ -7,6 +7,8 @@ import roles from 'utils/__tests__/fixtures/roles.json';
 
 import RoleForm from '..';
 
+import { ROLES_URL } from '../../../../../../routes';
+
 jest.mock('react-router-dom', () => ({
   __esModule: true,
   ...jest.requireActual('react-router-dom'),
@@ -117,6 +119,6 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     fireEvent.click(getByTestId('cancelBtn'));
 
     expect(props.onPatchRole).not.toHaveBeenCalled();
-    expect(push).toHaveBeenCalledWith('/instellingen/rollen');
+    expect(push).toHaveBeenCalledWith(ROLES_URL);
   });
 });
