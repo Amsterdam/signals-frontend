@@ -8,8 +8,9 @@ import NotFoundPage from 'components/NotFoundPage';
 
 import routes, { USERS_PAGED_URL, USER_URL } from './routes';
 import UsersOverviewContainer from './users/containers/Overview';
+import RolesListContainer from './roles/containers/RolesListContainer';
+import RoleFormContainer from './roles/containers/RoleFormContainer';
 import UsersDetailContainer from './users/containers/Detail';
-import RolesOverviewContainer from './roles/containers/RolesOverview';
 
 export const SettingsModule = () => {
   const moduleLocation = useLocation();
@@ -49,10 +50,10 @@ export const SettingsModule = () => {
       />
       <Route exact path={routes.user} component={UsersDetailContainer} />
       <Route exact path={USER_URL} component={UsersDetailContainer} />
-      <Route path={routes.roles} component={RolesOverviewContainer} />
-      <Route path={routes.rol} component={RolesOverviewContainer} />
+      <Route exact path={routes.roles} component={RolesListContainer} />
+      <Route exact path={routes.role} component={RoleFormContainer} />
       <Route component={NotFoundPage} />
-    </Switch>
+    </Switch >
   );
 };
 

@@ -5,12 +5,16 @@ import {
   FETCH_ROLES,
   FETCH_ROLES_SUCCESS,
   FETCH_ROLES_ERROR,
+  FETCH_PERMISSIONS,
+  FETCH_PERMISSIONS_SUCCESS,
+  FETCH_PERMISSIONS_ERROR,
   SAVE_ROLE,
   SAVE_ROLE_SUCCESS,
   SAVE_ROLE_ERROR,
   PATCH_ROLE,
   PATCH_ROLE_SUCCESS,
   PATCH_ROLE_ERROR,
+  RESET_RESPONSE,
 }
   from './constants';
 
@@ -26,10 +30,14 @@ describe('rolesReducer', () => {
       }).toJS()
     ).toEqual({
       list: [],
+      permissions: [],
       loading: true,
+      loadingPermissions: false,
       saving: false,
       patching: false,
       error: false,
+      responseSuccess: false,
+      responseError: false,
     });
   });
 
@@ -42,10 +50,14 @@ describe('rolesReducer', () => {
       }).toJS()
     ).toEqual({
       list: payload,
+      permissions: [],
       loading: false,
+      loadingPermissions: false,
       saving: false,
       patching: false,
       error: false,
+      responseSuccess: false,
+      responseError: false,
     });
   });
 
@@ -56,10 +68,70 @@ describe('rolesReducer', () => {
       }).toJS()
     ).toEqual({
       list: [],
+      permissions: [],
       loading: false,
+      loadingPermissions: false,
       saving: false,
       patching: false,
       error: true,
+      responseSuccess: false,
+      responseError: false,
+    });
+  });
+
+  it('FETCH_PERMISSIONS', () => {
+    expect(
+      rolesReducer(undefined, {
+        type: FETCH_PERMISSIONS,
+      }).toJS()
+    ).toEqual({
+      list: [],
+      permissions: [],
+      loading: false,
+      loadingPermissions: true,
+      saving: false,
+      patching: false,
+      error: false,
+      responseSuccess: false,
+      responseError: false,
+    });
+  });
+
+  it('FETCH_PERMISSIONS_SUCCESS', () => {
+    const payload = [{ id: 142 }];
+    expect(
+      rolesReducer(undefined, {
+        type: FETCH_PERMISSIONS_SUCCESS,
+        payload,
+      }).toJS()
+    ).toEqual({
+      list: [],
+      permissions: payload,
+      loading: false,
+      loadingPermissions: false,
+      saving: false,
+      patching: false,
+      error: false,
+      responseSuccess: false,
+      responseError: false,
+    });
+  });
+
+  it('FETCH_PERMISSIONS_ERROR', () => {
+    expect(
+      rolesReducer(undefined, {
+        type: FETCH_PERMISSIONS_ERROR,
+      }).toJS()
+    ).toEqual({
+      list: [],
+      permissions: [],
+      loading: false,
+      loadingPermissions: false,
+      saving: false,
+      patching: false,
+      error: true,
+      responseSuccess: false,
+      responseError: false,
     });
   });
 
@@ -70,10 +142,14 @@ describe('rolesReducer', () => {
       }).toJS()
     ).toEqual({
       list: [],
+      permissions: [],
       loading: false,
+      loadingPermissions: false,
       saving: true,
       patching: false,
       error: false,
+      responseSuccess: false,
+      responseError: false,
     });
   });
 
@@ -86,7 +162,8 @@ describe('rolesReducer', () => {
     ).toEqual({
       list: [{ id: 42 }, { id: 43 }],
       saving: false,
-      error: false,
+      responseSuccess: true,
+      responseError: false,
     });
   });
 
@@ -97,10 +174,14 @@ describe('rolesReducer', () => {
       }).toJS()
     ).toEqual({
       list: [],
+      permissions: [],
       loading: false,
+      loadingPermissions: false,
       saving: false,
       patching: false,
-      error: true,
+      error: false,
+      responseSuccess: false,
+      responseError: true,
     });
   });
 
@@ -111,10 +192,14 @@ describe('rolesReducer', () => {
       }).toJS()
     ).toEqual({
       list: [],
+      permissions: [],
       loading: false,
+      loadingPermissions: false,
       saving: false,
       patching: true,
       error: false,
+      responseSuccess: false,
+      responseError: false,
     });
   });
 
@@ -127,7 +212,8 @@ describe('rolesReducer', () => {
     ).toEqual({
       list: [{ id: 41 }, { id: 42, name: 'bar' }, { id: 43 }],
       patching: false,
-      error: false,
+      responseSuccess: true,
+      responseError: false,
     });
   });
 
@@ -140,7 +226,8 @@ describe('rolesReducer', () => {
     ).toEqual({
       list: [{ id: 41 }, { id: 42 }, { id: 43 }],
       patching: false,
-      error: false,
+      responseSuccess: true,
+      responseError: false,
     });
   });
 
@@ -151,10 +238,32 @@ describe('rolesReducer', () => {
       }).toJS()
     ).toEqual({
       list: [],
+      permissions: [],
       loading: false,
+      loadingPermissions: false,
       saving: false,
       patching: false,
-      error: true,
+      error: false,
+      responseSuccess: false,
+      responseError: true,
+    });
+  });
+
+  it('RESET_RESPONSE', () => {
+    expect(
+      rolesReducer(undefined, {
+        type: RESET_RESPONSE,
+      }).toJS()
+    ).toEqual({
+      list: [],
+      permissions: [],
+      loading: false,
+      loadingPermissions: false,
+      saving: false,
+      patching: false,
+      error: false,
+      responseSuccess: false,
+      responseError: false,
     });
   });
 });

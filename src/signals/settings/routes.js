@@ -10,7 +10,7 @@ const routes = {
   usersPaged: `${USERS_PAGED_URL}/:pageNum(\\d+)`,
   user: `${USER_URL}/:userId(\\d+)`,
   roles: ROLES_URL,
-  rol: `${ROLE_URL}/:userId(\\d+)`,
+  role: `${ROLE_URL}/:roleId(\\d+)`,
 };
 
 export default routes;
