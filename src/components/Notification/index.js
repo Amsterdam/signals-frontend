@@ -133,8 +133,9 @@ const CloseButton = styled(Button)`
 `;
 
 /**
- * Component that shows a title, a close button and, optionally, a message in a full-width bar with a coloured background
- * The component slides up automatically after eight seconds, but only when its variant is not VARIANT_ERROR.
+ * Component that shows a title, a close button and, optionally, a message in a full-width bar with
+ * a coloured background. The component slides up automatically after eight seconds, but only when
+ * its variant is not VARIANT_ERROR and its type is not TYPE_GLOBAL.
  */
 const Notification = ({
   title,
