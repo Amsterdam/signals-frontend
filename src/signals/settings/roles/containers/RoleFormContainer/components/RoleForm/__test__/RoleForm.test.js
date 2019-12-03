@@ -33,7 +33,6 @@ describe('/signals/settings/roles/components/RoleForm', () => {
   it('should render correctly', () => {
     const { container, queryByTestId } = render(withAppContext(<RoleForm {...props} />))
 
-    expect(queryByTestId('rolesFormForm')).toBeInTheDocument();
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('behandelaars');
 
     expect(container.querySelectorAll('input[type="checkbox"]').length).toBe(12);
