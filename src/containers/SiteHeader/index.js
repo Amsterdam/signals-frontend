@@ -8,12 +8,12 @@ import SiteHeader from 'components/SiteHeader';
 
 import { doLogout } from '../App/actions';
 
-export const SiteHeaderContainer = ({ onLogout, permissions }) => (
-  <SiteHeader onSignOut={onLogout} permissions={permissions} />
+export const SiteHeaderContainer = ({ onLogOut, permissions }) => (
+  <SiteHeader onLogOut={onLogOut} permissions={permissions} />
 );
 
 SiteHeaderContainer.propTypes = {
-  onLogout: PropTypes.func,
+  onLogOut: PropTypes.func,
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
@@ -24,7 +24,7 @@ const mapStateToProps = createStructuredSelector({
 export const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      onLogout: doLogout,
+      onLogOut: doLogout,
     },
     dispatch
   );

@@ -183,7 +183,7 @@ const HeaderWrapper = styled.div`
     `}
 `;
 
-const MenuItems = ({ onSignOut, permissions }) => {
+const MenuItems = ({ onLogOut, permissions }) => {
   const showLogout = isAuthenticated();
 
   return (
@@ -227,7 +227,7 @@ const MenuItems = ({ onSignOut, permissions }) => {
         <MenuItem
           element="button"
           data-testid="logout-button"
-          onClick={onSignOut}
+          onClick={onLogOut}
         >
           <StyledMenuButton
             iconSize={16}
@@ -247,23 +247,22 @@ export const SiteHeader = props => {
   const title = tall ? '' : 'SIA';
 
   const navigation = useMemo(
-    () =>
-      tall ? null : (
-        <Media query={`(max-width: ${BREAKPOINT}px)`}>
-          {matches =>
-            matches ? (
-              <MenuToggle align="right">
-                <MenuItems {...props} />
-              </MenuToggle>
-            ) : (
-              <MenuInline>
-                <MenuItems {...props} />
-              </MenuInline>
-            )
-          }
-        </Media>
-      ),
-    [tall, BREAKPOINT, props.isAuthenticated, props.onSignOut, props.permissions]
+    () => (
+      <Media query={`(max-width: ${BREAKPOINT}px)`}>
+        {matches =>
+          matches ? (
+            <MenuToggle align="right">
+              <MenuItems {...props} />
+            </MenuToggle>
+          ) : (
+            <MenuInline>
+              <MenuItems {...props} />
+            </MenuInline>
+          )
+        }
+      </Media>
+    ),
+    [props]
   );
 
   return (
@@ -279,7 +278,7 @@ export const SiteHeader = props => {
         homeLink="/"
         tall={tall}
         fullWidth={false}
-        navigation={navigation}
+        navigation={tall ? null : navigation}
       />
       <Notification />
     </HeaderWrapper>
@@ -287,13 +286,11 @@ export const SiteHeader = props => {
 };
 
 SiteHeader.defaultProps = {
-  isAuthenticated: false,
-  onSignOut: null,
+  onLogOut: undefined,
 };
 
 SiteHeader.propTypes = {
-  isAuthenticated: PropTypes.bool,
-  onSignOut: PropTypes.func,
+  onLogOut: PropTypes.func,
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
