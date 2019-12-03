@@ -3,10 +3,9 @@ import { render, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import * as reactRouterDom from 'react-router-dom';
 import roles from 'utils/__tests__/fixtures/roles.json';
+import { ROLE_URL } from 'signals/settings/routes';
 
 import RolesList from '..';
-
-import { ROLE_URL } from '../../../../../../routes';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,

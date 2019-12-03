@@ -4,9 +4,9 @@ import styled from '@datapunt/asc-core';
 import { useHistory } from 'react-router-dom';
 
 import ListComponent from 'components/List';
+import { ROLE_URL } from 'signals/settings/routes';
 
 import formatRoles from '../../../../services/formatRoles';
-import { ROLE_URL } from '../../../../../routes';
 
 const StyledListComponent = styled(ListComponent)`
   th:nth-child(1),
@@ -26,7 +26,7 @@ export const RolesList = ({
     if (roleId > -1) {
       history.push(`${ROLE_URL}/${roleId}`);
     }
-  }, [history.push]);
+  }, [history]);
 
   return (
     <div data-testid="rolesList">

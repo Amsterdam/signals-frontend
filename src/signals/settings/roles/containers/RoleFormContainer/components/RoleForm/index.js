@@ -11,7 +11,7 @@ import {
 import Input from 'components/Input';
 import FormFooter from 'components/FormFooter';
 
-import { ROLES_URL } from '../../../../../routes';
+import { ROLES_URL } from 'signals/settings/routes';
 
 const Label = styled(FieldLabel)`
   display: block;
@@ -38,7 +38,7 @@ export const RoleForm = ({
     if (role.id) {
       setName(role.name);
     }
-  }, []);
+  }, [role.id, role.name]);
 
   const handleSubmit = useCallback(e => {
     e.preventDefault();
@@ -68,11 +68,11 @@ export const RoleForm = ({
         onSaveRole(updatedRole);
       }
     }
-  }, [isValid, role]);
+  }, [isValid, onPatchRole, onSaveRole, permissions, role.id]);
 
   const handleCancel = useCallback(() => {
     history.push(ROLES_URL);
-  }, [history.push]);
+  }, [history]);
 
   const handleChangeName = useCallback(e => {
     setName(e.target.value);

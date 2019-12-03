@@ -12,7 +12,7 @@ import PageHeader from 'signals/settings/components/PageHeader';
 
 import makeSelectRolesModel from 'models/roles/selectors';
 import { fetchRoles, resetResponse } from 'models/roles/actions';
-import { ROLE_URL } from '../../../routes';
+import { ROLE_URL } from 'signals/settings/routes';
 
 import RolesList from './components/RolesList';
 

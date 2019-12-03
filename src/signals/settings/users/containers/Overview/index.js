@@ -9,8 +9,8 @@ import ListComponent from 'components/List';
 import Pagination from 'components/Pagination';
 
 import PageHeader from 'signals/settings/components/PageHeader';
+import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes';
 import useFetchUsers from './hooks/useFetchUsers';
-import { USERS_PAGED_URL, USER_URL } from '../../../routes';
 
 const StyledPagination = styled(Pagination)`
   margin-top: ${themeSpacing(12)};

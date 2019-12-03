@@ -13,10 +13,10 @@ import FormAlert from 'components/FormAlert';
 
 import makeSelectRolesModel from 'models/roles/selectors';
 import { fetchRoles, fetchPermissions, patchRole, saveRole } from 'models/roles/actions';
+import { ROLES_URL } from 'signals/settings/routes';
 
 import RoleForm from './components/RoleForm';
 
-import { ROLES_URL } from '../../../routes';
 
 export const RoleFormContainer = ({
   roles: {
@@ -35,7 +35,7 @@ export const RoleFormContainer = ({
   useEffect(() => {
     onFetchRoles();
     onFetchPermissions();
-  }, []);
+  }, [onFetchPermissions, onFetchRoles]);
 
   const { roleId } = useParams();
   const role = list.find(item => item.id === roleId * 1);
