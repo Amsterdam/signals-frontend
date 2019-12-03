@@ -25,7 +25,7 @@ export const RolesListContainer = ({
   useEffect(() => {
     onFetchRoles();
     onResetResponse();
-  }, []);
+  }, [onFetchRoles, onResetResponse]);
 
   return (
     <Fragment>

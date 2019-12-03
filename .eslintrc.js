@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const prettierOptions = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '.prettierrc'), 'utf8'),
+  fs.readFileSync(path.resolve(__dirname, '.prettierrc'), 'utf8')
 );
 
 module.exports = {
@@ -71,6 +71,7 @@ module.exports = {
     'no-use-before-define': 0,
     'prefer-template': 2,
     'react/destructuring-assignment': 0,
+    'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error',
     'react/jsx-closing-bracket-location': [1, 'tag-aligned'],
     'react/jsx-closing-tag-location': 0,

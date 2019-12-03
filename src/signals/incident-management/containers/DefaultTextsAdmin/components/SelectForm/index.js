@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
 
@@ -19,15 +19,22 @@ const form = FormBuilder.group({
 });
 let subs = [];
 
-const SelectForm = ({ subCategories, defaultTextsOptionList, onFetchDefaultTexts }) => {
-  const handleChange = changed => {
-    const newValues = {
-      ...form.value,
-      ...changed,
-    };
+const SelectForm = ({
+  subCategories,
+  defaultTextsOptionList,
+  onFetchDefaultTexts,
+}) => {
+  const handleChange = useCallback(
+    changed => {
+      const newValues = {
+        ...form.value,
+        ...changed,
+      };
 
-    onFetchDefaultTexts(newValues);
-  };
+      onFetchDefaultTexts(newValues);
+    },
+    [onFetchDefaultTexts]
+  );
 
   useEffect(() => {
     form.controls.category_url.valueChanges.subscribe(category_url => {
@@ -50,11 +57,11 @@ const SelectForm = ({ subCategories, defaultTextsOptionList, onFetchDefaultTexts
     form.updateValueAndValidity();
     handleChange({});
 
-    return  () => {
+    return () => {
       form.controls.category_url.valueChanges.unsubscribe();
       form.controls.state.valueChanges.unsubscribe();
-    }
-  }, []);
+    };
+  }, [handleChange]);
 
   useEffect(() => {
     subs = subCategories;
@@ -66,10 +73,7 @@ const SelectForm = ({ subCategories, defaultTextsOptionList, onFetchDefaultTexts
       <FieldGroup
         control={form}
         render={() => (
-          <form
-            data-testid="selectFormForm"
-            className="select-form__form"
-          >
+          <form data-testid="selectFormForm" className="select-form__form">
             <FieldControlWrapper
               render={SelectInput}
               display="Subcategorie"
