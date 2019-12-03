@@ -25,7 +25,7 @@ export const SettingsModule = () => {
 
       setLocation(locWithReferrer);
     }
-  });
+  }, [location.pathname, moduleLocation.pathname, setLocation]);
 
   if (!isAuthenticated()) {
     return <Route component={LoginPage} />;

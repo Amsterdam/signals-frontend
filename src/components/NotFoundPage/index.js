@@ -1,14 +1,19 @@
 import React from 'react';
-import { Row, Column } from '@datapunt/asc-ui';
+import styled from 'styled-components';
+import { Row, Column, Heading, themeSpacing } from '@datapunt/asc-ui';
+
+const StyledHeading = styled(Heading)`
+  margin: ${themeSpacing(5)} 0;
+`;
 
 const NotFoundPage = () => (
   <div className="container" data-testid="notFoundPage">
     <Row>
       <Column span={12}>
         <article>
-          <h1>
+          <StyledHeading>
             Pagina niet gevonden
-          </h1>
+          </StyledHeading>
         </article>
       </Column>
     </Row>

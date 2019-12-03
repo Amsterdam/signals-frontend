@@ -52,8 +52,9 @@ describe('signals/settings', () => {
 
     render(withAppContext(<SettingsModule />));
 
+    // After a change in the URL is picked up by the component, we need to wait till all state updates
+    // have been completed before we perform any assertions. Using async/await to achieve that.
     await act(async () => history.push(`${USER_URL}/1`));
-
     await act(async () => history.push(`${USER_URL}/2`));
 
     const lastUseLocationResult = reactRouterDom.useLocation.mock.results.pop();
