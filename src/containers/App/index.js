@@ -9,7 +9,7 @@ import ThemeProvider from 'components/ThemeProvider';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
-import NotFoundPage from 'containers/NotFoundPage';
+import NotFoundPage from 'components/NotFoundPage';
 import Footer from 'components/Footer';
 import SiteHeaderContainer from 'containers/SiteHeader';
 import GlobalError from 'containers/GlobalError';
