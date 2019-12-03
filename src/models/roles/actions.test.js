@@ -13,7 +13,7 @@ import {
   PATCH_ROLE,
   PATCH_ROLE_SUCCESS,
   PATCH_ROLE_ERROR,
-  RESET_RESONSE,
+  RESET_RESPONSE,
 }
   from './constants';
 
@@ -64,6 +64,6 @@ describe('Incident roles model actions', () => {
   });
 
   it('should be reset', () => {
-    testActionCreator(resetResponse, RESET_RESONSE);
+    testActionCreator(resetResponse, RESET_RESPONSE);
   });
 });
