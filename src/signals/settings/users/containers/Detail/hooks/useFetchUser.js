@@ -54,7 +54,9 @@ const useFetchUser = id => {
     return () => {
       controller.abort();
     };
-  }, []);
+    // linter complains about missing deps although using `controller` and `signal` will throw this component in an endless loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   const modify = method => async userData => {
     setLoading(true);

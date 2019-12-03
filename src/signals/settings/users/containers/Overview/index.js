@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation, useParams, useHistory, Link } from 'react-router-dom';
+import { useParams, useHistory, Link } from 'react-router-dom';
 import { Row, Column, themeSpacing, Button } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
@@ -23,7 +23,6 @@ const HeaderButton = styled(Button)`
 `;
 
 const UsersOverview = ({ pageSize }) => {
-  const location = useLocation();
   const history = useHistory();
   const { pageNum } = useParams();
   const [page, setPage] = useState(1);
@@ -34,18 +33,18 @@ const UsersOverview = ({ pageSize }) => {
    *
    * @returns {number|undefined}
    */
-  const getPageNumFromQueryString = () => pageNum && parseInt(pageNum, 10);
+  const pageNumFromQueryString = useMemo(() => pageNum && parseInt(pageNum, 10), [pageNum]);
 
-  // subscribe to 'location' changes
+  // subscribe to param changes
   useEffect(() => {
-    const pageNumber = getPageNumFromQueryString();
+    const pageNumber = pageNumFromQueryString;
 
     if (pageNumber && pageNumber !== page) {
       setPage(pageNumber);
     }
-  }, [location]);
+  }, [pageNumFromQueryString, page]);
 
-  const onItemClick = e => {
+  const onItemClick = useCallback(e => {
     const {
       currentTarget: {
         dataset: { itemId },
@@ -55,12 +54,12 @@ const UsersOverview = ({ pageSize }) => {
     if (itemId) {
       history.push(`${USER_URL}/${itemId}`);
     }
-  };
+  }, [history]);
 
-  const onPaginationClick = pageToNavigateTo => {
+  const onPaginationClick = useCallback(pageToNavigateTo => {
     global.window.scrollTo(0, 0);
     history.push(`${USERS_PAGED_URL}/${pageToNavigateTo}`);
-  };
+  }, [history]);
 
   return (
     <Fragment>
