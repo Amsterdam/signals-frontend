@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import {
@@ -136,59 +136,70 @@ const CloseButton = styled(Button)`
  * Component that shows a title, a close button and, optionally, a message in a full-width bar with a coloured background
  * The component slides up automatically after eight seconds, but only when its variant is not VARIANT_ERROR.
  */
-const Notification = ({ title, message, onClose, className, type, variant }) => {
+const Notification = ({
+  title,
+  message,
+  onClose,
+  className,
+  type,
+  variant,
+}) => {
   const [hasFocus, setHasFocus] = useState(false);
   const [slideUp, setSlideUp] = useState(false);
   const { isFrontOffice } = useLocation();
   const tall = isFrontOffice && !isAuthenticated();
 
-  let onCloseTimeout;
-  let slideUpTimeout;
+  // persisting timeout IDs across renders
+  const onCloseTimeoutRef = useRef();
+  const slideUpTimeoutRef = useRef();
 
   useEffect(() => {
     if (variant === VARIANT_ERROR || type === TYPE_GLOBAL) return undefined;
 
     if (hasFocus) {
-      global.clearTimeout(onCloseTimeout);
-      global.clearTimeout(slideUpTimeout);
+      global.clearTimeout(onCloseTimeoutRef.current);
+      global.clearTimeout(slideUpTimeoutRef.current);
     } else {
-      slideUpTimeout = global.setTimeout(() => {
-        global.clearTimeout(slideUpTimeout);
+      const slideUpTimeoutId = global.setTimeout(() => {
+        global.clearTimeout(slideUpTimeoutRef.current);
 
         setSlideUp(true);
       }, ONCLOSE_TIMEOUT);
 
-      onCloseTimeout = global.setTimeout(() => {
-        global.clearTimeout(onCloseTimeout);
+      slideUpTimeoutRef.current = slideUpTimeoutId;
 
+      const onCloseTimeoutId = global.setTimeout(() => {
+        global.clearTimeout(onCloseTimeoutRef.current);
+
+        /* istanbul ignore else */
         if (typeof onClose === 'function') {
           onClose();
         }
       }, ONCLOSE_TIMEOUT + SLIDEUP_TIMEOUT);
+
+      onCloseTimeoutRef.current = onCloseTimeoutId;
     }
 
     return () => {
-      global.clearTimeout(onCloseTimeout);
-      global.clearTimeout(slideUpTimeout);
+      global.clearTimeout(onCloseTimeoutRef.current);
+      global.clearTimeout(slideUpTimeoutRef.current);
     };
-  }, [hasFocus, onCloseTimeout, slideUpTimeout, variant]);
+  }, [hasFocus, onClose, type, variant]);
 
   const onCloseNotification = useCallback(() => {
     setSlideUp(true);
 
-    slideUpTimeout = global.setTimeout(() => {
-      global.clearTimeout(slideUpTimeout);
+    const slideUpTimeoutId = global.setTimeout(() => {
+      global.clearTimeout(slideUpTimeoutRef.current);
 
+      /* istanbul ignore else */
       if (typeof onClose === 'function') {
         onClose();
       }
     }, SLIDEUP_TIMEOUT);
-  }, [slideUpTimeout]);
 
-  const top =
-    isFrontOffice && tall
-      ? SITE_HEADER_HEIGHT_TALL
-      : SITE_HEADER_HEIGHT_SHORT;
+    slideUpTimeoutRef.current = slideUpTimeoutId;
+  }, [onClose]);
 
   return (
     <Wrapper
@@ -196,7 +207,7 @@ const Notification = ({ title, message, onClose, className, type, variant }) => 
       data-testid="notification"
       onMouseEnter={() => setHasFocus(true)}
       onMouseLeave={() => setHasFocus(false)}
-      top={top}
+      top={tall ? SITE_HEADER_HEIGHT_TALL : SITE_HEADER_HEIGHT_SHORT}
       type={type}
       variant={variant}
     >
@@ -209,8 +220,10 @@ const Notification = ({ title, message, onClose, className, type, variant }) => 
           <CloseButton
             alignTop={Boolean(message)}
             data-testid="notificationClose"
-            icon={<Close onClick={onCloseNotification} />}
+            icon={<Close />}
+            onClick={onCloseNotification}
             size={20}
+            type="button"
             variant="blank"
           />
         </Column>

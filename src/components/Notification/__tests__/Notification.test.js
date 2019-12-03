@@ -267,7 +267,7 @@ describe('components/Notification', () => {
     expect(getClearTimeoutCalls()).toHaveLength(4);
   });
 
-  it('resets the timer when the component receives a mouse enter event', () => {
+  it('clears the timer when the component receives a mouse enter event', () => {
     const onClose = jest.fn();
 
     expect(getSetTimeoutCalls()).toHaveLength(0);
@@ -288,7 +288,7 @@ describe('components/Notification', () => {
     expect(getClearTimeoutCalls()).toHaveLength(0);
 
     act(() => {
-      fireEvent.mouseOver(getByTestId('notification'), { bubbles: true });
+      fireEvent.mouseOver(getByTestId('notification'));
     });
 
     act(() => {
@@ -296,7 +296,7 @@ describe('components/Notification', () => {
     });
 
     expect(getSetTimeoutCalls()).toHaveLength(2);
-    expect(getClearTimeoutCalls()).toHaveLength(2);
+    expect(getClearTimeoutCalls()).toHaveLength(4); // clearTimeout calls on update and unmount
     expect(onClose).not.toHaveBeenCalled();
   });
 
@@ -310,7 +310,7 @@ describe('components/Notification', () => {
     );
 
     act(() => {
-      fireEvent.mouseOver(getByTestId('notification'), { bubbles: true });
+      fireEvent.mouseOver(getByTestId('notification'));
     });
 
     act(() => {
@@ -320,7 +320,7 @@ describe('components/Notification', () => {
     expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
-      fireEvent.mouseOut(getByTestId('notification'), { bubbles: true });
+      fireEvent.mouseOut(getByTestId('notification'));
     });
 
     act(() => {
@@ -333,35 +333,28 @@ describe('components/Notification', () => {
   it('hides when the close button is clicked', () => {
     const onClose = jest.fn();
 
-    expect(getSetTimeoutCalls()).toHaveLength(0);
-    expect(getClearTimeoutCalls()).toHaveLength(0);
-
     const { container, getByTestId } = render(
       withAppContext(<Notification title="Foo bar" onClose={onClose} />)
     );
 
-    expect(getSetTimeoutCalls()).toHaveLength(2);
-    expect(getClearTimeoutCalls()).toHaveLength(0);
     expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
-      jest.runAllTimers();
+      fireEvent.mouseOver(getByTestId('notification'));
     });
 
     act(() => {
-      fireEvent.click(getByTestId('notificationClose'), { bubbles: true });
+      fireEvent.click(getByTestId('notificationClose'));
     });
 
-    expect(onClose).toHaveBeenCalledTimes(1);
     expect(container.firstChild.classList.contains('slideup')).toEqual(true);
 
+    expect(onClose).toHaveBeenCalledTimes(0);
+
     act(() => {
-      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
     });
 
     expect(onClose).toHaveBeenCalledTimes(1);
-
-    expect(getSetTimeoutCalls()).toHaveLength(2);
-    expect(getClearTimeoutCalls()).toHaveLength(2);
   });
 });
