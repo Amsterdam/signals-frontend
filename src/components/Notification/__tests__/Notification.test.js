@@ -44,7 +44,6 @@ describe('components/Notification', () => {
   beforeEach(() => {
     global.setTimeout.mock.calls = [];
     global.clearTimeout.mock.calls = [];
-    jest.clearAllTimers();
   });
 
   it('renders correctly when not logged in', () => {
