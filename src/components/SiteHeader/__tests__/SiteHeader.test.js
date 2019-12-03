@@ -6,7 +6,7 @@ import {
 } from '@testing-library/react';
 import MatchMediaMock from 'match-media-mock';
 
-import SiteHeader, { breakpoint } from '../index';
+import SiteHeader, { BREAKPOINT } from '../index';
 import { withAppContext } from '../../../test/utils';
 
 const mmm = MatchMediaMock.create();
@@ -15,7 +15,7 @@ describe('components/SiteHeader', () => {
   afterEach(cleanup);
 
   beforeEach(() => {
-    mmm.setConfig({ type: 'screen', width: breakpoint + 1 });
+    mmm.setConfig({ type: 'screen', width: BREAKPOINT + 1 });
 
     // eslint-disable-next-line no-undef
     Object.defineProperty(window, 'matchMedia', {
@@ -37,7 +37,7 @@ describe('components/SiteHeader', () => {
     expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(0);
 
     // narrow window toggle
-    mmm.setConfig({ type: 'screen', width: breakpoint - 1 });
+    mmm.setConfig({ type: 'screen', width: BREAKPOINT - 1 });
 
     // eslint-disable-next-line no-undef
     Object.defineProperty(window, 'matchMedia', {
@@ -67,7 +67,7 @@ describe('components/SiteHeader', () => {
     expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(1);
 
     // narrow window toggle
-    mmm.setConfig({ type: 'screen', width: breakpoint - 1 });
+    mmm.setConfig({ type: 'screen', width: BREAKPOINT - 1 });
 
     // eslint-disable-next-line no-undef
     Object.defineProperty(window, 'matchMedia', {

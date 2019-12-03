@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import { act } from 'react-dom/test-utils';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 import { SiteHeaderContainer, mapDispatchToProps } from '../index';
@@ -35,7 +36,10 @@ describe('containers/SiteHeader', () => {
       const wrapper = shallow(<SiteHeaderContainer {...props} />);
 
       const domain = 'the-login-domain';
-      expect(wrapper.instance().onLoginLogoutButtonClick(event, domain));
+      act(() => {
+        wrapper.instance().onLoginLogoutButtonClick(event, domain);
+      });
+
       expect(props.onLogin).toHaveBeenCalledWith(domain);
     });
 

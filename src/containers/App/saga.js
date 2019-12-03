@@ -15,7 +15,7 @@ import mapCategories from 'shared/services/map-categories';
 import { login, logout, getOauthDomain } from 'shared/services/auth/auth';
 import fileUploadChannel from 'shared/services/file-upload-channel';
 
-import { TYPE_ERROR } from 'components/Notification';
+import { VARIANT_ERROR } from 'containers/Notification/constants';
 
 import {
   LOGOUT,
@@ -42,7 +42,7 @@ export function* callLogin(action) {
     yield call(login, action.payload);
   } catch (error) {
     yield put(loginFailed(error.message));
-    yield put(showGlobalNotification(TYPE_ERROR, 'Inloggen is niet gelukt'));
+    yield put(showGlobalNotification({ variant: VARIANT_ERROR, title: 'Inloggen is niet gelukt' }));
   }
 }
 
@@ -61,7 +61,7 @@ export function* callLogout() {
     yield put(push('/'));
   } catch (error) {
     yield put(logoutFailed(error.message));
-    yield put(showGlobalNotification(TYPE_ERROR, 'Uitloggen is niet gelukt'));
+    yield put(showGlobalNotification({ variant: VARIANT_ERROR, title: 'Uitloggen is niet gelukt' }));
   }
 }
 
@@ -87,7 +87,7 @@ export function* callAuthorize(action) {
       yield call(logout);
       yield put(push('/login'));
     } else {
-      yield put(showGlobalNotification(TYPE_ERROR, 'Authenticeren is niet gelukt'));
+      yield put(showGlobalNotification({ variant: VARIANT_ERROR, title: 'Authenticeren is niet gelukt' }));
     }
   }
 }
@@ -100,7 +100,7 @@ export function* fetchCategories() {
 
     yield put(requestCategoriesSuccess(mapCategories(categories)));
   } catch (err) {
-    yield put(showGlobalNotification(TYPE_ERROR, 'Inladen van categorieën is niet gelukt', 'Het kan zijn dat de API tijdelijk niet beschikbaar is. Herlaad de pagina'));
+    yield put(showGlobalNotification({ variant: VARIANT_ERROR, title: 'Inladen van categorieën is niet gelukt', message: 'Het kan zijn dat de API tijdelijk niet beschikbaar is. Herlaad de pagina' }));
   }
 }
 
@@ -122,7 +122,7 @@ export function* uploadFile(action) {
     const { progress = 0, error, success } = yield take(channel);
     if (error) {
       yield put(uploadFailure());
-      yield put(showGlobalNotification(TYPE_ERROR, 'Het uploaden van de foto is niet gelukt'));
+      yield put(showGlobalNotification({ variant: VARIANT_ERROR, title: 'Het uploaden van de foto is niet gelukt' }));
       return;
     }
     if (success) {

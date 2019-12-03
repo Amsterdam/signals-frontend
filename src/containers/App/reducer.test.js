@@ -9,8 +9,8 @@ import {
   LOGOUT_FAILED,
   LOGOUT,
   REQUEST_CATEGORIES_SUCCESS,
-  RESET_GLOBAL_ERROR,
-  SHOW_GLOBAL_ERROR,
+  RESET_GLOBAL_NOTIFICATION,
+  SHOW_GLOBAL_NOTIFICATION,
   UPLOAD_FAILURE,
   UPLOAD_PROGRESS,
   UPLOAD_REQUEST,
@@ -60,11 +60,11 @@ describe('appReducer', () => {
     });
   });
 
-  describe('SHOW_GLOBAL_ERROR', () => {
+  describe('SHOW_GLOBAL_NOTIFICATION', () => {
     it('sets global error message', () => {
       expect(
         appReducer(fromJS({}), {
-          type: SHOW_GLOBAL_ERROR,
+          type: SHOW_GLOBAL_NOTIFICATION,
           payload: 'ERROR_MESSAGE',
         }).toJS(),
       ).toEqual({
@@ -75,11 +75,11 @@ describe('appReducer', () => {
     });
   });
 
-  describe('RESET_GLOBAL_ERROR', () => {
+  describe('RESET_GLOBAL_NOTIFICATION', () => {
     it('resets global error message', () => {
       expect(
         appReducer(fromJS({}), {
-          type: RESET_GLOBAL_ERROR,
+          type: RESET_GLOBAL_NOTIFICATION,
         }).toJS(),
       ).toEqual({
         error: false,

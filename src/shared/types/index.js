@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { isDate } from 'utils';
+import { VARIANT_ERROR, VARIANT_NOTICE, VARIANT_SUCCESS, TYPE_GLOBAL, TYPE_LOCAL } from 'containers/Notification/constants';
 
 const dateTypeFactory = isRequired =>
   /**
@@ -203,4 +204,11 @@ export const overviewPageType = PropTypes.shape({
   filter: filterType,
   page: PropTypes.number,
   sort: PropTypes.string,
+});
+
+export const notificationType = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  message: PropTypes.string,
+  type: PropTypes.oneOf([TYPE_LOCAL, TYPE_GLOBAL]),
+  variant: PropTypes.oneOf([VARIANT_ERROR, VARIANT_NOTICE, VARIANT_SUCCESS]),
 });

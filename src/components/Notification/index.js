@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import {
@@ -11,24 +11,40 @@ import {
   themeSpacing,
 } from '@datapunt/asc-ui';
 import { Close } from '@datapunt/asc-assets';
+import { ascDefaultTheme as theme } from '@datapunt/asc-core';
+import {
+  SITE_HEADER_BOTTOM_GAP_HEIGHT,
+  SITE_HEADER_HEIGHT_SHORT,
+  SITE_HEADER_HEIGHT_TALL,
+} from 'containers/SiteHeader/constants';
 
-export const TYPE_ERROR = 'error';
-export const TYPE_NOTICE = 'notice';
-export const TYPE_SUCCESS = 'success';
-export const TYPE_DEFAULT = TYPE_NOTICE;
+import {
+  ONCLOSE_TIMEOUT,
+  SLIDEUP_TIMEOUT,
+  TYPE_DEFAULT,
+  TYPE_GLOBAL,
+  TYPE_LOCAL,
+  VARIANT_DEFAULT,
+  VARIANT_ERROR,
+  VARIANT_NOTICE,
+  VARIANT_SUCCESS,
+} from 'containers/Notification/constants';
+import { isAuthenticated } from 'shared/services/auth/auth';
+import useLocation from 'hooks/useLocation';
 
-export const ONCLOSE_TIMEOUT = 8000;
-export const SLIDEUP_TIMEOUT = 300;
+export const BG_COLOR_ERROR = themeColor('support', 'invalid')({ theme });
+export const BG_COLOR_NOTICE = themeColor('primary')({ theme });
+export const BG_COLOR_SUCCESS = themeColor('support', 'valid')({ theme });
 
 const Wrapper = styled.div`
-  background-color: ${({ type }) => {
-    switch (type) {
-      case TYPE_ERROR:
-        return themeColor('support', 'invalid');
-      case TYPE_SUCCESS:
-        return themeColor('support', 'valid');
+  background-color: ${({ variant }) => {
+    switch (variant) {
+      case VARIANT_ERROR:
+        return BG_COLOR_ERROR;
+      case VARIANT_SUCCESS:
+        return BG_COLOR_SUCCESS;
       default:
-        return themeColor('primary');
+        return BG_COLOR_NOTICE;
     }
   }};
 
@@ -36,11 +52,12 @@ const Wrapper = styled.div`
   display: flex;
   margin-left: 50vw;
   max-width: 1400px;
-  min-height: 44px;
-  position: fixed;
-  top: ${({ isFrontOffice, tall }) => (isFrontOffice && tall ? 116 : 50)}px;
+  min-height: ${SITE_HEADER_BOTTOM_GAP_HEIGHT}px;
+  position: ${({ top }) =>
+    top === SITE_HEADER_HEIGHT_TALL ? 'absolute' : 'fixed'};
+  top: ${({ top }) => top}px;
   transform: translateX(-50vw) translateY(0);
-  transition: transform ${SLIDEUP_TIMEOUT}ms ease-in;
+  transition: transform ${SLIDEUP_TIMEOUT}ms ease-out;
   width: 100vw;
   will-change: transform;
   z-index: 1;
@@ -51,11 +68,13 @@ const Wrapper = styled.div`
   }
 
   &.slideup {
-    transform: translateX(-50vw) translateY(-116px);
+    ${({ top }) => css`
+      transform: translateX(-50vw) translateY(-${top}px);
 
-    @media (min-width: 1400px) {
-      transform: translateX(-50%) translateY(-116px);
-    }
+      @media (min-width: 1400px) {
+        transform: translateX(-50%) translateY(-${top}px);
+      }
+    `}
   }
 
   @media (min-width: 1400px) {
@@ -115,16 +134,19 @@ const CloseButton = styled(Button)`
 
 /**
  * Component that shows a title, a close button and, optionally, a message in a full-width bar with a coloured background
+ * The component slides up automatically after eight seconds, but only when its variant is not VARIANT_ERROR.
  */
-const Notification = ({ title, message, onClose, className, type }) => {
+const Notification = ({ title, message, onClose, className, type, variant }) => {
   const [hasFocus, setHasFocus] = useState(false);
   const [slideUp, setSlideUp] = useState(false);
+  const { isFrontOffice } = useLocation();
+  const tall = isFrontOffice && !isAuthenticated();
 
   let onCloseTimeout;
   let slideUpTimeout;
 
   useEffect(() => {
-    if (type === TYPE_ERROR) return undefined;
+    if (variant === VARIANT_ERROR) return undefined;
 
     if (hasFocus) {
       global.clearTimeout(onCloseTimeout);
@@ -132,7 +154,10 @@ const Notification = ({ title, message, onClose, className, type }) => {
     } else {
       onCloseTimeout = global.setTimeout(() => {
         global.clearTimeout(onCloseTimeout);
-        onClose();
+
+        if (typeof onClose === 'function') {
+          onClose();
+        }
       }, ONCLOSE_TIMEOUT + SLIDEUP_TIMEOUT);
 
       slideUpTimeout = global.setTimeout(() => {
@@ -145,13 +170,32 @@ const Notification = ({ title, message, onClose, className, type }) => {
       global.clearTimeout(onCloseTimeout);
       global.clearTimeout(slideUpTimeout);
     };
-  }, [hasFocus, onCloseTimeout, slideUpTimeout, type]);
+  }, [hasFocus, onCloseTimeout, slideUpTimeout, variant]);
+
+  const onCloseNotification = useCallback(() => {
+    setSlideUp(true);
+
+    slideUpTimeout = global.setTimeout(() => {
+      global.clearTimeout(slideUpTimeout);
+
+      if (typeof onClose === 'function') {
+        onClose();
+      }
+    }, SLIDEUP_TIMEOUT);
+  }, [slideUpTimeout, SLIDEUP_TIMEOUT, onClose, setSlideUp]);
+
+  const top =
+    isFrontOffice && tall
+      ? SITE_HEADER_HEIGHT_TALL
+      : SITE_HEADER_HEIGHT_SHORT;
 
   return (
     <Wrapper
       className={`${className} ${slideUp && 'slideup'}`}
       onMouseLeave={() => setHasFocus(false)}
       onMouseEnter={() => setHasFocus(true)}
+      top={top}
+      variant={variant}
       type={type}
     >
       <Row>
@@ -162,7 +206,7 @@ const Notification = ({ title, message, onClose, className, type }) => {
           </div>
           <CloseButton
             alignTop={Boolean(message)}
-            icon={<Close onClick={onClose} />}
+            icon={<Close onClick={onCloseNotification} />}
             size={20}
             variant="blank"
           />
@@ -175,15 +219,23 @@ const Notification = ({ title, message, onClose, className, type }) => {
 Notification.defaultProps = {
   className: '',
   onClose: null,
-  type: TYPE_NOTICE,
+  type: TYPE_DEFAULT,
+  variant: VARIANT_DEFAULT,
 };
 
 Notification.propTypes = {
+  /** @ignore */
   className: PropTypes.string,
+  /** Optional notifaction description */
   message: PropTypes.string,
+  /** Close button callback handler */
   onClose: PropTypes.func,
+  /** Short, descriptive notice */
   title: PropTypes.string.isRequired,
-  type: PropTypes.oneOf([TYPE_ERROR, TYPE_NOTICE, TYPE_SUCCESS]),
+  /** One of two possible scopes */
+  type: PropTypes.oneOf([TYPE_GLOBAL, TYPE_LOCAL]),
+  /** One of three possible appearance variants */
+  variant: PropTypes.oneOf([VARIANT_ERROR, VARIANT_NOTICE, VARIANT_SUCCESS]),
 };
 
 export default Notification;

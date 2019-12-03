@@ -13,7 +13,7 @@
 import { fromJS } from 'immutable';
 
 import { ACCESS_TOKEN } from 'shared/services/auth/auth';
-import { TYPE_DEFAULT } from 'components/Notification';
+import { VARIANT_DEFAULT, TYPE_DEFAULT } from 'containers/Notification/constants';
 
 import {
   AUTHORIZE_USER,
@@ -42,6 +42,7 @@ export const initialState = fromJS({
   notification: {
     message: '',
     title: '',
+    variant: VARIANT_DEFAULT,
     type: TYPE_DEFAULT,
   },
   upload: {},

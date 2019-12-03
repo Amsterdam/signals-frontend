@@ -9,7 +9,7 @@ import { throwError } from 'redux-saga-test-plan/providers';
 import { authCall } from 'shared/services/api/api';
 import stateTokenGenerator from 'shared/services/auth/services/state-token-generator/state-token-generator';
 
-import { TYPE_ERROR } from 'components/Notification';
+import { VARIANT_ERROR } from 'containers/Notification/constants';
 
 import watchAppSaga, {
   callLogin,
@@ -115,7 +115,7 @@ describe('App saga', () => {
         .put(
           loginFailed('crypto library is not available on the current browser')
         )
-        .put(showGlobalNotification(TYPE_ERROR, 'LOGIN_FAILED'))
+        .put(showGlobalNotification({ variant: VARIANT_ERROR, title: 'LOGIN_FAILED' }))
         .run();
     });
   });
@@ -159,7 +159,7 @@ describe('App saga', () => {
       return expectSaga(callLogout)
         .call(logout)
         .put(logoutFailed(message))
-        .put(showGlobalNotification(TYPE_ERROR, 'LOGOUT_FAILED'))
+        .put(showGlobalNotification({ variant: VARIANT_ERROR, title: 'LOGOUT_FAILED' }))
         .run();
     });
   });
@@ -216,7 +216,7 @@ describe('App saga', () => {
 
       return expectSaga(callAuthorize, action)
         .provide([[matchers.call.fn(authCall), throwError(errorObj)]])
-        .put(showGlobalNotification(TYPE_ERROR, 'AUTHORIZE_FAILED'))
+        .put(showGlobalNotification({ variant: VARIANT_ERROR, title: 'AUTHORIZE_FAILED' }))
         .run();
     });
 
@@ -258,7 +258,7 @@ describe('App saga', () => {
       return expectSaga(fetchCategories)
         .provide([[matchers.call.fn(request), throwError(error)]])
         .call(request, requestURL)
-        .put(showGlobalNotification(TYPE_ERROR, 'FETCH_CATEGORIES_FAILED'))
+        .put(showGlobalNotification({ variant: VARIANT_ERROR, title: 'FETCH_CATEGORIES_FAILED' }))
         .run();
     });
   });
@@ -346,7 +346,7 @@ describe('App saga', () => {
         }).value
       ).toEqual(put(uploadFailure())); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next().value).toEqual(
-        put(showGlobalNotification(TYPE_ERROR, 'UPLOAD_FAILED'))
+        put(showGlobalNotification({ variant: VARIANT_ERROR, title: 'UPLOAD_FAILED' }))
       ); // eslint-disable-line redux-saga/yield-effects
 
       expect(gen.next().value).toBeUndefined();

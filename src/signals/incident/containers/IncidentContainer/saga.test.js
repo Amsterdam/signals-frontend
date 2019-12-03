@@ -10,7 +10,7 @@ import incident from 'utils/__tests__/fixtures/incident.json';
 import priority from 'utils/__tests__/fixtures/priority.json';
 import { showGlobalNotification } from 'containers/App/actions';
 import { UPLOAD_REQUEST } from 'containers/App/constants';
-import { TYPE_ERROR } from 'components/Notification';
+import { VARIANT_ERROR } from 'containers/Notification/constants';
 import mapControlsToParams from '../../services/map-controls-to-params';
 
 import {
@@ -254,6 +254,6 @@ describe('setPriorityHandler', () => {
       ])
       .call(authPostCall, PRIORITY_REQUEST_URL, payload)
       .put(setPriorityError())
-      .put(showGlobalNotification(TYPE_ERROR, 'Het zetten van de urgentie van deze melding is niet gelukt'))
+      .put(showGlobalNotification({ variant: VARIANT_ERROR, title: 'Het zetten van de urgentie van deze melding is niet gelukt' }))
       .run());
 });

@@ -6,7 +6,7 @@ import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import { uploadRequest, showGlobalNotification } from 'containers/App/actions';
 import { makeSelectCategories } from 'containers/App/selectors';
-import { TYPE_ERROR } from 'components/Notification';
+import { VARIANT_ERROR } from 'containers/Notification/constants';
 
 import { CREATE_INCIDENT, GET_CLASSIFICATION, SET_PRIORITY } from './constants';
 import {
@@ -112,7 +112,7 @@ export function* setPriorityHandler(action) {
     yield put(setPrioritySuccess(result));
   } catch (error) {
     yield put(setPriorityError());
-    yield put(showGlobalNotification(TYPE_ERROR, 'Het zetten van de urgentie van deze melding is niet gelukt'));
+    yield put(showGlobalNotification({ variant: VARIANT_ERROR, title: 'Het zetten van de urgentie van deze melding is niet gelukt' }));
   }
 }
 

@@ -43,14 +43,10 @@ export function authorizeUser(credentials) {
   };
 }
 
-export function showGlobalNotification(type, title, message) {
+export function showGlobalNotification(payload) {
   return {
     type: SHOW_GLOBAL_NOTIFICATION,
-    payload: {
-      message,
-      title,
-      type,
-    },
+    payload,
   };
 }
 

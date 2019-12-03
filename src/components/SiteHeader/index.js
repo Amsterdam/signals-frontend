@@ -1,6 +1,6 @@
 import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
@@ -16,10 +16,16 @@ import {
 } from '@datapunt/asc-ui';
 
 import SearchBar from 'containers/SearchBar';
+import {
+  SITE_HEADER_HEIGHT_TALL,
+  SITE_HEADER_BOTTOM_GAP_HEIGHT,
+} from 'containers/SiteHeader/constants';
 
-import Notification from '../Notification';
+import Notification from 'containers/Notification';
+import useLocation from 'hooks/useLocation';
+import { isAuthenticated } from 'shared/services/auth/auth';
 
-export const breakpoint = 1100;
+export const BREAKPOINT = 1100;
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
@@ -81,7 +87,7 @@ const SearchBarMenuItem = styled(MenuItem)`
   margin-right: 0;
   max-width: 365px;
 
-  @media screen and (min-width: ${breakpoint + 1}px) {
+  @media screen and (min-width: ${BREAKPOINT + 1}px) {
     margin-right: auto;
     flex-basis: 365px;
   }
@@ -92,8 +98,6 @@ const StyledSearchBar = styled(SearchBar)`
 `;
 
 const HeaderWrapper = styled.div`
-  ${({ showError }) => showError && css``}
-
   ${({ tall }) =>
     !tall &&
     css`
@@ -112,12 +116,12 @@ const HeaderWrapper = styled.div`
         position: static;
 
         header {
-          height: 160px;
+          height: ${SITE_HEADER_HEIGHT_TALL + SITE_HEADER_BOTTOM_GAP_HEIGHT}px;
         }
 
         @media screen and (max-width: 539px) {
           header {
-            height: 116px;
+            height: ${SITE_HEADER_HEIGHT_TALL}px;
           }
         }
 
@@ -130,8 +134,8 @@ const HeaderWrapper = styled.div`
           position: absolute;
           left: 0;
           right: 0;
-          height: 44px;
-          margin-top: -44px;
+          height: ${SITE_HEADER_BOTTOM_GAP_HEIGHT}px;
+          margin-top: -${SITE_HEADER_BOTTOM_GAP_HEIGHT}px;
           background-color: ${themeColor('tint', 'level2')};
           width: 100%;
         }
@@ -179,12 +183,12 @@ const HeaderWrapper = styled.div`
     `}
 `;
 
-const MenuItems = ({ isAuthenticated, onSignOut, permissions }) => {
-  const showLogout = isAuthenticated;
+const MenuItems = ({ onSignOut, permissions }) => {
+  const showLogout = isAuthenticated();
 
   return (
     <Fragment>
-      {isAuthenticated && (
+      {isAuthenticated() && (
         <Fragment>
           <SearchBarMenuItem>
             <StyledSearchBar />
@@ -209,7 +213,7 @@ const MenuItems = ({ isAuthenticated, onSignOut, permissions }) => {
           </StyledMenuButton>
         </MenuItem>
       )}
-      {isAuthenticated && (
+      {isAuthenticated() && (
         <StyledMenuFlyout label="Instellingen">
           <StyledMenuButton $as={NavLink} to="/instellingen/gebruikers">
             Gebruikers
@@ -238,15 +242,14 @@ const MenuItems = ({ isAuthenticated, onSignOut, permissions }) => {
 };
 
 export const SiteHeader = props => {
-  const location = useLocation();
-  const isFrontOffice = !location.pathname.startsWith('/manage');
-  const tall = isFrontOffice && !props.isAuthenticated;
+  const { isFrontOffice } = useLocation();
+  const tall = isFrontOffice && !isAuthenticated();
   const title = tall ? '' : 'SIA';
 
   const navigation = useMemo(
     () =>
       tall ? null : (
-        <Media query={`(max-width: ${breakpoint}px)`}>
+        <Media query={`(max-width: ${BREAKPOINT}px)`}>
           {matches =>
             matches ? (
               <MenuToggle align="right">
@@ -260,31 +263,11 @@ export const SiteHeader = props => {
           }
         </Media>
       ),
-    [
-      tall,
-      breakpoint,
-      props.isAuthenticated,
-      props.onSignOut,
-      props.permissions,
-    ]
-  );
-
-  const notification = useMemo(
-    () =>
-      props.notification.title && (
-        <Notification
-          isFrontOffice={isFrontOffice}
-          onClose={props.onResetNotification}
-          tall={tall}
-          {...props.notification}
-        />
-      ),
-    [isFrontOffice, props.notification, props.onResetNotification, tall]
+    [tall, BREAKPOINT, props.isAuthenticated, props.onSignOut, props.permissions]
   );
 
   return (
     <HeaderWrapper
-      showError={Boolean(props.errorMessage)}
       isFrontOffice={isFrontOffice}
       tall={tall}
       className={`siteHeader ${tall ? 'isTall' : 'isShort'}`}
@@ -298,27 +281,19 @@ export const SiteHeader = props => {
         fullWidth={false}
         navigation={navigation}
       />
-      {notification}
+      <Notification />
     </HeaderWrapper>
   );
 };
 
 SiteHeader.defaultProps = {
-  notification: {},
   isAuthenticated: false,
   onSignOut: null,
-  onResetNotification: null,
 };
 
 SiteHeader.propTypes = {
-  notification: PropTypes.shape({
-    message: PropTypes.string,
-    title: PropTypes.string,
-    type: PropTypes.string,
-  }),
   isAuthenticated: PropTypes.bool,
   onSignOut: PropTypes.func,
-  onResetNotification: PropTypes.func,
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
