@@ -7,7 +7,7 @@ import {
   makeSelectAccessToken,
   makeSelectLoading,
   makeSelectError,
-  makeSelectErrorMessage,
+  makeSelectNotification,
   makeSelectLocation,
   makeSelectIsAuthenticated,
   makeSelectCategories,
@@ -79,16 +79,24 @@ describe('makeSelectError', () => {
   });
 });
 
-describe('makeSelectErrorMessage', () => {
-  const errorMessageSelector = makeSelectErrorMessage();
-  it('should select the error message', () => {
-    const errorMessage = 'ERROR_MESSAGE';
+describe('makeSelectNotification', () => {
+  const notificationSelector = makeSelectNotification();
+
+  it('should select the notification', () => {
+    const notification = {
+      title: 'Foo bar',
+      message: 'Qux',
+      type: 'error',
+      variant: 'global',
+    };
+
     const mockedState = fromJS({
       global: {
-        errorMessage,
+        notification,
       },
     });
-    expect(errorMessageSelector(mockedState)).toEqual(errorMessage);
+
+    expect(notificationSelector(mockedState)).toEqual(notification);
   });
 });
 

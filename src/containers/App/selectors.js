@@ -31,10 +31,9 @@ const makeSelectError = () => createSelector(
   globalState => globalState.get('error')
 );
 
-const makeSelectErrorMessage = () => createSelector(
+const makeSelectNotification = () => createSelector(
   selectGlobal,
-  globalState => globalState.get('errorMessage')
-);
+  globalState => globalState.get('notification').toJS());
 
 const makeSelectLocation = () => createSelector(
   selectRoute,
@@ -53,14 +52,14 @@ const makeSelectCategories = () => createSelector(
 
 
 export {
-  selectGlobal,
-  makeSelectUserName,
   makeSelectAccessToken,
-  makeSelectUserPermissions,
-  makeSelectLoading,
-  makeSelectError,
-  makeSelectErrorMessage,
-  makeSelectLocation,
-  makeSelectIsAuthenticated,
   makeSelectCategories,
+  makeSelectError,
+  makeSelectIsAuthenticated,
+  makeSelectLoading,
+  makeSelectLocation,
+  makeSelectNotification,
+  makeSelectUserName,
+  makeSelectUserPermissions,
+  selectGlobal,
 };
