@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const useLocationHook = () => {
+const useIsFrontOffice = () => {
   const location = useLocation();
 
   const isFrontOffice = useMemo(
@@ -11,7 +11,7 @@ const useLocationHook = () => {
     [location.pathname]
   );
 
-  return { location, isFrontOffice };
+  return isFrontOffice;
 };
 
-export default useLocationHook;
+export default useIsFrontOffice;

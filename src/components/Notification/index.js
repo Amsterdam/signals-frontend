@@ -30,7 +30,7 @@ import {
   VARIANT_SUCCESS,
 } from 'containers/Notification/constants';
 import { isAuthenticated } from 'shared/services/auth/auth';
-import useLocation from 'hooks/useLocation';
+import useIsFrontOffice from 'hooks/useIsFrontOffice';
 
 export const BG_COLOR_ERROR = themeColor('support', 'invalid')({ theme });
 export const BG_COLOR_NOTICE = themeColor('primary')({ theme });
@@ -147,7 +147,7 @@ const Notification = ({
 }) => {
   const [hasFocus, setHasFocus] = useState(false);
   const [slideUp, setSlideUp] = useState(false);
-  const { isFrontOffice } = useLocation();
+  const isFrontOffice = useIsFrontOffice();
   const tall = isFrontOffice && !isAuthenticated();
 
   // persisting timeout IDs across renders
