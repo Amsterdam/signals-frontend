@@ -5,7 +5,7 @@ export const VARIANT_DEFAULT = VARIANT_NOTICE;
 
 export const TYPE_GLOBAL = 'global';
 export const TYPE_LOCAL = 'local';
-export const TYPE_DEFAULT = TYPE_LOCAL;
+export const TYPE_DEFAULT = TYPE_GLOBAL;
 
 export const ONCLOSE_TIMEOUT = 8000;
 export const SLIDEUP_TIMEOUT = 200;

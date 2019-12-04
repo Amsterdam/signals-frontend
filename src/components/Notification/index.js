@@ -1,19 +1,8 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
-import {
-  Button,
-  Column,
-  Heading,
-  Paragraph,
-  Row,
-  themeColor,
-  themeSpacing,
-} from '@datapunt/asc-ui';
+import { Column, Row } from '@datapunt/asc-ui';
 import { Close } from '@datapunt/asc-assets';
-import { ascDefaultTheme as theme } from '@datapunt/asc-core';
 import {
-  SITE_HEADER_BOTTOM_GAP_HEIGHT,
   SITE_HEADER_HEIGHT_SHORT,
   SITE_HEADER_HEIGHT_TALL,
 } from 'containers/SiteHeader/constants';
@@ -32,105 +21,7 @@ import {
 import { isAuthenticated } from 'shared/services/auth/auth';
 import useIsFrontOffice from 'hooks/useIsFrontOffice';
 
-export const BG_COLOR_ERROR = themeColor('support', 'invalid')({ theme });
-export const BG_COLOR_NOTICE = themeColor('primary')({ theme });
-export const BG_COLOR_SUCCESS = themeColor('support', 'valid')({ theme });
-
-const Wrapper = styled.div`
-  background-color: ${({ variant }) => {
-    switch (variant) {
-      case VARIANT_ERROR:
-        return BG_COLOR_ERROR;
-      case VARIANT_SUCCESS:
-        return BG_COLOR_SUCCESS;
-      default:
-        return BG_COLOR_NOTICE;
-    }
-  }};
-
-  align-items: center;
-  display: flex;
-  margin-left: 50vw;
-  max-width: 1400px;
-  min-height: ${SITE_HEADER_BOTTOM_GAP_HEIGHT}px;
-  position: ${({ top }) =>
-    top === SITE_HEADER_HEIGHT_TALL ? 'absolute' : 'fixed'};
-  top: ${({ top }) => top}px;
-  transform: translateX(-50vw) translateY(0);
-  transition: transform ${SLIDEUP_TIMEOUT}ms ease-out;
-  width: 100vw;
-  will-change: transform;
-  z-index: 1;
-
-  @media (min-width: 1400px) {
-    margin-left: 50%;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  &.slideup {
-    ${({ top }) => css`
-      transform: translateX(-50vw) translateY(-${top}px);
-
-      @media (min-width: 1400px) {
-        transform: translateX(-50%) translateY(-${top}px);
-      }
-    `}
-  }
-
-  @media (min-width: 1400px) {
-    width: 100%;
-  }
-
-  & > * {
-    width: 100%;
-  }
-`;
-
-const Title = styled(Heading).attrs({
-  $as: 'h6',
-})`
-  color: white;
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-  font-weight: normal;
-  margin: ${({ hasMargin }) =>
-    hasMargin
-      ? css`
-          ${themeSpacing(2)} 0 0
-        `
-      : 0};
-
-  & + & {
-    margin-top: ${themeSpacing(2)};
-  }
-`;
-
-const Message = styled(Paragraph)`
-  color: white;
-  margin: 0 0 ${themeSpacing(2)};
-  font-size: 16px;
-`;
-
-const CloseButton = styled(Button)`
-  ${({ alignTop }) =>
-    alignTop
-      ? css`
-          margin-top: ${themeSpacing(2)};
-        `
-      : css`
-          align-self: center;
-        `}
-
-  margin-left: ${themeSpacing(3)};
-
-  &,
-  &:hover {
-    background-color: transparent;
-  }
-
-  & svg path {
-    fill: white !important;
-  }
-`;
+import { Wrapper, Title, Message, CloseButton } from './styled';
 
 /**
  * Component that shows a title, a close button and, optionally, a message in a full-width bar with
@@ -146,7 +37,7 @@ const Notification = ({
   variant,
 }) => {
   const [hasFocus, setHasFocus] = useState(false);
-  const [slideUp, setSlideUp] = useState(false);
+  const [shouldHide, setShouldHide] = useState(false);
   const isFrontOffice = useIsFrontOffice();
   const tall = isFrontOffice && !isAuthenticated();
 
@@ -164,7 +55,7 @@ const Notification = ({
       const slideUpTimeoutId = global.setTimeout(() => {
         global.clearTimeout(slideUpTimeoutRef.current);
 
-        setSlideUp(true);
+        setShouldHide(true);
       }, ONCLOSE_TIMEOUT);
 
       slideUpTimeoutRef.current = slideUpTimeoutId;
@@ -188,7 +79,7 @@ const Notification = ({
   }, [hasFocus, onClose, type, variant]);
 
   const onCloseNotification = useCallback(() => {
-    setSlideUp(true);
+    setShouldHide(true);
 
     const slideUpTimeoutId = global.setTimeout(() => {
       global.clearTimeout(slideUpTimeoutRef.current);
@@ -202,9 +93,11 @@ const Notification = ({
     slideUpTimeoutRef.current = slideUpTimeoutId;
   }, [onClose]);
 
+  const transformClassName = tall ? 'fadeout' : 'slideup';
+
   return (
     <Wrapper
-      className={`${className} ${slideUp && 'slideup'}`}
+      className={`${className} ${shouldHide && transformClassName}`}
       data-testid="notification"
       onMouseEnter={() => setHasFocus(true)}
       onMouseLeave={() => setHasFocus(false)}

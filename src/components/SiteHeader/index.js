@@ -106,6 +106,8 @@ const HeaderWrapper = styled.div`
     isFrontOffice &&
     tall &&
     css`
+      z-index: 1;
+
       #header {
         position: static;
 
@@ -260,22 +262,24 @@ export const SiteHeader = props => {
   );
 
   return (
-    <HeaderWrapper
-      isFrontOffice={isFrontOffice}
-      tall={tall}
-      className={`siteHeader ${tall ? 'isTall' : 'isShort'}`}
-      data-testid="siteHeader"
-    >
-      <StyledHeader
+    <Fragment>
+      <HeaderWrapper
         isFrontOffice={isFrontOffice}
-        title={title}
-        homeLink="/"
         tall={tall}
-        fullWidth={false}
-        navigation={tall ? null : navigation}
-      />
+        className={`siteHeader ${tall ? 'isTall' : 'isShort'}`}
+        data-testid="siteHeader"
+      >
+        <StyledHeader
+          isFrontOffice={isFrontOffice}
+          title={title}
+          homeLink="/"
+          tall={tall}
+          fullWidth={false}
+          navigation={tall ? null : navigation}
+        />
+      </HeaderWrapper>
       <Notification />
-    </HeaderWrapper>
+    </Fragment>
   );
 };
 

@@ -8,27 +8,40 @@ import { createStructuredSelector } from 'reselect';
 import Notification from 'components/Notification';
 import { makeSelectNotification } from 'containers/App/selectors';
 import { resetGlobalNotification } from 'containers/App/actions';
+import { TYPE_LOCAL } from './constants';
 
-export const NotificationContainer = ({
+export const NotificationContainerComponent = ({
   notification,
   onResetNotification,
 }) => {
   const history = useHistory();
 
+  /**
+   * Subscribe to history changes
+   * Will reset the notification whenever a navigation action occurs and only when the type of the
+   * notifcation is TYPE_LOCAL
+   */
   useEffect(() => {
+    if (notification.type !== TYPE_LOCAL) return undefined;
+
     const unlisten = history.listen(() => {
       onResetNotification();
     });
 
     return () => {
       unlisten();
+      onResetNotification();
     };
-  }, [history, onResetNotification]);
+  }, [history, onResetNotification, notification.type]);
 
-  return <Notification {...notification} onClose={onResetNotification} />;
+  return (
+    notification.title && (
+      <Notification {...notification} onClose={onResetNotification} />
+    )
+  );
 };
 
-NotificationContainer.propTypes = {
+NotificationContainerComponent.propTypes = {
   notification: PropTypes.shape({}),
   onResetNotification: PropTypes.func.isRequired,
 };
@@ -47,4 +60,4 @@ export const mapDispatchToProps = dispatch =>
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect)(NotificationContainer);
+export default compose(withConnect)(NotificationContainerComponent);

@@ -1,0 +1,126 @@
+import styled, { css } from 'styled-components';
+import {
+  Button,
+  Heading,
+  Paragraph,
+  themeSpacing,
+  themeColor,
+} from '@datapunt/asc-ui';
+import { ascDefaultTheme as theme } from '@datapunt/asc-core';
+import {
+  SITE_HEADER_BOTTOM_GAP_HEIGHT,
+  SITE_HEADER_HEIGHT_TALL,
+} from 'containers/SiteHeader/constants';
+
+import {
+  SLIDEUP_TIMEOUT,
+  VARIANT_ERROR,
+  VARIANT_SUCCESS,
+} from 'containers/Notification/constants';
+
+export const BG_COLOR_ERROR = themeColor('support', 'invalid')({ theme });
+export const BG_COLOR_NOTICE = themeColor('primary')({ theme });
+export const BG_COLOR_SUCCESS = themeColor('support', 'valid')({ theme });
+
+export const Wrapper = styled.div`
+  background-color: ${({ variant }) => {
+    switch (variant) {
+      case VARIANT_ERROR:
+        return BG_COLOR_ERROR;
+      case VARIANT_SUCCESS:
+        return BG_COLOR_SUCCESS;
+      default:
+        return BG_COLOR_NOTICE;
+    }
+  }};
+
+  align-items: center;
+  display: flex;
+  margin-left: 50vw;
+  max-width: 1400px;
+  min-height: ${SITE_HEADER_BOTTOM_GAP_HEIGHT}px;
+  position: ${({ top }) =>
+    top === SITE_HEADER_HEIGHT_TALL ? 'absolute' : 'fixed'};
+  top: ${({ top }) => top}px;
+  transform: translateX(-50vw) translateY(0);
+  transition-property: transform opacity;
+  transition-timing-function: ease-out;
+  transition-duration: ${SLIDEUP_TIMEOUT}ms;
+  width: 100vw;
+  will-change: transform, opacity;
+  z-index: 1;
+  opacity: 1;
+
+  @media (min-width: 1400px) {
+    margin-left: 50%;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  &.slideup {
+    ${({ top }) => css`
+      transform: translateX(-50vw) translateY(-${top}px);
+
+      @media (min-width: 1400px) {
+        transform: translateX(-50%) translateY(-${top}px);
+      }
+    `}
+  }
+
+  &.fadeout {
+    opacity: 0;
+  }
+
+  @media (min-width: 1400px) {
+    width: 100%;
+  }
+
+  & > * {
+    width: 100%;
+  }
+`;
+
+export const Title = styled(Heading).attrs({
+  $as: 'h6',
+})`
+  color: white;
+  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-weight: normal;
+  margin: ${({ hasMargin }) =>
+    hasMargin
+      ? css`
+          ${themeSpacing(2)} 0 0
+        `
+      : 0};
+
+  & + & {
+    margin-top: ${themeSpacing(2)};
+  }
+`;
+
+export const Message = styled(Paragraph)`
+  color: white;
+  margin: 0 0 ${themeSpacing(2)};
+  font-size: 16px;
+`;
+
+export const CloseButton = styled(Button)`
+  ${({ alignTop }) =>
+    alignTop
+      ? css`
+          margin-top: ${themeSpacing(2)};
+        `
+      : css`
+          align-self: center;
+        `}
+
+  margin-left: ${themeSpacing(3)};
+
+  &,
+  &:hover {
+    background-color: transparent;
+  }
+
+  & svg path {
+    fill: white !important;
+  }
+`;
