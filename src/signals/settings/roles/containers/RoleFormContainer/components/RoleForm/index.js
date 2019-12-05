@@ -45,7 +45,7 @@ export const RoleForm = ({
     if (!isValid) {
       return;
     }
-    const { target: { elements } } = e;
+    const { target: { form: { elements } } } = e;
     const permission_ids = [];
     permissions.forEach(permission => {
       if (elements[`permission${permission.id}`].checked) {
@@ -78,9 +78,7 @@ export const RoleForm = ({
 
   return (
     <div data-testid="rolesForm">
-      <form
-        onSubmit={handleSubmit}
-      >
+      <form>
         <StyledInput
           label="Naam"
           name="name"
@@ -101,7 +99,7 @@ export const RoleForm = ({
           </div>))}
 
         <FormFooter
-          onSubmitForm={() => { }}
+          onSubmitForm={handleSubmit}
           submitBtnLabel="Opslaan"
           onCancel={handleCancel}
           cancelBtnLabel="Annuleer"
