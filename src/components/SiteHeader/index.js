@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
@@ -15,6 +15,8 @@ import {
   themeColor,
 } from '@datapunt/asc-ui';
 import SearchBar from 'containers/SearchBar';
+import { isAuthenticated } from 'shared/services/auth/auth';
+import useIsFrontOffice from 'hooks/useIsFrontOffice';
 
 export const breakpoint = 1100;
 
@@ -23,9 +25,10 @@ const StyledHeader = styled(HeaderComponent)`
     text-decoration: none;
   }
 
-  ${({ isFrontOffice, tall }) => isFrontOffice
-    && tall
-    && css`
+  ${({ isFrontOffice, tall }) =>
+    isFrontOffice &&
+    tall &&
+    css`
       & {
         max-width: 960px;
 
@@ -63,7 +66,8 @@ const StyledMenuButton = styled(MenuButton)`
 `;
 
 const StyledMenuFlyout = styled(MenuFlyOut)`
-  & span, & button {
+  & span,
+  & button {
     font-family: inherit;
     font-weight: normal;
     font-size: 16px;
@@ -87,17 +91,20 @@ const StyledSearchBar = styled(SearchBar)`
 `;
 
 const HeaderWrapper = styled.div`
-  ${({ tall }) => !tall && css`
-    #header {
-      left: 0;
-      right: 0;
-      position: fixed;
-    }
-  `}
+  ${({ tall }) =>
+    !tall &&
+    css`
+      #header {
+        left: 0;
+        right: 0;
+        position: fixed;
+      }
+    `}
 
-  ${({ isFrontOffice, tall }) => isFrontOffice
-    && tall
-    && css`
+  ${({ isFrontOffice, tall }) =>
+    isFrontOffice &&
+    tall &&
+    css`
       #header {
         position: static;
 
@@ -169,16 +176,12 @@ const HeaderWrapper = styled.div`
     `}
 `;
 
-const MenuItems = ({
-  isAuthenticated,
-  onLoginLogoutButtonClick,
-  permissions,
-}) => {
-  const showLogout = isAuthenticated;
+const MenuItems = ({ onLogOut, permissions }) => {
+  const showLogout = isAuthenticated();
 
   return (
     <Fragment>
-      {isAuthenticated && (
+      {isAuthenticated() && (
         <Fragment>
           <SearchBarMenuItem>
             <StyledSearchBar />
@@ -203,7 +206,7 @@ const MenuItems = ({
           </StyledMenuButton>
         </MenuItem>
       )}
-      {isAuthenticated && (
+      {isAuthenticated() && (
         <StyledMenuFlyout label="Instellingen">
           <StyledMenuButton $as={NavLink} to="/instellingen/gebruikers">
             Gebruikers
@@ -217,7 +220,7 @@ const MenuItems = ({
         <MenuItem
           element="button"
           data-testid="logout-button"
-          onClick={onLoginLogoutButtonClick}
+          onClick={onLogOut}
         >
           <StyledMenuButton
             iconSize={16}
@@ -232,24 +235,27 @@ const MenuItems = ({
 };
 
 export const SiteHeader = props => {
-  const isFrontOffice = !props.location.pathname.startsWith('/manage');
-  const tall = isFrontOffice && !props.isAuthenticated;
+  const isFrontOffice = useIsFrontOffice();
+  const tall = isFrontOffice && !isAuthenticated();
   const title = tall ? '' : 'SIA';
 
-  const navigation = tall ? null : (
-    <Media query={`(max-width: ${breakpoint}px)`}>
-      {matches =>
-        matches ? (
-          <MenuToggle align="right">
-            <MenuItems {...props} />
-          </MenuToggle>
-        ) : (
-          <MenuInline>
-            <MenuItems {...props} />
-          </MenuInline>
-        )
-      }
-    </Media>
+  const navigation = useMemo(
+    () => (
+      <Media query={`(max-width: ${breakpoint}px)`}>
+        {matches =>
+          matches ? (
+            <MenuToggle align="right">
+              <MenuItems {...props} />
+            </MenuToggle>
+          ) : (
+            <MenuInline>
+              <MenuItems {...props} />
+            </MenuInline>
+          )
+        }
+      </Media>
+    ),
+    [breakpoint, props]
   );
 
   return (
@@ -265,28 +271,21 @@ export const SiteHeader = props => {
         homeLink="/"
         tall={tall}
         fullWidth={false}
-        navigation={navigation}
+        navigation={tall ? null : navigation}
       />
     </HeaderWrapper>
   );
 };
 
 SiteHeader.defaultProps = {
-  isAuthenticated: false,
-  onLoginLogoutButtonClick: undefined,
+  onLogOut: undefined,
 };
 
 SiteHeader.propTypes = {
-  isAuthenticated: PropTypes.bool,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
-  onLoginLogoutButtonClick: PropTypes.func,
+  onLogOut: PropTypes.func,
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 MenuItems.propTypes = SiteHeader.propTypes;
 
-const SiteHeaderWithRouter = withRouter(SiteHeader);
-
-export default SiteHeaderWithRouter;
+export default SiteHeader;
