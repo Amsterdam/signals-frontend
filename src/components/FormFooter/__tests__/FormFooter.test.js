@@ -41,6 +41,25 @@ describe('src/components/FormFooter', () => {
     expect(queryByTestId('submitBtn').getAttribute('type')).toEqual('submit');
   });
 
+  it('should render the buttons in the correct order', () => {
+    render(
+      withAppContext(
+        <FormFooter
+          onCancel={() => {}}
+          cancelBtnLabel="Cancel"
+          onSubmitForm={() => {}}
+          submitBtnLabel="Submit"
+        />
+      )
+    );
+
+    const buttons = document.querySelectorAll('button');
+
+    expect(buttons).toHaveLength(2);
+    expect(buttons[0].dataset.testid).toEqual('submitBtn');
+    expect(buttons[1].dataset.testid).toEqual('cancelBtn');
+  });
+
   it('should call handlers', () => {
     const onCancel = jest.fn();
     const onResetForm = jest.fn();

@@ -30,6 +30,7 @@ const StyledButton = styled(Button)`
 export const SubmitButton = styled(StyledButton).attrs({
   color: 'secondary',
 })`
+  margin-right: 15px;
 `;
 
 export const ResetButton = styled(StyledButton)`
@@ -40,7 +41,6 @@ export const ResetButton = styled(StyledButton)`
 export const CancelButton = styled(StyledButton).attrs({
   color: 'bright',
 })`
-  margin-right: 15px;
   background-color: #b4b4b4;
 `;
 
@@ -66,16 +66,6 @@ const FormFooter = ({
           </ResetButton>
         )}
 
-        {onCancel && cancelBtnLabel && (
-          <CancelButton
-            data-testid="cancelBtn"
-            onClick={onCancel}
-            type="button"
-          >
-            {cancelBtnLabel}
-          </CancelButton>
-        )}
-
         {onSubmitForm && submitBtnLabel && (
           <SubmitButton
             data-testid="submitBtn"
@@ -85,6 +75,16 @@ const FormFooter = ({
           >
             {submitBtnLabel}
           </SubmitButton>
+        )}
+
+        {onCancel && cancelBtnLabel && (
+          <CancelButton
+            data-testid="cancelBtn"
+            onClick={onCancel}
+            type="button"
+          >
+            {cancelBtnLabel}
+          </CancelButton>
         )}
       </ButtonContainer>
     </Row>
