@@ -15,16 +15,12 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('/signals/settings/roles/components/RoleForm', () => {
-  let props = {};
-
-  beforeEach(() => {
-    props = {
-      role: roles.list[0],
-      permissions: roles.permissions,
-      onPatchRole: jest.fn(),
-      onSaveRole: jest.fn(),
-    };
-  });
+  const props = {
+    role: roles.list[0],
+    permissions: roles.permissions,
+    onPatchRole: jest.fn(),
+    onSaveRole: jest.fn(),
+  };
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -40,8 +36,14 @@ describe('/signals/settings/roles/components/RoleForm', () => {
   });
 
   it('should trigger error in name field when it is empty', () => {
-    props.role.name = '';
-    const { getByTestId, queryByTestId, queryByText } = render(withAppContext(<RoleForm {...props} />))
+    const emptyNameProps = {
+      ...props,
+      role: {
+        ...props.role,
+        name: '',
+      },
+    }
+    const { getByTestId, queryByTestId, queryByText } = render(withAppContext(<RoleForm {...emptyNameProps} />))
 
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('');
     expect(queryByText('Dit veld is verplicht')).toBeInTheDocument();
@@ -77,8 +79,11 @@ describe('/signals/settings/roles/components/RoleForm', () => {
   });
 
   it('should handle submit flow when saving an new role', () => {
-    props.role = undefined;
-    const { getByTestId } = render(withAppContext(<RoleForm {...props} />))
+    const noRoleProps = {
+      ...props,
+      role: undefined,
+    };
+    const { getByTestId } = render(withAppContext(<RoleForm {...noRoleProps} />))
 
     const event = {
       target: {
@@ -96,8 +101,14 @@ describe('/signals/settings/roles/components/RoleForm', () => {
   });
 
   it('should not do submit when form is invalid', () => {
-    props.role.name = '';
-    const { getByTestId } = render(withAppContext(<RoleForm {...props} />))
+    const emptyNameProps = {
+      ...props,
+      role: {
+        ...props.role,
+        name: '',
+      },
+    }
+    const { getByTestId } = render(withAppContext(<RoleForm {...emptyNameProps} />))
 
     fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
 

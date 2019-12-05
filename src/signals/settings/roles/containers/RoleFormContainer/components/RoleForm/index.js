@@ -102,14 +102,12 @@ export const RoleForm = ({
             </FieldLabel>
           </div>))}
 
-        <div>
-          <FormFooter
-            onSubmitForm={() => { }}
-            submitBtnLabel="Opslaan"
-            onCancel={handleCancel}
-            cancelBtnLabel="Annuleer"
-          />
-        </div>
+        <FormFooter
+          onSubmitForm={() => { }}
+          submitBtnLabel="Opslaan"
+          onCancel={handleCancel}
+          cancelBtnLabel="Annuleer"
+        />
       </form>
     </div >
   )
@@ -125,7 +123,7 @@ RoleForm.defaultProps = {
 RoleForm.propTypes = {
   role: PropTypes.shape({
     id: PropTypes.number,
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     permissions: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number.isRequired,

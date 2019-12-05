@@ -7,35 +7,43 @@ import { FETCH_ROLES, FETCH_PERMISSIONS, PATCH_ROLE, SAVE_ROLE } from 'models/ro
 import { RoleFormContainer, mapDispatchToProps } from '..';
 
 describe('signals/settings/roles/containers/RoleFormContainer', () => {
-  let props = {};
-
-  beforeEach(() => {
-    props = {
-      roles: {
-        list: roles.list,
-        permissions: [],
-        loading: false,
-        loadingPermissions: false,
-        responseSuccess: false,
-        responseError: false,
-      },
-      onFetchRoles: jest.fn(),
-      onFetchPermissions: jest.fn(),
-      onPatchRole: jest.fn(),
-      onSaveRole: jest.fn(),
-    };
-  });
+  const props = {
+    roles: {
+      list: roles.list,
+      permissions: [],
+      loading: false,
+      loadingPermissions: false,
+      responseSuccess: false,
+      responseError: false,
+    },
+    onFetchRoles: jest.fn(),
+    onFetchPermissions: jest.fn(),
+    onPatchRole: jest.fn(),
+    onSaveRole: jest.fn(),
+  };
 
   it('should lazy load form correctly', () => {
-    props.roles.loadingPermissions = true;
-    const { container, queryByTestId, rerender } = render(withAppContext(<RoleFormContainer {...props} />))
+    const loadingProps = {
+      ...props,
+      roles: {
+        ...props.roles,
+        loading: true,
+      },
+    };
+    const { container, queryByTestId, rerender } = render(withAppContext(<RoleFormContainer {...loadingProps} />))
 
     expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
     expect(queryByTestId('rolesForm')).not.toBeInTheDocument();
 
-    props.roles.loading = false;
-    props.roles.loadingPermissions = false;
-    rerender(withAppContext(<RoleFormContainer {...props} />))
+    const notLoadingProps = {
+      ...props,
+      roles: {
+        ...props.roles,
+        loading: false,
+        loadingPermissions: false,
+      },
+    };
+    rerender(withAppContext(<RoleFormContainer {...notLoadingProps} />))
 
     expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
     expect(queryByTestId('rolesForm')).toBeInTheDocument();
