@@ -13,9 +13,7 @@ export default {
       meta: {
         label: '',
         type: 'error-block',
-        value: [
-          'Doet de sierverlichting in een winkelstraat het niet? Of hebt u last van de kerstverlichting? Neem dan contact op met de winkeliersvereniging. De gemeente gaat hier helaas niet over.',
-        ],
+        value: 'Doet de sierverlichting in een winkelstraat het niet? Of hebt u last van de kerstverlichting? Neem dan contact op met de winkeliersvereniging. De gemeente gaat hier helaas niet over.',
         ifAllOf: {
           subcategory: 'lantaarnpaal-straatverlichting',
         },
