@@ -45,9 +45,7 @@ export const RoleForm = ({
     if (!isValid) {
       return;
     }
-
-    const elements = e.target.elements;
-
+    const { target: { elements } } = e;
     const permission_ids = [];
     permissions.forEach(permission => {
       if (elements[`permission${permission.id}`].checked) {

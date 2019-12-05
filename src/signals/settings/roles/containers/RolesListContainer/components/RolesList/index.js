@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import ListComponent from 'components/List';
 import { ROLE_URL } from 'signals/settings/routes';
 
-import formatRoles from '../../../../services/formatRoles';
+import formatRoles from 'signals/settings/roles/services/formatRoles';
 
 const StyledListComponent = styled(ListComponent)`
   th:nth-child(1),
