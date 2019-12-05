@@ -4,6 +4,7 @@
   margin: 16px 0;
 
   &__box {
+
     &.citation,
     &.disclaimer {
       background-color: $ams-background-sidebars;
@@ -18,8 +19,15 @@
     &.alert {
       color: $ams-rood;
       border: 2px solid $ams-rood;
-      padding:  9px 20px 0;
+      padding: 9px 20px 0;
       @include avenirnextdemi();
+    }
+
+    &.error-block {
+      background-color: $ams-rood;
+      color: $ams-wit;
+      line-height: 22px;
+      padding: 9px 20px 1px;
     }
 
     &-p {
