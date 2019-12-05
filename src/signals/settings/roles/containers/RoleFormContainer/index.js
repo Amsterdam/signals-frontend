@@ -52,11 +52,12 @@ export const RoleFormContainer = ({
       />
       <Row>
         <Column span={12}>
-          {responseSuccess && <FormAlert
-            data-testid="roleFormSuccess"
-            isNotification
-            title="Gegevens opgeslagen"
-          />}
+          {responseSuccess &&
+            <FormAlert
+              data-testid="roleFormSuccess"
+              isNotification
+              title="Gegevens opgeslagen"
+            />}
           {responseError &&
             <FormAlert
               data-testid="roleFormError"
