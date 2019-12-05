@@ -83,10 +83,12 @@ const UserDetail = () => {
     [data, location, getFormData, history]
   );
 
+  const title = `Gebruiker ${isExistingUser ? 'wijzigen' : 'toevoegen'}`;
+
   return (
     <Fragment>
       <PageHeader
-        title="Gebruiker instellingen"
+        title={title}
         BackLink={
           <BackLink to={location.referrer || routes.users}>
             Terug naar overzicht
