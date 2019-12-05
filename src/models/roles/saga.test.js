@@ -1,6 +1,7 @@
 import { testSaga } from 'redux-saga-test-plan';
 import { takeLatest } from 'redux-saga/effects';
 import { authCall, authPostCall, authPatchCall } from 'shared/services/api/api';
+import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import {
   FETCH_ROLES,
@@ -28,8 +29,6 @@ import watchRolesSaga, {
 } from './saga';
 
 describe('rolesSaga', () => {
-  const requestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/private/roles/';
-  const permissionsRequestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/';
   const result = { id: 42 };
   const action = { payload: result };
 
@@ -52,7 +51,7 @@ describe('rolesSaga', () => {
 
       testSaga(fetchRoles)
         .next()
-        .call(authCall, requestURL)
+        .call(authCall, CONFIGURATION.ROLES_ENDPOINT)
         .next(listResult)
         .put(fetchRolesSuccess(listResult.results))
         .next()
@@ -77,7 +76,7 @@ describe('rolesSaga', () => {
 
       testSaga(fetchPermissions)
         .next()
-        .call(authCall, permissionsRequestURL)
+        .call(authCall, CONFIGURATION.PERMISSIONS_ENDPOINT)
         .next(listResult)
         .put(fetchPermissionsSuccess(listResult.results))
         .next()
@@ -100,7 +99,7 @@ describe('rolesSaga', () => {
     it('should dispatch success', () => {
       testSaga(saveRole, action)
         .next()
-        .call(authPostCall, requestURL, result)
+        .call(authPostCall, CONFIGURATION.ROLES_ENDPOINT, result)
         .next(result)
         .put(saveRoleSuccess(result))
         .next()
@@ -120,11 +119,11 @@ describe('rolesSaga', () => {
   });
 
   describe('patchRole', () => {
-    const requestPatchURL = 'https://acc.api.data.amsterdam.nl/signals/v1/private/roles/42';
+    const requestPatchURL = `${CONFIGURATION.ROLES_ENDPOINT}42`;
     const patchAction = {
       payload: {
         id: 42,
-        patch: result,
+        ...result,
       },
     }
 

@@ -3,6 +3,7 @@ import { render, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import * as reactRouterDom from 'react-router-dom';
 import roles from 'utils/__tests__/fixtures/roles.json';
+import { ROLE_URL } from 'signals/settings/routes';
 
 import RolesList from '..';
 
@@ -47,6 +48,6 @@ describe('/signals/settings/roles/components/RolesList', () => {
 
     fireEvent.click(container.querySelector('tr:nth-child(1) td:nth-child(1)'), event);
 
-    expect(push).toHaveBeenCalledWith('/instellingen/rol/2');
+    expect(push).toHaveBeenCalledWith(`${ROLE_URL}/2`);
   });
 });

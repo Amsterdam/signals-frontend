@@ -6,7 +6,7 @@ import { isAuthenticated } from 'shared/services/auth/auth';
 import LoginPage from 'components/LoginPage';
 import NotFoundPage from 'components/NotFoundPage';
 
-import routes, { USERS_PAGED_URL, USER_URL } from './routes';
+import routes, { USERS_PAGED_URL, USER_URL, ROLE_URL } from './routes';
 import UsersOverviewContainer from './users/containers/Overview';
 import RolesListContainer from './roles/containers/RolesListContainer';
 import RoleFormContainer from './roles/containers/RoleFormContainer';
@@ -52,6 +52,7 @@ export const SettingsModule = () => {
       <Route exact path={USER_URL} component={UsersDetailContainer} />
       <Route exact path={routes.roles} component={RolesListContainer} />
       <Route exact path={routes.role} component={RoleFormContainer} />
+      <Route exact path={ROLE_URL} component={RoleFormContainer} />
       <Route component={NotFoundPage} />
     </Switch >
   );
