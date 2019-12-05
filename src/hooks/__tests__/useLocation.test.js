@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 import * as reactRouterDom from 'react-router-dom';
 
-import useLocation from '../useLocation';
+import useIsFrontOffice from '../useIsFrontOffice';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -15,18 +15,11 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
-describe('hooks/useLocation', () => {
-  it('return the location result from the react-router-dom hook', () => {
-    const { result } = renderHook(() => useLocation());
-    const { result: reactRouterDomResult } = renderHook(() => reactRouterDom.useLocation());
+describe('hooks/useIsFrontOffice', () => {
+  it('should return a boolean', () => {
+    const { result } = renderHook(() => useIsFrontOffice());
 
-    expect(result.current.location).toEqual(reactRouterDomResult.current);
-  });
-
-  it('should return isFrontOffice', () => {
-    const { result } = renderHook(() => useLocation());
-
-    expect(result.current.isFrontOffice).toEqual(true);
+    expect(result.current).toEqual(true);
 
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
       hash: '',
@@ -36,9 +29,9 @@ describe('hooks/useLocation', () => {
       state: null,
     }));
 
-    const { result: result2 } = renderHook(() => useLocation());
+    const { result: result2 } = renderHook(() => useIsFrontOffice());
 
-    expect(result2.current.isFrontOffice).toEqual(false);
+    expect(result2.current).toEqual(false);
 
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
       hash: '',
@@ -48,8 +41,8 @@ describe('hooks/useLocation', () => {
       state: null,
     }));
 
-    const { result: result3 } = renderHook(() => useLocation());
+    const { result: result3 } = renderHook(() => useIsFrontOffice());
 
-    expect(result3.current.isFrontOffice).toEqual(false);
+    expect(result3.current).toEqual(false);
   });
 });

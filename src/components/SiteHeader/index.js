@@ -16,7 +16,7 @@ import {
 } from '@datapunt/asc-ui';
 import SearchBar from 'containers/SearchBar';
 import { isAuthenticated } from 'shared/services/auth/auth';
-import useLocation from 'hooks/useLocation';
+import useIsFrontOffice from 'hooks/useIsFrontOffice';
 
 export const breakpoint = 1100;
 
@@ -235,7 +235,7 @@ const MenuItems = ({ onLogOut, permissions }) => {
 };
 
 export const SiteHeader = props => {
-  const { isFrontOffice } = useLocation();
+  const isFrontOffice = useIsFrontOffice();
   const tall = isFrontOffice && !isAuthenticated();
   const title = tall ? '' : 'SIA';
 
