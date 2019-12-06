@@ -18,7 +18,7 @@ import IncidentOverviewPage, {
   IncidentOverviewPageContainerComponent,
   mapDispatchToProps,
 } from '.';
-import { REQUEST_INCIDENTS, INCIDENT_SELECTED } from './constants';
+import { REQUEST_INCIDENTS /* INCIDENT_SELECTED */ } from './constants';
 
 jest.mock('scroll-lock');
 jest.mock('signals/incident-management/constants');
@@ -69,7 +69,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       incidentsCount: 100,
       categories: {},
       onRequestIncidents: jest.fn(),
-      onIncidentSelected: jest.fn(),
       onChangeOrdering: jest.fn(),
       onPageIncidentsChanged: jest.fn(),
       baseUrl: '',
@@ -145,7 +144,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   it('should scroll page to top after navigating with pagination', async () => {
     constants.FILTER_PAGE_SIZE = 30;
     Object.defineProperty(window, 'scrollTo', {
-      value: () => {},
+      value: () => { },
       writable: true,
     });
     const scrollSpy = jest.spyOn(window, 'scrollTo');
@@ -275,14 +274,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       mapDispatchToProps(dispatch).onRequestIncidents();
       expect(dispatch).toHaveBeenCalledWith({
         type: REQUEST_INCIDENTS,
-      });
-    });
-
-    it('should select an incident', () => {
-      mapDispatchToProps(dispatch).onIncidentSelected({ id: 666 });
-      expect(dispatch).toHaveBeenCalledWith({
-        type: INCIDENT_SELECTED,
-        payload: { id: 666 },
       });
     });
   });

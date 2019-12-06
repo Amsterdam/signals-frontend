@@ -10,7 +10,7 @@ import {
   take,
   takeLatest,
 } from 'redux-saga/effects';
-import { push } from 'connected-react-router/immutable';
+// import { push } from 'connected-react-router/immutable';
 
 import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
@@ -26,7 +26,7 @@ import {
 import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
-  INCIDENT_SELECTED,
+  // INCIDENT_SELECTED,
   REQUEST_INCIDENTS,
 } from './constants';
 import {
@@ -61,12 +61,12 @@ export function* fetchIncidents() {
   }
 }
 
-export function* openIncident(action) {
-  console.log('open', action.payload);
-  const incident = action.payload;
-  const navigateUrl = `incident/${incident.id}`;
-  yield put(push(navigateUrl));
-}
+// export function* openIncident(action) {
+// console.log('openIncident ------------------------------------------------', action.payload);
+// const incident = action.payload;
+// const navigateUrl = `incident/${incident.id}`;
+// yield put(push(navigateUrl));
+// }
 
 export const refreshRequestDelay = 2 * 60 * 1000;
 
@@ -86,7 +86,7 @@ export function* refreshIncidents(timeout = refreshRequestDelay) {
 export default function* watchRequestIncidentsSaga() {
   yield all([
     takeLatest(REQUEST_INCIDENTS, fetchIncidents),
-    takeLatest(INCIDENT_SELECTED, openIncident),
+    // takeLatest(INCIDENT_SELECTED, openIncident),
     takeLatest(PAGE_INCIDENTS_CHANGED, fetchIncidents),
     takeLatest(ORDERING_INCIDENTS_CHANGED, fetchIncidents),
   ]);

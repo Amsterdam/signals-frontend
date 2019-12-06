@@ -170,7 +170,7 @@ describe('<List />', () => {
       priorityList,
       statusList,
       stadsdeelList,
-      incidentSelected: jest.fn(),
+      // incidentSelected: jest.fn(),
       onChangeOrdering: jest.fn(),
     };
 

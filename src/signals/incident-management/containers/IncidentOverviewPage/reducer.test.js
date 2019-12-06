@@ -6,7 +6,7 @@ import {
   requestIncidents,
   requestIncidentsSuccess,
   requestIncidentsError,
-  incidentSelected,
+  // incidentSelected,
 } from './actions';
 
 describe('overviewPageReducer', () => {
@@ -52,10 +52,10 @@ describe('overviewPageReducer', () => {
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 
-  it('should handle the INCIDENT_SELECTED', () => {
-    const incident = {};
-    const action = incidentSelected(incident);
-    const expected = fromJS({});
-    expect(overviewPageReducer(state, action)).toEqual(expected);
-  });
+  // it('should handle the INCIDENT_SELECTED', () => {
+  // const incident = {};
+  // const action = incidentSelected(incident);
+  // const expected = fromJS({});
+  // expect(overviewPageReducer(state, action)).toEqual(expected);
+  // });
 });
