@@ -8,9 +8,8 @@ import { useRef, useState, useCallback } from 'react';
  * returned
  *
  * @param {HTMLFormElement} formRef - Reference to the form node of which the fields should be validated
- * @param {String} invalidFieldClassName - Class name that is added to the form field's parent when invalid
  */
-const useFormValidation = (formRef, invalidFieldClassName) => {
+const useFormValidation = formRef => {
   // Use a ref to internally keep track of which errors have been set; useState is asynchronous and will not
   // have the set of values at the time it is needed in this hook
   const errorsRef = useRef({});
@@ -20,39 +19,28 @@ const useFormValidation = (formRef, invalidFieldClassName) => {
 
   const validate = useCallback(
     e => {
-      const { elements } = formRef.current;
+      const { elements, noValidate } = formRef.current;
 
-      if (formRef.current.noValidate) {
+      if (noValidate) {
         // Prevent the form from being submitted when the noValidate attribute has been set on the form
         // When noValidate has not been set, the form won't submit because of HTML5 validation taking over
         e.preventDefault();
       }
 
       [...elements].forEach(element => {
-        const { name, validity, required } = element;
+        const {
+          name,
+          validity: { valid, valueMissing, typeMismatch, patternMismatch },
+          required,
+        } = element;
+        let error;
 
-        if (validity.valid) {
-          errorsRef.current = {
-            ...errorsRef.current,
-            [name]: undefined,
-          };
-
-          setErrors(state => ({
-            ...state,
-            [name]: undefined,
-          }));
-
-          if (invalidFieldClassName !== undefined) {
-            element.parentElement.classList.remove(invalidFieldClassName);
-          }
-        } else {
-          let error;
-
-          if (required && validity.valueMissing) {
+        if (!valid) {
+          if (required && valueMissing) {
             error = 'Dit veld is verplicht';
           }
 
-          if (validity.typeMismatch || validity.patternMismatch) {
+          if (typeMismatch || patternMismatch) {
             switch (element.type) {
               case 'email':
                 error = 'Het veld moet een geldig e-mailadres bevatten';
@@ -77,21 +65,17 @@ const useFormValidation = (formRef, invalidFieldClassName) => {
                 break;
             }
           }
-
-          errorsRef.current = {
-            ...errorsRef.current,
-            [name]: error,
-          };
-
-          setErrors(state => ({
-            ...state,
-            [name]: error,
-          }));
-
-          if (invalidFieldClassName !== undefined) {
-            element.parentElement.classList.add(invalidFieldClassName);
-          }
         }
+
+        errorsRef.current = {
+          ...errorsRef.current,
+          [name]: error,
+        };
+
+        setErrors(state => ({
+          ...state,
+          [name]: error,
+        }));
       });
 
       const hasErrors =
@@ -100,7 +84,7 @@ const useFormValidation = (formRef, invalidFieldClassName) => {
       setIsValid(!hasErrors);
       setEvent(e);
     },
-    [formRef, invalidFieldClassName]
+    [formRef]
   );
 
   /**
