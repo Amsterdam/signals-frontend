@@ -68,60 +68,124 @@ exports[`<List /> should render correctly 1`] = `
       <tbody>
         <tr
           key="1668"
-          onClick={[Function]}
         >
           <td>
-            1668
+            <a
+              className="id"
+              href="/manage/incident/1668"
+            >
+              1668
+            </a>
           </td>
           <td
             data-testid="incidentDaysOpen"
           >
-            -
+            <a
+              href="/manage/incident/1668"
+            >
+              -
+            </a>
           </td>
           <td
             className="no-wrap"
           >
-            21-07-1970
-             
-            11:55
+            <a
+              href="/manage/incident/1668"
+            >
+              21-07-1970
+               
+              11:55
+            </a>
           </td>
-          <td />
           <td>
-            Wegsleep
+            <a
+              href="/manage/incident/1668"
+            />
           </td>
-          <td />
-          <td />
           <td>
-            Staalstraat 3B 1011JJ Amsterdam
+            <a
+              href="/manage/incident/1668"
+            >
+              Wegsleep
+            </a>
+          </td>
+          <td>
+            <a
+              href="/manage/incident/1668"
+            />
+          </td>
+          <td>
+            <a
+              href="/manage/incident/1668"
+            />
+          </td>
+          <td>
+            <a
+              href="/manage/incident/1668"
+            >
+              Staalstraat 3B 1011JJ Amsterdam
+            </a>
           </td>
         </tr>
         <tr
           key="1667"
-          onClick={[Function]}
         >
           <td>
-            1667
+            <a
+              className="id"
+              href="/manage/incident/1667"
+            >
+              1667
+            </a>
           </td>
           <td
             data-testid="incidentDaysOpen"
           >
-            42
+            <a
+              href="/manage/incident/1667"
+            >
+              42
+            </a>
           </td>
           <td
             className="no-wrap"
           >
-            21-07-1970
-             
-            11:55
+            <a
+              href="/manage/incident/1667"
+            >
+              21-07-1970
+               
+              11:55
+            </a>
           </td>
-          <td />
           <td>
-            Dode dieren
+            <a
+              href="/manage/incident/1667"
+            />
           </td>
-          <td />
-          <td />
           <td>
-            Raamgracht 45 1011KJ Amsterdam
+            <a
+              href="/manage/incident/1667"
+            >
+              Dode dieren
+            </a>
+          </td>
+          <td>
+            <a
+              href="/manage/incident/1667"
+            />
+          </td>
+          <td>
+            <a
+              href="/manage/incident/1667"
+            />
+          </td>
+          <td>
+            <a
+              href="/manage/incident/1667"
+            >
+              Raamgracht 45 1011KJ Amsterdam
+            </a>
           </td>
         </tr>
       </tbody>

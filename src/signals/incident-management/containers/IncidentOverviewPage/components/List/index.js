@@ -26,9 +26,10 @@ class List extends React.Component {
     return '-';
   }
 
-  selectIncident = incident => () => {
-    this.props.incidentSelected(incident);
-  }
+  // not needed any more
+  // selectIncident = incident => () => {
+  // this.props.incidentSelected(incident);
+  // }
 
   sortClassName(sortName) {
     let className = '';
@@ -85,7 +86,7 @@ List.propTypes = {
   status: types.dataListType.isRequired,
   stadsdeel: types.dataListType.isRequired,
 
-  incidentSelected: PropTypes.func.isRequired,
+  // incidentSelected: PropTypes.func.isRequired,
   onChangeOrdering: PropTypes.func.isRequired,
   sort: PropTypes.string,
 };
