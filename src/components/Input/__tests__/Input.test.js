@@ -33,9 +33,12 @@ describe('src/components/Input', () => {
     const { queryByText, getByText, rerender } = render(withAppContext(<Input id="392867y23uhi4" />));
 
     expect(queryByText(error)).toBeNull();
+    expect(document.querySelector('.invalid')).not.toBeInTheDocument();
 
     rerender(withAppContext(<Input id="392867y23uhi4" error={error} />));
 
     expect(getByText(error)).toBeInTheDocument();
+
+    expect(document.querySelector('.invalid')).toBeInTheDocument();
   });
 });
