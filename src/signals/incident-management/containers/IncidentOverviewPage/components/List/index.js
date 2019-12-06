@@ -60,21 +60,21 @@ class List extends React.Component {
             </thead>
             <tbody>
               {incidents.map(incident => (
-                <tr key={incident.id} onClick={this.selectIncident(incident)}>
-                  <td>{incident.id}</td>
-                  <td data-testid="incidentDaysOpen">{this.getDaysOpen(incident)}</td>
-                  <td className="no-wrap">{string2date(incident.created_at)} {string2time(incident.created_at)}</td>
-                  <td>{getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}</td>
-                  <td>{incident.category && incident.category.sub}</td>
-                  <td>{getListValueByKey(status, incident.status && incident.status.state)}</td>
-                  <td>{getListValueByKey(priority, incident.priority && incident.priority.priority)}</td>
-                  <td>{incident.location && incident.location.address_text}</td>
+                <tr key={incident.id}>
+                  <td><a className="id" href={`/manage/incident/${incident.id}`}>{incident.id}</a></td>
+                  <td data-testid="incidentDaysOpen"><a href={`/manage/incident/${incident.id}`}>{this.getDaysOpen(incident)}</a></td>
+                  <td className="no-wrap"><a href={`/manage/incident/${incident.id}`}>{string2date(incident.created_at)} {string2time(incident.created_at)}</a></td>
+                  <td><a href={`/manage/incident/${incident.id}`}>{getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}</a></td>
+                  <td><a href={`/manage/incident/${incident.id}`}>{incident.category && incident.category.sub}</a></td>
+                  <td><a href={`/manage/incident/${incident.id}`}>{getListValueByKey(status, incident.status && incident.status.state)}</a></td>
+                  <td><a href={`/manage/incident/${incident.id}`}>{getListValueByKey(priority, incident.priority && incident.priority.priority)}</a></td>
+                  <td><a href={`/manage/incident/${incident.id}`}>{incident.location && incident.location.address_text}</a></td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-      </div>
+      </div >
     );
   }
 }
