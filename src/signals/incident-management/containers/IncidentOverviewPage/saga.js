@@ -62,6 +62,7 @@ export function* fetchIncidents() {
 }
 
 export function* openIncident(action) {
+  console.log('open', action.payload);
   const incident = action.payload;
   const navigateUrl = `incident/${incident.id}`;
   yield put(push(navigateUrl));

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
@@ -25,11 +26,6 @@ class List extends React.Component {
 
     return '-';
   }
-
-  // not needed any more
-  // selectIncident = incident => () => {
-  // this.props.incidentSelected(incident);
-  // }
 
   sortClassName(sortName) {
     let className = '';
@@ -62,19 +58,19 @@ class List extends React.Component {
             <tbody>
               {incidents.map(incident => (
                 <tr key={incident.id}>
-                  <td><a className="id" href={`/manage/incident/${incident.id}`}>{incident.id}</a></td>
-                  <td data-testid="incidentDaysOpen"><a href={`/manage/incident/${incident.id}`}>{this.getDaysOpen(incident)}</a></td>
-                  <td className="no-wrap"><a href={`/manage/incident/${incident.id}`}>{string2date(incident.created_at)} {string2time(incident.created_at)}</a></td>
-                  <td><a href={`/manage/incident/${incident.id}`}>{getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}</a></td>
-                  <td><a href={`/manage/incident/${incident.id}`}>{incident.category && incident.category.sub}</a></td>
-                  <td><a href={`/manage/incident/${incident.id}`}>{getListValueByKey(status, incident.status && incident.status.state)}</a></td>
-                  <td><a href={`/manage/incident/${incident.id}`}>{getListValueByKey(priority, incident.priority && incident.priority.priority)}</a></td>
-                  <td><a href={`/manage/incident/${incident.id}`}>{incident.location && incident.location.address_text}</a></td>
+                  <td><Link className="id" to={`/manage/incident/${incident.id}`}>{incident.id}</Link></td>
+                  <td data-testid="incidentDaysOpen"><Link to={`/manage/incident/${incident.id}`}>{this.getDaysOpen(incident)}</Link></td>
+                  <td className="no-wrap"><Link to={`/manage/incident/${incident.id}`}>{string2date(incident.created_at)} {string2time(incident.created_at)}</Link></td>
+                  <td><Link to={`/manage/incident/${incident.id}`}>{getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}</Link></td>
+                  <td><Link to={`/manage/incident/${incident.id}`}>{incident.category && incident.category.sub}</Link></td>
+                  <td><Link to={`/manage/incident/${incident.id}`}>{getListValueByKey(status, incident.status && incident.status.state)}</Link></td>
+                  <td><Link to={`/manage/incident/${incident.id}`}>{getListValueByKey(priority, incident.priority && incident.priority.priority)}</Link></td>
+                  <td><Link to={`/manage/incident/${incident.id}`}>{incident.location && incident.location.address_text}</Link></td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
+        </div >
       </div >
     );
   }
@@ -86,7 +82,6 @@ List.propTypes = {
   status: types.dataListType.isRequired,
   stadsdeel: types.dataListType.isRequired,
 
-  // incidentSelected: PropTypes.func.isRequired,
   onChangeOrdering: PropTypes.func.isRequired,
   sort: PropTypes.string,
 };
