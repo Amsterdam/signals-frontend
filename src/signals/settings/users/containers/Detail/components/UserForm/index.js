@@ -35,7 +35,6 @@ const UserForm = ({ data, onCancel, onSubmitForm }) => (
     <FieldGroup>
       <Input
         hint="Vul hier een geldig e-mailadres in"
-        error="Dit veld is verplicht"
         defaultValue={data.username}
         id="username"
         name="username"

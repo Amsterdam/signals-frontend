@@ -69,6 +69,14 @@ export class Configuration {
     return `${this.config.API_ROOT}signals/v1/private/users`;
   }
 
+  get ROLES_ENDPOINT() {
+    return `${this.config.API_ROOT}signals/v1/private/roles/`;
+  }
+
+  get PERMISSIONS_ENDPOINT() {
+    return `${this.config.API_ROOT}signals/v1/private/permissions/`;
+  }
+
   get API_ROOT() {
     return this.config.API_ROOT;
   }

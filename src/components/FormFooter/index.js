@@ -56,7 +56,7 @@ const FormFooter = ({
   <FooterWrapper className={className}>
     <Row>
       <ButtonContainer span={12}>
-        {onResetForm && resetBtnLabel && (
+        {resetBtnLabel && (
           <ResetButton
             data-testid="resetBtn"
             onClick={onResetForm}
@@ -66,7 +66,7 @@ const FormFooter = ({
           </ResetButton>
         )}
 
-        {onSubmitForm && submitBtnLabel && (
+        {submitBtnLabel && (
           <SubmitButton
             data-testid="submitBtn"
             name="submit_button"
@@ -77,7 +77,7 @@ const FormFooter = ({
           </SubmitButton>
         )}
 
-        {onCancel && cancelBtnLabel && (
+        {cancelBtnLabel && (
           <CancelButton
             data-testid="cancelBtn"
             onClick={onCancel}
@@ -94,9 +94,9 @@ const FormFooter = ({
 FormFooter.defaultProps = {
   cancelBtnLabel: '',
   className: '',
-  onCancel: undefined,
-  onResetForm: undefined,
-  onSubmitForm: undefined,
+  onCancel: null,
+  onResetForm: null,
+  onSubmitForm: null,
   resetBtnLabel: '',
   submitBtnLabel: '',
 };

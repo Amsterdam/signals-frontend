@@ -57,6 +57,26 @@ describe('signals/settings/users/containers/Detail', () => {
     expect(container.querySelector('a').getAttribute('href')).toEqual(referrer);
   });
 
+  it('should render the correct title', () => {
+    const userId = userJSON.id;
+
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementationOnce(() => ({
+      userId: undefined,
+    }));
+
+    const { getByText, rerender } = render(withAppContext(<UserDetail />));
+
+    expect(getByText('Gebruiker toevoegen')).toBeInTheDocument();
+
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementationOnce(() => ({
+      userId,
+    }));
+
+    rerender(withAppContext(<UserDetail />));
+
+    expect(getByText('Gebruiker wijzigen')).toBeInTheDocument();
+  });
+
   it('should instantiate useFetchUser', () => {
     render(withAppContext(<UserDetail />));
 

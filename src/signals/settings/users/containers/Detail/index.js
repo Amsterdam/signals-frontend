@@ -8,7 +8,7 @@ import PageHeader from 'signals/settings/components/PageHeader';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import BackLink from 'components/BackLink';
 import FormAlert from 'components/FormAlert';
-import routes, { USER_URL } from '../../../routes';
+import routes, { USER_URL } from 'signals/settings/routes';
 
 import useFetchUser from './hooks/useFetchUser';
 import UserForm from './components/UserForm';
@@ -83,10 +83,12 @@ const UserDetail = () => {
     [data, location, getFormData, history]
   );
 
+  const title = `Gebruiker ${isExistingUser ? 'wijzigen' : 'toevoegen'}`;
+
   return (
     <Fragment>
       <PageHeader
-        title="Gebruiker instellingen"
+        title={title}
         BackLink={
           <BackLink to={location.referrer || routes.users}>
             Terug naar overzicht

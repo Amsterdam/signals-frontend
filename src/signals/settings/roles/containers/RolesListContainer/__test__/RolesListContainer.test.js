@@ -7,33 +7,40 @@ import { FETCH_ROLES, RESET_RESPONSE } from 'models/roles/constants';
 import { RolesListContainer, mapDispatchToProps } from '..';
 
 describe('signals/settings/roles/containers/RolesListContainer', () => {
-  let props = {};
-
-  beforeEach(() => {
-    props = {
-      id: undefined,
-      roles: {
-        list: roles.list,
-        permissions: [],
-        loading: false,
-        loadingPermissions: false,
-      },
-      onFetchRoles: jest.fn(),
-      onResetResponse: jest.fn(),
-    };
-  });
-
+  const props = {
+    id: undefined,
+    roles: {
+      list: roles.list,
+      permissions: [],
+      loading: false,
+      loadingPermissions: false,
+    },
+    onFetchRoles: jest.fn(),
+    onResetResponse: jest.fn(),
+  };
 
   it('should lazy load correctly', () => {
-    props.roles.loading = true;
-    const { container, queryByTestId, rerender } = render(withAppContext(<RolesListContainer {...props} />))
+    const loadingProps = {
+      ...props,
+      roles: {
+        ...props.roles,
+        loading: true,
+      },
+    };
+    const { container, queryByTestId, rerender } = render(withAppContext(<RolesListContainer {...loadingProps} />))
 
     expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
     expect(queryByTestId('rolesList')).not.toBeInTheDocument();
 
-    props.roles.loading = false;
-    props.roles.loadingPermissions = false;
-    rerender(withAppContext(<RolesListContainer {...props} />))
+    const notLoadingProps = {
+      ...props,
+      roles: {
+        ...props.roles,
+        loading: false,
+        loadingPermissions: false,
+      },
+    };
+    rerender(withAppContext(<RolesListContainer {...notLoadingProps} />))
 
     expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
     expect(queryByTestId('rolesList')).toBeInTheDocument();

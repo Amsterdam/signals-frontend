@@ -14,6 +14,16 @@ describe('src/components/FormFooter', () => {
 
     rerender(
       withAppContext(
+        <FormFooter resetBtnLabel="Reset" />
+      )
+    );
+
+    expect(queryByTestId('resetBtn')).not.toBeNull();
+    expect(getByText('Reset')).toBeInTheDocument();
+    expect(queryByTestId('resetBtn').getAttribute('type')).toEqual('reset');
+
+    rerender(
+      withAppContext(
         <FormFooter onResetForm={() => {}} resetBtnLabel="Reset" />
       )
     );
@@ -23,12 +33,30 @@ describe('src/components/FormFooter', () => {
     expect(queryByTestId('resetBtn').getAttribute('type')).toEqual('reset');
 
     rerender(
+      withAppContext(<FormFooter cancelBtnLabel="Cancel" />)
+    );
+
+    expect(queryByTestId('cancelBtn')).not.toBeNull();
+    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(queryByTestId('cancelBtn').getAttribute('type')).toEqual('button');
+
+    rerender(
       withAppContext(<FormFooter onCancel={() => {}} cancelBtnLabel="Cancel" />)
     );
 
     expect(queryByTestId('cancelBtn')).not.toBeNull();
     expect(getByText('Cancel')).toBeInTheDocument();
     expect(queryByTestId('cancelBtn').getAttribute('type')).toEqual('button');
+
+    rerender(
+      withAppContext(
+        <FormFooter submitBtnLabel="Submit" />
+      )
+    );
+
+    expect(queryByTestId('submitBtn')).not.toBeNull();
+    expect(getByText('Submit')).toBeInTheDocument();
+    expect(queryByTestId('submitBtn').getAttribute('type')).toEqual('submit');
 
     rerender(
       withAppContext(
