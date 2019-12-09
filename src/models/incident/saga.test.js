@@ -159,7 +159,7 @@ describe('models/incident/saga', () => {
         .put(patchIncidentError({ type, error }))
         .silentRun();
 
-      expect(global.alert).toHaveBeenCalled();
+      expect(global.alert).toHaveBeenCalledWith('Je hebt geen toestemming om deze actie uit te voeren.');
 
       global.alert.mockRestore();
     });
