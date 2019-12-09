@@ -120,5 +120,19 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
       expect(container.querySelectorAll('span')).toHaveLength(10);
     });
+
+    it('renders no list when tags are empty', () => {
+      const { container } = render(
+        withAppContext(
+          <FilterTagListComponent
+            dataLists={dataLists}
+            tags={{}}
+            categories={categories}
+          />,
+        ),
+      );
+
+      expect(container.querySelectorAll('span')).toHaveLength(0);
+    });
   });
 });
