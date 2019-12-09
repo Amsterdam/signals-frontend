@@ -277,8 +277,10 @@ export const SiteHeader = props => {
           fullWidth={false}
           navigation={tall ? null : navigation}
         />
+        {!tall && <Notification />}
       </HeaderWrapper>
-      <Notification />
+
+      {tall && <Notification />}
     </Fragment>
   );
 };

@@ -12,7 +12,7 @@ import request from 'utils/request';
 import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import mapCategories from 'shared/services/map-categories';
-import { VARIANT_ERROR } from 'containers/Notification/constants';
+import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
 
 import {
   LOGOUT,
@@ -46,6 +46,7 @@ export function* callLogin(action) {
       showGlobalNotification({
         variant: VARIANT_ERROR,
         title: 'Inloggen is niet gelukt',
+        type: TYPE_GLOBAL,
       })
     );
   }
@@ -70,6 +71,7 @@ export function* callLogout() {
       showGlobalNotification({
         variant: VARIANT_ERROR,
         title: 'Uitloggen is niet gelukt',
+        type: TYPE_GLOBAL,
       })
     );
   }
@@ -101,6 +103,7 @@ export function* callAuthorize(action) {
         showGlobalNotification({
           variant: VARIANT_ERROR,
           title: 'Authenticeren is niet gelukt',
+          type: TYPE_GLOBAL,
         })
       );
     }
@@ -121,6 +124,7 @@ export function* fetchCategories() {
         title: 'Inladen van categorieën is niet gelukt',
         message:
           'Het kan zijn dat de API tijdelijk niet beschikbaar is. Herlaad de pagina',
+        type: TYPE_GLOBAL,
       })
     );
   }
@@ -148,6 +152,7 @@ export function* uploadFile(action) {
         showGlobalNotification({
           variant: VARIANT_ERROR,
           title: 'Het uploaden van de foto is niet gelukt',
+          type: TYPE_GLOBAL,
         })
       );
       return;

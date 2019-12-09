@@ -13,7 +13,7 @@ import {
 } from 'containers/SiteHeader/constants';
 
 import {
-  SLIDEUP_TIMEOUT,
+  ONCLOSE_TIMEOUT,
   VARIANT_ERROR,
   VARIANT_SUCCESS,
 } from 'containers/Notification/constants';
@@ -45,7 +45,7 @@ export const Wrapper = styled.div`
   transform: translateX(-50vw) translateY(0);
   transition-property: transform opacity;
   transition-timing-function: ease-out;
-  transition-duration: ${SLIDEUP_TIMEOUT}ms;
+  transition-duration: ${ONCLOSE_TIMEOUT}ms;
   width: 100vw;
   will-change: transform, opacity;
   z-index: 1;
@@ -57,13 +57,11 @@ export const Wrapper = styled.div`
   }
 
   &.slideup {
-    ${({ top }) => css`
-      transform: translateX(-50vw) translateY(-${top}px);
+    transform: translateX(-50vw) translateY(-100%);
 
-      @media (min-width: 1400px) {
-        transform: translateX(-50%) translateY(-${top}px);
-      }
-    `}
+    @media (min-width: 1400px) {
+      transform: translateX(-50%) translateY(-100%);
+    }
   }
 
   &.fadeout {

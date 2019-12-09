@@ -11,7 +11,7 @@ import { login, logout } from 'shared/services/auth/auth';
 import mapCategories from 'shared/services/map-categories';
 import fileUploadChannel from 'shared/services/file-upload-channel';
 import stateTokenGenerator from 'shared/services/auth/services/state-token-generator/state-token-generator';
-import { VARIANT_ERROR } from 'containers/Notification/constants';
+import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
 
 import watchAppSaga, {
   callLogin,
@@ -118,6 +118,7 @@ describe('App saga', () => {
           showGlobalNotification({
             variant: VARIANT_ERROR,
             title: 'Inloggen is niet gelukt',
+            type: TYPE_GLOBAL,
           })
         )
         .run();
@@ -167,6 +168,7 @@ describe('App saga', () => {
           showGlobalNotification({
             variant: VARIANT_ERROR,
             title: 'Uitloggen is niet gelukt',
+            type: TYPE_GLOBAL,
           })
         )
         .run();
@@ -229,6 +231,7 @@ describe('App saga', () => {
           showGlobalNotification({
             variant: VARIANT_ERROR,
             title: 'Authenticeren is niet gelukt',
+            type: TYPE_GLOBAL,
           })
         )
         .run();
@@ -278,6 +281,7 @@ describe('App saga', () => {
             title: 'Inladen van categorieën is niet gelukt',
             message:
               'Het kan zijn dat de API tijdelijk niet beschikbaar is. Herlaad de pagina',
+            type: TYPE_GLOBAL,
           })
         )
         .run();
@@ -371,6 +375,7 @@ describe('App saga', () => {
           showGlobalNotification({
             variant: VARIANT_ERROR,
             title: 'Het uploaden van de foto is niet gelukt',
+            type: TYPE_GLOBAL,
           })
         )
       ); // eslint-disable-line redux-saga/yield-effects

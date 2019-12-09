@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Column, Row } from '@datapunt/asc-ui';
 import { Close } from '@datapunt/asc-assets';
+import { useHistory } from 'react-router-dom';
 import {
   SITE_HEADER_HEIGHT_SHORT,
   SITE_HEADER_HEIGHT_TALL,
@@ -40,13 +41,39 @@ const Notification = ({
   const [shouldHide, setShouldHide] = useState(false);
   const isFrontOffice = useIsFrontOffice();
   const tall = isFrontOffice && !isAuthenticated();
+  const history = useHistory();
 
   // persisting timeout IDs across renders
   const onCloseTimeoutRef = useRef();
   const slideUpTimeoutRef = useRef();
 
+  /**
+   * Subscribe to history changes
+   * Will reset the notification whenever a navigation action occurs and only when the type of the
+   * notifcation is TYPE_LOCAL
+   */
   useEffect(() => {
-    if (variant === VARIANT_ERROR || type === TYPE_GLOBAL) return undefined;
+    if (type !== TYPE_LOCAL || typeof onClose !== 'function') {
+      return undefined;
+    }
+
+    const unlisten = history.listen(() => {
+      onClose();
+    });
+
+    return () => {
+      unlisten();
+    };
+  }, [history, type, title, onClose]);
+
+  useEffect(() => {
+    if (
+      variant === VARIANT_ERROR ||
+      type === TYPE_GLOBAL ||
+      typeof onClose !== 'function'
+    ) {
+      return undefined;
+    }
 
     if (hasFocus) {
       global.clearTimeout(onCloseTimeoutRef.current);
@@ -63,10 +90,7 @@ const Notification = ({
       const onCloseTimeoutId = global.setTimeout(() => {
         global.clearTimeout(onCloseTimeoutRef.current);
 
-        /* istanbul ignore else */
-        if (typeof onClose === 'function') {
-          onClose();
-        }
+        onClose();
       }, ONCLOSE_TIMEOUT + SLIDEUP_TIMEOUT);
 
       onCloseTimeoutRef.current = onCloseTimeoutId;

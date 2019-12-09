@@ -1,9 +1,10 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { render, act } from '@testing-library/react';
-import { history, withAppContext } from 'test/utils';
+import { render } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
 
-import { TYPE_LOCAL, TYPE_GLOBAL, VARIANT_DEFAULT } from '../constants';
+import { TYPE_GLOBAL, VARIANT_DEFAULT } from '../constants';
+
 import NotificationContainer, { NotificationContainerComponent } from '..';
 
 describe('containers/Notification', () => {
@@ -28,9 +29,7 @@ describe('containers/Notification', () => {
     expect(typeof containerProps.onResetNotification).toEqual('function');
   });
 
-  it('should NOT reset notification on history change', () => {
-    const onResetNotification = jest.fn();
-
+  it('should render the Notification component', () => {
     const notification = {
       title: 'Foo bar',
       message: 'hic sunt dracones',
@@ -38,75 +37,35 @@ describe('containers/Notification', () => {
       variant: VARIANT_DEFAULT,
     };
 
-    render(
+    const { container } = render(
       withAppContext(
         <NotificationContainerComponent
-          onResetNotification={onResetNotification}
           notification={notification}
+          onResetNotification={() => {}}
         />
       )
     );
 
-    act(() => {
-      history.push('/');
-    });
-
-    expect(onResetNotification).not.toHaveBeenCalled();
+    expect(container.firstChild).toBeInTheDocument();
   });
 
-  it('should reset notification on history change', () => {
-    const onResetNotification = jest.fn();
-
+  it('should NOT render the Notification component', () => {
     const notification = {
-      title: 'Foo bar',
+      title: '',
       message: 'hic sunt dracones',
-      type: TYPE_LOCAL,
+      type: TYPE_GLOBAL,
       variant: VARIANT_DEFAULT,
     };
 
-    render(
+    const { container } = render(
       withAppContext(
         <NotificationContainerComponent
-          onResetNotification={onResetNotification}
           notification={notification}
+          onResetNotification={() => {}}
         />
       )
     );
 
-    expect(onResetNotification).not.toHaveBeenCalled();
-
-    act(() => {
-      history.push('/manage');
-    });
-
-    expect(onResetNotification).toHaveBeenCalled();
-  });
-
-  it('should not reset notification on unmount', () => {
-    const onResetNotification = jest.fn();
-
-    const notification = {
-      title: 'Foo bar',
-      message: 'hic sunt dracones',
-      type: TYPE_LOCAL,
-      variant: VARIANT_DEFAULT,
-    };
-
-    const { unmount } = render(
-      withAppContext(
-        <NotificationContainerComponent
-          onResetNotification={onResetNotification}
-          notification={notification}
-        />
-      )
-    );
-
-    expect(onResetNotification).not.toHaveBeenCalled();
-
-    act(() => {
-      unmount();
-    });
-
-    expect(onResetNotification).toHaveBeenCalled();
+    expect(container.firstChild).not.toBeInTheDocument();
   });
 });

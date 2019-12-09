@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
 import { history, withAppContext } from 'test/utils';
+import 'jest-styled-components';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 
@@ -8,11 +9,17 @@ import {
   ONCLOSE_TIMEOUT,
   SLIDEUP_TIMEOUT,
   TYPE_GLOBAL,
-  TYPE_LOCAL,
   VARIANT_ERROR,
   VARIANT_NOTICE,
+  VARIANT_DEFAULT,
   VARIANT_SUCCESS,
 } from 'containers/Notification/constants';
+import {
+  SITE_HEADER_HEIGHT_SHORT,
+  SITE_HEADER_HEIGHT_TALL,
+} from 'containers/SiteHeader/constants';
+
+import { BG_COLOR_ERROR, BG_COLOR_NOTICE, BG_COLOR_SUCCESS } from '../styled';
 
 import Notification from '..';
 
@@ -20,10 +27,15 @@ jest.useFakeTimers();
 
 jest.mock('shared/services/auth/auth');
 
+let listenSpy;
+
 describe('components/Notification', () => {
   beforeEach(() => {
-    global.setTimeout.mock.calls = [];
-    global.clearTimeout.mock.calls = [];
+    listenSpy = jest.spyOn(history, 'listen');
+  });
+
+  afterEach(() => {
+    listenSpy.mockRestore();
   });
 
   it('renders correctly when not logged in', () => {
@@ -31,7 +43,7 @@ describe('components/Notification', () => {
 
     const title = 'Here be dragons';
     const message = 'hic sunt dracones';
-    const { getByText } = render(
+    const { container, getByText } = render(
       withAppContext(<Notification title={title} message={message} />)
     );
 
@@ -41,13 +53,113 @@ describe('components/Notification', () => {
 
     expect(getByText(title)).toBeInTheDocument();
     expect(getByText(message)).toBeInTheDocument();
+    expect(container.firstChild).toHaveStyleRule(
+      'top',
+      `${SITE_HEADER_HEIGHT_TALL}px`
+    );
+    expect(container.firstChild).toHaveStyleRule('position', 'absolute');
+    expect(container.firstChild).toHaveStyleRule(
+      'transition-timing-function',
+      expect.stringContaining('ease-out')
+    );
+  });
+
+  it('renders correctly when logged in', () => {
+    isAuthenticated.mockImplementation(() => true);
+
+    const { container } = render(
+      withAppContext(<Notification title="Foo bar" />)
+    );
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(container.firstChild).toHaveStyleRule(
+      'top',
+      `${SITE_HEADER_HEIGHT_SHORT}px`
+    );
+    expect(container.firstChild).toHaveStyleRule('position', 'fixed');
+  });
+
+  it('renders its variants', () => {
+    const { container, rerender } = render(
+      withAppContext(<Notification title="Foo bar" />)
+    );
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(container.firstChild).toHaveStyleRule(
+      'background-color',
+      BG_COLOR_NOTICE
+    );
+
+    rerender(
+      withAppContext(<Notification title="Foo bar" variant={VARIANT_NOTICE} />)
+    );
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(container.firstChild).toHaveStyleRule(
+      'background-color',
+      BG_COLOR_NOTICE
+    );
+
+    rerender(
+      withAppContext(<Notification title="Foo bar" variant={VARIANT_DEFAULT} />)
+    );
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(container.firstChild).toHaveStyleRule(
+      'background-color',
+      BG_COLOR_NOTICE
+    );
+
+    rerender(
+      withAppContext(<Notification title="Foo bar" variant={VARIANT_ERROR} />)
+    );
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(container.firstChild).toHaveStyleRule(
+      'background-color',
+      BG_COLOR_ERROR
+    );
+
+    rerender(
+      withAppContext(<Notification title="Foo bar" variant={VARIANT_SUCCESS} />)
+    );
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(container.firstChild).toHaveStyleRule(
+      'background-color',
+      BG_COLOR_SUCCESS
+    );
   });
 
   it('uses timeouts to time navigation actions for VARIANT_NOTICE', () => {
     const onClose = jest.fn();
 
     render(
-      withAppContext(<Notification title="Foo bar" variant={VARIANT_NOTICE} onClose={onClose} />)
+      withAppContext(
+        <Notification
+          title="Foo bar"
+          variant={VARIANT_NOTICE}
+          onClose={onClose}
+        />
+      )
     );
 
     expect(onClose).not.toHaveBeenCalled();
@@ -70,7 +182,13 @@ describe('components/Notification', () => {
     const onClose = jest.fn();
 
     render(
-      withAppContext(<Notification title="Foo bar" variant={VARIANT_SUCCESS} onClose={onClose} />)
+      withAppContext(
+        <Notification
+          title="Foo bar"
+          variant={VARIANT_SUCCESS}
+          onClose={onClose}
+        />
+      )
     );
 
     expect(onClose).not.toHaveBeenCalled();
@@ -92,7 +210,13 @@ describe('components/Notification', () => {
     const onClose = jest.fn();
 
     render(
-      withAppContext(<Notification title="Foo bar" variant={VARIANT_ERROR} onClose={onClose} />)
+      withAppContext(
+        <Notification
+          title="Foo bar"
+          variant={VARIANT_ERROR}
+          onClose={onClose}
+        />
+      )
     );
 
     expect(onClose).not.toHaveBeenCalled();
@@ -114,7 +238,9 @@ describe('components/Notification', () => {
     const onClose = jest.fn();
 
     render(
-      withAppContext(<Notification title="Foo bar" type={TYPE_GLOBAL} onClose={onClose} />)
+      withAppContext(
+        <Notification title="Foo bar" type={TYPE_GLOBAL} onClose={onClose} />
+      )
     );
 
     expect(onClose).not.toHaveBeenCalled();
@@ -136,14 +262,12 @@ describe('components/Notification', () => {
     const onClose = jest.fn();
 
     const { container } = render(
-      withAppContext(
-        <Notification title="Foo bar" onClose={onClose} type={TYPE_LOCAL} />
-      )
+      withAppContext(<Notification title="Foo bar" onClose={onClose} />)
     );
 
     expect(onClose).not.toHaveBeenCalled();
 
-    expect(container.firstChild.classList.contains('fadeout')).toEqual(false);
+    expect(container.firstChild.classList.contains('slideup')).toEqual(false);
 
     act(() => {
       jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
@@ -186,9 +310,7 @@ describe('components/Notification', () => {
     const onClose = jest.fn();
 
     const { getByTestId } = render(
-      withAppContext(
-        <Notification title="Foo bar" onClose={onClose} type={TYPE_LOCAL} />
-      )
+      withAppContext(<Notification title="Foo bar" onClose={onClose} />)
     );
 
     expect(onClose).not.toHaveBeenCalled();
@@ -214,9 +336,7 @@ describe('components/Notification', () => {
     const onClose = jest.fn();
 
     const { getByTestId } = render(
-      withAppContext(
-        <Notification title="Foo bar" onClose={onClose} type={TYPE_LOCAL} />
-      )
+      withAppContext(<Notification title="Foo bar" onClose={onClose} />)
     );
 
     expect(onClose).not.toHaveBeenCalled();
@@ -232,7 +352,7 @@ describe('components/Notification', () => {
     });
 
     act(() => {
-      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT / 2);
     });
 
     expect(onClose).not.toHaveBeenCalled();
@@ -250,20 +370,14 @@ describe('components/Notification', () => {
 
   it('slides up when the close button is clicked', () => {
     isAuthenticated.mockImplementation(() => true);
+
     const onClose = jest.fn();
 
     const { container, getByTestId } = render(
-      withAppContext(
-        <Notification title="Foo bar" onClose={onClose} type={TYPE_LOCAL} />
-      )
+      withAppContext(<Notification title="Foo bar" onClose={onClose} />)
     );
 
     expect(onClose).not.toHaveBeenCalled();
-    expect(container.firstChild.classList.contains('slideup')).toEqual(false);
-
-    act(() => {
-      fireEvent.mouseOver(getByTestId('notification'));
-    });
 
     act(() => {
       fireEvent.click(getByTestId('notificationClose'));
@@ -271,7 +385,7 @@ describe('components/Notification', () => {
 
     expect(container.firstChild.classList.contains('slideup')).toEqual(true);
 
-    expect(onClose).toHaveBeenCalledTimes(0);
+    expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
       jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
@@ -280,24 +394,16 @@ describe('components/Notification', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  it('hides when the close button is clicked', () => {
+  it('fades out up when the close button is clicked', () => {
     isAuthenticated.mockImplementation(() => false);
-    history.push('/');
 
     const onClose = jest.fn();
 
     const { container, getByTestId } = render(
-      withAppContext(
-        <Notification title="Foo bar" onClose={onClose} type={TYPE_LOCAL} />
-      )
+      withAppContext(<Notification title="Foo bar" onClose={onClose} />)
     );
 
     expect(onClose).not.toHaveBeenCalled();
-    expect(container.firstChild.classList.contains('fadeout')).toEqual(false);
-
-    act(() => {
-      fireEvent.mouseOver(getByTestId('notification'));
-    });
 
     act(() => {
       fireEvent.click(getByTestId('notificationClose'));
@@ -305,12 +411,74 @@ describe('components/Notification', () => {
 
     expect(container.firstChild.classList.contains('fadeout')).toEqual(true);
 
-    expect(onClose).toHaveBeenCalledTimes(0);
+    expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
+      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
     });
 
     expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('should NOT reset notification on history change when type equals TYPE_GLOBAL', () => {
+    render(
+      withAppContext(
+        <Notification
+          onClose={() => {}}
+          type={TYPE_GLOBAL}
+          title="Foo bar"
+        />
+      )
+    );
+
+    const callsToHistoryListen = [...listenSpy.mock.calls];
+
+    act(() => {
+      history.push('/');
+    });
+
+    // Comparing the calls to history.listen. We cannot assert that `listen` has not been called, since the instantiation
+    // of connected-react-router will already have done that
+    expect(callsToHistoryListen).toEqual(listenSpy.mock.calls)
+  });
+
+  it('should NOT reset notification on history change when onClose is not a function', () => {
+    render(
+      withAppContext(
+        <Notification
+          onClose={null}
+          title="Foo bar"
+        />
+      )
+    );
+
+    const callsToHistoryListen = [...listenSpy.mock.calls];
+
+    act(() => {
+      history.push('/');
+    });
+
+    expect(callsToHistoryListen).toEqual(listenSpy.mock.calls)
+  });
+
+  it('should reset notification on history change', () => {
+    const onClose = jest.fn();
+
+    render(
+      withAppContext(
+        <Notification
+          onClose={onClose}
+          title="Foo bar"
+        />
+      )
+    );
+
+    expect(onClose).not.toHaveBeenCalled();
+
+    act(() => {
+      history.push('/manage');
+    });
+
+    expect(onClose).toHaveBeenCalled();
   });
 });
