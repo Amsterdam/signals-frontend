@@ -15,8 +15,8 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
-describe('hooks/uesIsFrontOffice', () => {
-  it('should return boolean', () => {
+describe('hooks/useIsFrontOffice', () => {
+  it('should return a boolean', () => {
     const { result } = renderHook(() => useIsFrontOffice());
 
     expect(result.current).toEqual(true);

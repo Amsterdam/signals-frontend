@@ -12,9 +12,11 @@ import BackLink from 'components/BackLink';
 import FormAlert from 'components/FormAlert';
 
 import makeSelectRolesModel from 'models/roles/selectors';
-import { fetchRoles, fetchPermissions, patchRole } from 'models/roles/actions';
+import { fetchRoles, fetchPermissions, patchRole, saveRole } from 'models/roles/actions';
+import { ROLES_URL } from 'signals/settings/routes';
 
-import RoleForm from '../../components/RoleForm';
+import RoleForm from './components/RoleForm';
+
 
 export const RoleFormContainer = ({
   roles: {
@@ -28,11 +30,12 @@ export const RoleFormContainer = ({
   onFetchRoles,
   onFetchPermissions,
   onPatchRole,
+  onSaveRole,
 }) => {
   useEffect(() => {
     onFetchRoles();
     onFetchPermissions();
-  }, []);
+  }, [onFetchPermissions, onFetchRoles]);
 
   const { roleId } = useParams();
   const role = list.find(item => item.id === roleId * 1);
@@ -42,18 +45,19 @@ export const RoleFormContainer = ({
       <PageHeader
         title="Rol instellingen"
         BackLink={
-          <BackLink to="/instellingen/rollen">
+          <BackLink to={ROLES_URL}>
             Terug naar overzicht
           </BackLink>
         }
       />
       <Row>
         <Column span={12}>
-          {responseSuccess && <FormAlert
-            data-testid="roleFormSuccess"
-            isNotification
-            title="Gegevens opgeslagen"
-          />}
+          {responseSuccess &&
+            <FormAlert
+              data-testid="roleFormSuccess"
+              isNotification
+              title="Gegevens opgeslagen"
+            />}
           {responseError &&
             <FormAlert
               data-testid="roleFormError"
@@ -71,6 +75,7 @@ export const RoleFormContainer = ({
                 role={role}
                 permissions={permissions}
                 onPatchRole={onPatchRole}
+                onSaveRole={onSaveRole}
               />
             )
           }
@@ -110,6 +115,7 @@ RoleFormContainer.propTypes = {
   onFetchRoles: PropTypes.func.isRequired,
   onFetchPermissions: PropTypes.func.isRequired,
   onPatchRole: PropTypes.func.isRequired,
+  onSaveRole: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -120,6 +126,7 @@ export const mapDispatchToProps = dispatch => bindActionCreators({
   onFetchRoles: fetchRoles,
   onFetchPermissions: fetchPermissions,
   onPatchRole: patchRole,
+  onSaveRole: saveRole,
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

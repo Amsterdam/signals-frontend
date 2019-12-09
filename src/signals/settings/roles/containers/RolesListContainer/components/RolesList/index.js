@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@datapunt/asc-core';
 import { useHistory } from 'react-router-dom';
 
 import ListComponent from 'components/List';
+import { ROLE_URL } from 'signals/settings/routes';
 
-import formatRoles from '../../services/formatRoles';
+import formatRoles from 'signals/settings/roles/services/formatRoles';
 
 const StyledListComponent = styled(ListComponent)`
   th:nth-child(1),
@@ -19,13 +20,13 @@ export const RolesList = ({
 }) => {
   const history = useHistory();
 
-  const onItemClick = e => {
+  const onItemClick = useCallback(e => {
     const roleId = e.currentTarget.getAttribute('data-item-id');
     /* istanbul ignore else */
     if (roleId > -1) {
-      history.push(`/instellingen/rol/${roleId}`);
+      history.push(`${ROLE_URL}/${roleId}`);
     }
-  };
+  }, [history]);
 
   return (
     <div data-testid="rolesList">

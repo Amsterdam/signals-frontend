@@ -20,17 +20,6 @@ jest.useFakeTimers();
 
 jest.mock('shared/services/auth/auth');
 
-// The test renderer uses setTimeout which gives false positives when checking for the amount of calls
-// in global.setTimeout. We need to remove the first item off the list of calls to get the actual
-// list of calls to global.setTimeout
-const getCalls = fn =>
-  global[fn].mock.calls.filter(
-    ([call]) => Boolean(call) && call.name !== '_flushCallback'
-  );
-
-const getSetTimeoutCalls = () => getCalls('setTimeout');
-const getClearTimeoutCalls = () => getCalls('clearTimeout');
-
 describe('components/Notification', () => {
   beforeEach(() => {
     global.setTimeout.mock.calls = [];
@@ -54,96 +43,12 @@ describe('components/Notification', () => {
     expect(getByText(message)).toBeInTheDocument();
   });
 
-  it('does not use timeouts to time navigation actions for VARIANT_ERROR', () => {
-    expect(getSetTimeoutCalls()).toHaveLength(0);
-
-    render(
-      withAppContext(<Notification title="Foo bar" variant={VARIANT_ERROR} />)
-    );
-
-    act(() => {
-      jest.runAllTimers();
-    });
-
-    expect(getSetTimeoutCalls()).toHaveLength(0);
-  });
-
-  it('does not use timeouts to time navigation actions for TYPE_GLOBAL', () => {
-    expect(getSetTimeoutCalls()).toHaveLength(0);
-
-    render(withAppContext(<Notification title="Foo bar" type={TYPE_GLOBAL} />));
-
-    act(() => {
-      jest.runAllTimers();
-    });
-
-    expect(getSetTimeoutCalls()).toHaveLength(0);
-  });
-
   it('uses timeouts to time navigation actions for VARIANT_NOTICE', () => {
-    expect(getSetTimeoutCalls()).toHaveLength(0);
-
-    render(
-      withAppContext(
-        <Notification
-          title="Foo bar"
-          variant={VARIANT_NOTICE}
-          type={TYPE_LOCAL}
-        />
-      )
-    );
-
-    act(() => {
-      jest.runAllTimers();
-    });
-
-    expect(getSetTimeoutCalls()).toHaveLength(2);
-  });
-
-  it('uses timeouts to time navigation actions for VARIANT_SUCCESS', () => {
-    expect(getSetTimeoutCalls()).toHaveLength(0);
-
-    render(
-      withAppContext(
-        <Notification
-          title="Foo bar"
-          variant={VARIANT_SUCCESS}
-          type={TYPE_LOCAL}
-        />
-      )
-    );
-
-    act(() => {
-      jest.runAllTimers();
-    });
-
-    expect(getSetTimeoutCalls()).toHaveLength(2);
-  });
-
-  it('slides up the component after a specific amount of time and executes callback function', () => {
-    isAuthenticated.mockImplementation(() => true);
-
-    expect(getSetTimeoutCalls()).toHaveLength(0);
-    expect(getClearTimeoutCalls()).toHaveLength(0);
-
     const onClose = jest.fn();
 
-    const { container } = render(
-      withAppContext(
-        <Notification title="Foo bar" onClose={onClose} type={TYPE_LOCAL} />
-      )
+    render(
+      withAppContext(<Notification title="Foo bar" variant={VARIANT_NOTICE} onClose={onClose} />)
     );
-
-    expect(getSetTimeoutCalls()).toHaveLength(2);
-    expect(getClearTimeoutCalls()).toHaveLength(0);
-
-    expect(onClose).not.toHaveBeenCalled();
-
-    expect(container.firstChild.classList.contains('slideup')).toEqual(false);
-
-    act(() => {
-      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
-    });
 
     expect(onClose).not.toHaveBeenCalled();
 
@@ -151,21 +56,83 @@ describe('components/Notification', () => {
       jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
     });
 
+    // onClose should only be called when the element completely disappears, so after both timeouts combined
+    expect(onClose).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
+    });
+
     expect(onClose).toHaveBeenCalled();
+  });
 
-    expect(getSetTimeoutCalls()).toHaveLength(2);
-    expect(getClearTimeoutCalls()).toHaveLength(2);
+  it('uses timeouts to time navigation actions for VARIANT_SUCCESS', () => {
+    const onClose = jest.fn();
 
-    expect(container.firstChild.classList.contains('slideup')).toEqual(true);
+    render(
+      withAppContext(<Notification title="Foo bar" variant={VARIANT_SUCCESS} onClose={onClose} />)
+    );
+
+    expect(onClose).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
+    });
+
+    expect(onClose).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
+    });
+
+    expect(onClose).toHaveBeenCalled();
+  });
+
+  it('does not use timeouts to time navigation actions for VARIANT_ERROR', () => {
+    const onClose = jest.fn();
+
+    render(
+      withAppContext(<Notification title="Foo bar" variant={VARIANT_ERROR} onClose={onClose} />)
+    );
+
+    expect(onClose).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
+    });
+
+    expect(onClose).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
+    });
+
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
+  it('does not use timeouts to time navigation actions for TYPE_GLOBAL', () => {
+    const onClose = jest.fn();
+
+    render(
+      withAppContext(<Notification title="Foo bar" type={TYPE_GLOBAL} onClose={onClose} />)
+    );
+
+    expect(onClose).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
+    });
+
+    expect(onClose).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
+    });
+
+    expect(onClose).not.toHaveBeenCalled();
   });
 
   it('hides the component after a specific amount of time and executes callback function', () => {
-    isAuthenticated.mockImplementation(() => false);
-    history.push('/');
-
-    expect(getSetTimeoutCalls()).toHaveLength(0);
-    expect(getClearTimeoutCalls()).toHaveLength(0);
-
     const onClose = jest.fn();
 
     const { container } = render(
@@ -173,54 +140,50 @@ describe('components/Notification', () => {
         <Notification title="Foo bar" onClose={onClose} type={TYPE_LOCAL} />
       )
     );
-
-    expect(getSetTimeoutCalls()).toHaveLength(2);
-    expect(getClearTimeoutCalls()).toHaveLength(0);
 
     expect(onClose).not.toHaveBeenCalled();
 
     expect(container.firstChild.classList.contains('fadeout')).toEqual(false);
 
     act(() => {
-      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
     });
 
     expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
+      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
     });
 
     expect(onClose).toHaveBeenCalled();
 
-    expect(getSetTimeoutCalls()).toHaveLength(2);
-    expect(getClearTimeoutCalls()).toHaveLength(2);
-
-    expect(container.firstChild.classList.contains('fadeout')).toEqual(true);
+    expect(container.firstChild.classList.contains('slideup')).toEqual(true);
   });
 
   it('clears timeouts on unmount', () => {
-    expect(getSetTimeoutCalls()).toHaveLength(0);
+    const onClose = jest.fn();
 
     const { unmount } = render(
-      withAppContext(<Notification title="Foo bar" type={TYPE_LOCAL} />)
+      withAppContext(<Notification title="Foo bar" onClose={onClose} />)
     );
 
-    act(() => {
-      jest.runAllTimers();
-    });
+    expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
       unmount();
     });
 
-    expect(getClearTimeoutCalls()).toHaveLength(4);
+    expect(onClose).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(onClose).not.toHaveBeenCalled();
   });
 
   it('clears the timer when the component receives a mouse enter event', () => {
     const onClose = jest.fn();
-
-    expect(getSetTimeoutCalls()).toHaveLength(0);
 
     const { getByTestId } = render(
       withAppContext(
@@ -231,44 +194,45 @@ describe('components/Notification', () => {
     expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(ONCLOSE_TIMEOUT / 2);
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT / 2);
     });
 
     expect(onClose).not.toHaveBeenCalled();
-
-    expect(getSetTimeoutCalls()).toHaveLength(2);
-    expect(getClearTimeoutCalls()).toHaveLength(0);
 
     act(() => {
       fireEvent.mouseOver(getByTestId('notification'));
     });
 
     act(() => {
-      jest.runAllTimers();
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
     });
 
-    expect(getSetTimeoutCalls()).toHaveLength(2);
-    expect(getClearTimeoutCalls()).toHaveLength(4); // clearTimeout calls on update and unmount
     expect(onClose).not.toHaveBeenCalled();
   });
 
   it('restarts the timer when the component receives a mouse out event', () => {
     const onClose = jest.fn();
 
-    expect(getSetTimeoutCalls()).toHaveLength(0);
-
     const { getByTestId } = render(
       withAppContext(
         <Notification title="Foo bar" onClose={onClose} type={TYPE_LOCAL} />
       )
     );
 
+    expect(onClose).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT / 2);
+    });
+
+    expect(onClose).not.toHaveBeenCalled();
+
     act(() => {
       fireEvent.mouseOver(getByTestId('notification'));
     });
 
     act(() => {
-      jest.advanceTimersByTime(ONCLOSE_TIMEOUT * 2);
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
     });
 
     expect(onClose).not.toHaveBeenCalled();
@@ -310,7 +274,7 @@ describe('components/Notification', () => {
     expect(onClose).toHaveBeenCalledTimes(0);
 
     act(() => {
-      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
+      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
     });
 
     expect(onClose).toHaveBeenCalledTimes(1);
