@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { makeSelectCategories } from 'containers/App/selectors';
 import { makeSelectDataLists } from 'signals/incident-management/selectors';
 import { Tag } from '@datapunt/asc-ui';
-import { isDate } from 'utils';
 import moment from 'moment';
 import * as types from 'shared/types';
 
@@ -18,8 +17,6 @@ const StyledTag = styled(Tag)`
   margin: 0 5px 5px 0;
 `;
 
-const ignoredTags = ['id'];
-
 export const allLabelAppend = ': Alles';
 
 const renderTag = (key, tagKey, mainCategories, list) => {
@@ -31,11 +28,11 @@ const renderTag = (key, tagKey, mainCategories, list) => {
 
   let display = (found && found.value) || key;
 
-  if (!display || ignoredTags.includes(tagKey)) {
+  if (!display) {
     return;
   }
 
-  if (isDate(display)) {
+  if (tagKey === 'incident_date') {
     display = moment(display).format('DD-MM-YYYY');
   }
 
