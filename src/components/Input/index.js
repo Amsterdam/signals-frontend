@@ -17,6 +17,12 @@ const StyledInput = styled(Field)`
     border: 1px solid ${themeColor('tint', 'level4')};
     color: ${themeColor('tint', 'level4')};
   }
+
+  ${({ showError }) => showError && css`
+    & {
+      border: 2px solid ${themeColor('secondary')};
+    }
+  `}
 `;
 
 const Hint = styled(Typography).attrs({
@@ -55,12 +61,12 @@ const Wrapper = styled.div`
   `}
 `;
 
-const Input = ({ hint, label, id, error, ...rest }) => (
-  <Wrapper showError={Boolean(error)}>
+const Input = ({ className, hint, label, id, error, ...rest }) => (
+  <Wrapper className={className} showError={Boolean(error)}>
     {label && <Label hasHint={Boolean(hint)} htmlFor={id} label={label} />}
     {hint && <Hint>{hint}</Hint>}
     {error && <Error>{error}</Error>}
-    <StyledInput id={id} {...rest} />
+    <StyledInput id={id} showError={Boolean(error)} {...rest} />
   </Wrapper>
 );
 
