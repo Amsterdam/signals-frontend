@@ -52,8 +52,7 @@ export function* patchIncident(action) {
     const { response } = error;
 
     if (response && response.status === 403) {
-      const { jsonBody } = response;
-      global.alert(jsonBody.detail);
+      global.alert('Je hebt geen toestemming om deze actie uit te voeren.');
     }
 
     yield put(patchIncidentError({ type: payload.type, error }));

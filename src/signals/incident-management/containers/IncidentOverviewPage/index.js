@@ -32,7 +32,7 @@ import ListComponent from './components/List';
 import { makeSelectOverviewPage, makeSelectIncidentsCount } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { requestIncidents, incidentSelected } from './actions';
+import { requestIncidents } from './actions';
 import FilterTagList from '../FilterTagList';
 import PageHeader from './components/PageHeader';
 
@@ -54,7 +54,6 @@ export const IncidentOverviewPageContainerComponent = ({
   onPageIncidentsChanged,
   overviewpage,
   incidentsCount,
-  onIncidentSelected,
   dataLists,
   page,
   ordering,
@@ -170,7 +169,6 @@ export const IncidentOverviewPageContainerComponent = ({
           ) : (
             <Column span={12}>
               <ListComponent
-                incidentSelected={onIncidentSelected}
                 incidents={incidents}
                 onChangeOrdering={onChangeOrdering}
                 sort={ordering}
@@ -210,7 +208,6 @@ IncidentOverviewPageContainerComponent.propTypes = {
   dataLists: types.dataListsType.isRequired,
   incidentsCount: PropTypes.number,
   onChangeOrdering: PropTypes.func.isRequired,
-  onIncidentSelected: PropTypes.func.isRequired,
   onPageIncidentsChanged: PropTypes.func.isRequired,
   onRequestIncidents: PropTypes.func.isRequired,
   ordering: PropTypes.string,
@@ -232,7 +229,6 @@ export const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       onChangeOrdering: orderingIncidentsChanged,
-      onIncidentSelected: incidentSelected,
       onPageIncidentsChanged: pageIncidentsChanged,
       onRequestIncidents: requestIncidents,
     },

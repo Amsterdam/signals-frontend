@@ -2,10 +2,6 @@
   padding: 0;
   width: 100%;
 
-  tr:hover {
-    cursor: pointer;
-  }
-
   &__title {
     font-size: 16px;
     font-weight: bold;
@@ -16,7 +12,25 @@
     border-collapse: separate;
     width: 100%;
 
-    tr:hover td, td {
+    td {
+      padding: 0;
+
+      a {
+        &.id {
+          color: #004699;
+          text-decoration: underline
+        }
+
+        text-decoration: none;
+        color: black;
+        display: inline-block;
+        width: 100%;
+        padding: 8px;
+      }
+    }
+
+    tr:hover td,
+    td {
       box-shadow: unset;
     }
   }

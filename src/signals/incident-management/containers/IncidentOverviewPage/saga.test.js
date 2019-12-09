@@ -1,5 +1,4 @@
-import { put, takeLatest, select, call, take } from 'redux-saga/effects';
-import { push } from 'connected-react-router/immutable';
+import { takeLatest, select, call, take } from 'redux-saga/effects';
 import { authCall } from 'shared/services/api/api';
 import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import { throwError } from 'redux-saga-test-plan/providers';
@@ -18,7 +17,6 @@ import {
 import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
-  INCIDENT_SELECTED,
   REQUEST_INCIDENTS,
 } from './constants';
 import {
@@ -30,7 +28,6 @@ import {
 } from './actions';
 import watchRequestIncidentSaga, {
   fetchIncidents,
-  openIncident,
   refreshIncidents,
 } from './saga';
 
@@ -40,7 +37,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage/saga', () 
       .next()
       .all([
         takeLatest(REQUEST_INCIDENTS, fetchIncidents),
-        takeLatest(INCIDENT_SELECTED, openIncident),
         takeLatest(PAGE_INCIDENTS_CHANGED, fetchIncidents),
         takeLatest(ORDERING_INCIDENTS_CHANGED, fetchIncidents),
       ])
@@ -51,16 +47,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage/saga', () 
       .finish()
       .next()
       .isDone();
-  });
-
-  it('should openIncident success', () => {
-    const id = 1000;
-    const incident = { id };
-    const action = { payload: incident };
-    const navigateUrl = `incident/${incident.id}`;
-
-    const gen = openIncident(action);
-    expect(gen.next().value).toEqual(put(push(navigateUrl)));
   });
 
   describe('fetch incidents', () => {
