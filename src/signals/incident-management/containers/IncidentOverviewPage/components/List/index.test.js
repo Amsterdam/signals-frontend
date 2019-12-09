@@ -170,7 +170,6 @@ describe('<List />', () => {
       priorityList,
       statusList,
       stadsdeelList,
-      // incidentSelected: jest.fn(),
       onChangeOrdering: jest.fn(),
     };
 
@@ -186,15 +185,6 @@ describe('<List />', () => {
   });
 
   describe('events', () => {
-    // not needed any more
-    // it('should select the incident when the row is clicked', () => {
-    // wrapper
-    // .find('tbody > tr')
-    // .at(1)
-    // .simulate('click');
-    // expect(props.incidentSelected).toHaveBeenCalledWith(props.incidents[1]);
-    // });
-
     it('should sort asc the incidents when the header is clicked', () => {
       wrapper.setProps({
         sort: '-created_at',

@@ -70,122 +70,122 @@ exports[`<List /> should render correctly 1`] = `
           key="1668"
         >
           <td>
-            <a
+            <Link
               className="id"
-              href="/manage/incident/1668"
+              to="/manage/incident/1668"
             >
               1668
-            </a>
+            </Link>
           </td>
           <td
             data-testid="incidentDaysOpen"
           >
-            <a
-              href="/manage/incident/1668"
+            <Link
+              to="/manage/incident/1668"
             >
               -
-            </a>
+            </Link>
           </td>
           <td
             className="no-wrap"
           >
-            <a
-              href="/manage/incident/1668"
+            <Link
+              to="/manage/incident/1668"
             >
               21-07-1970
                
               11:55
-            </a>
+            </Link>
           </td>
           <td>
-            <a
-              href="/manage/incident/1668"
+            <Link
+              to="/manage/incident/1668"
             />
           </td>
           <td>
-            <a
-              href="/manage/incident/1668"
+            <Link
+              to="/manage/incident/1668"
             >
               Wegsleep
-            </a>
+            </Link>
           </td>
           <td>
-            <a
-              href="/manage/incident/1668"
+            <Link
+              to="/manage/incident/1668"
             />
           </td>
           <td>
-            <a
-              href="/manage/incident/1668"
+            <Link
+              to="/manage/incident/1668"
             />
           </td>
           <td>
-            <a
-              href="/manage/incident/1668"
+            <Link
+              to="/manage/incident/1668"
             >
               Staalstraat 3B 1011JJ Amsterdam
-            </a>
+            </Link>
           </td>
         </tr>
         <tr
           key="1667"
         >
           <td>
-            <a
+            <Link
               className="id"
-              href="/manage/incident/1667"
+              to="/manage/incident/1667"
             >
               1667
-            </a>
+            </Link>
           </td>
           <td
             data-testid="incidentDaysOpen"
           >
-            <a
-              href="/manage/incident/1667"
+            <Link
+              to="/manage/incident/1667"
             >
               42
-            </a>
+            </Link>
           </td>
           <td
             className="no-wrap"
           >
-            <a
-              href="/manage/incident/1667"
+            <Link
+              to="/manage/incident/1667"
             >
               21-07-1970
                
               11:55
-            </a>
+            </Link>
           </td>
           <td>
-            <a
-              href="/manage/incident/1667"
+            <Link
+              to="/manage/incident/1667"
             />
           </td>
           <td>
-            <a
-              href="/manage/incident/1667"
+            <Link
+              to="/manage/incident/1667"
             >
               Dode dieren
-            </a>
+            </Link>
           </td>
           <td>
-            <a
-              href="/manage/incident/1667"
+            <Link
+              to="/manage/incident/1667"
             />
           </td>
           <td>
-            <a
-              href="/manage/incident/1667"
+            <Link
+              to="/manage/incident/1667"
             />
           </td>
           <td>
-            <a
-              href="/manage/incident/1667"
+            <Link
+              to="/manage/incident/1667"
             >
               Raamgracht 45 1011KJ Amsterdam
-            </a>
+            </Link>
           </td>
         </tr>
       </tbody>

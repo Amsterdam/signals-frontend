@@ -2,7 +2,6 @@ import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
   FILTER_INCIDENTS_CHANGED,
-  // INCIDENT_SELECTED,
   REQUEST_INCIDENTS_ERROR,
   REQUEST_INCIDENTS_SUCCESS,
   REQUEST_INCIDENTS,
@@ -27,13 +26,6 @@ export function requestIncidentsError(message) {
     payload: message,
   };
 }
-
-// export function incidentSelected(incident) {
-// return {
-// type: INCIDENT_SELECTED,
-// payload: incident,
-// };
-// }
 
 export function filterIncidentsChanged(filter) {
   return {

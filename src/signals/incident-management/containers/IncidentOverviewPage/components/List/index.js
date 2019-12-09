@@ -56,18 +56,21 @@ class List extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {incidents.map(incident => (
-                <tr key={incident.id}>
-                  <td><Link className="id" to={`/manage/incident/${incident.id}`}>{incident.id}</Link></td>
-                  <td data-testid="incidentDaysOpen"><Link to={`/manage/incident/${incident.id}`}>{this.getDaysOpen(incident)}</Link></td>
-                  <td className="no-wrap"><Link to={`/manage/incident/${incident.id}`}>{string2date(incident.created_at)} {string2time(incident.created_at)}</Link></td>
-                  <td><Link to={`/manage/incident/${incident.id}`}>{getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}</Link></td>
-                  <td><Link to={`/manage/incident/${incident.id}`}>{incident.category && incident.category.sub}</Link></td>
-                  <td><Link to={`/manage/incident/${incident.id}`}>{getListValueByKey(status, incident.status && incident.status.state)}</Link></td>
-                  <td><Link to={`/manage/incident/${incident.id}`}>{getListValueByKey(priority, incident.priority && incident.priority.priority)}</Link></td>
-                  <td><Link to={`/manage/incident/${incident.id}`}>{incident.location && incident.location.address_text}</Link></td>
-                </tr>
-              ))}
+              {incidents.map(incident => {
+                const detailLink = `/manage/incident/${incident.id}`;
+                return (
+                  <tr key={incident.id}>
+                    <td><Link className="id" to={detailLink}>{incident.id}</Link></td>
+                    <td data-testid="incidentDaysOpen"><Link to={detailLink}>{this.getDaysOpen(incident)}</Link></td>
+                    <td className="no-wrap"><Link to={detailLink}>{string2date(incident.created_at)} {string2time(incident.created_at)}</Link></td>
+                    <td><Link to={detailLink}>{getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}</Link></td>
+                    <td><Link to={detailLink}>{incident.category && incident.category.sub}</Link></td>
+                    <td><Link to={detailLink}>{getListValueByKey(status, incident.status && incident.status.state)}</Link></td>
+                    <td><Link to={detailLink}>{getListValueByKey(priority, incident.priority && incident.priority.priority)}</Link></td>
+                    <td><Link to={detailLink}>{incident.location && incident.location.address_text}</Link></td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div >

@@ -7,7 +7,6 @@ import { compose, bindActionCreators } from 'redux';
 import { makeSelectCategories } from 'containers/App/selectors';
 import {
   requestIncidents,
-  // incidentSelected as onIncidentSelected,
 } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 import {
   makeSelectEditFilter,
@@ -95,7 +94,6 @@ const mapDispatchToProps = dispatch =>
       onClearFilter,
       onEditFilter: editFilter,
       onFilterEditCancel: filterEditCanceled,
-      // onIncidentSelected,
       onRequestIncidents: requestIncidents,
       onSaveFilter,
       onUpdateFilter,
