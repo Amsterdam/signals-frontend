@@ -18,11 +18,12 @@ const dataLists = {
 describe('signals/incident-management/containers/FilterTagList', () => {
   const tags = {
     status: [definitions.statusList[1]],
-    feedback: '',
+    feedback: 'satisfied',
     priority: 'normal',
     stadsdeel: [definitions.stadsdeelList[0], definitions.stadsdeelList[1]],
-    address_text: '',
+    address_text: 'februariplein 1',
     incident_date: '2019-09-17',
+    source: [definitions.sourceList[0], definitions.sourceList[1]],
     category_slug: [
       {
         key:
@@ -40,23 +41,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
     expect(props.dataLists).not.toBeUndefined();
     expect(props.categories).not.toBeUndefined();
-  });
-
-  it('should skip fields', () => {
-    const id = 'foo-bar-baz';
-    const tagsWithId = { ...tags, id };
-
-    const { queryByText } = render(
-      withAppContext(
-        <FilterTagListComponent
-          dataLists={dataLists}
-          tags={tagsWithId}
-          categories={categories}
-        />,
-      ),
-    );
-
-    expect(queryByText(id)).toBeFalsy();
   });
 
   it('formats a date value', () => {
@@ -116,7 +100,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     });
 
     it('renders a list of tags', () => {
-      const { container } = render(
+      const { container, queryByText } = render(
         withAppContext(
           <FilterTagListComponent
             dataLists={dataLists}
@@ -126,7 +110,15 @@ describe('signals/incident-management/containers/FilterTagList', () => {
         ),
       );
 
-      expect(container.querySelectorAll('span')).toHaveLength(6);
+      expect(queryByText('Normaal')).toBeTruthy();
+      expect(queryByText('Tevreden')).toBeTruthy();
+      expect(queryByText('februariplein 1')).toBeTruthy();
+      expect(queryByText('Centrum')).toBeTruthy();
+      expect(queryByText('Westpoort')).toBeTruthy();
+      expect(queryByText('Telefoon – Adoptant')).toBeTruthy();
+      expect(queryByText('Telefoon – ASC')).toBeTruthy();
+
+      expect(container.querySelectorAll('span')).toHaveLength(10);
     });
   });
 });
