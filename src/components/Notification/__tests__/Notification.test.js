@@ -156,14 +156,14 @@ describe('components/Notification', () => {
     expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
     });
 
     // onClose should only be called when the element completely disappears, so after both timeouts combined
     expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
+      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
     });
 
     expect(onClose).toHaveBeenCalled();
@@ -179,13 +179,13 @@ describe('components/Notification', () => {
     expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
     });
 
     expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
+      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
     });
 
     expect(onClose).toHaveBeenCalled();
@@ -201,13 +201,13 @@ describe('components/Notification', () => {
     expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
     });
 
     expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
+      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
     });
 
     expect(onClose).not.toHaveBeenCalled();
@@ -223,13 +223,13 @@ describe('components/Notification', () => {
     expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
     });
 
     expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
+      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
     });
 
     expect(onClose).not.toHaveBeenCalled();
@@ -247,13 +247,13 @@ describe('components/Notification', () => {
     expect(container.firstChild.classList.contains('slideup')).toEqual(false);
 
     act(() => {
-      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
     });
 
     expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
+      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
     });
 
     expect(onClose).toHaveBeenCalled();
@@ -293,7 +293,7 @@ describe('components/Notification', () => {
     expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(ONCLOSE_TIMEOUT / 2);
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT / 2);
     });
 
     expect(onClose).not.toHaveBeenCalled();
@@ -303,7 +303,7 @@ describe('components/Notification', () => {
     });
 
     act(() => {
-      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
     });
 
     expect(onClose).not.toHaveBeenCalled();
@@ -319,7 +319,7 @@ describe('components/Notification', () => {
     expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(ONCLOSE_TIMEOUT / 2);
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT / 2);
     });
 
     expect(onClose).not.toHaveBeenCalled();
@@ -329,7 +329,7 @@ describe('components/Notification', () => {
     });
 
     act(() => {
-      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
     });
 
     expect(onClose).not.toHaveBeenCalled();
@@ -367,7 +367,7 @@ describe('components/Notification', () => {
     expect(onClose).toHaveBeenCalledTimes(0);
 
     act(() => {
-      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
+      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
     });
 
     expect(onClose).toHaveBeenCalledTimes(1);

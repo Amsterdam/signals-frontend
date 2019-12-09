@@ -7,5 +7,5 @@ export const TYPE_GLOBAL = 'global';
 export const TYPE_LOCAL = 'local';
 export const TYPE_DEFAULT = TYPE_LOCAL;
 
-export const ONCLOSE_TIMEOUT = 8000;
-export const SLIDEUP_TIMEOUT = 200;
+export const SLIDEUP_TIMEOUT = 8000;
+export const ONCLOSE_TIMEOUT = 200;

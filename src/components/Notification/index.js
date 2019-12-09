@@ -165,7 +165,7 @@ const Notification = ({
         global.clearTimeout(slideUpTimeoutRef.current);
 
         setSlideUp(true);
-      }, ONCLOSE_TIMEOUT);
+      }, SLIDEUP_TIMEOUT);
 
       slideUpTimeoutRef.current = slideUpTimeoutId;
 
@@ -197,7 +197,7 @@ const Notification = ({
       if (typeof onClose === 'function') {
         onClose();
       }
-    }, SLIDEUP_TIMEOUT);
+    }, ONCLOSE_TIMEOUT);
 
     slideUpTimeoutRef.current = slideUpTimeoutId;
   }, [onClose]);
