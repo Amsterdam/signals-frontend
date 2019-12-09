@@ -128,9 +128,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       .find(IncidentOverviewPageContainerComponent)
       .props();
 
-    expect(containerProps.onIncidentSelected).not.toBeUndefined();
-    expect(typeof containerProps.onIncidentSelected).toEqual('function');
-
     expect(containerProps.onRequestIncidents).not.toBeUndefined();
     expect(typeof containerProps.onRequestIncidents).toEqual('function');
 
