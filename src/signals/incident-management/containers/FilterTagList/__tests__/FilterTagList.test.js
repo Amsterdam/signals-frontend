@@ -121,12 +121,11 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(container.querySelectorAll('span')).toHaveLength(10);
     });
 
-    it('renders no list when tags are empty', () => {
+    it('renders no list when tags are undefined', () => {
       const { container } = render(
         withAppContext(
           <FilterTagListComponent
             dataLists={dataLists}
-            tags={{}}
             categories={categories}
           />,
         ),

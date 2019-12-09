@@ -61,10 +61,6 @@ export const FilterTagListComponent = props => {
     category_slug: sub,
   };
 
-  if (!tags) {
-    return null;
-  }
-
   return (
     <FilterWrapper className="incident-overview-page__filter-tag-list">
       {Object.entries(tags).map(([tagKey, tag]) =>
