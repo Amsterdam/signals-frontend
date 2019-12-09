@@ -1,0 +1,3 @@
+export const SITE_HEADER_HEIGHT_TALL = 116;
+export const SITE_HEADER_HEIGHT_SHORT = 50;
+export const SITE_HEADER_BOTTOM_GAP_HEIGHT = 44;
