@@ -68,11 +68,11 @@ describe('<List />', () => {
 
   describe('events', () => {
     it('should sort asc the incidents when the header is clicked', () => {
-      const sortedProps = {
+      const sortedAscProps = {
         ...props,
         sort: '-created_at',
       };
-      const { container } = render(withAppContext(<List {...sortedProps} />));
+      const { container } = render(withAppContext(<List {...sortedAscProps} />));
 
       fireEvent.click(container.querySelector('tr th:nth-child(3)'));
 
@@ -80,11 +80,11 @@ describe('<List />', () => {
     });
 
     it('should sort desc the incidents when the header is clicked', () => {
-      const sortedProps = {
+      const sortedDescProps = {
         ...props,
         sort: 'created_at',
       };
-      const { container } = render(withAppContext(<List {...sortedProps} />));
+      const { container } = render(withAppContext(<List {...sortedDescProps} />));
 
       fireEvent.click(container.querySelector('tr th:nth-child(3)'));
       expect(props.onChangeOrdering).toHaveBeenCalledWith('-created_at');

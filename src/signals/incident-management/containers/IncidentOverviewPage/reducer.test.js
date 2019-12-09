@@ -6,7 +6,6 @@ import {
   requestIncidents,
   requestIncidentsSuccess,
   requestIncidentsError,
-  // incidentSelected,
 } from './actions';
 
 describe('overviewPageReducer', () => {
@@ -51,11 +50,4 @@ describe('overviewPageReducer', () => {
       .set('loading', false);
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
-
-  // it('should handle the INCIDENT_SELECTED', () => {
-  // const incident = {};
-  // const action = incidentSelected(incident);
-  // const expected = fromJS({});
-  // expect(overviewPageReducer(state, action)).toEqual(expected);
-  // });
 });
