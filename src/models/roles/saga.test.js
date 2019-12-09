@@ -125,7 +125,7 @@ describe('rolesSaga', () => {
         id: 42,
         ...result,
       },
-    }
+    };
 
     it('should dispatch success', () => {
       testSaga(patchRole, patchAction)

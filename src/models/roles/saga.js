@@ -71,5 +71,5 @@ export default function* watchRolesSaga() {
     takeLatest(FETCH_PERMISSIONS, fetchPermissions),
     takeLatest(SAVE_ROLE, saveRole),
     takeLatest(PATCH_ROLE, patchRole),
-  ])
+  ]);
 }

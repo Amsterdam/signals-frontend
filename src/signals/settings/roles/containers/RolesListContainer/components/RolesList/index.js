@@ -15,18 +15,19 @@ const StyledListComponent = styled(ListComponent)`
   }
 `;
 
-export const RolesList = ({
-  list,
-}) => {
+export const RolesList = ({ list }) => {
   const history = useHistory();
 
-  const onItemClick = useCallback(e => {
-    const roleId = e.currentTarget.getAttribute('data-item-id');
-    /* istanbul ignore else */
-    if (roleId > -1) {
-      history.push(`${ROLE_URL}/${roleId}`);
-    }
-  }, [history]);
+  const onItemClick = useCallback(
+    e => {
+      const roleId = e.currentTarget.getAttribute('data-item-id');
+      /* istanbul ignore else */
+      if (roleId > -1) {
+        history.push(`${ROLE_URL}/${roleId}`);
+      }
+    },
+    [history]
+  );
 
   return (
     <div data-testid="rolesList">
@@ -37,7 +38,7 @@ export const RolesList = ({
         onItemClick={onItemClick}
       />
     </div>
-  )
+  );
 };
 
 RolesList.defaultProps = {

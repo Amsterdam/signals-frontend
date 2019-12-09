@@ -27,7 +27,9 @@ describe('signals/settings/roles/containers/RolesListContainer', () => {
         loading: true,
       },
     };
-    const { container, queryByTestId, rerender } = render(withAppContext(<RolesListContainer {...loadingProps} />))
+    const { container, queryByTestId, rerender } = render(
+      withAppContext(<RolesListContainer {...loadingProps} />)
+    );
 
     expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
     expect(queryByTestId('rolesList')).not.toBeInTheDocument();
@@ -40,7 +42,7 @@ describe('signals/settings/roles/containers/RolesListContainer', () => {
         loadingPermissions: false,
       },
     };
-    rerender(withAppContext(<RolesListContainer {...notLoadingProps} />))
+    rerender(withAppContext(<RolesListContainer {...notLoadingProps} />));
 
     expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
     expect(queryByTestId('rolesList')).toBeInTheDocument();
@@ -49,7 +51,7 @@ describe('signals/settings/roles/containers/RolesListContainer', () => {
   });
 
   it('should fetch roles and permissions by default', () => {
-    render(withAppContext(<RolesListContainer {...props} />))
+    render(withAppContext(<RolesListContainer {...props} />));
 
     expect(props.onFetchRoles).toHaveBeenCalled();
     expect(props.onResetResponse).toHaveBeenCalled();
