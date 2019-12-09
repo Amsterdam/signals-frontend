@@ -437,8 +437,8 @@ describe('components/Notification', () => {
       history.push('/');
     });
 
-    // Comparing the calls to history.listen. We cannot assert that `listen` has not been called, since the instantiation
-    // of connected-react-router will already have done that
+    // Comparing the calls to history.listen. We cannot assert that `listen` has not been called, since the
+    // instantiation of connected-react-router will already have done that
     expect(callsToHistoryListen).toEqual(listenSpy.mock.calls)
   });
 
