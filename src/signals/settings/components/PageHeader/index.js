@@ -6,7 +6,7 @@ import BackLinkComponent from 'components/BackLink';
 import { Heading, Row, themeSpacing } from '@datapunt/asc-ui';
 
 const StyledSection = styled.section`
-  padding-top: ${({ hasBackLink }) => hasBackLink ? themeSpacing(6) : themeSpacing(3)};
+  padding-top: ${themeSpacing(6)};
   padding-bottom: ${themeSpacing(3)};
   margin-bottom: ${themeSpacing(5)};
 
