@@ -9,6 +9,18 @@ import { OVL_KLOKKEN_LAYER, OVL_VERLICHTING_LAYER } from '../../../../shared/ser
 
 export default {
   controls: {
+    extra_kerstverlichting: {
+      meta: {
+        label: '',
+        type: 'error-block',
+        value: 'Doet de sierverlichting in een winkelstraat het niet? Of hebt u last van de kerstverlichting? Neem dan contact op met de winkeliersvereniging. De gemeente gaat hier helaas niet over.',
+        ifAllOf: {
+          subcategory: 'lantaarnpaal-straatverlichting',
+        },
+      },
+      render: FormComponents.PlainText,
+    },
+
     custom_text: {
       meta: {
         label: 'Dit hebt u net ingevuld:',
