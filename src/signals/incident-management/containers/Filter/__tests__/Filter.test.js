@@ -15,9 +15,9 @@ const dataLists = {
 
 describe('signals/incident-management/containers/Filter', () => {
   const handlers = {
-    onSubmit: () => {},
-    onCancel: () => {},
-    onFilterEditCancel: () => {},
+    onSubmit: () => { },
+    onCancel: () => { },
+    onFilterEditCancel: () => { },
   };
 
   it('should have props from structured selector', () => {
@@ -41,8 +41,6 @@ describe('signals/incident-management/containers/Filter', () => {
     expect(props.onClearFilter).not.toBeUndefined();
     expect(typeof props.onClearFilter).toEqual('function');
 
-    expect(props.onIncidentSelected).not.toBeUndefined();
-    expect(typeof props.onIncidentSelected).toEqual('function');
 
     expect(props.onRequestIncidents).not.toBeUndefined();
     expect(typeof props.onRequestIncidents).toEqual('function');
@@ -85,9 +83,9 @@ describe('signals/incident-management/containers/Filter', () => {
             onApplyFilter={onApplyFilter}
             onEditFilter={onEditFilter}
             onRequestIncidents={onRequestIncidents}
-            onClearFilter={() => {}}
-            onSaveFilter={() => {}}
-            onUpdateFilter={() => {}}
+            onClearFilter={() => { }}
+            onSaveFilter={() => { }}
+            onUpdateFilter={() => { }}
             filter={filter}
             dataLists={dataLists}
             categories={categories}
@@ -114,10 +112,10 @@ describe('signals/incident-management/containers/Filter', () => {
           <FilterContainerComponent
             onApplyFilter={onApplyFilter}
             onRequestIncidents={onRequestIncidents}
-            onClearFilter={() => {}}
+            onClearFilter={() => { }}
             onEditFilter={onEditFilter}
-            onSaveFilter={() => {}}
-            onUpdateFilter={() => {}}
+            onSaveFilter={() => { }}
+            onUpdateFilter={() => { }}
             filter={filter}
             dataLists={dataLists}
             categories={categories}
