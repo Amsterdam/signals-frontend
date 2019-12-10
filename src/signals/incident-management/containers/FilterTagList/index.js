@@ -19,7 +19,7 @@ const StyledTag = styled(Tag)`
 
 export const allLabelAppend = ': Alles';
 
-const renderTag = (key, tagKey, mainCategories, list) => {
+const renderTag = (key, mainCategories, list) => {
   let found = false;
 
   if (list) {
@@ -32,7 +32,7 @@ const renderTag = (key, tagKey, mainCategories, list) => {
     return;
   }
 
-  if (tagKey === 'incident_date') {
+  if (moment(display, 'YYYY-MM-DD', true).isValid()) {
     display = moment(display).format('DD-MM-YYYY');
   }
 
@@ -70,8 +70,8 @@ export const FilterTagListComponent = props => {
     <FilterWrapper className="incident-overview-page__filter-tag-list">
       {Object.entries(tags).map(([tagKey, tag]) =>
         Array.isArray(tag)
-          ? tag.map(item => renderTag(item.key, tagKey, main, map[tagKey]))
-          : renderTag(tag, tagKey, main, map[tagKey])
+          ? tag.map(item => renderTag(item.key, main, map[tagKey]))
+          : renderTag(tag, main, map[tagKey])
       )}
     </FilterWrapper>
   );
