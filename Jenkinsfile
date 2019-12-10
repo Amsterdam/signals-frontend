@@ -19,6 +19,8 @@ def tryStep(String message, Closure block, Closure tearDown = null) {
 String BRANCH = "${env.BRANCH_NAME}"
 
 node {
+    sh "env | sort"
+
     stage("Checkout") {
         def scmVars = checkout(scm)
         env.GIT_COMMIT = scmVars.GIT_COMMIT
