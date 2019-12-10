@@ -1,6 +1,5 @@
 import { fromJS } from 'immutable';
 import * as definitions from 'signals/incident-management/definitions';
-import selectSearchDomain from 'models/search/selectors';
 import {
   makeSelectFilterParams,
   makeSelectDataLists,
@@ -11,8 +10,6 @@ import {
 import { FILTER_PAGE_SIZE } from '../constants';
 
 import { initialState } from '../reducer';
-
-jest.mock('models/search/selectors');
 
 const filters = [
   {
@@ -104,11 +101,9 @@ describe('signals/incident-management/selectors', () => {
   });
 
   describe('makeSelectFilterParams', () => {
-    selectSearchDomain.mockImplementation(() => fromJS({ query: '' }));
-
     it('should select filter params', () => {
       const emptyState = fromJS({
-        incidentManagement: { ...initialState.toJS(), editFilter: filters[1] },
+        incidentManagement: { ...initialState.toJS(), editFilter: filters[1], searchQuery: '' },
       });
 
       expect(makeSelectFilterParams(emptyState)).toEqual({
@@ -147,17 +142,6 @@ describe('signals/incident-management/selectors', () => {
       expect(makeSelectFilterParams(state2)).toEqual({
         ordering: 'created_at',
         page: 1,
-        page_size: FILTER_PAGE_SIZE,
-      });
-    });
-
-    it('should return params with id search', () => {
-      selectSearchDomain.mockImplementation(() => fromJS({ query: 'Foo bar baz' }));
-
-      expect(makeSelectFilterParams()).toEqual({
-        ordering: '-created_at',
-        page: 1,
-        id: 'Foo bar baz',
         page_size: FILTER_PAGE_SIZE,
       });
     });

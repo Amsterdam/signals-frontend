@@ -6,16 +6,15 @@ import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { withRouter } from 'react-router';
 
-import { requestIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
-import { setSearchQuery } from 'models/search/actions';
-import { makeSelectQuery } from 'models/search/selectors';
+import { requestIncidents, searchIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
+import { makeSelectSearchQuery } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 import { applyFilter } from 'signals/incident-management/actions';
 
 export const SearchBarComponent = ({
   className,
   query,
   onApplyFilter,
-  onSetSearchQuery,
+  onSearchIncidents,
   onRequestIncidents,
   history,
 }) => {
@@ -26,14 +25,14 @@ export const SearchBarComponent = ({
    */
   const onSearchSubmit = searchInput => {
     onApplyFilter({});
-    onSetSearchQuery(searchInput);
+    onSearchIncidents(searchInput);
     history.push('/manage/incidents');
     onRequestIncidents();
   };
 
   const onChange = value => {
     if (value === '') {
-      onSetSearchQuery('');
+      onSearchIncidents('');
       onRequestIncidents();
     }
   };
@@ -58,7 +57,7 @@ SearchBarComponent.propTypes = {
   className: PropTypes.string,
   onApplyFilter: PropTypes.func.isRequired,
   onRequestIncidents: PropTypes.func.isRequired,
-  onSetSearchQuery: PropTypes.func.isRequired,
+  onSearchIncidents: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
@@ -66,7 +65,7 @@ SearchBarComponent.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  query: makeSelectQuery,
+  query: makeSelectSearchQuery,
 });
 
 export const mapDispatchToProps = dispatch =>
@@ -74,7 +73,7 @@ export const mapDispatchToProps = dispatch =>
     {
       onApplyFilter: applyFilter,
       onRequestIncidents: requestIncidents,
-      onSetSearchQuery: setSearchQuery,
+      onSearchIncidents: searchIncidents,
     },
     dispatch
   );

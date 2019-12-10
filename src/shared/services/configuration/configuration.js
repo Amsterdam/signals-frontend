@@ -84,6 +84,14 @@ export class Configuration {
   get API_ROOT_MAPSERVER() {
     return this.config.API_ROOT_MAPSERVER;
   }
+
+  get SEARCH_ENDPOINT() {
+    return `${this.config.API_ROOT}signals/v1/private/search`;
+  }
+
+  get INCIDENTS_ENDPOINT() {
+    return `${this.config.API_ROOT}signals/v1/private/signals/`;
+  }
 }
 
 const CONFIGURATION = new Configuration();

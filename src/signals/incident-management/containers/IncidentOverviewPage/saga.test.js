@@ -18,6 +18,7 @@ import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
   REQUEST_INCIDENTS,
+  SEARCH_INCIDENTS,
 } from './constants';
 import {
   applyFilterRefresh,
@@ -29,6 +30,7 @@ import {
 import watchRequestIncidentSaga, {
   fetchIncidents,
   refreshIncidents,
+  searchIncidents,
 } from './saga';
 
 describe('signals/incident-management/containers/IncidentOverviewPage/saga', () => {
@@ -36,6 +38,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage/saga', () 
     testSaga(watchRequestIncidentSaga)
       .next()
       .all([
+        takeLatest(SEARCH_INCIDENTS, searchIncidents),
         takeLatest(REQUEST_INCIDENTS, fetchIncidents),
         takeLatest(PAGE_INCIDENTS_CHANGED, fetchIncidents),
         takeLatest(ORDERING_INCIDENTS_CHANGED, fetchIncidents),

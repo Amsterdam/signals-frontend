@@ -2,7 +2,6 @@ import { fromJS } from 'immutable';
 
 import { parseFromAPIData } from 'signals/shared/filter/parse';
 import { makeSelectCategories } from 'containers/App/selectors';
-import selectSearchDomain from 'models/search/selectors';
 
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
@@ -82,11 +81,8 @@ export const makeSelectEditFilter = createSelector(
 
 export const makeSelectFilterParams = createSelector(
   selectIncidentManagementDomain,
-  selectSearchDomain,
-  (incidentManagementState, searchQueryState) => {
+  incidentManagementState => {
     const incidentManagement = incidentManagementState.toJS();
-    const searchQuery = searchQueryState.toJS();
-    const { query } = searchQuery;
     const filter = incidentManagement.activeFilter;
     const { options } = filter;
     const { page } = incidentManagement;
@@ -105,13 +101,6 @@ export const makeSelectFilterParams = createSelector(
       ordering,
       page_size: FILTER_PAGE_SIZE,
     };
-
-    if (query) {
-      return {
-        id: query,
-        ...pagingOptions,
-      };
-    }
 
     return { ...options, ...pagingOptions };
   }

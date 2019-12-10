@@ -2,7 +2,7 @@ import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { takeLatest } from 'redux-saga/effects';
 
-import { resetSearchQuery } from 'models/search/actions';
+import { resetSearchIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 import {
   authCall,
   authDeleteCall,
@@ -113,7 +113,7 @@ describe('signals/incident-management/saga', () => {
     it('should dispatch resetSearchQuery', () => {
       testSaga(applyFilter)
         .next()
-        .put(resetSearchQuery())
+        .put(resetSearchIncidents())
         .next()
         .isDone();
     });
@@ -143,7 +143,7 @@ describe('signals/incident-management/saga', () => {
     it('should call endpoint with filter data', () => {
       testSaga(doSaveFilter, action)
         .next()
-        .put(resetSearchQuery())
+        .put(resetSearchIncidents())
         .next()
         .call(authPostCall, requestURL, { name, options })
         .next(payloadResponse)
@@ -154,22 +154,24 @@ describe('signals/incident-management/saga', () => {
         .isDone();
     });
 
-    it('should dispatch success', () => expectSaga(doSaveFilter, action)
-      .provide([[matchers.call.fn(authPostCall), payloadResponse]])
-      .put({
-        type: SAVE_FILTER_SUCCESS,
-        payload: payloadResponse,
-      })
-      .run());
+    it('should dispatch success', () =>
+      expectSaga(doSaveFilter, action)
+        .provide([[matchers.call.fn(authPostCall), payloadResponse]])
+        .put({
+          type: SAVE_FILTER_SUCCESS,
+          payload: payloadResponse,
+        })
+        .run());
 
-    it('should dispatch failed', () => expectSaga(doSaveFilter, {
-      payload: { ...payload, name: undefined },
-    })
-      .put({
-        type: SAVE_FILTER_FAILED,
-        payload: 'No name supplied',
+    it('should dispatch failed', () =>
+      expectSaga(doSaveFilter, {
+        payload: { ...payload, name: undefined },
       })
-      .run());
+        .put({
+          type: SAVE_FILTER_FAILED,
+          payload: 'No name supplied',
+        })
+        .run());
 
     it('catches anything', () => {
       const error = new Error('Something bad happened');
@@ -243,7 +245,7 @@ describe('signals/incident-management/saga', () => {
         .next()
         .put(getFilters())
         .next()
-        .put(resetSearchQuery())
+        .put(resetSearchIncidents())
         .next()
         .isDone();
     });
