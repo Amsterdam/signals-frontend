@@ -114,7 +114,7 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
                   disabled={invalid}
                   data-testid="location-form-button-submit"
                 >
-                  <span className="value">Status opslaan</span>
+                  <span className="value">Locatie opslaan</span>
                   {patching.location && <span className="working"><div className="progress-indicator progress-white"></div></span>}
                 </button>
                 <button
@@ -123,7 +123,7 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
                   onClick={onClose}
                   data-testid="location-form-button-cancel"
                 >
-Annuleren
+                  Annuleren
                 </button>
               </div>
             </form>
