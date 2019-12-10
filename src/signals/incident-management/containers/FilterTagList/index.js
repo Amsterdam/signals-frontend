@@ -42,7 +42,12 @@ const renderTag = (key, tagKey, mainCategories, list) => {
 
   // eslint-disable-next-line consistent-return
   return (
-    <StyledTag colorType="tint" colorSubtype="level3" key={key}>
+    <StyledTag
+      colorType="tint"
+      colorSubtype="level3"
+      key={key}
+      data-testid="filterTagListTag"
+    >
       {display}
     </StyledTag>
   );

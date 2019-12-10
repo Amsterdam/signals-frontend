@@ -55,8 +55,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       ),
     );
 
-    expect(queryByText(tags.incident_date)).toBeFalsy();
-    expect(queryByText('17-09-2019')).toBeTruthy();
+    expect(queryByText(tags.incident_date)).not.toBeInTheDocument();
+    expect(queryByText('17-09-2019')).toBeInTheDocument();
   });
 
   describe('tags list', () => {
@@ -100,7 +100,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     });
 
     it('renders a list of tags', () => {
-      const { container, queryByText } = render(
+      const { queryAllByTestId, queryByText } = render(
         withAppContext(
           <FilterTagListComponent
             dataLists={dataLists}
@@ -110,19 +110,19 @@ describe('signals/incident-management/containers/FilterTagList', () => {
         ),
       );
 
-      expect(queryByText('Normaal')).toBeTruthy();
-      expect(queryByText('Tevreden')).toBeTruthy();
-      expect(queryByText('februariplein 1')).toBeTruthy();
-      expect(queryByText('Centrum')).toBeTruthy();
-      expect(queryByText('Westpoort')).toBeTruthy();
-      expect(queryByText('Telefoon – Adoptant')).toBeTruthy();
-      expect(queryByText('Telefoon – ASC')).toBeTruthy();
+      expect(queryByText('Normaal')).toBeInTheDocument();
+      expect(queryByText('Tevreden')).toBeInTheDocument();
+      expect(queryByText('februariplein 1')).toBeInTheDocument();
+      expect(queryByText('Centrum')).toBeInTheDocument();
+      expect(queryByText('Westpoort')).toBeInTheDocument();
+      expect(queryByText('Telefoon – Adoptant')).toBeInTheDocument();
+      expect(queryByText('Telefoon – ASC')).toBeInTheDocument();
 
-      expect(container.querySelectorAll('span')).toHaveLength(10);
+      expect(queryAllByTestId('filterTagListTag')).toHaveLength(10);
     });
 
     it('renders no list when tags are undefined', () => {
-      const { container } = render(
+      const { queryAllByTestId } = render(
         withAppContext(
           <FilterTagListComponent
             dataLists={dataLists}
@@ -131,7 +131,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
         ),
       );
 
-      expect(container.querySelectorAll('span')).toHaveLength(0);
+      expect(queryAllByTestId('filterTagListTag')).toHaveLength(0);
     });
   });
 });
