@@ -60,7 +60,7 @@ class List extends React.Component {
                 const detailLink = `/manage/incident/${incident.id}`;
                 return (
                   <tr key={incident.id}>
-                    <td><Link to={detailLink}>{incident.id}</Link></td>
+                    <td><Link className="id" to={detailLink}>{incident.id}</Link></td>
                     <td data-testid="incidentDaysOpen"><Link to={detailLink}>{this.getDaysOpen(incident)}</Link></td>
                     <td className="no-wrap"><Link to={detailLink}>{string2date(incident.created_at)} {string2time(incident.created_at)}</Link></td>
                     <td><Link to={detailLink}>{getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}</Link></td>
