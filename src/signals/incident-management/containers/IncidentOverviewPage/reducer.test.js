@@ -6,6 +6,8 @@ import {
   requestIncidents,
   requestIncidentsSuccess,
   requestIncidentsError,
+  searchIncidents,
+  resetSearchIncidents,
 } from './actions';
 
 describe('overviewPageReducer', () => {
@@ -48,6 +50,24 @@ describe('overviewPageReducer', () => {
       .set('error', true)
       .set('errorMessage', message)
       .set('loading', false);
+    expect(overviewPageReducer(state, action)).toEqual(expected);
+  });
+
+  it('should handle SEARCH_INCIDENTS', () => {
+    const searchQuery = 'Foo bar bazzzz';
+    const action = searchIncidents(searchQuery);
+    const expected = fromJS({})
+      .set('loading', true)
+      .set('error', false)
+      .set('errorMessage', undefined)
+      .set('searchQuery', searchQuery);
+    expect(overviewPageReducer(state, action)).toEqual(expected);
+  });
+
+  it('should handle RESET_SEARCH_INCIDENTS', () => {
+    const action = resetSearchIncidents();
+    const expected = fromJS({})
+      .set('searchQuery', '');
     expect(overviewPageReducer(state, action)).toEqual(expected);
   });
 });

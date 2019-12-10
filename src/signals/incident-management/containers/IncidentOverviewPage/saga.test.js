@@ -4,6 +4,8 @@ import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import { throwError } from 'redux-saga-test-plan/providers';
 import * as matchers from 'redux-saga-test-plan/matchers';
 
+import CONFIGURATION from 'shared/services/configuration/configuration';
+import incidentsJSON from 'utils/__tests__/fixtures/incidents.json';
 import {
   makeSelectActiveFilter,
   makeSelectFilterParams,
@@ -127,6 +129,34 @@ describe('signals/incident-management/containers/IncidentOverviewPage/saga', () 
           payload: 'incident-id-in-asc-order',
         })
         .silentRun());
+  });
+
+  describe('searchIncidents', () => {
+    it('should fetchIncidents success', () => {
+      const q = 'Here be dragons';
+
+      return expectSaga(searchIncidents, q)
+        .provide([
+          [matchers.call.fn(authCall), incidentsJSON],
+        ])
+        .call.like(authCall, CONFIGURATION.SEARCH_ENDPOINT, { q })
+        .put(requestIncidentsSuccess(incidentsJSON))
+        .run();
+    });
+
+    it('should dispatch fetchIncidents error', () => {
+      const q = 'Here be dragons';
+      const message = '404 Not Found';
+      const error = new Error(message);
+
+      return expectSaga(searchIncidents, q)
+        .provide([
+          [matchers.call.fn(authCall), throwError(error)],
+        ])
+        .call.like(authCall)
+        .put(requestIncidentsError(message))
+        .run();
+    });
   });
 
   describe('incident refresh', () => {
