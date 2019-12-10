@@ -98,6 +98,7 @@ module.exports = {
     'react/jsx-fragments': [1, 'element'],
     'react/jsx-one-expression-per-line': 0,
     'react/jsx-indent': [2, 2, { checkAttributes: true }],
+    semi: 2,
   },
   settings: {
     'import/resolver': {

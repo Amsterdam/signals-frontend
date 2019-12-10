@@ -27,12 +27,18 @@ describe('/signals/settings/roles/components/RoleForm', () => {
   });
 
   it('should render correctly', () => {
-    const { container, queryByTestId } = render(withAppContext(<RoleForm {...props} />))
+    const { container, queryByTestId } = render(
+      withAppContext(<RoleForm {...props} />)
+    );
 
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('behandelaars');
 
-    expect(container.querySelectorAll('input[type="checkbox"]').length).toBe(12);
-    expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toBe(2);
+    expect(container.querySelectorAll('input[type="checkbox"]').length).toBe(
+      12
+    );
+    expect(
+      container.querySelectorAll('input[type="checkbox"]:checked').length
+    ).toBe(2);
   });
 
   it('should trigger error in name field when it is empty', () => {
@@ -42,8 +48,10 @@ describe('/signals/settings/roles/components/RoleForm', () => {
         ...props.role,
         name: '',
       },
-    }
-    const { getByTestId, queryByTestId, queryByText } = render(withAppContext(<RoleForm {...emptyNameProps} />))
+    };
+    const { getByTestId, queryByTestId, queryByText } = render(
+      withAppContext(<RoleForm {...emptyNameProps} />)
+    );
 
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('');
     expect(queryByText('Dit veld is verplicht')).toBeInTheDocument();
@@ -55,12 +63,14 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     };
     fireEvent.blur(getByTestId('rolesFormFieldName'), event);
 
-    expect(queryByTestId('rolesFormFieldName')).toHaveValue('nieuwe behandelaars');
+    expect(queryByTestId('rolesFormFieldName')).toHaveValue(
+      'nieuwe behandelaars'
+    );
     expect(queryByText('Dit veld is verplicht')).not.toBeInTheDocument();
   });
 
   it('should handle submit flow when patching an existing role', () => {
-    const { getByTestId } = render(withAppContext(<RoleForm {...props} />))
+    const { getByTestId } = render(withAppContext(<RoleForm {...props} />));
 
     const event = {
       target: {
@@ -83,7 +93,9 @@ describe('/signals/settings/roles/components/RoleForm', () => {
       ...props,
       role: undefined,
     };
-    const { getByTestId } = render(withAppContext(<RoleForm {...noRoleProps} />))
+    const { getByTestId } = render(
+      withAppContext(<RoleForm {...noRoleProps} />)
+    );
 
     const event = {
       target: {
@@ -107,8 +119,10 @@ describe('/signals/settings/roles/components/RoleForm', () => {
         ...props.role,
         name: '',
       },
-    }
-    const { getByTestId } = render(withAppContext(<RoleForm {...emptyNameProps} />))
+    };
+    const { getByTestId } = render(
+      withAppContext(<RoleForm {...emptyNameProps} />)
+    );
 
     fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
 
@@ -118,9 +132,11 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
   it('should handle cancel flow', () => {
     const push = jest.fn();
-    jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({ push }));
+    jest
+      .spyOn(reactRouterDom, 'useHistory')
+      .mockImplementation(() => ({ push }));
 
-    const { getByTestId } = render(withAppContext(<RoleForm {...props} />))
+    const { getByTestId } = render(withAppContext(<RoleForm {...props} />));
 
     fireEvent.click(getByTestId('cancelBtn'));
 
