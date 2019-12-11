@@ -47,7 +47,7 @@ export const AppContainer = ({ requestCategoriesAction }) => {
     return () => {
       unlisten();
     };
-  }, [history]);
+  }, [history.push]);
 
   return (
     <ThemeProvider>
