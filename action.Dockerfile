@@ -38,8 +38,7 @@ COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
 RUN npm --production=false \
       --unsafe-perm \
       --no-progress \
-      ci && \
-      npm cache clean --force
+      ci
 
 COPY src /app/src
 

@@ -5,39 +5,11 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      NEXUS_URL: ${{ secrets.NEXUS_URL }}
 
     steps:
       - uses: actions/checkout@v1
-      # - name: Docker registry login
-      #   run: docker login -u $NEXUS_USERNAME -p $NEXUS_PW $NEXUS_URL
-      #   env:
-      #     NEXUS_PW: ${{ secrets.NEXUS_PW }}
-      #     NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
 
-      # - name: Cached image retrieval
-      #   run:
-      #     docker pull ${NEXUS_URL}/ois/signalsfrontend:acceptance
-
-      - name: Compose
+      - name: Build
         run: docker-compose -f action.docker-compose.yml -p sia-ci up --build --exit-code-from ci-container ci-container
-    # - uses: actions/setup-node@v1
-    #   with:
-    #     node-version: 10.x
-    # - name: pre-Install
-    #   run: npm i --unsafe-perm full-icu
-    # - name: Install
-    #   run: npm ci
-    #   env:
-    #     NODE_ICU_DATA: $GITHUB_WORKSPACE/node_modules/full-icu
-    # - name: Lint
-    #   run: npm run lint
-    # - name: Test
-    #   run: npx jest --no-watchman --silent --coverage
-    #   env:
-    #     CI: true
-    # - name: Build
-    #   run: npm run build --if-present
-    #   env:
-    #     GIT_COMMIT: $GITHUB_SHA
+        env:
+          GIT_COMMIT: $GITHUB_SHA
