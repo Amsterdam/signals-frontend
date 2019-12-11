@@ -8,22 +8,24 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 10.x
-    - name: pre-Install
-      run: npm i --unsafe-perm full-icu
-    - name: Install
-      run: npm ci
-      env:
-        NODE_ICU_DATA: $GITHUB_WORKSPACE/node_modules/full-icu
-    - name: Lint
-      run: npm run lint
-    - name: Test
-      run: npx jest --no-watchman --silent --coverage
-      env:
-        CI: true
-    - name: Build
-      run: npm run build --if-present
-      env:
-        GIT_COMMIT: $GITHUB_SHA
+    - uses: actions/lint@v1
+    - uses: actions/test@v1
+    # - uses: actions/setup-node@v1
+    #   with:
+    #     node-version: 10.x
+    # - name: pre-Install
+    #   run: npm i --unsafe-perm full-icu
+    # - name: Install
+    #   run: npm ci
+    #   env:
+    #     NODE_ICU_DATA: $GITHUB_WORKSPACE/node_modules/full-icu
+    # - name: Lint
+    #   run: npm run lint
+    # - name: Test
+    #   run: npx jest --no-watchman --silent --coverage
+    #   env:
+    #     CI: true
+    # - name: Build
+    #   run: npm run build --if-present
+    #   env:
+    #     GIT_COMMIT: $GITHUB_SHA
