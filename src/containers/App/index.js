@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Switch, Route, Redirect, withRouter,
+  Switch, Route, Redirect, withRouter, useHistory,
 } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -27,10 +27,27 @@ import { requestCategories } from './actions';
 export const AppContainer = ({ requestCategoriesAction }) => {
   // on each component render, see if the current session is authenticated
   authenticate();
+  const history = useHistory();
 
   useEffect(() => {
     requestCategoriesAction();
   }, []);
+
+  useEffect(() => {
+    const unlisten = history.listen(() => {
+      window.setTimeout(() => {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth',
+        });
+      }, 0);
+    });
+
+    return () => {
+      unlisten();
+    };
+  }, [history]);
 
   return (
     <ThemeProvider>
