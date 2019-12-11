@@ -423,11 +423,7 @@ describe('components/Notification', () => {
   it('should NOT reset notification on history change when type equals TYPE_GLOBAL', () => {
     render(
       withAppContext(
-        <Notification
-          onClose={() => {}}
-          type={TYPE_GLOBAL}
-          title="Foo bar"
-        />
+        <Notification onClose={() => {}} type={TYPE_GLOBAL} title="Foo bar" />
       )
     );
 
@@ -439,18 +435,11 @@ describe('components/Notification', () => {
 
     // Comparing the calls to history.listen. We cannot assert that `listen` has not been called, since the
     // instantiation of connected-react-router will already have done that
-    expect(callsToHistoryListen).toEqual(listenSpy.mock.calls)
+    expect(callsToHistoryListen).toEqual(listenSpy.mock.calls);
   });
 
   it('should NOT reset notification on history change when onClose is not a function', () => {
-    render(
-      withAppContext(
-        <Notification
-          onClose={null}
-          title="Foo bar"
-        />
-      )
-    );
+    render(withAppContext(<Notification onClose={null} title="Foo bar" />));
 
     const callsToHistoryListen = [...listenSpy.mock.calls];
 
@@ -458,20 +447,13 @@ describe('components/Notification', () => {
       history.push('/');
     });
 
-    expect(callsToHistoryListen).toEqual(listenSpy.mock.calls)
+    expect(callsToHistoryListen).toEqual(listenSpy.mock.calls);
   });
 
   it('should reset notification on history change', () => {
     const onClose = jest.fn();
 
-    render(
-      withAppContext(
-        <Notification
-          onClose={onClose}
-          title="Foo bar"
-        />
-      )
-    );
+    render(withAppContext(<Notification onClose={onClose} title="Foo bar" />));
 
     expect(onClose).not.toHaveBeenCalled();
 
