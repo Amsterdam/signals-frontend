@@ -4,6 +4,10 @@ import isFunction from 'lodash.isfunction';
 import isString from 'lodash.isstring';
 import conformsTo from 'lodash.conformsto';
 
+import { showGlobalNotification } from 'containers/App/actions';
+import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
+import { getErrorMessage } from 'shared/services/api/api';
+
 import checkStore from './checkStore';
 import { DAEMON, ONCE_TILL_UNMOUNT, RESTART_ON_REMOUNT } from './constants';
 
@@ -54,10 +58,25 @@ export function injectSagaFactory(store, isValid) {
       !hasSaga ||
       (hasSaga && mode !== DAEMON && mode !== ONCE_TILL_UNMOUNT)
     ) {
+      const task = store.runSaga(saga, args);
+
+      task.toPromise().catch(e => {
+        const notificationTitle = getErrorMessage(e);
+
+        store.dispatch(
+          showGlobalNotification({
+            title: notificationTitle,
+            message: e.message,
+            variant: VARIANT_ERROR,
+            type: TYPE_GLOBAL,
+          })
+        );
+      });
+
       /* eslint-disable no-param-reassign */
       store.injectedSagas[key] = {
         ...newDescriptor,
-        task: store.runSaga(saga, args),
+        task,
       };
       /* eslint-enable no-param-reassign */
     }
