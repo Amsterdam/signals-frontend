@@ -1,8 +1,11 @@
+version: '3.5'
 services:
   ci-container:
     build:
       context: .
+      target: builder
       dockerfile: action.Dockerfile
     environment:
+      - NODE_ENV=production
       - CI=true
       - TZ=Europe/Amsterdam
