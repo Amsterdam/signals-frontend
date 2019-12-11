@@ -9,12 +9,12 @@ jobs:
       NEXUS_URL: ${{ secrets.NEXUS_URL }}
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Docker registry login
+      - uses: actions/checkout@v1
+      - name: Docker registry login
+        run: docker login -u $NEXUS_USERNAME -p $NEXUS_PW $NEXUS_URL
         env:
           NEXUS_PW: ${{ secrets.NEXUS_PW }}
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-        run: docker login -u $NEXUS_USERNAME -p $NEXUS_PW $NEXUS_URL
 
       - name: Cached image retrieval
         run:
