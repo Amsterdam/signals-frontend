@@ -1,4 +1,5 @@
 FROM node:10-stretch AS builder
+LABEL maintainer="datapunt@amsterdam.nl"
 
 WORKDIR /app
 
@@ -30,6 +31,9 @@ COPY package.json \
      package-lock.json \
       /app/
 
+ARG BUILD_ENV=prod
+COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
+
 # Install NPM dependencies, cleaning cache afterwards:
 RUN npm --production=false \
       --unsafe-perm \
@@ -42,7 +46,6 @@ COPY src /app/src
 ARG GIT_COMMIT
 ENV GIT_COMMIT ${GIT_COMMIT}
 
-ARG BUILD_ENV=prod
-COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
-
-RUN npm lint
+RUN npm run lint
+RUN npm run test
+RUN npm run build
