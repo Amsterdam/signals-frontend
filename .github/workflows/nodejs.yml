@@ -8,7 +8,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/docker@v1
+    - uses: amsterdam/signals-frontend@v1
     # - uses: actions/setup-node@v1
     #   with:
     #     node-version: 10.x
