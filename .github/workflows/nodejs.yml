@@ -10,11 +10,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - name: pre-Install
+      run: npm i --unsafe-perm -g full-icu
     - uses: actions/setup-node@v1
       with:
         node-version: 10.x
-    - name: pre-Install
-      run: npm i --unsafe-perm -g full-icu
     - name: Install
       run: npm ci
     - name: Lint
