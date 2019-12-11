@@ -41,7 +41,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     ).toBe(2);
   });
 
-  it('should trigger error in name field when it is empty', () => {
+  it('should trigger error in name field when it is empty and sumbit has been clicked', () => {
     const emptyNameProps = {
       ...props,
       role: {
@@ -52,6 +52,9 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     const { getByTestId, queryByTestId, queryByText } = render(
       withAppContext(<RoleForm {...emptyNameProps} />)
     );
+    expect(queryByText('Dit veld is verplicht')).not.toBeInTheDocument();
+
+    fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
 
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('');
     expect(queryByText('Dit veld is verplicht')).toBeInTheDocument();

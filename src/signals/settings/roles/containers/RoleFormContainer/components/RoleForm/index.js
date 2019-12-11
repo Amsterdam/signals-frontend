@@ -21,6 +21,7 @@ const StyledInput = styled(Input)`
 
 export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole }) => {
   const [name, setName] = useState('');
+  const [isSubmitting, setSubmitting] = useState(false);
   const history = useHistory();
   const isValid = name !== '';
 
@@ -34,6 +35,7 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole }) => {
   const handleSubmit = useCallback(
     e => {
       e.preventDefault();
+      setSubmitting(true);
       if (!isValid) {
         return;
       }
@@ -84,7 +86,7 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole }) => {
           label="Naam"
           name="name"
           type="text"
-          error={isValid ? '' : 'Dit veld is verplicht'}
+          error={isSubmitting && !isValid ? 'Dit veld is verplicht' : ''}
           id={`role${role.id}`}
           data-testid="rolesFormFieldName"
           onBlur={handleChangeName}
