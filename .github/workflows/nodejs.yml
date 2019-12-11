@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Docker registry login
+      # - name: Docker registry login
       #   run: docker login -u $NEXUS_USERNAME -p $NEXUS_PW $NEXUS_URL
       #   env:
       #     NEXUS_PW: ${{ secrets.NEXUS_PW }}
