@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { makeSelectCategories } from 'containers/App/selectors';
 import { makeSelectDataLists } from 'signals/incident-management/selectors';
 import { Tag } from '@datapunt/asc-ui';
-import { isDate } from 'utils';
 import moment from 'moment';
 import * as types from 'shared/types';
 
@@ -18,11 +17,9 @@ const StyledTag = styled(Tag)`
   margin: 0 5px 5px 0;
 `;
 
-const ignoredTags = ['id'];
-
 export const allLabelAppend = ': Alles';
 
-const renderTag = (key, tagKey, mainCategories, list) => {
+const renderTag = (key, mainCategories, list) => {
   let found = false;
 
   if (list) {
@@ -31,11 +28,11 @@ const renderTag = (key, tagKey, mainCategories, list) => {
 
   let display = (found && found.value) || key;
 
-  if (!display || ignoredTags.includes(tagKey)) {
+  if (!display) {
     return;
   }
 
-  if (isDate(display)) {
+  if (moment(display, 'YYYY-MM-DD', true).isValid()) {
     display = moment(display).format('DD-MM-YYYY');
   }
 
@@ -45,7 +42,12 @@ const renderTag = (key, tagKey, mainCategories, list) => {
 
   // eslint-disable-next-line consistent-return
   return (
-    <StyledTag colorType="tint" colorSubtype="level3" key={key}>
+    <StyledTag
+      colorType="tint"
+      colorSubtype="level3"
+      key={key}
+      data-testid="filterTagListTag"
+    >
       {display}
     </StyledTag>
   );
@@ -64,16 +66,12 @@ export const FilterTagListComponent = props => {
     category_slug: sub,
   };
 
-  if (!tags) {
-    return null;
-  }
-
   return (
     <FilterWrapper className="incident-overview-page__filter-tag-list">
       {Object.entries(tags).map(([tagKey, tag]) =>
         Array.isArray(tag)
-          ? tag.map(item => renderTag(item.key, tagKey, main, map[tagKey]))
-          : renderTag(tag, tagKey, main, map[tagKey])
+          ? tag.map(item => renderTag(item.key, main, map[tagKey]))
+          : renderTag(tag, main, map[tagKey])
       )}
     </FilterWrapper>
   );
