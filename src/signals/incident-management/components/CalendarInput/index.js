@@ -22,7 +22,7 @@ const CalendarInput = ({
     />
 
     {defaultValue && (
-      <input defaultValue={defaultValue} name={name} readOnly type="hidden" />
+      <input value={defaultValue} name={name} readOnly type="hidden" />
     )}
   </Fragment>
 );
@@ -40,7 +40,7 @@ CalendarInput.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func,
-  selectedDate: PropTypes.instanceOf(moment),
+  selectedDate: PropTypes.objectOf(moment),
 };
 
 export default CalendarInput;

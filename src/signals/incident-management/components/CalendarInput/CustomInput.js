@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Input } from '@datapunt/asc-ui';
 import { Calendar } from '@datapunt/asc-assets';
+import { styles } from '@datapunt/asc-ui';
 
 import Label from '../Label';
 
@@ -18,16 +18,23 @@ const InputWrapper = styled.div`
   }
 `;
 
-const CustomInput = ({ value, onClick, label, id }) => (
+// Using explicit reference to defined styles for Input component; using the Input component itself
+// will throw warnings, because react-datepicker cannot get a ref to the HTMLElement that is rendered
+// by the Input component
+const Input = styled.input`
+  ${styles.InputStyle.componentStyle.rules}
+`;
+
+const CustomInput = React.forwardRef(({ id, label, ...props }, ref) => (
   <Fragment>
     {label && <Label htmlFor={id}>{label}</Label>}
 
     <InputWrapper>
-      <Input id={id} value={value} onClick={onClick} />
+      <Input id={id} {...props} ref={ref} />
       <Calendar width={24} height={24} />
     </InputWrapper>
   </Fragment>
-);
+));
 
 CustomInput.defaultProps = {
   onClick: null,

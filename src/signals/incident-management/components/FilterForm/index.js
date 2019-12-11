@@ -16,6 +16,7 @@ import {
   ButtonContainer,
   CancelButton,
   ControlsWrapper,
+  DatesWrapper,
   Fieldset,
   FilterGroup,
   Form,
@@ -178,21 +179,15 @@ const FilterForm = ({
     });
   };
 
-  const dateFrom = useMemo(
-    () =>
-      filterData.options &&
-      filterData.options.created_after &&
-      moment(filterData.options.created_after),
-    [filterData.options]
-  );
+  const dateFrom =
+    filterData.options &&
+    filterData.options.incident_date_after &&
+    moment(filterData.options.incident_date_after);
 
-  const dateBefore = useMemo(
-    () =>
-      filterData.options &&
-      filterData.options.created_before &&
-      moment(filterData.options.created_before),
-    [filterData.options]
-  );
+  const dateBefore =
+    filterData.options &&
+    filterData.options.incident_date_before &&
+    moment(filterData.options.incident_date_before);
 
   return (
     <Form action="" novalidate onChange={onChangeForm}>
@@ -293,31 +288,35 @@ const FilterForm = ({
           )}
 
           <FilterGroup>
-            <Label htmlFor="filter_date" isGroupHeader>
+            <Label as="span" isGroupHeader>
               Datum
             </Label>
 
-            <CalendarInput
-              id="filter_date_created_after"
-              onChange={dateValue => {
-                updateFilterDate('created_after', dateValue);
-              }}
-              selectedDate={dateFrom}
-              defaultValue={dateFrom && dateFrom.format('YYYY-MM-DD')}
-              label="Vanaf"
-              name="created_after"
-            />
+            <DatesWrapper>
+              <CalendarInput
+                id="filter_incident_date_after"
+                onChange={dateValue => {
+                  // const oneDayBefore = moment(dateValue).subtract(1, 'days').format('YYYY-MM-DD');
+                  updateFilterDate('incident_date_after', dateValue);
+                }}
+                selectedDate={dateFrom}
+                defaultValue={dateFrom && dateFrom.format('YYYY-MM-DD')}
+                label="Na"
+                name="incident_date_after"
+              />
 
-            <CalendarInput
-              id="filter_date_created_before"
-              onChange={dateValue => {
-                updateFilterDate('created_before', dateValue);
-              }}
-              selectedDate={dateBefore}
-              defaultValue={dateBefore && dateBefore.format('YYYY-MM-DD')}
-              label="Tot"
-              name="created_before"
-            />
+              <CalendarInput
+                id="filter_incident_date_before"
+                onChange={dateValue => {
+                  // const oneDayAfter = moment(dateValue).add(1, 'days').format('YYYY-MM-DD');
+                  updateFilterDate('incident_date_before', dateValue);
+                }}
+                selectedDate={dateBefore}
+                defaultValue={dateBefore && dateBefore.format('YYYY-MM-DD')}
+                label="Tot"
+                name="incident_date_before"
+              />
+            </DatesWrapper>
           </FilterGroup>
 
           <FilterGroup>
