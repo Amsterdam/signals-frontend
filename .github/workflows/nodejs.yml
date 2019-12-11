@@ -11,14 +11,14 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Docker registry login
-        run: docker login -u $NEXUS_USERNAME -p $NEXUS_PW $NEXUS_URL
-        env:
-          NEXUS_PW: ${{ secrets.NEXUS_PW }}
-          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+      #   run: docker login -u $NEXUS_USERNAME -p $NEXUS_PW $NEXUS_URL
+      #   env:
+      #     NEXUS_PW: ${{ secrets.NEXUS_PW }}
+      #     NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
 
-      - name: Cached image retrieval
-        run:
-          docker pull ${NEXUS_URL}/ois/signalsfrontend:acceptance
+      # - name: Cached image retrieval
+      #   run:
+      #     docker pull ${NEXUS_URL}/ois/signalsfrontend:acceptance
 
       - name: Compose
         run: docker-compose -f action.docker-compose.yml -p sia-ci up --build --exit-code-from ci-container ci-container
