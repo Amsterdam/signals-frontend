@@ -5,6 +5,8 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NODE_ICU_DATA: /usr/local/lib/node_modules/full-icu
 
     steps:
     - uses: actions/checkout@v1
@@ -13,8 +15,6 @@ jobs:
         node-version: 10.x
     - name: pre-Install
       run: npm i --unsafe-perm -g full-icu
-      env:
-        NODE_ICU_DATA: /usr/local/lib/node_modules/full-icu
     - name: Install
       run: npm ci
     - name: Lint
