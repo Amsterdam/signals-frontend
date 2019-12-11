@@ -18,11 +18,12 @@ const dataLists = {
 describe('signals/incident-management/containers/FilterTagList', () => {
   const tags = {
     status: [definitions.statusList[1]],
-    feedback: '',
+    feedback: 'satisfied',
     priority: 'normal',
     stadsdeel: [definitions.stadsdeelList[0], definitions.stadsdeelList[1]],
-    address_text: '',
+    address_text: 'februariplein 1',
     incident_date: '2019-09-17',
+    source: [definitions.sourceList[0], definitions.sourceList[1]],
     category_slug: [
       {
         key:
@@ -42,23 +43,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     expect(props.categories).not.toBeUndefined();
   });
 
-  it('should skip fields', () => {
-    const id = 'foo-bar-baz';
-    const tagsWithId = { ...tags, id };
-
-    const { queryByText } = render(
-      withAppContext(
-        <FilterTagListComponent
-          dataLists={dataLists}
-          tags={tagsWithId}
-          categories={categories}
-        />,
-      ),
-    );
-
-    expect(queryByText(id)).toBeFalsy();
-  });
-
   it('formats a date value', () => {
     const { queryByText } = render(
       withIntlAppContext(
@@ -71,8 +55,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       ),
     );
 
-    expect(queryByText(tags.incident_date)).toBeFalsy();
-    expect(queryByText('17-09-2019')).toBeTruthy();
+    expect(queryByText(tags.incident_date)).not.toBeInTheDocument();
+    expect(queryByText('17-09-2019')).toBeInTheDocument();
   });
 
   describe('tags list', () => {
@@ -116,7 +100,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     });
 
     it('renders a list of tags', () => {
-      const { container } = render(
+      const { queryAllByTestId, queryByText } = render(
         withAppContext(
           <FilterTagListComponent
             dataLists={dataLists}
@@ -126,7 +110,28 @@ describe('signals/incident-management/containers/FilterTagList', () => {
         ),
       );
 
-      expect(container.querySelectorAll('span')).toHaveLength(6);
+      expect(queryByText('Normaal')).toBeInTheDocument();
+      expect(queryByText('Tevreden')).toBeInTheDocument();
+      expect(queryByText('februariplein 1')).toBeInTheDocument();
+      expect(queryByText('Centrum')).toBeInTheDocument();
+      expect(queryByText('Westpoort')).toBeInTheDocument();
+      expect(queryByText('Telefoon – Adoptant')).toBeInTheDocument();
+      expect(queryByText('Telefoon – ASC')).toBeInTheDocument();
+
+      expect(queryAllByTestId('filterTagListTag')).toHaveLength(10);
+    });
+
+    it('renders no list when tags are undefined', () => {
+      const { queryAllByTestId } = render(
+        withAppContext(
+          <FilterTagListComponent
+            dataLists={dataLists}
+            categories={categories}
+          />,
+        ),
+      );
+
+      expect(queryAllByTestId('filterTagListTag')).toHaveLength(0);
     });
   });
 });
