@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { Row, Column, Button, themeSpacing } from '@datapunt/asc-ui';
+import {
+  Row,
+  Column,
+  Button,
+  themeSpacing,
+  Paragraph,
+  themeColor,
+} from '@datapunt/asc-ui';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import styled from 'styled-components';
 
@@ -46,6 +53,13 @@ const StyledButton = styled(Button)`
 
 const StyledPagination = styled(Pagination)`
   margin-top: ${themeSpacing(12)};
+`;
+
+const NoResults = styled(Paragraph)`
+  width: 100%;
+  text-align: center;
+  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  color: ${themeColor('tint', 'level4')};
 `;
 
 export const IncidentOverviewPageContainerComponent = ({
@@ -117,6 +131,7 @@ export const IncidentOverviewPageContainerComponent = ({
   }, []);
 
   const { incidents, loading } = overviewpage;
+  const totalPages = Math.ceil(incidentsCount / FILTER_PAGE_SIZE);
 
   return (
     <div className="incident-overview-page">
@@ -163,9 +178,9 @@ export const IncidentOverviewPageContainerComponent = ({
       <Row>
         <Column span={12} wrap>
           <Column span={12}>
-            {loading ? (
-              <LoadingIndicator />
-            ) : (
+            {loading && <LoadingIndicator />}
+
+            {!loading && totalPages > 0 && (
               <ListComponent
                 incidents={incidents}
                 onChangeOrdering={onChangeOrdering}
@@ -173,6 +188,10 @@ export const IncidentOverviewPageContainerComponent = ({
                 incidentsCount={incidentsCount}
                 {...dataLists}
               />
+            )}
+
+            {!loading && totalPages === 0 && (
+              <NoResults>Geen meldingen</NoResults>
             )}
           </Column>
 
@@ -185,7 +204,7 @@ export const IncidentOverviewPageContainerComponent = ({
                   global.window.scrollTo(0, 0);
                   onPageIncidentsChanged(pageToNavigateTo);
                 }}
-                totalPages={Math.ceil(incidentsCount / FILTER_PAGE_SIZE)}
+                totalPages={totalPages}
               />
             )}
           </Column>
@@ -233,11 +252,7 @@ export const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
-
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'incidentOverviewPage', reducer });
 const withSaga = injectSaga({ key: 'incidentOverviewPage', saga });
 
