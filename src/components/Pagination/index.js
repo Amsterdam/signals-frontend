@@ -58,6 +58,10 @@ const Pagination = ({
 }) => {
   const pagesInRange = pageNumbersList(currentPage, totalPages);
 
+  if (totalPages <= 1) {
+    return null;
+  }
+
   const items = pagesInRange.map((pageNum, index) => {
     const prevIndex = getPreviousIndex(currentPage);
     const nextIndex = getNextIndex(currentPage, totalPages);
