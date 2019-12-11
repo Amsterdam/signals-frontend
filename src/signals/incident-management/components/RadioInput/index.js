@@ -6,10 +6,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import Label from 'components/Label';
 
 import './style.scss';
-
-import Label from '../Label';
 
 export const RadioInput = props => {
   const { name, display, values } = props;

@@ -1,8 +1,8 @@
-import React, { Fragment, useRef, useEffect } from 'react';
+import React, { Fragment, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import Label from '../Label';
+import Label from 'components/Label';
 
 const FilterGroup = styled.div`
   position: relative;
@@ -61,35 +61,35 @@ const CheckboxList = ({
    *
    * @param {Boolean} [shouldBeChecked=true]
    */
-  const setGroupChecked = (shouldBeChecked = true) => {
+  const setGroupChecked = useCallback((shouldBeChecked = true) => {
     const checkboxes = groupContainer.current.querySelectorAll(
-      'input[type="checkbox"]',
+      'input[type="checkbox"]'
     );
     checkboxes.forEach(el => {
       // eslint-disable-next-line no-param-reassign
       el.checked = shouldBeChecked;
     });
-  };
+  }, []);
 
   /**
    * Unchecks the toggle checkbox whenever a checkbox from the list is checked
    */
-  const handleIndividualCheck = () => {
+  const handleIndividualCheck = useCallback(() => {
     const mainSlugCheckbox = groupContainer.current.querySelector(
-      `input[type="checkbox"][name="${toggleFieldName}"]`,
+      `input[type="checkbox"][name="${toggleFieldName}"]`
     );
 
     if (!mainSlugCheckbox) return;
 
     mainSlugCheckbox.checked = false;
-  };
+  }, [toggleFieldName]);
 
   /**
    * Check or uncheck all boxes whenever the toggle box is (un)checked
    *
    * @param {Event} event
    */
-  const handleToggleCheck = event => {
+  const handleToggleCheck = useCallback(event => {
     event.persist();
 
     const { target } = event;
@@ -99,7 +99,7 @@ const CheckboxList = ({
     setGroupChecked(shouldBeChecked);
 
     target.dataset.value = shouldBeChecked ? 'all' : 'none';
-  };
+  }, [setGroupChecked]);
 
   /**
    * Checks if a field should be displayed as checked
@@ -108,14 +108,18 @@ const CheckboxList = ({
    * @param   {String} [indexName='id'] - the name of the prop who's value should be compared
    * @returns {Boolean}
    */
-  const isDefaultChecked = id => defaultValue.findIndex(value => value.id === id || value.key === id) >= 0;
+  const isDefaultChecked = useCallback(
+    id =>
+      defaultValue.findIndex(value => value.id === id || value.key === id) >= 0,
+    [defaultValue]
+  );
 
   // mount
   useEffect(() => {
     if (isDefaultChecked(groupId)) {
       setGroupChecked();
     }
-  }, []);
+  }, [isDefaultChecked, setGroupChecked, groupId]);
 
   const displayToggle = !!toggleLabel && !!toggleFieldName;
   const firstOptionIdentifier = options[0].id || options[0].key;
@@ -145,9 +149,7 @@ const CheckboxList = ({
         </Fragment>
       )}
 
-      {options.map(({
-        id, key, slug, value,
-      }) => {
+      {options.map(({ id, key, slug, value }) => {
         const optionIdentifier = id || key;
         const optionValue = slug || key;
 
@@ -184,7 +186,7 @@ CheckboxList.propTypes = {
   defaultValue: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
-    }),
+    })
   ),
   /**
    * Unique group identifier. Is used to check for toggling the group checkbox
@@ -202,7 +204,7 @@ CheckboxList.propTypes = {
       key: PropTypes.string,
       slug: PropTypes.string,
       value: PropTypes.string.isRequired,
-    }),
+    })
   ).isRequired,
   /** Group label contents */
   title: PropTypes.string,

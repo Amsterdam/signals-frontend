@@ -14,10 +14,10 @@ import {
 } from '@datapunt/asc-ui';
 import { incidentType, dataListType, defaultTextsType } from 'shared/types';
 
+import Label from 'components/Label';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
-import Label from '../../../../components/Label';
 import DefaultTexts from './components/DefaultTexts';
 
 const StyledColumn = styled(Column)`

@@ -99,7 +99,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       )
     );
 
-    expect(queryByTestId('incidentOverviewPagerComponent')).toBeNull();
+    expect(queryByTestId('overviewPagerComponent')).toBeNull();
     expect(queryByTestId('incidentOverviewListComponent')).toBeNull();
     expect(queryByTestId('loadingIndicator')).not.toBeNull();
 
@@ -146,7 +146,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     expect(typeof containerProps.onChangeOrdering).toEqual('function');
   });
 
-  it('should scroll page to top after navigating with pagination', async () => {
+  it('should scroll page to top after navigating with pagination', () => {
     constants.FILTER_PAGE_SIZE = 30;
     Object.defineProperty(window, 'scrollTo', {
       value: () => { },
