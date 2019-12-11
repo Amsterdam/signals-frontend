@@ -5,10 +5,23 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NEXUS_URL: ${{ secrets.NEXUS_URL }}
 
     steps:
     - uses: actions/checkout@v1
-    - uses: Amsterdam/signals-frontend@v1
+    - name: Docker registry login
+        env:
+          NEXUS_PW: ${{ secrets.NEXUS_PW }}
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+        run: docker login -u $NEXUS_USERNAME -p $NEXUS_PW $NEXUS_URL
+
+      - name: Cached image retrieval
+        run:
+          docker pull ${NEXUS_URL}/ois/signalsfrontend:acceptance
+
+      - name: Compose
+        run: docker-compose -f action.docker-compose.yml -p sia-ci up --build --exit-code-from ci-container ci-container
     # - uses: actions/setup-node@v1
     #   with:
     #     node-version: 10.x

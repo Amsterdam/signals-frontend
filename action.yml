@@ -1,5 +1,0 @@
-name: 'Amsterdam/signals-frontend CI'
-description: 'Runs lint, test and build commands'
-runs:
-  using: 'docker'
-  image: 'action.Dockerfile'

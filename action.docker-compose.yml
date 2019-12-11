@@ -1,0 +1,8 @@
+services:
+  ci-container:
+    build:
+      context: .
+      dockerfile: action.Dockerfile
+    environment:
+      - CI=true
+      - TZ=Europe/Amsterdam
