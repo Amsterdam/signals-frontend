@@ -65,6 +65,10 @@ export class Configuration {
     }
   }
 
+  get TERMS_ENDPOINT() {
+    return `${this.config.API_ROOT}signals/v1/private/terms/categories/`;
+  }
+
   get USERS_ENDPOINT() {
     return `${this.config.API_ROOT}signals/v1/private/users`;
   }
