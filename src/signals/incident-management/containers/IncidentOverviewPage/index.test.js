@@ -138,7 +138,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     expect(typeof containerProps.onChangeOrdering).toEqual('function');
   });
 
-  it('should scroll page to top after navigating with pagination', async () => {
+  it('should scroll page to top after navigating with pagination', () => {
     constants.FILTER_PAGE_SIZE = 30;
     Object.defineProperty(window, 'scrollTo', {
       value: () => { },
