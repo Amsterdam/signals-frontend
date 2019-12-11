@@ -12,12 +12,12 @@ jobs:
       with:
         node-version: 10
     - name: Install
-    - run: npm ci
+      run: npm ci
     - name: Lint
-    - run: npm run lint
+      run: npm run lint
     - name: Test
-    - run: npx jest --no-watchman --silent --coverage
+      run: npx jest --no-watchman --silent --coverage
       env:
         CI: true
     - name: Build
-    - run: npm run build --if-present
+      run: npm run build --if-present
