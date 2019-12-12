@@ -16,13 +16,10 @@ export function* fetchDefaultTexts(action) {
   try {
     const payload = action.payload;
     const result = yield call(authCall, `${requestURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`);
-
     const found = result.find(item => item.state === payload.state);
-
     yield put(fetchDefaultTextsSuccess((found && found.templates) || []));
   } catch (error) {
     yield put(fetchDefaultTextsError(error));
-    throw error;
   }
 }
 
@@ -35,7 +32,6 @@ export function* storeDefaultTexts(action) {
     yield put(storeDefaultTextsSuccess((found && found.templates) || []));
   } catch (error) {
     yield put(storeDefaultTextsError(error));
-    throw(error);
   }
 }
 
