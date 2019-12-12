@@ -11,7 +11,8 @@ import request from 'utils/request';
 
 import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import mapCategories from '../../shared/services/map-categories';
+import mapCategories from 'shared/services/map-categories';
+import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
 
 import {
   LOGOUT,
@@ -23,7 +24,7 @@ import {
 import {
   loginFailed,
   logoutFailed,
-  showGlobalError,
+  showGlobalNotification,
   authorizeUser,
   requestCategoriesSuccess,
   uploadProgress,
@@ -41,7 +42,13 @@ export function* callLogin(action) {
     yield call(login, action.payload);
   } catch (error) {
     yield put(loginFailed(error.message));
-    yield put(showGlobalError('LOGIN_FAILED'));
+    yield put(
+      showGlobalNotification({
+        variant: VARIANT_ERROR,
+        title: 'Inloggen is niet gelukt',
+        type: TYPE_GLOBAL,
+      })
+    );
   }
 }
 
@@ -52,7 +59,7 @@ export function* callLogout() {
       window
         .open(
           'https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t',
-          '_blank',
+          '_blank'
         )
         .close();
     }
@@ -60,7 +67,13 @@ export function* callLogout() {
     yield put(push('/'));
   } catch (error) {
     yield put(logoutFailed(error.message));
-    yield put(showGlobalError('LOGOUT_FAILED'));
+    yield put(
+      showGlobalNotification({
+        variant: VARIANT_ERROR,
+        title: 'Uitloggen is niet gelukt',
+        type: TYPE_GLOBAL,
+      })
+    );
   }
 }
 
@@ -86,7 +99,13 @@ export function* callAuthorize(action) {
       yield call(logout);
       yield put(push('/login'));
     } else {
-      yield put(showGlobalError('AUTHORIZE_FAILED'));
+      yield put(
+        showGlobalNotification({
+          variant: VARIANT_ERROR,
+          title: 'Authenticeren is niet gelukt',
+          type: TYPE_GLOBAL,
+        })
+      );
     }
   }
 }
@@ -99,7 +118,15 @@ export function* fetchCategories() {
 
     yield put(requestCategoriesSuccess(mapCategories(categories)));
   } catch (err) {
-    yield put(showGlobalError('FETCH_CATEGORIES_FAILED'));
+    yield put(
+      showGlobalNotification({
+        variant: VARIANT_ERROR,
+        title: 'Inladen van categorieën is niet gelukt',
+        message:
+          'Het kan zijn dat de API tijdelijk niet beschikbaar is. Herlaad de pagina',
+        type: TYPE_GLOBAL,
+      })
+    );
   }
 }
 
@@ -114,14 +141,20 @@ export function* uploadFile(action) {
     fileUploadChannel,
     requestURL,
     action.payload.file,
-    action.payload.id,
+    action.payload.id
   );
   const forever = true;
   while (forever) {
     const { progress = 0, error, success } = yield take(channel);
     if (error) {
       yield put(uploadFailure());
-      yield put(showGlobalError('UPLOAD_FAILED'));
+      yield put(
+        showGlobalNotification({
+          variant: VARIANT_ERROR,
+          title: 'Het uploaden van de foto is niet gelukt',
+          type: TYPE_GLOBAL,
+        })
+      );
       return;
     }
     if (success) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import { history, withAppContext } from 'test/utils';
 import 'jest-styled-components';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
@@ -19,20 +19,23 @@ import {
   SITE_HEADER_HEIGHT_TALL,
 } from 'containers/SiteHeader/constants';
 
-import Notification, {
-  BG_COLOR_ERROR,
-  BG_COLOR_NOTICE,
-  BG_COLOR_SUCCESS,
-} from '..';
+import { BG_COLOR_ERROR, BG_COLOR_NOTICE, BG_COLOR_SUCCESS } from '../styled';
+
+import Notification from '..';
 
 jest.useFakeTimers();
 
 jest.mock('shared/services/auth/auth');
 
+let listenSpy;
+
 describe('components/Notification', () => {
   beforeEach(() => {
-    global.setTimeout.mock.calls = [];
-    global.clearTimeout.mock.calls = [];
+    listenSpy = jest.spyOn(history, 'listen');
+  });
+
+  afterEach(() => {
+    listenSpy.mockRestore();
   });
 
   it('renders correctly when not logged in', () => {
@@ -56,7 +59,7 @@ describe('components/Notification', () => {
     );
     expect(container.firstChild).toHaveStyleRule('position', 'absolute');
     expect(container.firstChild).toHaveStyleRule(
-      'transition',
+      'transition-timing-function',
       expect.stringContaining('ease-out')
     );
   });
@@ -150,7 +153,13 @@ describe('components/Notification', () => {
     const onClose = jest.fn();
 
     render(
-      withAppContext(<Notification title="Foo bar" variant={VARIANT_NOTICE} onClose={onClose} />)
+      withAppContext(
+        <Notification
+          title="Foo bar"
+          variant={VARIANT_NOTICE}
+          onClose={onClose}
+        />
+      )
     );
 
     expect(onClose).not.toHaveBeenCalled();
@@ -173,7 +182,13 @@ describe('components/Notification', () => {
     const onClose = jest.fn();
 
     render(
-      withAppContext(<Notification title="Foo bar" variant={VARIANT_SUCCESS} onClose={onClose} />)
+      withAppContext(
+        <Notification
+          title="Foo bar"
+          variant={VARIANT_SUCCESS}
+          onClose={onClose}
+        />
+      )
     );
 
     expect(onClose).not.toHaveBeenCalled();
@@ -195,7 +210,13 @@ describe('components/Notification', () => {
     const onClose = jest.fn();
 
     render(
-      withAppContext(<Notification title="Foo bar" variant={VARIANT_ERROR} onClose={onClose} />)
+      withAppContext(
+        <Notification
+          title="Foo bar"
+          variant={VARIANT_ERROR}
+          onClose={onClose}
+        />
+      )
     );
 
     expect(onClose).not.toHaveBeenCalled();
@@ -217,7 +238,9 @@ describe('components/Notification', () => {
     const onClose = jest.fn();
 
     render(
-      withAppContext(<Notification title="Foo bar" type={TYPE_GLOBAL} onClose={onClose} />)
+      withAppContext(
+        <Notification title="Foo bar" type={TYPE_GLOBAL} onClose={onClose} />
+      )
     );
 
     expect(onClose).not.toHaveBeenCalled();
@@ -329,7 +352,7 @@ describe('components/Notification', () => {
     });
 
     act(() => {
-      jest.advanceTimersByTime(SLIDEUP_TIMEOUT);
+      jest.advanceTimersByTime(SLIDEUP_TIMEOUT / 2);
     });
 
     expect(onClose).not.toHaveBeenCalled();
@@ -345,7 +368,9 @@ describe('components/Notification', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  it('hides when the close button is clicked', () => {
+  it('slides up when the close button is clicked', () => {
+    isAuthenticated.mockImplementation(() => true);
+
     const onClose = jest.fn();
 
     const { container, getByTestId } = render(
@@ -355,21 +380,87 @@ describe('components/Notification', () => {
     expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
-      fireEvent.mouseOver(getByTestId('notification'));
-    });
-
-    act(() => {
       fireEvent.click(getByTestId('notificationClose'));
     });
 
     expect(container.firstChild.classList.contains('slideup')).toEqual(true);
 
-    expect(onClose).toHaveBeenCalledTimes(0);
+    expect(onClose).not.toHaveBeenCalled();
 
     act(() => {
       jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
     });
 
     expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('fades out up when the close button is clicked', () => {
+    isAuthenticated.mockImplementation(() => false);
+
+    const onClose = jest.fn();
+
+    const { container, getByTestId } = render(
+      withAppContext(<Notification title="Foo bar" onClose={onClose} />)
+    );
+
+    expect(onClose).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.click(getByTestId('notificationClose'));
+    });
+
+    expect(container.firstChild.classList.contains('fadeout')).toEqual(true);
+
+    expect(onClose).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(ONCLOSE_TIMEOUT);
+    });
+
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('should NOT reset notification on history change when type equals TYPE_GLOBAL', () => {
+    render(
+      withAppContext(
+        <Notification onClose={() => {}} type={TYPE_GLOBAL} title="Foo bar" />
+      )
+    );
+
+    const callsToHistoryListen = [...listenSpy.mock.calls];
+
+    act(() => {
+      history.push('/');
+    });
+
+    // Comparing the calls to history.listen. We cannot assert that `listen` has not been called, since the
+    // instantiation of connected-react-router will already have done that
+    expect(callsToHistoryListen).toEqual(listenSpy.mock.calls);
+  });
+
+  it('should NOT reset notification on history change when onClose is not a function', () => {
+    render(withAppContext(<Notification onClose={null} title="Foo bar" />));
+
+    const callsToHistoryListen = [...listenSpy.mock.calls];
+
+    act(() => {
+      history.push('/');
+    });
+
+    expect(callsToHistoryListen).toEqual(listenSpy.mock.calls);
+  });
+
+  it('should reset notification on history change', () => {
+    const onClose = jest.fn();
+
+    render(withAppContext(<Notification onClose={onClose} title="Foo bar" />));
+
+    expect(onClose).not.toHaveBeenCalled();
+
+    act(() => {
+      history.push('/manage');
+    });
+
+    expect(onClose).toHaveBeenCalled();
   });
 });

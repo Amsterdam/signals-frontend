@@ -2,8 +2,8 @@ import {
   AUTHENTICATE_USER,
   AUTHORIZE_USER,
 
-  SHOW_GLOBAL_ERROR,
-  RESET_GLOBAL_ERROR,
+  SHOW_GLOBAL_NOTIFICATION,
+  RESET_GLOBAL_NOTIFICATION,
 
   LOGIN,
   LOGIN_FAILED,
@@ -43,16 +43,16 @@ export function authorizeUser(credentials) {
   };
 }
 
-export function showGlobalError(message) {
+export function showGlobalNotification(payload) {
   return {
-    type: SHOW_GLOBAL_ERROR,
-    payload: message,
+    type: SHOW_GLOBAL_NOTIFICATION,
+    payload,
   };
 }
 
-export function resetGlobalError() {
+export function resetGlobalNotification() {
   return {
-    type: RESET_GLOBAL_ERROR,
+    type: RESET_GLOBAL_NOTIFICATION,
   };
 }
 

@@ -9,8 +9,8 @@ import {
   LOGOUT_FAILED,
   LOGOUT,
   REQUEST_CATEGORIES_SUCCESS,
-  RESET_GLOBAL_ERROR,
-  SHOW_GLOBAL_ERROR,
+  RESET_GLOBAL_NOTIFICATION,
+  SHOW_GLOBAL_NOTIFICATION,
   UPLOAD_FAILURE,
   UPLOAD_PROGRESS,
   UPLOAD_REQUEST,
@@ -60,31 +60,37 @@ describe('appReducer', () => {
     });
   });
 
-  describe('SHOW_GLOBAL_ERROR', () => {
-    it('sets global error message', () => {
+  describe('SHOW_GLOBAL_NOTIFICATION', () => {
+    it('sets global notification', () => {
       expect(
         appReducer(fromJS({}), {
-          type: SHOW_GLOBAL_ERROR,
-          payload: 'ERROR_MESSAGE',
+          type: SHOW_GLOBAL_NOTIFICATION,
+          payload: {
+            title: 'title',
+            message: 'message',
+            variant: 'error',
+            type: 'global',
+          },
         }).toJS(),
       ).toEqual({
-        error: true,
-        errorMessage: 'ERROR_MESSAGE',
-        loading: false,
+        notification: {
+          title: 'title',
+          message: 'message',
+          variant: 'error',
+          type: 'global',
+        },
       });
     });
   });
 
-  describe('RESET_GLOBAL_ERROR', () => {
-    it('resets global error message', () => {
+  describe('RESET_GLOBAL_NOTIFICATION', () => {
+    it('resets global notification', () => {
       expect(
         appReducer(fromJS({}), {
-          type: RESET_GLOBAL_ERROR,
+          type: RESET_GLOBAL_NOTIFICATION,
         }).toJS(),
       ).toEqual({
-        error: false,
-        errorMessage: '',
-        loading: false,
+        notification: initialState.get('notification').toJS(),
       });
     });
   });
@@ -203,7 +209,6 @@ describe('appReducer', () => {
         }).toJS(),
       ).toEqual({
         error: true,
-        errorMessage: 'ERROR_MESSAGE',
         loading: false,
       });
     });
@@ -218,7 +223,6 @@ describe('appReducer', () => {
         }).toJS(),
       ).toEqual({
         error: true,
-        errorMessage: 'ERROR_MESSAGE',
         loading: false,
       });
     });

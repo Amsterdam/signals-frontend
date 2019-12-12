@@ -17,6 +17,7 @@ import {
 import SearchBar from 'containers/SearchBar';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import useIsFrontOffice from 'hooks/useIsFrontOffice';
+import Notification from 'containers/Notification';
 
 export const breakpoint = 1100;
 
@@ -105,6 +106,8 @@ const HeaderWrapper = styled.div`
     isFrontOffice &&
     tall &&
     css`
+      z-index: 1;
+
       #header {
         position: static;
 
@@ -255,25 +258,30 @@ export const SiteHeader = props => {
         }
       </Media>
     ),
-    [breakpoint, props]
+    [props]
   );
 
   return (
-    <HeaderWrapper
-      isFrontOffice={isFrontOffice}
-      tall={tall}
-      className={`siteHeader ${tall ? 'isTall' : 'isShort'}`}
-      data-testid="siteHeader"
-    >
-      <StyledHeader
+    <Fragment>
+      <HeaderWrapper
         isFrontOffice={isFrontOffice}
-        title={title}
-        homeLink="/"
         tall={tall}
-        fullWidth={false}
-        navigation={tall ? null : navigation}
-      />
-    </HeaderWrapper>
+        className={`siteHeader ${tall ? 'isTall' : 'isShort'}`}
+        data-testid="siteHeader"
+      >
+        <StyledHeader
+          isFrontOffice={isFrontOffice}
+          title={title}
+          homeLink="/"
+          tall={tall}
+          fullWidth={false}
+          navigation={tall ? null : navigation}
+        />
+        {!tall && <Notification />}
+      </HeaderWrapper>
+
+      {tall && <Notification />}
+    </Fragment>
   );
 };
 
