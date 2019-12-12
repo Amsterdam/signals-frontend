@@ -2,15 +2,11 @@ import { testSaga } from 'redux-saga-test-plan';
 import { takeLatest } from 'redux-saga/effects';
 import { authCall, authPostCall } from 'shared/services/api/api';
 
-import watchDefaultTextsAdminSaga,
-{
+import watchDefaultTextsAdminSaga, {
   fetchDefaultTexts,
   storeDefaultTexts,
-} from './saga'
-import {
-  FETCH_DEFAULT_TEXTS,
-  STORE_DEFAULT_TEXTS,
-} from './constants';
+} from './saga';
+import { FETCH_DEFAULT_TEXTS, STORE_DEFAULT_TEXTS } from './constants';
 
 import {
   fetchDefaultTextsSuccess,
@@ -20,8 +16,10 @@ import {
 } from './actions';
 
 describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () => {
-  const requestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/asbest-accu/status-message-templates';
-  const category_url = 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu';
+  const requestURL =
+    'https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/asbest-accu/status-message-templates';
+  const category_url =
+    'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu';
   const payload = {
     main_slug: 'afval',
     sub_slug: 'asbest-accu',
@@ -43,13 +41,16 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
 
   describe('fetchDefaultTexts', () => {
     it('should dispatch success', () => {
-      const result = [{
-        state: 'm',
-        templates: [{ title: 'gemend', text: 'foo' }],
-      },{
-        state: 'i',
-        templates: [{ title: 'in behandeling', text: 'bar' }],
-      }];
+      const result = [
+        {
+          state: 'm',
+          templates: [{ title: 'gemend', text: 'foo' }],
+        },
+        {
+          state: 'i',
+          templates: [{ title: 'in behandeling', text: 'bar' }],
+        },
+      ];
 
       testSaga(fetchDefaultTexts, action)
         .next()
@@ -61,11 +62,14 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
     });
 
     it('should dispatch success empty list with missing template', () => {
-      const result = [{
-        state: 'm',
-      },{
-        state: 'i',
-      }];
+      const result = [
+        {
+          state: 'm',
+        },
+        {
+          state: 'i',
+        },
+      ];
 
       testSaga(fetchDefaultTexts, action)
         .next()
@@ -98,13 +102,16 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
     };
 
     it('should dispatch success', () => {
-      const result = [{
-        state: 'm',
-        templates: [{ title: 'gemend', text: 'foo' }],
-      },{
-        state: 'i',
-        templates: [{ title: 'in behandeling', text: 'bar' }],
-      }];
+      const result = [
+        {
+          state: 'm',
+          templates: [{ title: 'gemend', text: 'foo' }],
+        },
+        {
+          state: 'i',
+          templates: [{ title: 'in behandeling', text: 'bar' }],
+        },
+      ];
 
       testSaga(storeDefaultTexts, action)
         .next()
@@ -116,10 +123,14 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
     });
 
     it('should dispatch success empty list with missing template', () => {
-      const result = [{
-        state: 'm'      },{
-        state: 'i',
-      }];
+      const result = [
+        {
+          state: 'm',
+        },
+        {
+          state: 'i',
+        },
+      ];
 
       testSaga(storeDefaultTexts, action)
         .next()

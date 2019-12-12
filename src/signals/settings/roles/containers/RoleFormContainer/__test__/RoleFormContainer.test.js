@@ -3,7 +3,12 @@ import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import roles from 'utils/__tests__/fixtures/roles.json';
 
-import { FETCH_ROLES, FETCH_PERMISSIONS, PATCH_ROLE, SAVE_ROLE } from 'models/roles/constants';
+import {
+  FETCH_ROLES,
+  FETCH_PERMISSIONS,
+  PATCH_ROLE,
+  SAVE_ROLE,
+} from 'models/roles/constants';
 import { RoleFormContainer, mapDispatchToProps } from '..';
 
 describe('signals/settings/roles/containers/RoleFormContainer', () => {
@@ -30,7 +35,9 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
         loading: true,
       },
     };
-    const { container, queryByTestId, rerender } = render(withAppContext(<RoleFormContainer {...loadingProps} />))
+    const { container, queryByTestId, rerender } = render(
+      withAppContext(<RoleFormContainer {...loadingProps} />)
+    );
 
     expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
     expect(queryByTestId('rolesForm')).not.toBeInTheDocument();
@@ -43,29 +50,37 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
         loadingPermissions: false,
       },
     };
-    rerender(withAppContext(<RoleFormContainer {...notLoadingProps} />))
+    rerender(withAppContext(<RoleFormContainer {...notLoadingProps} />));
 
     expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
     expect(queryByTestId('rolesForm')).toBeInTheDocument();
-    expect(container.querySelector('h1')).toHaveTextContent(/^Rol instellingen$/);
+    expect(container.querySelector('h1')).toHaveTextContent(
+      /^Rol instellingen$/
+    );
   });
 
   it('should show success message', () => {
     props.roles.responseSuccess = true;
-    const { getByText } = render(withAppContext(<RoleFormContainer {...props} />))
+    const { getByText } = render(
+      withAppContext(<RoleFormContainer {...props} />)
+    );
 
     expect(getByText('Gegevens opgeslagen')).toBeInTheDocument();
   });
 
   it('should show error message', () => {
     props.roles.responseError = true;
-    const { getByText } = render(withAppContext(<RoleFormContainer {...props} />))
+    const { getByText } = render(
+      withAppContext(<RoleFormContainer {...props} />)
+    );
 
-    expect(getByText('Er is iets mis gegaan bij het opslaan')).toBeInTheDocument();
+    expect(
+      getByText('Er is iets mis gegaan bij het opslaan')
+    ).toBeInTheDocument();
   });
 
   it('should fetch roles and permissions by default', () => {
-    render(withAppContext(<RoleFormContainer {...props} />))
+    render(withAppContext(<RoleFormContainer {...props} />));
 
     expect(props.onFetchRoles).toHaveBeenCalled();
     expect(props.onFetchPermissions).toHaveBeenCalled();

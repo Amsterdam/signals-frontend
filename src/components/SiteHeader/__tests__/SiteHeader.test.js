@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  render,
-  fireEvent,
-  cleanup,
-} from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 import MatchMediaMock from 'match-media-mock';
 import { act } from 'react-dom/test-utils';
 
@@ -29,19 +25,19 @@ describe('components/SiteHeader', () => {
   it('should render correctly when not authenticated', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
-    history.push('/')
+    history.push('/');
 
     const { container, rerender, queryByText } = render(
-      withAppContext(
-        <SiteHeader permissions={[]} />,
-      ),
+      withAppContext(<SiteHeader permissions={[]} />)
     );
 
     // menu items
     expect(queryByText('Melden')).toBeNull();
 
     // inline menu should not be visible
-    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(0);
+    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(
+      0
+    );
 
     cleanup();
 
@@ -55,11 +51,7 @@ describe('components/SiteHeader', () => {
 
     history.push('/manage');
 
-    rerender(
-      withAppContext(
-        <SiteHeader permissions={[]} />,
-      ),
-    );
+    rerender(withAppContext(<SiteHeader permissions={[]} />));
 
     expect(queryByText('Melden')).toBeNull();
   });
@@ -67,19 +59,19 @@ describe('components/SiteHeader', () => {
   it('should render correctly when authenticated', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    history.push('/')
+    history.push('/');
 
     const { container, queryByText } = render(
-      withAppContext(
-        <SiteHeader permissions={[]} />,
-      ),
+      withAppContext(<SiteHeader permissions={[]} />)
     );
 
     // menu items
     expect(queryByText('Melden')).not.toBeNull();
 
     // inline menu should be visible, with a dropdown for instellingen
-    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(1);
+    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(
+      1
+    );
 
     cleanup();
 
@@ -88,11 +80,7 @@ describe('components/SiteHeader', () => {
 
     history.push('/manage');
 
-    render(
-      withAppContext(
-        <SiteHeader permissions={[]} />,
-      ),
-    );
+    render(withAppContext(<SiteHeader permissions={[]} />));
 
     // toggle menu should be visible
     expect(document.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(2);
@@ -104,9 +92,7 @@ describe('components/SiteHeader', () => {
     history.push('/');
 
     const { queryByText } = render(
-      withAppContext(
-        <SiteHeader permissions={[]} />,
-      ),
+      withAppContext(<SiteHeader permissions={[]} />)
     );
 
     const title = 'SIA';
@@ -120,11 +106,7 @@ describe('components/SiteHeader', () => {
 
     history.push('/');
 
-    render(
-      withAppContext(
-        <SiteHeader permissions={[]} />,
-      ),
-    );
+    render(withAppContext(<SiteHeader permissions={[]} />));
 
     // do show title in front office when authenticated
     expect(queryByText(title)).not.toBeNull();
@@ -135,11 +117,7 @@ describe('components/SiteHeader', () => {
 
     history.push('/manage');
 
-    render(
-      withAppContext(
-        <SiteHeader permissions={[]} />,
-      ),
-    );
+    render(withAppContext(<SiteHeader permissions={[]} />));
 
     // don't show title in back office when not authenticated
     expect(queryByText(title)).toBeNull();
@@ -148,11 +126,7 @@ describe('components/SiteHeader', () => {
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    render(
-      withAppContext(
-        <SiteHeader permissions={[]} />,
-      ),
-    );
+    render(withAppContext(<SiteHeader permissions={[]} />));
 
     // do show title in back office when authenticated
     expect(queryByText(title)).not.toBeNull();
@@ -165,23 +139,23 @@ describe('components/SiteHeader', () => {
 
     const { container, rerender } = render(
       withAppContext(
-        <SiteHeader permissions={[]} location={{ pathname: '/' }} />,
-      ),
+        <SiteHeader permissions={[]} location={{ pathname: '/' }} />
+      )
     );
 
-    expect(container.querySelector('.siteHeader').classList.contains('isTall')).toEqual(true);
+    expect(
+      container.querySelector('.siteHeader').classList.contains('isTall')
+    ).toEqual(true);
 
     cleanup();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    rerender(
-      withAppContext(
-        <SiteHeader permissions={[]} />,
-      ),
-    );
+    rerender(withAppContext(<SiteHeader permissions={[]} />));
 
-    expect(container.querySelector('.siteHeader').classList.contains('isShort')).toEqual(true);
+    expect(
+      container.querySelector('.siteHeader').classList.contains('isShort')
+    ).toEqual(true);
 
     cleanup();
 
@@ -189,25 +163,21 @@ describe('components/SiteHeader', () => {
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
-    rerender(
-      withAppContext(
-        <SiteHeader permissions={[]} />,
-      ),
-    );
+    rerender(withAppContext(<SiteHeader permissions={[]} />));
 
-    expect(container.querySelector('.siteHeader').classList.contains('isTall')).toEqual(true);
+    expect(
+      container.querySelector('.siteHeader').classList.contains('isTall')
+    ).toEqual(true);
 
     cleanup();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    rerender(
-      withAppContext(
-        <SiteHeader permissions={[]} />,
-      ),
-    );
+    rerender(withAppContext(<SiteHeader permissions={[]} />));
 
-    expect(container.querySelector('.siteHeader').classList.contains('isShort')).toEqual(true);
+    expect(
+      container.querySelector('.siteHeader').classList.contains('isShort')
+    ).toEqual(true);
   });
 
   it('should show buttons based on permissions', () => {
@@ -217,8 +187,8 @@ describe('components/SiteHeader', () => {
           permissions={['signals.sia_statusmessagetemplate_write']}
           isAuthenticated
           location={{ pathname: '/incident/beschrijf' }}
-        />,
-      ),
+        />
+      )
     );
 
     expect(queryByText('Standaard teksten')).not.toBeNull();
@@ -231,8 +201,8 @@ describe('components/SiteHeader', () => {
           isAuthenticated
           permissions={[]}
           location={{ pathname: '/' }}
-        />,
-      ),
+        />
+      )
     );
 
     // afhandelen menu item
@@ -253,12 +223,7 @@ describe('components/SiteHeader', () => {
     const onLogOut = jest.fn();
 
     const { getByText } = render(
-      withAppContext(
-        <SiteHeader
-          permissions={[]}
-          onLogOut={onLogOut}
-        />,
-      ),
+      withAppContext(<SiteHeader permissions={[]} onLogOut={onLogOut} />)
     );
 
     const logOutButton = getByText('Uitloggen');
@@ -270,7 +235,7 @@ describe('components/SiteHeader', () => {
         logOutButton,
         new MouseEvent('click', {
           bubbles: true,
-        }),
+        })
       );
     });
 
