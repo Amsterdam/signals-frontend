@@ -421,7 +421,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   // Note that jsdom has a bug where `submit` and `reset` handlers are not called when those handlers
   // are defined as callback attributes on the form element. Instead, handlers are invoked when the
   // corresponding buttons are clicked.
-  it('should handle reset', async () => {
+  it('should handle reset', () => {
     const onClearFilter = jest.fn();
     const { container } = render(
       withAppContext(

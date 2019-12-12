@@ -23,7 +23,7 @@ describe('signals/settings', () => {
     reactRouterDom.useLocation.mockRestore();
   });
 
-  it('should render login page', async () => {
+  it('should render login page', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => false);
 
     const { queryByTestId, getByTestId, rerender } = render(
@@ -39,7 +39,7 @@ describe('signals/settings', () => {
     expect(queryByTestId('loginPage')).toBeNull();
   });
 
-  it('should render a 404', async () => {
+  it('should render a 404', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
     const { getByTestId } = render(withAppContext(<SettingsModule />));
