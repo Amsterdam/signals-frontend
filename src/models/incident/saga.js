@@ -23,13 +23,10 @@ import {
 } from './actions';
 import { requestHistoryList } from '../history/actions';
 
-export const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals`;
-export const requestTermsURL = `${CONFIGURATION.API_ROOT}signals/v1/private/terms/categories`;
-
 export function* fetchIncident(action) {
   try {
     const id = action.payload;
-    const incident = yield call(authCall, `${requestURL}/${id}`);
+    const incident = yield call(authCall, `${CONFIGURATION.INCIDENTS_ENDPOINT}${id}`);
 
     yield put(requestIncidentSuccess(incident));
   } catch (error) {
@@ -42,7 +39,7 @@ export function* patchIncident(action) {
   try {
     const incident = yield call(
       authPatchCall,
-      `${requestURL}/${payload.id}`,
+      `${CONFIGURATION.INCIDENTS_ENDPOINT}${payload.id}`,
       payload.patch,
     );
 
@@ -62,7 +59,7 @@ export function* patchIncident(action) {
 export function* requestAttachments(action) {
   try {
     const id = action.payload;
-    const attachments = yield call(authCall, `${requestURL}/${id}/attachments`);
+    const attachments = yield call(authCall, `${CONFIGURATION.INCIDENTS_ENDPOINT}${id}/attachments`);
 
     yield put(requestAttachmentsSuccess(attachments.results.slice(0, 3)));
   } catch (error) {
@@ -75,7 +72,7 @@ export function* requestDefaultTexts(action) {
     const payload = action.payload;
     const result = yield call(
       authCall,
-      `${requestTermsURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`,
+      `${CONFIGURATION.TERMS_ENDPOINT}${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`,
     );
     yield put(requestDefaultTextsSuccess(result));
   } catch (error) {
