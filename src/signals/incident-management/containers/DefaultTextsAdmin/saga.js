@@ -5,10 +5,7 @@ import { authCall, authPostCall } from 'shared/services/api/api';
 
 import { FETCH_DEFAULT_TEXTS, STORE_DEFAULT_TEXTS } from './constants';
 import {
-  fetchDefaultTextsSuccess,
-  fetchDefaultTextsError,
-  storeDefaultTextsSuccess,
-  storeDefaultTextsError,
+  fetchDefaultTextsSuccess, fetchDefaultTextsError, storeDefaultTextsSuccess, storeDefaultTextsError,
 } from './actions';
 
 export function* fetchDefaultTexts(action) {
