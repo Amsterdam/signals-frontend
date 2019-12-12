@@ -1,10 +1,13 @@
 module.exports = {
   collectCoverageFrom: [
+    'src/*.js',
     'src/**/*.{js,jsx}',
+    '!src/*.test.js',
     '!src/**/*.test.{js,jsx}',
     '!src/test/**/*.{js,jsx}',
     '!src/*/RbGenerated*/*.{js,jsx}',
     '!src/app.js',
+    '!src/polyfills.js',
     '!src/global-styles.js',
     '!src/**/definitions/*',
   ],
