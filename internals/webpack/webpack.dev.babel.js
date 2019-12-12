@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = require('./webpack.base.babel')({
   mode: 'development',
@@ -35,6 +36,10 @@ module.exports = require('./webpack.base.babel')({
       exclude: /a\.js|node_modules/, // exclude node_modules
       failOnError: false, // show a warning when there is a circular dependency
     }),
+    new CopyPlugin([
+      { from: path.join(process.cwd(), 'src/sw-proxy.js') },
+      { from: path.join(process.cwd(), 'src/sw-proxy-responses.js'), force: true },
+    ]),
   ],
 
   // Emit a source map for easier debugging
@@ -44,4 +49,6 @@ module.exports = require('./webpack.base.babel')({
   performance: {
     hints: false,
   },
+
+  stats: 'verbose',
 });

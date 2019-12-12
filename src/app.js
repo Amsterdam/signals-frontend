@@ -120,3 +120,7 @@ store.dispatch(authenticateUser(credentials));
 if (process.env.NODE_ENV === 'production') {
   require('offline-plugin/runtime').install(); // eslint-disable-line global-require
 }
+
+if ('serviceWorker' in navigator && process.env.PROXY) {
+  navigator.serviceWorker.register('/sw-proxy.js');
+}

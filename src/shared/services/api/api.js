@@ -82,7 +82,7 @@ export function* postCall(url, params) {
 export const errorMessageDictionary = {
   default: 'De opgevraagde gegevens konden niet gevonden worden',
   400: 'De server kan de gegevens niet verwerken',
-  401: 'Je hebt niet voldoende rechten om de opgevraagde gegevens te bekijken',
+  401: 'Je hebt niet voldoende rechten om deze actie uit te voeren',
   403: 'Het is niet toegestaan om gegevens te bekijken of te wijzigen',
   408: 'Het verzoek kan niet verwerkt worden door een timeout op de server',
   413: 'De grootte van de payload overschrijdt de toegestane limiet',
@@ -99,9 +99,11 @@ export const errorMessageDictionary = {
  * @returns {String}
  */
 export const getErrorMessage = error => {
-  if (!error.status) {
+  const status = (error.response && error.response.status) || error.status;
+
+  if (!status) {
     return errorMessageDictionary.default;
   }
 
-  return errorMessageDictionary[error.status] || errorMessageDictionary.default;
+  return errorMessageDictionary[status] || errorMessageDictionary.default;
 };
