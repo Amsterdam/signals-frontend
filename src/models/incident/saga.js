@@ -49,15 +49,13 @@ export function* patchIncident(action) {
     yield put(patchIncidentSuccess({ type: payload.type, incident }));
     yield put(requestHistoryList(payload.id));
   } catch (error) {
-    // debugger;
-    // const { response } = error;
+    const { response } = error;
 
-    // if (response && response.status === 403) {
-    //   global.alert('Je hebt geen toestemming om deze actie uit te voeren.');
-    // }
+    if (response && response.status === 403) {
+      global.alert('Je hebt geen toestemming om deze actie uit te voeren.');
+    }
 
     yield put(patchIncidentError({ type: payload.type, error }));
-    throw(error);
   }
 }
 
