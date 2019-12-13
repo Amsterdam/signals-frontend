@@ -5,6 +5,12 @@ import * as reactRouterDom from 'react-router-dom';
 import { withAppContext } from 'test/utils';
 import routes from 'signals/settings/routes';
 import userJSON from 'utils/__tests__/fixtures/user.json';
+import * as actions from 'containers/App/actions';
+import {
+  VARIANT_ERROR,
+  VARIANT_SUCCESS,
+  TYPE_LOCAL,
+} from 'containers/Notification/constants';
 
 import useFetchUser from '../hooks/useFetchUser';
 import UserDetail from '..';
@@ -17,6 +23,11 @@ jest.mock('react-router-dom', () => ({
 jest.mock('../hooks/useFetchUser', () =>
   jest.fn(() => ({ isLoading: undefined }))
 );
+
+jest.mock('containers/App/actions', () => ({
+  __esModule: true,
+  ...jest.requireActual('containers/App/actions'),
+}));
 
 const push = jest.fn();
 jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
@@ -137,20 +148,25 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should show an alert on error', () => {
+    const showNotificationSpy = jest.spyOn(actions, 'showGlobalNotification');
     const message = 'Something went wrong here';
-    useFetchUser.mockImplementationOnce(() => ({ error: { message } }));
 
-    const { queryByTestId, getByTestId, getByText, rerender } = render(withAppContext(<UserDetail />));
+    useFetchUser.mockImplementationOnce(() => ({ isLoading: true, error: { message } }));
 
-    expect(getByTestId('formAlert')).toBeInTheDocument();
-    expect(getByText(message)).toBeInTheDocument();
+    const { rerender } = render(withAppContext(<UserDetail />));
 
     // should not show when loading
-    useFetchUser.mockImplementationOnce(() => ({ isLoading: true, error: { message } }));
+    expect(showNotificationSpy).not.toHaveBeenCalled();
+
+    useFetchUser.mockImplementationOnce(() => ({ error: { message } }));
 
     rerender(withAppContext(<UserDetail />));
 
-    expect(queryByTestId('formAlert')).toBeNull();
+    expect(showNotificationSpy).toHaveBeenCalledWith(expect.objectContaining({
+      title: message,
+      variant: VARIANT_ERROR,
+      type: TYPE_LOCAL,
+    }));
   });
 
   it('should not patch user data on submit when form data has not been altered', () => {
@@ -219,6 +235,30 @@ describe('signals/settings/users/containers/Detail', () => {
     );
 
     expect(post).toHaveBeenCalledWith(expect.objectContaining({ last_name: lastName, first_name: firstName, username }));
+  });
+
+  it.only('should redirect on success and show notification', () => {
+    const showNotificationSpy = jest.spyOn(actions, 'showGlobalNotification');
+    useFetchUser.mockImplementation(() => ({ data: userJSON, isLoading: true, isSuccess: true }));
+
+    expect(push).toHaveBeenCalledTimes(0);
+    expect(showNotificationSpy).not.toHaveBeenCalled();
+
+    const { rerender } = render(withAppContext(<UserDetail />));
+
+    expect(push).toHaveBeenCalledTimes(0);
+    expect(showNotificationSpy).not.toHaveBeenCalled();
+
+    useFetchUser.mockImplementation(() => ({ data: userJSON, isLoading: false, isSuccess: true }));
+
+    rerender(withAppContext(<UserDetail />));
+
+    expect(push).toHaveBeenCalledTimes(1);
+    expect(showNotificationSpy).toHaveBeenCalledWith(expect.objectContaining({
+      title: 'Gegevens opgeslagen',
+      variant: VARIANT_SUCCESS,
+      type: TYPE_LOCAL,
+    }));
   });
 
   it('should convert stringified booleans to boolean values', () => {
