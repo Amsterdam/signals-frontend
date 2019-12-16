@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect } from 'react';
+import React, { Fragment, useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -17,7 +17,7 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 
 import { showGlobalNotification as showGlobalNotificationAction } from 'containers/App/actions';
 import BackLink from 'components/BackLink';
-import routes, { USER_URL } from 'signals/settings/routes';
+import routes from 'signals/settings/routes';
 
 import useFetchUser from './hooks/useFetchUser';
 import UserForm from './components/UserForm';
@@ -40,7 +40,6 @@ export const UserDetailContainerComponent = ({ showGlobalNotification }) => {
     userId
   );
   const shouldRenderForm = !isExistingUser || (isExistingUser && Boolean(data));
-  const dataId = data && data.id;
   const redirectURL = location.referrer || routes.users;
 
   const getFormData = useCallback(
@@ -54,10 +53,44 @@ export const UserDetailContainerComponent = ({ showGlobalNotification }) => {
   );
 
   useEffect(() => {
-    if (!isExistingUser && isSuccess) {
-      history.replace(`${USER_URL}/${dataId}`);
+    if (isLoading) return;
+
+    let message;
+    let variant = VARIANT_SUCCESS;
+
+    if (error) {
+      ({ message } = error);
+      variant = VARIANT_ERROR;
     }
-  }, [isExistingUser, isSuccess, dataId, history]);
+
+    if (!isExistingUser && isSuccess) {
+      message = 'Gebruiker toegevoegd';
+    }
+
+    if (isExistingUser && isSuccess) {
+      message = 'Gegevens opgeslagen';
+    }
+
+    if (!message) return;
+
+    showGlobalNotification({
+      variant,
+      title: message,
+      type: TYPE_LOCAL,
+    });
+
+    if (isSuccess) {
+      history.push(redirectURL);
+    }
+  }, [
+    error,
+    isExistingUser,
+    isLoading,
+    isSuccess,
+    history,
+    showGlobalNotification,
+    redirectURL,
+  ]);
 
   const onSubmitForm = useCallback(
     e => {
@@ -93,25 +126,10 @@ export const UserDetailContainerComponent = ({ showGlobalNotification }) => {
     [data, getFormData, history, redirectURL]
   );
 
-  const title = `Gebruiker ${isExistingUser ? 'wijzigen' : 'toevoegen'}`;
-
-  if (!isLoading && error) {
-    showGlobalNotification({
-      variant: VARIANT_ERROR,
-      title: error.message,
-      type: TYPE_LOCAL,
-    });
-  }
-
-  if (!isLoading && isSuccess) {
-    history.push(redirectURL);
-
-    showGlobalNotification({
-      variant: VARIANT_SUCCESS,
-      title: 'Gegevens opgeslagen',
-      type: TYPE_LOCAL,
-    });
-  }
+  const title = useMemo(
+    () => `Gebruiker ${isExistingUser ? 'wijzigen' : 'toevoegen'}`,
+    [isExistingUser]
+  );
 
   return (
     <Fragment>
