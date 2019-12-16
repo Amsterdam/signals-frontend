@@ -36,12 +36,13 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     expect(container.querySelectorAll('input[type="checkbox"]').length).toBe(
       12
     );
+
     expect(
       container.querySelectorAll('input[type="checkbox"]:checked').length
     ).toBe(2);
   });
 
-  it('should trigger error in name field when it is empty and sumbit has been clicked', () => {
+  it('should show error in required name field', () => {
     const emptyNameProps = {
       ...props,
       role: {
@@ -64,11 +65,14 @@ describe('/signals/settings/roles/components/RoleForm', () => {
         value: 'nieuwe behandelaars',
       },
     };
-    fireEvent.blur(getByTestId('rolesFormFieldName'), event);
+    fireEvent.change(getByTestId('rolesFormFieldName'), event);
 
     expect(queryByTestId('rolesFormFieldName')).toHaveValue(
       'nieuwe behandelaars'
     );
+    expect(queryByText('Dit veld is verplicht')).toBeInTheDocument();
+
+    fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
     expect(queryByText('Dit veld is verplicht')).not.toBeInTheDocument();
   });
 
@@ -80,7 +84,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
         value: 'behandelaars',
       },
     };
-    fireEvent.blur(getByTestId('rolesFormFieldName'), event);
+    fireEvent.change(getByTestId('rolesFormFieldName'), event);
 
     fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
 
@@ -105,7 +109,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
         value: 'nieuwe behandelaars',
       },
     };
-    fireEvent.blur(getByTestId('rolesFormFieldName'), event);
+    fireEvent.change(getByTestId('rolesFormFieldName'), event);
 
     fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
 

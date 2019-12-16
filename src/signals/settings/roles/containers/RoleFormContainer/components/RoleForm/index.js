@@ -23,10 +23,8 @@ const StyledInput = styled(Input)`
 export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole }) => {
   const formRef = useRef(null);
   const { isValid, validate, errors, event } = useFormValidation(formRef);
-  // console.log('1111111', isValid, formRef.current, errors);
 
   useEffect(() => {
-    // console.log('2222222', isValid, formRef.current, errors);
     if (isValid) {
       handleSubmit(event);
     }
@@ -34,16 +32,8 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole }) => {
 
   const history = useHistory();
 
-  // useEffect(() => {
-  // /* istanbul ignore else */
-  // if (role.id) {
-  // setName(role.name);
-  // }
-  // }, [role.id, role.name]);
-
   const handleSubmit = useCallback(
     e => {
-      e.preventDefault();
       const {
         target: {
           form: { elements },
@@ -73,24 +63,19 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole }) => {
     [onPatchRole, onSaveRole, permissions, role.id]
   );
 
-  const handeValidate = e => {
-    console.log('handeValidate ---------------------------------------', e);
-    validate(e);
-  };
-
   const handleCancel = useCallback(() => {
     history.push(ROLES_URL);
   }, [history]);
 
   return (
     <div data-testid="rolesForm">
-      <form ref={formRef} noValidate onSubmit={handeValidate}>
+      <form ref={formRef} noValidate>
         <StyledInput
           label="Naam"
           name="name"
           type="text"
-          error={errors.username || null}
-          id={`role${role.id}`}
+          error={errors.name || null}
+          id="name"
           data-testid="rolesFormFieldName"
           defaultValue={role.name}
           required
@@ -114,7 +99,7 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole }) => {
         ))}
 
         <FormFooter
-          onSubmitForm={handleSubmit}
+          onSubmitForm={validate}
           submitBtnLabel="Opslaan"
           onCancel={handleCancel}
           cancelBtnLabel="Annuleer"
