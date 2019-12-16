@@ -37,7 +37,7 @@ export const AppContainer = ({ requestCategoriesAction }) => {
   useEffect(() => {
     const unlisten = history.listen(() => {
       defer(() => {
-        window.scrollTo({
+        global.window.scrollTo({
           top: 0,
           left: 0,
         });
