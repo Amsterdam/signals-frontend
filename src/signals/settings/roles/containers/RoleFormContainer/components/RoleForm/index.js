@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { Label as FieldLabel, Checkbox, themeSpacing } from '@datapunt/asc-ui';
+import useFormValidation from 'hooks/useFormValidation';
 
 import Input from 'components/Input';
 import FormFooter from 'components/FormFooter';
@@ -20,25 +21,29 @@ const StyledInput = styled(Input)`
 `;
 
 export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole }) => {
-  const [name, setName] = useState('');
-  const [isSubmitting, setSubmitting] = useState(false);
-  const history = useHistory();
-  const isValid = name !== '';
+  const formRef = useRef(null);
+  const { isValid, validate, errors, event } = useFormValidation(formRef);
+  // console.log('1111111', isValid, formRef.current, errors);
 
   useEffect(() => {
-    /* istanbul ignore else */
-    if (role.id) {
-      setName(role.name);
+    // console.log('2222222', isValid, formRef.current, errors);
+    if (isValid) {
+      handleSubmit(event);
     }
-  }, [role.id, role.name]);
+  }, [event, isValid, handleSubmit, errors]);
+
+  const history = useHistory();
+
+  // useEffect(() => {
+  // /* istanbul ignore else */
+  // if (role.id) {
+  // setName(role.name);
+  // }
+  // }, [role.id, role.name]);
 
   const handleSubmit = useCallback(
     e => {
       e.preventDefault();
-      setSubmitting(true);
-      if (!isValid) {
-        return;
-      }
       const {
         target: {
           form: { elements },
@@ -65,32 +70,30 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole }) => {
         onSaveRole(updatedRole);
       }
     },
-    [isValid, onPatchRole, onSaveRole, permissions, role.id]
+    [onPatchRole, onSaveRole, permissions, role.id]
   );
+
+  const handeValidate = e => {
+    console.log('handeValidate ---------------------------------------', e);
+    validate(e);
+  };
 
   const handleCancel = useCallback(() => {
     history.push(ROLES_URL);
   }, [history]);
 
-  const handleChangeName = useCallback(
-    e => {
-      setName(e.target.value);
-    },
-    [setName]
-  );
-
   return (
     <div data-testid="rolesForm">
-      <form>
+      <form ref={formRef} noValidate onSubmit={handeValidate}>
         <StyledInput
           label="Naam"
           name="name"
           type="text"
-          error={isSubmitting && !isValid ? 'Dit veld is verplicht' : ''}
+          error={errors.username || null}
           id={`role${role.id}`}
           data-testid="rolesFormFieldName"
-          onBlur={handleChangeName}
           defaultValue={role.name}
+          required
         />
 
         <Label label="Rechten" />
