@@ -19,6 +19,7 @@ const useFormValidation = formRef => {
 
   const validate = useCallback(
     e => {
+      e.persist();
       const { elements, noValidate } = formRef.current;
 
       if (noValidate) {
