@@ -12,7 +12,7 @@ const StyledH4 = styled(Heading)`
 `;
 
 const StyledHistoryListItem = styled(Column)`
-  margin-bottom: ${themeSpacing(4)} 
+  margin-bottom: ${themeSpacing(4)}
   line-height: 22px;
 `;
 
@@ -24,7 +24,7 @@ const StyledHistoryItemLeft = styled(Column)`
 
 const StyledHistoryItemRight = styled(StyledHistoryItemLeft)`
   color: ${themeColor('tint', 'level7')};
-  whitespace: pre-wrap;
+  white-space: pre-wrap;
 `;
 
 const History = ({ list }) => (
