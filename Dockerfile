@@ -17,7 +17,6 @@ RUN git config --global url."https://".insteadOf git://
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
 COPY internals /app/internals
-COPY server /app/server
 COPY .gitignore \
      .gitattributes \
      .eslintrc.js \
@@ -33,9 +32,6 @@ ENV NODE_ICU_DATA="/usr/local/lib/node_modules/full-icu"
 COPY package.json \
      package-lock.json \
       /app/
-
-ARG BUILD_ENV=prod
-COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
 
 # Install NPM dependencies, cleaning cache afterwards:
 RUN npm --production=false \
@@ -56,6 +52,9 @@ WORKDIR /app
 
 ARG GIT_COMMIT
 ENV GIT_COMMIT ${GIT_COMMIT}
+
+ARG BUILD_ENV=prod
+COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
 
 ENV NODE_ENV=production
 RUN echo "run build"
