@@ -16,7 +16,7 @@ const useFetchUser = id => {
   const [data, setData] = useState();
   const [error, setError] = useState(false);
 
-  const url = [configuration.USERS_ENDPOINT, id].filter(Boolean).join('/');
+  const url = [configuration.USERS_ENDPOINT, id].filter(Boolean).join('');
 
   const controller = new AbortController();
   const { signal } = controller;
