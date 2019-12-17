@@ -285,9 +285,7 @@ const FilterForm = ({
                 type="text"
                 name="address_text"
                 id="filter_address"
-                defaultValue={
-                  filterData.options && filterData.options.address_text
-                }
+                defaultValue={filterData.options.address_text || ''}
               />
             </div>
           </FilterGroup>

@@ -15,7 +15,7 @@ export default {
       email: {
         meta: {
           label: 'Wat is uw e-mailadres?',
-          subheader: 'We mailen om u te vertellen wat we met uw melding doen en wanneer het klaar is.',
+          subtitle: 'We mailen om u te vertellen wat we met uw melding doen en wanneer het klaar is.',
           path: 'reporter.email',
           placeholder: 'E-mailadres',
           type: 'text',

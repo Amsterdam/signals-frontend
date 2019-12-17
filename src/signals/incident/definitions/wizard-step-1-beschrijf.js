@@ -47,7 +47,7 @@ export default {
       location: {
         meta: {
           label: 'Waar is het?',
-          subheader: 'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart',
+          subtitle: 'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart',
           path: 'location',
         },
         options: {
