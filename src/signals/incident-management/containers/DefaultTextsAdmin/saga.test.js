@@ -2,7 +2,9 @@ import { testSaga } from 'redux-saga-test-plan';
 import { takeLatest } from 'redux-saga/effects';
 import { authCall, authPostCall } from 'shared/services/api/api';
 
-import watchDefaultTextsAdminSaga, {
+import CONFIGURATION from 'shared/services/configuration/configuration';
+import watchDefaultTextsAdminSaga,
+{
   fetchDefaultTexts,
   storeDefaultTexts,
 } from './saga';
@@ -16,10 +18,8 @@ import {
 } from './actions';
 
 describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () => {
-  const requestURL =
-    'https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/asbest-accu/status-message-templates';
-  const category_url =
-    'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu';
+  const requestURL = `${CONFIGURATION.TERMS_ENDPOINT}afval/sub_categories/asbest-accu/status-message-templates`;
+  const category_url = `${CONFIGURATION.CATEGORIES_ENDPOINT}afval/sub_categories/asbest-accu`;
   const payload = {
     main_slug: 'afval',
     sub_slug: 'asbest-accu',
