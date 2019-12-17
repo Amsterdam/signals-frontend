@@ -1,12 +1,10 @@
 #!groovy
-
 def tryStep(String message, Closure block, Closure tearDown = null) {
     try {
         block()
     }
     catch (Throwable t) {
         slackSend message: "${env.JOB_NAME}: ${message} failure ${env.BUILD_URL}", channel: '#ci-channel', color: 'danger'
-
         throw t
     }
     finally {
@@ -15,66 +13,51 @@ def tryStep(String message, Closure block, Closure tearDown = null) {
         }
     }
 }
-
 String BRANCH = "${env.BRANCH_NAME}"
-
-node {
+node('opdrachten') {
     stage("Checkout") {
         def scmVars = checkout(scm)
         env.GIT_COMMIT = scmVars.GIT_COMMIT
     }
-
     stage("Get cached build") {
         docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
             def cachedImage = docker.image("ois/signalsfrontend:acceptance")
             cachedImage.pull()
         }
     }
-
     stage("Lint") {
         String PROJECT = "sia-eslint-${env.BUILD_TAG}"
-
         tryStep "lint start", {
             sh "docker-compose -p ${PROJECT} up --build --exit-code-from lint-container lint-container"
         }, {
             sh "docker-compose -p ${PROJECT} down -v || true"
         }
     }
-
     stage("Test") {
         String PROJECT = "sia-unittests-${env.BUILD_TAG}"
-
         tryStep "unittests start", {
             sh "docker-compose -p ${PROJECT} up --build --exit-code-from unittest-container unittest-container"
         }, {
             sh "docker-compose -p ${PROJECT} down -v || true"
         }
     }
-}
-
-if (BRANCH == "develop") {
-    node {
+    if (BRANCH == "develop") {
         stage("Build and push acceptance image") {
             tryStep "build", {
                 docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
                     def cachedImage = docker.image("ois/signalsfrontend:acceptance")
                     cachedImage.pull()
-
                     def image = docker.build("ois/signalsfrontend:${env.BUILD_NUMBER}",
                     "--shm-size 1G " +
                     "--build-arg BUILD_ENV=acc " +
                     "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
                     "--build-arg GIT_COMMIT=${env.GIT_COMMIT} " +
                     ".")
-
                     image.push()
                     image.push("acceptance")
                 }
             }
         }
-    }
-
-    node {
         stage("Deploy to ACC") {
             tryStep "deployment", {
                 build job: 'Subtask_Openstack_Playbook',
@@ -85,31 +68,23 @@ if (BRANCH == "develop") {
             }
         }
     }
-}
-
-if (BRANCH == "master") {
-    node {
+    if (BRANCH == "master") {
         stage("Build and Push Production image") {
             tryStep "build", {
                 docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
                     def cachedImage = docker.image("ois/signalsfrontend:production")
                     cachedImage.pull()
-
                     def image = docker.build("ois/signalsfrontend:${env.BUILD_NUMBER}",
                         "--shm-size 1G " +
                         "--build-arg BUILD_ENV=prod " +
                         "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
                         "--build-arg GIT_COMMIT=${env.GIT_COMMIT} " +
                         ".")
-
                     image.push("production")
                     image.push("latest")
                 }
             }
         }
-    }
-
-    node {
         stage("Deploy to PROD") {
             tryStep "deployment", {
                 build job: 'Subtask_Openstack_Playbook',

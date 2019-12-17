@@ -2,6 +2,7 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { push } from 'connected-react-router/immutable';
 import request from 'utils/request';
 
+import CONFIGURATION from 'shared/services/configuration/configuration';
 import watchKtoContainerSaga, {
   requestKtoAnswers,
   checkKto,
@@ -34,10 +35,7 @@ describe('KtoContainer saga', () => {
     it('should success with JA', () => {
       gen = requestKtoAnswers({ payload: true });
       expect(gen.next().value).toEqual(
-        call(
-          request,
-          'https://acc.api.data.amsterdam.nl/signals/v1/public/feedback/standard_answers/'
-        )
+        call(request, CONFIGURATION.FEEDBACK_STANDARD_ANSWERS_ENDPOINT)
       );
       expect(gen.next(answers).value).toEqual(
         put(requestKtoAnswersSuccess({ 'Antwoord JA': 'Antwoord JA' }))
@@ -47,10 +45,7 @@ describe('KtoContainer saga', () => {
     it('should success with NEE', () => {
       gen = requestKtoAnswers({ payload: false });
       expect(gen.next().value).toEqual(
-        call(
-          request,
-          'https://acc.api.data.amsterdam.nl/signals/v1/public/feedback/standard_answers/'
-        )
+        call(request, CONFIGURATION.FEEDBACK_STANDARD_ANSWERS_ENDPOINT)
       );
       expect(gen.next(answers).value).toEqual(
         put(requestKtoAnswersSuccess({ 'Antwoord NEE': 'Antwoord NEE' }))
@@ -75,10 +70,7 @@ describe('KtoContainer saga', () => {
 
     it('should success', () => {
       expect(gen.next().value).toEqual(
-        call(
-          request,
-          `https://acc.api.data.amsterdam.nl/signals/v1/public/feedback/forms/${payload}`
-        )
+        call(request, `${CONFIGURATION.FEEDBACK_FORMS_ENDPOINT}${payload}`)
       );
       expect(gen.next().value).toEqual(put(checkKtoSuccess()));
     });
@@ -131,7 +123,7 @@ describe('KtoContainer saga', () => {
       expect(gen.next().value).toEqual(
         call(
           request,
-          `https://acc.api.data.amsterdam.nl/signals/v1/public/feedback/forms/${payload.uuid}`,
+          `${CONFIGURATION.FEEDBACK_FORMS_ENDPOINT}${payload.uuid}`,
           {
             method: 'PUT',
             body: JSON.stringify(payload.form),
