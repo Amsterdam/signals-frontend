@@ -40,6 +40,7 @@ RUN npm --production=false \
       ci && \
       npm cache clean --force
 
+RUN echo {} > /app/environment.conf.json
 COPY src /app/src
 
 

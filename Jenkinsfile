@@ -21,8 +21,7 @@ node('opdrachten') {
     }
     stage("Get cached build") {
         docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
-            def cachedImage = docker.image("ois/signalsfrontend:acceptance")
-            cachedImage.pull()
+            docker.image("ois/signalsfrontend-base:acceptance").pull()
         }
     }
     stage("Lint") {
@@ -42,6 +41,19 @@ node('opdrachten') {
         }
     }
     if (BRANCH == "develop") {
+        stage("Build and push the base image to speed up lint and unittest builds") {
+            tryStep "build", {
+                def image_name = "ois/signalsfrontend-base"
+                docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
+                    def image = docker.build("${image_name}:${env.BUILD_NUMBER}",
+                    "--shm-size 1G " +
+                    "--target base " +
+                    ".")
+                    image.push()
+                    image.push("acceptance")
+                }
+            }
+        }
         stage("Build and push acceptance image") {
             tryStep "build", {
                 docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
