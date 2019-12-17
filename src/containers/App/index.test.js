@@ -1,8 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { render, cleanup, act } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
-import { createMemoryHistory } from 'history';
+import { withAppContext, history } from 'test/utils';
 import App, { AppContainer, mapDispatchToProps } from './index';
 import { REQUEST_CATEGORIES } from './constants';
 
@@ -13,7 +12,6 @@ jest.useFakeTimers();
 describe('<App />', () => {
   let listenSpy;
   let spyScrollTo;
-  const history = createMemoryHistory();
 
   beforeEach(() => {
     spyScrollTo = jest.fn();
