@@ -1,4 +1,7 @@
-FROM node:8.15-stretch AS builder
+################################
+# Base
+################################
+FROM node:8.15-stretch AS base
 LABEL maintainer="datapunt@amsterdam.nl"
 
 WORKDIR /app
@@ -43,10 +46,17 @@ RUN npm --production=false \
 
 COPY src /app/src
 
+
+################################
+# Build
+################################
+FROM node:8.15-stretch AS builder
+COPY --from=base /app /app
+WORKDIR /app
+
 ARG GIT_COMMIT
 ENV GIT_COMMIT ${GIT_COMMIT}
 
-# Build
 ENV NODE_ENV=production
 RUN echo "run build"
 RUN npm run build
@@ -55,9 +65,10 @@ RUN npm run build
 ARG BUILD_NUMBER=0
 RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
 
-# Test
 
+################################
 # Deploy
+################################
 FROM nginx:stable-alpine
 
 COPY --from=builder /app/build/. /usr/share/nginx/html/
