@@ -18,17 +18,17 @@ import { makeSelectCategories } from '../../../../containers/App/selectors';
 import mapControlsToParams from '../../services/map-controls-to-params';
 import setClassification from '../../services/set-classification';
 
-export const PREDICTION_REQUEST_URL = `${CONFIGURATION.API_ROOT}signals/category/prediction`;
-export const INCIDENT_REQUEST_URL = `${CONFIGURATION.API_ROOT}signals/signal/`;
-export const PRIORITY_REQUEST_URL = `${CONFIGURATION.API_ROOT}signals/auth/priority/`;
-
 export function* retryFetchClassification(text, msDelay = 1000) {
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < 3; i++) {
     try {
-      const apiResponse = yield call(postCall, PREDICTION_REQUEST_URL, {
-        text,
-      });
+      const apiResponse = yield call(
+        postCall,
+        CONFIGURATION.PREDICTION_ENDPOINT,
+        {
+          text,
+        }
+      );
 
       return apiResponse;
     } catch (err) {
@@ -63,7 +63,7 @@ export function* createIncident(action) {
   try {
     const result = yield call(
       postCall,
-      INCIDENT_REQUEST_URL,
+      CONFIGURATION.INCIDENT_ENDPOINT,
       mapControlsToParams(action.payload.incident, action.payload.wizard)
     );
 
@@ -103,7 +103,7 @@ export function* setPriorityHandler(action) {
   try {
     const result = yield call(
       authPostCall,
-      PRIORITY_REQUEST_URL,
+      CONFIGURATION.PRIORITY_ENDPOINT,
       action.payload
     );
     yield put(setPrioritySuccess(result));
