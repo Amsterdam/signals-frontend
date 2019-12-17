@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { SearchBar } from '@datapunt/asc-ui';
 import { connect } from 'react-redux';
@@ -23,19 +23,18 @@ export const SearchBarComponent = ({
    *
    * @param {String} searchInput
    */
-  const onSearchSubmit = searchInput => {
+  const onSearchSubmit = useCallback(searchInput => {
     onApplyFilter({});
-    onSearchIncidents(searchInput);
     history.push('/manage/incidents');
-    onRequestIncidents();
-  };
+    onSearchIncidents(searchInput);
+  }, [history, onApplyFilter, onSearchIncidents]);
 
-  const onChange = value => {
+  const onChange = useCallback(value => {
     if (value === '') {
       onSearchIncidents('');
       onRequestIncidents();
     }
-  };
+  }, [onSearchIncidents, onRequestIncidents]);
 
   return (
     <SearchBar

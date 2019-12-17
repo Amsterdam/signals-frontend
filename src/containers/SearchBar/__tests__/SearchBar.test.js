@@ -63,10 +63,14 @@ describe('containers/SearchBar', () => {
       const formSubmitBtn = queryByTestId('searchBar').querySelector('button');
 
       fireEvent.change(formInput, { target: { value: '1234' } });
+
+      expect(push).not.toHaveBeenCalled();
+      expect(onSearchIncidents).not.toHaveBeenCalled();
+      expect(onApplyFilter).not.toHaveBeenCalled();
+
       fireEvent.click(formSubmitBtn);
 
       expect(push).toHaveBeenCalledWith('/manage/incidents');
-      expect(onRequestIncidents).toHaveBeenCalledWith();
       expect(onSearchIncidents).toHaveBeenCalledWith('1234');
       expect(onApplyFilter).toHaveBeenCalledWith({});
     });
@@ -92,7 +96,6 @@ describe('containers/SearchBar', () => {
       fireEvent.change(formInput, { target: { value: '' } });
 
       expect(push).not.toHaveBeenCalled();
-      expect(onSearchIncidents).toHaveBeenCalledWith('');
       expect(onRequestIncidents).toHaveBeenCalledWith();
     });
   });

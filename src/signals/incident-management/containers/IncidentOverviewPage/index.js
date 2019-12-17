@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -76,13 +76,13 @@ export const IncidentOverviewPageContainerComponent = ({
   const [modalFilterIsOpen, toggleFilterModal] = useState(false);
   const [modalMyFiltersIsOpen, toggleMyFiltersModal] = useState(false);
 
-  const openMyFiltersModal = () => {
+  const openMyFiltersModal = useCallback(() => {
     disablePageScroll();
     toggleMyFiltersModal(true);
     lastActiveElement = document.activeElement;
-  };
+  }, [toggleMyFiltersModal]);
 
-  function closeMyFiltersModal() {
+  const closeMyFiltersModal = useCallback(() => {
     enablePageScroll();
     toggleMyFiltersModal(false);
 
@@ -90,15 +90,15 @@ export const IncidentOverviewPageContainerComponent = ({
     if (lastActiveElement) {
       lastActiveElement.focus();
     }
-  }
+  }, [toggleMyFiltersModal]);
 
-  const openFilterModal = () => {
+  const openFilterModal = useCallback(() => {
     disablePageScroll();
     toggleFilterModal(true);
     lastActiveElement = document.activeElement;
-  };
+  }, [toggleFilterModal]);
 
-  function closeFilterModal() {
+  const closeFilterModal = useCallback(() => {
     enablePageScroll();
     toggleFilterModal(false);
 
@@ -106,17 +106,17 @@ export const IncidentOverviewPageContainerComponent = ({
     if (lastActiveElement) {
       lastActiveElement.focus();
     }
-  }
+  }, [toggleFilterModal]);
+
+  const escFunction = useCallback(event => {
+    /* istanbul ignore next */
+    if (event.keyCode === 27) {
+      closeFilterModal();
+      closeMyFiltersModal();
+    }
+  }, [closeFilterModal, closeMyFiltersModal]);
 
   useEffect(() => {
-    const escFunction = event => {
-      /* istanbul ignore next */
-      if (event.keyCode === 27) {
-        closeFilterModal();
-        closeMyFiltersModal();
-      }
-    };
-
     document.addEventListener('keydown', escFunction);
     document.addEventListener('openFilter', openFilterModal);
 
@@ -128,7 +128,7 @@ export const IncidentOverviewPageContainerComponent = ({
 
   useEffect(() => {
     onRequestIncidents();
-  }, []);
+  }, [onRequestIncidents]);
 
   const { incidents, loading } = overviewpage;
   const totalPages = Math.ceil(incidentsCount / FILTER_PAGE_SIZE);

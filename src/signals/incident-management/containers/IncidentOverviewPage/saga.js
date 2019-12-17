@@ -62,6 +62,8 @@ export function* searchIncidents(action) {
   const { payload } = action;
 
   try {
+    yield put(applyFilterRefreshStop());
+
     const incidents = yield call(authCall, CONFIGURATION.SEARCH_ENDPOINT, { q: payload });
 
     yield put(requestIncidentsSuccess(incidents));
