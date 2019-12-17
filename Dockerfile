@@ -1,4 +1,7 @@
-FROM node:8.15-stretch AS builder
+################################
+# Base
+################################
+FROM node:8.15-stretch AS base
 LABEL maintainer="datapunt@amsterdam.nl"
 
 WORKDIR /app
@@ -14,7 +17,6 @@ RUN git config --global url."https://".insteadOf git://
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
 COPY internals /app/internals
-COPY server /app/server
 COPY .gitignore \
      .gitattributes \
      .eslintrc.js \
@@ -31,9 +33,6 @@ COPY package.json \
      package-lock.json \
       /app/
 
-ARG BUILD_ENV=prod
-COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
-
 # Install NPM dependencies, cleaning cache afterwards:
 RUN npm --production=false \
       --unsafe-perm \
@@ -41,12 +40,23 @@ RUN npm --production=false \
       ci && \
       npm cache clean --force
 
+RUN echo {} > /app/environment.conf.json
 COPY src /app/src
+
+
+################################
+# Build
+################################
+FROM node:8.15-stretch AS builder
+COPY --from=base /app /app
+WORKDIR /app
 
 ARG GIT_COMMIT
 ENV GIT_COMMIT ${GIT_COMMIT}
 
-# Build
+ARG BUILD_ENV=prod
+COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
+
 ENV NODE_ENV=production
 RUN echo "run build"
 RUN npm run build
@@ -55,9 +65,10 @@ RUN npm run build
 ARG BUILD_NUMBER=0
 RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
 
-# Test
 
+################################
 # Deploy
+################################
 FROM nginx:stable-alpine
 
 COPY --from=builder /app/build/. /usr/share/nginx/html/
