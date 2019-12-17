@@ -19,7 +19,8 @@ export default {
           subcategory:
             'auto-scooter-bromfietswrak',
         },
-        label: 'Kunt u nog meer vertellen over het wrak?',
+        label: 'Zijn er nog meer dingen die u ons kunt vertellen over hoe het wrak eruit ziet en de plek waar het ligt?',
+        labelShort: 'Extra informatie',
         subtitle: 'Bijvoorbeeld: kenteken, merk, kleur, roest, zonder wielen',
         pathMerge: 'extra_properties',
       },
@@ -31,8 +32,9 @@ export default {
           subcategory:
             'fietswrak',
         },
-        label: 'Kunt u nog meer vertellen over het fietswrak?',
+        label: 'Zijn er nog meer dingen die u ons kunt vertellen over hoe het wrak eruit ziet en de plek waar het ligt?',
         subtitle: 'Bijvoorbeeld: merk, kleur, roest, zonder wielen',
+        labelShort: 'Extra informatie',
         pathMerge: 'extra_properties',
       },
       render: FormComponents.TextInput,
@@ -43,7 +45,8 @@ export default {
           subcategory:
             'parkeeroverlast',
         },
-        label: 'Kunt u nog meer vertellen (over de auto, motor, etc)?',
+        label: 'Zijn er nog meer dingen die u ons kunt vertellen over de kenmerken van de auto, bus of motor?',
+        labelShort: 'Extra informatie',
         subtitle: 'Bijvoorbeeld: kenteken, merk en kleur',
         pathMerge: 'extra_properties',
       },
