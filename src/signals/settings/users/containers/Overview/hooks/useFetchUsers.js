@@ -33,7 +33,7 @@ const useFetchUsers = ({ page, pageSize } = {}) => {
           .join('&');
         const url = [configuration.USERS_ENDPOINT, params]
           .filter(Boolean)
-          .join('/?');
+          .join('?');
         const response = await fetch(url, {
           headers: getAuthHeaders(),
           signal,

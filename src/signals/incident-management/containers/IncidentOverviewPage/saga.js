@@ -10,9 +10,12 @@ import {
   take,
   takeLatest,
 } from 'redux-saga/effects';
+import * as Sentry from '@sentry/browser';
 
-import { authCall } from 'shared/services/api/api';
+import { authCall, getErrorMessage } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
+import { showGlobalNotification } from 'containers/App/actions';
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 
 import {
   makeSelectFilterParams,
@@ -56,6 +59,17 @@ export function* fetchIncidents() {
     }
   } catch (error) {
     yield put(requestIncidentsError(error.message));
+
+    yield put(
+      showGlobalNotification({
+        title: getErrorMessage(error),
+        message: 'Het meldingen overzicht kon niet opgehaald worden',
+        variant: VARIANT_ERROR,
+        type: TYPE_LOCAL,
+      })
+    );
+
+    yield call([Sentry, 'captureException'], error);
   }
 }
 

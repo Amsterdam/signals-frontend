@@ -1,7 +1,10 @@
-import { all, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { push } from 'connected-react-router/immutable';
+import * as Sentry from '@sentry/browser';
+import * as actions from 'containers/App/actions';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { authPatchCall, authPostCall } from 'shared/services/api/api';
 
 import formatUpdateIncident from './services/formatUpdateIncident';
@@ -10,6 +13,11 @@ import { splitIncidentSuccess, splitIncidentError } from './actions';
 import watchIncidentDetailContainerSaga, { splitIncident } from './saga';
 
 jest.mock('shared/services/api/api');
+jest.mock('@sentry/browser');
+jest.mock('containers/App/actions', () => ({
+  __esModule: true,
+  ...jest.requireActual('containers/App/actions'),
+}));
 
 describe('IncidentSplitContainer saga', () => {
   const id = 42;
@@ -41,11 +49,26 @@ describe('IncidentSplitContainer saga', () => {
   });
 
   it('should fetchIncident error', () => {
+    const captureSpy = jest.spyOn(Sentry, 'captureException');
+    const notificationSpy = jest.spyOn(actions, 'showGlobalNotification');
     const error = new Error('404 Not Found');
 
     const gen = splitIncident(action);
     gen.next();
     expect(gen.throw(error).value).toEqual(put(splitIncidentError(error))); // eslint-disable-line redux-saga/yield-effects
     expect(gen.next().value).toEqual(put(push(`/manage/incident/${id}`)));
+
+    expect(captureSpy).not.toHaveBeenCalled();
+    expect(notificationSpy).not.toHaveBeenCalled();
+
+    gen.next();
+
+    expect(notificationSpy).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'De melding kon niet gesplitst worden',
+      variant: VARIANT_ERROR,
+      type: TYPE_LOCAL,
+    }));
+
+    expect(gen.next().value).toEqual(call([Sentry, 'captureException'], error));
   });
 });

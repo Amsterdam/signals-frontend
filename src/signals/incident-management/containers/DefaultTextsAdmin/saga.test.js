@@ -1,6 +1,10 @@
 import { testSaga } from 'redux-saga-test-plan';
 import { takeLatest } from 'redux-saga/effects';
-import { authCall, authPostCall } from 'shared/services/api/api';
+import * as Sentry from '@sentry/browser';
+
+import { authCall, authPostCall, getErrorMessage } from 'shared/services/api/api';
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
+import * as actions from 'containers/App/actions';
 
 import watchDefaultTextsAdminSaga, {
   fetchDefaultTexts,
@@ -91,6 +95,15 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         .throw(error)
         .put(fetchDefaultTextsError('Internal server error'))
         .next()
+        .put(actions.showGlobalNotification({
+          title: getErrorMessage(error),
+          message: 'Het standaard teksten overzicht kon niet opgehaald worden',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        }))
+        .next()
+        .call([Sentry, 'captureException'], error)
+        .next()
         .isDone();
     });
   });
@@ -151,6 +164,15 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         .next()
         .throw(error)
         .put(storeDefaultTextsError('Internal server error'))
+        .next()
+        .put(actions.showGlobalNotification({
+          title: getErrorMessage(error),
+          message: 'De standaard teksten konden niet opgeslagen worden',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        }))
+        .next()
+        .call([Sentry, 'captureException'], error)
         .next()
         .isDone();
     });
