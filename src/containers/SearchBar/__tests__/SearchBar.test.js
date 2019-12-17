@@ -92,6 +92,8 @@ describe('containers/SearchBar', () => {
         ),
       );
 
+      expect(onRequestIncidents).not.toHaveBeenCalled();
+
       const formInput = queryByTestId('searchBar').querySelector('input');
       fireEvent.change(formInput, { target: { value: '' } });
 
