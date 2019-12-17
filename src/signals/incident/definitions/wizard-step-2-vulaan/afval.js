@@ -36,7 +36,7 @@ export default {
           ],
         },
         label: 'Hebt u verteld om wat voor soort container het gaat?',
-        subheader: 'Bijvoorbeeld glas, papier, plastic of restafval',
+        subtitle: 'Bijvoorbeeld glas, papier, plastic of restafval',
         pathMerge: 'extra_properties',
       },
       render: FormComponents.TextInput,
