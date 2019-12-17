@@ -219,12 +219,12 @@ export default {
         optional: true,
       },
       extra_fietswrak: {
-        label: 'Extra fietswrak',
+        label: 'Extra informatie',
         render: PreviewComponents.PlainText,
         optional: true,
       },
       extra_parkeeroverlast: {
-        label: 'Extra parkeeroverlast',
+        label: 'Extra informatie',
         render: PreviewComponents.PlainText,
         optional: true,
       },

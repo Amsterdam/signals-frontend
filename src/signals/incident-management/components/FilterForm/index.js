@@ -284,15 +284,11 @@ const FilterForm = ({
           </FilterGroup>
 
           <FilterGroup>
-            <Label htmlFor="filter_address" isGroupHeader>
-              Adres
-            </Label>
+            <Label htmlFor="filter_address" isGroupHeader>Adres</Label>
             <Input
               name="address_text"
               id="filter_address"
-              defaultValue={
-                filterData.options && filterData.options.address_text
-              }
+              defaultValue={filterData.options.address_text || ''}
             />
           </FilterGroup>
 

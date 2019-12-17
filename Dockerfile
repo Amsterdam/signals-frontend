@@ -48,11 +48,11 @@ ENV GIT_COMMIT ${GIT_COMMIT}
 
 # Build
 ENV NODE_ENV=production
-
-ARG BUILD_NUMBER=0
-
 RUN echo "run build"
 RUN npm run build
+
+# Write the build number
+ARG BUILD_NUMBER=0
 RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
 
 # Test
