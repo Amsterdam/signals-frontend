@@ -196,6 +196,7 @@ const FilterForm = ({
                 options={status}
                 title="Status"
                 isGroupHeader
+                displayToggle
               />
             </FilterGroup>
           )}
@@ -211,6 +212,7 @@ const FilterForm = ({
                 options={stadsdeel}
                 title="Stadsdeel"
                 isGroupHeader
+                displayToggle
               />
             </FilterGroup>
           )}
@@ -328,7 +330,7 @@ const FilterForm = ({
                   defaultValue={filterSlugs}
                   groupName={mainCategory}
                   groupId={mainCatObj.key}
-                  hasToggle
+                  displayToggle
                   key={mainCategory}
                   options={options}
                   title={mainCatObj.value}

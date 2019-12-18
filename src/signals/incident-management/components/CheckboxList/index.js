@@ -54,6 +54,7 @@ const CheckboxList = ({
   toggleFieldName,
   toggleLabel,
   isGroupHeader,
+  displayToggle,
 }) => {
   const groupContainer = useRef(null);
 
@@ -119,7 +120,7 @@ const CheckboxList = ({
     }
   }, []);
 
-  const displayToggle = !!toggleLabel;
+  // const displayToggle = !!toggleFieldName;
   const firstOptionIdentifier = options[0].id || options[0].key;
 
   return (
@@ -200,6 +201,8 @@ CheckboxList.propTypes = {
    * to select them all.
    */
   groupName: PropTypes.string.isRequired,
+  /** it shows toggle button when true */
+  displayToggle: PropTypes.bool,
   /** Values to be rendered as checkbox elements */
   options: PropTypes.arrayOf(
     PropTypes.shape({
