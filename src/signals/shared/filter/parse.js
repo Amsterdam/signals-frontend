@@ -33,6 +33,10 @@ export const parseOutputFormData = form => {
     }
   });
 
+  // remove possible toggle values that might exist
+  delete parsed.statusToggle;
+  delete parsed.stadsdeelToggle;
+
   // remove any category_slug entries that are covered by entries in maincategory_slug
   if (Array.isArray(parsed.maincategory_slug)) {
     parsed.maincategory_slug.forEach(maincategory_slug => {
@@ -102,7 +106,7 @@ export const parseInputFormData = (filterData, dataLists) => {
       .forEach(fieldName => {
         parsed[fieldName] = parsed[fieldName].map(value => dataLists[fieldName].find(
           ({ key, slug }) => key === value || slug === value,
-        ),);
+        ));
       });
   }
 
