@@ -12,7 +12,7 @@ const StyledH4 = styled(Heading)`
 `;
 
 const StyledHistoryListItem = styled(Column)`
-  margin-bottom: ${themeSpacing(4)}
+  margin-bottom: ${themeSpacing(4)};
   line-height: 22px;
 `;
 
