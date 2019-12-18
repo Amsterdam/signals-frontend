@@ -196,7 +196,6 @@ const FilterForm = ({
                 options={status}
                 title="Status"
                 isGroupHeader
-                toggleFieldName="statusToggle"
               />
             </FilterGroup>
           )}
@@ -212,7 +211,6 @@ const FilterForm = ({
                 options={stadsdeel}
                 title="Stadsdeel"
                 isGroupHeader
-                toggleFieldName="stadsdeelToggle"
               />
             </FilterGroup>
           )}

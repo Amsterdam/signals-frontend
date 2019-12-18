@@ -110,17 +110,16 @@ const CheckboxList = ({
    * @returns {Boolean}
    */
   const isDefaultChecked = id => defaultValue.findIndex(value => value.id === id || value.key === id) >= 0;
-  // const checkForAllChecked = () => defaultValue.length === options.length;
-  const checkDefault = () => (groupId && isDefaultChecked(groupId)) || (!groupId && defaultValue.length === options.length);
+  const isGroupChecked = groupId ? isDefaultChecked(groupId) : defaultValue.length === options.length;
 
   // mount
   useEffect(() => {
-    if (checkDefault()) {
+    if (isGroupChecked) {
       setGroupChecked();
     }
   }, []);
 
-  const displayToggle = !!toggleLabel && !!toggleFieldName;
+  const displayToggle = !!toggleLabel;
   const firstOptionIdentifier = options[0].id || options[0].key;
 
   return (
@@ -139,7 +138,7 @@ const CheckboxList = ({
 
           <input
             type="checkbox"
-            data-value={checkDefault() ? 'all' : 'none'}
+            data-value={isGroupChecked ? 'all' : 'none'}
             name={toggleFieldName}
             id={`${groupName}_toggle`}
             onClick={handleToggleCheck}
@@ -177,6 +176,7 @@ CheckboxList.defaultProps = {
   toggleLabel: 'Alles selecteren',
   isGroupHeader: false,
   groupId: null,
+  toggleFieldName: null,
 };
 
 CheckboxList.propTypes = {
@@ -218,6 +218,7 @@ CheckboxList.propTypes = {
   toggleFieldName: PropTypes.string,
   /** Text label for the group toggle */
   toggleLabel: PropTypes.string,
+  /** When true, the title will render with the red header colour */
   isGroupHeader: PropTypes.bool,
 };
 

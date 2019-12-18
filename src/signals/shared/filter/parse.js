@@ -33,10 +33,6 @@ export const parseOutputFormData = form => {
     }
   });
 
-  // remove possible toggle values that might exist
-  delete parsed.statusToggle;
-  delete parsed.stadsdeelToggle;
-
   // remove any category_slug entries that are covered by entries in maincategory_slug
   if (Array.isArray(parsed.maincategory_slug)) {
     parsed.maincategory_slug.forEach(maincategory_slug => {
@@ -67,7 +63,7 @@ export const parseOutputFormData = form => {
   const {
     name, refresh, id, ...options
   } = parsed;
-
+  console.log('parse', parsed);
   return {
     name, refresh: !!refresh, id, options,
   };
