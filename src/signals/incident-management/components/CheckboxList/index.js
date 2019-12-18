@@ -53,6 +53,7 @@ const CheckboxList = ({
   title,
   toggleFieldName,
   toggleLabel,
+  isGroupHeader,
 }) => {
   const groupContainer = useRef(null);
 
@@ -109,10 +110,12 @@ const CheckboxList = ({
    * @returns {Boolean}
    */
   const isDefaultChecked = id => defaultValue.findIndex(value => value.id === id || value.key === id) >= 0;
+  // const checkForAllChecked = () => defaultValue.length === options.length;
+  const checkDefault = () => (groupId && isDefaultChecked(groupId)) || (!groupId && defaultValue.length === options.length);
 
   // mount
   useEffect(() => {
-    if (isDefaultChecked(groupId)) {
+    if (checkDefault()) {
       setGroupChecked();
     }
   }, []);
@@ -123,7 +126,7 @@ const CheckboxList = ({
   return (
     <FilterGroup ref={groupContainer}>
       {title && (
-        <Label htmlFor={firstOptionIdentifier} isGroupHeader={false}>
+        <Label htmlFor={firstOptionIdentifier} isGroupHeader={isGroupHeader}>
           {title}
         </Label>
       )}
@@ -136,7 +139,7 @@ const CheckboxList = ({
 
           <input
             type="checkbox"
-            data-value={isDefaultChecked(groupId) ? 'all' : 'none'}
+            data-value={checkDefault() ? 'all' : 'none'}
             name={toggleFieldName}
             id={`${groupName}_toggle`}
             onClick={handleToggleCheck}
@@ -172,6 +175,8 @@ const CheckboxList = ({
 CheckboxList.defaultProps = {
   defaultValue: [],
   toggleLabel: 'Alles selecteren',
+  isGroupHeader: false,
+  groupId: null,
 };
 
 CheckboxList.propTypes = {
@@ -189,7 +194,7 @@ CheckboxList.propTypes = {
   /**
    * Unique group identifier. Is used to check for toggling the group checkbox
    */
-  groupId: PropTypes.string.isRequired,
+  groupId: PropTypes.string,
   /**
    * Value of the `name` attribute of the toggle box. This value is used to identify all children by without having
    * to select them all.
@@ -213,6 +218,7 @@ CheckboxList.propTypes = {
   toggleFieldName: PropTypes.string,
   /** Text label for the group toggle */
   toggleLabel: PropTypes.string,
+  isGroupHeader: PropTypes.bool,
 };
 
 export default CheckboxList;

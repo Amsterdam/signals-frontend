@@ -190,19 +190,19 @@ const FilterForm = ({
 
           {Array.isArray(status) && status.length > 0 && (
             <FilterGroup data-testid="statusFilterGroup">
-              <Label htmlFor={`status_${status[0].key}`} isGroupHeader>Status</Label>
               <CheckboxList
                 defaultValue={filterData.options && filterData.options.status}
                 groupName="status"
-                groupId="status"
                 options={status}
+                title="Status"
+                isGroupHeader
+                toggleFieldName="statusToggle"
               />
             </FilterGroup>
           )}
 
           {Array.isArray(stadsdeel) && stadsdeel.length > 0 && (
             <FilterGroup data-testid="stadsdeelFilterGroup">
-              <Label htmlFor={`status_${stadsdeel[0].key}`} isGroupHeader>Stadsdeel</Label>
               <CheckboxList
                 defaultValue={
                   filterData.options && filterData.options.stadsdeel
@@ -210,6 +210,9 @@ const FilterForm = ({
                 groupName="stadsdeel"
                 groupId="stadsdeel"
                 options={stadsdeel}
+                title="Stadsdeel"
+                isGroupHeader
+                toggleFieldName="stadsdeelToggle"
               />
             </FilterGroup>
           )}
