@@ -21,6 +21,16 @@ const StyledTag = styled(Tag)`
 
 export const allLabelAppend = ': Alles';
 
+const mapKeys = key => {
+  switch (key) {
+    case 'source':
+      return 'Bron'
+
+    default:
+      return key;
+  }
+}
+
 const renderGroup = (tag, main, list, tagKey) => {
   if (tag.length === list.length) {
     return (
@@ -30,7 +40,7 @@ const renderGroup = (tag, main, list, tagKey) => {
         key={tagKey}
         data-testid="filterTagListTag"
       >
-        {tagKey}{allLabelAppend}
+        {mapKeys(tagKey)}{allLabelAppend}
       </StyledTag>
     );
   }
@@ -76,6 +86,7 @@ export const FilterTagListComponent = props => {
     dataLists,
     categories: { main, sub },
   } = props;
+  console.log('dataLists', dataLists);
 
   const map = {
     ...dataLists,

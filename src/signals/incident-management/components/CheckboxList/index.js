@@ -120,7 +120,6 @@ const CheckboxList = ({
     }
   }, []);
 
-  // const displayToggle = !!toggleFieldName;
   const firstOptionIdentifier = options[0].id || options[0].key;
 
   return (
