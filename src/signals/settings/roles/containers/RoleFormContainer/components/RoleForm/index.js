@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { Label as FieldLabel, Checkbox, themeSpacing } from '@datapunt/asc-ui';
+import useFormValidation from 'hooks/useFormValidation';
 
 import Input from 'components/Input';
 import FormFooter from 'components/FormFooter';
@@ -20,23 +21,19 @@ const StyledInput = styled(Input)`
 `;
 
 export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole }) => {
-  const [name, setName] = useState('');
-  const history = useHistory();
-  const isValid = name !== '';
+  const formRef = useRef(null);
+  const { isValid, validate, errors, event } = useFormValidation(formRef);
 
   useEffect(() => {
-    /* istanbul ignore else */
-    if (role.id) {
-      setName(role.name);
+    if (isValid) {
+      handleSubmit(event);
     }
-  }, [role.id, role.name]);
+  }, [event, isValid, handleSubmit, errors]);
+
+  const history = useHistory();
 
   const handleSubmit = useCallback(
     e => {
-      e.preventDefault();
-      if (!isValid) {
-        return;
-      }
       const {
         target: {
           form: { elements },
@@ -63,32 +60,25 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole }) => {
         onSaveRole(updatedRole);
       }
     },
-    [isValid, onPatchRole, onSaveRole, permissions, role.id]
+    [onPatchRole, onSaveRole, permissions, role.id]
   );
 
   const handleCancel = useCallback(() => {
     history.push(ROLES_URL);
   }, [history]);
 
-  const handleChangeName = useCallback(
-    e => {
-      setName(e.target.value);
-    },
-    [setName]
-  );
-
   return (
     <div data-testid="rolesForm">
-      <form>
+      <form ref={formRef} noValidate>
         <StyledInput
           label="Naam"
           name="name"
           type="text"
-          error={isValid ? '' : 'Dit veld is verplicht'}
-          id={`role${role.id}`}
+          error={errors.name || null}
+          id="name"
           data-testid="rolesFormFieldName"
-          onBlur={handleChangeName}
           defaultValue={role.name}
+          required
         />
 
         <Label label="Rechten" />
@@ -109,7 +99,7 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole }) => {
         ))}
 
         <FormFooter
-          onSubmitForm={handleSubmit}
+          onSubmitForm={validate}
           submitBtnLabel="Opslaan"
           onCancel={handleCancel}
           cancelBtnLabel="Annuleer"

@@ -35,8 +35,6 @@ import { login, logout, getOauthDomain } from '../../shared/services/auth/auth';
 
 import fileUploadChannel from '../../shared/services/file-upload-channel';
 
-export const baseUrl = `${CONFIGURATION.API_ROOT}signals/user/auth/me/`;
-
 export function* callLogin(action) {
   try {
     yield call(login, action.payload);
@@ -82,7 +80,12 @@ export function* callAuthorize(action) {
     const accessToken = action.payload && action.payload.accessToken;
 
     if (accessToken) {
-      const user = yield call(authCall, baseUrl, null, accessToken);
+      const user = yield call(
+        authCall,
+        CONFIGURATION.AUTH_ME_ENDPOINT,
+        null,
+        accessToken
+      );
 
       const credentials = {
         ...action.payload,
@@ -111,10 +114,8 @@ export function* callAuthorize(action) {
 }
 
 export function* fetchCategories() {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/public/terms/categories/`;
-
   try {
-    const categories = yield call(request, requestURL);
+    const categories = yield call(request, CONFIGURATION.CATEGORIES_ENDPOINT);
 
     yield put(requestCategoriesSuccess(mapCategories(categories)));
   } catch (err) {
@@ -135,11 +136,9 @@ export function* uploadFileWrapper(action) {
 }
 
 export function* uploadFile(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/signal/image/`;
-
   const channel = yield call(
     fileUploadChannel,
-    requestURL,
+    CONFIGURATION.IMAGE_ENDPOINT,
     action.payload.file,
     action.payload.id
   );

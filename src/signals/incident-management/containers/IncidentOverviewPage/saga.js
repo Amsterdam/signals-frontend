@@ -36,8 +36,6 @@ import {
 } from './actions';
 
 export function* fetchIncidents() {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals/`;
-
   try {
     const filter = yield select(makeSelectActiveFilter);
 
@@ -47,7 +45,11 @@ export function* fetchIncidents() {
 
     const params = yield select(makeSelectFilterParams);
 
-    const incidents = yield call(authCall, requestURL, params);
+    const incidents = yield call(
+      authCall,
+      CONFIGURATION.INCIDENTS_ENDPOINT,
+      params
+    );
 
     yield put(requestIncidentsSuccess(incidents));
 

@@ -4,6 +4,7 @@ import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
 
+import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authPostCall, postCall } from 'shared/services/api/api';
 import categories from 'utils/__tests__/fixtures/categories.json';
 import incident from 'utils/__tests__/fixtures/incident.json';
@@ -25,9 +26,6 @@ import watchIncidentContainerSaga, {
   getClassification,
   createIncident,
   setPriorityHandler,
-  PREDICTION_REQUEST_URL,
-  PRIORITY_REQUEST_URL,
-  INCIDENT_REQUEST_URL,
 } from './saga';
 import {
   createIncidentSuccess,
@@ -69,7 +67,7 @@ describe('IncidentContainer saga', () => {
 
       return expectSaga(retryFetchClassification, text, 100)
         .provide([[matchers.call.fn(postCall), predictionResponse]])
-        .call(postCall, PREDICTION_REQUEST_URL, { text })
+        .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text })
         .silentRun(250);
     });
 
@@ -83,7 +81,7 @@ describe('IncidentContainer saga', () => {
           [matchers.call.fn(postCall), throwError(error)],
           [matchers.call.fn(postCall), predictionResponse],
         ])
-        .call(postCall, PREDICTION_REQUEST_URL, { text })
+        .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text })
         .delay(100)
         .silentRun(150);
 
@@ -100,11 +98,11 @@ describe('IncidentContainer saga', () => {
           [matchers.call.fn(postCall), throwError(error)],
           [matchers.call.fn(postCall), predictionResponse],
         ])
-        .call(postCall, PREDICTION_REQUEST_URL, { text })
+        .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text })
         .delay(100)
-        .call(postCall, PREDICTION_REQUEST_URL, { text })
+        .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text })
         .delay(100)
-        .call(postCall, PREDICTION_REQUEST_URL, { text })
+        .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text })
         .delay(100)
         .throws('API request failed')
         .silentRun(350);
@@ -132,7 +130,7 @@ describe('IncidentContainer saga', () => {
           [matchers.call.fn(postCall), throwError(new Error('whoops!!!1!'))],
         ])
         .call(retryFetchClassification, payload)
-        .call(postCall, PREDICTION_REQUEST_URL, { text: payload })
+        .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text: payload })
         .put.like({ action: { type: GET_CLASSIFICATION_ERROR } })
         .silentRun(3250)); // make sure it runs long enough for the postCall generator to throw
   });
@@ -168,7 +166,7 @@ describe('IncidentContainer saga', () => {
         .provide([[matchers.call.fn(postCall), incident]])
         .call(
           postCall,
-          INCIDENT_REQUEST_URL,
+          CONFIGURATION.INCIDENT_ENDPOINT,
           mapControlsToParams(action.payload.incident, action.payload.wizard)
         )
         .put.like({ action: { type: UPLOAD_REQUEST } })
@@ -192,7 +190,7 @@ describe('IncidentContainer saga', () => {
         .provide([[matchers.call.fn(postCall), incident]])
         .call(
           postCall,
-          INCIDENT_REQUEST_URL,
+          CONFIGURATION.INCIDENT_ENDPOINT,
           mapControlsToParams(action.payload.incident, action.payload.wizard)
         )
         .not.put(setPriority({ priority: priorityId, _signal: incident.id }))
@@ -240,7 +238,7 @@ describe('setPriorityHandler', () => {
   it('should dispatch success', () =>
     expectSaga(setPriorityHandler, action)
       .provide([[matchers.call.fn(authPostCall), priority]])
-      .call(authPostCall, PRIORITY_REQUEST_URL, payload)
+      .call(authPostCall, CONFIGURATION.PRIORITY_ENDPOINT, payload)
       .put(setPrioritySuccess(priority))
       .run());
 
@@ -252,7 +250,7 @@ describe('setPriorityHandler', () => {
           throwError(new Error('Nope. Not possible')),
         ],
       ])
-      .call(authPostCall, PRIORITY_REQUEST_URL, payload)
+      .call(authPostCall, CONFIGURATION.PRIORITY_ENDPOINT, payload)
       .put(setPriorityError())
       .put(showGlobalNotification({ variant: VARIANT_ERROR, title: 'Het zetten van de urgentie van deze melding is niet gelukt' }))
       .run());

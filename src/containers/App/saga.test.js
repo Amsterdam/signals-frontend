@@ -6,6 +6,7 @@ import { testSaga, expectSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
 
+import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authCall } from 'shared/services/api/api';
 import { login, logout } from 'shared/services/auth/auth';
 import mapCategories from 'shared/services/map-categories';
@@ -20,7 +21,6 @@ import watchAppSaga, {
   fetchCategories,
   uploadFileWrapper,
   uploadFile,
-  baseUrl,
 } from './saga';
 import {
   LOGIN,
@@ -205,7 +205,12 @@ describe('App saga', () => {
 
       return expectSaga(callAuthorize, action)
         .provide([[matchers.call.fn(authCall), mockResponse]])
-        .call(authCall, baseUrl, null, payload.accessToken)
+        .call(
+          authCall,
+          CONFIGURATION.AUTH_ME_ENDPOINT,
+          null,
+          payload.accessToken
+        )
         .put(authorizeUser(mockCredentials))
         .run();
     });
@@ -252,9 +257,6 @@ describe('App saga', () => {
   });
 
   describe('fetchCategories', () => {
-    const requestURL =
-      'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/';
-
     it('should dispatch success', () => {
       const categories = { categories: [1], subcategorie: [2] };
 
@@ -262,7 +264,7 @@ describe('App saga', () => {
 
       testSaga(fetchCategories)
         .next()
-        .call(request, requestURL)
+        .call(request, CONFIGURATION.CATEGORIES_ENDPOINT)
         .next()
         .put(requestCategoriesSuccess(mapCategories(categories)))
         .next()
@@ -274,7 +276,7 @@ describe('App saga', () => {
 
       return expectSaga(fetchCategories)
         .provide([[matchers.call.fn(request), throwError(error)]])
-        .call(request, requestURL)
+        .call(request, CONFIGURATION.CATEGORIES_ENDPOINT)
         .put(
           showGlobalNotification({
             variant: VARIANT_ERROR,
@@ -317,7 +319,7 @@ describe('App saga', () => {
       expect(gen.next().value).toEqual(
         call(
           fileUploadChannel,
-          'https://acc.api.data.amsterdam.nl/signals/signal/image/',
+          CONFIGURATION.IMAGE_ENDPOINT,
           { name: 'image.jpg' },
           666
         )
@@ -348,7 +350,7 @@ describe('App saga', () => {
       expect(gen.next().value).toEqual(
         call(
           fileUploadChannel,
-          'https://acc.api.data.amsterdam.nl/signals/signal/image/',
+          CONFIGURATION.IMAGE_ENDPOINT,
           { name: 'image.jpg' },
           666
         )

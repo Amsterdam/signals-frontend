@@ -14,9 +14,8 @@ services:
   lint-container:
     build:
       context: .
-      target: builder
+      target: base
     environment:
-      - NODE_ENV=test
       - CI=true
       - TZ=Europe/Amsterdam
     command: npm run lint
@@ -24,9 +23,8 @@ services:
   unittest-container:
     build:
       context: .
-      target: builder
+      target: base
     environment:
-      - NODE_ENV=test
       - CI=true
       - TZ=Europe/Amsterdam
     command: npm run test

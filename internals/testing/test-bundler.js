@@ -17,6 +17,11 @@ Enzyme.configure({ adapter: new Adapter() });
 global.window.L = L;
 global.window.alert = msg => msg;
 
+if (process.env.CI) {
+  // prevent pollution of the build log when running tests in CI
+  global.console.warn = () => {};
+}
+
 /**
  * Element.closest() polyfill
  *
