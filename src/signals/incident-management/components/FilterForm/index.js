@@ -208,7 +208,6 @@ const FilterForm = ({
                   filterData.options && filterData.options.stadsdeel
                 }
                 groupName="stadsdeel"
-                groupId="stadsdeel"
                 options={stadsdeel}
                 title="Stadsdeel"
                 isGroupHeader
