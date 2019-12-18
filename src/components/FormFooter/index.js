@@ -8,7 +8,7 @@ export const FooterWrapper = styled.footer`
   background: ${themeColor('tint', 'level1')};
   height: 66px;
   padding: 10px 0;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   left: 0;

@@ -1,13 +1,19 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { render, fireEvent, cleanup } from '@testing-library/react';
+import { mount } from 'enzyme';
 import * as reactRouterDom from 'react-router-dom';
 import { withAppContext } from 'test/utils';
 import routes from 'signals/settings/routes';
 import userJSON from 'utils/__tests__/fixtures/user.json';
+import {
+  VARIANT_ERROR,
+  VARIANT_SUCCESS,
+  TYPE_LOCAL,
+} from 'containers/Notification/constants';
 
 import useFetchUser from '../hooks/useFetchUser';
-import UserDetail from '..';
+import UserDetail, { UserDetailContainerComponent } from '..';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -17,6 +23,11 @@ jest.mock('react-router-dom', () => ({
 jest.mock('../hooks/useFetchUser', () =>
   jest.fn(() => ({ isLoading: undefined }))
 );
+
+jest.mock('containers/App/actions', () => ({
+  __esModule: true,
+  ...jest.requireActual('containers/App/actions'),
+}));
 
 const push = jest.fn();
 jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
@@ -32,12 +43,25 @@ describe('signals/settings/users/containers/Detail', () => {
     push.mockReset();
   });
 
+  it('should have props from action creator', () => {
+    const tree = mount(withAppContext(<UserDetail />));
+
+    const containerProps = tree.find(UserDetailContainerComponent).props();
+
+    expect(containerProps.showGlobalNotification).not.toBeUndefined();
+    expect(typeof containerProps.showGlobalNotification).toEqual('function');
+  });
+
   it('should render a backlink', async () => {
     const referrer = '/some-page-we-came-from';
     let container;
 
     await act(async () => {
-      ({ container } = await render(withAppContext(<UserDetail />)));
+      ({ container } = await render(
+        withAppContext(
+          <UserDetailContainerComponent showGlobalNotification={() => {}} />
+        )
+      ));
     });
 
     expect(container.querySelector('a').getAttribute('href')).toEqual(
@@ -51,7 +75,11 @@ describe('signals/settings/users/containers/Detail', () => {
     cleanup();
 
     await act(async () => {
-      ({ container } = await render(withAppContext(<UserDetail />)));
+      ({ container } = await render(
+        withAppContext(
+          <UserDetailContainerComponent showGlobalNotification={() => {}} />
+        )
+      ));
     });
 
     expect(container.querySelector('a').getAttribute('href')).toEqual(referrer);
@@ -64,7 +92,11 @@ describe('signals/settings/users/containers/Detail', () => {
       userId: undefined,
     }));
 
-    const { getByText, rerender } = render(withAppContext(<UserDetail />));
+    const { getByText, rerender } = render(
+      withAppContext(
+        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+      )
+    );
 
     expect(getByText('Gebruiker toevoegen')).toBeInTheDocument();
 
@@ -72,13 +104,21 @@ describe('signals/settings/users/containers/Detail', () => {
       userId,
     }));
 
-    rerender(withAppContext(<UserDetail />));
+    rerender(
+      withAppContext(
+        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+      )
+    );
 
     expect(getByText('Gebruiker wijzigen')).toBeInTheDocument();
   });
 
   it('should instantiate useFetchUser', () => {
-    render(withAppContext(<UserDetail />));
+    render(
+      withAppContext(
+        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+      )
+    );
 
     expect(useFetchUser).toHaveBeenCalled();
   });
@@ -86,7 +126,11 @@ describe('signals/settings/users/containers/Detail', () => {
   it('should render a loading indicator', () => {
     useFetchUser.mockImplementationOnce(() => ({ isLoading: true }));
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    const { getByTestId } = render(
+      withAppContext(
+        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+      )
+    );
 
     expect(getByTestId('loadingIndicator')).toBeInTheDocument();
   });
@@ -97,10 +141,13 @@ describe('signals/settings/users/containers/Detail', () => {
       userId,
     }));
 
-    const { queryByTestId } = await render(withAppContext(<UserDetail />));
+    const { queryByTestId } = await render(
+      withAppContext(
+        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+      )
+    );
 
     expect(queryByTestId('detailUserForm')).toBeNull();
-
   });
 
   it('should render a form when the URL contains a user ID AND the data has been retrieved from the API', async () => {
@@ -111,7 +158,11 @@ describe('signals/settings/users/containers/Detail', () => {
 
     useFetchUser.mockImplementationOnce(() => ({ loading: true }));
 
-    const { queryByTestId } = await render(withAppContext(<UserDetail />));
+    const { queryByTestId } = await render(
+      withAppContext(
+        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+      )
+    );
 
     expect(queryByTestId('detailUserForm')).toBeNull();
 
@@ -119,7 +170,11 @@ describe('signals/settings/users/containers/Detail', () => {
 
     useFetchUser.mockImplementationOnce(() => ({ data: userJSON }));
 
-    const { getByTestId } = await render(withAppContext(<UserDetail />));
+    const { getByTestId } = await render(
+      withAppContext(
+        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+      )
+    );
 
     expect(getByTestId('detailUserForm')).toBeInTheDocument();
   });
@@ -131,33 +186,63 @@ describe('signals/settings/users/containers/Detail', () => {
 
     useFetchUser.mockImplementationOnce(() => ({ data: userJSON }));
 
-    const { getByTestId } = await render(withAppContext(<UserDetail />));
+    const { getByTestId } = await render(
+      withAppContext(
+        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+      )
+    );
 
     expect(getByTestId('detailUserForm')).toBeInTheDocument();
   });
 
   it('should show an alert on error', () => {
+    const showGlobalNotification = jest.fn();
     const message = 'Something went wrong here';
-    useFetchUser.mockImplementationOnce(() => ({ error: { message } }));
 
-    const { queryByTestId, getByTestId, getByText, rerender } = render(withAppContext(<UserDetail />));
+    useFetchUser.mockImplementationOnce(() => ({
+      isLoading: true,
+      error: { message },
+    }));
 
-    expect(getByTestId('formAlert')).toBeInTheDocument();
-    expect(getByText(message)).toBeInTheDocument();
+    const { rerender } = render(
+      withAppContext(
+        <UserDetailContainerComponent
+          showGlobalNotification={showGlobalNotification}
+        />
+      )
+    );
 
     // should not show when loading
-    useFetchUser.mockImplementationOnce(() => ({ isLoading: true, error: { message } }));
+    expect(showGlobalNotification).not.toHaveBeenCalled();
 
-    rerender(withAppContext(<UserDetail />));
+    useFetchUser.mockImplementationOnce(() => ({ error: { message } }));
 
-    expect(queryByTestId('formAlert')).toBeNull();
+    rerender(
+      withAppContext(
+        <UserDetailContainerComponent
+          showGlobalNotification={showGlobalNotification}
+        />
+      )
+    );
+
+    expect(showGlobalNotification).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: message,
+        variant: VARIANT_ERROR,
+        type: TYPE_LOCAL,
+      })
+    );
   });
 
   it('should not patch user data on submit when form data has not been altered', () => {
     const patch = jest.fn();
     useFetchUser.mockImplementationOnce(() => ({ data: userJSON, patch }));
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    const { getByTestId } = render(
+      withAppContext(
+        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+      )
+    );
 
     fireEvent.click(
       getByTestId('detailUserForm').querySelector('[type="submit"]')
@@ -170,7 +255,11 @@ describe('signals/settings/users/containers/Detail', () => {
     const patch = jest.fn();
     useFetchUser.mockImplementationOnce(() => ({ data: userJSON, patch }));
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    const { getByTestId } = render(
+      withAppContext(
+        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+      )
+    );
 
     expect(patch).not.toHaveBeenCalled();
 
@@ -194,7 +283,11 @@ describe('signals/settings/users/containers/Detail', () => {
       userId: undefined,
     }));
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    const { getByTestId } = render(
+      withAppContext(
+        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+      )
+    );
 
     const lastName = 'Foo Bar Baz';
     fireEvent.change(
@@ -209,16 +302,67 @@ describe('signals/settings/users/containers/Detail', () => {
     );
 
     const username = 'zork@foobarbaz.com';
-    fireEvent.change(
-      getByTestId('detailUserForm').querySelector('#username'),
-      { target: { value: username } }
-    );
+    fireEvent.change(getByTestId('detailUserForm').querySelector('#username'), {
+      target: { value: username },
+    });
 
     fireEvent.click(
       getByTestId('detailUserForm').querySelector('[type="submit"]')
     );
 
-    expect(post).toHaveBeenCalledWith(expect.objectContaining({ last_name: lastName, first_name: firstName, username }));
+    expect(post).toHaveBeenCalledWith(
+      expect.objectContaining({
+        last_name: lastName,
+        first_name: firstName,
+        username,
+      })
+    );
+  });
+
+  it('should redirect on success and show notification', () => {
+    const showGlobalNotification = jest.fn();
+    useFetchUser.mockImplementation(() => ({
+      data: userJSON,
+      isLoading: true,
+      isSuccess: true,
+    }));
+
+    expect(push).toHaveBeenCalledTimes(0);
+    expect(showGlobalNotification).not.toHaveBeenCalled();
+
+    const { rerender } = render(
+      withAppContext(
+        <UserDetailContainerComponent
+          showGlobalNotification={showGlobalNotification}
+        />
+      )
+    );
+
+    expect(push).toHaveBeenCalledTimes(0);
+    expect(showGlobalNotification).not.toHaveBeenCalled();
+
+    useFetchUser.mockImplementation(() => ({
+      data: userJSON,
+      isLoading: false,
+      isSuccess: true,
+    }));
+
+    rerender(
+      withAppContext(
+        <UserDetailContainerComponent
+          showGlobalNotification={showGlobalNotification}
+        />
+      )
+    );
+
+    expect(push).toHaveBeenCalledTimes(1);
+    expect(showGlobalNotification).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: 'Gegevens opgeslagen',
+        variant: VARIANT_SUCCESS,
+        type: TYPE_LOCAL,
+      })
+    );
   });
 
   it('should convert stringified booleans to boolean values', () => {
@@ -228,7 +372,11 @@ describe('signals/settings/users/containers/Detail', () => {
       patch,
     }));
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    const { getByTestId } = render(
+      withAppContext(
+        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+      )
+    );
 
     // ensure that a boolean value is a string value
     expect(
@@ -254,42 +402,37 @@ describe('signals/settings/users/containers/Detail', () => {
     );
   });
 
-  it('should show a notification on successful PATCH', () => {
-    const message = 'Gegevens opgeslagen';
-
-    useFetchUser.mockImplementationOnce(() => ({ isSuccess: true }));
-
-    const { queryByTestId, rerender, getByTestId, getByText } = render(withAppContext(<UserDetail />));
-
-    expect(getByTestId('formAlert')).toBeInTheDocument();
-    expect(getByText(message)).toBeInTheDocument();
-
-    // should not show when loading
-    useFetchUser.mockImplementationOnce(() => ({ isLoading: true, isSuccess: true }));
-
-    rerender(withAppContext(<UserDetail />));
-
-    expect(queryByTestId('formAlert')).toBeNull();
-  });
-
-  it('should replace history on successful POST', () => {
+  it('should push to redirectURI on successful POST', () => {
+    const showGlobalNotification = jest.fn();
     const id = userJSON.id;
+
     jest.spyOn(reactRouterDom, 'useParams').mockImplementationOnce(() => ({
       userId: undefined,
     }));
 
-    const replace = jest.fn();
-    jest.spyOn(reactRouterDom, 'useHistory').mockImplementationOnce(() => ({
-      replace,
+    useFetchUser.mockImplementationOnce(() => ({
+      isSuccess: true,
+      data: { id },
     }));
 
-    useFetchUser.mockImplementationOnce(() => ({ isSuccess: true, data: { id } }));
+    expect(push).not.toHaveBeenCalled();
 
-    expect(replace).not.toHaveBeenCalled();
+    render(
+      withAppContext(
+        <UserDetailContainerComponent showGlobalNotification={showGlobalNotification} />
+      )
+    );
 
-    render(withAppContext(<UserDetail />));
+    expect(push).toHaveBeenCalledTimes(1);
+    expect(push).toHaveBeenCalledWith(routes.users);
 
-    expect(replace).toHaveBeenCalledWith(expect.stringMatching(new RegExp(`${id}$`)));
+    expect(showGlobalNotification).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: 'Gebruiker toegevoegd',
+        variant: VARIANT_SUCCESS,
+        type: TYPE_LOCAL,
+      })
+    );
   });
 
   it('should direct to the overview page when cancel button is clicked and form data is pristine', () => {
@@ -297,7 +440,11 @@ describe('signals/settings/users/containers/Detail', () => {
 
     global.window.confirm = jest.fn();
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    const { getByTestId } = render(
+      withAppContext(
+        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+      )
+    );
 
     expect(push).not.toHaveBeenCalled();
 
@@ -313,7 +460,11 @@ describe('signals/settings/users/containers/Detail', () => {
 
     global.window.confirm = jest.fn();
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    const { getByTestId } = render(
+      withAppContext(
+        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+      )
+    );
 
     expect(push).not.toHaveBeenCalled();
 
@@ -344,7 +495,11 @@ describe('signals/settings/users/containers/Detail', () => {
 
     global.window.confirm = jest.fn();
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    const { getByTestId } = render(
+      withAppContext(
+        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+      )
+    );
 
     expect(push).not.toHaveBeenCalled();
 

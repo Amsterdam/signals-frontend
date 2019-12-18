@@ -7,6 +7,7 @@ import * as Sentry from '@sentry/browser';
 import { authCall, authPatchCall, getErrorMessage } from 'shared/services/api/api';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import * as actions from 'containers/App/actions';
+import CONFIGURATION from 'shared/services/configuration/configuration';
 import {
   REQUEST_INCIDENT,
   PATCH_INCIDENT,
@@ -29,8 +30,6 @@ import {
   requestDefaultTextsError,
 } from './actions';
 import watchIncidentModelSaga, {
-  requestTermsURL,
-  requestURL,
   fetchIncident,
   patchIncident,
   requestAttachments,
@@ -62,8 +61,8 @@ describe('models/incident/saga', () => {
       };
 
       return expectSaga(fetchIncident, action)
-        .provide([[matchers.call.fn(requestURL)]])
-        .call(authCall, `${requestURL}/${id}`)
+        .provide([[matchers.call.fn(CONFIGURATION.INCIDENTS_ENDPOINT)]])
+        .call(authCall, `${CONFIGURATION.INCIDENTS_ENDPOINT}${id}`)
         .silentRun();
     });
 
@@ -111,7 +110,11 @@ describe('models/incident/saga', () => {
       };
 
       return expectSaga(patchIncident, action)
-        .call(authPatchCall, `${requestURL}/${id}`, payload.patch)
+        .call(
+          authPatchCall,
+          `${CONFIGURATION.INCIDENTS_ENDPOINT}${id}`,
+          payload.patch
+        )
         .silentRun();
     });
 
@@ -185,7 +188,7 @@ describe('models/incident/saga', () => {
       const action = { payload: id };
 
       return expectSaga(requestAttachments, action)
-        .call(authCall, `${requestURL}/${id}/attachments`)
+        .call(authCall, `${CONFIGURATION.INCIDENTS_ENDPOINT}${id}/attachments`)
         .silentRun();
     });
 
@@ -258,10 +261,10 @@ describe('models/incident/saga', () => {
 
     it('should call endpoint with filter data', () =>
       expectSaga(requestDefaultTexts, action)
-        .provide([[matchers.call.fn(requestURL)]])
+        .provide([[matchers.call.fn(CONFIGURATION.INCIDENTS_ENDPOINT)]])
         .call(
           authCall,
-          `${requestTermsURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`
+          `${CONFIGURATION.TERMS_ENDPOINT}${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`
         )
         .silentRun());
 

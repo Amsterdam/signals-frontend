@@ -6,7 +6,9 @@ import { authCall, authPostCall, getErrorMessage } from 'shared/services/api/api
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import * as actions from 'containers/App/actions';
 
-import watchDefaultTextsAdminSaga, {
+import CONFIGURATION from 'shared/services/configuration/configuration';
+import watchDefaultTextsAdminSaga,
+{
   fetchDefaultTexts,
   storeDefaultTexts,
 } from './saga';
@@ -20,10 +22,8 @@ import {
 } from './actions';
 
 describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () => {
-  const requestURL =
-    'https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/asbest-accu/status-message-templates';
-  const category_url =
-    'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu';
+  const requestURL = `${CONFIGURATION.TERMS_ENDPOINT}afval/sub_categories/asbest-accu/status-message-templates`;
+  const category_url = `${CONFIGURATION.CATEGORIES_ENDPOINT}afval/sub_categories/asbest-accu`;
   const payload = {
     main_slug: 'afval',
     sub_slug: 'asbest-accu',

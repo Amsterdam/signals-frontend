@@ -10,13 +10,29 @@ import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import formatUpdateIncident from './services/formatUpdateIncident';
 import { SPLIT_INCIDENT } from './constants';
 import { splitIncidentSuccess, splitIncidentError } from './actions';
+<<<<<<< HEAD
+=======
+import {
+  authPatchCall,
+  authPostCall,
+} from '../../../../shared/services/api/api';
+>>>>>>> origin/SIG-1917_instellingen
 
 export function* splitIncident(action) {
   const payload = action.payload;
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals`;
   try {
-    const created = yield authPostCall(`${requestURL}/${payload.id}/split`, payload.create);
-    yield all(created.children.map((child, key) => authPatchCall(`${requestURL}/${child.id}`, formatUpdateIncident(payload.update[key]))));
+    const created = yield authPostCall(
+      `${CONFIGURATION.INCIDENTS_ENDPOINT}${payload.id}/split`,
+      payload.create
+    );
+    yield all(
+      created.children.map((child, key) =>
+        authPatchCall(
+          `${CONFIGURATION.INCIDENTS_ENDPOINT}${child.id}`,
+          formatUpdateIncident(payload.update[key])
+        )
+      )
+    );
     yield put(splitIncidentSuccess({ id: payload.id, created }));
     yield put(push(`/manage/incident/${payload.id}`));
   } catch (error) {

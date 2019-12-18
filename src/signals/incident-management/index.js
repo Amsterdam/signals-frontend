@@ -1,8 +1,8 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 import injectReducer from 'utils/injectReducer';
@@ -41,12 +41,12 @@ export const IncidentManagementModuleComponent = ({
 }) => {
   useEffect(() => {
     getFiltersAction();
-  });
+  }, [getFiltersAction]);
 
   return !isAuthenticated() ? (
     <Route component={LoginPage} />
   ) : (
-    <Fragment>
+    <Switch>
       <Route
         exact
         path={`${url}/incidents`}
@@ -54,20 +54,18 @@ export const IncidentManagementModuleComponent = ({
       />
       <Route
         exact
-        path={`${url}/incident/:id`}
-        render={incidentDetailWrapper(url)}
-      />
-      <Route
-        exact
         path={`${url}/incident/:id/split`}
         render={incidentSplitContainerWrapper(url)}
       />
+      <Route
+        exact
+        path={`${url}/incident/:id`}
+        render={incidentDetailWrapper(url)}
+      />
       <Route path={`${url}/standaard/teksten`} component={DefaultTextsAdmin} />
       <Route path={`${url}/dashboard`} component={DashboardContainer} />
-      <Route path="*">
-        <Redirect to={`${url}/incidents`} />
-      </Route>
-    </Fragment>
+      <Redirect to={`${url}/incidents`} />
+    </Switch>
   );
 };
 
@@ -81,10 +79,7 @@ IncidentManagementModuleComponent.propTypes = {
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ getFiltersAction: getFilters }, dispatch);
 
-const withConnect = connect(
-  null,
-  mapDispatchToProps
-);
+const withConnect = connect(null, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'incidentManagement', reducer });
 const withSaga = injectSaga({ key: 'incidentManagement', saga });

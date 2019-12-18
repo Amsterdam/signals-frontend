@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, cleanup } from '@testing-library/react';
+import { fireEvent, render, cleanup, act } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import priorityList from 'signals/incident-management/definitions/priorityList';
@@ -19,8 +19,6 @@ const dataLists = {
 };
 
 describe('signals/incident-management/components/FilterForm', () => {
-  afterEach(cleanup);
-
   it('should render filter fields', () => {
     const { container } = render(
       withAppContext(
@@ -455,7 +453,9 @@ describe('signals/incident-management/components/FilterForm', () => {
     expect(addressField.value).not.toBeFalsy();
     expect(afvalToggle.checked).toEqual(true);
 
-    fireEvent.click(container.querySelector('button[type="reset"]'));
+    act(() => {
+      fireEvent.click(container.querySelector('button[type="reset"]'));
+    });
 
     expect(onClearFilter).toHaveBeenCalled();
     // jsdom hasn't implemented form reset and submit handling, so we cannot test that the fields have been cleared

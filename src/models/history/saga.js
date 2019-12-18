@@ -11,7 +11,7 @@ import { requestHistoryListSuccess, requestHistoryListError } from './actions';
 
 export function* fetchHistoryList(action) {
   const signalId = action.payload;
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals/${signalId}/history`;
+  const requestURL = `${CONFIGURATION.INCIDENTS_ENDPOINT}${signalId}/history`;
 
   try {
     const list = yield authCall(requestURL);
