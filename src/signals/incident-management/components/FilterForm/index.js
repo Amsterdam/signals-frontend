@@ -55,17 +55,11 @@ const FilterForm = ({
       const hasName = formData.name.trim() !== '';
       const valuesHaveChanged = !isEqual(formData, filterData);
 
-      /* istanbul ignore else */
-      if (typeof onSaveFilter === 'function' && isNewFilter && hasName) {
+      if (isNewFilter && hasName) {
         onSaveFilter(formData);
       }
 
-      /* istanbul ignore else */
-      if (
-        typeof onUpdateFilter === 'function' &&
-        !isNewFilter &&
-        valuesHaveChanged
-      ) {
+      if (!isNewFilter && valuesHaveChanged) {
         if (formData.name.trim() === '') {
           event.preventDefault();
           global.window.alert('Filter naam mag niet leeg zijn');
@@ -74,10 +68,7 @@ const FilterForm = ({
         onUpdateFilter(formData);
       }
 
-      /* istanbul ignore else */
-      if (typeof onSubmit === 'function') {
-        onSubmit(event, formData);
-      }
+      onSubmit(event, formData);
     },
     [filterData, isNewFilter, onSaveFilter, onSubmit, onUpdateFilter]
   );
@@ -94,14 +85,10 @@ const FilterForm = ({
       options: {},
     });
 
-    /* istanbul ignore else */
-    if (typeof onClearFilter === 'function') {
-      onClearFilter();
-    }
+    onClearFilter();
   }, [onClearFilter]);
 
   const onChangeForm = useCallback(() => {
-    /* istanbul ignore else */
     if (isNewFilter) {
       return;
     }
@@ -110,21 +97,9 @@ const FilterForm = ({
     const valuesHaveChanged = !isEqual(formData, filterData);
     const btnHasSaveLabel = submitBtnLabel === saveSubmitBtnLabel;
 
-    /* istanbul ignore else */
-    if (valuesHaveChanged) {
-      if (!btnHasSaveLabel) {
-        setSubmitBtnLabel(saveSubmitBtnLabel);
-      }
-
-      return;
+    if (valuesHaveChanged && !btnHasSaveLabel) {
+      setSubmitBtnLabel(saveSubmitBtnLabel);
     }
-
-    /* istanbul ignore else */
-    if (!btnHasSaveLabel) {
-      return;
-    }
-
-    setSubmitBtnLabel(defaultSubmitBtnLabel);
   }, [filterData, isNewFilter, submitBtnLabel]);
 
   const onNameChange = useCallback(
@@ -157,6 +132,21 @@ const FilterForm = ({
       refresh: checked,
     }));
   }, []);
+
+  const updateFilterDate = useCallback(
+    /* istanbul ignore next */ (prop, dateValue) => {
+      setFilterData(state => ({
+        ...state,
+        options: {
+          ...state.options,
+          [prop]: dateValue,
+        },
+      }));
+
+      onChangeForm();
+    },
+    [setFilterData, onChangeForm]
+  );
 
   return (
     <Form action="" novalidate onChange={onChangeForm} ref={formRef}>
@@ -269,16 +259,13 @@ const FilterForm = ({
                  * Ignoring the internals of the `onChange` handler since they cannot be tested
                  * @see https://github.com/Hacker0x01/react-datepicker/issues/1578
                  */
-                /* istanbul ignore next */
                 onChange={dateValue => {
+                  /* istanbul ignore next */
                   const formattedDate = dateValue
                     ? moment(dateValue).format('YYYY-MM-DD')
                     : '';
 
-                  const updatedFilterData = { ...filterData };
-                  updatedFilterData.options.incident_date = formattedDate;
-
-                  setFilterData(updatedFilterData);
+                  updateFilterDate('incident_date', formattedDate);
                 }}
                 placeholderText="DD-MM-JJJJ"
                 selected={
@@ -412,9 +399,9 @@ FilterForm.propTypes = {
   /** Callback handler for when filter settings should not be applied */
   onCancel: PropTypes.func,
   /** Callback handler to reset filter */
-  onClearFilter: PropTypes.func,
+  onClearFilter: PropTypes.func.isRequired,
   /** Callback handler for new filter settings */
-  onSaveFilter: PropTypes.func,
+  onSaveFilter: PropTypes.func.isRequired,
   /**
    * Callback handler called whenever form is submitted
    * @param {Event} event
