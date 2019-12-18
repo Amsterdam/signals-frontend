@@ -14,7 +14,7 @@ services:
   lint-container:
     build:
       context: .
-      target: builder
+      target: base
     environment:
       - CI=true
       - TZ=Europe/Amsterdam
@@ -23,7 +23,7 @@ services:
   unittest-container:
     build:
       context: .
-      target: builder
+      target: base
     environment:
       - CI=true
       - TZ=Europe/Amsterdam
