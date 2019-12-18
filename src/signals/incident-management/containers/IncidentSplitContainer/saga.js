@@ -10,13 +10,6 @@ import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import formatUpdateIncident from './services/formatUpdateIncident';
 import { SPLIT_INCIDENT } from './constants';
 import { splitIncidentSuccess, splitIncidentError } from './actions';
-<<<<<<< HEAD
-=======
-import {
-  authPatchCall,
-  authPostCall,
-} from '../../../../shared/services/api/api';
->>>>>>> origin/SIG-1917_instellingen
 
 export function* splitIncident(action) {
   const payload = action.payload;
