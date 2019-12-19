@@ -86,6 +86,7 @@ export const parseOutputFormData = form => {
  * Turns scalar values into arrays where necessary and replaces keys and slugs with objects
  *
  * @param   {Object} filterData - Data to be passed on to the form
+ * @param   {Object} filterData.options - options key/value object
  * @param   {Object} dataLists - collection of fixtures that is used to enrich the filter data with
  * @returns {Object}
  */
@@ -95,18 +96,7 @@ export const parseInputFormData = (filterData, dataLists) => {
   parsed.id = filterData.id;
   parsed.refresh = filterData.refresh;
 
-  /* istanbul ignore else */
   if (Object.keys(filterData).length) {
-    // convert scalar values to arrays
-    Object.keys(filterData).forEach(fieldName => {
-      if (
-        arrayFields.includes(fieldName)
-        && !Array.isArray(filterData[fieldName])
-      ) {
-        parsed[fieldName] = [filterData[fieldName]];
-      }
-    });
-
     // replace string entries in filter data with objects from dataLists
     Object.keys(parsed)
       .filter(fieldName => arrayFields.includes(fieldName))
@@ -115,16 +105,6 @@ export const parseInputFormData = (filterData, dataLists) => {
           ({ key, slug }) => key === value || slug === value,
         ),);
       });
-  }
-
-  // before/after params include the time which we don't need in the filter form
-  // returning values that only have the date
-  if (moment(parsed.created_before, 'YYYY-MM-DD', true).toISOString() !== null) {
-    parsed.created_before = moment(parsed.created_before).format('YYYY-MM-DD');
-  }
-
-  if (moment(parsed.created_after, 'YYYY-MM-DD', true).toISOString() !== null) {
-    parsed.created_after = moment(parsed.created_after).format('YYYY-MM-DD');
   }
 
   return parsed;
