@@ -117,8 +117,12 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       .find(IncidentOverviewPageContainerComponent)
       .props();
 
+    expect(containerProps.activeFilter).not.toBeUndefined();
     expect(containerProps.overviewpage).not.toBeUndefined();
-    expect(containerProps.categories).not.toBeUndefined();
+    expect(containerProps.dataLists).not.toBeUndefined();
+    expect(containerProps.incidentsCount).not.toBeUndefined();
+    expect(containerProps.ordering).not.toBeUndefined();
+    expect(containerProps.page).not.toBeUndefined();
   });
 
   it('should have props from action creator', () => {

@@ -22,7 +22,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     priority: 'normal',
     stadsdeel: [definitions.stadsdeelList[0], definitions.stadsdeelList[1]],
     address_text: 'februariplein 1',
-    incident_date: '2019-09-17',
     source: [definitions.sourceList[0], definitions.sourceList[1]],
     category_slug: [
       {
@@ -43,29 +42,72 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     expect(props.categories).not.toBeUndefined();
   });
 
-  it('formats a date value', () => {
-    const { queryByText } = render(
-      withIntlAppContext(
-        <FilterTagListComponent
-          dataLists={dataLists}
-          tags={tags}
-          categories={categories}
-        />,
-        translations,
-      ),
-    );
+  describe('date formatting', () => {
+    it('renders created before', () => {
+      const { queryByText } = render(
+        withIntlAppContext(
+          <FilterTagListComponent
+            dataLists={dataLists}
+            tags={{ ...tags, created_before: '2019-09-23' }}
+            categories={categories}
+          />,
+          translations
+        )
+      );
 
-    expect(queryByText(tags.incident_date)).not.toBeInTheDocument();
-    expect(queryByText('17-09-2019')).toBeInTheDocument();
+      const createdBeforeLabel = 'Datum: t/m 23-09-2019';
+
+      expect(queryByText(createdBeforeLabel)).toBeInTheDocument();
+    });
+
+    it('renders date after', () => {
+      const { queryByText } = render(
+        withIntlAppContext(
+          <FilterTagListComponent
+            dataLists={dataLists}
+            tags={{ ...tags, created_after: '2019-09-17' }}
+            categories={categories}
+          />,
+          translations
+        )
+      );
+
+      const createdAfterLabel = 'Datum: 17-09-2019 t/m nu';
+
+      expect(queryByText(createdAfterLabel)).toBeInTheDocument();
+    });
+
+    it('renders both date after and date before', () => {
+      const { queryByText } = render(
+        withIntlAppContext(
+          <FilterTagListComponent
+            dataLists={dataLists}
+            tags={{
+              ...tags,
+              created_before: '2019-09-23',
+              created_after: '2019-09-17',
+            }}
+            categories={categories}
+          />,
+          translations
+        )
+      );
+
+      const createdBeforeAfterLabel = 'Datum: 17-09-2019 t/m 23-09-2019';
+
+      expect(queryByText(createdBeforeAfterLabel)).toBeInTheDocument();
+    });
   });
 
   describe('tags list', () => {
-    const maincategory_slug = [{
-      key:
-        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
-      value: 'Afval',
-      slug: 'afval',
-    }];
+    const maincategory_slug = [
+      {
+        key:
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
+        value: 'Afval',
+        slug: 'afval',
+      },
+    ];
 
     it('shows an extra label when a tag is a main category', () => {
       const { rerender, queryByText } = render(
@@ -74,12 +116,12 @@ describe('signals/incident-management/containers/FilterTagList', () => {
             dataLists={dataLists}
             tags={tags}
             categories={categories}
-          />,
-        ),
+          />
+        )
       );
 
       expect(
-        queryByText(`${maincategory_slug[0].value}${allLabelAppend}`),
+        queryByText(`${maincategory_slug[0].value}${allLabelAppend}`)
       ).toBeFalsy();
 
       const tagsWithMainCat = { ...tags, maincategory_slug };
@@ -90,12 +132,12 @@ describe('signals/incident-management/containers/FilterTagList', () => {
             dataLists={dataLists}
             tags={tagsWithMainCat}
             categories={categories}
-          />,
-        ),
+          />
+        )
       );
 
       expect(
-        queryByText(`${maincategory_slug[0].value}${allLabelAppend}`),
+        queryByText(`${maincategory_slug[0].value}${allLabelAppend}`)
       ).toBeTruthy();
     });
 
@@ -106,8 +148,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
             dataLists={dataLists}
             tags={tags}
             categories={categories}
-          />,
-        ),
+          />
+        )
       );
 
       expect(queryByText('Normaal')).toBeInTheDocument();
@@ -118,7 +160,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(queryByText('Telefoon – Adoptant')).toBeInTheDocument();
       expect(queryByText('Telefoon – ASC')).toBeInTheDocument();
 
-      expect(queryAllByTestId('filterTagListTag')).toHaveLength(10);
+      expect(queryAllByTestId('filterTagListTag')).toHaveLength(9);
     });
 
     it('renders no list when tags are undefined', () => {
@@ -127,8 +169,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
           <FilterTagListComponent
             dataLists={dataLists}
             categories={categories}
-          />,
-        ),
+          />
+        )
       );
 
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(0);

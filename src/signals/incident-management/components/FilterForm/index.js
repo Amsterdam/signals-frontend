@@ -294,28 +294,43 @@ const FilterForm = ({
 
             <DatesWrapper>
               <CalendarInput
-                id="filter_incident_date_after"
-                onChange={dateValue => {
-                  // const oneDayBefore = moment(dateValue).subtract(1, 'days').format('YYYY-MM-DD');
-                  updateFilterDate('incident_date_after', dateValue);
+                id="filter_created_after"
+                onSelect={dateValue => {
+                  updateFilterDate(
+                    'created_after',
+                    dateValue && moment(dateValue).format('YYYY-MM-DD')
+                  );
+                  onChangeForm();
                 }}
                 selectedDate={dateFrom}
-                defaultValue={dateFrom && dateFrom.format('YYYY-MM-DD')}
-                label="Na"
-                name="incident_date_after"
+                label="Vanaf"
+                name="created_after"
               />
 
               <CalendarInput
-                id="filter_incident_date_before"
-                onChange={dateValue => {
-                  // const oneDayAfter = moment(dateValue).add(1, 'days').format('YYYY-MM-DD');
-                  updateFilterDate('incident_date_before', dateValue);
+                id="filter_created_before"
+                onSelect={dateValue => {
+                  updateFilterDate(
+                    'created_before',
+                    dateValue && dateValue.format('YYYY-MM-DD')
+                  );
+                  onChangeForm();
                 }}
                 selectedDate={dateBefore}
-                defaultValue={dateBefore && dateBefore.format('YYYY-MM-DD')}
-                label="Tot"
-                name="incident_date_before"
+                label="Tot en met"
+                name="created_before"
               />
+
+              {filterData.options && filterData.options.incident_date && (
+                <input
+                  defaultValue={moment(filterData.options.incident_date).format(
+                    'YYYY-MM-DD'
+                  )}
+                  name="incident_date"
+                  readOnly
+                  type="hidden"
+                />
+              )}
             </DatesWrapper>
           </FilterGroup>
 

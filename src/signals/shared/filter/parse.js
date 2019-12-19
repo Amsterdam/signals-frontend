@@ -1,4 +1,5 @@
 import clonedeep from 'lodash.clonedeep';
+import moment from 'moment';
 
 const arrayFields = [
   'stadsdeel',
@@ -64,6 +65,16 @@ export const parseOutputFormData = form => {
     name, refresh, id, ...options
   } = parsed;
 
+  // before/after params require a specific format that includes the time
+  // since `created_before` means before and including, we add a day
+  if (moment(options.created_before, 'YYYY-MM-DD').toISOString() !== null) {
+    options.created_before = moment(options.created_before).set({ hours: 23, minutes: 59, seconds: 59 }).format('YYYY-MM-DDTkk:mm:ss');
+  }
+
+  if (moment(options.created_after, 'YYYY-MM-DD').toISOString() !== null) {
+    options.created_after = moment(options.created_after).format('YYYY-MM-DDT00:00:00');
+  }
+
   return {
     name, refresh: !!refresh, id, options,
   };
@@ -104,6 +115,16 @@ export const parseInputFormData = (filterData, dataLists) => {
           ({ key, slug }) => key === value || slug === value,
         ),);
       });
+  }
+
+  // before/after params include the time which we don't need in the filter form
+  // returning values that only have the date
+  if (moment(parsed.created_before, 'YYYY-MM-DD', true).toISOString() !== null) {
+    parsed.created_before = moment(parsed.created_before).format('YYYY-MM-DD');
+  }
+
+  if (moment(parsed.created_after, 'YYYY-MM-DD', true).toISOString() !== null) {
+    parsed.created_after = moment(parsed.created_after).format('YYYY-MM-DD');
   }
 
   return parsed;
