@@ -44,8 +44,12 @@ const FilterForm = ({
   const { feedback, priority, stadsdeel, status, source } = dataLists;
   const [submitBtnLabel, setSubmitBtnLabel] = useState(defaultSubmitBtnLabel);
   const [filterData, setFilterData] = useState(filter);
-  const filterSlugs = (filterData.options.maincategory_slug || []).concat(
-    filterData.options.category_slug || []
+  const filterSlugs = useMemo(
+    () =>
+      (filterData.options.maincategory_slug || []).concat(
+        filterData.options.category_slug || []
+      ),
+    [filterData.options.category_slug, filterData.options.maincategory_slug]
   );
   const isNewFilter = useMemo(() => !filter.name, [filter.name]);
 
