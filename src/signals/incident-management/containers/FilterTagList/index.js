@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
@@ -21,54 +21,30 @@ const StyledTag = styled(Tag)`
 
 export const allLabelAppend = ': Alles';
 
-const mapKeys = key => {
-  switch (key) {
-    case 'source':
-      return 'Bron'
+export const FilterTagListComponent = props => {
+  const {
+    tags,
+    dataLists,
+    categories: { main, sub },
+  } = props;
 
-    default:
-      return key;
-  }
-}
+  const map = {
+    ...dataLists,
+    maincategory_slug: main,
+    category_slug: sub,
+  };
 
-const renderGroup = (tag, main, list, tagKey) => {
-  if (tag.length === list.length) {
-    return (
-      <StyledTag
-        colorType="tint"
-        colorSubtype="level3"
-        key={tagKey}
-        data-testid="filterTagListTag"
-      >
-        {mapKeys(tagKey)}{allLabelAppend}
-      </StyledTag>
-    );
-  }
-  return tag.map(item => renderTag(item.key, main, list));
-};
+  const mapKeys = useCallback(key => {
+    switch (key) {
+      case 'source':
+        return 'Bron';
 
-const renderTag = (key, mainCategories, list) => {
-  let found = false;
+      default:
+        return key;
+    }
+  }, []);
 
-  if (list) {
-    found = list.find(i => i.key === key || i.slug === key);
-  }
-
-  let display = (found && found.value) || key;
-
-  if (!display) {
-    return;
-  }
-
-  if (moment(display, 'YYYY-MM-DD', true).isValid()) {
-    display = moment(display).format('DD-MM-YYYY');
-  }
-
-  const foundMain = mainCategories.find(i => i.key === key);
-
-  display += foundMain ? allLabelAppend : '';
-  // eslint-disable-next-line consistent-return
-  return (
+  const renderItem = useCallback((display, key) => (
     <StyledTag
       colorType="tint"
       colorSubtype="level3"
@@ -77,29 +53,45 @@ const renderTag = (key, mainCategories, list) => {
     >
       {display}
     </StyledTag>
-  );
-};
+  ), []);
 
-export const FilterTagListComponent = props => {
-  const {
-    tags,
-    dataLists,
-    categories: { main, sub },
-  } = props;
-  console.log('dataLists', dataLists);
+  const renderGroup = useCallback((tag, list, tagKey) => {
+    if (tag.length === list.length) {
+      return renderItem(`${mapKeys(tagKey)}${allLabelAppend}`, tagKey);
+    }
+    return tag.map(item => renderTag(item.key, list));
+  }, [mapKeys, renderItem, renderTag]);
 
-  const map = {
-    ...dataLists,
-    maincategory_slug: main,
-    category_slug: sub,
-  };
+  const renderTag = useCallback((key, list) => {
+    let found = false;
+
+    if (list) {
+      found = list.find(i => i.key === key || i.slug === key);
+    }
+
+    let display = (found && found.value) || key;
+
+    if (!display) {
+      return;
+    }
+
+    if (moment(display, 'YYYY-MM-DD', true).isValid()) {
+      display = moment(display).format('DD-MM-YYYY');
+    }
+
+    const foundMain = main.find(i => i.key === key);
+
+    display += foundMain ? allLabelAppend : '';
+    // eslint-disable-next-line consistent-return
+    return renderItem(display, key);
+  }, [main, renderItem]);
 
   return (
     <FilterWrapper className="incident-overview-page__filter-tag-list">
       {Object.entries(tags).map(([tagKey, tag]) =>
         Array.isArray(tag)
-          ? renderGroup(tag, main, map[tagKey], tagKey)
-          : renderTag(tag, main, map[tagKey])
+          ? renderGroup(tag, map[tagKey], tagKey)
+          : renderTag(tag, map[tagKey])
       )}
     </FilterWrapper>
   );
