@@ -13,6 +13,7 @@ const dataLists = {
   status: definitions.statusList,
   feedback: definitions.feedbackList,
   stadsdeel: definitions.stadsdeelList,
+  source: definitions.sourceList,
 };
 
 describe('signals/incident-management/containers/FilterTagList', () => {
@@ -119,6 +120,34 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(queryByText('Telefoon – ASC')).toBeInTheDocument();
 
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(10);
+    });
+
+    it('renders tags that have all items selected', () => {
+      const groupedTags = {
+        status: definitions.statusList,
+        stadsdeel: definitions.stadsdeelList,
+        source: definitions.sourceList,
+      }
+
+      const { queryByText } = render(
+        withAppContext(
+          <FilterTagListComponent
+            dataLists={dataLists}
+            tags={groupedTags}
+            categories={categories}
+          />,
+        ),
+      );
+
+      expect(
+        queryByText(`status${allLabelAppend}`)
+      ).toBeInTheDocument();
+      expect(
+        queryByText(`stadsdeel${allLabelAppend}`)
+      ).toBeInTheDocument();
+      expect(
+        queryByText(`bron${allLabelAppend}`)
+      ).toBeInTheDocument();
     });
 
     it('renders no list when tags are undefined', () => {

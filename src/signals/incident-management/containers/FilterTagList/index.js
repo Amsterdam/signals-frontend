@@ -37,7 +37,7 @@ export const FilterTagListComponent = props => {
   const mapKeys = useCallback(key => {
     switch (key) {
       case 'source':
-        return 'Bron';
+        return 'bron';
 
       default:
         return key;
