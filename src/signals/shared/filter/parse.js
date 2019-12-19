@@ -63,7 +63,7 @@ export const parseOutputFormData = form => {
   const {
     name, refresh, id, ...options
   } = parsed;
-  console.log('parse', parsed);
+
   return {
     name, refresh: !!refresh, id, options,
   };
