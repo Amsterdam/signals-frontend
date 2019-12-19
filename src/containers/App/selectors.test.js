@@ -3,13 +3,9 @@ import { initialState } from './reducer';
 
 import {
   selectGlobal,
-  makeSelectUserName,
-  makeSelectAccessToken,
   makeSelectLoading,
   makeSelectError,
   makeSelectNotification,
-  makeSelectLocation,
-  makeSelectIsAuthenticated,
   makeSelectCategories,
 } from './selectors';
 
@@ -24,32 +20,6 @@ describe('selectGlobal', () => {
       global: globalState,
     });
     expect(selectGlobal(mockedState)).toEqual(globalState);
-  });
-});
-
-describe('makeSelectUserName', () => {
-  const userNameSelector = makeSelectUserName();
-  it('should select the current user', () => {
-    const username = 'loggedInUser';
-    const mockedState = fromJS({
-      global: {
-        userName: username,
-      },
-    });
-    expect(userNameSelector(mockedState)).toEqual(username);
-  });
-});
-
-describe('makeSelectAccessToken', () => {
-  const selector = makeSelectAccessToken();
-  it('should select the token', () => {
-    const accessToken = 'thisistheaccesstoken';
-    const mockedState = fromJS({
-      global: {
-        accessToken,
-      },
-    });
-    expect(selector(mockedState)).toEqual(accessToken);
   });
 });
 
@@ -97,32 +67,6 @@ describe('makeSelectNotification', () => {
     });
 
     expect(notificationSelector(mockedState)).toEqual(notification);
-  });
-});
-
-describe('makeSelectLocation', () => {
-  const locationStateSelector = makeSelectLocation();
-  it('should select the location', () => {
-    const route = fromJS({
-      location: { pathname: '/foo' },
-    });
-    const mockedState = fromJS({
-      route,
-    });
-    expect(locationStateSelector(mockedState)).toEqual(route.get('location').toJS());
-  });
-});
-
-describe('makeSelectIsAuthenticated', () => {
-  const isAuthenticatedStateSelector = makeSelectIsAuthenticated();
-  it('should select the login state', () => {
-    const accessToken = 'thisistheaccesstoken';
-    const mockedState = fromJS({
-      global: {
-        accessToken,
-      },
-    });
-    expect(isAuthenticatedStateSelector(mockedState)).toEqual(true);
   });
 });
 

@@ -204,3 +204,9 @@ export const overviewPageType = PropTypes.shape({
   page: PropTypes.number,
   sort: PropTypes.string,
 });
+
+export const permissionsType = PropTypes.arrayOf(PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  codename: PropTypes.string.isRequired,
+}));

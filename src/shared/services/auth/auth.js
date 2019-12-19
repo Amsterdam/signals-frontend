@@ -136,12 +136,15 @@ function getAccessTokenFromParams(params) {
 function handleCallback() {
   const params = queryStringParser(global.location.hash);
   const accessToken = getAccessTokenFromParams(params);
+
   if (accessToken) {
     tokenData = accessTokenParser(accessToken);
     localStorage.setItem(ACCESS_TOKEN, accessToken);
     returnPath = localStorage.getItem(RETURN_PATH);
     localStorage.removeItem(RETURN_PATH);
     localStorage.removeItem(STATE_TOKEN);
+
+    global.localStorage.setItem(ACCESS_TOKEN, accessToken);
 
     // Clean up URL; remove query and hash
     // https://stackoverflow.com/questions/4508574/remove-hash-from-url

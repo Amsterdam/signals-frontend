@@ -4,62 +4,93 @@ import { initialState } from './reducer';
 
 const selectGlobal = state => (state && state.get('global')) || initialState;
 
-const selectRoute = state => state.get('route');
-
-const makeSelectUserName = () => createSelector(
-  selectGlobal,
-  globalState => globalState.get('userName')
+const makeSelectUser = createSelector(selectGlobal, globalState =>
+  globalState.get('user').toJS()
 );
 
-const makeSelectAccessToken = () => createSelector(
-  selectGlobal,
-  globalState => globalState.get('accessToken')
+const makeSelectUserPermissions = createSelector(makeSelectUser, user => {
+  const rolePermissions = user.roles.flatMap(role => role.permissions);
+  const extraPermissions = user.permissions;
+  const permissionSet = new Set(rolePermissions.concat(extraPermissions));
+
+  return Array.from(permissionSet);
+});
+
+const makeSelectUserPermissionCodeNames = createSelector(
+  makeSelectUserPermissions,
+  permissions => permissions.map(({ codename }) => codename)
 );
 
-const makeSelectUserPermissions = () => createSelector(
-  selectGlobal,
-  globalState => globalState.get('userPermissions').toJS()
+const makeSelectUserCan = createSelector(
+  makeSelectUser,
+  makeSelectUserPermissionCodeNames,
+  ({ is_superuser }, permissions) => capability => {
+    if (is_superuser) {
+      return true;
+    }
+
+    const hasPermission = permissions.find(codename => codename === capability);
+
+    return Boolean(hasPermission);
+  }
 );
 
-const makeSelectLoading = () => createSelector(
-  selectGlobal,
-  globalState => globalState.get('loading')
+const makeSelectUserCanAccess = createSelector(
+  makeSelectUser,
+  makeSelectUserPermissionCodeNames,
+  ({ is_superuser }, permissions) => section => {
+    if (is_superuser) {
+      return true;
+    }
+
+    const groups = ['view_group', 'change_group', 'add_group', 'poop'];
+    const users = ['view_user', 'add_user', 'change_user'];
+
+    const requiredPerms = {
+      settings: [groups, users],
+      groups: [groups],
+      users: [users],
+    };
+
+    if (!Object.keys(requiredPerms).includes(section)) {
+      return false;
+    }
+
+    // require all sets of permissions
+    const hasRequiredPerms = requiredPerms[section].every(sectionPerms =>
+      // from each set, require at least one permission
+      sectionPerms.some(perm => permissions.includes(perm))
+    );
+
+    return hasRequiredPerms;
+  }
 );
 
-const makeSelectError = () => createSelector(
-  selectGlobal,
-  globalState => globalState.get('error')
-);
+const makeSelectLoading = () =>
+  createSelector(selectGlobal, globalState => globalState.get('loading'));
 
-const makeSelectNotification = () => createSelector(
-  selectGlobal,
-  globalState => globalState.get('notification').toJS());
+const makeSelectError = () =>
+  createSelector(selectGlobal, globalState => globalState.get('error'));
 
-const makeSelectLocation = () => createSelector(
-  selectRoute,
-  routeState => routeState.get('location').toJS()
-);
+const makeSelectNotification = () =>
+  createSelector(selectGlobal, globalState =>
+    globalState.get('notification').toJS()
+  );
 
-const makeSelectIsAuthenticated = () => createSelector(
-  selectGlobal,
-  globalState => !globalState.get('accessToken') === false
-);
-
-const makeSelectCategories = () => createSelector(
-  selectGlobal,
-  globalState => globalState.get('categories').toJS()
-);
-
+const makeSelectCategories = () =>
+  createSelector(selectGlobal, globalState =>
+    globalState.get('categories').toJS()
+  );
 
 export {
-  makeSelectAccessToken,
   makeSelectCategories,
   makeSelectError,
-  makeSelectIsAuthenticated,
   makeSelectLoading,
-  makeSelectLocation,
   makeSelectNotification,
-  makeSelectUserName,
+  makeSelectUser,
+  makeSelectUserCan,
+  makeSelectUserCanAccess,
+  makeSelectUserPermissionCodeNames,
   makeSelectUserPermissions,
   selectGlobal,
 };
