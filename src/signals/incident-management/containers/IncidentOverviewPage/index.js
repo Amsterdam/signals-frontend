@@ -11,7 +11,6 @@ import MyFilters from 'signals/incident-management/containers/MyFilters';
 import PageHeader from 'containers/PageHeader';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectCategories } from 'containers/App/selectors';
 import {
   makeSelectDataLists,
   makeSelectActiveFilter,
@@ -202,7 +201,6 @@ IncidentOverviewPageContainerComponent.defaultProps = {
 
 IncidentOverviewPageContainerComponent.propTypes = {
   activeFilter: types.filterType,
-  categories: types.categoriesType.isRequired,
   dataLists: types.dataListsType.isRequired,
   incidentsCount: PropTypes.number,
   onChangeOrdering: PropTypes.func.isRequired,
@@ -215,7 +213,6 @@ IncidentOverviewPageContainerComponent.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   activeFilter: makeSelectActiveFilter,
-  categories: makeSelectCategories(),
   dataLists: makeSelectDataLists,
   incidentsCount: makeSelectIncidentsCount,
   ordering: makeSelectOrdering,

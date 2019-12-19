@@ -43,20 +43,61 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     expect(props.categories).not.toBeUndefined();
   });
 
-  it('formats a date value', () => {
-    const { queryByText } = render(
-      withIntlAppContext(
-        <FilterTagListComponent
-          dataLists={dataLists}
-          tags={tags}
-          categories={categories}
-        />,
-        translations,
-      ),
-    );
+  describe('date formatting', () => {
+    it('renders created before', () => {
+      const { queryByText } = render(
+        withIntlAppContext(
+          <FilterTagListComponent
+            dataLists={dataLists}
+            tags={{ ...tags, created_before: '2019-09-23' }}
+            categories={categories}
+          />,
+          translations
+        )
+      );
 
-    expect(queryByText(tags.incident_date)).not.toBeInTheDocument();
-    expect(queryByText('17-09-2019')).toBeInTheDocument();
+      const createdBeforeLabel = 'Datum: t/m 23-09-2019';
+
+      expect(queryByText(createdBeforeLabel)).toBeInTheDocument();
+    });
+
+    it('renders date after', () => {
+      const { queryByText } = render(
+        withIntlAppContext(
+          <FilterTagListComponent
+            dataLists={dataLists}
+            tags={{ ...tags, created_after: '2019-09-17' }}
+            categories={categories}
+          />,
+          translations
+        )
+      );
+
+      const createdAfterLabel = 'Datum: 17-09-2019 t/m nu';
+
+      expect(queryByText(createdAfterLabel)).toBeInTheDocument();
+    });
+
+    it('renders both date after and date before', () => {
+      const { queryByText } = render(
+        withIntlAppContext(
+          <FilterTagListComponent
+            dataLists={dataLists}
+            tags={{
+              ...tags,
+              created_before: '2019-09-23',
+              created_after: '2019-09-17',
+            }}
+            categories={categories}
+          />,
+          translations
+        )
+      );
+
+      const createdBeforeAfterLabel = 'Datum: 17-09-2019 t/m 23-09-2019';
+
+      expect(queryByText(createdBeforeAfterLabel)).toBeInTheDocument();
+    });
   });
 
   describe('tags list', () => {

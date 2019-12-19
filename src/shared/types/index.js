@@ -49,8 +49,9 @@ export const apiFilterType = PropTypes.shape({
   options: PropTypes.shape({
     address_text: PropTypes.string,
     category_slug: PropTypes.arrayOf(PropTypes.string),
+    created_after: PropTypes.string,
+    created_before: PropTypes.string,
     feedback: PropTypes.string,
-    incident_date: PropTypes.string,
     maincategory_slug: PropTypes.arrayOf(PropTypes.string),
     priority: PropTypes.arrayOf(PropTypes.string),
     stadsdeel: PropTypes.arrayOf(PropTypes.string),
@@ -69,8 +70,9 @@ export const filterType = PropTypes.shape({
   options: PropTypes.shape({
     address_text: PropTypes.string,
     category_slug: PropTypes.arrayOf(dataItemType),
+    created_after: PropTypes.string,
+    created_before: PropTypes.string,
     feedback: PropTypes.string,
-    incident_date: PropTypes.string,
     maincategory_slug: PropTypes.arrayOf(dataItemType),
     priority: PropTypes.string,
     stadsdeel: PropTypes.arrayOf(dataItemType),
