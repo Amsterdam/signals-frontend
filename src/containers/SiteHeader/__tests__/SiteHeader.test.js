@@ -12,4 +12,13 @@ describe('containers/SiteHeader', () => {
     expect(containerProps.onLogOut).not.toBeUndefined();
     expect(typeof containerProps.onLogOut).toEqual('function');
   });
+
+  it('should have props from structured selector', () => {
+    const tree = mount(withAppContext(<SiteHeader />));
+
+    const props = tree.find(SiteHeaderContainer).props();
+
+    expect(props.userCan).not.toBeUndefined();
+    expect(props.userCanAccess).not.toBeUndefined();
+  });
 });

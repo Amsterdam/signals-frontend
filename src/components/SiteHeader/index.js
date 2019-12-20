@@ -179,7 +179,7 @@ const HeaderWrapper = styled.div`
     `}
 `;
 
-const MenuItems = ({ onLogOut, show }) => {
+const MenuItems = ({ onLogOut, showItems }) => {
   const showLogout = isAuthenticated();
 
   return (
@@ -203,7 +203,7 @@ const MenuItems = ({ onLogOut, show }) => {
         </StyledMenuButton>
       </MenuItem>
 
-      {show.defaultTexts && (
+      {showItems.defaultTexts && (
         <MenuItem element="span">
           <StyledMenuButton $as={NavLink} to="/manage/standaard/teksten">
             Standaard teksten
@@ -211,15 +211,15 @@ const MenuItems = ({ onLogOut, show }) => {
         </MenuItem>
       )}
 
-      {show.settings && (
+      {showItems.settings && (showItems.users || showItems.groups) && (
         <StyledMenuFlyout label="Instellingen">
-          {show.users && (
+          {showItems.users && (
             <StyledMenuButton $as={NavLink} to="/instellingen/gebruikers">
               Gebruikers
             </StyledMenuButton>
           )}
 
-          {show.groups && (
+          {showItems.groups && (
             <StyledMenuButton $as={NavLink} to="/instellingen/rollen">
               Rollen
             </StyledMenuButton>
@@ -295,11 +295,12 @@ export const SiteHeader = props => {
 
 SiteHeader.defaultProps = {
   onLogOut: undefined,
+  showItems: {},
 };
 
 SiteHeader.propTypes = {
   onLogOut: PropTypes.func,
-  show: PropTypes.shape({}),
+  showItems: PropTypes.shape({}),
 };
 
 MenuItems.propTypes = SiteHeader.propTypes;

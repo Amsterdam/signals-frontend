@@ -8,62 +8,93 @@ const makeSelectUser = createSelector(selectGlobal, globalState =>
   globalState.get('user').toJS()
 );
 
+/**
+ * Selector that returns the list of permissions for the current user
+ *
+ * @returns {Object[]} - All permissions from assigned roles combined with extra permissions
+ */
 const makeSelectUserPermissions = createSelector(makeSelectUser, user => {
-  const rolePermissions = user.roles.flatMap(role => role.permissions);
-  const extraPermissions = user.permissions;
-  const permissionSet = new Set(rolePermissions.concat(extraPermissions));
+  const permissionMap = new Map();
 
-  return Array.from(permissionSet);
+  user.roles
+    .flatMap(role => role.permissions)
+    .concat(user.permissions)
+    .forEach(perm => {
+      permissionMap.set(perm.id, perm);
+    });
+
+  return Array.from(permissionMap.values());
 });
 
+/**
+ * Selector that returns the list of permission codes for the current user
+ *
+ * @returns {String[]} - All permissions from assigned roles combined with extra permissions
+ */
 const makeSelectUserPermissionCodeNames = createSelector(
   makeSelectUserPermissions,
   permissions => permissions.map(({ codename }) => codename)
 );
 
+/**
+ * Selector that queries the user's permissions and returna a boolean
+ * when that permission is present.
+ */
 const makeSelectUserCan = createSelector(
-  makeSelectUser,
-  makeSelectUserPermissionCodeNames,
-  ({ is_superuser }, permissions) => capability => {
-    if (is_superuser) {
-      return true;
+  [makeSelectUser, makeSelectUserPermissionCodeNames],
+  ({ is_superuser }, permissions) =>
+    /**
+     * @param {String} capability - The permission to check for
+     */
+    capability => {
+      if (is_superuser) {
+        return true;
+      }
+
+      const hasPermission = permissions.find(
+        codename => codename === capability
+      );
+
+      return Boolean(hasPermission);
     }
-
-    const hasPermission = permissions.find(codename => codename === capability);
-
-    return Boolean(hasPermission);
-  }
 );
 
+/**
+ * Selector that queries a subset of the user's permissions. Useful for determining
+ * if a user should have access to a specific section of the application.
+ */
 const makeSelectUserCanAccess = createSelector(
-  makeSelectUser,
-  makeSelectUserPermissionCodeNames,
-  ({ is_superuser }, permissions) => section => {
-    if (is_superuser) {
-      return true;
+  [makeSelectUser, makeSelectUserPermissionCodeNames],
+  ({ is_superuser }, permissions) =>
+    /**
+     * @param {String} section - The set of permissions to check for
+     */
+    section => {
+      if (is_superuser) {
+        return true;
+      }
+
+      const groups = ['view_group', 'change_group', 'add_group'];
+      const users = ['view_user', 'add_user', 'change_user'];
+
+      const requiredPerms = {
+        settings: [groups, users],
+        groups: [groups],
+        users: [users],
+      };
+
+      if (!Object.keys(requiredPerms).includes(section)) {
+        return false;
+      }
+
+      // require all sets of permissions
+      const hasRequiredPerms = requiredPerms[section].every(sectionPerms =>
+        // from each set, require at least one permission
+        sectionPerms.some(perm => permissions.includes(perm))
+      );
+
+      return hasRequiredPerms;
     }
-
-    const groups = ['view_group', 'change_group', 'add_group', 'poop'];
-    const users = ['view_user', 'add_user', 'change_user'];
-
-    const requiredPerms = {
-      settings: [groups, users],
-      groups: [groups],
-      users: [users],
-    };
-
-    if (!Object.keys(requiredPerms).includes(section)) {
-      return false;
-    }
-
-    // require all sets of permissions
-    const hasRequiredPerms = requiredPerms[section].every(sectionPerms =>
-      // from each set, require at least one permission
-      sectionPerms.some(perm => permissions.includes(perm))
-    );
-
-    return hasRequiredPerms;
-  }
 );
 
 const makeSelectLoading = () =>

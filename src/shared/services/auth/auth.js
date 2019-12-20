@@ -58,7 +58,7 @@ const RETURN_PATH = 'returnPath';
 const STATE_TOKEN = 'stateToken';
 // The access token returned by the OAuth2 authorization service
 // containing user userScopes and name
-export const ACCESS_TOKEN = 'accessToken';
+const ACCESS_TOKEN = 'accessToken';
 
 const OAUTH_DOMAIN = 'oauthDomain';
 
@@ -143,8 +143,6 @@ function handleCallback() {
     returnPath = localStorage.getItem(RETURN_PATH);
     localStorage.removeItem(RETURN_PATH);
     localStorage.removeItem(STATE_TOKEN);
-
-    global.localStorage.setItem(ACCESS_TOKEN, accessToken);
 
     // Clean up URL; remove query and hash
     // https://stackoverflow.com/questions/4508574/remove-hash-from-url

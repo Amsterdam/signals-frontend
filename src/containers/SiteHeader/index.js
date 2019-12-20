@@ -14,7 +14,7 @@ import { doLogout } from '../App/actions';
 export const SiteHeaderContainer = ({ onLogOut, userCan, userCanAccess }) => (
   <SiteHeader
     onLogOut={onLogOut}
-    show={{
+    showItems={{
       defaultTexts: userCan('sia_statusmessagetemplate_write'),
       groups: userCanAccess('groups'),
       settings: userCanAccess('settings'),
