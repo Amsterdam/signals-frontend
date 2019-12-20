@@ -10,6 +10,7 @@ const CalendarInput = ({ id, label, name, onSelect, selectedDate }) => (
       autoComplete="off"
       customInput={<CustomInput label={label} id={id} />}
       dateFormat="DD-MM-YYYY"
+      id={id}
       locale="nl"
       onSelect={onSelect}
       selected={selectedDate}
