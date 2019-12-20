@@ -506,8 +506,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       const { container } = render(
         withAppContext(
           <FilterForm
-            {...formProps}
-            {...handlers}
+            {...{...formProps, ...handlers}}
             filter={{
               name: '',
               options: { incident_date: '1970-01-01' },
@@ -545,8 +544,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       const { container } = render(
         withAppContext(
           <FilterForm
-            {...formProps}
-            {...handlers}
+            {...{...formProps, ...handlers}}
             filter={{
               name: 'My filter',
               options: {
