@@ -51,11 +51,7 @@ const makeSelectUserCan = createSelector(
         return true;
       }
 
-      const hasPermission = permissions.find(
-        codename => codename === capability
-      );
-
-      return Boolean(hasPermission);
+      return Boolean(permissions.find(codename => codename === capability));
     }
 );
 
@@ -88,12 +84,10 @@ const makeSelectUserCanAccess = createSelector(
       }
 
       // require all sets of permissions
-      const hasRequiredPerms = requiredPerms[section].every(sectionPerms =>
+      return requiredPerms[section].every(sectionPerms =>
         // from each set, require at least one permission
         sectionPerms.some(perm => permissions.includes(perm))
       );
-
-      return hasRequiredPerms;
     }
 );
 
