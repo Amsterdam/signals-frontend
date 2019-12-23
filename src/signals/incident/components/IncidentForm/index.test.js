@@ -30,7 +30,6 @@ const mockForm = {
       meta: {
         label: 'Wat is uw email?',
         type: 'text',
-        doNotUpdateValue: true,
         isVisible: true,
       },
     },
@@ -66,7 +65,7 @@ describe('<IncidentForm />', () => {
     };
 
     formatConditionalForm.mockImplementation(() => mockForm);
-    jest.useFakeTimers();
+    // jest.useFakeTimers();
 
     wrapper = mount(
       <IncidentForm {...props} />
@@ -87,8 +86,8 @@ describe('<IncidentForm />', () => {
   });
 
   afterEach(() => {
-    jest.runAllTimers();
-    jest.resetAllMocks();
+    // jest.runAllTimers();
+    // jest.resetAllMocks();
   });
 
   describe('rendering', () => {

@@ -53,7 +53,6 @@ const mockForm = {
     not_update: {
       meta: {
         isVisible: true,
-        doNotUpdateValue: true,
       },
     },
   },

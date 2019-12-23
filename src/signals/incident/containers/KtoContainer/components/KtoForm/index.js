@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FormGenerator } from 'react-reactive-form';
-import defer from 'lodash.defer';
 import isEqual from 'lodash.isequal';
 
 import ktoDefinition from 'signals/incident/definitions/kto';
@@ -46,20 +45,18 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
   }
 
   setValues(incident) {
-    defer(() => {
-      Object.keys(this.form.controls).map(key => {
-        const control = this.form.controls[key];
-        if (control.meta.isVisible) {
-          control.enable();
-        } else {
-          control.disable();
-        }
-        if (!control.meta.doNotUpdateValue) {
-          control.setValue(incident[key]);
-        }
-        return true;
-      });
+    Object.keys(this.form.controls).map(key => {
+      const control = this.form.controls[key];
+      if (control.meta.isVisible) {
+        control.enable();
+      } else {
+        control.disable();
+      }
+      control.setValue(incident[key]);
+      return true;
     });
+
+    this.form.updateValueAndValidity();
   }
 
   setForm = form => {
