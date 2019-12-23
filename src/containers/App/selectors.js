@@ -47,8 +47,8 @@ const makeSelectUserCan = createSelector(
      * @param {String} capability - The permission to check for
      */
     capability => {
-      if (is_superuser) {
-        return true;
+      if (is_superuser !== false) {
+        return is_superuser;
       }
 
       return Boolean(permissions.find(codename => codename === capability));
@@ -66,8 +66,8 @@ const makeSelectUserCanAccess = createSelector(
      * @param {String} section - The set of permissions to check for
      */
     section => {
-      if (is_superuser) {
-        return true;
+      if (is_superuser !== false) {
+        return is_superuser;
       }
 
       const groups = ['view_group', 'change_group', 'add_group'];
