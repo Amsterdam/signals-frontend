@@ -46,6 +46,12 @@ export const UserDetailContainerComponent = ({
   );
   const shouldRenderForm = !isExistingUser || (isExistingUser && Boolean(data));
   const redirectURL = location.referrer || routes.users;
+  const userCanSubmitForm = useMemo(
+    () =>
+      (isExistingUser && userCan('change_user')) ||
+      (!isExistingUser && userCan('add_user')),
+    [isExistingUser, userCan]
+  );
 
   const getFormData = useCallback(
     e =>
@@ -99,10 +105,7 @@ export const UserDetailContainerComponent = ({
 
   const onSubmitForm = useCallback(
     e => {
-      if (
-        (isExistingUser && userCan('change_user') === false) ||
-        (!isExistingUser && userCan('add_user') === false)
-      ) {
+      if (!userCanSubmitForm) {
         return;
       }
 
@@ -120,7 +123,7 @@ export const UserDetailContainerComponent = ({
         post(formData);
       }
     },
-    [data, getFormData, patch, isExistingUser, post, userCan]
+    [data, getFormData, patch, isExistingUser, userCanSubmitForm, post]
   );
 
   const onCancel = useCallback(
@@ -161,6 +164,7 @@ export const UserDetailContainerComponent = ({
               data={data}
               onCancel={onCancel}
               onSubmitForm={onSubmitForm}
+              readOnly={!userCanSubmitForm}
             />
           )}
         </StyledColumn>
