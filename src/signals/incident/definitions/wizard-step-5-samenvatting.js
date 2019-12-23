@@ -389,6 +389,43 @@ export default {
         render: PreviewComponents.PlainText,
         optional: true,
       },
+
+      // wonen - woningdelen
+      extra_wonen_woningdelen_vermoeden: {
+        label: 'Vermoeden',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
+      extra_wonen_woningdelen_eigenaar: {
+        label: 'Eigenaar',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
+      extra_wonen_woningdelen_adres_huurder: {
+        label: 'Adres huurder',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_woningdelen_bewoners_familie: {
+        label: 'Bewoners familie',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_woningdelen_samenwonen: {
+        label: 'Samenwonen',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_woningdelen_wisselende_bewoners: {
+        label: 'Wisselende bewoners',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_woningdelen_iemand_aanwezig: {
+        label: 'Iemand aanwezig',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
     },
 
     telefoon: {
