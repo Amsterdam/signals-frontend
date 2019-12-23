@@ -24,6 +24,19 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     expect(container.querySelectorAll('[name="is_active"]')[1].checked).toBe(false);
   });
 
+  it('should make fields disabled', () => {
+    const { container, rerender, queryByText } = render(withAppContext(<UserForm />));
+    const numFields = container.querySelectorAll('input').length;
+
+    expect(container.querySelectorAll('[disabled]')).toHaveLength(0);
+    expect(queryByText('Opslaan')).toBeInTheDocument();
+
+    rerender(withAppContext(<UserForm readOnly />));
+
+    expect(container.querySelectorAll('[disabled]')).toHaveLength(numFields);
+    expect(queryByText('Opslaan')).not.toBeInTheDocument();
+  });
+
   it('should set field values', () => {
     const data = {
       first_name: 'Foo',

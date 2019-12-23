@@ -105,9 +105,7 @@ export const UserDetailContainerComponent = ({
 
   const onSubmitForm = useCallback(
     e => {
-      if (!userCanSubmitForm) {
-        return;
-      }
+      if (!userCanSubmitForm) return;
 
       e.preventDefault();
 

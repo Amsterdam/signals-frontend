@@ -20,15 +20,21 @@ const StyledInput = styled(Input)`
   margin-bottom: ${themeSpacing(8)};
 `;
 
-export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole }) => {
+export const RoleForm = ({
+  role,
+  permissions,
+  onPatchRole,
+  onSaveRole,
+  readOnly,
+}) => {
   const formRef = useRef(null);
   const { isValid, validate, errors, event } = useFormValidation(formRef);
 
   useEffect(() => {
-    if (isValid) {
+    if (isValid && !readOnly) {
       handleSubmit(event);
     }
-  }, [event, isValid, handleSubmit, errors]);
+  }, [event, isValid, handleSubmit, errors, readOnly]);
 
   const history = useHistory();
 
@@ -71,20 +77,22 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole }) => {
     <div data-testid="rolesForm">
       <form ref={formRef} noValidate>
         <StyledInput
-          label="Naam"
-          name="name"
-          type="text"
-          error={errors.name || null}
-          id="name"
           data-testid="rolesFormFieldName"
           defaultValue={role.name}
+          disabled={readOnly}
+          error={errors.name || null}
+          id="name"
+          label="Naam"
+          name="name"
           required
+          type="text"
         />
 
         <Label label="Rechten" />
         {permissions.map(permission => (
           <div key={permission.id}>
             <FieldLabel
+              disabled={readOnly}
               htmlFor={`permission${permission.id}`}
               label={permission.name}
             >
@@ -98,18 +106,21 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole }) => {
           </div>
         ))}
 
-        <FormFooter
-          onSubmitForm={validate}
-          submitBtnLabel="Opslaan"
-          onCancel={handleCancel}
-          cancelBtnLabel="Annuleer"
-        />
+        {!readOnly && (
+          <FormFooter
+            cancelBtnLabel="Annuleer"
+            onCancel={handleCancel}
+            onSubmitForm={validate}
+            submitBtnLabel="Opslaan"
+          />
+        )}
       </form>
     </div>
   );
 };
 
 RoleForm.defaultProps = {
+  readOnly: false,
   role: {
     name: '',
     permissions: [],
@@ -136,6 +147,8 @@ RoleForm.propTypes = {
 
   onPatchRole: PropTypes.func.isRequired,
   onSaveRole: PropTypes.func.isRequired,
+  /** When true, will not allow to submit the form and render all fields disabled */
+  readOnly: PropTypes.bool,
 };
 
 export default RoleForm;

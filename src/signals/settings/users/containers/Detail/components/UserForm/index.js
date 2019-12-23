@@ -106,6 +106,7 @@ UserForm.propTypes = {
   }),
   onCancel: PropTypes.func,
   onSubmitForm: PropTypes.func,
+  /** When true, none of the fields in the form can be edited */
   readOnly: PropTypes.bool,
 };
 

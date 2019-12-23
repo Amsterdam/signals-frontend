@@ -32,7 +32,7 @@ const HeaderButton = styled(Button)`
   }
 `;
 
-const UsersOverview = ({ pageSize, userCan }) => {
+export const UsersOverviewContainer = ({ pageSize, userCan }) => {
   const history = useHistory();
   const { pageNum } = useParams();
   const [page, setPage] = useState(1);
@@ -126,11 +126,11 @@ const UsersOverview = ({ pageSize, userCan }) => {
   );
 };
 
-UsersOverview.defaultProps = {
+UsersOverviewContainer.defaultProps = {
   pageSize: 30,
 };
 
-UsersOverview.propTypes = {
+UsersOverviewContainer.propTypes = {
   pageSize: PropTypes.number,
   userCan: PropTypes.func.isRequired,
 };
@@ -141,4 +141,4 @@ const mapStateToProps = createStructuredSelector({
 
 const withConnect = connect(mapStateToProps);
 
-export default compose(withConnect)(UsersOverview);
+export default compose(withConnect)(UsersOverviewContainer);

@@ -17,6 +17,7 @@ describe('signals/settings/roles/containers/RolesListContainer', () => {
     },
     onFetchRoles: jest.fn(),
     onResetResponse: jest.fn(),
+    userCan: jest.fn(() => true),
   };
 
   it('should lazy load correctly', () => {
@@ -48,6 +49,16 @@ describe('signals/settings/roles/containers/RolesListContainer', () => {
     expect(queryByTestId('rolesList')).toBeInTheDocument();
 
     expect(container.querySelector('h1')).toHaveTextContent(/^Rollen$/);
+  });
+
+  it('should render an "Add group" button', () => {
+    const { queryByText, rerender } = render(withAppContext(<RolesListContainer {...props} />));
+
+    expect(queryByText('Rol toevoegen')).toBeInTheDocument();
+
+    rerender(withAppContext(<RolesListContainer {...props} userCan={() => false} />));
+
+    expect(queryByText('Rol toevoegen')).not.toBeInTheDocument();
   });
 
   it('should fetch roles and permissions by default', () => {

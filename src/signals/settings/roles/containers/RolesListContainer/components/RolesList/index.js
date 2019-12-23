@@ -15,18 +15,23 @@ const StyledListComponent = styled(ListComponent)`
   }
 `;
 
-export const RolesList = ({ list }) => {
+export const RolesList = ({ linksEnabled, list }) => {
   const history = useHistory();
 
   const onItemClick = useCallback(
     e => {
+      if (!linksEnabled) {
+        e.preventDefault();
+        return;
+      }
+
       const roleId = e.currentTarget.getAttribute('data-item-id');
       /* istanbul ignore else */
       if (roleId > -1) {
         history.push(`${ROLE_URL}/${roleId}`);
       }
     },
-    [history]
+    [history, linksEnabled]
   );
 
   return (
@@ -42,10 +47,12 @@ export const RolesList = ({ list }) => {
 };
 
 RolesList.defaultProps = {
+  linksEnabled: true,
   list: [],
 };
 
 RolesList.propTypes = {
+  linksEnabled: PropTypes.bool,
   list: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,

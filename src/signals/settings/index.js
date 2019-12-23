@@ -39,50 +39,47 @@ export const SettingsModule = ({ userCan, userCanAccess }) => {
     return <Route component={LoginPage} />;
   }
 
+  if (userCanAccess('settings') === false) {
+    return <Redirect to="/manage/incidents" />;
+  }
+
   return (
-    <Switch location={location}>
-      {userCanAccess('settings') === false && (
-        <Redirect to="/manage/incidents" />
-      )}
-
-      {/*
-       * always redirect from /gebruikers to /gebruikers/page/1 to avoid having complexity
-       * in the UsersOverviewContainer component
-       */}
-      <Redirect exact from={routes.users} to={`${USERS_PAGED_URL}/1`} />
-
-      {userCanAccess('users') && (
-        <Fragment>
-          <Route
-            exact
-            path={routes.usersPaged}
-            component={UsersOverviewContainer}
-          />
-          {(userCan('view_user') || userCan('change_user')) && (
-            <Route exact path={routes.user} component={UsersDetailContainer} />
-          )}
-          {userCan('add_user') && (
-            <Route exact path={USER_URL} component={UsersDetailContainer} />
-          )}
-        </Fragment>
-      )}
-
+    <Fragment>
       {userCanAccess('groups') && (
-        <Route exact path={routes.roles} component={RolesListContainer} />
-      )}
+        <Switch location={location}>
+          <Route exact path={routes.roles} component={RolesListContainer} />
 
-      {userCanAccess('groups') && (
-        <Fragment>
-
-          {(userCan('view_group') || userCan('change_group')) && (
+          {userCanAccess('groupForm') && (
             <Route exact path={routes.role} component={RoleFormContainer} />
           )}
           {userCan('add_group') && (
             <Route exact path={ROLE_URL} component={RoleFormContainer} />
           )}
-        </Fragment>
+        </Switch>
       )}
-    </Switch>
+
+      {userCanAccess('users') && (
+        <Switch location={location}>
+          {/*
+           * always redirect from /gebruikers to /gebruikers/page/1 to avoid having complexity
+           * in the UsersOverviewContainer component
+           */}
+          <Redirect exact from={routes.users} to={`${USERS_PAGED_URL}/1`} />
+          <Route
+            exact
+            path={routes.usersPaged}
+            component={UsersOverviewContainer}
+          />
+
+          {userCanAccess('userForm') && (
+            <Route exact path={routes.user} component={UsersDetailContainer} />
+          )}
+          {userCan('add_user') && (
+            <Route exact path={USER_URL} component={UsersDetailContainer} />
+          )}
+        </Switch>
+      )}
+    </Fragment>
   );
 };
 

@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import PageHeader from 'signals/settings/components/PageHeader';
 
+import { makeSelectUserCan } from 'containers/App/selectors';
 import makeSelectRolesModel from 'models/roles/selectors';
 import { fetchRoles, resetResponse } from 'models/roles/actions';
 import { ROLE_URL } from 'signals/settings/routes';
@@ -23,13 +24,10 @@ const HeaderButton = styled(Button)`
 `;
 
 export const RolesListContainer = ({
-  roles: {
-    list,
-    loading,
-    loadingPermissions,
-  },
+  roles: { list, loading, loadingPermissions },
   onFetchRoles,
   onResetResponse,
+  userCan,
 }) => {
   useEffect(() => {
     onFetchRoles();
@@ -39,13 +37,22 @@ export const RolesListContainer = ({
   return (
     <Fragment>
       <PageHeader title="Rollen">
-        <HeaderButton variant="primary" $as={Link} to={ROLE_URL}>
-          Rol toevoegen
-        </HeaderButton>
+        {userCan('add_group') && (
+          <HeaderButton variant="primary" $as={Link} to={ROLE_URL}>
+            Rol toevoegen
+          </HeaderButton>
+        )}
       </PageHeader>
       <Row>
         <Column span={12}>
-          {loading || loadingPermissions ? <LoadingIndicator /> : <RolesList list={list} />}
+          {loading || loadingPermissions ? (
+            <LoadingIndicator />
+          ) : (
+            <RolesList
+              list={list}
+              linksEnabled={userCan('view_group') || userCan('change_group')}
+            />
+          )}
         </Column>
       </Row>
     </Fragment>
@@ -79,17 +86,22 @@ RolesListContainer.propTypes = {
 
   onFetchRoles: PropTypes.func.isRequired,
   onResetResponse: PropTypes.func.isRequired,
+  userCan: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   roles: makeSelectRolesModel,
+  userCan: makeSelectUserCan,
 });
 
-export const mapDispatchToProps = dispatch => bindActionCreators({
-  onFetchRoles: fetchRoles,
-  onResetResponse: resetResponse,
-
-}, dispatch);
+export const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onFetchRoles: fetchRoles,
+      onResetResponse: resetResponse,
+    },
+    dispatch
+  );
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
