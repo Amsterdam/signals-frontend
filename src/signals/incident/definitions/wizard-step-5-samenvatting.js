@@ -390,7 +390,8 @@ export default {
         optional: true,
       },
 
-      // wonen - woningdelen
+
+      // wonen
       extra_wonen_woningdelen_vermoeden: {
         label: 'Vermoeden',
         render: PreviewComponents.PlainText,
@@ -406,11 +407,18 @@ export default {
         render: PreviewComponents.ObjectValue,
         optional: true,
       },
-      extra_wonen_woningdelen_bewoners_familie: {
+
+      extra_wonen_aantal_personen: {
+        label: 'Aantal personen',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_bewoners_familie: {
         label: 'Bewoners familie',
         render: PreviewComponents.ObjectValue,
         optional: true,
       },
+
       extra_wonen_woningdelen_samenwonen: {
         label: 'Samenwonen',
         render: PreviewComponents.ObjectValue,

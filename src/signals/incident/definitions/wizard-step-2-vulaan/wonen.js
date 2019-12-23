@@ -70,7 +70,9 @@ export default {
       },
       render: FormComponents.RadioInput,
     },
-    extra_wonen_woningdelen_aantal_personen: {
+
+
+    extra_wonen_aantal_personen: {
       meta: {
         ifOneOf: {
           subcategory: [
@@ -95,13 +97,13 @@ export default {
       },
       render: FormComponents.RadioInput,
     },
-    extra_wonen_woningdelen_bewoners_familie: {
+    extra_wonen_bewoners_familie: {
       meta: {
         ifAllOf: {
           subcategory: 'woningdelen',
         },
         ifOneOf: {
-          extra_wonen_woningdelen_aantal_personen: [
+          extra_wonen_aantal_personen: [
             'drie_personen',
             'vier_personen',
             'vijf_of_meer_personen',
@@ -122,13 +124,15 @@ export default {
       },
       render: FormComponents.RadioInput,
     },
+
+
     extra_wonen_woningdelen_samenwonen: {
       meta: {
         ifAllOf: {
           subcategory: 'woningdelen',
         },
         ifOneOf: {
-          extra_wonen_woningdelen_aantal_personen: [
+          extra_wonen_aantal_personen: [
             'drie_personen',
             'vier_personen',
             'vijf_of_meer_personen',
