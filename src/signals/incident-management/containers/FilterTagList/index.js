@@ -30,19 +30,19 @@ export const mapKeys = key => {
       return key;
   }
 }
+const renderItem = (display, key) => (
+  <StyledTag
+    colorType="tint"
+    colorSubtype="level3"
+    key={key}
+    data-testid="filterTagListTag"
+  >
+    {display}
+  </StyledTag>);
 
 const renderGroup = (tag, main, list, tagKey) => {
   if (tag.length === list.length) {
-    return (
-      <StyledTag
-        colorType="tint"
-        colorSubtype="level3"
-        key={tagKey}
-        data-testid="filterTagListTag"
-      >
-        {mapKeys(tagKey)}{allLabelAppend}
-      </StyledTag>
-    );
+    return renderItem(`${mapKeys(tagKey)}${allLabelAppend}`, tagKey);
   }
   return tag.map(item => renderTag(item.key, main, list));
 };
@@ -67,16 +67,7 @@ const renderTag = (key, mainCategories, list) => {
 
   display += foundMain ? allLabelAppend : '';
   // eslint-disable-next-line consistent-return
-  return (
-    <StyledTag
-      colorType="tint"
-      colorSubtype="level3"
-      key={key}
-      data-testid="filterTagListTag"
-    >
-      {display}
-    </StyledTag>
-  );
+  return renderItem(display, key);
 };
 
 export const FilterTagListComponent = props => {
