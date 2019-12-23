@@ -11,6 +11,8 @@ import UsersOverviewContainer from './users/containers/Overview';
 import RolesListContainer from './roles/containers/RolesListContainer';
 import RoleFormContainer from './roles/containers/RoleFormContainer';
 import UsersDetailContainer from './users/containers/Detail';
+import DepartmentsOverviewContainer from './departments/Overview';
+import DepartmentsDetailContainer from './departments/Detail';
 
 export const SettingsModule = () => {
   const moduleLocation = useLocation();
@@ -53,6 +55,9 @@ export const SettingsModule = () => {
       <Route exact path={routes.roles} component={RolesListContainer} />
       <Route exact path={routes.role} component={RoleFormContainer} />
       <Route exact path={ROLE_URL} component={RoleFormContainer} />
+
+      <Route exact path={routes.departments} component={DepartmentsOverviewContainer} />
+      <Route exact path={routes.department} component={DepartmentsDetailContainer} />
       <Route component={NotFoundPage} />
     </Switch >
   );
