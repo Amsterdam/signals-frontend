@@ -21,7 +21,7 @@ const StyledTag = styled(Tag)`
 
 export const allLabelAppend = ': Alles';
 
-const mapKeys = key => {
+export const mapKeys = key => {
   switch (key) {
     case 'source':
       return 'Bron'

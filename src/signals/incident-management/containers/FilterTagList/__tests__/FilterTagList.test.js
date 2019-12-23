@@ -5,7 +5,7 @@ import { withAppContext, withIntlAppContext } from 'test/utils';
 import categories from 'utils/__tests__/fixtures/categories.json';
 import * as definitions from 'signals/incident-management/definitions';
 
-import FilterTagList, { FilterTagListComponent, allLabelAppend } from '..';
+import FilterTagList, { FilterTagListComponent, allLabelAppend, mapKeys } from '..';
 import translations from '../../../../../translations/nl.json';
 
 const dataLists = {
@@ -162,5 +162,10 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(0);
     });
+  });
+
+  it('should map keys', () => {
+    expect(mapKeys('source')).toEqual('bron');
+    expect(mapKeys('any_key')).toEqual('any_key');
   });
 });
