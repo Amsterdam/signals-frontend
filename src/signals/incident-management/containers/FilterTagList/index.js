@@ -24,7 +24,7 @@ export const allLabelAppend = ': Alles';
 export const mapKeys = key => {
   switch (key) {
     case 'source':
-      return 'Bron'
+      return 'bron'
 
     default:
       return key;
