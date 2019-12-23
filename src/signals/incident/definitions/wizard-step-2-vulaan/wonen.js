@@ -26,7 +26,7 @@ export default {
         subtitle: 'Vermoedens over bijvoorbeeld illegale activiteiten',
         shortLabel: 'Vermoeden',
         pathMerge: 'extra_properties',
-        className: 'col-sm-12 col-md-6',
+        className: 'col-sm-12 col-md-8',
       },
       render: FormComponents.TextInput,
     },
@@ -40,7 +40,7 @@ export default {
         label: 'Weet u wie de eigenaar is van de woning?',
         shortLabel: 'Eigenaar',
         pathMerge: 'extra_properties',
-        className: 'col-sm-12 col-md-6',
+        className: 'col-sm-12 col-md-8',
       },
       options: {
         validators: [Validators.required],
@@ -58,7 +58,7 @@ export default {
         subtitle: 'De persoon die in de woning zou moeten wonen',
         shortLabel: 'Adres huurder',
         pathMerge: 'extra_properties',
-        className: 'col-sm-12 col-md-6',
+        className: 'col-sm-12 col-md-8',
         values: {
           zelfde_adres: 'Op het zelfde adres als de bewoners',
           ander_adres: 'Op een ander adres dan de bewoners',
@@ -70,9 +70,7 @@ export default {
       },
       render: FormComponents.RadioInput,
     },
-
-
-    extra_wonen_aantal_personen: {
+    extra_wonen_woningdelen_aantal_personen: {
       meta: {
         ifOneOf: {
           subcategory: [
@@ -82,7 +80,7 @@ export default {
         label: 'Hoeveel personen wonen er op dit adres?',
         shortLabel: 'Aantal personen',
         pathMerge: 'extra_properties',
-        className: 'col-sm-12 col-md-6',
+        className: 'col-sm-12 col-md-8',
         values: {
           een_persoon: '1 persoon',
           twee_personen: '2 personen',
@@ -97,13 +95,13 @@ export default {
       },
       render: FormComponents.RadioInput,
     },
-    extra_wonen_bewoners_familie: {
+    extra_wonen_woningdelen_bewoners_familie: {
       meta: {
         ifAllOf: {
           subcategory: 'woningdelen',
         },
         ifOneOf: {
-          extra_wonen_aantal_personen: [
+          extra_wonen_woningdelen_aantal_personen: [
             'drie_personen',
             'vier_personen',
             'vijf_of_meer_personen',
@@ -112,7 +110,7 @@ export default {
         label: 'Zijn de bewoners familie van elkaar?',
         shortLabel: 'Bewoners familie',
         pathMerge: 'extra_properties',
-        className: 'col-sm-12 col-md-6',
+        className: 'col-sm-12 col-md-8',
         values: {
           ja: 'Ja, de bewoners zijn familie',
           nee: 'Nee, de bewoners zijn geen familie',
@@ -124,15 +122,13 @@ export default {
       },
       render: FormComponents.RadioInput,
     },
-
-
     extra_wonen_woningdelen_samenwonen: {
       meta: {
         ifAllOf: {
           subcategory: 'woningdelen',
         },
         ifOneOf: {
-          extra_wonen_aantal_personen: [
+          extra_wonen_woningdelen_aantal_personen: [
             'drie_personen',
             'vier_personen',
             'vijf_of_meer_personen',
@@ -141,7 +137,7 @@ export default {
         label: 'Zijn de personen samen op het adres komen wonen?',
         shortLabel: 'Samenwonen',
         pathMerge: 'extra_properties',
-        className: 'col-sm-12 col-md-6',
+        className: 'col-sm-12 col-md-8',
         values: {
           ja: 'Ja, ze zijn samen op het adres komen wonen',
           nee: 'Nee, ze zijn op verschillende momenten op het adres komen wonen',
@@ -161,7 +157,7 @@ export default {
         label: 'Komen er vaak nieuwe bewoners op het adres wonen?',
         shortLabel: 'Wisselende bewoners',
         pathMerge: 'extra_properties',
-        className: 'col-sm-12 col-md-6',
+        className: 'col-sm-12 col-md-8',
         values: {
           ja: 'Ja, vaak wisselende bewoners op het adres',
           nee: 'Nee, dezelfde bewoners',
@@ -173,15 +169,21 @@ export default {
       },
       render: FormComponents.RadioInput,
     },
-    extra_wonen_woningdelen_iemand_aanwezig: {
+
+
+
+    extra_wonen_iemand_aanwezig: {
       meta: {
-        ifAllOf: {
-          subcategory: 'woningdelen',
+        ifOneOf: {
+          subcategory: [
+            'woningdelen',
+            'onderhuur',
+          ],
         },
         label: 'Op welke dag/tijd is er iemand op het adres?',
         shortLabel: 'Iemand aanwezig',
         pathMerge: 'extra_properties',
-        className: 'col-sm-12 col-md-6',
+        className: 'col-sm-12 col-md-8',
       },
       render: FormComponents.TextInput,
     },
