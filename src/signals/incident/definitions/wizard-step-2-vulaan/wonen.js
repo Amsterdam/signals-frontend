@@ -171,6 +171,157 @@ export default {
     },
 
 
+    extra_wonen_onderhuur_naam_huurder: {
+      meta: {
+        ifOneOf: {
+          subcategory: [
+            'onderhuur',
+          ],
+        },
+        label: 'Weet u wie de officiële huurder is van de woning?',
+        subtitle: 'De persoon die in de woning zou moeten wonen',
+        shortLabel: 'Naam huurder',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.TextInput,
+    },
+    extra_wonen_onderhuur_huurder_woont: {
+      meta: {
+        ifOneOf: {
+          subcategory: [
+            'onderhuur',
+          ],
+        },
+        label: 'Weet u waar de officiële huurder woont?',
+        shortLabel: 'Huurder woont',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          aangegeven_adres: 'Op het aangegeven adres',
+          ander_adres: 'Op een ander adres',
+          weet_ik_niet: 'Weet ik niet',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_onderhuur_adres_huurder: {
+      meta: {
+        ifAllOf: {
+          subcategory: 'onderhuur',
+        },
+        ifOneOf: {
+          extra_wonen_onderhuur_huurder_woont: 'ander_adres',
+        },
+        label: 'Wat is het adres waar de officiële huurder woont?',
+        shortLabel: 'Adres huurder',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+      },
+      render: FormComponents.TextInput,
+    },
+    extra_wonen_onderhuur_aantal_personen: {
+      meta: {
+        ifOneOf: {
+          subcategory: [
+            'onderhuur',
+          ],
+        },
+        label: 'Hoeveel personen wonen er op dit adres?',
+        shortLabel: 'Aantal personen',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          een_persoon: '1 persoon',
+          twee_personen: '2 personen',
+          drie_personen: '3 personen',
+          vier_personen: '4 personen',
+          vijf_of_meer_personen: '5 of meer  personen',
+          weet_ik_niet: 'Weet ik niet',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_onderhuur_bewoners_familie: {
+      meta: {
+        ifAllOf: {
+          subcategory: 'onderhuur',
+        },
+        ifOneOf: {
+          extra_wonen_onderhuur_aantal_personen: [
+            'drie_personen',
+            'vier_personen',
+            'vijf_of_meer_personen',
+          ],
+        },
+        label: 'Zijn de bewoners familie van elkaar?',
+        shortLabel: 'Bewoners familie',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          ja: 'Ja, de bewoners zijn familie',
+          nee: 'Nee, de bewoners zijn geen familie',
+          weet_ik_niet: 'Weet ik niet',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_onderhuur_naam_bewoners: {
+      meta: {
+        ifAllOf: {
+          subcategory: 'onderhuur',
+        },
+        label: 'Wat zijn de namen van de mensen die op dit adres wonen?',
+        shortLabel: 'Naam bewoners',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          ja: 'Ja, de bewoners zijn familie',
+          nee: 'Nee, de bewoners zijn geen familie',
+          weet_ik_niet: 'Weet ik niet',
+        },
+      },
+      render: FormComponents.TextareaInput,
+    },
+    extra_wonen_onderhuur_woon_periode: {
+      meta: {
+        ifOneOf: {
+          subcategory: [
+            'onderhuur',
+          ],
+        },
+        label: 'Hoe lang wonen deze mensen al op dit adres?',
+        shortLabel: 'Woon periode',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          langer_dan_zes_maanden: '6 maanden of langer',
+          korter_dan_zes_maanden: 'minder dan 6 maanden',
+          weet_ik_niet: 'Weet ik niet',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+
+
+
+
+
 
     extra_wonen_iemand_aanwezig: {
       meta: {
