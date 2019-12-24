@@ -15,6 +15,9 @@ export default {
       render: FormComponents.PlainText,
     },
 
+
+
+    // woningdelen
     extra_wonen_woningdelen_vermoeden: {
       meta: {
         ifOneOf: {
@@ -171,6 +174,10 @@ export default {
     },
 
 
+
+
+
+    // onderhuur
     extra_wonen_onderhuur_naam_huurder: {
       meta: {
         ifOneOf: {
@@ -320,9 +327,122 @@ export default {
 
 
 
+    // leegstand
+    extra_wonen_leegstand_naam_eiegnaar: {
+      meta: {
+        ifOneOf: {
+          subcategory: [
+            'leegstand',
+          ],
+        },
+        label: 'Weet u wie de eigenaar is van de woning?',
+        shortLabel: 'Naam eigenaar',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.TextInput,
+    },
+    extra_wonen_leegstand_periode: {
+      meta: {
+        ifOneOf: {
+          subcategory: [
+            'leegstand',
+          ],
+        },
+        label: 'Hoe lang staat de woning al (minimaal) leeg?',
+        shortLabel: 'Periode leegstand',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          langer_dan_zes_maanden: '6 maanden of langer',
+          korter_dan_zes_maanden: 'minder dan 6 maanden',
+          weet_ik_niet: 'Weet ik niet',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_leegstand_woning_gebruik: {
+      meta: {
+        ifOneOf: {
+          subcategory: [
+            'leegstand',
+          ],
+        },
+        label: 'Wordt de woning af en toe nog gebruikt?',
+        shortLabel: 'Woning gebruik',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          ja: 'Ja, soms is er iemand in de woning',
+          nee: 'Nee, er is nooit iemand in de woning',
+          weet_ik_niet: 'Weet ik niet',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_leegstand_naam_persoon: {
+      meta: {
+        ifOneOf: {
+          subcategory: [
+            'leegstand',
+          ],
+        },
+        ifAllOf: {
+          extra_wonen_leegstand_woning_gebruik: 'ja',
+        },
+        label: 'Wat is de naam van de persoon die soms in de woning is?',
+        shortLabel: 'Naam persoon',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+      },
+      render: FormComponents.TextInput,
+    },
+    extra_wonen_leegstand_activiteit_in_woning: {
+      meta: {
+        ifOneOf: {
+          subcategory: [
+            'leegstand',
+          ],
+        },
+        ifAllOf: {
+          extra_wonen_leegstand_woning_gebruik: 'ja',
+        },
+        label: 'Wat doet deze persoon in de woning?',
+        shortLabel: 'Activiteit in de woning',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+      },
+      render: FormComponents.TextInput,
+    },
+    extra_wonen_leegstand_iemand_aanwezig: {
+      meta: {
+        ifOneOf: {
+          subcategory: [
+            'leegstand',
+          ],
+        },
+        ifAllOf: {
+          extra_wonen_leegstand_woning_gebruik: 'ja',
+        },
+        label: 'Op welke dag/tijd is deze persoon op het adres?',
+        shortLabel: 'Iemand aanwezig',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+      },
+      render: FormComponents.TextInput,
+    },
 
 
-
+    // leegstand en onderhuur
     extra_wonen_iemand_aanwezig: {
       meta: {
         ifOneOf: {
@@ -338,6 +458,229 @@ export default {
       },
       render: FormComponents.TextInput,
     },
+
+
+    // vakantieverhuur
+    extra_wonen_vakantieverhuur_toeristen_aanwezig: {
+      meta: {
+        ifOneOf: {
+          subcategory: [
+            'vakantieverhuur',
+          ],
+        },
+        label: 'Zijn de toeristen nu aanwezig in de woning?',
+        shortLabel: 'Toeristen aanwezig',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          ja: 'Ja, er zijn nu toeristen aanwezig',
+          nee: 'Nee, er zijn nu geen toeristen aanwezig',
+          weet_ik_niet: 'Weet ik niet',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_vakantieverhuur_bellen_of_formulier: {
+      meta: {
+        ifAllOf: {
+          subcategory: [
+            'vakantieverhuur',
+          ],
+          extra_wonen_vakantieverhuur_toeristen_aanwezig: 'ja',
+        },
+        label: 'In dit geval kunt u het beste telefonisch contact opnemen dan pakken wij u melding direct op?',
+        shortLabel: 'Bellen of meldingsformulier',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          bellen: 'Ik neem telefonisch contact op',
+          formulier: 'Ik ga verder met dit meldformulier',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_vakantieverhuur_bellen: {
+      meta: {
+        ifAllOf: {
+          subcategory: [
+            'vakantieverhuur',
+          ],
+          extra_wonen_vakantieverhuur_bellen_of_formulier: 'bellen',
+        },
+        className: 'col-sm-12 col-md-8',
+        type: 'caution',
+        value: [
+          'Bel nu met 14 020',
+          'Vraag naar team Zoeklicht Direct. U wordt direct doorverbonden met een medewerker. Handhaving gaat indien mogelijk, meteen langs.'],
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.PlainText,
+    },
+    extra_wonen_vakantieverhuur_aantal_mensen: {
+      meta: {
+        ifAllOf: {
+          subcategory: [
+            'vakantieverhuur',
+          ],
+          extra_wonen_vakantieverhuur_bellen_of_formulier: 'formulier',
+        },
+        label: 'Hoeveel toeristen zijn er in de woning?',
+        shortLabel: 'Aantal personen',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          vier_of_minder: '4 of minder personen',
+          vijf_of_meer: '5 of meer personen',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_vakantieverhuur_hoe_vaak: {
+      meta: {
+        ifAllOf: {
+          subcategory: [
+            'vakantieverhuur',
+          ],
+          extra_wonen_vakantieverhuur_bellen_of_formulier: 'formulier',
+        },
+        label: 'Zijn er vaker toeristen in de woning?',
+        shortLabel: 'Hoe vaak',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          maandelijks: 'Ongeveer één keer per maand',
+          wekelijks: 'Ongeveer één keer per week',
+          dagelijks: 'Bijna dagelijks',
+          eerste_keer: 'Nee, dit is de eerste keer',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_vakantieverhuur_wanneer: {
+      meta: {
+        ifOneOf: {
+          extra_wonen_vakantieverhuur_hoe_vaak: [
+            'maandelijks',
+            'wekelijks',
+          ],
+        },
+        ifAllOf: {
+          subcategory: [
+            'vakantieverhuur',
+          ],
+          extra_wonen_vakantieverhuur_bellen_of_formulier: 'formulier',
+        },
+        label: 'Is dit meestal in het weekend of doordeweeks?',
+        shortLabel: 'Wanneer',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          weekend: 'Meestal in het weekend',
+          doordeweeks: 'Meestal doordeweeks',
+          wisselend: 'Wisselend',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_vakantieverhuur_bewoning: {
+      meta: {
+        ifAllOf: {
+          subcategory: [
+            'vakantieverhuur',
+          ],
+          extra_wonen_vakantieverhuur_bellen_of_formulier: 'formulier',
+        },
+        label: 'Weet u of er iemand op het adres woont?',
+        subtitle: 'De persoon die langdurig de woning bewoond',
+        shortLabel: 'Bewoning',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          ja: 'Ja, er woont iemand op het adres',
+          nee: 'Nee, er woont niemand op het adres',
+          weet_ik_niet: 'Weet ik niet',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_vakantieverhuur_naam_bewoner: {
+      meta: {
+        ifAllOf: {
+          subcategory: [
+            'vakantieverhuur',
+          ],
+          extra_wonen_vakantieverhuur_bellen_of_formulier: 'formulier',
+          extra_wonen_vakantieverhuur_bewoning: 'ja',
+        },
+        label: 'Wat is de naam van de persoon die op het adres woont?',
+        shortLabel: 'Naam bewoner',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+      },
+      render: FormComponents.TextInput,
+    },
+    extra_wonen_vakantieverhuur_online_aangeboden: {
+      meta: {
+        ifAllOf: {
+          subcategory: [
+            'vakantieverhuur',
+          ],
+          extra_wonen_vakantieverhuur_bellen_of_formulier: 'formulier',
+        },
+        label: 'Weet u of de woning op internet wordt aangeboden voor verhuur?',
+        shortLabel: 'Online aangeboden',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          ja: 'Ja, ik heb de woning op internet gezien',
+          nee: 'Nee, weet ik niet',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_vakantieverhuur_link_advertentie: {
+      meta: {
+        ifAllOf: {
+          subcategory: [
+            'vakantieverhuur',
+          ],
+          extra_wonen_vakantieverhuur_bellen_of_formulier: 'formulier',
+          extra_wonen_vakantieverhuur_online_aangeboden: 'ja',
+        },
+        label: 'Link naar de advertentie van de woning?',
+        shortLabel: 'Link advertentie',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+      },
+      render: FormComponents.TextInput,
+    },
+
+
+
+
 
     $field_0: {
       isStatic: false,
