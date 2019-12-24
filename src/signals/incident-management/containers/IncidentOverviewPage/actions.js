@@ -5,34 +5,28 @@ import {
   REQUEST_INCIDENTS_ERROR,
   REQUEST_INCIDENTS_SUCCESS,
   REQUEST_INCIDENTS,
+  SEARCH_INCIDENTS,
+  RESET_SEARCH_INCIDENTS,
 } from './constants';
 
-export function requestIncidents() {
-  return {
-    type: REQUEST_INCIDENTS,
-  };
-}
+export const requestIncidents = () => ({
+  type: REQUEST_INCIDENTS,
+});
 
-export function requestIncidentsSuccess(incidents) {
-  return {
-    type: REQUEST_INCIDENTS_SUCCESS,
-    payload: incidents,
-  };
-}
+export const requestIncidentsSuccess = payload => ({
+  type: REQUEST_INCIDENTS_SUCCESS,
+  payload,
+});
 
-export function requestIncidentsError(message) {
-  return {
-    type: REQUEST_INCIDENTS_ERROR,
-    payload: message,
-  };
-}
+export const requestIncidentsError = payload => ({
+  type: REQUEST_INCIDENTS_ERROR,
+  payload,
+});
 
-export function filterIncidentsChanged(filter) {
-  return {
-    type: FILTER_INCIDENTS_CHANGED,
-    payload: filter,
-  };
-}
+export const filterIncidentsChanged = payload => ({
+  type: FILTER_INCIDENTS_CHANGED,
+  payload,
+});
 
 export const applyFilterRefresh = () => ({
   type: APPLY_FILTER_REFRESH,
@@ -40,4 +34,13 @@ export const applyFilterRefresh = () => ({
 
 export const applyFilterRefreshStop = () => ({
   type: APPLY_FILTER_REFRESH_STOP,
+});
+
+export const searchIncidents = payload => ({
+  type: SEARCH_INCIDENTS,
+  payload,
+});
+
+export const resetSearchIncidents = () => ({
+  type: RESET_SEARCH_INCIDENTS,
 });

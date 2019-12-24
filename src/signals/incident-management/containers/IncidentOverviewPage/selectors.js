@@ -28,3 +28,12 @@ export const makeSelectIncidentsCount = createSelector(
     return obj.incidentsCount;
   }
 );
+
+export const makeSelectSearchQuery = createSelector(
+  selectOverviewPageDomain,
+  state => {
+    const obj = state.toJS();
+
+    return obj.searchQuery;
+  }
+);

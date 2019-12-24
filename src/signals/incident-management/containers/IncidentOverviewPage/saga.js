@@ -26,6 +26,7 @@ import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
   REQUEST_INCIDENTS,
+  SEARCH_INCIDENTS,
 } from './constants';
 import {
   applyFilterRefresh,
@@ -36,8 +37,6 @@ import {
 } from './actions';
 
 export function* fetchIncidents() {
-  const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/signals/`;
-
   try {
     const filter = yield select(makeSelectActiveFilter);
 
@@ -47,7 +46,7 @@ export function* fetchIncidents() {
 
     const params = yield select(makeSelectFilterParams);
 
-    const incidents = yield call(authCall, requestURL, params);
+    const incidents = yield call(authCall, CONFIGURATION.INCIDENTS_ENDPOINT, params);
 
     yield put(requestIncidentsSuccess(incidents));
 
@@ -55,6 +54,20 @@ export function* fetchIncidents() {
       yield put(applyFilterRefresh());
     }
   } catch (error) {
+    yield put(requestIncidentsError(error.message));
+  }
+}
+
+export function* searchIncidents(action) {
+  const { payload } = action;
+
+  try {
+    yield put(applyFilterRefreshStop());
+
+    const incidents = yield call(authCall, CONFIGURATION.SEARCH_ENDPOINT, { q: payload });
+
+    yield put(requestIncidentsSuccess(incidents));
+  } catch(error) {
     yield put(requestIncidentsError(error.message));
   }
 }
@@ -76,6 +89,7 @@ export function* refreshIncidents(timeout = refreshRequestDelay) {
 
 export default function* watchRequestIncidentsSaga() {
   yield all([
+    takeLatest(SEARCH_INCIDENTS, searchIncidents),
     takeLatest(REQUEST_INCIDENTS, fetchIncidents),
     takeLatest(PAGE_INCIDENTS_CHANGED, fetchIncidents),
     takeLatest(ORDERING_INCIDENTS_CHANGED, fetchIncidents),
