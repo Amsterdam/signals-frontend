@@ -1,14 +1,16 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { useHistory } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
 
 import PageHeader from 'signals/settings/components/PageHeader';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import ListComponent from 'components/List';
 import { makeSelectDepartments } from 'models/departments/selectors';
+import { DEPARTMENT_URL } from 'signals/settings/routes';
 
 const StyledList = styled(ListComponent)`
   th:first-child {
@@ -16,27 +18,49 @@ const StyledList = styled(ListComponent)`
   }
 `;
 
-export const DepartmentOverviewContainer = ({ departments }) => (
-  <Fragment>
-    <PageHeader
-      title={`Afdelingen ${departments.count ? `(${departments.count})` : ''}`}
-    />
+export const DepartmentOverviewContainer = ({ departments }) => {
+  const history = useHistory();
 
-    <Row>
-      {departments.loading && <LoadingIndicator />}
+  const onItemClick = useCallback(
+    e => {
+      const {
+        currentTarget: {
+          dataset: { itemId },
+        },
+      } = e;
 
-      <Column span={12}>
-        {!departments.loading && departments.list && (
-          <StyledList
-            columnOrder={['Naam', 'Categorie']}
-            items={departments.list}
-            primaryKeyColumn="id"
-          />
-        )}
-      </Column>
-    </Row>
-  </Fragment>
-);
+      if (itemId) {
+        history.push(`${DEPARTMENT_URL}/${itemId}`);
+      }
+    },
+    [history]
+  );
+
+  return (
+    <Fragment>
+      <PageHeader
+        title={`Afdelingen ${
+          departments.count ? `(${departments.count})` : ''
+        }`}
+      />
+
+      <Row>
+        {departments.loading && <LoadingIndicator />}
+
+        <Column span={12}>
+          {!departments.loading && departments.list && (
+            <StyledList
+              columnOrder={['Naam', 'Categorie']}
+              items={departments.list}
+              onItemClick={onItemClick}
+              primaryKeyColumn="id"
+            />
+          )}
+        </Column>
+      </Row>
+    </Fragment>
+  );
+};
 
 DepartmentOverviewContainer.defaultProps = {
   departments: {},

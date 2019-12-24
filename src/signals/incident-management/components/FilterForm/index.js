@@ -37,7 +37,7 @@ const FilterForm = ({
   const filterSlugs = (filterData.options.maincategory_slug || []).concat(
     filterData.options.category_slug || []
   );
-
+debugger;
   const onSubmitForm = event => {
     const formData = parseOutputFormData(event.target.form);
     const isNewFilter = !filterData.name;
