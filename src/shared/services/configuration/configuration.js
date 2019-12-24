@@ -143,6 +143,10 @@ export class Configuration {
   get FILTERS_ENDPOINT() {
     return `${this.API_ROOT}signals/v1/private/me/filters/`;
   }
+
+  get DEPARTMENTS_ENDPOINT() {
+    return `${this.API_ROOT}signals/v1/private/departments/`;
+  }
 }
 
 const CONFIGURATION = new Configuration();
