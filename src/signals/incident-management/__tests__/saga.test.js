@@ -3,6 +3,7 @@ import * as matchers from 'redux-saga-test-plan/matchers';
 import { takeLatest } from 'redux-saga/effects';
 
 import { resetSearchIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
+import CONFIGURATION from 'shared/services/configuration/configuration';
 import {
   authCall,
   authDeleteCall,
@@ -15,7 +16,6 @@ import filterSaga, {
   doUpdateFilter,
   fetchFilters,
   removeFilter,
-  requestURL,
   saveFilter,
   updateFilter,
 } from '../saga';
@@ -61,7 +61,7 @@ describe('signals/incident-management/saga', () => {
 
     testSaga(fetchFilters)
       .next()
-      .call(authCall, requestURL)
+      .call(authCall, CONFIGURATION.FILTERS_ENDPOINT)
       .next(filters)
       .put(getFiltersSuccess(filters.results))
       .next()
@@ -74,7 +74,7 @@ describe('signals/incident-management/saga', () => {
 
     testSaga(fetchFilters)
       .next()
-      .call(authCall, requestURL)
+      .call(authCall, CONFIGURATION.FILTERS_ENDPOINT)
       .throw(error)
       .put(getFiltersFailed(message))
       .next()
@@ -87,7 +87,7 @@ describe('signals/incident-management/saga', () => {
 
     testSaga(removeFilter, action)
       .next()
-      .call(authDeleteCall, `${requestURL}${id}`)
+      .call(authDeleteCall, `${CONFIGURATION.FILTERS_ENDPOINT}${id}`)
       .next(id)
       .put(removeFilterSuccess(id))
       .next()
@@ -102,7 +102,7 @@ describe('signals/incident-management/saga', () => {
 
     testSaga(removeFilter, action)
       .next()
-      .call(authDeleteCall, `${requestURL}${id}`)
+      .call(authDeleteCall, `${CONFIGURATION.FILTERS_ENDPOINT}${id}`)
       .throw(error)
       .put(removeFilterFailed(message))
       .next()
@@ -145,7 +145,7 @@ describe('signals/incident-management/saga', () => {
         .next()
         .put(resetSearchIncidents())
         .next()
-        .call(authPostCall, requestURL, { name, options })
+        .call(authPostCall, CONFIGURATION.FILTERS_ENDPOINT, { name, options })
         .next(payloadResponse)
         .put(filterSaveSuccess(payloadResponse))
         .next()
@@ -239,7 +239,7 @@ describe('signals/incident-management/saga', () => {
     it('should call endpoint with filter data', () => {
       testSaga(doUpdateFilter, { ...action, payload: updatePayload })
         .next()
-        .call(authPatchCall, `${requestURL}${id}`, { name, refresh, options })
+        .call(authPatchCall, `${CONFIGURATION.FILTERS_ENDPOINT}${id}`, { name, refresh, options })
         .next(updatePayload)
         .put(filterUpdatedSuccess(updatePayload))
         .next()

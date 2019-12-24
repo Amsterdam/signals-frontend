@@ -51,7 +51,7 @@ export default {
           ],
         },
         label: 'Hebt u verteld om wat voor soort wegdek het gaat?',
-        subheader: 'Bijvoorbeeld: asfalt, klinkers of stoeptegels',
+        subtitle: 'Bijvoorbeeld: asfalt, klinkers of stoeptegels',
         pathMerge: 'extra_properties',
       },
       render: FormComponents.TextInput,

@@ -190,26 +190,28 @@ const FilterForm = ({
 
           {Array.isArray(status) && status.length > 0 && (
             <FilterGroup data-testid="statusFilterGroup">
-              <Label htmlFor={`status_${status[0].key}`} isGroupHeader>Status</Label>
               <CheckboxList
                 defaultValue={filterData.options && filterData.options.status}
                 groupName="status"
-                groupId="status"
                 options={status}
+                title="Status"
+                isGroupHeader
+                displayToggle
               />
             </FilterGroup>
           )}
 
           {Array.isArray(stadsdeel) && stadsdeel.length > 0 && (
             <FilterGroup data-testid="stadsdeelFilterGroup">
-              <Label htmlFor={`status_${stadsdeel[0].key}`} isGroupHeader>Stadsdeel</Label>
               <CheckboxList
                 defaultValue={
                   filterData.options && filterData.options.stadsdeel
                 }
                 groupName="stadsdeel"
-                groupId="stadsdeel"
                 options={stadsdeel}
+                title="Stadsdeel"
+                isGroupHeader
+                displayToggle
               />
             </FilterGroup>
           )}
@@ -285,9 +287,7 @@ const FilterForm = ({
                 type="text"
                 name="address_text"
                 id="filter_address"
-                defaultValue={
-                  filterData.options && filterData.options.address_text
-                }
+                defaultValue={filterData.options.address_text || ''}
               />
             </div>
           </FilterGroup>
@@ -329,7 +329,7 @@ const FilterForm = ({
                   defaultValue={filterSlugs}
                   groupName={mainCategory}
                   groupId={mainCatObj.key}
-                  hasToggle
+                  displayToggle
                   key={mainCategory}
                   options={options}
                   title={mainCatObj.value}

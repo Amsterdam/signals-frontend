@@ -46,7 +46,11 @@ export function* fetchIncidents() {
 
     const params = yield select(makeSelectFilterParams);
 
-    const incidents = yield call(authCall, CONFIGURATION.INCIDENTS_ENDPOINT, params);
+    const incidents = yield call(
+      authCall,
+      CONFIGURATION.INCIDENTS_ENDPOINT,
+      params
+    );
 
     yield put(requestIncidentsSuccess(incidents));
 
@@ -64,10 +68,12 @@ export function* searchIncidents(action) {
   try {
     yield put(applyFilterRefreshStop());
 
-    const incidents = yield call(authCall, CONFIGURATION.SEARCH_ENDPOINT, { q: payload });
+    const incidents = yield call(authCall, CONFIGURATION.SEARCH_ENDPOINT, {
+      q: payload,
+    });
 
     yield put(requestIncidentsSuccess(incidents));
-  } catch(error) {
+  } catch (error) {
     yield put(requestIncidentsError(error.message));
   }
 }

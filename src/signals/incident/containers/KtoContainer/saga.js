@@ -14,10 +14,12 @@ import {
 } from './actions';
 
 export function* requestKtoAnswers(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/standard_answers/`;
   try {
     const is_satisfied = action.payload;
-    const result = yield call(request, requestURL);
+    const result = yield call(
+      request,
+      CONFIGURATION.FEEDBACK_STANDARD_ANSWERS_ENDPOINT
+    );
     const answers = {};
     result.results.forEach(answer => {
       if (is_satisfied === answer.is_satisfied) {
@@ -31,11 +33,9 @@ export function* requestKtoAnswers(action) {
 }
 
 export function* checkKto(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/forms`;
-
   try {
     const uuid = action.payload;
-    yield call(request, `${requestURL}/${uuid}`);
+    yield call(request, `${CONFIGURATION.FEEDBACK_FORMS_ENDPOINT}${uuid}`);
     yield put(checkKtoSuccess());
   } catch (error) {
     if (error && error.response && error.response.status === 404) {
@@ -51,16 +51,19 @@ export function* checkKto(action) {
 }
 
 export function* storeKto(action) {
-  const requestURL = `${CONFIGURATION.API_ROOT_MLTOOL}signals/v1/public/feedback/forms`;
   try {
     const payload = action.payload;
-    yield call(request, `${requestURL}/${payload.uuid}`, {
-      method: 'PUT',
-      body: JSON.stringify(action.payload.form),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    yield call(
+      request,
+      `${CONFIGURATION.FEEDBACK_FORMS_ENDPOINT}${payload.uuid}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(action.payload.form),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
 
     yield put(storeKtoSuccess());
   } catch (error) {

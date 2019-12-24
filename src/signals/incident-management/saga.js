@@ -30,11 +30,9 @@ import {
   UPDATE_FILTER,
 } from './constants';
 
-export const requestURL = `${CONFIGURATION.API_ROOT}signals/v1/private/me/filters/`;
-
 export function* fetchFilters() {
   try {
-    const result = yield call(authCall, requestURL);
+    const result = yield call(authCall, CONFIGURATION.FILTERS_ENDPOINT);
 
     yield put(getFiltersSuccess(result.results));
   } catch (error) {
@@ -46,7 +44,7 @@ export function* removeFilter(action) {
   const id = action.payload;
 
   try {
-    yield call(authDeleteCall, `${requestURL}${id}`);
+    yield call(authDeleteCall, `${CONFIGURATION.FILTERS_ENDPOINT}${id}`);
     yield put(removeFilterSuccess(id));
   } catch (error) {
     yield put(removeFilterFailed(error.message));
@@ -64,7 +62,11 @@ export function* doSaveFilter(action) {
     yield put(resetSearchIncidents());
 
     if (filterData.name) {
-      const result = yield call(authPostCall, requestURL, filterData);
+      const result = yield call(
+        authPostCall,
+        CONFIGURATION.FILTERS_ENDPOINT,
+        filterData
+      );
 
       yield put(filterSaveSuccess(result));
       yield put(getFilters());
@@ -73,9 +75,9 @@ export function* doSaveFilter(action) {
     }
   } catch (error) {
     if (
-      error.response
-      && error.response.status >= 400
-      && error.response.status < 500
+      error.response &&
+      error.response.status >= 400 &&
+      error.response.status < 500
     ) {
       yield put(filterSaveFailed('Invalid data supplied'));
     } else if (error.response && error.response.status >= 500) {
@@ -87,25 +89,27 @@ export function* doSaveFilter(action) {
 }
 
 export function* doUpdateFilter(action) {
-  const {
-    name, refresh, id, options,
-  } = action.payload;
+  const { name, refresh, id, options } = action.payload;
 
   try {
-    const result = yield call(authPatchCall, `${requestURL}${id}`, {
-      name,
-      refresh,
-      options,
-    });
+    const result = yield call(
+      authPatchCall,
+      `${CONFIGURATION.FILTERS_ENDPOINT}${id}`,
+      {
+        name,
+        refresh,
+        options,
+      }
+    );
 
     yield put(filterUpdatedSuccess(result));
     yield put(getFilters());
     yield put(resetSearchIncidents());
   } catch (error) {
     if (
-      error.response
-      && error.response.status >= 400
-      && error.response.status < 500
+      error.response &&
+      error.response.status >= 400 &&
+      error.response.status < 500
     ) {
       yield put(filterUpdatedFailed('Invalid data supplied'));
     } else if (error.response && error.response.status >= 500) {

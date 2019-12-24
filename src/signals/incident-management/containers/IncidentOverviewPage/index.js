@@ -196,7 +196,7 @@ export const IncidentOverviewPageContainerComponent = ({
           </Column>
 
           <Column span={12}>
-            {!loading && incidentsCount && (
+            {!loading && incidentsCount > 0 && (
               <StyledPagination
                 currentPage={page}
                 hrefPrefix="/manage/incidents?page="
