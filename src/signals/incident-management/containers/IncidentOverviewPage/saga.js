@@ -74,6 +74,16 @@ export function* searchIncidents(action) {
 
     yield put(requestIncidentsSuccess(incidents));
   } catch (error) {
+    if (
+      error.response &&
+      error.response.status === 500
+    ) {
+      // Getting an error response with status code 500 from the search endpoint
+      // means that the Elasticsearch index is very likely corrupted. In that
+      // case we simulate a success response without results.
+      yield put(requestIncidentsSuccess({ count: 0, results: [] }));
+    }
+
     yield put(requestIncidentsError(error.message));
   }
 }
