@@ -677,6 +677,23 @@ export default {
       },
       render: FormComponents.TextInput,
     },
+    extra_wonen_vakantieverhuur_footer: {
+      meta: {
+        ifAllOf: {
+          subcategory: [
+            'vakantieverhuur',
+          ],
+          extra_wonen_vakantieverhuur_bellen_of_formulier: 'formulier',
+        },
+        className: 'col-sm-12 col-md-8',
+        type: 'caution',
+        value: ['Mocht u in de toekomst zien dat er toeristen in de woning aanwezig zijn a.u.b. direct bellen met 14 020 en vragen naar team Zoeklicht Direct.'],
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.PlainText,
+    },
 
 
 
