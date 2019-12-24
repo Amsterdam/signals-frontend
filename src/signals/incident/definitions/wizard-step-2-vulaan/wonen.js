@@ -697,6 +697,176 @@ export default {
 
 
 
+    // woonkwaliteit
+    extra_wonen_woonkwaliteit_direct_gevaar: {
+      meta: {
+        ifOneOf: {
+          subcategory: [
+            'woonkwaliteit',
+          ],
+        },
+        label: 'Vermoedt u dat er direct gevaar is?',
+        subtitle: 'Bijvoorbeeld: u ruikt een sterke gaslucht of er dreigt een schoorsteen of balkon in te storten',
+        shortLabel: 'Direct gevaar',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          ja: 'Ja, er is direct gevaar',
+          nee: 'Nee',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_woonkwaliteit_direct_gevaar_alert: {
+      meta: {
+        ifAllOf: {
+          subcategory: [
+            'woonkwaliteit',
+          ],
+          extra_wonen_woonkwaliteit_direct_gevaar: 'ja',
+        },
+        className: 'col-sm-12 col-md-8',
+        type: 'alert',
+        value: ['Bel 112 en vul dit formulier niet verder in'],
+      },
+      render: FormComponents.PlainText,
+    },
+    extra_wonen_woonkwaliteit_gemeld_bij_eigenaar: {
+      meta: {
+        ifAllOf: {
+          subcategory: [
+            'woonkwaliteit',
+          ],
+          extra_wonen_woonkwaliteit_direct_gevaar: 'nee',
+        },
+        label: 'Hebt u de klacht al bij uw verhuurder, eigenaar of VvE gemeld?',
+        shortLabel: 'Gemeld bij eigenaar',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          ja: 'Ja',
+          nee: 'Nee',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_woonkwaliteit_direct_gevaar_ja: {
+      meta: {
+        ifAllOf: {
+          subcategory: [
+            'woonkwaliteit',
+          ],
+          extra_wonen_woonkwaliteit_gemeld_bij_eigenaar: 'nee',
+        },
+        className: 'col-sm-12 col-md-8',
+        type: 'caution',
+        value: ['Meldt uw klacht eerst bij de verhuurder, eigenaar of VvE. Krijgt u geen respons of wordt de klacht niet verholpen, vul dan dit formulier in'],
+      },
+      render: FormComponents.PlainText,
+    },
+    extra_wonen_woonkwaliteit_bewoner: {
+      meta: {
+        ifAllOf: {
+          subcategory: [
+            'woonkwaliteit',
+          ],
+          extra_wonen_woonkwaliteit_gemeld_bij_eigenaar: 'ja',
+        },
+        label: 'Bent u zelf bewoner van het adres?',
+        shortLabel: 'Bewoner',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          ja: 'Ja, ik woon op dit adres',
+          nee: 'Nee, ik woon niet op dit adres',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_woonkwaliteit_namens_bewoner: {
+      meta: {
+        ifAllOf: {
+          subcategory: [
+            'woonkwaliteit',
+          ],
+          extra_wonen_woonkwaliteit_bewoner: 'nee',
+        },
+        label: 'Doet u de melding namens de bewoner van het adres?',
+        shortLabel: 'Namens bewoner',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          ja: 'Ja, ik doe de melding namens de bewoner',
+          nee: 'Nee',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_woonkwaliteit_toestemming_contact: {
+      meta: {
+        ifAllOf: {
+          subcategory: [
+            'woonkwaliteit',
+          ],
+          extra_wonen_woonkwaliteit_gemeld_bij_eigenaar: 'ja',
+        },
+        label: 'Mogen we contact met u opnemen om een afspraak te maken?',
+        shortLabel: 'Toestemming contact opnemen',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          ja: 'Ja, u mag contact met mij opnemen',
+          nee: 'Nee, liever geen contact',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_woonkwaliteit_toestemming_contact_ja: {
+      meta: {
+        ifAllOf: {
+          subcategory: [
+            'woonkwaliteit',
+          ],
+          extra_wonen_woonkwaliteit_toestemming_contact: 'ja',
+        },
+        className: 'col-sm-12 col-md-8',
+        type: 'caution',
+        value: ['Let op! Vul uw telefoonnummer in op de volgende pagina.'],
+      },
+      render: FormComponents.PlainText,
+    },
+    extra_wonen_woonkwaliteit_geen_contact: {
+      meta: {
+        ifAllOf: {
+          subcategory: [
+            'woonkwaliteit',
+          ],
+          extra_wonen_woonkwaliteit_toestemming_contact: 'nee',
+        },
+        label: 'Waarom heeft u liever geen contact?',
+        shortLabel: 'Liever geen contact',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+      },
+      render: FormComponents.TextInput,
+    },
+
+
 
 
     $field_0: {
