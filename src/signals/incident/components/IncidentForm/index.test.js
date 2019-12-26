@@ -2,7 +2,6 @@ import React from 'react';
 import { mount } from 'enzyme';
 import defer from 'lodash.defer';
 
-
 import IncidentForm from './index';
 import formatConditionalForm from '../../services/format-conditional-form';
 
@@ -65,7 +64,6 @@ describe('<IncidentForm />', () => {
     };
 
     formatConditionalForm.mockImplementation(() => mockForm);
-    // jest.useFakeTimers();
 
     wrapper = mount(
       <IncidentForm {...props} />
@@ -80,18 +78,13 @@ describe('<IncidentForm />', () => {
       valid: true,
       controls: mockForm.controls,
       value: {},
+      updateValueAndValidity: jest.fn(),
     };
 
     spy = jest.spyOn(instance, 'setValues');
   });
 
-  afterEach(() => {
-    // jest.runAllTimers();
-    // jest.resetAllMocks();
-  });
-
   describe('rendering', () => {
-    // sss
     it('expect to render correctly', () => {
       expect(wrapper).toMatchSnapshot();
     });
@@ -103,7 +96,7 @@ describe('<IncidentForm />', () => {
           extra_boten_geluid_meer: 'Ja! Wat een teringzooi hier',
         },
       };
-      wrapper.setProps({ incidentContainer });
+      wrapper.setProps({ ...props, incidentContainer });
 
       expect(wrapper).toMatchSnapshot();
       expect(spy).toHaveBeenCalledWith(incidentContainer.incident);

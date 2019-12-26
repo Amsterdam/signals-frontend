@@ -59,9 +59,7 @@ class IncidentForm extends React.Component {
   }
 
   setForm(form) {
-
     this.form = form;
-    console.log('---------------------------------------------------------------', form.updateValueAndValidity);
     this.form.meta = {
       form: this.form,
       wizard: this.props.wizard,
