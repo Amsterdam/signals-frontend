@@ -1,6 +1,5 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import defer from 'lodash.defer';
 
 import IncidentForm from './index';
 import formatConditionalForm from '../../services/format-conditional-form';
@@ -187,9 +186,7 @@ describe('<IncidentForm />', () => {
           next,
         });
 
-        defer(() => {
-          expect(next).toHaveBeenCalled();
-        });
+        expect(next).toHaveBeenCalled();
       });
     });
 
@@ -219,9 +216,7 @@ describe('<IncidentForm />', () => {
         next,
       });
 
-      defer(() => {
-        expect(next).toHaveBeenCalled();
-      });
+      expect(next).toHaveBeenCalled();
     });
 
     it('should not submit async when form is not valid after service call', () => {
@@ -249,9 +244,7 @@ describe('<IncidentForm />', () => {
         next,
       });
 
-      defer(() => {
-        expect(next).not.toHaveBeenCalled();
-      });
+      expect(next).not.toHaveBeenCalled();
     });
 
     it('should not submit async when service is not loading', () => {
@@ -269,9 +262,7 @@ describe('<IncidentForm />', () => {
         next: null,
       });
 
-      defer(() => {
-        expect(next).not.toHaveBeenCalled();
-      });
+      expect(next).not.toHaveBeenCalled();
     });
   });
 });
