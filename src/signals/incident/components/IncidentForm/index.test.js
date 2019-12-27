@@ -1,6 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
 
+import TextInput from 'signals/incident/components/form/TextInput';
 import IncidentForm from './index';
 import formatConditionalForm from '../../services/format-conditional-form';
 
@@ -22,6 +25,7 @@ const mockForm = {
         type: 'text',
         isVisible: true,
       },
+      render: TextInput,
     },
     email: {
       ...mockControl,
@@ -30,13 +34,15 @@ const mockForm = {
         type: 'text',
         isVisible: true,
       },
+      render: TextInput,
     },
     extra_boten_geluid_meer: {
       ...mockControl,
       meta: {
-        label: 'Zijn er nog dingen die u ons nog meer kunt vertellen?',
+        label: 'Andere dingen?',
         isVisible: false,
       },
+      render: TextInput,
     },
   },
 };
@@ -85,7 +91,30 @@ describe('<IncidentForm />', () => {
 
   describe('rendering', () => {
     it('expect to render correctly', () => {
-      expect(wrapper).toMatchSnapshot();
+      const { container, queryByText, queryAllByText } = render(
+        withAppContext(
+          <IncidentForm {...props} />,
+        ),
+      );
+
+      expect(queryByText('Wat is uw telefoonnummer?')).toBeInTheDocument();
+      expect(queryByText('Wat is uw email?')).toBeInTheDocument();
+
+      expect(queryByText('Andere dingen?')).not.toBeInTheDocument();
+
+      expect(container.querySelectorAll('input').length).toEqual(2);
+      expect(queryAllByText('(optioneel)').length).toEqual(2);
+    });
+
+  });
+
+  describe('events', () => {
+    const event = { preventDefault: jest.fn() };
+
+    it('clicking submit should preventDefault', () => {
+      wrapper.find('form').simulate('submit', event);
+
+      expect(event.preventDefault).toHaveBeenCalled();
     });
 
     it('expect to render correctly when form vars have changed', () => {
@@ -97,18 +126,8 @@ describe('<IncidentForm />', () => {
       };
       wrapper.setProps({ ...props, incidentContainer });
 
-      expect(wrapper).toMatchSnapshot();
       expect(spy).toHaveBeenCalledWith(incidentContainer.incident);
-    });
-  });
-
-  describe('events', () => {
-    const event = { preventDefault: jest.fn() };
-
-    it('clicking submit should preventDefault', () => {
-      wrapper.find('form').simulate('submit', event);
-
-      expect(event.preventDefault).toHaveBeenCalled();
+      expect(instance.form.updateValueAndValidity).toHaveBeenCalledWith();
     });
 
     describe('sync submit', () => {
