@@ -20,10 +20,10 @@ export default {
       ],
     },
   },
-  category: 'overlast-bedrijven-en-horeca',
-  subcategory: 'stankoverlast',
+  category: 'wonen',
+  subcategory: 'leegstand',
   subcategory_link: 'https://api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/overig-horecabedrijven',
-  description: 'stankoverlast',
+  description: 'leegstand',
 
   handling_message: 'ingevulde default',
 
