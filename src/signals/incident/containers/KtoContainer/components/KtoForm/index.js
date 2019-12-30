@@ -24,24 +24,24 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
     this.ktoForm = ktoDefinition;
   }
 
-  UNSAFE_componentWillReceiveProps(props) {
+  componentDidUpdate(props) {
     if (!isEqual(props.ktoContainer.answers, this.props.ktoContainer.answers) && this.ktoForm && this.ktoForm.controls) {
-      if (props.ktoContainer.form.is_satisfied && this.ktoForm.controls.tevreden && this.ktoForm.controls.tevreden.meta) {
+      if (this.props.ktoContainer.form.is_satisfied && this.ktoForm.controls.tevreden && this.ktoForm.controls.tevreden.meta) {
         this.ktoForm.controls.tevreden.meta.values = {
-          ...props.ktoContainer.answers,
+          ...this.props.ktoContainer.answers,
           ...andersOption,
         };
       }
 
-      if (!props.ktoContainer.form.is_satisfied && this.ktoForm.controls.niet_tevreden && this.ktoForm.controls.niet_tevreden.meta) {
+      if (!this.props.ktoContainer.form.is_satisfied && this.ktoForm.controls.niet_tevreden && this.ktoForm.controls.niet_tevreden.meta) {
         this.ktoForm.controls.niet_tevreden.meta.values = {
-          ...props.ktoContainer.answers,
+          ...this.props.ktoContainer.answers,
           ...andersOption,
         };
       }
     }
 
-    this.setValues(props.ktoContainer.form);
+    this.setValues(this.props.ktoContainer.form);
   }
 
   setValues(incident) {

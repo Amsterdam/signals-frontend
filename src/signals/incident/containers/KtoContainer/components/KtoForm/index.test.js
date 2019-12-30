@@ -1,62 +1,9 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import { mount } from 'enzyme';
+import { withAppContext } from 'test/utils';
 
 import KtoForm, { andersOptionText } from './index';
-import formatConditionalForm from '../../../../services/format-conditional-form';
-
-jest.mock('../../../../services/format-conditional-form/');
-
-const mockForm = {
-  controls: {
-    tevreden: {
-      meta: {
-        isVisible: true,
-        label: 'Waarom bent u tevreden?',
-        values: {},
-      },
-    },
-    tevreden_anders: {
-      meta: {
-        isVisible: false,
-      },
-    },
-    niet_tevreden: {
-      meta: {
-        isVisible: true,
-        label: 'Waarom bent u ontevreden?',
-        values: {},
-      },
-    },
-    niet_tevreden_anders: {
-      meta: {
-        isVisible: false,
-      },
-    },
-    text_extra: {
-      meta: {
-        isVisible: true,
-        label: 'Wilt u verder nog iets vermelden of toelichten?',
-      },
-    },
-    allows_contact: {
-      meta: {
-        isVisible: true,
-        label: 'Mogen wij conact met u opnemen naar aanleiding vanuw feedback?',
-      },
-    },
-    is_satisfied: {
-      meta: {
-        isVisible: true,
-        label: 'Is tevreden?',
-      },
-    },
-    not_update: {
-      meta: {
-        isVisible: true,
-      },
-    },
-  },
-};
 
 describe('<KtoForm />', () => {
   let props;
@@ -77,9 +24,6 @@ describe('<KtoForm />', () => {
       onStoreKto: jest.fn(),
     };
 
-    formatConditionalForm.mockImplementation(() => mockForm);
-    jest.useFakeTimers();
-
     wrapper = mount(
       <KtoForm {...props} />
     );
@@ -89,38 +33,67 @@ describe('<KtoForm />', () => {
     spy = jest.spyOn(instance, 'setValues');
   });
 
-  afterEach(() => {
-    jest.runAllTimers();
-    jest.resetAllMocks();
-  });
-
   describe('rendering', () => {
     it('expect to render YES form correctly', () => {
-      wrapper.setProps({
+      const { queryByText, rerender } = render(
+        withAppContext(
+          <KtoForm {...props} />,
+        ),
+      );
+
+      const yesProps = {
+        ...props,
         ktoContainer: {
           form: {
+            is_satisfied: true,
             yesNo: 'ja',
           },
           answers: {
             'Antwoord JA': 'Antwoord JA',
           },
         },
-      });
-      expect(wrapper).toMatchSnapshot();
+      };
+
+      rerender(
+        withAppContext(
+          <KtoForm {...yesProps} />,
+        ),
+      );
+
+      expect(queryByText('Waarom bent u tevreden?')).toBeInTheDocument();
+      expect(queryByText('Antwoord JA')).toBeInTheDocument();
+      expect(queryByText('Wilt u verder nog iets vermelden of toelichten?')).toBeInTheDocument();
     });
 
     it('expect to render NO form correctly', () => {
-      wrapper.setProps({
+      const { queryByText, rerender } = render(
+        withAppContext(
+          <KtoForm {...props} />,
+        ),
+      );
+
+      const noProps = {
+        ...props,
         ktoContainer: {
           form: {
+            is_satisfied: false,
             yesNo: 'nee',
           },
           answers: {
             'Antwoord NEE': 'Antwoord NEE',
           },
         },
-      });
-      expect(wrapper).toMatchSnapshot();
+      };
+
+      rerender(
+        withAppContext(
+          <KtoForm {...noProps} />,
+        ),
+      );
+
+      expect(queryByText('Waarom bent u niet tevreden?')).toBeInTheDocument();
+      expect(queryByText('Antwoord NEE')).toBeInTheDocument();
+      expect(queryByText('Wilt u verder nog iets vermelden of toelichten?')).toBeInTheDocument();
     });
   });
 
@@ -178,7 +151,7 @@ describe('<KtoForm />', () => {
           label: andersOptionText,
         },
         niet_tevreden_anders: 'Meer over die melding',
-        text_extra: '',
+        text_extra: 'Zoveel te vertellen',
         is_satisfied: false,
       };
       instance.form.patchValue(form);
@@ -194,7 +167,7 @@ describe('<KtoForm />', () => {
         uuid: 'abc-42',
         form: {
           text: 'Meer over die melding',
-          text_extra: '',
+          text_extra: 'Zoveel te vertellen',
           allows_contact: false,
           is_satisfied: false,
         },
