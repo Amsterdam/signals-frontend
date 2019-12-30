@@ -428,7 +428,7 @@ export default {
         optional: true,
       },
 
-      // wonen - woningdelen
+      // wonen - onderhuur
       extra_wonen_onderhuur_naam_huurder: {
         label: 'Naam huurder',
         render: PreviewComponents.PlainText,
@@ -461,7 +461,7 @@ export default {
       },
       extra_wonen_onderhuur_woon_periode: {
         label: 'Woon periode',
-        render: PreviewComponents.PlainText,
+        render: PreviewComponents.ObjectValue,
         optional: true,
       },
 
