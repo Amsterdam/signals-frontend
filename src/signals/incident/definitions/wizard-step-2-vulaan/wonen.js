@@ -328,7 +328,7 @@ export default {
 
 
     // leegstand
-    extra_wonen_leegstand_naam_eiegnaar: {
+    extra_wonen_leegstand_naam_eigenaar: {
       meta: {
         ifOneOf: {
           subcategory: [
@@ -867,8 +867,7 @@ export default {
     },
 
 
-
-
+    // navigation
     $field_0: {
       isStatic: false,
       render: IncidentNavigation,
