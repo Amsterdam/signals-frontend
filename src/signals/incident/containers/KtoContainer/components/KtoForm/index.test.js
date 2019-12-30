@@ -91,7 +91,7 @@ describe('<KtoForm />', () => {
         ),
       );
 
-      expect(queryByText('Waarom bent u niet tevreden?')).toBeInTheDocument();
+      expect(queryByText('Waarom bent u ontevreden?')).toBeInTheDocument();
       expect(queryByText('Antwoord NEE')).toBeInTheDocument();
       expect(queryByText('Wilt u verder nog iets vermelden of toelichten?')).toBeInTheDocument();
     });
