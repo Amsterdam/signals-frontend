@@ -46,7 +46,10 @@ export const getContext = state => {
   return { store };
 };
 
-export const store = configureStore(Immutable.Map(), history);
+// eslint-disable-next-line no-shadow
+export const createStore = ({ initialState = Immutable.Map(), history = history }) => configureStore(initialState, history);
+
+export const store = createStore({ history });
 
 export const withAppContext = Component => (
   <ThemeProvider>
