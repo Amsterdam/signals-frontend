@@ -4,6 +4,7 @@ import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import isEqual from 'lodash.isequal';
 
 import { incidentType, locationType } from 'shared/types';
+import { PATCH_TYPE_LOCATION } from 'models/incident/constants';
 
 import mapLocation from 'shared/services/map-location';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
@@ -72,7 +73,7 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
 
     this.props.onPatchIncident({
       id: this.props.incident.id,
-      type: 'location',
+      type: PATCH_TYPE_LOCATION,
       patch: { location: { ...this.state.newLocation } },
     });
   }

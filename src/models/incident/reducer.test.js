@@ -1,9 +1,5 @@
 import { fromJS } from 'immutable';
 
-import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
-import priorityList from 'signals/incident-management/definitions/priorityList';
-import statusList, { changeStatusOptionList, defaultTextsOptionList } from 'signals/incident-management/definitions/statusList';
-
 import { SPLIT_INCIDENT_SUCCESS } from 'signals/incident-management/containers/IncidentSplitContainer/constants';
 
 import incidentModelReducer, { initialState } from './reducer';
@@ -16,38 +12,11 @@ import {
 }
   from './constants';
 
-describe('incidentModelReducer', () => {
+describe('models/incident/reducer', () => {
   const reducer = incidentModelReducer;
-  const expected = {
-    id: null,
-    stadsdeelList,
-    priorityList,
-    changeStatusOptionList,
-    defaultTextsOptionList,
-    statusList,
-    loading: false,
-    error: false,
-    attachments: [],
-    patching: {
-      location: false,
-      notes: false,
-      priority: false,
-      status: false,
-      subcategory: false,
-    },
-    split: false,
-  };
-  // let state;
-
-  beforeEach(() => {
-    // state = fromJS({
-    // incident: {},
-    // incidentNotesList: [],
-    // });
-  });
 
   it('returns the initial state', () => {
-    expect(reducer(undefined, {})).toEqual(fromJS(initialState));
+    expect(reducer(undefined, {})).toEqual(initialState);
   });
 
   it('should handle the REQUEST_INCIDENT', () => {
@@ -57,7 +26,7 @@ describe('incidentModelReducer', () => {
         payload: 42,
       }).toJS()
     ).toEqual({
-      ...expected,
+      ...initialState.toJS(),
       id: 42,
       incident: null,
       loading: true,
@@ -72,7 +41,7 @@ describe('incidentModelReducer', () => {
         payload,
       }).toJS()
     ).toEqual({
-      ...expected,
+      ...initialState.toJS(),
       incident: {
         id: 1,
       },
@@ -97,7 +66,7 @@ describe('incidentModelReducer', () => {
         payload: true,
       }).toJS()
     ).toEqual({
-      ...expected,
+      ...initialState.toJS(),
       error: true,
     });
   });
@@ -116,9 +85,9 @@ describe('incidentModelReducer', () => {
         payload,
       }).toJS()
     ).toEqual({
-      ...expected,
+      ...initialState.toJS(),
       patching: {
-        ...expected.patching,
+        ...initialState.toJS().patching,
         location: true,
       },
     });
@@ -134,12 +103,7 @@ describe('incidentModelReducer', () => {
         type: PATCH_INCIDENT_SUCCESS,
         payload,
       }).toJS()
-    ).toEqual({
-      ...expected,
-      patching: {
-        ...expected.patching,
-      },
-    });
+    ).toEqual(initialState.toJS());
   });
 
   it('should handle the PATCH_INCIDENT_ERROR', () => {
@@ -153,10 +117,7 @@ describe('incidentModelReducer', () => {
         payload,
       }).toJS()
     ).toEqual({
-      ...expected,
-      patching: {
-        ...expected.patching,
-      },
+      ...initialState.toJS(),
       error: payload.error,
     });
   });
@@ -167,7 +128,7 @@ describe('incidentModelReducer', () => {
         type: DISMISS_ERROR,
       }).toJS()
     ).toEqual({
-      ...expected,
+      ...initialState.toJS(),
       error: false,
     });
   });
@@ -179,7 +140,7 @@ describe('incidentModelReducer', () => {
         payload: 42,
       }).toJS()
     ).toEqual({
-      ...expected,
+      ...initialState.toJS(),
       attachments: [],
     });
   });
@@ -192,7 +153,7 @@ describe('incidentModelReducer', () => {
         payload,
       }).toJS()
     ).toEqual({
-      ...expected,
+      ...initialState.toJS(),
       attachments: payload,
     });
   });
@@ -203,7 +164,7 @@ describe('incidentModelReducer', () => {
         type: REQUEST_ATTACHMENTS_ERROR,
       }).toJS()
     ).toEqual({
-      ...expected,
+      ...initialState.toJS(),
       attachments: [],
     });
   });
@@ -227,7 +188,7 @@ describe('incidentModelReducer', () => {
         payload: 42,
       }).toJS()
     ).toEqual({
-      ...expected,
+      ...initialState.toJS(),
       defaultTexts: [],
     });
   });
@@ -240,7 +201,7 @@ describe('incidentModelReducer', () => {
         payload,
       }).toJS()
     ).toEqual({
-      ...expected,
+      ...initialState.toJS(),
       defaultTexts: payload,
     });
   });
@@ -251,7 +212,7 @@ describe('incidentModelReducer', () => {
         type: REQUEST_DEFAULT_TEXTS_ERROR,
       }).toJS()
     ).toEqual({
-      ...expected,
+      ...initialState.toJS(),
       defaultTexts: [],
     });
   });

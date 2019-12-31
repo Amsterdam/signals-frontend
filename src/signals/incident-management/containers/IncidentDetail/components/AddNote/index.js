@@ -4,6 +4,7 @@ import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 
 import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
 import TextAreaInput from 'signals/incident-management/components/TextAreaInput';
+import { PATCH_TYPE_NOTES } from 'models/incident/constants';
 
 import './style.scss';
 
@@ -28,7 +29,7 @@ class AddNote extends React.Component { // eslint-disable-line react/prefer-stat
     const notes = [{ text: this.form.value.text }];
     this.props.onPatchIncident({
       id: this.props.id,
-      type: 'notes',
+      type: PATCH_TYPE_NOTES,
       patch: { notes },
     });
 
