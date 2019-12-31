@@ -214,6 +214,7 @@ export const SiteHeader = props => {
   const isFrontOffice = !props.location.pathname.startsWith('/manage');
   const tall = isFrontOffice && !props.isAuthenticated;
   const title = tall ? '' : 'SIA';
+  const homeLink = tall ? 'https://www.amsterdam.nl' : '/';
 
   const navigation = tall ? null : (
     <Media query={`(max-width: ${breakpoint}px)`}>
@@ -241,7 +242,7 @@ export const SiteHeader = props => {
       <StyledHeader
         isFrontOffice={isFrontOffice}
         title={title}
-        homeLink="/"
+        homeLink={homeLink}
         tall={tall}
         fullWidth={false}
         navigation={navigation}

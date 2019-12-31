@@ -84,6 +84,32 @@ describe('components/SiteHeader', () => {
     expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(1);
   });
 
+  it('should render the correct homeLink', () => {
+    const { container, rerender } = render(
+      withAppContext(
+        <SiteHeader permissions={[]} isAuthenticated={false} location={{ pathname: '/' }} />,
+      ),
+    );
+
+    expect(container.querySelector('h1 a[href="https://www.amsterdam.nl"]')).toBeInTheDocument();
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} isAuthenticated location={{ pathname: '/' }} />,
+      ),
+    );
+
+    expect(container.querySelector('h1 a[href="/"]')).toBeInTheDocument();
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} isAuthenticated location={{ pathname: '/manage/incidents' }} />,
+      ),
+    );
+
+    expect(container.querySelector('h1 a[href="/"]')).toBeInTheDocument();
+  });
+
   it('should render a title', () => {
     const { rerender, queryByText } = render(
       withAppContext(
