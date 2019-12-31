@@ -144,10 +144,30 @@ describe('signals/incident-management/containers/IncidentOverviewPage/saga', () 
         .run();
     });
 
+    it('should dispatch success in case of a 500 error status', () => {
+      const q = 'Here be dragons';
+      const message = 'Internal server error';
+      const error = new Error(message);
+      error.response = {
+        status: 500,
+      };
+
+      return expectSaga(searchIncidents, q)
+        .provide([
+          [matchers.call.fn(authCall), throwError(error)],
+        ])
+        .call.like(authCall)
+        .put(requestIncidentsSuccess({ count: 0, results: [] }))
+        .run();
+    });
+
     it('should dispatch fetchIncidents error', () => {
       const q = 'Here be dragons';
       const message = '404 Not Found';
       const error = new Error(message);
+      error.response = {
+        status: 404,
+      };
 
       return expectSaga(searchIncidents, q)
         .provide([
