@@ -1,159 +1,192 @@
 import React from 'react';
-import { act } from '@testing-library/react-hooks';
-import { render, wait, fireEvent, cleanup } from '@testing-library/react';
-import { act as reAct } from 'react-dom/test-utils';
-import * as reactRouterDom from 'react-router-dom';
-import { withAppContext } from 'test/utils';
+import { render, fireEvent, wait, waitForElement } from '@testing-library/react';
+
+import { history as memoryHistory, withCustomAppContext } from 'test/utils';
 import usersJSON from 'utils/__tests__/fixtures/users.json';
 import routes from 'signals/settings/routes';
 import configuration from 'shared/services/configuration/configuration';
-
 import UsersOverview from '..';
 
-jest.mock('react-router-dom', () => ({
-  __esModule: true,
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    hash: '',
-    key: '',
-    pathname: '/instellingen/gebruikers/',
-    search: '',
-    state: null,
-  }),
-}));
+let testContext = {};
+const usersOverviewWithAppContext = (props = {}, overrideCfg = {}) => {
+  const { history } = testContext;
 
-const push = jest.fn();
-jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
-  push,
-}));
+  return withCustomAppContext(<UsersOverview {...props} />)({
+    routerCfg: { history },
+    ...overrideCfg,
+  });
+};
 
 describe('signals/settings/users/containers/Overview', () => {
   beforeEach(() => {
+    const push = jest.fn();
+    const scrollTo = jest.fn();
+    const history = {
+      ...memoryHistory,
+      push,
+    };
+
     fetch.mockResponse(JSON.stringify(usersJSON));
-    push.mockReset();
+    global.window.scrollTo = scrollTo;
+
+    testContext = {
+      history,
+      push,
+      scrollTo,
+    };
   });
 
   it('should request users from API on mount', async () => {
-    await act(async () => {
-      await render(withAppContext(<UsersOverview />));
+    render(usersOverviewWithAppContext());
 
-      await wait(() =>
-        expect(global.fetch).toHaveBeenCalledWith(
-          expect.stringContaining(configuration.USERS_ENDPOINT),
-          expect.objectContaining({ headers: {} })
-        )
-      );
-    });
+    await wait();
+
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining(configuration.USERS_ENDPOINT),
+      expect.objectContaining({ headers: {} })
+    );
   });
 
-  it('should render the list of fetched users', async () => {
-    let getByText;
-    let container;
+  it('should render title and loading indicator when loading', async () => {
+    jest.useFakeTimers();
+    fetch.mockResponse(() => new Promise((resolve => {
+      setTimeout(() => resolve({
+        body: JSON.stringify(usersJSON),
+      }) , 50);
+    })));
 
-    await reAct(async () => {
-      ({ container, getByText } = await render(
-        withAppContext(<UsersOverview />)
-      ));
-    });
+    const { getByText, queryByTestId } = render(usersOverviewWithAppContext());
+
+    await wait(() => queryByTestId('loadingIndicator'));
+
+    expect(getByText('Gebruikers (0)')).toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
+
+    jest.runAllTimers();
+
+    await wait();
 
     expect(getByText(`Gebruikers (${usersJSON.count})`)).toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).toBeNull();
+  });
 
+  it('should render title and data view with no data rows when no data', async () => {
+    fetch.mockResponse(JSON.stringify({}));
+
+    const { container, getByText, queryByTestId } = render(usersOverviewWithAppContext());
+
+    await wait();
+
+    expect(getByText('Gebruikers (0)')).toBeInTheDocument();
+    expect(queryByTestId('dataView')).toBeInTheDocument();
+    expect(container.querySelectorAll('tbody tr')).toHaveLength(0);
+  });
+
+  it('should render title and data view with data rows when data', async () => {
+    const { container, getByText, getByTestId } = render(usersOverviewWithAppContext());
+
+    await wait();
+
+    expect(getByText(`Gebruikers (${usersJSON.count})`)).toBeInTheDocument();
+    expect(getByTestId('dataView')).toBeInTheDocument();
+    expect(container.querySelectorAll('tbody tr')).toHaveLength(usersJSON.count);
+  });
+
+  it('should render data view with no data rows when loading', async () => {
+    jest.useFakeTimers();
+    fetch.mockResponse(() => new Promise((resolve => {
+      setTimeout(() => resolve({
+        body: JSON.stringify(usersJSON),
+      }) , 50);
+    })));
+
+    const { container, queryByTestId } = render(usersOverviewWithAppContext());
+
+    await wait(() => queryByTestId('loadingIndicator'));
+
+    expect(container.querySelectorAll('tbody tr')).toHaveLength(0);
+
+    jest.runAllTimers();
+
+    await wait();
+
+    expect(queryByTestId('loadingIndicator')).toBeNull();
     expect(container.querySelectorAll('tbody tr')).toHaveLength(usersJSON.count);
   });
 
   it('should render pagination controls', async () => {
-    let queryByTestId;
-    let rerender;
+    const pageSize = Math.ceil(usersJSON.count / 2);
+    const { rerender, queryByTestId, queryByText } = render(usersOverviewWithAppContext({ pageSize }));
 
-    await reAct(async () => {
-      ({ rerender, queryByTestId } = await render(
-        withAppContext(<UsersOverview />)
-      ));
-    });
+    await wait();
 
     expect(queryByTestId('pagination')).toBeInTheDocument();
+    expect(queryByText('2')).not.toBeNull();
 
-    cleanup();
+    rerender(usersOverviewWithAppContext({ pageSize: usersJSON.count }));
 
-    await reAct(async () => {
-      await rerender(
-        withAppContext(<UsersOverview pageSize={100} />)
-      );
-    });
+    await wait();
 
-    expect(queryByTestId('pagination')).not.toBeInTheDocument();
+    expect(queryByTestId('pagination')).toBeInTheDocument();
+    expect(queryByText('2')).toBeNull();
   });
 
-  it('should push to the history stack on pagination item click', async () => {
-    global.window.scrollTo = jest.fn();
-    let getByText;
+  it('should push to the history stack and scroll to top on pagination item click', async () => {
+    const pageSize = Math.ceil(usersJSON.count / 2);
+    const { push, scrollTo } = testContext;
+    const { getByText } = render(usersOverviewWithAppContext({ pageSize }));
 
-    await reAct(async () => {
-      ({ getByText } = await render(
-        withAppContext(<UsersOverview />)
-      ));
-    });
-
-    expect(getByText('2')).toBeInTheDocument();
+    await wait(() => getByText('2'));
 
     fireEvent.click(getByText('2'));
 
+    expect(scrollTo).toHaveBeenCalledWith(0, 0);
     expect(push).toHaveBeenCalled();
-    expect(global.window.scrollTo).toHaveBeenCalledWith(0, 0);
-
-    global.window.scrollTo.mockRestore();
   });
 
   it('should not push', async () => {
-    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
-      pageNum: 1,
-    }));
+    const { push } = testContext;
 
-    await reAct(async () => {
-      await render(withAppContext(<UsersOverview />));
-    });
+    render(usersOverviewWithAppContext());
+
+    await wait();
 
     expect(push).not.toHaveBeenCalled();
   });
 
-  it('should not push on POP', async () => {
-    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
-      pageNum: 1,
-    }));
-
-    await reAct(async () => {
-      await render(withAppContext(<UsersOverview />));
-    });
-
-    expect(push).not.toHaveBeenCalled();
-  });
-
-  it('should push on list item click', async () => {
-    let container;
-
-    await reAct(async () => {
-      ({ container } = await render(
-        withAppContext(<UsersOverview />)
-      ));
-    });
-
-    const row = container.querySelector('tbody tr:nth-child(42)');
+  it('should push on list item with an itemId click', async () => {
+    const { push } = testContext;
+    const { container } = render(usersOverviewWithAppContext());
     const itemId = 666;
+
+    const row = await waitForElement(
+      () => container.querySelector('tbody tr:nth-child(42)'),
+      { container }
+    );
+    const username = row.querySelector('td:first-of-type');
+
+    // Explicitly set an 'itemId' so that we can easily test against it's value.
     row.dataset.itemId = itemId;
 
-    fireEvent.click(row.querySelector('td:first-of-type'), { bubbles: true });
+    expect(push).toHaveBeenCalledTimes(0);
 
-    expect(push).toHaveBeenCalledWith(
-      routes.user.replace(/:userId.*/, itemId)
-    );
+    fireEvent.click(username);
 
-    push.mockReset();
+    expect(push).toHaveBeenCalledTimes(1);
+    expect(push).toHaveBeenCalledWith(routes.user.replace(/:userId.*/, itemId));
 
-    const row2 = container.querySelector('tbody tr:nth-child(43)');
-    delete row2.dataset.itemId;
+    // Remove 'itemId' and fire click event again.
+    delete row.dataset.itemId;
 
-    fireEvent.click(row2.querySelector('td:first-of-type'));
+    fireEvent.click(username);
 
-    expect(push).not.toHaveBeenCalled();
+    expect(push).toHaveBeenCalledTimes(1);
+
+    // Set 'itemId' again and fire click event once more.
+    row.dataset.itemId = itemId;
+
+    fireEvent.click(username);
+
+    expect(push).toHaveBeenCalledTimes(2);
   });
 });
