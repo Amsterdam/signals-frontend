@@ -11,7 +11,7 @@ export {
   DataHeader,
   DataFilter,
   DataList,
-}
+};
 
 const allowedNodes = [
   DataHeader,
@@ -76,7 +76,7 @@ const DataView  = ({ children }) => {
   );
 
   return (
-    <StyledTable>
+    <StyledTable data-testid="dataView">
       {headerRows.length > 0 && renderHeaderRows()}
       {body.length > 0 && renderBody()}
     </StyledTable>

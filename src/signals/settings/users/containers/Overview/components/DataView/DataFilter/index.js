@@ -27,9 +27,9 @@ const DataFilter = ({ headersLength, children }) => {
   const colSpan = Math.max(headersLength - filters.length, 0); // Make sure we have a positive integer or 0.
 
   return (
-    <StyledTR>
+    <StyledTR data-testid="dataViewFilterRow">
       {filters}
-      {colSpan > 0 && <StyledTH key={filters.length} colSpan={colSpan} />}
+      {colSpan > 0 && <StyledTH key={filters.length} colSpan={colSpan > 1 ? colSpan : undefined} />}
     </StyledTR>
   );
 };

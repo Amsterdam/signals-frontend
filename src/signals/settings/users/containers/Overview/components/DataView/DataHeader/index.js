@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { StyledTR, StyledTH } from '../styled';
 
 const DataHeader = ({ labels }) => (
-  <StyledTR>
+  <StyledTR data-testid="dataViewHeaderRow">
     {labels.map(label => (
       <StyledTH key={label}>
         {label}
