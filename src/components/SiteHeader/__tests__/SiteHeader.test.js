@@ -31,7 +31,8 @@ describe('components/SiteHeader', () => {
     );
 
     // menu items
-    expect(queryByText('Melden')).toBeNull();
+    expect(queryByText('Melden')).not.toBeInTheDocument();
+    expect(queryByText('Help')).not.toBeInTheDocument();
 
     // inline menu should not be visible
     expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(0);
@@ -61,7 +62,8 @@ describe('components/SiteHeader', () => {
     );
 
     // menu items
-    expect(queryByText('Melden')).not.toBeNull();
+    expect(queryByText('Melden')).toBeInTheDocument();
+    expect(queryByText('Help')).toBeInTheDocument();
 
     // inline menu should be visible
     expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(0);
