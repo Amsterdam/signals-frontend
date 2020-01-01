@@ -519,9 +519,6 @@ export default {
           'Bel nu met 14 020',
           'Vraag naar team Zoeklicht Direct. U wordt direct doorverbonden met een medewerker. Handhaving gaat indien mogelijk, meteen langs.'],
       },
-      options: {
-        validators: [Validators.required],
-      },
       render: FormComponents.PlainText,
     },
     extra_wonen_vakantieverhuur_aantal_mensen: {
@@ -688,9 +685,6 @@ export default {
         className: 'col-sm-12 col-md-8',
         type: 'caution',
         value: ['Mocht u in de toekomst zien dat er toeristen in de woning aanwezig zijn a.u.b. direct bellen met 14 020 en vragen naar team Zoeklicht Direct.'],
-      },
-      options: {
-        validators: [Validators.required],
       },
       render: FormComponents.PlainText,
     },
