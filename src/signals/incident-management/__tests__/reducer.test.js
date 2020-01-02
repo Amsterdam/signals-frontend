@@ -210,13 +210,25 @@ describe('signals/incident-management/reducer', () => {
       type: CLEAR_FILTER,
     };
 
+    const someState = fromJS({
+      ...initialState.toJS(),
+      editFilter: {
+        name: 'Foo bar baz',
+        options: {
+          created_after: '2019-18-12T00:00:00',
+        },
+      },
+      page: 1,
+      ordering: '-created_at',
+    });
+
     const expected = fromJS(initialState)
       .set('editFilter', initialState.get('editFilter'))
       .set('loading', false)
       .set('error', false)
       .set('errorMessage', undefined);
 
-    expect(reducer(initialState, clearFilter)).toEqual(expected);
+    expect(reducer(someState, clearFilter)).toEqual(expected);
     expect(reducer(undefined, clearFilter)).toEqual(expected);
   });
 
