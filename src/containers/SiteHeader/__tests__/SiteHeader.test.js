@@ -9,7 +9,7 @@ describe('containers/SiteHeader', () => {
 
     const containerProps = tree.find(SiteHeaderContainer).props();
 
-    expect(containerProps.onLogOut).not.toBeUndefined();
+    expect(containerProps.onLogOut).toBeDefined();
     expect(typeof containerProps.onLogOut).toEqual('function');
   });
 
@@ -18,7 +18,7 @@ describe('containers/SiteHeader', () => {
 
     const props = tree.find(SiteHeaderContainer).props();
 
-    expect(props.userCan).not.toBeUndefined();
-    expect(props.userCanAccess).not.toBeUndefined();
+    expect(props.userCan).toBeDefined();
+    expect(props.userCanAccess).toBeDefined();
   });
 });

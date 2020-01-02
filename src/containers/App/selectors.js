@@ -46,13 +46,9 @@ const makeSelectUserCan = createSelector(
     /**
      * @param {String} capability - The permission to check for
      */
-    capability => {
-      if (is_superuser) {
-        return true;
-      }
-
-      return Boolean(permissions.find(codename => codename === capability));
-    }
+    capability =>
+      is_superuser ||
+      Boolean(permissions.find(codename => codename === capability))
 );
 
 /**
