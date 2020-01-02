@@ -1,46 +1,169 @@
 {
   "_links": {
     "self": {
-      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/45"
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/255657600"
     }
   },
   "_display": "initial.lastname@amsterdam.nl",
-  "id": 45,
+  "id": 255657600,
   "username": "initial.lastname@amsterdam.nl",
   "email": "initial.lastname@amsterdam.nl",
-  "first_name": "First Name",
-  "last_name": "Last Name",
+  "first_name": "Firstname",
+  "last_name": "Lastname",
   "is_active": true,
-  "is_staff": true,
-  "is_superuser": false,
-  "roles": [],
+  "is_staff": false,
+  "is_superuser": true,
+  "roles": [
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/roles/1576886400"
+        }
+      },
+      "_display": "monitors",
+      "id": 1576886400,
+      "name": "monitors",
+      "permissions": [
+        {
+          "_links": {
+            "self": {
+              "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/331257600"
+            }
+          },
+          "_display": "signals | category | View all categories (this will override the category permission based on the user/department relation)",
+          "id": 331257600,
+          "name": "View all categories (this will override the category permission based on the user/department relation)",
+          "codename": "sia_can_view_all_categories"
+        },
+        {
+          "_links": {
+            "self": {
+              "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/331257601"
+            }
+          },
+          "_display": "signals | priority | Can add priority",
+          "id": 331257601,
+          "name": "Can add priority",
+          "codename": "add_priority"
+        },
+        {
+          "_links": {
+            "self": {
+              "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/331257602"
+            }
+          },
+          "_display": "signals | signal | Can read from SIA",
+          "id": 331257602,
+          "name": "Can read from SIA",
+          "codename": "sia_read"
+        },
+        {
+          "_links": {
+            "self": {
+              "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/331257603"
+            }
+          },
+          "_display": "signals | signal | Can create notes for signals",
+          "id": 331257603,
+          "name": "Can create notes for signals",
+          "codename": "sia_signal_create_note"
+        },
+        {
+          "_links": {
+            "self": {
+              "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/331257604"
+            }
+          },
+          "_display": "signals | signal | Can write to SIA",
+          "id": 331257604,
+          "name": "Can write to SIA",
+          "codename": "sia_write"
+        }
+      ]
+    }
+  ],
   "permissions": [
     {
       "_links": {
         "self": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/110"
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/1571875200"
         }
       },
-      "_display": "signals | signal | Can read from SIA",
-      "id": 110,
-      "name": "Can read from SIA",
-      "codename": "sia_read"
+      "_display": "auth | groep | Can add group",
+      "id": 1571875200,
+      "name": "Can add group",
+      "codename": "add_group"
     },
     {
       "_links": {
         "self": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/111"
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/1571875210"
         }
       },
-      "_display": "signals | signal | Can write to SIA",
-      "id": 111,
-      "name": "Can write to SIA",
-      "codename": "sia_write"
+      "_display": "auth | groep | Can change group",
+      "id": 1571875210,
+      "name": "Can change group",
+      "codename": "change_group"
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/1571875220"
+        }
+      },
+      "_display": "auth | groep | Can view group",
+      "id": 1571875220,
+      "name": "Can view group",
+      "codename": "view_group"
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/1571875230"
+        }
+      },
+      "_display": "auth | recht | Can view permission",
+      "id": 1571875230,
+      "name": "Can view permission",
+      "codename": "view_permission"
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/1571875240"
+        }
+      },
+      "_display": "auth | gebruiker | Can add user",
+      "id": 1571875240,
+      "name": "Can add user",
+      "codename": "add_user"
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/1571875250"
+        }
+      },
+      "_display": "auth | gebruiker | Can change user",
+      "id": 1571875250,
+      "name": "Can change user",
+      "codename": "change_user"
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/1571875260"
+        }
+      },
+      "_display": "auth | gebruiker | Can view user",
+      "id": 1571875260,
+      "name": "Can view user",
+      "codename": "view_user"
     }
   ],
   "profile": {
     "departments": [],
-    "created_at": "2019-10-24T10:25:48.873796+02:00",
-    "updated_at": "2019-10-24T10:25:48.873809+02:00"
+    "created_at": "2019-10-24T10:25:48.874301+02:00",
+    "updated_at": "2019-10-24T10:25:48.874315+02:00"
   }
 }

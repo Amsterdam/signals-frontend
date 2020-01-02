@@ -125,7 +125,7 @@ export class Configuration {
   }
 
   get AUTH_ME_ENDPOINT() {
-    return `${this.API_ROOT}signals/user/auth/me/`;
+    return `${this.API_ROOT}signals/v1/private/me/`;
   }
 
   get CATEGORIES_ENDPOINT() {

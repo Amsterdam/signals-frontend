@@ -179,7 +179,7 @@ const HeaderWrapper = styled.div`
     `}
 `;
 
-const MenuItems = ({ onLogOut, permissions }) => {
+const MenuItems = ({ onLogOut, showItems }) => {
   const showLogout = isAuthenticated();
 
   return (
@@ -202,23 +202,31 @@ const MenuItems = ({ onLogOut, permissions }) => {
           Melden
         </StyledMenuButton>
       </MenuItem>
-      {permissions.includes('signals.sia_statusmessagetemplate_write') && (
+
+      {showItems.defaultTexts && (
         <MenuItem element="span">
           <StyledMenuButton $as={NavLink} to="/manage/standaard/teksten">
             Standaard teksten
           </StyledMenuButton>
         </MenuItem>
       )}
-      {isAuthenticated() && (
+
+      {showItems.settings && (showItems.users || showItems.groups) && (
         <StyledMenuFlyout label="Instellingen">
-          <StyledMenuButton $as={NavLink} to="/instellingen/gebruikers">
-            Gebruikers
-          </StyledMenuButton>
-          <StyledMenuButton $as={NavLink} to="/instellingen/rollen">
-            Rollen
-          </StyledMenuButton>
+          {showItems.users && (
+            <StyledMenuButton $as={NavLink} to="/instellingen/gebruikers">
+              Gebruikers
+            </StyledMenuButton>
+          )}
+
+          {showItems.groups && (
+            <StyledMenuButton $as={NavLink} to="/instellingen/rollen">
+              Rollen
+            </StyledMenuButton>
+          )}
         </StyledMenuFlyout>
       )}
+
       {showLogout && (
         <MenuItem
           element="button"
@@ -287,11 +295,12 @@ export const SiteHeader = props => {
 
 SiteHeader.defaultProps = {
   onLogOut: undefined,
+  showItems: {},
 };
 
 SiteHeader.propTypes = {
   onLogOut: PropTypes.func,
-  permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  showItems: PropTypes.shape({}),
 };
 
 MenuItems.propTypes = SiteHeader.propTypes;

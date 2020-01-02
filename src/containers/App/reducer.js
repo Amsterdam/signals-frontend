@@ -1,18 +1,5 @@
-/*
- * AppReducer
- *
- * The reducer takes care of our data. Using actions, we can change our
- * application state.
- * To add a new action, add it to the switch statement in the reducer function
- *
- * Example:
- * case YOUR_ACTION_CONSTANT:
- *   return state.set('yourStateVariable', true);
- */
-
 import { fromJS } from 'immutable';
 
-import { ACCESS_TOKEN } from 'shared/services/auth/auth';
 import {
   VARIANT_DEFAULT,
   TYPE_DEFAULT,
@@ -37,10 +24,11 @@ export const initialState = fromJS({
   loading: false,
   error: false,
   upload: {},
-  userPermissions: [],
-  userName: undefined,
-  userScopes: undefined,
-  accessToken: undefined,
+  user: {
+    permissions: [],
+    roles: [],
+    profile: null,
+  },
   categories: {
     main: [],
     sub: [],
@@ -57,19 +45,11 @@ export const initialState = fromJS({
 function appReducer(state = initialState, action) {
   switch (action.type) {
     case AUTHORIZE_USER:
-      global.localStorage.setItem(ACCESS_TOKEN, action.payload.accessToken);
-
-      return state
-        .set('userName', action.payload.userName)
-        .set('userScopes', fromJS(action.payload.userScopes))
-        .set('userPermissions', fromJS(action.payload.userPermissions))
-        .set('accessToken', action.payload.accessToken);
+      return state.set('user', fromJS(action.payload));
 
     case LOGIN_FAILED:
     case LOGOUT_FAILED:
-      return state
-        .set('error', Boolean(action.payload))
-        .set('loading', false);
+      return state.set('error', Boolean(action.payload)).set('loading', false);
 
     case SHOW_GLOBAL_NOTIFICATION:
       return state.set('notification', fromJS({ ...action.payload }));

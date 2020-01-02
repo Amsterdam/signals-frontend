@@ -3,22 +3,35 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { makeSelectUserPermissions } from 'containers/App/selectors';
+import {
+  makeSelectUserCan,
+  makeSelectUserCanAccess,
+} from 'containers/App/selectors';
 import SiteHeader from 'components/SiteHeader';
 
 import { doLogout } from '../App/actions';
 
-export const SiteHeaderContainer = ({ onLogOut, permissions }) => (
-  <SiteHeader onLogOut={onLogOut} permissions={permissions} />
+export const SiteHeaderContainer = ({ onLogOut, userCan, userCanAccess }) => (
+  <SiteHeader
+    onLogOut={onLogOut}
+    showItems={{
+      defaultTexts: userCan('sia_statusmessagetemplate_write'),
+      groups: userCanAccess('groups'),
+      settings: userCanAccess('settings'),
+      users: userCanAccess('users'),
+    }}
+  />
 );
 
 SiteHeaderContainer.propTypes = {
   onLogOut: PropTypes.func,
-  permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  userCan: PropTypes.func,
+  userCanAccess: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
-  permissions: makeSelectUserPermissions(),
+  userCan: makeSelectUserCan,
+  userCanAccess: makeSelectUserCanAccess,
 });
 
 export const mapDispatchToProps = dispatch =>
