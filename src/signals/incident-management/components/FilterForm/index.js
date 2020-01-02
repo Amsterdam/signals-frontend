@@ -168,10 +168,10 @@ const FilterForm = ({
           </Label>
           <div className="antwoord">
             <input
+              defaultChecked={filterData.refresh}
               id="filter_refresh"
               name="refresh"
               onClick={onRefreshChange}
-              defaultChecked={filterData.refresh}
               type="checkbox"
             />
             <label htmlFor="filter_refresh">
@@ -185,30 +185,33 @@ const FilterForm = ({
 
           {Array.isArray(status) && status.length > 0 && (
             <FilterGroup data-testid="statusFilterGroup">
-              <Label htmlFor={`status_${status[0].key}`} isGroupHeader>
-                Status
-              </Label>
               <CheckboxList
                 defaultValue={filterData.options && filterData.options.status}
-                groupName="status"
-                groupId="status"
                 options={status}
+                name="status"
+                title={
+                  <Label as="span" isGroupHeader>
+                    Status
+                  </Label>
+                }
               />
             </FilterGroup>
           )}
 
           {Array.isArray(stadsdeel) && stadsdeel.length > 0 && (
             <FilterGroup data-testid="stadsdeelFilterGroup">
-              <Label htmlFor={`status_${stadsdeel[0].key}`} isGroupHeader>
-                Stadsdeel
-              </Label>
               <CheckboxList
                 defaultValue={
                   filterData.options && filterData.options.stadsdeel
                 }
-                groupName="stadsdeel"
-                groupId="stadsdeel"
+                hasToggle
                 options={stadsdeel}
+                name="stadsdeel"
+                title={
+                  <Label as="span" isGroupHeader>
+                    Stadsdeel
+                  </Label>
+                }
               />
             </FilterGroup>
           )}
@@ -220,8 +223,8 @@ const FilterForm = ({
               </Label>
               <RadioButtonList
                 defaultValue={filterData.options && filterData.options.priority}
-                groupName="priority"
                 options={priority}
+                groupName="priority"
               />
             </FilterGroup>
           )}
@@ -233,8 +236,8 @@ const FilterForm = ({
               </Label>
               <RadioButtonList
                 defaultValue={filterData.options && filterData.options.feedback}
-                groupName="feedback"
                 options={feedback}
+                groupName="feedback"
               />
             </FilterGroup>
           )}
@@ -284,7 +287,9 @@ const FilterForm = ({
           </FilterGroup>
 
           <FilterGroup>
-            <Label htmlFor="filter_address" isGroupHeader>Adres</Label>
+            <Label htmlFor="filter_address" isGroupHeader>
+              Adres
+            </Label>
             <Input
               name="address_text"
               id="filter_address"
@@ -299,9 +304,8 @@ const FilterForm = ({
               </Label>
               <CheckboxList
                 defaultValue={filterData.options && filterData.options.source}
-                groupName="source"
-                groupId="source"
                 options={source}
+                name="source"
               />
             </FilterGroup>
           )}
@@ -327,15 +331,15 @@ const FilterForm = ({
 
               return (
                 <CheckboxList
-                  clusterName="category_slug"
                   defaultValue={filterSlugs}
-                  groupName={mainCategory}
                   groupId={mainCatObj.key}
+                  groupName="maincategory_slug"
+                  groupValue={mainCatObj.slug}
                   hasToggle
                   key={mainCategory}
+                  name={`${mainCatObj.slug}_category_slug`}
                   options={options}
                   title={mainCatObj.value}
-                  toggleFieldName="maincategory_slug"
                 />
               );
             })}
