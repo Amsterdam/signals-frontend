@@ -5,7 +5,7 @@ import { withAppContext, withIntlAppContext } from 'test/utils';
 import categories from 'utils/__tests__/fixtures/categories.json';
 import * as definitions from 'signals/incident-management/definitions';
 
-import FilterTagList, { FilterTagListComponent, allLabelAppend } from '..';
+import FilterTagList, { FilterTagListComponent, allLabelAppend, mapKeys } from '..';
 import translations from '../../../../../translations/nl.json';
 
 const dataLists = {
@@ -13,6 +13,7 @@ const dataLists = {
   status: definitions.statusList,
   feedback: definitions.feedbackList,
   stadsdeel: definitions.stadsdeelList,
+  source: definitions.sourceList,
 };
 
 describe('signals/incident-management/containers/FilterTagList', () => {
@@ -162,6 +163,34 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(10);
     });
 
+    it('renders tags that have all items selected', () => {
+      const groupedTags = {
+        status: definitions.statusList,
+        stadsdeel: definitions.stadsdeelList,
+        source: definitions.sourceList,
+      }
+
+      const { queryByText } = render(
+        withAppContext(
+          <FilterTagListComponent
+            dataLists={dataLists}
+            tags={groupedTags}
+            categories={categories}
+          />,
+        ),
+      );
+
+      expect(
+        queryByText(`status${allLabelAppend}`)
+      ).toBeInTheDocument();
+      expect(
+        queryByText(`stadsdeel${allLabelAppend}`)
+      ).toBeInTheDocument();
+      expect(
+        queryByText(`bron${allLabelAppend}`)
+      ).toBeInTheDocument();
+    });
+
     it('renders no list when tags are undefined', () => {
       const { queryAllByTestId } = render(
         withAppContext(
@@ -174,5 +203,10 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(0);
     });
+  });
+
+  it('should map keys', () => {
+    expect(mapKeys('source')).toEqual('bron');
+    expect(mapKeys('any_key')).toEqual('any_key');
   });
 });

@@ -15,9 +15,37 @@ const FilterWrapper = styled.div`
 const StyledTag = styled(Tag)`
   display: inline-block;
   margin: 0 5px 5px 0;
-`;
+  :first-letter {
+    text-transform: capitalize;
+  }`;
 
 export const allLabelAppend = ': Alles';
+
+export const mapKeys = key => {
+  switch (key) {
+    case 'source':
+      return 'bron'
+
+    default:
+      return key;
+  }
+}
+const renderItem = (display, key) => (
+  <StyledTag
+    colorType="tint"
+    colorSubtype="level3"
+    key={key}
+    data-testid="filterTagListTag"
+  >
+    {display}
+  </StyledTag>);
+
+const renderGroup = (tag, main, list, tagKey) => {
+  if (tag.length === list.length) {
+    return renderItem(`${mapKeys(tagKey)}${allLabelAppend}`, tagKey);
+  }
+  return tag.map(item => renderTag(item.key, main, list));
+};
 
 const renderTag = (key, mainCategories, list) => {
   let found = false;
@@ -27,7 +55,6 @@ const renderTag = (key, mainCategories, list) => {
   }
 
   let display = (found && found.value) || key;
-
   if (!display) {
     return null;
   }
@@ -35,17 +62,8 @@ const renderTag = (key, mainCategories, list) => {
   const foundMain = mainCategories.find(i => i.key === key);
 
   display += foundMain ? allLabelAppend : '';
-
-  return (
-    <StyledTag
-      colorType="tint"
-      colorSubtype="level3"
-      key={key}
-      data-testid="filterTagListTag"
-    >
-      {display}
-    </StyledTag>
-  );
+  // eslint-disable-next-line consistent-return
+  return renderItem(display, key);
 };
 
 export const FilterTagListComponent = props => {
@@ -90,7 +108,7 @@ export const FilterTagListComponent = props => {
     <FilterWrapper className="incident-overview-page__filter-tag-list">
       {Object.entries(tagsList).map(([tagKey, tag]) =>
         Array.isArray(tag)
-          ? tag.map(item => renderTag(item.key, main, map[tagKey]))
+          ? renderGroup(tag, main, map[tagKey], tagKey)
           : renderTag(tag, main, map[tagKey])
       )}
     </FilterWrapper>
