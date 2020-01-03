@@ -384,8 +384,8 @@ describe('signals/incident-management/components/FilterForm', () => {
     ).toHaveLength(dataLists.source.length);
   });
 
-  it('should render a datepicker', () => {
-    const { container, rerender } = render(
+  it('should render datepickers', () => {
+    render(
       withAppContext(
         <FilterForm
           {...formProps}
@@ -394,28 +394,50 @@ describe('signals/incident-management/components/FilterForm', () => {
       ),
     );
 
-    expect(
-      container.querySelectorAll('input[type="hidden"][name="incident_date"]'),
-    ).toHaveLength(0);
+    expect(document.getElementById('filter_created_before')).toBeInTheDocument();
+    expect(document.getElementById('filter_created_after')).toBeInTheDocument();
+  });
 
-    expect(document.getElementById('filter_date')).toBeTruthy();
-
-    cleanup();
-
-    // rerendering, because react-datepicker interaction isn't testable
-    rerender(
+  it('should update the state on created before date select', () => {
+    render(
       withAppContext(
         <FilterForm
           {...formProps}
-          filter={{ options: { incident_date: '1970-01-01' } }}
           dataLists={dataLists}
         />,
       ),
     );
 
-    expect(
-      container.querySelectorAll('input[type="hidden"][name="incident_date"]'),
-    ).toHaveLength(1);
+    const value = '18-12-2018';
+    const inputElement = document.getElementById('filter_created_before');
+
+    // selecting a date from the datepicker will render a hidden input
+    expect(document.querySelector('input[name=created_before]')).not.toBeInTheDocument();
+
+    fireEvent.change(inputElement, { target: { value } });
+
+    expect(document.querySelector('input[name=created_before]')).toBeInTheDocument();
+  });
+
+  it('should update the state on created after date select', () => {
+    render(
+      withAppContext(
+        <FilterForm
+          {...formProps}
+          dataLists={dataLists}
+        />,
+      ),
+    );
+
+    const value = '23-12-2018';
+    const inputElement = document.getElementById('filter_created_after');
+
+    // selecting a date from the datepicker will render a hidden input
+    expect(document.querySelector('input[name=created_after]')).not.toBeInTheDocument();
+
+    fireEvent.change(inputElement, { target: { value } });
+
+    expect(document.querySelector('input[name=created_after]')).toBeInTheDocument();
   });
 
   // Note that jsdom has a bug where `submit` and `reset` handlers are not called when those handlers
@@ -436,7 +458,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const nameField = container.querySelector(
       'input[type="text"][name="name"]',
     );
-    const dateField = container.querySelector('input[id="filter_date"]');
+    const dateField = container.querySelector('input[id="filter_created_before"]');
     const addressField = container.querySelector(
       'input[type="text"][name="address_text"]',
     );
@@ -531,7 +553,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       fireEvent.change(nameField, { target: { value: 'New name' }});
       fireEvent.click(container.querySelector('button[type="submit"]'));
 
-      expect(handlers.onSaveFilter).toHaveBeenCalled();
+      expect(handlers.onSaveFilter).toHaveBeenCalledTimes(1);
     });
 
     it('should handle submit for existing filter', () => {
