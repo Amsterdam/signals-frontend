@@ -112,6 +112,14 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     expect(props.onRequestIncidents).toBeCalledWith();
   });
 
+  it('should show notification when no results can be rendered', () => {
+    const { getByText } = render(
+      withAppContext(<IncidentOverviewPageContainerComponent {...props} incidentsCount={0} />)
+    );
+
+    expect(getByText('Geen meldingen')).toBeInTheDocument();
+  });
+
   it('should have props from structured selector', () => {
     const tree = mount(withAppContext(<IncidentOverviewPage />));
 
