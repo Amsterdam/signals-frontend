@@ -88,7 +88,7 @@ export default (state = initialState, action) => {
 
     case CLEAR_FILTER:
       return state
-        .set('editFilter', state.get('editFilter'))
+        .set('editFilter', initialState.get('editFilter'))
         .set('error', false)
         .set('errorMessage', undefined)
         .set('loading', false);
