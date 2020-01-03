@@ -12,6 +12,7 @@ describe('containers/SearchBar', () => {
 
     const props = tree.find(SearchBarComponent).props();
 
+    expect(props.onResetSearchIncidents).toBeDefined();
     expect(props.onRequestIncidents).toBeDefined();
     expect(props.onSearchIncidents).toBeDefined();
     expect(props.query).toBeDefined();
@@ -22,20 +23,24 @@ describe('containers/SearchBar', () => {
 
     const containerProps = tree.find(SearchBarComponent).props();
 
-    expect(containerProps.onRequestIncidents).not.toBeUndefined();
+    expect(containerProps.onResetSearchIncidents).toBeDefined();
     expect(typeof containerProps.onRequestIncidents).toEqual('function');
 
-    expect(containerProps.onApplyFilter).not.toBeUndefined();
+    expect(containerProps.onRequestIncidents).toBeDefined();
+    expect(typeof containerProps.onRequestIncidents).toEqual('function');
+
+    expect(containerProps.onApplyFilter).toBeDefined();
     expect(typeof containerProps.onApplyFilter).toEqual('function');
 
-    expect(containerProps.onSearchIncidents).not.toBeUndefined();
+    expect(containerProps.onSearchIncidents).toBeDefined();
     expect(typeof containerProps.onSearchIncidents).toEqual('function');
 
-    expect(containerProps.history).not.toBeUndefined();
+    expect(containerProps.history).toBeDefined();
     expect(typeof containerProps.history.push).toEqual('function');
   });
 
   describe('callback handlers', () => {
+    const onResetSearchIncidents = jest.fn();
     const onRequestIncidents = jest.fn();
     const onSearchIncidents = jest.fn();
     const onApplyFilter = jest.fn();
@@ -50,6 +55,7 @@ describe('containers/SearchBar', () => {
       const { queryByTestId } = render(
         withAppContext(
           <SearchBarComponent
+            onResetSearchIncidents={onResetSearchIncidents}
             onRequestIncidents={onRequestIncidents}
             onSearchIncidents={onSearchIncidents}
             onApplyFilter={onApplyFilter}
@@ -83,6 +89,7 @@ describe('containers/SearchBar', () => {
       const { queryByTestId } = render(
         withAppContext(
           <SearchBarComponent
+            onResetSearchIncidents={onResetSearchIncidents}
             onRequestIncidents={onRequestIncidents}
             onSearchIncidents={onSearchIncidents}
             onApplyFilter={onApplyFilter}
@@ -98,6 +105,7 @@ describe('containers/SearchBar', () => {
       fireEvent.change(formInput, { target: { value: '' } });
 
       expect(push).not.toHaveBeenCalled();
+      expect(onResetSearchIncidents).toHaveBeenCalledWith();
       expect(onRequestIncidents).toHaveBeenCalledWith();
     });
   });

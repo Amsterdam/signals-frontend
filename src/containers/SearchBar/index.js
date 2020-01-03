@@ -6,7 +6,7 @@ import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { withRouter } from 'react-router';
 
-import { requestIncidents, searchIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
+import { requestIncidents, searchIncidents, resetSearchIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 import { makeSelectSearchQuery } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 import { applyFilter } from 'signals/incident-management/actions';
 
@@ -15,6 +15,7 @@ export const SearchBarComponent = ({
   query,
   onApplyFilter,
   onSearchIncidents,
+  onResetSearchIncidents,
   onRequestIncidents,
   history,
 }) => {
@@ -31,7 +32,7 @@ export const SearchBarComponent = ({
 
   const onChange = useCallback(value => {
     if (value === '') {
-      onSearchIncidents('');
+      onResetSearchIncidents();
       onRequestIncidents();
     }
   }, [onSearchIncidents, onRequestIncidents]);
@@ -55,6 +56,7 @@ SearchBarComponent.defaultProps = {
 SearchBarComponent.propTypes = {
   className: PropTypes.string,
   onApplyFilter: PropTypes.func.isRequired,
+  onResetSearchIncidents: PropTypes.func.isRequired,
   onRequestIncidents: PropTypes.func.isRequired,
   onSearchIncidents: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
@@ -73,6 +75,7 @@ export const mapDispatchToProps = dispatch =>
       onApplyFilter: applyFilter,
       onRequestIncidents: requestIncidents,
       onSearchIncidents: searchIncidents,
+      onResetSearchIncidents: resetSearchIncidents,
     },
     dispatch
   );
