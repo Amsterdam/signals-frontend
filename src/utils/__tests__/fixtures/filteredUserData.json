@@ -1,0 +1,416 @@
+[
+  {
+    "id": 4,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 33,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 38,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 61,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "behandelaars"
+  },
+  {
+    "id": 34,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "monitors, dep_cca"
+  },
+  {
+    "id": 44,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "dep_fb, regievoerder"
+  },
+  {
+    "id": 5,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 36,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "monitors, dep_cca"
+  },
+  {
+    "id": 105,
+    "Gebruikersnaam": "undefined@gmail.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 26,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "behandelaars, coordinatoren"
+  },
+  {
+    "id": 6,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 99,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "dep_asc, regievoerder"
+  },
+  {
+    "id": 29,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "dep_fb, behandelaars, coordinatoren"
+  },
+  {
+    "id": 45,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 46,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 92,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "behandelaars"
+  },
+  {
+    "id": 53,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 31,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 96,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "dep_asc, regievoerder"
+  },
+  {
+    "id": 104,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "dep_asc, regievoerder"
+  },
+  {
+    "id": 37,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "monitors, behandelaars, coordinatoren, dep_fb, regievoerder"
+  },
+  {
+    "id": 8,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 102,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "dep_asc, regievoerder"
+  },
+  {
+    "id": 40,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 25,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "behandelaars, coordinatoren"
+  },
+  {
+    "id": 47,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 10,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Niet actief",
+    "Rol": ""
+  },
+  {
+    "id": 9,
+    "Gebruikersnaam": "jasper.g.swart@gmail.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 11,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 60,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "behandelaars"
+  },
+  {
+    "id": 28,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "dep_fb"
+  },
+  {
+    "id": 55,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "behandelaars"
+  },
+  {
+    "id": 100,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "dep_asc, regievoerder"
+  },
+  {
+    "id": 97,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "dep_asc, regievoerder"
+  },
+  {
+    "id": 54,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "dep_asc, regievoerder"
+  },
+  {
+    "id": 59,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "behandelaars"
+  },
+  {
+    "id": 103,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "dep_asc, regievoerder"
+  },
+  {
+    "id": 32,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Niet actief",
+    "Rol": "behandelaars"
+  },
+  {
+    "id": 51,
+    "Gebruikersnaam": "niels@we-riot.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 93,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "Extern Systeem"
+  },
+  {
+    "id": 20,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "monitors"
+  },
+  {
+    "id": 21,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "behandelaars"
+  },
+  {
+    "id": 22,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "coordinatoren"
+  },
+  {
+    "id": 23,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "regievoerder"
+  },
+  {
+    "id": 24,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 101,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "dep_asc, regievoerder"
+  },
+  {
+    "id": 13,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 95,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "dep_asc, regievoerder"
+  },
+  {
+    "id": 94,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "regievoerder"
+  },
+  {
+    "id": 27,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 49,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "coordinatoren"
+  },
+  {
+    "id": 98,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "dep_asc, regievoerder"
+  },
+  {
+    "id": 39,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "Extern Systeem"
+  },
+  {
+    "id": 35,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "monitors, dep_cca"
+  },
+  {
+    "id": 43,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "coordinatoren"
+  },
+  {
+    "id": 56,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "behandelaars"
+  },
+  {
+    "id": 50,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 30,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "dep_fb"
+  },
+  {
+    "id": 58,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "behandelaars"
+  },
+  {
+    "id": 16,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 17,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 52,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 48,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  },
+  {
+    "id": 41,
+    "Gebruikersnaam": "sia@techtek.eu",
+    "Status": "Actief",
+    "Rol": "Extern Systeem"
+  },
+  {
+    "id": 15,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Niet actief",
+    "Rol": ""
+  },
+  {
+    "id": 2,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "behandelaars"
+  },
+  {
+    "id": 3,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "coordinatoren"
+  },
+  {
+    "id": 1,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": "monitors"
+  },
+  {
+    "id": 18,
+    "Gebruikersnaam": "undefined@domain.com",
+    "Status": "Actief",
+    "Rol": ""
+  }
+]
