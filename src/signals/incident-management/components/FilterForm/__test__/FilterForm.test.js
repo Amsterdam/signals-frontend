@@ -553,7 +553,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       fireEvent.change(nameField, { target: { value: 'New name' }});
       fireEvent.click(container.querySelector('button[type="submit"]'));
 
-      expect(handlers.onSaveFilter).toHaveBeenCalled();
+      expect(handlers.onSaveFilter).toHaveBeenCalledTimes(1);
     });
 
     it('should handle submit for existing filter', () => {
