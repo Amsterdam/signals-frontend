@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import BackLink from 'components/BackLink';
 import { themeSpacing } from '@datapunt/asc-ui';
+import { PATCH_TYPE_THOR } from 'models/incident/constants';
 
 import { incidentType } from 'shared/types';
 
@@ -22,7 +23,7 @@ const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
   const downloadLink = incident._links && incident._links['sia:pdf'] && incident._links['sia:pdf'].href;
   const patch = {
     id: incident.id,
-    type: 'thor',
+    type: PATCH_TYPE_THOR,
     patch: {
       status: {
         state: 'ready to send',

@@ -5,7 +5,7 @@ import {
 import styled from 'styled-components';
 
 const Disclaimer = styled.div`
-  background-color: #666;
+  background-color: ${themeColor('tint', 'level5')};
   padding-top: 20px;
   padding-bottom: 20px;
 

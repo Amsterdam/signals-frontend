@@ -53,6 +53,8 @@ const CheckboxList = ({
   title,
   toggleFieldName,
   toggleLabel,
+  isGroupHeader,
+  displayToggle,
 }) => {
   const groupContainer = useRef(null);
 
@@ -114,20 +116,21 @@ const CheckboxList = ({
     [defaultValue]
   );
 
+  const isGroupChecked = groupId ? isDefaultChecked(groupId) : defaultValue.length === options.length;
+
   // mount
   useEffect(() => {
-    if (isDefaultChecked(groupId)) {
+    if (isGroupChecked) {
       setGroupChecked();
     }
-  }, [isDefaultChecked, setGroupChecked, groupId]);
+  }, [isDefaultChecked, setGroupChecked, groupId, isGroupChecked]);
 
-  const displayToggle = !!toggleLabel && !!toggleFieldName;
   const firstOptionIdentifier = options[0].id || options[0].key;
 
   return (
     <FilterGroup ref={groupContainer}>
       {title && (
-        <Label htmlFor={firstOptionIdentifier} isGroupHeader={false}>
+        <Label htmlFor={firstOptionIdentifier} isGroupHeader={isGroupHeader}>
           {title}
         </Label>
       )}
@@ -140,7 +143,7 @@ const CheckboxList = ({
 
           <input
             type="checkbox"
-            data-value={isDefaultChecked(groupId) ? 'all' : 'none'}
+            data-value={isGroupChecked ? 'all' : 'none'}
             name={toggleFieldName}
             id={`${groupName}_toggle`}
             onClick={handleToggleCheck}
@@ -174,6 +177,9 @@ const CheckboxList = ({
 CheckboxList.defaultProps = {
   defaultValue: [],
   toggleLabel: 'Alles selecteren',
+  isGroupHeader: false,
+  groupId: null,
+  toggleFieldName: null,
 };
 
 CheckboxList.propTypes = {
@@ -191,12 +197,14 @@ CheckboxList.propTypes = {
   /**
    * Unique group identifier. Is used to check for toggling the group checkbox
    */
-  groupId: PropTypes.string.isRequired,
+  groupId: PropTypes.string,
   /**
    * Value of the `name` attribute of the toggle box. This value is used to identify all children by without having
    * to select them all.
    */
   groupName: PropTypes.string.isRequired,
+  /** it shows toggle button when true */
+  displayToggle: PropTypes.bool,
   /** Values to be rendered as checkbox elements */
   options: PropTypes.arrayOf(
     PropTypes.shape({
@@ -215,6 +223,8 @@ CheckboxList.propTypes = {
   toggleFieldName: PropTypes.string,
   /** Text label for the group toggle */
   toggleLabel: PropTypes.string,
+  /** When true, the title will render with the red header colour */
+  isGroupHeader: PropTypes.bool,
 };
 
 export default CheckboxList;

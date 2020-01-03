@@ -1,7 +1,10 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
+import * as Sentry from '@sentry/browser';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { authCall, authPostCall } from 'shared/services/api/api';
+import { authCall, authPostCall, getErrorMessage } from 'shared/services/api/api';
+import { showGlobalNotification } from 'containers/App/actions';
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 
 import { FETCH_DEFAULT_TEXTS, STORE_DEFAULT_TEXTS } from './constants';
 import {
@@ -22,6 +25,17 @@ export function* fetchDefaultTexts(action) {
     yield put(fetchDefaultTextsSuccess((found && found.templates) || []));
   } catch (error) {
     yield put(fetchDefaultTextsError(error));
+
+    yield put(
+      showGlobalNotification({
+        title: getErrorMessage(error),
+        message: 'Het standaard teksten overzicht kon niet opgehaald worden',
+        variant: VARIANT_ERROR,
+        type: TYPE_LOCAL,
+      })
+    );
+
+    yield call([Sentry, 'captureException'], error);
   }
 }
 
@@ -37,6 +51,17 @@ export function* storeDefaultTexts(action) {
     yield put(storeDefaultTextsSuccess((found && found.templates) || []));
   } catch (error) {
     yield put(storeDefaultTextsError(error));
+
+    yield put(
+      showGlobalNotification({
+        title: getErrorMessage(error),
+        message: 'De standaard teksten konden niet opgeslagen worden',
+        variant: VARIANT_ERROR,
+        type: TYPE_LOCAL,
+      })
+    );
+
+    yield call([Sentry, 'captureException'], error);
   }
 }
 

@@ -1,7 +1,11 @@
 import { testSaga } from 'redux-saga-test-plan';
 import { takeLatest } from 'redux-saga/effects';
-import { authCall, authPostCall, authPatchCall } from 'shared/services/api/api';
+import * as Sentry from '@sentry/browser';
+
+import { authCall, authPostCall, authPatchCall, getErrorMessage } from 'shared/services/api/api';
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import CONFIGURATION from 'shared/services/configuration/configuration';
+import * as actions from 'containers/App/actions';
 
 import {
   FETCH_ROLES,
@@ -28,7 +32,7 @@ import watchRolesSaga, {
   patchRole,
 } from './saga';
 
-describe('rolesSaga', () => {
+describe('models/roles/saga', () => {
   const result = { id: 42 };
   const action = { payload: result };
 
@@ -66,6 +70,15 @@ describe('rolesSaga', () => {
         .throw(error)
         .put(fetchRolesError())
         .next()
+        .put(actions.showGlobalNotification({
+          title: getErrorMessage(error),
+          message: 'Het rollen overzicht kon niet opgehaald worden',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        }))
+        .next()
+        .call([Sentry, 'captureException'], error)
+        .next()
         .isDone();
     });
   });
@@ -91,6 +104,15 @@ describe('rolesSaga', () => {
         .throw(error)
         .put(fetchPermissionsError())
         .next()
+        .put(actions.showGlobalNotification({
+          title: getErrorMessage(error),
+          message: 'Het permissie overzicht kon niet opgehaald worden',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        }))
+        .next()
+        .call([Sentry, 'captureException'], error)
+        .next()
         .isDone();
     });
   });
@@ -113,6 +135,15 @@ describe('rolesSaga', () => {
         .next()
         .throw(error)
         .put(saveRoleError())
+        .next()
+        .put(actions.showGlobalNotification({
+          title: getErrorMessage(error),
+          message: 'De rol kon niet opgeslagen worden',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        }))
+        .next()
+        .call([Sentry, 'captureException'], error)
         .next()
         .isDone();
     });
@@ -144,6 +175,15 @@ describe('rolesSaga', () => {
         .next()
         .throw(error)
         .put(patchRoleError())
+        .next()
+        .put(actions.showGlobalNotification({
+          title: getErrorMessage(error),
+          message: 'De rol kon niet bijgewerkt worden',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        }))
+        .next()
+        .call([Sentry, 'captureException'], error)
         .next()
         .isDone();
     });
