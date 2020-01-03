@@ -28,7 +28,6 @@ export default (state = initialState, action) => {
 
     case FETCH_DEPARTMENTS_ERROR:
       return state
-        .set('count', undefined)
         .set('error', true)
         .set('errorMessage', action.payload)
         .set('loading', false);

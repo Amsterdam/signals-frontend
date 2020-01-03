@@ -4,10 +4,12 @@ import departmentsJson from 'utils/__tests__/fixtures/departments.json';
 import reducer, { initialState } from '../reducer';
 import * as constants from '../constants';
 
+const depCount = 9;
+
 const intermediateState = fromJS({
-  count: 9,
+  count: depCount,
   error: false,
-  list: departmentsJson.results.slice(0, 9),
+  list: departmentsJson.results.slice(0, depCount),
   loading: false,
 });
 
@@ -47,17 +49,18 @@ describe('models/departments/reducer', () => {
     const payload = errorMessage;
     const action = { type, payload };
 
-    const result = fromJS({
-      count: undefined,
-      error: true,
-      errorMessage,
-      list: [],
-      loading: false,
-    });
+    expect(reducer(initialState, action)).toEqual(
+      initialState
+        .set('error', true)
+        .set('errorMessage', errorMessage)
+        .set('loading', false)
+    );
 
-    expect(reducer(initialState, action)).toEqual(result);
     expect(reducer(intermediateState, action)).toEqual(
-      result.set('list', intermediateState.get('list'))
+      intermediateState
+        .set('error', true)
+        .set('errorMessage', errorMessage)
+        .set('loading', false)
     );
   });
 });
