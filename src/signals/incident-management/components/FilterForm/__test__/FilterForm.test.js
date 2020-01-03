@@ -18,13 +18,19 @@ const dataLists = {
   source: definitions.sourceList,
 };
 
+const formProps = {
+  onClearFilter: () => {},
+  onSaveFilter: () => {},
+  categories,
+  onSubmit: () => {},
+};
+
 describe('signals/incident-management/components/FilterForm', () => {
   it('should render filter fields', () => {
     const { container } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
@@ -42,8 +48,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           filter={{ options: {} }}
           dataLists={dataLists}
         />,
@@ -59,8 +64,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           filter={{ id: 1234, name: 'FooBar', options: {} }}
           dataLists={dataLists}
         />,
@@ -88,8 +92,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           filter={{ id: 1234, name: 'FooBar', options: {} }}
           dataLists={dataLists}
         />,
@@ -109,8 +112,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
@@ -139,8 +141,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container, rerender, queryByTestId } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataListsWithoutPriorityList}
         />,
       ),
@@ -160,8 +161,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     rerender(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataListsWithEmptyPriorityList}
         />,
       ),
@@ -178,8 +178,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     rerender(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
@@ -197,8 +196,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container, rerender, queryByTestId } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataListsWithoutStatusList}
         />,
       ),
@@ -218,8 +216,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     rerender(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataListsWithEmptyStatusList}
         />,
       ),
@@ -236,8 +233,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     rerender(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
@@ -255,8 +251,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container, rerender, queryByTestId } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataListsWithoutStadsdeelList}
         />,
       ),
@@ -276,8 +271,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     rerender(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataListsWithEmptyStadsdeelList}
         />,
       ),
@@ -294,8 +288,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     rerender(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
@@ -313,8 +306,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container, rerender, queryByTestId } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataListsWithoutFeedbackList}
         />,
       ),
@@ -331,8 +323,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     rerender(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
@@ -350,8 +341,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container, rerender, queryByTestId } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataListsWithoutSourceList}
         />,
       ),
@@ -368,8 +358,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     rerender(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
@@ -384,8 +373,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container, rerender } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
@@ -403,9 +391,8 @@ describe('signals/incident-management/components/FilterForm', () => {
     rerender(
       withAppContext(
         <FilterForm
-          categories={categories}
+          {...formProps}
           filter={{ options: { incident_date: '1970-01-01' } }}
-          onSubmit={() => {}}
           dataLists={dataLists}
         />,
       ),
@@ -424,9 +411,8 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
+          {...formProps}
           onClearFilter={onClearFilter}
-          onSubmit={() => {}}
           dataLists={dataLists}
         />,
       ),
@@ -466,9 +452,8 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { getByTestId } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
+          {...formProps}
           onCancel={onCancel}
-          onSubmit={() => {}}
           dataLists={dataLists}
         />,
       ),
@@ -506,8 +491,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       const { container } = render(
         withAppContext(
           <FilterForm
-            categories={categories}
-            {...handlers}
+            {...{...formProps, ...handlers}}
             filter={{
               name: '',
               options: { incident_date: '1970-01-01' },
@@ -517,10 +501,22 @@ describe('signals/incident-management/components/FilterForm', () => {
         ),
       );
 
+      expect(handlers.onSaveFilter).not.toHaveBeenCalled();
+      expect(handlers.onSubmit).not.toHaveBeenCalled();
+
+      const nameField = container.querySelector(
+        'input[type="text"][name="name"]',
+      );
+
       fireEvent.click(container.querySelector('button[type="submit"]'));
 
-      expect(handlers.onSaveFilter).not.toHaveBeenCalled();
       expect(handlers.onSubmit).toHaveBeenCalled();
+      expect(handlers.onSaveFilter).not.toHaveBeenCalled(); // name field is empty
+
+      fireEvent.change(nameField, { target: { value: 'New name' }});
+      fireEvent.click(container.querySelector('button[type="submit"]'));
+
+      expect(handlers.onSaveFilter).toHaveBeenCalled();
     });
 
     it('should handle submit for existing filter', () => {
@@ -533,8 +529,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       const { container } = render(
         withAppContext(
           <FilterForm
-            categories={categories}
-            {...handlers}
+            {...{...formProps, ...handlers}}
             filter={{
               name: 'My filter',
               options: {
@@ -571,9 +566,8 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
+          {...formProps}
           filter={{ name: 'My saved filter', options: {} }}
-          onSubmit={() => {}}
           dataLists={dataLists}
         />,
       ),

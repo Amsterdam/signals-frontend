@@ -5,7 +5,11 @@ import { withAppContext, withIntlAppContext } from 'test/utils';
 import categories from 'utils/__tests__/fixtures/categories.json';
 import * as definitions from 'signals/incident-management/definitions';
 
-import FilterTagList, { FilterTagListComponent, allLabelAppend } from '..';
+import FilterTagList, {
+  FilterTagListComponent,
+  allLabelAppend,
+  mapKeys,
+} from '..';
 import translations from '../../../../../translations/nl.json';
 
 const dataLists = {
@@ -13,6 +17,7 @@ const dataLists = {
   status: definitions.statusList,
   feedback: definitions.feedbackList,
   stadsdeel: definitions.stadsdeelList,
+  source: definitions.sourceList,
 };
 
 describe('signals/incident-management/containers/FilterTagList', () => {
@@ -51,8 +56,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
           tags={tags}
           categories={categories}
         />,
-        translations,
-      ),
+        translations
+      )
     );
 
     expect(queryByText(tags.incident_date)).not.toBeInTheDocument();
@@ -60,12 +65,14 @@ describe('signals/incident-management/containers/FilterTagList', () => {
   });
 
   describe('tags list', () => {
-    const maincategory_slug = [{
-      key:
-        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
-      value: 'Afval',
-      slug: 'afval',
-    }];
+    const maincategory_slug = [
+      {
+        key:
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
+        value: 'Afval',
+        slug: 'afval',
+      },
+    ];
 
     it('shows an extra label when a tag is a main category', () => {
       const { rerender, queryByText } = render(
@@ -74,12 +81,12 @@ describe('signals/incident-management/containers/FilterTagList', () => {
             dataLists={dataLists}
             tags={tags}
             categories={categories}
-          />,
-        ),
+          />
+        )
       );
 
       expect(
-        queryByText(`${maincategory_slug[0].value}${allLabelAppend}`),
+        queryByText(`${maincategory_slug[0].value}${allLabelAppend}`)
       ).toBeFalsy();
 
       const tagsWithMainCat = { ...tags, maincategory_slug };
@@ -90,12 +97,12 @@ describe('signals/incident-management/containers/FilterTagList', () => {
             dataLists={dataLists}
             tags={tagsWithMainCat}
             categories={categories}
-          />,
-        ),
+          />
+        )
       );
 
       expect(
-        queryByText(`${maincategory_slug[0].value}${allLabelAppend}`),
+        queryByText(`${maincategory_slug[0].value}${allLabelAppend}`)
       ).toBeTruthy();
     });
 
@@ -106,8 +113,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
             dataLists={dataLists}
             tags={tags}
             categories={categories}
-          />,
-        ),
+          />
+        )
       );
 
       expect(queryByText('Normaal')).toBeInTheDocument();
@@ -121,17 +128,44 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(10);
     });
 
+    it('renders tags that have all items selected', () => {
+      const groupedTags = {
+        status: definitions.statusList,
+        stadsdeel: definitions.stadsdeelList,
+        source: definitions.sourceList,
+      };
+
+      const { queryByText } = render(
+        withAppContext(
+          <FilterTagListComponent
+            dataLists={dataLists}
+            tags={groupedTags}
+            categories={categories}
+          />
+        )
+      );
+
+      expect(queryByText(`status${allLabelAppend}`)).toBeInTheDocument();
+      expect(queryByText(`stadsdeel${allLabelAppend}`)).toBeInTheDocument();
+      expect(queryByText(`bron${allLabelAppend}`)).toBeInTheDocument();
+    });
+
     it('renders no list when tags are undefined', () => {
       const { queryAllByTestId } = render(
         withAppContext(
           <FilterTagListComponent
             dataLists={dataLists}
             categories={categories}
-          />,
-        ),
+          />
+        )
       );
 
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(0);
     });
+  });
+
+  it('should map keys', () => {
+    expect(mapKeys('source')).toEqual('bron');
+    expect(mapKeys('any_key')).toEqual('any_key');
   });
 });

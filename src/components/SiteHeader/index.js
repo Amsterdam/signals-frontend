@@ -19,7 +19,7 @@ import { isAuthenticated } from 'shared/services/auth/auth';
 import useIsFrontOffice from 'hooks/useIsFrontOffice';
 import Notification from 'containers/Notification';
 
-export const breakpoint = 1100;
+export const breakpoint = 1170;
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
@@ -106,8 +106,6 @@ const HeaderWrapper = styled.div`
     isFrontOffice &&
     tall &&
     css`
-      z-index: 1;
-
       #header {
         position: static;
 
@@ -220,18 +218,29 @@ const MenuItems = ({ onLogOut, permissions }) => {
         </StyledMenuFlyout>
       )}
       {showLogout && (
-        <MenuItem
-          element="button"
-          data-testid="logout-button"
-          onClick={onLogOut}
-        >
-          <StyledMenuButton
-            iconSize={16}
-            iconLeft={<LogoutIcon focusable="false" />}
+        <Fragment>
+          <MenuItem>
+            <StyledMenuButton
+              $as="a"
+              href="https://tamtam.amsterdam.nl/do/office?id=1723860-6f6666696365"
+              target="_blank"
+            >
+              Help
+            </StyledMenuButton>
+          </MenuItem>
+          <MenuItem
+            element="button"
+            data-testid="logout-button"
+            onClick={onLogOut}
           >
-            Uitloggen
-          </StyledMenuButton>
-        </MenuItem>
+            <StyledMenuButton
+              iconSize={16}
+              iconLeft={<LogoutIcon focusable="false" />}
+            >
+              Uitloggen
+            </StyledMenuButton>
+          </MenuItem>
+        </Fragment>
       )}
     </Fragment>
   );
@@ -241,6 +250,7 @@ export const SiteHeader = props => {
   const isFrontOffice = useIsFrontOffice();
   const tall = isFrontOffice && !isAuthenticated();
   const title = tall ? '' : 'SIA';
+  const homeLink = tall ? 'https://www.amsterdam.nl' : '/';
 
   const navigation = useMemo(
     () => (
@@ -265,6 +275,7 @@ export const SiteHeader = props => {
     <Fragment>
       <HeaderWrapper
         isFrontOffice={isFrontOffice}
+        title={title}
         tall={tall}
         className={`siteHeader ${tall ? 'isTall' : 'isShort'}`}
         data-testid="siteHeader"
@@ -272,7 +283,7 @@ export const SiteHeader = props => {
         <StyledHeader
           isFrontOffice={isFrontOffice}
           title={title}
-          homeLink="/"
+          homeLink={homeLink}
           tall={tall}
           fullWidth={false}
           navigation={tall ? null : navigation}
