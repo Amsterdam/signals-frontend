@@ -4,56 +4,40 @@ import { render } from '@testing-library/react';
 import DataFilter from '..';
 
 const TEXT_FILTER = 'test filter';
+const tableWithDataFilter = (children, props = {}) => (
+  <table>
+    <thead>
+      <DataFilter {...props}>
+        {children}
+      </DataFilter>
+    </thead>
+  </table>
+);
 const renderDiv = text => <div key="testKey">{text}</div>;
 
 describe('signals/settings/users/containers/Overview/components/DataView/DataFilter', () => {
   it('should render correctly', () => {
-    const { container } = render(
-      <table>
-        <thead>
-          <DataFilter />
-        </thead>
-      </table>
-    );
+    const { container } = render(tableWithDataFilter());
 
     expect(container).toBeInTheDocument();
   });
 
   it('should render not render DataFilter without children', () => {
-    const { queryByTestId } = render(
-      <table>
-        <thead>
-          <DataFilter />
-        </thead>
-      </table>
-    );
+    const { queryByTestId } = render(tableWithDataFilter());
 
     expect(queryByTestId('dataViewFilterRow')).toBeNull();
   });
 
   it('should render DataFilter with one or more children', () => {
     const { rerender, getByTestId, queryAllByText } = render(
-      <table>
-        <thead>
-          <DataFilter>
-            {renderDiv(TEXT_FILTER)}
-          </DataFilter>
-        </thead>
-      </table>
+      tableWithDataFilter(renderDiv(TEXT_FILTER))
     );
 
     expect(getByTestId('dataViewFilterRow')).toBeInTheDocument();
     expect(queryAllByText(TEXT_FILTER)).toHaveLength(1);
 
     rerender(
-      <table>
-        <thead>
-          <DataFilter>
-            {renderDiv(TEXT_FILTER)}
-            {renderDiv(TEXT_FILTER)}
-          </DataFilter>
-        </thead>
-      </table>
+      tableWithDataFilter([ renderDiv(TEXT_FILTER), renderDiv(TEXT_FILTER) ])
     );
 
     expect(getByTestId('dataViewFilterRow')).toBeInTheDocument();
@@ -63,15 +47,7 @@ describe('signals/settings/users/containers/Overview/components/DataView/DataFil
   it('should render extra th if number of filters less than headersLength', () => {
     const filters = new Array(3).fill(renderDiv(TEXT_FILTER));
     const { container, rerender, getByTestId, queryAllByText } = render(
-      <table>
-        <thead>
-          <DataFilter
-            headersLength={filters.length}
-          >
-            {filters}
-          </DataFilter>
-        </thead>
-      </table>
+      tableWithDataFilter(filters, { headersLength: filters.length })
     );
 
     expect(getByTestId('dataViewFilterRow')).toBeInTheDocument();
@@ -79,15 +55,7 @@ describe('signals/settings/users/containers/Overview/components/DataView/DataFil
     expect(queryAllByText(TEXT_FILTER)).toHaveLength(filters.length);
 
     rerender(
-      <table>
-        <thead>
-          <DataFilter
-            headersLength={filters.length - 1}
-          >
-            {filters}
-          </DataFilter>
-        </thead>
-      </table>
+      tableWithDataFilter(filters, { headersLength: filters.length - 1})
     );
 
     expect(getByTestId('dataViewFilterRow')).toBeInTheDocument();
@@ -95,15 +63,7 @@ describe('signals/settings/users/containers/Overview/components/DataView/DataFil
     expect(queryAllByText(TEXT_FILTER)).toHaveLength(filters.length);
 
     rerender(
-      <table>
-        <thead>
-          <DataFilter
-            headersLength={filters.length + 1}
-          >
-            {filters}
-          </DataFilter>
-        </thead>
-      </table>
+      tableWithDataFilter(filters, { headersLength: filters.length + 1})
     );
 
     let allTHs = container.querySelectorAll('th');
@@ -115,15 +75,7 @@ describe('signals/settings/users/containers/Overview/components/DataView/DataFil
     expect(queryAllByText(TEXT_FILTER)).toHaveLength(filters.length);
 
     rerender(
-      <table>
-        <thead>
-          <DataFilter
-            headersLength={filters.length + 5}
-          >
-            {filters}
-          </DataFilter>
-        </thead>
-      </table>
+      tableWithDataFilter(filters, { headersLength: filters.length + 5})
     );
 
     allTHs = container.querySelectorAll('th');

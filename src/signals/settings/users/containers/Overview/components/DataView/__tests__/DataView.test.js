@@ -1,6 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
+import data from 'utils/__tests__/fixtures/filteredUserData.json';
+
 import DataView from '..';
 import DataHeader from '../DataHeader';
 import DataFilter from '../DataFilter';
@@ -9,16 +11,6 @@ import DataList from '../DataList';
 const renderDiv = text => <div>{text}</div>;
 const TEXT_NOT_ALLOWED = 'not allowed children';
 const TEXT_FILTER = 'test filter';
-const data = [
-  {
-    id: 123,
-    value: 'some value',
-  },
-  {
-    id: 321,
-    value: 'some other value',
-  },
-];
 
 describe('signals/settings/users/containers/Overview/components/DataView', () => {
   it('should render correctly', () => {
@@ -81,8 +73,9 @@ describe('signals/settings/users/containers/Overview/components/DataView', () =>
     expect(queryAllByTestId('dataViewHeaderRow')).toHaveLength(1);
     expect(queryAllByTestId('dataViewFilterRow')).toHaveLength(1);
     expect(queryAllByText(TEXT_FILTER)).toHaveLength(1);
-    Object.keys(data[0]).forEach(key => {
-      expect(queryAllByText(String(data[0][key]))).toHaveLength(1);
+    data.forEach(item => {
+      // Only checking if we can at least find all IDs in the document.
+      expect(queryAllByText(String(item.id))).toHaveLength(1);
     });
     expect(queryAllByText(TEXT_NOT_ALLOWED)).toHaveLength(0);
 
@@ -114,8 +107,9 @@ describe('signals/settings/users/containers/Overview/components/DataView', () =>
     expect(queryAllByTestId('dataViewHeaderRow')).toHaveLength(1);
     expect(queryAllByTestId('dataViewFilterRow')).toHaveLength(1);
     expect(queryAllByText(TEXT_FILTER)).toHaveLength(1);
-    Object.keys(data[0]).forEach(key => {
-      expect(queryAllByText(String(data[0][key]))).toHaveLength(1);
+    data.forEach(item => {
+      // Only checking if we can at least find all IDs in the document.
+      expect(queryAllByText(String(item.id))).toHaveLength(1);
     });
   });
 
@@ -140,8 +134,9 @@ describe('signals/settings/users/containers/Overview/components/DataView', () =>
     expect(dataView.childNodes[0].tagName).toBe('THEAD');
     expect(dataView.childNodes[0].childNodes).toHaveLength(2);
     expect(dataView.childNodes[1].tagName).toBe('TBODY');
-    Object.keys(data[0]).forEach(key => {
-      expect(getByText(String(data[0][key]))).toBeInTheDocument();
+    data.forEach(item => {
+      // Only checking if we can at least find all IDs in the document.
+      expect(getByText(String(item.id))).toBeInTheDocument();
     });
 
     rerender(
@@ -162,8 +157,9 @@ describe('signals/settings/users/containers/Overview/components/DataView', () =>
     expect(dataView.childNodes[0].tagName).toBe('THEAD');
     expect(dataView.childNodes[0].childNodes).toHaveLength(2);
     expect(dataView.childNodes[1].tagName).toBe('TBODY');
-    Object.keys(data[0]).forEach(key => {
-      expect(getByText(String(data[0][key]))).toBeInTheDocument();
+    data.forEach(item => {
+      // Only checking if we can at least find all IDs in the document.
+      expect(getByText(String(item.id))).toBeInTheDocument();
     });
 
     rerender(
@@ -184,8 +180,9 @@ describe('signals/settings/users/containers/Overview/components/DataView', () =>
     expect(dataView.childNodes[0].tagName).toBe('THEAD');
     expect(dataView.childNodes[0].childNodes).toHaveLength(2);
     expect(dataView.childNodes[1].tagName).toBe('TBODY');
-    Object.keys(data[0]).forEach(key => {
-      expect(getByText(String(data[0][key]))).toBeInTheDocument();
+    data.forEach(item => {
+      // Only checking if we can at least find all IDs in the document.
+      expect(getByText(String(item.id))).toBeInTheDocument();
     });
   });
 
