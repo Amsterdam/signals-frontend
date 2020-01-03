@@ -13,7 +13,7 @@ const DataList = ({
   if (!data) return null;
 
   const filterVisibleColumns = colHeader => invisibleColumns.includes(colHeader) === false;
-  const colHeaders = (columnOrder.length && columnOrder) || Object.keys(data[0]).filter(filterVisibleColumns);
+  const colHeaders = (columnOrder.length && columnOrder) || Object.keys(data[0] || []).filter(filterVisibleColumns);
 
   return (
     <Fragment>
@@ -47,7 +47,7 @@ DataList.propTypes = {
   columnOrder: PropTypes.arrayOf(PropTypes.string),
   /** List of column names that should not be displayed */
   invisibleColumns: PropTypes.arrayOf(PropTypes.string),
-  /** List of key/value pairs */
+  /** Row click callback handler */
   onItemClick: PropTypes.func,
   /** Name of the column that contains the value that is used to build the URL to navigate to on item click */
   primaryKeyColumn: PropTypes.string,
