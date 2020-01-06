@@ -2,6 +2,7 @@ import React, { Fragment, useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
 import isEqual from 'lodash.isequal';
@@ -12,6 +13,7 @@ import {
   VARIANT_SUCCESS,
   TYPE_LOCAL,
 } from 'containers/Notification/constants';
+import { makeSelectUserCan } from 'containers/App/selectors';
 import PageHeader from 'signals/settings/components/PageHeader';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 
@@ -31,7 +33,10 @@ const StyledColumn = styled(Column)`
   flex-direction: column;
 `;
 
-export const UserDetailContainerComponent = ({ showGlobalNotification }) => {
+export const UserDetailContainerComponent = ({
+  showGlobalNotification,
+  userCan,
+}) => {
   const { userId } = useParams();
   const location = useLocation();
   const history = useHistory();
@@ -41,6 +46,12 @@ export const UserDetailContainerComponent = ({ showGlobalNotification }) => {
   );
   const shouldRenderForm = !isExistingUser || (isExistingUser && Boolean(data));
   const redirectURL = location.referrer || routes.users;
+  const userCanSubmitForm = useMemo(
+    () =>
+      (isExistingUser && userCan('change_user')) ||
+      (!isExistingUser && userCan('add_user')),
+    [isExistingUser, userCan]
+  );
 
   const getFormData = useCallback(
     e =>
@@ -84,16 +95,18 @@ export const UserDetailContainerComponent = ({ showGlobalNotification }) => {
     }
   }, [
     error,
+    history,
     isExistingUser,
     isLoading,
     isSuccess,
-    history,
-    showGlobalNotification,
     redirectURL,
+    showGlobalNotification,
   ]);
 
   const onSubmitForm = useCallback(
     e => {
+      if (!userCanSubmitForm) return;
+
       e.preventDefault();
 
       const formData = getFormData(e);
@@ -108,7 +121,7 @@ export const UserDetailContainerComponent = ({ showGlobalNotification }) => {
         post(formData);
       }
     },
-    [data, getFormData, patch, isExistingUser, post]
+    [data, getFormData, patch, isExistingUser, userCanSubmitForm, post]
   );
 
   const onCancel = useCallback(
@@ -149,6 +162,7 @@ export const UserDetailContainerComponent = ({ showGlobalNotification }) => {
               data={data}
               onCancel={onCancel}
               onSubmitForm={onSubmitForm}
+              readOnly={!userCanSubmitForm}
             />
           )}
         </StyledColumn>
@@ -159,7 +173,12 @@ export const UserDetailContainerComponent = ({ showGlobalNotification }) => {
 
 UserDetailContainerComponent.propTypes = {
   showGlobalNotification: PropTypes.func.isRequired,
+  userCan: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = createStructuredSelector({
+  userCan: makeSelectUserCan,
+});
 
 export const mapDispatchToProps = dispatch =>
   bindActionCreators(
@@ -169,6 +188,6 @@ export const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-const withConnect = connect(null, mapDispatchToProps);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(withConnect)(UserDetailContainerComponent);

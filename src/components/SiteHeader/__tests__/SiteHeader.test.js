@@ -260,4 +260,36 @@ describe('components/SiteHeader', () => {
 
     expect(onLogOut).toHaveBeenCalled();
   });
+
+  it('should show items', () => {
+    const { rerender, queryByText } = render(withAppContext(<SiteHeader showItems={{ settings: false, users: true, groups: true }} />));
+
+    expect(queryByText('Instellingen')).not.toBeInTheDocument();
+    expect(queryByText('Gebruikers')).not.toBeInTheDocument();
+    expect(queryByText('Rollen')).not.toBeInTheDocument();
+
+    rerender(withAppContext(<SiteHeader showItems={{ settings: true, users: false, groups: false }} />));
+
+    expect(queryByText('Instellingen')).not.toBeInTheDocument();
+    expect(queryByText('Gebruikers')).not.toBeInTheDocument();
+    expect(queryByText('Rollen')).not.toBeInTheDocument();
+
+    rerender(withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: false }} />));
+
+    expect(queryByText('Instellingen')).toBeInTheDocument();
+    expect(queryByText('Gebruikers')).toBeInTheDocument();
+    expect(queryByText('Rollen')).not.toBeInTheDocument();
+
+    rerender(withAppContext(<SiteHeader showItems={{ settings: true, users: false, groups: true }} />));
+
+    expect(queryByText('Instellingen')).toBeInTheDocument();
+    expect(queryByText('Gebruikers')).not.toBeInTheDocument();
+    expect(queryByText('Rollen')).toBeInTheDocument();
+
+    rerender(withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: true }} />));
+
+    expect(queryByText('Instellingen')).toBeInTheDocument();
+    expect(queryByText('Gebruikers')).toBeInTheDocument();
+    expect(queryByText('Rollen')).toBeInTheDocument();
+  });
 });

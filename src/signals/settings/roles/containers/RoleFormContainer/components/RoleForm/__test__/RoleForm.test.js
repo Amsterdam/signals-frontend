@@ -84,6 +84,9 @@ describe('/signals/settings/roles/components/RoleForm', () => {
         value: 'behandelaars',
       },
     };
+
+    expect(props.onPatchRole).not.toHaveBeenCalled();
+
     fireEvent.change(getByTestId('rolesFormFieldName'), event);
 
     fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
@@ -95,7 +98,24 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     });
   });
 
-  it('should handle submit flow when saving an new role', () => {
+  it('should NOT submit when patching an existing role', () => {
+    const { getByTestId } = render(withAppContext(<RoleForm {...props} readOnly />));
+
+    const event = {
+      target: {
+        value: 'behandelaars',
+      },
+    };
+
+    expect(props.onPatchRole).not.toHaveBeenCalled();
+
+    fireEvent.change(getByTestId('rolesFormFieldName'), event);
+    fireEvent.submit(document.forms[0], { preventDefault: jest.fn() });
+
+    expect(props.onPatchRole).not.toHaveBeenCalled();
+  });
+
+  it('should handle submit flow when saving a new role', () => {
     const noRoleProps = {
       ...props,
       role: undefined,
@@ -109,14 +129,39 @@ describe('/signals/settings/roles/components/RoleForm', () => {
         value: 'nieuwe behandelaars',
       },
     };
-    fireEvent.change(getByTestId('rolesFormFieldName'), event);
 
+    expect(props.onSaveRole).not.toHaveBeenCalled();
+
+    fireEvent.change(getByTestId('rolesFormFieldName'), event);
     fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
 
     expect(props.onSaveRole).toHaveBeenCalledWith({
       name: 'nieuwe behandelaars',
       permission_ids: [],
     });
+  });
+
+  it('should NOT submit when saving a new role', () => {
+    const noRoleProps = {
+      ...props,
+      role: undefined,
+    };
+    const { getByTestId } = render(
+      withAppContext(<RoleForm {...noRoleProps} readOnly />)
+    );
+
+    const event = {
+      target: {
+        value: 'nieuwe behandelaars',
+      },
+    };
+
+    expect(props.onSaveRole).not.toHaveBeenCalled();
+
+    fireEvent.change(getByTestId('rolesFormFieldName'), event);
+    fireEvent.submit(document.forms[0], { preventDefault: jest.fn() });
+
+    expect(props.onSaveRole).not.toHaveBeenCalled();
   });
 
   it('should not do submit when form is invalid', () => {
@@ -131,6 +176,9 @@ describe('/signals/settings/roles/components/RoleForm', () => {
       withAppContext(<RoleForm {...emptyNameProps} />)
     );
 
+    expect(props.onPatchRole).not.toHaveBeenCalled();
+    expect(props.onSaveRole).not.toHaveBeenCalled();
+
     fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
 
     expect(props.onPatchRole).not.toHaveBeenCalled();
@@ -144,6 +192,9 @@ describe('/signals/settings/roles/components/RoleForm', () => {
       .mockImplementation(() => ({ push }));
 
     const { getByTestId } = render(withAppContext(<RoleForm {...props} />));
+
+    expect(props.onPatchRole).not.toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
 
     fireEvent.click(getByTestId('cancelBtn'));
 

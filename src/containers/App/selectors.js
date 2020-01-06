@@ -39,40 +39,51 @@ const makeSelectUserPermissionCodeNames = createSelector(
 /**
  * Selector that queries the user's permissions and returna a boolean
  * when that permission is present.
+ *
+ * @returns {Function}
  */
 const makeSelectUserCan = createSelector(
   [makeSelectUser, makeSelectUserPermissionCodeNames],
   ({ is_superuser }, permissions) =>
     /**
-     * @param {String} capability - The permission to check for
+     * @param   {String} capability - The permission to check for
+     * @returns {(Boolean|undefined)} - is_superuser can be one of undefined, true or false
      */
     capability =>
-      is_superuser ||
-      Boolean(permissions.find(codename => codename === capability))
+      is_superuser !== false
+        ? is_superuser
+        : Boolean(permissions.find(codename => codename === capability))
 );
 
 /**
  * Selector that queries a subset of the user's permissions. Useful for determining
  * if a user should have access to a specific section of the application.
+ *
+ * @returns {Function}
  */
 const makeSelectUserCanAccess = createSelector(
   [makeSelectUser, makeSelectUserPermissionCodeNames],
   ({ is_superuser }, permissions) =>
     /**
-     * @param {String} section - The set of permissions to check for
+     * @param   {String} section - The set of permissions to check for
+     * @returns {(Boolean|undefined)} - is_superuser can be one of undefined, true or false
      */
     section => {
-      if (is_superuser) {
-        return true;
+      if (is_superuser !== false) {
+        return is_superuser;
       }
 
       const groups = ['view_group', 'change_group', 'add_group'];
+      const groupForm = ['change_group', 'add_group'];
       const users = ['view_user', 'add_user', 'change_user'];
+      const userForm = ['add_user', 'change_user'];
 
       const requiredPerms = {
         settings: [groups, users],
         groups: [groups],
+        groupForm: [groupForm],
         users: [users],
+        userForm: [userForm],
       };
 
       if (!Object.keys(requiredPerms).includes(section)) {

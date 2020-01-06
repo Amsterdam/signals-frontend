@@ -10,6 +10,9 @@ import PageHeader from 'signals/settings/components/PageHeader';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import BackLink from 'components/BackLink';
 import FormAlert from 'components/FormAlert';
+import {
+  makeSelectUserCan,
+} from 'containers/App/selectors';
 
 import makeSelectRolesModel from 'models/roles/selectors';
 import { fetchRoles, fetchPermissions, patchRole, saveRole } from 'models/roles/actions';
@@ -31,6 +34,7 @@ export const RoleFormContainer = ({
   onFetchPermissions,
   onPatchRole,
   onSaveRole,
+  userCan,
 }) => {
   useEffect(() => {
     onFetchRoles();
@@ -76,6 +80,7 @@ export const RoleFormContainer = ({
                 permissions={permissions}
                 onPatchRole={onPatchRole}
                 onSaveRole={onSaveRole}
+                readOnly={!userCan('change_group')}
               />
             )
           }
@@ -116,10 +121,12 @@ RoleFormContainer.propTypes = {
   onFetchPermissions: PropTypes.func.isRequired,
   onPatchRole: PropTypes.func.isRequired,
   onSaveRole: PropTypes.func.isRequired,
+  userCan: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   roles: makeSelectRolesModel,
+  userCan: makeSelectUserCan,
 });
 
 export const mapDispatchToProps = dispatch => bindActionCreators({
