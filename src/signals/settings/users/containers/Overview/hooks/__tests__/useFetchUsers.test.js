@@ -77,7 +77,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     const abortSpy = jest.spyOn(global.AbortController.prototype, 'abort');
 
-    const { unmount } = renderHook(async () => useFetchUsers({ page }));
+    const { unmount } = renderHook(() => useFetchUsers({ page }));
 
     unmount();
 
