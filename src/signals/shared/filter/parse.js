@@ -102,7 +102,7 @@ export const parseInputFormData = (filterData, dataLists) => {
       .forEach(fieldName => {
         parsed[fieldName] = parsed[fieldName].map(value => dataLists[fieldName].find(
           ({ key, slug }) => key === value || slug === value,
-        ),);
+        ));
       });
   }
 

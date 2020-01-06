@@ -1,9 +1,12 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import * as Sentry from '@sentry/browser';
+import * as actions from 'containers/App/actions';
 
+import { authCall } from 'shared/services/api/api';
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { REQUEST_HISTORY_LIST } from './constants';
 import { requestHistoryListError, requestHistoryListSuccess } from './actions';
 import watchHistorySaga, { fetchHistoryList } from './saga';
-import { authCall } from '../../shared/services/api/api';
 
 jest.mock('shared/services/api/api');
 jest.mock('./selectors', () => {
@@ -12,7 +15,11 @@ jest.mock('./selectors', () => {
     makeSelectFilterParams: () => mockedMakeSelectFilterParams,
   });
 });
-
+jest.mock('@sentry/browser');
+jest.mock('containers/App/actions', () => ({
+  __esModule: true,
+  ...jest.requireActual('containers/App/actions'),
+}));
 
 describe('history saga', () => {
   afterEach(() => {
@@ -37,11 +44,26 @@ describe('history saga', () => {
   });
 
   it('should fetchHistoryList error', () => {
+    const notificationSpy = jest.spyOn(actions, 'showGlobalNotification');
     const action = { payload: 42 };
     const error = new Error('404 Not Found');
 
     const gen = fetchHistoryList(action);
+
     gen.next();
-    expect(gen.throw(error).value).toEqual(put(requestHistoryListError(error))); // eslint-disable-line redux-saga/yield-effects
+
+    expect(gen.throw(error).value).toEqual(put(requestHistoryListError(error)));
+
+    expect(notificationSpy).not.toHaveBeenCalled();
+
+    gen.next();
+
+    expect(notificationSpy).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'De melding geschiedenis kon niet opgehaald worden',
+      variant: VARIANT_ERROR,
+      type: TYPE_LOCAL,
+    }));
+
+    expect(gen.next().value).toEqual(call([Sentry, 'captureException'], error));
   });
 });

@@ -1,9 +1,12 @@
 import { takeLatest, select, call, take } from 'redux-saga/effects';
-import { authCall } from 'shared/services/api/api';
+import { authCall, getErrorMessage } from 'shared/services/api/api';
 import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import { throwError } from 'redux-saga-test-plan/providers';
 import * as matchers from 'redux-saga-test-plan/matchers';
+import * as Sentry from '@sentry/browser';
 
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
+import * as actions from 'containers/App/actions';
 import {
   makeSelectActiveFilter,
   makeSelectFilterParams,
@@ -99,6 +102,13 @@ describe('signals/incident-management/containers/IncidentOverviewPage/saga', () 
         .select(makeSelectFilterParams)
         .call.like(authCall)
         .put(requestIncidentsError(message))
+        .put(actions.showGlobalNotification({
+          title: getErrorMessage(error),
+          message: 'Het meldingen overzicht kon niet opgehaald worden',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        }))
+        .call([Sentry, 'captureException'], error)
         .run();
     });
 
