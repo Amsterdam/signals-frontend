@@ -215,6 +215,9 @@ const MenuItems = ({ onLogOut, permissions }) => {
           <StyledMenuButton $as={NavLink} to="/instellingen/rollen">
             Rollen
           </StyledMenuButton>
+          <StyledMenuButton $as={NavLink} to="/instellingen/afdelingen">
+            Afdelingen
+          </StyledMenuButton>
         </StyledMenuFlyout>
       )}
       {showLogout && (
