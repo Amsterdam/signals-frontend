@@ -14,6 +14,14 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
 }));
 
+const actionProps = {
+  onFetchDepartments: jest.fn(),
+  onFetchPermissions: jest.fn(),
+  onFetchRoles: jest.fn(),
+  userCan: jest.fn(() => true),
+  userCanAccess: jest.fn(() => true),
+};
+
 describe('signals/settings', () => {
   beforeEach(() => {
     jest.spyOn(reactRouterDom, 'useLocation');
@@ -33,20 +41,53 @@ describe('signals/settings', () => {
     expect(props.userCanAccess).not.toBeUndefined();
   });
 
+  it('should have props from action creator', () => {
+    const tree = mount(withAppContext(<SettingsModule />));
+
+    const containerProps = tree.find(Module).props();
+
+    expect(containerProps.onFetchDepartments).toBeDefined();
+    expect(typeof containerProps.onFetchDepartments).toEqual('function');
+
+    expect(containerProps.onFetchPermissions).toBeDefined();
+    expect(typeof containerProps.onFetchPermissions).toEqual('function');
+
+    expect(containerProps.onFetchRoles).toBeDefined();
+    expect(typeof containerProps.onFetchRoles).toEqual('function');
+  });
+
+  it('should initiate fetches on mount', () => {
+    const onFetchDepartments = jest.fn();
+    const onFetchPermissions = jest.fn();
+    const onFetchRoles = jest.fn();
+
+    render(
+      withAppContext(
+        <Module
+          onFetchDepartments={onFetchDepartments}
+          onFetchPermissions={onFetchPermissions}
+          onFetchRoles={onFetchRoles}
+        />
+      )
+    );
+
+    expect(onFetchDepartments).toHaveBeenCalled();
+    expect(onFetchPermissions).toHaveBeenCalled();
+    expect(onFetchRoles).toHaveBeenCalled();
+  });
+
   it('should render login page', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => false);
 
     const { queryByTestId, getByTestId, rerender } = render(
-      withAppContext(<Module userCan={() => true} userCanAccess={() => true} />)
+      withAppContext(<Module {...actionProps} />)
     );
 
     expect(getByTestId('loginPage')).toBeInTheDocument();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => true);
 
-    rerender(
-      withAppContext(<Module userCan={() => true} userCanAccess={() => true} />)
-    );
+    rerender(withAppContext(<Module {...actionProps} />));
 
     expect(queryByTestId('loginPage')).toBeNull();
   });
@@ -56,9 +97,7 @@ describe('signals/settings', () => {
 
     await act(async () =>
       render(
-        withAppContext(
-          <Module userCan={() => true} userCanAccess={() => false} />
-        )
+        withAppContext(<Module {...actionProps} userCanAccess={() => false} />)
       )
     );
 
@@ -70,13 +109,7 @@ describe('signals/settings', () => {
   it('should provide pages with a location that has a referrer', async () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    await act(async () =>
-      render(
-        withAppContext(
-          <Module userCan={() => true} userCanAccess={() => true} />
-        )
-      )
-    );
+    await act(async () => render(withAppContext(<Module {...actionProps} />)));
 
     // After a change in the URL is picked up by the component, we need to wait till all state updates
     // have been completed before we perform any assertions. Using async/await to achieve that.
@@ -96,7 +129,7 @@ describe('signals/settings', () => {
       render(
         withAppContext(
           <Module
-            userCan={() => true}
+            {...actionProps}
             userCanAccess={section => section !== 'groups'}
           />
         )
@@ -129,7 +162,7 @@ describe('signals/settings', () => {
       render(
         withAppContext(
           <Module
-            userCan={() => true}
+            {...actionProps}
             userCanAccess={section => section !== 'users'}
           />
         )
