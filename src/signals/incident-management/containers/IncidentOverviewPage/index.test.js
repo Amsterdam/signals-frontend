@@ -24,8 +24,10 @@ jest.mock('scroll-lock');
 jest.mock('signals/incident-management/constants');
 jest.mock('signals/incident-management/actions', () => {
   const actual = jest.requireActual('signals/incident-management/actions');
-  // eslint-disable-next-line
-  const { PAGE_INCIDENTS_CHANGED } = require('signals/incident-management/constants');
+  const {
+    PAGE_INCIDENTS_CHANGED,
+    // eslint-disable-next-line
+  } = require('signals/incident-management/constants');
 
   return {
     __esModule: true,
@@ -110,6 +112,14 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     expect(props.onRequestIncidents).toBeCalledWith();
   });
 
+  it('should show notification when no results can be rendered', () => {
+    const { getByText } = render(
+      withAppContext(<IncidentOverviewPageContainerComponent {...props} incidentsCount={0} />)
+    );
+
+    expect(getByText('Geen meldingen')).toBeInTheDocument();
+  });
+
   it('should have props from structured selector', () => {
     const tree = mount(withAppContext(<IncidentOverviewPage />));
 
@@ -117,8 +127,12 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       .find(IncidentOverviewPageContainerComponent)
       .props();
 
+    expect(containerProps.activeFilter).not.toBeUndefined();
     expect(containerProps.overviewpage).not.toBeUndefined();
-    expect(containerProps.categories).not.toBeUndefined();
+    expect(containerProps.dataLists).not.toBeUndefined();
+    expect(containerProps.incidentsCount).not.toBeUndefined();
+    expect(containerProps.ordering).not.toBeUndefined();
+    expect(containerProps.page).not.toBeUndefined();
   });
 
   it('should have props from action creator', () => {
@@ -141,7 +155,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   it('should scroll page to top after navigating with pagination', () => {
     constants.FILTER_PAGE_SIZE = 30;
     Object.defineProperty(window, 'scrollTo', {
-      value: () => { },
+      value: () => {},
       writable: true,
     });
     const scrollSpy = jest.spyOn(window, 'scrollTo');

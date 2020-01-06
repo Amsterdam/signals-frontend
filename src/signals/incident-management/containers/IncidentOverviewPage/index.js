@@ -1,9 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { Row, Column, Button, themeSpacing } from '@datapunt/asc-ui';
+import {
+  Row,
+  Column,
+  Button,
+  themeSpacing,
+  Paragraph,
+  themeColor,
+} from '@datapunt/asc-ui';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import styled from 'styled-components';
 
@@ -11,7 +18,6 @@ import MyFilters from 'signals/incident-management/containers/MyFilters';
 import PageHeader from 'containers/PageHeader';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectCategories } from 'containers/App/selectors';
 import {
   makeSelectDataLists,
   makeSelectActiveFilter,
@@ -48,6 +54,13 @@ const StyledPagination = styled(Pagination)`
   margin-top: ${themeSpacing(12)};
 `;
 
+const NoResults = styled(Paragraph)`
+  width: 100%;
+  text-align: center;
+  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  color: ${themeColor('tint', 'level4')};
+`;
+
 export const IncidentOverviewPageContainerComponent = ({
   activeFilter,
   onRequestIncidents,
@@ -62,13 +75,13 @@ export const IncidentOverviewPageContainerComponent = ({
   const [modalFilterIsOpen, toggleFilterModal] = useState(false);
   const [modalMyFiltersIsOpen, toggleMyFiltersModal] = useState(false);
 
-  const openMyFiltersModal = () => {
+  const openMyFiltersModal = useCallback(() => {
     disablePageScroll();
     toggleMyFiltersModal(true);
     lastActiveElement = document.activeElement;
-  };
+  }, [toggleMyFiltersModal]);
 
-  function closeMyFiltersModal() {
+  const closeMyFiltersModal = useCallback(() => {
     enablePageScroll();
     toggleMyFiltersModal(false);
 
@@ -76,15 +89,15 @@ export const IncidentOverviewPageContainerComponent = ({
     if (lastActiveElement) {
       lastActiveElement.focus();
     }
-  }
+  }, [toggleMyFiltersModal]);
 
-  const openFilterModal = () => {
+  const openFilterModal = useCallback(() => {
     disablePageScroll();
     toggleFilterModal(true);
     lastActiveElement = document.activeElement;
-  };
+  }, [toggleFilterModal]);
 
-  function closeFilterModal() {
+  const closeFilterModal = useCallback(() => {
     enablePageScroll();
     toggleFilterModal(false);
 
@@ -92,17 +105,17 @@ export const IncidentOverviewPageContainerComponent = ({
     if (lastActiveElement) {
       lastActiveElement.focus();
     }
-  }
+  }, [toggleFilterModal]);
+
+  const escFunction = useCallback(event => {
+    /* istanbul ignore next */
+    if (event.keyCode === 27) {
+      closeFilterModal();
+      closeMyFiltersModal();
+    }
+  }, [closeFilterModal, closeMyFiltersModal]);
 
   useEffect(() => {
-    const escFunction = event => {
-      /* istanbul ignore next */
-      if (event.keyCode === 27) {
-        closeFilterModal();
-        closeMyFiltersModal();
-      }
-    };
-
     document.addEventListener('keydown', escFunction);
     document.addEventListener('openFilter', openFilterModal);
 
@@ -114,9 +127,10 @@ export const IncidentOverviewPageContainerComponent = ({
 
   useEffect(() => {
     onRequestIncidents();
-  }, []);
+  }, [onRequestIncidents]);
 
   const { incidents, loading } = overviewpage;
+  const totalPages = Math.ceil(incidentsCount / FILTER_PAGE_SIZE);
 
   return (
     <div className="incident-overview-page">
@@ -163,9 +177,9 @@ export const IncidentOverviewPageContainerComponent = ({
       <Row>
         <Column span={12} wrap>
           <Column span={12}>
-            {loading ? (
-              <LoadingIndicator />
-            ) : (
+            {loading && <LoadingIndicator />}
+
+            {!loading && totalPages > 0 && (
               <ListComponent
                 incidents={incidents}
                 onChangeOrdering={onChangeOrdering}
@@ -174,10 +188,14 @@ export const IncidentOverviewPageContainerComponent = ({
                 {...dataLists}
               />
             )}
+
+            {!loading && totalPages === 0 && (
+              <NoResults>Geen meldingen</NoResults>
+            )}
           </Column>
 
           <Column span={12}>
-            {!loading && incidentsCount && (
+            {!loading && incidentsCount > 0 && (
               <StyledPagination
                 currentPage={page}
                 hrefPrefix="/manage/incidents?page="
@@ -185,7 +203,7 @@ export const IncidentOverviewPageContainerComponent = ({
                   global.window.scrollTo(0, 0);
                   onPageIncidentsChanged(pageToNavigateTo);
                 }}
-                totalPages={Math.ceil(incidentsCount / FILTER_PAGE_SIZE)}
+                totalPages={totalPages}
               />
             )}
           </Column>
@@ -202,7 +220,6 @@ IncidentOverviewPageContainerComponent.defaultProps = {
 
 IncidentOverviewPageContainerComponent.propTypes = {
   activeFilter: types.filterType,
-  categories: types.categoriesType.isRequired,
   dataLists: types.dataListsType.isRequired,
   incidentsCount: PropTypes.number,
   onChangeOrdering: PropTypes.func.isRequired,
@@ -215,7 +232,6 @@ IncidentOverviewPageContainerComponent.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   activeFilter: makeSelectActiveFilter,
-  categories: makeSelectCategories(),
   dataLists: makeSelectDataLists,
   incidentsCount: makeSelectIncidentsCount,
   ordering: makeSelectOrdering,
@@ -233,11 +249,7 @@ export const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
-
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'incidentOverviewPage', reducer });
 const withSaga = injectSaga({ key: 'incidentOverviewPage', saga });
 

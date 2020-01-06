@@ -8,7 +8,7 @@ import {
 } from 'shared/services/api/api';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { resetSearchQuery } from 'models/search/actions';
+import { resetSearchIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 
 import {
   filterSaveFailed,
@@ -52,14 +52,14 @@ export function* removeFilter(action) {
 }
 
 export function* applyFilter() {
-  yield put(resetSearchQuery());
+  yield put(resetSearchIncidents());
 }
 
 export function* doSaveFilter(action) {
   const filterData = action.payload;
 
   try {
-    yield put(resetSearchQuery());
+    yield put(resetSearchIncidents());
 
     if (filterData.name) {
       const result = yield call(
@@ -104,7 +104,7 @@ export function* doUpdateFilter(action) {
 
     yield put(filterUpdatedSuccess(result));
     yield put(getFilters());
-    yield put(resetSearchQuery());
+    yield put(resetSearchIncidents());
   } catch (error) {
     if (
       error.response &&

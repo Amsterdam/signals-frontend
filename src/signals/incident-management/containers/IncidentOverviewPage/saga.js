@@ -26,6 +26,7 @@ import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
   REQUEST_INCIDENTS,
+  SEARCH_INCIDENTS,
 } from './constants';
 import {
   applyFilterRefresh,
@@ -61,6 +62,32 @@ export function* fetchIncidents() {
   }
 }
 
+export function* searchIncidents(action) {
+  const { payload } = action;
+
+  try {
+    yield put(applyFilterRefreshStop());
+
+    const incidents = yield call(authCall, CONFIGURATION.SEARCH_ENDPOINT, {
+      q: payload,
+    });
+
+    yield put(requestIncidentsSuccess(incidents));
+  } catch (error) {
+    if (
+      error.response &&
+      error.response.status === 500
+    ) {
+      // Getting an error response with status code 500 from the search endpoint
+      // means that the Elasticsearch index is very likely corrupted. In that
+      // case we simulate a success response without results.
+      yield put(requestIncidentsSuccess({ count: 0, results: [] }));
+    }
+
+    yield put(requestIncidentsError(error.message));
+  }
+}
+
 export const refreshRequestDelay = 2 * 60 * 1000;
 
 export function* refreshIncidents(timeout = refreshRequestDelay) {
@@ -78,6 +105,7 @@ export function* refreshIncidents(timeout = refreshRequestDelay) {
 
 export default function* watchRequestIncidentsSaga() {
   yield all([
+    takeLatest(SEARCH_INCIDENTS, searchIncidents),
     takeLatest(REQUEST_INCIDENTS, fetchIncidents),
     takeLatest(PAGE_INCIDENTS_CHANGED, fetchIncidents),
     takeLatest(ORDERING_INCIDENTS_CHANGED, fetchIncidents),

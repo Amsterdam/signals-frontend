@@ -12,8 +12,9 @@ describe('containers/SearchBar', () => {
 
     const props = tree.find(SearchBarComponent).props();
 
+    expect(props.onResetSearchIncidents).toBeDefined();
     expect(props.onRequestIncidents).toBeDefined();
-    expect(props.onSetSearchQuery).toBeDefined();
+    expect(props.onSearchIncidents).toBeDefined();
     expect(props.query).toBeDefined();
   });
 
@@ -22,22 +23,26 @@ describe('containers/SearchBar', () => {
 
     const containerProps = tree.find(SearchBarComponent).props();
 
-    expect(containerProps.onRequestIncidents).not.toBeUndefined();
+    expect(containerProps.onResetSearchIncidents).toBeDefined();
     expect(typeof containerProps.onRequestIncidents).toEqual('function');
 
-    expect(containerProps.onApplyFilter).not.toBeUndefined();
+    expect(containerProps.onRequestIncidents).toBeDefined();
+    expect(typeof containerProps.onRequestIncidents).toEqual('function');
+
+    expect(containerProps.onApplyFilter).toBeDefined();
     expect(typeof containerProps.onApplyFilter).toEqual('function');
 
-    expect(containerProps.onSetSearchQuery).not.toBeUndefined();
-    expect(typeof containerProps.onSetSearchQuery).toEqual('function');
+    expect(containerProps.onSearchIncidents).toBeDefined();
+    expect(typeof containerProps.onSearchIncidents).toEqual('function');
 
-    expect(containerProps.history).not.toBeUndefined();
+    expect(containerProps.history).toBeDefined();
     expect(typeof containerProps.history.push).toEqual('function');
   });
 
   describe('callback handlers', () => {
+    const onResetSearchIncidents = jest.fn();
     const onRequestIncidents = jest.fn();
-    const onSetSearchQuery = jest.fn();
+    const onSearchIncidents = jest.fn();
     const onApplyFilter = jest.fn();
 
     afterEach(jest.resetAllMocks);
@@ -50,8 +55,9 @@ describe('containers/SearchBar', () => {
       const { queryByTestId } = render(
         withAppContext(
           <SearchBarComponent
+            onResetSearchIncidents={onResetSearchIncidents}
             onRequestIncidents={onRequestIncidents}
-            onSetSearchQuery={onSetSearchQuery}
+            onSearchIncidents={onSearchIncidents}
             onApplyFilter={onApplyFilter}
             query={query}
             history={history}
@@ -63,11 +69,15 @@ describe('containers/SearchBar', () => {
       const formSubmitBtn = queryByTestId('searchBar').querySelector('button');
 
       fireEvent.change(formInput, { target: { value: '1234' } });
+
+      expect(push).not.toHaveBeenCalled();
+      expect(onSearchIncidents).not.toHaveBeenCalled();
+      expect(onApplyFilter).not.toHaveBeenCalled();
+
       fireEvent.click(formSubmitBtn);
 
       expect(push).toHaveBeenCalledWith('/manage/incidents');
-      expect(onRequestIncidents).toHaveBeenCalledWith();
-      expect(onSetSearchQuery).toHaveBeenCalledWith('1234');
+      expect(onSearchIncidents).toHaveBeenCalledWith('1234');
       expect(onApplyFilter).toHaveBeenCalledWith({});
     });
 
@@ -79,8 +89,9 @@ describe('containers/SearchBar', () => {
       const { queryByTestId } = render(
         withAppContext(
           <SearchBarComponent
+            onResetSearchIncidents={onResetSearchIncidents}
             onRequestIncidents={onRequestIncidents}
-            onSetSearchQuery={onSetSearchQuery}
+            onSearchIncidents={onSearchIncidents}
             onApplyFilter={onApplyFilter}
             query={query}
             history={history}
@@ -88,11 +99,13 @@ describe('containers/SearchBar', () => {
         ),
       );
 
+      expect(onRequestIncidents).not.toHaveBeenCalled();
+
       const formInput = queryByTestId('searchBar').querySelector('input');
       fireEvent.change(formInput, { target: { value: '' } });
 
       expect(push).not.toHaveBeenCalled();
-      expect(onSetSearchQuery).toHaveBeenCalledWith('');
+      expect(onResetSearchIncidents).toHaveBeenCalledWith();
       expect(onRequestIncidents).toHaveBeenCalledWith();
     });
   });

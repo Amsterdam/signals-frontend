@@ -18,13 +18,19 @@ const dataLists = {
   source: definitions.sourceList,
 };
 
+const formProps = {
+  onClearFilter: () => {},
+  onSaveFilter: () => {},
+  categories,
+  onSubmit: () => {},
+};
+
 describe('signals/incident-management/components/FilterForm', () => {
   it('should render filter fields', () => {
     const { container } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
@@ -42,8 +48,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           filter={{ options: {} }}
           dataLists={dataLists}
         />,
@@ -59,8 +64,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           filter={{ id: 1234, name: 'FooBar', options: {} }}
           dataLists={dataLists}
         />,
@@ -88,8 +92,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           filter={{ id: 1234, name: 'FooBar', options: {} }}
           dataLists={dataLists}
         />,
@@ -109,8 +112,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container, getAllByTestId } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
@@ -125,8 +127,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
@@ -155,8 +156,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container, rerender, queryByTestId } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataListsWithoutPriorityList}
         />,
       ),
@@ -176,8 +176,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     rerender(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataListsWithEmptyPriorityList}
         />,
       ),
@@ -194,8 +193,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     rerender(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
@@ -213,8 +211,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container, rerender, queryByTestId } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataListsWithoutStatusList}
         />,
       ),
@@ -234,8 +231,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     rerender(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataListsWithEmptyStatusList}
         />,
       ),
@@ -252,8 +248,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     rerender(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
@@ -271,8 +266,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container, rerender, queryByTestId } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataListsWithoutStadsdeelList}
         />,
       ),
@@ -292,8 +286,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     rerender(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataListsWithEmptyStadsdeelList}
         />,
       ),
@@ -310,8 +303,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     rerender(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
@@ -329,8 +321,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container, rerender, queryByTestId } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataListsWithoutFeedbackList}
         />,
       ),
@@ -347,8 +338,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     rerender(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
@@ -366,8 +356,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container, rerender, queryByTestId } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataListsWithoutSourceList}
         />,
       ),
@@ -384,8 +373,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     rerender(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
@@ -396,40 +384,60 @@ describe('signals/incident-management/components/FilterForm', () => {
     ).toHaveLength(dataLists.source.length);
   });
 
-  it('should render a datepicker', () => {
-    const { container, rerender } = render(
+  it('should render datepickers', () => {
+    render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
     );
 
-    expect(
-      container.querySelectorAll('input[type="hidden"][name="incident_date"]'),
-    ).toHaveLength(0);
+    expect(document.getElementById('filter_created_before')).toBeInTheDocument();
+    expect(document.getElementById('filter_created_after')).toBeInTheDocument();
+  });
 
-    expect(document.getElementById('filter_date')).toBeTruthy();
-
-    cleanup();
-
-    // rerendering, because react-datepicker interaction isn't testable
-    rerender(
+  it('should update the state on created before date select', () => {
+    render(
       withAppContext(
         <FilterForm
-          categories={categories}
-          filter={{ options: { incident_date: '1970-01-01' } }}
-          onSubmit={() => {}}
+          {...formProps}
           dataLists={dataLists}
         />,
       ),
     );
 
-    expect(
-      container.querySelectorAll('input[type="hidden"][name="incident_date"]'),
-    ).toHaveLength(1);
+    const value = '18-12-2018';
+    const inputElement = document.getElementById('filter_created_before');
+
+    // selecting a date from the datepicker will render a hidden input
+    expect(document.querySelector('input[name=created_before]')).not.toBeInTheDocument();
+
+    fireEvent.change(inputElement, { target: { value } });
+
+    expect(document.querySelector('input[name=created_before]')).toBeInTheDocument();
+  });
+
+  it('should update the state on created after date select', () => {
+    render(
+      withAppContext(
+        <FilterForm
+          {...formProps}
+          dataLists={dataLists}
+        />,
+      ),
+    );
+
+    const value = '23-12-2018';
+    const inputElement = document.getElementById('filter_created_after');
+
+    // selecting a date from the datepicker will render a hidden input
+    expect(document.querySelector('input[name=created_after]')).not.toBeInTheDocument();
+
+    fireEvent.change(inputElement, { target: { value } });
+
+    expect(document.querySelector('input[name=created_after]')).toBeInTheDocument();
   });
 
   // Note that jsdom has a bug where `submit` and `reset` handlers are not called when those handlers
@@ -440,9 +448,8 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
+          {...formProps}
           onClearFilter={onClearFilter}
-          onSubmit={() => {}}
           dataLists={dataLists}
         />,
       ),
@@ -451,7 +458,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const nameField = container.querySelector(
       'input[type="text"][name="name"]',
     );
-    const dateField = container.querySelector('input[id="filter_date"]');
+    const dateField = container.querySelector('input[id="filter_created_before"]');
     const addressField = container.querySelector(
       'input[type="text"][name="address_text"]',
     );
@@ -482,9 +489,8 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { getByTestId } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
+          {...formProps}
           onCancel={onCancel}
-          onSubmit={() => {}}
           dataLists={dataLists}
         />,
       ),
@@ -522,8 +528,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       const { container } = render(
         withAppContext(
           <FilterForm
-            categories={categories}
-            {...handlers}
+            {...{...formProps, ...handlers}}
             filter={{
               name: '',
               options: { incident_date: '1970-01-01' },
@@ -533,10 +538,22 @@ describe('signals/incident-management/components/FilterForm', () => {
         ),
       );
 
+      expect(handlers.onSaveFilter).not.toHaveBeenCalled();
+      expect(handlers.onSubmit).not.toHaveBeenCalled();
+
+      const nameField = container.querySelector(
+        'input[type="text"][name="name"]',
+      );
+
       fireEvent.click(container.querySelector('button[type="submit"]'));
 
-      expect(handlers.onSaveFilter).not.toHaveBeenCalled();
       expect(handlers.onSubmit).toHaveBeenCalled();
+      expect(handlers.onSaveFilter).not.toHaveBeenCalled(); // name field is empty
+
+      fireEvent.change(nameField, { target: { value: 'New name' }});
+      fireEvent.click(container.querySelector('button[type="submit"]'));
+
+      expect(handlers.onSaveFilter).toHaveBeenCalledTimes(1);
     });
 
     it('should handle submit for existing filter', () => {
@@ -549,8 +566,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       const { container } = render(
         withAppContext(
           <FilterForm
-            categories={categories}
-            {...handlers}
+            {...{...formProps, ...handlers}}
             filter={{
               name: 'My filter',
               options: {
@@ -587,9 +603,8 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container } = render(
       withAppContext(
         <FilterForm
-          categories={categories}
+          {...formProps}
           filter={{ name: 'My saved filter', options: {} }}
-          onSubmit={() => {}}
           dataLists={dataLists}
         />,
       ),

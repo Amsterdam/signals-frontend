@@ -7,9 +7,8 @@ import styled from 'styled-components';
 import * as types from 'shared/types';
 
 import PageHeader from 'components/PageHeader';
-import { makeSelectIncidentsCount } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
+import { makeSelectIncidentsCount, makeSelectSearchQuery } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
 import { makeSelectActiveFilter } from 'signals/incident-management/selectors';
-import { makeSelectQuery } from 'models/search/selectors';
 
 import Refresh from '../../shared/images/icon-refresh.svg';
 
@@ -60,7 +59,7 @@ PageHeaderContainerComponent.propTypes = {
 const mapStateToProps = createStructuredSelector({
   filter: makeSelectActiveFilter,
   incidentsCount: makeSelectIncidentsCount,
-  query: makeSelectQuery,
+  query: makeSelectSearchQuery,
 });
 
 const withConnect = connect(mapStateToProps);
