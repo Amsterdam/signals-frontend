@@ -50,7 +50,7 @@ export const RolesListContainer = ({
           ) : (
             <RolesList
               list={list}
-              linksEnabled={userCan('view_group') || userCan('change_group')}
+              linksEnabled={Boolean(userCan('view_group') || userCan('change_group'))}
             />
           )}
         </Column>
