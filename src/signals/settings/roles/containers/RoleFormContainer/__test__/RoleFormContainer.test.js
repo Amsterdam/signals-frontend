@@ -3,12 +3,7 @@ import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import roles from 'utils/__tests__/fixtures/roles.json';
 
-import {
-  FETCH_ROLES,
-  FETCH_PERMISSIONS,
-  PATCH_ROLE,
-  SAVE_ROLE,
-} from 'models/roles/constants';
+import { PATCH_ROLE, SAVE_ROLE } from 'models/roles/constants';
 import { RoleFormContainer, mapDispatchToProps } from '..';
 
 describe('signals/settings/roles/containers/RoleFormContainer', () => {
@@ -80,25 +75,8 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
     ).toBeInTheDocument();
   });
 
-  it('should fetch roles and permissions by default', () => {
-    render(withAppContext(<RoleFormContainer {...props} />));
-
-    expect(props.onFetchRoles).toHaveBeenCalled();
-    expect(props.onFetchPermissions).toHaveBeenCalled();
-  });
-
   describe('mapDispatchToProps', () => {
     const dispatch = jest.fn();
-
-    it('onRequestIncident', () => {
-      mapDispatchToProps(dispatch).onFetchRoles();
-      expect(dispatch).toHaveBeenCalledWith({ type: FETCH_ROLES });
-    });
-
-    it('onRequestIncident', () => {
-      mapDispatchToProps(dispatch).onFetchPermissions();
-      expect(dispatch).toHaveBeenCalledWith({ type: FETCH_PERMISSIONS });
-    });
 
     it('onPatchRole', () => {
       mapDispatchToProps(dispatch).onPatchRole();

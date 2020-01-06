@@ -77,6 +77,8 @@ const makeSelectUserCanAccess = createSelector(
       const groupForm = ['change_group', 'add_group'];
       const users = ['view_user', 'add_user', 'change_user'];
       const userForm = ['add_user', 'change_user'];
+      const departments = ['view_department', 'change_department', 'add_department'];
+      const departmentForm = ['change_department', 'add_department'];
 
       const requiredPerms = {
         settings: [groups, users],
@@ -84,6 +86,8 @@ const makeSelectUserCanAccess = createSelector(
         groupForm: [groupForm],
         users: [users],
         userForm: [userForm],
+        departments: [departments],
+        departmentForm: [departmentForm],
       };
 
       if (!Object.keys(requiredPerms).includes(section)) {

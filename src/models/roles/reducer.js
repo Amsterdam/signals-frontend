@@ -35,9 +35,11 @@ function rolesReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_ROLES:
       return state
+        .set('error', false)
         .set('list', fromJS([]))
         .set('loading', true)
-        .set('error', false);
+        .set('responseError', false)
+        .set('responseSuccess', false);
 
     case FETCH_ROLES_SUCCESS:
       return state

@@ -209,7 +209,8 @@ const MenuItems = ({ onLogOut, showItems }) => {
         </MenuItem>
       )}
 
-      {showItems.settings && (showItems.users || showItems.groups) && (
+      {showItems.settings &&
+        (showItems.users || showItems.groups || showItems.departments) && (
         <StyledMenuFlyout label="Instellingen">
           {showItems.users && (
             <StyledMenuButton $as={NavLink} to="/instellingen/gebruikers">
@@ -220,6 +221,12 @@ const MenuItems = ({ onLogOut, showItems }) => {
           {showItems.groups && (
             <StyledMenuButton $as={NavLink} to="/instellingen/rollen">
               Rollen
+            </StyledMenuButton>
+          )}
+
+          {showItems.departments && (
+            <StyledMenuButton $as={NavLink} to="/instellingen/afdelingen">
+              Afdelingen
             </StyledMenuButton>
           )}
         </StyledMenuFlyout>
@@ -311,7 +318,11 @@ SiteHeader.defaultProps = {
 
 SiteHeader.propTypes = {
   onLogOut: PropTypes.func,
-  showItems: PropTypes.shape({}),
+  showItems: PropTypes.shape({
+    users: PropTypes.bool,
+    groups: PropTypes.bool,
+    departments: PropTypes.bool,
+  }),
 };
 
 MenuItems.propTypes = SiteHeader.propTypes;

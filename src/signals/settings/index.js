@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Route, Redirect, Switch, useLocation } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { bindActionCreators } from 'redux';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 
@@ -13,15 +13,32 @@ import {
   makeSelectUserCan,
 } from 'containers/App/selectors';
 
+import { fetchRoles, fetchPermissions } from 'models/roles/actions';
+import { fetchDepartments } from 'models/departments/actions';
+
 import routes, { USERS_PAGED_URL, USER_URL, ROLE_URL } from './routes';
 import UsersOverviewContainer from './users/containers/Overview';
 import RolesListContainer from './roles/containers/RolesListContainer';
 import RoleFormContainer from './roles/containers/RoleFormContainer';
 import UsersDetailContainer from './users/containers/Detail';
+import DepartmentsOverviewContainer from './departments/Overview';
+import DepartmentsDetailContainer from './departments/Detail';
 
-export const SettingsModule = ({ userCan, userCanAccess }) => {
+export const SettingsModule = ({
+  onFetchDepartments,
+  onFetchPermissions,
+  onFetchRoles,
+  userCan,
+  userCanAccess,
+}) => {
   const moduleLocation = useLocation();
   const [location, setLocation] = useState(moduleLocation);
+
+  useEffect(() => {
+    onFetchDepartments();
+    onFetchRoles();
+    onFetchPermissions();
+  }, [onFetchDepartments, onFetchPermissions, onFetchRoles]);
 
   // subscribe to updates and set the referrer when page URLs differ
   useEffect(() => {
@@ -79,11 +96,32 @@ export const SettingsModule = ({ userCan, userCanAccess }) => {
           )}
         </Switch>
       )}
+
+      {userCanAccess('departments') && (
+        <Switch location={location}>
+          <Route
+            exact
+            path={routes.departments}
+            component={DepartmentsOverviewContainer}
+          />
+
+          {userCanAccess('departmentForm') && (
+            <Route
+              exact
+              path={routes.department}
+              component={DepartmentsDetailContainer}
+            />
+          )}
+        </Switch>
+      )}
     </Fragment>
   );
 };
 
 SettingsModule.propTypes = {
+  onFetchDepartments: PropTypes.func.isRequired,
+  onFetchPermissions: PropTypes.func.isRequired,
+  onFetchRoles: PropTypes.func.isRequired,
   userCan: PropTypes.func.isRequired,
   userCanAccess: PropTypes.func.isRequired,
 };
@@ -92,6 +130,17 @@ const mapStateToProps = createStructuredSelector({
   userCan: makeSelectUserCan,
   userCanAccess: makeSelectUserCanAccess,
 });
-const withConnect = connect(mapStateToProps);
 
-export default compose(withConnect)(SettingsModule);
+export const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onFetchDepartments: fetchDepartments,
+      onFetchPermissions: fetchPermissions,
+      onFetchRoles: fetchRoles,
+    },
+    dispatch
+  );
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default withConnect(SettingsModule);

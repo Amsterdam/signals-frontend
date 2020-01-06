@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -15,7 +15,7 @@ import {
 } from 'containers/App/selectors';
 
 import makeSelectRolesModel from 'models/roles/selectors';
-import { fetchRoles, fetchPermissions, patchRole, saveRole } from 'models/roles/actions';
+import { patchRole, saveRole } from 'models/roles/actions';
 import { ROLES_URL } from 'signals/settings/routes';
 
 import RoleForm from './components/RoleForm';
@@ -30,17 +30,10 @@ export const RoleFormContainer = ({
     responseSuccess,
     responseError,
   },
-  onFetchRoles,
-  onFetchPermissions,
   onPatchRole,
   onSaveRole,
   userCan,
 }) => {
-  useEffect(() => {
-    onFetchRoles();
-    onFetchPermissions();
-  }, [onFetchPermissions, onFetchRoles]);
-
   const { roleId } = useParams();
   const role = list.find(item => item.id === roleId * 1);
 
@@ -116,9 +109,6 @@ RoleFormContainer.propTypes = {
     responseSuccess: PropTypes.bool,
     responseError: PropTypes.bool,
   }),
-
-  onFetchRoles: PropTypes.func.isRequired,
-  onFetchPermissions: PropTypes.func.isRequired,
   onPatchRole: PropTypes.func.isRequired,
   onSaveRole: PropTypes.func.isRequired,
   userCan: PropTypes.func.isRequired,
@@ -130,8 +120,6 @@ const mapStateToProps = createStructuredSelector({
 });
 
 export const mapDispatchToProps = dispatch => bindActionCreators({
-  onFetchRoles: fetchRoles,
-  onFetchPermissions: fetchPermissions,
   onPatchRole: patchRole,
   onSaveRole: saveRole,
 }, dispatch);
