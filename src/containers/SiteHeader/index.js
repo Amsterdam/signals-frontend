@@ -16,6 +16,7 @@ export const SiteHeaderContainer = ({ onLogOut, userCan, userCanAccess }) => (
     onLogOut={onLogOut}
     showItems={{
       defaultTexts: userCan('sia_statusmessagetemplate_write'),
+      departments: userCanAccess('departments'),
       groups: userCanAccess('groups'),
       settings: userCanAccess('settings'),
       users: userCanAccess('users'),
