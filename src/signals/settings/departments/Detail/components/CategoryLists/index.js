@@ -159,15 +159,15 @@ const CategoryLists = ({ categories, categoryGroups }) => {
                 return (
                   <CheckboxList
                     className="categoryGroup"
-                    clusterName="is_responsible"
                     defaultValue={categoriesWith('is_responsible', options)}
-                    groupName={mainCategory}
-                    groupId={mainCatObj.key}
+                    groupId={`${mainCatObj.key}_is_responsible`}
+                    groupName="maincategory_slug_is_responsible"
+                    groupValue={`${mainCatObj.slug}_is_responsible`}
                     hasToggle
                     key={mainCategory}
+                    name={`${mainCatObj.slug}_category_slug`}
                     options={options}
                     title={mainCatObj.value}
-                    toggleFieldName="maincategory_slug"
                   />
                 );
               })}
@@ -192,15 +192,15 @@ const CategoryLists = ({ categories, categoryGroups }) => {
 
                 return (
                   <StyledCheckboxList
-                    clusterName="can_view"
                     defaultValue={categoriesWith('can_view', options)}
-                    groupName={mainCategory}
-                    groupId={mainCatObj.key}
+                    groupId={`${mainCatObj.key}_can_view`}
+                    groupName="maincategory_slug_can_view"
+                    groupValue={`${mainCatObj.slug}_can_view`}
                     hasToggle
                     key={mainCategory}
+                    name={`${mainCatObj.slug}_category_slug`}
                     options={options}
                     title={mainCatObj.value}
-                    toggleFieldName="maincategory_slug"
                   />
                 );
               })}
