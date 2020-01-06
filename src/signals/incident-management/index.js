@@ -11,6 +11,7 @@ import injectSaga from 'utils/injectSaga';
 import LoginPage from 'components/LoginPage';
 
 import IncidentOverviewPage from './containers/IncidentOverviewPage';
+import { requestIncidents } from './containers/IncidentOverviewPage/actions';
 import IncidentDetail from './containers/IncidentDetail';
 import DashboardContainer from './containers/DashboardContainer';
 import DefaultTextsAdmin from './containers/DefaultTextsAdmin';
@@ -38,10 +39,12 @@ export const incidentSplitContainerWrapper = baseUrl => props => (
 export const IncidentManagementModuleComponent = ({
   match: { url },
   getFiltersAction,
+  requestIncidentsAction,
 }) => {
   useEffect(() => {
     getFiltersAction();
-  });
+    requestIncidentsAction();
+  }, [getFiltersAction, requestIncidentsAction]);
 
   return !isAuthenticated() ? (
     <Route component={LoginPage} />
@@ -50,17 +53,20 @@ export const IncidentManagementModuleComponent = ({
       <Route
         exact
         path={`${url}/incidents`}
-        render={incidentOverviewPageWrapper(url)}
+        // render={incidentOverviewPageWrapper(url)}
+        component={IncidentOverviewPage}
       />
       <Route
         exact
         path={`${url}/incident/:id`}
-        render={incidentDetailWrapper(url)}
+        // render={incidentDetailWrapper(url)}
+        component={IncidentDetail}
       />
       <Route
         exact
         path={`${url}/incident/:id/split`}
-        render={incidentSplitContainerWrapper(url)}
+        // render={incidentSplitContainerWrapper(url)}
+        component={IncidentSplitContainer}
       />
       <Route path={`${url}/standaard/teksten`} component={DefaultTextsAdmin} />
       <Route path={`${url}/dashboard`} component={DashboardContainer} />
@@ -73,15 +79,16 @@ IncidentManagementModuleComponent.propTypes = {
     url: PropTypes.string.isRequired,
   }),
   getFiltersAction: PropTypes.func.isRequired,
+  requestIncidentsAction: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ getFiltersAction: getFilters }, dispatch);
+  bindActionCreators(
+    { getFiltersAction: getFilters, requestIncidentsAction: requestIncidents },
+    dispatch
+  );
 
-const withConnect = connect(
-  null,
-  mapDispatchToProps
-);
+const withConnect = connect(null, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'incidentManagement', reducer });
 const withSaga = injectSaga({ key: 'incidentManagement', saga });

@@ -22,11 +22,13 @@ import {
   filterSaved as onSaveFilter,
   filterUpdated as onUpdateFilter,
   filterCleared as onClearFilter,
+  getFilters,
 } from 'signals/incident-management/actions';
 
 export const FilterContainerComponent = ({
   categories,
   dataLists,
+  getFiltersAction,
   onApplyFilter,
   onCancel,
   onEditFilter,
@@ -47,6 +49,7 @@ export const FilterContainerComponent = ({
     onEditFilter(filter);
     onRequestIncidents();
     onSubmit(event);
+    getFiltersAction();
   };
 
   const onEditCancel = () => {
@@ -69,6 +72,7 @@ FilterContainerComponent.propTypes = {
   categories: types.categoriesType.isRequired,
   dataLists: types.dataListsType.isRequired,
   filter: types.filterType.isRequired,
+  getFiltersAction: PropTypes.func.isRequired,
   onApplyFilter: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onClearFilter: PropTypes.func.isRequired,
@@ -90,6 +94,7 @@ const mapStateToProps = () =>
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
+      getFiltersAction: getFilters,
       onApplyFilter: applyFilter,
       onClearFilter,
       onEditFilter: editFilter,

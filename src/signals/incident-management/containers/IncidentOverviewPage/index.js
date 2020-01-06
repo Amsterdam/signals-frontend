@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -38,7 +38,6 @@ import { FILTER_PAGE_SIZE } from 'signals/incident-management/constants';
 import { makeSelectOverviewPage, makeSelectIncidentsCount } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { requestIncidents } from './actions';
 import ListComponent from './components/List';
 import FilterTagList from '../FilterTagList';
 
@@ -63,14 +62,13 @@ const NoResults = styled(Paragraph)`
 
 export const IncidentOverviewPageContainerComponent = ({
   activeFilter,
-  onRequestIncidents,
-  onPageIncidentsChanged,
-  overviewpage,
-  incidentsCount,
   dataLists,
-  page,
-  ordering,
+  incidentsCount,
   onChangeOrdering,
+  onPageIncidentsChanged,
+  ordering,
+  overviewpage,
+  page,
 }) => {
   const [modalFilterIsOpen, toggleFilterModal] = useState(false);
   const [modalMyFiltersIsOpen, toggleMyFiltersModal] = useState(false);
@@ -107,13 +105,16 @@ export const IncidentOverviewPageContainerComponent = ({
     }
   }, [toggleFilterModal]);
 
-  const escFunction = useCallback(event => {
-    /* istanbul ignore next */
-    if (event.keyCode === 27) {
-      closeFilterModal();
-      closeMyFiltersModal();
-    }
-  }, [closeFilterModal, closeMyFiltersModal]);
+  const escFunction = useCallback(
+    event => {
+      /* istanbul ignore next */
+      if (event.keyCode === 27) {
+        closeFilterModal();
+        closeMyFiltersModal();
+      }
+    },
+    [closeFilterModal, closeMyFiltersModal]
+  );
 
   useEffect(() => {
     document.addEventListener('keydown', escFunction);
@@ -123,14 +124,13 @@ export const IncidentOverviewPageContainerComponent = ({
       document.removeEventListener('keydown', escFunction);
       document.removeEventListener('openFilter', openFilterModal);
     };
-  });
+  }, [escFunction, openFilterModal]);
 
-  useEffect(() => {
-    onRequestIncidents();
-  }, [onRequestIncidents]);
-
-  const { incidents, loading } = overviewpage;
-  const totalPages = Math.ceil(incidentsCount / FILTER_PAGE_SIZE);
+  const { incidents, loading } = useMemo(() => overviewpage, [overviewpage]);
+  const totalPages = useMemo(
+    () => Math.ceil(incidentsCount / FILTER_PAGE_SIZE),
+    [incidentsCount, FILTER_PAGE_SIZE]
+  );
 
   return (
     <div className="incident-overview-page">
@@ -199,10 +199,7 @@ export const IncidentOverviewPageContainerComponent = ({
               <StyledPagination
                 currentPage={page}
                 hrefPrefix="/manage/incidents?page="
-                onClick={pageToNavigateTo => {
-                  global.window.scrollTo(0, 0);
-                  onPageIncidentsChanged(pageToNavigateTo);
-                }}
+                onClick={onPageIncidentsChanged}
                 totalPages={totalPages}
               />
             )}
@@ -224,7 +221,6 @@ IncidentOverviewPageContainerComponent.propTypes = {
   incidentsCount: PropTypes.number,
   onChangeOrdering: PropTypes.func.isRequired,
   onPageIncidentsChanged: PropTypes.func.isRequired,
-  onRequestIncidents: PropTypes.func.isRequired,
   ordering: PropTypes.string,
   overviewpage: types.overviewPageType.isRequired,
   page: PropTypes.number,
@@ -244,7 +240,6 @@ export const mapDispatchToProps = dispatch =>
     {
       onChangeOrdering: orderingIncidentsChanged,
       onPageIncidentsChanged: pageIncidentsChanged,
-      onRequestIncidents: requestIncidents,
     },
     dispatch
   );
