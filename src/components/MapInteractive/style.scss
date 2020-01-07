@@ -1,6 +1,6 @@
 .map-component {
   #mapdiv-interactive {
-    position: relative;
+    // position: relative;
     width: 100%;
     height: 450px;
   }
@@ -29,4 +29,33 @@
     position: absolute;
     z-index: 1001;
   }
+
+
+}
+
+#mapdiv-interactive:-webkit-full-screen {
+  background-color: #e4708a;
+  width: 100vw;
+  height: 100vh;
+  min-width: 100vw;
+  min-height: 100vh;
+
+}
+
+#mapdiv-interactive:-moz-full-screen {
+  background-color: #e4708a;
+  width: 100vw;
+  height: 100vh;
+  min-width: 100vw;
+  min-height: 100vh;
+
+}
+
+#mapdiv-interactive:-ms-fullscreen {
+  background-color: #e4708a;
+  width: 100vw;
+  height: 100vh;
+  min-width: 100vw;
+  min-height: 100vh;
+
 }

@@ -36,6 +36,7 @@ class MapInteractive extends React.Component {
         latitude: props.location.geometrie.coordinates[1],
       };
     }
+    console.log('pointquery', pointquery.emit('query-results'));
     return pointquery.createMap(options);
   }
 
@@ -47,11 +48,29 @@ class MapInteractive extends React.Component {
     };
 
     this.updateInput = this.updateInput.bind(this);
+    this.fs = this.fs.bind(this);
   }
 
   componentDidMount() {
+
     MapInteractive.initMap(this.props).then(map => {
       this.setState({ map });
+      map.touchZoom.enable();
+
+
+      function onLocationFound(e) {
+        const radius = e.accuracy;
+        console.log('--------------------------------------------------------------- onLocationFound');
+        L.marker(e.latlng).addTo(map)
+          .bindPopup(`You are within ${radius} meters from this point`).openPopup();
+
+
+        L.circle(e.latlng, radius).addTo(map);
+      }
+
+      map.on('locationfound', onLocationFound);
+      map.on('locationerror', () => { console.log('locationerror'); });
+      map.locate({ watch: true, setView: true, maxZoom: 21 });
     });
 
     this.updateInput(this.props);
@@ -80,6 +99,13 @@ class MapInteractive extends React.Component {
     }
   }
 
+  fs() {
+    const el = document.getElementById('mapdiv-interactive');
+    el.webkitRequestFullscreen();
+    // el.mozRequestFullScreen();
+    // el.msRequestFullscreen();
+  }
+
   updateInput(props) {
     const input = document.querySelector('#nlmaps-geocoder-control-input');
     if (input) {
@@ -97,6 +123,8 @@ class MapInteractive extends React.Component {
   render() {
     return (
       <div className="map-component">
+        <button type="button" onClick={this.fs}>Go Full Screen!</button>
+
         <div className="map">
           <div id="mapdiv-interactive" />
         </div>
