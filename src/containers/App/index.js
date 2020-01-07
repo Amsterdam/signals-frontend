@@ -5,7 +5,6 @@ import {
 } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import defer from 'lodash.defer';
 
 import { authenticate } from 'shared/services/auth/auth';
 import ThemeProvider from 'components/ThemeProvider';
@@ -36,18 +35,15 @@ export const AppContainer = ({ requestCategoriesAction }) => {
 
   useEffect(() => {
     const unlisten = history.listen(() => {
-      defer(() => {
-        global.window.scrollTo({
-          top: 0,
-          left: 0,
-        });
-      });
+      setTimeout(() => {
+        global.window.scrollTo(0, 0);
+      }, 100);
     });
 
     return () => {
       unlisten();
     };
-  }, [history.push]);
+  }, [history]);
 
   return (
     <ThemeProvider>
