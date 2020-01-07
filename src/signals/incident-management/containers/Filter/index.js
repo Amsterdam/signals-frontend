@@ -6,9 +6,6 @@ import { compose, bindActionCreators } from 'redux';
 
 import { makeSelectCategories } from 'containers/App/selectors';
 import {
-  requestIncidents,
-} from 'signals/incident-management/containers/IncidentOverviewPage/actions';
-import {
   makeSelectEditFilter,
   makeSelectDataLists,
 } from 'signals/incident-management/selectors';
@@ -18,11 +15,12 @@ import * as types from 'shared/types';
 import {
   applyFilter,
   editFilter,
+  clearEditFilter as onClearFilter,
   filterEditCanceled,
   filterSaved as onSaveFilter,
   filterUpdated as onUpdateFilter,
-  filterCleared as onClearFilter,
   getFilters,
+  requestIncidents,
 } from 'signals/incident-management/actions';
 
 export const FilterContainerComponent = ({
@@ -46,10 +44,10 @@ export const FilterContainerComponent = ({
    */
   const onFormSubmit = (event, filter) => {
     onApplyFilter(filter);
-    onEditFilter(filter);
-    onRequestIncidents();
+    // onEditFilter(filter);
+    // onRequestIncidents();
     onSubmit(event);
-    getFiltersAction();
+    // getFiltersAction();
   };
 
   const onEditCancel = () => {

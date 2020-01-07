@@ -1,4 +1,15 @@
-import { all, put, call, spawn, takeLatest } from 'redux-saga/effects';
+import {
+  all,
+  call,
+  delay,
+  put,
+  race,
+  select,
+  spawn,
+  take,
+  takeLatest,
+} from 'redux-saga/effects';
+import { push } from 'connected-react-router/immutable';
 
 import {
   authCall,
@@ -8,9 +19,10 @@ import {
 } from 'shared/services/api/api';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { resetSearchIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 
 import {
+  applyFilterRefresh,
+  applyFilterRefreshStop,
   filterSaveFailed,
   filterSaveSuccess,
   filterUpdatedFailed,
@@ -20,15 +32,114 @@ import {
   getFiltersSuccess,
   removeFilterFailed,
   removeFilterSuccess,
+  requestIncidents,
+  requestIncidentsError,
+  requestIncidentsSuccess,
+  searchIncidentsError,
+  searchIncidentsSuccess,
 } from './actions';
 
 import {
+  APPLY_FILTER_REFRESH_STOP,
+  APPLY_FILTER_REFRESH,
   APPLY_FILTER,
   GET_FILTERS,
+  ORDERING_CHANGED,
+  PAGE_CHANGED,
   REMOVE_FILTER,
+  REQUEST_INCIDENTS,
+  RESET_SEARCH_QUERY,
   SAVE_FILTER,
+  SEARCH_INCIDENTS,
+  SET_SEARCH_QUERY,
   UPDATE_FILTER,
 } from './constants';
+
+import {
+  makeSelectActiveFilter,
+  makeSelectFilterParams,
+  makeSelectSearchQuery,
+} from './selectors';
+
+export function* fetchProxy(action) {
+  const searchQuery = yield select(makeSelectSearchQuery);
+
+  if (searchQuery) {
+    yield put(push('/manage/incidents'));
+    yield call(searchIncidents, action);
+  } else {
+    yield call(fetchIncidents);
+  }
+}
+
+export function* fetchIncidents() {
+  try {
+    const filter = yield select(makeSelectActiveFilter);
+
+    if (filter && filter.refresh) {
+      yield put(applyFilterRefreshStop());
+    }
+
+    const params = yield select(makeSelectFilterParams);
+
+    const incidents = yield call(
+      authCall,
+      CONFIGURATION.INCIDENTS_ENDPOINT,
+      params
+    );
+
+    yield put(requestIncidentsSuccess(incidents));
+
+    if (filter && filter.refresh) {
+      yield put(applyFilterRefresh());
+    }
+  } catch (error) {
+    yield put(requestIncidentsError(error.message));
+  }
+}
+
+export function* searchIncidents(action) {
+  const { payload } = action;
+
+  try {
+    yield put(applyFilterRefreshStop());
+
+    const { page, page_size, ordering } = yield select(makeSelectFilterParams);
+
+    const incidents = yield call(authCall, CONFIGURATION.SEARCH_ENDPOINT, {
+      q: payload,
+      page,
+      page_size,
+      ordering,
+    });
+
+    yield put(searchIncidentsSuccess(incidents));
+  } catch (error) {
+    if (error.response && error.response.status === 500) {
+      // Getting an error response with status code 500 from the search endpoint
+      // means that the Elasticsearch index is very likely corrupted. In that
+      // case we simulate a success response without results.
+      yield put(searchIncidentsSuccess({ count: 0, results: [] }));
+    }
+
+    yield put(searchIncidentsError(error.message));
+  }
+}
+
+export const refreshRequestDelay = 2 * 60 * 1000;
+
+export function* refreshIncidents(timeout = refreshRequestDelay) {
+  while (true) {
+    const filter = yield select(makeSelectActiveFilter);
+
+    if (filter && filter.refresh) {
+      yield delay(timeout);
+      yield put(requestIncidents());
+    } else {
+      break;
+    }
+  }
+}
 
 export function* fetchFilters() {
   try {
@@ -51,16 +162,10 @@ export function* removeFilter(action) {
   }
 }
 
-export function* applyFilter() {
-  yield put(resetSearchIncidents());
-}
-
 export function* doSaveFilter(action) {
   const filterData = action.payload;
 
   try {
-    yield put(resetSearchIncidents());
-
     if (filterData.name) {
       const result = yield call(
         authPostCall,
@@ -104,7 +209,6 @@ export function* doUpdateFilter(action) {
 
     yield put(filterUpdatedSuccess(result));
     yield put(getFilters());
-    yield put(resetSearchIncidents());
   } catch (error) {
     if (
       error.response &&
@@ -132,8 +236,20 @@ export default function* watchIncidentManagementSaga() {
   yield all([
     takeLatest(GET_FILTERS, fetchFilters),
     takeLatest(REMOVE_FILTER, removeFilter),
-    takeLatest(APPLY_FILTER, applyFilter),
     takeLatest(SAVE_FILTER, saveFilter),
     takeLatest(UPDATE_FILTER, updateFilter),
+
+    takeLatest(APPLY_FILTER, fetchProxy),
+    takeLatest(SEARCH_INCIDENTS, fetchProxy),
+    takeLatest(REQUEST_INCIDENTS, fetchProxy),
+    takeLatest(SET_SEARCH_QUERY, fetchProxy),
+    takeLatest(RESET_SEARCH_QUERY, fetchProxy),
+    takeLatest(PAGE_CHANGED, fetchProxy),
+    takeLatest(ORDERING_CHANGED, fetchProxy),
   ]);
+
+  while (true) {
+    yield take(APPLY_FILTER_REFRESH);
+    yield race([call(refreshIncidents), take(APPLY_FILTER_REFRESH_STOP)]);
+  }
 }

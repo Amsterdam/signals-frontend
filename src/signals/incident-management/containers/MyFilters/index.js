@@ -8,9 +8,9 @@ import {
   applyFilter,
   editFilter,
   removeFilter,
+  requestIncidents,
 } from 'signals/incident-management/actions';
 import { makeSelectAllFilters } from 'signals/incident-management/selectors';
-import { requestIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
 import * as types from 'shared/types';
 
 import FilterItem from './components/FilterItem';

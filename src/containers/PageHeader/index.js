@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -7,8 +7,11 @@ import styled from 'styled-components';
 import * as types from 'shared/types';
 
 import PageHeader from 'components/PageHeader';
-import { makeSelectIncidentsCount, makeSelectSearchQuery } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
-import { makeSelectActiveFilter } from 'signals/incident-management/selectors';
+import {
+  makeSelectActiveFilter,
+  makeSelectIncidents,
+  makeSelectSearchQuery,
+} from 'signals/incident-management/selectors';
 
 import Refresh from '../../shared/images/icon-refresh.svg';
 
@@ -21,25 +24,32 @@ const RefreshIcon = styled(Refresh).attrs({
 `;
 
 export const PageHeaderContainerComponent = ({
-  incidentsCount,
-  filter,
   children,
+  filter,
+  incidents,
   query,
 }) => {
-  let title = filter.name || 'Meldingen';
-  const hasCount = !!incidentsCount && isNaN(Number(incidentsCount)) === false; // eslint-disable-line no-restricted-globals
-  title += hasCount ? ` (${incidentsCount})` : '';
-  title = filter.refresh ? (
-    <Fragment>
-      <RefreshIcon /> {title}
-    </Fragment>
-  ) : (
-    title
-  );
-  const subTitle = query && `Zoekresultaten voor "${query}"`;
+  const headerTitle = useMemo(() => {
+    let title = filter.name || 'Meldingen';
+    const hasCount =
+      !!incidents.count && isNaN(Number(incidents.count)) === false; // eslint-disable-line no-restricted-globals
+    title += hasCount ? ` (${incidents.count})` : '';
+
+    return filter.refresh ? (
+      <Fragment>
+        <RefreshIcon /> {title}
+      </Fragment>
+    ) : (
+      title
+    );
+  }, [filter, incidents.count]);
+
+  const subTitle = useMemo(() => query && `Zoekresultaten voor "${query}"`, [
+    query,
+  ]);
 
   return (
-    <PageHeader title={title} subTitle={subTitle}>
+    <PageHeader title={headerTitle} subTitle={subTitle}>
       {children}
     </PageHeader>
   );
@@ -52,13 +62,15 @@ PageHeaderContainerComponent.defaultProps = {
 PageHeaderContainerComponent.propTypes = {
   filter: types.filterType,
   children: PropTypes.node,
-  incidentsCount: PropTypes.number,
+  incidents: PropTypes.shape({
+    count: PropTypes.number,
+  }),
   query: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
   filter: makeSelectActiveFilter,
-  incidentsCount: makeSelectIncidentsCount,
+  incidents: makeSelectIncidents,
   query: makeSelectSearchQuery,
 });
 

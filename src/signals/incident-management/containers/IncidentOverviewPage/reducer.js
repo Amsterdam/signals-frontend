@@ -13,6 +13,8 @@ export const initialState = fromJS({
   incidents: [],
   incidentsCount: null,
   loading: false,
+  ordering: '-created_at',
+  page: 1,
   searchQuery: '',
 });
 
@@ -46,7 +48,10 @@ export default (state = initialState, action) => {
         .set('searchQuery', action.payload);
 
     case RESET_SEARCH_INCIDENTS:
-      return state.set('searchQuery', '');
+      return state
+        .set('searchQuery', initialState.get('searchQuery'))
+        .set('page', initialState.get('page'))
+        .set('ordering', initialState.get('ordering'));
 
     default:
       return state;
