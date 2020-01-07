@@ -413,7 +413,7 @@ export default {
         optional: true,
       },
       extra_wonen_woningdelen_bewoners_familie: {
-        label: 'Aantal personen',
+        label: 'Bewoners familie',
         render: PreviewComponents.ObjectValue,
         optional: true,
       },
@@ -546,7 +546,7 @@ export default {
         optional: true,
       },
       extra_wonen_vakantieverhuur_link_advertentie: {
-        label: 'Link',
+        label: 'Link advertentie',
         render: PreviewComponents.PlainText,
         optional: true,
       },
