@@ -56,11 +56,12 @@ class MapInteractive extends React.Component {
     MapInteractive.initMap(this.props).then(map => {
       this.setState({ map });
       map.touchZoom.enable();
+      console.log('----', map.touchZoom);
 
 
       function onLocationFound(e) {
         const radius = e.accuracy;
-        console.log('--------------------------------------------------------------- onLocationFound');
+        console.log('onLocationFound', e.latlng);
         L.marker(e.latlng).addTo(map)
           .bindPopup(`You are within ${radius} meters from this point`).openPopup();
 
@@ -101,7 +102,8 @@ class MapInteractive extends React.Component {
 
   fs() {
     const el = document.getElementById('mapdiv-interactive');
-    el.webkitRequestFullscreen();
+    // el.webkitRequestFullscreen();
+    el.webkitRequestFullScreen();
     // el.mozRequestFullScreen();
     // el.msRequestFullscreen();
   }
