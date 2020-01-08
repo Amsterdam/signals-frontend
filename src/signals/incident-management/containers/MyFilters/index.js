@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -8,7 +8,6 @@ import {
   applyFilter,
   editFilter,
   removeFilter,
-  requestIncidents,
 } from 'signals/incident-management/actions';
 import { makeSelectAllFilters } from 'signals/incident-management/selectors';
 import * as types from 'shared/types';
@@ -30,20 +29,17 @@ export const MyFiltersComponent = ({
   onApplyFilter,
   onEditFilter,
   onRemoveFilter,
-  onRequestIncidents,
   onClose,
 }) => {
   /**
    * Selecting apply filter should show the filtered incidents as well as set the filter values
    * for the filter form and should thus call both the onApplyFilter and onEditFilter actions
    */
-  const handleApplyFilter = filter => {
+  const handleApplyFilter = useCallback(filter => {
     onApplyFilter(filter);
-    onEditFilter(filter);
-    onRequestIncidents();
-  };
+  }, [onApplyFilter]);
 
-  const handleEditFilter = filter => {
+  const handleEditFilter = useCallback(filter => {
     onEditFilter(filter);
     // IE11 doesn't support dispatching an event without initialisation
     // @see {@link https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events#Creating_custom_events}
@@ -59,7 +55,7 @@ export const MyFiltersComponent = ({
 
     event.data = filter;
     document.dispatchEvent(event);
-  };
+  }, [onEditFilter]);
 
   return (
     <div className="my-filters">
@@ -93,7 +89,6 @@ MyFiltersComponent.propTypes = {
   onEditFilter: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onRemoveFilter: PropTypes.func.isRequired,
-  onRequestIncidents: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -106,14 +101,10 @@ const mapDispatchToProps = dispatch =>
       onApplyFilter: applyFilter,
       onEditFilter: editFilter,
       onRemoveFilter: removeFilter,
-      onRequestIncidents: requestIncidents,
     },
     dispatch
   );
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default withConnect(MyFiltersComponent);

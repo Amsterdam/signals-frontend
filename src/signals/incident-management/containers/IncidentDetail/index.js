@@ -1,9 +1,9 @@
-import React, { Fragment, useState, useEffect, useCallback } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
+import isEqual from 'lodash.isequal';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
@@ -52,205 +52,238 @@ const DetailContainer = styled(Column)`
   position: relative;
 `;
 
-export const IncidentDetail = ({
-  attachmentHref: attachment,
-  categories,
-  historyModel: { list },
-  incidentModel: {
-    incident,
-    attachments,
-    loading,
-    patching,
-    error,
-    split,
-    stadsdeelList,
-    priorityList,
-    changeStatusOptionList,
-    defaultTextsOptionList,
-    statusList,
-    defaultTexts,
-  },
-  onDismissError,
-  onDismissSplitNotification,
-  onPatchIncident,
-  onRequestAttachments,
-  onRequestDefaultTexts,
-  onRequestHistoryList,
-  onRequestIncident,
-  previewState: preview,
-}) => {
-  const { id } = useParams();
-  const [previewState, setPreviewState] = useState(preview);
-  const [attachmentHref, setAttachmentHref] = useState(attachment);
+export class IncidentDetail extends React.Component {
+  // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
 
-  const fetchAll = useCallback(() => {
-    onRequestIncident(id);
-    onRequestHistoryList(id);
-    onRequestAttachments(id);
-  }, [onRequestIncident, onRequestHistoryList, onRequestAttachments, id]);
+    this.state = {
+      previewState: props.previewState, // showLocation, editLocation, editStatus, showImage
+      attachmentHref: props.attachmentHref,
+    };
 
-  const onShowLocation = useCallback(() => {
-    setPreviewState('showLocation');
-    setAttachmentHref('');
-  }, [setPreviewState, setAttachmentHref]);
+    this.onShowLocation = this.onShowLocation.bind(this);
+    this.onEditLocation = this.onEditLocation.bind(this);
+    this.onEditStatus = this.onEditStatus.bind(this);
+    this.onShowAttachment = this.onShowAttachment.bind(this);
+    this.onCloseAll = this.onCloseAll.bind(this);
+  }
 
-  const onEditLocation = useCallback(() => {
-    setPreviewState('editLocation');
-    setAttachmentHref('');
-  }, [setPreviewState, setAttachmentHref]);
+  componentDidMount() {
+    this.fetchAll();
+  }
 
-  const onEditStatus = useCallback(() => {
-    setPreviewState('editStatus');
-    setAttachmentHref('');
-  }, [setPreviewState, setAttachmentHref]);
+  componentDidUpdate(prevProps) {
+    if (prevProps.id !== this.props.id) {
+      this.fetchAll();
+    }
 
-  const onShowAttachment = useCallback(
-    href => {
-      setPreviewState('showImage');
-      setAttachmentHref(href);
-    },
-    [setPreviewState, setAttachmentHref]
-  );
+    /* istanbul ignore else */
+    if (this.props.incidentModel.incident) {
+      const category = this.props.incidentModel.incident.category;
+      if (
+        !isEqual(
+          prevProps.incidentModel.incident
+            && prevProps.incidentModel.incident.category,
+          this.props.incidentModel.incident.category,
+        )
+      ) {
+        this.props.onRequestDefaultTexts({
+          main_slug: category.main_slug,
+          sub_slug: category.sub_slug,
+        });
+      }
+    }
+  }
 
-  const onCloseAll = useCallback(() => {
-    setPreviewState('');
-    setAttachmentHref('');
-  }, [setPreviewState, setAttachmentHref]);
-
-  useEffect(() => {
-    fetchAll();
-  }, [id]);
-
-  useEffect(() => {
-    if (!incident) return;
-
-    onRequestDefaultTexts({
-      main_slug: incident.category.main_slug,
-      sub_slug: incident.category.sub_slug,
+  onShowLocation() {
+    this.setState({
+      previewState: 'showLocation',
+      attachmentHref: '',
     });
-  }, [incident]);
+  }
 
-  return (
-    <Fragment>
-      <div className="incident-detail">
-        <Row>
-          <Column span={12}>
-            <SplitNotificationBar
-              data={split}
-              onDismissSplitNotification={onDismissSplitNotification}
-            />
-          </Column>
-        </Row>
+  onEditLocation() {
+    this.setState({
+      previewState: 'editLocation',
+      attachmentHref: '',
+    });
+  }
 
-        {loading && <LoadingIndicator />}
+  onEditStatus() {
+    this.setState({
+      previewState: 'editStatus',
+      attachmentHref: '',
+    });
+  }
 
-        {!loading && (
-          <Fragment>
-            {incident && (
-              <Row>
-                <Column span={12}>
-                  <DetailHeader
-                    incident={incident}
-                    baseUrl="/manage"
-                    onPatchIncident={onPatchIncident}
-                  />
-                </Column>
-              </Row>
-            )}
+  onShowAttachment(attachmentHref) {
+    this.setState({
+      previewState: 'showImage',
+      attachmentHref,
+    });
+  }
 
-            {previewState && (
-              <Row>
-                <DetailContainer span={12}>
-                  <button
-                    className="incident-detail__preview-close incident-detail__button--close"
-                    type="button"
-                    onClick={onCloseAll}
-                  />
+  onCloseAll() {
+    this.setState({
+      previewState: '',
+      attachmentHref: '',
+    });
+  }
 
-                  {previewState === 'showImage' && (
-                    <AttachmentViewer
-                      attachments={attachments}
-                      href={attachmentHref}
-                      onShowAttachment={onShowAttachment}
-                    />
-                  )}
+  fetchAll() {
+    this.props.onRequestIncident(this.props.id);
+    this.props.onRequestHistoryList(this.props.id);
+    this.props.onRequestAttachments(this.props.id);
+  }
 
-                  {previewState === 'showLocation' && (
-                    <LocationPreview
-                      location={incident.location}
-                      onEditLocation={onEditLocation}
-                    />
-                  )}
+  render() {
+    const {
+      id,
+      categories,
+      onPatchIncident,
+      onDismissError,
+      onDismissSplitNotification,
+    } = this.props;
+    const { list } = this.props.historyModel;
+    const {
+      incident,
+      attachments,
+      loading,
+      patching,
+      error,
+      split,
+      stadsdeelList,
+      priorityList,
+      changeStatusOptionList,
+      defaultTextsOptionList,
+      statusList,
+      defaultTexts,
+    } = this.props.incidentModel;
+    const { previewState, attachmentHref } = this.state;
 
-                  {previewState === 'editLocation' && (
-                    <LocationForm
+    return (
+      <Fragment>
+        <div className="incident-detail">
+          <Row>
+            <Column span={12}>
+              <SplitNotificationBar
+                data={split}
+                onDismissSplitNotification={onDismissSplitNotification}
+              />
+            </Column>
+          </Row>
+
+          {loading && <LoadingIndicator />}
+
+          {!loading && (
+            <Fragment>
+              {incident && (
+                <Row>
+                  <Column span={12}>
+                    <DetailHeader
                       incident={incident}
-                      patching={patching}
-                      error={error}
+                      baseUrl="/manage"
                       onPatchIncident={onPatchIncident}
-                      onDismissError={onDismissError}
-                      onClose={onCloseAll}
                     />
-                  )}
+                  </Column>
+                </Row>
+              )}
 
-                  {previewState === 'editStatus' && (
-                    <StatusForm
-                      incident={incident}
-                      patching={patching}
-                      error={error}
-                      changeStatusOptionList={changeStatusOptionList}
-                      defaultTextsOptionList={defaultTextsOptionList}
-                      statusList={statusList}
-                      defaultTexts={defaultTexts}
-                      onPatchIncident={onPatchIncident}
-                      onDismissError={onDismissError}
-                      onClose={onCloseAll}
+              {previewState && (
+                <Row>
+                  <DetailContainer span={12}>
+                    <button
+                      className="incident-detail__preview-close incident-detail__button--close"
+                      type="button"
+                      onClick={this.onCloseAll}
                     />
-                  )}
-                </DetailContainer>
-              </Row>
-            )}
 
-            {!previewState && (
-              <Row>
-                <DetailContainer span={7}>
-                  {incident && (
-                    <Fragment>
-                      <Detail
-                        incident={incident}
+                    {previewState === 'showImage' && (
+                      <AttachmentViewer
                         attachments={attachments}
-                        stadsdeelList={stadsdeelList}
-                        onShowLocation={onShowLocation}
-                        onEditLocation={onEditLocation}
-                        onShowAttachment={onShowAttachment}
+                        href={attachmentHref}
+                        onShowAttachment={this.onShowAttachment}
                       />
+                    )}
 
-                      <AddNote id={id} onPatchIncident={onPatchIncident} />
+                    {previewState === 'showLocation' && (
+                      <LocationPreview
+                        location={incident.location}
+                        onEditLocation={this.onEditLocation}
+                      />
+                    )}
 
-                      <History list={list} />
-                    </Fragment>
-                  )}
-                </DetailContainer>
+                    {previewState === 'editLocation' && (
+                      <LocationForm
+                        incident={incident}
+                        patching={patching}
+                        error={error}
+                        onPatchIncident={onPatchIncident}
+                        onDismissError={onDismissError}
+                        onClose={this.onCloseAll}
+                      />
+                    )}
 
-                <DetailContainer span={4} push={1}>
-                  {incident && (
-                    <MetaList
-                      incident={incident}
-                      priorityList={priorityList}
-                      subcategories={categories.sub}
-                      onPatchIncident={onPatchIncident}
-                      onEditStatus={onEditStatus}
-                    />
-                  )}
-                </DetailContainer>
-              </Row>
-            )}
-          </Fragment>
-        )}
-      </div>
-    </Fragment>
-  );
-};
+                    {previewState === 'editStatus' && (
+                      <StatusForm
+                        incident={incident}
+                        patching={patching}
+                        error={error}
+                        changeStatusOptionList={changeStatusOptionList}
+                        defaultTextsOptionList={defaultTextsOptionList}
+                        statusList={statusList}
+                        defaultTexts={defaultTexts}
+                        onPatchIncident={onPatchIncident}
+                        onDismissError={onDismissError}
+                        onClose={this.onCloseAll}
+                      />
+                    )}
+                  </DetailContainer>
+                </Row>
+              )}
+
+              {!previewState && (
+                <Row>
+                  <DetailContainer span={7}>
+                    {incident && (
+                      <Fragment>
+                        <Detail
+                          incident={incident}
+                          attachments={attachments}
+                          stadsdeelList={stadsdeelList}
+                          onShowLocation={this.onShowLocation}
+                          onEditLocation={this.onEditLocation}
+                          onShowAttachment={this.onShowAttachment}
+                        />
+
+                        <AddNote id={id} onPatchIncident={onPatchIncident} />
+
+                        <History list={list} />
+                      </Fragment>
+                    )}
+                  </DetailContainer>
+
+                  <DetailContainer span={4} push={1}>
+                    {incident && (
+                      <MetaList
+                        incident={incident}
+                        priorityList={priorityList}
+                        subcategories={categories.sub}
+                        onPatchIncident={onPatchIncident}
+                        onEditStatus={this.onEditStatus}
+                      />
+                    )}
+                  </DetailContainer>
+                </Row>
+              )}
+            </Fragment>
+          )}
+        </div>
+      </Fragment>
+    );
+  }
+}
 
 IncidentDetail.defaultProps = {
   previewState: '',
@@ -260,6 +293,7 @@ IncidentDetail.defaultProps = {
 IncidentDetail.propTypes = {
   previewState: PropTypes.string,
   attachmentHref: PropTypes.string,
+
   incidentModel: PropTypes.shape({
     incident: incidentType,
     attachments: attachmentsType,
@@ -268,8 +302,14 @@ IncidentDetail.propTypes = {
       location: PropTypes.bool,
       status: PropTypes.bool,
     }).isRequired,
-    error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-    split: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+    error: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object,
+    ]),
+    split: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object,
+    ]),
     stadsdeelList: dataListType,
     priorityList: dataListType,
     changeStatusOptionList: dataListType,
@@ -281,6 +321,9 @@ IncidentDetail.propTypes = {
     list: historyType.isRequired,
   }).isRequired,
   categories: categoriesType.isRequired,
+
+  id: PropTypes.string,
+
   onRequestIncident: PropTypes.func.isRequired,
   onPatchIncident: PropTypes.func.isRequired,
   onRequestHistoryList: PropTypes.func.isRequired,
@@ -291,27 +334,28 @@ IncidentDetail.propTypes = {
 };
 
 /* istanbul ignore next */
-const mapStateToProps = () =>
-  createStructuredSelector({
-    categories: makeSelectCategories(),
-    error: makeSelectError(),
-    historyModel: makeSelectHistoryModel(),
-    incidentModel: makeSelectIncidentModel(),
-    loading: makeSelectLoading(),
-  });
+const mapStateToProps = () => createStructuredSelector({
+  loading: makeSelectLoading(),
+  error: makeSelectError(),
+  incidentModel: makeSelectIncidentModel(),
+  categories: makeSelectCategories(),
+  historyModel: makeSelectHistoryModel(),
+});
 
-export const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      onDismissError: dismissError,
-      onDismissSplitNotification: dismissSplitNotification,
-      onPatchIncident: patchIncident,
-      onRequestAttachments: requestAttachments,
-      onRequestDefaultTexts: requestDefaultTexts,
-      onRequestHistoryList: requestHistoryList,
-      onRequestIncident: requestIncident,
-    },
-    dispatch
-  );
+export const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    onRequestIncident: requestIncident,
+    onPatchIncident: patchIncident,
+    onRequestHistoryList: requestHistoryList,
+    onRequestAttachments: requestAttachments,
+    onRequestDefaultTexts: requestDefaultTexts,
+    onDismissSplitNotification: dismissSplitNotification,
+    onDismissError: dismissError,
+  },
+  dispatch,
+);
 
-export default connect(mapStateToProps, mapDispatchToProps)(IncidentDetail);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IncidentDetail);
