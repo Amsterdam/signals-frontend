@@ -30,6 +30,8 @@ export const IncidentManagementModuleComponent = ({
   searchQuery,
 }) => {
   useEffect(() => {
+    // prevent continuing (and performing unncessary API calls)
+    // when the current session has not been authenticated
     if (!isAuthenticated()) return;
 
     if (searchQuery) {
