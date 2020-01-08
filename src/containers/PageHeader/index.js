@@ -9,7 +9,7 @@ import * as types from 'shared/types';
 import PageHeader from 'components/PageHeader';
 import {
   makeSelectActiveFilter,
-  makeSelectIncidents,
+  makeSelectIncidentsCount,
   makeSelectSearchQuery,
 } from 'signals/incident-management/selectors';
 
@@ -26,14 +26,14 @@ const RefreshIcon = styled(Refresh).attrs({
 export const PageHeaderContainerComponent = ({
   children,
   filter,
-  incidents,
+  incidentsCount,
   query,
 }) => {
   const headerTitle = useMemo(() => {
     let title = filter.name || 'Meldingen';
     const hasCount =
-      !!incidents.count && isNaN(Number(incidents.count)) === false; // eslint-disable-line no-restricted-globals
-    title += hasCount ? ` (${incidents.count})` : '';
+      !!incidentsCount && isNaN(Number(incidentsCount)) === false; // eslint-disable-line no-restricted-globals
+    title += hasCount ? ` (${incidentsCount})` : '';
 
     return filter.refresh ? (
       <Fragment>
@@ -42,7 +42,7 @@ export const PageHeaderContainerComponent = ({
     ) : (
       title
     );
-  }, [filter, incidents]);
+  }, [filter, incidentsCount]);
 
   const subTitle = useMemo(() => query && `Zoekresultaten voor "${query}"`, [
     query,
@@ -57,21 +57,18 @@ export const PageHeaderContainerComponent = ({
 
 PageHeaderContainerComponent.defaultProps = {
   children: null,
-  incidents: {},
 };
 
 PageHeaderContainerComponent.propTypes = {
   filter: types.filterType,
   children: PropTypes.node,
-  incidents: PropTypes.shape({
-    count: PropTypes.number,
-  }),
+  incidentsCount: PropTypes.number,
   query: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
   filter: makeSelectActiveFilter,
-  incidents: makeSelectIncidents,
+  incidentsCount: makeSelectIncidentsCount,
   query: makeSelectSearchQuery,
 });
 

@@ -141,3 +141,11 @@ export const makeSelectIncidents = createSelector(
     return { ...incidents, loading };
   }
 );
+
+export const makeSelectIncidentsCount = createSelector(
+  selectIncidentManagementDomain,
+  state => {
+    const { incidents: { count } } = state.toJS();
+
+    return count;
+  });
