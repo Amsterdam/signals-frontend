@@ -8,6 +8,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { Wizard, Steps, Step } from 'react-albus';
+import { Heading, themeSpacing } from '@datapunt/asc-ui';
+import styled from 'styled-components';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 
@@ -15,7 +17,10 @@ import IncidentForm from '../IncidentForm';
 import IncidentPreview from '../IncidentPreview';
 import onNext from './services/on-next';
 
-import './style.scss';
+const StyledH1 = styled(Heading)`
+  margin-bottom: ${themeSpacing(8)};
+  margin-top: ${themeSpacing(6)};
+`;
 
 function IncidentWizard({
   wizardDefinition, getClassification, updateIncident, createIncident, incidentContainer, isAuthenticated,
@@ -35,7 +40,7 @@ function IncidentWizard({
                       id={`incident/${key}`}
                       render={() => (
                         <div>
-                          <h1>{wizardDefinition[key].label || key}</h1>
+                          <StyledH1>{wizardDefinition[key].label || key}</StyledH1>
                           {wizardDefinition[key].preview
                             ? (
                               <IncidentPreview
