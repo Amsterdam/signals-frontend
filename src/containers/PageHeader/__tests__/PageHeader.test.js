@@ -16,7 +16,7 @@ describe('containers/PageHeader', () => {
     const props = tree.find(PageHeaderContainerComponent).props();
 
     expect(props.filter).toBeDefined();
-    expect(props.incidentsCount).toBeNull();
+    expect(props.incidents).toBeDefined();
     expect(props.query).toBeDefined();
   });
 
@@ -30,31 +30,31 @@ describe('containers/PageHeader', () => {
 
   it('should provide the PageHeader component with a title', () => {
     const { container, rerender } = render(withAppContext(
-      <PageHeaderContainerComponent filter={filter} incidentsCount={null} />
+      <PageHeaderContainerComponent filter={filter} />
     ));
 
     expect(container.firstChild.querySelector('h1').textContent).toEqual('Meldingen');
 
     rerender(withAppContext(
-      <PageHeaderContainerComponent filter={filter} incidentsCount={10} />
+      <PageHeaderContainerComponent filter={filter} incidents={{ count: 10}} />
     ));
 
     expect(container.firstChild.querySelector('h1').textContent).toEqual('Meldingen (10)');
 
     rerender(withAppContext(
-      <PageHeaderContainerComponent filter={{ name: 'Foo bar !!1!' }} incidentsCount={null} />
+      <PageHeaderContainerComponent filter={{ name: 'Foo bar !!1!' }} />
     ));
 
     expect(container.firstChild.querySelector('h1').textContent).toEqual('Foo bar !!1!');
 
     rerender(withAppContext(
-      <PageHeaderContainerComponent filter={{ name: 'Foo bar !!1!' }} incidentsCount={99} />
+      <PageHeaderContainerComponent filter={{ name: 'Foo bar !!1!' }} incidents={{ count: 99}} />
     ));
 
     expect(container.firstChild.querySelector('h1').textContent).toEqual('Foo bar !!1! (99)');
 
     rerender(withAppContext(
-      <PageHeaderContainerComponent filter={{ name: 'Foo bar !!1!', refresh: true }} incidentsCount={99} />
+      <PageHeaderContainerComponent filter={{ name: 'Foo bar !!1!', refresh: true }} incidents={{ count: 99}} />
     ));
 
     expect(container.firstChild.querySelector('svg')).toBeTruthy();
@@ -64,7 +64,7 @@ describe('containers/PageHeader', () => {
     const query = 'Foo bar';
 
     const { container } = render(withAppContext(
-      <PageHeaderContainerComponent filter={filter} incidentsCount={null} query={query} />
+      <PageHeaderContainerComponent filter={filter} query={query} />
     ));
 
     expect(container.textContent).toEqual(expect.stringMatching(/Foo bar/));

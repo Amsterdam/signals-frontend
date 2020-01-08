@@ -6,6 +6,8 @@ import {
   makeSelectAllFilters,
   makeSelectActiveFilter,
   makeSelectEditFilter,
+  makeSelectPage,
+  makeSelectOrdering,
 } from '../selectors';
 import { FILTER_PAGE_SIZE } from '../constants';
 
@@ -98,6 +100,36 @@ describe('signals/incident-management/selectors', () => {
     });
 
     expect(makeSelectEditFilter(state).id).toEqual(filters[2].id);
+  });
+
+  it('should select page', () => {
+    const emptState = fromJS({
+      incidentManagement: { ...initialState.toJS() },
+    });
+    expect(makeSelectPage(emptState)).toEqual(initialState.toJS().page);
+
+    const state = fromJS({
+      incidentManagement: { ...initialState.toJS(), page: 100 },
+    });
+
+    expect(makeSelectPage(state)).toEqual(100);
+  });
+
+  it('should select ordering', () => {
+    const emptState = fromJS({
+      incidentManagement: { ...initialState.toJS() },
+    });
+    expect(makeSelectOrdering(emptState)).toEqual(initialState.toJS().ordering);
+
+    const state = fromJS({
+      incidentManagement: { ...initialState.toJS(), ordering: 'some-ordering-type' },
+    });
+
+    expect(makeSelectOrdering(state)).toEqual('some-ordering-type');
+  });
+
+  it('should select incidents', () => {
+
   });
 
   describe('makeSelectFilterParams', () => {

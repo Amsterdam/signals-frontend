@@ -128,7 +128,7 @@ export const IncidentOverviewPageContainerComponent = ({
     FILTER_PAGE_SIZE,
   ]);
 
-  const canRenderList = results && results.length > 0 && totalPages > 1;
+  const canRenderList = results && results.length > 0 && totalPages > 0;
 
   return (
     <div className="incident-overview-page">

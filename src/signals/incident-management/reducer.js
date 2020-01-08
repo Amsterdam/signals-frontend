@@ -8,7 +8,6 @@ import source from './definitions/sourceList';
 
 import {
   APPLY_FILTER,
-  CLEAR_ACTIVE_FILTER,
   CLEAR_EDIT_FILTER,
   EDIT_FILTER,
   FILTER_EDIT_CANCELED,
@@ -19,8 +18,6 @@ import {
   REMOVE_FILTER_SUCCESS,
   REQUEST_INCIDENTS_ERROR,
   REQUEST_INCIDENTS_SUCCESS,
-  // FETCH_INCIDENTS,
-  // RESET_SEARCH_INCIDENTS,
   SAVE_FILTER_FAILED,
   SAVE_FILTER_SUCCESS,
   SEARCH_INCIDENTS,
@@ -115,23 +112,16 @@ export default (state = initialState, action) => {
         .set('errorMessage', undefined)
         .set('loading', false);
 
-    case CLEAR_ACTIVE_FILTER:
-      return state
-        .set('activeFilter', initialState.get('activeFilter'))
-        .set('error', false)
-        .set('errorMessage', undefined)
-        .set('loading', false);
-
     case FILTER_EDIT_CANCELED:
       return state.set('editFilter', state.get('activeFilter'));
 
     case PAGE_CHANGED:
-      return state.set('page', fromJS(action.payload));
+      return state.set('page', action.payload);
 
     case ORDERING_CHANGED:
       return state
         .set('page', initialState.get('page'))
-        .set('ordering', fromJS(action.payload));
+        .set('ordering', action.payload);
 
     case REQUEST_INCIDENTS:
       return state

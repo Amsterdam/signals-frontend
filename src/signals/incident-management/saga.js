@@ -65,7 +65,6 @@ export function* fetchProxy(action) {
   const searchQuery = yield select(makeSelectSearchQuery);
 
   if (searchQuery) {
-    yield put(push('/manage/incidents'));
     yield call(searchIncidents, action);
   } else {
     yield call(fetchIncidents);
@@ -113,12 +112,14 @@ export function* searchIncidents(action) {
       ordering,
     });
 
+    yield put(push('/manage/incidents'));
     yield put(searchIncidentsSuccess(incidents));
   } catch (error) {
     if (error.response && error.response.status === 500) {
       // Getting an error response with status code 500 from the search endpoint
       // means that the Elasticsearch index is very likely corrupted. In that
       // case we simulate a success response without results.
+      yield put(push('/manage/incidents'));
       yield put(searchIncidentsSuccess({ count: 0, results: [] }));
     }
 
@@ -238,14 +239,18 @@ export default function* watchIncidentManagementSaga() {
     takeLatest(REMOVE_FILTER, removeFilter),
     takeLatest(SAVE_FILTER, saveFilter),
     takeLatest(UPDATE_FILTER, updateFilter),
-
-    takeLatest(APPLY_FILTER, fetchProxy),
-    takeLatest(SEARCH_INCIDENTS, fetchProxy),
-    takeLatest(REQUEST_INCIDENTS, fetchProxy),
-    takeLatest(SET_SEARCH_QUERY, fetchProxy),
-    takeLatest(RESET_SEARCH_QUERY, fetchProxy),
-    takeLatest(PAGE_CHANGED, fetchProxy),
-    takeLatest(ORDERING_CHANGED, fetchProxy),
+    takeLatest(
+      [
+        APPLY_FILTER,
+        SEARCH_INCIDENTS,
+        REQUEST_INCIDENTS,
+        SET_SEARCH_QUERY,
+        RESET_SEARCH_QUERY,
+        PAGE_CHANGED,
+        ORDERING_CHANGED,
+      ],
+      fetchProxy
+    ),
   ]);
 
   while (true) {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -14,46 +14,33 @@ import * as types from 'shared/types';
 
 import {
   applyFilter,
-  editFilter,
   clearEditFilter as onClearFilter,
   filterEditCanceled,
   filterSaved as onSaveFilter,
   filterUpdated as onUpdateFilter,
-  getFilters,
-  requestIncidents,
 } from 'signals/incident-management/actions';
 
 export const FilterContainerComponent = ({
   categories,
   dataLists,
-  getFiltersAction,
   onApplyFilter,
   onCancel,
-  onEditFilter,
   onFilterEditCancel,
   onSubmit,
-  onRequestIncidents,
   ...rest
 }) => {
-  /**
-   * When submitting the filter form:
-   * - the active filter has to be set so that incidents can be retrieved with those settings
-   * - the edit filter has to be set to populate the filter form when the form is opened again
-   * - incidents have to be requested
-   * - the parent's submit() callback handler has to be called
-   */
-  const onFormSubmit = (event, filter) => {
-    onApplyFilter(filter);
-    // onEditFilter(filter);
-    // onRequestIncidents();
-    onSubmit(event);
-    // getFiltersAction();
-  };
+  const onFormSubmit = useCallback(
+    (event, filter) => {
+      onApplyFilter(filter);
+      onSubmit(event);
+    },
+    [onApplyFilter, onSubmit]
+  );
 
-  const onEditCancel = () => {
+  const onEditCancel = useCallback(() => {
     onFilterEditCancel();
     onCancel();
-  };
+  }, [onFilterEditCancel, onCancel]);
 
   return (
     <FilterForm
@@ -70,13 +57,10 @@ FilterContainerComponent.propTypes = {
   categories: types.categoriesType.isRequired,
   dataLists: types.dataListsType.isRequired,
   filter: types.filterType.isRequired,
-  getFiltersAction: PropTypes.func.isRequired,
   onApplyFilter: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onClearFilter: PropTypes.func.isRequired,
-  onEditFilter: PropTypes.func.isRequired,
   onFilterEditCancel: PropTypes.func.isRequired,
-  onRequestIncidents: PropTypes.func.isRequired,
   onSaveFilter: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onUpdateFilter: PropTypes.func.isRequired,
@@ -92,21 +76,15 @@ const mapStateToProps = () =>
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      getFiltersAction: getFilters,
       onApplyFilter: applyFilter,
       onClearFilter,
-      onEditFilter: editFilter,
       onFilterEditCancel: filterEditCanceled,
-      onRequestIncidents: requestIncidents,
       onSaveFilter,
       onUpdateFilter,
     },
     dispatch
   );
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(withConnect)(FilterContainerComponent);

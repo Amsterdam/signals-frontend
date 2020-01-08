@@ -42,7 +42,7 @@ export const PageHeaderContainerComponent = ({
     ) : (
       title
     );
-  }, [filter, incidents.count]);
+  }, [filter, incidents]);
 
   const subTitle = useMemo(() => query && `Zoekresultaten voor "${query}"`, [
     query,
@@ -57,6 +57,7 @@ export const PageHeaderContainerComponent = ({
 
 PageHeaderContainerComponent.defaultProps = {
   children: null,
+  incidents: {},
 };
 
 PageHeaderContainerComponent.propTypes = {

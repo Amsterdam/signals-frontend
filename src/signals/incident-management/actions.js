@@ -1,14 +1,11 @@
 import {
-  // RESET_SEARCH_INCIDENTS,
   SEARCH_INCIDENTS,
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
   APPLY_FILTER,
-  CLEAR_ACTIVE_FILTER,
   CLEAR_EDIT_FILTER,
   EDIT_FILTER,
   FILTER_EDIT_CANCELED,
-  FILTER_INCIDENTS_CHANGED,
   GET_FILTERS_FAILED,
   GET_FILTERS_SUCCESS,
   GET_FILTERS,
@@ -71,6 +68,14 @@ export const editFilter = payload => ({
   payload,
 });
 
+export const filterEditCanceled = () => ({
+  type: FILTER_EDIT_CANCELED,
+});
+
+export const clearEditFilter = () => ({
+  type: CLEAR_EDIT_FILTER,
+});
+
 export const filterSaved = payload => ({
   type: SAVE_FILTER,
   payload,
@@ -101,14 +106,6 @@ export const filterUpdatedFailed = payload => ({
   payload,
 });
 
-// export const filterCleared = () => ({
-//   type: CLEAR_FILTER,
-// });
-
-export const filterEditCanceled = () => ({
-  type: FILTER_EDIT_CANCELED,
-});
-
 export const pageChanged = page => ({
   type: PAGE_CHANGED,
   payload: page,
@@ -133,11 +130,6 @@ export const requestIncidentsError = payload => ({
   payload,
 });
 
-export const filterIncidentsChanged = payload => ({
-  type: FILTER_INCIDENTS_CHANGED,
-  payload,
-});
-
 export const applyFilterRefresh = () => ({
   type: APPLY_FILTER_REFRESH,
 });
@@ -146,13 +138,6 @@ export const applyFilterRefreshStop = () => ({
   type: APPLY_FILTER_REFRESH_STOP,
 });
 
-export const searchIncidents = () => ({
-  type: SEARCH_INCIDENTS,
-});
-
-// export const resetSearchIncidents = () => ({
-//   type: RESET_SEARCH_INCIDENTS,
-// });
 export const setSearchQuery = payload => ({
   type: SET_SEARCH_QUERY,
   payload,
@@ -160,6 +145,10 @@ export const setSearchQuery = payload => ({
 
 export const resetSearchQuery = () => ({
   type: RESET_SEARCH_QUERY,
+});
+
+export const searchIncidents = () => ({
+  type: SEARCH_INCIDENTS,
 });
 
 export const searchIncidentsSuccess = payload => ({
@@ -170,12 +159,4 @@ export const searchIncidentsSuccess = payload => ({
 export const searchIncidentsError = payload => ({
   type: SEARCH_INCIDENTS_ERROR,
   payload,
-});
-
-export const clearEditFilter = () => ({
-  type: CLEAR_EDIT_FILTER,
-});
-
-export const clearActiveFilter = () => ({
-  type: CLEAR_ACTIVE_FILTER,
 });

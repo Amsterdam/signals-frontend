@@ -1,17 +1,17 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { mount } from 'enzyme';
 import { createMemoryHistory } from 'history';
-import { withAppContext, withCustomAppContext } from 'test/utils';
-import { render, cleanup } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
+import { render } from '@testing-library/react';
+import { isAuthenticated } from 'shared/services/auth/auth';
 
-import {
+import IncidentManagementModule, {
   IncidentManagementModuleComponent,
-  incidentDetailWrapper,
-  incidentOverviewPageWrapper,
-  incidentSplitContainerWrapper,
 } from '..';
 
 const history = createMemoryHistory();
+
+jest.mock('shared/services/auth/auth');
 
 describe('signals/incident-management', () => {
   let props;
@@ -20,20 +20,35 @@ describe('signals/incident-management', () => {
     jest.restoreAllMocks();
   });
 
-  afterEach(() => {
-    cleanup();
-  });
-
   beforeEach(() => {
     props = {
-      match: {
-        isExact: false,
-        params: {},
-        path: '/manage/incidents',
-        url: '/manage/incidents',
-      },
-      getFiltersAction: () => {},
+      getFiltersAction: jest.fn(),
+      requestIncidentsAction: jest.fn(),
+      searchIncidentsAction: jest.fn(),
     };
+  });
+
+  it('should have props from structured selector', () => {
+    const tree = mount(withAppContext(<IncidentManagementModule />));
+
+    const moduleProps = tree.find(IncidentManagementModuleComponent).props();
+
+    expect(moduleProps.searchQuery).toBeDefined();
+  });
+
+  it('should have props from action creator', () => {
+    const tree = mount(withAppContext(<IncidentManagementModule />));
+
+    const containerProps = tree.find(IncidentManagementModuleComponent).props();
+
+    expect(containerProps.getFiltersAction).toBeDefined();
+    expect(typeof containerProps.getFiltersAction).toEqual('function');
+
+    expect(containerProps.requestIncidentsAction).toBeDefined();
+    expect(typeof containerProps.requestIncidentsAction).toEqual('function');
+
+    expect(containerProps.searchIncidentsAction).toBeDefined();
+    expect(typeof containerProps.searchIncidentsAction).toEqual('function');
   });
 
   it('should render correctly', () => {
@@ -53,13 +68,82 @@ describe('signals/incident-management', () => {
     ).toEqual(false);
   });
 
+  describe('fetching', () => {
+    it('should request filters on mount', () => {
+      isAuthenticated.mockImplementation(() => false);
+
+      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+
+      expect(props.getFiltersAction).not.toHaveBeenCalled();
+
+      isAuthenticated.mockImplementation(() => true);
+
+      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+
+      expect(props.getFiltersAction).toHaveBeenCalledTimes(1);
+    });
+
+    it('should request incidents on mount', () => {
+      isAuthenticated.mockImplementation(() => false);
+
+      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+
+      expect(props.requestIncidentsAction).not.toHaveBeenCalled();
+
+      isAuthenticated.mockImplementation(() => true);
+
+      render(
+        withAppContext(
+          <IncidentManagementModuleComponent
+            {...props}
+            searchQuery={undefined}
+          />
+        )
+      );
+
+      expect(props.requestIncidentsAction).toHaveBeenCalledTimes(1);
+    });
+
+    it('should search incidents on mount', () => {
+      isAuthenticated.mockImplementation(() => false);
+
+      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+
+      expect(props.searchIncidentsAction).not.toHaveBeenCalled();
+
+      isAuthenticated.mockImplementation(() => true);
+
+      render(
+        withAppContext(
+          <IncidentManagementModuleComponent
+            {...props}
+            searchQuery={undefined}
+          />
+        )
+      );
+
+      expect(props.searchIncidentsAction).not.toHaveBeenCalled();
+
+      render(
+        withAppContext(
+          <IncidentManagementModuleComponent
+            {...props}
+            searchQuery="stoeptegels"
+          />
+        )
+      );
+
+      expect(props.searchIncidentsAction).toHaveBeenCalledWith('stoeptegels');
+    });
+  });
+
   describe('routing', () => {
     const loginText = 'Om deze pagina te zien dient u ingelogd te zijn.';
 
     it('can navigate to incident list', () => {
       history.push('/manage/incidents');
 
-      localStorage.getItem.mockImplementationOnce(() => undefined);
+      isAuthenticated.mockImplementation(() => false);
 
       const { rerender, queryByText } = render(
         withAppContext(<IncidentManagementModuleComponent {...props} />)
@@ -67,7 +151,7 @@ describe('signals/incident-management', () => {
 
       expect(queryByText(loginText)).not.toBeNull();
 
-      localStorage.getItem.mockImplementationOnce(() => 'token');
+      isAuthenticated.mockImplementation(() => true);
 
       rerender(
         withAppContext(<IncidentManagementModuleComponent {...props} />)
@@ -79,7 +163,7 @@ describe('signals/incident-management', () => {
     it('can navigate to incident detail', () => {
       history.push('/manage/incident/1101');
 
-      localStorage.getItem.mockImplementationOnce(() => undefined);
+      isAuthenticated.mockImplementation(() => false);
 
       const { rerender, queryByText } = render(
         withAppContext(<IncidentManagementModuleComponent {...props} />)
@@ -87,7 +171,7 @@ describe('signals/incident-management', () => {
 
       expect(queryByText(loginText)).not.toBeNull();
 
-      localStorage.getItem.mockImplementationOnce(() => 'token');
+      isAuthenticated.mockImplementation(() => true);
 
       rerender(
         withAppContext(<IncidentManagementModuleComponent {...props} />)
@@ -99,7 +183,7 @@ describe('signals/incident-management', () => {
     it('can navigate to incident split', () => {
       history.push('/manage/incident/1101/split');
 
-      localStorage.getItem.mockImplementationOnce(() => undefined);
+      isAuthenticated.mockImplementation(() => false);
 
       const { rerender, queryByText } = render(
         withAppContext(<IncidentManagementModuleComponent {...props} />)
@@ -107,67 +191,13 @@ describe('signals/incident-management', () => {
 
       expect(queryByText(loginText)).not.toBeNull();
 
-      localStorage.getItem.mockImplementationOnce(() => 'token');
+      isAuthenticated.mockImplementation(() => true);
 
       rerender(
         withAppContext(<IncidentManagementModuleComponent {...props} />)
       );
 
       expect(queryByText(loginText)).toBeNull();
-    });
-  });
-
-  describe('route components', () => {
-    beforeAll(() => {
-      // silencing console errors because of missing props in rendered containers
-      global.console.error = jest.fn();
-    });
-
-    afterAll(() => {
-      global.console.error.mockRestore();
-    });
-
-    it('renders IncidentDetailWrapper', () => {
-      const baseUrl = '/manage';
-      const IncidentDetail = withRouter(incidentDetailWrapper(baseUrl));
-
-      const { container } = render(
-        withCustomAppContext(<IncidentDetail />)({
-          routerCfg: { initialEntries: ['/manage/incident/1101'] },
-        })
-      );
-
-      expect(container.firstChild).toBeTruthy();
-    });
-
-    it('renders IncidentOverviewPageWrapper', () => {
-      const baseUrl = '/manage';
-      const IncidentOverviewPage = withRouter(
-        incidentOverviewPageWrapper(baseUrl)
-      );
-
-      const { container } = render(
-        withCustomAppContext(<IncidentOverviewPage />)({
-          routerCfg: { initialEntries: ['/manage/incidents'] },
-        })
-      );
-
-      expect(container.firstChild).toBeTruthy();
-    });
-
-    it('renders IncidentSplitContainerWrapper', () => {
-      const baseUrl = '/manage';
-      const IncidentSplitContainer = withRouter(
-        incidentSplitContainerWrapper(baseUrl)
-      );
-
-      const { container } = render(
-        withCustomAppContext(<IncidentSplitContainer />)({
-          routerCfg: { initialEntries: ['/manage/incident/1101/split'] },
-        })
-      );
-
-      expect(container.firstChild).toBeTruthy();
     });
   });
 });

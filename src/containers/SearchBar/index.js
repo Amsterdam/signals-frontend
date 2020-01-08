@@ -4,13 +4,8 @@ import { SearchBar } from '@datapunt/asc-ui';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
-// import { useHistory } from 'react-router';
 
 import {
-  // applyFilter,
-  // requestIncidents,
-  // resetSearchIncidents,
-  // searchIncidents,
   setSearchQuery,
   resetSearchQuery,
 } from 'signals/incident-management/actions';
@@ -19,15 +14,9 @@ import { makeSelectSearchQuery } from 'signals/incident-management/selectors';
 export const SearchBarComponent = ({
   className,
   query,
-  // onApplyFilter,
-  // onSearchIncidents,
-  // onResetSearchIncidents,
-  // onRequestIncidents,
-  setSearchQueryAction,
   resetSearchQueryAction,
+  setSearchQueryAction,
 }) => {
-  // const history = useHistory();
-
   /**
    * Send search form input to actions
    *
@@ -35,8 +24,6 @@ export const SearchBarComponent = ({
    */
   const onSearchSubmit = useCallback(
     searchInput => {
-      // onApplyFilter({});
-      // history.push('/manage/incidents');
       setSearchQueryAction(searchInput);
     },
     [setSearchQueryAction]
@@ -46,7 +33,6 @@ export const SearchBarComponent = ({
     value => {
       if (value === '') {
         resetSearchQueryAction();
-        // onRequestIncidents();
       }
     },
     [resetSearchQueryAction]
@@ -70,8 +56,6 @@ SearchBarComponent.defaultProps = {
 
 SearchBarComponent.propTypes = {
   className: PropTypes.string,
-  // onApplyFilter: PropTypes.func.isRequired,
-  // onResetSearchIncidents: PropTypes.func.isRequired,
   setSearchQueryAction: PropTypes.func.isRequired,
   resetSearchQueryAction: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
@@ -84,12 +68,8 @@ const mapStateToProps = createStructuredSelector({
 export const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      // onApplyFilter: applyFilter,
-      // onRequestIncidents: requestIncidents,
-      // onSearchIncidents: searchIncidents,
-      // onResetSearchIncidents: resetSearchIncidents,
-      setSearchQueryAction: setSearchQuery,
       resetSearchQueryAction: resetSearchQuery,
+      setSearchQueryAction: setSearchQuery,
     },
     dispatch
   );

@@ -10,23 +10,20 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
 import LoginPage from 'components/LoginPage';
+import NotFoundPage from 'components/NotFoundPage';
 
 import IncidentOverviewPage from './containers/IncidentOverviewPage';
 import { makeSelectSearchQuery } from './selectors';
-import {
-  getFilters,
-  searchIncidents,
-  requestIncidents,
-} from './actions';
+import { getFilters, searchIncidents, requestIncidents } from './actions';
 import IncidentDetail from './containers/IncidentDetail';
 import DefaultTextsAdmin from './containers/DefaultTextsAdmin';
 import IncidentSplitContainer from './containers/IncidentSplitContainer';
 
 import reducer from './reducer';
 import saga from './saga';
+import routes from './routes';
 
 export const IncidentManagementModuleComponent = ({
-  match: { url },
   getFiltersAction,
   requestIncidentsAction,
   searchIncidentsAction,
@@ -50,22 +47,16 @@ export const IncidentManagementModuleComponent = ({
 
   return (
     <Switch>
-      <Route exact path={`${url}/incidents`} component={IncidentOverviewPage} />
-      <Route exact path={`${url}/incident/:id`} component={IncidentDetail} />
-      <Route
-        exact
-        path={`${url}/incident/:id/split`}
-        component={IncidentSplitContainer}
-      />
-      <Route path={`${url}/standaard/teksten`} component={DefaultTextsAdmin} />
+      <Route exact path={routes.incidents} component={IncidentOverviewPage} />
+      <Route exact path={routes.incident} component={IncidentDetail} />
+      <Route exact path={routes.split} component={IncidentSplitContainer} />
+      <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
+      <Route component={NotFoundPage} />
     </Switch>
   );
 };
 
 IncidentManagementModuleComponent.propTypes = {
-  match: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-  }),
   getFiltersAction: PropTypes.func.isRequired,
   requestIncidentsAction: PropTypes.func.isRequired,
   searchQuery: PropTypes.string,
