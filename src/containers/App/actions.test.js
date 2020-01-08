@@ -1,4 +1,5 @@
 import { testActionCreator } from 'test/utils';
+import userJson from 'utils/__tests__/fixtures/user.json';
 
 import {
   AUTHENTICATE_USER,
@@ -39,29 +40,13 @@ import {
 } from './actions';
 
 
-describe('App actions', () => {
+describe('containers/App/actions', () => {
   it('should dispatch authenticate user action', () => {
-    const userName = 'name';
-    const userScopes = 'scopes';
-    const accessToken = 'token';
-    const payload = {
-      userName,
-      userScopes,
-      accessToken,
-    };
-    testActionCreator(authenticateUser, AUTHENTICATE_USER, payload);
+    testActionCreator(authenticateUser, AUTHENTICATE_USER, userJson);
   });
 
   it('should dispatch authorize user, action', () => {
-    const userName = 'name';
-    const userScopes = 'scopes';
-    const accessToken = 'token';
-    const payload = {
-      userName,
-      userScopes,
-      accessToken,
-    };
-    testActionCreator(authorizeUser, AUTHORIZE_USER, payload);
+    testActionCreator(authorizeUser, AUTHORIZE_USER, userJson);
   });
 
   it('should dispatch show global error action', () => {

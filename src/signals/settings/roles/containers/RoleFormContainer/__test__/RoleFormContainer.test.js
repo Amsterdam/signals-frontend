@@ -20,6 +20,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
     onFetchPermissions: jest.fn(),
     onPatchRole: jest.fn(),
     onSaveRole: jest.fn(),
+    userCan: jest.fn(() => true),
   };
 
   it('should lazy load form correctly', () => {

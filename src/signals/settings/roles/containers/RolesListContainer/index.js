@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import PageHeader from 'signals/settings/components/PageHeader';
 
+import { makeSelectUserCan } from 'containers/App/selectors';
 import makeSelectRolesModel from 'models/roles/selectors';
 import { ROLE_URL } from 'signals/settings/routes';
 
@@ -22,19 +23,27 @@ const HeaderButton = styled(Button)`
 
 export const RolesListContainer = ({
   roles: { list, loading, loadingPermissions },
+  userCan,
 }) => (
   <Fragment>
     <PageHeader title="Rollen">
-      <HeaderButton variant="primary" $as={Link} to={ROLE_URL}>
-        Rol toevoegen
-      </HeaderButton>
+      {userCan('add_group') && (
+        <HeaderButton variant="primary" $as={Link} to={ROLE_URL}>
+          Rol toevoegen
+        </HeaderButton>
+      )}
     </PageHeader>
     <Row>
       <Column span={12}>
         {loading || loadingPermissions ? (
           <LoadingIndicator />
         ) : (
-          <RolesList list={list} />
+          <RolesList
+            list={list}
+            linksEnabled={Boolean(
+              userCan('view_group') || userCan('change_group')
+            )}
+          />
         )}
       </Column>
     </Row>
@@ -65,10 +74,12 @@ RolesListContainer.propTypes = {
     loading: PropTypes.bool,
     loadingPermissions: PropTypes.bool,
   }),
+  userCan: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   roles: makeSelectRolesModel,
+  userCan: makeSelectUserCan,
 });
 
 const withConnect = connect(mapStateToProps);

@@ -87,13 +87,7 @@ export function* callAuthorize(action) {
         accessToken
       );
 
-      const credentials = {
-        ...action.payload,
-        userScopes: user.groups,
-        userPermissions: user.permissions,
-      };
-
-      yield put(authorizeUser(credentials));
+      yield put(authorizeUser(user));
     }
   } catch (error) {
     const { response } = error;

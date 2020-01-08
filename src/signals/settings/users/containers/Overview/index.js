@@ -1,9 +1,19 @@
-import React, { Fragment, useEffect, useState, useMemo, useCallback } from 'react';
+import React, {
+  Fragment,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+} from 'react';
 import PropTypes from 'prop-types';
 import { useParams, useHistory, Link } from 'react-router-dom';
 import { Row, Column, themeSpacing, Button } from '@datapunt/asc-ui';
 import styled from 'styled-components';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
+import { makeSelectUserCan } from 'containers/App/selectors';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import ListComponent from 'components/List';
 import Pagination from 'components/Pagination';
@@ -22,7 +32,7 @@ const HeaderButton = styled(Button)`
   }
 `;
 
-const UsersOverview = ({ pageSize }) => {
+export const UsersOverviewContainer = ({ pageSize, userCan }) => {
   const history = useHistory();
   const { pageNum } = useParams();
   const [page, setPage] = useState(1);
@@ -33,7 +43,10 @@ const UsersOverview = ({ pageSize }) => {
    *
    * @returns {number|undefined}
    */
-  const pageNumFromQueryString = useMemo(() => pageNum && parseInt(pageNum, 10), [pageNum]);
+  const pageNumFromQueryString = useMemo(
+    () => pageNum && parseInt(pageNum, 10),
+    [pageNum]
+  );
 
   // subscribe to param changes
   useEffect(() => {
@@ -44,29 +57,42 @@ const UsersOverview = ({ pageSize }) => {
     }
   }, [pageNumFromQueryString, page]);
 
-  const onItemClick = useCallback(e => {
-    const {
-      currentTarget: {
-        dataset: { itemId },
-      },
-    } = e;
+  const onItemClick = useCallback(
+    e => {
+      if (userCan('view_user') === false) {
+        e.preventDefault();
+        return;
+      }
 
-    if (itemId) {
-      history.push(`${USER_URL}/${itemId}`);
-    }
-  }, [history]);
+      const {
+        currentTarget: {
+          dataset: { itemId },
+        },
+      } = e;
 
-  const onPaginationClick = useCallback(pageToNavigateTo => {
-    global.window.scrollTo(0, 0);
-    history.push(`${USERS_PAGED_URL}/${pageToNavigateTo}`);
-  }, [history]);
+      if (itemId) {
+        history.push(`${USER_URL}/${itemId}`);
+      }
+    },
+    [history, userCan]
+  );
+
+  const onPaginationClick = useCallback(
+    pageToNavigateTo => {
+      global.window.scrollTo(0, 0);
+      history.push(`${USERS_PAGED_URL}/${pageToNavigateTo}`);
+    },
+    [history]
+  );
 
   return (
     <Fragment>
       <PageHeader title={`Gebruikers ${users.count ? `(${users.count})` : ''}`}>
-        <HeaderButton variant="primary" $as={Link} to={USER_URL}>
-          Gebruiker toevoegen
-        </HeaderButton>
+        {userCan('add_user') && (
+          <HeaderButton variant="primary" $as={Link} to={USER_URL}>
+            Gebruiker toevoegen
+          </HeaderButton>
+        )}
       </PageHeader>
 
       <Row>
@@ -100,12 +126,19 @@ const UsersOverview = ({ pageSize }) => {
   );
 };
 
-UsersOverview.defaultProps = {
+UsersOverviewContainer.defaultProps = {
   pageSize: 30,
 };
 
-UsersOverview.propTypes = {
+UsersOverviewContainer.propTypes = {
   pageSize: PropTypes.number,
+  userCan: PropTypes.func.isRequired,
 };
 
-export default UsersOverview;
+const mapStateToProps = createStructuredSelector({
+  userCan: makeSelectUserCan,
+});
+
+const withConnect = connect(mapStateToProps);
+
+export default compose(withConnect)(UsersOverviewContainer);
