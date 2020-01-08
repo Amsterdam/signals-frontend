@@ -4,8 +4,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import 'leaflet/dist/leaflet';
 import 'leaflet/dist/leaflet.css';
+import 'leaflet-gesture-handling/dist/leaflet-gesture-handling.css';
 import 'amsterdam-amaps/dist/nlmaps/dist/assets/css/nlmaps.css';
 import pointquery from 'amsterdam-amaps/dist/pointquery';
+import { GestureHandling } from 'leaflet-gesture-handling';
 
 import './style.scss';
 
@@ -16,6 +18,8 @@ const customIcon = global.window.L.icon({
   iconSize: [40, 40],
   iconAnchor: [20, 39],
 });
+
+L.Map.addInitHook("addHandler", "gestureHandling", GestureHandling);
 
 class MapInteractive extends React.Component {
   static initMap(props) {
@@ -36,7 +40,6 @@ class MapInteractive extends React.Component {
         latitude: props.location.geometrie.coordinates[1],
       };
     }
-    console.log('pointquery', pointquery.emit('query-results'));
     return pointquery.createMap(options);
   }
 
@@ -52,11 +55,18 @@ class MapInteractive extends React.Component {
   }
 
   componentDidMount() {
-
     MapInteractive.initMap(this.props).then(map => {
       this.setState({ map });
-      map.touchZoom.enable();
-      console.log('----', map.touchZoom);
+      console.log('---- YO', map);
+      if (L.Browser.mobile) {
+        console.log('L.Browser.mobile');
+        // map.dragging.disable();
+        // map.touchZoom.enable();
+        map.gestureHandling.enable();
+      } else {
+        // map.dragging.enable();
+        map.gestureHandling.disbale();
+      }
 
 
       function onLocationFound(e) {

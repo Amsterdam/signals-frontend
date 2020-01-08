@@ -71,6 +71,7 @@
     "intl": "1.2.5",
     "invariant": "^2.2.4",
     "leaflet": "^1.5.1",
+    "leaflet-gesture-handling": "^1.1.8",
     "lodash.conformsto": "^4.15.0",
     "lodash.defer": "^4.1.0",
     "lodash.every": "^4.6.0",
