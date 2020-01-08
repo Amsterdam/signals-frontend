@@ -128,7 +128,7 @@ export const IncidentOverviewPageContainerComponent = ({
     FILTER_PAGE_SIZE,
   ]);
 
-  const canRenderList = results && results.length > 0 && totalPages > 0;
+  const canRenderList = results && results.length > 0 && totalPages > 1;
 
   return (
     <div className="incident-overview-page">
@@ -195,7 +195,10 @@ export const IncidentOverviewPageContainerComponent = ({
               <StyledPagination
                 currentPage={page}
                 hrefPrefix="/manage/incidents?page="
-                onClick={pageChangedAction}
+                onClick={pageToNavigateTo => {
+                  global.window.scrollTo(0, 0);
+                  pageChangedAction(pageToNavigateTo);
+                }}
                 totalPages={totalPages}
               />
             )}
