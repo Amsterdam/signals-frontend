@@ -220,6 +220,7 @@ describe('signals/incident-management/saga', () => {
 
       return expectSaga(searchIncidents, q)
         .provide([[matchers.call.fn(authCall), throwError(error)]])
+        .select(makeSelectSearchQuery)
         .call.like(authCall)
         .put(push('/manage/incidents'))
         .put(searchIncidentsSuccess({ count: 0, results: [] }))

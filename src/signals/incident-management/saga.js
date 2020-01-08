@@ -97,16 +97,17 @@ export function* fetchIncidents() {
   }
 }
 
-export function* searchIncidents(action) {
-  const { payload } = action;
+export function* searchIncidents() {
 
   try {
+    const q = yield select(makeSelectSearchQuery);
+
     yield put(applyFilterRefreshStop());
 
     const { page, page_size, ordering } = yield select(makeSelectFilterParams);
 
     const incidents = yield call(authCall, CONFIGURATION.SEARCH_ENDPOINT, {
-      q: payload,
+      q,
       page,
       page_size,
       ordering,
