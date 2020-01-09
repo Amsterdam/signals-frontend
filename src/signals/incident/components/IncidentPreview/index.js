@@ -15,7 +15,7 @@ import './style.scss';
 
 function IncidentPreview({ incidentContainer, preview, isAuthenticated }) {
   return (
-    <div className="incident-preview">
+    <div className="incident-preview" data-testid="incidentPreview">
       {Object.keys(preview).map(key => (
         <div className="incident-preview__section" key={key}>
           <WithWizard
