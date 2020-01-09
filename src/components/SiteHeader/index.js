@@ -185,7 +185,7 @@ const MenuItems = ({
         </Fragment>
       )}
       <MenuItem element="span">
-        <StyledMenuButton $as={NavLink} to="/">
+        <StyledMenuButton $as={NavLink} to="/incident/beschrijf">
           Melden
         </StyledMenuButton>
       </MenuItem>

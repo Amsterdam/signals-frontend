@@ -16,7 +16,6 @@ import {
   UPDATE_FILTER_FAILED,
   UPDATE_FILTER_SUCCESS,
   REQUEST_INCIDENTS,
-  SEARCH_INCIDENTS,
   REQUEST_INCIDENTS_ERROR,
   REQUEST_INCIDENTS_SUCCESS,
   RESET_SEARCH_QUERY,
@@ -440,23 +439,6 @@ describe('signals/incident-management/reducer', () => {
       applied(initialState)
     );
     expect(reducer(intermediateState, searchIncidentsError)).toEqual(
-      applied(intermediateState)
-    );
-  });
-
-  it('should handle SEARCH_INCIDENTS', () => {
-    const searchIncidents = {
-      type: SEARCH_INCIDENTS,
-    };
-
-    const applied = state =>
-      state
-        .set('page', initialState.get('page'));
-
-    expect(reducer(initialState, searchIncidents)).toEqual(
-      applied(initialState)
-    );
-    expect(reducer(intermediateState, searchIncidents)).toEqual(
       applied(intermediateState)
     );
   });

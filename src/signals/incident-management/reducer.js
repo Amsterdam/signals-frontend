@@ -20,7 +20,6 @@ import {
   REQUEST_INCIDENTS_SUCCESS,
   SAVE_FILTER_FAILED,
   SAVE_FILTER_SUCCESS,
-  SEARCH_INCIDENTS,
   SEARCH_INCIDENTS_ERROR,
   SEARCH_INCIDENTS_SUCCESS,
   REQUEST_INCIDENTS,
@@ -129,9 +128,6 @@ export default (state = initialState, action) => {
         .set('loading', true)
         .set('error', false)
         .set('errorMessage', undefined);
-
-    case SEARCH_INCIDENTS:
-      return state.set('page', initialState.get('page'));
 
     case SEARCH_INCIDENTS_SUCCESS:
     case REQUEST_INCIDENTS_SUCCESS:
