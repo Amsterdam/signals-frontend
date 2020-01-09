@@ -27,7 +27,7 @@ export const PageHeaderContainerComponent = ({
   query,
 }) => {
   let title = filter.name || 'Meldingen';
-  const hasCount = incidentsCount !== null;
+  const hasCount = incidentsCount !== null && incidentsCount >= 0;
 
   title += hasCount ? ` (${incidentsCount})` : '';
   title = filter.refresh ? (
