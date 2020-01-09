@@ -36,6 +36,12 @@ describe('containers/PageHeader', () => {
     expect(container.firstChild.querySelector('h1').textContent).toEqual('Meldingen');
 
     rerender(withAppContext(
+      <PageHeaderContainerComponent filter={filter} incidentsCount={0} />
+    ));
+
+    expect(container.firstChild.querySelector('h1').textContent).toEqual('Meldingen (0)');
+
+    rerender(withAppContext(
       <PageHeaderContainerComponent filter={filter} incidentsCount={10} />
     ));
 
