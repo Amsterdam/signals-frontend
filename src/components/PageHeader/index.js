@@ -16,6 +16,10 @@ const StyledHeading = styled(Heading)`
   line-height: 44px;
 `;
 
+const SubTitle = styled(Paragraph)`
+  margin-bottom: 0;
+`;
+
 const PageHeader = ({
   className, children, subTitle, title,
 }) => (
@@ -23,7 +27,7 @@ const PageHeader = ({
     <Row>
       <div>
         <StyledHeading styleAs="h3">{title}</StyledHeading>
-        {subTitle && <Paragraph>{subTitle}</Paragraph>}
+        {subTitle && <SubTitle>{subTitle}</SubTitle>}
       </div>
 
       {children}

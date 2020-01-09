@@ -31,8 +31,7 @@ export const PageHeaderContainerComponent = ({
 }) => {
   const headerTitle = useMemo(() => {
     let title = filter.name || 'Meldingen';
-    const hasCount =
-      !!incidentsCount && isNaN(Number(incidentsCount)) === false; // eslint-disable-line no-restricted-globals
+    const hasCount = incidentsCount !== null && incidentsCount >= 0;
     title += hasCount ? ` (${incidentsCount})` : '';
 
     return filter.refresh ? (
