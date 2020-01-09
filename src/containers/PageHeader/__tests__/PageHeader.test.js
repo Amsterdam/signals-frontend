@@ -16,7 +16,7 @@ describe('containers/PageHeader', () => {
     const props = tree.find(PageHeaderContainerComponent).props();
 
     expect(props.filter).toBeDefined();
-    expect(props.incidentsCount).toBeNull();
+    expect(props.incidentsCount).toBeUndefined();
     expect(props.query).toBeDefined();
   });
 

@@ -6,6 +6,10 @@ import {
   makeSelectAllFilters,
   makeSelectActiveFilter,
   makeSelectEditFilter,
+  makeSelectPage,
+  makeSelectOrdering,
+  makeSelectIncidents,
+  makeSelectIncidentsCount,
 } from '../selectors';
 import { FILTER_PAGE_SIZE } from '../constants';
 
@@ -98,6 +102,67 @@ describe('signals/incident-management/selectors', () => {
     });
 
     expect(makeSelectEditFilter(state).id).toEqual(filters[2].id);
+  });
+
+  it('should select page', () => {
+    const emptState = fromJS({
+      incidentManagement: { ...initialState.toJS() },
+    });
+    expect(makeSelectPage(emptState)).toEqual(initialState.toJS().page);
+
+    const state = fromJS({
+      incidentManagement: { ...initialState.toJS(), page: 100 },
+    });
+
+    expect(makeSelectPage(state)).toEqual(100);
+  });
+
+  it('should select ordering', () => {
+    const emptState = fromJS({
+      incidentManagement: { ...initialState.toJS() },
+    });
+    expect(makeSelectOrdering(emptState)).toEqual(initialState.toJS().ordering);
+
+    const state = fromJS({
+      incidentManagement: { ...initialState.toJS(), ordering: 'some-ordering-type' },
+    });
+
+    expect(makeSelectOrdering(state)).toEqual('some-ordering-type');
+  });
+
+  it('should select incidents', () => {
+    const results = [...new Array(10).keys()].map(index => ({
+      id: index + 1,
+    }));
+
+    const incidents = { count: 100, results }
+
+    const stateLoading = fromJS({
+      incidentManagement: { ...initialState.toJS(), loading: true, incidents },
+    });
+
+    expect(makeSelectIncidents(stateLoading)).toEqual({ ...incidents, loading: true });
+
+    const state = fromJS({
+      incidentManagement: { ...initialState.toJS(), incidents },
+    });
+
+    expect(makeSelectIncidents(state)).toEqual({ ...incidents, loading: false });
+  });
+
+  it('should select incidents count', () => {
+    const emptState = fromJS({
+      incidentManagement: { ...initialState.toJS() },
+    });
+
+    expect(makeSelectIncidentsCount(emptState)).toEqual(initialState.toJS().incidents.count);
+
+    const count = 909;
+    const state = fromJS({
+      incidentManagement: { ...initialState.toJS(), incidents: { count } },
+    });
+
+    expect(makeSelectIncidentsCount(state)).toEqual(count);
   });
 
   describe('makeSelectFilterParams', () => {

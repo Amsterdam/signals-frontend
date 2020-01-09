@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -16,17 +16,9 @@ import styled from 'styled-components';
 
 import MyFilters from 'signals/incident-management/containers/MyFilters';
 import PageHeader from 'containers/PageHeader';
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
 import {
-  makeSelectDataLists,
-  makeSelectActiveFilter,
-  makeSelectPage,
-  makeSelectOrdering,
-} from 'signals/incident-management/selectors';
-import {
-  pageIncidentsChanged,
-  orderingIncidentsChanged,
+  orderingChanged,
+  pageChanged,
 } from 'signals/incident-management/actions';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
@@ -35,10 +27,14 @@ import Pagination from 'components/Pagination';
 import * as types from 'shared/types';
 import { FILTER_PAGE_SIZE } from 'signals/incident-management/constants';
 
-import { makeSelectOverviewPage, makeSelectIncidentsCount } from './selectors';
-import reducer from './reducer';
-import saga from './saga';
-import { requestIncidents } from './actions';
+import {
+  makeSelectActiveFilter,
+  makeSelectDataLists,
+  makeSelectIncidents,
+  makeSelectOrdering,
+  makeSelectPage,
+} from 'signals/incident-management/selectors';
+
 import ListComponent from './components/List';
 import FilterTagList from '../FilterTagList';
 
@@ -63,17 +59,16 @@ const NoResults = styled(Paragraph)`
 
 export const IncidentOverviewPageContainerComponent = ({
   activeFilter,
-  onRequestIncidents,
-  onPageIncidentsChanged,
-  overviewpage,
-  incidentsCount,
   dataLists,
-  page,
+  incidents,
   ordering,
-  onChangeOrdering,
+  orderingChangedAction,
+  page,
+  pageChangedAction,
 }) => {
   const [modalFilterIsOpen, toggleFilterModal] = useState(false);
   const [modalMyFiltersIsOpen, toggleMyFiltersModal] = useState(false);
+  const { count, loading, results } = incidents;
 
   const openMyFiltersModal = useCallback(() => {
     disablePageScroll();
@@ -107,13 +102,16 @@ export const IncidentOverviewPageContainerComponent = ({
     }
   }, [toggleFilterModal]);
 
-  const escFunction = useCallback(event => {
-    /* istanbul ignore next */
-    if (event.keyCode === 27) {
-      closeFilterModal();
-      closeMyFiltersModal();
-    }
-  }, [closeFilterModal, closeMyFiltersModal]);
+  const escFunction = useCallback(
+    event => {
+      /* istanbul ignore next */
+      if (event.keyCode === 27) {
+        closeFilterModal();
+        closeMyFiltersModal();
+      }
+    },
+    [closeFilterModal, closeMyFiltersModal]
+  );
 
   useEffect(() => {
     document.addEventListener('keydown', escFunction);
@@ -123,14 +121,14 @@ export const IncidentOverviewPageContainerComponent = ({
       document.removeEventListener('keydown', escFunction);
       document.removeEventListener('openFilter', openFilterModal);
     };
-  });
+  }, [escFunction, openFilterModal]);
 
-  useEffect(() => {
-    onRequestIncidents();
-  }, [onRequestIncidents]);
+  const totalPages = useMemo(() => Math.ceil(count / FILTER_PAGE_SIZE), [
+    count,
+    FILTER_PAGE_SIZE,
+  ]);
 
-  const { incidents, loading } = overviewpage;
-  const totalPages = Math.ceil(incidentsCount / FILTER_PAGE_SIZE);
+  const canRenderList = results && results.length > 0 && totalPages > 0;
 
   return (
     <div className="incident-overview-page">
@@ -179,29 +177,27 @@ export const IncidentOverviewPageContainerComponent = ({
           <Column span={12}>
             {loading && <LoadingIndicator />}
 
-            {!loading && totalPages > 0 && (
+            {canRenderList && (
               <ListComponent
-                incidents={incidents}
-                onChangeOrdering={onChangeOrdering}
+                incidents={incidents.results}
+                onChangeOrdering={orderingChangedAction}
                 sort={ordering}
-                incidentsCount={incidentsCount}
+                incidentsCount={count}
                 {...dataLists}
               />
             )}
 
-            {!loading && totalPages === 0 && (
-              <NoResults>Geen meldingen</NoResults>
-            )}
+            {count === 0 && <NoResults>Geen meldingen</NoResults>}
           </Column>
 
           <Column span={12}>
-            {!loading && incidentsCount > 0 && (
+            {canRenderList && (
               <StyledPagination
                 currentPage={page}
                 hrefPrefix="/manage/incidents?page="
                 onClick={pageToNavigateTo => {
                   global.window.scrollTo(0, 0);
-                  onPageIncidentsChanged(pageToNavigateTo);
+                  pageChangedAction(pageToNavigateTo);
                 }}
                 totalPages={totalPages}
               />
@@ -215,46 +211,41 @@ export const IncidentOverviewPageContainerComponent = ({
 
 IncidentOverviewPageContainerComponent.defaultProps = {
   activeFilter: {},
+  incidents: {},
   page: 1,
 };
 
 IncidentOverviewPageContainerComponent.propTypes = {
   activeFilter: types.filterType,
   dataLists: types.dataListsType.isRequired,
-  incidentsCount: PropTypes.number,
-  onChangeOrdering: PropTypes.func.isRequired,
-  onPageIncidentsChanged: PropTypes.func.isRequired,
-  onRequestIncidents: PropTypes.func.isRequired,
+  incidents: PropTypes.shape({
+    count: PropTypes.number,
+    loading: PropTypes.bool,
+    results: PropTypes.arrayOf(PropTypes.shape({})),
+  }),
+  orderingChangedAction: PropTypes.func.isRequired,
+  pageChangedAction: PropTypes.func.isRequired,
   ordering: PropTypes.string,
-  overviewpage: types.overviewPageType.isRequired,
   page: PropTypes.number,
 };
 
 const mapStateToProps = createStructuredSelector({
   activeFilter: makeSelectActiveFilter,
   dataLists: makeSelectDataLists,
-  incidentsCount: makeSelectIncidentsCount,
+  incidents: makeSelectIncidents,
   ordering: makeSelectOrdering,
-  overviewpage: makeSelectOverviewPage,
   page: makeSelectPage,
 });
 
 export const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      onChangeOrdering: orderingIncidentsChanged,
-      onPageIncidentsChanged: pageIncidentsChanged,
-      onRequestIncidents: requestIncidents,
+      orderingChangedAction: orderingChanged,
+      pageChangedAction: pageChanged,
     },
     dispatch
   );
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
-const withReducer = injectReducer({ key: 'incidentOverviewPage', reducer });
-const withSaga = injectSaga({ key: 'incidentOverviewPage', saga });
 
-export default compose(
-  withReducer,
-  withSaga,
-  withConnect
-)(IncidentOverviewPageContainerComponent);
+export default compose(withConnect)(IncidentOverviewPageContainerComponent);

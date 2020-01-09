@@ -1,88 +1,85 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
 import LoginPage from 'components/LoginPage';
+import NotFoundPage from 'components/NotFoundPage';
 
 import IncidentOverviewPage from './containers/IncidentOverviewPage';
+import { makeSelectSearchQuery } from './selectors';
+import { getFilters, searchIncidents, requestIncidents } from './actions';
 import IncidentDetail from './containers/IncidentDetail';
-import DashboardContainer from './containers/DashboardContainer';
 import DefaultTextsAdmin from './containers/DefaultTextsAdmin';
 import IncidentSplitContainer from './containers/IncidentSplitContainer';
 
-import { getFilters } from './actions';
 import reducer from './reducer';
 import saga from './saga';
-
-export const incidentDetailWrapper = baseUrl => props => (
-  // eslint-disable-next-line react/prop-types
-  <IncidentDetail id={props.match.params.id} baseUrl={baseUrl} />
-);
-
-export const incidentOverviewPageWrapper = baseUrl => () => (
-  // eslint-disable-next-line react/prop-types
-  <IncidentOverviewPage baseUrl={baseUrl} />
-);
-
-export const incidentSplitContainerWrapper = baseUrl => props => (
-  // eslint-disable-next-line react/prop-types
-  <IncidentSplitContainer id={props.match.params.id} baseUrl={baseUrl} />
-);
+import routes from './routes';
 
 export const IncidentManagementModuleComponent = ({
-  match: { url },
   getFiltersAction,
+  requestIncidentsAction,
+  searchIncidentsAction,
+  searchQuery,
 }) => {
   useEffect(() => {
-    getFiltersAction();
-  });
+    // prevent continuing (and performing unncessary API calls)
+    // when the current session has not been authenticated
+    if (!isAuthenticated()) return;
 
-  return !isAuthenticated() ? (
-    <Route component={LoginPage} />
-  ) : (
-    <Fragment>
-      <Route
-        exact
-        path={`${url}/incidents`}
-        render={incidentOverviewPageWrapper(url)}
-      />
-      <Route
-        exact
-        path={`${url}/incident/:id`}
-        render={incidentDetailWrapper(url)}
-      />
-      <Route
-        exact
-        path={`${url}/incident/:id/split`}
-        render={incidentSplitContainerWrapper(url)}
-      />
-      <Route path={`${url}/standaard/teksten`} component={DefaultTextsAdmin} />
-      <Route path={`${url}/dashboard`} component={DashboardContainer} />
-    </Fragment>
+    if (searchQuery) {
+      searchIncidentsAction(searchQuery);
+    } else {
+      requestIncidentsAction();
+    }
+
+    getFiltersAction();
+  }, [getFiltersAction, requestIncidentsAction]);
+
+  if (!isAuthenticated()) {
+    return <Route component={LoginPage} />;
+  }
+
+  return (
+    <Switch>
+      <Route exact path={routes.incidents} component={IncidentOverviewPage} />
+      <Route exact path={routes.incident} component={IncidentDetail} />
+      <Route exact path={routes.split} component={IncidentSplitContainer} />
+      <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
+      <Route component={NotFoundPage} />
+    </Switch>
   );
 };
 
 IncidentManagementModuleComponent.propTypes = {
-  match: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-  }),
   getFiltersAction: PropTypes.func.isRequired,
+  requestIncidentsAction: PropTypes.func.isRequired,
+  searchQuery: PropTypes.string,
+  searchIncidentsAction: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = createStructuredSelector({
+  searchQuery: makeSelectSearchQuery,
+});
+
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ getFiltersAction: getFilters }, dispatch);
+  bindActionCreators(
+    {
+      getFiltersAction: getFilters,
+      requestIncidentsAction: requestIncidents,
+      searchIncidentsAction: searchIncidents,
+    },
+    dispatch
+  );
 
-const withConnect = connect(
-  null,
-  mapDispatchToProps
-);
-
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'incidentManagement', reducer });
 const withSaga = injectSaga({ key: 'incidentManagement', saga });
 
