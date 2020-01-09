@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -7,8 +7,11 @@ import styled from 'styled-components';
 import * as types from 'shared/types';
 
 import PageHeader from 'components/PageHeader';
-import { makeSelectIncidentsCount, makeSelectSearchQuery } from 'signals/incident-management/containers/IncidentOverviewPage/selectors';
-import { makeSelectActiveFilter } from 'signals/incident-management/selectors';
+import {
+  makeSelectActiveFilter,
+  makeSelectIncidentsCount,
+  makeSelectSearchQuery,
+} from 'signals/incident-management/selectors';
 
 import Refresh from '../../shared/images/icon-refresh.svg';
 
@@ -21,26 +24,31 @@ const RefreshIcon = styled(Refresh).attrs({
 `;
 
 export const PageHeaderContainerComponent = ({
-  incidentsCount,
-  filter,
   children,
+  filter,
+  incidentsCount,
   query,
 }) => {
-  let title = filter.name || 'Meldingen';
-  const hasCount = incidentsCount !== null && incidentsCount >= 0;
+  const headerTitle = useMemo(() => {
+    let title = filter.name || 'Meldingen';
+    const hasCount = incidentsCount !== null && incidentsCount >= 0;
+    title += hasCount ? ` (${incidentsCount})` : '';
 
-  title += hasCount ? ` (${incidentsCount})` : '';
-  title = filter.refresh ? (
-    <Fragment>
-      <RefreshIcon /> {title}
-    </Fragment>
-  ) : (
-    title
-  );
-  const subTitle = query && `Zoekresultaten voor "${query}"`;
+    return filter.refresh ? (
+      <Fragment>
+        <RefreshIcon /> {title}
+      </Fragment>
+    ) : (
+      title
+    );
+  }, [filter, incidentsCount]);
+
+  const subTitle = useMemo(() => query && `Zoekresultaten voor "${query}"`, [
+    query,
+  ]);
 
   return (
-    <PageHeader title={title} subTitle={subTitle}>
+    <PageHeader title={headerTitle} subTitle={subTitle}>
       {children}
     </PageHeader>
   );

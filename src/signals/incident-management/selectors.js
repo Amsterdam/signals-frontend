@@ -123,3 +123,29 @@ export const makeSelectOrdering = createSelector(
     return obj.ordering;
   }
 );
+
+export const makeSelectSearchQuery = createSelector(
+  selectIncidentManagementDomain,
+  state => {
+    const obj = state.toJS();
+
+    return obj.searchQuery;
+  }
+);
+
+export const makeSelectIncidents = createSelector(
+  selectIncidentManagementDomain,
+  state => {
+    const { incidents, loading } = state.toJS();
+
+    return { ...incidents, loading };
+  }
+);
+
+export const makeSelectIncidentsCount = createSelector(
+  selectIncidentManagementDomain,
+  state => {
+    const { incidents: { count } } = state.toJS();
+
+    return count;
+  });
