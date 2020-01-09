@@ -8,7 +8,7 @@ import usersJSON from 'utils/__tests__/fixtures/users.json';
 import routes from 'signals/settings/routes';
 import configuration from 'shared/services/configuration/configuration';
 
-import UsersOverview from '..';
+import { UsersOverviewContainer } from '..';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -27,15 +27,32 @@ jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
   push,
 }));
 
+const userCan = jest.fn(() => true);
+
 describe('signals/settings/users/containers/Overview', () => {
   beforeEach(() => {
     fetch.mockResponse(JSON.stringify(usersJSON));
     push.mockReset();
   });
 
+  it('should render "add user" button', async () => {
+    let rerender;
+    let queryByText;
+
+    await reAct(async () => {
+      ({ queryByText, rerender } = await render(withAppContext(<UsersOverviewContainer userCan={userCan} />)));
+    });
+
+    expect(queryByText('Gebruiker toevoegen')).toBeInTheDocument();
+
+    await reAct(async () => rerender(withAppContext(<UsersOverviewContainer userCan={() => false} />)));
+
+    expect(queryByText('Gebruiker toevoegen')).not.toBeInTheDocument();
+  });
+
   it('should request users from API on mount', async () => {
     await act(async () => {
-      await render(withAppContext(<UsersOverview />));
+      await render(withAppContext(<UsersOverviewContainer userCan={userCan} />));
 
       await wait(() =>
         expect(global.fetch).toHaveBeenCalledWith(
@@ -52,7 +69,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await reAct(async () => {
       ({ container, getByText } = await render(
-        withAppContext(<UsersOverview />)
+        withAppContext(<UsersOverviewContainer userCan={userCan} />)
       ));
     });
 
@@ -67,7 +84,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await reAct(async () => {
       ({ rerender, queryByTestId } = await render(
-        withAppContext(<UsersOverview />)
+        withAppContext(<UsersOverviewContainer userCan={userCan} />)
       ));
     });
 
@@ -77,7 +94,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await reAct(async () => {
       await rerender(
-        withAppContext(<UsersOverview pageSize={100} />)
+        withAppContext(<UsersOverviewContainer pageSize={100} userCan={userCan} />)
       );
     });
 
@@ -90,7 +107,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await reAct(async () => {
       ({ getByText } = await render(
-        withAppContext(<UsersOverview />)
+        withAppContext(<UsersOverviewContainer userCan={userCan} />)
       ));
     });
 
@@ -110,7 +127,7 @@ describe('signals/settings/users/containers/Overview', () => {
     }));
 
     await reAct(async () => {
-      await render(withAppContext(<UsersOverview />));
+      await render(withAppContext(<UsersOverviewContainer userCan={userCan} />));
     });
 
     expect(push).not.toHaveBeenCalled();
@@ -122,7 +139,7 @@ describe('signals/settings/users/containers/Overview', () => {
     }));
 
     await reAct(async () => {
-      await render(withAppContext(<UsersOverview />));
+      await render(withAppContext(<UsersOverviewContainer userCan={userCan} />));
     });
 
     expect(push).not.toHaveBeenCalled();
@@ -133,7 +150,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await reAct(async () => {
       ({ container } = await render(
-        withAppContext(<UsersOverview />)
+        withAppContext(<UsersOverviewContainer userCan={userCan} />)
       ));
     });
 
@@ -153,6 +170,24 @@ describe('signals/settings/users/containers/Overview', () => {
     delete row2.dataset.itemId;
 
     fireEvent.click(row2.querySelector('td:first-of-type'));
+
+    expect(push).not.toHaveBeenCalled();
+  });
+
+  it('should not push on list item click when permissions are insufficient', async () => {
+    let container;
+
+    await reAct(async () => {
+      ({ container } = await render(
+        withAppContext(<UsersOverviewContainer userCan={() => false} />)
+      ));
+    });
+
+    const row = container.querySelector('tbody tr:nth-child(42)');
+    const itemId = 666;
+    row.dataset.itemId = itemId;
+
+    fireEvent.click(row.querySelector('td:first-of-type'), { bubbles: true });
 
     expect(push).not.toHaveBeenCalled();
   });

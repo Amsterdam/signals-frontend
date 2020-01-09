@@ -25,34 +25,28 @@ const StyledHeader = styled(HeaderComponent)`
   a:link {
     text-decoration: none;
   }
-
   ${({ isFrontOffice, tall }) =>
     isFrontOffice &&
     tall &&
     css`
       & {
         max-width: 960px;
-
         h1 {
           margin-left: -20px;
         }
-
         h1 a {
           &,
           span {
             width: 153px;
           }
         }
-
         h1 a span {
           background-image: url(${svg.LogoShort}) !important;
         }
       }
     `}
-
   nav {
     width: 100%;
-
     ul {
       width: 100%;
     }
@@ -80,7 +74,6 @@ const StyledMenuFlyout = styled(MenuFlyOut)`
 const SearchBarMenuItem = styled(MenuItem)`
   margin-right: 0;
   max-width: 365px;
-
   @media screen and (min-width: ${breakpoint + 1}px) {
     margin-right: auto;
     flex-basis: 365px;
@@ -101,24 +94,20 @@ const HeaderWrapper = styled.div`
         position: fixed;
       }
     `}
-
   ${({ isFrontOffice, tall }) =>
     isFrontOffice &&
     tall &&
     css`
       #header {
         position: static;
-
         header {
           height: 160px;
         }
-
         @media screen and (max-width: 539px) {
           header {
             height: 116px;
           }
         }
-
         &:after {
           max-width: 1400px;
           margin-left: auto;
@@ -133,40 +122,31 @@ const HeaderWrapper = styled.div`
           background-color: ${themeColor('tint', 'level2')};
           width: 100%;
         }
-
         nav,
         ul {
           margin: 0;
         }
-
         > header {
           flex-wrap: wrap;
         }
-
         h1 {
           padding: 15px 0;
-
           @media screen and (max-width: 990px) {
             margin: 0;
           }
-
           a {
             height: 68px;
-
             span {
               background-repeat: no-repeat;
               background-size: auto 100%;
             }
-
             @media screen and (max-width: 539px) {
               height: 41px;
             }
           }
         }
-
         nav ul {
           justify-content: space-between;
-
           a {
             font-family: avenir next w01, arial, sans-serif;
             font-size: 18px;
@@ -177,7 +157,7 @@ const HeaderWrapper = styled.div`
     `}
 `;
 
-const MenuItems = ({ onLogOut, permissions }) => {
+const MenuItems = ({ onLogOut, showItems }) => {
   const showLogout = isAuthenticated();
 
   return (
@@ -200,23 +180,38 @@ const MenuItems = ({ onLogOut, permissions }) => {
           Melden
         </StyledMenuButton>
       </MenuItem>
-      {permissions.includes('signals.sia_statusmessagetemplate_write') && (
+
+      {showItems.defaultTexts && (
         <MenuItem element="span">
           <StyledMenuButton $as={NavLink} to="/manage/standaard/teksten">
             Standaard teksten
           </StyledMenuButton>
         </MenuItem>
       )}
-      {isAuthenticated() && (
+
+      {showItems.settings &&
+        (showItems.users || showItems.groups || showItems.departments) && (
         <StyledMenuFlyout label="Instellingen">
-          <StyledMenuButton $as={NavLink} to="/instellingen/gebruikers">
-            Gebruikers
-          </StyledMenuButton>
-          <StyledMenuButton $as={NavLink} to="/instellingen/rollen">
-            Rollen
-          </StyledMenuButton>
+          {showItems.users && (
+            <StyledMenuButton $as={NavLink} to="/instellingen/gebruikers">
+              Gebruikers
+            </StyledMenuButton>
+          )}
+
+          {showItems.groups && (
+            <StyledMenuButton $as={NavLink} to="/instellingen/rollen">
+              Rollen
+            </StyledMenuButton>
+          )}
+
+          {showItems.departments && (
+            <StyledMenuButton $as={NavLink} to="/instellingen/afdelingen">
+              Afdelingen
+            </StyledMenuButton>
+          )}
         </StyledMenuFlyout>
       )}
+
       {showLogout && (
         <Fragment>
           <MenuItem>
@@ -298,11 +293,16 @@ export const SiteHeader = props => {
 
 SiteHeader.defaultProps = {
   onLogOut: undefined,
+  showItems: {},
 };
 
 SiteHeader.propTypes = {
   onLogOut: PropTypes.func,
-  permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  showItems: PropTypes.shape({
+    users: PropTypes.bool,
+    groups: PropTypes.bool,
+    departments: PropTypes.bool,
+  }),
 };
 
 MenuItems.propTypes = SiteHeader.propTypes;

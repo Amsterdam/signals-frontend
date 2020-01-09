@@ -38,6 +38,8 @@ jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
   userId: userJSON.id,
 }));
 
+const userCan = jest.fn(() => true);
+
 describe('signals/settings/users/containers/Detail', () => {
   afterEach(() => {
     push.mockReset();
@@ -59,7 +61,10 @@ describe('signals/settings/users/containers/Detail', () => {
     await act(async () => {
       ({ container } = await render(
         withAppContext(
-          <UserDetailContainerComponent showGlobalNotification={() => {}} />
+          <UserDetailContainerComponent
+            showGlobalNotification={() => {}}
+            userCan={userCan}
+          />
         )
       ));
     });
@@ -77,7 +82,10 @@ describe('signals/settings/users/containers/Detail', () => {
     await act(async () => {
       ({ container } = await render(
         withAppContext(
-          <UserDetailContainerComponent showGlobalNotification={() => {}} />
+          <UserDetailContainerComponent
+            showGlobalNotification={() => {}}
+            userCan={userCan}
+          />
         )
       ));
     });
@@ -94,7 +102,10 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { getByText, rerender } = render(
       withAppContext(
-        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={userCan}
+        />
       )
     );
 
@@ -106,7 +117,10 @@ describe('signals/settings/users/containers/Detail', () => {
 
     rerender(
       withAppContext(
-        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={userCan}
+        />
       )
     );
 
@@ -116,7 +130,10 @@ describe('signals/settings/users/containers/Detail', () => {
   it('should instantiate useFetchUser', () => {
     render(
       withAppContext(
-        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={userCan}
+        />
       )
     );
 
@@ -128,7 +145,10 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { getByTestId } = render(
       withAppContext(
-        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={userCan}
+        />
       )
     );
 
@@ -143,7 +163,10 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { queryByTestId } = await render(
       withAppContext(
-        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={userCan}
+        />
       )
     );
 
@@ -160,7 +183,10 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { queryByTestId } = await render(
       withAppContext(
-        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={userCan}
+        />
       )
     );
 
@@ -172,7 +198,10 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { getByTestId } = await render(
       withAppContext(
-        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={userCan}
+        />
       )
     );
 
@@ -188,7 +217,10 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { getByTestId } = await render(
       withAppContext(
-        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={userCan}
+        />
       )
     );
 
@@ -208,6 +240,7 @@ describe('signals/settings/users/containers/Detail', () => {
       withAppContext(
         <UserDetailContainerComponent
           showGlobalNotification={showGlobalNotification}
+          userCan={userCan}
         />
       )
     );
@@ -221,6 +254,7 @@ describe('signals/settings/users/containers/Detail', () => {
       withAppContext(
         <UserDetailContainerComponent
           showGlobalNotification={showGlobalNotification}
+          userCan={userCan}
         />
       )
     );
@@ -240,7 +274,10 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { getByTestId } = render(
       withAppContext(
-        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={userCan}
+        />
       )
     );
 
@@ -257,7 +294,10 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { getByTestId } = render(
       withAppContext(
-        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={userCan}
+        />
       )
     );
 
@@ -275,6 +315,35 @@ describe('signals/settings/users/containers/Detail', () => {
     expect(patch).toHaveBeenCalled();
   });
 
+  it('should NOT patch user data on submit when user does not have permissions', () => {
+    const patch = jest.fn();
+    useFetchUser.mockImplementationOnce(() => ({ data: userJSON, patch }));
+
+    const { getByTestId } = render(
+      withAppContext(
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={() => false}
+        />
+      )
+    );
+
+    expect(patch).not.toHaveBeenCalled();
+
+    fireEvent.change(
+      getByTestId('detailUserForm').querySelector('#last_name'),
+      { target: { value: 'Foo Bar Baz' } }
+    );
+
+    expect(patch).not.toHaveBeenCalled();
+
+    fireEvent.submit(
+      document.forms[0]
+    );
+
+    expect(patch).not.toHaveBeenCalled();
+  });
+
   it('should post user data on submit', () => {
     const post = jest.fn();
     useFetchUser.mockImplementationOnce(() => ({ data: {}, post }));
@@ -285,7 +354,10 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { getByTestId } = render(
       withAppContext(
-        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={userCan}
+        />
       )
     );
 
@@ -319,6 +391,49 @@ describe('signals/settings/users/containers/Detail', () => {
     );
   });
 
+  it('should NOT post user data on submit when user does not have permissions', () => {
+    const post = jest.fn();
+    useFetchUser.mockImplementationOnce(() => ({ data: {}, post }));
+
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementationOnce(() => ({
+      userId: undefined,
+    }));
+
+    const { getByTestId } = render(
+      withAppContext(
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={() => false}
+        />
+      )
+    );
+
+    const lastName = 'Foo Bar Baz';
+    fireEvent.change(
+      getByTestId('detailUserForm').querySelector('#last_name'),
+      { target: { value: lastName } }
+    );
+
+    const firstName = 'Zork';
+    fireEvent.change(
+      getByTestId('detailUserForm').querySelector('#first_name'),
+      { target: { value: firstName } }
+    );
+
+    const username = 'zork@foobarbaz.com';
+    fireEvent.change(getByTestId('detailUserForm').querySelector('#username'), {
+      target: { value: username },
+    });
+
+    expect(post).not.toHaveBeenCalled();
+
+    fireEvent.submit(
+      document.forms[0]
+    );
+
+    expect(post).not.toHaveBeenCalled();
+  });
+
   it('should redirect on success and show notification', () => {
     const showGlobalNotification = jest.fn();
     useFetchUser.mockImplementation(() => ({
@@ -334,6 +449,7 @@ describe('signals/settings/users/containers/Detail', () => {
       withAppContext(
         <UserDetailContainerComponent
           showGlobalNotification={showGlobalNotification}
+          userCan={userCan}
         />
       )
     );
@@ -351,6 +467,7 @@ describe('signals/settings/users/containers/Detail', () => {
       withAppContext(
         <UserDetailContainerComponent
           showGlobalNotification={showGlobalNotification}
+          userCan={userCan}
         />
       )
     );
@@ -374,7 +491,10 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { getByTestId } = render(
       withAppContext(
-        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={userCan}
+        />
       )
     );
 
@@ -419,7 +539,10 @@ describe('signals/settings/users/containers/Detail', () => {
 
     render(
       withAppContext(
-        <UserDetailContainerComponent showGlobalNotification={showGlobalNotification} />
+        <UserDetailContainerComponent
+          showGlobalNotification={showGlobalNotification}
+          userCan={userCan}
+        />
       )
     );
 
@@ -442,7 +565,10 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { getByTestId } = render(
       withAppContext(
-        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={userCan}
+        />
       )
     );
 
@@ -462,7 +588,10 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { getByTestId } = render(
       withAppContext(
-        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={userCan}
+        />
       )
     );
 
@@ -497,7 +626,10 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { getByTestId } = render(
       withAppContext(
-        <UserDetailContainerComponent showGlobalNotification={() => {}} />
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={userCan}
+        />
       )
     );
 

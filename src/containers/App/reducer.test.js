@@ -1,8 +1,7 @@
 import { fromJS } from 'immutable';
 
-import { ACCESS_TOKEN } from 'shared/services/auth/auth';
+import userJson from 'utils/__tests__/fixtures/user.json';
 import appReducer, { initialState } from './reducer';
-
 import {
   AUTHORIZE_USER,
   LOGIN_FAILED,
@@ -17,7 +16,7 @@ import {
   UPLOAD_SUCCESS,
 } from './constants';
 
-describe('appReducer', () => {
+describe('containers/App/reducer', () => {
   it('should return the initial state', () => {
     expect(appReducer(undefined, {})).toEqual(fromJS(initialState));
   });
@@ -27,36 +26,9 @@ describe('appReducer', () => {
       expect(
         appReducer(fromJS({}), {
           type: AUTHORIZE_USER,
-          payload: {
-            userName: 'Diabolo',
-            userScopes: ['SCOPE'],
-            accessToken: 'DFGHJGFDSDFGHJKJH',
-          },
+          payload: userJson,
         }).toJS(),
-      ).toEqual({
-        userName: 'Diabolo',
-        userScopes: ['SCOPE'],
-        accessToken: 'DFGHJGFDSDFGHJKJH',
-      });
-    });
-
-    it('should set the access token in session storage', () => {
-      const accessToken = 'DFGHJGFDSDFGHJKJH';
-      const action = {
-        type: AUTHORIZE_USER,
-        payload: {
-          userName: 'Diabolo',
-          userScopes: ['SCOPE'],
-          accessToken,
-        },
-      };
-
-      appReducer(fromJS({}), action);
-
-      expect(global.localStorage.setItem).toHaveBeenCalledWith(
-        ACCESS_TOKEN,
-        accessToken,
-      );
+      ).toEqual({ user: userJson });
     });
   });
 

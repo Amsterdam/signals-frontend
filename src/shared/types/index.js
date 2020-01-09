@@ -236,3 +236,9 @@ export const departmentCategory = PropTypes.shape({
 });
 
 export const departmentCategories = PropTypes.arrayOf(departmentCategory);
+
+export const permissionsType = PropTypes.arrayOf(PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  codename: PropTypes.string.isRequired,
+}));

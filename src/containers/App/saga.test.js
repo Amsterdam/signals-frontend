@@ -13,6 +13,7 @@ import mapCategories from 'shared/services/map-categories';
 import fileUploadChannel from 'shared/services/file-upload-channel';
 import stateTokenGenerator from 'shared/services/auth/services/state-token-generator/state-token-generator';
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
+import userJson from 'utils/__tests__/fixtures/user.json';
 
 import watchAppSaga, {
   callLogin,
@@ -47,7 +48,7 @@ jest.mock('shared/services/api/api');
 jest.mock('shared/services/map-categories');
 jest.mock('shared/services/file-upload-channel');
 
-describe('App saga', () => {
+describe('containers/App/saga', () => {
   let origSessionStorage;
 
   beforeEach(() => {
@@ -187,31 +188,20 @@ describe('App saga', () => {
 
     const payload = {
       accessToken: 'akjgrff',
-      userName: 'foo@bar.com',
-      userScopes: ['SIG/ALL'],
     };
 
     it('should dispatch success', () => {
-      const mockResponse = {
-        groups: ['SIG/ALL'],
-        permissions: ['foo', 'bar'],
-      };
-      const mockCredentials = {
-        ...payload,
-        userScopes: mockResponse.groups,
-        userPermissions: mockResponse.permissions,
-      };
       const action = { payload };
 
       return expectSaga(callAuthorize, action)
-        .provide([[matchers.call.fn(authCall), mockResponse]])
+        .provide([[matchers.call.fn(authCall), userJson]])
         .call(
           authCall,
           CONFIGURATION.AUTH_ME_ENDPOINT,
           null,
           payload.accessToken
         )
-        .put(authorizeUser(mockCredentials))
+        .put(authorizeUser(userJson))
         .run();
     });
 
