@@ -137,7 +137,7 @@ class IncidentForm extends React.Component {
 
   render() {
     return (
-      <div className="incident-form">
+      <div className="incident-form" data-testid="incidentForm">
         <form onSubmit={this.handleSubmit}>
           <FormGenerator
             onMount={this.setForm}
