@@ -30,7 +30,7 @@ const statusOptions = [
 
 const DEFAULT_STATUS_OPTION = 'true';
 
-const UserForm = ({ data, onCancel, onSubmitForm }) => (
+const UserForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
   <Form action="" data-testid="detailUserForm">
     <FieldGroup>
       <Input
@@ -39,7 +39,8 @@ const UserForm = ({ data, onCancel, onSubmitForm }) => (
         id="username"
         name="username"
         label="E-mailadres"
-        disabled={data.username !== undefined}
+        disabled={data.username !== undefined || readOnly}
+        readOnly={readOnly}
       />
     </FieldGroup>
 
@@ -49,6 +50,7 @@ const UserForm = ({ data, onCancel, onSubmitForm }) => (
         id="first_name"
         name="first_name"
         label="Voornaam"
+        disabled={readOnly}
       />
     </FieldGroup>
 
@@ -58,25 +60,33 @@ const UserForm = ({ data, onCancel, onSubmitForm }) => (
         id="last_name"
         name="last_name"
         label="Achternaam"
+        disabled={readOnly}
       />
     </FieldGroup>
 
     <FieldGroup>
       <Label as="span">Status</Label>
       <RadioButtonList
-        defaultValue={data.is_active === undefined ? DEFAULT_STATUS_OPTION : `${data.is_active}`}
+        defaultValue={
+          data.is_active === undefined
+            ? DEFAULT_STATUS_OPTION
+            : `${data.is_active}`
+        }
         groupName="is_active"
         hasEmptySelectionButton={false}
         options={statusOptions}
+        disabled={readOnly}
       />
     </FieldGroup>
 
-    <StyledFormFooter
-      cancelBtnLabel="Annuleren"
-      onCancel={onCancel}
-      submitBtnLabel="Opslaan"
-      onSubmitForm={onSubmitForm}
-    />
+    {!readOnly && (
+      <StyledFormFooter
+        cancelBtnLabel="Annuleren"
+        onCancel={onCancel}
+        submitBtnLabel="Opslaan"
+        onSubmitForm={onSubmitForm}
+      />
+    )}
   </Form>
 );
 
@@ -84,6 +94,7 @@ UserForm.defaultProps = {
   data: {},
   onCancel: null,
   onSubmitForm: null,
+  readOnly: false,
 };
 
 UserForm.propTypes = {
@@ -95,6 +106,8 @@ UserForm.propTypes = {
   }),
   onCancel: PropTypes.func,
   onSubmitForm: PropTypes.func,
+  /** When true, none of the fields in the form can be edited */
+  readOnly: PropTypes.bool,
 };
 
 export default UserForm;

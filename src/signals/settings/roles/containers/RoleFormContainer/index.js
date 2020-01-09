@@ -10,6 +10,9 @@ import PageHeader from 'signals/settings/components/PageHeader';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import BackLink from 'components/BackLink';
 import FormAlert from 'components/FormAlert';
+import {
+  makeSelectUserCan,
+} from 'containers/App/selectors';
 
 import makeSelectRolesModel from 'models/roles/selectors';
 import { patchRole, saveRole } from 'models/roles/actions';
@@ -29,6 +32,7 @@ export const RoleFormContainer = ({
   },
   onPatchRole,
   onSaveRole,
+  userCan,
 }) => {
   const { roleId } = useParams();
   const role = list.find(item => item.id === roleId * 1);
@@ -69,6 +73,7 @@ export const RoleFormContainer = ({
                 permissions={permissions}
                 onPatchRole={onPatchRole}
                 onSaveRole={onSaveRole}
+                readOnly={!userCan('change_group')}
               />
             )
           }
@@ -106,10 +111,12 @@ RoleFormContainer.propTypes = {
   }),
   onPatchRole: PropTypes.func.isRequired,
   onSaveRole: PropTypes.func.isRequired,
+  userCan: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   roles: makeSelectRolesModel,
+  userCan: makeSelectUserCan,
 });
 
 export const mapDispatchToProps = dispatch => bindActionCreators({
