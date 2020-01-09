@@ -15,16 +15,17 @@ import {
 } from '@datapunt/asc-ui';
 import SearchBar from 'containers/SearchBar';
 
-export const breakpoint = 1000;
+export const breakpoint = 1060;
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
     text-decoration: none;
   }
 
-  ${({ isFrontOffice, tall }) => isFrontOffice
-    && tall
-    && css`
+  ${({ isFrontOffice, tall }) =>
+    isFrontOffice &&
+    tall &&
+    css`
       & {
         max-width: 960px;
 
@@ -76,17 +77,20 @@ const StyledSearchBar = styled(SearchBar)`
 `;
 
 const HeaderWrapper = styled.div`
-  ${({  tall }) => !tall && css`
-    #header {
-      left: 0;
-      right: 0;
-      position: fixed;
-    }
-  `}
+  ${({ tall }) =>
+    !tall &&
+    css`
+      #header {
+        left: 0;
+        right: 0;
+        position: fixed;
+      }
+    `}
 
-  ${({ isFrontOffice, tall }) => isFrontOffice
-    && tall
-    && css`
+  ${({ isFrontOffice, tall }) =>
+    isFrontOffice &&
+    tall &&
+    css`
       #header {
         position: static;
 
@@ -181,7 +185,7 @@ const MenuItems = ({
         </Fragment>
       )}
       <MenuItem element="span">
-        <StyledMenuButton $as={NavLink} to="/">
+        <StyledMenuButton $as={NavLink} to="/incident/beschrijf">
           Melden
         </StyledMenuButton>
       </MenuItem>
@@ -193,18 +197,29 @@ const MenuItems = ({
         </MenuItem>
       )}
       {showLogout && (
-        <MenuItem
-          element="button"
-          data-testid="logout-button"
-          onClick={onLoginLogoutButtonClick}
-        >
-          <StyledMenuButton
-            iconSize={16}
-            iconLeft={<LogoutIcon focusable="false" />}
+        <Fragment>
+          <MenuItem>
+            <StyledMenuButton
+              $as="a"
+              href="https://tamtam.amsterdam.nl/do/office?id=1723860-6f6666696365"
+              target="_blank"
+            >
+              Help
+            </StyledMenuButton>
+          </MenuItem>
+          <MenuItem
+            element="button"
+            data-testid="logout-button"
+            onClick={onLoginLogoutButtonClick}
           >
-            Uitloggen
-          </StyledMenuButton>
-        </MenuItem>
+            <StyledMenuButton
+              iconSize={16}
+              iconLeft={<LogoutIcon focusable="false" />}
+            >
+              Uitloggen
+            </StyledMenuButton>
+          </MenuItem>
+        </Fragment>
       )}
     </Fragment>
   );
@@ -214,6 +229,7 @@ export const SiteHeader = props => {
   const isFrontOffice = !props.location.pathname.startsWith('/manage');
   const tall = isFrontOffice && !props.isAuthenticated;
   const title = tall ? '' : 'SIA';
+  const homeLink = tall ? 'https://www.amsterdam.nl' : '/';
 
   const navigation = tall ? null : (
     <Media query={`(max-width: ${breakpoint}px)`}>
@@ -241,7 +257,7 @@ export const SiteHeader = props => {
       <StyledHeader
         isFrontOffice={isFrontOffice}
         title={title}
-        homeLink="/"
+        homeLink={homeLink}
         tall={tall}
         fullWidth={false}
         navigation={navigation}

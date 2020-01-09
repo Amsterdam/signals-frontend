@@ -22,7 +22,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       ),
     );
 
-    expect(getByLabelText(title)).toBeTruthy();
+    expect(getByLabelText(title)).toBeInTheDocument();
   });
 
   it('should render a toggle', () => {
@@ -65,6 +65,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
           groupName="newGroup"
           groupId="newGroup"
           options={statuses}
+          displayToggle
           toggleLabel="Toggle me"
           toggleFieldName={toggleFieldName}
         />,
@@ -74,7 +75,24 @@ describe('signals/incident-management/components/CheckboxList', () => {
     expect(getAllByLabelText('Toggle me')).toHaveLength(1);
     expect(
       document.querySelector(`input[name="${toggleFieldName}"]`),
-    ).toBeTruthy();
+    ).toBeInTheDocument();
+
+    // now it should as well with flat list
+    rerender(
+      withAppContext(
+        <CheckboxList
+          groupName="newGroup"
+          options={statuses}
+          displayToggle
+          toggleLabel="Toggle me"
+        />,
+      ),
+    );
+
+    expect(getAllByLabelText('Toggle me')).toHaveLength(1);
+    expect(
+      document.querySelector(`input[name="${null}"]`),
+    ).toBeInTheDocument();
   });
 
   it('should render a list of checkboxes ', () => {
@@ -160,6 +178,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
         <CheckboxList
           groupName="newGroup"
           groupId="newGroup"
+          displayToggle
           options={statuses}
           toggleLabel="Toggle me"
           toggleFieldName={toggleFieldName}
@@ -173,6 +192,49 @@ describe('signals/incident-management/components/CheckboxList', () => {
     );
     const individualBoxes = container.querySelectorAll(
       `input[type="checkbox"]:not([name="${toggleFieldName}"])`,
+    );
+
+    expect(toggleBox.dataset.value).toEqual('none');
+
+    // check the toggle
+    fireEvent.click(toggleLabel);
+
+    expect(toggleBox.checked).toEqual(true);
+    expect(toggleBox.dataset.value).toEqual('all');
+
+    individualBoxes.forEach(el => {
+      expect(el.checked).toEqual(true);
+    });
+
+    // uncheck the toggle
+    fireEvent.click(toggleLabel);
+
+    expect(toggleBox.checked).toEqual(false);
+    expect(toggleBox.dataset.value).toEqual('none');
+
+    individualBoxes.forEach(el => {
+      expect(el.checked).toEqual(false);
+    });
+  });
+
+  it('should handle toggle interaction with flat list', () => {
+    const { container, getByLabelText } = render(
+      withAppContext(
+        <CheckboxList
+          groupName="newGroup"
+          displayToggle
+          options={statuses}
+          toggleLabel="Toggle me"
+        />,
+      ),
+    );
+
+    const toggleLabel = getByLabelText('Toggle me');
+    const toggleBox = container.querySelector(
+      `input[type="checkbox"][name="${null}"]`,
+    );
+    const individualBoxes = container.querySelectorAll(
+      `input[type="checkbox"]:not([name="${null}"])`,
     );
 
     expect(toggleBox.dataset.value).toEqual('none');
@@ -236,6 +298,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
           groupName="newGroup"
           groupId="newGroup"
           options={statuses}
+          displayToggle
           toggleLabel="Toggle me"
           toggleFieldName={toggleFieldName}
         />,
@@ -248,6 +311,53 @@ describe('signals/incident-management/components/CheckboxList', () => {
     );
     const individualBoxes = container.querySelectorAll(
       `input[type="checkbox"]:not([name="${toggleFieldName}"])`,
+    );
+
+    // check the toggle so that all boxes are checked
+    fireEvent.click(toggleLabel);
+
+    // click one of the checkboxes in the list. This should deselect the toggle and leave all the other boxes checked
+    const singleBox = individualBoxes.item(
+      Math.floor(Math.random() * statuses.length),
+    );
+
+    fireEvent.click(singleBox);
+
+    expect(toggleBox.checked).toEqual(false);
+    expect(singleBox.checked).toEqual(false);
+
+    Array.from(individualBoxes)
+      .filter(el => el !== singleBox)
+      .forEach(el => {
+        expect(el.checked).toEqual(true);
+      });
+
+    // click the toggle again; this should uncheck all boxes
+    fireEvent.click(toggleBox);
+
+    individualBoxes.forEach(el => {
+      expect(el.checked).toEqual(false);
+    });
+  });
+
+  it('should handle individual checkbox interaction with a toggle checkbox with flat list', () => {
+    const { container, getByLabelText } = render(
+      withAppContext(
+        <CheckboxList
+          groupName="newGroup"
+          options={statuses}
+          displayToggle
+          toggleLabel="Toggle me"
+        />,
+      ),
+    );
+
+    const toggleLabel = getByLabelText('Toggle me');
+    const toggleBox = container.querySelector(
+      `input[type="checkbox"][name="${null}"]`,
+    );
+    const individualBoxes = container.querySelectorAll(
+      `input[type="checkbox"]:not([name="${null}"])`,
     );
 
     // check the toggle so that all boxes are checked
@@ -293,6 +403,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
           groupName={groupName}
           groupId={groupName}
           options={statuses}
+          displayToggle
           toggleLabel="Toggle me"
           toggleFieldName={toggleFieldName}
         />,
@@ -316,6 +427,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
           defaultValue={options.slice(0, 2)}
           groupName="afval"
           groupId="afval"
+          displayToggle
           options={options}
           toggleLabel="Toggle me"
           toggleFieldName="main"
@@ -335,6 +447,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       withAppContext(
         <CheckboxList
           defaultValue={statuses.slice(0, 2)}
+          displayToggle
           groupName="status"
           groupId="status"
           options={statuses}

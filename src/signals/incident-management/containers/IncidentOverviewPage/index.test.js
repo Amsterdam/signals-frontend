@@ -1,8 +1,8 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import cloneDeep from 'lodash.clonedeep';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, act } from '@testing-library/react';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
+import incidentJson from 'utils/__tests__/fixtures/incident.json';
 
 import { withAppContext } from 'test/utils';
 import {
@@ -12,66 +12,58 @@ import {
   feedbackList,
 } from 'signals/incident-management/definitions';
 import * as constants from 'signals/incident-management/constants';
-import { pageIncidentsChanged } from 'signals/incident-management/actions';
 
 import IncidentOverviewPage, {
   IncidentOverviewPageContainerComponent,
-  mapDispatchToProps,
 } from '.';
-import { REQUEST_INCIDENTS } from './constants';
 
 jest.mock('scroll-lock');
 jest.mock('signals/incident-management/constants');
 jest.mock('signals/incident-management/actions', () => {
   const actual = jest.requireActual('signals/incident-management/actions');
-  // eslint-disable-next-line
-  const { PAGE_INCIDENTS_CHANGED } = require('signals/incident-management/constants');
+  const {
+    PAGE_CHANGED,
+    // eslint-disable-next-line
+  } = require('signals/incident-management/constants');
 
   return {
     __esModule: true,
     ...actual,
-    pageIncidentsChanged: jest.fn(page => ({
-      type: PAGE_INCIDENTS_CHANGED,
+    pageChanged: jest.fn(page => ({
+      type: PAGE_CHANGED,
       payload: page,
     })),
   };
 });
-jest.mock('./selectors', () => {
-  const actual = jest.requireActual('./selectors');
-  // eslint-disable-next-line
-  const incident = require('utils/__tests__/fixtures/incident.json');
 
-  return {
-    __esModule: true,
-    ...actual,
-    makeSelectOverviewPage: jest.fn(() => ({
-      ...actual.makeSelectOverviewPage,
-      incidents: [...new Array(100).keys()].map(index => ({
-        ...incident,
-        id: index,
-      })),
-      loading: false,
-    })),
-    makeSelectIncidentsCount: jest.fn(() => 100),
-  };
+// make sure that JSDOM doesn't trip over unsupported feature
+Object.defineProperty(window, 'scrollTo', {
+  value: () => {},
+  writable: true,
 });
+
+const generateIncidents = (number = 100) =>
+  [...new Array(number).keys()].map(index => ({
+    ...incidentJson,
+    id: index + 1,
+  }));
 
 describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   let props;
 
   beforeEach(() => {
+    constants.FILTER_PAGE_SIZE = 50;
+
     props = {
-      overviewpage: {
-        incidents: [],
-        loading: false,
+      incidents: {
+        count: 0,
+        results: [],
+        loading: true,
       },
       page: 3,
-      incidentsCount: 100,
       categories: {},
-      onRequestIncidents: jest.fn(),
-      onChangeOrdering: jest.fn(),
-      onPageIncidentsChanged: jest.fn(),
-      baseUrl: '',
+      orderingChangedAction: jest.fn(),
+      pageChangedAction: jest.fn(),
       dataLists: {
         priority: priorityList,
         status: statusList,
@@ -81,33 +73,104 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     };
   });
 
-  it('should render correctly', () => {
-    const { queryByTestId, rerender, getByText } = render(
+  it('should render modal buttons', () => {
+    const { getByText } = render(
       withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
     );
 
-    expect(queryByTestId('pagination')).not.toBeNull();
-    expect(queryByTestId('incidentOverviewListComponent')).not.toBeNull();
-    expect(queryByTestId('loadingIndicator')).toBeNull();
+    expect(getByText('Filteren').tagName).toEqual('BUTTON');
+    expect(getByText('Mijn filters').tagName).toEqual('BUTTON');
+  });
 
-    const loadingProps = cloneDeep(props);
-    loadingProps.overviewpage.loading = true;
+  it('should render a list of incidents', () => {
+    const { queryByTestId, rerender } = render(
+      withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
+    );
+
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
+    expect(
+      queryByTestId('incidentOverviewListComponent')
+    ).not.toBeInTheDocument();
+
+    const incidents = generateIncidents();
 
     rerender(
       withAppContext(
-        <IncidentOverviewPageContainerComponent {...loadingProps} />
+        <IncidentOverviewPageContainerComponent
+          {...props}
+          incidents={{
+            count: incidents.length,
+            results: incidents,
+            loading: false,
+          }}
+        />
       )
     );
 
-    expect(queryByTestId('incidentOverviewPagerComponent')).toBeNull();
-    expect(queryByTestId('incidentOverviewListComponent')).toBeNull();
-    expect(queryByTestId('loadingIndicator')).not.toBeNull();
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
+    expect(queryByTestId('incidentOverviewListComponent')).toBeInTheDocument();
+  });
 
-    // filter button
-    expect(getByText('Filteren').tagName).toEqual('BUTTON');
-    expect(getByText('Mijn filters').tagName).toEqual('BUTTON');
+  it('should render pagination controls', () => {
+    constants.FILTER_PAGE_SIZE = 101;
+    const incidents = generateIncidents();
 
-    expect(props.onRequestIncidents).toBeCalledWith();
+    const { queryByTestId, rerender } = render(
+      withAppContext(
+        <IncidentOverviewPageContainerComponent
+          {...props}
+          incidents={{
+            count: incidents.length,
+            results: incidents,
+            loading: false,
+          }}
+        />
+      )
+    );
+
+    expect(queryByTestId('pagination')).not.toBeInTheDocument();
+
+    constants.FILTER_PAGE_SIZE = 100;
+
+    rerender(
+      withAppContext(
+        <IncidentOverviewPageContainerComponent
+          {...props}
+          incidents={{
+            count: incidents.length,
+            results: incidents,
+            loading: false,
+          }}
+        />
+      )
+    );
+
+    expect(queryByTestId('pagination')).not.toBeInTheDocument();
+
+    constants.FILTER_PAGE_SIZE = 99;
+
+    rerender(
+      withAppContext(
+        <IncidentOverviewPageContainerComponent
+          {...props}
+          incidents={{
+            count: incidents.length,
+            results: incidents,
+            loading: false,
+          }}
+        />
+      )
+    );
+
+    expect(queryByTestId('pagination')).toBeInTheDocument();
+  });
+
+  it('should show notification when no results can be rendered', () => {
+    const { getByText } = render(
+      withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
+    );
+
+    expect(getByText('Geen meldingen')).toBeInTheDocument();
   });
 
   it('should have props from structured selector', () => {
@@ -117,8 +180,10 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       .find(IncidentOverviewPageContainerComponent)
       .props();
 
-    expect(containerProps.overviewpage).not.toBeUndefined();
-    expect(containerProps.categories).not.toBeUndefined();
+    expect(containerProps.activeFilter).not.toBeUndefined();
+    expect(containerProps.dataLists).not.toBeUndefined();
+    expect(containerProps.ordering).not.toBeUndefined();
+    expect(containerProps.page).not.toBeUndefined();
   });
 
   it('should have props from action creator', () => {
@@ -128,32 +193,43 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       .find(IncidentOverviewPageContainerComponent)
       .props();
 
-    expect(containerProps.onRequestIncidents).not.toBeUndefined();
-    expect(typeof containerProps.onRequestIncidents).toEqual('function');
+    expect(containerProps.pageChangedAction).not.toBeUndefined();
+    expect(typeof containerProps.pageChangedAction).toEqual('function');
 
-    expect(containerProps.onPageIncidentsChanged).not.toBeUndefined();
-    expect(typeof containerProps.onPageIncidentsChanged).toEqual('function');
-
-    expect(containerProps.onChangeOrdering).not.toBeUndefined();
-    expect(typeof containerProps.onChangeOrdering).toEqual('function');
+    expect(containerProps.orderingChangedAction).not.toBeUndefined();
+    expect(typeof containerProps.orderingChangedAction).toEqual('function');
   });
 
-  it('should scroll page to top after navigating with pagination', () => {
+  it('should set page after navigating with pagination', () => {
     constants.FILTER_PAGE_SIZE = 30;
-    Object.defineProperty(window, 'scrollTo', {
-      value: () => { },
-      writable: true,
-    });
-    const scrollSpy = jest.spyOn(window, 'scrollTo');
 
-    const { getByTestId } = render(withAppContext(<IncidentOverviewPage />));
+    const incidents = generateIncidents();
 
-    fireEvent.click(
-      getByTestId('pagination').querySelector('button:first-of-type')
+    const { getByTestId } = render(
+      withAppContext(
+        <IncidentOverviewPageContainerComponent
+          {...props}
+          incidents={{
+            count: incidents.length,
+            results: incidents,
+            loading: false,
+          }}
+        />
+      )
     );
 
-    expect(scrollSpy).toHaveBeenCalledWith(0, 0);
-    expect(pageIncidentsChanged).toHaveBeenCalledWith(2);
+    expect(props.pageChangedAction).not.toHaveBeenCalled();
+
+    const firstButton = getByTestId('pagination').querySelector(
+      'button:first-of-type'
+    );
+    const pagenum = parseInt(firstButton.dataset.pagenum, 10);
+
+    act(() => {
+      fireEvent.click(firstButton);
+    });
+
+    expect(props.pageChangedAction).toHaveBeenCalledWith(pagenum);
   });
 
   describe('filter modal', () => {
@@ -261,17 +337,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       );
 
       expect(enablePageScroll).toHaveBeenCalled();
-    });
-  });
-
-  describe('mapDispatchToProps', () => {
-    const dispatch = jest.fn();
-
-    it('should request incidents', () => {
-      mapDispatchToProps(dispatch).onRequestIncidents();
-      expect(dispatch).toHaveBeenCalledWith({
-        type: REQUEST_INCIDENTS,
-      });
     });
   });
 });

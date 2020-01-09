@@ -1,42 +1,42 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { SearchBar } from '@datapunt/asc-ui';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { withRouter } from 'react-router';
 
-import { requestIncidents } from 'signals/incident-management/containers/IncidentOverviewPage/actions';
-import { setSearchQuery } from 'models/search/actions';
-import { makeSelectQuery } from 'models/search/selectors';
-import { applyFilter } from 'signals/incident-management/actions';
+import {
+  setSearchQuery,
+  resetSearchQuery,
+} from 'signals/incident-management/actions';
+import { makeSelectSearchQuery } from 'signals/incident-management/selectors';
 
 export const SearchBarComponent = ({
   className,
   query,
-  onApplyFilter,
-  onSetSearchQuery,
-  onRequestIncidents,
-  history,
+  resetSearchQueryAction,
+  setSearchQueryAction,
 }) => {
   /**
    * Send search form input to actions
    *
    * @param {String} searchInput
    */
-  const onSearchSubmit = searchInput => {
-    onApplyFilter({});
-    onSetSearchQuery(searchInput);
-    history.push('/manage/incidents');
-    onRequestIncidents();
-  };
+  const onSearchSubmit = useCallback(
+    searchInput => {
+      setSearchQueryAction(searchInput);
+    },
+    [setSearchQueryAction]
+  );
 
-  const onChange = value => {
-    if (value === '') {
-      onSetSearchQuery('');
-      onRequestIncidents();
-    }
-  };
+  const onChange = useCallback(
+    value => {
+      if (value === '') {
+        resetSearchQueryAction();
+      }
+    },
+    [resetSearchQueryAction]
+  );
 
   return (
     <SearchBar
@@ -56,32 +56,24 @@ SearchBarComponent.defaultProps = {
 
 SearchBarComponent.propTypes = {
   className: PropTypes.string,
-  onApplyFilter: PropTypes.func.isRequired,
-  onRequestIncidents: PropTypes.func.isRequired,
-  onSetSearchQuery: PropTypes.func.isRequired,
+  setSearchQueryAction: PropTypes.func.isRequired,
+  resetSearchQueryAction: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }),
 };
 
 const mapStateToProps = createStructuredSelector({
-  query: makeSelectQuery,
+  query: makeSelectSearchQuery,
 });
 
 export const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      onApplyFilter: applyFilter,
-      onRequestIncidents: requestIncidents,
-      onSetSearchQuery: setSearchQuery,
+      resetSearchQueryAction: resetSearchQuery,
+      setSearchQueryAction: setSearchQuery,
     },
     dispatch
   );
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default withRouter(compose(withConnect)(SearchBarComponent));
+export default compose(withConnect)(SearchBarComponent);

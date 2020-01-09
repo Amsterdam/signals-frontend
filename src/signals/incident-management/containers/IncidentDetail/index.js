@@ -74,7 +74,7 @@ export class IncidentDetail extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.id !== this.props.id) {
+    if (prevProps.match.params.id !== this.props.match.params.id) {
       this.fetchAll();
     }
 
@@ -83,9 +83,9 @@ export class IncidentDetail extends React.Component {
       const category = this.props.incidentModel.incident.category;
       if (
         !isEqual(
-          prevProps.incidentModel.incident
-            && prevProps.incidentModel.incident.category,
-          this.props.incidentModel.incident.category,
+          prevProps.incidentModel.incident &&
+            prevProps.incidentModel.incident.category,
+          this.props.incidentModel.incident.category
         )
       ) {
         this.props.onRequestDefaultTexts({
@@ -132,14 +132,16 @@ export class IncidentDetail extends React.Component {
   }
 
   fetchAll() {
-    this.props.onRequestIncident(this.props.id);
-    this.props.onRequestHistoryList(this.props.id);
-    this.props.onRequestAttachments(this.props.id);
+    this.props.onRequestIncident(this.props.match.params.id);
+    this.props.onRequestHistoryList(this.props.match.params.id);
+    this.props.onRequestAttachments(this.props.match.params.id);
   }
 
   render() {
     const {
-      id,
+      match: {
+        params: { id },
+      },
       categories,
       onPatchIncident,
       onDismissError,
@@ -183,7 +185,7 @@ export class IncidentDetail extends React.Component {
                   <Column span={12}>
                     <DetailHeader
                       incident={incident}
-                      baseUrl={this.props.baseUrl}
+                      baseUrl="/manage"
                       onPatchIncident={onPatchIncident}
                     />
                   </Column>
@@ -302,14 +304,8 @@ IncidentDetail.propTypes = {
       location: PropTypes.bool,
       status: PropTypes.bool,
     }).isRequired,
-    error: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.object,
-    ]),
-    split: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.object,
-    ]),
+    error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+    split: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     stadsdeelList: dataListType,
     priorityList: dataListType,
     changeStatusOptionList: dataListType,
@@ -322,8 +318,11 @@ IncidentDetail.propTypes = {
   }).isRequired,
   categories: categoriesType.isRequired,
 
-  id: PropTypes.string,
-  baseUrl: PropTypes.string,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }),
+  }),
 
   onRequestIncident: PropTypes.func.isRequired,
   onPatchIncident: PropTypes.func.isRequired,
@@ -335,28 +334,27 @@ IncidentDetail.propTypes = {
 };
 
 /* istanbul ignore next */
-const mapStateToProps = () => createStructuredSelector({
-  loading: makeSelectLoading(),
-  error: makeSelectError(),
-  incidentModel: makeSelectIncidentModel(),
-  categories: makeSelectCategories(),
-  historyModel: makeSelectHistoryModel(),
-});
+const mapStateToProps = () =>
+  createStructuredSelector({
+    loading: makeSelectLoading(),
+    error: makeSelectError(),
+    incidentModel: makeSelectIncidentModel(),
+    categories: makeSelectCategories(),
+    historyModel: makeSelectHistoryModel(),
+  });
 
-export const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    onRequestIncident: requestIncident,
-    onPatchIncident: patchIncident,
-    onRequestHistoryList: requestHistoryList,
-    onRequestAttachments: requestAttachments,
-    onRequestDefaultTexts: requestDefaultTexts,
-    onDismissSplitNotification: dismissSplitNotification,
-    onDismissError: dismissError,
-  },
-  dispatch,
-);
+export const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onRequestIncident: requestIncident,
+      onPatchIncident: patchIncident,
+      onRequestHistoryList: requestHistoryList,
+      onRequestAttachments: requestAttachments,
+      onRequestDefaultTexts: requestDefaultTexts,
+      onDismissSplitNotification: dismissSplitNotification,
+      onDismissError: dismissError,
+    },
+    dispatch
+  );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IncidentDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(IncidentDetail);
