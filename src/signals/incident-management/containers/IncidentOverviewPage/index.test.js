@@ -130,6 +130,23 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
     expect(queryByTestId('pagination')).not.toBeInTheDocument();
 
+    constants.FILTER_PAGE_SIZE = 100;
+
+    rerender(
+      withAppContext(
+        <IncidentOverviewPageContainerComponent
+          {...props}
+          incidents={{
+            count: incidents.length,
+            results: incidents,
+            loading: false,
+          }}
+        />
+      )
+    );
+
+    expect(queryByTestId('pagination')).not.toBeInTheDocument();
+
     constants.FILTER_PAGE_SIZE = 99;
 
     rerender(
@@ -203,13 +220,16 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
     expect(props.pageChangedAction).not.toHaveBeenCalled();
 
+    const firstButton = getByTestId('pagination').querySelector(
+      'button:first-of-type'
+    );
+    const pagenum = parseInt(firstButton.dataset.pagenum, 10);
+
     act(() => {
-      fireEvent.click(
-        getByTestId('pagination').querySelector('button:first-of-type')
-      );
+      fireEvent.click(firstButton);
     });
 
-    expect(props.pageChangedAction).toHaveBeenCalledWith(expect.any(Number));
+    expect(props.pageChangedAction).toHaveBeenCalledWith(pagenum);
   });
 
   describe('filter modal', () => {

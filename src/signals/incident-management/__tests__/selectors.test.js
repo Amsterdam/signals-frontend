@@ -131,19 +131,20 @@ describe('signals/incident-management/selectors', () => {
   });
 
   it('should select incidents', () => {
-    const emptState = fromJS({
-      incidentManagement: { ...initialState.toJS() },
-    });
-    expect(makeSelectIncidents(emptState)).toEqual(initialState.toJS().incidents);
-
     const results = [...new Array(10).keys()].map(index => ({
       id: index + 1,
     }));
 
     const incidents = { count: 100, results }
 
+    const stateLoading = fromJS({
+      incidentManagement: { ...initialState.toJS(), loading: true, incidents },
+    });
+
+    expect(makeSelectIncidents(stateLoading)).toEqual({ ...incidents, loading: true });
+
     const state = fromJS({
-      incidentManagement: { ...initialState.toJS(), loading: false, incidents },
+      incidentManagement: { ...initialState.toJS(), incidents },
     });
 
     expect(makeSelectIncidents(state)).toEqual({ ...incidents, loading: false });
@@ -158,7 +159,7 @@ describe('signals/incident-management/selectors', () => {
 
     const count = 909;
     const state = fromJS({
-      incidentManagement: { ...initialState.toJS(), loading: false, incidents: { count } },
+      incidentManagement: { ...initialState.toJS(), incidents: { count } },
     });
 
     expect(makeSelectIncidentsCount(state)).toEqual(count);

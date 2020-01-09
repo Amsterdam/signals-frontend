@@ -92,14 +92,7 @@ describe('signals/incident-management', () => {
 
       isAuthenticated.mockImplementation(() => true);
 
-      render(
-        withAppContext(
-          <IncidentManagementModuleComponent
-            {...props}
-            searchQuery={undefined}
-          />
-        )
-      );
+      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
 
       expect(props.requestIncidentsAction).toHaveBeenCalledTimes(1);
     });
@@ -113,14 +106,7 @@ describe('signals/incident-management', () => {
 
       isAuthenticated.mockImplementation(() => true);
 
-      render(
-        withAppContext(
-          <IncidentManagementModuleComponent
-            {...props}
-            searchQuery={undefined}
-          />
-        )
-      );
+      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
 
       expect(props.searchIncidentsAction).not.toHaveBeenCalled();
 

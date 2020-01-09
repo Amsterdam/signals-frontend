@@ -47,6 +47,7 @@ export const initialState = fromJS({
     count: undefined,
     results: [],
   },
+  loading: false,
   ordering: '-created_at',
   page: 1,
   priority,
