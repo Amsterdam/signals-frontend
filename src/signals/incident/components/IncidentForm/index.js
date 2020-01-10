@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGenerator } from 'react-reactive-form';
 import get from 'lodash.get';
+import isEqual from 'lodash.isequal';
 
 import formatConditionalForm from '../../services/format-conditional-form';
 
@@ -90,7 +91,9 @@ class IncidentForm extends React.Component {
       } else {
         control.disable();
       }
-      control.setValue(incident[key]);
+      if (!isEqual(incident[key], control.value)) {
+        control.setValue(incident[key]);
+      }
     });
     this.form.updateValueAndValidity();
   }

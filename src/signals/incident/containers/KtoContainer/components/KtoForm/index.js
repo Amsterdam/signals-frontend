@@ -45,15 +45,16 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
   }
 
   setValues(incident) {
-    Object.keys(this.form.controls).map(key => {
+    Object.keys(this.form.controls).forEach(key => {
       const control = this.form.controls[key];
       if (control.meta.isVisible) {
         control.enable();
       } else {
         control.disable();
       }
-      control.setValue(incident[key]);
-      return true;
+      if (!isEqual(incident[key], control.value)) {
+        control.setValue(incident[key]);
+      }
     });
 
     this.form.updateValueAndValidity();
