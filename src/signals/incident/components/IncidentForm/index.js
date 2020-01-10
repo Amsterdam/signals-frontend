@@ -91,7 +91,6 @@ class IncidentForm extends React.Component {
         control.disable();
       }
       control.setValue(incident[key]);
-      return true;
     });
     this.form.updateValueAndValidity();
   }
