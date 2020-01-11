@@ -24,8 +24,8 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
     this.ktoForm = ktoDefinition;
   }
 
-  componentDidUpdate(props) {
-    if (!isEqual(props.ktoContainer.answers, this.props.ktoContainer.answers) && this.ktoForm && this.ktoForm.controls) {
+  componentDidUpdate(prevProps) {
+    if (!isEqual(prevProps.ktoContainer.answers, this.props.ktoContainer.answers) && this.ktoForm && this.ktoForm.controls) {
       if (this.props.ktoContainer.form.is_satisfied && this.ktoForm.controls.tevreden && this.ktoForm.controls.tevreden.meta) {
         this.ktoForm.controls.tevreden.meta.values = {
           ...this.props.ktoContainer.answers,
