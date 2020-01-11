@@ -2,10 +2,11 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
-
-import TextInput from 'signals/incident/components/form/TextInput';
-import IncidentForm from './index';
 import formatConditionalForm from '../../services/format-conditional-form';
+
+import IncidentForm from './index';
+
+import phoneForm from '../../definitions/wizard-step-3-telefoon';
 
 jest.mock('../../services/format-conditional-form/');
 
@@ -16,33 +17,30 @@ const mockControl = {
   setValue: jest.fn(),
 };
 
+// this removes the navigation buttons in the form
+// they have a separate component IncidentNavigation
+delete phoneForm.form.controls.$field_0;
+
 const mockForm = {
+  ...phoneForm.form,
   controls: {
+    ...phoneForm.form.controls,
     phone: {
       ...mockControl,
+      ...phoneForm.form.controls.phone,
       meta: {
-        label: 'Wat is uw telefoonnummer?',
-        type: 'text',
+        ...phoneForm.form.controls.phone.meta,
         isVisible: true,
       },
-      render: TextInput,
     },
-    email: {
+    privacy_text: {
       ...mockControl,
+      ...phoneForm.form.controls.privacy_text,
       meta: {
-        label: 'Wat is uw email?',
-        type: 'text',
-        isVisible: true,
-      },
-      render: TextInput,
-    },
-    extra_boten_geluid_meer: {
-      ...mockControl,
-      meta: {
-        label: 'Andere dingen?',
+        ...phoneForm.form.controls.privacy_text.meta,
         isVisible: false,
       },
-      render: TextInput,
+
     },
   },
 };
@@ -55,9 +53,7 @@ describe('<IncidentForm />', () => {
 
   beforeEach(() => {
     props = {
-      fieldConfig: {
-        controls: {},
-      },
+      fieldConfig: mockForm,
       incidentContainer: {
         incident: {},
       },
@@ -97,13 +93,13 @@ describe('<IncidentForm />', () => {
         ),
       );
 
-      expect(queryByText('Wat is uw telefoonnummer?')).toBeInTheDocument();
-      expect(queryByText('Wat is uw email?')).toBeInTheDocument();
+      expect(queryByText(mockForm.controls.phone.meta.label)).toBeInTheDocument();
+      expect(queryByText(mockForm.controls.phone.meta.subtitle)).toBeInTheDocument();
 
-      expect(queryByText('Andere dingen?')).not.toBeInTheDocument();
+      expect(queryByText(mockForm.controls.privacy_text.meta.label)).not.toBeInTheDocument();
 
-      expect(container.querySelectorAll('input').length).toEqual(2);
-      expect(queryAllByText('(optioneel)').length).toEqual(2);
+      expect(container.querySelectorAll('input').length).toEqual(1);
+      expect(queryAllByText('(optioneel)').length).toEqual(1);
     });
 
   });
