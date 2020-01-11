@@ -86,10 +86,12 @@ class IncidentForm extends React.Component {
   setValues(incident) {
     Object.keys(this.form.controls).forEach(key => {
       const control = this.form.controls[key];
-      if (control.meta.isVisible) {
-        control.enable();
-      } else {
-        control.disable();
+      if ((control.disabled && control.meta.isVisible) || (control.enabled && !control.meta.isVisible)) {
+        if (control.meta.isVisible) {
+          control.enable();
+        } else {
+          control.disable();
+        }
       }
       if (!isEqual(incident[key], control.value)) {
         control.setValue(incident[key]);
