@@ -9,7 +9,11 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+
       - name: Build
-        run: docker-compose -f action.docker-compose.yml -p sia-ci up --build --exit-code-from ci-container ci-container
-        env:
-          GIT_COMMIT: $GITHUB_SHA
+        run: npm run build
