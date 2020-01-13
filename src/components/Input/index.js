@@ -11,7 +11,7 @@ import {
 } from '@datapunt/asc-ui';
 
 const StyledInput = styled(Field)`
-  ${styles.Input}
+  ${styles.InputStyle.componentStyle.rules}
 
   &[disabled] {
     border: 1px solid ${themeColor('tint', 'level4')};

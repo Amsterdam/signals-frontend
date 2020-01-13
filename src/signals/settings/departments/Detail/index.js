@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from 'react';
+import React, { Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Column, Heading, Paragraph } from '@datapunt/asc-ui';
 
@@ -13,12 +13,9 @@ import CategoryLists from './components/CategoryLists';
 const DepartmentDetail = () => {
   const { departmentId } = useParams();
   const { isLoading, data } = useFetchDepartment(departmentId);
-  const isExistingDepartment = departmentId !== undefined;
 
-  const title = useMemo(
-    () => `Afdeling ${isExistingDepartment ? 'wijzigen' : 'toevoegen'}`,
-    [isExistingDepartment]
-  );
+  const isExistingDepartment = departmentId !== undefined;
+  const title = `Afdeling ${isExistingDepartment ? 'wijzigen' : 'toevoegen'}`;
 
   return (
     <Fragment>

@@ -1,13 +1,21 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Checkbox, themeSpacing } from '@datapunt/asc-ui';
+import { themeSpacing } from '@datapunt/asc-ui';
+
+import Checkbox from 'components/Checkbox';
 
 const FilterGroup = styled.div`
   position: relative;
 
   & + & {
     margin-top: 30px;
+  }
+`;
+
+const Wrapper = styled.div`
+  & .disabled {
+    opacity: 0.2;
   }
 `;
 
@@ -215,7 +223,7 @@ const CheckboxList = ({
         </Toggle>
       )}
 
-      {options.map(({ id, key, slug, value: label }) => {
+      {options.map(({ id, key, slug, value: label, ref }) => {
         const uid = id || key;
         const optionId = [name, uid].filter(Boolean).join('_');
         const value = slug || key;
@@ -225,18 +233,19 @@ const CheckboxList = ({
         }
 
         return (
-          <div key={optionId}>
+          <Wrapper key={optionId} className="antwoord">
             <StyledCheckbox
               checked={isChecked(groupId) || isChecked(uid)}
               data-id={uid}
               id={optionId}
               name={name}
               onChange={handleIndividualCheck}
+              ref={ref}
               type="checkbox"
               value={value}
             />
             <label htmlFor={optionId}>{label}</label>
-          </div>
+          </Wrapper>
         );
       })}
     </FilterGroup>

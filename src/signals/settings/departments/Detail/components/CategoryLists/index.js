@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -45,7 +45,9 @@ const groupSubcategoriesByMainSlug = (departmentCategories, { mainToSub }) =>
           },
         }) => href === subcategory.id
       );
+
       const departmentCatProps = {};
+      departmentCatProps.ref = React.createRef();
 
       if (departmentCategory) {
         departmentCatProps.is_responsible = departmentCategory.is_responsible;
@@ -58,6 +60,20 @@ const groupSubcategoriesByMainSlug = (departmentCategories, { mainToSub }) =>
 
     return { ...acc, [mainCategory]: subCategories };
   }, {});
+
+let event;
+if (typeof MouseEvent === 'function') {
+  event = new MouseEvent('click', {
+    view: window,
+    bubbles: true,
+    cancelable: false,
+  });
+} else {
+  event = document.createEvent('MouseEvent');
+  const bubbles = true;
+  const cancelable = false;
+  event.initEvent('click', bubbles, cancelable);
+}
 
 /**
  * Checks and disables checkbox in the can_view list of options
@@ -73,9 +89,22 @@ const checkCorresponding = ({ currentTarget }) => {
 
   if (!corresponding) return;
 
-  corresponding.checked = currentTarget.checked;
+  const sameStates = currentTarget.checked === corresponding.checked;
+
+  if (!sameStates) {
+    corresponding.dispatchEvent(event);
+  }
+
   corresponding.disabled = currentTarget.checked;
+  corresponding.parentNode.classList[corresponding.disabled ? 'add' : 'remove'](
+    'disabled'
+  );
 };
+
+const getIsResponsibleCheckboxRefs = categories =>
+  categories
+    .filter(({ id }) => id.indexOf('is_responsible_category_slug') > 0)
+    .map(({ ref }) => ref);
 
 /**
  * Checks and disables all checkbox in a grop of the can_view list of options
@@ -96,13 +125,20 @@ const CategoryLists = ({ categories, categoryGroups }) => {
     [categoryGroups, categories]
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const isResponsibleCheckboxes = document.querySelectorAll(
-      'input[type=checkbox][id^="is_responsible"]'
+      'input[type=checkbox][id*="is_responsible_category_slug"]'
     );
     const isResponsibleToggles = document.querySelectorAll(
-      'input[type=checkbox][id$="is_responsible_toggle"]'
+      'input[type=checkbox][name="maincategory_slug_is_responsible"]'
     );
+
+    const cg = categoriesGrouped;
+    debugger;
+    const isResponsibleCheckboxRefs = getIsResponsibleCheckboxRefs(
+      categoriesGrouped
+    );
+    debugger;
 
     if (!isResponsibleCheckboxes.length) return undefined;
 
@@ -123,14 +159,14 @@ const CategoryLists = ({ categories, categoryGroups }) => {
 
     return () => {
       isResponsibleCheckboxes.forEach(element => {
-        element.removeEventListener('click', checkCorresponding);
+        element.removeEventListener('change', checkCorresponding);
       });
 
       isResponsibleToggles.forEach(toggleElement => {
         toggleElement.removeEventListener('change', checkAllCorresponding);
       });
     };
-  }, []);
+  });
 
   /**
    * Selecting categories:
@@ -138,7 +174,6 @@ const CategoryLists = ({ categories, categoryGroups }) => {
    * - is_responsible checked disables the corresponding can_view checkbox
    * - can_view checkbox is enabled when corresponding is_responsible checkbox is not checked
    */
-
   return (
     <Row>
       <Column span={6}>
@@ -165,9 +200,9 @@ const CategoryLists = ({ categories, categoryGroups }) => {
                     groupValue={`${mainCatObj.slug}_is_responsible`}
                     hasToggle
                     key={mainCategory}
-                    name={`${mainCatObj.slug}_category_slug`}
+                    name={`${mainCatObj.slug}_is_responsible_category_slug`}
                     options={options}
-                    title={mainCatObj.value}
+                    title={<Label as="span">{mainCatObj.value}</Label>}
                   />
                 );
               })}
@@ -198,9 +233,9 @@ const CategoryLists = ({ categories, categoryGroups }) => {
                     groupValue={`${mainCatObj.slug}_can_view`}
                     hasToggle
                     key={mainCategory}
-                    name={`${mainCatObj.slug}_category_slug`}
+                    name={`${mainCatObj.slug}_can_view_category_slug`}
                     options={options}
-                    title={mainCatObj.value}
+                    title={<Label as="span">{mainCatObj.value}</Label>}
                   />
                 );
               })}
