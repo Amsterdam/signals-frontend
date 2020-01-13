@@ -1,19 +1,29 @@
 import {
+  SEARCH_INCIDENTS,
+  APPLY_FILTER_REFRESH_STOP,
+  APPLY_FILTER_REFRESH,
   APPLY_FILTER,
-  CLEAR_FILTER,
+  CLEAR_EDIT_FILTER,
   EDIT_FILTER,
   FILTER_EDIT_CANCELED,
   GET_FILTERS_FAILED,
   GET_FILTERS_SUCCESS,
   GET_FILTERS,
-  ORDERING_INCIDENTS_CHANGED,
-  PAGE_INCIDENTS_CHANGED,
+  ORDERING_CHANGED,
+  PAGE_CHANGED,
   REMOVE_FILTER_FAILED,
   REMOVE_FILTER_SUCCESS,
   REMOVE_FILTER,
+  REQUEST_INCIDENTS_ERROR,
+  REQUEST_INCIDENTS_SUCCESS,
+  REQUEST_INCIDENTS,
+  RESET_SEARCH_QUERY,
   SAVE_FILTER_FAILED,
   SAVE_FILTER_SUCCESS,
   SAVE_FILTER,
+  SEARCH_INCIDENTS_ERROR,
+  SEARCH_INCIDENTS_SUCCESS,
+  SET_SEARCH_QUERY,
   UPDATE_FILTER_FAILED,
   UPDATE_FILTER_SUCCESS,
   UPDATE_FILTER,
@@ -58,6 +68,14 @@ export const editFilter = payload => ({
   payload,
 });
 
+export const filterEditCanceled = () => ({
+  type: FILTER_EDIT_CANCELED,
+});
+
+export const clearEditFilter = () => ({
+  type: CLEAR_EDIT_FILTER,
+});
+
 export const filterSaved = payload => ({
   type: SAVE_FILTER,
   payload,
@@ -88,20 +106,57 @@ export const filterUpdatedFailed = payload => ({
   payload,
 });
 
-export const filterCleared = () => ({
-  type: CLEAR_FILTER,
-});
-
-export const filterEditCanceled = () => ({
-  type: FILTER_EDIT_CANCELED,
-});
-
-export const pageIncidentsChanged = page => ({
-  type: PAGE_INCIDENTS_CHANGED,
+export const pageChanged = page => ({
+  type: PAGE_CHANGED,
   payload: page,
 });
 
-export const orderingIncidentsChanged = ordering => ({
-  type: ORDERING_INCIDENTS_CHANGED,
+export const orderingChanged = ordering => ({
+  type: ORDERING_CHANGED,
   payload: ordering,
+});
+
+export const requestIncidents = () => ({
+  type: REQUEST_INCIDENTS,
+});
+
+export const requestIncidentsSuccess = payload => ({
+  type: REQUEST_INCIDENTS_SUCCESS,
+  payload,
+});
+
+export const requestIncidentsError = payload => ({
+  type: REQUEST_INCIDENTS_ERROR,
+  payload,
+});
+
+export const applyFilterRefresh = () => ({
+  type: APPLY_FILTER_REFRESH,
+});
+
+export const applyFilterRefreshStop = () => ({
+  type: APPLY_FILTER_REFRESH_STOP,
+});
+
+export const setSearchQuery = payload => ({
+  type: SET_SEARCH_QUERY,
+  payload,
+});
+
+export const resetSearchQuery = () => ({
+  type: RESET_SEARCH_QUERY,
+});
+
+export const searchIncidents = () => ({
+  type: SEARCH_INCIDENTS,
+});
+
+export const searchIncidentsSuccess = payload => ({
+  type: SEARCH_INCIDENTS_SUCCESS,
+  payload,
+});
+
+export const searchIncidentsError = payload => ({
+  type: SEARCH_INCIDENTS_ERROR,
+  payload,
 });

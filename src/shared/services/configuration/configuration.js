@@ -100,6 +100,10 @@ export class Configuration {
     return this.config.API_ROOT_MAPSERVER;
   }
 
+  get SEARCH_ENDPOINT() {
+    return `${this.API_ROOT}signals/v1/private/search`;
+  }
+
   get PREDICTION_ENDPOINT() {
     return `${this.API_ROOT}signals/category/prediction`;
   }

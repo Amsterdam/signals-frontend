@@ -6,6 +6,26 @@ import Pagination from '..';
 describe('src/components/Pagination', () => {
   const totalPages = 10;
 
+  it('should not render anything when there is just one page', () => {
+    const { queryByTestId, rerender } = render(
+      withAppContext(<Pagination totalPages={0} currentPage={1} />)
+    );
+
+    expect(queryByTestId('pagination')).not.toBeInTheDocument();
+
+    rerender(
+      withAppContext(<Pagination totalPages={1} currentPage={1} />)
+    );
+
+    expect(queryByTestId('pagination')).not.toBeInTheDocument();
+
+    rerender(
+      withAppContext(<Pagination totalPages={2} currentPage={1} />)
+    );
+
+    expect(queryByTestId('pagination')).toBeInTheDocument();
+  });
+
   it('should render only next button', () => {
     const { queryByTestId } = render(
       withAppContext(<Pagination totalPages={totalPages} currentPage={1} />)

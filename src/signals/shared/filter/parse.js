@@ -1,4 +1,5 @@
 import clonedeep from 'lodash.clonedeep';
+import moment from 'moment';
 
 const arrayFields = [
   'stadsdeel',
@@ -64,6 +65,16 @@ export const parseOutputFormData = form => {
     name, refresh, id, ...options
   } = parsed;
 
+  // before/after params require a specific format that includes the time
+  // since `created_before` means before and including, we add a day
+  if (moment(options.created_before, 'YYYY-MM-DD').toISOString() !== null) {
+    options.created_before = moment(options.created_before).set({ hours: 23, minutes: 59, seconds: 59 }).format('YYYY-MM-DDTkk:mm:ss');
+  }
+
+  if (moment(options.created_after, 'YYYY-MM-DD').toISOString() !== null) {
+    options.created_after = moment(options.created_after).format('YYYY-MM-DDT00:00:00');
+  }
+
   return {
     name, refresh: !!refresh, id, options,
   };
@@ -75,6 +86,7 @@ export const parseOutputFormData = form => {
  * Turns scalar values into arrays where necessary and replaces keys and slugs with objects
  *
  * @param   {Object} filterData - Data to be passed on to the form
+ * @param   {Object} filterData.options - options key/value object
  * @param   {Object} dataLists - collection of fixtures that is used to enrich the filter data with
  * @returns {Object}
  */
@@ -84,18 +96,7 @@ export const parseInputFormData = (filterData, dataLists) => {
   parsed.id = filterData.id;
   parsed.refresh = filterData.refresh;
 
-  /* istanbul ignore else */
   if (Object.keys(filterData).length) {
-    // convert scalar values to arrays
-    Object.keys(filterData).forEach(fieldName => {
-      if (
-        arrayFields.includes(fieldName)
-        && !Array.isArray(filterData[fieldName])
-      ) {
-        parsed[fieldName] = [filterData[fieldName]];
-      }
-    });
-
     // replace string entries in filter data with objects from dataLists
     Object.keys(parsed)
       .filter(fieldName => arrayFields.includes(fieldName))
