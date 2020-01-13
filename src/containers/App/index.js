@@ -1,8 +1,11 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import {
+  Switch, Route, Redirect, withRouter, useHistory,
+} from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import defer from 'lodash.defer';
 
 import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
 import ThemeProvider from 'components/ThemeProvider';
@@ -25,10 +28,26 @@ import { requestCategories } from './actions';
 export const AppContainer = ({ requestCategoriesAction }) => {
   // on each component render, see if the current session is authenticated
   authenticate();
+  const history = useHistory();
 
   useEffect(() => {
     requestCategoriesAction();
   }, [requestCategoriesAction]);
+
+  useEffect(() => {
+    const unlisten = history.listen(() => {
+      defer(() => {
+        global.window.scrollTo({
+          top: 0,
+          left: 0,
+        });
+      });
+    });
+
+    return () => {
+      unlisten();
+    };
+  }, [history]);
 
   return (
     <ThemeProvider>

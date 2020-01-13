@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { themeSpacing } from '@datapunt/asc-ui';
 
 export const Form = styled.form`
   column-count: 2;
@@ -50,4 +51,11 @@ export const Fieldset = styled.fieldset`
     background-color: #f5f5f5;
     padding: 15px 20px;
   `}
+`;
+
+export const DatesWrapper = styled.div`
+  display: flex;
+  & > * + * {
+    margin-left: ${themeSpacing(5)};
+  }
 `;

@@ -1,20 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { Route, Redirect, Switch, useLocation } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 
 import LoginPage from 'components/LoginPage';
-import NotFoundPage from 'components/NotFoundPage';
+import {
+  makeSelectUserCanAccess,
+  makeSelectUserCan,
+} from 'containers/App/selectors';
+
+import { fetchRoles, fetchPermissions } from 'models/roles/actions';
+import { fetchDepartments } from 'models/departments/actions';
 
 import routes, { USERS_PAGED_URL, USER_URL, ROLE_URL } from './routes';
 import UsersOverviewContainer from './users/containers/Overview';
 import RolesListContainer from './roles/containers/RolesListContainer';
 import RoleFormContainer from './roles/containers/RoleFormContainer';
 import UsersDetailContainer from './users/containers/Detail';
+import DepartmentsOverviewContainer from './departments/Overview';
+import DepartmentsDetailContainer from './departments/Detail';
 
-export const SettingsModule = () => {
+export const SettingsModule = ({
+  onFetchDepartments,
+  onFetchPermissions,
+  onFetchRoles,
+  userCan,
+  userCanAccess,
+}) => {
   const moduleLocation = useLocation();
   const [location, setLocation] = useState(moduleLocation);
+
+  useEffect(() => {
+    onFetchDepartments();
+    onFetchRoles();
+    onFetchPermissions();
+  }, [onFetchDepartments, onFetchPermissions, onFetchRoles]);
 
   // subscribe to updates and set the referrer when page URLs differ
   useEffect(() => {
@@ -32,30 +56,91 @@ export const SettingsModule = () => {
     return <Route component={LoginPage} />;
   }
 
+  if (userCanAccess('settings') === false) {
+    return <Redirect to="/manage/incidents" />;
+  }
+
   return (
-    <Switch location={location}>
-      {/*
-       * always redirect from /gebruikers to /gebruikers/page/1 to avoid having complexity
-       * in the UsersOverviewContainer component
-       */}
-      <Redirect
-        exact
-        from={routes.users}
-        to={`${USERS_PAGED_URL}/1`}
-      />
-      <Route
-        exact
-        path={routes.usersPaged}
-        component={UsersOverviewContainer}
-      />
-      <Route exact path={routes.user} component={UsersDetailContainer} />
-      <Route exact path={USER_URL} component={UsersDetailContainer} />
-      <Route exact path={routes.roles} component={RolesListContainer} />
-      <Route exact path={routes.role} component={RoleFormContainer} />
-      <Route exact path={ROLE_URL} component={RoleFormContainer} />
-      <Route component={NotFoundPage} />
-    </Switch >
+    <Fragment>
+      {userCanAccess('groups') && (
+        <Switch location={location}>
+          <Route exact path={routes.roles} component={RolesListContainer} />
+
+          {userCanAccess('groupForm') && (
+            <Route exact path={routes.role} component={RoleFormContainer} />
+          )}
+          {userCan('add_group') && (
+            <Route exact path={ROLE_URL} component={RoleFormContainer} />
+          )}
+        </Switch>
+      )}
+
+      {userCanAccess('users') && (
+        <Switch location={location}>
+          {/*
+           * always redirect from /gebruikers to /gebruikers/page/1 to avoid having complexity
+           * in the UsersOverviewContainer component
+           */}
+          <Redirect exact from={routes.users} to={`${USERS_PAGED_URL}/1`} />
+          <Route
+            exact
+            path={routes.usersPaged}
+            component={UsersOverviewContainer}
+          />
+
+          {userCanAccess('userForm') && (
+            <Route exact path={routes.user} component={UsersDetailContainer} />
+          )}
+          {userCan('add_user') && (
+            <Route exact path={USER_URL} component={UsersDetailContainer} />
+          )}
+        </Switch>
+      )}
+
+      {userCanAccess('departments') && (
+        <Switch location={location}>
+          <Route
+            exact
+            path={routes.departments}
+            component={DepartmentsOverviewContainer}
+          />
+
+          {userCanAccess('departmentForm') && (
+            <Route
+              exact
+              path={routes.department}
+              component={DepartmentsDetailContainer}
+            />
+          )}
+        </Switch>
+      )}
+    </Fragment>
   );
 };
 
-export default SettingsModule;
+SettingsModule.propTypes = {
+  onFetchDepartments: PropTypes.func.isRequired,
+  onFetchPermissions: PropTypes.func.isRequired,
+  onFetchRoles: PropTypes.func.isRequired,
+  userCan: PropTypes.func.isRequired,
+  userCanAccess: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = createStructuredSelector({
+  userCan: makeSelectUserCan,
+  userCanAccess: makeSelectUserCanAccess,
+});
+
+export const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onFetchDepartments: fetchDepartments,
+      onFetchPermissions: fetchPermissions,
+      onFetchRoles: fetchRoles,
+    },
+    dispatch
+  );
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default withConnect(SettingsModule);

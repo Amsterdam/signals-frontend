@@ -1,18 +1,19 @@
 import { fromJS } from 'immutable';
 import * as definitions from 'signals/incident-management/definitions';
-import selectSearchDomain from 'models/search/selectors';
 import {
   makeSelectFilterParams,
   makeSelectDataLists,
   makeSelectAllFilters,
   makeSelectActiveFilter,
   makeSelectEditFilter,
+  makeSelectPage,
+  makeSelectOrdering,
+  makeSelectIncidents,
+  makeSelectIncidentsCount,
 } from '../selectors';
 import { FILTER_PAGE_SIZE } from '../constants';
 
 import { initialState } from '../reducer';
-
-jest.mock('models/search/selectors');
 
 const filters = [
   {
@@ -103,12 +104,71 @@ describe('signals/incident-management/selectors', () => {
     expect(makeSelectEditFilter(state).id).toEqual(filters[2].id);
   });
 
-  describe('makeSelectFilterParams', () => {
-    selectSearchDomain.mockImplementation(() => fromJS({ query: '' }));
+  it('should select page', () => {
+    const emptState = fromJS({
+      incidentManagement: { ...initialState.toJS() },
+    });
+    expect(makeSelectPage(emptState)).toEqual(initialState.toJS().page);
 
+    const state = fromJS({
+      incidentManagement: { ...initialState.toJS(), page: 100 },
+    });
+
+    expect(makeSelectPage(state)).toEqual(100);
+  });
+
+  it('should select ordering', () => {
+    const emptState = fromJS({
+      incidentManagement: { ...initialState.toJS() },
+    });
+    expect(makeSelectOrdering(emptState)).toEqual(initialState.toJS().ordering);
+
+    const state = fromJS({
+      incidentManagement: { ...initialState.toJS(), ordering: 'some-ordering-type' },
+    });
+
+    expect(makeSelectOrdering(state)).toEqual('some-ordering-type');
+  });
+
+  it('should select incidents', () => {
+    const results = [...new Array(10).keys()].map(index => ({
+      id: index + 1,
+    }));
+
+    const incidents = { count: 100, results };
+
+    const stateLoading = fromJS({
+      incidentManagement: { ...initialState.toJS(), loading: true, incidents },
+    });
+
+    expect(makeSelectIncidents(stateLoading)).toEqual({ ...incidents, loading: true });
+
+    const state = fromJS({
+      incidentManagement: { ...initialState.toJS(), incidents },
+    });
+
+    expect(makeSelectIncidents(state)).toEqual({ ...incidents, loading: false });
+  });
+
+  it('should select incidents count', () => {
+    const emptState = fromJS({
+      incidentManagement: { ...initialState.toJS() },
+    });
+
+    expect(makeSelectIncidentsCount(emptState)).toEqual(initialState.toJS().incidents.count);
+
+    const count = 909;
+    const state = fromJS({
+      incidentManagement: { ...initialState.toJS(), incidents: { count } },
+    });
+
+    expect(makeSelectIncidentsCount(state)).toEqual(count);
+  });
+
+  describe('makeSelectFilterParams', () => {
     it('should select filter params', () => {
       const emptyState = fromJS({
-        incidentManagement: { ...initialState.toJS(), editFilter: filters[1] },
+        incidentManagement: { ...initialState.toJS(), editFilter: filters[1], searchQuery: '' },
       });
 
       expect(makeSelectFilterParams(emptyState)).toEqual({
@@ -147,17 +207,6 @@ describe('signals/incident-management/selectors', () => {
       expect(makeSelectFilterParams(state2)).toEqual({
         ordering: 'created_at',
         page: 1,
-        page_size: FILTER_PAGE_SIZE,
-      });
-    });
-
-    it('should return params with id search', () => {
-      selectSearchDomain.mockImplementation(() => fromJS({ query: 'Foo bar baz' }));
-
-      expect(makeSelectFilterParams()).toEqual({
-        ordering: '-created_at',
-        page: 1,
-        id: 'Foo bar baz',
         page_size: FILTER_PAGE_SIZE,
       });
     });

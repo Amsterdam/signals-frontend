@@ -28,11 +28,12 @@ describe('components/SiteHeader', () => {
     history.push('/');
 
     const { container, rerender, queryByText } = render(
-      withAppContext(<SiteHeader permissions={[]} />)
+      withAppContext(<SiteHeader />)
     );
 
     // menu items
-    expect(queryByText('Melden')).toBeNull();
+    expect(queryByText('Melden')).not.toBeInTheDocument();
+    expect(queryByText('Help')).not.toBeInTheDocument();
 
     // inline menu should not be visible
     expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(
@@ -51,7 +52,7 @@ describe('components/SiteHeader', () => {
 
     history.push('/manage');
 
-    rerender(withAppContext(<SiteHeader permissions={[]} />));
+    rerender(withAppContext(<SiteHeader />));
 
     expect(queryByText('Melden')).toBeNull();
   });
@@ -61,12 +62,11 @@ describe('components/SiteHeader', () => {
 
     history.push('/');
 
-    const { container, queryByText } = render(
-      withAppContext(<SiteHeader permissions={[]} />)
-    );
+    const { container, queryByText } = render(withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: true }} />));
 
     // menu items
-    expect(queryByText('Melden')).not.toBeNull();
+    expect(queryByText('Melden')).toBeInTheDocument();
+    expect(queryByText('Help')).toBeInTheDocument();
 
     // inline menu should be visible, with a dropdown for instellingen
     expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(
@@ -80,10 +80,40 @@ describe('components/SiteHeader', () => {
 
     history.push('/manage');
 
-    render(withAppContext(<SiteHeader permissions={[]} />));
+    render(withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: true }} />));
 
     // toggle menu should be visible
     expect(document.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(2);
+  });
+
+  it('should render the correct homeLink', () => {
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
+
+    const { container, rerender } = render(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/' }} />,
+      ),
+    );
+
+    expect(container.querySelector('h1 a[href="https://www.amsterdam.nl"]')).toBeInTheDocument();
+
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/' }} />,
+      ),
+    );
+
+    expect(container.querySelector('h1 a[href="/"]')).toBeInTheDocument();
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} location={{ pathname: '/manage/incidents' }} />,
+      ),
+    );
+
+    expect(container.querySelector('h1 a[href="/"]')).toBeInTheDocument();
   });
 
   it('should render a title', () => {
@@ -91,9 +121,7 @@ describe('components/SiteHeader', () => {
 
     history.push('/');
 
-    const { queryByText } = render(
-      withAppContext(<SiteHeader permissions={[]} />)
-    );
+    const { queryByText } = render(withAppContext(<SiteHeader />));
 
     const title = 'SIA';
 
@@ -106,7 +134,7 @@ describe('components/SiteHeader', () => {
 
     history.push('/');
 
-    render(withAppContext(<SiteHeader permissions={[]} />));
+    render(withAppContext(<SiteHeader />));
 
     // do show title in front office when authenticated
     expect(queryByText(title)).not.toBeNull();
@@ -117,7 +145,7 @@ describe('components/SiteHeader', () => {
 
     history.push('/manage');
 
-    render(withAppContext(<SiteHeader permissions={[]} />));
+    render(withAppContext(<SiteHeader />));
 
     // don't show title in back office when not authenticated
     expect(queryByText(title)).toBeNull();
@@ -126,7 +154,7 @@ describe('components/SiteHeader', () => {
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    render(withAppContext(<SiteHeader permissions={[]} />));
+    render(withAppContext(<SiteHeader />));
 
     // do show title in back office when authenticated
     expect(queryByText(title)).not.toBeNull();
@@ -138,9 +166,7 @@ describe('components/SiteHeader', () => {
     history.push('/');
 
     const { container, rerender } = render(
-      withAppContext(
-        <SiteHeader permissions={[]} location={{ pathname: '/' }} />
-      )
+      withAppContext(<SiteHeader location={{ pathname: '/' }} />)
     );
 
     expect(
@@ -151,7 +177,7 @@ describe('components/SiteHeader', () => {
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    rerender(withAppContext(<SiteHeader permissions={[]} />));
+    rerender(withAppContext(<SiteHeader />));
 
     expect(
       container.querySelector('.siteHeader').classList.contains('isShort')
@@ -163,7 +189,7 @@ describe('components/SiteHeader', () => {
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
-    rerender(withAppContext(<SiteHeader permissions={[]} />));
+    rerender(withAppContext(<SiteHeader />));
 
     expect(
       container.querySelector('.siteHeader').classList.contains('isTall')
@@ -173,7 +199,7 @@ describe('components/SiteHeader', () => {
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    rerender(withAppContext(<SiteHeader permissions={[]} />));
+    rerender(withAppContext(<SiteHeader />));
 
     expect(
       container.querySelector('.siteHeader').classList.contains('isShort')
@@ -184,8 +210,7 @@ describe('components/SiteHeader', () => {
     const { queryByText } = render(
       withAppContext(
         <SiteHeader
-          permissions={['signals.sia_statusmessagetemplate_write']}
-          isAuthenticated
+          showItems={{ defaultTexts: true }}
           location={{ pathname: '/incident/beschrijf' }}
         />
       )
@@ -196,13 +221,7 @@ describe('components/SiteHeader', () => {
 
   it('should render correctly when logged in', () => {
     const { container, queryByText } = render(
-      withAppContext(
-        <SiteHeader
-          isAuthenticated
-          permissions={[]}
-          location={{ pathname: '/' }}
-        />
-      )
+      withAppContext(<SiteHeader location={{ pathname: '/' }} />)
     );
 
     // afhandelen menu item
@@ -223,7 +242,7 @@ describe('components/SiteHeader', () => {
     const onLogOut = jest.fn();
 
     const { getByText } = render(
-      withAppContext(<SiteHeader permissions={[]} onLogOut={onLogOut} />)
+      withAppContext(<SiteHeader onLogOut={onLogOut} />)
     );
 
     const logOutButton = getByText('Uitloggen');
@@ -240,5 +259,37 @@ describe('components/SiteHeader', () => {
     });
 
     expect(onLogOut).toHaveBeenCalled();
+  });
+
+  it('should show items', () => {
+    const { rerender, queryByText } = render(withAppContext(<SiteHeader showItems={{ settings: false, users: true, groups: true }} />));
+
+    expect(queryByText('Instellingen')).not.toBeInTheDocument();
+    expect(queryByText('Gebruikers')).not.toBeInTheDocument();
+    expect(queryByText('Rollen')).not.toBeInTheDocument();
+
+    rerender(withAppContext(<SiteHeader showItems={{ settings: true, users: false, groups: false }} />));
+
+    expect(queryByText('Instellingen')).not.toBeInTheDocument();
+    expect(queryByText('Gebruikers')).not.toBeInTheDocument();
+    expect(queryByText('Rollen')).not.toBeInTheDocument();
+
+    rerender(withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: false }} />));
+
+    expect(queryByText('Instellingen')).toBeInTheDocument();
+    expect(queryByText('Gebruikers')).toBeInTheDocument();
+    expect(queryByText('Rollen')).not.toBeInTheDocument();
+
+    rerender(withAppContext(<SiteHeader showItems={{ settings: true, users: false, groups: true }} />));
+
+    expect(queryByText('Instellingen')).toBeInTheDocument();
+    expect(queryByText('Gebruikers')).not.toBeInTheDocument();
+    expect(queryByText('Rollen')).toBeInTheDocument();
+
+    rerender(withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: true }} />));
+
+    expect(queryByText('Instellingen')).toBeInTheDocument();
+    expect(queryByText('Gebruikers')).toBeInTheDocument();
+    expect(queryByText('Rollen')).toBeInTheDocument();
   });
 });

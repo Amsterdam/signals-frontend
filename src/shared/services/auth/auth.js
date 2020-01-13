@@ -58,7 +58,7 @@ const RETURN_PATH = 'returnPath';
 const STATE_TOKEN = 'stateToken';
 // The access token returned by the OAuth2 authorization service
 // containing user userScopes and name
-export const ACCESS_TOKEN = 'accessToken';
+const ACCESS_TOKEN = 'accessToken';
 
 const OAUTH_DOMAIN = 'oauthDomain';
 
@@ -136,6 +136,7 @@ function getAccessTokenFromParams(params) {
 function handleCallback() {
   const params = queryStringParser(global.location.hash);
   const accessToken = getAccessTokenFromParams(params);
+
   if (accessToken) {
     tokenData = accessTokenParser(accessToken);
     localStorage.setItem(ACCESS_TOKEN, accessToken);

@@ -8,14 +8,16 @@ const dateTypeFactory = isRequired =>
    * @param  {String} componentName - component name
    * @return {(Error|null)}
    */
-  (props, propName, componentName) => { // eslint-disable-line implicit-arrow-linebreak
+  (props, propName, componentName) => {
+    // eslint-disable-line implicit-arrow-linebreak
     const date = props[propName];
-    const errorMsg = msg => `Invalid prop \`${propName}\` supplied to \`${componentName}\`. ${msg}. Validation failed.`;
+    const errorMsg = msg =>
+      `Invalid prop \`${propName}\` supplied to \`${componentName}\`. ${msg}. Validation failed.`;
 
     if (date === undefined) {
       return isRequired
         ? new Error(
-          `The prop \`${propName}\` is marked as required in \`${componentName}\`, but its value is \`${date}\``,
+          `The prop \`${propName}\` is marked as required in \`${componentName}\`, but its value is \`${date}\``
         )
         : null;
     }
@@ -49,8 +51,9 @@ export const apiFilterType = PropTypes.shape({
   options: PropTypes.shape({
     address_text: PropTypes.string,
     category_slug: PropTypes.arrayOf(PropTypes.string),
+    created_after: PropTypes.string,
+    created_before: PropTypes.string,
     feedback: PropTypes.string,
-    incident_date: PropTypes.string,
     maincategory_slug: PropTypes.arrayOf(PropTypes.string),
     priority: PropTypes.arrayOf(PropTypes.string),
     stadsdeel: PropTypes.arrayOf(PropTypes.string),
@@ -69,8 +72,9 @@ export const filterType = PropTypes.shape({
   options: PropTypes.shape({
     address_text: PropTypes.string,
     category_slug: PropTypes.arrayOf(dataItemType),
+    created_after: PropTypes.string,
+    created_before: PropTypes.string,
     feedback: PropTypes.string,
-    incident_date: PropTypes.string,
     maincategory_slug: PropTypes.arrayOf(dataItemType),
     priority: PropTypes.string,
     stadsdeel: PropTypes.arrayOf(dataItemType),
@@ -117,10 +121,12 @@ export const incidentType = PropTypes.shape({
     incident_date_start: dateType,
     location: locationType,
   }),
-  notes: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string,
-    created_by: PropTypes.string,
-  })),
+  notes: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string,
+      created_by: PropTypes.string,
+    })
+  ),
   priority: PropTypes.shape({
     priority: PropTypes.string,
   }),
@@ -204,3 +210,37 @@ export const overviewPageType = PropTypes.shape({
   page: PropTypes.number,
   sort: PropTypes.string,
 });
+
+export const departmentCategory = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  is_responsible: PropTypes.bool,
+  can_view: PropTypes.bool,
+  category: PropTypes.shape({
+    _links: PropTypes.shape({
+      self: PropTypes.shape({
+        href: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+    _display: PropTypes.string.isRequired,
+    departments: PropTypes.arrayOf(
+      PropTypes.shape({
+        code: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        is_intern: PropTypes.bool,
+      })
+    ).isRequired,
+    handling_message: PropTypes.string,
+    handling: PropTypes.string.isRequired,
+    is_active: PropTypes.bool,
+    name: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
+  }),
+});
+
+export const departmentCategories = PropTypes.arrayOf(departmentCategory);
+
+export const permissionsType = PropTypes.arrayOf(PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  codename: PropTypes.string.isRequired,
+}));

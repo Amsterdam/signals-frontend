@@ -13,7 +13,7 @@ jest.mock('react-router-dom', () => ({
   useHistory: () => ({}),
 }));
 
-describe('/signals/settings/roles/components/RolesList', () => {
+describe('signals/settings/roles/containers/RolesListContainer/components/RolesList', () => {
   let props = {};
 
   beforeEach(() => {
@@ -66,5 +66,24 @@ describe('/signals/settings/roles/components/RolesList', () => {
     );
 
     expect(push).toHaveBeenCalledWith(`${ROLE_URL}/2`);
+  });
+
+  it('should have disabled links', () => {
+    const push = jest.fn();
+    jest
+      .spyOn(reactRouterDom, 'useHistory')
+      .mockImplementationOnce(() => ({ push }));
+
+    const { container } = render(withAppContext(<RolesList {...props} linksEnabled={false} />));
+    const event = { currentTarget: { getAttribute: () => 2 } };
+
+    expect(push).not.toHaveBeenCalled();
+
+    fireEvent.click(
+      container.querySelector('tr:nth-child(1) td:nth-child(1)'),
+      event
+    );
+
+    expect(push).not.toHaveBeenCalled();
   });
 });

@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import moment from 'moment';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { parseOutputFormData } from 'signals/shared/filter/parse';
 import * as types from 'shared/types';
 import FormFooter from 'components/FormFooter';
-import Input from 'components/Input';
 import Label from 'components/Label';
+import Input from 'components/Input';
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 
 import CheckboxList from '../CheckboxList';
 import RadioButtonList from '../RadioButtonList';
-import { ControlsWrapper, Fieldset, FilterGroup, Form } from './styled';
+import { ControlsWrapper,
+  DatesWrapper, Fieldset, FilterGroup, Form } from './styled';
+import CalendarInput from '../CalendarInput';
 
 export const defaultSubmitBtnLabel = 'Filteren';
 export const saveSubmitBtnLabel = 'Opslaan en filteren';
@@ -34,111 +35,132 @@ const FilterForm = ({
   const { feedback, priority, stadsdeel, status, source } = dataLists;
   const [submitBtnLabel, setSubmitBtnLabel] = useState(defaultSubmitBtnLabel);
   const [filterData, setFilterData] = useState(filter);
-  const filterSlugs = (filterData.options.maincategory_slug || []).concat(
-    filterData.options.category_slug || []
+  const filterSlugs = useMemo(
+    () =>
+      (filterData.options.maincategory_slug || []).concat(
+        filterData.options.category_slug || []
+      ),
+    [filterData.options.maincategory_slug, filterData.options.category_slug]
+  );
+  const isNewFilter = useMemo(() => !filter.name, [filter.name]);
+
+  const dateFrom = useMemo(
+    () =>
+      filterData.options &&
+      filterData.options.created_after &&
+      moment(filterData.options.created_after),
+    [filterData.options]
   );
 
-  const onSubmitForm = event => {
-    const formData = parseOutputFormData(event.target.form);
-    const isNewFilter = !filterData.name;
-    const hasName = formData.name.trim() !== '';
-    const valuesHaveChanged = !isEqual(formData, filterData);
+  const dateBefore = useMemo(
+    () =>
+      filterData.options &&
+      filterData.options.created_before &&
+      moment(filterData.options.created_before),
+    [filterData.options]
+  );
 
-    /* istanbul ignore else */
-    if (typeof onSaveFilter === 'function' && isNewFilter && hasName) {
-      onSaveFilter(formData);
-    }
+  const onSubmitForm = useCallback(
+    event => {
+      const formData = parseOutputFormData(event.target.form);
+      const hasName = formData.name.trim() !== '';
+      const valuesHaveChanged = !isEqual(formData, filterData);
 
-    /* istanbul ignore else */
-    if (
-      typeof onUpdateFilter === 'function' &&
-      !isNewFilter &&
-      valuesHaveChanged
-    ) {
-      if (formData.name.trim() === '') {
-        event.preventDefault();
-        global.window.alert('Filter naam mag niet leeg zijn');
-        return;
+      if (isNewFilter && hasName) {
+        onSaveFilter(formData);
       }
-      onUpdateFilter(formData);
-    }
 
-    /* istanbul ignore else */
-    if (typeof onSubmit === 'function') {
+      if (!isNewFilter && valuesHaveChanged) {
+        if (formData.name.trim() === '') {
+          event.preventDefault();
+          global.window.alert('Filter naam mag niet leeg zijn');
+          return;
+        }
+        onUpdateFilter(formData);
+      }
+
       onSubmit(event, formData);
-    }
-  };
+    },
+    [filterData, isNewFilter, onSaveFilter, onSubmit, onUpdateFilter]
+  );
 
   /**
    * Form reset handler
    *
    * Clears filterData state by setting values for controlled fields
    */
-  const onResetForm = () => {
+  const onResetForm = useCallback(() => {
     setFilterData({
       name: '',
       refresh: false,
       options: {},
     });
 
-    /* istanbul ignore else */
-    if (typeof onClearFilter === 'function') {
-      onClearFilter();
-    }
-  };
+    onClearFilter();
+  }, [onClearFilter]);
 
-  const onChangeForm = event => {
-    const isNewFilter = !filterData.name;
-
-    /* istanbul ignore else */
-    if (isNewFilter) {
-      return;
-    }
-
-    const formData = parseOutputFormData(event.currentTarget);
-    const valuesHaveChanged = !isEqual(formData, filterData);
-    const btnHasSaveLabel = submitBtnLabel === saveSubmitBtnLabel;
-
-    /* istanbul ignore else */
-    if (valuesHaveChanged) {
-      if (!btnHasSaveLabel) {
-        setSubmitBtnLabel(saveSubmitBtnLabel);
+  const onChangeForm = useCallback(
+    event => {
+      if (isNewFilter) {
+        return;
       }
 
-      return;
-    }
+      const formData = parseOutputFormData(event.form);
+      const valuesHaveChanged = !isEqual(formData, filterData);
+      const btnHasSaveLabel = submitBtnLabel === saveSubmitBtnLabel;
 
-    /* istanbul ignore else */
-    if (!btnHasSaveLabel) {
-      return;
-    }
+      if (valuesHaveChanged && !btnHasSaveLabel) {
+        setSubmitBtnLabel(saveSubmitBtnLabel);
+      }
+    },
+    [filterData, isNewFilter, submitBtnLabel]
+  );
 
-    setSubmitBtnLabel(defaultSubmitBtnLabel);
-  };
+  const onNameChange = useCallback(
+    event => {
+      const { value } = event.target;
+      const nameHasChanged = typeof value === 'string' && value !== filter.name;
 
-  const onNameChange = event => {
-    const { value } = event.target;
-    const nameHasChanged =
-      typeof value === 'string' && value.trim() !== filterData.name;
+      if (nameHasChanged) {
+        setSubmitBtnLabel(saveSubmitBtnLabel);
+      } else {
+        setSubmitBtnLabel(defaultSubmitBtnLabel);
+      }
 
-    if (nameHasChanged) {
-      setSubmitBtnLabel(saveSubmitBtnLabel);
-    } else {
-      setSubmitBtnLabel(defaultSubmitBtnLabel);
-    }
-  };
+      setFilterData(state => ({
+        ...state,
+        name: value,
+      }));
+    },
+    [filter.name]
+  );
 
-  const onRefreshChange = event => {
+  const onRefreshChange = useCallback(event => {
     event.persist();
     const {
       currentTarget: { checked },
     } = event;
 
-    setFilterData({
-      ...filterData,
+    setFilterData(state => ({
+      ...state,
       refresh: checked,
-    });
-  };
+    }));
+  }, []);
+
+  const updateFilterDate = useCallback(
+    (prop, dateValue) => {
+      setFilterData(state => ({
+        ...state,
+        options: {
+          ...state.options,
+          [prop]: dateValue,
+        },
+      }));
+
+      onChangeForm();
+    },
+    [setFilterData, onChangeForm]
+  );
 
   return (
     <Form action="" novalidate onChange={onChangeForm}>
@@ -152,26 +174,26 @@ const FilterForm = ({
           <Label htmlFor="filter_name" isGroupHeader>
             Filternaam
           </Label>
-          <Input
-            defaultValue={filterData.name}
-            id="filter_name"
-            name="name"
-            onChange={onNameChange}
-            placeholder="Geef deze filterinstelling een naam om deze op te slaan"
-          />
-
-          <br />
-          <br />
+          <div className="invoer">
+            <input
+              value={filterData.name}
+              id="filter_name"
+              name="name"
+              onChange={onNameChange}
+              placeholder="Geef deze filterinstelling een naam om deze op te slaan"
+              type="text"
+            />
+          </div>
 
           <Label htmlFor="filter_refresh" isGroupHeader>
             Automatisch verversen
           </Label>
           <div className="antwoord">
             <input
+              defaultChecked={filterData.refresh}
               id="filter_refresh"
               name="refresh"
               onClick={onRefreshChange}
-              defaultChecked={filterData.refresh}
               type="checkbox"
             />
             <label htmlFor="filter_refresh">
@@ -185,30 +207,34 @@ const FilterForm = ({
 
           {Array.isArray(status) && status.length > 0 && (
             <FilterGroup data-testid="statusFilterGroup">
-              <Label htmlFor={`status_${status[0].key}`} isGroupHeader>
-                Status
-              </Label>
               <CheckboxList
                 defaultValue={filterData.options && filterData.options.status}
-                groupName="status"
-                groupId="status"
+                hasToggle
                 options={status}
+                name="status"
+                title={
+                  <Label as="span" isGroupHeader>
+                    Status
+                  </Label>
+                }
               />
             </FilterGroup>
           )}
 
           {Array.isArray(stadsdeel) && stadsdeel.length > 0 && (
             <FilterGroup data-testid="stadsdeelFilterGroup">
-              <Label htmlFor={`status_${stadsdeel[0].key}`} isGroupHeader>
-                Stadsdeel
-              </Label>
               <CheckboxList
                 defaultValue={
                   filterData.options && filterData.options.stadsdeel
                 }
-                groupName="stadsdeel"
-                groupId="stadsdeel"
+                hasToggle
                 options={stadsdeel}
+                name="stadsdeel"
+                title={
+                  <Label as="span" isGroupHeader>
+                    Stadsdeel
+                  </Label>
+                }
               />
             </FilterGroup>
           )}
@@ -220,8 +246,8 @@ const FilterForm = ({
               </Label>
               <RadioButtonList
                 defaultValue={filterData.options && filterData.options.priority}
-                groupName="priority"
                 options={priority}
+                groupName="priority"
               />
             </FilterGroup>
           )}
@@ -233,8 +259,8 @@ const FilterForm = ({
               </Label>
               <RadioButtonList
                 defaultValue={filterData.options && filterData.options.feedback}
-                groupName="feedback"
                 options={feedback}
+                groupName="feedback"
               />
             </FilterGroup>
           )}
@@ -243,48 +269,40 @@ const FilterForm = ({
             <Label htmlFor="filter_date" isGroupHeader>
               Datum
             </Label>
-            <div className="invoer">
-              <DatePicker
-                autoComplete="off"
-                id="filter_date"
-                /**
-                 * Ignoring the internals of the `onChange` handler since they cannot be tested
-                 * @see https://github.com/Hacker0x01/react-datepicker/issues/1578
-                 */
-                /* istanbul ignore next */
-                onChange={dateValue => {
-                  const formattedDate = dateValue
-                    ? moment(dateValue).format('YYYY-MM-DD')
-                    : '';
 
-                  const updatedFilterData = { ...filterData };
-                  updatedFilterData.options.incident_date = formattedDate;
-
-                  setFilterData(updatedFilterData);
+            <DatesWrapper>
+              <CalendarInput
+                id="filter_created_after"
+                onSelect={dateValue => {
+                  updateFilterDate(
+                    'created_after',
+                    dateValue && moment(dateValue).format('YYYY-MM-DD')
+                  );
                 }}
-                placeholderText="DD-MM-JJJJ"
-                selected={
-                  filterData.options &&
-                  filterData.options.incident_date &&
-                  moment(filterData.options.incident_date)
-                }
+                selectedDate={dateFrom}
+                label="Vanaf"
+                name="created_after"
               />
 
-              {filterData.options && filterData.options.incident_date && (
-                <input
-                  defaultValue={moment(filterData.options.incident_date).format(
-                    'YYYY-MM-DD'
-                  )}
-                  name="incident_date"
-                  readOnly
-                  type="hidden"
-                />
-              )}
-            </div>
+              <CalendarInput
+                id="filter_created_before"
+                onSelect={dateValue => {
+                  updateFilterDate(
+                    'created_before',
+                    dateValue && dateValue.format('YYYY-MM-DD')
+                  );
+                }}
+                selectedDate={dateBefore}
+                label="Tot en met"
+                name="created_before"
+              />
+            </DatesWrapper>
           </FilterGroup>
 
           <FilterGroup>
-            <Label htmlFor="filter_address" isGroupHeader>Adres</Label>
+            <Label htmlFor="filter_address" isGroupHeader>
+              Adres
+            </Label>
             <Input
               name="address_text"
               id="filter_address"
@@ -294,14 +312,15 @@ const FilterForm = ({
 
           {Array.isArray(source) && source.length > 0 && (
             <FilterGroup data-testid="sourceFilterGroup">
-              <Label htmlFor={`source_${source[0].key}`} isGroupHeader>
-                Bron
-              </Label>
               <CheckboxList
                 defaultValue={filterData.options && filterData.options.source}
-                groupName="source"
-                groupId="source"
                 options={source}
+                name="source"
+                title={
+                  <Label htmlFor={`source_${source[0].key}`} isGroupHeader>
+                    Bron
+                  </Label>
+                }
               />
             </FilterGroup>
           )}
@@ -324,18 +343,21 @@ const FilterForm = ({
                 ({ slug }) => slug === mainCategory
               );
               const options = categories.mainToSub[mainCategory];
+              const defaultValue = filterSlugs.filter(({ key }) =>
+                new RegExp(`/terms/categories/${mainCatObj.slug}`).test(key)
+              );
 
               return (
                 <CheckboxList
-                  clusterName="category_slug"
-                  defaultValue={filterSlugs}
-                  groupName={mainCategory}
+                  defaultValue={defaultValue}
                   groupId={mainCatObj.key}
+                  groupName="maincategory_slug"
+                  groupValue={mainCatObj.slug}
                   hasToggle
                   key={mainCategory}
+                  name={`${mainCatObj.slug}_category_slug`}
                   options={options}
-                  title={mainCatObj.value}
-                  toggleFieldName="maincategory_slug"
+                  title={<Label as="span">{mainCatObj.value}</Label>}
                 />
               );
             })}
@@ -368,9 +390,9 @@ FilterForm.propTypes = {
   /** Callback handler for when filter settings should not be applied */
   onCancel: PropTypes.func,
   /** Callback handler to reset filter */
-  onClearFilter: PropTypes.func,
+  onClearFilter: PropTypes.func.isRequired,
   /** Callback handler for new filter settings */
-  onSaveFilter: PropTypes.func,
+  onSaveFilter: PropTypes.func.isRequired,
   /**
    * Callback handler called whenever form is submitted
    * @param {Event} event

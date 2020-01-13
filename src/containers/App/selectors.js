@@ -4,62 +4,129 @@ import { initialState } from './reducer';
 
 const selectGlobal = state => (state && state.get('global')) || initialState;
 
-const selectRoute = state => state.get('route');
-
-const makeSelectUserName = () => createSelector(
-  selectGlobal,
-  globalState => globalState.get('userName')
+const makeSelectUser = createSelector(selectGlobal, globalState =>
+  globalState.get('user').toJS()
 );
 
-const makeSelectAccessToken = () => createSelector(
-  selectGlobal,
-  globalState => globalState.get('accessToken')
+/**
+ * Selector that returns the list of permissions for the current user
+ *
+ * @returns {Object[]} - All permissions from assigned roles combined with extra permissions
+ */
+const makeSelectUserPermissions = createSelector(makeSelectUser, user => {
+  const permissionMap = new Map();
+
+  user.roles
+    .flatMap(role => role.permissions)
+    .concat(user.permissions)
+    .forEach(perm => {
+      permissionMap.set(perm.id, perm);
+    });
+
+  return Array.from(permissionMap.values());
+});
+
+/**
+ * Selector that returns the list of permission codes for the current user
+ *
+ * @returns {String[]} - All permissions from assigned roles combined with extra permissions
+ */
+const makeSelectUserPermissionCodeNames = createSelector(
+  makeSelectUserPermissions,
+  permissions => permissions.map(({ codename }) => codename)
 );
 
-const makeSelectUserPermissions = () => createSelector(
-  selectGlobal,
-  globalState => globalState.get('userPermissions').toJS()
+/**
+ * Selector that queries the user's permissions and returna a boolean
+ * when that permission is present.
+ *
+ * @returns {Function}
+ */
+const makeSelectUserCan = createSelector(
+  [makeSelectUser, makeSelectUserPermissionCodeNames],
+  ({ is_superuser }, permissions) =>
+    /**
+     * @param   {String} capability - The permission to check for
+     * @returns {(Boolean|undefined)} - is_superuser can be one of undefined, true or false
+     */
+    capability =>
+      is_superuser !== false
+        ? is_superuser
+        : Boolean(permissions.find(codename => codename === capability))
 );
 
-const makeSelectLoading = () => createSelector(
-  selectGlobal,
-  globalState => globalState.get('loading')
+/**
+ * Selector that queries a subset of the user's permissions. Useful for determining
+ * if a user should have access to a specific section of the application.
+ *
+ * @returns {Function}
+ */
+const makeSelectUserCanAccess = createSelector(
+  [makeSelectUser, makeSelectUserPermissionCodeNames],
+  ({ is_superuser }, permissions) =>
+    /**
+     * @param   {String} section - The set of permissions to check for
+     * @returns {(Boolean|undefined)} - is_superuser can be one of undefined, true or false
+     */
+    section => {
+      if (is_superuser !== false) {
+        return is_superuser;
+      }
+
+      const groups = ['view_group', 'change_group', 'add_group'];
+      const groupForm = ['change_group', 'add_group'];
+      const users = ['view_user', 'add_user', 'change_user'];
+      const userForm = ['add_user', 'change_user'];
+      const departments = ['view_department', 'change_department', 'add_department'];
+      const departmentForm = ['change_department', 'add_department'];
+
+      const requiredPerms = {
+        settings: [groups, users],
+        groups: [groups],
+        groupForm: [groupForm],
+        users: [users],
+        userForm: [userForm],
+        departments: [departments],
+        departmentForm: [departmentForm],
+      };
+
+      if (!Object.keys(requiredPerms).includes(section)) {
+        return false;
+      }
+
+      // require all sets of permissions
+      return requiredPerms[section].every(sectionPerms =>
+        // from each set, require at least one permission
+        sectionPerms.some(perm => permissions.includes(perm))
+      );
+    }
 );
 
-const makeSelectError = () => createSelector(
-  selectGlobal,
-  globalState => globalState.get('error')
-);
+const makeSelectLoading = () =>
+  createSelector(selectGlobal, globalState => globalState.get('loading'));
 
-const makeSelectNotification = () => createSelector(
-  selectGlobal,
-  globalState => globalState.get('notification').toJS());
+const makeSelectError = () =>
+  createSelector(selectGlobal, globalState => globalState.get('error'));
 
-const makeSelectLocation = () => createSelector(
-  selectRoute,
-  routeState => routeState.get('location').toJS()
-);
+const makeSelectNotification = () =>
+  createSelector(selectGlobal, globalState =>
+    globalState.get('notification').toJS()
+  );
 
-const makeSelectIsAuthenticated = () => createSelector(
-  selectGlobal,
-  globalState => !globalState.get('accessToken') === false
-);
-
-const makeSelectCategories = () => createSelector(
-  selectGlobal,
-  globalState => globalState.get('categories').toJS()
-);
-
+const makeSelectCategories = () =>
+  createSelector(selectGlobal, globalState =>
+    globalState.get('categories').toJS()
+  );
 
 export {
-  makeSelectAccessToken,
   makeSelectCategories,
   makeSelectError,
-  makeSelectIsAuthenticated,
   makeSelectLoading,
-  makeSelectLocation,
   makeSelectNotification,
-  makeSelectUserName,
+  makeSelectUser,
+  makeSelectUserCan,
+  makeSelectUserCanAccess,
+  makeSelectUserPermissionCodeNames,
   makeSelectUserPermissions,
   selectGlobal,
 };
