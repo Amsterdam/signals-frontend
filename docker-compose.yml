@@ -13,8 +13,10 @@ services:
 
   lint-container:
     build:
+      cache_from:
+        - repo.data.amsterdam.nl/ois/signalsfrontend-base:acceptance
       context: .
-      target: builder
+      target: base
     environment:
       - CI=true
       - TZ=Europe/Amsterdam
@@ -22,8 +24,10 @@ services:
 
   unittest-container:
     build:
+      cache_from:
+        - repo.data.amsterdam.nl/ois/signalsfrontend-base:acceptance
       context: .
-      target: builder
+      target: base
     environment:
       - CI=true
       - TZ=Europe/Amsterdam

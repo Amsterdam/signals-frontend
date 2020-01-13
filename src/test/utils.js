@@ -9,7 +9,7 @@ import Immutable from 'immutable';
 
 import configureStore from '../configureStore';
 
-const history = createMemoryHistory();
+export const history = createMemoryHistory();
 
 // set a default screenwidth of 2560 pixels
 const mmm = MatchMediaMock.create();
@@ -66,7 +66,7 @@ export const withCustomAppContext = (Component) => ({ themeCfg = {}, storeCfg = 
 );
 
 // eslint-disable-next-line
-export const withIntlAppContext = (Component, messages, locale='nl') => (
+export const withIntlAppContext = (Component, messages, locale = 'nl') => (
   <ThemeProvider>
     <Provider store={store}>
       <IntlProvider locale={locale} messages={messages}>

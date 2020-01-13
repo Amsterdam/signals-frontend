@@ -31,7 +31,8 @@ describe('components/SiteHeader', () => {
     );
 
     // menu items
-    expect(queryByText('Melden')).toBeNull();
+    expect(queryByText('Melden')).not.toBeInTheDocument();
+    expect(queryByText('Help')).not.toBeInTheDocument();
 
     // inline menu should not be visible
     expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(0);
@@ -61,7 +62,8 @@ describe('components/SiteHeader', () => {
     );
 
     // menu items
-    expect(queryByText('Melden')).not.toBeNull();
+    expect(queryByText('Melden')).toBeInTheDocument();
+    expect(queryByText('Help')).toBeInTheDocument();
 
     // inline menu should be visible
     expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(0);
@@ -82,6 +84,32 @@ describe('components/SiteHeader', () => {
 
     // toggle menu should be visible
     expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(1);
+  });
+
+  it('should render the correct homeLink', () => {
+    const { container, rerender } = render(
+      withAppContext(
+        <SiteHeader permissions={[]} isAuthenticated={false} location={{ pathname: '/' }} />,
+      ),
+    );
+
+    expect(container.querySelector('h1 a[href="https://www.amsterdam.nl"]')).toBeInTheDocument();
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} isAuthenticated location={{ pathname: '/' }} />,
+      ),
+    );
+
+    expect(container.querySelector('h1 a[href="/"]')).toBeInTheDocument();
+
+    rerender(
+      withAppContext(
+        <SiteHeader permissions={[]} isAuthenticated location={{ pathname: '/manage/incidents' }} />,
+      ),
+    );
+
+    expect(container.querySelector('h1 a[href="/"]')).toBeInTheDocument();
   });
 
   it('should render a title', () => {

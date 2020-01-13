@@ -14,15 +14,15 @@ def tryStep(String message, Closure block, Closure tearDown = null) {
     }
 }
 String BRANCH = "${env.BRANCH_NAME}"
-node('opdrachten') {
+node('BS16') {
     stage("Checkout") {
         def scmVars = checkout(scm)
         env.GIT_COMMIT = scmVars.GIT_COMMIT
+        env.COMPOSE_DOCKER_CLI_BUILD = 1 
     }
     stage("Get cached build") {
         docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
-            def cachedImage = docker.image("ois/signalsfrontend:acceptance")
-            cachedImage.pull()
+            docker.image("ois/signalsfrontend-base:acceptance").pull()
         }
     }
     stage("Lint") {
@@ -42,6 +42,19 @@ node('opdrachten') {
         }
     }
     if (BRANCH == "develop") {
+        stage("Build and push the base image to speed up lint and unittest builds") {
+            tryStep "build", {
+                def image_name = "ois/signalsfrontend-base"
+                docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
+                    def image = docker.build("${image_name}:${env.BUILD_NUMBER}",
+                    "--shm-size 1G " +
+                    "--target base " +
+                    ".")
+                    image.push()
+                    image.push("acceptance")
+                }
+            }
+        }
         stage("Build and push acceptance image") {
             tryStep "build", {
                 docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {

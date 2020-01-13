@@ -67,6 +67,7 @@ describe('signals/incident-management/containers/MyFilters', () => {
 
     expect(props.filters).not.toBeUndefined();
     expect(props.onApplyFilter).not.toBeUndefined();
+    expect(props.onEditFilter).not.toBeUndefined();
     expect(props.onRemoveFilter).not.toBeUndefined();
   });
 
@@ -143,8 +144,6 @@ describe('signals/incident-management/containers/MyFilters', () => {
       fireEvent(handleApplyFilterButton, event);
 
       expect(onApplyFilter).toHaveBeenCalled();
-      expect(onEditFilter).toHaveBeenCalled();
-      expect(onRequestIncidents).toHaveBeenCalled();
     });
 
     it('should handle editFilter', () => {

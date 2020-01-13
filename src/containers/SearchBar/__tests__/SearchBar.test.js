@@ -12,8 +12,6 @@ describe('containers/SearchBar', () => {
 
     const props = tree.find(SearchBarComponent).props();
 
-    expect(props.onRequestIncidents).toBeDefined();
-    expect(props.onSetSearchQuery).toBeDefined();
     expect(props.query).toBeDefined();
   });
 
@@ -22,39 +20,28 @@ describe('containers/SearchBar', () => {
 
     const containerProps = tree.find(SearchBarComponent).props();
 
-    expect(containerProps.onRequestIncidents).not.toBeUndefined();
-    expect(typeof containerProps.onRequestIncidents).toEqual('function');
+    expect(containerProps.setSearchQueryAction).toBeDefined();
+    expect(typeof containerProps.setSearchQueryAction).toEqual('function');
 
-    expect(containerProps.onApplyFilter).not.toBeUndefined();
-    expect(typeof containerProps.onApplyFilter).toEqual('function');
-
-    expect(containerProps.onSetSearchQuery).not.toBeUndefined();
-    expect(typeof containerProps.onSetSearchQuery).toEqual('function');
-
-    expect(containerProps.history).not.toBeUndefined();
-    expect(typeof containerProps.history.push).toEqual('function');
+    expect(containerProps.resetSearchQueryAction).toBeDefined();
+    expect(typeof containerProps.resetSearchQueryAction).toEqual('function');
   });
 
   describe('callback handlers', () => {
-    const onRequestIncidents = jest.fn();
-    const onSetSearchQuery = jest.fn();
-    const onApplyFilter = jest.fn();
+    const setSearchQueryAction = jest.fn();
+    const resetSearchQueryAction = jest.fn();
 
     afterEach(jest.resetAllMocks);
 
     it('should call searchSubmit handler', () => {
       const query = '';
-      const push = jest.fn();
-      const history = { push };
 
       const { queryByTestId } = render(
         withAppContext(
           <SearchBarComponent
-            onRequestIncidents={onRequestIncidents}
-            onSetSearchQuery={onSetSearchQuery}
-            onApplyFilter={onApplyFilter}
+            setSearchQueryAction={setSearchQueryAction}
+            resetSearchQueryAction={resetSearchQueryAction}
             query={query}
-            history={history}
           />,
         ),
       );
@@ -63,37 +50,33 @@ describe('containers/SearchBar', () => {
       const formSubmitBtn = queryByTestId('searchBar').querySelector('button');
 
       fireEvent.change(formInput, { target: { value: '1234' } });
+
+      expect(setSearchQueryAction).not.toHaveBeenCalled();
+
       fireEvent.click(formSubmitBtn);
 
-      expect(push).toHaveBeenCalledWith('/manage/incidents');
-      expect(onRequestIncidents).toHaveBeenCalledWith();
-      expect(onSetSearchQuery).toHaveBeenCalledWith('1234');
-      expect(onApplyFilter).toHaveBeenCalledWith({});
+      expect(setSearchQueryAction).toHaveBeenCalledWith('1234');
     });
 
     it('should call onChange handler', () => {
       const query = 'Foo baz barrr';
-      const push = jest.fn();
-      const history = { push };
 
       const { queryByTestId } = render(
         withAppContext(
           <SearchBarComponent
-            onRequestIncidents={onRequestIncidents}
-            onSetSearchQuery={onSetSearchQuery}
-            onApplyFilter={onApplyFilter}
+            setSearchQueryAction={setSearchQueryAction}
+            resetSearchQueryAction={resetSearchQueryAction}
             query={query}
-            history={history}
           />,
         ),
       );
 
+      expect(resetSearchQueryAction).not.toHaveBeenCalledWith();
+
       const formInput = queryByTestId('searchBar').querySelector('input');
       fireEvent.change(formInput, { target: { value: '' } });
 
-      expect(push).not.toHaveBeenCalled();
-      expect(onSetSearchQuery).toHaveBeenCalledWith('');
-      expect(onRequestIncidents).toHaveBeenCalledWith();
+      expect(resetSearchQueryAction).toHaveBeenCalledWith();
     });
   });
 });
