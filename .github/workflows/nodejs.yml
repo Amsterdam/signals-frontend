@@ -11,6 +11,12 @@ jobs:
         with:
           node-version: 10.x
 
+      - name: apt-get install
+          run: sudo apt-get netcat git
+
+      - name: ful--icu
+        run: npm i --unsafe-perm -g full-icu
+
       - uses: actions/checkout@v1
 
       - name: Cache node modules
@@ -24,13 +30,16 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Lint
         run: npm run lint
 
       - name: Test
         run: npm run test
+
+      - name: Copy environment.json
+        run: echo {} > environment.conf.json
 
       - name: Build
         run: npm run build
