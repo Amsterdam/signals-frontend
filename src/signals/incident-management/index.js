@@ -41,7 +41,12 @@ export const IncidentManagementModuleComponent = ({
     }
 
     getFiltersAction();
-  }, [getFiltersAction, requestIncidentsAction]);
+  }, [
+    getFiltersAction,
+    requestIncidentsAction,
+    searchIncidentsAction,
+    searchQuery,
+  ]);
 
   if (!isAuthenticated()) {
     return <Route component={LoginPage} />;
