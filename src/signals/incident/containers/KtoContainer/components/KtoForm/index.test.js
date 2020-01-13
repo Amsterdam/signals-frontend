@@ -3,7 +3,13 @@ import { render } from '@testing-library/react';
 import { mount } from 'enzyme';
 import { withAppContext } from 'test/utils';
 
+import ktoContainerMock from 'utils/__tests__/fixtures/kto.json';
+import ktoMock from '../../../../definitions/kto';
+
+
 import KtoForm, { andersOptionText } from './index';
+
+
 
 describe('<KtoForm />', () => {
   let props;
@@ -41,17 +47,14 @@ describe('<KtoForm />', () => {
         ),
       );
 
+      expect(queryByText(ktoMock.controls.tevreden.meta.label)).not.toBeInTheDocument();
+      expect(queryByText('Antwoord Ja')).not.toBeInTheDocument();
+      expect(queryByText(ktoMock.controls.text_extra.meta.label)).toBeInTheDocument();
+      expect(queryByText('Verstuur')).toBeInTheDocument();
+
       const yesProps = {
         ...props,
-        ktoContainer: {
-          form: {
-            is_satisfied: true,
-            yesNo: 'ja',
-          },
-          answers: {
-            'Antwoord JA': 'Antwoord JA',
-          },
-        },
+        ...ktoContainerMock.yes,
       };
 
       rerender(
@@ -60,9 +63,8 @@ describe('<KtoForm />', () => {
         ),
       );
 
-      expect(queryByText('Waarom bent u tevreden?')).toBeInTheDocument();
+      expect(queryByText(ktoMock.controls.tevreden.meta.label)).toBeInTheDocument();
       expect(queryByText('Antwoord JA')).toBeInTheDocument();
-      expect(queryByText('Wilt u verder nog iets vermelden of toelichten?')).toBeInTheDocument();
     });
 
     it('expect to render NO form correctly', () => {
@@ -72,17 +74,14 @@ describe('<KtoForm />', () => {
         ),
       );
 
+      expect(queryByText(ktoMock.controls.niet_tevreden.meta.label)).not.toBeInTheDocument();
+      expect(queryByText('Antwoord NEE')).not.toBeInTheDocument();
+      expect(queryByText(ktoMock.controls.text_extra.meta.label)).toBeInTheDocument();
+      expect(queryByText('Verstuur')).toBeInTheDocument();
+
       const noProps = {
         ...props,
-        ktoContainer: {
-          form: {
-            is_satisfied: false,
-            yesNo: 'nee',
-          },
-          answers: {
-            'Antwoord NEE': 'Antwoord NEE',
-          },
-        },
+        ...ktoContainerMock.no,
       };
 
       rerender(
@@ -91,9 +90,8 @@ describe('<KtoForm />', () => {
         ),
       );
 
-      expect(queryByText('Waarom bent u ontevreden?')).toBeInTheDocument();
+      expect(queryByText(ktoMock.controls.niet_tevreden.meta.label)).toBeInTheDocument();
       expect(queryByText('Antwoord NEE')).toBeInTheDocument();
-      expect(queryByText('Wilt u verder nog iets vermelden of toelichten?')).toBeInTheDocument();
     });
   });
 
