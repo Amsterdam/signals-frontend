@@ -2,13 +2,22 @@ import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { takeLatest } from 'redux-saga/effects';
 import { throwError } from 'redux-saga-test-plan/providers';
+import * as Sentry from '@sentry/browser';
 
-import { authCall, authPatchCall } from 'shared/services/api/api';
+import { authCall, authPatchCall, getErrorMessage } from 'shared/services/api/api';
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
+import * as actions from 'containers/App/actions';
+import CONFIGURATION from 'shared/services/configuration/configuration';
 import {
   REQUEST_INCIDENT,
   PATCH_INCIDENT,
   REQUEST_ATTACHMENTS,
   REQUEST_DEFAULT_TEXTS,
+  PATCH_TYPE_NOTES,
+  PATCH_TYPE_SUBCATEGORY,
+  PATCH_TYPE_STATUS,
+  PATCH_TYPE_PRIORITY,
+  PATCH_TYPE_THOR,
 } from './constants';
 import {
   requestIncidentSuccess,
@@ -21,12 +30,11 @@ import {
   requestDefaultTextsError,
 } from './actions';
 import watchIncidentModelSaga, {
-  requestTermsURL,
-  requestURL,
   fetchIncident,
   patchIncident,
   requestAttachments,
   requestDefaultTexts,
+  errorMessageDictionary,
 } from './saga';
 import { requestHistoryList } from '../history/actions';
 
@@ -53,8 +61,8 @@ describe('models/incident/saga', () => {
       };
 
       return expectSaga(fetchIncident, action)
-        .provide([[matchers.call.fn(requestURL)]])
-        .call(authCall, `${requestURL}/${id}`)
+        .provide([[matchers.call.fn(CONFIGURATION.INCIDENTS_ENDPOINT)]])
+        .call(authCall, `${CONFIGURATION.INCIDENTS_ENDPOINT}${id}`)
         .silentRun();
     });
 
@@ -77,6 +85,13 @@ describe('models/incident/saga', () => {
       return expectSaga(fetchIncident, action)
         .provide([[matchers.call.fn(authCall), throwError(error)]])
         .put(requestIncidentError(error))
+        .put(actions.showGlobalNotification({
+          title: getErrorMessage(error),
+          message: 'De melding gegevens konden niet opgehaald worden',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        }))
+        .call([Sentry, 'captureException'], error)
         .silentRun();
     });
   });
@@ -95,7 +110,11 @@ describe('models/incident/saga', () => {
       };
 
       return expectSaga(patchIncident, action)
-        .call(authPatchCall, `${requestURL}/${id}`, payload.patch)
+        .call(
+          authPatchCall,
+          `${CONFIGURATION.INCIDENTS_ENDPOINT}${id}`,
+          payload.patch
+        )
         .silentRun();
     });
 
@@ -122,17 +141,14 @@ describe('models/incident/saga', () => {
         .silentRun();
     });
 
-    it('should dispatch failed', async () => {
+    it('should dispatch failed', () => {
       const id = 678543;
-      const type = PATCH_INCIDENT;
-      const payload = {
-        type,
-        patch: {
-          id,
-        },
-      };
       const action = {
-        payload,
+        payload: {
+          patch: {
+            id,
+          },
+        },
       };
       const error = new Error('Whoops!!1!');
       const detail = 'Some error message';
@@ -143,25 +159,26 @@ describe('models/incident/saga', () => {
         },
       };
 
-      jest.spyOn(global, 'alert');
+      const patchTypes = [
+        PATCH_TYPE_NOTES,
+        PATCH_TYPE_SUBCATEGORY,
+        PATCH_TYPE_STATUS,
+        PATCH_TYPE_PRIORITY,
+        PATCH_TYPE_THOR,
+      ];
 
-      await expectSaga(patchIncident, action)
-        .provide([[matchers.call.fn(authPatchCall), throwError(error)]])
-        .put(patchIncidentError({ type, error }))
-        .silentRun();
-
-      expect(global.alert).not.toHaveBeenCalled();
-
-      error.response.status = 403;
-
-      await expectSaga(patchIncident, action)
-        .provide([[matchers.call.fn(authPatchCall), throwError(error)]])
-        .put(patchIncidentError({ type, error }))
-        .silentRun();
-
-      expect(global.alert).toHaveBeenCalledWith('Je hebt geen toestemming om deze actie uit te voeren.');
-
-      global.alert.mockRestore();
+      patchTypes.forEach(async type => {
+        await expectSaga(patchIncident, { ... action, payload: { ...action.payload, type }})
+          .provide([[matchers.call.fn(authPatchCall), throwError(error)]])
+          .put(patchIncidentError({ type, error }))
+          .put(actions.showGlobalNotification({
+            title: getErrorMessage(error),
+            message: errorMessageDictionary[type],
+            variant: VARIANT_ERROR,
+            type: TYPE_LOCAL,
+          }))
+          .silentRun();
+      });
     });
   });
 
@@ -171,7 +188,7 @@ describe('models/incident/saga', () => {
       const action = { payload: id };
 
       return expectSaga(requestAttachments, action)
-        .call(authCall, `${requestURL}/${id}/attachments`)
+        .call(authCall, `${CONFIGURATION.INCIDENTS_ENDPOINT}${id}/attachments`)
         .silentRun();
     });
 
@@ -222,6 +239,13 @@ describe('models/incident/saga', () => {
       return expectSaga(requestAttachments, action)
         .provide([[matchers.call.fn(authCall), throwError(error)]])
         .put(requestAttachmentsError())
+        .put(actions.showGlobalNotification({
+          title: getErrorMessage(error),
+          message: 'Bijlagen konden niet geladen worden',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        }))
+        .call([Sentry, 'captureException'], error)
         .silentRun();
     });
   });
@@ -237,10 +261,10 @@ describe('models/incident/saga', () => {
 
     it('should call endpoint with filter data', () =>
       expectSaga(requestDefaultTexts, action)
-        .provide([[matchers.call.fn(requestURL)]])
+        .provide([[matchers.call.fn(CONFIGURATION.INCIDENTS_ENDPOINT)]])
         .call(
           authCall,
-          `${requestTermsURL}/${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`
+          `${CONFIGURATION.TERMS_ENDPOINT}${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`
         )
         .silentRun());
 
@@ -279,6 +303,13 @@ describe('models/incident/saga', () => {
       return expectSaga(requestDefaultTexts, action)
         .provide([[matchers.call.fn(authCall), throwError(error)]])
         .put(requestDefaultTextsError(error))
+        .put(actions.showGlobalNotification({
+          title: getErrorMessage(error),
+          message: 'Standaard teksten konden niet geladen worden',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        }))
+        .call([Sentry, 'captureException'], error)
         .silentRun();
     });
   });

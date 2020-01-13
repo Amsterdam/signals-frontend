@@ -1,6 +1,4 @@
-import {
-  call, put, take, takeLatest, takeEvery,
-} from 'redux-saga/effects';
+import { call, put, take, takeLatest, takeEvery } from 'redux-saga/effects';
 import { channel } from 'redux-saga';
 import { push } from 'connected-react-router/immutable';
 import request from 'utils/request';
@@ -8,8 +6,15 @@ import { testSaga, expectSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
 
+import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authCall } from 'shared/services/api/api';
+import { login, logout } from 'shared/services/auth/auth';
+import mapCategories from 'shared/services/map-categories';
+import fileUploadChannel from 'shared/services/file-upload-channel';
 import stateTokenGenerator from 'shared/services/auth/services/state-token-generator/state-token-generator';
+import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
+import userJson from 'utils/__tests__/fixtures/user.json';
+
 import watchAppSaga, {
   callLogin,
   callLogout,
@@ -17,7 +22,6 @@ import watchAppSaga, {
   fetchCategories,
   uploadFileWrapper,
   uploadFile,
-  baseUrl,
 } from './saga';
 import {
   LOGIN,
@@ -30,29 +34,26 @@ import {
   loginFailed,
   logoutFailed,
   authorizeUser,
-  showGlobalError,
+  showGlobalNotification,
   requestCategoriesSuccess,
   uploadProgress,
   uploadSuccess,
   uploadFailure,
 } from './actions';
-import { login, logout } from '../../shared/services/auth/auth';
-import mapCategories from '../../shared/services/map-categories';
-import fileUploadChannel from '../../shared/services/file-upload-channel';
 
 jest.mock(
-  'shared/services/auth/services/state-token-generator/state-token-generator',
+  'shared/services/auth/services/state-token-generator/state-token-generator'
 );
 jest.mock('shared/services/api/api');
-jest.mock('../../shared/services/map-categories');
-jest.mock('../../shared/services/file-upload-channel');
+jest.mock('shared/services/map-categories');
+jest.mock('shared/services/file-upload-channel');
 
-describe('App saga', () => {
+describe('containers/App/saga', () => {
   let origSessionStorage;
 
   beforeEach(() => {
     stateTokenGenerator.mockImplementation(
-      () => 'n8vd9fv528934n797cv342bj3h56',
+      () => 'n8vd9fv528934n797cv342bj3h56'
     );
     global.window.open = jest.fn();
     origSessionStorage = global.localStorage;
@@ -112,9 +113,15 @@ describe('App saga', () => {
       return expectSaga(callLogin, action)
         .call(login, payload)
         .put(
-          loginFailed('crypto library is not available on the current browser'),
+          loginFailed('crypto library is not available on the current browser')
         )
-        .put(showGlobalError('LOGIN_FAILED'))
+        .put(
+          showGlobalNotification({
+            variant: VARIANT_ERROR,
+            title: 'Inloggen is niet gelukt',
+            type: TYPE_GLOBAL,
+          })
+        )
         .run();
     });
   });
@@ -131,21 +138,19 @@ describe('App saga', () => {
     });
 
     it('should grip success', () => {
-      jest
-        .spyOn(global.localStorage, 'getItem')
-        .mockImplementationOnce(key => {
-          switch (key) {
-            case 'oauthDomain':
-              return 'grip';
-            default:
-              return '';
-          }
-        });
+      jest.spyOn(global.localStorage, 'getItem').mockImplementationOnce(key => {
+        switch (key) {
+          case 'oauthDomain':
+            return 'grip';
+          default:
+            return '';
+        }
+      });
 
       testSaga(callLogout).next();
       expect(window.open).toHaveBeenCalledWith(
         'https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t',
-        '_blank',
+        '_blank'
       );
     });
 
@@ -160,7 +165,13 @@ describe('App saga', () => {
       return expectSaga(callLogout)
         .call(logout)
         .put(logoutFailed(message))
-        .put(showGlobalError('LOGOUT_FAILED'))
+        .put(
+          showGlobalNotification({
+            variant: VARIANT_ERROR,
+            title: 'Uitloggen is niet gelukt',
+            type: TYPE_GLOBAL,
+          })
+        )
         .run();
     });
   });
@@ -177,26 +188,20 @@ describe('App saga', () => {
 
     const payload = {
       accessToken: 'akjgrff',
-      userName: 'foo@bar.com',
-      userScopes: ['SIG/ALL'],
     };
 
     it('should dispatch success', () => {
-      const mockResponse = {
-        groups: ['SIG/ALL'],
-        permissions: ['foo', 'bar'],
-      };
-      const mockCredentials = {
-        ...payload,
-        userScopes: mockResponse.groups,
-        userPermissions: mockResponse.permissions,
-      };
       const action = { payload };
 
       return expectSaga(callAuthorize, action)
-        .provide([[matchers.call.fn(authCall), mockResponse]])
-        .call(authCall, baseUrl, null, payload.accessToken)
-        .put(authorizeUser(mockCredentials))
+        .provide([[matchers.call.fn(authCall), userJson]])
+        .call(
+          authCall,
+          CONFIGURATION.AUTH_ME_ENDPOINT,
+          null,
+          payload.accessToken
+        )
+        .put(authorizeUser(userJson))
         .run();
     });
 
@@ -217,7 +222,13 @@ describe('App saga', () => {
 
       return expectSaga(callAuthorize, action)
         .provide([[matchers.call.fn(authCall), throwError(errorObj)]])
-        .put(showGlobalError('AUTHORIZE_FAILED'))
+        .put(
+          showGlobalNotification({
+            variant: VARIANT_ERROR,
+            title: 'Authenticeren is niet gelukt',
+            type: TYPE_GLOBAL,
+          })
+        )
         .run();
     });
 
@@ -236,8 +247,6 @@ describe('App saga', () => {
   });
 
   describe('fetchCategories', () => {
-    const requestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/';
-
     it('should dispatch success', () => {
       const categories = { categories: [1], subcategorie: [2] };
 
@@ -245,7 +254,7 @@ describe('App saga', () => {
 
       testSaga(fetchCategories)
         .next()
-        .call(request, requestURL)
+        .call(request, CONFIGURATION.CATEGORIES_ENDPOINT)
         .next()
         .put(requestCategoriesSuccess(mapCategories(categories)))
         .next()
@@ -257,8 +266,16 @@ describe('App saga', () => {
 
       return expectSaga(fetchCategories)
         .provide([[matchers.call.fn(request), throwError(error)]])
-        .call(request, requestURL)
-        .put(showGlobalError('FETCH_CATEGORIES_FAILED'))
+        .call(request, CONFIGURATION.CATEGORIES_ENDPOINT)
+        .put(
+          showGlobalNotification({
+            variant: VARIANT_ERROR,
+            title: 'Inladen van categorieën is niet gelukt',
+            message:
+              'Het kan zijn dat de API tijdelijk niet beschikbaar is. Herlaad de pagina',
+            type: TYPE_GLOBAL,
+          })
+        )
         .run();
     });
   });
@@ -292,10 +309,10 @@ describe('App saga', () => {
       expect(gen.next().value).toEqual(
         call(
           fileUploadChannel,
-          'https://acc.api.data.amsterdam.nl/signals/signal/image/',
+          CONFIGURATION.IMAGE_ENDPOINT,
           { name: 'image.jpg' },
-          666,
-        ),
+          666
+        )
       ); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next(mockChannel).value).toEqual(take(mockChannel)); // eslint-disable-line redux-saga/yield-effects
 
@@ -304,7 +321,7 @@ describe('App saga', () => {
           progress: 0.23,
           error: false,
           success: false,
-        }).value,
+        }).value
       ).toEqual(put(uploadProgress(0.23))); // eslint-disable-line redux-saga/yield-effects
 
       expect(gen.next(mockChannel).value).toEqual(take(mockChannel)); // eslint-disable-line redux-saga/yield-effects
@@ -313,7 +330,7 @@ describe('App saga', () => {
           progress: 1,
           error: false,
           success: true,
-        }).value,
+        }).value
       ).toEqual(put(uploadSuccess({ name: 'image.jpg' }))); // eslint-disable-line redux-saga/yield-effects
 
       expect(gen.next().value).toBeUndefined();
@@ -323,10 +340,10 @@ describe('App saga', () => {
       expect(gen.next().value).toEqual(
         call(
           fileUploadChannel,
-          'https://acc.api.data.amsterdam.nl/signals/signal/image/',
+          CONFIGURATION.IMAGE_ENDPOINT,
           { name: 'image.jpg' },
-          666,
-        ),
+          666
+        )
       ); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next(mockChannel).value).toEqual(take(mockChannel)); // eslint-disable-line redux-saga/yield-effects
 
@@ -334,7 +351,7 @@ describe('App saga', () => {
         gen.next({
           error: false,
           success: false,
-        }).value,
+        }).value
       ).toEqual(put(uploadProgress(0))); // eslint-disable-line redux-saga/yield-effects
 
       expect(gen.next(mockChannel).value).toEqual(take(mockChannel)); // eslint-disable-line redux-saga/yield-effects
@@ -343,9 +360,17 @@ describe('App saga', () => {
           progress: 1,
           error: true,
           success: false,
-        }).value,
+        }).value
       ).toEqual(put(uploadFailure())); // eslint-disable-line redux-saga/yield-effects
-      expect(gen.next().value).toEqual(put(showGlobalError('UPLOAD_FAILED'))); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.next().value).toEqual(
+        put(
+          showGlobalNotification({
+            variant: VARIANT_ERROR,
+            title: 'Het uploaden van de foto is niet gelukt',
+            type: TYPE_GLOBAL,
+          })
+        )
+      ); // eslint-disable-line redux-saga/yield-effects
 
       expect(gen.next().value).toBeUndefined();
     });

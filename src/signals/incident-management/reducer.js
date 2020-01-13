@@ -8,27 +8,28 @@ import source from './definitions/sourceList';
 
 import {
   APPLY_FILTER,
-  CLEAR_FILTER,
+  CLEAR_EDIT_FILTER,
   EDIT_FILTER,
   FILTER_EDIT_CANCELED,
   GET_FILTERS_FAILED,
   GET_FILTERS_SUCCESS,
-  PAGE_INCIDENTS_CHANGED,
+  ORDERING_CHANGED,
+  PAGE_CHANGED,
   REMOVE_FILTER_SUCCESS,
+  REQUEST_INCIDENTS_ERROR,
+  REQUEST_INCIDENTS_SUCCESS,
   SAVE_FILTER_FAILED,
   SAVE_FILTER_SUCCESS,
-  ORDERING_INCIDENTS_CHANGED,
+  SEARCH_INCIDENTS_ERROR,
+  SEARCH_INCIDENTS_SUCCESS,
+  REQUEST_INCIDENTS,
+  SET_SEARCH_QUERY,
+  RESET_SEARCH_QUERY,
   UPDATE_FILTER_FAILED,
   UPDATE_FILTER_SUCCESS,
 } from './constants';
 
 export const initialState = fromJS({
-  priority,
-  stadsdeel,
-  status,
-  source,
-  feedback,
-  filters: [],
   activeFilter: {
     // filter settings for the list of incidents
     name: '',
@@ -39,8 +40,20 @@ export const initialState = fromJS({
     name: '',
     options: {},
   },
-  page: 1,
+  feedback,
+  filters: [],
+  incidents: {
+    count: undefined,
+    results: [],
+  },
+  loading: false,
   ordering: '-created_at',
+  page: 1,
+  priority,
+  searchQuery: '',
+  source,
+  stadsdeel,
+  status,
 });
 
 export default (state = initialState, action) => {
@@ -66,7 +79,12 @@ export default (state = initialState, action) => {
       return state.set('filters', fromJS(newFilters));
 
     case APPLY_FILTER:
-      return state.set('activeFilter', fromJS(action.payload));
+      return state
+        .set('activeFilter', fromJS(action.payload))
+        .set('editFilter', fromJS(action.payload))
+        .set('ordering', initialState.get('ordering'))
+        .set('page', initialState.get('page'))
+        .set('searchQuery', initialState.get('searchQuery'));
 
     case EDIT_FILTER:
       return state.set('editFilter', fromJS(action.payload));
@@ -84,11 +102,12 @@ export default (state = initialState, action) => {
         .set('activeFilter', fromJS(action.payload))
         .set('error', false)
         .set('errorMessage', undefined)
-        .set('loading', false);
+        .set('loading', false)
+        .set('searchQuery', initialState.get('searchQuery'));
 
-    case CLEAR_FILTER:
+    case CLEAR_EDIT_FILTER:
       return state
-        .set('editFilter', state.get('editFilter'))
+        .set('editFilter', initialState.get('editFilter'))
         .set('error', false)
         .set('errorMessage', undefined)
         .set('loading', false);
@@ -96,11 +115,48 @@ export default (state = initialState, action) => {
     case FILTER_EDIT_CANCELED:
       return state.set('editFilter', state.get('activeFilter'));
 
-    case PAGE_INCIDENTS_CHANGED:
-      return state.set('page', fromJS(action.payload));
+    case PAGE_CHANGED:
+      return state.set('page', action.payload);
 
-    case ORDERING_INCIDENTS_CHANGED:
-      return state.set('page', 1).set('ordering', fromJS(action.payload));
+    case ORDERING_CHANGED:
+      return state
+        .set('page', initialState.get('page'))
+        .set('ordering', action.payload);
+
+    case REQUEST_INCIDENTS:
+      return state
+        .set('loading', true)
+        .set('error', false)
+        .set('errorMessage', undefined);
+
+    case SEARCH_INCIDENTS_SUCCESS:
+    case REQUEST_INCIDENTS_SUCCESS:
+      return state
+        .set('incidents', fromJS(action.payload))
+        .set('loading', false)
+        .set('error', false)
+        .set('errorMessage', undefined);
+
+    case SEARCH_INCIDENTS_ERROR:
+    case REQUEST_INCIDENTS_ERROR:
+      return state
+        .set('error', true)
+        .set('errorMessage', action.payload)
+        .set('loading', false);
+
+    case SET_SEARCH_QUERY:
+      return state
+        .set('activeFilter', initialState.get('activeFilter'))
+        .set('editFilter', initialState.get('editFilter'))
+        .set('ordering', initialState.get('ordering'))
+        .set('page', initialState.get('page'))
+        .set('searchQuery', action.payload);
+
+    case RESET_SEARCH_QUERY:
+      return state
+        .set('ordering', initialState.get('ordering'))
+        .set('page', initialState.get('page'))
+        .set('searchQuery', initialState.get('searchQuery'));
 
     default:
       return state;

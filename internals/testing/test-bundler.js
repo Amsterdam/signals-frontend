@@ -9,11 +9,18 @@ import 'jest-localstorage-mock';
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
+global.fetch = require('jest-fetch-mock');
+
 // React 16 Enzyme adapter
 Enzyme.configure({ adapter: new Adapter() });
 
 global.window.L = L;
 global.window.alert = msg => msg;
+
+if (process.env.CI) {
+  // prevent pollution of the build log when running tests in CI
+  global.console.warn = () => {};
+}
 
 /**
  * Element.closest() polyfill

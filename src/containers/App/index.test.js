@@ -1,13 +1,33 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { render, cleanup } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import { render, cleanup, act } from '@testing-library/react';
+import { withAppContext, history } from 'test/utils';
+import * as auth from 'shared/services/auth/auth';
 import App, { AppContainer, mapDispatchToProps } from './index';
 import { REQUEST_CATEGORIES } from './constants';
 
 jest.mock('components/MapInteractive');
+jest.mock('shared/services/auth/auth', () => ({
+  __esModule: true,
+  ...jest.requireActual('shared/services/auth/auth'),
+}));
+
+jest.useFakeTimers();
 
 describe('<App />', () => {
+  let listenSpy;
+  let spyScrollTo;
+
+  beforeEach(() => {
+    spyScrollTo = jest.fn();
+    Object.defineProperty(global.window, 'scrollTo', { value: spyScrollTo });
+    listenSpy = jest.spyOn(history, 'listen');
+  });
+
+  afterEach(() => {
+    listenSpy.mockRestore();
+  });
+
   it('should have props from structured selector', () => {
     const tree = mount(withAppContext(<App />));
 
@@ -16,20 +36,54 @@ describe('<App />', () => {
     expect(props.requestCategoriesAction).not.toBeUndefined();
   });
 
+  it('should scroll to top on history change', () => {
+    render(
+      withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
+    );
+
+    expect(spyScrollTo).not.toHaveBeenCalled();
+
+    act(() => {
+      history.push('/somewhere/else');
+    });
+
+    expect(spyScrollTo).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(spyScrollTo).toHaveBeenCalledWith({
+      top: 0,
+      left: 0,
+    });
+  });
+
+
   it('should render correctly', () => {
-    const { getByTestId } = render(
+    jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => false);
+
+    const { getByTestId, queryByTestId, rerender } = render(
       withAppContext(<AppContainer requestCategoriesAction={() => {}} />),
     );
 
-    expect(getByTestId('siteFooter')).toBeTruthy();
-    expect(getByTestId('siteHeader')).toBeTruthy();
+    expect(getByTestId('siteFooter')).toBeInTheDocument();
+    expect(getByTestId('siteHeader')).toBeInTheDocument();
+
+    jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => true);
+
+    rerender(
+      withAppContext(<AppContainer requestCategoriesAction={() => {}} />),
+    );
+
+    expect(queryByTestId('siteFooter')).toBeNull();
   });
 
   it('should render the correct theme', () => {
     global.localStorage.getItem.mockImplementation(() => undefined);
 
     const { queryByTestId, rerender } = render(
-      withAppContext(<AppContainer requestCategoriesAction={() => {}} />),
+      withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
     );
 
     expect(queryByTestId('signalsThemeProvider')).not.toBeNull();
@@ -39,7 +93,7 @@ describe('<App />', () => {
     global.localStorage.getItem.mockImplementation(() => '42');
 
     rerender(
-      withAppContext(<AppContainer requestCategoriesAction={() => {}} />),
+      withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
     );
 
     expect(queryByTestId('signalsThemeProvider')).toBeNull();

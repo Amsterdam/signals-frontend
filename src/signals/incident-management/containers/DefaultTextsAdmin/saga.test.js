@@ -1,16 +1,18 @@
 import { testSaga } from 'redux-saga-test-plan';
 import { takeLatest } from 'redux-saga/effects';
-import { authCall, authPostCall } from 'shared/services/api/api';
+import * as Sentry from '@sentry/browser';
 
+import { authCall, authPostCall, getErrorMessage } from 'shared/services/api/api';
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
+import * as actions from 'containers/App/actions';
+
+import CONFIGURATION from 'shared/services/configuration/configuration';
 import watchDefaultTextsAdminSaga,
 {
   fetchDefaultTexts,
   storeDefaultTexts,
-} from './saga'
-import {
-  FETCH_DEFAULT_TEXTS,
-  STORE_DEFAULT_TEXTS,
-} from './constants';
+} from './saga';
+import { FETCH_DEFAULT_TEXTS, STORE_DEFAULT_TEXTS } from './constants';
 
 import {
   fetchDefaultTextsSuccess,
@@ -20,8 +22,8 @@ import {
 } from './actions';
 
 describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () => {
-  const requestURL = 'https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/asbest-accu/status-message-templates';
-  const category_url = 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu';
+  const requestURL = `${CONFIGURATION.TERMS_ENDPOINT}afval/sub_categories/asbest-accu/status-message-templates`;
+  const category_url = `${CONFIGURATION.CATEGORIES_ENDPOINT}afval/sub_categories/asbest-accu`;
   const payload = {
     main_slug: 'afval',
     sub_slug: 'asbest-accu',
@@ -43,13 +45,16 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
 
   describe('fetchDefaultTexts', () => {
     it('should dispatch success', () => {
-      const result = [{
-        state: 'm',
-        templates: [{ title: 'gemend', text: 'foo' }],
-      },{
-        state: 'i',
-        templates: [{ title: 'in behandeling', text: 'bar' }],
-      }];
+      const result = [
+        {
+          state: 'm',
+          templates: [{ title: 'gemend', text: 'foo' }],
+        },
+        {
+          state: 'i',
+          templates: [{ title: 'in behandeling', text: 'bar' }],
+        },
+      ];
 
       testSaga(fetchDefaultTexts, action)
         .next()
@@ -61,11 +66,14 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
     });
 
     it('should dispatch success empty list with missing template', () => {
-      const result = [{
-        state: 'm',
-      },{
-        state: 'i',
-      }];
+      const result = [
+        {
+          state: 'm',
+        },
+        {
+          state: 'i',
+        },
+      ];
 
       testSaga(fetchDefaultTexts, action)
         .next()
@@ -87,6 +95,15 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         .throw(error)
         .put(fetchDefaultTextsError('Internal server error'))
         .next()
+        .put(actions.showGlobalNotification({
+          title: getErrorMessage(error),
+          message: 'Het standaard teksten overzicht kon niet opgehaald worden',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        }))
+        .next()
+        .call([Sentry, 'captureException'], error)
+        .next()
         .isDone();
     });
   });
@@ -98,13 +115,16 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
     };
 
     it('should dispatch success', () => {
-      const result = [{
-        state: 'm',
-        templates: [{ title: 'gemend', text: 'foo' }],
-      },{
-        state: 'i',
-        templates: [{ title: 'in behandeling', text: 'bar' }],
-      }];
+      const result = [
+        {
+          state: 'm',
+          templates: [{ title: 'gemend', text: 'foo' }],
+        },
+        {
+          state: 'i',
+          templates: [{ title: 'in behandeling', text: 'bar' }],
+        },
+      ];
 
       testSaga(storeDefaultTexts, action)
         .next()
@@ -116,10 +136,14 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
     });
 
     it('should dispatch success empty list with missing template', () => {
-      const result = [{
-        state: 'm'      },{
-        state: 'i',
-      }];
+      const result = [
+        {
+          state: 'm',
+        },
+        {
+          state: 'i',
+        },
+      ];
 
       testSaga(storeDefaultTexts, action)
         .next()
@@ -140,6 +164,15 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         .next()
         .throw(error)
         .put(storeDefaultTextsError('Internal server error'))
+        .next()
+        .put(actions.showGlobalNotification({
+          title: getErrorMessage(error),
+          message: 'De standaard teksten konden niet opgeslagen worden',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        }))
+        .next()
+        .call([Sentry, 'captureException'], error)
         .next()
         .isDone();
     });

@@ -3,7 +3,10 @@ import { replace } from 'connected-react-router/immutable';
 
 import { authPostCall, postCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { uploadRequest, showGlobalError } from 'containers/App/actions';
+import { uploadRequest, showGlobalNotification } from 'containers/App/actions';
+import { VARIANT_ERROR } from 'containers/Notification/constants';
+import { makeSelectCategories } from 'containers/App/selectors';
+
 import { CREATE_INCIDENT, GET_CLASSIFICATION, SET_PRIORITY } from './constants';
 import {
   createIncidentSuccess,
@@ -14,21 +17,20 @@ import {
   setPrioritySuccess,
   setPriorityError,
 } from './actions';
-import { makeSelectCategories } from '../../../../containers/App/selectors';
 import mapControlsToParams from '../../services/map-controls-to-params';
 import setClassification from '../../services/set-classification';
-
-export const PREDICTION_REQUEST_URL = `${CONFIGURATION.API_ROOT}signals/category/prediction`;
-export const INCIDENT_REQUEST_URL = `${CONFIGURATION.API_ROOT}signals/signal/`;
-export const PRIORITY_REQUEST_URL = `${CONFIGURATION.API_ROOT}signals/auth/priority/`;
 
 export function* retryFetchClassification(text, msDelay = 1000) {
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < 3; i++) {
     try {
-      const apiResponse = yield call(postCall, PREDICTION_REQUEST_URL, {
-        text,
-      });
+      const apiResponse = yield call(
+        postCall,
+        CONFIGURATION.PREDICTION_ENDPOINT,
+        {
+          text,
+        }
+      );
 
       return apiResponse;
     } catch (err) {
@@ -63,7 +65,7 @@ export function* createIncident(action) {
   try {
     const result = yield call(
       postCall,
-      INCIDENT_REQUEST_URL,
+      CONFIGURATION.INCIDENT_ENDPOINT,
       mapControlsToParams(action.payload.incident, action.payload.wizard)
     );
 
@@ -103,13 +105,13 @@ export function* setPriorityHandler(action) {
   try {
     const result = yield call(
       authPostCall,
-      PRIORITY_REQUEST_URL,
+      CONFIGURATION.PRIORITY_ENDPOINT,
       action.payload
     );
     yield put(setPrioritySuccess(result));
   } catch (error) {
     yield put(setPriorityError());
-    yield put(showGlobalError('PRIORITY_FAILED'));
+    yield put(showGlobalNotification({ variant: VARIANT_ERROR, title: 'Het zetten van de urgentie van deze melding is niet gelukt' }));
   }
 }
 

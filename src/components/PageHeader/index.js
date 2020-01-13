@@ -6,14 +6,18 @@ import { Heading, Row, Paragraph } from '@datapunt/asc-ui';
 
 const StyledSection = styled.section`
   background-color: #f3f3f3;
-  padding-top: 14px;
+  padding-top: 24px;
   padding-bottom: 10px;
   margin-bottom: 40px;
 `;
 
 const StyledHeading = styled(Heading)`
   margin: 0;
-  line-height: 44px;
+  line-height: 24px;
+`;
+
+const SubTitle = styled(Paragraph)`
+  margin-bottom: 0;
 `;
 
 const PageHeader = ({
@@ -23,7 +27,7 @@ const PageHeader = ({
     <Row>
       <div>
         <StyledHeading styleAs="h3">{title}</StyledHeading>
-        {subTitle && <Paragraph>{subTitle}</Paragraph>}
+        {subTitle && <SubTitle>{subTitle}</SubTitle>}
       </div>
 
       {children}

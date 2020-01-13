@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextArea from 'components/TextArea';
 
-import Label from '../Label';
+import Label from 'components/Label';
 
 import './style.scss';
 
