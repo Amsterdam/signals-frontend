@@ -4,7 +4,7 @@ import { withAppContext } from 'test/utils';
 
 import IncidentWizard from './index';
 
-describe('<IncidentWizard />', () => {
+describe.skip('<IncidentWizard />', () => {
   const props = {
     wizardDefinition: {},
     getClassification: jest.fn(),
