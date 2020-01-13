@@ -7,7 +7,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+
       - uses: actions/checkout@v1
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install Dependencies
+        run: npm install
 
       - name: Lint
         run: npm run lint
@@ -17,3 +34,9 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Webhook
+        uses: zzzze/webhook-trigger@master
+        with:
+          data: "{\"event_type\":\"build\"}"
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
