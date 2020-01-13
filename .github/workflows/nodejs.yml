@@ -12,7 +12,7 @@ jobs:
           node-version: 10.x
 
       - name: apt-get install
-        run: sudo apt-get netcat git
+        run: sudo apt-get install netcat git
 
       - name: ful--icu
         run: npm i --unsafe-perm -g full-icu
