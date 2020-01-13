@@ -1,25 +1,32 @@
 import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
-import { takeLatest } from 'redux-saga/effects';
+import { call, select, takeLatest, take } from 'redux-saga/effects';
+import { throwError } from 'redux-saga-test-plan/providers';
+import { push } from 'connected-react-router/immutable';
 
-import { resetSearchQuery } from 'models/search/actions';
+import CONFIGURATION from 'shared/services/configuration/configuration';
+import incidentsJSON from 'utils/__tests__/fixtures/incidents.json';
 import {
   authCall,
   authDeleteCall,
   authPatchCall,
   authPostCall,
 } from 'shared/services/api/api';
-import filterSaga, {
-  applyFilter,
+import watchIncidentManagementSaga, {
+  fetchProxy,
   doSaveFilter,
   doUpdateFilter,
   fetchFilters,
+  refreshIncidents,
   removeFilter,
-  requestURL,
   saveFilter,
   updateFilter,
+  fetchIncidents,
+  searchIncidents,
 } from '../saga';
 import {
+  APPLY_FILTER_REFRESH_STOP,
+  APPLY_FILTER_REFRESH,
   APPLY_FILTER,
   GET_FILTERS,
   REMOVE_FILTER,
@@ -28,6 +35,12 @@ import {
   SAVE_FILTER,
   UPDATE_FILTER_SUCCESS,
   UPDATE_FILTER,
+  SEARCH_INCIDENTS,
+  REQUEST_INCIDENTS,
+  SET_SEARCH_QUERY,
+  RESET_SEARCH_QUERY,
+  PAGE_CHANGED,
+  ORDERING_CHANGED,
 } from '../constants';
 import {
   filterSaveFailed,
@@ -39,81 +52,279 @@ import {
   getFiltersSuccess,
   removeFilterFailed,
   removeFilterSuccess,
+  searchIncidentsSuccess,
+  searchIncidentsError,
+  requestIncidentsSuccess,
+  applyFilterRefreshStop,
+  applyFilterRefresh,
+  requestIncidentsError,
+  requestIncidents,
 } from '../actions';
+import {
+  makeSelectActiveFilter,
+  makeSelectFilterParams,
+  makeSelectSearchQuery,
+} from '../selectors';
 
 describe('signals/incident-management/saga', () => {
-  it('should watch filterSaga', () => {
-    testSaga(filterSaga)
+  it('should watchIncidentManagementSaga', () => {
+    testSaga(watchIncidentManagementSaga)
       .next()
       .all([
         takeLatest(GET_FILTERS, fetchFilters),
         takeLatest(REMOVE_FILTER, removeFilter),
-        takeLatest(APPLY_FILTER, applyFilter),
         takeLatest(SAVE_FILTER, saveFilter),
         takeLatest(UPDATE_FILTER, updateFilter),
+        takeLatest(
+          [
+            APPLY_FILTER,
+            SEARCH_INCIDENTS,
+            REQUEST_INCIDENTS,
+            SET_SEARCH_QUERY,
+            RESET_SEARCH_QUERY,
+            PAGE_CHANGED,
+            ORDERING_CHANGED,
+          ],
+          fetchProxy
+        ),
       ])
       .next()
-      .isDone();
-  });
-
-  it('should dispatch getFiltersSuccess', () => {
-    const filters = { results: [{ a: 1 }] };
-
-    testSaga(fetchFilters)
+      .take(APPLY_FILTER_REFRESH)
       .next()
-      .call(authCall, requestURL)
-      .next(filters)
-      .put(getFiltersSuccess(filters.results))
+      .race([call(refreshIncidents), take(APPLY_FILTER_REFRESH_STOP)])
+      .finish()
       .next()
       .isDone();
   });
 
-  it('should dispatch getFiltersFailed', () => {
-    const message = '404 not found';
-    const error = new Error(message);
+  describe('fetch proxy', () => {
+    it('should call fetchIncidents', () =>
+      expectSaga(fetchProxy)
+        .provide([
+          [select(makeSelectSearchQuery), undefined],
+        ])
+        .call(fetchIncidents)
+        .run());
 
-    testSaga(fetchFilters)
-      .next()
-      .call(authCall, requestURL)
-      .throw(error)
-      .put(getFiltersFailed(message))
-      .next()
-      .isDone();
+    it('should call searchIncidents', () => {
+      const searchQuery = 'stoeptegels';
+      const action = { payload: searchQuery };
+
+      return expectSaga(fetchProxy, action)
+        .provide([
+          [select(makeSelectSearchQuery), searchQuery],
+        ])
+        .call(searchIncidents, action)
+        .run();
+    });
   });
 
-  it('should dispatch removeFilterSuccess', () => {
-    const id = 1000;
-    const action = { payload: id };
+  describe('fetch incidents', () => {
+    it('should fetchIncidents success', () => {
+      const filter = { name: 'filter', refresh: false };
+      const page = 2;
+      const ordering = '-created_at';
+      const incidents = [{}, {}];
+      const params = { test: 'test' };
+      const filterParams = {
+        page,
+        ordering,
+        ...params,
+      };
 
-    testSaga(removeFilter, action)
-      .next()
-      .call(authDeleteCall, `${requestURL}${id}`)
-      .next(id)
-      .put(removeFilterSuccess(id))
-      .next()
-      .isDone();
+      return expectSaga(fetchIncidents)
+        .provide([
+          [select(makeSelectActiveFilter), filter],
+          [select(makeSelectFilterParams), filterParams],
+          [matchers.call.fn(authCall), incidents],
+        ])
+        .select(makeSelectActiveFilter)
+        .put(requestIncidentsSuccess(incidents))
+        .run();
+    });
+
+    it('should stop and start filter refresh', () => {
+      const filter = { name: 'filter', refresh: true };
+
+      return expectSaga(fetchIncidents)
+        .provide([
+          [select(makeSelectActiveFilter), filter],
+          [matchers.call.fn(authCall), []],
+        ])
+        .select(makeSelectActiveFilter)
+        .put(applyFilterRefreshStop())
+        .put(applyFilterRefresh())
+        .run();
+    });
+
+    it('should dispatch fetchIncidents error', () => {
+      const message = '404 Not Found';
+      const error = new Error(message);
+
+      return expectSaga(fetchIncidents)
+        .provide([
+          [select(makeSelectFilterParams), {}],
+          [matchers.call.fn(authCall), throwError(error)],
+        ])
+        .select(makeSelectFilterParams)
+        .call.like(authCall)
+        .put(requestIncidentsError(message))
+        .run();
+    });
+
+    it('should fetch incidents after page change', () =>
+      expectSaga(watchIncidentManagementSaga)
+        .provide([
+          [select(makeSelectActiveFilter), {}],
+          [matchers.call.fn(authCall), []],
+        ])
+        .put(requestIncidentsSuccess([]))
+        .dispatch({ type: PAGE_CHANGED, payload: 4 })
+        .silentRun());
+
+    it('should fetch incidents after sort change', () =>
+      expectSaga(watchIncidentManagementSaga)
+        .provide([
+          [select(makeSelectActiveFilter), {}],
+          [matchers.call.fn(authCall), []],
+        ])
+        .put(requestIncidentsSuccess([]))
+        .dispatch({
+          type: ORDERING_CHANGED,
+          payload: 'incident-id-in-asc-order',
+        })
+        .silentRun());
   });
 
-  it('should dispatch removeFilterFailed', () => {
-    const id = 1000;
-    const action = { payload: id };
-    const message = '404 not found';
-    const error = new Error(message);
+  describe('search incidents', () => {
+    it('should fetchIncidents success', () => {
+      const q = 'Here be dragons';
 
-    testSaga(removeFilter, action)
-      .next()
-      .call(authDeleteCall, `${requestURL}${id}`)
-      .throw(error)
-      .put(removeFilterFailed(message))
-      .next()
-      .isDone();
+      return expectSaga(searchIncidents, q)
+        .provide([[matchers.call.fn(authCall), incidentsJSON]])
+        .put(applyFilterRefreshStop())
+        .select(makeSelectFilterParams)
+        .call.like(authCall, CONFIGURATION.SEARCH_ENDPOINT, { q })
+        .put(push('/manage/incidents'))
+        .put(searchIncidentsSuccess(incidentsJSON))
+        .run();
+    });
+
+    it('should dispatch success in case of a 500 error status', () => {
+      const q = 'Here be dragons';
+      const message = 'Internal server error';
+      const error = new Error(message);
+      error.response = {
+        status: 500,
+      };
+
+      return expectSaga(searchIncidents, q)
+        .provide([[matchers.call.fn(authCall), throwError(error)]])
+        .select(makeSelectSearchQuery)
+        .call.like(authCall)
+        .put(push('/manage/incidents'))
+        .put(searchIncidentsSuccess({ count: 0, results: [] }))
+        .run();
+    });
+
+    it('should dispatch fetchIncidents error', () => {
+      const q = 'Here be dragons';
+      const message = '404 Not Found';
+      const error = new Error(message);
+      error.response = {
+        status: 404,
+      };
+
+      return expectSaga(searchIncidents, q)
+        .provide([[matchers.call.fn(authCall), throwError(error)]])
+        .call.like(authCall)
+        .put(searchIncidentsError(message))
+        .run();
+    });
   });
 
-  describe('applyFilter', () => {
-    it('should dispatch resetSearchQuery', () => {
-      testSaga(applyFilter)
+  describe('incident refresh', () => {
+    it('should NOT refresh incidents periodically', () => {
+      const filter = {
+        name: 'Foo bar baz',
+      };
+
+      return expectSaga(refreshIncidents, 100)
+        .provide([[select(makeSelectActiveFilter), filter]])
+        .select(makeSelectActiveFilter)
+        .not.put(requestIncidents({ filter }))
+        .silentRun(150);
+    });
+
+    it('should refresh incidents periodically', () => {
+      const filter = {
+        name: 'Foo bar baz',
+        refresh: true,
+      };
+
+      return expectSaga(refreshIncidents, 100)
+        .provide([[select(makeSelectActiveFilter), filter]])
+        .select(makeSelectActiveFilter)
+        .delay(100)
+        .put(requestIncidents({ filter, page: undefined, sort: undefined }))
+        .delay(100)
+        .put(requestIncidents({ filter, page: undefined, sort: undefined }))
+        .silentRun();
+    });
+  });
+
+  describe('fetch filters', () => {
+    it('should dispatch getFiltersSuccess', () => {
+      const filters = { results: [{ a: 1 }] };
+
+      testSaga(fetchFilters)
         .next()
-        .put(resetSearchQuery())
+        .call(authCall, CONFIGURATION.FILTERS_ENDPOINT)
+        .next(filters)
+        .put(getFiltersSuccess(filters.results))
+        .next()
+        .isDone();
+    });
+
+    it('should dispatch getFiltersFailed', () => {
+      const message = '404 not found';
+      const error = new Error(message);
+
+      testSaga(fetchFilters)
+        .next()
+        .call(authCall, CONFIGURATION.FILTERS_ENDPOINT)
+        .throw(error)
+        .put(getFiltersFailed(message))
+        .next()
+        .isDone();
+    });
+  });
+
+  describe('remove filter', () => {
+    it('should dispatch removeFilterSuccess', () => {
+      const id = 1000;
+      const action = { payload: id };
+
+      testSaga(removeFilter, action)
+        .next()
+        .call(authDeleteCall, `${CONFIGURATION.FILTERS_ENDPOINT}${id}`)
+        .next(id)
+        .put(removeFilterSuccess(id))
+        .next()
+        .isDone();
+    });
+
+    it('should dispatch removeFilterFailed', () => {
+      const id = 1000;
+      const action = { payload: id };
+      const message = '404 not found';
+      const error = new Error(message);
+
+      testSaga(removeFilter, action)
+        .next()
+        .call(authDeleteCall, `${CONFIGURATION.FILTERS_ENDPOINT}${id}`)
+        .throw(error)
+        .put(removeFilterFailed(message))
         .next()
         .isDone();
     });
@@ -143,9 +354,7 @@ describe('signals/incident-management/saga', () => {
     it('should call endpoint with filter data', () => {
       testSaga(doSaveFilter, action)
         .next()
-        .put(resetSearchQuery())
-        .next()
-        .call(authPostCall, requestURL, { name, options })
+        .call(authPostCall, CONFIGURATION.FILTERS_ENDPOINT, { name, options })
         .next(payloadResponse)
         .put(filterSaveSuccess(payloadResponse))
         .next()
@@ -154,22 +363,24 @@ describe('signals/incident-management/saga', () => {
         .isDone();
     });
 
-    it('should dispatch success', () => expectSaga(doSaveFilter, action)
-      .provide([[matchers.call.fn(authPostCall), payloadResponse]])
-      .put({
-        type: SAVE_FILTER_SUCCESS,
-        payload: payloadResponse,
-      })
-      .run());
+    it('should dispatch success', () =>
+      expectSaga(doSaveFilter, action)
+        .provide([[matchers.call.fn(authPostCall), payloadResponse]])
+        .put({
+          type: SAVE_FILTER_SUCCESS,
+          payload: payloadResponse,
+        })
+        .run());
 
-    it('should dispatch failed', () => expectSaga(doSaveFilter, {
-      payload: { ...payload, name: undefined },
-    })
-      .put({
-        type: SAVE_FILTER_FAILED,
-        payload: 'No name supplied',
+    it('should dispatch failed', () =>
+      expectSaga(doSaveFilter, {
+        payload: { ...payload, name: undefined },
       })
-      .run());
+        .put({
+          type: SAVE_FILTER_FAILED,
+          payload: 'No name supplied',
+        })
+        .run());
 
     it('catches anything', () => {
       const error = new Error('Something bad happened');
@@ -237,13 +448,15 @@ describe('signals/incident-management/saga', () => {
     it('should call endpoint with filter data', () => {
       testSaga(doUpdateFilter, { ...action, payload: updatePayload })
         .next()
-        .call(authPatchCall, `${requestURL}${id}`, { name, refresh, options })
+        .call(authPatchCall, `${CONFIGURATION.FILTERS_ENDPOINT}${id}`, {
+          name,
+          refresh,
+          options,
+        })
         .next(updatePayload)
         .put(filterUpdatedSuccess(updatePayload))
         .next()
         .put(getFilters())
-        .next()
-        .put(resetSearchQuery())
         .next()
         .isDone();
     });

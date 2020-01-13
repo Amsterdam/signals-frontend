@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useMemo} from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { makeSelectCategories } from 'containers/App/selectors';
 import { makeSelectDataLists } from 'signals/incident-management/selectors';
 import { Tag } from '@datapunt/asc-ui';
-import { isDate } from 'utils';
 import moment from 'moment';
 import * as types from 'shared/types';
 
@@ -16,13 +15,41 @@ const FilterWrapper = styled.div`
 const StyledTag = styled(Tag)`
   display: inline-block;
   margin: 0 5px 5px 0;
+  :first-letter {
+    text-transform: capitalize;
+  }
 `;
-
-const ignoredTags = ['id'];
 
 export const allLabelAppend = ': Alles';
 
-const renderTag = (key, tagKey, mainCategories, list) => {
+export const mapKeys = key => {
+  switch (key) {
+    case 'source':
+      return 'bron';
+
+    default:
+      return key;
+  }
+};
+const renderItem = (display, key) => (
+  <StyledTag
+    colorType="tint"
+    colorSubtype="level3"
+    key={key}
+    data-testid="filterTagListTag"
+  >
+    {display}
+  </StyledTag>
+);
+
+const renderGroup = (tag, main, list, tagKey) => {
+  if (tag.length === list.length) {
+    return renderItem(`${mapKeys(tagKey)}${allLabelAppend}`, tagKey);
+  }
+  return tag.map(item => renderTag(item.key, main, list));
+};
+
+const renderTag = (key, mainCategories, list) => {
   let found = false;
 
   if (list) {
@@ -30,25 +57,15 @@ const renderTag = (key, tagKey, mainCategories, list) => {
   }
 
   let display = (found && found.value) || key;
-
-  if (!display || ignoredTags.includes(tagKey)) {
-    return;
-  }
-
-  if (isDate(display)) {
-    display = moment(display).format('DD-MM-YYYY');
+  if (!display) {
+    return null;
   }
 
   const foundMain = mainCategories.find(i => i.key === key);
 
   display += foundMain ? allLabelAppend : '';
-
   // eslint-disable-next-line consistent-return
-  return (
-    <StyledTag colorType="tint" colorSubtype="level3" key={key}>
-      {display}
-    </StyledTag>
-  );
+  return renderItem(display, key);
 };
 
 export const FilterTagListComponent = props => {
@@ -64,16 +81,37 @@ export const FilterTagListComponent = props => {
     category_slug: sub,
   };
 
-  if (!tags) {
-    return null;
+  const tagsList = { ...tags };
+
+  // piece together date strings into one tag
+  const dateRange = useMemo(() => {
+    if (!tagsList.created_after && !tagsList.created_before) return undefined;
+
+    return [
+      'Datum:',
+      tagsList.created_after && moment(tagsList.created_after).format('DD-MM-YYYY'),
+      't/m',
+      (tagsList.created_before &&
+        moment(tagsList.created_before).format('DD-MM-YYYY')) ||
+        'nu',
+    ]
+      .filter(Boolean)
+      .join(' ');
+  }, [tagsList.created_after, tagsList.created_before]);
+
+  if (dateRange) {
+    delete tagsList.created_after;
+    delete tagsList.created_before;
+
+    tagsList.dateRange = dateRange;
   }
 
   return (
     <FilterWrapper className="incident-overview-page__filter-tag-list">
-      {Object.entries(tags).map(([tagKey, tag]) =>
+      {Object.entries(tagsList).map(([tagKey, tag]) =>
         Array.isArray(tag)
-          ? tag.map(item => renderTag(item.key, tagKey, main, map[tagKey]))
-          : renderTag(tag, tagKey, main, map[tagKey])
+          ? renderGroup(tag, main, map[tagKey], tagKey)
+          : renderTag(tag, main, map[tagKey])
       )}
     </FilterWrapper>
   );

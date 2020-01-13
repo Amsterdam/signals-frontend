@@ -1,9 +1,8 @@
-/**
- * Test store addons
- */
-
 import { browserHistory } from 'react-router-dom';
 import Immutable from 'immutable';
+
+import { SHOW_GLOBAL_NOTIFICATION } from 'containers/App/constants';
+import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
 import configureStore from './configureStore';
 
 describe('configureStore', () => {
@@ -28,6 +27,32 @@ describe('configureStore', () => {
   describe('runSaga', () => {
     it('should contain a hook for `sagaMiddleware.run`', () => {
       expect(typeof store.runSaga).toBe('function');
+    });
+
+    it('should catch errors thrown from sagas', () => {
+      const dispatchSpy = jest.spyOn(store, 'dispatch');
+      const title = 'Whoopsie';
+      const error = new Error(title);
+
+      function* someGenerator() {
+        throw error;
+      }
+
+      expect(dispatchSpy).not.toHaveBeenCalled();
+
+      store.runSaga(someGenerator);
+
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          payload: {
+            message: expect.any(String),
+            title: expect.any(String),
+            variant: VARIANT_ERROR,
+            type: TYPE_GLOBAL,
+          },
+          type: SHOW_GLOBAL_NOTIFICATION,
+        })
+      );
     });
   });
 });

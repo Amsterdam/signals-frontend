@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Button, Column, themeColor } from '@datapunt/asc-ui';
+import { themeSpacing } from '@datapunt/asc-ui';
 
 export const Form = styled.form`
   column-count: 2;
@@ -12,50 +12,6 @@ export const Form = styled.form`
   @media (max-width: 600px) {
     column-count: 1;
   }
-`;
-
-export const FormFooter = styled.footer`
-  border-top: 2px solid #e6e6e6;
-  background: ${themeColor('tint', 'level1')};
-  height: 66px;
-  padding: 10px 0;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  left: 0;
-`;
-
-export const ButtonContainer = styled(Column)`
-  justify-content: flex-start;
-`;
-
-export const SubmitButton = styled(Button).attrs({
-  color: 'secondary',
-})`
-  font-family: inherit;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: bold;
-`;
-
-export const ResetButton = styled(Button)`
-  background-color: ${themeColor('tint', 'level1')};
-  margin-right: auto;
-  font-family: inherit;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: bold;
-`;
-
-export const CancelButton = styled(Button).attrs({
-  color: 'bright',
-})`
-  font-family: inherit;
-  margin-right: 15px;
-  background-color: #b4b4b4;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: bold;
 `;
 
 export const ControlsWrapper = styled.div`
@@ -95,4 +51,11 @@ export const Fieldset = styled.fieldset`
     background-color: #f5f5f5;
     padding: 15px 20px;
   `}
+`;
+
+export const DatesWrapper = styled.div`
+  display: flex;
+  & > * + * {
+    margin-left: ${themeSpacing(5)};
+  }
 `;

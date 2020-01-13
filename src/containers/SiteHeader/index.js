@@ -4,72 +4,45 @@ import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import {
-  makeSelectUserName,
-  makeSelectUserPermissions,
+  makeSelectUserCan,
+  makeSelectUserCanAccess,
 } from 'containers/App/selectors';
 import SiteHeader from 'components/SiteHeader';
-import { withRouter } from 'react-router-dom';
-import { isAuthenticated } from 'shared/services/auth/auth';
 
-import { doLogin, doLogout } from '../App/actions';
+import { doLogout } from '../App/actions';
 
-const HeaderWithRouter = compose(withRouter)(SiteHeader);
-
-export class SiteHeaderContainer extends React.Component {
-  // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-    this.onLoginLogoutButtonClick = this.onLoginLogoutButtonClick.bind(this);
-  }
-
-  onLoginLogoutButtonClick(event, domain) {
-    event.persist();
-    event.preventDefault();
-    event.stopPropagation();
-    if (!isAuthenticated()) {
-      this.props.onLogin(domain);
-    } else {
-      this.props.onLogout();
-    }
-  }
-
-  render() {
-    const { permissions, userName } = this.props;
-
-    return (
-      <HeaderWithRouter
-        isAuthenticated={isAuthenticated()}
-        onLoginLogoutButtonClick={this.onLoginLogoutButtonClick}
-        permissions={permissions}
-        userName={userName}
-      />
-    );
-  }
-}
+export const SiteHeaderContainer = ({ onLogOut, userCan, userCanAccess }) => (
+  <SiteHeader
+    onLogOut={onLogOut}
+    showItems={{
+      defaultTexts: userCan('sia_statusmessagetemplate_write'),
+      departments: userCanAccess('departments'),
+      groups: userCanAccess('groups'),
+      settings: userCanAccess('settings'),
+      users: userCanAccess('users'),
+    }}
+  />
+);
 
 SiteHeaderContainer.propTypes = {
-  onLogin: PropTypes.func,
-  onLogout: PropTypes.func,
-  permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
-  userName: PropTypes.string,
+  onLogOut: PropTypes.func,
+  userCan: PropTypes.func,
+  userCanAccess: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
-  permissions: makeSelectUserPermissions(),
-  userName: makeSelectUserName(),
+  userCan: makeSelectUserCan,
+  userCanAccess: makeSelectUserCanAccess,
 });
 
-export const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    onLogin: doLogin,
-    onLogout: doLogout,
-  },
-  dispatch,
-);
+export const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onLogOut: doLogout,
+    },
+    dispatch
+  );
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(withConnect)(SiteHeaderContainer);

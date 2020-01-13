@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
@@ -24,10 +25,6 @@ class List extends React.Component {
     }
 
     return '-';
-  }
-
-  selectIncident = incident => () => {
-    this.props.incidentSelected(incident);
   }
 
   sortClassName(sortName) {
@@ -59,22 +56,25 @@ class List extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {incidents.map(incident => (
-                <tr key={incident.id} onClick={this.selectIncident(incident)}>
-                  <td>{incident.id}</td>
-                  <td data-testid="incidentDaysOpen">{this.getDaysOpen(incident)}</td>
-                  <td className="no-wrap">{string2date(incident.created_at)} {string2time(incident.created_at)}</td>
-                  <td>{getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}</td>
-                  <td>{incident.category && incident.category.sub}</td>
-                  <td>{getListValueByKey(status, incident.status && incident.status.state)}</td>
-                  <td>{getListValueByKey(priority, incident.priority && incident.priority.priority)}</td>
-                  <td>{incident.location && incident.location.address_text}</td>
-                </tr>
-              ))}
+              {incidents.map(incident => {
+                const detailLink = `/manage/incident/${incident.id}`;
+                return (
+                  <tr key={incident.id}>
+                    <td><Link to={detailLink}>{incident.id}</Link></td>
+                    <td data-testid="incidentDaysOpen"><Link to={detailLink}>{this.getDaysOpen(incident)}</Link></td>
+                    <td className="no-wrap"><Link to={detailLink}>{string2date(incident.created_at)} {string2time(incident.created_at)}</Link></td>
+                    <td><Link to={detailLink}>{getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}</Link></td>
+                    <td><Link to={detailLink}>{incident.category && incident.category.sub}</Link></td>
+                    <td><Link to={detailLink}>{getListValueByKey(status, incident.status && incident.status.state)}</Link></td>
+                    <td><Link to={detailLink}>{getListValueByKey(priority, incident.priority && incident.priority.priority)}</Link></td>
+                    <td><Link to={detailLink}>{incident.location && incident.location.address_text}</Link></td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
-      </div>
+      </div >
     );
   }
 }
@@ -85,7 +85,6 @@ List.propTypes = {
   status: types.dataListType.isRequired,
   stadsdeel: types.dataListType.isRequired,
 
-  incidentSelected: PropTypes.func.isRequired,
   onChangeOrdering: PropTypes.func.isRequired,
   sort: PropTypes.string,
 };

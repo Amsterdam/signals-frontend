@@ -5,18 +5,36 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'connected-react-router/immutable';
 import createSagaMiddleware from 'redux-saga';
+
+import { showGlobalNotification } from 'containers/App/actions';
+import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
+import { getErrorMessage } from 'shared/services/api/api';
+
 import createReducer from './reducers';
 
 export default function configureStore(initialState, history) {
   let composeEnhancers = compose;
-  const reduxSagaMonitorOptions = {};
+  const reduxSagaMonitorOptions = {
+    onError: e => {
+      const notificationTitle = getErrorMessage(e);
+
+      store.dispatch(
+        showGlobalNotification({
+          title: notificationTitle,
+          message: e.message,
+          variant: VARIANT_ERROR,
+          type: TYPE_GLOBAL,
+        })
+      );
+    },
+  };
 
   // If Redux Dev Tools and Saga Dev Tools Extensions are installed, enable them
   /* istanbul ignore next */
   if (process.env.NODE_ENV !== 'production' && typeof window === 'object') {
     /* eslint-disable no-underscore-dangle */
     if (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
-      composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({});
+      composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, traceLimit: 25 });
     }
 
     // NOTE: Uncomment the code below to restore support for Redux Saga
@@ -40,7 +58,7 @@ export default function configureStore(initialState, history) {
   const store = createStore(
     createReducer(),
     initialState,
-    composeEnhancers(...enhancers),
+    composeEnhancers(...enhancers)
   );
 
   // Extensions

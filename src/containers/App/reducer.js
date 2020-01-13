@@ -1,26 +1,17 @@
-/*
- * AppReducer
- *
- * The reducer takes care of our data. Using actions, we can change our
- * application state.
- * To add a new action, add it to the switch statement in the reducer function
- *
- * Example:
- * case YOUR_ACTION_CONSTANT:
- *   return state.set('yourStateVariable', true);
- */
-
 import { fromJS } from 'immutable';
 
-import { ACCESS_TOKEN } from 'shared/services/auth/auth';
+import {
+  VARIANT_DEFAULT,
+  TYPE_DEFAULT,
+} from 'containers/Notification/constants';
 
 import {
   LOGIN_FAILED,
   LOGOUT_FAILED,
   LOGOUT,
   AUTHORIZE_USER,
-  SHOW_GLOBAL_ERROR,
-  RESET_GLOBAL_ERROR,
+  SHOW_GLOBAL_NOTIFICATION,
+  RESET_GLOBAL_NOTIFICATION,
   REQUEST_CATEGORIES_SUCCESS,
   UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
@@ -33,41 +24,38 @@ export const initialState = fromJS({
   loading: false,
   error: false,
   upload: {},
-  userPermissions: [],
-  userName: undefined,
-  userScopes: undefined,
-  accessToken: undefined,
+  user: {
+    permissions: [],
+    roles: [],
+    profile: null,
+  },
   categories: {
     main: [],
     sub: [],
     mainToSub: {},
+  },
+  notification: {
+    message: '',
+    title: '',
+    variant: VARIANT_DEFAULT,
+    type: TYPE_DEFAULT,
   },
 });
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
     case AUTHORIZE_USER:
-      global.localStorage.setItem(ACCESS_TOKEN, action.payload.accessToken);
-
-      return state
-        .set('userName', action.payload.userName)
-        .set('userScopes', fromJS(action.payload.userScopes))
-        .set('userPermissions', fromJS(action.payload.userPermissions))
-        .set('accessToken', action.payload.accessToken);
+      return state.set('user', fromJS(action.payload));
 
     case LOGIN_FAILED:
     case LOGOUT_FAILED:
-    case SHOW_GLOBAL_ERROR:
-      return state
-        .set('error', !!action.payload)
-        .set('errorMessage', action.payload)
-        .set('loading', false);
+      return state.set('error', Boolean(action.payload)).set('loading', false);
 
-    case RESET_GLOBAL_ERROR:
-      return state
-        .set('error', false)
-        .set('errorMessage', '')
-        .set('loading', false);
+    case SHOW_GLOBAL_NOTIFICATION:
+      return state.set('notification', fromJS({ ...action.payload }));
+
+    case RESET_GLOBAL_NOTIFICATION:
+      return state.set('notification', initialState.get('notification'));
 
     case REQUEST_CATEGORIES_SUCCESS:
       return state.set('categories', fromJS(action.payload));
@@ -78,7 +66,7 @@ function appReducer(state = initialState, action) {
         fromJS({
           id: action.payload.id,
           file: action.payload.file.name,
-        }),
+        })
       );
 
     case UPLOAD_PROGRESS:
@@ -87,7 +75,7 @@ function appReducer(state = initialState, action) {
         fromJS({
           ...state.get('upload').toJS(),
           progress: action.payload,
-        }),
+        })
       );
 
     case UPLOAD_SUCCESS:

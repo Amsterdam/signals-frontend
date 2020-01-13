@@ -4,12 +4,15 @@ const domainName = 'meldingen.amsterdam.nl';
 const apiDomainName = 'api.data.amsterdam.nl';
 const mapserverDomainName = 'map.data.amsterdam.nl';
 
-export const OVL_KLOKKEN_LAYER = 'maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Klokken&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326';
-export const OVL_VERLICHTING_LAYER = 'maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Verlichting&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326';
+export const OVL_KLOKKEN_LAYER =
+  'maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Klokken&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326';
+export const OVL_VERLICHTING_LAYER =
+  'maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Verlichting&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326';
 
 export class Configuration {
   constructor(host) {
-    this.hostname = host || (window && window.location && window.location.hostname);
+    this.hostname =
+      host || (window && window.location && window.location.hostname);
     this.config = {};
     this.setConfig();
     this.loadGlobalConfig();
@@ -65,6 +68,18 @@ export class Configuration {
     }
   }
 
+  get USERS_ENDPOINT() {
+    return `${this.config.API_ROOT}signals/v1/private/users/`;
+  }
+
+  get ROLES_ENDPOINT() {
+    return `${this.config.API_ROOT}signals/v1/private/roles/`;
+  }
+
+  get PERMISSIONS_ENDPOINT() {
+    return `${this.config.API_ROOT}signals/v1/private/permissions/`;
+  }
+
   get API_ROOT() {
     return this.config.API_ROOT;
   }
@@ -83,6 +98,58 @@ export class Configuration {
 
   get API_ROOT_MAPSERVER() {
     return this.config.API_ROOT_MAPSERVER;
+  }
+
+  get SEARCH_ENDPOINT() {
+    return `${this.API_ROOT}signals/v1/private/search`;
+  }
+
+  get PREDICTION_ENDPOINT() {
+    return `${this.API_ROOT}signals/category/prediction`;
+  }
+
+  get INCIDENT_ENDPOINT() {
+    return `${this.API_ROOT}signals/signal/`;
+  }
+
+  get INCIDENTS_ENDPOINT() {
+    return `${this.API_ROOT}signals/v1/private/signals/`;
+  }
+
+  get PRIORITY_ENDPOINT() {
+    return `${this.API_ROOT}signals/auth/priority/`;
+  }
+
+  get FEEDBACK_STANDARD_ANSWERS_ENDPOINT() {
+    return `${this.API_ROOT_MLTOOL}signals/v1/public/feedback/standard_answers/`;
+  }
+
+  get FEEDBACK_FORMS_ENDPOINT() {
+    return `${this.API_ROOT_MLTOOL}signals/v1/public/feedback/forms/`;
+  }
+
+  get AUTH_ME_ENDPOINT() {
+    return `${this.API_ROOT}signals/v1/private/me/`;
+  }
+
+  get CATEGORIES_ENDPOINT() {
+    return `${this.API_ROOT}signals/v1/public/terms/categories/`;
+  }
+
+  get TERMS_ENDPOINT() {
+    return `${this.API_ROOT}signals/v1/private/terms/categories/`;
+  }
+
+  get IMAGE_ENDPOINT() {
+    return `${this.API_ROOT}signals/signal/image/`;
+  }
+
+  get FILTERS_ENDPOINT() {
+    return `${this.API_ROOT}signals/v1/private/me/filters/`;
+  }
+
+  get DEPARTMENTS_ENDPOINT() {
+    return `${this.API_ROOT}signals/v1/private/departments/`;
   }
 }
 

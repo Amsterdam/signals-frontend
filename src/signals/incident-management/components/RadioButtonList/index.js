@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import Label from '../Label';
+import Label from 'components/Label';
 
 const FilterGroup = styled.div`
   position: relative;
@@ -19,6 +19,7 @@ const RadioButtonList = ({
   emptySelectionLabel,
   hasEmptySelectionButton,
   defaultValue,
+  disabled,
   groupName,
   options,
   title,
@@ -33,11 +34,12 @@ const RadioButtonList = ({
     {hasEmptySelectionButton && emptySelectionLabel && (
       <div className="antwoord">
         <input
-          type="radio"
+          defaultChecked={defaultValue === ''}
+          disabled={disabled}
           id={`empty_${groupName}`}
           name={groupName}
+          type="radio"
           value=""
-          defaultChecked={defaultValue === ''}
         />
         <label htmlFor={`empty_${groupName}`}>{emptySelectionLabel}</label>
       </div>
@@ -46,11 +48,12 @@ const RadioButtonList = ({
     {options.map(({ key, value }) => (
       <div className="antwoord" key={key}>
         <input
-          type="radio"
+          defaultChecked={key === defaultValue}
+          disabled={disabled}
           id={key}
           name={groupName}
+          type="radio"
           value={key}
-          defaultChecked={key === defaultValue}
         />
         <label htmlFor={key}>{value}</label>
       </div>
@@ -61,12 +64,15 @@ const RadioButtonList = ({
 RadioButtonList.defaultProps = {
   emptySelectionLabel: 'Alles',
   defaultValue: '',
+  disabled: false,
   hasEmptySelectionButton: true,
 };
 
 RadioButtonList.propTypes = {
   /** List of keys for elements that need to be checked by default */
   defaultValue: PropTypes.string,
+  /** When true, will disable all elements in the list */
+  disabled: PropTypes.bool,
   /** Text label for the radio button with the empty value */
   emptySelectionLabel: PropTypes.string,
   /**

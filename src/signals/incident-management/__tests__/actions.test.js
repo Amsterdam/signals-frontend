@@ -8,14 +8,22 @@ describe('signals/incident-management/actions', () => {
     const foo = 'bar';
     const payload = { foo };
 
-    testActionCreator(actions.getFiltersSuccess, constants.GET_FILTERS_SUCCESS, payload);
+    testActionCreator(
+      actions.getFiltersSuccess,
+      constants.GET_FILTERS_SUCCESS,
+      payload
+    );
   });
 
   it('should dispatch getFiltersFailed action', () => {
     const foo = 'bar';
     const payload = { foo };
 
-    testActionCreator(actions.getFiltersFailed, constants.GET_FILTERS_FAILED, payload);
+    testActionCreator(
+      actions.getFiltersFailed,
+      constants.GET_FILTERS_FAILED,
+      payload
+    );
   });
 
   it('should dispatch getFilters action', () => {
@@ -33,14 +41,22 @@ describe('signals/incident-management/actions', () => {
     const foo = 'bar';
     const payload = { foo };
 
-    testActionCreator(actions.removeFilterSuccess, constants.REMOVE_FILTER_SUCCESS, payload);
+    testActionCreator(
+      actions.removeFilterSuccess,
+      constants.REMOVE_FILTER_SUCCESS,
+      payload
+    );
   });
 
   it('should dispatch removeFilterFailed action', () => {
     const foo = 'bar';
     const payload = { foo };
 
-    testActionCreator(actions.removeFilterFailed, constants.REMOVE_FILTER_FAILED, payload);
+    testActionCreator(
+      actions.removeFilterFailed,
+      constants.REMOVE_FILTER_FAILED,
+      payload
+    );
   });
 
   it('should dispatch applyFilter action', () => {
@@ -68,14 +84,22 @@ describe('signals/incident-management/actions', () => {
     const foo = 'bar';
     const payload = { foo };
 
-    testActionCreator(actions.filterSaveFailed, constants.SAVE_FILTER_FAILED, payload);
+    testActionCreator(
+      actions.filterSaveFailed,
+      constants.SAVE_FILTER_FAILED,
+      payload
+    );
   });
 
   it('should dispatch filterSaveSuccess action', () => {
     const foo = 'bar';
     const payload = { foo };
 
-    testActionCreator(actions.filterSaveSuccess, constants.SAVE_FILTER_SUCCESS, payload);
+    testActionCreator(
+      actions.filterSaveSuccess,
+      constants.SAVE_FILTER_SUCCESS,
+      payload
+    );
   });
 
   it('should dispatch filterUpdated action', () => {
@@ -89,31 +113,126 @@ describe('signals/incident-management/actions', () => {
     const foo = 'bar';
     const payload = { foo };
 
-    testActionCreator(actions.filterUpdatedSuccess, constants.UPDATE_FILTER_SUCCESS, payload);
+    testActionCreator(
+      actions.filterUpdatedSuccess,
+      constants.UPDATE_FILTER_SUCCESS,
+      payload
+    );
   });
 
   it('should dispatch filterUpdatedFailed action', () => {
     const foo = 'bar';
     const payload = { foo };
 
-    testActionCreator(actions.filterUpdatedFailed, constants.UPDATE_FILTER_FAILED, payload);
+    testActionCreator(
+      actions.filterUpdatedFailed,
+      constants.UPDATE_FILTER_FAILED,
+      payload
+    );
   });
 
-  it('should dispatch filterCleared action', () => {
-    testActionCreator(actions.filterCleared, constants.CLEAR_FILTER);
+  it('should dispatch clearEditFilter action', () => {
+    testActionCreator(actions.clearEditFilter, constants.CLEAR_EDIT_FILTER);
   });
 
   it('should dispatch filterEditCanceled action', () => {
-    testActionCreator(actions.filterEditCanceled, constants.FILTER_EDIT_CANCELED);
+    testActionCreator(
+      actions.filterEditCanceled,
+      constants.FILTER_EDIT_CANCELED
+    );
   });
 
-  it('should dispatch pageIncidentsChanged action', () => {
+  it('should dispatch pageChanged action', () => {
     const page = 9;
-    testActionCreator(actions.pageIncidentsChanged, constants.PAGE_INCIDENTS_CHANGED, page);
+    testActionCreator(actions.pageChanged, constants.PAGE_CHANGED, page);
   });
 
-  it('should dispatch orderingIncidentsChanged action', () => {
+  it('should dispatch orderingChanged action', () => {
     const ordering = 'order-from-asc-to-desc';
-    testActionCreator(actions.orderingIncidentsChanged, constants.ORDERING_INCIDENTS_CHANGED, ordering);
+    testActionCreator(
+      actions.orderingChanged,
+      constants.ORDERING_CHANGED,
+      ordering
+    );
+  });
+
+  it('should dispatch requestIncidents action', () => {
+    testActionCreator(actions.requestIncidents, constants.REQUEST_INCIDENTS);
+  });
+
+  it('should dispatch requestIncidentsSuccess action', () => {
+    const incidents = { count: 3, results: [{ id: 1 }, { id: 2 }, { id: 3 }] };
+    testActionCreator(
+      actions.requestIncidentsSuccess,
+      constants.REQUEST_INCIDENTS_SUCCESS,
+      incidents
+    );
+  });
+
+  it('should dispatch requestIncidentsError action', () => {
+    const error = new Error('nope');
+
+    testActionCreator(
+      actions.requestIncidentsError,
+      constants.REQUEST_INCIDENTS_ERROR,
+      error
+    );
+  });
+
+  it('should dispatch applyFilterRefresh action', () => {
+    testActionCreator(
+      actions.applyFilterRefresh,
+      constants.APPLY_FILTER_REFRESH,
+    );
+  });
+
+  it('should dispatch applyFilterRefreshStop action', () => {
+    testActionCreator(
+      actions.applyFilterRefreshStop,
+      constants.APPLY_FILTER_REFRESH_STOP,
+    );
+  });
+
+  it('should dispatch searchIncidents action', () => {
+    testActionCreator(
+      actions.searchIncidents,
+      constants.SEARCH_INCIDENTS,
+    );
+  });
+
+  it('should dispatch searchIncidentsSuccess action', () => {
+    const incidents = { count: 3, results: [{ id: 1 }, { id: 2 }, { id: 3 }] };
+
+    testActionCreator(
+      actions.searchIncidentsSuccess,
+      constants.SEARCH_INCIDENTS_SUCCESS,
+      incidents,
+    );
+  });
+
+  it('should dispatch searchIncidentsError action', () => {
+    const error = new Error('nope');
+
+    testActionCreator(
+      actions.searchIncidentsError,
+      constants.SEARCH_INCIDENTS_ERROR,
+      error,
+    );
+  });
+
+  it('should dispatch setSearchQuery action', () => {
+    const searchQuery = 'stoeptegels';
+    testActionCreator(
+      actions.setSearchQuery,
+      constants.SET_SEARCH_QUERY,
+      searchQuery,
+    );
+  });
+
+  it('should dispatch resetSearchQuery action', () => {
+    testActionCreator(
+      actions.resetSearchQuery,
+      constants.RESET_SEARCH_QUERY,
+    );
   });
 });

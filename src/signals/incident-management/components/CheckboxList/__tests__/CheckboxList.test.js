@@ -1,0 +1,426 @@
+import React from 'react';
+import { act, fireEvent, render } from '@testing-library/react';
+import 'jest-styled-components';
+import cloneDeep from 'lodash.clonedeep';
+
+import { withAppContext } from 'test/utils';
+import statuses from 'signals/incident-management/definitions/statusList';
+import categories from 'utils/__tests__/fixtures/categories.json';
+
+import CheckboxList from '..';
+
+describe('signals/incident-management/components/CheckboxList', () => {
+  it('should render a title ', () => {
+    const title = 'This is my title';
+    const { queryByText, rerender } = render(
+      withAppContext(<CheckboxList name="status" options={statuses} />)
+    );
+
+    expect(queryByText(title)).not.toBeInTheDocument();
+
+    rerender(
+      withAppContext(
+        <CheckboxList name="status" options={statuses} title={title} />
+      )
+    );
+
+    expect(queryByText(title)).toBeInTheDocument();
+
+    // should also cover nodes instead of just text
+    const anotherTitle = 'Another title';
+    rerender(
+      withAppContext(
+        <CheckboxList
+          name="status"
+          options={statuses}
+          title={
+            <p>
+              <span>{anotherTitle}</span>
+            </p>
+          }
+        />
+      )
+    );
+
+    expect(queryByText(anotherTitle)).toBeInTheDocument();
+  });
+
+  it('should render a toggle', () => {
+    const toggleAllLabel = 'Toggle all';
+    const { queryByText, rerender } = render(
+      withAppContext(
+        <CheckboxList
+          name="status"
+          options={statuses}
+          toggleAllLabel={toggleAllLabel}
+        />
+      )
+    );
+
+    expect(queryByText(toggleAllLabel)).not.toBeInTheDocument();
+
+    rerender(
+      withAppContext(
+        <CheckboxList
+          hasToggle
+          name="status"
+          options={statuses}
+          toggleAllLabel={toggleAllLabel}
+        />
+      )
+    );
+
+    expect(queryByText(toggleAllLabel)).toBeInTheDocument();
+  });
+
+  it('should render a toggle checkbox', () => {
+    const groupName = 'fooBarBaz';
+    const name = 'status';
+    const { container, rerender } = render(
+      withAppContext(
+        <CheckboxList
+          hasToggle
+          name={name}
+          options={statuses}
+          toggleAllLabel="Toggle all"
+        />
+      )
+    );
+
+    expect(
+      container.querySelectorAll(`input[name="${groupName}"][value="${name}"]`)
+    ).toHaveLength(0);
+
+    rerender(
+      withAppContext(
+        <CheckboxList
+          groupName={groupName}
+          hasToggle
+          name={name}
+          options={statuses}
+          toggleAllLabel="Toggle all"
+        />
+      )
+    );
+
+    expect(
+      container.querySelectorAll(`input[name="${groupName}"][value="${name}"]`)
+    ).toHaveLength(1);
+
+    // giving the group checkbox a name that is different from its children
+    const groupValue = 'groupValue';
+    rerender(
+      withAppContext(
+        <CheckboxList
+          groupName={groupName}
+          groupValue={groupValue}
+          hasToggle
+          name={name}
+          options={statuses}
+          toggleAllLabel="Toggle all"
+        />
+      )
+    );
+
+    expect(
+      container.querySelectorAll(`input[name="${groupName}"][value="${name}"]`)
+    ).toHaveLength(0);
+    expect(
+      container.querySelectorAll(
+        `input[name="${groupName}"][value="${groupValue}"]`
+      )
+    ).toHaveLength(1);
+  });
+
+  it('should render a list of checkboxes ', () => {
+    const name = 'status';
+    const numOptions = 5;
+    const truncated = statuses.slice(0, numOptions);
+
+    const { rerender } = render(
+      withAppContext(<CheckboxList name={name} options={truncated} />)
+    );
+
+    const allBoxes = document.querySelectorAll('input[type="checkbox"]');
+
+    expect(allBoxes).toHaveLength(numOptions);
+
+    allBoxes.forEach(el => {
+      expect(el.name).toEqual(name);
+    });
+
+    // options without required props should not be rendered
+    const invalidOptionsCount = 5;
+    const cloned = cloneDeep(statuses);
+    const optionsWithoutRequiredProps = cloned.map((status, index) => {
+      if (index >= invalidOptionsCount) {
+        return status;
+      }
+
+      return { ...status, id: undefined, key: undefined };
+    });
+
+    rerender(
+      withAppContext(
+        <CheckboxList name={name} options={optionsWithoutRequiredProps} />
+      )
+    );
+
+    expect(document.querySelectorAll('input[type="checkbox"]')).toHaveLength(
+      statuses.length - invalidOptionsCount
+    );
+  });
+
+  it('should check all boxes when group is checked', () => {
+    const groupId = 'qux';
+    const toggleAllLabel = 'Zork';
+    const toggleNothingLabel = 'Dungeon';
+    const { rerender, getByText, queryByText } = render(
+      withAppContext(
+        <CheckboxList
+          defaultValue={[
+            {
+              key: groupId,
+            },
+          ]}
+          groupId={groupId}
+          groupName="statuses"
+          hasToggle
+          name="status"
+          options={statuses}
+          toggleAllLabel={toggleAllLabel}
+          toggleNothingLabel={toggleNothingLabel}
+        />
+      )
+    );
+
+    expect(queryByText(toggleAllLabel)).not.toBeInTheDocument();
+    expect(getByText(toggleNothingLabel)).toBeInTheDocument();
+
+    rerender(
+      withAppContext(
+        <CheckboxList
+          defaultValue={statuses}
+          groupId={groupId}
+          groupName="statuses"
+          hasToggle
+          name="status"
+          options={statuses}
+          toggleAllLabel={toggleAllLabel}
+          toggleNothingLabel={toggleNothingLabel}
+        />
+      )
+    );
+
+    expect(queryByText(toggleAllLabel)).not.toBeInTheDocument();
+    expect(getByText(toggleNothingLabel)).toBeInTheDocument();
+  });
+
+  it('should set toggled when all boxes are checked', () => {
+    const groupId = 'barbazbaz';
+    const toggleAllLabel = 'Select all';
+    const toggleNothingLabel = 'Select none';
+    const { container, getByText, queryByText } = render(
+      withAppContext(
+        <CheckboxList
+          groupId={groupId}
+          groupName="statuses"
+          hasToggle
+          name="status"
+          options={statuses}
+          toggleAllLabel={toggleAllLabel}
+          toggleNothingLabel={toggleNothingLabel}
+        />
+      )
+    );
+
+    // loop over all checkboxes but one and check them manually
+    const nodeListIterator = container
+      .querySelectorAll('input[type="checkbox"]:not(:last-of-type)')
+      .values();
+    for (const checkbox of nodeListIterator) {
+      act(() => {
+        fireEvent.click(checkbox);
+      });
+    }
+
+    expect(getByText(toggleAllLabel)).toBeInTheDocument();
+    expect(queryByText(toggleNothingLabel)).not.toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(
+        container.querySelector('input[type="checkbox"]:last-of-type')
+      );
+    });
+
+    expect(queryByText(toggleAllLabel)).not.toBeInTheDocument();
+    expect(getByText(toggleNothingLabel)).toBeInTheDocument();
+  });
+
+  it('should update correctly when defaultValue prop value changes', () => {
+    const groupId = 'barbazbaz';
+    const toggleAllLabel = 'Select everything!!!!';
+    const toggleNothingLabel = 'Deselect all';
+
+    const { rerender, getByText, queryByText } = render(
+      withAppContext(
+        <CheckboxList
+          defaultValue={statuses}
+          groupId={groupId}
+          groupName="statuses"
+          hasToggle
+          name="status"
+          options={statuses}
+          toggleAllLabel={toggleAllLabel}
+          toggleNothingLabel={toggleNothingLabel}
+        />
+      )
+    );
+
+    expect(queryByText(toggleAllLabel)).not.toBeInTheDocument();
+    expect(getByText(toggleNothingLabel)).toBeInTheDocument();
+
+    rerender(
+      withAppContext(
+        <CheckboxList
+          defaultValue={[]}
+          groupId={groupId}
+          groupName="statuses"
+          hasToggle
+          name="status"
+          options={statuses}
+          toggleAllLabel={toggleAllLabel}
+          toggleNothingLabel={toggleNothingLabel}
+        />
+      )
+    );
+
+    expect(queryByText(toggleNothingLabel)).not.toBeInTheDocument();
+    expect(getByText(toggleAllLabel)).toBeInTheDocument();
+  });
+
+  it('should handle toggle', () => {
+    const toggleAllLabel = 'Click here to select all';
+    const toggleNothingLabel = 'Click here to undo selection';
+    const { container, getByText, queryByText } = render(
+      withAppContext(
+        <CheckboxList
+          hasToggle
+          name="status"
+          options={statuses}
+          toggleAllLabel={toggleAllLabel}
+          toggleNothingLabel={toggleNothingLabel}
+        />
+      )
+    );
+
+    expect(getByText(toggleAllLabel)).toBeInTheDocument();
+    expect(queryByText(toggleNothingLabel)).not.toBeInTheDocument();
+    expect(
+      container.querySelectorAll('input[type="checkbox"]:checked')
+    ).toHaveLength(0);
+
+    act(() => {
+      fireEvent.click(getByText(toggleAllLabel));
+    });
+
+    // verify that the toggle has the correct label
+    expect(
+      container.querySelectorAll('input[type="checkbox"]:checked')
+    ).toHaveLength(statuses.length);
+    expect(queryByText(toggleAllLabel)).not.toBeInTheDocument();
+    expect(getByText(toggleNothingLabel)).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(getByText(toggleNothingLabel));
+    });
+
+    expect(
+      container.querySelectorAll('input[type="checkbox"]:checked')
+    ).toHaveLength(0);
+    expect(getByText(toggleAllLabel)).toBeInTheDocument();
+    expect(queryByText(toggleNothingLabel)).not.toBeInTheDocument();
+  });
+
+  it('should handle change', () => {
+    const toggleAllLabel = 'Click here to select all';
+    const toggleNothingLabel = 'Click here to undo selection';
+    const { container, getByText, queryByText } = render(
+      withAppContext(
+        <CheckboxList
+          hasToggle
+          name="status"
+          options={statuses}
+          toggleAllLabel={toggleAllLabel}
+          toggleNothingLabel={toggleNothingLabel}
+        />
+      )
+    );
+
+    act(() => {
+      fireEvent.click(getByText(toggleAllLabel));
+    });
+
+    const randomOption = Math.floor(Math.random() * statuses.length);
+    const randomCheckbox = container.querySelectorAll(
+      'input[type="checkbox"]:checked'
+    )[randomOption];
+
+    expect(randomCheckbox.checked).toEqual(true);
+
+    // uncheck one of the checkboxes
+    act(() => {
+      fireEvent.click(randomCheckbox);
+    });
+
+    expect(randomCheckbox.checked).toEqual(false);
+
+    expect(getByText(toggleAllLabel)).toBeInTheDocument();
+    expect(queryByText(toggleNothingLabel)).not.toBeInTheDocument();
+
+    // check the unchecked box; all boxes should be checked and the correct toggle labels
+    // should be applied
+    act(() => {
+      fireEvent.click(randomCheckbox);
+    });
+
+    expect(randomCheckbox.checked).toEqual(true);
+
+    expect(queryByText(toggleAllLabel)).not.toBeInTheDocument();
+    expect(getByText(toggleNothingLabel)).toBeInTheDocument();
+  });
+
+  it('should give preference to slugs over keys for checkbox values from the incoming data', () => {
+    const options = categories.mainToSub.afval;
+    const slugs = options.map(({ slug }) => slug);
+    const { container, rerender } = render(
+      withAppContext(
+        <CheckboxList
+          defaultValue={options.slice(0, 2)}
+          name="afval"
+          options={options}
+        />
+      )
+    );
+
+    container.querySelectorAll('input[type="checkbox"]').forEach(element => {
+      expect(slugs.includes(element.value));
+    });
+
+    const keys = statuses.map(({ key }) => key);
+
+    rerender(
+      withAppContext(
+        <CheckboxList
+          defaultValue={statuses.slice(0, 2)}
+          name="status"
+          options={statuses}
+        />
+      )
+    );
+
+    container.querySelectorAll('input[type="checkbox"]').forEach(element => {
+      expect(keys.includes(element.value));
+    });
+  });
+});
