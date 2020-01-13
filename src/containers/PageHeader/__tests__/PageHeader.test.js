@@ -16,7 +16,7 @@ describe('containers/PageHeader', () => {
     const props = tree.find(PageHeaderContainerComponent).props();
 
     expect(props.filter).toBeDefined();
-    expect(props.incidentsCount).toBeNull();
+    expect(props.incidentsCount).toBeUndefined();
     expect(props.query).toBeDefined();
   });
 
@@ -34,6 +34,12 @@ describe('containers/PageHeader', () => {
     ));
 
     expect(container.firstChild.querySelector('h1').textContent).toEqual('Meldingen');
+
+    rerender(withAppContext(
+      <PageHeaderContainerComponent filter={filter} incidentsCount={0} />
+    ));
+
+    expect(container.firstChild.querySelector('h1').textContent).toEqual('Meldingen (0)');
 
     rerender(withAppContext(
       <PageHeaderContainerComponent filter={filter} incidentsCount={10} />

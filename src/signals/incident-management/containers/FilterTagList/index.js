@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo} from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
@@ -58,11 +58,7 @@ const renderTag = (key, mainCategories, list) => {
 
   let display = (found && found.value) || key;
   if (!display) {
-    return;
-  }
-
-  if (moment(display, 'YYYY-MM-DD', true).isValid()) {
-    display = moment(display).format('DD-MM-YYYY');
+    return null;
   }
 
   const foundMain = mainCategories.find(i => i.key === key);
@@ -85,9 +81,34 @@ export const FilterTagListComponent = props => {
     category_slug: sub,
   };
 
+  const tagsList = { ...tags };
+
+  // piece together date strings into one tag
+  const dateRange = useMemo(() => {
+    if (!tagsList.created_after && !tagsList.created_before) return undefined;
+
+    return [
+      'Datum:',
+      tagsList.created_after && moment(tagsList.created_after).format('DD-MM-YYYY'),
+      't/m',
+      (tagsList.created_before &&
+        moment(tagsList.created_before).format('DD-MM-YYYY')) ||
+        'nu',
+    ]
+      .filter(Boolean)
+      .join(' ');
+  }, [tagsList.created_after, tagsList.created_before]);
+
+  if (dateRange) {
+    delete tagsList.created_after;
+    delete tagsList.created_before;
+
+    tagsList.dateRange = dateRange;
+  }
+
   return (
     <FilterWrapper className="incident-overview-page__filter-tag-list">
-      {Object.entries(tags).map(([tagKey, tag]) =>
+      {Object.entries(tagsList).map(([tagKey, tag]) =>
         Array.isArray(tag)
           ? renderGroup(tag, main, map[tagKey], tagKey)
           : renderTag(tag, main, map[tagKey])

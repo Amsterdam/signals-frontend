@@ -2,7 +2,6 @@ import React, { useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import moment from 'moment';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { parseOutputFormData } from 'signals/shared/filter/parse';
 import * as types from 'shared/types';
@@ -13,7 +12,9 @@ import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 
 import CheckboxList from '../CheckboxList';
 import RadioButtonList from '../RadioButtonList';
-import { ControlsWrapper, Fieldset, FilterGroup, Form } from './styled';
+import { ControlsWrapper,
+  DatesWrapper, Fieldset, FilterGroup, Form } from './styled';
+import CalendarInput from '../CalendarInput';
 
 export const defaultSubmitBtnLabel = 'Filteren';
 export const saveSubmitBtnLabel = 'Opslaan en filteren';
@@ -42,6 +43,22 @@ const FilterForm = ({
     [filterData.options.maincategory_slug, filterData.options.category_slug]
   );
   const isNewFilter = useMemo(() => !filter.name, [filter.name]);
+
+  const dateFrom = useMemo(
+    () =>
+      filterData.options &&
+      filterData.options.created_after &&
+      moment(filterData.options.created_after),
+    [filterData.options]
+  );
+
+  const dateBefore = useMemo(
+    () =>
+      filterData.options &&
+      filterData.options.created_before &&
+      moment(filterData.options.created_before),
+    [filterData.options]
+  );
 
   const onSubmitForm = useCallback(
     event => {
@@ -131,7 +148,7 @@ const FilterForm = ({
   }, []);
 
   const updateFilterDate = useCallback(
-    /* istanbul ignore next */ (prop, dateValue) => {
+    (prop, dateValue) => {
       setFilterData(state => ({
         ...state,
         options: {
@@ -252,41 +269,34 @@ const FilterForm = ({
             <Label htmlFor="filter_date" isGroupHeader>
               Datum
             </Label>
-            <div className="invoer">
-              <DatePicker
-                autoComplete="off"
-                id="filter_date"
-                /**
-                 * Ignoring the internals of the `onChange` handler since they cannot be tested
-                 * @see https://github.com/Hacker0x01/react-datepicker/issues/1578
-                 */
-                onChange={dateValue => {
-                  /* istanbul ignore next */
-                  const formattedDate = dateValue
-                    ? moment(dateValue).format('YYYY-MM-DD')
-                    : '';
 
-                  updateFilterDate('incident_date', formattedDate);
+            <DatesWrapper>
+              <CalendarInput
+                id="filter_created_after"
+                onSelect={dateValue => {
+                  updateFilterDate(
+                    'created_after',
+                    dateValue && moment(dateValue).format('YYYY-MM-DD')
+                  );
                 }}
-                placeholderText="DD-MM-JJJJ"
-                selected={
-                  filterData.options &&
-                  filterData.options.incident_date &&
-                  moment(filterData.options.incident_date)
-                }
+                selectedDate={dateFrom}
+                label="Vanaf"
+                name="created_after"
               />
 
-              {filterData.options && filterData.options.incident_date && (
-                <input
-                  defaultValue={moment(filterData.options.incident_date).format(
-                    'YYYY-MM-DD'
-                  )}
-                  name="incident_date"
-                  readOnly
-                  type="hidden"
-                />
-              )}
-            </div>
+              <CalendarInput
+                id="filter_created_before"
+                onSelect={dateValue => {
+                  updateFilterDate(
+                    'created_before',
+                    dateValue && dateValue.format('YYYY-MM-DD')
+                  );
+                }}
+                selectedDate={dateBefore}
+                label="Tot en met"
+                name="created_before"
+              />
+            </DatesWrapper>
           </FilterGroup>
 
           <FilterGroup>
