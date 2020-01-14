@@ -1,23 +1,22 @@
 import { fromJS } from 'immutable';
 
-import { ACCESS_TOKEN } from 'shared/services/auth/auth';
+import userJson from 'utils/__tests__/fixtures/user.json';
 import appReducer, { initialState } from './reducer';
-
 import {
   AUTHORIZE_USER,
   LOGIN_FAILED,
   LOGOUT_FAILED,
   LOGOUT,
   REQUEST_CATEGORIES_SUCCESS,
-  RESET_GLOBAL_ERROR,
-  SHOW_GLOBAL_ERROR,
+  RESET_GLOBAL_NOTIFICATION,
+  SHOW_GLOBAL_NOTIFICATION,
   UPLOAD_FAILURE,
   UPLOAD_PROGRESS,
   UPLOAD_REQUEST,
   UPLOAD_SUCCESS,
 } from './constants';
 
-describe('appReducer', () => {
+describe('containers/App/reducer', () => {
   it('should return the initial state', () => {
     expect(appReducer(undefined, {})).toEqual(fromJS(initialState));
   });
@@ -27,64 +26,43 @@ describe('appReducer', () => {
       expect(
         appReducer(fromJS({}), {
           type: AUTHORIZE_USER,
+          payload: userJson,
+        }).toJS(),
+      ).toEqual({ user: userJson });
+    });
+  });
+
+  describe('SHOW_GLOBAL_NOTIFICATION', () => {
+    it('sets global notification', () => {
+      expect(
+        appReducer(fromJS({}), {
+          type: SHOW_GLOBAL_NOTIFICATION,
           payload: {
-            userName: 'Diabolo',
-            userScopes: ['SCOPE'],
-            accessToken: 'DFGHJGFDSDFGHJKJH',
+            title: 'title',
+            message: 'message',
+            variant: 'error',
+            type: 'global',
           },
         }).toJS(),
       ).toEqual({
-        userName: 'Diabolo',
-        userScopes: ['SCOPE'],
-        accessToken: 'DFGHJGFDSDFGHJKJH',
-      });
-    });
-
-    it('should set the access token in session storage', () => {
-      const accessToken = 'DFGHJGFDSDFGHJKJH';
-      const action = {
-        type: AUTHORIZE_USER,
-        payload: {
-          userName: 'Diabolo',
-          userScopes: ['SCOPE'],
-          accessToken,
+        notification: {
+          title: 'title',
+          message: 'message',
+          variant: 'error',
+          type: 'global',
         },
-      };
-
-      appReducer(fromJS({}), action);
-
-      expect(global.localStorage.setItem).toHaveBeenCalledWith(
-        ACCESS_TOKEN,
-        accessToken,
-      );
-    });
-  });
-
-  describe('SHOW_GLOBAL_ERROR', () => {
-    it('sets global error message', () => {
-      expect(
-        appReducer(fromJS({}), {
-          type: SHOW_GLOBAL_ERROR,
-          payload: 'ERROR_MESSAGE',
-        }).toJS(),
-      ).toEqual({
-        error: true,
-        errorMessage: 'ERROR_MESSAGE',
-        loading: false,
       });
     });
   });
 
-  describe('RESET_GLOBAL_ERROR', () => {
-    it('resets global error message', () => {
+  describe('RESET_GLOBAL_NOTIFICATION', () => {
+    it('resets global notification', () => {
       expect(
         appReducer(fromJS({}), {
-          type: RESET_GLOBAL_ERROR,
+          type: RESET_GLOBAL_NOTIFICATION,
         }).toJS(),
       ).toEqual({
-        error: false,
-        errorMessage: '',
-        loading: false,
+        notification: initialState.get('notification').toJS(),
       });
     });
   });
@@ -203,7 +181,6 @@ describe('appReducer', () => {
         }).toJS(),
       ).toEqual({
         error: true,
-        errorMessage: 'ERROR_MESSAGE',
         loading: false,
       });
     });
@@ -218,7 +195,6 @@ describe('appReducer', () => {
         }).toJS(),
       ).toEqual({
         error: true,
-        errorMessage: 'ERROR_MESSAGE',
         loading: false,
       });
     });

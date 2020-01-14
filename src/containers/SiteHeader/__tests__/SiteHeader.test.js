@@ -1,64 +1,24 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-
-import { isAuthenticated } from 'shared/services/auth/auth';
-import { SiteHeaderContainer, mapDispatchToProps } from '../index';
-import { LOGIN, LOGOUT } from '../../App/constants';
-
-jest.mock('shared/services/auth/auth');
+import { mount } from 'enzyme';
+import { withAppContext } from 'test/utils';
+import SiteHeader, { SiteHeaderContainer } from '../index';
 
 describe('containers/SiteHeader', () => {
-  let props;
-  const event = {
-    persist: jest.fn(),
-    preventDefault: jest.fn(),
-    stopPropagation: jest.fn(),
-  };
+  it('should have props from action creator', () => {
+    const tree = mount(withAppContext(<SiteHeader />));
 
-  beforeEach(() => {
-    props = {
-      userName: 'user',
-      onLogin: jest.fn(),
-      onLogout: jest.fn(),
-      permissions: [],
-    };
+    const containerProps = tree.find(SiteHeaderContainer).props();
+
+    expect(containerProps.onLogOut).toBeDefined();
+    expect(typeof containerProps.onLogOut).toEqual('function');
   });
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+  it('should have props from structured selector', () => {
+    const tree = mount(withAppContext(<SiteHeader />));
 
-  describe('onLoginLogoutButtonClick', () => {
-    it('should login when not authenticated', () => {
-      isAuthenticated.mockImplementation(() => false);
+    const props = tree.find(SiteHeaderContainer).props();
 
-      const wrapper = shallow(<SiteHeaderContainer {...props} />);
-
-      const domain = 'the-login-domain';
-      expect(wrapper.instance().onLoginLogoutButtonClick(event, domain));
-      expect(props.onLogin).toHaveBeenCalledWith(domain);
-    });
-
-    it('should logout when authenticated', () => {
-      isAuthenticated.mockImplementation(() => true);
-
-      const wrapper = shallow(<SiteHeaderContainer {...props} isAuthenticated />);
-      expect(wrapper.instance().onLoginLogoutButtonClick(event));
-      expect(props.onLogout).toHaveBeenCalled();
-    });
-  });
-
-  describe('mapDispatchToProps', () => {
-    const dispatch = jest.fn();
-
-    it('should log in', () => {
-      mapDispatchToProps(dispatch).onLogin('domain');
-      expect(dispatch).toHaveBeenCalledWith({ type: LOGIN, payload: 'domain' });
-    });
-
-    it('should log out', () => {
-      mapDispatchToProps(dispatch).onLogout();
-      expect(dispatch).toHaveBeenCalledWith({ type: LOGOUT, payload: null });
-    });
+    expect(props.userCan).toBeDefined();
+    expect(props.userCanAccess).toBeDefined();
   });
 });

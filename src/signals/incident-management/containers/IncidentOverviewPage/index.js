@@ -23,8 +23,8 @@ import {
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
-import Pagination from 'components/Pagination';
 import * as types from 'shared/types';
+import Pagination from 'components/Pagination';
 import { FILTER_PAGE_SIZE } from 'signals/incident-management/constants';
 
 import {
@@ -125,7 +125,6 @@ export const IncidentOverviewPageContainerComponent = ({
 
   const totalPages = useMemo(() => Math.ceil(count / FILTER_PAGE_SIZE), [
     count,
-    FILTER_PAGE_SIZE,
   ]);
 
   const canRenderList = results && results.length > 0 && totalPages > 0;

@@ -135,7 +135,7 @@ describe('signals/incident-management/selectors', () => {
       id: index + 1,
     }));
 
-    const incidents = { count: 100, results }
+    const incidents = { count: 100, results };
 
     const stateLoading = fromJS({
       incidentManagement: { ...initialState.toJS(), loading: true, incidents },

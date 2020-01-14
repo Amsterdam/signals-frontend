@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Calendar } from '@datapunt/asc-assets';
 import { styles } from '@datapunt/asc-ui';
 
-import Label from '../Label';
+import Label from 'components/Label';
 
 const InputWrapper = styled.div`
   position: relative;

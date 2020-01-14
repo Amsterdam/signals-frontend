@@ -115,7 +115,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     constants.FILTER_PAGE_SIZE = 101;
     const incidents = generateIncidents();
 
-    const { queryByTestId, rerender } = render(
+    const { queryByTestId } = render(
       withAppContext(
         <IncidentOverviewPageContainerComponent
           {...props}
@@ -132,7 +132,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
     constants.FILTER_PAGE_SIZE = 100;
 
-    rerender(
+    render(
       withAppContext(
         <IncidentOverviewPageContainerComponent
           {...props}
@@ -149,7 +149,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
     constants.FILTER_PAGE_SIZE = 99;
 
-    rerender(
+    render(
       withAppContext(
         <IncidentOverviewPageContainerComponent
           {...props}

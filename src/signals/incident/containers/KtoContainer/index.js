@@ -82,7 +82,7 @@ export const KtoContainerComponent = ({
   useEffect(() => {
     requestKtoAnswersAction(yesNo === 'ja');
     checkKtoAction(uuid);
-  }, []);
+  }, [requestKtoAnswersAction, checkKtoAction, yesNo, uuid]);
 
   if (ktoContainer.statusError) {
     return (
