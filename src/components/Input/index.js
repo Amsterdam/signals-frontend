@@ -65,7 +65,7 @@ const Input = ({ className, hint, label, id, error, ...rest }) => (
     {label && <Label hasHint={Boolean(hint)} htmlFor={id} label={label} />}
     {hint && <Hint>{hint}</Hint>}
     {error && <Error>{error}</Error>}
-    <StyledInput id={id} showError={Boolean(error)} {...rest} />
+    <StyledInput id={id} showError={Boolean(error)} type="text" {...rest} />
   </Wrapper>
 );
 
