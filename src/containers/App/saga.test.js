@@ -254,7 +254,9 @@ describe('containers/App/saga', () => {
 
       testSaga(fetchCategories)
         .next()
-        .call(request, CONFIGURATION.CATEGORIES_ENDPOINT)
+        .call(request, CONFIGURATION.CATEGORIES_ENDPOINT, {
+          headers: { Accept: 'application/json' },
+        })
         .next()
         .put(requestCategoriesSuccess(mapCategories(categories)))
         .next()
@@ -266,7 +268,9 @@ describe('containers/App/saga', () => {
 
       return expectSaga(fetchCategories)
         .provide([[matchers.call.fn(request), throwError(error)]])
-        .call(request, CONFIGURATION.CATEGORIES_ENDPOINT)
+        .call(request, CONFIGURATION.CATEGORIES_ENDPOINT, {
+          headers: { Accept: 'application/json' },
+        })
         .put(
           showGlobalNotification({
             variant: VARIANT_ERROR,
