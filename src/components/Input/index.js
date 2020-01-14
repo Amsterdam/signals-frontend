@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import {
-  Input as Field,
   Label as FieldLabel,
   styles,
   themeColor,
@@ -10,8 +9,8 @@ import {
   themeSpacing,
 } from '@datapunt/asc-ui';
 
-const StyledInput = styled(Field)`
-  ${styles.Input}
+const StyledInput = styled.input`
+  ${styles.InputStyle.componentStyle.rules}
 
   &[disabled] {
     border: 1px solid ${themeColor('tint', 'level4')};
