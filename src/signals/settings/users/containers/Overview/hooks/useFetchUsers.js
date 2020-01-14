@@ -1,3 +1,4 @@
+import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
 import { useState, useEffect } from 'react';
 
 import { getAuthHeaders } from 'shared/services/auth/auth';
@@ -35,9 +36,13 @@ const useFetchUsers = ({ page, pageSize } = {}) => {
           .filter(Boolean)
           .join('?');
         const response = await fetch(url, {
-          headers: getAuthHeaders(),
+          headers: {
+            ...getAuthHeaders(),
+            Accept: 'application/json',
+          },
           signal,
         });
+
         const userData = await response.json();
         const filteredUserData = filterData(userData.results);
 

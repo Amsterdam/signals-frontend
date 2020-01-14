@@ -1,3 +1,4 @@
+import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
 import { useState, useEffect } from 'react';
 import { getAuthHeaders } from 'shared/services/auth/auth';
 import { getErrorMessage } from 'shared/services/api/api';

@@ -40,24 +40,34 @@ describe('signals/settings/users/containers/Overview', () => {
     let queryByText;
 
     await reAct(async () => {
-      ({ queryByText, rerender } = await render(withAppContext(<UsersOverviewContainer userCan={userCan} />)));
+      ({ queryByText, rerender } = await render(
+        withAppContext(<UsersOverviewContainer userCan={userCan} />)
+      ));
     });
 
     expect(queryByText('Gebruiker toevoegen')).toBeInTheDocument();
 
-    await reAct(async () => rerender(withAppContext(<UsersOverviewContainer userCan={() => false} />)));
+    await reAct(async () =>
+      rerender(withAppContext(<UsersOverviewContainer userCan={() => false} />))
+    );
 
     expect(queryByText('Gebruiker toevoegen')).not.toBeInTheDocument();
   });
 
   it('should request users from API on mount', async () => {
     await act(async () => {
-      await render(withAppContext(<UsersOverviewContainer userCan={userCan} />));
+      await render(
+        withAppContext(<UsersOverviewContainer userCan={userCan} />)
+      );
 
       await wait(() =>
         expect(global.fetch).toHaveBeenCalledWith(
           expect.stringContaining(configuration.USERS_ENDPOINT),
-          expect.objectContaining({ headers: {} })
+          expect.objectContaining({
+            headers: {
+              Accept: 'application/json',
+            },
+          })
         )
       );
     });
@@ -75,7 +85,9 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(getByText(`Gebruikers (${usersJSON.count})`)).toBeInTheDocument();
 
-    expect(container.querySelectorAll('tbody tr')).toHaveLength(usersJSON.count);
+    expect(container.querySelectorAll('tbody tr')).toHaveLength(
+      usersJSON.count
+    );
   });
 
   it('should render pagination controls', async () => {
@@ -94,7 +106,9 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await reAct(async () => {
       await rerender(
-        withAppContext(<UsersOverviewContainer pageSize={100} userCan={userCan} />)
+        withAppContext(
+          <UsersOverviewContainer pageSize={100} userCan={userCan} />
+        )
       );
     });
 
@@ -127,7 +141,9 @@ describe('signals/settings/users/containers/Overview', () => {
     }));
 
     await reAct(async () => {
-      await render(withAppContext(<UsersOverviewContainer userCan={userCan} />));
+      await render(
+        withAppContext(<UsersOverviewContainer userCan={userCan} />)
+      );
     });
 
     expect(push).not.toHaveBeenCalled();
@@ -139,7 +155,9 @@ describe('signals/settings/users/containers/Overview', () => {
     }));
 
     await reAct(async () => {
-      await render(withAppContext(<UsersOverviewContainer userCan={userCan} />));
+      await render(
+        withAppContext(<UsersOverviewContainer userCan={userCan} />)
+      );
     });
 
     expect(push).not.toHaveBeenCalled();
@@ -160,9 +178,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     fireEvent.click(row.querySelector('td:first-of-type'), { bubbles: true });
 
-    expect(push).toHaveBeenCalledWith(
-      routes.user.replace(/:userId.*/, itemId)
-    );
+    expect(push).toHaveBeenCalledWith(routes.user.replace(/:userId.*/, itemId));
 
     push.mockReset();
 
