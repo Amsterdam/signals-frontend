@@ -14,7 +14,7 @@ jobs:
       - name: apt-get install
         run: sudo apt-get install netcat git libgif-dev
 
-      - name: ful--icu
+      - name: full-icu
         run: npm i --unsafe-perm -g full-icu
 
       - uses: actions/checkout@v1
