@@ -21,7 +21,11 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       configuration.USERS_ENDPOINT,
-      expect.objectContaining({ headers: {} })
+      expect.objectContaining({
+        headers: {
+          Accept: 'application/json',
+        },
+      })
     );
 
     expect(result.current.isLoading).toEqual(false);
@@ -37,7 +41,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       expect.stringMatching(new RegExp(`\\/?page=${page}$`)),
-      expect.objectContaining({ headers: {} })
+      expect.objectContaining({ headers: { Accept: 'application/json' } })
     );
   });
 
@@ -49,7 +53,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       expect.stringMatching(new RegExp(`\\/?page_size=${pageSize}$`)),
-      expect.objectContaining({ headers: {} })
+      expect.objectContaining({ headers: { Accept: 'application/json' } })
     );
   });
 
@@ -57,7 +61,9 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
     const error = new Error('fake error message');
     fetch.mockRejectOnce(error);
 
-    const { result, waitForNextUpdate } = renderHook(() => useFetchUsers({ page: 1 }));
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useFetchUsers({ page: 1 })
+    );
 
     expect(result.current.error).toEqual(false);
 
