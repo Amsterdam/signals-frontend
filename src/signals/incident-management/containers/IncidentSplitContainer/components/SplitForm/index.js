@@ -66,7 +66,7 @@ const form = FormBuilder.group({
     priority: 'normal', // incident.priority.priority,
   }),
   part3: FormBuilder.group({
-    subcategory: '',// incident.category.category_url,
+    subcategory: '', // incident.category.category_url,
     text: '', // incident.text,
     image: true,
     note: '',
@@ -116,14 +116,20 @@ const SplitForm = ({
         subcategory: incident.category.category_url,
         text: incident.text,
         priority: incident.priority.priority,
-      })
+      });
     });
-  }, []);
+  }, [
+    incident.category.category_url,
+    incident.priority.priority,
+    incident.text,
+  ]);
 
   return (
     <div>
       <StyledDisclaimer data-testid="splitFormDisclaimer">
-        Splitsen mag alleen als de oorspronkelijke melding over twee verschillende onderwerpen gaat, die zonder samenwerking met een andere afdeling kan worden afgehandeld.
+        Splitsen mag alleen als de oorspronkelijke melding over twee
+        verschillende onderwerpen gaat, die zonder samenwerking met een andere
+        afdeling kan worden afgehandeld.
       </StyledDisclaimer>
 
       <IncidentPart
@@ -142,13 +148,15 @@ const SplitForm = ({
         splitForm={form}
       />
 
-      {isVisible ?
+      {isVisible ? (
         <Fragment>
           <StyledRemoveButton
             data-testid="splitFormPartRemove"
             variant="textButton"
             onClick={() => setVisibility(false)}
-          >Verwijder</StyledRemoveButton>
+          >
+            Verwijder
+          </StyledRemoveButton>
 
           <IncidentPart
             index="3"
@@ -157,21 +165,28 @@ const SplitForm = ({
             priorityList={priorityList}
             splitForm={form}
           />
-
         </Fragment>
-        :
+      ) : (
         <StyledButton
           data-testid="splitFormPartAdd"
           variant="primaryInverted"
           onClick={() => setVisibility(true)}
-        >Deelmelding 3 toevoegen</StyledButton>
-      }
+        >
+          Deelmelding 3 toevoegen
+        </StyledButton>
+      )}
 
       <StyledBottomDisclaimer data-testid="splitFormBottomDisclaimer">
         <StyledH4 $as="h4">Let op</StyledH4>
         <ul>
-          <li>De persoon die de oorspronkelijke melding heeft gedaan, ontvangt een email per deelmelding.</li>
-          <li>De oorspronkelijke melding wordt afgesloten als deze gesplitst wordt.</li>
+          <li>
+            De persoon die de oorspronkelijke melding heeft gedaan, ontvangt een
+            email per deelmelding.
+          </li>
+          <li>
+            De oorspronkelijke melding wordt afgesloten als deze gesplitst
+            wordt.
+          </li>
           <li>Een melding kan maar 1 keer gesplitst worden.</li>
         </ul>
       </StyledBottomDisclaimer>
@@ -180,12 +195,16 @@ const SplitForm = ({
         data-testid="splitFormSubmit"
         variant="secondary"
         onClick={handleSubmit}
-      >Splitsen</StyledSubmitButton>
+      >
+        Splitsen
+      </StyledSubmitButton>
       <StyledButton
         data-testid="splitFormCancel"
         variant="primaryInverted"
         onClick={onHandleCancel}
-      >Annuleer</StyledButton>
+      >
+        Annuleer
+      </StyledButton>
     </div>
   );
 };

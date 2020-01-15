@@ -12,9 +12,6 @@ describe('containers/SearchBar', () => {
 
     const props = tree.find(SearchBarComponent).props();
 
-    expect(props.onResetSearchIncidents).toBeDefined();
-    expect(props.onRequestIncidents).toBeDefined();
-    expect(props.onSearchIncidents).toBeDefined();
     expect(props.query).toBeDefined();
   });
 
@@ -23,44 +20,28 @@ describe('containers/SearchBar', () => {
 
     const containerProps = tree.find(SearchBarComponent).props();
 
-    expect(containerProps.onResetSearchIncidents).toBeDefined();
-    expect(typeof containerProps.onRequestIncidents).toEqual('function');
+    expect(containerProps.setSearchQueryAction).toBeDefined();
+    expect(typeof containerProps.setSearchQueryAction).toEqual('function');
 
-    expect(containerProps.onRequestIncidents).toBeDefined();
-    expect(typeof containerProps.onRequestIncidents).toEqual('function');
-
-    expect(containerProps.onApplyFilter).toBeDefined();
-    expect(typeof containerProps.onApplyFilter).toEqual('function');
-
-    expect(containerProps.onSearchIncidents).toBeDefined();
-    expect(typeof containerProps.onSearchIncidents).toEqual('function');
-
-    expect(containerProps.history).toBeDefined();
-    expect(typeof containerProps.history.push).toEqual('function');
+    expect(containerProps.resetSearchQueryAction).toBeDefined();
+    expect(typeof containerProps.resetSearchQueryAction).toEqual('function');
   });
 
   describe('callback handlers', () => {
-    const onResetSearchIncidents = jest.fn();
-    const onRequestIncidents = jest.fn();
-    const onSearchIncidents = jest.fn();
-    const onApplyFilter = jest.fn();
+    const setSearchQueryAction = jest.fn();
+    const resetSearchQueryAction = jest.fn();
 
     afterEach(jest.resetAllMocks);
 
     it('should call searchSubmit handler', () => {
       const query = '';
-      const push = jest.fn();
-      const history = { push };
 
       const { queryByTestId } = render(
         withAppContext(
           <SearchBarComponent
-            onResetSearchIncidents={onResetSearchIncidents}
-            onRequestIncidents={onRequestIncidents}
-            onSearchIncidents={onSearchIncidents}
-            onApplyFilter={onApplyFilter}
+            setSearchQueryAction={setSearchQueryAction}
+            resetSearchQueryAction={resetSearchQueryAction}
             query={query}
-            history={history}
           />,
         ),
       );
@@ -70,43 +51,32 @@ describe('containers/SearchBar', () => {
 
       fireEvent.change(formInput, { target: { value: '1234' } });
 
-      expect(push).not.toHaveBeenCalled();
-      expect(onSearchIncidents).not.toHaveBeenCalled();
-      expect(onApplyFilter).not.toHaveBeenCalled();
+      expect(setSearchQueryAction).not.toHaveBeenCalled();
 
       fireEvent.click(formSubmitBtn);
 
-      expect(push).toHaveBeenCalledWith('/manage/incidents');
-      expect(onSearchIncidents).toHaveBeenCalledWith('1234');
-      expect(onApplyFilter).toHaveBeenCalledWith({});
+      expect(setSearchQueryAction).toHaveBeenCalledWith('1234');
     });
 
     it('should call onChange handler', () => {
       const query = 'Foo baz barrr';
-      const push = jest.fn();
-      const history = { push };
 
       const { queryByTestId } = render(
         withAppContext(
           <SearchBarComponent
-            onResetSearchIncidents={onResetSearchIncidents}
-            onRequestIncidents={onRequestIncidents}
-            onSearchIncidents={onSearchIncidents}
-            onApplyFilter={onApplyFilter}
+            setSearchQueryAction={setSearchQueryAction}
+            resetSearchQueryAction={resetSearchQueryAction}
             query={query}
-            history={history}
           />,
         ),
       );
 
-      expect(onRequestIncidents).not.toHaveBeenCalled();
+      expect(resetSearchQueryAction).not.toHaveBeenCalledWith();
 
       const formInput = queryByTestId('searchBar').querySelector('input');
       fireEvent.change(formInput, { target: { value: '' } });
 
-      expect(push).not.toHaveBeenCalled();
-      expect(onResetSearchIncidents).toHaveBeenCalledWith();
-      expect(onRequestIncidents).toHaveBeenCalledWith();
+      expect(resetSearchQueryAction).toHaveBeenCalledWith();
     });
   });
 });

@@ -68,6 +68,18 @@ export class Configuration {
     }
   }
 
+  get USERS_ENDPOINT() {
+    return `${this.config.API_ROOT}signals/v1/private/users/`;
+  }
+
+  get ROLES_ENDPOINT() {
+    return `${this.config.API_ROOT}signals/v1/private/roles/`;
+  }
+
+  get PERMISSIONS_ENDPOINT() {
+    return `${this.config.API_ROOT}signals/v1/private/permissions/`;
+  }
+
   get API_ROOT() {
     return this.config.API_ROOT;
   }
@@ -117,7 +129,7 @@ export class Configuration {
   }
 
   get AUTH_ME_ENDPOINT() {
-    return `${this.API_ROOT}signals/user/auth/me/`;
+    return `${this.API_ROOT}signals/v1/private/me/`;
   }
 
   get CATEGORIES_ENDPOINT() {
@@ -133,7 +145,11 @@ export class Configuration {
   }
 
   get FILTERS_ENDPOINT() {
-    return `${this.API_ROOT}signals/v1/private/me/filters/`
+    return `${this.API_ROOT}signals/v1/private/me/filters/`;
+  }
+
+  get DEPARTMENTS_ENDPOINT() {
+    return `${this.API_ROOT}signals/v1/private/departments/`;
   }
 }
 

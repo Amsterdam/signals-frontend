@@ -13,11 +13,12 @@ import {
   themeSpacing,
 } from '@datapunt/asc-ui';
 import { incidentType, dataListType, defaultTextsType } from 'shared/types';
+import { PATCH_TYPE_STATUS } from 'models/incident/constants';
 
+import Label from 'components/Label';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
-import Label from '../../../../components/Label';
 import DefaultTexts from './components/DefaultTexts';
 
 const StyledColumn = styled(Column)`
@@ -131,7 +132,7 @@ class StatusForm extends React.Component {
     } else {
       this.props.onPatchIncident({
         id: this.props.incident.id,
-        type: 'status',
+        type: PATCH_TYPE_STATUS,
         patch: {
           status: { state: value.status, text: value.text },
         },

@@ -1,34 +1,43 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, fireEvent } from '@testing-library/react';
 
-import { login } from 'shared/services/auth/auth';
-import LoginPage from './index';
-import './style.scss';
+import { withAppContext } from 'test/utils';
+import * as auth from 'shared/services/auth/auth';
+
+import LoginPage from '.';
 
 jest.mock('shared/services/auth/auth');
 
-describe('<LoginPage />', () => {
-  let wrapper;
-
-  beforeEach(() => {
-    wrapper = shallow(<LoginPage />);
-  });
-
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
+describe('components/LoginPage', () => {
   it('should render correctly', () => {
-    expect(wrapper).toMatchSnapshot();
+    const { getByText } = render(withAppContext(<LoginPage />));
+
+    expect(getByText('Om deze pagina te zien dient u ingelogd te zijn.')).toBeInTheDocument();
+    expect(getByText('Inloggen')).toBeInTheDocument();
+    expect(getByText('Inloggen ADW')).toBeInTheDocument();
   });
 
   it('should login on datapunt when Inloggen button is clicked', () => {
-    wrapper.find('button').at(0).simulate('click');
-    expect(login).toHaveBeenCalledWith('datapunt');
+    const loginSpy = jest.spyOn(auth, 'login');
+    const { getByText } = render(withAppContext(<LoginPage />));
+    const button = getByText('Inloggen').parentNode;
+
+    expect(button.getAttribute('type')).toEqual('button');
+
+    fireEvent.click(button);
+
+    expect(loginSpy).toHaveBeenCalledWith('datapunt');
   });
 
   it('should login on datapunt when Inloggen ADW button is clicked', () => {
-    wrapper.find('button').at(1).simulate('click');
-    expect(login).toHaveBeenCalledWith('grip');
+    const loginSpy = jest.spyOn(auth, 'login');
+    const { getByText } = render(withAppContext(<LoginPage />));
+    const button = getByText('Inloggen ADW').parentNode;
+
+    expect(button.getAttribute('type')).toEqual('button');
+
+    fireEvent.click(button);
+
+    expect(loginSpy).toHaveBeenCalledWith('datapunt');
   });
 });

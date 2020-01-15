@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import MapInteractive from 'components/MapInteractive';
 
-import Label from '../Label';
+import Label from 'components/Label';
 
 export const MapInput = props => {
   const { name, display, onQueryResult } = props;

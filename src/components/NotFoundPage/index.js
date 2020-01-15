@@ -1,16 +1,23 @@
 import React from 'react';
-import { Row, Column, Heading } from '@datapunt/asc-ui';
+import styled from 'styled-components';
+import { Row, Column, Heading, themeSpacing } from '@datapunt/asc-ui';
 
-const NotFound = () => (
+const StyledHeading = styled(Heading)`
+  margin: ${themeSpacing(5)} 0;
+`;
+
+const NotFoundPage = () => (
   <div className="container" data-testid="notFoundPage">
     <Row>
       <Column span={12}>
         <article>
-          <Heading>Pagina niet gevonden</Heading>
+          <StyledHeading>
+            Pagina niet gevonden
+          </StyledHeading>
         </article>
       </Column>
     </Row>
   </div>
 );
 
-export default NotFound;
+export default NotFoundPage;
