@@ -12,15 +12,8 @@ import IncidentPreview from '../IncidentPreview';
 import onNext from './services/on-next';
 
 const StyledH1 = styled(Heading)`
-  margin-top: ${themeSpacing(6)};;
+  margin-top: ${themeSpacing(6)};
   margin-bottom: 30px;
-
-  @media screen and (max-width: 540px) {
-    font-size: ${themeSpacing(6)};
-    line-height: 30px;
-    margin-top: ${themeSpacing(5)};;
-    margin-bottom: ${themeSpacing(5)};;
-  }
 `;
 
 function IncidentWizard({
