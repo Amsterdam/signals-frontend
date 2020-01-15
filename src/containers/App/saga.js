@@ -61,8 +61,9 @@ export function* callLogout() {
         )
         .close();
     }
+
     yield call(logout);
-    yield put(push('/'));
+    yield put(push('/login'));
   } catch (error) {
     yield put(logoutFailed(error.message));
     yield put(

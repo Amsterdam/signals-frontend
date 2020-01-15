@@ -64,6 +64,7 @@ describe('signals/settings', () => {
     render(
       withAppContext(
         <Module
+          {...actionProps}
           onFetchDepartments={onFetchDepartments}
           onFetchPermissions={onFetchPermissions}
           onFetchRoles={onFetchRoles}
