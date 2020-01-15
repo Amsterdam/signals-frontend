@@ -17,19 +17,20 @@ const StyledTag = styled(Tag)`
   margin: 0 5px 5px 0;
   :first-letter {
     text-transform: capitalize;
-  }`;
+  }
+`;
 
 export const allLabelAppend = ': Alles';
 
 export const mapKeys = key => {
   switch (key) {
     case 'source':
-      return 'bron'
+      return 'bron';
 
     default:
       return key;
   }
-}
+};
 const renderItem = (display, key) => (
   <StyledTag
     colorType="tint"
@@ -38,7 +39,8 @@ const renderItem = (display, key) => (
     data-testid="filterTagListTag"
   >
     {display}
-  </StyledTag>);
+  </StyledTag>
+);
 
 const renderGroup = (tag, main, list, tagKey) => {
   if (tag.length === list.length) {

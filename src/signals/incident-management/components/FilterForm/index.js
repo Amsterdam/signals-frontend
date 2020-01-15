@@ -1,28 +1,19 @@
-import React, { useState, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Row } from '@datapunt/asc-ui';
 import isEqual from 'lodash.isequal';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import { parseOutputFormData } from 'signals/shared/filter/parse';
 import * as types from 'shared/types';
+import FormFooter from 'components/FormFooter';
+import Label from 'components/Label';
+import Input from 'components/Input';
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 
 import CheckboxList from '../CheckboxList';
 import RadioButtonList from '../RadioButtonList';
-import Label from '../Label';
-import {
-  ButtonContainer,
-  CancelButton,
-  ControlsWrapper,
-  DatesWrapper,
-  Fieldset,
-  FilterGroup,
-  Form,
-  FormFooter,
-  ResetButton,
-  SubmitButton,
-} from './styled';
+import { ControlsWrapper,
+  DatesWrapper, Fieldset, FilterGroup, Form } from './styled';
 import CalendarInput from '../CalendarInput';
 
 export const defaultSubmitBtnLabel = 'Filteren';
@@ -41,7 +32,6 @@ const FilterForm = ({
   dataLists,
   categories,
 }) => {
-  const formRef = useRef(null);
   const { feedback, priority, stadsdeel, status, source } = dataLists;
   const [submitBtnLabel, setSubmitBtnLabel] = useState(defaultSubmitBtnLabel);
   const [filterData, setFilterData] = useState(filter);
@@ -50,7 +40,7 @@ const FilterForm = ({
       (filterData.options.maincategory_slug || []).concat(
         filterData.options.category_slug || []
       ),
-    [filterData.options.category_slug, filterData.options.maincategory_slug]
+    [filterData.options.maincategory_slug, filterData.options.category_slug]
   );
   const isNewFilter = useMemo(() => !filter.name, [filter.name]);
 
@@ -72,7 +62,7 @@ const FilterForm = ({
 
   const onSubmitForm = useCallback(
     event => {
-      const formData = parseOutputFormData(formRef.current);
+      const formData = parseOutputFormData(event.target.form);
       const hasName = formData.name.trim() !== '';
       const valuesHaveChanged = !isEqual(formData, filterData);
 
@@ -109,19 +99,22 @@ const FilterForm = ({
     onClearFilter();
   }, [onClearFilter]);
 
-  const onChangeForm = useCallback(() => {
-    if (isNewFilter) {
-      return;
-    }
+  const onChangeForm = useCallback(
+    event => {
+      if (isNewFilter) {
+        return;
+      }
 
-    const formData = parseOutputFormData(formRef.current);
-    const valuesHaveChanged = !isEqual(formData, filterData);
-    const btnHasSaveLabel = submitBtnLabel === saveSubmitBtnLabel;
+      const formData = parseOutputFormData(event.form);
+      const valuesHaveChanged = !isEqual(formData, filterData);
+      const btnHasSaveLabel = submitBtnLabel === saveSubmitBtnLabel;
 
-    if (valuesHaveChanged && !btnHasSaveLabel) {
-      setSubmitBtnLabel(saveSubmitBtnLabel);
-    }
-  }, [filterData, isNewFilter, submitBtnLabel]);
+      if (valuesHaveChanged && !btnHasSaveLabel) {
+        setSubmitBtnLabel(saveSubmitBtnLabel);
+      }
+    },
+    [filterData, isNewFilter, submitBtnLabel]
+  );
 
   const onNameChange = useCallback(
     event => {
@@ -170,7 +163,7 @@ const FilterForm = ({
   );
 
   return (
-    <Form action="" novalidate onChange={onChangeForm} ref={formRef}>
+    <Form action="" novalidate onChange={onChangeForm}>
       <ControlsWrapper>
         {filterData.id && (
           <input type="hidden" name="id" value={filterData.id} />
@@ -197,10 +190,10 @@ const FilterForm = ({
           </Label>
           <div className="antwoord">
             <input
+              defaultChecked={filterData.refresh}
               id="filter_refresh"
               name="refresh"
               onClick={onRefreshChange}
-              defaultChecked={filterData.refresh}
               type="checkbox"
             />
             <label htmlFor="filter_refresh">
@@ -216,11 +209,14 @@ const FilterForm = ({
             <FilterGroup data-testid="statusFilterGroup">
               <CheckboxList
                 defaultValue={filterData.options && filterData.options.status}
-                groupName="status"
+                hasToggle
                 options={status}
-                title="Status"
-                isGroupHeader
-                displayToggle
+                name="status"
+                title={
+                  <Label as="span" isGroupHeader>
+                    Status
+                  </Label>
+                }
               />
             </FilterGroup>
           )}
@@ -231,11 +227,14 @@ const FilterForm = ({
                 defaultValue={
                   filterData.options && filterData.options.stadsdeel
                 }
-                groupName="stadsdeel"
+                hasToggle
                 options={stadsdeel}
-                title="Stadsdeel"
-                isGroupHeader
-                displayToggle
+                name="stadsdeel"
+                title={
+                  <Label as="span" isGroupHeader>
+                    Stadsdeel
+                  </Label>
+                }
               />
             </FilterGroup>
           )}
@@ -247,8 +246,8 @@ const FilterForm = ({
               </Label>
               <RadioButtonList
                 defaultValue={filterData.options && filterData.options.priority}
-                groupName="priority"
                 options={priority}
+                groupName="priority"
               />
             </FilterGroup>
           )}
@@ -260,8 +259,8 @@ const FilterForm = ({
               </Label>
               <RadioButtonList
                 defaultValue={filterData.options && filterData.options.feedback}
-                groupName="feedback"
                 options={feedback}
+                groupName="feedback"
               />
             </FilterGroup>
           )}
@@ -304,26 +303,24 @@ const FilterForm = ({
             <Label htmlFor="filter_address" isGroupHeader>
               Adres
             </Label>
-            <div className="invoer">
-              <input
-                type="text"
-                name="address_text"
-                id="filter_address"
-                defaultValue={filterData.options.address_text || ''}
-              />
-            </div>
+            <Input
+              name="address_text"
+              id="filter_address"
+              defaultValue={filterData.options.address_text || ''}
+            />
           </FilterGroup>
 
           {Array.isArray(source) && source.length > 0 && (
             <FilterGroup data-testid="sourceFilterGroup">
-              <Label htmlFor={`source_${source[0].key}`} isGroupHeader>
-                Bron
-              </Label>
               <CheckboxList
                 defaultValue={filterData.options && filterData.options.source}
-                groupName="source"
-                groupId="source"
                 options={source}
+                name="source"
+                title={
+                  <Label htmlFor={`source_${source[0].key}`} isGroupHeader>
+                    Bron
+                  </Label>
+                }
               />
             </FilterGroup>
           )}
@@ -346,53 +343,35 @@ const FilterForm = ({
                 ({ slug }) => slug === mainCategory
               );
               const options = categories.mainToSub[mainCategory];
+              const defaultValue = filterSlugs.filter(({ key }) =>
+                new RegExp(`/terms/categories/${mainCatObj.slug}`).test(key)
+              );
 
               return (
                 <CheckboxList
-                  clusterName="category_slug"
-                  defaultValue={filterSlugs}
-                  groupName={mainCategory}
+                  defaultValue={defaultValue}
                   groupId={mainCatObj.key}
-                  displayToggle
+                  groupName="maincategory_slug"
+                  groupValue={mainCatObj.slug}
+                  hasToggle
                   key={mainCategory}
+                  name={`${mainCatObj.slug}_category_slug`}
                   options={options}
-                  title={mainCatObj.value}
-                  toggleFieldName="maincategory_slug"
+                  title={<Label as="span">{mainCatObj.value}</Label>}
                 />
               );
             })}
         </Fieldset>
       </ControlsWrapper>
 
-      <FormFooter>
-        <Row>
-          <ButtonContainer span={12}>
-            <ResetButton
-              data-testid="resetBtn"
-              onClick={onResetForm}
-              type="reset"
-            >
-              Nieuw filter
-            </ResetButton>
-
-            <CancelButton
-              data-testid="cancelBtn"
-              onClick={onCancel}
-              type="button"
-            >
-              Annuleren
-            </CancelButton>
-
-            <SubmitButton
-              name="submit_button"
-              onClick={onSubmitForm}
-              type="submit"
-            >
-              {submitBtnLabel}
-            </SubmitButton>
-          </ButtonContainer>
-        </Row>
-      </FormFooter>
+      <FormFooter
+        cancelBtnLabel="Annuleren"
+        onCancel={onCancel}
+        onResetForm={onResetForm}
+        onSubmitForm={onSubmitForm}
+        resetBtnLabel="Nieuw filter"
+        submitBtnLabel={submitBtnLabel}
+      />
     </Form>
   );
 };
