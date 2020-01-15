@@ -2,6 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { useParams } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import { Row, Column, Heading, themeSpacing } from '@datapunt/asc-ui';
 import { goBack } from 'connected-react-router/immutable';
@@ -39,7 +40,6 @@ const StyledWrapper = styled.div`
 `;
 
 export const IncidentSplitContainer = ({
-  id,
   incidentModel: {
     incident,
     attachments,
@@ -53,6 +53,8 @@ export const IncidentSplitContainer = ({
   onSplitIncident,
   onGoBack,
 }) => {
+  const { id } = useParams();
+
   useEffect(() => {
     onRequestIncident(id);
     onRequestAttachments(id);
@@ -94,7 +96,6 @@ IncidentSplitContainer.defaultProps = {
 };
 
 IncidentSplitContainer.propTypes = {
-  id: PropTypes.string.isRequired,
   categories: categoriesType,
   incidentModel: PropTypes.shape({
     incident: incidentType,
