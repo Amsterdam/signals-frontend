@@ -109,7 +109,9 @@ export function* callAuthorize(action) {
 
 export function* fetchCategories() {
   try {
-    const categories = yield call(request, CONFIGURATION.CATEGORIES_ENDPOINT);
+    const categories = yield call(request, CONFIGURATION.CATEGORIES_ENDPOINT, {
+      headers: { Accept: 'application/json' },
+    });
 
     yield put(requestCategoriesSuccess(mapCategories(categories)));
   } catch (err) {

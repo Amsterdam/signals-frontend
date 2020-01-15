@@ -12,7 +12,6 @@ module.exports = options => ({
     '@babel/polyfill',
     'formdata-polyfill',
     'url-polyfill',
-    'abortcontroller-polyfill/dist/abortcontroller-polyfill-only',
     require.resolve('react-app-polyfill/ie11'),
   ].concat(options.entry),
   // eslint-disable-next-line prefer-object-spread
