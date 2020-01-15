@@ -84,9 +84,9 @@ describe('<IncidentPreview />', () => {
     );
 
     fireEvent.click(
-      container.querySelector('button:nth-of-type(1)')
+      container.querySelectorAll('button')[1]
     );
 
-    expect(push).toHaveBeenCalledWith('/incident/step1');
+    expect(push).toHaveBeenCalledWith('/incident/step2');
   });
 });
