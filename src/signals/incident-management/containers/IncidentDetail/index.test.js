@@ -2,7 +2,12 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import {
-  REQUEST_INCIDENT, PATCH_INCIDENT, REQUEST_ATTACHMENTS, REQUEST_DEFAULT_TEXTS, DISMISS_SPLIT_NOTIFICATION, DISMISS_ERROR,
+  REQUEST_INCIDENT,
+  PATCH_INCIDENT,
+  REQUEST_ATTACHMENTS,
+  REQUEST_DEFAULT_TEXTS,
+  DISMISS_SPLIT_NOTIFICATION,
+  DISMISS_ERROR,
 } from 'models/incident/constants';
 import { REQUEST_HISTORY_LIST } from 'models/history/constants';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
@@ -19,7 +24,9 @@ import StatusForm from './components/StatusForm';
 import Detail from './components/Detail';
 import SplitNotificationBar from './components/SplitNotificationBar';
 import LocationPreview from './components/LocationPreview';
-import statusList, { changeStatusOptionList } from '../../definitions/statusList';
+import statusList, {
+  changeStatusOptionList,
+} from '../../definitions/statusList';
 import stadsdeelList from '../../definitions/stadsdeelList';
 import priorityList from '../../definitions/priorityList';
 
@@ -27,7 +34,11 @@ describe('<IncidentDetail />', () => {
   let wrapper;
   let instance;
   const props = {
-    id: '42',
+    match: {
+      params: {
+        id: '42',
+      },
+    },
     incidentModel: {
       loading: false,
       patching: {},
@@ -70,10 +81,7 @@ describe('<IncidentDetail />', () => {
           },
           geometrie: {
             type: 'Point',
-            coordinates: [
-              4.879088401794434,
-              52.3670312505349,
-            ],
+            coordinates: [4.879088401794434, 52.3670312505349],
           },
           buurt_code: 'A06j',
           created_by: 'steve@apple.com',
@@ -98,16 +106,20 @@ describe('<IncidentDetail />', () => {
             href: 'https://acc.api.data.amsterdam.nl/signals/v1/relations',
           },
           self: {
-            href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254',
+            href:
+              'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254',
           },
           archives: {
-            href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/history',
+            href:
+              'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/history',
           },
           'sia:attachments': {
-            href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/attachments',
+            href:
+              'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/attachments',
           },
           'sia:pdf': {
-            href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/pdf',
+            href:
+              'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/pdf',
           },
         },
         source: 'Meldkamer Handhaver',
@@ -117,7 +129,8 @@ describe('<IncidentDetail />', () => {
           sub_slug: 'hondenpoep',
           main: 'Overlast in de openbare ruimte',
           main_slug: 'overlast-in-de-openbare-ruimte',
-          category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hondenpoep',
+          category_url:
+            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hondenpoep',
           departments: 'STW, THO',
           created_by: null,
           text: null,
@@ -131,10 +144,12 @@ describe('<IncidentDetail />', () => {
           _display: 'Attachment object (774)',
           _links: {
             self: {
-              href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/attachments',
+              href:
+                'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/attachments',
             },
           },
-          location: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/attachments/2019/09/25/jasper_pepper_klein.jpg?temp_url_sig=e5d22e71096db94a86e6d3d64e6bcca2b896b1f9&temp_url_expires=1569491557',
+          location:
+            'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/attachments/2019/09/25/jasper_pepper_klein.jpg?temp_url_sig=e5d22e71096db94a86e6d3d64e6bcca2b896b1f9&temp_url_expires=1569491557',
           is_image: true,
           created_at: '2019-09-25T16:35:59.107661+02:00',
         },
@@ -142,10 +157,12 @@ describe('<IncidentDetail />', () => {
           _display: 'Attachment object (773)',
           _links: {
             self: {
-              href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/attachments',
+              href:
+                'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/attachments',
             },
           },
-          location: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/attachments/2019/09/25/landscape_te_klein.jpg?temp_url_sig=870025b81672f36cd0eff62d3dc78595242ba07a&temp_url_expires=1569491557',
+          location:
+            'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/attachments/2019/09/25/landscape_te_klein.jpg?temp_url_sig=870025b81672f36cd0eff62d3dc78595242ba07a&temp_url_expires=1569491557',
           is_image: true,
           created_at: '2019-09-25T16:35:59.113090+02:00',
         },
@@ -154,7 +171,6 @@ describe('<IncidentDetail />', () => {
       priorityList,
       changeStatusOptionList,
       statusList,
-
     },
     historyModel: {
       list: [
@@ -190,16 +206,16 @@ describe('<IncidentDetail />', () => {
     categories: {
       sub: [
         {
-          key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hondenpoep',
+          key:
+            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hondenpoep',
           value: 'Uitwerpselen',
           slug: 'hondenpoep',
           category_slug: 'overlast-in-de-openbare-ruimte',
-          handling_message: '\nWe laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
+          handling_message:
+            '\nWe laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
         },
       ],
     },
-    baseUrl: 'aaa/',
-
     onRequestIncident: jest.fn(),
     onPatchIncident: jest.fn(),
     onRequestHistoryList: jest.fn(),
@@ -209,11 +225,8 @@ describe('<IncidentDetail />', () => {
     onDismissError: jest.fn(),
   };
 
-
   beforeEach(() => {
-    wrapper = shallow(
-      <IncidentDetail {...props} />
-    );
+    wrapper = shallow(<IncidentDetail {...props} />);
 
     instance = wrapper.instance();
   });
@@ -221,7 +234,6 @@ describe('<IncidentDetail />', () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
-
 
   describe('rendering', () => {
     it('should render default correctly', () => {
@@ -275,7 +287,11 @@ describe('<IncidentDetail />', () => {
       expect(props.onRequestAttachments).toHaveBeenCalledWith('42');
 
       wrapper.setProps({
-        id: '43',
+        match: {
+          params: {
+            id: '43',
+          },
+        },
       });
 
       expect(props.onRequestIncident).toHaveBeenCalledWith('43');
@@ -312,7 +328,9 @@ describe('<IncidentDetail />', () => {
     });
 
     it('should render AttachmentViewer correctly', () => {
-      instance.onShowAttachment('https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/attachments/2019/09/25/jasper_pepper_klein.jpg?temp_url_sig=e5d22e71096db94a86e6d3d64e6bcca2b896b1f9&temp_url_expires=1569491557');
+      instance.onShowAttachment(
+        'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/attachments/2019/09/25/jasper_pepper_klein.jpg?temp_url_sig=e5d22e71096db94a86e6d3d64e6bcca2b896b1f9&temp_url_expires=1569491557'
+      );
 
       expect(wrapper.find(Detail)).toHaveLength(0);
       expect(wrapper.find(MetaList)).toHaveLength(0);
@@ -352,7 +370,6 @@ describe('<IncidentDetail />', () => {
     });
   });
 
-
   describe('events', () => {
     it('should call 3 actions on load', () => {
       expect(props.onRequestIncident).toHaveBeenCalledTimes(1);
@@ -361,7 +378,13 @@ describe('<IncidentDetail />', () => {
     });
 
     it('should re-render when incident id has changed', () => {
-      wrapper.setProps({ id: '43' });
+      wrapper.setProps({
+        match: {
+          params: {
+            id: '43',
+          },
+        },
+      });
 
       expect(props.onRequestIncident).toHaveBeenCalledTimes(2);
     });
@@ -385,32 +408,52 @@ describe('<IncidentDetail />', () => {
 
     it('onRequestIncident', () => {
       mapDispatchToProps(dispatch).onRequestIncident(42);
-      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_INCIDENT, payload: 42 });
+      expect(dispatch).toHaveBeenCalledWith({
+        type: REQUEST_INCIDENT,
+        payload: 42,
+      });
     });
 
     it('onPatchIncident', () => {
       mapDispatchToProps(dispatch).onPatchIncident({ patch: 'foo' });
-      expect(dispatch).toHaveBeenCalledWith({ type: PATCH_INCIDENT, payload: { patch: 'foo' } });
+      expect(dispatch).toHaveBeenCalledWith({
+        type: PATCH_INCIDENT,
+        payload: { patch: 'foo' },
+      });
     });
 
     it('onRequestHistoryList', () => {
       mapDispatchToProps(dispatch).onRequestHistoryList(42);
-      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_HISTORY_LIST, payload: 42 });
+      expect(dispatch).toHaveBeenCalledWith({
+        type: REQUEST_HISTORY_LIST,
+        payload: 42,
+      });
     });
 
     it('onRequestAttachments', () => {
       mapDispatchToProps(dispatch).onRequestAttachments(42);
-      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_ATTACHMENTS, payload: 42 });
+      expect(dispatch).toHaveBeenCalledWith({
+        type: REQUEST_ATTACHMENTS,
+        payload: 42,
+      });
     });
 
     it('onRequestDefaultTexts', () => {
-      mapDispatchToProps(dispatch).onRequestDefaultTexts({ main_slug: 'afval', sub_slug: 'overige' });
-      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_DEFAULT_TEXTS, payload: { main_slug: 'afval', sub_slug: 'overige' } });
+      mapDispatchToProps(dispatch).onRequestDefaultTexts({
+        main_slug: 'afval',
+        sub_slug: 'overige',
+      });
+      expect(dispatch).toHaveBeenCalledWith({
+        type: REQUEST_DEFAULT_TEXTS,
+        payload: { main_slug: 'afval', sub_slug: 'overige' },
+      });
     });
 
     it('onDismissSplitNotification', () => {
       mapDispatchToProps(dispatch).onDismissSplitNotification();
-      expect(dispatch).toHaveBeenCalledWith({ type: DISMISS_SPLIT_NOTIFICATION });
+      expect(dispatch).toHaveBeenCalledWith({
+        type: DISMISS_SPLIT_NOTIFICATION,
+      });
     });
     it('onDismissError', () => {
       mapDispatchToProps(dispatch).onDismissError();

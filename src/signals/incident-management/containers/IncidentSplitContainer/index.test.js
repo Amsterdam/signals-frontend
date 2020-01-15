@@ -2,6 +2,7 @@ import React from 'react';
 import {
   render,
 } from '@testing-library/react';
+import * as reactRouterDom from 'react-router-dom';
 import { withAppContext } from 'test/utils';
 import incident from 'utils/__tests__/fixtures/incident.json';
 
@@ -12,12 +13,16 @@ import { IncidentSplitContainer, mapDispatchToProps } from './index';
 import stadsdeelList from '../../definitions/stadsdeelList';
 import priorityList from '../../definitions/priorityList';
 
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+}));
+
 describe('<IncidentSplitContainer />', () => {
   let props;
 
   beforeEach(() => {
     props = {
-      id: '42',
       categories: {
         sub: [],
       },
@@ -33,6 +38,10 @@ describe('<IncidentSplitContainer />', () => {
       onSplitIncident: jest.fn(),
       onGoBack: jest.fn(),
     };
+
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      id: '42',
+    }));
   });
 
   describe('rendering', () => {
@@ -44,6 +53,9 @@ describe('<IncidentSplitContainer />', () => {
       expect(queryByTestId('splitDetailTitle')).toHaveTextContent(/^Melding 6666$/);
       expect(queryAllByTestId('incidentPartTitle')[0]).toHaveTextContent(/^Deelmelding 1$/);
       expect(queryAllByTestId('incidentPartTitle')[1]).toHaveTextContent(/^Deelmelding 2$/);
+
+      expect(props.onRequestIncident).toHaveBeenCalledWith('42');
+      expect(props.onRequestAttachments).toHaveBeenCalledWith('42');
     });
   });
 

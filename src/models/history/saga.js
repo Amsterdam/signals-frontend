@@ -1,6 +1,10 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import * as Sentry from '@sentry/browser';
+
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { authCall } from 'shared/services/api/api';
+import { authCall, getErrorMessage } from 'shared/services/api/api';
+import { showGlobalNotification } from 'containers/App/actions';
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 
 import { REQUEST_HISTORY_LIST } from './constants';
 import { requestHistoryListSuccess, requestHistoryListError } from './actions';
@@ -14,6 +18,17 @@ export function* fetchHistoryList(action) {
     yield put(requestHistoryListSuccess(list));
   } catch (error) {
     yield put(requestHistoryListError(error));
+
+    yield put(
+      showGlobalNotification({
+        title: getErrorMessage(error),
+        message: 'De melding geschiedenis kon niet opgehaald worden',
+        variant: VARIANT_ERROR,
+        type: TYPE_LOCAL,
+      })
+    );
+
+    yield call([Sentry, 'captureException'], error);
   }
 }
 

@@ -2,6 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { useParams } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import { Row, Column, Heading, themeSpacing } from '@datapunt/asc-ui';
 import { goBack } from 'connected-react-router/immutable';
@@ -13,7 +14,12 @@ import injectReducer from 'utils/injectReducer';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { requestIncident, requestAttachments } from 'models/incident/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
-import { categoriesType, incidentType, attachmentsType, dataListType } from 'shared/types';
+import {
+  categoriesType,
+  incidentType,
+  attachmentsType,
+  dataListType,
+} from 'shared/types';
 
 import { splitIncident } from './actions';
 
@@ -34,7 +40,6 @@ const StyledWrapper = styled.div`
 `;
 
 export const IncidentSplitContainer = ({
-  id,
   incidentModel: {
     incident,
     attachments,
@@ -48,23 +53,25 @@ export const IncidentSplitContainer = ({
   onSplitIncident,
   onGoBack,
 }) => {
+  const { id } = useParams();
+
   useEffect(() => {
     onRequestIncident(id);
     onRequestAttachments(id);
-  }, []);
+  }, [id, onRequestIncident, onRequestAttachments]);
 
   return (
     <StyledWrapper>
       <Row>
-        {loading ? <LoadingIndicator /> :
-          (<Fragment>
+        {loading ? (
+          <LoadingIndicator />
+        ) : (
+          <Fragment>
             <Column span={12}>
               <StyledH1 $as="h1">Splitsen</StyledH1>
             </Column>
 
-            <Column
-              span={7}
-            >
+            <Column span={7}>
               <SplitForm
                 incident={incident}
                 attachments={attachments}
@@ -74,17 +81,11 @@ export const IncidentSplitContainer = ({
                 onHandleCancel={onGoBack}
               />
             </Column>
-            <Column
-              span={4}
-              push={1}
-            >
-              <SplitDetail
-                incident={incident}
-                stadsdeelList={stadsdeelList}
-              />
+            <Column span={4} push={1}>
+              <SplitDetail incident={incident} stadsdeelList={stadsdeelList} />
             </Column>
-          </Fragment>)
-        }
+          </Fragment>
+        )}
       </Row>
     </StyledWrapper>
   );
@@ -95,7 +96,6 @@ IncidentSplitContainer.defaultProps = {
 };
 
 IncidentSplitContainer.propTypes = {
-  id: PropTypes.string.isRequired,
   categories: categoriesType,
   incidentModel: PropTypes.shape({
     incident: incidentType,
@@ -115,12 +115,16 @@ const mapStateToProps = createStructuredSelector({
   categories: makeSelectCategories(),
 });
 
-export const mapDispatchToProps = dispatch => bindActionCreators({
-  onRequestIncident: requestIncident,
-  onRequestAttachments: requestAttachments,
-  onSplitIncident: splitIncident,
-  onGoBack: goBack,
-}, dispatch);
+export const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onRequestIncident: requestIncident,
+      onRequestAttachments: requestAttachments,
+      onSplitIncident: splitIncident,
+      onGoBack: goBack,
+    },
+    dispatch
+  );
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
@@ -130,5 +134,5 @@ const withSaga = injectSaga({ key: 'incidentSplitContainer', saga });
 export default compose(
   withReducer,
   withSaga,
-  withConnect,
+  withConnect
 )(IncidentSplitContainer);

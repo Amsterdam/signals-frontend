@@ -55,7 +55,7 @@ const useInjectSaga = ({ key, saga, mode }) => {
     return () => {
       injectors.ejectSaga(key);
     };
-  }, []);
+  }, [context.store, key, mode, saga]);
 };
 
 export { useInjectSaga };

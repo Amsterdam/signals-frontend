@@ -1,19 +1,27 @@
 import { fromJS } from 'immutable';
+import incidentsJson from 'utils/__tests__/fixtures/incidents.json';
 import reducer, { initialState } from '../reducer';
 import {
   APPLY_FILTER,
-  CLEAR_FILTER,
+  CLEAR_EDIT_FILTER,
   EDIT_FILTER,
   FILTER_EDIT_CANCELED,
   GET_FILTERS_FAILED,
   GET_FILTERS_SUCCESS,
-  ORDERING_INCIDENTS_CHANGED,
-  PAGE_INCIDENTS_CHANGED,
+  ORDERING_CHANGED,
+  PAGE_CHANGED,
   REMOVE_FILTER_SUCCESS,
   SAVE_FILTER_FAILED,
   SAVE_FILTER_SUCCESS,
   UPDATE_FILTER_FAILED,
   UPDATE_FILTER_SUCCESS,
+  REQUEST_INCIDENTS,
+  REQUEST_INCIDENTS_ERROR,
+  REQUEST_INCIDENTS_SUCCESS,
+  RESET_SEARCH_QUERY,
+  SET_SEARCH_QUERY,
+  SEARCH_INCIDENTS_SUCCESS,
+  SEARCH_INCIDENTS_ERROR,
 } from '../constants';
 
 const errorMessage = 'Something went horribly wrong';
@@ -55,6 +63,18 @@ const filters = [
   },
 ];
 
+const intermediateState = fromJS({
+  activeFilter,
+  page: 100,
+  error: false,
+  ordering: 'stadsdeel,-created_at',
+  loading: false,
+  incidents: {
+    count: incidentsJson.length,
+    results: incidentsJson,
+  },
+});
+
 describe('signals/incident-management/reducer', () => {
   it('should return the initial state', () => {
     const defaultAction = {
@@ -63,6 +83,9 @@ describe('signals/incident-management/reducer', () => {
 
     expect(reducer(initialState, defaultAction)).toEqual(initialState);
     expect(reducer(undefined, defaultAction)).toEqual(initialState);
+    expect(reducer(intermediateState, defaultAction)).toEqual(
+      intermediateState
+    );
   });
 
   it('should handle GET_FILTERS_SUCCESS', () => {
@@ -71,12 +94,15 @@ describe('signals/incident-management/reducer', () => {
       payload: filters,
     };
 
-    const expected = fromJS(initialState)
-      .set('loading', false)
-      .set('filters', fromJS(filters));
+    const applied = state =>
+      state.set('loading', false).set('filters', fromJS(filters));
 
-    expect(reducer(initialState, getFiltersSuccess)).toEqual(expected);
-    expect(reducer(undefined, getFiltersSuccess)).toEqual(expected);
+    expect(reducer(initialState, getFiltersSuccess)).toEqual(
+      applied(initialState)
+    );
+    expect(reducer(intermediateState, getFiltersSuccess)).toEqual(
+      applied(intermediateState)
+    );
   });
 
   it('should handle GET_FILTERS_FAILED', () => {
@@ -86,13 +112,18 @@ describe('signals/incident-management/reducer', () => {
       payload: message,
     };
 
-    const expected = fromJS(initialState)
-      .set('loading', false)
-      .set('error', true)
-      .set('errorMessage', message);
+    const applied = state =>
+      state
+        .set('loading', false)
+        .set('error', true)
+        .set('errorMessage', message);
 
-    expect(reducer(initialState, getFiltersFailed)).toEqual(expected);
-    expect(reducer(undefined, getFiltersFailed)).toEqual(expected);
+    expect(reducer(initialState, getFiltersFailed)).toEqual(
+      applied(initialState)
+    );
+    expect(reducer(intermediateState, getFiltersFailed)).toEqual(
+      applied(intermediateState)
+    );
   });
 
   it('should handle REMOVE_FILTER_SUCCESS', () => {
@@ -118,13 +149,18 @@ describe('signals/incident-management/reducer', () => {
       payload: appliedFilter,
     };
 
-    const expected = fromJS(initialState).set(
-      'activeFilter',
-      fromJS(appliedFilter),
-    );
+    const applied = state =>
+      state
+        .set('ordering', initialState.get('ordering'))
+        .set('page', initialState.get('page'))
+        .set('searchQuery', initialState.get('searchQuery'))
+        .set('activeFilter', fromJS(appliedFilter))
+        .set('editFilter', fromJS(appliedFilter));
 
-    expect(reducer(initialState, applyFilter)).toEqual(expected);
-    expect(reducer(undefined, applyFilter)).toEqual(expected);
+    expect(reducer(initialState, applyFilter)).toEqual(applied(initialState));
+    expect(reducer(intermediateState, applyFilter)).toEqual(
+      applied(intermediateState)
+    );
   });
 
   it('should handle EDIT_FILTER', () => {
@@ -134,13 +170,13 @@ describe('signals/incident-management/reducer', () => {
       payload: filterMarkedForEdit,
     };
 
-    const expected = fromJS(initialState).set(
-      'editFilter',
-      fromJS(filterMarkedForEdit),
-    );
+    const applied = state =>
+      state.set('editFilter', fromJS(filterMarkedForEdit));
 
-    expect(reducer(initialState, editFilter)).toEqual(expected);
-    expect(reducer(undefined, editFilter)).toEqual(expected);
+    expect(reducer(initialState, editFilter)).toEqual(applied(initialState));
+    expect(reducer(intermediateState, editFilter)).toEqual(
+      applied(intermediateState)
+    );
   });
 
   it('should handle SAVE_FILTER_FAILED', () => {
@@ -149,13 +185,18 @@ describe('signals/incident-management/reducer', () => {
       payload: errorMessage,
     };
 
-    const expected = fromJS(initialState)
-      .set('loading', false)
-      .set('error', true)
-      .set('errorMessage', errorMessage);
+    const applied = state =>
+      state
+        .set('loading', false)
+        .set('error', true)
+        .set('errorMessage', errorMessage);
 
-    expect(reducer(initialState, filterSaveFailed)).toEqual(expected);
-    expect(reducer(undefined, filterSaveFailed)).toEqual(expected);
+    expect(reducer(initialState, filterSaveFailed)).toEqual(
+      applied(initialState)
+    );
+    expect(reducer(intermediateState, filterSaveFailed)).toEqual(
+      applied(intermediateState)
+    );
   });
 
   it('should handle SAVE_FILTER_SUCCESS', () => {
@@ -164,14 +205,20 @@ describe('signals/incident-management/reducer', () => {
       payload: activeFilter,
     };
 
-    const expected = fromJS(initialState)
-      .set('loading', false)
-      .set('error', false)
-      .set('errorMessage', undefined)
-      .set('activeFilter', fromJS(activeFilter));
+    const applied = state =>
+      state
+        .set('loading', false)
+        .set('error', false)
+        .set('errorMessage', undefined)
+        .set('activeFilter', fromJS(activeFilter))
+        .set('searchQuery', initialState.get('searchQuery'));
 
-    expect(reducer(initialState, filterSaveSuccess)).toEqual(expected);
-    expect(reducer(undefined, filterSaveSuccess)).toEqual(expected);
+    expect(reducer(initialState, filterSaveSuccess)).toEqual(
+      applied(initialState)
+    );
+    expect(reducer(intermediateState, filterSaveSuccess)).toEqual(
+      applied(intermediateState)
+    );
   });
 
   it('should handle UPDATE_FILTER_SUCCESS', () => {
@@ -180,14 +227,20 @@ describe('signals/incident-management/reducer', () => {
       payload: activeFilter,
     };
 
-    const expected = fromJS(initialState)
-      .set('loading', false)
-      .set('error', false)
-      .set('errorMessage', undefined)
-      .set('activeFilter', fromJS(activeFilter));
+    const applied = state =>
+      state
+        .set('loading', false)
+        .set('error', false)
+        .set('errorMessage', undefined)
+        .set('activeFilter', fromJS(filterUpdatedSuccess.payload))
+        .set('searchQuery', initialState.get('searchQuery'));
 
-    expect(reducer(initialState, filterUpdatedSuccess)).toEqual(expected);
-    expect(reducer(undefined, filterUpdatedSuccess)).toEqual(expected);
+    expect(reducer(initialState, filterUpdatedSuccess)).toEqual(
+      applied(initialState)
+    );
+    expect(reducer(intermediateState, filterUpdatedSuccess)).toEqual(
+      applied(intermediateState)
+    );
   });
 
   it('should handle UPDATE_FILTER_FAILED', () => {
@@ -196,18 +249,23 @@ describe('signals/incident-management/reducer', () => {
       payload: errorMessage,
     };
 
-    const expected = fromJS(initialState)
-      .set('loading', false)
-      .set('error', true)
-      .set('errorMessage', errorMessage);
+    const applied = state =>
+      state
+        .set('loading', false)
+        .set('error', true)
+        .set('errorMessage', errorMessage);
 
-    expect(reducer(initialState, filterUpdatedFailed)).toEqual(expected);
-    expect(reducer(undefined, filterUpdatedFailed)).toEqual(expected);
+    expect(reducer(initialState, filterUpdatedFailed)).toEqual(
+      applied(initialState)
+    );
+    expect(reducer(intermediateState, filterUpdatedFailed)).toEqual(
+      applied(intermediateState)
+    );
   });
 
-  it('should handle CLEAR_FILTER', () => {
-    const clearFilter = {
-      type: CLEAR_FILTER,
+  it('should handle CLEAR_EDIT_FILTER', () => {
+    const clearEditFilter = {
+      type: CLEAR_EDIT_FILTER,
     };
 
     const someState = fromJS({
@@ -222,14 +280,17 @@ describe('signals/incident-management/reducer', () => {
       ordering: '-created_at',
     });
 
-    const expected = fromJS(initialState)
-      .set('editFilter', initialState.get('editFilter'))
-      .set('loading', false)
-      .set('error', false)
-      .set('errorMessage', undefined);
+    const applied = state =>
+      state
+        .set('editFilter', initialState.get('editFilter'))
+        .set('loading', false)
+        .set('error', false)
+        .set('errorMessage', undefined);
 
-    expect(reducer(someState, clearFilter)).toEqual(expected);
-    expect(reducer(undefined, clearFilter)).toEqual(expected);
+    expect(reducer(initialState, clearEditFilter)).toEqual(
+      applied(initialState)
+    );
+    expect(reducer(someState, clearEditFilter)).toEqual(applied(someState));
   });
 
   it('should handle FILTER_EDIT_CANCELED', () => {
@@ -237,45 +298,189 @@ describe('signals/incident-management/reducer', () => {
       type: FILTER_EDIT_CANCELED,
     };
 
-    initialState.set('activeFilter', activeFilter);
+    const applied = state => state.set('editFilter', state.get('activeFilter'));
 
-    const expected = fromJS(initialState)
-      .set('editFilter', initialState.get('activeFilter'));
-
-    expect(reducer(initialState, filterEditCanceled)).toEqual(expected);
-    expect(reducer(undefined, filterEditCanceled)).toEqual(expected);
+    expect(reducer(initialState, filterEditCanceled)).toEqual(
+      applied(initialState)
+    );
+    expect(reducer(intermediateState, filterEditCanceled)).toEqual(
+      applied(intermediateState)
+    );
   });
 
-  it('should handle PAGE_INCIDENTS_CHANGED', () => {
+  it('should handle PAGE_CHANGED', () => {
     const page = 333;
-    const pageIncidentsChanged = {
-      type: PAGE_INCIDENTS_CHANGED,
+    const pageChanged = {
+      type: PAGE_CHANGED,
       payload: page,
     };
 
-    initialState.set('page', 1);
+    const applied = state => state.set('page', page);
 
-    const expected = fromJS(initialState)
-      .set('page', page);
-
-    expect(reducer(initialState, pageIncidentsChanged)).toEqual(expected);
-    expect(reducer(undefined, pageIncidentsChanged)).toEqual(expected);
+    expect(reducer(initialState, pageChanged)).toEqual(applied(initialState));
+    expect(reducer(intermediateState, pageChanged)).toEqual(
+      applied(intermediateState)
+    );
   });
 
-  it('should handle ORDERING_INCIDENTS_CHANGED', () => {
+  it('should handle ORDERING_CHANGED', () => {
     const ordering = 'some-arbitrary-ordering';
-    const orderingIncidentsChanged = {
-      type: ORDERING_INCIDENTS_CHANGED,
+    const orderingChanged = {
+      type: ORDERING_CHANGED,
       payload: ordering,
     };
 
-    initialState.set('page', 2).set('ordering', 'Foo bar baz');
+    const applied = state => state.set('page', 1).set('ordering', ordering);
 
-    const expected = fromJS(initialState)
-      .set('page', 1)
-      .set('ordering', ordering);
+    expect(reducer(initialState, orderingChanged)).toEqual(
+      applied(initialState)
+    );
+    expect(reducer(intermediateState, orderingChanged)).toEqual(
+      applied(intermediateState)
+    );
+  });
 
-    expect(reducer(initialState, orderingIncidentsChanged)).toEqual(expected);
-    expect(reducer(undefined, orderingIncidentsChanged)).toEqual(expected);
+  it('should handle REQUEST_INCIDENTS', () => {
+    const requestIncidents = {
+      type: REQUEST_INCIDENTS,
+    };
+
+    const applied = state =>
+      state
+        .set('loading', true)
+        .set('error', false)
+        .set('errorMessage', undefined);
+
+    expect(reducer(initialState, requestIncidents)).toEqual(
+      applied(initialState)
+    );
+    expect(reducer(intermediateState, requestIncidents)).toEqual(
+      applied(intermediateState)
+    );
+  });
+
+  it('should handle REQUEST_INCIDENTS_SUCCESS', () => {
+    const requestIncidentsSuccess = {
+      type: REQUEST_INCIDENTS_SUCCESS,
+      payload: incidentsJson,
+    };
+
+    const applied = state =>
+      state
+        .set('incidents', fromJS(requestIncidentsSuccess.payload))
+        .set('loading', false)
+        .set('error', false)
+        .set('errorMessage', undefined);
+
+    expect(reducer(initialState, requestIncidentsSuccess)).toEqual(
+      applied(initialState)
+    );
+    expect(reducer(intermediateState, requestIncidentsSuccess)).toEqual(
+      applied(intermediateState)
+    );
+  });
+
+  it('should handle the REQUEST_INCIDENTS_ERROR', () => {
+    const error = new Error('Whoop!!1!');
+    const requestIncidentsError = {
+      type: REQUEST_INCIDENTS_ERROR,
+      payload: error.message,
+    };
+
+    const applied = state =>
+      state
+        .set('error', true)
+        .set('errorMessage', error.message)
+        .set('loading', false);
+
+    expect(reducer(initialState, requestIncidentsError)).toEqual(
+      applied(initialState)
+    );
+    expect(reducer(intermediateState, requestIncidentsError)).toEqual(
+      applied(intermediateState)
+    );
+  });
+
+  it('should handle SEARCH_INCIDENTS_SUCCESS', () => {
+    const searchIncidentsSuccess = {
+      type: SEARCH_INCIDENTS_SUCCESS,
+      payload: incidentsJson,
+    };
+
+    const applied = state =>
+      state
+        .set('incidents', fromJS(searchIncidentsSuccess.payload))
+        .set('loading', false)
+        .set('error', false)
+        .set('errorMessage', undefined);
+
+    expect(reducer(initialState, searchIncidentsSuccess)).toEqual(
+      applied(initialState)
+    );
+    expect(reducer(intermediateState, searchIncidentsSuccess)).toEqual(
+      applied(intermediateState)
+    );
+  });
+
+  it('should handle SEARCH_INCIDENTS_ERROR', () => {
+    const error = new Error('Whoop!!1!');
+    const searchIncidentsError = {
+      type: SEARCH_INCIDENTS_ERROR,
+      payload: error.message,
+    };
+
+    const applied = state =>
+      state
+        .set('error', true)
+        .set('errorMessage', error.message)
+        .set('loading', false);
+
+    expect(reducer(initialState, searchIncidentsError)).toEqual(
+      applied(initialState)
+    );
+    expect(reducer(intermediateState, searchIncidentsError)).toEqual(
+      applied(intermediateState)
+    );
+  });
+
+  it('should handle SET_SEARCH_QUERY', () => {
+    const setSearchQuery = {
+      type: SET_SEARCH_QUERY,
+      payload: 'stoeptegels',
+    };
+
+    const applied = state =>
+      state
+        .set('activeFilter', initialState.get('activeFilter'))
+        .set('editFilter', initialState.get('editFilter'))
+        .set('ordering', initialState.get('ordering'))
+        .set('page', initialState.get('page'))
+        .set('searchQuery', setSearchQuery.payload);
+
+    expect(reducer(initialState, setSearchQuery)).toEqual(
+      applied(initialState)
+    );
+    expect(reducer(intermediateState, setSearchQuery)).toEqual(
+      applied(intermediateState)
+    );
+  });
+
+  it('should handle RESET_SEARCH_QUERY', () => {
+    const resetSearchQuery = {
+      type: RESET_SEARCH_QUERY,
+    };
+
+    const applied = state =>
+      state
+        .set('ordering', initialState.get('ordering'))
+        .set('page', initialState.get('page'))
+        .set('searchQuery', initialState.get('searchQuery'));
+
+    expect(reducer(initialState, resetSearchQuery)).toEqual(
+      applied(initialState)
+    );
+    expect(reducer(intermediateState, resetSearchQuery)).toEqual(
+      applied(intermediateState)
+    );
   });
 });
