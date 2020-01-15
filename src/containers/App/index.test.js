@@ -47,12 +47,6 @@ describe('<App />', () => {
       history.push('/somewhere/else');
     });
 
-    expect(spyScrollTo).not.toHaveBeenCalled();
-
-    act(() => {
-      jest.runAllTimers();
-    });
-
     expect(spyScrollTo).toHaveBeenCalledWith(0, 0);
   });
 
