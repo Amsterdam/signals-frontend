@@ -1,12 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import BackLink from 'components/BackLink';
+import { themeSpacing } from '@datapunt/asc-ui';
+import { PATCH_TYPE_THOR } from 'models/incident/constants';
 
 import { incidentType } from 'shared/types';
 
 import DownloadButton from './components/DownloadButton';
 
 import './style.scss';
+
+const StyledBackLink = styled(BackLink)`
+  margin: ${themeSpacing(4)} 0;
+`;
 
 const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
   const status = incident && incident.status && incident.status.state;
@@ -15,7 +23,7 @@ const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
   const downloadLink = incident._links && incident._links['sia:pdf'] && incident._links['sia:pdf'].href;
   const patch = {
     id: incident.id,
-    type: 'thor',
+    type: PATCH_TYPE_THOR,
     patch: {
       status: {
         state: 'ready to send',
@@ -29,13 +37,7 @@ const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
     <header className="detail-header">
       <div className="row">
         <div className="col-12">
-          <Link
-            to={`${baseUrl}/incidents`}
-            className="startagain action"
-            data-testid="detail-header-button-back"
-          >
-            Terug naar overzicht
-          </Link>
+          <StyledBackLink to={`${baseUrl}/incidents`}>Terug naar overzicht</StyledBackLink>
         </div>
 
         <div className="col-6 detail-header__title align-self-center" data-testid="detail-header-title">

@@ -37,6 +37,7 @@ export function* authCall(url, params, authorizationToken) {
 
 export function* authCallWithPayload(url, params, method) {
   const headers = {
+    accept: 'application/json',
     'Content-Type': 'application/json',
   };
 
@@ -78,3 +79,30 @@ export function* postCall(url, params) {
 
   return yield call(request, url, options);
 }
+
+export const errorMessageDictionary = {
+  default: 'De opgevraagde gegevens konden niet gevonden worden',
+  400: 'De server kan de gegevens niet verwerken',
+  401: 'Je hebt niet voldoende rechten om de opgevraagde gegevens te bekijken',
+  403: 'Het is niet toegestaan om gegevens te bekijken of te wijzigen',
+  408: 'Het verzoek kan niet verwerkt worden door een timeout op de server',
+  413: 'De grootte van de payload overschrijdt de toegestane limiet',
+  418: 'The server refuses to brew coffee because it is a teapot',
+  429: 'Er zijn teveel verzoeken verstuurd',
+  500: 'Interne fout op de server. Probeer het nogmaals',
+  503: 'Server is op dit moment niet beschikbaar. Probeer het nogmaals',
+};
+
+/**
+ * Get an error message based on an error's status code
+ *
+ * @param {Error} error
+ * @returns {String}
+ */
+export const getErrorMessage = error => {
+  if (!error.status) {
+    return errorMessageDictionary.default;
+  }
+
+  return errorMessageDictionary[error.status] || errorMessageDictionary.default;
+};

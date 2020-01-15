@@ -1,15 +1,15 @@
-import { all, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
+import * as Sentry from '@sentry/browser';
 import { push } from 'connected-react-router/immutable';
 
+import { authPatchCall, authPostCall, getErrorMessage } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
+import { showGlobalNotification } from 'containers/App/actions';
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 
 import formatUpdateIncident from './services/formatUpdateIncident';
 import { SPLIT_INCIDENT } from './constants';
 import { splitIncidentSuccess, splitIncidentError } from './actions';
-import {
-  authPatchCall,
-  authPostCall,
-} from '../../../../shared/services/api/api';
 
 export function* splitIncident(action) {
   const payload = action.payload;
@@ -31,6 +31,17 @@ export function* splitIncident(action) {
   } catch (error) {
     yield put(splitIncidentError(error));
     yield put(push(`/manage/incident/${payload.id}`));
+
+    yield put(
+      showGlobalNotification({
+        title: getErrorMessage(error),
+        message: 'De melding kon niet gesplitst worden',
+        variant: VARIANT_ERROR,
+        type: TYPE_LOCAL,
+      })
+    );
+
+    yield call([Sentry, 'captureException'], error);
   }
 }
 

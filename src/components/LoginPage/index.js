@@ -3,7 +3,7 @@ import { Row, Column } from '@datapunt/asc-ui';
 import { login } from 'shared/services/auth/auth';
 
 const LoginPage = () => (
-  <Row>
+  <Row data-testid="loginPage">
     <Column span={12}>
       <div className="notification notification-red margin-top-bottom">
         <p>Om deze pagina te zien dient u ingelogd te zijn.</p>

@@ -41,7 +41,9 @@ export const IncidentManagementModuleComponent = ({
     }
 
     getFiltersAction();
-  }, [getFiltersAction, requestIncidentsAction]);
+    // disabling linter; no deps needed, only execute on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!isAuthenticated()) {
     return <Route component={LoginPage} />;
