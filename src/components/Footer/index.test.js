@@ -6,15 +6,16 @@ import Footer from './index';
 
 describe('<Footer />', () => {
   it('should render correctly', () => {
-    const { getByText } = render(
+    const { container, getByTestId } = render(
       withAppContext(<Footer />)
     );
 
-    expect(getByText('Lukt het niet om een melding te doen?')).toBeInTheDocument();
-    // @TODO
-    expect(getByText('Bel het Gemeentelijk informatienummer: 14 020')).toBeInTheDocument();
-    expect(getByText('op werkdagen van 08.00 tot 18.00 uur.')).toBeInTheDocument();
-
-    expect(getByText('Privacy')).toBeInTheDocument();
+    expect(container.querySelector(
+      'div.no-print')
+    ).toBeInTheDocument();
+    expect(getByTestId('disclaimer')).toBeInTheDocument();
+    expect(container.querySelector(
+      'a[href="https://www.amsterdam.nl/privacy/"]')
+    ).toBeInTheDocument();
   });
 });

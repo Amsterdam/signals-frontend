@@ -11,8 +11,8 @@ import styled from 'styled-components';
 
 const Disclaimer = styled.div`
   background-color: ${themeColor('tint', 'level5')};
-  padding-top: 28px;
-  padding-bottom: 28px;
+  padding-top: ${themeSpacing(7)};
+  padding-bottom: ${themeSpacing(7)};
 
   * {
     color: ${themeColor('bright', 'main')};
@@ -38,11 +38,6 @@ const StyledHeading = styled(Heading)`
   margin: 0 0 ${themeSpacing(3)} 0;
 `;
 
-const StyledText = styled.span`
-  font-size: 16px;
-  line-height: 22px;
-`;
-
 const FooterWrapper = styled.div`
   & {
     display: flex;
@@ -54,17 +49,15 @@ const FooterWrapper = styled.div`
 
 const Footer = () => (
   <FooterWrapper className="app-container no-print" data-testid="siteFooter">
-    <Disclaimer>
+    <Disclaimer data-testid="disclaimer">
       <Row>
         <Column span={12}>
-          <StyledHeading as="h4">Lukt het niet om een melding te doen?</StyledHeading>
+          <StyledHeading $as="h4">Lukt het niet om een melding te doen?</StyledHeading>
         </Column>
 
         <Column span={12}>
-          <StyledText>
-            Bel het Gemeentelijk informatienummer: 14 020 <br />
-            op werkdagen van 08.00 tot 18.00 uur.
-          </StyledText>
+          Bel het Gemeentelijk informatienummer: 14 020 <br />
+          op werkdagen van 08.00 tot 18.00 uur.
         </Column>
       </Row>
     </Disclaimer>
@@ -72,7 +65,7 @@ const Footer = () => (
     <Privacy>
       <Row>
         <Column span={12}>
-          <StyledLink size={5} href="https://www.amsterdam.nl/privacy/" variant="with-chevron">Privacy</StyledLink>
+          <StyledLink href="https://www.amsterdam.nl/privacy/" variant="with-chevron">Privacy</StyledLink>
         </Column>
       </Row>
     </Privacy>

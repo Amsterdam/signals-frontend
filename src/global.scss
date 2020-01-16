@@ -13,6 +13,7 @@ html {
 body {
   @include avenirnext();
   font-size: 1rem;
+  line-height: 22px;
 }
 
 ul li {
