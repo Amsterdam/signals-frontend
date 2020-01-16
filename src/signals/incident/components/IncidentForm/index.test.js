@@ -47,9 +47,6 @@ const mockForm = {
 
 describe('<IncidentForm />', () => {
   let props;
-  let wrapper;
-  let instance;
-  let spy;
 
   beforeEach(() => {
     props = {
@@ -65,24 +62,6 @@ describe('<IncidentForm />', () => {
     };
 
     formatConditionalForm.mockImplementation(() => mockForm);
-
-    wrapper = mount(
-      <IncidentForm {...props} />
-    );
-
-    instance = wrapper.instance();
-
-    instance.form = {
-      meta: {
-        incident: {},
-      },
-      valid: true,
-      controls: mockForm.controls,
-      value: {},
-      updateValueAndValidity: jest.fn(),
-    };
-
-    spy = jest.spyOn(instance, 'setValues');
   });
 
   describe('rendering', () => {
@@ -101,11 +80,33 @@ describe('<IncidentForm />', () => {
       expect(container.querySelectorAll('input').length).toEqual(1);
       expect(queryAllByText('(optioneel)').length).toEqual(1);
     });
-
   });
 
   describe('events', () => {
     const event = { preventDefault: jest.fn() };
+    let wrapper;
+    let instance;
+    let spy;
+
+    beforeEach(() => {
+      wrapper = mount(
+        <IncidentForm {...props} />
+      );
+
+      instance = wrapper.instance();
+
+      instance.form = {
+        meta: {
+          incident: {},
+        },
+        valid: true,
+        controls: mockForm.controls,
+        value: {},
+        updateValueAndValidity: jest.fn(),
+      };
+
+      spy = jest.spyOn(instance, 'setValues');
+    });
 
     it('clicking submit should preventDefault', () => {
       wrapper.find('form').simulate('submit', event);
