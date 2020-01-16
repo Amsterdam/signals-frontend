@@ -20,6 +20,8 @@ import {
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
+import { PATCH_INCIDENT_SUCCESS } from 'models/incident/constants';
+
 import {
   applyFilterRefresh,
   applyFilterRefreshStop,
@@ -249,6 +251,7 @@ export default function* watchIncidentManagementSaga() {
         RESET_SEARCH_QUERY,
         PAGE_CHANGED,
         ORDERING_CHANGED,
+        PATCH_INCIDENT_SUCCESS,
       ],
       fetchProxy
     ),
