@@ -101,7 +101,7 @@ describe('<App />', () => {
     expect(queryByTestId('signalsThemeProvider')).toBeNull();
   });
 
-  describe.only('routing', () => {
+  describe('routing', () => {
     it('should redirect from "/" to "/incident/beschrijf"', () => {
       history.push('/');
 
@@ -115,13 +115,13 @@ describe('<App />', () => {
     it('should redirect from "/login" to "/manage/incidents"', () => {
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
-      act(() => {
-        history.push('/login');
-      });
-
       render(
         withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
       );
+
+      act(() => {
+        history.push('/login');
+      });
 
       expect(history.location.pathname).toEqual('/manage/incidents');
 
@@ -129,13 +129,13 @@ describe('<App />', () => {
 
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-      act(() => {
-        history.push('/login');
-      });
-
       render(
         withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
       );
+
+      act(() => {
+        history.push('/login');
+      });
 
       expect(history.location.pathname).toEqual('/manage/incidents');
     });
@@ -143,27 +143,27 @@ describe('<App />', () => {
     it('should redirect from "/manage" to "/manage/incidents"', () => {
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
-      act(() => {
-        history.push('/manage');
-      });
-
       render(
         withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
       );
 
-      expect(history.location.pathname).toEqual('/incident/beschrijf');
+      act(() => {
+        history.push('/manage');
+      });
+
+      expect(history.location.pathname).toEqual('/manage/incidents');
 
       cleanup();
 
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-      act(() => {
-        history.push('/manage');
-      });
-
       render(
         withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
       );
+
+      act(() => {
+        history.push('/manage');
+      });
 
       expect(history.location.pathname).toEqual('/manage/incidents');
     });
