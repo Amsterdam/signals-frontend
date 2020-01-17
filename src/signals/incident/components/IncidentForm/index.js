@@ -1,9 +1,3 @@
-/**
-*
-* IncidentForm
-*
-*/
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGenerator } from 'react-reactive-form';

@@ -1,16 +1,15 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
+import { Wizard, Step, Steps } from 'react-albus';
 import formatConditionalForm from '../../services/format-conditional-form';
-import IncidentNavigation from '../IncidentNavigation';
 
 import IncidentForm from './index';
 
 import phoneForm from '../../definitions/wizard-step-3-telefoon';
 
 jest.mock('../../services/format-conditional-form/');
-jest.mock('../IncidentNavigation');
 
 const mockControl = {
   onBlur: jest.fn(),
@@ -38,7 +37,10 @@ const mockForm = {
         ...phoneForm.form.controls.privacy_text.meta,
         isVisible: false,
       },
-
+    },
+    $field_0: {
+      ...mockControl,
+      ...phoneForm.form.controls.$field_0,
     },
   },
 };
@@ -52,14 +54,13 @@ describe('<IncidentForm />', () => {
       incidentContainer: {
         incident: {},
       },
-      wizard: { step: {} },
+      wizard: { telefoon: phoneForm },
       getClassification: jest.fn(),
       updateIncident: jest.fn(),
       createIncident: jest.fn(),
       isAuthenticated: false,
     };
 
-    IncidentNavigation.mockImplementation(() => null);
     formatConditionalForm.mockImplementation(() => mockForm);
   });
 
@@ -67,7 +68,13 @@ describe('<IncidentForm />', () => {
     it('expect to render correctly', () => {
       const { container, queryByText, queryAllByText } = render(
         withAppContext(
-          <IncidentForm {...props} />,
+          <Wizard>
+            <Steps>
+              <Step id="incident/telefoon">
+                <IncidentForm {...props} />
+              </Step>
+            </Steps>
+          </Wizard >
         ),
       );
 
@@ -81,18 +88,27 @@ describe('<IncidentForm />', () => {
     });
   });
 
-  describe.skip('events', () => {
+  describe('events', () => {
     const event = { preventDefault: jest.fn() };
     let wrapper;
     let instance;
     let spy;
+    let formWrapper;
 
     beforeEach(() => {
-      wrapper = mount(
-        <IncidentForm {...props} />
+      wrapper = shallow(
+        <Wizard>
+          <Steps>
+            <Step id="incident/telefoon">
+              <IncidentForm {...props} />
+            </Step>
+          </Steps>
+        </Wizard >
       );
 
-      instance = wrapper.instance();
+      formWrapper = wrapper.find(IncidentForm).dive();
+
+      instance = formWrapper.instance();
 
       instance.form = {
         meta: {
@@ -108,7 +124,7 @@ describe('<IncidentForm />', () => {
     });
 
     it('clicking submit should preventDefault', () => {
-      wrapper.find('form').simulate('submit', event);
+      formWrapper.find('form').simulate('submit', event);
 
       expect(event.preventDefault).toHaveBeenCalled();
     });
@@ -123,7 +139,8 @@ describe('<IncidentForm />', () => {
           extra_boten_geluid_meer: 'Ja! Wat een teringzooi hier',
         },
       };
-      wrapper.setProps({ ...props, incidentContainer });
+
+      formWrapper.setProps({ ...props, incidentContainer });
 
       expect(spy).toHaveBeenCalledWith(incidentContainer.incident);
       expect(instance.form.updateValueAndValidity).toHaveBeenCalledWith();
@@ -143,10 +160,7 @@ describe('<IncidentForm />', () => {
       it('submit should trigger next when form is valid and UPDATE_INCIDENT defined', () => {
         const next = jest.fn();
         instance.form.valid = true;
-        instance.form.value = {
-          phone: '06987654321',
-          extra_boten_geluid_meer: 'Ja! Wat een teringzooi hier',
-        };
+
         expect(props.updateIncident).not.toHaveBeenCalled();
         expect(next).not.toHaveBeenCalled();
 
@@ -158,18 +172,14 @@ describe('<IncidentForm />', () => {
 
       it('submit should trigger next when form is valid and CREATE_INCIDENT defined', () => {
         const next = jest.fn();
+        instance.form.valid = true;
+
         expect(next).not.toHaveBeenCalled();
         expect(props.createIncident).not.toHaveBeenCalled();
 
-        instance.form.valid = true;
-        instance.form.value = {
-          phone: '06987654321',
-          extra_boten_geluid_meer: 'Ja! Wat een teringzooi hier',
-        };
-
         instance.handleSubmit(event, next, 'CREATE_INCIDENT');
 
-        expect(props.createIncident).toHaveBeenCalledWith({ incident: {}, isAuthenticated: false, wizard: { step: {} } });
+        expect(props.createIncident).toHaveBeenCalledWith(expect.objectContaining({ incident: {}, isAuthenticated: false }));
         expect(next).toHaveBeenCalled();
       });
 
@@ -188,23 +198,22 @@ describe('<IncidentForm />', () => {
         const next = jest.fn();
         expect(next).not.toHaveBeenCalled();
         instance.form.valid = false;
-        wrapper.setProps({ postponeSubmitWhenLoading: 'mockloading' });
-        wrapper.setProps({ mockloading: true });
+        formWrapper.setProps({ postponeSubmitWhenLoading: 'mockloading' });
+        formWrapper.setProps({ mockloading: true });
 
         instance.handleSubmit(event, next);
 
-        expect(wrapper.state()).toEqual({
+        expect(formWrapper.state()).toEqual({
           loading: true,
           submitting: true,
           formAction: undefined,
           next,
         });
 
-
         instance.form.valid = true;
-        wrapper.setProps({ mockloading: false });
+        formWrapper.setProps({ mockloading: false });
 
-        expect(wrapper.state()).toEqual({
+        expect(formWrapper.state()).toEqual({
           loading: false,
           submitting: false,
           formAction: undefined,
@@ -219,23 +228,22 @@ describe('<IncidentForm />', () => {
       const next = jest.fn();
       expect(next).not.toHaveBeenCalled();
       instance.form.valid = false;
-      wrapper.setProps({ postponeSubmitWhenLoading: 'mockloading' });
-      wrapper.setProps({ mockloading: true });
+      formWrapper.setProps({ postponeSubmitWhenLoading: 'mockloading' });
+      formWrapper.setProps({ mockloading: true });
 
       instance.handleSubmit(event, next, 'UPDATE_INCIDENT');
 
-      expect(wrapper.state()).toEqual({
+      expect(formWrapper.state()).toEqual({
         loading: true,
         submitting: true,
         formAction: 'UPDATE_INCIDENT',
         next,
       });
 
-
       instance.form.valid = true;
-      wrapper.setProps({ mockloading: false });
+      formWrapper.setProps({ mockloading: false });
 
-      expect(wrapper.state()).toEqual({
+      expect(formWrapper.state()).toEqual({
         loading: false,
         submitting: false,
         formAction: 'UPDATE_INCIDENT',
@@ -248,22 +256,22 @@ describe('<IncidentForm />', () => {
     it('should not submit async when form is not valid after service call', () => {
       const next = jest.fn();
       instance.form.valid = false;
-      wrapper.setProps({ postponeSubmitWhenLoading: 'mockloading' });
-      wrapper.setProps({ mockloading: true });
+      formWrapper.setProps({ postponeSubmitWhenLoading: 'mockloading' });
+      formWrapper.setProps({ mockloading: true });
 
       instance.handleSubmit(event, next);
       expect(next).not.toHaveBeenCalled();
 
-      expect(wrapper.state()).toEqual({
+      expect(formWrapper.state()).toEqual({
         loading: true,
         submitting: true,
         formAction: undefined,
         next,
       });
 
-      wrapper.setProps({ mockloading: false });
+      formWrapper.setProps({ mockloading: false });
 
-      expect(wrapper.state()).toEqual({
+      expect(formWrapper.state()).toEqual({
         loading: false,
         submitting: false,
         formAction: undefined,
@@ -276,12 +284,12 @@ describe('<IncidentForm />', () => {
     it('should not submit async when service is not loading', () => {
       const next = jest.fn();
       instance.form.valid = false;
-      wrapper.setProps({ postponeSubmitWhenLoading: 'mockloading' });
-      wrapper.setProps({ mockloading: false });
+      formWrapper.setProps({ postponeSubmitWhenLoading: 'mockloading' });
+      formWrapper.setProps({ mockloading: false });
 
       instance.handleSubmit(event, next);
 
-      expect(wrapper.state()).toEqual({
+      expect(formWrapper.state()).toEqual({
         loading: false,
         submitting: false,
         formAction: '',
