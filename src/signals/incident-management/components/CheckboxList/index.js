@@ -62,6 +62,7 @@ const CheckboxList = ({
   title,
   toggleAllLabel,
   toggleNothingLabel,
+  toggleRef,
 }) => {
   /**
    * Tracking of boxes that have been checked
@@ -194,7 +195,12 @@ const CheckboxList = ({
   /**
    * Checks or unchecks all options in state
    */
-  const handleToggle = useCallback(() => {
+  const handleToggle = useCallback(event => {
+    if (event.currentTarget.disabled) {
+      event.preventDefault();
+      return;
+    }
+
     setChecked(new Set(toggled ? [] : options));
     setToggled(!toggled);
   }, [options, toggled]);
@@ -216,6 +222,7 @@ const CheckboxList = ({
               checked={toggled}
               name={groupName}
               onChange={handleToggle}
+              ref={toggleRef}
               type="checkbox"
               value={groupValue || name}
             />
@@ -262,6 +269,7 @@ CheckboxList.defaultProps = {
   title: null,
   toggleAllLabel: 'Alles selecteren',
   toggleNothingLabel: 'Niets selecteren',
+  toggleRef: null,
 };
 
 CheckboxList.propTypes = {
@@ -305,6 +313,7 @@ CheckboxList.propTypes = {
   toggleAllLabel: PropTypes.string,
   /** Text label for the group toggle in its toggled state */
   toggleNothingLabel: PropTypes.string,
+  toggleRef: PropTypes.shape({}),
 };
 
 export default CheckboxList;
