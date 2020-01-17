@@ -1,9 +1,9 @@
 import React, {
+  useCallback,
   useEffect,
   useState,
   useLayoutEffect,
   useMemo,
-  useCallback,
 } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
@@ -19,6 +19,20 @@ import {
 } from 'signals/incident-management/components/FilterForm/styled';
 import Label from 'components/Label';
 import * as types from 'shared/types';
+
+let event;
+if (typeof MouseEvent === 'function') {
+  event = new MouseEvent('click', {
+    view: window,
+    bubbles: true,
+    cancelable: false,
+  });
+} else {
+  event = document.createEvent('MouseEvent');
+  const bubbles = true;
+  const cancelable = false;
+  event.initEvent('click', bubbles, cancelable);
+}
 
 const StyledFieldset = styled(Fieldset)`
   padding-top: ${themeSpacing(2)};
@@ -57,7 +71,6 @@ const groupSubcategoriesByMainSlug = (departmentCategories, { mainToSub }) =>
       if (departmentCategory) {
         departmentCatProps.is_responsible = departmentCategory.is_responsible;
         departmentCatProps.can_view = departmentCategory.can_view;
-        // departmentCatProps.dep_cat_id = departmentCategory.id;
       }
 
       return { ...{ ...subcategory, ...departmentCatProps } };
@@ -66,49 +79,12 @@ const groupSubcategoriesByMainSlug = (departmentCategories, { mainToSub }) =>
     return { ...acc, [mainCategory]: subCategories };
   }, {});
 
-let event;
-if (typeof MouseEvent === 'function') {
-  event = new MouseEvent('click', {
-    view: window,
-    bubbles: true,
-    cancelable: false,
-  });
-} else {
-  event = document.createEvent('MouseEvent');
-  const bubbles = true;
-  const cancelable = false;
-  event.initEvent('click', bubbles, cancelable);
-}
-
-const functionsList = new Set();
-
 const CategoryLists = ({ categories, categoryGroups }) => {
-  const [refs, setRefs] = useState();
+  const [refs, setRefs] = useState({});
   const categoriesGrouped = useMemo(
     () => groupSubcategoriesByMainSlug(categoryGroups, categories),
     [categoryGroups, categories]
   );
-
-  /**
-   * Checks and disables all checkbox in a grop of the can_view list of options
-   *
-   * @param {(Object|Event)} eventOrObject
-   * @param {HTMLInputElement} eventOrObject.currentTarget - Group toggle checkbox
-   */
-  const checkAllCorresponding = useCallback(
-    ({ currentTarget }) => {
-      const category = currentTarget.value.replace('_is_responsible', '');
-
-      Object.keys(refs.can_view[category]).forEach(subCat => {
-        const { current } = refs.is_responsible[category][subCat];
-
-        checkCorresponding({ currentTarget: current });
-      });
-    },
-    [checkCorresponding, refs]
-  );
-
-  functionsList.add(checkAllCorresponding);
 
   /**
    * Checks and disables checkbox in the can_view list of options
@@ -118,35 +94,69 @@ const CategoryLists = ({ categories, categoryGroups }) => {
    * @param {(Object|Event)} eventOrObject
    * @param {HTMLInputElement} eventOrObject.currentTarget - Single checkbox
    */
-  const checkCorresponding = useCallback(
+  const checkCorresponding = useCallback(({ currentTarget }) => {
+    const currentTargetId = currentTarget.id;
+    const idReplaceStr = '_is_responsible_category_slug_';
+    const [, category] = currentTarget.id.match(
+      new RegExp(`([^_]+)${idReplaceStr}`)
+    );
+    const subcategory = currentTargetId.replace(`${category}${idReplaceStr}`, '');
+    const { current } = refs.sub.can_view[category][subcategory];
+
+    if (!current) return;
+
+    const sameStates = currentTarget.checked === current.checked;
+
+    if (!sameStates) {
+      current.dispatchEvent(event);
+    }
+
+    current.checked = currentTarget.checked;
+    current.disabled = currentTarget.checked;
+
+    // if we uncheck a box, make sure that the corresponding toggle is enabled
+    const { current: mainRef } = refs.main.can_view[category];
+
+    if (mainRef) {
+      mainRef.disabled = false;
+    }
+  }, [refs]);
+
+  /**
+   * Checks and disables all checkbox in a group of the can_view list of options
+   *
+   * @param {(Object|Event)} eventOrObject
+   * @param {HTMLInputElement} eventOrObject.currentTarget - Group toggle checkbox
+   */
+  const checkAllCorresponding = useCallback(
     ({ currentTarget }) => {
-      const currentTargetId = currentTarget.id;
-      const idReplaceStr = '_is_responsible_category_slug_';
-      const [, category] = currentTarget.id.match(
-        new RegExp(`([^_]+)${idReplaceStr}`)
-      );
-      const cleanId = currentTargetId.replace(`${category}${idReplaceStr}`, '');
-      const ref = refs.can_view[category][cleanId];
+      const category = currentTarget.value.replace('_is_responsible', '');
 
-      if (!ref.current) return;
+      Object.keys(refs.sub.is_responsible[category]).forEach(subcat => {
+        const { current } = refs.sub.is_responsible[category][subcat];
 
-      const sameStates = currentTarget.checked === ref.current.checked;
+        if (current) {
+          checkCorresponding({ currentTarget: current });
+        }
+      });
 
-      if (!sameStates) {
-        ref.current.dispatchEvent(event);
-      }
+      const corresponding = refs.main.can_view[category];
 
-      ref.current.checked = currentTarget.checked;
-      ref.current.disabled = currentTarget.checked;
+      if (!corresponding.current) return;
+
+      corresponding.current.disabled = currentTarget.checked;
     },
-    [refs.can_view]
+    [refs, checkCorresponding]
   );
 
-  functionsList.add(checkCorresponding);
-
   useLayoutEffect(() => {
-    const optionRefs = Object.keys(categoriesGrouped).reduce(
+    const mainRefs = { can_view: {}, is_responsible: {} };
+
+    const subRefs = Object.keys(categoriesGrouped).reduce(
       (acc, val) => {
+        mainRefs.can_view[val] = React.createRef();
+        mainRefs.is_responsible[val] = React.createRef();
+
         categoriesGrouped[val].forEach(({ id }) => {
           acc.can_view[val] = acc.can_view[val] || {};
           acc.is_responsible[val] = acc.is_responsible[val] || {};
@@ -160,44 +170,49 @@ const CategoryLists = ({ categories, categoryGroups }) => {
       { can_view: {}, is_responsible: {} }
     );
 
-    setRefs(optionRefs);
+    setRefs({
+      main: mainRefs,
+      sub: subRefs,
+    });
   }, [categoriesGrouped]);
 
   useEffect(() => {
-    if (!refs) return undefined;
+    if (!refs.main && !refs.sub) return undefined;
 
-    Object.keys(refs.is_responsible).forEach(category => {
-      Object.keys(refs.is_responsible[category]).forEach(subcat => {
-        const { current } = refs.is_responsible[category][subcat];
+    Object.keys(refs.sub.is_responsible).forEach(category => {
+      Object.keys(refs.sub.is_responsible[category]).forEach(subcat => {
+        const { current } = refs.sub.is_responsible[category][subcat];
 
-        checkCorresponding({ currentTarget: current });
         current.addEventListener('change', checkCorresponding);
       });
     });
 
-    const isResponsibleToggles = document.querySelectorAll(
-      'input[type=checkbox][name="maincategory_slug_is_responsible"]'
-    );
+    Object.keys(refs.main.is_responsible).forEach(category => {
+      const { current } = refs.main.is_responsible[category];
 
-    // is_responsible toggle callback handlers
-    isResponsibleToggles.forEach(toggleElement => {
-      toggleElement.addEventListener('change', checkAllCorresponding);
+      current.addEventListener('change', checkAllCorresponding);
     });
 
     return () => {
-      Object.keys(refs.is_responsible).forEach(category => {
-        Object.keys(refs.is_responsible[category]).forEach(subcat => {
-          const { current } = refs.is_responsible[category][subcat];
+      Object.keys(refs.sub.is_responsible).forEach(category => {
+        Object.keys(refs.sub.is_responsible[category]).forEach(subcat => {
+          const { current } = refs.sub.is_responsible[category][subcat];
 
-          current.removeEventListener('change', checkCorresponding);
+          if (current) {
+            current.removeEventListener('change', checkCorresponding);
+          }
         });
       });
 
-      isResponsibleToggles.forEach(toggleElement => {
-        toggleElement.removeEventListener('change', checkAllCorresponding);
+      Object.keys(refs.main.is_responsible).forEach(category => {
+        const { current } = refs.main.is_responsible[category];
+
+        if (current) {
+          current.removeEventListener('change', checkAllCorresponding);
+        }
       });
     };
-  });
+  }, [refs.main, refs.sub, checkAllCorresponding, checkCorresponding]);
 
   /**
    * Selecting categories:
@@ -209,19 +224,16 @@ const CategoryLists = ({ categories, categoryGroups }) => {
     <Row>
       <Column span={6}>
         <ControlsWrapper>
-          <div>
-            Functions: {functionsList.size}
-          </div>
           <StyledFieldset>
             <Label as="span" isGroupHeader>
               Verantwoordelijk voor categorie
             </Label>
 
-            {refs &&
+            {refs.sub &&
               Object.keys(categoriesGrouped)
                 .sort()
                 .map(mainCategory => {
-                  if (!refs.is_responsible[mainCategory]) {
+                  if (!refs.sub.is_responsible[mainCategory]) {
                     return null;
                   }
 
@@ -231,7 +243,7 @@ const CategoryLists = ({ categories, categoryGroups }) => {
                   const options = categoriesGrouped[mainCategory].map(
                     option => ({
                       ...option,
-                      ref: refs.is_responsible[mainCategory][option.id],
+                      ref: refs.sub.is_responsible[mainCategory][option.id],
                     })
                   );
 
@@ -247,6 +259,7 @@ const CategoryLists = ({ categories, categoryGroups }) => {
                       name={`${mainCatObj.slug}_is_responsible_category_slug`}
                       options={options}
                       title={<Label as="span">{mainCatObj.value}</Label>}
+                      toggleRef={refs.main.is_responsible[mainCategory]}
                     />
                   );
                 })}
@@ -261,11 +274,11 @@ const CategoryLists = ({ categories, categoryGroups }) => {
               Toegang tot categorie
             </Label>
 
-            {refs &&
+            {refs.sub &&
               Object.keys(categoriesGrouped)
                 .sort()
                 .map(mainCategory => {
-                  if (!refs.can_view[mainCategory]) {
+                  if (!refs.sub.can_view[mainCategory]) {
                     return null;
                   }
 
@@ -275,7 +288,7 @@ const CategoryLists = ({ categories, categoryGroups }) => {
                   const options = categoriesGrouped[mainCategory].map(
                     option => ({
                       ...option,
-                      ref: refs.can_view[mainCategory][option.id],
+                      ref: refs.sub.can_view[mainCategory][option.id],
                     })
                   );
 
@@ -290,6 +303,7 @@ const CategoryLists = ({ categories, categoryGroups }) => {
                       name={`${mainCatObj.slug}_can_view_category_slug`}
                       options={options}
                       title={<Label as="span">{mainCatObj.value}</Label>}
+                      toggleRef={refs.main.can_view[mainCategory]}
                     />
                   );
                 })}
