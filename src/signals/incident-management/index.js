@@ -10,7 +10,6 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
 import LoginPage from 'components/LoginPage';
-import NotFoundPage from 'components/NotFoundPage';
 
 import IncidentOverviewPage from './containers/IncidentOverviewPage';
 import { makeSelectSearchQuery } from './selectors';
@@ -55,7 +54,7 @@ export const IncidentManagementModuleComponent = ({
       <Route exact path={routes.incident} component={IncidentDetail} />
       <Route exact path={routes.split} component={IncidentSplitContainer} />
       <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
-      <Route component={NotFoundPage} />
+      <Route component={IncidentOverviewPage} />
     </Switch>
   );
 };
