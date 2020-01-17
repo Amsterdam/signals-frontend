@@ -185,5 +185,17 @@ describe('signals/incident-management', () => {
 
       expect(queryByText(loginText)).toBeNull();
     });
+
+    it('will use overview page as routing fallback', () => {
+      isAuthenticated.mockImplementation(() => true);
+
+      history.push('/manage/this-url-definitely-does-not-exist');
+
+      const { getByTestId } = render(
+        withAppContext(<IncidentManagementModuleComponent {...props} />)
+      );
+
+      expect(getByTestId('incidentManagementOverviewPage')).toBeInTheDocument();
+    });
   });
 });

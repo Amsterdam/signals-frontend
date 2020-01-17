@@ -84,7 +84,8 @@ function appReducer(state = initialState, action) {
 
     case LOGOUT:
       return state
-        .set('user', initialState.get('user'));
+        .set('user', initialState.get('user'))
+        .set('upload', initialState.get('upload'));
 
     default:
       return state;

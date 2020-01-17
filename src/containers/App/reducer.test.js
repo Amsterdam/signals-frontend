@@ -217,7 +217,9 @@ describe('containers/App/reducer', () => {
       };
 
       expect(appReducer(state, action)).toEqual(
-        state.set('user', initialState.get('user'))
+        state
+          .set('user', initialState.get('user'))
+          .set('upload', initialState.get('upload'))
       );
     });
   });
