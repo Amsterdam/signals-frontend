@@ -4,7 +4,7 @@ import { withAppContext } from 'test/utils';
 
 import IncidentWizard from './index';
 
-describe.skip('<IncidentWizard />', () => {
+describe('<IncidentWizard />', () => {
   const props = {
     wizardDefinition: {},
     getClassification: jest.fn(),
@@ -16,26 +16,17 @@ describe.skip('<IncidentWizard />', () => {
     isAuthenticated: false,
   };
 
-  beforeEach(() => {
-  });
-
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
   it('expect to render form correctly', () => {
     const propsWithForm = {
       ...props,
       wizardDefinition: {
         beschrijf: {
           form: {
-            controls: {
-              with_definition: {},
-            },
+            controls: {},
           },
         },
       },
-    }
+    };
 
     const { queryByTestId } = render(
       withAppContext(
@@ -45,6 +36,7 @@ describe.skip('<IncidentWizard />', () => {
 
     expect(queryByTestId('incidentForm')).toBeInTheDocument();
     expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
   });
 
   it('expect to render form factory correctly', () => {
@@ -52,14 +44,12 @@ describe.skip('<IncidentWizard />', () => {
       ...props,
       wizardDefinition: {
         beschrijf: {
-          form: {
-            controls: {
-              with_definition: {},
-            },
-          },
+          formFactory: () => ({
+            controls: {},
+          }),
         },
       },
-    }
+    };
 
     const { queryByTestId } = render(
       withAppContext(
@@ -69,6 +59,7 @@ describe.skip('<IncidentWizard />', () => {
 
     expect(queryByTestId('incidentForm')).toBeInTheDocument();
     expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
   });
 
   it('expect to render preview correctly', () => {
@@ -79,7 +70,7 @@ describe.skip('<IncidentWizard />', () => {
           preview: {},
         },
       },
-    }
+    };
 
     const { queryByTestId } = render(
       withAppContext(
@@ -89,6 +80,7 @@ describe.skip('<IncidentWizard />', () => {
 
     expect(queryByTestId('incidentForm')).not.toBeInTheDocument();
     expect(queryByTestId('incidentPreview')).toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
   });
 
   it('expect to render loading correctly', () => {
@@ -97,7 +89,7 @@ describe.skip('<IncidentWizard />', () => {
       incidentContainer: {
         loading: true,
       },
-    }
+    };
 
     const { queryByTestId } = render(
       withAppContext(
@@ -106,6 +98,7 @@ describe.skip('<IncidentWizard />', () => {
     );
 
     expect(queryByTestId('incidentForm')).not.toBeInTheDocument();
-    expect(queryByTestId('incidentPreview')).toBeInTheDocument();
+    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
   });
 });
