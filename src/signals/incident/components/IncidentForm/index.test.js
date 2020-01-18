@@ -85,6 +85,9 @@ describe('<IncidentForm />', () => {
 
       expect(container.querySelectorAll('input').length).toEqual(1);
       expect(queryAllByText('(optioneel)').length).toEqual(1);
+
+      expect(queryByText(phoneForm.nextButtonLabel)).toBeInTheDocument();
+      expect(queryByText(phoneForm.previousButtonLabel)).toBeInTheDocument();
     });
   });
 
