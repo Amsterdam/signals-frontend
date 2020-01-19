@@ -100,19 +100,20 @@ const HeaderWrapper = styled.div`
     tall &&
     css`
       #header {
-        position: static;
-        header {
-          height: 160px;
+        &:after {
+          display: none;
         }
+
+        position: static;
         @media screen and (max-width: 539px) {
           header {
             height: 50px;
             border-bottom: 4px solid ${themeColor('tint', 'level2')};
           }
         }
-        @media screen and (min-width: 540px) and (max-width: 1200px) {
+        @media screen and (min-width: 540px) {
           header {
-            height: 100px;
+            height: 90px;
           }
         }
         nav,
