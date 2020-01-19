@@ -84,7 +84,7 @@ const SearchBarMenuItem = styled(MenuItem)`
 const StyledSearchBar = styled(SearchBar)`
   margin-top: 5px;
 `;
-console.log('yo');
+
 const HeaderWrapper = styled.div`
   ${({ tall }) =>
     !tall &&
