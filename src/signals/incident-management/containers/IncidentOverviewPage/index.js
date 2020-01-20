@@ -130,7 +130,7 @@ export const IncidentOverviewPageContainerComponent = ({
   const canRenderList = results && results.length > 0 && totalPages > 0;
 
   return (
-    <div className="incident-overview-page">
+    <div className="incident-overview-page" data-testid="incidentManagementOverviewPage">
       <PageHeader>
         <div>
           <StyledButton

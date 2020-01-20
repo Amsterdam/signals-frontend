@@ -1,4 +1,4 @@
-import React, { useMemo} from 'react';
+import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
@@ -15,6 +15,7 @@ const FilterWrapper = styled.div`
 const StyledTag = styled(Tag)`
   display: inline-block;
   margin: 0 5px 5px 0;
+  white-space: nowrap;
   :first-letter {
     text-transform: capitalize;
   }
@@ -93,7 +94,7 @@ export const FilterTagListComponent = props => {
       't/m',
       (tagsList.created_before &&
         moment(tagsList.created_before).format('DD-MM-YYYY')) ||
-        'nu',
+      'nu',
     ]
       .filter(Boolean)
       .join(' ');

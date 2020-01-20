@@ -191,7 +191,6 @@ export function login(domain) {
 export function logout() {
   localStorage.removeItem(ACCESS_TOKEN);
   localStorage.removeItem(OAUTH_DOMAIN);
-  global.location.reload();
 }
 
 /**
