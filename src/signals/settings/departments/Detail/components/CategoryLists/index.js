@@ -4,20 +4,23 @@ import React, {
   useState,
   useLayoutEffect,
   useMemo,
+  useRef,
 } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Row, Column, themeSpacing } from '@datapunt/asc-ui';
+import { Row, themeSpacing } from '@datapunt/asc-ui';
 
 import { makeSelectCategories } from 'containers/App/selectors';
 import CheckboxList from 'signals/incident-management/components/CheckboxList';
 import {
   ControlsWrapper,
   Fieldset,
+  Form,
 } from 'signals/incident-management/components/FilterForm/styled';
 import Label from 'components/Label';
+import FormFooter from 'components/FormFooter';
 import * as types from 'shared/types';
 
 let event;
@@ -36,6 +39,7 @@ if (typeof MouseEvent === 'function') {
 
 const StyledFieldset = styled(Fieldset)`
   padding-top: ${themeSpacing(2)};
+  padding-bottom: ${themeSpacing(10)};
 
   & > .Label {
     margin-bottom: ${themeSpacing(4)};
@@ -47,6 +51,21 @@ const StyledCheckboxList = styled(CheckboxList)`
     opacity: 0.3;
   }
 `;
+
+const parseOutputFormData = form => {
+  const formData = new FormData(form);
+
+  Array.from(formData.entries()).reduce((acc, [key, val]) => {
+    const [, mainCategory, section] = key.match(
+      /^([^_]+)_(is_responsible|can_view)_category_slug/
+    );
+
+    acc[section][val] = acc.can_view[val] || {};
+    acc.is_responsible[val] = acc.is_responsible[val] || {};
+
+    return acc;
+  }, {});
+};
 
 const categoriesWith = (prop, subcategories) =>
   subcategories
@@ -69,6 +88,7 @@ const groupSubcategoriesByMainSlug = (departmentCategories, { mainToSub }) =>
       const departmentCatProps = {};
 
       if (departmentCategory) {
+        departmentCatProps.cat_id = departmentCategory.id;
         departmentCatProps.is_responsible = departmentCategory.is_responsible;
         departmentCatProps.can_view = departmentCategory.can_view;
       }
@@ -80,6 +100,7 @@ const groupSubcategoriesByMainSlug = (departmentCategories, { mainToSub }) =>
   }, {});
 
 const CategoryLists = ({ categories, categoryGroups }) => {
+  const formRef = useRef(null);
   const [refs, setRefs] = useState({});
   const categoriesGrouped = useMemo(
     () => groupSubcategoriesByMainSlug(categoryGroups, categories),
@@ -94,33 +115,34 @@ const CategoryLists = ({ categories, categoryGroups }) => {
    * @param {(Object|Event)} eventOrObject
    * @param {HTMLInputElement} eventOrObject.currentTarget - Single checkbox
    */
-  const checkCorresponding = useCallback(({ currentTarget }) => {
-    const currentTargetId = currentTarget.id;
-    const idReplaceStr = '_is_responsible_category_slug_';
-    const [, category] = currentTarget.id.match(
-      new RegExp(`([^_]+)${idReplaceStr}`)
-    );
-    const subcategory = currentTargetId.replace(`${category}${idReplaceStr}`, '');
-    const { current } = refs.sub.can_view[category][subcategory];
+  const checkCorresponding = useCallback(
+    ({ currentTarget }) => {
+      const currentTargetId = currentTarget.id;
+      const idReplaceStr = '_is_responsible_category_slug_';
+      const [, category] = currentTarget.id.match(
+        new RegExp(`([^_]+)${idReplaceStr}`)
+      );
+      const subcategory = currentTargetId.replace(
+        `${category}${idReplaceStr}`,
+        ''
+      );
+      const { current: canViewSubRef } = refs.sub.can_view[category][
+        subcategory
+      ];
 
-    if (!current) return;
+      if (!canViewSubRef) return;
 
-    const sameStates = currentTarget.checked === current.checked;
+      const sameStates = currentTarget.checked === canViewSubRef.checked;
 
-    if (!sameStates) {
-      current.dispatchEvent(event);
-    }
+      if (!sameStates) {
+        canViewSubRef.dispatchEvent(event);
+      }
 
-    current.checked = currentTarget.checked;
-    current.disabled = currentTarget.checked;
-
-    // if we uncheck a box, make sure that the corresponding toggle is enabled
-    const { current: mainRef } = refs.main.can_view[category];
-
-    if (mainRef) {
-      mainRef.disabled = false;
-    }
-  }, [refs]);
+      canViewSubRef.checked = currentTarget.checked;
+      canViewSubRef.disabled = currentTarget.checked;
+    },
+    [refs.sub]
+  );
 
   /**
    * Checks and disables all checkbox in a group of the can_view list of options
@@ -183,14 +205,19 @@ const CategoryLists = ({ categories, categoryGroups }) => {
       Object.keys(refs.sub.is_responsible[category]).forEach(subcat => {
         const { current } = refs.sub.is_responsible[category][subcat];
 
-        current.addEventListener('change', checkCorresponding);
+        if (current) {
+          current.addEventListener('change', checkCorresponding);
+          checkCorresponding({ currentTarget: current });
+        }
       });
     });
 
     Object.keys(refs.main.is_responsible).forEach(category => {
       const { current } = refs.main.is_responsible[category];
 
-      current.addEventListener('change', checkAllCorresponding);
+      if (current) {
+        current.addEventListener('change', checkAllCorresponding);
+      }
     });
 
     return () => {
@@ -214,6 +241,19 @@ const CategoryLists = ({ categories, categoryGroups }) => {
     };
   }, [refs.main, refs.sub, checkAllCorresponding, checkCorresponding]);
 
+  const onCancel = () => {
+    debugger;
+  };
+
+  const onSubmitForm = useCallback(
+    evt => {
+      evt.preventDefault();
+      const formData = parseOutputFormData(evt.target.form);
+      debugger;
+    },
+    [formRef.current]
+  );
+
   /**
    * Selecting categories:
    * - checking one in is_responsible also checks the corresponding checkbox in can_view
@@ -222,7 +262,7 @@ const CategoryLists = ({ categories, categoryGroups }) => {
    */
   return (
     <Row>
-      <Column span={6}>
+      <Form ref={formRef}>
         <ControlsWrapper>
           <StyledFieldset>
             <Label as="span" isGroupHeader>
@@ -247,6 +287,18 @@ const CategoryLists = ({ categories, categoryGroups }) => {
                     })
                   );
 
+                  const departmentCategory = categoryGroups.find(({
+                    category: {
+                      _links: {
+                        self: { href },
+                      },
+                    },
+                  }) => href.startsWith(mainCatObj.key));
+
+                  if (!departmentCategory) {
+                    debugger;
+                  }
+
                   return (
                     <CheckboxList
                       className="categoryGroup"
@@ -265,9 +317,6 @@ const CategoryLists = ({ categories, categoryGroups }) => {
                 })}
           </StyledFieldset>
         </ControlsWrapper>
-      </Column>
-
-      <Column span={6}>
         <ControlsWrapper>
           <StyledFieldset>
             <Label as="span" isGroupHeader>
@@ -298,7 +347,6 @@ const CategoryLists = ({ categories, categoryGroups }) => {
                       groupId={`${mainCatObj.key}_can_view`}
                       groupName="maincategory_slug_can_view"
                       groupValue={`${mainCatObj.slug}_can_view`}
-                      hasToggle
                       key={mainCategory}
                       name={`${mainCatObj.slug}_can_view_category_slug`}
                       options={options}
@@ -309,7 +357,14 @@ const CategoryLists = ({ categories, categoryGroups }) => {
                 })}
           </StyledFieldset>
         </ControlsWrapper>
-      </Column>
+
+        <FormFooter
+          cancelBtnLabel="Annuleren"
+          onCancel={onCancel}
+          onSubmitForm={onSubmitForm}
+          submitBtnLabel="Opslaan"
+        />
+      </Form>
     </Row>
   );
 };
