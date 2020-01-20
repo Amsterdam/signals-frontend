@@ -25,7 +25,6 @@ const StyledHeader = styled(HeaderComponent)`
   a:link {
     text-decoration: none;
   }
-
   ${({ isFrontOffice, tall }) =>
     isFrontOffice &&
     tall &&
@@ -100,21 +99,28 @@ const HeaderWrapper = styled.div`
     tall &&
     css`
       #header {
-        &:after {
-          display: none;
-        }
-
         position: static;
+        header {
+          height: 160px;
+        }
         @media screen and (max-width: 539px) {
           header {
-            height: 50px;
-            border-bottom: 4px solid ${themeColor('tint', 'level2')};
+            height: 116px;
           }
         }
-        @media screen and (min-width: 540px) {
-          header {
-            height: 90px;
-          }
+        &:after {
+          max-width: 1400px;
+          margin-left: auto;
+          margin-right: auto;
+          content: '';
+          display: block;
+          position: absolute;
+          left: 0;
+          right: 0;
+          height: 44px;
+          margin-top: -44px;
+          background-color: ${themeColor('tint', 'level2')};
+          width: 100%;
         }
         nav,
         ul {
@@ -135,8 +141,7 @@ const HeaderWrapper = styled.div`
               background-size: auto 100%;
             }
             @media screen and (max-width: 539px) {
-              margin-top: -3px;
-              height: 29px;
+              height: 41px;
             }
           }
         }
