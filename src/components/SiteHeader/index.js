@@ -104,23 +104,31 @@ const HeaderWrapper = styled.div`
           height: 160px;
         }
         @media screen and (max-width: 539px) {
+          #header {
+            display: none;
+          }
+
           header {
-            height: 116px;
+            height: 50px;
+            border-bottom: 4px solid ${themeColor('tint', 'level2')};
           }
         }
-        &:after {
-          max-width: 1400px;
-          margin-left: auto;
-          margin-right: auto;
-          content: '';
-          display: block;
-          position: absolute;
-          left: 0;
-          right: 0;
-          height: 44px;
-          margin-top: -44px;
-          background-color: ${themeColor('tint', 'level2')};
-          width: 100%;
+
+        @media screen and (min-width: 540px) {
+          &:after {
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 44px;
+            margin-top: -44px;
+            background-color: ${themeColor('tint', 'level2')};
+            width: 100%;
+          }
         }
         nav,
         ul {
@@ -141,7 +149,8 @@ const HeaderWrapper = styled.div`
               background-size: auto 100%;
             }
             @media screen and (max-width: 539px) {
-              height: 41px;
+              margin-top: -3px;
+              height: 29px;
             }
           }
         }
