@@ -132,7 +132,7 @@ describe('containers/App/saga', () => {
         .next()
         .call(logout)
         .next()
-        .put(push('/'))
+        .put(push('/login'))
         .next()
         .isDone();
     });
