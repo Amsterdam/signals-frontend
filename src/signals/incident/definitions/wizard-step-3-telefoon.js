@@ -18,7 +18,7 @@ export default {
           subtitle: 'Zo kunt u ons helpen het probleem sneller of beter op te lossen.',
           path: 'reporter.phone',
           placeholder: 'Telefoonnummer',
-          type: 'text',
+          type: 'tel',
           autoRemove: /[^ ()\d+-]/g,
         },
         render: FormComponents.TextInput,

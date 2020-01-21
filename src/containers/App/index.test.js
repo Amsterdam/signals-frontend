@@ -47,16 +47,7 @@ describe('<App />', () => {
       history.push('/somewhere/else');
     });
 
-    expect(spyScrollTo).not.toHaveBeenCalled();
-
-    act(() => {
-      jest.runAllTimers();
-    });
-
-    expect(spyScrollTo).toHaveBeenCalledWith({
-      top: 0,
-      left: 0,
-    });
+    expect(spyScrollTo).toHaveBeenCalledWith(0, 0);
   });
 
 
@@ -72,15 +63,17 @@ describe('<App />', () => {
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => true);
 
+    cleanup();
+
     rerender(
       withAppContext(<AppContainer requestCategoriesAction={() => {}} />),
     );
 
-    expect(queryByTestId('siteFooter')).toBeNull();
+    expect(queryByTestId('siteFooter')).not.toBeInTheDocument();
   });
 
   it('should render the correct theme', () => {
-    global.localStorage.getItem.mockImplementation(() => undefined);
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
     const { queryByTestId, rerender } = render(
       withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
@@ -90,13 +83,81 @@ describe('<App />', () => {
 
     cleanup();
 
-    global.localStorage.getItem.mockImplementation(() => '42');
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
     rerender(
       withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
     );
 
     expect(queryByTestId('signalsThemeProvider')).toBeNull();
+  });
+
+  describe('routing', () => {
+    it('should redirect from "/" to "/incident/beschrijf"', () => {
+      history.push('/');
+
+      render(
+        withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
+      );
+
+      expect(history.location.pathname).toEqual('/incident/beschrijf');
+    });
+
+    it('should redirect from "/login" to "/manage/incidents"', () => {
+      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
+
+      render(
+        withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
+      );
+
+      act(() => {
+        history.push('/login');
+      });
+
+      expect(history.location.pathname).toEqual('/manage/incidents');
+
+      cleanup();
+
+      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+
+      render(
+        withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
+      );
+
+      act(() => {
+        history.push('/login');
+      });
+
+      expect(history.location.pathname).toEqual('/manage/incidents');
+    });
+
+    it('should redirect from "/manage" to "/manage/incidents"', () => {
+      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
+
+      render(
+        withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
+      );
+
+      act(() => {
+        history.push('/manage');
+      });
+
+      expect(history.location.pathname).toEqual('/manage/incidents');
+
+      cleanup();
+
+      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+
+      render(
+        withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
+      );
+
+      act(() => {
+        history.push('/manage');
+      });
+
+      expect(history.location.pathname).toEqual('/manage/incidents');
+    });
   });
 
   describe('mapDispatchToProps', () => {

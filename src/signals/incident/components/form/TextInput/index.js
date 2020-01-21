@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Input } from '@datapunt/asc-ui';
+import Input from 'components/Input';
 
 import Header from '../Header';
 
 const TextInput = ({
-  handler, touched, hasError, meta, parent, getError, validatorsOrOpts,
+  handler,
+  touched,
+  hasError,
+  meta,
+  parent,
+  getError,
+  validatorsOrOpts,
 }) => (
   <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
     {meta && meta.isVisible

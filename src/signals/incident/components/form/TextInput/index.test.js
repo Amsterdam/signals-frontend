@@ -1,67 +1,58 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { Input } from '@datapunt/asc-ui';
+import { render, fireEvent } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
 
 import TextInput from './index';
 
 describe('Form component <TextInput />', () => {
-  const metaFields = {
-    name: 'input-field-name',
-    type: 'text',
-    placeholder: 'type here',
-  };
-  let wrapper;
-  let handler;
-  let touched;
-  let getError;
-  let hasError;
-  let parent;
-
-  beforeEach(() => {
-    handler = jest.fn();
-    touched = false;
-    getError = jest.fn();
-    hasError = jest.fn();
-    parent = {
+  const props = {
+    meta: {
+      name: 'input-field-name',
+      type: 'text',
+      label: 'field label',
+      placeholder: 'type here',
+    },
+    handler: jest.fn(),
+    parent: {
       meta: {
         updateIncident: jest.fn(),
       },
-    };
-
-    wrapper = shallow(
-      <TextInput
-        handler={handler}
-        parent={parent}
-        touched={touched}
-        hasError={hasError}
-        getError={getError}
-      />
-    );
-  });
+    },
+    touched: false,
+    hasError: jest.fn(),
+    getError: jest.fn(),
+  };
 
   describe('rendering', () => {
     it('should render text field correctly', () => {
-      wrapper.setProps({
+      const propsIsNotVisible = {
+        ...props,
         meta: {
-          ...metaFields,
-          isVisible: true,
-        },
-      });
-
-      expect(handler).toHaveBeenCalledWith();
-      expect(wrapper).toMatchSnapshot();
-    });
-
-    it('should render no text field when not visible', () => {
-      wrapper.setProps({
-        meta: {
-          ...metaFields,
+          ...props.meta,
           isVisible: false,
         },
-      });
+      };
+      const { queryByText, container, rerender } = render(
+        withAppContext(<TextInput {...propsIsNotVisible} />)
+      );
 
-      expect(handler).not.toHaveBeenCalled();
-      expect(wrapper).toMatchSnapshot();
+      expect(queryByText('field label')).not.toBeInTheDocument();
+      expect(container.querySelector('input')).not.toBeInTheDocument();
+
+      const propsIsVisible = {
+        ...props,
+        meta: {
+          ...props.meta,
+          isVisible: true,
+        },
+      };
+
+      rerender(
+        withAppContext(<TextInput {...propsIsVisible} />)
+      );
+
+      expect(queryByText('field label')).toBeInTheDocument();
+      expect(container.querySelector('input')).toBeInTheDocument();
     });
   });
 
@@ -69,33 +60,41 @@ describe('Form component <TextInput />', () => {
     const event = { target: { value: 'diabolo' } };
 
     it('sets incident when value changes', () => {
-      wrapper.setProps({
+      const propsIsVisible = {
+        ...props,
         meta: {
-          ...metaFields,
+          ...props.meta,
           isVisible: true,
         },
-      });
+      };
+      const { container } = render(
+        withAppContext(<TextInput {...propsIsVisible} />)
+      );
 
-      wrapper.find(Input).simulate('blur', event);
+      fireEvent.blur(container.querySelector('input'), event);
 
-      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': 'diabolo',
+      expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
+        [props.meta.name]: 'diabolo',
       });
     });
 
     it('sets incident when value changes and removed unwanted characters', () => {
-      wrapper.setProps({
+      const propsWithAutoRemove = {
+        ...props,
         meta: {
-          ...metaFields,
+          ...props.meta,
           autoRemove: /[dbl]*/g,
           isVisible: true,
         },
-      });
+      };
+      const { container } = render(
+        withAppContext(<TextInput {...propsWithAutoRemove} />)
+      );
 
-      wrapper.find(Input).simulate('blur', event);
+      fireEvent.blur(container.querySelector('input'), event);
 
-      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': 'iaoo',
+      expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
+        [props.meta.name]: 'iaoo',
       });
     });
   });
