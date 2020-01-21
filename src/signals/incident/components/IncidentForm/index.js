@@ -1,14 +1,8 @@
-/**
-*
-* IncidentForm
-*
-*/
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGenerator } from 'react-reactive-form';
-import defer from 'lodash.defer';
 import get from 'lodash.get';
+import isEqual from 'lodash.isequal';
 
 import formatConditionalForm from '../../services/format-conditional-form';
 
@@ -52,12 +46,10 @@ class IncidentForm extends React.Component {
     this.form.meta.incident = this.props.incidentContainer.incident;
     this.form.meta.submitting = this.state.submitting;
     if (this.state.loading !== prevState.loading && !this.state.loading && this.state.next) {
-      defer(() => {
-        if (this.form.valid) {
-          this.setIncident(this.state.formAction);
-          this.state.next();
-        }
-      });
+      if (this.form.valid) {
+        this.setIncident(this.state.formAction);
+        this.state.next();
+      }
     }
   }
 
@@ -82,24 +74,24 @@ class IncidentForm extends React.Component {
       next: null,
     });
 
-    this.setValues(this.props.incidentContainer.incident, true);
+    this.setValues(this.props.incidentContainer.incident);
   }
 
-  setValues(incident, setAllValues) {
-    defer(() => {
-      Object.keys(this.form.controls).map(key => {
-        const control = this.form.controls[key];
+  setValues(incident) {
+    Object.keys(this.form.controls).forEach(key => {
+      const control = this.form.controls[key];
+      if ((control.disabled && control.meta.isVisible) || (control.enabled && !control.meta.isVisible)) {
         if (control.meta.isVisible) {
           control.enable();
         } else {
           control.disable();
         }
-        if (!control.meta.doNotUpdateValue || setAllValues) {
-          control.setValue(incident[key]);
-        }
-        return true;
-      });
+      }
+      if (!isEqual(incident[key], control.value)) {
+        control.setValue(incident[key]);
+      }
     });
+    this.form.updateValueAndValidity();
   }
 
   setIncident(formAction) {

@@ -12,6 +12,7 @@ import {
   authPatchCall,
   authPostCall,
 } from 'shared/services/api/api';
+import { PATCH_INCIDENT_SUCCESS } from 'models/incident/constants';
 import watchIncidentManagementSaga, {
   fetchProxy,
   doSaveFilter,
@@ -84,6 +85,7 @@ describe('signals/incident-management/saga', () => {
             RESET_SEARCH_QUERY,
             PAGE_CHANGED,
             ORDERING_CHANGED,
+            PATCH_INCIDENT_SUCCESS,
           ],
           fetchProxy
         ),
