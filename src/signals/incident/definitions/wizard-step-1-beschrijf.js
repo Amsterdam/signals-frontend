@@ -61,7 +61,6 @@ export default {
           path: 'text',
           placeholder: 'Beschrijf uw melding',
           maxLength: 1000,
-          doNotUpdateValue: true,
         },
         options: {
           validators: [
@@ -172,8 +171,8 @@ export default {
         meta: {
           label: 'Foto\'s toevoegen',
           subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
-          minFileSize: 30 * 2**10, // 30 KiB.
-          maxFileSize: 8 * 2**20, // 8 MiB.
+          minFileSize: 30 * 2 ** 10, // 30 KiB.
+          maxFileSize: 8 * 2 ** 20, // 8 MiB.
           allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif'],
           maxNumberOfFiles: 3,
         },
