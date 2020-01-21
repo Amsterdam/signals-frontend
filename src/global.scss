@@ -61,6 +61,7 @@ dd {
   background-color: $ams-background-sidebars;
   display: flex;
   flex-direction: column;
+  height: 100vh;
 
   .content {
     padding-bottom: 20px;
