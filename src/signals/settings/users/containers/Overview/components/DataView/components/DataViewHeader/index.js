@@ -20,16 +20,14 @@ const DataViewHeader = ({ numberOfColumns, headers, filters }) => {
       {headers.length > 0 && (
         <DataViewHeaderRow
           nodes={headers}
-          spacer={headersMissing > 0}
-          spacerColSpan={headersMissing > 1 ? headersMissing : undefined}
+          spacer={headersMissing}
           testId="dataViewHeadersRow"
         />
       )}
       {filters.length > 0 && (
         <DataViewHeaderRow
           nodes={filters}
-          spacer={filtersMissing > 0}
-          spacerColSpan={filtersMissing > 1 ? filtersMissing : undefined}
+          spacer={filtersMissing}
           testId="dataViewFiltersRow"
         />
       )}

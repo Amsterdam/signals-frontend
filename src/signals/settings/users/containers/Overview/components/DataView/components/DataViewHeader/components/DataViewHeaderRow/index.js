@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { StyledTH, StyledTR } from 'signals/settings/users/containers/Overview/components/DataView/styled';
 
-const DataViewHeaderRow = ({ nodes, testId, spacer, spacerColSpan }) => (
+const DataViewHeaderRow = ({ nodes, testId, spacer }) => (
   <StyledTR data-testid={testId}>
     {nodes.map((node, idx) => (
       // eslint-disable-next-line react/no-array-index-key
@@ -11,22 +11,20 @@ const DataViewHeaderRow = ({ nodes, testId, spacer, spacerColSpan }) => (
         {node}
       </StyledTH>
     ))}
-    {spacer && <StyledTH colSpan={spacerColSpan} />}
+    {spacer > 0 && <StyledTH colSpan={spacer > 1 ? spacer : undefined} />}
   </StyledTR>
 );
 
 
 DataViewHeaderRow.defaultProps = {
   testId: 'dataViewHeaderRow',
-  spacer: false,
-  spacerColSpan: undefined,
+  spacer: 0,
 };
 
 DataViewHeaderRow.propTypes = {
   nodes: PropTypes.node.isRequired,
   testId: PropTypes.string,
-  spacer: PropTypes.bool,
-  spacerColSpan: PropTypes.number,
+  spacer: PropTypes.number,
 };
 
 export default DataViewHeaderRow;

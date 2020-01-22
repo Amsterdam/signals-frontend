@@ -24,9 +24,10 @@ const DataViewBody = ({
           onClick={onItemClick}
           data-testid="dataViewBodyRow"
         >
-          {visibleColumns.map(column => (
+          {visibleColumns.map((column, idx) => (
             <StyledTD
-              key={JSON.stringify(column)}
+              // eslint-disable-next-line react/no-array-index-key
+              key={`${JSON.stringify(column)}${idx}`}
               data-testid="dataViewBodyRowValue"
             >
               {row[column]}

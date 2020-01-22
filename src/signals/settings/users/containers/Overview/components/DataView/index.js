@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { StyledTable } from './styled';
@@ -29,20 +29,12 @@ const DataView  = ({
     },
     [data, columnOrder]
   );
-  const filterVisibleColumns = useCallback(
-    colHeader => invisibleColumns.includes(colHeader) === false,
-    [invisibleColumns]
-  );
   const visibleColumns = useMemo(
-    () => dataColumns.filter(filterVisibleColumns),
-    [dataColumns, filterVisibleColumns]
+    () => dataColumns.filter(colHeader => invisibleColumns.includes(colHeader) === false),
+    [dataColumns, invisibleColumns]
   );
   const numberOfColumns = useMemo(
-    () => [
-      headers.length,
-      filters.length,
-      visibleColumns.length,
-    ].reduce((acc, curr) => Math.max(acc, curr), 0),
+    () => Math.max(...[headers.length, filters.length, visibleColumns.length]),
     [headers.length, filters.length, visibleColumns.length]
   );
 
@@ -86,7 +78,7 @@ DataView.propTypes = {
   /** Array of filter nodes to be displayed in the supplied order */
   filters: PropTypes.node,
   /** Array of data to be displayed */
-  data: PropTypes.arrayOf(PropTypes.object),
+  data: PropTypes.arrayOf(PropTypes.shape({})),
   /** List of column names in the order of which they should be displayed */
   columnOrder: PropTypes.arrayOf(PropTypes.string),
   /** List of column names that should not be displayed */
