@@ -157,9 +157,9 @@
           "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/105"
         }
       },
-      "_display": "c.a.lanenga@gmail.com",
+      "_display": "undefined@domain.com",
       "id": 105,
-      "username": "c.a.lanenga@gmail.com",
+      "username": "undefined@domain.com",
       "is_active": true,
       "roles": [],
       "profile": null
