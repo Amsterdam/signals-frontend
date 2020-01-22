@@ -13,7 +13,7 @@ import filterData from './filterData';
  *
  * @returns {FetchResponse}
  */
-const useFetchUsers = ({ page, pageSize } = {}) => {
+const useFetchUsers = ({ page, pageSize, filters } = {}) => {
   const [isLoading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(false);
@@ -25,16 +25,25 @@ const useFetchUsers = ({ page, pageSize } = {}) => {
     (async function fetchData() {
       setLoading(true);
 
+      const pageParams = [
+        page && `page=${page}`,
+        pageSize && `page_size=${pageSize}`,
+      ];
+
+      const filterParams = Object.entries(filters || {}).reduce(
+        (acc, [filter, value]) => value ? [...acc, `${filter}=${value}`] : acc,
+        []
+      );
+
+      const queryParams = [
+        ...pageParams,
+        ...filterParams,
+      ]
+        .filter(Boolean)
+        .join('&');
+
       try {
-        const params = [
-          page && `page=${page}`,
-          pageSize && `page_size=${pageSize}`,
-        ]
-          .filter(Boolean)
-          .join('&');
-        const url = [configuration.USERS_ENDPOINT, params]
-          .filter(Boolean)
-          .join('?');
+        const url = [configuration.USERS_ENDPOINT, queryParams].filter(Boolean).join('?');
         const response = await fetch(url, {
           headers: {
             ...getAuthHeaders(),
@@ -57,7 +66,7 @@ const useFetchUsers = ({ page, pageSize } = {}) => {
     return () => {
       controller.abort();
     };
-  }, [page, pageSize]);
+  }, [page, pageSize, filters]);
 
   /**
    * @typedef {Object} FetchResponse
