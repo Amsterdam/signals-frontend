@@ -32,7 +32,7 @@ const IncidentNavigation = ({ controls, meta: { wizard, submitting, handleSubmit
                       >
                         {wizardStep.previousButtonLabel}
                       </button>
-                    ) : <span /> }
+                    ) : <span />}
 
                     {!hideSubmit && wizardStep.nextButtonLabel && (
                       <button
