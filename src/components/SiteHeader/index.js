@@ -104,13 +104,10 @@ const HeaderWrapper = styled.div`
           height: 160px;
         }
         @media screen and (max-width: 539px) {
-          #header {
-            display: none;
-          }
+          position: relative;
 
           header {
             height: 50px;
-            border-bottom: 4px solid ${themeColor('tint', 'level2')};
           }
         }
 
