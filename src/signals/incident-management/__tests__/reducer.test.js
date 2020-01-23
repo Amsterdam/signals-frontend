@@ -451,6 +451,7 @@ describe('signals/incident-management/reducer', () => {
 
     const applied = state =>
       state
+        .set('loading', true)
         .set('activeFilter', initialState.get('activeFilter'))
         .set('editFilter', initialState.get('editFilter'))
         .set('ordering', initialState.get('ordering'))
@@ -472,6 +473,7 @@ describe('signals/incident-management/reducer', () => {
 
     const applied = state =>
       state
+        .set('loading', true)
         .set('ordering', initialState.get('ordering'))
         .set('page', initialState.get('page'))
         .set('searchQuery', initialState.get('searchQuery'));
