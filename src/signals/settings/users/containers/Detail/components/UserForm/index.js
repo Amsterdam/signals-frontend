@@ -34,7 +34,6 @@ const UserForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
   <Form action="" data-testid="detailUserForm">
     <FieldGroup>
       <Input
-        hint="Vul hier een geldig e-mailadres in"
         defaultValue={data.username}
         id="username"
         name="username"
