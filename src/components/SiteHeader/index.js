@@ -112,7 +112,11 @@ const HeaderWrapper = styled.div`
           header {
             height: 50px;
           }
+          nav {
+            display: none;
+          }
         }
+
         @media screen and (min-width: 540px) {
           z-index: 0;
           &:after {
