@@ -103,7 +103,6 @@ const HeaderWrapper = styled.div`
         position: relative;
         z-index: 2;
 
-
         header {
           height: 160px;
           z-index: 0;
@@ -130,6 +129,13 @@ const HeaderWrapper = styled.div`
             background-color: ${themeColor('tint', 'level2')};
             width: 100%;
           }
+        }
+        nav,
+        ul {
+          margin: 0;
+        }
+        > header {
+          flex-wrap: wrap;
         }
 
         h1 {
