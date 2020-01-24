@@ -13,6 +13,7 @@ import {
   MenuItem,
   MenuToggle,
   themeColor,
+  themeSpacing,
 } from '@datapunt/asc-ui';
 import SearchBar from 'containers/SearchBar';
 import { isAuthenticated } from 'shared/services/auth/auth';
@@ -32,7 +33,7 @@ const StyledHeader = styled(HeaderComponent)`
       & {
         max-width: 960px;
         h1 {
-          margin-left: -20px;
+          margin-left: ${themeSpacing(-5)};
         }
         h1 a {
           &,
@@ -125,7 +126,7 @@ const HeaderWrapper = styled.div`
             left: 0;
             right: 0;
             height: 44px;
-            margin-top: -44px;
+            margin-top: ${themeSpacing(-11)};
             background-color: ${themeColor('tint', 'level2')};
             width: 100%;
           }
