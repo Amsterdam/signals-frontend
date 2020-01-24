@@ -1,3 +1,5 @@
+import history from 'utils/history';
+
 import queryStringParser from './services/query-string-parser/query-string-parser';
 import stateTokenGenerator from './services/state-token-generator/state-token-generator';
 import accessTokenParser from './services/access-token-parser/access-token-parser';
@@ -48,11 +50,6 @@ const encodedScopes = encodeURIComponent(scopes.join(' '));
 // authorization service
 export const AUTH_PATH = domain => `oauth2/authorize?idp_id=${getDomain(domain)}&response_type=token&client_id=sia&scope=${encodedScopes}`;
 
-// The keys of values we need to store in the session storage
-//
-// `location.pathname` string at the moment we redirect to the
-// OAuth2 authorization service, and need to get back to afterwards
-const RETURN_PATH = 'returnPath';
 // The OAuth2 state(token) (OAuth terminology, has nothing to do with
 // our app state), which is a random string
 const STATE_TOKEN = 'stateToken';
@@ -62,7 +59,6 @@ const ACCESS_TOKEN = 'accessToken';
 
 const OAUTH_DOMAIN = 'oauthDomain';
 
-let returnPath;
 let tokenData = {};
 
 /**
@@ -140,8 +136,6 @@ function handleCallback() {
   if (accessToken) {
     tokenData = accessTokenParser(accessToken);
     localStorage.setItem(ACCESS_TOKEN, accessToken);
-    returnPath = localStorage.getItem(RETURN_PATH);
-    localStorage.removeItem(RETURN_PATH);
     localStorage.removeItem(STATE_TOKEN);
 
     // Clean up URL; remove query and hash
@@ -177,8 +171,6 @@ function restoreAccessToken() {
  * Redirects to the OAuth2 authorization service.
  */
 export function login(domain) {
-  // Get the URI the OAuth2 authorization service needs to use as callback
-  // const callback = encodeURIComponent(`${location.protocol}//${location.host}${location.pathname}`);
   // Get a random string to prevent CSRF
   const stateToken = stateTokenGenerator();
   const encodedStateToken = encodeURIComponent(stateToken);
@@ -188,12 +180,12 @@ export function login(domain) {
   }
 
   localStorage.removeItem(ACCESS_TOKEN);
-  localStorage.setItem(RETURN_PATH, global.location.hash);
   localStorage.setItem(STATE_TOKEN, stateToken);
   localStorage.setItem(OAUTH_DOMAIN, domain);
 
-  const redirectUri = encodeURIComponent(`${global.location.protocol}//${global.location.host}/manage/incidents`);
-  global.location.assign(`${CONFIGURATION.AUTH_ROOT}${AUTH_PATH(domain)}&state=${encodedStateToken}&redirect_uri=${redirectUri}`);
+  const redirectURL = `${global.location.origin}${history.location.pathname}`;
+
+  global.location.assign(`${CONFIGURATION.AUTH_ROOT}${AUTH_PATH(domain)}&state=${encodedStateToken}&redirect_uri=${encodeURIComponent(redirectURL)}`);
 }
 
 export function logout() {
@@ -210,20 +202,9 @@ export function logout() {
  *
  */
 export function initAuth() {
-  returnPath = '';
   restoreAccessToken(); // Restore acces token from session storage
   catchError(); // Catch any error from the OAuth2 authorization service
   handleCallback(); // Handle a callback from the OAuth2 authorization service
-}
-
-/**
- * Gets the return path that was saved before the login process was initiated.
- *
- * @returns {string} The return path where we moved away from when the login
- * process was initiated.
- */
-export function getReturnPath() {
-  return returnPath;
 }
 
 export function isAuthenticated() {
