@@ -99,19 +99,22 @@ const HeaderWrapper = styled.div`
     tall &&
     css`
       #header {
-        position: static;
+        position: relative;
+        z-index: 2;
+
+
         header {
           height: 160px;
+          z-index: 0;
         }
-        @media screen and (max-width: 539px) {
-          position: relative;
 
+        @media screen and (max-width: 539px) {
           header {
             height: 50px;
           }
         }
-
         @media screen and (min-width: 540px) {
+          z-index: 0;
           &:after {
             max-width: 1400px;
             margin-left: auto;
@@ -127,13 +130,7 @@ const HeaderWrapper = styled.div`
             width: 100%;
           }
         }
-        nav,
-        ul {
-          margin: 0;
-        }
-        > header {
-          flex-wrap: wrap;
-        }
+
         h1 {
           padding: 15px 0;
           @media screen and (max-width: 990px) {
@@ -149,14 +146,6 @@ const HeaderWrapper = styled.div`
               margin-top: -3px;
               height: 29px;
             }
-          }
-        }
-        nav ul {
-          justify-content: space-between;
-          a {
-            font-family: avenir next w01, arial, sans-serif;
-            font-size: 18px;
-            padding-left: 0;
           }
         }
       }
