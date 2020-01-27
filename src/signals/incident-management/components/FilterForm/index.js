@@ -208,7 +208,7 @@ const FilterForm = ({
           {Array.isArray(status) && status.length > 0 && (
             <FilterGroup data-testid="statusFilterGroup">
               <CheckboxList
-                defaultValue={filterData.options && filterData.options.status}
+                defaultValue={filterData.options && filterData.options.status || []}
                 hasToggle
                 options={status}
                 name="status"
@@ -225,7 +225,7 @@ const FilterForm = ({
             <FilterGroup data-testid="stadsdeelFilterGroup">
               <CheckboxList
                 defaultValue={
-                  filterData.options && filterData.options.stadsdeel
+                  filterData.options && filterData.options.stadsdeel || []
                 }
                 hasToggle
                 options={stadsdeel}
@@ -313,7 +313,7 @@ const FilterForm = ({
           {Array.isArray(source) && source.length > 0 && (
             <FilterGroup data-testid="sourceFilterGroup">
               <CheckboxList
-                defaultValue={filterData.options && filterData.options.source}
+                defaultValue={filterData.options && filterData.options.source || []}
                 options={source}
                 name="source"
                 title={
