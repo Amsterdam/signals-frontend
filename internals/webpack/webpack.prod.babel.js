@@ -102,9 +102,9 @@ module.exports = require('./webpack.base.babel')({
           name: 'redux',
         },
         leaflet: {
-          test: /leaflet/,
+          test: /leaflet|proj4|react-maps/,
           reuseExistingChunk: true,
-          name: 'npm.leaflet',
+          name: 'map',
           chunks: 'all',
           enforce: true,
         },

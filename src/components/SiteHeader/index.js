@@ -85,6 +85,8 @@ const StyledSearchBar = styled(SearchBar)`
 `;
 
 const HeaderWrapper = styled.div`
+  z-index: 1;
+
   ${({ tall }) =>
     !tall &&
     css`

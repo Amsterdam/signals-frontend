@@ -1,118 +1,56 @@
 /* eslint-disable react/no-did-mount-set-state */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import 'leaflet/dist/leaflet';
-import 'leaflet/dist/leaflet.css';
-import 'amsterdam-amaps/dist/nlmaps/dist/assets/css/nlmaps.css';
-import pointquery from 'amsterdam-amaps/dist/pointquery';
+import { Map, TileLayer } from '@datapunt/react-maps';
+import { ViewerContainer } from '@datapunt/asc-ui';
+import crs from './crs';
+import GPSButton from './GPSButton';
 
-import './style.scss';
+const DEFAULT_ZOOM_LEVEL = 12;
 
-const DEFAULT_ZOOM_LEVEL = 14;
-const PREVIEW_ZOOM_LEVEL = 16;
-const customIcon = global.window.L.icon({
-  iconUrl: 'https://map.data.amsterdam.nl/dist/images/svg/marker.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 39],
-});
+const MapInteractive = ({ center }) => {
+  return (
+    <Map
+      events={{
+        locationfound: ({ latitude, longitude, target }) => {
+          target.panTo([latitude, longitude]);
+        },
+      }}
+      options={{
+        center,
+        zoom: DEFAULT_ZOOM_LEVEL,
+        crs,
+        maxBounds: [
+          [52.25168, 4.64034],
+          [52.50536, 5.10737],
+        ],
+        minZoom: 8,
+        maxZoom: 14,
+        dragging: !global.L.Browser.touch,
+        tap: false,
+        scrollWheelZoom: false,
+      }}
+      style={{
+        width: '100%',
+        height: '450px',
+      }}
+    >
+      <ViewerContainer topRight={<GPSButton />} />
 
-class MapInteractive extends React.Component {
-  static initMap(props) {
-    const options = {
-      layer: 'standaard',
-      target: 'mapdiv-interactive',
-      marker: false,
-      search: true,
-      zoom: DEFAULT_ZOOM_LEVEL,
-      onQueryResult: props.onQueryResult,
-    };
-
-    if (props.location.geometrie) {
-      options.zoom = PREVIEW_ZOOM_LEVEL;
-      options.marker = true;
-      options.center = {
-        longitude: props.location.geometrie.coordinates[0],
-        latitude: props.location.geometrie.coordinates[1],
-      };
-    }
-    return pointquery.createMap(options);
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      map: props.map,
-    };
-
-    this.updateInput = this.updateInput.bind(this);
-  }
-
-  componentDidMount() {
-    MapInteractive.initMap(this.props).then(map => {
-      this.setState({ map });
-    });
-
-    this.updateInput(this.props);
-  }
-
-  componentDidUpdate() {
-    this.updateInput(this.props);
-
-    if (this.state.map && this.props.location.geometrie) {
-      let markerFound = false;
-
-      /* istanbul ignore next */
-      this.state.map.eachLayer(layer => {
-        if (layer instanceof global.window.L.Marker) {
-          markerFound = true;
-        }
-      });
-
-      /* istanbul ignore next */
-      if (!markerFound) {
-        global.window.L.marker(
-          [this.props.location.geometrie.coordinates[1], this.props.location.geometrie.coordinates[0]],
-          { icon: customIcon }
-        ).addTo(this.state.map);
-      }
-    }
-  }
-
-  updateInput(props) {
-    const input = document.querySelector('#nlmaps-geocoder-control-input');
-    if (input) {
-      input.setAttribute('placeholder', 'Zoek adres');
-
-      if (props.location && props.location.address) {
-        const address = props.location.address;
-        const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
-        const display = `${address.openbare_ruimte} ${address.huisnummer}${address.huisletter}${toevoeging}, ${address.postcode} ${address.woonplaats}`;
-        input.setAttribute('value', display);
-      }
-    }
-  }
-
-  render() {
-    return (
-      <div className="map-component">
-        <div className="map">
-          <div id="mapdiv-interactive" />
-        </div>
-      </div>
-    );
-  }
-}
-
-MapInteractive.defaultProps = {
-  location: {},
-  map: false,
+      <TileLayer
+        args={['https://t{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png']}
+        options={{
+          subdomains: '1234',
+          tms: true,
+          detectRetina: true,
+        }}
+      />
+    </Map>
+  );
 };
 
-MapInteractive.propTypes = {
-  location: PropTypes.object,
-  map: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+MapInteractive.defaultProps = {
+  center: [52.3731081, 4.8932945],
 };
 
 export default MapInteractive;
