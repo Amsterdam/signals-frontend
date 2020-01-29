@@ -3,7 +3,7 @@ import React, {
   useEffect,
   useState,
   useMemo,
-  useCallback,
+  useCallback, useReducer,
 } from 'react';
 import PropTypes from 'prop-types';
 import { useParams, useHistory, Link } from 'react-router-dom';
@@ -38,11 +38,20 @@ const StyledSearchbar = styled(SearchBar)`
   }
 `;
 
+const filtersReducer = (state, action) => {
+  switch (action.type) {
+    case 'username':
+      return { username: action.payload };
+    default:
+      throw new Error();
+  }
+};
+
 export const UsersOverviewContainer = ({ pageSize, userCan }) => {
   const history = useHistory();
   const { pageNum } = useParams();
   const [page, setPage] = useState(1);
-  const [filters, setFilters] = useState({});
+  const [filters, dispatchFiltersChange] = useReducer(filtersReducer, {});
   const { isLoading, users: { list: data }, users } = useFetchUsers({ page, pageSize, filters });
 
   /**
@@ -66,18 +75,16 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
 
   const createOnChangeFilter = useCallback(
     filter => value => {
-      // Functionally updating state because it depends on previous state.
-      setFilters(state => ({
-        ...state,
-        [filter]: value,
-      }));
+      if (filters[filter] === value) return;
+
+      dispatchFiltersChange({ type: filter, payload: value });
       setPage(1);
       history.push(`${USERS_PAGED_URL}/1`);
     },
-    [history]
+    [history, filters]
   );
 
-  const debouncedOnChangeFilterByEmail = useCallback(
+  const debouncedOnChangeFilter = useCallback(
     debounce(createOnChangeFilter('username'), 250),
     [createOnChangeFilter]
   );
@@ -131,9 +138,8 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
               headers={columnHeaders}
               filters={[
                 (<StyledSearchbar
-                  label="Zoek op emailadres"
                   placeholder=""
-                  onChange={debouncedOnChangeFilterByEmail}
+                  onChange={debouncedOnChangeFilter}
                   data-testid="filterUsersByUsername"
                 />),
               ]}

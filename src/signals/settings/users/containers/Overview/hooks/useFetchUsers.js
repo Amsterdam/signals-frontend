@@ -30,10 +30,9 @@ const useFetchUsers = ({ page, pageSize, filters } = {}) => {
         pageSize && `page_size=${pageSize}`,
       ];
 
-      const filterParams = Object.entries(filters || {}).reduce(
-        (acc, [filter, value]) => value ? [...acc, `${filter}=${value}`] : acc,
-        []
-      );
+      const filterParams = Object.entries(filters || {})
+        .filter(([, value]) => Boolean(value))
+        .reduce((acc, [filter, value]) => [...acc, `${filter}=${value}`], []);
 
       const queryParams = [
         ...pageParams,

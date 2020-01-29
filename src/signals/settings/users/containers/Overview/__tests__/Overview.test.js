@@ -258,11 +258,11 @@ describe('signals/settings/users/containers/Overview', () => {
     const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
     const { getByTestId } = render(usersOverviewWithAppContext());
 
+    await wait();
+
     const filterByUsername = getByTestId('filterUsersByUsername');
     const filterByUserNameInput = filterByUsername.querySelector('input');
     let filterValue = 'test1';
-
-    await wait();
 
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).not.toHaveBeenCalledWith(
