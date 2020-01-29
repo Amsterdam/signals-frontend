@@ -217,44 +217,127 @@ describe('signals/incident-management/components/CheckboxList', () => {
   });
 
   it('should set toggled when all boxes are checked', () => {
+    const onChange = jest.fn();
+    const onToggle = jest.fn();
     const groupId = 'barbazbaz';
     const toggleAllLabel = 'Select all';
     const toggleNothingLabel = 'Select none';
+    const groupName = 'statuses';
+    const name = 'status';
+
     const { container, getByText, queryByText } = render(
       withAppContext(
         <CheckboxList
           groupId={groupId}
-          groupName="statuses"
+          groupName={groupName}
           hasToggle
-          name="status"
+          name={name}
           options={statuses}
           toggleAllLabel={toggleAllLabel}
           toggleNothingLabel={toggleNothingLabel}
+          onChange={onChange}
+          onToggle={onToggle}
         />
       )
     );
 
     // loop over all checkboxes but one and check them manually
-    const nodeListIterator = container
-      .querySelectorAll('input[type="checkbox"]:not(:last-of-type)')
-      .values();
-    for (const checkbox of nodeListIterator) {
+    const nodeListIterator = container.querySelectorAll(
+      `input[type="checkbox"]:not([name="${groupName}"])`
+    );
+    const count = nodeListIterator.length;
+    const allButLast = Array.from(nodeListIterator.values()).slice(
+      0,
+      count - 1
+    );
+
+    allButLast.forEach(checkbox => {
       act(() => {
         fireEvent.click(checkbox);
       });
-    }
+    });
+
+    expect(onChange).toHaveBeenCalledTimes(allButLast.length);
+    expect(onChange).toHaveBeenLastCalledWith(
+      name,
+      statuses.slice(0, allButLast.length)
+    );
+
+    expect(onToggle).not.toHaveBeenCalled();
 
     expect(getByText(toggleAllLabel)).toBeInTheDocument();
     expect(queryByText(toggleNothingLabel)).not.toBeInTheDocument();
 
     act(() => {
-      fireEvent.click(
-        container.querySelector('input[type="checkbox"]:last-of-type')
-      );
+      fireEvent.click(Array.from(nodeListIterator.values()).pop());
     });
+
+    // onChange doesn't get called when all boxes have been checked
+    expect(onChange).toHaveBeenCalledTimes(statuses.length - 1);
+    // onToggle does get called
+    expect(onToggle).toHaveBeenCalledWith(name, true);
 
     expect(queryByText(toggleAllLabel)).not.toBeInTheDocument();
     expect(getByText(toggleNothingLabel)).toBeInTheDocument();
+  });
+
+  it('should prefer groupValue prop when calling onChange and onToggle', () => {
+    const onChange = jest.fn();
+    const onToggle = jest.fn();
+    const groupValue = 'fooBarBaz';
+    const groupName = 'statuses';
+    const name = 'status';
+
+    const { container, rerender } = render(
+      withAppContext(
+        <CheckboxList
+          groupName={groupName}
+          hasToggle
+          groupValue={groupValue}
+          name={name}
+          options={statuses}
+          onChange={onChange}
+          onToggle={onToggle}
+        />
+      )
+    );
+
+    act(() => {
+      const checkbox = Array.from(
+        container
+          .querySelectorAll(`input[type="checkbox"]:not([name="${groupName}"])`)
+          .values()
+      ).pop();
+
+      fireEvent.click(checkbox);
+    });
+
+    expect(onChange).toHaveBeenCalledWith(groupValue, expect.anything());
+
+    rerender(
+      withAppContext(
+        <CheckboxList
+          groupName={groupName}
+          hasToggle
+          name={name}
+          options={statuses}
+          onChange={onChange}
+          onToggle={onToggle}
+        />
+      )
+    );
+
+    act(() => {
+      const checkbox = Array.from(
+        container
+          .querySelectorAll(`input[type="checkbox"]:not([name="${groupName}"])`)
+          .values()
+      ).pop();
+
+      fireEvent.click(checkbox);
+    });
+
+    expect(onChange).toHaveBeenLastCalledWith(name, expect.anything());
   });
 
   it('should update correctly when defaultValue prop value changes', () => {
@@ -300,16 +383,19 @@ describe('signals/incident-management/components/CheckboxList', () => {
   });
 
   it('should handle toggle', () => {
+    const onToggle = jest.fn();
     const toggleAllLabel = 'Click here to select all';
     const toggleNothingLabel = 'Click here to undo selection';
+    const name = 'status';
     const { container, getByText, queryByText } = render(
       withAppContext(
         <CheckboxList
           hasToggle
-          name="status"
+          name={name}
           options={statuses}
           toggleAllLabel={toggleAllLabel}
           toggleNothingLabel={toggleNothingLabel}
+          onToggle={onToggle}
         />
       )
     );
@@ -320,9 +406,13 @@ describe('signals/incident-management/components/CheckboxList', () => {
       container.querySelectorAll('input[type="checkbox"]:checked')
     ).toHaveLength(0);
 
+    expect(onToggle).not.toHaveBeenCalled();
+
     act(() => {
       fireEvent.click(getByText(toggleAllLabel));
     });
+
+    expect(onToggle).toHaveBeenCalledWith(name, true);
 
     // verify that the toggle has the correct label
     expect(
@@ -331,9 +421,14 @@ describe('signals/incident-management/components/CheckboxList', () => {
     expect(queryByText(toggleAllLabel)).not.toBeInTheDocument();
     expect(getByText(toggleNothingLabel)).toBeInTheDocument();
 
+    expect(onToggle).toHaveBeenCalledTimes(1);
+
     act(() => {
       fireEvent.click(getByText(toggleNothingLabel));
     });
+
+    expect(onToggle).toHaveBeenCalledWith(name, false);
+    expect(onToggle).toHaveBeenCalledTimes(2);
 
     expect(
       container.querySelectorAll('input[type="checkbox"]:checked')

@@ -83,10 +83,10 @@ const CheckboxList = ({
    * @returns {Boolean}
    */
   const isChecked = useCallback(
-    id => {
+    (id, state = checked) => {
       if (id === undefined) return false;
 
-      for (const option of checked) {
+      for (const option of state) {
         if (option.id === id || option.key === id) {
           return true;
         }
@@ -152,7 +152,9 @@ const CheckboxList = ({
 
     setChecked(state);
 
-    setToggled(state.size === numOptions);
+    const wholeGroupChecked = isChecked(groupId, state) || state.size === numOptions;
+
+    setToggled(wholeGroupChecked);
     // don't need all dependencies; only execute when value of `defaultValue` prop changes
     // eslint-disable-next-line
   }, [defaultValue]);
@@ -179,12 +181,18 @@ const CheckboxList = ({
 
         setToggled(allOptionsChecked);
 
-        onChange(groupValue || name, Array.from(modifiedState));
+        // in case that a list of options contains of only one item, we need to call the `onToggle`
+        // callback function instead of the `onChange` callback
+        if (allOptionsChecked) {
+          onToggle(groupValue || name, allOptionsChecked);
+        } else {
+          onChange(groupValue || name, Array.from(modifiedState));
+        }
 
         return modifiedState;
       });
     },
-    [getChecked, getOption, groupValue, name, numOptions, onChange]
+    [getChecked, getOption, groupValue, name, numOptions, onChange, onToggle]
   );
 
   /**
@@ -286,7 +294,19 @@ CheckboxList.propTypes = {
   hasToggle: PropTypes.bool,
   /** Value of the `name` attribute of the checkboxes */
   name: PropTypes.string.isRequired,
+  /**
+   * Callback function that is triggered when an individual checkbox is checked
+   *
+   * @param {String} (groupvalue|name) - Either the `groupname` or `name` value of this component
+   * @param {Object[]} - List of values for the checked boxes
+   */
   onChange: PropTypes.func,
+  /**
+   * Callback function that is triggered when a toggle checkbox is checked
+   *
+   * @param {String} (groupvalue|name) - Either the `groupname` or `name` value of this component
+   * @param {boolean} - Indicator for the toggle status of the group
+   */
   onToggle: PropTypes.func,
   /**
    * Values to be rendered as checkbox elements
