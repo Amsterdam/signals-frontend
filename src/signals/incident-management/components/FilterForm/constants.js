@@ -1,0 +1,11 @@
+export const RESET = 'RESET';
+export const SET_ADDRESS = 'SET_ADDRESS';
+export const SET_NAME = 'SET_NAME';
+export const SET_REFRESH = 'SET_REFRESH';
+export const SET_DATE = 'SET_DATE';
+export const SET_CATEGORIES = 'SET_CATEGORIES';
+export const SET_BUTTON_LABEL = 'SET_BUTTON_LABEL';
+export const SET_MAIN_CATEGORY = 'SET_MAIN_CATEGORY';
+export const SET_GROUP_OPTIONS = 'SET_GROUP_OPTIONS';
+export const DEFAULT_SUBMIT_BUTTON_LABEL = 'Filteren';
+export const SAVE_SUBMIT_BUTTON_LABEL = 'Opslaan en filteren';

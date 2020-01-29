@@ -1,0 +1,133 @@
+import {
+  RESET,
+  SET_ADDRESS,
+  SET_NAME,
+  SET_REFRESH,
+  SET_DATE,
+  SET_GROUP_OPTIONS,
+  SET_BUTTON_LABEL,
+  SET_MAIN_CATEGORY,
+  SET_CATEGORIES,
+  DEFAULT_SUBMIT_BUTTON_LABEL,
+  SAVE_SUBMIT_BUTTON_LABEL,
+} from './constants';
+
+export const initialState = {
+  submitBtnLabel: DEFAULT_SUBMIT_BUTTON_LABEL,
+  filter: {
+    name: '',
+    refresh: false,
+    id: undefined,
+  },
+  options: {
+    address_text: '',
+    category_slug: [],
+    feedback: '',
+    maincategory_slug: [],
+    priority: '',
+    source: [],
+    stadsdeel: [],
+    status: [],
+  },
+};
+
+export const init = ({ options, ...filter }) => ({
+  ...initialState,
+  filter: {
+    ...initialState.filter,
+    ...filter,
+  },
+  options: {
+    ...initialState.options,
+    ...options,
+  },
+});
+
+export default (state, action) => {
+  switch (action.type) {
+    case RESET:
+      return initialState;
+
+    case SET_ADDRESS:
+      return {
+        ...state,
+        options: {
+          ...state.options,
+          address_text: action.payload,
+        },
+      };
+
+    case SET_NAME:
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          name: action.payload,
+        },
+      };
+
+    case SET_REFRESH:
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          refresh: action.payload,
+        },
+      };
+
+    case SET_DATE:
+    case SET_GROUP_OPTIONS:
+      return {
+        ...state,
+        options: {
+          ...state.options,
+          ...action.payload,
+        },
+      };
+
+    case SET_BUTTON_LABEL:
+      return {
+        ...state,
+        submitBtnLabel: action.payload
+          ? SAVE_SUBMIT_BUTTON_LABEL
+          : DEFAULT_SUBMIT_BUTTON_LABEL,
+      };
+
+    case SET_MAIN_CATEGORY:
+      return {
+        ...state,
+        options: {
+          ...state.options,
+          category_slug: state.options.category_slug.filter(
+            ({ category_slug }) =>
+              category_slug !== action.payload.main_category_slug
+          ),
+          maincategory_slug: state.options.maincategory_slug
+            .filter(({ slug }) => slug !== action.payload.main_category_slug)
+            .concat(action.payload.isToggled && action.payload.category)
+            .filter(Boolean),
+        },
+      };
+
+    case SET_CATEGORIES:
+      return {
+        ...state,
+        options: {
+          ...state.options,
+          category_slug: state.options.category_slug
+            .filter(
+              ({ category_slug }) =>
+                category_slug !== action.payload.main_category_slug
+            )
+            .concat(action.payload.subCategories)
+            .filter(Boolean),
+          maincategory_slug: state.options.maincategory_slug.filter(
+            ({ slug }) => slug !== action.payload.main_category_slug
+          ),
+        },
+      };
+
+    default:
+      return state;
+  }
+};

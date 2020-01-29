@@ -1,4 +1,3 @@
-import { fromJS } from 'immutable';
 import React, { useMemo, useCallback, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
@@ -13,8 +12,6 @@ import Label from 'components/Label';
 import Input from 'components/Input';
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 
-import CheckboxList from '../CheckboxList';
-import RadioButtonList from '../RadioButtonList';
 import {
   ControlsWrapper,
   DatesWrapper,
@@ -23,111 +20,21 @@ import {
   Form,
 } from './styled';
 import CalendarInput from '../CalendarInput';
+import CategoryGroups from './CategoryGroups';
 import CheckboxGroup from './CheckboxGroup';
-
-export const defaultSubmitBtnLabel = 'Filteren';
-export const saveSubmitBtnLabel = 'Opslaan en filteren';
-
-const RESET = 'RESET';
-const SET_NAME = 'SET_NAME';
-const SET_REFRESH = 'SET_REFRESH';
-const SET_DATE = 'SET_DATE';
-const SET_CATEGORIES = 'SET_CATEGORIES';
-const SET_BUTTON_LABEL = 'SET_BUTTON_LABEL';
-
-const initialState = {
-  submitBtnLabel: defaultSubmitBtnLabel,
-  filter: {
-    name: '',
-    refresh: false,
-    id: undefined,
-    options: {
-      address_text: '',
-      category_slug: [],
-      feedback: '',
-      maincategory_slug: [],
-      priority: '',
-      source: [],
-      stadsdeel: [],
-      status: [],
-    },
-  },
-};
-
-const init = filter => ({
-  ...initialState,
-  filter: {
-    ...initialState.filter,
-    ...filter,
-    options: {
-      ...initialState.filter.options,
-      ...filter.options,
-    },
-  },
-});
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case RESET:
-      return initialState;
-
-    case SET_NAME:
-      return {
-        ...state,
-        filter: {
-          ...state.filter,
-          name: action.payload,
-        },
-      };
-
-    case SET_REFRESH:
-      return {
-        ...state,
-        filter: {
-          ...state.filter,
-          refresh: action.payload,
-        },
-      };
-
-    case SET_DATE:
-      return {
-        ...state,
-        filter: {
-          ...state.filter,
-          options: {
-            ...state.filter.options,
-            ...action.payload,
-          },
-        },
-      };
-
-    case SET_BUTTON_LABEL:
-      return {
-        ...state,
-        submitBtnLabel: action.payload,
-      };
-
-    case SET_CATEGORIES:
-      return {
-        ...state,
-        filter: {
-          ...state.filter,
-          options: {
-            ...state.filter.options,
-            category_slug: state.filter.options.category_slug
-              .filter(
-                ({ category_slug }) =>
-                  category_slug !== action.payload.category_slug
-              )
-              .concat(action.payload.subCategories),
-          },
-        },
-      };
-
-    default:
-      throw new Error();
-  }
-};
+import RadioGroup from './RadioGroup';
+import {
+  reset,
+  setAddress,
+  setButtonLabel,
+  setCategories,
+  setDate,
+  setGroupOptions,
+  setMainCategory,
+  setName,
+  setRefresh,
+} from './actions';
+import reducer, { init } from './reducer';
 
 /**
  * Component that renders the incident filter form
@@ -142,37 +49,36 @@ const FilterForm = ({
   dataLists,
   categories,
 }) => {
-  const { feedback, priority, stadsdeel, status, source } = dataLists.toJS();
+  const { feedback, priority, stadsdeel, status, source } = dataLists;
   const [state, dispatch] = useReducer(reducer, filter, init);
-  const filterSlugs = fromJS(
-    state.filter.options.maincategory_slug.concat(
-      state.filter.options.category_slug
-    )
+
+  const filterSlugs = useMemo(
+    () => state.options.maincategory_slug.concat(state.options.category_slug),
+    [state.options.category_slug, state.options.maincategory_slug]
   );
+
   const isNewFilter = useMemo(() => !filter.name, [filter.name]);
-  const initialFormState = cloneDeep(state.filter);
-  debugger;
+
+  const initialFormState = useMemo(() => cloneDeep(filter), [filter]);
+
   const dateFrom = useMemo(
-    () =>
-      state.filter.options.created_after &&
-      moment(state.filter.options.created_after),
-    [state.filter.options.created_after]
+    () => state.options.created_after && moment(state.options.created_after),
+    [state.options.created_after]
   );
 
   const dateBefore = useMemo(
-    () =>
-      state.filter.options.created_before &&
-      moment(state.filter.options.created_before),
-    [state.filter.options.created_before]
+    () => state.options.created_before && moment(state.options.created_before),
+    [state.options.created_before]
   );
 
   const onSubmitForm = useCallback(
     event => {
-      const formData = parseOutputFormData(event.currentTarget.form);
+      event.preventDefault();
+      const options = parseOutputFormData(state.options);
+      const formData = { ...state.filter, options };
       const hasName = formData.name.trim() !== '';
       const valuesHaveChanged = !isEqual(formData, initialFormState);
 
-      debugger;
       if (isNewFilter && hasName) {
         onSaveFilter(formData);
       }
@@ -188,78 +94,117 @@ const FilterForm = ({
 
       onSubmit(event, formData);
     },
-    [isNewFilter, onSaveFilter, onSubmit, onUpdateFilter, initialFormState]
+    [
+      initialFormState,
+      isNewFilter,
+      onSaveFilter,
+      onSubmit,
+      onUpdateFilter,
+      state.filter,
+      state.options,
+    ]
   );
 
   /**
    * Form reset handler
-   *
-   * Clears filterData state by setting values for controlled fields
    */
   const onResetForm = useCallback(() => {
-    dispatch({ type: RESET });
+    dispatch(reset());
     onClearFilter();
   }, [onClearFilter]);
 
-  const onChangeForm = useCallback(
-    e => {
-      if (isNewFilter) {
-        return;
-      }
+  /**
+   *
+   */
+  const onChangeForm = useCallback(() => {
+    if (isNewFilter) {
+      return;
+    }
 
-      const formData = parseOutputFormData(e.currentTarget);
-      const valuesHaveChanged = !isEqual(formData, initialFormState);
-      const btnHasSaveLabel = state.submitBtnLabel === saveSubmitBtnLabel;
+    const options = parseOutputFormData(state.options);
+    const formData = { ...state.filter, options };
+    const valuesHaveChanged = !isEqual(formData, initialFormState);
 
-      if (valuesHaveChanged && !btnHasSaveLabel) {
-        dispatch({ type: SET_BUTTON_LABEL, payload: saveSubmitBtnLabel });
-      }
+    dispatch(setButtonLabel(valuesHaveChanged));
+  }, [initialFormState, isNewFilter, state.filter, state.options]);
+
+  const onChangeCategories = useCallback(
+    (main_category_slug, subCategories) => {
+      dispatch(setCategories({ main_category_slug, subCategories }));
     },
-    [isNewFilter, state.submitBtnLabel, initialFormState]
+    [dispatch]
   );
 
-  const onChangeCategories = (category_slug, subCategories) => {
-    dispatch({
-      type: SET_CATEGORIES,
-      payload: { category_slug, subCategories },
-    });
-  };
+  const handleToggle = useCallback(
+    (main_category_slug, isToggled) => {
+      const category = categories.main.find(
+        ({ slug }) => slug === main_category_slug
+      );
 
-  const handleToggle = (groupName, isToggled) => {
-    debugger;
-  };
+      dispatch(setMainCategory({ main_category_slug, category, isToggled }));
+    },
+    [categories.main, dispatch]
+  );
 
   const onNameChange = useCallback(
     event => {
       const { value } = event.target;
       const nameHasChanged = typeof value === 'string' && value !== filter.name;
 
-      if (nameHasChanged) {
-        dispatch({ type: SET_BUTTON_LABEL, payload: saveSubmitBtnLabel });
-      } else {
-        dispatch({ type: SET_BUTTON_LABEL, payload: defaultSubmitBtnLabel });
-      }
+      dispatch(setButtonLabel(nameHasChanged));
 
-      dispatch({ type: SET_NAME, name: value });
+      dispatch(setName(value));
     },
     [filter.name]
   );
 
-  const onRefreshChange = useCallback(event => {
-    event.persist();
-    const {
-      currentTarget: { checked },
-    } = event;
+  const onRadioChange = useCallback(
+    (groupName, option) => {
+      dispatch(setGroupOptions({ [groupName]: option.key }));
+    },
+    [dispatch]
+  );
 
-    dispatch({ type: SET_REFRESH, payload: checked });
-  }, []);
+  const onGroupChange = useCallback(
+    (groupName, options) => {
+      dispatch(setGroupOptions({ [groupName]: options }));
+    },
+    [dispatch]
+  );
+
+  const onGroupToggle = useCallback(
+    (groupName, isToggled) => {
+      const options = isToggled ? dataLists[groupName] : [];
+
+      dispatch(setGroupOptions({ [groupName]: options }));
+    },
+    [dispatch, dataLists]
+  );
+
+  const onRefreshChange = useCallback(
+    event => {
+      event.persist();
+      const {
+        currentTarget: { checked },
+      } = event;
+
+      dispatch(setRefresh(checked));
+    },
+    [dispatch]
+  );
 
   const updateFilterDate = useCallback(
     (prop, dateValue) => {
-      dispatch({ type: SET_DATE, payload: { [prop]: dateValue } });
-      onChangeForm();
+      dispatch(setDate({ [prop]: dateValue }));
     },
-    [onChangeForm]
+    [dispatch]
+  );
+
+  const onAddressChange = useCallback(
+    e => {
+      dispatch(setAddress(e.target.value));
+    },
+    [dispatch]
   );
 
   return (
@@ -305,63 +250,39 @@ const FilterForm = ({
         <Fieldset>
           <legend>Filter parameters</legend>
 
-          {Array.isArray(status) && status.length > 0 && (
-            <FilterGroup data-testid="statusFilterGroup">
-              <CheckboxList
-                defaultValue={state.filter.options.status}
-                hasToggle
-                options={status}
-                name="status"
-                title={
-                  <Label as="span" isGroupHeader>
-                    Status
-                  </Label>
-                }
-              />
-            </FilterGroup>
-          )}
+          <CheckboxGroup
+            name="status"
+            defaultValue={state.options.status}
+            onChange={onGroupChange}
+            onToggle={onGroupToggle}
+            label="Status"
+            options={status}
+          />
 
-          {Array.isArray(stadsdeel) && stadsdeel.length > 0 && (
-            <FilterGroup data-testid="stadsdeelFilterGroup">
-              <CheckboxList
-                defaultValue={state.filter.options.stadsdeel}
-                hasToggle
-                options={stadsdeel}
-                name="stadsdeel"
-                title={
-                  <Label as="span" isGroupHeader>
-                    Stadsdeel
-                  </Label>
-                }
-              />
-            </FilterGroup>
-          )}
+          <CheckboxGroup
+            name="stadsdeel"
+            defaultValue={state.options.stadsdeel}
+            onChange={onGroupChange}
+            onToggle={onGroupToggle}
+            label="Stadsdeel"
+            options={stadsdeel}
+          />
 
-          {Array.isArray(priority) && priority.length > 0 && (
-            <FilterGroup data-testid="priorityFilterGroup">
-              <Label htmlFor={`status_${priority[0].key}`} isGroupHeader>
-                Urgentie
-              </Label>
-              <RadioButtonList
-                defaultValue={state.filter.options.priority}
-                options={priority}
-                groupName="priority"
-              />
-            </FilterGroup>
-          )}
+          <RadioGroup
+            options={priority}
+            name="priority"
+            defaultValue={state.options.priority}
+            onChange={onRadioChange}
+            label="Urgentie"
+          />
 
-          {Array.isArray(feedback) && feedback.length > 0 && (
-            <FilterGroup data-testid="feedbackFilterGroup">
-              <Label htmlFor={`feedback_${feedback[0].key}`} isGroupHeader>
-                Feedback
-              </Label>
-              <RadioButtonList
-                defaultValue={state.filter.options.feedback}
-                options={feedback}
-                groupName="feedback"
-              />
-            </FilterGroup>
-          )}
+          <RadioGroup
+            options={feedback}
+            name="feedback"
+            defaultValue={state.options.feedback}
+            onChange={onRadioChange}
+            label="Feedback"
+          />
 
           <FilterGroup>
             <Label htmlFor="filter_date" isGroupHeader>
@@ -404,24 +325,19 @@ const FilterForm = ({
             <Input
               name="address_text"
               id="filter_address"
-              defaultValue={state.filter.options.address_text}
+              onBlur={onAddressChange}
+              defaultValue={state.options.address_text}
             />
           </FilterGroup>
 
-          {Array.isArray(source) && source.length > 0 && (
-            <FilterGroup data-testid="sourceFilterGroup">
-              <CheckboxList
-                defaultValue={state.filter.options.source}
-                options={source}
-                name="source"
-                title={
-                  <Label htmlFor={`source_${source[0].key}`} isGroupHeader>
-                    Bron
-                  </Label>
-                }
-              />
-            </FilterGroup>
-          )}
+          <CheckboxGroup
+            name="source"
+            defaultValue={state.options.source}
+            onChange={onGroupChange}
+            onToggle={onGroupToggle}
+            label="Bron"
+            options={source}
+          />
         </Fieldset>
       </ControlsWrapper>
 
@@ -433,38 +349,12 @@ const FilterForm = ({
             Categorie
           </Label>
 
-          <CheckboxGroup
+          <CategoryGroups
             categories={categories}
             filterSlugs={filterSlugs}
             onChange={onChangeCategories}
             onToggle={handleToggle}
           />
-          {/* {Object.keys(categories.mainToSub)
-            .filter(key => !!key) // remove elements without 'key' prop
-            .sort()
-            .map(mainCategory => {
-              const mainCatObj = categories.main.find(
-                ({ slug }) => slug === mainCategory
-              );
-              const options = categories.mainToSub[mainCategory];
-              const defaultValue = filterSlugs.filter(({ key }) =>
-                new RegExp(`/terms/categories/${mainCatObj.slug}`).test(key)
-              );
-              debugger;
-              return (
-                <CheckboxList
-                  defaultValue={fromJS(defaultValue)}
-                  groupId={mainCatObj.key}
-                  groupName="maincategory_slug"
-                  groupValue={mainCatObj.slug}
-                  hasToggle
-                  key={mainCategory}
-                  name={`${mainCatObj.slug}_category_slug`}
-                  options={options}
-                  title={<Label as="span">{mainCatObj.value}</Label>}
-                />
-              );
-            })} */}
         </Fieldset>
       </ControlsWrapper>
 
