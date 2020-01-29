@@ -50,6 +50,8 @@ const CheckboxList = ({
   groupValue,
   hasToggle,
   name,
+  onChange,
+  onToggle,
   options,
   title,
   toggleAllLabel,
@@ -177,19 +179,22 @@ const CheckboxList = ({
 
         setToggled(allOptionsChecked);
 
+        onChange(groupValue || name, Array.from(modifiedState));
+
         return modifiedState;
       });
     },
-    [getChecked, getOption, numOptions]
+    [getChecked, getOption, groupValue, name, numOptions, onChange]
   );
 
   /**
    * Checks or unchecks all options in state
    */
   const handleToggle = useCallback(() => {
+    onToggle(groupValue || name, !toggled);
     setChecked(new Set(toggled ? [] : options));
     setToggled(!toggled);
-  }, [options, toggled]);
+  }, [groupValue, name, onToggle, options, toggled]);
 
   return (
     <FilterGroup className={className}>
@@ -206,6 +211,7 @@ const CheckboxList = ({
           {groupName && (
             <input
               checked={toggled}
+              data-id={groupId}
               name={groupName}
               onChange={handleToggle}
               type="checkbox"
@@ -250,6 +256,8 @@ CheckboxList.defaultProps = {
   groupName: '',
   groupValue: '',
   hasToggle: false,
+  onChange: () => {},
+  onToggle: () => {},
   title: null,
   toggleAllLabel: 'Alles selecteren',
   toggleNothingLabel: 'Niets selecteren',
@@ -278,6 +286,8 @@ CheckboxList.propTypes = {
   hasToggle: PropTypes.bool,
   /** Value of the `name` attribute of the checkboxes */
   name: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+  onToggle: PropTypes.func,
   /**
    * Values to be rendered as checkbox elements
    * Note that either one of `id` or `key` values should be present in an options entry

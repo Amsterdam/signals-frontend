@@ -456,7 +456,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     fireEvent.change(addressField, { target: { value: 'Weesperstraat 113' } });
     fireEvent.click(afvalToggle, new MouseEvent({ bubbles: true }));
 
-    expect(nameField.value).not.toBeFalsy();
+    expect(nameField.value).toEqual('My filter');
     expect(dateField.value).not.toBeFalsy();
     expect(addressField.value).not.toBeFalsy();
     expect(afvalToggle.checked).toEqual(true);

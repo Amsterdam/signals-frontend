@@ -1,3 +1,4 @@
+import { fromJS } from 'immutable';
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -46,8 +47,8 @@ export const FilterContainerComponent = ({
     <FilterForm
       {...rest}
       onCancel={onEditCancel}
-      categories={categories}
-      dataLists={dataLists}
+      categories={fromJS(categories)}
+      dataLists={fromJS(dataLists)}
       onSubmit={onFormSubmit}
     />
   );
