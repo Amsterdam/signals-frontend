@@ -64,6 +64,21 @@ describe('signals/shared/parse', () => {
 
       expect(parsedOutput).toEqual(expected);
     });
+
+    it('should not format invalid date values', () => {
+      const formState = {
+        created_before: null,
+        created_after: 'this is not a date',
+      };
+      const expected = {
+        created_before: undefined,
+        created_after: undefined,
+      };
+
+      const parsedOutput = parseOutputFormData(formState);
+
+      expect(parsedOutput).toEqual(expected);
+    });
   });
 
   describe('parseInputFormData', () => {
