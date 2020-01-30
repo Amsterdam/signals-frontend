@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, wait, waitForElement, within } from '@testing-library/react';
 import { history as memoryHistory, withCustomAppContext } from 'test/utils';
+
 import usersJSON from 'utils/__tests__/fixtures/users.json';
 import { USER_URL } from 'signals/settings/routes';
 import configuration from 'shared/services/configuration/configuration';
@@ -25,15 +26,24 @@ describe('signals/settings/users/containers/Overview', () => {
     const push = jest.fn();
     const scrollTo = jest.fn();
     const userCan = () => true;
+    const apiHeaders = {
+      headers: {
+        Accept: 'application/json',
+      },
+    };
     const history = {
       ...memoryHistory,
       push,
     };
 
+    jest.useRealTimers();
+    fetch.resetMocks();
+
     fetch.mockResponse(JSON.stringify(usersJSON));
     global.window.scrollTo = scrollTo;
 
     testContext = {
+      apiHeaders,
       history,
       push,
       scrollTo,
@@ -56,17 +66,15 @@ describe('signals/settings/users/containers/Overview', () => {
   });
 
   it('should request users from API on mount', async () => {
+    const { apiHeaders } = testContext;
+
     render(usersOverviewWithAppContext());
 
     await wait();
 
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining(configuration.USERS_ENDPOINT),
-      expect.objectContaining({
-        headers: {
-          Accept: 'application/json',
-        },
-      })
+      expect.objectContaining(apiHeaders)
     );
   });
 
@@ -86,13 +94,23 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
     expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
 
-    jest.runAllTimers();
+    jest.advanceTimersByTime(25);
+
+    await wait();
+
+    expect(getByText('Gebruikers')).toBeInTheDocument();
+    expect(queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
+
+    jest.advanceTimersByTime(25);
 
     await wait();
 
     expect(getByText(`Gebruikers (${usersJSON.count})`)).toBeInTheDocument();
     expect(queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
     expect(queryByTestId('loadingIndicator')).toBeNull();
+
+    jest.runAllTimers();
   });
 
   it('should render title and data view with headers only when no data', async () => {
@@ -121,12 +139,20 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(queryAllByTestId('dataViewBodyRow')).toHaveLength(0);
 
-    jest.runAllTimers();
+    jest.advanceTimersByTime(25);
+
+    await wait();
+
+    expect(queryAllByTestId('dataViewBodyRow')).toHaveLength(0);
+
+    jest.advanceTimersByTime(25);
 
     await wait();
 
     expect(queryByTestId('loadingIndicator')).toBeNull();
     expect(queryAllByTestId('dataViewBodyRow')).toHaveLength(usersJSON.count);
+
+    jest.runAllTimers();
   });
 
   it('should data view when data', async () => {
@@ -217,5 +243,94 @@ describe('signals/settings/users/containers/Overview', () => {
     fireEvent.click(row.querySelector('td:first-of-type'));
 
     expect(push).not.toHaveBeenCalled();
+  });
+
+  it('should render a username filter', async () => {
+    const { getByTestId } = render(usersOverviewWithAppContext());
+
+    await wait();
+
+    expect(getByTestId('filterUsersByUsername')).toBeInTheDocument();
+  });
+
+  it('should make API call only after 250ms since last filter update', async () => {
+    const { apiHeaders } = testContext;
+    const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
+    const { getByTestId } = render(usersOverviewWithAppContext());
+
+    await wait();
+
+    const filterByUsername = getByTestId('filterUsersByUsername');
+    const filterByUserNameInput = filterByUsername.querySelector('input');
+    let filterValue = 'test1';
+
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).not.toHaveBeenCalledWith(
+      expect.stringContaining(`username=${filterValue}`),
+      expect.objectContaining(apiHeaders),
+    );
+
+    fireEvent.change(filterByUserNameInput, { target: { value: filterValue } });
+
+    await wait(() => resolveAfterMs(50));
+
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).not.toHaveBeenCalledWith(
+      expect.stringContaining(`username=${filterValue}`),
+      expect.objectContaining(apiHeaders),
+    );
+
+    await wait(() => resolveAfterMs(200));
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining(`username=${filterValue}`),
+      expect.objectContaining(apiHeaders),
+    );
+
+    // Test that 'debounce' timer is reset on new input changes within 250ms.
+    filterValue = 'test2';
+
+    fireEvent.change(filterByUserNameInput, { target: { value: filterValue } });
+
+    await wait(() => resolveAfterMs(200));
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch).not.toHaveBeenCalledWith(
+      expect.stringContaining(`username=${filterValue}`),
+      expect.objectContaining(apiHeaders),
+    );
+
+    filterValue = 'test3';
+
+    fireEvent.change(filterByUserNameInput, { target: { value: filterValue } });
+
+    await wait(() => resolveAfterMs(200));
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch).not.toHaveBeenCalledWith(
+      expect.stringContaining(`username=${filterValue}`),
+      expect.objectContaining(apiHeaders),
+    );
+
+    filterValue = 'test4';
+
+    fireEvent.change(filterByUserNameInput, { target: { value: filterValue } });
+
+    await wait(() => resolveAfterMs(200));
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch).not.toHaveBeenCalledWith(
+      expect.stringContaining(`username=${filterValue}`),
+      expect.objectContaining(apiHeaders),
+    );
+
+    await wait(() => resolveAfterMs(50));
+
+    expect(fetch).toHaveBeenCalledTimes(3);
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining(`username=${filterValue}`),
+      expect.objectContaining(apiHeaders),
+    );
   });
 });
