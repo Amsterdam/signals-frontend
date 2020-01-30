@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useReducer } from 'react';
+import React, { useEffect, useMemo, useCallback, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import moment from 'moment';
@@ -52,6 +52,19 @@ const FilterForm = ({
   const { feedback, priority, stadsdeel, status, source } = dataLists;
   const [state, dispatch] = useReducer(reducer, filter, init);
 
+  // state update handler; if the form values have changed compared with
+  // the initial state, the form's submit button label will change accordingly
+  useEffect(() => {
+    const options = parseOutputFormData(state.options);
+    const formData = { ...state.filter, options };
+    const stateOptions = parseOutputFormData(initialFormState.options);
+    const stateData = { ...initialFormState, options: stateOptions };
+    const valuesHaveChanged = !isEqual(formData, stateData);
+
+    dispatch(setSaveButtonLabel(valuesHaveChanged));
+  }, [state.filter, state.options, initialFormState]);
+
+  // collection of category objects that is used to set form field values with
   const filterSlugs = useMemo(
     () => state.options.maincategory_slug.concat(state.options.category_slug),
     [state.options.category_slug, state.options.maincategory_slug]
@@ -105,29 +118,13 @@ const FilterForm = ({
     ]
   );
 
-  /**
-   * Form reset handler
-   */
   const onResetForm = useCallback(() => {
     dispatch(reset());
     onClearFilter();
   }, [onClearFilter]);
 
-  /**
-   *
-   */
-  const onChangeForm = useCallback(() => {
-    if (isNewFilter) {
-      return;
-    }
-
-    const options = parseOutputFormData(state.options);
-    const formData = { ...state.filter, options };
-    const valuesHaveChanged = !isEqual(formData, initialFormState);
-
-    dispatch(setSaveButtonLabel(valuesHaveChanged));
-  }, [initialFormState, isNewFilter, state.filter, state.options]);
-
+  // callback handler that is called whenever a checkbox is (un)checked in the list of
+  // category checkbox groups
   const onChangeCategories = useCallback(
     (main_category_slug, subCategories) => {
       dispatch(setCategories({ main_category_slug, subCategories }));
@@ -135,6 +132,8 @@ const FilterForm = ({
     [dispatch]
   );
 
+  // callback handler that is called whenever a toggle is (un)checked in the list of
+  // category checkbox groups
   const onMainCategoryToggle = useCallback(
     (main_category_slug, isToggled) => {
       const category = categories.main.find(
@@ -149,35 +148,10 @@ const FilterForm = ({
   const onNameChange = useCallback(
     event => {
       const { value } = event.target;
-      const nameHasChanged = typeof value === 'string' && value !== filter.name;
 
-      dispatch(setSaveButtonLabel(nameHasChanged));
       dispatch(setName(value));
     },
-    [filter.name]
-  );
-
-  const onRadioChange = useCallback(
-    (groupName, option) => {
-      dispatch(setGroupOptions({ [groupName]: option.key }));
-    },
     [dispatch]
-  );
-
-  const onGroupChange = useCallback(
-    (groupName, options) => {
-      dispatch(setGroupOptions({ [groupName]: options }));
-    },
-    [dispatch]
-  );
-
-  const onGroupToggle = useCallback(
-    (groupName, isToggled) => {
-      const options = isToggled ? dataLists[groupName] : [];
-
-      dispatch(setGroupOptions({ [groupName]: options }));
-    },
-    [dispatch, dataLists]
   );
 
   const onRefreshChange = useCallback(
@@ -206,8 +180,37 @@ const FilterForm = ({
     [dispatch]
   );
 
+  // callback handler that is called whenever a radio button is (un)checked in a
+  // radio button list group
+  const onRadioChange = useCallback(
+    (groupName, option) => {
+      dispatch(setGroupOptions({ [groupName]: option.key }));
+    },
+    [dispatch]
+  );
+
+  // callback handler that is called whenever a checkbox is (un)checked in a checkbox
+  // group that is not one of the category checkbox groups
+  const onGroupChange = useCallback(
+    (groupName, options) => {
+      dispatch(setGroupOptions({ [groupName]: options }));
+    },
+    [dispatch]
+  );
+
+  // callback handler that is called whenever a toggle is (un)checked in a checkbox
+  // group that is not one of the category checkbox groups
+  const onGroupToggle = useCallback(
+    (groupName, isToggled) => {
+      const options = isToggled ? dataLists[groupName] : [];
+
+      dispatch(setGroupOptions({ [groupName]: options }));
+    },
+    [dispatch, dataLists]
+  );
+
   return (
-    <Form action="" novalidate onChange={onChangeForm}>
+    <Form action="" novalidate>
       <ControlsWrapper>
         {state.filter.id && (
           <input type="hidden" name="id" value={state.filter.id} />
