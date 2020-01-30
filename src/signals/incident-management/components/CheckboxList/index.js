@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Checkbox, themeSpacing } from '@datapunt/asc-ui';
+import * as types from 'shared/types';
 
 const FilterGroup = styled.div`
   position: relative;
@@ -197,7 +198,7 @@ const CheckboxList = ({
   }, [groupValue, name, onToggle, options, toggled]);
 
   return (
-    <FilterGroup className={className}>
+    <FilterGroup className={className} data-testid="checkboxList">
       {title && title}
 
       {hasToggle && (
@@ -267,11 +268,7 @@ CheckboxList.propTypes = {
   /** @ignore */
   className: PropTypes.string,
   /** List of keys for elements that need to be checked by default */
-  defaultValue: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-    })
-  ),
+  defaultValue: types.dataListType,
   /**
    * Unique group identifier. Is used to match against the values of the `prop` attribute in the `options` prop.
    * If a match is found, the entire group is checked. Do note that, despite the name, this prop is not used as
@@ -292,14 +289,7 @@ CheckboxList.propTypes = {
    * Values to be rendered as checkbox elements
    * Note that either one of `id` or `key` values should be present in an options entry
    */
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      key: PropTypes.string,
-      slug: PropTypes.string,
-      value: PropTypes.string.isRequired,
-    })
-  ).isRequired,
+  options: types.dataListType.isRequired,
   /** Group label contents */
   title: PropTypes.node,
   /** Text label for the group toggle in its untoggled state */

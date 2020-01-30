@@ -1,7 +1,7 @@
 import {
   RESET,
   SET_ADDRESS,
-  SET_BUTTON_LABEL,
+  SET_SAVE_BUTTON_LABEL,
   SET_CATEGORIES,
   SET_DATE,
   SET_GROUP_OPTIONS,
@@ -19,8 +19,8 @@ export const setAddress = payload => ({
   payload,
 });
 
-export const setButtonLabel = payload => ({
-  type: SET_BUTTON_LABEL,
+export const setSaveButtonLabel = payload => ({
+  type: SET_SAVE_BUTTON_LABEL,
   payload,
 });
 

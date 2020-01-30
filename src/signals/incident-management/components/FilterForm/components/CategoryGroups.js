@@ -1,11 +1,12 @@
 import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 
+import * as types from 'shared/types';
 import Label from 'components/Label';
-import CheckboxList from '../CheckboxList';
+import CheckboxList from '../../CheckboxList';
 
 const CategoryGroups = ({ categories, filterSlugs, onChange, onToggle }) =>
   Object.keys(categories.mainToSub)
-    .filter(key => !!key) // remove elements without 'key' prop
     .sort()
     .map(mainCategory => {
       const mainCatObj = categories.main.find(
@@ -32,5 +33,16 @@ const CategoryGroups = ({ categories, filterSlugs, onChange, onToggle }) =>
         />
       );
     });
+
+CategoryGroups.defaultProps = {
+  filterSlugs: [],
+};
+
+CategoryGroups.propTypes = {
+  categories: types.categoriesType.isRequired,
+  filterSlugs: types.dataListType,
+  onChange: PropTypes.func,
+  onToggle: PropTypes.func,
+};
 
 export default memo(CategoryGroups);

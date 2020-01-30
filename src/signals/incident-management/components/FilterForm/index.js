@@ -20,13 +20,13 @@ import {
   Form,
 } from './styled';
 import CalendarInput from '../CalendarInput';
-import CategoryGroups from './CategoryGroups';
-import CheckboxGroup from './CheckboxGroup';
-import RadioGroup from './RadioGroup';
+import CategoryGroups from './components/CategoryGroups';
+import CheckboxGroup from './components/CheckboxGroup';
+import RadioGroup from './components/RadioGroup';
 import {
   reset,
   setAddress,
-  setButtonLabel,
+  setSaveButtonLabel,
   setCategories,
   setDate,
   setGroupOptions,
@@ -125,7 +125,7 @@ const FilterForm = ({
     const formData = { ...state.filter, options };
     const valuesHaveChanged = !isEqual(formData, initialFormState);
 
-    dispatch(setButtonLabel(valuesHaveChanged));
+    dispatch(setSaveButtonLabel(valuesHaveChanged));
   }, [initialFormState, isNewFilter, state.filter, state.options]);
 
   const onChangeCategories = useCallback(
@@ -135,7 +135,7 @@ const FilterForm = ({
     [dispatch]
   );
 
-  const handleToggle = useCallback(
+  const onMainCategoryToggle = useCallback(
     (main_category_slug, isToggled) => {
       const category = categories.main.find(
         ({ slug }) => slug === main_category_slug
@@ -151,8 +151,7 @@ const FilterForm = ({
       const { value } = event.target;
       const nameHasChanged = typeof value === 'string' && value !== filter.name;
 
-      dispatch(setButtonLabel(nameHasChanged));
-
+      dispatch(setSaveButtonLabel(nameHasChanged));
       dispatch(setName(value));
     },
     [filter.name]
@@ -342,7 +341,7 @@ const FilterForm = ({
       </ControlsWrapper>
 
       <ControlsWrapper>
-        <Fieldset className="categoryLists">
+        <Fieldset>
           <legend>Filter categorieën</legend>
 
           <Label $as="span" htmlFor="not_used" isGroupHeader>
@@ -353,7 +352,7 @@ const FilterForm = ({
             categories={categories}
             filterSlugs={filterSlugs}
             onChange={onChangeCategories}
-            onToggle={handleToggle}
+            onToggle={onMainCategoryToggle}
           />
         </Fieldset>
       </ControlsWrapper>

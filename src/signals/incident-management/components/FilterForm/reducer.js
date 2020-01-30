@@ -1,15 +1,15 @@
 import {
+  DEFAULT_SUBMIT_BUTTON_LABEL,
   RESET,
+  SAVE_SUBMIT_BUTTON_LABEL,
   SET_ADDRESS,
-  SET_NAME,
-  SET_REFRESH,
+  SET_CATEGORIES,
   SET_DATE,
   SET_GROUP_OPTIONS,
-  SET_BUTTON_LABEL,
   SET_MAIN_CATEGORY,
-  SET_CATEGORIES,
-  DEFAULT_SUBMIT_BUTTON_LABEL,
-  SAVE_SUBMIT_BUTTON_LABEL,
+  SET_NAME,
+  SET_REFRESH,
+  SET_SAVE_BUTTON_LABEL,
 } from './constants';
 
 export const initialState = {
@@ -31,6 +31,15 @@ export const initialState = {
   },
 };
 
+/**
+ * State init function
+ *
+ * Merges incoming filter data with the initial state value
+ *
+ * @param   {Object} filter
+ * @param   {Object} filter.options
+ * @returns {Object}
+ */
 export const init = ({ options, ...filter }) => ({
   ...initialState,
   filter: {
@@ -85,7 +94,7 @@ export default (state, action) => {
         },
       };
 
-    case SET_BUTTON_LABEL:
+    case SET_SAVE_BUTTON_LABEL:
       return {
         ...state,
         submitBtnLabel: action.payload

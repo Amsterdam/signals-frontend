@@ -36,7 +36,26 @@ dateType.isRequired = dateTypeFactory(true);
  * Generic data item type
  */
 const dataItemType = PropTypes.shape({
-  key: PropTypes.string.isRequired,
+  id: (props, propName, componentName) => {
+    const idProp = props[propName];
+    const keyProp = props.key;
+
+    if (idProp === undefined && keyProp === undefined) {
+      return new Error( `Either prop \`key\` or \`id\` is marked as required in \`${componentName}\`, but neither has been set`);
+    }
+
+    return null;
+  },
+  key: (props, propName, componentName) => {
+    const keyProp = props[propName];
+    const idProp = props.id;
+
+    if (idProp === undefined && keyProp === undefined) {
+      return new Error( `Either prop \`key\` or \`id\` is marked as required in \`${componentName}\`, but neither has been set`);
+    }
+
+    return null;
+  },
   slug: PropTypes.string,
   value: PropTypes.string.isRequired,
 });
