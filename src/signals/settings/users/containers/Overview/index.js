@@ -3,15 +3,16 @@ import React, {
   useEffect,
   useState,
   useMemo,
-  useCallback,
+  useCallback, useReducer,
 } from 'react';
 import PropTypes from 'prop-types';
 import { useParams, useHistory, Link } from 'react-router-dom';
-import { Row, Column, themeSpacing, Button } from '@datapunt/asc-ui';
+import { Row, Column, themeSpacing, Button, SearchBar } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import debounce from 'lodash/debounce';
 
 import { makeSelectUserCan } from 'containers/App/selectors';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
@@ -31,11 +32,27 @@ const HeaderButton = styled(Button)`
   }
 `;
 
+const StyledSearchbar = styled(SearchBar)`
+  > button {
+    display: none;
+  }
+`;
+
+const filtersReducer = (state, action) => {
+  switch (action.type) {
+    case 'username':
+      return { username: action.payload };
+    default:
+      throw new Error();
+  }
+};
+
 export const UsersOverviewContainer = ({ pageSize, userCan }) => {
   const history = useHistory();
   const { pageNum } = useParams();
   const [page, setPage] = useState(1);
-  const { isLoading, users: { list: data }, users } = useFetchUsers({ page, pageSize });
+  const [filters, dispatchFiltersChange] = useReducer(filtersReducer, {});
+  const { isLoading, users: { list: data }, users } = useFetchUsers({ page, pageSize, filters });
 
   /**
    * Get page number value from URL query string
@@ -55,6 +72,22 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
       setPage(pageNumber);
     }
   }, [pageNumFromQueryString, page]);
+
+  const createOnChangeFilter = useCallback(
+    filter => value => {
+      if (filters[filter] === value) return;
+
+      dispatchFiltersChange({ type: filter, payload: value });
+      setPage(1);
+      history.push(`${USERS_PAGED_URL}/1`);
+    },
+    [history, filters]
+  );
+
+  const debouncedOnChangeFilter = useCallback(
+    debounce(createOnChangeFilter('username'), 250),
+    [createOnChangeFilter]
+  );
 
   const onItemClick = useCallback(
     e => {
@@ -103,6 +136,13 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
           <Column span={12}>
             <DataView
               headers={columnHeaders}
+              filters={[
+                (<StyledSearchbar
+                  placeholder=""
+                  onChange={debouncedOnChangeFilter}
+                  data-testid="filterUsersByUsername"
+                />),
+              ]}
               columnOrder={columnHeaders}
               invisibleColumns={['id']}
               onItemClick={onItemClick}
