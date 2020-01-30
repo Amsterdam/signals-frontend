@@ -220,7 +220,7 @@ describe('components/SiteHeader', () => {
   });
 
   it('should render correctly when logged in', () => {
-    // jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
     const { container, queryByText } = render(
       withAppContext(<SiteHeader location={{ pathname: '/' }} />)
