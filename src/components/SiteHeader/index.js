@@ -270,7 +270,6 @@ export const SiteHeader = props => {
     <Fragment>
       <HeaderWrapper
         isFrontOffice={isFrontOffice}
-        title={title}
         tall={tall}
         className={`siteHeader ${tall ? 'isTall' : 'isShort'}`}
         data-testid="siteHeader"
