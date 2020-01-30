@@ -102,7 +102,8 @@ export const UserDetailContainerComponent = ({
     isExistingUser,
     isLoading,
     isSuccess,
-    redirectURL,
+    redirectURL.pathname,
+    redirectURL.state,
     showGlobalNotification,
   ]);
 
