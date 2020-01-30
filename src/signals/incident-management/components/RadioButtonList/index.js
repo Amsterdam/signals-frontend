@@ -27,7 +27,7 @@ const RadioButtonList = ({
 }) => (
   <FilterGroup>
     {title && (
-      <Label htmlFor={options[0].key} isGroupHeader={false}>
+      <Label as="span" isGroupHeader={false}>
         {title}
       </Label>
     )}
