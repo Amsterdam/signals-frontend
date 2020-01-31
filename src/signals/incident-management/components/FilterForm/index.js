@@ -51,26 +51,34 @@ const FilterForm = ({
 }) => {
   const { feedback, priority, stadsdeel, status, source } = dataLists;
   const [state, dispatch] = useReducer(reducer, filter, init);
+  const isNewFilter = useMemo(() => !filter.name, [filter.name]);
 
   // state update handler; if the form values have changed compared with
   // the initial state, the form's submit button label will change accordingly
   useEffect(() => {
-    const options = parseOutputFormData(state.options);
-    const formData = { ...state.filter, options };
-    const stateOptions = parseOutputFormData(initialFormState.options);
-    const stateData = { ...initialFormState, options: stateOptions };
-    const valuesHaveChanged = !isEqual(formData, stateData);
+    if (isNewFilter) {
+      return;
+    }
+
+    const valuesHaveChanged = !isEqual(
+      {
+        ...state.filter,
+        options: parseOutputFormData(state.options),
+      },
+      {
+        ...initialFormState,
+        options: parseOutputFormData(initialFormState.options),
+      }
+    );
 
     dispatch(setSaveButtonLabel(valuesHaveChanged));
-  }, [state.filter, state.options, initialFormState]);
+  }, [state.filter, state.options, initialFormState, isNewFilter]);
 
   // collection of category objects that is used to set form field values with
   const filterSlugs = useMemo(
     () => state.options.maincategory_slug.concat(state.options.category_slug),
     [state.options.category_slug, state.options.maincategory_slug]
   );
-
-  const isNewFilter = useMemo(() => !filter.name, [filter.name]);
 
   const initialFormState = useMemo(() => cloneDeep(filter), [filter]);
 

@@ -160,6 +160,10 @@ describe('signals/incident-management/components/CheckboxList', () => {
       return { ...status, id: undefined, key: undefined };
     });
 
+    global.console.error = jest.fn();
+
+    expect(global.console.error).not.toHaveBeenCalled();
+
     rerender(
       withAppContext(
         <CheckboxList name={name} options={optionsWithoutRequiredProps} />
@@ -169,6 +173,10 @@ describe('signals/incident-management/components/CheckboxList', () => {
     expect(document.querySelectorAll('input[type="checkbox"]')).toHaveLength(
       statuses.length - invalidOptionsCount
     );
+
+    expect(global.console.error).toHaveBeenCalled();
+
+    global.console.error.mockRestore();
   });
 
   it('should check all boxes when group is checked', () => {
@@ -181,6 +189,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
           defaultValue={[
             {
               key: groupId,
+              value: 'barfoofoo',
             },
           ]}
           groupId={groupId}
@@ -216,7 +225,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     expect(getByText(toggleNothingLabel)).toBeInTheDocument();
   });
 
-  it('should set toggled when all boxes are checked', () => {
+  it('should set toggled when all boxes are checked', async () => {
     const groupId = 'barbazbaz';
     const toggleAllLabel = 'Select all';
     const toggleNothingLabel = 'Select none';
