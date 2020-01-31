@@ -45,7 +45,10 @@ export const UserDetailContainerComponent = ({
     userId
   );
   const shouldRenderForm = !isExistingUser || (isExistingUser && Boolean(data));
-  const redirectURL = location.referrer || routes.users;
+  const redirectURL = {
+    pathname: location.referrer || routes.users,
+    state: location.state,
+  };
   const userCanSubmitForm = useMemo(
     () =>
       (isExistingUser && userCan('change_user')) ||
@@ -91,7 +94,7 @@ export const UserDetailContainerComponent = ({
     });
 
     if (isSuccess) {
-      history.push(redirectURL);
+      history.push(redirectURL.pathname, redirectURL.state);
     }
   }, [
     error,
@@ -99,7 +102,8 @@ export const UserDetailContainerComponent = ({
     isExistingUser,
     isLoading,
     isSuccess,
-    redirectURL,
+    redirectURL.pathname,
+    redirectURL.state,
     showGlobalNotification,
   ]);
 
@@ -133,7 +137,7 @@ export const UserDetailContainerComponent = ({
         (!isEqual(data, formData) &&
           global.confirm('Niet opgeslagen gegevens gaan verloren. Doorgaan?'))
       ) {
-        history.push(redirectURL);
+        history.push(redirectURL.pathname, redirectURL.state);
       }
     },
     [data, getFormData, history, redirectURL]

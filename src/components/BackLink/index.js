@@ -69,7 +69,13 @@ BackLink.propTypes = {
   /** @ignore */
   className: PropTypes.string,
   /** Route indicator */
-  to: PropTypes.string.isRequired,
+  to: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({
+      pathname: PropTypes.string,
+      state: PropTypes.shape({}),
+    }),
+  ]).isRequired,
 };
 
 export default BackLink;
