@@ -6,7 +6,7 @@ import React, {
   useCallback, useReducer,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useParams, useHistory, Link } from 'react-router-dom';
+import { useParams, useHistory, useLocation, Link } from 'react-router-dom';
 import { Row, Column, themeSpacing, Button, SearchBar } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 import { createStructuredSelector } from 'reselect';
@@ -49,9 +49,11 @@ const filtersReducer = (state, action) => {
 
 export const UsersOverviewContainer = ({ pageSize, userCan }) => {
   const history = useHistory();
+  const location = useLocation();
+  const filtersInitialState = location.state && location.state.filters || {};
   const { pageNum } = useParams();
   const [page, setPage] = useState(1);
-  const [filters, dispatchFiltersChange] = useReducer(filtersReducer, {});
+  const [filters, dispatchFiltersChange] = useReducer(filtersReducer, filtersInitialState);
   const { isLoading, users: { list: data }, users } = useFetchUsers({ page, pageSize, filters });
 
   /**
@@ -103,10 +105,10 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
       } = e;
 
       if (itemId) {
-        history.push(`${USER_URL}/${itemId}`);
+        history.push(`${USER_URL}/${itemId}`, { filters });
       }
     },
-    [history, userCan]
+    [history, userCan, filters]
   );
 
   const onPaginationClick = useCallback(
@@ -140,6 +142,7 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
                 (<StyledSearchbar
                   placeholder=""
                   onChange={debouncedOnChangeFilter}
+                  value={filters.username}
                   data-testid="filterUsersByUsername"
                 />),
               ]}
