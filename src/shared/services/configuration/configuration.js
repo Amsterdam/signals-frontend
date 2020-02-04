@@ -132,6 +132,10 @@ export class Configuration {
     return `${this.API_ROOT}signals/v1/private/me/`;
   }
 
+  get CATEGORIES_PRIVATE_ENDPOINT() {
+    return `${this.API_ROOT}signals/v1/private/categories/`;
+  }
+
   get CATEGORIES_ENDPOINT() {
     return `${this.API_ROOT}signals/v1/public/terms/categories/`;
   }
