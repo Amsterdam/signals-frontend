@@ -85,6 +85,8 @@ const StyledSearchBar = styled(SearchBar)`
 `;
 
 const HeaderWrapper = styled.div`
+  z-index: 1;
+
   ${({ tall }) =>
     !tall &&
     css`
@@ -191,7 +193,7 @@ const MenuItems = ({ onLogOut, showItems }) => {
 
       {showItems.settings &&
         (showItems.users || showItems.groups || showItems.departments) && (
-        <StyledMenuFlyout label="Instellingen">
+        <StyledMenuFlyout label="Instellingen" $as="span">
           {showItems.users && (
             <StyledMenuButton $as={NavLink} to="/instellingen/gebruikers">
               Gebruikers
