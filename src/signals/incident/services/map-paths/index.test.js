@@ -22,7 +22,6 @@ describe('The map paths service', () => {
           },
           value_0: {
             meta: {
-              label: 'Waarde nul',
               pathMerge: 'extra_properties',
               isVisible: true,
             },
@@ -117,7 +116,7 @@ describe('The map paths service', () => {
       },
       {
         id: 'value_0',
-        label: 'Waarde nul',
+        label: '',
         answer: 0,
         category_url,
       },
