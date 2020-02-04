@@ -6,7 +6,6 @@ import categories from 'utils/__tests__/fixtures/categories.json';
 import {
   parseOutputFormData,
   parseInputFormData,
-  parseFromAPIData,
   parseToAPIData,
 } from '../parse';
 
@@ -21,97 +20,62 @@ describe('signals/shared/parse', () => {
 
   describe('parseOutputFormData', () => {
     it('should parse output FormData', () => {
-      const form = document.createElement('form');
-      const nameField = document.createElement('input');
-      nameField.setAttribute('type', 'text');
-      nameField.setAttribute('name', 'name');
-      nameField.setAttribute('value', 'Afval in Westpoort');
-      nameField.checked = true;
-      form.appendChild(nameField);
+      const mainCategories = categories.main.filter(
+        ({ slug }) =>
+          slug === 'afval' || slug === 'wegen-verkeer-straatmeubilair'
+      );
+      const subCategories = categories.sub.filter(
+        ({ slug }) => slug === 'drijfvuil' || slug === 'maaien-snoeien'
+      );
+      const stadsdeel = stadsdeelList.filter(
+        ({ key }) => key === 'A' || key === 'B'
+      );
 
-      const toggle = document.createElement('input');
-      toggle.setAttribute('type', 'checkbox');
-      toggle.setAttribute('name', 'maincategory_slug');
-      toggle.setAttribute('value', 'afval');
-      toggle.checked = true;
-      form.appendChild(toggle);
-
-      const individualCheckbox1 = document.createElement('input');
-      individualCheckbox1.setAttribute('type', 'checkbox');
-      individualCheckbox1.setAttribute('name', 'drijfvuil_category_slug');
-      individualCheckbox1.setAttribute('value', 'drijfvuil');
-      individualCheckbox1.checked = true;
-      form.appendChild(individualCheckbox1);
-
-      const expected1 = {
-        name: 'Afval in Westpoort',
-        refresh: false,
-        options: {
-          maincategory_slug: ['afval'],
-          category_slug: ['drijfvuil'],
-        },
+      const formState = {
+        unparsed_key: 'Not parsed',
+        maincategory_slug: mainCategories,
+        category_slug: subCategories,
+        stadsdeel,
       };
 
-      const parsedOutput1 = parseOutputFormData(form);
-
-      expect(parsedOutput1).toEqual(expected1);
-
-      const individualCheckbox2 = document.createElement('input');
-      individualCheckbox2.setAttribute('type', 'checkbox');
-      individualCheckbox2.setAttribute('name', 'maaien-snoeien_category_slug');
-      individualCheckbox2.setAttribute('value', 'maaien-snoeien');
-      individualCheckbox2.checked = true;
-      form.appendChild(individualCheckbox2);
-
-      const individualCheckbox3 = document.createElement('input');
-      individualCheckbox3.setAttribute('type', 'checkbox');
-      individualCheckbox3.setAttribute('name', 'maaien-snoeien_category_slug');
-      individualCheckbox3.setAttribute('value', 'maaien-snoeien-2');
-      individualCheckbox3.checked = true;
-      form.appendChild(individualCheckbox3);
-
-      const toggle2 = document.createElement('input');
-      toggle2.setAttribute('type', 'checkbox');
-      toggle2.setAttribute('name', 'maincategory_slug');
-      toggle2.setAttribute('value', 'wegen-verkeer-straatmeubilair');
-      toggle2.checked = true;
-      form.appendChild(toggle2);
-
-      const expected2 = {
-        name: 'Afval in Westpoort',
-        refresh: false,
-        options: {
-          maincategory_slug: ['afval', 'wegen-verkeer-straatmeubilair'],
-          category_slug: ['drijfvuil', 'maaien-snoeien', 'maaien-snoeien-2'],
-        },
+      const expected = {
+        unparsed_key: 'Not parsed',
+        maincategory_slug: mainCategories.map(({ slug }) => slug),
+        category_slug: subCategories.map(({ slug }) => slug),
+        stadsdeel: stadsdeel.map(({ key }) => key),
       };
 
-      const parsedOutput2 = parseOutputFormData(form);
+      const parsedOutput = parseOutputFormData(formState);
 
-      expect(parsedOutput2).toEqual(expected2);
+      expect(parsedOutput).toEqual(expected);
     });
 
     it('should format date values', () => {
-      const form = document.createElement('form');
-      const dateCreatedBefore = document.createElement('input');
-      dateCreatedBefore.name = 'created_before';
-      dateCreatedBefore.setAttribute('value', '2019-12-19');
-      form.appendChild(dateCreatedBefore);
-
-      const dateCreatedAfter = document.createElement('input');
-      dateCreatedAfter.name = 'created_after';
-      dateCreatedAfter.setAttribute('value', '2019-12-10');
-      form.appendChild(dateCreatedAfter);
-
+      const formState = {
+        created_before: '2019-12-19',
+        created_after: '2019-12-10',
+      };
       const expected = {
-        refresh: false,
-        options: {
-          created_before: '2019-12-19T23:59:59',
-          created_after: '2019-12-10T00:00:00',
-        },
+        created_before: '2019-12-19T23:59:59',
+        created_after: '2019-12-10T00:00:00',
       };
 
-      const parsedOutput = parseOutputFormData(form);
+      const parsedOutput = parseOutputFormData(formState);
+
+      expect(parsedOutput).toEqual(expected);
+    });
+
+    it('should not format invalid date values', () => {
+      const formState = {
+        created_before: null,
+        created_after: 'this is not a date',
+      };
+      const expected = {
+        created_before: undefined,
+        created_after: undefined,
+      };
+
+      const parsedOutput = parseOutputFormData(formState);
 
       expect(parsedOutput).toEqual(expected);
     });
@@ -124,60 +88,58 @@ describe('signals/shared/parse', () => {
         stadsdeel: ['B'],
         address_text: '',
         maincategory_slug: ['afval'],
-        category_slug: [
-          'maaien-snoeien',
-          'onkruid',
-          'autom-verzinkbare-palen',
-        ],
+        category_slug: ['maaien-snoeien', 'onkruid', 'autom-verzinkbare-palen'],
       },
     };
 
     const output = {
       name: 'Afval in Westpoort',
-      stadsdeel: [
-        {
-          key: 'B',
-          value: 'Westpoort',
-        },
-      ],
-      address_text: '',
-      maincategory_slug: [
-        {
-          key:
-            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
-          slug: 'afval',
-          value: 'Afval',
-        },
-      ],
-      category_slug: [
-        {
-          key:
-            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/maaien-snoeien',
-          value: 'Maaien / snoeien',
-          slug: 'maaien-snoeien',
-          category_slug: 'openbaar-groen-en-water',
-          handling_message:
-            '\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.',
-        },
-        {
-          key:
-            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/onkruid',
-          value: 'Onkruid',
-          slug: 'onkruid',
-          category_slug: 'openbaar-groen-en-water',
-          handling_message:
-            '\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.',
-        },
-        {
-          key:
-            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/autom-verzinkbare-palen',
-          value: 'Autom. Verzinkbare palen',
-          slug: 'autom-verzinkbare-palen',
-          category_slug: 'wegen-verkeer-straatmeubilair',
-          handling_message:
-            '\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken.',
-        },
-      ],
+      options: {
+        stadsdeel: [
+          {
+            key: 'B',
+            value: 'Westpoort',
+          },
+        ],
+        address_text: '',
+        maincategory_slug: [
+          {
+            key:
+              'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
+            slug: 'afval',
+            value: 'Afval',
+          },
+        ],
+        category_slug: [
+          {
+            key:
+              'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/maaien-snoeien',
+            value: 'Maaien / snoeien',
+            slug: 'maaien-snoeien',
+            category_slug: 'openbaar-groen-en-water',
+            handling_message:
+              '\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.',
+          },
+          {
+            key:
+              'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/onkruid',
+            value: 'Onkruid',
+            slug: 'onkruid',
+            category_slug: 'openbaar-groen-en-water',
+            handling_message:
+              '\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.',
+          },
+          {
+            key:
+              'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/autom-verzinkbare-palen',
+            value: 'Autom. Verzinkbare palen',
+            slug: 'autom-verzinkbare-palen',
+            category_slug: 'wegen-verkeer-straatmeubilair',
+            handling_message:
+              '\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken.',
+          },
+        ],
+      },
     };
 
     it('should parse input FormData', () => {
@@ -187,28 +149,9 @@ describe('signals/shared/parse', () => {
     });
 
     it('should return an empty object', () => {
-      expect(parseInputFormData({}, dataLists)).toEqual({});
-      expect(parseInputFormData({ options: {} }, dataLists)).toEqual({});
-    });
-
-    describe('parseFromAPIData', () => {
-      it('should return an object', () => {
-        // empty API data equals the default initial state value for activeFilter
-        const emptyAPIData = {
-          name: '',
-          options: {},
-        };
-
-        const undefinedValues = { id: undefined, refresh: undefined };
-
-        const expected = { ...undefinedValues, ...emptyAPIData };
-
-        expect(parseFromAPIData(emptyAPIData, dataLists)).toEqual(expected);
-
-        const expectedOutput = { options: output, name: input.name };
-        delete expectedOutput.options.name;
-
-        expect(parseFromAPIData(input, dataLists)).toEqual(expectedOutput);
+      expect(parseInputFormData({}, dataLists)).toEqual({ options: {} });
+      expect(parseInputFormData({ options: {} }, dataLists)).toEqual({
+        options: {},
       });
     });
 
@@ -216,12 +159,19 @@ describe('signals/shared/parse', () => {
       it('should return an object', () => {
         const filterData = { id: 123, name: 'foo' };
 
-        expect(parseToAPIData(filterData)).toEqual({ options: {}, id: 123, name: 'foo' });
+        expect(parseToAPIData(filterData)).toEqual({
+          options: {},
+          id: 123,
+          name: 'foo',
+        });
 
-        filterData.options = output;
-        delete filterData.options.name;
+        filterData.options = output.options;
 
-        expect(parseToAPIData(filterData)).toEqual({ ...input, id: 123, name: 'foo' });
+        expect(parseToAPIData(filterData)).toEqual({
+          ...input,
+          id: 123,
+          name: 'foo',
+        });
       });
     });
   });
