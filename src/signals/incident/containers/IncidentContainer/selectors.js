@@ -1,25 +1,9 @@
 import { createSelector } from 'reselect';
+import { initialState } from './reducer';
 
-/**
- * Direct selector to the incidentContainer state domain
- */
-const selectIncidentContainerDomain = state => state.get('incidentContainer');
+const selectIncidentContainerDomain = state => (state && state.get('incidentContainer') )|| initialState;
 
-/**
- * Other specific selectors
- */
-
-
-/**
- * Default selector used by IncidentContainer
- */
-
-const makeSelectIncidentContainer = () => createSelector(
+export const makeSelectIncidentContainer = createSelector(
   selectIncidentContainerDomain,
   substate => substate.toJS()
 );
-
-export default makeSelectIncidentContainer;
-export {
-  selectIncidentContainerDomain,
-};

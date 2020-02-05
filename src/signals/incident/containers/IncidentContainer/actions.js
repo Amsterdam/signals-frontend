@@ -7,15 +7,12 @@
 import {
   UPDATE_INCIDENT,
   RESET_INCIDENT,
-
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
   CREATE_INCIDENT_ERROR,
-
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
-
   SET_PRIORITY,
   SET_PRIORITY_SUCCESS,
   SET_PRIORITY_ERROR,
@@ -61,19 +58,14 @@ export function getClassification(text) {
   };
 }
 
-export function getClassificationSuccess(classification) {
-  return {
-    type: GET_CLASSIFICATION_SUCCESS,
-    payload: { ...classification },
-  };
-}
+export const getClassificationSuccess = payload => ({
+  type: GET_CLASSIFICATION_SUCCESS,
+  payload,
+});
 
-export function getClassificationError(classification) {
-  return {
-    type: GET_CLASSIFICATION_ERROR,
-    payload: { ...classification },
-  };
-}
+export const getClassificationError = () => ({
+  type: GET_CLASSIFICATION_ERROR,
+});
 
 export function setPriority(payload) {
   return {

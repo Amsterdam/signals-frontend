@@ -75,14 +75,7 @@
   "source": "Meldkamer Handhaver",
   "id": 6666,
   "category": {
-    "sub": "Uitwerpselen",
-    "sub_slug": "hondenpoep",
-    "main": "Overlast in de openbare ruimte",
-    "main_slug": "overlast-in-de-openbare-ruimte",
     "category_url": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hondenpoep",
-    "departments": "STW, THO",
-    "created_by": null,
-    "text": null
   },
   "incident_date_start": "2019-09-25T16:35:58+02:00",
   "text_extra": ""

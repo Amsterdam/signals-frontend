@@ -18,7 +18,7 @@ import {
   SET_PRIORITY_ERROR,
 } from './constants';
 
-describe('incidentContainerReducer', () => {
+describe('signals/incident/containers/IncidentContainer/reducer', () => {
   it('returns the initial state', () => {
     expect(incidentContainerReducer(undefined, {})).toEqual(fromJS(initialState));
   });
@@ -32,6 +32,9 @@ describe('incidentContainerReducer', () => {
         id: 'normal',
         label: 'Normaal',
       },
+      category: '',
+      subcategory: '',
+      handling_message: '',
     }));
   });
 
@@ -66,10 +69,8 @@ describe('incidentContainerReducer', () => {
           },
         }), {
           type: RESET_INCIDENT,
-        }).toJS()
-      ).toEqual({
-        incident: initialState.get('incident').toJS(),
-      });
+        })
+      ).toEqual(initialState);
     });
   });
 
@@ -135,7 +136,6 @@ describe('incidentContainerReducer', () => {
       expect(
         incidentContainerReducer(fromJS({ incident: {} }), {
           type: GET_CLASSIFICATION,
-          payload: 'lamp',
         }).toJS()
       ).toEqual({
         incident: {},
@@ -173,16 +173,9 @@ describe('incidentContainerReducer', () => {
           incident: {},
         }), {
           type: GET_CLASSIFICATION_ERROR,
-          payload: {
-            category: 'Overlast in de openbare ruimte',
-            subcategory: 'Honden(poep)',
-          },
         }).toJS()
       ).toEqual({
-        incident: {
-          category: 'Overlast in de openbare ruimte',
-          subcategory: 'Honden(poep)',
-        },
+        incident: {},
         loadingClassification: false,
       });
     });
