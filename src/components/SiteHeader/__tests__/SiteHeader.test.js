@@ -220,18 +220,20 @@ describe('components/SiteHeader', () => {
   });
 
   it('should render correctly when logged in', () => {
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+
     const { container, queryByText } = render(
       withAppContext(<SiteHeader location={{ pathname: '/' }} />)
     );
 
     // afhandelen menu item
-    expect(queryByText('Afhandelen')).toBeTruthy();
+    expect(queryByText('Afhandelen')).toBeInTheDocument();
 
     // search field
-    expect(container.querySelector('input[type="text"]')).toBeTruthy();
+    expect(container.querySelector('input')).toBeInTheDocument();
 
     // log out button
-    expect(queryByText('Uitloggen')).toBeTruthy();
+    expect(queryByText('Uitloggen')).toBeInTheDocument();
   });
 
   it('should handle logout callback', () => {

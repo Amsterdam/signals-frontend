@@ -3,7 +3,7 @@ import { render, fireEvent, wait, waitForElement, within } from '@testing-librar
 import { history as memoryHistory, withCustomAppContext } from 'test/utils';
 
 import usersJSON from 'utils/__tests__/fixtures/users.json';
-import { USER_URL } from 'signals/settings/routes';
+import { USER_URL, USERS_PAGED_URL } from 'signals/settings/routes';
 import configuration from 'shared/services/configuration/configuration';
 import { UsersOverviewContainer as UsersOverview } from '..';
 
@@ -20,6 +20,7 @@ const usersOverviewWithAppContext = (overrideProps = {}, overrideCfg = {}) => {
     ...overrideCfg,
   });
 };
+const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
 
 describe('signals/settings/users/containers/Overview', () => {
   beforeEach(() => {
@@ -211,7 +212,10 @@ describe('signals/settings/users/containers/Overview', () => {
     fireEvent.click(username);
 
     expect(push).toHaveBeenCalledTimes(1);
-    expect(push).toHaveBeenCalledWith(`${USER_URL}/${itemId}`);
+    expect(push).toHaveBeenCalledWith(
+      expect.stringContaining(`${USER_URL}/${itemId}`),
+      expect.objectContaining({ filters: {} }),
+    );
 
     // Remove 'itemId' and fire click event again.
     delete row.dataset.itemId;
@@ -255,7 +259,6 @@ describe('signals/settings/users/containers/Overview', () => {
 
   it('should make API call only after 250ms since last filter update', async () => {
     const { apiHeaders } = testContext;
-    const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
     const { getByTestId } = render(usersOverviewWithAppContext());
 
     await wait();
@@ -332,5 +335,83 @@ describe('signals/settings/users/containers/Overview', () => {
       expect.stringContaining(`username=${filterValue}`),
       expect.objectContaining(apiHeaders),
     );
+  });
+
+  it(`should send 'filters' as state when navigating to details page.`, async () => {
+    const { push } = testContext;
+    const { getByTestId, queryAllByTestId } = render(usersOverviewWithAppContext());
+
+    await wait();
+
+    const filterByUsername = getByTestId('filterUsersByUsername');
+    const filterByUserNameInput = filterByUsername.querySelector('input');
+    const filterValue = 'test1';
+
+    let rows = queryAllByTestId('dataViewBodyRow');
+    let firstRow = Array.from(rows)[0];
+
+    expect(push).not.toHaveBeenCalled();
+
+    fireEvent.click(firstRow);
+
+    expect(push).toHaveBeenCalledTimes(1);
+    expect(push).toHaveBeenCalledWith(
+      expect.stringContaining(`${USER_URL}/${firstRow.dataset.itemId}`),
+      expect.objectContaining({ filters: {} })
+    );
+
+    fireEvent.change(filterByUserNameInput, { target: { value: filterValue } });
+
+    await wait(() => resolveAfterMs(250));
+
+    expect(push).toHaveBeenCalledTimes(2);
+    expect(push).toHaveBeenCalledWith(expect.stringContaining(`${USERS_PAGED_URL}/1`));
+
+    rows = queryAllByTestId('dataViewBodyRow');
+    firstRow = Array.from(rows)[0];
+
+    fireEvent.click(firstRow);
+
+    expect(push).toHaveBeenCalledTimes(3);
+    expect(push).toHaveBeenCalledWith(
+      expect.stringContaining(`${USER_URL}/${firstRow.dataset.itemId}`),
+      expect.objectContaining({ filters: { username: filterValue } })
+    );
+  });
+
+  it(`should set 'filters' initial state to receiving history state`, async () => {
+    const { apiHeaders, history } = testContext;
+    const username = 'test';
+    const historyWithState = {
+      ...history,
+      location: {
+        ...history.location,
+        state: {
+          filters: {
+            username,
+          },
+        },
+      },
+    };
+    const { getByTestId } = render(usersOverviewWithAppContext(
+      {},
+      {
+        routerCfg: {
+          history: historyWithState,
+        },
+      }
+    ));
+
+    await wait();
+
+    const filterByUsername = getByTestId('filterUsersByUsername');
+    const filterByUserNameInput = filterByUsername.querySelector('input');
+
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining(`username=${username}`),
+      expect.objectContaining(apiHeaders)
+    );
+    expect(filterByUserNameInput.value).toBe(username);
   });
 });

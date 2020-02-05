@@ -85,6 +85,9 @@ const StyledSearchBar = styled(SearchBar)`
 `;
 
 const HeaderWrapper = styled.div`
+  z-index: 1;
+  position: relative;
+
   ${({ tall }) =>
     !tall &&
     css`
@@ -191,7 +194,7 @@ const MenuItems = ({ onLogOut, showItems }) => {
 
       {showItems.settings &&
         (showItems.users || showItems.groups || showItems.departments) && (
-        <StyledMenuFlyout label="Instellingen">
+        <StyledMenuFlyout label="Instellingen" $as="span">
           {showItems.users && (
             <StyledMenuButton $as={NavLink} to="/instellingen/gebruikers">
               Gebruikers
@@ -270,7 +273,6 @@ export const SiteHeader = props => {
     <Fragment>
       <HeaderWrapper
         isFrontOffice={isFrontOffice}
-        title={title}
         tall={tall}
         className={`siteHeader ${tall ? 'isTall' : 'isShort'}`}
         data-testid="siteHeader"
