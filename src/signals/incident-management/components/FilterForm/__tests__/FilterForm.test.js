@@ -581,7 +581,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(handlers.onSaveFilter).toHaveBeenCalledTimes(1);
     });
 
-    it('should handle submit for existing filter', () => {
+    it('should handle submit for existing filter', async () => {
       jest.spyOn(window, 'alert').mockImplementation(() => {});
       const handlers = {
         onUpdateFilter: jest.fn(),
@@ -607,13 +607,12 @@ describe('signals/incident-management/components/FilterForm', () => {
         fireEvent.click(container.querySelector('button[type="submit"]'));
       });
 
-      expect(handlers.onUpdateFilter).toHaveBeenCalled();
+      // values haven't changed, update should not be called
+      expect(handlers.onUpdateFilter).not.toHaveBeenCalled();
 
       const nameField = container.querySelector(
         'input[type="text"][name="name"]'
       );
-
-      handlers.onUpdateFilter.mockReset();
 
       act(() => {
         fireEvent.change(nameField, { target: { value: ' ' } });
@@ -623,8 +622,19 @@ describe('signals/incident-management/components/FilterForm', () => {
         fireEvent.click(container.querySelector('button[type="submit"]'));
       });
 
+      // trimmed field value is empty, update should not be called
       expect(handlers.onUpdateFilter).not.toHaveBeenCalled();
       expect(window.alert).toHaveBeenCalled();
+
+      act(() => {
+        fireEvent.change(nameField, { target: { value: 'My changed filter' } });
+      });
+
+      act(() => {
+        fireEvent.click(container.querySelector('button[type="submit"]'));
+      });
+
+      expect(handlers.onUpdateFilter).toHaveBeenCalled();
 
       window.alert.mockRestore();
     });
