@@ -8,6 +8,7 @@ import request from 'utils/request';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authPostCall, postCall } from 'shared/services/api/api';
 import incident from 'utils/__tests__/fixtures/incident.json';
+import postIncident from 'utils/__tests__/fixtures/postIncident.json';
 import priority from 'utils/__tests__/fixtures/priority.json';
 import { showGlobalNotification } from 'containers/App/actions';
 import { UPLOAD_REQUEST } from 'containers/App/constants';
@@ -97,12 +98,6 @@ describe('IncidentContainer saga', () => {
         self: { href: 'https://this-is-a-url' },
       },
     };
-    const postIncident = {
-      ...incident,
-      category: {
-        sub_category: subCatResponse._links.self.href,
-      },
-    };
 
     it('should dispatch success', () => {
       const action = { payload };
@@ -110,7 +105,7 @@ describe('IncidentContainer saga', () => {
       return expectSaga(createIncident, action)
         .provide([
           [matchers.call.fn(request), subCatResponse],
-          [matchers.call.fn(postCall), postIncident],
+          [matchers.call.fn(postCall), incident],
         ])
         .call(
           request,
@@ -127,28 +122,27 @@ describe('IncidentContainer saga', () => {
             action.payload.wizard
           )
         )
-        .put(createIncidentSuccess(postIncident))
+        .put(createIncidentSuccess(incident))
         .run();
     });
 
-    it.only('should success with file upload', () => {
+    it('should success with file upload', () => {
       const action = {
         payload: {
-          ...payload,
           incident: {
-            ...incident,
+            ...postIncident,
             images: [{ name: 'some-file' }, { name: 'some-other-file' }],
+            category,
+            subcategory,
           },
           wizard: {},
         },
       };
 
-      console.log(action.payload.incident);
-
       return expectSaga(createIncident, action)
         .provide([
           [matchers.call.fn(request), subCatResponse],
-          [matchers.call.fn(postCall), postIncident],
+          [matchers.call.fn(postCall), incident],
         ])
         .call(
           request,
@@ -167,7 +161,7 @@ describe('IncidentContainer saga', () => {
         )
         .put.like({ action: { type: UPLOAD_REQUEST } })
         .put.like({ action: { type: UPLOAD_REQUEST } })
-        .put(createIncidentSuccess(postIncident))
+        .put(createIncidentSuccess(incident))
         .run();
     });
 
@@ -175,19 +169,31 @@ describe('IncidentContainer saga', () => {
       const priorityId = 'normal';
       const action = {
         payload: {
-          ...payload,
           isAuthenticated: true,
-          incident: { priority: { id: priorityId } },
+          incident: { priority: { id: priorityId }, category, subcategory },
           wizard: {},
         },
       };
 
       return expectSaga(createIncident, action)
-        .provide([[matchers.call.fn(postCall), incident]])
+        .provide([
+          [matchers.call.fn(request), subCatResponse],
+          [matchers.call.fn(postCall), incident],
+        ])
+        .call(
+          request,
+          `${CONFIGURATION.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
+        )
         .call(
           postCall,
           CONFIGURATION.INCIDENT_ENDPOINT,
-          mapControlsToParams(action.payload.incident, action.payload.wizard)
+          mapControlsToParams(
+            {
+              ...postIncident,
+              handling_message: subCatResponse.handling_message,
+            },
+            action.payload.wizard
+          )
         )
         .not.put(setPriority({ priority: priorityId, _signal: incident.id }))
         .put(createIncidentSuccess(incident))
@@ -200,13 +206,30 @@ describe('IncidentContainer saga', () => {
         payload: {
           ...payload,
           isAuthenticated: true,
-          incident: { priority: { id: priorityId } },
+          incident: { priority: { id: priorityId }, category, subcategory },
         },
       };
 
       return expectSaga(createIncident, action)
-        .provide([[matchers.call.fn(postCall), incident]])
-        .call.like({ fn: postCall })
+        .provide([
+          [matchers.call.fn(request), subCatResponse],
+          [matchers.call.fn(postCall), incident],
+        ])
+        .call(
+          request,
+          `${CONFIGURATION.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
+        )
+        .call(
+          postCall,
+          CONFIGURATION.INCIDENT_ENDPOINT,
+          mapControlsToParams(
+            {
+              ...postIncident,
+              handling_message: subCatResponse.handling_message,
+            },
+            action.payload.wizard
+          )
+        )
         .put(setPriority({ priority: priorityId, _signal: incident.id }))
         .put(createIncidentSuccess(incident))
         .run();
@@ -217,6 +240,7 @@ describe('IncidentContainer saga', () => {
 
       return expectSaga(createIncident, action)
         .provide([
+          [matchers.call.fn(request), subCatResponse],
           [matchers.call.fn(postCall), throwError(new Error('whoops!!!1!'))],
         ])
         .call.like({ fn: postCall })

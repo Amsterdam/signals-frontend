@@ -50,7 +50,7 @@ describe('<IncidentSplitContainer />', () => {
         withAppContext(<IncidentSplitContainer {...props} />)
       );
 
-      expect(queryByTestId('splitDetailTitle')).toHaveTextContent(/^Melding 6666$/);
+      expect(queryByTestId('splitDetailTitle')).toHaveTextContent(new RegExp(`^Melding ${incident.id}$`));
       expect(queryAllByTestId('incidentPartTitle')[0]).toHaveTextContent(/^Deelmelding 1$/);
       expect(queryAllByTestId('incidentPartTitle')[1]).toHaveTextContent(/^Deelmelding 2$/);
 

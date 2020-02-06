@@ -46,8 +46,7 @@ export function* createIncident(action) {
       request,
       `${CONFIGURATION.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
     );
-console.log('handling_message:', handling_message);
-console.log('sub_category:', sub_category);
+
     const incident = {
       ...action.payload.incident,
       handling_message,
