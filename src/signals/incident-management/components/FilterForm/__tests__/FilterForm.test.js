@@ -581,7 +581,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(handlers.onSaveFilter).toHaveBeenCalledTimes(1);
     });
 
-    it('should handle submit for existing filter', async () => {
+    it('should handle submit for existing filter', () => {
       jest.spyOn(window, 'alert').mockImplementation(() => {});
       const handlers = {
         onUpdateFilter: jest.fn(),
