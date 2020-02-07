@@ -71,7 +71,7 @@ export function* createIncident(action) {
 
     if (
       action.payload.isAuthenticated &&
-      action.payload.incident.priority.id === 'high'
+      action.payload.incident.priority.id !== 'normal'
     ) {
       yield put(
         setPriority({
