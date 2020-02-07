@@ -1,7 +1,7 @@
 import resolveClassification, {
   MINIMUM_CERTAINTY,
   DEFAULT_CLASSIFICATION,
-} from './index';
+} from '.';
 
 describe('The resolve classification service', () => {
   let hoofdrubriek;

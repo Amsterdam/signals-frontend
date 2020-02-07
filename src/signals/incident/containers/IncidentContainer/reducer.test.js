@@ -188,17 +188,10 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           }),
           {
             type: GET_CLASSIFICATION_ERROR,
-            payload: {
-              category: 'overig',
-              subcategory: 'overig',
-            },
           }
         ).toJS()
       ).toEqual({
-        incident: {
-          category: 'overig',
-          subcategory: 'overig',
-        },
+        incident: {},
         loadingClassification: false,
       });
     });
