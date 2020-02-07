@@ -72,14 +72,19 @@ describe('IncidentContainer saga', () => {
         .put.like({ action: { type: GET_CLASSIFICATION_SUCCESS } })
         .run());
 
-    it('should dispatch error', () =>
-      expectSaga(getClassification, action)
+    it('should dispatch error', () => {
+      const errorResponse = { foo: 'bar' };
+
+      return expectSaga(getClassification, action)
         .provide([
+          [matchers.call.fn(resolveClassification), errorResponse],
           [matchers.call.fn(postCall), throwError(new Error('whoops!!!1!'))],
         ])
         .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text: payload })
-        .put({ type: GET_CLASSIFICATION_ERROR })
-        .run(3250)); // make sure it runs long enough for the postCall generator to throw
+        .call(resolveClassification)
+        .put({ type: GET_CLASSIFICATION_ERROR, payload: errorResponse })
+        .run();
+    });
   });
 
   describe('createIncident', () => {

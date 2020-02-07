@@ -29,7 +29,9 @@ export function* getClassification(action) {
 
     yield put(getClassificationSuccess(classification));
   } catch (error) {
-    yield put(getClassificationError());
+    const classification = yield call(resolveClassification);
+
+    yield put(getClassificationError(classification));
   }
 }
 

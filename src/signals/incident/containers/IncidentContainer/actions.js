@@ -51,8 +51,9 @@ export const getClassificationSuccess = payload => ({
   payload,
 });
 
-export const getClassificationError = () => ({
+export const getClassificationError = payload => ({
   type: GET_CLASSIFICATION_ERROR,
+  payload,
 });
 
 export const setPriority = payload => ({

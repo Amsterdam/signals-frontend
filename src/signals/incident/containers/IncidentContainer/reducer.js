@@ -70,6 +70,7 @@ function incidentContainerReducer(state = initialState, action) {
       return state.set('loadingClassification', true);
 
     case GET_CLASSIFICATION_SUCCESS:
+    case GET_CLASSIFICATION_ERROR:
       return state.set('loadingClassification', false).set(
         'incident',
         state
@@ -77,9 +78,6 @@ function incidentContainerReducer(state = initialState, action) {
           .set('category', action.payload.category)
           .set('subcategory', action.payload.subcategory)
       );
-
-    case GET_CLASSIFICATION_ERROR:
-      return state.set('loadingClassification', false);
 
     case SET_PRIORITY:
       return state.set('priority', fromJS(action.payload));
