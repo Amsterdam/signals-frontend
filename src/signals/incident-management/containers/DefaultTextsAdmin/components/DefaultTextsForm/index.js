@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
-import { Button, themeColor  } from '@datapunt/asc-ui';
+import { Button, themeColor } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
 import { dataListType, defaultTextsType } from 'shared/types';
@@ -10,6 +10,7 @@ import FieldControlWrapper from 'signals/incident-management/components/FieldCon
 import TextInput from 'signals/incident-management/components/TextInput';
 import TextAreaInput from 'signals/incident-management/components/TextAreaInput';
 import HiddenInput from 'signals/incident-management/components/HiddenInput';
+import { reCategory } from 'signals/incident/services/resolveClassification';
 
 import { ChevronDown, ChevronUp } from '@datapunt/asc-assets';
 
@@ -85,7 +86,7 @@ export const form = FormBuilder.group({
 
 const items = Object.keys(form.controls).slice(0, -2);
 
-const DefaultTextsForm =({
+const DefaultTextsForm = ({
   categoryUrl,
   state,
   defaultTexts,
@@ -96,7 +97,7 @@ const DefaultTextsForm =({
   const handleSubmit = e => {
     e.preventDefault();
 
-    const category = form.get('categoryUrl').value;
+    const category_url = form.get('categoryUrl').value;
     const payload = {
       post: {
         state: form.get('state').value,
@@ -104,12 +105,17 @@ const DefaultTextsForm =({
       },
     };
     const found = subCategories.find(
-      sub => sub.key === category,
+      sub => sub._links.self.public === category_url
     );
+
     /* istanbul ignore else */
-    if (found && found.slug && found.category_slug) {
+    if (found) {
+      const [, main_slug] = found._links['sia:parent'].public.match(
+        reCategory
+      );
+
       payload.sub_slug = found.slug;
-      payload.main_slug = found.category_slug;
+      payload.main_slug = main_slug;
 
       items.forEach(item => {
         const data = form.get(item).value;
@@ -145,7 +151,7 @@ const DefaultTextsForm =({
   }, [categoryUrl]);
 
   useEffect(() => {
-    form.patchValue({state});
+    form.patchValue({ state });
     form.updateValueAndValidity();
   }, [state]);
 
@@ -193,9 +199,7 @@ const DefaultTextsForm =({
                     size={44}
                     variant="blank"
                     data-testid={`defaultTextFormItemButton${index}Up`}
-                    disabled={
-                      index === 0 || !form.get(`${item}.text`).value
-                    }
+                    disabled={index === 0 || !form.get(`${item}.text`).value}
                     iconSize={16}
                     icon={<ChevronUp />}
                     onClick={e => changeOrdering(e, index, 'up')}
@@ -205,8 +209,8 @@ const DefaultTextsForm =({
                     variant="blank"
                     data-testid={`defaultTextFormItemButton${index}Down`}
                     disabled={
-                      index === items.length - 1
-                      || !form.get(`item${index + 1}.text`).value
+                      index === items.length - 1 ||
+                      !form.get(`item${index + 1}.text`).value
                     }
                     iconSize={16}
                     icon={<ChevronDown />}
@@ -223,7 +227,7 @@ const DefaultTextsForm =({
                 type="submit"
                 disabled={invalid}
               >
-              Opslaan
+                Opslaan
               </Button>
             </div>
           </form>

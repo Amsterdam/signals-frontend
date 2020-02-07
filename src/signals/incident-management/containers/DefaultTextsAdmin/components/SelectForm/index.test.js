@@ -2,19 +2,20 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import categories from 'utils/__tests__/fixtures/categories.json';
+import categories from 'utils/__tests__/fixtures/categories_private.json';
+import { filterForSub } from 'models/categories/selectors';
 
 import SelectForm from './index';
 
 import { defaultTextsOptionList } from '../../../../definitions/statusList';
 
-describe('<SelectForm />', () => {
+describe('signals/incident-management/containers/DefaultTextsAdmin/components/SelectForm', () => {
   const category_url = 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu';
   let props;
 
   beforeEach(() => {
     props = {
-      subCategories: categories.sub,
+      subCategories: categories.results.filter(filterForSub),
       defaultTextsOptionList,
 
       onFetchDefaultTexts: jest.fn(),

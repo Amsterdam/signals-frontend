@@ -1,31 +1,30 @@
 import React from 'react';
+import { mount } from 'enzyme';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
-import {  defaultTextsOptionList } from 'signals/incident-management/definitions/statusList';
+import { defaultTextsOptionList } from 'signals/incident-management/definitions/statusList';
+import categories from 'utils/__tests__/fixtures/categories_private.json';
+import { filterForSub } from 'models/categories/selectors';
 
-import {
-  FETCH_DEFAULT_TEXTS,
-  STORE_DEFAULT_TEXTS,
-  ORDER_DEFAULT_TEXTS,
-} from './constants';
+import DefaultTextsAdmin, { DefaultTextsAdminContainer } from '.';
 
-import DefaultTextsAdmin, { mapDispatchToProps } from ".";
-
-describe('<DefaultTextsAdmin />', () => {
+describe('signals/incident-management/containers/DefaultTextsAdmin', () => {
   let props;
 
   beforeEach(() => {
     props = {
       defaultTextsAdmin: {
-        defaultTexts: [{
-          title: 'Accu',
-          text: 'accutekst',
-        }],
+        defaultTexts: [
+          {
+            title: 'Accu',
+            text: 'accutekst',
+          },
+        ],
         defaultTextsOptionList,
-        categoryUrl: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+        categoryUrl:
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
         state: 'o',
       },
-      categories: {},
       onFetchDefaultTexts: jest.fn(),
       onSubmitTexts: jest.fn(),
       onOrderDefaultTexts: jest.fn(),
@@ -33,55 +32,54 @@ describe('<DefaultTextsAdmin />', () => {
     };
   });
 
+  it('should have props from structured selector', () => {
+    const tree = mount(withAppContext(<DefaultTextsAdmin />));
+
+    const containerProps = tree.find(DefaultTextsAdminContainer).props();
+
+    expect(containerProps.defaultTextsAdmin).toBeDefined();
+    expect(containerProps.subCategories).not.toBeUndefined();
+  });
+
+  it('should have props from action creator', () => {
+    const tree = mount(withAppContext(<DefaultTextsAdmin />));
+
+    const containerProps = tree.find(DefaultTextsAdminContainer).props();
+
+    expect(containerProps.onFetchDefaultTexts).not.toBeUndefined();
+    expect(typeof containerProps.onFetchDefaultTexts).toEqual('function');
+
+    expect(containerProps.onSubmitTexts).not.toBeUndefined();
+    expect(typeof containerProps.onSubmitTexts).toEqual('function');
+
+    expect(containerProps.onOrderDefaultTexts).not.toBeUndefined();
+    expect(typeof containerProps.onOrderDefaultTexts).toEqual('function');
+  });
+
   describe('rendering', () => {
     it('should render correctly', () => {
-      const { queryByTestId } = render(
-        withAppContext(<DefaultTextsAdmin {...props} />)
+      const { queryByTestId, rerender } = render(
+        withAppContext(<DefaultTextsAdminContainer {...props} />)
       );
 
-      expect(queryByTestId('defaultTextFormForm')).not.toBeNull();
-      expect(queryByTestId('selectFormForm')).not.toBeNull();
-    });
-  });
-  describe('mapDispatchToProps', () => {
-    const dispatch = jest.fn();
+      expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
+      expect(queryByTestId('defaultTextFormForm')).not.toBeInTheDocument();
+      expect(queryByTestId('selectFormForm')).not.toBeInTheDocument();
 
-    it('should request fetch default texts', () => {
-      const payload = {
-        category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
-        state: 'o',
-        sub_slug: 'asbest-accu',
-        main_slug: 'afval',
-      };
-      mapDispatchToProps(dispatch).onFetchDefaultTexts(payload);
-      expect(dispatch).toHaveBeenCalledWith({ type: FETCH_DEFAULT_TEXTS , payload });
-    });
+      const subCategories = categories.results.filter(filterForSub);
 
-    it('should request store default texts', () => {
-      const payload = {
-        post: {
-          state: 'o',
-          templates: [
-            {
-              title: 'test',
-              text: 'Lorem ipsum dolor sid amet',
-            },
-          ],
-        },
-        sub_slug: 'asbest-accu',
-        main_slug: 'afval',
-      };
-      mapDispatchToProps(dispatch).onSubmitTexts(payload);
-      expect(dispatch).toHaveBeenCalledWith({ type: STORE_DEFAULT_TEXTS , payload });
-    });
+      rerender(
+        withAppContext(
+          <DefaultTextsAdminContainer
+            {...props}
+            subCategories={subCategories}
+          />
+        )
+      );
 
-    it('should request fetch default texts', () => {
-      const payload = {
-        index: 0,
-        type: 'down',
-      };
-      mapDispatchToProps(dispatch).onOrderDefaultTexts(payload);
-      expect(dispatch).toHaveBeenCalledWith({ type: ORDER_DEFAULT_TEXTS, payload });
+      expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
+      expect(queryByTestId('defaultTextFormForm')).toBeInTheDocument();
+      expect(queryByTestId('selectFormForm')).toBeInTheDocument();
     });
   });
 });

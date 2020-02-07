@@ -5,33 +5,28 @@ import Label from 'components/Label';
 
 import './style.scss';
 
-export const SelectInput = props => {
-  const {
-    name,
-    display,
-    values,
-    multiple,
-    useSlug,
-    emptyOptionText,
-    size,
-  } = props;
-  const options = values.map(({ key, value, slug }) => (
-    <option
-      key={useSlug ? slug : key}
-      title={key ? value : emptyOptionText || value}
-      value={useSlug ? slug : key}
-    >
-      {key ? value : emptyOptionText || value}
-    </option>
-  ));
+export const SelectInput = ({
+  name,
+  display,
+  values,
+  multiple,
+  emptyOptionText,
+  size,
+}) => {
+  const options = values.map(
+    ({ name: value, _links: { self: { public: key } = {} } = {} }) => (
+      <option key={key || value} value={key || value}>
+        {value}
+      </option>
+    )
+  );
+
   const listSize = values.length > size ? size : values.length;
 
-  const render = ({ handler }) => (
+  const Render = ({ handler }) => (
     <div className="select-input">
       <div className="mode_input text rij_verplicht">
-        {display && (
-          <Label htmlFor={`form${name}`}>{display}</Label>
-        )}
+        {display && <Label htmlFor={`form${name}`}>{display}</Label>}
 
         <div className="select-input__control invoer">
           <select
@@ -42,6 +37,11 @@ export const SelectInput = props => {
             multiple={multiple}
             size={multiple ? listSize : ''}
           >
+            {emptyOptionText && (
+              <option value="">
+                {emptyOptionText}
+              </option>
+            )}
             {options}
           </select>
         </div>
@@ -49,17 +49,18 @@ export const SelectInput = props => {
     </div>
   );
 
-  render.defaultProps = {
+  Render.defaultProps = {
     touched: false,
     size: 10,
   };
 
-  render.propTypes = {
+  Render.propTypes = {
     handler: PropTypes.func.isRequired,
     size: PropTypes.number,
     touched: PropTypes.bool,
   };
-  return render;
+
+  return Render;
 };
 
 export default SelectInput;

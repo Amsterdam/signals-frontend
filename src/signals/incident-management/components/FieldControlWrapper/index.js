@@ -19,13 +19,10 @@ export class FieldControlWrapper extends React.Component {
     if (props.values.find(value => value.key === '')) {
       return props.values;
     }
-    const sortedValues = props.sort
-      ? sortBy(props.values, item => item.value)
-      : props.values;
 
-    return props.emptyOptionText
-      ? [{ key: '', value: props.emptyOptionText, slug: '' }, ...sortedValues]
-      : sortedValues;
+    return props.sort
+      ? sortBy(props.values, item => item.value || item.name)
+      : props.values;
   }
 
   constructor(props) {
@@ -53,9 +50,7 @@ export class FieldControlWrapper extends React.Component {
   }
 
   render() {
-    const {
-      name, control, render, meta, parent, ...props
-    } = this.props;
+    const { name, control, render, meta, parent, ...props } = this.props;
 
     return (
       <FieldControlContainer>

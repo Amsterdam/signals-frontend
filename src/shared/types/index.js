@@ -48,8 +48,9 @@ const idOrKeyPropRequired = (props, propName, componentName) => {
 const dataItemType = PropTypes.shape({
   id: idOrKeyPropRequired,
   key: idOrKeyPropRequired,
+  name: PropTypes.string,
   slug: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
 });
 
 /**

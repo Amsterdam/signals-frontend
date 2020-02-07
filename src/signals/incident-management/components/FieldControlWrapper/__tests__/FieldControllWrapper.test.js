@@ -7,7 +7,7 @@ import FieldControlWrapper from '../index';
 import TextInput from '../../TextInput';
 import HiddenInput from '../../HiddenInput';
 
-describe('FieldControlWrapper', () => {
+describe('signals/incident-management/components/FieldControlWrapper', () => {
   const values = [{ key: 'foo', value: 'Foo' }];
   let props;
   let wrapper;
@@ -23,13 +23,17 @@ describe('FieldControlWrapper', () => {
   });
 
   it('should render a text input', () => {
-    const { container } = render(<FieldControlWrapper {...props} render={TextInput} />);
+    const { container } = render(
+      <FieldControlWrapper {...props} render={TextInput} />
+    );
     expect(container.querySelector('label')).not.toBeNull();
     expect(container.querySelector('input[type="text"]')).not.toBeNull();
   });
 
   it('should render a hidden input', () => {
-    const { container } = render(<FieldControlWrapper {...props} render={HiddenInput} />);
+    const { container } = render(
+      <FieldControlWrapper {...props} render={HiddenInput} />
+    );
     expect(container.querySelector('label')).toBeNull();
     expect(container.querySelector('input[type="hidden"]')).not.toBeNull();
   });
@@ -63,17 +67,25 @@ describe('FieldControlWrapper', () => {
         values: [...values, { key: 'bar', value: 'Bar' }],
       });
 
-      expect(wrapper.state('values')).toEqual([{ key: 'bar', value: 'Bar' }, ...values]);
+      expect(wrapper.state('values')).toEqual([
+        { key: 'bar', value: 'Bar' },
+        ...values,
+      ]);
     });
 
-    it('should add empty option and sort values together', () => {
+    it('should fall back to `name` prop in case `value` prop is not present in values', () => {
       wrapper.setProps({
         sort: true,
-        values: [...values, { key: 'bar', value: 'Bar' }],
-        emptyOptionText: 'Selecteer...',
+        values: [
+          { key: 'foo', name: 'Foo' },
+          { key: 'bar', value: 'Bar' },
+        ],
       });
 
-      expect(wrapper.state('values')).toEqual([{ key: '', value: 'Selecteer...', slug: '' }, { key: 'bar', value: 'Bar' }, ...values]);
+      expect(wrapper.state('values')).toEqual([
+        { key: 'bar', value: 'Bar' },
+        { key: 'foo', name: 'Foo' },
+      ]);
     });
   });
 
@@ -83,6 +95,9 @@ describe('FieldControlWrapper', () => {
       emptyOptionText: 'Selecteer...',
     });
 
-    expect(wrapper.state('values')).toEqual([{ key: '', value: 'Selecteer...' }, ...values]);
+    expect(wrapper.state('values')).toEqual([
+      { key: '', value: 'Selecteer...' },
+      ...values,
+    ]);
   });
 });

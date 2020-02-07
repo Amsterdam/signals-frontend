@@ -12,7 +12,7 @@ export const makeSelectCategories = createSelector(
     } = state.toJS();
 
     if (!results) {
-      return undefined;
+      return null;
     }
 
     return results;
@@ -30,7 +30,7 @@ export const makeSelectMainCategories = createSelector(
   makeSelectCategories,
   state => {
     if (!state) {
-      return undefined;
+      return null;
     }
 
     return state.filter(filterForMain);
@@ -48,7 +48,7 @@ export const makeSelectSubCategories = createSelector(
   makeSelectCategories,
   state => {
     if (!state) {
-      return undefined;
+      return null;
     }
 
     return state.filter(filterForSub);
@@ -65,7 +65,7 @@ export const makeSelectByMainCategory = createSelector(
   makeSelectSubCategories,
   state => slug => {
     if (!state) {
-      return undefined;
+      return null;
     }
 
     return state.filter(({ _links }) =>
@@ -85,7 +85,7 @@ export const makeSelectStructuredCategories = createSelector(
   [makeSelectMainCategories, makeSelectSubCategories, makeSelectByMainCategory],
   (main, byMain) => {
     if (!main) {
-      return undefined;
+      return null;
     }
 
     return main.reduce(
