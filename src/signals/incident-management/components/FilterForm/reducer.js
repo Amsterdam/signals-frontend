@@ -24,7 +24,7 @@ export const initialState = {
     category_slug: [],
     feedback: '',
     maincategory_slug: [],
-    priority: '',
+    priority: [],
     source: [],
     stadsdeel: [],
     status: [],
@@ -53,6 +53,7 @@ export const init = ({ options, ...filter }) => ({
 });
 
 export default (state, action) => {
+  console.log('R', action.type, action);
   switch (action.type) {
     case RESET:
       return initialState;

@@ -278,11 +278,13 @@ const FilterForm = ({
             options={stadsdeel}
           />
 
-          <RadioGroup
+          <CheckboxGroup
             options={priority}
             name="priority"
+            hasToggle={false}
             defaultValue={state.options.priority}
-            onChange={onRadioChange}
+            onChange={onGroupChange}
+            onToggle={onGroupToggle}
             label="Urgentie"
           />
 
