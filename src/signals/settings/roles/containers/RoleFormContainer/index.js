@@ -36,11 +36,12 @@ export const RoleFormContainer = ({
 }) => {
   const { roleId } = useParams();
   const role = list.find(item => item.id === roleId * 1);
+  const title = `Rol ${roleId ? 'wijzigen' : 'toevoegen'}`;
 
   return (
     <Fragment>
       <PageHeader
-        title="Rol instellingen"
+        title={title}
         BackLink={
           <BackLink to={ROLES_URL}>
             Terug naar overzicht
