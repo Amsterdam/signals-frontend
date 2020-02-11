@@ -13,6 +13,7 @@ import {
   MenuItem,
   MenuToggle,
   themeColor,
+  themeSpacing,
 } from '@datapunt/asc-ui';
 import SearchBar from 'containers/SearchBar';
 import { isAuthenticated } from 'shared/services/auth/auth';
@@ -32,7 +33,7 @@ const StyledHeader = styled(HeaderComponent)`
       & {
         max-width: 960px;
         h1 {
-          margin-left: -20px;
+          margin-left: ${themeSpacing(-5)};
         }
         h1 a {
           &,
@@ -102,28 +103,39 @@ const HeaderWrapper = styled.div`
     tall &&
     css`
       #header {
-        position: static;
+        position: relative;
+        z-index: 2;
+
         header {
           height: 160px;
+          z-index: 0;
         }
+
         @media screen and (max-width: 539px) {
           header {
-            height: 116px;
+            height: 50px;
+          }
+          nav {
+            display: none;
           }
         }
-        &:after {
-          max-width: 1400px;
-          margin-left: auto;
-          margin-right: auto;
-          content: '';
-          display: block;
-          position: absolute;
-          left: 0;
-          right: 0;
-          height: 44px;
-          margin-top: -44px;
-          background-color: ${themeColor('tint', 'level2')};
-          width: 100%;
+
+        @media screen and (min-width: 540px) {
+          z-index: 0;
+          &:after {
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 44px;
+            margin-top: ${themeSpacing(-11)};
+            background-color: ${themeColor('tint', 'level2')};
+            width: 100%;
+          }
         }
         nav,
         ul {
@@ -132,6 +144,7 @@ const HeaderWrapper = styled.div`
         > header {
           flex-wrap: wrap;
         }
+
         h1 {
           padding: 15px 0;
           @media screen and (max-width: 990px) {
@@ -144,16 +157,9 @@ const HeaderWrapper = styled.div`
               background-size: auto 100%;
             }
             @media screen and (max-width: 539px) {
-              height: 41px;
+              margin-top: -3px;
+              height: 29px;
             }
-          }
-        }
-        nav ul {
-          justify-content: space-between;
-          a {
-            font-family: avenir next w01, arial, sans-serif;
-            font-size: 18px;
-            padding-left: 0;
           }
         }
       }
