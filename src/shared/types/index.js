@@ -87,7 +87,7 @@ export const filterType = PropTypes.shape({
     created_before: PropTypes.string,
     feedback: PropTypes.string,
     maincategory_slug: PropTypes.arrayOf(dataItemType),
-    priority: PropTypes.arrayOf(dataItemType),
+    priority: PropTypes.arrayOf(dataListType),
     stadsdeel: PropTypes.arrayOf(dataItemType),
     status: PropTypes.arrayOf(dataItemType),
   }),
