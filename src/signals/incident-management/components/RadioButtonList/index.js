@@ -21,12 +21,13 @@ const RadioButtonList = ({
   defaultValue,
   disabled,
   groupName,
+  onChange,
   options,
   title,
 }) => (
   <FilterGroup>
     {title && (
-      <Label htmlFor={options[0].key} isGroupHeader={false}>
+      <Label as="span" isGroupHeader={false}>
         {title}
       </Label>
     )}
@@ -38,6 +39,9 @@ const RadioButtonList = ({
           disabled={disabled}
           id={`empty_${groupName}`}
           name={groupName}
+          onChange={() => {
+            onChange(groupName, { key: '' });
+          }}
           type="radio"
           value=""
         />
@@ -45,17 +49,20 @@ const RadioButtonList = ({
       </div>
     )}
 
-    {options.map(({ key, value }) => (
-      <div className="antwoord" key={key}>
+    {options.map(option => (
+      <div className="antwoord" key={option.key}>
         <input
-          defaultChecked={key === defaultValue}
+          defaultChecked={option.key === defaultValue}
           disabled={disabled}
-          id={key}
+          id={option.key}
           name={groupName}
+          onChange={() => {
+            onChange(groupName, option);
+          }}
           type="radio"
-          value={key}
+          value={option.key}
         />
-        <label htmlFor={key}>{value}</label>
+        <label htmlFor={option.key}>{option.value}</label>
       </div>
     ))}
   </FilterGroup>
@@ -66,6 +73,7 @@ RadioButtonList.defaultProps = {
   defaultValue: '',
   disabled: false,
   hasEmptySelectionButton: true,
+  onChange: () => {},
 };
 
 RadioButtonList.propTypes = {
@@ -82,12 +90,13 @@ RadioButtonList.propTypes = {
   groupName: PropTypes.string.isRequired,
   /** When false, will only render the passed in options instead of having an extra radio button with an empty value */
   hasEmptySelectionButton: PropTypes.bool,
+  onChange: PropTypes.func,
   /** Values to be rendered as checkbox elements */
   options: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
-    }),
+    })
   ).isRequired,
   /** Group label contents */
   title: PropTypes.string,

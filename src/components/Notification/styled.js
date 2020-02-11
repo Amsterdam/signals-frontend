@@ -56,6 +56,10 @@ export const Wrapper = styled.div`
     transform: translateX(-50%) translateY(0);
   }
 
+  @media screen and (max-width: 539px) {
+    top: 50px;
+  }
+
   &.slideup {
     transform: translateX(-50vw) translateY(-100%);
 

@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 
-import { parseFromAPIData } from 'signals/shared/filter/parse';
+import { parseInputFormData } from 'signals/shared/filter/parse';
 import { makeSelectCategories } from 'containers/App/selectors';
 
 import { createSelector } from 'reselect';
@@ -40,7 +40,7 @@ export const makeSelectAllFilters = createSelector(
     const filters = stateMap.get('filters').toJS();
 
     return filters.map(filter =>
-      parseFromAPIData(filter, {
+      parseInputFormData(filter, {
         ...dataLists,
         maincategory_slug: categories.main,
         category_slug: categories.sub,
@@ -56,7 +56,7 @@ export const makeSelectActiveFilter = createSelector(
   (stateMap, dataLists, categories) => {
     const state = stateMap.toJS();
 
-    return parseFromAPIData(state.activeFilter, {
+    return parseInputFormData(state.activeFilter, {
       ...dataLists,
       maincategory_slug: categories.main,
       category_slug: categories.sub,
@@ -71,7 +71,7 @@ export const makeSelectEditFilter = createSelector(
   (stateMap, dataLists, categories) => {
     const state = stateMap.toJS();
 
-    return parseFromAPIData(state.editFilter, {
+    return parseInputFormData(state.editFilter, {
       ...dataLists,
       maincategory_slug: categories.main,
       category_slug: categories.sub,
