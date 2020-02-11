@@ -5,11 +5,15 @@ import {
 import { FormControl } from 'react-reactive-form';
 
 import incident from 'utils/__tests__/fixtures/incident.json';
+import categories from 'utils/__tests__/fixtures/categories_private.json';
+import { filterForSub } from 'models/categories/selectors';
 
 import IncidentPart from './index';
 import priorityList from '../../../../definitions/priorityList';
 
-describe('<IncidentPart />', () => {
+const subcategories = categories.results.filter(filterForSub);
+
+describe('signals/incident-management/containers/IncidentSplitContainer/components/IncidentPart', () => {
   let props;
 
   beforeEach(() => {
@@ -21,11 +25,7 @@ describe('<IncidentPart />', () => {
       index: '2',
       incident,
       attachments: [],
-      subcategories: [{
-        key: 'key',
-        value: 'value',
-        slug: 'slug',
-      }],
+      subcategories,
       priorityList,
       splitForm,
     };

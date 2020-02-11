@@ -37,11 +37,7 @@ export const SelectInput = ({
             multiple={multiple}
             size={multiple ? listSize : ''}
           >
-            {emptyOptionText && (
-              <option value="">
-                {emptyOptionText}
-              </option>
-            )}
+            {emptyOptionText && <option value="">{emptyOptionText}</option>}
             {options}
           </select>
         </div>

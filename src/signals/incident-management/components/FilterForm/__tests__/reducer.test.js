@@ -1,6 +1,8 @@
-import categories from 'utils/__tests__/fixtures/categories.json';
-import reducer, { initialState } from '../reducer';
+import categories from 'utils/__tests__/fixtures/categories_private.json';
 
+import { filterForSub } from 'models/categories/selectors';
+
+import reducer, { initialState } from '../reducer';
 import {
   RESET,
   SAVE_SUBMIT_BUTTON_LABEL,
@@ -89,7 +91,7 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
   });
 
   it('should handle SET_GROUP_OPTIONS', () => {
-    const options = categories.mainToSub.afval;
+    const options = categories.results.filter(filterForSub);
     const stateWithGroupOptions = {
       ...state,
       options: {
@@ -126,14 +128,18 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
 
   describe('handle categories', () => {
     const mainCatSlug = 'afval';
-    const mainCategory = categories.main.find(
+    const mainCategory = categories.results.find(
       ({ slug }) => slug === mainCatSlug
     );
+    const subCategories = categories.results.filter(({ _links }) =>
+      _links['sia:parent'] && _links['sia:parent'].public.endsWith(mainCatSlug)
+    );
+
     const stateWithSubcategories = {
       ...state,
       options: {
         ...state.options,
-        category_slug: categories.mainToSub[mainCatSlug],
+        category_slug: subCategories,
       },
     };
 
@@ -150,7 +156,7 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
       options: {
         ...state.options,
         maincategory_slug: [mainCategory],
-        category_slug: categories.mainToSub[mainCatSlug].slice(0, 3),
+        category_slug: subCategories.slice(0, 3),
       },
     };
 
@@ -160,8 +166,7 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
         reducer(stateWithSubcategories, {
           type: SET_MAIN_CATEGORY,
           payload: {
-            category: [mainCategory],
-            main_category_slug: mainCatSlug,
+            category: mainCategory,
             isToggled: true,
           },
         })
@@ -171,8 +176,7 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
         reducer(stateWithSubcategories, {
           type: SET_MAIN_CATEGORY,
           payload: {
-            category: [mainCategory],
-            main_category_slug: mainCatSlug,
+            category: mainCategory,
             isToggled: false,
           },
         })
@@ -182,8 +186,7 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
         reducer(stateWithAllCategories, {
           type: SET_MAIN_CATEGORY,
           payload: {
-            category: [mainCategory],
-            main_category_slug: mainCatSlug,
+            category: mainCategory,
             isToggled: false,
           },
         })
@@ -197,8 +200,8 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
         reducer(stateWithMainCategory, {
           type: SET_CATEGORIES,
           payload: {
-            main_category_slug: mainCatSlug,
-            subCategories: categories.mainToSub[mainCatSlug],
+            slug: mainCatSlug,
+            subCategories,
           },
         })
       ).toEqual(stateWithSubcategories);
@@ -207,8 +210,8 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
         reducer(stateWithAllCategories, {
           type: SET_CATEGORIES,
           payload: {
-            main_category_slug: mainCatSlug,
-            subCategories: categories.mainToSub[mainCatSlug],
+            slug: mainCatSlug,
+            subCategories,
           },
         })
       ).toEqual(stateWithSubcategories);

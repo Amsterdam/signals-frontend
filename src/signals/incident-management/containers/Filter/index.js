@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 
-import { makeSelectCategories } from 'containers/App/selectors';
+import { makeSelectStructuredCategories } from 'models/categories/selectors';
 import {
   makeSelectEditFilter,
   makeSelectDataLists,
@@ -68,7 +68,7 @@ FilterContainerComponent.propTypes = {
 
 const mapStateToProps = () =>
   createStructuredSelector({
-    categories: makeSelectCategories(),
+    categories: makeSelectStructuredCategories,
     dataLists: makeSelectDataLists,
     filter: makeSelectEditFilter,
   });

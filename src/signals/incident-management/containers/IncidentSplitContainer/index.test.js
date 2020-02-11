@@ -1,31 +1,44 @@
 import React from 'react';
-import {
-  render,
-} from '@testing-library/react';
+import { render } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
+import { mount } from 'enzyme';
+
 import { withAppContext } from 'test/utils';
 import incident from 'utils/__tests__/fixtures/incident.json';
+import { filterForSub } from 'models/categories/selectors';
 
-import { REQUEST_INCIDENT } from 'models/incident/constants';
-import { SPLIT_INCIDENT } from './constants';
+import categories from 'utils/__tests__/fixtures/categories_private.json';
 
-import { IncidentSplitContainer, mapDispatchToProps } from './index';
+import IncidentSplit, { IncidentSplitContainer } from './index';
 import stadsdeelList from '../../definitions/stadsdeelList';
 import priorityList from '../../definitions/priorityList';
+
+const subCategories = categories.results.filter(filterForSub);
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
   ...jest.requireActual('react-router-dom'),
 }));
 
-describe('<IncidentSplitContainer />', () => {
+jest.mock('models/categories/selectors', () => {
+  const actual = jest.requireActual('models/categories/selectors');
+  // eslint-disable-next-line global-require
+  const cats = require('utils/__tests__/fixtures/categories_private.json');
+  const subs = cats.results.filter(actual.filterForSub);
+
+  return {
+    __esModule: true,
+    ...actual,
+    makeSelectSubCategories: jest.fn(() => subs),
+  };
+});
+
+describe('signals/incident-management/containers/IncidentSplitContainer', () => {
   let props;
 
   beforeEach(() => {
     props = {
-      categories: {
-        sub: [],
-      },
+      subCategories,
       incidentModel: {
         incident,
         attachments: [],
@@ -44,37 +57,49 @@ describe('<IncidentSplitContainer />', () => {
     }));
   });
 
-  describe('rendering', () => {
-    it('should render correctly', () => {
-      const { queryByTestId, queryAllByTestId } = render(
-        withAppContext(<IncidentSplitContainer {...props} />)
-      );
+  it('should have props from structured selector', () => {
+    const tree = mount(withAppContext(<IncidentSplit />));
 
-      expect(queryByTestId('splitDetailTitle')).toHaveTextContent(new RegExp(`^Melding ${incident.id}$`));
-      expect(queryAllByTestId('incidentPartTitle')[0]).toHaveTextContent(/^Deelmelding 1$/);
-      expect(queryAllByTestId('incidentPartTitle')[1]).toHaveTextContent(/^Deelmelding 2$/);
+    const containerProps = tree.find(IncidentSplitContainer).props();
 
-      expect(props.onRequestIncident).toHaveBeenCalledWith('42');
-      expect(props.onRequestAttachments).toHaveBeenCalledWith('42');
-    });
+    expect(containerProps.incidentModel).toBeDefined();
+    expect(containerProps.subCategories).toBeDefined();
   });
 
-  describe('mapDispatchToProps', () => {
-    const dispatch = jest.fn();
+  it('should have props from action creator', () => {
+    const tree = mount(withAppContext(<IncidentSplit />));
 
-    it('onRequestIncident', () => {
-      mapDispatchToProps(dispatch).onRequestIncident(42);
-      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_INCIDENT, payload: 42 });
-    });
+    const containerProps = tree.find(IncidentSplitContainer).props();
 
-    it('onSplitIncident', () => {
-      mapDispatchToProps(dispatch).onSplitIncident(42);
-      expect(dispatch).toHaveBeenCalledWith({ type: SPLIT_INCIDENT, payload: 42 });
-    });
+    expect(containerProps.onRequestIncident).toBeDefined();
+    expect(typeof containerProps.onRequestIncident).toEqual('function');
 
-    it('onGoBack', () => {
-      mapDispatchToProps(dispatch).onGoBack();
-      expect(dispatch).toHaveBeenCalledWith({ type: '@@router/CALL_HISTORY_METHOD', payload: { args: [], method: 'goBack' } });
-    });
+    expect(containerProps.onRequestAttachments).toBeDefined();
+    expect(typeof containerProps.onRequestAttachments).toEqual('function');
+
+    expect(containerProps.onSplitIncident).toBeDefined();
+    expect(typeof containerProps.onSplitIncident).toEqual('function');
+
+    expect(containerProps.onGoBack).toBeDefined();
+    expect(typeof containerProps.onGoBack).toEqual('function');
+  });
+
+  it('should render correctly', () => {
+    const { queryByTestId, queryAllByTestId } = render(
+      withAppContext(<IncidentSplitContainer {...props} />)
+    );
+
+    expect(queryByTestId('splitDetailTitle')).toHaveTextContent(
+      new RegExp(`^Melding ${incident.id}$`)
+    );
+    expect(queryAllByTestId('incidentPartTitle')[0]).toHaveTextContent(
+      /^Deelmelding 1$/
+    );
+    expect(queryAllByTestId('incidentPartTitle')[1]).toHaveTextContent(
+      /^Deelmelding 2$/
+    );
+
+    expect(props.onRequestIncident).toHaveBeenCalledWith('42');
+    expect(props.onRequestAttachments).toHaveBeenCalledWith('42');
   });
 });

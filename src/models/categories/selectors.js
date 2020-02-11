@@ -1,4 +1,6 @@
+import { Seq } from 'immutable';
 import { createSelector } from 'reselect';
+
 import { initialState } from './reducer';
 
 export const selectCategoriesDomain = state =>
@@ -7,15 +9,23 @@ export const selectCategoriesDomain = state =>
 export const makeSelectCategories = createSelector(
   selectCategoriesDomain,
   state => {
-    const {
-      categories: { results },
-    } = state.toJS();
+    const results = state.getIn(['categories', 'results']);
 
     if (!results) {
       return null;
     }
 
-    return results;
+    return Seq(results).map(category =>
+      category
+        .set('id', category.getIn(['_links', 'self', 'public']))
+        .set('key', category.getIn(['_links', 'self', 'public']))
+        .set('value', category.get('name'))
+        .set(
+          'parentKey',
+          category.hasIn(['_links', 'sia:parent']) &&
+            category.getIn(['_links', 'sia:parent', 'public'])
+        )
+    );
   }
 );
 
@@ -33,7 +43,11 @@ export const makeSelectMainCategories = createSelector(
       return null;
     }
 
-    return state.filter(filterForMain);
+    const categories = state.filter(
+      category => category.getIn(['_links', 'sia:parent']) === undefined
+    );
+
+    return categories.toJS();
   }
 );
 
@@ -51,7 +65,11 @@ export const makeSelectSubCategories = createSelector(
       return null;
     }
 
-    return state.filter(filterForSub);
+    const categories = state.filter(
+      category => category.getIn(['_links', 'sia:parent']) !== undefined
+    );
+
+    return categories.toJS();
   }
 );
 
@@ -63,16 +81,12 @@ export const makeSelectSubCategories = createSelector(
  */
 export const makeSelectByMainCategory = createSelector(
   makeSelectSubCategories,
-  state => slug => {
+  state => parentKey => {
     if (!state) {
       return null;
     }
 
-    return state.filter(({ _links }) =>
-      new RegExp(`/terms/categories/${slug}`).test(
-        _links['sia:parent'].public
-      )
-    );
+    return state.filter(category => category.parentKey === parentKey);
   }
 );
 
@@ -82,14 +96,17 @@ export const makeSelectByMainCategory = createSelector(
  * @returns {Object}
  */
 export const makeSelectStructuredCategories = createSelector(
-  [makeSelectMainCategories, makeSelectSubCategories, makeSelectByMainCategory],
+  [makeSelectMainCategories, makeSelectByMainCategory],
   (main, byMain) => {
     if (!main) {
       return null;
     }
 
     return main.reduce(
-      (acc, { slug }) => ({ ...acc, [slug]: byMain(slug) }),
+      (acc, mainCategory) => ({
+        ...acc,
+        [mainCategory.slug]: { ...mainCategory, sub: byMain(mainCategory.key) },
+      }),
       {}
     );
   }

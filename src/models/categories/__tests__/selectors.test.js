@@ -17,10 +17,7 @@ import {
 const state = fromJS({
   error: false,
   errorMessage: false,
-  categories: {
-    ...categoriesJson,
-    results: categoriesJson.results,
-  },
+  categories: categoriesJson,
   loading: false,
 });
 
@@ -36,50 +33,78 @@ describe('models/categories/selectors', () => {
   });
 
   test('makeSelectCategories', () => {
-    expect(makeSelectCategories.resultFunc(fromJS(initialState))).toBeUndefined();
+    expect(makeSelectCategories.resultFunc(fromJS(initialState))).toBeNull();
 
-    expect(makeSelectCategories.resultFunc(state)).toEqual(
-      categoriesJson.results
-    );
+    const categories = makeSelectCategories.resultFunc(state);
+    const first = categories.first().toJS();
+
+    const firstWithExtraProps = categoriesJson.results[0];
+    firstWithExtraProps.id = firstWithExtraProps._links.self.public;
+    firstWithExtraProps.key = firstWithExtraProps._links.self.public;
+    firstWithExtraProps.parentKey = false;
+    firstWithExtraProps.value = firstWithExtraProps.name;
+
+    expect(first).toEqual(firstWithExtraProps);
+
+    const second = categories
+      .skip(1)
+      .first()
+      .toJS();
+
+    const secondWithExtraProps = categoriesJson.results[1];
+    secondWithExtraProps.id = secondWithExtraProps._links.self.public;
+    secondWithExtraProps.key = secondWithExtraProps._links.self.public;
+    secondWithExtraProps.parentKey =
+      secondWithExtraProps._links['sia:parent'].public;
+    secondWithExtraProps.value = secondWithExtraProps.name;
+
+    expect(second).toEqual(secondWithExtraProps);
   });
 
   test('makeSelectMainCategories', () => {
-    expect(makeSelectMainCategories.resultFunc()).toBeUndefined();
+    expect(makeSelectMainCategories.resultFunc()).toBeNull();
 
-    const results = state
-      .get('categories')
-      .get('results')
-      .toJS();
-
-    expect(makeSelectMainCategories.resultFunc(results)).toEqual(
-      categoriesJson.results.filter(filterForMain)
+    const mainCategories = makeSelectMainCategories.resultFunc(
+      makeSelectCategories.resultFunc(state)
     );
+    const slugs = mainCategories.map(({ slug }) => slug);
+    const keys = categoriesJson.results
+      .filter(filterForMain)
+      .map(({ slug }) => slug);
+
+    expect(slugs).toEqual(keys);
   });
 
   test('makeSelectSubCategories', () => {
-    expect(makeSelectSubCategories.resultFunc()).toBeUndefined();
+    expect(makeSelectSubCategories.resultFunc()).toBeNull();
 
-    const results = state
-      .get('categories')
-      .get('results')
-      .toJS();
-
-    expect(makeSelectSubCategories.resultFunc(results)).toEqual(
-      categoriesJson.results.filter(filterForSub)
+    const subCategories = makeSelectSubCategories.resultFunc(
+      makeSelectCategories.resultFunc(state)
     );
+    const slugs = subCategories.map(({ slug }) => slug);
+    const keys = categoriesJson.results
+      .filter(filterForSub)
+      .map(({ slug }) => slug);
+
+    expect(slugs).toEqual(keys);
   });
 
   test('makeSelectByMainCategory', () => {
-    const subCategories = categoriesJson.results.filter(filterForSub);
-    const slug = 'afval';
+    const subCategories = makeSelectSubCategories.resultFunc(
+      makeSelectCategories.resultFunc(state)
+    );
+
+    const parentKey = categoriesJson.results[0]._links.self.public;
     const count = subCategories.filter(
-      ({ _links }) => _links['sia:parent'].public.indexOf(slug) > 0
+      ({ _links }) => _links['sia:parent'].public === parentKey
     ).length;
 
-    expect(makeSelectByMainCategory.resultFunc()(slug)).toBeUndefined();
+    expect(
+      makeSelectByMainCategory.resultFunc()(parentKey)
+    ).toBeNull();
 
     expect(
-      makeSelectByMainCategory.resultFunc(subCategories)(slug)
+      makeSelectByMainCategory.resultFunc(subCategories)(parentKey)
     ).toHaveLength(count);
   });
 
@@ -91,7 +116,7 @@ describe('models/categories/selectors', () => {
       makeSelectByMainCategory.resultFunc
     );
 
-    expect(makeSelectStructuredCategories.resultFunc()).toBeUndefined();
+    expect(makeSelectStructuredCategories.resultFunc()).toBeNull();
 
     expect(Object.keys(structuredCategories)).toHaveLength(count);
   });

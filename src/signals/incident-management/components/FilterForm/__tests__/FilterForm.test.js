@@ -6,7 +6,7 @@ import priorityList from 'signals/incident-management/definitions/priorityList';
 import statusList from 'signals/incident-management/definitions/statusList';
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 
-import categories from 'utils/__tests__/fixtures/categories.json';
+import categories from 'utils/__tests__/fixtures/categories_structured.json';
 import * as definitions from 'signals/incident-management/definitions';
 import FilterForm from '..';
 import {

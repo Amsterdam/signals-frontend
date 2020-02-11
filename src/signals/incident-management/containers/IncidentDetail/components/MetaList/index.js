@@ -21,7 +21,7 @@ function getId(item) {
 
 const MetaList = ({
   incident,
-  subcategories,
+  subCategories,
   priorityList,
   onPatchIncident,
   onEditStatus,
@@ -89,7 +89,7 @@ const MetaList = ({
             display="Subcategorie"
             definitionClass="meta-list__definition"
             valueClass="meta-list__value"
-            list={subcategories}
+            list={subCategories}
             incident={incident}
             path="category.sub_category"
             valuePath="category.category_url"
@@ -216,8 +216,7 @@ const MetaList = ({
 MetaList.propTypes = {
   incident: incidentType.isRequired,
   priorityList: dataListType.isRequired,
-  subcategories: PropTypes.array.isRequired,
-
+  subCategories: dataListType.isRequired,
   onPatchIncident: PropTypes.func.isRequired,
   onEditStatus: PropTypes.func.isRequired,
 };

@@ -3,14 +3,26 @@ import { shallow, mount } from 'enzyme';
 import { withAppContext } from 'test/utils';
 import FilterForm from 'signals/incident-management/components/FilterForm';
 import * as definitions from 'signals/incident-management/definitions';
-import categories from 'utils/__tests__/fixtures/categories.json';
+import categories from 'utils/__tests__/fixtures/categories_structured.json';
+// import { makeSelectStructuredCategories } from 'models/categories/selectors';
 import Filter, { FilterContainerComponent } from '..';
+
+jest.mock('models/categories/selectors', () => {
+  // eslint-disable-next-line global-require
+  const cats = require('utils/__tests__/fixtures/categories_structured.json');
+  return {
+    __esModule: true,
+    ...jest.requireActual('models/categories/selectors'),
+    makeSelectStructuredCategories: jest.fn(() => cats),
+  };
+});
 
 const dataLists = {
   priority: definitions.priorityList,
   status: definitions.statusList,
   feedback: definitions.feedbackList,
   stadsdeel: definitions.stadsdeelList,
+  source: definitions.sourceList,
 };
 
 describe('signals/incident-management/containers/Filter', () => {

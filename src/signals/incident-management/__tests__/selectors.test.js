@@ -1,5 +1,7 @@
 import { fromJS } from 'immutable';
 import * as definitions from 'signals/incident-management/definitions';
+import categories from 'utils/__tests__/fixtures/categories_private.json';
+import { filterForMain, filterForSub } from 'models/categories/selectors';
 import {
   makeSelectFilterParams,
   makeSelectDataLists,
@@ -14,6 +16,15 @@ import {
 import { FILTER_PAGE_SIZE } from '../constants';
 
 import { initialState } from '../reducer';
+
+const dataLists = {
+  priority: definitions.priorityList,
+  status: definitions.statusList,
+  feedback: definitions.feedbackList,
+  stadsdeel: definitions.stadsdeelList,
+};
+const maincategory_slug = categories.results.filter(filterForMain);
+const category_slug = categories.results.filter(filterForSub);
 
 const filters = [
   {
@@ -56,8 +67,7 @@ const filters = [
 
 describe('signals/incident-management/selectors', () => {
   it('should select data lists', () => {
-    const dataLists = makeSelectDataLists();
-    expect(dataLists).toEqual({
+    expect(makeSelectDataLists()).toEqual({
       priority: definitions.priorityList,
       stadsdeel: definitions.stadsdeelList,
       status: definitions.statusList,
@@ -67,41 +77,62 @@ describe('signals/incident-management/selectors', () => {
   });
 
   it('should select all filters', () => {
-    const state = fromJS({
-      incidentManagement: { ...initialState.toJS(), filters },
-    });
-    const allFilters = makeSelectAllFilters(state);
+    const state = fromJS({ ...initialState.toJS(), filters });
+    const allFilters = makeSelectAllFilters.resultFunc(
+      state,
+      dataLists,
+      maincategory_slug,
+      category_slug
+    );
 
     expect(allFilters.length).toEqual(filters.length);
     expect(allFilters[0].options.maincategory_slug).not.toEqual(
-      filters[0].options.maincategory_slug,
+      filters[0].options.maincategory_slug
     );
   });
 
   it('should select active filter', () => {
-    const emptState = fromJS({
-      incidentManagement: { ...initialState.toJS() },
-    });
-    expect(makeSelectActiveFilter(emptState)).toEqual(initialState.toJS().activeFilter);
+    expect(
+      makeSelectActiveFilter.resultFunc(
+        initialState,
+        dataLists,
+        maincategory_slug,
+        category_slug
+      )
+    ).toEqual(initialState.toJS().activeFilter);
 
-    const state = fromJS({
-      incidentManagement: { ...initialState.toJS(), activeFilter: filters[0] },
-    });
+    const state = fromJS({ ...initialState.toJS(), activeFilter: filters[0] });
 
-    expect(makeSelectActiveFilter(state).id).toEqual(filters[0].id);
+    expect(
+      makeSelectActiveFilter.resultFunc(
+        state,
+        dataLists,
+        maincategory_slug,
+        category_slug
+      ).id
+    ).toEqual(filters[0].id);
   });
 
   it('should select edit filter', () => {
-    const emptState = fromJS({
-      incidentManagement: { ...initialState.toJS() },
-    });
-    expect(makeSelectEditFilter(emptState)).toEqual(initialState.toJS().editFilter);
+    expect(
+      makeSelectEditFilter.resultFunc(
+        initialState,
+        dataLists,
+        maincategory_slug,
+        category_slug
+      )
+    ).toEqual(initialState.toJS().editFilter);
 
-    const state = fromJS({
-      incidentManagement: { ...initialState.toJS(), editFilter: filters[2] },
-    });
+    const state = fromJS({ ...initialState.toJS(), editFilter: filters[2] });
 
-    expect(makeSelectEditFilter(state).id).toEqual(filters[2].id);
+    expect(
+      makeSelectEditFilter.resultFunc(
+        state,
+        dataLists,
+        maincategory_slug,
+        category_slug
+      ).id
+    ).toEqual(filters[2].id);
   });
 
   it('should select page', () => {
@@ -124,7 +155,10 @@ describe('signals/incident-management/selectors', () => {
     expect(makeSelectOrdering(emptState)).toEqual(initialState.toJS().ordering);
 
     const state = fromJS({
-      incidentManagement: { ...initialState.toJS(), ordering: 'some-ordering-type' },
+      incidentManagement: {
+        ...initialState.toJS(),
+        ordering: 'some-ordering-type',
+      },
     });
 
     expect(makeSelectOrdering(state)).toEqual('some-ordering-type');
@@ -141,13 +175,19 @@ describe('signals/incident-management/selectors', () => {
       incidentManagement: { ...initialState.toJS(), loading: true, incidents },
     });
 
-    expect(makeSelectIncidents(stateLoading)).toEqual({ ...incidents, loading: true });
+    expect(makeSelectIncidents(stateLoading)).toEqual({
+      ...incidents,
+      loading: true,
+    });
 
     const state = fromJS({
       incidentManagement: { ...initialState.toJS(), incidents },
     });
 
-    expect(makeSelectIncidents(state)).toEqual({ ...incidents, loading: false });
+    expect(makeSelectIncidents(state)).toEqual({
+      ...incidents,
+      loading: false,
+    });
   });
 
   it('should select incidents count', () => {
@@ -155,7 +195,9 @@ describe('signals/incident-management/selectors', () => {
       incidentManagement: { ...initialState.toJS() },
     });
 
-    expect(makeSelectIncidentsCount(emptState)).toEqual(initialState.toJS().incidents.count);
+    expect(makeSelectIncidentsCount(emptState)).toEqual(
+      initialState.toJS().incidents.count
+    );
 
     const count = 909;
     const state = fromJS({
@@ -168,7 +210,11 @@ describe('signals/incident-management/selectors', () => {
   describe('makeSelectFilterParams', () => {
     it('should select filter params', () => {
       const emptyState = fromJS({
-        incidentManagement: { ...initialState.toJS(), editFilter: filters[1], searchQuery: '' },
+        incidentManagement: {
+          ...initialState.toJS(),
+          editFilter: filters[1],
+          searchQuery: '',
+        },
       });
 
       expect(makeSelectFilterParams(emptyState)).toEqual({
@@ -178,7 +224,10 @@ describe('signals/incident-management/selectors', () => {
       });
 
       const state = fromJS({
-        incidentManagement: { ...initialState.toJS(), activeFilter: filters[1] },
+        incidentManagement: {
+          ...initialState.toJS(),
+          activeFilter: filters[1],
+        },
       });
 
       expect(makeSelectFilterParams(state)).toEqual({

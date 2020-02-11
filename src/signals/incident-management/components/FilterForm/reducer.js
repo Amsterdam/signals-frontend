@@ -107,12 +107,15 @@ export default (state, action) => {
         ...state,
         options: {
           ...state.options,
+          // clear all subcategories that belong to the main cat that we're setting
           category_slug: state.options.category_slug.filter(
-            ({ category_slug }) =>
-              category_slug !== action.payload.main_category_slug
+            ({ _links }) =>
+              _links['sia:parent'].public.endsWith(
+                action.payload.category.slug
+              ) === false
           ),
           maincategory_slug: state.options.maincategory_slug
-            .filter(({ slug }) => slug !== action.payload.main_category_slug)
+            .filter(({ slug }) => slug !== action.payload.category.slug)
             .concat(action.payload.isToggled && action.payload.category)
             .filter(Boolean),
         },
@@ -123,15 +126,19 @@ export default (state, action) => {
         ...state,
         options: {
           ...state.options,
+          // replace all subcategories for the same parent category
           category_slug: state.options.category_slug
             .filter(
-              ({ category_slug }) =>
-                category_slug !== action.payload.main_category_slug
+              ({ _links }) =>
+                _links['sia:parent'].public.endsWith(action.payload.slug) ===
+                false
             )
             .concat(action.payload.subCategories)
             .filter(Boolean),
+          // remove parent category
           maincategory_slug: state.options.maincategory_slug.filter(
-            ({ slug }) => slug !== action.payload.main_category_slug
+            ({ _links }) =>
+              _links.self.public.endsWith(action.payload.slug) === false
           ),
         },
       };

@@ -8,8 +8,8 @@ import { incidentType, dataListType } from 'shared/types';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
-import FieldControlWrapper from '../../../../../../components/FieldControlWrapper';
-import SelectInput from '../../../../../../components/SelectInput';
+import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
+import SelectInput from 'signals/incident-management/components/SelectInput';
 
 import './style.scss';
 
@@ -62,6 +62,8 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
       display, definitionClass, valueClass, list, incident, path, valuePath, sort, disabled,
     } = this.props;
     const { formVisible } = this.state;
+    const key = valuePath || path;
+
     return (
       <dl className="change-value">
         <dt className={definitionClass}>
@@ -111,7 +113,7 @@ Annuleren
                 onClick={this.showForm}
                 disabled={disabled}
               />
-              <span className="change-value__value">{getListValueByKey(list, get(incident, valuePath || path))}</span>
+              <span className="change-value__value">{getListValueByKey(list, get(incident, key))}</span>
             </dd>
           )}
       </dl>

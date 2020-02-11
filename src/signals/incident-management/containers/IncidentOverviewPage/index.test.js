@@ -10,6 +10,7 @@ import {
   statusList,
   stadsdeelList,
   feedbackList,
+  sourceList,
 } from 'signals/incident-management/definitions';
 import * as constants from 'signals/incident-management/constants';
 
@@ -33,6 +34,16 @@ jest.mock('signals/incident-management/actions', () => {
       type: PAGE_CHANGED,
       payload: page,
     })),
+  };
+});
+
+jest.mock('models/categories/selectors', () => {
+  // eslint-disable-next-line global-require
+  const cats = require('utils/__tests__/fixtures/categories_structured.json');
+  return {
+    __esModule: true,
+    ...jest.requireActual('models/categories/selectors'),
+    makeSelectStructuredCategories: jest.fn(() => cats),
   };
 });
 
@@ -69,6 +80,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
         status: statusList,
         stadsdeel: stadsdeelList,
         feedback: feedbackList,
+        source: sourceList,
       },
     };
   });

@@ -6,6 +6,8 @@ import {
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { withAppContext } from 'test/utils';
+import incident from 'utils/__tests__/fixtures/incident.json';
+import { subCategories } from 'utils/__tests__/fixtures';
 
 import priorityList from '../../../../definitions/priorityList';
 
@@ -13,37 +15,13 @@ import MetaList from './index';
 
 jest.mock('shared/services/string-parser/string-parser');
 
-describe('<MetaList />', () => {
+describe('signals/incident-management/containers/IncidentDetail/components/MetaList', () => {
   let props;
 
   beforeEach(() => {
     props = {
-      incident: {
-        created_at: '',
-        category: {
-          category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overig-horecabedrijven',
-          sub: 'Overig bedrijven / horeca',
-          sub_slug: 'overig-horecabedrijven',
-          main: 'Overlast Bedrijven en Horeca',
-          main_slug: 'overlast-bedrijven-en-horeca',
-          departments: 'VTH',
-          created_by: null,
-          text: null,
-        },
-        source: 'public-api',
-        status: {
-          status: 'm',
-          state_display: 'Gemeld',
-        },
-        priority: {
-          priority: 'normal',
-        },
-        _links: {},
-      },
-      subcategories: [{
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overig-horecabedrijven',
-        value: 'Overig bedrijven / horeca',
-      }],
+      incident,
+      subCategories,
       priorityList,
       onPatchIncident: jest.fn(),
       onEditStatus: jest.fn(),
@@ -66,21 +44,21 @@ describe('<MetaList />', () => {
       expect(queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
 
       expect(queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
-      expect(queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
+      expect(queryByTestId('meta-list-status-value')).toHaveTextContent(incident.status.state_display);
 
-      expect(queryByText('Urgentie')).toBeTruthy();
-      expect(queryByText('Normaal')).toBeTruthy();
+      expect(queryByText('Urgentie')).toBeInTheDocument();
+      expect(queryByText('Normaal')).toBeInTheDocument();
 
-      expect(queryByText('Subcategorie')).toBeTruthy();
-      expect(queryByText('Overig bedrijven / horeca')).toBeTruthy();
+      expect(queryByText('Subcategorie')).toBeInTheDocument();
+      expect(queryByText(incident.category.sub)).toBeInTheDocument();
       expect(queryByTestId('meta-list-main-category-definition')).toHaveTextContent(/^Hoofdcategorie$/);
-      expect(queryByTestId('meta-list-main-category-value')).toHaveTextContent(/^Overlast Bedrijven en Horeca$/);
+      expect(queryByTestId('meta-list-main-category-value')).toHaveTextContent(incident.category.main);
 
-      expect(queryByTestId('meta-list-department-definition')).toHaveTextContent(/^Verantwoordelijke afdeling$/);
-      expect(queryByTestId('meta-list-department-value')).toHaveTextContent(/^VTH$/);
+      expect(queryByTestId('meta-list-department-definition')).toHaveTextContent('Verantwoordelijke afdeling');
+      expect(queryByTestId('meta-list-department-value')).toHaveTextContent(incident.category.departments);
 
       expect(queryByTestId('meta-list-source-definition')).toHaveTextContent(/^Bron$/);
-      expect(queryByTestId('meta-list-source-value')).toHaveTextContent(/^public-api$/);
+      expect(queryByTestId('meta-list-source-value')).toHaveTextContent(incident.source);
     });
 
     it('should render correctly with high priority', () => {

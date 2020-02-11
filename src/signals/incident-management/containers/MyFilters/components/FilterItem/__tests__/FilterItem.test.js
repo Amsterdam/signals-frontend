@@ -51,7 +51,6 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
     );
 
     expect(container.querySelectorAll('a')).toHaveLength(3); // interaction buttons
-    expect(container.querySelectorAll('span')).toHaveLength(6); // tags
     expect(container.querySelectorAll('svg')).toHaveLength(0);
     expect(getByText('Foo bar baz')).toBeTruthy();
 
