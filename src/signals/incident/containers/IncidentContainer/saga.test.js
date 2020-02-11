@@ -240,6 +240,25 @@ describe('IncidentContainer saga', () => {
         .run();
     });
 
+
+    it('should success when logged in and setting low priority', () => {
+      const priorityId = 'low';
+      const action = {
+        payload: {
+          ...payload,
+          isAuthenticated: true,
+          incident: { priority: { id: priorityId } },
+        },
+      };
+
+      return expectSaga(createIncident, action)
+        .provide([[matchers.call.fn(postCall), incident]])
+        .call.like({ fn: postCall })
+        .put(setPriority({ priority: priorityId, _signal: incident.id }))
+        .put(createIncidentSuccess(incident))
+        .run();
+    });
+
     it('should dispatch error', () => {
       const action = { payload };
 
