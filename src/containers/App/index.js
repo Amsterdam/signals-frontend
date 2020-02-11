@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import {
   Switch,
   Route,
@@ -7,8 +6,7 @@ import {
   withRouter,
   useHistory,
 } from 'react-router-dom';
-import { compose, bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
 import ThemeProvider from 'components/ThemeProvider';
@@ -26,16 +24,11 @@ import KtoContainer from 'signals/incident/containers/KtoContainer';
 
 import reducer from './reducer';
 import saga from './saga';
-import { requestCategories } from './actions';
 
-export const AppContainer = ({ requestCategoriesAction }) => {
+export const AppContainer = () => {
   // on each component render, see if the current session is authenticated
   authenticate();
   const history = useHistory();
-
-  useEffect(() => {
-    requestCategoriesAction();
-  }, [requestCategoriesAction]);
 
   useEffect(() => {
     const unlisten = history.listen(() => {
@@ -71,29 +64,7 @@ export const AppContainer = ({ requestCategoriesAction }) => {
   );
 };
 
-AppContainer.propTypes = {
-  requestCategoriesAction: PropTypes.func.isRequired,
-};
-
-export const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      requestCategoriesAction: requestCategories,
-    },
-    dispatch
-  );
-
-const withConnect = connect(
-  null,
-  mapDispatchToProps
-);
-
 const withReducer = injectReducer({ key: 'global', reducer });
 const withSaga = injectSaga({ key: 'global', saga });
 
-export default compose(
-  withReducer,
-  withSaga,
-  withRouter,
-  withConnect
-)(AppContainer);
+export default compose(withReducer, withSaga, withRouter)(AppContainer);
