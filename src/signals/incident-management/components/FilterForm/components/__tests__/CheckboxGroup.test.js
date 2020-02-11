@@ -16,12 +16,22 @@ describe('signals/incident-management/components/FilterForm/components/CheckboxG
 
   it('should render correctly', () => {
     const label = 'Label text';
+    const toggleText = 'Alles selecteren';
     const name = 'groupName';
-    const { getByText, getByTestId } = render(withAppContext(
+    const { queryByText, getByTestId, rerender } = render(withAppContext(
       <CheckboxGroup label={label} name={name} options={statusJSON} />
     ));
 
-    expect(getByText(label)).toBeInTheDocument();
+    expect(queryByText(label)).toBeInTheDocument();
+    expect(queryByText(toggleText)).toBeInTheDocument();
+    expect(getByTestId(`${name}CheckboxGroup`)).toBeInTheDocument();
+
+    rerender(withAppContext(
+      <CheckboxGroup label={label} name={name} hasToggle={false} options={statusJSON} />
+    ));
+
+    expect(queryByText(label)).toBeInTheDocument();
+    expect(queryByText(toggleText)).not.toBeInTheDocument();
     expect(getByTestId(`${name}CheckboxGroup`)).toBeInTheDocument();
   });
 });
