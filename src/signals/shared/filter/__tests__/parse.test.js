@@ -1,7 +1,7 @@
 import priorityList from 'signals/incident-management/definitions/priorityList';
 import statusList from 'signals/incident-management/definitions/statusList';
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
-import categories from 'utils/__tests__/fixtures/categories.json';
+import { mainCategories, subCategories } from 'utils/__tests__/fixtures';
 
 import {
   parseOutputFormData,
@@ -12,19 +12,19 @@ import {
 describe('signals/shared/parse', () => {
   const dataLists = {
     stadsdeel: stadsdeelList,
-    maincategory_slug: categories.main,
+    maincategory_slug: mainCategories,
     priority: priorityList,
     status: statusList,
-    category_slug: categories.sub,
+    category_slug: subCategories,
   };
 
   describe('parseOutputFormData', () => {
     it('should parse output FormData', () => {
-      const mainCategories = categories.main.filter(
+      const maincategory_slug = mainCategories.filter(
         ({ slug }) =>
           slug === 'afval' || slug === 'wegen-verkeer-straatmeubilair'
       );
-      const subCategories = categories.sub.filter(
+      const category_slug = subCategories.filter(
         ({ slug }) => slug === 'drijfvuil' || slug === 'maaien-snoeien'
       );
       const stadsdeel = stadsdeelList.filter(
@@ -33,15 +33,15 @@ describe('signals/shared/parse', () => {
 
       const formState = {
         unparsed_key: 'Not parsed',
-        maincategory_slug: mainCategories,
-        category_slug: subCategories,
+        maincategory_slug,
+        category_slug,
         stadsdeel,
       };
 
       const expected = {
         unparsed_key: 'Not parsed',
-        maincategory_slug: mainCategories.map(({ slug }) => slug),
-        category_slug: subCategories.map(({ slug }) => slug),
+        maincategory_slug: maincategory_slug.map(({ slug }) => slug),
+        category_slug: category_slug.map(({ slug }) => slug),
         stadsdeel: stadsdeel.map(({ key }) => key),
       };
 
@@ -82,13 +82,27 @@ describe('signals/shared/parse', () => {
   });
 
   describe('parseInputFormData', () => {
+    const mainCatSlug = 'afval';
+    const maincategory_slug = mainCategories.filter(
+      ({ slug }) => slug === mainCatSlug
+    );
+    const subCatSlugs = [
+      'onkruid',
+      'maaien-snoeien',
+      'autom-verzinkbare-palen',
+    ];
+
+    const category_slug = subCategories.filter(({ slug }) =>
+      subCatSlugs.includes(slug)
+    );
+
     const input = {
       name: 'Afval in Westpoort',
       options: {
         stadsdeel: ['B'],
         address_text: '',
-        maincategory_slug: ['afval'],
-        category_slug: ['maaien-snoeien', 'onkruid', 'autom-verzinkbare-palen'],
+        maincategory_slug: [mainCatSlug],
+        category_slug: category_slug.map(({ slug }) => slug),
       },
     };
 
@@ -102,43 +116,8 @@ describe('signals/shared/parse', () => {
           },
         ],
         address_text: '',
-        maincategory_slug: [
-          {
-            key:
-              'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
-            slug: 'afval',
-            value: 'Afval',
-          },
-        ],
-        category_slug: [
-          {
-            key:
-              'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/maaien-snoeien',
-            value: 'Maaien / snoeien',
-            slug: 'maaien-snoeien',
-            category_slug: 'openbaar-groen-en-water',
-            handling_message:
-              '\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.',
-          },
-          {
-            key:
-              'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/onkruid',
-            value: 'Onkruid',
-            slug: 'onkruid',
-            category_slug: 'openbaar-groen-en-water',
-            handling_message:
-              '\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.',
-          },
-          {
-            key:
-              'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/autom-verzinkbare-palen',
-            value: 'Autom. Verzinkbare palen',
-            slug: 'autom-verzinkbare-palen',
-            category_slug: 'wegen-verkeer-straatmeubilair',
-            handling_message:
-              '\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken.',
-          },
-        ],
+        maincategory_slug,
+        category_slug,
       },
     };
 

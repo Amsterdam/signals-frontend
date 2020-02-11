@@ -3,6 +3,7 @@ import {
   makeSelectSubCategories,
   makeSelectCategories,
   makeSelectMainCategories,
+  makeSelectByMainCategory,
 } from 'models/categories/selectors';
 
 import categories from './categories_private.json';
@@ -18,3 +19,6 @@ export const mainCategories = makeSelectMainCategories.resultFunc(
 export const subCategories = makeSelectSubCategories.resultFunc(
   makeSelectCategories.resultFunc(state)
 );
+
+export const byMain = parentKey =>
+  makeSelectByMainCategory.resultFunc(subCategories)(parentKey);

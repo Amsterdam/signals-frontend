@@ -5,7 +5,7 @@ import cloneDeep from 'lodash.clonedeep';
 
 import { withAppContext } from 'test/utils';
 import statuses from 'signals/incident-management/definitions/statusList';
-import categories from 'utils/__tests__/fixtures/categories.json';
+import { byMain, mainCategories } from 'utils/__tests__/fixtures';
 
 import CheckboxList from '..';
 
@@ -400,13 +400,14 @@ describe('signals/incident-management/components/CheckboxList', () => {
   });
 
   it('should give preference to slugs over keys for checkbox values from the incoming data', () => {
-    const options = categories.mainToSub.afval;
+    const parentKey = mainCategories[0].key;
+    const options = byMain(parentKey);
     const slugs = options.map(({ slug }) => slug);
     const { container, rerender } = render(
       withAppContext(
         <CheckboxList
           defaultValue={options.slice(0, 2)}
-          name="afval"
+          name={parentKey}
           options={options}
         />
       )

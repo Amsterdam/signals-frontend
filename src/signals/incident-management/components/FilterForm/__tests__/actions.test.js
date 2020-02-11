@@ -1,4 +1,4 @@
-import categories from 'utils/__tests__/fixtures/categories.json';
+import { byMain, mainCategories, subCategories } from 'utils/__tests__/fixtures';
 
 import {
   RESET,
@@ -53,13 +53,12 @@ describe('signals/incident-management/components/FilterForm/actions', () => {
   });
 
   it('should create an action to set categories', () => {
-    const cats = categories.sub;
     const expectedAction = {
       type: SET_CATEGORIES,
-      payload: cats,
+      payload: subCategories,
     };
 
-    expect(setCategories(cats)).toEqual(expectedAction);
+    expect(setCategories(subCategories)).toEqual(expectedAction);
   });
 
   it('should create an action to set a date field', () => {
@@ -73,7 +72,7 @@ describe('signals/incident-management/components/FilterForm/actions', () => {
   });
 
   it('should create an action to set group options', () => {
-    const options = categories.mainToSub.afval;
+    const options = byMain(mainCategories[0].key);
     const expectedAction = {
       type: SET_GROUP_OPTIONS,
       payload: options,
@@ -83,7 +82,7 @@ describe('signals/incident-management/components/FilterForm/actions', () => {
   });
 
   it('should create an action to set a main category', () => {
-    const mainCategory = categories.main[0];
+    const mainCategory = mainCategories[0];
     const expectedAction = {
       type: SET_MAIN_CATEGORY,
       payload: mainCategory,
