@@ -1,8 +1,9 @@
-import history from 'utils/history';
+import { createBrowserHistory } from 'history';
 import {
   initAuth,
   login,
   logout,
+  getReturnPath,
   getOauthDomain,
   getAuthHeaders,
   isAuthenticated,
@@ -18,11 +19,14 @@ jest.mock('./services/query-string-parser/query-string-parser');
 jest.mock('./services/state-token-generator/state-token-generator');
 jest.mock('./services/access-token-parser/access-token-parser');
 
+const history = createBrowserHistory();
+
 describe('The auth service', () => {
   const noop = () => {};
 
   let queryObject;
   let savedAccessToken;
+  let savedReturnPath;
   let savedStateToken;
   let savedOauthDomain;
   let stateToken;
@@ -34,6 +38,8 @@ describe('The auth service', () => {
           return savedAccessToken;
         case 'stateToken':
           return savedStateToken;
+        case 'returnPath':
+          return savedReturnPath;
         case 'oauthDomain':
           return savedOauthDomain;
         default:
@@ -51,6 +57,7 @@ describe('The auth service', () => {
     queryObject = {};
     stateToken = '123StateToken';
     savedStateToken = '';
+    savedReturnPath = '';
     savedAccessToken = '';
   });
 
@@ -79,7 +86,12 @@ describe('The auth service', () => {
 
         expect(() => {
           initAuth();
-        }).toThrow(/error invalid_request/);
+        }).toThrow(
+          'Authorization service responded with error invalid_request [invalid request] ' +
+            '(The request is missing a required parameter, includes an invalid parameter value, ' +
+            'includes a parameter more than once, or is otherwise malformed.)'
+        );
+        expect(queryStringParser).toHaveBeenCalledWith(queryString);
       });
 
       it('throws an error without a description in the query string', () => {
@@ -160,11 +172,18 @@ describe('The auth service', () => {
           state: '123StateToken',
         };
         savedStateToken = '123StateToken';
+        savedReturnPath = '/path/leading/back';
 
         initAuth();
         expect(global.localStorage.setItem).toHaveBeenCalledWith(
           'accessToken',
           '123AccessToken'
+        );
+        expect(global.localStorage.getItem).toHaveBeenCalledWith(
+          'returnPath'
+        );
+        expect(global.localStorage.removeItem).toHaveBeenCalledWith(
+          'returnPath'
         );
         expect(global.localStorage.removeItem).toHaveBeenCalledWith(
           'stateToken'
@@ -183,6 +202,7 @@ describe('The auth service', () => {
           extra: 'sauce',
         };
         savedStateToken = '123StateToken';
+        savedReturnPath = '/path/leading/back';
 
         initAuth();
         expect(global.localStorage.setItem).toHaveBeenCalledWith(
@@ -208,6 +228,9 @@ describe('The auth service', () => {
           '123AccessToken'
         );
         expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
+          'returnPath'
+        );
+        expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
           'stateToken'
         );
       });
@@ -223,10 +246,17 @@ describe('The auth service', () => {
     });
 
     it('Updates the session storage', () => {
+      const hash = '#?the=current-hash';
+      global.location.hash = hash;
+
       login();
 
       expect(global.localStorage.removeItem).toHaveBeenCalledWith(
         'accessToken'
+      );
+      expect(global.localStorage.setItem).toHaveBeenCalledWith(
+        'returnPath',
+        hash
       );
       expect(global.localStorage.setItem).toHaveBeenCalledWith(
         'stateToken',
@@ -235,14 +265,17 @@ describe('The auth service', () => {
     });
 
     it('Redirects to the auth service', () => {
-      const url = '/manage/incidents/123456';
+      const url = 'https://data.amsterdam.nl/the/current/path';
       history.push(url);
 
       login();
 
-      const redirectURL = `${global.location.origin}${url}`;
-
-      expect(window.location.assign).toHaveBeenCalledWith(expect.stringMatching(encodeURIComponent(redirectURL)));
+      expect(window.location.assign).toHaveBeenCalledWith(
+        'https://acc.api.data.amsterdam.nl/' +
+          'oauth2/authorize?idp_id=datapunt&response_type=token&client_id=sia' +
+          '&scope=SIG%2FALL' +
+          '&state=123StateToken&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents'
+      );
     });
   });
 
@@ -252,6 +285,42 @@ describe('The auth service', () => {
       expect(global.localStorage.removeItem).toHaveBeenCalledWith(
         'accessToken'
       );
+    });
+  });
+
+  describe('Retrieving the return path', () => {
+    it('returns the return path after initialized with a successful callback', () => {
+      queryObject = {
+        access_token: '123AccessToken',
+        token_type: 'token',
+        expires_in: '36000',
+        state: '123StateToken',
+      };
+      savedStateToken = '123StateToken';
+      savedReturnPath = '/path/leading/back';
+
+      initAuth();
+      expect(getReturnPath()).toBe(savedReturnPath);
+    });
+
+    it('returns an empty string when the callback was unsuccessful', () => {
+      initAuth();
+      expect(getReturnPath()).toBe('');
+    });
+
+    it('returns an empty string when there was an error callback', () => {
+      queryObject = {
+        error: 'invalid_request',
+      };
+
+      expect(() => {
+        initAuth();
+      }).toThrow();
+      expect(getReturnPath()).toBe('');
+    });
+
+    it('returns an empty string without any callback', () => {
+      expect(getReturnPath()).toBe('');
     });
   });
 
