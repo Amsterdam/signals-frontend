@@ -41,12 +41,15 @@ export const makeSelectAllFilters = createSelector(
 
     return filters.map(filter => {
       const { priority } = filter.options;
-      const converted = Array.isArray(priority) ? priority : [priority];
+      const converted = (Array.isArray(priority)
+        ? priority
+        : [priority]
+      ).filter(Boolean);
       const fltr = {
         ...filter,
         options: {
           ...filter.options,
-          priority: converted.filter(Boolean),
+          priority: converted,
         },
       };
 
@@ -67,12 +70,14 @@ export const makeSelectActiveFilter = createSelector(
     const state = stateMap.toJS();
 
     const { priority } = state.activeFilter.options;
-    const converted = Array.isArray(priority) ? priority : [priority];
+    const converted = (Array.isArray(priority) ? priority : [priority]).filter(
+      Boolean
+    );
     const filter = {
       ...state.activeFilter,
       options: {
         ...state.activeFilter.options,
-        priority: converted.filter(Boolean),
+        priority: converted,
       },
     };
 

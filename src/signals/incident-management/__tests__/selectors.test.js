@@ -175,6 +175,7 @@ describe('signals/incident-management/selectors', () => {
         ordering: '-created_at',
         page: 1,
         page_size: FILTER_PAGE_SIZE,
+        priority: [],
       });
 
       const state = fromJS({
@@ -198,6 +199,7 @@ describe('signals/incident-management/selectors', () => {
         ordering: '-created_at',
         page: 1,
         page_size: FILTER_PAGE_SIZE,
+        priority: [],
       });
 
       const state2 = fromJS({
@@ -208,6 +210,7 @@ describe('signals/incident-management/selectors', () => {
         ordering: 'created_at',
         page: 1,
         page_size: FILTER_PAGE_SIZE,
+        priority: [],
       });
     });
   });
