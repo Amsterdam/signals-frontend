@@ -97,22 +97,18 @@ const DefaultTextsForm = ({
   const handleSubmit = e => {
     e.preventDefault();
 
-    const category_url = form.get('categoryUrl').value;
+    const category = form.get('categoryUrl').value;
     const payload = {
       post: {
         state: form.get('state').value,
         templates: [],
       },
     };
-    const found = subCategories.find(
-      sub => sub._links.self.public === category_url
-    );
+    const found = subCategories.find(sub => sub.key === category);
 
     /* istanbul ignore else */
     if (found) {
-      const [, main_slug] = found._links['sia:parent'].public.match(
-        reCategory
-      );
+      const [, main_slug] = found.parentKey.match(reCategory);
 
       payload.sub_slug = found.slug;
       payload.main_slug = main_slug;
