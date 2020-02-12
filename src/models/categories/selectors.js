@@ -6,6 +6,14 @@ import { initialState } from './reducer';
 export const selectCategoriesDomain = state =>
   (state && state.get('categories')) || initialState;
 
+/**
+ * Alphabetically sorted list of all categories
+ *
+ * Category data, coming from the API, is enriched so that specific props, like `id` and `key`
+ * are present in the objects that components expect to receive.
+ *
+ * @returns {IndexedIterable}
+ */
 export const makeSelectCategories = createSelector(
   selectCategoriesDomain,
   state => {
@@ -15,24 +23,28 @@ export const makeSelectCategories = createSelector(
       return null;
     }
 
-    return Seq(results).map(category =>
-      category
-        .set('id', category.getIn(['_links', 'self', 'public']))
-        .set('key', category.getIn(['_links', 'self', 'public']))
-        .set('value', category.get('name'))
-        .set(
-          'parentKey',
-          category.hasIn(['_links', 'sia:parent']) &&
-            category.getIn(['_links', 'sia:parent', 'public'])
-        )
-    );
+    return Seq(results)
+      .sort((a, b) =>
+        a.get('name').toLowerCase() > b.get('name').toLowerCase() ? 1 : -1
+      )
+      .map(category =>
+        category
+          .set('id', category.getIn(['_links', 'self', 'public']))
+          .set('key', category.getIn(['_links', 'self', 'public']))
+          .set('value', category.get('name'))
+          .set(
+            'parentKey',
+            category.hasIn(['_links', 'sia:parent']) &&
+              category.getIn(['_links', 'sia:parent', 'public'])
+          )
+      );
   }
 );
 
 export const filterForMain = ({ _links }) => _links['sia:parent'] === undefined;
 
 /**
- * Get all category objects
+ * Get all main categories, sorted by name
  *
  * @returns {Object[]}
  */
@@ -54,7 +66,7 @@ export const makeSelectMainCategories = createSelector(
 export const filterForSub = ({ _links }) => _links['sia:parent'] !== undefined;
 
 /**
- * Get all subcategory objects
+ * Get all subcategories, sorted by name
  *
  * @returns {Object[]}
  */
@@ -74,9 +86,9 @@ export const makeSelectSubCategories = createSelector(
 );
 
 /**
- * Get all subcategory objects by main category slug
+ * Get all subcategories, sorted by name, that are children of another category
  *
- * @param {String} slug - Main category slug
+ * @param {String} parentKey - Main category public identifier
  * @returns {Object[]}
  */
 export const makeSelectByMainCategory = createSelector(
@@ -91,7 +103,7 @@ export const makeSelectByMainCategory = createSelector(
 );
 
 /**
- * Get all subcategories, grouped by main category
+ * Get all subcategories, grouped by main category. Both main and subcategories are sorted by name.
  *
  * @returns {Object}
  */
