@@ -46,7 +46,7 @@ export const makeSelectAllFilters = createSelector(
         ...filter,
         options: {
           ...filter.options,
-          priority: converted,
+          priority: converted.filter(Boolean),
         },
       };
 
@@ -66,7 +66,17 @@ export const makeSelectActiveFilter = createSelector(
   (stateMap, dataLists, categories) => {
     const state = stateMap.toJS();
 
-    return parseInputFormData(state.activeFilter, {
+    const { priority } = state.activeFilter.options;
+    const converted = Array.isArray(priority) ? priority : [priority];
+    const filter = {
+      ...state.activeFilter,
+      options: {
+        ...state.activeFilter.options,
+        priority: converted.filter(Boolean),
+      },
+    };
+
+    return parseInputFormData(filter, {
       ...dataLists,
       maincategory_slug: categories.main,
       category_slug: categories.sub,
