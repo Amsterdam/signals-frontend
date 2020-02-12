@@ -98,31 +98,31 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
   });
 
   describe('CREATE_INCIDENT_SUCCESS', () => {
+    const handling_message = 'baz';
+    const id = 666;
+    const category = {
+      main_slug: 'foo',
+      sub_slug: 'bar',
+    };
     it('sets incident and loading and id but keeps the handling_message', () => {
       expect(
-        incidentContainerReducer(
-          fromJS({
-            incident: {
-              handling_message: 'baz',
-            },
-          }),
+        incidentContainerReducer(initialState,
           {
             type: CREATE_INCIDENT_SUCCESS,
             payload: {
-              id: 666,
-              category: {
-                main_slug: 'foo',
-                sub_slug: 'bar',
-              },
+              id,
+              category,
+              handling_message,
             },
           }
         ).toJS()
       ).toEqual({
+        ...initialState.toJS(),
         loading: false,
         incident: {
-          ...initialState.get('incident').toJS(),
-          id: 666,
-          handling_message: 'baz',
+          id,
+          category,
+          handling_message,
         },
       });
     });

@@ -97,12 +97,14 @@ describe('IncidentContainer saga', () => {
       },
       wizard: {},
     };
+    const handling_message = 'Here be a message';
     const subCatResponse = {
-      handling_message: 'Here be a message',
+      handling_message,
       _links: {
         self: { href: 'https://this-is-a-url' },
       },
     };
+    const incidentWithHandlingMessage = { ...incident, handling_message };
 
     it('should dispatch success', () => {
       const action = { payload };
@@ -119,15 +121,9 @@ describe('IncidentContainer saga', () => {
         .call(
           postCall,
           CONFIGURATION.INCIDENT_ENDPOINT,
-          mapControlsToParams(
-            {
-              ...postIncident,
-              handling_message: subCatResponse.handling_message,
-            },
-            action.payload.wizard
-          )
+          mapControlsToParams(postIncident, action.payload.wizard)
         )
-        .put(createIncidentSuccess(incident))
+        .put(createIncidentSuccess(incidentWithHandlingMessage))
         .run();
     });
 
@@ -156,17 +152,11 @@ describe('IncidentContainer saga', () => {
         .call(
           postCall,
           CONFIGURATION.INCIDENT_ENDPOINT,
-          mapControlsToParams(
-            {
-              ...action.payload.incident,
-              handling_message: subCatResponse.handling_message,
-            },
-            action.payload.wizard
-          )
+          mapControlsToParams(action.payload.incident, action.payload.wizard)
         )
         .put.like({ action: { type: UPLOAD_REQUEST } })
         .put.like({ action: { type: UPLOAD_REQUEST } })
-        .put(createIncidentSuccess(incident))
+        .put(createIncidentSuccess(incidentWithHandlingMessage))
         .run();
     });
 
@@ -192,16 +182,10 @@ describe('IncidentContainer saga', () => {
         .call(
           postCall,
           CONFIGURATION.INCIDENT_ENDPOINT,
-          mapControlsToParams(
-            {
-              ...postIncident,
-              handling_message: subCatResponse.handling_message,
-            },
-            action.payload.wizard
-          )
+          mapControlsToParams(postIncident, action.payload.wizard)
         )
         .not.put(setPriority({ priority: priorityId, _signal: incident.id }))
-        .put(createIncidentSuccess(incident))
+        .put(createIncidentSuccess(incidentWithHandlingMessage))
         .run();
     });
 
@@ -227,16 +211,10 @@ describe('IncidentContainer saga', () => {
         .call(
           postCall,
           CONFIGURATION.INCIDENT_ENDPOINT,
-          mapControlsToParams(
-            {
-              ...postIncident,
-              handling_message: subCatResponse.handling_message,
-            },
-            action.payload.wizard
-          )
+          mapControlsToParams(postIncident, action.payload.wizard)
         )
         .put(setPriority({ priority: priorityId, _signal: incident.id }))
-        .put(createIncidentSuccess(incident))
+        .put(createIncidentSuccess(incidentWithHandlingMessage))
         .run();
     });
 
@@ -262,16 +240,10 @@ describe('IncidentContainer saga', () => {
         .call(
           postCall,
           CONFIGURATION.INCIDENT_ENDPOINT,
-          mapControlsToParams(
-            {
-              ...postIncident,
-              handling_message: subCatResponse.handling_message,
-            },
-            action.payload.wizard
-          )
+          mapControlsToParams(postIncident, action.payload.wizard)
         )
         .put(setPriority({ priority: priorityId, _signal: incident.id }))
-        .put(createIncidentSuccess(incident))
+        .put(createIncidentSuccess(incidentWithHandlingMessage))
         .run();
     });
 
