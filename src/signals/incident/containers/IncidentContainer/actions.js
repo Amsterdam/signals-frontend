@@ -7,89 +7,64 @@
 import {
   UPDATE_INCIDENT,
   RESET_INCIDENT,
-
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
   CREATE_INCIDENT_ERROR,
-
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
-
   SET_PRIORITY,
   SET_PRIORITY_SUCCESS,
   SET_PRIORITY_ERROR,
 } from './constants';
 
-export function updateIncident(incident) {
-  return {
-    type: UPDATE_INCIDENT,
-    payload: { ...incident },
-  };
-}
+export const updateIncident = payload => ({
+  type: UPDATE_INCIDENT,
+  payload,
+});
 
-export function resetIncident() {
-  return {
-    type: RESET_INCIDENT,
-  };
-}
+export const resetIncident = () => ({
+  type: RESET_INCIDENT,
+});
 
-export function createIncident(payload) {
-  return {
-    type: CREATE_INCIDENT,
-    payload,
-  };
-}
+export const createIncident = payload => ({
+  type: CREATE_INCIDENT,
+  payload,
+});
 
-export function createIncidentSuccess(incident) {
-  return {
-    type: CREATE_INCIDENT_SUCCESS,
-    payload: { ...incident },
-  };
-}
+export const createIncidentSuccess = payload => ({
+  type: CREATE_INCIDENT_SUCCESS,
+  payload,
+});
 
-export function createIncidentError() {
-  return {
-    type: CREATE_INCIDENT_ERROR,
-  };
-}
+export const createIncidentError = () => ({
+  type: CREATE_INCIDENT_ERROR,
+});
 
-export function getClassification(text) {
-  return {
-    type: GET_CLASSIFICATION,
-    payload: text,
-  };
-}
+export const getClassification = payload => ({
+  type: GET_CLASSIFICATION,
+  payload,
+});
 
-export function getClassificationSuccess(classification) {
-  return {
-    type: GET_CLASSIFICATION_SUCCESS,
-    payload: { ...classification },
-  };
-}
+export const getClassificationSuccess = payload => ({
+  type: GET_CLASSIFICATION_SUCCESS,
+  payload,
+});
 
-export function getClassificationError(classification) {
-  return {
-    type: GET_CLASSIFICATION_ERROR,
-    payload: { ...classification },
-  };
-}
+export const getClassificationError = payload => ({
+  type: GET_CLASSIFICATION_ERROR,
+  payload,
+});
 
-export function setPriority(payload) {
-  return {
-    type: SET_PRIORITY,
-    payload,
-  };
-}
+export const setPriority = payload => ({
+  type: SET_PRIORITY,
+  payload,
+});
 
-export function setPrioritySuccess() {
-  return {
-    type: SET_PRIORITY_SUCCESS,
-  };
-}
+export const setPrioritySuccess = () => ({
+  type: SET_PRIORITY_SUCCESS,
+});
 
-export function setPriorityError() {
-  return {
-    type: SET_PRIORITY_ERROR,
-  };
-}
+export const setPriorityError = () => ({
+  type: SET_PRIORITY_ERROR,
+});

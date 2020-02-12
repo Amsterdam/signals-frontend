@@ -17,7 +17,7 @@ import injectReducer from 'utils/injectReducer';
 
 import wizardDefinition from '../../definitions/wizard';
 import { getClassification, updateIncident, createIncident } from './actions';
-import makeSelectIncidentContainer from './selectors';
+import { makeSelectIncidentContainer } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
@@ -59,7 +59,7 @@ IncidentContainer.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  incidentContainer: makeSelectIncidentContainer(),
+  incidentContainer: makeSelectIncidentContainer,
 });
 
 export const mapDispatchToProps = dispatch => bindActionCreators(

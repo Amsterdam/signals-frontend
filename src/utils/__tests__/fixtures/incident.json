@@ -1,89 +1,73 @@
 {
-  "reporter": {
-    "email": "",
-    "phone": ""
-  },
-  "notes": [],
-  "extra_properties": null,
-  "_display": "3254 - i - A06j - 2019-09-25 14:35:58.843458+00:00",
-  "priority": {
-    "priority": "high",
-    "created_by": "steve@apple.com"
-  },
-  "created_at": "2019-09-25T16:35:58.843458+02:00",
-  "has_attachments": true,
-  "text": "poep",
+  "id": 4440,
+  "signal_id": "6acdb051-41aa-4984-b7f3-e2177036bf92",
+  "source": "online",
+  "image": null,
+  "text": "De container lijkt stuk",
+  "text_extra": "",
   "status": {
-    "text": "In behandeling via HNW app",
-    "user": "user@domain.com",
-    "state": "i",
-    "state_display": "In afwachting van behandeling",
-    "target_api": null,
-    "extra_properties": null,
-    "created_at": "2019-09-26T11:10:04.118517+02:00"
+    "text": null,
+    "user": null,
+    "state": "m",
+    "state_display": "Gemeld",
+    "extra_properties": {},
+    "created_at": "2020-02-06T08:50:15.656433+01:00"
   },
   "location": {
-    "extra_properties": {
-      "original_address": {
-        "postcode": "",
-        "huisletter": "D",
-        "huisnummer": "342",
-        "woonplaats": "Amsterdam",
-        "openbare_ruimte": "Marnixstraat",
-        "huisnummer_toevoeging": ""
-      }
+    "id": 4803,
+    "stadsdeel": "A",
+    "buurt_code": "A00c",
+    "address": {
+      "openbare_ruimte": "Geldersekade",
+      "huisnummer": "128",
+      "huisletter": "E",
+      "huisnummer_toevoeging": "",
+      "postcode": "1012BN",
+      "woonplaats": "Amsterdam"
     },
+    "address_text": "Geldersekade 128E 1012BN Amsterdam",
     "geometrie": {
       "type": "Point",
-      "coordinates": [4.879088401794434, 52.3670312505349]
+      "coordinates": [
+        4.900631904602052,
+        52.37324119761923
+      ]
     },
-    "buurt_code": "A06j",
-    "created_by": "steve@apple.com",
-    "address": {
-      "postcode": "",
-      "huisletter": "Q",
-      "huisnummer": 666,
-      "woonplaats": "Amsterdam",
-      "openbare_ruimte": "Marnixstraat",
-      "huisnummer_toevoeging": ""
-    },
-    "stadsdeel": "A",
-    "bag_validated": true,
-    "address_text": "Marnixstraat 342D Amsterdam",
-    "id": 3566
+    "extra_properties": null,
+    "bag_validated": false
   },
-  "incident_date_end": null,
-  "updated_at": "2019-09-26T11:10:04.119863+02:00",
-  "_links": {
-    "curies": {
-      "name": "sia",
-      "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
-    },
-    "self": {
-      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/6666"
-    },
-    "archives": {
-      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/6666/history"
-    },
-    "sia:attachments": {
-      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/6666/attachments"
-    },
-    "sia:pdf": {
-      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/6666/pdf"
-    }
-  },
-  "source": "Meldkamer Handhaver",
-  "id": 6666,
   "category": {
-    "sub": "Uitwerpselen",
-    "sub_slug": "hondenpoep",
-    "main": "Overlast in de openbare ruimte",
-    "main_slug": "overlast-in-de-openbare-ruimte",
-    "category_url": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hondenpoep",
-    "departments": "STW, THO",
-    "created_by": null,
-    "text": null
+    "category_url": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot",
+    "sub": "Container is kapot",
+    "sub_slug": "container-is-kapot",
+    "main": "Afval",
+    "main_slug": "afval",
+    "department": "AEG, CCA"
   },
-  "incident_date_start": "2019-09-25T16:35:58+02:00",
-  "text_extra": ""
+  "reporter": {
+    "email": "me@email.com",
+    "phone": "14020"
+  },
+  "priority": {
+    "priority": "normal"
+  },
+  "created_at": "2020-02-06T08:50:15.634692+01:00",
+  "updated_at": "2020-02-06T08:50:15.667022+01:00",
+  "incident_date_start": "2020-02-06T08:50:15+01:00",
+  "incident_date_end": null,
+  "operational_date": null,
+  "extra_properties": [
+    {
+      "id": "extra_container_kind",
+      "label": "Weet u om wat voor soort container (papier, plastic, glas, restafval) het gaat?",
+      "category_url": "/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot",
+      "answer": "Glas, papier, plastic"
+    },
+    {
+      "id": "extra_container_number",
+      "label": "Weet u het nummer van de container?",
+      "category_url": "/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot",
+      "answer": "E789687687A.0"
+    }
+  ]
 }
