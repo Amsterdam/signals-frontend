@@ -39,13 +39,26 @@ export const makeSelectAllFilters = createSelector(
   (stateMap, dataLists, categories) => {
     const filters = stateMap.get('filters').toJS();
 
-    return filters.map(filter =>
-      parseInputFormData(filter, {
+    return filters.map(filter => {
+      const { priority } = filter.options;
+      const converted = (Array.isArray(priority)
+        ? priority
+        : [priority]
+      ).filter(Boolean);
+      const fltr = {
+        ...filter,
+        options: {
+          ...filter.options,
+          priority: converted,
+        },
+      };
+
+      return parseInputFormData(fltr, {
         ...dataLists,
         maincategory_slug: categories.main,
         category_slug: categories.sub,
-      })
-    );
+      });
+    });
   }
 );
 
@@ -56,7 +69,19 @@ export const makeSelectActiveFilter = createSelector(
   (stateMap, dataLists, categories) => {
     const state = stateMap.toJS();
 
-    return parseInputFormData(state.activeFilter, {
+    const { priority } = state.activeFilter.options;
+    const converted = (Array.isArray(priority) ? priority : [priority]).filter(
+      Boolean
+    );
+    const filter = {
+      ...state.activeFilter,
+      options: {
+        ...state.activeFilter.options,
+        priority: converted,
+      },
+    };
+
+    return parseInputFormData(filter, {
       ...dataLists,
       maincategory_slug: categories.main,
       category_slug: categories.sub,
@@ -145,7 +170,10 @@ export const makeSelectIncidents = createSelector(
 export const makeSelectIncidentsCount = createSelector(
   selectIncidentManagementDomain,
   state => {
-    const { incidents: { count } } = state.toJS();
+    const {
+      incidents: { count },
+    } = state.toJS();
 
     return count;
-  });
+  }
+);
