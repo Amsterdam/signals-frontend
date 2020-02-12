@@ -28,6 +28,9 @@ export const mapKeys = key => {
     case 'source':
       return 'bron';
 
+    case 'priority':
+      return 'urgentie';
+
     default:
       return key;
   }
@@ -47,6 +50,7 @@ const renderGroup = (tag, main, list, tagKey) => {
   if (tag.length === list.length) {
     return renderItem(`${mapKeys(tagKey)}${allLabelAppend}`, tagKey);
   }
+
   return tag.map(item => renderTag(item.key, main, list));
 };
 

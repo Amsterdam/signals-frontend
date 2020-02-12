@@ -1,4 +1,9 @@
-import React, { useEffect, useMemo, useCallback, useReducer } from 'react';
+import React, {
+  useLayoutEffect,
+  useMemo,
+  useCallback,
+  useReducer,
+} from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import moment from 'moment';
@@ -50,37 +55,40 @@ const FilterForm = ({
   categories,
 }) => {
   const { feedback, priority, stadsdeel, status, source } = dataLists;
+
   const [state, dispatch] = useReducer(reducer, filter, init);
+
   const isNewFilter = useMemo(() => !filter.name, [filter.name]);
+
+  const initialFormState = useMemo(() => cloneDeep(init(filter)), [filter]);
+
+  const valuesHaveChanged = useMemo(() => {
+    const currentState = {
+      ...state.filter,
+      options: parseOutputFormData(state.options),
+    };
+    const initialState = {
+      ...initialFormState.filter,
+      options: parseOutputFormData(initialFormState.options),
+    };
+    const statesAreEqual = isEqual(currentState, initialState);
+
+    return (
+      (!isNewFilter && !statesAreEqual) || (isNewFilter && state.filter.name)
+    );
+  }, [state.filter, state.options, initialFormState, isNewFilter]);
 
   // state update handler; if the form values have changed compared with
   // the initial state, the form's submit button label will change accordingly
-  useEffect(() => {
-    if (isNewFilter) {
-      return;
-    }
-
-    const valuesHaveChanged = !isEqual(
-      {
-        ...state.filter,
-        options: parseOutputFormData(state.options),
-      },
-      {
-        ...initialFormState,
-        options: parseOutputFormData(initialFormState.options),
-      }
-    );
-
+  useLayoutEffect(() => {
     dispatch(setSaveButtonLabel(valuesHaveChanged));
-  }, [state.filter, state.options, initialFormState, isNewFilter]);
+  }, [state.filter.name, valuesHaveChanged, isNewFilter]);
 
   // collection of category objects that is used to set form field values with
   const filterSlugs = useMemo(
     () => state.options.maincategory_slug.concat(state.options.category_slug),
     [state.options.category_slug, state.options.maincategory_slug]
   );
-
-  const initialFormState = useMemo(() => cloneDeep(filter), [filter]);
 
   const dateFrom = useMemo(
     () => state.options.created_after && moment(state.options.created_after),
@@ -98,7 +106,6 @@ const FilterForm = ({
       const options = parseOutputFormData(state.options);
       const formData = { ...state.filter, options };
       const hasName = formData.name.trim() !== '';
-      const valuesHaveChanged = !isEqual(formData, initialFormState);
 
       if (isNewFilter && hasName) {
         onSaveFilter(formData);
@@ -116,7 +123,7 @@ const FilterForm = ({
       onSubmit(event, formData);
     },
     [
-      initialFormState,
+      valuesHaveChanged,
       isNewFilter,
       onSaveFilter,
       onSubmit,
@@ -278,11 +285,13 @@ const FilterForm = ({
             options={stadsdeel}
           />
 
-          <RadioGroup
+          <CheckboxGroup
             options={priority}
             name="priority"
+            hasToggle={false}
             defaultValue={state.options.priority}
-            onChange={onRadioChange}
+            onChange={onGroupChange}
+            onToggle={onGroupToggle}
             label="Urgentie"
           />
 

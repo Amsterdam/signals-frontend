@@ -1,6 +1,6 @@
 import some from 'lodash.some';
 import { Validators } from 'react-reactive-form';
-import { sourceList } from 'signals/incident-management/definitions';
+import { sourceList, priorityList } from 'signals/incident-management/definitions';
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
 import checkVisibility from '../services/check-visibility';
@@ -11,6 +11,11 @@ const sourceValuesObj = {
 };
 sourceList.forEach(({ key, value }) => {
   sourceValuesObj[key] = value;
+});
+
+const priorityValuesList = {};
+priorityList.forEach(({ key, value }) => {
+  priorityValuesList[key] = value;
 });
 
 export default {
@@ -144,16 +149,13 @@ export default {
           className: 'col-sm-12 col-md-6',
           label: 'Wat is de urgentie?',
           path: 'priority',
-          values: {
-            normal: 'Normaal',
-            high: 'Hoog',
-          },
+          values: priorityValuesList,
         },
         options: {
           validators: [Validators.required],
         },
         authenticated: true,
-        render: FormComponents.SelectInput,
+        render: FormComponents.RadioInput,
       },
       images_previews: {
         meta: {

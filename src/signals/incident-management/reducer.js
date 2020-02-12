@@ -33,12 +33,16 @@ export const initialState = fromJS({
   activeFilter: {
     // filter settings for the list of incidents
     name: '',
-    options: {},
+    options: {
+      priority: [],
+    },
   },
   editFilter: {
     // settings selected for editing
     name: '',
-    options: {},
+    options: {
+      priority: [],
+    },
   },
   feedback,
   filters: [],

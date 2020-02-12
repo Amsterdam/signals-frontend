@@ -24,7 +24,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
   const tags = {
     status: [definitions.statusList[1]],
     feedback: 'satisfied',
-    priority: 'normal',
+    priority: [{ key: 'normal', value: 'Normaal' }],
     stadsdeel: [definitions.stadsdeelList[0], definitions.stadsdeelList[1]],
     address_text: 'februariplein 1',
     incident_date: '2019-09-17',
@@ -174,6 +174,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
         status: definitions.statusList,
         stadsdeel: definitions.stadsdeelList,
         source: definitions.sourceList,
+        priority: definitions.priorityList,
       };
 
       const { queryByText } = render(
@@ -189,6 +190,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(queryByText(`status${allLabelAppend}`)).toBeInTheDocument();
       expect(queryByText(`stadsdeel${allLabelAppend}`)).toBeInTheDocument();
       expect(queryByText(`bron${allLabelAppend}`)).toBeInTheDocument();
+      expect(queryByText(`urgentie${allLabelAppend}`)).toBeInTheDocument();
     });
 
     it('renders no list when tags are undefined', () => {
