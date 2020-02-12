@@ -45,13 +45,26 @@ export const makeSelectAllFilters = createSelector(
   (stateMap, dataLists, maincategory_slug, category_slug) => {
     const filters = stateMap.get('filters').toJS();
 
-    return filters.map(filter =>
-      parseInputFormData(filter, {
+    return filters.map(filter => {
+      const { priority } = filter.options;
+      const converted = (Array.isArray(priority)
+        ? priority
+        : [priority]
+      ).filter(Boolean);
+      const fltr = {
+        ...filter,
+        options: {
+          ...filter.options,
+          priority: converted,
+        },
+      };
+
+      return parseInputFormData(fltr, {
         ...dataLists,
         maincategory_slug,
         category_slug,
-      })
-    );
+      });
+    });
   }
 );
 
@@ -63,25 +76,29 @@ export const makeSelectActiveFilter = createSelector(
     makeSelectSubCategories,
   ],
   (stateMap, dataLists, maincategory_slug, category_slug) => {
-    const state = stateMap.toJS();
-
     if (!(maincategory_slug && category_slug)) {
       return {};
     }
 
-    return parseInputFormData(
-      state.activeFilter,
-      {
-        ...dataLists,
-        maincategory_slug,
-        category_slug,
-      },
-      (category, value) => {
-        if (category.key || category.slug) return undefined;
+    const state = stateMap.toJS();
 
-        return category._links.self.public.endsWith(`/${value}`);
-      }
+    const { priority } = state.activeFilter.options;
+    const converted = (Array.isArray(priority) ? priority : [priority]).filter(
+      Boolean
     );
+    const filter = {
+      ...state.activeFilter,
+      options: {
+        ...state.activeFilter.options,
+        priority: converted,
+      },
+    };
+
+    return parseInputFormData(filter, {
+      ...dataLists,
+      maincategory_slug,
+      category_slug,
+    });
   }
 );
 

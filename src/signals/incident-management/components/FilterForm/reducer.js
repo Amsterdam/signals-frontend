@@ -24,7 +24,7 @@ export const initialState = {
     category_slug: [],
     feedback: '',
     maincategory_slug: [],
-    priority: '',
+    priority: [],
     source: [],
     stadsdeel: [],
     status: [],

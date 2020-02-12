@@ -7,6 +7,7 @@ const arrayFields = [
   'status',
   'category_slug',
   'source',
+  'priority',
 ];
 
 /**
@@ -31,6 +32,7 @@ export const parseOutputFormData = options =>
       case 'stadsdeel':
       case 'source':
       case 'status':
+      case 'priority':
         entryValue = value.map(({ key: itemKey }) => itemKey);
         break;
 

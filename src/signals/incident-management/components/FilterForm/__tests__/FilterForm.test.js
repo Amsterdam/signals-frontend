@@ -23,10 +23,10 @@ const dataLists = {
 };
 
 const formProps = {
-  onClearFilter: () => {},
-  onSaveFilter: () => {},
+  onClearFilter: () => { },
+  onSaveFilter: () => { },
   categories,
-  onSubmit: () => {},
+  onSubmit: () => { },
 };
 
 describe('signals/incident-management/components/FilterForm', () => {
@@ -131,10 +131,10 @@ describe('signals/incident-management/components/FilterForm', () => {
       )
     );
 
-    expect(queryByTestId('priorityFilterGroup')).toBeNull();
+    expect(queryByTestId('priorityCheckboxGroup')).toBeNull();
 
     expect(
-      container.querySelectorAll('input[type="radio"][name="priority"]')
+      container.querySelectorAll('input[type="checkbox"][name="priority"]')
     ).toHaveLength(0);
 
     cleanup();
@@ -144,8 +144,8 @@ describe('signals/incident-management/components/FilterForm', () => {
     );
 
     expect(
-      container.querySelectorAll('input[type="radio"][name="priority"]')
-    ).toHaveLength(priorityList.length + 1);
+      container.querySelectorAll('input[type="checkbox"][name="priority"]')
+    ).toHaveLength(priorityList.length);
   });
 
   it('should render a list of status options', () => {
@@ -429,7 +429,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     );
 
     const priorityRadioButtons = container.querySelectorAll(
-      'input[type="radio"][name="priority"]'
+      'input[type="radio"][name="feedback"]'
     );
     const buttonInList = priorityRadioButtons[1];
 
@@ -582,7 +582,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     });
 
     it('should handle submit for existing filter', () => {
-      jest.spyOn(window, 'alert').mockImplementation(() => {});
+      jest.spyOn(window, 'alert').mockImplementation(() => { });
       const handlers = {
         onUpdateFilter: jest.fn(),
         onSubmit: jest.fn(),
@@ -607,13 +607,12 @@ describe('signals/incident-management/components/FilterForm', () => {
         fireEvent.click(container.querySelector('button[type="submit"]'));
       });
 
-      expect(handlers.onUpdateFilter).toHaveBeenCalled();
+      // values haven't changed, update should not be called
+      expect(handlers.onUpdateFilter).not.toHaveBeenCalled();
 
       const nameField = container.querySelector(
         'input[type="text"][name="name"]'
       );
-
-      handlers.onUpdateFilter.mockReset();
 
       act(() => {
         fireEvent.change(nameField, { target: { value: ' ' } });
@@ -623,8 +622,19 @@ describe('signals/incident-management/components/FilterForm', () => {
         fireEvent.click(container.querySelector('button[type="submit"]'));
       });
 
+      // trimmed field value is empty, update should not be called
       expect(handlers.onUpdateFilter).not.toHaveBeenCalled();
       expect(window.alert).toHaveBeenCalled();
+
+      act(() => {
+        fireEvent.change(nameField, { target: { value: 'My changed filter' } });
+      });
+
+      act(() => {
+        fireEvent.click(container.querySelector('button[type="submit"]'));
+      });
+
+      expect(handlers.onUpdateFilter).toHaveBeenCalled();
 
       window.alert.mockRestore();
     });

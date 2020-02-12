@@ -36,7 +36,7 @@ const idOrKeyPropRequired = (props, propName, componentName) => {
   const { id, key } = props;
 
   if (id === undefined && key === undefined) {
-    return new Error( `Either prop \`key\` or \`id\` is marked as required in \`${componentName}\`, but neither has been set`);
+    return new Error(`Either prop \`key\` or \`id\` is marked as required in \`${componentName}\`, but neither has been set`);
   }
 
   return null;
@@ -88,7 +88,7 @@ export const filterType = PropTypes.shape({
     created_before: PropTypes.string,
     feedback: PropTypes.string,
     maincategory_slug: PropTypes.arrayOf(dataItemType),
-    priority: PropTypes.string,
+    priority: PropTypes.arrayOf(dataItemType),
     stadsdeel: PropTypes.arrayOf(dataItemType),
     status: PropTypes.arrayOf(dataItemType),
   }),
