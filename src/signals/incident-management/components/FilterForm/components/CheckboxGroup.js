@@ -10,6 +10,7 @@ const CheckboxGroup = ({
   defaultValue,
   label,
   name,
+  hasToggle,
   onChange,
   onToggle,
   options,
@@ -19,7 +20,7 @@ const CheckboxGroup = ({
     <FilterGroup data-testid={`${name}CheckboxGroup`}>
       <CheckboxList
         defaultValue={defaultValue}
-        hasToggle
+        hasToggle={hasToggle}
         name={name}
         onChange={onChange}
         onToggle={onToggle}
@@ -35,12 +36,14 @@ const CheckboxGroup = ({
 
 CheckboxGroup.defaultProps = {
   defaultValue: [],
+  hasToggle: true,
 };
 
 CheckboxGroup.propTypes = {
   defaultValue: types.dataListType,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  hasToggle: PropTypes.bool,
   onChange: PropTypes.func,
   onToggle: PropTypes.func,
   options: types.dataListType.isRequired,
