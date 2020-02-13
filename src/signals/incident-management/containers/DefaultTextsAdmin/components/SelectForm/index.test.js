@@ -2,8 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import categories from 'utils/__tests__/fixtures/categories_private.json';
-import { filterForSub } from 'models/categories/selectors';
+import { subCategories } from 'utils/__tests__/fixtures';
 
 import SelectForm from './index';
 
@@ -15,7 +14,7 @@ describe('signals/incident-management/containers/DefaultTextsAdmin/components/Se
 
   beforeEach(() => {
     props = {
-      subCategories: categories.results.filter(filterForSub),
+      subCategories,
       defaultTextsOptionList,
 
       onFetchDefaultTexts: jest.fn(),

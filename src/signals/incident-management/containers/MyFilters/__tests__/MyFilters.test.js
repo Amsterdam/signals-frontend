@@ -23,7 +23,7 @@ describe('signals/incident-management/containers/MyFilters', () => {
     options: {
       status: [definitions.statusList[1]],
       feedback: '',
-      priority: 'normal',
+      priority: [definitions.priorityList[0]],
       stadsdeel: [definitions.stadsdeelList[0], definitions.stadsdeelList[1]],
       address_text: '',
       incident_date: '2019-09-17',
@@ -43,7 +43,7 @@ describe('signals/incident-management/containers/MyFilters', () => {
     options: {
       status: [definitions.statusList[0]],
       feedback: '',
-      priority: 'normal',
+      priority: [definitions.priorityList[2]],
       stadsdeel: [definitions.stadsdeelList[0], definitions.stadsdeelList[1]],
       address_text: '',
       incident_date: '2019-09-17',

@@ -2,8 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import categories from 'utils/__tests__/fixtures/categories_private.json';
-import { filterForSub } from 'models/categories/selectors';
+import { subCategories } from 'utils/__tests__/fixtures';
 
 import DefaultTextsForm from './index';
 
@@ -22,7 +21,7 @@ describe('signals/incident-management/containers/DefaultTextsAdmin/components/De
         title: 'title 3',
         text: 'text 3',
       }],
-      subCategories: categories.results.filter(filterForSub),
+      subCategories,
       categoryUrl: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
       state: 'o',
 

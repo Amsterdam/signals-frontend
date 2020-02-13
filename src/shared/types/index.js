@@ -32,11 +32,11 @@ const dateTypeFactory = isRequired =>
 export const dateType = dateTypeFactory(false);
 dateType.isRequired = dateTypeFactory(true);
 
-const idOrKeyPropRequired = (props, propName, componentName) => {
-  const { id, key } = props;
+const somePropRequired = propNames => (props, propName, componentName) => {
+  const noneDefined = propNames.every(name => props[name] === undefined);
 
-  if (id === undefined && key === undefined) {
-    return new Error(`Either prop \`key\` or \`id\` is marked as required in \`${componentName}\`, but neither has been set`);
+  if (noneDefined) {
+    return new Error(`Either prop of \`${propNames}\` is marked as required in \`${componentName}\`, but none has been set`);
   }
 
   return null;
@@ -46,11 +46,11 @@ const idOrKeyPropRequired = (props, propName, componentName) => {
  * Generic data item type
  */
 const dataItemType = PropTypes.shape({
-  id: idOrKeyPropRequired,
-  key: idOrKeyPropRequired,
-  name: PropTypes.string,
+  id: somePropRequired(['id', 'key']),
+  key: somePropRequired(['id', 'key']),
+  name: somePropRequired(['name', 'value']),
   slug: PropTypes.string,
-  value: PropTypes.string,
+  value: somePropRequired(['name', 'value']),
 });
 
 /**

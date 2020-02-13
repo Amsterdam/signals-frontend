@@ -1,6 +1,4 @@
-import categories from 'utils/__tests__/fixtures/categories_private.json';
-
-import { filterForSub } from 'models/categories/selectors';
+import { mainCategories, subCategories } from 'utils/__tests__/fixtures';
 
 import reducer, { initialState } from '../reducer';
 import {
@@ -91,17 +89,17 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
   });
 
   it('should handle SET_GROUP_OPTIONS', () => {
-    const options = categories.results.filter(filterForSub);
+    // const options = categories.results.filter(filterForSub);
     const stateWithGroupOptions = {
       ...state,
       options: {
         ...state.options,
-        ...options,
+        ...subCategories,
       },
     };
 
     expect(
-      reducer(state, { type: SET_GROUP_OPTIONS, payload: options })
+      reducer(state, { type: SET_GROUP_OPTIONS, payload: subCategories })
     ).toEqual(stateWithGroupOptions);
   });
 
@@ -128,18 +126,18 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
 
   describe('handle categories', () => {
     const mainCatSlug = 'afval';
-    const mainCategory = categories.results.find(
+    const mainCategory = mainCategories.find(
       ({ slug }) => slug === mainCatSlug
     );
-    const subCategories = categories.results.filter(({ _links }) =>
-      _links['sia:parent'] && _links['sia:parent'].public.endsWith(mainCatSlug)
+    const subs = subCategories.filter(
+      ({ parentKey }) => parentKey === mainCategory.key
     );
 
     const stateWithSubcategories = {
       ...state,
       options: {
         ...state.options,
-        category_slug: subCategories,
+        category_slug: subs,
       },
     };
 
@@ -156,7 +154,7 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
       options: {
         ...state.options,
         maincategory_slug: [mainCategory],
-        category_slug: subCategories.slice(0, 3),
+        category_slug: subs.slice(0, 3),
       },
     };
 
@@ -201,7 +199,7 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
           type: SET_CATEGORIES,
           payload: {
             slug: mainCatSlug,
-            subCategories,
+            subCategories: subs,
           },
         })
       ).toEqual(stateWithSubcategories);
@@ -211,7 +209,7 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
           type: SET_CATEGORIES,
           payload: {
             slug: mainCatSlug,
-            subCategories,
+            subCategories: subs,
           },
         })
       ).toEqual(stateWithSubcategories);

@@ -1,7 +1,9 @@
 import { fromJS } from 'immutable';
 import * as definitions from 'signals/incident-management/definitions';
-import categories from 'utils/__tests__/fixtures/categories_private.json';
-import { filterForMain, filterForSub } from 'models/categories/selectors';
+import {
+  mainCategories as maincategory_slug,
+  subCategories as category_slug,
+} from 'utils/__tests__/fixtures';
 import {
   makeSelectFilterParams,
   makeSelectDataLists,
@@ -22,9 +24,8 @@ const dataLists = {
   status: definitions.statusList,
   feedback: definitions.feedbackList,
   stadsdeel: definitions.stadsdeelList,
+  source: definitions.sourceList,
 };
-const maincategory_slug = categories.results.filter(filterForMain);
-const category_slug = categories.results.filter(filterForSub);
 
 const filters = [
   {
@@ -67,13 +68,7 @@ const filters = [
 
 describe('signals/incident-management/selectors', () => {
   it('should select data lists', () => {
-    expect(makeSelectDataLists()).toEqual({
-      priority: definitions.priorityList,
-      stadsdeel: definitions.stadsdeelList,
-      status: definitions.statusList,
-      feedback: definitions.feedbackList,
-      source: definitions.sourceList,
-    });
+    expect(makeSelectDataLists()).toEqual(dataLists);
   });
 
   it('should select all filters', () => {

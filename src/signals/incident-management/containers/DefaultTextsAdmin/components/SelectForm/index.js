@@ -38,15 +38,11 @@ const SelectForm = ({
 
   useEffect(() => {
     form.controls.category_url.valueChanges.subscribe(category_url => {
-      const found = subCategories.find(
-        sub => sub._links.self.public === category_url
-      );
+      const found = subCategories.find(sub => sub.key === category_url);
 
       /* istanbul ignore else */
       if (found) {
-        const [, main_slug] = found._links['sia:parent'].public.match(
-          reCategory
-        );
+        const [, main_slug] = found.parentKey.match(reCategory);
 
         form.patchValue({
           sub_slug: found.slug,
