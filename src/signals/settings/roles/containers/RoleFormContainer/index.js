@@ -21,7 +21,7 @@ import {
 } from 'containers/App/selectors';
 
 import makeSelectRolesModel from 'models/roles/selectors';
-import { patchRole, saveRole } from 'models/roles/actions';
+import { patchRole, saveRole, resetResponse } from 'models/roles/actions';
 
 
 import RoleForm from './components/RoleForm';
@@ -39,6 +39,7 @@ export const RoleFormContainer = ({
   onPatchRole,
   onSaveRole,
   showGlobalNotification,
+  onResetResponse,
   userCan,
 }) => {
   const { roleId } = useParams();
@@ -60,7 +61,7 @@ export const RoleFormContainer = ({
     }
 
     if (responseSuccess) {
-      message = roleId ? 'Gegevens opgeslagen' : 'Nieuwe rol opgeslagen';
+      message = roleId ? 'Gegevens opgeslagen' : 'Rol toegevoegd';
     };
 
     if (!message) return;
@@ -74,7 +75,9 @@ export const RoleFormContainer = ({
     if (responseSuccess) {
       history.push(redirectURL.pathname, redirectURL.state);
     }
-  }, [history, redirectURL.pathname, redirectURL.state, responseError, responseSuccess, roleId, showGlobalNotification]);
+
+    onResetResponse();
+  }, [history, onResetResponse, redirectURL.pathname, redirectURL.state, responseError, responseSuccess, roleId, showGlobalNotification]);
 
 
   return (
@@ -133,6 +136,7 @@ RoleFormContainer.propTypes = {
   showGlobalNotification: PropTypes.func.isRequired,
   onPatchRole: PropTypes.func.isRequired,
   onSaveRole: PropTypes.func.isRequired,
+  onResetResponse: PropTypes.func.isRequired,
   userCan: PropTypes.func.isRequired,
 };
 
@@ -143,6 +147,7 @@ const mapStateToProps = createStructuredSelector({
 
 export const mapDispatchToProps = dispatch => bindActionCreators({
   showGlobalNotification: showGlobalNotificationAction,
+  onResetResponse: resetResponse,
   onPatchRole: patchRole,
   onSaveRole: saveRole,
 }, dispatch);
