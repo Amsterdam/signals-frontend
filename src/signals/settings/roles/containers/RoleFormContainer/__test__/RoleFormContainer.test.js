@@ -11,25 +11,36 @@ import {
   VARIANT_SUCCESS,
   TYPE_LOCAL,
 } from 'containers/Notification/constants';
+import routes from 'signals/settings/routes';
 
 import { RoleFormContainer, mapDispatchToProps } from '..';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
-  ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
+  ...jest.requireActual('react-router-dom'),
+  useLocation: () => ({
+    referrer: undefined,
+  }),
 }));
 
 const mockRoleId = roleId => {
   jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
     roleId,
   }));
-
 };
+
+const push = jest.fn();
+jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
+  push,
+}));
 
 describe('signals/settings/roles/containers/RoleFormContainer', () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    push.mockReset();
+    props.showGlobalNotification.mockReset();
+    props.onResetResponse.mockReset();
   });
+
 
   const props = {
     roles: {
@@ -51,6 +62,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
 
   it('should lazy load form correctly', () => {
     mockRoleId(undefined);
+
     const loadingProps = {
       ...props,
       roles: {
@@ -118,6 +130,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
 
     expect(props.showGlobalNotification).not.toHaveBeenCalled();
     expect(props.onResetResponse).not.toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
 
     props.roles.responseSuccess = true;
     render(
@@ -130,6 +143,10 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
       variant: VARIANT_SUCCESS,
     });
     expect(props.onResetResponse).toHaveBeenCalled();
+    expect(push).toHaveBeenCalledWith(
+      expect.stringContaining(routes.roles),
+      expect.undefined,
+    );
   });
 
   it('should show success message with existing role', () => {
@@ -147,6 +164,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
 
     expect(props.showGlobalNotification).not.toHaveBeenCalled();
     expect(props.onResetResponse).not.toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
 
     props.roles.responseSuccess = true;
     render(
@@ -159,6 +177,10 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
       variant: VARIANT_SUCCESS,
     });
     expect(props.onResetResponse).toHaveBeenCalled();
+    expect(push).toHaveBeenCalledWith(
+      expect.stringContaining(routes.roles),
+      expect.undefined,
+    );
   });
 
   it('should show error message', () => {
@@ -176,6 +198,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
 
     expect(props.showGlobalNotification).not.toHaveBeenCalled();
     expect(props.onResetResponse).not.toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
 
     render(
       withAppContext(<RoleFormContainer {...propsWithError} />)
@@ -187,6 +210,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
       variant: VARIANT_ERROR,
     });
     expect(props.onResetResponse).toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
   });
 
   describe('mapDispatchToProps', () => {
