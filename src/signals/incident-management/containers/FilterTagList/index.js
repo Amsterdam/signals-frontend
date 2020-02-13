@@ -28,6 +28,9 @@ export const mapKeys = key => {
     case 'source':
       return 'bron';
 
+    case 'priority':
+      return 'urgentie';
+
     default:
       return key;
   }
