@@ -139,12 +139,14 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
             <DataView
               headers={columnHeaders}
               filters={[
-                (<StyledSearchbar
-                  placeholder=""
-                  onChange={debouncedOnChangeFilter}
-                  value={filters.username}
-                  data-testid="filterUsersByUsername"
-                />),
+                (
+                  <StyledSearchbar
+                    placeholder=""
+                    onChange={debouncedOnChangeFilter}
+                    value={filters.username}
+                    data-testid="filterUsersByUsername"
+                  />
+                ),
               ]}
               columnOrder={columnHeaders}
               invisibleColumns={['id']}

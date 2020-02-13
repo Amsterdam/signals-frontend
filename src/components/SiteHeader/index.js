@@ -122,6 +122,7 @@ const HeaderWrapper = styled.div`
 
         @media screen and (min-width: 540px) {
           z-index: 0;
+          box-shadow: none;
           &:after {
             max-width: 1400px;
             margin-left: auto;
