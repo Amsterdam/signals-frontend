@@ -53,16 +53,14 @@ describe('<SplitDetail />', () => {
       expect(queryByTestId('splitDetailValueStadsdeel')).toHaveTextContent(/^Centrum$/);
 
       expect(queryByTestId('splitDetailTitleAddress')).toHaveTextContent(/^Adres$/);
-      expect(queryByTestId('splitDetailValueAddress')).toHaveTextContent(/^Marnixstraat 342D Amsterdam$/);
+      expect(queryByTestId('splitDetailValueAddress')).toHaveTextContent(new RegExp(`^${incident.location.address_text}$`));
 
-      expect(queryByTestId('splitDetailTitleEmail')).toBeNull();
-      expect(queryByTestId('splitDetailValueEmail')).toBeNull();
+      expect(queryByTestId('splitDetailValueEmail')).toHaveTextContent(incident.reporter.email);
 
-      expect(queryByTestId('splitDetailTitlePhone')).toBeNull();
-      expect(queryByTestId('splitDetailValuePhone')).toBeNull();
+      expect(queryByTestId('splitDetailValuePhone')).toHaveTextContent(incident.reporter.phone);
 
       expect(queryByTestId('splitDetailTitleSource')).toHaveTextContent(/^Bron$/);
-      expect(queryByTestId('splitDetailValueSource')).toHaveTextContent(/^Meldkamer Handhaver$/);
+      expect(queryByTestId('splitDetailValueSource')).toHaveTextContent(incident.source);
 
       expect(queryByTestId('splitDetailTitleDepartment')).toBeNull();
       expect(queryByTestId('splitDetailValueDepartment')).toBeNull();
