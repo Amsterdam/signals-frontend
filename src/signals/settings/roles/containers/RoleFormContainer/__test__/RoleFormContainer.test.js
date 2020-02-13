@@ -115,7 +115,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
     );
   });
 
-  it('should show success message', () => {
+  it('should show success notication and navigate to role list page', () => {
     mockRoleId(undefined);
 
     const message = 'Rol toegevoegd';
@@ -149,7 +149,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
     );
   });
 
-  it('should show success message with existing role', () => {
+  it('should show success notication and navigate to role list page with existing role', () => {
     mockRoleId('2');
 
     const message = 'Gegevens opgeslagen';
@@ -183,7 +183,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
     );
   });
 
-  it('should show error message', () => {
+  it('should show error notication and not navigate to role list page', () => {
     mockRoleId('2');
 
     const message = 'Er is iets mis gegaan bij het opslaan';
