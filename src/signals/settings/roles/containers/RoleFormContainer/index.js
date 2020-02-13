@@ -70,7 +70,7 @@ export const RoleFormContainer = ({
       title: message,
       type: TYPE_LOCAL,
     });
-    console.log('showGlobalNotification');
+
     if (responseSuccess) {
       history.push(redirectURL.pathname, redirectURL.state);
     }
