@@ -81,10 +81,11 @@ describe('models/categories/selectors', () => {
     const subCategories = makeSelectSubCategories.resultFunc(
       makeSelectCategories.resultFunc(state)
     );
-    const slugs = subCategories.map(({ slug }) => slug);
+    const slugs = subCategories.map(({ slug }) => slug).sort();
     const keys = categoriesJson.results
       .filter(filterForSub)
-      .map(({ slug }) => slug);
+      .map(({ slug }) => slug)
+      .sort();
 
     expect(slugs).toEqual(keys);
   });

@@ -49,7 +49,7 @@ export function* createIncident(action) {
       `${CONFIGURATION.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
     );
 
-    const incident = {
+    const postData = {
       ...action.payload.incident,
       handling_message,
       category: {
@@ -57,11 +57,13 @@ export function* createIncident(action) {
       },
     };
 
-    const result = yield call(
+    const postResult = yield call(
       postCall,
       CONFIGURATION.INCIDENT_ENDPOINT,
-      mapControlsToParams(incident, action.payload.wizard)
+      mapControlsToParams(postData, action.payload.wizard)
     );
+
+    const incident = { ...postResult, handling_message };
 
     if (
       action.payload.isAuthenticated &&
@@ -70,7 +72,7 @@ export function* createIncident(action) {
       yield put(
         setPriority({
           priority: action.payload.incident.priority.id,
-          _signal: result.id,
+          _signal: incident.id,
         })
       );
     }
@@ -81,14 +83,14 @@ export function* createIncident(action) {
           put(
             uploadRequest({
               file: image,
-              id: result.signal_id,
+              id: incident.signal_id,
             })
           )
         )
       );
     }
 
-    yield put(createIncidentSuccess(result));
+    yield put(createIncidentSuccess(incident));
   } catch (error) {
     yield put(createIncidentError());
     yield put(replace('/incident/fout'));
