@@ -4,7 +4,14 @@ import * as reactRouterDom from 'react-router-dom';
 import { withAppContext } from 'test/utils';
 import roles from 'utils/__tests__/fixtures/roles.json';
 
-import { PATCH_ROLE, SAVE_ROLE } from 'models/roles/constants';
+import { PATCH_ROLE, SAVE_ROLE, RESET_RESPONSE } from 'models/roles/constants';
+import { SHOW_GLOBAL_NOTIFICATION } from 'containers/App/constants';
+import {
+  VARIANT_ERROR,
+  VARIANT_SUCCESS,
+  TYPE_LOCAL,
+} from 'containers/Notification/constants';
+
 import { RoleFormContainer, mapDispatchToProps } from '..';
 
 jest.mock('react-router-dom', () => ({
@@ -12,7 +19,18 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
 }));
 
+const mockRoleId = roleId => {
+  jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+    roleId,
+  }));
+
+};
+
 describe('signals/settings/roles/containers/RoleFormContainer', () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
   const props = {
     roles: {
       list: roles.list,
@@ -26,14 +44,13 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
     onFetchPermissions: jest.fn(),
     onPatchRole: jest.fn(),
     onSaveRole: jest.fn(),
+    showGlobalNotification: jest.fn(),
+    onResetResponse: jest.fn(),
     userCan: jest.fn(() => true),
   };
 
   it('should lazy load form correctly', () => {
-    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
-      roleId: undefined,
-    }));
-
+    mockRoleId(undefined);
     const loadingProps = {
       ...props,
       roles: {
@@ -66,9 +83,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
   });
 
   it('should load form with existing role correctly', () => {
-    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
-      roleId: '2',
-    }));
+    mockRoleId('2');
 
     const notLoadingProps = {
       ...props,
@@ -89,23 +104,89 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
   });
 
   it('should show success message', () => {
+    mockRoleId(undefined);
+
+    const message = 'Rol toegevoegd';
+    const propsWithSuccess = {
+      ...props,
+      roles: {
+        ...props.roles,
+        responseSuccess: true,
+        responseError: false,
+      },
+    };
+
+    expect(props.showGlobalNotification).not.toHaveBeenCalled();
+    expect(props.onResetResponse).not.toHaveBeenCalled();
+
     props.roles.responseSuccess = true;
-    const { getByText } = render(
-      withAppContext(<RoleFormContainer {...props} />)
+    render(
+      withAppContext(<RoleFormContainer {...propsWithSuccess} />)
     );
 
-    expect(getByText('Gegevens opgeslagen')).toBeInTheDocument();
+    expect(props.showGlobalNotification).toHaveBeenCalledWith({
+      title: message,
+      type: TYPE_LOCAL,
+      variant: VARIANT_SUCCESS,
+    });
+    expect(props.onResetResponse).toHaveBeenCalled();
+  });
+
+  it('should show success message with existing role', () => {
+    mockRoleId('2');
+
+    const message = 'Gegevens opgeslagen';
+    const propsWithSuccess = {
+      ...props,
+      roles: {
+        ...props.roles,
+        responseSuccess: true,
+        responseError: false,
+      },
+    };
+
+    expect(props.showGlobalNotification).not.toHaveBeenCalled();
+    expect(props.onResetResponse).not.toHaveBeenCalled();
+
+    props.roles.responseSuccess = true;
+    render(
+      withAppContext(<RoleFormContainer {...propsWithSuccess} />)
+    );
+
+    expect(props.showGlobalNotification).toHaveBeenCalledWith({
+      title: message,
+      type: TYPE_LOCAL,
+      variant: VARIANT_SUCCESS,
+    });
+    expect(props.onResetResponse).toHaveBeenCalled();
   });
 
   it('should show error message', () => {
-    props.roles.responseError = true;
-    const { getByText } = render(
-      withAppContext(<RoleFormContainer {...props} />)
+    mockRoleId('2');
+
+    const message = 'Er is iets mis gegaan bij het opslaan';
+    const propsWithError = {
+      ...props,
+      roles: {
+        ...props.roles,
+        responseSuccess: false,
+        responseError: true,
+      },
+    };
+
+    expect(props.showGlobalNotification).not.toHaveBeenCalled();
+    expect(props.onResetResponse).not.toHaveBeenCalled();
+
+    render(
+      withAppContext(<RoleFormContainer {...propsWithError} />)
     );
 
-    expect(
-      getByText('Er is iets mis gegaan bij het opslaan')
-    ).toBeInTheDocument();
+    expect(props.showGlobalNotification).toHaveBeenCalledWith({
+      title: message,
+      type: TYPE_LOCAL,
+      variant: VARIANT_ERROR,
+    });
+    expect(props.onResetResponse).toHaveBeenCalled();
   });
 
   describe('mapDispatchToProps', () => {
@@ -119,6 +200,16 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
     it('onSaveRole', () => {
       mapDispatchToProps(dispatch).onSaveRole();
       expect(dispatch).toHaveBeenCalledWith({ type: SAVE_ROLE });
+    });
+
+    it('onResetResponse', () => {
+      mapDispatchToProps(dispatch).onResetResponse();
+      expect(dispatch).toHaveBeenCalledWith({ type: RESET_RESPONSE });
+    });
+
+    it('showGlobalNotification', () => {
+      mapDispatchToProps(dispatch).showGlobalNotification();
+      expect(dispatch).toHaveBeenCalledWith({ type: SHOW_GLOBAL_NOTIFICATION });
     });
   });
 });
