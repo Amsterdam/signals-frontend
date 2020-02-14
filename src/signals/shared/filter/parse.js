@@ -81,11 +81,13 @@ export const parseInputFormData = (filterData, dataLists) => {
     Object.keys(options)
       .filter(fieldName => arrayFields.includes(fieldName))
       .forEach(fieldName => {
-        options[fieldName] = options[fieldName].map(value =>
-          dataLists[fieldName].find(
-            ({ key, slug }) => key === value || slug === value
+        options[fieldName] = options[fieldName]
+          .map(value =>
+            dataLists[fieldName].find(
+              ({ key, slug }) => key === value || slug === value
+            )
           )
-        );
+          .filter(Boolean);
       });
   }
 
