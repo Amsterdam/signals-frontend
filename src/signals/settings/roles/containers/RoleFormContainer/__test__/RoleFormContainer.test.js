@@ -4,16 +4,13 @@ import * as reactRouterDom from 'react-router-dom';
 import { withAppContext } from 'test/utils';
 import roles from 'utils/__tests__/fixtures/roles.json';
 
-import { PATCH_ROLE, SAVE_ROLE, RESET_RESPONSE } from 'models/roles/constants';
-import { SHOW_GLOBAL_NOTIFICATION } from 'containers/App/constants';
 import {
-  VARIANT_ERROR,
   VARIANT_SUCCESS,
   TYPE_LOCAL,
 } from 'containers/Notification/constants';
 import routes from 'signals/settings/routes';
 
-import { RoleFormContainer, mapDispatchToProps } from '..';
+import { RoleFormContainer } from '..';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -186,7 +183,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
   it('should show error notication and not navigate to role list page', () => {
     mockRoleId('2');
 
-    const message = 'Er is iets mis gegaan bij het opslaan';
+    // const message = 'Er is iets mis gegaan bij het opslaan';
     const propsWithError = {
       ...props,
       roles: {
@@ -204,36 +201,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
       withAppContext(<RoleFormContainer {...propsWithError} />)
     );
 
-    expect(props.showGlobalNotification).toHaveBeenCalledWith({
-      title: message,
-      type: TYPE_LOCAL,
-      variant: VARIANT_ERROR,
-    });
     expect(props.onResetResponse).toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
-  });
-
-  describe('mapDispatchToProps', () => {
-    const dispatch = jest.fn();
-
-    it('onPatchRole', () => {
-      mapDispatchToProps(dispatch).onPatchRole();
-      expect(dispatch).toHaveBeenCalledWith({ type: PATCH_ROLE });
-    });
-
-    it('onSaveRole', () => {
-      mapDispatchToProps(dispatch).onSaveRole();
-      expect(dispatch).toHaveBeenCalledWith({ type: SAVE_ROLE });
-    });
-
-    it('onResetResponse', () => {
-      mapDispatchToProps(dispatch).onResetResponse();
-      expect(dispatch).toHaveBeenCalledWith({ type: RESET_RESPONSE });
-    });
-
-    it('showGlobalNotification', () => {
-      mapDispatchToProps(dispatch).showGlobalNotification();
-      expect(dispatch).toHaveBeenCalledWith({ type: SHOW_GLOBAL_NOTIFICATION });
-    });
   });
 });

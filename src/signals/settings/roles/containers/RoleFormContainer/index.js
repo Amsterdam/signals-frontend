@@ -12,7 +12,6 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import BackLink from 'components/BackLink';
 import { showGlobalNotification as showGlobalNotificationAction } from 'containers/App/actions';
 import {
-  VARIANT_ERROR,
   VARIANT_SUCCESS,
   TYPE_LOCAL,
 } from 'containers/Notification/constants';
@@ -49,25 +48,20 @@ export const RoleFormContainer = ({
   const title = `Rol ${roleId ? 'wijzigen' : 'toevoegen'}`;
   const redirectURL = {
     pathname: location.referrer || routes.roles,
-    state: location.state,
   };
 
   useEffect(() => {
     let message;
-    let variant = VARIANT_SUCCESS;
-    if (responseError) {
-      message = 'Er is iets mis gegaan bij het opslaan';
-      variant = VARIANT_ERROR;
-    }
 
     if (responseSuccess) {
       message = roleId ? 'Gegevens opgeslagen' : 'Rol toegevoegd';
     };
+    onResetResponse();
 
     if (!message) return;
 
     showGlobalNotification({
-      variant,
+      variant: VARIANT_SUCCESS,
       title: message,
       type: TYPE_LOCAL,
     });
@@ -76,9 +70,15 @@ export const RoleFormContainer = ({
       history.push(redirectURL.pathname, redirectURL.state);
     }
 
-    onResetResponse();
-  }, [history, onResetResponse, redirectURL.pathname, redirectURL.state, responseError, responseSuccess, roleId, showGlobalNotification]);
-
+  }, [history,
+    onResetResponse,
+    redirectURL.pathname,
+    redirectURL.state,
+    responseError,
+    responseSuccess,
+    roleId,
+    showGlobalNotification,
+  ]);
 
   return (
     <Fragment>
@@ -145,7 +145,7 @@ const mapStateToProps = createStructuredSelector({
   userCan: makeSelectUserCan,
 });
 
-export const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = dispatch => bindActionCreators({
   showGlobalNotification: showGlobalNotificationAction,
   onResetResponse: resetResponse,
   onPatchRole: patchRole,
