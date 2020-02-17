@@ -57,6 +57,8 @@ import {
   UPDATE_FILTER,
 } from './constants';
 
+import { SPLIT_INCIDENT_SUCCESS } from './containers/IncidentSplitContainer/constants';
+
 import {
   makeSelectActiveFilter,
   makeSelectFilterParams,
@@ -252,6 +254,7 @@ export default function* watchIncidentManagementSaga() {
         PAGE_CHANGED,
         ORDERING_CHANGED,
         PATCH_INCIDENT_SUCCESS,
+        SPLIT_INCIDENT_SUCCESS,
       ],
       fetchProxy
     ),
