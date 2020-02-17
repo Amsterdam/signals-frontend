@@ -22,9 +22,7 @@ import {
 import makeSelectRolesModel from 'models/roles/selectors';
 import { patchRole, saveRole, resetResponse } from 'models/roles/actions';
 
-
 import RoleForm from './components/RoleForm';
-
 
 export const RoleFormContainer = ({
   roles: {
