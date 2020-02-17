@@ -27,15 +27,14 @@ const mockRoleId = roleId => {
 };
 
 const push = jest.fn();
-jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
-  push,
-}));
 
 describe('signals/settings/roles/containers/RoleFormContainer', () => {
   beforeEach(() => {
-    push.mockReset();
-    props.showGlobalNotification.mockReset();
-    props.onResetResponse.mockReset();
+    jest.resetAllMocks();
+
+    jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
+      push,
+    }));
   });
 
 
