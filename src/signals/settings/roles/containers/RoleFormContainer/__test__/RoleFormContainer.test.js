@@ -37,7 +37,6 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
     }));
   });
 
-
   const props = {
     roles: {
       list: roles.list,
