@@ -114,9 +114,15 @@ export const UserDetailContainerComponent = ({
       e.preventDefault();
 
       const formData = getFormData(e);
+      console.log('---', formData);
 
       if (isEqual(data, formData)) {
         return;
+      }
+
+      if (formData && formData.note) {
+        formData.profile = { note: formData.note };
+
       }
 
       if (isExistingUser) {
