@@ -84,6 +84,7 @@ const UserForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
       <TextArea
         id="note"
         name="note"
+        defaultValue={data.profile.note}
       />
     </FieldGroup>
 
@@ -111,6 +112,9 @@ UserForm.propTypes = {
     first_name: PropTypes.string,
     last_name: PropTypes.string,
     is_active: PropTypes.bool,
+    profile: PropTypes.shape({
+      note: PropTypes.string,
+    }),
   }),
   onCancel: PropTypes.func,
   onSubmitForm: PropTypes.func,
