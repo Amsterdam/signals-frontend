@@ -7,6 +7,7 @@ import RadioButtonList from 'signals/incident-management/components/RadioButtonL
 
 import Input from 'components/Input';
 import Label from 'components/Label';
+import TextArea from 'components/TextArea';
 import FormFooter from 'components/FormFooter';
 
 const Form = styled.form`
@@ -75,6 +76,14 @@ const UserForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
         hasEmptySelectionButton={false}
         options={statusOptions}
         disabled={readOnly}
+      />
+    </FieldGroup>
+
+    <FieldGroup>
+      <Label as="span">Notitie</Label>
+      <TextArea
+        id="note"
+        name="note"
       />
     </FieldGroup>
 
