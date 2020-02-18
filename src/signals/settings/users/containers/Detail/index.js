@@ -66,6 +66,8 @@ export const UserDetailContainerComponent = ({
     [data]
   );
 
+
+
   useEffect(() => {
     if (isLoading) return;
 
@@ -115,14 +117,16 @@ export const UserDetailContainerComponent = ({
 
       const formData = getFormData(e);
 
-      if (isEqual(data, formData)) {
-        return;
-      }
-
+      // TODO REFACTOR
       formData.profile = {
         ...formData.profile,
         note: formData.note,
       };
+      delete formData.note;
+
+      if (isEqual(data, formData)) {
+        return;
+      }
 
       if (isExistingUser) {
         patch(formData);
@@ -136,6 +140,13 @@ export const UserDetailContainerComponent = ({
   const onCancel = useCallback(
     e => {
       const formData = getFormData(e);
+
+      // TODO REFACTOR
+      formData.profile = {
+        ...formData.profile,
+        note: formData.note,
+      };
+      delete formData.note;
 
       if (
         isEqual(data, formData) ||
