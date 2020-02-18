@@ -4,7 +4,6 @@ import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
-import { Row, Column } from '@datapunt/asc-ui';
 import isEqual from 'lodash.isequal';
 import styled from 'styled-components';
 
@@ -24,13 +23,9 @@ import routes from 'signals/settings/routes';
 import useFetchUser from './hooks/useFetchUser';
 import UserForm from './components/UserForm';
 
-const FormContainer = styled(Row)`
+const FormContainer = styled.div`
   // taking into account the space that the FormFooter component takes up
   padding-bottom: 66px;
-`;
-
-const StyledColumn = styled(Column)`
-  flex-direction: column;
 `;
 
 export const UserDetailContainerComponent = ({
@@ -174,18 +169,14 @@ export const UserDetailContainerComponent = ({
       {isLoading && <LoadingIndicator />}
 
       <FormContainer>
-        <StyledColumn
-          span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 4 }}
-        >
-          {shouldRenderForm && (
-            <UserForm
-              data={data}
-              onCancel={onCancel}
-              onSubmitForm={onSubmitForm}
-              readOnly={!userCanSubmitForm}
-            />
-          )}
-        </StyledColumn>
+        {shouldRenderForm && (
+          <UserForm
+            data={data}
+            onCancel={onCancel}
+            onSubmitForm={onSubmitForm}
+            readOnly={!userCanSubmitForm}
+          />
+        )}
       </FormContainer>
     </Fragment>
   );
