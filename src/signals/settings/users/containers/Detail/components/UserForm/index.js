@@ -84,7 +84,7 @@ const UserForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
       <TextArea
         id="note"
         name="note"
-        defaultValue={data.profile.note}
+        defaultValue={data.profile && data.profile.note}
       />
     </FieldGroup>
 

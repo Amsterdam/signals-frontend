@@ -119,9 +119,10 @@ export const UserDetailContainerComponent = ({
         return;
       }
 
-      if (formData && formData.note) {
-        formData.profile = { note: formData.note };
-      }
+      formData.profile = {
+        ...formData.profile,
+        note: formData.note,
+      };
 
       if (isExistingUser) {
         patch(formData);
