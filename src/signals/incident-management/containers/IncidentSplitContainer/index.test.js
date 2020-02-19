@@ -17,6 +17,9 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
 }));
 
+store.dispatch(requestIncidentSuccess(incidentJson));
+store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
+
 const subCategories = makeSelectSubCategories(store.getState());
 const incidentModel = makeSelectIncidentModel(store.getState());
 
@@ -35,9 +38,6 @@ jest.mock('../../components/FieldControlWrapper', () => ({
   __esModule: true,
   default: () => (<span />),
 }));
-
-store.dispatch(requestIncidentSuccess(incidentJson));
-store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
 
 describe('<IncidentSplitContainer />', () => {
   it('should have props from structured selector', () => {
