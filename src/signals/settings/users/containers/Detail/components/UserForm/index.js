@@ -101,6 +101,8 @@ const UserForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
         </FieldGroup>
       </StyledColumn>
 
+      <Column span={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }} />
+
       {!readOnly && (
         <StyledFormFooter
           cancelBtnLabel="Annuleren"
