@@ -5,7 +5,6 @@ import userJson from 'utils/__tests__/fixtures/user.json';
 
 import { initialState } from './reducer';
 import {
-  makeSelectCategories,
   makeSelectError,
   makeSelectLoading,
   makeSelectNotification,
@@ -84,22 +83,6 @@ describe('containers/App/selectors', () => {
       });
 
       expect(notificationSelector(mockedState)).toEqual(notification);
-    });
-  });
-
-  describe('makeSelectCategories', () => {
-    const selector = makeSelectCategories();
-    it('should select the login state', () => {
-      const categories = {
-        main: [1, 2],
-        sub: [3, 4],
-      };
-      const mockedState = fromJS({
-        global: {
-          categories,
-        },
-      });
-      expect(selector(mockedState)).toEqual(categories);
     });
   });
 

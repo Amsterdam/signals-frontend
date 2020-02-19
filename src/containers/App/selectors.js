@@ -113,13 +113,7 @@ const makeSelectNotification = () =>
     globalState.get('notification').toJS()
   );
 
-const makeSelectCategories = () =>
-  createSelector(selectGlobal, globalState =>
-    globalState.get('categories').toJS()
-  );
-
 export {
-  makeSelectCategories,
   makeSelectError,
   makeSelectLoading,
   makeSelectNotification,

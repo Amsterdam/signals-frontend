@@ -1,12 +1,17 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
-
-import categories from 'utils/__tests__/fixtures/categories.json';
+import { store, withAppContext } from 'test/utils';
+import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
+import { fetchCategoriesSuccess } from 'models/categories/actions';
+import { makeSelectSubCategories } from 'models/categories/selectors';
 
 import SelectForm from './index';
 
 import { defaultTextsOptionList } from '../../../../definitions/statusList';
+
+store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
+
+const subCategories = makeSelectSubCategories(store.getState());
 
 describe('<SelectForm />', () => {
   const category_url = 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu';
@@ -14,9 +19,8 @@ describe('<SelectForm />', () => {
 
   beforeEach(() => {
     props = {
-      subCategories: categories.sub,
+      subCategories,
       defaultTextsOptionList,
-
       onFetchDefaultTexts: jest.fn(),
     };
   });
@@ -57,7 +61,6 @@ describe('<SelectForm />', () => {
         sub_slug: 'asbest-accu',
         main_slug: 'afval',
       });
-
     });
 
     it('should trigger fetch default texts when a new status has been selected', () => {
@@ -73,6 +76,24 @@ describe('<SelectForm />', () => {
         sub_slug: 'asbest-accu',
         main_slug: 'afval',
       });
+    });
+
+    it('should NOT trigger fetch when no matching category can be found', () => {
+      const invalidSubCategories = subCategories.map(subCat => ({
+        ...subCat,
+        _links: undefined,
+      }));
+
+      const { getByDisplayValue} = render(
+        withAppContext(<SelectForm {...props} subCategories={invalidSubCategories} />)
+      );
+
+      expect(props.onFetchDefaultTexts).toHaveBeenCalledTimes(1);
+
+      const newStatus = 'ingepland';
+      fireEvent.click(getByDisplayValue(newStatus));
+
+      expect(props.onFetchDefaultTexts).toHaveBeenCalledTimes(1);
     });
 
     it('should trigger fetch default texts when a new category has been selected', () => {
