@@ -12,7 +12,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import { parseOutputFormData } from 'signals/shared/filter/parse';
 import * as types from 'shared/types';
-import FormFooter from 'components/FormFooter';
 import Label from 'components/Label';
 import Input from 'components/Input';
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
@@ -23,6 +22,7 @@ import {
   Fieldset,
   FilterGroup,
   Form,
+  FormFooterWrapper,
 } from './styled';
 import CalendarInput from '../CalendarInput';
 import CategoryGroups from './components/CategoryGroups';
@@ -377,7 +377,7 @@ const FilterForm = ({
         </Fieldset>
       </ControlsWrapper>
 
-      <FormFooter
+      <FormFooterWrapper
         cancelBtnLabel="Annuleren"
         onCancel={onCancel}
         onResetForm={onResetForm}
