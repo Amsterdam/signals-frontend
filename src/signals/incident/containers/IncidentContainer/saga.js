@@ -6,6 +6,7 @@ import { authPostCall, postCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { uploadRequest, showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR } from 'containers/Notification/constants';
+import resolveClassification from 'shared/services/resolveClassification';
 import { CREATE_INCIDENT, GET_CLASSIFICATION, SET_PRIORITY } from './constants';
 import {
   createIncidentSuccess,
@@ -17,7 +18,6 @@ import {
   setPriorityError,
 } from './actions';
 import mapControlsToParams from '../../services/map-controls-to-params';
-import resolveClassification from '../../services/resolveClassification';
 
 export function* getClassification(action) {
   try {
