@@ -52,12 +52,21 @@ export const UserDetailContainerComponent = ({
   );
 
   const getFormData = useCallback(
-    e =>
-      [...new FormData(e.target.form).entries()]
+    e => {
+      const formData = [...new FormData(e.target.form).entries()]
         // convert stringified boolean values to actual booleans
         .map(([key, val]) => [key, key === 'is_active' ? val === 'true' : val])
         // reduce the entries() array to an object, merging it with the initial data
-        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data }),
+        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data });
+
+      formData.profile = {
+        ...formData.profile,
+        note: formData.note,
+      };
+      delete formData.note;
+
+      return formData;
+    },
     [data]
   );
 
@@ -110,13 +119,6 @@ export const UserDetailContainerComponent = ({
 
       const formData = getFormData(e);
 
-      // TODO REFACTOR
-      formData.profile = {
-        ...formData.profile,
-        note: formData.note,
-      };
-      delete formData.note;
-
       if (isEqual(data, formData)) {
         return;
       }
@@ -133,13 +135,6 @@ export const UserDetailContainerComponent = ({
   const onCancel = useCallback(
     e => {
       const formData = getFormData(e);
-
-      // TODO REFACTOR
-      formData.profile = {
-        ...formData.profile,
-        note: formData.note,
-      };
-      delete formData.note;
 
       if (
         isEqual(data, formData) ||
