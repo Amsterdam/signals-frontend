@@ -66,7 +66,15 @@ export const RoleFormContainer = ({
       history.push(redirectURL);
     }
 
-  }, [history, onResetResponse, redirectURL, redirectURL.pathname, redirectURL.state, responseError, responseSuccess, roleId, showGlobalNotification]);
+  }, [
+    history,
+    onResetResponse,
+    redirectURL,
+    responseError,
+    responseSuccess,
+    roleId,
+    showGlobalNotification,
+  ]);
 
   return (
     <Fragment>
