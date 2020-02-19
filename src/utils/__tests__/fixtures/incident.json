@@ -1,4 +1,22 @@
 {
+  "_links": {
+    "curies": {
+      "name": "sia",
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+    },
+    "self": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/4440"
+    },
+    "archives": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/4440/history"
+    },
+    "sia:attachments": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/4440/attachments"
+    },
+    "sia:pdf": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/4440/pdf"
+    }
+  },
   "id": 4440,
   "signal_id": "6acdb051-41aa-4984-b7f3-e2177036bf92",
   "source": "online",
@@ -42,7 +60,7 @@
     "sub_slug": "container-is-kapot",
     "main": "Afval",
     "main_slug": "afval",
-    "department": "AEG, CCA"
+    "departments": "AEG, CCA"
   },
   "reporter": {
     "email": "me@email.com",
