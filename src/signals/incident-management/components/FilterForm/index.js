@@ -141,8 +141,8 @@ const FilterForm = ({
   // callback handler that is called whenever a checkbox is (un)checked in the list of
   // category checkbox groups
   const onChangeCategories = useCallback(
-    (main_category_slug, subCategories) => {
-      dispatch(setCategories({ main_category_slug, subCategories }));
+    (slug, subCategories) => {
+      dispatch(setCategories({ slug, subCategories }));
     },
     [dispatch]
   );
@@ -150,14 +150,15 @@ const FilterForm = ({
   // callback handler that is called whenever a toggle is (un)checked in the list of
   // category checkbox groups
   const onMainCategoryToggle = useCallback(
-    (main_category_slug, isToggled) => {
-      const category = categories.main.find(
-        ({ slug }) => slug === main_category_slug
+    (slug, isToggled) => {
+      dispatch(
+        setMainCategory({
+          category: categories[slug],
+          isToggled,
+        })
       );
-
-      dispatch(setMainCategory({ main_category_slug, category, isToggled }));
     },
-    [categories.main, dispatch]
+    [categories, dispatch]
   );
 
   const onNameChange = useCallback(
