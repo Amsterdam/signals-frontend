@@ -138,10 +138,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
       variant: VARIANT_SUCCESS,
     });
     expect(props.onResetResponse).toHaveBeenCalled();
-    expect(push).toHaveBeenCalledWith(
-      expect.stringContaining(routes.roles),
-      expect.undefined,
-    );
+    expect(push).toHaveBeenCalledWith(routes.roles);
   });
 
   it('should show success notication and navigate to role list page with existing role', () => {
@@ -172,16 +169,12 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
       variant: VARIANT_SUCCESS,
     });
     expect(props.onResetResponse).toHaveBeenCalled();
-    expect(push).toHaveBeenCalledWith(
-      expect.stringContaining(routes.roles),
-      expect.undefined,
-    );
+    expect(push).toHaveBeenCalledWith(routes.roles);
   });
 
   it('should show error notication and not navigate to role list page', () => {
     mockRoleId('2');
 
-    // const message = 'Er is iets mis gegaan bij het opslaan';
     const propsWithError = {
       ...props,
       roles: {

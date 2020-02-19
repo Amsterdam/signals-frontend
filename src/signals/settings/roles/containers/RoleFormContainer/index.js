@@ -44,9 +44,7 @@ export const RoleFormContainer = ({
   const history = useHistory();
   const role = list.find(item => item.id === roleId * 1);
   const title = `Rol ${roleId ? 'wijzigen' : 'toevoegen'}`;
-  const redirectURL = {
-    pathname: location.referrer || routes.roles,
-  };
+  const redirectURL = location.referrer || routes.roles;
 
   useEffect(() => {
     let message;
@@ -65,18 +63,10 @@ export const RoleFormContainer = ({
     });
 
     if (responseSuccess) {
-      history.push(redirectURL.pathname, redirectURL.state);
+      history.push(redirectURL);
     }
 
-  }, [history,
-    onResetResponse,
-    redirectURL.pathname,
-    redirectURL.state,
-    responseError,
-    responseSuccess,
-    roleId,
-    showGlobalNotification,
-  ]);
+  }, [history, onResetResponse, redirectURL, redirectURL.pathname, redirectURL.state, responseError, responseSuccess, roleId, showGlobalNotification]);
 
   return (
     <Fragment>
