@@ -61,8 +61,6 @@ export const UserDetailContainerComponent = ({
     [data]
   );
 
-
-
   useEffect(() => {
     if (isLoading) return;
 
