@@ -6,28 +6,24 @@ import Label from 'components/Label';
 import CheckboxList from '../../CheckboxList';
 
 const CategoryGroups = ({ categories, filterSlugs, onChange, onToggle }) =>
-  Object.keys(categories.mainToSub).map(mainCategory => {
-    const mainCatObj = categories.main.find(
-      ({ slug }) => slug === mainCategory
-    );
-    const options = categories.mainToSub[mainCategory];
-    const defaultValue = filterSlugs.filter(({ key, id }) =>
-      new RegExp(`/terms/categories/${mainCatObj.slug}`).test(key || id)
+  Object.entries(categories).map(([slug, { name, sub, key }]) => {
+    const defaultValue = filterSlugs.filter(({ _links: { self }, id }) =>
+      new RegExp(`/terms/categories/${slug}`).test(self.public || id)
     );
 
     return (
       <CheckboxList
         defaultValue={defaultValue}
-        groupId={mainCatObj.key}
+        groupId={key}
         groupName="maincategory_slug"
-        groupValue={mainCatObj.slug}
+        groupValue={slug}
         hasToggle
-        key={mainCategory}
-        name={`${mainCatObj.slug}_category_slug`}
+        key={slug}
+        name={`${slug}_category_slug`}
         onChange={onChange}
         onToggle={onToggle}
-        options={options}
-        title={<Label as="span">{mainCatObj.value}</Label>}
+        options={sub}
+        title={<Label as="span">{name}</Label>}
       />
     );
   });

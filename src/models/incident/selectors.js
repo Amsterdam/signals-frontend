@@ -14,7 +14,7 @@ const selectIncidentDomain = state => state.get('incidentModel') || initialState
  * Default selector used by IncidentSplitContainer
  */
 
-const makeSelectIncidentModel = () => createSelector(
+const makeSelectIncidentModel = createSelector(
   selectIncidentDomain,
   substate => substate.toJS(),
 );
