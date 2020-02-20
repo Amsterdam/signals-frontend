@@ -1,3 +1,5 @@
+import FormFooter from 'components/FormFooter';
+
 import styled, { css } from 'styled-components';
 import { themeSpacing } from '@datapunt/asc-ui';
 
@@ -57,5 +59,18 @@ export const DatesWrapper = styled.div`
   display: flex;
   & > * + * {
     margin-left: ${themeSpacing(5)};
+  }
+`;
+
+export const FormFooterWrapper = styled(FormFooter)`
+  button[type="reset"] {
+    order: 1;
+  }
+  button[type="submit"] {
+    margin-left: ${themeSpacing(4)};
+    order: 3;
+  }
+  button[type="button"] {
+    order: 2;
   }
 `;
