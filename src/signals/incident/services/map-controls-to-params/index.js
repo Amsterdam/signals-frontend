@@ -16,10 +16,6 @@ const mapControlsToParams = (incident, wizard) => {
 
   let params = {
     reporter: {},
-    status: {
-      state: 'm',
-      extra_properties: {},
-    },
   };
 
   if (datetime) {

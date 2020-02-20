@@ -138,7 +138,7 @@ export default {
         meta: {
           className: 'col-sm-12 col-md-6',
           label: 'Wat is de urgentie?',
-          path: 'priority',
+          path: 'priority.priority',
           values: priorityValuesList,
         },
         options: {

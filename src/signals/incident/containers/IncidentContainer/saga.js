@@ -4,18 +4,15 @@ import { replace } from 'connected-react-router/immutable';
 import request from 'utils/request';
 import { authPostCall, postCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { uploadRequest, showGlobalNotification } from 'containers/App/actions';
-import { VARIANT_ERROR } from 'containers/Notification/constants';
+import { uploadRequest } from 'containers/App/actions';
+// import { VARIANT_ERROR } from 'containers/Notification/constants';
 import resolveClassification from 'shared/services/resolveClassification';
-import { CREATE_INCIDENT, GET_CLASSIFICATION, SET_PRIORITY } from './constants';
+import { CREATE_INCIDENT, GET_CLASSIFICATION } from './constants';
 import {
   createIncidentSuccess,
   createIncidentError,
   getClassificationSuccess,
   getClassificationError,
-  setPriority,
-  setPrioritySuccess,
-  setPriorityError,
 } from './actions';
 import mapControlsToParams from '../../services/map-controls-to-params';
 
@@ -57,25 +54,22 @@ export function* createIncident(action) {
       },
     };
 
-    const postResult = yield call(
-      postCall,
-      CONFIGURATION.INCIDENT_ENDPOINT,
-      mapControlsToParams(postData, action.payload.wizard)
-    );
-
-    const incident = { ...postResult, handling_message };
-
-    if (
-      action.payload.isAuthenticated &&
-      action.payload.incident.priority.id !== 'normal'
-    ) {
-      yield put(
-        setPriority({
-          priority: action.payload.incident.priority.id,
-          _signal: incident.id,
-        })
+    let postResult;
+    if (action.payload.isAuthenticated) {
+      postResult = yield call(
+        authPostCall,
+        CONFIGURATION.INCIDENT_PRIVATE_ENDPOINT,
+        mapControlsToParams(postData, action.payload.wizard)
+      );
+    } else {
+      postResult = yield call(
+        postCall,
+        CONFIGURATION.INCIDENT_PUBLIC_ENDPOINT,
+        mapControlsToParams(postData, action.payload.wizard)
       );
     }
+
+    const incident = { ...postResult, handling_message };
 
     if (action.payload.incident.images) {
       yield all(
@@ -97,29 +91,9 @@ export function* createIncident(action) {
   }
 }
 
-export function* setPriorityHandler(action) {
-  try {
-    const result = yield call(
-      authPostCall,
-      CONFIGURATION.PRIORITY_ENDPOINT,
-      action.payload
-    );
-    yield put(setPrioritySuccess(result));
-  } catch (error) {
-    yield put(setPriorityError());
-    yield put(
-      showGlobalNotification({
-        variant: VARIANT_ERROR,
-        title: 'Het zetten van de urgentie van deze melding is niet gelukt',
-      })
-    );
-  }
-}
-
 export default function* watchIncidentContainerSaga() {
   yield all([
     takeLatest(GET_CLASSIFICATION, getClassification),
     takeLatest(CREATE_INCIDENT, createIncident),
-    takeLatest(SET_PRIORITY, setPriorityHandler),
   ]);
 }

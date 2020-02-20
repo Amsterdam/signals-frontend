@@ -8,9 +8,6 @@ import {
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
-  SET_PRIORITY,
-  SET_PRIORITY_SUCCESS,
-  SET_PRIORITY_ERROR,
 } from './constants';
 // eslint-disable-next-line no-unused-vars
 import debugInitialState from './debug/initialState';
@@ -73,13 +70,6 @@ function incidentContainerReducer(state = initialState, action) {
           .set('category', action.payload.category)
           .set('subcategory', action.payload.subcategory)
       );
-
-    case SET_PRIORITY:
-      return state.set('priority', fromJS(action.payload));
-
-    case SET_PRIORITY_SUCCESS:
-    case SET_PRIORITY_ERROR:
-      return state.set('priority', fromJS({}));
 
     default:
       return state;
