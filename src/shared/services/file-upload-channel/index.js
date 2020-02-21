@@ -8,7 +8,7 @@ function fileUploadChannel(endpoint, file, id) {
   return eventChannel(emitter => {
     const formData = new window.FormData();
     formData.append('signal_id', id);
-    formData.append('image', file);
+    formData.append('file', file);
 
     const xhr = new window.XMLHttpRequest();
 

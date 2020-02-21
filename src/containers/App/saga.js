@@ -133,12 +133,29 @@ export function* uploadFileWrapper(action) {
 }
 
 export function* uploadFile(action) {
-  const channel = yield call(
-    fileUploadChannel,
-    CONFIGURATION.IMAGE_ENDPOINT,
-    action.payload.file,
-    action.payload.id
-  );
+  let channel;
+  const requestUrl = action.payload.isAuthenticated ?
+    `${CONFIGURATION.IMAGE_PRIVATE_ENDPOINT}${action.payload.id}/attachments` :
+    `${CONFIGURATION.IMAGE_PUBLIC_ENDPOINT}${action.payload.id}/attachments`;
+
+  if (action.payload.isAuthenticated) {
+    channel = yield call(
+      fileUploadChannel,
+      requestUrl,
+      action.payload.file,
+      action.payload.id
+    );
+
+  } else {
+    // TODO no support for uploading images with token with authCall
+    channel = yield call(
+      fileUploadChannel,
+      requestUrl,
+      action.payload.file,
+      action.payload.id
+    );
+
+  }
   const forever = true;
   while (forever) {
     const { progress = 0, error, success } = yield take(channel);

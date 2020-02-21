@@ -63,9 +63,9 @@ export const requestCategoriesSuccess = categories => ({
   payload: categories,
 });
 
-export const uploadRequest = ({ file, id }) => ({
+export const uploadRequest = payload => ({
   type: UPLOAD_REQUEST,
-  payload: { file, id },
+  payload,
 });
 
 export const uploadProgress = progress => ({

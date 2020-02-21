@@ -120,10 +120,6 @@ export class Configuration {
     return `${this.API_ROOT}signals/v1/private/signals/`;
   }
 
-  get PRIORITY_ENDPOINT() {
-    return `${this.API_ROOT}signals/auth/priority/`;
-  }
-
   get FEEDBACK_STANDARD_ANSWERS_ENDPOINT() {
     return `${this.API_ROOT_MLTOOL}signals/v1/public/feedback/standard_answers/`;
   }
@@ -150,6 +146,14 @@ export class Configuration {
 
   get IMAGE_ENDPOINT() {
     return `${this.API_ROOT}signals/signal/image/`;
+  }
+
+  get IMAGE_PUBLIC_ENDPOINT() {
+    return `${this.API_ROOT}signals/v1/public/signals/`;
+  }
+
+  get IMAGE_PRIVATE_ENDPOINT() {
+    return `${this.API_ROOT}signals/v1/private/signals/`;
   }
 
   get FILTERS_ENDPOINT() {

@@ -77,7 +77,8 @@ export function* createIncident(action) {
           put(
             uploadRequest({
               file: image,
-              id: incident.signal_id,
+              id: action.payload.isAuthenticated ? incident.id : incident.signal_id,
+              isAuthenticated: action.payload.isAuthenticated,
             })
           )
         )
