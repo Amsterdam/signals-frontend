@@ -18,58 +18,52 @@ export const headers = {
  * @param {Object} params - key/value
  * @returns {FetchResponse}
  */
-export default (URL, params) => {
-  const [isLoading, setLoading] = useState();
+export default () => {
+  const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState();
   const [error, setError] = useState(false);
   const [isSuccess, setSuccess] = useState();
 
-  const queryParams = Object.entries(params || {})
-    .filter(([, value]) => Boolean(value))
-    .reduce((acc, [key, value]) => [...acc, `${key}=${value}`], [])
-    .join('&');
-
-  const url = [URL, queryParams].filter(Boolean).join('?');
-
   const controller = new AbortController();
   const { signal } = controller;
 
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-
-      try {
-        const response = await fetch(url, {
-          headers,
-          signal,
-        });
-
-        /* istanbul ignore else */
-        if (response.ok === false) {
-          throw response;
-        }
-
-        const JSONResponse = await response.json();
-
-        setData(JSONResponse);
-      } catch (e) {
-        e.message = getErrorMessage(e);
-        setError(e);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchData();
-
-    return () => {
-      controller.abort();
-    };
-    // linter complains about missing deps although using `controller` and `signal` will throw this component in an endless loop
+  useEffect(() => () => {
+    controller.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [url, params]);
+  }, []);
 
-  const modify = method => async modifiedData => {
+  const get = async (url, params) => {
+    setLoading(true);
+
+    const queryParams = Object.entries(params || {})
+      .filter(([, value]) => Boolean(value))
+      .reduce((acc, [key, value]) => [...acc, `${key}=${value}`], [])
+      .join('&');
+
+    const requestURL = [url, queryParams].filter(Boolean).join('?');
+
+    try {
+      const response = await fetch(requestURL, {
+        headers,
+        signal,
+      });
+      /* istanbul ignore else */
+      if (response.ok === false) {
+        throw response;
+      }
+
+      const JSONResponse = await response.json();
+
+      setData(JSONResponse);
+    } catch (e) {
+      e.message = getErrorMessage(e);
+      setError(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const modify = method => async (url, modifiedData) => {
     setLoading(true);
 
     try {
@@ -106,14 +100,16 @@ export default (URL, params) => {
    * @typedef {Object} FetchResponse
    * @property {Object} data - Fetch response
    * @property {Error} error - Error object thrown during fetch and data parsing
+   * @property {Function} get - Function that expects a URL and a query parameter object
    * @property {Boolean} isLoading - Indicator of fetch request status
    * @property {Boolean} isSuccess - Indicator of post or patch request status
-   * @property {Function} patch - Function that expects the user data object as parameter
-   * @property {Function} post - Function that expects the user data object as parameter
+   * @property {Function} patch - Function that expects a URL and a data object as parameters
+   * @property {Function} post - Function that expects a URL and a data object as parameters
    */
   return {
     data,
     error,
+    get,
     isLoading,
     isSuccess,
     patch,
