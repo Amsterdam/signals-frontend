@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Checkbox, themeSpacing } from '@datapunt/asc-ui';
 import * as types from 'shared/types';
 
@@ -40,10 +40,23 @@ const StyledCheckbox = styled(Checkbox)`
   padding-right: ${themeSpacing(2)};
 `;
 
+const Wrapper = styled.div`
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      opacity: 0.2;
+
+      * {
+        pointer-events: none;
+      }
+    `}
+`;
+
 const setsAreEqual = (a, b) =>
   a.size === b.size && [...a].every(value => b.has(value));
 
 const CheckboxList = ({
+  boxWrapperKeyPrefix,
   className,
   defaultValue,
   groupId,
@@ -234,18 +247,23 @@ const CheckboxList = ({
 
       {options.map(({ id, key, slug, value: label }) => {
         const uid = id || key;
-        const optionId = [name, uid].filter(Boolean).join('_');
+        const optionId = [boxWrapperKeyPrefix, name, uid]
+          .filter(Boolean)
+          .join('_');
         const value = slug || key;
+        const defaultOption =
+          defaultValue.find(option => option.id === id) || {};
 
         if (!uid) {
           return null;
         }
 
         return (
-          <div key={optionId}>
+          <Wrapper disabled={defaultOption.disabled} key={optionId}>
             <StyledCheckbox
               checked={isChecked(groupId) || isChecked(uid)}
               data-id={uid}
+              disabled={defaultOption.disabled}
               id={optionId}
               name={name}
               onChange={handleIndividualCheck}
@@ -253,7 +271,7 @@ const CheckboxList = ({
               value={value}
             />
             <label htmlFor={optionId}>{label}</label>
-          </div>
+          </Wrapper>
         );
       })}
     </FilterGroup>
@@ -261,6 +279,7 @@ const CheckboxList = ({
 };
 
 CheckboxList.defaultProps = {
+  boxWrapperKeyPrefix: '',
   className: '',
   defaultValue: [],
   groupId: undefined,
@@ -275,6 +294,7 @@ CheckboxList.defaultProps = {
 };
 
 CheckboxList.propTypes = {
+  boxWrapperKeyPrefix: PropTypes.string,
   /** @ignore */
   className: PropTypes.string,
   /** List of keys for elements that need to be checked by default */
