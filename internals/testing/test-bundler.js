@@ -9,7 +9,7 @@ import 'jest-localstorage-mock';
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-global.fetch = require('jest-fetch-mock');
+require('jest-fetch-mock').enableMocks();
 
 // React 16 Enzyme adapter
 Enzyme.configure({ adapter: new Adapter() });
