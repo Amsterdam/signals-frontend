@@ -19,23 +19,38 @@ import useFetch from 'hooks/useFetch';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import * as types from 'shared/types';
 
+import useConfirmedCancel from '../../hooks/useConfirmedCancel';
+import useFetchResponseNotification from '../../hooks/useFetchResponseNotification';
 import CategoryLists from './components/CategoryLists';
 
-const DepartmentDetail = ({ categories, subCategories, findByMain }) => {
+const DepartmentDetail = ({ categories, findByMain, subCategories }) => {
   const { departmentId } = useParams();
-  const { isLoading, data, get, patch } = useFetch();
-
   const isExistingDepartment = departmentId !== undefined;
-  const title = `Afdeling ${isExistingDepartment ? 'wijzigen' : 'toevoegen'}`;
+  const { isLoading, isSuccess, data, error, get, patch } = useFetch();
+  const confirmedCancel = useConfirmedCancel(routes.departments);
+  const entityName = `Afdeling '${data && data.name}'`;
+  const title = `${entityName} ${isExistingDepartment ? 'wijzigen' : 'toevoegen'}`;
 
-  const onSubmit = useCallback(formData => {
-    patch(`${CONFIGURATION.DEPARTMENTS_ENDPOINT}${departmentId}`, formData);
-  }, [departmentId, patch]);
+  useFetchResponseNotification({
+    entityName,
+    error,
+    isExisting: isExistingDepartment,
+    isLoading,
+    isSuccess,
+    redirectURL: routes.departments,
+  });
+
+  const onSubmit = useCallback(
+    formData => {
+      patch(`${CONFIGURATION.DEPARTMENTS_ENDPOINT}${departmentId}`, formData);
+    },
+    [departmentId, patch]
+  );
 
   useEffect(() => {
     get(`${CONFIGURATION.DEPARTMENTS_ENDPOINT}${departmentId}`);
-    // Disabling linter; only need to execute on mount;
-    // defining the dependencies will throw the component in an endless loop
+    // Disabling linter; only need to execute on mount; defining the dependencies
+    // will throw the component in an endless loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -63,11 +78,12 @@ const DepartmentDetail = ({ categories, subCategories, findByMain }) => {
             </Column>
           </Row>
 
-          {data && categories && (
+          {categories && (
             <CategoryLists
               categories={categories}
               department={data}
               findByMain={findByMain}
+              onCancel={confirmedCancel}
               onSubmit={onSubmit}
               subCategories={subCategories}
             />
