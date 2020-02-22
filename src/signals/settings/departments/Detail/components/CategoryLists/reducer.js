@@ -6,8 +6,6 @@ export const initialState = {
 };
 
 export default (state, action) => {
-  const hasEmptyPayload = !action.payload.subCategories.length;
-
   switch (action.type) {
     case SET_CAN_VIEW:
       return {
@@ -15,7 +13,8 @@ export default (state, action) => {
         can_view: {
           ...state.can_view,
           [action.payload.slug]: action.payload.subCategories
-            // mark categories that are also present in is_responsible state as disabled
+            // mark categories that are also present in is_responsible state
+            // as disabled
             .map(category => {
               const isAlsoResponsible = Boolean(
                 (state.is_responsible[action.payload.slug] || []).find(
@@ -28,7 +27,8 @@ export default (state, action) => {
                 disabled: isAlsoResponsible,
               };
             })
-            // and combine them with categories that are present in is_responsible state, but not in the payload
+            // and combine them with categories that are present in
+            // is_responsible state, but not in the payload
             .concat(
               (state.is_responsible[action.payload.slug] || [])
                 .filter(
@@ -50,11 +50,12 @@ export default (state, action) => {
         },
         can_view: {
           ...state.can_view,
-          [action.payload.slug]: hasEmptyPayload
-            // return an empty list when the whole group has been toggled off
-            ? []
+          [action.payload.slug]: !action.payload.subCategories.length
+            ? // return an empty list when the whole group has been toggled off
+            []
             : (state.can_view[action.payload.slug] || [])
-              // take all can_view categories from the state that are not present in the payload
+              // take all can_view categories from the state that are not
+              // present in the payload
               .filter(
                 category =>
                   !action.payload.subCategories.find(
@@ -66,7 +67,8 @@ export default (state, action) => {
                 ...category,
                 disabled: false,
               }))
-              // and combine them with the categories from the payload, marking all from the payload as disabled
+              // and combine them with the categories from the payload, marking
+              // all from the payload as disabled
               .concat(
                 action.payload.subCategories.map(category => ({
                   ...category,
