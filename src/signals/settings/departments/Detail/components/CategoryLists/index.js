@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo, useReducer } from 'react';
 import PropTypes from 'prop-types';
-
 import styled from 'styled-components';
 import { Row, themeSpacing } from '@datapunt/asc-ui';
+import isEqual from 'lodash.isequal';
 
 import * as types from 'shared/types';
 
@@ -17,7 +17,7 @@ import FormFooter from 'components/FormFooter';
 import CategoryGroups from '../CategoryGroups';
 import reducer from './reducer';
 import { setCanView, setIsResponsible } from './actions';
-import { incoming, outgoing } from './mapCategories';
+import { incoming, outgoing } from '../mapCategories';
 
 const StyledFieldset = styled(Fieldset)`
   padding-top: ${themeSpacing(2)};
@@ -27,10 +27,21 @@ const StyledFieldset = styled(Fieldset)`
   }
 `;
 
+/**
+ * Component that renders two columns of checkboxes from the value of the
+ * `subCategories` prop. Categories are grouped by their parent category.
+ * Checkboxes in the `is_responsible` column have a one-on-one relation with
+ * the checkboxes in the `can_view` column, meaning that when a `is_responsible`
+ * checkbox is ticked, the corresponding checkbox in the `can_view` column is
+ * also ticked and disabled. This doesn't go the other way around.
+ *
+ * The tick logic is handled by the component's reducer function.
+ */
 const CategoryLists = ({
   categories,
   department,
   findByMain,
+  onCancel,
   onSubmit,
   subCategories,
 }) => {
@@ -49,6 +60,12 @@ const CategoryLists = ({
     },
     [onSubmit, state]
   );
+
+  const onCancelForm = useCallback(() => {
+    const isPristine = isEqual(outgoing(categoriesMapped), outgoing(state));
+
+    onCancel(isPristine);
+  }, [categoriesMapped, onCancel, state]);
 
   const onChangeCanViewCategories = useCallback(
     (slug, selectedSubCategories) => {
@@ -95,12 +112,12 @@ const CategoryLists = ({
 
             {categories && (
               <CategoryGroups
+                boxWrapperKeyPrefix="is_responsible"
                 categories={categories}
+                findByMain={findByMain}
                 onChange={onChangeIsResponsibleCategories}
                 onToggle={onIsResponsibleMainCategoryToggle}
-                boxWrapperKeyPrefix="is_responsible"
                 state={state.is_responsible}
-                findByMain={findByMain}
               />
             )}
           </StyledFieldset>
@@ -114,12 +131,12 @@ const CategoryLists = ({
 
             {categories && (
               <CategoryGroups
+                boxWrapperKeyPrefix="can_view"
                 categories={categories}
+                findByMain={findByMain}
                 onChange={onChangeCanViewCategories}
                 onToggle={onCanViewMainCategoryToggle}
-                boxWrapperKeyPrefix="can_view"
                 state={state.can_view}
-                findByMain={findByMain}
               />
             )}
           </StyledFieldset>
@@ -127,7 +144,7 @@ const CategoryLists = ({
 
         <FormFooter
           cancelBtnLabel="Annuleren"
-          // onCancel={onCancel}
+          onCancel={onCancelForm}
           onSubmitForm={onSubmitForm}
           submitBtnLabel="Opslaan"
         />
@@ -142,6 +159,7 @@ CategoryLists.propTypes = {
     categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   }).isRequired,
   findByMain: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   subCategories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
