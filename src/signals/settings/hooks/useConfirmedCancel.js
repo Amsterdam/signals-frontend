@@ -1,5 +1,7 @@
 import { useHistory } from 'react-router-dom';
 
+export const confirmationMessage = 'Niet opgeslagen gegevens gaan verloren. Doorgaan?';
+
 /**
  * Custom hook useConfirmedCancel
  *
@@ -20,7 +22,7 @@ const useConfirmedCancel = redirectURL => {
     if (
       isPristine ||
       (!isPristine &&
-        global.confirm('Niet opgeslagen gegevens gaan verloren. Doorgaan?'))
+        global.confirm(confirmationMessage))
     ) {
       history.push(redirectURL);
     }

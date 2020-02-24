@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import {
@@ -33,9 +33,20 @@ const useFetchResponseNotification = ({
 }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const showNotification = useCallback(
+    (variant, title) =>
+      dispatch(
+        showGlobalNotification({
+          variant,
+          title,
+          type: TYPE_LOCAL,
+        })
+      ),
+    [dispatch]
+  );
 
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading || !(error || isSuccess)) return;
 
     let message;
     let variant = VARIANT_SUCCESS;
@@ -52,21 +63,12 @@ const useFetchResponseNotification = ({
         : `${entityLabel} toegevoegd`;
     }
 
-    if (!message) return;
-
-    dispatch(
-      showGlobalNotification({
-        variant,
-        title: message,
-        type: TYPE_LOCAL,
-      })
-    );
+    showNotification(variant, message);
 
     if (isSuccess && redirectURL) {
       history.push(redirectURL);
     }
   }, [
-    dispatch,
     entityName,
     error,
     history,
@@ -74,6 +76,7 @@ const useFetchResponseNotification = ({
     isLoading,
     isSuccess,
     redirectURL,
+    showNotification,
   ]);
 };
 

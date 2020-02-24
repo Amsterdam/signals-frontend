@@ -89,14 +89,14 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
                       className="change-value__form-submit action primary"
                       type="submit"
                     >
-Opslaan
+                      Opslaan
                     </button>
                     <button
                       className="change-value__form-cancel action secundary-grey"
                       type="button"
                       onClick={this.handleCancel}
                     >
-Annuleren
+                      Annuleren
                     </button>
                   </Fragment>
                 </form>
