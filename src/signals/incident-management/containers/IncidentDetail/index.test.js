@@ -1,18 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import {
-  REQUEST_INCIDENT,
-  PATCH_INCIDENT,
-  REQUEST_ATTACHMENTS,
-  REQUEST_DEFAULT_TEXTS,
-  DISMISS_SPLIT_NOTIFICATION,
-  DISMISS_ERROR,
-} from 'models/incident/constants';
-import { REQUEST_HISTORY_LIST } from 'models/history/constants';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
+import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
+import { filterForSub } from 'models/categories/selectors';
 
-import { IncidentDetail, mapDispatchToProps } from './index';
+import { IncidentDetail } from './index';
 
 import DetailHeader from './components/DetailHeader';
 import MetaList from './components/MetaList';
@@ -29,6 +22,8 @@ import statusList, {
 } from '../../definitions/statusList';
 import stadsdeelList from '../../definitions/stadsdeelList';
 import priorityList from '../../definitions/priorityList';
+
+const subcategories = categoriesPrivate.results.filter(filterForSub);
 
 describe('<IncidentDetail />', () => {
   let wrapper;
@@ -203,19 +198,7 @@ describe('<IncidentDetail />', () => {
         },
       ],
     },
-    categories: {
-      sub: [
-        {
-          key:
-            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hondenpoep',
-          value: 'Uitwerpselen',
-          slug: 'hondenpoep',
-          category_slug: 'overlast-in-de-openbare-ruimte',
-          handling_message:
-            '\nWe laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
-        },
-      ],
-    },
+    subcategories,
     onRequestIncident: jest.fn(),
     onPatchIncident: jest.fn(),
     onRequestHistoryList: jest.fn(),
@@ -400,64 +383,6 @@ describe('<IncidentDetail />', () => {
       });
 
       expect(props.onRequestDefaultTexts).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('mapDispatchToProps', () => {
-    const dispatch = jest.fn();
-
-    it('onRequestIncident', () => {
-      mapDispatchToProps(dispatch).onRequestIncident(42);
-      expect(dispatch).toHaveBeenCalledWith({
-        type: REQUEST_INCIDENT,
-        payload: 42,
-      });
-    });
-
-    it('onPatchIncident', () => {
-      mapDispatchToProps(dispatch).onPatchIncident({ patch: 'foo' });
-      expect(dispatch).toHaveBeenCalledWith({
-        type: PATCH_INCIDENT,
-        payload: { patch: 'foo' },
-      });
-    });
-
-    it('onRequestHistoryList', () => {
-      mapDispatchToProps(dispatch).onRequestHistoryList(42);
-      expect(dispatch).toHaveBeenCalledWith({
-        type: REQUEST_HISTORY_LIST,
-        payload: 42,
-      });
-    });
-
-    it('onRequestAttachments', () => {
-      mapDispatchToProps(dispatch).onRequestAttachments(42);
-      expect(dispatch).toHaveBeenCalledWith({
-        type: REQUEST_ATTACHMENTS,
-        payload: 42,
-      });
-    });
-
-    it('onRequestDefaultTexts', () => {
-      mapDispatchToProps(dispatch).onRequestDefaultTexts({
-        main_slug: 'afval',
-        sub_slug: 'overige',
-      });
-      expect(dispatch).toHaveBeenCalledWith({
-        type: REQUEST_DEFAULT_TEXTS,
-        payload: { main_slug: 'afval', sub_slug: 'overige' },
-      });
-    });
-
-    it('onDismissSplitNotification', () => {
-      mapDispatchToProps(dispatch).onDismissSplitNotification();
-      expect(dispatch).toHaveBeenCalledWith({
-        type: DISMISS_SPLIT_NOTIFICATION,
-      });
-    });
-    it('onDismissError', () => {
-      mapDispatchToProps(dispatch).onDismissError();
-      expect(dispatch).toHaveBeenCalledWith({ type: DISMISS_ERROR });
     });
   });
 });

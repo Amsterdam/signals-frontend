@@ -12,7 +12,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import { parseOutputFormData } from 'signals/shared/filter/parse';
 import * as types from 'shared/types';
-import FormFooter from 'components/FormFooter';
 import Label from 'components/Label';
 import Input from 'components/Input';
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
@@ -23,6 +22,7 @@ import {
   Fieldset,
   FilterGroup,
   Form,
+  FormFooterWrapper,
 } from './styled';
 import CalendarInput from '../CalendarInput';
 import CategoryGroups from './components/CategoryGroups';
@@ -141,8 +141,8 @@ const FilterForm = ({
   // callback handler that is called whenever a checkbox is (un)checked in the list of
   // category checkbox groups
   const onChangeCategories = useCallback(
-    (main_category_slug, subCategories) => {
-      dispatch(setCategories({ main_category_slug, subCategories }));
+    (slug, subCategories) => {
+      dispatch(setCategories({ slug, subCategories }));
     },
     [dispatch]
   );
@@ -150,14 +150,15 @@ const FilterForm = ({
   // callback handler that is called whenever a toggle is (un)checked in the list of
   // category checkbox groups
   const onMainCategoryToggle = useCallback(
-    (main_category_slug, isToggled) => {
-      const category = categories.main.find(
-        ({ slug }) => slug === main_category_slug
+    (slug, isToggled) => {
+      dispatch(
+        setMainCategory({
+          category: categories[slug],
+          isToggled,
+        })
       );
-
-      dispatch(setMainCategory({ main_category_slug, category, isToggled }));
     },
-    [categories.main, dispatch]
+    [categories, dispatch]
   );
 
   const onNameChange = useCallback(
@@ -377,7 +378,7 @@ const FilterForm = ({
         </Fieldset>
       </ControlsWrapper>
 
-      <FormFooter
+      <FormFooterWrapper
         cancelBtnLabel="Annuleren"
         onCancel={onCancel}
         onResetForm={onResetForm}

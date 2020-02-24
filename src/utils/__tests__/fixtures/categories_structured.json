@@ -1,0 +1,2588 @@
+{
+  "afval": {
+    "_display": "Afval",
+    "sla": {
+      "n_days": null,
+      "use_calendar_days": null
+    },
+    "name": "Afval",
+    "slug": "afval",
+    "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
+    "value": "Afval",
+    "parentKey": false,
+    "_links": {
+      "curies": {
+        "name": "sia",
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+      },
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+        "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+      },
+      "sia:status-message-templates": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/status-message-templates"
+      }
+    },
+    "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+    "is_active": true,
+    "description": null,
+    "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+    "sub": [
+      {
+        "_display": "Asbest / accu (Afval)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Asbest / accu",
+        "slug": "asbest-accu",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Asbest / accu",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/10",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/asbest-accu/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu"
+      },
+      {
+        "_display": "Bedrijfsafval (Afval)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Bedrijfsafval",
+        "slug": "bedrijfsafval",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Bedrijfsafval",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/4",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/bedrijfsafval"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/bedrijfsafval/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/bedrijfsafval",
+        "is_active": false,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/bedrijfsafval"
+      },
+      {
+        "_display": "Container glas kapot (Afval)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Container glas kapot",
+        "slug": "container-glas-kapot",
+        "handling_message": "\nWe laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Container glas kapot",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/132",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-glas-kapot"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/container-glas-kapot/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-glas-kapot",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-glas-kapot"
+      },
+      {
+        "_display": "Container glas vol (Afval)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Container glas vol",
+        "slug": "container-glas-vol",
+        "handling_message": "\nWe laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Container glas vol",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/133",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-glas-vol"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/container-glas-vol/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-glas-vol",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-glas-vol"
+      },
+      {
+        "_display": "Container is kapot (Afval)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Container is kapot",
+        "slug": "container-is-kapot",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Container is kapot",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/8",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/container-is-kapot/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot"
+      },
+      {
+        "_display": "Container is vol (Afval)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Container is vol",
+        "slug": "container-is-vol",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Container is vol",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/6",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-vol"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/container-is-vol/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-vol",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-vol"
+      },
+      {
+        "_display": "Container papier kapot (Afval)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Container papier kapot",
+        "slug": "container-voor-papier-is-stuk",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Container papier kapot",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/89",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-stuk"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/container-voor-papier-is-stuk/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-stuk",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-stuk"
+      },
+      {
+        "_display": "Container papier vol (Afval)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Container papier vol",
+        "slug": "container-voor-papier-is-vol",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Container papier vol",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/90",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-vol"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/container-voor-papier-is-vol/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-vol",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-vol"
+      },
+      {
+        "_display": "Container plastic afval vol (Afval)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Container plastic afval vol",
+        "slug": "container-voor-plastic-afval-is-vol",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Container plastic afval vol",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/12",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-plastic-afval-is-vol"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/container-voor-plastic-afval-is-vol/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-plastic-afval-is-vol",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-plastic-afval-is-vol"
+      },
+      {
+        "_display": "Container plastic kapot (Afval)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Container plastic kapot",
+        "slug": "container-voor-plastic-afval-is-kapot",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Container plastic kapot",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/13",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-plastic-afval-is-kapot"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/container-voor-plastic-afval-is-kapot/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-plastic-afval-is-kapot",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-plastic-afval-is-kapot"
+      },
+      {
+        "_display": "Grofvuil (Afval)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Grofvuil",
+        "slug": "grofvuil",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken. We houden u op de hoogte.",
+        "value": "Grofvuil",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/2",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/grofvuil"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/grofvuil/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/grofvuil",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/grofvuil"
+      },
+      {
+        "_display": "Handhaving op afval (Afval)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Handhaving op afval",
+        "slug": "handhaving-op-afval",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Handhaving op afval",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/91",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/handhaving-op-afval"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/handhaving-op-afval/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/handhaving-op-afval",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/handhaving-op-afval"
+      },
+      {
+        "_display": "Huisafval (Afval)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Huisafval",
+        "slug": "huisafval",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Huisafval",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/3",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/huisafval/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval"
+      },
+      {
+        "_display": "Overig afval (Afval)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Overig afval",
+        "slug": "overig-afval",
+        "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
+        "value": "Overig afval",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/11",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/overig-afval"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/overig-afval/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/overig-afval",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/overig-afval"
+      },
+      {
+        "_display": "Prullenbak is kapot (Afval)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Prullenbak is kapot",
+        "slug": "prullenbak-is-kapot",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Prullenbak is kapot",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/9",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/prullenbak-is-kapot"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/prullenbak-is-kapot/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/prullenbak-is-kapot",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/prullenbak-is-kapot"
+      },
+      {
+        "_display": "Prullenbak is vol (Afval)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Prullenbak is vol",
+        "slug": "prullenbak-is-vol",
+        "handling_message": "\nWij handelen uw melding binnen drie werkdagen af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken.",
+        "value": "Prullenbak is vol",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/7",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/prullenbak-is-vol"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/prullenbak-is-vol/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/prullenbak-is-vol",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/prullenbak-is-vol"
+      },
+      {
+        "_display": "Puin- / sloopafval (Afval)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Puin- / sloopafval",
+        "slug": "puin-sloopafval",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Puin- / sloopafval",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/5",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/puin-sloopafval"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/puin-sloopafval/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/puin-sloopafval",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/puin-sloopafval"
+      }
+    ]
+  },
+  "civiele-constructies": {
+    "_display": "Civiele Constructies",
+    "sla": {
+      "n_days": null,
+      "use_calendar_days": null
+    },
+    "name": "Civiele Constructies",
+    "slug": "civiele-constructies",
+    "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
+    "value": "Civiele Constructies",
+    "parentKey": false,
+    "_links": {
+      "curies": {
+        "name": "sia",
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+      },
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/106",
+        "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies"
+      },
+      "sia:status-message-templates": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/civiele-constructies/status-message-templates"
+      }
+    },
+    "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies",
+    "is_active": true,
+    "description": null,
+    "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies",
+    "sub": [
+      {
+        "_display": "Brug bediening (Civiele Constructies)",
+        "sla": {
+          "n_days": 21,
+          "use_calendar_days": false
+        },
+        "name": "Brug bediening",
+        "slug": "brug-bediening",
+        "handling_message": "\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken.",
+        "value": "Brug bediening",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/122",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/brug-bediening"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/civiele-constructies/sub_categories/brug-bediening/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/106",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/brug-bediening",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/brug-bediening"
+      },
+      {
+        "_display": "Kades (Civiele Constructies)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Kades",
+        "slug": "kades",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Kades",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/119",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/kades"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/civiele-constructies/sub_categories/kades/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/106",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/kades",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/kades"
+      },
+      {
+        "_display": "Riolering - verstopte kolk (Civiele Constructies)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Riolering - verstopte kolk",
+        "slug": "riolering-verstopte-kolk",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Riolering - verstopte kolk",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/123",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/riolering-verstopte-kolk"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/civiele-constructies/sub_categories/riolering-verstopte-kolk/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/106",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/riolering-verstopte-kolk",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/riolering-verstopte-kolk"
+      }
+    ]
+  },
+  "ondermijning": {
+    "_display": "Ondermijning",
+    "sla": {
+      "n_days": null,
+      "use_calendar_days": null
+    },
+    "name": "Ondermijning",
+    "slug": "ondermijning",
+    "handling_message": "Bedankt voor uw melding. Wij nemen deze mee in ons onderzoek.",
+    "value": "Ondermijning",
+    "parentKey": false,
+    "_links": {
+      "curies": {
+        "name": "sia",
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+      },
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/88",
+        "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/ondermijning"
+      },
+      "sia:status-message-templates": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/ondermijning/status-message-templates"
+      }
+    },
+    "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/ondermijning",
+    "is_active": true,
+    "description": null,
+    "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/ondermijning",
+    "sub": []
+  },
+  "openbaar-groen-en-water": {
+    "_display": "Openbaar groen en water",
+    "sla": {
+      "n_days": null,
+      "use_calendar_days": null
+    },
+    "name": "Openbaar groen en water",
+    "slug": "openbaar-groen-en-water",
+    "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
+    "value": "Openbaar groen en water",
+    "parentKey": false,
+    "_links": {
+      "curies": {
+        "name": "sia",
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+      },
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/82",
+        "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water"
+      },
+      "sia:status-message-templates": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/openbaar-groen-en-water/status-message-templates"
+      }
+    },
+    "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
+    "is_active": true,
+    "description": null,
+    "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
+    "sub": [
+      {
+        "_display": "Boom - aanvraag plaatsing (Openbaar groen en water)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Boom - aanvraag plaatsing",
+        "slug": "boom-aanvraag-plaatsing",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Boom - aanvraag plaatsing",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/113",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-aanvraag-plaatsing"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/openbaar-groen-en-water/sub_categories/boom-aanvraag-plaatsing/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/82",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-aanvraag-plaatsing",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-aanvraag-plaatsing"
+      },
+      {
+        "_display": "Boom - boomstob (Openbaar groen en water)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Boom - boomstob",
+        "slug": "boom-boomstob",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Boom - boomstob",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/131",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-boomstob"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/openbaar-groen-en-water/sub_categories/boom-boomstob/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/82",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-boomstob",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-boomstob"
+      },
+      {
+        "_display": "Boom - dood (Openbaar groen en water)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Boom - dood",
+        "slug": "boom",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Boom - dood",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/40",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/openbaar-groen-en-water/sub_categories/boom/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/82",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom"
+      },
+      {
+        "_display": "Boom - illegale kap (Openbaar groen en water)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Boom - illegale kap",
+        "slug": "boom-illegale-kap",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Boom - illegale kap",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/115",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-illegale-kap"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/openbaar-groen-en-water/sub_categories/boom-illegale-kap/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/82",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-illegale-kap",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-illegale-kap"
+      },
+      {
+        "_display": "Boom - noodkap (Openbaar groen en water)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Boom - noodkap",
+        "slug": "boom-noodkap",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Boom - noodkap",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/114",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-noodkap"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/openbaar-groen-en-water/sub_categories/boom-noodkap/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/82",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-noodkap",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-noodkap"
+      },
+      {
+        "_display": "Boom - overig (Openbaar groen en water)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Boom - overig",
+        "slug": "boom-overig",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Boom - overig",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/117",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-overig"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/openbaar-groen-en-water/sub_categories/boom-overig/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/82",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-overig",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-overig"
+      },
+      {
+        "_display": "Boom - plastic en overig afval (Openbaar groen en water)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Boom - plastic en overig afval",
+        "slug": "boom-afval",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Boom - plastic en overig afval",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/118",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-afval"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/openbaar-groen-en-water/sub_categories/boom-afval/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/82",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-afval",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-afval"
+      },
+      {
+        "_display": "Boom - spiegel (Openbaar groen en water)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Boom - spiegel",
+        "slug": "boom-spiegel",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Boom - spiegel",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/116",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-spiegel"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/openbaar-groen-en-water/sub_categories/boom-spiegel/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/82",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-spiegel",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-spiegel"
+      },
+      {
+        "_display": "Drijfvuil bevaarbaar water (Openbaar groen en water)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Drijfvuil bevaarbaar water",
+        "slug": "drijfvuil",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Drijfvuil bevaarbaar water",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/43",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/drijfvuil"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/openbaar-groen-en-water/sub_categories/drijfvuil/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/82",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/drijfvuil",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/drijfvuil"
+      },
+      {
+        "_display": "Maaien (Openbaar groen en water)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Maaien",
+        "slug": "maaien-snoeien",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Maaien",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/41",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/maaien-snoeien"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/openbaar-groen-en-water/sub_categories/maaien-snoeien/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/82",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/maaien-snoeien",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/maaien-snoeien"
+      },
+      {
+        "_display": "Oever (Openbaar groen en water)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Oever",
+        "slug": "oever-kade-steiger",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Oever",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/44",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/oever-kade-steiger"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/openbaar-groen-en-water/sub_categories/oever-kade-steiger/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/82",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/oever-kade-steiger",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/oever-kade-steiger"
+      },
+      {
+        "_display": "Onkruid in het groen (Openbaar groen en water)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Onkruid in het groen",
+        "slug": "onkruid",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Onkruid in het groen",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/42",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/onkruid"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/openbaar-groen-en-water/sub_categories/onkruid/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/82",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/onkruid",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/onkruid"
+      },
+      {
+        "_display": "Overig groen en water (Openbaar groen en water)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Overig groen en water",
+        "slug": "overig-groen-en-water",
+        "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
+        "value": "Overig groen en water",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/45",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/overig-groen-en-water"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/openbaar-groen-en-water/sub_categories/overig-groen-en-water/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/82",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/overig-groen-en-water",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/overig-groen-en-water"
+      }
+    ]
+  },
+  "overig": {
+    "_display": "Overig",
+    "sla": {
+      "n_days": null,
+      "use_calendar_days": null
+    },
+    "name": "Overig",
+    "slug": "overig",
+    "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
+    "value": "Overig",
+    "parentKey": false,
+    "_links": {
+      "curies": {
+        "name": "sia",
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+      },
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/87",
+        "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig"
+      },
+      "sia:status-message-templates": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overig/status-message-templates"
+      }
+    },
+    "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig",
+    "is_active": true,
+    "description": null,
+    "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig",
+    "sub": [
+      {
+        "_display": "Overig (Overig)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Overig",
+        "slug": "overig",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Overig",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/76",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig/sub_categories/overig"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overig/sub_categories/overig/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/87",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig/sub_categories/overig",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig/sub_categories/overig"
+      },
+      {
+        "_display": "Overige dienstverlening (Overig)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Overige dienstverlening",
+        "slug": "overige-dienstverlening",
+        "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
+        "value": "Overige dienstverlening",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/101",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig/sub_categories/overige-dienstverlening"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overig/sub_categories/overige-dienstverlening/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/87",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig/sub_categories/overige-dienstverlening",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig/sub_categories/overige-dienstverlening"
+      }
+    ]
+  },
+  "overlast-bedrijven-en-horeca": {
+    "_display": "Overlast Bedrijven en Horeca",
+    "sla": {
+      "n_days": null,
+      "use_calendar_days": null
+    },
+    "name": "Overlast Bedrijven en Horeca",
+    "slug": "overlast-bedrijven-en-horeca",
+    "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
+    "value": "Overlast Bedrijven en Horeca",
+    "parentKey": false,
+    "_links": {
+      "curies": {
+        "name": "sia",
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+      },
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/85",
+        "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca"
+      },
+      "sia:status-message-templates": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-bedrijven-en-horeca/status-message-templates"
+      }
+    },
+    "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca",
+    "is_active": true,
+    "description": null,
+    "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca",
+    "sub": [
+      {
+        "_display": "Geluidsoverlast installaties (Overlast Bedrijven en Horeca)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Geluidsoverlast installaties",
+        "slug": "geluidsoverlast-installaties",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Geluidsoverlast installaties",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/63",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/geluidsoverlast-installaties"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-bedrijven-en-horeca/sub_categories/geluidsoverlast-installaties/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/85",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/geluidsoverlast-installaties",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/geluidsoverlast-installaties"
+      },
+      {
+        "_display": "Geluidsoverlast muziek (Overlast Bedrijven en Horeca)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Geluidsoverlast muziek",
+        "slug": "geluidsoverlast-muziek",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Geluidsoverlast muziek",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/62",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/geluidsoverlast-muziek"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-bedrijven-en-horeca/sub_categories/geluidsoverlast-muziek/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/85",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/geluidsoverlast-muziek",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/geluidsoverlast-muziek"
+      },
+      {
+        "_display": "Overig bedrijven / horeca (Overlast Bedrijven en Horeca)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Overig bedrijven / horeca",
+        "slug": "overig-horecabedrijven",
+        "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
+        "value": "Overig bedrijven / horeca",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/68",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overig-horecabedrijven"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overig-horecabedrijven/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/85",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overig-horecabedrijven",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overig-horecabedrijven"
+      },
+      {
+        "_display": "Overlast door bezoekers (niet op terras) (Overlast Bedrijven en Horeca)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Overlast door bezoekers (niet op terras)",
+        "slug": "overlast-door-bezoekers-niet-op-terras",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Overlast door bezoekers (niet op terras)",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/67",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overlast-door-bezoekers-niet-op-terras"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overlast-door-bezoekers-niet-op-terras/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/85",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overlast-door-bezoekers-niet-op-terras",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overlast-door-bezoekers-niet-op-terras"
+      },
+      {
+        "_display": "Overlast terrassen (Overlast Bedrijven en Horeca)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Overlast terrassen",
+        "slug": "overlast-terrassen",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Overlast terrassen",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/64",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overlast-terrassen"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overlast-terrassen/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/85",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overlast-terrassen",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overlast-terrassen"
+      }
+    ]
+  },
+  "overlast-in-de-openbare-ruimte": {
+    "_display": "Overlast in de openbare ruimte",
+    "sla": {
+      "n_days": null,
+      "use_calendar_days": null
+    },
+    "name": "Overlast in de openbare ruimte",
+    "slug": "overlast-in-de-openbare-ruimte",
+    "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
+    "value": "Overlast in de openbare ruimte",
+    "parentKey": false,
+    "_links": {
+      "curies": {
+        "name": "sia",
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+      },
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/81",
+        "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte"
+      },
+      "sia:status-message-templates": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-in-de-openbare-ruimte/status-message-templates"
+      }
+    },
+    "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte",
+    "is_active": true,
+    "description": null,
+    "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte",
+    "sub": [
+      {
+        "_display": "Auto- / scooter- / bromfiets(wrak) (Overlast in de openbare ruimte)",
+        "sla": {
+          "n_days": 21,
+          "use_calendar_days": true
+        },
+        "name": "Auto- / scooter- / bromfiets(wrak)",
+        "slug": "auto-scooter-bromfietswrak",
+        "handling_message": "\nWe laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Auto- / scooter- / bromfiets(wrak)",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/34",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/auto-scooter-bromfietswrak"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/auto-scooter-bromfietswrak/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/81",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/auto-scooter-bromfietswrak",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/auto-scooter-bromfietswrak"
+      },
+      {
+        "_display": "Bouw- / sloopoverlast (Overlast in de openbare ruimte)",
+        "sla": {
+          "n_days": 21,
+          "use_calendar_days": true
+        },
+        "name": "Bouw- / sloopoverlast",
+        "slug": "bouw-sloopoverlast",
+        "handling_message": "\nWe laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Bouw- / sloopoverlast",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/33",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/bouw-sloopoverlast"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/bouw-sloopoverlast/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/81",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/bouw-sloopoverlast",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/bouw-sloopoverlast"
+      },
+      {
+        "_display": "Deelfiets (Overlast in de openbare ruimte)",
+        "sla": {
+          "n_days": 21,
+          "use_calendar_days": true
+        },
+        "name": "Deelfiets",
+        "slug": "deelfiets",
+        "handling_message": "\nWe laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Deelfiets",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/38",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/deelfiets"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/deelfiets/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/81",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/deelfiets",
+        "is_active": false,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/deelfiets"
+      },
+      {
+        "_display": "Fietswrak (Overlast in de openbare ruimte)",
+        "sla": {
+          "n_days": 21,
+          "use_calendar_days": true
+        },
+        "name": "Fietswrak",
+        "slug": "fietswrak",
+        "handling_message": "\nWe laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Fietswrak",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/31",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/fietswrak"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/fietswrak/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/81",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/fietswrak",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/fietswrak"
+      },
+      {
+        "_display": "Graffiti / wildplak (Overlast in de openbare ruimte)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Graffiti / wildplak",
+        "slug": "graffiti-wildplak",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Graffiti / wildplak",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/35",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/graffiti-wildplak"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/graffiti-wildplak/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/81",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/graffiti-wildplak",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/graffiti-wildplak"
+      },
+      {
+        "_display": "Hinderlijk geplaatst object (Overlast in de openbare ruimte)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Hinderlijk geplaatst object",
+        "slug": "hinderlijk-geplaatst-object",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Hinderlijk geplaatst object",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/37",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hinderlijk-geplaatst-object"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hinderlijk-geplaatst-object/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/81",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hinderlijk-geplaatst-object",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hinderlijk-geplaatst-object"
+      },
+      {
+        "_display": "Lozing / dumping / bodemverontreiniging (Overlast in de openbare ruimte)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Lozing / dumping / bodemverontreiniging",
+        "slug": "lozing-dumping-bodemverontreiniging",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Lozing / dumping / bodemverontreiniging",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/29",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/lozing-dumping-bodemverontreiniging"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/lozing-dumping-bodemverontreiniging/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/81",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/lozing-dumping-bodemverontreiniging",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/lozing-dumping-bodemverontreiniging"
+      },
+      {
+        "_display": "Overig openbare ruimte (Overlast in de openbare ruimte)",
+        "sla": {
+          "n_days": 21,
+          "use_calendar_days": true
+        },
+        "name": "Overig openbare ruimte",
+        "slug": "overig-openbare-ruimte",
+        "handling_message": "\nWe laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Overig openbare ruimte",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/39",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/overig-openbare-ruimte"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/overig-openbare-ruimte/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/81",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/overig-openbare-ruimte",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/overig-openbare-ruimte"
+      },
+      {
+        "_display": "Parkeeroverlast (Overlast in de openbare ruimte)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Parkeeroverlast",
+        "slug": "parkeeroverlast",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Parkeeroverlast",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/30",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/parkeeroverlast"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/parkeeroverlast/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/81",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/parkeeroverlast",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/parkeeroverlast"
+      }
+    ]
+  },
+  "overlast-op-het-water": {
+    "_display": "Overlast op het water",
+    "sla": {
+      "n_days": null,
+      "use_calendar_days": null
+    },
+    "name": "Overlast op het water",
+    "slug": "overlast-op-het-water",
+    "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
+    "value": "Overlast op het water",
+    "parentKey": false,
+    "_links": {
+      "curies": {
+        "name": "sia",
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+      },
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/86",
+        "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water"
+      },
+      "sia:status-message-templates": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-op-het-water/status-message-templates"
+      }
+    },
+    "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water",
+    "is_active": true,
+    "description": null,
+    "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water",
+    "sub": [
+      {
+        "_display": "Blokkade van de vaarweg (Overlast op het water)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": true
+        },
+        "name": "Blokkade van de vaarweg",
+        "slug": "blokkade-van-de-vaarweg",
+        "handling_message": "Gevaarlijke situaties pakken wij zo snel mogelijk op. We laten u binnen 3 werkdagen weten wat we hebben gedaan. We houden u op de hoogte via e-mail.",
+        "value": "Blokkade van de vaarweg",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/134",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/blokkade-van-de-vaarweg"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-op-het-water/sub_categories/blokkade-van-de-vaarweg/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/86",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/blokkade-van-de-vaarweg",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/blokkade-van-de-vaarweg"
+      },
+      {
+        "_display": "Geluid op het water (Overlast op het water)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Geluid op het water",
+        "slug": "overlast-op-het-water-geluid",
+        "handling_message": "\nWe geven uw melding door aan de handhavers. Als dat mogelijk is ondernemen zij direct actie, maar zij kunnen niet altijd snel genoeg aanwezig zijn.\n\nBlijf overlast aan ons melden. Ook als we niet altijd direct iets voor u kunnen doen. We gebruiken alle meldingen om overlast in de toekomst te kunnen beperken.",
+        "value": "Geluid op het water",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/71",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-geluid"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-geluid/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/86",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-geluid",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-geluid"
+      },
+      {
+        "_display": "Nautisch toezicht / vaargedrag (Overlast op het water)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Nautisch toezicht / vaargedrag",
+        "slug": "scheepvaart-nautisch-toezicht",
+        "handling_message": "\nWe geven uw melding door aan onze handhavers. Zij beoordelen of het nodig is direct actie te ondernemen. Bijvoorbeeld omdat er olie lekt of omdat de situatie gevaar oplevert voor andere boten.\n\nAls er geen directe actie nodig is, dan pakken we uw melding op buiten het vaarseizoen (september - maart).\n",
+        "value": "Nautisch toezicht / vaargedrag",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/73",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/scheepvaart-nautisch-toezicht"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-op-het-water/sub_categories/scheepvaart-nautisch-toezicht/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/86",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/scheepvaart-nautisch-toezicht",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/scheepvaart-nautisch-toezicht"
+      },
+      {
+        "_display": "Olie op het water (Overlast op het water)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": true
+        },
+        "name": "Olie op het water",
+        "slug": "olie-op-het-water",
+        "handling_message": "Gevaarlijke situaties pakken wij zo snel mogelijk op. We laten u binnen 3 werkdagen weten wat we hebben gedaan. We houden u op de hoogte via e-mail.",
+        "value": "Olie op het water",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/135",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/olie-op-het-water"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-op-het-water/sub_categories/olie-op-het-water/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/86",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/olie-op-het-water",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/olie-op-het-water"
+      },
+      {
+        "_display": "Overige boten (Overlast op het water)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Overige boten",
+        "slug": "overig-boten",
+        "handling_message": "\nWe geven uw melding door aan onze handhavers. Zij beoordelen of het nodig is direct actie te ondernemen. Bijvoorbeeld omdat er olie lekt of omdat de situatie gevaar oplevert voor andere boten.\n\nAls er geen directe actie nodig is, dan pakken we uw melding op buiten het vaarseizoen (september - maart).\n",
+        "value": "Overige boten",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/75",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overig-boten"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-op-het-water/sub_categories/overig-boten/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/86",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overig-boten",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overig-boten"
+      },
+      {
+        "_display": "Overlast op het water - Vaargedrag (Overlast op het water)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Overlast op het water - Vaargedrag",
+        "slug": "overlast-op-het-water-vaargedrag",
+        "handling_message": "\nWe geven uw melding door aan de handhavers. Als dat mogelijk is ondernemen zij direct actie, maar zij kunnen niet altijd snel genoeg aanwezig zijn.\n\nBlijf overlast aan ons melden. Ook als we niet altijd direct iets voor u kunnen doen. We gebruiken alle meldingen om overlast in de toekomst te kunnen beperken.",
+        "value": "Overlast op het water - Vaargedrag",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/70",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-vaargedrag"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-vaargedrag/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/86",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-vaargedrag",
+        "is_active": false,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-vaargedrag"
+      },
+      {
+        "_display": "Overlast vanaf het water (Overlast op het water)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Overlast vanaf het water",
+        "slug": "overlast-vanaf-het-water",
+        "handling_message": "\nWe geven uw melding door aan de handhavers. Als dat mogelijk is ondernemen zij direct actie, maar zij kunnen niet altijd snel genoeg aanwezig zijn.\n\nBlijf overlast aan ons melden. Ook als we niet altijd direct iets voor u kunnen doen. We gebruiken alle meldingen om overlast in de toekomst te kunnen beperken.",
+        "value": "Overlast vanaf het water",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/74",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-vanaf-het-water"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-op-het-water/sub_categories/overlast-vanaf-het-water/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/86",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-vanaf-het-water",
+        "is_active": false,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-vanaf-het-water"
+      }
+    ]
+  },
+  "overlast-van-dieren": {
+    "_display": "Overlast van dieren",
+    "sla": {
+      "n_days": null,
+      "use_calendar_days": null
+    },
+    "name": "Overlast van dieren",
+    "slug": "overlast-van-dieren",
+    "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
+    "value": "Overlast van dieren",
+    "parentKey": false,
+    "_links": {
+      "curies": {
+        "name": "sia",
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+      },
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/83",
+        "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren"
+      },
+      "sia:status-message-templates": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-van-dieren/status-message-templates"
+      }
+    },
+    "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren",
+    "is_active": true,
+    "description": null,
+    "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren",
+    "sub": [
+      {
+        "_display": "Dode dieren (Overlast van dieren)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Dode dieren",
+        "slug": "dode-dieren",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Dode dieren",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/51",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/dode-dieren"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-van-dieren/sub_categories/dode-dieren/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/83",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/dode-dieren",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/dode-dieren"
+      },
+      {
+        "_display": "Duiven (Overlast van dieren)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Duiven",
+        "slug": "duiven",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Duiven",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/48",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-van-dieren/sub_categories/duiven/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/83",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven"
+      },
+      {
+        "_display": "Ganzen (Overlast van dieren)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Ganzen",
+        "slug": "ganzen",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Ganzen",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/47",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ganzen"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-van-dieren/sub_categories/ganzen/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/83",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ganzen",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ganzen"
+      },
+      {
+        "_display": "Meeuwen (Overlast van dieren)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Meeuwen",
+        "slug": "meeuwen",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Meeuwen",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/49",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/meeuwen"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-van-dieren/sub_categories/meeuwen/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/83",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/meeuwen",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/meeuwen"
+      },
+      {
+        "_display": "Overig dieren (Overlast van dieren)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Overig dieren",
+        "slug": "overig-dieren",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Overig dieren",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/52",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/overig-dieren"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-van-dieren/sub_categories/overig-dieren/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/83",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/overig-dieren",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/overig-dieren"
+      },
+      {
+        "_display": "Ratten (Overlast van dieren)",
+        "sla": {
+          "n_days": 5,
+          "use_calendar_days": false
+        },
+        "name": "Ratten",
+        "slug": "ratten",
+        "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+        "value": "Ratten",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/46",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ratten"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-van-dieren/sub_categories/ratten/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/83",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ratten",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ratten"
+      }
+    ]
+  },
+  "overlast-van-en-door-personen-of-groepen": {
+    "_display": "Overlast van en door personen of groepen",
+    "sla": {
+      "n_days": null,
+      "use_calendar_days": null
+    },
+    "name": "Overlast van en door personen of groepen",
+    "slug": "overlast-van-en-door-personen-of-groepen",
+    "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
+    "value": "Overlast van en door personen of groepen",
+    "parentKey": false,
+    "_links": {
+      "curies": {
+        "name": "sia",
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+      },
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/84",
+        "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen"
+      },
+      "sia:status-message-templates": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-van-en-door-personen-of-groepen/status-message-templates"
+      }
+    },
+    "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen",
+    "is_active": true,
+    "description": null,
+    "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen",
+    "sub": [
+      {
+        "_display": "Daklozen / bedelen (Overlast van en door personen of groepen)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Daklozen / bedelen",
+        "slug": "daklozen-bedelen",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Daklozen / bedelen",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/59",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/daklozen-bedelen"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/daklozen-bedelen/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/84",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/daklozen-bedelen",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/daklozen-bedelen"
+      },
+      {
+        "_display": "Drank- / drugsoverlast (Overlast van en door personen of groepen)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Drank- / drugsoverlast",
+        "slug": "drank-en-drugsoverlast",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Drank- / drugsoverlast",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/61",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/drank-en-drugsoverlast"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/drank-en-drugsoverlast/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/84",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/drank-en-drugsoverlast",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/drank-en-drugsoverlast"
+      },
+      {
+        "_display": "Jongerenoverlast (Overlast van en door personen of groepen)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Jongerenoverlast",
+        "slug": "jongerenoverlast",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Jongerenoverlast",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/58",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/jongerenoverlast"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/jongerenoverlast/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/84",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/jongerenoverlast",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/jongerenoverlast"
+      },
+      {
+        "_display": "Overige overlast door personen (Overlast van en door personen of groepen)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Overige overlast door personen",
+        "slug": "overige-overlast-door-personen",
+        "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
+        "value": "Overige overlast door personen",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/55",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overige-overlast-door-personen"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overige-overlast-door-personen/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/84",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overige-overlast-door-personen",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overige-overlast-door-personen"
+      },
+      {
+        "_display": "Overlast door afsteken vuurwerk (Overlast van en door personen of groepen)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Overlast door afsteken vuurwerk",
+        "slug": "overlast-door-afsteken-vuurwerk",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Overlast door afsteken vuurwerk",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/54",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overlast-door-afsteken-vuurwerk"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overlast-door-afsteken-vuurwerk/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/84",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overlast-door-afsteken-vuurwerk",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overlast-door-afsteken-vuurwerk"
+      },
+      {
+        "_display": "Overlast van taxi's, bussen en fietstaxi's (Overlast van en door personen of groepen)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Overlast van taxi's, bussen en fietstaxi's",
+        "slug": "overlast-van-taxis-bussen-en-fietstaxis",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Overlast van taxi's, bussen en fietstaxi's",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/57",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overlast-van-taxis-bussen-en-fietstaxis"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overlast-van-taxis-bussen-en-fietstaxis/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/84",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overlast-van-taxis-bussen-en-fietstaxis",
+        "is_active": true,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overlast-van-taxis-bussen-en-fietstaxis"
+      },
+      {
+        "_display": "Personen op het water (Overlast van en door personen of groepen)",
+        "sla": {
+          "n_days": 3,
+          "use_calendar_days": false
+        },
+        "name": "Personen op het water",
+        "slug": "personen-op-het-water",
+        "handling_message": "\nWe laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+        "value": "Personen op het water",
+        "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen",
+        "_links": {
+          "curies": {
+            "name": "sia",
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+          },
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/56",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/personen-op-het-water"
+          },
+          "sia:status-message-templates": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/personen-op-het-water/status-message-templates"
+          },
+          "sia:parent": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/84",
+            "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen"
+          }
+        },
+        "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/personen-op-het-water",
+        "is_active": false,
+        "description": null,
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/personen-op-het-water"
+      }
+    ]
+  }
+}

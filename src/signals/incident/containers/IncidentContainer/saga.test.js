@@ -13,8 +13,8 @@ import priority from 'utils/__tests__/fixtures/priority.json';
 import { showGlobalNotification } from 'containers/App/actions';
 import { UPLOAD_REQUEST } from 'containers/App/constants';
 import { VARIANT_ERROR } from 'containers/Notification/constants';
+import resolveClassification from 'shared/services/resolveClassification';
 import mapControlsToParams from '../../services/map-controls-to-params';
-import resolveClassification from '../../services/resolveClassification';
 
 import {
   GET_CLASSIFICATION_SUCCESS,
