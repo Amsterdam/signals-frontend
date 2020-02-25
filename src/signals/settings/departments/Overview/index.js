@@ -10,6 +10,7 @@ import PageHeader from 'signals/settings/components/PageHeader';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import ListComponent from 'components/List';
 import { makeSelectDepartments } from 'models/departments/selectors';
+import { makeSelectUserCan } from 'containers/App/selectors';
 import { DEPARTMENT_URL } from 'signals/settings/routes';
 
 const StyledList = styled(ListComponent)`
@@ -18,11 +19,16 @@ const StyledList = styled(ListComponent)`
   }
 `;
 
-export const DepartmentOverviewContainer = ({ departments }) => {
+export const DepartmentOverviewContainer = ({ departments, userCan }) => {
   const history = useHistory();
 
   const onItemClick = useCallback(
     e => {
+      if (!userCan('change_department')) {
+        e.preventDefault();
+        return;
+      }
+
       const {
         currentTarget: {
           dataset: { itemId },
@@ -33,7 +39,7 @@ export const DepartmentOverviewContainer = ({ departments }) => {
         history.push(`${DEPARTMENT_URL}/${itemId}`);
       }
     },
-    [history]
+    [history, userCan]
   );
 
   return (
@@ -72,10 +78,12 @@ DepartmentOverviewContainer.propTypes = {
     list: PropTypes.arrayOf(PropTypes.shape({})),
     count: PropTypes.number,
   }),
+  userCan: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   departments: makeSelectDepartments,
+  userCan: makeSelectUserCan,
 });
 
 const withConnect = connect(mapStateToProps);
