@@ -65,10 +65,12 @@ export const incoming = (departmentCategories, subCategories) =>
 /**
  * Outgoing API data conversion
  *
- * The department detail form data is mapped into a flattened array when both
+ * The department detail form data is mapped into a flattened array where both
  * `can_view` and `is_responsible` category collections are concatenated.
  *
- * @param   {Object} state - Object with props `can_view` and `is_responsible`
+ * @param   {Object} state
+ * @param   {Object[]} state.can_view
+ * @param   {Object[]} state.is_responsible
  * @returns {Object} Object with key `categories` which is an array of objects
  */
 export const outgoing = state => {
@@ -88,7 +90,20 @@ export const outgoing = state => {
       }))
   );
 
+  // combine both collections and merge objects where possible
+  const categories = isResponsible.concat(canView).reduce((acc, category) => {
+    const merged = {
+      ...acc.find(({ category_id }) => category_id === category.category_id),
+      ...category,
+    };
+
+    return [
+      ...acc.filter(({ category_id }) => category_id !== category.category_id),
+      merged,
+    ];
+  }, []);
+
   return {
-    categories: isResponsible.concat(canView),
+    categories,
   };
 };
