@@ -1,5 +1,4 @@
 import { renderHook, act , cleanup } from '@testing-library/react-hooks';
-import { wait } from '@testing-library/react';
 import userJSON from 'utils/__tests__/fixtures/user.json';
 import configuration from 'shared/services/configuration/configuration';
 import useFetchUser from '../useFetchUser';
@@ -7,7 +6,7 @@ import useFetchUser from '../useFetchUser';
 describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
   afterEach(() => {
     cleanup();
-    fetch.resetMocks();
+    fetch.mockReset();
   });
 
   it('should request user from API on mount', async () => {
@@ -23,7 +22,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
     await waitForNextUpdate();
 
-    expect(global.fetch).toHaveBeenCalledWith(
+    expect(fetch).toHaveBeenCalledWith(
       expect.stringMatching(new RegExp(`\\/${userId}$`)),
       expect.objectContaining({ headers: {} })
     );
@@ -50,7 +49,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
     expect(result.current.isLoading).toEqual(false);
   });
 
-  it('should abort request on unmount', () => {
+  it('should abort request on unmount', async () => {
     const userId = 123;
     fetch.mockResponseOnce(
       () =>
@@ -61,7 +60,9 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
     const abortSpy = jest.spyOn(global.AbortController.prototype, 'abort');
 
-    const { unmount } = renderHook(async () => useFetchUser(userId));
+    const { unmount, waitForNextUpdate } = renderHook(async () => useFetchUser(userId));
+
+    await waitForNextUpdate();
 
     expect(abortSpy).not.toHaveBeenCalled();
 
@@ -122,7 +123,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
       // value of isSuccess can be one of `undefined`, `false`, or `true`
       expect(result.current.isSuccess).not.toEqual(true);
 
-      expect(global.fetch).not.toHaveBeenLastCalledWith(...expectRequest);
+      expect(fetch).not.toHaveBeenLastCalledWith(...expectRequest);
 
       act(() => {
         result.current.patch(formData);
@@ -130,7 +131,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
       await waitForNextUpdate();
 
-      expect(global.fetch).toHaveBeenLastCalledWith(...expectRequest);
+      expect(fetch).toHaveBeenLastCalledWith(...expectRequest);
 
       expect(result.current.isSuccess).toEqual(true);
       expect(result.current.isLoading).toEqual(false);
@@ -153,13 +154,11 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
       // make sure the side effects are all done
       await waitForNextUpdate();
 
-      const { patch } = result.current;
-
       // set the result for the patch response
       fetch.mockImplementation(() => response);
 
       act(() => {
-        patch(formData);
+        result.current.patch(formData);
       });
 
       await waitForNextUpdate();
@@ -180,9 +179,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
       const formData = { first_name: userJSON.first_name, last_name: userJSON.last_name, username: userJSON.username };
       delete formData.id;
 
-      fetch.mockResponseOnce(JSON.stringify(userJSON));
-
-      expect(result.current.isSuccess).not.toEqual(true);
+      fetch.mockResponse(JSON.stringify(userJSON));
 
       const expectRequest = [
         configuration.USERS_ENDPOINT,
@@ -192,7 +189,8 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
         }),
       ];
 
-      expect(global.fetch).not.toHaveBeenCalledWith(...expectRequest);
+      expect(fetch).not.toHaveBeenCalledWith(...expectRequest);
+      expect(result.current.isSuccess).not.toEqual(true);
 
       act(() => {
         result.current.post(formData);
@@ -200,7 +198,7 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
 
       await waitForNextUpdate();
 
-      expect(global.fetch).toHaveBeenCalledWith(...expectRequest);
+      expect(fetch).toHaveBeenCalledWith(...expectRequest);
 
       expect(result.current.isSuccess).toEqual(true);
       expect(result.current.isLoading).toEqual(false);
@@ -215,21 +213,20 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
         waitForNextUpdate,
       } = renderHook(() => useFetchUser(userId));
 
-      expect(result.current.isLoading).toEqual(true);
-      expect(result.current.error).not.toEqual(response);
-      expect(result.current.isSuccess).not.toEqual(false);
-
       // make sure the side effects are all done
       await waitForNextUpdate();
 
-      const { post } = result.current;
+      expect(result.current.error).not.toEqual(response);
+      expect(result.current.isSuccess).not.toEqual(false);
 
       // set the result for the patch response
       fetch.mockImplementation(() => response);
 
       act(() => {
-        post(formData);
+        result.current.post(formData);
       });
+
+      expect(result.current.isLoading).toEqual(true);
 
       await waitForNextUpdate();
 
@@ -239,13 +236,11 @@ describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
     });
   });
 
-  it('should NOT request user from API on mount', async () => {
-    const { waitForNextUpdate } = renderHook(() =>
+  it('should NOT request user from API on mount', () => {
+    renderHook(() =>
       useFetchUser()
     );
 
-    waitForNextUpdate();
-
-    await wait(() => expect(global.fetch).not.toHaveBeenCalled());
+    expect(fetch).not.toHaveBeenCalled();
   });
 });
