@@ -23,13 +23,19 @@ import useConfirmedCancel from '../../hooks/useConfirmedCancel';
 import useFetchResponseNotification from '../../hooks/useFetchResponseNotification';
 import CategoryLists from './components/CategoryLists';
 
-const DepartmentDetail = ({ categories, findByMain, subCategories }) => {
+export const DepartmentDetailContainer = ({
+  categories,
+  findByMain,
+  subCategories,
+}) => {
   const { departmentId } = useParams();
   const isExistingDepartment = departmentId !== undefined;
   const { isLoading, isSuccess, data, error, get, patch } = useFetch();
   const confirmedCancel = useConfirmedCancel(routes.departments);
-  const entityName = `Afdeling '${data && data.name}'`;
-  const title = `${entityName} ${isExistingDepartment ? 'wijzigen' : 'toevoegen'}`;
+  const entityName = `Afdeling${data ? ` '${data.name}'` : ''}`;
+  const title = `${entityName} ${
+    isExistingDepartment ? 'wijzigen' : 'toevoegen'
+  }`;
 
   useFetchResponseNotification({
     entityName,
@@ -94,7 +100,7 @@ const DepartmentDetail = ({ categories, findByMain, subCategories }) => {
   );
 };
 
-DepartmentDetail.propTypes = {
+DepartmentDetailContainer.propTypes = {
   categories: types.categoriesType,
   findByMain: PropTypes.func,
   subCategories: PropTypes.arrayOf(PropTypes.shape({})),
@@ -109,4 +115,4 @@ const mapStateToProps = () =>
 
 const withConnect = connect(mapStateToProps);
 
-export default compose(withConnect)(DepartmentDetail);
+export default compose(withConnect)(DepartmentDetailContainer);
