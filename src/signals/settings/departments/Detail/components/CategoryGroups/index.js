@@ -48,6 +48,7 @@ CategoryGroups.propTypes = {
   findByMain: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
+  state: PropTypes.shape({}),
 };
 
 export default memo(CategoryGroups);
