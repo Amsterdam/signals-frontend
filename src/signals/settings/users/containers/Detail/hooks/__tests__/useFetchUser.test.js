@@ -6,7 +6,7 @@ import useFetchUser from '../useFetchUser';
 describe('signals/settings/users/containers/Detail/hooks/useFetchUser', () => {
   afterEach(() => {
     cleanup();
-    fetch.mockReset();
+    fetch.resetMocks();
   });
 
   it('should request user from API on mount', async () => {
