@@ -102,7 +102,7 @@ const CategoryLists = ({
   );
 
   return (
-    <Row>
+    <Row data-testid="categoryLists">
       <Form>
         <ControlsWrapper>
           <StyledFieldset>
