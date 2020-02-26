@@ -17,6 +17,7 @@ jest.mock('react-router-dom', () => ({
 const actionProps = {
   onFetchDepartments: jest.fn(),
   onFetchPermissions: jest.fn(),
+  fetchCategoriesAction: jest.fn(),
   onFetchRoles: jest.fn(),
   userCan: jest.fn(() => true),
   userCanAccess: jest.fn(() => true),

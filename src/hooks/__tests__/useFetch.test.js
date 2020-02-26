@@ -9,10 +9,6 @@ jest.mock('shared/services/api/api');
 const URL = 'https://here-is-my.api/someId/6';
 
 describe('hooks/useFetch', () => {
-  beforeEach(() => {
-    fetch.resetMocks();
-  });
-
   describe('get', () => {
     it('should request from URL on mount', async () => {
       fetch.mockResponseOnce(JSON.stringify(JSONresponse));
@@ -28,7 +24,7 @@ describe('hooks/useFetch', () => {
 
       expect(result.current.isLoading).toEqual(true);
 
-      expect(global.fetch).toHaveBeenCalledWith(
+      expect(fetch).toHaveBeenCalledWith(
         URL,
         expect.objectContaining({ headers })
       );
@@ -53,7 +49,7 @@ describe('hooks/useFetch', () => {
 
       await waitForNextUpdate();
 
-      expect(global.fetch).toHaveBeenCalledWith(
+      expect(fetch).toHaveBeenCalledWith(
         `${URL}?foo=bar&qux=zork`,
         expect.objectContaining({ headers })
       );
@@ -145,7 +141,7 @@ describe('hooks/useFetch', () => {
       // value of isSuccess can be one of `undefined`, `false`, or `true`
       expect(result.current.isSuccess).not.toEqual(true);
 
-      expect(global.fetch).not.toHaveBeenLastCalledWith(...expectRequest);
+      expect(fetch).not.toHaveBeenLastCalledWith(...expectRequest);
 
       act(() => {
         result.current.patch(URL, formData);
@@ -153,7 +149,7 @@ describe('hooks/useFetch', () => {
 
       await waitForNextUpdate();
 
-      expect(global.fetch).toHaveBeenLastCalledWith(...expectRequest);
+      expect(fetch).toHaveBeenLastCalledWith(...expectRequest);
 
       expect(result.current.isSuccess).toEqual(true);
       expect(result.current.isLoading).toEqual(false);
@@ -206,7 +202,7 @@ describe('hooks/useFetch', () => {
         }),
       ];
 
-      expect(global.fetch).not.toHaveBeenCalledWith(...expectRequest);
+      expect(fetch).not.toHaveBeenCalledWith(...expectRequest);
 
       act(() => {
         result.current.post(URL, formData);
@@ -216,7 +212,7 @@ describe('hooks/useFetch', () => {
 
       await waitForNextUpdate();
 
-      expect(global.fetch).toHaveBeenCalledWith(...expectRequest);
+      expect(fetch).toHaveBeenCalledWith(...expectRequest);
 
       expect(result.current.isSuccess).toEqual(true);
       expect(result.current.isLoading).toEqual(false);
