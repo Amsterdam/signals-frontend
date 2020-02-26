@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { memo, Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect, Switch, useLocation } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
@@ -7,7 +7,6 @@ import { bindActionCreators } from 'redux';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 
-import LoginPage from 'components/LoginPage';
 import {
   makeSelectUserCanAccess,
   makeSelectUserCan,
@@ -36,10 +35,8 @@ export const SettingsModule = ({
   const moduleLocation = useLocation();
   const [location, setLocation] = useState(moduleLocation);
 
-  const authenticatedUser = isAuthenticated();
-
   useEffect(() => {
-    if (!authenticatedUser) {
+    if (!isAuthenticated()) {
       return;
     }
 
@@ -52,7 +49,6 @@ export const SettingsModule = ({
     onFetchPermissions,
     onFetchRoles,
     fetchCategoriesAction,
-    authenticatedUser,
   ]);
 
   // subscribe to updates and set the referrer when page URLs differ
@@ -67,8 +63,8 @@ export const SettingsModule = ({
     }
   }, [location.pathname, moduleLocation, setLocation]);
 
-  if (!authenticatedUser) {
-    return <Route component={LoginPage} />;
+  if (!isAuthenticated()) {
+    return <Redirect to="/login" />;
   }
 
   if (userCanAccess('settings') === false) {
@@ -160,4 +156,4 @@ export const mapDispatchToProps = dispatch =>
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default withConnect(SettingsModule);
+export default memo(withConnect(SettingsModule));
