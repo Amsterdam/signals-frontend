@@ -4,6 +4,7 @@ import categories from 'utils/__tests__/fixtures/categories_structured.json';
 import { withAppContext } from 'test/utils';
 
 import CategoryGroups from '..';
+import DepartmentDetailContext from '../../../context';
 
 const subCategories = Object.entries(categories).flatMap(([, { sub }]) => sub);
 
@@ -21,6 +22,15 @@ const props = {
   onToggle,
 };
 
+const withContextProvider = Component =>
+  withAppContext(
+    <DepartmentDetailContext.Provider
+      value={{ categories, subCategories, findByMain }}
+    >
+      {Component}
+    </DepartmentDetailContext.Provider>
+  );
+
 describe('signals/settings/departments/Detail/components/CategoryGroups', () => {
   beforeEach(() => {
     jest.resetAllMocks();
@@ -28,7 +38,7 @@ describe('signals/settings/departments/Detail/components/CategoryGroups', () => 
 
   it('should render groups of checkboxes', () => {
     const { getAllByText } = render(
-      withAppContext(<CategoryGroups {...props} />)
+      withContextProvider(<CategoryGroups {...props} />)
     );
 
     expect(document.querySelectorAll('input[type=checkbox]')).toHaveLength(
@@ -95,7 +105,7 @@ describe('signals/settings/departments/Detail/components/CategoryGroups', () => 
       ],
     };
 
-    render(withAppContext(<CategoryGroups {...props} state={state} />));
+    render(withContextProvider(<CategoryGroups {...props} state={state} />));
 
     expect(
       document.querySelectorAll('input[type=checkbox]:checked')

@@ -5,6 +5,7 @@ import categories from 'utils/__tests__/fixtures/categories_structured.json';
 import { withAppContext } from 'test/utils';
 
 import CategoryLists from '..';
+import DepartmentDetailContext from '../../../context';
 
 const subCategories = Object.entries(categories).flatMap(([, { sub }]) => sub);
 
@@ -15,10 +16,6 @@ const onCancel = jest.fn();
 const onSubmit = jest.fn();
 
 const props = {
-  department,
-  categories,
-  subCategories,
-  findByMain,
   onCancel,
   onSubmit,
 };
@@ -31,13 +28,24 @@ const checkedCanView = department.categories.filter(
 ).length;
 const totalChecked = checkedIsResponsible * 2 + checkedCanView;
 
+const withContextProvider = Component =>
+  withAppContext(
+    <DepartmentDetailContext.Provider
+      value={{ categories, subCategories, department, findByMain }}
+    >
+      {Component}
+    </DepartmentDetailContext.Provider>
+  );
+
 describe('signals/settings/departments/Detail/components/CategoryLists', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
 
   it('should render groups of checkboxes', () => {
-    const { getByText } = render(withAppContext(<CategoryLists {...props} />));
+    const { getByText } = render(
+      withContextProvider(<CategoryLists {...props} />)
+    );
 
     expect(document.querySelectorAll('input[type=checkbox]')).toHaveLength(
       subCategories.length * 2
@@ -48,14 +56,18 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
   });
 
   it('should render a form', () => {
-    const { container } = render(withAppContext(<CategoryLists {...props} />));
+    const { container } = render(
+      withContextProvider(<CategoryLists {...props} />)
+    );
 
     expect(container.querySelector('[type=submit]')).toBeInTheDocument();
     expect(container.querySelector('[type=button]')).toBeInTheDocument();
   });
 
   it('should handle submit', () => {
-    const { container } = render(withAppContext(<CategoryLists {...props} />));
+    const { container } = render(
+      withContextProvider(<CategoryLists {...props} />)
+    );
 
     const submitBtn = container.querySelector('[type=submit]');
 
@@ -69,7 +81,9 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
   });
 
   it('should handle cancel', () => {
-    const { container } = render(withAppContext(<CategoryLists {...props} />));
+    const { container } = render(
+      withContextProvider(<CategoryLists {...props} />)
+    );
 
     const submitBtn = container.querySelector('[type=button]');
 
@@ -84,7 +98,7 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
 
   it('should update the state on is_responsible checkbox tick', () => {
     const { container, getByText } = render(
-      withAppContext(<CategoryLists {...props} />)
+      withContextProvider(<CategoryLists {...props} />)
     );
 
     const checkbox = getByText('Toegang tot categorie')
@@ -106,7 +120,7 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
 
   it('should update the state on is_responsible toggle click', () => {
     const { container, getByText } = render(
-      withAppContext(<CategoryLists {...props} />)
+      withContextProvider(<CategoryLists {...props} />)
     );
 
     const isResponsibleFieldset = getByText(
@@ -164,7 +178,7 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
 
   it('should update the state on is_responsible checkbox tick', () => {
     const { container, getByText } = render(
-      withAppContext(<CategoryLists {...props} />)
+      withContextProvider(<CategoryLists {...props} />)
     );
 
     const checkbox = getByText('Verantwoordelijk voor categorie')
@@ -186,7 +200,7 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
 
   it('should update the state on can_view toggle click', () => {
     const { container, getByText } = render(
-      withAppContext(<CategoryLists {...props} />)
+      withContextProvider(<CategoryLists {...props} />)
     );
 
     const canViewFieldset = getByText('Toegang tot categorie').closest(
@@ -202,7 +216,9 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
 
     const numBoxes = checkboxList.querySelectorAll('input').length;
     const numTicked = checkboxList.querySelectorAll(':checked').length;
-    const numTickedNotEnabled = checkboxList.querySelectorAll(':checked:not(:disabled)').length;
+    const numTickedNotEnabled = checkboxList.querySelectorAll(
+      ':checked:not(:disabled)'
+    ).length;
 
     expect(container.querySelectorAll('input:checked')).toHaveLength(
       totalChecked

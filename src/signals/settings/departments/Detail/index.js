@@ -23,6 +23,8 @@ import useConfirmedCancel from '../../hooks/useConfirmedCancel';
 import useFetchResponseNotification from '../../hooks/useFetchResponseNotification';
 import CategoryLists from './components/CategoryLists';
 
+import DepartmentDetailContext from './context';
+
 export const DepartmentDetailContainer = ({
   categories,
   findByMain,
@@ -84,15 +86,13 @@ export const DepartmentDetailContainer = ({
             </Column>
           </Row>
 
-          {categories && (
-            <CategoryLists
-              categories={categories}
-              department={data}
-              findByMain={findByMain}
-              onCancel={confirmedCancel}
-              onSubmit={onSubmit}
-              subCategories={subCategories}
-            />
+          {categories && data && (
+            <DepartmentDetailContext.Provider value={{ categories, department: data, subCategories, findByMain }}>
+              <CategoryLists
+                onCancel={confirmedCancel}
+                onSubmit={onSubmit}
+              />
+            </DepartmentDetailContext.Provider>
           )}
         </Fragment>
       )}

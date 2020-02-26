@@ -1,10 +1,8 @@
-import React, { useCallback, useMemo, useReducer } from 'react';
+import React, { useContext, useCallback, useMemo, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row, themeSpacing } from '@datapunt/asc-ui';
 import isEqual from 'lodash.isequal';
-
-import * as types from 'shared/types';
 
 import {
   ControlsWrapper,
@@ -18,6 +16,8 @@ import CategoryGroups from '../CategoryGroups';
 import reducer from './reducer';
 import { setCanView, setIsResponsible } from './actions';
 import { incoming, outgoing } from '../mapCategories';
+
+import DepartmentDetailContext from '../../context';
 
 const StyledFieldset = styled(Fieldset)`
   padding-top: ${themeSpacing(2)};
@@ -37,14 +37,11 @@ const StyledFieldset = styled(Fieldset)`
  *
  * The tick logic is handled by the component's reducer function.
  */
-const CategoryLists = ({
-  categories,
-  department,
-  findByMain,
-  onCancel,
-  onSubmit,
-  subCategories,
-}) => {
+const CategoryLists = ({ onCancel, onSubmit }) => {
+  const { categories, department, subCategories } = useContext(
+    DepartmentDetailContext
+  );
+
   const categoriesMapped = useMemo(
     () => incoming(department.categories, subCategories),
     [department.categories, subCategories]
@@ -113,8 +110,6 @@ const CategoryLists = ({
             {categories && (
               <CategoryGroups
                 boxWrapperKeyPrefix="is_responsible"
-                categories={categories}
-                findByMain={findByMain}
                 onChange={onChangeIsResponsibleCategories}
                 onToggle={onIsResponsibleMainCategoryToggle}
                 state={state.is_responsible}
@@ -132,8 +127,6 @@ const CategoryLists = ({
             {categories && (
               <CategoryGroups
                 boxWrapperKeyPrefix="can_view"
-                categories={categories}
-                findByMain={findByMain}
                 onChange={onChangeCanViewCategories}
                 onToggle={onCanViewMainCategoryToggle}
                 state={state.can_view}
@@ -154,14 +147,8 @@ const CategoryLists = ({
 };
 
 CategoryLists.propTypes = {
-  categories: types.categoriesType.isRequired,
-  department: PropTypes.shape({
-    categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  }).isRequired,
-  findByMain: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  subCategories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 export default CategoryLists;

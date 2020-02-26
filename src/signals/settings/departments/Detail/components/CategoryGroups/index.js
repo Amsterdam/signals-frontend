@@ -1,20 +1,16 @@
-import React, { memo } from 'react';
+import React, { memo, useContext } from 'react';
 import PropTypes from 'prop-types';
 
-import * as types from 'shared/types';
 import Label from 'components/Label';
 import CheckboxList from 'signals/incident-management/components/CheckboxList';
 
-const CategoryGroups = ({
-  boxWrapperKeyPrefix,
-  categories,
-  findByMain,
-  onChange,
-  onToggle,
-  state,
-}) =>
-  Object.entries(categories).map(([slug, { name, sub, key }]) => {
-    const categoriesInState = state && state[slug] || [];
+import DepartmentDetailContext from '../../context';
+
+const CategoryGroups = ({ boxWrapperKeyPrefix, onChange, onToggle, state }) => {
+  const { categories, findByMain } = useContext(DepartmentDetailContext);
+
+  return Object.entries(categories).map(([slug, { name, sub, key }]) => {
+    const categoriesInState = (state && state[slug]) || [];
     const defaultValue = categoriesInState.filter(({ _links: { self }, id }) =>
       new RegExp(`/terms/categories/${slug}`).test(self.public || id)
     );
@@ -41,11 +37,10 @@ const CategoryGroups = ({
       />
     );
   });
+};
 
 CategoryGroups.propTypes = {
   boxWrapperKeyPrefix: PropTypes.string.isRequired,
-  categories: types.categoriesType.isRequired,
-  findByMain: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
   state: PropTypes.shape({}),
