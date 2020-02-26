@@ -1,10 +1,4 @@
-import React, {
-  Fragment,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
@@ -14,7 +8,6 @@ import { useParams, useHistory } from 'react-router-dom';
 
 import PageHeader from 'signals/settings/components/PageHeader';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
-import ListComponent from 'components/List';
 import Pagination from 'components/Pagination';
 import { makeSelectSubCategories } from 'models/categories/selectors';
 import { makeSelectUserCan } from 'containers/App/selectors';
@@ -30,9 +23,9 @@ export const colMap = {
   sla: 'Service Level Agreement',
 };
 
-const StyledList = styled(ListComponent)`
+const StyledDataView = styled(DataView)`
   th:first-child {
-    width: 250px;
+    width: 50%;
   }
 `;
 
@@ -43,20 +36,12 @@ const StyledPagination = styled(Pagination)`
 export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
   const isLoading = !subCategories;
   const history = useHistory();
-  const { pageNum } = useParams();
-  /**
-   * Get page number value from URL query string
-   *
-   * @returns {number|undefined}
-   */
-  const pageNumFromQueryString = useMemo(
-    () => pageNum && parseInt(pageNum, 10),
-    [pageNum]
-  );
+  const params = useParams();
+  const pageNum = params.pageNum && parseInt(params.pageNum, 10);
   const [page, setPage] = useState(1);
   const count = subCategories && subCategories.length;
-  const pageSize = 30;
-  const sliceStart = (pageNumFromQueryString - 1) * pageSize;
+  const pageSize = 50;
+  const sliceStart = (pageNum - 1) * pageSize;
 
   const pagedData = (subCategories || [])
     .slice(sliceStart, sliceStart + pageSize)
@@ -70,12 +55,10 @@ export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
 
   // subscribe to param changes
   useEffect(() => {
-    const pageNumber = pageNumFromQueryString;
-
-    if (pageNumber && pageNumber !== page) {
-      setPage(pageNumber);
+    if (pageNum && pageNum !== page) {
+      setPage(pageNum);
     }
-  }, [pageNumFromQueryString, page]);
+  }, [page, pageNum]);
 
   const onItemClick = useCallback(
     e => {
@@ -106,11 +89,6 @@ export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
   );
 
   const columnHeaders = ['Categorie', 'Service Level Agreement', 'Status'];
-  // const columnModifiers = {
-  //   sla: ({ n_days, use_calendar_days }) =>
-  //     `${n_days} ${!use_calendar_days ? 'werk' : ''}dagen`,
-  //   is_active: is_active => is_active ? 'Actief' : 'Niet actief',
-  // };
 
   return (
     <Fragment>
@@ -121,10 +99,9 @@ export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
 
         <Column span={12} wrap>
           <Column span={12}>
-            <DataView
+            <StyledDataView
               headers={columnHeaders}
               columnOrder={columnHeaders}
-              // columnModifiers={columnModifiers}
               invisibleColumns={[
                 'id',
                 '_display',

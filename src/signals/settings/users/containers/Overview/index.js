@@ -47,6 +47,12 @@ const filtersReducer = (state, action) => {
   }
 };
 
+const StyledDataView = styled(DataView)`
+  th:first-child {
+    width: 50%;
+  }
+`;
+
 export const UsersOverviewContainer = ({ pageSize, userCan }) => {
   const history = useHistory();
   const location = useLocation();
@@ -136,7 +142,7 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
 
         <Column span={12} wrap>
           <Column span={12}>
-            <DataView
+            <StyledDataView
               headers={columnHeaders}
               filters={[
                 (
@@ -172,7 +178,7 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
 };
 
 UsersOverviewContainer.defaultProps = {
-  pageSize: 30,
+  pageSize: 50,
 };
 
 UsersOverviewContainer.propTypes = {
