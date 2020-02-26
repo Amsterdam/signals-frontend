@@ -58,7 +58,7 @@ describe('signals/settings', () => {
   });
 
   it('should initiate fetches on mount', () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => true);
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
     const onFetchDepartments = jest.fn();
     const onFetchPermissions = jest.fn();
@@ -81,7 +81,7 @@ describe('signals/settings', () => {
   });
 
   it('should NOT initiate fetches on mount when session has not been authenticated', () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => false);
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
     const onFetchDepartments = jest.fn();
     const onFetchPermissions = jest.fn();
@@ -104,7 +104,7 @@ describe('signals/settings', () => {
   });
 
   it('should render login page', () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => false);
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
     const { queryByTestId, getByTestId, rerender } = render(
       withAppContext(<Module {...actionProps} />)
@@ -112,7 +112,7 @@ describe('signals/settings', () => {
 
     expect(getByTestId('loginPage')).toBeInTheDocument();
 
-    jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => true);
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
     rerender(withAppContext(<Module {...actionProps} />));
 

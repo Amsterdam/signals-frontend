@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 
+import LoginPage from 'components/LoginPage';
 import {
   makeSelectUserCanAccess,
   makeSelectUserCan,
@@ -64,7 +65,7 @@ export const SettingsModule = ({
   }, [location.pathname, moduleLocation, setLocation]);
 
   if (!isAuthenticated()) {
-    return <Redirect to="/login" />;
+    return <Route component={LoginPage} />;
   }
 
   if (userCanAccess('settings') === false) {
