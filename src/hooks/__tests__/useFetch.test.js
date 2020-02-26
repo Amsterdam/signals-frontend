@@ -9,10 +9,6 @@ jest.mock('shared/services/api/api');
 const URL = 'https://here-is-my.api/someId/6';
 
 describe('hooks/useFetch', () => {
-  beforeEach(() => {
-    fetch.resetMocks();
-  });
-
   describe('get', () => {
     it('should request from URL on mount', async () => {
       fetch.mockResponseOnce(JSON.stringify(JSONresponse));
