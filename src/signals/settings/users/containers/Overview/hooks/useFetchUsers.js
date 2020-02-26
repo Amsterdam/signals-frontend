@@ -4,7 +4,15 @@ import { useState, useEffect } from 'react';
 import { getAuthHeaders } from 'shared/services/auth/auth';
 import configuration from 'shared/services/configuration/configuration';
 
-import filterData from './filterData';
+import filterData from '../../../../filterData';
+
+// name mapping from API values to human readable values
+export const colMap = {
+  id: 'id',
+  is_active: 'Status',
+  roles: 'Rol',
+  username: 'Gebruikersnaam',
+};
 
 /**
  * Custom hook useFetchUsers
@@ -52,7 +60,7 @@ const useFetchUsers = ({ page, pageSize, filters } = {}) => {
         });
 
         const userData = await response.json();
-        const filteredUserData = filterData(userData.results);
+        const filteredUserData = filterData(userData.results, colMap);
 
         setUsers({ count: userData.count, list: filteredUserData });
       } catch (e) {

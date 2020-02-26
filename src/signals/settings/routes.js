@@ -6,6 +6,8 @@ export const ROLES_URL = `${BASE_URL}/rollen`;
 export const ROLE_URL = `${BASE_URL}/rol`;
 export const DEPARTMENTS_URL = `${BASE_URL}/afdelingen`;
 export const DEPARTMENT_URL = `${BASE_URL}/afdeling`;
+export const CATEGORIES_URL = `${BASE_URL}/categorieen`;
+export const CATEGORIES_PAGED_URL = `${CATEGORIES_URL}/page`;
 
 const routes = {
   users: USERS_URL,
@@ -15,6 +17,8 @@ const routes = {
   role: `${ROLE_URL}/:roleId(\\d+)`,
   departments: DEPARTMENTS_URL,
   department: `${DEPARTMENT_URL}/:departmentId(\\d+)`,
+  categories: CATEGORIES_URL,
+  categoriesPaged: `${CATEGORIES_PAGED_URL}/:pageNum(\\d+)`,
 };
 
 export default routes;

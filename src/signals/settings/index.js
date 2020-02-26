@@ -17,13 +17,14 @@ import { fetchRoles, fetchPermissions } from 'models/roles/actions';
 import { fetchDepartments } from 'models/departments/actions';
 import { fetchCategories } from 'models/categories/actions';
 
-import routes, { USERS_PAGED_URL, USER_URL, ROLE_URL } from './routes';
+import routes, { USERS_PAGED_URL, USER_URL, ROLE_URL, CATEGORIES_PAGED_URL } from './routes';
 import UsersOverviewContainer from './users/containers/Overview';
 import RolesListContainer from './roles/containers/RolesListContainer';
 import RoleFormContainer from './roles/containers/RoleFormContainer';
 import UsersDetailContainer from './users/containers/Detail';
 import DepartmentsOverviewContainer from './departments/Overview';
 import DepartmentsDetailContainer from './departments/Detail';
+import CategoriesOverviewContainer from './categories/Overview';
 
 export const SettingsModule = ({
   onFetchDepartments,
@@ -41,7 +42,12 @@ export const SettingsModule = ({
     onFetchRoles();
     onFetchPermissions();
     fetchCategoriesAction();
-  }, [onFetchDepartments, onFetchPermissions, onFetchRoles, fetchCategoriesAction]);
+  }, [
+    onFetchDepartments,
+    onFetchPermissions,
+    onFetchRoles,
+    fetchCategoriesAction,
+  ]);
 
   // subscribe to updates and set the referrer when page URLs differ
   useEffect(() => {
@@ -115,6 +121,21 @@ export const SettingsModule = ({
               component={DepartmentsDetailContainer}
             />
           )}
+        </Switch>
+      )}
+
+      {userCanAccess('categories') && (
+        <Switch location={location}>
+          {/*
+           * always redirect from /gebruikers to /gebruikers/page/1 to avoid having complexity
+           * in the UsersOverviewContainer component
+           */}
+          <Redirect exact from={routes.categories} to={`${CATEGORIES_PAGED_URL}/1`} />
+          <Route
+            exact
+            path={routes.categories}
+            component={CategoriesOverviewContainer}
+          />
         </Switch>
       )}
     </Fragment>
