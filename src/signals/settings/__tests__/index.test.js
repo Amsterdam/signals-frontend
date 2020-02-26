@@ -58,6 +58,8 @@ describe('signals/settings', () => {
   });
 
   it('should initiate fetches on mount', () => {
+    jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => true);
+
     const onFetchDepartments = jest.fn();
     const onFetchPermissions = jest.fn();
     const onFetchRoles = jest.fn();
@@ -76,6 +78,29 @@ describe('signals/settings', () => {
     expect(onFetchDepartments).toHaveBeenCalled();
     expect(onFetchPermissions).toHaveBeenCalled();
     expect(onFetchRoles).toHaveBeenCalled();
+  });
+
+  it('should NOT initiate fetches on mount when session has not been authenticated', () => {
+    jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => false);
+
+    const onFetchDepartments = jest.fn();
+    const onFetchPermissions = jest.fn();
+    const onFetchRoles = jest.fn();
+
+    render(
+      withAppContext(
+        <Module
+          {...actionProps}
+          onFetchDepartments={onFetchDepartments}
+          onFetchPermissions={onFetchPermissions}
+          onFetchRoles={onFetchRoles}
+        />
+      )
+    );
+
+    expect(onFetchDepartments).not.toHaveBeenCalled();
+    expect(onFetchPermissions).not.toHaveBeenCalled();
+    expect(onFetchRoles).not.toHaveBeenCalled();
   });
 
   it('should render login page', () => {

@@ -36,12 +36,24 @@ export const SettingsModule = ({
   const moduleLocation = useLocation();
   const [location, setLocation] = useState(moduleLocation);
 
+  const authenticatedUser = isAuthenticated();
+
   useEffect(() => {
+    if (!authenticatedUser) {
+      return;
+    }
+
     onFetchDepartments();
     onFetchRoles();
     onFetchPermissions();
     fetchCategoriesAction();
-  }, [onFetchDepartments, onFetchPermissions, onFetchRoles, fetchCategoriesAction]);
+  }, [
+    onFetchDepartments,
+    onFetchPermissions,
+    onFetchRoles,
+    fetchCategoriesAction,
+    authenticatedUser,
+  ]);
 
   // subscribe to updates and set the referrer when page URLs differ
   useEffect(() => {
@@ -55,7 +67,7 @@ export const SettingsModule = ({
     }
   }, [location.pathname, moduleLocation, setLocation]);
 
-  if (!isAuthenticated()) {
+  if (!authenticatedUser) {
     return <Route component={LoginPage} />;
   }
 
