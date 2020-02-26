@@ -47,12 +47,29 @@ Depending of how many api / auth / maps / components you have running configure 
 
 ## Development
 
-  - npm start
-  - The SPA will open at http://localhost:3001/
+The SPA will run over HTTP on `localhost` at port `3001`. The port can be configured by setting the environment variable `PORT`.
+
+    npm start
+
+    PORT=8000 npm start
+
+Do note that the application uses an external authentication service that does not accept any port. The whitelisted ports are `3000` and `3001`
+
+### HTTPS
+
+The application's production build uses a [serviceworker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) that is configured through the Webpack Offline plugin (see [webpack config](./internals/webpack/webpack.prod.babel.js)) and is installed in [app.js](./src/app.js).
+
+To run the application with the production code and have the serviceworker available, the site needs to be run over HTTPS. This can be accomplished by running
+
+    HTTPS=true npm run start:prod
 
 ## Testing
 
-  - npm run test
+By default, the unit test generates a coverage report (thresholds are set in [jest.config.js](./jest.config.js)).
+
+Running all tests and generate the coverage report:
+
+    npm test
 
 ## Thanks to
 <a href="http://browserstack.com/"><img src="src/images/browserstack-logo-600x315.png" height="130" alt="BrowserStack Logo" /></a>
