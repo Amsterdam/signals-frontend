@@ -25,7 +25,7 @@ import KtoContainer from 'signals/incident/containers/KtoContainer';
 import reducer from './reducer';
 import saga from './saga';
 
-export const AppContainer = () => {
+const App = () => {
   // on each component render, see if the current session is authenticated
   authenticate();
   const history = useHistory();
@@ -67,4 +67,4 @@ export const AppContainer = () => {
 const withReducer = injectReducer({ key: 'global', reducer });
 const withSaga = injectSaga({ key: 'global', saga });
 
-export default compose(withReducer, withSaga, withRouter)(AppContainer);
+export default compose(withReducer, withSaga, withRouter)(App);
