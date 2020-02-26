@@ -6,7 +6,7 @@ import priorityList from 'signals/incident-management/definitions/priorityList';
 import statusList from 'signals/incident-management/definitions/statusList';
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 
-import categories from 'utils/__tests__/fixtures/categories.json';
+import categories from 'utils/__tests__/fixtures/categories_structured.json';
 import * as definitions from 'signals/incident-management/definitions';
 import FilterForm from '..';
 import {
@@ -23,10 +23,10 @@ const dataLists = {
 };
 
 const formProps = {
-  onClearFilter: () => {},
-  onSaveFilter: () => {},
+  onClearFilter: () => { },
+  onSaveFilter: () => { },
   categories,
-  onSubmit: () => {},
+  onSubmit: () => { },
 };
 
 describe('signals/incident-management/components/FilterForm', () => {
@@ -131,10 +131,10 @@ describe('signals/incident-management/components/FilterForm', () => {
       )
     );
 
-    expect(queryByTestId('priorityFilterGroup')).toBeNull();
+    expect(queryByTestId('priorityCheckboxGroup')).toBeNull();
 
     expect(
-      container.querySelectorAll('input[type="radio"][name="priority"]')
+      container.querySelectorAll('input[type="checkbox"][name="priority"]')
     ).toHaveLength(0);
 
     cleanup();
@@ -144,8 +144,8 @@ describe('signals/incident-management/components/FilterForm', () => {
     );
 
     expect(
-      container.querySelectorAll('input[type="radio"][name="priority"]')
-    ).toHaveLength(priorityList.length + 1);
+      container.querySelectorAll('input[type="checkbox"][name="priority"]')
+    ).toHaveLength(priorityList.length);
   });
 
   it('should render a list of status options', () => {
@@ -429,7 +429,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     );
 
     const priorityRadioButtons = container.querySelectorAll(
-      'input[type="radio"][name="priority"]'
+      'input[type="radio"][name="feedback"]'
     );
     const buttonInList = priorityRadioButtons[1];
 
@@ -582,7 +582,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     });
 
     it('should handle submit for existing filter', () => {
-      jest.spyOn(window, 'alert').mockImplementation(() => {});
+      jest.spyOn(window, 'alert').mockImplementation(() => { });
       const handlers = {
         onUpdateFilter: jest.fn(),
         onSubmit: jest.fn(),

@@ -8,14 +8,13 @@ import { Row, Column, Heading, themeSpacing } from '@datapunt/asc-ui';
 import { goBack } from 'connected-react-router/immutable';
 import styled from 'styled-components';
 
-import { makeSelectCategories } from 'containers/App/selectors';
+import { makeSelectSubCategories } from 'models/categories/selectors';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { requestIncident, requestAttachments } from 'models/incident/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 import {
-  categoriesType,
   incidentType,
   attachmentsType,
   dataListType,
@@ -47,7 +46,7 @@ export const IncidentSplitContainer = ({
     stadsdeelList,
     priorityList,
   },
-  categories,
+  subCategories,
   onRequestIncident,
   onRequestAttachments,
   onSplitIncident,
@@ -75,7 +74,7 @@ export const IncidentSplitContainer = ({
               <SplitForm
                 incident={incident}
                 attachments={attachments}
-                subcategories={categories.sub}
+                subcategories={subCategories}
                 priorityList={priorityList}
                 onHandleSubmit={onSplitIncident}
                 onHandleCancel={onGoBack}
@@ -96,7 +95,7 @@ IncidentSplitContainer.defaultProps = {
 };
 
 IncidentSplitContainer.propTypes = {
-  categories: categoriesType,
+  subCategories: dataListType,
   incidentModel: PropTypes.shape({
     incident: incidentType,
     attachments: attachmentsType,
@@ -111,8 +110,8 @@ IncidentSplitContainer.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  incidentModel: makeSelectIncidentModel(),
-  categories: makeSelectCategories(),
+  incidentModel: makeSelectIncidentModel,
+  subCategories: makeSelectSubCategories,
 });
 
 export const mapDispatchToProps = dispatch =>

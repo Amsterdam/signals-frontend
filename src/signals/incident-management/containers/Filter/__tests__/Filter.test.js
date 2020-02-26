@@ -3,8 +3,18 @@ import { shallow, mount } from 'enzyme';
 import { withAppContext } from 'test/utils';
 import FilterForm from 'signals/incident-management/components/FilterForm';
 import * as definitions from 'signals/incident-management/definitions';
-import categories from 'utils/__tests__/fixtures/categories.json';
+import categories from 'utils/__tests__/fixtures/categories_structured.json';
 import Filter, { FilterContainerComponent } from '..';
+
+jest.mock('models/categories/selectors', () => {
+  // eslint-disable-next-line global-require
+  const structuredCategories = require('utils/__tests__/fixtures/categories_structured.json');
+  return {
+    __esModule: true,
+    ...jest.requireActual('models/categories/selectors'),
+    makeSelectStructuredCategories: jest.fn(() => structuredCategories),
+  };
+});
 
 const dataLists = {
   priority: definitions.priorityList,

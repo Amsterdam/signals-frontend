@@ -1,0 +1,49 @@
+{
+  "reporter": {
+    "phone": "14020",
+    "email": "me@email.com"
+  },
+  "status": {
+    "state": "m",
+    "extra_properties": {}
+  },
+  "incident_date_start": "2020-02-06T08:50:15+01:00",
+  "location": {
+    "address": {
+      "openbare_ruimte": "Geldersekade",
+      "huisnummer": "128",
+      "huisletter": "E",
+      "huisnummer_toevoeging": "",
+      "postcode": "1012BN",
+      "woonplaats": "Amsterdam"
+    },
+    "buurt_code": "A00c",
+    "stadsdeel": "A",
+    "geometrie": {
+      "type": "Point",
+      "coordinates": [
+        4.900631904602052,
+        52.37324119761923
+      ]
+    }
+  },
+  "text": "De container lijkt stuk",
+  "category": {
+    "sub_category": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot"
+  },
+  "priority": "normal",
+  "extra_properties": [
+    {
+      "id": "extra_container_kind",
+      "label": "Weet u om wat voor soort container (papier, plastic, glas, restafval) het gaat?",
+      "category_url": "/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot",
+      "answer": "Glas, papier, plastic"
+    },
+    {
+      "id": "extra_container_number",
+      "label": "Weet u het nummer van de container?",
+      "category_url": "/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot",
+      "answer": "E789687687A.0"
+    }
+  ]
+}

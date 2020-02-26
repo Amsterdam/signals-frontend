@@ -432,4 +432,59 @@ describe('signals/incident-management/components/CheckboxList', () => {
       expect(keys.includes(element.value));
     });
   });
+
+  it('should apply boxWrapperKeyPrefix prop value', () => {
+    const boxWrapperKeyPrefix = 'FooBar';
+    const options = categories.mainToSub.afval;
+    const { container } = render(
+      withAppContext(
+        <CheckboxList
+          boxWrapperKeyPrefix={boxWrapperKeyPrefix}
+          defaultValue={options.slice(0, 2)}
+          name="afval"
+          options={options}
+        />
+      )
+    );
+
+    const prefixedElements = container.querySelectorAll(`[id^="${boxWrapperKeyPrefix}"]`);
+
+    expect(prefixedElements.length).toBeGreaterThan(1);
+  });
+
+  it('should render checkboxes as disabled elements', () => {
+    const groupId = 'zoek';
+
+    const { container, rerender } = render(
+      withAppContext(
+        <CheckboxList
+          defaultValue={statuses}
+          groupId={groupId}
+          groupName="statuses"
+          hasToggle
+          name="status"
+          options={statuses}
+        />
+      )
+    );
+
+    expect(container.querySelectorAll('input[type=checkbox][disabled]')).toHaveLength(0);
+
+    const disabledValues = statuses.map(status => ({ ...status, disabled: true }));
+
+    rerender(
+      withAppContext(
+        <CheckboxList
+          defaultValue={disabledValues}
+          groupId={groupId}
+          groupName="statuses"
+          hasToggle
+          name="status"
+          options={statuses}
+        />
+      )
+    );
+
+    expect(container.querySelectorAll('input[type=checkbox][disabled]')).toHaveLength(statuses.length);
+  });
 });

@@ -23,10 +23,12 @@ describe('models/categories/saga', () => {
   });
 
   describe('fetchCategories', () => {
+    const requestUrl = CONFIGURATION.CATEGORIES_PRIVATE_ENDPOINT;
+
     it('should call endpoint and dispatch success', () => {
       testSaga(fetchCategories)
         .next()
-        .call(authCall, CONFIGURATION.CATEGORIES_PRIVATE_ENDPOINT)
+        .call(authCall, `${requestUrl}?page_size=1000`)
         .next(categoriesJson)
         .put(fetchCategoriesSuccess(categoriesJson))
         .next()
@@ -39,7 +41,7 @@ describe('models/categories/saga', () => {
 
       testSaga(fetchCategories)
         .next()
-        .call(authCall, CONFIGURATION.CATEGORIES_PRIVATE_ENDPOINT)
+        .call(authCall, `${requestUrl}?page_size=1000`)
         .throw(error)
         .put(fetchCategoriesFailed(error))
         .next()

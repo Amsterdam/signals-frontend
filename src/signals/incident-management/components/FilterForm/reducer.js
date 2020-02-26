@@ -24,7 +24,7 @@ export const initialState = {
     category_slug: [],
     feedback: '',
     maincategory_slug: [],
-    priority: '',
+    priority: [],
     source: [],
     stadsdeel: [],
     status: [],
@@ -108,11 +108,13 @@ export default (state, action) => {
         options: {
           ...state.options,
           category_slug: state.options.category_slug.filter(
-            ({ category_slug }) =>
-              category_slug !== action.payload.main_category_slug
+            ({ _links }) =>
+              _links['sia:parent'].public.endsWith(
+                action.payload.category.slug
+              ) === false
           ),
           maincategory_slug: state.options.maincategory_slug
-            .filter(({ slug }) => slug !== action.payload.main_category_slug)
+            .filter(({ slug }) => slug !== action.payload.category.slug)
             .concat(action.payload.isToggled && action.payload.category)
             .filter(Boolean),
         },
@@ -125,13 +127,15 @@ export default (state, action) => {
           ...state.options,
           category_slug: state.options.category_slug
             .filter(
-              ({ category_slug }) =>
-                category_slug !== action.payload.main_category_slug
+              ({ _links }) =>
+                _links['sia:parent'].public.endsWith(action.payload.slug) ===
+                false
             )
             .concat(action.payload.subCategories)
             .filter(Boolean),
           maincategory_slug: state.options.maincategory_slug.filter(
-            ({ slug }) => slug !== action.payload.main_category_slug
+            ({ _links }) =>
+              _links.self.public.endsWith(action.payload.slug) === false
           ),
         },
       };

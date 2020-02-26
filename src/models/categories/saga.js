@@ -13,7 +13,7 @@ export function* fetchCategories() {
   const requestURL = CONFIGURATION.CATEGORIES_PRIVATE_ENDPOINT;
 
   try {
-    const categories = yield call(authCall, requestURL);
+    const categories = yield call(authCall, `${requestURL}?page_size=1000`);
 
     yield put(fetchCategoriesSuccess(categories));
   } catch (error) {

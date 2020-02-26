@@ -36,7 +36,7 @@ const idOrKeyPropRequired = (props, propName, componentName) => {
   const { id, key } = props;
 
   if (id === undefined && key === undefined) {
-    return new Error( `Either prop \`key\` or \`id\` is marked as required in \`${componentName}\`, but neither has been set`);
+    return new Error(`Either prop \`key\` or \`id\` is marked as required in \`${componentName}\`, but neither has been set`);
   }
 
   return null;
@@ -87,7 +87,7 @@ export const filterType = PropTypes.shape({
     created_before: PropTypes.string,
     feedback: PropTypes.string,
     maincategory_slug: PropTypes.arrayOf(dataItemType),
-    priority: PropTypes.string,
+    priority: PropTypes.arrayOf(dataItemType),
     stadsdeel: PropTypes.arrayOf(dataItemType),
     status: PropTypes.arrayOf(dataItemType),
   }),
@@ -179,6 +179,13 @@ export const extraPropertiesType = PropTypes.arrayOf(
         label: PropTypes.string,
         value: PropTypes.bool,
       }),
+      PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string,
+          label: PropTypes.string,
+          value: PropTypes.bool,
+        })
+      ),
       PropTypes.arrayOf(PropTypes.string),
       PropTypes.string,
     ]),
@@ -209,10 +216,11 @@ export const categoriesType = PropTypes.shape({
 });
 
 export const dataListsType = PropTypes.shape({
+  feedback: dataListType,
   priority: dataListType,
+  source: dataListType,
   stadsdeel: dataListType,
   status: dataListType,
-  feedback: dataListType,
 });
 
 export const overviewPageType = PropTypes.shape({

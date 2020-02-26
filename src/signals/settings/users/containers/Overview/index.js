@@ -93,7 +93,7 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
 
   const onItemClick = useCallback(
     e => {
-      if (userCan('view_user') === false) {
+      if (userCan('change_user') === false) {
         e.preventDefault();
         return;
       }
@@ -139,12 +139,14 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
             <DataView
               headers={columnHeaders}
               filters={[
-                (<StyledSearchbar
-                  placeholder=""
-                  onChange={debouncedOnChangeFilter}
-                  value={filters.username}
-                  data-testid="filterUsersByUsername"
-                />),
+                (
+                  <StyledSearchbar
+                    placeholder=""
+                    onChange={debouncedOnChangeFilter}
+                    value={filters.username}
+                    data-testid="filterUsersByUsername"
+                  />
+                ),
               ]}
               columnOrder={columnHeaders}
               invisibleColumns={['id']}

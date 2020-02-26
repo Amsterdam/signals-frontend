@@ -12,7 +12,6 @@ import {
   dataListType,
   defaultTextsType,
   attachmentsType,
-  categoriesType,
   historyType,
 } from 'shared/types';
 
@@ -20,8 +19,8 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import {
   makeSelectLoading,
   makeSelectError,
-  makeSelectCategories,
 } from 'containers/App/selectors';
+import { makeSelectSubCategories } from 'models/categories/selectors';
 import {
   requestIncident,
   patchIncident,
@@ -142,7 +141,7 @@ export class IncidentDetail extends React.Component {
       match: {
         params: { id },
       },
-      categories,
+      subCategories,
       onPatchIncident,
       onDismissError,
       onDismissSplitNotification,
@@ -267,11 +266,11 @@ export class IncidentDetail extends React.Component {
                   </DetailContainer>
 
                   <DetailContainer span={4} push={1}>
-                    {incident && (
+                    {incident && subCategories && (
                       <MetaList
                         incident={incident}
                         priorityList={priorityList}
-                        subcategories={categories.sub}
+                        subcategories={subCategories}
                         onPatchIncident={onPatchIncident}
                         onEditStatus={this.onEditStatus}
                       />
@@ -316,7 +315,7 @@ IncidentDetail.propTypes = {
   historyModel: PropTypes.shape({
     list: historyType.isRequired,
   }).isRequired,
-  categories: categoriesType.isRequired,
+  subCategories: dataListType,
 
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -338,8 +337,8 @@ const mapStateToProps = () =>
   createStructuredSelector({
     loading: makeSelectLoading(),
     error: makeSelectError(),
-    incidentModel: makeSelectIncidentModel(),
-    categories: makeSelectCategories(),
+    incidentModel: makeSelectIncidentModel,
+    subCategories: makeSelectSubCategories,
     historyModel: makeSelectHistoryModel(),
   });
 

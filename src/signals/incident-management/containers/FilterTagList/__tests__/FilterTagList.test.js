@@ -2,8 +2,8 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { render } from '@testing-library/react';
 import { withAppContext, withIntlAppContext } from 'test/utils';
-import categories from 'utils/__tests__/fixtures/categories.json';
 import * as definitions from 'signals/incident-management/definitions';
+import { mainCategories, subCategories } from 'utils/__tests__/fixtures';
 
 import FilterTagList, {
   FilterTagListComponent,
@@ -24,7 +24,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
   const tags = {
     status: [definitions.statusList[1]],
     feedback: 'satisfied',
-    priority: 'normal',
+    priority: [{ key: 'normal', value: 'Normaal' }],
     stadsdeel: [definitions.stadsdeelList[0], definitions.stadsdeelList[1]],
     address_text: 'februariplein 1',
     incident_date: '2019-09-17',
@@ -45,7 +45,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     const props = tree.find(FilterTagListComponent).props();
 
     expect(props.dataLists).not.toBeUndefined();
-    expect(props.categories).not.toBeUndefined();
+    expect(props.subCategories).not.toBeUndefined();
+    expect(props.mainCategories).not.toBeUndefined();
   });
 
   describe('date formatting', () => {
@@ -55,7 +56,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
           <FilterTagListComponent
             dataLists={dataLists}
             tags={{ ...tags, created_before: '2019-09-23' }}
-            categories={categories}
+            subCategories={subCategories}
+            mainCategories={mainCategories}
           />,
           translations
         )
@@ -72,7 +74,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
           <FilterTagListComponent
             dataLists={dataLists}
             tags={{ ...tags, created_after: '2019-09-17' }}
-            categories={categories}
+            subCategories={subCategories}
+            mainCategories={mainCategories}
           />,
           translations
         )
@@ -93,7 +96,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
               created_before: '2019-09-23',
               created_after: '2019-09-17',
             }}
-            categories={categories}
+            subCategories={subCategories}
+            mainCategories={mainCategories}
           />,
           translations
         )
@@ -121,7 +125,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
           <FilterTagListComponent
             dataLists={dataLists}
             tags={tags}
-            categories={categories}
+            subCategories={subCategories}
+            mainCategories={mainCategories}
           />
         )
       );
@@ -137,7 +142,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
           <FilterTagListComponent
             dataLists={dataLists}
             tags={tagsWithMainCat}
-            categories={categories}
+            subCategories={subCategories}
+            mainCategories={mainCategories}
           />
         )
       );
@@ -153,7 +159,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
           <FilterTagListComponent
             dataLists={dataLists}
             tags={tags}
-            categories={categories}
+            subCategories={subCategories}
+            mainCategories={mainCategories}
           />
         )
       );
@@ -174,6 +181,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
         status: definitions.statusList,
         stadsdeel: definitions.stadsdeelList,
         source: definitions.sourceList,
+        priority: definitions.priorityList,
       };
 
       const { queryByText } = render(
@@ -181,7 +189,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
           <FilterTagListComponent
             dataLists={dataLists}
             tags={groupedTags}
-            categories={categories}
+            subCategories={subCategories}
+            mainCategories={mainCategories}
           />
         )
       );
@@ -189,6 +198,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(queryByText(`status${allLabelAppend}`)).toBeInTheDocument();
       expect(queryByText(`stadsdeel${allLabelAppend}`)).toBeInTheDocument();
       expect(queryByText(`bron${allLabelAppend}`)).toBeInTheDocument();
+      expect(queryByText(`urgentie${allLabelAppend}`)).toBeInTheDocument();
     });
 
     it('renders no list when tags are undefined', () => {
@@ -196,7 +206,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
         withAppContext(
           <FilterTagListComponent
             dataLists={dataLists}
-            categories={categories}
+            subCategories={subCategories}
+            mainCategories={mainCategories}
           />
         )
       );
