@@ -118,5 +118,12 @@ store.dispatch(authenticateUser(credentials));
 // it's not most important operation and if main code fails,
 // we do not want it installed
 if (process.env.NODE_ENV === 'production') {
-  require('offline-plugin/runtime').install(); // eslint-disable-line global-require
+  // eslint-disable-next-line global-require
+  const runtime = require('offline-plugin/runtime');
+
+  runtime.install({
+    onUpdateReady: () => {
+      runtime.applyUpdate();
+    },
+  });
 }
