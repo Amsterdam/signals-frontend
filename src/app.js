@@ -118,15 +118,12 @@ store.dispatch(authenticateUser(credentials));
 // it's not most important operation and if main code fails,
 // we do not want it installed
 if (process.env.NODE_ENV === 'production') {
-  // eslint-disable-next-line
+  // eslint-disable-next-line global-require
   const runtime = require('offline-plugin/runtime');
 
   runtime.install({
     onUpdateReady: () => {
-      // eslint-disable-next-line
-      console.log('SW Event:', 'onUpdateReady');
-      // Tells to new SW to take control immediately
-      // runtime.applyUpdate();
+      runtime.applyUpdate();
     },
-  }); // eslint-disable-line global-require
+  });
 }
