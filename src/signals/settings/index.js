@@ -133,7 +133,7 @@ export const SettingsModule = ({
           <Redirect exact from={routes.categories} to={`${CATEGORIES_PAGED_URL}/1`} />
           <Route
             exact
-            path={routes.categories}
+            path={routes.categoriesPaged}
             component={CategoriesOverviewContainer}
           />
         </Switch>
