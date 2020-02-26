@@ -30,10 +30,9 @@ If you would like to use your system *Node* version as default, you could alias 
 
     nvm alias default system
 
-To specify the Node version for your project you could create an **.npmrc** file, for example:
+To specify the Node version for your project you could create an **.nvmrc** file, for example:
 
-    echo 11.15.0 > ~/projects/signals-frontend/.npmrc
-    nvm use
+    echo 11.15.0 > ~/projects/signals-frontend/.nvmrc
     npm start
 
 ## Installation
