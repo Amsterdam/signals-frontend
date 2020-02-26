@@ -179,6 +179,13 @@ export const extraPropertiesType = PropTypes.arrayOf(
         label: PropTypes.string,
         value: PropTypes.bool,
       }),
+      PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string,
+          label: PropTypes.string,
+          value: PropTypes.bool,
+        })
+      ),
       PropTypes.arrayOf(PropTypes.string),
       PropTypes.string,
     ]),
@@ -209,10 +216,11 @@ export const categoriesType = PropTypes.shape({
 });
 
 export const dataListsType = PropTypes.shape({
+  feedback: dataListType,
   priority: dataListType,
+  source: dataListType,
   stadsdeel: dataListType,
   status: dataListType,
-  feedback: dataListType,
 });
 
 export const overviewPageType = PropTypes.shape({
