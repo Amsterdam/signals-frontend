@@ -1,10 +1,8 @@
 import React from 'react';
-import { mount } from 'enzyme';
 import { render, cleanup, act } from '@testing-library/react';
 import { withAppContext, history } from 'test/utils';
 import * as auth from 'shared/services/auth/auth';
-import App, { AppContainer, mapDispatchToProps } from './index';
-import { REQUEST_CATEGORIES } from './constants';
+import App from './index';
 
 jest.mock('components/MapInteractive');
 jest.mock('shared/services/auth/auth', () => ({
@@ -28,17 +26,9 @@ describe('<App />', () => {
     listenSpy.mockRestore();
   });
 
-  it('should have props from structured selector', () => {
-    const tree = mount(withAppContext(<App />));
-
-    const props = tree.find(AppContainer).props();
-
-    expect(props.requestCategoriesAction).not.toBeUndefined();
-  });
-
   it('should scroll to top on history change', () => {
     render(
-      withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
+      withAppContext(<App />),
     );
 
     expect(spyScrollTo).not.toHaveBeenCalled();
@@ -55,7 +45,7 @@ describe('<App />', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => false);
 
     const { getByTestId, queryByTestId, rerender } = render(
-      withAppContext(<AppContainer requestCategoriesAction={() => {}} />),
+      withAppContext(<App />),
     );
 
     expect(getByTestId('siteFooter')).toBeInTheDocument();
@@ -66,7 +56,7 @@ describe('<App />', () => {
     cleanup();
 
     rerender(
-      withAppContext(<AppContainer requestCategoriesAction={() => {}} />),
+      withAppContext(<App />),
     );
 
     expect(queryByTestId('siteFooter')).not.toBeInTheDocument();
@@ -76,7 +66,7 @@ describe('<App />', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
     const { queryByTestId, rerender } = render(
-      withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
+      withAppContext(<App />),
     );
 
     expect(queryByTestId('signalsThemeProvider')).not.toBeNull();
@@ -86,7 +76,7 @@ describe('<App />', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
     rerender(
-      withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
+      withAppContext(<App />),
     );
 
     expect(queryByTestId('signalsThemeProvider')).toBeNull();
@@ -94,11 +84,13 @@ describe('<App />', () => {
 
   describe('routing', () => {
     it('should redirect from "/" to "/incident/beschrijf"', () => {
-      history.push('/');
-
       render(
-        withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
+        withAppContext(<App />),
       );
+
+      act(() => {
+        history.push('/');
+      });
 
       expect(history.location.pathname).toEqual('/incident/beschrijf');
     });
@@ -107,7 +99,7 @@ describe('<App />', () => {
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
       render(
-        withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
+        withAppContext(<App />),
       );
 
       act(() => {
@@ -121,7 +113,7 @@ describe('<App />', () => {
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
       render(
-        withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
+        withAppContext(<App />),
       );
 
       act(() => {
@@ -135,7 +127,7 @@ describe('<App />', () => {
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
       render(
-        withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
+        withAppContext(<App />),
       );
 
       act(() => {
@@ -149,7 +141,7 @@ describe('<App />', () => {
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
       render(
-        withAppContext(<AppContainer requestCategoriesAction={() => { }} />),
+        withAppContext(<App />),
       );
 
       act(() => {
@@ -157,17 +149,6 @@ describe('<App />', () => {
       });
 
       expect(history.location.pathname).toEqual('/manage/incidents');
-    });
-  });
-
-  describe('mapDispatchToProps', () => {
-    const dispatch = jest.fn();
-
-    it('onRequestIncident', () => {
-      // For the `mapDispatchToProps`, call it directly but pass in
-      // a mock function and check the arguments passed in are as expected
-      mapDispatchToProps(dispatch).requestCategoriesAction();
-      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_CATEGORIES });
     });
   });
 });
