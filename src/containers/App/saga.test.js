@@ -1,7 +1,6 @@
 import { call, put, take, takeLatest, takeEvery } from 'redux-saga/effects';
 import { channel } from 'redux-saga';
 import { push } from 'connected-react-router/immutable';
-import request from 'utils/request';
 import { testSaga, expectSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
@@ -9,7 +8,6 @@ import { throwError } from 'redux-saga-test-plan/providers';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authCall } from 'shared/services/api/api';
 import { login, logout } from 'shared/services/auth/auth';
-import mapCategories from 'shared/services/map-categories';
 import fileUploadChannel from 'shared/services/file-upload-channel';
 import stateTokenGenerator from 'shared/services/auth/services/state-token-generator/state-token-generator';
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
@@ -19,7 +17,6 @@ import watchAppSaga, {
   callLogin,
   callLogout,
   callAuthorize,
-  fetchCategories,
   uploadFileWrapper,
   uploadFile,
 } from './saga';
@@ -27,7 +24,6 @@ import {
   LOGIN,
   LOGOUT,
   AUTHENTICATE_USER,
-  REQUEST_CATEGORIES,
   UPLOAD_REQUEST,
 } from './constants';
 import {
@@ -35,7 +31,6 @@ import {
   logoutFailed,
   authorizeUser,
   showGlobalNotification,
-  requestCategoriesSuccess,
   uploadProgress,
   uploadSuccess,
   uploadFailure,
@@ -85,7 +80,6 @@ describe('containers/App/saga', () => {
         takeLatest(LOGIN, callLogin),
         takeLatest(LOGOUT, callLogout),
         takeLatest(AUTHENTICATE_USER, callAuthorize),
-        takeLatest(REQUEST_CATEGORIES, fetchCategories),
         takeEvery(UPLOAD_REQUEST, uploadFileWrapper),
       ])
       .next()
@@ -242,44 +236,6 @@ describe('containers/App/saga', () => {
       return expectSaga(callAuthorize, action)
         .provide([[matchers.call.fn(authCall), throwError(errorObj)]])
         .call(logout)
-        .run();
-    });
-  });
-
-  describe('fetchCategories', () => {
-    it('should dispatch success', () => {
-      const categories = { categories: [1], subcategorie: [2] };
-
-      mapCategories.mockImplementation(() => categories);
-
-      testSaga(fetchCategories)
-        .next()
-        .call(request, CONFIGURATION.CATEGORIES_ENDPOINT, {
-          headers: { Accept: 'application/json' },
-        })
-        .next()
-        .put(requestCategoriesSuccess(mapCategories(categories)))
-        .next()
-        .isDone();
-    });
-
-    it('should dispatch error', () => {
-      const error = new Error('could not fetch');
-
-      return expectSaga(fetchCategories)
-        .provide([[matchers.call.fn(request), throwError(error)]])
-        .call(request, CONFIGURATION.CATEGORIES_ENDPOINT, {
-          headers: { Accept: 'application/json' },
-        })
-        .put(
-          showGlobalNotification({
-            variant: VARIANT_ERROR,
-            title: 'Inladen van categorieën is niet gelukt',
-            message:
-              'Het kan zijn dat de API tijdelijk niet beschikbaar is. Herlaad de pagina',
-            type: TYPE_GLOBAL,
-          })
-        )
         .run();
     });
   });

@@ -19,7 +19,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     await waitForNextUpdate();
 
-    expect(global.fetch).toHaveBeenCalledWith(
+    expect(fetch).toHaveBeenCalledWith(
       configuration.USERS_ENDPOINT,
       expect.objectContaining({
         headers: {
@@ -39,7 +39,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     await waitForNextUpdate();
 
-    expect(global.fetch).toHaveBeenCalledWith(
+    expect(fetch).toHaveBeenCalledWith(
       expect.stringMatching(new RegExp(`\\/?page=${page}$`)),
       expect.objectContaining({ headers: { Accept: 'application/json' } })
     );
@@ -51,7 +51,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     await waitForNextUpdate();
 
-    expect(global.fetch).toHaveBeenCalledWith(
+    expect(fetch).toHaveBeenCalledWith(
       expect.stringMatching(new RegExp(`\\/?page_size=${pageSize}$`)),
       expect.objectContaining({ headers: { Accept: 'application/json' } })
     );
