@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { StyledTR, StyledTD } from 'signals/settings/users/containers/Overview/components/DataView/styled';
+import { StyledTR, StyledTD } from 'components/DataView/styled';
 
 const DataViewBody = ({
   data,
