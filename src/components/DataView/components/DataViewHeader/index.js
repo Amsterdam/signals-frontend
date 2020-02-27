@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { StyledTHead } from '../../styled';
+import { StyledTHead } from 'components/DataView/styled';
 
 import DataViewHeaderRow from './components/DataViewHeaderRow';
 

@@ -12,7 +12,7 @@ import Pagination from 'components/Pagination';
 import { makeSelectSubCategories } from 'models/categories/selectors';
 import { makeSelectUserCan } from 'containers/App/selectors';
 import { CATEGORIES_URL, CATEGORIES_PAGED_URL } from 'signals/settings/routes';
-import DataView from 'signals/settings/components/DataView';
+import DataView from 'components/DataView';
 import filterData from '../../filterData';
 
 // name mapping from API values to human readable values
