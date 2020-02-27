@@ -7,7 +7,7 @@ import configuration from 'shared/services/configuration/configuration';
 import filterData from '../../../../filterData';
 
 // name mapping from API values to human readable values
-export const colMap = {
+const colMap = {
   id: 'id',
   is_active: 'Status',
   roles: 'Rol',
