@@ -139,7 +139,7 @@ describe('signals/settings/categories/containers/Overview', () => {
       pageNum: '1',
     }));
 
-    const { container, getByText } = render(
+    const { getByText } = render(
       withAppContext(
         <CategoriesOverview subCategories={subCategories} userCan={() => {}} />
       )
@@ -153,8 +153,6 @@ describe('signals/settings/categories/containers/Overview', () => {
     act(() => {
       fireEvent.click(pageButton);
     });
-
-    expect(container.firstChild).toMatchSnapshot();
 
     expect(push).toHaveBeenCalledTimes(1);
     expect(push).toHaveBeenCalledWith(`${CATEGORIES_PAGED_URL}/2`);
