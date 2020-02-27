@@ -1,6 +1,7 @@
 import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
 import { useState, useEffect } from 'react';
 
+import { PAGE_SIZE } from 'containers/App/constants';
 import { getAuthHeaders } from 'shared/services/auth/auth';
 import configuration from 'shared/services/configuration/configuration';
 
@@ -21,7 +22,7 @@ const colMap = {
  *
  * @returns {FetchResponse}
  */
-const useFetchUsers = ({ page, pageSize, filters } = {}) => {
+const useFetchUsers = ({ page, filters } = {}) => {
   const [isLoading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(false);
@@ -33,24 +34,20 @@ const useFetchUsers = ({ page, pageSize, filters } = {}) => {
     (async function fetchData() {
       setLoading(true);
 
-      const pageParams = [
-        page && `page=${page}`,
-        pageSize && `page_size=${pageSize}`,
-      ];
+      const pageParams = [page && `page=${page}`, `page_size=${PAGE_SIZE}`];
 
       const filterParams = Object.entries(filters || {})
         .filter(([, value]) => Boolean(value))
         .reduce((acc, [filter, value]) => [...acc, `${filter}=${value}`], []);
 
-      const queryParams = [
-        ...pageParams,
-        ...filterParams,
-      ]
+      const queryParams = [...pageParams, ...filterParams]
         .filter(Boolean)
         .join('&');
 
       try {
-        const url = [configuration.USERS_ENDPOINT, queryParams].filter(Boolean).join('?');
+        const url = [configuration.USERS_ENDPOINT, queryParams]
+          .filter(Boolean)
+          .join('?');
         const response = await fetch(url, {
           headers: {
             ...getAuthHeaders(),
@@ -73,7 +70,7 @@ const useFetchUsers = ({ page, pageSize, filters } = {}) => {
     return () => {
       controller.abort();
     };
-  }, [page, pageSize, filters]);
+  }, [page, filters]);
 
   /**
    * @typedef {Object} FetchResponse
