@@ -11,12 +11,15 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Pagination from 'components/Pagination';
 import { makeSelectSubCategories } from 'models/categories/selectors';
 import { makeSelectUserCan } from 'containers/App/selectors';
-import { CATEGORIES_URL, CATEGORIES_PAGED_URL } from 'signals/settings/routes';
+import { CATEGORY_URL, CATEGORIES_PAGED_URL } from 'signals/settings/routes';
 import DataView from 'components/DataView';
+import { PAGE_SIZE } from 'containers/App/constants';
+
 import filterData from '../../filterData';
 
 // name mapping from API values to human readable values
 export const colMap = {
+  fk: 'fk',
   id: 'id',
   value: 'Categorie',
   is_active: 'Status',
@@ -34,17 +37,15 @@ const StyledPagination = styled(Pagination)`
 `;
 
 export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
-  const isLoading = !subCategories;
   const history = useHistory();
   const params = useParams();
-  const pageNum = params.pageNum && parseInt(params.pageNum, 10);
   const [page, setPage] = useState(1);
-  const count = subCategories && subCategories.length;
-  const pageSize = 50;
-  const sliceStart = (pageNum - 1) * pageSize;
 
+  const pageNum = params.pageNum && parseInt(params.pageNum, 10);
+  const count = subCategories && subCategories.length;
+  const sliceStart = (pageNum - 1) * PAGE_SIZE;
   const pagedData = (subCategories || [])
-    .slice(sliceStart, sliceStart + pageSize)
+    .slice(sliceStart, sliceStart + PAGE_SIZE)
     .map(category => ({
       ...category,
       sla: `${category.sla.n_days} ${
@@ -52,6 +53,8 @@ export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
       }dagen`,
     }));
   const data = filterData(pagedData, colMap);
+  const isLoading = !subCategories;
+
 
   // subscribe to param changes
   useEffect(() => {
@@ -74,7 +77,7 @@ export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
       } = e;
 
       if (itemId) {
-        history.push(`${CATEGORIES_URL}/${itemId}`);
+        history.push(`${CATEGORY_URL}/${itemId}`);
       }
     },
     [history, userCan]
@@ -102,18 +105,6 @@ export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
             <StyledDataView
               headers={columnHeaders}
               columnOrder={columnHeaders}
-              invisibleColumns={[
-                'id',
-                '_display',
-                'fk',
-                'slug',
-                'handling_message',
-                'parentKey',
-                '_links',
-                'is_active',
-                'description',
-                'key',
-              ]}
               onItemClick={onItemClick}
               primaryKeyColumn="fk"
               data={data}
@@ -125,7 +116,7 @@ export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
               <StyledPagination
                 currentPage={page}
                 onClick={onPaginationClick}
-                totalPages={Math.ceil(count / pageSize)}
+                totalPages={Math.ceil(count / PAGE_SIZE)}
               />
             </Column>
           )}
