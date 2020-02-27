@@ -1,68 +1,99 @@
 import React from 'react';
-import {
-  render,
-} from '@testing-library/react';
-import { withAppContext } from 'test/utils';
-import incident from 'utils/__tests__/fixtures/incident.json';
+import { render } from '@testing-library/react';
+import { mount } from 'enzyme';
+import * as reactRouterDom from 'react-router-dom';
+import { store, withAppContext } from 'test/utils';
+import incidentJson from 'utils/__tests__/fixtures/incident.json';
+import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
+import { fetchCategoriesSuccess } from 'models/categories/actions';
+import { requestIncidentSuccess } from 'models/incident/actions';
+import { makeSelectSubCategories } from 'models/categories/selectors';
+import makeSelectIncidentModel from 'models/incident/selectors';
 
-import { REQUEST_INCIDENT } from 'models/incident/constants';
-import { SPLIT_INCIDENT } from './constants';
+import IncidentSplit, { IncidentSplitContainer } from './index';
 
-import { IncidentSplitContainer, mapDispatchToProps } from './index';
-import stadsdeelList from '../../definitions/stadsdeelList';
-import priorityList from '../../definitions/priorityList';
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+}));
+
+store.dispatch(requestIncidentSuccess(incidentJson));
+store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
+
+const subCategories = makeSelectSubCategories(store.getState());
+const incidentModel = makeSelectIncidentModel(store.getState());
+
+jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+  id: '42',
+}));
+
+jest.mock('models/incident/selectors', () =>
+  // eslint-disable-next-line global-require
+  jest.fn(() => require('utils/__tests__/fixtures/incident.json'))
+);
+
+// mocking a deeply nested component to prevent having to mock
+// multiple data providers and child components
+jest.mock('../../components/FieldControlWrapper', () => ({
+  __esModule: true,
+  default: () => (<span />),
+}));
 
 describe('<IncidentSplitContainer />', () => {
-  let props;
+  it('should have props from structured selector', () => {
+    const tree = mount(withAppContext(<IncidentSplit />));
+    const containerProps = tree.find(IncidentSplitContainer).props();
 
-  beforeEach(() => {
-    props = {
-      id: '42',
-      categories: {
-        sub: [],
-      },
-      incidentModel: {
-        incident,
-        attachments: [],
-        stadsdeelList,
-        priorityList,
-        loading: false,
-      },
+    expect(containerProps.incidentModel).toBeDefined();
+    expect(containerProps.subCategories).toBeDefined();
+  });
+
+  it('should have props from action creator', () => {
+    const tree = mount(withAppContext(<IncidentSplit />));
+
+    const containerProps = tree.find(IncidentSplitContainer).props();
+
+    expect(containerProps.onRequestIncident).toBeDefined();
+    expect(typeof containerProps.onRequestIncident).toEqual('function');
+
+    expect(containerProps.onRequestAttachments).toBeDefined();
+    expect(typeof containerProps.onRequestAttachments).toEqual('function');
+
+    expect(containerProps.onSplitIncident).toBeDefined();
+    expect(typeof containerProps.onSplitIncident).toEqual('function');
+
+    expect(containerProps.onGoBack).toBeDefined();
+    expect(typeof containerProps.onGoBack).toEqual('function');
+  });
+
+  it('should render correctly', () => {
+    const props = {
+      subCategories,
+      incidentModel,
       onRequestIncident: jest.fn(),
       onRequestAttachments: jest.fn(),
       onSplitIncident: jest.fn(),
       onGoBack: jest.fn(),
     };
-  });
 
-  describe('rendering', () => {
-    it('should render correctly', () => {
-      const { queryByTestId, queryAllByTestId } = render(
-        withAppContext(<IncidentSplitContainer {...props} />)
-      );
+    const { getByTestId, queryAllByTestId, rerender } = render(
+      withAppContext(<IncidentSplitContainer {...props} incidentModel={{ ...incidentModel, loading: true }} />)
+    );
 
-      expect(queryByTestId('splitDetailTitle')).toHaveTextContent(/^Melding 6666$/);
-      expect(queryAllByTestId('incidentPartTitle')[0]).toHaveTextContent(/^Deelmelding 1$/);
-      expect(queryAllByTestId('incidentPartTitle')[1]).toHaveTextContent(/^Deelmelding 2$/);
-    });
-  });
+    expect(getByTestId('loadingIndicator')).toBeInTheDocument();
 
-  describe('mapDispatchToProps', () => {
-    const dispatch = jest.fn();
+    rerender(
+      withAppContext(<IncidentSplitContainer {...props} />)
+    );
 
-    it('onRequestIncident', () => {
-      mapDispatchToProps(dispatch).onRequestIncident(42);
-      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_INCIDENT, payload: 42 });
-    });
+    expect(queryAllByTestId('incidentPartTitle')[0]).toHaveTextContent(
+      /^Deelmelding 1$/
+    );
+    expect(queryAllByTestId('incidentPartTitle')[1]).toHaveTextContent(
+      /^Deelmelding 2$/
+    );
 
-    it('onSplitIncident', () => {
-      mapDispatchToProps(dispatch).onSplitIncident(42);
-      expect(dispatch).toHaveBeenCalledWith({ type: SPLIT_INCIDENT, payload: 42 });
-    });
-
-    it('onGoBack', () => {
-      mapDispatchToProps(dispatch).onGoBack();
-      expect(dispatch).toHaveBeenCalledWith({ type: '@@router/CALL_HISTORY_METHOD', payload: { args: [], method: 'goBack' } });
-    });
+    expect(props.onRequestIncident).toHaveBeenCalledWith('42');
+    expect(props.onRequestAttachments).toHaveBeenCalledWith('42');
   });
 });

@@ -56,7 +56,7 @@ describe('Incident container actions', () => {
     testActionCreator(createIncidentSuccess, CREATE_INCIDENT_SUCCESS, incident);
   });
 
-  it('should dispatch create incident success action', () => {
+  it('should dispatch create incident error action', () => {
     testActionCreator(createIncidentError, CREATE_INCIDENT_ERROR);
   });
 
@@ -64,7 +64,7 @@ describe('Incident container actions', () => {
     testActionCreator(getClassification, GET_CLASSIFICATION, 'poep');
   });
 
-  it('should dispatch create incident success action', () => {
+  it('should dispatch classification success action', () => {
     const payload = {
       category: {
         main: [],
@@ -74,14 +74,8 @@ describe('Incident container actions', () => {
     testActionCreator(getClassificationSuccess, GET_CLASSIFICATION_SUCCESS, payload);
   });
 
-  it('should dispatch create incident error action', () => {
-    const payload = {
-      category: {
-        main: [],
-        sub: [],
-      },
-    };
-    testActionCreator(getClassificationError, GET_CLASSIFICATION_ERROR, payload);
+  it('should dispatch classification error action', () => {
+    testActionCreator(getClassificationError, GET_CLASSIFICATION_ERROR);
   });
 
   it('should dispatch set priority action', () => {

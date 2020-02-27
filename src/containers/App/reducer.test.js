@@ -7,7 +7,6 @@ import {
   LOGIN_FAILED,
   LOGOUT_FAILED,
   LOGOUT,
-  REQUEST_CATEGORIES_SUCCESS,
   RESET_GLOBAL_NOTIFICATION,
   SHOW_GLOBAL_NOTIFICATION,
   UPLOAD_FAILURE,
@@ -27,7 +26,7 @@ describe('containers/App/reducer', () => {
         appReducer(fromJS({}), {
           type: AUTHORIZE_USER,
           payload: userJson,
-        }).toJS(),
+        }).toJS()
       ).toEqual({ user: userJson });
     });
   });
@@ -43,7 +42,7 @@ describe('containers/App/reducer', () => {
             variant: 'error',
             type: 'global',
           },
-        }).toJS(),
+        }).toJS()
       ).toEqual({
         notification: {
           title: 'title',
@@ -60,26 +59,9 @@ describe('containers/App/reducer', () => {
       expect(
         appReducer(fromJS({}), {
           type: RESET_GLOBAL_NOTIFICATION,
-        }).toJS(),
+        }).toJS()
       ).toEqual({
         notification: initialState.get('notification').toJS(),
-      });
-    });
-  });
-
-  describe('REQUEST_CATEGORIES_SUCCESS', () => {
-    it('should', () => {
-      expect(
-        appReducer(fromJS({}), {
-          type: REQUEST_CATEGORIES_SUCCESS,
-          payload: {
-            results: [1, 2],
-          },
-        }).toJS(),
-      ).toEqual({
-        categories: {
-          results: [1, 2],
-        },
       });
     });
   });
@@ -95,7 +77,7 @@ describe('containers/App/reducer', () => {
               name: 'image.jpg',
             },
           },
-        }).toJS(),
+        }).toJS()
       ).toEqual({
         upload: {
           id: 666,
@@ -118,8 +100,8 @@ describe('containers/App/reducer', () => {
           {
             type: UPLOAD_PROGRESS,
             payload: 0.345,
-          },
-        ).toJS(),
+          }
+        ).toJS()
       ).toEqual({
         upload: {
           id: 666,
@@ -143,8 +125,8 @@ describe('containers/App/reducer', () => {
           }),
           {
             type: UPLOAD_SUCCESS,
-          },
-        ).toJS(),
+          }
+        ).toJS()
       ).toEqual({
         upload: {},
       });
@@ -164,8 +146,8 @@ describe('containers/App/reducer', () => {
           }),
           {
             type: UPLOAD_FAILURE,
-          },
-        ).toJS(),
+          }
+        ).toJS()
       ).toEqual({
         upload: {},
       });
@@ -178,7 +160,7 @@ describe('containers/App/reducer', () => {
         appReducer(fromJS({}), {
           type: LOGIN_FAILED,
           payload: 'ERROR_MESSAGE',
-        }).toJS(),
+        }).toJS()
       ).toEqual({
         error: true,
         loading: false,
@@ -192,7 +174,7 @@ describe('containers/App/reducer', () => {
         appReducer(fromJS({}), {
           type: LOGOUT_FAILED,
           payload: 'ERROR_MESSAGE',
-        }).toJS(),
+        }).toJS()
       ).toEqual({
         error: true,
         loading: false,
@@ -200,20 +182,27 @@ describe('containers/App/reducer', () => {
     });
   });
 
-
   describe('LOGOUT', () => {
     it('should handle logout', () => {
-      expect(
-        appReducer(fromJS({}), {
-          type: LOGOUT,
-        }).toJS(),
-      ).toEqual({
-        upload: {},
-        userName: undefined,
-        userScopes: undefined,
-        userPermissions: [],
-        accessToken: undefined,
+      const state = fromJS({
+        user: {
+          permissions: ['a', 'b', 'c'],
+          roles: ['c', 'd', 'e'],
+        },
+        notification: {
+          message: 'This is a notifictation',
+        },
       });
+
+      const action = {
+        type: LOGOUT,
+      };
+
+      expect(appReducer(state, action)).toEqual(
+        state
+          .set('user', initialState.get('user'))
+          .set('upload', initialState.get('upload'))
+      );
     });
   });
 });

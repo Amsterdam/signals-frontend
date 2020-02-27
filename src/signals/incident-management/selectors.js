@@ -1,7 +1,10 @@
 import { fromJS } from 'immutable';
 
-import { parseFromAPIData } from 'signals/shared/filter/parse';
-import { makeSelectCategories } from 'containers/App/selectors';
+import { parseInputFormData } from 'signals/shared/filter/parse';
+import {
+  makeSelectMainCategories,
+  makeSelectSubCategories,
+} from 'models/categories/selectors';
 
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
@@ -33,49 +36,99 @@ export const makeSelectDataLists = createSelector(
 );
 
 export const makeSelectAllFilters = createSelector(
-  selectIncidentManagementDomain,
-  makeSelectDataLists,
-  makeSelectCategories(),
-  (stateMap, dataLists, categories) => {
+  [
+    selectIncidentManagementDomain,
+    makeSelectDataLists,
+    makeSelectMainCategories,
+    makeSelectSubCategories,
+  ],
+  (stateMap, dataLists, maincategory_slug, category_slug) => {
     const filters = stateMap.get('filters').toJS();
 
-    return filters.map(filter =>
-      parseFromAPIData(filter, {
+    return filters.map(filter => {
+      const { priority } = filter.options;
+      const converted = (Array.isArray(priority)
+        ? priority
+        : [priority]
+      ).filter(Boolean);
+      const fltr = {
+        ...filter,
+        options: {
+          ...filter.options,
+          priority: converted,
+        },
+      };
+
+      return parseInputFormData(fltr, {
         ...dataLists,
-        maincategory_slug: categories.main,
-        category_slug: categories.sub,
-      })
-    );
+        maincategory_slug,
+        category_slug,
+      });
+    });
   }
 );
 
 export const makeSelectActiveFilter = createSelector(
-  selectIncidentManagementDomain,
-  makeSelectDataLists,
-  makeSelectCategories(),
-  (stateMap, dataLists, categories) => {
+  [
+    selectIncidentManagementDomain,
+    makeSelectDataLists,
+    makeSelectMainCategories,
+    makeSelectSubCategories,
+  ],
+  (stateMap, dataLists, maincategory_slug, category_slug) => {
+    if (!(maincategory_slug && category_slug)) {
+      return {};
+    }
+
     const state = stateMap.toJS();
 
-    return parseFromAPIData(state.activeFilter, {
+    const { priority } = state.activeFilter.options;
+    const converted = (Array.isArray(priority) ? priority : [priority]).filter(
+      Boolean
+    );
+    const filter = {
+      ...state.activeFilter,
+      options: {
+        ...state.activeFilter.options,
+        priority: converted,
+      },
+    };
+
+    return parseInputFormData(filter, {
       ...dataLists,
-      maincategory_slug: categories.main,
-      category_slug: categories.sub,
+      maincategory_slug,
+      category_slug,
     });
   }
 );
 
 export const makeSelectEditFilter = createSelector(
-  selectIncidentManagementDomain,
-  makeSelectDataLists,
-  makeSelectCategories(),
-  (stateMap, dataLists, categories) => {
+  [
+    selectIncidentManagementDomain,
+    makeSelectDataLists,
+    makeSelectMainCategories,
+    makeSelectSubCategories,
+  ],
+  (stateMap, dataLists, maincategory_slug, category_slug) => {
+    if (!(maincategory_slug && category_slug)) {
+      return {};
+    }
+
     const state = stateMap.toJS();
 
-    return parseFromAPIData(state.editFilter, {
-      ...dataLists,
-      maincategory_slug: categories.main,
-      category_slug: categories.sub,
-    });
+    return parseInputFormData(
+      state.editFilter,
+      {
+        ...dataLists,
+        maincategory_slug,
+        category_slug,
+      },
+      (category, value) => {
+        if (category.key || category.slug) return undefined;
+
+        return category._links.self.public.endsWith(`/${value}`);
+      }
+    );
   }
 );
 
@@ -145,7 +198,10 @@ export const makeSelectIncidents = createSelector(
 export const makeSelectIncidentsCount = createSelector(
   selectIncidentManagementDomain,
   state => {
-    const { incidents: { count } } = state.toJS();
+    const {
+      incidents: { count },
+    } = state.toJS();
 
     return count;
-  });
+  }
+);

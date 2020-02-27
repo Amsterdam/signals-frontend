@@ -523,12 +523,14 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should push to redirectURI on successful POST', () => {
-    const showGlobalNotification = jest.fn();
-    const id = userJSON.id;
-
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({}));
     jest.spyOn(reactRouterDom, 'useParams').mockImplementationOnce(() => ({
       userId: undefined,
     }));
+
+    const showGlobalNotification = jest.fn();
+    const id = userJSON.id;
+    const state = { some: "random state" };
 
     useFetchUser.mockImplementationOnce(() => ({
       isSuccess: true,
@@ -537,7 +539,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     expect(push).not.toHaveBeenCalled();
 
-    render(
+    const { rerender } = render(
       withAppContext(
         <UserDetailContainerComponent
           showGlobalNotification={showGlobalNotification}
@@ -547,8 +549,40 @@ describe('signals/settings/users/containers/Detail', () => {
     );
 
     expect(push).toHaveBeenCalledTimes(1);
-    expect(push).toHaveBeenCalledWith(routes.users);
+    expect(push).toHaveBeenCalledWith(
+      expect.stringContaining(routes.users),
+      expect.undefined,
+    );
 
+    expect(showGlobalNotification).toHaveBeenCalledTimes(1);
+    expect(showGlobalNotification).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: 'Gebruiker toegevoegd',
+        variant: VARIANT_SUCCESS,
+        type: TYPE_LOCAL,
+      })
+    );
+
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
+      state,
+    }));
+
+    rerender(
+      withAppContext(
+        <UserDetailContainerComponent
+          showGlobalNotification={showGlobalNotification}
+          userCan={userCan}
+        />
+      )
+    );
+
+    expect(push).toHaveBeenCalledTimes(2);
+    expect(push).toHaveBeenCalledWith(
+      expect.stringContaining(routes.users),
+      expect.objectContaining(state),
+    );
+
+    expect(showGlobalNotification).toHaveBeenCalledTimes(2);
     expect(showGlobalNotification).toHaveBeenCalledWith(
       expect.objectContaining({
         title: 'Gebruiker toegevoegd',
@@ -559,11 +593,13 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should direct to the overview page when cancel button is clicked and form data is pristine', () => {
-    useFetchUser.mockImplementationOnce(() => ({ data: userJSON }));
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({}));
+    useFetchUser.mockImplementation(() => ({ data: userJSON }));
 
     global.window.confirm = jest.fn();
 
-    const { getByTestId } = render(
+    const state = { some: "random state" };
+    const { rerender, getByTestId } = render(
       withAppContext(
         <UserDetailContainerComponent
           showGlobalNotification={() => {}}
@@ -572,21 +608,50 @@ describe('signals/settings/users/containers/Detail', () => {
       )
     );
 
-    expect(push).not.toHaveBeenCalled();
+    expect(push).toHaveBeenCalledTimes(0);
 
     fireEvent.click(getByTestId('cancelBtn'));
 
     expect(global.window.confirm).not.toHaveBeenCalled();
     expect(push).toHaveBeenCalledTimes(1);
-    expect(push).toHaveBeenCalledWith(routes.users);
+    expect(push).toHaveBeenCalledWith(
+      expect.stringContaining(routes.users),
+      expect.undefined,
+    );
+
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
+      state,
+    }));
+
+    rerender(
+      withAppContext(
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={userCan}
+        />
+      )
+    );
+
+    expect(push).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(getByTestId('cancelBtn'));
+
+    expect(global.window.confirm).not.toHaveBeenCalled();
+    expect(push).toHaveBeenCalledTimes(2);
+    expect(push).toHaveBeenCalledWith(
+      expect.stringContaining(routes.users),
+      expect.objectContaining(state),
+    );
   });
 
   it('should direct to the overview page when cancel button is clicked and form data is NOT pristine', () => {
-    useFetchUser.mockImplementationOnce(() => ({ data: userJSON }));
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({}));
+    useFetchUser.mockImplementation(() => ({ data: userJSON }));
 
     global.window.confirm = jest.fn();
 
-    const { getByTestId } = render(
+    const state = { some: "random state" };
+    const { rerender, getByTestId } = render(
       withAppContext(
         <UserDetailContainerComponent
           showGlobalNotification={() => {}}
@@ -604,27 +669,62 @@ describe('signals/settings/users/containers/Detail', () => {
 
     fireEvent.click(getByTestId('cancelBtn'));
 
-    expect(global.window.confirm).toHaveBeenCalled();
-    expect(push).not.toHaveBeenCalled();
+    expect(global.window.confirm).toHaveBeenCalledTimes(1);
+    expect(push).toHaveBeenCalledTimes(0);
 
     global.window.confirm.mockReturnValue(true);
+
     fireEvent.click(getByTestId('cancelBtn'));
 
+    expect(global.window.confirm).toHaveBeenCalledTimes(2);
     expect(push).toHaveBeenCalledTimes(1);
-    expect(push).toHaveBeenCalledWith(routes.users);
+    expect(push).toHaveBeenCalledWith(
+      expect.stringContaining(routes.users),
+      expect.undefined,
+    );
+
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
+      state,
+    }));
+
+    rerender(
+      withAppContext(
+        <UserDetailContainerComponent
+          showGlobalNotification={() => {}}
+          userCan={userCan}
+        />
+      )
+    );
+
+    fireEvent.click(getByTestId('cancelBtn'));
+
+    expect(global.window.confirm).toHaveBeenCalledTimes(3);
+    expect(push).toHaveBeenCalledTimes(2);
+
+    global.window.confirm.mockReturnValue(true);
+
+    fireEvent.click(getByTestId('cancelBtn'));
+
+    expect(global.window.confirm).toHaveBeenCalledTimes(4);
+    expect(push).toHaveBeenCalledTimes(3);
+    expect(push).toHaveBeenCalledWith(
+      expect.stringContaining(routes.users),
+      expect.objectContaining(state),
+    );
   });
 
   it('should push to correct URL when cancel button is clicked and form data is pristine', () => {
     const referrer = '/some-page-we-came-from';
+    const state = { some: "random state" };
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
       referrer,
     }));
 
-    useFetchUser.mockImplementationOnce(() => ({ data: userJSON }));
+    useFetchUser.mockImplementation(() => ({ data: userJSON }));
 
     global.window.confirm = jest.fn();
 
-    const { getByTestId } = render(
+    const { rerender, getByTestId } = render(
       withAppContext(
         <UserDetailContainerComponent
           showGlobalNotification={() => {}}
@@ -640,6 +740,31 @@ describe('signals/settings/users/containers/Detail', () => {
     // user is only asked for confirmation when form data isn't pristine
     expect(global.window.confirm).not.toHaveBeenCalled();
     expect(push).toHaveBeenCalledTimes(1);
-    expect(push).toHaveBeenCalledWith(referrer);
+    expect(push).toHaveBeenCalledWith(
+      expect.stringContaining(referrer),
+      expect.undefined,
+    );
+
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
+      referrer,
+      state,
+    }));
+
+    rerender(withAppContext(
+      <UserDetailContainerComponent
+        showGlobalNotification={() => {}}
+        userCan={userCan}
+      />
+    ));
+
+    fireEvent.click(getByTestId('cancelBtn'));
+
+    // user is only asked for confirmation when form data isn't pristine
+    expect(global.window.confirm).not.toHaveBeenCalled();
+    expect(push).toHaveBeenCalledTimes(2);
+    expect(push).toHaveBeenCalledWith(
+      expect.stringContaining(referrer),
+      expect.objectContaining(state),
+    );
   });
 });

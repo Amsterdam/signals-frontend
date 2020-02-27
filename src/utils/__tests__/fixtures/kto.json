@@ -1,0 +1,24 @@
+{
+  "yes": {
+    "ktoContainer": {
+      "form": {
+        "is_satisfied": true,
+        "yesNo": "ja"
+      },
+      "answers": {
+        "Antwoord JA": "Antwoord JA"
+      }
+    }
+  },
+  "no": {
+    "ktoContainer": {
+      "form": {
+        "is_satisfied": false,
+        "yesNo": "nee"
+      },
+      "answers": {
+        "Antwoord NEE": "Antwoord NEE"
+      }
+    }
+  }
+}

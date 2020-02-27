@@ -37,6 +37,7 @@ export function* authCall(url, params, authorizationToken) {
 
 export function* authCallWithPayload(url, params, method) {
   const headers = {
+    accept: 'application/json',
     'Content-Type': 'application/json',
   };
 

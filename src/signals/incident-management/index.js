@@ -8,9 +8,9 @@ import { createStructuredSelector } from 'reselect';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
+import { fetchCategories } from 'models/categories/actions';
 
 import LoginPage from 'components/LoginPage';
-import NotFoundPage from 'components/NotFoundPage';
 
 import IncidentOverviewPage from './containers/IncidentOverviewPage';
 import { makeSelectSearchQuery } from './selectors';
@@ -24,6 +24,7 @@ import saga from './saga';
 import routes from './routes';
 
 export const IncidentManagementModuleComponent = ({
+  fetchCategoriesAction,
   getFiltersAction,
   requestIncidentsAction,
   searchIncidentsAction,
@@ -41,12 +42,10 @@ export const IncidentManagementModuleComponent = ({
     }
 
     getFiltersAction();
-  }, [
-    getFiltersAction,
-    requestIncidentsAction,
-    searchIncidentsAction,
-    searchQuery,
-  ]);
+    fetchCategoriesAction();
+    // disabling linter; no deps needed, only execute on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!isAuthenticated()) {
     return <Route component={LoginPage} />;
@@ -58,12 +57,13 @@ export const IncidentManagementModuleComponent = ({
       <Route exact path={routes.incident} component={IncidentDetail} />
       <Route exact path={routes.split} component={IncidentSplitContainer} />
       <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
-      <Route component={NotFoundPage} />
+      <Route component={IncidentOverviewPage} />
     </Switch>
   );
 };
 
 IncidentManagementModuleComponent.propTypes = {
+  fetchCategoriesAction: PropTypes.func.isRequired,
   getFiltersAction: PropTypes.func.isRequired,
   requestIncidentsAction: PropTypes.func.isRequired,
   searchQuery: PropTypes.string,
@@ -77,6 +77,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
+      fetchCategoriesAction: fetchCategories,
       getFiltersAction: getFilters,
       requestIncidentsAction: requestIncidents,
       searchIncidentsAction: searchIncidents,

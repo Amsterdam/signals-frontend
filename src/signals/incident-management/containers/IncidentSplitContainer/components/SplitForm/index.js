@@ -119,9 +119,7 @@ const SplitForm = ({
       });
     });
   }, [
-    incident.category.category_url,
-    incident.priority.priority,
-    incident.text,
+    incident,
   ]);
 
   return (

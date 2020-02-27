@@ -7,78 +7,61 @@ const arrayFields = [
   'status',
   'category_slug',
   'source',
+  'priority',
 ];
 
 /**
  * Parse form data for consumption by global store actions
  *
- * The data required for filtering incidents should contain values for keys 'maincategory_slug' and 'category_slug'
- * If the form data contains entries for maincategory_slug, it means that 'Select all' has been toggled. If it contains entries
- * for category_slug, individual entries have been selected. If an entry for maincategory_slug is found in the form data, all
- * corresponding entries for category_slug are removed. Individual category_slug entries are grouped under the key 'category_slug'.
+ * The rich objects in the formState are transformed to flattened arrays containing slugs. Date strings are formatted
+ * so that the API can read them.
  *
- * @param   {HTMLFormElement} - Form element from which the data should be extracted
+ * @param   {Object} options - Filter options data
  * @returns {Object}
  */
-export const parseOutputFormData = form => {
-  const formData = new FormData(form);
-  const parsed = {};
+export const parseOutputFormData = options =>
+  Object.entries(options).reduce((acc, [key, value]) => {
+    let entryValue;
 
-  Array.from(formData.entries()).forEach(([key, value]) => {
-    if (Object.keys(parsed).includes(key)) {
-      const val = parsed[key];
+    switch (key) {
+      case 'category_slug':
+      case 'maincategory_slug':
+        entryValue = value.map(({ slug }) => slug);
+        break;
 
-      parsed[key] = Array.isArray(val) ? [...val, value] : [val, value];
-    } else {
-      parsed[key] = arrayFields.includes(key) ? [value] : value;
+      case 'stadsdeel':
+      case 'source':
+      case 'status':
+      case 'priority':
+        entryValue = value.map(({ key: itemKey }) => itemKey);
+        break;
+
+      case 'created_after':
+        if (
+          moment(options.created_after, 'YYYY-MM-DD').toISOString() !== null
+        ) {
+          entryValue = moment(options.created_after).format(
+            'YYYY-MM-DDT00:00:00'
+          );
+        }
+        break;
+
+      case 'created_before':
+        if (
+          moment(options.created_before, 'YYYY-MM-DD').toISOString() !== null
+        ) {
+          entryValue = moment(options.created_before)
+            .set({ hours: 23, minutes: 59, seconds: 59 })
+            .format('YYYY-MM-DDTkk:mm:ss');
+        }
+        break;
+
+      default:
+        entryValue = value;
     }
-  });
 
-  // remove any category_slug entries that are covered by entries in maincategory_slug
-  if (Array.isArray(parsed.maincategory_slug)) {
-    parsed.maincategory_slug.forEach(maincategory_slug => {
-      delete parsed[`${maincategory_slug}_category_slug`];
-    });
-  } else {
-    delete parsed[`${parsed.maincategory_slug}_category_slug`];
-  }
-
-  // consolidate category_slug entries
-  Object.keys(parsed)
-    .filter(key => key.endsWith('_category_slug'))
-    .forEach(key => {
-      const subSlugs = parsed[key];
-      delete parsed[key];
-
-      if (!parsed.category_slug) {
-        parsed.category_slug = [];
-      }
-
-      if (Array.isArray(subSlugs)) {
-        parsed.category_slug = [...parsed.category_slug, ...subSlugs];
-      } else {
-        parsed.category_slug = [...parsed.category_slug, subSlugs];
-      }
-    });
-
-  const {
-    name, refresh, id, ...options
-  } = parsed;
-
-  // before/after params require a specific format that includes the time
-  // since `created_before` means before and including, we add a day
-  if (moment(options.created_before, 'YYYY-MM-DD').toISOString() !== null) {
-    options.created_before = moment(options.created_before).set({ hours: 23, minutes: 59, seconds: 59 }).format('YYYY-MM-DDTkk:mm:ss');
-  }
-
-  if (moment(options.created_after, 'YYYY-MM-DD').toISOString() !== null) {
-    options.created_after = moment(options.created_after).format('YYYY-MM-DDT00:00:00');
-  }
-
-  return {
-    name, refresh: !!refresh, id, options,
-  };
-};
+    return { ...acc, [key]: entryValue };
+  }, {});
 
 /**
  * Formats filter data so that the form can consume it
@@ -91,35 +74,22 @@ export const parseOutputFormData = form => {
  * @returns {Object}
  */
 export const parseInputFormData = (filterData, dataLists) => {
-  const parsed = clonedeep(filterData.options || {});
-  parsed.name = filterData.name;
-  parsed.id = filterData.id;
-  parsed.refresh = filterData.refresh;
+  const options = clonedeep(filterData.options || {});
 
-  if (Object.keys(filterData).length) {
+  if (Object.keys(options).length) {
     // replace string entries in filter data with objects from dataLists
-    Object.keys(parsed)
+    Object.keys(options)
       .filter(fieldName => arrayFields.includes(fieldName))
       .forEach(fieldName => {
-        parsed[fieldName] = parsed[fieldName].map(value => dataLists[fieldName].find(
-          ({ key, slug }) => key === value || slug === value,
-        ));
+        options[fieldName] = options[fieldName].map(value =>
+          dataLists[fieldName].find(
+            ({ key, slug }) => key === value || slug === value
+          )
+        );
       });
   }
 
-  return parsed;
-};
-
-/**
- * Formats filter data that comes in from the API
- */
-export const parseFromAPIData = (filterData, dataLists) => {
-  const { id, name, refresh, ...options } = parseInputFormData(
-    filterData,
-    dataLists,
-  );
-
-  return { id, name, refresh, options };
+  return { ...filterData, options };
 };
 
 /**
@@ -131,8 +101,10 @@ export const parseToAPIData = filterData => {
   Object.keys(options)
     .filter(fieldName => arrayFields.includes(fieldName))
     .forEach(fieldName => {
-      options[fieldName] = options[fieldName].map(({ slug, key }) => slug || key);
+      options[fieldName] = options[fieldName].map(
+        ({ slug, key }) => slug || key
+      );
     });
 
-  return Object.assign(filterData, { options });
+  return { ...filterData, options };
 };

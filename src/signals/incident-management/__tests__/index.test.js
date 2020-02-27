@@ -22,6 +22,7 @@ describe('signals/incident-management', () => {
 
   beforeEach(() => {
     props = {
+      fetchCategoriesAction: jest.fn(),
       getFiltersAction: jest.fn(),
       requestIncidentsAction: jest.fn(),
       searchIncidentsAction: jest.fn(),
@@ -49,6 +50,9 @@ describe('signals/incident-management', () => {
 
     expect(containerProps.searchIncidentsAction).toBeDefined();
     expect(typeof containerProps.searchIncidentsAction).toEqual('function');
+
+    expect(containerProps.fetchCategoriesAction).toBeDefined();
+    expect(typeof containerProps.fetchCategoriesAction).toEqual('function');
   });
 
   it('should render correctly', () => {
@@ -81,6 +85,20 @@ describe('signals/incident-management', () => {
       render(withAppContext(<IncidentManagementModuleComponent {...props} />));
 
       expect(props.getFiltersAction).toHaveBeenCalledTimes(1);
+    });
+
+    it('should request categories on mount', () => {
+      isAuthenticated.mockImplementation(() => false);
+
+      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+
+      expect(props.fetchCategoriesAction).not.toHaveBeenCalled();
+
+      isAuthenticated.mockImplementation(() => true);
+
+      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+
+      expect(props.fetchCategoriesAction).toHaveBeenCalledTimes(1);
     });
 
     it('should request incidents on mount', () => {
@@ -184,6 +202,18 @@ describe('signals/incident-management', () => {
       );
 
       expect(queryByText(loginText)).toBeNull();
+    });
+
+    it('will use overview page as routing fallback', () => {
+      isAuthenticated.mockImplementation(() => true);
+
+      history.push('/manage/this-url-definitely-does-not-exist');
+
+      const { getByTestId } = render(
+        withAppContext(<IncidentManagementModuleComponent {...props} />)
+      );
+
+      expect(getByTestId('incidentManagementOverviewPage')).toBeInTheDocument();
     });
   });
 });

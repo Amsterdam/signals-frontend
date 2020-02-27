@@ -12,6 +12,7 @@ import {
   authPatchCall,
   authPostCall,
 } from 'shared/services/api/api';
+import { PATCH_INCIDENT_SUCCESS } from 'models/incident/constants';
 import watchIncidentManagementSaga, {
   fetchProxy,
   doSaveFilter,
@@ -24,6 +25,7 @@ import watchIncidentManagementSaga, {
   fetchIncidents,
   searchIncidents,
 } from '../saga';
+import { SPLIT_INCIDENT_SUCCESS } from '../containers/IncidentSplitContainer/constants';
 import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
@@ -84,6 +86,8 @@ describe('signals/incident-management/saga', () => {
             RESET_SEARCH_QUERY,
             PAGE_CHANGED,
             ORDERING_CHANGED,
+            PATCH_INCIDENT_SUCCESS,
+            SPLIT_INCIDENT_SUCCESS,
           ],
           fetchProxy
         ),

@@ -20,6 +20,8 @@ import {
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
+import { PATCH_INCIDENT_SUCCESS } from 'models/incident/constants';
+
 import {
   applyFilterRefresh,
   applyFilterRefreshStop,
@@ -54,6 +56,8 @@ import {
   SET_SEARCH_QUERY,
   UPDATE_FILTER,
 } from './constants';
+
+import { SPLIT_INCIDENT_SUCCESS } from './containers/IncidentSplitContainer/constants';
 
 import {
   makeSelectActiveFilter,
@@ -249,6 +253,8 @@ export default function* watchIncidentManagementSaga() {
         RESET_SEARCH_QUERY,
         PAGE_CHANGED,
         ORDERING_CHANGED,
+        PATCH_INCIDENT_SUCCESS,
+        SPLIT_INCIDENT_SUCCESS,
       ],
       fetchProxy
     ),
