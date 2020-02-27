@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { memo, Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect, Switch, useLocation } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
@@ -37,11 +37,20 @@ export const SettingsModule = ({
   const [location, setLocation] = useState(moduleLocation);
 
   useEffect(() => {
+    if (!isAuthenticated()) {
+      return;
+    }
+
     onFetchDepartments();
     onFetchRoles();
     onFetchPermissions();
     fetchCategoriesAction();
-  }, [onFetchDepartments, onFetchPermissions, onFetchRoles, fetchCategoriesAction]);
+  }, [
+    onFetchDepartments,
+    onFetchPermissions,
+    onFetchRoles,
+    fetchCategoriesAction,
+  ]);
 
   // subscribe to updates and set the referrer when page URLs differ
   useEffect(() => {
@@ -148,4 +157,4 @@ export const mapDispatchToProps = dispatch =>
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default withConnect(SettingsModule);
+export default memo(withConnect(SettingsModule));
