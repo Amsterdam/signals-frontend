@@ -18,9 +18,9 @@ import { makeSelectUserCan } from 'containers/App/selectors';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Pagination from 'components/Pagination';
 import PageHeader from 'signals/settings/components/PageHeader';
+import DataView from 'components/DataView';
 import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes';
 import useFetchUsers from './hooks/useFetchUsers';
-import DataView from './components/DataView';
 
 const StyledPagination = styled(Pagination)`
   margin-top: ${themeSpacing(12)};
