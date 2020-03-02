@@ -8,8 +8,8 @@ import { incidentType, dataListType } from 'shared/types';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
-import FieldControlWrapper from '../../../../../../components/FieldControlWrapper';
-import SelectInput from '../../../../../../components/SelectInput';
+import RadioInput from 'signals/incident-management/components/RadioInput';
+import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
 
 import './style.scss';
 
@@ -71,12 +71,13 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
         {formVisible
           ? (
             <FieldGroup
+              strict={false}
               control={this.form}
               render={() => (
                 <form onSubmit={this.handleSubmit} className="change-value__form">
                   <Fragment>
                     <FieldControlWrapper
-                      render={SelectInput}
+                      render={RadioInput}
                       name="input"
                       values={list}
                       className="change-value__form-input"
