@@ -21,6 +21,7 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Pagination from 'components/Pagination';
 import PageHeader from 'signals/settings/components/PageHeader';
 import DataView from 'components/DataView';
+import SelectInput from 'components/SelectInput';
 import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes';
 import useFetchUsers from './hooks/useFetchUsers';
 
@@ -70,6 +71,18 @@ const StyledDataView = styled(DataView)`
     width: 50%;
   }
 `;
+
+const roleSelectOptions = {
+  all: 'all',
+  minion: 'minion',
+  overlord: 'overlord',
+};
+
+const userActiveOptions = {
+  all: 'Alle',
+  active: 'Actief',
+  inactive: 'Niet actief',
+};
 
 export const UsersOverviewContainer = ({ userCan }) => {
   const history = useHistory();
@@ -187,20 +200,18 @@ export const UsersOverviewContainer = ({ userCan }) => {
                   />
                 ),
                 (
-                  <Select value={roleState} onChange={roleOnChangeHandler}>
-                    <option value="all">Alle</option>
-                    <option value="overlord">Overlord</option>
-                    <option value="minion">Minion</option>
-                  </Select>
-
+                  <SelectInput
+                    value={roleState}
+                    options={roleSelectOptions}
+                    handler={roleOnChangeHandler}
+                  />
                 ),
                 (
-                  <Select value={userActiveState} onChange={userStatusOnChangeHandler}>
-                    <option value="all">Alle</option>
-                    <option value="active">Actief</option>
-                    <option value="inactive">Niet actief</option>
-                  </Select>
-
+                  <SelectInput
+                    value={userActiveState}
+                    options={userActiveOptions}
+                    handler={userStatusOnChangeHandler}
+                  />
                 ),
               ]}
               columnOrder={columnHeaders}
