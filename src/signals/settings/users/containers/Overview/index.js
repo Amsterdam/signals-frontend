@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import { useParams, useHistory, useLocation, Link } from 'react-router-dom';
-import { Row, Column, themeSpacing, Button, SearchBar , Select } from '@datapunt/asc-ui';
+import { Row, Column, themeSpacing, Button, SearchBar, Select } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -45,6 +45,8 @@ const filtersReducer = (state, action) => {
   switch (action.type) {
     case 'username':
       return { ...action.prevState, username: action.payload };
+    case 'role':
+      return { ...action.prevState, role: action.payload };
     case 'is_active':
       let value;
       if (action.payload === 'inactive') {
@@ -80,6 +82,7 @@ export const UsersOverviewContainer = ({ userCan }) => {
   const [filters, dispatchFiltersChange] = useReducer(filtersReducer, filtersInitialState);
   const { isLoading, users: { list: data }, users } = useFetchUsers({ page, filters });
   const [userActiveState, setUserActiveState] = React.useState('all');
+  const [roleState, setRoleState] = React.useState('all');
 
   /**
    * Get page number value from URL query string
@@ -141,12 +144,20 @@ export const UsersOverviewContainer = ({ userCan }) => {
   const columnHeaders = ['Gebruikersnaam', 'Rol', 'Status'];
 
   const userActiveFilter = createOnChangeFilter('is_active');
+  const roleFilter = createOnChangeFilter('role');
 
   const userStatusOnChangeHandler = event => {
     event.preventDefault();
 
     setUserActiveState(event.target.value);
     userActiveFilter(event.target.value);
+  };
+
+  const roleOnChangeHandler = event => {
+    event.preventDefault();
+
+    setRoleState(event.target.value);
+    roleFilter(event.target.value);
   };
 
   return (
@@ -168,20 +179,28 @@ export const UsersOverviewContainer = ({ userCan }) => {
               headers={columnHeaders}
               filters={[
                 (
-                  <React.Fragment>
-                    <StyledSearchbar
-                      placeholder=""
-                      onChange={debouncedOnChangeUsernameFilter}
-                      value={filters.username}
-                      data-testid="filterUsersByUsername"
-                    />
+                  <StyledSearchbar
+                    placeholder=""
+                    onChange={debouncedOnChangeUsernameFilter}
+                    value={filters.username}
+                    data-testid="filterUsersByUsername"
+                  />
+                ),
+                (
+                  <Select value={roleState} onChange={roleOnChangeHandler}>
+                    <option value="all">Alle</option>
+                    <option value="overlord">Overlord</option>
+                    <option value="minion">Minion</option>
+                  </Select>
 
-                    <Select value={userActiveState} onChange={userStatusOnChangeHandler}>
-                      <option value="all">Alle</option>
-                      <option value="active">Actief</option>
-                      <option value="inactive">Niet actief</option>
-                    </Select>
-                  </React.Fragment>
+                ),
+                (
+                  <Select value={userActiveState} onChange={userStatusOnChangeHandler}>
+                    <option value="all">Alle</option>
+                    <option value="active">Actief</option>
+                    <option value="inactive">Niet actief</option>
+                  </Select>
+
                 ),
               ]}
               columnOrder={columnHeaders}
