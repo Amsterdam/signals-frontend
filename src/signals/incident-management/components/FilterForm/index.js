@@ -301,7 +301,7 @@ const FilterForm = ({
           />
 
           <CheckboxGroup
-            defaultValue={state.options.contactDetails}
+            defaultValue={state.options.contact_details_present}
             hasToggle={false}
             label="Contact"
             name="contact_details_present"
