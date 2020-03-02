@@ -8,7 +8,7 @@ import { incidentType, dataListType } from 'shared/types';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
-import RadioInput from 'signals/incident-management/components/RadioInput';
+import SelectInput from 'signals/incident-management/components/SelectInput';
 import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
 
 import './style.scss';
@@ -59,7 +59,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
 
   render() {
     const {
-      display, definitionClass, valueClass, list, incident, path, valuePath, sort, disabled,
+      component, display, definitionClass, valueClass, list, incident, path, valuePath, sort, disabled,
     } = this.props;
     const { formVisible } = this.state;
     return (
@@ -77,7 +77,7 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
                 <form onSubmit={this.handleSubmit} className="change-value__form">
                   <Fragment>
                     <FieldControlWrapper
-                      render={RadioInput}
+                      render={component}
                       name="input"
                       values={list}
                       className="change-value__form-input"
@@ -121,12 +121,14 @@ class ChangeValue extends React.Component { // eslint-disable-line react/prefer-
 }
 
 ChangeValue.defaultProps = {
+  component: SelectInput,
   valuePath: '',
   patch: {},
   disabled: false,
 };
 
 ChangeValue.propTypes = {
+  component: PropTypes.func,
   incident: incidentType.isRequired,
   definitionClass: PropTypes.string.isRequired,
   valueClass: PropTypes.string.isRequired,
