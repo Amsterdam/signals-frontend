@@ -53,7 +53,7 @@ const renderItem = (display, key) => (
 );
 
 const renderGroup = (tag, main, list, tagKey) => {
-  if (list && tag.length === list.length) {
+  if (tag.length === list.length) {
     return renderItem(`${mapKeys(tagKey)}${allLabelAppend}`, tagKey);
   }
 
