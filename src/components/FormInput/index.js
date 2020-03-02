@@ -5,25 +5,30 @@ import {
   Label as FieldLabel,
   styles,
   themeColor,
-  Typography,
   themeSpacing,
+  Typography,
 } from '@datapunt/asc-ui';
 
 import Hint from '../Hint';
 
 const StyledInput = styled.input`
   ${styles.InputStyle.componentStyle.rules}
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 22px;
 
   &[disabled] {
     border: 1px solid ${themeColor('tint', 'level4')};
     color: ${themeColor('tint', 'level4')};
   }
 
-  ${({ showError }) => showError && css`
-    & {
-      border: 2px solid ${themeColor('secondary')};
-    }
-  `}
+  ${({ showError }) =>
+    showError &&
+    css`
+      & {
+        border: 2px solid ${themeColor('secondary')};
+      }
+    `}
 `;
 
 const Error = styled(Typography).attrs({
@@ -35,7 +40,7 @@ const Error = styled(Typography).attrs({
   margin: ${themeSpacing(2)} 0;
 `;
 
-export const Label = styled(FieldLabel)`
+const Label = styled(FieldLabel)`
   display: block;
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
   ${({ hasHint }) =>
@@ -46,22 +51,24 @@ export const Label = styled(FieldLabel)`
 `;
 
 const Wrapper = styled.div`
-  ${({ showError }) => showError && css`
-    border-left: 2px solid ${themeColor('secondary')};
-    padding-left: ${themeSpacing(4)};
-  `}
+  ${({ showError }) =>
+    showError &&
+    css`
+      border-left: 2px solid ${themeColor('secondary')};
+      padding-left: ${themeSpacing(4)};
+    `}
 `;
 
-const Input = ({ className, hint, label, id, error, ...rest }) => (
+const FormInput = ({ className, hint, label, id, error, ...rest }) => (
   <Wrapper className={className} showError={Boolean(error)}>
     {label && <Label hasHint={Boolean(hint)} htmlFor={id} label={label} />}
     {hint && <Hint>{hint}</Hint>}
     {error && <Error>{error}</Error>}
-    <StyledInput id={id} showError={Boolean(error)} type="text" {...rest} />
+    <StyledInput id={id} showError={Boolean(error)} {...rest} />
   </Wrapper>
 );
 
-Input.defaultProps = {
+FormInput.defaultProps = {
   className: '',
   error: '',
   hint: '',
@@ -69,7 +76,7 @@ Input.defaultProps = {
   label: '',
 };
 
-Input.propTypes = {
+FormInput.propTypes = {
   className: PropTypes.string,
   error: PropTypes.string,
   hint: PropTypes.string,
@@ -77,4 +84,4 @@ Input.propTypes = {
   label: PropTypes.string,
 };
 
-export default Input;
+export default FormInput;
