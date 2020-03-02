@@ -219,6 +219,12 @@ const MenuItems = ({ onLogOut, showItems }) => {
               Afdelingen
             </StyledMenuButton>
           )}
+
+          {showItems.categories && (
+            <StyledMenuButton $as={NavLink} to="/instellingen/categorieen">
+              Categorieën
+            </StyledMenuButton>
+          )}
         </StyledMenuFlyout>
       )}
 

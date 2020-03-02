@@ -7,6 +7,7 @@ import DataViewHeader from './components/DataViewHeader';
 import DataViewBody from './components/DataViewBody';
 
 const DataView  = ({
+  className,
   headers,
   filters,
   data,
@@ -41,7 +42,7 @@ const DataView  = ({
   if (!numberOfColumns) return null;
 
   return (
-    <StyledTable data-testid="dataView">
+    <StyledTable data-testid="dataView" className={className}>
       {(headers.length > 0 || filters.length > 0) && (
         <DataViewHeader
           numberOfColumns={numberOfColumns}
@@ -63,6 +64,7 @@ const DataView  = ({
 };
 
 DataView.defaultProps = {
+  className: '',
   headers: [],
   filters: [],
   data: [],
@@ -73,6 +75,7 @@ DataView.defaultProps = {
 };
 
 DataView.propTypes = {
+  className: PropTypes.string,
   /** Array of headers to be displayed. Does not have to be the same as the column keys */
   headers: PropTypes.arrayOf(PropTypes.string),
   /** Array of filter nodes to be displayed in the supplied order */
