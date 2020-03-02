@@ -1,13 +1,5 @@
-// name mapping from API values to human readable values
-export const colMap = {
-  id: 'id',
-  is_active: 'Status',
-  roles: 'Rol',
-  username: 'Gebruikersnaam',
-};
-
 /**
- * Clean-up of users API response
+ * Clean-up of API response
  *
  * Filtering out invalid keys, turning array values into concatenated strings and
  * converting boolean values to readable text values
@@ -15,7 +7,7 @@ export const colMap = {
  * @param {Object} data
  * @returns {Object}
  */
-const filterData = data => {
+const filterData = (data, colMap) => {
   const allowedKeys = Object.keys(colMap);
 
   return data.map(item =>

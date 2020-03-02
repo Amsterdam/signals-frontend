@@ -5,7 +5,15 @@ import { history as memoryHistory, withCustomAppContext } from 'test/utils';
 import usersJSON from 'utils/__tests__/fixtures/users.json';
 import { USER_URL, USERS_PAGED_URL } from 'signals/settings/routes';
 import configuration from 'shared/services/configuration/configuration';
+import * as constants from 'containers/App/constants';
 import { UsersOverviewContainer as UsersOverview } from '..';
+
+jest.mock('containers/App/constants', () => ({
+  __esModule: true,
+  ...jest.requireActual('containers/App/constants'),
+}));
+
+constants.PAGE_SIZE = 50;
 
 let testContext = {};
 const usersOverviewWithAppContext = (overrideProps = {}, overrideCfg = {}) => {
@@ -165,13 +173,14 @@ describe('signals/settings/users/containers/Overview', () => {
   });
 
   it('should render pagination controls', async () => {
-    const pageSize = Math.ceil(usersJSON.count / 2);
-    const { rerender, queryByTestId } = render(usersOverviewWithAppContext({ pageSize }));
+    const { rerender, queryByTestId } = render(usersOverviewWithAppContext());
 
     await wait();
 
     expect(queryByTestId('pagination')).toBeInTheDocument();
     expect(within(queryByTestId('pagination')).queryByText('2')).toBeInTheDocument();
+
+    constants.PAGE_SIZE = usersJSON.count;
 
     rerender(usersOverviewWithAppContext({ pageSize: usersJSON.count }));
 
@@ -181,9 +190,9 @@ describe('signals/settings/users/containers/Overview', () => {
   });
 
   it('should push to the history stack and scroll to top on pagination item click', async () => {
-    const pageSize = Math.ceil(usersJSON.count / 2);
+    constants.PAGE_SIZE = 50;
     const { push, scrollTo } = testContext;
-    const { getByText } = render(usersOverviewWithAppContext({ pageSize }));
+    const { getByText } = render(usersOverviewWithAppContext());
 
     await wait(() => getByText('2'));
 
