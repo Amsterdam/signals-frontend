@@ -83,6 +83,21 @@ describe('signals/shared/parse', () => {
 
       expect(parsedOutput).toEqual(expected);
     });
+
+    it('should return non-empty values', () => {
+      const formState = {
+        priority: [priorityList[0]],
+        stadsdeel: [],
+      };
+
+      const expected = {
+        priority: [priorityList[0].key],
+      };
+
+      const parsedOutput = parseOutputFormData(formState);
+
+      expect(parsedOutput).toEqual(expected);
+    });
   });
 
   describe('parseInputFormData', () => {

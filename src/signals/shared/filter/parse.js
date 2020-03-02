@@ -8,6 +8,7 @@ const arrayFields = [
   'category_slug',
   'source',
   'priority',
+  'contact_details_present',
 ];
 
 /**
@@ -33,6 +34,7 @@ export const parseOutputFormData = options =>
       case 'source':
       case 'status':
       case 'priority':
+      case 'contact_details_present':
         entryValue = value.map(({ key: itemKey }) => itemKey);
         break;
 
@@ -60,7 +62,10 @@ export const parseOutputFormData = options =>
         entryValue = value;
     }
 
-    return { ...acc, [key]: entryValue };
+    // make sure we do not return values that are either an 0-length string or an empty array
+    return entryValue && entryValue.length
+      ? { ...acc, [key]: entryValue }
+      : acc;
   }, {});
 
 /**

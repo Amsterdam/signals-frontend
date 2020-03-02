@@ -34,6 +34,9 @@ export const mapKeys = key => {
     case 'priority':
       return 'urgentie';
 
+    case 'contact_details_present':
+      return 'contact';
+
     default:
       return key;
   }
@@ -50,7 +53,7 @@ const renderItem = (display, key) => (
 );
 
 const renderGroup = (tag, main, list, tagKey) => {
-  if (tag.length === list.length) {
+  if (list && tag.length === list.length) {
     return renderItem(`${mapKeys(tagKey)}${allLabelAppend}`, tagKey);
   }
 
