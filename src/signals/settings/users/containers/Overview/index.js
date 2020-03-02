@@ -42,9 +42,22 @@ const StyledSearchbar = styled(SearchBar)`
 const filtersReducer = (state, action) => {
   switch (action.type) {
     case 'username':
-      return { username: action.payload };
+      return { ...action.prevState, username: action.payload };
+    case 'is_active':
+      let value;
+      if (action.payload === 'inactive') {
+        value = false;
+      } else if (action.payload === 'active') {
+        value = true;
+      } else if (action.payload === 'all') {
+        value = null;
+      } else {
+        throw new Error(`value is invalid: ${action.value} (action type: ${action.type})`);
+      }
+
+      return { ...action.prevState, is_active: value };
     default:
-      throw new Error();
+      throw new Error(`action.type is unknown: ${action.type}`);
   }
 };
 
@@ -56,12 +69,15 @@ const StyledDataView = styled(DataView)`
 
 export const UsersOverviewContainer = ({ userCan }) => {
   const history = useHistory();
+
   const location = useLocation();
   const filtersInitialState = location.state && location.state.filters || {};
+
   const { pageNum } = useParams();
   const [page, setPage] = useState(1);
   const [filters, dispatchFiltersChange] = useReducer(filtersReducer, filtersInitialState);
   const { isLoading, users: { list: data }, users } = useFetchUsers({ page, filters });
+  const [userActiveState, setUserActiveState] = React.useState('all');
 
   /**
    * Get page number value from URL query string
@@ -86,34 +102,28 @@ export const UsersOverviewContainer = ({ userCan }) => {
     filter => value => {
       if (filters[filter] === value) return;
 
-      dispatchFiltersChange({ type: filter, payload: value });
+      dispatchFiltersChange({ type: filter, payload: value, prevState: filters });
+
       setPage(1);
       history.push(`${USERS_PAGED_URL}/1`);
     },
     [history, filters]
   );
 
-  const debouncedOnChangeFilter = useCallback(
+  const debouncedOnChangeUsernameFilter = useCallback(
     debounce(createOnChangeFilter('username'), 250),
     [createOnChangeFilter]
   );
 
   const onItemClick = useCallback(
-    e => {
+    event => {
       if (userCan('change_user') === false) {
-        e.preventDefault();
+        event.preventDefault();
         return;
       }
 
-      const {
-        currentTarget: {
-          dataset: { itemId },
-        },
-      } = e;
-
-      if (itemId) {
-        history.push(`${USER_URL}/${itemId}`, { filters });
-      }
+      const { currentTarget: { dataset: { itemId } } } = event;
+      if (itemId) {history.push(`${USER_URL}/${itemId}`, { filters });}
     },
     [history, userCan, filters]
   );
@@ -127,6 +137,15 @@ export const UsersOverviewContainer = ({ userCan }) => {
   );
 
   const columnHeaders = ['Gebruikersnaam', 'Rol', 'Status'];
+
+  const userActiveFilter = createOnChangeFilter('is_active');
+
+  const userStatusOnChangeHandler = event => {
+    event.preventDefault();
+
+    setUserActiveState(event.target.value);
+    userActiveFilter(event.target.value);
+  };
 
   return (
     <Fragment>
@@ -147,12 +166,20 @@ export const UsersOverviewContainer = ({ userCan }) => {
               headers={columnHeaders}
               filters={[
                 (
-                  <StyledSearchbar
-                    placeholder=""
-                    onChange={debouncedOnChangeFilter}
-                    value={filters.username}
-                    data-testid="filterUsersByUsername"
-                  />
+                  <React.Fragment>
+                    <StyledSearchbar
+                      placeholder=""
+                      onChange={debouncedOnChangeUsernameFilter}
+                      value={filters.username}
+                      data-testid="filterUsersByUsername"
+                    />
+
+                    <select value={userActiveState} onChange={userStatusOnChangeHandler}>
+                      <option value="all">Alle</option>
+                      <option value="active">Actief</option>
+                      <option value="inactive">Niet actief</option>
+                    </select>
+                  </React.Fragment>
                 ),
               ]}
               columnOrder={columnHeaders}
