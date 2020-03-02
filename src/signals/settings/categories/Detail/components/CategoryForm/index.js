@@ -42,6 +42,10 @@ const CombinedFields = styled.div`
   }
 `;
 
+const StyledSelect = styled(Select)`
+  height: 44px;
+`;
+
 const statusOptions = [
   { key: 'true', value: 'Actief' },
   { key: 'false', value: 'Niet actief' },
@@ -92,19 +96,16 @@ const CategoryForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
               size="50"
             />
 
-            <Select
+            <StyledSelect
               id="use_calendar_days"
               name="use_calendar_days"
               readOnly={readOnly}
               type="number"
+              defaultValue={data.sla.use_calendar_days ? 1 : 0}
             >
-              <option value="1" selected={data.sla.use_calendar_days}>
-                Dagen
-              </option>
-              <option value="0" selected={!data.sla.use_calendar_days}>
-                Werkdagen
-              </option>
-            </Select>
+              <option value="1">Dagen</option>
+              <option value="0">Werkdagen</option>
+            </StyledSelect>
           </CombinedFields>
         </FieldGroup>
 
@@ -164,7 +165,9 @@ const CategoryForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
 );
 
 CategoryForm.defaultProps = {
-  data: {},
+  data: {
+    sla: {},
+  },
   onCancel: null,
   onSubmitForm: null,
   readOnly: false,

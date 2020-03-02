@@ -1,10 +1,10 @@
-import React, { Fragment, useCallback, useEffect, useMemo } from 'react';
+import React, { Fragment, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { useParams, useLocation } from 'react-router-dom';
-// import isEqual from 'lodash.isequal';
+import isEqual from 'lodash.isequal';
 import styled from 'styled-components';
 
 import configuration from 'shared/services/configuration/configuration';
@@ -27,25 +27,27 @@ const FormContainer = styled.div`
 `;
 
 export const CategoryDetailContainerComponent = ({ userCan }) => {
-  const location = useLocation();
-  const dispatch = useDispatch();
-  const { categoryId } = useParams();
+  const entityName = 'Categorie';
 
+  const location = useLocation();
   const redirectURL = location.referrer || routes.categories;
-  const confirmedCancel = useConfirmedCancel(redirectURL);
+
+  const { categoryId } = useParams();
   const isExistingCategory = categoryId !== undefined;
-  const categoryURL = `${configuration.CATEGORIES_PRIVATE_ENDPOINT}${categoryId}`;
 
   const { isLoading, isSuccess, error, data, get, patch } = useFetch();
+  const confirmedCancel = useConfirmedCancel(redirectURL);
+
+  const dispatch = useDispatch();
+
+  const categoryURL = `${configuration.CATEGORIES_PRIVATE_ENDPOINT}${categoryId}`;
+
   const shouldRenderForm =
     !isExistingCategory || (isExistingCategory && Boolean(data));
-  const userCanSubmitForm = useMemo(
-    () =>
-      (isExistingCategory && userCan('change_category')) ||
-      (!isExistingCategory && userCan('add_category')),
-    [isExistingCategory, userCan]
-  );
-  const entityName = 'Categorie';
+
+  const userCanSubmitForm =
+    (isExistingCategory && userCan('change_category')) ||
+    (!isExistingCategory && userCan('add_category'));
 
   useFetchResponseNotification({
     entityName,
@@ -64,9 +66,8 @@ export const CategoryDetailContainerComponent = ({ userCan }) => {
     isExistingCategory ? 'wijzigen' : 'toevoegen'
   }`;
 
-  const onSubmitForm = useCallback(
+  const getFormData = useCallback(
     event => {
-      event.preventDefault();
       const formData = [...new FormData(event.target.form).entries()]
         // convert stringified boolean values to actual booleans
         .map(([key, val]) => [key, key === 'is_active' ? val === 'true' : val])
@@ -81,9 +82,30 @@ export const CategoryDetailContainerComponent = ({ userCan }) => {
       delete formData.n_days;
       delete formData.use_calendar_days;
 
-      patch(categoryURL, { ...formData, sla });
+      return { ...formData, sla };
     },
-    [categoryURL, patch, data]
+    [data]
+  );
+
+  const onCancel = useCallback(
+    event => {
+      const formData = getFormData(event);
+      const combinedData = { ...data, ...formData };
+      const isPristine = isEqual(data, combinedData);
+
+      confirmedCancel(isPristine);
+    },
+    [confirmedCancel, data, getFormData]
+  );
+
+  const onSubmit = useCallback(
+    event => {
+      event.preventDefault();
+      const formData = getFormData(event);
+
+      patch(categoryURL, formData);
+    },
+    [categoryURL, patch, getFormData]
   );
 
   useEffect(() => {
@@ -112,8 +134,8 @@ export const CategoryDetailContainerComponent = ({ userCan }) => {
         {shouldRenderForm && (
           <CategoryForm
             data={data}
-            onCancel={confirmedCancel}
-            onSubmitForm={onSubmitForm}
+            onCancel={onCancel}
+            onSubmitForm={onSubmit}
             readOnly={!userCanSubmitForm}
           />
         )}
