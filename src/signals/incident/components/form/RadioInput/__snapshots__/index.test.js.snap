@@ -66,6 +66,9 @@ exports[`Form component <RadioInput /> rendering should render radio fields corr
             Bar
           </label>
         </div>
+        <p>
+          <br />
+        </p>
       </div>
     </Header>
   </div>
@@ -94,7 +97,11 @@ exports[`Form component <RadioInput /> rendering should render zero radio fields
     >
       <div
         className="antwoorden"
-      />
+      >
+        <p>
+          <br />
+        </p>
+      </div>
     </Header>
   </div>
 </div>
