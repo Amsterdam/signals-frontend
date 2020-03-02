@@ -7,12 +7,13 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import { useParams, useHistory, useLocation, Link } from 'react-router-dom';
-import { Row, Column, themeSpacing, Button, SearchBar } from '@datapunt/asc-ui';
+import { Row, Column, themeSpacing, Button, SearchBar , Select } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import debounce from 'lodash/debounce';
+
 
 import { PAGE_SIZE } from 'containers/App/constants';
 import { makeSelectUserCan } from 'containers/App/selectors';
@@ -22,6 +23,7 @@ import PageHeader from 'signals/settings/components/PageHeader';
 import DataView from 'components/DataView';
 import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes';
 import useFetchUsers from './hooks/useFetchUsers';
+
 
 const StyledPagination = styled(Pagination)`
   margin-top: ${themeSpacing(12)};
@@ -174,11 +176,11 @@ export const UsersOverviewContainer = ({ userCan }) => {
                       data-testid="filterUsersByUsername"
                     />
 
-                    <select value={userActiveState} onChange={userStatusOnChangeHandler}>
+                    <Select value={userActiveState} onChange={userStatusOnChangeHandler}>
                       <option value="all">Alle</option>
                       <option value="active">Actief</option>
                       <option value="inactive">Niet actief</option>
-                    </select>
+                    </Select>
                   </React.Fragment>
                 ),
               ]}
