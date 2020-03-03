@@ -1,10 +1,6 @@
 import React, { Fragment, useCallback, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { connect, useDispatch } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useLocation } from 'react-router-dom';
-import isEqual from 'lodash.isequal';
 import styled from 'styled-components';
 
 import configuration from 'shared/services/configuration/configuration';
@@ -26,7 +22,37 @@ const FormContainer = styled.div`
   padding-bottom: 66px;
 `;
 
-export const CategoryDetailContainerComponent = ({ userCan }) => {
+const getTransformedData = formData => {
+  // the API expect a different data structure than we initally received
+  // data needs to be transformed before it is sent out 🙄
+  const transformedData = { ...formData, new_sla: formData.sla };
+
+  delete transformedData.sla;
+
+  return transformedData;
+};
+
+/**
+ * Comparison function for incoming and outgoing form data
+ *
+ * @param   {Object} - First object to compare
+ * @param   {Object} - Second object to compare against the first object
+ * @returns {Boolean}
+ */
+const isEqual = (
+  { description, handling_message, is_active, name, sla },
+  othValue
+) =>
+  [
+    description === othValue.description,
+    handling_message === othValue.handling_message,
+    is_active === othValue.is_active,
+    name === othValue.name,
+    sla.n_days === othValue.sla.n_days,
+    sla.use_calendar_days === othValue.sla.use_calendar_days,
+  ].every(Boolean);
+
+const CategoryDetail = () => {
   const entityName = 'Categorie';
 
   const location = useLocation();
@@ -36,6 +62,7 @@ export const CategoryDetailContainerComponent = ({ userCan }) => {
   const isExistingCategory = categoryId !== undefined;
 
   const { isLoading, isSuccess, error, data, get, patch } = useFetch();
+
   const confirmedCancel = useConfirmedCancel(redirectURL);
 
   const dispatch = useDispatch();
@@ -44,6 +71,8 @@ export const CategoryDetailContainerComponent = ({ userCan }) => {
 
   const shouldRenderForm =
     !isExistingCategory || (isExistingCategory && Boolean(data));
+
+  const userCan = useSelector(makeSelectUserCan);
 
   const userCanSubmitForm =
     (isExistingCategory && userCan('change_category')) ||
@@ -58,9 +87,9 @@ export const CategoryDetailContainerComponent = ({ userCan }) => {
     redirectURL,
   });
 
-  const reFetchCategories = useCallback(() => dispatch(fetchCategories()), [
-    dispatch,
-  ]);
+  const refetchCategories = useCallback(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
 
   const title = `${entityName} ${
     isExistingCategory ? 'wijzigen' : 'toevoegen'
@@ -71,6 +100,12 @@ export const CategoryDetailContainerComponent = ({ userCan }) => {
       const formData = [...new FormData(event.target.form).entries()]
         // convert stringified boolean values to actual booleans
         .map(([key, val]) => [key, key === 'is_active' ? val === 'true' : val])
+        // convert line endings
+        // by spec, the HTML value should contain \r\n, but the API only contains \n
+        .map(([key, val]) => [
+          key,
+          typeof val === 'string' ? val.replace(/\r\n/g, '\n') : val,
+        ])
         // reduce the entries() array to an object, merging it with the initial data
         .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data });
 
@@ -90,8 +125,11 @@ export const CategoryDetailContainerComponent = ({ userCan }) => {
   const onCancel = useCallback(
     event => {
       const formData = getFormData(event);
-      const combinedData = { ...data, ...formData };
-      const isPristine = isEqual(data, combinedData);
+      const initialData = Object.entries(data)
+        .map(([key, value]) => [key, value === null ? '' : value])
+        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data });
+      const combinedData = { ...initialData, ...formData };
+      const isPristine = isEqual(initialData, combinedData);
 
       confirmedCancel(isPristine);
     },
@@ -101,7 +139,8 @@ export const CategoryDetailContainerComponent = ({ userCan }) => {
   const onSubmit = useCallback(
     event => {
       event.preventDefault();
-      const formData = getFormData(event);
+
+      const formData = getTransformedData(getFormData(event));
 
       patch(categoryURL, formData);
     },
@@ -110,12 +149,15 @@ export const CategoryDetailContainerComponent = ({ userCan }) => {
 
   useEffect(() => {
     if (isSuccess) {
-      reFetchCategories();
+      refetchCategories();
     }
-  }, [isSuccess, reFetchCategories]);
+  }, [isSuccess, refetchCategories]);
 
   useEffect(() => {
-    get(categoryURL);
+    if (isExistingCategory) {
+      get(categoryURL);
+    }
+
     // Disabling linter; only need to execute on mount; defining the dependencies
     // will throw the component in an endless loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -144,14 +186,4 @@ export const CategoryDetailContainerComponent = ({ userCan }) => {
   );
 };
 
-CategoryDetailContainerComponent.propTypes = {
-  userCan: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = createStructuredSelector({
-  userCan: makeSelectUserCan,
-});
-
-const withConnect = connect(mapStateToProps);
-
-export default compose(withConnect)(CategoryDetailContainerComponent);
+export default CategoryDetail;

@@ -1,47 +1,62 @@
 import React from 'react';
-import { act } from 'react-dom/test-utils';
-import { render, fireEvent, wait } from '@testing-library/react';
-import { mount } from 'enzyme';
+import { render, fireEvent, wait, act } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
+import * as reactRedux from 'react-redux';
 import { withAppContext } from 'test/utils';
 import routes from 'signals/settings/routes';
 import categoryJSON from 'utils/__tests__/fixtures/category.json';
+import configuration from 'shared/services/configuration/configuration';
+import { fetchCategories } from 'models/categories/actions';
+import { showGlobalNotification } from 'containers/App/actions';
 
-import CategoryDetailContainer, { CategoryDetailContainerComponent } from '..';
+import useConfirmedCancel from '../../../hooks/useConfirmedCancel';
+import CategoryDetailContainer from '..';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
   ...jest.requireActual('react-router-dom'),
 }));
 
-// jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
-//   referrer: undefined,
-// }));
-fetch.mockResponse(JSON.stringify(categoryJSON));
+jest.mock('react-redux', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-redux'),
+}));
+
+jest.mock('models/categories/actions', () => ({
+  __esModule: true,
+  ...jest.requireActual('models/categories/actions'),
+}));
+
+jest.mock('../../../hooks/useConfirmedCancel');
+
+const userCan = jest.fn(() => true);
+jest.spyOn(reactRedux, 'useSelector').mockImplementation(() => userCan);
+
+const dispatch = jest.fn();
+jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
+
+const push = jest.fn();
+jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
+  push,
+}));
+
+const confirmedCancel = jest.fn();
+useConfirmedCancel.mockImplementation(() => confirmedCancel);
 
 describe('signals/settings/categories/Detail', () => {
-  it('should have props from structured selector', async () => {
-    let tree;
+  beforeEach(() => {
+    fetch.resetMocks();
+    fetch.mockResponse(JSON.stringify(categoryJSON));
 
-    await act(async () => {
-      tree = mount(withAppContext(<CategoryDetailContainer />));
-    });
-
-    const props = tree.find(CategoryDetailContainerComponent).props();
-
-    expect(props.userCan).toBeDefined();
+    dispatch.mockReset();
+    push.mockReset();
+    confirmedCancel.mockReset();
   });
 
   it('should render a backlink', async () => {
-    let container;
+    const { container } = render(withAppContext(<CategoryDetailContainer />));
 
-    await act(async () => {
-      ({ container } = render(
-        withAppContext(
-          <CategoryDetailContainerComponent userCan={() => true} />
-        )
-      ));
-    });
+    await wait(() => container.querySelector('a'));
 
     expect(container.querySelector('a').getAttribute('href')).toEqual(
       routes.categories
@@ -55,74 +70,218 @@ describe('signals/settings/categories/Detail', () => {
       referrer,
     }));
 
-    let container;
+    const { container } = render(withAppContext(<CategoryDetailContainer />));
 
-    await act(async () => {
-      ({ container } = render(
-        withAppContext(
-          <CategoryDetailContainerComponent userCan={() => true} />
-        )
-      ));
-    });
+    await wait(() => container.querySelector('a'));
 
     expect(container.querySelector('a').getAttribute('href')).toEqual(referrer);
   });
 
   it('should render the correct page title for a new category', async () => {
-    let getByText;
+    const { getByText } = render(withAppContext(<CategoryDetailContainer />));
 
-    await act(async () => {
-      ({ getByText } = render(
-        withAppContext(
-          <CategoryDetailContainerComponent userCan={() => true} />
-        )
-      ));
-    });
-
+    await wait(() => getByText('Categorie toevoegen'));
     expect(getByText('Categorie toevoegen')).toBeInTheDocument();
   });
 
   it('should render the correct page title for an existing category', async () => {
-    const categoryId = categoryJSON.id;
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      categoryId: categoryJSON.id,
+    }));
 
+    const { getByText } = render(withAppContext(<CategoryDetailContainer />));
+
+    await wait(() => getByText('Categorie wijzigen'));
+    expect(getByText('Categorie wijzigen')).toBeInTheDocument();
+  });
+
+  it('should render a form for a new category', async () => {
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      categoryId: undefined,
+    }));
+
+    const { getByTestId } = render(withAppContext(<CategoryDetailContainer />));
+
+    await wait(() => getByTestId('detailCategoryForm'));
+    expect(getByTestId('detailCategoryForm')).toBeInTheDocument();
+
+    document
+      .querySelectorAll('input[type="text"], textarea')
+      .forEach(element => {
+        expect(element.value).toEqual('');
+      });
+  });
+
+  it('should render a form for an existing category', async () => {
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      categoryId: 123,
+    }));
+
+    const { getByTestId } = render(withAppContext(<CategoryDetailContainer />));
+
+    await wait(() => getByTestId('detailCategoryForm'));
+    expect(getByTestId('detailCategoryForm')).toBeInTheDocument();
+
+    expect(document.querySelector('#name').value).toEqual(categoryJSON.name);
+    expect(document.querySelector('#description').value).toEqual(
+      categoryJSON.description
+    );
+  });
+
+  it('should call confirmedCancel', async () => {
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      categoryId: 456,
+    }));
+
+    const { container, getByTestId } = render(
+      withAppContext(<CategoryDetailContainer />)
+    );
+
+    await wait(() => getByTestId('detailCategoryForm'));
+    expect(getByTestId('detailCategoryForm')).toBeInTheDocument();
+
+    const nameField = container.querySelector('#name');
+    const cancelButton = getByTestId('cancelBtn');
+
+    act(() => {
+      // no changes to data in form fields
+      fireEvent.click(cancelButton);
+    });
+
+    expect(confirmedCancel).toHaveBeenCalledTimes(1);
+    expect(confirmedCancel).toHaveBeenCalledWith(true);
+
+    act(() => {
+      // changes made, but data remains the same
+      fireEvent.change(nameField, { target: { value: categoryJSON.name } });
+    });
+
+    act(() => {
+      fireEvent.click(cancelButton);
+    });
+
+    expect(confirmedCancel).toHaveBeenCalledTimes(2);
+    expect(confirmedCancel).toHaveBeenLastCalledWith(true);
+
+    act(() => {
+      // changes made, data differs from initial API data
+      fireEvent.change(nameField, { target: { value: 'Some other value' } });
+    });
+
+    act(() => {
+      fireEvent.click(cancelButton);
+    });
+
+    expect(confirmedCancel).toHaveBeenCalledTimes(3);
+    expect(confirmedCancel).toHaveBeenLastCalledWith(false);
+  });
+
+  it('should call confirmedCancel when data has NULL values', async () => {
+    const dataWithNullValue = { ...categoryJSON, description: null };
+    fetch.mockResponse(JSON.stringify(dataWithNullValue));
+
+    const { container, getByTestId } = render(
+      withAppContext(<CategoryDetailContainer />)
+    );
+
+    await wait(() => getByTestId('detailCategoryForm'));
+    expect(getByTestId('detailCategoryForm')).toBeInTheDocument();
+
+    const descriptionField = container.querySelector('#description');
+    const cancelButton = getByTestId('cancelBtn');
+
+    act(() => {
+      // no changes to data in form fields
+      fireEvent.click(cancelButton);
+    });
+
+    expect(confirmedCancel).toHaveBeenCalledTimes(1);
+    expect(confirmedCancel).toHaveBeenCalledWith(true);
+
+    act(() => {
+      // changes made, but data remains the same
+      fireEvent.change(descriptionField, { target: { value: '' } });
+    });
+
+    act(() => {
+      fireEvent.click(cancelButton);
+    });
+
+    expect(confirmedCancel).toHaveBeenCalledTimes(2);
+    expect(confirmedCancel).toHaveBeenLastCalledWith(true);
+
+    act(() => {
+      // changes made, data differs from initial API data
+      fireEvent.change(descriptionField, { target: { value: 'Here be a description' } });
+    });
+
+    act(() => {
+      fireEvent.click(cancelButton);
+    });
+
+    expect(confirmedCancel).toHaveBeenCalledTimes(3);
+    expect(confirmedCancel).toHaveBeenLastCalledWith(false);
+  });
+
+  it('should call patch on submit', async () => {
+    const categoryId = 789;
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       categoryId,
     }));
 
-    let getByText;
+    const { getByTestId } = render(withAppContext(<CategoryDetailContainer />));
 
-    await act(async () => {
-      ({ getByText } = render(
-        withAppContext(
-          <CategoryDetailContainerComponent userCan={() => true} />
-        )
-      ));
+    await wait(() => getByTestId('detailCategoryForm'));
+    expect(getByTestId('detailCategoryForm')).toBeInTheDocument();
+
+    expect(fetch).toHaveBeenCalledTimes(1);
+
+    const submitBtn = getByTestId('submitBtn');
+
+    act(() => {
+      fireEvent.click(submitBtn);
     });
 
-    expect(getByText('Categorie wijzigen')).toBeInTheDocument();
-  });
+    expect(dispatch).not.toHaveBeenCalled();
 
-  it('should render a loading indicator', async () => {
-    fetch.mockResponse(
-      () =>
-        new Promise(resolve => setTimeout(() => resolve(JSON.stringify(categoryJSON)), 100))
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch).toHaveBeenLastCalledWith(
+      `${configuration.CATEGORIES_PRIVATE_ENDPOINT}${categoryId}`,
+      expect.objectContaining({ method: 'PATCH' })
     );
 
-    // detailCategoryForm
-    let getByTestId;
+    // on patch success, re-request all categories
+    await wait(() => getByTestId('detailCategoryForm'));
 
-    // await act(async () => {
-      ({ getByTestId } = render(
-        withAppContext(
-          <CategoryDetailContainerComponent userCan={() => true} />
-        )
-      ));
-    // });
+    expect(dispatch).toHaveBeenCalledWith(fetchCategories());
+  });
 
-    expect(getByTestId('loadingIndicator')).toBeInTheDocument();
+  it('should redirect on patch success', async () => {
+    const categoryId = 789;
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      categoryId,
+    }));
 
-    await wait();
+    const { getByTestId } = render(withAppContext(<CategoryDetailContainer />));
 
-    expect(getByTestId('loadingIndicator')).not.toBeInTheDocument();
+    await wait(() => getByTestId('detailCategoryForm'));
+    expect(getByTestId('detailCategoryForm')).toBeInTheDocument();
+
+    const submitBtn = getByTestId('submitBtn');
+
+    act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(dispatch).not.toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
+
+    await wait(() => getByTestId('detailCategoryForm'));
+
+    expect(dispatch).toHaveBeenCalledWith(
+      showGlobalNotification(expect.any(Object))
+    );
+
+    expect(push).toHaveBeenCalledTimes(1);
   });
 });

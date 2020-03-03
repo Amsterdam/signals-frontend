@@ -55,12 +55,13 @@ const DEFAULT_STATUS_OPTION = 'true';
 
 const CategoryForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
   <Form action="" data-testid="detailCategoryForm">
-    <Row>
+    <Row debug>
       <StyledColumn span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 5 }}>
         <FieldGroup>
           <FormInput
             as="input"
             defaultValue={data.name}
+            disabled={readOnly}
             hint="Het wijzigen van de naam heeft geen invloed op het type melding"
             id="name"
             label="Naam"
@@ -74,6 +75,7 @@ const CategoryForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
           <FormInput
             as="textarea"
             defaultValue={data.description}
+            disabled={readOnly}
             hint="Ter verduidelijking van de inhoud van de categorie"
             id="description"
             label="Beschrijving"
@@ -88,7 +90,9 @@ const CategoryForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
 
           <CombinedFields>
             <FormInput
+              as="input"
               defaultValue={data.sla.n_days}
+              disabled={readOnly}
               id="n_days"
               name="n_days"
               readOnly={readOnly}
@@ -97,11 +101,12 @@ const CategoryForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
             />
 
             <StyledSelect
+              defaultValue={data.sla.use_calendar_days ? 1 : 0}
+              disabled={readOnly}
               id="use_calendar_days"
               name="use_calendar_days"
               readOnly={readOnly}
               type="number"
-              defaultValue={data.sla.use_calendar_days ? 1 : 0}
             >
               <option value="1">Dagen</option>
               <option value="0">Werkdagen</option>
@@ -113,11 +118,13 @@ const CategoryForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
           <FormInput
             as="textarea"
             defaultValue={data.handling_message}
+            // setting handling message isn't yet supported
+            disabled
             hint="Deze tekst krijgt de burger via e-mail bij het aanmaken van een melding"
             id="handling_message"
             label="Wat doen we met uw melding?"
             name="handling_message"
-            readOnly={readOnly}
+            readOnly
             rows="8"
           />
         </FieldGroup>
@@ -137,20 +144,6 @@ const CategoryForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
           />
         </FieldGroup>
       </StyledColumn>
-
-      <StyledColumn push={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }}>
-        {/* <FieldGroup>
-          <Label as="span">Notitie</Label>
-          <TextArea
-            id="note"
-            name="note"
-            rows="8"
-            defaultValue={data.profile && data.profile.note}
-          />
-        </FieldGroup> */}
-      </StyledColumn>
-
-      <Column span={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }} />
 
       {!readOnly && (
         <StyledFormFooter
