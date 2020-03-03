@@ -1,17 +1,24 @@
 import React from 'react';
 import {
+  fireEvent,
   render,
   cleanup,
+  act,
 } from '@testing-library/react';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { withAppContext } from 'test/utils';
+import categories from 'utils/__tests__/fixtures/categories_structured.json';
 
 import priorityList from '../../../../definitions/priorityList';
 
 import MetaList from './index';
 
 jest.mock('shared/services/string-parser/string-parser');
+
+const subcategories = Object.entries(categories).flatMap(
+  ([, { sub }]) => sub
+);
 
 describe('<MetaList />', () => {
   let props;
@@ -32,7 +39,7 @@ describe('<MetaList />', () => {
         },
         source: 'public-api',
         status: {
-          status: 'm',
+          state: 'm',
           state_display: 'Gemeld',
         },
         priority: {
@@ -40,10 +47,7 @@ describe('<MetaList />', () => {
         },
         _links: {},
       },
-      subcategories: [{
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overig-horecabedrijven',
-        value: 'Overig bedrijven / horeca',
-      }],
+      subcategories,
       priorityList,
       onPatchIncident: jest.fn(),
       onEditStatus: jest.fn(),
@@ -81,6 +85,56 @@ describe('<MetaList />', () => {
 
       expect(queryByTestId('meta-list-source-definition')).toHaveTextContent(/^Bron$/);
       expect(queryByTestId('meta-list-source-value')).toHaveTextContent(/^public-api$/);
+    });
+
+    it('should render the correct HTML elements for priority', () => {
+      const { getByText } = render(
+        <MetaList {...props} />
+      );
+
+      const showFormButton = getByText('Urgentie')
+        .closest('div')
+        .querySelector('.change-value__edit.incident-detail__button--edit');
+
+      expect(
+        getByText('Urgentie')
+          .closest('div')
+          .querySelectorAll('input[type="radio"]').length
+      ).toBe(0);
+
+      act(() => {
+        fireEvent.click(showFormButton);
+      });
+
+      expect(
+        getByText('Urgentie')
+          .closest('div')
+          .querySelectorAll('input[type="radio"]').length
+      ).toBeGreaterThan(0);
+    });
+
+    it.only('should render the correct HTML elements for subcategories', () => {
+      const { getByText } = render(<MetaList {...props} />);
+
+      const showFormButton = getByText('Subcategorie')
+        .closest('div')
+        .querySelector('.change-value__edit.incident-detail__button--edit');
+
+      expect(
+        getByText('Subcategorie')
+          .closest('div')
+          .querySelectorAll('form select').length
+      ).toBe(0);
+
+      act(() => {
+        fireEvent.click(showFormButton);
+      });
+
+      expect(
+        getByText('Subcategorie')
+          .closest('div')
+          .querySelectorAll('form select').length
+      ).toBeGreaterThan(0);
     });
 
     it('should render correctly with high priority', () => {
