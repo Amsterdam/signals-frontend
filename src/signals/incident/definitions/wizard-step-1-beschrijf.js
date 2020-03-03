@@ -14,8 +14,11 @@ sourceList.forEach(({ key, value }) => {
 });
 
 const priorityValuesList = {};
-priorityList.forEach(({ key, value }) => {
-  priorityValuesList[key] = value;
+priorityList.forEach(({ key, value, info }) => {
+  priorityValuesList[key] = {
+    value,
+    info,
+  };
 });
 
 export default {
