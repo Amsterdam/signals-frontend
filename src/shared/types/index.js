@@ -221,6 +221,7 @@ export const dataListsType = PropTypes.shape({
   source: dataListType,
   stadsdeel: dataListType,
   status: dataListType,
+  contact_details: dataListType,
 });
 
 export const overviewPageType = PropTypes.shape({

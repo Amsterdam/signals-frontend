@@ -54,7 +54,7 @@ const FilterForm = ({
   dataLists,
   categories,
 }) => {
-  const { feedback, priority, stadsdeel, status, source } = dataLists;
+  const { feedback, priority, stadsdeel, status, source, contact_details } = dataLists;
 
   const [state, dispatch] = useReducer(reducer, filter, init);
 
@@ -298,6 +298,16 @@ const FilterForm = ({
             onChange={onGroupChange}
             onToggle={onGroupToggle}
             options={priority}
+          />
+
+          <CheckboxGroup
+            defaultValue={state.options.contact_details}
+            hasToggle={false}
+            label="Contact"
+            name="contact_details"
+            onChange={onGroupChange}
+            onToggle={onGroupToggle}
+            options={contact_details}
           />
 
           {feedback && (
