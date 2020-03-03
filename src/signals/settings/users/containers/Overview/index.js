@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import debounce from 'lodash/debounce';
 
+import { PAGE_SIZE } from 'containers/App/constants';
 import { makeSelectUserCan } from 'containers/App/selectors';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Pagination from 'components/Pagination';
@@ -47,14 +48,20 @@ const filtersReducer = (state, action) => {
   }
 };
 
-export const UsersOverviewContainer = ({ pageSize, userCan }) => {
+const StyledDataView = styled(DataView)`
+  th:first-child {
+    width: 50%;
+  }
+`;
+
+export const UsersOverviewContainer = ({ userCan }) => {
   const history = useHistory();
   const location = useLocation();
   const filtersInitialState = location.state && location.state.filters || {};
   const { pageNum } = useParams();
   const [page, setPage] = useState(1);
   const [filters, dispatchFiltersChange] = useReducer(filtersReducer, filtersInitialState);
-  const { isLoading, users: { list: data }, users } = useFetchUsers({ page, pageSize, filters });
+  const { isLoading, users: { list: data }, users } = useFetchUsers({ page, filters });
 
   /**
    * Get page number value from URL query string
@@ -136,7 +143,7 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
 
         <Column span={12} wrap>
           <Column span={12}>
-            <DataView
+            <StyledDataView
               headers={columnHeaders}
               filters={[
                 (
@@ -161,7 +168,7 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
               <StyledPagination
                 currentPage={page}
                 onClick={onPaginationClick}
-                totalPages={Math.ceil(users.count / pageSize)}
+                totalPages={Math.ceil(users.count / PAGE_SIZE)}
               />
             </Column>
           )}
@@ -171,12 +178,7 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
   );
 };
 
-UsersOverviewContainer.defaultProps = {
-  pageSize: 30,
-};
-
 UsersOverviewContainer.propTypes = {
-  pageSize: PropTypes.number,
   userCan: PropTypes.func.isRequired,
 };
 
