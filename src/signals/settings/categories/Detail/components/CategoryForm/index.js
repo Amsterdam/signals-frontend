@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList';
 
 import Label from 'components/Label';
-import FormInput from 'components/FormInput';
+import Input from 'components/Input';
 import FormFooter from 'components/FormFooter';
 
 const Form = styled.form`
@@ -55,10 +55,10 @@ const DEFAULT_STATUS_OPTION = 'true';
 
 const CategoryForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
   <Form action="" data-testid="detailCategoryForm">
-    <Row debug>
+    <Row>
       <StyledColumn span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 5 }}>
         <FieldGroup>
-          <FormInput
+          <Input
             as="input"
             defaultValue={data.name}
             disabled={readOnly}
@@ -72,7 +72,7 @@ const CategoryForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
         </FieldGroup>
 
         <FieldGroup>
-          <FormInput
+          <Input
             as="textarea"
             defaultValue={data.description}
             disabled={readOnly}
@@ -89,7 +89,7 @@ const CategoryForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
           <Label as="span">Service belofte</Label>
 
           <CombinedFields>
-            <FormInput
+            <Input
               as="input"
               defaultValue={data.sla.n_days}
               disabled={readOnly}
@@ -115,7 +115,7 @@ const CategoryForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
         </FieldGroup>
 
         <FieldGroup>
-          <FormInput
+          <Input
             as="textarea"
             defaultValue={data.handling_message}
             // setting handling message isn't yet supported
