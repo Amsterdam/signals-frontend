@@ -24,6 +24,7 @@ export const makeSelectDataLists = createSelector(
     const status = state.get('status').toJS();
     const feedback = state.get('feedback').toJS();
     const source = state.get('source').toJS();
+    const contact_details_present = state.get('contact_details_present').toJS();
 
     return {
       priority,
@@ -31,6 +32,7 @@ export const makeSelectDataLists = createSelector(
       status,
       feedback,
       source,
+      contact_details_present,
     };
   }
 );
