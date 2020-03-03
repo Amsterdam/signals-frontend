@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import CategoryForm from '..';
@@ -88,6 +88,8 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     expect(
       container.querySelector('[name="is_active"][value="false"]').checked
     ).toBe(false);
+
+    cleanup();
 
     rerender(
       withAppContext(

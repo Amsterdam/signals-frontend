@@ -353,6 +353,7 @@ const FilterForm = ({
               id="filter_address"
               onBlur={onAddressChange}
               defaultValue={state.options.address_text}
+              type="text"
             />
           </FilterGroup>
 
