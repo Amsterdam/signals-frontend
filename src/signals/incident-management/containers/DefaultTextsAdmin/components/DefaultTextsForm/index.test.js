@@ -1,10 +1,15 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import { store, withAppContext } from 'test/utils';
+import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
+import { fetchCategoriesSuccess } from 'models/categories/actions';
+import { makeSelectSubCategories } from 'models/categories/selectors';
 
-import categories from 'utils/__tests__/fixtures/categories.json';
+import DefaultTextsForm from '.';
 
-import DefaultTextsForm from './index';
+store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
+
+const subCategories = makeSelectSubCategories(store.getState());
 
 describe('<DefaultTextsForm />', () => {
   let props;
@@ -21,7 +26,7 @@ describe('<DefaultTextsForm />', () => {
         title: 'title 3',
         text: 'text 3',
       }],
-      subCategories: categories.sub,
+      subCategories,
       categoryUrl: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
       state: 'o',
 
@@ -84,6 +89,22 @@ describe('<DefaultTextsForm />', () => {
       expect(props.onOrderDefaultTexts).toHaveBeenCalledWith({ index: 1, type: 'up' });
     });
 
+    it('should NOT trigger fetch when no matching category can be found', () => {
+      const invalidSubCategories = subCategories.map(subCat => ({
+        ...subCat,
+        _links: undefined,
+      }));
+
+      const { getByTestId } = render(
+        withAppContext(<DefaultTextsForm {...props} subCategories={invalidSubCategories} />)
+      );
+
+      expect(props.onSubmitTexts).not.toHaveBeenCalled();
+
+      fireEvent.click(getByTestId('defaultTextFormSubmitButton'));
+      expect(props.onSubmitTexts).not.toHaveBeenCalled();
+    });
+
     it('should trigger order submit when sumbit button is clicked', () => {
       const { getByTestId } = render(
         withAppContext(<DefaultTextsForm {...props} />)
@@ -102,5 +123,3 @@ describe('<DefaultTextsForm />', () => {
     });
   });
 });
-
-

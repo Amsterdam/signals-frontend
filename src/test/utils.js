@@ -8,6 +8,7 @@ import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import isObject from 'lodash.isobject';
 import usersJSON from 'utils/__tests__/fixtures/users.json';
+import loadModels from 'models';
 
 import configureStore from '../configureStore';
 
@@ -47,6 +48,8 @@ export const getContext = state => {
 };
 
 export const store = configureStore(Immutable.Map(), history);
+
+loadModels(store);
 
 export const withAppContext = Component => (
   <ThemeProvider>

@@ -93,7 +93,7 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
 
   const onItemClick = useCallback(
     e => {
-      if (userCan('view_user') === false) {
+      if (userCan('change_user') === false) {
         e.preventDefault();
         return;
       }

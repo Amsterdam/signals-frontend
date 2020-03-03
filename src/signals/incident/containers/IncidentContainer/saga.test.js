@@ -1,17 +1,19 @@
-import { select, takeLatest } from 'redux-saga/effects';
+import { takeLatest } from 'redux-saga/effects';
 import { replace } from 'connected-react-router/immutable';
 import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
 
+import request from 'utils/request';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authPostCall, postCall } from 'shared/services/api/api';
-import categories from 'utils/__tests__/fixtures/categories.json';
 import incident from 'utils/__tests__/fixtures/incident.json';
+import postIncident from 'utils/__tests__/fixtures/postIncident.json';
 import priority from 'utils/__tests__/fixtures/priority.json';
 import { showGlobalNotification } from 'containers/App/actions';
 import { UPLOAD_REQUEST } from 'containers/App/constants';
 import { VARIANT_ERROR } from 'containers/Notification/constants';
+import resolveClassification from 'shared/services/resolveClassification';
 import mapControlsToParams from '../../services/map-controls-to-params';
 
 import {
@@ -22,7 +24,6 @@ import {
   SET_PRIORITY,
 } from './constants';
 import watchIncidentContainerSaga, {
-  retryFetchClassification,
   getClassification,
   createIncident,
   setPriorityHandler,
@@ -34,7 +35,6 @@ import {
   setPriorityError,
   setPrioritySuccess,
 } from './actions';
-import { makeSelectCategories } from '../../../../containers/App/selectors';
 
 describe('IncidentContainer saga', () => {
   const predictionResponse = {
@@ -61,117 +61,118 @@ describe('IncidentContainer saga', () => {
       ]);
   });
 
-  describe('retryFetchClassification', () => {
-    it('should return API response', () => {
-      const text = 'Foo bar bazzzz';
-
-      return expectSaga(retryFetchClassification, text, 100)
-        .provide([[matchers.call.fn(postCall), predictionResponse]])
-        .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text })
-        .silentRun(250);
-    });
-
-    it('should retry', async () => {
-      global.console.error = jest.fn();
-      const text = 'Foo bar bazzzz';
-      const error = new Error('whoops!!!1!');
-
-      await expectSaga(retryFetchClassification, text, 100)
-        .provide([
-          [matchers.call.fn(postCall), throwError(error)],
-          [matchers.call.fn(postCall), predictionResponse],
-        ])
-        .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text })
-        .delay(100)
-        .silentRun(150);
-
-      global.console.error.mockRestore();
-    });
-
-    it('should throw', async () => {
-      const text = 'Bar qux bazzzz';
-      const error = new Error('Uhoh!!!1!');
-
-      await expectSaga(retryFetchClassification, text, 100)
-        .provide([
-          [matchers.call.fn(postCall), throwError(error)],
-          [matchers.call.fn(postCall), throwError(error)],
-          [matchers.call.fn(postCall), predictionResponse],
-        ])
-        .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text })
-        .delay(100)
-        .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text })
-        .delay(100)
-        .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text })
-        .delay(100)
-        .throws('API request failed')
-        .silentRun(350);
-    });
-  });
-
   describe('getClassification', () => {
     const payload = 'Grof vuil op straat';
     const action = { payload };
 
     it('should dispatch success', () =>
       expectSaga(getClassification, action)
-        .provide([
-          [select(makeSelectCategories), categories],
-          [matchers.call.fn(postCall), predictionResponse],
-        ])
-        .call(retryFetchClassification, payload)
+        .provide([[matchers.call.fn(postCall), predictionResponse]])
+        .call(resolveClassification, predictionResponse)
         .put.like({ action: { type: GET_CLASSIFICATION_SUCCESS } })
         .run());
 
-    it('should dispatch error', () =>
-      expectSaga(getClassification, action)
+    it('should dispatch error', () => {
+      const errorResponse = { foo: 'bar' };
+
+      return expectSaga(getClassification, action)
         .provide([
-          [select(makeSelectCategories), categories],
+          [matchers.call.fn(resolveClassification), errorResponse],
           [matchers.call.fn(postCall), throwError(new Error('whoops!!!1!'))],
         ])
-        .call(retryFetchClassification, payload)
         .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text: payload })
-        .put.like({ action: { type: GET_CLASSIFICATION_ERROR } })
-        .silentRun(3250)); // make sure it runs long enough for the postCall generator to throw
+        .call(resolveClassification)
+        .put({ type: GET_CLASSIFICATION_ERROR, payload: errorResponse })
+        .run();
+    });
   });
 
   describe('createIncident', () => {
+    const category = 'afval';
+    const subcategory = 'some-afval-subcategory';
     const payload = {
-      incident: {},
+      incident: {
+        ...postIncident,
+        category,
+        subcategory,
+      },
       wizard: {},
     };
+    const handling_message = 'Here be a message';
+    const subCatResponse = {
+      handling_message,
+      _links: {
+        self: { href: 'https://this-is-a-url' },
+      },
+    };
+    const enrichedPostData = {
+      category: {
+        sub_category: subCatResponse._links.self.href,
+      },
+    };
+    const incidentWithHandlingMessage = { ...incident, handling_message };
 
     it('should dispatch success', () => {
       const action = { payload };
+      const mappedControls = mapControlsToParams(
+        postIncident,
+        action.payload.wizard
+      );
+      const postData = {
+        ...action.payload.incident,
+        ...mappedControls,
+        ...enrichedPostData,
+      };
 
       return expectSaga(createIncident, action)
-        .provide([[matchers.call.fn(postCall), incident]])
-        .call.like({ fn: postCall })
-        .put(createIncidentSuccess(incident))
+        .provide([
+          [matchers.call.fn(request), subCatResponse],
+          [matchers.call.fn(postCall), incident],
+        ])
+        .call(
+          request,
+          `${CONFIGURATION.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
+        )
+        .call(postCall, CONFIGURATION.INCIDENT_ENDPOINT, postData)
+        .put(createIncidentSuccess(incidentWithHandlingMessage))
         .run();
     });
 
     it('should success with file upload', () => {
       const action = {
         payload: {
-          ...payload,
           incident: {
+            ...postIncident,
             images: [{ name: 'some-file' }, { name: 'some-other-file' }],
+            category,
+            subcategory,
           },
           wizard: {},
         },
       };
+      const mappedControls = mapControlsToParams(
+        action.payload.incident,
+        action.payload.wizard
+      );
+      const postData = {
+        ...action.payload.incident,
+        ...mappedControls,
+        ...enrichedPostData,
+      };
 
       return expectSaga(createIncident, action)
-        .provide([[matchers.call.fn(postCall), incident]])
+        .provide([
+          [matchers.call.fn(request), subCatResponse],
+          [matchers.call.fn(postCall), incident],
+        ])
         .call(
-          postCall,
-          CONFIGURATION.INCIDENT_ENDPOINT,
-          mapControlsToParams(action.payload.incident, action.payload.wizard)
+          request,
+          `${CONFIGURATION.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
         )
+        .call(postCall, CONFIGURATION.INCIDENT_ENDPOINT, postData)
         .put.like({ action: { type: UPLOAD_REQUEST } })
         .put.like({ action: { type: UPLOAD_REQUEST } })
-        .put(createIncidentSuccess(incident))
+        .put(createIncidentSuccess(incidentWithHandlingMessage))
         .run();
     });
 
@@ -179,22 +180,38 @@ describe('IncidentContainer saga', () => {
       const priorityId = 'normal';
       const action = {
         payload: {
-          ...payload,
           isAuthenticated: true,
-          incident: { priority: { id: priorityId } },
+          incident: {
+            ...postIncident,
+            priority: { id: priorityId },
+            category,
+            subcategory,
+          },
           wizard: {},
         },
       };
+      const mappedControls = mapControlsToParams(
+        action.payload.incident,
+        action.payload.wizard
+      );
+      const postData = {
+        ...action.payload.incident,
+        ...mappedControls,
+        ...enrichedPostData,
+      };
 
       return expectSaga(createIncident, action)
-        .provide([[matchers.call.fn(postCall), incident]])
+        .provide([
+          [matchers.call.fn(request), subCatResponse],
+          [matchers.call.fn(postCall), incident],
+        ])
         .call(
-          postCall,
-          CONFIGURATION.INCIDENT_ENDPOINT,
-          mapControlsToParams(action.payload.incident, action.payload.wizard)
+          request,
+          `${CONFIGURATION.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
         )
+        .call(postCall, CONFIGURATION.INCIDENT_ENDPOINT, postData)
         .not.put(setPriority({ priority: priorityId, _signal: incident.id }))
-        .put(createIncidentSuccess(incident))
+        .put(createIncidentSuccess(incidentWithHandlingMessage))
         .run();
     });
 
@@ -204,34 +221,36 @@ describe('IncidentContainer saga', () => {
         payload: {
           ...payload,
           isAuthenticated: true,
-          incident: { priority: { id: priorityId } },
+          incident: {
+            ...postIncident,
+            priority: { id: priorityId },
+            category,
+            subcategory,
+          },
         },
+      };
+      const mappedControls = mapControlsToParams(
+        action.payload.incident,
+        action.payload.wizard
+      );
+      const postData = {
+        ...action.payload.incident,
+        ...mappedControls,
+        ...enrichedPostData,
       };
 
       return expectSaga(createIncident, action)
-        .provide([[matchers.call.fn(postCall), incident]])
-        .call.like({ fn: postCall })
+        .provide([
+          [matchers.call.fn(request), subCatResponse],
+          [matchers.call.fn(postCall), incident],
+        ])
+        .call(
+          request,
+          `${CONFIGURATION.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
+        )
+        .call(postCall, CONFIGURATION.INCIDENT_ENDPOINT, postData)
         .put(setPriority({ priority: priorityId, _signal: incident.id }))
-        .put(createIncidentSuccess(incident))
-        .run();
-    });
-
-
-    it('should success when logged in and setting low priority', () => {
-      const priorityId = 'low';
-      const action = {
-        payload: {
-          ...payload,
-          isAuthenticated: true,
-          incident: { priority: { id: priorityId } },
-        },
-      };
-
-      return expectSaga(createIncident, action)
-        .provide([[matchers.call.fn(postCall), incident]])
-        .call.like({ fn: postCall })
-        .put(setPriority({ priority: priorityId, _signal: incident.id }))
-        .put(createIncidentSuccess(incident))
+        .put(createIncidentSuccess(incidentWithHandlingMessage))
         .run();
     });
 
@@ -240,6 +259,7 @@ describe('IncidentContainer saga', () => {
 
       return expectSaga(createIncident, action)
         .provide([
+          [matchers.call.fn(request), subCatResponse],
           [matchers.call.fn(postCall), throwError(new Error('whoops!!!1!'))],
         ])
         .call.like({ fn: postCall })
@@ -271,6 +291,11 @@ describe('setPriorityHandler', () => {
       ])
       .call(authPostCall, CONFIGURATION.PRIORITY_ENDPOINT, payload)
       .put(setPriorityError())
-      .put(showGlobalNotification({ variant: VARIANT_ERROR, title: 'Het zetten van de urgentie van deze melding is niet gelukt' }))
+      .put(
+        showGlobalNotification({
+          variant: VARIANT_ERROR,
+          title: 'Het zetten van de urgentie van deze melding is niet gelukt',
+        })
+      )
       .run());
 });

@@ -22,7 +22,7 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
     options: {
       status: [definitions.statusList[0]],
       feedback: '',
-      priority: 'normal',
+      priority: ['normal'],
       stadsdeel: [definitions.stadsdeelList[0], definitions.stadsdeelList[1]],
       address_text: '',
       incident_date: '2019-09-17',
@@ -51,7 +51,6 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
     );
 
     expect(container.querySelectorAll('a')).toHaveLength(3); // interaction buttons
-    expect(container.querySelectorAll('span')).toHaveLength(6); // tags
     expect(container.querySelectorAll('svg')).toHaveLength(0);
     expect(getByText('Foo bar baz')).toBeTruthy();
 

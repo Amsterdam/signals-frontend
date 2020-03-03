@@ -1,12 +1,12 @@
-import { all, call, delay, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { replace } from 'connected-react-router/immutable';
 
+import request from 'utils/request';
 import { authPostCall, postCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { uploadRequest, showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR } from 'containers/Notification/constants';
-import { makeSelectCategories } from 'containers/App/selectors';
-
+import resolveClassification from 'shared/services/resolveClassification';
 import { CREATE_INCIDENT, GET_CLASSIFICATION, SET_PRIORITY } from './constants';
 import {
   createIncidentSuccess,
@@ -18,56 +18,54 @@ import {
   setPriorityError,
 } from './actions';
 import mapControlsToParams from '../../services/map-controls-to-params';
-import setClassification from '../../services/set-classification';
-
-export function* retryFetchClassification(text, msDelay = 1000) {
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < 3; i++) {
-    try {
-      const apiResponse = yield call(
-        postCall,
-        CONFIGURATION.PREDICTION_ENDPOINT,
-        {
-          text,
-        }
-      );
-
-      return apiResponse;
-    } catch (err) {
-      /* istanbul ignore else */
-      if (i <= 2) {
-        yield delay(msDelay);
-      }
-    }
-  }
-
-  // attempts failed after 3 attempts
-  throw new Error('API request failed');
-}
 
 export function* getClassification(action) {
-  const categories = yield select(makeSelectCategories());
-
   try {
-    const result = yield call(retryFetchClassification, action.payload);
+    const result = yield call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, {
+      text: action.payload,
+    });
 
-    yield put(
-      getClassificationSuccess(setClassification(result, categories.sub))
-    );
+    const classification = yield call(resolveClassification, result);
+
+    yield put(getClassificationSuccess(classification));
   } catch (error) {
-    yield put(
-      getClassificationError(setClassification(undefined, categories.sub))
-    );
+    const classification = yield call(resolveClassification);
+
+    yield put(getClassificationError(classification));
   }
 }
 
 export function* createIncident(action) {
   try {
-    const result = yield call(
+    const { category, subcategory } = action.payload.incident;
+
+    const {
+      handling_message,
+      _links: {
+        self: { href: sub_category },
+      },
+    } = yield call(
+      request,
+      `${CONFIGURATION.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
+    );
+
+    const controlsToParams = mapControlsToParams(action.payload.incident, action.payload.wizard);
+
+    const postData = {
+      ...action.payload.incident,
+      ...controlsToParams,
+      category: {
+        sub_category,
+      },
+    };
+
+    const postResult = yield call(
       postCall,
       CONFIGURATION.INCIDENT_ENDPOINT,
-      mapControlsToParams(action.payload.incident, action.payload.wizard)
+      postData
     );
+
+    const incident = { ...postResult, handling_message };
 
     if (
       action.payload.isAuthenticated &&
@@ -76,7 +74,7 @@ export function* createIncident(action) {
       yield put(
         setPriority({
           priority: action.payload.incident.priority.id,
-          _signal: result.id,
+          _signal: incident.id,
         })
       );
     }
@@ -87,14 +85,14 @@ export function* createIncident(action) {
           put(
             uploadRequest({
               file: image,
-              id: result.signal_id,
+              id: incident.signal_id,
             })
           )
         )
       );
     }
 
-    yield put(createIncidentSuccess(result));
+    yield put(createIncidentSuccess(incident));
   } catch (error) {
     yield put(createIncidentError());
     yield put(replace('/incident/fout'));
@@ -111,7 +109,12 @@ export function* setPriorityHandler(action) {
     yield put(setPrioritySuccess(result));
   } catch (error) {
     yield put(setPriorityError());
-    yield put(showGlobalNotification({ variant: VARIANT_ERROR, title: 'Het zetten van de urgentie van deze melding is niet gelukt' }));
+    yield put(
+      showGlobalNotification({
+        variant: VARIANT_ERROR,
+        title: 'Het zetten van de urgentie van deze melding is niet gelukt',
+      })
+    );
   }
 }
 

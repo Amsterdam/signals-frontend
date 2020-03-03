@@ -36,6 +36,17 @@ jest.mock('signals/incident-management/actions', () => {
   };
 });
 
+// mocking the return value of selectors for underlying components
+jest.mock('models/categories/selectors', () => {
+  // eslint-disable-next-line global-require
+  const cats = require('utils/__tests__/fixtures/categories_structured.json');
+  return {
+    __esModule: true,
+    ...jest.requireActual('models/categories/selectors'),
+    makeSelectStructuredCategories: jest.fn(() => cats),
+  };
+});
+
 // make sure that JSDOM doesn't trip over unsupported feature
 Object.defineProperty(window, 'scrollTo', {
   value: () => {},

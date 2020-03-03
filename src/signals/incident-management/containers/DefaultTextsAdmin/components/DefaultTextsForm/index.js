@@ -10,6 +10,7 @@ import FieldControlWrapper from 'signals/incident-management/components/FieldCon
 import TextInput from 'signals/incident-management/components/TextInput';
 import TextAreaInput from 'signals/incident-management/components/TextAreaInput';
 import HiddenInput from 'signals/incident-management/components/HiddenInput';
+import { reCategory } from 'shared/services/resolveClassification';
 
 import { ChevronDown, ChevronUp } from '@datapunt/asc-assets';
 
@@ -104,12 +105,17 @@ const DefaultTextsForm =({
       },
     };
     const found = subCategories.find(
-      sub => sub.key === category,
+      sub =>
+        sub._links &&
+        sub._links.self &&
+        sub._links.self.public &&
+        sub._links.self.public === category
     );
     /* istanbul ignore else */
-    if (found && found.slug && found.category_slug) {
-      payload.sub_slug = found.slug;
-      payload.main_slug = found.category_slug;
+    if (found) {
+      const [, main_slug, sub_slug] = found._links.self.public.match(reCategory);
+      payload.sub_slug = sub_slug;
+      payload.main_slug = main_slug;
 
       items.forEach(item => {
         const data = form.get(item).value;
