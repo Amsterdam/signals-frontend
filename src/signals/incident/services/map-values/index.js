@@ -1,15 +1,14 @@
-import forEach from 'lodash.foreach';
 import set from 'lodash.set';
 import isObject from 'lodash.isobject';
 
 import getStepControls from '../get-step-controls';
 import convertValue from '../convert-value';
 
-const mapValues = (params, incident, wizard) => {
-  forEach(wizard, step => {
+const mapValues = (params, incident = {}, wizard = {}) => {
+  Object.values(wizard).forEach(step => {
     const controls = getStepControls(step, incident);
 
-    forEach(controls, (control, name) => {
+    Object.entries(controls).forEach(([name, control]) => {
       const value = incident[name];
       const meta = control.meta;
 
@@ -25,6 +24,7 @@ const mapValues = (params, incident, wizard) => {
       }
     });
   });
+
   return params || {};
 };
 

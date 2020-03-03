@@ -49,9 +49,11 @@ export function* createIncident(action) {
       `${CONFIGURATION.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
     );
 
+    const controlsToParams = mapControlsToParams(action.payload.incident, action.payload.wizard);
+
     const postData = {
       ...action.payload.incident,
-      handling_message,
+      ...controlsToParams,
       category: {
         sub_category,
       },
@@ -60,7 +62,7 @@ export function* createIncident(action) {
     const postResult = yield call(
       postCall,
       CONFIGURATION.INCIDENT_ENDPOINT,
-      mapControlsToParams(postData, action.payload.wizard)
+      postData
     );
 
     const incident = { ...postResult, handling_message };
