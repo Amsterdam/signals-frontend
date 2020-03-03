@@ -34,7 +34,7 @@ export const mapKeys = key => {
     case 'priority':
       return 'urgentie';
 
-    case 'contact_details_present':
+    case 'contact_details':
       return 'contact';
 
     default:
