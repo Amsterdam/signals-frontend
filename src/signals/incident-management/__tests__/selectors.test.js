@@ -25,6 +25,7 @@ const dataLists = {
   feedback: definitions.feedbackList,
   stadsdeel: definitions.stadsdeelList,
   source: definitions.sourceList,
+  contact_details_present: definitions.contactDetailsList,
 };
 
 const filters = [
@@ -74,6 +75,7 @@ describe('signals/incident-management/selectors', () => {
       status: definitions.statusList,
       feedback: definitions.feedbackList,
       source: definitions.sourceList,
+      contact_details_present: definitions.contactDetailsList,
     });
   });
 
