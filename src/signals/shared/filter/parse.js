@@ -8,6 +8,7 @@ const arrayFields = [
   'category_slug',
   'source',
   'priority',
+  'contact_details',
 ];
 
 /**
@@ -33,6 +34,7 @@ export const parseOutputFormData = options =>
       case 'source':
       case 'status':
       case 'priority':
+      case 'contact_details':
         entryValue = value.map(({ key: itemKey }) => itemKey);
         break;
 
@@ -60,7 +62,10 @@ export const parseOutputFormData = options =>
         entryValue = value;
     }
 
-    return { ...acc, [key]: entryValue };
+    // make sure we do not return values that are either an 0-length string or an empty array
+    return entryValue && entryValue.length
+      ? { ...acc, [key]: entryValue }
+      : acc;
   }, {});
 
 /**
@@ -81,11 +86,13 @@ export const parseInputFormData = (filterData, dataLists) => {
     Object.keys(options)
       .filter(fieldName => arrayFields.includes(fieldName))
       .forEach(fieldName => {
-        options[fieldName] = options[fieldName].map(value =>
-          dataLists[fieldName].find(
-            ({ key, slug }) => key === value || slug === value
+        options[fieldName] = options[fieldName]
+          .map(value =>
+            dataLists[fieldName].find(
+              ({ key, slug }) => key === value || slug === value
+            )
           )
-        );
+          .filter(Boolean);
       });
   }
 

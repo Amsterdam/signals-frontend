@@ -20,6 +20,7 @@ const dataLists = {
   feedback: definitions.feedbackList,
   stadsdeel: definitions.stadsdeelList,
   source: definitions.sourceList,
+  contact_details: definitions.contactDetailsList,
 };
 
 const formProps = {
@@ -203,6 +204,16 @@ describe('signals/incident-management/components/FilterForm', () => {
     expect(
       container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]')
     ).toHaveLength(stadsdeelList.length);
+  });
+
+  it('should render a list of contact options', () => {
+    const { container } = render(
+      withAppContext(<FilterForm {...formProps} dataLists={dataLists} />)
+    );
+
+    expect(
+      container.querySelectorAll('input[type="checkbox"][name="contact_details"]')
+    ).toHaveLength(dataLists.contact_details.length);
   });
 
   it('should render a list of feedback options', () => {

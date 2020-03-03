@@ -83,6 +83,21 @@ describe('signals/shared/parse', () => {
 
       expect(parsedOutput).toEqual(expected);
     });
+
+    it('should return non-empty values', () => {
+      const formState = {
+        priority: [priorityList[0]],
+        stadsdeel: [],
+      };
+
+      const expected = {
+        priority: [priorityList[0].key],
+      };
+
+      const parsedOutput = parseOutputFormData(formState);
+
+      expect(parsedOutput).toEqual(expected);
+    });
   });
 
   describe('parseInputFormData', () => {
@@ -127,6 +142,18 @@ describe('signals/shared/parse', () => {
       expect(parseInputFormData({ options: {} }, dataLists)).toEqual({
         options: {},
       });
+    });
+
+    it('should skip slugs that do not have a match in the list of categories', () => {
+      // Categories can be made inactive; those are filtered out when the full list is
+      // retrieved from the API. However, there can still be stored filters with those
+      // inactive categories.
+      const inactiveSlug = 'autom-verzinkbare-palen';
+      const category_slug = dataLists.category_slug.filter(({ slug }) => slug !== inactiveSlug);
+      const parsedInput = parseInputFormData(input, { ...dataLists, category_slug });
+      const outputSlugs = parsedInput.options.category_slug.map(({ slug }) => slug);
+
+      expect(outputSlugs).not.toContain(inactiveSlug);
     });
 
     describe('parseToAPIData', () => {
