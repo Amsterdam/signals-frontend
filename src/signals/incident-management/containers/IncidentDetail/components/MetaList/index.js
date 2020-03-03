@@ -9,6 +9,7 @@ import {
 } from 'shared/services/string-parser/string-parser';
 
 import { incidentType, dataListType } from 'shared/types';
+import RadioInput from 'signals/incident-management/components/RadioInput';
 
 import ChangeValue from './components/ChangeValue';
 import Highlight from '../Highlight';
@@ -80,6 +81,7 @@ const MetaList = ({
               path="priority.priority"
               type="priority"
               onPatchIncident={onPatchIncident}
+              component={RadioInput}
             />
           </Highlight>
         )}
