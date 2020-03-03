@@ -129,6 +129,18 @@ describe('signals/shared/parse', () => {
       });
     });
 
+    it('should skip slugs that do not have a match in the list of categories', () => {
+      // Categories can be made inactive; those are filtered out when the full list is
+      // retrieved from the API. However, there can still be stored filters with those
+      // inactive categories.
+      const inactiveSlug = 'autom-verzinkbare-palen';
+      const category_slug = dataLists.category_slug.filter(({ slug }) => slug !== inactiveSlug);
+      const parsedInput = parseInputFormData(input, { ...dataLists, category_slug });
+      const outputSlugs = parsedInput.options.category_slug.map(({ slug }) => slug);
+
+      expect(outputSlugs).not.toContain(inactiveSlug);
+    });
+
     describe('parseToAPIData', () => {
       it('should return an object', () => {
         const filterData = { id: 123, name: 'foo' };
