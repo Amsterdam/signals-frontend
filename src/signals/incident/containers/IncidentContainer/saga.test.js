@@ -92,6 +92,7 @@ describe('IncidentContainer saga', () => {
     const subcategory = 'some-afval-subcategory';
     const payload = {
       incident: {
+        ...postIncident,
         category,
         subcategory,
       },
@@ -104,10 +105,24 @@ describe('IncidentContainer saga', () => {
         self: { href: 'https://this-is-a-url' },
       },
     };
+    const enrichedPostData = {
+      category: {
+        sub_category: subCatResponse._links.self.href,
+      },
+    };
     const incidentWithHandlingMessage = { ...incident, handling_message };
 
     it('should dispatch success', () => {
       const action = { payload };
+      const mappedControls = mapControlsToParams(
+        postIncident,
+        action.payload.wizard
+      );
+      const postData = {
+        ...action.payload.incident,
+        ...mappedControls,
+        ...enrichedPostData,
+      };
 
       return expectSaga(createIncident, action)
         .provide([
@@ -118,11 +133,7 @@ describe('IncidentContainer saga', () => {
           request,
           `${CONFIGURATION.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
         )
-        .call(
-          postCall,
-          CONFIGURATION.INCIDENT_ENDPOINT,
-          mapControlsToParams(postIncident, action.payload.wizard)
-        )
+        .call(postCall, CONFIGURATION.INCIDENT_ENDPOINT, postData)
         .put(createIncidentSuccess(incidentWithHandlingMessage))
         .run();
     });
@@ -139,6 +150,15 @@ describe('IncidentContainer saga', () => {
           wizard: {},
         },
       };
+      const mappedControls = mapControlsToParams(
+        action.payload.incident,
+        action.payload.wizard
+      );
+      const postData = {
+        ...action.payload.incident,
+        ...mappedControls,
+        ...enrichedPostData,
+      };
 
       return expectSaga(createIncident, action)
         .provide([
@@ -149,11 +169,7 @@ describe('IncidentContainer saga', () => {
           request,
           `${CONFIGURATION.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
         )
-        .call(
-          postCall,
-          CONFIGURATION.INCIDENT_ENDPOINT,
-          mapControlsToParams(action.payload.incident, action.payload.wizard)
-        )
+        .call(postCall, CONFIGURATION.INCIDENT_ENDPOINT, postData)
         .put.like({ action: { type: UPLOAD_REQUEST } })
         .put.like({ action: { type: UPLOAD_REQUEST } })
         .put(createIncidentSuccess(incidentWithHandlingMessage))
@@ -165,9 +181,23 @@ describe('IncidentContainer saga', () => {
       const action = {
         payload: {
           isAuthenticated: true,
-          incident: { priority: { id: priorityId }, category, subcategory },
+          incident: {
+            ...postIncident,
+            priority: { id: priorityId },
+            category,
+            subcategory,
+          },
           wizard: {},
         },
+      };
+      const mappedControls = mapControlsToParams(
+        action.payload.incident,
+        action.payload.wizard
+      );
+      const postData = {
+        ...action.payload.incident,
+        ...mappedControls,
+        ...enrichedPostData,
       };
 
       return expectSaga(createIncident, action)
@@ -179,11 +209,7 @@ describe('IncidentContainer saga', () => {
           request,
           `${CONFIGURATION.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
         )
-        .call(
-          postCall,
-          CONFIGURATION.INCIDENT_ENDPOINT,
-          mapControlsToParams(postIncident, action.payload.wizard)
-        )
+        .call(postCall, CONFIGURATION.INCIDENT_ENDPOINT, postData)
         .not.put(setPriority({ priority: priorityId, _signal: incident.id }))
         .put(createIncidentSuccess(incidentWithHandlingMessage))
         .run();
@@ -195,8 +221,22 @@ describe('IncidentContainer saga', () => {
         payload: {
           ...payload,
           isAuthenticated: true,
-          incident: { priority: { id: priorityId }, category, subcategory },
+          incident: {
+            ...postIncident,
+            priority: { id: priorityId },
+            category,
+            subcategory,
+          },
         },
+      };
+      const mappedControls = mapControlsToParams(
+        action.payload.incident,
+        action.payload.wizard
+      );
+      const postData = {
+        ...action.payload.incident,
+        ...mappedControls,
+        ...enrichedPostData,
       };
 
       return expectSaga(createIncident, action)
@@ -208,40 +248,7 @@ describe('IncidentContainer saga', () => {
           request,
           `${CONFIGURATION.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
         )
-        .call(
-          postCall,
-          CONFIGURATION.INCIDENT_ENDPOINT,
-          mapControlsToParams(postIncident, action.payload.wizard)
-        )
-        .put(setPriority({ priority: priorityId, _signal: incident.id }))
-        .put(createIncidentSuccess(incidentWithHandlingMessage))
-        .run();
-    });
-
-    it('should success when logged in and setting low priority', () => {
-      const priorityId = 'low';
-      const action = {
-        payload: {
-          ...payload,
-          isAuthenticated: true,
-          incident: { priority: { id: priorityId }, category, subcategory },
-        },
-      };
-
-      return expectSaga(createIncident, action)
-        .provide([
-          [matchers.call.fn(request), subCatResponse],
-          [matchers.call.fn(postCall), incident],
-        ])
-        .call(
-          request,
-          `${CONFIGURATION.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
-        )
-        .call(
-          postCall,
-          CONFIGURATION.INCIDENT_ENDPOINT,
-          mapControlsToParams(postIncident, action.payload.wizard)
-        )
+        .call(postCall, CONFIGURATION.INCIDENT_ENDPOINT, postData)
         .put(setPriority({ priority: priorityId, _signal: incident.id }))
         .put(createIncidentSuccess(incidentWithHandlingMessage))
         .run();

@@ -14,13 +14,16 @@ const routes = {
   users: USERS_URL,
   usersPaged: `${USERS_PAGED_URL}/:pageNum(\\d+)`,
   user: `${USER_URL}/:userId(\\d+)`,
+
   roles: ROLES_URL,
   role: `${ROLE_URL}/:roleId(\\d+)`,
+
   departments: DEPARTMENTS_URL,
   department: `${DEPARTMENT_URL}/:departmentId(\\d+)`,
-  category: CATEGORY_URL,
+
   categories: CATEGORIES_URL,
   categoriesPaged: `${CATEGORIES_PAGED_URL}/:pageNum(\\d+)`,
+  category: `${CATEGORY_URL}/:categoryId(\\d+)`,
 };
 
 export default routes;

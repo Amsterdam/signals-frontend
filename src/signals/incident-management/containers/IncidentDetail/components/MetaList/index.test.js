@@ -113,7 +113,7 @@ describe('<MetaList />', () => {
       ).toBeGreaterThan(0);
     });
 
-    it.only('should render the correct HTML elements for subcategories', () => {
+    it('should render the correct HTML elements for subcategories', () => {
       const { getByText } = render(<MetaList {...props} />);
 
       const showFormButton = getByText('Subcategorie')
