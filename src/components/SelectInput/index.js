@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 
 import { Select } from '@datapunt/asc-ui';
 
-const SelectInput = ({ handler, key, options, value }) => (
+const SelectInput = ({ handler, name, options, value }) => (
   <Select value={value} onChange={handler}>
-    {Object.keys(options).map(option => (
-      <option key={`${key}-${option}`} value={option}>{options[option]}</option>
+    {options.map(option => (
+      <option key={`${name}-${option.key}`} value={option.value}>{option.label}</option>
     ))}
   </Select>
 );
 
 SelectInput.propTypes = {
-  key: PropTypes.string,
+  name: PropTypes.string,
   handler: PropTypes.func,
-  options: PropTypes.object,
+  options: PropTypes.array,
   value: PropTypes.string,
 };
 
