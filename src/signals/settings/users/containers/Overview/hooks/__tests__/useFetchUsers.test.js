@@ -19,8 +19,8 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     await waitForNextUpdate();
 
-    expect(global.fetch).toHaveBeenCalledWith(
-      configuration.USERS_ENDPOINT,
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringMatching(configuration.USERS_ENDPOINT),
       expect.objectContaining({
         headers: {
           Accept: 'application/json',
@@ -39,20 +39,8 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     await waitForNextUpdate();
 
-    expect(global.fetch).toHaveBeenCalledWith(
-      expect.stringMatching(new RegExp(`\\/?page=${page}$`)),
-      expect.objectContaining({ headers: { Accept: 'application/json' } })
-    );
-  });
-
-  it('should request the correct page size', async () => {
-    const pageSize = 30000;
-    const { waitForNextUpdate } = renderHook(() => useFetchUsers({ pageSize }));
-
-    await waitForNextUpdate();
-
-    expect(global.fetch).toHaveBeenCalledWith(
-      expect.stringMatching(new RegExp(`\\/?page_size=${pageSize}$`)),
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringMatching(new RegExp(`\\/?page=${page}`)),
       expect.objectContaining({ headers: { Accept: 'application/json' } })
     );
   });

@@ -2,7 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
 
 const devMode = process.env.NODE_ENV !== 'production';
 
@@ -114,7 +115,7 @@ module.exports = options => ({
       },
     ],
   },
-  plugins: options.plugins.concat([
+  plugins: [
     new CopyWebpackPlugin([
       {
         from: './node_modules/amsterdam-amaps/dist/nlmaps/dist/assets',
@@ -139,7 +140,9 @@ module.exports = options => ({
     }),
 
     process.env.ANALYZE && new BundleAnalyzerPlugin(),
-  ]).filter(Boolean),
+  ]
+    .concat(options.plugins)
+    .filter(Boolean),
   resolve: {
     modules: ['node_modules', 'src'],
     extensions: ['.js', '.jsx', '.react.js'],

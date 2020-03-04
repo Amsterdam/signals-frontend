@@ -30,6 +30,7 @@ export const makeSelectCategories = createSelector(
       .filter(category => category.get('is_active'))
       .map(category =>
         category
+          .set('fk', category.get('id'))
           .set('id', category.getIn(['_links', 'self', 'public']))
           .set('key', category.getIn(['_links', 'self', 'public']))
           .set('value', category.get('name'))

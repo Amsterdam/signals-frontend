@@ -15,7 +15,7 @@ const LocationPreview = ({ location, onEditLocation }) => (
       onClick={onEditLocation}
       data-testid="location-preview-button-edit"
     >
-Locatie wijzigen
+      Locatie wijzigen
     </button>
 
     <MapDetail

@@ -39,6 +39,7 @@ describe('models/categories/selectors', () => {
     const first = categories.first().toJS();
 
     const firstWithExtraProps = categoriesJson.results[0];
+    firstWithExtraProps.fk = firstWithExtraProps.id;
     firstWithExtraProps.id = firstWithExtraProps._links.self.public;
     firstWithExtraProps.key = firstWithExtraProps._links.self.public;
     firstWithExtraProps.parentKey = false;
@@ -52,6 +53,7 @@ describe('models/categories/selectors', () => {
       .toJS();
 
     const secondWithExtraProps = categoriesJson.results[1];
+    secondWithExtraProps.fk = secondWithExtraProps.id;
     secondWithExtraProps.id = secondWithExtraProps._links.self.public;
     secondWithExtraProps.key = secondWithExtraProps._links.self.public;
     secondWithExtraProps.parentKey =
