@@ -6,7 +6,7 @@ import { Select } from '@datapunt/asc-ui';
 const SelectInput = ({ handler, name, options, value }) => (
   <Select value={value} onChange={handler}>
     {options.map(option => (
-      <option key={`${name}-${option.key}`} value={option.value}>{option.label}</option>
+      <option key={`${name}-${option.key}`} value={option.value}>{option.name}</option>
     ))}
   </Select>
 );
