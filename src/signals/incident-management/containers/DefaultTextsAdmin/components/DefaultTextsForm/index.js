@@ -229,7 +229,7 @@ const DefaultTextsForm =({
                 type="submit"
                 disabled={invalid}
               >
-              Opslaan
+                Opslaan
               </Button>
             </div>
           </form>

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { memo, Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect, Switch, useLocation } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
@@ -15,19 +15,29 @@ import {
 
 import { fetchRoles, fetchPermissions } from 'models/roles/actions';
 import { fetchDepartments } from 'models/departments/actions';
+import { fetchCategories } from 'models/categories/actions';
 
-import routes, { USERS_PAGED_URL, USER_URL, ROLE_URL } from './routes';
+import routes, {
+  USERS_PAGED_URL,
+  USER_URL,
+  ROLE_URL,
+  CATEGORIES_PAGED_URL,
+  CATEGORY_URL,
+} from './routes';
 import UsersOverviewContainer from './users/containers/Overview';
 import RolesListContainer from './roles/containers/RolesListContainer';
 import RoleFormContainer from './roles/containers/RoleFormContainer';
 import UsersDetailContainer from './users/containers/Detail';
 import DepartmentsOverviewContainer from './departments/Overview';
 import DepartmentsDetailContainer from './departments/Detail';
+import CategoriesOverviewContainer from './categories/Overview';
+import CategoryDetailContainer from './categories/Detail';
 
 export const SettingsModule = ({
   onFetchDepartments,
   onFetchPermissions,
   onFetchRoles,
+  fetchCategoriesAction,
   userCan,
   userCanAccess,
 }) => {
@@ -35,10 +45,20 @@ export const SettingsModule = ({
   const [location, setLocation] = useState(moduleLocation);
 
   useEffect(() => {
+    if (!isAuthenticated()) {
+      return;
+    }
+
     onFetchDepartments();
     onFetchRoles();
     onFetchPermissions();
-  }, [onFetchDepartments, onFetchPermissions, onFetchRoles]);
+    fetchCategoriesAction();
+  }, [
+    onFetchDepartments,
+    onFetchPermissions,
+    onFetchRoles,
+    fetchCategoriesAction,
+  ]);
 
   // subscribe to updates and set the referrer when page URLs differ
   useEffect(() => {
@@ -114,11 +134,46 @@ export const SettingsModule = ({
           )}
         </Switch>
       )}
+
+      {userCanAccess('categories') && (
+        <Switch location={location}>
+          {/*
+           * always redirect from /gebruikers to /gebruikers/page/1 to avoid having complexity
+           * in the UsersOverviewContainer component
+           */}
+          <Redirect
+            exact
+            from={routes.categories}
+            to={`${CATEGORIES_PAGED_URL}/1`}
+          />
+          <Route
+            exact
+            path={routes.categoriesPaged}
+            component={CategoriesOverviewContainer}
+          />
+
+          {userCanAccess('categoryForm') && (
+            <Route
+              exact
+              path={routes.category}
+              component={CategoryDetailContainer}
+            />
+          )}
+          {userCan('add_category') && (
+            <Route
+              exact
+              path={CATEGORY_URL}
+              component={CategoryDetailContainer}
+            />
+          )}
+        </Switch>
+      )}
     </Fragment>
   );
 };
 
 SettingsModule.propTypes = {
+  fetchCategoriesAction: PropTypes.func.isRequired,
   onFetchDepartments: PropTypes.func.isRequired,
   onFetchPermissions: PropTypes.func.isRequired,
   onFetchRoles: PropTypes.func.isRequired,
@@ -134,6 +189,7 @@ const mapStateToProps = createStructuredSelector({
 export const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
+      fetchCategoriesAction: fetchCategories,
       onFetchDepartments: fetchDepartments,
       onFetchPermissions: fetchPermissions,
       onFetchRoles: fetchRoles,
@@ -143,4 +199,4 @@ export const mapDispatchToProps = dispatch =>
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default withConnect(SettingsModule);
+export default memo(withConnect(SettingsModule));

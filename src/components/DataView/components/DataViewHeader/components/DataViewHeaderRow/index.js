@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { StyledTH, StyledTR } from 'signals/settings/users/containers/Overview/components/DataView/styled';
+import { StyledTH, StyledTR } from 'components/DataView/styled';
 
 const DataViewHeaderRow = ({ nodes, testId, spacer }) => (
   <StyledTR data-testid={testId}>

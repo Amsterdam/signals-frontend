@@ -266,7 +266,7 @@ export class IncidentDetail extends React.Component {
                   </DetailContainer>
 
                   <DetailContainer span={4} push={1}>
-                    {incident && (
+                    {incident && subCategories && (
                       <MetaList
                         incident={incident}
                         priorityList={priorityList}

@@ -20,6 +20,7 @@ export const SiteHeaderContainer = ({ onLogOut, userCan, userCanAccess }) => (
       groups: userCanAccess('groups'),
       settings: userCanAccess('settings'),
       users: userCanAccess('users'),
+      categories: userCanAccess('categories'),
     }}
   />
 );

@@ -34,6 +34,9 @@ export const mapKeys = key => {
     case 'priority':
       return 'urgentie';
 
+    case 'contact_details':
+      return 'contact';
+
     default:
       return key;
   }
