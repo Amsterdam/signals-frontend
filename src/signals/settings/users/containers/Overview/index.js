@@ -5,24 +5,21 @@ import React, {
   useMemo,
   useCallback, useReducer,
 } from 'react';
-import PropTypes from 'prop-types';
 import { useParams, useHistory, useLocation, Link } from 'react-router-dom';
-import { Row, Column, themeSpacing, Button, SearchBar, Select } from '@datapunt/asc-ui';
+import { Row, Column, themeSpacing, Button, SearchBar } from '@datapunt/asc-ui';
 import styled from 'styled-components';
-import { createStructuredSelector } from 'reselect';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import debounce from 'lodash/debounce';
 
-
 import { PAGE_SIZE } from 'containers/App/constants';
-import { makeSelectUserCan } from 'containers/App/selectors';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Pagination from 'components/Pagination';
 import PageHeader from 'signals/settings/components/PageHeader';
 import DataView from 'components/DataView';
 import SelectInput from 'components/SelectInput';
 import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes';
+import { useSelector } from 'react-redux';
+import { inputRolesSelector } from 'models/roles/selectors';
+import { makeSelectUserCan } from 'containers/App/selectors';
 import useFetchUsers from './hooks/useFetchUsers';
 
 
@@ -42,60 +39,47 @@ const StyledSearchbar = styled(SearchBar)`
   }
 `;
 
-const filtersReducer = (state, action) => {
-  switch (action.type) {
-    case 'username':
-      return { ...action.prevState, username: action.payload };
-    case 'role':
-      return { ...action.prevState, role: action.payload };
-    case 'is_active':
-      let value;
-      if (action.payload === 'inactive') {
-        value = false;
-      } else if (action.payload === 'active') {
-        value = true;
-      } else if (action.payload === 'all') {
-        value = null;
-      } else {
-        throw new Error(`value is invalid: ${action.value} (action type: ${action.type})`);
-      }
-
-      return { ...action.prevState, is_active: value };
-    default:
-      throw new Error(`action.type is unknown: ${action.type}`);
-  }
-};
-
 const StyledDataView = styled(DataView)`
   th:first-child {
     width: 50%;
   }
 `;
 
-const roleSelectOptions = {
-  all: 'all',
-  minion: 'minion',
-  overlord: 'overlord',
+const filtersReducer = (_, action) => {
+  switch (action.type) {
+    case 'username':
+      return { ...action.prevState, username: action.payload };
+    case 'role':
+      return { ...action.prevState, role: action.payload };
+    case 'is_active':
+      return { ...action.prevState, is_active: action.payload };
+    default:
+      throw new Error(`action.type is unknown: ${action.type}`);
+  }
 };
 
-const userActiveOptions = {
-  all: 'Alle',
-  active: 'Actief',
-  inactive: 'Niet actief',
-};
+const selectUserActiveItems = [
+  { key: 'all', name: 'Alles', value: '*' },
+  { key: 'active', name: 'Actief', value: true },
+  { key: 'inactive', name: 'Niet actief', value: false },
+];
 
-export const UsersOverviewContainer = ({ userCan }) => {
+export const UsersOverviewContainer = () => {
   const history = useHistory();
 
   const location = useLocation();
   const filtersInitialState = location.state && location.state.filters || {};
 
   const { pageNum } = useParams();
-  const [page, setPage] = useState(1);
   const [filters, dispatchFiltersChange] = useReducer(filtersReducer, filtersInitialState);
   const { isLoading, users: { list: data }, users } = useFetchUsers({ page, filters });
-  const [userActiveState, setUserActiveState] = React.useState('all');
-  const [roleState, setRoleState] = React.useState('all');
+
+  const [page, setPage] = useState(1);
+  const [userActiveState, setUserActiveState] = useState('*');
+  const [roleState, setRoleState] = useState('*');
+
+  const userCan = useSelector(makeSelectUserCan);
+  const selectRoleItems = useSelector(inputRolesSelector);
 
   /**
    * Get page number value from URL query string
@@ -201,15 +185,17 @@ export const UsersOverviewContainer = ({ userCan }) => {
                 ),
                 (
                   <SelectInput
+                    name="roleSelect"
                     value={roleState}
-                    options={roleSelectOptions}
+                    options={selectRoleItems}
                     handler={roleOnChangeHandler}
                   />
                 ),
                 (
                   <SelectInput
+                    name="userActiveStateSelect"
                     value={userActiveState}
-                    options={userActiveOptions}
+                    options={selectUserActiveItems}
                     handler={userStatusOnChangeHandler}
                   />
                 ),
@@ -237,14 +223,4 @@ export const UsersOverviewContainer = ({ userCan }) => {
   );
 };
 
-UsersOverviewContainer.propTypes = {
-  userCan: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = createStructuredSelector({
-  userCan: makeSelectUserCan,
-});
-
-const withConnect = connect(mapStateToProps);
-
-export default compose(withConnect)(UsersOverviewContainer);
+export default UsersOverviewContainer;
