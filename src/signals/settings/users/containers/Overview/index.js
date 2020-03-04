@@ -143,19 +143,19 @@ export const UsersOverviewContainer = () => {
   const userActiveFilter = createOnChangeFilter('is_active');
   const roleFilter = createOnChangeFilter('role');
 
-  const userStatusOnChangeHandler = event => {
+  const selectUserStatusOnChangeHandler = useCallback(event => {
     event.preventDefault();
 
     setUserActiveState(event.target.value);
     userActiveFilter(event.target.value);
-  };
+  }, [setUserActiveState, userActiveFilter]);
 
-  const roleOnChangeHandler = event => {
+  const selectRoleOnChangeHandler = useCallback(event => {
     event.preventDefault();
 
     setRoleState(event.target.value);
     roleFilter(event.target.value);
-  };
+  }, [setRoleState, roleFilter]);
 
   return (
     <Fragment>
@@ -188,7 +188,7 @@ export const UsersOverviewContainer = () => {
                     name="roleSelect"
                     value={roleState}
                     options={selectRoleItems}
-                    handler={roleOnChangeHandler}
+                    handler={selectRoleOnChangeHandler}
                   />
                 ),
                 (
@@ -196,7 +196,7 @@ export const UsersOverviewContainer = () => {
                     name="userActiveStateSelect"
                     value={userActiveState}
                     options={selectUserActiveItems}
-                    handler={userStatusOnChangeHandler}
+                    handler={selectUserStatusOnChangeHandler}
                   />
                 ),
               ]}
