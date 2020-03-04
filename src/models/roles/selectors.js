@@ -12,10 +12,10 @@ const selectRolesDomain = state => state.get('roles') || initialState;
 export const inputRolesSelector = createSelector(
   selectRolesDomain,
   state => [
-    { key: 'all', label: 'Alles', value: null },
+    { key: 'all', name: 'Alles', value: '*' },
     ...state.get('list').toJS().map(role => ({
       key: role.name,
-      label: role.name,
+      name: role.name,
       value: role.name,
     })),
   ]
