@@ -63,6 +63,15 @@ describe('models/categories/selectors', () => {
     expect(second).toEqual(secondWithExtraProps);
   });
 
+  test('makeSelectCategories for inactive categories', () => {
+    const total = categoriesJson.results.length;
+    const inactive = categoriesJson.results.filter(({ is_active }) => !is_active).length;
+
+    const result = makeSelectCategories.resultFunc(state);
+
+    expect(result.toJS().length).toEqual(total - inactive);
+  });
+
   test('makeSelectMainCategories', () => {
     expect(makeSelectMainCategories.resultFunc()).toBeNull();
 
@@ -86,6 +95,7 @@ describe('models/categories/selectors', () => {
     const slugs = subCategories.map(({ slug }) => slug).sort();
     const keys = categoriesJson.results
       .filter(filterForSub)
+      .filter(({ is_active}) => is_active)
       .map(({ slug }) => slug)
       .sort();
 
