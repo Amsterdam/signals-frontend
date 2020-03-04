@@ -9,7 +9,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import PageHeader from 'signals/settings/components/PageHeader';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Pagination from 'components/Pagination';
-import { makeSelectSubCategories } from 'models/categories/selectors';
+import { makeSelectAllSubCategories } from 'models/categories/selectors';
 import { makeSelectUserCan } from 'containers/App/selectors';
 import { CATEGORY_URL, CATEGORIES_PAGED_URL } from 'signals/settings/routes';
 import DataView from 'components/DataView';
@@ -132,7 +132,7 @@ CategoriesOverviewContainer.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  subCategories: makeSelectSubCategories,
+  subCategories: makeSelectAllSubCategories,
   userCan: makeSelectUserCan,
 });
 
