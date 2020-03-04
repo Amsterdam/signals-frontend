@@ -27,6 +27,7 @@ export const makeSelectCategories = createSelector(
       .sort((a, b) =>
         a.get('name').toLowerCase() > b.get('name').toLowerCase() ? 1 : -1
       )
+      .filter(category => category.get('is_active'))
       .map(category =>
         category
           .set('id', category.getIn(['_links', 'self', 'public']))
