@@ -12,9 +12,9 @@ const SelectInput = ({ handler, name, options, value }) => (
 );
 
 SelectInput.propTypes = {
-  name: PropTypes.string,
-  handler: PropTypes.func,
-  options: PropTypes.array,
+  name: PropTypes.string.isRequired,
+  handler: PropTypes.func.isRequired,
+  options: PropTypes.array.isRequired,
   value: PropTypes.string,
 };
 
