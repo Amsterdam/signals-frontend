@@ -3,6 +3,7 @@ import React, {
   useMemo,
   useCallback,
   useReducer,
+  memo,
 } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
@@ -436,4 +437,4 @@ FilterForm.propTypes = {
   onUpdateFilter: PropTypes.func,
 };
 
-export default FilterForm;
+export default memo(FilterForm);

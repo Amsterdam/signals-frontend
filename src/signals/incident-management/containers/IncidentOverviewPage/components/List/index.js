@@ -1,83 +1,84 @@
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-import { string2date, string2time } from 'shared/services/string-parser/string-parser';
-import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import * as types from 'shared/types';
 
+import Body from '../Body';
+import Header from '../Header';
 import './style.scss';
 
-class List extends React.Component {
-  onSort = sort => () => {
-    const sortIsAsc = this.props.sort && this.props.sort.indexOf(sort) === 0;
+const getDaysOpen = incident => {
+  const statusesWithoutDaysOpen = ['o', 'a', 's', 'reopen requested'];
 
-    this.props.onChangeOrdering(sortIsAsc ? `-${sort}` : sort);
+  if (
+    incident.status &&
+    !statusesWithoutDaysOpen.includes(incident.status.state)
+  ) {
+    const start = moment(incident.created_at.split('T')[0]);
+    const duration = moment.duration(moment().diff(start));
+
+    return Math.trunc(duration.asDays());
   }
 
-  getDaysOpen(incident) {
-    const statusesWithoutDaysOpen = ['o', 'a', 's', 'reopen requested'];
-    if (incident.status && !statusesWithoutDaysOpen.includes(incident.status.state)) {
-      const start = moment(incident.created_at.split('T')[0]);
-      const duration = moment.duration(moment().diff(start));
-      return Math.trunc(duration.asDays());
-    }
+  return '-';
+};
 
-    return '-';
-  }
+const List = ({
+  sort,
+  incidents,
+  priority,
+  status,
+  stadsdeel,
+  onChangeOrdering,
+}) => {
+  const onSort = useCallback(
+    srt => () => {
+      const sortIsAsc = sort && sort.indexOf(sort) === 0;
 
-  sortClassName(sortName) {
-    let className = '';
-    const currentSort = this.props.sort && this.props.sort.split(',')[0];
-    if (currentSort && currentSort.indexOf(sortName) > -1) {
-      className = currentSort.charAt(0) === '-' ? 'sort sort-down' : 'sort sort-up';
-    }
-    return className;
-  }
+      onChangeOrdering(sortIsAsc ? `-${srt}` : srt);
+    },
+    [sort, onChangeOrdering]
+  );
 
+  const sortClassName = useCallback(
+    sortName => {
+      let className = '';
+      const currentSort = sort && sort.split(',')[0];
 
-  render() {
-    const { incidents, priority, status, stadsdeel } = this.props;
-    return (
-      <div className="list-component" data-testid="incidentOverviewListComponent">
-        <div className="list-component__body">
-          <table className="list-component__table" cellSpacing="0" cellPadding="0">
-            <thead>
-              <tr>
-                <th onClick={this.onSort('id')} className={this.sortClassName('id')}>Id</th>
-                <th onClick={this.onSort('days_open')} className={this.sortClassName('days_open')}>Dag</th>
-                <th onClick={this.onSort('created_at')} className={this.sortClassName('created_at')}>Datum en tijd</th>
-                <th onClick={this.onSort('stadsdeel,-created_at')} className={this.sortClassName('stadsdeel')}>Stadsdeel</th>
-                <th onClick={this.onSort('sub_category,-created_at')} className={this.sortClassName('sub_category')}>Subcategorie</th>
-                <th onClick={this.onSort('status,-created_at')} className={this.sortClassName('status')}>Status</th>
-                <th onClick={this.onSort('priority,-created_at')} className={this.sortClassName('priority')}>Urgentie</th>
-                <th onClick={this.onSort('address,-created_at')} className={this.sortClassName('address')}>Adres</th>
-              </tr>
-            </thead>
-            <tbody>
-              {incidents.map(incident => {
-                const detailLink = `/manage/incident/${incident.id}`;
-                return (
-                  <tr key={incident.id}>
-                    <td><Link to={detailLink}>{incident.id}</Link></td>
-                    <td data-testid="incidentDaysOpen"><Link to={detailLink}>{this.getDaysOpen(incident)}</Link></td>
-                    <td className="no-wrap"><Link to={detailLink}>{string2date(incident.created_at)} {string2time(incident.created_at)}</Link></td>
-                    <td><Link to={detailLink}>{getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}</Link></td>
-                    <td><Link to={detailLink}>{incident.category && incident.category.sub}</Link></td>
-                    <td><Link to={detailLink}>{getListValueByKey(status, incident.status && incident.status.state)}</Link></td>
-                    <td><Link to={detailLink}>{getListValueByKey(priority, incident.priority && incident.priority.priority)}</Link></td>
-                    <td><Link to={detailLink}>{incident.location && incident.location.address_text}</Link></td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div >
-    );
-  }
-}
+      if (currentSort && currentSort.indexOf(sortName) > -1) {
+        className =
+          currentSort.charAt(0) === '-' ? 'sort sort-down' : 'sort sort-up';
+      }
+
+      return className;
+    },
+    [sort]
+  );
+
+  return (
+    <div className="list-component" data-testid="incidentOverviewListComponent">
+      <div className="list-component__body">
+        <table
+          className="list-component__table"
+          cellSpacing="0"
+          cellPadding="0"
+        >
+          <Header onSort={onSort} sortClassName={sortClassName} />
+          <tbody>
+            <Body
+              incidents={incidents}
+              priority={priority}
+              status={status}
+              stadsdeel={stadsdeel}
+              getDaysOpen={getDaysOpen}
+            />
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
 
 List.propTypes = {
   incidents: PropTypes.arrayOf(types.incidentType).isRequired,
@@ -89,4 +90,4 @@ List.propTypes = {
   sort: PropTypes.string,
 };
 
-export default List;
+export default memo(List);
