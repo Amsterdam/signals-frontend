@@ -166,28 +166,6 @@ module.exports = require('./webpack.base.babel')({
       inject: true,
     }),
 
-    // Put it in the end to capture all the HtmlWebpackPlugin's
-    // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
-    new OfflinePlugin({
-      relativePaths: false,
-      publicPath: '/',
-      appShell: '/',
-
-      excludes: ['version.txt'],
-
-      caches: {
-        main: [':rest:'],
-
-        // All chunks marked as `additional`, loaded after main section
-        // and do not prevent SW to install. Change to `optional` if
-        // do not want them to be preloaded at all (cached only when first loaded)
-        additional: ['*.chunk.js'],
-      },
-
-      // Removes warning for about `additional` section usage
-      safeToUseOptionalCaches: true,
-    }),
-
     new WebpackPwaManifest({
       name: 'Signalen Informatievoorziening Amsterdam',
       short_name: 'SIA',
@@ -216,6 +194,31 @@ module.exports = require('./webpack.base.babel')({
       hashFunction: 'sha256',
       hashDigest: 'hex',
       hashDigestLength: 20,
+    }),
+
+    // Put it in the end to capture all the HtmlWebpackPlugin's
+    // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
+    new OfflinePlugin({
+      ServiceWorker: {
+        events: true,
+      },
+      relativePaths: false,
+      publicPath: '/',
+      appShell: '/',
+
+      excludes: ['version.txt', 'sw.js'],
+
+      caches: {
+        main: [':rest:'],
+
+        // All chunks marked as `additional`, loaded after main section
+        // and do not prevent SW to install. Change to `optional` if
+        // do not want them to be preloaded at all (cached only when first loaded)
+        additional: ['*.chunk.js'],
+      },
+
+      // Removes warning for about `additional` section usage
+      safeToUseOptionalCaches: true,
     }),
   ],
 

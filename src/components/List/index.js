@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+const StyledTH = styled.th`
+  text-align: left;
+`;
+
 const StyledTD = styled.td`
   cursor: pointer;
 `;
@@ -30,7 +34,7 @@ const List = ({
       <thead>
         <tr>
           {colHeaders.map(colHeader => (
-            <th key={colHeader}>{colHeader}</th>
+            <StyledTH key={colHeader}>{colHeader}</StyledTH>
           ))}
         </tr>
       </thead>

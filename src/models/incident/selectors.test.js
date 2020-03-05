@@ -3,7 +3,6 @@ import makeSelectIncidentModel from './selectors';
 
 
 describe('makeSelectIncidentModel', () => {
-  const selector = makeSelectIncidentModel();
   it('should select the incidentModel', () => {
     const incidentModel = {
       foo: 'bar',
@@ -12,6 +11,6 @@ describe('makeSelectIncidentModel', () => {
     const mockedState = fromJS({
       incidentModel,
     });
-    expect(selector(mockedState)).toEqual(incidentModel);
+    expect(makeSelectIncidentModel(mockedState)).toEqual(incidentModel);
   });
 });

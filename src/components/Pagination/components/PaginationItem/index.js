@@ -19,11 +19,12 @@ const StyledItem = styled(AscLink)`
   cursor: pointer;
   display: flex;
   font-family: Avenir Next W01, arial, sans-serif;
-  height: auto;
+  height: 100%;
   margin: 0;
   outline: none;
   padding: 0 ${themeSpacing(2)};
   text-decoration: none;
+  font-weight: normal;
 
   &:focus {
     background-color: ${themeColor('support', 'focus')};

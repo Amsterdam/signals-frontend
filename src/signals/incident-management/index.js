@@ -8,6 +8,7 @@ import { createStructuredSelector } from 'reselect';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
+import { fetchCategories } from 'models/categories/actions';
 
 import LoginPage from 'components/LoginPage';
 
@@ -23,6 +24,7 @@ import saga from './saga';
 import routes from './routes';
 
 export const IncidentManagementModuleComponent = ({
+  fetchCategoriesAction,
   getFiltersAction,
   requestIncidentsAction,
   searchIncidentsAction,
@@ -40,6 +42,7 @@ export const IncidentManagementModuleComponent = ({
     }
 
     getFiltersAction();
+    fetchCategoriesAction();
     // disabling linter; no deps needed, only execute on mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -60,6 +63,7 @@ export const IncidentManagementModuleComponent = ({
 };
 
 IncidentManagementModuleComponent.propTypes = {
+  fetchCategoriesAction: PropTypes.func.isRequired,
   getFiltersAction: PropTypes.func.isRequired,
   requestIncidentsAction: PropTypes.func.isRequired,
   searchQuery: PropTypes.string,
@@ -73,6 +77,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
+      fetchCategoriesAction: fetchCategories,
       getFiltersAction: getFilters,
       requestIncidentsAction: requestIncidents,
       searchIncidentsAction: searchIncidents,

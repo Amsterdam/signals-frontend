@@ -1,0 +1,30 @@
+{
+  "_links": {
+    "curies": {
+      "name": "sia",
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+    },
+    "self": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/23",
+      "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/sportvoorziening"
+    },
+    "sia:status-message-templates": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/sportvoorziening/status-message-templates"
+    },
+    "sia:parent": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/80",
+      "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair"
+    }
+  },
+  "_display": "Sportvoorziening (Wegen, verkeer, straatmeubilair)",
+  "id": 23,
+  "name": "Sportvoorziening",
+  "slug": "sportvoorziening",
+  "is_active": true,
+  "description": "Yes, description!",
+  "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+  "sla": {
+    "n_days": 5,
+    "use_calendar_days": false
+  }
+}

@@ -16,6 +16,7 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     expect(container.querySelector('[name="last_name"]').value).toBe('');
     expect(container.querySelector('[name="username"]')).toBeInTheDocument();
     expect(container.querySelector('[name="username"]').value).toBe('');
+    expect(container.querySelector('[name="note"]').value).toBe('');
 
     expect(container.querySelectorAll('[name="is_active"]')).toHaveLength(2);
     expect(container.querySelectorAll('[name="is_active"]')[0].value).toBe('true');
@@ -43,6 +44,9 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
       last_name: 'Bar',
       username: 'foo@bar',
       is_active: true,
+      profile: {
+        note: 'abc',
+      },
     };
 
     const { container } = render(withAppContext(<UserForm data={data} />));
@@ -52,6 +56,7 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     expect(container.querySelector('[name="username"]').value).toBe(data.username);
     expect(container.querySelector('[name="is_active"][value="true"]').checked).toBe(true);
     expect(container.querySelector('[name="is_active"][value="false"]').checked).toBe(false);
+    expect(container.querySelector('[name="note"]').value).toBe(data.profile.note);
   });
 
   it('should call onCancel callback', () => {

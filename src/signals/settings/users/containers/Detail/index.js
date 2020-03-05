@@ -4,7 +4,6 @@ import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
-import { Row, Column } from '@datapunt/asc-ui';
 import isEqual from 'lodash.isequal';
 import styled from 'styled-components';
 
@@ -24,13 +23,9 @@ import routes from 'signals/settings/routes';
 import useFetchUser from './hooks/useFetchUser';
 import UserForm from './components/UserForm';
 
-const FormContainer = styled(Row)`
+const FormContainer = styled.div`
   // taking into account the space that the FormFooter component takes up
   padding-bottom: 66px;
-`;
-
-const StyledColumn = styled(Column)`
-  flex-direction: column;
 `;
 
 export const UserDetailContainerComponent = ({
@@ -45,7 +40,10 @@ export const UserDetailContainerComponent = ({
     userId
   );
   const shouldRenderForm = !isExistingUser || (isExistingUser && Boolean(data));
-  const redirectURL = location.referrer || routes.users;
+  const redirectURL = {
+    pathname: location.referrer || routes.users,
+    state: location.state,
+  };
   const userCanSubmitForm = useMemo(
     () =>
       (isExistingUser && userCan('change_user')) ||
@@ -54,12 +52,21 @@ export const UserDetailContainerComponent = ({
   );
 
   const getFormData = useCallback(
-    e =>
-      [...new FormData(e.target.form).entries()]
+    e => {
+      const formData = [...new FormData(e.target.form).entries()]
         // convert stringified boolean values to actual booleans
         .map(([key, val]) => [key, key === 'is_active' ? val === 'true' : val])
         // reduce the entries() array to an object, merging it with the initial data
-        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data }),
+        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data });
+
+      formData.profile = {
+        ...formData.profile,
+        note: formData.note,
+      };
+      delete formData.note;
+
+      return formData;
+    },
     [data]
   );
 
@@ -91,7 +98,7 @@ export const UserDetailContainerComponent = ({
     });
 
     if (isSuccess) {
-      history.push(redirectURL);
+      history.push(redirectURL.pathname, redirectURL.state);
     }
   }, [
     error,
@@ -99,7 +106,8 @@ export const UserDetailContainerComponent = ({
     isExistingUser,
     isLoading,
     isSuccess,
-    redirectURL,
+    redirectURL.pathname,
+    redirectURL.state,
     showGlobalNotification,
   ]);
 
@@ -133,7 +141,7 @@ export const UserDetailContainerComponent = ({
         (!isEqual(data, formData) &&
           global.confirm('Niet opgeslagen gegevens gaan verloren. Doorgaan?'))
       ) {
-        history.push(redirectURL);
+        history.push(redirectURL.pathname, redirectURL.state);
       }
     },
     [data, getFormData, history, redirectURL]
@@ -154,18 +162,14 @@ export const UserDetailContainerComponent = ({
       {isLoading && <LoadingIndicator />}
 
       <FormContainer>
-        <StyledColumn
-          span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 4 }}
-        >
-          {shouldRenderForm && (
-            <UserForm
-              data={data}
-              onCancel={onCancel}
-              onSubmitForm={onSubmitForm}
-              readOnly={!userCanSubmitForm}
-            />
-          )}
-        </StyledColumn>
+        {shouldRenderForm && (
+          <UserForm
+            data={data}
+            onCancel={onCancel}
+            onSubmitForm={onSubmitForm}
+            readOnly={!userCanSubmitForm}
+          />
+        )}
       </FormContainer>
     </Fragment>
   );
