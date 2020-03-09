@@ -6,6 +6,8 @@ import React, {
   useCallback, useReducer,
 } from 'react';
 import { useParams, useHistory, useLocation, Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import { Row, Column, themeSpacing, Button, SearchBar } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 import debounce from 'lodash/debounce';
@@ -17,7 +19,6 @@ import PageHeader from 'signals/settings/components/PageHeader';
 import DataView from 'components/DataView';
 import SelectInput from 'components/SelectInput';
 import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes';
-import { useSelector } from 'react-redux';
 import { inputRolesSelector } from 'models/roles/selectors';
 import { makeSelectUserCan } from 'containers/App/selectors';
 import useFetchUsers from './hooks/useFetchUsers';
@@ -73,6 +74,7 @@ export const UsersOverviewContainer = () => {
   const { pageNum } = useParams();
   const [filters, dispatchFiltersChange] = useReducer(filtersReducer, filtersInitialState);
   const { isLoading, users: { list: data }, users } = useFetchUsers({ page, filters });
+  const userCan = useSelector(makeSelectUserCan);
 
   const [page, setPage] = useState(1);
   const [userActiveState, setUserActiveState] = useState('*');

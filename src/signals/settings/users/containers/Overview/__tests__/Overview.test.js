@@ -1,12 +1,13 @@
 import React from 'react';
-import { render, fireEvent, wait, waitForElement, within } from '@testing-library/react';
+import { render, fireEvent, wait, waitForElement, within, cleanup } from '@testing-library/react';
 import { history as memoryHistory, withCustomAppContext } from 'test/utils';
 
 import usersJSON from 'utils/__tests__/fixtures/users.json';
 import { USER_URL, USERS_PAGED_URL } from 'signals/settings/routes';
 import configuration from 'shared/services/configuration/configuration';
 import * as constants from 'containers/App/constants';
-import { UsersOverviewContainer as UsersOverview } from '..';
+import * as appSelectors from 'containers/App/selectors';
+import { UsersOverviewContainer } from '..';
 
 jest.mock('containers/App/constants', () => ({
   __esModule: true,
@@ -23,7 +24,7 @@ const usersOverviewWithAppContext = (overrideProps = {}, overrideCfg = {}) => {
     ...overrideProps,
   };
 
-  return withCustomAppContext(<UsersOverview {...props} />)({
+  return withCustomAppContext(<UsersOverviewContainer {...props} />)({
     routerCfg: { history },
     ...overrideCfg,
   });
@@ -61,13 +62,23 @@ describe('signals/settings/users/containers/Overview', () => {
   });
 
   it('should render "add user" button', async () => {
+    jest
+      .spyOn(appSelectors, 'makeSelectUserCan')
+      .mockImplementation(() => () => true);
+
     const { queryByText, rerender } = render(usersOverviewWithAppContext());
 
     await wait();
 
     expect(queryByText('Gebruiker toevoegen')).toBeInTheDocument();
 
-    rerender(usersOverviewWithAppContext({ userCan: () => false }));
+    jest
+      .spyOn(appSelectors, 'makeSelectUserCan')
+      .mockImplementation(() => () => true);
+
+    cleanup();
+
+    rerender(usersOverviewWithAppContext());
 
     await wait();
 
@@ -242,8 +253,12 @@ describe('signals/settings/users/containers/Overview', () => {
   });
 
   it('should not push on list item click when permissions are insufficient', async () => {
+    jest
+      .spyOn(appSelectors, 'makeSelectUserCan')
+      .mockImplementation(() => () => false);
+
     const { push } = testContext;
-    const { container } = render(usersOverviewWithAppContext({ userCan: () => false }));
+    const { container } = render(usersOverviewWithAppContext());
 
     const row = await waitForElement(
       () => container.querySelector('tbody tr:nth-child(42)'),
@@ -347,6 +362,10 @@ describe('signals/settings/users/containers/Overview', () => {
   });
 
   it(`should send 'filters' as state when navigating to details page.`, async () => {
+    jest
+      .spyOn(appSelectors, 'makeSelectUserCan')
+      .mockImplementation(() => () => true);
+
     const { push } = testContext;
     const { getByTestId, queryAllByTestId } = render(usersOverviewWithAppContext());
 
