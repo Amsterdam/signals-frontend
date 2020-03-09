@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Map as ArmMap, Marker } from '@datapunt/react-maps';
+import { Map as MapComponent, Marker } from '@datapunt/react-maps';
 import styled from '@datapunt/asc-core';
 import getMapOptions from 'shared/services/configuration/map-options';
 import BackgroundLayer from 'shared/components/BackgroundLayer';
@@ -24,7 +24,7 @@ const Map = ({ latlng, smallIcon }) => {
 
   return (
     <MapWrapperStyle>
-      <ArmMap options={options}>
+      <MapComponent options={options}>
         <Marker
           args={[{ lat, lon }]}
           options={{
@@ -32,7 +32,7 @@ const Map = ({ latlng, smallIcon }) => {
           }}
         />
         <BackgroundLayer />
-      </ArmMap>
+      </MapComponent>
     </MapWrapperStyle>
   );
 };

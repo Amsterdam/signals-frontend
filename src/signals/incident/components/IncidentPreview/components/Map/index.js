@@ -1,14 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Map from '../../../../../../components/Map';
+import Map from 'components/Map';
+import { formatAddress } from 'shared/services/map-location';
 
 import './style.scss';
-
-const formatAddress = address => {
-  const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
-  const display = `${address.openbare_ruimte} ${address.huisnummer}${address.huisletter}${toevoeging}, ${address.postcode} ${address.woonplaats}`;
-  return display;
-};
 
 /**
  * Map preview with one or more markers
@@ -21,23 +16,27 @@ const MapPreview = ({ label, value }) => (
       </div>
       <div className="col-5 col-md-7">
         <div className="preview-map__item-value">
-          {value
-            && (
+          {value && (
+            <div>
               <div>
-                <div>
-                  {value.address ? formatAddress(value.address) : 'Geen adres gevonden'}
-                </div>
-                {value.geometrie && value.geometrie.coordinates
-                  ? (
-                    <div className="preview-map__item-value-map">
-                      <Map
-                        latlng={{ latitude: value.geometrie.coordinates[1], longitude: value.geometrie.coordinates[0] }}
-                      />
-                    </div>
-                  )
-                  : ''}
+                {value.address
+                  ? formatAddress(value.address)
+                  : 'Geen adres gevonden'}
               </div>
-            )}
+              {value.geometrie && value.geometrie.coordinates ? (
+                <div className="preview-map__item-value-map">
+                  <Map
+                    latlng={{
+                      latitude: value.geometrie.coordinates[1],
+                      longitude: value.geometrie.coordinates[0],
+                    }}
+                  />
+                </div>
+              ) : (
+                ''
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

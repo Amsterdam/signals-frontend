@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { getLocation } from 'shared/services/map-location';
-import MapReact from 'components/MapReact';
+import MapEditor from 'components/MapEditor';
 
 import Header from '../Header';
 
@@ -29,7 +29,7 @@ const MapInput = ({
               getError={getError}
             >
               <div className="invoer">
-                <MapReact onLocationChange={onLocationChange} location={value} />
+                <MapEditor onLocationChange={onLocationChange} location={value} />
               </div>
             </Header>
           </div>

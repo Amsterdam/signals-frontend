@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import { SearchBar } from '@datapunt/asc-ui';
 import { useMapInstance, Marker, GeoJSON } from '@datapunt/react-maps';
 import { markerIcon } from 'shared/services/configuration/map-markers';
+import mapLocation, { formatAddress } from 'shared/services/map-location';
 import SearchResultsList from './SearchResultsList';
 import {
   reducer,
@@ -39,7 +40,6 @@ const Geocoder = ({
 }) => {
   const mapInstance = useMapInstance();
   const [marker, setMarker] = useState();
-  const [clickPointInfo, setClickPointInfo] = useState();
   const [{ term, results, index, searchMode }, dispatch] = useReducer(
     reducer,
     initialState
@@ -72,14 +72,14 @@ const Geocoder = ({
   }, [term]);
 
   useEffect(() => {
-    if (!clickPointInfo) return;
-    const { location, address } = clickPointInfo;
+    if (!locationValue || !marker) return;
+    const { location } = mapLocation(locationValue);
     marker.setLatLng(location);
     marker.setOpacity(1);
-    onLocationChange(clickPointInfo);
 
-    dispatch(searchTermSelected(address?.weergavenaam || ''));
-  }, [clickPointInfo, marker, onLocationChange]);
+    dispatch(searchTermSelected(locationValue.address? formatAddress(locationValue.address) : ''));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locationValue, marker]);
 
   const flyTo = useCallback(
     location => {
@@ -152,8 +152,9 @@ const Geocoder = ({
   useEffect(() => {
     const clickHandler = async e => {
       const pointInfo = await pointQuery(e);
-      setClickPointInfo(pointInfo);
+      onLocationChange(pointInfo);
     };
+
     if (mapInstance) {
       mapInstance.on('click', clickHandler);
     }
@@ -163,6 +164,7 @@ const Geocoder = ({
         mapInstance.off('click', clickHandler);
       }
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapInstance]);
 
   return (
@@ -186,7 +188,7 @@ const Geocoder = ({
       />
       <GeoJSON
         args={[ParksLayer]}
-        options={getParksLayerOptions(setClickPointInfo)}
+        options={getParksLayerOptions(onLocationChange)}
       />
     </GeocoderStyle>
   );

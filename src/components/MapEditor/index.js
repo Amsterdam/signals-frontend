@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Map } from '@datapunt/react-maps';
 import { ViewerContainer } from '@datapunt/asc-ui';
@@ -22,19 +22,19 @@ const MapWrapperStyle = styled.div`
   }
 `;
 
-const MapReact = ({ onLocationChange }) => (
+const MapEditor = ({ location, onLocationChange }) => (
   <MapWrapperStyle>
     <Map options={getMapOptions()}>
-      <Geocoder {...geocoderProps} onLocationChange={onLocationChange} />
+      <Geocoder {...geocoderProps} location={location} onLocationChange={onLocationChange} />
       <ViewerContainer style={{ zIndex: 400 }} bottomRight={<Zoom />} />
       <BackgroundLayer />
     </Map>
   </MapWrapperStyle>
 );
 
-MapReact.propTypes = {
+MapEditor.propTypes = {
   location: PropTypes.object.isRequired,
   onLocationChange: PropTypes.func.isRequired,
 };
 
-export default MapReact;
+export default memo(MapEditor);
