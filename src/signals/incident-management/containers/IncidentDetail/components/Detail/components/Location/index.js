@@ -31,9 +31,8 @@ const Location = ({
         >
           <MapDetail
             value={incident.location}
-            hideAttribution
-            hideZoomControls
-            useSmallMarker
+            smallMarker
+            attributionControl={false}
             zoom="15"
           />
         </button>

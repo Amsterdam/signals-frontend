@@ -7,7 +7,7 @@ import { locationType } from 'shared/types';
 import './style.scss';
 
 const MapDetail = ({
-  value, hideAttribution, hideZoomControls, useSmallMarker, zoom,
+  value, smallMarker, zoom, hideAttribution,
 }) => {
   const location = value && value.geometrie && value.geometrie.coordinates;
   const latlng = location ? { latitude: location[1], longitude: location[0] } : null;
@@ -17,10 +17,11 @@ const MapDetail = ({
         ? (
           <Map
             latlng={latlng}
+            smallMarker={smallMarker}
             hideAttribution={hideAttribution}
-            hideZoomControls={hideZoomControls}
-            useSmallMarker={useSmallMarker}
             zoom={zoom}
+            width="80px"
+            height="80px"
           />
         ) : ''}
     </div>
@@ -30,8 +31,7 @@ const MapDetail = ({
 MapDetail.propTypes = {
   value: locationType.isRequired,
   hideAttribution: PropTypes.bool,
-  hideZoomControls: PropTypes.bool,
-  useSmallMarker: PropTypes.bool,
+  smallMarker: PropTypes.bool,
   zoom: PropTypes.string,
 };
 
