@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Map, TileLayer } from '@datapunt/react-maps';
-import { getCrsRd } from '@datapunt/amsterdam-react-maps/lib/utils';
+import { Map } from '@datapunt/react-maps';
 import { ViewerContainer } from '@datapunt/asc-ui';
 import { Zoom } from '@datapunt/amsterdam-react-maps/lib/components';
 import styled from '@datapunt/asc-core';
+import getMapOptions from 'shared/services/configuration/map-options';
+import BackgroundLayer from 'shared/components/BackgroundLayer';
 import Geocoder, { getSuggestions, getAddressById } from '../Geocoder';
 
 const geocoderProps = {
@@ -12,44 +13,25 @@ const geocoderProps = {
   getAddressById,
 };
 
-const mapProps = {
-  options: {
-    center: [52.3731081, 4.8932945],
-    zoomControl: false,
-    zoom: 10,
-    crs: getCrsRd(),
-    maxBounds: [
-      [52.25168, 4.64034],
-      [52.50536, 5.10737],
-    ],
-  },
-  style: {
-    width: '100%',
-    height: '450px',
-  },
-};
+const MapWrapperStyle = styled.div`
+  position: relative;
 
-const MapWrapperStyle = styled.div`position: relative;`;
+  & > div:first-child {
+    width: 100%;
+    height: 450px;
+  }
+`;
 
 const MapReact = ({ onLocationChange }) => (
   <MapWrapperStyle>
-    <Map {...mapProps}>
+    <Map options={getMapOptions()}>
       <Geocoder {...geocoderProps} onLocationChange={onLocationChange} />
-      <ViewerContainer
-        style={{ zIndex: 400 }}
-        bottomRight={<Zoom />}
-      />
-      <TileLayer
-        args={['https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png']}
-        options={{
-          subdomains: ['t1', 't2', 't3', 't4'],
-          tms: true,
-          attribution: 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
-        }}
-      />
+      <ViewerContainer style={{ zIndex: 400 }} bottomRight={<Zoom />} />
+      <BackgroundLayer />
     </Map>
   </MapWrapperStyle>
 );
+
 MapReact.propTypes = {
   location: PropTypes.object.isRequired,
   onLocationChange: PropTypes.func.isRequired,
