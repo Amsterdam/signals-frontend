@@ -18,11 +18,8 @@ constants.PAGE_SIZE = 50;
 
 let testContext = {};
 const usersOverviewWithAppContext = (overrideProps = {}, overrideCfg = {}) => {
-  const { userCan, history } = testContext;
-  const props = {
-    userCan,
-    ...overrideProps,
-  };
+  const { history } = testContext;
+  const props = { ...overrideProps };
 
   return withCustomAppContext(<UsersOverviewContainer {...props} />)({
     routerCfg: { history },
@@ -35,7 +32,6 @@ describe('signals/settings/users/containers/Overview', () => {
   beforeEach(() => {
     const push = jest.fn();
     const scrollTo = jest.fn();
-    const userCan = () => true;
     const apiHeaders = {
       headers: {
         Accept: 'application/json',
@@ -57,7 +53,6 @@ describe('signals/settings/users/containers/Overview', () => {
       history,
       push,
       scrollTo,
-      userCan,
     };
   });
 
