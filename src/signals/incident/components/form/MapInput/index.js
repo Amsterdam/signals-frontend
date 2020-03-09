@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import mapLocation from 'shared/services/map-location';
-import MapInteractive from 'components/MapInteractive';
+import MapReact from 'components/MapReact';
+// import MapReact from 'components/MapInteractive';
 
 import Header from '../Header';
 
@@ -13,6 +14,7 @@ const MapInput = ({
 
   /* istanbul ignore next */
   const onQueryResult = d => {
+    console.log('onQueryResult', d);
     parent.meta.updateIncident({ location: mapLocation(d) });
   };
 
@@ -29,7 +31,8 @@ const MapInput = ({
               getError={getError}
             >
               <div className="invoer">
-                <MapInteractive onQueryResult={onQueryResult} location={value} />
+                {/* <MapReact onQueryResult={onQueryResult} location={value} /> */}
+                <MapReact onQueryResult={onQueryResult} location={value} />
               </div>
             </Header>
           </div>
