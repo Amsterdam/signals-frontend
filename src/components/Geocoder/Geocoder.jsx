@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback, useReducer } from 'react';
+import PropTypes from 'prop-types';
 import 'leaflet/dist/leaflet.css';
 import { SearchBar } from '@datapunt/asc-ui';
 import { useMapInstance, Marker, GeoJSON } from '@datapunt/react-maps';
@@ -34,6 +35,7 @@ const Geocoder = ({
   placeholder,
   getSuggestions,
   getAddressById,
+  onLocationChange,
   ...otherProps
 }) => {
   const mapInstance = useMapInstance();
@@ -75,9 +77,10 @@ const Geocoder = ({
     const { location, address } = clickPointInfo;
     marker.setLatLng(location);
     marker.setOpacity(1);
+    onLocationChange(clickPointInfo);
 
     dispatch(searchTermSelected(address?.weergavenaam || ''));
-  }, [clickPointInfo, marker]);
+  }, [clickPointInfo, marker, onLocationChange]);
 
   const flyTo = useCallback(
     location => {
@@ -166,7 +169,7 @@ const Geocoder = ({
   return (
     <GeocoderStyle {...otherProps}>
       <SearchBar
-        placeholder={placeholder || 'Zoek adres'}
+        placeholder={placeholder}
         inputProps={inputProps}
         onSubmit={handleOnSubmit}
         onChange={handleOnChange}
@@ -188,6 +191,17 @@ const Geocoder = ({
       />
     </GeocoderStyle>
   );
+};
+
+Geocoder.defaultProps = {
+  placeholder: 'Zoek adres',
+};
+
+Geocoder.propTypes = {
+  placeholder: PropTypes.string,
+  getSuggestions: PropTypes.func.isRequired,
+  getAddressById: PropTypes.func.isRequired,
+  onLocationChange: PropTypes.func.isRequired,
 };
 
 export default Geocoder;

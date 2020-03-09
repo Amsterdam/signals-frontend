@@ -27,34 +27,34 @@ const mapProps = {
   },
 };
 
-const MapReact = ({ location }) => (
-  <div>
-    this is the map
-    <input value={JSON.stringify(location)} />
-    <Map {...mapProps}>
-      <ViewerContainer
-        // @ts-ignore
-        style={{ zIndex: 400 }}
-        topLeft={<Geocoder {...geocoderProps} />}
-        bottomRight={<Zoom />}
-      />
-      <TileLayer
-        args={['https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png']}
-        options={{
-          subdomains: ['acc.t1', 'acc.t2', 'acc.t3', 'acc.t4'],
-          tms: true,
-          attribution: 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
-        }}
-      />
-    </Map>
-  </div>
-);
-MapReact.defaultProps = {
-  location: {},
-};
+const MapReact = ({ location, onLocationChange }) =>
+  (
+    <div>
+      this is the map
+      <input value={JSON.stringify(location)} />
+      <Map {...mapProps}>
+        <ViewerContainer
+          // @ts-ignore
+          style={{ zIndex: 400 }}
+          topLeft={<Geocoder {...geocoderProps} onLocationChange={onLocationChange} />}
+          bottomRight={<Zoom />}
+        />
+        <TileLayer
+          args={['https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png']}
+          options={{
+            subdomains: ['t1', 't2', 't3', 't4'],
+            tms: true,
+            attribution: 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
+          }}
+        />
+      </Map>
+    </div>
+  )
+;
 
 MapReact.propTypes = {
-  location: PropTypes.object,
+  location: PropTypes.object.isRequired,
+  onLocationChange: PropTypes.func.isRequired,
 };
 
 export default MapReact;
