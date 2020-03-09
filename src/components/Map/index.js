@@ -4,7 +4,7 @@ import { Map as ArmMap, Marker } from '@datapunt/react-maps';
 import styled from '@datapunt/asc-core';
 import getMapOptions from 'shared/services/configuration/map-options';
 import BackgroundLayer from 'shared/components/BackgroundLayer';
-import { AmsterdamMarkerIcon } from '../Geocoder/MarkerIcons';
+import { smallMarkerIcon, markerIcon } from 'shared/services/configuration/map-markers';
 
 const MapWrapperStyle = styled.div`
   position: relative;
@@ -15,7 +15,7 @@ const MapWrapperStyle = styled.div`
   }
 `;
 
-const Map = ({ latlng }) => {
+const Map = ({ latlng, smallIcon }) => {
   const { latitude: lat, longitude: lon } = latlng;
   const options = getMapOptions({
     center: [lat, lon],
@@ -28,7 +28,7 @@ const Map = ({ latlng }) => {
         <Marker
           args={[{ lat, lon }]}
           options={{
-            icon: AmsterdamMarkerIcon,
+            icon: smallIcon? smallMarkerIcon : markerIcon,
           }}
         />
         <BackgroundLayer />
@@ -37,11 +37,16 @@ const Map = ({ latlng }) => {
   );
 };
 
+Map.defaultValues = {
+  smallIcon: false,
+};
+
 Map.propTypes = {
   latlng: PropTypes.shape({
     latitude: PropTypes.number,
     longitude: PropTypes.number,
   }).isRequired,
+  smallIcon: PropTypes.bool,
 };
 
 export default Map;

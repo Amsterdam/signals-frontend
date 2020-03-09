@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import 'leaflet/dist/leaflet.css';
 import { SearchBar } from '@datapunt/asc-ui';
 import { useMapInstance, Marker, GeoJSON } from '@datapunt/react-maps';
+import { markerIcon } from 'shared/services/configuration/map-markers';
 import SearchResultsList from './SearchResultsList';
 import {
   reducer,
@@ -16,7 +17,6 @@ import {
 import GeocoderStyle from './GeocoderStyle';
 import pointQuery from './services/pointQuery';
 import ParksLayer, { getParksLayerOptions } from './ParksLayer';
-import { AmsterdamMarkerIcon } from './MarkerIcons';
 
 const markerPosition = {
   lat: 52.3731081,
@@ -33,6 +33,7 @@ const Geocoder = ({
   placeholder,
   getSuggestions,
   getAddressById,
+  location: locationValue,
   onLocationChange,
   ...otherProps
 }) => {
@@ -179,7 +180,7 @@ const Geocoder = ({
         setInstance={setMarker}
         args={[markerPosition]}
         options={{
-          icon: AmsterdamMarkerIcon,
+          icon: markerIcon,
           opacity: 0,
         }}
       />
@@ -199,6 +200,7 @@ Geocoder.propTypes = {
   placeholder: PropTypes.string,
   getSuggestions: PropTypes.func.isRequired,
   getAddressById: PropTypes.func.isRequired,
+  location: PropTypes.object,
   onLocationChange: PropTypes.func.isRequired,
 };
 
