@@ -1,62 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Map as ArmMap, TileLayer, Marker } from '@datapunt/react-maps';
-import { getCrsRd } from '@datapunt/amsterdam-react-maps/lib/utils';
+import { Map as ArmMap, Marker } from '@datapunt/react-maps';
 import styled from '@datapunt/asc-core';
+import getMapOptions from 'shared/services/configuration/map-options';
+import BackgroundLayer from 'shared/components/BackgroundLayer';
 import { AmsterdamMarkerIcon } from '../Geocoder/MarkerIcons';
 
 const MapWrapperStyle = styled.div`
   position: relative;
+
+  & > div:first-child {
+    width: 100%;
+    height: 450px;
+  }
 `;
 
 const Map = ({ latlng }) => {
   const { latitude: lat, longitude: lon } = latlng;
-  const mapProps = {
-    options: {
-      center: [lat, lon],
-      zoomControl: false,
-      zoom: 16,
-      crs: getCrsRd(),
-      maxBounds: [
-        [52.25168, 4.64034],
-        [52.50536, 5.10737],
-      ],
-    },
-    style: {
-      width: '100%',
-      height: '450px',
-    },
-  };
+  const options = getMapOptions({
+    center: [lat, lon],
+    zoom: 16,
+  });
 
   return (
     <MapWrapperStyle>
-      <ArmMap {...mapProps}>
+      <ArmMap options={options}>
         <Marker
           args={[{ lat, lon }]}
           options={{
             icon: AmsterdamMarkerIcon,
           }}
         />
-        <TileLayer
-          args={['https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png']}
-          options={{
-            subdomains: ['t1', 't2', 't3', 't4'],
-            tms: true,
-            attribution: 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
-          }}
-        />
+        <BackgroundLayer />
       </ArmMap>
     </MapWrapperStyle>
   );
 };
 
 Map.propTypes = {
-  latlng: PropTypes.shape(
-    {
-      latitude: PropTypes.number,
-      longitude: PropTypes.number,
-    }
-  ).isRequired,
+  latlng: PropTypes.shape({
+    latitude: PropTypes.number,
+    longitude: PropTypes.number,
+  }).isRequired,
 };
 
 export default Map;
