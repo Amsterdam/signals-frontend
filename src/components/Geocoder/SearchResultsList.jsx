@@ -29,7 +29,7 @@ const SearchResultsListItem = ({ id, name, selected, index, onSelect }) => (
 SearchResultsListItem.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
-  selected: PropTypes.bool,
+  selected: PropTypes.number,
   index: PropTypes.number,
   onSelect: PropTypes.func,
 };
@@ -65,7 +65,7 @@ const SearchResultsList = ({ items, selected, onSelect }) => {
 
 SearchResultsList.propTypes = {
   items: PropTypes.array,
-  selected: PropTypes.bool,
+  selected: PropTypes.number,
   onSelect: PropTypes.func,
 };
 
