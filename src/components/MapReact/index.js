@@ -4,6 +4,7 @@ import { Map, TileLayer } from '@datapunt/react-maps';
 import { getCrsRd } from '@datapunt/amsterdam-react-maps/lib/utils';
 import { ViewerContainer } from '@datapunt/asc-ui';
 import { Zoom } from '@datapunt/amsterdam-react-maps/lib/components';
+import styled from '@datapunt/asc-core';
 import Geocoder, { getSuggestions, getAddressById } from '../Geocoder';
 
 const geocoderProps = {
@@ -14,6 +15,7 @@ const geocoderProps = {
 const mapProps = {
   options: {
     center: [52.3731081, 4.8932945],
+    zoomControl: false,
     zoom: 10,
     crs: getCrsRd(),
     maxBounds: [
@@ -23,35 +25,31 @@ const mapProps = {
   },
   style: {
     width: '100%',
-    height: '50vh',
+    height: '450px',
   },
 };
 
-const MapReact = ({ location, onLocationChange }) =>
-  (
-    <div>
-      this is the map
-      <input value={JSON.stringify(location)} />
-      <Map {...mapProps}>
-        <ViewerContainer
-          // @ts-ignore
-          style={{ zIndex: 400 }}
-          topLeft={<Geocoder {...geocoderProps} onLocationChange={onLocationChange} />}
-          bottomRight={<Zoom />}
-        />
-        <TileLayer
-          args={['https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png']}
-          options={{
-            subdomains: ['t1', 't2', 't3', 't4'],
-            tms: true,
-            attribution: 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
-          }}
-        />
-      </Map>
-    </div>
-  )
-;
+const MapWrapperStyle = styled.div`position: relative;`;
 
+const MapReact = ({ onLocationChange }) => (
+  <MapWrapperStyle>
+    <Map {...mapProps}>
+      <Geocoder {...geocoderProps} onLocationChange={onLocationChange} />
+      <ViewerContainer
+        style={{ zIndex: 400 }}
+        bottomRight={<Zoom />}
+      />
+      <TileLayer
+        args={['https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png']}
+        options={{
+          subdomains: ['t1', 't2', 't3', 't4'],
+          tms: true,
+          attribution: 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
+        }}
+      />
+    </Map>
+  </MapWrapperStyle>
+);
 MapReact.propTypes = {
   location: PropTypes.object.isRequired,
   onLocationChange: PropTypes.func.isRequired,

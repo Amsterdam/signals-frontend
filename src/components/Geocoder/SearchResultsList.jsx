@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import 'leaflet/dist/leaflet.css';
+import PropTypes from 'prop-types';
 import { Link } from '@datapunt/asc-ui';
 import styled from '@datapunt/asc-core';
 import SearchResultsListStyle from './SearchResultsListStyle';
@@ -13,13 +13,7 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const SearchResultsListItem = ({
-  id,
-  name,
-  selected,
-  index,
-  onSelect,
-}) => (
+const SearchResultsListItem = ({ id, name, selected, index, onSelect }) => (
   <li>
     <StyledLink
       id={id}
@@ -31,6 +25,14 @@ const SearchResultsListItem = ({
     </StyledLink>
   </li>
 );
+
+SearchResultsListItem.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  selected: PropTypes.bool,
+  index: PropTypes.number,
+  onSelect: PropTypes.func,
+};
 
 const SearchResultsList = ({ items, selected, onSelect }) => {
   const handleSelectedLink = useCallback(
@@ -59,6 +61,12 @@ const SearchResultsList = ({ items, selected, onSelect }) => {
       </SearchResultsListStyle>
     )
   );
+};
+
+SearchResultsList.propTypes = {
+  items: PropTypes.array,
+  selected: PropTypes.bool,
+  onSelect: PropTypes.func,
 };
 
 export default SearchResultsList;

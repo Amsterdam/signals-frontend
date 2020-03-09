@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { getLocation } from 'shared/services/map-location';
 import MapReact from 'components/MapReact';
-// import MapReact from 'components/MapInteractive';
 
 import Header from '../Header';
 
@@ -14,7 +13,6 @@ const MapInput = ({
 
   /* istanbul ignore next */
   const onLocationChange = l => {
-    console.log(getLocation(l), l);
     parent.meta.updateIncident({ location: getLocation(l) });
   };
 

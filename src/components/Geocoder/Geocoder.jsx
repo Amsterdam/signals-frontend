@@ -18,8 +18,6 @@ import pointQuery from './services/pointQuery';
 import ParksLayer, { getParksLayerOptions } from './ParksLayer';
 import { AmsterdamMarkerIcon } from './MarkerIcons';
 
-console.log('AmsterdamMarkerIcon', AmsterdamMarkerIcon);
-
 const markerPosition = {
   lat: 52.3731081,
   lng: 4.8932945,
