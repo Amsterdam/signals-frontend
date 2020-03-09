@@ -34,7 +34,7 @@ const Geocoder = ({
   placeholder,
   getSuggestions,
   getAddressById,
-  location: locationValue,
+  location: locationInfo,
   onLocationChange,
   ...otherProps
 }) => {
@@ -72,14 +72,20 @@ const Geocoder = ({
   }, [term]);
 
   useEffect(() => {
-    if (!locationValue || !marker) return;
-    const { location } = mapLocation(locationValue);
-    marker.setLatLng(location);
-    marker.setOpacity(1);
+    if (!locationInfo || !marker) return;
+    const { location } = mapLocation(locationInfo);
+    if (location) {
+      marker.setLatLng(location);
+      marker.setOpacity(1);
+    }
 
-    dispatch(searchTermSelected(locationValue.address? formatAddress(locationValue.address) : ''));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locationValue, marker]);
+    dispatch(
+      searchTermSelected(
+        locationInfo.address ? formatAddress(locationInfo.address) : ''
+      )
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locationInfo, marker]);
 
   const flyTo = useCallback(
     location => {
@@ -164,7 +170,7 @@ const Geocoder = ({
         mapInstance.off('click', clickHandler);
       }
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapInstance]);
 
   return (

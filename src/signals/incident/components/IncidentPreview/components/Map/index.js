@@ -30,6 +30,7 @@ const MapPreview = ({ label, value }) => (
                       latitude: value.geometrie.coordinates[1],
                       longitude: value.geometrie.coordinates[0],
                     }}
+                    zoom={15}
                   />
                 </div>
               ) : (

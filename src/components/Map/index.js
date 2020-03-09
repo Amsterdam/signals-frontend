@@ -15,11 +15,11 @@ const MapWrapperStyle = styled.div`
   }
 `;
 
-const Map = ({ latlng, smallIcon }) => {
+const Map = ({ latlng, smallIcon, zoom }) => {
   const { latitude: lat, longitude: lon } = latlng;
   const options = getMapOptions({
     center: [lat, lon],
-    zoom: 16,
+    zoom: zoom || 16,
   });
 
   return (
@@ -47,6 +47,7 @@ Map.propTypes = {
     longitude: PropTypes.number,
   }).isRequired,
   smallIcon: PropTypes.bool,
+  zoom: PropTypes.number,
 };
 
 export default Map;
