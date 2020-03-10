@@ -42,8 +42,8 @@ export const getLocation = loc => {
     location.buurt_code = loc.buurtcode;
   }
 
-  if (loc.stadsdeel) {
-    location.stadsdeel = loc.omgevingsinfo.stadsdeelcode;
+  if (loc.stadsdeelcode) {
+    location.stadsdeel = loc.stadsdeelcode;
   }
 
   if (loc.address) {

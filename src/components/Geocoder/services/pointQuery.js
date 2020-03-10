@@ -45,7 +45,7 @@ const getAddressInfo = async data => {
   const address = data.address && (await getAddressById(data.address?.id));
   const result = {
     ...data,
-    address,
+    ...address,
   };
   return result;
 };
