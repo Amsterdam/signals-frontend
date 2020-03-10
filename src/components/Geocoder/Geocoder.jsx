@@ -46,7 +46,7 @@ const Geocoder = ({
   );
   const [markerLocation, setMarkerLocation] = useState();
 
-  const onSelect = useCallback(() => async idx => {
+  const onSelect = async idx => {
     dispatch(searchTermSelected(results[idx].name));
     const { id } = results[idx];
     const { location } = await getAddressById(id);
@@ -54,7 +54,7 @@ const Geocoder = ({
       setMarkerLocation(location);
     }
     dispatch(clearSearchResults());
-  }, [results, getAddressById]);
+  };
 
   useEffect(() => {
     if (!searchMode) return;
@@ -133,6 +133,7 @@ const Geocoder = ({
 
       // Enter
       case 13:
+        event.preventDefault();
         if (index > -1) {
           await onSelect(index);
         }
