@@ -33,7 +33,9 @@ const Location = ({
             value={incident.location}
             smallMarker
             attributionControl={false}
-            zoom="15"
+            zoom={15}
+            width="80px"
+            height="80px"
           />
         </button>
         {incident.location.address_text
