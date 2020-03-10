@@ -7,7 +7,7 @@ import { USER_URL, USERS_PAGED_URL } from 'signals/settings/routes';
 import configuration from 'shared/services/configuration/configuration';
 import * as constants from 'containers/App/constants';
 import * as appSelectors from 'containers/App/selectors';
-import { UsersOverviewContainer } from '..';
+import UsersOverviewContainer from '..';
 
 jest.mock('containers/App/constants', () => ({
   __esModule: true,
