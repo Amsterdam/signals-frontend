@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import { SearchBar } from '@datapunt/asc-ui';
 import { useMapInstance, Marker, GeoJSON } from '@datapunt/react-maps';
 import { markerIcon } from 'shared/services/configuration/map-markers';
-import mapLocation, { formatAddress } from 'shared/services/map-location';
+import mapLocation, { getLocation, formatAddress } from 'shared/services/map-location';
 import SearchResultsList from './SearchResultsList';
 import {
   reducer,
@@ -46,7 +46,7 @@ const Geocoder = ({
   );
   const [markerLocation, setMarkerLocation] = useState();
 
-  const onSelect = async idx => {
+  const onSelect = useCallback(() => async idx => {
     dispatch(searchTermSelected(results[idx].name));
     const { id } = results[idx];
     const { location } = await getAddressById(id);
@@ -54,7 +54,7 @@ const Geocoder = ({
       setMarkerLocation(location);
     }
     dispatch(clearSearchResults());
-  };
+  }, [results, getAddressById]);
 
   useEffect(() => {
     if (!searchMode) return;
@@ -74,6 +74,7 @@ const Geocoder = ({
   useEffect(() => {
     if (!locationInfo || !marker) return;
     const { location } = mapLocation(locationInfo);
+
     if (location) {
       marker.setLatLng(location);
       marker.setOpacity(1);
@@ -158,7 +159,7 @@ const Geocoder = ({
   useEffect(() => {
     const clickHandler = async e => {
       const pointInfo = await pointQuery(e);
-      onLocationChange(pointInfo);
+      onLocationChange(getLocation(pointInfo));
     };
 
     if (mapInstance) {

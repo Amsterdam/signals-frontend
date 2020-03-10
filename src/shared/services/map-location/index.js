@@ -28,7 +28,6 @@ function mapLocation(loc) {
       huisnummer_toevoeging,
       postcode,
       woonplaats,
-      address_text,
     } = loc.address;
 
     location.address = {
@@ -38,7 +37,6 @@ function mapLocation(loc) {
       huisnummertoevoeging: huisnummer_toevoeging || '',
       postcode,
       woonplaatsnaam: woonplaats,
-      address_text,
     };
   }
 

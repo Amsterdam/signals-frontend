@@ -9,7 +9,7 @@ export const AMSTERDAMSE_BOS_WKT =
 export const AMSTERDAMSE_BOS_GEOJSON =
   '{"type":"Polygon","coordinates":[[[4.804191294676476,52.33298976593457],[4.81089615516008,52.336654134381426],[4.8207385860120535,52.33803041926884],[4.835928534570598,52.33761897321559],[4.844528555973468,52.335846783374656],[4.8537346604456575,52.332808345060535],[4.854547907536756,52.32254433112738],[4.841808151473335,52.31650685982992],[4.840813978446892,52.30919407326809],[4.839891872406734,52.30405594493251],[4.845940685192015,52.3008826643519],[4.8415157730514595,52.29216494293309],[4.833220342616843,52.29387793037705],[4.823704981126526,52.29075263911123],[4.810832757598031,52.30355550944257],[4.809918619223753,52.305665001008876],[4.81583857162342,52.31269997284958],[4.818447727021872,52.324429831032845],[4.817230827233209,52.32708149951211],[4.804191294676476,52.33298976593457]]]}';
 
-export const getParksLayerOptions = setClickpointInfo => ({
+export const getParksLayerOptions = onParkSelected => ({
   style: {
     fillColor: '#f14600',
     fillOpacity: 0.1,
@@ -21,14 +21,16 @@ export const getParksLayerOptions = setClickpointInfo => ({
   onEachFeature: (feature, layer) => {
     layer.on('click', e => {
       DomEvent.stopPropagation(e);
-      setClickpointInfo({
-        location: { ...e.latlng },
-        address: {
-          type: 'adres',
-          weergavenaam: feature.properties.name,
-          id: '',
+      const locationInfo = {
+        geometrie: {
+          type: 'Point',
+          coordinates: [e.latlng.lng, e.latlng.lat],
         },
-      });
+        address: {
+          ...feature.properties,
+        },
+      };
+      onParkSelected(locationInfo);
     });
   },
 });

@@ -32,7 +32,7 @@ MapDetail.propTypes = {
   value: locationType.isRequired,
   hideAttribution: PropTypes.bool,
   smallMarker: PropTypes.bool,
-  zoom: PropTypes.string,
+  zoom: PropTypes.number,
 };
 
 export default MapDetail;

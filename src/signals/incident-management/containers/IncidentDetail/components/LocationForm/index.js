@@ -6,7 +6,6 @@ import isEqual from 'lodash.isequal';
 import { incidentType, locationType } from 'shared/types';
 import { PATCH_TYPE_LOCATION } from 'models/incident/constants';
 
-import { getLocation } from 'shared/services/map-location';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import MapInput from '../../../../components/MapInput';
 import HiddenInput from '../../../../components/HiddenInput';
@@ -63,14 +62,13 @@ class LocationForm extends React.Component {
   }
 
   onQueryResult(location) {
-    const newLocation = getLocation(location);
     this.setState({
-      newLocation,
+      newLocation: location,
     });
 
-    this.form.controls.location.setValue(newLocation);
+    this.form.controls.location.setValue(location);
     this.form.controls.coordinates.setValue(
-      newLocation.geometrie.coordinates.join(',')
+      location.geometrie.coordinates.join(',')
     );
   }
 
