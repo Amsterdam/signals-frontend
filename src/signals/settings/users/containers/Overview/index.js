@@ -5,22 +5,20 @@ import React, {
   useMemo,
   useCallback, useReducer,
 } from 'react';
-import PropTypes from 'prop-types';
 import { useParams, useHistory, useLocation, Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import { Row, Column, themeSpacing, Button, SearchBar } from '@datapunt/asc-ui';
 import styled from 'styled-components';
-import { createStructuredSelector } from 'reselect';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import debounce from 'lodash/debounce';
 
 import { PAGE_SIZE } from 'containers/App/constants';
-import { makeSelectUserCan } from 'containers/App/selectors';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Pagination from 'components/Pagination';
 import PageHeader from 'signals/settings/components/PageHeader';
 import DataView from 'components/DataView';
 import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes';
+import { makeSelectUserCan } from 'containers/App/selectors';
 import useFetchUsers from './hooks/useFetchUsers';
 
 const StyledPagination = styled(Pagination)`
@@ -42,7 +40,7 @@ const StyledSearchbar = styled(SearchBar)`
 const filtersReducer = (state, action) => {
   switch (action.type) {
     case 'username':
-      return { username: action.payload };
+      return { ...state, username: action.payload };
     default:
       throw new Error();
   }
@@ -54,7 +52,7 @@ const StyledDataView = styled(DataView)`
   }
 `;
 
-export const UsersOverviewContainer = ({ userCan }) => {
+const UsersOverviewContainer = () => {
   const history = useHistory();
   const location = useLocation();
   const filtersInitialState = location.state && location.state.filters || {};
@@ -62,6 +60,7 @@ export const UsersOverviewContainer = ({ userCan }) => {
   const [page, setPage] = useState(1);
   const [filters, dispatchFiltersChange] = useReducer(filtersReducer, filtersInitialState);
   const { isLoading, users: { list: data }, users } = useFetchUsers({ page, filters });
+  const userCan = useSelector(makeSelectUserCan);
 
   /**
    * Get page number value from URL query string
@@ -178,14 +177,4 @@ export const UsersOverviewContainer = ({ userCan }) => {
   );
 };
 
-UsersOverviewContainer.propTypes = {
-  userCan: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = createStructuredSelector({
-  userCan: makeSelectUserCan,
-});
-
-const withConnect = connect(mapStateToProps);
-
-export default compose(withConnect)(UsersOverviewContainer);
+export default UsersOverviewContainer;
