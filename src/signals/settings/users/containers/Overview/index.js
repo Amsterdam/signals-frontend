@@ -37,10 +37,10 @@ const StyledSearchbar = styled(SearchBar)`
   }
 `;
 
-const filtersReducer = (_, action) => {
+const filtersReducer = (state, action) => {
   switch (action.type) {
     case 'username':
-      return { username: action.payload };
+      return { ...state, username: action.payload };
     default:
       throw new Error();
   }
@@ -52,7 +52,7 @@ const StyledDataView = styled(DataView)`
   }
 `;
 
-export const UsersOverviewContainer = () => {
+const UsersOverviewContainer = () => {
   const history = useHistory();
   const location = useLocation();
   const filtersInitialState = location.state && location.state.filters || {};
