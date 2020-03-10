@@ -19,9 +19,10 @@ export const getAddressById = async addressId => {
   const result = await window.fetch(`${GEOCODER_API_LOOKUP}${addressId}`);
   const { response } = await result.json();
   if (response.docs[0]) {
+    const { centroide_ll } = response.docs[0];
     return {
-      ...response.docs[0],
-      location: wktPointToLocation(response.docs[0].centroide_ll),
+      location: wktPointToLocation(centroide_ll),
+      address: response.docs[0],
     };
   }
   return null;

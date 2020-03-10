@@ -48,7 +48,10 @@ const Geocoder = ({
   const onSelect = async idx => {
     dispatch(searchTermSelected(results[idx].name));
     const { id } = results[idx];
-    const { location } = await getAddressById(id);
+
+    const address = await getAddressById(id);
+    onLocationChange(address);
+    const { location } = address;
     if (location) {
       setMarkerLocation(location);
     }
@@ -162,7 +165,7 @@ const Geocoder = ({
         mapInstance.off('click', clickHandler);
       }
     };
-  }, [mapInstance]);
+  }, [mapInstance, onLocationChange]);
 
   return (
     <GeocoderStyle {...otherProps}>

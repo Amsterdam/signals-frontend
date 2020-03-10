@@ -4,10 +4,10 @@ export const wktPointToLocation = wktPoint => {
   }
   const coordinate = wktPoint.split('(')[1].split(')')[0];
   const lat = parseFloat(coordinate.split(' ')[1]);
-  const lon = parseFloat(coordinate.split(' ')[0]);
+  const lng = parseFloat(coordinate.split(' ')[0]);
 
   return {
     lat,
-    lon,
+    lng,
   };
 };
