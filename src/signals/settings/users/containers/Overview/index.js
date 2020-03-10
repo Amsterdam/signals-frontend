@@ -74,7 +74,6 @@ export const UsersOverviewContainer = () => {
   const { pageNum } = useParams();
   const [filters, dispatchFiltersChange] = useReducer(filtersReducer, filtersInitialState);
   const { isLoading, users: { list: data }, users } = useFetchUsers({ page, filters });
-  const userCan = useSelector(makeSelectUserCan);
 
   const [page, setPage] = useState(1);
   const [userActiveState, setUserActiveState] = useState('*');
