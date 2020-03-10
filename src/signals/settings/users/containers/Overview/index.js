@@ -144,14 +144,14 @@ export const UsersOverviewContainer = () => {
   const userActiveFilter = createOnChangeFilter('is_active');
   const roleFilter = createOnChangeFilter('role');
 
-  const selectUserStatusOnChangeHandler = useCallback(event => {
+  const selectUserStatusOnChange = useCallback(event => {
     event.preventDefault();
 
     setUserActiveState(event.target.value);
     userActiveFilter(event.target.value);
   }, [setUserActiveState, userActiveFilter]);
 
-  const selectRoleOnChangeHandler = useCallback(event => {
+  const selectRoleOnChange = useCallback(event => {
     event.preventDefault();
 
     setRoleState(event.target.value);
@@ -189,7 +189,7 @@ export const UsersOverviewContainer = () => {
                     name="roleSelect"
                     value={roleState}
                     options={selectRoleItems}
-                    handler={selectRoleOnChangeHandler}
+                    onChange={selectRoleOnChange}
                   />
                 ),
                 (
@@ -197,7 +197,7 @@ export const UsersOverviewContainer = () => {
                     name="userActiveStateSelect"
                     value={userActiveState}
                     options={selectUserActiveItems}
-                    handler={selectUserStatusOnChangeHandler}
+                    onChange={selectUserStatusOnChange}
                   />
                 ),
               ]}
