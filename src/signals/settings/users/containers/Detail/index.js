@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useMemo } from 'react';
+import React, { Fragment, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -35,21 +35,16 @@ export const UserDetailContainerComponent = ({
   const { userId } = useParams();
   const location = useLocation();
   const history = useHistory();
+
   const isExistingUser = userId !== undefined;
   const { isLoading, isSuccess, error, data, patch, post } = useFetchUser(
     userId
   );
   const shouldRenderForm = !isExistingUser || (isExistingUser && Boolean(data));
-  const redirectURL = {
-    pathname: location.referrer || routes.users,
-    state: location.state,
-  };
-  const userCanSubmitForm = useMemo(
-    () =>
-      (isExistingUser && userCan('change_user')) ||
-      (!isExistingUser && userCan('add_user')),
-    [isExistingUser, userCan]
-  );
+  const redirectURL = location.referrer || routes.users;
+  const userCanSubmitForm =
+    (isExistingUser && userCan('change_user')) ||
+    (!isExistingUser && userCan('add_user'));
 
   const getFormData = useCallback(
     e => {
@@ -98,7 +93,7 @@ export const UserDetailContainerComponent = ({
     });
 
     if (isSuccess) {
-      history.push(redirectURL.pathname, redirectURL.state);
+      history.push(redirectURL);
     }
   }, [
     error,
@@ -106,8 +101,7 @@ export const UserDetailContainerComponent = ({
     isExistingUser,
     isLoading,
     isSuccess,
-    redirectURL.pathname,
-    redirectURL.state,
+    redirectURL,
     showGlobalNotification,
   ]);
 
@@ -141,16 +135,13 @@ export const UserDetailContainerComponent = ({
         (!isEqual(data, formData) &&
           global.confirm('Niet opgeslagen gegevens gaan verloren. Doorgaan?'))
       ) {
-        history.push(redirectURL.pathname, redirectURL.state);
+        history.push(redirectURL);
       }
     },
     [data, getFormData, history, redirectURL]
   );
 
-  const title = useMemo(
-    () => `Gebruiker ${isExistingUser ? 'wijzigen' : 'toevoegen'}`,
-    [isExistingUser]
-  );
+  const title = `Gebruiker ${isExistingUser ? 'wijzigen' : 'toevoegen'}`;
 
   return (
     <Fragment>
