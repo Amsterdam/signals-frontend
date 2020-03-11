@@ -80,7 +80,7 @@ export const UsersOverviewContainer = () => {
   const [roleState, setRoleState] = useState('*');
 
   const userCan = useSelector(makeSelectUserCan);
-  const selectRoleItems = useSelector(inputRolesSelector);
+  const selectRoles = useSelector(inputRolesSelector);
 
   /**
    * Get page number value from URL query string
@@ -188,7 +188,7 @@ export const UsersOverviewContainer = () => {
                   <SelectInput
                     name="roleSelect"
                     value={roleState}
-                    options={selectRoleItems}
+                    options={selectRoles}
                     onChange={selectRoleOnChange}
                   />
                 ),
