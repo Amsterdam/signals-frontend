@@ -65,7 +65,8 @@ const selectUserActiveItems = [
   { key: 'inactive', name: 'Niet actief', value: false },
 ];
 
-export const UsersOverviewContainer = () => {
+
+const UsersOverviewContainer = () => {
   const history = useHistory();
 
   const location = useLocation();
