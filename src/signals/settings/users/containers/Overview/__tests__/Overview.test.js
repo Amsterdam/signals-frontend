@@ -6,16 +6,18 @@ import {
   waitForElement,
   within,
   act,
+  cleanup,
 } from '@testing-library/react';
 import { history as memoryHistory, withCustomAppContext } from 'test/utils';
 
 import usersJSON from 'utils/__tests__/fixtures/users.json';
-import { USER_URL, USERS_PAGED_URL } from 'signals/settings/routes';
+import { USER_URL } from 'signals/settings/routes';
 import configuration from 'shared/services/configuration/configuration';
 import * as constants from 'containers/App/constants';
 import * as settingsActions from 'signals/settings/actions';
 import * as reactRouter from 'react-router-dom';
-import { UsersOverviewContainer as UsersOverview } from '..';
+import * as appSelectors from 'containers/App/selectors';
+import UsersOverview from '..';
 
 import SettingsContext from '../../../../context';
 
@@ -55,9 +57,8 @@ const usersOverviewWithAppContext = (
   overrideCfg = {},
   stateCfg = state
 ) => {
-  const { userCan, history } = testContext;
+  const { history } = testContext;
   const props = {
-    userCan,
     ...overrideProps,
   };
 
@@ -81,7 +82,6 @@ describe('signals/settings/users/containers/Overview', () => {
 
     const push = jest.fn();
     const scrollTo = jest.fn();
-    const userCan = () => true;
     const apiHeaders = {
       headers: {
         Accept: 'application/json',
@@ -104,18 +104,27 @@ describe('signals/settings/users/containers/Overview', () => {
       history,
       push,
       scrollTo,
-      userCan,
     };
   });
 
   it('should render "add user" button', async () => {
+    jest
+      .spyOn(appSelectors, 'makeSelectUserCan')
+      .mockImplementation(() => () => true);
+
     const { queryByText, rerender } = render(usersOverviewWithAppContext());
 
     await wait();
 
     expect(queryByText('Gebruiker toevoegen')).toBeInTheDocument();
 
-    rerender(usersOverviewWithAppContext({ userCan: () => false }));
+    jest
+      .spyOn(appSelectors, 'makeSelectUserCan')
+      .mockImplementation(() => () => true);
+
+    cleanup();
+
+    rerender(usersOverviewWithAppContext());
 
     await wait();
 
@@ -331,10 +340,12 @@ describe('signals/settings/users/containers/Overview', () => {
   });
 
   it('should not push on list item click when permissions are insufficient', async () => {
+    jest
+      .spyOn(appSelectors, 'makeSelectUserCan')
+      .mockImplementation(() => () => false);
+
     const { push } = testContext;
-    const { container } = render(
-      usersOverviewWithAppContext({ userCan: () => false })
-    );
+    const { container } = render(usersOverviewWithAppContext());
 
     const row = await waitForElement(
       () => container.querySelector('tbody tr:nth-child(42)'),
@@ -428,57 +439,5 @@ describe('signals/settings/users/containers/Overview', () => {
     await wait(() => resolveAfterMs(250));
 
     expect(dispatch).toHaveBeenCalledTimes(1);
-  });
-
-  it(`should dispatch setUserFilters`, async () => {
-    const { push } = testContext;
-    const { getByTestId, queryAllByTestId } = render(
-      usersOverviewWithAppContext()
-    );
-
-    await wait();
-
-    const filterByUsername = getByTestId('filterUsersByUsername');
-    const filterByUserNameInput = filterByUsername.querySelector('input');
-    const filterValue = 'test1';
-
-    let rows = queryAllByTestId('dataViewBodyRow');
-    let firstRow = Array.from(rows)[0];
-
-    expect(push).not.toHaveBeenCalled();
-
-    act(() => {
-      fireEvent.click(firstRow);
-    });
-
-    expect(push).toHaveBeenCalledTimes(1);
-    expect(push).toHaveBeenCalledWith(
-      expect.stringContaining(`${USER_URL}/${firstRow.dataset.itemId}`)
-    );
-
-    act(() => {
-      fireEvent.change(filterByUserNameInput, {
-        target: { value: filterValue },
-      });
-    });
-
-    await wait(() => resolveAfterMs(250));
-
-    expect(push).toHaveBeenCalledTimes(2);
-    expect(push).toHaveBeenCalledWith(
-      expect.stringContaining(`${USERS_PAGED_URL}/1`)
-    );
-
-    rows = queryAllByTestId('dataViewBodyRow');
-    firstRow = Array.from(rows)[0];
-
-    act(() => {
-      fireEvent.click(firstRow);
-    });
-
-    expect(push).toHaveBeenCalledTimes(3);
-    expect(push).toHaveBeenCalledWith(
-      expect.stringContaining(`${USER_URL}/${firstRow.dataset.itemId}`)
-    );
   });
 });
