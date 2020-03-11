@@ -551,7 +551,6 @@ describe('signals/settings/users/containers/Detail', () => {
     expect(push).toHaveBeenCalledTimes(1);
     expect(push).toHaveBeenCalledWith(
       expect.stringContaining(routes.users),
-      expect.undefined,
     );
 
     expect(showGlobalNotification).toHaveBeenCalledTimes(1);
@@ -579,7 +578,6 @@ describe('signals/settings/users/containers/Detail', () => {
     expect(push).toHaveBeenCalledTimes(2);
     expect(push).toHaveBeenCalledWith(
       expect.stringContaining(routes.users),
-      expect.objectContaining(state),
     );
 
     expect(showGlobalNotification).toHaveBeenCalledTimes(2);
@@ -616,7 +614,6 @@ describe('signals/settings/users/containers/Detail', () => {
     expect(push).toHaveBeenCalledTimes(1);
     expect(push).toHaveBeenCalledWith(
       expect.stringContaining(routes.users),
-      expect.undefined,
     );
 
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
@@ -640,7 +637,6 @@ describe('signals/settings/users/containers/Detail', () => {
     expect(push).toHaveBeenCalledTimes(2);
     expect(push).toHaveBeenCalledWith(
       expect.stringContaining(routes.users),
-      expect.objectContaining(state),
     );
   });
 
@@ -650,8 +646,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     global.window.confirm = jest.fn();
 
-    const state = { some: "random state" };
-    const { rerender, getByTestId } = render(
+    const { getByTestId } = render(
       withAppContext(
         <UserDetailContainerComponent
           showGlobalNotification={() => {}}
@@ -680,42 +675,11 @@ describe('signals/settings/users/containers/Detail', () => {
     expect(push).toHaveBeenCalledTimes(1);
     expect(push).toHaveBeenCalledWith(
       expect.stringContaining(routes.users),
-      expect.undefined,
-    );
-
-    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
-      state,
-    }));
-
-    rerender(
-      withAppContext(
-        <UserDetailContainerComponent
-          showGlobalNotification={() => {}}
-          userCan={userCan}
-        />
-      )
-    );
-
-    fireEvent.click(getByTestId('cancelBtn'));
-
-    expect(global.window.confirm).toHaveBeenCalledTimes(3);
-    expect(push).toHaveBeenCalledTimes(2);
-
-    global.window.confirm.mockReturnValue(true);
-
-    fireEvent.click(getByTestId('cancelBtn'));
-
-    expect(global.window.confirm).toHaveBeenCalledTimes(4);
-    expect(push).toHaveBeenCalledTimes(3);
-    expect(push).toHaveBeenCalledWith(
-      expect.stringContaining(routes.users),
-      expect.objectContaining(state),
     );
   });
 
   it('should push to correct URL when cancel button is clicked and form data is pristine', () => {
     const referrer = '/some-page-we-came-from';
-    const state = { some: "random state" };
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
       referrer,
     }));
@@ -742,12 +706,10 @@ describe('signals/settings/users/containers/Detail', () => {
     expect(push).toHaveBeenCalledTimes(1);
     expect(push).toHaveBeenCalledWith(
       expect.stringContaining(referrer),
-      expect.undefined,
     );
 
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
       referrer,
-      state,
     }));
 
     rerender(withAppContext(
@@ -764,7 +726,6 @@ describe('signals/settings/users/containers/Detail', () => {
     expect(push).toHaveBeenCalledTimes(2);
     expect(push).toHaveBeenCalledWith(
       expect.stringContaining(referrer),
-      expect.objectContaining(state),
     );
   });
 });

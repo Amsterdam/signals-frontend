@@ -1,11 +1,11 @@
 import React, {
   Fragment,
+  useCallback,
+  useContext,
   useEffect,
   useState,
-  useMemo,
-  useCallback, useReducer,
 } from 'react';
-import { useParams, useHistory, useLocation, Link } from 'react-router-dom';
+import { useParams, useHistory, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { Row, Column, themeSpacing, Button, SearchBar } from '@datapunt/asc-ui';
@@ -17,12 +17,11 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Pagination from 'components/Pagination';
 import PageHeader from 'signals/settings/components/PageHeader';
 import DataView from 'components/DataView';
-import SelectInput from 'components/SelectInput';
 import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes';
-import { inputRolesSelector } from 'models/roles/selectors';
+import SettingsContext from 'signals/settings/context';
+import { setUserFilters } from 'signals/settings/actions';
 import { makeSelectUserCan } from 'containers/App/selectors';
 import useFetchUsers from './hooks/useFetchUsers';
-
 
 const StyledPagination = styled(Pagination)`
   margin-top: ${themeSpacing(12)};
@@ -46,59 +45,30 @@ const StyledDataView = styled(DataView)`
   }
 `;
 
-const filtersReducer = (_, action) => {
-  switch (action.type) {
-    case 'username':
-      return { ...action.prevState, username: action.payload };
-    case 'role':
-      return { ...action.prevState, role: action.payload };
-    case 'is_active':
-      return { ...action.prevState, is_active: action.payload };
-    default:
-      throw new Error(`action.type is unknown: ${action.type}`);
-  }
-};
-
-const selectUserActiveItems = [
-  { key: 'all', name: 'Alles', value: '*' },
-  { key: 'active', name: 'Actief', value: true },
-  { key: 'inactive', name: 'Niet actief', value: false },
-];
-
-
 const UsersOverviewContainer = () => {
   const history = useHistory();
-
-  const location = useLocation();
-  const filtersInitialState = location.state && location.state.filters || {};
-
   const { pageNum } = useParams();
-  const [filters, dispatchFiltersChange] = useReducer(filtersReducer, filtersInitialState);
-  const { isLoading, users: { list: data }, users } = useFetchUsers({ page, filters });
-
   const [page, setPage] = useState(1);
-  const [userActiveState, setUserActiveState] = useState('*');
-  const [roleState, setRoleState] = useState('*');
-
+  const { state, dispatch } = useContext(SettingsContext);
+  const { filters } = state.users;
+  const {
+    isLoading,
+    users: { list: data },
+    users,
+  } = useFetchUsers({ page, filters });
   const userCan = useSelector(makeSelectUserCan);
-  const selectRoles = useSelector(inputRolesSelector);
 
   /**
    * Get page number value from URL query string
    *
    * @returns {number|undefined}
    */
-  const pageNumFromQueryString = useMemo(
-    () => pageNum && parseInt(pageNum, 10),
-    [pageNum]
-  );
+  const pageNumFromQueryString = pageNum && parseInt(pageNum, 10);
 
   // subscribe to param changes
   useEffect(() => {
-    const pageNumber = pageNumFromQueryString;
-
-    if (pageNumber && pageNumber !== page) {
-      setPage(pageNumber);
+    if (pageNumFromQueryString && pageNumFromQueryString !== page) {
+      setPage(pageNumFromQueryString);
     }
   }, [pageNumFromQueryString, page]);
 
@@ -106,30 +76,36 @@ const UsersOverviewContainer = () => {
     filter => value => {
       if (filters[filter] === value) return;
 
-      dispatchFiltersChange({ type: filter, payload: value, prevState: filters });
-
+      dispatch(setUserFilters({ username: value }));
       setPage(1);
       history.push(`${USERS_PAGED_URL}/1`);
     },
-    [history, filters]
+    [dispatch, history, filters]
   );
 
-  const debouncedOnChangeUsernameFilter = useCallback(
+  const debouncedOnChangeFilter = useCallback(
     debounce(createOnChangeFilter('username'), 250),
     [createOnChangeFilter]
   );
 
   const onItemClick = useCallback(
-    event => {
+    e => {
       if (userCan('change_user') === false) {
-        event.preventDefault();
+        e.preventDefault();
         return;
       }
 
-      const { currentTarget: { dataset: { itemId } } } = event;
-      if (itemId) {history.push(`${USER_URL}/${itemId}`, { filters });}
+      const {
+        currentTarget: {
+          dataset: { itemId },
+        },
+      } = e;
+
+      if (itemId) {
+        history.push(`${USER_URL}/${itemId}`);
+      }
     },
-    [history, userCan, filters]
+    [history, userCan]
   );
 
   const onPaginationClick = useCallback(
@@ -141,23 +117,6 @@ const UsersOverviewContainer = () => {
   );
 
   const columnHeaders = ['Gebruikersnaam', 'Rol', 'Status'];
-
-  const userActiveFilter = createOnChangeFilter('is_active');
-  const roleFilter = createOnChangeFilter('role');
-
-  const selectUserStatusOnChange = useCallback(event => {
-    event.preventDefault();
-
-    setUserActiveState(event.target.value);
-    userActiveFilter(event.target.value);
-  }, [setUserActiveState, userActiveFilter]);
-
-  const selectRoleOnChange = useCallback(event => {
-    event.preventDefault();
-
-    setRoleState(event.target.value);
-    roleFilter(event.target.value);
-  }, [setRoleState, roleFilter]);
 
   return (
     <Fragment>
@@ -177,30 +136,12 @@ const UsersOverviewContainer = () => {
             <StyledDataView
               headers={columnHeaders}
               filters={[
-                (
-                  <StyledSearchbar
-                    placeholder=""
-                    onChange={debouncedOnChangeUsernameFilter}
-                    value={filters.username}
-                    data-testid="filterUsersByUsername"
-                  />
-                ),
-                (
-                  <SelectInput
-                    name="roleSelect"
-                    value={roleState}
-                    options={selectRoles}
-                    onChange={selectRoleOnChange}
-                  />
-                ),
-                (
-                  <SelectInput
-                    name="userActiveStateSelect"
-                    value={userActiveState}
-                    options={selectUserActiveItems}
-                    onChange={selectUserStatusOnChange}
-                  />
-                ),
+                <StyledSearchbar
+                  placeholder=""
+                  onChange={debouncedOnChangeFilter}
+                  value={filters.username}
+                  data-testid="filterUsersByUsername"
+                />,
               ]}
               columnOrder={columnHeaders}
               invisibleColumns={['id']}

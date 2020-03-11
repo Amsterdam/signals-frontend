@@ -1,35 +1,85 @@
 import React from 'react';
-import { render, fireEvent, wait, waitForElement, within, cleanup } from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  wait,
+  waitForElement,
+  within,
+  act,
+  cleanup,
+} from '@testing-library/react';
 import { history as memoryHistory, withCustomAppContext } from 'test/utils';
 
 import usersJSON from 'utils/__tests__/fixtures/users.json';
-import { USER_URL, USERS_PAGED_URL } from 'signals/settings/routes';
+import { USER_URL } from 'signals/settings/routes';
 import configuration from 'shared/services/configuration/configuration';
 import * as constants from 'containers/App/constants';
+import * as settingsActions from 'signals/settings/actions';
+import * as reactRouter from 'react-router-dom';
 import * as appSelectors from 'containers/App/selectors';
-import UsersOverviewContainer from '..';
+import UsersOverview from '..';
+
+import SettingsContext from '../../../../context';
 
 jest.mock('containers/App/constants', () => ({
   __esModule: true,
   ...jest.requireActual('containers/App/constants'),
 }));
 
+jest.mock('signals/settings/actions', () => ({
+  __esModule: true,
+  ...jest.requireActual('signals/settings/actions'),
+}));
+
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+}));
+
+const setUserFilters = jest.fn();
+jest
+  .spyOn(settingsActions, 'setUserFilters')
+  .mockImplementation(setUserFilters);
+
 constants.PAGE_SIZE = 50;
 
-let testContext = {};
-const usersOverviewWithAppContext = (overrideProps = {}, overrideCfg = {}) => {
-  const { history } = testContext;
-  const props = { ...overrideProps };
+const state = {
+  users: {
+    filters: {},
+  },
+};
 
-  return withCustomAppContext(<UsersOverviewContainer {...props} />)({
+const dispatch = jest.fn();
+
+let testContext = {};
+const usersOverviewWithAppContext = (
+  overrideProps = {},
+  overrideCfg = {},
+  stateCfg = state
+) => {
+  const { history } = testContext;
+  const props = {
+    ...overrideProps,
+  };
+
+  return withCustomAppContext(
+    <SettingsContext.Provider value={{ state: stateCfg, dispatch }}>
+      <UsersOverview {...props} />
+    </SettingsContext.Provider>
+  )({
     routerCfg: { history },
     ...overrideCfg,
   });
 };
-const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
+const resolveAfterMs = timeMs =>
+  new Promise(resolve => setTimeout(resolve, timeMs));
 
 describe('signals/settings/users/containers/Overview', () => {
   beforeEach(() => {
+    jest
+      .spyOn(reactRouter, 'useParams')
+      .mockImplementation(() => ({ pageNum: 1 }));
+
     const push = jest.fn();
     const scrollTo = jest.fn();
     const apiHeaders = {
@@ -44,6 +94,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     jest.useRealTimers();
     fetch.resetMocks();
+    dispatch.mockReset();
 
     fetch.mockResponse(JSON.stringify(usersJSON));
     global.window.scrollTo = scrollTo;
@@ -95,11 +146,18 @@ describe('signals/settings/users/containers/Overview', () => {
 
   it('should render title, data view with headers only and loading indicator when loading', async () => {
     jest.useFakeTimers();
-    fetch.mockResponse(() => new Promise((resolve => {
-      setTimeout(() => resolve({
-        body: JSON.stringify(usersJSON),
-      }) , 50);
-    })));
+    fetch.mockResponse(
+      () =>
+        new Promise(resolve => {
+          setTimeout(
+            () =>
+              resolve({
+                body: JSON.stringify(usersJSON),
+              }),
+            50
+          );
+        })
+    );
 
     const { getByText, queryByTestId } = render(usersOverviewWithAppContext());
 
@@ -131,7 +189,9 @@ describe('signals/settings/users/containers/Overview', () => {
   it('should render title and data view with headers only when no data', async () => {
     fetch.mockResponse(JSON.stringify({}));
 
-    const { getByText, queryByTestId, queryAllByTestId } = render(usersOverviewWithAppContext());
+    const { getByText, queryByTestId, queryAllByTestId } = render(
+      usersOverviewWithAppContext()
+    );
 
     await wait();
 
@@ -142,13 +202,22 @@ describe('signals/settings/users/containers/Overview', () => {
 
   it('should render data view with no data when loading', async () => {
     jest.useFakeTimers();
-    fetch.mockResponse(() => new Promise((resolve => {
-      setTimeout(() => resolve({
-        body: JSON.stringify(usersJSON),
-      }) , 50);
-    })));
+    fetch.mockResponse(
+      () =>
+        new Promise(resolve => {
+          setTimeout(
+            () =>
+              resolve({
+                body: JSON.stringify(usersJSON),
+              }),
+            50
+          );
+        })
+    );
 
-    const { queryByTestId, queryAllByTestId } = render(usersOverviewWithAppContext());
+    const { queryByTestId, queryAllByTestId } = render(
+      usersOverviewWithAppContext()
+    );
 
     await wait(() => queryByTestId('loadingIndicator'));
 
@@ -184,7 +253,25 @@ describe('signals/settings/users/containers/Overview', () => {
     await wait();
 
     expect(queryByTestId('pagination')).toBeInTheDocument();
-    expect(within(queryByTestId('pagination')).queryByText('2')).toBeInTheDocument();
+    expect(
+      within(queryByTestId('pagination')).queryByText('2')
+    ).toBeInTheDocument();
+
+    expect(
+      within(queryByTestId('pagination')).queryByText('2').nodeName
+    ).toEqual('BUTTON');
+
+    jest
+      .spyOn(reactRouter, 'useParams')
+      .mockImplementation(() => ({ pageNum: 2 }));
+
+    rerender(usersOverviewWithAppContext());
+
+    await wait();
+
+    expect(
+      within(queryByTestId('pagination')).queryByText('2').nodeName
+    ).not.toEqual('BUTTON');
 
     constants.PAGE_SIZE = usersJSON.count;
 
@@ -202,7 +289,9 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await wait(() => getByText('2'));
 
-    fireEvent.click(getByText('2'));
+    act(() => {
+      fireEvent.click(getByText('2'));
+    });
 
     expect(scrollTo).toHaveBeenCalledWith(0, 0);
     expect(push).toHaveBeenCalled();
@@ -224,25 +313,28 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(push).toHaveBeenCalledTimes(0);
 
-    fireEvent.click(username);
+    act(() => {
+      fireEvent.click(username);
+    });
 
     expect(push).toHaveBeenCalledTimes(1);
-    expect(push).toHaveBeenCalledWith(
-      expect.stringContaining(`${USER_URL}/${itemId}`),
-      expect.objectContaining({ filters: {} }),
-    );
+    expect(push).toHaveBeenCalledWith(`${USER_URL}/${itemId}`);
 
     // Remove 'itemId' and fire click event again.
     delete row.dataset.itemId;
 
-    fireEvent.click(username);
+    act(() => {
+      fireEvent.click(username);
+    });
 
     expect(push).toHaveBeenCalledTimes(1);
 
     // Set 'itemId' again and fire click event once more.
     row.dataset.itemId = itemId;
 
-    fireEvent.click(username);
+    act(() => {
+      fireEvent.click(username);
+    });
 
     expect(push).toHaveBeenCalledTimes(2);
   });
@@ -263,7 +355,9 @@ describe('signals/settings/users/containers/Overview', () => {
     // Explicitly set an 'itemId'.
     row.dataset.itemId = 666;
 
-    fireEvent.click(row.querySelector('td:first-of-type'));
+    act(() => {
+      fireEvent.click(row.querySelector('td:first-of-type'));
+    });
 
     expect(push).not.toHaveBeenCalled();
   });
@@ -276,93 +370,8 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(getByTestId('filterUsersByUsername')).toBeInTheDocument();
   });
 
-  it('should make API call only after 250ms since last filter update', async () => {
-    const { apiHeaders } = testContext;
+  it('should dispatch filter values only after 250ms since last input change', async () => {
     const { getByTestId } = render(usersOverviewWithAppContext());
-
-    await wait();
-
-    const filterByUsername = getByTestId('filterUsersByUsername');
-    const filterByUserNameInput = filterByUsername.querySelector('input');
-    let filterValue = 'test1';
-
-    expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).not.toHaveBeenCalledWith(
-      expect.stringContaining(`username=${filterValue}`),
-      expect.objectContaining(apiHeaders),
-    );
-
-    fireEvent.change(filterByUserNameInput, { target: { value: filterValue } });
-
-    await wait(() => resolveAfterMs(50));
-
-    expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).not.toHaveBeenCalledWith(
-      expect.stringContaining(`username=${filterValue}`),
-      expect.objectContaining(apiHeaders),
-    );
-
-    await wait(() => resolveAfterMs(200));
-
-    expect(fetch).toHaveBeenCalledTimes(2);
-    expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining(`username=${filterValue}`),
-      expect.objectContaining(apiHeaders),
-    );
-
-    // Test that 'debounce' timer is reset on new input changes within 250ms.
-    filterValue = 'test2';
-
-    fireEvent.change(filterByUserNameInput, { target: { value: filterValue } });
-
-    await wait(() => resolveAfterMs(200));
-
-    expect(fetch).toHaveBeenCalledTimes(2);
-    expect(fetch).not.toHaveBeenCalledWith(
-      expect.stringContaining(`username=${filterValue}`),
-      expect.objectContaining(apiHeaders),
-    );
-
-    filterValue = 'test3';
-
-    fireEvent.change(filterByUserNameInput, { target: { value: filterValue } });
-
-    await wait(() => resolveAfterMs(200));
-
-    expect(fetch).toHaveBeenCalledTimes(2);
-    expect(fetch).not.toHaveBeenCalledWith(
-      expect.stringContaining(`username=${filterValue}`),
-      expect.objectContaining(apiHeaders),
-    );
-
-    filterValue = 'test4';
-
-    fireEvent.change(filterByUserNameInput, { target: { value: filterValue } });
-
-    await wait(() => resolveAfterMs(200));
-
-    expect(fetch).toHaveBeenCalledTimes(2);
-    expect(fetch).not.toHaveBeenCalledWith(
-      expect.stringContaining(`username=${filterValue}`),
-      expect.objectContaining(apiHeaders),
-    );
-
-    await wait(() => resolveAfterMs(50));
-
-    expect(fetch).toHaveBeenCalledTimes(3);
-    expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining(`username=${filterValue}`),
-      expect.objectContaining(apiHeaders),
-    );
-  });
-
-  it(`should send 'filters' as state when navigating to details page.`, async () => {
-    jest
-      .spyOn(appSelectors, 'makeSelectUserCan')
-      .mockImplementation(() => () => true);
-
-    const { push } = testContext;
-    const { getByTestId, queryAllByTestId } = render(usersOverviewWithAppContext());
 
     await wait();
 
@@ -370,71 +379,65 @@ describe('signals/settings/users/containers/Overview', () => {
     const filterByUserNameInput = filterByUsername.querySelector('input');
     const filterValue = 'test1';
 
-    let rows = queryAllByTestId('dataViewBodyRow');
-    let firstRow = Array.from(rows)[0];
+    act(() => {
+      fireEvent.change(filterByUserNameInput, {
+        target: { value: filterValue },
+      });
+    });
 
-    expect(push).not.toHaveBeenCalled();
+    await wait(() => resolveAfterMs(50));
 
-    fireEvent.click(firstRow);
+    expect(dispatch).not.toHaveBeenCalled();
 
-    expect(push).toHaveBeenCalledTimes(1);
-    expect(push).toHaveBeenCalledWith(
-      expect.stringContaining(`${USER_URL}/${firstRow.dataset.itemId}`),
-      expect.objectContaining({ filters: {} })
-    );
+    await wait(() => resolveAfterMs(200));
 
-    fireEvent.change(filterByUserNameInput, { target: { value: filterValue } });
-
-    await wait(() => resolveAfterMs(250));
-
-    expect(push).toHaveBeenCalledTimes(2);
-    expect(push).toHaveBeenCalledWith(expect.stringContaining(`${USERS_PAGED_URL}/1`));
-
-    rows = queryAllByTestId('dataViewBodyRow');
-    firstRow = Array.from(rows)[0];
-
-    fireEvent.click(firstRow);
-
-    expect(push).toHaveBeenCalledTimes(3);
-    expect(push).toHaveBeenCalledWith(
-      expect.stringContaining(`${USER_URL}/${firstRow.dataset.itemId}`),
-      expect.objectContaining({ filters: { username: filterValue } })
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toHaveBeenCalledWith(
+      setUserFilters({ username: filterValue })
     );
   });
 
-  it(`should set 'filters' initial state to receiving history state`, async () => {
-    const { apiHeaders, history } = testContext;
-    const username = 'test';
-    const historyWithState = {
-      ...history,
-      location: {
-        ...history.location,
-        state: {
-          filters: {
-            username,
-          },
+  it('should not dispatch filter values when input value has not changed', async () => {
+    const username = 'foo bar baz';
+    const stateCfg = {
+      users: {
+        filters: {
+          username,
         },
       },
     };
-    const { getByTestId } = render(usersOverviewWithAppContext(
-      {},
-      {
-        routerCfg: {
-          history: historyWithState,
-        },
-      }
-    ));
+
+    const { getByTestId, rerender } = render(usersOverviewWithAppContext());
 
     await wait();
+
+    expect(dispatch).not.toHaveBeenCalled();
 
     const filterByUsername = getByTestId('filterUsersByUsername');
     const filterByUserNameInput = filterByUsername.querySelector('input');
 
-    expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining(`username=${username}`),
-      expect.objectContaining(apiHeaders)
-    );
-    expect(filterByUserNameInput.value).toBe(username);
+    act(() => {
+      fireEvent.input(filterByUserNameInput, {
+        target: { value: username },
+      });
+    });
+
+    await wait(() => resolveAfterMs(250));
+
+    expect(dispatch).toHaveBeenCalledTimes(1);
+
+    rerender(usersOverviewWithAppContext({}, {}, stateCfg));
+
+    await wait();
+
+    act(() => {
+      fireEvent.input(filterByUserNameInput, {
+        target: { value: username },
+      });
+    });
+
+    await wait(() => resolveAfterMs(250));
+
+    expect(dispatch).toHaveBeenCalledTimes(1);
   });
 });
