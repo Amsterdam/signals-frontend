@@ -3,35 +3,23 @@ import { testActionCreator } from 'test/utils';
 import {
   UPDATE_INCIDENT,
   RESET_INCIDENT,
-
   CREATE_INCIDENT,
   CREATE_INCIDENT_SUCCESS,
   CREATE_INCIDENT_ERROR,
-
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
-
-  SET_PRIORITY,
-  SET_PRIORITY_SUCCESS,
-  SET_PRIORITY_ERROR,
 } from './constants';
 
 import {
   updateIncident,
   resetIncident,
-
   createIncident,
   createIncidentSuccess,
   createIncidentError,
-
   getClassification,
   getClassificationSuccess,
   getClassificationError,
-
-  setPriority,
-  setPrioritySuccess,
-  setPriorityError,
 } from './actions';
 
 describe('Incident container actions', () => {
@@ -76,20 +64,5 @@ describe('Incident container actions', () => {
 
   it('should dispatch classification error action', () => {
     testActionCreator(getClassificationError, GET_CLASSIFICATION_ERROR);
-  });
-
-  it('should dispatch set priority action', () => {
-    testActionCreator(setPriority, SET_PRIORITY, {
-      priority: 'normal',
-      _signal: 666,
-    });
-  });
-
-  it('should dispatch set priority success action', () => {
-    testActionCreator(setPrioritySuccess, SET_PRIORITY_SUCCESS);
-  });
-
-  it('should dispatch set priority error action', () => {
-    testActionCreator(setPriorityError, SET_PRIORITY_ERROR);
   });
 });
