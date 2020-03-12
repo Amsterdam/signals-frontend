@@ -108,8 +108,7 @@ export function* getPostData(action) {
     handling_message,
   };
 
-  // function to filter out values that are not supported by the public API endpoint when the submitting user
-  // has not been authenticated
+  // function to filter out values that are not supported by the public API endpoint
   const filterSupportedFields = ([key]) => isAuthenticated() || (!isAuthenticated() && key !== 'priority');
 
   // return the filtered post data
