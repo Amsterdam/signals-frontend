@@ -5,9 +5,6 @@ import React, {
 import PropTypes from 'prop-types';
 import 'leaflet/dist/leaflet.css';
 import { SearchBar } from '@datapunt/asc-ui';
-import {
-  getLocation,
-} from 'shared/services/map-location';
 import SearchResultsList from './SearchResultsList';
 import {
   searchTermSelected,
@@ -30,15 +27,15 @@ const GeocoderBar = ({
   getSuggestions,
   getAddressById,
 }) => {
-  const { state, dispatch, onLocationChange } = useGeocoderContext();
+  const { state, dispatch, onLocationChange, location } = useGeocoderContext();
   const { term, searchMode, index, results } = state;
-
+  console.log(location);
   const onSelect = async idx => {
     dispatch(searchTermSelected(results[idx].name));
     const { id } = results[idx];
-    const location = await getAddressById(id);
-    console.log('on select', location);
-    onLocationChange(location);
+    const newLocation = await getAddressById(id);
+    console.log('on select', newLocation);
+    onLocationChange(newLocation);
     dispatch(clearSearchResults());
   };
 

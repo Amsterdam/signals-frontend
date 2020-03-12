@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useMapInstance, Marker } from '@datapunt/react-maps';
 import { markerIcon } from 'shared/services/configuration/map-markers';
-import mapLocation, {
-  getLocation,
+import {
   formatAddress,
-} from 'shared/services/map-location';
+  feature2location } from 'shared/services/map-location';
 import {
   searchTermSelected,
 } from './ducks';
 import { useGeocoderContext } from './GeocoderContext';
+
 
 const DEFAULT_MARKER_POSITION = {
   lat: 52.3731081,
@@ -23,6 +23,7 @@ const GeocoderMarker = ({ pointQueryService, children }) => {
   const { term } = state;
   const [markerLocation, setMarkerLocation] = useState();
   const opacity = term === '' ? 0 : 1;
+  console.log('GeocoderMarker', location);
 
   useEffect(() => {
     if (!mapInstance || !marker || !markerLocation) return;
@@ -35,9 +36,8 @@ const GeocoderMarker = ({ pointQueryService, children }) => {
   }, [mapInstance, marker, markerLocation]);
 
   useEffect(() => {
-    if (!location || !marker) return;
-    const { location: latlng } = mapLocation(location);
-    console.log(location);
+    if (!marker || !location.geometrie) return;
+    const latlng = feature2location(location.geometrie);
     if (latlng) {
       marker.setLatLng(latlng);
       marker.setOpacity(1);
@@ -54,8 +54,8 @@ const GeocoderMarker = ({ pointQueryService, children }) => {
   useEffect(() => {
     const clickHandler = async e => {
       const pointInfo = await pointQueryService(e);
-      console.log(pointInfo);
-      onLocationChange(getLocation(pointInfo));
+      console.log('point info', pointInfo);
+      onLocationChange(pointInfo);
     };
 
     if (mapInstance) {

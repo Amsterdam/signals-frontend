@@ -1,5 +1,5 @@
-import { wktPointToPointFeature } from './transformers';
-import { getLocation } from '../../../shared/services/map-location';
+import { wktPointToLocation } from './transformers';
+import { pdok2address } from '../../../shared/services/map-location';
 
 const GEOCODER_API_SUGGEST =
   'https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?fq=gemeentenaam:(amsterdam OR weesp)&fq=type:adres&q=';
@@ -21,10 +21,12 @@ export const getAddressById = async addressId => {
   const { response } = await result.json();
   if (response.docs[0]) {
     const { centroide_ll } = response.docs[0];
-    return {
-      location: wktPointToPointFeature(centroide_ll),
-      address: { ...getLocation(response.docs[0]) },
+    const locationInfo = {
+      location: wktPointToLocation(centroide_ll),
+      address: { ...pdok2address(response.docs[0]) },
     };
+
+    return locationInfo;
   }
   return null;
 };

@@ -6,12 +6,8 @@ import { Zoom } from '@datapunt/amsterdam-react-maps/lib/components';
 import styled from '@datapunt/asc-core';
 import getMapOptions from 'shared/services/configuration/map-options';
 import BackgroundLayer from 'shared/components/BackgroundLayer';
-import Geocoder, { getSuggestions, getAddressById } from '../Geocoder';
+import Geocoder from '../Geocoder';
 
-const geocoderProps = {
-  getSuggestions,
-  getAddressById,
-};
 
 const MapWrapperStyle = styled.div`
   position: relative;
@@ -22,10 +18,10 @@ const MapWrapperStyle = styled.div`
   }
 `;
 
-const MapReact = ({ onLocationChange }) => (
+const MapReact = ({ location, onLocationChange }) => (
   <MapWrapperStyle>
     <Map options={getMapOptions()}>
-      <Geocoder {...geocoderProps} onLocationChange={onLocationChange} />
+      <Geocoder location={location} onLocationChange={onLocationChange} />
       <ViewerContainer style={{ zIndex: 400 }} bottomRight={<Zoom />} />
       <BackgroundLayer />
     </Map>
