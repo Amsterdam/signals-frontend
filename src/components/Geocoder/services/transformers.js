@@ -1,4 +1,4 @@
-export const wktPointToLocation = wktPoint => {
+export const wktPointToPointFeature = wktPoint => {
   if (!wktPoint.includes('POINT')) {
     throw TypeError('Provided WKT geometry is not a point.');
   }

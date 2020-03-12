@@ -1,24 +1,42 @@
 /**
- * converts the amaps geocoder location in sia fromat
+ * converts the sia location in geocoder fromat
  */
 function mapLocation(loc) {
   const location = {};
 
-  if (loc.dichtstbijzijnd_adres) {
-    location.address = { ...loc.dichtstbijzijnd_adres };
-    location.address.huisnummer = `${location.address.huisnummer}`;
-    location.address.huisnummer_toevoeging = `${location.address.huisnummer_toevoeging}`;
+  if (loc.geometrie) {
+    const { coordinates } = loc.geometrie;
+    location.location = {
+      lng: coordinates[0],
+      lat: coordinates[1],
+    };
   }
 
-  if (loc.omgevingsinfo) {
-    location.buurt_code = loc.omgevingsinfo.buurtcode;
-    location.stadsdeel = loc.omgevingsinfo.stadsdeelcode;
+  if (loc.buurt_code) {
+    location.buurtcode = loc.buurt_code;
   }
 
-  if (loc.query) {
-    location.geometrie = {
-      type: 'Point',
-      coordinates: [loc.query.longitude, loc.query.latitude],
+  if (loc.stadsdeelcode) {
+    location.stadsdeelcode = loc.stadsdeel;
+  }
+
+  if (loc.address) {
+    const {
+      openbare_ruimte,
+      huisnummer,
+      huisletter,
+      huisnummer_toevoeging,
+      postcode,
+      woonplaats,
+    } = loc.address;
+
+    location.address = {
+      straatnaam: openbare_ruimte,
+      huisnummer: `${huisnummer}`,
+      huisletter: huisletter || '',
+      huisnummertoevoeging: huisnummer_toevoeging || '',
+      postcode,
+      woonplaatsnaam: woonplaats,
     };
   }
 
@@ -42,7 +60,7 @@ export const getLocation = loc => {
     location.buurt_code = loc.buurtcode;
   }
 
-  if (loc.stadsdeelcode) {
+  if (loc.stadsdeel) {
     location.stadsdeel = loc.stadsdeelcode;
   }
 
@@ -55,6 +73,7 @@ export const getLocation = loc => {
       postcode,
       woonplaatsnaam,
     } = loc.address;
+
     location.address = {
       openbare_ruimte: straatnaam,
       huisnummer: `${huisnummer}`,
@@ -67,5 +86,13 @@ export const getLocation = loc => {
 
   return location;
 };
+
+
+export const formatAddress = address => {
+  const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
+  const display = `${address.openbare_ruimte} ${address.huisnummer}${address.huisletter}${toevoeging}, ${address.postcode} ${address.woonplaats}`;
+  return display;
+};
+
 
 export default mapLocation;
