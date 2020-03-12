@@ -76,7 +76,6 @@ export const address2pdok = address => {
   };
 };
 
-
 /**
  * converts the geocoder location in sia fromat
  */
@@ -102,12 +101,14 @@ export const getLocation = loc => {
   return location;
 };
 
-
 export const formatAddress = address => {
-  const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
-  const display = `${address.openbare_ruimte} ${address.huisnummer}${address.huisletter}${toevoeging}, ${address.postcode} ${address.woonplaats}`;
+  const toevoeging = address.huisnummer_toevoeging
+    ? `-${address.huisnummer_toevoeging}`
+    : '';
+  const display = address.openbare_ruimte
+    ? `${address.openbare_ruimte} ${address.huisnummer}${address.huisletter}${toevoeging}, ${address.postcode} ${address.woonplaats}`
+    : '';
   return display;
 };
-
 
 export default mapLocation;

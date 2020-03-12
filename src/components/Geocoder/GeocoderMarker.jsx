@@ -2,14 +2,9 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useMapInstance, Marker } from '@datapunt/react-maps';
 import { markerIcon } from 'shared/services/configuration/map-markers';
-import {
-  formatAddress,
-  feature2location } from 'shared/services/map-location';
-import {
-  searchTermSelected,
-} from './ducks';
+import { formatAddress, feature2location } from 'shared/services/map-location';
+import { searchTermSelected } from './ducks';
 import { useGeocoderContext } from './GeocoderContext';
-
 
 const DEFAULT_MARKER_POSITION = {
   lat: 52.3731081,
@@ -21,40 +16,28 @@ const GeocoderMarker = ({ pointQueryService, children }) => {
   const [marker, setMarker] = useState();
   const { location, state, dispatch, onLocationChange } = useGeocoderContext();
   const { term } = state;
-  const [markerLocation, setMarkerLocation] = useState();
-  const opacity = term === '' ? 0 : 1;
-  console.log('GeocoderMarker', location);
 
   useEffect(() => {
-    if (!mapInstance || !marker || !markerLocation) return;
-    // todo compare marker.getLatLng with location.location and then fly
-    marker.setLatLng(markerLocation);
-    const currentZoom = mapInstance.getZoom();
-    mapInstance.flyTo(markerLocation, currentZoom < 11 ? 11 : currentZoom);
-    marker.setOpacity(1);
-    setMarkerLocation(markerLocation);
-  }, [mapInstance, marker, markerLocation]);
-
-  useEffect(() => {
-    if (!marker || !location.geometrie) return;
+    if (!mapInstance || !marker || !location.geometrie) return;
+    const addressText = formatAddress(location.address);
     const latlng = feature2location(location.geometrie);
-    if (latlng) {
-      marker.setLatLng(latlng);
-      marker.setOpacity(1);
-    }
+    marker.setLatLng(latlng);
+    const opacity = addressText === '' ? 0 : 1;
+    marker.setOpacity(opacity);
 
-    dispatch(
-      searchTermSelected(
-        location.address ? formatAddress(location.address) : ''
-      )
-    );
+    const shouldFlyTo = term === addressText;
+    if (shouldFlyTo) {
+      const currentZoom = mapInstance.getZoom();
+      mapInstance.flyTo(latlng, currentZoom < 11 ? 11 : currentZoom);
+    } else {
+      dispatch(searchTermSelected(addressText));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location, marker]);
+  }, [mapInstance, marker, location]);
 
   useEffect(() => {
     const clickHandler = async e => {
       const pointInfo = await pointQueryService(e);
-      console.log('point info', pointInfo);
       onLocationChange(pointInfo);
     };
 
@@ -70,17 +53,18 @@ const GeocoderMarker = ({ pointQueryService, children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapInstance]);
 
-  return (<React.Fragment>
-    <Marker
-      setInstance={setMarker}
-      args={[DEFAULT_MARKER_POSITION]}
-      options={{
-        icon: markerIcon,
-        opacity,
-      }}
-    />
-    {children}
-  </React.Fragment>
+  return (
+    <React.Fragment>
+      <Marker
+        setInstance={setMarker}
+        args={[DEFAULT_MARKER_POSITION]}
+        options={{
+          icon: markerIcon,
+          opacity: 0,
+        }}
+      />
+      {children}
+    </React.Fragment>
   );
 };
 

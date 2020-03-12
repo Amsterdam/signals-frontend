@@ -62,18 +62,23 @@ async function getLocationInfo(data) {
     `https://api.data.amsterdam.nl/geosearch/bag/?lat=${location.lat}&lon=${location.lng}&radius=50`
   );
 
+  const locationInfo = {
+    geometrie: location2feature(data.location),
+    address: { ...data.address },
+  };
+
   const buurtinfo = findFeatureByType(res.features, 'gebieden/buurt');
   const stadsdeelinfo = findFeatureByType(res.features, 'gebieden/stadsdeel');
+
   if (buurtinfo !== null && stadsdeelinfo !== null) {
     return {
-      geometrie: location2feature(data.location),
-      address: {...data.address},
+      ...locationInfo,
       buurtcode: buurtinfo !== undefined ? buurtinfo.vollcode : null,
       stadsdeelcode: stadsdeelinfo !== undefined ? stadsdeelinfo.code : null,
     };
   }
 
-  return data;
+  return locationInfo;
 }
 
 const pointQuery = async event => {

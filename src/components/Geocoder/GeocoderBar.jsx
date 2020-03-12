@@ -15,6 +15,7 @@ import {
 } from './ducks';
 
 import { useGeocoderContext } from './GeocoderContext';
+import { location2feature } from '../../shared/services/map-location';
 
 const inputProps = {
   autoCapitalize: 'off',
@@ -27,15 +28,16 @@ const GeocoderBar = ({
   getSuggestions,
   getAddressById,
 }) => {
-  const { state, dispatch, onLocationChange, location } = useGeocoderContext();
+  const { state, dispatch, onLocationChange } = useGeocoderContext();
   const { term, searchMode, index, results } = state;
-  console.log(location);
   const onSelect = async idx => {
     dispatch(searchTermSelected(results[idx].name));
     const { id } = results[idx];
     const newLocation = await getAddressById(id);
-    console.log('on select', newLocation);
-    onLocationChange(newLocation);
+    onLocationChange({
+      geometrie: location2feature(newLocation.location),
+      address: newLocation.address,
+    });
     dispatch(clearSearchResults());
   };
 
