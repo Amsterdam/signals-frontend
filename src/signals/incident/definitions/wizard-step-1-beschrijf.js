@@ -23,10 +23,10 @@ priorityList.forEach(({ key, value, info }) => {
 
 export default {
   label: 'Beschrijf uw melding',
-  getNextStep: (wizard, incident, isAuthenticated) => {
+  getNextStep: (wizard, incident) => {
     if (!some(getStepControls(wizard.vulaan, incident), control => {
       if (control.meta && !control.meta.ignoreVisibility) {
-        return checkVisibility(control, incident, isAuthenticated);
+        return checkVisibility(control, incident);
       }
       return false;
     })) {
