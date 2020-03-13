@@ -19,6 +19,10 @@ export const initialState = fromJS({
       id: 'normal',
       label: 'Normaal',
     },
+    type: {
+      id: 'SIG',
+      label: 'Melding',
+    },
     category: '',
     subcategory: '',
     handling_message: '',

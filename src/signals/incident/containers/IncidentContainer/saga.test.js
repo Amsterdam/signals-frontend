@@ -63,6 +63,9 @@ const payloadIncident = {
   priority: {
     id: 'low',
   },
+  type: {
+    id: 'SIG',
+  },
   category,
   subcategory,
 };
@@ -190,6 +193,9 @@ describe('IncidentContainer saga', () => {
         handling_message,
         priority: {
           priority: payloadIncident.priority.id,
+        },
+        type: {
+          code: payloadIncident.type.id,
         },
       };
 

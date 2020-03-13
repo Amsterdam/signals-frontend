@@ -105,11 +105,17 @@ export function* getPostData(action) {
     priority: {
       priority: action.payload.incident.priority.id,
     },
+    type: {
+      code: action.payload.incident.type.id,
+    },
     handling_message,
   };
 
+  const authenticatedOnlyFields = ['priority', 'source', 'type'];
+
   // function to filter out values that are not supported by the public API endpoint
-  const filterSupportedFields = ([key]) => isAuthenticated() || (!isAuthenticated() && key !== 'priority');
+  const filterSupportedFields = ([key]) =>
+    isAuthenticated() || (!isAuthenticated() && !authenticatedOnlyFields.includes(key));
 
   // return the filtered post data
   return Object.entries(primedPostData)

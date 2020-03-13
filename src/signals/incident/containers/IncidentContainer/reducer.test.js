@@ -29,6 +29,10 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           id: 'normal',
           label: 'Normaal',
         },
+        type: {
+          id: 'SIG',
+          label: 'Melding',
+        },
         category: '',
         subcategory: '',
         handling_message: '',
