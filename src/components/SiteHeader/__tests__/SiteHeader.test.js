@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent, cleanup, act } from '@testing-library/react';
 import MatchMediaMock from 'match-media-mock';
-import { act } from 'react-dom/test-utils';
+import 'jest-styled-components';
 
 import * as auth from 'shared/services/auth/auth';
 import { history, withAppContext } from 'test/utils';
@@ -25,7 +25,9 @@ describe('components/SiteHeader', () => {
   it('should render correctly when not authenticated', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
-    history.push('/');
+    act(() => {
+      history.push('/');
+    });
 
     const { container, rerender, queryByText } = render(
       withAppContext(<SiteHeader />)
@@ -50,17 +52,23 @@ describe('components/SiteHeader', () => {
       value: mmm,
     });
 
-    history.push('/manage');
+    act(() => {
+      history.push('/manage');
+    });
 
     rerender(withAppContext(<SiteHeader />));
 
     expect(queryByText('Melden')).toBeNull();
+
+    expect(container.querySelector('#header')).toHaveStyleRule('z-index: 2');
   });
 
   it('should render correctly when authenticated', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    history.push('/');
+    act(() => {
+      history.push('/');
+    });
 
     const { container, queryByText } = render(withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: true }} />));
 
@@ -73,12 +81,16 @@ describe('components/SiteHeader', () => {
       1
     );
 
+    expect(container.querySelector('#header')).toHaveStyleRule('z-index: 2');
+
     cleanup();
 
     // narrow window toggle
     mmm.setConfig({ type: 'screen', width: breakpoint - 1 });
 
-    history.push('/manage');
+    act(() => {
+      history.push('/manage');
+    });
 
     render(withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: true }} />));
 
@@ -119,7 +131,9 @@ describe('components/SiteHeader', () => {
   it('should render a title', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
-    history.push('/');
+    act(() => {
+      history.push('/');
+    });
 
     const { queryByText } = render(withAppContext(<SiteHeader />));
 
@@ -132,7 +146,9 @@ describe('components/SiteHeader', () => {
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    history.push('/');
+    act(() => {
+      history.push('/');
+    });
 
     render(withAppContext(<SiteHeader />));
 
@@ -143,7 +159,9 @@ describe('components/SiteHeader', () => {
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
-    history.push('/manage');
+    act(() => {
+      history.push('/manage');
+    });
 
     render(withAppContext(<SiteHeader />));
 
@@ -163,7 +181,9 @@ describe('components/SiteHeader', () => {
   it('should render a tall header', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
-    history.push('/');
+    act(() => {
+      history.push('/');
+    });
 
     const { container, rerender } = render(
       withAppContext(<SiteHeader location={{ pathname: '/' }} />)
@@ -185,7 +205,9 @@ describe('components/SiteHeader', () => {
 
     cleanup();
 
-    history.push('/manage');
+    act(() => {
+      history.push('/manage');
+    });
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
@@ -237,7 +259,9 @@ describe('components/SiteHeader', () => {
   });
 
   it('should handle logout callback', () => {
-    history.push('/');
+    act(() => {
+      history.push('/');
+    });
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 

@@ -60,7 +60,6 @@ class IncidentForm extends React.Component {
       wizard: this.props.wizard,
       incidentContainer: this.props.incidentContainer,
       submitting: this.state.submitting,
-      isAuthenticated: this.props.isAuthenticated,
       handleSubmit: this.handleSubmit,
       getClassification: this.props.getClassification,
       updateIncident: this.props.updateIncident,
@@ -104,7 +103,6 @@ class IncidentForm extends React.Component {
         this.props.createIncident({
           incident: this.props.incidentContainer.incident,
           wizard: this.props.wizard,
-          isAuthenticated: this.props.isAuthenticated,
         });
     }
   }
@@ -139,7 +137,7 @@ class IncidentForm extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <FormGenerator
             onMount={this.setForm}
-            fieldConfig={formatConditionalForm(this.props.fieldConfig, this.props.incidentContainer.incident, this.props.isAuthenticated)}
+            fieldConfig={formatConditionalForm(this.props.fieldConfig, this.props.incidentContainer.incident)}
           />
         </form>
       </div>
@@ -162,7 +160,6 @@ IncidentForm.propTypes = {
   updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
   postponeSubmitWhenLoading: PropTypes.string,
-  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 export default IncidentForm;

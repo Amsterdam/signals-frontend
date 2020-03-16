@@ -58,7 +58,6 @@ describe('<IncidentForm />', () => {
       getClassification: jest.fn(),
       updateIncident: jest.fn(),
       createIncident: jest.fn(),
-      isAuthenticated: false,
     };
 
     formatConditionalForm.mockImplementation(() => mockForm);
@@ -182,7 +181,7 @@ describe('<IncidentForm />', () => {
 
         instance.handleSubmit(event, next, 'CREATE_INCIDENT');
 
-        expect(props.createIncident).toHaveBeenCalledWith(expect.objectContaining({ incident: {}, isAuthenticated: false }));
+        expect(props.createIncident).toHaveBeenCalledWith(expect.objectContaining({ incident: {} }));
         expect(next).toHaveBeenCalled();
       });
 
