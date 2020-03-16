@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import { isAuthenticated } from 'shared/services/auth/auth';
 
 import isVisible from './services/is-visible';
 
 import './style.scss';
 
-function IncidentPreview({ incidentContainer, preview, isAuthenticated }) {
+function IncidentPreview({ incidentContainer, preview }) {
   const history = useHistory();
 
   return (
@@ -22,7 +23,7 @@ function IncidentPreview({ incidentContainer, preview, isAuthenticated }) {
 
           {Object.keys(preview[key]).map(subkey => (
             <div key={subkey}>
-              {isVisible(incidentContainer.incident[subkey], preview[key][subkey], isAuthenticated) &&
+              {isVisible(incidentContainer.incident[subkey], preview[key][subkey], isAuthenticated()) &&
                 preview[key][subkey].render({
                   ...preview[key][subkey],
                   value: incidentContainer.incident[subkey],
@@ -39,7 +40,6 @@ function IncidentPreview({ incidentContainer, preview, isAuthenticated }) {
 IncidentPreview.propTypes = {
   incidentContainer: PropTypes.object,
   preview: PropTypes.object,
-  isAuthenticated: PropTypes.bool,
 };
 
 export default IncidentPreview;
