@@ -12,7 +12,7 @@ import HiddenInput from '../../../../components/HiddenInput';
 
 import './style.scss';
 
-class LocationForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class LocationForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -41,10 +41,19 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
   }
 
   componentDidUpdate(prevProps) {
-    const prevPatchingLocation = prevProps.patching && prevProps.patching.location;
-    const patchingLocation = this.props.patching && this.props.patching.location;
-    if (prevPatchingLocation !== patchingLocation && patchingLocation === false) {
-      const hasError = (this.props.error && this.props.error.response && !this.props.error.response.ok) || false;
+    const prevPatchingLocation =
+      prevProps.patching && prevProps.patching.location;
+    const patchingLocation =
+      this.props.patching && this.props.patching.location;
+    if (
+      prevPatchingLocation !== patchingLocation &&
+      patchingLocation === false
+    ) {
+      const hasError =
+        (this.props.error &&
+          this.props.error.response &&
+          !this.props.error.response.ok) ||
+        false;
       if (!hasError) {
         this.props.onClose();
       }
@@ -53,14 +62,14 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
   }
 
   onQueryResult(location) {
-    console.log('onQueryResult', location);
-    const newLocation = location;
     this.setState({
-      newLocation,
+      newLocation: location,
     });
 
-    this.form.controls.location.setValue(newLocation);
-    this.form.controls.coordinates.setValue(newLocation.geometrie.coordinates.join(','));
+    this.form.controls.location.setValue(location);
+    this.form.controls.coordinates.setValue(
+      location.geometrie.coordinates.join(',')
+    );
   }
 
   form = FormBuilder.group({
@@ -76,7 +85,7 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
       type: PATCH_TYPE_LOCATION,
       patch: { location: { ...this.state.newLocation } },
     });
-  }
+  };
 
   render() {
     const { patching, error, onClose } = this.props;
@@ -116,7 +125,11 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
                   data-testid="location-form-button-submit"
                 >
                   <span className="value">Locatie opslaan</span>
-                  {patching.location && <span className="working"><div className="progress-indicator progress-white"></div></span>}
+                  {patching.location && (
+                    <span className="working">
+                      <div className="progress-indicator progress-white"></div>
+                    </span>
+                  )}
                 </button>
                 <button
                   className="location-form__cancel action secundary-grey"
@@ -142,12 +155,15 @@ LocationForm.defaultProps = {
 
 LocationForm.propTypes = {
   incident: incidentType.isRequired,
-  error: PropTypes.oneOfType([PropTypes.shape({
-    response: {
-      status: PropTypes.number.isRequired,
-      ok: PropTypes.bool.isRequired,
-    },
-  }), PropTypes.bool]).isRequired,
+  error: PropTypes.oneOfType([
+    PropTypes.shape({
+      response: {
+        status: PropTypes.number.isRequired,
+        ok: PropTypes.bool.isRequired,
+      },
+    }),
+    PropTypes.bool,
+  ]).isRequired,
   patching: PropTypes.shape({
     location: PropTypes.bool,
   }).isRequired,

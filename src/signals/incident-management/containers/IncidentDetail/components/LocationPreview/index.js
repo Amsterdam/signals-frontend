@@ -20,7 +20,7 @@ const LocationPreview = ({ location, onEditLocation }) => (
 
     <MapDetail
       value={location}
-      zoom="16"
+      zoom={16}
     />
   </div>
 );
