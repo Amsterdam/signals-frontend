@@ -36,6 +36,15 @@ export class IncidentContainer extends React.Component {
   render() {
     return (
       <Row>
+        <div style={{ color: 'white', backgroundColor: 'red', marginTop: '1em', padding: '1em' }}>
+          We pakken op dit moment alleen urgente meldingen op. De afhandeling van
+          uw melding kan daarom tijdelijk langer duren dan de standaard
+          afhandeltermijn die wordt vermeld in de bevestiging die u ontvangt na
+          registratie van uw melding. Dank voor uw begrip.
+        </div>
+
+        <br />
+
         <Column span={12}>
           <IncidentWizard
             wizardDefinition={wizardDefinition}
