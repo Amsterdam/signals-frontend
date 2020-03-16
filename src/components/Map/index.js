@@ -10,15 +10,21 @@ const MapWrapperStyle = styled.div`
   position: relative;
 
   & > div:first-child {
-    width: ${({width})=> width || `100%`};
-    height: ${({height})=> height || `450px`};
+    width: ${({ width })=> width || `100%`};
+    height: ${({ height })=> height || `450px`};
   }
 `;
 
-const Map = ({ latlng, smallMarker, attributionControl, zoom, ...otherProps }) => {
-  const { latitude: lat, longitude: lon } = latlng;
+const Map = ({
+  latlng,
+  smallMarker,
+  attributionControl,
+  zoom,
+  ...otherProps
+}) => {
+  const { latitude: lat, longitude: lng } = latlng;
   const options = getMapOptions({
-    center: [lat, lon],
+    center: [lat, lng],
     zoom: zoom || 16,
     icon: smallMarker ? smallMarkerIcon : markerIcon,
     attributionControl,
@@ -27,19 +33,14 @@ const Map = ({ latlng, smallMarker, attributionControl, zoom, ...otherProps }) =
   return (
     <MapWrapperStyle {...otherProps}>
       <MapComponent options={options}>
-        <Marker
-          args={[{ lat, lon }]}
-          options={options}
-        />
+        <Marker args={[{ lat, lng }]} options={options} />
         <BackgroundLayer />
       </MapComponent>
     </MapWrapperStyle>
   );
 };
 
-Map.defaultValues = {
-  smallIcon: false,
-  attributionControl: true,
+Map.defaultProps = {
 };
 
 Map.propTypes = {

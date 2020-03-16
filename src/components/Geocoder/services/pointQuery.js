@@ -1,6 +1,6 @@
 import proj4 from 'proj4';
 import { getAddressById } from './api';
-
+import { location2feature } from '../../../shared/services/map-location';
 export const GEOCODER_API_REVERSE_LOOKUP =
   'http://geodata.nationaalgeoregister.nl/locatieserver/revgeo?type=adres&rows=1';
 
@@ -45,7 +45,7 @@ const getAddressInfo = async data => {
   const address = data.address && (await getAddressById(data.address?.id));
   const result = {
     ...data,
-    address,
+    ...address,
   };
   return result;
 };
@@ -61,17 +61,24 @@ async function getLocationInfo(data) {
   const res = await query(
     `https://api.data.amsterdam.nl/geosearch/bag/?lat=${location.lat}&lon=${location.lng}&radius=50`
   );
+
+  const locationInfo = {
+    geometrie: location2feature(data.location),
+    address: { ...data.address },
+  };
+
   const buurtinfo = findFeatureByType(res.features, 'gebieden/buurt');
   const stadsdeelinfo = findFeatureByType(res.features, 'gebieden/stadsdeel');
+
   if (buurtinfo !== null && stadsdeelinfo !== null) {
     return {
-      ...data,
+      ...locationInfo,
       buurtcode: buurtinfo !== undefined ? buurtinfo.vollcode : null,
       stadsdeelcode: stadsdeelinfo !== undefined ? stadsdeelinfo.code : null,
     };
   }
 
-  return data;
+  return locationInfo;
 }
 
 const pointQuery = async event => {
