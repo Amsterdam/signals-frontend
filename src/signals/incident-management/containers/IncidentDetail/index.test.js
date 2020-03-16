@@ -21,6 +21,7 @@ import statusList, {
 } from '../../definitions/statusList';
 import stadsdeelList from '../../definitions/stadsdeelList';
 import priorityList from '../../definitions/priorityList';
+import typesList from '../../definitions/typesList';
 
 const subCategories = Object.entries(categories).flatMap(([, { sub }]) => sub);
 
@@ -166,6 +167,7 @@ describe('<IncidentDetail />', () => {
       changeStatusOptionList,
       statusList,
       defaultTextsOptionList: statusList,
+      typesList,
     },
     historyModel: {
       list: [

@@ -1,7 +1,8 @@
-# Architectural decision records
+# Fetching incidents
 
-## Fetching incidents
+date: 2020-01-15
 
+## Context
 In the Signals frontend application, two different endpoints provide data that can be used to render an overview of incidents.
 
 The first one is the [private signals endpoint](https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_signals_), the second is the private search endpoint. Both return the same data structure, but expect/require different parameters.
@@ -27,7 +28,7 @@ In a number of occasions, a request is made to one of the private endpoints to r
    Every time the input for the `SearchBar` is submitted, the `SearchBar` container dispatches an action that trigger another fetch. The `submit` event triggers a redirect to the `IncidentManagement` module. See 1. for details.
 
    Component: `signals/containers/SearchBar`
-   
+
    Action: `setSearchQuery`
 
 4. **When a pagination item is clicked**
@@ -35,7 +36,7 @@ In a number of occasions, a request is made to one of the private endpoints to r
    If the incidents overview page renders a `Pagination` component, every click on a pagination item results in an action being dispatched. This action, in turn, triggers a fetch of results from either the `search` endpoint or the `signals` endpoint, depending on the presence of a search query.
 
    Component: `signals/IncidentManagement/containers/IncidentOverviewPage`
-   
+
    Action: `pageChanged`
 
 5. **When a column's order is changed**
@@ -43,7 +44,7 @@ In a number of occasions, a request is made to one of the private endpoints to r
    The incidents overview page shows a table with sortable columns. Clicking on a column header will dispatch an action. This action, similar to `pageChanged` will trigger a fetch of results from either the `search` endpoint or the `signals` endpoint.
 
    Component: `signals/IncidentManagement/containers/IncidentOverviewPage`
-   
+
    Action: `orderingChanged`
 
 6. **When an incident has been successfully patched**
@@ -51,5 +52,5 @@ In a number of occasions, a request is made to one of the private endpoints to r
    Individual incidents can be patched in the `IncidentDetail` container. Navigating back from the detail page to the overview page should show the changes that have been applied to the incident. Therefore, after the `patchIncidentSuccess` action has been dispatched, a new set of (updated) incidents is retrieved.
 
    Component: `signals/IncidentManagement/containers/IncidentDetail`
-   
+
    Action: `patchIncident`
