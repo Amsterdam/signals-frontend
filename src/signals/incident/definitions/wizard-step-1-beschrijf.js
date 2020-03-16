@@ -1,35 +1,26 @@
 import some from 'lodash.some';
 import { Validators } from 'react-reactive-form';
-import { sourceList, priorityList } from 'signals/incident-management/definitions';
+import { sourceList, priorityList, typesList } from 'signals/incident-management/definitions';
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
 import checkVisibility from '../services/check-visibility';
 import getStepControls from '../services/get-step-controls';
 
-const sourceValuesObj = {
-  '': 'Vul bron in',
-};
-sourceList.forEach(({ key, value }) => {
-  sourceValuesObj[key] = value;
-});
-
-const priorityValuesList = {};
-priorityList.forEach(({ key, value, info }) => {
-  priorityValuesList[key] = {
-    value,
-    info,
-  };
-});
+const sourceValuesObj = sourceList.reduce((acc, { key, value }) => ({ ...acc, [key]: value }), { '': 'Vul bron in' });
+const priorityValuesList = priorityList.reduce((acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }), {});
+const typesValuesList = typesList.reduce((acc, { key, value }) => ({ ...acc, [key]: { value } }), {});
 
 export default {
   label: 'Beschrijf uw melding',
-  getNextStep: (wizard, incident, isAuthenticated) => {
-    if (!some(getStepControls(wizard.vulaan, incident), control => {
-      if (control.meta && !control.meta.ignoreVisibility) {
-        return checkVisibility(control, incident, isAuthenticated);
-      }
-      return false;
-    })) {
+  getNextStep: (wizard, incident) => {
+    if (
+      !some(getStepControls(wizard.vulaan, incident), control => {
+        if (control.meta && !control.meta.ignoreVisibility) {
+          return checkVisibility(control, incident);
+        }
+        return false;
+      })
+    ) {
       return 'incident/telefoon';
     }
     return false;
@@ -71,10 +62,7 @@ export default {
           maxLength: 1000,
         },
         options: {
-          validators: [
-            Validators.required,
-            Validators.maxLength(1000),
-          ],
+          validators: [Validators.required, Validators.maxLength(1000)],
         },
         render: FormComponents.DescriptionWithClassificationInput,
       },
@@ -150,6 +138,16 @@ export default {
         authenticated: true,
         render: FormComponents.RadioInput,
       },
+      type: {
+        meta: {
+          className: 'col-sm-12 col-md-6',
+          label: 'Type',
+          path: 'type',
+          values: typesValuesList,
+        },
+        authenticated: true,
+        render: FormComponents.RadioInput,
+      },
       images_previews: {
         meta: {
           label: 'images_previews',
@@ -164,7 +162,7 @@ export default {
       },
       images: {
         meta: {
-          label: 'Foto\'s toevoegen',
+          label: "Foto's toevoegen",
           subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
           minFileSize: 30 * 2 ** 10, // 30 KiB.
           maxFileSize: 8 * 2 ** 20, // 8 MiB.
