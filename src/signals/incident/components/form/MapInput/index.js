@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getLocation } from 'shared/services/map-location';
-import MapEditor from 'components/MapEditor';
+import MapEditor from 'components/MapReact';
 
 import Header from '../Header';
 
@@ -12,8 +11,8 @@ const MapInput = ({
   const value = handler().value || {};
 
   /* istanbul ignore next */
-  const onLocationChange = l => {
-    parent.meta.updateIncident({ location: getLocation(l) });
+  const onLocationChange = location => {
+    parent.meta.updateIncident({ location });
   };
 
   return (
