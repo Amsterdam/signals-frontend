@@ -5,5 +5,5 @@
   "singleQuote": true,
   "parser": "babel",
   "htmlWhitespaceSensitivity": "strict",
-  "printWidth": 80
+  "printWidth": 120
 }

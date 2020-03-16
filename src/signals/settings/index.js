@@ -1,4 +1,4 @@
-import React, { memo, Fragment, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect, Switch, useLocation } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
@@ -33,6 +33,9 @@ import DepartmentsDetailContainer from './departments/Detail';
 import CategoriesOverviewContainer from './categories/Overview';
 import CategoryDetailContainer from './categories/Detail';
 
+import SettingsContext from './context';
+import reducer, { initialState } from './reducer';
+
 export const SettingsModule = ({
   onFetchDepartments,
   onFetchPermissions,
@@ -43,6 +46,7 @@ export const SettingsModule = ({
 }) => {
   const moduleLocation = useLocation();
   const [location, setLocation] = useState(moduleLocation);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -81,7 +85,7 @@ export const SettingsModule = ({
   }
 
   return (
-    <Fragment>
+    <SettingsContext.Provider value={{ state, dispatch }}>
       {userCanAccess('groups') && (
         <Switch location={location}>
           <Route exact path={routes.roles} component={RolesListContainer} />
@@ -168,7 +172,7 @@ export const SettingsModule = ({
           )}
         </Switch>
       )}
-    </Fragment>
+    </SettingsContext.Provider>
   );
 };
 
