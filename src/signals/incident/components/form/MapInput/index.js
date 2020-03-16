@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MapEditor from 'components/MapEditor';
+import MapEditor from 'components/MapReact';
 
 import Header from '../Header';
 
