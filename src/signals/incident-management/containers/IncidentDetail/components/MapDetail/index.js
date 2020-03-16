@@ -7,7 +7,7 @@ import { locationType } from 'shared/types';
 import './style.scss';
 
 const MapDetail = ({
-  value, smallMarker, zoom, hideAttribution,
+  value, smallMarker, zoom, hideAttribution, ...otherProps
 }) => {
   const location = value && value.geometrie && value.geometrie.coordinates;
   const latlng = location ? { latitude: location[1], longitude: location[0] } : null;
@@ -20,8 +20,7 @@ const MapDetail = ({
             smallMarker={smallMarker}
             hideAttribution={hideAttribution}
             zoom={zoom}
-            width="80px"
-            height="80px"
+            {...otherProps}
           />
         ) : ''}
     </div>
