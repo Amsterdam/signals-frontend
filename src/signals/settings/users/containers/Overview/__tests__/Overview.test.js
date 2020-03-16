@@ -517,11 +517,6 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(dispatch).toHaveBeenCalledTimes(2);
 
-    // expect(dispatch).toHaveBeenCalledWith(setUserFilters({
-    //   is_active: userActiveFilterValue,
-    //   role: roleFilterValue,
-    // }));
-
     expect(dispatch).toHaveBeenCalledWith(setUserFilters({ is_active: userActiveFilterValue }));
     expect(dispatch).toHaveBeenCalledWith(setUserFilters({ role: roleFilterValue }));
 
@@ -529,33 +524,7 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(filterByRoleSelect.value).toBe(roleFilterValue);
   });
 
-  // it("should return data with a successful api request", async () => {
-  //   fetch.mockResponses(
-  //     [
-  //       JSON.stringify([{ name: 'naruto', average_score: 79 }]),
-  //       { status: 200 },
-  //     ],
-  //     [
-  //       JSON.stringify([{ name: 'bleach', average_score: 68 }]),
-  //       { status: 200 },
-  //     ]
-  //   );
-
-  //   console.log('current result:', result.current);
-
-  //   // Calling the api via the `callApi` function
-  //   act(async () => {
-  //     await fetch.mock("test.com", { returnedData: "foo" });
-  //     await result.current.callApi('test.com');
-  //   });
-
-  //   // Check the 'data' state variable has the same mocked data from earlier
-  //   expect(result.current.data).toBe({ returnedData: "foo" });
-  // });
-
   it('dispatches the correct actions on successful getSeason fetch request', async () => {
-    // const stateCfg = { users: { filters: { username } } };
-
     const { getByTestId } = render(usersOverviewWithAppContext());
 
     await wait();
@@ -568,27 +537,19 @@ describe('signals/settings/users/containers/Overview', () => {
       [JSON.stringify(usersFiltersInactiveAndRoleJSON), { status: 200 }],
     );
 
-    const apiPrefix = 'https://acc.api.data.amsterdam.nl/signals/v1/private/users?page=1&page_size';
-
-    // const filtersInactive = await fetch(`${apiPrefix}&is_active=false`);
-    // const filtersActiveAndRole = await fetch(`${apiPrefix}&is_active=true&role=Behandelaar`);
-    // const filtersInactiveAndRole = await fetch(`${apiPrefix}&is_active=false&role=Behandelaar`);
-
-    // const filtersInactiveResult = await filtersInactive.json();
-    // const filtersActiveAndRoleResult = await filtersActiveAndRole.json();
-    // const filtersInactiveAndRoleResult = await filtersInactiveAndRole.json();
-
     const filterByUserActiveSelect = getByTestId('userActiveSelect');
     const filterByRoleSelect = getByTestId('roleSelect');
+    const apiPrefix = 'https://acc.api.data.amsterdam.nl/signals/v1/private/users?page=1&page_size';
 
-    // filters disabled
+    // filters: disabled
     expect(filterByUserActiveSelect.value).toBe('*');
     expect(filterByRoleSelect.value).toBe('*');
+
     const filtersDisabled = await fetch(apiPrefix);
     const filtersDisabledResult = await filtersDisabled.json();
     expect(filtersDisabledResult.count).toBe(103);
 
-    // filter user active = true
+    // filters: user active = true
     const userActiveFilterValue = 'true';
     act(() => {
       fireEvent.change(filterByUserActiveSelect, { target: { value: userActiveFilterValue } });
@@ -597,27 +558,40 @@ describe('signals/settings/users/containers/Overview', () => {
 
     const filtersActive = await fetch(`${apiPrefix}&is_active=true`);
     const filtersActiveResult = await filtersActive.json();
+    expect(filtersActiveResult.count).toBe(84);
 
-    console.log(filtersActiveResult.count);
-    expect(filtersDisabledResult.count).toBe(84);
+    // filters: user active = false
+    const userInactiveFilterValue = 'false';
+    act(() => {
+      fireEvent.change(filterByUserActiveSelect, { target: { value: userInactiveFilterValue } });
+    });
+    expect(dispatch).toHaveBeenCalledTimes(2);
 
-    // // const roleFilterValue = 'Regievoerder';
+    const filtersInactive = await fetch(`${apiPrefix}&is_active=false`);
+    const filtersInactiveResult = await filtersInactive.json();
+    expect(filtersInactiveResult.count).toBe(19);
 
-    // // act(() => {
-    // //   fireEvent.change(filterByUserActiveSelect, { target: { value: userActiveFilterValue } });
-    // //   fireEvent.change(filterByRoleSelect, { target: { value: roleFilterValue } });
-    // // });
+    // filters: user active = true, role = Behandelaar
+    const filtersRoleValue = 'Behandelaar';
+    act(() => {
+      fireEvent.change(filterByRoleSelect, { target: { value: filtersRoleValue } });
+      fireEvent.change(filterByUserActiveSelect, { target: { value: userInactiveFilterValue } });
+    });
+    expect(dispatch).toHaveBeenCalledTimes(4);
 
-    // // expect(dispatch).toHaveBeenCalledWith(setUserFilters({
-    // //   is_active: userActiveFilterValue,
-    // //   role: roleFilterValue,
-    // // }));
+    const filtersActiveAndRole = await fetch(`${apiPrefix}&is_active=true&role=Behandelaar`);
+    const filtersActiveAndRoleResult = await filtersActiveAndRole.json();
+    expect(filtersActiveAndRoleResult.count).toBe(15);
 
-    // expect(dispatch).toHaveBeenCalledWith(setUserFilters({ is_active: userActiveFilterValue }));
-    // expect(dispatch).toHaveBeenCalledWith(setUserFilters({ role: roleFilterValue }));
+    // filters: user active = false, role = Behandelaar
+    act(() => {
+      fireEvent.change(filterByRoleSelect, { target: { value: filtersRoleValue } });
+      fireEvent.change(filterByUserActiveSelect, { target: { value: userInactiveFilterValue } });
+    });
+    expect(dispatch).toHaveBeenCalledTimes(6);
 
-    // expect(filterByUserActiveSelect.value).toBe(userActiveFilterValue);
-    // expect(filterByRoleSelect.value).toBe(roleFilterValue);
+    const filtersInactiveAndRole = await fetch(`${apiPrefix}&is_active=false&role=Behandelaar`);
+    const filtersInactiveAndRoleResult = await filtersInactiveAndRole.json();
+    expect(filtersInactiveAndRoleResult.count).toBe(16);
   });
-
 });
