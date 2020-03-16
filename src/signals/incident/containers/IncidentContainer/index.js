@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { Row, Column } from '@datapunt/asc-ui';
+import { Row, Column, themeColor } from '@datapunt/asc-ui';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 import injectSaga from 'utils/injectSaga';
@@ -24,6 +24,7 @@ import './style.scss';
 
 import IncidentWizard from '../../components/IncidentWizard';
 
+
 export class IncidentContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -36,7 +37,13 @@ export class IncidentContainer extends React.Component {
   render() {
     return (
       <Row>
-        <div style={{ color: 'white', backgroundColor: 'red', marginTop: '1em', padding: '1em' }}>
+        <div style={{
+          color: themeColor('primary'),
+          backgroundColor: themeColor('secondary'),
+          marginTop: '1em',
+          padding: '1em',
+        }}
+        >
           We pakken op dit moment alleen urgente meldingen op. De afhandeling van
           uw melding kan daarom tijdelijk langer duren dan de standaard
           afhandeltermijn die wordt vermeld in de bevestiging die u ontvangt na
