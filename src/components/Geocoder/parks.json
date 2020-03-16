@@ -98,7 +98,13 @@
         ]
       },
       "properties": {
-        "name": "Amsterdamse Bos"
+        "name": "Amsterdamse Bos",
+        "openbare_ruimte": "Amsterdamse Bos",
+        "huisnummer": "",
+        "huisletter": "",
+        "huisnummer_toevoeging": "",
+        "postcode": "",
+        "woonplaats": "Amsterdam"
       }
     },
     {
@@ -147,7 +153,13 @@
         ]
       },
       "properties": {
-        "name": "Wertheimpark"
+        "name": "Wertheimpark",
+        "openbare_ruimte": "Wertheimpark",
+        "huisnummer": "",
+        "huisletter": "",
+        "huisnummer_toevoeging": "",
+        "postcode": "",
+        "woonplaats": "Amsterdam"
       }
     }
   ]
