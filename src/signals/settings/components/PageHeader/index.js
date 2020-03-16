@@ -20,6 +20,7 @@ const StyledSection = styled.section`
 const StyledHeading = styled(Heading)`
   margin: 0;
   line-height: 44px;
+  font-weight: 400;
 `;
 
 const PageHeader = ({ BackLink, className, children, title }) => (
