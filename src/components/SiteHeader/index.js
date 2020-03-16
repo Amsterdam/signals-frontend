@@ -86,8 +86,11 @@ const StyledSearchBar = styled(SearchBar)`
 `;
 
 const HeaderWrapper = styled.div`
-  z-index: 1;
   position: relative;
+
+  #header {
+    z-index: 2;
+  }
 
   ${({ tall }) =>
     !tall &&
@@ -104,7 +107,6 @@ const HeaderWrapper = styled.div`
     css`
       #header {
         position: relative;
-        z-index: 2;
 
         header {
           height: 160px;

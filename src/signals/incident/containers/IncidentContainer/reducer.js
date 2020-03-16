@@ -8,22 +8,20 @@ import {
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
-  SET_PRIORITY,
-  SET_PRIORITY_SUCCESS,
-  SET_PRIORITY_ERROR,
 } from './constants';
-// eslint-disable-next-line no-unused-vars
-import debugInitialState from './debug/initialState';
 
 export const initialState = fromJS({
   incident: {
-    // ...debugInitialState,
     incident_date: 'Vandaag',
     incident_time_hours: 9,
     incident_time_minutes: 0,
     priority: {
       id: 'normal',
       label: 'Normaal',
+    },
+    type: {
+      id: 'SIG',
+      label: 'Melding',
     },
     category: '',
     subcategory: '',
@@ -33,7 +31,7 @@ export const initialState = fromJS({
   priority: {},
 });
 
-function incidentContainerReducer(state = initialState, action) {
+export default (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_INCIDENT:
       return state.set(
@@ -54,9 +52,7 @@ function incidentContainerReducer(state = initialState, action) {
         .set('incident', state.get('incident').set('id', null));
 
     case CREATE_INCIDENT_SUCCESS:
-      return state
-        .set('loading', false)
-        .set('incident', fromJS(action.payload));
+      return state.set('loading', false).set('incident', fromJS(action.payload));
 
     case CREATE_INCIDENT_ERROR:
       return state.set('error', true).set('loading', false);
@@ -74,16 +70,7 @@ function incidentContainerReducer(state = initialState, action) {
           .set('subcategory', action.payload.subcategory)
       );
 
-    case SET_PRIORITY:
-      return state.set('priority', fromJS(action.payload));
-
-    case SET_PRIORITY_SUCCESS:
-    case SET_PRIORITY_ERROR:
-      return state.set('priority', fromJS({}));
-
     default:
       return state;
   }
-}
-
-export default incidentContainerReducer;
+};
