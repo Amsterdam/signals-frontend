@@ -62,15 +62,13 @@ class LocationForm extends React.Component {
   }
 
   onQueryResult(location) {
-    console.log('onQueryResult', location);
-    const newLocation = location;
     this.setState({
-      newLocation,
+      newLocation: location,
     });
 
-    this.form.controls.location.setValue(newLocation);
+    this.form.controls.location.setValue(location);
     this.form.controls.coordinates.setValue(
-      newLocation.geometrie.coordinates.join(',')
+      location.geometrie.coordinates.join(',')
     );
   }
 
