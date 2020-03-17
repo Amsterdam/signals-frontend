@@ -2,17 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import mapLocation from 'shared/services/map-location';
-import MapInteractive from 'components/MapEditor';
+import MapEditor from 'components/MapEditor';
 
 import Header from '../Header';
+import { DEFAULT_MARKER_POSITION } from '../../../../../shared/services/configuration/map-options';
 
 const MapInput = ({
   handler, touched, hasError, meta, parent, getError, validatorsOrOpts,
 }) => {
-  const value = handler().value || {};
+  const value = handler().value || {
+    geometrie: {
+      type: "Point",
+      coordinates: [DEFAULT_MARKER_POSITION.lng, DEFAULT_MARKER_POSITION.lat],
+    }, address: {
+
+    },
+  };
 
   /* istanbul ignore next */
-  const onQueryResult = d => {
+  const onLocationChange = d => {
     parent.meta.updateIncident({ location: mapLocation(d) });
   };
 
@@ -29,7 +37,7 @@ const MapInput = ({
               getError={getError}
             >
               <div className="invoer">
-                <MapInteractive onQueryResult={onQueryResult} location={value} />
+                <MapEditor onLocationChange={onLocationChange} location={value} />
               </div>
             </Header>
           </div>
