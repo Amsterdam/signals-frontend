@@ -17,18 +17,6 @@
     width: 75%;
     display: inline-block;
 
-    &-button-show {
-      float: left;
-      margin-right: 10px;
-      padding: 0;
-      border-style: none;
-      cursor: pointer;
-    }
-
-    #mapdiv {
-      height: 80px !important;
-      width: 80px !important;
-    }
 
     &-button-edit {
       float: right;
