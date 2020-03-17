@@ -8,7 +8,7 @@ import './style.scss';
 /**
  * Map preview with one or more markers
  */
-const MapPreview = ({ label, value }) => (
+const MapPreview = ({ label, value, mapOptions }) => (
   <div className="preview-map">
     <div className="row">
       <div className="col-5 col-md-4">
@@ -27,6 +27,7 @@ const MapPreview = ({ label, value }) => (
                     <div className="preview-map__item-value-map">
                       <Map
                         latlng={{ latitude: value.geometrie.coordinates[1], longitude: value.geometrie.coordinates[0] }}
+                        mapOptions={mapOptions}
                       />
                     </div>
                   )
@@ -45,6 +46,7 @@ MapPreview.propTypes = {
     address: PropTypes.object,
     geometrie: PropTypes.object,
   }),
+  mapOptions: PropTypes.shape({}).isRequired, /** leaflet options */
 };
 
 export default MapPreview;
