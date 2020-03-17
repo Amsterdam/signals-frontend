@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import mapLocation from 'shared/services/map-location';
-import MapInteractive from 'components/MapInteractive';
+import MapInteractive from 'components/MapEditor';
 
 import Header from '../Header';
 
