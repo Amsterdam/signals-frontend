@@ -6,23 +6,16 @@ import { locationType } from 'shared/types';
 
 import './style.scss';
 
-const MapDetail = ({
-  value, hideAttribution, hideZoomControls, useSmallMarker, zoom,
-}) => {
+const MapDetail = ({ value, smallMarker, zoom, hideAttribution, ...otherProps }) => {
   const location = value && value.geometrie && value.geometrie.coordinates;
   const latlng = location ? { latitude: location[1], longitude: location[0] } : null;
   return (
     <div className="map-detail">
-      {latlng
-        ? (
-          <Map
-            latlng={latlng}
-            hideAttribution={hideAttribution}
-            hideZoomControls={hideZoomControls}
-            useSmallMarker={useSmallMarker}
-            zoom={zoom}
-          />
-        ) : ''}
+      {latlng ? (
+        <Map latlng={latlng} smallMarker={smallMarker} hideAttribution={hideAttribution} zoom={zoom} {...otherProps} />
+      ) : (
+        ''
+      )}
     </div>
   );
 };
@@ -30,9 +23,8 @@ const MapDetail = ({
 MapDetail.propTypes = {
   value: locationType.isRequired,
   hideAttribution: PropTypes.bool,
-  hideZoomControls: PropTypes.bool,
-  useSmallMarker: PropTypes.bool,
-  zoom: PropTypes.string,
+  smallMarker: PropTypes.bool,
+  zoom: PropTypes.number,
 };
 
 export default MapDetail;
