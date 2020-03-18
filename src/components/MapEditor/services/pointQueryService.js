@@ -42,10 +42,10 @@ const getBagInfo = async click => {
 };
 
 const getAddressInfo = async data => {
-  const address = data.address && (await getAddressById(data.address?.id));
+  const addressInfo = data.address && (await getAddressById(data.address?.id));
   const result = {
-    ...data,
-    ...address,
+    location: data.location,
+    adress: addressInfo.address,
   };
   return result;
 };
