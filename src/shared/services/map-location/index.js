@@ -12,20 +12,13 @@ export const feature2location = feature => {
 };
 
 export const address2pdok = address => {
-  const {
-    openbare_ruimte,
-    huisnummer,
-    huisletter,
-    huisnummer_toevoeging,
-    postcode,
-    woonplaats,
-  } = address;
+  const { openbare_ruimte, huisnummer, huisletter, huisnummer_toevoeging, postcode, woonplaats } = address;
 
   return {
     straatnaam: openbare_ruimte,
     huisnummer: `${huisnummer}`,
     huisletter: huisletter || '',
-    huisnummertoevoeging: huisnummer_toevoeging || '',
+    huisnummertoevoeging: huisnummer_toevoeging ? String(huisnummer_toevoeging) : '',
     postcode,
     woonplaatsnaam: woonplaats,
   };
@@ -45,7 +38,7 @@ export function mapLocation(loc) {
     location.buurtcode = loc.buurt_code;
   }
 
-  if (loc.stadsdeelcode) {
+  if (loc.stadsdeel) {
     location.stadsdeelcode = loc.stadsdeel;
   }
 
@@ -57,9 +50,7 @@ export function mapLocation(loc) {
 }
 
 export const formatAddress = address => {
-  const toevoeging = address.huisnummer_toevoeging
-    ? `-${address.huisnummer_toevoeging}`
-    : '';
+  const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
   const display = address.openbare_ruimte
     ? `${address.openbare_ruimte} ${address.huisnummer}${address.huisletter}${toevoeging}, ${address.postcode} ${address.woonplaats}`
     : '_';
