@@ -43,7 +43,7 @@ const Location = ({ incident, stadsdeelList, onShowLocation, onEditLocation }) =
           onClick={onEditLocation}
           data-testid="location-button-edit"
         ></button>
-        <MapButton type="button" onClick={onShowLocation} data-testid="location-button-show">
+        <MapButton as="div" onClick={onShowLocation} data-testid="location-button-show">
           <StyledMap
             value={incident.location}
             mapOptions={mapOptions}
