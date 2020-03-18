@@ -1,8 +1,6 @@
 import React, { Fragment, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
+import { useSelector } from 'react-redux';
 import { Row, Column } from '@datapunt/asc-ui';
 import { useHistory } from 'react-router-dom';
 
@@ -14,26 +12,28 @@ import { makeSelectUserCan } from 'containers/App/selectors';
 import { DEPARTMENT_URL } from 'signals/settings/routes';
 
 const StyledList = styled(ListComponent)`
+  th {
+    font-weight: 400;
+  }
+
   th:first-child {
     width: 250px;
   }
 `;
 
-export const DepartmentOverviewContainer = ({ departments, userCan }) => {
+const DepartmentOverview = () => {
+  const departments = useSelector(makeSelectDepartments);
+  const userCan = useSelector(makeSelectUserCan);
   const history = useHistory();
 
   const onItemClick = useCallback(
-    e => {
+    event => {
       if (!userCan('change_department')) {
-        e.preventDefault();
+        event.preventDefault();
         return;
       }
 
-      const {
-        currentTarget: {
-          dataset: { itemId },
-        },
-      } = e;
+      const { currentTarget: { dataset: { itemId } } } = event;
 
       if (itemId) {
         history.push(`${DEPARTMENT_URL}/${itemId}`);
@@ -45,9 +45,7 @@ export const DepartmentOverviewContainer = ({ departments, userCan }) => {
   return (
     <Fragment>
       <PageHeader
-        title={`Afdelingen ${
-          departments.count ? `(${departments.count})` : ''
-        }`}
+        title={`Afdelingen${departments.count ? ` (${departments.count})` : ''}`}
       />
 
       <Row>
@@ -68,24 +66,4 @@ export const DepartmentOverviewContainer = ({ departments, userCan }) => {
   );
 };
 
-DepartmentOverviewContainer.defaultProps = {
-  departments: {},
-};
-
-DepartmentOverviewContainer.propTypes = {
-  departments: PropTypes.shape({
-    loading: PropTypes.bool,
-    list: PropTypes.arrayOf(PropTypes.shape({})),
-    count: PropTypes.number,
-  }),
-  userCan: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = createStructuredSelector({
-  departments: makeSelectDepartments,
-  userCan: makeSelectUserCan,
-});
-
-const withConnect = connect(mapStateToProps);
-
-export default withConnect(DepartmentOverviewContainer);
+export default DepartmentOverview;

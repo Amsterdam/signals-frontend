@@ -1,4 +1,11 @@
+import * as auth from 'shared/services/auth/auth';
+
 import checkVisibility from './index';
+
+jest.mock('shared/services/auth/auth', () => ({
+  __esModule: true,
+  ...jest.requireActual('shared/services/auth/auth'),
+}));
 
 describe('The check visibility service', () => {
   let control;
@@ -23,13 +30,17 @@ describe('The check visibility service', () => {
   });
 
   it('should show control when authorized', () => {
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+
     control.authenticated = true;
-    expect(checkVisibility(control, incident, true)).toBe(true);
+    expect(checkVisibility(control, incident)).toBe(true);
   });
 
   it('should hide control when not authorized', () => {
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
+
     control.authenticated = true;
-    expect(checkVisibility(control, incident, false)).toBe(false);
+    expect(checkVisibility(control, incident)).toBe(false);
   });
 
   describe('ifAllOf', () => {

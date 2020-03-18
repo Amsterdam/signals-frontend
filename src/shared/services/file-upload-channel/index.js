@@ -1,11 +1,7 @@
-import {
-  buffers,
-  eventChannel,
-  END,
-} from 'redux-saga';
+import { buffers, eventChannel, END } from 'redux-saga';
 
-function fileUploadChannel(endpoint, file, id) {
-  return eventChannel(emitter => {
+export default (endpoint, file, id) =>
+  eventChannel(emitter => {
     const formData = new window.FormData();
     formData.append('signal_id', id);
     formData.append('image', file);
@@ -52,6 +48,3 @@ function fileUploadChannel(endpoint, file, id) {
       xhr.abort();
     };
   }, buffers.sliding(2));
-}
-
-export default fileUploadChannel;

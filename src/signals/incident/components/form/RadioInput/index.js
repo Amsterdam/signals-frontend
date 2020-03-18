@@ -24,7 +24,7 @@ const RadioInput = ({
   let info;
   let label;
 
-  if (currentSelected &&  meta.values) {
+  if (currentSelected && meta?.values[currentSelected.id]) {
     ({ info, value: label } = meta.values[currentSelected.id]);
   }
 
