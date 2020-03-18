@@ -14,11 +14,11 @@ const MapDetail = ({ value, mapOptions, ...otherProps }) => {
   };
 
   return (
-    <div className="map-detail">
+    <span className="map-detail">
       {latlng && (
         <Map latlng={latlng} mapOptions={options} {...otherProps} />
       ) }
-    </div>
+    </span>
   );
 };
 
