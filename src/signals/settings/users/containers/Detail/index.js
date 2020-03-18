@@ -99,7 +99,7 @@ const UserDetail = () => {
     [data, getFormData, confirmedCancel]
   );
 
-  const title = `Gebruiker ${isExistingUser ? 'wijzigen' : 'toevoegen'}`;
+  const title = `${entityName} ${isExistingUser ? 'wijzigen' : 'toevoegen'}`;
 
   return (
     <Fragment>
