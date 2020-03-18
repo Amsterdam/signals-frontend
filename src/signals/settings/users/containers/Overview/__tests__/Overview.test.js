@@ -21,12 +21,7 @@ import { setUserFilters } from 'signals/settings/actions';
 import SettingsContext from 'signals/settings/context';
 import * as rolesSelectors from 'models/roles/selectors';
 
-import usersFilterInactiveJSON from 'utils/__tests__/fixtures/usersFilterInactive.json';
-import usersFiltersActiveJSON from 'utils/__tests__/fixtures/usersFiltersActive.json';
-import usersFiltersActiveAndRoleJSON from 'utils/__tests__/fixtures/usersFiltersActiveAndRole.json';
-import usersFiltersDisabledJSON from 'utils/__tests__/fixtures/usersFiltersDisabled.json';
-import usersFiltersInactiveAndRoleJSON from
-  'utils/__tests__/fixtures/usersFiltersInactiveAndRole.json';
+import usersOverviewFilters from 'utils/__tests__/fixtures/usersOverviewFilters.json';
 
 import UsersOverview from '..';
 
@@ -532,11 +527,11 @@ describe('signals/settings/users/containers/Overview', () => {
     await wait();
 
     fetch.mockResponses(
-      [JSON.stringify(usersFiltersDisabledJSON), { status: 200 }],
-      [JSON.stringify(usersFiltersActiveJSON), { status: 200 }],
-      [JSON.stringify(usersFilterInactiveJSON), { status: 200 }],
-      [JSON.stringify(usersFiltersActiveAndRoleJSON), { status: 200 }],
-      [JSON.stringify(usersFiltersInactiveAndRoleJSON), { status: 200 }],
+      [JSON.stringify(usersOverviewFilters.disabled), { status: 200 }],
+      [JSON.stringify(usersOverviewFilters.activeUsers), { status: 200 }],
+      [JSON.stringify(usersOverviewFilters.inactiveUsers), { status: 200 }],
+      [JSON.stringify(usersOverviewFilters.activeUsersAndRole), { status: 200 }],
+      [JSON.stringify(usersOverviewFilters.inactiveUsersAndRole), { status: 200 }],
     );
 
     const filterByUserActiveSelect = getByTestId('userActiveSelect');
