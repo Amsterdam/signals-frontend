@@ -10,7 +10,7 @@ import { smallMarkerIcon } from 'shared/services/configuration/map-markers';
 import MapDetail from '../../../MapDetail';
 import './style.scss';
 
-const MapButton = styled.button`
+const MapTile = styled.button`
   float: left;
   margin-right: 10px;
   padding: 0;
@@ -25,12 +25,12 @@ const StyledMap = styled(MapDetail)`
 
 const Location = ({ incident, stadsdeelList, onShowLocation, onEditLocation }) => {
   const address = incident.location.address;
-
   const mapOptions = {
     ...MAP_OPTIONS,
     zoom: 15,
     attributionControl: false, // don't show the map credits in the right bottom corner
   };
+
   return (
     <dl className="location">
       <dt className="location__definition" data-testid="location-definition">
@@ -43,13 +43,9 @@ const Location = ({ incident, stadsdeelList, onShowLocation, onEditLocation }) =
           onClick={onEditLocation}
           data-testid="location-button-edit"
         ></button>
-        <MapButton as="div" onClick={onShowLocation} data-testid="location-button-show">
-          <StyledMap
-            value={incident.location}
-            mapOptions={mapOptions}
-            icon={smallMarkerIcon}
-          />
-        </MapButton>
+        <MapTile as="div" onClick={onShowLocation} data-testid="location-button-show">
+          <StyledMap value={incident.location} mapOptions={mapOptions} icon={smallMarkerIcon} />
+        </MapTile>
         {incident.location.address_text ? (
           <div className="location__value-address">
             <div data-testid="location-value-address-stadsdeel">

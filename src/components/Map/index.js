@@ -1,31 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Map as MapComponent, Marker } from '@datapunt/react-maps';
+import { Map as MapComponent, Marker, TileLayer } from '@datapunt/react-maps';
 import { markerIcon } from 'shared/services/configuration/map-markers';
-import BackgroundLayer from 'components/BackgroundLayer';
 
-const Map = ({ latlng, mapOptions, icon, ...otherProps }) => {
-  const { latitude: lat, longitude: lng } = latlng;
+const Map = ({ lat, lng, options, icon, children, ...otherProps }) => (
+  <MapComponent data-testid="map-test-id" options={options} {...otherProps}>
+    {children}
 
-  return (
-    <MapComponent options={mapOptions} {...otherProps}>
-      <Marker args={[{ lat, lng }]} options={{ icon }} />
-      <BackgroundLayer />
-    </MapComponent>
-  );
-};
+    {lat && lng && <Marker args={[{ lat, lng }]} options={{ icon }} />}
+
+    <TileLayer
+      args={['https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png']}
+      options={{
+        subdomains: ['t1', 't2', 't3', 't4'],
+        tms: true,
+        attribution: options.attributionControl && 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
+      }}
+    />
+  </MapComponent>
+);
 
 Map.defaultProps = {
   icon: markerIcon,
 };
 
 Map.propTypes = {
-  latlng: PropTypes.shape({
-    latitude: PropTypes.number,
-    longitude: PropTypes.number,
-  }).isRequired,
-  mapOptions: PropTypes.shape({}).isRequired /** leaflet options */,
-  icon: PropTypes.shape({}),
+  lat: PropTypes.number,
+  lng: PropTypes.number,
+  options: PropTypes.shape({
+    attributionControl: PropTypes.bool,
+  }).isRequired /** leaflet options */,
+  icon: PropTypes.shape({}), // leaflet icon object
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
 };
 
 export default Map;
