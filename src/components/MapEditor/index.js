@@ -72,7 +72,7 @@ Map.propTypes = {
       woonplaats: PropTypes.string,
     }),
   }).isRequired,
-  options: PropTypes.shape({ }).isRequired,
+  options: PropTypes.shape({ }).isRequired, /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */
 };
 
 export default memo(Map);
