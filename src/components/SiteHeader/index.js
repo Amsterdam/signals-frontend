@@ -4,7 +4,8 @@ import { NavLink } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
-import { LogoShort, Logout as LogoutIcon } from '@datapunt/asc-assets';
+import { svg, Logout as LogoutIcon } from '@datapunt/asc-assets';
+
 import {
   Header as HeaderComponent,
   MenuFlyOut,
@@ -43,7 +44,7 @@ const StyledHeader = styled(HeaderComponent)`
         }
 
         h1 a span {
-          background-image: url(${LogoShort}) !important;
+          background-image: url(${svg.LogoShort}) !important;
         }
       }
   `}
