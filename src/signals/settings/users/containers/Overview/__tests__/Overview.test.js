@@ -451,6 +451,8 @@ describe('signals/settings/users/containers/Overview', () => {
 
     const filterValue = 'Regievoerder';
 
+    expect(dispatch).toHaveBeenCalledTimes(0);
+
     act(() => {
       fireEvent.change(filterByRoleSelect, { target: { value: filterValue } });
     });
@@ -524,7 +526,7 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(filterByRoleSelect.value).toBe(roleFilterValue);
   });
 
-  it('dispatches the correct actions on successful getSeason fetch request', async () => {
+  it('dispatches the correct actions on filter changes', async () => {
     const { getByTestId } = render(usersOverviewWithAppContext());
 
     await wait();

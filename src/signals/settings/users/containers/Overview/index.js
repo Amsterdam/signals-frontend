@@ -116,7 +116,9 @@ const UsersOverviewContainer = () => {
 
       const { currentTarget: { dataset: { itemId } } } = event;
 
-      if (itemId) { history.push(`${USER_URL}/${itemId}`); }
+      if (itemId) {
+        history.push(`${USER_URL}/${itemId}`);
+      }
     },
     [history, userCan]
   );
