@@ -12,6 +12,10 @@ import { makeSelectUserCan } from 'containers/App/selectors';
 import { DEPARTMENT_URL } from 'signals/settings/routes';
 
 const StyledList = styled(ListComponent)`
+  th {
+    font-weight: 400;
+  }
+
   th:first-child {
     width: 250px;
   }
@@ -23,17 +27,13 @@ const DepartmentOverview = () => {
   const history = useHistory();
 
   const onItemClick = useCallback(
-    e => {
+    event => {
       if (!userCan('change_department')) {
-        e.preventDefault();
+        event.preventDefault();
         return;
       }
 
-      const {
-        currentTarget: {
-          dataset: { itemId },
-        },
-      } = e;
+      const { currentTarget: { dataset: { itemId } } } = event;
 
       if (itemId) {
         history.push(`${DEPARTMENT_URL}/${itemId}`);
