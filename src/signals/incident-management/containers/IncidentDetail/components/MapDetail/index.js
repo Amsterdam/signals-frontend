@@ -7,24 +7,19 @@ import './style.scss';
 
 const MapDetail = ({ value, mapOptions, ...otherProps }) => {
   const location = value && value.geometrie && value.geometrie.coordinates;
-  const latlng = location ? { latitude: location[1], longitude: location[0] } : null;
+  const lat = location && location[1];
+  const lng = location && location[0];
   const options = {
     ...mapOptions,
-    center: location.reverse(),
+    center: [lat, lng],
   };
 
-  return (
-    <span className="map-detail">
-      {latlng && (
-        <Map latlng={latlng} mapOptions={options} {...otherProps} />
-      ) }
-    </span>
-  );
+  return location ? <Map lat={lat} lng={lng} mapOptions={options} {...otherProps} /> : null;
 };
 
 MapDetail.propTypes = {
   value: locationType.isRequired,
-  mapOptions: PropTypes.shape({}).isRequired, /** leaflet options */
+  mapOptions: PropTypes.shape({}).isRequired /** leaflet options */,
 };
 
 export default MapDetail;
