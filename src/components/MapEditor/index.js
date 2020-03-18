@@ -1,6 +1,6 @@
 import React, { memo , useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Map, Marker } from '@datapunt/react-maps';
+import { Map as MapComponent, Marker } from '@datapunt/react-maps';
 import { ViewerContainer } from '@datapunt/asc-ui';
 import { Zoom } from '@datapunt/amsterdam-react-maps/lib/components';
 import styled from '@datapunt/asc-core';
@@ -13,7 +13,7 @@ const MapWrapper = styled.div`
   position: relative;
 `;
 
-const StyledMap = styled(Map)`
+const StyledMap = styled(MapComponent)`
   width: 100%;
   height: 450px;
 `;
@@ -22,7 +22,7 @@ const StyledViewerContainer = styled(ViewerContainer)`
   z-index: 400;
 `;
 
-const MapEditor = ({ location, options }) => {
+const Map = ({ location, options }) => {
   const [marker, setMarker] = useState();
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const MapEditor = ({ location, options }) => {
 };
 
 
-MapEditor.propTypes = {
+Map.propTypes = {
   location: PropTypes.shape({
     geometrie: PropTypes.shape({
       type: PropTypes.string,
@@ -75,4 +75,4 @@ MapEditor.propTypes = {
   options: PropTypes.shape({ }).isRequired,
 };
 
-export default memo(MapEditor);
+export default memo(Map);
