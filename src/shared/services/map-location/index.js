@@ -12,7 +12,7 @@ export const feature2location = feature => {
 };
 
 /**
- * converts the sia location in latlon fromat
+ * converts the location from `sia` location format to latlon format
  */
 export function mapLocation(loc) {
   const location = {};
@@ -77,7 +77,7 @@ export const address2pdok = address => {
 };
 
 /**
- * converts the geocoder location in sia fromat
+ * converts the geocoder location in sia format
  */
 export const getLocation = loc => {
   const location = {};

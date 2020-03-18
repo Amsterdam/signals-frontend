@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import mapLocation from 'shared/services/map-location';
 import MapEditor from 'components/MapEditor';
 
+import MAP_OPTIONS, { DEFAULT_MARKER_POSITION } from 'shared/services/configuration/map-options';
 import Header from '../Header';
-import { DEFAULT_MARKER_POSITION } from '../../../../../shared/services/configuration/map-options';
 
 const MapInput = ({
   handler, touched, hasError, meta, parent, getError, validatorsOrOpts,
@@ -37,7 +37,8 @@ const MapInput = ({
               getError={getError}
             >
               <div className="invoer">
-                <MapEditor onLocationChange={onLocationChange} location={value} />
+                {/* The implementation of onLocationChange will follow in the next pr */}
+                <MapEditor onLocationChange={onLocationChange} location={value} options={MAP_OPTIONS}/>
               </div>
             </Header>
           </div>

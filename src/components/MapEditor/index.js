@@ -4,7 +4,6 @@ import { Map, Marker } from '@datapunt/react-maps';
 import { ViewerContainer } from '@datapunt/asc-ui';
 import { Zoom } from '@datapunt/amsterdam-react-maps/lib/components';
 import styled from '@datapunt/asc-core';
-import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import BackgroundLayer from 'components/BackgroundLayer';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import { feature2location } from 'shared/services/map-location';
@@ -23,7 +22,7 @@ const StyledViewerContainer = styled(ViewerContainer)`
   z-index: 400;
 `;
 
-const MapEditor = ({ location }) => {
+const MapEditor = ({ location, options }) => {
   const [marker, setMarker] = useState();
 
   useEffect(() => {
@@ -33,12 +32,11 @@ const MapEditor = ({ location }) => {
     const latlng = feature2location(location.geometrie);
     marker.setLatLng(latlng);
     marker.setOpacity(opacity);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [marker, location]);
 
   return (
     <MapWrapper>
-      <StyledMap options={MAP_OPTIONS}>
+      <StyledMap options={options}>
         <StyledViewerContainer bottomRight={<Zoom />} />
         <Marker
           setInstance={setMarker}
@@ -58,11 +56,23 @@ const MapEditor = ({ location }) => {
   );
 };
 
+
 MapEditor.propTypes = {
   location: PropTypes.shape({
-    geometrie: PropTypes.shape({}),
-    address: PropTypes.shape({}),
+    geometrie: PropTypes.shape({
+      type: PropTypes.string,
+      coordinates: [PropTypes.number, PropTypes.number],
+    }),
+    address: PropTypes.shape({
+      openbare_ruimte: PropTypes.string,
+      huisnummer: PropTypes.string,
+      huisletter: PropTypes.string,
+      huisnummer_toevoeging: PropTypes.string,
+      postcode: PropTypes.string,
+      woonplaats: PropTypes.string,
+    }),
   }).isRequired,
+  options: PropTypes.shape({ }).isRequired,
 };
 
 export default memo(MapEditor);

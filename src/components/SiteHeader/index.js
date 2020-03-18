@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
-import { svg, Logout as LogoutIcon } from '@datapunt/asc-assets';
+import { LogoShort, Logout as LogoutIcon } from '@datapunt/asc-assets';
 import {
   Header as HeaderComponent,
   MenuFlyOut,
@@ -27,19 +27,23 @@ const StyledHeader = styled(HeaderComponent)`
     font-weight: 400;
     text-decoration: none;
   }
-
-  ${({ isFrontOffice, tall }) => isFrontOffice && tall && css`
-    & {
-      max-width: 960px;
-      h1 {
-        margin-left: ${themeSpacing(-5)};
-        font-weight: 400;
-      }
-
-      h1 a {
-        &,
-        span {
-          width: 153px;
+  ${({ isFrontOffice, tall }) =>
+    isFrontOffice &&
+    tall &&
+    css`
+      & {
+        max-width: 960px;
+        h1 {
+          margin-left: ${themeSpacing(-5)};
+        }
+        h1 a {
+          &,
+          span {
+            width: 153px;
+          }
+        }
+        h1 a span {
+          background-image: url(${LogoShort}) !important;
         }
       }
 
