@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import mapLocation from 'shared/services/map-location';
 import MapEditor from 'components/MapEditor';
 
 import Header from '../Header';
@@ -20,8 +19,8 @@ const MapInput = ({
   };
 
   /* istanbul ignore next */
-  const onLocationChange = d => {
-    parent.meta.updateIncident({ location: mapLocation(d) });
+  const onLocationChange = location => {
+    parent.meta.updateIncident({ location });
   };
 
   return (
