@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import mapLocation from 'shared/services/map-location';
-import MapEditor from 'components/MapEditor';
+import MapInteractive from 'components/MapEditor';
 
 import MAP_OPTIONS, { DEFAULT_MARKER_POSITION } from 'shared/services/configuration/map-options';
 import Header from '../Header';
@@ -38,7 +38,7 @@ const MapInput = ({
             >
               <div className="invoer">
                 {/* The implementation of onLocationChange will follow in the next pr */}
-                <MapEditor onLocationChange={onLocationChange} location={value} options={MAP_OPTIONS}/>
+                <MapInteractive onLocationChange={onLocationChange} location={value} options={MAP_OPTIONS}/>
               </div>
             </Header>
           </div>

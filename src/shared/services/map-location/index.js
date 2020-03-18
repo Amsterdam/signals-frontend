@@ -11,6 +11,26 @@ export const feature2location = feature => {
   };
 };
 
+export const address2pdok = address => {
+  const {
+    openbare_ruimte,
+    huisnummer,
+    huisletter,
+    huisnummer_toevoeging,
+    postcode,
+    woonplaats,
+  } = address;
+
+  return {
+    straatnaam: openbare_ruimte,
+    huisnummer: `${huisnummer}`,
+    huisletter: huisletter || '',
+    huisnummertoevoeging: huisnummer_toevoeging || '',
+    postcode,
+    woonplaatsnaam: woonplaats,
+  };
+};
+
 /**
  * converts the location from `sia` location format to latlon format
  */
@@ -35,71 +55,6 @@ export function mapLocation(loc) {
 
   return location;
 }
-
-export const pdok2address = pdokAddress => {
-  const {
-    straatnaam,
-    huisnummer,
-    huisletter,
-    huisnummertoevoeging,
-    postcode,
-    woonplaatsnaam,
-  } = pdokAddress;
-
-  return {
-    openbare_ruimte: straatnaam,
-    huisnummer: `${huisnummer}`,
-    huisletter: huisletter || '',
-    huisnummer_toevoeging: huisnummertoevoeging || '',
-    postcode,
-    woonplaats: woonplaatsnaam,
-  };
-};
-
-export const address2pdok = address => {
-  const {
-    openbare_ruimte,
-    huisnummer,
-    huisletter,
-    huisnummer_toevoeging,
-    postcode,
-    woonplaats,
-  } = address;
-
-  return {
-    straatnaam: openbare_ruimte,
-    huisnummer: `${huisnummer}`,
-    huisletter: huisletter || '',
-    huisnummertoevoeging: huisnummer_toevoeging || '',
-    postcode,
-    woonplaatsnaam: woonplaats,
-  };
-};
-
-/**
- * converts the geocoder location in sia format
- */
-export const getLocation = loc => {
-  const location = {};
-
-  if (loc.location) {
-    location.geometrie = location2feature(loc.location);
-  }
-
-  if (loc.buurtcode) {
-    location.buurt_code = loc.buurtcode;
-  }
-
-  if (loc.stadsdeel) {
-    location.stadsdeel = loc.stadsdeelcode;
-  }
-
-  if (loc.address) {
-    location.address = pdok2address(loc.address);
-  }
-
-  return location;
-};
 
 export const formatAddress = address => {
   const toevoeging = address.huisnummer_toevoeging
