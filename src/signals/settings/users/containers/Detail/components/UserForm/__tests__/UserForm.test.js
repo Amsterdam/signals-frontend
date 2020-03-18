@@ -2,9 +2,24 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { mount } from 'enzyme';
 import { withAppContext } from 'test/utils';
+import * as modelSelectors from 'models/departments/selectors';
+import departmentsJson from 'utils/__tests__/fixtures/departments.json';
 
 import UserForm from '..';
 
+const departments = {
+  ...departmentsJson,
+  count: departmentsJson.count,
+  list: departmentsJson.results,
+  results: undefined,
+};
+
+jest.mock('models/departments/selectors', () => ({
+  __esModule: true,
+  ...jest.requireActual('models/departments/selectors'),
+}));
+
+jest.spyOn(modelSelectors, 'makeSelectDepartments').mockImplementation(() => departments);
 
 describe('signals/settings/users/containers/Detail/components/UserForm', () => {
   it('should render the correct fields', () => {
@@ -46,6 +61,7 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
       is_active: true,
       profile: {
         note: 'abc',
+        departments: [],
       },
     };
 

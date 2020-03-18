@@ -3,17 +3,27 @@ import { act } from 'react-dom/test-utils';
 import { render, fireEvent, cleanup } from '@testing-library/react';
 import { mount } from 'enzyme';
 import * as reactRouterDom from 'react-router-dom';
+
 import { withAppContext } from 'test/utils';
 import routes from 'signals/settings/routes';
 import userJSON from 'utils/__tests__/fixtures/user.json';
+import departmentsJson from 'utils/__tests__/fixtures/departments.json';
 import {
   VARIANT_ERROR,
   VARIANT_SUCCESS,
   TYPE_LOCAL,
 } from 'containers/Notification/constants';
+import * as modelSelectors from 'models/departments/selectors';
 
 import useFetchUser from '../hooks/useFetchUser';
 import UserDetail, { UserDetailContainerComponent } from '..';
+
+const departments = {
+  ...departmentsJson,
+  count: departmentsJson.count,
+  list: departmentsJson.results,
+  results: undefined,
+};
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -39,6 +49,13 @@ jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
 }));
 
 const userCan = jest.fn(() => true);
+
+jest.mock('models/departments/selectors', () => ({
+  __esModule: true,
+  ...jest.requireActual('models/departments/selectors'),
+}));
+
+jest.spyOn(modelSelectors, 'makeSelectDepartments').mockImplementation(() => departments);
 
 describe('signals/settings/users/containers/Detail', () => {
   afterEach(() => {
@@ -529,12 +546,11 @@ describe('signals/settings/users/containers/Detail', () => {
     }));
 
     const showGlobalNotification = jest.fn();
-    const id = userJSON.id;
     const state = { some: "random state" };
 
     useFetchUser.mockImplementationOnce(() => ({
       isSuccess: true,
-      data: { id },
+      data: userJSON,
     }));
 
     expect(push).not.toHaveBeenCalled();

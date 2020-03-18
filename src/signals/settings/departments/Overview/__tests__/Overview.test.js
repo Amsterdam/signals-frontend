@@ -76,7 +76,7 @@ describe('signals/settings/departments/Overview', () => {
   it('should render a title', () => {
     jest
       .spyOn(modelSelectors, 'makeSelectDepartments')
-      .mockImplementation(() => ({ loading: true }));
+      .mockImplementation(() => ({ list: [], loading: true }));
 
     const { getByText } = render(withAppContext(<DepartmentOverview />));
 
@@ -100,7 +100,7 @@ describe('signals/settings/departments/Overview', () => {
 
     jest
       .spyOn(modelSelectors, 'makeSelectDepartments')
-      .mockImplementation(() => ({ loading: true }));
+      .mockImplementation(() => ({ list: [], loading: true }));
 
     rerender(withAppContext(<DepartmentOverview />));
 
