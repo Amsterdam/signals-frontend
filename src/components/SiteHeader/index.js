@@ -4,7 +4,8 @@ import { NavLink } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
-import { LogoShort, Logout as LogoutIcon } from '@datapunt/asc-assets';
+import { svg, Logout as LogoutIcon } from '@datapunt/asc-assets';
+
 import {
   Header as HeaderComponent,
   MenuFlyOut,
