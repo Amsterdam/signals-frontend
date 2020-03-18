@@ -1,0 +1,2404 @@
+{
+  "inactiveUsers": {
+    "_links": {
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/?page=1&page_size=30&is_active=false"
+      },
+      "next": {
+        "href": null
+      },
+      "previous": {
+        "href": null
+      }
+    },
+    "count": 19,
+    "results": [
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/144"
+          }
+        },
+        "_display": "a@b.nl",
+        "id": 144,
+        "username": "a@b.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": "",
+          "departments": [],
+          "created_at": "2020-02-19T16:39:12.993448+01:00",
+          "updated_at": "2020-03-11T09:42:16.417411+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/5"
+          }
+        },
+        "_display": "b.heupers@amsterdam.nl",
+        "id": 5,
+        "username": "b.heupers@amsterdam.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.853071+02:00",
+          "updated_at": "2019-10-24T10:25:48.853101+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/40"
+          }
+        },
+        "_display": "j.koetsier@amsterdam.nl",
+        "id": 40,
+        "username": "j.koetsier@amsterdam.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.868180+02:00",
+          "updated_at": "2019-10-24T10:25:48.868194+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/25"
+          }
+        },
+        "_display": "j.swart@amsterdam.nl",
+        "id": 25,
+        "username": "j.swart@amsterdam.nl",
+        "is_active": false,
+        "roles": [
+          "Coördinator"
+        ],
+        "profile": {
+          "note": "",
+          "departments": [
+            "Actie Service Centrum",
+            "Afval en Grondstoffen",
+            "CCA",
+            "FB",
+            "GGD",
+            "Omgevingsdienst",
+            "Openbare Orde & Veiligheid",
+            "Politie",
+            "Port of Amsterdam",
+            "Stadsloket",
+            "Stadswerken",
+            "THOR",
+            "V&OR",
+            "V&OR - VIS",
+            "V&OR OVL",
+            "V&OR VRI",
+            "VTH",
+            "Waternet",
+            "Wonen"
+          ],
+          "created_at": "2019-10-24T10:25:48.871083+02:00",
+          "updated_at": "2020-02-22T12:32:39.472331+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/119"
+          }
+        },
+        "_display": "j.van.deursen+1@amsterdam.nl",
+        "id": 119,
+        "username": "j.van.deursen+1@amsterdam.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": "Deze gebruiker is niet actief.\r\n\r\nNog steeds niet.\r\n\r\n🤷",
+          "departments": [],
+          "created_at": "2019-12-05T10:06:14.933715+01:00",
+          "updated_at": "2020-03-05T15:17:22.712619+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/10"
+          }
+        },
+        "_display": "j.van.t.hert@amsterdam.nl",
+        "id": 10,
+        "username": "j.van.t.hert@amsterdam.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.863323+02:00",
+          "updated_at": "2019-10-24T10:25:48.863339+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/32"
+          }
+        },
+        "_display": "niels.dijk@amsterdam.nl",
+        "id": 32,
+        "username": "niels.dijk@amsterdam.nl",
+        "is_active": false,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.869986+02:00",
+          "updated_at": "2019-10-24T10:25:48.870000+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/27"
+          }
+        },
+        "_display": "r.lodder@amsterdam.nl",
+        "id": 27,
+        "username": "r.lodder@amsterdam.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.866368+02:00",
+          "updated_at": "2019-10-24T10:25:48.866384+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/43"
+          }
+        },
+        "_display": "Rowena.vanwaveren@oudegrachtgroep.nl",
+        "id": 43,
+        "username": "Rowena.vanwaveren@oudegrachtgroep.nl",
+        "is_active": false,
+        "roles": [
+          "Coördinator"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.870511+02:00",
+          "updated_at": "2019-10-24T10:25:48.870525+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/50"
+          }
+        },
+        "_display": "ruurd.moelker@amsterdam.nl",
+        "id": 50,
+        "username": "ruurd.moelker@amsterdam.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.876885+02:00",
+          "updated_at": "2019-10-24T10:25:48.876901+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/16"
+          }
+        },
+        "_display": "s.preeker@amsterdam.nl",
+        "id": 16,
+        "username": "s.preeker@amsterdam.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.847120+02:00",
+          "updated_at": "2019-10-24T10:25:48.847155+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/128"
+          }
+        },
+        "_display": "sia+testuser12@amsterdam.nl",
+        "id": 128,
+        "username": "sia+testuser12@amsterdam.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-12-16T08:49:46.678247+01:00",
+          "updated_at": "2019-12-16T08:49:46.678270+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/129"
+          }
+        },
+        "_display": "sia+testuser13@amsterdam.nl",
+        "id": 129,
+        "username": "sia+testuser13@amsterdam.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-12-16T08:52:33.783459+01:00",
+          "updated_at": "2019-12-16T08:52:33.783492+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/130"
+          }
+        },
+        "_display": "sia+testuser14@amsterdam.nl",
+        "id": 130,
+        "username": "sia+testuser14@amsterdam.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-12-16T08:52:32.226630+01:00",
+          "updated_at": "2019-12-16T08:52:32.226669+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/133"
+          }
+        },
+        "_display": "sia+testuser17@amsterdam.nl",
+        "id": 133,
+        "username": "sia+testuser17@amsterdam.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-12-16T09:16:20.325876+01:00",
+          "updated_at": "2019-12-16T09:16:20.325901+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/140"
+          }
+        },
+        "_display": "sia+testuser18@amsterdam.nl",
+        "id": 140,
+        "username": "sia+testuser18@amsterdam.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2020-01-14T09:45:15.645106+01:00",
+          "updated_at": "2020-01-14T09:45:15.645140+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/106"
+          }
+        },
+        "_display": "sia+testuser1@amsterdam.nl",
+        "id": 106,
+        "username": "sia+testuser1@amsterdam.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-11-22T13:38:14.368333+01:00",
+          "updated_at": "2019-11-22T13:38:14.368359+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/107"
+          }
+        },
+        "_display": "sia+testuser2@amsterdam.nl",
+        "id": 107,
+        "username": "sia+testuser2@amsterdam.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-11-22T13:41:18.984322+01:00",
+          "updated_at": "2019-11-22T13:41:18.984339+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/15"
+          }
+        },
+        "_display": "signals.admin@amsterdam.nl",
+        "id": 15,
+        "username": "signals.admin@amsterdam.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.872448+02:00",
+          "updated_at": "2019-10-24T10:25:48.872660+02:00"
+        }
+      }
+    ]
+  },
+  "activeUsersAndRole": {
+    "_links": {
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/?page=1&page_size=30&is_active=true&role=Behandelaar"
+      },
+      "next": {
+        "href": null
+      },
+      "previous": {
+        "href": null
+      }
+    },
+    "count": 15,
+    "results": [
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/61"
+          }
+        },
+        "_display": "aicha.ennali@amsterdam.nl",
+        "id": 61,
+        "username": "aicha.ennali@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": "111",
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.879224+02:00",
+          "updated_at": "2020-02-18T09:22:38.614547+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/26"
+          }
+        },
+        "_display": "c.bouman@amsterdam.nl",
+        "id": 26,
+        "username": "c.bouman@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar",
+          "Coördinator"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.875509+02:00",
+          "updated_at": "2019-10-24T10:25:48.875523+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/29"
+          }
+        },
+        "_display": "d.nonkes@amsterdam.nl",
+        "id": 29,
+        "username": "d.nonkes@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar",
+          "Coördinator"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.869423+02:00",
+          "updated_at": "2019-10-24T10:25:48.869437+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/45"
+          }
+        },
+        "_display": "d.van.buiten@amsterdam.nl",
+        "id": 45,
+        "username": "d.van.buiten@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [
+            "Actie Service Centrum"
+          ],
+          "created_at": "2019-10-24T10:25:48.873796+02:00",
+          "updated_at": "2019-11-25T13:58:45.543722+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/92"
+          }
+        },
+        "_display": "digitalechecklisten@amsterdam.nl",
+        "id": 92,
+        "username": "digitalechecklisten@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.881789+02:00",
+          "updated_at": "2019-10-24T10:25:48.881810+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/37"
+          }
+        },
+        "_display": "h.oldenbeuving@amsterdam.nl",
+        "id": 37,
+        "username": "h.oldenbeuving@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Monitor",
+          "Behandelaar",
+          "Coördinator",
+          "Regievoerder"
+        ],
+        "profile": {
+          "note": "test notitie 5",
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.865605+02:00",
+          "updated_at": "2020-03-04T09:18:24.636106+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/143"
+          }
+        },
+        "_display": "jasper.maas@amsterdam.nl",
+        "id": 143,
+        "username": "jasper.maas@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": "Test 123\r\n\r\nNu in multiline :)",
+          "departments": [
+            "Actie Service Centrum"
+          ],
+          "created_at": "2020-02-19T09:56:27.044362+01:00",
+          "updated_at": "2020-03-04T12:12:55.246271+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/60"
+          }
+        },
+        "_display": "m.heuckeroth@amsterdam.nl",
+        "id": 60,
+        "username": "m.heuckeroth@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.878574+02:00",
+          "updated_at": "2019-10-24T10:25:48.878595+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/55"
+          }
+        },
+        "_display": "m.langereis@amsterdam.nl",
+        "id": 55,
+        "username": "m.langereis@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.888949+02:00",
+          "updated_at": "2019-10-24T10:25:48.888963+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/59"
+          }
+        },
+        "_display": "n.morees@amsterdam.nl",
+        "id": 59,
+        "username": "n.morees@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.893156+02:00",
+          "updated_at": "2019-10-24T10:25:48.893188+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/21"
+          }
+        },
+        "_display": "opleiding02@amsterdam.nl",
+        "id": 21,
+        "username": "opleiding02@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.862556+02:00",
+          "updated_at": "2019-10-24T10:25:48.862588+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/24"
+          }
+        },
+        "_display": "opleiding05@amsterdam.nl",
+        "id": 24,
+        "username": "opleiding05@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.857297+02:00",
+          "updated_at": "2019-10-24T10:25:48.857338+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/56"
+          }
+        },
+        "_display": "rutger.bruin@amsterdam.nl",
+        "id": 56,
+        "username": "rutger.bruin@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.889569+02:00",
+          "updated_at": "2019-10-24T10:25:48.889597+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/58"
+          }
+        },
+        "_display": "s.moring@amsterdam.nl",
+        "id": 58,
+        "username": "s.moring@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.890118+02:00",
+          "updated_at": "2019-10-24T10:25:48.890132+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/2"
+          }
+        },
+        "_display": "signals.behandelaar@amsterdam.nl",
+        "id": 2,
+        "username": "signals.behandelaar@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.850733+02:00",
+          "updated_at": "2019-10-24T10:25:48.850764+02:00"
+        }
+      }
+    ]
+  },
+  "activeUsers": {
+    "_links": {
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/?page=1&page_size=30&is_active=true"
+      },
+      "next": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/?is_active=true&page=2&page_size=30"
+      },
+      "previous": {
+        "href": null
+      }
+    },
+    "count": 84,
+    "results": [
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/137"
+          }
+        },
+        "_display": "a.aramake@amsterdam.nl",
+        "id": 137,
+        "username": "a.aramake@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Regievoerder"
+        ],
+        "profile": {
+          "note": "test test test",
+          "departments": [
+            "Actie Service Centrum"
+          ],
+          "created_at": "2019-12-23T14:08:36.923020+01:00",
+          "updated_at": "2020-02-27T09:48:50.429929+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/145"
+          }
+        },
+        "_display": "a.boersma@amsterdam.nl",
+        "id": 145,
+        "username": "a.boersma@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Coördinator"
+        ],
+        "profile": {
+          "note": "Annemarieke Boersma werkt voor Datapunt Service Delivery, zij heeft een account gekregen om te kijken of de netwerk verbinding ADW <-> meldingen.amsterdam.nl beter kan.",
+          "departments": [
+            "Actie Service Centrum",
+            "Afval en Grondstoffen",
+            "CCA",
+            "FB",
+            "GGD",
+            "Omgevingsdienst",
+            "Openbare Orde & Veiligheid",
+            "Politie",
+            "Port of Amsterdam",
+            "Stadsloket",
+            "Stadswerken",
+            "THOR",
+            "V&OR",
+            "V&OR - VIS",
+            "V&OR OVL",
+            "V&OR VRI",
+            "VTH",
+            "Waternet",
+            "Wonen"
+          ],
+          "created_at": "2020-02-26T08:45:54.156374+01:00",
+          "updated_at": "2020-02-26T08:45:54.156405+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/4"
+          }
+        },
+        "_display": "a.tudorache@amsterdam.nl",
+        "id": 4,
+        "username": "a.tudorache@amsterdam.nl",
+        "is_active": true,
+        "roles": [],
+        "profile": {
+          "note": "a",
+          "departments": [
+            "Actie Service Centrum",
+            "Afval en Grondstoffen",
+            "CCA",
+            "FB",
+            "GGD",
+            "Omgevingsdienst",
+            "Openbare Orde & Veiligheid",
+            "Politie",
+            "Port of Amsterdam",
+            "Stadsloket",
+            "Stadswerken",
+            "THOR",
+            "V&OR",
+            "V&OR - VIS",
+            "V&OR OVL",
+            "V&OR VRI",
+            "VTH",
+            "Waternet",
+            "Wonen"
+          ],
+          "created_at": "2019-10-24T10:25:48.854049+02:00",
+          "updated_at": "2020-03-10T11:21:28.179815+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/33"
+          }
+        },
+        "_display": "acceptance@sigmax.nl",
+        "id": 33,
+        "username": "acceptance@sigmax.nl",
+        "is_active": true,
+        "roles": [],
+        "profile": {
+          "note": "",
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.866998+02:00",
+          "updated_at": "2020-03-10T16:08:30.608075+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/38"
+          }
+        },
+        "_display": "acceptatie@sigmax.nl",
+        "id": 38,
+        "username": "acceptatie@sigmax.nl",
+        "is_active": true,
+        "roles": [],
+        "profile": {
+          "note": "",
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.864596+02:00",
+          "updated_at": "2020-03-10T16:08:21.936171+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/61"
+          }
+        },
+        "_display": "aicha.ennali@amsterdam.nl",
+        "id": 61,
+        "username": "aicha.ennali@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": "111",
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.879224+02:00",
+          "updated_at": "2020-02-18T09:22:38.614547+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/34"
+          }
+        },
+        "_display": "ali.kaya@amsterdam.nl",
+        "id": 34,
+        "username": "ali.kaya@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Monitor"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.856030+02:00",
+          "updated_at": "2019-10-24T10:25:48.856062+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/147"
+          }
+        },
+        "_display": "arjandata@desoftwaretesters.nl",
+        "id": 147,
+        "username": "arjandata@desoftwaretesters.nl",
+        "is_active": true,
+        "roles": [
+          "Regievoerder+"
+        ],
+        "profile": {
+          "note": "Arjan is de nieuwe software tester die het SIA team komt versterken.",
+          "departments": [
+            "Actie Service Centrum",
+            "Afval en Grondstoffen",
+            "CCA",
+            "FB",
+            "GGD",
+            "Omgevingsdienst",
+            "Openbare Orde & Veiligheid",
+            "Politie",
+            "Port of Amsterdam",
+            "Stadsloket",
+            "Stadswerken",
+            "THOR",
+            "V&OR",
+            "V&OR - VIS",
+            "V&OR OVL",
+            "V&OR VRI",
+            "VTH",
+            "Waternet",
+            "Wonen"
+          ],
+          "created_at": "2020-03-03T08:43:46.717315+01:00",
+          "updated_at": "2020-03-03T08:43:46.717350+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/44"
+          }
+        },
+        "_display": "arvid.smits@amsterdam.nl",
+        "id": 44,
+        "username": "arvid.smits@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Regievoerder"
+        ],
+        "profile": {
+          "note": "test1",
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.873260+02:00",
+          "updated_at": "2020-03-12T09:25:20.907389+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/36"
+          }
+        },
+        "_display": "b.monne@amsterdam.nl",
+        "id": 36,
+        "username": "b.monne@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Monitor"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.859248+02:00",
+          "updated_at": "2019-10-24T10:25:48.859277+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/105"
+          }
+        },
+        "_display": "c.a.lanenga@gmail.com",
+        "id": 105,
+        "username": "c.a.lanenga@gmail.com",
+        "is_active": true,
+        "roles": [],
+        "profile": {
+          "note": "Test",
+          "departments": [
+            "Actie Service Centrum"
+          ],
+          "created_at": "2020-03-12T13:34:34.927711+01:00",
+          "updated_at": "2020-03-12T13:34:58.804528+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/26"
+          }
+        },
+        "_display": "c.bouman@amsterdam.nl",
+        "id": 26,
+        "username": "c.bouman@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar",
+          "Coördinator"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.875509+02:00",
+          "updated_at": "2019-10-24T10:25:48.875523+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/6"
+          }
+        },
+        "_display": "c.coopmans@amsterdam.nl",
+        "id": 6,
+        "username": "c.coopmans@amsterdam.nl",
+        "is_active": true,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.840906+02:00",
+          "updated_at": "2019-10-24T10:25:48.840962+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/99"
+          }
+        },
+        "_display": "c.pinas@amsterdam.nl",
+        "id": 99,
+        "username": "c.pinas@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Regievoerder"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.886168+02:00",
+          "updated_at": "2019-10-24T10:25:48.886182+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/134"
+          }
+        },
+        "_display": "c.wyse@amsterdam.nl",
+        "id": 134,
+        "username": "c.wyse@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Monitor"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [
+            "Actie Service Centrum"
+          ],
+          "created_at": "2019-12-16T15:07:38.618202+01:00",
+          "updated_at": "2019-12-16T15:08:16.907004+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/29"
+          }
+        },
+        "_display": "d.nonkes@amsterdam.nl",
+        "id": 29,
+        "username": "d.nonkes@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar",
+          "Coördinator"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.869423+02:00",
+          "updated_at": "2019-10-24T10:25:48.869437+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/45"
+          }
+        },
+        "_display": "d.van.buiten@amsterdam.nl",
+        "id": 45,
+        "username": "d.van.buiten@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [
+            "Actie Service Centrum"
+          ],
+          "created_at": "2019-10-24T10:25:48.873796+02:00",
+          "updated_at": "2019-11-25T13:58:45.543722+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/46"
+          }
+        },
+        "_display": "david.vanbuiten@elements.nl",
+        "id": 46,
+        "username": "david.vanbuiten@elements.nl",
+        "is_active": true,
+        "roles": [
+          "Regievoerder+"
+        ],
+        "profile": {
+          "note": "",
+          "departments": [
+            "Actie Service Centrum"
+          ],
+          "created_at": "2019-10-24T10:25:48.898336+02:00",
+          "updated_at": "2020-03-04T12:06:22.429159+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/92"
+          }
+        },
+        "_display": "digitalechecklisten@amsterdam.nl",
+        "id": 92,
+        "username": "digitalechecklisten@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.881789+02:00",
+          "updated_at": "2019-10-24T10:25:48.881810+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/136"
+          }
+        },
+        "_display": "DWH_IVS@amsterdam.nl",
+        "id": 136,
+        "username": "DWH_IVS@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Extern Systeem"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-12-23T12:27:39.173943+01:00",
+          "updated_at": "2019-12-23T12:27:39.173974+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/53"
+          }
+        },
+        "_display": "e.diepgrond@amsterdam.nl",
+        "id": 53,
+        "username": "e.diepgrond@amsterdam.nl",
+        "is_active": true,
+        "roles": [],
+        "profile": {
+          "note": "",
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.884904+02:00",
+          "updated_at": "2020-02-19T15:25:53.644642+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/31"
+          }
+        },
+        "_display": "e.jager@amsterdam.nl",
+        "id": 31,
+        "username": "e.jager@amsterdam.nl",
+        "is_active": true,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.867573+02:00",
+          "updated_at": "2019-10-24T10:25:48.867587+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/96"
+          }
+        },
+        "_display": "g.schultz@amsterdam.nl",
+        "id": 96,
+        "username": "g.schultz@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Regievoerder"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.895188+02:00",
+          "updated_at": "2019-10-24T10:25:48.895202+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/104"
+          }
+        },
+        "_display": "g.vardar@amsterdam.nl",
+        "id": 104,
+        "username": "g.vardar@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Regievoerder"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.897721+02:00",
+          "updated_at": "2019-10-24T10:25:48.897741+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/37"
+          }
+        },
+        "_display": "h.oldenbeuving@amsterdam.nl",
+        "id": 37,
+        "username": "h.oldenbeuving@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Monitor",
+          "Behandelaar",
+          "Coördinator",
+          "Regievoerder"
+        ],
+        "profile": {
+          "note": "test notitie 5",
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.865605+02:00",
+          "updated_at": "2020-03-04T09:18:24.636106+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/8"
+          }
+        },
+        "_display": "i.freeke@amsterdam.nl",
+        "id": 8,
+        "username": "i.freeke@amsterdam.nl",
+        "is_active": true,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.842594+02:00",
+          "updated_at": "2019-10-24T10:25:48.842634+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/102"
+          }
+        },
+        "_display": "i.steluce@amsterdam.nl",
+        "id": 102,
+        "username": "i.steluce@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Regievoerder"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.896386+02:00",
+          "updated_at": "2019-10-24T10:25:48.896400+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/117"
+          }
+        },
+        "_display": "invalideparkeersensoren@amsterdam.nl",
+        "id": 117,
+        "username": "invalideparkeersensoren@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Extern Systeem"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [
+            "V&OR"
+          ],
+          "created_at": "2019-12-02T15:09:02.380628+01:00",
+          "updated_at": "2019-12-02T15:09:56.227770+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/47"
+          }
+        },
+        "_display": "j.van.deursen@amsterdam.nl",
+        "id": 47,
+        "username": "j.van.deursen@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Monitor"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.874301+02:00",
+          "updated_at": "2019-10-24T10:25:48.874315+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/9"
+          }
+        },
+        "_display": "jasper.g.swart@gmail.com",
+        "id": 9,
+        "username": "jasper.g.swart@gmail.com",
+        "is_active": true,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.855057+02:00",
+          "updated_at": "2020-02-12T13:39:30.911771+01:00"
+        }
+      }
+    ]
+  },
+  "disabled": {
+    "_links": {
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/?page=1&page_size=30"
+      },
+      "next": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/?page=2&page_size=30"
+      },
+      "previous": {
+        "href": null
+      }
+    },
+    "count": 103,
+    "results": [
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/137"
+          }
+        },
+        "_display": "a.aramake@amsterdam.nl",
+        "id": 137,
+        "username": "a.aramake@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Regievoerder"
+        ],
+        "profile": {
+          "note": "test test test",
+          "departments": [
+            "Actie Service Centrum"
+          ],
+          "created_at": "2019-12-23T14:08:36.923020+01:00",
+          "updated_at": "2020-02-27T09:48:50.429929+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/145"
+          }
+        },
+        "_display": "a.boersma@amsterdam.nl",
+        "id": 145,
+        "username": "a.boersma@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Coördinator"
+        ],
+        "profile": {
+          "note": "Annemarieke Boersma werkt voor Datapunt Service Delivery, zij heeft een account gekregen om te kijken of de netwerk verbinding ADW <-> meldingen.amsterdam.nl beter kan.",
+          "departments": [
+            "Actie Service Centrum",
+            "Afval en Grondstoffen",
+            "CCA",
+            "FB",
+            "GGD",
+            "Omgevingsdienst",
+            "Openbare Orde & Veiligheid",
+            "Politie",
+            "Port of Amsterdam",
+            "Stadsloket",
+            "Stadswerken",
+            "THOR",
+            "V&OR",
+            "V&OR - VIS",
+            "V&OR OVL",
+            "V&OR VRI",
+            "VTH",
+            "Waternet",
+            "Wonen"
+          ],
+          "created_at": "2020-02-26T08:45:54.156374+01:00",
+          "updated_at": "2020-02-26T08:45:54.156405+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/4"
+          }
+        },
+        "_display": "a.tudorache@amsterdam.nl",
+        "id": 4,
+        "username": "a.tudorache@amsterdam.nl",
+        "is_active": true,
+        "roles": [],
+        "profile": {
+          "note": "a",
+          "departments": [
+            "Actie Service Centrum",
+            "Afval en Grondstoffen",
+            "CCA",
+            "FB",
+            "GGD",
+            "Omgevingsdienst",
+            "Openbare Orde & Veiligheid",
+            "Politie",
+            "Port of Amsterdam",
+            "Stadsloket",
+            "Stadswerken",
+            "THOR",
+            "V&OR",
+            "V&OR - VIS",
+            "V&OR OVL",
+            "V&OR VRI",
+            "VTH",
+            "Waternet",
+            "Wonen"
+          ],
+          "created_at": "2019-10-24T10:25:48.854049+02:00",
+          "updated_at": "2020-03-10T11:21:28.179815+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/144"
+          }
+        },
+        "_display": "a@b.nl",
+        "id": 144,
+        "username": "a@b.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": "",
+          "departments": [],
+          "created_at": "2020-02-19T16:39:12.993448+01:00",
+          "updated_at": "2020-03-11T09:42:16.417411+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/33"
+          }
+        },
+        "_display": "acceptance@sigmax.nl",
+        "id": 33,
+        "username": "acceptance@sigmax.nl",
+        "is_active": true,
+        "roles": [],
+        "profile": {
+          "note": "",
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.866998+02:00",
+          "updated_at": "2020-03-10T16:08:30.608075+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/38"
+          }
+        },
+        "_display": "acceptatie@sigmax.nl",
+        "id": 38,
+        "username": "acceptatie@sigmax.nl",
+        "is_active": true,
+        "roles": [],
+        "profile": {
+          "note": "",
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.864596+02:00",
+          "updated_at": "2020-03-10T16:08:21.936171+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/61"
+          }
+        },
+        "_display": "aicha.ennali@amsterdam.nl",
+        "id": 61,
+        "username": "aicha.ennali@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": "111",
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.879224+02:00",
+          "updated_at": "2020-02-18T09:22:38.614547+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/34"
+          }
+        },
+        "_display": "ali.kaya@amsterdam.nl",
+        "id": 34,
+        "username": "ali.kaya@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Monitor"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.856030+02:00",
+          "updated_at": "2019-10-24T10:25:48.856062+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/147"
+          }
+        },
+        "_display": "arjandata@desoftwaretesters.nl",
+        "id": 147,
+        "username": "arjandata@desoftwaretesters.nl",
+        "is_active": true,
+        "roles": [
+          "Regievoerder+"
+        ],
+        "profile": {
+          "note": "Arjan is de nieuwe software tester die het SIA team komt versterken.",
+          "departments": [
+            "Actie Service Centrum",
+            "Afval en Grondstoffen",
+            "CCA",
+            "FB",
+            "GGD",
+            "Omgevingsdienst",
+            "Openbare Orde & Veiligheid",
+            "Politie",
+            "Port of Amsterdam",
+            "Stadsloket",
+            "Stadswerken",
+            "THOR",
+            "V&OR",
+            "V&OR - VIS",
+            "V&OR OVL",
+            "V&OR VRI",
+            "VTH",
+            "Waternet",
+            "Wonen"
+          ],
+          "created_at": "2020-03-03T08:43:46.717315+01:00",
+          "updated_at": "2020-03-03T08:43:46.717350+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/44"
+          }
+        },
+        "_display": "arvid.smits@amsterdam.nl",
+        "id": 44,
+        "username": "arvid.smits@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Regievoerder"
+        ],
+        "profile": {
+          "note": "test1",
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.873260+02:00",
+          "updated_at": "2020-03-12T09:25:20.907389+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/5"
+          }
+        },
+        "_display": "b.heupers@amsterdam.nl",
+        "id": 5,
+        "username": "b.heupers@amsterdam.nl",
+        "is_active": false,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.853071+02:00",
+          "updated_at": "2019-10-24T10:25:48.853101+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/36"
+          }
+        },
+        "_display": "b.monne@amsterdam.nl",
+        "id": 36,
+        "username": "b.monne@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Monitor"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.859248+02:00",
+          "updated_at": "2019-10-24T10:25:48.859277+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/105"
+          }
+        },
+        "_display": "c.a.lanenga@gmail.com",
+        "id": 105,
+        "username": "c.a.lanenga@gmail.com",
+        "is_active": true,
+        "roles": [],
+        "profile": {
+          "note": "Test",
+          "departments": [
+            "Actie Service Centrum"
+          ],
+          "created_at": "2020-03-12T13:34:34.927711+01:00",
+          "updated_at": "2020-03-12T13:34:58.804528+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/26"
+          }
+        },
+        "_display": "c.bouman@amsterdam.nl",
+        "id": 26,
+        "username": "c.bouman@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar",
+          "Coördinator"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.875509+02:00",
+          "updated_at": "2019-10-24T10:25:48.875523+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/6"
+          }
+        },
+        "_display": "c.coopmans@amsterdam.nl",
+        "id": 6,
+        "username": "c.coopmans@amsterdam.nl",
+        "is_active": true,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.840906+02:00",
+          "updated_at": "2019-10-24T10:25:48.840962+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/99"
+          }
+        },
+        "_display": "c.pinas@amsterdam.nl",
+        "id": 99,
+        "username": "c.pinas@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Regievoerder"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.886168+02:00",
+          "updated_at": "2019-10-24T10:25:48.886182+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/134"
+          }
+        },
+        "_display": "c.wyse@amsterdam.nl",
+        "id": 134,
+        "username": "c.wyse@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Monitor"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [
+            "Actie Service Centrum"
+          ],
+          "created_at": "2019-12-16T15:07:38.618202+01:00",
+          "updated_at": "2019-12-16T15:08:16.907004+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/29"
+          }
+        },
+        "_display": "d.nonkes@amsterdam.nl",
+        "id": 29,
+        "username": "d.nonkes@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar",
+          "Coördinator"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.869423+02:00",
+          "updated_at": "2019-10-24T10:25:48.869437+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/45"
+          }
+        },
+        "_display": "d.van.buiten@amsterdam.nl",
+        "id": 45,
+        "username": "d.van.buiten@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [
+            "Actie Service Centrum"
+          ],
+          "created_at": "2019-10-24T10:25:48.873796+02:00",
+          "updated_at": "2019-11-25T13:58:45.543722+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/46"
+          }
+        },
+        "_display": "david.vanbuiten@elements.nl",
+        "id": 46,
+        "username": "david.vanbuiten@elements.nl",
+        "is_active": true,
+        "roles": [
+          "Regievoerder+"
+        ],
+        "profile": {
+          "note": "",
+          "departments": [
+            "Actie Service Centrum"
+          ],
+          "created_at": "2019-10-24T10:25:48.898336+02:00",
+          "updated_at": "2020-03-04T12:06:22.429159+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/92"
+          }
+        },
+        "_display": "digitalechecklisten@amsterdam.nl",
+        "id": 92,
+        "username": "digitalechecklisten@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.881789+02:00",
+          "updated_at": "2019-10-24T10:25:48.881810+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/136"
+          }
+        },
+        "_display": "DWH_IVS@amsterdam.nl",
+        "id": 136,
+        "username": "DWH_IVS@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Extern Systeem"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-12-23T12:27:39.173943+01:00",
+          "updated_at": "2019-12-23T12:27:39.173974+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/53"
+          }
+        },
+        "_display": "e.diepgrond@amsterdam.nl",
+        "id": 53,
+        "username": "e.diepgrond@amsterdam.nl",
+        "is_active": true,
+        "roles": [],
+        "profile": {
+          "note": "",
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.884904+02:00",
+          "updated_at": "2020-02-19T15:25:53.644642+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/31"
+          }
+        },
+        "_display": "e.jager@amsterdam.nl",
+        "id": 31,
+        "username": "e.jager@amsterdam.nl",
+        "is_active": true,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.867573+02:00",
+          "updated_at": "2019-10-24T10:25:48.867587+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/96"
+          }
+        },
+        "_display": "g.schultz@amsterdam.nl",
+        "id": 96,
+        "username": "g.schultz@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Regievoerder"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.895188+02:00",
+          "updated_at": "2019-10-24T10:25:48.895202+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/104"
+          }
+        },
+        "_display": "g.vardar@amsterdam.nl",
+        "id": 104,
+        "username": "g.vardar@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Regievoerder"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.897721+02:00",
+          "updated_at": "2019-10-24T10:25:48.897741+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/37"
+          }
+        },
+        "_display": "h.oldenbeuving@amsterdam.nl",
+        "id": 37,
+        "username": "h.oldenbeuving@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Monitor",
+          "Behandelaar",
+          "Coördinator",
+          "Regievoerder"
+        ],
+        "profile": {
+          "note": "test notitie 5",
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.865605+02:00",
+          "updated_at": "2020-03-04T09:18:24.636106+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/8"
+          }
+        },
+        "_display": "i.freeke@amsterdam.nl",
+        "id": 8,
+        "username": "i.freeke@amsterdam.nl",
+        "is_active": true,
+        "roles": [],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.842594+02:00",
+          "updated_at": "2019-10-24T10:25:48.842634+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/102"
+          }
+        },
+        "_display": "i.steluce@amsterdam.nl",
+        "id": 102,
+        "username": "i.steluce@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Regievoerder"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.896386+02:00",
+          "updated_at": "2019-10-24T10:25:48.896400+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/117"
+          }
+        },
+        "_display": "invalideparkeersensoren@amsterdam.nl",
+        "id": 117,
+        "username": "invalideparkeersensoren@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Extern Systeem"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [
+            "V&OR"
+          ],
+          "created_at": "2019-12-02T15:09:02.380628+01:00",
+          "updated_at": "2019-12-02T15:09:56.227770+01:00"
+        }
+      }
+    ]
+  },
+  "inactiveUsersAndRole": {
+    "_links": {
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/?page=1&page_size=30&is_active=incactive&role=Behandelaar"
+      },
+      "next": {
+        "href": null
+      },
+      "previous": {
+        "href": null
+      }
+    },
+    "count": 16,
+    "results": [
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/61"
+          }
+        },
+        "_display": "aicha.ennali@amsterdam.nl",
+        "id": 61,
+        "username": "aicha.ennali@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": "111",
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.879224+02:00",
+          "updated_at": "2020-02-18T09:22:38.614547+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/26"
+          }
+        },
+        "_display": "c.bouman@amsterdam.nl",
+        "id": 26,
+        "username": "c.bouman@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar",
+          "Coördinator"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.875509+02:00",
+          "updated_at": "2019-10-24T10:25:48.875523+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/29"
+          }
+        },
+        "_display": "d.nonkes@amsterdam.nl",
+        "id": 29,
+        "username": "d.nonkes@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar",
+          "Coördinator"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.869423+02:00",
+          "updated_at": "2019-10-24T10:25:48.869437+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/45"
+          }
+        },
+        "_display": "d.van.buiten@amsterdam.nl",
+        "id": 45,
+        "username": "d.van.buiten@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [
+            "Actie Service Centrum"
+          ],
+          "created_at": "2019-10-24T10:25:48.873796+02:00",
+          "updated_at": "2019-11-25T13:58:45.543722+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/92"
+          }
+        },
+        "_display": "digitalechecklisten@amsterdam.nl",
+        "id": 92,
+        "username": "digitalechecklisten@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.881789+02:00",
+          "updated_at": "2019-10-24T10:25:48.881810+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/37"
+          }
+        },
+        "_display": "h.oldenbeuving@amsterdam.nl",
+        "id": 37,
+        "username": "h.oldenbeuving@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Monitor",
+          "Behandelaar",
+          "Coördinator",
+          "Regievoerder"
+        ],
+        "profile": {
+          "note": "test notitie 5",
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.865605+02:00",
+          "updated_at": "2020-03-04T09:18:24.636106+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/143"
+          }
+        },
+        "_display": "jasper.maas@amsterdam.nl",
+        "id": 143,
+        "username": "jasper.maas@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": "Test 123\r\n\r\nNu in multiline :)",
+          "departments": [
+            "Actie Service Centrum"
+          ],
+          "created_at": "2020-02-19T09:56:27.044362+01:00",
+          "updated_at": "2020-03-04T12:12:55.246271+01:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/60"
+          }
+        },
+        "_display": "m.heuckeroth@amsterdam.nl",
+        "id": 60,
+        "username": "m.heuckeroth@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.878574+02:00",
+          "updated_at": "2019-10-24T10:25:48.878595+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/55"
+          }
+        },
+        "_display": "m.langereis@amsterdam.nl",
+        "id": 55,
+        "username": "m.langereis@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.888949+02:00",
+          "updated_at": "2019-10-24T10:25:48.888963+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/59"
+          }
+        },
+        "_display": "n.morees@amsterdam.nl",
+        "id": 59,
+        "username": "n.morees@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.893156+02:00",
+          "updated_at": "2019-10-24T10:25:48.893188+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/32"
+          }
+        },
+        "_display": "niels.dijk@amsterdam.nl",
+        "id": 32,
+        "username": "niels.dijk@amsterdam.nl",
+        "is_active": false,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.869986+02:00",
+          "updated_at": "2019-10-24T10:25:48.870000+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/21"
+          }
+        },
+        "_display": "opleiding02@amsterdam.nl",
+        "id": 21,
+        "username": "opleiding02@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.862556+02:00",
+          "updated_at": "2019-10-24T10:25:48.862588+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/24"
+          }
+        },
+        "_display": "opleiding05@amsterdam.nl",
+        "id": 24,
+        "username": "opleiding05@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.857297+02:00",
+          "updated_at": "2019-10-24T10:25:48.857338+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/56"
+          }
+        },
+        "_display": "rutger.bruin@amsterdam.nl",
+        "id": 56,
+        "username": "rutger.bruin@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.889569+02:00",
+          "updated_at": "2019-10-24T10:25:48.889597+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/58"
+          }
+        },
+        "_display": "s.moring@amsterdam.nl",
+        "id": 58,
+        "username": "s.moring@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.890118+02:00",
+          "updated_at": "2019-10-24T10:25:48.890132+02:00"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/2"
+          }
+        },
+        "_display": "signals.behandelaar@amsterdam.nl",
+        "id": 2,
+        "username": "signals.behandelaar@amsterdam.nl",
+        "is_active": true,
+        "roles": [
+          "Behandelaar"
+        ],
+        "profile": {
+          "note": null,
+          "departments": [],
+          "created_at": "2019-10-24T10:25:48.850733+02:00",
+          "updated_at": "2019-10-24T10:25:48.850764+02:00"
+        }
+      }
+    ]
+  }
+}
