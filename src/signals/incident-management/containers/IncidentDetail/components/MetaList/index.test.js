@@ -10,7 +10,7 @@ import { string2date, string2time } from 'shared/services/string-parser/string-p
 import { withAppContext } from 'test/utils';
 import categories from 'utils/__tests__/fixtures/categories_structured.json';
 
-import priorityList from '../../../../definitions/priorityList';
+import { priorityList, typesList } from 'signals/incident-management/definitions';
 
 import MetaList from './index';
 
@@ -45,10 +45,14 @@ describe('<MetaList />', () => {
         priority: {
           priority: 'normal',
         },
+        type: {
+          code: 'SIG',
+        },
         _links: {},
       },
       subcategories,
       priorityList,
+      typesList,
       onPatchIncident: jest.fn(),
       onEditStatus: jest.fn(),
       onShowAttachment: jest.fn(),
@@ -108,6 +112,32 @@ describe('<MetaList />', () => {
 
       expect(
         getByText('Urgentie')
+          .closest('div')
+          .querySelectorAll('input[type="radio"]').length
+      ).toBeGreaterThan(0);
+    });
+
+    it('should render the correct HTML elements for type', () => {
+      const { getByText } = render(
+        <MetaList {...props} />
+      );
+
+      const showFormButton = getByText('Type')
+        .closest('div')
+        .querySelector('.change-value__edit.incident-detail__button--edit');
+
+      expect(
+        getByText('Type')
+          .closest('div')
+          .querySelectorAll('input[type="radio"]').length
+      ).toBe(0);
+
+      act(() => {
+        fireEvent.click(showFormButton);
+      });
+
+      expect(
+        getByText('Type')
           .closest('div')
           .querySelectorAll('input[type="radio"]').length
       ).toBeGreaterThan(0);

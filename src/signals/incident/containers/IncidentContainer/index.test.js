@@ -59,7 +59,7 @@ describe('<IncidentContainer />', () => {
 
       expect(getAllByText('Volgende')).not.toBeNull(); // navigation
       expect(document.querySelectorAll('input[type="file"]')).toHaveLength(1); // image upload
-      expect(document.querySelectorAll('input[type="radio"].kenmerkradio')).toHaveLength(5); // 2 time indicator radio buttons and 3 priority
+      expect(document.querySelectorAll('input[type="radio"].kenmerkradio')).toHaveLength(10);
     });
   });
 
