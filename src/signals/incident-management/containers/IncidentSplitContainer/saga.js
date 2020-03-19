@@ -13,17 +13,13 @@ import { splitIncidentSuccess, splitIncidentError } from './actions';
 
 export function* splitIncident(action) {
   const payload = action.payload;
+
   try {
-    const created = yield authPostCall(
-      `${CONFIGURATION.INCIDENTS_ENDPOINT}${payload.id}/split`,
-      payload.create
-    );
+    const created = yield call(authPostCall, `${CONFIGURATION.INCIDENTS_ENDPOINT}${payload.id}/split`, payload.create);
+
     yield all(
       created.children.map((child, key) =>
-        authPatchCall(
-          `${CONFIGURATION.INCIDENTS_ENDPOINT}${child.id}`,
-          formatUpdateIncident(payload.update[key])
-        )
+        call(authPatchCall, `${CONFIGURATION.INCIDENTS_ENDPOINT}${child.id}`, formatUpdateIncident(payload.update[key]))
       )
     );
     yield put(splitIncidentSuccess({ id: payload.id, created }));

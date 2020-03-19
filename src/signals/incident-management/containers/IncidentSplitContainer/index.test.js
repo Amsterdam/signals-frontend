@@ -7,7 +7,6 @@ import incidentJson from 'utils/__tests__/fixtures/incident.json';
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 import { requestIncidentSuccess } from 'models/incident/actions';
-import { makeSelectSubCategories } from 'models/categories/selectors';
 import makeSelectIncidentModel from 'models/incident/selectors';
 
 import IncidentSplit, { IncidentSplitContainer } from './index';
@@ -20,7 +19,6 @@ jest.mock('react-router-dom', () => ({
 store.dispatch(requestIncidentSuccess(incidentJson));
 store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
 
-const subCategories = makeSelectSubCategories(store.getState());
 const incidentModel = makeSelectIncidentModel(store.getState());
 
 jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
@@ -45,7 +43,6 @@ describe('<IncidentSplitContainer />', () => {
     const containerProps = tree.find(IncidentSplitContainer).props();
 
     expect(containerProps.incidentModel).toBeDefined();
-    expect(containerProps.subCategories).toBeDefined();
   });
 
   it('should have props from action creator', () => {
@@ -68,7 +65,6 @@ describe('<IncidentSplitContainer />', () => {
 
   it('should render correctly', () => {
     const props = {
-      subCategories,
       incidentModel,
       onRequestIncident: jest.fn(),
       onRequestAttachments: jest.fn(),

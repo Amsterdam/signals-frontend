@@ -60,6 +60,13 @@ describe('FieldControlWrapper', () => {
     it('should sort the values alphabettically', () => {
       wrapper.setProps({
         sort: true,
+        values: [...values, { key: '', value: 'Bar' }],
+      });
+
+      expect(wrapper.state('values')).toEqual([...values, { key: '', value: 'Bar' }]);
+
+      wrapper.setProps({
+        sort: true,
         values: [...values, { key: 'bar', value: 'Bar' }],
       });
 
