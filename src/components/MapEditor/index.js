@@ -39,10 +39,12 @@ const Map = ({ location, options }) => {
         {location && location.geometrie && (
           <Marker
             setInstance={setMarker}
-            args={[{
-              lat: 0,
-              lng: 0,
-            }]}
+            args={[
+              {
+                lat: 0,
+                lng: 0,
+              },
+            ]}
             options={{
               icon: markerIcon,
               opacity: 0,
@@ -60,7 +62,7 @@ Map.propTypes = {
   location: PropTypes.shape({
     geometrie: PropTypes.shape({
       type: PropTypes.string,
-      coordinates: [PropTypes.number, PropTypes.number],
+      coordinates: PropTypes.arrayOf(PropTypes.number),
     }),
     address: PropTypes.shape({
       openbare_ruimte: PropTypes.string,
