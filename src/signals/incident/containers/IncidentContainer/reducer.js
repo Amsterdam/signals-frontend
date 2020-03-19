@@ -30,7 +30,6 @@ export const initialState = fromJS({
     handling_message: '',
   },
   loadingClassification: false,
-  priority: {},
 });
 
 function incidentContainerReducer(state = initialState, action) {

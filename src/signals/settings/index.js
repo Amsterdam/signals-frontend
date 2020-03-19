@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Route, Redirect, Switch, useLocation } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -15,8 +15,13 @@ import {
 
 import { fetchRoles, fetchPermissions } from 'models/roles/actions';
 import { fetchDepartments } from 'models/departments/actions';
+import useLocationReferrer from 'hooks/useLocationReferrer';
 
-import routes, { USERS_PAGED_URL, USER_URL, ROLE_URL } from './routes';
+import routes, {
+  USERS_PAGED_URL,
+  USER_URL,
+  ROLE_URL,
+} from './routes';
 import UsersOverviewContainer from './users/containers/Overview';
 import RolesListContainer from './roles/containers/RolesListContainer';
 import RoleFormContainer from './roles/containers/RoleFormContainer';
@@ -31,26 +36,13 @@ export const SettingsModule = ({
   userCan,
   userCanAccess,
 }) => {
-  const moduleLocation = useLocation();
-  const [location, setLocation] = useState(moduleLocation);
+  const location = useLocationReferrer();
 
   useEffect(() => {
     onFetchDepartments();
     onFetchRoles();
     onFetchPermissions();
   }, [onFetchDepartments, onFetchPermissions, onFetchRoles]);
-
-  // subscribe to updates and set the referrer when page URLs differ
-  useEffect(() => {
-    if (location.pathname !== moduleLocation.pathname) {
-      const locWithReferrer = {
-        ...moduleLocation,
-        referrer: location.pathname,
-      };
-
-      setLocation(locWithReferrer);
-    }
-  }, [location.pathname, moduleLocation, setLocation]);
 
   if (!isAuthenticated()) {
     return <Route component={LoginPage} />;
