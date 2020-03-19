@@ -146,7 +146,6 @@ export default {
         },
         authenticated: true,
         render: FormComponents.RadioInput,
-        value: 'SIG',
       },
       images_previews: {
         meta: {
