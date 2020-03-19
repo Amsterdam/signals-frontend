@@ -1,26 +1,27 @@
 import React, {
   Fragment,
+  useCallback,
+  useContext,
   useEffect,
   useState,
-  useMemo,
-  useCallback, useReducer,
 } from 'react';
-import PropTypes from 'prop-types';
-import { useParams, useHistory, useLocation, Link } from 'react-router-dom';
+import { useParams, useHistory, Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import { Row, Column, themeSpacing, Button, SearchBar } from '@datapunt/asc-ui';
 import styled from 'styled-components';
-import { createStructuredSelector } from 'reselect';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import debounce from 'lodash/debounce';
 
-import { makeSelectUserCan } from 'containers/App/selectors';
+import { PAGE_SIZE } from 'containers/App/constants';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Pagination from 'components/Pagination';
 import PageHeader from 'signals/settings/components/PageHeader';
+import DataView from 'components/DataView';
 import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes';
+import SettingsContext from 'signals/settings/context';
+import { setUserFilters } from 'signals/settings/actions';
+import { makeSelectUserCan } from 'containers/App/selectors';
 import useFetchUsers from './hooks/useFetchUsers';
-import DataView from './components/DataView';
 
 const StyledPagination = styled(Pagination)`
   margin-top: ${themeSpacing(12)};
@@ -38,40 +39,36 @@ const StyledSearchbar = styled(SearchBar)`
   }
 `;
 
-const filtersReducer = (state, action) => {
-  switch (action.type) {
-    case 'username':
-      return { username: action.payload };
-    default:
-      throw new Error();
+const StyledDataView = styled(DataView)`
+  th:first-child {
+    width: 50%;
   }
-};
+`;
 
-export const UsersOverviewContainer = ({ pageSize, userCan }) => {
+const UsersOverviewContainer = () => {
   const history = useHistory();
-  const location = useLocation();
-  const filtersInitialState = location.state && location.state.filters || {};
   const { pageNum } = useParams();
   const [page, setPage] = useState(1);
-  const [filters, dispatchFiltersChange] = useReducer(filtersReducer, filtersInitialState);
-  const { isLoading, users: { list: data }, users } = useFetchUsers({ page, pageSize, filters });
+  const { state, dispatch } = useContext(SettingsContext);
+  const { filters } = state.users;
+  const {
+    isLoading,
+    users: { list: data },
+    users,
+  } = useFetchUsers({ page, filters });
+  const userCan = useSelector(makeSelectUserCan);
 
   /**
    * Get page number value from URL query string
    *
    * @returns {number|undefined}
    */
-  const pageNumFromQueryString = useMemo(
-    () => pageNum && parseInt(pageNum, 10),
-    [pageNum]
-  );
+  const pageNumFromQueryString = pageNum && parseInt(pageNum, 10);
 
   // subscribe to param changes
   useEffect(() => {
-    const pageNumber = pageNumFromQueryString;
-
-    if (pageNumber && pageNumber !== page) {
-      setPage(pageNumber);
+    if (pageNumFromQueryString && pageNumFromQueryString !== page) {
+      setPage(pageNumFromQueryString);
     }
   }, [pageNumFromQueryString, page]);
 
@@ -79,11 +76,11 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
     filter => value => {
       if (filters[filter] === value) return;
 
-      dispatchFiltersChange({ type: filter, payload: value });
+      dispatch(setUserFilters({ username: value }));
       setPage(1);
       history.push(`${USERS_PAGED_URL}/1`);
     },
-    [history, filters]
+    [dispatch, history, filters]
   );
 
   const debouncedOnChangeFilter = useCallback(
@@ -105,10 +102,10 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
       } = e;
 
       if (itemId) {
-        history.push(`${USER_URL}/${itemId}`, { filters });
+        history.push(`${USER_URL}/${itemId}`);
       }
     },
-    [history, userCan, filters]
+    [history, userCan]
   );
 
   const onPaginationClick = useCallback(
@@ -136,17 +133,15 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
 
         <Column span={12} wrap>
           <Column span={12}>
-            <DataView
+            <StyledDataView
               headers={columnHeaders}
               filters={[
-                (
-                  <StyledSearchbar
-                    placeholder=""
-                    onChange={debouncedOnChangeFilter}
-                    value={filters.username}
-                    data-testid="filterUsersByUsername"
-                  />
-                ),
+                <StyledSearchbar
+                  placeholder=""
+                  onChange={debouncedOnChangeFilter}
+                  value={filters.username}
+                  data-testid="filterUsersByUsername"
+                />,
               ]}
               columnOrder={columnHeaders}
               invisibleColumns={['id']}
@@ -161,7 +156,7 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
               <StyledPagination
                 currentPage={page}
                 onClick={onPaginationClick}
-                totalPages={Math.ceil(users.count / pageSize)}
+                totalPages={Math.ceil(users.count / PAGE_SIZE)}
               />
             </Column>
           )}
@@ -171,19 +166,4 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
   );
 };
 
-UsersOverviewContainer.defaultProps = {
-  pageSize: 30,
-};
-
-UsersOverviewContainer.propTypes = {
-  pageSize: PropTypes.number,
-  userCan: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = createStructuredSelector({
-  userCan: makeSelectUserCan,
-});
-
-const withConnect = connect(mapStateToProps);
-
-export default compose(withConnect)(UsersOverviewContainer);
+export default UsersOverviewContainer;

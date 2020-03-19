@@ -7,7 +7,6 @@ import {
   LOGIN_FAILED,
   LOGOUT_FAILED,
   LOGOUT,
-  REQUEST_CATEGORIES_SUCCESS,
   RESET_GLOBAL_NOTIFICATION,
   SHOW_GLOBAL_NOTIFICATION,
   UPLOAD_FAILURE,
@@ -63,23 +62,6 @@ describe('containers/App/reducer', () => {
         }).toJS()
       ).toEqual({
         notification: initialState.get('notification').toJS(),
-      });
-    });
-  });
-
-  describe('REQUEST_CATEGORIES_SUCCESS', () => {
-    it('should', () => {
-      expect(
-        appReducer(fromJS({}), {
-          type: REQUEST_CATEGORIES_SUCCESS,
-          payload: {
-            results: [1, 2],
-          },
-        }).toJS()
-      ).toEqual({
-        categories: {
-          results: [1, 2],
-        },
       });
     });
   });

@@ -5,6 +5,7 @@ import stadsdeel from './definitions/stadsdeelList';
 import status from './definitions/statusList';
 import feedback from './definitions/feedbackList';
 import source from './definitions/sourceList';
+import contact_details from './definitions/contactDetailsList';
 
 import {
   APPLY_FILTER,
@@ -58,6 +59,7 @@ export const initialState = fromJS({
   source,
   stadsdeel,
   status,
+  contact_details,
 });
 
 export default (state = initialState, action) => {

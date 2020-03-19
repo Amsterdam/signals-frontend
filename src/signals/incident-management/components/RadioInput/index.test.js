@@ -1,35 +1,55 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
+import priorityList from 'signals/incident-management/definitions/priorityList';
 
 import RadioInput from './index';
 
 describe('<RadioInput />', () => {
-  let wrapper;
-  let props;
+  const handler = () => ({ type: 'radio' });
+  const props = {
+    name: 'priority',
+    display: 'Urgentie',
+    values: priorityList,
+  };
+  const RadioInputRender = RadioInput(props);
 
-  beforeEach(() => {
-    props = {
-      name: 'name',
-      display: 'display',
-      handler: jest.fn(),
-      values: [
-        { key: '', value: 'none' },
-        { key: '1', value: 'item1' },
-        { key: '2', value: 'item2' },
-      ],
-    };
-  });
-
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
-  it('should render correctly', () => {
-    const RadioInputRender = RadioInput(props);
-    wrapper = shallow(
-      <RadioInputRender {...props} />
+  it('should render a list of radio buttons', () => {
+    const { container } = render(
+      withAppContext(<RadioInputRender handler={handler} />)
     );
 
-    expect(wrapper).toMatchSnapshot();
+    expect(container.querySelectorAll('input[type=radio]')).toHaveLength(
+      priorityList.length
+    );
+  });
+
+  it('should display info text', () => {
+    const currentValue = priorityList[0];
+    const { getByText } = render(
+      withAppContext(
+        <RadioInputRender handler={handler} value={currentValue.key} />
+      )
+    );
+
+    expect(getByText(new RegExp(currentValue.info))).toBeInTheDocument();
+  });
+
+  it('should display a label', () => {
+    const { container, rerender } = render(
+      withAppContext(<RadioInputRender handler={handler} />)
+    );
+
+    expect(
+      container.querySelectorAll(`label[for="form${props.name}"]`)
+    ).toHaveLength(1);
+
+    const propsWithoutDisplay = { ...props, display: undefined };
+    const Render = RadioInput(propsWithoutDisplay);
+    rerender(withAppContext(<Render handler={handler} />));
+
+    expect(
+      container.querySelectorAll(`label[for="form${props.name}"]`)
+    ).toHaveLength(0);
   });
 });

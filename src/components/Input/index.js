@@ -9,8 +9,21 @@ import {
   themeSpacing,
 } from '@datapunt/asc-ui';
 
+const Hint = styled(Typography).attrs({
+  $as: 'span',
+})`
+  color: ${themeColor('tint', 'level5')};
+  display: block;
+  margin-bottom: ${themeSpacing(2)};
+  font-size: 16px;
+  line-height: 22px;
+`;
+
 const StyledInput = styled.input`
   ${styles.InputStyle.componentStyle.rules}
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 22px;
 
   &[disabled] {
     border: 1px solid ${themeColor('tint', 'level4')};
@@ -22,16 +35,6 @@ const StyledInput = styled.input`
       border: 2px solid ${themeColor('secondary')};
     }
   `}
-`;
-
-const Hint = styled(Typography).attrs({
-  $as: 'span',
-})`
-  color: ${themeColor('tint', 'level5')};
-  display: block;
-  margin-bottom: ${themeSpacing(2)};
-  font-size: 16px;
-  line-height: 22px;
 `;
 
 const Error = styled(Typography).attrs({
@@ -65,7 +68,7 @@ const Input = ({ className, hint, label, id, error, ...rest }) => (
     {label && <Label hasHint={Boolean(hint)} htmlFor={id} label={label} />}
     {hint && <Hint>{hint}</Hint>}
     {error && <Error>{error}</Error>}
-    <StyledInput id={id} showError={Boolean(error)} type="text" {...rest} />
+    <StyledInput id={id} showError={Boolean(error)} {...rest} />
   </Wrapper>
 );
 

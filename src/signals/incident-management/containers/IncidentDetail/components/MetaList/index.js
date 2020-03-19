@@ -9,6 +9,7 @@ import {
 } from 'shared/services/string-parser/string-parser';
 
 import { incidentType, dataListType } from 'shared/types';
+import RadioInput from 'signals/incident-management/components/RadioInput';
 
 import ChangeValue from './components/ChangeValue';
 import Highlight from '../Highlight';
@@ -21,10 +22,11 @@ function getId(item) {
 
 const MetaList = ({
   incident,
-  subcategories,
-  priorityList,
-  onPatchIncident,
   onEditStatus,
+  onPatchIncident,
+  priorityList,
+  subcategories,
+  typesList,
 }) => {
   const children = get(incident, '_links.sia:children');
   const parent = get(incident, '_links.sia:parent');
@@ -80,6 +82,25 @@ const MetaList = ({
               path="priority.priority"
               type="priority"
               onPatchIncident={onPatchIncident}
+              component={RadioInput}
+            />
+          </Highlight>
+        )}
+
+        {incident.type && (
+          <Highlight
+            subscribeTo={incident.type.code}
+          >
+            <ChangeValue
+              component={RadioInput}
+              definitionClass="meta-list__definition"
+              display="Type"
+              incident={incident}
+              list={typesList}
+              onPatchIncident={onPatchIncident}
+              path="type.code"
+              type="type"
+              valueClass="meta-list__value"
             />
           </Highlight>
         )}
@@ -215,11 +236,11 @@ const MetaList = ({
 
 MetaList.propTypes = {
   incident: incidentType.isRequired,
+  onEditStatus: PropTypes.func.isRequired,
+  onPatchIncident: PropTypes.func.isRequired,
   priorityList: dataListType.isRequired,
   subcategories: PropTypes.array.isRequired,
-
-  onPatchIncident: PropTypes.func.isRequired,
-  onEditStatus: PropTypes.func.isRequired,
+  typesList: dataListType.isRequired,
 };
 
 export default MetaList;

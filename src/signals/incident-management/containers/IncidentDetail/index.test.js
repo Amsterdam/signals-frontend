@@ -2,8 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
-import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
-import { filterForSub } from 'models/categories/selectors';
+import categories from 'utils/__tests__/fixtures/categories_structured.json';
 
 import { IncidentDetail } from './index';
 
@@ -22,8 +21,9 @@ import statusList, {
 } from '../../definitions/statusList';
 import stadsdeelList from '../../definitions/stadsdeelList';
 import priorityList from '../../definitions/priorityList';
+import typesList from '../../definitions/typesList';
 
-const subcategories = categoriesPrivate.results.filter(filterForSub);
+const subCategories = Object.entries(categories).flatMap(([, { sub }]) => sub);
 
 describe('<IncidentDetail />', () => {
   let wrapper;
@@ -166,6 +166,8 @@ describe('<IncidentDetail />', () => {
       priorityList,
       changeStatusOptionList,
       statusList,
+      defaultTextsOptionList: statusList,
+      typesList,
     },
     historyModel: {
       list: [
@@ -198,7 +200,7 @@ describe('<IncidentDetail />', () => {
         },
       ],
     },
-    subcategories,
+    subCategories,
     onRequestIncident: jest.fn(),
     onPatchIncident: jest.fn(),
     onRequestHistoryList: jest.fn(),
