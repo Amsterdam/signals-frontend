@@ -1,26 +1,20 @@
 import React, { Fragment, useCallback, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { compose, bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { useParams, useLocation, useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useParams, useLocation } from 'react-router-dom';
 import isEqual from 'lodash.isequal';
 import styled from 'styled-components';
 
-import {
-  VARIANT_ERROR,
-  VARIANT_SUCCESS,
-  TYPE_LOCAL,
-} from 'containers/Notification/constants';
+import configuration from 'shared/services/configuration/configuration';
 import { makeSelectUserCan } from 'containers/App/selectors';
 import PageHeader from 'signals/settings/components/PageHeader';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 
-import { showGlobalNotification as showGlobalNotificationAction } from 'containers/App/actions';
 import BackLink from 'components/BackLink';
 import routes from 'signals/settings/routes';
+import useFetch from 'hooks/useFetch';
 
-import useFetchUser from './hooks/useFetchUser';
+import useFetchResponseNotification from 'signals/settings/hooks/useFetchResponseNotification';
+import useConfirmedCancel from 'signals/settings/hooks/useConfirmedCancel';
 import UserForm from './components/UserForm';
 
 const FormContainer = styled.div`
@@ -28,23 +22,27 @@ const FormContainer = styled.div`
   padding-bottom: 66px;
 `;
 
-export const UserDetailContainerComponent = ({
-  showGlobalNotification,
-  userCan,
-}) => {
+const UserDetail = () => {
+  const entityName = 'Gebruiker';
   const { userId } = useParams();
   const location = useLocation();
-  const history = useHistory();
+  const userCan = useSelector(makeSelectUserCan);
 
   const isExistingUser = userId !== undefined;
-  const { isLoading, isSuccess, error, data, patch, post } = useFetchUser(
-    userId
-  );
+  const { isLoading, isSuccess, error, data, get, patch, post } = useFetch();
   const shouldRenderForm = !isExistingUser || (isExistingUser && Boolean(data));
   const redirectURL = location.referrer || routes.users;
-  const userCanSubmitForm =
-    (isExistingUser && userCan('change_user')) ||
-    (!isExistingUser && userCan('add_user'));
+  const userCanSubmitForm = (isExistingUser && userCan('change_user')) || (!isExistingUser && userCan('add_user'));
+  const confirmedCancel = useConfirmedCancel(redirectURL);
+
+  useFetchResponseNotification({
+    entityName,
+    error,
+    isExisting: isExistingUser,
+    isLoading,
+    isSuccess,
+    redirectURL,
+  });
 
   const getFormData = useCallback(
     e => {
@@ -66,49 +64,15 @@ export const UserDetailContainerComponent = ({
   );
 
   useEffect(() => {
-    if (isLoading) return;
-
-    let message;
-    let variant = VARIANT_SUCCESS;
-
-    if (error) {
-      ({ message } = error);
-      variant = VARIANT_ERROR;
+    if (userId) {
+      get(`${configuration.USERS_ENDPOINT}${userId}`);
     }
-
-    if (!isExistingUser && isSuccess) {
-      message = 'Gebruiker toegevoegd';
-    }
-
-    if (isExistingUser && isSuccess) {
-      message = 'Gegevens opgeslagen';
-    }
-
-    if (!message) return;
-
-    showGlobalNotification({
-      variant,
-      title: message,
-      type: TYPE_LOCAL,
-    });
-
-    if (isSuccess) {
-      history.push(redirectURL);
-    }
-  }, [
-    error,
-    history,
-    isExistingUser,
-    isLoading,
-    isSuccess,
-    redirectURL,
-    showGlobalNotification,
-  ]);
+    // disabling linter; only need to execute on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSubmitForm = useCallback(
     e => {
-      if (!userCanSubmitForm) return;
-
       e.preventDefault();
 
       const formData = getFormData(e);
@@ -118,71 +82,38 @@ export const UserDetailContainerComponent = ({
       }
 
       if (isExistingUser) {
-        patch(formData);
+        patch(`${configuration.USERS_ENDPOINT}${userId}`, formData);
       } else {
-        post(formData);
+        post(configuration.USERS_ENDPOINT, formData);
       }
     },
-    [data, getFormData, patch, isExistingUser, userCanSubmitForm, post]
+    [data, getFormData, patch, isExistingUser, post, userId]
   );
 
   const onCancel = useCallback(
     e => {
       const formData = getFormData(e);
-
-      if (
-        isEqual(data, formData) ||
-        (!isEqual(data, formData) &&
-          global.confirm('Niet opgeslagen gegevens gaan verloren. Doorgaan?'))
-      ) {
-        history.push(redirectURL);
-      }
+      const isPristine = isEqual(data, formData);
+      confirmedCancel(isPristine);
     },
-    [data, getFormData, history, redirectURL]
+    [data, getFormData, confirmedCancel]
   );
 
-  const title = `Gebruiker ${isExistingUser ? 'wijzigen' : 'toevoegen'}`;
+  const title = `${entityName} ${isExistingUser ? 'wijzigen' : 'toevoegen'}`;
 
   return (
     <Fragment>
-      <PageHeader
-        title={title}
-        BackLink={<BackLink to={redirectURL}>Terug naar overzicht</BackLink>}
-      />
+      <PageHeader title={title} BackLink={<BackLink to={redirectURL}>Terug naar overzicht</BackLink>} />
 
       {isLoading && <LoadingIndicator />}
 
       <FormContainer>
         {shouldRenderForm && (
-          <UserForm
-            data={data}
-            onCancel={onCancel}
-            onSubmitForm={onSubmitForm}
-            readOnly={!userCanSubmitForm}
-          />
+          <UserForm data={data} onCancel={onCancel} onSubmitForm={onSubmitForm} readOnly={!userCanSubmitForm} />
         )}
       </FormContainer>
     </Fragment>
   );
 };
 
-UserDetailContainerComponent.propTypes = {
-  showGlobalNotification: PropTypes.func.isRequired,
-  userCan: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = createStructuredSelector({
-  userCan: makeSelectUserCan,
-});
-
-export const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      showGlobalNotification: showGlobalNotificationAction,
-    },
-    dispatch
-  );
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
-
-export default compose(withConnect)(UserDetailContainerComponent);
+export default UserDetail;
