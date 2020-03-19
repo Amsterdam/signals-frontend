@@ -11,15 +11,17 @@ import {
 import { history as memoryHistory, withCustomAppContext } from 'test/utils';
 
 import usersJSON from 'utils/__tests__/fixtures/users.json';
+import inputRolesSelectorJSON from 'utils/__tests__/fixtures/inputRolesSelector.json';
 import { USER_URL } from 'signals/settings/routes';
 import configuration from 'shared/services/configuration/configuration';
 import * as constants from 'containers/App/constants';
-import * as settingsActions from 'signals/settings/actions';
 import * as reactRouter from 'react-router-dom';
 import * as appSelectors from 'containers/App/selectors';
-import UsersOverview from '..';
+import { setUserFilters } from 'signals/settings/actions';
+import SettingsContext from 'signals/settings/context';
+import * as rolesSelectors from 'models/roles/selectors';
 
-import SettingsContext from '../../../../context';
+import UsersOverview from '..';
 
 jest.mock('containers/App/constants', () => ({
   __esModule: true,
@@ -35,11 +37,6 @@ jest.mock('react-router-dom', () => ({
   __esModule: true,
   ...jest.requireActual('react-router-dom'),
 }));
-
-const setUserFilters = jest.fn();
-jest
-  .spyOn(settingsActions, 'setUserFilters')
-  .mockImplementation(setUserFilters);
 
 constants.PAGE_SIZE = 50;
 
@@ -76,21 +73,17 @@ const resolveAfterMs = timeMs =>
 
 describe('signals/settings/users/containers/Overview', () => {
   beforeEach(() => {
+    dispatch.mockReset();
+
     jest
       .spyOn(reactRouter, 'useParams')
       .mockImplementation(() => ({ pageNum: 1 }));
 
     const push = jest.fn();
     const scrollTo = jest.fn();
-    const apiHeaders = {
-      headers: {
-        Accept: 'application/json',
-      },
-    };
-    const history = {
-      ...memoryHistory,
-      push,
-    };
+    const apiHeaders = { headers: { Accept: 'application/json' } };
+
+    const history = { ...memoryHistory, push };
 
     jest.useRealTimers();
     fetch.resetMocks();
@@ -138,6 +131,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await wait();
 
+    expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining(configuration.USERS_ENDPOINT),
       expect.objectContaining(apiHeaders)
@@ -149,13 +143,7 @@ describe('signals/settings/users/containers/Overview', () => {
     fetch.mockResponse(
       () =>
         new Promise(resolve => {
-          setTimeout(
-            () =>
-              resolve({
-                body: JSON.stringify(usersJSON),
-              }),
-            50
-          );
+          setTimeout(() => resolve({ body: JSON.stringify(usersJSON) }), 50);
         })
     );
 
@@ -375,14 +363,12 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await wait();
 
-    const filterByUsername = getByTestId('filterUsersByUsername');
-    const filterByUserNameInput = filterByUsername.querySelector('input');
+    const filterByUserName = getByTestId('filterUsersByUsername');
+    const filterByUserNameInput = filterByUserName.querySelector('input');
     const filterValue = 'test1';
 
     act(() => {
-      fireEvent.change(filterByUserNameInput, {
-        target: { value: filterValue },
-      });
+      fireEvent.change(filterByUserNameInput, { target: { value: filterValue } });
     });
 
     await wait(() => resolveAfterMs(50));
@@ -392,20 +378,12 @@ describe('signals/settings/users/containers/Overview', () => {
     await wait(() => resolveAfterMs(200));
 
     expect(dispatch).toHaveBeenCalledTimes(1);
-    expect(dispatch).toHaveBeenCalledWith(
-      setUserFilters({ username: filterValue })
-    );
+    expect(dispatch).toHaveBeenCalledWith(setUserFilters({ username: filterValue }));
   });
 
   it('should not dispatch filter values when input value has not changed', async () => {
     const username = 'foo bar baz';
-    const stateCfg = {
-      users: {
-        filters: {
-          username,
-        },
-      },
-    };
+    const stateCfg = { users: { filters: { username } } };
 
     const { getByTestId, rerender } = render(usersOverviewWithAppContext());
 
@@ -413,8 +391,8 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(dispatch).not.toHaveBeenCalled();
 
-    const filterByUsername = getByTestId('filterUsersByUsername');
-    const filterByUserNameInput = filterByUsername.querySelector('input');
+    const filterByUserName = getByTestId('filterUsersByUsername');
+    const filterByUserNameInput = filterByUserName.querySelector('input');
 
     act(() => {
       fireEvent.input(filterByUserNameInput, {
@@ -439,5 +417,207 @@ describe('signals/settings/users/containers/Overview', () => {
     await wait(() => resolveAfterMs(250));
 
     expect(dispatch).toHaveBeenCalledTimes(1);
+  });
+
+  it('should render a role filter', async () => {
+    const { getByTestId } = render(usersOverviewWithAppContext());
+
+    await wait();
+
+    expect(getByTestId('roleSelect')).toBeInTheDocument();
+  });
+
+  it('should select the right option when role filter changes', async () => {
+    jest
+      .spyOn(appSelectors, 'makeSelectUserCan')
+      .mockImplementation(() => () => true);
+
+    jest
+      .spyOn(rolesSelectors, 'inputRolesSelector')
+      .mockImplementation(() => inputRolesSelectorJSON);
+
+    const { getByTestId } = render(usersOverviewWithAppContext());
+
+    await wait();
+
+    const filterByRoleSelect = getByTestId('roleSelect');
+
+    // check if the default value has been set
+    expect(filterByRoleSelect.value).toBe('*');
+
+    const filterValue = 'Regievoerder';
+
+    expect(dispatch).toHaveBeenCalledTimes(0);
+
+    act(() => {
+      fireEvent.change(filterByRoleSelect, { target: { value: filterValue } });
+    });
+
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toHaveBeenCalledWith(setUserFilters({ role: filterValue }));
+
+    expect(filterByRoleSelect.value).toBe(filterValue);
+
+    const activeOption = filterByRoleSelect.querySelector('select option:nth-child(8)');
+
+    expect(activeOption.value).toBe(filterValue);
+  });
+
+  it('should render a user active (status) filter', async () => {
+    const { getByTestId } = render(usersOverviewWithAppContext());
+
+    await wait();
+
+    expect(getByTestId('userActiveSelect')).toBeInTheDocument();
+  });
+
+  it('should select the right option when user active (status) filter changes', async () => {
+    const { getByTestId } = render(usersOverviewWithAppContext());
+
+    await wait();
+
+    const filterByUserActiveSelect = getByTestId('userActiveSelect');
+
+    // check if the default value has been set
+    expect(filterByUserActiveSelect.value).toBe('*');
+
+    const filterValue = 'true';
+
+    act(() => {
+      fireEvent.change(filterByUserActiveSelect, { target: { value: filterValue } });
+    });
+
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toHaveBeenCalledWith(setUserFilters({ is_active: filterValue }));
+
+    expect(filterByUserActiveSelect.value).toBe(filterValue);
+  });
+
+  it('should keep the state of all filters in context', async () => {
+    const { getByTestId } = render(usersOverviewWithAppContext());
+
+    await wait();
+
+    const filterByUserActiveSelect = getByTestId('userActiveSelect');
+    const filterByRoleSelect = getByTestId('roleSelect');
+
+    // check if the default values have been set
+    expect(filterByUserActiveSelect.value).toBe('*');
+    expect(filterByRoleSelect.value).toBe('*');
+
+    const userActiveFilterValue = 'true';
+    const roleFilterValue = 'Regievoerder';
+
+    act(() => {
+      fireEvent.change(filterByUserActiveSelect, { target: { value: userActiveFilterValue } });
+      fireEvent.change(filterByRoleSelect, { target: { value: roleFilterValue } });
+    });
+
+    expect(dispatch).toHaveBeenCalledTimes(2);
+
+    expect(dispatch).toHaveBeenCalledWith(setUserFilters({ is_active: userActiveFilterValue }));
+    expect(dispatch).toHaveBeenCalledWith(setUserFilters({ role: roleFilterValue }));
+
+    expect(filterByUserActiveSelect.value).toBe(userActiveFilterValue);
+    expect(filterByRoleSelect.value).toBe(roleFilterValue);
+  });
+
+  it('should check if default filter values have been set', async () => {
+    jest
+      .spyOn(rolesSelectors, 'inputRolesSelector')
+      .mockImplementation(() => inputRolesSelectorJSON);
+
+    const { getByTestId } = render(usersOverviewWithAppContext());
+
+    await wait();
+
+    const filterByRoleSelect = getByTestId('roleSelect');
+    const filterByUserActiveSelect = getByTestId('userActiveSelect');
+
+    expect(filterByRoleSelect.value).toBe('*');
+    expect(filterByUserActiveSelect.value).toBe('*');
+  });
+
+  it('should select "Behandelaar" as filter and dispatch a fetch action', async () => {
+    jest
+      .spyOn(rolesSelectors, 'inputRolesSelector')
+      .mockImplementation(() => inputRolesSelectorJSON);
+
+    const mockedState = { users: { filters: { role: 'Behandelaar' } } };
+    const { getByTestId } = render(usersOverviewWithAppContext({}, {}, mockedState));
+
+    await wait();
+
+    const filterByRoleSelect = getByTestId('roleSelect');
+
+    expect(dispatch).toHaveBeenCalledTimes(0);
+
+    act(() => { fireEvent.change(filterByRoleSelect, { target: { value: 'Behandelaar' } }); });
+
+    expect(dispatch).toHaveBeenCalledTimes(1);
+
+    expect(filterByRoleSelect.value).toBe('Behandelaar');
+
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining('role=Behandelaar'),
+      expect.objectContaining(testContext.apiHeaders)
+    );
+  });
+
+  it('should select "Actief" as filter and dispatch a fetch action', async () => {
+    const mockedState = { users: { filters: { is_active: true } } };
+    const { getByTestId } = render(usersOverviewWithAppContext({}, {}, mockedState));
+
+    await wait();
+
+    const filterByUserActiveSelect = getByTestId('userActiveSelect');
+
+    expect(dispatch).toHaveBeenCalledTimes(0);
+
+    act(() => { fireEvent.change(filterByUserActiveSelect, { target: { value: true } }); });
+
+    expect(dispatch).toHaveBeenCalledTimes(1);
+
+    expect(filterByUserActiveSelect.value).toBe('true');
+
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining('is_active=true'),
+      expect.objectContaining(testContext.apiHeaders)
+    );
+  });
+
+  it('should select a value in the select filters and dispatch a fetch action', async () => {
+    jest
+      .spyOn(rolesSelectors, 'inputRolesSelector')
+      .mockImplementation(() => inputRolesSelectorJSON);
+
+    const mockedState = { users: { filters: { is_active: true, role: 'Behandelaar' } } };
+
+    const { getByTestId } = render(usersOverviewWithAppContext({}, {}, mockedState));
+
+    await wait();
+
+    const filterByRoleSelect = getByTestId('roleSelect');
+    const filterByUserActiveSelect = getByTestId('userActiveSelect');
+
+    expect(dispatch).toHaveBeenCalledTimes(0);
+
+    act(() => {
+      fireEvent.change(filterByUserActiveSelect, { target: { value: true } });
+      fireEvent.change(filterByRoleSelect, { target: { value: 'Behandelaar' } });
+    });
+
+    expect(dispatch).toHaveBeenCalledTimes(2);
+
+    expect(filterByRoleSelect.value).toBe('Behandelaar');
+    expect(filterByUserActiveSelect.value).toBe('true');
+
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringMatching(/is_active=true|role=Behandelaar/),
+      expect.objectContaining(testContext.apiHeaders)
+    );
   });
 });

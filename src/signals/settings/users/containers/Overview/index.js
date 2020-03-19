@@ -20,7 +20,9 @@ import DataView from 'components/DataView';
 import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes';
 import SettingsContext from 'signals/settings/context';
 import { setUserFilters } from 'signals/settings/actions';
+import { inputRolesSelector } from 'models/roles/selectors';
 import { makeSelectUserCan } from 'containers/App/selectors';
+import SelectInput from 'components/SelectInput';
 import useFetchUsers from './hooks/useFetchUsers';
 
 const StyledPagination = styled(Pagination)`
@@ -45,6 +47,12 @@ const StyledDataView = styled(DataView)`
   }
 `;
 
+const selectUserActive = [
+  { key: 'all', name: 'Alles', value: '*' },
+  { key: 'active', name: 'Actief', value: true },
+  { key: 'inactive', name: 'Niet actief', value: false },
+];
+
 const UsersOverviewContainer = () => {
   const history = useHistory();
   const { pageNum } = useParams();
@@ -57,6 +65,7 @@ const UsersOverviewContainer = () => {
     users,
   } = useFetchUsers({ page, filters });
   const userCan = useSelector(makeSelectUserCan);
+  const selectRoles = useSelector(inputRolesSelector);
 
   /**
    * Get page number value from URL query string
@@ -88,18 +97,24 @@ const UsersOverviewContainer = () => {
     [createOnChangeFilter]
   );
 
+  const selectUserActiveOnChange = useCallback(event => {
+    event.preventDefault();
+    dispatch(setUserFilters({ is_active: event.target.value }));
+  }, [dispatch]);
+
+  const selectRoleOnChange = useCallback(event => {
+    event.preventDefault();
+    dispatch(setUserFilters({ role: event.target.value }));
+  }, [dispatch]);
+
   const onItemClick = useCallback(
-    e => {
+    event => {
       if (userCan('change_user') === false) {
-        e.preventDefault();
+        event.preventDefault();
         return;
       }
 
-      const {
-        currentTarget: {
-          dataset: { itemId },
-        },
-      } = e;
+      const { currentTarget: { dataset: { itemId } } } = event;
 
       if (itemId) {
         history.push(`${USER_URL}/${itemId}`);
@@ -141,6 +156,20 @@ const UsersOverviewContainer = () => {
                   onChange={debouncedOnChangeFilter}
                   value={filters.username}
                   data-testid="filterUsersByUsername"
+                />,
+
+                <SelectInput
+                  name="roleSelect"
+                  value={filters.role}
+                  options={selectRoles}
+                  onChange={selectRoleOnChange}
+                />,
+
+                <SelectInput
+                  name="userActiveSelect"
+                  value={filters.userActive}
+                  options={selectUserActive}
+                  onChange={selectUserActiveOnChange}
                 />,
               ]}
               columnOrder={columnHeaders}
