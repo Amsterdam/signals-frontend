@@ -148,18 +148,19 @@ export class IncidentDetail extends React.Component {
     } = this.props;
     const { list } = this.props.historyModel;
     const {
-      incident,
       attachments,
+      changeStatusOptionList,
+      defaultTexts,
+      defaultTextsOptionList,
+      error,
+      incident,
       loading,
       patching,
-      error,
+      priorityList,
       split,
       stadsdeelList,
-      priorityList,
-      changeStatusOptionList,
-      defaultTextsOptionList,
       statusList,
-      defaultTexts,
+      typesList,
     } = this.props.incidentModel;
     const { previewState, attachmentHref } = this.state;
 
@@ -266,10 +267,11 @@ export class IncidentDetail extends React.Component {
                   </DetailContainer>
 
                   <DetailContainer span={4} push={1}>
-                    {incident && (
+                    {incident && subCategories && (
                       <MetaList
                         incident={incident}
                         priorityList={priorityList}
+                        typesList={typesList}
                         subcategories={subCategories}
                         onPatchIncident={onPatchIncident}
                         onEditStatus={this.onEditStatus}
@@ -307,6 +309,7 @@ IncidentDetail.propTypes = {
     split: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     stadsdeelList: dataListType,
     priorityList: dataListType,
+    typesList: dataListType,
     changeStatusOptionList: dataListType,
     defaultTextsOptionList: dataListType,
     statusList: dataListType,

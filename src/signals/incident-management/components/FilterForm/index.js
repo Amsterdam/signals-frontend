@@ -54,7 +54,7 @@ const FilterForm = ({
   dataLists,
   categories,
 }) => {
-  const { feedback, priority, stadsdeel, status, source } = dataLists;
+  const { feedback, priority, stadsdeel, status, source, contact_details } = dataLists;
 
   const [state, dispatch] = useReducer(reducer, filter, init);
 
@@ -268,41 +268,57 @@ const FilterForm = ({
         <Fieldset>
           <legend>Filter parameters</legend>
 
-          <CheckboxGroup
-            name="status"
-            defaultValue={state.options.status}
-            onChange={onGroupChange}
-            onToggle={onGroupToggle}
-            label="Status"
-            options={status}
-          />
+          {status && (
+            <CheckboxGroup
+              defaultValue={state.options.status}
+              label="Status"
+              name="status"
+              onChange={onGroupChange}
+              onToggle={onGroupToggle}
+              options={status}
+            />
+          )}
+
+          {stadsdeel && (
+            <CheckboxGroup
+              defaultValue={state.options.stadsdeel}
+              label="Stadsdeel"
+              name="stadsdeel"
+              onChange={onGroupChange}
+              onToggle={onGroupToggle}
+              options={stadsdeel}
+            />
+          )}
 
           <CheckboxGroup
-            name="stadsdeel"
-            defaultValue={state.options.stadsdeel}
-            onChange={onGroupChange}
-            onToggle={onGroupToggle}
-            label="Stadsdeel"
-            options={stadsdeel}
-          />
-
-          <CheckboxGroup
-            options={priority}
-            name="priority"
-            hasToggle={false}
             defaultValue={state.options.priority}
+            hasToggle={false}
+            label="Urgentie"
+            name="priority"
             onChange={onGroupChange}
             onToggle={onGroupToggle}
-            label="Urgentie"
+            options={priority}
           />
 
-          <RadioGroup
-            options={feedback}
-            name="feedback"
-            defaultValue={state.options.feedback}
-            onChange={onRadioChange}
-            label="Feedback"
+          <CheckboxGroup
+            defaultValue={state.options.contact_details}
+            hasToggle={false}
+            label="Contact"
+            name="contact_details"
+            onChange={onGroupChange}
+            onToggle={onGroupToggle}
+            options={contact_details}
           />
+
+          {feedback && (
+            <RadioGroup
+              defaultValue={state.options.feedback}
+              label="Feedback"
+              name="feedback"
+              onChange={onRadioChange}
+              options={feedback}
+            />
+          )}
 
           <FilterGroup>
             <Label htmlFor="filter_date" isGroupHeader>
@@ -347,17 +363,20 @@ const FilterForm = ({
               id="filter_address"
               onBlur={onAddressChange}
               defaultValue={state.options.address_text}
+              type="text"
             />
           </FilterGroup>
 
-          <CheckboxGroup
-            name="source"
-            defaultValue={state.options.source}
-            onChange={onGroupChange}
-            onToggle={onGroupToggle}
-            label="Bron"
-            options={source}
-          />
+          {source && (
+            <CheckboxGroup
+              defaultValue={state.options.source}
+              label="Bron"
+              name="source"
+              onChange={onGroupChange}
+              onToggle={onGroupToggle}
+              options={source}
+            />
+          )}
         </Fieldset>
       </ControlsWrapper>
 

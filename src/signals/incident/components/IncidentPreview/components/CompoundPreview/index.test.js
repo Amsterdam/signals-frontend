@@ -8,7 +8,7 @@ describe('the compound preview component', () => {
       () => <span>hello world</span>,
       foo => (
         <span>
-bar:
+          bar:
           {foo}
         </span>
       ),

@@ -69,6 +69,7 @@ module.exports = {
     'no-console': 1,
     'no-unused-vars': 2,
     'no-use-before-define': 0,
+    'object-curly-spacing': [1, 'always'],
     'prefer-template': 2,
     'react/destructuring-assignment': 0,
     'react-hooks/exhaustive-deps': 'warn',

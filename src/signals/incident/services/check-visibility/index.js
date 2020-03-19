@@ -3,6 +3,7 @@ import isEqual from 'lodash.isequal';
 import some from 'lodash.some';
 import isObject from 'lodash.isobject';
 import isArray from 'lodash.isarray';
+import { isAuthenticated } from 'shared/services/auth/auth';
 
 const isValueEqual = (incident, value, key, callback) => isEqual(value, incident[key])
   || (isArray(incident[key]) && incident[key].includes(value))
@@ -10,7 +11,7 @@ const isValueEqual = (incident, value, key, callback) => isEqual(value, incident
   || (isObject(incident[key]) && incident[key].value && isEqual(value, incident[key].value))
   || (isObject(incident[key]) && incident[key].id && isEqual(value, incident[key].id));
 
-const checkVisibility = (control, incident, isAuthenticated) => {
+const checkVisibility = (control, incident) => {
   let isVisible = true;
 
   if (control.meta && control.meta.ifAllOf && incident) {
@@ -28,7 +29,7 @@ const checkVisibility = (control, incident, isAuthenticated) => {
   }
 
   if (control.authenticated) {
-    isVisible = isVisible && isAuthenticated;
+    isVisible = isVisible && isAuthenticated();
   }
 
   return isVisible;

@@ -4,14 +4,16 @@ import categoriesJson from 'utils/__tests__/fixtures/categories_private.json';
 
 import { initialState } from '../reducer';
 import {
-  selectCategoriesDomain,
-  makeSelectCategories,
-  makeSelectMainCategories,
-  makeSelectSubCategories,
-  makeSelectByMainCategory,
-  makeSelectStructuredCategories,
   filterForMain,
   filterForSub,
+  makeSelectAllCategories,
+  makeSelectAllSubCategories,
+  makeSelectByMainCategory,
+  makeSelectCategories,
+  makeSelectMainCategories,
+  makeSelectStructuredCategories,
+  makeSelectSubCategories,
+  selectCategoriesDomain,
 } from '../selectors';
 
 const state = fromJS({
@@ -33,12 +35,13 @@ describe('models/categories/selectors', () => {
   });
 
   test('makeSelectCategories', () => {
-    expect(makeSelectCategories.resultFunc(fromJS(initialState))).toBeNull();
+    expect(makeSelectCategories.resultFunc(initialState)).toBeNull();
 
     const categories = makeSelectCategories.resultFunc(state);
     const first = categories.first().toJS();
 
     const firstWithExtraProps = categoriesJson.results[0];
+    firstWithExtraProps.fk = firstWithExtraProps.id;
     firstWithExtraProps.id = firstWithExtraProps._links.self.public;
     firstWithExtraProps.key = firstWithExtraProps._links.self.public;
     firstWithExtraProps.parentKey = false;
@@ -52,6 +55,7 @@ describe('models/categories/selectors', () => {
       .toJS();
 
     const secondWithExtraProps = categoriesJson.results[1];
+    secondWithExtraProps.fk = secondWithExtraProps.id;
     secondWithExtraProps.id = secondWithExtraProps._links.self.public;
     secondWithExtraProps.key = secondWithExtraProps._links.self.public;
     secondWithExtraProps.parentKey =
@@ -61,13 +65,26 @@ describe('models/categories/selectors', () => {
     expect(second).toEqual(secondWithExtraProps);
   });
 
-  test('makeSelectCategories for inactive categories', () => {
+  test('makeSelectCategories should only return active categories', () => {
     const total = categoriesJson.results.length;
     const inactive = categoriesJson.results.filter(({ is_active }) => !is_active).length;
 
-    const result = makeSelectCategories.resultFunc(state);
+    const result = makeSelectCategories.resultFunc(state).toJS();
 
-    expect(result.toJS().length).toEqual(total - inactive);
+    expect(result.length).toEqual(total - inactive);
+
+    result.forEach(category => {
+      expect(category.is_active).toEqual(true);
+    });
+  });
+
+  test('makeSelectAllCategories', () => {
+    const total = categoriesJson.results.length;
+    expect(makeSelectAllCategories.resultFunc(initialState)).toBeNull();
+
+    const result = makeSelectAllCategories.resultFunc(state);
+
+    expect(result.toJS().length).toEqual(total);
   });
 
   test('makeSelectMainCategories', () => {
@@ -94,6 +111,21 @@ describe('models/categories/selectors', () => {
     const keys = categoriesJson.results
       .filter(filterForSub)
       .filter(({ is_active}) => is_active)
+      .map(({ slug }) => slug)
+      .sort();
+
+    expect(slugs).toEqual(keys);
+  });
+
+  test('makeSelectAllSubCategories', () => {
+    expect(makeSelectAllSubCategories.resultFunc()).toBeNull();
+
+    const subCategories = makeSelectAllSubCategories.resultFunc(
+      makeSelectAllCategories.resultFunc(state)
+    );
+    const slugs = subCategories.map(({ slug }) => slug).sort();
+    const keys = categoriesJson.results
+      .filter(filterForSub)
       .map(({ slug }) => slug)
       .sort();
 

@@ -383,7 +383,7 @@ exports[`<StatusChart /> should render correctly 1`] = `
     </div>
     <div
       class="recharts-tooltip-wrapper"
-      style="pointer-events:none;visibility:hidden;position:absolute;top:0;transform:translate(undefinedpx, undefinedpx);-webkit-transform:translate(undefinedpx, undefinedpx);-moz-transform:translate(undefinedpx, undefinedpx);-o-transform:translate(undefinedpx, undefinedpx);-ms-transform:translate(undefinedpx, undefinedpx)"
+      style="transform:translate(undefinedpx, undefinedpx);-webkit-transform:translate(undefinedpx, undefinedpx);-moz-transform:translate(undefinedpx, undefinedpx);-o-transform:translate(undefinedpx, undefinedpx);-ms-transform:translate(undefinedpx, undefinedpx);pointer-events:none;visibility:hidden;position:absolute;top:0"
     >
       <div
         class="recharts-default-tooltip"

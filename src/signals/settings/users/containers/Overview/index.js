@@ -1,26 +1,29 @@
 import React, {
   Fragment,
+  useCallback,
+  useContext,
   useEffect,
   useState,
-  useMemo,
-  useCallback, useReducer,
 } from 'react';
-import PropTypes from 'prop-types';
-import { useParams, useHistory, useLocation, Link } from 'react-router-dom';
+import { useParams, useHistory, Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import { Row, Column, themeSpacing, Button, SearchBar } from '@datapunt/asc-ui';
 import styled from 'styled-components';
-import { createStructuredSelector } from 'reselect';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import debounce from 'lodash/debounce';
 
-import { makeSelectUserCan } from 'containers/App/selectors';
+import { PAGE_SIZE } from 'containers/App/constants';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Pagination from 'components/Pagination';
 import PageHeader from 'signals/settings/components/PageHeader';
+import DataView from 'components/DataView';
 import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes';
+import SettingsContext from 'signals/settings/context';
+import { setUserFilters } from 'signals/settings/actions';
+import { inputRolesSelector } from 'models/roles/selectors';
+import { makeSelectUserCan } from 'containers/App/selectors';
+import SelectInput from 'components/SelectInput';
 import useFetchUsers from './hooks/useFetchUsers';
-import DataView from './components/DataView';
 
 const StyledPagination = styled(Pagination)`
   margin-top: ${themeSpacing(12)};
@@ -38,40 +41,43 @@ const StyledSearchbar = styled(SearchBar)`
   }
 `;
 
-const filtersReducer = (state, action) => {
-  switch (action.type) {
-    case 'username':
-      return { username: action.payload };
-    default:
-      throw new Error();
+const StyledDataView = styled(DataView)`
+  th:first-child {
+    width: 50%;
   }
-};
+`;
 
-export const UsersOverviewContainer = ({ pageSize, userCan }) => {
+const selectUserActive = [
+  { key: 'all', name: 'Alles', value: '*' },
+  { key: 'active', name: 'Actief', value: true },
+  { key: 'inactive', name: 'Niet actief', value: false },
+];
+
+const UsersOverviewContainer = () => {
   const history = useHistory();
-  const location = useLocation();
-  const filtersInitialState = location.state && location.state.filters || {};
   const { pageNum } = useParams();
   const [page, setPage] = useState(1);
-  const [filters, dispatchFiltersChange] = useReducer(filtersReducer, filtersInitialState);
-  const { isLoading, users: { list: data }, users } = useFetchUsers({ page, pageSize, filters });
+  const { state, dispatch } = useContext(SettingsContext);
+  const { filters } = state.users;
+  const {
+    isLoading,
+    users: { list: data },
+    users,
+  } = useFetchUsers({ page, filters });
+  const userCan = useSelector(makeSelectUserCan);
+  const selectRoles = useSelector(inputRolesSelector);
 
   /**
    * Get page number value from URL query string
    *
    * @returns {number|undefined}
    */
-  const pageNumFromQueryString = useMemo(
-    () => pageNum && parseInt(pageNum, 10),
-    [pageNum]
-  );
+  const pageNumFromQueryString = pageNum && parseInt(pageNum, 10);
 
   // subscribe to param changes
   useEffect(() => {
-    const pageNumber = pageNumFromQueryString;
-
-    if (pageNumber && pageNumber !== page) {
-      setPage(pageNumber);
+    if (pageNumFromQueryString && pageNumFromQueryString !== page) {
+      setPage(pageNumFromQueryString);
     }
   }, [pageNumFromQueryString, page]);
 
@@ -79,11 +85,11 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
     filter => value => {
       if (filters[filter] === value) return;
 
-      dispatchFiltersChange({ type: filter, payload: value });
+      dispatch(setUserFilters({ username: value }));
       setPage(1);
       history.push(`${USERS_PAGED_URL}/1`);
     },
-    [history, filters]
+    [dispatch, history, filters]
   );
 
   const debouncedOnChangeFilter = useCallback(
@@ -91,24 +97,30 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
     [createOnChangeFilter]
   );
 
+  const selectUserActiveOnChange = useCallback(event => {
+    event.preventDefault();
+    dispatch(setUserFilters({ is_active: event.target.value }));
+  }, [dispatch]);
+
+  const selectRoleOnChange = useCallback(event => {
+    event.preventDefault();
+    dispatch(setUserFilters({ role: event.target.value }));
+  }, [dispatch]);
+
   const onItemClick = useCallback(
-    e => {
+    event => {
       if (userCan('change_user') === false) {
-        e.preventDefault();
+        event.preventDefault();
         return;
       }
 
-      const {
-        currentTarget: {
-          dataset: { itemId },
-        },
-      } = e;
+      const { currentTarget: { dataset: { itemId } } } = event;
 
       if (itemId) {
-        history.push(`${USER_URL}/${itemId}`, { filters });
+        history.push(`${USER_URL}/${itemId}`);
       }
     },
-    [history, userCan, filters]
+    [history, userCan]
   );
 
   const onPaginationClick = useCallback(
@@ -136,17 +148,29 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
 
         <Column span={12} wrap>
           <Column span={12}>
-            <DataView
+            <StyledDataView
               headers={columnHeaders}
               filters={[
-                (
-                  <StyledSearchbar
-                    placeholder=""
-                    onChange={debouncedOnChangeFilter}
-                    value={filters.username}
-                    data-testid="filterUsersByUsername"
-                  />
-                ),
+                <StyledSearchbar
+                  placeholder=""
+                  onChange={debouncedOnChangeFilter}
+                  value={filters.username}
+                  data-testid="filterUsersByUsername"
+                />,
+
+                <SelectInput
+                  name="roleSelect"
+                  value={filters.role}
+                  options={selectRoles}
+                  onChange={selectRoleOnChange}
+                />,
+
+                <SelectInput
+                  name="userActiveSelect"
+                  value={filters.userActive}
+                  options={selectUserActive}
+                  onChange={selectUserActiveOnChange}
+                />,
               ]}
               columnOrder={columnHeaders}
               invisibleColumns={['id']}
@@ -161,7 +185,7 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
               <StyledPagination
                 currentPage={page}
                 onClick={onPaginationClick}
-                totalPages={Math.ceil(users.count / pageSize)}
+                totalPages={Math.ceil(users.count / PAGE_SIZE)}
               />
             </Column>
           )}
@@ -171,19 +195,4 @@ export const UsersOverviewContainer = ({ pageSize, userCan }) => {
   );
 };
 
-UsersOverviewContainer.defaultProps = {
-  pageSize: 30,
-};
-
-UsersOverviewContainer.propTypes = {
-  pageSize: PropTypes.number,
-  userCan: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = createStructuredSelector({
-  userCan: makeSelectUserCan,
-});
-
-const withConnect = connect(mapStateToProps);
-
-export default compose(withConnect)(UsersOverviewContainer);
+export default UsersOverviewContainer;

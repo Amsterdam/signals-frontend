@@ -12,7 +12,6 @@ import {
   AUTHORIZE_USER,
   SHOW_GLOBAL_NOTIFICATION,
   RESET_GLOBAL_NOTIFICATION,
-  REQUEST_CATEGORIES_SUCCESS,
   UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
   UPLOAD_SUCCESS,
@@ -28,11 +27,6 @@ export const initialState = fromJS({
     permissions: [],
     roles: [],
     profile: null,
-  },
-  categories: {
-    main: [],
-    sub: [],
-    mainToSub: {},
   },
   notification: {
     message: '',
@@ -56,9 +50,6 @@ function appReducer(state = initialState, action) {
 
     case RESET_GLOBAL_NOTIFICATION:
       return state.set('notification', initialState.get('notification'));
-
-    case REQUEST_CATEGORIES_SUCCESS:
-      return state.set('categories', fromJS(action.payload));
 
     case UPLOAD_REQUEST:
       return state.set(

@@ -36,7 +36,6 @@ class List extends React.Component {
     return className;
   }
 
-
   render() {
     const { incidents, priority, status, stadsdeel } = this.props;
     return (

@@ -1,8 +1,16 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
+import * as auth from 'shared/services/auth/auth';
 
 import IncidentWizard from './index';
+
+jest.mock('shared/services/auth/auth', () => ({
+  __esModule: true,
+  ...jest.requireActual('shared/services/auth/auth'),
+}));
+
+jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
 describe('<IncidentWizard />', () => {
   const props = {
@@ -13,7 +21,6 @@ describe('<IncidentWizard />', () => {
     incidentContainer: {
       loading: false,
     },
-    isAuthenticated: false,
   };
 
   it('expect to render form correctly', () => {
