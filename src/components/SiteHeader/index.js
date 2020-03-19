@@ -24,28 +24,29 @@ export const breakpoint = 1170;
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
+    font-weight: 400;
     text-decoration: none;
   }
 
   ${({ isFrontOffice, tall }) => isFrontOffice && tall && css`
-      & {
-        max-width: 960px;
-        h1 {
-          margin-left: ${themeSpacing(-5)};
-          font-weight: 400;
-        }
+    & {
+      max-width: 960px;
+      h1 {
+        margin-left: ${themeSpacing(-5)};
+        font-weight: 400;
+      }
 
-        h1 a {
-          &,
-          span {
-            width: 153px;
-          }
-        }
-
-        h1 a span {
-          background-image: url(${svg.LogoShort}) !important;
+      h1 a {
+        &,
+        span {
+          width: 153px;
         }
       }
+
+      h1 a span {
+        background-image: url(${svg.LogoShort}) !important;
+      }
+    }
   `}
 
   nav {
@@ -94,81 +95,83 @@ const HeaderWrapper = styled.div`
     z-index: 2;
   }
 
-  ${({ tall }) =>
-    !tall &&
-    css`
-      #header {
-        left: 0;
-        right: 0;
-        position: fixed;
+  ${({ tall }) => !tall && css`
+    #header {
+      left: 0;
+      right: 0;
+      position: fixed;
+    }
+  `}
+
+  ${({ isFrontOffice, tall }) => isFrontOffice && tall && css`
+    #header {
+      position: relative;
+
+      header {
+        height: 160px;
+        z-index: 0;
       }
-    `}
-  ${({ isFrontOffice, tall }) =>
-    isFrontOffice &&
-    tall &&
-    css`
-      #header {
-        position: relative;
 
+      @media screen and (max-width: 539px) {
         header {
-          height: 160px;
-          z-index: 0;
+          height: 50px;
         }
 
-        @media screen and (max-width: 539px) {
-          header {
-            height: 50px;
-          }
-          nav {
-            display: none;
-          }
+        nav {
+          display: none;
         }
+      }
 
-        @media screen and (min-width: 540px) {
-          z-index: 0;
-          box-shadow: none;
-          &:after {
-            max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
-            content: '';
-            display: block;
-            position: absolute;
-            left: 0;
-            right: 0;
-            height: 44px;
-            margin-top: ${themeSpacing(-11)};
-            background-color: ${themeColor('tint', 'level2')};
-            width: 100%;
-          }
+      @media screen and (min-width: 540px) {
+        z-index: 0;
+        box-shadow: none;
+        &:after {
+          max-width: 1400px;
+          margin-left: auto;
+          margin-right: auto;
+          content: '';
+          display: block;
+          position: absolute;
+          left: 0;
+          right: 0;
+          height: 44px;
+          margin-top: ${themeSpacing(-11)};
+          background-color: ${themeColor('tint', 'level2')};
+          width: 100%;
         }
-        nav,
-        ul {
+      }
+
+      nav,
+      ul {
+        margin: 0;
+      }
+
+      > header {
+        flex-wrap: wrap;
+      }
+
+      h1 {
+        padding: 15px 0;
+        @media screen and (max-width: 990px) {
           margin: 0;
         }
-        > header {
-          flex-wrap: wrap;
-        }
 
-        h1 {
-          padding: 15px 0;
-          @media screen and (max-width: 990px) {
-            margin: 0;
+        a {
+          height: 68px;
+
+          span {
+            background-repeat: no-repeat;
+            background-size: auto 100%;
           }
-          a {
-            height: 68px;
-            span {
-              background-repeat: no-repeat;
-              background-size: auto 100%;
-            }
-            @media screen and (max-width: 539px) {
-              margin-top: -3px;
-              height: 29px;
-            }
+
+          @media screen and (max-width: 539px) {
+            margin-top: -3px;
+            height: 29px;
           }
         }
       }
-    `}
+    }
+  `}
 `;
 
 const MenuItems = ({ onLogOut, showItems }) => {
