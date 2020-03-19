@@ -3,49 +3,42 @@ import {
   render,
   fireEvent,
 } from '@testing-library/react';
+
 import { withAppContext } from 'test/utils';
+import incident from 'utils/__tests__/fixtures/incident.json';
 
 import SplitForm from './index';
-
-import priorityList from '../../../../definitions/priorityList';
 
 describe('<SplitForm />', () => {
   const mockCreate = {
     category: {
-      sub_category: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep',
+      sub_category: incident.category.category_url,
     },
     reuse_parent_image: true,
-    text: undefined,
+    text: incident.text,
+    type: {
+      code: 'SIG',
+    },
   };
   const mockUpdate = {
     image: true,
     note: '',
-    priority: 'high',
-    subcategory: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep',
-    text: undefined,
+    priority: incident.priority.priority,
+    subcategory: incident.category.category_url,
+    text: incident.text,
+    type: 'SIG',
   };
   let props;
 
   beforeEach(() => {
     props = {
-      incident: {
-        id: '42',
-        category: {
-          main_slug: 'afval',
-          sub_slug: 'poep',
-          category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep',
-        },
-        priority: {
-          priority: 'high',
-        },
-      },
+      incident,
       attachments: [],
       subcategories: [{
         key: 'poep',
         value: 'Poep',
         slug: 'poep',
       }],
-      priorityList,
       onHandleCancel: jest.fn(),
       onHandleSubmit: jest.fn(),
     };
@@ -57,8 +50,8 @@ describe('<SplitForm />', () => {
         withAppContext(<SplitForm {...props} />)
       );
 
-      expect(queryByTestId('splitFormDisclaimer')).not.toBeNull();
-      expect(queryByTestId('splitFormBottomDisclaimer')).not.toBeNull();
+      expect(queryByTestId('splitFormDisclaimer')).toBeInTheDocument();
+      expect(queryByTestId('splitFormBottomDisclaimer')).toBeInTheDocument();
     });
   });
 
