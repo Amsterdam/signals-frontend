@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
+import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import Map from '..';
-import MAP_OPTIONS from '../../../shared/services/configuration/map-options';
 
-describe('components/MapInteractive', () => {
+describe('components/MapEditor', () => {
   const testLocation = {
     geometrie: {
       type: 'Point',
@@ -13,13 +13,13 @@ describe('components/MapInteractive', () => {
   };
 
   it('should render the map', () => {
-    const { container, getByText } = render(<Map options={MAP_OPTIONS} location={{}}/>);
+    const { container, getByTestId, queryByText } = render(<Map options={MAP_OPTIONS} location={{}}/>);
 
     // Map
-    expect(getByText('Leaflet')).toBeInTheDocument();
+    expect(getByTestId('map-test-id')).toBeInTheDocument();
 
     // Tile layer
-    expect(container.querySelector('.leaflet-tile-container')).toBeInTheDocument();
+    expect(queryByText(/Kaartgegevens CC-BY-4.0 Gemeente Amsterdam/)).toBeInTheDocument();
 
     // Zoom
     expect(container.querySelector('button[title="Inzoomen"]')).toBeInTheDocument();
@@ -29,9 +29,9 @@ describe('components/MapInteractive', () => {
   it('should render the marker', () => {
     const { container, rerender } = render(<Map options={MAP_OPTIONS} location={{}}/>);
 
-    expect(container.querySelector('img.leaflet-marker-icon')).not.toBeInTheDocument();
+    expect(container.querySelector('.sia-map-marker')).not.toBeInTheDocument();
 
     rerender(<Map options={MAP_OPTIONS} location={testLocation} />);
-    expect(container.querySelector('img.leaflet-marker-icon')).toBeInTheDocument();
+    expect(container.querySelector('.sia-map-marker')).toBeInTheDocument();
   });
 });
