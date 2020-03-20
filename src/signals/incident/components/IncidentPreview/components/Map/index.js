@@ -1,14 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Map from '../../../../../../components/Map';
+import Map from 'components/Map';
 
+import { formatAddress } from 'shared/services/map-location';
 import './style.scss';
-
-const formatAddress = address => {
-  const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
-  const display = `${address.openbare_ruimte} ${address.huisnummer}${address.huisletter}${toevoeging}, ${address.postcode} ${address.woonplaats}`;
-  return display;
-};
 
 /**
  * Map preview with one or more markers
