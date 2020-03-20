@@ -8,7 +8,7 @@ import getStepControls from '../services/get-step-controls';
 
 const sourceValuesObj = sourceList.reduce((acc, { key, value }) => ({ ...acc, [key]: value }), { '': 'Vul bron in' });
 const priorityValuesList = priorityList.reduce((acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }), {});
-const typesValuesList = typesList.reduce((acc, { key, value }) => ({ ...acc, [key]: { value } }), {});
+const typesValuesList = typesList.reduce((acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }), {});
 
 export default {
   label: 'Beschrijf uw melding',
