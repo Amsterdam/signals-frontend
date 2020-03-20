@@ -12,6 +12,7 @@ const StyledSection = styled.section`
 `;
 
 const StyledHeading = styled(Heading)`
+  font-weight: 400;
   margin: 0;
   line-height: 24px;
 `;

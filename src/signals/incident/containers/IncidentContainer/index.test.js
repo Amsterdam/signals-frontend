@@ -1,84 +1,49 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 
-import { withAppContext } from 'test/utils';
-import { IncidentContainer, mapDispatchToProps } from './index';
-import { GET_CLASSIFICATION, UPDATE_INCIDENT, CREATE_INCIDENT } from './constants';
+import { history, withAppContext } from 'test/utils';
+import { IncidentContainerComponent } from '.';
 
-jest.mock('signals/incident/components/form/MapInput', () => () => 'MapInput');
+jest.mock('shared/services/auth/auth', () => ({
+  __esModule: true,
+  ...jest.requireActual('shared/services/auth/auth'),
+  isAuthenticated: () => true,
+}));
+jest.mock('signals/incident/components/IncidentWizard', () => () => <span />);
 
-describe('<IncidentContainer />', () => {
-  let props;
-  let origSessionStorage;
+describe('signals/incident/containers/IncidentContainer', () => {
+  const resetIncidentAction = jest.fn();
+  const props = {
+    incidentContainer: { incident: {} },
+    getClassificationAction: jest.fn(),
+    updateIncidentAction: jest.fn(),
+    createIncidentAction: jest.fn(),
+    resetIncidentAction,
+  };
 
-  beforeEach(() => {
-    props = {
-      incidentContainer: { incident: {} },
-      getClassification: jest.fn(),
-      updateIncident: jest.fn(),
-      createIncident: jest.fn(),
-    };
-    origSessionStorage = global.localStorage;
-
-    global.localStorage = {
-      getItem: key => {
-        switch (key) {
-          case 'accessToken':
-            return '42';
-          default:
-            return '';
-        }
-      },
-      setItem: jest.fn(),
-      removeItem: jest.fn(),
-    };
-    origSessionStorage = global.localStorage;
-
-    global.localStorage = {
-      getItem: key => {
-        switch (key) {
-          case 'accessToken':
-            return '42';
-          default:
-            return '';
-        }
-      },
-      setItem: jest.fn(),
-      removeItem: jest.fn(),
-    };
-  });
-
-  afterEach(() => {
-    jest.resetAllMocks();
-    global.localStorage = origSessionStorage;
-  });
-
-  describe('rendering', () => {
-    it('should render correctly', () => {
-      const { getAllByText } = render(withAppContext(<IncidentContainer {...props} />));
-
-      expect(getAllByText('Volgende')).not.toBeNull(); // navigation
-      expect(document.querySelectorAll('input[type="file"]')).toHaveLength(1); // image upload
-      expect(document.querySelectorAll('input[type="radio"].kenmerkradio')).toHaveLength(10);
-    });
-  });
-
-  describe('mapDispatchToProps', () => {
-    const dispatch = jest.fn();
-
-    it('should get classification', () => {
-      mapDispatchToProps(dispatch).getClassification('snelle boot');
-      expect(dispatch).toHaveBeenCalledWith({ type: GET_CLASSIFICATION, payload: 'snelle boot' });
+  it('should reset incident on page unload', () => {
+    act(() => {
+      history.push('/');
     });
 
-    it('should update the incident', () => {
-      mapDispatchToProps(dispatch).updateIncident({ subcategory: 'foo' });
-      expect(dispatch).toHaveBeenCalledWith({ type: UPDATE_INCIDENT, payload: { subcategory: 'foo' } });
+    const { rerender } = render(withAppContext(<IncidentContainerComponent {...props} />));
+
+    expect(resetIncidentAction).not.toHaveBeenCalled();
+
+    act(() => {
+      history.push('/incident/bedankt');
     });
 
-    it('should create the incident', () => {
-      mapDispatchToProps(dispatch).createIncident({ description: 'bar' });
-      expect(dispatch).toHaveBeenCalledWith({ type: CREATE_INCIDENT, payload: { description: 'bar' } });
+    rerender(withAppContext(<IncidentContainerComponent {...props} />));
+
+    expect(resetIncidentAction).not.toHaveBeenCalled();
+
+    act(() => {
+      history.push('/');
     });
+
+    rerender(withAppContext(<IncidentContainerComponent {...props} />));
+
+    expect(resetIncidentAction).toHaveBeenCalled();
   });
 });

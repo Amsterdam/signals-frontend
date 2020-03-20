@@ -28,7 +28,6 @@ export const initialState = fromJS({
     handling_message: '',
   },
   loadingClassification: false,
-  priority: {},
 });
 
 export default (state = initialState, action) => {
