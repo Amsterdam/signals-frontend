@@ -21,7 +21,7 @@ exports[`Form component <MapInput /> rendering should render map field correctly
       <div
         className="invoer"
       >
-        <Memo(Map)
+        <Styled(Component)
           location={Object {}}
           onLocationChange={[Function]}
           options={

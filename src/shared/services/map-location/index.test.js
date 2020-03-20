@@ -1,4 +1,4 @@
-import mapLocation, { formatAddress, location2feature, feature2location, address2pdok } from './index';
+import mapLocation, { formatAddress, feature2location, address2pdok } from './index';
 
 const testAddress = {
   openbare_ruimte: 'Keizersgracht',
@@ -24,12 +24,6 @@ const testFeature = {
   type: 'Point',
   coordinates: [4, 52],
 };
-
-describe('location2Feature', () => {
-  it('should convert', () => {
-    expect(location2feature(testLocation)).toEqual(testFeature);
-  });
-});
 
 describe('feature2location', () => {
   it('should convert', () => {

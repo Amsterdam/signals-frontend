@@ -23,7 +23,6 @@ describe('components/MapEditor', () => {
 
     // Zoom
     expect(container.querySelector('button[title="Inzoomen"]')).toBeInTheDocument();
-    expect(container.querySelector('button[title="Uitzoomen"]')).toBeInTheDocument();
   });
 
   it('should render the marker', () => {
