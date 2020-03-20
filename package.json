@@ -55,6 +55,7 @@
   ],
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
+    "@datapunt/amsterdam-amaps": "^3.0.2",
     "@datapunt/asc-assets": "^0.18.1",
     "@datapunt/asc-core": "^0.18.1",
     "@datapunt/asc-ui": "^0.18.2",
@@ -62,7 +63,7 @@
     "@datapunt/matomo-tracker-js": "0.0.15",
     "@sentry/browser": "^5.14.2",
     "abortcontroller-polyfill": "^1.4.0",
-    "amsterdam-amaps": "^2.0.0",
+    "amsterdam-amaps": "git+https://git@github.com/Amsterdam/amaps.git#v3.0.0",
     "build": "^0.1.4",
     "classnames": "^2.2.6",
     "compression": "^1.7.3",
