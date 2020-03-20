@@ -5,7 +5,7 @@ import { PAGE_SIZE } from 'containers/App/constants';
 import { getAuthHeaders } from 'shared/services/auth/auth';
 import configuration from 'shared/services/configuration/configuration';
 
-import filterData from '../../../../filterData';
+import filterData from '../../../filterData';
 
 // name mapping from API values to human readable values
 const colMap = {
