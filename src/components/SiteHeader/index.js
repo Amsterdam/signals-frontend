@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
 import { svg, Logout as LogoutIcon } from '@datapunt/asc-assets';
+
 import {
   Header as HeaderComponent,
   MenuFlyOut,
