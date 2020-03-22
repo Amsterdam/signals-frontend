@@ -9,7 +9,9 @@ describe('<MapDetail />', () => {
     value: {
       geometrie: { coordinates: [0, 0] },
     },
+    mapOptions: {},
   };
+
   beforeEach(() => {
   });
 

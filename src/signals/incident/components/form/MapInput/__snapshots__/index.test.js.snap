@@ -23,9 +23,9 @@ exports[`Form component <MapInput /> rendering should render map field correctly
       >
         <Styled(Component)
           location={Object {}}
-          onLocationChange={[Function]}
-          options={
+          mapOptions={
             Object {
+              "attributionControl": true,
               "center": Array [
                 52.3731081,
                 4.8932945,
@@ -66,6 +66,7 @@ exports[`Form component <MapInput /> rendering should render map field correctly
                 "wrapLatLngBounds": [Function],
                 "zoom": [Function],
               },
+              "dragging": true,
               "maxBounds": Array [
                 Array [
                   52.25168,
@@ -76,10 +77,13 @@ exports[`Form component <MapInput /> rendering should render map field correctly
                   5.10737,
                 ],
               ],
+              "scrollWheelZoom": false,
+              "tap": false,
               "zoom": 10,
               "zoomControl": false,
             }
           }
+          onLocationChange={[Function]}
         />
       </div>
     </Header>

@@ -1,15 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Map from 'components/Map';
 
 import { formatAddress } from 'shared/services/map-location';
+import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import './style.scss';
+import Map from 'components/Map';
+import styled from '@datapunt/asc-core';
+
+const StyledMap = styled(Map)`
+  width: 100%;
+  height: 300px;
+`;
 
 /**
  * Map preview with one or more markers
  */
-const MapPreview = ({ label, value, mapOptions }) => {
+const MapPreview = ({ label, value }) => {
   const location = value && value.geometrie && value.geometrie.coordinates;
+
   const lat = location && location[1];
   const lng = location && location[0];
 
@@ -24,9 +32,9 @@ const MapPreview = ({ label, value, mapOptions }) => {
             {value && (
               <div>
                 <div>{value.address ? formatAddress(value.address) : 'Geen adres gevonden'}</div>
-                {location && (
+                {lat && lng && (
                   <div className="preview-map__item-value-map">
-                    <Map lat={lat} lng={lng} mapOptions={mapOptions} />
+                    <StyledMap lat={lat} lng={lng} mapOptions={MAP_OPTIONS} />
                   </div>
                 )}
               </div>
