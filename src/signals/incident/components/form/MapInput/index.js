@@ -15,7 +15,7 @@ const StyledMap = styled(MapEditor)`
 
 const MapInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   // The default value should be `{}`.
-  // We use this variable just for this PR(#684) so the default marker is rendered for test
+  // We use this variable just for this PR(#685) so the default marker is rendered for test
   // Will be replaced removed in the next PR by the `{}` value
   const defaultPointValue = {
     geometrie: {
@@ -25,12 +25,18 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
     address: {},
   };
 
+  // We update the incident here just for testing the PR(#685).
+  // This call sets a default location in the form so we can test the rest of the wizzard
+  // This must be removed in the next PR when click functionality will be added.
+  parent.meta.updateIncident({ location: defaultPointValue });
+
   const value = handler().value || defaultPointValue;
 
   /* istanbul ignore next */
   const onLocationChange = d => {
     parent.meta.updateIncident({ location: mapLocation(d) });
   };
+
 
   return (
     <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
@@ -39,7 +45,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
           <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
             <div className="invoer">
               {/* The implementation of onLocationChange will follow in the next pr */}
-              <StyledMap onLocationChange={onLocationChange} location={value} options={MAP_OPTIONS} />
+              <StyledMap onLocationChange={onLocationChange} location={value} mapOptions={MAP_OPTIONS} />
             </div>
           </Header>
         </div>

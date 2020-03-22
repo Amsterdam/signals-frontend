@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
-import Map from '..';
+import MapEditor from "..";
 
 describe('components/MapEditor', () => {
   const testLocation = {
@@ -13,24 +13,18 @@ describe('components/MapEditor', () => {
   };
 
   it('should render the map', () => {
-    const { container, getByTestId, queryByText } = render(<Map options={MAP_OPTIONS} location={{}}/>);
+    const { getByTestId } = render(<MapEditor mapOptions={MAP_OPTIONS} location={{}}/>);
 
     // Map
     expect(getByTestId('map-test-id')).toBeInTheDocument();
-
-    // Tile layer
-    expect(queryByText(/Kaartgegevens CC-BY-4.0 Gemeente Amsterdam/)).toBeInTheDocument();
-
-    // Zoom
-    expect(container.querySelector('button[title="Inzoomen"]')).toBeInTheDocument();
   });
 
   it('should render the marker', () => {
-    const { container, rerender } = render(<Map options={MAP_OPTIONS} location={{}}/>);
+    const { container, rerender } = render(<MapEditor mapOptions={MAP_OPTIONS} location={{}}/>);
 
     expect(container.querySelector('.sia-map-marker')).not.toBeInTheDocument();
 
-    rerender(<Map options={MAP_OPTIONS} location={testLocation} />);
+    rerender(<MapEditor mapOptions={MAP_OPTIONS} location={testLocation} hasZoom/>);
     expect(container.querySelector('.sia-map-marker')).toBeInTheDocument();
   });
 });

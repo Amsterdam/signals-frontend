@@ -14,7 +14,7 @@ const MapDetail = ({ value, mapOptions, ...otherProps }) => {
     center: [lat, lng],
   };
 
-  return location ? <Map lat={lat} lng={lng} mapOptions={options} {...otherProps} /> : null;
+  return (lat && lng) ? <Map lat={lat} lng={lng} mapOptions={options} {...otherProps} /> : null;
 };
 
 MapDetail.propTypes = {

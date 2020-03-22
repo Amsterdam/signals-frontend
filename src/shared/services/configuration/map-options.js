@@ -15,6 +15,12 @@ const MAP_OPTIONS = {
     [52.25168, 4.64034],
     [52.50536, 5.10737],
   ],
+  attributionControl: true,
+
+  // mobile properties
+  dragging: !global.L.Browser.touch,
+  tap: false,
+  scrollWheelZoom: false,
 };
 
 export default MAP_OPTIONS;
