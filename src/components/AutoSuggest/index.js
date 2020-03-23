@@ -63,10 +63,13 @@ const AutoSuggest = ({
   const handleKeyDown = useCallback(
     event => {
       const numberOfOptions = numOptionsDeterminer(data);
+      if (!show) return;
 
       switch (event.keyCode) {
         // Arrow up
         case 38:
+          event.preventDefault();
+
           setActiveIndex(state => {
             const indexOfActive = state - 1;
             const topReached = indexOfActive === -1;
@@ -77,6 +80,8 @@ const AutoSuggest = ({
 
         // Arrow down
         case 40:
+          event.preventDefault();
+
           setActiveIndex(state => {
             const indexOfActive = state + 1;
             const endReached = indexOfActive === numberOfOptions;
@@ -105,8 +110,6 @@ const AutoSuggest = ({
         // Home
         // Moves focus to the textbox and places the editing cursor at the beginning of the field.
         case 36:
-          if (!show) return;
-
           event.preventDefault();
 
           inputRef.current.focus();
@@ -116,8 +119,6 @@ const AutoSuggest = ({
         // End
         // Moves focus to the textbox and places the editing cursor at the end of the field.
         case 35:
-          if (!show) return;
-
           event.preventDefault();
 
           inputRef.current.focus();
