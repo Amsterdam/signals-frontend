@@ -15,6 +15,7 @@ const Li = styled.li`
   line-height: 20px;
   padding: 10px 20px;
   cursor: pointer;
+  display: flex;
 
   &:hover {
     background-color: ${themeColor('tint', 'level2')};

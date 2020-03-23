@@ -14,6 +14,7 @@ const INPUT_DELAY = 350;
 const Wrapper = styled.div`
   position: relative;
   z-index: 1;
+  min-width: 350px;
 `;
 
 const AbsoluteList = styled(SuggestList)`
@@ -48,8 +49,8 @@ const URL = `${asService}`.concat(serviceParams.flatMap(([key, value]) => `${key
  */
 const AutoSuggest = ({
   className,
-  formatResponse,
-  numOptionsDeterminer,
+  formatResponse = formatFunc,
+  numOptionsDeterminer = numOptionsFunc,
   onSelect,
   url = URL,
 }) => {
@@ -192,7 +193,7 @@ const AutoSuggest = ({
   );
 
   const options = data && formatResponse(data);
-  const activeId = options && options[activeIndex].id;
+  const activeId = options && options[activeIndex]?.id;
 
   return (
     <Wrapper className={className} ref={wrapperRef}>
@@ -214,9 +215,6 @@ const AutoSuggest = ({
 
 AutoSuggest.defaultProps = {
   className: '',
-  formatResponse: formatFunc,
-  numOptionsDeterminer: numOptionsFunc,
-  onSelect: () => {},
 };
 
 AutoSuggest.propTypes = {
@@ -235,14 +233,14 @@ AutoSuggest.propTypes = {
    * @param {Any} data - Request response containing the list options
    * @return {Number} The amount of options returned from the request
    */
-  numOptionsDeterminer: PropTypes.func,
+  numOptionsDeterminer: PropTypes.func.isRequired,
   /**
    * Option select callback
    * @param {Object} option - The selected option
    * @param {String} option.id - Unique option identifier
    * @param {String} option.value - Option text label
    */
-  onSelect: PropTypes.func,
+  onSelect: PropTypes.func.isRequired,
   /**
    * Request URL from which options should be gotten and to which the search query should be appended
    * @example `//some-domain.com/api-endpoint?q=`
