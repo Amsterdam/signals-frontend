@@ -19,7 +19,7 @@ const MapDetail = ({ value, mapOptions, ...otherProps }) => {
 
 MapDetail.propTypes = {
   value: locationType.isRequired,
-  mapOptions: PropTypes.shape({}).isRequired /** leaflet options */,
+  mapOptions: PropTypes.shape({}) /** leaflet options */,
 };
 
 export default MapDetail;

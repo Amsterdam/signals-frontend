@@ -3,16 +3,10 @@ import PropTypes from 'prop-types';
 
 import { locationType } from 'shared/types';
 
-import styled from 'styled-components';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import MapDetail from '../MapDetail';
 
 import './style.scss';
-
-const StyledMap = styled(MapDetail)`
-  height: 450px;
-  width: 100%;
-`;
 
 const mapOptions = {
   ...MAP_OPTIONS,
@@ -31,7 +25,7 @@ const LocationPreview = ({ location, onEditLocation }) => (
       Locatie wijzigen
     </button>
 
-    <StyledMap value={location} mapOptions={mapOptions} />
+    <MapDetail value={location} mapOptions={mapOptions} />
   </div>
 );
 

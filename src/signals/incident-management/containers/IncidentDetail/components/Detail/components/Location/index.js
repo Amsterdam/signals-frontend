@@ -10,7 +10,7 @@ import { smallMarkerIcon } from 'shared/services/configuration/map-markers';
 import MapDetail from '../../../MapDetail';
 import './style.scss';
 
-const MapTile = styled.button`
+const MapTile = styled.div`
   float: left;
   margin-right: 10px;
   padding: 0;
@@ -28,7 +28,6 @@ const Location = ({ incident, stadsdeelList, onShowLocation, onEditLocation }) =
   const mapOptions = {
     ...MAP_OPTIONS,
     zoom: 15,
-    attributionControl: false, // don't show the map credits in the right bottom corner
   };
 
   return (
@@ -43,8 +42,14 @@ const Location = ({ incident, stadsdeelList, onShowLocation, onEditLocation }) =
           onClick={onEditLocation}
           data-testid="location-button-edit"
         ></button>
-        <MapTile as="div" onClick={onShowLocation} data-testid="location-button-show">
-          <StyledMap value={incident.location} mapOptions={mapOptions} icon={smallMarkerIcon} />
+        <MapTile role="button" onClick={onShowLocation} data-testid="location-button-show">
+          <StyledMap
+            value={incident.location}
+            mapOptions={mapOptions}
+            icon={smallMarkerIcon}
+            hasAttributionControl={false}
+            isInteractive={false}
+          />
         </MapTile>
         {incident.location.address_text ? (
           <div className="location__value-address">

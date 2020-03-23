@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<MapDetail /> should render correctly 1`] = `""`;
-
-exports[`<MapDetail /> should render correctly without location 1`] = `""`;

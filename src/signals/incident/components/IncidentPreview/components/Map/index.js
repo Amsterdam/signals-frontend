@@ -8,7 +8,6 @@ import Map from 'components/Map';
 import styled from '@datapunt/asc-core';
 
 const StyledMap = styled(Map)`
-  width: 100%;
   height: 300px;
 `;
 
