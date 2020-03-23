@@ -6,7 +6,6 @@ import styled from 'styled-components';
 
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList';
 
-import AutoSuggest from 'components/AutoSuggest';
 import Input from 'components/Input';
 import Label from 'components/Label';
 import TextArea from 'components/TextArea';
@@ -43,8 +42,6 @@ const UserForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
   <Form action="" data-testid="detailUserForm">
     <Row>
       <StyledColumn>
-        <AutoSuggest />
-
         <FieldGroup>
           <Input
             defaultValue={data.username}
