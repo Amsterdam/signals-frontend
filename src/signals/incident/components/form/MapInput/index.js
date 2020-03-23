@@ -3,15 +3,9 @@ import PropTypes from 'prop-types';
 
 import mapLocation from 'shared/services/map-location';
 import MapEditor from 'components/MapEditor';
-import styled from '@datapunt/asc-core';
 
 import MAP_OPTIONS, { DEFAULT_MARKER_POSITION } from 'shared/services/configuration/map-options';
 import Header from '../Header';
-
-const StyledMap = styled(MapEditor)`
-  width: 100%;
-  height: 450px;
-`;
 
 const MapInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   // The default value should be `{}`.
@@ -45,7 +39,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
           <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
             <div className="invoer">
               {/* The implementation of onLocationChange will follow in the next pr */}
-              <StyledMap onLocationChange={onLocationChange} location={value} mapOptions={MAP_OPTIONS} />
+              <MapEditor onLocationChange={onLocationChange} location={value} mapOptions={MAP_OPTIONS} />
             </div>
           </Header>
         </div>

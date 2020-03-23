@@ -141,7 +141,6 @@ exports[`Preview component <Map /> should render only latlong correctly 1`] = `
                     "wrapLatLngBounds": [Function],
                     "zoom": [Function],
                   },
-                  "dragging": true,
                   "maxBounds": Array [
                     Array [
                       52.25168,
@@ -152,8 +151,6 @@ exports[`Preview component <Map /> should render only latlong correctly 1`] = `
                       5.10737,
                     ],
                   ],
-                  "scrollWheelZoom": false,
-                  "tap": false,
                   "zoom": 10,
                   "zoomControl": false,
                 }
@@ -242,7 +239,6 @@ exports[`Preview component <Map /> should render valid adrress and map with latl
                     "wrapLatLngBounds": [Function],
                     "zoom": [Function],
                   },
-                  "dragging": true,
                   "maxBounds": Array [
                     Array [
                       52.25168,
@@ -253,8 +249,6 @@ exports[`Preview component <Map /> should render valid adrress and map with latl
                       5.10737,
                     ],
                   ],
-                  "scrollWheelZoom": false,
-                  "tap": false,
                   "zoom": 10,
                   "zoomControl": false,
                 }

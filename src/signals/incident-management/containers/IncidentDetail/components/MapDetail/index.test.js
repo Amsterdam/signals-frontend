@@ -1,13 +1,12 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import MapDetail from './index';
 
 describe('<MapDetail />', () => {
-  let wrapper;
   const props = {
     value: {
-      geometrie: { coordinates: [0, 0] },
+      geometrie: { coordinates: [4, 42] },
     },
     mapOptions: {},
   };
@@ -20,15 +19,20 @@ describe('<MapDetail />', () => {
   });
 
   it('should render correctly', () => {
-    wrapper = shallow(<MapDetail {...props} />);
+    const { getByTestId } = render(<MapDetail {...props} />);
 
-    expect(wrapper).toMatchSnapshot();
+    // Map
+    expect(getByTestId('map-test-id')).toBeInTheDocument();
   });
 
-  it('should render correctly without location', () => {
+  it.only('should not render correctly', () => {
     props.value = {};
-    wrapper = shallow(<MapDetail {...props} />);
+    const { queryByTestId } = render(<MapDetail {...props} />);
 
-    expect(wrapper).toMatchSnapshot();
+    // Map
+    expect(queryByTestId('map-test-id')).not.toBeInTheDocument();
   });
+
+
+
 });

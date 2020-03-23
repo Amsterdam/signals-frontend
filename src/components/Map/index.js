@@ -6,30 +6,49 @@ import styled from '@datapunt/asc-core';
 import { Map as MapComponent, Marker, TileLayer } from '@datapunt/react-maps';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 
+const Wrapper = styled(MapComponent)`
+  height: 450px;
+  width: 100%;
+`;
+
 const StyledViewerContainer = styled(ViewerContainer)`
   z-index: 400; // this elevation ensures that this container comes on top of the internal leaflet components
 `;
 
-const Map = ({ lat, lng, mapOptions, icon, hasZoom, ...otherProps }) => (
-  <MapComponent data-testid="map-test-id" options={mapOptions} {...otherProps}>
-    {hasZoom && <StyledViewerContainer bottomRight={<Zoom />} />}
+const hasTouchCapabilities = !!global.L.Browser.touch;
 
-    {lat && lng && <Marker args={[{ lat, lng }]} options={{ icon }} />}
 
-    <TileLayer
-      args={['https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png']}
-      options={{
-        subdomains: ['t1', 't2', 't3', 't4'],
-        tms: true,
-        attribution: mapOptions.attributionControl && 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
-      }}
-    />
-  </MapComponent>
-);
+const Map = ({ lat, lng, mapOptions, icon, hasZoomControls, hasAttributionControl, isInteractive, ...otherProps }) => {
+  const options = {
+    ...mapOptions,
+    attributionControl: hasAttributionControl,
+    dragging: isInteractive && !hasTouchCapabilities,
+    tap: isInteractive && !hasTouchCapabilities,
+    scrollWheelZoom: isInteractive && !hasTouchCapabilities,
+  };
 
+  return (
+    <Wrapper data-testid="map-test-id" options={options} {...otherProps}>
+      {hasZoomControls && <StyledViewerContainer bottomRight={<Zoom />} />}
+
+      {lat && lng && <Marker args={[{ lat, lng }]} options={{ icon }} />}
+
+      <TileLayer
+        args={['https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png']}
+        options={{
+          subdomains: ['t1', 't2', 't3', 't4'],
+          tms: true,
+          attribution: hasAttributionControl && 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
+        }}
+      />
+    </Wrapper>
+  );
+};
 Map.defaultProps = {
   icon: markerIcon,
-  hasZoom: false,
+  hasZoomControls: false,
+  isInteractive: true,
+  hasAttributionControl: true,
 };
 
 Map.propTypes = {
@@ -39,7 +58,9 @@ Map.propTypes = {
     attributionControl: PropTypes.bool,
   }).isRequired /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */,
   icon: PropTypes.shape({}), // leaflet icon object
-  hasZoom: PropTypes.bool,
+  hasZoomControls: PropTypes.bool,
+  hasAttributionControl: PropTypes.bool,
+  isInteractive: PropTypes.bool,
 };
 
 export default Map;
