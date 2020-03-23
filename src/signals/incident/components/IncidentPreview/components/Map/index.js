@@ -3,45 +3,47 @@ import PropTypes from 'prop-types';
 
 import { formatAddress } from 'shared/services/map-location';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
-import './style.scss';
 import Map from 'components/Map';
 import styled from '@datapunt/asc-core';
+import { Row, Column, themeSpacing } from '@datapunt/asc-ui';
 
 const StyledMap = styled(Map)`
+  margin-top: ${themeSpacing(4)};
   height: 300px;
+`;
+
+const ItemWrapper = styled.div`
+  padding: ${themeSpacing(5, 0)};
+  width: 100%;
 `;
 
 /**
  * Map preview with one or more markers
  */
 const MapPreview = ({ label, value }) => {
-  const location = value && value.geometrie && value.geometrie.coordinates;
+  const location = value?.geometrie?.coordinates;
 
   const lat = location && location[1];
   const lng = location && location[0];
 
   return (
-    <div className="preview-map">
-      <div className="row">
-        <div className="col-5 col-md-4">
-          <div className="preview-map__item-label">{label}</div>
-        </div>
-        <div className="col-5 col-md-7">
-          <div className="preview-map__item-value">
-            {value && (
+    <Row hasMargin={false}>
+      <Column span={{ small: 1, medium: 2, big: 6, large: 10, xLarge: 10 }} wrap>
+        <Column span={{ small: 1, medium: 2, big: 2, large: 2, xLarge: 2 }}>
+          <ItemWrapper>{label}</ItemWrapper>
+        </Column>
+        <Column span={{ small: 1, medium: 2, big: 4, large: 6, xLarge: 6 }}>
+          {value && (
+            <ItemWrapper>
               <div>
-                <div>{value.address ? formatAddress(value.address) : 'Geen adres gevonden'}</div>
-                {lat && lng && (
-                  <div className="preview-map__item-value-map">
-                    <StyledMap lat={lat} lng={lng} mapOptions={MAP_OPTIONS} />
-                  </div>
-                )}
+                {value.address ? formatAddress(value.address) : 'Geen adres gevonden'}
               </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+              {lat && lng && <StyledMap lat={lat} lng={lng} mapOptions={MAP_OPTIONS} />}
+            </ItemWrapper>
+          )}
+        </Column>
+      </Column>
+    </Row>
   );
 };
 
