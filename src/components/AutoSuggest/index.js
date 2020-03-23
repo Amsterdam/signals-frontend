@@ -37,15 +37,15 @@ const URL = `${asService}`.concat(serviceParams.flatMap(([key, value]) => `${key
 /**
  * Autosuggest component that renders a text box and a list with suggestions after text input
  *
- * The text input is delayed by 350ms to prevent flooding of the REST service. Both rendered elements and fully
+ * The text input is delayed by 350ms to prevent flooding of the REST service. Both rendered elements are fully
  * accessibly and have corresponding ARIA 1.1 rules according to spec.
  *
- * Keyboard navigation is handled in the component where:
+ * Keyboard navigation is handled in the component where (when the list is open):
  * - Tab focuses or blurs the text box, but not the list options
  * - Up and down keys cycle through the list of options, keeping focus on the input field
  * - Escape closes the list, focuses and clears the input field
- * - Home key focuses the input field at the first character (when the list is open)
- * - End key focuses the input field at the last character (when the list is open)
+ * - Home key focuses the input field at the first character
+ * - End key focuses the input field at the last character
  */
 const AutoSuggest = ({
   className,
