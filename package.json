@@ -63,7 +63,6 @@
     "@datapunt/matomo-tracker-js": "0.0.15",
     "@sentry/browser": "^5.14.2",
     "abortcontroller-polyfill": "^1.4.0",
-    "amsterdam-amaps": "git+https://git@github.com/Amsterdam/amaps.git#v3.0.0",
     "build": "^0.1.4",
     "classnames": "^2.2.6",
     "compression": "^1.7.3",
