@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { themeSpacing, Row, Column } from '@datapunt/asc-ui';
@@ -40,12 +40,44 @@ const statusOptions = [
 
 const DEFAULT_STATUS_OPTION = 'true';
 
-const UserForm = ({ data, onCancel, onSubmitForm, readOnly }) => {
+const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
   const departments = useSelector(makeSelectDepartments);
   const departmentList = departments.list.map(({ id, name }) => ({ id, value: name }));
   const userDepartments = data?.profile?.departments
     .map(department => departmentList.find(({ value }) => value === department))
     .filter(Boolean) || [];
+
+  const getFormData = useCallback(
+    event => {
+      const formData = [...new FormData(event.target.form).entries()]
+        // convert stringified boolean values to actual booleans
+        .map(([key, val]) => [key, key === 'is_active' ? val === 'true' : val])
+        // reduce the entries() array to an object, merging it with the initial data
+        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data });
+
+      formData.profile = { ...formData.profile, note: formData.note };
+      delete formData.note;
+
+      return formData;
+    },
+    [data]
+  );
+
+  const onSubmitForm = useCallback(
+    event => {
+      event.preventDefault();
+      onSubmit(getFormData(event));
+    },
+    [getFormData, onSubmit]
+  );
+
+  const onCancelForm = useCallback(
+    event => {
+      event.preventDefault();
+      onCancel(getFormData(event));
+    },
+    [getFormData, onCancel]
+  );
 
   return (
     <Form action="" data-testid="detailUserForm">
@@ -117,7 +149,7 @@ const UserForm = ({ data, onCancel, onSubmitForm, readOnly }) => {
         {!readOnly && (
           <StyledFormFooter
             cancelBtnLabel="Annuleren"
-            onCancel={onCancel}
+            onCancel={onCancelForm}
             submitBtnLabel="Opslaan"
             onSubmitForm={onSubmitForm}
           />
@@ -130,7 +162,7 @@ const UserForm = ({ data, onCancel, onSubmitForm, readOnly }) => {
 UserForm.defaultProps = {
   data: {},
   onCancel: null,
-  onSubmitForm: null,
+  onSubmit: null,
   readOnly: false,
 };
 
@@ -146,7 +178,7 @@ UserForm.propTypes = {
     }),
   }),
   onCancel: PropTypes.func,
-  onSubmitForm: PropTypes.func,
+  onSubmit: PropTypes.func,
   /** When true, none of the fields in the form can be edited */
   readOnly: PropTypes.bool,
 };

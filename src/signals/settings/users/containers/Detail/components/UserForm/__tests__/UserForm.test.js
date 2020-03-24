@@ -94,7 +94,7 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
 
     // using enzyme instead of @testing-library; JSDOM hasn't implemented for submit callback and will show a warning
     // when a form's submit() handler is called or when the submit button receives a click event
-    const tree = mount(withAppContext(<UserForm onSubmitForm={onSubmit} />));
+    const tree = mount(withAppContext(<UserForm onSubmit={onSubmit} />));
 
     expect(onSubmit).not.toHaveBeenCalled();
 

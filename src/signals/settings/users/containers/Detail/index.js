@@ -44,25 +44,6 @@ const UserDetail = () => {
     redirectURL,
   });
 
-  const getFormData = useCallback(
-    e => {
-      const formData = [...new FormData(e.target.form).entries()]
-        // convert stringified boolean values to actual booleans
-        .map(([key, val]) => [key, key === 'is_active' ? val === 'true' : val])
-        // reduce the entries() array to an object, merging it with the initial data
-        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data });
-
-      formData.profile = {
-        ...formData.profile,
-        note: formData.note,
-      };
-      delete formData.note;
-
-      return formData;
-    },
-    [data]
-  );
-
   useEffect(() => {
     if (userId) {
       get(`${configuration.USERS_ENDPOINT}${userId}`);
@@ -71,12 +52,8 @@ const UserDetail = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmitForm = useCallback(
-    e => {
-      e.preventDefault();
-
-      const formData = getFormData(e);
-
+  const onSubmit = useCallback(
+    formData => {
       if (isEqual(data, formData)) {
         return;
       }
@@ -87,16 +64,15 @@ const UserDetail = () => {
         post(configuration.USERS_ENDPOINT, formData);
       }
     },
-    [data, getFormData, patch, isExistingUser, post, userId]
+    [data,  patch, isExistingUser, post, userId]
   );
 
   const onCancel = useCallback(
-    e => {
-      const formData = getFormData(e);
+    formData => {
       const isPristine = isEqual(data, formData);
       confirmedCancel(isPristine);
     },
-    [data, getFormData, confirmedCancel]
+    [data, confirmedCancel]
   );
 
   const title = `${entityName} ${isExistingUser ? 'wijzigen' : 'toevoegen'}`;
@@ -109,7 +85,12 @@ const UserDetail = () => {
 
       <FormContainer>
         {shouldRenderForm && (
-          <UserForm data={data} onCancel={onCancel} onSubmitForm={onSubmitForm} readOnly={!userCanSubmitForm} />
+          <UserForm
+            data={data}
+            onCancel={onCancel}
+            onSubmit={onSubmit}
+            readOnly={!userCanSubmitForm}
+          />
         )}
       </FormContainer>
     </Fragment>
