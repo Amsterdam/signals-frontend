@@ -5,11 +5,9 @@ import debounce from 'lodash/debounce';
 
 import useFetch from 'hooks/useFetch';
 import Input from 'components/Input';
-import SuggestList from './SuggestList';
+import SuggestList from './components/SuggestList';
 
-const formatFunc = ({ response }) => response.docs.map(({ id, weergavenaam }) => ({ id, value: weergavenaam }));
-const numOptionsFunc = data => data?.response?.docs?.length || 0;
-const INPUT_DELAY = 350;
+export const INPUT_DELAY = 350;
 
 const Wrapper = styled.div`
   position: relative;
@@ -22,17 +20,6 @@ const AbsoluteList = styled(SuggestList)`
   width: 100%;
   background-color: white;
 `;
-
-// https://www.pdok.nl/restful-api/-/article/pdok-locatieserver#/paths/~1suggest/get
-const serviceParams = [
-  ['fq', 'bron:BAG'],
-  ['fq', 'type:adres'],
-  // ['fq', 'gemeentenaam:(amsterdam OR weesp)'],
-  ['fq', 'gemeentenaam:amsterdam'],
-  ['q', ''],
-];
-const asService = 'https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?';
-const URL = `${asService}`.concat(serviceParams.flatMap(([key, value]) => `${key}=${value}`).join('&'));
 
 /**
  * Autosuggest component that renders a text box and a list with suggestions after text input
@@ -47,13 +34,7 @@ const URL = `${asService}`.concat(serviceParams.flatMap(([key, value]) => `${key
  * - Home key focuses the input field at the first character
  * - End key focuses the input field at the last character
  */
-const AutoSuggest = ({
-  className,
-  formatResponse = formatFunc,
-  numOptionsDeterminer = numOptionsFunc,
-  onSelect,
-  url = URL,
-}) => {
+const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect, url }) => {
   const { get, data } = useFetch();
   const [show, setShow] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -62,24 +43,26 @@ const AutoSuggest = ({
 
   const handleKeyDown = useCallback(
     event => {
-      const numberOfOptions = numOptionsDeterminer(data);
       if (!show) return;
 
-      switch (event.keyCode) {
-        // Arrow up
-        case 38:
+      const numberOfOptions = numOptionsDeterminer(data);
+
+      switch (event.key) {
+        case 'Up':
+        case 'ArrowUp':
           event.preventDefault();
 
           setActiveIndex(state => {
             const indexOfActive = state - 1;
-            const topReached = indexOfActive === -1;
+            const topReached = indexOfActive < 0;
 
             return topReached ? numberOfOptions - 1 : indexOfActive;
           });
+
           break;
 
-        // Arrow down
-        case 40:
+        case 'Down':
+        case 'ArrowDown':
           event.preventDefault();
 
           setActiveIndex(state => {
@@ -88,41 +71,41 @@ const AutoSuggest = ({
 
             return endReached ? 0 : indexOfActive;
           });
+
           break;
 
-        // Enter
-        case 13:
-          if (event.target !== inputRef.current) {
-            inputRef.current.value = event.target.innerText;
+        case 'Enter':
+          if (event.target === inputRef.current) {
+            return;
           }
+
+          inputRef.current.value = event.target.innerText;
 
           setActiveIndex(-1);
           setShow(false);
           break;
 
-        // Escape
-        case 27:
+        case 'Esc':
+        case 'Escape':
           inputRef.current.value = '';
           setActiveIndex(-1);
           setShow(false);
           break;
 
-        // Home
-        // Moves focus to the textbox and places the editing cursor at the beginning of the field.
-        case 36:
+        case 'Home':
           event.preventDefault();
 
           inputRef.current.focus();
           inputRef.current.setSelectionRange(0, 0);
+          setActiveIndex(-1);
           break;
 
-        // End
-        // Moves focus to the textbox and places the editing cursor at the end of the field.
-        case 35:
+        case 'End':
           event.preventDefault();
 
           inputRef.current.focus();
           inputRef.current.setSelectionRange(9999, 9999);
+          setActiveIndex(-1);
           break;
 
         default:
@@ -133,22 +116,44 @@ const AutoSuggest = ({
     [data, numOptionsDeterminer, show]
   );
 
+  const handleFocusOut = useCallback(
+    event => {
+      if (!wrapperRef.current.contains(event.relatedTarget)) {
+        setActiveIndex(-1);
+        setShow(false);
+      }
+    },
+    []
+  );
+
+  /**
+   * Subscribe to activeIndex changes which happen after keyboard input
+   */
   useEffect(() => {
     if (activeIndex === -1) {
       inputRef.current.focus();
     }
   }, [activeIndex]);
 
+  /**
+   * Register and unregister listeners
+   */
   useEffect(() => {
     const wrapper = wrapperRef.current;
+    const input = inputRef.current;
 
     wrapper.addEventListener('keydown', handleKeyDown);
+    input.addEventListener('focusout', handleFocusOut);
 
     return () => {
       wrapper.removeEventListener('keydown', handleKeyDown);
+      input.removeEventListener('focusout', handleFocusOut);
     };
-  }, [handleKeyDown]);
+  }, [handleKeyDown, handleFocusOut]);
 
+  /**
+   * Subscribe to changes in fetched data
+   */
   useEffect(() => {
     const hasResults = numOptionsDeterminer(data) > 0;
 
@@ -156,9 +161,7 @@ const AutoSuggest = ({
   }, [data, numOptionsDeterminer]);
 
   const delayedCallback = useCallback(
-    debounce(value => {
-      serviceRequest(value);
-    }, INPUT_DELAY),
+    debounce(value => serviceRequest(value), INPUT_DELAY),
     [serviceRequest]
   );
 
@@ -174,7 +177,7 @@ const AutoSuggest = ({
   const serviceRequest = useCallback(
     value => {
       if (value.length >= 3) {
-        get(`${url}${value}`);
+        get(`${url}${encodeURIComponent(value)}`);
       } else {
         setShow(false);
       }
@@ -197,7 +200,7 @@ const AutoSuggest = ({
   const activeId = options && options[activeIndex]?.id;
 
   return (
-    <Wrapper className={className} ref={wrapperRef}>
+    <Wrapper className={className} ref={wrapperRef} data-testid="autoSuggest">
       <div role="combobox" aria-controls="as-listbox" aria-expanded={show} aria-haspopup="listbox">
         <Input onChange={onChange} aria-activedescendant={activeId} aria-autocomplete="list" ref={inputRef} />
       </div>
@@ -224,10 +227,10 @@ AutoSuggest.propTypes = {
   /**
    * Request response formatter
    *
-   * @param {Any} data - Autosuggest Request response containing the list options
+   * @param {Any} data - Autosuggest Request response containing the list of options
    * @returns {Object[]} Array of objects where each object is required to have an `id` prop and a `value` prop
    */
-  formatResponse: PropTypes.func,
+  formatResponse: PropTypes.func.isRequired,
   /**
    * Result count getter
    *

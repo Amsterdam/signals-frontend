@@ -12,12 +12,13 @@ const StyledList = styled.ul`
 `;
 
 const Li = styled.li`
-  line-height: 20px;
-  padding: 10px 20px;
+  line-height: ${themeSpacing(5)};
+  padding: ${themeSpacing(2, 5)};
   cursor: pointer;
   display: flex;
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: ${themeColor('tint', 'level2')};
   }
 `;
@@ -49,8 +50,12 @@ const SuggestList = ({ activeIndex, className, role, options, onSelectOption, ..
     [onSelectOption]
   );
 
+  if (!options.length) {
+    return null;
+  }
+
   return (
-    <StyledList className={className} role={role} ref={listRef} {...rest}>
+    <StyledList className={className} data-testid="suggestList" role={role} ref={listRef} {...rest}>
       {options.map(option => (
         <Li
           id={option.id}
@@ -80,12 +85,15 @@ SuggestList.defaultProps = {
 };
 
 SuggestList.propTypes = {
+  /** Index (zero-based) of the list item that should get focus */
   activeIndex: PropTypes.number,
+  /** @ignore */
   className: PropTypes.string,
+  /** Callback function that gets called whenever a list item is clicked or when return is pressed */
   onSelectOption: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
+      id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
       value: PropTypes.string.isRequired,
     })
   ).isRequired,
