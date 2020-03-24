@@ -1,6 +1,5 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { mount } from 'enzyme';
 import * as reactRouterDom from 'react-router-dom';
 import { store, withAppContext } from 'test/utils';
 import incidentJson from 'utils/__tests__/fixtures/incident.json';
@@ -9,7 +8,7 @@ import { fetchCategoriesSuccess } from 'models/categories/actions';
 import { requestIncidentSuccess } from 'models/incident/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 
-import IncidentSplit, { IncidentSplitContainer } from './index';
+import { IncidentSplitContainer } from './index';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -24,11 +23,6 @@ jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
   id: '42',
 }));
 
-// jest.mock('models/incident/selectors', () =>
-//   // eslint-disable-next-line global-require
-//   jest.fn(() => require('utils/__tests__/fixtures/incident.json'))
-// );
-
 // mocking a deeply nested component to prevent having to mock
 // multiple data providers and child components
 jest.mock('../../components/FieldControlWrapper', () => ({
@@ -37,32 +31,6 @@ jest.mock('../../components/FieldControlWrapper', () => ({
 }));
 
 describe('<IncidentSplitContainer />', () => {
-  it.skip('should have props from structured selector', () => {
-    const tree = mount(withAppContext(<IncidentSplit />));
-
-    const containerProps = tree.find(IncidentSplitContainer).props();
-
-    expect(containerProps.incidentModel).toBeDefined();
-  });
-
-  it.skip('should have props from action creator', () => {
-    const tree = mount(withAppContext(<IncidentSplit />));
-
-    const containerProps = tree.find(IncidentSplitContainer).props();
-
-    expect(containerProps.onRequestIncident).toBeDefined();
-    expect(typeof containerProps.onRequestIncident).toEqual('function');
-
-    expect(containerProps.onRequestAttachments).toBeDefined();
-    expect(typeof containerProps.onRequestAttachments).toEqual('function');
-
-    expect(containerProps.onSplitIncident).toBeDefined();
-    expect(typeof containerProps.onSplitIncident).toEqual('function');
-
-    expect(containerProps.onGoBack).toBeDefined();
-    expect(typeof containerProps.onGoBack).toEqual('function');
-  });
-
   it('should render correctly', () => {
     const props = {
       incidentModel,
