@@ -10,7 +10,6 @@ import { isAuthenticated } from 'shared/services/auth/auth';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import useLocationReferrer from 'hooks/useLocationReferrer';
-import PDOKAutoSuggest from 'components/PDOKAutoSuggest';
 
 import wizardDefinition from '../../definitions/wizard';
 import { getClassification, updateIncident, createIncident, resetIncident } from './actions';
@@ -53,10 +52,6 @@ export const IncidentContainerComponent = ({
       </Alert>
 
       <br />
-
-      <Column span={12}>
-        <PDOKAutoSuggest onSelect={() => {}} />
-      </Column>
 
       <Column span={12}>
         <IncidentWizard
