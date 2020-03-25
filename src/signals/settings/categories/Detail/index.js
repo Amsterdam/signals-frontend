@@ -62,6 +62,7 @@ const CategoryDetail = () => {
   const isExistingCategory = categoryId !== undefined;
 
   const { isLoading, isSuccess, error, data, get, patch } = useFetch();
+  const historyFetch = useFetch();
 
   const confirmedCancel = useConfirmedCancel(redirectURL);
 
@@ -78,6 +79,11 @@ const CategoryDetail = () => {
     (isExistingCategory && userCan('change_category')) ||
     (!isExistingCategory && userCan('add_category'));
 
+  // console.log('isExistingCategory', isExistingCategory);
+  // console.log('data', data);
+  // console.log('shouldRenderForm', shouldRenderForm);
+  // console.log('userCanSubmitForm', userCanSubmitForm);
+
   useFetchResponseNotification({
     entityName,
     error,
@@ -86,10 +92,6 @@ const CategoryDetail = () => {
     isSuccess,
     redirectURL,
   });
-
-  const refetchCategories = useCallback(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
 
   const title = `${entityName} ${
     isExistingCategory ? 'wijzigen' : 'toevoegen'
@@ -131,6 +133,8 @@ const CategoryDetail = () => {
       const combinedData = { ...initialData, ...formData };
       const isPristine = isEqual(initialData, combinedData);
 
+      console.log('initialData', initialData);
+      console.log('combinedData', combinedData);
       confirmedCancel(isPristine);
     },
     [confirmedCancel, data, getFormData]
@@ -149,13 +153,14 @@ const CategoryDetail = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      refetchCategories();
+      dispatch(fetchCategories());
     }
-  }, [isSuccess, refetchCategories]);
+  }, [isSuccess, dispatch]);
 
   useEffect(() => {
     if (isExistingCategory) {
       get(categoryURL);
+      historyFetch.get(`${categoryURL}/history`);
     }
 
     // Disabling linter; only need to execute on mount; defining the dependencies
@@ -176,6 +181,7 @@ const CategoryDetail = () => {
         {shouldRenderForm && (
           <CategoryForm
             data={data}
+            history={historyFetch.data}
             onCancel={onCancel}
             onSubmitForm={onSubmit}
             readOnly={!userCanSubmitForm}
