@@ -21,7 +21,7 @@ node('BS16') {
         env.COMPOSE_DOCKER_CLI_BUILD = 1 
     }
     stage("Get cached build") {
-        docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
+        docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
             docker.image("ois/signalsfrontend-base:acceptance").pull()
         }
     }
@@ -45,7 +45,7 @@ node('BS16') {
         stage("Build and push the base image to speed up lint and unittest builds") {
             tryStep "build", {
                 def image_name = "ois/signalsfrontend-base"
-                docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
+                docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
                     def image = docker.build("${image_name}:${env.BUILD_NUMBER}",
                     "--shm-size 1G " +
                     "--target base " +
@@ -57,7 +57,7 @@ node('BS16') {
         }
         stage("Build and push acceptance image") {
             tryStep "build", {
-                docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
+                docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
                     def cachedImage = docker.image("ois/signalsfrontend:acceptance")
                     cachedImage.pull()
                     def image = docker.build("ois/signalsfrontend:${env.BUILD_NUMBER}",
@@ -84,7 +84,7 @@ node('BS16') {
     if (BRANCH == "master") {
         stage("Build and Push Production image") {
             tryStep "build", {
-                docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
+                docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
                     def cachedImage = docker.image("ois/signalsfrontend:production")
                     cachedImage.pull()
                     def image = docker.build("ois/signalsfrontend:${env.BUILD_NUMBER}",
