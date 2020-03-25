@@ -4,11 +4,11 @@ import { shallow } from 'enzyme';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import categories from 'utils/__tests__/fixtures/categories_structured.json';
 
-import { IncidentDetail } from './index';
+import History from 'components/History';
+import { IncidentDetail } from '';
 
 import DetailHeader from './components/DetailHeader';
 import MetaList from './components/MetaList';
-import History from './components/History';
 import AddNote from './components/AddNote';
 import LocationForm from './components/LocationForm';
 import AttachmentViewer from './components/AttachmentViewer';
