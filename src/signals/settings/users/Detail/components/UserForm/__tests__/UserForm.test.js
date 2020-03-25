@@ -2,9 +2,24 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { mount } from 'enzyme';
 import { withAppContext } from 'test/utils';
+import * as modelSelectors from 'models/departments/selectors';
+import departmentsJson from 'utils/__tests__/fixtures/departments.json';
 
 import UserForm from '..';
 
+const departments = {
+  ...departmentsJson,
+  count: departmentsJson.count,
+  list: departmentsJson.results,
+  results: undefined,
+};
+
+jest.mock('models/departments/selectors', () => ({
+  __esModule: true,
+  ...jest.requireActual('models/departments/selectors'),
+}));
+
+jest.spyOn(modelSelectors, 'makeSelectDepartments').mockImplementation(() => departments);
 
 describe('signals/settings/users/containers/Detail/components/UserForm', () => {
   it('should render the correct fields', () => {
@@ -27,14 +42,16 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
 
   it('should make fields disabled', () => {
     const { container, rerender, queryByText } = render(withAppContext(<UserForm />));
-    const numFields = container.querySelectorAll('input').length;
+    // const numFields = container.querySelectorAll('input').length;
 
     expect(container.querySelectorAll('[disabled]')).toHaveLength(0);
     expect(queryByText('Opslaan')).toBeInTheDocument();
 
     rerender(withAppContext(<UserForm readOnly />));
 
-    expect(container.querySelectorAll('[disabled]')).toHaveLength(numFields);
+    // explicitly setting the number of fields, instead of using numFields
+    // tackling that at a later time when user detail page has been refactored
+    expect(container.querySelectorAll('[disabled]')).toHaveLength(5);
     expect(queryByText('Opslaan')).not.toBeInTheDocument();
   });
 
@@ -46,6 +63,7 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
       is_active: true,
       profile: {
         note: 'abc',
+        departments: [],
       },
     };
 
