@@ -56,6 +56,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
     "@datapunt/amsterdam-amaps": "^3.0.2",
+    "@datapunt/amsterdam-react-maps": "0.1.1",
     "@datapunt/asc-assets": "^0.18.1",
     "@datapunt/asc-core": "^0.18.1",
     "@datapunt/asc-ui": "^0.18.2",
