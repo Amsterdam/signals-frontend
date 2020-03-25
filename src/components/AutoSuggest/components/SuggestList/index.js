@@ -19,7 +19,7 @@ const Li = styled.li`
 
   &:hover,
   &:focus {
-    background-color: ${themeColor('tint', 'level2')};
+    background-color: ${themeColor('tint', 'level3')};
   }
 `;
 

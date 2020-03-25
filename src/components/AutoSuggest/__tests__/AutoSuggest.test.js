@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { render, fireEvent, wait, act, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, fireEvent, wait, act } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import AutoSuggest, { INPUT_DELAY } from '..';
@@ -23,6 +23,10 @@ const props = {
 const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
 
 describe('src/components/AutoSuggest', () => {
+  beforeEach(() => {
+    onSelect.mockReset();
+  });
+
   it('should render a combobox with input field', () => {
     const { container } = render(withAppContext(<AutoSuggest {...props} />));
 
@@ -87,6 +91,12 @@ describe('src/components/AutoSuggest', () => {
       const input = container.querySelector('input');
 
       act(() => {
+        fireEvent.keyDown(input, { key: 'ArrowUp', code: 38, keyCode: 38 });
+      });
+
+      expect(document.activeElement).toEqual(input);
+
+      act(() => {
         fireEvent.change(input, { target: { value: 'Diemen' } });
       });
 
@@ -112,6 +122,12 @@ describe('src/components/AutoSuggest', () => {
       const input = container.querySelector('input');
 
       expect(input.getAttribute('aria-activedescendant')).toBeNull();
+
+      act(() => {
+        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 });
+      });
+
+      expect(document.activeElement).toEqual(input);
 
       act(() => {
         fireEvent.change(input, { target: { value: 'Weesp' } });
@@ -144,7 +160,7 @@ describe('src/components/AutoSuggest', () => {
       const suggestList = await findByTestId('suggestList');
 
       act(() => {
-        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 });
+        fireEvent.keyDown(input, { key: 'Down', code: 40, keyCode: 40 });
       });
 
       const firstElement = suggestList.querySelector('li:nth-of-type(1)');
@@ -152,7 +168,7 @@ describe('src/components/AutoSuggest', () => {
       expect(input.getAttribute('aria-activedescendant')).toEqual(firstElement.id);
 
       act(() => {
-        fireEvent.keyDown(input, { key: 'ArrowUp', code: 38, keyCode: 38 });
+        fireEvent.keyDown(input, { key: 'Up', code: 38, keyCode: 38 });
       });
 
       const lastElement = suggestList.querySelector('li:last-of-type');
@@ -234,7 +250,7 @@ describe('src/components/AutoSuggest', () => {
       await findByTestId('suggestList');
 
       act(() => {
-        fireEvent.keyDown(input, { key: 'Escape', code: 13, keyCode: 13 });
+        fireEvent.keyDown(input, { key: 'Esc', code: 13, keyCode: 13 });
       });
 
       expect(input.value).toEqual('');
@@ -311,7 +327,7 @@ describe('src/components/AutoSuggest', () => {
     });
 
     test('Tab', async () => {
-      const { container, findByTestId, getByTestId } = render(
+      const { container, findByTestId } = render(
         withAppContext(
           <Fragment>
             <AutoSuggest {...props} />
@@ -326,20 +342,79 @@ describe('src/components/AutoSuggest', () => {
         fireEvent.change(input, { target: { value: 'Niezel' } });
       });
 
-      await findByTestId('suggestList');
+      const suggestList = await findByTestId('suggestList');
 
       expect(document.activeElement).toEqual(input);
 
-      waitForElementToBeRemoved(() => getByTestId('suggestList')).then(() => {
-        expect(document.activeElement).not.toEqual(input);
-        expect(input.value).toEqual('Niezel');
+      act(() => {
+        fireEvent.focusOut(input, { relatedTarget: suggestList });
       });
+
+      expect(suggestList).toBeInTheDocument();
 
       act(() => {
         fireEvent.focusOut(input, { relatedTarget: nameField });
       });
+
+      expect(suggestList).not.toBeInTheDocument();
+    });
+
+    test('Any key (yes, such a key exists)', async() => {
+      const { container, findByTestId } = render(withAppContext(<AutoSuggest {...props} />));
+      const input = container.querySelector('input');
+
+      act(() => {
+        fireEvent.change(input, { target: { value: 'Meeuwenlaan' } });
+      });
+
+      await findByTestId('suggestList');
+
+      act(() => {
+        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 });
+        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 });
+      });
+
+      expect(document.activeElement).not.toEqual(input);
+
+      act(() => {
+        fireEvent.keyDown(input, { key: 'Space', code: 91, keyCode: 91 });
+      });
+
+      await findByTestId('suggestList');
+
+      expect(document.activeElement).toEqual(input);
     });
   });
 
-  it('should call onSelect on item click', () => {});
+  it('should call onSelect on item click', async () => {
+    const { container, findByTestId, queryByTestId } = render(withAppContext(<AutoSuggest {...props} />));
+    const input = container.querySelector('input');
+
+    act(() => {
+      fireEvent.change(input, { target: { value: 'Rembrandt' } });
+    });
+
+    const suggestList = await findByTestId('suggestList');
+
+    act(() => {
+      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 });
+    });
+
+    expect(document.activeElement).not.toEqual(input);
+
+    const firstElement = suggestList.querySelector('li:nth-of-type(1)');
+    const firstOption = formatResponse(JSONResponse)[0];
+
+    expect(onSelect).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.click(firstElement);
+    });
+
+    expect(document.activeElement).toEqual(input);
+    expect(queryByTestId('suggestList')).not.toBeInTheDocument();
+    expect(input.value).toEqual(firstOption.value);
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(onSelect).toHaveBeenCalledWith(firstOption);
+  });
 });
