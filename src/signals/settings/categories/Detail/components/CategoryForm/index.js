@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList';
 
+import History from 'components/History';
 import Label from 'components/Label';
 import Input from 'components/Input';
 import FormFooter from 'components/FormFooter';
@@ -46,6 +47,12 @@ const StyledSelect = styled(Select)`
   height: 44px;
 `;
 
+const StyledHistory = styled(History)`
+  h2 {
+    font-size: 16px;
+  }
+`;
+
 const statusOptions = [
   { key: 'true', value: 'Actief' },
   { key: 'false', value: 'Niet actief' },
@@ -53,7 +60,7 @@ const statusOptions = [
 
 const DEFAULT_STATUS_OPTION = 'true';
 
-const CategoryForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
+const CategoryForm = ({ data, history, onCancel, onSubmitForm, readOnly }) => (
   <Form action="" data-testid="detailCategoryForm">
     <Row>
       <StyledColumn span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 5 }}>
@@ -132,17 +139,17 @@ const CategoryForm = ({ data, onCancel, onSubmitForm, readOnly }) => (
         <FieldGroup>
           <Label as="span">Status</Label>
           <RadioButtonList
-            defaultValue={
-              data.is_active === undefined
-                ? DEFAULT_STATUS_OPTION
-                : `${data.is_active}`
-            }
+            defaultValue={data.is_active === undefined ? DEFAULT_STATUS_OPTION : `${data.is_active}`}
             groupName="is_active"
             hasEmptySelectionButton={false}
             options={statusOptions}
             disabled={readOnly}
           />
         </FieldGroup>
+      </StyledColumn>
+
+      <StyledColumn span={{ small: 1, medium: 2, big: 6, large: 7, xLarge: 6 }}>
+        {history && <StyledHistory list={history} />}
       </StyledColumn>
 
       {!readOnly && (
@@ -177,6 +184,15 @@ CategoryForm.propTypes = {
       use_calendar_days: PropTypes.bool,
     }),
   }),
+  history: PropTypes.arrayOf(
+    PropTypes.shape({
+      identifier: PropTypes.string.isRequired,
+      when: PropTypes.string.isRequired,
+      what: PropTypes.string.isRequired,
+      action: PropTypes.string.isRequired,
+      who: PropTypes.string.isRequired,
+    })
+  ),
   onCancel: PropTypes.func,
   onSubmitForm: PropTypes.func,
   /** When true, none of the fields in the form can be edited */
