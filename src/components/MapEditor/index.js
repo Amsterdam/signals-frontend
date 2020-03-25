@@ -2,7 +2,8 @@ import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@datapunt/asc-core';
 import { feature2location } from 'shared/services/map-location';
-import MapComponent from '../Map';
+// import MapComponent from '../Map';
+import MapImplementation  from './MapImplementation';
 
 const MapWrapper = styled.div`
   position: relative;
@@ -19,7 +20,8 @@ const MapEditor = ({ location, mapOptions, ...otherProps }) => {
 
   return (
     <MapWrapper>
-      <MapComponent data-testid="map-test-id" lat={lat} lng={lng} mapOptions={mapOptions} {...otherProps} />
+      {/* <MapComponent data-testid="map-test-id" lat={lat} lng={lng} mapOptions={mapOptions} {...otherProps} /> */}
+      <MapImplementation data-testid="map-test-id" lat={lat} lng={lng} mapOptions={mapOptions} {...otherProps} />
     </MapWrapper>
   );
 };
