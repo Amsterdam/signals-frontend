@@ -18,10 +18,10 @@ const formatResponse = ({ response }) => response.docs.map(({ id, weergavenaam }
  *
  * @see {@link https://www.pdok.nl/restful-api/-/article/pdok-locatieserver#/paths/~1suggest/get}
  */
-const PDOKAutoSuggest = ({ gemeentenaam, onSelect }) => {
+const PDOKAutoSuggest = ({ gemeentenaam, onSelect, value }) => {
   const fq = gemeentenaam && [['fq', `gemeentenaam:${gemeentenaam}`]];
   const params = fq.concat(serviceParams).filter(Boolean);
-  const queryParams = params.flatMap(([key, value]) => `${key}=${value}`).join('&');
+  const queryParams = params.flatMap(([key, val]) => `${key}=${val}`).join('&');
   const URL = `${serviceURL}`.concat(queryParams);
 
   return (
@@ -30,12 +30,14 @@ const PDOKAutoSuggest = ({ gemeentenaam, onSelect }) => {
       numOptionsDeterminer={numOptionsDeterminer}
       formatResponse={formatResponse}
       onSelect={onSelect}
+      value={value}
     />
   );
 };
 
 PDOKAutoSuggest.defaultProps = {
   gemeentenaam: 'amsterdam',
+  value: '',
 };
 
 PDOKAutoSuggest.propTypes = {
@@ -45,6 +47,7 @@ PDOKAutoSuggest.propTypes = {
    */
   gemeentenaam: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
+  value: PropTypes.string,
 };
 
 export default PDOKAutoSuggest;

@@ -34,7 +34,7 @@ const AbsoluteList = styled(SuggestList)`
  * - Home key focuses the input field at the first character
  * - End key focuses the input field at the last character
  */
-const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect, url }) => {
+const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect, url, value }) => {
   const { get, data } = useFetch();
   const [showList, setShowList] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -160,23 +160,22 @@ const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect
   }, []);
 
   const delayedCallback = useCallback(
-    debounce(value => serviceRequest(value), INPUT_DELAY),
+    debounce(inputValue => serviceRequest(inputValue), INPUT_DELAY),
     [serviceRequest, url]
   );
 
   const onChange = useCallback(
     event => {
       event.persist();
-      const { value } = event.target;
-      delayedCallback(value);
+      delayedCallback(event.target.value);
     },
     [delayedCallback]
   );
 
   const serviceRequest = useCallback(
-    value => {
-      if (value.length >= 3) {
-        get(`${url}${encodeURIComponent(value)}`);
+    inputValue => {
+      if (inputValue.length >= 3) {
+        get(`${url}${encodeURIComponent(inputValue)}`);
       } else {
         setShowList(false);
       }
@@ -198,7 +197,13 @@ const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect
   return (
     <Wrapper className={className} ref={wrapperRef} data-testid="autoSuggest">
       <div role="combobox" aria-controls="as-listbox" aria-expanded={showList} aria-haspopup="listbox">
-        <Input onChange={onChange} aria-activedescendant={activeId} aria-autocomplete="list" ref={inputRef} />
+        <Input
+          defaultValue={value}
+          onChange={onChange}
+          aria-activedescendant={activeId}
+          aria-autocomplete="list"
+          ref={inputRef}
+        />
       </div>
       {showList && (
         <AbsoluteList
@@ -215,6 +220,7 @@ const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect
 
 AutoSuggest.defaultProps = {
   className: '',
+  value: '',
 };
 
 AutoSuggest.propTypes = {
@@ -246,6 +252,8 @@ AutoSuggest.propTypes = {
    * @example `//some-domain.com/api-endpoint?q=`
    */
   url: PropTypes.string.isRequired,
+  /** defaultValue for the input field */
+  value: PropTypes.string,
 };
 
 export default AutoSuggest;

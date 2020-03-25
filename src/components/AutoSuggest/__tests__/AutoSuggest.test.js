@@ -6,7 +6,6 @@ import AutoSuggest, { INPUT_DELAY } from '..';
 import JSONResponse from './mockResponse.json';
 
 const mockResponse = JSON.stringify(JSONResponse);
-fetch.mockResponse(mockResponse);
 
 const numOptionsDeterminer = data => data?.response?.docs?.length || 0;
 const formatResponse = ({ response }) => response.docs.map(({ id, weergavenaam }) => ({ id, value: weergavenaam }));
@@ -24,7 +23,12 @@ const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, time
 
 describe('src/components/AutoSuggest', () => {
   beforeEach(() => {
+    fetch.mockResponse(mockResponse);
     onSelect.mockReset();
+  });
+
+  afterEach(() => {
+    fetch.resetMocks();
   });
 
   it('should render a combobox with input field', () => {
@@ -67,6 +71,23 @@ describe('src/components/AutoSuggest', () => {
 
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(`${url}Ams`, expect.anything());
+  });
+
+  it('should show a value without sending a request to the external service', () => {
+    const { container, rerender } = render(withAppContext(<AutoSuggest {...props} />));
+    const input = container.querySelector('input');
+
+    expect(input.value).toEqual('');
+
+    const value = 'Foo bar bazzzz';
+
+    expect(fetch).not.toHaveBeenCalled();
+
+    rerender(withAppContext(<AutoSuggest {...props} value={value} />));
+
+    expect(input.value).toEqual(value);
+
+    expect(fetch).not.toHaveBeenCalled();
   });
 
   it('should render a list of suggestions', async () => {
