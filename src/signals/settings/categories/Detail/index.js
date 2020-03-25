@@ -79,11 +79,6 @@ const CategoryDetail = () => {
     (isExistingCategory && userCan('change_category')) ||
     (!isExistingCategory && userCan('add_category'));
 
-  // console.log('isExistingCategory', isExistingCategory);
-  // console.log('data', data);
-  // console.log('shouldRenderForm', shouldRenderForm);
-  // console.log('userCanSubmitForm', userCanSubmitForm);
-
   useFetchResponseNotification({
     entityName,
     error,
@@ -133,8 +128,6 @@ const CategoryDetail = () => {
       const combinedData = { ...initialData, ...formData };
       const isPristine = isEqual(initialData, combinedData);
 
-      console.log('initialData', initialData);
-      console.log('combinedData', combinedData);
       confirmedCancel(isPristine);
     },
     [confirmedCancel, data, getFormData]

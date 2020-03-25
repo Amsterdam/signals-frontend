@@ -49,9 +49,16 @@ useConfirmedCancel.mockImplementation(() => confirmedCancel);
 
 describe('signals/settings/categories/Detail', () => {
   beforeEach(() => {
-    fetch
-      .once(JSON.stringify(categoryJSON))
-      .once(JSON.stringify(historyJSON));
+    fetch.mockResponses(
+      [
+        JSON.stringify(categoryJSON),
+        { status: 200 },
+      ],
+      [
+        JSON.stringify(historyJSON),
+        { status: 200 },
+      ],
+    );
 
     dispatch.mockReset();
     push.mockReset();
@@ -183,11 +190,21 @@ describe('signals/settings/categories/Detail', () => {
     expect(confirmedCancel).toHaveBeenLastCalledWith(false);
   });
 
-  it.only('should call confirmedCancel when data has NULL values', async () => {
+  it('should call confirmedCancel when data has NULL values', async () => {
     const dataWithNullValue = { ...categoryJSON, description: null };
-    fetch
-      .once(JSON.stringify(dataWithNullValue))
-      .once(JSON.stringify(historyJSON));
+
+    fetch.resetMocks();
+
+    fetch.mockResponses(
+      [
+        JSON.stringify(dataWithNullValue),
+        { status: 200 },
+      ],
+      [
+        JSON.stringify(historyJSON),
+        { status: 200 },
+      ],
+    );
 
     const categoryId = 10101;
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
