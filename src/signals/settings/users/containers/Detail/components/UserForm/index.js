@@ -59,42 +59,44 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
     departments: userDepartments,
   });
 
-  const onChange = (field, value) => { dispatch({ field, value }); };
-  const onChangeEvent = event => { onChange(event.target.name, event.target.value); };
+  const onChangeEvent = event => {
+    dispatch({ field: event.target.name, value: event.target.value });
+  };
 
-  const getFormData = useCallback(
-    event => {
-      event.preventDefault();
+  const getFormData = useCallback(() => {
+    const form = { ...data, profile: { ...data.profile } };
 
-      const form = { ...data, profile: { ...data.profile } };
+    form.username = state.username;
+    form.first_name = state.first_name;
+    form.last_name = state.last_name;
+    form.is_active = state.is_active === 'true';
+    form.profile.note = state.note;
+    form.profile.departments = state.departments.map(department => department.value);;
 
-      form.username = state.username;
-      form.first_name = state.first_name;
-      form.last_name = state.last_name;
-      form.is_active = state.is_active === 'true';
-      form.profile.note = state.note;
-      form.profile.departments = state.departments.map(department => department.value);;
+    const postPatch = { ...form, profile: { ...form.profile } };
 
-      const postPatch = { ...form, profile: { ...form.profile } };
+    delete postPatch.profile.departments;
 
-      delete postPatch.profile.departments;
+    postPatch.profile.department_ids = Object
+      .values(state.departments)
+      .map(department => department.id);
 
-      postPatch.profile.department_ids = Object
-        .values(state.departments)
-        .map(department => department.id);
-
-      return { form, postPatch };
-    },
-    [data, state]
-  );
+    return { form, postPatch };
+  }, [data, state]);
 
   const onSubmitForm = useCallback(
-    event => { onSubmit(getFormData(event)); },
+    event => {
+      event.preventDefault();
+      onSubmit(getFormData(event));
+    },
     [getFormData, onSubmit]
   );
 
   const onCancelForm = useCallback(
-    event => { onCancel(getFormData(event)); },
+    event => {
+      event.preventDefault();
+      onCancel(getFormData(event));
+    },
     [getFormData, onCancel]
   );
 
@@ -104,7 +106,7 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
         <StyledColumn>
           <FieldGroup>
             <Input
-              defaultValue={state.username}
+              value={state.username}
               id="username"
               name="username"
               label="E-mailadres"
@@ -116,7 +118,7 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
 
           <FieldGroup>
             <Input
-              defaultValue={state.first_name}
+              value={state.first_name}
               id="first_name"
               name="first_name"
               label="Voornaam"
@@ -127,7 +129,7 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
 
           <FieldGroup>
             <Input
-              defaultValue={state.last_name}
+              value={state.last_name}
               id="last_name"
               name="last_name"
               label="Achternaam"
@@ -144,7 +146,7 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
               hasEmptySelectionButton={false}
               options={statusOptions}
               disabled={readOnly}
-              onChange={( field, option ) => { onChange(field, option.key); }}
+              onChange={(field, { key: value }) => { dispatch({ field, value }); }}
             />
           </FieldGroup>
 
@@ -165,7 +167,7 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
           <FieldGroup>
             <Label as="span">Notitie</Label>
             <TextArea
-              defaultValue={state.note}
+              value={state.note}
               id="note"
               name="note"
               rows="8"
