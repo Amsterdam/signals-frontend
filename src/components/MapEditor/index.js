@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@datapunt/asc-core';
 import MapImplementation from './MapImplementation';
@@ -8,24 +8,13 @@ const MapWrapper = styled.div`
   position: relative;
 `;
 
-const MapEditor = ({ value, onLocationChange, mapOptions, ...otherProps }) => {
-  const onChange = useCallback(
-    val => {
-      // TODO: extracts the value from the state and pases it back to the parent
-      // To be implemented
-      console.log('onLocationChange', val);
-    },
-    [onLocationChange]
-  );
-
-  return (
-    <MapContainer onChange={onChange}>
-      <MapWrapper>
-        <MapImplementation data-testid="map-test-id" value={value} mapOptions={mapOptions} {...otherProps} />
-      </MapWrapper>
-    </MapContainer>
-  );
-};
+const MapEditor = ({ value, onLocationChange, mapOptions, ...otherProps }) => (
+  <MapContainer >
+    <MapWrapper>
+      <MapImplementation data-testid="map-editor" value={value} onChange={onLocationChange} mapOptions={mapOptions} {...otherProps} />
+    </MapWrapper>
+  </MapContainer>
+);
 
 MapEditor.propTypes = {
   value: PropTypes.shape({

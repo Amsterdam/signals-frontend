@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from '@datapunt/asc-core';
 import { Marker } from '@datapunt/react-maps';
 import { markerIcon } from 'shared/services/configuration/map-markers';
-import { feature2location } from 'shared/services/map-location';
+import { feature2location, location2feature } from 'shared/services/map-location';
 import MapBase from '../MapBase';
 import MapContext from '../MapContainer/context';
 import { setLocationAction } from '../MapContainer/actions';
@@ -13,8 +13,8 @@ const StyledMap = styled(MapBase)`
   width: 100%;
 `;
 
-const MapImplementation = ({ value, ...otherProps }) => {
-  const { state, dispatch, onChange } = useContext(MapContext);
+const MapImplementation = ({ value, onChange, ...otherProps }) => {
+  const { state, dispatch } = useContext(MapContext);
   const [marker, setMarker] = useState();
   const { location } = state;
   const hasLocation = location && location.lat && location.lng;
@@ -30,14 +30,19 @@ const MapImplementation = ({ value, ...otherProps }) => {
   };
 
   useEffect(() => {
-    if (!marker || !state?.location) return;
+    if (!marker || !hasLocation) return;
 
     marker.setLatLng(location);
     marker.setOpacity(1);
 
     // Pass the state back to the parent.
-    onChange(state);
-  }, [marker, location, state, onChange]);
+    onChange({
+      geometrie: location2feature(location),
+
+      // Dummy address - to be removed when autosuggest is wired
+      addressText: 'dummy-address-text',
+    });
+  }, [marker, location, hasLocation, onChange]);
 
   return (
     <StyledMap {...otherProps} events={{ click: clickHandler }}>
@@ -71,7 +76,8 @@ MapImplementation.propTypes = {
       postcode: PropTypes.string,
       woonplaats: PropTypes.string,
     }),
-  }).isRequired,
+  }),
+  onChange: PropTypes.func,
 };
 
 export default MapImplementation;

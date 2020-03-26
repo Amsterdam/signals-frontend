@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { formatAddress } from 'shared/services/map-location';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import Map from 'components/Map';
 import styled from '@datapunt/asc-core';
@@ -25,6 +24,11 @@ const MapPreview = ({ label, value }) => {
 
   const lat = location && location[1];
   const lng = location && location[0];
+  const options = {
+    ...MAP_OPTIONS,
+    attributionControl: false,
+    center: [lat, lng],
+  };
 
   return (
     <Row hasMargin={false}>
@@ -36,9 +40,9 @@ const MapPreview = ({ label, value }) => {
           {value && (
             <ItemWrapper>
               <div>
-                {value.address ? formatAddress(value.address) : 'Geen adres gevonden'}
+                {value.addressText || 'Geen adres gevonden'}
               </div>
-              {lat && lng && <StyledMap lat={lat} lng={lng} mapOptions={MAP_OPTIONS} />}
+              {lat && lng && <StyledMap lat={lat} lng={lng} mapOptions={options} isInteractive={false}/>}
             </ItemWrapper>
           )}
         </Column>
@@ -50,8 +54,8 @@ const MapPreview = ({ label, value }) => {
 MapPreview.propTypes = {
   label: PropTypes.string,
   value: PropTypes.shape({
-    address: PropTypes.object,
     geometrie: PropTypes.object,
+    addressText: PropTypes.string,
   }),
   mapOptions: PropTypes.shape({}) /** leaflet options */,
 };
