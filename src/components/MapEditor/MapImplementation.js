@@ -4,11 +4,11 @@ import styled from '@datapunt/asc-core';
 import { Marker } from '@datapunt/react-maps';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import { feature2location } from 'shared/services/map-location';
-import MapContainer from './MapContainer';
+import MapBase from '../MapBase';
 import MapContext from './context';
 import { setLocationAction } from './actions';
 
-const StyledMap = styled(MapContainer)`
+const StyledMap = styled(MapBase)`
   height: 450px;
   width: 100%;
 `;
