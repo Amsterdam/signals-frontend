@@ -52,24 +52,21 @@ const UserDetail = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = useCallback(
-    formData => {
-      if (isEqual(data, formData)) {
-        return;
-      }
+  const onSubmit = useCallback(formData => {
+    if (isEqual(data, formData.form)) return;
 
-      if (isExistingUser) {
-        patch(`${configuration.USERS_ENDPOINT}${userId}`, formData);
-      } else {
-        post(configuration.USERS_ENDPOINT, formData);
-      }
-    },
-    [data,  patch, isExistingUser, post, userId]
+    if (isExistingUser) {
+      patch(`${configuration.USERS_ENDPOINT}${userId}`, formData.postPatch);
+    } else {
+      post(configuration.USERS_ENDPOINT, formData.postPatch);
+    }
+  },
+  [data, isExistingUser, patch, post, userId]
   );
 
   const onCancel = useCallback(
     formData => {
-      const isPristine = isEqual(data, formData);
+      const isPristine = isEqual(data, formData.form);
       confirmedCancel(isPristine);
     },
     [data, confirmedCancel]

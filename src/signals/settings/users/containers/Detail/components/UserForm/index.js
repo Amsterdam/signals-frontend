@@ -40,42 +40,61 @@ const statusOptions = [
 
 const DEFAULT_STATUS_OPTION = 'true';
 
+const reducer = (state, { field, value }) => ({ ...state, [field]: value });
+
 const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
   const departments = useSelector(makeSelectDepartments);
-  const departmentList = departments.list.map(({ id, name }) => ({ id, value: name }));
+  const departmentList = departments.list.map(({ id, name }) => ({ id: String(id), value: name }));
+
   const userDepartments = data?.profile?.departments
-    .map(department => departmentList.find(({ value }) => value === department))
+    ?.map(department => departmentList.find(({ value }) => value === department))
     .filter(Boolean) || [];
+
+  const [state, dispatch] = React.useReducer(reducer, {
+    username: data.username,
+    first_name: data.first_name,
+    last_name: data.last_name,
+    note: data.profile && data.profile.note,
+    is_active: data.is_active === undefined ? DEFAULT_STATUS_OPTION : `${data.is_active}`,
+    departments: userDepartments,
+  });
+
+  const onChange = (field, value) => { dispatch({ field, value }); };
+  const onChangeEvent = event => { onChange(event.target.name, event.target.value); };
 
   const getFormData = useCallback(
     event => {
-      const formData = [...new FormData(event.target.form).entries()]
-        // convert stringified boolean values to actual booleans
-        .map(([key, val]) => [key, key === 'is_active' ? val === 'true' : val])
-        // reduce the entries() array to an object, merging it with the initial data
-        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data });
+      event.preventDefault();
 
-      formData.profile = { ...formData.profile, note: formData.note };
-      delete formData.note;
+      const form = { ...data, profile: { ...data.profile } };
 
-      return formData;
+      form.username = state.username;
+      form.first_name = state.first_name;
+      form.last_name = state.last_name;
+      form.is_active = state.is_active === 'true';
+      form.profile.note = state.note;
+      form.profile.departments = state.departments.map(department => department.value);;
+
+      const postPatch = { ...form, profile: { ...form.profile } };
+
+      delete postPatch.profile.departments;
+
+      postPatch.profile.department_ids = Object
+        .values(state.departments)
+        .map(department => department.id);
+
+      return { form, postPatch };
     },
-    [data]
+    [data, state]
   );
 
   const onSubmitForm = useCallback(
-    event => {
-      event.preventDefault();
-      onSubmit(getFormData(event));
-    },
+    event => { onSubmit(getFormData(event)); },
     [getFormData, onSubmit]
   );
 
   const onCancelForm = useCallback(
-    event => {
-      event.preventDefault();
-      onCancel(getFormData(event));
-    },
+    event => { onCancel(getFormData(event)); },
     [getFormData, onCancel]
   );
 
@@ -85,54 +104,59 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
         <StyledColumn>
           <FieldGroup>
             <Input
-              defaultValue={data.username}
+              defaultValue={state.username}
               id="username"
               name="username"
               label="E-mailadres"
               disabled={data.username !== undefined || readOnly}
               readOnly={readOnly}
+              onChange={onChangeEvent}
             />
           </FieldGroup>
 
           <FieldGroup>
             <Input
-              defaultValue={data.first_name}
+              defaultValue={state.first_name}
               id="first_name"
               name="first_name"
               label="Voornaam"
               disabled={readOnly}
+              onChange={onChangeEvent}
             />
           </FieldGroup>
 
           <FieldGroup>
             <Input
-              defaultValue={data.last_name}
+              defaultValue={state.last_name}
               id="last_name"
               name="last_name"
               label="Achternaam"
               disabled={readOnly}
+              onChange={onChangeEvent}
             />
           </FieldGroup>
 
           <FieldGroup>
             <Label as="span">Status</Label>
             <RadioButtonList
-              defaultValue={data.is_active === undefined ? DEFAULT_STATUS_OPTION : `${data.is_active}`}
+              defaultValue={state.is_active}
               groupName="is_active"
               hasEmptySelectionButton={false}
               options={statusOptions}
               disabled={readOnly}
+              onChange={( field, option ) => { onChange(field, option.key); }}
             />
           </FieldGroup>
 
           <FieldGroup>
             <Label as="span">Afdeling</Label>
             <CheckboxList
-              defaultValue={userDepartments}
+              defaultValue={state.departments}
               groupName="departments"
-              name="department"
+              name="departments"
               options={departmentList}
               disabled={readOnly}
+              onChange={(field, value) => { dispatch({ field, value }); }}
             />
           </FieldGroup>
         </StyledColumn>
@@ -140,7 +164,13 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
         <StyledColumn push={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }}>
           <FieldGroup>
             <Label as="span">Notitie</Label>
-            <TextArea id="note" name="note" rows="8" defaultValue={data.profile && data.profile.note} />
+            <TextArea
+              defaultValue={state.note}
+              id="note"
+              name="note"
+              rows="8"
+              onChange={onChangeEvent}
+            />
           </FieldGroup>
         </StyledColumn>
 
