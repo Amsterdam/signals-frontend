@@ -40,4 +40,8 @@ describe('components/Map', () => {
     expect(container.querySelector('.sia-map-marker')).toBeInTheDocument();
 
   });
+
+  it('should implement isInteractive', () => {
+    // TODO implement
+  });
 });

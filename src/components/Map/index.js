@@ -17,7 +17,6 @@ const StyledViewerContainer = styled(ViewerContainer)`
 
 const hasTouchCapabilities = !!global.L.Browser.touch;
 
-
 const Map = ({ className, lat, lng, mapOptions, icon, hasZoomControls, isInteractive, ...otherProps }) => {
   const options = {
     ...mapOptions,
