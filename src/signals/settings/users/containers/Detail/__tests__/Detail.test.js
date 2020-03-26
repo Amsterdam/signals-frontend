@@ -90,7 +90,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     cleanup();
 
-    act(() => { ({ getByTestId } = render( withAppContext( <UserDetail />))); });
+    act(() => { ({ getByTestId } = render(withAppContext(<UserDetail />))); });
 
     expect(getByTestId('backlink').closest('a').getAttribute('href')).toEqual(referrer);
   });
@@ -106,13 +106,13 @@ describe('signals/settings/users/containers/Detail', () => {
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId }));
 
-    rerender(withAppContext( <UserDetail />));
+    rerender(withAppContext(<UserDetail />));
 
     expect(getByText('Gebruiker wijzigen')).toBeInTheDocument();
   });
 
   it('should get', () => {
-    render(withAppContext( <UserDetail />));
+    render(withAppContext(<UserDetail />));
 
     expect(get).toHaveBeenCalledTimes(1);
   });
@@ -120,7 +120,7 @@ describe('signals/settings/users/containers/Detail', () => {
   it('should render a loading indicator', () => {
     useFetch.mockImplementation(() => ({ ...useFetchResponse, isLoading: true }));
 
-    const { getByTestId } = render(withAppContext( <UserDetail />));
+    const { getByTestId } = render(withAppContext(<UserDetail />));
 
     expect(getByTestId('loadingIndicator')).toBeInTheDocument();
   });
@@ -129,7 +129,7 @@ describe('signals/settings/users/containers/Detail', () => {
     const userId = userJSON.id;
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId }));
 
-    const { queryByTestId } = render(withAppContext( <UserDetail />));
+    const { queryByTestId } = render(withAppContext(<UserDetail />));
 
     expect(queryByTestId('detailUserForm')).toBeNull();
   });
@@ -140,7 +140,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     useFetch.mockImplementation(() => ({ ...useFetchResponse, isLoading: true }));
 
-    const { queryByTestId } = render(withAppContext( <UserDetail />));
+    const { queryByTestId } = render(withAppContext(<UserDetail />));
 
     expect(queryByTestId('detailUserForm')).toBeNull();
 
@@ -158,7 +158,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
 
-    const { getByTestId } = render(withAppContext( <UserDetail />));
+    const { getByTestId } = render(withAppContext(<UserDetail />));
 
     expect(getByTestId('detailUserForm')).toBeInTheDocument();
   });
