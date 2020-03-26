@@ -2,13 +2,17 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import JSONresponse from 'utils/__tests__/fixtures/user.json';
 import { getErrorMessage } from 'shared/services/api/api';
 
-import useFetch, { headers } from '../useFetch';
+import useFetch from '../useFetch';
 
 jest.mock('shared/services/api/api');
 
 const URL = 'https://here-is-my.api/someId/6';
 
 describe('hooks/useFetch', () => {
+  afterEach(() => {
+    fetch.resetMocks();
+  });
+
   describe('get', () => {
     it('should request from URL on mount', async () => {
       fetch.mockResponseOnce(JSON.stringify(JSONresponse));
@@ -26,7 +30,9 @@ describe('hooks/useFetch', () => {
 
       expect(fetch).toHaveBeenCalledWith(
         URL,
-        expect.objectContaining({ headers })
+        expect.objectContaining({
+          method: 'GET',
+        })
       );
 
       await waitForNextUpdate();
@@ -51,7 +57,9 @@ describe('hooks/useFetch', () => {
 
       expect(fetch).toHaveBeenCalledWith(
         `${URL}?foo=bar&qux=zork`,
-        expect.objectContaining({ headers })
+        expect.objectContaining({
+          method: 'GET',
+        })
       );
     });
 
@@ -76,10 +84,7 @@ describe('hooks/useFetch', () => {
 
     it('should abort request on unmount', () => {
       fetch.mockResponseOnce(
-        () =>
-          new Promise(resolve =>
-            setTimeout(() => resolve(JSON.stringify(JSONresponse)), 100)
-          )
+        () => new Promise(resolve => setTimeout(() => resolve(JSON.stringify(JSONresponse)), 100))
       );
 
       const abortSpy = jest.spyOn(global.AbortController.prototype, 'abort');
@@ -132,7 +137,6 @@ describe('hooks/useFetch', () => {
       const expectRequest = [
         URL,
         expect.objectContaining({
-          headers,
           body: JSON.stringify(formData),
           method: 'PATCH',
         }),
@@ -196,7 +200,6 @@ describe('hooks/useFetch', () => {
       const expectRequest = [
         URL,
         expect.objectContaining({
-          headers,
           body: JSON.stringify(formData),
           method: 'POST',
         }),

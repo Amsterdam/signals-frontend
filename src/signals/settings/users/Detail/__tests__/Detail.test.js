@@ -3,14 +3,23 @@ import { act } from 'react-dom/test-utils';
 import { render, fireEvent, cleanup } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 
-import configuration from 'shared/services/configuration/configuration';
 import { withAppContext } from 'test/utils';
 import routes from 'signals/settings/routes';
 import userJSON from 'utils/__tests__/fixtures/user.json';
+import departmentsJson from 'utils/__tests__/fixtures/departments.json';
+import * as modelSelectors from 'models/departments/selectors';
+import configuration from 'shared/services/configuration/configuration';
 import * as appSelectors from 'containers/App/selectors';
 import useFetch from 'hooks/useFetch';
 
 import UserDetail from '..';
+
+const departments = {
+  ...departmentsJson,
+  count: departmentsJson.count,
+  list: departmentsJson.results,
+  results: undefined,
+};
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -51,6 +60,13 @@ const useFetchResponse = {
   error: false,
   isSuccess: false,
 };
+
+jest.mock('models/departments/selectors', () => ({
+  __esModule: true,
+  ...jest.requireActual('models/departments/selectors'),
+}));
+
+jest.spyOn(modelSelectors, 'makeSelectDepartments').mockImplementation(() => departments);
 
 describe('signals/settings/users/containers/Detail', () => {
   beforeEach(() => {
