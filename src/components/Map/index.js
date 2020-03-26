@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import amaps from 'amsterdam-amaps/dist/amaps';
+import amaps from '@datapunt/amsterdam-amaps/dist/amaps';
 
 import 'leaflet/dist/leaflet';
 import 'leaflet/dist/leaflet.css';
-import 'amsterdam-amaps/dist/nlmaps/dist/assets/css/nlmaps.css';
+import '@datapunt/amsterdam-amaps/dist/nlmaps/dist/assets/css/nlmaps.css';
 
 import './style.scss';
 

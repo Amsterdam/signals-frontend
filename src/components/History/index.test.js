@@ -2,7 +2,7 @@ import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
-import History from './index';
+import History from '.';
 
 
 describe('<History />', () => {
@@ -33,7 +33,7 @@ describe('<History />', () => {
           what: 'UPDATE_CATEGORY_ASSIGNMENT',
           action: 'Categorie gewijzigd naar: Geluidsoverlast installaties',
           description: null,
-          who: 'SIA systeem',
+          who: 'Foo bar baz',
         },
       ],
     };
@@ -43,27 +43,27 @@ describe('<History />', () => {
 
   describe('rendering', () => {
     it('should render all items when list is defined', () => {
-      const { queryByTestId, queryAllByTestId } = render(
+      const { getByText } = render(
         withAppContext(<History {...props} />)
       );
 
-      expect(queryByTestId('history-title')).toHaveTextContent(/^Geschiedenis$/);
-      expect(queryAllByTestId('history-list-item')).toHaveLength(3);
+      props.list.forEach(item => {
+        expect(getByText(item.who)).toBeInTheDocument();
+        expect(getByText(item.action)).toBeInTheDocument();
 
-      expect(queryAllByTestId('history-list-item-when')[0]).toHaveTextContent(/^31-07-2019 om 15:10$/);
-      expect(queryAllByTestId('history-list-item-who')[0]).toHaveTextContent(/^steve@apple.com$/);
-      expect(queryAllByTestId('history-list-item-action')[0]).toHaveTextContent(/^Update status naar: Gesplitst$/);
-      expect(queryAllByTestId('history-list-item-description')[0]).toHaveTextContent(/^Deze melding is opgesplitst\.$/);
+        if (item.description) {
+          expect(getByText(item.description)).toBeInTheDocument();
+        }
+      });
     });
 
     it('should render empty when no list is defined', () => {
       props.list = [];
-      const { queryByTestId, queryAllByTestId } = render(
+      const { container } = render(
         withAppContext(<History {...props} />)
       );
 
-      expect(queryByTestId('history-title')).toHaveTextContent(/^Geschiedenis$/);
-      expect(queryAllByTestId('history-list-item')).toHaveLength(0);
+      expect(container.firstChild).not.toBeInTheDocument();
     });
   });
 });
