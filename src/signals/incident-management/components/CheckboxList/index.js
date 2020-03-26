@@ -139,7 +139,9 @@ const CheckboxList = ({
    * @returns {(Object|undefined)}
    */
   const getOption = useCallback(
-    id => options.find(option => option.id === id || option.key === id),
+    // id is always a string, because it comes from an HTML data- attribute
+    // cast the comparing value to a string to make sure that we're comparing the same things
+    id => options.find(option => `${option.id}` === id || `${option.key}` === id),
     [options]
   );
 

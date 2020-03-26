@@ -17,7 +17,7 @@ describe('<SplitForm />', () => {
     reuse_parent_image: true,
     text: incident.text,
     type: {
-      code: 'SIG',
+      code: incident.type.code,
     },
   };
   const mockUpdate = {
@@ -26,7 +26,7 @@ describe('<SplitForm />', () => {
     priority: incident.priority.priority,
     subcategory: incident.category.category_url,
     text: incident.text,
-    type: 'SIG',
+    type: incident.type.code,
   };
   let props;
 
