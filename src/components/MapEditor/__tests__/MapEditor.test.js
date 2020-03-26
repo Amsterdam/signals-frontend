@@ -16,7 +16,7 @@ describe('components/MapEditor', () => {
     const { getByTestId } = render(<MapEditor mapOptions={MAP_OPTIONS} location={{}}/>);
 
     // Map
-    expect(getByTestId('map-test-id')).toBeInTheDocument();
+    expect(getByTestId('map')).toBeInTheDocument();
   });
 
   it('should render the marker', () => {

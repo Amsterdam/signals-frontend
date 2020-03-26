@@ -53,7 +53,7 @@ MapPreview.propTypes = {
     address: PropTypes.object,
     geometrie: PropTypes.object,
   }),
-  mapOptions: PropTypes.shape({}).isRequired /** leaflet options */,
+  mapOptions: PropTypes.shape({}) /** leaflet options */,
 };
 
 export default MapPreview;

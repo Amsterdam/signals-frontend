@@ -22,7 +22,7 @@ describe('<MapDetail />', () => {
     const { getByTestId } = render(<MapDetail {...props} />);
 
     // Map
-    expect(getByTestId('map-test-id')).toBeInTheDocument();
+    expect(getByTestId('map')).toBeInTheDocument();
   });
 
   it.only('should not render correctly', () => {
@@ -30,9 +30,6 @@ describe('<MapDetail />', () => {
     const { queryByTestId } = render(<MapDetail {...props} />);
 
     // Map
-    expect(queryByTestId('map-test-id')).not.toBeInTheDocument();
+    expect(queryByTestId('map')).not.toBeInTheDocument();
   });
-
-
-
 });

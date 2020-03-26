@@ -10,7 +10,7 @@ describe('components/Map', () => {
     const { getByTestId, queryByText } = render(<Map mapOptions={MAP_OPTIONS} />);
 
     // Map
-    expect(getByTestId('map-test-id')).toBeInTheDocument();
+    expect(getByTestId('map')).toBeInTheDocument();
 
     // Tile layer
     expect(queryByText(/Kaartgegevens CC-BY-4.0 Gemeente Amsterdam/)).toBeInTheDocument();
@@ -39,5 +39,9 @@ describe('components/Map', () => {
     rerender(<Map mapOptions={MAP_OPTIONS} lat={42} lng={4} />);
     expect(container.querySelector('.sia-map-marker')).toBeInTheDocument();
 
+  });
+
+  it('should implement isInteractive', () => {
+    // TODO implement
   });
 });

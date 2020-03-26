@@ -25,7 +25,7 @@ const LocationPreview = ({ location, onEditLocation }) => (
       Locatie wijzigen
     </button>
 
-    <MapDetail value={location} mapOptions={mapOptions} />
+    <MapDetail value={location} mapOptions={mapOptions} isInteractive={false} />
   </div>
 );
 

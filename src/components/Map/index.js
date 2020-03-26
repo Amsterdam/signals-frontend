@@ -17,17 +17,16 @@ const StyledViewerContainer = styled(ViewerContainer)`
 
 const hasTouchCapabilities = !!global.L.Browser.touch;
 
-const Map = ({ lat, lng, mapOptions, icon, hasZoomControls, hasAttributionControl, isInteractive, ...otherProps }) => {
+const Map = ({ className, lat, lng, mapOptions, icon, hasZoomControls, isInteractive, ...otherProps }) => {
   const options = {
     ...mapOptions,
-    attributionControl: hasAttributionControl,
     dragging: isInteractive && !hasTouchCapabilities,
-    tap: isInteractive && !hasTouchCapabilities,
-    scrollWheelZoom: isInteractive && !hasTouchCapabilities,
+    tap: false,
+    scrollWheelZoom: false,
   };
 
   return (
-    <Wrapper data-testid="map-test-id" options={options} {...otherProps}>
+    <Wrapper className={className} data-testid="map" options={options} {...otherProps}>
       {hasZoomControls && <StyledViewerContainer bottomRight={<Zoom />} />}
 
       {lat && lng && <Marker args={[{ lat, lng }]} options={{ icon }} />}
@@ -37,20 +36,21 @@ const Map = ({ lat, lng, mapOptions, icon, hasZoomControls, hasAttributionContro
         options={{
           subdomains: ['t1', 't2', 't3', 't4'],
           tms: true,
-          attribution: hasAttributionControl && 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
+          attribution: 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
         }}
       />
     </Wrapper>
   );
 };
 Map.defaultProps = {
+  className: '',
   icon: markerIcon,
   hasZoomControls: false,
   isInteractive: true,
-  hasAttributionControl: true,
 };
 
 Map.propTypes = {
+  className: PropTypes.string,
   lat: PropTypes.number,
   lng: PropTypes.number,
   mapOptions: PropTypes.shape({
@@ -58,7 +58,6 @@ Map.propTypes = {
   }).isRequired /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */,
   icon: PropTypes.shape({}), // leaflet icon object
   hasZoomControls: PropTypes.bool,
-  hasAttributionControl: PropTypes.bool,
   isInteractive: PropTypes.bool,
 };
 
