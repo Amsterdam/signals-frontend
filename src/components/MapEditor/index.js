@@ -19,7 +19,7 @@ const MapEditor = ({ location, mapOptions, ...otherProps }) => {
 
   return (
     <MapWrapper>
-      <MapComponent data-testid="map-test-id" lat={lat} lng={lng} mapOptions={mapOptions} {...otherProps} />
+      <MapComponent data-testid="map" lat={lat} lng={lng} mapOptions={mapOptions} {...otherProps} />
     </MapWrapper>
   );
 };

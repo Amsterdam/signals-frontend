@@ -47,7 +47,6 @@ const Location = ({ incident, stadsdeelList, onShowLocation, onEditLocation }) =
             value={incident.location}
             mapOptions={mapOptions}
             icon={smallMarkerIcon}
-            hasAttributionControl={false}
             isInteractive={false}
           />
         </MapTile>

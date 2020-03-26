@@ -10,7 +10,7 @@ describe('components/Map', () => {
     const { getByTestId, queryByText } = render(<Map mapOptions={MAP_OPTIONS} />);
 
     // Map
-    expect(getByTestId('map-test-id')).toBeInTheDocument();
+    expect(getByTestId('map')).toBeInTheDocument();
 
     // Tile layer
     expect(queryByText(/Kaartgegevens CC-BY-4.0 Gemeente Amsterdam/)).toBeInTheDocument();
