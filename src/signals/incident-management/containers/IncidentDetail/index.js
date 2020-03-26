@@ -32,12 +32,12 @@ import {
 import { requestHistoryList } from 'models/history/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 import makeSelectHistoryModel from 'models/history/selectors';
+import History from 'components/History';
 
 import './style.scss';
 
 import DetailHeader from './components/DetailHeader';
 import MetaList from './components/MetaList';
-import History from './components/History';
 import AddNote from './components/AddNote';
 import LocationForm from './components/LocationForm';
 import AttachmentViewer from './components/AttachmentViewer';
