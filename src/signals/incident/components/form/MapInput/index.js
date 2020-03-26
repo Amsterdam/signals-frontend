@@ -39,7 +39,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
           <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
             <div className="invoer">
               {/* The implementation of onLocationChange will follow in the next pr */}
-              <MapEditor onLocationChange={onLocationChange} location={value} mapOptions={MAP_OPTIONS} />
+              <MapEditor onLocationChange={onLocationChange} value={value} mapOptions={MAP_OPTIONS} />
             </div>
           </Header>
         </div>

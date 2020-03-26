@@ -1,33 +1,34 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@datapunt/asc-core';
-import { feature2location } from 'shared/services/map-location';
-// import MapComponent from '../Map';
-import MapImplementation  from './MapImplementation';
+import MapImplementation from './MapImplementation';
+import MapWithContext from './ContextAwareMap';
 
 const MapWrapper = styled.div`
   position: relative;
 `;
 
-const MapEditor = ({ location, mapOptions, ...otherProps }) => {
-  const [latlng, setLatLng] = useState();
-  const { lat, lng } = latlng || {};
+const MapEditor = ({ value, onLocationChange, mapOptions, ...otherProps }) => {
 
-  useEffect(() => {
-    if (!location?.geometrie) return;
-    setLatLng(feature2location(location.geometrie));
-  }, [location]);
+  const onChange = useCallback(
+    val => {
+      // TODO: extracts the value from the state and pases it back to the parent
+      console.log('onLocationChange', val);
+
+    }, [onLocationChange]
+  );
 
   return (
-    <MapWrapper>
-      {/* <MapComponent data-testid="map-test-id" lat={lat} lng={lng} mapOptions={mapOptions} {...otherProps} /> */}
-      <MapImplementation data-testid="map-test-id" lat={lat} lng={lng} mapOptions={mapOptions} {...otherProps} />
-    </MapWrapper>
+    <MapWithContext onChange={onChange} >
+      <MapWrapper>
+        <MapImplementation data-testid="map-test-id" value={value} mapOptions={mapOptions} {...otherProps} />
+      </MapWrapper>
+    </MapWithContext>
   );
 };
 
 MapEditor.propTypes = {
-  location: PropTypes.shape({
+  value: PropTypes.shape({
     geometrie: PropTypes.shape({
       type: PropTypes.string,
       coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
@@ -43,6 +44,7 @@ MapEditor.propTypes = {
   }).isRequired,
   mapOptions: PropTypes.shape({})
     .isRequired /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */,
+  onLocationChange: PropTypes.func.isRequired,
 };
 
 export default memo(MapEditor);

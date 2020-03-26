@@ -16,7 +16,7 @@ const StyledViewerContainer = styled(ViewerContainer)`
 
 const hasTouchCapabilities = !!global.L.Browser.touch;
 
-const Map = ({ mapOptions, hasZoomControls, hasAttributionControl, isInteractive, children, ...otherProps }) => {
+const MapContainer = ({ mapOptions, hasZoomControls, hasAttributionControl, isInteractive, children, ...otherProps }) => {
   const options = {
     ...mapOptions,
     attributionControl: hasAttributionControl,
@@ -42,13 +42,13 @@ const Map = ({ mapOptions, hasZoomControls, hasAttributionControl, isInteractive
     </Wrapper>
   );
 };
-Map.defaultProps = {
+MapContainer.defaultProps = {
   hasZoomControls: false,
   isInteractive: true,
   hasAttributionControl: true,
 };
 
-Map.propTypes = {
+MapContainer.propTypes = {
   mapOptions: PropTypes.shape({
     attributionControl: PropTypes.bool,
   }).isRequired /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */,
@@ -58,4 +58,4 @@ Map.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 
-export default Map;
+export default MapContainer;

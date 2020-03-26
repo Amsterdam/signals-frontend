@@ -2,10 +2,9 @@ import React, { useReducer, memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import MapContext from './context';
 import reducer, { initialState, mapValuesType } from './reducer';
-import MapImplementation from './MapImplementation';
 import { setValuesAction } from './actions';
 
-export const MapWithContext = (value, onValueChanged, children, ...otherProps) => {
+const ContextAwareMap = ({ value, onChange, children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -13,16 +12,16 @@ export const MapWithContext = (value, onValueChanged, children, ...otherProps) =
   }, [value]);
 
   return (
-    <MapContext.Provider value={{ state, dispatch, onValueChanged }}>
-      <MapImplementation {...otherProps}>{children}</MapImplementation>
+    <MapContext.Provider value={{ state, dispatch, onChange }}>
+      {children}
     </MapContext.Provider>
   );
 };
 
-MapWithContext.propTypes = {
+ContextAwareMap.propTypes = {
   value: mapValuesType, /** this is the value of the controlled component */
-  onValueChanged: PropTypes.func, /** this is the callback of the controlled component */
+  onChange: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 
-export default memo(MapWithContext);
+export default memo(ContextAwareMap);
