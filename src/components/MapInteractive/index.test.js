@@ -1,11 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import pointquery from 'amsterdam-amaps/dist/pointquery';
+import pointquery from '@datapunt/amsterdam-amaps/dist/pointquery';
 
 import MapInteractive from './index';
 
-jest.mock('amsterdam-amaps/dist/pointquery');
+jest.mock('@datapunt/amsterdam-amaps/dist/pointquery');
 
 describe('<MapInteractive />', () => {
   let input;
