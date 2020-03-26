@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import * as BboxGeojsonLayer from '@datapunt/leaflet-geojson-bbox-layer';
 
-import amaps from 'amsterdam-amaps/dist/amaps';
+import amaps from '@datapunt/amsterdam-amaps/dist/amaps';
 
 import request from '../../utils/request';
 import ZoomMessageControl from './control/ZoomMessageControl';
@@ -12,7 +12,7 @@ import ErrorControl from './control/ErrorControl';
 
 import MapSelect from './index';
 
-jest.mock('amsterdam-amaps/dist/amaps');
+jest.mock('@datapunt/amsterdam-amaps/dist/amaps');
 jest.mock('../../utils/request');
 jest.mock('./control/ZoomMessageControl');
 jest.mock('./control/LegendControl');
