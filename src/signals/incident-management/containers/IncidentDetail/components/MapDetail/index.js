@@ -11,6 +11,7 @@ const MapDetail = ({ value, mapOptions, ...otherProps }) => {
   const lng = location && location[0];
   const options = {
     ...mapOptions,
+    attributionControl: false,
     center: [lat, lng],
   };
 
