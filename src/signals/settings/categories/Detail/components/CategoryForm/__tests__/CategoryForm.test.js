@@ -44,7 +44,7 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     const numFields = container.querySelectorAll('input, textarea, select')
       .length;
 
-    expect(container.querySelectorAll('[disabled]')).toHaveLength(1);
+    expect(container.querySelectorAll('[disabled]')).toHaveLength(0);
     expect(queryByText('Opslaan')).toBeInTheDocument();
 
     rerender(withAppContext(<CategoryForm readOnly />));
