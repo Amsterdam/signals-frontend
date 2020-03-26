@@ -5,7 +5,7 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import categories from 'utils/__tests__/fixtures/categories_structured.json';
 
 import History from 'components/History';
-import { IncidentDetail } from '';
+import { IncidentDetail } from '.';
 
 import DetailHeader from './components/DetailHeader';
 import MetaList from './components/MetaList';
