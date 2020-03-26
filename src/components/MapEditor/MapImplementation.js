@@ -5,8 +5,8 @@ import { Marker } from '@datapunt/react-maps';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import { feature2location } from 'shared/services/map-location';
 import MapBase from '../MapBase';
-import MapContext from './context';
-import { setLocationAction } from './actions';
+import MapContext from '../MapContainer/context';
+import { setLocationAction } from '../MapContainer/actions';
 
 const StyledMap = styled(MapBase)`
   height: 450px;

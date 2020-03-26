@@ -2,28 +2,28 @@ import React, { memo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@datapunt/asc-core';
 import MapImplementation from './MapImplementation';
-import MapWithContext from './ContextAwareMap';
+import MapContainer from '../MapContainer';
 
 const MapWrapper = styled.div`
   position: relative;
 `;
 
 const MapEditor = ({ value, onLocationChange, mapOptions, ...otherProps }) => {
-
   const onChange = useCallback(
     val => {
       // TODO: extracts the value from the state and pases it back to the parent
+      // To be implemented
       console.log('onLocationChange', val);
-
-    }, [onLocationChange]
+    },
+    [onLocationChange]
   );
 
   return (
-    <MapWithContext onChange={onChange} >
+    <MapContainer onChange={onChange}>
       <MapWrapper>
         <MapImplementation data-testid="map-test-id" value={value} mapOptions={mapOptions} {...otherProps} />
       </MapWrapper>
-    </MapWithContext>
+    </MapContainer>
   );
 };
 

@@ -4,7 +4,7 @@ import MapContext from './context';
 import reducer, { initialState, mapValuesType } from './reducer';
 import { setValuesAction } from './actions';
 
-const ContextAwareMap = ({ value, onChange, children }) => {
+const MapContainer = ({ value, onChange, children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -18,10 +18,10 @@ const ContextAwareMap = ({ value, onChange, children }) => {
   );
 };
 
-ContextAwareMap.propTypes = {
+MapContainer.propTypes = {
   value: mapValuesType, /** this is the value of the controlled component */
-  onChange: PropTypes.func, /** used to communicate the changes to the parent */
+  onChange: PropTypes.func, /** used to pass the changes to the parent */
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 
-export default memo(ContextAwareMap);
+export default memo(MapContainer);
